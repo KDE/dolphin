@@ -25,6 +25,7 @@
  <Action name="delete"/>
  <Separator/><!-- Stuff for folders -->
  <Action name="sort"/>
+ <Action name="setastoolbar"/>
 </Menu>
 
 <Menu name="bookmark"><text>&amp;Bookmark</text>
@@ -32,9 +33,8 @@
  <!--<Action name="testlink"/> not implemented -->
 </Menu>
 
-<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+<Menu name="settings"><text>&amp;Settings</text>
  <Action name="settings_showNS"/>
- <Action name="setastoolbar"/>
 </Menu>
 
 </MenuBar>

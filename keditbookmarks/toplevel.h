@@ -113,6 +113,8 @@ public slots:
     void slotOpenLink();
     void slotTestLink();
     void slotShowNS();
+    void slotConfigureKeyBindings();
+    void slotConfigureToolbars();
 
 protected slots:
     void slotItemRenamed(QListViewItem *, const QString &, int);
@@ -122,6 +124,7 @@ protected slots:
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
     void slotBookmarksChanged( const QString &, const QString & );
     void slotCommandExecuted();
+    void slotNewToolbarConfig();
 
 protected:
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );

@@ -24,6 +24,8 @@
 #include <kbookmarkimporter.h>
 #include <kbookmarkexporter.h>
 #include <kdebug.h>
+#include <kedittoolbar.h>
+#include <kkeydialog.h>
 #include <kstdaction.h>
 #include <klocale.h>
 #include <kglobal.h>
@@ -169,6 +171,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) KStdAction::cut( this, SLOT( slotCut() ), actionCollection() );
     (void) KStdAction::copy( this, SLOT( slotCopy() ), actionCollection() );
     (void) KStdAction::paste( this, SLOT( slotPaste() ), actionCollection() );
+    (void) KStdAction::keyBindings( this, SLOT( slotConfigureKeyBindings() ), actionCollection() );
+    (void) KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
     (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
@@ -202,6 +206,27 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 KEBTopLevel::~KEBTopLevel()
 {
     s_topLevel = 0L;
+}
+
+void KEBTopLevel::slotConfigureKeyBindings()
+{
+    KKeyDialog::configureKeys(actionCollection(), xmlFile());
+}
+
+void KEBTopLevel::slotConfigureToolbars()
+{
+    saveMainWindowSettings( KGlobal::config(), "MainWindow" );
+    KEditToolbar dlg(actionCollection());
+    connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
+    if (dlg.exec())
+    {
+        createGUI();
+    }
+}
+
+void KEBTopLevel::slotNewToolbarConfig() // This is called when OK or Apply is clicked
+{
+    applyMainWindowSettings( KGlobal::config(), "MainWindow" );
 }
 
 void KEBTopLevel::slotSelectionChanged()
