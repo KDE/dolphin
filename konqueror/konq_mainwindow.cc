@@ -490,28 +490,39 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   KURL url( _url );
 
-  //////////// Tar files support
+  //////////// Tar/zip files support
+  // The hack-ish and hardcoded way.
+  // Possible cleaner solution: 2 properties in the mimetype definition,
+  // e.g. X-Konq-Redirect-URL set to tar:%f/
+  //  and X-Konq-Redirect-Mimetype set to inode/directory
 
-  if ( url.isLocalFile())  // kio_tar only supports local files
+  if ( url.isLocalFile())  // kio_tar/kio_zip only support local files
+  {
+    if ( serviceType == QString::fromLatin1("application/x-tar")  ||
+         serviceType == QString::fromLatin1("application/x-tgz")  ||
+         serviceType == QString::fromLatin1("application/x-tbz") )
     {
-      if ( serviceType == QString::fromLatin1("application/x-tar")  ||
-	   serviceType == QString::fromLatin1("application/x-tgz")  ||
-	   serviceType == QString::fromLatin1("application/x-tbz") )
-	{
-	  url.setProtocol( QString::fromLatin1("tar") );
-	  url.setPath( url.path() + '/' );
-	  serviceType = "inode/directory";
-	  // kdDebug(1202) << "TAR FILE. Now trying with " << url.url() << endl;
+      url.setProtocol( QString::fromLatin1("tar") );
+      url.setPath( url.path() + '/' );
+      serviceType = "inode/directory";
+      // kdDebug(1202) << "TAR FILE. Now trying with " << url.url() << endl;
 
-	}
-      else if (serviceType == QString::fromLatin1("application/x-webarchive") )
-	{
-	  url.setProtocol( QString::fromLatin1("tar") );
-	  url.setPath( url.path() + "/index.html");
-
-	  serviceType = "text/html";
-	}
     }
+    else if (serviceType == QString::fromLatin1("application/x-webarchive") )
+    {
+      url.setProtocol( QString::fromLatin1("tar") );
+      url.setPath( url.path() + "/index.html");
+
+      serviceType = "text/html";
+    }
+    else if (serviceType == QString::fromLatin1("application/x-zip"))
+    {
+      url.setProtocol( QString::fromLatin1("zip") );
+      url.setPath( url.path() + '/' );
+
+      serviceType = "inode/directory";
+    }
+  }
 
   ///////////
 
