@@ -19,7 +19,6 @@
 
 #include "konq_historymgr.h"
 
-
 #include <dcopclient.h>
 
 #include <kapplication.h>
@@ -29,6 +28,8 @@
 #include <kstandarddirs.h>
 
 #include <zlib.h>
+
+#include "konqbookmarkmanager.h"
 
 const Q_UINT32 KonqHistoryManager::s_historyVersion = 3;
 
@@ -457,8 +458,17 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 
     adjustSize();
 
-    if ( saveId == objId() ) // we are the sender of the broadcast, so we save
+    // note, no need to do the updateBookmarkMetadata for every
+    // history object, only need to for the broadcast sender as
+    // the history object itself keeps the data consistant.
+    KonqBookmarkManager::self()->updateAccessMetadata(entry->url.url());
+
+    if ( saveId == objId() ) {
+	// we are the sender of the broadcast, so we save
 	saveHistory();
+	// note, bk save does not notify, and we don't want to!
+	KonqBookmarkManager::self()->save();
+    }
 
     addToUpdateList( urlString );
     emit entryAdded( entry );
