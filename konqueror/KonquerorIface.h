@@ -15,7 +15,7 @@ k_dcop:
 
   virtual void createBrowserWindowFromProfile( const QString &filename ) = 0;
 
-  virtual void setMoveSelection( int move ) = 0;
+  virtual ASYNC setMoveSelection( int move ) = 0;
 
 };
 

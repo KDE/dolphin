@@ -152,7 +152,7 @@ signals:
 public:
 k_dcop:
 
-  virtual void reparseConfiguration();
+  virtual ASYNC reparseConfiguration();
 
 public:
   bool openView( QString serviceType, const KURL &_url, KonqChildView *childView );
