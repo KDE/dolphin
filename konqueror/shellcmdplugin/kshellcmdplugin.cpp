@@ -44,29 +44,31 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       KMessageBox::sorry(0L, "KShellCmdPlugin::slotExecuteShellCommand: Program error, please report a bug.");
       return;
    }
-   if (!part->url().isLocalFile())
+   KURL url = part->url();
+   if ( !url.isLocalFile() )
    {
       KMessageBox::sorry(part->widget(),i18n("Executing shell commands works only on local directories."));
       return;
    }
-   bool isLocal = part->url().isLocalFile();
    QString defaultValue;
    if ( part->currentItem() )
-      // Putting the complete path to the selected file isn't really necessary, since
-      // we'll cd to the directory first (if isLocal).
-      defaultValue = isLocal ? "./"+part->currentItem()->name() : part->currentItem()->url().prettyURL();
+   {
+     // Putting the complete path to the selected file isn't really necessary, since
+     // we'll cd to the directory first. But we do need to get the complete relative path.
+     QString path = part->currentItem()->url().path();
+     defaultValue = KShellProcess::quote( "." + path.remove( 0, url.path().length() ) );
+   }
    else
-      defaultValue = isLocal ? part->url().path() : part->url().prettyURL();
+   {
+      defaultValue = KShellProcess::quote( url.path() );
+   }
    KLineEditDlg l(i18n("Execute shell command in current directory:"), defaultValue, part->widget() );
    if ( l.exec() )
    {
       QString chDir;
-      if ( isLocal )
-      {
-         chDir="cd ";
-         chDir+=KShellProcess::quote(part->url().path());
-         chDir+="; ";
-      }
+      chDir="cd ";
+      chDir+=KShellProcess::quote(part->url().path());
+      chDir+="; ";
       chDir+=l.text();
 
       KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(l.text()),chDir,part->widget(),true);
