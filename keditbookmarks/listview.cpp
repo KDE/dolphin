@@ -54,7 +54,7 @@
 ListView* ListView::s_self = 0;
 
 ListView::ListView() {
-   m_splitView = false;
+   m_splitView = true;
 }
 
 void ListView::createListViews(QSplitter *splitter) {
@@ -426,21 +426,23 @@ void ListView::updateListView() {
 }
 
 void ListView::fillWithGroup() {
+   fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
    if (m_splitView) {
-      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
       fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
-   } else {
-      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
    }
 }
 
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
    if (!parentItem) {
       lv->clear();
-      KEBListViewItem *tree = new KEBListViewItem(lv, group);
-      fillWithGroup(lv, group, tree);
-      tree->QListViewItem::setOpen(true);
-      return;
+      if (m_splitView && lv->isFolderList()) {
+         KEBListViewItem *tree = new KEBListViewItem(lv, group);
+         fillWithGroup(lv, group, tree);
+         tree->QListViewItem::setOpen(true);
+         return;
+      } else {
+         parentItem = new KEBListViewItem(lv, group);
+      }
    }
    KEBListViewItem *lastItem = 0;
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
@@ -462,8 +464,9 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          lastItem = item;
 
       } else if (!(lv->isFolderList() && m_splitView)) {
-         item = lastItem ? new KEBListViewItem(parentItem, lastItem, bk)
-                         : new KEBListViewItem(parentItem, bk);
+         item = (lastItem)
+              ? new KEBListViewItem(parentItem, lastItem, bk)
+              : new KEBListViewItem(parentItem, bk);
          lastItem = item;
       }
    }
