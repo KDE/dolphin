@@ -1,5 +1,5 @@
-# KDE Config File
-[KDE Desktop Entry]
+[Desktop Entry]
+Name=File System Device
 UnmountIcon=unknown.xpm
 MountPoint=
 Icon=unknown.xpm
@@ -7,4 +7,3 @@ Dev=
 ReadOnly=0
 FSType=Default
 Type=FSDevice
-Name=File System Device

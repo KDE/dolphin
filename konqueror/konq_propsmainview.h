@@ -34,7 +34,7 @@
  * and to have another instance of this class in each KfmGui, storing the
  * current values of the window.
  *
- * The local values can be read from a kdelnk file, if any (.directory, bookmark, ...).
+ * The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
  */
 class KonqPropsMainView
 {

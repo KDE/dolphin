@@ -36,7 +36,7 @@ METASOURCES = kbrowser.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
 	konq_partview.moc konq_topwidget.moc konq_treeview.moc konq_txtview.moc
 
-kde_parts_DATA = konqueror_part.kdelnk
+kde_parts_DATA = konqueror_part.desktop
 
 DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
 

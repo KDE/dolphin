@@ -55,7 +55,7 @@ bool KonqKfmViewItem::acceptsDrops( QStrList& /* _formats */ )
   if ( !m_bIsLocalURL )
     return false;
 
-  if ( strcmp( "application/x-kdelnk", m_pMimeType->mimeType() ) == 0 )
+  if ( strcmp( "application/x-desktop", m_pMimeType->mimeType() ) == 0 )
     return true;
 
   // Executable, shell script ... ?

@@ -76,10 +76,10 @@ int main( int argc, char **argv )
            "            #   URL, this URL will be opened. You may omit\n"
            "            #   'binding'. In this case the default binding\n");
     printf("            #   is tried. Of course URL may be the URL of a\n"
-           "            #   document, or it may be a *.kdelnk file.\n");
+           "            #   document, or it may be a *.desktop file.\n");
     printf("            #   This way you could for example mount a device\n"
            "            #   by passing 'Mount default' as binding to \n"
-           "            #   'cdrom.kdelnk'\n\n");
+           "            #   'cdrom.desktop'\n\n");
     printf("  kfmclient move 'src' 'dest'\n"
            "            # Copies the URL 'src' to 'dest'.\n"
            "            #   'src' may be a list of URLs.\n");
@@ -95,7 +95,7 @@ int main( int argc, char **argv )
     printf("*** Examples:\n"
            "  kfmclient exec file:/usr/local/kde/bin/kdehelp Open\n"
            "             // Starts kdehelp\n\n");
-    printf("  kfmclient exec file:/root/Desktop/cdrom.kdelnk \"Mount default\"\n"
+    printf("  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
            "             // Mounts the CDROM\n\n");	
     printf("  kfmclient exec file:/home/weis/data/test.html\n"
            "             // Opens the file with default binding\n\n");
@@ -103,9 +103,9 @@ int main( int argc, char **argv )
            "             // Opens the file with netscape\n\n");
     printf("  kfmclient exec ftp://localhost/ Open\n"
            "             // Opens new window with URL\n\n");
-    printf("  kfmclient exec file:/root/Desktop/emacs.kdelnk\n"
+    printf("  kfmclient exec file:/root/Desktop/emacs.desktop\n"
            "             // Starts emacs\n\n");
-    printf("  kfmclient exec file:/root/Desktop/cdrom.kdelnk\n"
+    printf("  kfmclient exec file:/root/Desktop/cdrom.desktop\n"
            "             // Opens the CD-ROM's mount directory\n\n");
     return 0;
   }

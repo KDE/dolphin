@@ -38,7 +38,7 @@ class KonqBaseView;
 // and to have another instance of this class in each KfmView, storing the
 // current values of the view.
 //
-// The local values can be read from a kdelnk file, if any (.directory, bookmark, ...).
+// The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
 
 class KonqPropsView
 {

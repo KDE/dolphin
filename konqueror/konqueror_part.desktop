@@ -1,5 +1,4 @@
-# KDE Config File
-[KDE Desktop Entry]
+[Desktop Entry]
 Name=Konqueror
 Exec=konqueror --server
 Comment=KDE File Manager & Web Browser

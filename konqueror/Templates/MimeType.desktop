@@ -1,8 +1,7 @@
-# KDE Config File
-[KDE Desktop Entry]
+[Desktop Entry]
+Name=Mime Type
 MimeType=
 DefaultApp=
 Icon=unknown.xpm
 Type=MimeType
 Patterns=;
-Name=Mime Type

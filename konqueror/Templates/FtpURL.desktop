@@ -1,6 +1,5 @@
-# KDE Config File
-[KDE Desktop Entry]
+[Desktop Entry]
+Name=FTP URL
 URL=ftp://ftp.kde.org/pub/kde
 Icon=ftp.xpm
 Type=Link
-Name=FTP URL

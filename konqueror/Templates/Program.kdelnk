@@ -1,9 +1,0 @@
-# KDE Config File
-[KDE Desktop Entry]
-Type=Application
-Exec=
-Icon=exec.xpm
-TerminalOptions=
-Path=
-Terminal=0
-Name=Application
