@@ -13,5 +13,5 @@ libkonq_sidebar_tree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsi
 
 konqsidebar_tree_la_SOURCES = konqsidebar_tree.cpp
 konqsidebar_tree_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
-konqsidebar_tree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsidebarplugin.la ./libkonq_sidebar_tree.la
+konqsidebar_tree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la ../libkonqsidebarplugin.la libkonq_sidebar_tree.la
 
