@@ -312,8 +312,19 @@ void KEBTopLevel::slotDelete()
 
 void KEBTopLevel::slotNewFolder()
 {
-    CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), QString::null, true /*open*/ );
-    m_commandHistory.addCommand( cmd );
+    // EVIL HACK
+    // We need to ask for the folder name before creating the command, in case of "Cancel".
+    // But in message-freeze time, impossible to add i18n()s. So... we have to call the existing code :
+    QDomDocument doc("xbel"); // Dummy document
+    QDomElement elem = doc.createElement("xbel");
+    doc.appendChild( elem );
+    KBookmarkGroup grp( elem ); // Dummy group
+    KBookmark bk = grp.createNewFolder( QString::null ); // Asks for the name
+    if ( !bk.fullText().isEmpty() ) // Not canceled
+    {
+        CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), bk.fullText(), true /*open*/ );
+        m_commandHistory.addCommand( cmd );
+    }
 }
 
 void KEBTopLevel::slotInsertSeparator()

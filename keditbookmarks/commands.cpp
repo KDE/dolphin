@@ -101,8 +101,8 @@ void CreateCommand::execute()
         else
             if (m_group)
             {
+                ASSERT( !m_text.isEmpty() );
                 bk = parentGroup.createNewFolder( m_text );
-                m_text = bk.fullText(); // remember it, we won't have to ask it again
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
                 bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
             }
