@@ -54,13 +54,10 @@ konqueror framework:
 
 - Bug #2760 and other problems with splitter sizes
 
-- #3176 : From the main KDE menu, choose "Context Help", next click on the main form of konqueror
-(David): didn't get what that one was about...
-
-- Duplicate window -> should duplicate history too.
-
 - Minicli's current directory (Dawit's last post on kde-cvs was confused I think.
   All we need is chdir() so that apps can find files from the current dir).
+
+- persistent history? as part of profiles?
 
 iconview+listviews:
 ===================
@@ -106,8 +103,6 @@ And more:
 
 - Show caitoo in the RMB on links - this is different from usual services,
 since it's not associated to a mimetype, but to non-local protocols...
-
-- Embedding kspread in konq, and pressing reload creates a new page  ?!?!?!?
 
 - Action for clearing the location bar (for shortcut)
 
