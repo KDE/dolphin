@@ -693,6 +693,19 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
    normalConstruct(bk);
 }
 
+// root bookmark (first of its group)
+KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk, bool)
+   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+
+   normalConstruct(bk);
+}
+
+// root  bookmark (after another)
+KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const KBookmark &bk)
+   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+   normalConstruct(bk);
+}
+
 void KEBListViewItem::setOpen(bool open) {
    m_bookmark.internalElement().setAttribute("folded", open ? "no" : "yes");
    QListViewItem::setOpen(open);

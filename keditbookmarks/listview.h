@@ -44,6 +44,9 @@ public:
    KEBListViewItem(KEBListViewItem *, const KBookmark &);
    KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmark &);
 
+   KEBListViewItem(QListView *, const KBookmark &, bool);
+   KEBListViewItem(QListView *, QListViewItem *, const KBookmark &);
+
    void nsPut(const QString &nm);
 
    void modUpdate();
