@@ -26,6 +26,7 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <qstring.h>
 #include <string.h>
@@ -46,6 +47,7 @@
 #include <konqdefaults.h>
 #include <konqsettings.h>
 #include <klibloader.h>
+#include <kstddirs.h>
 
 class KonqHTMLViewFactory : public KLibFactory
 {
@@ -94,7 +96,15 @@ KonqHTMLView::KonqHTMLView()
                     this, SIGNAL( canceled() ) );
 
   m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
+  bool enableJava = KonqSettings::defaultHTMLSettings()->enableJava();
+  QString javaPath = KonqSettings::defaultHTMLSettings()->javaPath();
+  javaPath = "$KDEDIR/share/apps/kjava/kjava-classes.zip:"+javaPath+"/lib";
+  bool enableJavaScript = KonqSettings::defaultHTMLSettings()->enableJavaScript();
 
+  m_pBrowser->enableJava(enableJava);
+  setenv("CLASSPATH",javaPath.latin1(), 1);
+  m_pBrowser->enableJScript(enableJavaScript);
+  
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
 

@@ -122,7 +122,7 @@ private:
   void updateActions();
 
   bool m_bAutoLoadImages;
-
+    
   KonqBrowser *m_pBrowser;
 
   QString m_strURL;

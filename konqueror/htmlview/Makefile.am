@@ -1,3 +1,4 @@
+CXXFLAGS = $(USE_RTTI)
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
