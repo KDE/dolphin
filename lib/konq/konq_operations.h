@@ -143,12 +143,12 @@ protected:
     // internal, for doDrop
     void setDropInfo( DropInfo * info ) { m_info = info; }
 
-    struct KIOPasteInfo
+    struct KIOPasteInfo // KDE4: remove and use DropInfo instead or a QPoint member
     {
-        QByteArray data;
-        KURL destURL;
+        QByteArray data;  // unused
+        KURL destURL;     // unused
         QPoint mousePos;
-        QString dialogText;
+        QString dialogText; // unused
     };
     void setPasteInfo( KIOPasteInfo * info ) { m_pasteInfo = info; }
 
@@ -158,7 +158,6 @@ protected slots:
     void slotResult( KIO::Job * job );
     void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );
-    void slotKIOPaste();
     void doFileCopy();
 
 private:

@@ -136,7 +136,6 @@ void KonqOperations::doPaste( QWidget * parent, const KURL & destURL, const QPoi
         KonqOperations * op = new KonqOperations( parent );
         KIO::CopyJob * copyJob = static_cast<KIO::CopyJob *>(job);
         KIOPasteInfo * pi = new KIOPasteInfo;
-        pi->destURL = destURL;
         pi->mousePos = pos;
         op->setPasteInfo( pi );
         op->setOperation( job, move ? MOVE : COPY, copyJob->srcURLs(), copyJob->destURL() );
@@ -253,7 +252,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       for ( ; it != selectedURLs.end(); ++it ) {
         if ( (*it).protocol() == "trash" ) {
           QString path = (*it).path();
-          // HACK (#98983): remove "0-foo". Note that it works better than 
+          // HACK (#98983): remove "0-foo". Note that it works better than
 	  // displaying KFileItem::name(), for files under a subdir.
           prettyList.append( path.remove(QRegExp("^/[0-9]*-")) );
         } else
@@ -381,52 +380,17 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
     }
     else
     {
-        QStrList formats;
-
-        for ( int i = 0; ev->format( i ); i++ )
-            if ( *( ev->format( i ) ) )
-                formats.append( ev->format( i ) );
-        if ( formats.count() >= 1 )
+        //kdDebug(1203) << "Pasting to " << dest.url() << endl;
+        KonqOperations * op = new KonqOperations(parent);
+        KIO::CopyJob* job = KIO::pasteMimeSource( ev, dest,
+                                                  i18n( "File name for dropped contents:" ),
+                                                  parent );
+        if ( job ) // 0 if canceled by user
         {
-            //kdDebug(1203) << "Pasting to " << dest.url() << endl;
-
-            QByteArray data;
-
-            QString text;
-            if ( QTextDrag::canDecode( ev ) && QTextDrag::decode( ev, text ) )
-            {
-                QTextStream txtStream( data, IO_WriteOnly );
-                txtStream << text;
-            }
-            else
-                data = ev->data( formats.first() );
-
-            // Delay the call to KIO::pasteData so that the event filters can return. See #38688.
-            KonqOperations * op = new KonqOperations(parent);
-            KIOPasteInfo * pi = new KIOPasteInfo;
-            pi->data = data;
-            pi->destURL = dest;
-            pi->mousePos = ev->pos();
-            pi->dialogText = i18n( "File name for dropped contents:" );
-            op->setPasteInfo( pi );
-            QTimer::singleShot( 0, op, SLOT( slotKIOPaste() ) );
+            op->setOperation( job, COPY, KURL::List(), job->destURL() );
+            (void) new KonqCommandRecorder( KonqCommand::COPY, KURL::List(), dest, job );
         }
         ev->acceptAction();
-    }
-}
-
-void KonqOperations::slotKIOPaste()
-{
-    assert(m_pasteInfo); // setPasteInfo should have been called before
-    KIO::CopyJob *job = KIO::pasteDataAsync( m_pasteInfo->destURL, m_pasteInfo->data, m_pasteInfo->dialogText );
-    if ( job )
-    {
-        setOperation( job, COPY, KURL::List(), job->destURL() );
-        (void) new KonqCommandRecorder( KonqCommand::COPY, KURL::List(), m_destURL, job );
-    }
-    else
-    {
-        delete this;
     }
 }
 

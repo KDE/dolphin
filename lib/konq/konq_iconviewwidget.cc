@@ -979,7 +979,7 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
         if( !ok )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
-    
+
     KURL::List uriList;
     if ( KURLDrag::decode(e, uriList) )
     {
@@ -990,8 +990,8 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
             d->bProgramsURLdrag = true;
             return;
         }
-    }    
-    
+    }
+
     KIconView::contentsDragEnterEvent( e );
     emit dragEntered( true /*accepted*/ );
 }
@@ -1002,9 +1002,9 @@ void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
         emit dragMove( false );
         e->ignore();
         cancelPendingHeldSignal();
-        return;        
+        return;
     }
-    
+
 #ifdef KFILEITEM_HAS_ISWRITABLE
     QIconViewItem *item = findItem( e->pos() );
     if ( !item && m_rootItem && !m_rootItem->isWritable() ) {
@@ -1074,7 +1074,7 @@ void KonqIconViewWidget::slotSelectionChanged()
             KFileItem *item = ( static_cast<KFileIVI *>( it ) )->item();
             KURL url = item->url();
             QString local_path = item->localPath();
-            
+
             if ( url.directory(false) == KGlobalSettings::trashPath() )
                 bInTrash = true;
             if ( KProtocolInfo::supportsDeleting( url ) )
@@ -1206,14 +1206,14 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 {
   QIconViewItem *i = findItem( ev->pos() );
-  
+
 #ifdef KFILEITEM_HAS_ISWRITABLE
     if ( !i && m_rootItem && !m_rootItem->isWritable() ) {
         ev->accept( false );
         return;
     }
 #endif
-  
+
   // Short-circuit QIconView if Ctrl is pressed, so that it's possible
   // to drop a file into its own parent widget to copy it.
   if ( !i && (ev->action() == QDropEvent::Copy || ev->action() == QDropEvent::Link)
@@ -1231,7 +1231,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
   else
   {
     KIconView::contentsDropEvent( ev );
-    emit dropped(); // What is this for ? (David)
+    emit dropped(); // What is this for ? (David)      KDE4: remove
   }
   // Don't do this here, it's too early !
   // slotSaveIconPositions();
