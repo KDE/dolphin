@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="51">
+<gui name="Konqueror" version="52">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -121,9 +121,11 @@
  <Action name="cut"/>
  <Action name="copy"/>
  <Action name="paste"/>
+ <Separator/>
  <Action name="print"/>
  <WeakSeparator/>
  <Merge/>
+ <Separator/>
  <ActionList name="viewmode_toolbar" />
  <ActionList name="fullscreen" />
  <WeakSeparator/>
