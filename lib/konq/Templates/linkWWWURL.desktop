@@ -1,0 +1,25 @@
+[Desktop Entry]
+Name=World Wide Web URL
+Name[ca]=URL de la World Wide Web
+Name[de]=World-Wide-Web-URL
+Name[eo]=TTT-adreso
+Name[es]=Dirección Web (URL de HTTP)
+Name[et]=World Wide Web aadress (URL)
+Name[fi]=WWW-osoite
+Name[fr]=Adresse World Wide Web (HTTP)
+Name[he]=תשרב תבותכ
+Name[hu]=Világháló (WWW) URL
+Name[it]=URL World Wide Web
+Name[mk]=WWW URL
+Name[no]=Verdensvev-URL
+Name[no_NY]=Verdsvev-adresse
+Name[pt]=URL de HTTP
+Name[ro]=Adresă web (URL)
+Name[ru]=Адрес WWW (HTTP)
+Name[sl]=Spletni vir (URL)
+Name[sv]=World Wide Web-URL
+Name[ta]=உலகளாவிய இைணய URL
+URL=.source/WWWURL.desktop
+Icon=www
+Type=Link
+

@@ -1,16 +1,4 @@
 [Desktop Entry]
-Name=World Wide Web URL
-Name[ca]=URL de la World Wide Web
-Name[eo]=TTT-adreso
-Name[fi]=WWW-osoite
-Name[fr]=Adresse World Wide Web (HTTP)
-Name[hu]=Világháló (WWW) URL
-Name[no]=Verdensvev-URL
-Name[no_NY]=Verdsvev-adresse
-Name[pt]=URL de HTTP
-Name[ro]=Adresă web (URL)
-Name[sl]=Spletni vir (URL)
-Name[sv]=World Wide Web-URL
 URL=http://www.kde.org
 Icon=www
 Type=Link

@@ -1,8 +1,20 @@
 
-data_DATA = FtpURL.desktop Program.desktop WWWURL.desktop \
-	URL.desktop Device.desktop
+# The links (that contain translations)
+templ_DATA = linkFtpURL.desktop linkProgram.desktop linkWWWURL.desktop \
+	linkURL.desktop linkDevice.desktop \
+	Directory.desktop TextFile.desktop HTMLFile.desktop
 
-datadir = $(kde_datadir)/kdesktop/Templates
+templdir = $(kde_templatesdir)
 
-EXTRA_DIST = $(data_DATA)
+# The source files (the actual _templates)
+sources_DATA = FtpURL.desktop Program.desktop WWWURL.desktop \
+        URL.desktop Device.desktop \
+	TextFile.txt HTMLFile.html
+
+sourcesdir = $(kde_templatesdir)/.source
+
+install-data-local:
+	@if test ! -d $(sourcesdir)/emptydir; then \
+	  mkdir $(sourcesdir)/emptydir; \
+	fi
 
