@@ -662,13 +662,19 @@ void KProxyDialog::save()
     KSaveIOConfig::setUseReverseProxy( d->useReverseProxy );
 
     // Update all running and applicable io-slaves
-    QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
-    stream << "http" << "https" << "ftp";
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();
-    kapp->dcopClient()->send( "*", "KIO::Scheduler",
-                              "reparseSlaveConfiguration(QString)", data );
+
+    QByteArray data;
+    QDataStream stream1( data, IO_WriteOnly );
+    stream1 << QString("http");
+    kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+    QDataStream stream2( data, IO_WriteOnly );
+    stream2 << QString("https");
+    kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+    QDataStream stream3( data, IO_WriteOnly );
+    stream3 << QString("ftp");
+    kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
 }
 
 void KProxyDialog::defaults()
