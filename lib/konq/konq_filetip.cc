@@ -249,6 +249,8 @@ void KonqFileTip::hideTip()
 {
     m_timer->stop();
     setFilter( false );
+    if ( isShown() && m_view && m_view->viewport() )
+      m_view->viewport()->update();
     hide();
 }
 void KonqFileTip::startDelayed()
