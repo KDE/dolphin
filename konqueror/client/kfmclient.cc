@@ -31,7 +31,7 @@
 #include <qmessagebox.h>
 #include <qstring.h>
 
-#include <kio_propsdlg.h>
+#include <kpropsdlg.h>
 #include <krun.h>
 #include <kregistry.h>
 #include <kregfactories.h>
@@ -126,7 +126,7 @@ void clientApp::openFileManagerWindow(const char* _url)
 
 void clientApp::initRegistry()
 {
-  // Register mimetypes and services, for kio_propsdlg and krun
+  // Register mimetypes and services, for kpropsdlg and krun
   KRegistry * registry = new KRegistry;
   registry->addFactory( new KMimeTypeFactory );
   registry->addFactory( new KServiceFactory );
