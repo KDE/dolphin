@@ -304,36 +304,35 @@ void KProxyDialog::defaults()
 
 void KProxyDialog::setupManProxy()
 {
-  dlg->rbManual->setChecked(true);
+  KManualProxyDlg* dlgManual = new KManualProxyDlg( this );
 
-  KManualProxyDlg* dlg = new KManualProxyDlg( this );
+  dlgManual->setProxyData( *_data );
 
-  dlg->setProxyData( *_data );
-
-  if ( dlg->exec() == QDialog::Accepted )
+  if ( dlgManual->exec() == QDialog::Accepted )
   {
-    *_data = dlg->data();
+    *_data = dlgManual->data();
+    dlg->rbManual->setChecked(true);
     emit changed( true );
   }
 
-  delete dlg;
+  delete dlgManual;
 }
 
 void KProxyDialog::setupEnvProxy()
 {
-  dlg->rbEnvVar->setChecked(true);
 
-  KEnvVarProxyDlg* dlg = new KEnvVarProxyDlg( this );
+  KEnvVarProxyDlg* dlgEnv = new KEnvVarProxyDlg( this );
 
-  dlg->setProxyData( *_data );
+  dlgEnv->setProxyData( *_data );
 
-  if ( dlg->exec() == QDialog::Accepted )
+  if ( dlgEnv->exec() == QDialog::Accepted )
   {
-    *_data = dlg->data();
+    *_data = dlgEnv->data();
+    dlg->rbEnvVar->setChecked(true);
     emit changed( true );
   }
 
-  delete dlg;
+  delete dlgEnv;
 }
 
 void KProxyDialog::slotChanged()
