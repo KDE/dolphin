@@ -71,7 +71,9 @@ public:
   // IDL
   virtual void slotShowDot();
   virtual void slotSelect();
+  virtual void slotUnselect();
   virtual void slotSelectAll();
+  virtual void slotUnselectAll();
 
   virtual void slotSortByNameCaseSensitive();
   virtual void slotSortByNameCaseInsensitive();

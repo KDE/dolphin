@@ -32,7 +32,9 @@ module Konqueror
   {
     slot void slotShowDot();
     slot void slotSelect();
+    slot void slotUnselect();
     slot void slotSelectAll();
+    slot void slotUnselectAll();
     
     slot void slotSortByNameCaseSensitive();
     slot void slotSortByNameCaseInsensitive();

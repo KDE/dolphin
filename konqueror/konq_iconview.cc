@@ -157,8 +157,12 @@ bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr edit
     CORBA::WString_var text;
     text = Q2C( i18n("Select") );
     editMenu->insertItem4( text, this, "slotSelect" , 0, -1, -1 );
+    text = Q2C( i18n("Unselect") );
+    editMenu->insertItem4( text, this, "slotUnselect" , 0, -1, -1 );
     text = Q2C( i18n("Select &All") );
     editMenu->insertItem4( text, this, "slotSelectAll" , 0, -1, -1 );
+    text = Q2C( i18n("Unselect &All") );
+    editMenu->insertItem4( text, this, "slotUnselectAll" , 0, -1, -1 );
   }
   
   return true;
@@ -187,7 +191,28 @@ void KonqKfmIconView::slotSelect()
     
     iterator it = KIconContainer::begin();
     for( ; *it; ++it )
-      setSelected( *it, ( re.match( (*it)->text() ) != -1 ) );
+      if ( re.match( (*it)->text() ) != -1 )
+        setSelected( *it, true );
+    
+    emit selectionChanged();
+  }
+}
+
+void KonqKfmIconView::slotUnselect()
+{
+  KLineEditDlg l( i18n("Unselect files:"), "", this );
+  if ( l.exec() )
+  {
+    QString pattern = l.text();
+    if ( pattern.isEmpty() )
+      return;
+
+    QRegExp re( pattern, true, true );
+    
+    iterator it = KIconContainer::begin();
+    for( ; *it; ++it )
+      if ( re.match( (*it)->text() ) != -1 )
+        setSelected( *it, false );
     
     emit selectionChanged();
   }
@@ -195,8 +220,12 @@ void KonqKfmIconView::slotSelect()
 
 void KonqKfmIconView::slotSelectAll()
 {
-  kdebug(0, 1202, "KonqKfmIconView::slotSelectAll");
   selectAll();
+}
+
+void KonqKfmIconView::slotUnselectAll()
+{
+  unselectAll();
 }
 
 void KonqKfmIconView::slotSortByNameCaseSensitive()
