@@ -96,6 +96,7 @@
 #include <kprocess.h>
 #include <kio/scheduler.h>
 #include <kaccelmanager.h>
+#include <kuser.h>
 #include <netwm.h>
 
 #ifdef KDE_MALLINFO_STDLIB
@@ -3330,7 +3331,7 @@ void KonqMainWindow::initActions()
   // help stuff
   m_paUp->setWhatsThis( i18n( "Enter the parent folder<p>"
                               "For instance, if the current location is file:/home/%1 clicking this "
-                              "button will take you to file:/home." ).arg( getlogin() ) );
+                              "button will take you to file:/home." ).arg( KUser().loginName() ) );
   m_paUp->setStatusText( i18n( "Enter the parent folder" ) );
 
   m_paBack->setWhatsThis( i18n( "Move backwards one step in the browsing history<p>" ) );
