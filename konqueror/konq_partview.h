@@ -37,7 +37,7 @@ public:
   virtual void init();  
   virtual void cleanUp();
 
-  virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
 
   virtual void detachPart();
       

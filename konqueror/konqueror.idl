@@ -1,104 +1,34 @@
-// -*-idl-*-
-#ifndef __konqueror_idl__
-#define __konqueror_idl__
+/*  This file is part of the KDE project
+    Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
+    Copyright (C) 1999 David Faure <faure@kde.org>
+    Copyright (C) 1999 Torben Weis <weis@kde.org>
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ 
+*/ 
 
-#include <kom.idl>
-#include <openparts.idl>
-#include <openparts_ui.idl>
+#ifndef __konqueror_idl__
+#define __konqueror_idl__ $Id$
+
+#include <browser.idl>
 
 module Konqueror
 {
   const string KONQ_NAMING = "KBase/Konqueror/Application";
-
-  typedef sequence<string> StrList;
-
-  struct URLRequest
-  {
-    string url;
-    boolean reload /* = false */ ;
-    long xOffset /* = 0 */ ;
-    long yOffset /* = 0 */ ;
-  };
-    
-  struct Transfer
-  {
-    string source;
-    string destination;
-  };
-  typedef Transfer EventNewTransfer;
-  const string eventNewTransfer = "Konqueror/NewTransfer";
-
-  /*
-   * This event is mapped by Konqueror's implementation of the MainView
-   * interface as well as by all the views.
-   * (we use an event to open an URL instead of a simple method openURL (or
-   * similar) because this way you can install your own custom URL filters :-)
-   */
-  typedef URLRequest EventOpenURL;
-  const string eventOpenURL = "Konqueror/OpenURL";
-
-  interface View : OpenParts::Part
-  {
-    
-    /*
-     * A full featured Konqueror View has to map the eventOpenURL event (which 
-     * has a structure EventOpenURL as parameter)
-     *
-     * In addition it may implement/emit the following signals:
-     *      - signal void openURL( in URLRequest url );
-     *      - signal void started( in OpenParts::Id id, in string url );
-     *      - signal void completed( in OpenParts::Id id );
-     *      - signal void canceled( in OpenParts::Id id );
-     *      - signal void setStatusBarText( in wstring text );
-     *      - signal void setLocationBarURL( in OpenParts::Id id, in string url );
-     *      - signal void createNewWindow( in string url );
-     */
-     
-    string url();
-    long xOffset();
-    long yOffset();
-    
-    void stop();
-    
-    /*
-     * returns a name for the view (for example just like "KMailFolderView" or
-     * "KonquerorHTMLView")
-     */
-    string viewName();
-    
-    /*
-     * The three events defined below can be mapped by a view to provide view
-     * specific GUI elements.
-     * note: If the menu/toolbar provided in the event structure is nil this
-     * means that the gui element (menu/toolbar) is meant to be cleared and
-     * the view should free all references to any related menus/toolbars.
-     */
-
-    struct EventFillMenu
-    {
-      OpenPartsUI::Menu menu;
-      boolean create; // add items to menu if true, remove if false
-    };
-
-    struct EventCreateViewToolBar
-    {
-      OpenPartsUI::ToolBar toolBar;
-    };
-
-    const string eventFillMenuEdit = "Konqueror/GUI/fillMenu/Edit";
-    const string eventFillMenuView = "Konqueror/GUI/fillMenu/View";
-    const string eventCreateViewToolBar = "Konqueror/GUI/createViewToolBar";
-  };
-
-  typedef sequence<View> ViewList;
-
-  interface PrintingExtension
-  {
-    void print();
-    //TO BE IMPROVED!
-  };
-  
-  interface KfmIconView : View
+ 
+  interface KfmIconView : Browser::View
   {
     slot void slotShowDot();
     slot void slotLargeIcons();
@@ -107,13 +37,13 @@ module Konqueror
     slot void slotSelectAll();
   };
 
-  interface KfmTreeView : View
+  interface KfmTreeView : Browser::View
   {
     slot void slotShowDot();
     slot void slotReloadTree();
   };
   
-  interface HTMLView : View, PrintingExtension
+  interface HTMLView : Browser::View, Browser::PrintingExtension
   {
 
     struct HTMLDocumentRequest
@@ -149,7 +79,7 @@ module Konqueror
     void parseDoc();
   };
   
-  interface PartView : View
+  interface PartView : Browser::View
   {
     void setPart( in OpenParts::Part part );
     OpenParts::Part part();
@@ -157,7 +87,7 @@ module Konqueror
     slot void detachPart();
   };
 
-  interface TxtView : View, PrintingExtension
+  interface TxtView : Browser::View, Browser::PrintingExtension
   {
     slot void slotSelectAll();
     slot void slotEdit();
@@ -169,11 +99,11 @@ module Konqueror
     // Position is relative to activeView(); above and below create a new row
 
     void setActiveView( in OpenParts::Id id );
-    View activeView();
+    Browser::View activeView();
     OpenParts::Id activeViewId();
-    ViewList viewList();
+    Browser::ViewList viewList();
 
-    slot void openURL( in URLRequest url );    
+    slot void openURL( in Browser::URLRequest url );    
     
     slot void setStatusBarText( in wstring text );
     slot void setLocationBarURL( in OpenParts::Id id, in string url );
@@ -250,11 +180,6 @@ module Konqueror
     MainView mainView();
   };
 
-  interface ViewFactory
-  {
-    View create();
-  };
-    
   interface Application : OpenParts::Application
   {
     MainWindow createMainWindow( in string url );

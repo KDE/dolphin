@@ -100,7 +100,7 @@ public:
    * Attach a view to the KonqFrame.
    * @param view the view to attach (instead of the current one, if any)
    */
-  void attach( Konqueror::View_ptr view );
+  void attach( Browser::View_ptr view );
 
   /** 
    * Detach attached view, before deleting myself, or attaching another one 
@@ -110,7 +110,7 @@ public:
   /**
    * Returns the view that is currently connected to the Frame.
    */
-  Konqueror::View_ptr view( void );
+  Browser::View_ptr view( void );
 
 public slots:  
 
@@ -125,7 +125,7 @@ protected:
   OPFrame *m_pOPFrame;
   QVBoxLayout *m_pLayout;
   KonqFrameHeader* m_pHeader;
-  Konqueror::View_ptr m_pView;
+  Browser::View_ptr m_pView;
 };
 
 #endif

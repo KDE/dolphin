@@ -47,7 +47,7 @@ protected:
 class KonqHTMLView : public KBrowser,
                      public KonqBaseView,
                      virtual public Konqueror::HTMLView_skel,
-		     virtual public Konqueror::PrintingExtension
+		     virtual public Browser::PrintingExtension
 {
   Q_OBJECT  
 
@@ -56,9 +56,9 @@ public:
   virtual ~KonqHTMLView();
 
   virtual bool event( const char *event, const CORBA::Any &value );
-  virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu );
+  virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu editMenu );
   virtual bool mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest );
 
   virtual void stop();

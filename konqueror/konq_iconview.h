@@ -66,9 +66,9 @@ public:
   KonqKfmIconView( KonqMainView *mainView = 0L );
   virtual ~KonqKfmIconView();
 
-  virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu );
+  virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu editMenu );
 
   // IDL
   virtual void stop();

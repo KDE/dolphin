@@ -328,8 +328,8 @@ bool KonqMainView::event( const char* event, const CORBA::Any& value )
   MAPPING( OpenPartsUI::eventCreateToolBar, OpenPartsUI::typeCreateToolBar_ptr, mappingCreateToolbar );
   MAPPING( OpenParts::eventChildGotFocus, OpenParts::Part_ptr, mappingChildGotFocus );
   MAPPING( OpenParts::eventParentGotFocus, OpenParts::Part_ptr, mappingParentGotFocus );
-  MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
-  MAPPING( Konqueror::eventNewTransfer, Konqueror::EventNewTransfer, mappingNewTransfer );
+  MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
+  MAPPING( Browser::eventNewTransfer, Browser::EventNewTransfer, mappingNewTransfer );
 
   END_EVENT_MAPPER;
 
@@ -495,8 +495,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 
   if ( m_currentView )
   {
-    Konqueror::View_var view = m_currentView->view();
-    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Konqueror/PrintingExtension:1.0" ) );
+    Browser::View_var view = m_currentView->view();
+    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
   }
       
   return true;
@@ -637,13 +637,13 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   return true;
 }
 
-bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+bool KonqMainView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   openURL( eventURL );
   return true;
 }
 
-bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
+bool KonqMainView::mappingNewTransfer( Browser::EventNewTransfer transfer )
 {
   //TODO: provide transfer status information somewhere (statusbar?...needs extension in OpenParts)
   
@@ -653,7 +653,7 @@ bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
   return true;
 }
 
-void KonqMainView::insertView( Konqueror::View_ptr view,
+void KonqMainView::insertView( Browser::View_ptr view,
                                NewViewPosition newViewPosition,
 			       const QStringList &serviceTypes )
 {
@@ -706,8 +706,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
-  Konqueror::View_var view = m_currentView->view();
-  setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Konqueror/PrintingExtension:1.0" ) );
+  Browser::View_var view = m_currentView->view();
+  setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
   {
@@ -724,12 +724,12 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   }
 }
 
-Konqueror::View_ptr KonqMainView::activeView()
+Browser::View_ptr KonqMainView::activeView()
 {
   if ( m_currentView )
     return m_currentView->view(); //KonqChildView does the necessary duplicate already
   else
-    return Konqueror::View::_nil();
+    return Browser::View::_nil();
 }
 
 OpenParts::Id KonqMainView::activeViewId()
@@ -737,9 +737,9 @@ OpenParts::Id KonqMainView::activeViewId()
   return m_currentId;
 }
 
-Konqueror::ViewList *KonqMainView::viewList()
+Browser::ViewList *KonqMainView::viewList()
 {
-  Konqueror::ViewList *seq = new Konqueror::ViewList;
+  Browser::ViewList *seq = new Browser::ViewList;
   int i = 0;
   seq->length( i );
 
@@ -789,7 +789,7 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
     m_currentId = newId;
 }
 
-void KonqMainView::openURL( const Konqueror::URLRequest &_urlreq )
+void KonqMainView::openURL( const Browser::URLRequest &_urlreq )
 {
   openURL( _urlreq.url.in(), (bool)_urlreq.reload, (int)_urlreq.xOffset,
           (int)_urlreq.yOffset );
@@ -916,7 +916,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 
   if ( !m_sInitialURL.isEmpty() )
   {
-    Konqueror::View_var vView;
+    Browser::View_var vView;
     QStringList serviceTypes;
 
     if ( ( serviceType == "inode/directory" ) &&
@@ -985,7 +985,7 @@ void KonqMainView::splitView ( NewViewPosition newViewPosition )
   QString url = m_currentView->url();
   const QString serviceType = m_currentView->serviceTypes().first();
 
-  Konqueror::View_var vView;
+  Browser::View_var vView;
   QStringList serviceTypes;
   
   if ( !KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
@@ -1144,12 +1144,12 @@ void KonqMainView::slotPrint()
   // Then why not simply disable "print" if not a HTML view ?
   //  ... ideas please ! (David)
   // Here's a proposal :-) (Simon)
-  Konqueror::View_var view = m_currentView->view();
+  Browser::View_var view = m_currentView->view();
   
-  if ( view->supportsInterface( "IDL:Konqueror/PrintingExtension:1.0" ) )
+  if ( view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) )
   {
-    CORBA::Object_var obj = view->getInterface( "IDL:Konqueror/PrintingExtension:1.0" );
-    Konqueror::PrintingExtension_var printExt = Konqueror::PrintingExtension::_narrow( obj );
+    CORBA::Object_var obj = view->getInterface( "IDL:Browser/PrintingExtension:1.0" );
+    Browser::PrintingExtension_var printExt = Browser::PrintingExtension::_narrow( obj );
     printExt->print();
   }
 }
@@ -1222,11 +1222,11 @@ void KonqMainView::slotShowHTML()
 
 void KonqMainView::slotLargeIcons()
 {
-  Konqueror::View_var v;
+  Browser::View_var v;
 
   if ( m_currentView->viewName() != "KonquerorKfmIconView" )
   {
-    v = Konqueror::View::_duplicate( new KonqKfmIconView( this ) );
+    v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
     m_currentView->lockHistory();
@@ -1241,11 +1241,11 @@ void KonqMainView::slotLargeIcons()
 
 void KonqMainView::slotSmallIcons()
 {
-  Konqueror::View_var v;
+  Browser::View_var v;
   
   if ( m_currentView->viewName() != "KonquerorKfmIconView" )
   {
-    v = Konqueror::View::_duplicate( new KonqKfmIconView( this ) );
+    v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
     m_currentView->lockHistory();
@@ -1262,7 +1262,7 @@ void KonqMainView::slotTreeView()
 {
   if ( m_currentView->viewName() != "KonquerorKfmTreeView" )
   {
-    Konqueror::View_var v = Konqueror::View::_duplicate( new KonqKfmTreeView( this ) );
+    Browser::View_var v = Browser::View::_duplicate( new KonqKfmTreeView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
     m_currentView->lockHistory();
@@ -1424,7 +1424,7 @@ void KonqMainView::slotReloadPlugins()
 
   KonqPlugins::installKOMPlugins( this );
 
-  Konqueror::View_var vView;
+  Browser::View_var vView;
   
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();

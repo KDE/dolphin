@@ -21,7 +21,7 @@ EXTRA_DIST = $(data_DATA) $(service_DATA) $(servicetype_DATA)
 bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
-konqueror_SOURCES =  konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
+konqueror_SOURCES =  browser.idl konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc \
@@ -30,7 +30,7 @@ konqueror_SOURCES =  konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
 	konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
 	konqueror.idl
 
-noinst_HEADERS = kbrowser.h kfmrun.h \
+noinst_HEADERS = browser.h kbrowser.h kfmrun.h \
 	konq_baseview.h konq_childview.h konq_frame.h \
         konq_htmlview.h konq_iconview.h \
         konq_main.h konq_mainview.h konq_mainwindow.h \
@@ -46,14 +46,18 @@ METASOURCES = kbrowser.moc kfmrun.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
 	konq_partview.moc konq_topwidget.moc konq_treeview.moc konq_txtview.moc
 
-DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
+DISTCLEANFILES = $(METASOURCES) browser.cc browser.h konqueror.cc konqueror.h
 
 idl_DATA = konqueror.idl
+
+browser_IDLDIR = $(idldir)
 
 messages:
 	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/konqueror.pot
 
 ####### Build rules
+
+konqueror.h: browser.h
 
 kfmrun.cc: konqueror.h
 konq_baseview.cc: konqueror.h

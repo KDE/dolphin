@@ -22,7 +22,7 @@
 
 KonqBaseView::KonqBaseView()
 {
-  ADD_INTERFACE( "IDL:Konqueror/View:1.0" );
+  ADD_INTERFACE( "IDL:Browser/View:1.0" );
 
   SIGNAL_IMPL( "openURL" );
   SIGNAL_IMPL( "started" );
@@ -62,32 +62,32 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
   
-  MAPPING( Konqueror::View::eventFillMenuEdit, Konqueror::View::EventFillMenu, mappingFillMenuEdit );
-  MAPPING( Konqueror::View::eventFillMenuView, Konqueror::View::EventFillMenu, mappingFillMenuView );
-  MAPPING( Konqueror::View::eventCreateViewToolBar, Konqueror::View::EventCreateViewToolBar, mappingCreateViewToolBar );
-  MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
+  MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu, mappingFillMenuEdit );
+  MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu, mappingFillMenuView );
+  MAPPING( Browser::View::eventCreateViewToolBar, Browser::View::EventCreateViewToolBar, mappingCreateViewToolBar );
+  MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
     
   END_EVENT_MAPPER;
   
   return false;
 }
 
-bool KonqBaseView::mappingFillMenuView( Konqueror::View::EventFillMenu )
+bool KonqBaseView::mappingFillMenuView( Browser::View::EventFillMenu )
 {
   return false;
 }
 
-bool KonqBaseView::mappingFillMenuEdit( Konqueror::View::EventFillMenu )
+bool KonqBaseView::mappingFillMenuEdit( Browser::View::EventFillMenu )
 {
   return false;
 }
 
-bool KonqBaseView::mappingCreateViewToolBar( Konqueror::View::EventCreateViewToolBar )
+bool KonqBaseView::mappingCreateViewToolBar( Browser::View::EventCreateViewToolBar )
 {
   return false;
 }
 
-bool KonqBaseView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+bool KonqBaseView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   SIGNAL_CALL2( "setLocationBarURL", id(), (char*)eventURL.url );
   return false;
@@ -102,7 +102,7 @@ void KonqBaseView::openURLRequest( const char *_url )
 {
   // Ask the main view to open this URL, since it might not be suitable
   // for the current type of view. It might even be a file (KRun will be used)
-  Konqueror::URLRequest urlRequest;
+  Browser::URLRequest urlRequest;
   urlRequest.url = CORBA::string_dup( _url );
   urlRequest.reload = (CORBA::Boolean)false;
   urlRequest.xOffset = 0;

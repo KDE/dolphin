@@ -93,14 +93,14 @@ KonqKfmIconView::~KonqKfmIconView()
   delete m_pProps;
 }
 
-bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+bool KonqKfmIconView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url, (int)eventURL.xOffset, (int)eventURL.yOffset );
   return true;
 }
 
-bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
+bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
 {
 #define MVIEW_IMAGEPREVIEW_ID_ICONVIEW 1594 // all those defines should be put ...
 #define MVIEW_SHOWDOT_ID_ICONVIEW 1595 // ... in a single file
@@ -130,7 +130,7 @@ bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
   return true;
 }
 
-bool KonqKfmIconView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu editMenu )
 {
 #define MEDIT_SELECT_ID_ICONVIEW 1394 // hmm...
 #define MEDIT_SELECTALL_ID_ICONVIEW 1395

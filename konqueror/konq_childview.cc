@@ -51,7 +51,7 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
   while ( obj->_refcnt() > 1 ) obj->_deref();
 }
 
-KonqChildView::KonqChildView( Konqueror::View_ptr view, 
+KonqChildView::KonqChildView( Browser::View_ptr view, 
                               Row * row, 
                               NewViewPosition newViewPosition,
 			      KonqMainView *mainView,
@@ -91,9 +91,9 @@ KonqChildView::~KonqChildView()
     delete m_pRun;
 }
 
-void KonqChildView::attach( Konqueror::View_ptr view )
+void KonqChildView::attach( Browser::View_ptr view )
 {
-  m_vView = Konqueror::View::_duplicate( view );
+  m_vView = Browser::View::_duplicate( view );
   m_vView->incRef();
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( m_pMainView );
@@ -134,7 +134,7 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( QString url, bool useMiscURLData  )
 {
-  Konqueror::EventOpenURL eventURL;
+  Browser::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.data() );
   if ( useMiscURLData )
   {
@@ -148,26 +148,26 @@ void KonqChildView::openURL( QString url, bool useMiscURLData  )
     eventURL.xOffset = 0;
     eventURL.yOffset = 0;
   }    
-  EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( m_vView, Browser::eventOpenURL, eventURL );
 }
 
 void KonqChildView::emitMenuEvents( OpenPartsUI::Menu_ptr viewMenu, OpenPartsUI::Menu_ptr editMenu, bool create )
 {
-  Konqueror::View::EventFillMenu ev;
+  Browser::View::EventFillMenu ev;
   ev.menu = OpenPartsUI::Menu::_duplicate( viewMenu );
   ev.create = create;
-  EMIT_EVENT( m_vView, Konqueror::View::eventFillMenuView, ev );
+  EMIT_EVENT( m_vView, Browser::View::eventFillMenuView, ev );
   ev.menu = OpenPartsUI::Menu::_duplicate( editMenu );
-  EMIT_EVENT( m_vView, Konqueror::View::eventFillMenuEdit, ev );
+  EMIT_EVENT( m_vView, Browser::View::eventFillMenuEdit, ev );
 }
 
-void KonqChildView::switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes )
+void KonqChildView::switchView( Browser::View_ptr _vView, const QStringList &serviceTypes )
 {
   kdebug(0,1202,"switchView : part->inactive");
   m_vMainWindow->setActivePart( m_pMainView->id() );
     
   detach();
-  Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
+  Browser::View_var vView = Browser::View::_duplicate( _vView );
   kdebug(0,1202,"switchView : attaching new one");
   attach( vView );
 
@@ -191,7 +191,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     return true;
   }
 
-  Konqueror::View_var vView;
+  Browser::View_var vView;
   QStringList serviceTypes;
   if ( !createView( serviceType, vView, serviceTypes, m_pMainView ) )
    return false;
@@ -208,7 +208,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   return true;
 }
 
-void KonqChildView::changeView( Konqueror::View_ptr _vView, 
+void KonqChildView::changeView( Browser::View_ptr _vView, 
                                 const QStringList &serviceTypes, 
 				const QString &_url )
 {
@@ -376,12 +376,12 @@ void KonqChildView::reload()
   m_bBack = false;
   lockHistory();
   
-  Konqueror::EventOpenURL eventURL;
+  Browser::EventOpenURL eventURL;
   eventURL.url = m_vView->url();
   eventURL.reload = (CORBA::Boolean)true;
   eventURL.xOffset = m_vView->xOffset();
   eventURL.yOffset = m_vView->yOffset();
-  EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( m_vView, Browser::eventOpenURL, eventURL );
 }
 
 bool KonqChildView::supportsServiceType( const QString &serviceType )
@@ -392,7 +392,7 @@ bool KonqChildView::supportsServiceType( const QString &serviceType )
 }
 
 bool KonqChildView::createView( const QString &serviceType, 
-                                Konqueror::View_var &view, 
+                                Browser::View_var &view, 
 				QStringList &serviceTypes,
 				KonqMainView *mainView )
 {
@@ -404,13 +404,13 @@ bool KonqChildView::createView( const QString &serviceType,
   if ( serviceType == "inode/directory" )
   {
     //default for directories is the iconview
-    view = Konqueror::View::_duplicate( new KonqKfmIconView( mainView ) );
+    view = Browser::View::_duplicate( new KonqKfmIconView( mainView ) );
     serviceTypes.append( serviceType );
     return true;
   }
   else if ( serviceType == "text/html" )
   {
-    view = Konqueror::View::_duplicate( new KonqHTMLView( mainView ) );
+    view = Browser::View::_duplicate( new KonqHTMLView( mainView ) );
     serviceTypes.append( serviceType );
     return true;
   }
@@ -419,7 +419,7 @@ bool KonqChildView::createView( const QString &serviceType,
 	      serviceType.mid( 5 ) == "english" ||
 	      serviceType.mid( 5 ) == "plain" ) )
   {
-    view = Konqueror::View::_duplicate( new KonqTxtView( mainView ) );
+    view = Browser::View::_duplicate( new KonqTxtView( mainView ) );
     serviceTypes.append( serviceType );
     return true;
   }
@@ -428,7 +428,7 @@ bool KonqChildView::createView( const QString &serviceType,
   KTrader *trader = KdedInstance::self()->ktrader();
   KActivator *activator = KdedInstance::self()->kactivator();
   
-  KTrader::OfferList offers = trader->query( serviceType, "'Konqueror/View' in ServiceTypes" );
+  KTrader::OfferList offers = trader->query( serviceType, "'Browser/View' in ServiceTypes" );
   
   if ( offers.count() == 0 ) //no results?
     return false;
@@ -450,7 +450,7 @@ bool KonqChildView::createView( const QString &serviceType,
 
   CORBA::Object_var obj = activator->activateService( service->name(), repoId, tag );
   
-  Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
+  Browser::ViewFactory_var factory = Browser::ViewFactory::_narrow( obj );
   
   if ( CORBA::is_nil( factory ) )
     return false;

@@ -42,7 +42,7 @@ KonqTxtView::KonqTxtView( KonqMainView *mainView )
 {
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
-  ADD_INTERFACE( "IDL:Konqueror/PrintingExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
   
   setWidget( this );
   
@@ -63,7 +63,7 @@ KonqTxtView::~KonqTxtView()
   stop();
 }
 
-bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL( eventURL );
  kdebug(0,1202,"bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
@@ -91,7 +91,7 @@ bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
+bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
 {
 //HACK
 #define MVIEW_BASE_ID 1423
@@ -118,7 +118,7 @@ bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu editMenu )
 {
 //HACK
 #define MEDIT_BASE_ID 1523

@@ -384,10 +384,10 @@ KonqFrame::KonqFrame( QWidget *_parent, const char *_name )
   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
 }
 
-Konqueror::View_ptr 
+Browser::View_ptr 
 KonqFrame::view( void ) 
 { 
-  return Konqueror::View::_duplicate( m_pView ); 
+  return Browser::View::_duplicate( m_pView ); 
 }
 
 void
@@ -404,9 +404,9 @@ KonqFrame::paintEvent( QPaintEvent* event )
 }
 
 void
-KonqFrame::attach( Konqueror::View_ptr view )
+KonqFrame::attach( Browser::View_ptr view )
 {
-  m_pView = Konqueror::View::_duplicate( view );    
+  m_pView = Browser::View::_duplicate( view );    
 
   OPPartIf* localView = 0L;
   // Local or remote ? (Simon's trick ;)

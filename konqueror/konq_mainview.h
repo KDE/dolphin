@@ -66,16 +66,16 @@ public:
   bool mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory );
   bool mappingChildGotFocus( OpenParts::Part_ptr child );
   bool mappingParentGotFocus( OpenParts::Part_ptr child );
-  bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-  bool mappingNewTransfer( Konqueror::EventNewTransfer transfer );
+  bool mappingOpenURL( Browser::EventOpenURL eventURL );
+  bool mappingNewTransfer( Browser::EventNewTransfer transfer );
 
   //IDL
   virtual void setActiveView( OpenParts::Id id );
-  virtual Konqueror::View_ptr activeView();
+  virtual Browser::View_ptr activeView();
   virtual OpenParts::Id activeViewId();
-  virtual Konqueror::ViewList *viewList();
+  virtual Browser::ViewList *viewList();
 
-  virtual void openURL( const Konqueror::URLRequest &_urlreq );
+  virtual void openURL( const Browser::URLRequest &_urlreq );
   virtual void openURL( const char * _url, bool _reload = false, int xOffset = 0,
                         int yOffset = 0, KonqChildView *_view = 0L );
   
@@ -207,7 +207,7 @@ private:
   void splitView ( NewViewPosition newViewPosition );
 
   // Position is relative to activeView(); above and below create a new row
-  void insertView( Konqueror::View_ptr view, NewViewPosition newViewPosition, const QStringList &serviceTypes );
+  void insertView( Browser::View_ptr view, NewViewPosition newViewPosition, const QStringList &serviceTypes );
   void removeView( OpenParts::Id id );
 
   /**

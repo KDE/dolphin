@@ -48,7 +48,7 @@
 KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
-  ADD_INTERFACE( "IDL:Konqueror/PrintingExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
 
   setWidget( this );
 
@@ -107,10 +107,10 @@ bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
   
-  MAPPING( Konqueror::View::eventFillMenuEdit, Konqueror::View::EventFillMenu, mappingFillMenuEdit );
-  MAPPING( Konqueror::View::eventFillMenuView, Konqueror::View::EventFillMenu, mappingFillMenuView );
-  MAPPING( Konqueror::View::eventCreateViewToolBar, Konqueror::View::EventCreateViewToolBar, mappingCreateViewToolBar );
-  MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
+  MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu, mappingFillMenuEdit );
+  MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu, mappingFillMenuView );
+  MAPPING( Browser::View::eventCreateViewToolBar, Browser::View::EventCreateViewToolBar, mappingCreateViewToolBar );
+  MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
   MAPPING( Konqueror::HTMLView::eventRequestDocument, Konqueror::HTMLView::EventRequestDocument, mappingRequestDocument );
     
   END_EVENT_MAPPER;
@@ -119,7 +119,7 @@ bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
 }
 
 
-bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
   KonqHTMLView::openURL( QString( eventURL.url ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
@@ -128,7 +128,7 @@ bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
+bool KonqHTMLView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
 {
 //FIXME!!!!!!!!!!!!!!!
 #define ID_BASE 14226
@@ -167,7 +167,7 @@ bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu 
   return true;
 }
 
-bool KonqHTMLView::mappingFillMenuEdit( Konqueror::View::EventFillMenu )
+bool KonqHTMLView::mappingFillMenuEdit( Browser::View::EventFillMenu )
 {
   // todo : add "Select All"
   return false;
@@ -452,10 +452,10 @@ void KonqHTMLView::saveDocument()
     if ( dlg->exec() )
       {
 	KURL destURL( dlg->selectedFileURL() );
-	Konqueror::EventNewTransfer transfer;
+	Browser::EventNewTransfer transfer;
 	transfer.source = srcURL.url();
 	transfer.destination = destURL.url();
-	EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
+	EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
       }
 
     delete dlg;
@@ -479,10 +479,10 @@ void KonqHTMLView::saveFrame()
     if ( dlg->exec() )
     {
       KURL destURL( dlg->selectedFileURL() );
-      Konqueror::EventNewTransfer transfer;
+      Browser::EventNewTransfer transfer;
       transfer.source = srcURL.url();
       transfer.destination = destURL.url();
-      EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
+      EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
     }
 
     delete dlg;
@@ -510,10 +510,10 @@ void KonqHTMLView::saveBackground()
   if ( dlg->exec() )
     {
       KURL destURL( dlg->selectedFileURL() );
-      Konqueror::EventNewTransfer transfer;
+      Browser::EventNewTransfer transfer;
       transfer.source = srcURL.url();
       transfer.destination = destURL.url();
-      EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
+      EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
     }
   
   delete dlg;
@@ -538,7 +538,7 @@ void KonqHTMLView::openTxtView( const QString &url )
     KonqChildView *childView = m_pMainView->childView( id() );
     if ( childView )
     {
-      Konqueror::View_var vView;
+      Browser::View_var vView;
       QStringList serviceTypes;
       KonqChildView::createView( "text/plain", vView, serviceTypes, m_pMainView );
       childView->makeHistory( false );

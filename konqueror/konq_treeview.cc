@@ -127,14 +127,14 @@ KonqKfmTreeView::~KonqKfmTreeView()
   }
 }
 
-bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+bool KonqKfmTreeView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL( eventURL );
   openURL( eventURL.url, (int)eventURL.xOffset, (int)eventURL.yOffset );
   return true;
 }
 
-bool KonqKfmTreeView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
+bool KonqKfmTreeView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
 {
 #define MVIEW_RELOADTREE_ID_2 1483 // temporary
   
@@ -156,7 +156,7 @@ bool KonqKfmTreeView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
   return true;
 }
 
-bool KonqKfmTreeView::mappingFillMenuEdit( Konqueror::View::EventFillMenu /*editMenu*/ )
+bool KonqKfmTreeView::mappingFillMenuEdit( Browser::View::EventFillMenu /*editMenu*/ )
 {
   // TODO : add select and selectall
   return true;

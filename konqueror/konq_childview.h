@@ -37,7 +37,7 @@ class KonqFrame;
 typedef QSplitter Row;
 
 /* This class represents a child of the main view. The main view maintains
- * the list of children. A KonqChildView contains a Konqueror::View and
+ * the list of children. A KonqChildView contains a Browser::View and
  * handles it. It's more or less the backend structure for the views.
  * The widget handling stuff is done by the KonqFrame.
  */
@@ -53,7 +53,7 @@ public:
    * @param mainView is the mainview :-)
    * @param serviceTypes is the list of supported servicetypes
    */
-  KonqChildView( Konqueror::View_ptr view,
+  KonqChildView( Browser::View_ptr view,
                  Row * row,
                  NewViewPosition newViewPosition,
 		 KonqMainView * mainView,
@@ -68,7 +68,7 @@ public:
   /** Attach a view
    * @param view the view to attach (instead of the current one, if any)
    */
-  void attach( Konqueror::View_ptr view );
+  void attach( Browser::View_ptr view );
   /** Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
@@ -91,17 +91,17 @@ public:
   /**
    * Replace the current view vith _vView
    */
-  void switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes );
+  void switchView( Browser::View_ptr _vView, const QStringList &serviceTypes );
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
                        bool useMiscURLData = true );
-  void changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, 
+  void changeView( Browser::View_ptr _vView, const QStringList &serviceTypes, 
                    const QString &url = QString::null );
   
   /**
    * Create a view
    */
-  Konqueror::View_ptr createViewByServiceType( const QString &serviceType );
+  Browser::View_ptr createViewByServiceType( const QString &serviceType );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists
@@ -163,7 +163,7 @@ public:
    * Get view object (should never be needed, except for IDL methods 
    * like activeView() and viewList())
    */
-  Konqueror::View_ptr view() { return Konqueror::View::_duplicate(m_vView); }
+  Browser::View_ptr view() { return Browser::View::_duplicate(m_vView); }
   // FIXME : is duplicated needed ? activeView will do it too !
 
   /**
@@ -195,7 +195,7 @@ public:
   int yOffset() const { return m_iYOffset; }
 
   static bool createView( const QString &serviceType, 
-                          Konqueror::View_var &view, 
+                          Browser::View_var &view, 
 			  QStringList &serviceTypes, 
 			  KonqMainView *mainView );
 
@@ -222,7 +222,7 @@ protected:
     QString strServiceType;
   };
 
-  Konqueror::View_var m_vView;
+  Browser::View_var m_vView;
     
   QString m_sLocationBarURL;
 
