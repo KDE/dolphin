@@ -836,9 +836,6 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
                                    /* m_pProps->isShowingImagePreview() */ );
     item->setRenameEnabled( false );
 
-    QObject::connect( item, SIGNAL( dropMe( KFileIVI *, QDropEvent * ) ),
-		      m_pIconView, SLOT( slotDropItem( KFileIVI *, QDropEvent * ) ) );
-
     QString key;
 
     switch ( m_eSortCriterion )
