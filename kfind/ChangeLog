@@ -1,3 +1,8 @@
+1999-06-13  Harri Porten  <porten@kde.org>
+
+	* kftabdlg.cpp: introduced flexible geometry managment. Patch provided
+	by Dima Rogozin <dima@mercury.co.il>.
+
 1999-04-30  Harri Porten  <porten@kde.org>
 
 	* kftabdlg.cpp: Default to '*' when no filenames are specified and

@@ -29,15 +29,16 @@
 #include <qlist.h>
 #include <qsize.h>
 #include <qkeycode.h>
-#include <kconfig.h>
 #include <qdict.h>
        
+#include <kdebug.h>
+#include <klocale.h>
+#include <kconfig.h>
+
 #include "kfdird.h"      
 #include "kftypes.h"
 #include "kftabdlg.h"
 
-#include <kdebug.h>
-#include <klocale.h>
 
 #define FIND_PROGRAM "find"
 #define SPECIAL_TYPES 7
@@ -57,110 +58,83 @@ void appendGUIItem(QWidget *w) {
   guiItem.append(gi);
 }
 
-
 KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath )
     : QTabDialog( parent, name )
   {
     _searchPath = searchPath;
     
-    //Page One of KfTAbDialog
+    // ************ Page One ************
+
     pages[0] = new QWidget( this, "page1" );
+    
+    nameBox    = new QComboBox(TRUE, pages[0], "combo1");
+    namedL     = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
+    dirBox     = new QComboBox(TRUE, pages[0], "combo2");
+    lookinL    = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
+    subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
+    browseB    = new QPushButton(i18n("&Browse ..."), pages[0]);
 
-    nameBox    = new QComboBox(TRUE           ,pages[0],"combo1");
-    appendGUIItem(nameBox);
-
-    namedL     = new QLabel(nameBox,i18n("&Named:"),
-			    pages[0],"named");
-    dirBox     = new QComboBox(TRUE          ,pages[0],"combo2");
-    lookinL    = new QLabel(dirBox,i18n("&Look in:"),
-			    pages[0],"named");
-    subdirsCb  = new QCheckBox(                pages[0]);
-    browseB    = new QPushButton(i18n("&Browse ..."),pages[0]);
-    appendGUIItem(browseB);
-
-    loadHistory();
-    appendGUIItem(dirBox);
-
-    subdirsCb->setText( i18n("Include &subfolders") );
-    appendGUIItem(subdirsCb);
-
-    int wTmpNamed = (namedL->sizeHint()).width();
-    int wTmpLook  = (lookinL->sizeHint()).width();
-    int wTmp = (wTmpNamed > wTmpLook) ? wTmpNamed:wTmpLook;
-    if ((nameBox->style())==WindowsStyle)
-      {
-        namedL   ->setFixedSize(wTmp+10,25);
-        lookinL  ->setFixedSize(wTmp+10,25);
-      }
-    else
-      {
-        namedL   ->setFixedSize(wTmp+10,30);
-        lookinL  ->setFixedSize(wTmp+10,30);
-      };                                        
-
-    subdirsCb->setFixedSize(subdirsCb->sizeHint());
-    browseB  ->setFixedSize(browseB->sizeHint());
-
-    namedL ->setAlignment(namedL->alignment()|ShowPrefix);
-    lookinL->setAlignment(namedL->alignment()|ShowPrefix);
+    // Setup
+    
     nameBox->setInsertionPolicy (QComboBox::AtTop);
     dirBox ->setInsertionPolicy (QComboBox::AtTop);
     nameBox->setMaxCount(15);
     dirBox ->setMaxCount(15);
-
-
     subdirsCb->setChecked ( TRUE );
-    browseB ->setEnabled(TRUE);
+    
+    // Layout
+    
+    QGridLayout *grid = new QGridLayout( pages[0], 3, 3, 15, 10 );
+    grid->addWidget( namedL, 0, 0 );
+    grid->addMultiCellWidget( nameBox, 0, 0, 1, 2 );
+    grid->addWidget( lookinL, 1, 0 );
+    grid->addWidget( dirBox, 1, 1 );
+    grid->addWidget( browseB, 1, 2);
+    grid->addWidget( subdirsCb, 2, 1);
+    grid->setColStretch(1,1);
+    grid->activate();
+    
+    appendGUIItem(browseB);
+    appendGUIItem(dirBox);
+    appendGUIItem(subdirsCb);
+    appendGUIItem(nameBox);
 
+    // Signals
+    
     connect( browseB,  SIGNAL(clicked()),
              this, SLOT(getDirectory()) );   
-
+    
+    loadHistory();
+    
     addTab( pages[0], i18n(" Name& Location ") );
-                                                      
-    //Page Two of KfTAbDialog
+    
+    // ************ Page Two
+
     pages[1] = new QWidget( this, "page2" );
 
-    rb1[0] = new QRadioButton(       pages[1] );
-    rb1[1] = new QRadioButton(       pages[1] );
+    rb1[0] = new QRadioButton(i18n("&All files"), pages[1]);
+    rb1[1] = new QRadioButton(i18n("Find all files created or &modified:"), pages[1]);
     bg[0]  = new QButtonGroup();
     bg[1]  = new QButtonGroup();
-    rb2[0] = new QRadioButton(       pages[1] );
-    rb2[1] = new QRadioButton(       pages[1] );
-    rb2[2] = new QRadioButton(       pages[1] );
-    andL   = new QLabel (i18n("and"),      pages[1],"and");
-    monthL = new QLabel (i18n("month(s)"), pages[1],"months");
-    dayL   = new QLabel (i18n("day(s)"),   pages[1],"days");
-    le[0]  = new QLineEdit(          pages[1], "lineEdit1" );
-    le[1]  = new QLineEdit(          pages[1], "lineEdit2" );
-    le[2]  = new QLineEdit(          pages[1], "lineEdit3" );
-    le[3]  = new QLineEdit(          pages[1], "lineEdit4" );
-    appendGUIItem(rb1[0]);
-    appendGUIItem(rb1[1]);
-    appendGUIItem(rb2[0]);
-    appendGUIItem(rb2[1]);
-    appendGUIItem(rb2[2]);
-    appendGUIItem(le[0]);
-    appendGUIItem(le[1]);
-    appendGUIItem(le[2]);
-    appendGUIItem(le[3]);
+    rb2[0] = new QRadioButton(i18n("&between"), pages[1] );
+    rb2[1] = new QRadioButton(i18n("during the previou&s"), pages[1] );
+    rb2[2] = new QRadioButton(i18n("&during the previous"), pages[1] );
+    andL   = new QLabel(i18n("and"), pages[1], "and");
+    monthL = new QLabel(i18n("month(s)"), pages[1], "months");
+    dayL   = new QLabel(i18n("day(s)"), pages[1], "days");
+    le[0]  = new QLineEdit(pages[1], "lineEdit1" );
+    le[1]  = new QLineEdit(pages[1], "lineEdit2" );
+    le[2]  = new QLineEdit(pages[1], "lineEdit3" );
+    le[3]  = new QLineEdit(pages[1], "lineEdit4" );
 
-    rb1[0]->setText( i18n("&All files") );
-    rb1[1]->setText( i18n("Find all files created or &modified:"));
-    rb2[0]->setText( i18n("&between") );
-    rb2[1]->setText( i18n("during the previou&s ") );
-    rb2[2]->setText( i18n("&during the previous ") );
+    // Setup 
+    
     le[0] ->setText(date2String(QDate(1980,1,1)));
     le[1] ->setText(date2String(QDate::currentDate()));
     le[2] ->setText("1");
     le[3] ->setText("1");
 
     rb1[0]->setChecked (TRUE);
-
-    rb1[0]->setFixedSize(rb1[0]->sizeHint().width(),25) ;
-    rb1[1]->setFixedSize(rb1[1]->sizeHint().width(),25) ;
-    rb2[0]->setFixedSize(rb2[0]->sizeHint().width(),25) ;
-    rb2[1]->setFixedSize(rb2[1]->sizeHint().width(),25) ;
-    rb2[2]->setFixedSize(rb2[2]->sizeHint().width(),25) ;
 
     bg[0]->insert( rb1[0] );
     bg[0]->insert( rb1[1] );
@@ -173,12 +147,48 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     le[1]->setMaxLength(10);
     le[2]->setMaxLength(3);
     le[3]->setMaxLength(3);
-
   
     le[0]->setEnabled(modifiedFiles = FALSE);
     le[1]->setEnabled(betweenDates  = FALSE);
     le[2]->setEnabled(prevMonth     = FALSE);
     le[3]->setEnabled(prevDay       = FALSE);
+
+    // Layout 
+    int tmp = le[0]->fontMetrics().width(" 00/00/0000 ");
+    le[0]->setMinimumSize(tmp, le[0]->sizeHint().height());
+    le[1]->setMinimumSize(tmp, le[1]->sizeHint().height());
+    tmp = le[2]->fontMetrics().width(" 000 ");
+    le[2]->setMinimumSize(tmp, le[2]->sizeHint().height());
+    le[3]->setMinimumSize(tmp, le[3]->sizeHint().height());
+    
+    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6, 10, 4 );
+    grid1->addMultiCellWidget(rb1[0], 0, 0, 0, 6 );
+    grid1->addMultiCellWidget(rb1[1], 1, 1, 0, 6 );
+    grid1->addColSpacing(0, 15);
+    grid1->addWidget(rb2[0], 2, 1 );
+    grid1->addWidget(le[0], 2, 2 );
+    grid1->addWidget(andL, 2, 3 );
+    grid1->addMultiCellWidget( le[1], 2, 2, 4, 5 );
+    grid1->addMultiCellWidget( rb2[1], 3, 3, 1, 3 );
+    grid1->addWidget(le[2], 3, 4 );
+    grid1->addWidget(monthL, 3, 5 );
+    grid1->addMultiCellWidget( rb2[2], 4, 4, 1, 3 );
+    grid1->addWidget(le[3], 4, 4 );
+    grid1->addWidget(dayL, 4, 5 );
+    grid1->setColStretch(6, 1);
+    grid1->activate();
+    
+    // Connect
+
+    appendGUIItem(rb1[0]);
+    appendGUIItem(rb1[1]);
+    appendGUIItem(rb2[0]);
+    appendGUIItem(rb2[1]);
+    appendGUIItem(rb2[2]);
+    appendGUIItem(le[0]);
+    appendGUIItem(le[1]);
+    appendGUIItem(le[2]);
+    appendGUIItem(le[3]);
 
     connect( bg[1],  SIGNAL(clicked(int)),
              this, SLOT(enableEdit(int)) );
@@ -198,42 +208,21 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     
     addTab( pages[1], i18n(" Date Modified ") );
 
-    //Page Tree of KfTAbDialog
+    // ************ Page Three
+    
     pages[2] = new QWidget( this, "page3" );
 
-    typeBox =new QComboBox(FALSE,pages[2],"typeBox");
-    appendGUIItem(typeBox);
-    typeL   =new QLabel(typeBox,i18n("Of &type:"),
-			pages[2],"type");
-    textL   =new QLabel(i18n("&Containing Text:"),pages[2],"text");
-    textEdit=new QLineEdit(                 pages[2], "textEdit" );
-    appendGUIItem(textEdit);
-    sizeBox =new QComboBox(FALSE           ,pages[2],"sizeBox");
-    appendGUIItem(sizeBox);
-    sizeL   =new QLabel(sizeBox,i18n("&Size is:"),
-			pages[2],"size");
-    sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
-    appendGUIItem(sizeEdit);
-    kbL     =new QLabel(i18n("KB")               ,pages[2],"kb");
-    caseCb  =new QCheckBox(                 pages[2]);
-    caseCb->setText( i18n("Case S&ensitive") );
-    appendGUIItem(caseCb);
-
-    typeL->setAlignment(namedL->alignment()|ShowPrefix);
-    textL->setAlignment(namedL->alignment()|ShowPrefix);
-    sizeL->setAlignment(namedL->alignment()|ShowPrefix);
-
-    typeL->setFixedSize(100,25);
-    textL->setFixedSize(100,25);
-    sizeL->setFixedSize(100,25);
-    kbL->setFixedSize(20,25);
-
-    sizeEdit->setMaxLength(5);
-
-    //textL->setEnabled(FALSE);
-    //textEdit ->setEnabled(FALSE);
-    sizeEdit ->setEnabled(TRUE);
-
+    typeBox =new QComboBox(FALSE, pages[2], "typeBox");
+    typeL   =new QLabel(typeBox, i18n("Of &type:"), pages[2], "type");
+    textEdit=new QLineEdit(pages[2], "textEdit" );
+    textL   =new QLabel(textEdit, i18n("&Containing Text:"), pages[2], "text");
+    sizeBox =new QComboBox(FALSE, pages[2], "sizeBox");
+    sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
+    sizeEdit=new QLineEdit(pages[2], "sizeEdit" );
+    kbL     =new QLabel(i18n("KB"), pages[2], "kb");
+    caseCb  =new QCheckBox(i18n("Case S&ensitive"), pages[2]);
+    
+    // Setup 
     KfFileType *typ;
 
     typeBox->insertItem(i18n("All Files and Folders"));
@@ -245,26 +234,47 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     typeBox->insertItem(i18n("SUID executable files"));
 
     for ( typ = types->first(); typ != 0L; typ = types->next() )
-      if (typ->getComment("")!="")
+      if (typ->getComment("") != "")
 	typeBox->insertItem(typ->getComment(""));
       else
 	typeBox->insertItem(typ->getName());
-
+    
     sizeBox ->insertItem( i18n("(none)") );
     sizeBox ->insertItem( i18n("At Least") );
     sizeBox ->insertItem( i18n("At Most") );
-    sizeBox ->setFixedSize(sizeBox->sizeHint());
-    connect(sizeBox, SIGNAL(highlighted(int)),
-	    this, SLOT(slotSizeBoxChanged(int)));
 
+    sizeEdit->setFixedWidth(50);
     sizeEdit->setText("1");
     slotSizeBoxChanged(0);
+    
+    // Signals
 
-    connect( sizeEdit,  SIGNAL(returnPressed()),
-             this    ,  SLOT(checkSize()) );      
+    connect(sizeBox, SIGNAL(highlighted(int)),
+	    this, SLOT(slotSizeBoxChanged(int)));
+    
+    // Layout
+    
+    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 15, 10 );
+    grid2->addWidget( typeL, 0, 0 );
+    grid2->addWidget( textL, 1, 0 );
+    grid2->addWidget( sizeL, 2, 0 );
+    grid2->addMultiCellWidget( typeBox, 0, 0, 1, 6 );
+    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 6 );
+    grid2->addWidget( sizeBox, 2, 1 );
+    grid2->addWidget( sizeEdit, 2, 2 );
+    grid2->addWidget( kbL, 2, 3 );
+    grid2->addColSpacing(4, 5);
+    grid2->addWidget( caseCb, 2, 5 );
+    grid2->setColStretch(6,1);
+    grid2->activate();
+
+    appendGUIItem(textEdit);
+    appendGUIItem(typeBox);
+    appendGUIItem(sizeBox);
+    appendGUIItem(sizeEdit);
+    appendGUIItem(caseCb);
 
     addTab( pages[2], i18n(" Advanced ") );  
-    setOkButton(i18n("OK"));
   }
 
 KfindTabDialog::~KfindTabDialog()
@@ -339,69 +349,6 @@ void KfindTabDialog::keyPressEvent(QKeyEvent *e) {
     return;
   QTabDialog::keyPressEvent(e);
 }
-
-void KfindTabDialog::resizeEvent( QResizeEvent *ev )
-  {
-    int w = width();
-    int   wTmp;
-    QRect rTmp;
-
-    QTabDialog::resizeEvent(ev);
-
-    //Page One of KfTAbDialog
-    namedL ->move(10,20);
-
-    if ((nameBox->style())==WindowsStyle)
-        lookinL->move(10,55);
-      else
-        lookinL->move(10,60);
-
-    wTmp = 10+namedL->width();
-
-    if ((nameBox->style())==WindowsStyle)
-        nameBox->setGeometry(wTmp,namedL->y(),w-20-wTmp,25);
-      else
-        nameBox->setGeometry(wTmp,namedL->y(),w-20-wTmp,30);
-
-    rTmp = browseB->geometry();
-    wTmp = nameBox->x()+nameBox->width()-rTmp.width();
-    browseB ->move(wTmp,lookinL->y());
-
-    wTmp = 10+lookinL->width();
-    dirBox->setGeometry(wTmp,lookinL->y(),browseB->x()-15-wTmp,25);
-
-    subdirsCb ->move(10+lookinL->width(),lookinL->y()+35);
-
-    //Page Two of KfTAbDialog
-    rb1[0]->move( 5, 5);
-    rb1[1]->move( 5, 30);
-    rb2[0]->move( 25, 55);
-    rb2[1]->move( 25, 80);
-    rb2[2]->move( 25, 105);
-
-    le[0]->setGeometry( 100, 60, 80, 20 );
-    le[1]->setGeometry( 220, 60, 80, 20 );
-    le[2]->setGeometry( 90+rb2[1]->width(), 85, 40, 20 );
-    le[3]->setGeometry( 90+rb2[2]->width(), 110, 40, 20 );
-
-    andL->move(190,55);
-    monthL->move(le[2]->x()+le[2]->width()+15,80);
-    dayL->move(le[3]->x()+le[3]->width()+15,105);
-                                                  
-
-     //Page Tree of KfTAbDialog
-    typeL->move(10,20);
-    wTmp = 10+typeL->width();
-    typeBox ->setGeometry(wTmp,typeL->y(),w-20-wTmp,25);
-    textL   ->move(10,55);
-    textEdit->setGeometry(wTmp, textL->y(),w-20-wTmp, 25 );
-    sizeL   ->move(10,90);
-    sizeBox ->setGeometry(10+sizeL->width(),sizeL->y(),80,25);
-    sizeEdit->setGeometry( 10+sizeBox->x()+sizeBox->width(), sizeL->y(),60,25);
-    kbL     ->move(10+sizeEdit->x()+sizeEdit->width(),sizeL->y());
-    caseCb  ->setGeometry(15+kbL->x()+kbL->width(), sizeL->y(), 150, 25);
-  }
-
 
 QSize KfindTabDialog::sizeHint()
   {
