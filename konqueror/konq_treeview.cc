@@ -39,6 +39,7 @@
 #include <unistd.h>
 
 #include <kapp.h>
+#include <kglobal.h>
 
 #include <qmsgbox.h>
 #include <qkeycode.h>
@@ -48,9 +49,6 @@
 #include <klocale.h>
 
 #include <opUIUtils.h>
-
-#define Dnd_X_Precision 2
-#define Dnd_Y_Precision 2
 
 KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
 {
@@ -565,7 +563,7 @@ void KonqKfmTreeView::mouseMoveEvent( QMouseEvent *_mouse )
   int x = _mouse->pos().x();
   int y = _mouse->pos().y();
 
-  if ( abs( x - m_pressedPos.x() ) > Dnd_X_Precision || abs( y - m_pressedPos.y() ) > Dnd_Y_Precision )
+  if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
   {
     // Collect all selected items
     QStrList urls;
