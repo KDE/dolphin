@@ -41,7 +41,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2005-01-18</date>
+<date>2005-02-01</date>
 <releaseinfo>1.5</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole;
@@ -1098,6 +1098,11 @@ space on the tabbar) will popup up a menu to set certain options:
 <itemizedlist>
 	<listitem><para><guimenuitem>Dynamic Hide</guimenuitem> 
 	will hide the tabbar when there is only one session opened.</para>
+	</listitem>
+</itemizedlist>
+<itemizedlist>
+	<listitem><para><guimenuitem>Auto Resize Tabs</guimenuitem> 
+	will automatically resize the tabs to the width of the tabbar.</para>
 	</listitem>
 </itemizedlist>
 </para></listitem>
