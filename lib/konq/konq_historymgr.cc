@@ -120,7 +120,7 @@ bool KonqHistoryManager::loadHistory()
 				    entry->numberOfTimesVisited );
 
 	    // and fill our baseclass.
-	    KParts::HistoryProvider::insert( entry->url.prettyURL() );
+	    KParts::HistoryProvider::insert( entry->url.url() );
 	}
 	
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
@@ -171,7 +171,7 @@ void KonqHistoryManager::adjustSize()
 	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
 
-	KParts::HistoryProvider::remove( entry->url.prettyURL() );
+	KParts::HistoryProvider::remove( entry->url.url() );
 
 	emit entryRemoved( m_history.getFirst() );
 	m_history.removeFirst(); // deletes the entry
@@ -367,7 +367,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 	entry->firstVisited = e.firstVisited;
 	entry->numberOfTimesVisited = 0; // will get set to 1 below
 	m_history.append( entry );
-	KParts::HistoryProvider::insert( entry->url.prettyURL() );
+	KParts::HistoryProvider::insert( entry->url.url() );
     }
 
     if ( !e.typedURL.isEmpty() )
@@ -443,7 +443,7 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
 	
-	KParts::HistoryProvider::remove( entry->url.prettyURL() );
+	KParts::HistoryProvider::remove( entry->url.url() );
 	
 	m_history.take(); // does not delete
 	emit entryRemoved( entry );
@@ -466,7 +466,7 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	    m_pCompletion->removeItem( entry->url.prettyURL() );
 	    m_pCompletion->removeItem( entry->typedURL );
 	
-	    KParts::HistoryProvider::remove( entry->url.prettyURL() );
+	    KParts::HistoryProvider::remove( entry->url.url() );
 	
 	    m_history.take(); // does not delete
 	    emit entryRemoved( entry );
@@ -502,7 +502,7 @@ bool KonqHistoryManager::loadFallback()
 	    m_pCompletion->addItem( entry->url.prettyURL(),
 				    entry->numberOfTimesVisited );
 	
-	    KParts::HistoryProvider::insert( entry->url.prettyURL() );
+	    KParts::HistoryProvider::insert( entry->url.url() );
    	}
 	++it;
     }
@@ -554,7 +554,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
 {
     // small optimization (dict lookup) for items _not_ in our history
-    if ( !KParts::HistoryProvider::contains( url.prettyURL() ) )
+    if ( !KParts::HistoryProvider::contains( url.url() ) )
 	 return 0L;
 
     return m_history.findEntry( url );
