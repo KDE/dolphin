@@ -659,4 +659,6 @@ int KonqHistoryList::compareItems( QPtrCollection::Item item1,
 	return 0;
 }
 
+using namespace KParts; // for IRIX
+
 #include "konq_historymgr.moc"
