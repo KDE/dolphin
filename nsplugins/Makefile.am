@@ -18,6 +18,9 @@ nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries) -export-dynamic
 nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
 
+data_DATA = khtml_plugins.desktop
+datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
+
 messages:
 	$(EXTRACTRC) `find . -name *.ui` > rc.cpp
 	$(EXTRACTRC) `find . -name *.rc` >> rc.cpp
