@@ -204,6 +204,8 @@ protected slots:
     void slotOnItem(QIconViewItem *);
     void slotOnViewport();
     void slotStartSoundPreview();
+    void slotPreview(const KFileItem *, const QPixmap &);
+    void slotPreviewResult();
 
 protected:
     virtual QDragObject *dragObject();
@@ -231,7 +233,7 @@ protected:
 
     int m_size;
 
-    QGuardedPtr<KonqImagePreviewJob> m_pImagePreviewJob;
+    QGuardedPtr<KonqImagePreviewJob> m_pImagePreviewJob; /// ### KDE 3.0 remove
 
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;

@@ -97,13 +97,17 @@ public:
     bool isThumbnail() const { return m_bThumbnail; }
 
     /**
+     * @deprecated
      * The desktop entry name of the thumbnail creator that was
      * used to generate this item's thumbnail
+     * ### KDE 3.0 remove
      */
     void setThumbnailName( const QString & name );
 
     /**
+     * @deprecated
      * Returns the thumbnail name as set by @ref setThumbnailName()
+     * ### KDE 3.0 remove
      */
     const QString &thumbnailName() const { return m_thumbnailName; }
 
@@ -145,7 +149,7 @@ private:
     int m_size, m_state;
     bool m_bDisabled;
     bool m_bThumbnail;
-    QString m_thumbnailName;
+    QString m_thumbnailName; // ### KDE 3.0 remove
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
 };

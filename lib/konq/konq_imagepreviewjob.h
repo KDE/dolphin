@@ -29,12 +29,14 @@ class KonqIconViewWidget;
 typedef QMap<QString, KService::Ptr> PluginMap;
 
 /**
+ * @deprecated
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
  *
  * Supports png pics and xvpics, and generates png pics when none found.
  * Features network transparency, asynchronous processing, and safety
  * against deleted items.
+ * ### KDE 3.0 remove
  */
 class KonqImagePreviewJob : public KIO::Job
 {

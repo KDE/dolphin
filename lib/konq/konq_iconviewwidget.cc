@@ -31,6 +31,7 @@
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kio/job.h>
+#include <kio/previewjob.h>
 #include <klocale.h>
 #include <kfileivi.h>
 #include <konq_fileitem.h>
@@ -58,6 +59,7 @@ struct KonqIconViewWidgetPrivate
     KFileIVI *pSoundItem;
     QObject *pSoundPlayer;
     QTimer *pSoundTimer;
+    KIO::PreviewJob *pPreviewJob;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -98,7 +100,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     d->pSoundItem = 0;
     d->pSoundPlayer = 0;
     d->pSoundTimer = 0;
-    m_pImagePreviewJob = 0L;
+    d->pPreviewJob = 0;
     m_bMousePressed = false;
     m_LineupMode = LineupBoth;
     // emit our signals
@@ -206,6 +208,20 @@ void KonqIconViewWidget::slotStartSoundPreview()
   }
 }
 
+void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
+{
+    for (QIconViewItem *it = firstItem(); it; it = it->nextItem())
+        if (static_cast<KFileIVI *>(it)->item() == item)
+            static_cast<KFileIVI *>(it)->setThumbnailPixmap(pix);
+}
+
+void KonqIconViewWidget::slotPreviewResult()
+{
+    d->pPreviewJob = 0;
+    if (autoArrange())
+        arrangeItemsInGrid();
+}
+
 void KonqIconViewWidget::clear()
 {
     KIconView::clear();
@@ -217,8 +233,8 @@ void KonqIconViewWidget::takeItem( QIconViewItem *item )
     if ( d->pActiveItem == static_cast<KFileIVI *>(item) )
         d->pActiveItem = 0L;
 
-    if ( m_pImagePreviewJob )
-      m_pImagePreviewJob->itemRemoved( static_cast<KFileIVI *>(item) );
+    if ( d->pPreviewJob )
+      d->pPreviewJob->removeItem( static_cast<KFileIVI *>(item)->item() );
 
     KIconView::takeItem( item );
 }
@@ -344,18 +360,38 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
 {
     stopImagePreview(); // just in case
 
-    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_pSettings->textPreviewIconTransparency(), previewSettings );
-    connect( m_pImagePreviewJob, SIGNAL( result( KIO::Job * ) ),
+    KFileItemList items;
+    for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
+        if ( force || !static_cast<KFileIVI *>( it )->isThumbnail() )
+            items.append( static_cast<KFileIVI *>( it )->item() );
+
+    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    int size;
+    if (iconSize < 28)
+        size = 48;
+    else if (iconSize < 40)
+        size = 60;
+    else
+        size = 90;
+
+    d->pPreviewJob = KIO::filePreview( items, size, size, iconSize,
+        m_pSettings->textPreviewIconTransparency(), true /* scale */,
+        true /* save */, &previewSettings );
+    connect( d->pPreviewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
+             this, SLOT( slotPreview( const KFileItem *, const QPixmap & ) ) );
+    connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SIGNAL( imagePreviewFinished() ) );
-    m_pImagePreviewJob->startImagePreview();
+    connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
+             this, SLOT( slotPreviewResult() ) );
     d->bSoundPreviews = previewSettings.contains( "audio/" );
 }
 
 void KonqIconViewWidget::stopImagePreview()
 {
-    if (!m_pImagePreviewJob.isNull())
+    if (d->pPreviewJob)
     {
-        m_pImagePreviewJob->kill();
+        d->pPreviewJob->kill();
+        d->pPreviewJob = 0;
         if (autoArrange())
             arrangeItemsInGrid();
     }
