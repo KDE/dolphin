@@ -574,6 +574,9 @@ private:
   KAction *m_paActivatePrevTab;
   KAction *m_paDumpDebugInfo;
 
+  KShortcut *m_psNextTab;
+  KShortcut *m_psPrevTab;
+
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
 
