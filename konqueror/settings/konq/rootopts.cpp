@@ -40,16 +40,13 @@
 #include <kmimetype.h>
 #include <kcustommenueditor.h>
 
+#include <X11/Xlib.h>
 #include <dcopclient.h>
 #include <kio/job.h>
 
 #include "rootopts.h"
 
 #include <konq_defaults.h> // include default values directly from libkonq
-
-
-extern int konq_screen_number;
-
 
 //-----------------------------------------------------------------------------
 
@@ -451,6 +448,22 @@ void KRootOptions::save()
     g_pConfig->writeEntry( "Enabled", iconsEnabledBox->isChecked() );
     saveDevicesListView();
     g_pConfig->sync();
+
+    // Tell kdesktop about the new config file
+    if ( !kapp->dcopClient()->isAttached() )
+       kapp->dcopClient()->attach();
+    QByteArray data;
+
+    int konq_screen_number = 0;
+    if (qt_xdisplay())
+       konq_screen_number = DefaultScreen(qt_xdisplay());
+
+    QCString appname;
+    if (konq_screen_number == 0)
+        appname = "kdesktop";
+    else
+        appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+    kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
 void KRootOptions::enableChanged()
@@ -756,6 +769,22 @@ void DesktopPathConfig::save()
         kdDebug() << "DesktopPathConfig::save sending message SettingsChanged" << endl;
         KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }
+
+    // Tell kdesktop about the new config file
+    if ( !kapp->dcopClient()->isAttached() )
+       kapp->dcopClient()->attach();
+    QByteArray data;
+
+    int konq_screen_number = 0;
+    if (qt_xdisplay())
+       konq_screen_number = DefaultScreen(qt_xdisplay());
+
+    QCString appname;
+    if (konq_screen_number == 0)
+        appname = "kdesktop";
+    else
+        appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+    kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
 bool DesktopPathConfig::moveDir( const KURL & src, const KURL & dest, const QString & type )

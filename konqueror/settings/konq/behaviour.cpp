@@ -288,6 +288,13 @@ void KBehaviourOptions::save()
       UIServer_stub uiserver( "kio_uiserver", "UIServer" );
       uiserver.setListMode( cbListProgress->isChecked() );
     }
+    
+    // Send signal to konqueror
+    // Warning. In case something is added/changed here, keep kfmclient in sync
+    QByteArray data;
+    if ( !kapp->dcopClient()->isAttached() )
+      kapp->dcopClient()->attach();
+    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 }
 
 void KBehaviourOptions::updateWinPixmap(bool b)

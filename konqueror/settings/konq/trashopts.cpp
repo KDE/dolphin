@@ -29,6 +29,9 @@
 
 #include "trashopts.h"
 
+#include <kapplication.h>
+#include <dcopclient.h>
+
 #include <kdialog.h>
 #include <konq_defaults.h> // include default values directly from libkonq
 #include <klocale.h>
@@ -36,7 +39,7 @@
 
 //-----------------------------------------------------------------------------
 
-KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, const char *name )
+KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, const char * /*name*/ )
     : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group)
 {
     QGridLayout *lay = new QGridLayout(this, 2 /* rows */, 1/*2*/,
@@ -94,6 +97,13 @@ void KTrashOptions::save()
     g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
     g_pConfig->writeEntry( "ConfirmShred", cbShred->isChecked());
     g_pConfig->sync();
+
+    // Send signal to konqueror
+    // Warning. In case something is added/changed here, keep kfmclient in sync
+    QByteArray data;
+    if ( !kapp->dcopClient()->isAttached() )
+      kapp->dcopClient()->attach();
+    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 }
 
 QString KTrashOptions::quickHelp() const

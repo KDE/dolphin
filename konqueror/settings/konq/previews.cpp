@@ -36,9 +36,12 @@
 #include <knuminput.h>
 #include <kconfig.h>
 
+#include <kapplication.h>
+#include <dcopclient.h>
+
 //-----------------------------------------------------------------------------
 
-KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
+KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
     : KCModule( parent, "kcmkonq" )
 {
     QVBoxLayout *lay = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
@@ -147,6 +150,13 @@ void KPreviewOptions::save()
     group.writeEntry( "BoostSize", m_boostSize->isChecked(), true, true );
     group.writeEntry( "UseFileThumbnails", m_useFileThumbnails->isChecked(), true, true );
     group.sync();
+    
+    // Send signal to konqueror
+    // Warning. In case something is added/changed here, keep kfmclient in sync
+    QByteArray data;
+    if ( !kapp->dcopClient()->isAttached() )
+      kapp->dcopClient()->attach();
+    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 }
 
 QString KPreviewOptions::quickHelp() const

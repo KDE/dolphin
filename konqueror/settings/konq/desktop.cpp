@@ -23,6 +23,8 @@
 #include <qwhatsthis.h>
 #include <qslider.h>
 
+#include <kapplication.h>
+#include <dcopclient.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdialog.h>
@@ -36,7 +38,7 @@
 
 extern "C"
 {
-  KCModule *create_virtualdesktops(QWidget *parent, const char *name)
+  KCModule *create_virtualdesktops(QWidget *parent, const char */*name*/)
   {
     return new KDesktopConfig(parent, "kcmkonq");
   };
@@ -47,7 +49,7 @@ extern "C"
 // be able to TAB through those line edits fast. So don't send me mails
 // asking why I did not implement a more intelligent/smaller GUI.
 
-KDesktopConfig::KDesktopConfig(QWidget *parent, const char *name)
+KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
   : KCModule(parent, "kcmkonq")
 {
   QVBoxLayout *layout = new QVBoxLayout(this,
@@ -142,6 +144,22 @@ void KDesktopConfig::save()
   // set desktop names
   for(int i = 1; i <= 16; i++)
     info.setDesktopName(i, (_nameInput[i-1]->text()).utf8());
+
+  // Tell kdesktop about the new config file
+  if ( !kapp->dcopClient()->isAttached() )
+     kapp->dcopClient()->attach();
+  QByteArray data;
+
+  int konq_screen_number = 0;
+  if (qt_xdisplay())
+     konq_screen_number = DefaultScreen(qt_xdisplay());
+
+  QCString appname;
+  if (konq_screen_number == 0)
+      appname = "kdesktop";
+  else
+      appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+  kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 
   emit changed(false);
 }

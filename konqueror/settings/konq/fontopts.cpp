@@ -23,13 +23,15 @@
 #include <qwhatsthis.h>
 #include <kglobalsettings.h>
 #include <kconfig.h>
+#include <kapplication.h>
+#include <dcopclient.h>
 #include <kprocess.h>
 #include <kdebug.h>
 #include <kcolorbutton.h>
-#include <X11/Xlib.h>
 
 #include "fontopts.h"
 #include <assert.h>
+#include <X11/Xlib.h>
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
@@ -38,7 +40,7 @@
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char *name)
+KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char */*name*/)
     : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
 {
     QLabel *label;
@@ -291,10 +293,29 @@ void KonqFontOptions::save()
     }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
-    
+
     KConfig cfg("kdeglobals");
     cfg.setGroup("DesktopIcons");
     cfg.writeEntry("GridXSpacing", m_gridXSpacing);
+
+    // Send signal to konqueror
+    // Warning. In case something is added/changed here, keep kfmclient in sync
+    QByteArray data;
+    if ( !kapp->dcopClient()->isAttached() )
+      kapp->dcopClient()->attach();
+    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+
+    // Tell kdesktop about the new config file
+    int konq_screen_number = 0;
+    if (qt_xdisplay())
+       konq_screen_number = DefaultScreen(qt_xdisplay());
+
+    QCString appname;
+    if (konq_screen_number == 0)
+        appname = "kdesktop";
+    else
+        appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+    kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
 
