@@ -168,7 +168,7 @@ void registerPlugin( const QString &name, const QString &description,
 
 int tryCheck(int write_fd, const QString &absFile)
 {
-    KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
+    KLibrary *_handle = KLibLoader::self()->library( QFile::encodeName(absFile) );
     if (!_handle) {
         kdDebug(1433) << " - open failed, skipping " << endl;
         return 1;
@@ -204,7 +204,7 @@ int tryCheck(int write_fd, const QString &absFile)
         (char *(*)())_handle->symbol("NP_GetMIMEDescription");
     if ( !func_GetMIMEDescription ) {
         kdDebug(1433) << " - no GetMIMEDescription, skipping" << endl;
-        KLibLoader::self()->unloadLibrary( absFile.latin1() );
+        KLibLoader::self()->unloadLibrary( QFile::encodeName(absFile) );
         return 1;
     }
 
@@ -212,7 +212,7 @@ int tryCheck(int write_fd, const QString &absFile)
     QString mimeInfo = func_GetMIMEDescription();
     if ( mimeInfo.isEmpty() ) {
         kdDebug(1433) << " - no mime info returned, skipping" << endl;
-        KLibLoader::self()->unloadLibrary( absFile.latin1() );
+        KLibLoader::self()->unloadLibrary( QFile::encodeName(absFile) );
         return 1;
     }
 
@@ -222,7 +222,7 @@ int tryCheck(int write_fd, const QString &absFile)
     
     // unload plugin lib
     kdDebug(1433) << " - unloading plugin" << endl;
-    KLibLoader::self()->unloadLibrary( absFile.latin1() );
+    KLibLoader::self()->unloadLibrary( QFile::encode(absFile) );
 
     // create a QDataStream for our IPC pipe (to send plugin info back to the parent)
     FILE *write_pipe = fdopen(write_fd, "w");
