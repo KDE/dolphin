@@ -52,24 +52,32 @@ KInstance *PluginFactory::s_instance = 0L;
 
 PluginFactory::PluginFactory()
 {
-  kDebugInfo("PluginFactory");
+  kDebugInfo("PluginFactory::PluginFactory");
 }
 
 
 PluginFactory::~PluginFactory()
 {
-  kDebugInfo("~PluginFactory");
+  kDebugInfo("PluginFactory::~PluginFactory");
 
   delete s_instance;
   s_instance = 0;
 }
 
 
-QObject *PluginFactory::create(QObject *parent, const char *name, const char*,
+QObject *PluginFactory::create(QObject *parent, const char *name, const char* classname,
 			       const QStringList& args)
 {
+  return createPart((QWidget*)parent, name, parent, name, classname, args);
+}
+
+
+KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widgetName,
+  	                  	         QObject *parent, const char *name,
+  			                 const char *classname, const QStringList &args)
+{
   kDebugInfo("PluginFactory::create");
-  QObject *obj = new PluginPart((QWidget*)parent, name, args);
+  KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
   emit objectCreated(obj);
   return obj;
 }
@@ -87,25 +95,20 @@ KInstance *PluginFactory::instance()
 }
 
 
-NSPluginLoader *PluginPart::s_loader = 0L;
-int PluginPart::s_loaderRef = 0;
-
-
-PluginPart::PluginPart(QWidget *parent, const char *name,  const QStringList &args)
+PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
+                       const char *name, const QStringList &args)
   : KParts::ReadOnlyPart(parent, name), _widget(0), _callback(0), _args(args)
 {
   setInstance(PluginFactory::instance());
-  kDebugInfo("PluginPart");
+  kDebugInfo("PluginPart::PluginPart");
 
   _extension = new PluginBrowserExtension(this);
 
   // create loader
-  if (!s_loader)
-    s_loader = NSPluginLoader::instance();
-  s_loaderRef++;
+  _loader = NSPluginLoader::instance();
 
   // create a canvas to insert our widget
-  _canvas = new PluginCanvasWidget(parent);
+  _canvas = new PluginCanvasWidget(parentWidget, widgetName);
   _canvas->setFocusPolicy(QWidget::ClickFocus);
   _canvas->setBackgroundMode(QWidget::NoBackground);
   setWidget(_canvas);
@@ -115,59 +118,77 @@ PluginPart::PluginPart(QWidget *parent, const char *name,  const QStringList &ar
 
 PluginPart::~PluginPart()
 {
-  kDebugInfo("~PluginPart");
+  kDebugInfo("PluginPart::~PluginPart");
   closeURL();
 
-  s_loaderRef--;
-  if (s_loaderRef==0)
-  {
-    delete s_loader;
-    s_loader = 0L;
-  }
+  _loader->release();
 }
 
 
 bool PluginPart::openURL(const KURL &url)
 {
-  kDebugInfo("PluginPart::openURL");
+  kDebugInfo("-> PluginPart::openURL");
 
-  delete _widget;
+//  delete _widget; _widget = 0;
+
+  QString surl = url.url();
+  QString smime = _extension->urlArgs().serviceType;
 
   // handle arguments
   QStringList argn, argv;
 
   for ( QStringList::Iterator it = _args.begin(); it != _args.end(); )
   {
+    kdDebug() << "arg=" << *it << endl;
+
     int equalPos = (*it).find("=");
     if (equalPos>0)
     {
-      QString name = (*it).left(equalPos-1);
+      QString name = (*it).left(equalPos-1).upper();
       QString value = (*it).right((*it).length()-equalPos-1);
       if (value.at(0)=='\"') value = value.right(value.length()-1);
       if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
+
+      kdDebug() << "name=" << name << " value=" << value << endl;
 
       if (!name.isEmpty())
       {
       	argn << name;
       	argv << value;
       }
+
+      if (surl.isEmpty() && (name=="SRC" || name=="DATA" || name=="MOVIE"))
+      {
+        kdDebug() << "found src=" << value << endl;
+        surl = value;
+      }
     }
+
+    it++;
   }
 
-  if (!url.url().isEmpty())
+  if (surl.isEmpty())
   {
+    kDebugWarning("<- PluginPart::openURL - false (no url passed to nsplugin)");
+    return false;
+  }
+
+  if (argn.contains("SRC")==0)
+  {
+    kdDebug() << "adding SRC=" << surl << endl;
     argn << "SRC";
-    argv << url.url();
+    argv << surl;
   }
 
-  if (!_extension->urlArgs().serviceType.isEmpty())
+  if (!smime.isEmpty() && argn.contains("TYPE")==0)
   {
+    kdDebug() << "adding TYPE=" << smime << endl;
     argn << "TYPE";
-    argv << _extension->urlArgs().serviceType;
+    argv << smime;
   }
 
   // create plugin widget
-  _widget =  s_loader->NewInstance(_canvas, url.url(), _extension->urlArgs().serviceType, 1, argn, argv);
+  _widget =  _loader->NewInstance(_canvas, surl, smime, 1, argn, argv);
   if (_widget)
     {
       _widget->resize(_canvas->width(), _canvas->height());
@@ -179,6 +200,8 @@ bool PluginPart::openURL(const KURL &url)
   _callback = new NSPluginCallback(this);
   _widget->setCallback(kapp->dcopClient()->appId(), _callback->objId());
 
+  kDebugInfo("<- PluginPart::openURL = %d", _widget!=0);
+
   return _widget != 0;
 }
 
@@ -186,9 +209,9 @@ bool PluginPart::openURL(const KURL &url)
 bool PluginPart::closeURL()
 {
   kDebugInfo("PluginPart::closeURL");
-  delete _widget;
+  //delete _widget;
   delete _callback;
-  _widget = 0;
+  //_widget = 0;
   _callback = 0;
 
   return true;

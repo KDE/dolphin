@@ -2,6 +2,8 @@
 #define __plugin_part_h__
 
 #include <kparts/browserextension.h>
+#include <kparts/factory.h>
+#include <kparts/part.h>
 #include <klibloader.h>
 #include <qwidget.h>
 
@@ -32,7 +34,7 @@ private:
 };
 
 
-class PluginFactory : public KLibFactory
+class PluginFactory : public KParts::Factory
 {
   Q_OBJECT
 
@@ -44,7 +46,12 @@ public:
   virtual QObject* create(QObject* parent = 0, const char* name = 0,
 			  const char* classname = "QObject",
 			  const QStringList &args = QStringList());
-  
+			
+  virtual KParts::Part * createPart(QWidget *parentWidget = 0, const char *widgetName = 0,
+  		            	    QObject *parent = 0, const char *name = 0,
+  			            const char *classname = "KParts::Part",
+   			            const QStringList &args = QStringList());
+
   static KInstance *instance();
 
 private:
@@ -81,7 +88,8 @@ class PluginPart: public KParts::ReadOnlyPart
     
 public:
 
-  PluginPart(QWidget *parent, const char *name, const QStringList &args = QStringList());
+  PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
+             const char *name, const QStringList &args = QStringList());
   virtual ~PluginPart();
 
   void requestURL(QCString url);
@@ -106,7 +114,7 @@ private:
   PluginBrowserExtension *_extension;
   NSPluginCallback *_callback;
   QStringList _args;
-  static class NSPluginLoader *s_loader;
+  class NSPluginLoader *_loader;
   static int s_loaderRef;
 };
 
