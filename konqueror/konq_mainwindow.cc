@@ -4178,16 +4178,20 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
   {
     if ( viewManager()->docContainer() && viewManager()->docContainer()->frameType()=="Tabs" )
     {
-      KConfig *config = KGlobal::config();
-      KConfigGroupSaver cs( config, QString::fromLatin1("Notification Messages") );
-
-      if ( !config->hasKey( "MultipleTabConfirm" ) )
+      KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(viewManager()->docContainer());
+      if ( tabContainer->count() > 1 )
       {
-        if ( KMessageBox::warningYesNo( this, i18n("You have multiple tabs open in this window, are you sure you wish to close it?"), i18n("Confirmation"),
-                                        KStdGuiItem::yes(), KStdGuiItem::no(), "MultipleTabConfirm" ) == KMessageBox::No )
+        KConfig *config = KGlobal::config();
+        KConfigGroupSaver cs( config, QString::fromLatin1("Notification Messages") );
+
+        if ( !config->hasKey( "MultipleTabConfirm" ) )
         {
-          e->ignore();
-          return;
+          if ( KMessageBox::warningYesNo( this, i18n("You have multiple tabs open in this window, are you sure you wish to close it?"), i18n("Confirmation"),
+                                        KStdGuiItem::yes(), KStdGuiItem::no(), "MultipleTabConfirm" ) == KMessageBox::No )
+          {
+            e->ignore();
+            return;
+          }
         }
       }
     }

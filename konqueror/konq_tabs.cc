@@ -38,6 +38,8 @@
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 
+#define BREAKOFF_ID 5
+
 //###################################################################
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
@@ -57,7 +59,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), i18n("&New Tab"), m_pViewManager->mainWindow(), SLOT( slotAddTab() ), QKeySequence("Ctrl+Shift+N") );
   m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), i18n("&Duplicate Tab"), m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ), QKeySequence("Ctrl+Shift+D") );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), i18n("D&etach Tab"), m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ), QKeySequence("Ctrl+Shift+B") );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), i18n("D&etach Tab"), m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ), QKeySequence("Ctrl+Shift+B"), BREAKOFF_ID );
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("&Close Tab"), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ), QKeySequence("Ctrl+W") );
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReload() ), KStdAccel::key(KStdAccel::Reload) );
@@ -258,6 +260,7 @@ void KonqFrameTabs::slotMovedTab( int from, int to )
 
 void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
 {
+  m_pPopupMenu->setItemEnabled( BREAKOFF_ID, m_pChildFrameList->count()>1 );
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
   m_pPopupMenu->exec( p );
 }

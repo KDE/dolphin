@@ -59,6 +59,7 @@ private:
     QCheckBox* m_pTabConfirm;
     QCheckBox* m_pFormCompletionCheckBox;
     QCheckBox* m_pOpenAfterCurrentPage;
+    QCheckBox* m_pDynamicTabbarHide;
     KIntNumInput* m_pMaxFormCompletionItems;
 };
 

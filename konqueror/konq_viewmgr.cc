@@ -64,9 +64,17 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
     kdDebug(1202) << "KonqViewManager::Initialize() No suitable factory found." << endl;
     return 0;
   }
+
   KonqView* childView = setupView( m_pMainWindow, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, false );
+
   setActivePart( childView->part() );
   m_pDocContainer = childView->frame();
+
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  if ( config->readBoolEntry( "AlwaysTabbedMode", false ) )
+    convertDocContainer();
+
   m_pDocContainer->widget()->show();
   return childView;
 }
@@ -521,7 +529,7 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   if (m_pDocContainer == 0L)
     return;
-  if (m_pDocContainer->frameType() != "Tabs") {
+  if (m_pDocContainer->frameType() != "Tabs" ) {
     m_pMainWindow->close();
     return;
   }
@@ -558,8 +566,17 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   delete currentFrame;
 
-  if (tabContainer->count() == 1)
-    revertDocContainer();
+  if ( tabContainer->count() == 0 ) {
+    m_pMainWindow->close();
+    return;
+  }
+
+  if (tabContainer->count() == 1) {
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    if ( !( config->readBoolEntry( "AlwaysTabbedMode", false ) ) )
+      revertDocContainer();
+  }
 
 #ifndef NDEBUG
   m_pMainWindow->dumpViewList();
@@ -1108,6 +1125,11 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     m_pMainWindow->disableActionsNoView();
     m_pMainWindow->action( "clear_location" )->activate();
   }
+
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  if ( config->readBoolEntry( "AlwaysTabbedMode", false ) && m_pDocContainer->frameType() != "Tabs" )
+    convertDocContainer();
 
   // Set an active part first so that we open the URL in the current view
   // (to set the location bar correctly and asap)

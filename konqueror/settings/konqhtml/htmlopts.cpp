@@ -56,7 +56,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     // Tabbed Browsing
 
     QVGroupBox *bgTabbedBrowsing = new QVGroupBox( i18n("Tabbed Browsing"), this );
-    
+
     m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), bgTabbedBrowsing );
     QWhatsThis::add( m_pShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
                           "such as choosing a link or a folder with the middle mouse button.") );
@@ -70,11 +70,14 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     QWhatsThis::add( m_pOpenAfterCurrentPage, i18n("This will open a new tab after the current tab, instead of after the last tab.") );
     connect(m_pOpenAfterCurrentPage, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
-
     m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), bgTabbedBrowsing );
     QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
                           "a window when it has multiple tabs opened in it.") );
     connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    m_pDynamicTabbarHide = new QCheckBox( i18n( "Hide the tab bar when only one tab is open" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pDynamicTabbarHide, i18n("This will display the tab bar only if there are two or more tabs otherwise always.") );
+    connect(m_pDynamicTabbarHide, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     lay->addMultiCellWidget( bgTabbedBrowsing, row, row, 0, 1 );
     row++;
@@ -213,6 +216,7 @@ void KMiscHTMLOptions::load()
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
     m_pNewTabsInBackground->setChecked( ! (m_pConfig->readBoolEntry( "NewTabsInFront", false )) );
     m_pOpenAfterCurrentPage->setChecked( m_pConfig->readBoolEntry( "OpenAfterCurrentPage", false ) );
+    m_pDynamicTabbarHide->setChecked( ! (m_pConfig->readBoolEntry( "AlwaysTabbedMode", false )) );
 
     m_pConfig->setGroup("Notification Messages");
     m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
@@ -232,6 +236,7 @@ void KMiscHTMLOptions::defaults()
     m_pTabConfirm->setChecked( true );
     m_pBackRightClick->setChecked( false );
     m_pOpenAfterCurrentPage->setChecked( false );
+    m_pDynamicTabbarHide->setChecked( true );
     m_pMaxFormCompletionItems->setValue( 10 );
 }
 
@@ -278,6 +283,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
     m_pConfig->writeEntry( "NewTabsInFront", !(m_pNewTabsInBackground->isChecked()) );
     m_pConfig->writeEntry( "OpenAfterCurrentPage", m_pOpenAfterCurrentPage->isChecked() );
+    m_pConfig->writeEntry( "AlwaysTabbedMode", !(m_pDynamicTabbarHide->isChecked()) );
 
     // It only matters wether the key is present, its value has no meaning
     m_pConfig->setGroup("Notification Messages");
