@@ -173,7 +173,7 @@ void KonqKfmTreeView::stop()
 
 char *KonqKfmTreeView::url()
 {
-  QString u = m_strWorkingURL.c_str();
+  QString u = m_strWorkingURL;
   if ( u.isEmpty() )
     u = m_strURL;
   return CORBA::string_dup( u.ascii() );
@@ -191,7 +191,7 @@ CORBA::Long KonqKfmTreeView::yOffset()
 
 void KonqKfmTreeView::slotReloadTree()
 {
-  QString u = m_strWorkingURL.c_str();
+  QString u = m_strWorkingURL;
   if ( u.isEmpty() )
     u = m_strURL;
   openURL( u.ascii(), contentsX(), contentsY() );
@@ -436,9 +436,9 @@ void KonqKfmTreeView::slotDirectoryDirty( const char *_dir )
   QDictIterator<KfmTreeViewDir> it( m_mapSubDirs );
   for( ; it.current(); ++it )
   {
-    if ( urlcmp( it.current()->url(0).c_str(), f, true, true ) )
+    if ( urlcmp( it.current()->url(0), f, true, true ) )
     {
-      updateDirectory( it.current(), it.current()->url(0).c_str() );
+      updateDirectory( it.current(), it.current()->url(0) );
       return;
     }
   }
@@ -832,7 +832,7 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
   m_jobId = job->id();
   job->listDir( _url );
 
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_strWorkingURL.ascii(), 0 ) );
 }
 
 void KonqKfmTreeView::slotError( int /*_id*/, int _errid, const char* _errortext )
@@ -940,7 +940,7 @@ void KonqKfmTreeView::slotBufferTimeout()
   QValueList<UDSEntry>::Iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ ) {
     int isdir = -1;
-    string name;
+    QString name;
 
     // Find out whether it is a directory
     UDSEntry::Iterator it2 = (*it).begin();
@@ -956,15 +956,15 @@ void KonqKfmTreeView::slotBufferTimeout()
       }
     }
 
-    assert( isdir != -1 && !name.empty() );
+    assert( isdir != -1 && !name.isEmpty() );
 
     if ( m_isShowingDotFiles || name[0]!='.' ) {
       // The first entry in the toplevel ?
-      if ( !m_pWorkingDir && !m_strWorkingURL.empty() ) {
+      if ( !m_pWorkingDir && !m_strWorkingURL.isEmpty() ) {
         clear();
 
-        m_strURL = m_strWorkingURL.c_str();
-        m_strWorkingURL = "";
+        m_strURL = m_strWorkingURL;
+        m_strWorkingURL = QString::null;
         m_url = m_strURL.data();
         KURL u( m_url );
         m_bIsLocalURL = u.isLocalFile();
@@ -972,14 +972,14 @@ void KonqKfmTreeView::slotBufferTimeout()
 
       if ( m_pWorkingDir ) {
         KURL u( m_workingURL );
-        u.addPath( name.c_str() );
+        u.addPath( name );
         if ( isdir )
           new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
         else
           new KfmTreeViewItem( this, m_pWorkingDir, *it, u );
       } else {
         KURL u( m_url );
-        u.addPath( name.c_str() );
+        u.addPath( name );
         if ( isdir )
           new KfmTreeViewDir( this, *it, u );
         else
@@ -1122,7 +1122,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
   QValueList<UDSEntry>::Iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ ) {
     int isdir = -1;
-    string name;
+    QString name;
 
     // Find out wether it is a directory
     UDSEntry::Iterator it2 = (*it).begin();
@@ -1138,7 +1138,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
       }
     }
 
-    assert( isdir != -1 && !name.empty() );
+    assert( isdir != -1 && !name.isEmpty() );
 
     if ( m_isShowingDotFiles || name[0]!='.' ) {
       // Find this icon
@@ -1157,11 +1157,11 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
       }
 
       if ( !done ) {
-        kdebug(0,1202,"Inserting %s", name.c_str());
+        kdebug(0,1202,"Inserting %s", name.ascii());
         KfmTreeViewItem *item;
         if ( m_pWorkingDir ) {
           KURL u( m_workingURL );
-          u.addPath( name.c_str() );
+          u.addPath( name.ascii() );
           kdebug(0,1202,"Final path 1 '%s'", u.path().data());
           if ( isdir )
             item = new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
@@ -1169,7 +1169,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
             item = new KfmTreeViewItem( this, m_pWorkingDir, *it, u );
         } else {
           KURL u( m_url );
-          u.addPath( name.c_str() );
+          u.addPath( name.ascii() );
           kdebug(0,1202,"Final path 2 '%s'", u.path().data());
           if ( isdir )
             item = new KfmTreeViewDir( this, *it, u );
@@ -1458,9 +1458,9 @@ void KfmTreeViewDir::setOpen( bool _open )
   QListViewItem::setOpen( _open );
 }
 
-string KfmTreeViewDir::url( int _trailing )
+QString KfmTreeViewDir::url( int _trailing )
 {
-  string tmp;
+  QString tmp;
   tmp = m_url.url( _trailing );
   return tmp;
 }

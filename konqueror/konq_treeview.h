@@ -28,8 +28,6 @@
 #include <qcursor.h>
 #include <qpixmap.h>
 
-#include <string>
-
 #include <kfileitem.h>
 #include "konq_baseview.h"
 
@@ -80,7 +78,7 @@ public:
 
   virtual void setup();
 
-  string url( int _trailing );
+  QString url( int _trailing );
 
 protected:
   bool m_bComplete;
@@ -226,7 +224,7 @@ protected:
   bool m_bIsLocalURL;
 
   KfmTreeViewDir* m_pWorkingDir;
-  string m_strWorkingURL;
+  QString m_strWorkingURL;
   KURL m_workingURL;
 
   int m_jobId;
