@@ -4,6 +4,7 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+                     Stefan Schimanski <1Stein@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,6 +35,7 @@
 #include <dcopclient.h>
 #include <qobject.h>
 #include <qxembed.h>
+#include <qtextstream.h>
 
 
 #include "nspluginloader.h"
@@ -262,12 +264,17 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       kDebugInfo("Running nspluginviewer");
       data->process->start();
 
+      // get the dcop app id
+      int pid = (int)data->process->getPid();
+      QString dcopPlugin;
+      QTextOStream(&dcopPlugin) << plugin << "-" << pid;
+
       // wait for the process to run
       int cnt = 0;
-      while (!kapp->dcopClient()->isApplicationRegistered(plugin.ascii()))
+      while (!kapp->dcopClient()->isApplicationRegistered(dcopPlugin.ascii()))
 	{
 	  kapp->processEvents();
-	  sleep(1); //kdDebug() << "sleep" << endl;
+	  sleep(1); kdDebug() << "sleep" << endl;
 	  cnt++;
 	  if (cnt >= 100)
 	    {
@@ -277,7 +284,25 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
 	}
 
       // create the proxy object
-      data->stub = new NSPluginClassIface_stub(plugin.ascii(), plugin.ascii());
+      kDebugInfo("Creating NSPluginClassIface_stub");
+      cnt = 0;
+      while (1)
+      {
+      	data->stub = new NSPluginClassIface_stub(dcopPlugin.ascii(), plugin.ascii());
+      	if (data->stub) break;
+      	
+      	kapp->processEvents();
+      	      	
+      	sleep(1); kdDebug() << "sleep" << endl;      	
+     	cnt++;
+     	if (cnt >= 10)
+	{
+	  data->process->kill();
+	  return false;
+	}
+      }
+
+      kDebugInfo("stub = %x", data->stub);
     }
 
   _private.insert(plugin, data);
