@@ -17,12 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-// XXX: This ugly hack should go away as soon as the latest release
-// of Qt include a way to access QIconView::mask() and QIconView::tmpText
-#define private public
-#define protected public
-#undef private
-#undef protected
 #include "kfileivi.h"
 #include "konq_iconviewwidget.h"
 #include "konq_operations.h"
@@ -34,21 +28,6 @@
 #include <kiconeffect.h>
 
 #undef Bool
-
-static QPixmap *konqiv_buffer_pixmap = 0;
-static KStaticDeleter <QPixmap> konqiv_buffer_pixmap_deleter;
-
-static QPixmap *get_konqiv_buffer_pixmap( const QSize &s )
-{
-    if ( !konqiv_buffer_pixmap ) {
-      konqiv_buffer_pixmap = konqiv_buffer_pixmap_deleter.setObject(
-	  new QPixmap( s ));
-      return konqiv_buffer_pixmap;
-    }
-
-    konqiv_buffer_pixmap->resize( s );
-    return konqiv_buffer_pixmap;
-}
 
 /**
  * Private data for KFileIVI
@@ -62,7 +41,7 @@ struct KFileIVI::Private
 };
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size )
-    : QIconViewItem( iconview, fileitem->text(),
+    : KIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, KIcon::DefaultState ) ),
   m_size(size), m_state( KIcon::DefaultState ),
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
@@ -191,8 +170,8 @@ void KFileIVI::setEffect( int group, int state )
 
     bool haveEffect = effect->hasEffect( KIcon::Desktop, d->state ) !=
                       effect->hasEffect( KIcon::Desktop, state );
-    
-    if( haveEffect && 
+
+    if( haveEffect &&
         effect->fingerprint( KIcon::Desktop, d->state ) !=
 	effect->fingerprint( KIcon::Desktop, state ) )
     {
@@ -267,7 +246,7 @@ void KFileIVI::setKey( const QString &key )
 
 void KFileIVI::dropped( QDropEvent *e, const QValueList<QIconDragItem> & )
 {
-  KonqOperations::doDrop( item(), item()->url(), e, iconView() );
+    KonqOperations::doDrop( item(), item()->url(), e, iconView() );
 }
 
 void KFileIVI::returnPressed()
@@ -286,18 +265,16 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
         p->setFont( f );
     }
 
-		//*** TEMPORARY CODE - MUST BE MADE CONFIGURABLE FIRST - Martijn
-		// SET UNDERLINE ON HOVER ONLY
-/*    if ( ( ( KonqIconViewWidget* ) iconView() )->m_pActiveItem == this )
+    //*** TEMPORARY CODE - MUST BE MADE CONFIGURABLE FIRST - Martijn
+    // SET UNDERLINE ON HOVER ONLY
+    /*if ( ( ( KonqIconViewWidget* ) iconView() )->m_pActiveItem == this )
     {
         QFont f( p->font() );
         f.setUnderline( TRUE );
         p->setFont( f );
     }*/
-		//***
 
-    // default fallback if we're not using alphablending
-    QIconViewItem::paintItem( p, cg );
+    KIconViewItem::paintItem( p, cg );
 }
 
 bool KFileIVI::move( int x, int y )

@@ -29,12 +29,12 @@ class KonqIconViewWidget;
 
 /**
  * KFileIVI (short form of "Konq - File - IconViewItem")
- * is, as expected, an improved QIconViewItem, because
+ * is, as expected, an improved KIconViewItem, because
  * it represents a file.
  * All the information about the file is contained in the KonqFileItem
  * pointer.
  */
-class KFileIVI : public QIconViewItem
+class KFileIVI : public KIconViewItem
 {
 public:
     /**
