@@ -31,7 +31,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
 {
   QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(),
                                       KDialog::spacingHint() );
-  onserverLA = new QLabel( i18n( "When connecting &to:" ), this );  
+  onserverLA = new QLabel( i18n( "When connecting &to (host or domain) :" ), this );  
   onserverED = new QLineEdit( this );
   onserverLA->setBuddy( onserverED );
   lay->addWidget(onserverLA);  
