@@ -14,7 +14,9 @@
 
 <authorgroup>
 <author>&Dirk.Doerflinger; &Dirk.Doerflinger.mail;</author>
+
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
+
 </authorgroup>
 
 <copyright>
@@ -24,8 +26,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2003-05-25</date>
-<releaseinfo>1.20.00</releaseinfo>
+<date>2004-04-11</date>
+<releaseinfo>1.20.01</releaseinfo>
 
 <abstract>
 <para>
@@ -53,9 +55,13 @@
 <title>Launching &kfind;</title>
 
 <para>
-You will find the entry <guimenuitem>Find Files</guimenuitem>. This will
-launch &kfind;, a handy application for finding files or even
-expressions within files.
+The Find Files tool is a useful method of searching for specific files on your
+computer, or for searching for files that match a pattern. An example of
+this could include searching for files of a particular type or with certain
+letters in the filename.
+
+You can load this utility by clicking on <guimenuitem>Find Files</guimenuitem>. This will
+launch &kfind;.
 </para>
 
 </sect1>
