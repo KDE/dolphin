@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=kcmshell userinfo
+Icon=kdmconfig
+DocPath=kcontrol/userinfo/index.html
+
+X-KDE-ModuleType=Library
+X-KDE-Library=userinfo
+X-KDE-FactoryName=userinfo
+X-KDE-HasReadOnlyMode=false
+
+Name=User Account
+Comment=Change your account information
+Keywords=Passwords,Password,Change Password,Icon,face,kdm,User Name,Name,Account
