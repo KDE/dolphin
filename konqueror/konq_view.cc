@@ -562,7 +562,7 @@ void KonqView::slotCompleted( bool hasPending )
     if ( config->readBoolEntry( "EnableFavicon", true ) == true )
     {
       // Try to get /favicon.ico
-      if ( m_serviceType == "text/html" && url().protocol().left(4) == "http" )
+      if ( m_serviceType == "text/html" && url().protocol().startsWith( "http" ) )
           KonqPixmapProvider::downloadHostIcon( url() );
     }
   }
@@ -1270,8 +1270,8 @@ KParts::StatusBarExtension * KonqView::statusBarExtension() const
 
 bool KonqView::supportsServiceType( const QString &serviceType ) const
 {
-    QStringList lst = serviceTypes();
-    for( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
+    const QStringList lst = serviceTypes();
+    for( QStringList::ConstIterator it = lst.begin(); it != lst.end(); ++it ) {
         if ( *it == serviceType )
             return true;
         // Maybe we should keep around a list of KServiceType::Ptr?
