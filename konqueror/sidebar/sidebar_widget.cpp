@@ -931,38 +931,31 @@ void Sidebar_Widget::showHidePage(int page)
 
 void Sidebar_Widget::collapseExpandSidebar()
 {
-	QGuardedPtr<QObject> p;
-	p = parent();
+	QSplitter *splitterWidget = splitter();
+	QWidget *parentWidget = static_cast<QWidget*>(parent());
+	if (!splitterWidget || !parentWidget) return;
 
-	if (!p)
-		return;
-
-	p = p->parent();
-
-	if (!p)
-		return;
-
-	((QSplitter*)parent()->parent())->setResizeMode((QSplitter*)parent(), QSplitter::KeepSize);
+	splitterWidget->setResizeMode(parentWidget, QSplitter::KeepSize);
 
 	if ((somethingVisible) && (visibleViews.count()==0))
 	{
-    		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
+    		QValueList<int> list = splitterWidget->sizes();
 		QValueList<int>::Iterator it = list.begin();
 		if (!m_initial)
 			savedWidth = *it;
 		if (it != list.end())
 			(*it) = minimumSizeHint().width();
-		((QSplitter*)parent()->parent())->setSizes(list);
-		((QWidget*)parent())->setMaximumWidth(minimumSizeHint().width());
+		splitterWidget->setSizes(list);
+		parentWidget->setMaximumWidth(minimumSizeHint().width());
 		somethingVisible = false;
 	} else if ((!somethingVisible) && (visibleViews.count() != 0)) {
 		somethingVisible = true;
-		((QWidget*)parent())->setMaximumWidth(32767);
-    		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
+		parentWidget->setMaximumWidth(32767);
+    		QValueList<int> list = splitterWidget->sizes();
 		QValueList<int>::Iterator it = list.begin();
 		if (it!=list.end())
 			(*it) = savedWidth;
-		((QSplitter*)parent()->parent())->setSizes(list);
+		splitterWidget->setSizes(list);
 	}
 }
 
@@ -1175,4 +1168,11 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 	}
 }
 
+QSplitter *Sidebar_Widget::splitter() const
+{
+   QObject *p = parent();
+   if (!p) return 0;
+   p = p->parent();
+   return static_cast<QSplitter*>(p);
+}
 

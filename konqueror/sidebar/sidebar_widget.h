@@ -28,6 +28,7 @@
 
 class KDockWidget;
 class QHBoxLayout;
+class QSplitter;
 
 class ButtonInfo: public QObject
 {
@@ -92,6 +93,7 @@ class Sidebar_Widget: public QWidget
 	void stdAction(const char *handlestd);
 	//virtual KParts::ReadOnlyPart *getPart();
 	KParts::BrowserExtension *getExtension();
+	
 
   static QString PATH;
 
@@ -177,6 +179,7 @@ class Sidebar_Widget: public QWidget
 
 protected:
 	void customEvent(QCustomEvent* ev);
+	QSplitter *splitter() const;
 };
 
 #endif
