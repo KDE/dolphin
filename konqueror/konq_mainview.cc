@@ -117,7 +117,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   KonqFactory::instanceRef();
 
-  if ( !s_plstAnimatedLogo ) 
+  if ( !s_plstAnimatedLogo )
   {
     s_plstAnimatedLogo = new QStringList;
     *s_plstAnimatedLogo += KGlobal::iconLoader()->loadAnimated( "kde", KIcon::MainToolbar );
@@ -295,7 +295,7 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
   }
 
   KonqChildView *view = _view;
-  if ( !view || view->passiveMode() )
+  if ( !view /* || view->passiveMode() */ ) // David: we can open a URL in a passive view
     view = m_currentView;
 
   if ( view )
@@ -309,7 +309,7 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
 
   // Show it for now in the location bar, but we'll need to store it in the view
   // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
-  kdDebug(1202) << "** setLocationBarURL : url = " << url.url() << endl;
+  //kdDebug(1202) << "setLocationBarURL : url = " << url.url() << endl;
   setLocationBarURL( url.url() );
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
@@ -997,12 +997,21 @@ void KonqMainView::customEvent( QCustomEvent *event )
       // Don't resend to sender
       if (it.key() != ev->part())
       {
+       kdDebug() << "Sending event to view " << it.key()->className() << endl;
        QApplication::sendEvent( it.key(), event );
        // Linked-views feature
        if ( bLinked && (*it)->linkedView()
-            && !(*it)->passiveMode() // not passive views
-            && !(*it)->isLoading() && (*it)->url() != ev->url() ) // avoid loops !
-         openURL( (*it), ev->url() );
+            && !(*it)->isLoading()
+            && (*it)->url() != ev->url() ) // avoid loops !
+       {
+         if ( (*it)->supportsServiceType( senderChildView->serviceType() ) )
+         {
+           kdDebug() << "Sending openURL to view, url:" << ev->url().url() << endl;
+           kdDebug() << "Current view url:" << (*it)->url().url() << endl;
+           openURL( (*it), ev->url() );
+         } else
+           kdDebug() << "View doesn't support service type " << senderChildView->serviceType() << endl;
+       }
       }
     }
   }

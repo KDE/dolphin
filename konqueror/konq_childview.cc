@@ -118,7 +118,7 @@ void KonqChildView::openURL( const KURL &url )
 
   updateHistoryEntry();
 
-  kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
+  //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
@@ -157,8 +157,15 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   if ( prop.isValid() && prop.toBool() )
   {
     setLinkedView( true ); // set as linked
-    // TODO make sure the link symbol appears
-    //frame()->statusbar()->hideStuff(); // prevent user from removing passive mode
+    if (m_pMainView->viewCount() == 2)
+    {
+        // Two views : link both
+        KonqMainView::MapViews mapViews = m_pMainView->viewMap();
+        KonqMainView::MapViews::Iterator it = mapViews.begin();
+        if ( (*it) == this )
+            ++it;
+        (*it)->setLinkedView( true );
+    }
   }
 }
 
@@ -217,19 +224,22 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     // Give focus to the view
     m_pView->widget()->setFocus();
 
+    /*
+      completed() does it now
     // openURL is the one that changes the history
     if ( m_pMainView->currentChildView() == this )
     {
-      kdDebug() << "updating toolbar actions" << endl;
+      //kdDebug() << "updating toolbar actions" << endl;
       m_pMainView->updateToolBarActions();
     }
+    */
   }
   return true;
 }
 
 void KonqChildView::connectView(  )
 {
-  kdDebug(1202) << "KonqChildView::connectView" << endl;
+  //kdDebug(1202) << "KonqChildView::connectView" << endl;
   connect( m_pView, SIGNAL( started( KIO::Job * ) ),
            this, SLOT( slotStarted( KIO::Job * ) ) );
   connect( m_pView, SIGNAL( completed() ),
@@ -278,7 +288,7 @@ void KonqChildView::connectView(  )
 
 void KonqChildView::slotStarted( KIO::Job * job )
 {
-  kdDebug(1202) << "KonqChildView::slotStarted"  << job << endl;
+  //kdDebug(1202) << "KonqChildView::slotStarted"  << job << endl;
   m_bLoading = true;
 
   if ( m_pMainView->currentChildView() == this )
@@ -306,7 +316,7 @@ void KonqChildView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
 
 void KonqChildView::slotCompleted()
 {
-  kdDebug() << "KonqChildView::slotCompleted" << endl;
+  //kdDebug() << "KonqChildView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
@@ -315,7 +325,7 @@ void KonqChildView::slotCompleted()
 
   if ( m_pMainView->currentChildView() == this )
   {
-    kdDebug() << "updating toolbar actions" << endl;
+    //kdDebug() << "updating toolbar actions" << endl;
     m_pMainView->updateToolBarActions();
   }
 }
@@ -336,11 +346,11 @@ void KonqChildView::slotSelectionInfo( const KFileItemList &items )
 
 void KonqChildView::setLocationBarURL( const QString & locationBarURL )
 {
-  kdDebug(1202) << "KonqChildView::setLocationBarURL " << locationBarURL << endl;
+  //kdDebug(1202) << "KonqChildView::setLocationBarURL " << locationBarURL << endl;
   m_sLocationBarURL = locationBarURL;
   if ( m_pMainView->currentChildView() == this )
   {
-    kdDebug(1202) << "is current view" << endl;
+    //kdDebug(1202) << "is current view" << endl;
     m_pMainView->setLocationBarURL( m_sLocationBarURL );
   }
 }
@@ -357,7 +367,7 @@ void KonqChildView::createHistoryEntry()
     HistoryEntry * current = m_lstHistory.current();
     if (current)
     {
-        kdDebug(1202) << "Truncating history" << endl;
+      //kdDebug(1202) << "Truncating history" << endl;
         m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
         for ( ; m_lstHistory.current() != current ; )
         {
@@ -367,7 +377,7 @@ void KonqChildView::createHistoryEntry()
         // Now current is the current again.
     }
     // Append a new entry
-    kdDebug(1202) << "Append a new entry" << endl;
+    //kdDebug(1202) << "Append a new entry" << endl;
     m_lstHistory.append( new HistoryEntry ); // made current
 }
 
@@ -392,7 +402,7 @@ void KonqChildView::updateHistoryEntry()
   }
 
   current->url = m_pView->url();
-  kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
+  //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
   current->locationBarURL = m_sLocationBarURL;
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->name();
@@ -404,7 +414,7 @@ void KonqChildView::go( int steps )
   if ( m_lstHistory.count() > 0 )
     updateHistoryEntry();
 
-  kdDebug(1202) << "go : " << steps << endl;
+  //kdDebug(1202) << "go : " << steps << endl;
   int newPos = m_lstHistory.at() + steps;
   assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
   // Yay, we can move there without a loop !

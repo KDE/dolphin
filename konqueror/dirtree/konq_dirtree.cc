@@ -177,10 +177,13 @@ KonqDirTreePart::~KonqDirTreePart()
 {
 }
 
-bool KonqDirTreePart::openURL( const KURL & )
+bool KonqDirTreePart::openURL( const KURL & url )
 {
-  emit started( 0 );
-  emit completed();
+  kdDebug() << "******* KonqDirTreePart::openURL(" << url.url() << ")" << endl;
+  m_url = url;
+  m_pTree->followURL( url );
+  //emit started( 0 );
+  //emit completed();
   return true;
 }
 
@@ -196,11 +199,13 @@ bool KonqDirTreePart::event( QEvent *e )
  if ( KParts::ReadOnlyPart::event( e ) )
    return true;
 
+    /*
  if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this && KonqFMSettings::settings()->treeFollow() )
  {
    m_pTree->followURL( ((KParts::OpenURLEvent *)e)->url() );
    return true;
  }
+    */
 
  return false;
 }
@@ -363,10 +368,12 @@ void KonqDirTree::followURL( const KURL &_url )
 	  dirIt.data()->setOpen( true );
 	
 	ensureItemVisible( dirIt.data() );
+        setSelected( dirIt.data(), true );
 	
         return;
       }
   }
+  kdDebug() << "Not found" << endl;
 }
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )
