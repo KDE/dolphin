@@ -1062,7 +1062,11 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     if ( !args.frameName.isEmpty() && args.frameName.lower() != "_blank" )
     {
         KParts::BrowserHostExtension *hostExtension = 0;
-        if ( findChildView( 0, args.frameName, &mainWindow, &hostExtension, &part ) )
+        KParts::ReadOnlyPart *ro_part = 0L;
+        KParts::BrowserExtension *be = ::qt_cast<KParts::BrowserExtension *>(sender());
+        if (be)
+            ro_part = ::qt_cast<KParts::ReadOnlyPart *>(be->parent());
+        if ( findChildView( ro_part, args.frameName, &mainWindow, &hostExtension, &part ) )
         {
             // Found a view. If url isn't empty, we should open it - but this never happens currently
             // findChildView put the resulting part in 'part', so we can just return now
