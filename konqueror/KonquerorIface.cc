@@ -37,114 +37,114 @@ KonquerorIface::~KonquerorIface()
 {
 }
 
-ASYNC KonquerorIface::openBrowserWindow( const QString &url )
+DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
 {
-    /*KonqMainWindow *res = */ KonqMisc::createSimpleWindow( KURL(url) );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createSimpleWindow( KURL(url) );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::openBrowserWindowASN( const QString &url, const QCString& startup_id )
+DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    openBrowserWindow( url );
+    return openBrowserWindow( url );
 }
 
-ASYNC KonquerorIface::createNewWindow( const QString &url )
+DCOPRef KonquerorIface::createNewWindow( const QString &url )
 {
-    /*KonqMainWindow *res = */KonqMisc::createNewWindow( KURL(url) );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url) );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::createNewWindowASN( const QString &url, const QCString& startup_id )
+DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    createNewWindow( url );
+    return createNewWindow( url );
 }
 
-ASYNC KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
+DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
 {
     KParts::URLArgs args;
     args.serviceType = mimetype;
-    /*KonqMainWindow *res = */KonqMisc::createNewWindow( KURL(url), args );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), args );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::createNewWindowASN( const QString &url, const QString &mimetype,
+DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &mimetype,
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    createNewWindow( url, mimetype );
+    return createNewWindow( url, mimetype );
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString &path )
+DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
     kdDebug(1202) << path << endl;
-    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, QString::null );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString::null );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QCString& startup_id )
+DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    createBrowserWindowFromProfile( path );
+    return createBrowserWindowFromProfile( path );
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
+DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
     kdDebug(1202) << path << "," << filename << endl;
-    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, filename );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
+DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    createBrowserWindowFromProfile( path, filename );
+    return createBrowserWindowFromProfile( path, filename );
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
+DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
-    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url,
+DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url,
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    createBrowserWindowFromProfileAndURL( path, filename, url );
+    return createBrowserWindowFromProfileAndURL( path, filename, url );
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
+DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
 {
     KParts::URLArgs args;
     args.serviceType = mimetype;
-    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
-    /*if ( !res )
+    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
+    if ( !res )
         return DCOPRef();
-    return res->dcopObject();*/
+    return res->dcopObject();
 }
 
-ASYNC KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url, const QString &mimetype,
+DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & path, const QString &filename, const QString &url, const QString &mimetype,
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    createBrowserWindowFromProfileAndURL( path, filename, url, mimetype );
+    return createBrowserWindowFromProfileAndURL( path, filename, url, mimetype );
 }
 
 

@@ -37,55 +37,48 @@ public:
   ~KonquerorIface();
 
 k_dcop:
- /**
-   Note : it would be very nice to be able to return a DCOPRef in each of those
-   DCOP calls which create a window. But Konqueror uses DCOP internally
-   (history broadcasts etc.), and DCOP doesn't support re-entrancy, so we can't
-   do that. Sorry.
-  */
-
   /**
    * Opens a new window for the given @p url (using createSimpleWindow, i.e. a single view)
    */
-  ASYNC openBrowserWindow( const QString &url );
+  DCOPRef openBrowserWindow( const QString &url );
   /**
    * Like @ref openBrowserWindow , with setting the application startup notification ( ASN )
    * property on the window.
    */
-  ASYNC openBrowserWindowASN( const QString &url, const QCString &startup_id );
+  DCOPRef openBrowserWindowASN( const QString &url, const QCString &startup_id );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    */
-  ASYNC createNewWindow( const QString &url );
+  DCOPRef createNewWindow( const QString &url );
   /**
    * Like @ref createNewWindow , with setting the application startup notification ( ASN )
    * property on the window.
    */
-  ASYNC createNewWindowASN( const QString &url, const QCString &startup_id );
+  DCOPRef createNewWindowASN( const QString &url, const QCString &startup_id );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    * @param mimetype to speed it up.
    */
-  ASYNC createNewWindow( const QString &url, const QString & mimetype );
+  DCOPRef createNewWindow( const QString &url, const QString & mimetype );
   /**
    * Like @ref createNewWindow , with setting the application startup notification ( ASN )
    * property on the window.
    */
-  ASYNC createNewWindowASN( const QString &url, const QString & mimetype,
+  DCOPRef createNewWindowASN( const QString &url, const QString & mimetype,
       const QCString &startup_id );
 
   /**
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
-  ASYNC createBrowserWindowFromProfile( const QString &path );
+  DCOPRef createBrowserWindowFromProfile( const QString &path );
   /**
    * Like @ref createBrowserWindowFromProfile , with setting the application startup
    * notification ( ASN ) property on the window.
    */
-  ASYNC createBrowserWindowFromProfileASN( const QString &path, const QCString &startup_id );
+  DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QCString &startup_id );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -93,12 +86,12 @@ k_dcop:
    * @param path full path to the profile file
    * @param filename name of the profile file, if under the profiles dir
    */
-  ASYNC createBrowserWindowFromProfile( const QString &path, const QString &filename );
+  DCOPRef createBrowserWindowFromProfile( const QString &path, const QString &filename );
   /**
    * Like @ref createBrowserWindowFromProfile , with setting the application startup
    * notification ( ASN ) property on the window.
    */
-  ASYNC createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
+  DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
       const QCString &startup_id );
 
   /**
@@ -109,12 +102,12 @@ k_dcop:
    * @param filename name of the profile file, if under the profiles dir
    * @param url the URL to open
    */
-  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
+  DCOPRef createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
   /**
    * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
    * notification ( ASN ) property on the window.
    */
-  ASYNC createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url,
+  DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url,
       const QCString &startup_id );
 
   /**
@@ -125,12 +118,12 @@ k_dcop:
    * @param url the URL to open
    * @param mimetype the mimetype that the URL we want to open has
    */
-  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
+  DCOPRef createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
   /**
    * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
    * notification ( ASN ) property on the window.
    */
-  ASYNC createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url, const QString &mimetype,
+  DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url, const QString &mimetype,
       const QCString& startup_id );
 
   /**
