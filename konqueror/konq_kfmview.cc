@@ -17,6 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <unistd.h>
+
 #include "konq_kfmview.h"
 #include "kfmviewprops.h"
 
