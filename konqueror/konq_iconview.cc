@@ -53,6 +53,11 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
 
   m_pMainView = mainView;
+  m_vViewMenu = 0L;
+
+  // Create a properties instance for this view
+  // (copying the default values)
+  m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
   
   // Dont repaint on configuration changes during construction
   m_bInit = true;
@@ -85,6 +90,7 @@ KonqKfmIconView::~KonqKfmIconView()
 {
   kdebug(0, 1202, "-KonqKfmIconView");
   if ( m_dirLister ) delete m_dirLister;
+  delete m_pProps;
 }
 
 bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
@@ -96,27 +102,28 @@ bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 
 bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
-#define MVIEW_IMAGEPREVIEW_ID_2 1594 // temporary
-#define MVIEW_SHOWDOT_ID_2 1595 // temporary
+#define MVIEW_IMAGEPREVIEW_ID_ICONVIEW 1594 // all those defines should be put ...
+#define MVIEW_SHOWDOT_ID_ICONVIEW 1595 // ... in a single file
 
   if ( !CORBA::is_nil( viewMenu.menu ) )
   {
     if ( viewMenu.create )
     {
       CORBA::WString_var text;
-      //    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
-      //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
       kdebug(0,1202,"adding image preview and showdotfiles");
       text = Q2C( i18n("Image &Preview") );
-      viewMenu.menu->insertItem4( text, this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID_2, -1 );
+      viewMenu.menu->insertItem4( text, this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID_ICONVIEW, -1 );
       text = Q2C( i18n("Show &Dot Files") );
-      viewMenu.menu->insertItem4( text, this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID_2, -1 );
+      viewMenu.menu->insertItem4( text, this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID_ICONVIEW, -1 );
+      viewMenu.menu->setItemChecked( MVIEW_SHOWDOT_ID_ICONVIEW, m_pProps->m_bShowDot );
+      m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
     }
     else
     {
       kdebug(0,1202,"removing image preview and showdotfiles");
-      viewMenu.menu->removeItem( MVIEW_SHOWDOT_ID_2 );
-      viewMenu.menu->removeItem( MVIEW_IMAGEPREVIEW_ID_2 );
+      viewMenu.menu->removeItem( MVIEW_SHOWDOT_ID_ICONVIEW );
+      viewMenu.menu->removeItem( MVIEW_IMAGEPREVIEW_ID_ICONVIEW );
+      m_vViewMenu = 0L;
     }
   }
   
@@ -125,8 +132,8 @@ bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
 
 bool KonqKfmIconView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
 {
-#define MEDIT_SELECT_ID_2 1394 // hmm...
-#define MEDIT_SELECTALL_ID_2 1395
+#define MEDIT_SELECT_ID_ICONVIEW 1394 // hmm...
+#define MEDIT_SELECTALL_ID_ICONVIEW 1395
 
   if ( !CORBA::is_nil( editMenu.menu ) )
   {
@@ -137,15 +144,15 @@ bool KonqKfmIconView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMe
       //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
       kdebug(0,1202,"adding select and selectall");
       text = Q2C( i18n("Select") );
-      editMenu.menu->insertItem4( text, this, "slotSelect" , 0, MEDIT_SELECT_ID_2, -1 );
+      editMenu.menu->insertItem4( text, this, "slotSelect" , 0, MEDIT_SELECT_ID_ICONVIEW, -1 );
       text = Q2C( i18n("Select &All") );
-      editMenu.menu->insertItem4( text, this, "slotSelectAll" , 0, MEDIT_SELECTALL_ID_2, -1 );
+      editMenu.menu->insertItem4( text, this, "slotSelectAll" , 0, MEDIT_SELECTALL_ID_ICONVIEW, -1 );
     }
     else
     {
       kdebug(0,1202,"removing select and selectall");
-      editMenu.menu->removeItem( MEDIT_SELECT_ID_2 );
-      editMenu.menu->removeItem( MEDIT_SELECTALL_ID_2 );
+      editMenu.menu->removeItem( MEDIT_SELECT_ID_ICONVIEW );
+      editMenu.menu->removeItem( MEDIT_SELECTALL_ID_ICONVIEW );
     }
   }
   
@@ -164,7 +171,11 @@ void KonqKfmIconView::slotSmallIcons()
 
 void KonqKfmIconView::slotShowDot()
 {
-  // TODO
+  kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
+  m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
+  m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
+
+  m_vViewMenu->setItemChecked( MVIEW_SHOWDOT_ID_ICONVIEW, m_pProps->m_bShowDot );
 }
 
 void KonqKfmIconView::slotSelect()
@@ -206,13 +217,11 @@ void KonqKfmIconView::initConfig()
 {
   QPalette p          = viewport()->palette();
 //  KfmViewSettings *settings = m_pView->settings();
-//  KonqPropsView *props = m_pView->props();
 
   KConfig *config = kapp->getConfig();
   config->setGroup("Settings");
 
   KfmViewSettings *settings = new KfmViewSettings( config );
-  KonqPropsView *props = new KonqPropsView( config );
 
   m_bgColor           = settings->bgColor();
   m_textColor         = settings->textColor();
@@ -222,7 +231,7 @@ void KonqKfmIconView::initConfig()
   m_fixedFontName     = settings->fixedFontName();
   m_fontSize          = settings->fontSize();
 
-  m_bgPixmap          = props->bgPixmap(); // !!
+  //  m_bgPixmap          = props->bgPixmap(); // !!
 
   if ( m_bgPixmap.isNull() )
     viewport()->setBackgroundMode( PaletteBackground );
@@ -233,7 +242,6 @@ void KonqKfmIconView::initConfig()
 
   m_underlineLink = settings->underlineLink();
   m_changeCursor = settings->changeCursor();
-  m_isShowingDotFiles = props->isShowingDotFiles();
 
   QColorGroup c = p.normal();
   QColorGroup n( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
@@ -256,7 +264,7 @@ void KonqKfmIconView::initConfig()
     refresh();
 
   delete settings;
-  delete props;
+  //  delete props;
 }
 
 void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint & )
@@ -446,7 +454,7 @@ void KonqKfmIconView::openURL( const char *_url )
   QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ), 
            this, SLOT( slotDeleteItem( KFileItem * ) ) );
   // Start the directory lister !
-  m_dirLister->openURL( KURL( _url ) );
+  m_dirLister->openURL( KURL( _url ), m_pProps->m_bShowDot );
   // Note : we don't store the url. KDirLister does it for us.
 
   CORBA::WString_var caption = Q2C( _url );

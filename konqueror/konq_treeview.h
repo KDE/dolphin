@@ -35,6 +35,8 @@
 
 #include "mousemode.h"
 
+// VERY IMPORTANT : this should be ported to kdirlister before any work is done on this class
+
 class KonqMainView;
 class KfmTreeViewDir;
 class KfmTreeViewItem;

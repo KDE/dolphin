@@ -30,18 +30,23 @@
 class KfmViewSettings; // see below
 
 class KonqBaseView;
+class KonqKfmIconView;
 
-// The class KonqPropsView holds the properties for a KfmView
+// The class KonqPropsView holds the properties for a KonqBaseView
 //
-// Separating them from the KfmView class allows to store the default
+// Separating them from the KonqBaseView class allows to store the default
 // values (the one read from kfmrc) in a static instance of this class
-// and to have another instance of this class in each KfmView, storing the
+// and to have another instance of this class in each KonqBaseView, storing the
 // current values of the view.
 //
 // The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
 
 class KonqPropsView
 {
+  // A BaseView can read/write the values directly.
+  friend KonqBaseView;
+  friend KonqKfmIconView; // seems it doesn't inherit "friendliness" !
+
   // This is not a Q_OBJECT because we need a copy constructor.
 public:
   
@@ -55,7 +60,6 @@ public:
   // Constructs a KonqPropsView instance from a config file.
   // Set the group before calling.
   // ("Settings" for global props, "ViewNNN" for local props)
-  // TODO : will have to be called on slotConfigure
   // TODO : will have to be called for local properties
   KonqPropsView( const KConfig * config );
 
@@ -69,22 +73,19 @@ public:
 
   //////// The read-only access methods. Order is to be kept. /////
 
-//  KfmView::ViewMode viewMode() { return m_viewMode; }
+//  KonqBaseView::ViewMode viewMode() { return m_viewMode; }
   bool isShowingDotFiles() { return m_bShowDot; }
   bool isShowingImagePreview() { return m_bImagePreview; }
   bool isHTMLAllowed() { return m_bHTMLAllowed; }
   // Cache ?
   const QPixmap& bgPixmap() { return m_bgPixmap; }
   
-  // A BaseView can read/write the values directly.
-  friend class KonqBaseView;
-
 protected:
 
-  // The static instance. Only KfmView can change its value.
+  // The static instance. Only KonqBaseView can change its value.
   static KonqPropsView * m_pDefaultProps;
 
-//  KfmView::ViewMode m_viewMode;
+//  KonqBaseView::ViewMode m_viewMode;
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
@@ -96,6 +97,7 @@ private:
   // There is no default constructor. Use the provided one or copy constructor
   KonqPropsView();
 };
+
 
 // The class KfmViewSettings holds the general settings, that apply to
 // either all HTML views or all FileManager views.

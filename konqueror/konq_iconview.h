@@ -28,6 +28,7 @@
 class KonqMainView;
 class KonqKfmIconView;
 class KonqKfmIconViewItem;
+class KonqPropsView;
 class KMimeType;
 class KDirLister;
 class KFileItem;
@@ -111,11 +112,17 @@ protected:
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
 
+  /** View properties */
+  KonqPropsView * m_pProps;
+
   /**
    * Set to true while the constructor is running.
    * @ref #initConfig needs to know about that.
    */
   bool m_bInit;
+  
+  /** The view menu */
+  OpenPartsUI::Menu_var m_vViewMenu;
   
   KonqMainView *m_pMainView;
 };
