@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+Name=KonqDirDetailView
+ServiceTypes=inode/directory,Konqueror/MetaView
+X-KDE-Library=libkonqdirmetaview
+EmbedInFrame=true

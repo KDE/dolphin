@@ -1751,6 +1751,22 @@ void KonqMainView::reparseConfiguration()
     callExtensionMethod( (*it), "reparseConfiguration()" );
 }
 
+void KonqMainView::slotSelectionInfo( const KonqFileItemList &items )
+{
+  const QObject *obj = sender();
+  assert( obj->inherits( "KParts::BrowserExtension" ) );
+  assert( obj->parent() );
+  assert( obj->parent()->inherits( "KParts::ReadOnlyPart" ) );
+ 
+  KonqFileSelectionEvent ev( items, static_cast<KParts::ReadOnlyPart *>( obj->parent() ) );
+  MapViews::ConstIterator it = m_mapViews.begin(); 
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    QApplication::sendEvent( (*it)->view(), &ev );
+  
+  QApplication::sendEvent( this, &ev );
+} 
+
 static const char *viewModeGUI = ""
 "<!DOCTYPE viewmodexml>"
 "<viewmodexml name=\"viewmode\">"

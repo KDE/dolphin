@@ -40,11 +40,18 @@ class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainer;
 class KConfig;
+class KSeparator;
 
 namespace KParts
 {
   class ReadOnlyPart;
 };
+
+namespace Konqueror
+{
+  class MetaView;
+};
+
 
 /** A CheckBox with a special paintEvent(). It looks like the
  unchecked radiobutton in b2k style if unchecked and contains a little
@@ -184,6 +191,12 @@ public:
 
   KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
 
+  QFrame *metaViewFrame() const { return m_metaViewFrame; }
+
+  void detachMetaView();
+
+  void attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewFrame, const QMap<QString,QVariant> &framePropertyMap );
+
 public slots:
 
   /**
@@ -196,11 +209,14 @@ public slots:
 protected:
   virtual void paintEvent( QPaintEvent* );
 
+  QVBoxLayout *m_metaViewLayout;
+  QFrame *m_metaViewFrame;
   QVBoxLayout *m_pLayout;
   KonqChildView *m_pChildView;
 
   QGuardedPtr<KParts::ReadOnlyPart> m_pView;
 
+  KSeparator *m_separator;
   KonqFrameStatusBar* m_pStatusBar;
 };
 

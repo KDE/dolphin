@@ -203,6 +203,9 @@ public:
 
   KonqMainView *mainView() const { return m_pMainView; }
 
+  void initMetaView();
+  void closeMetaView();
+
 signals:
 
   /**
@@ -268,6 +271,7 @@ protected:
   KTrader::OfferList m_serviceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
+  QGuardedPtr<KParts::ReadOnlyPart> m_metaView;
   bool m_bLockHistory;
 };
 

@@ -41,6 +41,10 @@ class KonqKfmIconView : public KParts::ReadOnlyPart
 {
   friend class IconViewBrowserExtension; // to access m_pProps
   Q_OBJECT
+  Q_PROPERTY( uint itemCount READ itemCount )
+  Q_PROPERTY( uint directorySize READ dirSize )
+  Q_PROPERTY( uint directoryCount READ dirCount )
+  Q_PROPERTY( uint fileCount READ fileCount )
 public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
@@ -57,6 +61,11 @@ public:
 
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
+
+  uint itemCount() const;
+  uint dirSize() const;
+  uint dirCount() const;
+  uint fileCount() const;
 
 public slots:
   void slotImagePreview( bool toggle );

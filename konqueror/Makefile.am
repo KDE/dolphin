@@ -1,7 +1,7 @@
 
-INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes) 
+INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
 
-SUBDIRS = . plugins kfmexec client iconview dirtree listview pics
+SUBDIRS = . plugins kfmexec client iconview dirtree listview dirmetaview pics
 
 lib_LTLIBRARIES = libkonqueror.la
 
@@ -12,7 +12,7 @@ kdelnkdir = $(kde_servicesdir)
 kdelnk_DATA = konqueror.desktop
 
 servicetypedir = $(kde_servicetypesdir)
-servicetype_DATA = konq_plugin.desktop
+servicetype_DATA = konq_plugin.desktop konq_metaview.desktop
 
 METASOURCES = AUTO
 

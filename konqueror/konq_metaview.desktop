@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=Konqueror/MetaView
+Comment=Meta View
+
+[PropertyDef::EmbedInFrame]
+Type=bool

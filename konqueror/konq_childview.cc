@@ -32,6 +32,8 @@
 
 #include <qapplication.h>
 
+#include <kparts/factory.h>
+
 template class QList<HistoryEntry>;
 
 KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
@@ -51,8 +53,6 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_pRun = 0L;
   m_pView = 0L;
 
-  switchView( viewFactory );
-
   m_service = service;
   m_serviceOffers = serviceOffers;
   m_serviceType = serviceType;
@@ -67,12 +67,16 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_iProgress = -1;
   m_bPassiveMode = false;
   m_bProgressSignals = true;
+
+  switchView( viewFactory );
+
   show();
 }
 
 KonqChildView::~KonqChildView()
 {
   kdDebug(1202) << "KonqChildView::~KonqChildView" << endl;
+
   // No! We don't take ownership! (David) delete m_pKonqFrame;
   delete m_pView;
   delete (KonqRun *)m_pRun;
@@ -105,6 +109,10 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
   m_pMainView->setLocationBarURL( this, url.decodedURL() );
 
   sendOpenURLEvent( url );
+
+  //update metaviews!
+  if ( m_metaView )
+    m_metaView->openURL( url );
 
   if ( !m_bLockHistory )
   {
@@ -140,11 +148,15 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   KParts::ReadOnlyPart *oldView = m_pView;
   m_pView = m_pKonqFrame->attach( viewFactory );
 
+  // uncomment if you want to use metaviews (Simon)
+  //  initMetaView();
+
   if ( oldView )
   {
     emit sigViewChanged( oldView, m_pView );
 
     delete oldView;
+    //    closeMetaView(); I think this is not needed (Simon)
   }
 
   connectView();
@@ -226,6 +238,8 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( speedProgress( int ) ),
            this, SLOT( slotSpeedProgress( int ) ) );
 
+  connect( ext, SIGNAL( selectionInfo( const KonqFileItemList & ) ),
+	   m_pMainView, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
 }
 
 void KonqChildView::slotStarted( KIO::Job * job )
@@ -347,17 +361,13 @@ void KonqChildView::updateHistoryEntry()
     m_lstHistory.append( current );
   }
 
-  kdDebug() << "looking for extension" << endl;
   if ( browserExtension() )
   {
-    kdDebug() << "creating stream" << endl;
     QDataStream stream( current->buffer, IO_WriteOnly );
 
-    kdDebug() << "saving" << endl;
     browserExtension()->saveState( stream );
   }
 
-  kdDebug() << "storing stuff" << endl;
   current->url = m_pView->url();
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->name();
@@ -370,6 +380,7 @@ void KonqChildView::go( int steps )
   assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
   // Yay, we can move there without a loop !
   HistoryEntry *h = m_lstHistory.at( newPos ); // sets current item
+
   assert( h );
   assert( newPos == m_lstHistory.at() ); // check we moved (i.e. if I understood the docu)
   assert( h == m_lstHistory.current() );
@@ -410,6 +421,9 @@ void KonqChildView::go( int steps )
 
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
+
+  if ( m_metaView )
+    m_metaView->openURL( h->url );
 
   //updateHistoryEntry(); // do we really need that here ?
   kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
@@ -452,8 +466,9 @@ void KonqChildView::reload()
     browserExtension()->setURLArgs( args );
   }
 
-  //  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
   m_pView->openURL( m_pView->url() );
+
+  // update metaview? (Simon)
 }
 
 void KonqChildView::setPassiveMode( bool mode )
@@ -461,7 +476,6 @@ void KonqChildView::setPassiveMode( bool mode )
   m_bPassiveMode = mode;
 
   if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
-  //    m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
     m_pMainView->viewManager()->setActivePart( m_pMainView->viewManager()->chooseNextView( this )->view() );
 
   // Hide the mode button for the last active view
@@ -479,14 +493,85 @@ void KonqChildView::setPassiveMode( bool mode )
 
 void KonqChildView::sendOpenURLEvent( const KURL &url )
 {
+  KParts::OpenURLEvent ev( m_pView, url );
   QMap<KParts::ReadOnlyPart *, KonqChildView *> views = m_pMainView->viewMap();
   QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator it = views.begin();
   QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator end = views.end();
   for (; it != end; ++it )
-  {
-    KParts::OpenURLEvent ev( m_pView, url );
     QApplication::sendEvent( it.key(), &ev );
-  }
+  QApplication::sendEvent( m_pMainView, &ev );
 }
 
+void KonqChildView::initMetaView()
+{
+  kdDebug() << "initMetaView" << endl;
+
+  static QString constr = QString::fromLatin1( "'Konqueror/MetaView' in ServiceTypes" );
+
+  KTrader::OfferList metaViewOffers = KTrader::self()->query( m_serviceType, constr );
+
+  if ( metaViewOffers.count() == 0 )
+    return;
+
+  kdDebug() << "got offers!" << endl;
+
+  KService::Ptr service = *metaViewOffers.begin();
+
+  KLibFactory *libFactory = KLibLoader::self()->factory( service->library() );
+
+  if ( !libFactory )
+    return;
+
+  assert( libFactory->inherits( "KParts::Factory" ) ); //requirement! (Simon)
+
+  QMap<QString,QVariant> framePropMap;
+
+  bool embedInFrame = false;
+  QVariant embedInFrameProp = service->property( "EmbedInFrame" );
+  if ( embedInFrameProp.isValid() )
+    embedInFrame = embedInFrameProp.toBool();
+
+  if ( embedInFrame && m_pView->widget()->inherits( "QFrame" ) )
+  {
+    QFrame *frame = static_cast<QFrame *>( m_pView->widget() );
+    framePropMap.insert( "frameShape", frame->property( "frameShape" ) );
+    framePropMap.insert( "frameShadow", frame->property( "frameShadow" ) );
+    framePropMap.insert( "lineWidth", frame->property( "lineWidth" ) );
+    framePropMap.insert( "margin", frame->property( "margin" ) );
+    framePropMap.insert( "midLineWidth", frame->property( "midLineWidth" ) );
+    framePropMap.insert( "frameRect", frame->property( "frameRect" ) );
+    frame->setFrameStyle( QFrame::NoFrame );
+  }
+
+  KParts::Factory *factory = static_cast<KParts::Factory *>( libFactory );
+
+  KParts::Part *part = factory->createPart( m_pKonqFrame->metaViewFrame(), "metaviewwidget", m_pView, "metaviewpart", "KParts::ReadOnlyPart" );
+
+  if ( !part )
+   return;
+
+  m_metaView = static_cast<KParts::ReadOnlyPart *>( part );
+
+  m_pKonqFrame->attachMetaView( m_metaView, embedInFrame, framePropMap );
+
+  m_metaView->widget()->show();
+
+  m_pView->insertChildClient( m_metaView );
+}
+
+void KonqChildView::closeMetaView()
+{
+  if ( m_metaView )
+    delete static_cast<KParts::ReadOnlyPart *>( m_metaView );
+
+  m_pKonqFrame->detachMetaView();
+}
+/*
+void KonqChildView::slotMetaData( const QDomDocument &data )
+{
+  QListIterator<Konqueror::MetaView> it( m_metaViews );
+  for (; it.current(); ++it )
+    it.current()->openMetaData( data );
+}
+*/
 #include "konq_childview.moc"

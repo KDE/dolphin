@@ -869,6 +869,8 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 					     dirCount));
     } else
 	slotOnViewport();
+
+    emit m_extension->selectionInfo( lst );
 }
 
 void KonqKfmIconView::slotProcessMimeIcons()
@@ -1015,6 +1017,26 @@ void KonqKfmIconView::slotOnViewport()
 						     m_lFileCount,
 						     m_lDirSize,
 						     m_lDirCount));
+}
+
+uint KonqKfmIconView::itemCount() const
+{
+  return m_pIconView->count();
+}
+
+uint KonqKfmIconView::dirSize() const
+{
+  return m_lDirSize;
+}
+
+uint KonqKfmIconView::dirCount() const
+{
+  return m_lDirCount;
+}
+
+uint KonqKfmIconView::fileCount() const
+{
+  return m_lFileCount;
 }
 
 void KonqKfmIconView::setupSortKeys()

@@ -30,6 +30,7 @@
 #include <kiconloader.h>
 #include <kpixmap.h>
 #include <klocale.h>
+#include <kseparator.h>
 
 #include <kparts/browserextension.h>
 #include <kparts/event.h>
@@ -189,6 +190,11 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
    QObject::connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
+   m_separator = 0;
+   
+   m_metaViewLayout = 0;
+   m_metaViewFrame = new QFrame( this, "metaviewframe" );
+   m_metaViewFrame->show();
 }
 
 KonqFrame::~KonqFrame()
@@ -223,7 +229,8 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
    KonqViewFactory factory( viewFactory );
 
-   m_pView = factory.create( this, "child view" );
+   //   m_pView = factory.create( this, "child view" );
+   m_pView = factory.create( m_metaViewFrame, "child view" );
 
    assert( m_pView->widget() );
 
@@ -237,10 +244,23 @@ void KonqFrame::attachInternal()
 {
    kdDebug(1202) << "KonqFrame::attachInternal()" << endl;
    if (m_pLayout) delete m_pLayout;
+   if ( m_metaViewLayout ) delete m_metaViewLayout;
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
+   
+   m_metaViewFrame->setFrameStyle( QFrame::NoFrame );
+   m_metaViewFrame->setLineWidth( 0 );
+   //   m_metaViewFrame->setFrameStyle( QFrame::Panel | QFrame::Raised );
+   //      m_metaViewFrame->setLineWidth( 50 );
 
-   m_pLayout->addWidget( m_pView->widget() );
+   m_metaViewLayout = new QVBoxLayout( m_metaViewFrame );
+   m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
+   m_metaViewLayout->addWidget( m_pView->widget() );
+   
+   m_pLayout->addWidget( m_metaViewFrame );
+   
+   //   m_pLayout->addWidget( m_pView->widget() );
+   //   m_pLayout->addWidget
    m_pLayout->addWidget( m_pStatusBar );
    m_pView->widget()->show();
    if ( m_pChildView->mainView()->fullScreenMode() )
@@ -289,6 +309,30 @@ void
 KonqFrame::paintEvent( QPaintEvent* )
 {
    m_pStatusBar->repaint();
+}
+
+void KonqFrame::detachMetaView()
+{
+  if ( m_separator )
+    delete m_separator;
+  m_separator = 0;
+}
+
+void KonqFrame::attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewFrame, const QMap<QString,QVariant> &framePropertyMap )
+{
+//  m_separator = new KSeparator( this );
+//  m_pLayout->insertWidget( 0, m_separator );
+//  m_pLayout->insertWidget( 0, view->widget() );
+  m_metaViewLayout->insertWidget( 0, view->widget() );
+  if ( enableMetaViewFrame )
+  {
+    QMapConstIterator<QString,QVariant> it = framePropertyMap.begin();
+    QMapConstIterator<QString,QVariant> end = framePropertyMap.end();
+    for (; it != end; ++it )
+      m_metaViewFrame->setProperty( it.key(), it.data() );
+
+    m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
+  }
 }
 
 //###################################################################
