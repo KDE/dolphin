@@ -67,6 +67,7 @@
 
 // show hidden files on desktop default
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
+#define DEFAULT_VERT_ALIGN true
 
 // lets be modern .. -- Bernd
 #define DEFAULT_VIEW_FONT "helvetica"
