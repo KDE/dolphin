@@ -83,7 +83,7 @@ Select the browser identification to use whenever contacting the site you specif
                 <cstring>lbIdentity</cstring>
             </property>
             <property name="text">
-                <string>Real Identification:</string>
+                <string>Real identification:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>leIdentity</cstring>
