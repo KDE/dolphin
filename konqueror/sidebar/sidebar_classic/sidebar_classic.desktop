@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Link
+URL=
+Icon=history
+Name=Classic Sidebar
+
+Open=false
+X-KDE-KonqSidebarModule=konqsidebar_classic_wrap

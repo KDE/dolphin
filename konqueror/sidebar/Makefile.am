@@ -1,6 +1,6 @@
 # this has all of the subdirectories that make will recurse into.  if
 # there are none, comment this out
-SUBDIRS = . test
+SUBDIRS = . test sidebar_classic
 
 # set the include path for X, qt and KDE
 INCLUDES = $(all_includes)
