@@ -84,7 +84,6 @@ public slots:
   void slotSortDescending();
   void slotSortDirsFirst();
 
-  //void slotKofficeMode( bool b );
   void slotViewDefault( bool b );
   void slotViewLarge( bool b );
   void slotViewMedium( bool b );
@@ -186,7 +185,6 @@ protected:
   //KToggleAction *m_paBottomText;
   //KToggleAction *m_paRightText;
 
-  KToggleAction *m_paKOfficeMode;
   KAction *m_paSelect;
   KAction *m_paUnselect;
   KAction *m_paSelectAll;

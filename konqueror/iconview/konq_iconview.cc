@@ -257,16 +257,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
     m_paSmallIcons = new KRadioAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
-    //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
     m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
     m_paMediumIcons->setExclusiveGroup( "ViewMode" );
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
-    //m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
-
-    //m_paKOfficeMode->setChecked( false );
-    //m_paKOfficeMode->setEnabled( false );
 
     //m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, actionCollection(), "textbottom" );
     //m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, actionCollection(), "textright" );
@@ -283,7 +278,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewMedium( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
-    //connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
 
     //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     //connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
@@ -527,30 +521,6 @@ void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
     m_pIconView->slotSelectionChanged();
 }
 
-/*
-void KonqKfmIconView::slotKofficeMode( bool b )
-{
-    if ( b )
-    {
-     emit openURLRequest() signal with serviceType argument set instead (Simon)
-    QObject *obj = parent();
-	while ( obj )
-	{
-	    if ( obj->inherits( "KonqFrame" ) )
-		break;
-	    obj = obj->parent();
-	}
-
-	if ( obj && obj->inherits( "KonqFrame" ) )
-	{
-	    KonqChildView *childView = ((KonqFrame *)obj)->childView();
-	    // TODO switch to koffice view mode here
-	    childView->changeViewMode( "inode/directory", url(), false, "KonqTreeView" );
-	}
-    }
-}
-*/
-
 void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
@@ -725,7 +695,6 @@ void KonqKfmIconView::slotCompleted()
 
     if ( m_bUpdateContentsPosAfterListing )
       m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
-    //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
     m_bUpdateContentsPosAfterListing = false;
 
