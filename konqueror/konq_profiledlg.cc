@@ -29,7 +29,7 @@
 
 #include <klistview.h>
 #include <kdebug.h>
-#include <klineeditdlg.h>
+#include <kstdguiitem.h>
 #include <kio/global.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
