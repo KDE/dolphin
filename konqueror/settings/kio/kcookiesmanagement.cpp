@@ -19,6 +19,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#include <qapplication.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qgroupbox.h>
@@ -26,13 +27,16 @@
 #include <qlabel.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+#include <qtoolbutton.h>
 
 #include <kidna.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kdialog.h>
+#include <kiconloader.h>
 #include <klineedit.h>
 #include <klistview.h>
+#include <klistviewsearchline.h>
 #include <kmessagebox.h>
 #include <dcopref.h>
 
@@ -103,6 +107,10 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
                                             KDialog::spacingHint());
 
   dlg = new KCookiesManagementDlgUI (this);
+  
+  dlg->tbClearSearchLine->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
+  dlg->kListViewSearchLine->setListView(dlg->lvCookies);
+  
   mainLayout->addWidget(dlg);
   dlg->lvCookies->setSorting(0);
 
