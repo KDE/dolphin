@@ -63,6 +63,9 @@ public:
     virtual void setIcon( int size, int state=KIcon::DefaultState,
                           bool bImagePreviewAllowed=false );
 
+    /** */
+    virtual void refreshIcon( bool redraw );
+
     virtual void setKey( const QString &key );
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
 
