@@ -640,26 +640,26 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     {
                         // we use the categories .desktop entry to define submenus
                         // if none is defined, we just pop it in the main menu
-                        int priority = cfg.readNumEntry("X-KDE-Priority", 2);
+                        QString priority = cfg.readEntry("X-KDE-Priority");
                         QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
                         ServiceList* list = &user;
 
                         if (submenuName.isEmpty())
                         {
-                            if (priority == PriorityTopLevel)
+                            if (priority == "TopLevel")
                             {
                                 list = &userToplevel;
                             }
-                            else if (priority == PriorityImportant)
+                            else if (priority == "Important")
                             {
                                 list = &userPriority;
                             }
                         }
-                        else if (priority == PriorityTopLevel)
+                        else if (priority == "TopLevel")
                         {
                             list = &(userToplevelSubmenus[submenuName]);
                         }
-                        else if (priority == PriorityImportant)
+                        else if (priority == "Important")
                         {
                             list = &(userPrioritySubmenus[submenuName]);
                         }

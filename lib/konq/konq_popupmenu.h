@@ -63,7 +63,6 @@ public:
          IsLink = 2,          // HTML link. If set, we won't have cut/copy/paste, and we'll say "bookmark this link"
          ShowNewWindow = 4 };
          // WARNING: bitfield. Next item is 8
-  enum { PriorityTopLevel = 0, PriorityImportant, PriorityNormal };
 
   /**
    * @deprecated, lacks parentWidget pointer, and
