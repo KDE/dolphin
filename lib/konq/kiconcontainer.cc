@@ -1564,7 +1564,7 @@ void KIconContainerItem::paint( QPainter* _painter, bool _drag )
       QPixmap pix( m_pixmap );
       QPainter painter;
       painter.begin( &pix );
-      QBrush b( QApplication::palette()->normal().highlight(), Qt::Dense4Pattern );
+      QBrush b( QApplication::palette().normal().highlight(), Qt::Dense4Pattern );
       painter.fillRect( 0, 0, pix.width(), pix.height(), b );
       painter.end();
       _painter->drawPixmap( ( w - m_pixmap.width() ) / 2, 0, pix );
