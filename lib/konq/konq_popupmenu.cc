@@ -333,6 +333,12 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
     KAction *actNewView = 0L;
 
+    if (showPropertiesAndFileType && isKDesktop && 
+        !kapp->authorize("editable_desktop_icons"))
+    {
+        showPropertiesAndFileType = false;
+    }
+
     if (!m_actions.action("newview"))
     {
         actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );

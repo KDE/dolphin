@@ -530,6 +530,7 @@ void KonqOperations::doFileCopy()
     QDropEvent::Action action = m_info->action;
     QString newTrashPath;
     bool isDesktopFile = false;
+    bool itemIsOnDesktop = false;
     KURL::List mlst;
     for (KURL::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
     {
@@ -540,6 +541,8 @@ void KonqOperations::doFileCopy()
             mlst.append(*it);
         if ( local && KDesktopFile::isDesktopFile((*it).path()))
             isDesktopFile = true;
+        if ( local && (*it).path().startsWith(KGlobalSettings::desktopPath()))
+            itemIsOnDesktop = true;
     }
 
     bool linkOnly = false;
@@ -551,6 +554,12 @@ void KonqOperations::doFileCopy()
 
     if ( !mlst.isEmpty() && m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
     {
+        if ( itemIsOnDesktop && !kapp->authorize("editable_desktop_icons") )
+        {
+            delete this;
+            return;
+        }
+        
         if ( askDeleteConfirmation( mlst, DEFAULT_CONFIRMATION ) )
             action = QDropEvent::Move;
         else
