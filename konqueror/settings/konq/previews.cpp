@@ -164,7 +164,12 @@ void KPreviewOptions::load(bool useDefaults)
 
     for ( ; it.current() ; ++it ) {
         QString protocol( it.current()->text() );
-        it.current()->setOn( group.readBoolEntry( protocol, false ) );
+        if ( ( protocol == "file" ) && ( !group.hasKey ( protocol ) ) )
+	  // file should be enabled in case is not defined because if not so
+	  // than preview's lost when size is changed from default one
+	  it.current()->setOn( true );
+        else
+          it.current()->setOn( group.readBoolEntry( protocol, false ) );
     }
     // config key is in bytes (default value 1MB), numinput is in MB
     m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
