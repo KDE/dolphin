@@ -462,6 +462,10 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
 
   tabContainer->setCurrentPage( tabContainer->count() - 1 );
 
+  KonqFrameBase* duplicatedFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
+  if (duplicatedFrame)
+    duplicatedFrame->copyHistory( currentFrame );
+
 #ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -505,14 +509,17 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
   prefix.append( '_' );
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
-  removeTab( currentFrame );
-
   KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
   if (mainWindow == 0L) return;
 
   mainWindow->viewManager()->loadViewProfile( config, "" );
 
   mainWindow->viewManager()->setDocContainer( mainWindow->childFrame() );
+
+  if (mainWindow->currentView())
+    mainWindow->copyHistory( currentFrame );
+
+  removeTab( currentFrame );
 
   mainWindow->enableAllActions( true );
 
