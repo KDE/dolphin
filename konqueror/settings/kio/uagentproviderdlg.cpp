@@ -104,12 +104,17 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leAlias, wtstr );
 
-  QHBox* hbox = new QHBox( this );
-  hbox->setSpacing( KDialog::spacingHint() );
-  m_btnOK = new QPushButton( i18n("&OK"), hbox );
-  m_btnCancel = new QPushButton( i18n("&Cancel"), hbox );
+  QWidget *buttonBox = new QWidget( this );
+  QBoxLayout *buttonLayout = new QHBoxLayout( buttonBox );
+  buttonLayout->setSpacing( KDialog::spacingHint() ); 
+  m_btnOK = new QPushButton( i18n("&OK"), buttonBox );
+  m_btnCancel = new QPushButton( i18n("&Cancel"), buttonBox );
   m_btnOK->setDefault( true );
   m_btnOK->setEnabled( false );
+
+  buttonLayout->addStretch( 1 );
+  buttonLayout->addWidget( m_btnOK );
+  buttonLayout->addWidget( m_btnCancel );
 
   m_provider = new FakeUASProvider();
 
@@ -119,7 +124,6 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   a->connectItem( a->insertItem(Qt::Key_Escape), m_btnCancel, SLOT(animateClick()) );
 
   lay->addSpacing( KDialog::spacingHint() );
-  setFixedSize( minimumSizeHint() );
   loadInfo();
   m_leSite->setFocus();
 }
