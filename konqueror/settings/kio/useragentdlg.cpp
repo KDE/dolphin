@@ -134,7 +134,7 @@ void UserAgentOptions::load()
           key.sprintf( "Entry%d", i );
           QString entry = g_pConfig->readEntry( key, "" );
           if (entry.left( 13 ) == "*:Mozilla/4.0") // update version number
-            settingsList.append( "*:"+KProtocolManager::userAgentForHost( QString::null ) );
+            settingsList.append( "*:"+DEFAULT_USERAGENT_STRING );
           else
             settingsList.append( entry );
         }
@@ -152,7 +152,7 @@ void UserAgentOptions::load()
 void UserAgentOptions::defaults()
 {
   bindingsLB->clear();
-  bindingsLB->insertItem( QString("*:"+KProtocolManager::userAgentForHost( QString::null ) ) );
+  bindingsLB->insertItem( QString("*:"+DEFAULT_USERAGENT_STRING) );
 }
 
 
