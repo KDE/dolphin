@@ -23,7 +23,6 @@
 #include <qiconview.h>
 
 class KFileItem;
-class QPainter;
 
 /**
  * KFileIVI (short form of "K - File - IconViewItem")
@@ -64,7 +63,6 @@ signals:
 
 protected:
   virtual void dropped( QDropEvent *e );
-  virtual void paintItem( QPainter *p );
 
   /** Pointer to the file item in KDirLister's list */
   KFileItem* m_fileitem;

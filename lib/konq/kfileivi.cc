@@ -25,6 +25,8 @@ KFileIVI::KFileIVI( QIconView *_iconview, KFileItem* _fileitem )
     m_fileitem( _fileitem )
 {
   setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
+  if ( m_fileitem->isLink() )
+    font().setItalic( true ); // FIXME
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
@@ -50,30 +52,6 @@ void KFileIVI::setKey( const QString &key )
 void KFileIVI::dropped( QDropEvent *e )
 {
   emit dropMe( this, e );
-}
-
-void KFileIVI::paintItem( QPainter *p )
-{
-  /*
-    CAUSES HEAPS OF FLICKER !!
-  if ( m_fileitem->isLink() )
-  {
-    // HACK (Simon)
-  
-    QFont oldFont = iconView()->font();
-    QFont newFont = oldFont;
-    newFont.setItalic( true );
-    iconView()->setFont( newFont );
-    
-    QIconViewItem::paintItem( p );
-    
-    iconView()->setFont( oldFont );
-    
-    return;
-  }
-  */
-  
-  QIconViewItem::paintItem( p );
 }
 
 void KFileIVI::returnPressed()
