@@ -95,14 +95,19 @@ public:
   void saveViewProfile( KConfig &cfg );
 
   /**
-   * Savess the current view layout to a config file.
+   * Saves the current view layout to a config file.
+   * @param cfg the config file
    */
   void loadViewProfile( KConfig &cfg );
 
   /**
    * Load the config entries for a view.
+   * @param cfg the config file
+   * ...
+   * @param defaultURL the URL to use if the profile doesn't contain urls
    */
-  void loadItem( KConfig &cfg, KonqFrameContainer *parent, const QString &name );
+  void loadItem( KConfig &cfg, KonqFrameContainer *parent,
+                 const QString &name, const KURL & defaultURL );
 
   void clear();
 

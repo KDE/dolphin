@@ -51,6 +51,7 @@ void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )
   KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
 
   KSimpleConfig cfg( filename, true );
+  cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
   mainWindow->viewManager()->loadViewProfile( cfg );
   mainWindow->enableAllActions( true );

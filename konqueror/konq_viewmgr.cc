@@ -136,10 +136,6 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     printSizeInfo( splitFrame, parentContainer, "before split");
 
-    // done by viewCountChanged()
-    //if ( splitFrame->widget()->inherits( "KonqFrame" ) )
-    //  ((KonqFrame *)splitFrame->widget())->statusbar()->showStuff();
-
     splitFrame->widget()->setUpdatesEnabled( false );
     parentContainer->setUpdatesEnabled( false );
 
@@ -298,141 +294,6 @@ void KonqViewManager::viewCountChanged()
   }
 
 }
-
-void KonqViewManager::saveViewProfile( KConfig &cfg )
-{
-  kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
-  if( m_pMainContainer && m_pMainContainer->firstChild() ) {
-    cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
-    QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
-    prefix.append( '_' );
-    m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, 0, 1 );
-  }
-
-  cfg.sync();
-}
-
-void KonqViewManager::loadViewProfile( KConfig &cfg )
-{
-  kdDebug(1202) << "KonqViewManager::loadViewProfile" << endl;
-  clear();
-
-  QString rootItem = cfg.readEntry( "RootItem" );
-
-  if( rootItem.isNull() ) {
-    // Config file doesn't contain anything about view profiles, fallback to defaults
-    rootItem = "InitialView";
-  }
-
-  kdDebug(1202) << "Load RootItem " << rootItem << endl;
-
-  m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
-  m_pMainWindow->setView( m_pMainContainer );
-  m_pMainContainer->setOpaqueResize();
-  m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
-  m_pMainContainer->show();
-
-  loadItem( cfg, m_pMainContainer, rootItem );
-
-  KonqView *nextChildView = chooseNextView( 0L );
-  setActivePart( nextChildView ? nextChildView->part() : 0L );
-
-  kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
-  printFullHierarchy( m_pMainContainer );
-}
-
-void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
-				const QString &name )
-{
-  QString prefix;
-  if( name != "InitialView" )
-    prefix = name + '_';
-
-  kdDebug(1202) << "begin loadItem: " << name << endl;
-
-  if( name.find("View") != -1 ) {
-    kdDebug(1202) << "Item is View" << endl;
-    //load view config
-    QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ), QDir::homeDirPath() );
-
-    if ( url == "file:$HOME" ) // HACK
-      url = QDir::homeDirPath().prepend( "file:" );
-
-    kdDebug(1202) << "URL: " << url << endl;
-    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-    kdDebug(1202) << "ServiceType: " << serviceType << endl;
-
-    QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
-
-    bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
-    bool linkedView = cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false );
-
-    KService::Ptr service;
-    KTrader::OfferList partServiceOffers, appServiceOffers;
-
-    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
-    if ( viewFactory.isNull() )
-    {
-      warning("Profile Loading Error: View creation failed" );
-      return; //ugh..
-    }
-
-    kdDebug(1202) << "Creating View Stuff" << endl;
-    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
-
-    childView->setPassiveMode( passiveMode );
-    childView->setLinkedView( linkedView );
-
-    //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
-    //checkBox->setChecked( passiveMode );
-
-    childView->openURL( KURL( url ) );
-    childView->setLocationBarURL( url );
-  }
-  else if( name.find("Container") != -1 ) {
-    kdDebug(1202) << "Item is Container" << endl;
-
-    //load container config
-    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
-    kdDebug(1202) << "Orientation: " << ostr << endl;
-    Qt::Orientation o;
-    if( ostr == "Vertical" )
-      o = Qt::Vertical;
-    else if( ostr == "Horizontal" )
-      o = Qt::Horizontal;
-    else {
-	kdWarning() << "Profile Loading Error: No orientation specified in " << name << endl;
-      o = Qt::Horizontal;
-    }
-
-    QValueList<int> sizes =
-	cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
-
-    QStrList childList;
-    if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
-    {
-	kdWarning() << "Profile Loading Error: Less than two children in " << name << endl;
-      // fallback to defaults
-      loadItem( cfg, parent, "InitialView" );
-    }
-    else
-    {
-      KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
-      newContainer->setOpaqueResize();
-      newContainer->show();
-
-      loadItem( cfg, newContainer, childList.at(0) );
-      loadItem( cfg, newContainer, childList.at(1) );
-
-      newContainer->setSizes( sizes );
-    }
-  }
-  else
-      kdWarning() << "Profile Loading Error: Unknown item " << name;
-
-  kdDebug(1202) << "end loadItem: " << name << endl;
-}
-
 void KonqViewManager::clear()
 {
   kdDebug(1202) << "KonqViewManager::clear: " << endl;
@@ -490,37 +351,6 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
   }
 
   return 0L; // no next view found
-}
-
-void KonqViewManager::setProfiles( KActionMenu *profiles )
-{
-  m_pamProfiles = profiles;
-
-  if ( m_pamProfiles )
-  {
-    connect( m_pamProfiles->popupMenu(), SIGNAL( activated( int ) ),
-             this, SLOT( slotProfileActivated( int ) ) );
-    connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
-             this, SLOT( slotProfileListAboutToShow() ) );
-  }	
-  //KonqMainWindow::enableAllActions will call it anyway
-  //profileListDirty();
-}
-
-void KonqViewManager::slotProfileDlg()
-{
-  KonqProfileDlg dlg( this, m_pMainWindow );
-  dlg.exec();
-  profileListDirty();
-}
-
-void KonqViewManager::profileListDirty()
-{
-  kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
-  m_bProfileListDirty = true;
-  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
-  if ( m_pamProfiles )
-      m_pamProfiles->setEnabled( profiles.count() > 0 );
 }
 
 KonqViewFactory KonqViewManager::createView( const QString &serviceType,
@@ -582,6 +412,176 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   return v;
 }
 
+///////////////// Profile stuff ////////////////
+
+void KonqViewManager::saveViewProfile( KConfig &cfg /* , bool saveURLs */ )
+{
+  kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
+  if( m_pMainContainer && m_pMainContainer->firstChild() ) {
+    cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
+    QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
+    prefix.append( '_' );
+    m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, 0, 1 );
+  }
+
+  cfg.sync();
+}
+
+void KonqViewManager::loadViewProfile( KConfig &cfg )
+{
+  KURL defaultURL;
+  if ( m_pMainWindow->currentView() )
+    defaultURL = m_pMainWindow->currentView()->url();
+  else
+    defaultURL.setPath( QDir::homeDirPath() );
+
+  clear();
+
+  QString rootItem = cfg.readEntry( "RootItem" );
+
+  if( rootItem.isNull() ) {
+    // Config file doesn't contain anything about view profiles, fallback to defaults
+    rootItem = "InitialView";
+  }
+  kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
+
+  m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
+  m_pMainWindow->setView( m_pMainContainer );
+  m_pMainContainer->setOpaqueResize();
+  m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
+  m_pMainContainer->show();
+
+  loadItem( cfg, m_pMainContainer, rootItem, defaultURL );
+
+  KonqView *nextChildView = chooseNextView( 0L );
+  setActivePart( nextChildView ? nextChildView->part() : 0L );
+
+  kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
+  printFullHierarchy( m_pMainContainer );
+}
+
+void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
+                                const QString &name, const KURL & defaultURL )
+{
+  QString prefix;
+  if( name != "InitialView" )
+    prefix = name + '_';
+
+  kdDebug(1202) << "begin loadItem: " << name << endl;
+
+  if( name.find("View") != -1 ) {
+    kdDebug(1202) << "Item is View" << endl;
+    //load view config
+    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
+    kdDebug(1202) << "ServiceType: " << serviceType << endl;
+
+    QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
+
+    bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
+    bool linkedView = cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false );
+
+    KService::Ptr service;
+    KTrader::OfferList partServiceOffers, appServiceOffers;
+
+    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
+    if ( viewFactory.isNull() )
+    {
+      warning("Profile Loading Error: View creation failed" );
+      return; //ugh..
+    }
+
+    kdDebug(1202) << "Creating View Stuff" << endl;
+    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
+
+    childView->setPassiveMode( passiveMode );
+    childView->setLinkedView( linkedView );
+
+    //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
+    //checkBox->setChecked( passiveMode );
+
+    KURL url = KURL( cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ) ) );
+    if ( url.isEmpty() )
+      url = defaultURL;
+    //if ( url == "file:$HOME" ) // HACK
+    //  url = QDir::homeDirPath().prepend( "file:" );
+    childView->openURL( url );
+    childView->setLocationBarURL( url.prettyURL() );
+  }
+  else if( name.find("Container") != -1 ) {
+    kdDebug(1202) << "Item is Container" << endl;
+
+    //load container config
+    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
+    kdDebug(1202) << "Orientation: " << ostr << endl;
+    Qt::Orientation o;
+    if( ostr == "Vertical" )
+      o = Qt::Vertical;
+    else if( ostr == "Horizontal" )
+      o = Qt::Horizontal;
+    else {
+	kdWarning() << "Profile Loading Error: No orientation specified in " << name << endl;
+      o = Qt::Horizontal;
+    }
+
+    QValueList<int> sizes =
+	cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
+
+    QStrList childList;
+    if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
+    {
+      kdWarning() << "Profile Loading Error: Less than two children in " << name << endl;
+      // fallback to defaults
+      loadItem( cfg, parent, "InitialView", defaultURL );
+    }
+    else
+    {
+      KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
+      newContainer->setOpaqueResize();
+      newContainer->show();
+
+      loadItem( cfg, newContainer, childList.at(0), defaultURL );
+      loadItem( cfg, newContainer, childList.at(1), defaultURL );
+
+      newContainer->setSizes( sizes );
+    }
+  }
+  else
+      kdWarning() << "Profile Loading Error: Unknown item " << name;
+
+  kdDebug(1202) << "end loadItem: " << name << endl;
+}
+
+void KonqViewManager::setProfiles( KActionMenu *profiles )
+{
+  m_pamProfiles = profiles;
+
+  if ( m_pamProfiles )
+  {
+    connect( m_pamProfiles->popupMenu(), SIGNAL( activated( int ) ),
+             this, SLOT( slotProfileActivated( int ) ) );
+    connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
+             this, SLOT( slotProfileListAboutToShow() ) );
+  }	
+  //KonqMainWindow::enableAllActions will call it anyway
+  //profileListDirty();
+}
+
+void KonqViewManager::slotProfileDlg()
+{
+  KonqProfileDlg dlg( this, m_pMainWindow );
+  dlg.exec();
+  profileListDirty();
+}
+
+void KonqViewManager::profileListDirty()
+{
+  kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
+  m_bProfileListDirty = true;
+  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
+  if ( m_pamProfiles )
+      m_pamProfiles->setEnabled( profiles.count() > 0 );
+}
+
 void KonqViewManager::slotProfileActivated( int id )
 {
 
@@ -589,7 +589,8 @@ void KonqViewManager::slotProfileActivated( int id )
   if ( nameIt == m_mapProfileNames.end() )
     return;
 
-  KConfig cfg( KIO::encodeFileName( *nameIt ), true );
+  KConfig cfg( *nameIt, true );
+  cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
   loadViewProfile( cfg );
 }
@@ -622,6 +623,8 @@ void KonqViewManager::slotProfileListAboutToShow()
 
   m_bProfileListDirty = false;
 }
+
+///////////////// Debug stuff ////////////////
 
 void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
 				     KonqFrameContainer* parent,
