@@ -29,7 +29,17 @@ QWidget *KonqSidebar_Tree::getWidget(){return tree;}
 
 void KonqSidebar_Tree::enableActions( bool copy, bool cut, bool paste,
                         bool trash, bool del, bool shred,
-                        bool rename) {;}
+                        bool rename)
+{
+    KParts::BrowserExtension *ext = getInterfaces()->getExtension();
+    emit ext->enableAction( "copy", copy );
+    emit ext->enableAction( "cut", cut );
+    emit ext->enableAction( "paste", paste );
+    emit ext->enableAction( "trash", trash );
+    emit ext->enableAction( "del", del );
+    emit ext->enableAction( "shred", shred );
+    emit ext->enableAction( "rename", rename );
+}
 
 void KonqSidebar_Tree::handleURL(const KURL &url)
     {
@@ -55,7 +65,7 @@ extern "C"
    {
 	  KStandardDirs *dirs=KGlobal::dirs();
 	  QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);
-	  QStringList names;	  
+	  QStringList names;
 	  for (QStringList::ConstIterator it=list.begin();it!=list.end();++it)
 	  {
 		KSimpleConfig sc(*it);

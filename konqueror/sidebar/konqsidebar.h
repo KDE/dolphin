@@ -48,7 +48,7 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 	    void cut(){if (widget) widget->stdAction("cut");}
 	    void paste(){if (widget) widget->stdAction("paste");}
 	    void trash(){if (widget) widget->stdAction("trash");}
-	    void del(){if (widget) widget->stdAction("trash");}
+	    void del(){if (widget) widget->stdAction("del");}
 	    void shred(){if (widget) widget->stdAction("shred");}
 	    void rename(){if (widget) widget->stdAction("rename");}
 };
@@ -109,7 +109,7 @@ public:
                                             QObject *parent, const char *name,
                                             const char *classname, const QStringList &args );
     static KInstance* instance();
- 
+
 private:
     static KInstance* s_instance;
     static KAboutData* s_about;
