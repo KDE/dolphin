@@ -27,7 +27,7 @@ public:
     if(m_FacesWidget->currentItem())
       return *(m_FacesWidget->currentItem()->pixmap());
     else
-      return NULL;
+      return QPixmap();
   }
 
 private slots:
