@@ -58,6 +58,7 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     connect( completionBox(), SIGNAL( activated(const QString&)),
              this, SLOT( slotReturnPressed() ));
     connect( this, SIGNAL( cleared() ), SLOT( slotCleared() ));
+    connect( this, SIGNAL( highlighted( int )), SLOT( slotSetIcon( int )));
 
     if ( !kapp->dcopClient()->isAttached() )
 	kapp->dcopClient()->attach();
@@ -207,11 +208,17 @@ void KonqCombo::loadItems()
     QStringList items = s_config->readListEntry( "ComboContents" );
     QStringList::ConstIterator it = items.begin();
     QString item;
-    KonqPixmapProvider *prov = KonqPixmapProvider::self();
+    bool first = true;
     while ( it != items.end() ) {
         item = *it;
         if ( !item.isEmpty() ) { // only insert non-empty items
-	    insertItem( prov->pixmapFor(item, KIcon::SizeSmall), item, i++ );
+            if( first )
+                insertItem( KonqPixmapProvider::self()->pixmapFor(item,
+                    KIcon::SizeSmall), item, i++ );
+            else
+                // icons will be loaded on-demand
+        	insertItem( item, i++ );
+            first = false;
         }
         ++it;
     }
@@ -219,6 +226,27 @@ void KonqCombo::loadItems()
     if ( count() > 0 )
 	m_permanent = true; // we want the first loaded item to stay
 }
+
+void KonqCombo::slotSetIcon( int index )
+{
+    if( pixmap( index ) == NULL )
+        // on-demand icon loading
+        changeItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
+            KIcon::SizeSmall), text( index ), index );
+    update();
+}
+
+void KonqCombo::popup()
+{
+    for( int i = 0;
+         i < count();
+         ++i )
+        if( pixmap( i ) == NULL )
+            // on-demand icon loading
+            changeItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
+                KIcon::SizeSmall), text( i ), i );
+    KHistoryCombo::popup();
+    }
 
 void KonqCombo::saveItems()
 {

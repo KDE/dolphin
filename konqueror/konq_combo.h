@@ -56,6 +56,8 @@ public:
     void saveItems();
 
     static void setConfig( KConfig * );
+    
+    virtual void popup();
 
 protected:
     virtual void keyPressEvent( QKeyEvent * );
@@ -67,6 +69,7 @@ protected:
 private slots:
     void slotReturnPressed();
     void slotCleared();
+    void slotSetIcon( int index );
 
 private:
     void updateItem( const QPixmap& pix, const QString&, int index );
