@@ -217,9 +217,9 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *ev  )
 
   KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( ev->pos() );
 
-  KURL dest = ( item ) ? item->item()->url() : m_url;
-
-  KonqOperations::doDrop( dest, ev, this );
+  KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
+  assert( destItem );
+  KonqOperations::doDrop( destItem, ev, this );
 }
 
 void KonqTreeViewWidget::addSubDir( const KURL & _url, KonqTreeViewDir* _dir )

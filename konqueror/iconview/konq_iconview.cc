@@ -629,12 +629,12 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     if (m_pSettings->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
 	fileItem->run();
     } else {
-	QString serviceType = QString::null;
+	//QString serviceType = QString::null;
 
 	KURL u( fileItem->url() );
 
-	if ( u.isLocalFile() )
-	    serviceType = fileItem->mimetype();
+	//if ( u.isLocalFile() )
+	//    serviceType = fileItem->mimetype();
 
 	KParts::URLArgs args;
 	args.serviceType = fileItem->mimetype();
@@ -662,9 +662,10 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
 {
     if ( i )
 	return;
+    if ( ! m_dirLister->rootItem() )
+        return; // too early, '.' not yet listed
 
     KFileItemList items;
-    assert( m_dirLister->rootItem() );
     items.append( m_dirLister->rootItem() );
     emit m_extension->popupMenu( QCursor::pos(), items );
 }
@@ -707,6 +708,9 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
   for (; it.current(); ++it) {
 
     KFileItem * _fileitem = it.current();
+    // Root item ? Store in konqiconviewwidget
+    if ( _fileitem == m_dirLister->rootItem() )
+      m_pIconView->setRootItem( _fileitem );
 
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
@@ -716,7 +720,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     else
 	m_lDirCount++;
 
-//  kDebugInfo( 1202, "KonqKfmIconView::slotNewItem(...)");
+    //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
 				   m_pIconView->size(), m_pProps->m_bImagePreview );
     item->setRenameEnabled( false );
@@ -752,7 +756,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     else
 	m_lDirCount--;
 
-    //kDebugInfo( 1202, "KonqKfmIconView::slotDeleteItem(...)");
+    //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     QIconViewItem *it = m_pIconView->firstItem();
     while ( it )

@@ -99,32 +99,32 @@ int TreeViewBrowserExtension::yOffset()
 
 void TreeViewBrowserExtension::updateActions()
 {
-  QValueList<KonqTreeViewItem*> selection;
+  // This code is very related to KonqIconViewWidget::slotSelectionChanged
 
+  QValueList<KonqTreeViewItem*> selection;
   m_treeView->treeViewWidget()->selectedItems( selection );
 
-  bool cutcopy, move;
-
-  cutcopy = move = ( selection.count() != 0 );
+  bool cutcopy, del;
   bool bInTrash = false;
   QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
-  for (; it != end; ++it )
+  for (; it != selection.end(); ++it )
   {
     if ( (*it)->item()->url().directory(false) == KUserPaths::trashPath() )
       bInTrash = true;
   }
-  move = move && !bInTrash;
+  cutcopy = del = ( selection.count() > 0 );
+
+  emit enableAction( "copy", cutcopy );
+  emit enableAction( "cut", cutcopy );
+  emit enableAction( "trash", del && !bInTrash );
+  emit enableAction( "del", del );
+  emit enableAction( "shred", del );
 
   bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
     (selection.count() == 1); // Let's allow pasting only on an item, not on the background
 
-  emit enableAction( "copy", cutcopy );
-  emit enableAction( "cut", cutcopy );
-  emit enableAction( "del", move );
-  emit enableAction( "trash", move );
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
 }

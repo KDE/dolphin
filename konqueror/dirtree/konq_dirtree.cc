@@ -78,9 +78,10 @@ KonqDirTreeBrowserExtension::KonqDirTreeBrowserExtension( KonqDirTreePart *paren
 
 void KonqDirTreeBrowserExtension::slotSelectionChanged()
 {
-  bool bInTrash = false;
-
+  // This code is very related to TreeViewBrowserExtension::updateActions
+  // (but simpler this here we can have only one selected item)
   bool cutcopy, del;
+  bool bInTrash = false;
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
@@ -88,18 +89,18 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
     bInTrash = true;
 
   cutcopy = del = selection;
-  del = del && !bInTrash;
+
+  emit enableAction( "copy", cutcopy );
+  emit enableAction( "cut", cutcopy );
+  emit enableAction( "trash", del && !bInTrash );
+  emit enableAction( "del", del );
+  emit enableAction( "shred", del );
 
   bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	       ( selection );
 
-  emit enableAction( "copy", cutcopy );
-  emit enableAction( "cut", cutcopy );
-  emit enableAction( "del", del );
-  emit enableAction( "trash", del );
-  emit enableAction( "shred", del );
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
 }
@@ -398,7 +399,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 
   assert( selection );
 
-  KonqOperations::doDrop( selection->fileItem()->url(), ev, this );
+  KonqOperations::doDrop( selection->fileItem(), ev, this );
 }
 
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
