@@ -61,6 +61,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, OpenPartsUI::Menu_ptr men
   m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
   m_vPart = OpenParts::Part::_duplicate( part );
   m_vMenu->connect( "activated", m_vPart, "slotBookmarkSelected" );
+  m_vMenu->connect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
 
   if ( m_bIsRoot )
   {
@@ -76,6 +77,7 @@ KBookmarkMenu::~KBookmarkMenu()
   assert( !CORBA::is_nil( m_vMenu ) );
 
   m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
+  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
 
   m_vMenu = 0L;
 }
@@ -87,7 +89,10 @@ void KBookmarkMenu::slotBookmarksChanged()
   m_lstSubMenus.clear();
 
   if ( !m_bIsRoot )
+  {
     m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
+    m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
+  }    
 
   m_vMenu->clear();
 
