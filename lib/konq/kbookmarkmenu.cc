@@ -225,9 +225,9 @@ void KBookmarkMenu::fillBookmarkMenu()
         // create a normal URL item, with ID as a name
         KAction * action = new KAction( bm.text(), bm.icon(), 0,
                                         this, SLOT( slotBookmarkSelected() ),
-                                        m_actionCollection, bm.url().utf8() );
+                                        m_actionCollection, bm.url().url().utf8() );
 
-        action->setStatusText( bm.url() );
+        action->setStatusText( bm.url().prettyURL() );
 
         action->plug( m_parentMenu );
         m_actions.append( action );
@@ -276,7 +276,7 @@ void KBookmarkMenu::slotAddBookmark()
       if ( uniqueTitle == ch.text() )
       {
         // Title already used !
-        if ( url != ch.url() )
+        if ( url != ch.url().url() )
         {
           uniqueTitle = title + QString(" (%1)").arg(++count);
           // New title -> restart search from the beginning

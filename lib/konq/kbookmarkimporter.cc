@@ -75,13 +75,13 @@ void KBookmarkImporter::scanIntern( QDomElement & parentElem, const QString & _p
             {
                 // We could use KBookmarkGroup::createNewFolder, but then it
                 // would notify about the change, so we'd need a flag, etc.
-                QDomElement groupElem = m_pDoc->createElement( "GROUP" );
+                QDomElement groupElem = m_pDoc->createElement( "folder" );
                 parentElem.appendChild( groupElem );
-                QDomElement textElem = m_pDoc->createElement( "TEXT" );
+                QDomElement textElem = m_pDoc->createElement( "title" );
                 groupElem.appendChild( textElem );
                 textElem.appendChild( m_pDoc->createTextNode( KIO::decodeFileName( ep->d_name ) ) );
                 if ( KIO::decodeFileName( ep->d_name ) == "Toolbar" )
-                    groupElem.setAttribute("TOOLBAR","1");
+                    groupElem.setAttribute("toolbar","yes");
                 scanIntern( groupElem, file.path() );
             }
             else if ( res->name() == "application/x-desktop" )
@@ -134,14 +134,16 @@ void KBookmarkImporter::parseBookmark( QDomElement & parentElem, QCString _text,
     if ( text.length() > 7 && text.right( 7 ) == ".kdelnk" )
         text.truncate( text.length() - 7 );
 
-    QDomElement elem = m_pDoc->createElement( "BOOKMARK" );
+    QDomElement elem = m_pDoc->createElement( "bookmark" );
     parentElem.appendChild( elem );
-    elem.setAttribute( "URL", url );
+    elem.setAttribute( "href", url );
     //if ( icon != "www" ) // No need to save the default
     // Hmm, after all, it makes KBookmark::pixmapFile faster,
     // and it shows a nice feature to those reading the file
-    elem.setAttribute( "ICON", icon );
-    elem.appendChild( m_pDoc->createTextNode( text ) );
+    elem.setAttribute( "icon", icon );
+    QDomElement textElem = m_pDoc->createElement( "title" );
+    elem.appendChild( textElem );
+    textElem.appendChild( m_pDoc->createTextNode( text ) );
     kdDebug() << "KBookmarkImporter::parseBookmark text=" << text << endl;
 }
 

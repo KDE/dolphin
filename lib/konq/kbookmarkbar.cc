@@ -109,7 +109,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
             action = new KAction(bm.text(), bm.icon(), 0,
                                  this, SLOT(slotBookmarkSelected()),
                                  m_actionCollection,
-                                 bm.url().utf8());
+                                 bm.url().url().utf8());
             action->plug(m_toolBar);
             m_actions.append( action );
         }

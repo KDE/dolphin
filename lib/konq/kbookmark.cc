@@ -47,6 +47,11 @@ QString KBookmarkGroup::groupAddress() const
     return m_address;
 }
 
+bool KBookmarkGroup::isOpen() const
+{
+    return element.attribute("folded") == "no"; // default is: folded
+}
+
 KBookmark KBookmarkGroup::first() const
 {
     return KBookmark( nextKnownTag( element.firstChild().toElement(), true ) );
@@ -64,9 +69,9 @@ KBookmark KBookmarkGroup::next( const KBookmark & current ) const
 
 QDomElement KBookmarkGroup::nextKnownTag( QDomElement start, bool goNext ) const
 {
-    static const QString & bookmark = KGlobal::staticQString("BOOKMARK");
-    static const QString & folder = KGlobal::staticQString("GROUP");
-    static const QString & separator = KGlobal::staticQString("SEPARATOR");
+    static const QString & bookmark = KGlobal::staticQString("bookmark");
+    static const QString & folder = KGlobal::staticQString("folder");
+    static const QString & separator = KGlobal::staticQString("separator");
     QDomElement elem = start;
     while ( !elem.isNull() )
     {
@@ -96,9 +101,9 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
 
     ASSERT(!element.isNull());
     QDomDocument doc = element.ownerDocument();
-    QDomElement groupElem = doc.createElement( "GROUP" );
+    QDomElement groupElem = doc.createElement( "folder" );
     element.appendChild( groupElem );
-    QDomElement textElem = doc.createElement( "TEXT" );
+    QDomElement textElem = doc.createElement( "title" );
     groupElem.appendChild( textElem );
     textElem.appendChild( doc.createTextNode( txt ) );
     return KBookmarkGroup(groupElem);
@@ -109,7 +114,7 @@ KBookmark KBookmarkGroup::createNewSeparator()
     ASSERT(!element.isNull());
     QDomDocument doc = element.ownerDocument();
     ASSERT(!doc.isNull());
-    QDomElement groupElem = doc.createElement( "SEPARATOR" );
+    QDomElement groupElem = doc.createElement( "separator" );
     return KBookmark(groupElem);
 }
 
@@ -120,26 +125,27 @@ bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
         n = element.insertAfter( item.element, after.element );
     else // the dom is quite strange. I need insertBefore to set a first child.
     {
-        // in addition to that, we have this hidden TEXT child
-        QDomElement firstChild = element.firstChild().toElement();
-        if ( firstChild.tagName() == "TEXT" )
-            n = element.insertAfter( item.element, firstChild );
-        else // well, this is not supposed to happen
-            n = element.insertBefore( item.element, QDomElement() );
+        // in addition to that, we have to skip everything up to the first node
+        QDomElement firstChild = nextKnownTag(element.firstChild().toElement(), true);
+        n = element.insertBefore( item.element, firstChild /*can be null*/ );
     }
     return (!n.isNull());
 }
 
-KBookmark KBookmarkGroup::addBookmark( const QString & text, const QString & url )
+KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url )
 {
     kdDebug() << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
     QDomDocument doc = element.ownerDocument();
-    QDomElement elem = doc.createElement( "BOOKMARK" );
+    QDomElement elem = doc.createElement( "bookmark" );
     element.appendChild( elem );
-    elem.setAttribute( "URL", url );
-    QString icon = KMimeType::iconForURL( KURL(url) );
-    elem.setAttribute( "ICON", icon );
-    elem.appendChild( doc.createTextNode( text ) );
+    elem.setAttribute( "href", url.url( 0, QFont::Unicode ) ); // write utf8 URL
+    QString icon = KMimeType::iconForURL( url );
+    elem.setAttribute( "icon", icon );
+
+    QDomElement textElem = doc.createElement( "title" );
+    elem.appendChild( textElem );
+    textElem.appendChild( doc.createTextNode( text ) );
+
     return KBookmark(elem);
 }
 
@@ -150,17 +156,17 @@ void KBookmarkGroup::deleteBookmark( KBookmark bk )
 
 bool KBookmarkGroup::isToolbarGroup() const
 {
-    return ( element.attribute("TOOLBAR") == "1" );
+    return ( element.attribute("toolbar") == "yes" );
 }
 
 QDomElement KBookmarkGroup::findToolbar() const
 {
-    // Search among the "GROUP" children only
-    QDomNodeList list = element.elementsByTagName("GROUP");
+    // Search among the "folder" children only
+    QDomNodeList list = element.elementsByTagName("folder");
     for ( uint i = 0 ; i < list.count() ; ++i )
     {
         QDomElement e = list.item(i).toElement();
-        if ( e.attribute("TOOLBAR") == "1" )
+        if ( e.attribute("toolbar") == "yes" )
             return e;
         else
         {
@@ -176,13 +182,14 @@ QDomElement KBookmarkGroup::findToolbar() const
 
 bool KBookmark::isGroup() const
 {
-    return (element.tagName() == "GROUP"
-            || element.tagName() == "BOOKMARKS" ); // don't forget the toplevel group
+    QString tag = element.tagName();
+    return ( tag == "folder"
+             || tag == "xbel" ); // don't forget the toplevel group
 }
 
 bool KBookmark::isSeparator() const
 {
-    return (element.tagName() == "SEPARATOR");
+    return (element.tagName() == "separator");
 }
 
 QString KBookmark::text() const
@@ -192,28 +199,20 @@ QString KBookmark::text() const
 
 QString KBookmark::fullText() const
 {
-    QString txt;
-    // This small hack allows to avoid virtual tables in
-    // KBookmark and KBookmarkGroup :)
-    if (isGroup())
-        txt = element.namedItem("TEXT").toElement().text();
-    else
-        if (isSeparator())
-            txt = i18n("--- separator ---");
-        else
-            txt = element.text();
+    if (isSeparator())
+        return i18n("--- separator ---");
 
-    return txt;
+    return element.namedItem("title").toElement().text();
 }
 
-QString KBookmark::url() const
+KURL KBookmark::url() const
 {
-    return element.attribute("URL"); // TODO : what about encoding ? - check XBEL
+    return KURL(element.attribute("href"), 0, QFont::Unicode); // Decode it from utf8
 }
 
 QString KBookmark::icon() const
 {
-    QString icon = element.attribute("ICON");
+    QString icon = element.attribute("icon");
     if ( icon.isEmpty() )
         // Default icon depends on URL for bookmarks, and is default directory
         // icon for groups.
@@ -240,7 +239,7 @@ KBookmarkGroup KBookmark::toGroup() const
 
 QString KBookmark::address() const
 {
-    if ( element.tagName() == "BOOKMARKS" )
+    if ( element.tagName() == "xbel" )
         return ""; // not QString::null !
     else
     {

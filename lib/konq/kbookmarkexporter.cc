@@ -75,9 +75,9 @@ void KNSBookmarkExporter::writeFolder( QTextStream &stream, KBookmarkGroup paren
             if ( bm.isGroup() )
             {
                 stream << "<DT><H3 ";
-                if (bm.internalElement().attribute("OPEN")!="1")
+                if (!bm.toGroup().isOpen())
                     stream << "FOLDED ";
-                stream << bm.internalElement().attribute("NETSCAPEINFO");
+                stream << bm.internalElement().attribute("netscapeinfo");
                 stream << ">" << text << "</H3>" << endl;
                 stream << "<DL><P>" << endl;
                 writeFolder( stream, bm.toGroup() );
@@ -85,8 +85,8 @@ void KNSBookmarkExporter::writeFolder( QTextStream &stream, KBookmarkGroup paren
             }
             else
             {
-                stream << "<DT><A HREF=\"" << bm.url() << "\"";
-                stream << bm.internalElement().attribute("NETSCAPEINFO");
+                stream << "<DT><A HREF=\"" << bm.url().url() /* netscape seems to use local8bit...*/ << "\"";
+                stream << bm.internalElement().attribute("netscapeinfo");
                 stream << ">" << text << "</A>" << endl;
             }
         }

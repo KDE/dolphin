@@ -19,6 +19,7 @@
 #define __kbookmark_h
 
 #include <qstring.h>
+#include <kurl.h>
 #include <qdom.h>
 
 class KBookmarkManager;
@@ -60,7 +61,7 @@ public:
     /**
      * URL contained by the bookmark
      */
-    QString url() const;
+    KURL url() const;
     /**
      * @return the pixmap file for this bookmark
      * (i.e. the name of the icon)
@@ -162,6 +163,11 @@ public:
     QString groupAddress() const;
 
     /**
+     * @return true if the bookmark folder is opened in the bookmark editor
+     */
+    bool isOpen() const;
+
+    /**
      * Return the first child bookmark of this group
      */
     KBookmark first() const;
@@ -188,7 +194,7 @@ public:
     /**
      * Create a new bookmark, as the last child of this group
      */
-    KBookmark addBookmark( const QString & text, const QString & url );
+    KBookmark addBookmark( const QString & text, const KURL & url );
 
     /**
      * Moves @p item after @p after (which should be a child of ours).

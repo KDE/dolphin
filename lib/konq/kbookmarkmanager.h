@@ -157,7 +157,8 @@ signals:
 protected:
     void parse();
     void importDesktopFiles();
-    //void printGroup( QDomElement & group, int indent = 0 );
+    void convertToXBEL( QDomElement & group );
+    void convertAttribute( QDomElement elem, const QString & oldName, const QString & newName );
     QString m_bookmarksFile;
     QDomDocument m_doc;
     static KBookmarkManager* s_pSelf;

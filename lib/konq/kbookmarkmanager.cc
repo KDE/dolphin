@@ -44,7 +44,7 @@ KBookmarkManager* KBookmarkManager::self()
 }
 
 KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportDesktopFiles )
-    : DCOPObject("KBookmarkManager"), m_doc("BOOKMARKS")
+    : DCOPObject("KBookmarkManager"), m_doc("xbel")
 {
     if ( s_pSelf )
         delete s_pSelf;
@@ -58,7 +58,7 @@ KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportD
     if ( !QFile::exists(m_bookmarksFile) )
     {
         // First time we use this class
-        QDomElement topLevel = m_doc.createElement("BOOKMARKS");
+        QDomElement topLevel = m_doc.createElement("xbel");
         m_doc.appendChild( topLevel );
         if ( bImportDesktopFiles )
             importDesktopFiles();
@@ -83,18 +83,36 @@ void KBookmarkManager::parse()
         kdWarning() << "Can't open " << m_bookmarksFile << endl;
         return;
     }
-    m_doc = QDomDocument("BOOKMARKS");
+    m_doc = QDomDocument("xbel");
     m_doc.setContent( &file );
 
-    QDomElement docElem = m_doc.documentElement(); // <BOOKMARKS>
+    QDomElement docElem = m_doc.documentElement();
     if ( docElem.isNull() )
         kdWarning() << "KBookmarkManager::parse : can't parse " << m_bookmarksFile << endl;
+    else
+    {
+        QString mainTag = docElem.tagName();
+        if ( mainTag == "BOOKMARKS" )
+        {
+            kdWarning() << "Old style bookmarks found. Calling convertToXBEL." << endl;
+            docElem.setTagName("xbel");
+            if ( docElem.hasAttribute( "HIDE_NSBK" ) ) // non standard either, but we need it
+            {
+                docElem.setAttribute( "hide_nsbk", docElem.attribute( "HIDE_NSBK" ) == "1" ? "yes" : "no" );
+                docElem.removeAttribute( "HIDE_NSBK" );
+            }
+
+            convertToXBEL( docElem );
+            save();
+        }
+        else if ( mainTag != "xbel" )
+            kdWarning() << "KBookmarkManager::parse : unknown main tag " << mainTag << endl;
+    }
 
     file.close();
 }
 
-/* for debugging only
-void KBookmarkManager::printGroup( QDomElement & group, int indent )
+void KBookmarkManager::convertToXBEL( QDomElement & group )
 {
     QDomNode n = group.firstChild();
     while( !n.isNull() )
@@ -103,25 +121,56 @@ void KBookmarkManager::printGroup( QDomElement & group, int indent )
         if ( !e.isNull() )
             if ( e.tagName() == "TEXT" )
             {
-                kdDebug() << "KBookmarkManager::printGroup text=" << e.text() << endl;
+                e.setTagName("title");
+            }
+            else if ( e.tagName() == "SEPARATOR" )
+            {
+                e.setTagName("separator"); // so close...
             }
             else if ( e.tagName() == "GROUP" )
-                printGroup( e, indent+1 );
+            {
+                e.setTagName("folder");
+                convertAttribute(e, "ICON","icon"); // non standard, but we need it
+                if ( e.hasAttribute( "TOOLBAR" ) ) // non standard either, but we need it
+                {
+                    e.setAttribute( "toolbar", e.attribute( "TOOLBAR" ) == "1" ? "yes" : "no" );
+                    e.removeAttribute( "TOOLBAR" );
+                }
+
+                convertAttribute(e, "NETSCAPEINFO","netscapeinfo"); // idem
+                bool open = (e.attribute("OPEN") == "1");
+                e.removeAttribute("OPEN");
+                e.setAttribute("folded", open ? "no" : "yes");
+                convertToXBEL( e );
+            }
             else
                 if ( e.tagName() == "BOOKMARK" )
                 {
-                    QString spaces;
-                    for ( int i = 0 ; i < indent ; i++ )
-                        spaces += " ";
-                    kdDebug() << "URL=" << e.attribute("URL") << endl;
-                    kdDebug() << spaces << e.text() << endl;
+                    e.setTagName("bookmark"); // so much difference :-)
+                    convertAttribute(e, "ICON","icon"); // non standard, but we need it
+                    convertAttribute(e, "NETSCAPEINFO","netscapeinfo"); // idem
+                    convertAttribute(e, "URL","href");
+                    QString text = e.text();
+                    while ( !e.firstChild().isNull() ) // clean up the old contained text
+                        e.removeChild(e.firstChild());
+                    QDomElement titleElem = e.ownerDocument().createElement("title");
+                    e.appendChild( titleElem ); // should be the only child anyway
+                    titleElem.appendChild( e.ownerDocument().createTextNode( text ) );
                 }
                 else
                     kdDebug() << "Unknown tag " << e.tagName() << endl;
         n = n.nextSibling();
     }
 }
-*/
+
+void KBookmarkManager::convertAttribute( QDomElement elem, const QString & oldName, const QString & newName )
+{
+    if ( elem.hasAttribute( oldName ) )
+    {
+        elem.setAttribute( newName, elem.attribute( oldName ) );
+        elem.removeAttribute( oldName );
+    }
+}
 
 void KBookmarkManager::importDesktopFiles()
 {
@@ -230,7 +279,7 @@ void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
 bool KBookmarkManager::showNSBookmarks() const
 {
     // The attr name is HIDE, so that the default is to show them
-    return root().internalElement().attribute("HIDE_NSBK") != "1";
+    return root().internalElement().attribute("hide_nsbk") != "yes";
 }
 
 void KBookmarkManager::slotEditBookmarks()
