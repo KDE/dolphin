@@ -436,15 +436,27 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
         KApplication::kdeinitExec( executable, args );
         return;
     }
-    
+
     if ( url == QString::fromLatin1("intro.html") )
-	return serve( KonqAboutPageFactory::intro() );
+    {
+	serve( KonqAboutPageFactory::intro() );
+        return;
+    }
     else if ( url == QString::fromLatin1("aboutkonq.html") )
-	return serve( KonqAboutPageFactory::aboutKonq() );
+    {
+	serve( KonqAboutPageFactory::aboutKonq() );
+        return;
+    }
     else if ( url == QString::fromLatin1("specs.html") )
-	return serve( KonqAboutPageFactory::specs() );
+    {
+	serve( KonqAboutPageFactory::specs() );
+        return;
+    }
     else if ( url == QString::fromLatin1("tips.html") )
-	return serve( KonqAboutPageFactory::tips() );
+    {
+        serve( KonqAboutPageFactory::tips() );
+        return;
+    }
 
     KHTMLPart::urlSelected( url, button, state, target );
 }
