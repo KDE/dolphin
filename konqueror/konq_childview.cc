@@ -98,10 +98,12 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 {
-  m_pView->openURL( url );
-
   if ( useMiscURLData && browserExtension() )
-    browserExtension()->setXYOffset( m_iXOffset, m_iYOffset );
+  {
+    KParts::URLArgs args(false, m_iXOffset, m_iYOffset);
+    browserExtension()->setURLArgs( args );    
+  }
+  m_pView->openURL( url );
 
   m_pMainView->setLocationBarURL( this, url.decodedURL() );
 
@@ -423,12 +425,14 @@ void KonqChildView::reload()
   m_bForward = false;
   m_bBack = false;
   lockHistory();
+  if ( browserExtension() )
+  {
+    KParts::URLArgs args(true, browserExtension()->xOffset(), browserExtension()->yOffset());
+    browserExtension()->setURLArgs( args );    
+  }
 
   //  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
   m_pView->openURL( m_pView->url() );
-
-  if ( browserExtension() )
-    browserExtension()->setXYOffset( browserExtension()->xOffset(), browserExtension()->yOffset() );
 }
 
 void KonqChildView::setPassiveMode( bool mode )
