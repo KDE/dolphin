@@ -14,4 +14,4 @@ konq_aboutpage_datadir = $(kde_datadir)/konqueror/about
 konq_aboutpage_data_DATA = \
 	box-centre-konqueror.png  more.png          top-right-konqueror.png  lightning.png \
 	launch.html               intro.html        specs.html               tips.html \
-	plugins.html              plugins_rtl.html  konq.css
+	plugins.html              plugins_rtl.html  
