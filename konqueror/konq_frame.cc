@@ -83,7 +83,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
    connect(m_pLinkedViewCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(linkedViewClicked(bool)));
 
-   m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, this );
+   m_progressBar = new KProgress( this );
    m_progressBar->hide();
   //m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
 //   m_msgTimer = 0;
