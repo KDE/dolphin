@@ -202,6 +202,8 @@ public:
    */
   bool isHTMLAllowed() const { return m_bHTMLAllowed; }
 
+  bool isBackRightClickEnabled() const { return m_bBackRightClick; }
+
   bool saveViewPropertiesLocally() const { return m_bSaveViewPropertiesLocally; }
 
   static QPtrList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
@@ -557,6 +559,8 @@ private:
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
   bool m_urlCompletionStarted;
+
+  bool m_bBackRightClick;
 };
 
 #endif

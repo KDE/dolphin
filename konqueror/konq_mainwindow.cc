@@ -200,6 +200,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_ptaUseHTML->setChecked( m_bHTMLAllowed );
   m_sViewModeForDirectory = config->readEntry( "ViewMode" );
 
+  m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
+
   KonqUndoManager::incRef();
 
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),

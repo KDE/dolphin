@@ -80,6 +80,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bGotIconURL = false;
   m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
+  m_bBackRightClick = m_pMainWindow->isBackRightClickEnabled();
 
   switchView( viewFactory );
 }
@@ -322,6 +323,10 @@ void KonqView::connectPart(  )
   if ( urlDropHandling.type() == QVariant::Bool &&
        urlDropHandling.toBool() )
       m_pPart->widget()->installEventFilter( this );
+  if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
+  {
+    (dynamic_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+  }
 
   // KonqDirPart signal
   if ( m_pPart->inherits("KonqDirPart") )
@@ -840,6 +845,12 @@ void KonqView::enablePopupMenu( bool b )
   if ( !m_bPopupMenuEnabled && b ) {
     m_bPopupMenuEnabled = true;
 
+    if ( m_bBackRightClick )
+    {
+      connect( this, SIGNAL( backRightClick() ),
+               m_pMainWindow, SLOT( slotBack() ) );
+    }
+		
     connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
@@ -856,6 +867,12 @@ void KonqView::enablePopupMenu( bool b )
   // disable context popup
   if ( m_bPopupMenuEnabled && !b ) {
     m_bPopupMenuEnabled = false;
+
+    if ( m_bBackRightClick )
+    {
+      disconnect( this, SIGNAL( backRightClick() ),
+               m_pMainWindow, SLOT( slotBack() ) );
+    }
 
     disconnect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
              m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
@@ -880,10 +897,10 @@ KonqViewIface * KonqView::dcopObject()
 
 bool KonqView::eventFilter( QObject *obj, QEvent *e )
 {
-    if ( m_pPart && obj != m_pPart->widget() )
+    if ( !m_pPart )
         return false;
-
-    if ( e->type() == QEvent::DragEnter )
+//  kdDebug() << "--" << obj->className() << "--" << e->type() << "--"  << endl;
+    if ( e->type() == QEvent::DragEnter && obj == m_pPart->widget() )
     {
         QDragEnterEvent *ev = static_cast<QDragEnterEvent *>( e );
 
@@ -904,7 +921,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
             delete children;
         }
     }
-    else if ( e->type() == QEvent::Drop )
+    else if ( e->type() == QEvent::Drop && obj == m_pPart->widget() )
     {
         QDropEvent *ev = static_cast<QDropEvent *>( e );
 
@@ -915,7 +932,44 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         if ( ok && ext )
             emit ext->openURLRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
     }
-
+    if ( m_bBackRightClick )
+    {
+        if ( e->type() == QEvent::ContextMenu )
+        {
+            return true;
+        }
+        else if ( e->type() == QEvent::MouseButtonPress )
+        {
+            QMouseEvent *ev = static_cast<QMouseEvent *>( e );
+            if ( ev->button() == RightButton )
+            {
+                return true;
+            }
+        }
+        else if ( e->type() == QEvent::MouseButtonRelease )
+        {
+            QMouseEvent *ev = static_cast<QMouseEvent *>( e );
+            if ( ev->button() == RightButton )
+            {
+                emit backRightClick();
+                return true;
+            }
+        }
+        else if ( e->type() == QEvent::MouseMove )
+        {
+            QMouseEvent *ev = static_cast<QMouseEvent *>( e );
+            if ( ev->state() == RightButton )
+            {
+                obj->removeEventFilter( this );
+                QMouseEvent me( QEvent::MouseButtonPress, ev->pos(), 2, 2 );
+                QApplication::sendEvent( obj, &me );
+//              QContextMenuEvent ce( QContextMenuEvent::Mouse, ev->pos(), 2 );
+//              QApplication::sendEvent( obj, &ce );
+                obj->installEventFilter( this );
+                return true;
+            }
+        }
+    }
     return false;
 }
 

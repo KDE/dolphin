@@ -277,6 +277,11 @@ signals:
    */
   void viewCompleted( KonqView * view );
 
+  /**
+   * Emitted only if the option backRightClick is activated
+   */
+  void backRightClick();
+
 public slots:
   /**
    * Store location-bar URL in the child view
@@ -371,6 +376,7 @@ protected:
   QString m_caption;
   KonqViewIface * m_dcopObject;
   KonqBrowserInterface *m_browserIface;
+  bool m_bBackRightClick;
 };
 
 #endif
