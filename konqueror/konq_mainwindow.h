@@ -535,7 +535,8 @@ private:
   QGuardedPtr<KonqView> m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
-  KActionCollection*  m_bookmarksActionCollection;
+  KActionCollection* m_bookmarksActionCollection;
+  KActionCollection* m_bookmarkBarActionCollection;
 
   KonqViewManager *m_pViewManager;
 

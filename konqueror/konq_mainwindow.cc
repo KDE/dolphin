@@ -129,6 +129,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_viewModeMenu = 0;
   m_paCopyFiles = 0L;
   m_paMoveFiles = 0L;
+  m_bookmarkBarActionCollection = 0L;
 
   KConfig *config = KGlobal::config();
 
@@ -267,7 +268,15 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
   {
     assert( res->inherits( "KToolBar" ) );
 
-    m_paBookmarkBar = new KBookmarkBar( this, static_cast<KToolBar *>( res ), actionCollection(), this );
+    if ( !m_bookmarkBarActionCollection )
+    {
+        // The actual menu needs a different action collection, so that the bookmarks
+        // don't appear in kedittoolbar
+        m_bookmarkBarActionCollection = new KActionCollection( this );
+        m_bookmarkBarActionCollection->setHighlightingEnabled( true );
+        connectActionCollection( m_bookmarkBarActionCollection );
+    }
+    m_paBookmarkBar = new KBookmarkBar( this, static_cast<KToolBar *>( res ), m_bookmarkBarActionCollection, this );
   }
 
   return res;
