@@ -939,7 +939,6 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
     //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
-    QPoint offset(-10,-10);
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
     QIconViewItem *primaryItem = currentItem();
     // Append all items to the drag object
@@ -953,19 +952,16 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
-                        QRect( it->pixmapRect(false).topLeft() - m_mousePos - offset,
+                        QRect( it->pixmapRect(false).topLeft() - m_mousePos,
                                it->pixmapRect().size() ),
-                        QRect( it->textRect(false).topLeft() - m_mousePos - offset,
+                        QRect( it->textRect(false).topLeft() - m_mousePos,
                                it->textRect().size() ),
                         itemURL );
         }
     }
 
     if (primaryItem)
-    {
-       // Set pixmap, with the correct offset
-       drag->setPixmap( *primaryItem->pixmap(), m_mousePos - primaryItem->pixmapRect(false).topLeft() + offset );
-    }
+       drag->setPixmap( *primaryItem->pixmap(), m_mousePos - primaryItem->pixmapRect(false).topLeft() );
 
     return drag;
 }
