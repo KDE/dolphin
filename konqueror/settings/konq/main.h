@@ -38,6 +38,7 @@ class KMiscOptions;
 class KRootOptions;
 class KTrashOptions;
 class KDesktopConfig;
+class KPreviewOptions;
 
 class KonqyModule : public KCModule
 {
@@ -65,7 +66,7 @@ private:
   KBehaviourOptions *behaviour;
   KonqFontOptions   *font;
   KTrashOptions  *trash;
-
+  KPreviewOptions *previews;
 };
 
 

@@ -37,6 +37,7 @@
 #include "fontopts.h"
 #include "trashopts.h"
 #include "desktop.h"
+#include "previews.h"
 
 #include "main.h"
 #include "main.moc"
@@ -73,6 +74,10 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   trash = new KTrashOptions(config, "Trash", this);
   tab->addTab(trash, i18n("&Trash"));
   connect(trash, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  previews = new KPreviewOptions( this );
+  tab->addTab(previews, i18n("Pre&views"));
+  connect(previews, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 }
 
 
@@ -81,6 +86,7 @@ void KonqyModule::load()
   behaviour->load();
   font->load();
   trash->load();
+  previews->load();
 }
 
 
@@ -89,6 +95,7 @@ void KonqyModule::save()
   behaviour->save();
   font->save();
   trash->save();
+  previews->save();
 
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
@@ -104,6 +111,7 @@ void KonqyModule::defaults()
   behaviour->defaults();
   font->defaults();
   trash->defaults();
+  previews->defaults();
 }
 
 QString KonqyModule::quickHelp() const
@@ -122,7 +130,9 @@ QString KonqyModule::quickHelp() const
     " such as the font and color of text, background color, etc."
     " <h2>Trash</h2>"
     " This tab contains options for customizing the behavior of"
-    " Konqueror when you \"delete\" a file.");
+    " Konqueror when you \"delete\" a file."
+    " <h2>Previews</h2>"
+    " This tab contains options for the file previews in Konqueror.");
 }
 
 
@@ -131,6 +141,7 @@ void KonqyModule::moduleChanged(bool state)
   emit changed(state);
 }
 
+/////////////////////////////////////////////////////////////////////////////
 
 KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   : KCModule(parent, name)

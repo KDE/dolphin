@@ -50,7 +50,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QGridLayout *lay = new QGridLayout(this,10,4, // rows, cols
                                        KDialog::marginHint(),
                                        KDialog::spacingHint());     // border, space
-    lay->setRowStretch(6,1);
+    lay->setRowStretch(7,10);
     lay->setColStretch(1,1);
     lay->setColStretch(3,1);
 
@@ -75,7 +75,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
     // ----
-    
+
     row++;
     cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), this );
     lay->addMultiCellWidget(cbListProgress, row, row, 0, 2, Qt::AlignLeft);
@@ -96,7 +96,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
                                     "small popup window with additional information about that file"));
-    
+
     label = new QLabel(i18n("Number of file tip entries:"), this);
     lay->addWidget(label, row, 2);
 
@@ -111,9 +111,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
                           "are displayed");
     QWhatsThis::add( label, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
-    
+
     // --
-    
+
     row++;
     label = new QLabel(i18n("Home &URL:"), this);
     lay->addWidget(label, row, 0);
@@ -182,7 +182,7 @@ void KBehaviourOptions::load()
     updateWinPixmap(cbNewWin->isChecked());
 
     homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
-    
+
     bool stips = g_pConfig->readBoolEntry( "ShowFileTips", true );
     cbShowTips->setChecked( stips );
 
@@ -219,7 +219,7 @@ void KBehaviourOptions::defaults()
     rbOPLocal->setChecked(true);
 
     cbListProgress->setChecked( false );
-    
+
     cbShowTips->setChecked( true );
     sbToolTip->setEnabled( true );
     sbToolTip->setValue( 6 );
@@ -231,7 +231,7 @@ void KBehaviourOptions::save()
 
     g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
     g_pConfig->writeEntry( "HomeURL", homeURL->text().isEmpty()? "~" : homeURL->text() );
-    
+
     g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
     g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
