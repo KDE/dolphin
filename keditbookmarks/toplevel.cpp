@@ -172,8 +172,6 @@ void KEBApp::createActions() {
                       actn, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
    (void) new KAction(i18n("Cancel &Favicon Updates"), 0,
                       actn, SLOT( slotCancelFavIconUpdates() ), actionCollection(), "cancelfaviconupdates" );
-   (void) new KAction(i18n("Cancel &Search"), 0,
-                      actn, SLOT( slotCancelSearch() ), actionCollection(), "cancelsearch" );
    (void) new KAction(i18n("Import &Netscape Bookmarks..."), "netscape", 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importNS");
    (void) new KAction(i18n("Import &Opera Bookmarks..."), "opera", 0,
@@ -264,10 +262,6 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
 }
 
 // DESIGN clean up this sh*t
-
-void KEBApp::setCancelSearchEnabled(bool enabled) {
-   actionCollection()->action("cancelsearch")->setEnabled(enabled);
-}
 
 void KEBApp::setCancelFavIconUpdatesEnabled(bool enabled) {
    actionCollection()->action("cancelfaviconupdates")->setEnabled(enabled);
@@ -439,8 +433,6 @@ void KEBApp::slotLoad() {
    if (!queryClose()) {
       return;
    }
-   // TODO - add a few default place to the file dialog somehow?,
-   //      - e.g kfile bookmarks +  normal bookmarks file dir
    QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", this);
    if (!bookmarksFile.isNull()) {
       m_bookmarksFilename = bookmarksFile;

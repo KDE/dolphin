@@ -58,7 +58,6 @@ public:
    void setActionsEnabled(SelcAbilities);
 
    void setCancelFavIconUpdatesEnabled(bool);
-   void setCancelSearchEnabled(bool);
    void setCancelTestsEnabled(bool);
 
    void emitSlotCommandExecuted();

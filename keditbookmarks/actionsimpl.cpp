@@ -156,10 +156,6 @@ void ActionsImpl::slotCancelAllTests() {
    TestLinkItrHolder::self()->cancelAllItrs();
 }
 
-void ActionsImpl::slotCancelSearch() {
-   SearchItrHolder::self()->cancelAllItrs();
-}
-
 void ActionsImpl::slotTestAll() {
    TestLinkItrHolder::self()->insertItr(new TestLinkItr(ListView::self()->allBookmarks()));
 }

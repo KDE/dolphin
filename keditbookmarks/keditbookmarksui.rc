@@ -37,7 +37,6 @@
   <Separator/><!-- Searching -->
   <Action name="search"/>
   <Action name="nexthit"/>
-  <Action name="cancelsearch"/>
   <Separator/><!-- Expand/collapse -->
   <Action name="expandall"/>
   <Action name="collapseall"/>
@@ -144,7 +143,6 @@
 <State name="disablestuff">
   <disable>
     <Action name="cancelfaviconupdates"/>
-    <Action name="cancelsearch"/>
     <Action name="canceltests"/>
     <Action name="changecomment"/>
     <Action name="changeicon"/>
@@ -157,12 +155,7 @@
     <Action name="edit_redo"/>
     <Action name="edit_undo"/>
     <Action name="expandall"/>
-    <Action name="exportMoz"/>
-    <Action name="exportNS"/>
-    <Action name="file_open"/>
-    <Action name="file_quit"/>
     <Action name="file_save"/>
-    <Action name="file_save_as"/>
     <Action name="importGaleon"/>
     <Action name="importIE"/>
     <Action name="importKDE2"/>
