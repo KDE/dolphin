@@ -212,9 +212,9 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     hlay->addItem( spacer );
     vlay->addLayout( hlay );
 
-    hlay = new QHBoxLayout;
-    hlay->setSpacing( KDialog::spacingHint() );
-    hlay->setMargin( 0 );
+    QGridLayout *gridlay = new QGridLayout( 2, 2 );
+    gridlay->setSpacing( KDialog::spacingHint() );
+    gridlay->setMargin( 0 );
 
     m_rbEnvVar = new QRadioButton( i18n("Preset environment &variables"),
                                   m_gbConfigure, "m_rbEnvVar" );
@@ -228,26 +228,15 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                      "the right side to provide the environment "
                                      "variable names used to set the address "
                                      "of the proxy server(s).</qt>") );
-    hlay->addWidget( m_rbEnvVar );
-    spacer = new QSpacerItem( 45, 20, QSizePolicy::Fixed,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
+    gridlay->addWidget( m_rbEnvVar, 0, 0 );
 
     m_pbEnvSetup = new QPushButton( i18n("Setup..."), m_gbConfigure,
                                    "m_pbEnvSetup" );
     m_pbEnvSetup->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                              QSizePolicy::Fixed,
                                              m_pbEnvSetup->sizePolicy().hasHeightForWidth()) );
-    hlay->addWidget( m_pbEnvSetup );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
-    vlay->addLayout( hlay );
-
-    hlay = new QHBoxLayout;
-    hlay->setSpacing( KDialog::spacingHint() );
-    hlay->setMargin( 0 );
-
+    gridlay->addWidget( m_pbEnvSetup, 0, 1 );
+    
     m_rbManual = new QRadioButton( i18n("&Manually specified settings"),
                                   m_gbConfigure, "m_rbManual" );
     QWhatsThis::add( m_rbManual, i18n("<qt>Select this option and click on "
@@ -255,21 +244,16 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                      "right side to manually setup the "
                                      "location of the proxy servers to be "
                                      "used.</qt>") );
-    hlay->addWidget( m_rbManual );
-    spacer = new QSpacerItem( 40, 20, QSizePolicy::Fixed,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
+    gridlay->addWidget( m_rbManual, 1, 0 );
 
     m_pbManSetup = new QPushButton( i18n("Setup..."), m_gbConfigure,
                                    "m_pbManSetup" );
     m_pbManSetup->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                              QSizePolicy::Fixed,
                                              m_pbManSetup->sizePolicy().hasHeightForWidth()) );
-    hlay->addWidget( m_pbManSetup );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
-    vlay->addLayout( hlay );
+    gridlay->addWidget( m_pbManSetup, 1, 1 );
+    
+    vlay->addLayout( gridlay );
     mainLayout->addWidget( m_gbConfigure );
 
     m_gbAuth = new QButtonGroup( i18n("Authorization"), this, "m_gbAuth" );
