@@ -23,18 +23,26 @@
 */
 
 
+#include <config.h>
+
 #include "nsplugin.h"
 
-#include <kmessagebox.h>
-#include <kdebug.h>
+#include <dcopclient.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
-#include <dcopclient.h>
+#include <kdebug.h>
+#include <kglobal.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <qptrlist.h>
 #include <qsocketnotifier.h>
 #include <stdlib.h>
-#include "../../config.h"
+#include <unistd.h>
+
+#ifdef Bool
+#undef Bool
+#endif
+#include <kconfig.h>
 
 #if QT_VERSION < 0x030100
 #include "kxt.h"
@@ -114,7 +122,7 @@ QPtrList<SocketNot> _notifiers[3];
  * socketCallback - send event to the socket notifier
  *
  */
-void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
+void socketCallback(void *client_data, int* /*source*/, XtInputId* /*id*/)
 {
   kdDebug(1430) << "-> socketCallback( client_data=" << client_data << " )" << endl;
 
@@ -198,6 +206,15 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 
 int main(int argc, char** argv)
 {
+   {
+      KConfig cfg("kcmnspluginrc", true);
+      cfg.setGroup("Misc");
+      int v = KCLAMP(cfg.readNumEntry("Nice Level", 0), 0, 19);
+      if (v > 0) {
+         nice(v);
+      }
+   }
+
     // nspluginviewer is a helper app, it shouldn't do session management at all
    setenv( "SESSION_MANAGER", "", 1 );
 
