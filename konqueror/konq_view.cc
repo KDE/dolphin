@@ -35,9 +35,11 @@
 #include <assert.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kurldrag.h>
 
 #include <qapplication.h>
 #include <qmetaobject.h>
+#include <qobjectlist.h>
 
 #include <kparts/factory.h>
 
@@ -307,6 +309,20 @@ void KonqView::connectPart(  )
 
   callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
 
+  QVariant urlDropHandling;
+
+  if ( browserExtension() )
+      urlDropHandling = browserExtension()->property( "urlDropHandling" );
+  else
+      urlDropHandling = QVariant( true, 0 );
+
+  // install the event filter when
+  //  a) either the property says "ok"
+  //  or
+  //  b) the part is a plain krop (no BE)
+  if ( urlDropHandling.type() == QVariant::Bool &&
+       urlDropHandling.toBool() )
+      m_pPart->widget()->installEventFilter( this );
 }
 
 void KonqView::slotStarted( KIO::Job * job )
@@ -720,6 +736,47 @@ KonqViewIface * KonqView::dcopObject()
   if ( !m_dcopObject )
       m_dcopObject = new KonqViewIface( this );
   return m_dcopObject;
+}
+
+bool KonqView::eventFilter( QObject *obj, QEvent *e )
+{
+    if ( m_pPart && obj != m_pPart->widget() )
+        return false;
+
+    if ( e->type() == QEvent::DragEnter )
+    {
+        QDragEnterEvent *ev = static_cast<QDragEnterEvent *>( e );
+
+        if ( QUriDrag::canDecode( ev ) )
+        {
+            KURL::List lstDragURLs;
+            bool ok = KURLDrag::decode( ev, lstDragURLs );
+
+            QObjectList *children = m_pPart->widget()->queryList( "QWidget" );
+
+            if ( ok &&
+                 !lstDragURLs.first().url().contains( "javascript:", false ) && // ### this looks like a hack to me
+                 ev->source() != m_pPart->widget() &&
+                 children &&
+                 children->findRef( ev->source() ) == -1 )
+                ev->acceptAction();
+
+            delete children;
+        }
+    }
+    else if ( e->type() == QEvent::Drop )
+    {
+        QDropEvent *ev = static_cast<QDropEvent *>( e );
+
+        KURL::List lstDragURLs;
+        bool ok = KURLDrag::decode( ev, lstDragURLs );
+
+        KParts::BrowserExtension *ext = browserExtension();
+        if ( ok && ext )
+            emit ext->openURLRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
+    }
+
+    return false;
 }
 
 #include "konq_view.moc"

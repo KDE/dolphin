@@ -324,6 +324,8 @@ protected:
 
   void setServiceTypeInExtension();
 
+  virtual bool eventFilter( QObject *obj, QEvent *e );
+
 ////////////////// protected members ///////////////
 
   KParts::ReadOnlyPart *m_pPart;

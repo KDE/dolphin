@@ -1,3 +1,9 @@
+2000-11-25  Simon Hausmann  <simon@kde.org>
+
+	* konq_view.cc (connectPart): Install new url event filter for plain
+	krops and for browserviews with the enableURLDropHandling property enabled
+	(eventFilter): New eventfilter which listens for url drop events
+
 Sat Nov 25 17:38:27 2000  Carsten Pfeiffer  <pfeiffer@kde.org>
 
 	* konq_mainwindow.cc: Completion handling overhauled. We have
