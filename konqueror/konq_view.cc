@@ -481,8 +481,10 @@ void KonqView::slotCompleted( bool hasPending )
 
   if ( ! m_bLockHistory )
   {
-      // Success... update history entry (mostly for location bar URL)
-      updateHistoryEntry(true);
+      // Success... update location bar URL
+      HistoryEntry * current = m_lstHistory.current();
+      if ( current )
+          current->locationBarURL = m_sLocationBarURL;
 
       if ( m_bAborted ) // remove the pending entry on error
           KonqHistoryManager::kself()->removePending( url() );

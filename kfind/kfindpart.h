@@ -55,9 +55,9 @@ public:
     virtual bool openFile() { return false; }
 
     bool showsResult() const { return m_bShowsResult; }
-    /* Save everything in the dialog box, useful for the "back" function of konqueror */
-    void saveKFindState( QDataStream *stream );
-    void restoreKFindState( QDataStream *stream );
+    
+    virtual void saveState( QDataStream &stream );
+    virtual void restoreState( QDataStream &stream );
 
   // "Cut" icons : disable those whose URL is in lst, enable the rest //added for konqdirpart
   virtual void disableIcons( const KURL::List & ){};
@@ -96,34 +96,6 @@ private:
      * The internal storage of file items
      */
     QPtrList<KFileItem> m_lstFileItems;
-};
-
-/* This class will be used to save the kfind dialog state and
-  the search result. These will be restored when the user press the
-  "back" button
-*/
-class KFindPartBrowserExtension : public KParts::BrowserExtension
-{
-  Q_OBJECT
-  friend class KFindPart;
-public:
-  KFindPartBrowserExtension( KFindPart *findPart );
-
-  virtual void saveState( QDataStream &stream )
-    {
-      KParts::BrowserExtension::saveState( stream );
-      m_findPart->saveKFindState( &stream );
-    }
-
-  virtual void restoreState( QDataStream &stream )
-    {
-      KParts::BrowserExtension::restoreState( stream );
-      m_findPart->restoreKFindState( &stream );
-    }
-
-private:
-  KFindPart *m_findPart;
-  bool m_bSaveViewPropertiesLocally;
 };
 
 #endif

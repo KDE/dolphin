@@ -97,7 +97,7 @@ extern "C"
 }
 
 ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
- : KParts::BrowserExtension( listView )
+ : KonqDirPartBrowserExtension( listView )
 {
   m_listView = listView;
 }

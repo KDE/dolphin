@@ -201,7 +201,7 @@ protected:
   void showDirectoryOverlay(KFileIVI*  item);
 };
 
-class IconViewBrowserExtension : public KParts::BrowserExtension
+class IconViewBrowserExtension : public KonqDirPartBrowserExtension
 {
   Q_OBJECT
   friend class KonqKfmIconView; // so that it can emit our signals
@@ -210,22 +210,6 @@ public:
 
   virtual int xOffset();
   virtual int yOffset();
-
-  virtual void saveState( QDataStream &stream )
-    {
-      m_iconView->saveNameFilter( stream );
-      KParts::BrowserExtension::saveState( stream );
-      m_iconView->saveState( stream );
-    }
-
-  virtual void restoreState( QDataStream &stream )
-    {
-      // Note: since we need to restore the name filter,
-      // BEFORE opening the URL.
-      m_iconView->restoreNameFilter( stream );
-      KParts::BrowserExtension::restoreState( stream );
-      m_iconView->restoreState( stream );
-    }
 
 public slots:
   // Those slots are automatically connected by the shell

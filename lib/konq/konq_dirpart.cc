@@ -258,61 +258,49 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     }
 }
 
-void KonqDirPart::saveNameFilter( QDataStream &stream )
+void KonqDirPart::saveState( QDataStream& stream )
 {
     stream << m_nameFilter;
 }
 
-void KonqDirPart::saveState( QDataStream &stream )
-{
-    //kdDebug(1203) << " -- void KonqDirPart::saveState( QDataStream &stream )" << endl;
-    if ( !m_findPart )
-        stream << false;
-    else
-    {
-        //kdDebug(1203) << "KonqDirPart::saveState -> saving TRUE" << endl;
-        stream << true;
-        // TODO save the kfindpart in there
-        KParts::BrowserExtension * ext = KParts::BrowserExtension::childObject( m_findPart );
-        if(m_findPart==NULL) {
-                kdDebug() << "m_findpart is null\n";
-                return;
-        }
-        if(ext==NULL) {
-                kdDebug() << "ext is null\n";
-                return;
-        }
-        else
-                ext->saveState( stream );
-    }
-}
-
-void KonqDirPart::restoreNameFilter( QDataStream &stream )
+void KonqDirPart::restoreState( QDataStream& stream )
 {
     stream >> m_nameFilter;
-    //kdDebug(1203) << "KonqDirPart::restoreNameFilter " << m_nameFilter << endl;
 }
 
-void KonqDirPart::restoreState( QDataStream &stream )
+void KonqDirPart::saveFindState( QDataStream& stream )
 {
-    // Warning: see comment in IconViewBrowserExtension::restoreState about order
-    //kdDebug(1203) << " -- void KonqDirPart::restoreState( QDataStream &stream )" << endl;
+    if ( !m_findPart ) {
+        stream << false;
+        return;
+    }
+        
+    stream << true;
+       
+    KParts::BrowserExtension* ext = KParts::BrowserExtension::childObject( m_findPart );
+    if( !ext )
+        return;
+
+    ext->saveState( stream );
+}
+
+void KonqDirPart::restoreFindState( QDataStream& stream )
+{
     bool bFindPart;
     stream >> bFindPart;
-    //kdDebug(1203) << "KonqDirPart::restoreState " << bFindPart << endl;
-    if ( bFindPart )
-    {
-        emit findOpen( this );
-        // TODO restore the kfindpart data
-        KParts::BrowserExtension * ext = KParts::BrowserExtension::childObject( m_findPart );
-        slotClear();
-        if(m_findPart==NULL)
-                kdDebug() << "\n*************\nrestore m_findpart is null\n";
-        if(ext==NULL)
-                kdDebug() << "\n*************\nrestore ext is null\n";
-        else
-                ext->restoreState( stream );
-    }
+    
+    if ( !bFindPart )
+        return;
+        
+    emit findOpen( this );
+        
+    KParts::BrowserExtension* ext = KParts::BrowserExtension::childObject( m_findPart );
+    slotClear();
+    
+    if( !ext )
+        return;
+                
+    ext->restoreState( stream );
 }
 
 void KonqDirPart::slotClipboardDataChanged()

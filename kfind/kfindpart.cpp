@@ -40,7 +40,7 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
 {
     setInstance( KFindFactory::instance() );
 
-    setBrowserExtension( new KFindPartBrowserExtension(this) );
+    setBrowserExtension( new KonqDirPartBrowserExtension( this ) );
 
     kdDebug() << "KFindPart::KFindPart " << this << endl;
     m_kfindWidget = new Kfind( parentWidget, widgetName );
@@ -142,42 +142,35 @@ void KFindPart::slotDestroyMe()
   emit findClosed();
 }
 
-void KFindPart::saveKFindState( QDataStream *stream )
+void KFindPart::saveState( QDataStream& stream )
 {
-  m_kfindWidget->saveState( stream );
+  m_kfindWidget->saveState( &stream );
   //Now we'll save the search result
   KFileItem *fileitem=m_lstFileItems.first();
-  *stream << m_lstFileItems.count();
+  stream << m_lstFileItems.count();
   while(fileitem!=NULL)
   {
-        *stream << fileitem->url();
+        stream << fileitem->url();
         fileitem=m_lstFileItems.next();
   }
 }
 
-void KFindPart::restoreKFindState( QDataStream *stream )
+void KFindPart::restoreState( QDataStream& stream )
 {
   int nbitems;
   int i;
   KURL itemUrl;
 
-  m_kfindWidget->restoreState( stream );
+  m_kfindWidget->restoreState( &stream );
 
-  *stream >> nbitems;
+  stream >> nbitems;
   slotStarted();
   for(i=0;i<nbitems;i++)
   {
-    *stream >> itemUrl;
+    stream >> itemUrl;
     addFile(new KFileItem(itemUrl,"",0),"");
   }
     emit finished();
-}
-
-KFindPartBrowserExtension::KFindPartBrowserExtension( KFindPart *findPart )
- : KParts::BrowserExtension( findPart )
-{
-  m_findPart = findPart;
-  m_bSaveViewPropertiesLocally = false;
 }
 
 #include "kfindpart.moc"

@@ -79,9 +79,10 @@ void KonqTreeViewWidget::saveState( QDataStream &stream )
     QStringList openDirList;
 
     QDictIterator<KonqListViewDir> it( m_dictSubDirs );
-    for (; it.current(); ++it )
+    for (; it.current(); ++it ) {
         if ( it.current()->isOpen() )
             openDirList.append( it.current()->url( -1 ) );
+    }
 
     stream << openDirList;
     KonqBaseListViewWidget::saveState( stream );

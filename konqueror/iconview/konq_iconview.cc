@@ -109,7 +109,7 @@ extern "C"
 };
 
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
- : KParts::BrowserExtension( iconView )
+ : KonqDirPartBrowserExtension( iconView )
 {
   m_iconView = iconView;
   m_bSaveViewPropertiesLocally = false;

@@ -164,7 +164,7 @@ private:
   KToggleAction *m_paShowURL;
 };
 
-class ListViewBrowserExtension : public KParts::BrowserExtension
+class ListViewBrowserExtension : public KonqDirPartBrowserExtension
 {
    Q_OBJECT
    friend class KonqListView;
@@ -174,22 +174,6 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
 
       virtual int xOffset();
       virtual int yOffset();
-
-      virtual void saveState( QDataStream &stream )
-        {
-          m_listView->saveNameFilter( stream );
-          m_listView->saveState( stream );
-          KParts::BrowserExtension::saveState( stream );
-        }
-
-      virtual void restoreState( QDataStream &stream )
-        {
-          // Note: since we need to restore the name filter,
-          // BEFORE opening the URL.
-          m_listView->restoreNameFilter( stream );
-          m_listView->restoreState( stream );
-          KParts::BrowserExtension::restoreState( stream );
-        }
 
    protected slots:
       void updateActions();

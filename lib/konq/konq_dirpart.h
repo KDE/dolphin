@@ -22,6 +22,7 @@
 
 #include <qstring.h>
 #include <kparts/part.h>
+#include <kparts/browserextension.h>
 #include <kfileitem.h>
 
 namespace KParts { class BrowserExtension; }
@@ -29,10 +30,14 @@ class KonqPropsView;
 class QScrollView;
 class KAction;
 class KToggleAction;
+class KonqDirPartBrowserExtension;
 
 class KonqDirPart: public KParts::ReadOnlyPart
 {
-  Q_OBJECT
+    Q_OBJECT
+    
+    friend class KonqDirPartBrowserExtension;
+    
 public:
     KonqDirPart( QObject *parent, const char *name );
 
@@ -41,20 +46,15 @@ public:
     /**
      * The derived part should call this in its constructor
      */
-    void setBrowserExtension( KParts::BrowserExtension * extension )
+    void setBrowserExtension( KonqDirPartBrowserExtension * extension )
       { m_extension = extension; }
 
-    KParts::BrowserExtension * extension()
+    KonqDirPartBrowserExtension * extension()
       { return m_extension; }
 
     QScrollView * scrollWidget();
 
-    void saveNameFilter( QDataStream &stream );
-
-    void restoreNameFilter( QDataStream &stream );
-
     virtual void saveState( QDataStream &stream );
-
     virtual void restoreState( QDataStream &stream );
 
     /** Called when LMB'ing an item in a directory view.
@@ -287,7 +287,7 @@ protected:
     KToggleAction *m_paSmallIcons;
 
     KParts::ReadOnlyPart * m_findPart;
-    KParts::BrowserExtension * m_extension;
+    KonqDirPartBrowserExtension * m_extension;
 
     int m_iIconSize[5];
 
@@ -297,8 +297,46 @@ protected:
     //bool m_bMultipleItemsSelected;
 
 private:
+    void saveFindState( QDataStream& );
+    void restoreFindState( QDataStream& );
+    
     class KonqDirPartPrivate;
     KonqDirPartPrivate* d;
+};
+
+class KonqDirPartBrowserExtension : public KParts::BrowserExtension
+{
+public:
+    KonqDirPartBrowserExtension( KonqDirPart* dirPart )
+        : KParts::BrowserExtension( dirPart )
+        , m_dirPart( dirPart )
+    {}
+    
+    // For restoration of the find part to work correctly, we need
+    // the state to be saved and restored in the following order:
+    // 1. KonqDirPart (and derived classes)
+    // 2. BrowserExtension (which calls openURL())
+    // 3. Find part
+    //
+    // This is handled below. If your KonqDirPart-derived class needs
+    // to save and restore state, you should override KonqDirPart::saveState
+    // and KonqDirPart::restoreState, not the following methods.
+    virtual void saveState( QDataStream &stream )
+    {
+        m_dirPart->saveState( stream );
+        KParts::BrowserExtension::saveState( stream );
+        m_dirPart->saveFindState( stream );
+    }
+
+    virtual void restoreState( QDataStream &stream )
+    {
+        m_dirPart->restoreState( stream );
+        KParts::BrowserExtension::restoreState( stream );
+        m_dirPart->restoreFindState( stream );
+    }
+
+private:
+    KonqDirPart* m_dirPart;
 };
 
 #endif
