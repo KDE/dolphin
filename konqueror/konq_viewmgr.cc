@@ -305,6 +305,7 @@ void KonqViewManager::viewCountChanged()
 }
 void KonqViewManager::clear()
 {
+  setActivePart( 0L, true /* immediate */ );
   kdDebug(1202) << "KonqViewManager::clear" << endl;
   QList<KonqView> viewList;
   QListIterator<KonqView> it( viewList );
@@ -482,8 +483,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )
     defaultURL = m_pMainWindow->currentView()->url();
-
-  setActivePart( 0L, true /* immediate */ );
 
   clear();
 
