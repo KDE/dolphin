@@ -1,45 +1,23 @@
-FEATURES FOR 3.2
-----------------
-   
-kio/bookmarks:  
-   drag & drop
-   editing - name, url, comment, etc...
+TODO
+----
 
-bookmarklets:   
-   add some examples!
-
-general konqi:    
-   crashes tabset loading
-   bookmark tabset saving
-
+bookmarklets: add some examples!
 main bookmark config:
    make the keditbookmarks prefs persistant
    and make a simple include selector using
-   for example kautoconfig
+   for example kautoconfig, including a 
+   simple dynamic menu config gui
 
-add a simple dynamic menu config gui
+BUGS
+----
 
-BUGS FOR 3.2
-------------
-
-keditbookmarks:
-   metadata removal at root
-
-general xbel bug: 
-   http://bugzilla.gnome.org/show_bug.cgi?id=69702
-
-tbcache:
-   don't create a tbcache file when its
-   gonna be empty in any case!!!
-
-historymgr:       
-   get dirtyness working for the kbookmarkmap
-   dirty solution to a problem that is mainly konqi's
-   but, still, after konqi is fixed, this should be done
-
-proper readonly support -
-   rmb should work but things should be disabled? 
-   no addbookmark, etc.
+general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
+tbcache: don't create a tbcache file when its gonna be empty in any case!!!
+historymgr: get dirtyness working for the kbookmarkmap
+proper readonly support - rmb should work but things should be disabled?  no addbookmark, etc.
+multi selection deletion then shift down selects roots
+clicking in the increm. search text field selects the root item in the list view
+tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
 
 THINGS FOR 3.3+
 ------------------
@@ -48,20 +26,7 @@ tools:
    recursive 404 finder
    duplicate finder
 
-cleanup importing:
-   make all importers do a file selection dlg
-   well, too many apparently normal functions also contain
-   gui stuff. this sucks. its mainly in kio/bookmarks unfortunately,
-   so, can't change behaviour at the moment, i think.
-   examples: 
-      newFolder in kbookmarkgroup
-      importer defaultlocation should *not* have gui stuff
-   this will make:
-      command line import/export
-   easier
-
 basic gui:
    split view stuff - including filtered views
    need to get keyboard shortcut changes working somehow (wheels)
    have to get dynamic filtering (e.g sorting, pruning),
-   bookmark shortcuts
