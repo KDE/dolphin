@@ -21,6 +21,7 @@
 #ifndef __konq_bgnd_h
 #define __konq_bgnd_h
 
+#include <qgroupbox.h>
 #include <qstring.h>
 #include <qpixmap.h>
 
@@ -34,7 +35,7 @@ class QPushButton;
  * It features a combobox with a list of available 'wallpaper' pixmaps,
  * and an area to show the image, auto-sizing.
  */
-class KBgndDialogPage : public QWidget
+class KBgndDialogPage : public QGroupBox
 {
   Q_OBJECT
 public:
@@ -61,7 +62,7 @@ protected:
 
   QPushButton * m_browseButton;
   QComboBox * m_wallBox;
-  QWidget * m_wallWidget;
+  QFrame * m_wallWidget;
   QPixmap m_wallPixmap;
   QString m_wallFile;
   int imageX, imageW, imageH, imageY;

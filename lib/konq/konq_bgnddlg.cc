@@ -19,55 +19,51 @@
 */
 
 #include <qcombobox.h>
-#include <qdir.h>
-#include <qfile.h>
-#include <qlabel.h>
-#include <qlineedit.h>
+#include <qlayout.h>
 #include <qpushbutton.h>
 
-#include <konq_fileitem.h>
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kmimetype.h>
 #include <kmessagebox.h>
 #include <kstddirs.h>
-#include <kglobalsettings.h>
 #include <kdebug.h>
 
 #include "konq_bgnddlg.h"
 
 
-KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile, KInstance *instance )
-  : KDialogBase( 0L, // no parent,
-                 "KonqBgndDialog",
-                 true, //modal
-                 i18n("Select background image"),
+KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile, 
+				KInstance *instance )
+  : KDialogBase( Plain,
+		 i18n("Select background image"),
                  Ok|Cancel,
                  Ok,
-                 true, // separator
+		 0L, // no parent,
+                 "KonqBgndDialog",
+                 true, //modal
+                 false, // no separator
                  i18n( "Set as default" )
-      )
+    )
 {
     KGlobal::dirs()->addResourceType("tiles",
                                      KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
     kdDebug() << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
-    m_propsPage = new KBgndDialogPage( this, pixmapFile, instance, "tiles" );
-    setMainWidget( m_propsPage );
+    QFrame *page = plainPage();
+    QLayout *layout = new QVBoxLayout( page );
+    layout->setAutoAdd( true );
+    m_propsPage = new KBgndDialogPage( page, pixmapFile, instance, "tiles" );
 }
 
 KonqBgndDialog::~KonqBgndDialog()
 {
 }
 
-KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance, const char * resource )
-  : QWidget( parent, "KBgndDialogPage" ), m_resource( resource )
+KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile,
+				  KInstance *instance, const char * resource )
+  : QGroupBox( parent, "KBgndDialogPage" ),
+    m_resource( resource )
 {
+    setTitle( i18n("Background") );
     m_instance = instance;
-
-    QLabel* tmpQLabel = new QLabel( this, "Label_1" );
-    tmpQLabel->setText( i18n("Background") );
-    tmpQLabel->move( KDialog::marginHint(), KDialog::marginHint() );
-    tmpQLabel->adjustSize();
 
     m_wallBox = new QComboBox( false, this, "ComboBox_1" );
     m_wallBox->insertItem( i18n("None") );
@@ -75,9 +71,9 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, 
     QStringList list = KGlobal::dirs()->findAllResources(resource);
 
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
-        m_wallBox->insertItem( ( (*it).at(0)=='/' ) ?        // if absolute path
-                             KURL( *it ).fileName() :    // then only fileName
-                             *it );
+        m_wallBox->insertItem( ( (*it).at(0)=='/' ) ?    // if absolute path
+			       KURL( *it ).fileName() :  // then only fileName
+			       *it );
 
     m_wallBox->adjustSize();
 
@@ -85,11 +81,14 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, 
     m_browseButton->adjustSize();
     connect( m_browseButton, SIGNAL( clicked() ), SLOT( slotBrowse() ) );
 
-    m_wallWidget = new QWidget( this );
+    m_wallWidget = new QFrame( this );
+    m_wallWidget->setLineWidth( 2 );
+    m_wallWidget->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
 
     showSettings( pixmapFile );
 
-    connect( m_wallBox, SIGNAL( activated( int ) ), this, SLOT( slotWallPaperChanged( int ) ) );
+    connect( m_wallBox, SIGNAL( activated( int ) ), 
+	     this, SLOT( slotWallPaperChanged( int ) ) );
 
     setMinimumSize( QSize( 400, 300 ) );
 }
@@ -168,14 +167,16 @@ void KBgndDialogPage::loadWallPaper()
     m_wallWidget->setBackgroundPixmap( m_wallPixmap );
 }
 
-void KBgndDialogPage::resizeEvent ( QResizeEvent *)
+void KBgndDialogPage::resizeEvent ( QResizeEvent *e )
 {
-    int fontHeight = 2*fontMetrics().height();
+    QGroupBox::resizeEvent( e );
+    int fontHeight = fontMetrics().height();
     m_wallBox->move( KDialog::marginHint(), KDialog::marginHint() + fontHeight );
-    m_browseButton->move( KDialog::marginHint(),
-                          m_wallBox->y()+m_wallBox->height()+KDialog::spacingHint() ); // under m_wallBox
+    int x = m_wallBox->x() + m_wallBox->width() + KDialog::spacingHint();
+    int y = m_wallBox->y() + (m_wallBox->height() - m_browseButton->height()) / 2;
+    m_browseButton->move( x, y );
 
-    imageX = 10;
+    imageX = m_wallBox->x();
     imageY = m_browseButton->y()+m_browseButton->height()+KDialog::spacingHint(); // under the browse button
     imageW = width() - imageX - KDialog::marginHint();
     imageH = height() - imageY - KDialog::marginHint()*2;
