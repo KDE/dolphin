@@ -71,7 +71,7 @@ public:
   KfmView::ViewMode viewMode() { return m_viewMode; }
   bool isShowingDotFiles() { return m_bShowDot; }
   bool isShowingImagePreview() { return m_bImagePreview; }
-  // HTMLView ?
+  bool isHTMLAllowed() { return m_bHTMLAllowed; }
   // Cache ?
   const QPixmap& bgPixmap() { return m_bgPixmap; }
   
@@ -86,7 +86,7 @@ protected:
   KfmView::ViewMode m_viewMode;
   bool m_bShowDot;
   bool m_bImagePreview;
-  // bool m_bHTMLView; ?
+  bool m_bHTMLAllowed;
   // bool m_bCache; ?
   QPixmap m_bgPixmap; // one per view or one per GUI ?
 

@@ -56,7 +56,6 @@ KfmView::KfmView( KfmAbstractGui *_gui, QWidget *_parent ) : QWidgetStack( _pare
   setFocusPolicy( StrongFocus );
   
   m_oldViewMode = NOMODE;
-  m_bHTMLAllowed = true;
   m_hasFocus     = false;
   m_popupMenu    = new QPopupMenu();
   m_menuNew      = new KNewMenu();
@@ -129,6 +128,9 @@ KfmView::~KfmView()
 
   if ( m_popupMenu )
     delete m_popupMenu;
+
+  if ( m_Props )
+    delete m_Props;
 }
 
 KfmViewSettings * KfmView::settings()
@@ -146,7 +148,7 @@ void KfmView::initConfig()
   {
     debug("Reading global config for kfmviewprops");
     KConfig *config = kapp->getConfig();
-    config->setGroup( "Settings" );
+    KConfigGroupSaver cgs(config, "Settings");
     KfmViewProps::m_pDefaultProps = new KfmViewProps(config);
   }
 
@@ -155,10 +157,10 @@ void KfmView::initConfig()
   {
     debug("Reading global config for kfmviewsettings");
     KConfig *config = kapp->getConfig();
-    config->setGroup( "KFM HTML Defaults" );
+    KConfigGroupSaver cgs(config, "KFM HTML Defaults" );
     KfmViewSettings::m_pDefaultHTMLSettings = new KfmViewSettings(config);
-    KfmViewSettings::m_pDefaultFMSettings =
-      KfmViewSettings::m_pDefaultHTMLSettings; // quick hack
+    config->setGroup("KFM FM Defaults");
+    KfmViewSettings::m_pDefaultFMSettings = new KfmViewSettings(config);
   }
   
   // For the moment, no local properties
@@ -834,25 +836,27 @@ void KfmView::slotDirectoryDeleted( const char * _dir )
   delete m_pGui;
 }
 
+bool KfmView::isHTMLAllowed( ) { return m_Props->m_bHTMLAllowed; }
+
 void KfmView::setHTMLAllowed( bool _allow )
 {
-  if ( m_bHTMLAllowed == _allow )
+  if ( m_Props->m_bHTMLAllowed == _allow )
     return;
   
-  m_bHTMLAllowed = _allow;
+  m_Props->m_bHTMLAllowed = _allow;
   
   if ( !_allow )
   {
     ////////////
-    // Check wether we are displaying some HTML stuff here
+    // Check whether we are displaying some HTML stuff here
     // while we could as well use the usual icon/tree view as
     // selected in the "view" menu. In this case we would have to
     // drop the HTML view due to the changed policy.
     ////////////
-    if ( m_viewMode == m_Props->viewMode() ) // probably wrong...
-      return;
+    //if ( m_viewMode == m_Props->viewMode() ) // probably wrong...
+    //  return;
     // Ok, we can conclude now that we display HTML
-    assert( m_viewMode == KfmView::HTML );
+    // assert( m_viewMode == KfmView::HTML );
 
     QString url = m_strWorkingURL.c_str();
     if ( url.isEmpty() )
@@ -874,7 +878,7 @@ void KfmView::setHTMLAllowed( bool _allow )
   else
   {
     ////////////////
-    // Check wether we could perhaps show HTML for the current URL
+    // Check whether we could perhaps show HTML for the current URL
     ////////////////
     QString url = m_strWorkingURL.c_str();
     if ( url.isEmpty() )

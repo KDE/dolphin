@@ -37,7 +37,9 @@ KfmViewProps::KfmViewProps( const KConfig * config )
 
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
+  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
   // m_bCache = false; // What is it ???
+
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( !pix.isEmpty() )
   {
@@ -69,6 +71,7 @@ void KfmViewProps::saveProps( KConfig * config )
 
   config->writeEntry( "ShowDotFiles", m_bShowDot );
   config->writeEntry( "ImagePreview", m_bImagePreview );
+  config->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
   config->sync();
 }
 

@@ -89,7 +89,7 @@ public:
    */
   virtual void stop();
 
-  virtual bool isHTMLAllowed() { return m_bHTMLAllowed; }
+  virtual bool isHTMLAllowed();
   virtual void setHTMLAllowed( bool _allow );
   
   virtual QString workingURL() { return QString( m_strWorkingURL.c_str() ); }
@@ -186,8 +186,6 @@ protected:
   
   KfmRun* m_pRun;
 
-  bool m_bHTMLAllowed;
-  
   QStrList m_lstPopupURLs;
   map<int,KService*> m_mapPopup;
   map<int,KDELnkMimeType::Service> m_mapPopup2;
