@@ -38,6 +38,7 @@ private:
 
   KConfig *g_pConfig;
   QString groupname;
+  bool m_bShowBuiltinGroup;
 
   QCheckBox *cbSingleClick;
   QCheckBox *cbAutoSelect;

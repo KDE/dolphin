@@ -16,7 +16,7 @@
 #include "behaviour.h"
 
 KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBuiltinGroup, QWidget *parent, const char *name )
-    : KCModule(parent, name), g_pConfig(config), groupname(group)
+    : KCModule(parent, name), g_pConfig(config), groupname(group), m_bShowBuiltinGroup(showBuiltinGroup)
 {
     QLabel * label;
     int row = 0;
@@ -73,7 +73,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
 
     // ----
-    if (showBuiltinGroup)
+    if (m_bShowBuiltinGroup)
     {
       row++;
       QGroupBox *gbox = new QGroupBox(i18n("Use builtin viewer for"), this);
@@ -119,13 +119,16 @@ void KBehaviourOptions::load()
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
 
-    bool embedText = g_pConfig->readBoolEntry("EmbedText", true);
-    bool embedImage = g_pConfig->readBoolEntry("EmbedImage", true);
-    bool embedOther = g_pConfig->readBoolEntry("EmbedOther", true);
+    if (m_bShowBuiltinGroup)
+    {
+        bool embedText = g_pConfig->readBoolEntry("EmbedText", true);
+        bool embedImage = g_pConfig->readBoolEntry("EmbedImage", true);
+        bool embedOther = g_pConfig->readBoolEntry("EmbedOther", true);
 
-    cbEmbedText->setChecked( embedText );
-    cbEmbedImage->setChecked( embedImage );
-    cbEmbedOther->setChecked( embedOther );
+        cbEmbedText->setChecked( embedText );
+        cbEmbedImage->setChecked( embedImage );
+        cbEmbedOther->setChecked( embedOther );
+    }
 
     slotClick();
 }
@@ -138,9 +141,12 @@ void KBehaviourOptions::defaults()
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
 
-    cbEmbedText->setChecked( true );
-    cbEmbedImage->setChecked( true );
-    cbEmbedOther->setChecked( true );
+    if (m_bShowBuiltinGroup)
+    {
+        cbEmbedText->setChecked( true );
+        cbEmbedImage->setChecked( true );
+        cbEmbedOther->setChecked( true );
+    }
 
     slotClick();
 }
@@ -152,9 +158,12 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
-    g_pConfig->writeEntry( "EmbedText", cbEmbedText->isChecked() );
-    g_pConfig->writeEntry( "EmbedImage", cbEmbedImage->isChecked() );
-    g_pConfig->writeEntry( "EmbedOther", cbEmbedOther->isChecked() );
+    if (m_bShowBuiltinGroup)
+    {
+        g_pConfig->writeEntry( "EmbedText", cbEmbedText->isChecked() );
+        g_pConfig->writeEntry( "EmbedImage", cbEmbedImage->isChecked() );
+        g_pConfig->writeEntry( "EmbedOther", cbEmbedOther->isChecked() );
+    }
     g_pConfig->sync();
 }
 
