@@ -9,6 +9,7 @@
 // Redesign and cleanup
 // (c) Daniel Molkentin 2000
 
+#include <config.h>
 #include <kfiledialog.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
@@ -227,7 +228,12 @@ void KJavaOptions::load()
     bool bSecurityManager = m_pConfig->readBoolEntry( "UseSecurityManager", true );
     bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
     int  serverTimeout    = m_pConfig->readNumEntry( "AppletServerTimeout", 60 );
+#if defined(PATH_JAVA)
+    QString sJavaPath     = m_pConfig->readEntry( "JavaPath", PATH_JAVA );
+#else
     QString sJavaPath     = m_pConfig->readEntry( "JavaPath", "java" );
+#endif
+
     if( sJavaPath == "/usr/lib/jdk" )
         sJavaPath = "java";
 
