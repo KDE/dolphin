@@ -69,6 +69,7 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name, Ko
 KonqExtensionManager::~KonqExtensionManager()
 {
 	delete d->khtmlConfig;
+        delete d;
 }
 
 void KonqExtensionManager::setChanged(bool c)
