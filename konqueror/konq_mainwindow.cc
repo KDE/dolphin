@@ -674,7 +674,7 @@ void KonqMainWindow::slotOpenLocation()
   KURL url;
 
   if (m_currentView)
-    u = m_currentView->url().url();
+    u = m_currentView->url().prettyURL();
 
   url = KURLRequesterDlg::getURL( u, this, i18n("Open Location") );
   if (!url.isEmpty())
