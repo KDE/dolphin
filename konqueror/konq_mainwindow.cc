@@ -48,6 +48,7 @@
 #endif
 #include <assert.h>
 #include <stdlib.h>
+#include <time.h>
 #include <klargefile.h>
 #include <sys/types.h>
 #include <sys/stat.h>
