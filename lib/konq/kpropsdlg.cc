@@ -65,7 +65,7 @@
 #include <kfileitem.h> // for encodeFileName
 
 #include "kpropsdlg.h"
-#include "userpaths.h"
+#include "kuserpaths.h"
 
 #include <X11/Xlib.h> // for XSetTransientForHint
 
@@ -392,13 +392,13 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     layout->addWidget(l, 0, AlignLeft);
 
     QString buffer = i18n("Last Access: %1").arg(
-      properties->item()->time( UDS_ACCESS_TIME ) );
+      properties->item()->time( KIO::UDS_ACCESS_TIME ) );
     l = new QLabel( buffer, this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
 
     buffer = i18n("Last Modified: %1").arg(
-      properties->item()->time( UDS_MODIFICATION_TIME ) );
+      properties->item()->time( KIO::UDS_MODIFICATION_TIME ) );
     l = new QLabel( buffer, this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);

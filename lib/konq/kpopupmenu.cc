@@ -38,7 +38,7 @@
 #include <ktrader.h>
 #include <kurl.h>
 #include <kuserprofile.h>
-#include <userpaths.h>
+#include <kuserpaths.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 

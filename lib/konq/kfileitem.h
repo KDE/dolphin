@@ -34,7 +34,7 @@
 class KMimeType;
 class QPixmap;
 
-class KFileItem
+class KFileItem : public KIO
 {
 public:
   /**

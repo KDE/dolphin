@@ -29,7 +29,7 @@
 
 #include <kio_interface.h>
 #include <kio_job.h>
-#include <userpaths.h>
+#include <kuserpaths.h>
 
 #include <opUIUtils.h>
 

@@ -409,7 +409,7 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
       struct stat buff;
       if ( stat( u.path(), &buff ) == -1 )
       {
-        kioErrorDialog( ERR_COULD_NOT_STAT, m_strURL );
+        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, m_strURL );
 	return;
       }
       mode = buff.st_mode;

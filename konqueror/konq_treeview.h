@@ -30,8 +30,8 @@
 #include "konq_baseview.h"
 
 #include "konq_defs.h"
+#include <kio_interface.h>
 
-struct UDSAtom;
 class QCursor;
 class KURL;
 class KonqMainView;
@@ -47,7 +47,7 @@ class KonqSettings;
 /**
  * One item in the tree
  */
-class KfmTreeViewItem : public QListViewItem
+class KfmTreeViewItem : public QListViewItem, private KIO
 {
 public:
   /**

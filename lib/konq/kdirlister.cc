@@ -31,7 +31,7 @@
 #include <kio_job.h>
 #include <kmessagebox.h>
 #include <kurl.h>
-#include <userpaths.h>
+#include <kuserpaths.h>
 
 KDirLister::KDirLister()
 {
@@ -199,7 +199,7 @@ void KDirLister::slotBufferTimeout()
     // Find out about the name
     UDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
-      if ( (*it2).m_uds == UDS_NAME )
+      if ( (*it2).m_uds == KIO::UDS_NAME )
 	name = (*it2).m_str;
 
     assert( !name.isEmpty() );
@@ -300,7 +300,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     // Find out about the name
     UDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
-      if ( (*it2).m_uds == UDS_NAME )
+      if ( (*it2).m_uds == KIO::UDS_NAME )
 	name = (*it2).m_str;
   
     assert( !name.isEmpty() );
