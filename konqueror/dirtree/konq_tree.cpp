@@ -107,7 +107,7 @@ void KonqTree::followURL( const KURL &url )
         return;
     }
 
-    kdDebug(1202) << "KonqDirTree::followURL: " << url.url() << endl;
+    kdDebug(1201) << "KonqDirTree::followURL: " << url.url() << endl;
     QListIterator<KonqTreeTopLevelItem> topItem ( m_topLevelItems );
     for (; topItem.current(); ++topItem )
     {
@@ -117,7 +117,7 @@ void KonqTree::followURL( const KURL &url )
             return; // done
         }
     }
-    kdDebug(1202) << "KonqDirTree::followURL: Not found" << endl;
+    kdDebug(1201) << "KonqDirTree::followURL: Not found" << endl;
 }
 
 void KonqTree::contentsDragEnterEvent( QDragEnterEvent *ev )
@@ -269,7 +269,7 @@ void KonqTree::slotAutoOpenFolder()
 
 void KonqTree::rescanConfiguration()
 {
-    kdDebug() << "KonqTree::rescanConfiguration()" << endl;
+    kdDebug(1201) << "KonqTree::rescanConfiguration()" << endl;
     m_autoOpenTimer->stop();
     clearTree();
     scanDir( 0, m_dirtreeDir.path(), true);
@@ -286,7 +286,7 @@ void KonqTree::slotSelectionChanged()
 
 void KonqTree::FilesAdded( const KURL & dir )
 {
-    kdDebug(1202) << "KonqTree::FilesAdded " << dir.url() << endl;
+    kdDebug(1201) << "KonqTree::FilesAdded " << dir.url() << endl;
     if ( m_dirtreeDir.isParentOf( dir ) )
         // We use a timer in case of DCOP re-entrance..
         QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
@@ -294,14 +294,14 @@ void KonqTree::FilesAdded( const KURL & dir )
 
 void KonqTree::FilesRemoved( const KURL::List & urls )
 {
-    //kdDebug(1202) << "KonqTree::FilesRemoved " << urls.count() << endl;
+    //kdDebug(1201) << "KonqTree::FilesRemoved " << urls.count() << endl;
     for ( KURL::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
     {
-        //kdDebug(1202) <<  "KonqTree::FilesRemoved " << (*it).prettyURL() << endl;
+        //kdDebug(1201) <<  "KonqTree::FilesRemoved " << (*it).prettyURL() << endl;
         if ( m_dirtreeDir.isParentOf( *it ) )
         {
             QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
-            kdDebug(1202) << "KonqTree::FilesRemoved done" << endl;
+            kdDebug(1201) << "KonqTree::FilesRemoved done" << endl;
             return;
         }
     }
@@ -309,7 +309,7 @@ void KonqTree::FilesRemoved( const KURL::List & urls )
 
 void KonqTree::FilesChanged( const KURL::List & urls )
 {
-    //kdDebug(1202) << "KonqTree::FilesChanged" << endl;
+    //kdDebug(1201) << "KonqTree::FilesChanged" << endl;
     // not same signal, but same implementation
     FilesRemoved( urls );
 }
@@ -321,38 +321,83 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
     if ( !dir.isReadable() )
         return;
 
-    kdDebug(1202) << "scanDir " << path << endl;
+    kdDebug(1201) << "scanDir " << path << endl;
 
     QStringList entries = dir.entryList( QDir::Files );
     QStringList dirEntries = dir.entryList( QDir::Dirs );
     dirEntries.remove( "." );
     dirEntries.remove( ".." );
 
-    if ( isRoot && entries.count() == 0 && dirEntries.count() == 0 )
+    if ( isRoot )
     {
-        // we will copy over the entire contents of the dirtree directory.
-        // to do this, we assume that home.desktop exists..
-        QString dirtree_dir = KonqTreeFactory::instance()->dirs()->findResourceDir( "data", "konqueror/dirtree/home.desktop" );
-
-        if ( !dirtree_dir.isEmpty() )
+        bool copyConfig = ( entries.count() == 0 && dirEntries.count() == 0 );
+        if (!copyConfig)
         {
-            QCString cp;
-            cp.sprintf( "cp -R %skonqueror/dirtree/* %s", dirtree_dir.local8Bit().data(),
-                        path.local8Bit().data() );
-            system( cp.data() );
+            // Check version number
+            // Version 1 was the dirtree of KDE 2.0.x (no versioning at that time, so default)
+            // Version 2 includes the history
+            const int currentVersion = 2;
+            QString key = QString::fromLatin1("X-KDE-DirTreeVersionNumber");
+            KSimpleConfig versionCfg( path + "/.directory" );
+            int versionNumber = versionCfg.readNumEntry( key, 1 );
+            kdDebug(1201) << "KonqTree::scanDir found version " << versionNumber << endl;
+            if ( versionNumber < currentVersion )
+            {
+                versionCfg.writeEntry( key, currentVersion );
+                versionCfg.sync();
+                copyConfig = true;
+            }
         }
-        // hack to make QDir refresh the lists
-        dir.setPath(path);
-        entries = dir.entryList( QDir::Files );
-        dirEntries = dir.entryList( QDir::Dirs );
-        dirEntries.remove( "." );
-        dirEntries.remove( ".." );
+        if (copyConfig)
+        {
+            // We will copy over the configuration for the dirtree, from the global directory
+            QString dirtree_dir = KonqTreeFactory::instance()->dirs()->findDirs( "data", "konqueror/dirtree" ).last(); // most global
+            kdDebug(1201) << "KonqTree::scanDir dirtree_dir=" << dirtree_dir << endl;
+
+            /*
+            // debug code
+            QStringList blah = KonqTreeFactory::instance()->dirs()->findDirs( "data", "konqueror/dirtree" );
+            QStringList::ConstIterator eIt = blah.begin();
+            QStringList::ConstIterator eEnd = blah.end();
+            for (; eIt != eEnd; ++eIt )
+                kdDebug(1201) << "KonqTree::scanDir findDirs got me " << *eIt << endl;
+            // end debug code
+            */
+
+            if ( !dirtree_dir.isEmpty() && dirtree_dir != path )
+            {
+                QDir globalDir( dirtree_dir );
+                ASSERT( globalDir.isReadable() );
+                // Only copy the entries that don't exist yet in the local dir
+                QStringList globalDirEntries = globalDir.entryList();
+                QStringList::ConstIterator eIt = globalDirEntries.begin();
+                QStringList::ConstIterator eEnd = globalDirEntries.end();
+                for (; eIt != eEnd; ++eIt )
+                {
+                    //kdDebug(1201) << "KonqTree::scanDir dirtree_dir contains " << *eIt << endl;
+                    if ( *eIt != "." && *eIt != ".."
+                         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
+                    { // we don't have that one yet -> copy it.
+                        QString cp = QString("cp -R %1%2 %3").arg(dirtree_dir).arg(*eIt).arg(path);
+                        kdDebug(1201) << "KonqTree::scanDir executing " << cp << endl;
+                        system( cp.local8Bit().data() );
+                    }
+                }
+
+                // hack to make QDir refresh the lists
+                dir.setPath(path);
+                entries = dir.entryList( QDir::Files );
+                dirEntries = dir.entryList( QDir::Dirs );
+                dirEntries.remove( "." );
+                dirEntries.remove( ".." );
+            }
+        }
     }
 
     QStringList::ConstIterator eIt = entries.begin();
     QStringList::ConstIterator eEnd = entries.end();
 
-    for (; eIt != eEnd; eIt++ )
+    for (; eIt != eEnd; ++eIt )
     {
         QString filePath = QString( *eIt ).prepend( path );
         KURL u;
@@ -382,13 +427,13 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
     QString icon = "folder";
     bool    open = false;
 
-    kdDebug(1202) << "Scanning " << path << endl;
+    kdDebug(1201) << "Scanning " << path << endl;
 
     QString dotDirectoryFile = QString( path ).append( "/.directory" );
 
     if ( QFile::exists( dotDirectoryFile ) )
     {
-        kdDebug(1202) << "Reading the .directory" << endl;
+        kdDebug(1201) << "Reading the .directory" << endl;
         KSimpleConfig cfg( dotDirectoryFile, true );
         cfg.setDesktopGroup();
         name = cfg.readEntry( "Name", name );
@@ -400,7 +445,7 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
     KonqTreeTopLevelItem *item;
     if ( parent )
     {
-        kdDebug() << "KonqTree::scanDir2 Inserting new group under parent " << endl;
+        kdDebug(1201) << "KonqTree::scanDir2 Inserting new group under parent " << endl;
         item = new KonqTreeTopLevelItem( parent, 0 /* no module */, path );
     }
     else
@@ -414,7 +459,7 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
 
     m_topLevelItems.append( item );
 
-    kdDebug(1202) << "Inserting group " << name << "   " << path << endl;;
+    kdDebug(1201) << "Inserting group " << name << "   " << path << endl;;
 
     scanDir( item, path );
 
@@ -442,7 +487,7 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     // Here's where we need to create the right module...
     // ### TODO: make this KTrader/KLibrary based.
     QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
-    kdDebug(1202) << "##### Loading module: " << moduleName << " file: " << filename << endl;
+    kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
     if ( moduleName == "History" ) {
 	module = new KonqHistoryModule( this );
     }
