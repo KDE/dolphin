@@ -624,7 +624,7 @@ bool KonqKfmIconView::closeURL()
 
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
-    stream << (Q_INT32)m_pIconView->size()
+    stream << (Q_INT32)m_pIconView->iconSize()
 	   << (Q_INT32)m_pIconView->itemTextPos()
 	   << (Q_INT32)m_pProps->m_bImagePreview
 	   << (Q_INT32)m_pProps->m_bShowDot
@@ -763,7 +763,7 @@ void KonqKfmIconView::slotNewItems( const KonqFileItemList& entries )
 
     //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-				   m_pIconView->size(), m_pProps->m_bImagePreview );
+				   m_pIconView->iconSize(), m_pProps->m_bImagePreview );
     item->setRenameEnabled( false );
 
     QObject::connect( item, SIGNAL( dropMe( KFileIVI *, QDropEvent * ) ),
@@ -917,7 +917,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     KMimeType::Ptr dummy = item->item()->determineMimeType();
 
-    QPixmap newIcon = item->item()->pixmap( m_pIconView->size(), m_pProps->m_bImagePreview );
+    QPixmap newIcon = item->item()->pixmap( m_pIconView->iconSize(), m_pProps->m_bImagePreview );
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {

@@ -57,7 +57,7 @@ public:
      */
     void refreshMimeTypes();
 
-    int size() { return m_size; }
+    int iconSize() { return m_size; }
 
     void setImagePreviewAllowed( bool b );
 
