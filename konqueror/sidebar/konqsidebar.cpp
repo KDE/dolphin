@@ -68,6 +68,7 @@ bool KonqSidebar::openURL(const KURL &url){if (m_widget) m_widget->openURL(url);
 // notable exception of the KAboutData data
 #include <kaboutdata.h>
 #include <klocale.h>
+#include <kinstance.h>
 
 KInstance*  KonqSidebarFactory::s_instance = 0L;
 KAboutData* KonqSidebarFactory::s_about = 0L;

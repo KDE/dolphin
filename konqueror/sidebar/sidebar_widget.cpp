@@ -31,6 +31,7 @@
 #include <qdir.h>
 #include <qdockarea.h>
 #include <config.h>
+#include <qpopupmenu.h>
 #if QT_VERSION >= 300
 #include <private/qucomextra_p.h>
 #endif

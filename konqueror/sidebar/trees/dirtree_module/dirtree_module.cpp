@@ -23,6 +23,7 @@
 #include <kprotocolinfo.h>
 #include <kdesktopfile.h>
 #include <kmessagebox.h>
+#include <kiconloader.h>
 
 KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree )
     : KonqSidebarTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)

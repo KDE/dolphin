@@ -24,6 +24,7 @@
 #include "history_item.h"
 #include "history_module.h"
 #include "history_settings.h"
+#include <kiconloader.h>
 
 #define MYMODULE static_cast<KonqSidebarHistoryModule*>(module())
 #define MYGROUP static_cast<KonqSidebarHistoryGroupItem*>(parent())

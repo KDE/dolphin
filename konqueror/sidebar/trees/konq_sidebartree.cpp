@@ -28,6 +28,7 @@
 #include <kurldrag.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <kiconloader.h>
 
 
 static const int autoOpenTimeout = 750;

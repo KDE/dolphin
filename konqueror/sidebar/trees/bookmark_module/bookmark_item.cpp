@@ -20,6 +20,7 @@
 #include <kbookmarkdrag.h>
 #include <konq_sidebartree.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 
 KonqSidebarBookmarkItem::KonqSidebarBookmarkItem( KonqSidebarTreeItem *parentItem, KonqSidebarTreeTopLevelItem *topLevelItem, const KBookmark & bk, int key )
     : KonqSidebarTreeItem( parentItem, topLevelItem ), m_bk(bk), m_key(key)

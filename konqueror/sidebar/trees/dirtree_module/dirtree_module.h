@@ -22,6 +22,7 @@
 #include <konq_sidebartreemodule.h>
 #include <kfileitem.h>
 #include <qpixmap.h>
+#include <qdict.h>
 
 class KonqSidebarTree;
 class KonqSidebarTreeItem;
