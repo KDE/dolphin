@@ -178,7 +178,7 @@ class CrashesImportCommand : public ImportCommand
 public:
    CrashesImportCommand() : ImportCommand() { m_visibleName = i18n("Crashes"); }
    virtual void import(const QString &fileName, bool folder) {
-      init(fileName, folder, "crashes", false);
+      init(fileName, folder, "core", false);
    }
    virtual QString requestFilename() const;
 private:
