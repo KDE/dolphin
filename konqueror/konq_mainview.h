@@ -181,6 +181,12 @@ public:
 
   bool fullScreenMode() const { return m_bFullScreen; }
 
+  static QList<KonqMainView> *mainViewList() { return s_lstViews; }
+
+public slots:
+  void slotFullScreenStart();
+  void slotFullScreenStop();
+
 protected slots:
   void slotPartActivated( KParts::Part *part );
   void slotEnableAction( const char * name, bool enabled );
@@ -232,9 +238,6 @@ protected slots:
   void slotShowToolBar();
   void slotShowLocationBar();
   void slotShowBookmarkBar();
-
-  void slotFullScreenStart();
-  void slotFullScreenStop();
 
 protected:
 
@@ -366,6 +369,8 @@ private:
   static QStringList *s_plstAnimatedLogo;
 
   static bool s_bMoveSelection;
+
+  static QList<KonqMainView> *s_lstViews;
 };
 
 class ViewModeGUIClient : public QObject, public KXMLGUIClient

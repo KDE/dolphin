@@ -96,10 +96,17 @@ template class QList<KToggleAction>;
 
 QStringList *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
+QList<KonqMainView> *KonqMainView::s_lstViews = 0;
+
 
 KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name ),  DCOPObject( "KonqMainViewIface" )
 {
+  if ( !s_lstViews )
+    s_lstViews = new QList<KonqMainView>;
+ 
+  s_lstViews->append( this );
+ 
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_bURLEnterLock = false;
@@ -195,6 +202,16 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
 KonqMainView::~KonqMainView()
 {
+  if ( s_lstViews )
+  {
+    s_lstViews->removeRef( this );
+    if ( s_lstViews->count() == 0 )
+    {
+      delete s_lstViews;
+      s_lstViews = 0;
+    }
+  }
+ 
   if ( m_combo )
   {
 

@@ -29,6 +29,15 @@
 
 bool KonqFileManager::openFileManagerWindow( const KURL & _url )
 {
+  QList<KonqMainView> *mainViews = KonqMainView::mainViewList(); 
+  if ( mainViews )
+  {
+    QListIterator<KonqMainView> it( *mainViews );
+    for (; it.current(); ++it )
+      if ( it.current()->fullScreenMode() )
+        it.current()->slotFullScreenStop();
+  }
+ 
   // If _url is 0L, open $HOME
   KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
 
