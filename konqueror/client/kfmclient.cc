@@ -221,70 +221,48 @@ bool clientApp::openProfile( const QString & filename, const QString & url, cons
   m_mimetype = mimetype;
   QByteArray data;
   QCString appId, appObj;
-  if ( !startNewKonqueror(KURL(url)) &&
-       dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+  if ( startNewKonqueror(KURL(url)) ||
+       !dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                  appId, appObj ) )
   {
-      slotAppRegistered( "konqueror" );
-  }
-  else
-  {
-    dcopClient()->setNotifications( true );
-    QObject::connect( dcopClient(), SIGNAL( applicationRegistered( const QCString& ) ),
-                    this, SLOT( slotAppRegistered( const QCString & ) ) );
     QString error;
     if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
-        QString::fromLatin1("--silent"), &error, NULL, NULL, kapp->startupId()) > 0 )
+        QString::fromLatin1("--silent"), &error, &appId, NULL, kapp->startupId()) > 0 )
     {
       kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
       return false;
     }
-
-    exec();
+    // startServiceByDesktopPath waits for the app to register with DCOP
+    // so when we arrive here, konq is up and running already, and appId contains the identification
   }
 
-  return true;
-}
-
-void clientApp::slotAppRegistered( const QCString &appId )
-{
-    if ( appId.left( 9 ) == "konqueror" )
-    {
-        QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + m_profileName );
-        if ( profile.isEmpty() )
-        {
-            fprintf( stderr, i18n("Profile %1 not found\n").arg(m_profileName).local8Bit() );
-            ::exit( 0 );
-        }
-        KonquerorIface_stub konqy( appId, "KonquerorIface" );
-        if ( m_url.isEmpty() )
-            konqy.createBrowserWindowFromProfileASN( profile, m_profileName, kapp->startupId());
-        else if ( m_mimetype.isEmpty() )
-            konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, kapp->startupId());
-        else
-            konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, m_mimetype, kapp->startupId());
-        sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
-        KStartupInfoId id;
-        id.initId( kapp->startupId());
-        KStartupInfoData data;
-        data.addPid( 0 );   // say there's another process for this ASN with unknown PID
-        data.setHostname(); // ( no need to bother to get this konqy's PID )
-        KStartupInfo::sendChange( id, data );
-        kapp->quit();        
-    }
+  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + m_profileName );
+  if ( profile.isEmpty() )
+  {
+      fprintf( stderr, i18n("Profile %1 not found\n").arg(m_profileName).local8Bit() );
+      ::exit( 0 );
+  }
+  KonquerorIface_stub konqy( appId, "KonquerorIface" );
+  if ( m_url.isEmpty() )
+      konqy.createBrowserWindowFromProfileASN( profile, m_profileName, kapp->startupId());
+  else if ( m_mimetype.isEmpty() )
+      konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, kapp->startupId());
+  else
+      konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, m_mimetype, kapp->startupId());
+  sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
+  KStartupInfoId id;
+  id.initId( kapp->startupId());
+  KStartupInfoData sidata;
+  sidata.addPid( 0 );   // say there's another process for this ASN with unknown PID
+  sidata.setHostname(); // ( no need to bother to get this konqy's PID )
+  KStartupInfo::sendChange( id, sidata );
 }
 
 void clientApp::delayedQuit()
 {
     // Quit in 2 seconds. This leaves time for KRun to pop up
     // "app not found" in KProcessRunner, if that was the case.
-    QTimer::singleShot( 2000, this, SLOT(slotDeref()) );
-}
-
-void clientApp::slotDeref()
-{
-    // Damn, I should have made kapp::deref a slot.....
-    deref();
+    QTimer::singleShot( 2000, this, SLOT(deref()) );
 }
 
 static void checkArgumentCount(int count, int min, int max)
