@@ -5,6 +5,7 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
+                2003 George Staikos <staikos@kde.org>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -285,7 +286,7 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
                     uint32 len, const char* buf, NPBool file)
 {
 // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api13.html
-   kdDebug(1431) << "g_NPN_PostURL() [incomplete]" << endl;
+   kdDebug(1431) << "g_NPN_PostURL()" << endl;
 
    return g_NPN_PostURLNotify(instance, url, target, len, buf, file, 0L);
 }
@@ -1148,10 +1149,13 @@ NSPluginStreamBase::~NSPluginStreamBase()
    if (_stream) {
       _instance->NPDestroyStream( _stream, NPRES_USER_BREAK );
       delete _stream;
+      _stream = 0;
    }
 
    delete _tempFile;
+   _tempFile = 0;
    delete _queue;
+   _queue = 0;
 }
 
 
