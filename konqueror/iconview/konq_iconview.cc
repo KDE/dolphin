@@ -865,8 +865,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 	QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
 	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
 	QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-	QObject::connect( m_dirLister, SIGNAL( newItems( const KIO::UDSEntryList& ) ),
-			  this, SLOT( slotNewItems( const KIO::UDSEntryList& ) ) );
+	QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
+			  this, SLOT( slotNewItems( const KFileItemList& ) ) );
 	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
     }
