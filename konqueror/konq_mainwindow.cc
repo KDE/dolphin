@@ -4934,7 +4934,7 @@ bool KonqMainWindow::checkPreloadResourceUsage()
 	return false;
     }
     // working memory usage test ( usage != 0 ) makes others less strict
-    if( s_preloadUsageCount > ( usage != 0 ? 100 : 10 )) // reused too many times?
+    if( ++s_preloadUsageCount > ( usage != 0 ? 100 : 10 )) // reused too many times?
     {
 	kdDebug(1202) << "Not keeping for preloading due to high usage count" << endl;
 	return false;
