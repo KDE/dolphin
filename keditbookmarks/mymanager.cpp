@@ -31,7 +31,7 @@
 
 #include "mymanager.h"
 
-CurrentMgr *MyManager::s_mgr = 0;
+CurrentMgr *CurrentMgr::s_mgr = 0;
 
 void CurrentMgr::createManager(QObject *top, QString filename) {
    if (m_mgr) {

@@ -383,7 +383,7 @@ void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
       kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();
-      ListView::self()->fillWithGroup(CurrentMgr::self->mgr()->root());
+      ListView::self()->fillWithGroup(CurrentMgr::self()->mgr()->root());
       updateActions();
    }
 }
