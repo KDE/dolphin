@@ -22,11 +22,8 @@
 
 #include <qfile.h>
 
-#include <klibloader.h>
 #include <kparts/componentfactory.h>
-#include <kservice.h>
 #include <klocale.h>
-#include <kglobal.h>
 
 #include "kcookiesmain.h"
 #include "netpref.h"

@@ -27,12 +27,10 @@
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 
-#include <kurl.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kio/ioslave_defaults.h>
 
 #include "kproxyexceptiondlg.h"
 #include "kenvvarproxydlg.h"

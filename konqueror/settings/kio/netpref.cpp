@@ -1,7 +1,4 @@
-#include <qgrid.h>
-#include <qlabel.h>
 #include <qlayout.h>
-#include <qtooltip.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qvgroupbox.h>

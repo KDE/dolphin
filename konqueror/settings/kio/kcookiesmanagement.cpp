@@ -35,7 +35,6 @@
 #include <klistview.h>
 #include <dcopclient.h>
 #include <kiconloader.h>
-#include <kapplication.h>
 
 #include "kcookiesmanagement.h"
 

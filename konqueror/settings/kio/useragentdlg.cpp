@@ -32,7 +32,6 @@
 #include <qvbuttongroup.h>
 
 #include <kdebug.h>
-#include <klineedit.h>
 #include <klocale.h>
 #include <klistview.h>
 #include <kmessagebox.h>

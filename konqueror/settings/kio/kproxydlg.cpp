@@ -29,11 +29,8 @@
 #include <qtabwidget.h>
 
 #include <klocale.h>
-#include <klistview.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kurlrequester.h>
-#include <kprotocolmanager.h>
 
 #include "ksaveioconfig.h"
 #include "kenvvarproxydlg.h"

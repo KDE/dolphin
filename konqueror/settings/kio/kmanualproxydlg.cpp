@@ -22,12 +22,10 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qspinbox.h>
-#include <qgroupbox.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 
-#include <kurl.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <klineedit.h>

@@ -27,12 +27,9 @@
 
 #include <kfiledialog.h>
 #include <klistview.h>
-#include <klocale.h>
 #include <kmessagebox.h>
-#include <kurlrequester.h>
 #include <ksocks.h>
 #include <kapplication.h>
-#include <kgenericfactory.h>
 
 #include "socks.h"
 #include <kaboutdata.h>
