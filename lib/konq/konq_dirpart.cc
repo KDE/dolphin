@@ -8,7 +8,7 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -26,6 +26,7 @@
 #include <kfileitem.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
+#include <kuserprofile.h>
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
   : KParts::ReadOnlyPart( parent, name ),
@@ -39,7 +40,7 @@ KonqDirPart::~KonqDirPart()
 
 QScrollView * KonqDirPart::scrollWidget()
 {
-  return static_cast<QScrollView *>(widget());
+    return static_cast<QScrollView *>(widget());
 }
 
 void KonqDirPart::slotBackgroundColor()
@@ -47,10 +48,10 @@ void KonqDirPart::slotBackgroundColor()
     QColor bgndColor = m_pProps->bgColor( widget() );
     if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
     {
-	m_pProps->setBgColor( bgndColor );
-	m_pProps->setBgPixmapFile( "" );
+        m_pProps->setBgColor( bgndColor );
+        m_pProps->setBgPixmapFile( "" );
         m_pProps->applyColors( widget() );
-	scrollWidget()->viewport()->repaint();
+        scrollWidget()->viewport()->repaint();
     }
 }
 
@@ -61,33 +62,37 @@ void KonqDirPart::slotBackgroundImage()
     {
         m_pProps->setBgPixmapFile( dlg.pixmapFile() );
         m_pProps->applyColors( widget() );
-	scrollWidget()->viewport()->repaint();
+        scrollWidget()->viewport()->repaint();
     }
 }
 
 void KonqDirPart::mmbClicked( KFileItem * fileItem )
 {
-  if ( KonqFMSettings::settings()->shouldEmbed( fileItem->mimetype() ) )
-  {
-    KParts::URLArgs args;
-    args.serviceType = fileItem->mimetype();
-    emit m_extension->createNewWindow( fileItem->url(), args );
-  }
-  else
-    fileItem->run();
+    // Optimisation to avoid KRun to call kfmclient that then tells us
+    // to open a window :-)
+    KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
+    if (offer) kdDebug() << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+    if ( offer && offer->desktopEntryName() == "kfmclient" )
+    {
+        KParts::URLArgs args;
+        args.serviceType = fileItem->mimetype();
+        emit m_extension->createNewWindow( fileItem->url(), args );
+    }
+    else
+        fileItem->run();
 }
 
 void KonqDirPart::saveState( QDataStream &stream )
 {
-  //kdDebug(1203) << "void KonqDirPart::saveState( QDataStream &stream )" << endl;
-  stream << m_nameFilter;
+    //kdDebug(1203) << "void KonqDirPart::saveState( QDataStream &stream )" << endl;
+    stream << m_nameFilter;
 }
 
 void KonqDirPart::restoreState( QDataStream &stream )
 {
-  // Warning: see comment in IconViewBrowserExtension::restoreState about order
-  //kdDebug(1203) << "void KonqDirPart::restoreState( QDataStream &stream )" << endl;
-  stream >> m_nameFilter;
+    // Warning: see comment in IconViewBrowserExtension::restoreState about order
+    //kdDebug(1203) << "void KonqDirPart::restoreState( QDataStream &stream )" << endl;
+    stream >> m_nameFilter;
 }
 
 #include "konq_dirpart.moc"
