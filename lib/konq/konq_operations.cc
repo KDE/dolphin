@@ -483,18 +483,21 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
         KIO::Job * job = 0;
         switch ( action ) {
             case QDropEvent::Move :
-                job = KIO::move( lst, dest ); // ## metaData
+                job = KIO::move( lst, dest );
+                job->setMetaData( m_info->metaData );
                 setOperation( job, MOVE, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
                 return; // we still have stuff to do -> don't delete ourselves
             case QDropEvent::Copy :
-                job = KIO::copy( lst, dest ); // ## metaData
+                job = KIO::copy( lst, dest );
+                job->setMetaData( m_info->metaData );
                 setOperation( job, COPY, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
                 return;
             case QDropEvent::Link :
                 kdDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
-                job = KIO::link( lst, dest ); // ## metaData
+                job = KIO::link( lst, dest );
+                job->setMetaData( m_info->metaData );
                 setOperation( job, LINK, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
                 return;
