@@ -22,6 +22,7 @@
 #include <qpainter.h>
 #include <qkeycode.h>
 #include <kapp.h>
+#include <kiconloader.h>
 #include <qdragobject.h>
 #include <kcursor.h>
 
@@ -877,17 +878,6 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
       if ( (*it)->isSelected() )
 	lst.append( &**it );
 
-    // Multiple URLs ?
-    QPixmap pixmap2;
-    if ( lst.count() > 1 )
-    {
-      QString tmp = kapp->kde_datadir().copy();
-      tmp += "/kfm/pics/kmultiple.xpm";
-      pixmap2.load( tmp );
-      if ( pixmap2.isNull() )
-	warning("KDesktop: Could not find '%s'\n",tmp.data());
-    }
-
     QPoint hotspot;
 
     // Do not handle and more mouse move or mouse release events
@@ -895,17 +885,20 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
     cerr << "Starting drag" << endl;
 
-    if ( pixmap2.isNull() )
+    // Multiple URLs ?
+    if ( lst.count() > 1 )
+    {
+      QPixmap pixmap2 = ICON("kmultiple.xpm");
+
+      hotspot.setX( pixmap2.width() / 2 );
+      hotspot.setY( pixmap2.height() / 2 );
+      emit dragStart( hotspot, lst, pixmap2 );
+    }
+    else
     {
       hotspot.setX( (*m_pressedItem)->pixmap().width() / 2 );
       hotspot.setY( (*m_pressedItem)->pixmap().height() / 2 );
       emit dragStart( hotspot, lst, (*m_pressedItem)->pixmap() );
-    }
-    else
-    {
-      hotspot.setX( pixmap2.width() / 2 );
-      hotspot.setY( pixmap2.height() / 2 );
-      emit dragStart( hotspot, lst, pixmap2 );
     }
   }
 }
