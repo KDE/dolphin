@@ -63,7 +63,7 @@ private:
 
   KAppearanceOptions *appearance;
   KJavaScriptOptions *javascript;
-  KHTTPOptions       *http;
+  //KHTTPOptions       *http;
   KMiscHTMLOptions   *misc;
 
   KConfig *m_globalConfig;

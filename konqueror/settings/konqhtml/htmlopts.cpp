@@ -307,20 +307,18 @@ void KAppearanceOptions::slotEncoding(const QString& n)
 
 void KAppearanceOptions::load()
 {
-  defaults();
-
     m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "FontSize", fSize );
-	fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", fMinSize );
+    fSize = m_pConfig->readNumEntry( "FontSize", 1 ); // medium
+    fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
 
-    stdName = m_pConfig->readEntry( "StandardFont", stdName );
-    fixedName = m_pConfig->readEntry( "FixedFont", fixedName );
-	serifName = m_pConfig->readEntry( "SerifFont", serifName );
-	sansSerifName = m_pConfig->readEntry( "SansSerifFont", sansSerifName );
-	cursiveName = m_pConfig->readEntry( "CursiveFont", serifName );
-	fantasyName = m_pConfig->readEntry( "FantasyFont", serifName );
-    encodingName = m_pConfig->readEntry( "DefaultEncoding", encodingName );
-    kdDebug(0) << "encoding = " << encodingName;
+    stdName = m_pConfig->readEntry( "StandardFont", KGlobalSettings::generalFont().family() );
+    fixedName = m_pConfig->readEntry( "FixedFont", KGlobalSettings::fixedFont().family() );
+    serifName = m_pConfig->readEntry( "SerifFont", HTML_DEFAULT_VIEW_SERIF_FONT );
+    sansSerifName = m_pConfig->readEntry( "SansSerifFont", HTML_DEFAULT_VIEW_SANSSERIF_FONT );
+    cursiveName = m_pConfig->readEntry( "CursiveFont", HTML_DEFAULT_VIEW_CURSIVE_FONT );
+    fantasyName = m_pConfig->readEntry( "FantasyFont", HTML_DEFAULT_VIEW_FANTASY_FONT );
+    encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
+    kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
 }

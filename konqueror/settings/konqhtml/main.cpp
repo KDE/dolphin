@@ -65,9 +65,9 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   tab->addTab( javascript, i18n( "&Java/JavaScript" ) );
   connect( javascript, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
 
-  http = new KHTTPOptions(m_globalConfig, "HTML Settings", this);
-  tab->addTab(http, i18n("H&TTP"));
-  connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+  //http = new KHTTPOptions(m_globalConfig, "HTML Settings", this);
+  //tab->addTab(http, i18n("H&TTP"));
+  //connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
 }
 
@@ -81,7 +81,7 @@ void KonqHTMLModule::load()
 {
   appearance->load();
   javascript->load();
-  http->load();
+  //http->load();
   misc->load();
 }
 
@@ -90,7 +90,7 @@ void KonqHTMLModule::save()
 {
   appearance->save();
   javascript->save();
-  http->save();
+  //http->save();
   misc->save();
 
   // Send signal to konqueror
@@ -106,7 +106,7 @@ void KonqHTMLModule::defaults()
 {
   appearance->defaults();
   javascript->defaults();
-  http->defaults();
+  //http->defaults();
   misc->defaults();
 }
 
