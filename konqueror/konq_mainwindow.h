@@ -42,7 +42,6 @@
 
 class KAction;
 class KActionCollection;
-class KAccel;
 class KActionMenu;
 class KBookmarkMenu;
 class KHistoryCombo;
@@ -534,8 +533,7 @@ private:
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
-    KAccel *m_accel;
-    bool m_urlCompletionStarted;
+  bool m_urlCompletionStarted;
 };
 
 #endif

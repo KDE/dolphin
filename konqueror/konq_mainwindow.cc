@@ -131,7 +131,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paBookmarkBar = 0L;
   m_pURLCompletion = 0L;
   m_bFullScreen = false;
-  m_accel = new KAccel(this);
   m_goBuffer = 0;
 
   m_bViewModeToggled = false;
@@ -2700,10 +2699,6 @@ void KonqMainWindow::initActions()
   m_paLockView->setStatusText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
   m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes done in other linked views") );
-
-  QValueList<KAction*> actions = actionCollection()->actions();
-  for (QValueList<KAction*>::ConstIterator it = actions.begin(); it != actions.end(); it++)
-      (*it)->plugAccel(m_accel);
 }
 
 void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
