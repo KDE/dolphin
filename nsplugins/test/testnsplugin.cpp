@@ -77,7 +77,7 @@ void TestNSPlugin::newView()
 
    _argn << "SRC" << "TYPE" << "WIDTH" << "HEIGHT";
    _argv << src << mime << "400" << "100";
-   QWidget *win = m_loader->NewInstance( m_client, src, mime, 1, _argn, _argv );
+   QWidget *win = m_loader->newInstance( m_client, src, mime, 1, _argn, _argv, "appid", "callbackid" );
 
 /*
     _argn << "TYPE" << "WIDTH" << "HEIGHT" << "java_docbase" << "CODE";
