@@ -511,6 +511,7 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
     assert(item);
     KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
     KonqOperations::rename( this, fileItem, name );
+    setFocus(); // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
 }
 
 void KonqBaseListViewWidget::slotOnViewport()
