@@ -32,7 +32,7 @@ class KCookieAdvice
 public:
   enum Value {Dunno=0, Accept, Reject, Ask};
 
-  static const char * KCookieAdvice::adviceToStr (const int& advice)
+  static const char * adviceToStr (const int& advice)
   {
     switch (advice)
     {
