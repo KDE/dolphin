@@ -786,11 +786,6 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
   m_bLoading = true;
 
   KURL u( _url );
-  if ( m_pProps->enterDir( u ) )
-  {
-    // nothing to do yet
-  }
-
   // Start the directory lister !
   m_dirLister->openURL( u, m_pProps->m_bShowDot );
   // Note : we don't store the url. KDirLister does it for us.
@@ -804,6 +799,13 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
 
   m_ulTotalFiles = 0;
   m_bNeedAlign = false;
+
+  // do it after starting the dir lister to avoid changing bgcolor of the
+  // old view
+  if ( m_pProps->enterDir( u ) )
+  {
+    // nothing to do yet
+  }
 
 #warning FIXME (Simon)
 //  setCaptionFromURL( _url );
