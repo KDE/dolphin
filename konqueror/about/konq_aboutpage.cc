@@ -257,11 +257,11 @@ KonqAboutPage::KonqAboutPage( //KonqMainWindow *
     : KHTMLPart( parentWidget, widgetName, parent, name, BrowserViewGUI )
 {
     //m_mainWindow = mainWindow;
-    QTextCodec *codec = QTextCodec::codecForName(KGlobal::locale()->charset().latin1());
+    QTextCodec* codec = KGlobal::locale()->codecForEncoding();
     if (codec)
 	setCharset(codec->name(), true);
     else
-	setCharset(KGlobal::locale()->charset(), true);
+	setCharset("iso-8859-1", true);
     // about:blah isn't a kioslave -> disable View source
     KAction * act = actionCollection()->action("viewDocumentSource");
     if ( act )
