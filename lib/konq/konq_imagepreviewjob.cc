@@ -39,14 +39,17 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool fo
   m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
   m_splitter = splitter;
+  m_bDirsCreated = true; // if no images, no need for dirs
 
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
     KFileIVI * ivi = static_cast<KFileIVI *>( it );
     QString mimeType = ivi->item()->mimetype();
-    if ( mimeType.startsWith( "image/" ) ||
-	 (m_splitter && mimeType.startsWith( "text/")) )
+    bool bImage = mimeType.startsWith( "image/" );
+    if ( bImage )
+        m_bDirsCreated = false; // We'll need dirs
+    if ( bImage || (m_splitter && mimeType.startsWith( "text/")) )
       if ( force || !ivi->isThumbnail() )
         m_items.append( ivi );
   }
@@ -74,7 +77,6 @@ void KonqImagePreviewJob::startImagePreview()
   }
   else
   {
-    m_bDirsCreated = false;
     determineNextIcon();
   }
 }
@@ -214,7 +216,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       // Well, comment this out if you prefer compatibility over quality.
       determineThumbnailURL();
 
-      kdDebug(1203) << "After stat xv m_bCanSave=" << m_bCanSave << " m_bDirsCreated=" << m_bDirsCreated << endl;
+      //kdDebug(1203) << "After stat xv m_bCanSave=" << m_bCanSave << " m_bDirsCreated=" << m_bDirsCreated << endl;
       if ( m_bCanSave && !m_bDirsCreated )
       {
         // m_thumbURL is /blah/.pics/med/file.png
@@ -406,13 +408,13 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      // FIXME: maybe strip whitespace and read more?
 
 	      QRect rect;
-	
+
 	      // example: width: 60, height: 64
 	      float ratio = 15.0 / 16.0; // so we get a page-like size
 	      int width = (int) (ratio * (float) m_extent);
 	      pix.resize( width, m_extent );
 	      pix.fill( QColor( 245, 245, 245 ) ); // light-grey background
-	
+
 	      QSize chSize = m_splitter->itemSize(); // the size of one char
 	      int xOffset = chSize.width();
 	      int yOffset = chSize.height();
@@ -432,19 +434,19 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      rest = m_extent - (numLines * chSize.height());
 	      yborder = QMAX( yborder, rest/2); // center vertically
 	      // end centering
-	
+
 	      int x = xborder, y = yborder; // where to paint the characters
 	      int posNewLine  = width - (chSize.width() + xborder);
 	      int posLastLine = m_extent - (chSize.height() + yborder);
 	      bool newLine = false;
 	      ASSERT( posNewLine > 0 );
 	      const QPixmap *fontPixmap = &(m_splitter->pixmap());
-	      
+
 	      for ( uint i = 0; i < text.length(); i++ ) {
 		  if ( x > posNewLine || newLine ) { // start a new line?
 		      x = xborder;
 		      y += yOffset;
-		
+
 		      if ( y > posLastLine ) // more text than space
 			  break;
 
@@ -458,7 +460,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 
 		      newLine = false;
 		  }
-		
+
 		  // check for newlines in the text (unix,dos)
 		  QChar ch = text.at( i );
 		  if ( ch == '\n' ) {
@@ -470,8 +472,8 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		      i++; // skip the next character (\n) as well
 		      continue;
 		  }
-		
-		
+
+
 		  rect = m_splitter->coordinates( ch );
 		  if ( !rect.isEmpty() ) {
 		      bitBlt( &pix, QPoint(x,y), fontPixmap, rect, CopyROP );
@@ -486,7 +488,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      p.setPen( QColor( 88, 88, 88 ));
 	      p.drawRect( 0, 0, pix.width(), pix.height() );
 	      p.end();
-	
+
  	      if ( saveImage )
  		  img = pix.convertToImage();
 	  }
