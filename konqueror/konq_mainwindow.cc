@@ -1712,7 +1712,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == QFocusEvent::Popup )
     {
-      kdDebug() << "Reason for focus change was popup. gotFocus=" << focusEv->gotFocus() << endl;
+      //kdDebug(1202) << "Reason for focus change was popup. gotFocus=" << focusEv->gotFocus() << endl;
       return KParts::MainWindow::eventFilter( obj, ev );
     }
 
@@ -1720,10 +1720,10 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
     QStrList slotNames =  ext->metaObject()->slotNames();
     if (ev->type()==QEvent::FocusIn)
     {
-      kdDebug() << "ComboBox got the focus..." << endl;
+      //kdDebug(1202) << "ComboBox got the focus..." << endl;
       if (m_bLocationBarConnected)
       {
-        kdDebug() << "Was already connected..." << endl;
+        //kdDebug(1202) << "Was already connected..." << endl;
         return KParts::MainWindow::eventFilter( obj, ev );
       }
       m_bLocationBarConnected = true;
@@ -1748,10 +1748,10 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
     } else if ( ev->type()==QEvent::FocusOut)
     {
-      kdDebug() << "ComboBox lost focus..." << endl;
+      //kdDebug(1202) << "ComboBox lost focus..." << endl;
       if (!m_bLocationBarConnected)
       {
-        kdDebug() << "Was already disconnected..." << endl;
+        //kdDebug(1202) << "Was already disconnected..." << endl;
         return KParts::MainWindow::eventFilter( obj, ev );
       }
       m_bLocationBarConnected = false;
@@ -1779,17 +1779,16 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
 void KonqMainWindow::slotClipboardDataChanged()
 {
-  kdDebug() << "KonqMainWindow::slotClipboardDataChanged()" << endl;
+  //kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
   QMimeSource *data = QApplication::clipboard()->data();
   m_paPaste->setEnabled( data->provides( "text/plain" ) );
-  kdDebug() << "m_combo->lineEdit()->hasMarkedText() : " << m_combo->lineEdit()->hasMarkedText() << endl;
+  //kdDebug(1202) << "m_combo->lineEdit()->hasMarkedText() : " << m_combo->lineEdit()->hasMarkedText() << endl;
   m_paCopy->setEnabled( m_combo->lineEdit()->hasMarkedText() );
   m_paCut->setEnabled( m_combo->lineEdit()->hasMarkedText() );
 }
 
 void KonqMainWindow::slotComboCut()
 {
-  kdDebug() << "KonqMainWindow::slotComboCut()" << endl;
   // Don't ask me why this isn't a slot...
   m_combo->lineEdit()->cut();
 }

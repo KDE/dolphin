@@ -107,7 +107,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     KTrader::OfferList::Iterator it = appServiceOffers->begin();
     while ( it != appServiceOffers->end() )
     {
-      kdDebug() << (*it)->desktopEntryName() << endl;
+      //kdDebug(1202) << (*it)->desktopEntryName() << endl;
       // Remove pure services (no app), and also remove ourselves... :-}
       if ( (*it)->type() != "Application"
            || (*it)->desktopEntryName() == "kfmclient"
@@ -129,16 +129,18 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     QStringList serviceTypes = (*it)->serviceTypes();
     if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
     {
-      kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
+      //kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
       it = offers.remove( it );
       // it points to the next one now
       continue;
     }
     if ( !service && !serviceName.isEmpty() )
     {
-      kdDebug(1202) << "Found requested service " << serviceName << endl;
       if ( (*it)->name() == serviceName )
+      {
+        kdDebug(1202) << "Found requested service " << serviceName << endl;
         service = *it;
+      }
     }
     ++it;
   }
@@ -162,7 +164,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     kdDebug(1202) << service->name() << " : X-KDE-BrowserView-AllowAsDefault is valid : " << prop.isValid() << endl;
     if ( !prop.isValid() || prop.toBool() ) // defaults to true
     {
-      kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;
+      //kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;
       // Try loading factory
       factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
       // If this works, we exit the loop.

@@ -697,13 +697,13 @@ void KonqView::callExtensionStringMethod( const char *methodName, QString value 
   if ( !obj )
     return;
 
-  kdDebug() << "KonqView::callExtensionStringMethod " << methodName << endl;
+  //kdDebug(1202) << "KonqView::callExtensionStringMethod " << methodName << endl;
   typedef void (QObject::*StringMethod)(QString);
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
   {
     (obj->*((StringMethod)mdata->ptr))(value);
-    kdDebug() << "Call done" << endl;
+    //kdDebug(1202) << "Call done" << endl;
   }
 }
 

@@ -170,7 +170,7 @@ void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
 
 void IconViewBrowserExtension::setNameFilter( QString nameFilter )
 {
-  kdDebug() << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
+  //kdDebug(1202) << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
   m_iconView->m_nameFilter = nameFilter;
 }
 
@@ -1075,7 +1075,7 @@ uint KonqKfmIconView::fileCount() const
 void KonqKfmIconView::setViewMode( const QString &mode )
 {
     m_pIconView->setUpdatesEnabled( false );
-    kdDebug() << "setViewMode " << mode << endl;
+    //kdDebug(1202) << "setViewMode " << mode << endl;
     m_mode = mode;
     if (mode=="MultiColumnView")
     {
