@@ -151,7 +151,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *)
     subLayout->addMultiCellWidget(loginasED,8,8,0,2);
     connect( loginasED, SIGNAL( textChanged(const QString&) ),
        SLOT( textChanged(const QString&) ) );
-    wtstr = i18n( "Enter your username on the SMB server here." );
+    wtstr = i18n( "Enter your user name on the SMB server here." );
     QWhatsThis::add( loginasLA, wtstr );
     QWhatsThis::add( loginasED, wtstr );
 
