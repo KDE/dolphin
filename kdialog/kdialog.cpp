@@ -114,6 +114,7 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
         if (id)
             XSetTransientForHint(w->x11Display(), w->winId(), id);
 #endif
+        delete this; // delete - set the transient hint only on the first dialog
     }
     return QObject::eventFilter(o, e);
 }
