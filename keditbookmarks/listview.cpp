@@ -36,18 +36,15 @@
 #include <kmessagebox.h>
 #include <krun.h>
 
-#include <kicondialog.h>
-#include <kiconloader.h>
-
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 
 #include "toplevel.h"
 #include "commands.h"
-#include "favicons.h"
-#include "listview.h"
-#include "testlink.h"
 #include "mymanager.h"
+#include "testlink.h" // paintCellHelper
+
+#include "listview.h"
 
 // #define DEBUG_ADDRESSES
 
@@ -268,10 +265,6 @@ KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
    return static_cast<KEBListViewItem *>(item);
 }
 
-KEBListViewItem* ListView::getItemRoughlyAtAddress(const QString &address) {
-   return getItemAtAddress(BkManagerAccessor::mgr()->findByAddress(address, true).address());
-}
-
 void ListView::setOpen(bool open) {
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if (it.current()->parent()) {
@@ -334,6 +327,7 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
    KEBTopLevel::self()->didCommand(mcmd);
 }
 
+
 void ListView::updateListView() {
    // get address list for selected items, make a function?
    QStringList addressList;
@@ -358,7 +352,9 @@ void ListView::updateListView() {
 
    // fallback, if no selected items
    if (!item) {
-      item = getItemRoughlyAtAddress(m_last_selection_address);
+      QString addr = 
+         MyManager::self()->correctAddress(m_last_selection_address);
+      item = getItemAtAddress(addr);
       m_listView->setSelected(item, true);
    }
 

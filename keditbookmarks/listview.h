@@ -148,7 +148,6 @@ public:
 
    // address stuff
    KEBListViewItem* getItemAtAddress(const QString &address);
-   KEBListViewItem* getItemRoughlyAtAddress(const QString &address);
    QString userAddress();
 
    // gui stuff - DESIGN - all of it???
