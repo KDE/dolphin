@@ -58,6 +58,7 @@
 #include <qvbox.h>
 #include <qlayout.h>
 #include <qfileinfo.h>
+#include <qwhatsthis.h>
 
 #include <dcopclient.h>
 #include <kaboutdata.h>
@@ -3056,9 +3057,15 @@ void KonqMainWindow::initActions()
                   0, 0, actionCollection(), "toolbar_url_combo" );
   comboAction->setShortcutConfigurable( false );
   comboAction->setAutoSized( true );
-  (void)new KAction( i18n( "Clear Location Bar" ),
-                     QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
-                     0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
+
+  QWhatsThis::add( m_combo, i18n( "Location Bar<p>"
+				  "Enter a web address or search term." ) );
+
+  KAction *clearLocation = new KAction( i18n( "Clear Location Bar" ),
+					QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
+					0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
+  clearLocation->setWhatsThis( i18n( "Clear Location bar<p>"
+				     "Clears the content of the location bar." ) );
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), "bookmark", actionCollection(), "bookmarks" );
@@ -3070,12 +3077,14 @@ void KonqMainWindow::initActions()
   connectActionCollection( m_bookmarksActionCollection );
 
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
-
+  
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection() );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
-  (void) new KonqGoURLAction( i18n( "Go" ), "key_enter", 0, this, SLOT( goURL() ), actionCollection(), "go_url" );
+  KAction *goUrl = new KonqGoURLAction( i18n( "Go" ), "key_enter", 0, this, SLOT( goURL() ), actionCollection(), "go_url" );
+  goUrl->setWhatsThis( i18n( "Go<p>"
+			     "Goes to the page that has been entered into the location bar." ) );
 
   enableAllActions( false );
 
