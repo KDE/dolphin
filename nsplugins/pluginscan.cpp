@@ -444,6 +444,7 @@ QStringList getSearchPaths()
         paths.append("/usr/lib/netscape/plugins-libc5");
         paths.append("/usr/lib/netscape/plugins-libc6");
         paths.append("/usr/lib/mozilla/plugins");
+	paths.append("/usr/lib/browser-plugins");
         paths.append("$MOZILLA_HOME/plugins");
         config->writeEntry( "scanPaths", paths );
     }
