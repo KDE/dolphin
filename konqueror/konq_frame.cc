@@ -92,7 +92,7 @@ KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part,
   if ( frameHeaderLook == PIXMAP ) {
     KIconLoader* iconLoader = new KIconLoader();
 
-    iconLoader->getDirList()->clear();
+    iconLoader->getDirList().clear();
     
     iconLoader->insertDirectory(0, kapp->localkdedir()+"/share/apps/kwm/pics");
     iconLoader->insertDirectory(1, kapp->kde_datadir()+"/kwm/pics");
