@@ -23,5 +23,6 @@ bin_PROGRAMS = kfmclient
 kfmclient_SOURCES = kfmclient.cc konqueror.cc kdesktop.cc
 noinst_HEADERS = kfmclient.h
 
-BUILT_SOURCES = konqueror.h kdesktop.h
+kfmclient.h : konqueror.h kdesktop.h
+kfmclient.cc : konqueror.h kdesktop.h
 
