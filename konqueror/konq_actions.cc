@@ -49,8 +49,7 @@ int KonqComboAction::plug( QWidget *w )
 
   int id = get_toolbutton_id();
 
-  #warning "SOMEONE PLEASE FIX ktoolbar.[cpp/h] and make insertCombo take a const QObject * as argument"
-  toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ), (QObject *)m_receiver, m_member );
+  toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member );
 
   QComboBox *comboBox = toolBar->getCombo( id );
 
