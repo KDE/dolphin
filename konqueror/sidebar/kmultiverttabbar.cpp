@@ -104,8 +104,9 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 		{
 			paint->fillRect(0,0,21,21,QBrush(colorGroup().background()));
 
-			paint->setPen(colorGroup().light());
-			paint->drawLine(0,23,23,23);
+//			paint->setPen(colorGroup().light());
+			paint->setPen(colorGroup().background().dark(150));
+//			paint->drawLine(0,23,23,23);
 			paint->drawLine(0,22,23,22);
 
 			paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
@@ -114,8 +115,10 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 			paint->drawLine(19,21,21,21);
 			paint->drawLine(21,19,21,21);
 
+//			paint->setPen(colorGroup().background().dark(120));
+//			paint->drawLine(0,0,23,0);
+
 			paint->setPen(colorGroup().shadow());
-			paint->drawLine(0,0,23,0);
 			paint->drawLine(0,0,0,23);
 			paint->drawLine(1,0,1,23);
 
@@ -125,7 +128,7 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 			paint->setPen(colorGroup().light());
 			paint->drawLine(0,23,23,23);
 			paint->drawLine(0,22,23,22);
-			paint->setPen(colorGroup().shadow());
+			paint->setPen(colorGroup().background().dark(120));
 			paint->drawLine(0,0,23,0);
 //			paint->drawLine(1,0,23,23);
 			paint->fillRect(0,1,23,21,QBrush(colorGroup().background()));
