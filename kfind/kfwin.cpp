@@ -28,6 +28,7 @@
 #include <kpropsdlg.h>
 #include <kstddirs.h>
 #include <kmessagebox.h>
+#include <kglobal.h>
 
 #include "kfwin.h"
 #include "kfarch.h"
@@ -35,9 +36,6 @@
 
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
-
-// see comment near use of this variable
-static const char * egcsWorkaround = "%x  %X";
 
 #define I18N_NOOP(x) x
 
@@ -65,17 +63,10 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
 
   QString size = QString("%1").arg(fileInfo->size());
 
-  // This code is copied from QT qfiledialog.cpp
-  QDateTime epoch;
-  epoch.setTime_t( 0 );
-  char date[256];
-  time_t t1 = epoch.secsTo( fileInfo->lastModified() );
-  struct tm * t2 = ::localtime( &t1 );
-  // use a static const char here, so that egcs will not see
-  // the formatting string and give an incorrect warning.
-  if ( t2 && strftime( date, 255, egcsWorkaround, t2 ) <= 0 )
-    strcpy(date, "????");
-  //
+  QString date;
+  date = KGlobal::locale()->formatDate(fileInfo->lastModified().date(), true);
+  date += " ";
+  date += KGlobal::locale()->formatTime(fileInfo->lastModified().time(), true);
 
   int perm_index;
   if(fileInfo->isReadable())
