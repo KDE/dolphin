@@ -259,9 +259,9 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
       {
         KSimpleConfig cfg( *dIt + *eIt, true );
 	  
-        cfg.setGroup( "Menu" );
+        cfg.setDesktopGroup();
 	
-        if ( cfg.hasGroup( "Menu" ) && cfg.hasKey( "ServiceTypes" ) &&
+        if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
              cfg.readListEntry( "ServiceTypes" ).contains( mime ) )
         {
           KURL u( *dIt + *eIt );

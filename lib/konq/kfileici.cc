@@ -29,7 +29,9 @@ KFileICI::KFileICI( KIconContainer *_container, KFileItem* _fileitem )
   // Set the item name from the url hold by KFileItem
   setName( m_fileitem->url().url() );
   // Determine the item pixmap from one determined by KFileItem
-  QPixmap *p = m_fileitem->getPixmap( _container->displayMode() == KIconContainer::Vertical );
+  KIconContainer::DisplayMode mode = _container->displayMode();
+  QPixmap *p = m_fileitem->getPixmap( mode == KIconContainer::Vertical ||
+                                      mode == KIconContainer::SmallVertical );
   if (p) setPixmap( *p );
 }
 
@@ -37,7 +39,9 @@ void KFileICI::refresh( bool _display_mode_changed )
 {
   if ( _display_mode_changed ) 
   {
-    QPixmap *p = m_fileitem->getPixmap( m_pContainer->displayMode() == KIconContainer::Vertical );
+    KIconContainer::DisplayMode mode = m_pContainer->displayMode();
+    QPixmap *p = m_fileitem->getPixmap( mode == KIconContainer::Vertical ||
+                                        mode == KIconContainer::SmallVertical );
     if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
   }
   
