@@ -646,7 +646,7 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
 
 }
 
-void KonqViewManager::moveTabLeft()
+void KonqViewManager::moveTabBackward()
 {
     if (m_pDocContainer == 0L) return;
     if (m_pDocContainer->frameType() != "Tabs") return;
@@ -655,10 +655,10 @@ void KonqViewManager::moveTabLeft()
 
     int iTab = tabContainer->currentPageIndex();
     kdDebug()<<" tabContainer->currentPageIndex(); :"<<iTab<<endl;
-    tabContainer->moveTabLeft(iTab);
+    tabContainer->moveTabBackward(iTab);
 }
 
-void KonqViewManager::moveTabRight()
+void KonqViewManager::moveTabForward()
 {
     if (m_pDocContainer == 0L) return;
     if (m_pDocContainer->frameType() != "Tabs") return;
@@ -666,7 +666,7 @@ void KonqViewManager::moveTabRight()
     if( tabContainer->count() == 1 ) return;
 
     int iTab = tabContainer->currentPageIndex();
-    tabContainer->moveTabRight(iTab);
+    tabContainer->moveTabForward(iTab);
 }
 
 void KonqViewManager::activateNextTab()

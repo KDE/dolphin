@@ -81,8 +81,8 @@ public:
   virtual void reparentFrame(QWidget * parent,
                              const QPoint & p, bool showIt=FALSE );
 
-  void moveTabLeft(int index);
-  void moveTabRight(int index);
+  void moveTabBackward(int index);
+  void moveTabForward(int index);
 
 
 public slots:

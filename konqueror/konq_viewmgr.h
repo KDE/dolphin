@@ -145,8 +145,8 @@ public:
    */
   void activatePrevTab();
 
-    void moveTabLeft();
-    void moveTabRight();
+    void moveTabBackward();
+    void moveTabForward();
 
     void reloadAllTabs();
 

@@ -330,14 +330,14 @@ void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
   }
 }
 
-void KonqFrameTabs::moveTabLeft( int index )
+void KonqFrameTabs::moveTabBackward( int index )
 {
   if ( index == 0 )
     return;
   moveTab( index, index-1 );
 }
 
-void KonqFrameTabs::moveTabRight( int index )
+void KonqFrameTabs::moveTabForward( int index )
 {
   if ( index == count()-1 )
     return;

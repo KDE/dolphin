@@ -3359,12 +3359,18 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
 
 void KonqMainWindow::slotMoveTabLeft()
 {
-    m_pViewManager->moveTabLeft();
+  if ( QApplication::reverseLayout() )
+    m_pViewManager->moveTabForward();
+  else
+    m_pViewManager->moveTabBackward();
 }
 
 void KonqMainWindow::slotMoveTabRight()
 {
-    m_pViewManager->moveTabRight();
+  if ( QApplication::reverseLayout() )
+    m_pViewManager->moveTabBackward();
+  else
+    m_pViewManager->moveTabForward();
 }
 
 void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
