@@ -197,11 +197,12 @@ public:
   void updateStatusBar() {} // to remove if we confirm we don't want that anymore
   void updateToolBarActions();
 
-  bool fullScreenMode() const { return m_bFullScreen; }
+  bool fullScreenMode() const { return m_ptaFullScreen->isChecked(); }
 
   static QList<KonqMainView> *mainViewList() { return s_lstViews; }
 
 public slots:
+  void slotToggleFullScreen( bool );
   void slotFullScreenStart();
   void slotFullScreenStop();
 
@@ -346,10 +347,8 @@ private:
   KToggleAction *m_paShowLocationBar;
   KToggleAction *m_paShowBookmarkBar;
 
-  KAction *m_paFullScreenStart;
-  KAction *m_paFullScreenStop;
+  KToggleAction *m_ptaFullScreen;
 
-  bool m_bFullScreen;
   KonqFrameContainer *m_tempContainer;
   QWidget::FocusPolicy m_tempFocusPolicy;
 

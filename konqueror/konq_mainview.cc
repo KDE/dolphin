@@ -179,7 +179,6 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   }
 
   resize( 700, 480 );
-  m_bFullScreen = false;
   kdDebug(1202) << "KonqMainView::KonqMainView done" << endl;
 }
 
@@ -1305,6 +1304,22 @@ void KonqMainView::toggleBar( const char *name, const char *className )
     bar->show();
 }
 
+void KonqMainView::slotToggleFullScreen( bool toggle )
+{
+  if ( toggle )
+  {
+    slotFullScreenStart();
+    m_ptaFullScreen->setText( i18n( "Stop Fullscreen Mode" ) );
+    m_ptaFullScreen->setIcon( "window_nofullscreen" );
+  }
+  else
+  {
+    slotFullScreenStop();
+    m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
+    m_ptaFullScreen->setIcon( "window_fullscreen" );
+  }
+} 
+
 void KonqMainView::slotFullScreenStart()
 {
   // Create toolbar button for exiting from full-screen mode
@@ -1335,8 +1350,6 @@ void KonqMainView::slotFullScreenStart()
   if ( viewWidget->inherits("QScrollView") )
     ((QScrollView *) viewWidget)->viewport()->setMouseTracking( TRUE );
   */
-
-  m_bFullScreen = true;
 }
 
 void KonqMainView::attachToolbars( KonqFrame *frame )
@@ -1377,7 +1390,6 @@ void KonqMainView::slotFullScreenStop()
   widget->statusbar()->show();
   widget->show();
   widget->setFocusPolicy( m_tempFocusPolicy );
-  m_bFullScreen = false;
 
   widget->attachInternal();
 
@@ -1505,9 +1517,13 @@ void KonqMainView::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_paFullScreenStart = new KAction( i18n( "Fullscreen Mode" ), "window_fullscreen", 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
-  m_paFullScreenStop = new KAction( i18n( "Stop Fullscreen Mode" ), "window_nofullscreen", 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
+  m_ptaFullScreen = new KToggleAction( i18n( "Fullscreen Mode" ), "window_fullscreen", 0, actionCollection(), "fullscreen" );
 
+  m_ptaFullScreen->setChecked( false );
+  
+  connect( m_ptaFullScreen, SIGNAL( toggled( bool ) ),
+	   this, SLOT( slotToggleFullScreen( bool ) ) );
+  
   /*
   QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIcon::Small );
   (void) new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );

@@ -181,7 +181,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
   if ( mainView->fullScreenMode() )
   {
     QDomElement stopFullScreenElement = m_doc.createElement( "action" );
-    stopFullScreenElement.setAttribute( "name", "fullscreenstop" );
+    stopFullScreenElement.setAttribute( "name", "fullscreen" );
     menu.appendChild( stopFullScreenElement );
 
     menu.appendChild( m_doc.createElement( "separator" ) );
@@ -416,7 +416,7 @@ static const char *fullScreenGUI = ""
 "<!DOCTYPE fullscreenxml>"
 "<fullscreenxml name=\"fullScreen\">"
 "<ToolBar name=\"mainToolBar\">"
-" <Action name=\"fullscreenstop\"/>"
+" <Action name=\"fullscreen\"/>"
 "</ToolBar>"
 "</fullscreenxml>";
 
@@ -425,7 +425,7 @@ FullScreenGUIClient::FullScreenGUIClient( KonqMainView * mainView )
   QDomDocument doc;
   doc.setContent( QString::fromLatin1( fullScreenGUI ) );
   setDocument( doc );
-  KAction * act = mainView->actionCollection()->action( "fullscreenstop" );
+  KAction * act = mainView->actionCollection()->action( "fullscreen" );
   actionCollection()->insert( act );
 }
 
