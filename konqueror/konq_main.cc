@@ -31,6 +31,7 @@
 #include <kimgio.h>
 #include <kapp.h>
 #include <klocale.h>
+#include <kglobal.h>
 #include <kwm.h>
 #include <userpaths.h>
 
@@ -307,7 +308,7 @@ int main( int argc, char **argv )
   KonqBoot boot( "IDL:Konqueror/Application:1.0", "Konqueror" );
   
   KonqApp app( argc, argv );
-  app.getLocale()->insertCatalogue("libkonq"); // needed for apps using libkonq
+  KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 
   int i = 1;
   if ( strcmp( argv[i], "-s" ) == 0 || strcmp( argv[i], "--server" ) == 0 )
