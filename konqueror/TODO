@@ -2,6 +2,7 @@ kio:
 ====
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL. (i.e. autodetect when passwd needed)
+- Fix kio_uiserver's dialog for mounting, deleting, etc. (no source + dest)
 
 kio_http:
 =========

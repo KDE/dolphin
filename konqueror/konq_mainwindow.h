@@ -130,6 +130,9 @@ public:
   KonqView *currentView() const { return m_currentView; }
   KParts::ReadOnlyPart *currentPart();
 
+  // Only valid if there are one or two views
+  KonqView * otherView( KonqView * view ) const;
+
   virtual void customEvent( QCustomEvent *event );
 
   /// Overloaded of KTMainWindow
@@ -190,6 +193,8 @@ public slots:
   void slotNewWindow();
   void slotDuplicateWindow();
   void slotRun();
+  void slotCopyFiles();
+  void slotMoveFiles();
   void slotOpenTerminal();
   void slotOpenLocation();
   void slotToolFind();
@@ -295,6 +300,9 @@ protected:
 
   void applyMainWindowSettings();
 
+  void viewCountChanged();
+  void viewsChanged();
+
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
@@ -366,6 +374,9 @@ private:
   KAction *m_paTrash;
   KAction *m_paDelete;
   KAction *m_paShred;
+
+  KAction *m_paCopyFiles;
+  KAction *m_paMoveFiles;
 
   KonqLogoAction *m_paAnimatedLogo;
 

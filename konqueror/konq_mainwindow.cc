@@ -136,6 +136,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_openWithActions.setAutoDelete( true );
   m_viewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
+  m_paCopyFiles = 0L;
+  m_paMoveFiles = 0L;
 
   initActions();
 
@@ -922,6 +924,8 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
   // Add the new part to the manager
   // Note: this makes it active... so it calls slotPartActivated
   m_pViewManager->addPart( newPart, true );
+
+  viewsChanged();
 }
 
 
@@ -1089,6 +1093,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
         act->setEnabled( false );
     }
 
+    m_paCopyFiles->setEnabled( false );
+    m_paMoveFiles->setEnabled( false );
+
     createGUI( 0L );
   }
 
@@ -1151,11 +1158,8 @@ void KonqMainWindow::insertChildView( KonqView *childView )
   connect( childView, SIGNAL( viewCompleted( KonqView * ) ),
            this, SLOT( slotViewCompleted( KonqView * ) ) );
 
-  m_paRemoveView->setEnabled( activeViewsCount() > 1 );
-  m_paLinkView->setEnabled( viewCount() > 1 );
-
   childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
-  m_pViewManager->viewCountChanged();
+  viewCountChanged();
   emit viewAdded( childView );
 }
 
@@ -1176,16 +1180,60 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   }
   m_mapViews.remove( it );
 
-  m_paRemoveView->setEnabled( activeViewsCount() > 1 );
-  m_paLinkView->setEnabled( viewCount() > 1 );
-
   if ( childView == m_currentView )
   {
     m_currentView = 0L;
     m_pViewManager->setActivePart( 0L );
   }
-  m_pViewManager->viewCountChanged();
+  viewCountChanged();
   emit viewRemoved( childView );
+}
+
+void KonqMainWindow::viewCountChanged()
+{
+  // This is called when the number of views changes.
+
+  m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+  m_paLinkView->setEnabled( viewCount() > 1 );
+
+  viewsChanged();
+
+  m_pViewManager->viewCountChanged();
+}
+
+void KonqMainWindow::viewsChanged()
+{
+  // This is called when the number of views changes OR when
+  // the type of some view changes.
+
+  // Do we activate the operations menu ?
+  if ( viewCount() == 2 )
+  {
+    MapViews::ConstIterator it = m_mapViews.begin();
+    if ( it++.data()->serviceType() == "inode/directory"
+         && it.data()->serviceType() == "inode/directory"
+         && !m_paCopyFiles )
+    {
+      // F5 is the default key binding for Reload.... a la Windows.
+      // mc users want F5 for Copy and F6 for move, but I can't make that default.
+      m_paCopyFiles = new KAction( i18n("Copy files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
+      m_paMoveFiles = new KAction( i18n("Move files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      QList<KAction> lst;
+      lst.append( m_paCopyFiles );
+      lst.append( m_paMoveFiles );
+      m_paCopyFiles->setEnabled( false );
+      m_paMoveFiles->setEnabled( false );
+      plugActionList( "operations", lst );
+    }
+  }
+  else if (m_paCopyFiles)
+  {
+    unplugActionList( "operations" );
+    delete m_paCopyFiles;
+    m_paCopyFiles = 0L;
+    delete m_paMoveFiles;
+    m_paMoveFiles = 0L;
+  }
 }
 
 KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
@@ -1402,6 +1450,36 @@ void KonqMainWindow::slotRemoveLocalProperties()
          KMessageBox::sorry( this, i18n("No permissions to write to %1").arg(u.path()) );
       }
   }
+}
+
+void KonqMainWindow::slotCopyFiles()
+{
+  kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
+  assert( viewCount() == 2 );
+  // Copy files is copy + paste. I'm sooo lazy :)
+  m_currentView->callExtensionMethod( "copy" );
+  otherView( m_currentView )->callExtensionMethod( "paste" ); // DOESN'T WORK !?!?!
+}
+
+void KonqMainWindow::slotMoveFiles()
+{
+  kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
+  assert( viewCount() == 2 );
+  // Copy files is cut + paste. I'm sooo lazy :)
+  m_currentView->callExtensionMethod( "cut" );
+  otherView( m_currentView )->callExtensionMethod( "paste" ); // DOESN'T WORK !?!?!
+}
+
+// Only valid if there are one or two views
+KonqView * KonqMainWindow::otherView( KonqView * view ) const
+{
+  assert( viewCount() <= 2 );
+  MapViews::ConstIterator it = m_mapViews.begin();
+  if ( (*it) == view )
+    ++it;
+  if ( it != m_mapViews.end() )
+    return (*it);
+  return 0L;
 }
 
 /*
@@ -2016,6 +2094,16 @@ void KonqMainWindow::slotEnableAction( const char * name, bool enabled )
     kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
     act->setEnabled( enabled );
+
+  // Update "copy files" and "move files" accordingly
+  if (m_paCopyFiles && !strcmp( name, "copy" ))
+  {
+    m_paCopyFiles->setEnabled( enabled );
+  }
+  if (m_paMoveFiles && !strcmp( name, "cut" ))
+  {
+    m_paMoveFiles->setEnabled( enabled );
+  }
 }
 
 void KonqMainWindow::enableAllActions( bool enable )

@@ -173,16 +173,12 @@ void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
   if ( prop.isValid() && prop.toBool() )
   {
     setLinkedView( true ); // set as linked
-    if (m_pMainWindow->viewCount() == 1 || // can happen if this view is not yet in the map
-        m_pMainWindow->viewCount() == 2)
+    // Two views : link both
+    if (m_pMainWindow->viewCount() <= 2) // '1' can happen if this view is not yet in the map
     {
-        // Two views : link both
-        KonqMainWindow::MapViews mapViews = m_pMainWindow->viewMap();
-        KonqMainWindow::MapViews::Iterator it = mapViews.begin();
-        if ( (*it) == this )
-            ++it;
-        if ( it != mapViews.end() )
-            (*it)->setLinkedView( true );
+      KonqView * otherView = m_pMainWindow->otherView( this );
+      if (otherView)
+        otherView->setLinkedView( true );
     }
   }
 }

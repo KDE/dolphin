@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="6">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="7">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -15,12 +15,13 @@
   <Action name="trash"/>
   <Action name="del"/>
   <Action name="shred"/>
+  <ActionList name="operations" /><!-- copy files and move files, when two directory views -->
   <Separator/>
   <Action name="new_menu"/>
   <Separator/>
   <Action name="editMimeType"/>
   <Action name="properties"/>
-  <WeakSeparator/>
+  <WeakSeparator/> <!-- hmm, this one is removed even when there are items on openwith. Bug ? -->
   <ActionList name="openwith" />
   <Separator />
   <Merge/>
@@ -124,11 +125,11 @@
  <Action name="print"/>
  <Separator/>
  <Action name="stop"/>
- <Separator/>
+ <WeakSeparator/>
  <Merge/>
  <ActionList name="viewmode_toolbar" />
  <ActionList name="fullscreen" />
- <Separator/>
+ <WeakSeparator/>
  <Action name="animated_logo"/>
 </ToolBar>
 <ToolBar fullWidth="true" name="locationToolBar" >
