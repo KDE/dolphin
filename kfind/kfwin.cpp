@@ -123,6 +123,8 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   // Resizing is done by resetColumns() function
   for(int i=0; i<5; i++)
     setColumnWidthMode(i, Manual);
+
+  resetColumns(TRUE);
   
   /* TODO
      connect(this, SIGNAL(rightButtonPressed(QListViewItem *, const QPoint &, int)),
@@ -135,32 +137,12 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
 
 void KfindWindow::beginSearch() 
 {
-  haveSelection = false;
-  
+  haveSelection = false;  
   clear();
-  
-  resetColumns();
-  
-  startTimer(100);
-  
-  QString str = i18n("%1 file(s) found").arg(0);
-  emit statusChanged(str.ascii());
 }
 
 void KfindWindow::endSearch() 
 {
-  killTimers(); 
-  
-  QString str = i18n("%1 file(s) found").arg(childCount());
-  emit statusChanged(str.ascii());
-}
-
-void KfindWindow::timerEvent(QTimerEvent *) 
-{
-  if(childCount() > 0) {
-    QString str = i18n("%1 file(s) found").arg(childCount());
-    emit statusChanged(str.ascii());
-  }
 }
 
 void KfindWindow::insertItem(QString file) {
@@ -499,17 +481,19 @@ void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
     warning(i18n("Error while creating child process!").ascii());
 }
 
-// Resizes QListView to ocuppy all space
-void KfindWindow::resizeEvent(QResizeEvent *e) {
-  resetColumns();
+// Resizes QListView to ocuppy all visible space
+void KfindWindow::resizeEvent(QResizeEvent *e)
+{
   QListView::resizeEvent(e);
+  resetColumns(FALSE);
+  clipper()->repaint();
 }
 
 // The following to functions are an attemp to implement MS-like selection
 // (Control/Shift style). Not very elegant.
 
-void KfindWindow::contentsMousePressEvent(QMouseEvent *e) {
-  
+void KfindWindow::contentsMousePressEvent(QMouseEvent *e) 
+{
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
   if(item == NULL) { // Just in case. Should not happen
     QListView::contentsMousePressEvent(e);
@@ -573,8 +557,8 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e) {
   }
 }
 
-void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e) {
-
+void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e) 
+{
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
   if(item == NULL) { // Just in case. Should not happen
     QListView::contentsMouseReleaseEvent(e);
@@ -595,20 +579,22 @@ void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e) {
     setCurrentItem(anchor);
 }
 
-void KfindWindow::resetColumns() {
+void KfindWindow::resetColumns(bool init) 
+{
+  if(init) {
+    QFontMetrics fm = fontMetrics();
+    setColumnWidth(2, QMAX(fm.width(columnText(2)), fm.width("0000000")) + 15);
+    setColumnWidth(3, QMAX(fm.width(columnText(3)), fm.width("00/00/00 00:00:00")) + 15);
+    setColumnWidth(4, QMAX(fm.width(columnText(4)), fm.width(perm[RO])) + 15);
+  }
   
-
-  QFontMetrics fm = fontMetrics();
-  int perm_w = fm.width(perm[RO]) + 15;
-  int size_w = fm.width("0000000") + 15;
-  int mod_w = fm.width("00/00/00 00:00:00") + 15;
-  int free_space = width() - perm_w - size_w - mod_w;
+  int free_space = visibleWidth() - 
+    columnWidth(2) - columnWidth(3) - columnWidth(4);
+  
   int name_w = (int)(free_space*0.3); // 30% 
   int dir_w = free_space - name_w;    // 70%
   
   setColumnWidth(0, name_w);
   setColumnWidth(1, dir_w);
-  setColumnWidth(2, size_w);
-  setColumnWidth(3, mod_w);
-  setColumnWidth(4, perm_w);
 }
+

@@ -29,8 +29,6 @@ class KfindWindow: public   QListView
 public:
   KfindWindow( QWidget * parent = 0, const char * name = 0 );
   
-  virtual void timerEvent(QTimerEvent *);
-
   void beginSearch();
   void endSearch();
 
@@ -58,12 +56,11 @@ protected:
 
 signals:
   void resultSelected(bool);
-  void statusChanged(const char *);
 
 private:
   bool haveSelection;
   void execAddToArchive(KfArchiver *arch, QString filename);
-  void resetColumns();
+  void resetColumns(bool init);
   void selectionChanged(bool selectionMade);
 };
 

@@ -23,13 +23,13 @@
 #include <qkeycode.h>
 #include <qlayout.h>
 
+#include <klocale.h>
 #include <kmsgbox.h>
 #include <kprocess.h>
 
 #include "kftabdlg.h"
 #include "kfwin.h"
 #include "kfind.h"
-#include <config.h>
 
 // this should be enough to hold at least two fully 
 // qualified pathnames. 
@@ -57,8 +57,6 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 
   connect(win ,SIGNAL(resultSelected(bool)),
 	  this,SIGNAL(resultSelected(bool)));
-  connect(win ,SIGNAL(statusChanged(const char *)),
-	  this,SIGNAL(statusChanged(const char *)));
   connect(this,SIGNAL(deleteFile()),
 	  win,SLOT(deleteFiles()));
   connect(this,SIGNAL(properties()),
@@ -97,6 +95,10 @@ void Kfind::startSearch() {
   iBuffer[0] = 0;
   isResultReported = false;
   
+  // Reset count
+  QString str = i18n("%1 file(s) found").arg(0);
+  emit statusChanged(str.ascii());
+
   emit resultSelected(false);
   emit haveResults(false);
   emit enableSearchButton(false);
@@ -152,6 +154,10 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
     }
     memmove(iBuffer, p+1, strlen(p + 1)+1);
   }
+  
+  // Update count
+  QString str = i18n("%1 file(s) found").arg(win->childCount());
+  emit statusChanged(str.ascii());
 }
 
 void Kfind::setExpanded(bool expand) {
