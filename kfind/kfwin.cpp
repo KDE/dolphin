@@ -74,7 +74,11 @@ void KfindWindow::updateResults(const char *file )
     QStrList *strl= new QStrList (TRUE);
     FILE *f = fopen(file,"rb");
     if (f==0)
-      return;
+      {
+	sprintf(str,klocale->translate("%d file(s) found"),0);
+	emit statusChanged(str);
+	return;
+      };
     
     lbx->clear();
     
@@ -101,6 +105,7 @@ void KfindWindow::updateResults(const char *file )
     sprintf(str,klocale->translate("%d file(s) found"),count);
     emit statusChanged(str);
 
+    unlink(file);
     fclose(f);    
     delete filename;
     delete strl;
@@ -353,8 +358,8 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
     pos = buffer.length();
   buffer = buffer.remove(0,pos+1);
 
-  archProcess.setExecutable(pom.data());
   archProcess.clearArguments ();
+  archProcess.setExecutable(pom.data());
 
   while( !buffer.isEmpty() )
     {

@@ -59,6 +59,8 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	    win,SLOT(openBinding()));
     connect(&findProcess,SIGNAL(processExited(KProcess *)),
 	    this,SLOT(processResults()));
+    connect(&findProcess,SIGNAL(receivedStdout(KProcess *, char *, int)), 
+	    this, SLOT(handleStdout(KProcess *, char *, int))) ;
 
     emit haveResults(false);
     resize(tabDialog->sizeHint());
@@ -90,13 +92,14 @@ void Kfind::startSearch()
       {
 	enableSearchButton(false);
 
-	findProcess.setExecutable("find");
 	findProcess.clearArguments ();
+	findProcess.setExecutable("find");
+
 
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
 
-	buffer.append(pom.sprintf(" -fprint %s ",outFile.data()));
+	buffer.append(pom.sprintf(" -print"));
         buffer=buffer.simplifyWhiteSpace();
 	while( !buffer.isEmpty() )
 	  {
@@ -110,7 +113,7 @@ void Kfind::startSearch()
 	    buffer = buffer.remove(0,pos+1);
 	  };
 
-	findProcess.start();
+	findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
       };
   };
 
@@ -138,6 +141,17 @@ void Kfind::newSearch()
      
     stopSearch();
  };
+
+void Kfind::handleStdout(KProcess *proc, char *buffer, int buflen)
+{
+	char tmp = buffer[buflen] ;
+	buffer[buflen] = '\0' ;
+	
+	FILE *f = fopen(outFile.data(),"a");
+	fwrite(buffer, strlen(buffer), 1, f);
+	fclose(f);
+	buffer[buflen] = tmp ;
+}
 
 void Kfind::processResults()
   {

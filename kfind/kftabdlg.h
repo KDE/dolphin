@@ -52,7 +52,7 @@ protected:
 private:
   void resizeEvent( QResizeEvent * );
   QString date2String(QDate);
-  QDate &string2Date(QString, QDate *);         
+  QDate string2Date(QString);
 
   bool modifiedFiles;
   bool betweenDates;

@@ -28,6 +28,7 @@ private slots:
   void stopSearch();
   void newSearch();
   void processResults();
+  void handleStdout(KProcess *proc, char *buffer, int buflen);
 signals:
   void  haveResults(bool);
   void  resultSelected(bool);
