@@ -122,8 +122,8 @@ KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
   m_iXOffset = 0;
   m_iYOffset = 0;
 
-  QObject::connect( m_pWidget, SIGNAL( setTitle( QString ) ),
-                    this, SLOT( slotSetTitle( QString ) ) );
+  QObject::connect( m_pWidget, SIGNAL( setTitle( const QString & ) ),
+                    this, SLOT( slotSetTitle( const QString & ) ) );
   QObject::connect( m_pWidget, SIGNAL( completed() ),
                     //this, SIGNAL( completed() ) );
                     this, SLOT( slotCompleted() ) );
@@ -132,17 +132,19 @@ KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
   QObject::connect( m_pWidget, SIGNAL( completed() ),
                     this, SLOT( updateActions() ) );
   QObject::connect( m_pWidget, SIGNAL( canceled() ),
-                    this, SIGNAL( canceled() ) );
+                    this, SLOT( slotCanceled() ) );
+                    //this, SIGNAL( canceled() ) );
 
   // pass signals from the widget directly to the extension
   connect( m_pWidget, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
            m_extension, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ) );
-  connect( m_pWidget, SIGNAL( onURL( const QString & ) ),
-           m_extension, SLOT( slotShowURL( const QString & ) ) );
   connect( m_pWidget, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_extension, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ) );
-  connect( m_pWidget, SIGNAL( createNewWindow( const QString & ) ),
+  connect( m_pWidget, SIGNAL( newWindow( const QString & ) ),
            m_extension, SIGNAL( createNewWindow( const QString & ) ) );
+  // this one requires some processing...
+  connect( m_pWidget, SIGNAL( onURL( const QString & ) ),
+           this, SLOT( slotShowURL( const QString & ) ) );
 
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this, "viewDocumentSource" );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this, "viewFrameSource" );
@@ -178,6 +180,12 @@ bool KonqHTMLView::openURL( const KURL &url )
   updateActions();
 
   return true;
+}
+
+void KonqHTMLView::slotCanceled()
+{
+  // a method only because of that errMsg arg... Hmm...
+  emit canceled( QString::null );
 }
 
 void KonqHTMLView::slotCompleted()
@@ -313,8 +321,14 @@ debug(" KonqHTMLWidget::slotMousePressed ");
 
 void KonqHTMLWidget::slotFrameInserted( KHTMLWidget *frame )
 {
-  QObject::connect( frame, SIGNAL( onURL( const QString &) ),
-                    this, SLOT( slotShowURL( const QString &) ) );
+  if ( frame != this )
+  {
+    // Transmit those frame signals directly to our parent
+    QObject::connect( frame, SIGNAL( onURL( const QString &) ),
+                      this, SIGNAL( onURL( const QString &) ) );
+    QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
+                      this, SIGNAL( newWindow( const QString & ) ) );
+  }
 
   QObject::connect( frame, SIGNAL( mousePressed( const QString &, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const QString &, const QPoint&, int ) ) );
@@ -323,9 +337,6 @@ void KonqHTMLWidget::slotFrameInserted( KHTMLWidget *frame )
 		
   QObject::connect( frame, SIGNAL( frameInserted( KHTMLWidget * ) ),
                     this, SLOT( slotFrameInserted( KHTMLWidget * ) ) );		
-
-  QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
-                    this, SLOT( slotNewWindow( const QString & ) ) );
 
 #ifdef __GNUC__
 #warning TODO (emit enableAction...) (David)
@@ -461,7 +472,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     emit m_extension->setStatusBarText( url.decodedURL() );
 }
 
-void KonqHTMLView::slotSetTitle( QString title )
+void KonqHTMLView::slotSetTitle( const QString & title )
 {
   QString decodedTitle = title;
   KURL::decode( decodedTitle );
@@ -477,11 +488,6 @@ void KonqHTMLView::slotDocumentRedirection( int, const char *url )
   QString decodedURL = url;
   KURL::decode( decodedURL );
   emit m_extension->setLocationBarURL( decodedURL );
-}
-
-void KonqHTMLWidget::slotNewWindow( const QString &url )
-{
-  emit createNewWindow( url );
 }
 
 /*
