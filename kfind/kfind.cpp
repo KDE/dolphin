@@ -76,8 +76,8 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
     connect(&findProcess,SIGNAL(receivedStdout(KProcess *, char *, int)), 
 	    this, SLOT(handleStdout(KProcess *, char *, int))) ;
     
-    emit haveResults(false);
-    resize(tabDialog->sizeHint());
+    resize(sizeHint());
+    //emit haveResults(false); // we're not connectd to anything yet!?
   };
 
 Kfind::~Kfind() {
@@ -114,10 +114,12 @@ void Kfind::startSearch()
 
     if ( winsize==1)
       winsize=200;
-    emit haveResults(false);
+
     emit resultSelected(false);
     win->clearList();
     win->show();
+    emit haveResults(false);
+    
     win->beginSearch();
     tabDialog->beginSearch();
 
@@ -151,7 +153,7 @@ void Kfind::newSearch()
       iBuffer[0] = 0;
 
     //    printf("Prepare for New Search\n");
-    win->show();
+    win->hide(); // !!!!!
     win->clearList();
     winsize=1;
 
@@ -198,8 +200,11 @@ void Kfind::processResults()
   };
 
 QSize Kfind::sizeHint()
-  {
-    return (tabDialog->sizeHint());//+QSize(0,winsize-1));
+{
+  QSize s;
+  s = tabDialog->sizeHint() + QSize(0,winsize-1); // this just doesn't work
+  s.setWidth(520);
+  return s;
   };
 
 
