@@ -499,10 +499,18 @@ void KURLDesktopFileDlg::slotURLTextChanged( const QString& )
 {
     if ( !m_fileNameEdited )
     {
-        m_leFileName->setText( m_urlRequester->url() ); // use URL as default value
+        // use URL as default value for the filename
+        // (we copy only its filename if protocol supports listing,
+        // but for HTTP we don't want tons of index.html links)
+        KURL url( m_urlRequester->url() );
+        if ( KProtocolInfo::supportsListing( url ) )
+            m_leFileName->setText( url.fileName() );
+        else
+            m_leFileName->setText( url.url() );
         m_fileNameEdited = false; // slotNameTextChanged set it to true erroneously
     }
     enableButtonOK( !m_leFileName->text().isEmpty() && !m_urlRequester->url().isEmpty() );
 }
+
 
 #include "knewmenu.moc"
