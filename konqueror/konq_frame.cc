@@ -774,7 +774,9 @@ void KonqTabBar::mouseReleaseEvent(QMouseEvent *e)
 
   if (e->button() == RightButton)
   {
-    QWidget* page = m_pTabWidget->page( indexOf( selectTab(e->pos())->identifier() ) );
+    QTab *tab = selectTab( e->pos() );
+    if ( tab == 0L ) return;
+    QWidget* page = m_pTabWidget->page( indexOf( tab->identifier() ) );
     if (page == 0L) return;
     m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(page) );
     m_pPopupMenu->exec( mapToGlobal( e->pos() ) );
@@ -867,7 +869,12 @@ void KonqFrameTabs::setTitle( QString title , QWidget* sender)
 {
   kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
-  if (newTitle.length() > 30) newTitle = newTitle.left(27) + "...";
+  removeTabToolTip( sender );
+  if (newTitle.length() > 30)
+  {
+    setTabToolTip( sender, newTitle );
+    newTitle = newTitle.left(27) + "...";
+  }
   if (tabLabel( sender ) != newTitle)
     changeTab( sender , newTitle );
 }
