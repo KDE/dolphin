@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>UAProviderDlgUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>303</width>
-            <height>234</height>
+            <width>411</width>
+            <height>276</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -42,31 +42,34 @@
         </widget>
         <widget class="QLabel">
             <property name="name">
-                <cstring>lbIdentity</cstring>
+                <cstring>lbAlias</cstring>
             </property>
             <property name="text">
-                <string>&amp;Use the following browser identity:</string>
+                <string>&amp;Use the following identification:</string>
             </property>
             <property name="buddy" stdset="0">
-                <cstring>cbIdentity</cstring>
+                <cstring>leIdentity</cstring>
             </property>
         </widget>
         <widget class="KComboBox">
             <property name="name">
-                <cstring>cbIdentity</cstring>
+                <cstring>cbAlias</cstring>
             </property>
         </widget>
         <widget class="QLabel">
             <property name="name">
-                <cstring>lbAlias</cstring>
+                <cstring>lbIdentity</cstring>
             </property>
             <property name="text">
-                <string>Identity description (alias):</string>
+                <string>Real Identification:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>leIdentity</cstring>
             </property>
         </widget>
         <widget class="KLineEdit">
             <property name="name">
-                <cstring>leAlias</cstring>
+                <cstring>leIdentity</cstring>
             </property>
             <property name="readOnly">
                 <bool>true</bool>
@@ -172,9 +175,4 @@
 </includes>
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>

@@ -47,9 +47,9 @@
 #include "useragentdlg_ui.h"
 
 UserAgentDlg::UserAgentDlg( QWidget * parent )
-                 :KCModule( parent, "kcmkio" )
+             :KCModule( parent, "kcmkio" )
 {
-  QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, 0);
+  QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
   dlg = new UserAgentDlgUI (this);
   mainLayout->addWidget(dlg);
@@ -97,8 +97,8 @@ UserAgentDlg::UserAgentDlg( QWidget * parent )
   QWhatsThis::add( dlg->cbLanguage, wtstr );
 
   dlg->lvDomainPolicyList->addColumn(i18n("Site/Domain Name"));
-  dlg->lvDomainPolicyList->addColumn(i18n("User Agent"));
   dlg->lvDomainPolicyList->addColumn(i18n("Alias"));
+  dlg->lvDomainPolicyList->addColumn(i18n("User Agent"));
 
   dlg->lvDomainPolicyList->setSorting(0);
   dlg->lvDomainPolicyList->setColumnWidth(0, dlg->lvDomainPolicyList->fontMetrics().width('W')*15);
@@ -171,7 +171,7 @@ void UserAgentDlg::load()
       QString userAgent = m_config->readEntry("UserAgent");
       if (!userAgent.isEmpty())
       {
-         QString comment = m_provider->aliasFor(userAgent);
+         QString comment = m_provider->aliasStr(userAgent);
          (void) new QListViewItem( dlg->lvDomainPolicyList, domain.lower(), userAgent, comment );
       }
   }

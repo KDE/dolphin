@@ -37,13 +37,14 @@ public:
   ~FakeUASProvider(){};
 
   StatusCode createNewUAProvider( const QString& );
-  QString aliasFor( const QString& );
+  QString aliasStr( const QString& );
+  QString agentStr( const QString& );
   QStringList userAgentStringList();
+  QStringList userAgentAliasList();
   bool isListDirty() const { return m_bIsDirty; }
   void setListDirty( bool dirty ) { m_bIsDirty = dirty; }
 
 protected:
-  bool verifyDesktopFilename( QString& filename );
   void loadFromDesktopFiles();
   void parseDescription();
 

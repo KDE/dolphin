@@ -38,6 +38,7 @@ FakeUASProvider::StatusCode FakeUASProvider::createNewUAProvider( const QString&
 {
   QStringList split;
   int pos = (uaStr).find("::");
+
   if ( pos == -1 )
   {
     pos = (uaStr).find(':');
@@ -63,55 +64,8 @@ FakeUASProvider::StatusCode FakeUASProvider::createNewUAProvider( const QString&
     else
       m_lstAlias.append( split[1]);
   }
-/*
-  //TODO: parse the UA string for the necessary info and
-  // create a new desktop file out of it.
 
-  bool hasSysName = uaStr.contains(QFL("appSysName"));
-  bool hasSysRelease = uaStr.contains(QFL("appSysRelease"));
-  bool hasDynamicEntry = (hasSysName || hasSysRelease ||
-                          uaStr.contains(QFL("appName")) ||
-                          uaStr.contains(QFL("appVersion")));
-
-
-  QString dekstopfilename;
-  if ( !verifyDesktopFilename(pv.desktopFilename) )
-    return ALREADY_EXISTS;
-
-  KConfig desktop( desktopFilename );
-  desktop.setGroup("Desktop Entry");
-  desktop.writeEntry("Name", QString("UADescription (%1 on %2 "
-                     "%3)").arg(tag).arg(pv.appName).arg(pv.appVersion));
-  desktop.writeEntry("Type", "Service");
-  desktop.writeEntry("ServiceTypes", "UserAgentStrings");
-  desktop.writeEntry("X-KDE-UA-TAG", tag);
-  desktop.writeEntry("X-KDE-UA-FULL", uaStr);
-  desktop.writeEntry("X-KDE-UA-NAME", appName);
-  desktop.writeEntry("X-KDE-UA-VERSION", appVersion);
-  if ( hasDynamicEntry )
-  {
-    desktop.writeEntry("X-KDE-UA-DYNAMIC-ENTRY", 1);
-  }
-  if ( !hasSysName )
-    desktop.writeEntry("X-KDE-UA-SYSNAME", appSysName);
-  if ( !hasSysRelease )
-    desktop.writeEntry("X-KDE-UA-SYSRELEASE", appSysRelease);
-  desktop.sync();
-*/
   return SUCCEEDED;
-}
-
-bool FakeUASProvider::verifyDesktopFilename( QString& filename )
-{
-  QString path = locateLocal("services", "useragentstrings/");
-  kdDebug() << "Path: " << path << endl;
-  if ( !filename.isEmpty() && KStandardDirs::exists(path+filename) )
-    return false;
-  if ( filename.isEmpty() )
-    filename = QString::number(time(0));
-  filename = QString("%1%2.desktop").arg(path).arg(filename);
-  kdDebug() << "New Filename: " << filename << endl;
-  return true;
 }
 
 void FakeUASProvider::loadFromDesktopFiles()
@@ -174,7 +128,7 @@ void FakeUASProvider::parseDescription()
   m_bIsDirty = false;
 }
 
-QString FakeUASProvider::aliasFor( const QString& name )
+QString FakeUASProvider::aliasStr( const QString& name )
 {
   int id = userAgentStringList().findIndex(name);
   if ( id == -1 )
@@ -182,6 +136,16 @@ QString FakeUASProvider::aliasFor( const QString& name )
   else
     return m_lstAlias[id];
 }
+
+QString FakeUASProvider::agentStr( const QString& name )
+{
+  int id = userAgentAliasList().findIndex(name);
+  if ( id == -1 )
+    return QString::null;
+  else
+    return m_lstIdentity[id];
+}
+
 
 QStringList FakeUASProvider::userAgentStringList()
 {
@@ -193,4 +157,16 @@ QStringList FakeUASProvider::userAgentStringList()
     parseDescription();
   }
   return m_lstIdentity;
+}
+
+QStringList FakeUASProvider::userAgentAliasList ()
+{
+  if ( m_bIsDirty )
+  {
+    loadFromDesktopFiles();
+    if ( !m_providers.count() )
+      return QStringList();
+    parseDescription();
+  }
+  return m_lstAlias;
 }
