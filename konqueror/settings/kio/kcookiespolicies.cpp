@@ -115,12 +115,12 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                      i18n("The default policy determines how cookies received "
                           "from a remote machine, which is not associated with "
                           "a specific policy (see below), will be handled: "
-                          "<li><b>Ask</b> will cause KDE to ask for your "
-                          "confirmation whenever a server wants to set a cookie"
-                          "</li><ul><li><b>Accept</b> will cause cookies to be "
-                          "accepted without prompting you</li><li><b>Reject</b> "
+                          "<ul><li><b>Ask</b> will cause KDE to ask for your "
+                          "confirmation whenever a server wants to set a cookie."
+                          "</li><li><b>Accept</b> will cause cookies to be "
+                          "accepted without prompting you.</li><li><b>Reject</b> "
                           "will cause the cookiejar to refuse all cookies it "
-                          "receives</li></ul>") );
+                          "receives.</li></ul>") );
     m_bgDefault->setExclusive( true );
 
     m_rbPolicyAsk = new QRadioButton( i18n("A&sk for confirmation before "
