@@ -880,7 +880,7 @@ KURL KonqView::upURL() const
     if ( m_pRun )
 	currentURL = m_pRun->url();
     else
-	currentURL = m_sLocationBarURL;
+	currentURL = KURL::fromPathOrURL( m_sLocationBarURL );
     return currentURL.upURL();
 }
 
