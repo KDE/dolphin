@@ -1000,7 +1000,7 @@ void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry>
   uint i = 0;
   for (; it.current(); ++it )
   {
-    menu->insertItem( KPixmapCache::pixmapForMimeType( it.current()->strServiceType, false ),
+    menu->insertItem( KMimeType::mimeType( it.current()->strServiceType )->pixmap( KIconLoader::Small ),
                       it.current()->strURL );
     if ( ++i > 10 )
       break;

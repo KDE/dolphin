@@ -46,8 +46,7 @@ KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_parent, KFileItem* _fil
 
 void KonqTreeViewItem::init()
 {
-  QPixmap p = m_fileitem->getPixmap( true /* mini icon */ ); // determine the pixmap (KFileItem)
-  setPixmap( 0, p );
+  setPixmap( 0, m_fileitem->pixmap( KIconLoader::Small ) );
 }
 
 QString KonqTreeViewItem::key( int _column, bool ) const
