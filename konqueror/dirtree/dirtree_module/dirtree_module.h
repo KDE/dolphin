@@ -20,17 +20,21 @@
 #define dirtree_module_h
 
 #include <konq_treemodule.h>
+#include <kfileitem.h>
 
 class KonqTree;
 class KonqTreeItem;
 class KonqDirTreeItem;
+class KonqPropsView;
 
 class KonqDirTreeModule : public KonqTreeModule
 {
     Q_OBJECT
 public:
-    DirTreeModule( KonqTree * parentTree, const char * name = 0 );
-    virtual ~DirTreeModule() {}
+    KonqDirTreeModule( KonqTree * parentTree, const char * name = 0 );
+    virtual ~KonqDirTreeModule() {}
+
+    virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
     virtual void clearAll();
 
@@ -46,19 +50,15 @@ public:
      */
     virtual void slotSelectionChanged();
 
-    virtual void mmbClicked( KonqTreeItem * item );
-
     // Called by KonqDirTreeItem
     void openSubFolder( KonqTreeItem *item, KonqTreeItem *topLevel );
     void addSubDir( KonqTreeItem *item, KonqTreeItem *topLevel, const KURL &url );
     void removeSubDir( KonqTreeItem *item, KonqTreeItem *topLevel, const KURL &url );
 
-
 private slots:
     void slotNewItems( const KFileItemList & );
     void slotDeleteItem( KFileItem *item );
     void slotRedirection( const KURL & );
-
     void slotListingStopped();
 
 private:
@@ -71,6 +71,7 @@ private:
     KURL m_currentlyListedURL; // always the same as m_dirLister->url(), but used for redirections
 
     KURL m_selectAfterOpening;
+    //KonqTreeTopLevelItem * m_topLevelItem;
 
     static KonqPropsView * s_defaultViewProps;
     KonqPropsView * m_pProps;

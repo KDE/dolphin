@@ -38,7 +38,6 @@ void KonqTreeItem::initItem( KonqTreeTopLevelItem *topLevelItem )
     m_bListable = true;
     m_bClickable = true;
     m_bLink = false;
-    m_bTopLevelGroup = false;
 
     setExpandable( true );
 }
@@ -52,9 +51,3 @@ KonqTree * KonqTreeItem::tree() const
 {
     return static_cast<KonqTree *>(listView());
 }
-
-bool KonqTreeItem::isTopLevelItem() const
-{
-    return m_topLevelItem->item() == this;
-}
-

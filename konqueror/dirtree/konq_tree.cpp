@@ -29,8 +29,6 @@
 #include <kglobalsettings.h>
 #include <kio/global.h>
 #include <kmimetype.h>
-#include <konq_operations.h>
-#include <kprotocolinfo.h>
 #include <kstddirs.h>
 #include <kurldrag.h>
 #include <assert.h>
@@ -75,8 +73,6 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
              this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
-    connect( this, SIGNAL( rightButtonPressed( QListViewItem *, const QPoint &, int ) ),
-             this, SLOT( slotRightButtonPressed( QListViewItem * ) ) );
     connect( this, SIGNAL( clicked( QListViewItem * ) ),
              this, SLOT( slotClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
@@ -211,46 +207,7 @@ void KonqTree::contentsDropEvent( QDropEvent *ev )
 
     assert( selection );
 
-    if ( selection->isTopLevelGroup() )
-    {
-        // When dropping something to "Network" or its subdirs, we want to create
-        // a desktop link, not to move/copy/link
-        QString path = selection->topLevelItem()->path();
-        KURL::List lst;
-        if ( KURLDrag::decode( ev, lst ) ) // Are they urls ?
-        {
-            KURL::List::Iterator it = lst.begin();
-            for ( ; it != lst.end() ; it++ )
-            {
-                const KURL & targetURL = (*it);
-                KURL linkURL;
-                linkURL.setPath( path );
-                linkURL.addPath( KIO::encodeFileName( targetURL.fileName() )+".desktop" );
-                KSimpleConfig config( linkURL.path() );
-                config.setDesktopGroup();
-                // Don't write a Name field in the desktop file, it makes renaming impossible
-                config.writeEntry( "URL", targetURL.url() );
-                config.writeEntry( "Type", "Link" );
-                QString icon = KMimeType::findByURL( targetURL )->icon( targetURL, false );
-                static const QString& unknown = KGlobal::staticQString("unknown");
-                if ( icon == unknown )
-                    icon = KProtocolInfo::icon( targetURL.protocol() );
-                config.writeEntry( "Icon", icon );
-                config.sync();
-                KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
-                linkURL.setPath( linkURL.directory() );
-                allDirNotify.FilesAdded( linkURL );
-            }
-        } else
-            kdError(1202) << "No URL !?  " << endl;
-    }
-    else
-    {
-        if ( selection->isTopLevelItem() )
-            KonqOperations::doDrop( 0L, selection->externalURL(), ev, this );
-        else
-            selection->drop( ev );
-    }
+    selection->drop( ev );
 }
 
 void KonqTree::contentsMousePressEvent( QMouseEvent *e )
@@ -324,34 +281,17 @@ void KonqTree::slotClicked( QListViewItem *item )
     emit m_part->extension()->openURLRequest( dItem->externalURL(), args );
 }
 
-void KonqTree::slotRightButtonPressed( QListViewItem *_item )
-{
-    if ( !_item )
-        return;
-
-    _item->setSelected( true );
-    KonqTreeItem * item = static_cast<KonqTreeItem *>(_item);
-    if ( item->isTopLevelGroup() )
-    {
-        KURL url;
-        url.setPath( item->topLevelItem()->path() );
-        emit m_part->extension()->popupMenu( QCursor::pos(), url, "inode/directory" );
-    }
-    else if ( item->isTopLevelItem() )
-    {
-        KURL url;
-        url.setPath( item->topLevelItem()->path() );
-        emit m_part->extension()->popupMenu( QCursor::pos(), url, "application/x-desktop" );
-    }
-    else
-        item->rightButtonPressed();
-}
-
 void KonqTree::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
 {
     KonqTreeItem * item = static_cast<KonqTreeItem*>(_item);
-    if(_item && _button == MidButton && col < 2)
-        item->module()->mmbClicked( item );
+    if(_item && col < 2)
+        if (_button == MidButton)
+            item->middleButtonPressed();
+        else if (_button == RightButton)
+        {
+            item->setSelected( true );
+            item->rightButtonPressed();
+        }
 }
 
 void KonqTree::slotAnimation()
@@ -500,14 +440,11 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
         open = cfg.readBoolEntry( "Open", open );
     }
 
-    KURL url;
-    url.setPath( path );
-
-    KonqTreeItem *item;
+    KonqTreeTopLevelItem *item;
     if ( parent )
-        item = new KonqTreeItem( this, parent, 0 );
+        item = new KonqTreeTopLevelItem( this, parent, 0 /* no module */, path );
     else
-        item = new KonqTreeItem( this, 0 );
+        item = new KonqTreeTopLevelItem( this, 0 /* no module */, path );
     item->setText( 0, name );
     item->setPixmap( 0, SmallIcon( icon ) );
     item->setListable( false );
@@ -515,7 +452,7 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
     item->setTopLevelGroup( true );
     item->setOpen( open );
 
-    m_topLevelItems.append( KonqTreeTopLevelItem( item, 0 /* no module */, path ) );
+    m_topLevelItems.append( item );
 
     kdDebug(1202) << "Inserting group " << name << "   " << path << endl;;
 
@@ -540,86 +477,28 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     if ( name.length() > 7 && name.right( 7 ) == ".kdelnk" )
         name.truncate( name.length() - 7 );
 
-    KURL targetURL;
-    targetURL.setPath(path);
+    name = cfg.readEntry( "Name", name );
 
-    if ( cfg.hasLinkType() )
-    {
-        targetURL = cfg.readURL();
-        icon = cfg.readIcon();
-        stripIcon( icon );
+    KonqTreeModule * module = 0L;
+    /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...
+#warning TODO
 
-        name = cfg.readEntry( "Name", name );
-    }
-    else if ( cfg.hasDeviceType() )
-    {
-        // Determine the mountpoint
-
-
-        // wrong - this needs the device to be already mounted
-        //mp = KIO::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
-        QString mp = cfg.readEntry("MountPoint");
-
-        if ( mp.isEmpty() )
-            return;
-
-        targetURL.setPath(mp);
-        icon = cfg.readIcon();
-        name = cfg.readEntry( "Name", name );
-    }
-    else
-        return;
-
-    KURL kurl;
-    kurl.setPath( path );
-
-    KonqFileItem *fileItem = new KonqFileItem( -1, -1, kurl );
-    KonqTreeItem *item;
+    KonqTreeTopLevelItem *item;
     if ( parent )
-        item = new KonqTreeItem( this, parent, 0, fileItem );
+        item = new KonqTreeTopLevelItem( this, parent, module, path );
     else
-        item = new KonqTreeItem( this, 0, fileItem );
+        item = new KonqTreeTopLevelItem( this, module, path );
 
     item->setPixmap( 0, SmallIcon( icon ) );
     item->setText( 0, name );
     item->setLink( true );
 
-    KonqDirLister *dirLister = 0;
+    if (module) // shouldn't be necessary
+        module->addTopLevelItem( item );
 
-    bool bListable = KProtocolInfo::supportsListing( targetURL.protocol() );
-    kdDebug() << targetURL.prettyURL() << " listable : " << bListable << endl;
-
-    if ( bListable )
-    {
-        dirLister = new KonqDirLister( true );
-        dirLister->setDirOnlyMode( true );
-
-        connect( dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-                 this, SLOT( slotNewItems( const KFileItemList & ) ) );
-        connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                 this, SLOT( slotDeleteItem( KFileItem * ) ) );
-        connect( dirLister, SIGNAL( completed() ),
-                 this, SLOT( slotListingStopped() ) );
-        connect( dirLister, SIGNAL( canceled() ),
-                 this, SLOT( slotListingStopped() ) );
-        connect( dirLister, SIGNAL( redirection( const KURL &) ),
-                 this, SLOT( slotRedirection( const KURL &) ) );
-    }
-    else
-        item->setExpandable( false );
-
-    KonqTreeModule * module = 0L;
-    /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...
-#warning TODO
-    m_topLevelItems.append( KonqTreeTopLevelItem( item, module, path ) );
-
-    addSubDir( item, item, targetURL );
+    m_topLevelItems.append( item );
 
     bool open = cfg.readBoolEntry( "Open", false /* targetURL.isLocalFile() sucks a bit IMHO - DF */ );
-
-    if ( !bListable )
-        item->setListable( false );
-
     if ( open && item->isExpandable() )
         item->setOpen( true );
 

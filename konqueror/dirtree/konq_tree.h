@@ -58,6 +58,8 @@ public:
     void FilesRemoved( const KURL::List & urls );
     void FilesChanged( const KURL::List & urls );
 
+    KonqTreePart * part() { return m_part; }
+
 protected:
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDragMoveEvent( QDragMoveEvent *e );
@@ -70,7 +72,6 @@ protected:
 
 private slots:
     void slotDoubleClicked( QListViewItem *item );
-    void slotRightButtonPressed( QListViewItem *item );
     void slotClicked( QListViewItem *item );
     void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
 
@@ -88,7 +89,7 @@ private:
 
     void stripIcon( QString &icon );
 
-    QValueList<KonqTreeTopLevelItem> m_topLevelItems;
+    QList<KonqTreeTopLevelItem> m_topLevelItems;
 
     QList<KonqTreeModule> m_lstModules;
 

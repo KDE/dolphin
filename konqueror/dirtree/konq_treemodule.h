@@ -23,6 +23,7 @@
 #include <konq_tree.h>
 class QDragObject;
 class KonqTreeItem;
+class KonqTreeTopLevelItem;
 class KonqTree;
 
 /**
@@ -38,11 +39,13 @@ public:
         : /* QObject( parentTree, name ), */ m_pTree( parentTree ) {}
     virtual ~KonqTreeModule() {}
 
+    virtual void addTopLevelItem( KonqTreeTopLevelItem * item ) = 0;
+
     // Clear all items
     virtual void clearAll() = 0;
 
     // Used by copy() and cut()
-    virtual QDragObject * konqDragObject( bool move = false ) = 0;
+    virtual QDragObject * dragObject( QWidget * parent, bool move = false ) = 0;
     virtual void paste() {}
     virtual void trash() {}
     virtual void del() {}
@@ -50,9 +53,6 @@ public:
 
     // Called when an item in this module is selected
     virtual void slotSelectionChanged() = 0;
-
-    // Called when MMBing an item
-    virtual void mmbClicked( KonqTreeItem * ) {}
 
 protected:
     KonqTree * m_pTree;

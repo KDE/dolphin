@@ -43,11 +43,10 @@ public:
 
     virtual ~KonqTreeItem() {}
 
-    virtual void setOpen( bool open );
-
     virtual bool acceptsDrops( const QStrList & formats ) = 0;
     virtual void drop( QDropEvent * ev ) = 0;
 
+    virtual void middleButtonPressed() = 0;
     virtual void rightButtonPressed() = 0;
 
     // The URL to open when this link is clicked
@@ -66,11 +65,8 @@ public:
     void setClickable( bool b ) { m_bClickable = b; }
     bool isClickable() const { return m_bClickable; }
 
-    // Whether the item is a toplevel group. [Only matters for dnd]
-    void setTopLevelGroup( bool b ) { m_bTopLevelGroup = b; }
-    bool isTopLevelGroup() const { return m_bTopLevelGroup; }
     // Whether the item is a toplevel item
-    bool isTopLevelItem() const;
+    virtual bool isTopLevelItem() const { return false; }
 
     // Whether the item is a .desktop link
     void setLink( bool b ) { m_bLink = b; }
@@ -89,7 +85,6 @@ private:
     bool m_bListable:1;
     bool m_bClickable:1;
     bool m_bLink:1;
-    bool m_bTopLevelGroup:1;
 };
 
 #endif

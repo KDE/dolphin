@@ -143,32 +143,73 @@ void KonqDirTreeModule::shred()
                         selectedUrls());
 }
 
-void KonqDirTreeModule::mmbClicked( KonqTreeItem * item )
+
+void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
-    KFileItem * fileItem = static_cast<KonqDirTreeItem *>( item )->fileItem();
-    // Duplicated from KonqDirPart :(
-    // Optimisation to avoid KRun to call kfmclient that then tells us
-    // to open a window :-)
-    KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
-    if (offer) kdDebug() << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
-    if ( offer && offer->desktopEntryName() == "kfmclient" )
+    KDesktopFile cfg( item->path(), true );
+    cfg.setDollarExpansion(true);
+
+    KURL targetURL;
+    targetURL.setPath(path);
+
+    if ( cfg.hasLinkType() )
     {
-        KParts::URLArgs args;
-        args.serviceType = fileItem->mimetype();
-        emit m_extension->createNewWindow( fileItem->url(), args );
+        targetURL = cfg.readURL();
+        icon = cfg.readIcon();
+        stripIcon( icon );
+    }
+    else if ( cfg.hasDeviceType() )
+    {
+        // Determine the mountpoint
+        QString mp = cfg.readEntry("MountPoint");
+        if ( mp.isEmpty() )
+            return;
+
+        targetURL.setPath(mp);
+        icon = cfg.readIcon();
     }
     else
-        fileItem->run();
+        return;
+
+    KonqDirLister *dirLister = 0;
+
+    bool bListable = KProtocolInfo::supportsListing( targetURL.protocol() );
+    kdDebug() << targetURL.prettyURL() << " listable : " << bListable << endl;
+
+    if ( bListable )
+    {
+        dirLister = new KonqDirLister( true );
+        dirLister->setDirOnlyMode( true );
+
+        connect( dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+                 this, SLOT( slotNewItems( const KFileItemList & ) ) );
+        connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                 this, SLOT( slotDeleteItem( KFileItem * ) ) );
+        connect( dirLister, SIGNAL( completed() ),
+                 this, SLOT( slotListingStopped() ) );
+        connect( dirLister, SIGNAL( canceled() ),
+                 this, SLOT( slotListingStopped() ) );
+        connect( dirLister, SIGNAL( redirection( const KURL &) ),
+                 this, SLOT( slotRedirection( const KURL &) ) );
+    }
+    else
+    {
+        item->setExpandable( false );
+        item->setListable( false );
+    }
+
+    item->setExternalURL( targetURL );
+    addSubDir( item, item, targetURL );
 }
 
-void KonqDirTree::slotNewItems( const KFileItemList& entries )
+void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
 {
-  kdDebug(1202) << "KonqDirTree::slotNewItems " << entries.count() << endl;
+  kdDebug(1202) << "KonqDirTreeModule::slotNewItems " << entries.count() << endl;
 
   const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
 
   TopLevelItem & topLevelItem = findTopLevelByDirLister( lister );
-  kdDebug() << "KonqDirTree::slotNewItems topLevelItem=" << &topLevelItem << endl;
+  kdDebug() << "KonqDirTreeModule::slotNewItems topLevelItem=" << &topLevelItem << endl;
 
   assert( topLevelItem.m_item );
 
@@ -214,7 +255,7 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
   }
 }
 
-void KonqDirTree::slotDeleteItem( KFileItem *item )
+void KonqDirTreeModule::slotDeleteItem( KFileItem *item )
 {
   assert( S_ISDIR( item->mode() ) );
 
@@ -244,7 +285,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
 
 }
 
-void KonqDirTree::slotRedirection( const KURL & url )
+void KonqDirTreeModule::slotRedirection( const KURL & url )
 {
     kdDebug(1202) << "KonqDirTree::slotRedirection(" << url.prettyURL() << ")" << endl;
     const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );

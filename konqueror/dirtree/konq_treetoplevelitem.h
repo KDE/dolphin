@@ -20,7 +20,7 @@
 #define konq_treetoplevelitem_h
 
 #include "konq_treeitem.h"
-#include "konq_treemodule.h"
+class KonqTreeModule;
 
 /**
  * Each toplevel item (created from a desktop file)
@@ -28,27 +28,50 @@
   --> this doesn't prevent the same module from handling multiple toplevel items,
   but we don't do that currently.
  */
-class KonqTreeTopLevelItem
+class KonqTreeTopLevelItem : public KonqTreeItem
 {
 public:
     /**
-     * Create a toplevel item.
-     * @param item the corresponding item in the listview
+     * Create a toplevel toplevel-item :)
      * @param module the module handling this toplevel item
      * @param path the path to the desktop file that was the reason for creating this item
      */
-    KonqTreeTopLevelItem( KonqTreeItem *item, KonqTreeModule * module, const QString & path )
-        : m_item(item), m_module(module), m_path(path) {}
-    KonqTreeTopLevelItem() : m_item(0), m_module(0) {} // for QValueList
+    KonqTreeTopLevelItem( KonqTree *parent, KonqTreeModule * module, const QString & path )
+        : KonqTreeItem(parent, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) {}
 
-    KonqTreeItem *item() const { return m_item; }
+    /**
+     * Create a toplevel-item under a toplevel group
+     * @param module the module handling this toplevel item
+     * @param path the path to the desktop file that was the reason for creating this item
+     */
+    KonqTreeTopLevelItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeModule * module, const QString & path )
+        : KonqTreeItem(parent, parentItem, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) {}
+
+    virtual bool acceptsDrops( const QStrList & formats );
+    virtual void drop( QDropEvent * ev );
+    virtual void middleButtonPressed();
+    virtual void rightButtonPressed();
+
+    // Whether the item is a toplevel item - true
+    virtual bool isTopLevelItem() const { return true; }
+
+    virtual KURL externalURL() const { return m_externalURL; }
+    // The module should call this for each toplevel item that is passed to it
+    // unless it calls setClickable(false)
+    void setExternalURL( const KURL & url ) { m_externalURL = url; }
+
+    // Whether the item is a toplevel group. [Only matters for dnd]
+    void setTopLevelGroup( bool b ) { m_bTopLevelGroup = b; }
+    bool isTopLevelGroup() const { return m_bTopLevelGroup; }
+
     KonqTreeModule *module() const { return m_module; }
     QString path() const { return m_path; }
 
 protected:
-    KonqTreeItem *m_item;
     KonqTreeModule *m_module;
     QString m_path;
+    KURL m_externalURL;
+    bool m_bTopLevelGroup;
 };
 
 #endif

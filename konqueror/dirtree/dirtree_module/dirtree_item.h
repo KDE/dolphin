@@ -40,6 +40,7 @@ public:
     virtual bool acceptsDrops( const QStrList & formats );
     virtual void drop( QDropEvent * ev );
 
+    virtual void middleButtonPressed();
     virtual void rightButtonPressed();
 
     // The URL to open when this link is clicked

@@ -106,6 +106,24 @@ void KonqDirTreeItem::drop( QDropEvent * ev )
     KonqOperations::doDrop( m_fileItem, selection->externalURL(), ev, tree() );
 }
 
+
+void KonqDirTreeItem::middleButtonPressed()
+{
+    // Duplicated from KonqDirPart :(
+    // Optimisation to avoid KRun to call kfmclient that then tells us
+    // to open a window :-)
+    KService::Ptr offer = KServiceTypeProfile::preferredService(m_fileItem->mimetype(), true);
+    if (offer) kdDebug() << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+    if ( offer && offer->desktopEntryName() == "kfmclient" )
+    {
+        KParts::URLArgs args;
+        args.serviceType = fileItem->mimetype();
+        emit tree()->part()->extension()->createNewWindow( m_fileItem->url(), args );
+    }
+    else
+        m_fileItem->run();
+}
+
 void KonqDirTreeItem::rightButtonPressed()
 {
     KFileItemList lstItems;
