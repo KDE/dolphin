@@ -85,10 +85,12 @@ public:
   
   virtual bool hasFixedPos() const { return m_bFixedPos; }
   /**
-   * @param _x is relative to the upper left corner of the container.
-   * @param _y is relative to the upper left corner of the container.
+   * @param _pos is relative to the upper left corner of the container.
+   * @param _refresh
    */
   virtual void setFixedPos( const QPoint& _pos, bool _refresh = true );
+  /** Call this to re-arrange icons */
+  virtual void resetFixedPos() { m_bFixedPos = false; };
   
   virtual int height() const;
   virtual int width() const;
@@ -258,6 +260,8 @@ public:
    */
   virtual void unselectAll();
   
+  virtual void rearrangeIcons();
+
 signals:
   void mousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );
   void mouseReleased( KIconContainerItem* _item, const QPoint& _global, int _button );

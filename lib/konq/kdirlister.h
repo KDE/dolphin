@@ -67,13 +67,13 @@ public:
    * @return the url used by this instance to list the files
    * It might be different from the one we gave, if there was a redirection.
    */
-  // TODO : find a better name 
-  virtual QString usedUrl() const { return m_sURL; }
+  virtual QString url() const { return m_sURL; }
+
   /**
    * @return the url passed to openURL.
    * Probably not very useful.
    */
-  virtual const KURL & url() const { return m_url; }
+  virtual const KURL & initialUrl() const { return m_url; }
     
   /** 
    * Update the currently displayed directory

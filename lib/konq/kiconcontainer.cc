@@ -333,6 +333,15 @@ void KIconContainer::unselectAll()
       setSelected( *it, false );
 }
 
+void KIconContainer::rearrangeIcons()
+{
+  iterator it = begin();
+  for( ; *it; ++it )
+    (*it)->resetFixedPos();
+  setup();
+  viewport()->update();
+}
+
 void KIconContainer::setSelected( KIconContainerItem* _item, bool _selected )
 {
   _item->setSelected( _selected, false );
@@ -771,6 +780,8 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
     }
     if ( _ev->button() == LeftButton )
     {
+      // TODO : what about handling rectangular selection here ?
+      // (to be taken from krootwm)
       unselectAll();
       return;
     }
