@@ -77,7 +77,7 @@ SearchItr::~SearchItr() {
 #include <kfind.h>
 #include <kfinddialog.h>
 
-void SearchItr::setSearch(int options, const QString& pattern) {
+void SearchItr::setSearch(int /*options*/, const QString& pattern) {
    m_text = pattern;
    /*
    m_find = new KFind( pattern, options, this );
