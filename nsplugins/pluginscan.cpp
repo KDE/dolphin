@@ -275,6 +275,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
              extension == "png" ||              // PNG Image
              extension == "jpg" ||              // JPEG image
              extension == "gif" ||              // GIF image
+             extension == "bak" ||              // .so.bak-up files
              extension.startsWith("htm")        // HTML
             )     
             continue;
