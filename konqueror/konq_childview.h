@@ -181,6 +181,9 @@ public:
    */
   void setLocationBarURL( const QString locationBarURL ) { m_sLocationBarURL = locationBarURL; }
 
+  void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
+  bool allowHTML() const { return m_bAllowHTML; }
+
   /**
    * Returns the Servicetypes this view is capable to display
    */
@@ -243,6 +246,7 @@ protected:
   QVBoxLayout * m_pLayout;
   bool m_bBuiltin;
   QStringList m_lstServiceTypes;
+  bool m_bAllowHTML;
 };
 
 #endif

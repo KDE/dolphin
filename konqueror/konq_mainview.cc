@@ -32,6 +32,7 @@
 #include "konq_txtview.h"
 #include "konq_plugins.h"
 #include "konq_propsmainview.h"
+#include "konq_propsview.h"
 #include "kfmrun.h"
 #include "knewmenu.h"
 #include "kpopupmenu.h"
@@ -358,7 +359,6 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     m_vMenuFileNew = 0L;
     m_vMenuEdit = 0L;
     m_vMenuView = 0L;
-    createViewMenu();
     m_vMenuGo = 0L;
     m_vMenuBookmarks = 0L;
     m_vMenuOptions = 0L;
@@ -902,11 +902,23 @@ void KonqMainView::createNewWindow( const char *url )
 
 bool KonqMainView::openView( const QString &serviceType, const QString &url )
 {
+  QString indexFile;
+  KURL u( url );
+
   if ( !m_sInitialURL.isEmpty() )
   {
     Konqueror::View_var vView;
     QStringList serviceTypes;
-    if (!KonqChildView::createView( serviceType, vView, serviceTypes ) )
+
+    if ( ( serviceType == "inode/directory" ) &&
+         ( KonqPropsView::defaultProps()->isHTMLAllowed() ) &&
+         ( u.isLocalFile() ) &&
+	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
+    {
+      KonqChildView::createView( "text/html", vView, serviceTypes );
+      m_sInitialURL = indexFile;
+    }
+    else if (!KonqChildView::createView( serviceType, vView, serviceTypes ) )
       return false;
       
     insertView( vView, left, serviceTypes );
@@ -930,7 +942,15 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
   if ( m_currentView->supportsServiceType( serviceType ) )
   {
     setUpEnabled( url, m_currentId );
-    m_currentView->openURL( url );
+    
+    if ( ( serviceType == "inode/directory" ) &&
+         ( m_currentView->allowHTML() ) &&
+         ( u.isLocalFile() ) &&
+	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
+      m_currentView->changeViewMode( "text/html", indexFile );
+    else
+      m_currentView->openURL( url );
+      
     m_pRun = 0L;
     return true;
   }
@@ -1005,7 +1025,25 @@ void KonqMainView::createViewMenu()
 
     setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
 	(m_mapViews.count() > 1) );
+
+    if ( m_currentView )
+      m_vMenuView->setItemChecked( MVIEW_SHOWHTML_ID, (m_currentView->allowHTML() ) );
   }
+}
+
+QString KonqMainView::findIndexFile( const QString &dir )
+{
+  QDir d( dir );
+  
+  QString f = d.filePath( "index.html", false );
+  if ( QFile::exists( f ) )
+    return f;
+  
+  f = d.filePath( ".kde.html", false );
+  if ( QFile::exists( f ) )
+    return f; 
+
+  return QString::null;
 }
 
 /////////////////////// MENUBAR AND TOOLBAR SLOTS //////////////////
@@ -1149,17 +1187,25 @@ void KonqMainView::slotRemoveView()
 
 void KonqMainView::slotShowHTML()
 {
-  ///  m_currentView->changeViewMode( "KonquerorHTMLView" );
-/*
-  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
+  assert( !CORBA::is_nil( m_vMenuView ) );
+  assert( m_currentView );
+  
+  bool b = !m_currentView->allowHTML();
+  
+  m_currentView->setAllowHTML( b );
+  m_vMenuView->setItemChecked( MVIEW_SHOWHTML_ID, b );
 
-  if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( MVIEW_HTMLVIEW_ID, !m_currentView->m_pView->isHTMLAllowed() );
-
-  m_currentView->m_pView->setHTMLAllowed( !m_currentView->m_pView->isHTMLAllowed() );
-*/
+  if ( b && m_currentView->supportsServiceType( "inode/directory" ) )
+  {
+    m_currentView->lockHistory();
+    openURL( m_currentView->url(), (CORBA::Boolean)false );
+  }
+  else if ( !b && m_currentView->supportsServiceType( "text/html" ) )
+  {
+    KURL u( m_currentView->url() );
+    m_currentView->lockHistory();
+    openURL( u.directory(), (CORBA::Boolean)false );
+  }
 }
 
 void KonqMainView::slotLargeIcons()

@@ -189,6 +189,8 @@ protected:
 
   virtual void resizeEvent( QResizeEvent *e );
 
+private:
+
   void initConfig();
   void initGui();
   void initPanner();
@@ -201,8 +203,6 @@ protected:
   // Position is relative to activeView(); above and below create a new row
   void insertView( Konqueror::View_ptr view, NewViewPosition newViewPosition, const QStringList &serviceTypes );
   void removeView( OpenParts::Id id );
-
-  void changeViewMode( const char *viewName ) ; 
 
   /**
    * Enable menu item and related toolbar button if present
@@ -220,10 +220,9 @@ protected:
    */
   void setUpEnabled( QString _url, OpenParts::Id _id );
 
-
-  void makeHistory( KonqChildView *v );
-
   void createViewMenu();
+
+  QString findIndexFile( const QString &directory );
   
   ///////// protected members //////////////
 

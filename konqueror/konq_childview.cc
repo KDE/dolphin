@@ -25,6 +25,7 @@
 #include "konq_txtview.h"
 #include "konq_htmlview.h"
 #include "konq_plugins.h"
+#include "konq_propsview.h"
 
 #include <kded_instance.h>
 #include <ktrader.h>
@@ -87,6 +88,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   attach( view );
 
   m_lstServiceTypes = serviceTypes;
+  m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
 }
 
 KonqChildView::~KonqChildView()
