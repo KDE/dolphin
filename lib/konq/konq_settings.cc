@@ -123,8 +123,8 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     // 2 - in the configuration for the group if nothing was found in the mimetype
     QString serviceTypeGroup = serviceType.left(serviceType.find("/"));
     kdDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
-    if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser")
-        return true; //always embed mimetype inode/* and Browser/*
+    if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser" || serviceTypeGroup == "Konqueror" )
+        return true; //always embed mimetype inode/*, Browser/* and Konqueror/*
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
         return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
