@@ -50,10 +50,6 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
 
   m_pamProfiles = 0L;
   m_bProfileListDirty = true;
-
-  // we need this for a proper layout of the toolbars upon startup, when no real view has been loaded, yet
-  m_dummyWidget = 0L; // new QWidget( mainView );
-  // mainView->setView( m_dummyWidget );
 }
 
 KonqViewManager::~KonqViewManager()
@@ -189,9 +185,6 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
     childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
-
-    if ( m_dummyWidget )
-      delete (QWidget *)m_dummyWidget;
 
     m_pMainContainer->show();
 
@@ -338,13 +331,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
   m_pMainContainer->show();
 
-  if ( m_dummyWidget )
-    delete (QWidget *)m_dummyWidget;
-
   loadItem( cfg, m_pMainContainer, rootItem );
 
   KonqChildView *nextChildView = chooseNextView( 0L );
-  setActivePart( nextChildView->view() );
+  setActivePart( nextChildView ? nextChildView->view() : 0L ); 
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
   printFullHierarchy( m_pMainContainer );
