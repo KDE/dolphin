@@ -91,7 +91,6 @@ protected slots:
   virtual void slotStarted( const QString & );
   virtual void slotCompleted();
   virtual void slotCanceled();
-  virtual void slotUpdate();
   virtual void slotClear();
   virtual void slotNewItem( KFileItem * );
   virtual void slotDeleteItem( KFileItem * );

@@ -584,7 +584,6 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
                       this, SLOT( slotStarted( const QString & ) ) );
     QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
     QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-    QObject::connect( m_dirLister, SIGNAL( update() ), this, SLOT( slotUpdate() ) );
     QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
     QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ), 
                       this, SLOT( slotNewItem( KFileItem * ) ) );
@@ -635,13 +634,6 @@ void KonqTreeViewWidget::slotCanceled()
 {
   setComplete();
   emit m_pBrowserView->canceled();
-}
-
-void KonqTreeViewWidget::slotUpdate()
-{
-  kdebug( KDEBUG_INFO, 1202, "KonqTreeViewWidget::slotUpdate()");
-  update();
-  //viewport()->update();
 }
 
 void KonqTreeViewWidget::slotClear()
