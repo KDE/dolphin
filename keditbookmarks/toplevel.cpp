@@ -397,6 +397,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
 
     actionCollection()->action("canceltests")->setEnabled( false );
+    actionCollection()->action("testall")->setEnabled(false);
 
     slotSelectionChanged();
     slotClipboardDataChanged();
@@ -471,7 +472,8 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("sort")->setEnabled(group);
     coll->action("setastoolbar")->setEnabled(group);
     coll->action("openlink")->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
-    coll->action("testlink")->setEnabled(itemSelected && !separator); 
+    coll->action("testlink")->setEnabled(!root && itemSelected && !separator); 
+    coll->action("testall")->setEnabled(itemSelected && !(root && m_pListView->childCount()==1));
 }
 
 void KEBTopLevel::slotClipboardDataChanged()
