@@ -49,7 +49,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
 {
     // defaults
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "Settings" );
+    KConfigGroupSaver cs( config, "HistorySettings" );
     m_maxCount = config->readNumEntry( "Maximum of History entries", 300 );
     m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
 
@@ -224,7 +224,11 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
     entry.url = url;
     if ( u != typedURL )
 	entry.typedURL = typedURL;
-    if ( u != title )
+
+    // we only get keep the title if we are confirming an entry. Otherwise,
+    // we might get bogus titles from the previous url (actually it's just
+    // konqueror's window caption).
+    if ( !pending && u != title )
 	entry.title = title;
     entry.firstVisited = QDateTime::currentDateTime();
     entry.lastVisited = entry.firstVisited;
@@ -378,7 +382,7 @@ void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString saveId )
 	saveHistory();
 
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "Settings" );
+    KConfigGroupSaver cs( config, "HistorySettings" );
     config->writeEntry( "Maximum of History entries", m_maxCount );
 }
 
@@ -392,7 +396,7 @@ void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
 	saveHistory();
 
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "Settings" );
+    KConfigGroupSaver cs( config, "HistorySettings" );
     config->writeEntry( "Maximum age of History entries", m_maxAgeDays );
 }
 
