@@ -41,7 +41,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_ROWS 6
+#define RO_ROWS 7
 #define RO_COLS 3
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_ROWS, RO_COLS, 10);
@@ -58,6 +58,11 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->setColStretch(1,1);
   lay->setColStretch(2,5);
 
+  VertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
+  lay->addMultiCellWidget(VertAlignBox, row, row, 0, RO_COLS);
+  connect(VertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
+  
+  row++;
   showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
   lay->addMultiCellWidget(showHiddenBox, row, row, 0, RO_COLS);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
@@ -120,6 +125,8 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Desktop Icons" );
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
+    bool bVertAlign = g_pConfig->readNumEntry("VertAlign", 0);
+    VertAlignBox->setChecked(bVertAlign);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
@@ -142,6 +149,7 @@ void KRootOptions::load()
 void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
+    VertAlignBox->setChecked(0);
     //leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
@@ -151,6 +159,7 @@ void KRootOptions::save()
 {
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
+    g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
     g_pConfig->writeEntry("Left", "" /* s_choices[ leftComboBox->currentItem() ]*/);
     g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);

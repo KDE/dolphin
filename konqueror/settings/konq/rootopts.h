@@ -44,6 +44,7 @@ private:
 
         void fillMenuCombo( QComboBox * combo );
         QCheckBox *showHiddenBox;
+        QCheckBox *VertAlignBox;
         //QComboBox *leftComboBox;
         QComboBox *middleComboBox;
         QComboBox *rightComboBox;
