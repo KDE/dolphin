@@ -176,9 +176,10 @@ void KonqRun::scanFile()
     if ( job && !job->error() ) {
         connect( job, SIGNAL( redirection( KIO::Job *, const KURL& )),
                  SLOT( slotRedirection( KIO::Job *, const KURL& ) ));
-        if ( m_pView )
+        if ( m_pView && m_pView->service()->name() != "Navigation Panel") {
             connect( job, SIGNAL( infoMessage( KIO::Job*, const QString& ) ),
                      m_pView, SLOT( slotInfoMessage(KIO::Job*, const QString& ) ) );
+	}
     }
 }
 

@@ -28,7 +28,12 @@ class KHTMLSideBar : public KHTMLPart
 {
 	Q_OBJECT
 	public:
-		KHTMLSideBar() : KHTMLPart() {}
+		KHTMLSideBar() : KHTMLPart() {
+			setStatusMessagesEnabled(false);
+			setMetaRefreshEnabled(true);
+			setJavaEnabled(false);
+			setPluginsEnabled(false);
+		}
 		virtual ~KHTMLSideBar() {}
 
 	signals:
@@ -42,7 +47,6 @@ class KHTMLSideBar : public KHTMLPart
 				emit openURLRequest( url, args );
 			}
 		}
-
 };
 
 

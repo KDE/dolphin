@@ -375,8 +375,10 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( speedProgress( int ) ),
                m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
-      connect( ext, SIGNAL( infoMessage( const QString & ) ),
+      if (service()->name() != "Navigation Panel") {
+          connect( ext, SIGNAL( infoMessage( const QString & ) ),
                m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
+      }
 
       connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
                this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
