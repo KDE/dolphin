@@ -68,7 +68,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("&Close Tab"), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ), QKeySequence("Ctrl+W") );
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReloadPopup() ), KStdAccel::key(KStdAccel::Reload) );
-  m_pPopupMenu->insertItem( SmallIcon( "reload_all_tab" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ));
+  m_pPopupMenu->insertItem( SmallIcon( "reload_all_tabs" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ));
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ) );
   connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & )), SLOT(slotContextMenu( QWidget *, const QPoint & )));
@@ -427,7 +427,9 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
   bool ok = KURLDrag::decode( e, lstDragURLs );
   if ( ok && lstDragURLs.first().isValid() ) {
     KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
-    m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURLs.first() );
+    KURL lstDragURL = lstDragURLs.first();
+    if ( lstDragURL != frame->activeChildView()->url() )
+      m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURL );
   }
 }
 
