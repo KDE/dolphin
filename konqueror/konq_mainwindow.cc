@@ -765,8 +765,8 @@ void KonqMainWindow::slotLockView()
   assert(!m_currentView->passiveMode());
   // Those two feature are one for the user: passive mode and locked location
   // (Only the dirtree uses one and not the other)
-  m_currentView->setPassiveMode( true );
   m_currentView->setLockedLocation( true );
+  m_currentView->setPassiveMode( true ); // do this one last !
   m_paUnlockAll->setEnabled( true );
 }
 
