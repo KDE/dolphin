@@ -388,9 +388,11 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   kdDebug() << "KonqImagePreviewJob::createThumbnail loading " << pixPath << endl;
 
   bool ok = false;
-
+  bool saveImage = m_bCanSave;
+  
   // create text-preview
   if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
+      saveImage = false; // generating them on the fly is slightly faster
       const int bytesToRead = 1024; // FIXME, make configurable
       QFile file( pixPath );
       if ( file.open( IO_ReadOnly )) {
@@ -400,11 +402,9 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      ok = true;
 	      data[read] = '\0';
 	      QString text = QString::fromLocal8Bit( data );
-	      kdDebug(1203) << "Textpreview-data: " << text << endl;
+	      // kdDebug(1203) << "Textpreview-data: " << text << endl;
 	      // FIXME: maybe strip whitespace and read more?
 
-	      // where we get the characters from
-	      QPixmap source = m_splitter->pixmap();
 	      QRect rect;
 	
 	      // example: width: 60, height: 64
@@ -443,7 +443,6 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		  if ( x > posNewLine || newLine ) { // start a new line?
 		      x = xborder;
 		      y += yOffset;
-		      newLine = false;
 		
 		      if ( y > posLastLine ) // more text than space
 			  break;
@@ -455,6 +454,8 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 			  if ( pos > (int) i )
 			      i = pos +1;
 		      }
+
+		      newLine = false;
 		  }
 		
 		  // check for newlines in the text (unix,dos)
@@ -472,7 +473,8 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		
 		  rect = m_splitter->coordinates( ch );
 		  if ( !rect.isEmpty() ) {
-		      bitBlt( &pix, QPoint(x,y), &source, rect, CopyROP );
+		      bitBlt( &pix, QPoint(x,y), 
+			      &m_splitter->pixmap(), rect, CopyROP );
 		  }
 
 		  x += xOffset; // next character
@@ -485,9 +487,8 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      p.drawRect( 0, 0, pix.width(), pix.height() );
 	      p.end();
 	
-		
-	      if ( m_bCanSave )
-		  img = pix.convertToImage();
+ 	      if ( saveImage )
+ 		  img = pix.convertToImage();
 	  }
 	  file.close();
       }
@@ -534,7 +535,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
     // Set the thumbnail
     m_iconView->setThumbnailPixmap( m_currentItem, pix );
 
-    if ( m_bCanSave )
+    if ( saveImage )
     {
       QString tmpFile;
       if ( m_thumbURL.isLocalFile() )

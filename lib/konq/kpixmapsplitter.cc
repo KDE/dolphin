@@ -75,10 +75,8 @@ QRect KPixmapSplitter::coordinates( int pos )
 	// qDebug("cols: %i, rows: %i (pixmap: %i, %i)", m_numCols, m_numRows, m_pixmap.width(), m_pixmap.height());
     }
 
-    if ( m_numCols == 0 || m_numRows == 0 ) {
-	// qDebug("********* INVALID ***********");
+    if ( m_numCols == 0 || m_numRows == 0 )
 	return QRect();
-    }
 
     int row = pos / m_numCols;
     int col = pos - (row * m_numCols);
@@ -92,7 +90,7 @@ QRect KPixmapSplitter::coordinates( int pos )
 QRect KPixmapSplitter::coordinates( const QChar& ch )
 {
     char c = ch.latin1();
-    if ( c <= 0 )
+    if ( c < 0 )
 	return QRect();
 
     return coordinates( c );
