@@ -598,8 +598,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest req )
 {
-  // TODO: Replace KURL() with referring URL
-  if ( !kapp->authorizeURLAction("open", KURL(), _url) )
+  // TODO: Replace KURL() with referring URL. DF: done, please check.
+  if ( !kapp->authorizeURLAction("open", childView ? childView->url() : KURL(), _url) )
   {
      QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyURL());
      KMessageBox::queuedMessageBox( this, KMessageBox::Error, msg );
