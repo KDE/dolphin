@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE KDevPrjSession ><KDevPrjSession>
  <Mainframe MaximizeMode="0" />
- <DocsAndViews NumberOfDocuments="1" >
-  <Doc0 CursorPosLine="0" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/mhunter/hello/hello.kdevprj" >
-   <View0 Top="22" Width="400" Attach="1" Height="300" Left="3" Focus="1" Type="KWriteView" MinMaxMode="0" />
+ <DocsAndViews NumberOfDocuments="10" >
+  <Doc0 CursorPosLine="93" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/konqueror/kfindpart/kftabdlg.h" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
   </Doc0>
+  <Doc1 CursorPosLine="210" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="43" FileName="/home/eric/kdebase/konqueror/kfindpart/kftabdlg.cpp" >
+   <View0 Top="0" Width="94" Attach="0" Height="1" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc1>
+  <Doc2 CursorPosLine="101" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/konqueror/kfindpart/kfindpart.h" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc2>
+  <Doc3 CursorPosLine="31" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/konqueror/kfindpart/kfindpart.cpp" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc3>
+  <Doc4 CursorPosLine="43" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/konqueror/kfindpart/kfind.cpp" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc4>
+  <Doc5 CursorPosLine="125" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="74" FileName="/home/eric/kdebase/konqueror/kfindpart/kquery.cpp" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc5>
+  <Doc6 CursorPosLine="265" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/libkonq/konq_dirpart.cc" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc6>
+  <Doc7 CursorPosLine="243" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/libkonq/konq_dirpart.h" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KWriteView" MinMaxMode="0" />
+  </Doc7>
+  <Doc8 CursorPosLine="19" Type="KWriteDoc" NumberOfViews="1" CursorPosCol="0" FileName="/home/eric/kdebase/konqueror/kfindpart/kfind.h" >
+   <View0 Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="1" Type="KWriteView" MinMaxMode="0" />
+  </Doc8>
+  <Doc9 Type="CDocBrowser" NumberOfViews="1" FileName="file:/usr/share/doc/HTML/en//kdecore/KLibFactory.html" >
+   <View Top="0" Width="779" Attach="0" Height="421" Left="0" Focus="0" Type="KHTMLView" MinMaxMode="0" />
+  </Doc9>
  </DocsAndViews>
 </KDevPrjSession>
