@@ -7,6 +7,7 @@
 #include <qregexp.h>
 #include <qptrqueue.h>
 #include <qdir.h>
+#include <qstringlist.h>
 
 #include <kio/job.h>
 #include <kurl.h>
@@ -92,6 +93,9 @@ class KQuery : public QObject
   QPtrQueue<KFileItem> m_fileItems;
   QRegExp* metaKeyRx;
   int m_result;
+  QStringList ignore_mimetypes;
+  QStringList ooo_mimetypes;     // OpenOffice.org mimetypes
+  QStringList koffice_mimetypes;
 };
 
 #endif

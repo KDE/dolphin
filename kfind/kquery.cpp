@@ -24,6 +24,20 @@ KQuery::KQuery(QObject *parent, const char * name)
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(processExited(KProcess*)),this,SLOT(slotendProcessLocate(KProcess*)));
+
+  // Files with these mime types can be ignored, even if
+  // findFormatByFileContent() in some cases may claim that
+  // these are text files:
+  ignore_mimetypes.append("application/pdf");
+  ignore_mimetypes.append("application/postscript");
+  // PLEASE update the documentation when you add another
+  // file type here:
+  ooo_mimetypes.append("application/vnd.sun.xml.writer");
+  ooo_mimetypes.append("application/vnd.sun.xml.calc");
+  ooo_mimetypes.append("application/vnd.sun.xml.impress");
+  koffice_mimetypes.append("application/x-kword");
+  koffice_mimetypes.append("application/x-kspread");
+  koffice_mimetypes.append("application/x-kpresenter");
 }
 
 KQuery::~KQuery()
@@ -242,28 +256,10 @@ void KQuery::processQuery( KFileItem* file)
     if (!m_context.isEmpty())
     {
 
-       // Files with these mime types can be ignored, even if
-       // findFormatByFileContent() in some cases may claim that
-       // these are text files:
-       QStringList ignore_mimetypes;
-       ignore_mimetypes.append("application/pdf");
-       ignore_mimetypes.append("application/postscript");
-
        if( !m_search_binary && ignore_mimetypes.findIndex(file->mimetype()) != -1 ) {
          kdDebug() << "ignoring, mime type is in exclusion list: " << file->url() << endl;
          return;
        }
-
-       // PLEASE update the documentation when you add another
-       // file type here:
-       QStringList ooo_mimetypes;     // OpenOffice.org mimetypes
-       ooo_mimetypes.append("application/vnd.sun.xml.writer");
-       ooo_mimetypes.append("application/vnd.sun.xml.calc");
-       ooo_mimetypes.append("application/vnd.sun.xml.impress");
-       QStringList koffice_mimetypes;
-       koffice_mimetypes.append("application/x-kword");
-       koffice_mimetypes.append("application/x-kspread");
-       koffice_mimetypes.append("application/x-kpresenter");
 
        bool found = false;
        bool isZippedOfficeDocument=false;
