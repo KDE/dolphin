@@ -94,7 +94,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_no_prx = new QLabel(le_no_prx, i18n("&No Proxy for:"), this);
   lb_no_prx->setAlignment(AlignVCenter);
 
-  wtstr = i18n("Here you can provide a list of hosts or domains that will be directly accessed without"
+  wtstr = i18n("Here you can provide a list of comma or space separated hosts or domains that will be directly accessed without"
     " asking a proxy first. Usually, this will be hosts on your local network.");
   QWhatsThis::add( le_no_prx, wtstr );
   QWhatsThis::add( lb_no_prx, wtstr );
