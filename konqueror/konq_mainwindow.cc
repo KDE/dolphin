@@ -1817,6 +1817,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    KDialog *dlg=new KDialog(this,"blah",true);
    QVBoxLayout *layout=new QVBoxLayout(dlg,dlg->marginHint(),dlg->spacingHint());
    QLabel *label=new QLabel(text,dlg);
+   label->setMinimumSize(300,label->height());
    layout->addWidget(label);
    label=new QLabel(m_currentView->url().prettyURL(),dlg);
    layout->addWidget(label);
@@ -2127,6 +2128,12 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
   }
 }
 
+void KonqMainWindow::slotCtrlTabPressed()
+{
+   KonqView * view = m_pViewManager->chooseNextView( m_currentView );
+   if ( view )
+      m_pViewManager->setActivePart( view->part() );
+};
 
 bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {
@@ -2827,7 +2834,7 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
   {
     m_paCopyFiles->setEnabled( enabled );
   }
-  if (m_paMoveFiles && !strcmp( name, "cut" ))
+  else if (m_paMoveFiles && !strcmp( name, "cut" ))
   {
     m_paMoveFiles->setEnabled( enabled );
   }

@@ -214,6 +214,8 @@ signals:
   void viewRemoved( KonqView *view );
 
 public slots:
+  void slotCtrlTabPressed();
+
   void slotToggleFullScreen();
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );

@@ -365,12 +365,30 @@ void KonqFrame::attachInternal()
    m_pPart->widget()->show();
    m_pStatusBar->show();
    m_pLayout->activate();
+
+   m_pPart->widget()->installEventFilter(this);
 }
+
+bool KonqFrame::eventFilter(QObject*obj,QEvent *ev)
+{
+   if (ev->type()==QEvent::KeyPress)
+   {
+      QKeyEvent * keyEv = static_cast<QKeyEvent*>(ev);
+      if ((keyEv->key()==Key_Tab) && (keyEv->state()==ControlButton))
+      {
+         emit ((KonqFrameContainer*)parent())->ctrlTabPressed();
+         return true;
+      };
+   };
+   return false;
+};
 
 void KonqFrame::insertTopWidget( QWidget * widget )
 {
     assert(m_pLayout);
     m_pLayout->insertWidget( 0, widget );
+    if (widget!=0)
+       widget->installEventFilter(this);
 }
 
 void KonqFrame::setView( KonqView* child )

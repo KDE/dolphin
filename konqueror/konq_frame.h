@@ -174,6 +174,12 @@ public:
   KParts::ReadOnlyPart *attach( const KonqViewFactory &viewFactory );
 
   /**
+   * Filters the CTRL+Tab event from the views and emits ctrlTabPressed to
+   make KonqMainWindow switch to the next view
+   */
+  virtual bool eventFilter(QObject*obj,QEvent *ev);
+ 
+  /**
    * Inserts the part's widget and the statusbar into the layout
    */
   void attachInternal();
@@ -250,7 +256,7 @@ protected:
 class KonqFrameContainer : public QSplitter, public KonqFrameBase
 {
   Q_OBJECT
-
+  friend KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
 public:
   KonqFrameContainer( Orientation o,
                       QWidget* parent,
@@ -287,6 +293,9 @@ public:
 
   //make this one public
   int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }
+
+signals:
+  void ctrlTabPressed();
 
 protected:
   KonqFrameBase* m_pFirstChild;

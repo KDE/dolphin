@@ -159,6 +159,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     //kdDebug(1202) << "Create new Container" << endl;
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
+    connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
     newContainer->setUpdatesEnabled( false );
     newContainer->setOpaqueResize( true );
     newContainer->show();
@@ -194,6 +195,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
   {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainWindow );
     kdDebug(1202) << "Created main container " << m_pMainContainer << endl;
+    connect(m_pMainContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
     m_pMainWindow->setCentralWidget( m_pMainContainer );
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
@@ -561,6 +563,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   if ( rootItem != "empty" )
   {
       m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
+      connect(m_pMainContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
       m_pMainWindow->setCentralWidget( m_pMainContainer );
       m_pMainContainer->setOpaqueResize();
       m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
@@ -777,6 +780,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     else
     {
       KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
+      connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
       parent->insertChildFrame( newContainer );
       newContainer->setOpaqueResize();
       newContainer->show();
