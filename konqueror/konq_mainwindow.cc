@@ -801,15 +801,15 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
     static QString _parent = QString::fromLatin1( "_parent" );
     static QString _blank = QString::fromLatin1( "_blank" );
 
-    if ( frameName == _blank )
+    if ( frameName.lower() == _blank )
     {
       slotCreateNewWindow( url, args );
       return;
     }
 
-    if ( frameName != _top &&
-         frameName != _self &&
-         frameName != _parent )
+    if ( frameName.lower() != _top &&
+         frameName.lower() != _self &&
+         frameName.lower() != _parent )
     {
       KParts::BrowserHostExtension *hostExtension = 0;
       KonqView *view = childView( frameName, &hostExtension, 0 );
@@ -958,7 +958,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
                   << " args.frameName=" << args.frameName << endl;
 
     KonqMainWindow *mainWindow = 0L;
-    if ( !args.frameName.isEmpty() && args.frameName != "_blank" )
+    if ( !args.frameName.isEmpty() && args.frameName.lower() != "_blank" )
     {
         KParts::BrowserHostExtension *hostExtension = 0;
         if ( findChildView( args.frameName, &mainWindow, &hostExtension, &part ) )
