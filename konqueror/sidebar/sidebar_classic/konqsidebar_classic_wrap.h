@@ -31,28 +31,30 @@ class SidebarClassic : public KonqSidebarPlugin
 		SidebarClassic(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name=0):
                    KonqSidebarPlugin(parent,widgetParent,desktopName_,name)
 		{
+		    wid=new QLabel(QString("This module will be removed, please close it in all"
+				" konquer windows, before you update on/after Friday 23rd"),widgetParent);
 
-		    KLibFactory *lfactory = KLibLoader::self()->factory("libkonqtree");
+/*		    KLibFactory *lfactory = KLibLoader::self()->factory("libkonqtree");
 		    if (lfactory)
 		    {
 			dirtree = static_cast<KParts::ReadOnlyPart *>
-			(static_cast<KParts::Factory *>(lfactory)->createPart(widgetParent,"sidebar classic",parent));
-        	}
+			(static_cast<KParts::Factory *>(lfactory)->createPart(widgetParent,"sidebar classic",parent)); 
+        	}*/
 	}
 		~SidebarClassic(){;}
 		virtual void *provides(const QString &pro)
 		{
-			if (pro=="KParts::ReadOnlyPart") return dirtree;
-			if (pro=="KParts::BrowserExtension") return KParts::BrowserExtension::childObject(dirtree);  
+		//	if (pro=="KParts::ReadOnlyPart") return dirtree;
+		//	if (pro=="KParts::BrowserExtension") return KParts::BrowserExtension::childObject(dirtree);  
 			return 0;
 		}
-                virtual QWidget *getWidget(){return dirtree->widget();}   
+                virtual QWidget *getWidget(){return wid;}//return dirtree->widget();}   
 		protected:
 			KParts::ReadOnlyPart *dirtree;
+			QLabel *wid;
 			virtual void handleURL(const KURL &url)
 				{
-					dirtree->openURL(url);
-//					widget->setText(url.url());
+					//dirtree->openURL(url);
 				}
 	};
 

@@ -22,6 +22,6 @@ libkonqsidebar_classic_wrap_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../libkonqsi
 partrcdir   = $(kde_datadir)/konqsidebartng/entries
 partrc_DATA = sidebar_classic.desktop
 
-partadddir   = $(kde_datadir)/konqsidebartng/add
-partadd_DATA = sidebar_classic_add.desktop
+#partadddir   = $(kde_datadir)/konqsidebartng/add
+#partadd_DATA = sidebar_classic_add.desktop
 
