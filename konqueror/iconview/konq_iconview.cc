@@ -375,7 +375,7 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
     }
     else
     {
-        m_pIconView->startImagePreview();
+        m_pIconView->startImagePreview( true );
     }
 }
 
@@ -552,7 +552,7 @@ void KonqKfmIconView::slotViewLarge( bool b )
 	m_pProps->setIconSize( m_iIconSize[2] );
 	m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview();
+          m_pIconView->startImagePreview( true );
     }
 }
 
@@ -563,7 +563,7 @@ void KonqKfmIconView::slotViewMedium( bool b )
 	m_pProps->setIconSize( m_iIconSize[1] );
 	m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview();
+          m_pIconView->startImagePreview( true );
     }
 }
 
@@ -574,7 +574,7 @@ void KonqKfmIconView::slotViewSmall( bool b )
 	m_pProps->setIconSize( m_iIconSize[0] );
 	m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview();
+          m_pIconView->startImagePreview( true );
     }
 }
 
@@ -585,7 +585,7 @@ void KonqKfmIconView::slotViewDefault( bool b)
 	m_pProps->setIconSize( 0 );
 	m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview();
+          m_pIconView->startImagePreview( true );
     }
 }
 	
@@ -1016,7 +1016,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
                 if ( m_pProps->isShowingImagePreview() )
                   // We can do this only when the mimetypes are fully determined,
                   // since we only do image preview... on images :-)
-                  m_pIconView->startImagePreview();
+                  m_pIconView->startImagePreview( false );
             }
             if ( m_bNeedAlign )
             {
