@@ -568,7 +568,7 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
     if (part && part->widget())
         part->widget()->setFocus();
 
-    PartManager::setActivePart( part );
+    KParts::PartManager::setActivePart( part );
 
     if (!immediate)
         // We use a 0s single shot timer so that when clicking on a part,
