@@ -19,12 +19,13 @@
 #ifndef web_module_h
 #define web_module_h
 
-#include <qobject.h>
-#include <konqsidebarplugin.h>
+#include <assert.h>
 #include <khtml_part.h>
-#include <kpopupmenu.h>
-#include <klocale.h>
 #include <kiconloader.h>
+#include <klocale.h>
+#include <konqsidebarplugin.h>
+#include <kpopupmenu.h>
+#include <qobject.h>
 
 
 // A wrapper for KHTMLPart to make it behave the way we want it to.
@@ -182,6 +183,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	private slots:
 		void urlClicked(const QString& url, KParts::URLArgs args);
+		void formClicked(const KURL& url, const KParts::URLArgs& args);
 		void urlNewWindow(const QString& url, KParts::URLArgs args);
 		void pageLoaded();
 		void loadFavicon();

@@ -18,17 +18,18 @@
 
 #include "web_module.h"
 #include <qfileinfo.h>
-#include <qtimer.h>
-#include <qspinbox.h>
 #include <qhbox.h>
+#include <qspinbox.h>
+#include <qtimer.h>
 
-#include <kdialog.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kstandarddirs.h>
-#include <kglobal.h>
 #include <dom/html_inline.h>
+#include <kdebug.h>
+#include <kdialog.h>
+#include <kglobal.h>
+#include <klocale.h>
 #include <konq_pixmapprovider.h>
+#include <kparts/browserextension.h>
+#include <kstandarddirs.h>
 
 
 KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
@@ -45,6 +46,10 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 		SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
 		this,
 		SLOT(urlClicked(const QString&, KParts::URLArgs)));
+	connect(_htmlPart->browserExtension(),
+		SIGNAL(openURLRequest(const KURL&, const KParts::URLArgs&)),
+		this,
+		SLOT(formClicked(const KURL&, const KParts::URLArgs&)));
 	connect(_htmlPart,
 		SIGNAL(setAutoReload()), this, SLOT( setAutoReload() ));
 	connect(_htmlPart,
@@ -115,13 +120,20 @@ void KonqSideBarWebModule::handleURL(const KURL &) {
 
 void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args)
 {
-	emit createNewWindow(KURL( url ), args);
+	emit createNewWindow(KURL(url), args);
 }
 
 
 void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
 {
-	emit openURLRequest( KURL(url), args);
+	emit openURLRequest(KURL(url), args);
+}
+
+
+void KonqSideBarWebModule::formClicked(const KURL& url, const KParts::URLArgs& args) 
+{
+	_htmlPart->browserExtension()->setURLArgs(args);
+	_htmlPart->openURL(url);
 }
 
 
