@@ -111,7 +111,7 @@ void KonqOperations::emptyTrash()
   KonqOperations *op = new KonqOperations( 0L );
 
   QDir trashDir( KGlobalSettings::trashPath() );
-  QStringList files = trashDir.entryList( QDir::All | QDir::Hidden );
+  QStringList files = trashDir.entryList( QDir::All | QDir::Hidden | QDir::System );
   files.remove(QString("."));
   files.remove(QString(".."));
 
