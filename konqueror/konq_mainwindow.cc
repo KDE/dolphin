@@ -4544,10 +4544,12 @@ bool KonqMainWindow::stayPreloaded()
     // last window?
     if( mainWindowList()->count() > 1 )
         return false;
-    // running in full KDE environment?
-    if( getenv( "KDE_MINIMAL_SESSION" ) != NULL
-        && strlen( "KDE_MINIMAL_SESSION" ) > 0 )
+    // not running in full KDE environment?
+    if( getenv( "KDE_FULL_SESSION" ) == NULL )
+    {
+        kapp->deref(); // for the extra ref() done in main()
         return false;
+    }
     KConfigGroupSaver group( KGlobal::config(), "Reusing" );
     if( KGlobal::config()->readNumEntry( "MaxPreloadCount", 1 ) == 0 )
     {
