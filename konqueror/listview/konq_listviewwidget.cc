@@ -237,7 +237,6 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
        }
    }
 
-
    //disable everything
    for (unsigned int i=0; i<NumberOfAtoms; i++)
    {
@@ -340,24 +339,11 @@ void KonqBaseListViewWidget::createColumns()
    setSorting(0,TRUE);
 
    //remove all columns that will be re-added
-   int i, j;
-   for ( i=0; i < columns(); i++ )
-   {
-      int section = header()->mapToSection( i );
+   for ( int i=columns()-1; i>m_filenameColumn; i--)
+        removeColumn(i);
       
-      // look for section
-      for ( j=0; j < NumberOfAtoms; j++ )
-      {
-         if ( confColumns[j].displayInColumn == section )
-         {
-            removeColumn(i);
-            break;
-         }
-      }
-   }
-   
    //now add the checked columns
-   int currentColumn = columns();
+   int currentColumn = m_filenameColumn+1;
    for (int i=0; i<NumberOfAtoms; i++)
    {
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
