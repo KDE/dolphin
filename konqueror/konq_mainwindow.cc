@@ -517,6 +517,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( m_currentView->service()->name() == modeName )
     return;
 
+  m_currentView->lockHistory();
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
                                  m_currentView->url() );
 
