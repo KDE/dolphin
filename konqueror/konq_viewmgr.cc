@@ -1206,12 +1206,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
      if (cfg.readBoolEntry( "FullScreen" ))
      {
          // Full screen on
-         m_pMainWindow->slotSetFullScreen( true );
+         m_pMainWindow->showFullScreen();
      }
      else
      {
          // Full screen off
-         m_pMainWindow->slotSetFullScreen( false );
+         if( m_pMainWindow->isFullScreen())
+             m_pMainWindow->showNormal();
 
          QSize size = readConfigSize( cfg, m_pMainWindow );
          if ( size.isValid() )

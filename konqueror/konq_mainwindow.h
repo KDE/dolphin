@@ -303,8 +303,6 @@ signals:
 public slots:
   void slotCtrlTabPressed();
 
-  void slotSetFullScreen( bool set );
-
   void slotFillContextMenu( const KBookmark &, QPopupMenu * );
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
@@ -478,6 +476,8 @@ protected slots:
 
   void slotAddWebSideBar(const KURL& url, const QString& name);
 
+  void slotUpdateFullScreen( bool set ); // do not call directly
+
 protected:
   static QString detectNameFilter( QString & url );
 
@@ -628,7 +628,7 @@ private:
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;
 
-  KToggleAction *m_ptaFullScreen;
+  KToggleFullScreenAction *m_ptaFullScreen;
 
   uint m_bLocationBarConnected:1;
   uint m_bURLEnterLock:1;

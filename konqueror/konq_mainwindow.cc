@@ -3018,10 +3018,8 @@ void KonqMainWindow::slotShowMenuBar()
   slotForceSaveMainWindowSettings();
 }
 
-void KonqMainWindow::slotSetFullScreen( bool set )
+void KonqMainWindow::slotUpdateFullScreen( bool set )
 {
-  if( set == isFullScreen())
-    return;
   if( set )
   {
     showFullScreen();
@@ -3031,7 +3029,6 @@ void KonqMainWindow::slotSetFullScreen( bool set )
     plugActionList( "fullscreen", lst );
 
     menuBar()->hide();
-    m_paShowMenuBar->setChecked( false );
 
     // Qt bug, the flags are lost. They know about it.
     // happens only with the hackish non-_NET_WM_STATE_FULLSCREEN way
@@ -3047,7 +3044,6 @@ void KonqMainWindow::slotSetFullScreen( bool set )
     unplugActionList( "fullscreen" );
 
     menuBar()->show(); // maybe we should store this setting instead of forcing it
-    m_paShowMenuBar->setChecked( true );
 
     // Qt bug, the flags aren't restored. They know about it.
     setWFlags( WType_TopLevel | WDestructiveClose );
@@ -3248,7 +3244,7 @@ void KonqMainWindow::initActions()
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
   m_ptaFullScreen = KStdAction::fullScreen( 0, 0, actionCollection(), this );
-  connect( m_ptaFullScreen, SIGNAL( toggled( bool )), this, SLOT( slotSetFullScreen( bool )));
+  connect( m_ptaFullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::shortcut(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
