@@ -55,7 +55,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
 
   QString groupName = "Icon Settings";
   behaviour = new KBehaviourOptions(config, groupName, true, this);
-  tab->addTab(behaviour, i18n("&Behaviour"));
+  tab->addTab(behaviour, i18n("&Behavior"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, groupName, this);
@@ -118,7 +118,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
 
   // those use "Icon Settings" since they are read by KonqFMSettings
   behaviour = new KBehaviourOptions(config, "Icon Settings", false, this);
-  tab->addTab(behaviour, i18n("&Behaviour"));
+  tab->addTab(behaviour, i18n("&Behavior"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, "Icon Settings", this);
