@@ -45,7 +45,7 @@ QString  Sidebar_Widget::PATH=QString("");
 addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
 {
 
-	menu=addmenu;
+	menu = addmenu;
 	connect(menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowAddMenu()));
 	connect(menu,SIGNAL(activated(int)),this,SLOT(activatedAddMenu(int)));
 }
@@ -61,7 +61,7 @@ void addBackEnd::aboutToShowAddMenu()
 	libParam.setAutoDelete(true);
 	libParam.resize(0);
 	menu->clear();
-	int i=0;
+	int i = 0;
 
 	for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
 	{
@@ -289,9 +289,7 @@ void Sidebar_Widget::doLayout()
 		myLayout->add(Area);
 		myLayout->add(ButtonBar);
 		ButtonBar->setPosition(KMultiTabBar::Right);
-	}
-	else
-	{
+	} else {
 		myLayout->add(ButtonBar);
 		myLayout->add(Area);
 		ButtonBar->setPosition(KMultiTabBar::Left);
@@ -488,35 +486,39 @@ void Sidebar_Widget::activatedMenu(int id)
 void Sidebar_Widget::readConfig()
 {
 	KConfig conf("konqsidebartng.rc");
-	singleWidgetMode=(conf.readEntry("SingleWidgetMode","true")=="true");
-	showExtraButtons=(conf.readEntry("ShowExtraButtons","true")=="true");
-	showTabsRight=(conf.readEntry("ShowTabsLeft","true")=="false");
-	QStringList list=conf.readListEntry("OpenViews");
-	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
+	singleWidgetMode = (conf.readEntry("SingleWidgetMode","true")=="true");
+	showExtraButtons = (conf.readEntry("ShowExtraButtons","true")=="true");
+	showTabsRight = (conf.readEntry("ShowTabsLeft","true")=="false");
+	QStringList list = conf.readListEntry("OpenViews");
+	kdDebug() << "readConfig: " << conf.readEntry("OpenViews") << endl;
 	doLayout();
-	if (m_initial) savedWidth=conf.readNumEntry("SavedWidth",200);
+
+	if (m_initial) {
+		savedWidth=conf.readNumEntry("SavedWidth",200);
+	}
+
 	bool tmpSomethingVisible=m_initial?false:somethingVisible;
 	somethingVisible=false;
-	for (uint i=0; i<Buttons.count();i++)
+	for (uint i = 0; i < Buttons.count(); i++)
 	{
 		if (list.contains(Buttons.at(i)->file))
-			{
-//				tmpSomethingVisible=true;
-				somethingVisible=true;
-				ButtonBar->setTab(i,true); //showHidePage(i);
-				noUpdate=true;
-				showHidePage(i);
-				if (singleWidgetMode) break;
+		{
+//			tmpSomethingVisible=true;
+			somethingVisible=true;
+			ButtonBar->setTab(i,true); //showHidePage(i);
+			noUpdate = true;
+			showHidePage(i);
+			if (singleWidgetMode) {
+				break;
 			}
+		}
 	}
 
 	if (m_initial)
 	{
 		somethingVisible=(visibleViews.count()==0);
 		collapseExpandSidebar();
-	}
-	else
-	{
+	} else {
 		if (somethingVisible != tmpSomethingVisible)
 		{
 			somethingVisible=tmpSomethingVisible;
@@ -530,15 +532,19 @@ void Sidebar_Widget::readConfig()
 
 void Sidebar_Widget::stdAction(const char *handlestd)
 {
-	ButtonInfo* mod=activeModule;
-	if (!mod) return;
-	if (!(mod->module)) return;
+	ButtonInfo* mod = activeModule;
 
-	kdDebug()<<"Try calling >active< module's action"<<handlestd<<endl;
+	if (!mod)
+		return;
+	if (!(mod->module))
+		return;
+
+	kdDebug() << "Try calling >active< module's action" << handlestd << endl;
 
 	int id = mod->module->metaObject()->findSlot( handlestd );
-  	if ( id == -1 )return;
-	kdDebug()<<"Action slot was found, it will be called now"<<endl;
+  	if ( id == -1 )
+		return;
+	kdDebug() << "Action slot was found, it will be called now" << endl;
   	QUObject o[ 1 ];
 	mod->module->qt_invoke( id, o );
   	return;
@@ -548,45 +554,54 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 void Sidebar_Widget::createButtons()
 {
 	//PARSE ALL DESKTOP FILES
-	if (Buttons.count()>0)
+	if (Buttons.count() > 0)
 	{
-		for (uint i=0;i<Buttons.count();i++)
+		for (uint i = 0; i < Buttons.count(); i++)
+		{
+			if (Buttons.at(i)->dock != 0)
 			{
-				if (Buttons.at(i)->dock!=0)
-				{
-					noUpdate=true;
-					if (Buttons.at(i)->dock->isVisibleTo(this)) showHidePage(i);
-					if (Buttons.at(i)->module!=0) delete Buttons.at(i)->module;
-					delete Buttons.at(i)->dock;
+				noUpdate = true;
+				if (Buttons.at(i)->dock->isVisibleTo(this)) {
+					showHidePage(i);
 				}
-				ButtonBar->removeTab(i);
 
+				if (Buttons.at(i)->module != 0) {
+					delete Buttons.at(i)->module;
+				}
+				delete Buttons.at(i)->dock;
 			}
+			ButtonBar->removeTab(i);
+
+		}
 	}
 	Buttons.resize(0);
 
 	if (!PATH.isEmpty())
+	{
+		kdDebug()<<"PATH: "<<PATH<<endl;
+		QDir dir(PATH);
+		QStringList list=dir.entryList("*.desktop");
+		for (QStringList::Iterator it=list.begin(); it!=list.end(); ++it)
 		{
-			kdDebug()<<"PATH: "<<PATH<<endl;
-			QDir dir(PATH);
-			QStringList list=dir.entryList("*.desktop");
-			for (QStringList::Iterator it=list.begin(); it!=list.end(); ++it)
-				{
-					addButton(*it);
-				}
+			addButton(*it);
 		}
+	}
 
 //        QStringList list=dirs->findAllResources("data","konqsidebartng/entries/*.desktop",false,true);
 //	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
 //  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();
 
-	if (!ButtonBar->getButton(-1)) ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+	if (!ButtonBar->getButton(-1)) {
+		ButtonBar->appendButton(SmallIcon("configure"), -1, Menu,
+					i18n("Configure Sidebar"));
+	}
 
-	if(showExtraButtons)
+	if (showExtraButtons) {
 		ButtonBar->getButton(-1)->show();
-	else
+	} else {
 		ButtonBar->getButton(-1)->hide();
+	}
 
 //	{
 //		if (!ButtonBar->getButton(-1))
@@ -596,6 +611,7 @@ void Sidebar_Widget::createButtons()
 //JW - TEST			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 //		}
 //	}
+
 }
 
 bool Sidebar_Widget::openURL(const class KURL &url)
@@ -605,41 +621,39 @@ bool Sidebar_Widget::openURL(const class KURL &url)
 	ButtonInfo *info;
         bool ret = false;
 	for (unsigned int i=0;i<Buttons.count();i++)
+	{
+		if ((info=Buttons.at(i))->dock!=0)
 		{
-			if ((info=Buttons.at(i))->dock!=0)
-				{
-					if ((info->dock->isVisibleTo(this)) && (info->module))
-                                        {
-                                            ret = true;
-                                            info->module->openURL(url);
-                                        }
-				}
+			if ((info->dock->isVisibleTo(this)) && (info->module))
+			{
+				ret = true;
+				info->module->openURL(url);
+			}
 		}
-        return ret;
+	}
+	return ret;
 }
 
 bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 {
 
-	int lastbtn=Buttons.count();
+	int lastbtn = Buttons.count();
 	Buttons.resize(Buttons.size()+1);
 
   	KSimpleConfig *confFile;
 
-	kdDebug()<<"addButton:"<<(PATH+desktoppath)<<endl;
+	kdDebug() << "addButton:" << (PATH+desktoppath) << endl;
 
-	confFile=new KSimpleConfig(PATH+desktoppath,true);
+	confFile = new KSimpleConfig(PATH+desktoppath,true);
 	confFile->setGroup("Desktop Entry");
 
-    	QString icon=confFile->readEntry("Icon","");
-	QString name=confFile->readEntry("Name","");
-	QString comment=confFile->readEntry("Comment","");
-	QString url=confFile->readEntry("URL","");
-	QString lib=confFile->readEntry("X-KDE-KonqSidebarModule","");
+    	QString icon = confFile->readEntry("Icon","");
+	QString name = confFile->readEntry("Name","");
+	QString comment = confFile->readEntry("Comment","");
+	QString url = confFile->readEntry("URL","");
+	QString lib = confFile->readEntry("X-KDE-KonqSidebarModule","");
 
         delete confFile;
-
-
 
 	if (pos==-1)
 	{
@@ -664,30 +678,30 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 
 	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
 	{
-			KMultiTabBarTab *bt=dynamic_cast<KMultiTabBarTab*>(obj);
-			if (bt)
+		KMultiTabBarTab *bt=dynamic_cast<KMultiTabBarTab*>(obj);
+		if (bt)
+		{
+			kdDebug()<<"Request for popup"<<endl;
+			popupFor=-1;
+			for (uint i=0;i<Buttons.count();i++)
 			{
-				kdDebug()<<"Request for popup"<<endl;
-				popupFor=-1;
-				for (uint i=0;i<Buttons.count();i++)
-				{
-					if (bt==ButtonBar->getTab(i))
-						{popupFor=i; break;}
-				}
-
-				if (popupFor!=-1)
-				{
-					buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
-				        buttonPopup->changeTitle(50,SmallIcon(Buttons.at(popupFor)->iconName),
-						Buttons.at(popupFor)->displayName);
-       					buttonPopup->changeItem(2,i18n("Set URL"));
-        				buttonPopup->changeItem(1,i18n("Set Icon"));
-				        buttonPopup->changeItem(3,i18n("Remove"));
-					buttonPopup->exec(QCursor::pos());
-				}
-				return true;
-
+				if (bt==ButtonBar->getTab(i))
+					{popupFor=i; break;}
 			}
+
+			if (popupFor!=-1)
+			{
+				buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
+			        buttonPopup->changeTitle(50,SmallIcon(Buttons.at(popupFor)->iconName),
+						Buttons.at(popupFor)->displayName);
+       				buttonPopup->changeItem(2,i18n("Set URL"));
+        			buttonPopup->changeItem(1,i18n("Set Icon"));
+			        buttonPopup->changeItem(3,i18n("Remove"));
+				buttonPopup->exec(QCursor::pos());
+			}
+			return true;
+
+		}
 	}
 	return false;
 }
@@ -699,190 +713,189 @@ void Sidebar_Widget::mousePressEvent(QMouseEvent *ev)
 }
 
 KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo* bi)
+{
+	KLibLoader *loader = KLibLoader::self();
+
+	// try to load the library
+      	KLibrary *lib = loader->library(QFile::encodeName(lib_name));
+	if (lib)
 	{
+		// get the create_ function
+		QString factory("create_%1");
+		void *create = lib->symbol(QFile::encodeName(factory.arg(lib_name)));
 
- 				KLibLoader *loader = KLibLoader::self();
+		if (create)
+		{
+			// create the module
 
-      				// try to load the library
-      				KLibrary *lib = loader->library(QFile::encodeName(lib_name));
-      				if (lib)
-        			{
-         			 	// get the create_ function
-          				QString factory("create_%1");
-          				void *create = lib->symbol(QFile::encodeName(factory.arg(lib_name)));
-
-          				if (create)
-            					{
-				        	   	// create the module
-
-					              	KonqSidebarPlugin* (*func)(KInstance*,QObject *, QWidget*, QString&, const char *);
-					              	func = (KonqSidebarPlugin* (*)(KInstance*,QObject *, QWidget *, QString&, const char *)) create;
-							QString fullPath(PATH+desktopName);
-					              	return  (KonqSidebarPlugin*)func(getInstance(),bi,par,fullPath,0);
-					            }
-			        }
-			    	else
-		      			kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
-			return 0;
+			KonqSidebarPlugin* (*func)(KInstance*,QObject *, QWidget*, QString&, const char *);
+			func = (KonqSidebarPlugin* (*)(KInstance*,QObject *, QWidget *, QString&, const char *)) create;
+			QString fullPath(PATH+desktopName);
+			return  (KonqSidebarPlugin*)func(getInstance(),bi,par,fullPath,0);
+		}
+	} else {
+		kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
 	}
+	return 0;
+}
 
-/*KParts::ReadOnlyPart *Sidebar_Widget::getPart()
-	{
-		return partParent;
-
-	}
-*/
+#if 0
+KParts::ReadOnlyPart *Sidebar_Widget::getPart()
+{
+	return partParent;
+}
+#endif
 
 KParts::BrowserExtension *Sidebar_Widget::getExtension()
-	{
-		return KParts::BrowserExtension::childObject(partParent);
-
-	}
+{
+	return KParts::BrowserExtension::childObject(partParent);
+}
 
 bool Sidebar_Widget::createView( ButtonInfo *data)
+{
+	bool ret = true;
+	KSimpleConfig *confFile;
+	confFile = new KSimpleConfig(data->file,true);
+	confFile->setGroup("Desktop Entry");
+
+	data->dock = Area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
+	data->module = loadModule(data->dock,data->file,data->libName,data);
+
+	if (data->module == 0)
 	{
-			bool ret=true;
-  	  	        KSimpleConfig *confFile;
-			confFile=new KSimpleConfig(data->file,true);
-			confFile->setGroup("Desktop Entry");
+		delete data->dock;
+		data->dock = 0;
+		ret = false;
+	} else {
+		data->dock->setWidget(data->module->getWidget());
+		data->dock->setEnableDocking(KDockWidget::DockTop|
+		KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
+		data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
+		connectModule(data->module);
+		connect(this, SIGNAL(fileSelection(const KFileItemList&)),
+			data->module, SLOT(openPreview(const KFileItemList&)));
 
-			data->dock=Area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
-			data->module=loadModule(data->dock,data->file,data->libName,data);
-			if (data->module==0)
-			{
-				delete data->dock;
-				data->dock=0;
-				ret=false;
-
-			}
-			else
-			{
-				data->dock->setWidget(data->module->getWidget());
-				data->dock->setEnableDocking(KDockWidget::DockTop|
-				KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
-				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
-				connectModule(data->module);
-        connect(this,         SIGNAL(fileSelection(const KFileItemList&)),
-                data->module, SLOT(openPreview(const KFileItemList&)));
-
-        connect(this,         SIGNAL(fileMouseOver(const KFileItem&)),
-                data->module, SLOT(openPreviewOnMouseOver(const KFileItem&)));
-
-			}
-
-			delete confFile;
-			return ret;
-
+		connect(this, SIGNAL(fileMouseOver(const KFileItem&)),
+			data->module, SLOT(openPreviewOnMouseOver(const KFileItem&)));
 	}
+
+	delete confFile;
+	return ret;
+}
 
 void Sidebar_Widget::showHidePage(int page)
 {
-	ButtonInfo *info=Buttons.at(page);
+	ButtonInfo *info = Buttons.at(page);
 	if (!info->dock)
+	{
+		if (ButtonBar->isTabRaised(page))
 		{
-			if(ButtonBar->isTabRaised(page))
+			//SingleWidgetMode
+			if (singleWidgetMode)
+			{
+				if (latestViewed != -1)
 				{
-					//SingleWidgetMode
-					if (singleWidgetMode)
-						if (latestViewed!=-1)
-						{
-							noUpdate=true;
-							showHidePage(latestViewed);
-						}
-					if (!createView(info))
-						{
-							ButtonBar->setTab(page,false);
-							return;
-						}
-						ButtonBar->setTab(page,true);
-						if (singleWidgetMode)
-						{
-							Area->setMainDockWidget(info->dock);
-							dummyMainW->undock();
-						}
-						else
-						{
-							info->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
-						}
-						info->dock->show();
-
-						if (stored_url) info->module->openURL(storedUrl);
-						visibleViews<<info->file;
-						latestViewed=page;
+					noUpdate = true;
+					showHidePage(latestViewed);
 				}
-		 }
-	else
-		{
-			if ((!info->dock->isVisible()) && (ButtonBar->isTabRaised(page)))
-				{
-					//SingleWidgetMode
-					if (singleWidgetMode)
-						if (latestViewed!=-1)
-						{
-							noUpdate=true;
-							showHidePage(latestViewed);
-						}
-					if (singleWidgetMode)
-					{
-						Area->setMainDockWidget(info->dock);
-						dummyMainW->undock();
-					}
-					else
-					{
-						info->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
-					}
-					info->dock->show();
-					latestViewed=page;
-					if (stored_url) info->module->openURL(storedUrl);
-					visibleViews<<info->file;
-					ButtonBar->setTab(page,true);
-				} else
-				{
-//					if (ButtonBar->
-					ButtonBar->setTab(page,false);
-					if (singleWidgetMode)
-					{
-						Area->setMainDockWidget(dummyMainW);
-						dummyMainW->show();
-					}
-					info->dock->undock();
-					latestViewed=-1;
-					visibleViews.remove(info->file);
-				}
+			}
 
+			if (!createView(info))
+			{
+				ButtonBar->setTab(page,false);
+				return;
+			}
+
+			ButtonBar->setTab(page,true);
+
+			if (singleWidgetMode)
+			{
+				Area->setMainDockWidget(info->dock);
+				dummyMainW->undock();
+			} else {
+				info->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
+			}
+
+			info->dock->show();
+
+			if (stored_url)
+				info->module->openURL(storedUrl);
+			visibleViews<<info->file;
+			latestViewed=page;
 		}
+	} else {
+		if ((!info->dock->isVisible()) && (ButtonBar->isTabRaised(page))) {
+			//SingleWidgetMode
+			if (singleWidgetMode) {
+				if (latestViewed != -1) {
+					noUpdate = true;
+					showHidePage(latestViewed);
+				}
+			}
 
-	if (!noUpdate) collapseExpandSidebar();
-	noUpdate=false;
+			if (singleWidgetMode) {
+				Area->setMainDockWidget(info->dock);
+				dummyMainW->undock();
+			} else {
+				info->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
+			}
+
+			info->dock->show();
+			latestViewed = page;
+			if (stored_url)
+				info->module->openURL(storedUrl);
+			visibleViews << info->file;
+			ButtonBar->setTab(page,true);
+		} else {
+			ButtonBar->setTab(page,false);
+			if (singleWidgetMode) {
+				Area->setMainDockWidget(dummyMainW);
+				dummyMainW->show();
+			}
+			info->dock->undock();
+			latestViewed = -1;
+			visibleViews.remove(info->file);
+		}
+	}
+
+	if (!noUpdate)
+		collapseExpandSidebar();
+	noUpdate = false;
 }
 
 void Sidebar_Widget::collapseExpandSidebar()
 {
 	QGuardedPtr<QObject> p;
-	p=parent();
-	if (!p) return;
-	p=p->parent();
-	if (!p) return;
+	p = parent();
+
+	if (!p)
+		return;
+
+	p = p->parent();
+
+	if (!p)
+		return;
+
 	((QSplitter*)parent()->parent())->setResizeMode((QSplitter*)parent(), QSplitter::KeepSize);
 
 	if ((somethingVisible) && (visibleViews.count()==0))
 	{
     		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 		QValueList<int>::Iterator it = list.begin();
-		if (!m_initial) savedWidth=*it;
-		if (it!=list.end()) (*it)=minimumSizeHint().width();
+		if (!m_initial)
+			savedWidth = *it;
+		if (it != list.end())
+			(*it) = minimumSizeHint().width();
 		((QSplitter*)parent()->parent())->setSizes(list);
 		((QWidget*)parent())->setMaximumWidth(minimumSizeHint().width());
-		somethingVisible=false;
-	}
-	else
-	if ((!somethingVisible) && (visibleViews.count()!=0))
-	{
-		somethingVisible=true;
+		somethingVisible = false;
+	} else if ((!somethingVisible) && (visibleViews.count() != 0)) {
+		somethingVisible = true;
 		((QWidget*)parent())->setMaximumWidth(32767);
     		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 		QValueList<int>::Iterator it = list.begin();
-		if (it!=list.end()) (*it)=savedWidth;
+		if (it!=list.end())
+			(*it) = savedWidth;
 		((QSplitter*)parent()->parent())->setSizes(list);
 	}
 }
@@ -890,21 +903,22 @@ void Sidebar_Widget::collapseExpandSidebar()
 void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
 {
 //	if (deleting) return;
+
 	kdDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(KDockWidget*)"<<endl;
 	for (unsigned int i=0;i<Buttons.count();i++)
 	{
 		if (Buttons.at(i)->dock==wid)
+		{
+			if (ButtonBar->isTabRaised(i))
 			{
-				if (ButtonBar->isTabRaised(i))
-				{
-					ButtonBar->setTab(i,false);
-					showHidePage(i);
-				}
-
-//				latestViewed=-1;
-//				visibleViews.remove(Buttons.at(i)->file);
-//				break;
+				ButtonBar->setTab(i,false);
+				showHidePage(i);
 			}
+
+//			latestViewed=-1;
+//			visibleViews.remove(Buttons.at(i)->file);
+//			break;
+		}
 	}
 }
 
@@ -914,14 +928,20 @@ KInstance  *Sidebar_Widget::getInstance()
 }
 
 void Sidebar_Widget::openURLRequest( const KURL &url, const KParts::URLArgs &args)
-{getExtension()->openURLRequest(url,args);}
+{
+	getExtension()->openURLRequest(url,args);
+}
 
 void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &args)
-{getExtension()->createNewWindow(url,args);}
+{
+	getExtension()->createNewWindow(url,args);
+}
 
 void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &args,
 	const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
-{getExtension()->createNewWindow(url,args,windowArgs,part);}
+{
+	getExtension()->createNewWindow(url,args,windowArgs,part);
+}
 
 void Sidebar_Widget::enableAction( const char * name, bool enabled )
 {
@@ -952,16 +972,14 @@ void Sidebar_Widget::enableAction( const char * name, bool enabled )
 
 bool  Sidebar_Widget::doEnableActions()
 {
-
 //	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
 //	if (!activeModule)
+
  	if (!(sender()->parent()->isA("ButtonInfo")))
 	{
 		kdDebug()<<"Couldn't set active module, aborting"<<endl;
 		return false;
-	}
-	else
-	{
+	} else {
 		activeModule=static_cast<ButtonInfo*>(sender()->parent());
 		getExtension()->enableAction( "copy", activeModule->copy );
 		getExtension()->enableAction( "cut", activeModule->cut );
@@ -977,65 +995,74 @@ bool  Sidebar_Widget::doEnableActions()
 
 void Sidebar_Widget::popupMenu( const QPoint &global, const KFileItemList &items )
 {
-	if (doEnableActions()) getExtension()->popupMenu(global,items);
-
+	if (doEnableActions())
+		getExtension()->popupMenu(global,items);
 }
 
 
 void Sidebar_Widget::popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items )
 {
-	if (doEnableActions()) getExtension()->popupMenu(client,global,items);
+	if (doEnableActions())
+		getExtension()->popupMenu(client,global,items);
 }
 
 void Sidebar_Widget::popupMenu( const QPoint &global, const KURL &url,
 	const QString &mimeType, mode_t mode)
 {
-	if (doEnableActions()) getExtension()->popupMenu(global,url,mimeType,mode);
+	if (doEnableActions())
+		getExtension()->popupMenu(global,url,mimeType,mode);
 }
 
 void Sidebar_Widget::popupMenu( KXMLGUIClient *client,
 	const QPoint &global, const KURL &url,
 	const QString &mimeType, mode_t mode )
 {
-	if (doEnableActions()) getExtension()->popupMenu(client,global,url,mimeType,mode);
+	if (doEnableActions())
+		getExtension()->popupMenu(client,global,url,mimeType,mode);
 }
 
 void Sidebar_Widget::connectModule(QObject *mod)
 {
-        if ((mod->metaObject()->findSignal("started(KIO::Job*)"))!=-1)
+	if (mod->metaObject()->findSignal("started(KIO::Job*)") != -1) {
 		connect(mod,SIGNAL(started(KIO::Job *)),this, SIGNAL(started(KIO::Job*)));
+	}
 
-        if ((mod->metaObject()->findSignal("completed()"))!=-1)
+	if (mod->metaObject()->findSignal("completed()") != -1) {
 		connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
+	}
 
-
-
-        if ((mod->metaObject()->findSignal("popupMenu(const QPoint&,const KURL&,const QString&,mode_t)"))!=-1)
+	if (mod->metaObject()->findSignal("popupMenu(const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
 			const QString &, mode_t)),this,SLOT(popupMenu( const
 			QPoint &, const KURL&, const QString &, mode_t)));
+	}
 
-        if ((mod->metaObject()->findSignal("popupMenu(KXMLGUIClient*,const QPoint&,const KURL&,const QString&,mode_t)"))!=-1)
+	if (mod->metaObject()->findSignal("popupMenu(KXMLGUIClient*,const QPoint&,const KURL&,const QString&,mode_t)") != -1) {
 		connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KURL &,const QString &, mode_t)),this,
 			SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
 			const KURL &,const QString &, mode_t)));
+	}
 
-        if ((mod->metaObject()->findSignal("popupMenu(const QPoint&,const KFileItemList&)"))!=-1)
+	if (mod->metaObject()->findSignal("popupMenu(const QPoint&,const KFileItemList&)") != -1) {
 		connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
 			this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
+	}
 
-        if ((mod->metaObject()->findSignal("openURLRequest(const KURL&,const KParts::URLArgs&)"))!=-1)
+	if (mod->metaObject()->findSignal("openURLRequest(const KURL&,const KParts::URLArgs&)") != -1) {
 		connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
 			this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
+	}
 
-        if ((mod->metaObject()->findSignal("enableAction(const char*,bool)"))!=-1)
+	if (mod->metaObject()->findSignal("enableAction(const char*,bool)") != -1) {
 		connect(mod,SIGNAL(enableAction( const char *, bool)),
 			this,SLOT(enableAction(const char *, bool)));
+	}
 
-	if ((mod->metaObject()->findSignal("createNewWindow(const KURL&,const KParts::URLArgs&)"))!=-1)
-                connect(mod,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
-                        this,SLOT(createNewWindow( const KURL &, const KParts::URLArgs &)));
+	if (mod->metaObject()->findSignal("createNewWindow(const KURL&,const KParts::URLArgs&)") != -1) {
+		connect(mod,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
+			this,SLOT(createNewWindow( const KURL &, const KParts::URLArgs &)));
+	}
 
 #if 0
 /*?????*/
@@ -1071,14 +1098,15 @@ Sidebar_Widget::~Sidebar_Widget()
 void Sidebar_Widget::customEvent(QCustomEvent* ev)
 {
 	if (KonqFileSelectionEvent::test(ev))
+	{
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
-  else if (KonqFileMouseOverEvent::test(ev))
-  {
-		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item()))
+	} else if (KonqFileMouseOverEvent::test(ev)) {
+		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) {
 			emit fileMouseOver(KFileItem(KURL(),QString::null,KFileItem::Unknown));
-		else
-		emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
-  }
+		} else {
+			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
+		}
+	}
 }
 
 
