@@ -1016,7 +1016,6 @@ void KonqKfmIconView::setViewMode( const QString &mode )
         return;
     // note: this should be moved to KonqIconViewWidget. It would make the code
     // more readable :)
-    m_pIconView->setUpdatesEnabled( false );
 
     m_mode = mode;
     if (mode=="MultiColumnView")
@@ -1029,8 +1028,6 @@ void KonqKfmIconView::setViewMode( const QString &mode )
         m_pIconView->setArrangement(QIconView::LeftToRight);
         m_pIconView->setItemTextPos(QIconView::Bottom);
     }
-
-    m_pIconView->setUpdatesEnabled( true );
 }
 
 void KonqKfmIconView::setupSortKeys()
