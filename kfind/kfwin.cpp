@@ -205,7 +205,7 @@ void KfindWindow::saveResults()
   KMimeType::Ptr mimeType = dlg->currentFilterMimeType();
   delete dlg;
 
-  if (u.isMalformed() || !u.isLocalFile())
+  if (!u.isValid() || !u.isLocalFile())
      return;
 
   QString filename = u.path();
