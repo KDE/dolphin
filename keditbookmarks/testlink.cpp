@@ -146,16 +146,6 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
 
 /* -------------------------- */
 
-static QString mkTimeStr(int b) {
-    QDateTime dt;
-    dt.setTime_t(b);
-    return (dt.daysTo(QDateTime::currentDateTime()) > 31)
-        ? KGlobal::locale()->formatDate(dt.date(), false)
-        : KGlobal::locale()->formatDateTime(dt, false);
-}
-
-/* -------------------------- */
-
 const QString TestLinkItrHolder::getMod(const QString &url) const {
     return m_modify.contains(url) 
         ? m_modify[url] 
@@ -185,6 +175,14 @@ void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue
 }
 
 /* -------------------------- */
+
+static QString mkTimeStr(int b) {
+    QDateTime dt;
+    dt.setTime_t(b);
+    return (dt.daysTo(QDateTime::currentDateTime()) > 31)
+        ? KGlobal::locale()->formatDate(dt.date(), false)
+        : KGlobal::locale()->formatDateTime(dt, false);
+}
 
 QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, const QString &nsinfo) {
     bool newModValid = false;
@@ -253,8 +251,6 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     return statusStr;
 }
 
-/* -------------------------- */
-
 static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
     QStringList sl = QStringList::split(' ', nsinfo);
 
@@ -286,6 +282,7 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
     return tmp;
 }
 
+// KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::nsPut(const QString &newModDate) {
     static const QString NetscapeInfoAttribute = "netscapeinfo";
     const QString info = m_bookmark.internalElement().attribute(NetscapeInfoAttribute);
@@ -296,6 +293,7 @@ void KEBListViewItem::nsPut(const QString &newModDate) {
     KEBApp::self()->setModifiedFlag(true);
 }
 
+// KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::modUpdate() {
     QString nCreate, nAccess, nModify;
     QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
@@ -310,17 +308,20 @@ void KEBListViewItem::modUpdate() {
 
 /* -------------------------- */
 
+// KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::setOldStatus(const QString &oldStatus) {
     kdDebug() << "KEBListViewItem::setOldStatus" << endl;
     m_oldStatus = oldStatus;
 }
 
+// KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::setTmpStatus(const QString &status) {
     kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
     m_paintStyle = KEBListViewItem::BoldStyle;
     setText(KEBListView::StatusColumn, status);
 }
 
+// KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::restoreStatus() {
     if (!m_oldStatus.isNull()) {
         kdDebug() << "KEBListViewItem::restoreStatus" << endl;
