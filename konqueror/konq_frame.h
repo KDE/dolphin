@@ -134,6 +134,8 @@ public:
    */
   Browser::View_ptr view( void );
 
+  bool isActivePart();
+
   KonqChildView* childView() { return m_pChildView; }
   void setChildView( KonqChildView* child ) { m_pChildView = child; }
   void listViews( ChildViewList *viewList );
@@ -162,6 +164,10 @@ protected:
   KonqChildView *m_pChildView;
 
   Browser::View_var m_vView;
+  
+  OpenParts::Id m_id;
+  
+  OpenParts::MainWindow_var m_vMainWindow;
 
   KonqFrameHeader* m_pHeader;
 };

@@ -156,12 +156,6 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-  bool hasFocus = false;
-  Browser::View_var vView = m_pParentKonqFrame->view();
-  if ( !CORBA::is_nil( vView ) )
-    hasFocus = vView->hasFocus();
-  vView = 0L;
-
 //  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
   {
@@ -169,6 +163,8 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     return;
   }
 
+  bool hasFocus = m_pParentKonqFrame->isActivePart();
+  
   QRect r = rect();
   //bool double_buffering = false;
   //QPixmap* buffer = 0;
@@ -382,6 +378,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
   m_pOPFrame = 0L;
   m_pLayout = 0L;
   m_pChildView = 0L;
+  m_vView = 0L;
 
   // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
@@ -392,6 +389,14 @@ Browser::View_ptr
 KonqFrame::view( void ) 
 { 
   return Browser::View::_duplicate( m_vView ); 
+}
+
+bool KonqFrame::isActivePart()
+{
+  if ( m_id == 0 )
+    return false;
+    
+  return ( m_vMainWindow->activePartId() == m_id );
 }
 
 void 
@@ -443,13 +448,17 @@ KonqFrame::saveConfig( KConfig* config, int id, int depth )
 void
 KonqFrame::attach( Browser::View_ptr view )
 {
-  m_vView = Browser::View::_duplicate( view );    
+  m_vView = Browser::View::_duplicate( view );
+  m_id = m_vView->id();
+
+  m_vMainWindow = m_vView->mainWindow();
 
   OPPartIf* localView = 0L;
+  OpenParts::Window w = view->window();
   // Local or remote ? (Simon's trick ;)
   QListIterator<OPPartIf> it = OPPartIf::partIterator();
   for (; it.current(); ++it )
-    if ( (*it)->window() == view->window() )
+    if ( (*it)->window() == w )
       localView = *it;
 
   if (m_pOPFrame) delete m_pOPFrame;
@@ -461,8 +470,8 @@ KonqFrame::attach( Browser::View_ptr view )
   {
     kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
     QWidget * localWidget = localView->widget();
-    localWidget->reparent( this, 0, QPoint(0, 0) );
-    localWidget->setGeometry( 0, 0, width(), height() );
+    localWidget->reparent( this, 0, QPoint( 0, 0) );
+    localWidget->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
     m_pLayout->addWidget( localWidget );
     localWidget->show();
     m_pOPFrame = 0L;
@@ -476,13 +485,16 @@ KonqFrame::attach( Browser::View_ptr view )
     m_pOPFrame->attach( view );
     m_pOPFrame->setGeometry( 0, 0, width(), height() );
   }
-//  m_pHeader->show();
+  m_pHeader->show();
+  m_pLayout->activate();
 }
 
 void
 KonqFrame::detach( void )
 {
-  m_pHeader->hide();
+  m_id = 0;
+  m_vMainWindow = 0L;
+
   m_vView = 0L;
   if( m_pOPFrame) {
     delete m_pOPFrame;
