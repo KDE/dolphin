@@ -19,6 +19,8 @@
 
 #include "konq_undo.h"
 
+#include "uiserver_stub.h"
+
 #include <assert.h>
 
 #include <qdatastream.h>
@@ -31,6 +33,7 @@
 #include <klocale.h>
 
 #include <kio/job.h>
+#include <kio/jobclasses.h>
 
 /**
  * checklist:
@@ -51,6 +54,15 @@
  * copy files -> rename -> works
  * move files -> rename -> works
  */
+
+class KonqUndoJob : public KIO::Job
+{
+public:
+    KonqUndoJob() : KIO::Job( true ) { KonqUndoManager::incRef(); };
+    virtual ~KonqUndoJob() { KonqUndoManager::decRef(); }
+
+    virtual void kill( bool q) { KonqUndoManager::self()->stopUndo( true ); KIO::Job::kill( q ); }
+};
 
 class KonqCommandRecorder::KonqCommandRecorderPrivate
 {
@@ -134,9 +146,12 @@ class KonqUndoManager::KonqUndoManagerPrivate
 public:
   KonqUndoManagerPrivate()
   {
+      m_uiserver = new UIServer_stub( "kio_uiserver", "UIServer" );
+      m_undoJob = 0;
   }
   ~KonqUndoManagerPrivate()
   {
+      delete m_uiserver;
   }
 
   bool m_syncronized;
@@ -151,6 +166,11 @@ public:
   QValueStack<KURL> m_fileCleanupStack;
 
   bool m_lock;
+
+  UIServer_stub *m_uiserver;
+  int m_uiserverJobId;
+
+  KonqUndoJob *m_undoJob;
 };
 
 KonqUndoManager::KonqUndoManager()
@@ -266,19 +286,41 @@ void KonqUndoManager::undo()
   if ( d->m_current.m_type != KonqCommand::MOVE )
     d->m_dirStack.clear();
 
+  d->m_undoJob = new KonqUndoJob;
+  d->m_uiserverJobId = d->m_undoJob->progressId();
+
   undoStep();
 }
 
-void KonqUndoManager::slotResult( KIO::Job *job )
+void KonqUndoManager::stopUndo( bool step )
 {
-  assert( job == d->m_currentJob );
-  if ( job->error() )
-  {
     d->m_current.m_opStack.clear();
     d->m_dirCleanupStack.clear();
     d->m_fileCleanupStack.clear();
     d->m_undoState = REMOVINGDIRS;
+    d->m_undoJob = 0;
+
+    if ( d->m_currentJob )
+        d->m_currentJob->kill( true );
+
+    d->m_currentJob = 0;
+
+    if ( step )
+        undoStep();
+}
+
+void KonqUndoManager::slotResult( KIO::Job *job )
+{
+  if ( job->error() )
+  {
     job->showErrorDialog( 0L );
+    d->m_currentJob = 0;
+    stopUndo( false );
+    if ( d->m_undoJob )
+    {
+        delete d->m_undoJob;
+        d->m_undoJob = 0;
+    }
   }
 
   undoStep();
@@ -294,6 +336,7 @@ void KonqUndoManager::undoStep()
     {
       KURL dir = d->m_dirStack.pop();
       d->m_currentJob = KIO::mkdir( dir );
+      d->m_uiserver->creatingDir( d->m_uiserverJobId, dir );
     }
     else
       d->m_undoState = MOVINGFILES;
@@ -309,16 +352,25 @@ void KonqUndoManager::undoStep()
       if ( op.m_directory )
       {
         if ( op.m_renamed )
+        {
           d->m_currentJob = KIO::rename( op.m_dst, op.m_src, false );
+          d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
+        }
         else
           assert( 0 ); // this should not happen!
       }
       else if ( op.m_link )
         d->m_currentJob = KIO::symlink( op.m_target, op.m_src, true, false );
       else if ( d->m_current.m_type == KonqCommand::COPY )
+      {
         d->m_currentJob = KIO::file_delete( op.m_dst );
+        d->m_uiserver->deleting( d->m_uiserverJobId, op.m_dst );
+      }
       else
+      {
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
+        d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
+      }
     }
     else
       d->m_undoState = REMOVINGFILES;
@@ -330,6 +382,7 @@ void KonqUndoManager::undoStep()
     {
       KURL file = d->m_fileCleanupStack.pop();
       d->m_currentJob = KIO::file_delete( file );
+      d->m_uiserver->deleting( d->m_uiserverJobId, file );
     }
     else
       d->m_undoState = REMOVINGDIRS;
@@ -341,11 +394,17 @@ void KonqUndoManager::undoStep()
     {
       KURL dir = d->m_dirCleanupStack.pop();
       d->m_currentJob = KIO::rmdir( dir );
+      d->m_uiserver->deleting( d->m_uiserverJobId, dir );
     }
     else
     {
       d->m_current.m_valid = false;
       d->m_currentJob = 0;
+      if ( d->m_undoJob )
+      {
+          delete d->m_undoJob;
+          d->m_undoJob = 0;
+      }
       broadcastUnlock();
     }
   }

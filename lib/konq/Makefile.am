@@ -32,9 +32,11 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc \
 	konqsettings.cc konqdrag.cc  \
 	konqoperations.cc kbookmarkbar.cc \
         konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
-        kdirnotify.stub konq_undo.cc konq_undo.skel
+        kdirnotify.stub konq_undo.cc konq_undo.skel uiserver.stub
 
 kdirnotify_DIR = $(kde_includes)
+
+uiserver_DIR = $(kde_includes)/kio
 
 directory_DATA = directory.bookmarkbar
 directorydir   = $(kde_datadir)/kbookmark

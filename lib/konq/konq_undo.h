@@ -32,6 +32,8 @@ namespace KIO
   class Job;
 };
 
+class KonqUndoJob;
+
 struct KonqBasicOperation
 {
   typedef QValueStack<KonqBasicOperation> Stack;
@@ -87,6 +89,7 @@ class KonqUndoManager : public QObject, public DCOPObject
 {
   Q_OBJECT
   K_DCOP
+  friend class KonqUndoJob;
 public:
   KonqUndoManager();
   virtual ~KonqUndoManager();
@@ -106,6 +109,10 @@ public slots:
 signals:
   void undoAvailable( bool avail );
   void undoTextChanged( const QString &text );
+
+protected:
+  /** @internal */
+  void stopUndo( bool step );
 
 private:
 k_dcop:
