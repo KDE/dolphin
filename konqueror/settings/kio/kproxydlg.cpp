@@ -52,7 +52,7 @@ KProxyOptions::KProxyOptions( QWidget* parent = 0, const char* /*name*/ )
   socks = new KSocksConfig(tab);
 
   tab->addTab(proxy, i18n("&Proxy"));
-  tab->addTab(socks, i18n("&Socks"));
+  tab->addTab(socks, i18n("&SOCKS"));
   
   connect(proxy, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
   connect(socks, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
