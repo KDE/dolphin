@@ -899,15 +899,13 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     for (; it.current(); ++it)
       if (visibleContentsRect.intersects(it.current()->rect())) {
-        kdDebug(1202) << "Found a visible item" << endl;
         item = it.current();
         break;
       }
 
-    if (0 == item) {
-      kdDebug(1202) << "KonqKfmIconView: No new items visible" << endl;
+    // No more visible items.
+    if (0 == item)
       return;
-    }
 
     QPixmap *currentIcon = item->pixmap();
 
