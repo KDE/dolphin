@@ -271,7 +271,13 @@ public:
    * Clears the selection and repaints all icons which changed their selection state.
    */
   virtual void unselectAll();
-  
+  /**
+   * Select only the icons in a rectangle
+   * @param rect the rectangle containing the icons
+   * @param b ????
+   */
+  virtual void selectIcons( const QRect& rect, bool b /* ?? Torben ? :) */ = true );
+
   /**
    * Recomputes the icon arrangement, losing all fixed positions
    */
@@ -349,6 +355,10 @@ protected:
 
   virtual void drawDragShadow( const QPoint& _offset );
   virtual void clearDragShadow();
+  /**
+   * Draw a rectangle (used by rectangular selection)
+   */
+  virtual void drawSelectionRectangle( int x, int y, int dx, int dy );
 
   QSortedList<KIconContainerItem> m_lstItems;
 

@@ -34,6 +34,9 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include <X11/X.h>
+#include <X11/Xlib.h>
+
 /*******************************************************
  *
  * KIconContainer
@@ -330,6 +333,34 @@ void KIconContainer::unselectAll()
   for( ; *it; ++it )
     if ( (*it)->isSelected() )
       setSelected( *it, false );
+}
+
+void KIconContainer::selectIcons( const QRect& rect, bool /* b */ )
+{
+  kdebug(KDEBUG_INFO, 1205, "Selecting icons in QRect ( x=%d, y=%d, w=%d, h=%d )", 
+         rect.x(), rect.y(), rect.width(), rect.height());
+  iterator it = begin();
+  for( ; *it; ++it )
+  {
+    bool changed = false;
+    // remove any previous selection
+    if ( (*it)->isSelected() ) 
+    {
+      (*it)->setSelected( false );
+      changed = true;
+    }
+    // select the icon if contained by the rectangle
+    if ( rect.contains( QRect((*it)->position(), (*it)->size()) )
+         &&  !(*it)->isSelected() )
+    {
+      kdebug(KDEBUG_INFO, 1205, "Selecting one icon");
+      (*it)->setSelected( true );
+      changed = true;
+    }
+    // if any of the above made the state of the item change, repaint it
+    if (changed)
+      repaintItem( (*it) );
+  }
 }
 
 void KIconContainer::rearrangeIcons()
@@ -733,6 +764,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
   if ( !hasFocus() )
     setFocus();
 
+  QPoint globalPos = mapToGlobal( _ev->pos() );
   m_pressed = false;
   
   if ( m_mouseMode == SingleClick )
@@ -773,25 +805,78 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 	return;
       }
       
-      QPoint p = mapToGlobal( _ev->pos() );
-      emit mousePressed( it, p, _ev->button() );
+      emit mousePressed( it, globalPos, _ev->button() );
       return;
     }
     
     // Click on the background of the window
-    if ( _ev->button() == RightButton )
-    {
-      QPoint p = mapToGlobal( _ev->pos() );
-      emit mousePressed( 0L, p, _ev->button() );
-      return;
-    }
     if ( _ev->button() == LeftButton )
     {
-      // TODO : what about handling rectangular selection here ?
-      // (to be taken from krootwm)
       unselectAll();
-      return;
+
+      // Rectangular selection ?
+      int x, y, dx, dy;
+      x = globalPos.x();
+      y = globalPos.y();
+      dx = dy = 0;
+      int cx, cy, rx, ry;
+      int ox, oy;
+      XEvent ev;
+      drawSelectionRectangle(x, y, dx, dy);
+  
+      ox = x; oy = y; // initial position
+      cx = x; cy = y; // always contain the previous position
+
+      for(;;) {
+        XMaskEvent(qt_xdisplay(), ButtonPressMask|ButtonReleaseMask|
+                   PointerMotionMask, &ev);
+    
+        if (ev.type == MotionNotify){
+          rx = ev.xmotion.x_root;
+          ry = ev.xmotion.y_root;
+        }
+        else
+          break; // mouse button released -> exit
+        if (rx == cx && ry == cy) // no movement this time
+          continue;
+        cx = rx;
+        cy = ry;
+        
+        drawSelectionRectangle(x, y, dx, dy);
+    
+        if (cx > ox){        
+          x = ox;
+          dx = cx - x;
+        }
+        else {
+          x = cx;
+          dx = ox - x;
+        }
+        if (cy > oy){        
+          y = oy;
+          dy = cy - y;
+        }
+        else {
+          y = cy;
+          dy = oy - y;
+        }
+        
+        QRect r( x, y, dx, dy );
+        selectIcons( r, false );
+    
+        drawSelectionRectangle(x, y, dx, dy);
+    
+        XFlush(qt_xdisplay());
+      }
+      
+      drawSelectionRectangle(x, y, dx, dy);
+
+      if (dx >= 5 || dy >= 5) // Did we really make a rectangular selection ?
+        return;
+      // If not, emit the event
     }
+    emit mousePressed( 0L, globalPos, _ev->button() );
+    return;
   }
   else if ( m_mouseMode == DoubleClick )
   {    
@@ -808,8 +893,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 	unselectAll();
 	setSelected( it, true );
 
-	QPoint p = mapToGlobal( _ev->pos() );
-	emit mousePressed( it, p, _ev->button() );
+	emit mousePressed( it, globalPos, _ev->button() );
       }
       else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
       {    
@@ -821,8 +905,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 
     if ( _ev->button() == RightButton )
     {
-      QPoint p = mapToGlobal( _ev->pos() );
-      emit mousePressed( 0L, p, _ev->button() );
+      emit mousePressed( 0L, globalPos, _ev->button() );
       return;
     }
     if ( _ev->button() == LeftButton )
@@ -833,6 +916,26 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
   }
   else
     assert( 0 );
+}
+
+void KIconContainer::drawSelectionRectangle( int x, int y, int dx, int dy )
+{
+  // This doesn't draw anything - no idea why ! (David)
+  QPainter * painter = new QPainter;
+  painter->begin( this );
+  QPen pen = painter->pen();
+  QBrush brush;
+  painter->setBrush( brush );
+  painter->drawRect( x, y, dx, dy );
+  painter->drawRect( x+1, y+1, dx - 2, dy - 2 );
+  painter->end();
+  delete painter;
+  /*
+    XDrawRectangle(qt_xdisplay(), qt_xrootwin(), gc, x, y, dx, dy);
+    if (dx>2) dx-=2;
+    if (dy>2) dy-=2;
+    XDrawRectangle(qt_xdisplay(), qt_xrootwin(), gc, x+1, y+1, dx, dy);
+  */
 }
 
 void KIconContainer::viewportMouseDoubleClickEvent( QMouseEvent *_ev )
