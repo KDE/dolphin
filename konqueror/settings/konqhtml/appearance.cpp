@@ -7,7 +7,9 @@
 #include <qlabel.h>
 #include <kcharsets.h>
 #include <kdebug.h>
+#if defined Q_WS_X11 && !defined K_WS_QTONLY
 #include <X11/Xlib.h>
+#endif
 #include <kfontcombo.h>
 #include <knuminput.h>
 #include <kdialog.h>
