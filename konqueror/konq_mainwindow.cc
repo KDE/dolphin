@@ -48,7 +48,6 @@
 #include <unistd.h>
 
 #include <qapplication.h>
-#include <qclipboard.h>
 #include <qmetaobject.h>
 #include <qlayout.h>
 
@@ -64,9 +63,7 @@
 #include <kglobalsettings.h>
 #include <khelpmenu.h>
 #include <kiconloader.h>
-#include <kio/job.h>
 #include <kkeydialog.h>
-#include <klibloader.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -1817,7 +1814,7 @@ void KonqMainWindow::slotFullScreenStop()
 
   toolbar1->reparent( this, 0, QPoint( 0, 0 ), true );
   toolbar2->reparent( this, 0, QPoint( 0, 0 ), true );
-  
+
   m_tempContainer->setSizes( m_tempContainerSizes );
 }
 
