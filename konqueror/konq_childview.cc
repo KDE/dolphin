@@ -32,9 +32,7 @@
 #include <ktrader.h>
 #include <kactivator.h>
 
-#include <opFrame.h>
 #include <qsplitter.h>
-#include <qlayout.h>
 
 /*
  This is a _very_ bad hack to fix some buggy reference count handling somewhere
@@ -61,16 +59,8 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
                               )
   : m_row( row )
 {
-  // Hmmm, we need to add a QWidget in the splitter, not a simple layout
-  // (moveToFirst needs a widget, and a layout can't be a splitter child I think)
-  m_pWidget = new QWidget( row );
+  m_pKonqFrame = new KonqFrame( row );
 
-  // add the frame header to the layout
-  m_pHeader = new KonqFrameHeader( view, m_pWidget, "KonquerorFrameHeader");
-  QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
-
-  m_pFrame = 0L;
-  m_pLayout = 0L;
   m_sLocationBarURL = "";
   m_bBack = false;
   m_bForward = false;
@@ -80,7 +70,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_pRun = 0L;
 
   if (newViewPosition == left)
-    m_row->moveToFirst( m_pWidget );
+    m_row->moveToFirst( m_pKonqFrame );
   
   attach( view );
 
@@ -91,60 +81,30 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
 KonqChildView::~KonqChildView()
 {
   detach();
-  delete m_pWidget;
+  delete m_pKonqFrame;
   if ( m_pRun )
     delete m_pRun;
 }
 
 void KonqChildView::attach( Konqueror::View_ptr view )
 {
-  OPPartIf* localView = 0L;
-  // Local or remote ? (Simon's trick ;)
-  QListIterator<OPPartIf> it = OPPartIf::partIterator();
-  for (; it.current(); ++it )
-    if ( (*it)->window() == view->window() )
-      localView = *it;
-
-  m_pHeader->setPart( view );
   m_vView = Konqueror::View::_duplicate( view );
   m_vView->incRef();
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( m_pMainView );
   connectView( );
-  if (m_pFrame) delete m_pFrame;
-  if (m_pLayout) delete m_pLayout;
 
-  m_pLayout = new QVBoxLayout( m_pWidget );
-  m_pLayout->addWidget( m_pHeader );
-  if ( localView )
-  {
-    kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
-    QWidget * localWidget = localView->widget();
-    m_pLayout->addWidget( localWidget );
-    localWidget->reparent( m_pWidget, 0, QPoint(0, 0) );
-    localWidget->setGeometry( 0, 0, m_pWidget->width(), m_pWidget->height() );
-    m_pFrame = 0L;
-  }
-  else
-  {
-    m_pFrame = new OPFrame( m_pWidget );
-    m_pLayout->addWidget( m_pFrame );
-    m_pLayout->activate();
-    kdebug(0, 1202, " ************* NOT LOCAL :( *************");
-    m_pFrame->attach( view );
-  }
+  m_pKonqFrame->attach( view );
+  m_pKonqFrame->show();
 
   KonqPlugins::installKOMPlugins( view );
 }
 
 void KonqChildView::detach()
 {
-  if ( m_pFrame )
-  {
-    m_pFrame->detach();
-    delete m_pFrame;
-    m_pFrame = 0L;
-  }
+  m_pKonqFrame->hide();
+  m_pKonqFrame->detach();
+
   m_vView->disconnectObject( m_pMainView );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
@@ -154,17 +114,17 @@ void KonqChildView::detach()
 void KonqChildView::repaint()
 {
   kdebug(0,1202,"KonqChildView::repaint()");
-  if (m_pFrame != 0L) m_pFrame->repaint();
-  m_pHeader->repaint();
+  if (m_pKonqFrame != 0L) 
+    m_pKonqFrame->repaint();
   kdebug(0,1202,"KonqChildView::repaint() : done");
 }
 
 void KonqChildView::show()
 {
   kdebug(0,1202,"KonqChildView::show()");
-  m_pWidget->show();
   m_vView->show( true );
-//  if ( m_pFrame ) m_pFrame->show();
+  if ( m_pKonqFrame ) 
+    m_pKonqFrame->show();
 }
 
 void KonqChildView::openURL( QString url )
@@ -450,11 +410,6 @@ bool KonqChildView::supportsServiceType( const QString &serviceType )
   bool result = m_lstServiceTypes.contains( serviceType );
   kdebug(0, 1202, "KonqChildView::supportsServiceType(%s) : returning %d", serviceType.data(), result);
   return result;
-}
-
-void KonqChildView::slotHeaderClicked()
-{
-  m_vMainWindow->setActivePart( m_vView->id() );
 }
 
 bool KonqChildView::createView( const QString &serviceType, 

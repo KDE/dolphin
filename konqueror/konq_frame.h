@@ -22,10 +22,14 @@
 #include <qcolor.h>
 #include <qwidget.h>
 #include <kpixmap.h>
-// #include <opFrame.h>
 #include "openparts.h"
 
+#include "konqueror.h"
+
 class QPixmap;
+class QVBoxLayout;
+class OPFrame;
+class KonqFrame;
 
 enum KonqFrameHeaderLook{
   PLAIN,
@@ -34,22 +38,22 @@ enum KonqFrameHeaderLook{
   PIXMAP
 };
 
-// class KonqFrame;
-
+/**
+ * The KonqFrameHeader indicates wether a view is active or not. It uses the 
+ * same colors a KWM does.
+ */
 class KonqFrameHeader : public QWidget
 {
   Q_OBJECT
 
 public:
-  KonqFrameHeader( OpenParts::Part_ptr view, QWidget *_parent = 0L, const char *_name = 0L );
+  KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
   ~KonqFrameHeader() {}
 
-  /**
-   * Call this to change the part bound to the frame header.
-   */
-  void setPart( OpenParts::Part_ptr part ) { m_vPart = OpenParts::Part::_duplicate( part ); }
-
 signals:
+  /**
+   * This signal is emmitted when the user clicked the header.
+   */
   void headerClicked();
 
 protected: 
@@ -57,11 +61,9 @@ protected:
   virtual void mousePressEvent( QMouseEvent* );
 
   void gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded);
+ 
+  KonqFrame* m_pParentKonqFrame;
 
-  //  KonqFrame* m_pParentKonqFrame;
-  OpenParts::Part_ptr m_vPart;
-
-private:
   KonqFrameHeaderLook frameHeaderLook;
   //int titleAnimation;
   //bool framedActiveTitle;
@@ -72,11 +74,21 @@ private:
   KPixmap inactiveShadePm;
   QColor frameHeaderBlendActive;
   QColor frameHeaderBlendInactive;
-
 };
 
-/*
-class KonqFrame : public OPFrame
+/**
+ * The KonqFrame is the actual container for the views. It takes care of the 
+ * widget handling i.e. it attaches/detaches the view widget and activates 
+ * them on click at the header. 
+ *
+ * KonqFrame makes the difference between built-in views and remote ones.
+ * We create a layout in it (with the FrameHeader as top item in the layout)
+ * For builtin views we have the view as direct child widget of the layout
+ * For remote views we have an OPFrame, having the view attached, as child 
+ * widget of the layout
+ */
+
+class KonqFrame : public QWidget
 {
   Q_OBJECT
 
@@ -84,22 +96,36 @@ public:
   KonqFrame( QWidget *_parent = 0L, const char *_name = 0L );
   ~KonqFrame() {}
  
-  virtual bool attach( OpenParts::Part_ptr _part );
+  /**
+   * Attach a view to the KonqFrame.
+   * @param view the view to attach (instead of the current one, if any)
+   */
+  void attach( Konqueror::View_ptr view );
+
+  /** 
+   * Detach attached view, before deleting myself, or attaching another one 
+   */
+  void detach( void );
+
+  /**
+   * Returns the view that is currently connected to the Frame.
+   */
+  Konqueror::View_ptr view( void );
 
 public slots:  
-*/
+
   /**
    * Is called when the frame header has been clicked
    */
-/*
   void slotHeaderClicked();
 
 protected:
-  virtual void resizeEvent( QResizeEvent* );
   virtual void paintEvent( QPaintEvent* );
 
+  OPFrame *m_pOPFrame;
+  QVBoxLayout *m_pLayout;
   KonqFrameHeader* m_pHeader;
+  Konqueror::View_ptr m_pView;
 };
-*/
 
 #endif

@@ -18,21 +18,22 @@
 */
 #include <qpainter.h>
 #include <qimage.h>
+#include <qlayout.h>
 
 #include <kapp.h>
 #include <kdebug.h>
 #include <kconfig.h>
 #include <kiconloader.h>
+#include <opFrame.h>
 
 #include "konq_frame.h"
 
 #define DEFAULT_HEADER_HEIGHT 9
 
-KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part, 
-                                  QWidget *_parent, 
-                                  const char *_name ) : QWidget( _parent, _name )
+KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) 
+                                : QWidget( _parent, _name ),
+				  m_pParentKonqFrame( _parent )
 {
-  setPart( part );
   QString key;
 
   //killTimers();
@@ -115,13 +116,14 @@ KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part,
   if (options.TitleAnimation)
       startTimer(options.TitleAnimation);
   */
+
   setFixedHeight( DEFAULT_HEADER_HEIGHT );
 }
 
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-  bool hasFocus = m_vPart->hasFocus();
+  bool hasFocus = m_pParentKonqFrame->view()->hasFocus();
   kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
   {
@@ -371,47 +373,79 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
     pm.gradientFill(ca, cb, vertShaded);
 }
 
-#if 0
 KonqFrame::KonqFrame( QWidget *_parent, const char *_name )
-                    : OPFrame( _parent, _name)
+                    : QWidget( _parent, _name)
 {
+  m_pOPFrame = 0L;
+  m_pLayout = 0L;
+
+  // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
-  m_pHeader->setFixedHeight( DEFAULT_HEADER_HEIGHT );
   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
+}
+
+Konqueror::View_ptr 
+KonqFrame::view( void ) 
+{ 
+  return Konqueror::View::_duplicate( m_pView ); 
 }
 
 void
 KonqFrame::slotHeaderClicked()
 {
-  if ( !CORBA::is_nil( m_rPart ) )
-    m_rPart->parent()->mainWindow()->setActivePart( part()->id() );
+  if ( !CORBA::is_nil( m_pView ) )
+    m_pView->parent()->mainWindow()->setActivePart( m_pView->id() );
 }
 
 void 
 KonqFrame::paintEvent( QPaintEvent* event )
 {
-  OPFrame::paintEvent( event );
   m_pHeader->repaint();
 }
 
-bool
-KonqFrame::attach( OpenParts::Part_ptr _part )
+void
+KonqFrame::attach( Konqueror::View_ptr view )
 {
-  bool ret = OPFrame::attach( _part );
-  if (ret) resizeEvent( 0L );
-  return ret;
+  m_pView = Konqueror::View::_duplicate( view );    
+
+  OPPartIf* localView = 0L;
+  // Local or remote ? (Simon's trick ;)
+  QListIterator<OPPartIf> it = OPPartIf::partIterator();
+  for (; it.current(); ++it )
+    if ( (*it)->window() == view->window() )
+      localView = *it;
+
+  if (m_pOPFrame) delete m_pOPFrame;
+  if (m_pLayout) delete m_pLayout;
+
+  m_pLayout = new QVBoxLayout( this );
+  m_pLayout->addWidget( m_pHeader );
+  if ( localView )
+  {
+    kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
+    QWidget * localWidget = localView->widget();
+    m_pLayout->addWidget( localWidget );
+    localWidget->reparent( this, 0, QPoint(0, 0) );
+    localWidget->setGeometry( 0, 0, width(), height() );
+    m_pOPFrame = 0L;
+  }
+  else
+  {
+    m_pOPFrame = new OPFrame( this );
+    m_pLayout->addWidget( m_pOPFrame );
+    m_pLayout->activate();
+    kdebug(0, 1202, " ************* NOT LOCAL :( *************");
+    m_pOPFrame->attach( view );
+  }
 }
 
-void 
-KonqFrame::resizeEvent( QResizeEvent* )
+void
+KonqFrame::detach( void )
 {
-  kdebug(0, 1202, "KonqFrame::resizeEvent( QResizeEvent* )");
-  m_pHeader->setGeometry( 0, 0, width(), DEFAULT_HEADER_HEIGHT);
-
-  Window win = (Window)part()->window();
-  if ( win != 0)
-    XMoveResizeWindow(qt_xdisplay(), win, 0, m_pHeader->height() , width(), height() - m_pHeader->height() );
+  if( m_pOPFrame) {
+    delete m_pOPFrame;
+    m_pOPFrame = 0L;
+  }
 }
-#endif
 
 #include "konq_frame.moc"

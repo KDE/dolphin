@@ -29,23 +29,17 @@
 #include <qobject.h>
 #include <qstringlist.h>
 
-class QVBoxLayout;
 class QSplitter;
 class KonqBaseView;
-class OPFrame;
-class KonqFrameHeader;
 class KfmRun;
+class KonqFrame;
 
 typedef QSplitter Row;
 
 /* This class represents a child of the main view. The main view maintains
  * the list of children. A KonqChildView contains a Konqueror::View and
- * handles it. 
- *
- * KonqChildView makes the difference between built-in views and remote ones.
- * We create a widget, and a layout in it (with the FrameHeader as top item in the layout)
- * For builtin views we have the view as direct child widget of the layout
- * For remote views we have an OPFrame, having the view attached, as child widget of the layout
+ * handles it. It's more or less the backend structure for the views.
+ * The widget handling stuff is done by the KonqFrame.
  */
 class KonqChildView : public QObject
 {
@@ -70,15 +64,15 @@ public:
 
   /** Get view's row */
   Row * row() { return m_row; }
+
   /** Attach a view
    * @param view the view to attach (instead of the current one, if any)
-   * @param builtin if the view is a builtin one, the widget pointer
    */
   void attach( Konqueror::View_ptr view );
   /** Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
-  /** Force a repaint of the frame header */
+  /** Force a repaint of the frame */
   void repaint();
 
   /** Show the view */
@@ -203,12 +197,6 @@ signals:
    */
   void sigIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
 
-public slots:
-  /**
-   * Called when the view header is clicked
-   */
-  void slotHeaderClicked();
-
 protected:
   /**
    * Connects the internal View to the mainview. Do this after creating it and before inserting it
@@ -242,14 +230,11 @@ protected:
     
   KonqMainView *m_pMainView;
   OpenParts::MainWindow_var m_vMainWindow;
-  OPFrame *m_pFrame;
-  QWidget *m_pWidget;
-  KonqFrameHeader * m_pHeader;
   Row * m_row;
-  QVBoxLayout * m_pLayout;
   QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
   KfmRun *m_pRun;
+  KonqFrame* m_pKonqFrame;
 };
 
 #endif
