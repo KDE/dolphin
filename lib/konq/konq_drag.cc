@@ -34,6 +34,8 @@ const char* KonqIconDrag::format( int i ) const
 	return "text/uri-list";
     else if ( i == 2 )
         return "application/x-kde-cutselection";
+    else if ( i == 3 )
+        return "text/plain";
     else return 0;
 }
 
@@ -45,7 +47,6 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
 	a = QIconDrag::encodedData( mime );
     else if ( mimetype == "text/uri-list" ) {
         QCString s = urls.join( "\r\n" ).latin1();
-        // perhaps use QUriDrag::unicodeUriToUri here ?
 	a.resize( s.length() + 1 ); // trailing zero
 	memcpy( a.data(), s.data(), s.length() + 1 );
     }
@@ -53,6 +54,12 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         QCString s ( m_bCutSelection ? "1" : "0" );
 	a.resize( s.length() + 1 ); // trailing zero
 	memcpy( a.data(), s.data(), s.length() + 1 );
+    }
+    else if ( mimetype == "text/plain" ) {
+        QCString s = urls.join( "\n" ).latin1();
+        // perhaps use QUriDrag::unicodeUriToUri here ?
+        a.resize( s.length() + 1 ); // trailing zero
+        memcpy( a.data(), s.data(), s.length() + 1 );
     }
     return a;
 }
@@ -88,7 +95,7 @@ KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool move, QWidget * drag
 
 KonqDrag::KonqDrag( const QStrList & urls, bool move, QWidget * dragSource, const char* name )
   : QUriDrag( urls, dragSource, name ),
-    m_bCutSelection( move )
+    m_bCutSelection( move ), m_urls( urls )
 {}
 
 const char* KonqDrag::format( int i ) const
@@ -97,6 +104,8 @@ const char* KonqDrag::format( int i ) const
 	return "text/uri-list";
     else if ( i == 1 )
         return "application/x-kde-cutselection";
+    else if ( i == 2 )
+        return "text/plain";
     else return 0;
 }
 
@@ -110,6 +119,12 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
         QCString s ( m_bCutSelection ? "1" : "0" );
 	a.resize( s.length() + 1 ); // trailing zero
 	memcpy( a.data(), s.data(), s.length() + 1 );
+    }
+    else if ( mimetype == "text/plain" )
+    {
+        QCString s = QStringList::fromStrList(m_urls).join( "\n" ).latin1();
+        a.resize( s.length() + 1 ); // trailing zero
+        memcpy( a.data(), s.data(), s.length() + 1 );
     }
     return a;
 }

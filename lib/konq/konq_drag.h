@@ -78,6 +78,7 @@ public:
 
 protected:
     bool m_bCutSelection;
+    QStrList m_urls;
 };
 
 #endif
