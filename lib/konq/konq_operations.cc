@@ -111,7 +111,7 @@ void KonqOperations::emptyTrash()
   KonqOperations *op = new KonqOperations( 0L );
 
   QDir trashDir( KGlobalSettings::trashPath() );
-  QStringList files = trashDir.entryList( QDir::Files | QDir::Dirs );
+  QStringList files = trashDir.entryList( QDir::All | QDir::Hidden );
   files.remove(QString("."));
   files.remove(QString(".."));
 
@@ -242,15 +242,15 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         switch(m_method)
         {
           case DEL:
-             result = KMessageBox::warningContinueCancel( 0, 
+             result = KMessageBox::warningContinueCancel( 0,
              	i18n( "Do you really want to delete <b>%1</b> from '%2'?" ).arg( filename ).arg( directory ),
 		i18n( "Delete File" ),
 		i18n( "Delete" ),
 		keyName, false);
 	     break;
-	     
+
 	  case SHRED:
-             result = KMessageBox::warningContinueCancel( 0, 
+             result = KMessageBox::warningContinueCancel( 0,
              	i18n( "Do you really want to shred <b>%1</b>?" ).arg( filename ),
 		i18n( "Shred File" ),
 		i18n( "Shred" ),
@@ -259,12 +259,12 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 
           case MOVE:
  	  default:
-             result = KMessageBox::warningContinueCancel( 0, 
+             result = KMessageBox::warningContinueCancel( 0,
              	i18n( "Do you really want to move <b>%1</b> to the trash?" ).arg( filename ),
 		i18n( "Move to Trash" ),
 		i18n( "Trash" ),
 		keyName, false);
-	     break;	
+	     break;
         }
       }
       else
@@ -272,16 +272,16 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         switch(m_method)
         {
           case DEL:
-             result = KMessageBox::warningContinueCancelList( 0, 
+             result = KMessageBox::warningContinueCancelList( 0,
              	i18n( "Do you really want to delete these %1 items?" ).arg(prettyList.count()),
              	prettyList,
 		i18n( "Delete Files" ),
 		i18n( "Delete" ),
 		keyName);
 	     break;
-	     
+
 	  case SHRED:
-             result = KMessageBox::warningContinueCancelList( 0, 
+             result = KMessageBox::warningContinueCancelList( 0,
                 i18n( "Do you really want to shred these %1 items?" ).arg(prettyList.count()),
                 prettyList,
                 i18n( "Shred Files" ),
@@ -291,7 +291,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 
           case MOVE:
  	  default:
-             result = KMessageBox::warningContinueCancelList( 0, 
+             result = KMessageBox::warningContinueCancelList( 0,
                 i18n( "Do you really want to move these %1 items to the trashcan?" ).arg(prettyList.count()),
                 prettyList,
 		i18n( "Move to Trash" ),
@@ -324,13 +324,20 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
 {
     kdDebug(1203) << "dest : " << dest.url() << endl;
     KURL::List lst;
-    if ( KURLDrag::decode( ev, lst ) ) // Are they urls ?
+    QMap<QString, QString> metaData;
+    if ( KURLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
     {
         if( lst.count() == 0 )
         {
             kdWarning(1203) << "Oooops, no data ...." << endl;
             ev->accept(false);
             return;
+        }
+        kdDebug() << "KonqOperations::doDrop metaData: " << metaData.count() << " entries." << endl;
+        QMap<QString,QString>::ConstIterator mit;
+        for( mit = metaData.begin(); mit != metaData.end(); ++mit )
+        {
+            kdDebug() << "metaData: key=" << mit.key() << " value=" << mit.data() << endl;
         }
         // Check if we dropped something on itself
         KURL::List::Iterator it = lst.begin();
@@ -367,7 +374,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
         }
 
         KonqOperations * op = new KonqOperations(parent);
-        op->setDropInfo( new DropInfo( keybstate, lst, win_x, win_y, action ) );
+        op->setDropInfo( new DropInfo( keybstate, lst, metaData, win_x, win_y, action ) );
 
         // Ok, now we need destItem.
         if ( destItem )
@@ -484,18 +491,18 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
         KIO::Job * job = 0;
         switch ( action ) {
             case QDropEvent::Move :
-                job = KIO::move( lst, dest );
+                job = KIO::move( lst, dest ); // ## metaData
                 setOperation( job, MOVE, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
                 return; // we still have stuff to do -> don't delete ourselves
             case QDropEvent::Copy :
-                job = KIO::copy( lst, dest );
+                job = KIO::copy( lst, dest ); // ## metaData
                 setOperation( job, COPY, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
                 return;
             case QDropEvent::Link :
                 kdDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
-                job = KIO::link( lst, dest );
+                job = KIO::link( lst, dest ); // ## metaData
                 setOperation( job, LINK, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
                 return;
