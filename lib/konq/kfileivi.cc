@@ -130,4 +130,3 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg )
     QIconViewItem::paintItem( p, c );
 }
 
-#include "kfileivi.moc"
