@@ -562,7 +562,10 @@ void KonqMainView::removeView( OpenParts::Id id )
   if ( it != m_mapViews.end() )
   {
     if ( id == m_currentId )
+    {
       m_vMainWindow->setActivePart( this->id() );
+      m_currentView = 0L;
+    }
       
     it->second->m_vView->disconnectObject( this );
     delete it->second;
