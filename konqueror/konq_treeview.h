@@ -35,6 +35,7 @@
 
 #include "mousemode.h"
 
+class KonqMainView;
 class KfmTreeViewDir;
 class KfmTreeViewItem;
 class KonqKfmTreeView;
@@ -121,7 +122,7 @@ public:
     iterator operator++(int);
   };
 
-  KonqKfmTreeView();
+  KonqKfmTreeView( KonqMainView *mainView = 0L );
   ~KonqKfmTreeView();
 
   virtual void setBgColor( const QColor& _color );
@@ -265,6 +266,8 @@ protected:
   bool m_underlineLink;
   bool m_changeCursor;
   bool m_isShowingDotFiles;
+  
+  KonqMainView *m_pMainView;
 };
 
 #endif

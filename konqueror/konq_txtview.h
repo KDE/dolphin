@@ -23,6 +23,8 @@
 
 #include <qmultilineedit.h>
 
+class KonqMainView;
+
 class KonqTxtView : public QMultiLineEdit,
                     public KonqBaseView,
 		    virtual public Konqueror::TxtView_skel
@@ -30,7 +32,7 @@ class KonqTxtView : public QMultiLineEdit,
   Q_OBJECT
   
 public:
-  KonqTxtView();
+  KonqTxtView( KonqMainView *mainView = 0L );
   virtual ~KonqTxtView();
   
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
@@ -54,12 +56,11 @@ protected slots:
   void slotError( int, int, const char * );
 
 protected:
-  virtual void mousePressEvent( QMouseEvent *e );  
-  virtual void dragEnterEvent( QDragEnterEvent *e );
-  virtual void dropEvent( QDropEvent *e );
-    
+  virtual void mousePressEvent( QMouseEvent *e );
+
 private:
   int m_jobId;
+  KonqMainView *m_pMainView;
 };
 
 #endif

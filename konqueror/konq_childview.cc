@@ -55,9 +55,7 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
 KonqChildView::KonqChildView( Konqueror::View_ptr view, 
                               Row * row, 
                               NewViewPosition newViewPosition,
-                              OpenParts::Part_ptr parent,
-                              QWidget * ,
-                              OpenParts::MainWindow_ptr mainWindow,
+			      KonqMainView *mainView,
 			      const QStringList &serviceTypes
                               )
   : m_row( row )
@@ -76,8 +74,8 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_bBack = false;
   m_bForward = false;
   m_bHistoryLock = false;
-  m_vParent = OpenParts::Part::_duplicate( parent );
-  m_vMainWindow = OpenParts::MainWindow::_duplicate( mainWindow );
+  m_pMainView = mainView;
+  m_vMainWindow = mainView->mainWindow();
 
   if (newViewPosition == left)
     m_row->moveToFirst( m_pWidget );
@@ -107,7 +105,7 @@ void KonqChildView::attach( Konqueror::View_ptr view )
   m_vView = Konqueror::View::_duplicate( view );
   m_vView->incRef();
   m_vView->setMainWindow( m_vMainWindow );
-  m_vView->setParent( m_vParent );
+  m_vView->setParent( m_pMainView );
   connectView( );
   if (m_pFrame) delete m_pFrame;
   if (m_pLayout) delete m_pLayout;
@@ -147,7 +145,7 @@ void KonqChildView::detach()
     delete m_pFrame;
     m_pFrame = 0L;
   }
-  m_vView->disconnectObject( m_vParent );
+  m_vView->disconnectObject( m_pMainView );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
   m_vView = 0L; //now it _IS_ dead
@@ -192,7 +190,7 @@ void KonqChildView::emitMenuEvents( OpenPartsUI::Menu_ptr viewMenu, OpenPartsUI:
 void KonqChildView::switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes )
 {
   kdebug(0,1202,"switchView : part->inactive");
-  m_vMainWindow->setActivePart( m_vParent->id() );
+  m_vMainWindow->setActivePart( m_pMainView->id() );
     
   detach();
   Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
@@ -219,7 +217,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType, const QString &_
 
   Konqueror::View_var vView;
   QStringList serviceTypes;
-  if ( !createView( serviceType, vView, serviceTypes ) )
+  if ( !createView( serviceType, vView, serviceTypes, m_pMainView ) )
    return false;
   
   OpenParts::Id oldId = m_vView->id();
@@ -253,7 +251,7 @@ void KonqChildView::connectView(  )
 {
   try
   {
-    m_vView->connect("openURL", m_vParent, "openURL");
+    m_vView->connect("openURL", m_pMainView, "openURL");
   }
   catch ( ... )
   {
@@ -261,7 +259,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("started", m_vParent, "slotURLStarted");
+    m_vView->connect("started", m_pMainView, "slotURLStarted");
   }
   catch ( ... )
   {
@@ -269,7 +267,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("completed", m_vParent, "slotURLCompleted");
+    m_vView->connect("completed", m_pMainView, "slotURLCompleted");
   }
   catch ( ... )
   {
@@ -277,7 +275,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("setStatusBarText", m_vParent, "setStatusBarText");
+    m_vView->connect("setStatusBarText", m_pMainView, "setStatusBarText");
   }
   catch ( ... )
   {
@@ -285,7 +283,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("setLocationBarURL", m_vParent, "setLocationBarURL");
+    m_vView->connect("setLocationBarURL", m_pMainView, "setLocationBarURL");
   }
   catch ( ... )
   {
@@ -293,7 +291,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("createNewWindow", m_vParent, "createNewWindow");
+    m_vView->connect("createNewWindow", m_pMainView, "createNewWindow");
   }
   catch ( ... )
   {
@@ -301,7 +299,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("popupMenu", m_vParent, "popupMenu");
+    m_vView->connect("popupMenu", m_pMainView, "popupMenu");
   }
   catch ( ... )
   {
@@ -364,7 +362,7 @@ void KonqChildView::goBack()
   if ( h.bHasHistoryEntry ) {
     Konqueror::View_var vView;
     QStringList serviceTypes;
-    createView( h.strServiceType, vView, serviceTypes );
+    createView( h.strServiceType, vView, serviceTypes, m_pMainView );
     
     OpenParts::Id oldId = m_vView->id();
     switchView( vView, serviceTypes );
@@ -394,7 +392,7 @@ void KonqChildView::goForward()
   if ( h.bHasHistoryEntry ) {
     Konqueror::View_var vView;
     QStringList serviceTypes;
-    createView( h.strServiceType, vView, serviceTypes );
+    createView( h.strServiceType, vView, serviceTypes, m_pMainView );
 
     OpenParts::Id oldId = m_vView->id();
     switchView( vView, serviceTypes );
@@ -467,7 +465,10 @@ void KonqChildView::slotHeaderClicked()
   m_vMainWindow->setActivePart( m_vView->id() );
 }
 
-bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var &view, QStringList &serviceTypes )
+bool KonqChildView::createView( const QString &serviceType, 
+                                Konqueror::View_var &view, 
+				QStringList &serviceTypes,
+				KonqMainView *mainView )
 {
   serviceTypes.clear();
 
@@ -477,13 +478,13 @@ bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var 
   if ( serviceType == "inode/directory" )
   {
     //default for directories is the iconview
-    view = Konqueror::View::_duplicate( new KonqKfmIconView );
+    view = Konqueror::View::_duplicate( new KonqKfmIconView( mainView ) );
     serviceTypes.append( serviceType );
     return true;
   }
   else if ( serviceType == "text/html" )
   {
-    view = Konqueror::View::_duplicate( new KonqHTMLView );
+    view = Konqueror::View::_duplicate( new KonqHTMLView( mainView ) );
     serviceTypes.append( serviceType );
     return true;
   }
@@ -492,7 +493,7 @@ bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var 
 	      serviceType.mid( 5 ) == "english" ||
 	      serviceType.mid( 5 ) == "plain" ) )
   {
-    view = Konqueror::View::_duplicate( new KonqTxtView );
+    view = Konqueror::View::_duplicate( new KonqTxtView( mainView ) );
     serviceTypes.append( serviceType );
     return true;
   }

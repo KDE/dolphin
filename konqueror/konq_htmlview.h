@@ -26,6 +26,7 @@
 
 #include <qpoint.h>
 
+class KonqMainView;
 class KonqHTMLView;
 
 class KonqEmbededFrame : public KHTMLEmbededWidget
@@ -51,7 +52,7 @@ class KonqHTMLView : public KBrowser,
   Q_OBJECT  
 
 public:
-  KonqHTMLView();
+  KonqHTMLView( KonqMainView *mainView = 0L );
   virtual ~KonqHTMLView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
@@ -99,6 +100,7 @@ protected:
 private:
   void checkViewMenu();
   OpenPartsUI::Menu_var m_vViewMenu;
+  KonqMainView *m_pMainView;
 };
 
 #endif

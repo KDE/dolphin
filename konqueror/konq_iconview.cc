@@ -19,6 +19,7 @@
 
 #include "konq_iconview.h"
 #include "konq_propsview.h"
+#include "konq_mainview.h"
 
 #include <assert.h>
 #include <string.h>
@@ -46,10 +47,12 @@
 
 #include <opUIUtils.h>
 
-KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
+KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
 {
   kdebug(0, 1202, "+KonqKfmIconView");
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
+
+  m_pMainView = mainView;
   
   // Dont repaint on configuration changes during construction
   m_bInit = true;
@@ -274,22 +277,22 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
   {
     KURL bgUrl( m_dirLister->url() );
     // Right button ?
-    if ( _button == RightButton )
+    if ( _button == RightButton && m_pMainView )
     {
-      Konqueror::View::MenuPopupRequest popupRequest;
       QString cURL = bgUrl.url( 1 );
       int i = cURL.length();
 
       mode_t mode = 0;
-      popupRequest.urls.length( 1 );
-      popupRequest.urls[0] = cURL.ascii();
+      QStringList lstPopupURLs;
+      
+      lstPopupURLs.append( cURL );
 
       // A url ending with '/' is always a directory
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
 	mode = S_IFDIR;
       // With HTTP we can be sure that everything that does not end with '/'
       // is NOT a directory
-      else if ( strcmp( bgUrl.protocol(), "http" ) == 0 )
+      else if ( strcmp( bgUrl.protocol(), "http" ) == 0 ) //?iconview and http? (Simon)
 	mode = 0;
       // Local filesystem without subprotocol
       if ( bgUrl.isLocalFile() )
@@ -303,20 +306,14 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 	mode = buff.st_mode;
       }
 
-      popupRequest.x = _global.x();
-      popupRequest.y = _global.y();
-      popupRequest.mode = mode;
-      popupRequest.isLocalFile = (CORBA::Boolean)bgUrl.isLocalFile();
-      
-      SIGNAL_CALL1( "popupMenu", popupRequest );
+      m_pMainView->popupMenu( _global, lstPopupURLs, mode );
     }
   }
   else if ( _button == LeftButton )
     slotReturnPressed( _item, _global );
-  else if ( _button == RightButton )
+  else if ( _button == RightButton && m_pMainView )
   {
-    Konqueror::View::MenuPopupRequest popupRequest;
-    popupRequest.urls.length( 0 );
+    QStringList lstPopupURLs;
 
     QList<KIconContainerItem> icons;
     selectedItems( icons ); // KIconContainer fills the list
@@ -330,8 +327,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       // Cast the iconcontainer item into an icon item
       // and get the file item out of it
       KFileItem * item = ((KonqKfmIconViewItem *)*icit)->item();
-      popupRequest.urls.length( i + 1 );
-      popupRequest.urls[ i++ ] = item->url();
+      lstPopupURLs.append( item->url() );
       
       // get common mode among all urls, if there is
       if ( first )
@@ -343,11 +339,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
         mode = 0;
     }
 
-    popupRequest.x = _global.x();
-    popupRequest.y = _global.y();
-    popupRequest.mode = mode;
-    popupRequest.isLocalFile = 0; // we don't need this anyway, it seems !
-    SIGNAL_CALL1( "popupMenu", popupRequest );
+    m_pMainView->popupMenu( _global, lstPopupURLs, mode );
   }
 }
 

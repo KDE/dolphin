@@ -81,8 +81,9 @@ public:
   virtual void setLocationBarURL( OpenParts::Id id, const char *_url );
   
   virtual void createNewWindow( const char *url );
-  virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
 
+  void popupMenu( const QPoint &_global, const QStringList &_urls, mode_t _mode );
+  
   bool openView( const QString &serviceType, const QString &url );
   
   ////////////////////

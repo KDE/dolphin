@@ -19,6 +19,7 @@
 
 #include "konq_treeview.h"
 #include "konq_propsview.h"
+#include "konq_mainview.h"
 
 #include <kio_job.h>
 #include <kio_error.h>
@@ -48,7 +49,7 @@
 
 #include <opUIUtils.h>
 
-KonqKfmTreeView::KonqKfmTreeView()
+KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
 {
   kdebug(0, 1202, "+KonqKfmTreeView");
   ADD_INTERFACE( "IDL:Konqueror/KfmTreeView:1.0" );
@@ -60,6 +61,7 @@ KonqKfmTreeView::KonqKfmTreeView()
   // setFocusPolicy( ClickFocus );
   setMultiSelection( true );
 
+  m_pMainView          = mainView;
   m_bIsLocalURL        = false;
   m_pWorkingDir        = 0L;
   m_bTopLevelComplete  = true;
@@ -712,9 +714,9 @@ void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint
 
 void KonqKfmTreeView::popupMenu( const QPoint& _global )
 {
-  Konqueror::View::MenuPopupRequest popupRequest;
-
-  popupRequest.urls.length( 0 );
+  if ( !m_pMainView ) return;
+  
+  QStringList lstPopupURLs;
 
   QValueList<KfmTreeViewItem*> items;
   selectedItems( items );
@@ -723,8 +725,7 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
   QValueList<KfmTreeViewItem*>::Iterator it = items.begin();
   int i = 0;
   for( ; it != items.end(); ++it ) {
-    popupRequest.urls.length( i + 1 );
-    popupRequest.urls[ i++ ] = (*it)->url();
+    lstPopupURLs.append( (*it)->url() );
 
     if ( first ) {
       mode = (*it)->mode();
@@ -733,11 +734,7 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
       mode = 0; // reset to 0
   }
 
-  popupRequest.x = _global.x();
-  popupRequest.y = _global.y();
-  popupRequest.mode = mode;
-  popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
-  SIGNAL_CALL1( "popupMenu", popupRequest );
+  m_pMainView->popupMenu( _global, lstPopupURLs, mode );
 }
 
 void KonqKfmTreeView::openURL( const char *_url )

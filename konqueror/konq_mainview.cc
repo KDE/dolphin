@@ -671,7 +671,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   }
 
   KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
-                                        this, this, m_vMainWindow, serviceTypes );
+                                        this, serviceTypes );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
 
@@ -905,10 +905,10 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
          ( u.isLocalFile() ) &&
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
     {
-      KonqChildView::createView( "text/html", vView, serviceTypes );
+      KonqChildView::createView( "text/html", vView, serviceTypes, this );
       m_sInitialURL = indexFile;
     }
-    else if (!KonqChildView::createView( serviceType, vView, serviceTypes ) )
+    else if (!KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
       return false;
       
     insertView( vView, left, serviceTypes );
@@ -960,7 +960,8 @@ void KonqMainView::splitView ( NewViewPosition newViewPosition )
   Konqueror::View_var vView;
   QStringList serviceTypes;
   
-  (void)KonqChildView::createView( serviceType, vView, serviceTypes );
+  if ( !KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
+    return; //do not split the view at all if we can't clone the current view
   
   insertView( vView, newViewPosition, serviceTypes );
   MapViews::Iterator it = m_mapViews.find( vView->id() );
@@ -1236,7 +1237,7 @@ void KonqMainView::slotTreeView()
 {
   if ( m_currentView->viewName() != "KonquerorKfmTreeView" )
   {
-    Konqueror::View_var v = Konqueror::View::_duplicate( new KonqKfmTreeView );
+    Konqueror::View_var v = Konqueror::View::_duplicate( new KonqKfmTreeView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
     m_currentView->changeView( v, serviceTypes );
@@ -1538,21 +1539,17 @@ void KonqMainView::slotStopAnimation()
   setStatusBarText( msg );
 }
 
-void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
+void KonqMainView::popupMenu( const QPoint &_global, const QStringList &_urls, mode_t _mode )
 {
-  QStringList lstPopupURLs;
-  for ( unsigned int i = 0; i < popup.urls.length(); i++ )
-    lstPopupURLs.append( (popup.urls)[i].in() );
-
-  KonqPopupMenu * popupMenu = new KonqPopupMenu( lstPopupURLs, 
-                                                 (mode_t) popup.mode,
+  KonqPopupMenu * popupMenu = new KonqPopupMenu( _urls, 
+                                                 _mode,
                                                  m_currentView->url(),
                                                  m_currentView->canGoBack(),
                                                  m_currentView->canGoForward(),
                                                  !m_vMenuBar->isVisible() ); // hidden ?
 
   kdebug(0, 1202, "exec()");
-  int iSelected = popupMenu->exec( QPoint(popup.x, popup.y) );
+  int iSelected = popupMenu->exec( _global );
   kdebug(0, 1202, "deleting popupMenu object");
   delete popupMenu;
   /* Test for konqueror-specific entries. A normal signal/slot mechanism doesn't work here,

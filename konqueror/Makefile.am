@@ -1,6 +1,7 @@
 INCLUDES  = $(MICO_INCLUDES) -I$(top_srcdir)/libkonq $(all_includes)
 LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
 LDADD = -lkparts -lkded $(LIB_KFILE) $(LIB_KHTML) $(top_builddir)/libkonq/libkonq.la 
+IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
 
 SUBDIRS = client pics Templates
 
@@ -27,7 +28,7 @@ konqueror_SOURCES =  konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
 	konq_partview.cc konq_plugins.cc \
 	konq_propsmainview.cc konq_propsview.cc \
 	konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
-	konqueror.cc
+	konqueror.idl
 
 noinst_HEADERS = kbrowser.h kfmrun.h \
 	konq_baseview.h konq_childview.h konq_frame.h \
@@ -53,12 +54,6 @@ messages:
 	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/konqueror.pot
 
 ####### Build rules
-
-IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
-
-konqueror.cc: konqueror.h
-konqueror.h: $(srcdir)/konqueror.idl $(micodir)/include/CORBA.h
-	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
 kfmrun.cc: konqueror.h
 konq_baseview.cc: konqueror.h

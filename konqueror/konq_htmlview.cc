@@ -18,33 +18,30 @@
 */
 
 #include "konq_htmlview.h"
-
 #include "kbrowser.h"
-#include "krun.h"
 #include "konq_propsview.h"
-#include "kmimetypes.h"
+#include "konq_mainview.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
 
 #include <qstring.h>
 #include <string.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 #include <qdir.h>
 
 #include <kcursor.h>
 #include <khtml.h>
 #include <khtmlsavedpage.h>
-#include <kapp.h>
+#include <klocale.h>
 #include <kfiledialog.h>
-
 #include <kurl.h>
 #include <kio_error.h>
-#include <klocale.h>
+#include <kmimetypes.h>
 
 #include <opUIUtils.h>
 
-KonqHTMLView::KonqHTMLView()
+KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
   ADD_INTERFACE( "IDL:Konqueror/PrintingExtension:1.0" );
@@ -65,6 +62,8 @@ KonqHTMLView::KonqHTMLView()
 //                    this, SLOT( canceled() ) );
 
   m_vViewMenu = 0L;
+  
+  m_pMainView = mainView;
 		    
   slotFrameInserted( this );
 }
@@ -152,13 +151,14 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
     else
       url = KBrowser::m_strURL;
 
-  if ( _button == RightButton )
+  if ( _button == RightButton && m_pMainView )
   {
-    Konqueror::View::MenuPopupRequest popupRequest;
     KURL u( url );
-    popupRequest.urls.length( 1 );
-    popupRequest.urls[0] = url;
 
+    QStringList lstPopupURLs;
+    
+    lstPopupURLs.append( url );
+    
     mode_t mode = 0;
     if ( u.isLocalFile() )
       {
@@ -171,11 +171,7 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
 	mode = buff.st_mode;
       }
 
-    popupRequest.x = _global.x();
-    popupRequest.y = _global.y();
-    popupRequest.mode = mode;
-    popupRequest.isLocalFile = (CORBA::Boolean)u.isLocalFile();
-    SIGNAL_CALL1( "popupMenu", popupRequest );
+    m_pMainView->popupMenu( _global, lstPopupURLs, mode );
   }
 }
 

@@ -62,16 +62,12 @@ public:
   KonqChildView( Konqueror::View_ptr view,
                  Row * row,
                  NewViewPosition newViewPosition,
-                 OpenParts::Part_ptr parent,
-                 QWidget * parentWidget,
-                 OpenParts::MainWindow_ptr mainWindow,
+		 KonqMainView * mainView,
 		 const QStringList &serviceTypes
                );
 
   ~KonqChildView();
 
-  /** Return true if the view is a built-in one (icon, tree, html, text, ...) */
-  bool isBuiltin() { return m_bBuiltin; }
   /** Get view's row */
   Row * row() { return m_row; }
   /** Attach a view
@@ -192,7 +188,10 @@ public:
   
   bool supportsServiceType( const QString &serviceType );
 
-  static bool createView( const QString &serviceType, Konqueror::View_var &view, QStringList &serviceTypes );
+  static bool createView( const QString &serviceType, 
+                          Konqueror::View_var &view, 
+			  QStringList &serviceTypes, 
+			  KonqMainView *mainView );
 
 signals:
 
@@ -238,14 +237,13 @@ protected:
   /** If true, next call to makeHistory won't change the history */
   bool m_bHistoryLock;
     
-  OpenParts::Part_var m_vParent;
+  KonqMainView *m_pMainView;
   OpenParts::MainWindow_var m_vMainWindow;
   OPFrame *m_pFrame;
   QWidget *m_pWidget;
   KonqFrameHeader * m_pHeader;
   Row * m_row;
   QVBoxLayout * m_pLayout;
-  bool m_bBuiltin;
   QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
 };

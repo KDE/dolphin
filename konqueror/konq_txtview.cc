@@ -1,5 +1,24 @@
+/*  This file is part of the KDE project
+    Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ 
+*/ 
 
 #include "konq_txtview.h"
+#include "konq_mainview.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -16,9 +35,7 @@
 #include <klocale.h>
 #include <opUIUtils.h>
 
-#include <mico/util.h>
-
-KonqTxtView::KonqTxtView()
+KonqTxtView::KonqTxtView( KonqMainView *mainView )
 {
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
@@ -30,6 +47,7 @@ KonqTxtView::KonqTxtView()
   
   setReadOnly( true );
   
+  m_pMainView = mainView;
   m_jobId = 0;
   setAcceptDrops( true );
 }
@@ -213,12 +231,12 @@ void KonqTxtView::slotError( int, int err, const char *text )
 
 void KonqTxtView::mousePressEvent( QMouseEvent *e )
 {
-  if ( e->button() == RightButton )
+  if ( e->button() == RightButton && m_pMainView )
   {
-    Konqueror::View::MenuPopupRequest popupRequest;
+    QStringList lstPopupURLs;
+    lstPopupURLs.append( m_strURL );
+    
     KURL u( m_strURL );
-    popupRequest.urls.length( 1 );
-    popupRequest.urls[0] = m_strURL.ascii();
     
     mode_t mode = 0;
     if ( u.isLocalFile() )
@@ -232,34 +250,11 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
       mode = buff.st_mode;
     }
     
-    popupRequest.x = e->globalX();
-    popupRequest.y = e->globalY();
-    popupRequest.mode = mode;
-    popupRequest.isLocalFile = (CORBA::Boolean)u.isLocalFile();
-    SIGNAL_CALL1( "popupMenu", popupRequest );
+    m_pMainView->popupMenu( QPoint( e->globalX(), e->globalY() ),
+                            lstPopupURLs, mode );
   }
   else
     QMultiLineEdit::mousePressEvent( e );
-}
-
-void KonqTxtView::dragEnterEvent( QDragEnterEvent *e )
-{
-  if ( QUrlDrag::canDecode( e ) )
-    e->accept();
-}
-
-void KonqTxtView::dropEvent( QDropEvent *e )
-{
-  QStrList urls;
-  if ( QUrlDrag::decode( e, urls ) )
-  {
-    Konqueror::EventOpenURL eventURL;
-    eventURL.url = CORBA::string_dup( urls.first() );
-    eventURL.reload = (CORBA::Boolean)false;
-    eventURL.xOffset = 0;
-    eventURL.yOffset = 0;
-    EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL );
-  }
 }
 
 #include "konq_txtview.moc"

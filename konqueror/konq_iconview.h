@@ -25,6 +25,7 @@
 #include <qtimer.h>
 #include <qstrlist.h>
 
+class KonqMainView;
 class KonqKfmIconView;
 class KonqKfmIconViewItem;
 class KMimeType;
@@ -61,7 +62,7 @@ class KonqKfmIconView : public KIconContainer,
   Q_OBJECT
 public:
   // C++
-  KonqKfmIconView( QWidget *_parent = 0L );
+  KonqKfmIconView( KonqMainView *mainView = 0L );
   virtual ~KonqKfmIconView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
@@ -115,6 +116,8 @@ protected:
    * @ref #initConfig needs to know about that.
    */
   bool m_bInit;
+  
+  KonqMainView *m_pMainView;
 };
 
 #endif

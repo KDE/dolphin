@@ -38,15 +38,6 @@ module Konqueror
 
   interface View : OpenParts::Part
   {
-    struct MenuPopupRequest
-    {
-      long x;
-      long y;
-      StrList urls;
-      long mode;      
-      boolean isLocalFile;      
-    };
-
     struct HistoryEntry
     {
       string url;
@@ -65,7 +56,6 @@ module Konqueror
      *      - signal void setStatusBarText( in wstring text );
      *      - signal void setLocationBarURL( in OpenParts::Id id, in string url );
      *      - signal void createNewWindow( in string url );
-     *      - signal void popupMenu( in MenuPopupRequest popup );
      */
      
     string url();
@@ -117,41 +107,8 @@ module Konqueror
     //TO BE IMPROVED!
   };
   
-  /*
-   * see kio_interface.h in libkio for further information
-   */
-  struct UDSAtom
-  {
-    string m_str;
-    long m_long;
-    unsigned long m_uds;
-  };
-  typedef sequence<UDSAtom> UDSEntry;
-  
-  interface KfmIconTreeViewItem
-  {
-    string url();
-    
-    boolean isMarked();
-    void mark();
-    void unmark();
-    
-    UDSEntry udsEntry();
-    
-    boolean acceptsDrops( in StrList formats );
-    string mimeType();
-  };
-  
-  interface KfmIconViewItem : KfmIconTreeViewItem
-  {
-  };
-  
   interface KfmIconView : View
   {
-//    typedef sequence<IconViewItem> IconViewItemList;
-//    IconViewItemList selectedItems();
-//    void updateDirectory();
-
     slot void slotShowDot();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
@@ -159,11 +116,6 @@ module Konqueror
     slot void slotSelectAll();
   };
 
-  interface KfmTreeViewItem : KfmIconTreeViewItem
-  {
-    string name();
-  };
-    
   interface KfmTreeView : View
   {
     slot void slotShowDot();
@@ -229,7 +181,6 @@ module Konqueror
     slot void setLocationBarURL( in OpenParts::Id id, in string url );
     
     slot void createNewWindow( in string url );
-    slot void popupMenu( in View::MenuPopupRequest popup );
 
     // File menu
     slot void slotNewWindow();
@@ -294,7 +245,6 @@ module Konqueror
 
     slot void slotURLStarted( in OpenParts::Id id, in string url );
     slot void slotURLCompleted( in OpenParts::Id id );
-
   };
   
   interface MainWindow : OpenParts::MainWindow

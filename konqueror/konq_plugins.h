@@ -1,5 +1,5 @@
 /*  This file is part of the KDE project
-    Copyright (C) 1997 Simon Hausmann <hausmann@kde.org>
+    Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
  
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
