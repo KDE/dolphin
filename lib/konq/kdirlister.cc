@@ -192,7 +192,7 @@ void KDirLister::slotBufferTimeout()
     if ( m_isShowingDotFiles || name[0] != '.' ) {
       KURL u( m_url );
       u.addPath( name );
-      //kdebug(0,1203,"Adding %s", u.url().ascii());
+      kdebug(0,1203,"Adding %s", u.url().ascii());
       KFileItem* item = new KFileItem( *it, u );
       m_lstFileItems.append( item );
       emit newItem( item );

@@ -29,7 +29,7 @@ KFileIVI::KFileIVI( QIconView *_iconview, KFileItem* _fileitem )
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
 {
-  if ( m_fileitem->mimetype() == "inode/directory" )
+  if ( mime->provides( "text/uri-list" ) && m_fileitem->acceptsDrops() )
     return true;
   else
     return QIconViewItem::acceptDrop( mime );

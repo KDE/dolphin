@@ -24,7 +24,7 @@ libkonq_la_LIBADD = -lkded $(LIB_KFILE) -lkpartsui -lkparts
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc kpopupmenu.cc \
 	kpropsdlg.cc \
-	kdirlister.cc kfileitem.cc kfileivi.cc qiconview.cpp
+	kdirlister.cc kfileitem.cc kfileivi.cc qiconview.cpp qiconview_hack.cc
 #	kdirlister.cc kfileitem.cc kiconcontainer.cc kicondrag.cc kfileivi.cc
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \

@@ -53,6 +53,8 @@ public:
   /** @return the file item held by this instance */
   KFileItem * item() { return m_fileitem; }
 
+  /** @return true if dropping on this file is allowed
+   * Overloads QIconView::acceptDrop() */
   virtual bool acceptDrop( const QMimeSource *mime ) const;
 
   virtual void setKey( const QString &key );

@@ -116,21 +116,23 @@ QPixmap* KFileItem::getPixmap( bool _mini ) const
   return p;
 }
 
-bool KFileItem::acceptsDrops( QStringList& /* _formats */ ) const
+bool KFileItem::acceptsDrops() const
 {
-  if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
+  // Any directory : yes
+  if ( mimetype() == "inode/directory" )
     return true;
 
+  // But only local .desktop files and executables
   if ( !m_bIsLocalURL )
     return false;
 
-  if ( strcmp( "application/x-desktop", m_pMimeType->mimeType() ) == 0 )
+  if ( mimetype() == "application/x-desktop")
     return true;
-
+  
   // Executable, shell script ... ?
   if ( access( m_url.path(), X_OK ) == 0 )
     return true;
-
+  
   return false;
 }
 

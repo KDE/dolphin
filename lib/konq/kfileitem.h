@@ -125,8 +125,12 @@ public:
    */
   QString getStatusBarInfo() const;
 
-  // TODO
-  bool acceptsDrops( QStringList& /* _formats */ ) const;
+  /**
+   * @return true if files can be dropped over this item
+   * Contrary to popular belief, not only dirs will return true :)
+   * Executables, .desktop files, will do so as well.
+   */
+  bool acceptsDrops( ) const;
 
   /**
    * Let's "KRun" this file !
