@@ -137,7 +137,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                             "button and choose the new policy from the policy dialog box. Clicking "
-                                            "on the <i>Delete</i> button will remove the selected policy causing the default "
+                                            "on the <i>Delete</i> button will remove the selected policy, causing the default "
                                             "policy setting to be used for that domain.") );
 #if 0
                                             "The <i>Import</i> and <i>Export</i> "

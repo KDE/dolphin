@@ -67,7 +67,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pOpenAfterCurrentPage = new QCheckBox( i18n( "Open new tab after current tab" ), bgTabbedBrowsing );
-    QWhatsThis::add( m_pOpenAfterCurrentPage, i18n("This will open a new tab after the current tab instead after the last tab.") );
+    QWhatsThis::add( m_pOpenAfterCurrentPage, i18n("This will open a new tab after the current tab, instead of after the last tab.") );
     connect(m_pOpenAfterCurrentPage, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
 
