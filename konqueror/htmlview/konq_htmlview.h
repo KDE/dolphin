@@ -56,7 +56,7 @@ public:
   KonqHTMLWidget( QWidget * parent, const char *name );
   virtual ~KonqHTMLWidget() {}
 
-  virtual void openURL( const KURL &url, bool reload = false, int xOffset = 0, int yOffset = 0, const char *post_data = 0L );
+  virtual void openURL( const QString &url, bool reload = false, int xOffset = 0, int yOffset = 0, const char *post_data = 0L );
 
   void initConfig();
 

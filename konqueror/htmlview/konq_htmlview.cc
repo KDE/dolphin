@@ -87,7 +87,7 @@ KonqHTMLWidget::KonqHTMLWidget( QWidget * parent, const char *name )
   initConfig();
 }
 
-void KonqHTMLWidget::openURL( const KURL &url, bool reload, int xOffset, int yOffset, const char *post_data )
+void KonqHTMLWidget::openURL( const QString &url, bool reload, int xOffset, int yOffset, const char *post_data )
 {
   m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
   enableImages( m_bAutoLoadImages );
@@ -98,12 +98,12 @@ void KonqHTMLWidget::openURL( const KURL &url, bool reload, int xOffset, int yOf
     if(post_data)
     {
       // IMO KHTMLWidget should take a KURL as argument (David)
-  	KHTMLWidget::openURL(url.url(), reload, xOffset, yOffset, post_data);
+  	KHTMLWidget::openURL(url, reload, xOffset, yOffset, post_data);
 	return;
     }
 
 /// Loop! (David)  emit openURLRequest( url.url(), reload, xOffset, yOffset );
-  emit openURLRequest( url, reload, xOffset, yOffset );
+  emit openURLRequest( KURL( url ), reload, xOffset, yOffset );
 }
 
 
