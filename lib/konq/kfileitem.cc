@@ -58,7 +58,7 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
   KFileItem::init(); // don't call derived methods !
 }
 
-KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
+KFileItem::KFileItem( QString _text, mode_t _mode, const KURL& _url ) :
   m_entry(), // warning !
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),

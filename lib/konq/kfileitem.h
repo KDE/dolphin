@@ -50,7 +50,7 @@ public:
    * Set to -1 if unknown. For local files, KFileItem will use stat().
    * @param _url the file url
    */
-  KFileItem( QString _text, mode_t _mode, KURL& _url );
+  KFileItem( QString _text, mode_t _mode, const KURL& _url );
   /**
    * Destructor
    */
