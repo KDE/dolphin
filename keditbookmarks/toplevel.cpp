@@ -109,6 +109,17 @@ protected:
             ASSERT(i);
             if (i != afterme)
             {
+
+                // sanity check - don't move a item into it's own child structure
+                QListViewItem *chk = parent;
+                while(chk)
+                {
+                    if(chk == i)
+                        return;
+                    chk = chk->parent();
+                }
+
+
                 // Note the abuse of the 2nd argument ! Instead of "old after",
                 // I'm using it for passing the "new parent". Well, KListView
                 // should really pass both (KDE 3.0).
@@ -442,11 +453,15 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * _newParent, QL
         // We move as first child of newParent
         newAddress = newParent->bookmark().address() + "/0";
 
-    kdDebug() << "KEBTopLevel::slotMoved moving " << item->bookmark().address() << " to " << newAddress << endl;
-    MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
-                                         item->bookmark().address(),
-                                         newAddress );
-    m_commandHistory.addCommand( cmd );
+    QString oldAddress = item->bookmark().address();
+    if ( oldAddress != newAddress )
+    {
+        kdDebug() << "KEBTopLevel::slotMoved moving " << oldAddress << " to " << newAddress << endl;
+
+        MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
+                                             oldAddress, newAddress );
+        m_commandHistory.addCommand( cmd );
+    }
 }
 
 void KEBTopLevel::slotSelectionChanged()
