@@ -174,8 +174,8 @@ void KonqChildView::connectView(  )
   if ( !ext )
     return;
 
-  connect( ext, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ),
-           m_pMainView, SLOT( openURL( const KURL &, bool, int, int, const QString & ) ) );
+  connect( ext, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &) ),
+           m_pMainView, SLOT( openURL( const KURL &, const KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );

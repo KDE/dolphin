@@ -464,7 +464,11 @@ void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
 
   //execute only if item is a file (or a symlink to a file)
   if ( S_ISREG( mode ) )
-    emit m_pBrowserView->extension()->openURLRequest( item->url(), false, 0, 0 );
+  {
+    KParts::URLArgs args;
+    args.serviceType = item->mimetype();
+    emit m_pBrowserView->extension()->openURLRequest( item->url(), args );
+  }
 }
 
 void KonqTreeViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )

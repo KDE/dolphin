@@ -520,7 +520,9 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( item == m_lastItem )
     return;
 
-  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), false, 0, 0 );
+  KParts::URLArgs args;
+  args.serviceType = QString::fromLatin1( "inode/directory" );
+  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), args );
 
   m_lastItem = item;
 }
@@ -557,7 +559,9 @@ void KonqDirTree::slotClicked( QListViewItem *item )
   if ( item == m_lastItem )
     return;
 
-  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), false, 0, 0 );
+  KParts::URLArgs args;
+  args.serviceType = QString::fromLatin1( "inode/directory" );
+  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), args );
 
   m_lastItem = item;
 }

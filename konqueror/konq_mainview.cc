@@ -369,9 +369,15 @@ void KonqMainView::openURL( const KURL &url, bool reload, int xOffset,
   openURL( childV, url, reload, xOffset, yOffset, serviceType );
 }
 
+void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
+{
+  //TODO: handle post data!
+  openURL( url, args.reload, args.xOffset, args.yOffset, args.serviceType );
+} 
+
 void KonqMainView::slotCreateNewWindow( const KURL &url )
 {
- KonqFileManager::getFileManager()->openFileManagerWindow( url.url() );
+  KonqFileManager::getFileManager()->openFileManagerWindow( url.url() );
 }
 
 void KonqMainView::slotNewWindow()
@@ -720,7 +726,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       m_paForward->setEnabled( false );
 
       view->widget()->setFocus();
-
+      
       return true;
     }
   else
