@@ -229,6 +229,10 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Leo Savernik", I18N_NOOP("developer (HTML rendering engine)"), "l.savernik@aon.at" );
     s_aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (HTML rendering engine, I/O lib, regression test framework)"), "coolo@kde.org" );
     s_aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
+    s_aboutData->addAuthor( "Zack Rusin",  I18N_NOOP("developer (HTML rendering engine)"), "zack@kde.org" );
+    s_aboutData->addAuthor( "Tobias Anton", I18N_NOOP( "developer (HTML rendering engine)" ), "anton@stud.fbi.fh-darmstadt.de" );
+    s_aboutData->addAuthor( "Lubos Lunak", I18N_NOOP( "developer (HTML rendering engine)" ), "l.lunak@kde.org" );
+    s_aboutData->addAuthor( "Allan Sandfeld Jensen", I18N_NOOP( "developer (HTML rendering engine)" ), "kde@carewolf.com" );
     s_aboutData->addAuthor( "Apple Safari Developers", I18N_NOOP("developer (HTML rendering engine, JavaScript)"), "" );
     s_aboutData->addAuthor( "Harri Porten", I18N_NOOP("developer (JavaScript)"), "porten@kde.org" );
     s_aboutData->addAuthor( "Koos Vriezen", I18N_NOOP("developer (Java applets and other embedded objects)"), "koos.vriezen@xs4all.nl" );
