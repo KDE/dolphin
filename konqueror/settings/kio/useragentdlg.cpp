@@ -47,7 +47,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect( onserverED, SIGNAL( textChanged(const QString&) ),
            SLOT( textChanged( const QString&) ) );
 
-  loginasLA = new QLabel( "&Send useragent string:", this );
+  loginasLA = new QLabel( i18n("&Send useragent string:"), this );
   lay->addWidget(loginasLA);
   loginasED = new QComboBox( true, this );
   loginasED->setInsertionPolicy( QComboBox::AtBottom );
