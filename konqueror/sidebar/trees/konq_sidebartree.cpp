@@ -906,7 +906,7 @@ void KonqSidebarTree::showToplevelContextMenu()
     if (!m_collection)
     {
         m_collection = new KActionCollection( this, "bookmark actions" );
-        (void) new KAction( i18n("&Create New Folder"), "folder_new", 0, this,
+        (void) new KAction( i18n("&Create New Folder..."), "folder_new", 0, this,
                             SLOT( slotCreateFolder() ), m_collection, "create_folder");
         (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
                             SLOT( slotDelete() ), m_collection, "delete_folder");
