@@ -6,6 +6,7 @@
 #include <qslider.h>
 #include <qlabel.h>
 #include <qlayout.h>
+#include <qlineedit.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
 #include <kglobal.h>
@@ -81,6 +82,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     lay->addWidget(winPixmap, row, N_COLS);
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
+    row++;
+    label = new QLabel(this, i18n("Home URL:"));
+    lay->addWidget(label, row, 0);
+
+    homeURL = new QLineEdit(this);
+    lay->addWidget(homeURL, row, 1, 1);
+
     // ----
     if (m_bShowBuiltinGroup)
     {
@@ -128,6 +136,8 @@ void KBehaviourOptions::load()
     cbNewWin->setChecked(g_pConfig->readBoolEntry("AlwaysNewWin", false));
     updateWinPixmap(cbNewWin->isChecked());
 
+    homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
+
     if (m_bShowBuiltinGroup)
     {
         bool embedText = g_pConfig->readBoolEntry("EmbedText", true);
@@ -150,6 +160,8 @@ void KBehaviourOptions::defaults()
     cbUnderline->setChecked( true );
     cbNewWin->setChecked(false);
 
+    homeURL->setText("~");
+
     if (m_bShowBuiltinGroup)
     {
         cbEmbedText->setChecked( true );
@@ -166,6 +178,8 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+
+    g_pConfig->writeEntry( "HomeURL", homeURL->text() );
 
     if (m_bShowBuiltinGroup)
     {

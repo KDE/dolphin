@@ -9,7 +9,7 @@
 class QCheckBox;
 class QSlider;
 class QLabel;
-
+class QLineEdit;
 
 //-----------------------------------------------------------------------------
 
@@ -54,6 +54,8 @@ private:
   QCheckBox *cbEmbedOther;
 
   QLabel *winPixmap;
+
+  QLineEdit *homeURL;
 };
 
 
