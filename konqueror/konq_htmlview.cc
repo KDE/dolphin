@@ -82,6 +82,8 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView, KBrowser *parentBrowser, con
 
   m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
 
+  enableSmartAnchorHandling( false );
+
   slotFrameInserted( this );
 }
 
@@ -111,7 +113,22 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
   m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
   enableImages( m_bAutoLoadImages );  
   
-  KBrowser::openURL( QString( eventURL.url.in() ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
+  QString url = eventURL.url.in();
+  
+  if ( !(bool)eventURL.reload && urlcmp( url, KBrowser::m_strURL, TRUE, TRUE ) )
+  {
+    KURL u( url );
+    KBrowser::m_strWorkingURL = url;
+    KBrowser::m_strURL = url;
+    slotStarted( url );
+    if ( !u.htmlRef().isEmpty() )
+      gotoAnchor( u.htmlRef() );
+    else //HACK (Simon)
+      slotScrollVert( 0 );
+    slotCompleted();
+    return true;
+  }
+  else KBrowser::openURL( url, (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
   
   if ( m_jobId )
   {
@@ -410,9 +427,9 @@ KBrowser *KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
   KonqHTMLView *v = new KonqHTMLView( m_pMainView, _name );
   v->reparent( _parent, 0, QPoint( 0, 0 ) );
   
-  m_lstViews.append( Browser::View::_duplicate( v ) );
-  
   v->setParent( this );
+  
+  v->connect
   
   return v;
 }

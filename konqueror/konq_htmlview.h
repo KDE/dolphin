@@ -124,8 +124,6 @@ private:
   KonqMainView *m_pMainView;
   bool m_bAutoLoadImages;
   
-//  QValueList<Browser::View_var> m_lstViews;
-
   CORBA::Long m_idSaveDocument;
   CORBA::Long m_idSaveFrame;
   CORBA::Long m_idSaveBackground;
