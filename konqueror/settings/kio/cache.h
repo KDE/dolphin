@@ -37,7 +37,7 @@ class KCacheConfigDialog : public KCModule
     Q_OBJECT
 
 public:
-    KCacheConfigDialog( QWidget* parent = 0, const char* name = 0 );
+    KCacheConfigDialog( QWidget* parent = 0 );
     ~KCacheConfigDialog();
 
     virtual void load();

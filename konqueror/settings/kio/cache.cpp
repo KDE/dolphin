@@ -39,8 +39,8 @@
 
 #include "cache.h"
 
-KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
-                   :KCModule( parent, name )
+KCacheConfigDialog::KCacheConfigDialog( QWidget* parent )
+                   :KCModule( parent, "kcmkio" )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                                KDialog::spacingHint() );
