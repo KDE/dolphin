@@ -1,14 +1,3 @@
-kio:
-====
-- Nice ftp dialog for users who do not know how to put their
-  user name in a URL. (i.e. autodetect when passwd needed)
-
-kio_http:
-=========
-- lacking errorPage stuff
-- cache expiration (I think of the "non implemented" line-edit in kcontrol)
-- and of course better SSL security as Waldo discovered  #3443
-
 khtml:
 ======
 - (if local dir) : drop should copy to parent dir (for Antonio :)
@@ -67,9 +56,6 @@ iconview+listviews:
 - if we keep "background color for this directory" should we have "text color for
 this directory" too... ?
 
-- Link symbol (see post "Links" on kfm-devel)
-
-
 listviews:
 ==========
 
@@ -80,7 +66,7 @@ listviews:
 dirtree:
 ========
 
-- Create dynamic items when browing non-local URLs (FTP etc.)
+- Create dynamic items when browsing non-local URLs (FTP etc.)
 
 kpropsdlg (kfile):
 ======
@@ -93,8 +79,8 @@ files (example: see eject action in the CDROM template) ?
 kdesktop:
 =========
 
-- Different icons on different desktops (a bit late for this new feature, but
-  the scheme for it is ready)
+- Different icons on different desktops (i.e. different directories, Desktop[1-N],
+the Desktop one being the 'sticky' icons)
 
 - Dropping an image could offer "set as background pixmap" in the popup
 
