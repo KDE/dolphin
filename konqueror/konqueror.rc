@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="7">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="8">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -111,7 +111,7 @@
   <Action name="about_kde"/>
  </Menu>
 </MenuBar>
-<ToolBar fullWidth="true" name="mainToolBar">
+<ToolBar fullWidth="true" name="mainToolBar" newline="false">
  <Action name="up"/>
  <Action name="back"/>
  <Action name="forward"/>
@@ -132,11 +132,11 @@
  <WeakSeparator/>
  <Action name="animated_logo"/>
 </ToolBar>
-<ToolBar fullWidth="true" name="locationToolBar" >
+<ToolBar fullWidth="true" name="locationToolBar" newline="true" >
   <Action name="clear_location" />
   <Action name="location_label" />
   <Action name="toolbar_url_combo" />
 </ToolBar>
-<ToolBar fullWidth="true" name="bookmarkToolBar" />
+<ToolBar fullWidth="true" name="bookmarkToolBar" newline="false" />
 </kpartgui>
 
