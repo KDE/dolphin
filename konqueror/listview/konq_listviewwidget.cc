@@ -35,6 +35,7 @@
 #include <kprotocolinfo.h>
 #include <kaction.h>
 #include <kurldrag.h>
+#include <qheader.h>
 
 #include <stdlib.h>
 #include <assert.h>
