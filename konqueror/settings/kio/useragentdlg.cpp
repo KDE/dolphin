@@ -71,13 +71,13 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
 
   cb_showOS = new QCheckBox( i18n("Add operating system &name"), bg_default);
   bg_grid->addMultiCellWidget( cb_showOS, 2, 2, 0, 1 );
-  QWhatsThis::add( cb_showOS, i18n("Check this box to add your <em>operting system name</em> "
+  QWhatsThis::add( cb_showOS, i18n("Check this box to add your <em>operating system name</em> "
                                    "to the default identification string.") );
 
   cb_showOSV = new QCheckBox( i18n("Add operating system &version"), bg_default );
   bg_grid->addWidget( cb_showOSV, 3, 1 );
   cb_showOSV->setEnabled( false );
-  QWhatsThis::add( cb_showOSV, i18n("Check this box to add your <em>operting system version number</em> "
+  QWhatsThis::add( cb_showOSV, i18n("Check this box to add your <em>operating system version number</em> "
                                     "to the default identification string.") );
 
   cb_showPlatform = new QCheckBox( i18n("Add &platform name"), bg_default );
