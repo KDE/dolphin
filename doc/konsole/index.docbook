@@ -15,23 +15,13 @@
 <author>&Jonathan.Singer; &Jonathan.Singer.mail;</author>
 
 <othercredit role="developer">
-<firstname>Stephan</firstname>
-<surname>Binner</surname>
-<affiliation>
-<address><email>Stephan.Binner@gmx.de</email></address>
-</affiliation>
-<contrib>Maintainer</contrib>
+&Stephan.Binner; &Stephan.Binner.mail;
+<!-- <contrib>Maintainer</contrib> -->
 </othercredit>
 
 <othercredit role="reviewer">
-<firstname>Michael</firstname><surname>McBride</surname>
-<contrib>Reviewer</contrib>
-<affiliation><address><email>mmcbride@ematic.com</email></address></affiliation>
-</othercredit>
-
-<othercredit role="reviewer">
-<firstname>Lauri</firstname><surname>Watts</surname><contrib>Reviewer</contrib>
-<affiliation><address><email>lauri@kde.org</email></address></affiliation>
+&Mike.McBride; &Mike.McBride.mail;
+<!-- <contrib>Reviewer</contrib> -->
 </othercredit>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
