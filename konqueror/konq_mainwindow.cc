@@ -2841,8 +2841,14 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices );
 
+  // Don't set the view URL for a toggle view.
+  // (This is a bit of a hack for the directory tree....)
+  const KURL & viewURL = m_currentView->isToggleView() ? KURL() : m_currentView->url();
+
+  kdDebug() << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
+
   KonqPopupMenu pPopupMenu ( _items,
-                             m_currentView->url(),
+                             viewURL,
                              popupMenuCollection,
                              m_pMenuNew,
                              showPropsAndFileType );
