@@ -63,10 +63,10 @@ void KonqRun::foundMimeType( const QString & _type )
   // Check if the main window wasn't deleted meanwhile
   if( !m_pMainWindow )
   {
-      m_bFinished = true;
-      m_bFault = true;
-      m_timer.start( 0, true );
-      return;
+    m_bFinished = true;
+    m_bFault = true;
+    m_timer.start( 0, true );
+    return;
   }
 
   // Grab the args back from BrowserRun
@@ -74,74 +74,75 @@ void KonqRun::foundMimeType( const QString & _type )
 
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
   if ( m_bFinished ) {
-      m_pMainWindow = 0L;
-      m_timer.start( 0, true );
-      return;
+    m_pMainWindow = 0L;
+    m_timer.start( 0, true );
+    return;
   }
 
   // If we were following another view, do nothing if opening didn't work.
   if ( m_req.followMode )
-      m_bFinished = true;
+    m_bFinished = true;
 
   if ( !m_bFinished ) {
-      // If we couldn't embed the mimetype, call BrowserRun::handleNonEmbeddable()
-      KParts::BrowserRun::NonEmbeddableResult res = handleNonEmbeddable( mimeType );
-      if ( res == KParts::BrowserRun::Delayed )
-          return;
-      m_bFinished = ( res == KParts::BrowserRun::Handled );
+    // If we couldn't embed the mimetype, call BrowserRun::handleNonEmbeddable()
+    KParts::BrowserRun::NonEmbeddableResult res = handleNonEmbeddable( mimeType );
+    if ( res == KParts::BrowserRun::Delayed )
+      return;
+    m_bFinished = ( res == KParts::BrowserRun::Handled );
   }
 
   if ( !m_bFinished ) // only if we're going to open
   {
-      // Prevention against user stupidity : if the associated app for this mimetype
-      // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
-      // is going to do before calling it.
-      KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, "Application" );
-      if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
-      {
-          KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
-          m_bFinished = true;
-      }
+    // Prevention against user stupidity : if the associated app for this mimetype
+    // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
+    // is going to do before calling it.
+    KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, "Application" );
+    if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
+    {
+      KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
+      m_bFinished = true;
+    }
   }
 
   if ( m_bFinished ) {
-      // make Konqueror think there was an error, in order to stop the spinning wheel
-      // (we are starting another app, so the current view should stop loading).
-      m_bFault = true;
+    // make Konqueror think there was an error, in order to stop the spinning wheel
+    // (we are starting another app, so the current view should stop loading).
+    m_bFault = true;
 
-      m_pMainWindow = 0L;
-      m_timer.start( 0, true );
-      return;
+    m_pMainWindow = 0L;
+    m_timer.start( 0, true );
+    return;
   }
 
   kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
   KRun::foundMimeType( mimeType );
 }
 
+// Override BrowserRun's default behaviour on error messages
 void KonqRun::handleError( KIO::Job *job )
 {
-    kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
-    // Override BrowserRun's default behaviour on error messages
-    // KHTMLPart will show an error message
+  kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
 
   /**
-   * rodda: The following code is my first shot at handling error:/ sub-urls.
-   * The format of the sub-url is that two variables are passed in the query:
+   * To display this error in KHTMLPart instead of inside a dialog box,
+   * we tell konq that the mimetype is text/html, and we redirect to
+   * an error:/ URL that sends the info to khtml.
+   *
+   * The format of the error:/ URL is error:/?query#url,
+   * where two variables are passed in the query:
    * error = int kio error code, errText = QString error text from kio
-   * The code below isn't quite right because even though the location bar URL
-   * is set, the subURL is still displayed...
+   * The sub-url is the URL that we were trying to open.
+   */
+  KURL newURL = QString("error:/?error=%1&errText=%2")
+                .arg( job->error() ).arg( job->errorText() );
 
-    KURL subURL = QString("error:///?error=%1&errText=%2")
-                        .arg( job->error() ).arg( job->errorString() );
+  KURL::List lst;
+  lst << newURL << m_strURL;
+  m_strURL = KURL::join( lst );
+  //kdDebug(1202) << "KonqRun::handleError m_strURL=" << m_strURL.prettyURL() << endl;
 
-    QStringList stringL;
-    stringL << m_strURL.url() << subURL.url();
-
-    m_strURL = KURL::join( stringL );
-    kdDebug(1202) << "KonqRun::handleError subURL: " << m_strURL.prettyURL() << endl;*/
-
-    m_job = 0;
-    foundMimeType( "text/html" );
+  m_job = 0;
+  foundMimeType( "text/html" );
 }
 
 #include "konq_run.moc"
