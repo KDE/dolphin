@@ -291,8 +291,8 @@ void KEBTopLevel::slotConfigureToolbars()
 // This is called when OK or Apply is clicked
 void KEBTopLevel::slotNewToolbarConfig()
 {
-   applyMainWindowSettings( KGlobal::config(), "MainWindow" );
    createGUI();
+   applyMainWindowSettings( KGlobal::config(), "MainWindow" );
 }
 
 #define ITEM_TO_BK(item) static_cast<KEBListViewItem *>(item)->bookmark()
