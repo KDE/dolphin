@@ -392,7 +392,6 @@ void KonqBaseListViewWidget::slotAutoScroll()
 
    QPoint pos = viewport()->mapFromGlobal( QCursor::pos() );
    QPoint vc = viewportToContents( pos );
-   ensureVisible( vc.x(), vc.y() );
 
    int oldTop = m_rubber->normalize().top();
    int oldBottom = m_rubber->normalize().bottom();
@@ -473,9 +472,11 @@ void KonqBaseListViewWidget::slotAutoScroll()
    m_rubber = oldRubber;
    drawRubber();
 
+   ensureVisible( vc.x(), vc.y() );
+
    pos = viewport()->mapFromGlobal( QCursor::pos() );
    vc = viewportToContents( pos );
-   if ( !QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( vc ) &&
+   if ( !QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( pos ) &&
         !m_scrollTimer )
    {
       m_scrollTimer = new QTimer( this );
@@ -484,7 +485,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
                this, SLOT( slotAutoScroll() ) );
       m_scrollTimer->start( 100, false );
    }
-   else if ( QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( vc ) &&
+   else if ( QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( pos ) &&
              m_scrollTimer )
    {
       disconnect( m_scrollTimer, SIGNAL( timeout() ),
