@@ -388,7 +388,7 @@ int KonqLogoAction::plug( QWidget *widget, int index )
     bar->insertWidget( id_, m_logoLabel->width(), m_logoLabel, index );
 
     bar->alignItemRight( id_ );
-    bar->setItemNoStyle( id_ );
+    // Not a button anymore ! bar->setItemNoStyle( id_ );
 
     addContainer( bar, id_ );
 
