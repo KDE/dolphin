@@ -1,4 +1,21 @@
 [Desktop Entry]
 Name=Network
+Name[ca]=Xarxa
+Name[cs]=Síť
+Name[de]=Netzwerk
+Name[eo]=Reto
+Name[fi]=Verkko
+Name[fr]=Réseau
+Name[he]=תשר
+Name[hu]=Hálózat
+Name[it]=Rete
+Name[ja]=ネットワーク
+Name[no]=Nettverk
+Name[no_NY]=Nettverk
+Name[pt]=Rede
+Name[ro]=Reţea
+Name[sl]=Omre�je
+Name[sv]=Nätverk
+Name[ta]=Å¨ÄÂ¨ÁôÒ
 Icon=package_network
 Open=false
