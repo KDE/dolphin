@@ -383,7 +383,7 @@ void KfindTabWidget::setURL( const KURL & url )
   else {
     QDir m_dir("/lib");
     dirBox ->insertItem( m_url.url() );
-    dirBox ->insertItem( "file:" + QString(getenv("HOME")) );
+    dirBox ->insertItem( "file:" + QDir::homeDirPath() );
     dirBox ->insertItem( "file:/" );
     dirBox ->insertItem( "file:/usr" );
     if (m_dir.exists())
@@ -444,7 +444,7 @@ void KfindTabWidget::loadHistory()
   else {
     QDir m_dir("/lib");
     dirBox ->insertItem( m_url.url() );
-    dirBox ->insertItem( "file:" + QString(getenv("HOME")) );
+    dirBox ->insertItem( "file:" + QDir::homeDirPath() );
     dirBox ->insertItem( "file:/" );
     dirBox ->insertItem( "file:/usr" );
     if (m_dir.exists())
