@@ -25,7 +25,7 @@
 #include <kio/global.h>
 #include <klocale.h>
 #include <kicontheme.h>
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 //#include "konq_listviewwidget.h"
 
 class KonqBaseListViewWidget;
