@@ -472,7 +472,9 @@ void KonqChildView::reload()
 
 bool KonqChildView::supportsServiceType( const QString &serviceType )
 {
-  return ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() );
+  bool result = m_lstServiceTypes.contains( serviceType );
+  kdebug(0, 1202, "KonqChildView::supportsServiceType(%s) : returning %d", serviceType.data(), result);
+  return result;
 }
 
 void KonqChildView::slotHeaderClicked()
