@@ -848,9 +848,6 @@ void KonqKfmIconView::slotDeleteItem( KonqFileItem * _fileitem )
     else
 	m_lDirCount--;
 
-    QList<QIconViewItem> items;
-    items.setAutoDelete( true );
-    
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     QIconViewItem *it = m_pIconView->firstItem();
@@ -859,13 +856,12 @@ void KonqKfmIconView::slotDeleteItem( KonqFileItem * _fileitem )
 	if ( ((KFileIVI*)it)->item() == _fileitem ) // compare the pointers
 	{
        	    m_pIconView->takeItem( it );
-	    items.append( it );
+            // This doesn't delete the item, but we don't really care.
+            // slotClear() will do it anyway - and it seems this avoids crashes
 	    break;
 	}
 	it = it->nextItem();
     }
-    
-    items.clear();
 }
 
 void KonqKfmIconView::slotClear()
