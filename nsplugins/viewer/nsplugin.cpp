@@ -245,8 +245,10 @@ NPError g_NPN_GetURL(NPP instance, const char *url, const char *target)
    kdDebug(1431) << "g_NPN_GetURL: url=" << url << " target=" << target << endl;
 
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
-   inst->requestURL( QString::fromLatin1(url), QString::null,
-                     QString::fromLatin1(target), 0 );
+   if (inst) {
+      inst->requestURL( QString::fromLatin1(url), QString::null,
+                        QString::fromLatin1(target), 0 );
+   }
 
    return NPERR_NO_ERROR;
 }
@@ -257,9 +259,11 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
 {
     kdDebug(1431) << "g_NPN_GetURLNotify: url=" << url << " target=" << target << " inst=" << (void*)instance << endl;
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
-   kdDebug(1431) << "g_NPN_GetURLNotify: ndata=" << (void*)inst << endl;
-   inst->requestURL( QString::fromLatin1(url), QString::null,
-                     QString::fromLatin1(target), notifyData, true );
+   if (inst) {
+      kdDebug(1431) << "g_NPN_GetURLNotify: ndata=" << (void*)inst << endl;
+      inst->requestURL( QString::fromLatin1(url), QString::null,
+                        QString::fromLatin1(target), notifyData, true );
+   }
 
    return NPERR_NO_ERROR;
 }
@@ -730,9 +734,11 @@ void NSPluginInstance::destroy()
 
 void NSPluginInstance::shutdown()
 {
-    NSPluginClass *cls =  static_cast<NSPluginClass*>(parent());
+    NSPluginClass *cls = dynamic_cast<NSPluginClass*>(parent());
     //destroy();
-    cls->destroyInstance( this );
+    if (cls) {
+        cls->destroyInstance( this );
+    }
 }
 
 
