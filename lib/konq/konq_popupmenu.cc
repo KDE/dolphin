@@ -76,11 +76,11 @@ class KonqPopupMenu::KonqPopupMenuPrivate
 public:
   KonqPopupMenuPrivate() : m_parentWidget(0)
   {
-    m_hierarchicalDirectoryView=false;
+    m_itemFlags=KParts::BrowserExtension::DefaultPopupItems;
   }
   QString m_urlTitle;
   QWidget *m_parentWidget;
-  bool m_hierarchicalDirectoryView;
+  KParts::BrowserExtension::PopupFlags m_itemFlags;
 };
 
 KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
@@ -121,7 +121,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 
 {
-  init(0, showPropertiesAndFileType, false);
+  init(0, showPropertiesAndFileType, KParts::BrowserExtension::DefaultPopupItems);
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
@@ -132,7 +132,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
-  init(parentWidget, showPropertiesAndFileType, false);
+  init(parentWidget, showPropertiesAndFileType, KParts::BrowserExtension::DefaultPopupItems);
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
@@ -141,17 +141,17 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
                               bool showPropertiesAndFileType,
-                              bool isHierView)
+							  KParts::BrowserExtension::PopupFlags flags)
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
-  init(parentWidget, showPropertiesAndFileType, isHierView);
+  init(parentWidget, showPropertiesAndFileType, flags);
 }
 
-void KonqPopupMenu::init (QWidget * parentWidget, bool showPropertiesAndFileType, bool isHierView)
+void KonqPopupMenu::init (QWidget * parentWidget, bool showPropertiesAndFileType, KParts::BrowserExtension::PopupFlags flags)
 {
   d = new KonqPopupMenuPrivate;
   d->m_parentWidget = parentWidget;
-  d->m_hierarchicalDirectoryView = isHierView;
+  d->m_itemFlags = flags;
   setup(showPropertiesAndFileType);
 }
 
@@ -390,7 +390,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             }
             else
             {
-                if ( d->m_hierarchicalDirectoryView)
+                if (d->m_itemFlags & KParts::BrowserExtension::ShowCreateDirectory)
                 {
                     KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
                     addAction( actNewDir );
@@ -399,17 +399,14 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             }
         }
 
-        // hack for khtml pages/frames
-        bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
-
-        if ( currentDir || httpPage ) // rmb on background or html frame
+        if (d->m_itemFlags & KParts::BrowserExtension::ShowNavigationItems)
         {
-            if (!currentDir)
-                addAction( "up" ); // don't show when viewing html
+            if (!currentDir && (d->m_itemFlags & KParts::BrowserExtension::ShowUp))
+                addAction( "up" );
             addAction( "back" );
             addAction( "forward" );
-            if (httpPage)
-                addAction( "reload" ); // only show when viewing html
+            if (d->m_itemFlags & KParts::BrowserExtension::ShowReload)
+                addAction( "reload" );
             addSeparator();
         }
 
@@ -452,7 +449,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         }
         addGroup( "editactions" );
     }
-    if ( !isCurrentTrash && !isIntoTrash )
+    if ( !isCurrentTrash && !isIntoTrash && (d->m_itemFlags & KParts::BrowserExtension::ShowBookmark))
     {
         addSeparator();
         QString caption;
@@ -470,7 +467,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
            caption = i18n("&Bookmark This Link");
         else
            caption = i18n("&Bookmark This File");
-        
+
         act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (m_lstItems.count() > 1)
             act->setEnabled(false);

@@ -32,6 +32,8 @@
 #include <kfileitem.h>
 #include <kmimetype.h> // for KDEDesktopMimeType
 
+#include <kparts/browserextension.h>
+
 #include "konq_xmlguiclient.h"
 
 typedef QValueList<KDEDesktopMimeType::Service> ServiceList;
@@ -86,7 +88,7 @@ public:
                  KNewMenu * newMenu,
                  QWidget * parentWidget,
                  bool showPropertiesAndFileType = true,
-                 bool isHierView = false );
+				 KParts::BrowserExtension::PopupFlags f = KParts::BrowserExtension::DefaultPopupItems);
 
   /**
    * Don't forget to destroy the object
@@ -143,7 +145,7 @@ protected:
   KActionCollection m_ownActions;
 
 private:
-  void init (QWidget * parentWidget, bool showPropertiesAndFileType, bool isHierView);
+  void init (QWidget * parentWidget, bool showPropertiesAndFileType, KParts::BrowserExtension::PopupFlags itemFlags);
   void setup(bool showPropertiesAndFileType);
   void addPlugins( );
   void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
