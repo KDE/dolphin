@@ -50,7 +50,7 @@ messages:
 
 ####### Build rules
 
-IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(idldir)
+IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
 
 konqueror.cc: konqueror.h
 konqueror.h: $(srcdir)/konqueror.idl

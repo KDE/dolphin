@@ -78,7 +78,7 @@ public:
   virtual void openURL( const Konqueror::URLRequest &url );
   virtual void openURL( const char * _url, CORBA::Boolean _reload );
   
-  virtual void setStatusBarText( CORBA::WChar *_text );
+  virtual void setStatusBarText( const CORBA::WChar *_text );
   virtual void setLocationBarURL( OpenParts::Id id, const char *_url );
   
   virtual void createNewWindow( const char *url );

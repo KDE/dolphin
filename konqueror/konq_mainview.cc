@@ -835,7 +835,7 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean )
   m_pRun = new KfmRun( this, url, 0, false, false );
 }
 
-void KonqMainView::setStatusBarText( CORBA::WChar *_text )
+void KonqMainView::setStatusBarText( const CORBA::WChar *_text )
 {
   if ( !CORBA::is_nil( m_vStatusBar ) )
     m_vStatusBar->changeItem( _text, 1 );

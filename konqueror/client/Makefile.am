@@ -6,7 +6,7 @@ LDADD   = -lkparts $(LIB_KIO) -lkonq
 # this gives better compile-time warnings.
 AM_CXXFLAGS += -pedantic
 
-IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(srcdir)/.. -I$(idldir)
+IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(srcdir)/.. -I$(idldir)
 
 DISTCLEANFILES = konqueror.cc konqueror.h
 
