@@ -627,7 +627,7 @@ void KonqTree::slotOnItem( QListViewItem *item )
 void KonqTree::setContentsPos( int x, int y )
 {
     if ( !m_scrollingLocked )
-	return KListView::setContentsPos( x, y );
+	KListView::setContentsPos( x, y );
 }
 
 void KonqTree::slotItemRenamed(QListViewItem* item, const QString &name, int col)
