@@ -801,6 +801,12 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
+
+    if ( sizeChanged )
+    {
+        setSpacing( (size > KIcon::SizeSmall) ? 5 : 0 );
+    }
+
     if ( sizeChanged || !stopImagePreviewFor.isEmpty() )
     {
         calculateGridX();
@@ -822,10 +828,9 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     }
 
     if ( autoArrange() && (oldGridX != gridX() || !stopImagePreviewFor.isEmpty()) )
-        arrangeItemsInGrid( false ); // take new grid into account
-
-    update(); //Repaint later..
-
+        arrangeItemsInGrid( true ); // take new grid into account and repaint
+    else
+        viewport()->update(); //Repaint later..
 }
 
 bool KonqIconViewWidget::mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const
