@@ -63,7 +63,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pNewTabsInBackground = new QCheckBox( i18n( "&Open new tabs in the background" ), bgTabbedBrowsing );
-    QWhatsThis::add( m_pNewTabsInBackground, i18n("This will open a new tab in background otherwise as foreground tab.") );
+    QWhatsThis::add( m_pNewTabsInBackground, i18n("This will open a new tab in the background, instead of in the foreground.") );
     connect(m_pNewTabsInBackground, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pOpenAfterCurrentPage = new QCheckBox( i18n( "Open new tab after current tab" ), bgTabbedBrowsing );
@@ -76,7 +76,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pDynamicTabbarHide = new QCheckBox( i18n( "Hide the tab bar when only one tab is open" ), bgTabbedBrowsing );
-    QWhatsThis::add( m_pDynamicTabbarHide, i18n("This will display the tab bar only if there are two or more tabs otherwise always.") );
+    QWhatsThis::add( m_pDynamicTabbarHide, i18n("This will display the tab bar only if there are two or more tabs. Otherwise it will always be displayed.") );
     connect(m_pDynamicTabbarHide, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     lay->addMultiCellWidget( bgTabbedBrowsing, row, row, 0, 1 );
