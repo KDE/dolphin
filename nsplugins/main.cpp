@@ -14,7 +14,7 @@
 
 int main(int argc, char *argv[])
 {
-  kDebugInfo("main");
+  kdDebug() << "main" << endl;
   setvbuf( stderr, NULL, _IONBF, 0 );
   KCmdLineArgs::init(argc, argv, "nsplugin", "A Netscape Plugin test program", "0.1");
 

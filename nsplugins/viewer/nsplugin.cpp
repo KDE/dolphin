@@ -61,9 +61,9 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
   memcpy(&_pluginFuncs, pluginFuncs, sizeof(_pluginFuncs));
   _tempFiles.setAutoDelete( true );
 
-  kDebugInfo("NSPluginInstance::NSPluginInstance");
-  kDebugInfo("pdata = %p", _npp->pdata);
-  kDebugInfo("ndata = %p", _npp->ndata);
+  kdDebug() << "NSPluginInstance::NSPluginInstance" << endl;
+  kdDebug() << "pdata = " << _npp->pdata << endl;
+  kdDebug() << "ndata = " << _npp->ndata << endl;
 
   // create drawing area
   Arg args[5];
@@ -97,7 +97,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
 
 NSPluginInstance::~NSPluginInstance()
 {
-  kDebugInfo("~NSPluginInstance");
+  kdDebug() << "~NSPluginInstance" << endl;
   
   if (_pluginFuncs.destroy)
     _pluginFuncs.destroy(_npp, 0);
@@ -115,7 +115,7 @@ NSPluginInstance::~NSPluginInstance()
 
 void NSPluginInstance::destroyPlugin()
 {
-  kDebugInfo("NSPluginInstance::destroyPlugin");
+  kdDebug() << "NSPluginInstance::destroyPlugin" << endl;
   delete this;
 }
 
@@ -289,11 +289,11 @@ NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
 {
   _handle = KLibLoader::self()->library(library);
 
-  kDebugInfo("Library handle=%p", _handle);
+  kdDebug() << "Library handle=" << _handle << endl;
 
   if (!_handle)
   {
-    kDebugInfo("Could not dlopen %s", library.ascii());
+    kdDebug() << "Could not dlopen " << library << endl;
     return;
   }
 
@@ -303,26 +303,26 @@ NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
 
   if (!_NP_GetMIMEDescription)
   {
-    kDebugInfo("Could not get symbol NP_GetMIMEDescription");
+    kdDebug() << "Could not get symbol NP_GetMIMEDescription" << endl;
     return;
   } else
-      kDebugInfo("Resolved NP_GetMIMEDescription to %p", _NP_GetMIMEDescription);
+      kdDebug() << "Resolved NP_GetMIMEDescription to " << _NP_GetMIMEDescription << endl;
 
   if (!_NP_Initialize)
   {
-    kDebugInfo("Could not get symbol NP_Initialize");
+    kdDebug() << "Could not get symbol NP_Initialize" << endl;
     return;
   } else
-      kDebugInfo("Resolved NP_Initialize to %p", _NP_Initialize);
+      kdDebug() << "Resolved NP_Initialize to " << _NP_Initialize << endl;
 
   if (!_NP_Shutdown)
   {
-    kDebugInfo("Could not get symbol NP_Shutdown");
+    kdDebug() << "Could not get symbol NP_Shutdown" << endl;
     return;
   } else
-      kDebugInfo("Resolved NP_Shutdown to %p", _NP_Shutdown);
+      kdDebug() << "Resolved NP_Shutdown to " << _NP_Shutdown << endl;
 
-  kDebugInfo("Plugin library %s loaded!", library.ascii());
+  kdDebug() << "Plugin library " << library << " loaded!" << endl;
   _constructed = true;
 
   Initialize();
@@ -340,13 +340,13 @@ NSPluginClass::~NSPluginClass()
 
 int NSPluginClass::Initialize()
 {
-  kDebugInfo("NSPluginClass::Initialize()");
+  kdDebug() << "NSPluginClass::Initialize()" << endl;
                                               
   if (!_constructed)
     return NPERR_GENERIC_ERROR;                             
                                               
   if (_initialized)
-    kDebugError("FUNC ALREADY INITIALIZED!");
+    kdError() << "FUNC ALREADY INITIALIZED!" << endl;
 
   memset(&_pluginFuncs, 0, sizeof(_pluginFuncs));
   memset(&_nsFuncs, 0, sizeof(_nsFuncs));
@@ -460,7 +460,7 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
 
   NPError error = _pluginFuncs.newp(mime, npp, mode, argc, argn, argv, saved);
   
-  kDebugInfo("Result of NPP_New: %d", error);
+  kdDebug() << "Result of NPP_New: " << error << endl;
 
   if (error != NPERR_NO_ERROR)
   {
@@ -480,7 +480,7 @@ void *NPN_MemAlloc(uint32 size)
 {
   void *mem = ::malloc(size);
 
-  kDebugInfo("NPN_MemAlloc(), size=%d allocated at %p", size, mem);
+  kdDebug() << "NPN_MemAlloc(), size=" << size << " allocated at " << mem << endl;
 
   return mem;
 }
@@ -489,14 +489,14 @@ void *NPN_MemAlloc(uint32 size)
 // free memory
 void NPN_MemFree(void *ptr)
 {
-  kDebugInfo("NPN_MemFree() at %p", ptr);
+  kdDebug() << "NPN_MemFree() at " << ptr << endl;
 
   ::free(ptr);
 }
 
 uint32 NPN_MemFlush(uint32 /*size*/)
 {
-	kDebugInfo("NPN_MemFlush()");
+	kdDebug() << "NPN_MemFlush()" << endl;
 	return 0;
 }
 
@@ -504,28 +504,28 @@ uint32 NPN_MemFlush(uint32 /*size*/)
 // redraw
 void NPN_ForceRedraw(NPP /*instance*/)
 {
-  kDebugInfo("NPN_ForceRedraw() [unimplemented]");
+  kdDebug() << "NPN_ForceRedraw() [unimplemented]" << endl;
 }
 
 
 // invalidate rect
 void NPN_InvalidateRect(NPP /*instance*/, NPRect */*invalidRect*/)
 {
-  kDebugInfo("NPN_InvalidateRect() [unimplemented]");
+  kdDebug() << "NPN_InvalidateRect() [unimplemented]" << endl;
 }
 
 
 // invalidate region
 void NPN_InvalidateRegion(NPP /*instance*/, NPRegion /*invalidRegion*/)
 {
-  kDebugInfo("NPN_InvalidateRegion() [unimplemented]");
+  kdDebug() << "NPN_InvalidateRegion() [unimplemented]" << endl;
 }
 
 
 // get value
 NPError NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
 {
-  kDebugInfo("NPN_GetValue(), variable=%d", variable);
+  kdDebug() << "NPN_GetValue(), variable=" << variable << endl;
 
   switch (variable)
   {
@@ -555,7 +555,7 @@ NPError NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
 // stream functions
 NPError NPN_DestroyStream(NPP /*instance*/, NPStream /**stream*/, NPError /*reason*/)
 {
-  kDebugInfo("NPN_DestroyStream() [unimplemented]");
+  kdDebug() << "NPN_DestroyStream() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -563,7 +563,7 @@ NPError NPN_DestroyStream(NPP /*instance*/, NPStream /**stream*/, NPError /*reas
 
 NPError NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/, const char */*target*/, NPStream */*stream*/)
 {
-  kDebugInfo("NPN_NewStream() [unimplemented]");
+  kdDebug() << "NPN_NewStream() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -571,7 +571,7 @@ NPError NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/, const char */*targe
 
 NPError NPN_RequestRead(NPStream */*stream*/, NPByteRange */*rangeList*/)
 {
-  kDebugInfo("NPN_RequestRead() [unimplemented]");
+  kdDebug() << "NPN_RequestRead() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -579,14 +579,14 @@ NPError NPN_RequestRead(NPStream */*stream*/, NPByteRange */*rangeList*/)
 NPError NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/,
                       const char* /*target*/, NPStream** /*stream*/)
 {
-  kDebugInfo("NPN_NewStream() [unimplemented]");
+  kdDebug() << "NPN_NewStream() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
 
 int32 NPN_Write(NPP /*instance*/, NPStream */*stream*/, int32 /*len*/, void */*buf*/)
 {
-  kDebugInfo("NPN_Write() [unimplemented]");
+  kdDebug() << "NPN_Write() [unimplemented]" << endl;
 
   return 0;
 }
@@ -594,7 +594,7 @@ int32 NPN_Write(NPP /*instance*/, NPStream */*stream*/, int32 /*len*/, void */*b
 NPError NPN_DestroyStream(NPP /*instance*/, NPStream* /*stream*/,
 			  NPReason /*reason*/)
 {
-  kDebugInfo("NPN_DestroyStream() [unimplemented]");
+  kdDebug() << "NPN_DestroyStream() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -636,7 +636,7 @@ NPError NPN_GetURLNotify(NPP instance, const char *url, const char *target,
 NPError NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*target*/,
 										uint32 /*len*/, const char */*buf*/, NPBool /*file*/)
 {
-  kDebugInfo("NPN_PostURL() [unimplemented]");
+  kdDebug() << "NPN_PostURL() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -645,7 +645,7 @@ NPError NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*target*
 NPError NPN_PostURLNotify(NPP /*instance*/, const char */*url*/, const char */*target*/,
 													uint32 /*len*/, const char */*buf*/, NPBool /*file*/, void */*notifyData*/)
 {
-  kDebugInfo("NPN_PostURL() [unimplemented]");
+  kdDebug() << "NPN_PostURL() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -654,7 +654,7 @@ NPError NPN_PostURLNotify(NPP /*instance*/, const char */*url*/, const char */*t
 // display status message
 void NPN_Status(NPP instance, const char *message)
 {
-  kDebugInfo("NPN_Status(): %s", message);
+  kdDebug() << "NPN_Status(): " << message << endl;
 
   if (!instance)
     return;
@@ -669,7 +669,7 @@ void NPN_Status(NPP instance, const char *message)
 // inquire user agent
 const char *NPN_UserAgent(NPP /*instance*/)
 {
-  kDebugInfo("NPN_UserAgent()");
+  kdDebug() << "NPN_UserAgent()" << endl;
 
   // FIXME: Use the same as konqy
   return "Mozilla";
@@ -679,7 +679,7 @@ const char *NPN_UserAgent(NPP /*instance*/)
 // inquire version information
 void NPN_Version(int *plugin_major, int *plugin_minor, int *browser_major, int *browser_minor)
 {
-  kDebugInfo("NPN_Version()");
+  kdDebug() << "NPN_Version()" << endl;
 
   // FIXME: Use the sensible values
   *browser_major = NP_VERSION_MAJOR;
@@ -692,7 +692,7 @@ void NPN_Version(int *plugin_major, int *plugin_minor, int *browser_major, int *
 
 void NPN_ReloadPlugins(NPBool /*reloadPages*/)
 {
-	kDebugInfo("NPN_ReloadPlugins() [unimplemented]");
+	kdDebug() << "NPN_ReloadPlugins() [unimplemented]" << endl;
 }
 
 // JAVA functions
@@ -705,7 +705,7 @@ JRIEnv *NPN_GetJavaEnv()
 
 jref NPN_GetJavaPeer(NPP /*instance*/)
 {
-  kDebugInfo("NPN_GetJavaPeer() [unimplemented]");
+  kdDebug() << "NPN_GetJavaPeer() [unimplemented]" << endl;
 
   return 0;
 }
@@ -713,7 +713,7 @@ jref NPN_GetJavaPeer(NPP /*instance*/)
 
 NPError NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value*/)
 {
-  kDebugInfo("NPN_SetValue() [unimplemented]");
+  kdDebug() << "NPN_SetValue() [unimplemented]" << endl;
 
   return NPERR_GENERIC_ERROR;
 }
@@ -774,7 +774,7 @@ void NSPluginStream::get(QString url, QString mimeType)
 
   // inform the plugin
   _instance->NewStream((char*)mimeType.ascii(), _stream, false, &_streamType);
-  kDebugInfo("NewStream stype=%d", _streamType);
+  kdDebug() << "NewStream stype=" << _streamType << endl;
 
   // prepare data transfer
   _tempFile = 0L;
@@ -803,25 +803,25 @@ void NSPluginStream::get(QString url, QString mimeType)
        _tempFile->setAutoDelete( TRUE );
     } else
     {
-       kDebugWarning("Unknown stream type %d requested, trying NP_NORMAL", _streamType);
+       kdWarning() << "Unknown stream type " << _streamType << " requested, trying NP_NORMAL" << endl;
        _streamType = NP_NORMAL;
     }
 
   // start the kio job
-  kDebugInfo("-> KIO::get( %s )", url.ascii());
+  kdDebug() << "-> KIO::get( " << url << " )" << endl;
   _job = KIO::get(url, false, false);
   connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
 	  this, SLOT(data(KIO::Job *, const QByteArray &)));
   connect(_job, SIGNAL(result(KIO::Job *)),
 	  this, SLOT(result(KIO::Job *)));
-  kDebugInfo("<- KIO::get");
+  kdDebug() << "<- KIO::get" << endl;
 }
 
 
 
 void NSPluginStream::data(KIO::Job */*job*/, const QByteArray &data)
 {
-  //kDebugInfo("NSPluginStream::data");
+  //kdDebug() << "NSPluginStream::data" << endl;
   unsigned int pos = process( data, 0 );
   if (pos<data.size())
   {
@@ -836,10 +836,10 @@ void NSPluginStream::data(KIO::Job */*job*/, const QByteArray &data)
 
 void NSPluginStream::resume()
 {
-  kDebugInfo("NSPluginStream::resume");
+  kdDebug() << "NSPluginStream::resume" << endl;
   if (_queue)
   {
-    kDebugInfo("queue found at pos %d, size %d", _queuePos, _queue->size());
+    kdDebug() << "queue found at pos " << _queuePos << ", size " << _queue->size() << endl;
     int pos = process( *_queue, _queuePos );
     _queuePos = pos;
     if (_queuePos>=_queue->size())
@@ -855,7 +855,7 @@ void NSPluginStream::resume()
     _resumeTimer->start( 100, TRUE );
   } else
   {
-    kDebugInfo("resume job");
+    kdDebug() << "resume job" << endl;
     _job->resume();
   }
 }
@@ -872,9 +872,9 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
       max = _instance->WriteReady(_stream);
       len = QMIN(max, to_sent);
 
-//      kDebugInfo("-> Feeding stream to plugin: offset=%d, len=%d", _pos, len);
+//      kdDebug() << "-> Feeding stream to plugin: offset=" << _pos << ", len=" << len << endl;
       sent = _instance->Write(_stream, _pos, len, d);
-//      kDebugInfo("<- Feeding stream: sent = %d", sent);
+//      kdDebug() << "<- Feeding stream: sent = " << sent << endl;
 
       if (sent==0) // interrupt the stream for a few ms
         break;
@@ -895,7 +895,7 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
 void NSPluginStream::result(KIO::Job *job)
 {
   int err = job->error();
-  kDebugInfo("NSPluginStream::result = %d", err);
+  kdDebug() << "NSPluginStream::result = " << err << endl;
 
   if (_tempFile)
   {

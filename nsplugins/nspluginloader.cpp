@@ -120,7 +120,7 @@ void NSPluginLoader::release()
 
 NSPluginLoader::~NSPluginLoader()
 {
-  kDebugInfo("~NSPluginLoader");
+  kdDebug() << "~NSPluginLoader" << endl;
   QDictIterator<PluginPrivateData> dit(_private);
   while (dit.current())
     {
@@ -194,7 +194,7 @@ QString NSPluginLoader::lookup(const QString &mimeType)
 {
   QString plugin = _mapping[mimeType];
 
-  kDebugInfo("Looking up plugin for mimetype %s: %s", mimeType.ascii(), plugin.ascii());
+  kdDebug() << "Looking up plugin for mimetype " << mimeType << ": " << plugin << endl;
 
   return plugin;
 }
@@ -202,12 +202,12 @@ QString NSPluginLoader::lookup(const QString &mimeType)
 
 bool NSPluginLoader::loadPlugin(const QString &plugin)
 {
-  kDebugInfo("NSPluginLoader::loadPlugin");
+  kdDebug() << "NSPluginLoader::loadPlugin" << endl;
   PluginPrivateData *data = _private[plugin];
 
   if (data)
   {
-    kDebugInfo("old plugin found: data=%x", data);
+    kdDebug() << "old plugin found: data=" << data << endl;
   } else
     {
       data = new PluginPrivateData;
@@ -230,7 +230,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
       if (!viewer)
       {
-      	kDebugError("Can't find nspluginviewer");
+      	kdError() << "Can't find nspluginviewer" << endl;
       	
       	delete data->process;
       	_private.remove(plugin);
@@ -247,7 +247,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       *data->process << plugin;
 
       // run the process
-      kDebugInfo("Running nspluginviewer");
+      kdDebug() << "Running nspluginviewer" << endl;
       data->process->start();
 
       // wait for the process to run
@@ -268,7 +268,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
 	}
 
       // create the proxy object
-      kDebugInfo("Creating NSPluginClassIface_stub");
+      kdDebug() << "Creating NSPluginClassIface_stub" << endl;
       cnt = 0;
       while (1)
       {
@@ -289,7 +289,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
 	}
       }
 
-      kDebugInfo("stub = %x", data->stub);
+      kdDebug() << "stub = " << data->stub << endl;
     }
 
   return true;
@@ -310,7 +310,7 @@ void NSPluginLoader::unloadPlugin(const QString &plugin)
 
 void NSPluginLoader::applicationRegistered( const QCString& appId )
 {
-  kDebugInfo("DCOP application %s just registered!", appId.data());
+  kdDebug() << "DCOP application " << appId.data() << " just registered!" << endl;
 
   QDictIterator<PluginPrivateData> dit(_private);
   while (dit.current())
@@ -318,7 +318,7 @@ void NSPluginLoader::applicationRegistered( const QCString& appId )
       if (dit.current()->dcopid == appId)
 	{
 	  dit.current()->running = true;
-	  kDebugInfo("plugin now running");
+	  kdDebug() << "plugin now running" << endl;
 	}
       ++dit;
     }
@@ -344,7 +344,7 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeType, int type,
 					      QStringList argn, QStringList argv)
 {
-  kDebugInfo("-> NSPluginLoader::NewInstance( parent=%x, url=%s, mime=%s, ...)", parent, url.ascii(), mimeType.ascii());
+  kdDebug() << "-> NSPluginLoader::NewInstance( parent=" << parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
 
   // check the mime type
   QString mime = mimeType;
@@ -394,6 +394,6 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
   if (!ref.isNull())
     inst = new NSPluginInstance(parent, data, ref.app(), ref.object());
 
-  kDebugInfo("<- NSPluginLoader::NewInstance = %x", inst );
+  kdDebug() << "<- NSPluginLoader::NewInstance = " << inst << endl;
   return inst;
 }

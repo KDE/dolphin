@@ -52,7 +52,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
 {
   char errstr[256];
   XGetErrorText(dpy, error->error_code, errstr, 256);
-  kDebugInfo("Detected X Error: %s", errstr);
+  kdDebug() << "Detected X Error: " << errstr << endl;
   return 1;
 }
 
@@ -112,13 +112,13 @@ QIntDict<SocketNot> _except_notifiers;
  */
 void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 {
-  kDebugInfo("-> socketCallback( client_data=%x )", client_data);
+  kdDebug() << "-> socketCallback( client_data=" << client_data << " )" << endl;
 
   QEvent event( QEvent::SockAct );
   SocketNot *socknot = (SocketNot *)client_data;
   QApplication::sendEvent( socknot->obj, &event );
 
-  kDebugInfo("<- socketCallback");
+  kdDebug() << "<- socketCallback" << endl;
 }
 
 
@@ -131,7 +131,8 @@ void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 extern bool qt_set_socket_handler( int, int, QObject *, bool );
 bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 {
-  kDebugInfo("qt_set_socket_handler( sockfd=%d, type=%d, obj=%x, enable=%d )");
+  kdDebug() << "qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
+
 
   SocketNot *socknot = 0;
   QIntDict<SocketNot> *notifiers;

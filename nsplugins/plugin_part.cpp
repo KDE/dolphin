@@ -60,14 +60,14 @@ KInstance *PluginFactory::s_instance = 0L;
 
 PluginFactory::PluginFactory()
 {
-  kDebugInfo("PluginFactory::PluginFactory");
+  kdDebug() << "PluginFactory::PluginFactory" << endl;
   s_instance = 0;
 }
 
 
 PluginFactory::~PluginFactory()
 {
-  kDebugInfo("PluginFactory::~PluginFactory");
+  kdDebug() << "PluginFactory::~PluginFactory" << endl;
 
   if ( s_instance )
   {
@@ -82,7 +82,7 @@ KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widg
   	                  	         QObject *parent, const char *name,
   			                 const char */*classname*/, const QStringList &args)
 {
-  kDebugInfo("PluginFactory::create");
+  kdDebug() << "PluginFactory::create" << endl;
   KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
   emit objectCreated(obj);
   return obj;
@@ -91,7 +91,7 @@ KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widg
 
 KInstance *PluginFactory::instance()
 {
-  kDebugInfo("PluginFactory::instance");
+  kdDebug() << "PluginFactory::instance" << endl;
   if ( !s_instance )
       s_instance = new KInstance( aboutData() );
   return s_instance;
@@ -108,7 +108,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
   : KParts::ReadOnlyPart(parent, name), _widget(0), _callback(0), _args(args)
 {
   setInstance(PluginFactory::instance());
-  kDebugInfo("PluginPart::PluginPart");
+  kdDebug() << "PluginPart::PluginPart" << endl;
 
   // we have to keep the class name of KParts::PluginBrowserExtension to let khtml find it
   _extension = (PluginBrowserExtension *)new KParts::BrowserExtension(this);
@@ -127,7 +127,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
 
 PluginPart::~PluginPart()
 {
-  kDebugInfo("PluginPart::~PluginPart");
+  kdDebug() << "PluginPart::~PluginPart" << endl;
   closeURL();
 
   _loader->release();
@@ -136,7 +136,7 @@ PluginPart::~PluginPart()
 
 bool PluginPart::openURL(const KURL &url)
 {
-  kDebugInfo("-> PluginPart::openURL");
+  kdDebug() << "-> PluginPart::openURL" << endl;
 
   m_url = url;
   emit setWindowCaption( url.prettyURL() );
@@ -181,7 +181,7 @@ bool PluginPart::openURL(const KURL &url)
 
   if (surl.isEmpty())
   {
-    kDebugWarning("<- PluginPart::openURL - false (no url passed to nsplugin)");
+    kdWarning() << "<- PluginPart::openURL - false (no url passed to nsplugin)" << endl;
     return false;
   }
 
@@ -212,7 +212,7 @@ bool PluginPart::openURL(const KURL &url)
   _callback = new NSPluginCallback(this);
   _widget->setCallback(kapp->dcopClient()->appId(), _callback->objId());
 
-  kDebugInfo("<- PluginPart::openURL = %d", _widget!=0);
+  kdDebug() << "<- PluginPart::openURL = " << (_widget != 0) << endl;
 
   return _widget != 0;
 }
@@ -220,7 +220,7 @@ bool PluginPart::openURL(const KURL &url)
 
 bool PluginPart::closeURL()
 {
-  kDebugInfo("PluginPart::closeURL");
+  kdDebug() << "PluginPart::closeURL" << endl;
   //delete _widget;
   delete _callback;
   //_widget = 0;

@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
   // read in the plugins mime information ----------------------------------
   for (it = _searchPaths.begin(); it != _searchPaths.end(); ++it)
     {
-      kDebugInfo("Scanning %s", (*it).ascii());
+      kdDebug() << "Scanning " << (*it) << endl;
 
       // iterate over all files 
       QDir files(*it, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files);
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 
       for (unsigned int i=0; i<files.count(); i++)
 	{
-	  kDebugInfo("  testing %s/%s", (*it).ascii(), files[i].ascii());
+	  kdDebug() << "  testing " << (*it) << "/" << files[i] << endl;
 
 	  // open the library and ask for the mimetype
 	  void *func_GetMIMEDescription = 0; 
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 	  
 	  if (!func_GetMIMEDescription)
 	  {
-	    kDebugInfo(" not a plugin");
+	    kdDebug() << " not a plugin" << endl;
             KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
 	    continue;
           }
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 	  // check the mimeInformation
 	  if (!mimeInfo)
 	  {
-            kDebugInfo("  not a plugin");
+            kdDebug() << "  not a plugin" << endl;
 	    KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
 	    continue;
 	  }
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 		_mimeInfo.append(*entry);
 	    }
 	  
-	  kDebugInfo("  is a plugin");
+	  kdDebug() << "  is a plugin" << endl;
 	  
 	  KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);	  
 	}

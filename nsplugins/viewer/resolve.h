@@ -19,7 +19,7 @@
 
 
 #define RESOLVE_RETVAL(fname,error)           \
-  kDebugInfo("NSPluginInstance::"#fname"()"); \
+  kdDebug() << "NSPluginInstance::" << endl;  \
                                               \
   if (!_handle)                               \
     return error;                             \
@@ -29,10 +29,10 @@
                                               \
   if (!func_ ## fname)                        \
   {                                           \
-    kDebugInfo("Failed: NPP_"#fname" could not be resolved"); \
+    kdDebug() << "Failed: NPP_" << endl;      \
     return error;                             \
   }                                           \
-  kDebugInfo("Resolved NPP_"#fname" to %p", func_ ## fname);
+  kdDebug() << "Resolved NPP_" << endl;
 
 
 #define RESOLVE(fname) RESOLVE_RETVAL(fname, NPERR_GENERIC_ERROR)
@@ -40,7 +40,7 @@
 
 
 #define CHECK(fname,error)                    \
-  kDebugInfo("Result of "#fname" = %d", error);\
+  kdDebug() << "Result of " << endl;          \
   return error;
 
 
