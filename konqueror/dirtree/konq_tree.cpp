@@ -374,7 +374,7 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
     kdDebug(1201) << "scanDir " << path << endl;
 
     QStringList entries = dir.entryList( QDir::Files );
-    QStringList dirEntries = dir.entryList( QDir::Dirs );
+    QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
     dirEntries.remove( "." );
     dirEntries.remove( ".." );
 
