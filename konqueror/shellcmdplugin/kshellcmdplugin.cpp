@@ -55,8 +55,8 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    {
      // Putting the complete path to the selected file isn't really necessary, since
      // we'll cd to the directory first. But we do need to get the complete relative path.
-     QString path = part->currentItem()->url().path();
-     defaultValue = KProcess::quote( "." + path.remove( 0, url.path().length() ) );
+     defaultValue = KProcess::quote(
+         KURL::relativePath( url.path(), part->currentItem()->url().path() ) );
    }
    else
    {
