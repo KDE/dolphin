@@ -6,7 +6,7 @@
 SUBDIRS = . trees
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes) -I$(top_srcdir)/libkonq
+INCLUDES = -I$(top_srcdir)/libkonq $(all_includes)
 
 # these are the headers for your project
 noinst_HEADERS = konqsidebar.h sidebar_widget.h
