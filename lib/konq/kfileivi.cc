@@ -41,15 +41,15 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
     {
         if ( m_fileitem->acceptsDrops() ) // Directory, executables, ...
             return true;
-        QStringList uris;
+        KURL::List uris;
         if ( KonqDrag::decode( mime, uris ) )
         {
             // Check if we want to drop something on itself
             // (Nothing will happen, but it's a convenient way to move icons)
-            QStringList::Iterator it = uris.begin();
+            KURL::List::Iterator it = uris.begin();
             for ( ; it != uris.end() ; it++ )
             {
-                if ( m_fileitem->url().cmp( KURL(*it), true /*ignore trailing slashes*/ ) )
+                if ( m_fileitem->url().cmp( *it, true /*ignore trailing slashes*/ ) )
                     return true;
             }
         }

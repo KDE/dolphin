@@ -26,17 +26,6 @@
 
 #include <kurl.h>
 
-/*
-class KonqDragItem : public QIconDragItem
-{
-public:
-    KonqDragItem() : QIconDragItem() {}
-    ~KonqDragItem() {}
-
-    QString url;
-};
-*/
-
 /*****************************************************************************
  *
  * Class KonqDrag
@@ -48,8 +37,6 @@ class KonqDrag : public QIconDrag
     Q_OBJECT
 
 public:
-    //typedef QValueList<KonqDragItem> KonqList;
-
     KonqDrag( QWidget * dragSource, const char* name = 0 );
     virtual ~KonqDrag() {}
 
@@ -57,16 +44,14 @@ public:
     QByteArray encodedData( const char* mime ) const;
 
     void append( const QIconDragItem &item, const QRect &pr,
-                             const QRect &tr, const QString &url );
+                 const QRect &tr, const QString &url );
 
     static bool canDecode( const QMimeSource* e );
 
-    //static bool decode( const QMimeSource *e, QValueList<KonqDragItem> &lst );
-
-    static bool decode( const QMimeSource *e, QStringList &uris );
+    // Decodes urls (much like QUriDrag::decode, but it returns KURLs)
+    static bool decode( const QMimeSource *e, KURL::List &uris );
 
 protected:
-    //KonqList icons;
     QStringList urls;
 };
 

@@ -96,7 +96,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
 {
     KURL dest = destItem->url();
     //kdDebug() << "dest : " << dest.url() << endl;
-    QStringList lst;
+    KURL::List lst;
     if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
     {
 	if( lst.count() == 0 )
@@ -105,9 +105,9 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
 	    return;
 	}
         // Check if we dropped something on itself
-        QStringList::Iterator it = lst.begin();
+        KURL::List::Iterator it = lst.begin();
         for ( ; it != lst.end() ; it++ )
-            if ( dest.cmp( KURL(*it), true /*ignore trailing slashes*/ ) )
+            if ( dest.cmp( *it, true /*ignore trailing slashes*/ ) )
                 return; // do nothing instead of diaplying kfm's annoying error box
 
         // Check what the destination is
@@ -163,9 +163,9 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 KService service( &desktopFile );
                 QCString dcopService;
                 QString error;
-                QStringList::Iterator it = lst.begin();
+                KURL::List::Iterator it = lst.begin();
                 for ( ; it != lst.end() ; it++ )
-                    if ( service.startService( *it, dcopService, error ) > 0 )
+                    if ( service.startService( (*it).url(), dcopService, error ) > 0 )
                         KMessageBox::error( 0L, error );
             } else
             {
@@ -173,12 +173,12 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
                 assert ( access( dest.path(), X_OK ) == 0 );
                 // Launch executable for each of the files
-                QStringList::Iterator it = lst.begin();
+                KURL::List::Iterator it = lst.begin();
                 for ( ; it != lst.end() ; it++ )
                 {
                     KProcess proc;
-                    proc << dest.path() << KURL(*it).path(); // assume local files
-                    kdDebug(1203) << "starting " << dest.path() << " " << KURL(*it).path() << endl;
+                    proc << dest.path() << (*it).path(); // assume local files
+                    kdDebug(1203) << "starting " << dest.path() << " " << (*it).path() << endl;
                     proc.start( KProcess::DontCare );
                 }
             }

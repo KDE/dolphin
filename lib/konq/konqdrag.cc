@@ -51,22 +51,12 @@ bool KonqDrag::canDecode( const QMimeSource* e )
       e->provides( "text/uri-list" );
 }
 
-bool KonqDrag::decode( const QMimeSource *e, QStringList &uris )
+bool KonqDrag::decode( const QMimeSource *e, KURL::List &uris )
 {
-/*
-    QByteArray ba = e->encodedData( "text/uri-list" );
-    if ( ba.size() ) {
-        QCString s( ba );
-        uris = QStringList::split( "\r\n", QString::fromLatin1( s ) );
-	return TRUE;
-    }
-    return FALSE;
-*/
-   // TODO : return a KURL::List directly
     QStrList lst;
     bool ret = QUriDrag::decode( e, lst );
     for (QStrListIterator it(lst); *it; ++it)
-      uris.append(QString::fromLatin1(*it)); // *it is encoded already
+      uris.append(KURL(*it)); // *it is encoded already
     return ret;
 }
 
