@@ -1,8 +1,6 @@
-// kcookiesmanagement.h - View/delete received cookies
-//
-// Original framework by (Waldo, David, Adawit)?
-// This dialog created by Marco Pinelli <pinmc@orion.it>
-
+/*
+    Copyright 2000-2001 Marco Pinelli <pinmc@orion.it>
+*/
 #ifndef __KCOOKIESMANAGEMENT_H
 #define __KCOOKIESMANAGEMENT_H
 
@@ -33,7 +31,8 @@ public:
     virtual QString text(int f) const;
 
 private:
-    void init( CookieProp* cookie, QString domain = QString::null,
+    void init( CookieProp* cookie,
+               QString domain = QString::null,
                bool cookieLoaded=false );
     CookieProp *mCookie;
     QString mDomain;
@@ -55,30 +54,35 @@ public:
 
 private slots:
     void changed();
-    void showCookieDetails(QListViewItem*);
-    void getCookies(QListViewItem*);
     void deleteCookie();
     void deleteAllCookies();
+    void getDomains();
+    void getCookies(QListViewItem*);
+    void showCookieDetails(QListViewItem*);
 
 private:
-    void getDomains();
-    bool getCookieDetails(QString domain, CookieProp *cookie);
+    bool getCookieDetails(CookieProp *cookie);
     void clearCookieDetails();
 
-    KListView *cLV;
-    QLineEdit *domainLE;
-    QLineEdit *pathLE;
-    QLineEdit *valueLE;
-    QLineEdit *setByLE;
-    QLineEdit *expiresLE;
-    QLineEdit *protoVerLE;
-    QLineEdit *isSecureLE;
-    QPushButton *delBT;
-    QPushButton *delAllBT;
-    DCOPClient *dcop;
-    QDict<QList<CookieProp> > deletedCookies;
+    QLineEdit* le_name;
+    QLineEdit* le_value;
+    QLineEdit* le_domain;
+    QLineEdit* le_path;
+    QLineEdit* le_expires;
+    QLineEdit* le_isSecure;
+
+    KListView* lv_cookies;
+    QGroupBox* grp_details;
+    QPushButton* btn_delete;
+    QPushButton* btn_reload;
+    QPushButton* btn_deleteAll;
+
+    DCOPClient* dcop;
+    bool m_bDeleteAll;
+
     QStringList deletedDomains;
-    bool deleteAll;
+    typedef QList<CookieProp> CookiePropList;
+    QDict<CookiePropList> deletedCookies;
 };
 
 #endif // __KCOOKIESMANAGEMENT_H
