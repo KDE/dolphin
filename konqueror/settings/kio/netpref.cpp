@@ -114,6 +114,8 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     gb_TimeoutLayout->addLayout( grid_topLevel );
     mainLayout->addWidget( gb_Timeout );
 
+    mainLayout->addStretch();
+
     lbl_socket->setBuddy( sb_socketRead );
     lbl_proxy->setBuddy( sb_proxyConnect );
     lbl_serverConnect->setBuddy( sb_serverConnect );
