@@ -1,0 +1,8 @@
+<!DOCTYPE kpartplugin>
+<kpartplugin library="libkshellcmdplugin">
+<MenuBar>
+ <Menu name="tools"><text>&amp;Tools</text>
+  <Action name="executeshellcommand"/>
+ </Menu>
+</MenuBar>
+</kpartplugin>
