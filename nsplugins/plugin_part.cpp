@@ -96,7 +96,7 @@ bool PluginPart::openURL(const KURL &url)
   QStringList _argn, _argv;
   _argn << "SRC";
   _argv << url.url();
-  widget = loader->NewInstance(canvas, url.url(), "", 1, _argn, _argv);
+  widget = loader->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
   
   if (widget)
     {
