@@ -66,6 +66,7 @@ int KonqComboAction::plug( QWidget *w, int index )
   comboBox->setSizePolicy( QSizePolicy( QSizePolicy::Expanding,
 					QSizePolicy::Fixed ));
   comboBox->setPixmapProvider( KonqPixmapProvider::self() );
+  comboBox->setDuplicatesEnabled( false );
   toolBar->insertWidget( id, 70, comboBox, index );
   connect( comboBox, SIGNAL( activated( const QString& )), m_receiver, m_member );
 
