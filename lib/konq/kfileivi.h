@@ -17,28 +17,32 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#include "kiconcontainer.h"
+#ifndef __kfileivi_h__
+#define __kfileivi_h__ $Id$
+
+#include <qiconview.h>
 
 class KFileItem;
 class QPainter;
 
 /**
- * KFileICI (short form of "K - File - IconContainerItem")
- * is, as expected, an improved iconcontainer item, because
+ * KFileIVI (short form of "K - File - IconViewItem")
+ * is, as expected, an improved QIconViewItem, because
  * it represents a file.
  * All the information about the file is contained in the KFileItem
  * pointer.
  */
-class KFileICI : public KIconContainerItem
+class KFileIVI : public QIconViewItem
 {
+  Q_OBJECT
 public:
   /**
-   * Create an icon, within an iconcontainer, representing a file
-   * @param _parent the parent widget, an icon container
+   * Create an icon, within a qlistview, representing a file
+   * @param _parent the parent widget
    * @param _fileitem the file item created by KDirLister
    */
-  KFileICI( KIconContainer *_container, KFileItem* _fileitem );
-  virtual ~KFileICI() { }
+  KFileIVI( QIconView *_iconview, KFileItem* _fileitem );
+  virtual ~KFileIVI() { }
 
   /**
    * Handler for return (or single/double click) on ONE icon.
@@ -49,15 +53,19 @@ public:
   /** @return the file item held by this instance */
   KFileItem * item() { return m_fileitem; }
 
-  virtual bool acceptsDrops( QStringList& _formats );
+  virtual bool acceptDrop( const QMimeSource *mime ) const;
+
+  virtual void setKey( const QString &key );
+
+signals:
+  void dropMe( KFileIVI *item, QDropEvent *e );
 
 protected:
-  virtual void paint( QPainter* _painter, bool _drag );
-  virtual void refresh( bool _display_mode_changed );
-  
-  virtual bool isSmallerThen( const KIconContainerItem &_item );
-  
+  virtual void dropped( QDropEvent *e );
+  virtual void paintItem( QPainter *p );
+
   /** Pointer to the file item in KDirLister's list */
   KFileItem* m_fileitem;
 };
 
+#endif

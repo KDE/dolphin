@@ -21,11 +21,10 @@ kfileitem.*     : item representing a file and all the information associated
 kdirlister.*    : directory lister (handles kiojob and the kfileitems for you)
 
 3) icons
-kiconcontainer.*: widget handling icons. This should go in kdeui if only I could
-                  find a maintainer for it. I'm not skilled enough to do it.
-kfileici.*      : icon representing a file (inherits KIconContainerItem and 
+kfileivi.*      : icon representing a file (inherits QListViewItem and 
                   uses KFileItem for holding file information)
 kicondrag.*     : used together with kiconcontainer to move icons with the mouse
+                  ( ... to be ported ... )
 
 4) dialog boxes
 kpropsdlg.*     : the properties dialog box (for any URL)

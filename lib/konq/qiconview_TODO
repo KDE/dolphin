@@ -1,0 +1,3 @@
+ void viewportRightClicked(); ->  void viewportClicked( int button );
+ (kdesktop needs events for the 3 buttons...)
+
