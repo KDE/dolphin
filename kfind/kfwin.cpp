@@ -31,10 +31,8 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <kglobal.h>
-#include <kopenwith.h>
 #include <kpopupmenu.h>
 #include <kio/netaccess.h>
-#include <kurl.h>
 #include <kurldrag.h>
 #include <qptrlist.h>
 
@@ -421,7 +419,7 @@ void KfindWindow::slotContextMenu(KListView *,QListViewItem *item,const QPoint&p
 
 void KfindWindow::slotOpenWith()
 {
-   KOpenWithHandler::getOpenWithHandler()->displayOpenWithDialog( KURL::split(((KfFileLVI*)currentItem())->fileitem.url()) );
+   KRun::displayOpenWithDialog( KURL::split(((KfFileLVI*)currentItem())->fileitem.url()) );
 }
 
 
