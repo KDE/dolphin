@@ -1,46 +1,74 @@
-"MAJOR" THINGS TO DO
---------------------
+FEATURES FOR 3.2
+----------------
    
-well, too many apparently normal functions also contain
-gui stuff. this sucks. its mainly in kio/bookmarks unfortunately,
-so, can't change behaviour at the moment, i think.
-examples: newFolder in kbookmarkgroup
-          importer defaultlocation should *not* have gui stuff
+kio/bookmarks:  
+   drag & drop
+   editing - name, url, comment, etc...
 
-MINOR THINGS
+bookmarklets:   
+   add some examples!
+
+general konqi:    
+   crashes tabset loading
+   bookmark tabset saving
+
+main bookmark config:
+   make the keditbookmarks prefs persistant
+   and make a simple include selector using
+   for example kautoconfig
+
+add a simple dynamic menu config gui
+
+BUGS FOR 3.2
 ------------
 
-basic plan:       cleanup importing:
-                     make all importers do a file selection dlg
-                  recursive 404 finder
-                  duplicate finder
-                  metadata removal at root
+keditbookmarks:
+   metadata removal at root
 
-general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
+general xbel bug: 
+   http://bugzilla.gnome.org/show_bug.cgi?id=69702
 
-general konqi:    crashes tabset loading
-                  bookmark tabset saving
+tbcache:
+   don't create a tbcache file when its
+   gonna be empty in any case!!!
 
-historymgr:       get dirty working
-                - dirty solution to a problem that is mainly konqi's
-                - but, still, after konqi is fixed, this should be done
+historymgr:       
+   get dirtyness working for the kbookmarkmap
+   dirty solution to a problem that is mainly konqi's
+   but, still, after konqi is fixed, this should be done
 
-kmail:            evolution like lineedit for searching && maildir bug
+toolbar filtering:
+   show in toolbar / hide in toolbar
+   proper readonly support - no addbookmark, etc.
 
-keditbookmarks:   make more exporters
-                  command line import/export
-                  split view stuff - including filtered views
-                  a gui dyn bookmarks editor thingy
-                  a dialog for bookmark editing
+THINGS FOR 3.3+
+------------------
 
-kio/bookmarks:  drag & drop
-                editing - name, url, comment, etc...
+tools:
+   recursive 404 finder
+   duplicate finder
 
-bookmarklets:   add some examples!
+cleanup importing:
+   make all importers do a file selection dlg
+   well, too many apparently normal functions also contain
+   gui stuff. this sucks. its mainly in kio/bookmarks unfortunately,
+   so, can't change behaviour at the moment, i think.
+   examples: 
+      newFolder in kbookmarkgroup
+      importer defaultlocation should *not* have gui stuff
+   this will make:
+      command line import/export
+   easier
 
-notes:
-   http://c2.com/cgi/wiki?FunctorObject
+basic gui:
+   split view stuff - including filtered views
+   a dialog for bookmark editing
+   need to get keyboard shortcut changes working somehow (wheels)
+   have to get dynamic filtering (e.g sorting, pruning),
+   bookmark shortcuts
 
-need to get keyboard shortcut changes working somehow (wheels)
-have to get splitview, dynamic filtering (e.g sorting, pruning),
-and duplicate removal and a few other things done for 3.2
+NON BOOKMARKS
+-------------
+
+kmail:
+   evolution like lineedit for searching && maildir bug
