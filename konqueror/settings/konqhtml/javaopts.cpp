@@ -86,18 +86,19 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
 
-    QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificGB );
+    QPushButton* addDomainPB = new QPushButton( i18n("&New..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
     connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-    QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificGB );
+    QPushButton* changeDomainPB = new QPushButton( i18n("C&hange..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
     connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-    QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificGB );
+    QPushButton* deleteDomainPB = new QPushButton( i18n("De&lete"), domainSpecificGB );
     domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
     connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
+#if 0
     QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
     connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
@@ -109,6 +110,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
     exportDomainPB->setEnabled( false );
     exportDomainPB->hide();
+#endif
 
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
     domainSpecificGBLayout->addItem( spacer, 5, 1 );
@@ -172,21 +174,26 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                           "host or domain selected in the list box.") );
     QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                           "host or domain selected in the list box.") );
+#if 0                                          
     QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
                                           "the Java policies. These policies will be merged "
                                           "with the exisiting ones. Duplicate entries are ignored.") );
     QWhatsThis::add( exportDomainPB, i18n("Click this button to save the Java policy to a zipped "
                                           "file. The file, named <b>java_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
+#endif                                          
     QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific Java policies for any particular "
                                             "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                             "button and choose the new policy from the policy dialog box. Clicking "
                                             "on the <i>Delete</i> button will remove the selected policy causing the default "
-                                            "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
+                                            "policy setting to be used for that domain.") );
+#if 0                                            
+                                            "The <i>Import</i> and <i>Export</i> "
                                             "button allows you to easily share your policies with other people by allowing "
                                             "you to save and retrieve them from a zipped file.") );
+#endif
 
     QWhatsThis::add( javaConsoleCB, i18n( "If this box is checked, Konqueror will open a console window that Java programs "
                                           "can use for character-based input/output. Well-written Java applets do not need "

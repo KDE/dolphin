@@ -94,19 +94,19 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 
 
   domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
-  QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificGB );
+  QPushButton* addDomainPB = new QPushButton( i18n("&New..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
   QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
                                      "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-  QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificGB );
+  QPushButton* changeDomainPB = new QPushButton( i18n("C&hange..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-  QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificGB );
+  QPushButton* deleteDomainPB = new QPushButton( i18n("De&lete"), domainSpecificGB );
   domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
@@ -145,22 +145,32 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
-  js_popup      = new QButtonGroup(4, Horizontal, i18n( "JavaScript Web Popups Policy" ), this);
+  js_popup = new QButtonGroup(4, Horizontal, i18n( "JavaScript Web Popups Policy" ), this);
   js_popup->setExclusive(TRUE);
-  QRadioButton* js_popupAllow = new QRadioButton(i18n( "Allow" ), js_popup);
-  QRadioButton* js_popupAsk   = new QRadioButton(i18n( "Ask" ), js_popup);
-  QRadioButton* js_popupDeny  = new QRadioButton(i18n( "Deny" ), js_popup);
-  QRadioButton* js_popupSmart = new QRadioButton(i18n( "Smart" ), js_popup);
-  QWhatsThis::add( js_popupSmart,
-                   i18n("If you choose the 'Smart' option, window.open will be disabled unless "
-                        "it is being activated from a mouse click or a keyboard operation.") );
-  toplevel->addWidget(js_popup);
-  QWhatsThis::add( js_popup,
-                   i18n("If you disable this, Konqueror will stop interpreting the <i>window.open()</i> "
-                        "JavaScript command. This is useful if you regulary visit sites that make extensive use of this "
-                        "command to pop up ad banners.<br><br><b>Note:</b> Disabling this option might also "
-                        "break certain sites that require <i>window.open()</i> for proper operation. Use this "
-                        "feature carefully!") );
+  
+  QRadioButton* popupMode = new QRadioButton(i18n( "Allow" ), js_popup);
+  QWhatsThis::add( popupMode,i18n("Accept all popup window requests.") );
+  
+  popupMode = new QRadioButton(i18n( "Ask" ), js_popup);
+  QWhatsThis::add( popupMode,i18n("Prompt everytime a popup window is requested.") );
+  
+  popupMode = new QRadioButton(i18n( "Deny" ), js_popup);
+  QWhatsThis::add( popupMode,i18n("Reject all popup window requests.") );
+  
+  popupMode = new QRadioButton(i18n( "Smart" ), js_popup);  
+  QWhatsThis::add( popupMode, i18n("Accept popup window requests only when "
+                                   "links are activated through an explicit "
+                                   "mouse click or keyboard operation.") );
+  toplevel->addWidget(js_popup);  
+  QWhatsThis::add( js_popup, i18n("If you disable this, Konqueror will stop "
+                                  "interpreting the <i>window.open()</i> "
+                                  "JavaScript command. This is useful if you "
+                                  "regulary visit sites that make extensive use "
+                                  "of this command to pop up ad banners.<br>"
+                                  "<br><b>Note:</b> Disabling this option might "
+                                  "also break certain sites that require <i>"
+                                  "window.open()</i> for proper operation. Use "
+                                  "this feature carefully!") );
   connect( js_popup, SIGNAL( clicked( int ) ), this, SLOT( changed() ) );
 
 /*
