@@ -129,9 +129,18 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   cb_useCache = new QCheckBox( i18n("Use &Cache"), this );
   QWhatsThis::add( cb_useCache, i18n( "If this box is checked, Konqueror will use its cache to display recently loaded web pages again. It is advisable to use the cache, as it makes switching back and forth between web pages a lot faster. The disadvantage is that it takes up disk space." ) );
-
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  cb_verify = new QCheckBox( i18n("Keep Cache in Sync"), this);
+  QWhatsThis::add(cb_verify, i18n("Enable this to ask Web servers whether a cached page is still valid. If this is disabled, a cached copy of remote files will be used whenever possible. You can still use the reload button to synchronize the cache with the remote host."));
+  connect( cb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( cb_verify, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  cb_offlineMode = new QCheckBox( i18n("Offline Browsing mode"), this);
+  QWhatsThis::add(cb_offlineMode, i18n("Enable this checkbox to prevent http requests by KDE applications by default."));
+  connect( cb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( cb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   sb_max_cache_size = new KMySpinBox(100, 2000000, 100, this);
   connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
@@ -195,8 +204,11 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   l->addWidget(le_no_prx);
 
   layout->addWidget(sep);
-
-  layout->addWidget(cb_useCache);
+ 
+  QHBoxLayout * l1 = new QHBoxLayout(layout);
+  l1->addWidget(cb_useCache);
+  l1->addWidget(cb_verify);
+  l1->addWidget(cb_offlineMode);
 
   QHBoxLayout * l2 = new QHBoxLayout(layout);
   l2->addWidget(lb_max_cache_size);
@@ -230,6 +242,25 @@ void KProxyOptions::load()
               KProtocolManager::noProxyFor());
 
   cb_useCache->setChecked(KProtocolManager::useCache());
+
+  if (KProtocolManager::defaultCacheControl()==KIO::CC_Verify)
+  {
+      cb_verify->setChecked(true);
+      cb_offlineMode->setChecked(false);
+  }
+  else if (KProtocolManager::defaultCacheControl()==KIO::CC_CacheOnly)
+  {
+      cb_verify->setChecked(false);
+      cb_offlineMode->setChecked(true);
+  }
+  else
+  {
+      cb_verify->setChecked(false);
+      cb_offlineMode->setChecked(false);
+  }
+
+  old_verify = cb_verify->isChecked();
+
   sb_max_cache_size->setValue(KProtocolManager::maxCacheSize());
 #ifdef MAX_CACHE_AGE
   sb_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
@@ -247,6 +278,9 @@ void KProxyOptions::defaults() {
   sb_ftp_port->setValue(3128);
   le_no_prx->setText("");
   setProxy();
+  cb_useCache->setChecked(true);
+  cb_verify->setChecked(true);
+  cb_offlineMode->setChecked(false);
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
@@ -323,6 +357,15 @@ void KProxyOptions::save()
     KProtocolManager::setUseCache( cb_useCache->isChecked() );
     KProtocolManager::setMaxCacheSize(sb_max_cache_size->value());
 
+    if (!cb_useCache->isChecked())
+	KProtocolManager::setDefaultCacheControl(KIO::CC_Reload);
+    else if (cb_verify->isChecked())
+	KProtocolManager::setDefaultCacheControl(KIO::CC_Verify);
+    else if (!cb_offlineMode->isChecked())
+	KProtocolManager::setDefaultCacheControl(KIO::CC_Cache);
+    else
+	KProtocolManager::setDefaultCacheControl(KIO::CC_CacheOnly);
+
     // Update everyone...
     QByteArray data;
     // This should only be done when the FTP proxy setting is changed (on/off)
@@ -368,6 +411,19 @@ void KProxyOptions::setCache()
 #endif
   //pb_down->setEnabled( useCache );
   cb_useCache->setChecked( useCache );
+  cb_verify->setEnabled(useCache);
+  if (!useCache)
+      cb_offlineMode->setChecked(false);
+  cb_offlineMode->setEnabled(useCache);
+  if (cb_verify->isChecked() && !old_verify)
+  {
+      cb_offlineMode->setChecked(false);
+  }
+  if (cb_offlineMode->isChecked())
+      cb_verify->setChecked(false);
+  // hack to save 2 signal/slot connections. offlinemode and verify
+  // are mutually exclusive
+  old_verify=cb_verify->isChecked();
 }
 
 void KProxyOptions::changeProxy()

@@ -62,6 +62,10 @@ Q_OBJECT
 
     // use cache checker
     QCheckBox *cb_useCache;
+    // connect at all? checker
+    QCheckBox *cb_offlineMode;
+    // verify obsolete pages checker
+    QCheckBox *cb_verify;
 
     // Maximum Cache Size
     QLabel *lb_max_cache_size;
@@ -77,6 +81,10 @@ Q_OBJECT
     void setProxy();
     void setCache();
     void readOptions();
+
+    // hack to save 2 signal/slot connections. offlinemode and verify
+    // are mutually exclusive
+    bool old_verify;
 
   private slots:
 
