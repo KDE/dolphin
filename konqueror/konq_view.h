@@ -246,9 +246,10 @@ public:
 
   KonqMainWindow *mainWindow() const { return m_pMainWindow; }
 
-  void callExtensionMethod( const char *methodName );
-  void callExtensionBoolMethod( const char *methodName, bool value );
-  void callExtensionStringMethod( const char *methodName, QString value );
+  // return true if the method was found, false if the execution failed
+  bool callExtensionMethod( const char *methodName );
+  bool callExtensionBoolMethod( const char *methodName, bool value );
+  bool callExtensionStringMethod( const char *methodName, QString value );
 
   void setViewName( const QString &name );
   QString viewName() const { return m_name; }

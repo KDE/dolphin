@@ -1754,18 +1754,31 @@ void KonqMainWindow::slotCopyFiles()
 {
   kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
   assert( viewCount() == 2 );
+  QString msg=i18n("Copy selected files from %1 to %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
+  if ( KMessageBox::questionYesNo( 0, msg ) != KMessageBox::Yes )
+     return;
+
   // Copy files is copy + paste. I'm sooo lazy :)
-  m_currentView->callExtensionMethod( "copy()" );
-  otherView( m_currentView )->callExtensionMethod( "paste()" );
+  bool  success=m_currentView->callExtensionMethod( "copy()" );
+  success=success && otherView( m_currentView )->callExtensionMethod( "paste()" );
+  if (!success)
+     KMessageBox::sorry( this, i18n("Could not copy between the views."));
 }
 
 void KonqMainWindow::slotMoveFiles()
 {
   kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
   assert( viewCount() == 2 );
+  QString msg=i18n("Move selected files from %1 to %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
+  if ( KMessageBox::questionYesNo( 0, msg ) != KMessageBox::Yes )
+     return;
+
   // Copy files is cut + paste. I'm sooo lazy :)
-  m_currentView->callExtensionMethod( "cut()" );
-  otherView( m_currentView )->callExtensionMethod( "paste()" );
+  bool success=m_currentView->callExtensionMethod( "cut()" );
+  success=success && otherView( m_currentView )->callExtensionMethod( "paste()" );
+
+  if (!success)
+     KMessageBox::sorry( this, i18n("Could not move between the views."));
 }
 
 // Only valid if there are one or two views

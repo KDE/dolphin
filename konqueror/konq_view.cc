@@ -682,37 +682,45 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
   return 0;
 }
 
-void KonqView::callExtensionMethod( const char *methodName )
+bool KonqView::callExtensionMethod( const char *methodName )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
-    return;
+    return false;
 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
+  {
     (obj->*(mdata->ptr))();
+    return true;
+  };
+  return false;
 }
 
-void KonqView::callExtensionBoolMethod( const char *methodName, bool value )
+bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
-    return;
+    return false;
 
   typedef void (QObject::*BoolMethod)(bool);
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
+  {
     (obj->*((BoolMethod)mdata->ptr))(value);
+    return true;
+  };
+  return false;
 }
 
-void KonqView::callExtensionStringMethod( const char *methodName, QString value )
+bool KonqView::callExtensionStringMethod( const char *methodName, QString value )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
-    return;
+    return false;
 
   //kdDebug(1202) << "KonqView::callExtensionStringMethod " << methodName << endl;
   typedef void (QObject::*StringMethod)(QString);
@@ -720,8 +728,10 @@ void KonqView::callExtensionStringMethod( const char *methodName, QString value 
   if( mdata )
   {
     (obj->*((StringMethod)mdata->ptr))(value);
+    return true;
     //kdDebug(1202) << "Call done" << endl;
-  }
+  };
+  return false;
 }
 
 void KonqView::setViewName( const QString &name )
