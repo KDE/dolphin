@@ -125,71 +125,70 @@ void KEBApp::createActions() {
    (void) KStdAction::paste(actn, SLOT( slotPaste() ), actionCollection());
 
    (void) new KToggleAction(
-                      i18n("&Auto-Save on Program Close"), 0, 
+                      i18n("&Auto-Save on Program Close"), 0,
                       this, SLOT( slotSaveOnClose() ), actionCollection(), "settings_saveonclose");
 
    (void) new KToggleAction(
-                      i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0, 
+                      i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
                       actn, SLOT( slotShowNS() ), actionCollection(), "settings_showNS");
-   (void) new KAction(i18n("&Delete"), "editdelete", Key_Delete, 
+   (void) new KAction(i18n("&Delete"), "editdelete", Key_Delete,
                       actn, SLOT( slotDelete() ), actionCollection(), "delete");
-   (void) new KAction(i18n("Rename"), "text", Key_F2, 
+   (void) new KAction(i18n("Rename"), "text", Key_F2,
                       actn, SLOT( slotRename() ), actionCollection(), "rename");
-   (void) new KAction(i18n("C&hange URL"), "text", Key_F3, 
+   (void) new KAction(i18n("C&hange URL"), "text", Key_F3,
                       actn, SLOT( slotChangeURL() ), actionCollection(), "changeurl");
-   (void) new KAction(i18n("C&hange Comment"), "text", Key_F4, 
+   (void) new KAction(i18n("C&hange Comment"), "text", Key_F4,
                       actn, SLOT( slotChangeComment() ), actionCollection(), "changecomment");
-   (void) new KAction(i18n("Chan&ge Icon..."), 0, 
+   (void) new KAction(i18n("Chan&ge Icon..."), 0,
                       actn, SLOT( slotChangeIcon() ), actionCollection(), "changeicon");
-   (void) new KAction(i18n("Update Favicon"), 0, 
+   (void) new KAction(i18n("Update Favicon"), 0,
                       actn, SLOT( slotUpdateFavIcon() ), actionCollection(), "updatefavicon");
-   (void) new KAction(i18n("&Create New Folder..."), "folder_new", CTRL+Key_N, 
+   (void) new KAction(i18n("&Create New Folder..."), "folder_new", CTRL+Key_N,
                       actn, SLOT( slotNewFolder() ), actionCollection(), "newfolder");
-   (void) new KAction(i18n("Create &New Bookmark"), "www", 0, 
+   (void) new KAction(i18n("Create &New Bookmark"), "www", 0,
                       actn, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark");
-   (void) new KAction(i18n("&Insert Separator"), CTRL+Key_I, 
+   (void) new KAction(i18n("&Insert Separator"), CTRL+Key_I,
                       actn, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator");
-   (void) new KAction(i18n("&Sort Alphabetically"), 0, 
+   (void) new KAction(i18n("&Sort Alphabetically"), 0,
                       actn, SLOT( slotSort() ), actionCollection(), "sort");
-   (void) new KAction(i18n("Set as T&oolbar Folder"), "bookmark_toolbar", 0, 
+   (void) new KAction(i18n("Set as T&oolbar Folder"), "bookmark_toolbar", 0,
                       actn, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar");
-   (void) new KAction(i18n("&Expand All Folders"), 0, 
+   (void) new KAction(i18n("&Expand All Folders"), 0,
                       actn, SLOT( slotExpandAll() ), actionCollection(), "expandall");
-   (void) new KAction(i18n("Collapse &All Folders"), 0, 
+   (void) new KAction(i18n("Collapse &All Folders"), 0,
                       actn, SLOT( slotCollapseAll() ), actionCollection(), "collapseall" );
-   (void) new KAction(i18n("&Open in Konqueror"), "fileopen", 0, 
+   (void) new KAction(i18n("&Open in Konqueror"), "fileopen", 0,
                       actn, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
-   (void) new KAction(i18n("Check &Status"), "bookmark", 0, 
+   (void) new KAction(i18n("Check &Status"), "bookmark", 0,
                       actn, SLOT( slotTestSelection() ), actionCollection(), "testlink" );
-   (void) new KAction(i18n("&Find..."), 0, 
-                      actn, SLOT( slotSearch() ), actionCollection(), "search" );
-   (void) new KAction(i18n("Find &Next..."), 0,  // alt-f3, stdaction???
-                      actn, SLOT( slotNextHit() ), actionCollection(), "nexthit" );
-   (void) new KAction(i18n("Check Status: &All"), 0, 
+
+   (void)KStdAction::find( actn, SLOT( slotSearch() ), actionCollection(), "search" );
+   (void)KStdAction::findNext( actn, SLOT( slotNextHit() ), actionCollection(), "nexthit" );
+   (void) new KAction(i18n("Check Status: &All"), 0,
                       actn, SLOT( slotTestAll() ), actionCollection(), "testall" );
-   (void) new KAction(i18n("Update All &Favicons"), 0, 
+   (void) new KAction(i18n("Update All &Favicons"), 0,
                       actn, SLOT( slotUpdateAllFavIcons() ), actionCollection(), "updateallfavicons" );
-   (void) new KAction(i18n("Cancel &Checks"), 0, 
+   (void) new KAction(i18n("Cancel &Checks"), 0,
                       actn, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
-   (void) new KAction(i18n("Cancel &Favicon Updates"), 0, 
+   (void) new KAction(i18n("Cancel &Favicon Updates"), 0,
                       actn, SLOT( slotCancelFavIconUpdates() ), actionCollection(), "cancelfaviconupdates" );
-   (void) new KAction(i18n("Cancel &Search"), 0, 
+   (void) new KAction(i18n("Cancel &Search"), 0,
                       actn, SLOT( slotCancelSearch() ), actionCollection(), "cancelsearch" );
-   (void) new KAction(i18n("Import &Netscape Bookmarks..."), "netscape", 0, 
+   (void) new KAction(i18n("Import &Netscape Bookmarks..."), "netscape", 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importNS");
-   (void) new KAction(i18n("Import &Opera Bookmarks..."), "opera", 0, 
+   (void) new KAction(i18n("Import &Opera Bookmarks..."), "opera", 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importOpera");
-   (void) new KAction(i18n("Import &Galeon Bookmarks..."), 0, 
+   (void) new KAction(i18n("Import &Galeon Bookmarks..."), 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importGaleon");
-   (void) new KAction(i18n("Import &KDE2 Bookmarks..."), 0, 
+   (void) new KAction(i18n("Import &KDE2 Bookmarks..."), 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importKDE2");
-   (void) new KAction(i18n("&Import IE Bookmarks..."), 0, 
+   (void) new KAction(i18n("&Import IE Bookmarks..."), 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importIE");
-   (void) new KAction(i18n("Import &Mozilla Bookmarks..."), "mozilla", 0, 
+   (void) new KAction(i18n("Import &Mozilla Bookmarks..."), "mozilla", 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importMoz");
-   (void) new KAction(i18n("&Export to Netscape Bookmarks"), "netscape", 0, 
+   (void) new KAction(i18n("&Export to Netscape Bookmarks"), "netscape", 0,
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
-   (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0, 
+   (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0,
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
 
@@ -223,7 +222,7 @@ void KEBApp::resetActions() {
 }
 
 void KEBApp::slotSaveOnClose() {
-   m_saveOnClose 
+   m_saveOnClose
       = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
 }
 
@@ -247,19 +246,19 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
    coll->action("delete")           ->setEnabled(t2 && !sa.root);
    coll->action("edit_cut")         ->setEnabled(t2 && !sa.root);
    coll->action("edit_paste")       ->setEnabled(t2 && m_canPaste);
-                                   
+
    coll->action("rename")           ->setEnabled(t4);
    coll->action("changeicon")       ->setEnabled(t4);
    coll->action("changecomment")    ->setEnabled(t4);
    coll->action("changeurl")        ->setEnabled(t4 && !sa.group);
-                                   
+
    coll->action("newfolder")        ->setEnabled(t5);
    coll->action("newbookmark")      ->setEnabled(t5);
    coll->action("insertseparator")  ->setEnabled(t5);
-                                   
+
    coll->action("expandall")        ->setEnabled(true);
    coll->action("collapseall")      ->setEnabled(true);
-   coll->action("openlink")         ->setEnabled(sa.itemSelected && !sa.urlIsEmpty 
+   coll->action("openlink")         ->setEnabled(sa.itemSelected && !sa.urlIsEmpty
                                               && !sa.group && !sa.separator);
 
    coll->action("search")           ->setEnabled(!sa.multiSelect);
@@ -308,7 +307,7 @@ void KEBApp::setModifiedFlag(bool modified) {
 
    setCaption(caption, m_modified);
 
-   // AK - commented due to usability bug by zander 
+   // AK - commented due to usability bug by zander
    // AK - on second thoughts. this is just wrong. and against
    // the style guide. maybe zander just saw a bug. doubt it though...
    // actionCollection()->action("file_save")->setEnabled(m_modified);
@@ -317,7 +316,7 @@ void KEBApp::setModifiedFlag(bool modified) {
    // - this means that when we have modifications
    //   changes are sent via dcop rather than via
    //   a reload - which would loose user changes
-   CurrentMgr::self()->setUpdate(!m_modified); 
+   CurrentMgr::self()->setUpdate(!m_modified);
 }
 
 void KEBApp::slotClipboardDataChanged() {
@@ -388,8 +387,8 @@ void KEBApp::slotDocumentRestored() {
 
 void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
    /*
-   kdDebug() << "caller == " << caller << ", " 
-             << "kapp->name() == " << kapp->name() << ", " 
+   kdDebug() << "caller == " << caller << ", "
+             << "kapp->name() == " << kapp->name() << ", "
              << "kapp->dcopClient()->appId() == " << kapp->dcopClient()->appId() << endl;
    */
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
@@ -445,7 +444,7 @@ bool KEBApp::queryClose() {
 
    switch (
       KMessageBox::warningYesNoCancel(
-         this, i18n("The bookmarks have been modified.\nSave changes?")) 
+         this, i18n("The bookmarks have been modified.\nSave changes?"))
    ) {
       case KMessageBox::Yes:
          return save();
