@@ -347,7 +347,7 @@ private:
 };
 
 KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
-: KAction( text, 0, parent, name )
+    : KAction( text, 0, parent, name ), m_label( 0L )
 {
 }
 
