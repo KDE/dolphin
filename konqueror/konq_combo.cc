@@ -34,40 +34,36 @@ KConfig * KonqCombo::s_config = 0L;
 const int KonqCombo::temporary = 0;
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
-    : KHistoryCombo( parent, name ),
-      m_returnPressed( false ),
-      m_permanent( false )
+          : KHistoryCombo( parent, name ),
+            m_returnPressed( false ), 
+            m_permanent( false ),
+            m_modifier( NoButton )
 {
     setInsertionPolicy( NoInsertion );
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
-    setDuplicatesEnabled( false );
-    // don't emit activated( const QString& ) upon returnPress, we're
-    // emitting activated( const QString&, ButtonState ) ourselves
-    setTrapReturnKey( true );
 
     Q_ASSERT( s_config );
 
     KConfigGroupSaver cs( s_config, "Location Bar" );
     setMaxCount( s_config->readNumEntry("Maximum of URLs in combo", 20 ));
 
-    // we should also connect the completionBox' highlighted signal to
+    // We should also connect the completionBox' highlighted signal to
     // our setEditText() slot, because we're handling the signals ourselves.
     // But we're lazy and let KCompletionBox do this and simply switch off
     // handling of signals later.
     setHandleSignals( true );
     completionBox()->setTabHandling( true );
-
-    connect( this, SIGNAL( returnPressed()), SLOT( slotReturnPressed() ));
-    connect( completionBox(), SIGNAL( activated(const QString&)),
-             this, SLOT( slotReturnPressed() ));
-    connect( this, SIGNAL( cleared() ), SLOT( slotCleared() ));
-    connect( this, SIGNAL( highlighted( int )), SLOT( slotSetIcon( int )));
-
-    connect( this, SIGNAL( activated( const QString& )),
-             SLOT( slotActivated( const QString& )) );
+    
+    // Make the lineedit consume the Key_Enter event...
+    setTrapReturnKey( true );
+    
+    connect( this, SIGNAL(cleared() ), SLOT(slotCleared()) );
+    connect( this, SIGNAL(highlighted( int )), SLOT(slotSetIcon( int )) );
+    connect( this, SIGNAL(activated( const QString& )),
+             SLOT(slotActivated( const QString& )) );
 
     if ( !kapp->dcopClient()->isAttached() )
-	kapp->dcopClient()->attach();
+        kapp->dcopClient()->attach();
 }
 
 KonqCombo::~KonqCombo()
@@ -85,46 +81,69 @@ void KonqCombo::init( KCompletion *completion )
 
 void KonqCombo::setURL( const QString& url )
 {
+    kdDebug(1202) << "*** KonqCombo::setURL: " << url 
+                  << ", returnPressed ? " << m_returnPressed << endl;
     setTemporary( url );
-
-    if ( m_returnPressed ) { // really insert
-	m_returnPressed = false;
-	
-	QByteArray data;
-	QDataStream s( data, IO_WriteOnly );
-	s << url << kapp->dcopClient()->defaultObject();
-	kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
-				  "addToCombo(QString,QCString)", data);
+    
+    if ( m_returnPressed ) { // Really insert...
+        m_returnPressed = false;      
+        QByteArray data;
+        QDataStream s( data, IO_WriteOnly );
+        s << url << kapp->dcopClient()->defaultObject();
+        kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
+                                  "addToCombo(QString,QCString)", data);
     }
 }
 
 void KonqCombo::setTemporary( const QString& text )
 {
-    setTemporary( text, KonqPixmapProvider::self()->pixmapFor( text ) );
+    setTemporary( text, KonqPixmapProvider::self()->pixmapFor(text) );
 }
 
 void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 {
-    // kdDebug(1002) << "*** setTemporary: " << url << endl;
-
-    if ( count() == 0 ) // insert a temporary item when we don't have one yet
-	insertItem( pix, url, temporary );
-	
-    else {
-	if ( url != temporaryItem() )
-	    applyPermanent();
-	
-	updateItem( pix, url, temporary );
+    kdDebug(1202) << "*** KonqCombo::setTemporary: " << url << ", temporary = " 
+                  << temporary << endl;
+    
+    // Insert a temporary item when we don't have one yet
+    if ( count() == 0 )
+      insertItem( pix, url, temporary );
+    else
+    {
+        if (url != temporaryItem())
+          applyPermanent();
+        
+        updateItem( pix, url, temporary );
     }
-	
+        
     setCurrentItem( temporary );
+}
+
+void KonqCombo::removeDuplicates( int index )
+{
+    kdDebug(1202) << "*** KonqCombo::removeDuplicates: Starting index =  "
+                  << index << endl;
+    
+    QString url (temporaryItem());
+    if (url.endsWith("/"))
+      url.truncate(url.length()-1);
+    
+    // Remove all dupes, if available...
+    for ( int i = index; i < count(); i++ ) 
+    {        
+        QString item (text(i));
+        if (item.endsWith("/"))
+          item.truncate(item.length()-1);
+                  
+        if ( item == url )
+            removeItem( i );
+    }
 }
 
 // called via DCOP in all instances
 void KonqCombo::insertPermanent( const QString& url )
 {
-    // kdDebug(1002) << "### insertPermanent!" << endl;
-
+    kdDebug(1202) << "*** KonqCombo::insertPermanent: URL = " << url << endl;
     saveState();
     setTemporary( url );
     m_permanent = true;
@@ -134,38 +153,43 @@ void KonqCombo::insertPermanent( const QString& url )
 // called right before a new (different!) temporary item will be set. So we
 // insert an item that was marked permanent properly at position 1.
 void KonqCombo::applyPermanent()
-{
+{    
     if ( m_permanent && !temporaryItem().isEmpty() ) {
-
-	// remove as many items as needed to honour maxCount()
-	int i = count();
-	while ( count() >= maxCount() )
-	    removeItem( --i );
-
-	QString url = temporaryItem();
-	insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1 );
-
-	// remove all dupes, if available
-	for ( i = 2; i < count(); i++ ) {
-	    if ( text( i ) == url )
-		removeItem( i );
-	}
-
-	m_permanent = false;
+        
+        // Remove as many items as needed to honour maxCount()
+        int index = count();
+        while ( count() >= maxCount() )
+            removeItem( --index );
+        
+        QString url (temporaryItem());
+        insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1 );
+        kdDebug(1202) << "*** KonqCombo::applyPermanent: " << url << endl;
+        
+        // Remove all duplicates starting from index = 2
+        removeDuplicates( 2 );       
+        m_permanent = false;
     }
 }
 
-// ### use QComboBox::changeItem(), once that finally works
+
 void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
 {
-    // QComboBox::changeItem() doesn't honour the pixmap when
-    // using an editable combobox, so we just remove and insert
-
-    // no need to flicker
+    // No need to flicker
     if (text( index ) == t &&
-	(pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
-	return;
-
+        (pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
+        return;
+        
+    kdDebug(1202) << "*** KonqCombo::updateItem: item='" << t << "', index='"
+                  << index << "'" << endl;        
+    
+    // QComboBox::changeItem() doesn't honour the pixmap when
+    // using an editable combobox, so we just remove and insert    
+    // ### use QComboBox::changeItem(), once that finally works
+    // Well lets try it now as it seems to work fine for me. We
+    // can always revert :)
+    changeItem (pix, t, index);
+    
+    /*        
     setUpdatesEnabled( false );
     lineEdit()->setUpdatesEnabled( false );
 
@@ -175,6 +199,7 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
     setUpdatesEnabled( true );
     lineEdit()->setUpdatesEnabled( true );
     update();
+    */
 }
 
 void KonqCombo::saveState()
@@ -197,7 +222,7 @@ void KonqCombo::updatePixmaps()
     setUpdatesEnabled( false );
     KonqPixmapProvider *prov = KonqPixmapProvider::self();
     for ( int i = 1; i < count(); i++ ) {
-	updateItem( prov->pixmapFor( text( i ) ), text( i ), i );
+        updateItem( prov->pixmapFor( text( i ) ), text( i ), i );
     }
     setUpdatesEnabled( true );
     repaint();
@@ -226,21 +251,21 @@ void KonqCombo::loadItems()
                     KIcon::SizeSmall), item, i++ );
             else
                 // icons will be loaded on-demand
-        	insertItem( item, i++ );
+                insertItem( item, i++ );
             first = false;
         }
         ++it;
     }
 
     if ( count() > 0 )
-	m_permanent = true; // we want the first loaded item to stay
+        m_permanent = true; // we want the first loaded item to stay
 }
 
 void KonqCombo::slotSetIcon( int index )
 {
     if( pixmap( index ) == NULL )
         // on-demand icon loading
-        changeItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
+        updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
             KIcon::SizeSmall), text( index ), index );
     update();
 }
@@ -252,7 +277,7 @@ void KonqCombo::popup()
         if( pixmap( i ) == NULL )
         {
             // on-demand icon loading
-            changeItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
+            updateItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
                 KIcon::SizeSmall), text( i ), i );
         }
     }
@@ -265,7 +290,7 @@ void KonqCombo::saveItems()
     int i = m_permanent ? 0 : 1;
 
     for ( ; i < count(); i++ )
-	items.append( text( i ) );
+        items.append( text( i ) );
 
     s_config->setGroup( "Location Bar" );
     s_config->writeEntry( "ComboContents", items );
@@ -274,20 +299,12 @@ void KonqCombo::saveItems()
     s_config->sync();
 }
 
-// we can't directly insert the url here, because it might be an
-// incomplete url and we wouldn't get a nice pixmap for that, either.
-void KonqCombo::slotReturnPressed()
-{
-    applyPermanent();
-    m_returnPressed = true;
-}
-
 void KonqCombo::clearTemporary( bool makeCurrent )
 {
     applyPermanent();
     changeItem( QString::null, temporary ); // ### default pixmap?
     if ( makeCurrent )
-	setCurrentItem( temporary );
+      setCurrentItem( temporary );
 }
 
 bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
@@ -301,9 +318,8 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
 
             if ( e->key() == Key_Return || e->key() == Key_Enter ) {
-                emit activated( currentText(), e->state() );
-                e->accept();
-                return true;
+                m_modifier = e->state();
+                return false;
             }
 
             if ( KKey( e ) == KKey( int( KStdAccel::deleteWordBack() ) ) ||
@@ -331,67 +347,72 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
     // pixmap. Yes, QComboBox still sucks.
     if ( KKey( e ) == KKey( int( KStdAccel::rotateUp() ) ) ||
          KKey( e ) == KKey( int( KStdAccel::rotateDown() ) ) )
-	setTemporary( currentText() );
+         setTemporary( currentText() );
 }
 
+/* 
+   Handle Ctrl+Cursor etc better than the Qt widget, which always
+   jumps to the next whitespace. This code additionally jumps to
+   the next [/#?:], which makes more sense for URLs. The list of 
+   chars that will stop the cursor are '/', '.', '?', '#', ':'.
+*/
 void KonqCombo::selectWord(QKeyEvent *e)
 {
-    // Handle Ctrl+Cursor etc better than the Qt widget, which always
-    // jumps to the next whitespace. This code additionally jumps to
-    // the next [/#?:], which makes more sense for URLs.
-    QLineEdit *edit = lineEdit();
+    QLineEdit* edit = lineEdit();    
     QString text = edit->text();
-    // The list of chars that will stop the cursor
-    // (TODO: make it a parameter when in kdelibs/kdeui)
-    typedef QValueList<QChar> JumpChars;
-    JumpChars chars;
-    chars.append(QChar('/'));   // path seperator
-    chars.append(QChar('.'));   // domain part seperator
-    chars.append(QChar('?'));   // parameter sperator
-    chars.append(QChar('#'));   // local anchor seperator
-    chars.append(QChar(':'));   // Konqueror's enhanced browsing seperator
-    // TODO: make this a parameter when in kdelibs/kdeui
-    bool allow_space_break = true;
     int pos = edit->cursorPosition();
     int pos_old = pos;
-    int count = 0;
+    int count = 0;  
+    
+    // TODO: make these a parameter when in kdelibs/kdeui...
+    QValueList<QChar> chars;
+    chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');    
+    bool allow_space_break = true;
+    
     if( e->key() == Key_Left || e->key() == Key_Backspace ) {
-	do {
-	    pos--;
-	    count++;
+        do {
+            pos--;
+            count++;
             if( allow_space_break && text[pos].isSpace() && count > 1 )
                 break;
-	} while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
-	if( e->state() & ShiftButton ) {
-            edit->cursorForward(true, 1-count);
-	} else if(  e->key() == Key_Backspace ) {
+        } while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
+        
+        if( e->state() & ShiftButton ) {
+                  edit->cursorForward(true, 1-count);
+        } 
+        else if(  e->key() == Key_Backspace ) {
             edit->cursorForward(false, 1-count);
             QString text = edit->text();
             int pos_to_right = edit->text().length() - pos_old;
             QString cut = text.left(edit->cursorPosition()) + text.right(pos_to_right);
             edit->setText(cut);
             edit->setCursorPosition(pos_old-count+1);
-        } else {
+        } 
+        else {
             edit->cursorForward(false, 1-count);
         }
-     } else if( e->key() == Key_Right || e->key() == Key_Delete ){
-	do {
-	    pos++;
-	    count++;
-            if( allow_space_break && text[pos].isSpace() )
-                break;
-	} while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
-	if( e->state() & ShiftButton ) {
+     } 
+     else if( e->key() == Key_Right || e->key() == Key_Delete ){
+        do {
+            pos++;
+            count++;
+                  if( allow_space_break && text[pos].isSpace() )
+                      break;
+        } while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
+        
+        if( e->state() & ShiftButton ) {
             edit->cursorForward(true, count+1);
-	} else if(  e->key() == Key_Delete ) {
+        } 
+        else if(  e->key() == Key_Delete ) {
             edit->cursorForward(false, -count-1);
             QString text = edit->text();
             int pos_to_right = text.length() - pos - 1;
-	    QString cut = text.left(pos_old) +
+            QString cut = text.left(pos_old) +
                (pos_to_right > 0 ? text.right(pos_to_right) : "" );
             edit->setText(cut);
             edit->setCursorPosition(pos_old);
-        } else {
+        } 
+        else {
             edit->cursorForward(false, count+1);
         }
     }
@@ -402,8 +423,7 @@ void KonqCombo::slotCleared()
     QByteArray data;
     QDataStream s( data, IO_WriteOnly );
     s << kapp->dcopClient()->defaultObject();
-    kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
-			      "comboCleared(QCString)", data);
+    kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "comboCleared(QCString)", data);
 }
 
 void KonqCombo::removeURL( const QString& url )
@@ -463,7 +483,11 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
 
 void KonqCombo::slotActivated( const QString& text )
 {
-    emit activated( text, NoButton );
+    kdDebug(1202) << "*** KonqCombo::slotActivated: " << text << endl;
+    applyPermanent();
+    m_returnPressed = true;
+    emit activated( text, m_modifier );
+    m_modifier = NoButton;
 }
 
 void KonqCombo::setConfig( KConfig *kc )

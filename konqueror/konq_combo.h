@@ -67,12 +67,13 @@ protected:
     void selectWord(QKeyEvent *e);
 
 signals:
-    // note: listen to this signal, not activated( const QString& )!
-    // The latter is not emitted reliably.
-    void activated( const QString &, ButtonState );
+    /** 
+      Specialized signal that emitts the state of the modifier
+      keys along with the actual activated text.
+     */    
+    void activated( const QString &, int );
 
 private slots:
-    void slotReturnPressed();
     void slotCleared();
     void slotSetIcon( int index );
     void slotActivated( const QString& text );
@@ -83,18 +84,19 @@ private:
     void restoreState();
     void applyPermanent();
     QString temporaryItem() const { return text( temporary ); }
+    void removeDuplicates( int index );
 
 private:
     bool m_returnPressed;
     bool m_permanent;
     int m_cursorPos;
     int m_currentIndex;
+    int m_modifier;
     QString m_currentText;
     QPoint m_dragStart;
 
     static KConfig *s_config;
     static const int temporary; // the index of our temporary item
-
 };
 
 
