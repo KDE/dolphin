@@ -45,7 +45,7 @@ KonqSearcher::~KonqSearcher()
 {
 }
 
-bool KonqSearcher::eventFilter( QObject *obj, QEvent *ev )
+bool KonqSearcher::eventFilter( QObject *, QEvent *ev )
 {
 
   if ( KonqURLEnterEvent::test( ev ) )
@@ -80,7 +80,7 @@ bool KonqSearcher::eventFilter( QObject *obj, QEvent *ev )
   return false;
 }
 
-KonqSearcherFactory::KonqSearcherFactory( QObject *parent = 0, const char *name )
+KonqSearcherFactory::KonqSearcherFactory( QObject *parent, const char *name )
 : KLibFactory( parent, name )
 {
   s_instance = new KInstance( "konq_searcher" );
@@ -90,7 +90,7 @@ KonqSearcherFactory::~KonqSearcherFactory()
 {
 }
 
-QObject *KonqSearcherFactory::create( QObject *parent, const char *name, const char* classname )
+QObject *KonqSearcherFactory::create( QObject *parent, const char *, const char* )
 {
   return new KonqSearcher( parent );
 }

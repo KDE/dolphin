@@ -43,6 +43,22 @@ class KDirLister;
 class KonqPropsView;
 class KonqSettings;
 
+class TreeViewEditExtension : public EditExtension
+{
+  Q_OBJECT
+public:
+  TreeViewEditExtension( KonqTreeView *treeView );
+  
+  virtual void can( bool &copy, bool &paste, bool &move );
+
+  virtual void copySelection();
+  virtual void pasteSelection();
+  virtual void moveSelection( const QString &destinationURL = QString::null );
+  
+private:
+  KonqTreeView *m_treeView;
+};
+
 /**
  * One item in the tree
  */
@@ -151,11 +167,19 @@ public:
   virtual int yOffset();
   virtual void stop();
 
+  KfmTreeView *treeView() const { return m_pTreeView; }
+
 protected:
   virtual void resizeEvent( QResizeEvent * );
 
+protected slots:
+  void slotReloadTree();
+  void slotShowDot();
+
 private:
   KfmTreeView *m_pTreeView;
+  KAction *m_paReloadTree;
+  KToggleAction *m_paShowDot;
 };
 
 /**
@@ -165,6 +189,7 @@ class KfmTreeView : public QListView
 {
   friend KfmTreeViewItem;
   friend KfmTreeViewDir;
+  friend KonqTreeView;
 
   Q_OBJECT
 public:
@@ -174,15 +199,6 @@ public:
   void stop();
   QString url();
 
-/*
-  virtual void can( bool &copy, bool &paste, bool &move );
-  virtual void copySelection();
-  virtual void pasteSelection();
-  virtual void moveSelection( const QCString &destinationURL );
-
-  virtual void slotReloadTree();
-  virtual void slotShowDot();
-*/    
   struct iterator
   {
     KfmTreeViewItem* m_p;
@@ -217,8 +233,6 @@ public slots:
 protected slots:
   virtual void slotReturnPressed( QListViewItem *_item );
   virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
-
-//  void slotSelectionChanged();
 
   // slots connected to the directory lister
   virtual void slotStarted( const QString & );
@@ -257,6 +271,8 @@ protected:
 				   int _clipw, int _cliph );
 
   virtual void focusInEvent( QFocusEvent* _event );
+
+  KDirLister *dirLister() const { return m_dirLister; }
 
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
@@ -302,7 +318,7 @@ protected:
   long int m_idShowDot;
   
   QString m_strURL;
-  
+
   KonqTreeView *m_pBrowserView;
 };
 

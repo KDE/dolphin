@@ -91,8 +91,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
 
   splitView( orientation, pView, serviceTypes );
 
-//  m_pMainView->childView( pView )->openURL( url );
-  pView->openURL( url );
+  m_pMainView->childView( pView )->openURL( url );
 }
 
 void KonqViewManager::splitView ( Qt::Orientation orientation, 

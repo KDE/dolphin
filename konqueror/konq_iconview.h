@@ -218,8 +218,8 @@ protected:
 
   SortCriterion m_eSortCriterion;
 
-  KAction *m_paDotFiles;
-  QActionMenu *m_pamSort;
+  KToggleAction *m_paDotFiles;
+  KActionMenu *m_pamSort;
 
   KAction *m_paSelect;
   KAction *m_paUnselect;

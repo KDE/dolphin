@@ -109,10 +109,24 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
 
   connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
            this, SLOT( checkEditExtension() ) );
+
+  KConfig *config = KonqFactory::instance()->config();
+  config->setGroup( "Settings" );
+  QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
+  if ( locationBarCombo.count() == 0 )
+    locationBarCombo << QString();
+  
+  m_paURLCombo->setItems( locationBarCombo );
 }
 
 KonqMainView::~KonqMainView()
 {
+
+  KConfig *config = KonqFactory::instance()->config();
+  config->setGroup( "Settings" );
+  config->writeEntry( "ToolBarCombo", m_paURLCombo->comboItems() );
+  config->sync();
+
   m_animatedLogoTimer.stop();
   delete m_pViewManager;
 
@@ -478,6 +492,7 @@ void KonqMainView::slotViewChanged( BrowserView *oldView, BrowserView *newView )
     plugInViewGUI( newView );
     updateStatusBar();
     checkEditExtension();
+    m_bMenuViewDirty = true;
   }
 }
 
@@ -626,6 +641,7 @@ void KonqMainView::setActiveView( BrowserView *view )
 
   checkEditExtension();
   
+  m_bMenuViewDirty = true;
 }
 
 void KonqMainView::insertChildView( KonqChildView *childView )
@@ -985,7 +1001,6 @@ void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QStringList &urls )
 
 void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &url )
 {
-
   childView->setLocationBarURL( url );
   
   if ( childView == (KonqChildView *)m_currentView )
@@ -1175,10 +1190,6 @@ void KonqMainView::initActions()
            this, SLOT( slotURLEntered( const QString & ) ) );
 
   m_paURLCombo->setEditable( true );
-
-  QStringList fooBar;
-  fooBar << QString();
-  m_paURLCombo->setItems( fooBar );
 
   m_paReload->plug( popup );
   m_paStop->plug( popup );

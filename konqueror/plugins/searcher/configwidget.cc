@@ -184,7 +184,7 @@ void ConfigWidget::slotSaveEntry()
   
   e.m_strName = m_pNameLineEdit->text();
  
-  for (int i = 0; i < m_pKeyListBox->count(); i++)
+  for (uint i = 0; i < m_pKeyListBox->count(); i++)
     e.m_lstKeys.append( m_pKeyListBox->text( i ) );
 
   e.m_strQuery = m_pQueryLineEdit->text();
@@ -235,7 +235,7 @@ void ConfigWidget::slotKeyTextChanged( const QString &text )
 
   m_pRemoveKeyPushButton->setEnabled( false );
 
-  for ( int i = 0; i < m_pKeyListBox->count(); i++ )
+  for ( uint i = 0; i < m_pKeyListBox->count(); i++ )
     if ( m_pKeyListBox->text( i ) == text )
     {
       m_pRemoveKeyPushButton->setEnabled( true );
@@ -259,7 +259,7 @@ void ConfigWidget::slotRemoveKey()
   
   m_pKeyLineEdit->clear();
   
-  for ( int i = 0; i < m_pKeyListBox->count(); i++ )
+  for ( uint i = 0; i < m_pKeyListBox->count(); i++ )
     if ( m_pKeyListBox->text( i ) == key )
     {
       m_pKeyListBox->removeItem( i );

@@ -47,6 +47,7 @@
 #include <qkeycode.h>
 #include <qlist.h>
 #include <qdragobject.h>
+#include <qapplication.h>
 #include <qclipboard.h>
 #include <klocale.h>
 #include <klibloader.h>
@@ -56,7 +57,7 @@ class KonqTreeViewFactory : public KLibFactory
 public:
   KonqTreeViewFactory() {}
   
-  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  virtual QObject* create( QObject*, const char*, const char* )
   {
     return new KonqTreeView;
   }
@@ -71,10 +72,79 @@ extern "C"
   }
 };
 
+TreeViewEditExtension::TreeViewEditExtension( KonqTreeView *treeView )
+ : EditExtension( treeView, "TreeViewEditExtension" )
+{
+  m_treeView = treeView;
+}
+
+void TreeViewEditExtension::can( bool &copy, bool &paste, bool &move )
+{
+  QValueList<KfmTreeViewItem*> selection;
+  
+  m_treeView->treeView()->selectedItems( selection );
+  
+  move = copy = ( selection.count() != 0 );
+  
+  paste = false;
+}
+
+void TreeViewEditExtension::copySelection()
+{
+  QValueList<KfmTreeViewItem*> selection;
+  
+  m_treeView->treeView()->selectedItems( selection );
+  
+  QStringList lstURLs;
+  
+  QValueList<KfmTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KfmTreeViewItem*>::ConstIterator end = selection.end();
+  for (; it != end; ++it )
+    lstURLs.append( (*it)->item()->url().url() );
+    
+  QUriDrag *urlData = new QUriDrag;
+  urlData->setUnicodeUris( lstURLs );
+  QApplication::clipboard()->setData( urlData );
+}
+
+void TreeViewEditExtension::pasteSelection()
+{
+}
+
+void TreeViewEditExtension::moveSelection( const QString &destinationURL )
+{
+  QValueList<KfmTreeViewItem*> selection;
+  m_treeView->treeView()->selectedItems( selection );
+  
+  QStringList lstURLs;
+  
+  QValueList<KfmTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KfmTreeViewItem*>::ConstIterator end = selection.end();
+  for (; it != end; ++it )
+    lstURLs.append( (*it)->item()->url().url() );
+    
+  KIOJob *job = new KIOJob;
+  
+  if ( !destinationURL.isEmpty() )
+    job->move( lstURLs, destinationURL );
+  else
+    job->del( lstURLs );
+}
+
 KonqTreeView::KonqTreeView()
 {
+  EditExtension *extension = new TreeViewEditExtension( this );
   m_pTreeView = new KfmTreeView( this );
   m_pTreeView->show();
+
+  m_paReloadTree = new KAction( i18n( "Rel&oad Tree" ), 0, this, SLOT( slotReloadTree() ), this );
+  m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
+
+  actions()->append( BrowserView::ViewAction( m_paReloadTree, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paShowDot, BrowserView::MenuView ) );
+
+  QObject::connect( m_pTreeView, SIGNAL( selectionChanged() ),
+                    extension, SIGNAL( selectionChanged() ) );
 }
 
 KonqTreeView::~KonqTreeView()
@@ -113,6 +183,17 @@ void KonqTreeView::resizeEvent( QResizeEvent * )
   m_pTreeView->setGeometry( 0, 0, width(), height() );
 }
 
+void KonqTreeView::slotReloadTree()
+{
+  m_pTreeView->openURL( url(), m_pTreeView->contentsX(), m_pTreeView->contentsY() );
+}
+
+void KonqTreeView::slotShowDot()
+{
+  m_pTreeView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
+}
+
+
 KfmTreeView::KfmTreeView( KonqTreeView *parent )
 : QListView( parent )
 {
@@ -120,7 +201,6 @@ KfmTreeView::KfmTreeView( KonqTreeView *parent )
 
   setMultiSelection( true );
 
-//  m_pMainView          = mainView;
   m_pBrowserView       = parent;
   m_pWorkingDir        = 0L;
   m_bTopLevelComplete  = true;
@@ -155,9 +235,6 @@ KfmTreeView::KfmTreeView( KonqTreeView *parent )
 	   this, SLOT( slotReturnPressed( QListViewItem* ) ) );
   QObject::connect( this, SIGNAL( currentChanged( QListViewItem* ) ),
 	   this, SLOT( slotCurrentChanged( QListViewItem* ) ) );
-#warning FIXME (extension!) (Simon)	   
-//  QObject::connect( this, SIGNAL( selectionChanged() ),
-//                    m_pBrowserView, SIGNAL( selectionChanged() ) );
 
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
@@ -182,26 +259,6 @@ KfmTreeView::~KfmTreeView()
     it->prepareToDie();
 
 }
-/*
-bool KfmTreeView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
-{
-  if ( !CORBA::is_nil( viewMenu ) )
-  {
-    viewMenu->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree", 0, -1 , -1 );
-    m_idShowDot = viewMenu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, -1, -1 );
-    viewMenu->setItemChecked( m_idShowDot, m_pProps->m_bShowDot );
-    m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
-  }
-  
-  return true;
-}
-
-bool KfmTreeView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr *//*editMenu*/ /* )
-{
-  // TODO : add select and selectall (taken from Icon View)
-  return true;
-}
-*/
 
 void KfmTreeView::stop()
 {
@@ -212,76 +269,6 @@ QString KfmTreeView::url()
 {
   return m_strURL;
 }
-/*
-void KfmTreeView::can( bool &copy, bool &paste, bool &move )
-{
-  QValueList<KfmTreeViewItem*> selection;
-  selectedItems( selection );
-  
-  move = copy = ( selection.count() != 0 );
-  
-  // we don't allow paste because it might be confusing to the user, since he/she
-  // doesn't really know *where* (url) the data is pasted then (IMHO)
-  // Simon
-  paste = false;
-}
-
-void KfmTreeView::copySelection()
-{
-  QValueList<KfmTreeViewItem*> selection;
-  selectedItems( selection );
-  
-  QStringList lstURLs;
-  
-  QValueList<KfmTreeViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KfmTreeViewItem*>::ConstIterator end = selection.end();
-  for (; it != end; ++it )
-    lstURLs.append( (*it)->item()->url().url() );
-    
-  QUriDrag *urlData = new QUriDrag;
-  urlData->setUnicodeUris( lstURLs );
-  QApplication::clipboard()->setData( urlData );
-}
-
-void KfmTreeView::pasteSelection()
-{
-  assert( 0 );
-}
-
-void KfmTreeView::moveSelection( const QCString &destinationURL )
-{
-  QValueList<KfmTreeViewItem*> selection;
-  selectedItems( selection );
-  
-  QStringList lstURLs;
-  
-  QValueList<KfmTreeViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KfmTreeViewItem*>::ConstIterator end = selection.end();
-  for (; it != end; ++it )
-    lstURLs.append( (*it)->item()->url().url() );
-    
-  KIOJob *job = new KIOJob;
-  
-  if ( !destinationURL.isEmpty() )
-    job->move( lstURLs, destinationURL );
-  else
-    job->del( lstURLs );
-}
-*/
-/*
-void KfmTreeView::slotReloadTree()
-{
-  openURL( url(), contentsX(), contentsY() );
-}
-
-void KfmTreeView::slotShowDot()
-{
-  kdebug(0, 1202, "KfmTreeView::slotShowDot()");
-  m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
-  m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
-//  m_vViewMenu->setItemChecked( m_idShowDot, m_pProps->m_bShowDot );
-}
-*/
 
 void KfmTreeView::initConfig()
 {

@@ -57,7 +57,7 @@ class KonqIconViewFactory : public KLibFactory
 public:
   KonqIconViewFactory() {}
   
-  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  virtual QObject* create( QObject*, const char*, const char* )
   {
     return new KonqKfmIconView;
   }
@@ -350,8 +350,8 @@ KonqKfmIconView::KonqKfmIconView()
 //  QWidget::setFocusPolicy( StrongFocus );
 //  viewport()->setFocusPolicy( StrongFocus );
 
-  m_paDotFiles = new KAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
-  m_pamSort = new QActionMenu( i18n( "Sort..." ), this );
+  m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
+  m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
 
   m_paSelect = new KAction( i18n( "&Select" ), 0, this, SLOT( slotSelect() ), this );
   m_paUnselect = new KAction( i18n( "&Unselect" ), 0, this, SLOT( slotUnselect() ), this );
@@ -672,7 +672,7 @@ void KonqKfmIconView::dropStuff( QDropEvent *ev, KFileIVI *item )
 void KonqKfmIconView::initConfig()
 {
   // Color settings
-  QColor bgColor           = m_pSettings->bgColor();
+//  QColor bgColor           = m_pSettings->bgColor();
   QColor textColor         = m_pSettings->textColor();
   QColor linkColor         = m_pSettings->linkColor();
   // unused  QColor vLinkColor        = m_pSettings->vLinkColor();

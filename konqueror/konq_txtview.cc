@@ -52,7 +52,7 @@ class KonqTxtViewFactory : public KLibFactory
 public:
   KonqTxtViewFactory() {}
   
-  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  virtual QObject* create( QObject*, const char*, const char* )
   {
     return new KonqTxtView;
   }

@@ -20,6 +20,7 @@
 #include "konq_actions.h"
 
 #include <qlabel.h>
+#include <qcombobox.h>
 
 #include <ktoolbar.h>
 
@@ -32,7 +33,7 @@ KonqComboAction::KonqComboAction( const QString& text, int accel,
 KonqComboAction::KonqComboAction( const QString& text, int accel,
 			      QObject* receiver, const char* slot, QObject* parent,
 			      const char* name )
-    : KSelectAction( text, accel, parent, name )
+    : KSelectAction( text, accel, receiver, slot, parent, name )
 {
 }
 
@@ -95,7 +96,7 @@ void KonqComboAction::changeItem( const QString &text, int index )
 {
 #warning Torben, please read :-) (Simon)
   // Hey Torben, if you ever read this :-) , then please consider implemeting
-  // QSelectAction::cangeItem() in Qt, as this "hack" breaks m_list !!
+  // QSelectAction::changeItem() in Qt, as this "hack" breaks m_list !!
   // (Simon)
 
   if ( index == -1 )
@@ -128,6 +129,24 @@ void KonqComboAction::changeItem( const QString &text, int index )
     else if ( w->inherits( "QActionWidget" ) )
       ((QActionWidget *)w)->updateAction( this );
   }
+}
+
+QStringList KonqComboAction::comboItems()
+{
+  QWidget *w;
+  int len = containerCount();
+  for ( int i = 0; i < len; i++ )
+   if ( ( w = container( i ) )->inherits( "KToolBar" ) )
+   {
+     QComboBox *combo = ((KToolBar *)w)->getCombo( menuId( i ) );
+     QStringList res;
+     
+     for ( int j = 0; j < combo->count(); j++ )
+       res.append( combo->text( j ) );
+
+     return res;
+   }
+ return QStringList();
 }
 
 #include "konq_actions.moc"

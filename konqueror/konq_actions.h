@@ -41,6 +41,9 @@ public:
 
     //Konqueror Extension
     void changeItem( const QString &text, int index = -1 );
+    
+    //HACK, until QSelectAction::changeItem() exists (Simon)
+    QStringList comboItems();
   
 };
 

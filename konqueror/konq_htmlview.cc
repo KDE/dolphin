@@ -52,7 +52,7 @@ class KonqHTMLViewFactory : public KLibFactory
 public:
   KonqHTMLViewFactory() {}
   
-  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  virtual QObject* create( QObject*, const char*, const char* )
   {
     return new KonqHTMLView;
   }
@@ -73,7 +73,7 @@ KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
   m_pHTMLView = htmlView;
 }
 
-void KonqBrowser::openURL( QString url, bool reload, int xOffset, int yOffset, const char *post_data )
+void KonqBrowser::openURL( QString url, bool reload, int xOffset, int yOffset, const char * )
 {
   emit m_pHTMLView->openURLRequest( url, reload, xOffset, yOffset );
 }
@@ -208,7 +208,7 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
 }
 */
 void KonqHTMLView::slotMousePressed( const QString &_url, 
-				     const QPoint &_global, int _button )
+				     const QPoint &, int _button )
 {
   QString url = _url;
 
@@ -374,7 +374,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
     emit setStatusBarText( url.decodedURL() );
 }
 
-void KonqHTMLView::slotSetTitle( QString title )
+void KonqHTMLView::slotSetTitle( QString )
 {
 #warning TODO (in the Canossa framework) (Simon)
 /*
