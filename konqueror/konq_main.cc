@@ -146,7 +146,14 @@ int main( int argc, char **argv )
   KConfig *kioConfig = new KConfig("kioslaverc", false, false);
   if (kioConfig->readBoolEntry( "Cookies", true ))
   {
-     system("kcookiejar");
+     QCString dcopService;
+     QString error;
+     if (KApplication::startServiceByDesktopName("kcookiejar", QString::null,
+		dcopService, error ))
+     {
+        // Error starting kcookiejar.
+        kDebugInfo( 1202, "Error starting KCookiejar: %s\n", error.ascii());
+     }
   }
   delete kioConfig;
 
