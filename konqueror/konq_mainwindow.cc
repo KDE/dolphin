@@ -3846,12 +3846,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
-  KAction *actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), actionCollection(), "newview" );
-  actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
-  popupMenuCollection.insert( actNewWindow );
-  KAction *actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
-  actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
-
   if ( _items.count() == 1 )
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
                                                        "KParts/ReadOnlyPart",
@@ -3881,7 +3875,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       if ( !viewURL.isEmpty() )
       {
           KURL firstURL = _items.getFirst()->url();
-          //firstURL.cleanPath();
+	  //firstURL.cleanPath();
           openedForViewURL = firstURL.cmp( viewURL, true );
       }
       dirsSelected = S_ISDIR( _items.getFirst()->mode() );
@@ -3894,6 +3888,24 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                                                                 dirsSelected, isIntoTrash );
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
+
+  KAction *actNewWindow, *actNewTab;
+  if ( openedForViewURL )
+  {
+    actNewWindow = new KAction( i18n( "Duplicate in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), actionCollection(), "newview" );
+    actNewWindow->setStatusText( i18n( "Duplicate the document in a new window" ) );
+    popupMenuCollection.insert( actNewWindow );
+    actNewTab = new KAction( i18n( "Duplicate in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
+    actNewTab->setStatusText( i18n( "Duplicate the document in a new tab" ) );
+  }
+  else
+  {
+    actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), actionCollection(), "newview" );
+    actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
+    popupMenuCollection.insert( actNewWindow );
+    actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
+    actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
+  }
 
   KonqPopupMenu pPopupMenu ( KonqBookmarkManager::self(), _items,
                              viewURL,
