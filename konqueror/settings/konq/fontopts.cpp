@@ -36,6 +36,9 @@
 #include <kfontdialog.h>
 #include <kfontcombo.h>
 
+#include <kapplication.h>
+#include <dcopclient.h>
+
 //-----------------------------------------------------------------------------
 
 KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char *name)
@@ -287,6 +290,12 @@ void KonqFontOptions::save()
     }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
+
+    if ( m_bDesktop ) {
+        if ( !kapp->dcopClient()->isAttached() )
+            kapp->dcopClient()->attach();
+        kapp->dcopClient()->send("kdesktop", "", "configure()", "");
+    }
 }
 
 
