@@ -150,36 +150,42 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
   d_lay->addWidget(label,1,0);
   le_name = new QLineEdit( grp_details );
   le_name->setReadOnly(true);
+  le_name->setFrame( false );
   d_lay->addWidget(le_name,1,1);
 
   label = new QLabel(i18n("Value:"), grp_details);
   d_lay->addWidget(label,2,0);
   le_value = new QLineEdit( grp_details );
   le_value->setReadOnly(true);
+  le_value->setFrame( false );
   d_lay->addWidget(le_value,2,1);
 
   label = new QLabel(i18n("Domain:"), grp_details);
   d_lay->addWidget(label,3,0);
   le_domain = new QLineEdit( grp_details );
   le_domain->setReadOnly(true);
+  le_domain->setFrame( false );
   d_lay->addWidget(le_domain,3,1);
 
   label = new QLabel(i18n("Path:"), grp_details);
   d_lay->addWidget(label,4,0);
   le_path = new QLineEdit( grp_details );
   le_path->setReadOnly(true);
+  le_path->setFrame( false );
   d_lay->addWidget(le_path,4,1);
 
   label = new QLabel(i18n("Expires:"), grp_details);
   d_lay->addWidget(label,5,0);
   le_expires = new QLineEdit( grp_details );
   le_expires->setReadOnly(true);
+  le_expires->setFrame( false );
   d_lay->addWidget(le_expires,5,1);
 
   label = new QLabel(i18n("Secure:"), grp_details);
   d_lay->addWidget(label,6,0);
   le_isSecure = new QLineEdit( grp_details );
   le_isSecure->setReadOnly(true);
+  le_isSecure->setFrame( false );
   d_lay->addWidget(le_isSecure,6,1);
 
   connect(lv_cookies, SIGNAL(expanded(QListViewItem*)), SLOT(getCookies(QListViewItem*)) );
@@ -214,27 +220,51 @@ void KCookiesManagement::load()
   getDomains();
 }
 
+bool KCookiesManagement::checkCookiejarStatus()
+{
+  bool status = m_dcopClient->isApplicationRegistered("kcookiejar");
+  if ( !status )
+  {
+      // TODO: Ask the user whether or not an attempt should be
+      // made to start the cookiejar
+      status = KApplication::startServiceByDesktopName( "kcookiejar",
+                                                        QStringList(),
+                                                        &error ) );
+  }
+  return status;
+}
+
 void KCookiesManagement::save()
 {
+  // If delete all cookies was requested!
   if(m_bDeleteAll)
   {
     QByteArray call;
     QByteArray reply;
     QCString replyType;
 
-    if( dcop->call("kcookiejar", "kcookiejar", "deleteAllCookies()", call, replyType, reply) )
+    if ( !checkCookiejarStatus() )
+    {
+      // TODO: Warn the user that cookies not being deleted!
+      return;
+    }
+
+    if( dcop->call("kcookiejar", "kcookiejar", "deleteAllCookies()",
+                   call, replyType, reply) )
     {
       // deleted[Cookies|Domains] have been cleared yet
       m_bDeleteAll = false;
     }
     else
     {
+      // TODO: Warn the user that cookies not being deleted!
+      return;
     }
-    return;
   }
 
+  // Certain groups of cookies were deleted...
   QStringList::Iterator dIt = deletedDomains.begin();
-  while(dIt != deletedDomains.end())
+  while( dIt != deletedDomains.end() )
   {
     QByteArray call;
     QByteArray reply;
@@ -243,15 +273,19 @@ void KCookiesManagement::save()
     callStream << *dIt;
 
     if( dcop->call("kcookiejar", "kcookiejar",
-                   "deleteCookiesFromDomain(QString)", call, replyType, reply) )
+                   "deleteCookiesFromDomain(QString)", call, replyType,
+                   reply) )
     {
       dIt = deletedDomains.remove(dIt);
     }
     else
     {
+      // TODO: Warn the user the cookies cannot be deleted!
+      return;
     }
   }
 
+  // Individual cookies were deleted...
   bool success = true; // Maybe we can go on...
   QDictIterator<CookiePropList> cookiesDom(deletedCookies);
   while(cookiesDom.current())
@@ -322,8 +356,9 @@ void KCookiesManagement::getDomains()
   QByteArray reply;
   QCString replyType;
   QStringList domains;
+
   if( dcop->call("kcookiejar", "kcookiejar", "findDomains()",
-                 call, replyType, reply) && replyType == "QStringList")
+                 call, replyType, reply) && replyType == "QStringList" )
   {
     QDataStream replyStream(reply, IO_ReadOnly);
     replyStream >> domains;
@@ -346,6 +381,7 @@ void KCookiesManagement::getDomains()
   {
     // TODO
   }
+
   btn_deleteAll->setEnabled(lv_cookies->childCount());
 }
 
@@ -458,9 +494,9 @@ void KCookiesManagement::showCookieDetails(QListViewItem* item)
 
 void KCookiesManagement::deleteCookie()
 {
-  CookieListViewItem *item = static_cast<CookieListViewItem*>(lv_cookies->currentItem());
-  CookieProp *cookie = item->cookie();
-  if(cookie)
+  QListViewItem* currentItem = lv_cookies->currentItem();
+  CookieListViewItem *item = static_cast<CookieListViewItem*>( currentItem );
+  if( item->cookie() )
   {
     CookieListViewItem *parent = static_cast<CookieListViewItem*>(item->parent());
     CookiePropList *list = deletedCookies.find(parent->domain());
@@ -481,10 +517,15 @@ void KCookiesManagement::deleteCookie()
     delete item;
   }
 
-  if (lv_cookies->currentItem())
-    lv_cookies->setSelected(lv_cookies->currentItem(), true);
+  currentItem = lv_cookies->currentItem();
+  if ( currentItem )
+  {
+    lv_cookies->setSelected( currentItem, true );
+    showCookieDetails( currentItem );
+  }
+  else
+    clearCookieDetails();
 
-  clearCookieDetails();
   btn_delete->setEnabled(lv_cookies->selectedItem());
   btn_deleteAll->setEnabled(lv_cookies->childCount());
   changed();
