@@ -214,7 +214,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       // Well, comment this out if you prefer compatibility over quality.
       determineThumbnailURL();
 
-      kdDebug() << "After stat xv m_bCanSave=" << m_bCanSave << " m_bDirsCreated=" << m_bDirsCreated << endl;
+      kdDebug(1203) << "After stat xv m_bCanSave=" << m_bCanSave << " m_bDirsCreated=" << m_bDirsCreated << endl;
       if ( m_bCanSave && !m_bDirsCreated )
       {
         // m_thumbURL is /blah/.pics/med/file.png
@@ -385,7 +385,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 {
   QPixmap pix;
   QImage img;
-  kdDebug() << "KonqImagePreviewJob::createThumbnail loading " << pixPath << endl;
+  kdDebug(1203) << "KonqImagePreviewJob::createThumbnail loading " << pixPath << endl;
 
   bool ok = false;
   bool saveImage = m_bCanSave;
@@ -499,7 +499,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   {
     ok = true;
     int w = pix.width(), h = pix.height();
-    kdDebug() << "w=" << w << " h=" << h << " m_extent=" << m_extent << endl;
+    kdDebug(1203) << "w=" << w << " h=" << h << " m_extent=" << m_extent << endl;
     // scale to pixie size
     if(w > m_extent || h > m_extent){
         if(w > h){
@@ -509,13 +509,13 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
             ASSERT( h <= m_extent );
         }
         else{
-            kdDebug() << "Setting h to m_extent" << endl;
+            kdDebug(1203) << "Setting h to m_extent" << endl;
             w = (int)( (double)( w * m_extent ) / h );
             if ( w == 0 ) w = 1;
             h = m_extent;
             ASSERT( w <= m_extent );
         }
-        kdDebug() << "smoothScale to " << w << "x" << h << endl;
+        kdDebug(1203) << "smoothScale to " << w << "x" << h << endl;
         img = pix.convertToImage().smoothScale( w, h );
         if ( img.width() != w || img.height() != h )
         {
