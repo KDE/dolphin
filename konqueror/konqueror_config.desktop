@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=kcmshell kcmkonq filetypes konqhtml ebrowsing cookies cache proxy kcmcss crypto useragent nsplugin
+Exec=kcmshell kcmkonq filetypes khtml_appearance khtml_java_js khtml_fonts ebrowsing cookies cache proxy kcmcss crypto useragent nsplugin
 Icon=konqueror
 DocPath=konqueror/index.html
 Name=Configure Konqueror
@@ -22,6 +22,7 @@ Name[eu]=Konqueror Konfiguratu
 Name[fi]=Konquerorin asetukset
 Name[fr]=Configuration de Konqueror
 Name[he]=הגדרות Konqueror
+Name[hr]=Podesi Konqueror
 Name[hu]=A Konqueror beállítása
 Name[id]=Pengaturan Konqueror
 Name[is]=Stilla Konqueror
