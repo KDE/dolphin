@@ -9,6 +9,7 @@
 
 #include <klocale.h>
 #include <kglobal.h>
+#include <kguiitem.h>
 #include <kstatusbar.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -25,7 +26,9 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   : KDialogBase( Plain, QString::null,
 	User1 | User2 | User3 | Apply | Close | Help, User1,
         parent, name, true, true,
-	i18n("&Find"), i18n("Stop"), i18n("Save...") )
+	KGuiItem(i18n("&Find"), "find"), 
+	KGuiItem(i18n("Stop"), "stop"),
+	KGuiItem(i18n("Save..."), "filesave"))
 {
   QWidget::setCaption( i18n("Find Files" ) );
   setButtonBoxOrientation(Vertical);
