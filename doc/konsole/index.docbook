@@ -286,25 +286,31 @@ You can assign
 
 <title>Mouse Buttons</title>
 
+<para>This section details the use of the mouse buttons for the common
+right handed mouse button order.
+For the left handed mouse button order, swap left and right in the text below.
+</para>
+
 <variablelist>
 
 <varlistentry>
 <term><mousebutton>Left</mousebutton></term>
 
-<listitem><para>Clicking the <mousebutton>left</mousebutton> button is
-passed as an event to the application running in the emulation, if it
-is mouse-aware.  If a program will react on mouse clicks, &konsole;
+<listitem><para>
+All &LMB; clicks will be sent to a mouse-aware application running
+in &konsole;.
+If an application will react on mouse clicks, &konsole;
 indicates this by showing an arrow cursor. If not, an I-beam (bar)
 cursor is shown.</para>
 
-<para>Holding the <mousebutton>left</mousebutton> button down and
+<para>Holding the &LMB; down and
 dragging the mouse over the screen with a mouse-unaware application
 running will mark a region of the text. While dragging, the marked
 text is displayed reversed for visual feedback. Select <guimenuitem>Copy</guimenuitem>
 from the <guimenu>Edit</guimenu> menu to copy the marked text to the clipboard for further use
 within &konsole; or another application. The selected text can also be
 dragged and dropped into compatible applications. Click on the selected
-text and drag it to the desired location. (Depending on your &kde; settings,
+text and drag it to the desired location. Depending on your &kde; settings,
 you may need to hold the &Ctrl; key while dragging.</para>
 
 <para>Normally, new-line characters are inserted at the end of each
@@ -315,7 +321,11 @@ of characters that will be automatically re-formatted when pasted into
 another application.  To select in text-stream mode, hold down the
 &Ctrl; key while selecting normally.</para>
 
-<para>Double-click with the <mousebutton>left</mousebutton> button to select a word;
+<para>Pressing the &Ctrl; and &Alt; keys along with the &LMB;
+will select a column of text.
+</para>
+
+<para>Double-click with the &LMB; to select a word;
 triple-click to select an entire line.</para>
 
 <para>If the upper or lower edge of the text area is touched while
@@ -327,7 +337,7 @@ moving.</para>
 in the clipboard visible by holding the marked area reversed. The
 marked area reverts back to normal as soon as the contents of the
 clipboard change, the text within the marked area is altered or the
-<mousebutton>left</mousebutton> mouse button is clicked.</para>
+&LMB; is clicked.</para>
 
 <para>To mark text on a mouse-aware application (Midnight Commander, for example)
 the &Shift; key has to be pressed when clicking.</para>
@@ -338,16 +348,21 @@ the &Shift; key has to be pressed when clicking.</para>
 <varlistentry>
 <term><mousebutton>Middle</mousebutton></term>
 
-<listitem><para>Pressing the <mousebutton>middle</mousebutton> button
+<listitem><para>Pressing the &MMB;
 pastes text currently in the clipboard. Holding down the &Ctrl; key as you
-press the <mousebutton>middle</mousebutton> button pastes the text and sends
+press the &MMB; pastes the text and sends
 it to &konsole;.</para>
 
 <note><para>If you have a mouse with only two buttons, pressing both
-the <mousebutton>left</mousebutton> and
-<mousebutton>right</mousebutton> buttons together emulates the
-<mousebutton>middle</mousebutton> button of a three button
-mouse.</para></note>
+the &LMB; and &RMB;
+together emulates the
+&MMB;
+of a three button mouse.</para></note>
+
+<para>
+If you have a <mousebutton>wheel</mousebutton> as the middle button,
+rolling it in a mouse-unaware program will move the scrollbar.
+</para>
 
 </listitem>
 </varlistentry>
@@ -356,20 +371,47 @@ mouse.</para></note>
 <term><mousebutton>Right</mousebutton></term>
 <listitem>
 <para>
-The <mousebutton>right</mousebutton> button brings up a menu with the
-<guimenuitem>Show Menubar</guimenuitem>,
+The items that appear in the menu when the &RMB;
+is pressed depend on whether the menu bar is visible.
+</para>
+
+<para>
+Menubar is visible:
+<guimenuitem>Set Selection End</guimenuitem>,
 <guimenuitem>Copy</guimenuitem>,
 <guimenuitem>Paste</guimenuitem>,
 <guimenuitem>Send Signal</guimenuitem>,
-<guimenuitem>Detach (or Attach) Session</guimenuitem>,
+<guimenuitem>Detach Session</guimenuitem>,
 <guimenuitem>Rename Session...</guimenuitem>,
 <guimenuitem>Bookmarks</guimenuitem>
+and <guimenuitem>Close Session</guimenuitem>
+menu items. 
+</para>
+
+<para>
+Menubar is hidden:
+<guimenuitem>Show Menubar</guimenuitem>,
+<guimenuitem>Set Selection End</guimenuitem>,
+<guimenuitem>Copy</guimenuitem>,
+<guimenuitem>Paste</guimenuitem>,
+<guimenuitem>Send Signal</guimenuitem>,
+<guimenuitem>New Session</guimenuitem>,
+<guimenuitem>Detach Session</guimenuitem>,
+<guimenuitem>Rename Session...</guimenuitem>,
+<guimenuitem>Bookmarks</guimenuitem>,
 <guimenuitem>Settings</guimenuitem>
 and <guimenuitem>Close Session</guimenuitem>
-menu items. The <keycombo action="simul">&Ctrl;
-<mousebutton>right</mousebutton></keycombo> button brings up the
+menu items. 
+</para>
+
+<para>In a mouse-aware application, press the &Shift; key along with the
+&RMB; to get the pop-up menu.
+</para>
+
+<para>Pressing the &Ctrl; key and &RMB; brings up the 
 <guimenu>Session</guimenu> menu.
 </para>
+
 </listitem>
 </varlistentry>
 </variablelist>
