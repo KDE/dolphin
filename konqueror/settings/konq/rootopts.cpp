@@ -48,15 +48,21 @@
 class PreviewItem : public QCheckListItem
 {
 public:
-    PreviewItem(QListView *parent, const KService::Ptr &plugin, bool on)
-        : QCheckListItem(parent, plugin->name(), CheckBox)
+    PreviewItem(KRootOptions *rootOpts, QListView *parent,
+                const KService::Ptr &plugin, bool on)
+        : QCheckListItem(parent, plugin->name(), CheckBox),
+          m_rootOpts(rootOpts)
     {
         m_pluginName = plugin->desktopEntryName();
         setOn(on);
     }
     const QString &pluginName() const { return m_pluginName; }
     
+protected:
+    virtual void stateChange( bool ) { m_rootOpts->changed(); }
+
 private:
+    KRootOptions *m_rootOpts;
     QString m_pluginName;
 };
 
@@ -321,7 +327,7 @@ void KRootOptions::load()
     previewListView->clear();
     QStringList previews = g_pConfig->readListEntry("Preview");
     for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
-        new PreviewItem(previewListView, *it, previews.contains((*it)->desktopEntryName()));
+        new PreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);

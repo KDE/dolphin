@@ -39,6 +39,7 @@ public:
         virtual void save();
         virtual void defaults();
         virtual QString quickHelp() const;
+        friend class PreviewItem;
 
 private slots:
 
