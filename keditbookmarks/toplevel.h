@@ -86,8 +86,8 @@ class KBookmarkEditorIface : public QObject, public DCOPObject
 public:
     KBookmarkEditorIface();
 k_dcop:
-    void slotAddedBookmark( QString url, QString text, QString address, QString icon );
-    void slotCreatedNewFolder( QString text, QString address );
+    void slotAddedBookmark( QString filename, QString url, QString text, QString address, QString icon );
+    void slotCreatedNewFolder( QString filename, QString text, QString address );
 signals:
     void addedBookmark( QString url, QString text, QString address, QString icon );
     void createdNewFolder( QString text, QString address );
@@ -99,6 +99,7 @@ class KEBTopLevel : public KMainWindow
     Q_OBJECT
 public:
     static KEBTopLevel * self() { return s_topLevel; }
+    static KBookmarkManager * bookmarkManager() { return s_pManager; }
 
     KEBTopLevel( const QString & bookmarksFile );
     virtual ~KEBTopLevel();
@@ -186,11 +187,11 @@ protected:
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;
-    
+
     KBookmarkEditorIface * m_dcopIface;
 
     static KEBTopLevel * s_topLevel;
-
+    static KBookmarkManager * s_pManager;
 };
 
 

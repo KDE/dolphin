@@ -31,19 +31,19 @@ void MoveCommand::execute()
     kdDebug() << "MoveCommand::execute moving from=" << m_from << " to=" << m_to << endl;
 
     // Look for m_from in the QDom tree
-    KBookmark bk = KBookmarkManager::self()->findByAddress( m_from );
+    KBookmark bk = KEBTopLevel::bookmarkManager()->findByAddress( m_from );
     Q_ASSERT( !bk.isNull() );
-    //kdDebug() << "BEFORE:" << KBookmarkManager::self()->internalDocument().toString() << endl;
+    //kdDebug() << "BEFORE:" << KEBTopLevel::bookmarkManager()->internalDocument().toString() << endl;
     int posInOldParent = KBookmark::positionInParent( m_from );
-    KBookmark oldParent = KBookmarkManager::self()->findByAddress( KBookmark::parentAddress( m_from ) );
+    KBookmark oldParent = KEBTopLevel::bookmarkManager()->findByAddress( KBookmark::parentAddress( m_from ) );
     KBookmark oldPreviousSibling = posInOldParent == 0 ? KBookmark(QDomElement())
-                                   : KBookmarkManager::self()->findByAddress( KBookmark::previousAddress( m_from ) );
+                                   : KEBTopLevel::bookmarkManager()->findByAddress( KBookmark::previousAddress( m_from ) );
 
     // Look for m_to in the QDom tree (as parent address and position in parent)
     int posInNewParent = KBookmark::positionInParent( m_to );
     QString parentAddress = KBookmark::parentAddress( m_to );
     //kdDebug() << "MoveCommand::execute parentAddress=" << parentAddress << " posInNewParent=" << posInNewParent << endl;
-    KBookmark newParentBk = KBookmarkManager::self()->findByAddress( parentAddress );
+    KBookmark newParentBk = KEBTopLevel::bookmarkManager()->findByAddress( parentAddress );
     Q_ASSERT( !newParentBk.isNull() );
     Q_ASSERT( newParentBk.isGroup() );
 
@@ -55,7 +55,7 @@ void MoveCommand::execute()
     {
         QString afterAddress = KBookmark::previousAddress( m_to );
         kdDebug() << "MoveCommand::execute afterAddress=" << afterAddress << endl;
-        KBookmark afterNow = KBookmarkManager::self()->findByAddress( afterAddress );
+        KBookmark afterNow = KEBTopLevel::bookmarkManager()->findByAddress( afterAddress );
         Q_ASSERT(!afterNow.isNull());
         bool result = newParentBk.toGroup().moveItem( bk, afterNow );
         Q_ASSERT(result);
@@ -91,11 +91,11 @@ void CreateCommand::execute()
 
     // Gather some info
     QString parentAddress = KBookmark::parentAddress( m_to );
-    KBookmarkGroup parentGroup = KBookmarkManager::self()->findByAddress( parentAddress ).toGroup();
+    KBookmarkGroup parentGroup = KEBTopLevel::bookmarkManager()->findByAddress( parentAddress ).toGroup();
     QString previousSibling = KBookmark::previousAddress( m_to );
     //kdDebug() << "CreateCommand::execute previousSibling=" << previousSibling << endl;
     KBookmark prev = previousSibling.isEmpty() ? KBookmark(QDomElement())
-                     : KBookmarkManager::self()->findByAddress( previousSibling );
+                     : KEBTopLevel::bookmarkManager()->findByAddress( previousSibling );
 
     // Create
     KBookmark bk = KBookmark(QDomElement());
@@ -106,7 +106,7 @@ void CreateCommand::execute()
             if (m_group)
             {
                 Q_ASSERT( !m_text.isEmpty() );
-                bk = parentGroup.createNewFolder( m_text, false );
+                bk = parentGroup.createNewFolder( KEBTopLevel::bookmarkManager(), m_text, false );
 
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
                 bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
@@ -114,7 +114,7 @@ void CreateCommand::execute()
                     bk.internalElement().setAttribute( "icon",m_iconPath );
             }
             else
-                bk = parentGroup.addBookmark( m_text, m_url, m_iconPath, false);
+                bk = parentGroup.addBookmark( KEBTopLevel::bookmarkManager(), m_text, m_url, m_iconPath, false);
     else
         bk = m_originalBookmark;
 
@@ -132,7 +132,7 @@ void CreateCommand::execute()
 void CreateCommand::unexecute()
 {
     kdDebug() << "CreateCommand::unexecute deleting " << m_to << endl;
-    KBookmark bk = KBookmarkManager::self()->findByAddress( m_to );
+    KBookmark bk = KEBTopLevel::bookmarkManager()->findByAddress( m_to );
     Q_ASSERT( !bk.isNull() );
     Q_ASSERT( !bk.parentGroup().isNull() );
     // Update GUI
@@ -169,7 +169,7 @@ void CreateCommand::unexecute()
 void DeleteCommand::execute()
 {
     kdDebug() << "DeleteCommand::execute " << m_from << endl;
-    KBookmark bk = KBookmarkManager::self()->findByAddress( m_from );
+    KBookmark bk = KEBTopLevel::bookmarkManager()->findByAddress( m_from );
     Q_ASSERT(!bk.isNull());
     if ( !m_cmd )
         if ( bk.isGroup() )
@@ -214,7 +214,7 @@ KMacroCommand * DeleteCommand::deleteAll( const KBookmarkGroup & parentGroup )
 
 void EditCommand::execute()
 {
-    KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
+    KBookmark bk = KEBTopLevel::bookmarkManager()->findByAddress( m_address );
     Q_ASSERT( !bk.isNull() );
     m_reverseEditions.clear();
     QValueList<Edition>::Iterator it = m_editions.begin();
@@ -238,7 +238,7 @@ void EditCommand::unexecute()
 
 void RenameCommand::execute()
 {
-    KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
+    KBookmark bk = KEBTopLevel::bookmarkManager()->findByAddress( m_address );
     Q_ASSERT( !bk.isNull() );
 
     QDomNode titleNode = bk.internalElement().namedItem("title");
@@ -289,7 +289,7 @@ void SortCommand::execute()
 {
     if ( m_commands.isEmpty() )
     {
-        KBookmarkGroup grp = KBookmarkManager::self()->findByAddress( m_groupAddress ).toGroup();
+        KBookmarkGroup grp = KEBTopLevel::bookmarkManager()->findByAddress( m_groupAddress ).toGroup();
         Q_ASSERT( !grp.isNull() );
         SortItem firstChild( grp.first() );
         // This will call moveAfter, which will add the subcommands for moving the items
@@ -331,13 +331,13 @@ void ImportCommand::execute()
     {
         // Find or create "Netscape Bookmarks" toplevel item
         // Hmm, let's just create it. The user will clean up if he imports twice.
-        netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder,false);
+        netscapeGroup = KEBTopLevel::bookmarkManager()->root().createNewFolder(KEBTopLevel::bookmarkManager(),m_folder,false);
         netscapeGroup.internalElement().setAttribute("icon", m_icon);
         m_group = netscapeGroup.address();
     } else
     {
         // Import into the root, after cleaning it up
-        netscapeGroup = KBookmarkManager::self()->root();
+        netscapeGroup = KEBTopLevel::bookmarkManager()->root();
         delete m_cleanUpCmd;
         m_cleanUpCmd = DeleteCommand::deleteAll( netscapeGroup );
         // Unselect current item, it doesn't exist anymore
@@ -371,7 +371,7 @@ void ImportCommand::unexecute()
     else
     {
         // We imported at the root -> delete everything
-        KBookmarkGroup root = KBookmarkManager::self()->root();
+        KBookmarkGroup root = KEBTopLevel::bookmarkManager()->root();
         KCommand * cmd = DeleteCommand::deleteAll( root );
         // Unselect current item, it doesn't exist anymore
         KEBTopLevel::self()->listView()->clearSelection();
@@ -384,7 +384,7 @@ void ImportCommand::unexecute()
 
 void ImportCommand::newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo )
 {
-    KBookmark bk = mstack.top()->addBookmark( text, QString::fromUtf8(url), QString::null, false );
+    KBookmark bk = mstack.top()->addBookmark( KEBTopLevel::bookmarkManager(), text, QString::fromUtf8(url), QString::null, false );
     // Store additionnal info
     bk.internalElement().setAttribute("netscapeinfo",additionnalInfo);
 }
@@ -392,7 +392,7 @@ void ImportCommand::newBookmark( const QString & text, const QCString & url, con
 void ImportCommand::newFolder( const QString & text, bool open, const QString & additionnalInfo )
 {
     // We use a qvaluelist so that we keep pointers to valid objects in the stack
-    mlist.append( mstack.top()->createNewFolder( text,false ) );
+    mlist.append( mstack.top()->createNewFolder( KEBTopLevel::bookmarkManager(), text,false ) );
     mstack.push( &(mlist.last()) );
     // Store additionnal info
     QDomElement element = mlist.last().internalElement();
@@ -501,12 +501,12 @@ void TestLink::read(KIO::Job *j, const QByteArray &a)
     if (!s.isEmpty()) {
       setMod(p, s);
     }
-  } 
+  }
   jb->kill(false);
 }
 
 
-void TestLink::finished(KIO::Job *j) 
+void TestLink::finished(KIO::Job *j)
 {
   job = 0;
   KEBListViewItem *p = KEBTopLevel::self()->findByAddress( book.address());
@@ -544,7 +544,7 @@ void TestLink::finished(KIO::Job *j)
     emit deleteSelf(this);
 }
 
-bool TestLink::doNext(KEBListViewItem *p) 
+bool TestLink::doNext(KEBListViewItem *p)
 {
   bool notFinished = false;
 

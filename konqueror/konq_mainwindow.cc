@@ -91,6 +91,7 @@ template class QPtrList<KToggleAction>;
 QPtrList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KConfig * KonqMainWindow::s_comboConfig = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
+KBookmarkManager * KonqMainWindow::s_bookmarkManager = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
@@ -276,7 +277,7 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
         m_bookmarkBarActionCollection->setHighlightingEnabled( true );
         connectActionCollection( m_bookmarkBarActionCollection );
     }
-    m_paBookmarkBar = new KBookmarkBar( this, static_cast<KToolBar *>( res ), m_bookmarkBarActionCollection, this );
+    m_paBookmarkBar = new KBookmarkBar( bookmarkManager(), this, static_cast<KToolBar *>( res ), m_bookmarkBarActionCollection, this );
   }
 
   return res;
@@ -2186,7 +2187,7 @@ void KonqMainWindow::slotComboPlugged()
 void KonqMainWindow::bookmarksIntoCompletion()
 {
     // add all bookmarks to the completion list for easy access
-    bookmarksIntoCompletion( KBookmarkManager::self()->root() );
+    bookmarksIntoCompletion( bookmarkManager()->root() );
 }
 
 // the user changed the completion mode in the combo
@@ -2827,7 +2828,7 @@ void KonqMainWindow::initActions()
   m_bookmarksActionCollection->setHighlightingEnabled( true );
   connectActionCollection( m_bookmarksActionCollection );
 
-  m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
+  m_pBookmarkMenu = new KBookmarkMenu( bookmarkManager(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
@@ -3311,7 +3312,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
-  KonqPopupMenu pPopupMenu ( _items,
+  KonqPopupMenu pPopupMenu ( bookmarkManager(), _items,
                              viewURL,
                              popupMenuCollection,
                              m_pMenuNew,
@@ -3935,6 +3936,16 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
             items += pre;
         }
     return items;
+}
+
+KBookmarkManager *KonqMainWindow::bookmarkManager()
+{
+    if ( !s_bookmarkManager )
+    {
+        QString bookmarksFile = locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
+        s_bookmarkManager = KBookmarkManager::self( bookmarksFile );
+    }
+    return s_bookmarkManager;
 }
 
 #include "konq_mainwindow.moc"

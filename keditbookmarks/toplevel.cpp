@@ -141,7 +141,7 @@ QString internal_nsPut(QString _nsinfo, QString nm) {
   internal_nsGet(_nsinfo, nCreate, nAccess, nModify);
 
   QString nsinfo;
-  
+
   nsinfo  = "ADD_DATE=\"";
   nsinfo += (nCreate.isEmpty()) ? QString::number(time(0)) : nCreate;
 
@@ -320,28 +320,30 @@ QDragObject *KEBListView::dragObject()
 KBookmarkEditorIface::KBookmarkEditorIface()
  : QObject(), DCOPObject("KBookmarkEditor")
 {
-    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString)", "slotAddedBookmark(QString,QString,QString,QString)", false);
-    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString)", "slotCreatedNewFolder(QString,QString)", false);
+    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotAddedBookmark(QString,QString,QString,QString,QString)", false);
+    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotCreatedNewFolder(QString,QString,QString)", false);
 }
 
-void KBookmarkEditorIface::slotAddedBookmark( QString url, QString text, QString address, QString icon )
+void KBookmarkEditorIface::slotAddedBookmark( QString filename, QString url, QString text, QString address, QString icon )
 {
-    emit addedBookmark( url, text, address, icon );
+    if ( filename == KEBTopLevel::bookmarkManager()->path() )
+        emit addedBookmark( url, text, address, icon );
 }
 
-void KBookmarkEditorIface::slotCreatedNewFolder( QString text, QString address )
+void KBookmarkEditorIface::slotCreatedNewFolder( QString filename, QString text, QString address )
 {
-    emit createdNewFolder( text, address );
+    if ( filename == KEBTopLevel::bookmarkManager()->path() )
+        emit createdNewFolder( text, address );
 }
 
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
+KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     : KMainWindow(), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
-    // It will be available in KBookmarkManager::self() from now.
-    (void) new KBookmarkManager( bookmarksFile, false );
+    s_pManager = KBookmarkManager::self( bookmarksFile, false );
 
     // Create the list view
     m_pListView = new KEBListView( this );
@@ -403,7 +405,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     if (!m_bReadOnly) {
 
        if (m_bUnique) {
-          connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
+          connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
                    SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
        }
 
@@ -456,7 +458,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) new KAction( i18n( "Cancel &Checks" ), "canceltests", 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 
-    m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
+    m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
 
     actionCollection()->action("canceltests")->setEnabled(false);
     actionCollection()->action("testall")->setEnabled(false);
@@ -584,16 +586,18 @@ void KEBTopLevel::slotSaveAs()
 	QString saveFilename=
 		KFileDialog::getSaveFileName( QString::null, "*.xml", this );
         if(!saveFilename.isEmpty())
-            KBookmarkManager::self()->saveAs( saveFilename );
+            s_pManager->saveAs( saveFilename );
 }
 
 bool KEBTopLevel::save()
 {
-    bool ok = KBookmarkManager::self()->save();
+    bool ok = s_pManager->save();
     if (ok)
     {
         QString data( kapp->name() );
-        kapp->dcopClient()->send( "*", "KBookmarkManager", "notifyCompleteChange(QString)", data );
+        QCString objId( "KBookmarkManager-" );
+        objId += s_pManager->path().utf8();
+        kapp->dcopClient()->send( "*", objId, "notifyCompleteChange(QString)", data );
         setModified( false );
         m_commandHistory.documentSaved();
     }
@@ -674,7 +678,7 @@ void KEBTopLevel::slotNewFolder()
     QDomElement elem = doc.createElement("xbel");
     doc.appendChild( elem );
     KBookmarkGroup grp( elem ); // Dummy group
-    KBookmark bk = grp.createNewFolder( QString::null, false ); // Asks for the name
+    KBookmark bk = grp.createNewFolder( s_pManager, QString::null, false ); // Asks for the name
     if ( !bk.fullText().isEmpty() ) // Not canceled
     {
         CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), bk.fullText(),bk.icon() , true /*open*/ );
@@ -685,7 +689,7 @@ void KEBTopLevel::slotNewFolder()
 QString KEBTopLevel::correctAddress(QString address)
 {
    // AK - move to kbookmark
-   return KBookmarkManager::self()->findByAddress(address,true).address();
+   return s_pManager->findByAddress(address,true).address();
 }
 
 // Handling a DCOP-originated event
@@ -758,7 +762,7 @@ void KEBTopLevel::slotExportNS()
     QString path = KNSBookmarkImporter::netscapeBookmarksFile(true);
     if (!path.isEmpty())
     {
-        KNSBookmarkExporter exporter( path );
+        KNSBookmarkExporter exporter( s_pManager, path );
         exporter.write( false );
     }
 }
@@ -768,7 +772,7 @@ void KEBTopLevel::slotExportMoz()
     QString path = KNSBookmarkImporter::mozillaBookmarksFile(true);
     if (!path.isEmpty())
     {
-        KNSBookmarkExporter exporter( path );
+        KNSBookmarkExporter exporter( s_pManager, path );
         exporter.write( true );
     }
 }
@@ -828,7 +832,7 @@ void KEBTopLevel::slotSetAsToolbar()
 
     KMacroCommand * cmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
 
-    KBookmarkGroup oldToolbar = KBookmarkManager::self()->toolbar();
+    KBookmarkGroup oldToolbar = s_pManager->toolbar();
     if (!oldToolbar.isNull())
     {
         QValueList<EditCommand::Edition> lst;
@@ -895,7 +899,7 @@ void KEBTopLevel::slotCancelTest(TestLink *t)
 void KEBTopLevel::slotShowNS()
 {
     // AK - move to kbookmark
-    QDomElement rootElem = KBookmarkManager::self()->root().internalElement();
+    QDomElement rootElem = s_pManager->root().internalElement();
     QString attr = "hide_nsbk";
     rootElem.setAttribute(attr, rootElem.attribute(attr) == "yes" ? "no" : "yes");
     setModified(); // one will need to save, to get konq to notice the change
@@ -912,7 +916,7 @@ void KEBTopLevel::setModified( bool modified )
        setCaption( QString("%1 [%2]").arg(i18n("Bookmark Editor")).arg(i18n("Read Only")) );
     }
     actionCollection()->action("file_save")->setEnabled( m_bModified );
-    KBookmarkManager::self()->setUpdate( !m_bModified ); // only update when non-modified
+    s_pManager->setUpdate( !m_bModified ); // only update when non-modified
 }
 
 void KEBTopLevel::slotDocumentRestored()
@@ -1101,7 +1105,7 @@ void KEBTopLevel::fillListView()
 {
     m_pListView->clear();
     // (re)create root item
-    KBookmarkGroup root = KBookmarkManager::self()->root();
+    KBookmarkGroup root = s_pManager->root();
     KEBListViewItem * rootItem = new KEBListViewItem( m_pListView, root );
     fillGroup( rootItem, root );
     rootItem->QListViewItem::setOpen(true);
