@@ -11,6 +11,7 @@ namespace KParts
   class ReadOnlyPart;
 };
 
+class KConfig;
 class KFileItem;
 typedef QPtrList<KFileItem> KFileItemList;
 
@@ -46,6 +47,25 @@ private:
 
   const KFileItem* m_item;
   KParts::ReadOnlyPart *m_part;
+};
+
+class KonqConfigEvent : public KParts::Event
+{
+public:
+  KonqConfigEvent( KConfig *config, const QString &prefix, bool save ) : KParts::Event( s_configEventName ), m_config( config ), m_prefix( prefix ), m_save( save ) {}
+
+  KConfig * config() const { return m_config; }
+  QString prefix() const { return m_prefix; }
+  bool save() const { return m_save; }
+
+  static bool test( const QEvent *event ) { return KParts::Event::test( event, s_configEventName ); }
+
+private:
+  static const char *s_configEventName;
+
+  KConfig *m_config;
+  QString m_prefix;
+  bool m_save;
 };
 
 #endif
