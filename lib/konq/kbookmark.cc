@@ -115,8 +115,9 @@ KBookmark KBookmarkGroup::createNewSeparator()
     ASSERT(!element.isNull());
     QDomDocument doc = element.ownerDocument();
     ASSERT(!doc.isNull());
-    QDomElement groupElem = doc.createElement( "separator" );
-    return KBookmark(groupElem);
+    QDomElement sepElem = doc.createElement( "separator" );
+    element.appendChild( sepElem );
+    return KBookmark(sepElem);
 }
 
 bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
