@@ -1,9 +1,9 @@
-kde_module_LTLIBRARIES = libkded_favicons.la
+kde_module_LTLIBRARIES = kded_favicons.la
 
 INCLUDES = $(all_includes)
-libkded_favicons_la_SOURCES = favicons.cpp favicons.skel
-libkded_favicons_la_LDFLAGS = $(all_libraries) -module -avoid-version
-libkded_favicons_la_LIBADD = $(LIB_KSYCOCA)
+kded_favicons_la_SOURCES = favicons.cpp favicons.skel
+kded_favicons_la_LDFLAGS = $(all_libraries) -module -avoid-version
+kded_favicons_la_LIBADD = $(LIB_KSYCOCA)
 
 METASOURCES = AUTO
 
