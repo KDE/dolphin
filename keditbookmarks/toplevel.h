@@ -30,7 +30,6 @@ class KBookmarkManager;
 class KToggleAction;
 class KBookmarkEditorIface;
 class ImportCommand;
-class MagicKLineEdit;
 class BookmarkInfoWidget;
 
 struct SelcAbilities {
@@ -170,7 +169,6 @@ public: // only temporary
     void construct();
 
 private:
-    MagicKLineEdit *m_iSearchLineEdit;
     BookmarkInfoWidget *m_bkinfo;
 
     bool m_canPaste:1;

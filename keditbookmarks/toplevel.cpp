@@ -25,7 +25,6 @@
 #include "listview.h"
 #include "actionsimpl.h"
 #include "dcop.h"
-#include "search.h"
 #include "exporters.h"
 
 #include <stdlib.h>
@@ -48,6 +47,7 @@
 #include <kmessagebox.h>
 #include <klineedit.h>
 #include <kfiledialog.h>
+#include <klistviewsearchline.h>
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
@@ -176,18 +176,31 @@ KEBApp::KEBApp(
     int h = 20;
 
     QSplitter *vsplitter = new QSplitter(this);
-    m_iSearchLineEdit = new MagicKLineEdit(i18n("Click here and type to search..."), 
-                                           vsplitter);
-    m_iSearchLineEdit->setMinimumHeight(h);
-    m_iSearchLineEdit->setMaximumHeight(h);
 
+    KToolBar *quicksearch = new KToolBar(vsplitter, "search toolbar");
+    
+    KAction *resetQuickSearch = new KAction( i18n( "Reset Quick Search" ),
+        QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
+        0, actionCollection(), "reset_quicksearch" );
+    resetQuickSearch->setWhatsThis( i18n( "<b>Reset Quick Search<b><br>"
+        "Resets the quick search so that all bookmarks are shown again." ) );
+    resetQuickSearch->plug( quicksearch );
+
+    QLabel *lbl = new QLabel(i18n("Se&arch:"), quicksearch, "kde toolbar widget");
+    
+    KListViewSearchLine *searchLineEdit = new KListViewSearchLine(quicksearch, 0, "KListViewSearchLine");    
+    quicksearch->setStretchableWidget(searchLineEdit);
+    lbl->setBuddy(searchLineEdit);
+    connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
+    
     readConfig();
 
     QSplitter *splitter = new QSplitter(vsplitter);
     ListView::createListViews(splitter);
     ListView::self()->initListViews();
     ListView::self()->setInitialAddress(address);
-
+    searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
+    
     m_bkinfo = new BookmarkInfoWidget(vsplitter);
 
     vsplitter->setOrientation(QSplitter::Vertical);
@@ -208,12 +221,6 @@ KEBApp::KEBApp(
 
     connect(kapp->clipboard(), SIGNAL( dataChanged() ),      
                                SLOT( slotClipboardDataChanged() ));
-
-    connect(m_iSearchLineEdit, SIGNAL( textChanged(const QString &) ),
-            Searcher::self(),  SLOT( slotSearchTextChanged(const QString &) ));
-
-    connect(m_iSearchLineEdit, SIGNAL( returnPressed() ),
-            Searcher::self(),  SLOT( slotSearchNext() ));
 
     ListView::self()->connectSignals();
 
