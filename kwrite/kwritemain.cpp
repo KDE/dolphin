@@ -165,12 +165,12 @@ void TopLevel::setupActions()
 
 
   // setup Settings menu
-  m_paShowToolBar = KStdAction::showToolbar( this, SLOT( toggleToolBar() ), actionCollection() );
-  m_paShowStatusBar = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
+  m_paShowToolBar = KStdAction::showToolbar( this, SLOT( toggleToolBar() ), actionCollection(), "settings_show_toolbar" );
+  m_paShowStatusBar = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection(), "settings_show_statusbar");
   m_paShowPath = new KToggleAction(i18n("Sho&w Path"), 0, this, SLOT(newCaption()),
                     actionCollection(), "set_showPath");
   KStdAction::keyBindings(this, SLOT(editKeys()), actionCollection());
-  KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
+  KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection(), "set_configure_toolbars");
 }
 
 void TopLevel::setupStatusBar()
