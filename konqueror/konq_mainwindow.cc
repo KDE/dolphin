@@ -1472,9 +1472,14 @@ void KonqMainWindow::removeChildView( KonqView *childView )
 void KonqMainWindow::viewCountChanged()
 {
   // This is called when the number of views changes.
+  kdDebug(1202) << "KonqMainWindow::viewCountChanged" << endl;
 
   m_paRemoveView->setEnabled( mainViewsCount() > 1 );
   m_paLinkView->setEnabled( viewCount() > 1 );
+
+  // Only one view -> make it unlinked
+  if ( viewCount() == 1 )
+      m_mapViews.begin().data()->setLinkedView( false );
 
   viewsChanged();
 
@@ -2211,7 +2216,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   ASSERT( !url.isEmpty());
   // FIXME, change the current pixmap of the combo, using
   // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
-  // grmbl, it's not in 2.2, so we have to hack around this limitation by 
+  // grmbl, it's not in 2.2, so we have to hack around this limitation by
   // adding a dummy item into combo
 
   if ( m_combo ) {
