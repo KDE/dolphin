@@ -4475,10 +4475,11 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KAction *actNewWindow = 0L, *actNewTab = 0L;
   if( doTabHandling )
   {
-      if (_args.forcesNewWindow())
-        actNewWindow = new KAction( i18n( "Open in This &Window" ), 0, this, SLOT( slotPopupThisWindow() ), konqyMenuClient->actionCollection(), "newview" );      
-      else
-        actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
+      if (_args.forcesNewWindow()) {
+        actNewWindow = new KAction( i18n( "Open in T&his Window" ), 0, this, SLOT( slotPopupThisWindow() ), konqyMenuClient->actionCollection(), "sameview" );      
+        actNewWindow->setStatusText( i18n( "Open the document in current window" ) );    
+      }
+      actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
       actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
       actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
       actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );

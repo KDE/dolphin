@@ -43,6 +43,7 @@ class KonqView;
    <action group="preview" name="0" />
    <action group="preview" name="1" />
   </menu>
+  <action group="tabhandling" name="sameview" />
   <action group="tabhandling" name="newview" />
   <action group="tabhandling" name="openintab" />
   <separator group="tabhandling" />

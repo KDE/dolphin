@@ -99,7 +99,12 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
 
     if ( doTabHandling )
     {
-        QDomElement openInWindow = m_doc.createElement( "action" );
+        QDomElement openInSameWindow = m_doc.createElement( "action" );
+        openInSameWindow.setAttribute( "name", "sameview" );
+        openInSameWindow.setAttribute( "group", "tabhandling" );
+        menu.appendChild( openInSameWindow );
+        
+	QDomElement openInWindow = m_doc.createElement( "action" );
         openInWindow.setAttribute( "name", "newview" );
         openInWindow.setAttribute( "group", "tabhandling" );
         menu.appendChild( openInWindow );
