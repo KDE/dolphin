@@ -104,6 +104,7 @@ protected:
 protected slots:
 
     void slotResult( KIO::Job * job );
+    void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );
 
 private:

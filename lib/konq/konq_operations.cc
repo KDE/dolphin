@@ -276,12 +276,15 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
 
         // Ok, now we need destItem.
         if ( destItem )
+        {
             op->asyncDrop( destItem ); // we have it already
+        }
         else
         {
-            // we need to stat to get it
+            // we need to stat to get it.
             op->_statURL( dest, op, SLOT( asyncDrop( const KFileItem * ) ) );
         }
+        // In both cases asyncDrop will delete op when done
 
         ev->acceptAction();
     }
@@ -318,7 +321,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     assert(m_info); // setDropInfo should have been called before asyncDrop
     KURL dest = destItem->url();
     KURL::List lst = m_info->lst;
-    //kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
+    kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
     // Check what the destination is
     if ( S_ISDIR(destItem->mode()) )
     {
@@ -353,7 +356,10 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             protocol = dest.protocol();
             bool dWriting = KProtocolInfo::supportsWriting( protocol );
             if ( !dWriting )
+            {
+                delete this;
                 return;
+            }
 
             // Nor control nor shift are pressed => show popup menu
             QPopupMenu popup;
@@ -377,7 +383,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                     delete this;
                     return;
                 }
-                default : return;
+                default : delete this; return;
             }
         }
 
@@ -476,15 +482,31 @@ void KonqOperations::statURL( const KURL & url, const QObject *receiver, const c
 {
     KonqOperations * op = new KonqOperations( 0L );
     op->_statURL( url, receiver, member );
+    op->m_method = STAT;
 }
 
 void KonqOperations::_statURL( const KURL & url, const QObject *receiver, const char *member )
 {
-    m_method = STAT;
     connect( this, SIGNAL( statFinished( const KFileItem * ) ), receiver, member );
     KIO::StatJob * job = KIO::stat( url /*, false?*/ );
     connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
+             SLOT( slotStatResult( KIO::Job * ) ) );
+}
+
+void KonqOperations::slotStatResult( KIO::Job * job )
+{
+    if ( job->error())
+        job->showErrorDialog( (QWidget*)parent() );
+    else
+    {
+        KIO::StatJob * statJob = static_cast<KIO::StatJob*>(job);
+        KFileItem * item = new KFileItem( statJob->statResult(), statJob->url() );
+        emit statFinished( item );
+        delete item;
+    }
+    // If we're only here for a stat, we're done. But not if we used _statURL internally
+    if ( m_method == STAT )
+        delete this;
 }
 
 void KonqOperations::slotResult( KIO::Job * job )
@@ -510,13 +532,6 @@ void KonqOperations::slotResult( KIO::Job * job )
         lst.append(trash);
         KDirNotify_stub allDirNotify("*", "KDirNotify*");
         allDirNotify.FilesChanged( lst );
-    }
-    if ( m_method == STAT && job && !job->error())
-    {
-        KIO::StatJob * statJob = static_cast<KIO::StatJob*>(job);
-        KFileItem * item = new KFileItem( statJob->statResult(), statJob->url() );
-        emit statFinished( item );
-        delete item;
     }
     delete this;
 }
