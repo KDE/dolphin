@@ -1,10 +1,12 @@
 /**
- * kcookiespolicies.h - Cookie policy configuration
+ * kcookiespolicies.h - Cookies configuration
  *
- * Copyright (c) original version Waldo Bastian <bastian@kde.org>
- *
+ * Original Authors
+ * Copyright (c) Waldo Bastian <bastian@kde.org>
  * Copyright (c) 1999 David Faure <faure@kde.org>
- * Copyright (c) 2000-2001 Dawit Alemayehu <adawit@kde.org>
+ *
+ * Re-written by:
+ * Copyright (c) 2000- Dawit Alemayehu <adawit@kde.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

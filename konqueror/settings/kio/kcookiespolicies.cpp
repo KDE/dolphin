@@ -1,10 +1,12 @@
 /**
  * kcookiespolicies.cpp - Cookies configuration
  *
- * Copyright (c) original version Waldo Bastian <bastian@kde.org>
- *
+ * Original Authors
+ * Copyright (c) Waldo Bastian <bastian@kde.org>
  * Copyright (c) 1999 David Faure <faure@kde.org>
- * Copyright (c) 2000-2001 Dawit Alemayehu <adawit@kde.org>
+ *
+ * Re-written by:
+ * Copyright (c) 2000- Dawit Alemayehu <adawit@kde.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -104,7 +106,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                  :KCModule(parent, name)
 {
     // This is the layout for the "Policy" tab.
-    QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
+    QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(),
+                                        KDialog::spacingHint() );
     lay->setAutoAdd( true );
 
     cb_enableCookies = new QCheckBox( i18n("Enable Coo&kies"), this );
@@ -128,7 +131,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     bg_default->setExclusive( true );
 
     rb_gbPolicyAsk = new QRadioButton( i18n("A&sk for confirmation before accepting cookies."), bg_default);
-    rb_gbPolicyAccept = new QRadioButton( i18n("Acc&ept all cookies by default"), bg_default );
+    rb_gbPolicyAccept = new QRadioButton( i18n("Acce&pt all cookies by default"), bg_default );
     rb_gbPolicyReject = new QRadioButton( i18n("Re&ject all cookies by default"), bg_default );
 
     // Create Group Box for specific settings
@@ -178,7 +181,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                               "domain selected in the list box.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
-    pb_domPolicyDeleteAll = new QPushButton( i18n("Delete A&ll"), vbox );
+    pb_domPolicyDeleteAll = new QPushButton( i18n("D&elete All"), vbox );
     pb_domPolicyDeleteAll->setEnabled( false );
     QWhatsThis::add( pb_domPolicyDeleteAll, i18n("Click on this button to remove all domain policies.") );
     connect( pb_domPolicyDeleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
@@ -274,7 +277,6 @@ void KCookiesPolicies::changePressed()
 
 bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
 {
-  bool isMatch = false;
   QListViewItem* item = lv_domainPolicy->firstChild();
   while ( item != 0 )
   {
