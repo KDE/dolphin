@@ -82,6 +82,7 @@ Kfind::Kfind(QWidget *parent, const char *name)
 
 Kfind::~Kfind()
 {
+  stopSearch();
   kdDebug() << "Kfind::~Kfind" << endl;
 }
 

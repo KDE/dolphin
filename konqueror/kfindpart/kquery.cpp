@@ -142,7 +142,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 		break;
 	      }
 
-            kapp->processEvents();
+//            kapp->processEvents();
 	  }
 
 	if (!found)
