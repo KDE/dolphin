@@ -3,7 +3,7 @@ LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
 
-lib_LTLIBRARIES = libkcm_konq.la
+kde_module_LTLIBRARIES = libkcm_konq.la
 
 libkcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp main.cpp \
 		miscopts.cpp trashopts.cpp fontopts.cpp \

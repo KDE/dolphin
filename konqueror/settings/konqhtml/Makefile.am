@@ -3,7 +3,7 @@ LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
 
-lib_LTLIBRARIES = libkcm_konqhtml.la
+kde_module_LTLIBRARIES = libkcm_konqhtml.la
 
 libkcm_konqhtml_la_SOURCES = main.cpp htmlopts.cpp \
 			khttpoptdlg.cpp miscopts.cpp policydlg.cpp
