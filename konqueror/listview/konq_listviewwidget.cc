@@ -321,28 +321,25 @@ void KonqListViewWidget::removeSubDir( const KURL & _url )
 
 void KonqListViewWidget::keyPressEvent( QKeyEvent *_ev )
 {
-  // We are only interested in the escape key here
-  if ( _ev->key() != Key_Escape )
-  {
-    QListView::keyPressEvent( _ev );
-    return;
-  }
+   // We are only interested in the CTRL+ENTER/RETURN key here
+   if (((_ev->key() == Key_Enter)|| (_ev->key()==Key_Return)) && (_ev->state()==ControlButton))
+   {
+      KonqListViewItem* item = (KonqListViewItem*)currentItem();
 
-  KonqListViewItem* item = (KonqListViewItem*)currentItem();
-
-  if ( !item->isSelected() )
-  {
-    iterator it = begin();
-    for( ; it != end(); it++ )
-      if ( it->isSelected() )
-	setSelected( &*it, false );
-    setSelected( item, true );
-  }
-
-  QPoint p( width() / 2, height() / 2 );
-  p = mapToGlobal( p );
-
-  popupMenu( p );
+      if ( !item->isSelected() )
+      {
+         iterator it = begin();
+         for( ; it != end(); it++ )
+            if ( it->isSelected() )
+               setSelected( &*it, false );
+         setSelected( item, true );
+      }
+      QPoint p( width() / 2, height() / 2 );
+      p = mapToGlobal( p );
+      popupMenu( p );
+   }
+   else
+      QListView::keyPressEvent( _ev );
 }
 
 void KonqListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
