@@ -516,14 +516,10 @@ int KEBTopLevel::numSelected()
    return KEBTopLevel::self()->selectedItems()->count();
 }
 
-QListViewItem* KEBTopLevel::firstSelectedItem()
+QListViewItem* KEBTopLevel::selectedItem()
 {
-   for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-      if ( it.current()->isSelected() ) {
-         return it.current();
-      }
-   }
-   return 0;
+   Q_ASSERT( (numSelected() == 1) );
+   return (selectedItems()->first());
 }
 
 KBookmark KEBTopLevel::selectedBookmark() const
@@ -596,12 +592,15 @@ void KEBTopLevel::updateSelection()
       if ( it.current()->isSelected() ) {
          QListViewItem* parent = it.current()->parent();
          if (parent && parent->isSelected()) {
-            parent->setSelected(false);
-            // optimisation, skip to end of this group...
+            if (parent->isOpen()) {
+               parent->setSelected(false);
+            } else {
+               it.current()->setSelected(false);
+            }
          }
       }
    }
-   // optimisation, actually build the selectedItems cache during this...
+   // AK - optimisation, make a selectedItems "cache"
 }
 
 void KEBTopLevel::slotSelectionChanged()
@@ -635,24 +634,24 @@ void KEBTopLevel::slotSelectionChanged()
 
     KActionCollection * coll = actionCollection();
 
-    coll->action("edit_copy")          ->setEnabled(itemSelected && !root); // AK
+    coll->action("edit_copy")          ->setEnabled(itemSelected && !root);
     coll->action("openlink")           ->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
 
     if (!m_bReadOnly) {
         // AK - not sure if the ones that say !multiSelect that don't care should really have it...
-        coll->action("edit_cut")       ->setEnabled(itemSelected && !root); // AK
+        coll->action("edit_cut")       ->setEnabled(itemSelected && !root);
         coll->action("edit_paste")     ->setEnabled(!multiSelect && itemSelected && !root && m_bCanPaste);
         coll->action("rename")         ->setEnabled(!multiSelect && itemSelected && !separator && !root);
         coll->action("changeurl")      ->setEnabled(!multiSelect && itemSelected && !group && !separator && !root);
         coll->action("delete")         ->setEnabled(itemSelected && !root); // AK
-        coll->action("newfolder")      ->setEnabled(itemSelected);
+        coll->action("newfolder")      ->setEnabled(!multiSelect && itemSelected);
         coll->action("changeicon")     ->setEnabled(!multiSelect && itemSelected && !root && !separator);
         coll->action("insertseparator")->setEnabled(!multiSelect && itemSelected);
         coll->action("newbookmark")    ->setEnabled(!multiSelect && itemSelected);
         coll->action("sort")           ->setEnabled(!multiSelect && group);
         coll->action("setastoolbar")   ->setEnabled(!multiSelect && group);
         coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator); // AK
-        coll->action("testall")        ->setEnabled(!multiSelect && itemSelected && !(root && m_pListView->childCount()==1));
+        coll->action("testall")        ->setEnabled(itemSelected && !(root && m_pListView->childCount()==1));
     }
 }
 
@@ -728,7 +727,7 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
 
 void KEBTopLevel::slotRename()
 {
-    QListViewItem* item = firstSelectedItem();
+    QListViewItem* item = selectedItem();
     Q_ASSERT( item );
     if ( item )
       m_pListView->rename( item, 0 );
@@ -736,7 +735,7 @@ void KEBTopLevel::slotRename()
 
 void KEBTopLevel::slotChangeURL()
 {
-    QListViewItem* item = firstSelectedItem();
+    QListViewItem* item = selectedItem();
     Q_ASSERT( item );
     if ( item )
       m_pListView->rename( item, 1 );
@@ -923,11 +922,7 @@ void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const
 void KEBTopLevel::slotSort()
 {
     KBookmark bk = selectedBookmark();
-    Q_ASSERT(!bk.isNull());
     Q_ASSERT(bk.isGroup());
-
-    //// AK - ???
-
     SortCommand * cmd = new SortCommand(i18n("Sort alphabetically"), bk.address());
     m_commandHistory.addCommand( cmd );
 }
@@ -961,9 +956,6 @@ void KEBTopLevel::slotSetAsToolbar()
 
 void KEBTopLevel::slotOpenLink()
 {
-    // AK - should need to surely???
-    if( numSelected() == 0 ) return;
-
     QPtrList<KBookmark>* bks = selectedBookmarks();
     QPtrListIterator<KBookmark> it(*bks);
     for ( ; it.current() != 0; ++it ) {
@@ -1076,8 +1068,6 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
 void KEBTopLevel::slotChangeIcon()
 {
     KBookmark bk = selectedBookmark();
-    Q_ASSERT(!bk.isNull());
-    if (bk.isNull()) return;
     KIconDialog dlg(this);
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
     if ( !newIcon.isEmpty() ) {
@@ -1106,7 +1096,8 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
     {
         // Now a simplified version of movableDropEvent
         //movableDropEvent (parent, afterme);
-        QListViewItem * i = firstSelectedItem();
+        QPtrList<QListViewItem>* selection = selectedItems();
+        QListViewItem * i = selection->first();
         Q_ASSERT(i);
         if (i && i != _afterNow)
         {
@@ -1122,7 +1113,7 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
                 chk = chk->parent();
             }
 
-            itemMoved(selectedItems(), newAddress, e->action() == QDropEvent::Copy);
+            itemMoved(selection, newAddress, e->action() == QDropEvent::Copy);
         }
     } else
     {
@@ -1210,7 +1201,6 @@ void KEBTopLevel::slotBookmarksChanged( const QString &, const QString & caller 
 
 void KEBTopLevel::update()
 {
-    kdWarning() << "UPDATE!!!!" << endl;
     QPoint pos(m_pListView->contentsX(), m_pListView->contentsY());
     QPtrList<QListViewItem>* items = selectedItems();
     if (items->count() != 0)

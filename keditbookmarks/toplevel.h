@@ -109,15 +109,15 @@ public:
 
     void setModified( bool modified = true );
 
-    void updateSelection();
-
-    static int numSelected();
-    static QPtrList<QListViewItem> * selectedItems();
-    static QListViewItem* firstSelectedItem();
-
-    QPtrList<KBookmark>* selectedBookmarks() const;
-    KBookmark selectedBookmark() const;
     QValueList<KBookmark> getBookmarkSelection();
+    void updateSelection();
+    static int numSelected();
+
+    static QPtrList<QListViewItem> * selectedItems();
+    QPtrList<KBookmark>* selectedBookmarks() const;
+
+    QListViewItem* selectedItem();
+    KBookmark selectedBookmark() const;
 
     // @return where to insert a new item - depending on the selected item
     QString insertionAddress() const;
