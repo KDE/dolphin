@@ -1422,8 +1422,11 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    for (unsigned int i=0; i<argc; i++)
    {
-      const char *n = (const char*)argn[i].ascii();
-      const char *v = (const char*)argv[i].ascii();
+      QCString encN = argn[i].utf8();
+      QCString encV = argv[i].utf8();
+
+      const char *n = encN;
+      const char *v = encV;
 
       _argn[i] = strdup(n);
       _argv[i] = strdup(v);
