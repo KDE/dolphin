@@ -1,6 +1,7 @@
 [Desktop Entry]
 Icon=pipe
 Name=Services
+Name[az]=Xidmətlər
 Name[cs]=Služby
 Name[da]=Tjenester
 Name[eo]=Servoj
@@ -8,8 +9,10 @@ Name[es]=Servicios
 Name[fi]=Palvelut
 Name[he]=םיתוריש
 Name[hu]=Szolgáltatások
+Name[ja]=サービス
 Name[ko]=서비스
 Name[lv]=Servisi
+Name[nl]=Diensten
 Name[no_NY]=Tenester
 Name[pl]=Usługi
 Name[pt]=Serviços
