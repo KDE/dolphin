@@ -1,7 +1,7 @@
 /*
    kmanualproxydlg.h - Base dialog box for proxy configuration
 
-   Copyright (C) 2001, 2002,2003 - Dawit Alemayehu <adawit@kde.org>
+   Copyright (C) 2001-2004 Dawit Alemayehu <adawit@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -67,11 +67,11 @@ private:
                      const QString& message = QString::null );
   
 private:
-  ManualProxyDlgUI* dlg;
+  ManualProxyDlgUI* mDlg;
 
-  int m_oldFtpPort;
-  int m_oldHttpsPort;
-  QString m_oldFtpText;
-  QString m_oldHttpsText;
+  int mOldFtpPort;
+  int mOldHttpsPort;
+  QString mOldFtpText;
+  QString mOldHttpsText;
 };
 #endif

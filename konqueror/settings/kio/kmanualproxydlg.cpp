@@ -46,36 +46,36 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                 :KProxyDialogBase( parent, name, true,
                                    i18n("Manual Proxy Configuration") )
 {
-    dlg = new ManualProxyDlgUI (this);
-    setMainWidget (dlg);
+    mDlg = new ManualProxyDlgUI (this);
+    setMainWidget( mDlg );
 
-    dlg->pbCopyDown->setPixmap( BarIcon("down", KIcon::SizeSmall) );
+    mDlg->pbCopyDown->setPixmap( BarIcon("down", KIcon::SizeSmall) );
     QSizePolicy sizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed,
-                            dlg->pbCopyDown->sizePolicy().hasHeightForWidth() );
-    dlg->pbCopyDown->setSizePolicy( sizePolicy );
+                            mDlg->pbCopyDown->sizePolicy().hasHeightForWidth() );
+    mDlg->pbCopyDown->setSizePolicy( sizePolicy );
 
     init();
 }
 
 void KManualProxyDlg::init()
 {
-    dlg->sbHttp->setRange( 0, MAX_PORT_VALUE );
-    dlg->sbHttps->setRange( 0, MAX_PORT_VALUE );
-    dlg->sbFtp->setRange( 0, MAX_PORT_VALUE );
+    mDlg->sbHttp->setRange( 0, MAX_PORT_VALUE );
+    mDlg->sbHttps->setRange( 0, MAX_PORT_VALUE );
+    mDlg->sbFtp->setRange( 0, MAX_PORT_VALUE );
 
-    connect( dlg->pbNew, SIGNAL( clicked() ), SLOT( newPressed() ) );
-    connect( dlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
-    connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
-    connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
+    connect( mDlg->pbNew, SIGNAL( clicked() ), SLOT( newPressed() ) );
+    connect( mDlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
+    connect( mDlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
+    connect( mDlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
 
-    connect( dlg->lbExceptions, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
-    connect( dlg->lbExceptions, SIGNAL(doubleClicked (QListBoxItem *)), SLOT(changePressed()));
+    connect( mDlg->lbExceptions, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
+    connect( mDlg->lbExceptions, SIGNAL(doubleClicked (QListBoxItem *)), SLOT(changePressed()));
 
-    connect( dlg->cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
-    connect( dlg->pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
+    connect( mDlg->cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
+    connect( mDlg->pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
 
-    connect( dlg->leHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
-    connect( dlg->sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );
+    connect( mDlg->leHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
+    connect( mDlg->sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );
 }
 
 void KManualProxyDlg::setProxyData( const KProxyData &data )
@@ -84,7 +84,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
         
     // Set the HTTP proxy...
     if (!isValidURL(data.proxyList["http"], &url))
-        dlg->sbHttp->setValue( DEFAULT_PROXY_PORT );
+        mDlg->sbHttp->setValue( DEFAULT_PROXY_PORT );
     else
     {
         int port = url.port();
@@ -92,22 +92,22 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
             port = DEFAULT_PROXY_PORT;
             
         url.setPort( 0 );
-        dlg->leHttp->setText( url.url() );
-        dlg->sbHttp->setValue( port );
+        mDlg->leHttp->setText( url.url() );
+        mDlg->sbHttp->setValue( port );
     }
 
-    bool useSameProxy = (!dlg->leHttp->text().isEmpty () &&
+    bool useSameProxy = (!mDlg->leHttp->text().isEmpty () &&
                          data.proxyList["http"] == data.proxyList["https"] &&
                          data.proxyList["http"] == data.proxyList["ftp"]);
 
-    dlg->cbSameProxy->setChecked ( useSameProxy );
+    mDlg->cbSameProxy->setChecked ( useSameProxy );
 
     if ( useSameProxy )
     {
-      dlg->leHttps->setText ( dlg->leHttp->text() );
-      dlg->leFtp->setText ( dlg->leHttp->text() );
-      dlg->sbHttps->setValue( dlg->sbHttp->value() );
-      dlg->sbFtp->setValue( dlg->sbHttp->value() );
+      mDlg->leHttps->setText ( mDlg->leHttp->text() );
+      mDlg->leFtp->setText ( mDlg->leHttp->text() );
+      mDlg->sbHttps->setValue( mDlg->sbHttp->value() );
+      mDlg->sbFtp->setValue( mDlg->sbHttp->value() );
 
       sameProxy ( true );
     }
@@ -115,7 +115,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
     {
       // Set the HTTPS proxy...
       if( !isValidURL( data.proxyList["https"], &url ) )
-          dlg->sbHttps->setValue( DEFAULT_PROXY_PORT );
+          mDlg->sbHttps->setValue( DEFAULT_PROXY_PORT );
       else
       {
           int port = url.port();
@@ -123,13 +123,13 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
               port = DEFAULT_PROXY_PORT;
 
           url.setPort( 0 );
-          dlg->leHttps->setText( url.url() );
-          dlg->sbHttps->setValue( port );
+          mDlg->leHttps->setText( url.url() );
+          mDlg->sbHttps->setValue( port );
       }
 
       // Set the FTP proxy...
       if( !isValidURL( data.proxyList["ftp"], &url ) )
-          dlg->sbFtp->setValue( DEFAULT_PROXY_PORT );
+          mDlg->sbFtp->setValue( DEFAULT_PROXY_PORT );
       else
       {
           int port = url.port();
@@ -137,8 +137,8 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
               port = DEFAULT_PROXY_PORT;
 
           url.setPort( 0 );
-          dlg->leFtp->setText( url.url() );
-          dlg->sbFtp->setValue( port );
+          mDlg->leFtp->setText( url.url() );
+          mDlg->sbFtp->setValue( port );
       }
     }
 
@@ -153,11 +153,11 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
         // a valid or legitimate URL. NOTE: needed to catch manual manipulation
         // of the proxy config files...
         if( isValidURL( *it ) )
-          dlg->lbExceptions->insertItem( *it );
+          mDlg->lbExceptions->insertItem( *it );
       }
     }
 
-    dlg->cbReverseProxy->setChecked( data.useReverseProxy );
+    mDlg->cbReverseProxy->setChecked( data.useReverseProxy );
 }
 
 const KProxyData KManualProxyDlg::data() const
@@ -167,70 +167,70 @@ const KProxyData KManualProxyDlg::data() const
     if (!m_bHasValidData)
       return data;
 
-    data.proxyList["http"] = urlFromInput( dlg->leHttp, dlg->sbHttp );
+    data.proxyList["http"] = urlFromInput( mDlg->leHttp, mDlg->sbHttp );
     
-    if ( dlg->cbSameProxy->isChecked () )
+    if ( mDlg->cbSameProxy->isChecked () )
     {
         data.proxyList["https"] = data.proxyList["http"];
         data.proxyList["ftp"] = data.proxyList["http"];
     }
     else
     {
-        data.proxyList["https"] = urlFromInput( dlg->leHttps, dlg->sbHttps );
-        data.proxyList["ftp"] = urlFromInput( dlg->leFtp, dlg->sbFtp );
+        data.proxyList["https"] = urlFromInput( mDlg->leHttps, mDlg->sbHttps );
+        data.proxyList["ftp"] = urlFromInput( mDlg->leFtp, mDlg->sbFtp );
     }
 
-    if ( dlg->lbExceptions->count() )
+    if ( mDlg->lbExceptions->count() )
     {
-        QListBoxItem* item = dlg->lbExceptions->firstItem();
+        QListBoxItem* item = mDlg->lbExceptions->firstItem();
         for( ; item != 0L; item = item->next() )
             data.noProxyFor << item->text();
     }
 
     data.type = KProtocolManager::ManualProxy;
-    data.useReverseProxy = dlg->cbReverseProxy->isChecked();
+    data.useReverseProxy = mDlg->cbReverseProxy->isChecked();
 
     return data;
 }
 
 void KManualProxyDlg::sameProxy( bool enable )
 {
-    dlg->leHttps->setEnabled (!enable );
-    dlg->leFtp->setEnabled (!enable );
-    dlg->sbHttps->setEnabled (!enable );
-    dlg->sbFtp->setEnabled (!enable );
-    dlg->pbCopyDown->setEnabled( !enable );
+    mDlg->leHttps->setEnabled (!enable );
+    mDlg->leFtp->setEnabled (!enable );
+    mDlg->sbHttps->setEnabled (!enable );
+    mDlg->sbFtp->setEnabled (!enable );
+    mDlg->pbCopyDown->setEnabled( !enable );
 
     if (enable)
     {
-      m_oldFtpText = dlg->leFtp->text();
-      m_oldHttpsText = dlg->leHttps->text();
+      mOldFtpText = mDlg->leFtp->text();
+      mOldHttpsText = mDlg->leHttps->text();
 
-      m_oldFtpPort = dlg->sbFtp->value();
-      m_oldHttpsPort = dlg->sbHttps->value();
+      mOldFtpPort = mDlg->sbFtp->value();
+      mOldHttpsPort = mDlg->sbHttps->value();
 
-      int port = dlg->sbHttp->value();
-      QString text = dlg->leHttp->text();
+      int port = mDlg->sbHttp->value();
+      QString text = mDlg->leHttp->text();
 
-      dlg->leFtp->setText (text);
-      dlg->leHttps->setText (text);
+      mDlg->leFtp->setText (text);
+      mDlg->leHttps->setText (text);
 
-      dlg->sbFtp->setValue (port);
-      dlg->sbHttps->setValue (port);
+      mDlg->sbFtp->setValue (port);
+      mDlg->sbHttps->setValue (port);
       
-      if (dlg->lbHttps->font().bold())
-        setHighLight( dlg->lbHttps, false );
+      if (mDlg->lbHttps->font().bold())
+        setHighLight( mDlg->lbHttps, false );
       
-      if (dlg->lbFtp->font().bold())
-        setHighLight( dlg->lbFtp, false );
+      if (mDlg->lbFtp->font().bold())
+        setHighLight( mDlg->lbFtp, false );
     }
     else
     {
-      dlg->leFtp->setText (m_oldFtpText);
-      dlg->leHttps->setText (m_oldHttpsText);
+      mDlg->leFtp->setText (mOldFtpText);
+      mDlg->leHttps->setText (mOldHttpsText);
 
-      dlg->sbFtp->setValue (m_oldFtpPort);
-      dlg->sbHttps->setValue (m_oldHttpsPort);      
+      mDlg->sbFtp->setValue (mOldFtpPort);
+      mDlg->sbHttps->setValue (mOldHttpsPort);
     }
 }
 
@@ -239,31 +239,31 @@ bool KManualProxyDlg::validate()
     KURL filteredURL;
     unsigned short count = 0;
 
-    if ( isValidURL( dlg->leHttp->text(), &filteredURL ) )
+    if ( isValidURL( mDlg->leHttp->text(), &filteredURL ) )
     {
-        dlg->leHttp->setText( filteredURL.url() );
+        mDlg->leHttp->setText( filteredURL.url() );
         count++;
     }
     else
-        setHighLight( dlg->lbHttp, true );
+        setHighLight( mDlg->lbHttp, true );
 
-    if ( !dlg->cbSameProxy->isChecked () )
+    if ( !mDlg->cbSameProxy->isChecked () )
     {
-        if ( isValidURL( dlg->leHttps->text(), &filteredURL ) )
+        if ( isValidURL( mDlg->leHttps->text(), &filteredURL ) )
         {
-            dlg->leHttps->setText( filteredURL.url() );
+            mDlg->leHttps->setText( filteredURL.url() );
             count++;
         }
         else
-            setHighLight( dlg->lbHttps, true );
+            setHighLight( mDlg->lbHttps, true );
 
-        if ( isValidURL( dlg->leFtp->text(), &filteredURL ) )
+        if ( isValidURL( mDlg->leFtp->text(), &filteredURL ) )
         {
-            dlg->leFtp->setText( filteredURL.url() );
+            mDlg->leFtp->setText( filteredURL.url() );
             count++;
         }
         else
-            setHighLight( dlg->lbFtp, true );
+            setHighLight( mDlg->lbFtp, true );
     }
 
     if ( count == 0 )
@@ -278,42 +278,42 @@ bool KManualProxyDlg::validate()
 
 void KManualProxyDlg::textChanged(const QString& text)
 {
-    if (!dlg->cbSameProxy->isChecked())
+    if (!mDlg->cbSameProxy->isChecked())
         return;
 
-    dlg->leFtp->setText( text );
-    dlg->leHttps->setText( text );
+    mDlg->leFtp->setText( text );
+    mDlg->leHttps->setText( text );
 }
 
 void KManualProxyDlg::valueChanged(int value)
 {
-    if (!dlg->cbSameProxy->isChecked())
+    if (!mDlg->cbSameProxy->isChecked())
         return;
 
-    dlg->sbFtp->setValue (value);
-    dlg->sbHttps->setValue (value);
+    mDlg->sbFtp->setValue (value);
+    mDlg->sbHttps->setValue (value);
  }
 
 void KManualProxyDlg::copyDown()
 {
     int action = -1;
 
-    if ( !dlg->leHttp->text().isEmpty() )
+    if ( !mDlg->leHttp->text().isEmpty() )
         action += 4;
-    else if ( !dlg->leHttps->text().isEmpty() )
+    else if ( !mDlg->leHttps->text().isEmpty() )
         action += 3;
 
     switch ( action )
     {
       case 3:
-        dlg->leHttps->setText( dlg->leHttp->text() );
-        dlg->sbHttps->setValue( dlg->sbHttp->value() );
-        dlg->leFtp->setText( dlg->leHttp->text() );
-        dlg->sbFtp->setValue( dlg->sbHttp->value() );
+        mDlg->leHttps->setText( mDlg->leHttp->text() );
+        mDlg->sbHttps->setValue( mDlg->sbHttp->value() );
+        mDlg->leFtp->setText( mDlg->leHttp->text() );
+        mDlg->sbFtp->setValue( mDlg->sbHttp->value() );
         break;
       case 2:
-        dlg->leFtp->setText( dlg->leHttps->text() );
-        dlg->sbFtp->setValue( dlg->sbHttps->value() );
+        mDlg->leFtp->setText( mDlg->leHttps->text() );
+        mDlg->sbFtp->setValue( mDlg->sbHttps->value() );
         break;
       case 1:
       case 0:
@@ -334,11 +334,11 @@ void KManualProxyDlg::slotOk()
 
 bool KManualProxyDlg::handleDuplicate( const QString& site )
 {
-    QListBoxItem* item = dlg->lbExceptions->firstItem();
+    QListBoxItem* item = mDlg->lbExceptions->firstItem();
     while ( item != 0 )
     {
         if ( item->text().findRev( site ) != -1 &&
-             item != dlg->lbExceptions->selectedItem() )
+             item != mDlg->lbExceptions->selectedItem() )
         {
             QString msg = i18n("You entered a duplicate address. "
                                "Please try again.");
@@ -357,39 +357,39 @@ void KManualProxyDlg::newPressed()
 {
   QString result;
   if( getException(result, i18n("New Exception")) && !handleDuplicate(result) )
-    dlg->lbExceptions->insertItem( result );
+    mDlg->lbExceptions->insertItem( result );
 }
 
 void KManualProxyDlg::changePressed()
 {
   QString result;
   if( getException( result, i18n("Change Exception"), 
-                    dlg->lbExceptions->currentText() ) &&
+                    mDlg->lbExceptions->currentText() ) &&
       !handleDuplicate( result ) )
-      dlg->lbExceptions->changeItem( result, dlg->lbExceptions->currentItem() );
+      mDlg->lbExceptions->changeItem( result, mDlg->lbExceptions->currentItem() );
 }
 
 void KManualProxyDlg::deletePressed()
 {
-    dlg->lbExceptions->removeItem( dlg->lbExceptions->currentItem() );
-    dlg->lbExceptions->setSelected( dlg->lbExceptions->currentItem(), true );
+    mDlg->lbExceptions->removeItem( mDlg->lbExceptions->currentItem() );
+    mDlg->lbExceptions->setSelected( mDlg->lbExceptions->currentItem(), true );
     updateButtons();
 }
 
 void KManualProxyDlg::deleteAllPressed()
 {
-    dlg->lbExceptions->clear();
+    mDlg->lbExceptions->clear();
     updateButtons();
 }
 
 void KManualProxyDlg::updateButtons()
 {
-    bool hasItems = dlg->lbExceptions->count() > 0;
-    bool itemSelected = (hasItems && dlg->lbExceptions->selectedItem()!=0);
+    bool hasItems = mDlg->lbExceptions->count() > 0;
+    bool itemSelected = (hasItems && mDlg->lbExceptions->selectedItem()!=0);
     
-    dlg->pbDeleteAll->setEnabled( hasItems );    
-    dlg->pbDelete->setEnabled( itemSelected );
-    dlg->pbChange->setEnabled( itemSelected );
+    mDlg->pbDeleteAll->setEnabled( hasItems );
+    mDlg->pbDelete->setEnabled( itemSelected );
+    mDlg->pbChange->setEnabled( itemSelected );
 }
 
 QString KManualProxyDlg::urlFromInput(const KLineEdit* edit, 
@@ -464,7 +464,7 @@ bool KManualProxyDlg::getException ( QString& result,
     QString label;
     
     // Specify the appropriate message...
-    if ( dlg->cbReverseProxy->isChecked() )
+    if ( mDlg->cbReverseProxy->isChecked() )
       label = i18n("Enter the URL or address that should use the above proxy "
                    "settings:");
     else

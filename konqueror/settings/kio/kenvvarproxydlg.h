@@ -50,13 +50,13 @@ protected:
     bool validate();
     
 private:
-    EnvVarProxyDlgUI* dlg;
+    EnvVarProxyDlgUI* mDlg;
 
     struct EnvVarPair {
       QString name;
       QString value;
     };
 
-    QMap<QString, EnvVarPair> m_mapEnvVars;
+    QMap<QString, EnvVarPair> mEnvVarsMap;
 };
 #endif
