@@ -60,6 +60,14 @@ public:
         m_pluginName = plugin->desktopEntryName();
         setOn(on);
     }
+    KRootOptPreviewItem(KRootOptions *rootOpts, QListView *parent,
+                bool on)
+        : QCheckListItem(parent, i18n("Sound Files"), CheckBox),
+          m_rootOpts(rootOpts)
+    {
+        m_pluginName = "audio/";
+        setOn(on);
+    }
     const QString &pluginName() const { return m_pluginName; }
 
 protected:
@@ -332,6 +340,7 @@ void KRootOptions::load()
     QStringList previews = g_pConfig->readListEntry("Preview");
     for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
         new KRootOptPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
+    new KRootOptPreviewItem(this, previewListView, previews.contains("audio/"));
     //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
