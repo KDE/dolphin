@@ -383,6 +383,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
            for ( type=types.begin(); type!=types.end(); ++type ) {
 
               kdDebug(1433) << " - type=" << *type << endl;
+              name = name.replace( ':', "%3A" );
 
               QString entry = name + ":" + *type;
               if ( !mimeInfoList.contains( entry ) ) {
