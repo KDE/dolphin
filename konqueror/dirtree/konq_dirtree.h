@@ -42,6 +42,7 @@ class KonqDirTreePart : public KParts::ReadOnlyPart
 {
   Q_OBJECT
   friend class KonqDirTree;
+  Q_PROPERTY( bool supportsUndo READ supportsUndo );
 public:
   KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name = 0L );
   virtual ~KonqDirTreePart();
@@ -53,6 +54,8 @@ public:
   virtual bool openFile() { return true; }
 
   KonqDirTreeBrowserExtension *extension() const { return m_extension; }
+
+  bool supportsUndo() const { return true; }
 
 private:
   KonqDirTree *m_pTree;

@@ -61,6 +61,7 @@ class KonqListView : public KParts::ReadOnlyPart
 {
   friend class KonqBaseListViewWidget;
   Q_OBJECT
+  Q_PROPERTY( bool supportsUndo READ supportsUndo );
 public:
   KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqListView();
@@ -72,6 +73,8 @@ public:
   KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 
   ListViewBrowserExtension *extension() const { return m_browser; }
+
+  bool supportsUndo() const { return true; }
 
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
