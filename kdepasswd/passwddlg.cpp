@@ -34,7 +34,7 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
     switch (ret)
     {
     case -1:
-	KMessageBox::error(this, i18n("Conversation with `passwd' failed:\n"+proc.error()));
+	KMessageBox::error(this, i18n("Conversation with `passwd' failed:\n")+QString::fromLocal8Bit(proc.error()));
 	done(Rejected);
 	return false;
 
