@@ -75,9 +75,7 @@ void KonqFMSettings::init( KConfig * config )
 
   m_homeURL = config->readEntry("HomeURL", "~");
 
-  m_embedText = config->readBoolEntry( "EmbedText", true );
-  m_embedImage = config->readBoolEntry( "EmbedImage", true );
-  m_embedOther = config->readBoolEntry( "EmbedOther", true );
+  m_embedMap = config->entryMap( "EmbedSettings" );
 }
 
 bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
@@ -101,11 +99,12 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     }
     // 2 - in the configuration for the group if nothing was found in the mimetype
     QString serviceTypeGroup = serviceType.left(serviceType.find("/"));
+    kdDebug() << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
     if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser")
         return true; //always embed mimetype inode/* and Browser/*
-    if ( serviceTypeGroup == "text" )
-        return m_embedText;
-    if ( serviceTypeGroup == "image" )
-        return m_embedImage;
-    return m_embedOther;
+    QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
+    if ( it == m_embedMap.end() )
+        return true; // default is true
+    kdDebug() << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
+    return it.data() == QString::fromLatin1("true");
 }

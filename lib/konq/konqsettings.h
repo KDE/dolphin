@@ -24,6 +24,7 @@ class KConfig;
 #include <qcolor.h>
 #include <qstring.h>
 #include <qfont.h>
+#include <qmap.h>
 
 /**
  * The class KonqFMSettings holds the general settings for the
@@ -91,9 +92,7 @@ private:
   bool m_alwaysNewWin;
   bool m_bTreeFollow;
 
-  bool m_embedText;
-  bool m_embedImage;
-  bool m_embedOther;
+  QMap<QString, QString> m_embedMap;
 
   QFont m_standardFont;
 
@@ -103,7 +102,7 @@ private:
   bool m_bWordWrapText;
 
   QString m_homeURL;
-  
+
   /** Called by constructor and reparseConfiguration */
   void init( KConfig * config );
 
