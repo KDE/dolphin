@@ -156,6 +156,7 @@ public slots:
     void slotRename();
     void slotChangeURL();
     void slotChangeIcon();
+    void slotUpdateFavicon();
     void slotDelete();
     void slotNewFolder();
     void slotNewBookmark();

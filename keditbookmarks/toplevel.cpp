@@ -42,7 +42,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
-// #include <konq_faviconmgr.h>
+#include <konq_faviconmgr.h>
 
 //#define DEBUG_ADDRESSES
 
@@ -387,6 +387,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
     (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
     (void) new KAction( i18n( "Chan&ge Icon" ), 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
+    (void) new KAction( i18n( "Update Favicon" ), 0, this, SLOT( slotUpdateFavicon() ), actionCollection(), "updatefavicon" );
     (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
     (void) new KAction( i18n( "&Create New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
     (void) new KAction( i18n( "&Insert Separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
@@ -739,6 +740,7 @@ void KEBTopLevel::slotSelectionChanged()
         coll->action("changeurl")      ->setEnabled(!multiSelect && itemSelected && !group && !separator && !root);
         coll->action("delete")         ->setEnabled(itemSelected && !root); // AK
         coll->action("newfolder")      ->setEnabled(!multiSelect);
+        coll->action("updatefavicon")  ->setEnabled(!multiSelect && itemSelected && !root && !separator);
         coll->action("changeicon")     ->setEnabled(!multiSelect && itemSelected && !root && !separator);
         coll->action("insertseparator")->setEnabled(!multiSelect && itemSelected);
         coll->action("newbookmark")    ->setEnabled(!multiSelect);
@@ -1168,6 +1170,26 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
         default:
             kdWarning() << "No such column " << column << endl;
             break;
+    }
+}
+
+void KEBTopLevel::slotUpdateFavicon()
+{
+    KBookmark bk = selectedBookmark();
+    // if folder then recursive
+    QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+    if (favicon == QString::null) {
+       KonqFavIconMgr::downloadHostIcon(bk.url());
+       favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+    }
+    if (favicon != QString::null) {
+        // AK - change directly?
+        EditCommand * cmd = new EditCommand( i18n("Update Favicon"), bk.address(),
+                                             EditCommand::Edition("icon", favicon) );
+        m_commandHistory.addCommand( cmd );
+        // TODO - status bar - got one
+    } else {
+        // TODO - status bar - failed to find favicon!
     }
 }
 

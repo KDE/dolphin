@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="7">
+<kpartgui name="keditbookmarks" version="8">
 
 <MenuBar>
 
@@ -19,6 +19,7 @@
  <!-- The undo/redo/cut/copy/paste stuff goes here (ui_standards.rc) -->
  <Action name="rename"/>
  <Action name="changeurl"/>
+ <Action name="updatefavicon"/>
  <Action name="changeicon"/>
  <Action name="delete"/>
  <Separator/><!-- Stuff for folders -->
@@ -69,6 +70,7 @@
  <Separator/>
  <Action name="rename"/>
  <Action name="changeurl"/>
+ <Action name="updatefavicon"/>
  <Action name="changeicon"/>
  <Action name="delete"/>
  <Separator/><!-- Creation -->
@@ -93,6 +95,7 @@
  <Separator/>
  <Action name="rename"/>
  <Action name="changeurl"/>
+ <Action name="updatefavicon"/>
  <Action name="changeicon"/>
  <Separator/><!-- Creation -->
  <Action name="newbookmark"/>
