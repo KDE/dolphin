@@ -99,9 +99,11 @@ protected slots:
   void slotOnViewport();
   void slotSelectionChanged();
 
-  // slots connected to the directory lister
+  // slots connected to the directory lister - or to the kfind interface
+  // They are reimplemented from KonqDirPart.
   virtual void slotStarted();
   virtual void slotCanceled();
+  void slotCanceled( const KURL& url );
   virtual void slotCompleted();
   virtual void slotNewItems( const KFileItemList& );
   virtual void slotDeleteItem( KFileItem * );

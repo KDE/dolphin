@@ -292,7 +292,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_dirLister, SIGNAL( started( const KURL & ) ),
              this, SLOT( slotStarted() ) );
     connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-    connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+    connect( m_dirLister, SIGNAL( canceled( const KURL& ) ), this, SLOT( slotCanceled( const KURL& ) ) );
     connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
     connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
              this, SLOT( slotNewItems( const KFileItemList& ) ) );
@@ -541,7 +541,7 @@ void KonqKfmIconView::newIconSize( int size )
 bool KonqKfmIconView::doCloseURL()
 {
     m_dirLister->stop();
-    
+
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_pIconView->stopImagePreview();
     return true;
@@ -626,6 +626,8 @@ void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, 
 
 void KonqKfmIconView::slotStarted()
 {
+    // Only emit started if this comes after openURL, i.e. it's not for an update.
+    // We don't want to start a spinning wheel during updates.
     if ( m_bLoading )
         emit started( 0 );
 
@@ -636,7 +638,15 @@ void KonqKfmIconView::slotStarted()
 
 void KonqKfmIconView::slotCanceled()
 {
-    if ( m_bLoading )
+    // Called by kfindpart. Not by kdirlister.
+    slotCanceled( m_pIconView->url() );
+}
+
+void KonqKfmIconView::slotCanceled( const KURL& url )
+{
+    // Check if this canceled() signal is about the URL we're listing.
+    // It could be about the URL we were listing, and openURL() aborted it.
+    if ( m_bLoading && url.cmp( m_pIconView->url(), true ) )
     {
         emit canceled( QString::null );
         m_bLoading = false;
@@ -729,7 +739,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
     {
         KFileIVI * ivi = m_itemDict[ rit.current() ];
         Q_ASSERT(ivi);
-        kdDebug() << "KonqKfmIconView::slotRefreshItems " << rit.current()->name() << " ivi=" << ivi << endl;
+        kdDebug() << "KonqKfmIconView::slotRefreshItems '" << rit.current()->name() << "' ivi=" << ivi << endl;
         if (ivi)
         {
             ivi->refreshIcon( true );
