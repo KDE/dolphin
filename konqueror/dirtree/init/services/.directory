@@ -2,11 +2,13 @@
 Icon=pipe
 Name=Services
 Name[az]=Xidmətlər
+Name[bg]=Обслужвания
 Name[cs]=Služby
 Name[da]=Tjenester
 Name[el]=Υπηρεσίες
 Name[eo]=Servoj
 Name[es]=Servicios
+Name[et]=Teenused
 Name[fi]=Palvelut
 Name[he]=םיתוריש
 Name[hu]=Szolgáltatások
