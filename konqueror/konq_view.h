@@ -55,6 +55,7 @@ struct HistoryEntry
   QByteArray postData;
   QString postContentType;
   bool doPost;
+  QString pageReferrer;
 };
 
 /* This class represents a child of the main view. The main view maintains
@@ -392,6 +393,11 @@ protected:
   QByteArray m_postData;
   QString m_postContentType;
   bool m_doPost;
+
+  /**
+   * The referrer that was used to obtain this page.
+   */
+  QString m_pageReferrer;
 
   KonqMainWindow *m_pMainWindow;
   KonqRun *m_pRun;

@@ -191,6 +191,8 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
     m_doPost = args.doPost();
     m_postContentType = args.contentType();
     m_postData = args.postData;
+    // Save the referrer
+    m_pageReferrer = args.metaData()["referrer"];
   }
 
   m_bAborted = false;
@@ -686,6 +688,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   current->doPost = m_doPost;
   current->postData = m_doPost ? m_postData : QByteArray();
   current->postContentType = m_doPost ? m_postContentType : QString::null;
+  current->pageReferrer = m_pageReferrer;
 }
 
 void KonqView::goHistory( int steps )
@@ -762,6 +765,7 @@ void KonqView::go( int steps )
     m_doPost = h.doPost;
     m_postContentType = h.postContentType;
     m_postData = h.postData;
+    m_pageReferrer = h.pageReferrer;
   }
   else
     m_pPart->openURL( h.url );
@@ -1191,6 +1195,9 @@ bool KonqView::prepareReload( KParts::URLArgs& args )
         else
             return false;
     }
+    // Re-set referrer
+    args.metaData()["referrer"] = m_pageReferrer;
+    
     return true;
 }
 

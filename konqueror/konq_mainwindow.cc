@@ -514,7 +514,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
     setLocationBarURL( url.prettyURL() );
 
   // Fast mode for local files: do the stat ourselves instead of letting KRun do it.
-  if ( url.isLocalFile() )
+  if ( serviceType.isEmpty() && url.isLocalFile() )
   {
     QCString _path( QFile::encodeName(url.path()));
     KDE_struct_stat buff;
@@ -564,7 +564,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   else // no known serviceType, use KonqRun
   {
       kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
-      if (currentURL().startsWith("http")) {
+      if (currentURL().startsWith("http") && !req.args.metaData().contains("referrer")) {
           KURL tmp = currentURL();
           tmp.setRef(QString::null);
           tmp.setUser(QString::null);
@@ -608,7 +608,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 #endif
   bool bOthersFollowed = false;
 
-  if (currentURL().startsWith("http")) {
+  if (currentURL().startsWith("http") && !req.args.metaData().contains("referrer")) {
       KURL tmp = currentURL();
       tmp.setRef(QString::null);
       tmp.setUser(QString::null);
