@@ -55,7 +55,7 @@ void KPluginOptions::load()
 {
     // *** load ***
     m_pConfig->setGroup(m_groupname);
-    bool bPluginGlobal = m_pConfig->readBoolEntry( "EnablePlugins", false);
+    bool bPluginGlobal = m_pConfig->readBoolEntry( "EnablePlugins", true );
 
     // *** apply to GUI ***
     enablePluginsGloballyCB->setChecked( bPluginGlobal );
@@ -63,13 +63,13 @@ void KPluginOptions::load()
 
 void KPluginOptions::defaults()
 {
-    enablePluginsGloballyCB->setChecked( false );
+    enablePluginsGloballyCB->setChecked( true );
 }
 
 void KPluginOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry( "EnablePlugins", enablePluginsGloballyCB->isChecked());
+    m_pConfig->writeEntry( "EnablePlugins", enablePluginsGloballyCB->isChecked() );
 }
 
 void KPluginOptions::changed()
