@@ -196,6 +196,8 @@ public:
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode ) { m_bPassiveMode = mode; }
 
+  bool supportsProgressIndication() const { return m_bProgressSignals; }
+
   static Browser::View_ptr createView( const QString &serviceType, 
 			               QStringList &serviceTypes, 
 			               KonqMainView *mainView,
@@ -254,6 +256,7 @@ protected:
   bool m_bLoading;
   int m_iProgress;
   bool m_bPassiveMode;
+  bool m_bProgressSignals;
 };
 
 #endif

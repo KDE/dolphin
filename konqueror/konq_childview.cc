@@ -53,6 +53,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_bLoading = false;
   m_iProgress = 0;
   m_bPassiveMode = false;
+  m_bProgressSignals = false;
 }
 
 KonqChildView::~KonqChildView()
@@ -203,6 +204,7 @@ void KonqChildView::changeView( Browser::View_ptr _vView,
 
 void KonqChildView::connectView(  )
 {
+  m_bProgressSignals = true;
   try
   {
     m_vView->connect("openURL", m_pMainView, "openURL");
@@ -258,6 +260,7 @@ void KonqChildView::connectView(  )
   catch ( ... )
   {
     kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""loadingProgress"" ");
+    m_bProgressSignals = false;
   }
   try
   {
@@ -266,6 +269,7 @@ void KonqChildView::connectView(  )
   catch ( ... )
   {
     kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""speedProgress"" ");
+    m_bProgressSignals = false;
   }
 
   if ( m_vView->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
