@@ -820,14 +820,13 @@ QIconViewItem *QIVItemBin::right()
  * can be no races.
  */
 
-#define MIN2(a,b)   ((a) < (b) ? (a) : (b))
-#define MIN3(a,b,c) ((a) < MIN2((b),(c)) ? (a) : ((b) < MIN2((a),(c)) ? (b) : (c)))
+#define MIN3(a,b,c) ((a) < QMIN((b),(c)) ? (a) : ((b) < QMIN((a),(c)) ? (b) : (c)))
 
 void KonqIconViewWidget::lineupIcons()
 {
     if ( !firstItem() )
     {
-        kdWarning(1203) << "No icons at all ?\n";
+        kdDebug(1203) << "No icons at all ?\n";
         return;
     }
 
@@ -865,12 +864,12 @@ void KonqIconViewWidget::lineupIcons()
     kdDebug(1203) << "nx = " << nx << " ny = " << ny << "\n";
     if ((nx > 150) || (ny > 100))
     {
-        kdWarning(1203) << "Do you really have that fine a grid?\n";
+        kdDebug(1203) << "Do you really have that fine a grid?\n";
         return;
     }
     if ((nx <= 1) || (ny <= 1))
     {
-        kdWarning(1203) << "Iconview is too small, not doing anything.\n";
+        kdDebug(1203) << "Iconview is too small, not doing anything.\n";
         return;
     }
 
@@ -883,23 +882,57 @@ void KonqIconViewWidget::lineupIcons()
     {
         bins[j] = new QIVItemPtr[nx];
         for (i=0; i<nx; i++)
-            bins[j][i] = 0L;
+            bins[j][i] = 0;
     }
+
+    QValueList<QIconViewItem*> items;
 
     // Put each ivi in its corresponding bin.
     QIconViewItem *item;
     for (item=firstItem(); item; item=item->nextItem())
     {
-        i = (item->x() + item->width()/2 - x1) / dx;
-        if (i < 0) i = 0;
-        else if (i >= nx) i = nx - 1;
-        j = (item->y() + item->height()/2 - y1) / dy;
-        if (j < 0) j = 0;
-        else if (j >= ny) j = ny - 1;
+        items.append(item);
+    }
 
-        if (bins[j][i] == 0L)
-            bins[j][i] = new QIVItemBin;
-        bins[j][i]->add(item);
+    int left = x1;
+    int right = x1 + dx;
+    i = 0;
+
+    while (items.count())
+    {
+        int max_icon_x = dx;
+        right = left + dx;
+
+        for (QValueList<QIconViewItem*>::Iterator it = items.begin(); it != items.end(); ++it)
+        {
+            item = *it;
+            if (item->x() < right && max_icon_x < item->width() )
+                max_icon_x = item->width();
+        }
+
+        right = left + max_icon_x;
+
+        for (QValueList<QIconViewItem*>::Iterator it = items.begin(); it != items.end();)
+        {
+            item = *it;
+            int mid = item->x() + item->width()/2 - x1;
+            kdDebug() << "matching " << mid << " left " << left << " right " << right << endl;
+            if (mid < left || (mid >= left && mid < right)) {
+                it = items.remove(it);
+                j = (item->y() + item->height()/2 - y1) / dy;
+                if (j < 0) j = 0;
+                else if (j >= ny) j = ny - 1;
+
+                kdDebug(1203) << "putting " << item->text() << " " << i << " " << j << endl;
+                if (bins[j][i] == 0L)
+                    bins[j][i] = new QIVItemBin;
+                bins[j][i]->add(item);
+            } else
+                ++it;
+        }
+        kdDebug() << "next round " << items.count() << endl;
+        i = QMIN(i+1, nx - 1);
+        left += max_icon_x + spacing();
     }
 
     // The shuffle code
@@ -915,6 +948,7 @@ void KonqIconViewWidget::lineupIcons()
                 if (!bins[j][i] || (bins[j][i]->count() < 2))
                     continue;
 
+                kdDebug(1203) << "calc for " << i << " " << j << endl;
                 // Calculate the 4 "friction coefficients".
                 int tf = 0;
                 for (k=j-1; (k >= 0) && bins[k][i] && bins[k][i]->count(); k--)
@@ -988,14 +1022,11 @@ void KonqIconViewWidget::lineupIcons()
 
     // Perform the actual moving
     n = 0;
-    int x, y, max_icon_x, min_icon_x, dx_max_min;
-    //MW compaq cxx does not support variable length array.
-    //QIconViewItem *its[ny];
     QIconViewItem **its = new QIconViewItem*[ny];
     for (i=0; i<nx; i++)
     {
-       max_icon_x = 0; min_icon_x=0;
-       for (j=0; j<ny; j++)
+        int max_icon_x = dx;
+        for (j=0; j<ny; j++)
         {
             its[j] = 0;
             if (!bins[j][i] || !bins[j][i]->count())
@@ -1003,22 +1034,20 @@ void KonqIconViewWidget::lineupIcons()
 
             item = its[j] = bins[j][i]->top();
             if ( max_icon_x < item->width() )
-               max_icon_x = item->width();
-           if ( min_icon_x > item->width() || min_icon_x == 0 )
-               min_icon_x = item->width();
-       };
-       dx_max_min = (max_icon_x-min_icon_x)/2;
+                max_icon_x = item->width();
+        }
 
-       for (j=0; j<ny; j++)
-       {
-           if ( its[j] == 0 )
+        for (j=0; j<ny; j++)
+        {
+            if ( its[j] == 0 )
                 continue;
 
-           item = its[j];
-           x = x1 + i*dx + spacing() + ( item->pixmap()->width() - item->width() )/2 + dx_max_min;
-           y = y1 + j*dy + spacing();
+            item = its[j];
+            int x = x1 + spacing() + ( max_icon_x - item->width() )/2;
+            int y = y1 + j * dy;
             if (item->pos() != QPoint(x, y))
             {
+                kdDebug(1203) << "moving " << item->text() << " " << x << " " << y << endl;
                 item->move(x, y);
             }
             if (bins[j][i]->count())
@@ -1036,15 +1065,17 @@ void KonqIconViewWidget::lineupIcons()
                 }
             }
             delete bins[j][i];
+            bins[j][i] = 0;
             n++;
         }
+        x1 += max_icon_x  + spacing();
     }
+    delete[] its;
 
     updateContents();
     for (int j=0; j<ny; j++)
         delete [] bins[j];
     delete[] bins;
-    delete[] its;
     kdDebug(1203) << n << " icons successfully moved.\n";
     return;
 }
