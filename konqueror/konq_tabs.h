@@ -106,6 +106,11 @@ private slots:
   void slotMouseMiddleClick();
   void slotMouseMiddleClick( QWidget* );
 
+  void slotTestCanDecode(const QDragMoveEvent *e, bool &accept /* result */);
+  void slotReceivedDropEvent( QDropEvent* );
+  void slotInitiateDrag( QWidget * );
+  void slotReceivedDropEvent( QWidget *, QDropEvent * );
+
 private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;

@@ -31,6 +31,7 @@
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <klocale.h>
+#include <kurldrag.h>
 
 #include "konq_frame.h"
 #include "konq_view.h"
@@ -101,6 +102,11 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   connect( this, SIGNAL( movedTab( int, int ) ), SLOT( slotMovedTab( int, int ) ) );
   connect( this, SIGNAL( mouseMiddleClick() ), SLOT( slotMouseMiddleClick() ) );
   connect( this, SIGNAL( mouseMiddleClick( QWidget * ) ), SLOT( slotMouseMiddleClick( QWidget * ) ) );
+
+  connect( this, SIGNAL( testCanDecode(const QDragMoveEvent *, bool & )), SLOT( slotTestCanDecode(const QDragMoveEvent *, bool & ) ) );
+  connect( this, SIGNAL( receivedDropEvent( QDropEvent * )), SLOT( slotReceivedDropEvent( QDropEvent * ) ) );
+  connect( this, SIGNAL( receivedDropEvent( QWidget *, QDropEvent * )), SLOT( slotReceivedDropEvent( QWidget *, QDropEvent * ) ) );
+  connect( this, SIGNAL( initiateDrag( QWidget * )), SLOT( slotInitiateDrag( QWidget * ) ) );
 }
 
 KonqFrameTabs::~KonqFrameTabs()
@@ -395,6 +401,44 @@ void KonqFrameTabs::resizeEvent( QResizeEvent *e )
           setTitle( konqview->frame()->title(), page( 0 ) );
       }
     }
+}
+
+void KonqFrameTabs::slotTestCanDecode(const QDragMoveEvent *e, bool &accept /* result */)
+{
+  accept = KURLDrag::canDecode( e );
+}
+
+void KonqFrameTabs::slotReceivedDropEvent( QDropEvent *e )
+{
+  KURL::List lstDragURLs;
+  bool ok = KURLDrag::decode( e, lstDragURLs );
+  if ( ok && lstDragURLs.first().isValid() ) {
+    KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
+    if (newView == 0L) return;
+    m_pViewManager->mainWindow()->openURL( newView, lstDragURLs.first(), QString::null );
+    m_pViewManager->showTab( newView );
+    m_pViewManager->mainWindow()->focusLocationBar();
+  }
+}
+
+void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
+{
+  KURL::List lstDragURLs;
+  bool ok = KURLDrag::decode( e, lstDragURLs );
+  if ( ok && lstDragURLs.first().isValid() ) {
+    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
+    m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURLs.first() );
+  }
+}
+
+void KonqFrameTabs::slotInitiateDrag( QWidget *w )
+{
+   KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>( w );
+   KURL::List lst;
+   lst.append( frame->activeChildView()->url() );
+   KURLDrag *d = KURLDrag::newDrag( lst, this );
+   d->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
+   d->dragCopy();
 }
 
 #include "konq_tabs.moc"
