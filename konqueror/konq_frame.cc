@@ -37,8 +37,7 @@ KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part,
 
   //killTimers();
 
-  KConfig* config = new KConfig( kapp->kde_configdir() + "/kwmrc" , 
-				 kapp->localconfigdir() + "/kwmrc" );
+  KConfig* config = new KConfig( "kwmrc", true);
 
   config->setGroup("WM");
 
