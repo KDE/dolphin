@@ -63,11 +63,16 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   // the domain-specific listview (copied and modified from Cookies configuration)
-  QVGroupBox* domainSpecificGB = new QVGroupBox( i18n( "Domain-specific" ), this );
-  toplevel->addWidget( domainSpecificGB, 2 );
-  QHBox* domainSpecificHB = new QHBox( domainSpecificGB );
-  domainSpecificHB->setSpacing( 10 );
-  domainSpecificLV = new KListView( domainSpecificHB );
+  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Domain-specific" ), this );
+  domainSpecificGB->setColumnLayout(0, Qt::Vertical );
+  domainSpecificGB->layout()->setSpacing( 0 );
+  domainSpecificGB->layout()->setMargin( 0 );
+  QGridLayout* domainSpecificGBLayout = new QGridLayout( domainSpecificGB->layout() );
+  domainSpecificGBLayout->setAlignment( Qt::AlignTop );
+  domainSpecificGBLayout->setSpacing( 6 );
+  domainSpecificGBLayout->setMargin( 11 );
+
+  domainSpecificLV = new KListView( domainSpecificGB );
   domainSpecificLV->addColumn(i18n("Host/Domain"));
   domainSpecificLV->addColumn(i18n("Policy"), 100);
   QString wtstr = i18n("This box contains the domains and hosts you have set "
@@ -78,37 +83,45 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( domainSpecificLV, wtstr );
   QWhatsThis::add( domainSpecificGB, wtstr );
 
-  QVBox* domainSpecificVB = new QVBox( domainSpecificHB );
-  domainSpecificVB->setSpacing( 10 );
-  QPushButton* addDomainPB = new QPushButton( i18n("&Add..."), domainSpecificVB );
+  domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
+  QPushButton* addDomainPB = new QPushButton( i18n("&Add..."), domainSpecificGB );
+  domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
   QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
                                      "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-  QPushButton* changeDomainPB = new QPushButton( i18n("&Change..."), domainSpecificVB );
+  QPushButton* changeDomainPB = new QPushButton( i18n("&Change..."), domainSpecificGB );
+  domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-  QPushButton* deleteDomainPB = new QPushButton( i18n("&Delete"), domainSpecificVB );
+  QPushButton* deleteDomainPB = new QPushButton( i18n("&Delete"), domainSpecificGB );
+  domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
   connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
-  QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificVB );
+  QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificGB );
+  domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
   QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
                                         "the JavaScript policies.  These policies will be merged "
                                         "with the exisiting ones.  Duplicate entries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
 
-  QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificVB );
+  QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificGB );
+  domainSpecificGBLayout->addWidget( exportDomainPB, 4, 1 );
   QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
                                         "file.  The file, named <b>javascript_policy.tgz</b>, will be "
                                         "saved to a location of your choice." ) );
 
   connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
   exportDomainPB->setEnabled( false );
+
+  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+  domainSpecificGBLayout->addItem( spacer, 5, 1 );
+  toplevel->addWidget( domainSpecificGB, 2 );
 
   QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific JavaScript policies for any particular "
                                           "host or domain. To add a new policy, simply click the <i>Add...</i> "
