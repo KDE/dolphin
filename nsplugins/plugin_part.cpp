@@ -86,7 +86,7 @@ extern "C"
    * new factory object
    */
 
-   K_EXPORT_COMPONENT_FACTORY(libnsplugin,PluginFactory);
+   K_EXPORT_COMPONENT_FACTORY(libnsplugin,PluginFactory)
 }
 
 
