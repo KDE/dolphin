@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>466</width>
-            <height>425</height>
+            <height>448</height>
         </rect>
     </property>
     <property name="caption">
@@ -32,7 +32,7 @@
                 <cstring>bgDefaultId</cstring>
             </property>
             <property name="title">
-                <string>Default identification</string>
+                <string>Default Identification</string>
             </property>
             <vbox>
                 <property name="name">
@@ -110,7 +110,7 @@
                 <cstring>gbDomainPolicy</cstring>
             </property>
             <property name="title">
-                <string>Per-site identification</string>
+                <string>Per-Site Identification</string>
             </property>
             <hbox>
                 <property name="name">
@@ -146,7 +146,7 @@
                                 <cstring>pbNew</cstring>
                             </property>
                             <property name="text">
-                                <string>&amp;New</string>
+                                <string>&amp;New...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -154,7 +154,7 @@
                                 <cstring>pbChange</cstring>
                             </property>
                             <property name="text">
-                                <string>Chan&amp;ge</string>
+                                <string>Chan&amp;ge...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -198,6 +198,7 @@
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qwidget.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klistview.h</includehint>
 </includehints>

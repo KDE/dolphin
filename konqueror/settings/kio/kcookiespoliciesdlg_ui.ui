@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>354</width>
-            <height>445</height>
+            <width>390</width>
+            <height>487</height>
         </rect>
     </property>
     <property name="caption">
@@ -109,7 +109,7 @@
                 <cstring>gbDomainSpecific</cstring>
             </property>
             <property name="title">
-                <string>Per-site policy</string>
+                <string>Per-Site Policy</string>
             </property>
             <grid>
                 <property name="name">
@@ -128,7 +128,7 @@
                                 <cstring>pbNew</cstring>
                             </property>
                             <property name="text">
-                                <string>&amp;New</string>
+                                <string>&amp;New...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -136,7 +136,7 @@
                                 <cstring>pbChange</cstring>
                             </property>
                             <property name="text">
-                                <string>Chan&amp;ge</string>
+                                <string>Chan&amp;ge...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -200,6 +200,7 @@
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qwidget.h</includehint>
     <includehint>klistview.h</includehint>
 </includehints>
 </UI>

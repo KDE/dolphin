@@ -76,7 +76,7 @@
                                 <cstring>pbPolicy</cstring>
                             </property>
                             <property name="text">
-                                <string>&amp;Policy</string>
+                                <string>Change &amp;Policy...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -164,7 +164,7 @@
                         <cstring>lbName</cstring>
                     </property>
                     <property name="text">
-                        <string>Name</string>
+                        <string>Name:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leName</cstring>
@@ -175,7 +175,7 @@
                         <cstring>lbValue</cstring>
                     </property>
                     <property name="text">
-                        <string>Value</string>
+                        <string>Value:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leValue</cstring>
@@ -186,7 +186,7 @@
                         <cstring>lbDomain</cstring>
                     </property>
                     <property name="text">
-                        <string>Domain</string>
+                        <string>Domain:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leDomain</cstring>
@@ -197,7 +197,7 @@
                         <cstring>lbPath</cstring>
                     </property>
                     <property name="text">
-                        <string>Path</string>
+                        <string>Path:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>lePath</cstring>
@@ -208,7 +208,7 @@
                         <cstring>lbExpires</cstring>
                     </property>
                     <property name="text">
-                        <string>Expires</string>
+                        <string>Expires:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leExpires</cstring>
@@ -219,7 +219,7 @@
                         <cstring>lbSecure</cstring>
                     </property>
                     <property name="text">
-                        <string>Secure</string>
+                        <string>Secure:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leSecure</cstring>
@@ -239,6 +239,7 @@
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qwidget.h</includehint>
     <includehint>klistview.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

@@ -64,7 +64,7 @@
                 <cstring>lbAlias</cstring>
             </property>
             <property name="text">
-                <string>Identity Description (Alias)</string>
+                <string>Identity description (alias):</string>
             </property>
         </widget>
         <widget class="KLineEdit">

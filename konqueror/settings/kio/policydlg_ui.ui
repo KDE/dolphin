@@ -24,7 +24,7 @@
                 <cstring>lbDomain</cstring>
             </property>
             <property name="text">
-                <string>&amp;Domain name</string>
+                <string>&amp;Domain name:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>leDomain</cstring>
@@ -40,7 +40,7 @@
                 <cstring>lbPolicy</cstring>
             </property>
             <property name="text">
-                <string>&amp;Policy</string>
+                <string>&amp;Policy:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>cbPolicy</cstring>
