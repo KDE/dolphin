@@ -137,6 +137,11 @@ public:
   const QList<HistoryEntry> & history() { return m_lstHistory; }
 
   /**
+   * Creates a deep copy of the @p other view's history buffers.
+   */
+  void copyHistory( KonqView *other );
+
+  /**
    * Set the KonqRun instance that is running something for this view
    * The main window uses this to store the KonqRun for each child view.
    */

@@ -131,6 +131,7 @@ class KonqFrameBase
 {
  public:
   virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 ) = 0;
+  virtual void copyHistory( KonqFrameBase *other ) = 0;
 
   virtual void reparentFrame( QWidget* parent,
                               const QPoint & p, bool showIt=FALSE ) = 0;
@@ -139,7 +140,7 @@ class KonqFrameBase
   virtual QWidget* widget() = 0;
 
   virtual void listViews( ChildViewList *viewList ) = 0;
-  virtual QString frameType() = 0;
+  virtual QCString frameType() = 0;
 
  protected:
   KonqFrameBase() {}
@@ -190,13 +191,14 @@ public:
   virtual void listViews( ChildViewList *viewList );
 
   virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 );
+  virtual void copyHistory( KonqFrameBase *other );
 
   virtual void reparentFrame(QWidget * parent,
                      const QPoint & p, bool showIt=FALSE );
 
   virtual KonqFrameContainer* parentContainer();
   virtual QWidget* widget() { return this; }
-  virtual QString frameType() { return QString("View"); }
+  virtual QCString frameType() { return QCString("View"); }
 
   QVBoxLayout *layout() { return m_pLayout; }
 
@@ -253,6 +255,7 @@ public:
   virtual void listViews( ChildViewList *viewList );
 
   virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 );
+  virtual void copyHistory( KonqFrameBase *other );
 
   KonqFrameBase* firstChild() { return m_pFirstChild; }
   KonqFrameBase* secondChild() { return m_pSecondChild; }
@@ -262,7 +265,7 @@ public:
 
   virtual KonqFrameContainer* parentContainer();
   virtual QWidget* widget() { return this; }
-  virtual QString frameType() { return QString("Container"); }
+  virtual QCString frameType() { return QCString("Container"); }
 
   /**
    * Call this after inserting a new frame into the splitter.

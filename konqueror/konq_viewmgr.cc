@@ -463,8 +463,10 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
 {
   kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
   if( m_pMainContainer && m_pMainContainer->firstChild() ) {
-    cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString::number(0) );
-    QString prefix = m_pMainContainer->firstChild()->frameType() + QString::number(0);
+    cfg.writeEntry( "RootItem", QString::fromLatin1( m_pMainContainer->firstChild()->frameType() )
+                    + QString::number(0) );
+    QString prefix = QString::fromLatin1( m_pMainContainer->firstChild()->frameType() )
+                     + QString::number(0);
     prefix.append( '_' );
     m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, saveURLs, 0, 1 );
   }

@@ -487,6 +487,15 @@ void KonqView::go( int steps )
   //kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
 }
 
+void KonqView::copyHistory( KonqView *other )
+{
+    m_lstHistory.clear();
+
+    QListIterator<HistoryEntry> it( other->m_lstHistory );
+    for (; it.current(); ++it )
+        m_lstHistory.append( new HistoryEntry( *it.current() ) );
+}
+
 KURL KonqView::url()
 {
   assert( m_pPart );

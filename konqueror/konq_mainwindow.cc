@@ -793,7 +793,11 @@ void KonqMainWindow::slotDuplicateWindow()
   KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   if (mainWindow->currentView())
+  {
+      mainWindow->viewManager()->mainContainer()->copyHistory( m_pViewManager->mainContainer() );
+
       mainWindow->enableAllActions( true );
+  }
   else
       mainWindow->disableActionsNoView();
   mainWindow->show();
@@ -1279,7 +1283,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
       // goes both into the combo and the completion object
       m_combo->addToHistory( viewURL );
       if ( isLocal ) // but we only want remote urls in the completion object
-	  m_combo->completionObject()->removeItem( viewURL );
+          m_combo->completionObject()->removeItem( viewURL );
   }
 
   else if ( !isLocal ) // just add it to the completion object for proper weighting
@@ -1291,10 +1295,10 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // ... _if_ the user didn't change the url while we were loading
   if ( isActiveView && currentText == viewURL ) {
       for ( int i = 0; i < m_combo->count(); i++ ) {
-	  if ( m_combo->text( i ) == currentText ) {
-	      m_combo->setCurrentItem( i );
-	      break;
-	  }
+          if ( m_combo->text( i ) == currentText ) {
+              m_combo->setCurrentItem( i );
+              break;
+          }
       }
   }
 
@@ -1306,7 +1310,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if ( !isLocal ) {
       QString u = view->typedURL();
       if ( !u.isEmpty() && u != viewURL )
-	  m_combo->completionObject()->addItem( u ); // short version
+          m_combo->completionObject()->addItem( u ); // short version
   }
 
   // Need to update the current working directory
@@ -1928,7 +1932,7 @@ void KonqMainWindow::slotComboPlugged()
   KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
   int mode = config->readNumEntry("CompletionMode",
-				  KGlobalSettings::completionMode());
+                                  KGlobalSettings::completionMode());
 
   if ( !s_pCompletion ) {
       KSimpleConfig historyConfig( "konq_history" );
@@ -1958,7 +1962,7 @@ void KonqMainWindow::slotComboPlugged()
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
   connect( m_combo, SIGNAL( completionModeChanged( KGlobalSettings::Completion )),
-	   SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
+           SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
 
   m_combo->lineEdit()->installEventFilter(this);
 }
@@ -2010,9 +2014,9 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
                                 m_pURLCompletion->nextMatch();
 
     if( completion.isNull() ) { // try the history KCompletion object
-	s_pCompletion->setCompletionMode( m_combo->completionMode() );
-	completion = prev ? s_pCompletion->previousMatch() :
-	                    s_pCompletion->nextMatch();
+        s_pCompletion->setCompletionMode( m_combo->completionMode() );
+        completion = prev ? s_pCompletion->previousMatch() :
+                            s_pCompletion->nextMatch();
     }
     if ( completion.isEmpty() || completion == m_combo->currentText() )
       return;
@@ -2304,8 +2308,8 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
     //    m_combo->setEditText( url );
     for ( int i = 0; i < m_combo->count(); i++ ) {
       if ( m_combo->text( i ) == url ) {
-	m_combo->setCurrentItem( i );
-	return;
+        m_combo->setCurrentItem( i );
+        return;
       }
     }
 

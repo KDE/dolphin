@@ -303,6 +303,12 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
   config->writeEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), childView()->isToggleView() );
 }
 
+void KonqFrame::copyHistory( KonqFrameBase *other )
+{
+    assert( other->frameType() == "View" );
+    childView()->copyHistory( static_cast<KonqFrame *>( other )->childView() );
+}
+
 KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
    KonqViewFactory factory( viewFactory );
@@ -423,9 +429,9 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
   //write children
   QStringList strlst;
   if( firstChild() )
-    strlst.append( firstChild()->frameType() + QString::number(idSecond - 1) );
+    strlst.append( QString::fromLatin1( firstChild()->frameType() ) + QString::number(idSecond - 1) );
   if( secondChild() )
-    strlst.append( secondChild()->frameType() + QString::number( idSecond ) );
+    strlst.append( QString::fromLatin1( secondChild()->frameType() ) + QString::number( idSecond ) );
 
   config->writeEntry( QString::fromLatin1( "Children" ).prepend( prefix ), strlst );
 
@@ -440,16 +446,25 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
 
   //write child configs
   if( firstChild() ) {
-    QString newPrefix = firstChild()->frameType() + QString::number(idSecond - 1);
+    QString newPrefix = QString::fromLatin1( firstChild()->frameType() ) + QString::number(idSecond - 1);
     newPrefix.append( '_' );
     firstChild()->saveConfig( config, newPrefix, saveURLs, id, depth + 1 );
   }
 
   if( secondChild() ) {
-    QString newPrefix = secondChild()->frameType() + QString::number( idSecond );
+    QString newPrefix = QString::fromLatin1( secondChild()->frameType() ) + QString::number( idSecond );
     newPrefix.append( '_' );
     secondChild()->saveConfig( config, newPrefix, saveURLs, idSecond, depth + 1 );
   }
+}
+
+void KonqFrameContainer::copyHistory( KonqFrameBase *other )
+{
+    assert( other->frameType() == "Container" );
+    if ( firstChild() )
+        firstChild()->copyHistory( static_cast<KonqFrameContainer *>( other )->firstChild() );
+    if ( secondChild() )
+        secondChild()->copyHistory( static_cast<KonqFrameContainer *>( other )->secondChild() );
 }
 
 KonqFrameBase* KonqFrameContainer::otherChild( KonqFrameBase* child )
