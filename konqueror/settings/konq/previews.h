@@ -56,6 +56,7 @@ private slots:
 private:
     QPtrList<QCheckBox> m_boxes;
     KDoubleNumInput *m_maxSize;
+    QCheckBox *m_boostSize;
 };
 
 #endif

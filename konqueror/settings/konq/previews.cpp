@@ -88,6 +88,9 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
     lay->addWidget( m_maxSize );
     connect( m_maxSize, SIGNAL( valueChanged(double) ), SLOT( changed() ) );
 
+    m_boostSize = new QCheckBox(i18n("Increase size of previews relative to icons"), this);
+    lay->addWidget(m_boostSize);
+
     lay->addWidget( new QWidget(this), 10 );
 
     load();
@@ -107,6 +110,8 @@ void KPreviewOptions::load()
     }
     // config key is in bytes (default value 1MB), numinput is in MB
     m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
+
+    m_boostSize->setChecked( group.readBoolEntry( "BoostSize", true /*default*/ ) );
 }
 
 void KPreviewOptions::defaults()
@@ -116,6 +121,7 @@ void KPreviewOptions::defaults()
         it.current()->setChecked( true /*default*/ );
     }
     m_maxSize->setValue( DEFAULT_MAXSIZE / (1024*1024) );
+    m_boostSize->setChecked( true );
 }
 
 void KPreviewOptions::save()
@@ -128,6 +134,7 @@ void KPreviewOptions::save()
     }
     // config key is in bytes, numinput is in MB
     group.writeEntry( "MaximumSize", qRound( m_maxSize->value() *1024*1024 ), true, true );
+    group.writeEntry( "BoostSize", m_boostSize->isChecked(), true, true );
     group.sync();
 }
 

@@ -822,18 +822,24 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
 
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int size;
-    if (iconSize < 28)
-        size = 48;
-    else if (iconSize < 40)
+    
+    if ( group.readBoolEntry("BoostSize") ) {
+        if (iconSize < 28)
+            size = 48;
+        else if (iconSize < 40)
 #if 0 // TMS sizes, enable when KIO::Previewjob uses them
-        size = 64;
-    else if (iconSize < 60)
-        size = 96;
-    else
-        size = 128;
+            size = 64;
+        else if (iconSize < 60)
+            size = 96;
+        else
+            size = 128;
 #endif
-        size = 60;
-    else size = 90;
+            size = 60;
+        else size = 90;
+    } else {
+        size = iconSize;
+        iconSize /= 2;
+    }
 
     d->pPreviewJob = KIO::filePreview( items, size, size, iconSize,
         m_pSettings->textPreviewIconTransparency(), true /* scale */,
