@@ -25,6 +25,7 @@
 #include "konq_run.h"
 #include "konq_events.h"
 #include "konq_viewmgr.h"
+#include "konq_tabs.h"
 #include "konq_browseriface.h"
 #include <kparts/statusbarextension.h>
 #include <kparts/browserextension.h>
@@ -467,13 +468,18 @@ void KonqView::slotEnableAction( const char * name, bool enabled )
 
 void KonqView::slotMoveTopLevelWidget( int x, int y )
 {
-  if ( m_pMainWindow->currentView()->frame()->parentContainer()->frameType() != "Tabs" )
+  KonqFrameContainerBase* container = frame()->parentContainer();
+  // If tabs are shown, only accept to move the whole window if there's only one tab.
+  if ( container->frameType() != "Tabs" || static_cast<KonqFrameTabs*>(container)->count() == 1 )
     m_pMainWindow->move( x, y );
 }
 
 void KonqView::slotResizeTopLevelWidget( int w, int h )
 {
-  if ( m_pMainWindow->currentView()->frame()->parentContainer()->frameType() != "Tabs" )
+  KonqFrameContainerBase* container = frame()->parentContainer();
+  // If tabs are shown, only accept to resize the whole window if there's only one tab.
+  // ### Maybe we could store the size requested by each tab and resize the window to the biggest one.
+  if ( container->frameType() != "Tabs" || static_cast<KonqFrameTabs*>(container)->count() == 1 )
     m_pMainWindow->resize( w, h );
 }
 
