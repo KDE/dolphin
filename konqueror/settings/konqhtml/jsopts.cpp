@@ -152,7 +152,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( popupMode,i18n("Accept all popup window requests.") );
   
   popupMode = new QRadioButton(i18n( "Ask" ), js_popup);
-  QWhatsThis::add( popupMode,i18n("Prompt everytime a popup window is requested.") );
+  QWhatsThis::add( popupMode,i18n("Prompt every time a popup window is requested.") );
   
   popupMode = new QRadioButton(i18n( "Deny" ), js_popup);
   QWhatsThis::add( popupMode,i18n("Reject all popup window requests.") );
