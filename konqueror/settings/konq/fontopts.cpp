@@ -181,7 +181,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     {
         row++;
 
-        m_pSizeInBytes = new QCheckBox(i18n("Display the filesizes in b&ytes"), this);
+        m_pSizeInBytes = new QCheckBox(i18n("Display filesizes in b&ytes"), this);
         lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,Qt::AlignLeft );
         connect( m_pSizeInBytes, SIGNAL(clicked()), this, SLOT(changed()) );
 
