@@ -198,7 +198,7 @@ void KPreviewOptions::save()
 QString KPreviewOptions::quickHelp() const
 {
     return i18n("<h1>Preview Options</h1> Here you can modify the behavior "
-                "of Konqueror when it shows the files in a directory."
+                "of Konqueror when it shows the files in a folder."
                 "<h2>The list of protocols:</h2> check the protocols over which "
                 "previews should be shown, uncheck those over which they shouldn't. "
                 "For instance, you might want to show previews over SMB if the local "

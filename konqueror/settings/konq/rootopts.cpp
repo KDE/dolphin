@@ -74,9 +74,9 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   tmpLabel->setBuddy( urDesktop );
   lay->addMultiCellWidget(urDesktop, row, row, 1, RO_LASTCOL);
   connect(urDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  QString wtstr = i18n("This directory contains all the files"
+  QString wtstr = i18n("This folder contains all the files"
                        " which you see on your desktop. You can change the location of this"
-                       " directory if you want to, and the contents will move automatically"
+                       " folder if you want to, and the contents will move automatically"
                        " to the new location as well.");
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( urDesktop, wtstr );
@@ -89,9 +89,9 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   tmpLabel->setBuddy( urTrash );
   lay->addMultiCellWidget(urTrash, row, row, 1, RO_LASTCOL);
   connect(urTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory contains deleted files (until"
+  wtstr = i18n("This folder contains deleted files (until"
                " you empty the trashcan). You can change the location of this"
-               " directory if you want to, and the contents will move automatically"
+               " folder if you want to, and the contents will move automatically"
                " to the new location as well.");
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( urTrash, wtstr );
@@ -104,10 +104,10 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   tmpLabel->setBuddy( urAutostart );
   lay->addMultiCellWidget(urAutostart, row, row, 1, RO_LASTCOL);
   connect(urAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory contains applications or"
+  wtstr = i18n("This folder contains applications or"
                " links to applications (shortcuts) that you want to have started"
                " automatically whenever KDE starts. You can change the location of this"
-               " directory if you want to, and the contents will move automatically"
+               " folder if you want to, and the contents will move automatically"
                " to the new location as well.");
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( urAutostart, wtstr );
@@ -120,7 +120,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   tmpLabel->setBuddy( urDocument );
   lay->addMultiCellWidget(urDocument, row, row, 1, RO_LASTCOL);
   connect(urDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory will be used by default to "
+  wtstr = i18n("This folder will be used by default to "
                "load or save documents from or to.");
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( urDocument, wtstr );

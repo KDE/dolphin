@@ -258,7 +258,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.latin1()));
     if(sort_action!=NULL) sort_action->activate();
 
-    m_paSortDirsFirst = new KToggleAction( i18n( "Directories First" ), 0, actionCollection(), "sort_directoriesfirst" );
+    m_paSortDirsFirst = new KToggleAction( i18n( "Folders First" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
     m_paSortDirsFirst->setChecked( KonqIconViewFactory::defaultViewProps()->isDirsFirst() );
@@ -295,8 +295,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
                                        this, SLOT( slotInvertSelection() ),
                                        actionCollection(), "invertselection" );
 
-    m_paSelect->setStatusText( i18n( "Allows selecting of file or directory items based on a given mask" ) );
-    m_paUnselect->setStatusText( i18n( "Allows unselecting of file or directory items based on a given mask" ) );
+    m_paSelect->setStatusText( i18n( "Allows selecting of file or folder items based on a given mask" ) );
+    m_paUnselect->setStatusText( i18n( "Allows unselecting of file or folder items based on a given mask" ) );
     m_paSelectAll->setStatusText( i18n( "Selects all items" ) );
     m_paUnselectAll->setStatusText( i18n( "Unselects all selected items" ) );
     m_paInvertSelection->setStatusText( i18n( "Inverts the current selection of items" ) );

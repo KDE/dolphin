@@ -180,7 +180,7 @@ void KfindDlg::slotResult(int errorCode)
   else if (errorCode == KIO::ERR_DOES_NOT_EXIST)
   {
      setStatusMsg(i18n("Error."));
-     KMessageBox::sorry( this, i18n("Could not find the specified directory."));
+     KMessageBox::sorry( this, i18n("Could not find the specified folder."));
   }
   else
   {
