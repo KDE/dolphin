@@ -458,11 +458,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
 
   bool bOthersFollowed = false;
-  // If linked view and if we are not already following another view
-  if ( childView && childView->isLinkedView() && !req.followMode && !m_pViewManager->isLoadingProfile() )
+  // If linked view and if we are not already following another view (and if we are not reloading)
+  if ( childView && childView->isLinkedView() && !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile() )
     bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView );
 
-  if ( childView && childView->isLockedLocation() )
+  if ( childView && childView->isLockedLocation() && !req.args.reload /* allow to reload a locked view*/ )
     return bOthersFollowed;
 
   QString indexFile;
