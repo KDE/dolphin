@@ -1120,26 +1120,27 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   }
 
   // Window size
- if ( !m_pMainWindow->initialGeometrySet() )
- {
+  if ( !m_pMainWindow->initialGeometrySet() )
+  {
      QSize size = readConfigSize( cfg, m_pMainWindow );
      if ( size.isValid() )
          m_pMainWindow->resize( size );
      else if( resetWindow )
          m_pMainWindow->resize( 700, 480 ); // size from KonqMainWindow ctor
- }
+  }
+
+  if( resetWindow )
+  {
+     m_pMainWindow->applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+  }
 
   // Apply menu/toolbar settings saved in profile. Read from a separate group
   // so that the window doesn't try to change the size stored in the Profile group.
   // (If applyMainWindowSettings finds a "Width" or "Height" entry, it
   // sets them to 0,0)
-  if( cfg.hasGroup( "Main Window Settings" ) ) {
-    QString savedGroup = cfg.group();
-    m_pMainWindow->applyMainWindowSettings( &cfg, "Main Window Settings" );
-    cfg.setGroup( savedGroup );
-  } else if( resetWindow ) {
-    m_pMainWindow->applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-  }
+  QString savedGroup = cfg.group();
+  m_pMainWindow->applyMainWindowSettings( &cfg, "Main Window Settings" );
+  cfg.setGroup( savedGroup );
 
 #ifndef NDEBUG
   printFullHierarchy( m_pMainWindow );
