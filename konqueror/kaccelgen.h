@@ -153,7 +153,7 @@ loadPredefined(Iter begin, Iter end, QMap<QChar,bool>& keys)
  * @param end    (you know)
  * @param target collection to store generated strings
  */
-template <class Iter, class Deref>
+template <class Iter, class Iter_Deref >
 void
 generate(Iter begin, Iter end, QStringList& target)
 {
@@ -161,11 +161,11 @@ generate(Iter begin, Iter end, QStringList& target)
     QMap<QChar,bool> used_accels;
 
     // Prepass to detect manually user-coded accelerators
-    loadPredefined<Iter,Deref>(begin, end, used_accels);
+    loadPredefined<Iter,Iter_Deref>(begin, end, used_accels);
 
     // Main pass
     for (Iter i = begin; i != end; ++i) {
-        QString item = Deref::deref(i);
+        QString item = Iter_Deref::deref(i);
 
         // Attempt to find a good accelerator, but only if the user
         // has not manually hardcoded one.
@@ -209,23 +209,6 @@ generate(Iter begin, Iter end, QStringList& target)
 }
 
 /**
- * Convenience alias for the maximally flexible version of this
- * function. Assumes the default dereferencing class Deref<Iter>.
- * Actually, we only need this because g++ doesn't support default
- * template parameters properly.
- *
- * @param begin
- * @param end
- * @param target
- */
-template <class Iter>
-inline void
-generate(Iter begin, Iter end, QStringList& target)
-{
-    generate< Iter, Deref<Iter> >(begin, end, target);
-}
-
-/**
  * Another convenience function; looks up the key instead of
  * dereferencing directly for the given iterator.
  *
@@ -250,7 +233,7 @@ generateFromKeys(Iter begin, Iter end, QStringList& target)
 inline void
 generate(const QStringList& source, QStringList& target)
 {
-    generate(source.begin(), source.end(), target);
+    generate<QStringList::ConstIterator, Deref<QStringList::ConstIterator> >(source.begin(), source.end(), target);
 }
 
 /**

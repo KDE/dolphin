@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   QString bookmarksFile = (args->count() == 0)
                           ? locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml") )
-                          : args->arg(0);
+                          : QString::fromLatin1(args->arg(0));
   if (!QFile::exists(bookmarksFile))
     kdFatal() << bookmarksFile << " not found" << endl;
   args->clear();
