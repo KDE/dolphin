@@ -357,7 +357,6 @@ public slots:
   void slotDuplicateWindow();
   void slotSendURL();
   void slotSendFile();
-  void slotRun();
   void slotCopyFiles();
   void slotMoveFiles();
   void slotNewDir();

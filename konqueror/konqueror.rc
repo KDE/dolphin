@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="56">
+<gui name="Konqueror" version="57">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -65,7 +65,6 @@
  </Menu>
  <Action name="bookmarks"/>
  <Menu name="tools"><text>&amp;Tools</text>
-  <Action name="run"/>
   <Action name="open_terminal"/>
   <Action name="findfile"/>
   <WeakSeparator/>

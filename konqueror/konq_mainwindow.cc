@@ -1361,14 +1361,6 @@ void KonqMainWindow::slotSendFile()
                      urls); // attachments
 }
 
-void KonqMainWindow::slotRun()
-{
-  // HACK: The command is not executed in the directory
-  // we are in currently. Minicli does not support that yet
-  QByteArray data;
-  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "popupExecuteCommand()", data );
-}
-
 void KonqMainWindow::slotOpenTerminal()
 {
   KConfig *config = KGlobal::config();
@@ -3676,7 +3668,6 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link Address..." ), "mail_generic", 0, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
   (void) new KAction( i18n( "S&end File..." ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
-  (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   if (kapp->authorize("shell_access"))
   {
      (void) new KAction( i18n( "Open &Terminal" ), "openterm", Key_F4, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );

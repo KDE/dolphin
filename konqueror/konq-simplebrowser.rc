@@ -1,6 +1,6 @@
 <?xml version = '1.0'?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui version="51" name="Konqueror" >
+<gui version="52" name="Konqueror" >
  <MenuBar>
   <Menu noMerge="1" name="file" >
    <text>&amp;Location</text>
@@ -39,7 +39,6 @@
   <Action name="bookmarks" />
   <Menu name="tools" >
    <text>&amp;Tools</text>
-   <Action name="run" />
    <Merge/>
   </Menu>
   <Menu noMerge="1" name="settings" >
