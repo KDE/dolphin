@@ -106,5 +106,8 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
 
 void KonqPixmapProvider::remove( const QString& url )
 {
-    iconMap.remove(url);
+    iconMap.remove( url );
+    // FIXME (malte)
+    if ( url.right( 1 ) == "/" )
+        iconMap.remove( url.left( url.length() - 1 ) );
 }
