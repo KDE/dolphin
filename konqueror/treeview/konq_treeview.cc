@@ -57,9 +57,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
+  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqTreeView;
+    QObject *obj = new KonqTreeView( (QWidget *)parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -185,7 +185,8 @@ QStringList TreeViewEditExtension::selectedUrls()
   return lstURLs;
 }
 
-KonqTreeView::KonqTreeView()
+KonqTreeView::KonqTreeView( QWidget *parent, const char *name )
+ : BrowserView( parent, name )
 {
   EditExtension *extension = new TreeViewEditExtension( this );
   (void)new TreeViewPropertiesExtension( this );

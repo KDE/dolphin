@@ -17,12 +17,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- **/     
+ **/
 
 #ifndef __konq_childview_h__
 #define __konq_childview_h__ "$Id$"
 
 #include "konq_mainview.h"
+#include "konq_factory.h"
 #include "kbrowser.h"
 
 #include <qlist.h>
@@ -44,7 +45,7 @@ struct HistoryEntry
   QString strServiceType;
   QString strServiceName;
 };
-  
+
 /* This class represents a child of the main view. The main view maintains
  * the list of children. A KonqChildView contains a Browser::View and
  * handles it. It's more or less the backend structure for the views.
@@ -63,20 +64,13 @@ public:
    * @param mainView is the mainview :-)
    * @param serviceTypes is the list of supported servicetypes
    */
-  KonqChildView( BrowserView *view,
+  KonqChildView( KonqViewFactory &viewFactory,
 		 KonqFrame* viewFrame,
 		 KonqMainView * mainView,
 		 const KService::Ptr &service,
 		 const KTrader::OfferList &serviceOffers );
 
   ~KonqChildView();
-
-  /** Attach a view
-   * @param view the view to attach (instead of the current one, if any)
-   */
-  void attach( BrowserView *view );
-  /** Detach attached view, before deleting myself, or attaching another one */
-  void detach();
 
   /** Force a repaint of the frame */
   void repaint();
@@ -85,7 +79,7 @@ public:
   void show();
 
   /**
-   * Displays another URL, but without changing the view mode (caller has to 
+   * Displays another URL, but without changing the view mode (caller has to
    * ensure that the call makes sense)
    */
   void openURL( const QString &url, bool useMiscURLData = false );
@@ -93,22 +87,22 @@ public:
   /**
    * Replace the current view vith _vView
    */
-  void switchView( BrowserView *pView );
+  void switchView( KonqViewFactory &viewFactory );
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
                        bool useMiscURLData = true, const QString &serviceName = QString::null );
-  
+
   /**
    * Call this to prevent next makeHistory() call from changing history lists
    * This must be called before the first call to makeHistory().
    */
   void lockHistory() { m_bHistoryLock = true; }
-  
+
   /**
    * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
    */
   void makeHistory( bool pushEntry );
-    
+
   /**
    * @return true if view can go back
    */
@@ -117,7 +111,7 @@ public:
    * Go back
    */
   void goBack( int steps = 1 );
-  
+
   /**
    * @return true if view can go forward
    */
@@ -147,7 +141,7 @@ public:
    * Get view's URL - slow method, avoid using it if possible
    */
   QString url();
-  
+
   /**
    * Get view's location bar URL, i.e. the one that the view signals
    * It can be different from url(), for instance if we display a index.html (David)
@@ -155,7 +149,7 @@ public:
   const QString locationBarURL() { return m_sLocationBarURL; }
 
   /**
-   * Get view object (should never be needed, except for IDL methods 
+   * Get view object (should never be needed, except for IDL methods
    * like activeView() and viewList())
    */
   BrowserView *view() { return m_pView; }
@@ -179,7 +173,7 @@ public:
    * Returns the Servicetypes this view is capable to display
    */
   QStringList serviceTypes() { return m_service->serviceTypes(); }
-  
+
   bool supportsServiceType( const QString &serviceType ) { return serviceTypes().contains( serviceType ); }
 
   void setMiscURLData( bool reload, int xOffset, int yOffset )
@@ -197,7 +191,7 @@ public:
 
   void setViewStarted( bool b ) { m_bViewStarted = b; }
   bool viewStarted() const { return m_bViewStarted; }
-  
+
   void setProgress( int percent ) { m_iProgress = percent; }
   int progress() const { return m_iProgress; }
 
@@ -209,7 +203,7 @@ public:
   KService::Ptr service() { return m_service; }
 
   KTrader::OfferList serviceOffers() { return m_serviceOffers; }
-  
+
   KonqMainView *mainView() const { return m_pMainView; }
 
 signals:
@@ -228,14 +222,14 @@ protected:
 ////////////////// protected members ///////////////
 
   void go( QList<HistoryEntry> &stack, int steps );
-  
+
   BrowserView *m_pView;
-    
+
   QString m_sLocationBarURL;
 
   bool m_bBack;
   bool m_bForward;
-  
+
   QList<HistoryEntry> m_lstBack;
   QList<HistoryEntry> m_lstForward;
 
@@ -243,7 +237,7 @@ protected:
 
   /** If true, next call to makeHistory won't change the history */
   bool m_bHistoryLock;
-    
+
   KonqMainView *m_pMainView;
   bool m_bAllowHTML;
   QGuardedPtr<KonqRun> m_pRun;

@@ -70,7 +70,7 @@ class KonqTextView : public BrowserView
   Q_OBJECT
 
 public:
-  KonqTextView();
+  KonqTextView( QWidget *parent, const char *name );
   virtual ~KonqTextView();
 
   virtual void openURL( const QString &url, bool reload = false,

@@ -59,9 +59,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
+  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqTextView;
+    QObject *obj = new KonqTextView( (QWidget *)parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -151,7 +151,8 @@ void KonqTextEditExtension::copySelection()
   m_textView->multiLineEdit()->copy();
 }
 
-KonqTextView::KonqTextView()
+KonqTextView::KonqTextView( QWidget *parent, const char *name )
+ : BrowserView( parent, name )
 {
   kdebug(KDEBUG_INFO, 1202, "+KonqTextView");
 

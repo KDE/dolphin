@@ -425,7 +425,6 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 {
   m_pLayout = 0L;
   m_pChildView = 0L;
-  m_pView = 0L;
 
   // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
@@ -441,7 +440,7 @@ KonqFrame::view( void )
 
 bool KonqFrame::isActivePart()
 {
-  return ( m_pView == m_pChildView->mainView()->currentView() );
+  return ( (BrowserView *)m_pView == m_pChildView->mainView()->currentView() );
 }
 
 void
@@ -459,27 +458,22 @@ KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /
   config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
 }
 
-void
-KonqFrame::attach( BrowserView *view )
+BrowserView *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
-  m_pView = view;
-
   if (m_pLayout) delete m_pLayout;
 
+  KonqViewFactory factory( viewFactory );
+  
   m_pLayout = new QVBoxLayout( this );
   m_pLayout->addWidget( m_pHeader );
-  m_pView->reparent( this, 0, QPoint( 0, 0) );
-  m_pView->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
+  m_pView = factory.create( this, 0L );
+  //  m_pView->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
   m_pLayout->addWidget( m_pView );
   m_pView->show();
   m_pHeader->show();
   m_pLayout->activate();
-}
-
-void
-KonqFrame::detach( void )
-{
-  m_pView = 0L;
+  
+  return m_pView;
 }
 
 KonqFrameContainer*

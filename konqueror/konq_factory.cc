@@ -41,6 +41,14 @@ extern "C"
   }
 };
 
+BrowserView *KonqViewFactory::create( QWidget *parent, const char *name )
+{
+  if ( !m_factory )
+    return 0L;
+
+  return (BrowserView *)m_factory->create( parent, name, "QObject", m_args );
+}
+
 KonqFactory::KonqFactory()
 {
   s_instance = 0L;
@@ -60,10 +68,10 @@ KonqFactory::~KonqFactory()
   s_instance = 0L;
 }
 
-BrowserView *KonqFactory::createView( const QString &serviceType,
-                                      const QString &serviceName,
-				      KService::Ptr *serviceImpl,
-				      KTrader::OfferList *serviceOffers )
+KonqViewFactory KonqFactory::createView( const QString &serviceType,
+                                         const QString &serviceName,
+				         KService::Ptr *serviceImpl,
+				         KTrader::OfferList *serviceOffers )
 {
   kdebug(0,1202,QString("trying to create view for \"%1\"").arg(serviceType));
 
@@ -71,7 +79,7 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   QString mimeTypeGroup = serviceType.left(serviceType.find("/"));
   if (serviceType != "text/html") // HACK. Will be replaced by a X-KDE-Embed setting in the mimetypes
     if (! KonqFMSettings::defaultIconSettings()->shouldEmbed( mimeTypeGroup ) )
-      return 0L;
+      return KonqViewFactory();
 
   // Then query the trader
   QString constraint = "('Browser/View' in ServiceTypes)";
@@ -79,7 +87,7 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   KTrader::OfferList offers = KTrader::self()->query( serviceType, constraint );
 
   if ( offers.count() == 0 ) //no results?
-    return 0L;
+    return KonqViewFactory();
 
   KService::Ptr service = offers.first();
 
@@ -111,8 +119,8 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
 
   KLibFactory *factory = KLibLoader::self()->factory( service->library() );
 
-  if ( !factory )
-    return 0L;
+  //  if ( !factory )
+  //    return 0L;
 
   if ( serviceOffers )
     (*serviceOffers) = offers;
@@ -130,7 +138,7 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
     args = QStringList::split( " ", argStr );
   }
 
-  return (BrowserView *)factory->create( 0, 0, "QObject", args );
+  return KonqViewFactory( factory, args );
 }
 
 QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*classname*/, const QStringList & )

@@ -34,6 +34,23 @@ class KonqBookmarkManager;
 class KonqFileManager;
 class KonqMainView;
 
+class KonqViewFactory
+{
+public:
+  KonqViewFactory() : m_factory( 0L ) {}
+  KonqViewFactory( KLibFactory *factory, const QStringList &args ) : m_factory( factory ), m_args( args ) {}
+  KonqViewFactory( const KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) {}
+  KonqViewFactory( KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) {}
+
+  BrowserView *create( QWidget *parent, const char *name );
+
+  bool isNull() { return m_factory ? false : true; }
+
+private:
+  KLibFactory *m_factory;
+  QStringList m_args;
+};
+
 class KonqFactory : public KLibFactory
 {
   Q_OBJECT
@@ -41,11 +58,11 @@ public:
   KonqFactory();
   virtual ~KonqFactory();
 
-  static BrowserView *createView( const QString &serviceType,
-				  const QString &serviceName = QString::null,
-				  KService::Ptr *serviceImpl = 0,
-				  KTrader::OfferList *serviceOffers = 0 );
-				  
+  static KonqViewFactory createView( const QString &serviceType,
+				     const QString &serviceName = QString::null,
+				     KService::Ptr *serviceImpl = 0,
+				     KTrader::OfferList *serviceOffers = 0 );
+				
 
   virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject", const QStringList &args = QStringList() );
 

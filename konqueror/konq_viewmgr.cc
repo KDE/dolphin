@@ -108,11 +108,13 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
   KService::Ptr service;
   KTrader::OfferList serviceOffers;
 
-  BrowserView* newView = createView( serviceType, serviceName, service, serviceOffers );
+  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, serviceOffers );
 
-  if( !newView )
+  if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view
 
+  BrowserView *view = 0L;
+  
   if( m_pMainContainer )
   {
     assert( splitFrame );
@@ -150,14 +152,16 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
     debug("Create new Child");
-    setupView( newContainer, newView, service, serviceOffers );
+    KonqChildView *childView = setupView( newContainer, newViewFactory, service, serviceOffers );
+    
+    view = childView->view();
 
     printSizeInfo( splitFrame, parentContainer, "after child insert" );
 
     splitFrame->widget()->setUpdatesEnabled( true );
     newContainer->setUpdatesEnabled( true );
     parentContainer->setUpdatesEnabled( true );
-    
+
     if ( newFrameContainer )
       *newFrameContainer = newContainer;
   }
@@ -166,18 +170,20 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
-    setupView( m_pMainContainer, newView, service, serviceOffers );
+    KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, serviceOffers );
 
     // exclude the splitter and all child widgets from the part focus handling
     m_pMainContainer->show();
 
-    m_pMainView->childView( newView )->frame()->header()->passiveModeCheckBox()->hide();
-    
+    childView->frame()->header()->passiveModeCheckBox()->hide();
+
     if ( newFrameContainer )
       *newFrameContainer = m_pMainContainer;
+    
+    view = childView->view();
   }
 
-  return newView;
+  return view;
 }
 
 void KonqViewManager::removeView( KonqChildView *view )
@@ -297,28 +303,26 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
 
-    BrowserView *pView;
     KService::Ptr service;
     KTrader::OfferList serviceOffers;
 
-    //Simon TODO: error handling
-    pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
-    if( pView ) {
-      kdebug(0, 1202, "Creating View Stuff");
-      setupView( parent, pView, service, serviceOffers );
-
-      KonqChildView *childView = m_pMainView->childView( pView );
-
-      childView->setPassiveMode( passiveMode );
-
-      QCheckBox *checkBox = childView->frame()->header()->passiveModeCheckBox();
-
-      checkBox->setChecked( passiveMode );
-
-      childView->openURL( url );
-    }
-    else
+    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
+    if ( viewFactory.isNull() )
+    {
       warning("Profile Loading Error: View creation failed" );
+      return; //ugh..
+    }      
+
+    kdebug(0, 1202, "Creating View Stuff");
+    KonqChildView *childView = setupView( parent, viewFactory, service, serviceOffers );
+
+    childView->setPassiveMode( passiveMode );
+
+    QCheckBox *checkBox = childView->frame()->header()->passiveModeCheckBox();
+
+    checkBox->setChecked( passiveMode );
+
+    childView->openURL( url );
   }
   else if( name.find("Container") != -1 ) {
     kdebug(0, 1202, "Item is Container");
@@ -507,41 +511,40 @@ void KonqViewManager::slotProfileDlg()
   m_bProfileListDirty = true;
 }
 
-BrowserView* KonqViewManager::createView( const QString &serviceType,
+KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 					  const QString &serviceName,
 					  KService::Ptr &service,
 					  KTrader::OfferList &serviceOffers )
 {
   kdebug(0, 1202, "KonqViewManager::createView" );
-  BrowserView *view;
+  KonqViewFactory viewFactory;
 
   if( serviceType.isEmpty() ) {
     //clone current view
     KonqChildView *cv = m_pMainView->currentChildView();
 
-    view = KonqFactory::createView( cv->serviceType(), cv->service()->name(),
-				    &service, &serviceOffers );
+    viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->name(),
+				           &service, &serviceOffers );
   }
   else {
     //create view with the given servicetype
-    view = KonqFactory::createView( serviceType, serviceName,
-				    &service, &serviceOffers );
+    viewFactory = KonqFactory::createView( serviceType, serviceName,
+		       	                   &service, &serviceOffers );
   }
 
-  return view;
+  return viewFactory;
 }
 
-void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
-                                 BrowserView* view,
-				 const KService::Ptr &service,
-				 const KTrader::OfferList &serviceOffers )
+KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
+                                           KonqViewFactory &viewFactory,
+				           const KService::Ptr &service,
+				           const KTrader::OfferList &serviceOffers )
 {
   kdebug(0, 1202, "KonqViewManager::setupView" );
-  assert(view);
 
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
-  KonqChildView *v = new KonqChildView( view, newViewFrame,
+  KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
 					m_pMainView, service, serviceOffers );
 
   QObject::connect( v, SIGNAL( sigViewChanged( BrowserView *, BrowserView * ) ),
@@ -553,7 +556,8 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   //if (isVisible()) v->show();
   newViewFrame->show();
-  return;
+  
+  return v;
 }
 
 void KonqViewManager::slotProfileActivated( int id )

@@ -65,9 +65,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject*, const char*, const char*, const QStringList &args )
+  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList &args )
   {
-    KonqKfmIconView *obj = new KonqKfmIconView;
+    KonqKfmIconView *obj = new KonqKfmIconView( (QWidget *)parent, name );
     emit objectCreated( obj );
 
     QStringList::ConstIterator it = args.begin();
@@ -143,7 +143,8 @@ void IconViewPropertiesExtension::refreshMimeTypes()
   m_iconView->iconViewWidget()->refreshMimeTypes();
 }
 
-KonqKfmIconView::KonqKfmIconView()
+KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
+ : BrowserView( parent, name )
 {
   kdebug(0, 1202, "+KonqKfmIconView");
 
@@ -617,12 +618,12 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     fileItem->run();
   } else {
     QString serviceType = QString::null;
-    
+
     KURL u( fileItem->url() );
-    
+
     if ( u.isLocalFile() )
       serviceType = fileItem->mimetype();
-    
+
     emit openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
   }
 }

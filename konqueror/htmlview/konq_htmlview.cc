@@ -63,9 +63,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
+  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqHTMLView;
+    QObject *obj = new KonqHTMLView( (QWidget *)parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -121,7 +121,8 @@ void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOf
   emit m_pHTMLView->openURLRequest( url, reload, xOffset, yOffset );
 }
 
-KonqHTMLView::KonqHTMLView()
+KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
+ : BrowserView( parent, name )
 {
   (void)new HTMLViewPropertiesExtension( this );
 
@@ -147,7 +148,7 @@ KonqHTMLView::KonqHTMLView()
   m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), this );
   m_paSaveDocument = new KAction( i18n( "&Save As.." ), 0, this, SLOT( saveDocument() ), this );
   m_paSaveFrame = new KAction( i18n( "Save &Frame As.." ), 0, this, SLOT( saveFrame() ), this );
-  
+
   actions()->append( BrowserView::ViewAction( m_paViewDocument, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paViewFrame, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paSaveBackground, BrowserView::MenuView ) );
@@ -293,7 +294,7 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
 }
 */
 
-void KonqHTMLView::slotRightButtonPressed( const QString &_url, 
+void KonqHTMLView::slotRightButtonPressed( const QString &_url,
 					   const QPoint &_global)
 {
     slotMousePressed(_url, _global, RightButton);
@@ -596,7 +597,7 @@ void KonqHTMLView::saveDocument()
 void KonqHTMLView::saveFrame()
 {
   KHTMLWidget *frame = m_pBrowser->selectedFrame();
-  
+
   if ( !frame )
     return;
 
@@ -760,17 +761,17 @@ void KonqHTMLView::updateActions()
     KHTMLWidget *frame =  m_pBrowser->selectedFrame();
     if(frame)
 	bgURL = frame->htmlDocument().body().getAttribute( "background" ).string();
-    
+
     m_paSaveDocument->setText( i18n( "&Save Frameset As.." ) );
     m_paSaveFrame->setEnabled( true );
   }
   else
   {
     bgURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string();
-    
+
     m_paSaveDocument->setText( i18n( "&Save As.." ) );
     m_paSaveFrame->setEnabled( false );
-  }    
+  }
 
   m_paSaveBackground->setEnabled( !bgURL.isEmpty() );
 

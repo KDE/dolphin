@@ -20,6 +20,8 @@
 #ifndef __konq_viewmgr_h__
 #define __konq_viewmgr_h__ $Id$
 
+#include "konq_factory.h"
+
 #include <qnamespace.h>
 #include <qobject.h>
 #include <qmap.h>
@@ -116,19 +118,19 @@ private:
    * it clones the current view.
    * Returns the newly created view.
    */
-  BrowserView* createView( const QString &serviceType,
-                           const QString &serviceName,
-			   KService::Ptr &service,
-			   KTrader::OfferList &serviceOffers );
+  KonqViewFactory createView( const QString &serviceType,
+                              const QString &serviceName,
+			      KService::Ptr &service,
+			      KTrader::OfferList &serviceOffers );
 
   /**
    * Mainly creates the the backend structure(KonqChildView) for a view and
    * connects it
    */
-  void setupView( KonqFrameContainer *parentContainer,
-                  BrowserView *view,
-		  const KService::Ptr &service,
-		  const KTrader::OfferList &serviceOffers );
+  KonqChildView *setupView( KonqFrameContainer *parentContainer,
+                            KonqViewFactory &viewFactory,
+		            const KService::Ptr &service,
+		            const KTrader::OfferList &serviceOffers );
 
 public:
   /**

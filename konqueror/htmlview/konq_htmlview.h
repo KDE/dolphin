@@ -79,7 +79,7 @@ class KonqHTMLView : public BrowserView
   friend class KonqBrowser;
   friend class HTMLViewPropertiesExtension;
 public:
-  KonqHTMLView();
+  KonqHTMLView( QWidget *parent, const char *name );
   virtual ~KonqHTMLView();
 
   virtual void openURL( const QString &url, bool reload = false,
@@ -108,7 +108,7 @@ public:
   virtual void moveSelection( const QCString & );
 */
 public slots:
-  // small hack to get popupmenus. Fix after krash 
+  // small hack to get popupmenus. Fix after krash
   void slotRightButtonPressed( const QString &_url, const QPoint &_global);
   void slotMousePressed( const QString &, const QPoint&, int );
   void slotFrameInserted( KHTMLWidget *frame );

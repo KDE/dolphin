@@ -29,7 +29,7 @@
 
 #include <kdebug.h>
 
-KonqChildView::KonqChildView( BrowserView *view,
+KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
 			      const KService::Ptr &service,
@@ -45,8 +45,9 @@ KonqChildView::KonqChildView( BrowserView *view,
   m_bHistoryLock = false;
   m_pMainView = mainView;
   m_pRun = 0L;
-
-  attach( view );
+  m_pView = 0L;
+  
+  switchView( viewFactory );
 
   m_service = service;
   m_serviceOffers = serviceOffers;
@@ -81,35 +82,9 @@ KonqChildView::KonqChildView( BrowserView *view,
 KonqChildView::~KonqChildView()
 {
   kdebug(0,1202,"KonqChildView::~KonqChildView");
-  detach();
+  delete m_pView;
   delete m_pKonqFrame;
   delete (KonqRun *)m_pRun;
-}
-
-void KonqChildView::attach( BrowserView *view )
-{
-  kdebug(0,1202,"KonqChildView::attach");
-  assert( view );
-
-  m_pView = view;
-  connectView( );
-
-  m_pKonqFrame->show();
-  m_pKonqFrame->attach( view );
-
-}
-
-void KonqChildView::detach()
-{
-  m_pKonqFrame->detach();
-
-  QObject *obj = m_pView->child( 0L, "EditExtension" );
-  if ( obj )
-    obj->disconnect( m_pMainView );
-
-  m_pView->disconnect( m_pMainView );
-  delete m_pView;
-  m_pView = 0L;
 }
 
 void KonqChildView::repaint()
@@ -123,7 +98,6 @@ void KonqChildView::repaint()
 void KonqChildView::show()
 {
   kdebug(0,1202,"KonqChildView::show()");
-//  m_vView->show( true );
   if ( m_pKonqFrame )
     m_pKonqFrame->show();
 }
@@ -140,12 +114,23 @@ void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
   m_pMainView->setLocationBarURL( this, decodedURL );
 }
 
-void KonqChildView::switchView( BrowserView *pView )
+void KonqChildView::switchView( KonqViewFactory &viewFactory )
 {
-  detach();
-  attach( pView );
-
-  show(); // switchView is never called on startup. We can always show() the view.
+  if ( m_pView ) 
+    m_pView->hide();
+  
+  BrowserView *newView = m_pKonqFrame->attach( viewFactory );
+  
+  if ( m_pView )
+  {
+    emit sigViewChanged( m_pView, newView );
+  
+    delete m_pView;
+  }
+  
+  m_pView = newView;
+  connectView();
+  show();
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType,
@@ -165,21 +150,18 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
   {
 
-    BrowserView *pView;
     KTrader::OfferList serviceOffers;
     KService::Ptr service;
-    if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
-     return false;
-
-    BrowserView *oldView = m_pView;
-
+    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
+    
+    if ( viewFactory.isNull() )
+      return false;
+    
     m_service = service;
     m_serviceOffers = serviceOffers;
     m_serviceType = serviceType;
 
-    emit sigViewChanged( oldView, pView );
-
-    switchView( pView );
+    switchView( viewFactory );
   }
 
   openURL( url, useMiscURLData );
@@ -293,21 +275,18 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   if ( !m_service->serviceTypes().contains( h->strServiceType ) ||
        h->strServiceName != m_service->name() )
   {
-    BrowserView *pView;
     KTrader::OfferList serviceOffers;
     KService::Ptr service;
-    if ( !( pView = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &serviceOffers ) ) )
+    KonqViewFactory viewFactory = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &serviceOffers );
+    
+    if ( viewFactory.isNull() )
      return;
-
-    BrowserView *oldView = m_pView;
 
     m_service = service;
     m_serviceOffers = serviceOffers;
     m_serviceType = h->strServiceType;
 
-    emit sigViewChanged( oldView, pView );
-
-    switchView( pView );
+    switchView( viewFactory );
   }
 
   QDataStream stream( h->buffer, IO_ReadOnly );

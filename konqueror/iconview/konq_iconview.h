@@ -61,7 +61,7 @@ public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
 
-  KonqKfmIconView();
+  KonqKfmIconView( QWidget *parent, const char *name );
   virtual ~KonqKfmIconView();
 
   virtual void openURL( const QString &url, bool reload = false,

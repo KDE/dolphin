@@ -67,7 +67,7 @@ class KonqTreeView : public BrowserView
   friend class TreeViewPropertiesExtension;
   Q_OBJECT
 public:
-  KonqTreeView();
+  KonqTreeView( QWidget *parent, const char *name );
   virtual ~KonqTreeView();
 
   virtual void openURL( const QString &url, bool reload = false,

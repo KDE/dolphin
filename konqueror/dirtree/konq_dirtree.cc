@@ -50,9 +50,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
+  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqDirTreeBrowserView;
+    QObject *obj = new KonqDirTreeBrowserView( (QWidget *)parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -716,7 +716,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   KDesktopFile cfg( filename, true );
 
   QFileInfo inf( filename );
-  
+
   QString url, icon;
   QString name = inf.baseName();
 
@@ -724,9 +724,9 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   {
     url = cfg.readURL();
     icon = cfg.readIcon();
-    
+
     stripIcon( icon );
-    
+
     name = cfg.readEntry( "Name", name );
 
     if ( url == "file:$HOME" ) //HACK
@@ -778,7 +778,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 }
 
 void KonqDirTree::stripIcon( QString &icon )
-{ 
+{
   QFileInfo info( icon );
   icon = info.baseName();
 }
