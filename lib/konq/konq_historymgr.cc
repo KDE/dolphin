@@ -97,12 +97,13 @@ bool KonqHistoryManager::loadHistory()
 	    return false;
 	}
 	
-	stream >> m_maxCount;
-	stream >> m_maxAgeDays;
+	// it doesn't make sense to save to save maxAge and maxCount  in the
+	// binary file, this would make backups impossible (they would clear 
+	// themselves on startup, because all entries expire).
+	Q_UINT32 dummy;
+	stream >> dummy;
+	stream >> dummy;
 
-	// Don't emit all the inserted() signals in insert() on startup!
-	blockSignals( true );
-	
 	while ( !stream.atEnd() ) {
 	    KonqHistoryEntry *entry = new KonqHistoryEntry;
 	    CHECK_PTR( entry );
@@ -116,8 +117,8 @@ bool KonqHistoryManager::loadHistory()
 				    entry->numberOfTimesVisited );
  	    m_pCompletion->addItem( entry->typedURL,
 				    entry->numberOfTimesVisited );
-	
-	    // and fill our baseclass. 
+
+	    // and fill our baseclass.
 	    KParts::HistoryProvider::insert( entry->url.url() );
 	}
 	
@@ -125,9 +126,9 @@ bool KonqHistoryManager::loadHistory()
 	
 	m_history.sort();
 	adjustSize();
-	blockSignals( false );
     }
 
+    // ### KParts::HistoryProvider::update();
     file.close();
     emit loadingFinished();
 
@@ -146,8 +147,8 @@ bool KonqHistoryManager::saveHistory()
 
     QDataStream *stream = file.dataStream();
     *stream << s_historyVersion;
-    *stream << m_maxCount;
-    *stream << m_maxAgeDays;
+    *stream << m_maxCount;   // not saved in history anymore, just a dummy here
+    *stream << m_maxAgeDays; // not saved in history anymore, just a dummy here
 
     QListIterator<KonqHistoryEntry> it( m_history );
     KonqHistoryEntry *entry;
@@ -164,6 +165,7 @@ bool KonqHistoryManager::saveHistory()
 void KonqHistoryManager::adjustSize()
 {
     KonqHistoryEntry *entry = m_history.getFirst();
+
     while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
 	m_pCompletion->removeItem( entry->url.url() );
 	m_pCompletion->removeItem( entry->typedURL );
@@ -217,7 +219,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
     entry.lastVisited = entry.firstVisited;
 
     if ( !pending ) { // remove from pending if available.
-	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find(url.url());
+	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( u );
+
 	if ( it != m_pending.end() ) {
 	    delete it.data();
 	    m_pending.remove( it );
@@ -233,8 +236,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
 	// We add a copy of the current history entry of the url to the
 	// pending list, so that we can restore it if the user canceled.
 	// If there is no entry for the url yet, we just store the url.
-	KonqHistoryEntry *oldEntry = m_history.findEntry( url );
-	m_pending.insert( url.url(), oldEntry ?
+	KonqHistoryEntry *oldEntry = findEntry( url );
+	m_pending.insert( u, oldEntry ?
 			             new KonqHistoryEntry( *oldEntry ) : 0L );
     }
 
@@ -339,11 +342,14 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.url() << endl;
 
     KonqHistoryEntry *entry = findEntry( e.url );
+
     if ( !entry ) { // create a new history entry
 	entry = new KonqHistoryEntry;
 	entry->url = e.url;
 	entry->firstVisited = e.firstVisited;
+	entry->numberOfTimesVisited = 0; // will get set to 1 below
 	m_history.append( entry );
+	KParts::HistoryProvider::insert( entry->url.url() );
     }
 
     if ( !e.typedURL.isEmpty() )
@@ -356,9 +362,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     m_pCompletion->addItem( entry->url.url() );
     m_pCompletion->addItem( entry->typedURL );
 
-    bool pending = (e.numberOfTimesVisited != 0);
-    if ( !pending ) // only insert confirming entries
- 	KParts::HistoryProvider::insert( entry->url.url() );
+    // bool pending = (e.numberOfTimesVisited != 0);
 
     adjustSize();
 
@@ -374,12 +378,14 @@ void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString saveId )
     clearPending();
     adjustSize();
 
-    if ( saveId == objId() ) // we are the sender of the broadcast
-	saveHistory();
-
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
     config->writeEntry( "Maximum of History entries", m_maxCount );
+
+    if ( saveId == objId() ) { // we are the sender of the broadcast
+	saveHistory();
+	config->sync();
+    }
 }
 
 void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
@@ -388,12 +394,14 @@ void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
     clearPending();
     adjustSize();
 
-    if ( saveId == objId() ) // we are the sender of the broadcast
-	saveHistory();
-
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
     config->writeEntry( "Maximum age of History entries", m_maxAgeDays );
+
+    if ( saveId == objId() ) { // we are the sender of the broadcast
+	saveHistory();
+	config->sync();
+    }
 }
 
 void KonqHistoryManager::notifyClear( QCString saveId )
@@ -468,9 +476,6 @@ bool KonqHistoryManager::loadFallback()
     config.setGroup("History");
     QStringList items = config.readListEntry( "CompletionItems" );
     QStringList::Iterator it = items.begin();
-    
-    // Don't emit all the inserted() signals in insert() on startup!
-    blockSignals( true );
 
     while ( it != items.end() ) {
 	entry = createFallbackEntry( *it );
@@ -488,7 +493,7 @@ bool KonqHistoryManager::loadFallback()
     adjustSize();
     saveHistory();
 
-    blockSignals( false );
+    // ### KParts::HistoryProvider::update();
 
     return true;
 }
