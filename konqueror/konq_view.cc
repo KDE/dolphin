@@ -32,6 +32,7 @@
 
 #include <assert.h>
 #include <kdebug.h>
+#include <klocale.h>
 
 #include <qapplication.h>
 #include <qmetaobject.h>
@@ -337,7 +338,7 @@ void KonqView::slotCompleted()
   kdDebug(1202) << "KonqView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-  m_pKonqFrame->statusbar()->slotDisplayStatusText( QString::null ); // TODO i18n("Loading complete") instead
+  m_pKonqFrame->statusbar()->slotDisplayStatusText( i18n("Loading complete") );
 
   // Success... update history entry (mostly for location bar URL)
   updateHistoryEntry(true);
