@@ -619,7 +619,7 @@ void KonqHTMLView::saveBackground()
 
 void KonqHTMLView::viewDocumentSource()
 {
-  openTxtView( url().url() );
+  openTxtView( url() );
 }
 
 void KonqHTMLView::viewFrameSource()
@@ -644,7 +644,7 @@ void KonqHTMLView::slotLoadImages()
 */
 }
 
-void KonqHTMLView::openTxtView( const QString &url )
+void KonqHTMLView::openTxtView( const KURL &url )
 {
 
   // hmmm, tricky, but why not ;-) (Simon)
@@ -667,7 +667,7 @@ void KonqHTMLView::openTxtView( const QString &url )
     QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
 
     QCString cmd;
-    cmd.sprintf( "%s %s &", editor.ascii(), url.ascii() );
+    cmd.sprintf( "%s %s &", editor.ascii(), url.url().ascii() );
     system( cmd.data() );
   }
 }

@@ -453,7 +453,7 @@ KonqFrame::listViews( ChildViewList *viewList )
 void
 KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
 {
-  config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url() );
+  config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url().url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
   config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
@@ -467,12 +467,12 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 
   m_pLayout = new QVBoxLayout( this );
   m_pLayout->addWidget( m_pHeader );
-  
+
   m_pView = factory.create( this, 0L );
   //  m_pView->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
-  
+
   assert( m_pView->widget() );
-  
+
   m_pLayout->addWidget( m_pView->widget() );
   m_pView->widget()->show();
   m_pHeader->show();
@@ -501,7 +501,7 @@ void
 KonqFrame::slotHeaderClicked()
 {
 //  m_pChildView->mainView()->setActiveView( m_pView );
-  m_pChildView->mainView()->viewManager()->setActivePart( m_pView ); 
+  m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
 /*
   if ( !CORBA::is_nil( m_vView ) )
   {

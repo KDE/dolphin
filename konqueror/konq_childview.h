@@ -41,7 +41,7 @@ class KonqFrame;
 
 struct HistoryEntry
 {
-  QString strURL;
+  KURL url;
   QByteArray buffer;
   QString strServiceType;
   QString strServiceName;
@@ -83,14 +83,14 @@ public:
    * Displays another URL, but without changing the view mode (caller has to
    * ensure that the call makes sense)
    */
-  void openURL( const QString &url, bool useMiscURLData = false );
+  void openURL( const KURL &url, bool useMiscURLData = false );
 
   /**
    * Replace the current view vith _vView
    */
   void switchView( KonqViewFactory &viewFactory );
 
-  bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
+  bool changeViewMode( const QString &serviceType, const KURL &url = QString::null,
                        bool useMiscURLData = true, const QString &serviceName = QString::null );
 
   /**
@@ -128,7 +128,7 @@ public:
   /**
    * Run the view (uses KonqRun)
    */
-  void run( const QString & url );
+  void run( const KURL & url );
   /**
    * Stop loading
    */
@@ -141,7 +141,7 @@ public:
   /**
    * Get view's URL - slow method, avoid using it if possible
    */
-  QString url();
+  KURL url();
 
   /**
    * Get view's location bar URL, i.e. the one that the view signals

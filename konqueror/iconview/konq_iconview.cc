@@ -623,7 +623,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 	if ( u.isLocalFile() )
 	    serviceType = fileItem->mimetype();
 
-        emit m_extension->openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
+        emit m_extension->openURLRequest( u, false, 0, 0, fileItem->mimetype() );
     }
 }
 

@@ -131,7 +131,7 @@ protected slots:
   void updateActions();
 
 protected:
-  void openTxtView( const QString &url );
+  void openTxtView( const KURL &url );
 
   int m_iXOffset;
   int m_iYOffset;

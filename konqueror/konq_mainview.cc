@@ -178,7 +178,7 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
       enableAllActions( true );
     }
     else
-      openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );
+      openURL( 0L, KURL( QDir::homeDirPath().prepend( "file:" ) ) );
   }
 
   resize( 700, 480 );
@@ -288,19 +288,18 @@ void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_u
   QApplication::sendEvent( this, &ev );
 }
 
-void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
+void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, int xOffset,
                             int yOffset, const QString &serviceType )
 {
-  kDebugStringArea( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(_url) );
+  kDebugStringArea( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(url.url()) );
 
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
-  QString url = konqFilteredURL(_url);
+  //  QString url = konqFilteredURL(_url);
 
-  KURL u( url );
-  if ( u.isMalformed() )
+  if ( url.isMalformed() )
   {
-    QString tmp = i18n("Malformed URL\n%1").arg(url);
+    QString tmp = i18n("Malformed URL\n%1").arg(url.url());
     KMessageBox::error(0, tmp);
     return;
   }
@@ -319,20 +318,20 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       view->stop();
     }	
 
-     setLocationBarURL( view, url );
+     setLocationBarURL( view, url.decodedURL() );
      view->setMiscURLData( reload, xOffset, yOffset );
     if ( !serviceType.isEmpty() )
     {
-      kDebugInfo( 1202, "%s", QString("trying openView for %1 (servicetype %2)").arg(url).arg(serviceType).latin1() );
+      kDebugInfo( 1202, "%s", QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType).latin1() );
       if ( !openView( serviceType, url, view ) )
       {
-        kDebugInfo( 1202, "%s", QString("Nope. Creating new KRun for %1").arg(url).latin1() );
-        (void)new KRun( url );
+        kDebugInfo( 1202, "%s", QString("Nope. Creating new KRun for %1").arg(url.url()).latin1() );
+        (void)new KRun( url.url() );
       }
     }
     else
     {
-      kDebugInfo( 1202, "%s", QString("view->run for %1").arg(url).latin1() );
+      kDebugInfo( 1202, "%s", QString("view->run for %1").arg(url.url()).latin1() );
       view->run( url );
     }
 
@@ -340,20 +339,20 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
   else
   {
     if ( m_combo )
-      m_combo->setEditText( url );
+      m_combo->setEditText( url.decodedURL() );
 
     if ( !serviceType.isEmpty() )
     {
       if ( !openView( serviceType, url, 0L ) )
       {
-        kDebugInfo( 1202, "%s", QString("Creating new KRun for %1").arg(url).latin1() );
-        (void)new KRun( url );
+        kDebugInfo( 1202, "%s", QString("Creating new KRun for %1").arg(url.url()).latin1() );
+        (void)new KRun( url.url() );
       }
     }
     else
     {
-      kDebugInfo( 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
-      (void) new KonqRun( this, 0L, url, 0, false, true );
+      kDebugInfo( 1202, "%s", QString("Creating new konqrun for %1").arg(url.url()).latin1() );
+      (void) new KonqRun( this, 0L, url.url(), 0, false, true );
     }
   }
 
@@ -364,7 +363,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
   }
 }
 
-void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
+void KonqMainView::openURL( const KURL &url, bool reload, int xOffset,
                             int yOffset, const QString &serviceType )
 {
   KonqChildView *childV = 0L;
@@ -375,9 +374,9 @@ void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
   openURL( childV, url, reload, xOffset, yOffset, serviceType );
 }
 
-void KonqMainView::slotCreateNewWindow( const QString &url )
+void KonqMainView::slotCreateNewWindow( const KURL &url )
 {
- KonqFileManager::getFileManager()->openFileManagerWindow( url );
+ KonqFileManager::getFileManager()->openFileManagerWindow( url.url() );
 }
 
 void KonqMainView::slotNewWindow()
@@ -413,7 +412,7 @@ void KonqMainView::slotOpenLocation()
   QString u;
 
   if (m_currentView)
-    u = m_currentView->url();
+    u = m_currentView->url().url();
 
   KLineEditDlg l( i18n("Open Location:"), u, this, true );
   int x = l.exec();
@@ -553,10 +552,7 @@ void KonqMainView::slotReload()
 
 void KonqMainView::slotUp()
 {
-  QString url = m_currentView->url();
-  KURL u( url );
-
-  openURL( (KonqChildView *)m_currentView, u.upURL(true).url() );
+  openURL( (KonqChildView *)m_currentView, m_currentView->url().upURL(true) );
 }
 
 void KonqMainView::slotBack()
@@ -575,7 +571,7 @@ void KonqMainView::slotForward()
 
 void KonqMainView::slotHome()
 {
-  openURL( 0L, KonqFMSettings::defaultIconSettings()->homeURL() );
+  openURL( 0L, KURL( KonqFMSettings::defaultIconSettings()->homeURL() ) );
 }
 
 void KonqMainView::slotShowCache()
@@ -590,7 +586,7 @@ void KonqMainView::slotShowCache()
   QString f = file;
   KURL::encode( f );
   f.prepend( "file:" );
-  openURL( (KonqChildView *)m_currentView, f );
+  openURL( (KonqChildView *)m_currentView, KURL( f ) );
 }
 
 void KonqMainView::slotShowHistory()
@@ -600,12 +596,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-  openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("mime").prepend( "file:" ) );
+  openURL( (KonqChildView *)m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("mime").prepend( "file:" ) ) );
 }
 
 void KonqMainView::slotEditApplications()
 {
-  openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) );
+  openURL( (KonqChildView *)m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) ) );
 }
 
 void KonqMainView::slotEditDirTree()
@@ -680,10 +676,6 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
 void KonqMainView::slotStarted()
 {
   KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender();
-
-  QString url = view->url().url();
-
-  kDebugInfo( 1202, "void KonqMainView::slotStarted() %s", url.ascii() );
 
   MapViews::ConstIterator it = m_mapViews.find( view );
 
@@ -762,10 +754,12 @@ void KonqMainView::slotSetStatusBarText( const QString &text )
   m_statusBar->changeItem( text, STATUSBAR_MSG_ID );
 }
 
-bool KonqMainView::openView( QString serviceType, QString url, KonqChildView *childView )
+bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildView *childView )
 {
-  kDebugInfo( 1202, " KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
+  kDebugInfo( 1202, " KonqMainView::openView %s %s", serviceType.ascii(), _url.url().ascii());
   QString indexFile;
+  
+  KURL url = _url;
 
   if ( !childView )
     {
@@ -791,20 +785,19 @@ bool KonqMainView::openView( QString serviceType, QString url, KonqChildView *ch
     }
   else
   {
-    kDebugInfo( 1202, "%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url).latin1());
+    kDebugInfo( 1202, "%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url.url()).latin1());
     // This is already called in ::openURL
     //    childView->stop();
   }
-  kDebugInfo( 1202, "%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url).latin1());
+  kDebugInfo( 1202, "%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url.url()).latin1());
 
-  KURL u( url );
   if ( ( serviceType == "inode/directory" ) &&
        ( childView->allowHTML() ) &&
-         ( u.isLocalFile() ) &&
-	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
+         ( url.isLocalFile() ) &&
+	 ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
   {
     serviceType = "text/html";
-    url = indexFile.prepend( "file:" );
+    url = KURL( indexFile.prepend( "file:" ) );
   }
 
   if ( childView->changeViewMode( serviceType, url ) )
@@ -952,7 +945,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
   {
     QString url = ((KonqURLEnterEvent *)event)->url();
 
-    openURL( 0L, url );
+    openURL( 0L, KURL( url ) );
 
     return;
   }
@@ -984,7 +977,7 @@ void KonqMainView::slotFileNewAboutToShow()
   // As requested by KNewMenu :
   m_pMenuNew->slotCheckUpToDate();
   // And set the files that the menu apply on :
-  m_pMenuNew->setPopupFiles( m_currentView->url() );
+  m_pMenuNew->setPopupFiles( m_currentView->url().url() );
 }
 
 void KonqMainView::slotMenuEditAboutToShow()
@@ -1298,7 +1291,7 @@ void KonqMainView::slotForwardAboutToShow()
 
 void KonqMainView::slotUpActivated( int id )
 {
-  openURL( 0L, m_paUp->popupMenu()->text( id ) );
+  openURL( 0L, KURL( m_paUp->popupMenu()->text( id ) ) );
 }
 
 void KonqMainView::slotBackActivated( int id )
@@ -1385,7 +1378,7 @@ void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry>
   for (; it.current(); ++it )
   {
     menu->insertItem( KMimeType::mimeType( it.current()->strServiceType )->pixmap( KIconLoader::Small ),
-                      it.current()->strURL );
+                      it.current()->url.url() );
     if ( ++i > 10 )
       break;
   }
@@ -1440,15 +1433,14 @@ void KonqMainView::stopAnimation()
   m_paStop->setEnabled( false );
 }
 
-void KonqMainView::setUpEnabled( const QString &url )
+void KonqMainView::setUpEnabled( const KURL &url )
 {
   bool bHasUpURL = false;
 
-  KURL u( url );
-  if ( u.hasPath() )
-    bHasUpURL = ( u.path() != "/" );
+  if ( url.hasPath() )
+    bHasUpURL = ( url.path() != "/" );
   if ( !bHasUpURL )
-    bHasUpURL = u.hasSubURL();
+    bHasUpURL = url.hasSubURL();
 
   m_paUp->setEnabled( bHasUpURL );
 }
@@ -1839,7 +1831,7 @@ void KonqMainView::enableAllActions( bool enable )
 void KonqMainView::openBookmarkURL( const QString & url )
 {
   kDebugInfo(1202, "%s", QString("KonqMainView::openBookmarkURL(%1)").arg(url).latin1() );
-  openURL( 0L, url );
+  openURL( 0L, KURL( url ) );
 }
 
 QString KonqMainView::currentTitle()
@@ -1870,7 +1862,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
   //kDebugInfo( 1202, "KonqMainView::slotPopupMenu(...)");
-  QString url = m_currentView->url();
+  QString url = m_currentView->url().url();
 
   QActionCollection popupMenuCollection;
   if ( !menuBar()->isVisible() )

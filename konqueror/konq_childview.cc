@@ -105,16 +105,14 @@ void KonqChildView::show()
     m_pKonqFrame->show();
 }
 
-void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
+void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 {
-  m_pView->openURL( KURL( url ) );
+  m_pView->openURL( url );
 
   if ( useMiscURLData && browserExtension() )
     browserExtension()->setXYOffset( m_iXOffset, m_iYOffset );
 
-  QString decodedURL = url;
-  KURL::decode( decodedURL );
-  m_pMainView->setLocationBarURL( this, decodedURL );
+  m_pMainView->setLocationBarURL( this, url.decodedURL() );
 }
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
@@ -137,13 +135,9 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType,
-                                    const QString &_url, bool useMiscURLData,
+                                    const KURL &url, bool useMiscURLData,
 				    const QString &serviceName )
 {
-  QString url = _url;
-  if ( url.isEmpty() )
-    url = KonqChildView::url();
-
   if ( m_bViewStarted )
     stop();
 
@@ -188,8 +182,8 @@ void KonqChildView::connectView(  )
   if ( !ext )
     return;
 
-  connect( ext, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
-           m_pMainView, SLOT( openURL( const QString &, bool, int, int, const QString & ) ) );
+  connect( ext, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ),
+           m_pMainView, SLOT( openURL( const KURL &, bool, int, int, const QString & ) ) );
 
   connect( ext, SIGNAL( setStatusBarText( const QString & ) ),
            m_pMainView, SLOT( slotSetStatusBarText( const QString & ) ) );
@@ -210,8 +204,8 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
-  connect( ext, SIGNAL( createNewWindow( const QString & ) ),
-           m_pMainView, SLOT( slotCreateNewWindow( const QString & ) ) );
+  connect( ext, SIGNAL( createNewWindow( const KURL & ) ),
+           m_pMainView, SLOT( slotCreateNewWindow( const KURL & ) ) );
 
   connect( ext, SIGNAL( loadingProgress( int ) ),
            m_pMainView, SLOT( slotLoadingProgress( int ) ) );
@@ -264,7 +258,7 @@ void KonqChildView::makeHistory( bool pushEntry )
   }
 
   kDebug("storing stuff");
-  m_pCurrentHistoryEntry->strURL = m_pView->url().url();
+  m_pCurrentHistoryEntry->url = m_pView->url();
   m_pCurrentHistoryEntry->strServiceType = m_serviceType;
   m_pCurrentHistoryEntry->strServiceName = m_service->name();
 }
@@ -314,11 +308,9 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
     browserExtension()->restoreState( stream );
   }
   else
-    m_pView->openURL( KURL( h->strURL ) );
+    m_pView->openURL( h->url );
 
-  QString url = h->strURL;
-  KURL::decode( url );
-  m_pMainView->setLocationBarURL( this, url );
+  m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
 
   stack.removeFirst();
 }
@@ -335,16 +327,17 @@ void KonqChildView::goForward( int steps )
   go( m_lstForward, steps );
 }
 
-QString KonqChildView::url()
+KURL KonqChildView::url()
 {
   assert( m_pView );
-  return m_pView->url().url();
+  return m_pView->url();
 }
 
-void KonqChildView::run( const QString & url )
+void KonqChildView::run( const KURL & url )
 {
   debug(" ********** KonqChildView::run ");
-  m_pRun = new KonqRun( mainView(), this, url, 0, false, true );
+  // IMHO KRun should use KURL, too (Simon)
+  m_pRun = new KonqRun( mainView(), this, url.url(), 0, false, true );
 
   connect( m_pRun, SIGNAL( finished() ),
 	   mainView(), SLOT( slotRunFinished() ) );

@@ -68,7 +68,7 @@ public:
    * Returns the newly created view or 0L if the view couldn't be created.
    */
   KParts::ReadOnlyPart* splitView( Qt::Orientation orientation,
-				   QString url,
+				   const KURL &url,
 				   QString serviceType = QString::null );
 
   /**

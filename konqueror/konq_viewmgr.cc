@@ -65,7 +65,7 @@ KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation )
 }
 
 KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
-						   QString url,
+						   const KURL &url,
 						   QString serviceType )
 {
   kdebug(0, 1202, "KonqViewManager::splitView(ServiceType)" );
@@ -86,7 +86,7 @@ KParts::ReadOnlyPart* KonqViewManager::splitWindow( Qt::Orientation orientation 
 {
   kdebug(0, 1202, "KonqViewManager::splitWindow(default)" );
 
-  QString url = m_pMainView->currentChildView()->url();
+  KURL url = m_pMainView->currentChildView()->url();
 
   KonqFrameBase* splitFrame = 0L;
   if( m_pMainContainer )
@@ -328,7 +328,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     checkBox->setChecked( passiveMode );
 
-    childView->openURL( url );
+    childView->openURL( KURL( url ) );
   }
   else if( name.find("Container") != -1 ) {
     kdebug(0, 1202, "Item is Container");

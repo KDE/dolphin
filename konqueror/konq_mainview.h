@@ -73,7 +73,7 @@ public:
 
   void openFilteredURL( KonqChildView *_view, const QString &_url );
 
-  void openURL( KonqChildView *_view, const QString &_url, bool reload = false,
+  void openURL( KonqChildView *_view, const KURL &_url, bool reload = false,
                 int xOffset = 0, int yOffset = 0, const QString &serviceType = QString::null );
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
@@ -82,9 +82,9 @@ public slots:
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
 
-  void openURL( const QString &url, bool reload, int xOffset, int yOffset, const QString &serviceType );
+  void openURL( const KURL &url, bool reload, int xOffset, int yOffset, const QString &serviceType );
 
-  void slotCreateNewWindow( const QString &url );
+  void slotCreateNewWindow( const KURL &url );
 
   void slotNewWindow();
   void slotRun();
@@ -132,7 +132,7 @@ k_dcop:
   virtual void reparseConfiguration();
 
 public:
-  bool openView( QString serviceType, QString _url, KonqChildView *childView );
+  bool openView( QString serviceType, const KURL &_url, KonqChildView *childView );
 
   //  void setActiveView( BrowserView *view );
 
@@ -225,7 +225,7 @@ private:
   void startAnimation();
   void stopAnimation();
 
-  void setUpEnabled( const QString &url );
+  void setUpEnabled( const KURL &url );
 
   void initActions();
   void initPlugins();
