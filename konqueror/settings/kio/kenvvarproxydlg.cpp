@@ -375,7 +375,7 @@ void KEnvVarProxyDlg::verifyPressed()
 {
   if ( !validate() )
   {
-    QString msg = i18n("The highlighted input field(s) contains unknown or "
+    QString msg = i18n("The highlighted input field(s) contains an unknown or "
                        "invalid proxy environment variable.");
 
     QString details = i18n("<qt>Make sure you entered the actual environment "
@@ -601,7 +601,7 @@ void KEnvVarProxyDlg::slotOk()
 {
   if ( !validate() )
   {
-    QString msg = i18n("The highlighted input field(s) contain unknown or "
+    QString msg = i18n("The highlighted input field(s) contains an unknown or "
                        "invalid environment variable.");
 
     QString details = i18n("<qt>Make sure you entered the actual "
