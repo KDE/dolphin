@@ -474,8 +474,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
    const int oldBottom = m_rubber->normalize().bottom();
 
    drawRubber();
-   m_rubber->setRight( vc.x() );
-   m_rubber->setBottom( vc.y() );
+   m_rubber->setBottomRight( vc );
 
    QListViewItem *cur = itemAt( QPoint(0,0) );
 
@@ -488,23 +487,15 @@ void KonqBaseListViewWidget::slotAutoScroll()
       rect = QRect( viewportToContents( rect.topLeft() ),
                     viewportToContents( rect.bottomRight() ) );
 
-      int offset = 0;
       if ( !allColumnsShowFocus() )
       {
-         int hpos = header()->mapToIndex( 0 );
-         for ( int index = 0; index < hpos; index++ )
-            offset += columnWidth( header()->mapToSection( index ) );
-
-         rect.setLeft( offset );
-         rect.setRight( offset + columnWidth( 0 ) );
+         rect.setLeft( header()->sectionPos( 0 ) );
+         rect.setWidth( header()->sectionSize( 0 ) );
       }
       else
       {
-         for ( int index = 0; index < columns(); index++ )
-            offset += columnWidth( header()->mapToSection( index ) );
-
          rect.setLeft( 0 );
-         rect.setRight( offset );
+         rect.setWidth( header()->headerWidth() );
       }
 
       QRect r = rect;
