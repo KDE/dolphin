@@ -36,15 +36,11 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
     m_viewMode = KfmView::HTML;
   m_viewMode2 = m_viewMode;
   
-  entry = config->readEntry( "MouseMode" , "SingleClick");
-  if ( entry == "SingleClick" )
-    m_mouseMode = KfmAbstractGui::SingleClick;
-  else
-    m_mouseMode = KfmAbstractGui::DoubleClick;
-
   m_bShowDot2 = m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview2 = m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
   m_bDirTree = config->readBoolEntry( "DirTree", false );
+  m_bSplitView = config->readBoolEntry( "SplitView", false );
+  m_bCache = false; // What is it ???
 
   entry = config->readEntry("Toolbar", "top");
   m_bShowToolBar = true;
@@ -94,6 +90,23 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
   else
     m_bShowStatusBar = false;
 
+  m_width = config->readNumEntry("WindowWidth",  KFMGUI_WIDTH);
+  m_height = config->readNumEntry("WindowHeight",KFMGUI_HEIGHT);
+
+  entry = "";
+  QString pix = config->readEntry( "BackgroundPixmap", entry );
+  if ( !pix.isEmpty() )
+  {
+    QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
+    if ( p )
+    {
+      cerr << "Got background" << endl;
+      m_bgPixmap = *p;
+    }
+  }
+
+  /////////// Other group, don't move beyond this limit ! ///////////
+
   config->setGroup( "KFM HTML Defaults" );
 
   m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
@@ -112,26 +125,18 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
 
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", true );
 
+  entry = config->readEntry( "MouseMode" , "SingleClick");
+  if ( entry == "SingleClick" )
+    m_mouseMode = KfmAbstractGui::SingleClick;
+  else
+    m_mouseMode = KfmAbstractGui::DoubleClick;
+
   m_bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
   m_textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
   m_linkColor = config->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
   m_vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
 
   m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
-
-  entry = "";
-  QString pix = config->readEntry( "BackgroundPixmap", entry );
-  if ( !pix.isEmpty() )
-  {
-    QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
-    if ( p )
-    {
-      cerr << "Got background" << endl;
-      m_bgPixmap = *p;
-    }
-  }
-  m_width = config->readNumEntry("WindowWidth",  KFMGUI_WIDTH);
-  m_height = config->readNumEntry("WindowHeight",KFMGUI_HEIGHT);
 }
 
 KfmGuiProps::~KfmGuiProps()

@@ -146,15 +146,6 @@ protected:
   QGridLayout* m_pPannerChild0GM;
   QGridLayout* m_pPannerChild1GM;
   
-  bool m_bShowToolBar;
-  KToolBar::BarPosition m_toolBarPos;
-  bool m_bShowStatusBar;
-  KStatusBar::Position m_statusBarPos;
-  bool m_bShowMenuBar;
-  KMenuBar::menuPosition m_menuBarPos;
-  bool m_bShowLocationBar;
-  KToolBar::BarPosition m_locationBarPos;
-
   /**
    * The menu "New" in the "File" menu.
    * Since the items of this menu are not connected themselves

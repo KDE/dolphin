@@ -63,36 +63,42 @@ public:
 
   // Save to config file
   void saveProps( KConfig * config );
+
+  // The read-only access methods. Order is to be kept. See below.
   
   KfmView::ViewMode viewMode() { return m_viewMode; }  
   KfmView::ViewMode viewMode2() { return m_viewMode2; }
-  KfmAbstractGui::MouseMode mouseMode() { return m_mouseMode; }
-  
-  const QColor& bgColor() { return m_bgColor; }
-  const QColor& textColor() { return m_textColor; }
-  const QColor& linkColor() { return m_linkColor; }
-  const QColor& vLinkColor() { return m_vLinkColor; }
 
   bool isShowingDotFiles() { return m_bShowDot; } // what about m_ShowDot2 ?
   bool isShowingImagePreview() { return m_bImagePreview; } // same question ?
   bool isShowingDirTree() { return m_bDirTree; }
   bool isSplitView() { return m_bSplitView; }
-  // TODO cache
-  bool changeCursor() { return m_bChangeCursor; }
-  bool underlineLink() { return m_underlineLink; }
+
+  // HTMLView ?
+  // Cache ?
+  
+  // No *bar access methods (all done from KfmGui)
+  // No width/height access methods either.
+
+  const QPixmap& bgPixmap() { return m_bgPixmap; }  
+
+  //////////// Other group (KFM HTML Defaults)
   
   const char* stdFontName() { return m_strStdFontName; }
   const char* fixedFontName() { return m_strFixedFontName; }
   int fontSize() { return m_iFontSize; }
 
-  const QPixmap& bgPixmap() { return m_bgPixmap; }  
+  bool changeCursor() { return m_bChangeCursor; }
+  KfmAbstractGui::MouseMode mouseMode() { return m_mouseMode; }
 
-  // TODO *bar stuff
+  const QColor& bgColor() { return m_bgColor; }
+  const QColor& textColor() { return m_textColor; }
+  const QColor& linkColor() { return m_linkColor; }
+  const QColor& vLinkColor() { return m_vLinkColor; }
 
-  int width() { return m_width; }
-  int height() { return m_height; }
-
-  // A KfmGui can change the values directly.
+  bool underlineLink() { return m_underlineLink; }
+  
+  // A KfmGui can read/write the values directly.
   friend class KfmGui;
   
 protected:
@@ -100,12 +106,6 @@ protected:
   
   KfmView::ViewMode m_viewMode;
   KfmView::ViewMode m_viewMode2;
-  KfmAbstractGui::MouseMode m_mouseMode;
-
-  QColor m_bgColor;
-  QColor m_textColor;
-  QColor m_linkColor;
-  QColor m_vLinkColor;
 
   bool m_bShowDot;
   bool m_bShowDot2;
@@ -114,16 +114,9 @@ protected:
 
   bool m_bDirTree;
   bool m_bSplitView;
-  // bool m_bHTMLView;
-  bool m_bCache;
-  bool m_bChangeCursor;
-  bool m_underlineLink;
 
-  QString m_strStdFontName;
-  QString m_strFixedFontName;
-  int m_iFontSize;
-  
-  QPixmap m_bgPixmap;
+  // bool m_bHTMLView;
+  bool m_bCache; // ?
 
   bool m_bShowToolBar;
   KToolBar::BarPosition m_toolBarPos;
@@ -136,6 +129,21 @@ protected:
 
   int m_width;
   int m_height;
+
+  QPixmap m_bgPixmap;
+
+  /// Other group (KFM HTML Defaults)
+  QString m_strStdFontName;
+  QString m_strFixedFontName;
+  int m_iFontSize;  
+  
+  bool m_bChangeCursor;
+  KfmAbstractGui::MouseMode m_mouseMode;
+  QColor m_bgColor;
+  QColor m_textColor;
+  QColor m_linkColor;
+  QColor m_vLinkColor;
+  bool m_underlineLink;
 };
 
 #endif

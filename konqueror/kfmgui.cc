@@ -114,10 +114,11 @@ void KfmGui::initConfig()
   // Read application config file if not already done
   if (!KfmGuiProps::defaultProps)
   {
+    debug("Reading global config");
     KConfig *config = kapp->getConfig();
     config->setGroup( "Settings" );
     KfmGuiProps::defaultProps = new KfmGuiProps(config);
-  }
+  } else debug("KfmGuiProps::defaultProps = %p",KfmGuiProps::defaultProps);
   
   // For the moment, no local properties
   // Copy the default properties
@@ -125,11 +126,11 @@ void KfmGui::initConfig()
   
   if ( !m_bInit )
   {
-    m_pView->setViewMode( m_Props->viewMode() );
-    m_pView2->setViewMode( m_Props->viewMode2() );
+    m_pView->setViewMode( m_Props->m_viewMode );
+    m_pView2->setViewMode( m_Props->m_viewMode2 );
   }
   else
-    this->resize(m_Props->width(),m_Props->height());
+    this->resize(m_Props->m_width,m_Props->m_height);
 }
 
 void KfmGui::initGui()
@@ -317,7 +318,11 @@ void KfmGui::initMenu()
   m_pMenu->insertItem( i18n("&Help"), help );
 
   m_pMenu->show();
-  m_pMenu->setMenuBarPos( m_menuBarPos );
+  if (m_Props->m_bShowMenuBar )
+    m_pMenu->show();
+  else
+    m_pMenu->hide();
+  m_pMenu->setMenuBarPos( m_Props->m_menuBarPos );
   setMenu( m_pMenu );
 }
 
@@ -331,7 +336,7 @@ void KfmGui::initStatusBar()
   // Not implemented yet
   // m_pStatusBar->setPos( m_statusBarPos );
   setStatusBar( m_pStatusBar );
-  if ( !m_bShowStatusBar )
+  if ( !m_Props->m_bShowStatusBar )
     m_pStatusBar->enable( KStatusBar::Hide );
 }
 
@@ -434,10 +439,10 @@ void KfmGui::initToolBar()
   connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
   
   addToolBar( m_pToolbar );
-  m_pToolbar->setBarPos( m_toolBarPos );
   m_pToolbar->show();                
-  if ( !m_bShowToolBar )
+  if ( !m_Props->m_bShowToolBar )
     m_pToolbar->enable( KToolBar::Hide );
+  m_pToolbar->setBarPos( m_Props->m_toolBarPos );
 
   ////////////////////////
   // Add Location Bar
@@ -458,9 +463,9 @@ void KfmGui::initToolBar()
   addToolBar( m_pLocationBar );
   m_pLocationBar->setFullWidth( TRUE );
   m_pLocationBar->setItemAutoSized( TOOLBAR_URL_ID, TRUE );
-  m_pLocationBar->setBarPos( m_locationBarPos );
+  m_pLocationBar->setBarPos( m_Props->m_locationBarPos );
   m_pLocationBar->show();                
-  if ( !m_bShowLocationBar )
+  if ( !m_Props->m_bShowLocationBar )
     m_pLocationBar->enable( KToolBar::Hide );
 }
 
