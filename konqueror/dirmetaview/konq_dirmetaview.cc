@@ -216,7 +216,7 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
   if ( ( selection.count() == 0 && ( m_currentSelection.count() != 0 || m_url != url || forceUpdate ) ) ||
        ( selection.count() > 1 ) )
   {
-    QPixmap pix = m_factory->dirMimeType()->pixmap( url, KIconLoader::Large );
+    QPixmap pix = m_factory->dirMimeType()->pixmap( url, KIcon::Desktop );
 
     m_widget->setPixmap( pix );
 
@@ -236,7 +236,7 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
   {
     KonqFileItem *item = selection.first();
 
-    m_widget->setPixmap( item->pixmap( KIconLoader::Large, true ) );
+    m_widget->setPixmap( item->pixmap( 0, true ) );
 
     QDomElement annotation = m_metaDataProvider->metaData( item->url(), item->mimetype(), "annotation" );
     

@@ -275,8 +275,8 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
           int id = popup->insertItem( text ); // no pixmap if checked
           popup->setItemChecked( id, true );
       } else
-          popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->pixmap( KIconLoader::Small ),
-                             text );
+          popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->
+		pixmap( KIcon::Small ), text );
       if ( ++i > 10 )
           break;
       if ( !onlyForward ) --it; else ++it;

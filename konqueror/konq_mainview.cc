@@ -1485,7 +1485,7 @@ void KonqMainView::initActions()
   m_paFullScreenStop = new KAction( i18n( "Stop Fullscreen Mode" ), "window_nofullscreen", 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
 
   /*
-  QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIconLoader::Small );
+  QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIcon::Small );
   (void) new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
   */
 

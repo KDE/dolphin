@@ -257,7 +257,7 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
 
   action.setAttribute( "group", "preview" );
 
-  (void)new KAction( name, service->pixmap( KIconLoader::Small ), 0,
+  (void)new KAction( name, service->pixmap( KIcon::Small ), 0,
 		     m_mainView, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
 

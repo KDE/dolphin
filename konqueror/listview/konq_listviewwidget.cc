@@ -413,7 +413,7 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
          QPixmap pixmap2;
          if (( urls.count() > 1 ) || (m_pressedItem->pixmap(0)->isNull()))
          {
-            pixmap2 = KGlobal::iconLoader()->loadIcon( "kmultiple", KIcon::Desktop, KIcon::SizeMedium );
+            pixmap2 = DesktopIcon( "kmultiple", KIcon::SizeMedium );
             if ( pixmap2.isNull() )
                warning("KDesktop: Could not find kmultiple pixmap\n");
          }

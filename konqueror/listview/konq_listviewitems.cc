@@ -49,7 +49,7 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, Kon
 
 void KonqListViewItem::init()
 {
-   setPixmap( 0, m_fileitem->pixmap( KIconLoader::Small, false /*no image preview*/ ) );
+   setPixmap( 0, m_fileitem->pixmap( KIcon::SizeSmall, false /*no image preview*/ ) );
    // Set the text of each column
    const KIO::UDSEntry & entry = m_fileitem->entry();
    KIO::UDSEntry::ConstIterator it = entry.begin();
