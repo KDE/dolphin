@@ -1,6 +1,21 @@
 [Desktop Entry]
 Type=Service
-Name=SideBar
+Name=Sidebar
+Name[cs]=Postranní lišta
+Name[da]=Sidebjælke
+Name[de]=Seitenleiste
+Name[eo]=Flanklistelo
+Name[he]=ידדצ לגרס
+Name[hu]=Oldalléc
+Name[is]=Skrunslá
+Name[ja]=サイドバー
+Name[nl]=Zijbalk
+Name[no_NY]=Sidestolpe
+Name[pt_BR]=Barra Lateral
+Name[ro]=Bară laterală
+Name[sk]=Bočný panel
+Name[uk]=Бокова панель
+Name[zh_CN.GB2312]=工具条
 MimeType=inode/directory
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=libkonqtree
