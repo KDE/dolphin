@@ -89,8 +89,6 @@ private:
   KColorButton* m_pText;
   KColorButton* m_pLink;
   KColorButton* m_pVLink;
-  QCheckBox *cursorbox;
-  QCheckBox *underlinebox;
   QCheckBox *forceDefaultsbox;
   QColor bgColor;
   QColor textColor;

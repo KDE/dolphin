@@ -337,6 +337,7 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name )
     connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotVLinkColorChanged( const QColor & ) ) );
 
+    /*
     cursorbox = new QCheckBox(i18n("Change cursor over link."),
                               this);
     lay->addMultiCellWidget(cursorbox,8,8,1,3);
@@ -344,6 +345,7 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name )
     underlinebox = new QCheckBox(i18n("Underline links"),
                                  this);
     lay->addMultiCellWidget(underlinebox,9,9,1,3);
+    */
 
     forceDefaultsbox = new QCheckBox(i18n("Always use my colors"),
                                  this);
@@ -383,16 +385,12 @@ void KColorOptions::loadSettings()
     textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
     linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
     vLinkColor = g_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", false);
-    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", true);
     bool forceDefaults = g_pConfig->readBoolEntry("ForceDefaultColors", false);
 
     m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
     m_pLink->setColor( linkColor );
     m_pVLink->setColor( vLinkColor );
-    cursorbox->setChecked( changeCursor );
-    underlinebox->setChecked( underlineLinks );
     forceDefaultsbox->setChecked( forceDefaults );
 }
 
@@ -407,8 +405,6 @@ void KColorOptions::defaultSettings()
     m_pText->setColor( textColor );
     m_pLink->setColor( linkColor );
     m_pVLink->setColor( vLinkColor );
-    cursorbox->setChecked( false );
-    underlinebox->setChecked( false );
     forceDefaultsbox->setChecked( false );
 }
 
@@ -419,8 +415,6 @@ void KColorOptions::saveSettings()
     g_pConfig->writeEntry( "TextColor", textColor );
     g_pConfig->writeEntry( "LinkColor", linkColor);
     g_pConfig->writeEntry( "VLinkColor", vLinkColor );
-    g_pConfig->writeEntry( "ChangeCursor", cursorbox->isChecked() );
-    g_pConfig->writeEntry( "UnderlineLinks", underlinebox->isChecked() );
     g_pConfig->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
     g_pConfig->sync();
 }
