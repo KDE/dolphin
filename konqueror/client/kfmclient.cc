@@ -128,7 +128,6 @@ int main( int argc, char **argv )
   }
 
   clientApp a;
-  a.dcopClient()->attach();
 
   return a.doIt() ? 0 /*no error*/ : 1 /*error*/;
 }
