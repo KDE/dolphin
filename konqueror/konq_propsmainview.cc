@@ -29,6 +29,7 @@ KonqPropsMainView::KonqPropsMainView( const KConfig * config )
   QString entry;
   m_bSplitView = config->readBoolEntry( "SplitView", false );
 
+  /*
   entry = config->readEntry("Toolbar", "top");
   m_bShowToolBar = true;
   if ( entry == "top" )
@@ -82,6 +83,7 @@ KonqPropsMainView::KonqPropsMainView( const KConfig * config )
     m_statusBarPos = KStatusBar::Floating;    
   else
     m_bShowStatusBar = false;
+  */
 
   m_width = config->readNumEntry("WindowWidth",  MAINWINDOW_WIDTH);
   m_height = config->readNumEntry("WindowHeight",MAINWINDOW_HEIGHT);
@@ -96,6 +98,7 @@ void KonqPropsMainView::saveProps( KConfig * config )
 {
   config->writeEntry( "SplitView", m_bSplitView );
   
+  /*
   if ( !m_bShowToolBar )
       config->writeEntry( "Toolbar", "hide" );
   else
@@ -134,6 +137,7 @@ void KonqPropsMainView::saveProps( KConfig * config )
       case KMenuBar::Flat : config->writeEntry( "Menubar", "flat" ); break;
       default : assert(0);
     }
+  */
 
   config->writeEntry( "WindowWidth", m_width );
   config->writeEntry( "WindowHeight", m_height );

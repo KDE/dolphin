@@ -193,7 +193,8 @@ void KonqMainView::init()
   CORBA::WString_var item = Q2C( i18n("Konqueror :-)") );
   m_vStatusBar->insertItem( item, 1 );
 
-  m_vStatusBar->enable( m_Props->m_bShowStatusBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+  // will KTM do it for us ?
+  //  m_vStatusBar->enable( m_Props->m_bShowStatusBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
 
   initGui();
 
@@ -487,10 +488,13 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("Configure &keys") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
 
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, m_Props->m_bShowMenuBar );
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, m_Props->m_bShowStatusBar );
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, m_Props->m_bShowLocationBar );
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, m_Props->m_bShowToolBar );
+  // Ok, this is wrong. But I don't see where to do it properly
+  // (i.e. checking for m_v*Bar->isVisible())
+  // We might need a call from KonqMainWindow::readProperties ...
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, true );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, true );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, true );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, true );
 
   return true;
 }
@@ -573,8 +577,10 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
                              this, "slotNewWindow", true, 0L, -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
 
+  /* will KTM do it for us ?
   m_vToolBar->enable( m_Props->m_bShowToolBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
   m_vToolBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_toolBarPos) );
+  */
 
   m_vLocationBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
 
@@ -594,9 +600,11 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
     
   //TODO: support completion in opToolBar->insertLined....
 
+  /* will KTM do it for us ?
   m_vLocationBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_locationBarPos) );
-
   m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+  */
+
   // The toolbar is created AFTER the initial view is built and made active
   // So we need this :
   /*  if ( m_currentView )
@@ -1233,30 +1241,26 @@ void KonqMainView::slotEditApplications()
 
 void KonqMainView::slotShowMenubar()
 {
-  m_Props->m_bShowMenuBar = !m_Props->m_bShowMenuBar;
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, m_Props->m_bShowMenuBar );
-  m_vMenuBar->enable( m_Props->m_bShowMenuBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+  m_vMenuBar->enable( OpenPartsUI::Toggle );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, m_vMenuBar->isVisible() );
 }
 
 void KonqMainView::slotShowStatusbar()
 {
-  m_Props->m_bShowStatusBar = !m_Props->m_bShowStatusBar;
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, m_Props->m_bShowStatusBar );
-  m_vStatusBar->enable( m_Props->m_bShowStatusBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+  m_vStatusBar->enable( OpenPartsUI::Toggle );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, m_vStatusBar->isVisible() );
 }
 
 void KonqMainView::slotShowToolbar()
 {
-  m_Props->m_bShowToolBar = !m_Props->m_bShowToolBar;
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, m_Props->m_bShowToolBar );
-  m_vToolBar->enable( m_Props->m_bShowToolBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+  m_vToolBar->enable( OpenPartsUI::Toggle );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, m_vToolBar->isVisible() );
 }
 
 void KonqMainView::slotShowLocationbar()
 {
-  m_Props->m_bShowLocationBar = !m_Props->m_bShowLocationBar;
-  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, m_Props->m_bShowLocationBar );
-  m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+  m_vLocationBar->enable( OpenPartsUI::Toggle );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, m_vLocationBar->isVisible() );
 }
 
 void KonqMainView::slotSaveSettings()
@@ -1450,18 +1454,20 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
                                                  (mode_t) popup.mode,
                                                  m_currentView->url(),
                                                  m_currentView->canGoBack(),
-                                                 m_currentView->canGoForward() );
+                                                 m_currentView->canGoForward(),
+                                                 !m_vMenuBar->isVisible() ); // hidden ?
 
   kdebug(0, 1202, "exec()");
   int iSelected = popupMenu->exec( QPoint(popup.x, popup.y) );
   kdebug(0, 1202, "deleting popupMenu object");
   delete popupMenu;
-  /* Test for up, back, forward. A normal signal/slot mechanism doesn't work here,
+  /* Test for konqueror-specific entries. A normal signal/slot mechanism doesn't work here,
      because those slots are virtual. */
   switch (iSelected) {
     case KPOPUPMENU_UP_ID : slotUp(); break;
     case KPOPUPMENU_BACK_ID : slotBack(); break;
-    case KPOPUPMENU_FORWARD_ID : slotForward(); break;      
+    case KPOPUPMENU_FORWARD_ID : slotForward(); break;
+    case KPOPUPMENU_SHOWMENUBAR_ID : slotShowMenubar(); break;
   }
 }
 

@@ -26,6 +26,9 @@
 #include <kmenubar.h>
 #include <kstatusbar.h>
 
+///////////////// THIS CLASS IS NOW USELESS - let's keep it just in case we need
+/////// some other mainview properties. For now it seems KTMainWindow does it all
+
 /**
  * @short This class holds the properties for a KfmGui (i.e. a window).
  *
@@ -85,6 +88,7 @@ private:
 
   bool m_bSplitView;
 
+  /* Handled by KTMainWindow - except for save default settings....
   bool m_bShowToolBar;
   KToolBar::BarPosition m_toolBarPos;
   bool m_bShowStatusBar;
@@ -93,7 +97,8 @@ private:
   KMenuBar::menuPosition m_menuBarPos;
   bool m_bShowLocationBar;
   KToolBar::BarPosition m_locationBarPos;
-
+  */
+  
   int m_width;
   int m_height;
 
