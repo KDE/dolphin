@@ -253,12 +253,12 @@ void KCacheConfigDialog::defaults()
 
 QString KCacheConfigDialog::quickHelp() const
 {
-    return i18n( "This module lets you configure your cache settings. The "
-                 "cache is an internal memory in Konqueror where recently "
+    return i18n( "<h1>Cache</h1><p>This module lets you configure your cache settings.</p>"
+                 "<p>The cache is an internal memory in Konqueror where recently "
                  "read web pages are stored. If you want to retrieve a web "
                  "page again that you have recently read, it will not be "
                  "downloaded from the net, but rather retrieved from the "
-                 "cache which is a lot faster." );
+                 "cache which is a lot faster.</p>" );
 }
 
 #include "cache.moc"
