@@ -237,7 +237,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
     show();
     // Give focus to the view
-    m_pView->widget()->setFocus();
+    // m_pView->widget()->setFocus(); // No! [changes active view]
 
     /*
       completed() does it now
