@@ -65,8 +65,6 @@ public:
 
    void emitSlotCommandExecuted();
 
-   void addImport(ImportCommand *cmd);
-
    void didCommand(KCommand *cmd);
    void addCommand(KCommand *cmd);
 

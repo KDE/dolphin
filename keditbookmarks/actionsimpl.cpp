@@ -127,7 +127,15 @@ void ActionsImpl::slotInsertSeparator() {
 }
 
 void ActionsImpl::slotImport() { 
-   top->addImport(ImportCommand::performImport(sender()->name()+6, top));
+   ImportCommand* import = ImportCommand::performImport(sender()->name()+6, top);
+   if (!import) {
+      return;
+   }
+   top->addCommand(import);
+   KEBListViewItem *item = listview->getItemAtAddress(import->groupAddress());
+   if (item) {
+      listview->setCurrent(item);
+   }
 }
 
 void ActionsImpl::slotExportNS() {

@@ -19,40 +19,28 @@
 
 #include <stdlib.h>
 
-#include <qclipboard.h>
-#include <qpopupmenu.h>
-#include <qpainter.h>
-
 #include <klocale.h>
-#include <dcopclient.h>
 #include <kdebug.h>
+
 #include <kapplication.h>
-
-#include <kaction.h>
 #include <kstdaction.h>
-#include <kedittoolbar.h>
-#include <kfiledialog.h>
-#include <kkeydialog.h>
-#include <kmessagebox.h>
-#include <krun.h>
+#include <kaction.h>
 
-#include <kicondialog.h>
-#include <kiconloader.h>
+#include <kkeydialog.h>
+#include <kedittoolbar.h>
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
+#include <kmessagebox.h>
+#include <kfiledialog.h>
 
-#include <klineeditdlg.h>
-
-#include "commands.h"
-#include "importers.h"
-#include "core.h"
-#include "favicons.h"
-#include "testlink.h"
 #include "listview.h"
-#include "mymanager.h"
-#include "dcop.h"
 #include "actionsimpl.h"
+#include "dcop.h"
+#include "mymanager.h"
+// DESIGN - inline clipboard stuff?
+#include "core.h"
+#include <qclipboard.h>
 
 #include "toplevel.h"
 
@@ -202,6 +190,7 @@ void KEBTopLevel::createActions() {
 }
 
 void KEBTopLevel::resetActions() {
+   // DESIGN - try to remove usage of this
    disableDynamicActions(actionCollection()->actions());
 
    stateChanged("normal");
@@ -356,17 +345,6 @@ void KEBTopLevel::emitSlotCommandExecuted() {
 void KEBTopLevel::setAllOpen(bool open) {
    listview->setOpen(open);
    setModifiedFlag(true);
-}
-
-void KEBTopLevel::addImport(ImportCommand *cmd) {
-   if (!cmd) {
-      return;
-   }
-   addCommand(cmd);
-   KEBListViewItem *item = listview->getItemAtAddress(cmd->groupAddress());
-   if (item) {
-      listview->setCurrent(item);
-   }
 }
 
 /* ------------------------------------------------------------- */
