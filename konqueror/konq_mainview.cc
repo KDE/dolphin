@@ -1090,6 +1090,22 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 {
   QString indexFile;
   KURL u( url );
+
+  if ( !childView )
+    {
+      QStringList serviceTypes;                                                   
+      Browser::View_var vView = KonqFactory::createView( serviceType, serviceTypes, this );
+      m_pViewManager->splitView( Qt::Horizontal, vView, serviceTypes );
+      m_vMainWindow->setActivePart( vView->id() ); 
+
+      MapViews::Iterator it = m_mapViews.find( vView->id() );
+      assert( it != m_mapViews.end() );
+      
+      it.data()->openURL( url, true );
+
+      return true;
+    }
+
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
   //display the data addressed by the URL
@@ -1897,14 +1913,13 @@ void KonqMainView::slotUpActivated( CORBA::Long id )
 
 void KonqMainView::slotLoadingProgress( OpenParts::Id id, CORBA::Long percent )
 {
-  if ( id == m_currentId && m_pProgressBar && m_currentView->isLoading() )
-  {
-    if ( !m_pProgressBar->isVisible() && m_currentView->supportsProgressIndication() )
-      m_pProgressBar->show();
+  if ( id != m_currentId || !m_pProgressBar || !m_currentView->isLoading() )
+    return;
 
-    m_pProgressBar->setValue( (int)percent );
-  }    
-    
+  if ( !m_pProgressBar->isVisible() && m_currentView->supportsProgressIndication() )
+    m_pProgressBar->show();
+  
+  m_pProgressBar->setValue( (int)percent );
   
   MapViews::Iterator it = m_mapViews.find( id );
   
@@ -2064,14 +2079,6 @@ void KonqMainView::initGui()
   }
   else
   {
-    //dummy default view
-    QStringList serviceTypes;
-    //this *may* not fail
-    Browser::View_var vView = KonqFactory::createView( "text/plain", serviceTypes, this );
-    m_pViewManager->splitView( Qt::Horizontal, vView, serviceTypes );
-    
-    m_vMainWindow->setActivePart( vView->id() );
-    
     if ( m_sInitialURL.isEmpty() )
       m_sInitialURL = QDir::homeDirPath().prepend( "file:" );
       

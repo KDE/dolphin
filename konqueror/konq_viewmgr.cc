@@ -1,4 +1,4 @@
-/*  This file is part of the KDE project
+#/*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
  
     This program is free software; you can redistribute it and/or modify
@@ -129,6 +129,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
   else {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
     m_pMainContainer->setOpaqueResize();
+    m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
     setupView( m_pMainContainer, newView, newViewServiceTypes );
 
@@ -324,7 +325,8 @@ void KonqViewManager::clear()
 
 void KonqViewManager::doGeometry( int width, int height )
 {
-  m_pMainContainer->setGeometry( 0, 0, width, height );
+  if ( m_pMainContainer )
+    m_pMainContainer->setGeometry( 0, 0, width, height );
 }
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
