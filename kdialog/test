@@ -1,5 +1,5 @@
 echo "yesno box:"
-kdialog --caption "This is a yesno box" --yesno "Choose: yes or no"
+kdialog --title "This is a yesno box" --yesno "Choose: yes or no"
 if [ $? = 0 ]; then
   echo " your choice was: yes"
 else
@@ -7,10 +7,10 @@ else
 fi
 
 echo "message box:"
-kdialog --caption "This is a message" --msgbox "Well, this is it:\nthe message"
+kdialog --title "This is a message" --msgbox "Well, this is it:\nthe message"
 
 echo "input box:"
-kdialog --caption "This is a input box" --inputbox "What is your name" "Joe User"
+kdialog --title "This is a input box" --inputbox "What is your name" "Joe User"
 if [ $? = 0 ]; then
   echo " you accepted"
 else
@@ -18,13 +18,13 @@ else
 fi
 
 echo "text box:"
-kdialog --caption "This is a text box" --textbox widgets.h 400 300
+kdialog --title "This is a text box" --textbox widgets.h 400 300
 
 echo "menu:"
-kdialog --caption "This is a menu" --menu "Choose one of these" a English b German c French d Spanish
+kdialog --title "This is a menu" --menu "Choose one of these" a English b German c French d Spanish
 
 echo "checklist:"
-kdialog --caption "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
+kdialog --title "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
 
 echo "radiolist:"
-kdialog --caption "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
+kdialog --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off

@@ -66,7 +66,7 @@ static KCmdLineOptions options[] =
     // TODO gauge stuff, reading values from stdin
 
 
-    { "caption <text>", I18N_NOOP("Dialog caption (title)"), 0 },
+    { "title <text>", I18N_NOOP("Dialog title"), 0 },
     { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
 
     { "+[arg]", I18N_NOOP("Arguments - depending on main option"), 0 },
@@ -88,11 +88,10 @@ int directCommand(KCmdLineArgs *args)
     QString title;
     bool separateOutput = FALSE;
 
-    // --caption text
-    if (args->isSet("caption"))
-    {
-      title = QString::fromLocal8Bit(args->getOption("caption"));
-      cout << title.local8Bit().data() << endl;
+    // --title text
+    KCmdLineArgs *qtargs = KCmdLineArgs::parsedArgs("qt"); // --title is a qt option
+    if(qtargs->isSet("title")) {
+      title = QFile::decodeName(qtargs->getOption("title"));
     }
 
     // --separate-output
