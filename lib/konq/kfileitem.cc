@@ -203,7 +203,7 @@ long KFileItem::size() const
   return size;
 }
 
-QString KFileItem::time( int which ) const
+QString KFileItem::time( int /*which*/ ) const
 {
   // Extract it from the UDSEntry
   UDSEntry::ConstIterator it = m_entry.begin();

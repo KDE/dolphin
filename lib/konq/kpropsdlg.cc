@@ -374,7 +374,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     layout->activate();
 }
 
-bool FilePropsPage::supports( KFileItemList _items )
+bool FilePropsPage::supports( KFileItemList /*_items*/ )
 {
   return true; /* was _kurl.isLocalFile(); */
 }

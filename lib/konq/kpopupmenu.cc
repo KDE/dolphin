@@ -390,7 +390,7 @@ void KonqPopupMenu::slotPopupOpenWith()
   if ( l.exec() )
   {
     KService::Ptr service = l.service();
-    if ( service )
+    if ( !!service )
     {
       KRun::run( *service, m_lstPopupURLs );
       return;
