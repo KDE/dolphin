@@ -116,7 +116,11 @@ void KonqOperations::emptyTrash()
   KURL::List urls;
   it = files.begin();
   for (; it != files.end(); ++it )
-    urls.append( *it );
+  {
+    KURL u;
+    u.setPath( *it );
+    urls.append( u );
+  }
 
   if ( urls.count() > 0 )
     op->_del( EMPTYTRASH, urls, SKIP_CONFIRMATION );
