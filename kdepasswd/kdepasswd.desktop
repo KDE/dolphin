@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Change Password
 Name[af]=Verander Wagwoord
+Name[bg]=Променя Парола
 Name[bs]=Promijenite svoju šifru
 Name[ca]=Canviar la contrasenya
 Name[cs]=Změna hesla
@@ -45,3 +46,4 @@ Type=Application
 Terminal=0
 X-KDE-StartupNotify=true
 X-DCOP-ServiceType=Multi
+Categories=QT;KDE;Utility
