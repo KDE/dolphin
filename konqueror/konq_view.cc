@@ -81,7 +81,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bAborted = false;
   m_bToggleView = false;
   m_bGotIconURL = false;
-  m_bPopupMenuEnabled = false;
+  m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
 
   switchView( viewFactory );
@@ -269,7 +269,11 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( openURLRequestDelayed( const KURL &, const KParts::URLArgs &) ),
            m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );
 
-  enablePopupMenu( true );
+  if ( m_bPopupMenuEnabled )
+  {
+    m_bPopupMenuEnabled = false; // force
+    enablePopupMenu( true );
+  }
 
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            this, SLOT( setLocationBarURL( const QString & ) ) );
@@ -791,8 +795,6 @@ void KonqView::enablePopupMenu( bool b )
 
   if ( !ext )
     return;
-
-  ext->setBrowserInterface( m_browserIface );
 
   // enable context popup
   if ( !m_bPopupMenuEnabled && b ) {
