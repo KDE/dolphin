@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Service
+Name=Find Part
+MimeType=
+ServiceTypes=Konqueror/FindPart
+X-KDE-Library=libkfindpart
+X-KDE-BrowserView-AllowAsDefault=true
+X-KDE-BrowserView-HideFromMenus=true
+X-KDE-BrowserView-PassiveMode=true
+InitialPreference=10
