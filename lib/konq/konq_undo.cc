@@ -29,11 +29,8 @@
 #include <kdatastream.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kprotocolmanager.h>
 
 #include <kio/job.h>
-#include <kio/jobclasses.h>
-#include <kio/slaveinterface.h>
 
 /**
  * checklist:
@@ -79,12 +76,12 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
   d->m_cmd.m_src = src;
   d->m_cmd.m_dst = dst;
   connect( job, SIGNAL( result( KIO::Job * ) ),
-	   this, SLOT( slotResult( KIO::Job * ) ) );
+           this, SLOT( slotResult( KIO::Job * ) ) );
 
   connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ),
-	   this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
+           this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
   connect( job, SIGNAL( copyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ),
-	   this, SLOT( slotCopyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ) );
+           this, SLOT( slotCopyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ) );
 
   KonqUndoManager::incRef();
 };
@@ -312,12 +309,12 @@ void KonqUndoManager::undoStep()
       if ( op.m_directory )
       {
         if ( op.m_renamed )
-	  d->m_currentJob = KIO::rename( op.m_dst, op.m_src, false );
+          d->m_currentJob = KIO::rename( op.m_dst, op.m_src, false );
         else
-  	  assert( 0 ); // this should not happen!
+          assert( 0 ); // this should not happen!
       }
       else if ( op.m_link )
-	d->m_currentJob = KIO::symlink( op.m_target, op.m_src, true, false );
+        d->m_currentJob = KIO::symlink( op.m_target, op.m_src, true, false );
       else if ( d->m_current.m_type == KonqCommand::COPY )
         d->m_currentJob = KIO::file_delete( op.m_dst );
       else
@@ -355,7 +352,7 @@ void KonqUndoManager::undoStep()
 
   if ( d->m_currentJob )
     connect( d->m_currentJob, SIGNAL( result( KIO::Job * ) ),
-	     this, SLOT( slotResult( KIO::Job * ) ) );
+             this, SLOT( slotResult( KIO::Job * ) ) );
 }
 
 void KonqUndoManager::push( const KonqCommand &cmd )
@@ -471,13 +468,13 @@ bool KonqUndoManager::initializeFromKDesky()
 QDataStream &operator<<( QDataStream &stream, const KonqBasicOperation &op )
 {
     stream << op.m_valid << op.m_directory << op.m_renamed << op.m_link
-	   << op.m_src << op.m_dst << op.m_target;
+           << op.m_src << op.m_dst << op.m_target;
   return stream;
 }
 QDataStream &operator>>( QDataStream &stream, KonqBasicOperation &op )
 {
   stream >> op.m_valid >> op.m_directory >> op.m_renamed >> op.m_link
-	 >> op.m_src >> op.m_dst >> op.m_target;
+         >> op.m_src >> op.m_dst >> op.m_target;
   return stream;
 }
 
