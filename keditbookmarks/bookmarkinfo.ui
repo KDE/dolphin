@@ -1,0 +1,148 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>Form1</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>layout17</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>302</width>
+                <height>89</height>
+            </rect>
+        </property>
+        <grid>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QLineEdit" row="1" column="1">
+                <property name="name">
+                    <cstring>lineEdit1_2</cstring>
+                </property>
+            </widget>
+            <widget class="QLabel" row="0" column="2">
+                <property name="name">
+                    <cstring>textLabel2</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="right"&gt;Last Modified&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="2" column="0" rowspan="2" colspan="1">
+                <property name="name">
+                    <cstring>textLabel1_3</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="right"&gt;Comment&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="0" column="0">
+                <property name="name">
+                    <cstring>textLabel1</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="right"&gt;Name&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="1" column="0">
+                <property name="name">
+                    <cstring>textLabel1_2</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="right"&gt;Address&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="KActiveLabel" row="1" column="3" rowspan="2" colspan="1">
+                <property name="name">
+                    <cstring>kActiveLabel1_5</cstring>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>100</width>
+                        <height>0</height>
+                    </size>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QLineEdit" row="0" column="1">
+                <property name="name">
+                    <cstring>lineEdit1</cstring>
+                </property>
+            </widget>
+            <widget class="QLineEdit" row="2" column="1" rowspan="2" colspan="1">
+                <property name="name">
+                    <cstring>lineEdit1_3</cstring>
+                </property>
+            </widget>
+            <widget class="QLabel" row="1" column="2" rowspan="2" colspan="1">
+                <property name="name">
+                    <cstring>textLabel2_2</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="right"&gt;Last viewed&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="3" column="2">
+                <property name="name">
+                    <cstring>textLabel2_3</cstring>
+                </property>
+                <property name="text">
+                    <string>&lt;p align="right"&gt;Times viewed&lt;/p&gt;</string>
+                </property>
+            </widget>
+            <widget class="KActiveLabel" row="0" column="3">
+                <property name="name">
+                    <cstring>kActiveLabel1</cstring>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>100</width>
+                        <height>0</height>
+                    </size>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="KActiveLabel" row="3" column="3">
+                <property name="name">
+                    <cstring>kActiveLabel1_4</cstring>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>100</width>
+                        <height>0</height>
+                    </size>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+        </grid>
+    </widget>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kactivelabel.h</includehint>
+    <includehint>kactivelabel.h</includehint>
+    <includehint>kactivelabel.h</includehint>
+</includehints>
+</UI>
