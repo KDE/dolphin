@@ -97,6 +97,7 @@ public slots:
     void slotImportMoz();
     void slotExportMoz();
     void slotSave();
+    void slotDocumentRestored();
     void slotCut();
     void slotCopy();
     void slotPaste();
@@ -118,7 +119,7 @@ protected slots:
     void slotSelectionChanged();
     void slotClipboardDataChanged();
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
-    void slotBookmarksChanged();
+    void slotBookmarksChanged( const QString &, const QString & );
     void slotCommandExecuted();
 
 protected:
@@ -130,7 +131,6 @@ protected:
 
     bool m_bModified;
     bool m_bCanPaste;
-    bool m_bIsSaving;
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;

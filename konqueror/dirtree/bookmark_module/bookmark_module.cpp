@@ -24,7 +24,7 @@ KonqBookmarkModule::KonqBookmarkModule( KonqTree * parentTree )
     : QObject( 0L ), KonqTreeModule( parentTree ),
       m_topLevelItem( 0L )
 {
-    connect( KBookmarkManager::self(), SIGNAL(changed(const QString &) ),
+    connect( KBookmarkManager::self(), SIGNAL(changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &) ) );
 }
 

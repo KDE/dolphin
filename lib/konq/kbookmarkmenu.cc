@@ -83,7 +83,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
 
     if ( m_bIsRoot )
     {
-      connect( KBookmarkManager::self(), SIGNAL( changed(const QString &) ),
+      connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
                SLOT( slotBookmarksChanged(const QString &) ) );
     }
   }

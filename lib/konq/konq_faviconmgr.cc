@@ -113,8 +113,8 @@ void convertFavIcons()
         if (bookmarksChanged)
             if (KBookmarkManager::self()->save())
             {
-                QByteArray data;
-                kapp->dcopClient()->send("*", "KBookmarkManager", "notifyCompleteChange()", data);
+                QString data( kapp->name() );
+                kapp->dcopClient()->send("*", "KBookmarkManager", "notifyCompleteChange(QString)", data);
             }
         file.remove();
     }

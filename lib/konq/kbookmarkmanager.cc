@@ -250,18 +250,18 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
     //emit changed( group );
 }
 
-void KBookmarkManager::notifyCompleteChange()
+void KBookmarkManager::notifyCompleteChange( QString caller )
 {
     kdDebug(1203) << "KBookmarkManager::notifyCompleteChange" << endl;
     // The bk editor tells us we should reload everything
     // Reparse
     parse();
     // Tell our GUI
-    emit changed( "" );
+    emit changed( QString::null, caller );
     // Also tell specifically about the toolbar
     KBookmarkGroup tbGroup = toolbar();
     if (!tbGroup.isNull())
-        emit changed( tbGroup.groupAddress() );
+        emit changed( tbGroup.groupAddress(), caller );
 }
 
 void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
@@ -273,7 +273,7 @@ void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
     kdDebug(1203) << "KBookmarkManager::notifyChanged " << groupAddress << endl;
     //KBookmarkGroup group = findByAddress( groupAddress ).toGroup();
     //ASSERT(!group.isNull());
-    emit changed( groupAddress );
+    emit changed( groupAddress, QString::null );
 }
 
 bool KBookmarkManager::showNSBookmarks() const

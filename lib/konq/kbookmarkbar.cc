@@ -44,7 +44,7 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
 {
     m_lstSubMenus.setAutoDelete( true );
 
-    connect( KBookmarkManager::self(), SIGNAL( changed(const QString &) ),
+    connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &) ) );
 
     KBookmarkGroup toolbar = KBookmarkManager::self()->toolbar();

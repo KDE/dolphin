@@ -110,7 +110,7 @@ QDragObject *KEBListView::dragObject() const
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
-    : KMainWindow(), m_bIsSaving( false ), m_commandHistory( actionCollection() )
+    : KMainWindow(), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
     // It will be available in KBookmarkManager::self() from now.
@@ -149,10 +149,11 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     connect( kapp->clipboard(), SIGNAL(dataChanged()),
              SLOT(slotClipboardDataChanged() ) );
     // If someone plays with konq's bookmarks while we're open, update.
-    connect( KBookmarkManager::self(), SIGNAL(changed(const QString &) ),
-             SLOT( slotBookmarksChanged() ) );
+    connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
+             SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
     // Update GUI after executing command
-    connect (&m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
+    connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
+    connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
     fillListView();
 
@@ -191,6 +192,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     setAutoSaveSettings();
     setModified(false); // for a nice caption
+    m_commandHistory.documentSaved();
 
     s_topLevel = this;
     KGlobal::locale()->insertCatalogue("libkonq");
@@ -251,16 +253,14 @@ void KEBTopLevel::slotSave()
 
 bool KEBTopLevel::save()
 {
-    m_bIsSaving = true;
     bool ok = KBookmarkManager::self()->save();
     if (ok)
     {
-        QByteArray data;
-        // We'll get the notification ourselves as well, that's why we use m_bIsSaving
-        kapp->dcopClient()->send( "*", "KBookmarkManager", "notifyCompleteChange()", data );
+        QString data( kapp->name() );
+        kapp->dcopClient()->send( "*", "KBookmarkManager", "notifyCompleteChange(QString)", data );
         setModified( false );
+        m_commandHistory.documentSaved();
     }
-    m_bIsSaving = false;
     return ok;
 }
 
@@ -493,6 +493,11 @@ void KEBTopLevel::setModified( bool modified )
     actionCollection()->action("file_save")->setEnabled( m_bModified );
 }
 
+void KEBTopLevel::slotDocumentRestored()
+{
+    setModified( false );
+}
+
 KBookmark KEBTopLevel::selectedBookmark() const
 {
     QListViewItem * item = m_pListView->selectedItem();
@@ -625,10 +630,10 @@ void KEBTopLevel::slotContextMenu( KListView *, QListViewItem * _item, const QPo
     }
 }
 
-void KEBTopLevel::slotBookmarksChanged()
+void KEBTopLevel::slotBookmarksChanged( const QString &, const QString & caller )
 {
     // This is called when someone changes bookmarks in konqueror....
-    if ( ! m_bIsSaving )
+    if ( caller != kapp->name() )
     {
         kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
         m_commandHistory.clear();

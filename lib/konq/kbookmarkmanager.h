@@ -141,7 +141,7 @@ k_dcop:
      * Reparse the whole bookmarks file and notify about the change
      * (Called by the bookmark editor)
      */
-    ASYNC notifyCompleteChange();
+    ASYNC notifyCompleteChange( QString caller );
 
     /**
      * Emit the changed signal for the group whose address is given
@@ -154,9 +154,9 @@ k_dcop:
 signals:
     /**
      * Signals that the group with the address @p groupAddress (e.g. "/4/5")
-     * has been modified.
+     * has been modified by the caller @p caller.
      */
-    void changed( const QString & groupAddress );
+    void changed( const QString & groupAddress, const QString & caller );
 
 protected:
     void parse();
