@@ -109,7 +109,14 @@ bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu v
   
   if ( !CORBA::is_nil( menu ) )
   {
-    menu->insertItem( "testtesttest", this, "testIgnore", 0 );
+    if ( viewMenu.create )
+    {
+      menu->insertItem4( "testtesttest", this, "testIgnore", 0, 9999, -1 );
+    }
+    else
+    {
+      menu->removeItem ( 9999 );
+    }
   }
   
   return true;

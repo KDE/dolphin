@@ -571,7 +571,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   Konqueror::View::EventCreateViewMenu EventViewMenu;
   if ( m_currentView != 0L )
   {
-    EventViewMenu.menu = OpenPartsUI::Menu::_nil(); 
+    EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
+    EventViewMenu.create = false;
     EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
   }
 
@@ -597,7 +598,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   if ( !CORBA::is_nil( m_vLocationBar ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
   
-  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
+  EventViewMenu.create = true;
   EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
 }
 
@@ -637,7 +638,7 @@ void KonqMainView::removeView( OpenParts::Id id )
     delete it->second->m_pFrame;
     m_mapViews.erase( it );
   }
-  createViewMenu();
+  //createViewMenu();
 }
 
 void KonqMainView::changeViewMode( const char *viewName )
@@ -1162,15 +1163,15 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
   }
 
-  m_popupMenu->insertSeparator();
-  Konqueror::View::EventCreateViewMenu viewMenu;
-  viewMenu.menu = OpenPartsUI::Menu::_duplicate( m_popupMenu->interface() );
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
+  // m_popupMenu->insertSeparator();
+  // Konqueror::View::EventCreateViewMenu viewMenu;
+  // viewMenu.menu = OpenPartsUI::Menu::_duplicate( m_popupMenu->interface() );
+  // EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
     
   m_popupMenu->exec( QPoint( popup.x, popup.y ) );
 
-  viewMenu.menu = OpenPartsUI::Menu::_nil();
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
+  //  viewMenu.menu = OpenPartsUI::Menu::_nil();
+  // EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
     
   delete m_popupMenu;
   if ( m_menuNew ) delete m_menuNew;
@@ -1230,7 +1231,7 @@ void KonqMainView::openHTML( const char *url )
   if ( strcmp( viewName.in(), "KonquerorHTMLView" ) != 0 )
     changeViewMode( "KonquerorHTMLView" );
 
-  createViewMenu();
+  // createViewMenu();
 
   setUpURL( 0 );
   
@@ -1324,7 +1325,7 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
   
   m_mapViews[ vView->id() ] = m_currentView;
         
-  createViewMenu();
+  // createViewMenu();
 
   setUpURL( 0 );
   
@@ -1370,7 +1371,6 @@ void KonqMainView::createViewMenu()
     m_vMenuView->insertItem4( i18n("Add row &above"), this, "slotRowAbove" , 0, MVIEW_ROWABOVE_ID, -1 );
     m_vMenuView->insertItem4( i18n("Add row &below"), this, "slotRowBelow" , 0, MVIEW_ROWBELOW_ID, -1 );
     m_vMenuView->insertSeparator( -1 );
-    m_vMenuView->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
     
     // Two namings for the same thing ! We have to decide ourselves. 
     // I prefer the second one, because of .kde.html
@@ -1383,12 +1383,6 @@ void KonqMainView::createViewMenu()
     m_vMenuView->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
     m_vMenuView->insertItem4( i18n("&Tree View"), this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
     m_vMenuView->insertSeparator( -1 );
-
-// should go to the KonqKfmIconView as well, or? (Simon)
-//  m_vMenuView->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
-
-// gone to the treeview's menu, ok? (Simon)  
-//  m_vMenuView->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree" , 0, MVIEW_RELOADTREE_ID, -1 );
 
     m_vMenuView->insertItem4( i18n("&Reload Document"), this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
     //TODO: stop loading, view frame source, view document source, document encoding

@@ -97,12 +97,27 @@ bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 
 bool KonqKfmIconView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
 {
+#define MVIEW_IMAGEPREVIEW_ID 1594 // temporary
+#define MVIEW_SHOWDOT_ID 1595 // temporary
+
   OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
   
   if ( !CORBA::is_nil( menu ) )
   {
-    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
-    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
+    if ( viewMenu.create )
+    {
+      //    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
+      //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
+      debug("adding image preview and showdotfiles");
+      menu->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
+      menu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
+    }
+    else
+    {
+      debug("removing image preview and showdotfiles");
+      menu->removeItem( MVIEW_SHOWDOT_ID );
+      menu->removeItem( MVIEW_IMAGEPREVIEW_ID );
+    }
   }
   
   return true;
