@@ -1031,6 +1031,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
     if ( newView->passiveMode() || m_currentView == newView )
     {
+      kdDebug(1203) << "Passive mode or already current view - return" << endl;
       // Passive view. Don't connect anything, don't change m_currentView
       // Another view will become the current view very soon
       return;
@@ -1045,13 +1046,13 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   if ( ext )
     disconnectExtension( ext );
 
+  m_currentView = newView;
   if ( !part )
   {
     createGUI( 0L );
     return;
   }
 
-  m_currentView = newView;
   ext = m_currentView->browserExtension();
 
   if ( ext )
@@ -2035,6 +2036,7 @@ void KonqMainWindow::openBookmarkURL( const QString & url )
 
 void KonqMainWindow::setCaption( const QString &caption )
 {
+  //kdDebug(1202) << "KonqMainWindow::setCaption( " << caption << ")" << endl;
   // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
   m_title = caption;
   KParts::MainWindow::setCaption( caption );
