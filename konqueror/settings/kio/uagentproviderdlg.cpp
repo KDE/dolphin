@@ -65,12 +65,14 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
 
   dlg = new UAProviderDlgUI (this);
   mainLayout->addWidget(dlg);
-
+  m_bMustDelete = false;
   init();
 }
 
 UAProviderDlg::~UAProviderDlg()
 {
+    if ( m_bMustDelete )
+        delete m_provider;
 }
 
 void UAProviderDlg::init(bool updateInfo )
@@ -89,7 +91,10 @@ void UAProviderDlg::init(bool updateInfo )
         connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
     }
   if ( !m_provider )
-    m_provider = new FakeUASProvider();
+  {
+      m_bMustDelete = true;
+      m_provider = new FakeUASProvider();
+  }
 
   dlg->cbAlias->clear();
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );

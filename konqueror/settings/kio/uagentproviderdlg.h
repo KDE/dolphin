@@ -67,5 +67,6 @@ protected:
 private:
   FakeUASProvider* m_provider;
   UAProviderDlgUI* dlg;
+    bool m_bMustDelete;
 };
 #endif
