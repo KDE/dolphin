@@ -42,6 +42,7 @@ KIVDirectoryOverlay::KIVDirectoryOverlay(KFileIVI* directory)
     if (!m_lister)
     {
         m_lister = new KDirLister;
+        m_lister->setAutoErrorHandlingEnabled(false, 0);
         connect(m_lister, SIGNAL(completed()), SLOT(slotCompleted()));
         connect(m_lister, SIGNAL(newItems( const KFileItemList& )), SLOT(slotNewItems( const KFileItemList& )));
         m_lister->setShowingDotFiles(false);
