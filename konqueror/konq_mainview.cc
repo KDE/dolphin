@@ -71,6 +71,7 @@
 #include <kprogress.h>
 #include <kio/job.h>
 #include <ktrader.h>
+#include <kuserprofile.h>
 #include <kapp.h>
 #include <dcopclient.h>
 #include <klibloader.h>
@@ -345,10 +346,17 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( !serviceType.isEmpty() )
   {
+    // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */) )
     {
-      kdDebug(1202) << QString("Creating new KRun for %1").arg(url.url()) << endl;
-      (void)new KRun( url );
+      // We know the servicetype, let's try its preferred service
+      KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType);
+      KURL::List lst;
+      lst.append(url);
+      if ( !KRun::run( *offer, lst ) )
+      {
+        (void)new KRun( url );
+      }
     }
   }
   else
@@ -1154,7 +1162,8 @@ void KonqMainView::slotGoMenuAboutToShow()
 
 void KonqMainView::slotUpActivated( int id )
 {
-  KURL u( m_currentView->view()->url() );
+  // Strip any filename
+  KURL u( m_currentView->view()->url().directory(false,false) );
   for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
       u.cd( ".." );
   openURL( 0L, u );
