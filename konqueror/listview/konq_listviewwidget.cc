@@ -305,8 +305,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
                              (tmpColumn->type & QVariant::DateTime)) )
                {
                   QDateTime dt( QDate( 2000, 10, 10 ), QTime( 20, 20, 20 ) );
-                  str = KGlobal::locale()->formatDate( dt.date(), true ) +
-                        KGlobal::locale()->formatTime( dt.time() ) + "----";
+                  str = KGlobal::locale()->formatDateTime( dt ) + "--";
                }
                else
                   str = "it_is_the_default_width";

@@ -54,7 +54,7 @@ void KonqInfoListViewItem::updateContents()
 
     // Set the text of each column
     setText(0,m_fileitem->text());
-   
+
 #if 0
    if (S_ISDIR(m_fileitem->mode()))
        sortChar='0';
@@ -103,8 +103,7 @@ void KonqInfoListViewItem::updateContents()
                if ( _time != 0 )
                {
                    dt.setTime_t( _time );
-                   setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+KGlobal::locale()->formatTime(dt.time())+" ");
-                   //setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
+                   setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
                }
             }
             break;
@@ -136,7 +135,7 @@ void KonqInfoListViewItem::gotMetaInfo()
         QString s = kfmii.string().simplifyWhiteSpace();
         setText(i, s.isNull() ? QString("") : s);
     }
-}  
+}
 
 int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending ) const
 {
@@ -161,7 +160,7 @@ int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending 
 
 #define KONQ_CASE( x ) \
     case QVariant::x:\
-        return ( value1.to##x() > value2.to##x() ) ? 1 : (  value1.to##x() == value2.to##x() ) ? 0 : -1; 
+        return ( value1.to##x() > value2.to##x() ) ? 1 : (  value1.to##x() == value2.to##x() ) ? 0 : -1;
 
     switch( type1 ) {
     KONQ_CASE( Bool )
@@ -230,7 +229,7 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
             cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(_column), *pm ) );
             QPoint o = _painter->brushOrigin();
             _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
-            const QColorGroup::ColorRole crole = 
+            const QColorGroup::ColorRole crole =
                 QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
             _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
             _painter->setBrushOrigin( o );
@@ -242,7 +241,7 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
 
         _width = newWidth;
     }
-	
+
     KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 

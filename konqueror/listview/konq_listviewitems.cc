@@ -127,8 +127,7 @@ void KonqListViewItem::updateContents()
                if ( _time != 0 )
                {
                    dt.setTime_t( _time );
-                   setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+KGlobal::locale()->formatTime(dt.time())+" ");
-                   //setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
+                   setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
                }
             }
             break;
@@ -139,8 +138,7 @@ void KonqListViewItem::updateContents()
              {
                  QDateTime dt = QDateTime::fromString( entryStr, Qt::ISODate );
                  setText(tmpColumn->displayInColumn,
-                         KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+
-                         KGlobal::locale()->formatTime(dt.time())+" ");
+                         KGlobal::locale()->formatDateTime(dt));
              }
              else // if ( tmpColumn->type == QVariant::String )
                  setText(tmpColumn->displayInColumn, entryStr);
