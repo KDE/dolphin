@@ -11,7 +11,6 @@ kdeinit_LTLIBRARIES = konqueror.la
 konqdatadir = $(kde_datadir)/konqueror
 konqdata_DATA = konqueror.rc konq-simplebrowser.rc
 
-kde_services_DATA = konqueror_config.desktop
 kde_apps_DATA = konqueror.desktop
 
 # servicetypedir = $(kde_servicetypesdir)

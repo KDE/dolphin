@@ -45,6 +45,7 @@ class KAction;
 class KActionCollection;
 class KActionMenu;
 class KBookmarkMenu;
+class KCMultiDialog;
 class KHistoryCombo;
 class KNewMenu;
 class KProgress;
@@ -679,6 +680,18 @@ private:
   KonqRun *m_initialKonqRun;
 
   QString m_title;
+
+  /**
+   * @since 3.4
+   */
+  KCMultiDialog* m_configureDialog;
+
+  /**
+   * A list of the modules to be shown in 
+   * the configure dialog.
+   * @since 3.4
+   */
+  QStringList m_configureModules;
 
   QLabel* m_locationLabel;
   QGuardedPtr<KonqCombo> m_combo;

@@ -70,6 +70,7 @@
 #include <kaboutdata.h>
 #include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
+#include <kcmultidialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
@@ -163,6 +164,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paBookmarkBar = 0L;
   m_pURLCompletion = 0L;
   m_goBuffer = 0;
+  m_configureDialog = 0L;
 
   m_bViewModeToggled = false;
 
@@ -333,6 +335,8 @@ KonqMainWindow::~KonqMainWindow()
       s_comboConfig = 0L;
   }
 
+  delete m_configureDialog;
+  m_configureDialog = 0L;
   delete m_dcopObject;
   m_dcopObject = 0L;
   delete m_combo;
@@ -1816,17 +1820,7 @@ void KonqMainWindow::slotGoAutostart()
 
 QStringList KonqMainWindow::configModules() const
 {
-  QStringList args;
-  args << "kde-filebehavior.desktop" << "kde-fileappearance.desktop" <<
-          "kde-filepreviews.desktop" << "kde-filetypes.desktop" <<
-          "kde-khtml_behavior.desktop" << "kde-khtml_java_js.desktop" <<
-          "kde-khtml_fonts.desktop" << "kde-ebrowsing.desktop" <<
-          "kde-kcmhistory.desktop" << "kde-cookies.desktop" <<
-          "kde-cache.desktop" << "kde-proxy.desktop" << "kde-kcmcss.desktop" <<
-          "kde-crypto.desktop" << "kde-useragent.desktop" <<
-          "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
-
-  return args;
+    return m_configureModules;
 }
 
 void KonqMainWindow::slotConfigureExtensions()
@@ -1837,7 +1831,21 @@ void KonqMainWindow::slotConfigureExtensions()
 
 void KonqMainWindow::slotConfigure()
 {
-  KApplication::startServiceByDesktopName("konqueror_config");
+    if( !m_configureDialog )
+    {
+        m_configureDialog = new KCMultiDialog( this, "configureDialog" );
+
+        QStringList modules = configModules();
+        QStringList::ConstIterator end( modules.end() );
+
+        for( QStringList::ConstIterator it = modules.begin();
+                it != end; ++it )
+            m_configureDialog->addModule( *it );
+
+    }
+    
+    m_configureDialog->show();
+
 }
 
 void KonqMainWindow::slotConfigureSpellChecking()
@@ -3582,6 +3590,17 @@ void KonqMainWindow::initActions()
   m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved in &Folder" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Folder Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
+
+
+  m_configureModules << "kde-filebehavior.desktop" << "kde-fileappearance.desktop" <<
+      "kde-filepreviews.desktop" << "kde-filetypes.desktop" <<
+      "kde-khtml_behavior.desktop" << "kde-khtml_java_js.desktop" <<
+      "kde-khtml_fonts.desktop" << "kde-ebrowsing.desktop" <<
+      "kde-kcmhistory.desktop" << "kde-cookies.desktop" <<
+      "kde-cache.desktop" << "kde-proxy.desktop" << "kde-kcmcss.desktop" <<
+      "kde-crypto.desktop" << "kde-useragent.desktop" <<
+      "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
+
 
   if (!kapp->authorizeControlModules(configModules()).isEmpty())
      KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
