@@ -115,7 +115,7 @@ QString KonqAboutPageFactory::intro()
           .arg( i18n( "<I>Tuning Tip:</I> If you want the Konqueror web browser to start faster,"
 			" you can turn off this information screen by clicking <A HREF=\"%1\">here</A>. You can re-enable it"
 			" by choosing the Help -> Konqueror Introduction menu option, and then pressing "
-			"Window -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
+			"Settings -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
           .arg( i18n( "Continue" ) )
           ;
 
