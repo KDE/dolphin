@@ -843,10 +843,10 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
       KMessageBox::information( 0, i18n("You must take the file out of the trash before being able to use it.") );
 }
 
-void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *, const QPoint &point, int )
+void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *, const QPoint &point, int c )
 {
    kdDebug(1202) << "KonqBaseListViewWidget::slotPopupMenu" << endl;
-   popupMenu( point, false );
+   popupMenu( point, c == -1 ); //  c == -1 when activated by keyboard
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
