@@ -479,40 +479,46 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
   m_bDrag = false;
 }
 
-void KonqDirTree::slotNewItem( KFileItem *item )
+void KonqDirTree::slotNewItems( const KFileItemList& entries )
 {
-  assert( S_ISDIR( item->mode() ) );
-
-  KDirLister *lister = (KDirLister *)sender();
-
-  TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
-
-  assert( topLevelItem.m_item );
-
-  KURL dir( item->url() );
-  dir.setFileName( "" );
-
-  //  KonqDirTreeItem *parentDir = findDir( *topLevelItem.m_mapSubDirs, dir.url( 0 ) );
-  //  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->find( dir );
-  // *mumble* can't use QMap::find() because the cmp doesn't ingore the trailing slash :-(
-  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->begin();
-  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
-  for (; dirIt != dirEnd; ++dirIt )
+  QListIterator<KFileItem> kit ( entries );
+  for( ; kit.current(); ++kit )
   {
-  //    qDebug( "comparing %s with %s", dirIt.key().url().ascii(), dir.url().ascii() );
-    if ( dir.cmp( dirIt.key(), true ) )
-      break;
+    KFileItem * item = *kit;
+
+    assert( S_ISDIR( item->mode() ) );
+
+    KDirLister *lister = (KDirLister *)sender();
+
+    TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
+
+    assert( topLevelItem.m_item );
+
+    KURL dir( item->url() );
+    dir.setFileName( "" );
+
+    //  KonqDirTreeItem *parentDir = findDir( *topLevelItem.m_mapSubDirs, dir.url( 0 ) );
+    //  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->find( dir );
+    // *mumble* can't use QMap::find() because the cmp doesn't ingore the trailing slash :-(
+    QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->begin();
+    QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
+    for (; dirIt != dirEnd; ++dirIt )
+    {
+      //    qDebug( "comparing %s with %s", dirIt.key().url().ascii(), dir.url().ascii() );
+      if ( dir.cmp( dirIt.key(), true ) )
+        break;
+    }
+
+    assert( dirIt != topLevelItem.m_mapSubDirs->end() );
+
+    KonqDirTreeItem *parentDir = dirIt.data();
+
+    assert( parentDir );
+
+    KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( this, parentDir, topLevelItem.m_item, item );
+    dirTreeItem->setPixmap( 0, m_folderPixmap );
+    dirTreeItem->setText( 0, item->url().filename() );
   }
-
-  assert( dirIt != topLevelItem.m_mapSubDirs->end() );
-
-  KonqDirTreeItem *parentDir = dirIt.data();
-
-  assert( parentDir );
-
-  KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( this, parentDir, topLevelItem.m_item, item );
-  dirTreeItem->setPixmap( 0, m_folderPixmap );
-  dirTreeItem->setText( 0, item->url().filename() );
 }
 
 void KonqDirTree::slotDeleteItem( KFileItem *item )
@@ -800,8 +806,8 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   KDirLister *dirLister = new KDirLister( true );
   dirLister->setDirOnlyMode( true );
 
-  connect( dirLister, SIGNAL( newItem( KFileItem * ) ),
-	   this, SLOT( slotNewItem( KFileItem * ) ) );
+  connect( dirLister, SIGNAL( newItem( const KFileItemList & ) ),
+	   this, SLOT( slotNewItem( const KFileItemList & ) ) );
   connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 	   this, SLOT( slotDeleteItem( KFileItem * ) ) );
   connect( dirLister, SIGNAL( completed() ),

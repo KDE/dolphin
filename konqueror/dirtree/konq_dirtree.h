@@ -110,7 +110,7 @@ protected:
   virtual void contentsMouseReleaseEvent( QMouseEvent *e );
 
 private slots:
-  void slotNewItem( KFileItem *item );
+  void slotNewItems( const KFileItemList & );
   void slotDeleteItem( KFileItem *item );
 
   void slotDoubleClicked( QListViewItem *item );
