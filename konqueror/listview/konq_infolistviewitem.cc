@@ -127,7 +127,7 @@ void KonqInfoListViewItem::gotMetaInfo()
     {
         KFileMetaInfoItem kfmii = info.item(*it);
         if (!kfmii.isValid()) continue;
-        QString s = kfmii.string();
+        QString s = kfmii.string().simplifyWhiteSpace();
         if (!s.isEmpty()) setText(i, s); else setText(i, "");
     }
 }  
@@ -150,7 +150,7 @@ QString KonqInfoListViewItem::key( int _column, bool asc ) const
 
    KonqBaseListViewWidget* lv = static_cast<KonqBaseListViewWidget *>( listView() );
    //check if it is a time or size column
-   for (unsigned int i=0; i<lv->NumberOfAtoms; i++)
+   for (int i = 0; i < lv->NumberOfAtoms; i++)
    {
      ColumnInfo *cInfo=&lv->columnConfigInfo()[i];
      if (_column==cInfo->displayInColumn)
