@@ -358,6 +358,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bLoading = true;
     m_bNeedAlign = false;
     m_bNeedEmitCompleted = false;
+    m_bUpdateContentsPosAfterListing = false;
     m_pIconView->setResizeMode( QIconView::Adjust );
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
