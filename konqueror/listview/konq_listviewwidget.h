@@ -171,6 +171,8 @@ class KonqBaseListViewWidget : public KListView
       virtual void viewportMousePressEvent( QMouseEvent *_ev );
       virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
       virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
+      virtual void viewportMouseDoubleClickEvent( QMouseEvent *_ev );
+      
       //virtual void keyPressEvent( QKeyEvent *_ev );
 
       /** Common method for slotCompleted and slotCanceled */

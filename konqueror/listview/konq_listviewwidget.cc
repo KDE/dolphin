@@ -24,6 +24,7 @@
 
 #include <qdragobject.h>
 #include <qheader.h>
+#include <qcursor.h>
 
 #include <kcursor.h>
 #include <kdebug.h>
@@ -449,6 +450,14 @@ void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
   }
 }
 
+void KonqBaseListViewWidget::viewportMouseDoubleClickEvent( QMouseEvent *_ev)
+{
+   kdDebug(1202)<<"viewportMouseDoubleClickEvent"<<endl;
+   //this one adjusts m_pressedItem
+   viewportMousePressEvent(_ev);
+   KListView::viewportMouseDoubleClickEvent(_ev);
+}
+
 void KonqBaseListViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 {
    KListView::viewportMouseReleaseEvent( _mouse );
@@ -555,9 +564,12 @@ void KonqBaseListViewWidget::slotOnViewport()
 
 void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
 {
-  //if ( isSingleClickArea( _mouse->pos() ) )
+  //isSingleClickArea() checks wether the mouse pointer is
+  // over an area where an action should be triggered
+  // no matter wether single or double click
+  if ( isSingleClickArea( mapFromGlobal(QCursor::pos())))
+ 
   {
-
     if ( m_pressedItem->isExpandable() )
       m_pressedItem->setOpen( !m_pressedItem->isOpen() );
     slotReturnPressed( m_pressedItem );
