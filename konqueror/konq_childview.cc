@@ -53,7 +53,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_bLockHistory = false;
   m_pMainView = mainView;
   m_pRun = 0L;
-  m_pView = 0L;
+  m_pPart = 0L;
 
   m_service = service;
   m_partServiceOffers = partServiceOffers;
@@ -75,9 +75,9 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 
 KonqChildView::~KonqChildView()
 {
-  //kdDebug(1202) << "KonqChildView::~KonqChildView : part = " << m_pView << endl;
+  //kdDebug(1202) << "KonqChildView::~KonqChildView : part = " << m_pPart << endl;
 
-  delete m_pView;
+  delete m_pPart;
   delete (KonqRun *)m_pRun;
   //kdDebug(1202) << "KonqChildView::~KonqChildView " << this << " done" << endl;
 }
@@ -110,7 +110,7 @@ void KonqChildView::openURL( const KURL &url )
       m_bLockHistory = false;
 
   KParts::BrowserExtension *ext = browserExtension();
-  if ( m_bAborted && ext && m_pView && m_pView->url() == url )
+  if ( m_bAborted && ext && m_pPart && m_pPart->url() == url )
   {
     KParts::URLArgs args = ext->urlArgs();
     args.reload = true;
@@ -119,7 +119,7 @@ void KonqChildView::openURL( const KURL &url )
 
   m_bAborted = false;
 
-  m_pView->openURL( url );
+  m_pPart->openURL( url );
 
   sendOpenURLEvent( url );
 
@@ -135,18 +135,18 @@ void KonqChildView::openURL( const KURL &url )
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
 {
   kdDebug(1202) << "KonqChildView::switchView" << endl;
-  if ( m_pView )
-    m_pView->widget()->hide();
+  if ( m_pPart )
+    m_pPart->widget()->hide();
 
-  KParts::ReadOnlyPart *oldView = m_pView;
-  m_pView = m_pKonqFrame->attach( viewFactory );
+  KParts::ReadOnlyPart *oldView = m_pPart;
+  m_pPart = m_pKonqFrame->attach( viewFactory );
 
   // uncomment if you want to use metaviews (Simon)
   // initMetaView();
 
   if ( oldView )
   {
-    emit sigViewChanged( this, oldView, m_pView );
+    emit sigViewChanged( this, oldView, m_pPart );
 
     delete oldView;
     //    closeMetaView(); I think this is not needed (Simon)
@@ -246,11 +246,11 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 void KonqChildView::connectView(  )
 {
   //kdDebug(1202) << "KonqChildView::connectView" << endl;
-  connect( m_pView, SIGNAL( started( KIO::Job * ) ),
+  connect( m_pPart, SIGNAL( started( KIO::Job * ) ),
            this, SLOT( slotStarted( KIO::Job * ) ) );
-  connect( m_pView, SIGNAL( completed() ),
+  connect( m_pPart, SIGNAL( completed() ),
            this, SLOT( slotCompleted() ) );
-  connect( m_pView, SIGNAL( canceled( const QString & ) ),
+  connect( m_pPart, SIGNAL( canceled( const QString & ) ),
            this, SLOT( slotCanceled( const QString & ) ) );
 
   KParts::BrowserExtension *ext = browserExtension();
@@ -347,7 +347,7 @@ void KonqChildView::slotCanceled( const QString & )
 
 void KonqChildView::slotSelectionInfo( const KFileItemList &items )
 {
-  KonqFileSelectionEvent ev( items, m_pView );
+  KonqFileSelectionEvent ev( items, m_pPart );
   QApplication::sendEvent( m_pMainView, &ev );
 }
 
@@ -410,7 +410,7 @@ void KonqChildView::updateHistoryEntry()
     browserExtension()->saveState( stream );
   }
 
-  current->url = m_pView->url();
+  current->url = m_pPart->url();
   //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
   current->locationBarURL = m_sLocationBarURL;
   current->strServiceType = m_serviceType;
@@ -458,7 +458,7 @@ void KonqChildView::go( int steps )
     browserExtension()->restoreState( stream );
   }
   else
-    m_pView->openURL( h.url );
+    m_pPart->openURL( h.url );
 
   sendOpenURLEvent( h.url );
 
@@ -473,8 +473,8 @@ void KonqChildView::go( int steps )
 
 KURL KonqChildView::url()
 {
-  assert( m_pView );
-  return m_pView->url();
+  assert( m_pPart );
+  return m_pPart->url();
 }
 
 void KonqChildView::setRun( KonqRun * run )
@@ -487,7 +487,7 @@ void KonqChildView::stop()
   m_bAborted = false;
   if ( m_bLoading )
   {
-    m_pView->closeURL();
+    m_pPart->closeURL();
     m_bAborted = true;
   }
   else if ( m_pRun )
@@ -510,7 +510,7 @@ void KonqChildView::reload()
     browserExtension()->setURLArgs( args );
   }
 
-  m_pView->openURL( m_pView->url() );
+  m_pPart->openURL( m_pPart->url() );
 
   // update metaview? (Simon)
 }
@@ -520,7 +520,7 @@ void KonqChildView::setPassiveMode( bool mode )
   m_bPassiveMode = mode;
 
   if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
-    m_pMainView->viewManager()->setActivePart( m_pMainView->viewManager()->chooseNextView( this )->view() );
+    m_pMainView->viewManager()->setActivePart( m_pMainView->viewManager()->chooseNextView( this )->part() );
 
   // Update statusbar stuff
   m_pMainView->viewManager()->viewCountChanged();
@@ -534,7 +534,7 @@ void KonqChildView::setLinkedView( bool mode )
 
 void KonqChildView::sendOpenURLEvent( const KURL &url )
 {
-  KParts::OpenURLEvent ev( m_pView, url );
+  KParts::OpenURLEvent ev( m_pPart, url );
   QApplication::sendEvent( m_pMainView, &ev );
 }
 
@@ -567,9 +567,9 @@ void KonqChildView::initMetaView()
   if ( embedInFrameProp.isValid() )
     embedInFrame = embedInFrameProp.toBool();
 
-  if ( embedInFrame && m_pView->widget()->inherits( "QFrame" ) )
+  if ( embedInFrame && m_pPart->widget()->inherits( "QFrame" ) )
   {
-    QFrame *frame = static_cast<QFrame *>( m_pView->widget() );
+    QFrame *frame = static_cast<QFrame *>( m_pPart->widget() );
     framePropMap.insert( "frameShape", frame->property( "frameShape" ) );
     framePropMap.insert( "frameShadow", frame->property( "frameShadow" ) );
     framePropMap.insert( "lineWidth", frame->property( "lineWidth" ) );
@@ -581,7 +581,7 @@ void KonqChildView::initMetaView()
 
   KParts::Factory *factory = static_cast<KParts::Factory *>( libFactory );
 
-  KParts::Part *part = factory->createPart( m_pKonqFrame->metaViewFrame(), "metaviewwidget", m_pView, "metaviewpart", "KParts::ReadOnlyPart" );
+  KParts::Part *part = factory->createPart( m_pKonqFrame->metaViewFrame(), "metaviewwidget", m_pPart, "metaviewpart", "KParts::ReadOnlyPart" );
 
   if ( !part )
    return;
@@ -592,7 +592,7 @@ void KonqChildView::initMetaView()
 
   m_metaView->widget()->show();
 
-  m_pView->insertChildClient( m_metaView );
+  m_pPart->insertChildClient( m_metaView );
 }
 
 void KonqChildView::closeMetaView()
@@ -616,7 +616,7 @@ void KonqChildView::setServiceTypeInExtension()
 
 QStringList KonqChildView::frameNames() const
 {
-  return childFrameNames( m_pView );
+  return childFrameNames( m_pPart );
 }
 
 QStringList KonqChildView::childFrameNames( KParts::ReadOnlyPart *part )
@@ -662,7 +662,7 @@ KParts::BrowserHostExtension *KonqChildView::hostExtension( KParts::ReadOnlyPart
 
 void KonqChildView::callExtensionMethod( const char *methodName )
 {
-  QObject *obj = m_pView->child( 0L, "KParts::BrowserExtension" );
+  QObject *obj = m_pPart->child( 0L, "KParts::BrowserExtension" );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
     return;
@@ -674,7 +674,7 @@ void KonqChildView::callExtensionMethod( const char *methodName )
 
 void KonqChildView::callExtensionBoolMethod( const char *methodName, bool value )
 {
-  QObject *obj = m_pView->child( 0L, "KParts::BrowserExtension" );
+  QObject *obj = m_pPart->child( 0L, "KParts::BrowserExtension" );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
     return;

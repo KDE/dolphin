@@ -202,16 +202,16 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
 void KonqViewManager::removeView( KonqChildView *view )
 {
   //kdDebug(1202) << "---------------- removeView" << view << endl;
-  if ( activePart() == view->view() )
+  if ( activePart() == view->part() )
   {
     KonqChildView *nextView = chooseNextView( view );
     // Don't remove the last view
     if ( nextView == 0L )
       return;
     // Ensure this is not the active view anymore
-    //kdDebug(1202) << "Setting part " << nextView->view() << " as active" << endl;
-    nextView->view()->widget()->setFocus(); // hack ?
-    setActivePart( nextView->view() );
+    //kdDebug(1202) << "Setting part " << nextView->part() << " as active" << endl;
+    nextView->part()->widget()->setFocus(); // hack ?
+    setActivePart( nextView->part() );
   }
 
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
@@ -334,7 +334,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   loadItem( cfg, m_pMainContainer, rootItem );
 
   KonqChildView *nextChildView = chooseNextView( 0L );
-  setActivePart( nextChildView ? nextChildView->view() : 0L ); 
+  setActivePart( nextChildView ? nextChildView->part() : 0L );
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
   printFullHierarchy( m_pMainContainer );
@@ -459,7 +459,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
   KonqMainView::MapViews::Iterator it = mapViews.begin();
   KonqMainView::MapViews::Iterator end = mapViews.end();
-  if ( view ) // find it in the map - can't use the key since view->view() might be 0L
+  if ( view ) // find it in the map - can't use the key since view->part() might be 0L
       while ( it != end && it.data() != view )
           ++it;
 
@@ -575,7 +575,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   newViewFrame->show();
 
-  addPart( v->view(), false );
+  addPart( v->part(), false );
 
   kdDebug(1202) << "KonqViewManager::setupView done" << endl;
   return v;
@@ -654,7 +654,7 @@ void KonqViewManager::printFullHierarchy( KonqFrameContainer * container, int id
             printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
         else
             kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing a "
-                          << static_cast<KonqFrame *>(child)->view()->widget()->className() << endl;
+                          << static_cast<KonqFrame *>(child)->part()->widget()->className() << endl;
         child = container->secondChild();
         if ( !child )
             kdDebug(1202) << spaces << "  Null child ! " << endl;
@@ -662,7 +662,7 @@ void KonqViewManager::printFullHierarchy( KonqFrameContainer * container, int id
             printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
         else
             kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing a "
-                          << static_cast<KonqFrame *>(child)->view()->widget()->className() << endl;
+                          << static_cast<KonqFrame *>(child)->part()->widget()->className() << endl;
     }
     else
         kdDebug(1202) << "Null container ?!?!" << endl;

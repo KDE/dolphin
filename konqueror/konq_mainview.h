@@ -172,7 +172,7 @@ public:
   const MapViews & viewMap() const { return m_mapViews; }
 
   KonqChildView *currentChildView() const { return m_currentView; }
-  KParts::ReadOnlyPart *currentView();
+  KParts::ReadOnlyPart *currentPart();
 
   virtual void customEvent( QCustomEvent *event );
 

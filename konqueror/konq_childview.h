@@ -156,18 +156,17 @@ public:
   const QString locationBarURL() { return m_sLocationBarURL; }
 
   /**
-   * Get view object (should never be needed, except for IDL methods
-   * like activeView() and viewList())
+   * @return the part embedded into this view
    */
-  KParts::ReadOnlyPart *view() const { return m_pView; }
+  KParts::ReadOnlyPart *part() const { return m_pPart; }
 
   /**
    * see KonqViewManager::removePart
    */
-  void partDeleted() { m_pView = 0L; }
+  void partDeleted() { m_pPart = 0L; }
 
   KParts::BrowserExtension *browserExtension() {
-      return m_pView ? static_cast<KParts::BrowserExtension *>(m_pView->child( 0L, "KParts::BrowserExtension" )) : 0L ;
+      return m_pPart ? static_cast<KParts::BrowserExtension *>(m_pPart->child( 0L, "KParts::BrowserExtension" )) : 0L ;
   }
 
   /**
@@ -280,7 +279,7 @@ protected:
 
 ////////////////// protected members ///////////////
 
-  KParts::ReadOnlyPart *m_pView;
+  KParts::ReadOnlyPart *m_pPart;
 
   QString m_sLocationBarURL;
 

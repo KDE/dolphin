@@ -406,7 +406,7 @@ void KonqMainView::openURL( KonqChildView *childView, const KURL &url, const KPa
     return;
   }
 
-  if ( !args.reload && urlcmp( url.url(), childView->view()->url().url(), true, true ) )
+  if ( !args.reload && urlcmp( url.url(), childView->url().url(), true, true ) )
   {
     QString serviceType = args.serviceType;
     if ( serviceType.isEmpty() )
@@ -427,7 +427,7 @@ void KonqMainView::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &
 
 void KonqMainView::slotNewWindow()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( m_currentView->view()->url().url() );
+  KonqFileManager::getFileManager()->openFileManagerWindow( m_currentView->url() );
 }
 
 void KonqMainView::slotRun()
@@ -492,7 +492,7 @@ void KonqMainView::slotToolFind()
 void KonqMainView::slotOpenWith()
 {
   KURL::List lst;
-  lst.append( m_currentView->view()->url() );
+  lst.append( m_currentView->url() );
 
   QString serviceName = sender()->name();
 
@@ -877,7 +877,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
       enableAllActions( true );
 
-      newView->view()->widget()->setFocus();
+      newView->part()->widget()->setFocus();
 
       newView->setLocationBarURL( originalURL );
       newView->setViewName( m_initialFrameName );
@@ -997,7 +997,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
 void KonqMainView::insertChildView( KonqChildView *childView )
 {
-  m_mapViews.insert( childView->view(), childView );
+  m_mapViews.insert( childView->part(), childView );
 
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
@@ -1010,7 +1010,7 @@ void KonqMainView::removeChildView( KonqChildView *childView )
 {
   MapViews::Iterator it = m_mapViews.begin();
   MapViews::Iterator end = m_mapViews.end();
-  // find it in the map - can't use the key since childView->view() might be 0L
+  // find it in the map - can't use the key since childView->part() might be 0L
   while ( it != end && it.data() != childView )
       ++it;
   if ( it == m_mapViews.end() )
@@ -1057,7 +1057,7 @@ KonqChildView *KonqMainView::childView( const QString &name, KParts::BrowserHost
     if ( it.data()->frameNames().contains( name ) )
     {
       if ( hostExtension )
-        *hostExtension = KonqChildView::hostExtension( it.data()->view(), name );
+        *hostExtension = KonqChildView::hostExtension( it.data()->part(), name );
       return it.data();
     }
   }
@@ -1097,10 +1097,11 @@ int KonqMainView::activeViewsCount() const
   return res;
 }
 
-KParts::ReadOnlyPart *KonqMainView::currentView()
+KParts::ReadOnlyPart *KonqMainView::currentPart()
 {
+  /// ### This is currently unused. Check in the final version (!) if still unused.
   if ( m_currentView )
-    return m_currentView->view();
+    return m_currentView->part();
   else
     return 0L;
 }
@@ -1123,7 +1124,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
     MapViews::ConstIterator it = m_mapViews.begin();
     MapViews::ConstIterator end = m_mapViews.end();
     for (; it != end; ++it )
-      QApplication::sendEvent( (*it)->view(), event );
+      QApplication::sendEvent( (*it)->part(), event );
     return;
   }
   if ( KParts::OpenURLEvent::test( event ) )
@@ -1525,7 +1526,7 @@ void KonqMainView::slotFullScreenStart()
 
   /* Doesn't work
   widget->setMouseTracking( TRUE ); // for autoselect stuff
-  QWidget * viewWidget = widget->view()->widget();
+  QWidget * viewWidget = widget->part()->widget();
   viewWidget->setMouseTracking( TRUE ); // for autoselect stuff
   if ( viewWidget->inherits("QScrollView") )
     ((QScrollView *) viewWidget)->viewport()->setMouseTracking( TRUE );
@@ -1973,7 +1974,7 @@ void KonqMainView::setCaption( const QString &caption )
 QString KonqMainView::currentURL() const
 {
   assert( m_currentView );
-  return m_currentView->view()->url().url();
+  return m_currentView->url().url();
 }
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
@@ -2009,7 +2010,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
       connectExtension( m_currentView->browserExtension() );
   }
 
-  kdDebug(1202) << "KonqMainView::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->view()->className() << endl;
+  kdDebug(1202) << "KonqMainView::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
 
   KActionCollection popupMenuCollection;
   popupMenuCollection.insert( m_paBack );

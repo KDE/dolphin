@@ -284,9 +284,9 @@ KonqFrame::~KonqFrame()
   //delete m_pLayout;
 }
 
-KParts::ReadOnlyPart * KonqFrame::view()
+KParts::ReadOnlyPart * KonqFrame::part()
 {
-  return m_pView;
+  return m_pPart;
 }
 
 bool KonqFrame::isActivePart()
@@ -318,17 +318,17 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    // because we already have that taken care of in KParts...
 
 #ifdef METAVIEWS
-   m_pView = factory.create( m_metaViewFrame, "childview widget", 0, "child view" );
+   m_pPart = factory.create( m_metaViewFrame, "childview widget", 0, "child view" );
 #else
-   m_pView = factory.create( this, "childview widget", 0, "child view" );
+   m_pPart = factory.create( this, "childview widget", 0, "child view" );
 #endif
 
-   assert( m_pView->widget() );
+   assert( m_pPart->widget() );
 
    attachInternal();
 
-   m_pStatusBar->slotConnectToNewView(0, 0,m_pView);
-   return m_pView;
+   m_pStatusBar->slotConnectToNewView(0, 0,m_pPart);
+   return m_pPart;
 }
 
 void KonqFrame::attachInternal()
@@ -347,15 +347,15 @@ void KonqFrame::attachInternal()
 
    m_metaViewLayout = new QVBoxLayout( m_metaViewFrame );
    m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
-   m_metaViewLayout->addWidget( m_pView->widget() );
+   m_metaViewLayout->addWidget( m_pPart->widget() );
 
    m_pLayout->addWidget( m_metaViewFrame );
 #else
-   m_pLayout->addWidget( m_pView->widget() );
+   m_pLayout->addWidget( m_pPart->widget() );
 #endif
 
    m_pLayout->addWidget( m_pStatusBar );
-   m_pView->widget()->show();
+   m_pPart->widget()->show();
    if ( m_pChildView->mainView()->fullScreenMode() )
      m_pChildView->mainView()->attachToolbars( this );
    else
@@ -391,7 +391,7 @@ void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 void KonqFrame::slotStatusBarClicked()
 {
   if ( !isActivePart() )
-     m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
+     m_pChildView->mainView()->viewManager()->setActivePart( m_pPart );
 }
 
 void KonqFrame::slotLinkedViewClicked( bool mode )

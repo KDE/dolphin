@@ -257,7 +257,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     // If not passive, set as active :)
     if (!childView->passiveMode())
       //viewManager->setActivePart( view );
-      childView->view()->widget()->setFocus();
+      childView->part()->widget()->setFocus();
 
   }
   else
@@ -301,7 +301,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
 
   if ( action )
     static_cast<KToggleAction *>( action )->setChecked( true );
-  
+
   saveConfig( true, name );
 }
 
@@ -313,7 +313,7 @@ void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
 
   if ( action )
     static_cast<KToggleAction *>( action )->setChecked( false );
-  
+
   saveConfig( false, name );
 }
 

@@ -177,9 +177,9 @@ public:
   void attachInternal();
 
   /**
-   * Returns the view that is currently connected to the Frame.
+   * Returns the part that is currently connected to the Frame.
    */
-  KParts::ReadOnlyPart *view( void );
+  KParts::ReadOnlyPart *part();
 
   bool isActivePart();
 
@@ -223,7 +223,7 @@ protected:
   QVBoxLayout *m_pLayout;
   QGuardedPtr<KonqChildView> m_pChildView;
 
-  QGuardedPtr<KParts::ReadOnlyPart> m_pView;
+  QGuardedPtr<KParts::ReadOnlyPart> m_pPart;
 
   KSeparator *m_separator;
   KonqFrameStatusBar* m_pStatusBar;
