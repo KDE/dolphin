@@ -45,40 +45,40 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url, bool _determineMimeTy
   m_pMimeType( 0 ),
   m_bMarked( false )
 {
-  // extract the mode and the filename from the UDS Entry
+  // extract the mode and the filename from the KIO::UDS Entry
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
   switch ((*it).m_uds) {
 
-    case UDS_FILE_TYPE:
+    case KIO::UDS_FILE_TYPE:
       m_fileMode = (mode_t)((*it).m_long);
       break;
 
-    case UDS_ACCESS:
+    case KIO::UDS_ACCESS:
       m_permissions = (mode_t)((*it).m_long);
       break;
 
-    case UDS_USER:
+    case KIO::UDS_USER:
       m_user = ((*it).m_str);
       break;
 
-    case UDS_GROUP:
+    case KIO::UDS_GROUP:
       m_group = ((*it).m_str);
       break;
 
-    case UDS_NAME:
+    case KIO::UDS_NAME:
       m_strText = decodeFileName( (*it).m_str );
       break;
 
-    case UDS_URL:
+    case KIO::UDS_URL:
       m_url = KURL((*it).m_str);
       break;
 
-    case UDS_MIME_TYPE:
+    case KIO::UDS_MIME_TYPE:
       m_pMimeType = KMimeType::mimeType((*it).m_str);
       break;
 
-    case UDS_LINK_DEST:
+    case KIO::UDS_LINK_DEST:
       m_bLink = !(*it).m_str.isEmpty(); // we don't store the link dest
       break;
   }
@@ -267,7 +267,7 @@ QString KFileItem::getStatusBarInfo()
 {
   QString comment = determineMimeType()->comment( m_url, false );
   QString text = m_strText;
-  // Extract from the UDSEntry the additional info we didn't get previously
+  // Extract from the KIO::UDSEntry the additional info we didn't get previously
   QString myLinkDest = linkDest();
   long mySize = size();
 
@@ -312,12 +312,12 @@ QString KFileItem::getStatusBarInfo()
 
 QString KFileItem::linkDest() const
 {
-  // Extract it from the UDSEntry
+  // Extract it from the KIO::UDSEntry
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
-    if ( (*it).m_uds == UDS_LINK_DEST )
+    if ( (*it).m_uds == KIO::UDS_LINK_DEST )
       return (*it).m_str;
-  // If not in the UDSEntry, or if UDSEntry empty, use readlink() [if local URL]
+  // If not in the KIO::UDSEntry, or if UDSEntry empty, use readlink() [if local URL]
   if ( m_bIsLocalURL )
   {
     char buf[1000];
@@ -333,12 +333,12 @@ QString KFileItem::linkDest() const
 
 long KFileItem::size() const
 {
-  // Extract it from the UDSEntry
+  // Extract it from the KIO::UDSEntry
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
-    if ( (*it).m_uds == UDS_SIZE )
+    if ( (*it).m_uds == KIO::UDS_SIZE )
       return (*it).m_long;
-  // If not in the UDSEntry, or if UDSEntry empty, use stat() [if local URL]
+  // If not in the KIO::UDSEntry, or if UDSEntry empty, use stat() [if local URL]
   if ( m_bIsLocalURL )
   {
     struct stat buf;
@@ -350,19 +350,19 @@ long KFileItem::size() const
 
 QString KFileItem::time( unsigned int which ) const
 {
-  // Extract it from the UDSEntry
+  // Extract it from the KIO::UDSEntry
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == which )
       return makeTimeString( (time_t)((*it).m_long) );
-  // If not in the UDSEntry, or if UDSEntry empty, use stat() [if local URL]
+  // If not in the KIO::UDSEntry, or if UDSEntry empty, use stat() [if local URL]
   if ( m_bIsLocalURL )
   {
     struct stat buf;
     stat( m_url.path( -1 ), &buf );
-    time_t t = (which == UDS_MODIFICATION_TIME) ? buf.st_mtime :
-               (which == UDS_ACCESS_TIME) ? buf.st_atime :
-               (which == UDS_CREATION_TIME) ? buf.st_ctime : (time_t) 0;
+    time_t t = (which == KIO::UDS_MODIFICATION_TIME) ? buf.st_mtime :
+               (which == KIO::UDS_ACCESS_TIME) ? buf.st_atime :
+               (which == KIO::UDS_CREATION_TIME) ? buf.st_ctime : (time_t) 0;
     return makeTimeString( t );
   }
   return QString::null;
