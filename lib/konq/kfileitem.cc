@@ -99,7 +99,7 @@ KFileItem::KFileItem( mode_t _mode, const KURL& _url, bool _determineMimeTypeOnD
   init( _determineMimeTypeOnDemand );
 }
 
-void KFileItem::init( bool findMimeType )
+void KFileItem::init( bool _determineMimeTypeOnDemand )
 {
   // determine mode and/or permissions if unknown
   if ( m_fileMode == (mode_t) -1 || m_permissions == (mode_t) -1 )
@@ -132,7 +132,7 @@ void KFileItem::init( bool findMimeType )
   }
 
   // determine the mimetype
-  if (!m_pMimeType && !findMimeType )
+  if (!m_pMimeType && !_determineMimeTypeOnDemand )
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
 
   //  assert (m_pMimeType);

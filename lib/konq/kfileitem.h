@@ -210,7 +210,7 @@ protected:
    * Computes the text, mode, and mimetype from the UDSEntry
    * Called by constructor, but can be called again later
    */
-  void init( bool findMimeType );
+  void init( bool _determineMimeTypeOnDemand );
 
   /**
    * We keep a copy of the UDSEntry since we need it for @ref #getStatusBarInfo
