@@ -1330,6 +1330,8 @@ void KonqMainView::slotSaveViewProfile()
   KLineEditDlg *dlg = new KLineEditDlg( i18n( "Enter Name for Profile" ),
                                        QString::null, this, false );
   
+  dlg->setFocusPolicy( QWidget::StrongFocus );
+  
   if ( dlg->exec() && !dlg->text().isEmpty() )
   {
     QString fileName = locateLocal( "data", 
@@ -1637,7 +1639,14 @@ void KonqMainView::splitView ( Orientation orientation )
   Browser::View_var vView;
   QStringList serviceTypes;
   
-  if ( !KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
+  //HACK
+  if ( m_currentView->viewName() == "KonquerorKfmTreeView" )
+  {
+    serviceTypes.clear();
+    serviceTypes.append( serviceType );
+    vView = Browser::View::_duplicate( new KonqKfmTreeView( this ) );
+  }
+  else if ( !KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
     return; //do not split the view at all if we can't clone the current view
 
   m_pViewManager->insertView( orientation, vView, serviceTypes );

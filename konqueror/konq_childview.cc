@@ -317,7 +317,7 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
-  m_pCurrentHistoryEntry->bIsTreeView = ( viewName() == "KonqKfmTreeView" );
+  m_pCurrentHistoryEntry->bIsTreeView = ( viewName() == "KonquerorKfmTreeView" );
 }
 
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
@@ -477,6 +477,11 @@ bool KonqChildView::createView( const QString &serviceType,
 
   if ( CORBA::is_nil( view ) )
     return false;
+
+  //hack to keep view alive
+  cerr << "test#1" << endl;
+  CORBA::String_var tmp = view->viewName();
+  cerr << "test#1 done" << endl;
 
   serviceTypes = service->serviceTypes();
 
