@@ -116,7 +116,7 @@ void KJavaScriptOptions::load()
     js_policies_frame->load();
     enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
-    reportErrorsCB->setChecked( m_pConfig->readBoolEntry("ReportJavaScriptErrors",true));
+    reportErrorsCB->setChecked( m_pConfig->readBoolEntry("ReportJavaScriptErrors",false));
 //    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
 }
 
@@ -125,7 +125,7 @@ void KJavaScriptOptions::defaults()
   js_policies_frame->defaults();
   enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
-  reportErrorsCB->setChecked( true );
+  reportErrorsCB->setChecked( false );
 }
 
 void KJavaScriptOptions::save()
