@@ -230,11 +230,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pamSort->insert( aSortDescending );
     */
-    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), actionCollection(), "select" );
-    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
+    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
+    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
     m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this, "selectall" );
     m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
-    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
+    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
     m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
