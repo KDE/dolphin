@@ -145,7 +145,7 @@ k_dcop:
 
     /**
      * Emit the changed signal for the group whose address is given
-     * (@see KBookmark::address())
+     * @see KBookmark::address()
      * Called by the instance of konqueror that saved the file after
      * a small change (new bookmark or new folder).
      */

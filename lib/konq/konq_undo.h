@@ -113,7 +113,9 @@ signals:
   void undoTextChanged( const QString &text );
 
 protected:
-  /** @internal */
+  /** 
+   * @internal
+   */
   void stopUndo( bool step );
 
 private:

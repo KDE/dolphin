@@ -42,7 +42,8 @@ class KConfig;
 class KonqFMSettings
 {
 protected:
-  /** @internal
+  /** 
+   * @internal
    * Constructs a KonqFMSettings instance from a config file.
    */
   KonqFMSettings( KConfig * config );

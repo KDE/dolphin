@@ -77,7 +77,8 @@ public:
    * @param root true for the toplevel menu
    * @param add true to show the "Add Bookmark" and "New Folder" entries
    * @param parentBookmark the address of the group containing the items
-   * that we want to show. @see KBookmark::address.
+   * that we want to show. 
+   * @see KBookmark::address.
    * Be careful :
    * A _null_ parentAddress denotes a NS-bookmark menu.
    * An _empty_ parentAddress denotes the toplevel bookmark menu
