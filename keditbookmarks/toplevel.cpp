@@ -81,6 +81,8 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, QString address)
    }
    ListView::self()->setCurrent(item);
    item->setSelected(true);
+
+   updateActions();
 }
 
 void KEBApp::construct() {
