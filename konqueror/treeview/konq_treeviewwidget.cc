@@ -665,7 +665,7 @@ void KonqTreeViewWidget::slotUpdate()
 
     KURL dir ( (*kit)->url() );
     dir.setFileName( "" );
-    kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
+    //kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
     KonqTreeViewDir * parentDir = 0L;
     if( !urlcmp( dir.url(0), m_strURL, true, true ) ) 
       {

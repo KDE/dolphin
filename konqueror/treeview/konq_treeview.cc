@@ -25,11 +25,11 @@
 #include <kcursor.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
-#include <kio_error.h>
+#include <kio_paste.h>
 #include <kio_job.h>
-#include <kmimetype.h>
 #include <kdebug.h>
 #include <konq_propsview.h>
+#include <kuserpaths.h>
 
 #include <assert.h>
 #include <string.h>
@@ -111,8 +111,20 @@ void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move 
   m_treeView->treeViewWidget()->selectedItems( selection );
   
   cut = move = copy = ( selection.count() != 0 );
+  bool bInTrash = false;
+  QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
+  for (; it != end; ++it )
+  {
+    if ( (*it)->item()->url().directory(false) == KUserPaths::trashPath() )
+      bInTrash = true;
+  }
+  move = move && !bInTrash;
   
-  paste = false;
+  bool bKIOClipboard = !isClipboardEmpty();
+  QMimeSource *data = QApplication::clipboard()->data();
+  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+    (selection.count() == 1); // Let's allow pasting only on an item, not on the background
 }
 
 void TreeViewEditExtension::cutSelection()
@@ -141,7 +153,10 @@ void TreeViewEditExtension::copySelection()
 
 void TreeViewEditExtension::pasteSelection( bool move )
 {
-  //TODO
+  QValueList<KonqTreeViewItem*> selection;
+  m_treeView->treeViewWidget()->selectedItems( selection );
+  assert ( selection.count() == 1 );
+  pasteClipboard( selection.first()->item()->url().url(), move );
 }
 
 void TreeViewEditExtension::moveSelection( const QString &destinationURL )
