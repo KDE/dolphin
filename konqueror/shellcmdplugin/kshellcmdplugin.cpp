@@ -17,8 +17,6 @@
 */
 
 #include "kshellcmdplugin.h"
-#include <kaction.h>
-#include <kinstance.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <konq_dirpart.h>

@@ -16,12 +16,8 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <kparts/browserextension.h>
 
-#include "konq_treeitem.h"
-#include "konq_tree.h"
 #include "konq_treepart.h"
-#include "konq_treetoplevelitem.h"
 
 KonqTreeItem::KonqTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem )
     : QListViewItem( parentItem )

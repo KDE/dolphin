@@ -14,27 +14,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <kdockwidget.h>
-#include <qwidget.h>
-#include <qpushbutton.h>
-#include <qbuttongroup.h>
-#include <qptrvector.h>
-#include <ktoolbar.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
-#include <kstddirs.h>
-#include <klibloader.h>
-#include "konqsidebarplugin.h"
-#include <qfile.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
-#include <qstring.h>
-#include <kparts/browserextension.h>
-#include <qmetaobject.h>
-#include <qpopupmenu.h>
 #include <kiconloader.h>
 #include "sidebar_widget.h"
 #include "sidebar_widget.moc"
-#include <qmap.h>
 #include <limits.h>
 #include "konqsidebar.h"
 #include <ktoolbarbutton.h>

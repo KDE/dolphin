@@ -24,10 +24,9 @@
 
 #include <qfile.h>
 
-#include <kapp.h>
-#include <kstddirs.h>
+#include <kapplication.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
-#include <kurl.h>
 #include <kmessagebox.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
@@ -36,8 +35,6 @@
 #include <kaboutdata.h>
 #include <kstartupinfo.h>
 
-#include <qptrlist.h>
-#include <qstring.h>
 
 #include "main.h"
 

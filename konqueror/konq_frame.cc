@@ -19,31 +19,18 @@
 #include <math.h>
 
 #include <qpainter.h>
-#include <qimage.h>
-#include <qbitmap.h>
 #include <qlayout.h>
-#include <qsplitter.h>
 #include <qwhatsthis.h>
-#include <qtimer.h>
-#include <qpushbutton.h>
 #include <qtoolbutton.h>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdebug.h>
-#include <kconfig.h>
-#include <kiconloader.h>
-#include <kpixmap.h>
 #include <kprogress.h>
 #include <klocale.h>
-#include <kseparator.h>
-#include <kaction.h>
 
-#include <kparts/browserextension.h>
-#include <kparts/event.h>
 #include "konq_frame.h"
 #include "konq_view.h"
 #include "konq_viewmgr.h"
-#include "konq_mainwindow.h"
 
 #include <assert.h>
 

@@ -18,14 +18,11 @@
 */
 
 #include "konq_listview.h"
-#include "konq_listviewitems.h"
 #include "konq_treeviewwidget.h"
 
 #include <kdebug.h>
 #include <konq_dirlister.h>
 
-#include <konq_settings.h>
-#include "konq_propsview.h"
 
 template class QDict<KonqListViewDir>;
 

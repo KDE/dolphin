@@ -24,8 +24,7 @@
 #include "konq_mainwindow.h"
 #include "konq_viewmgr.h"
 #include <konq_settings.h>
-#include <ksimpleconfig.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <dcopclient.h>
 #include <kdebug.h>
 

@@ -17,16 +17,12 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <kaction.h>
-#include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <konq_view.h>
-#include <konq_factory.h>
 #include <konq_frame.h>
 #include <konq_guiclients.h>
-#include <konq_mainwindow.h>
 #include <konq_viewmgr.h>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,

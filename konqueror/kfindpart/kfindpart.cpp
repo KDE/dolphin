@@ -22,13 +22,7 @@
 #include "kquery.h"
 
 #include <kparts/factory.h>
-#include <kinstance.h>
 #include <kdebug.h>
-#include <kglobal.h>
-#include <klocale.h>
-#include <konq_settings.h>
-#include <kstdaction.h>
-#include <kaction.h>
 
 #include <qdir.h>
 

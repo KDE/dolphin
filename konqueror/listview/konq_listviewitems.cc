@@ -17,15 +17,9 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_propsview.h"
-#include "konq_listviewitems.h"
-#include "konq_listviewwidget.h"
 #include "konq_listview.h"
-#include <konq_fileitem.h>
 #include <konq_settings.h>
 #include <kdebug.h>
-#include <kio/job.h>
-#include <kio/global.h>
 #include <klocale.h>
 #include <assert.h>
 #include <stdio.h>

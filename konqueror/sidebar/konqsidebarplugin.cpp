@@ -17,7 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konqsidebarplugin.h"
 #include "konqsidebarplugin.moc"
 #include <kdebug.h>
 

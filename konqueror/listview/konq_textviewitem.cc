@@ -18,14 +18,8 @@
 */
 
 #include "konq_textviewitem.h"
-#include "konq_propsview.h"
-#include "konq_listview.h"
 #include "konq_settings.h"
 
-#include <qpixmap.h>
-#include <qimage.h>
-#include <kimageeffect.h>
-#include <kio/global.h>
 #include <assert.h>
 #include <stdio.h>
 

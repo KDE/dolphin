@@ -26,12 +26,9 @@
 #include "KonquerorIface.h"
 
 #include <klocale.h>
-#include <kglobal.h>
-#include <kstddirs.h>
-#include <kapp.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 #include <kcmdlineargs.h>
-#include <kaboutdata.h>
 #include <dcopclient.h>
 #include <kimageio.h>
 #include <kopenwith.h>

@@ -7,26 +7,15 @@
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
-#include <qcombobox.h>
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qptrlist.h>
-#include <qvalidator.h>
 
-#include <kglobal.h>
 #include <klocale.h>
-#include <kconfig.h>
 #include <kmessagebox.h>
-#include <kdialog.h>
 #include <kfiledialog.h>
-#include <kmimetype.h>
 
 #include "kquery.h"
-#include "kftabdlg.h"
 #include "kftabdlg.moc"
 
 // Static utility functions

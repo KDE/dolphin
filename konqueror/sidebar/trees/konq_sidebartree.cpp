@@ -18,19 +18,13 @@
 */
 
 #include "konq_sidebartreemodule.h"
-#include "konq_sidebartree.h"
 #include <qheader.h>
 #include <qdir.h>
-#include <qfile.h>
 #include <qtimer.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
-#include <kdirnotify_stub.h>
-#include <konq_operations.h>
 #include <kglobalsettings.h>
-#include <kio/global.h>
-#include <kmimetype.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kurldrag.h>
 #include <stdlib.h>
 #include <assert.h>

@@ -20,14 +20,9 @@
 #include "dirtree_item.h"
 #include <kdebug.h>
 #include <konq_propsview.h>
-#include <konq_drag.h>
-#include <kglobalsettings.h>
 #include <kprotocolinfo.h>
 #include <kdesktopfile.h>
 #include <kmessagebox.h>
-#include <klocale.h>
-#include <konqsidebarplugin.h>
-#include <konqsidebar_tree.h>
 
 KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree )
     : KonqSidebarTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)

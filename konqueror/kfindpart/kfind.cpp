@@ -31,8 +31,6 @@
 #include <kdialog.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kglobal.h>
-#include <kfileitem.h>
 #include <kseparator.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
@@ -41,7 +39,6 @@
 #include "kftabdlg.h"
 #include "kquery.h"
 
-#include "kfind.h"
 #include "kfind.moc"
 
 Kfind::Kfind(QWidget *parent, const char *name)

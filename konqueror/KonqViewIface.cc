@@ -21,7 +21,7 @@
 #include "KonqViewIface.h"
 #include "konq_view.h"
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <dcopclient.h>
 
 KonqViewIface::KonqViewIface( KonqView * view )

@@ -18,37 +18,21 @@
 */
 
 #include "konq_listview.h"
-#include "konq_listviewitems.h"
-#include "konq_listviewwidget.h"
 #include "konq_textviewwidget.h"
 #include "konq_treeviewwidget.h"
-#include <konq_undo.h>
 
 #include <kaction.h>
-#include <kcolordlg.h>
-#include <kcursor.h>
 #include <kdebug.h>
-#include <kio/job.h>
-#include <klibloader.h>
 #include <klineeditdlg.h>
 #include <klocale.h>
-#include <konq_bgnddlg.h>
 #include <konq_dirlister.h>
 #include <konq_drag.h>
-#include <konq_fileitem.h>
 #include <kpropsdlg.h>
-#include <kprotocolmanager.h>
 #include <kstdaction.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
-#include <qdragobject.h>
 #include <qheader.h>
-#include <qkeycode.h>
-#include <qptrlist.h>
-#include <qregexp.h>
-#include <qstringlist.h>
-#include <qtimer.h>
 
 #include <assert.h>
 #include <string.h>

@@ -18,23 +18,18 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qdir.h>
 
-#include <kparts/browserextension.h>
 
 #include "konq_guiclients.h"
 #include "KonqMainWindowIface.h"
-#include "konq_mainwindow.h"
 #include "konq_view.h"
 #include "konq_run.h"
 #include "konq_misc.h"
-#include "konq_factory.h"
 #include "konq_viewmgr.h"
 #include "konq_frame.h"
 #include "konq_events.h"
 #include "konq_actions.h"
 #include <konq_pixmapprovider.h>
-#include <konq_faviconmgr.h>
 #include <konq_operations.h>
 
 
@@ -53,52 +48,35 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <qapplication.h>
 #include <qclipboard.h>
 #include <qmetaobject.h>
 #include <qlayout.h>
-#include <qhbox.h>
 
 #include <dcopclient.h>
 #include <kaboutdata.h>
-#include <kaction.h>
-#include <kapp.h>
 #include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
-#include <kbookmarkmanager.h>
-#include <kcombobox.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
-#include <kglobalsettings.h>
-#include <kiconloader.h>
 #include <kkeydialog.h>
-#include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <knewmenu.h>
 #include <konq_defaults.h>
 #include <konq_dirpart.h>
-#include <konq_historymgr.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
 #include <konq_main.h>
 #include <konq_undo.h>
-#include <kparts/part.h>
-#include <kpopupmenu.h>
-#include <kprocess.h>
 #include <kprotocolinfo.h>
-#include <kstdaccel.h>
 #include <kstdaction.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <ksycoca.h>
 #include <ktempfile.h>
-#include <ktrader.h>
-#include <kurl.h>
 #include <kurlrequesterdlg.h>
 #include <kurlrequester.h>
 #include <kuserprofile.h>
 #include <kwin.h>
-#include <kfile.h>
 #include <kfiledialog.h>
 
 #include "version.h"

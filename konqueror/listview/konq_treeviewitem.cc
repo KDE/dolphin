@@ -17,10 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_treeviewitem.h"
 #include "konq_treeviewwidget.h"
 #include "konq_listview.h"
-#include <konq_fileitem.h>
 
 
 /**************************************************************

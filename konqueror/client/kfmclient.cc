@@ -28,22 +28,17 @@
 #include <fstream.h>
 
 #include <qdir.h>
-#include <qstring.h>
-#include <qtimer.h>
 
 #include <kio/job.h>
 #include <kcmdlineargs.h>
 #include <kpropsdlg.h>
-#include <krun.h>
 #include <klocale.h>
-#include <kservice.h>
 #include <ktrader.h>
 #include <kprocess.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kopenwith.h>
 #include <kdebug.h>
 #include <dcopclient.h>
-#include <kstartupinfo.h>
 
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"

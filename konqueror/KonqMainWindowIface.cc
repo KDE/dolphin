@@ -19,14 +19,12 @@
 */
 
 #include "KonqMainWindowIface.h"
-#include "konq_mainwindow.h"
 #include "KonqViewIface.h"
 #include "konq_view.h"
 
-#include <qvariant.h>
 
 #include <dcopclient.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdcopactionproxy.h>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )

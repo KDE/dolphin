@@ -1,14 +1,9 @@
 #include <stdlib.h>
 
-#include <qstring.h>
 #include <qfile.h>
-#include <qtextstream.h>
 
-#include <kapp.h>
-#include <kio/job.h>
 #include <kfileitem.h>
 
-#include "kquery.h"
 #include "kquery.moc"
 
 KQuery::KQuery(QObject *parent, const char * name)

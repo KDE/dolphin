@@ -26,38 +26,19 @@
 #include <time.h>
 #include <unistd.h>
 
-#include <kaccel.h>
 #include <kaction.h>
 #include <kdebug.h>
 #include <konq_dirlister.h>
-#include <kfileivi.h>
-#include <konq_fileitem.h>
 #include <kio/job.h>
-#include <klibloader.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
-#include <kmimetype.h>
-#include <konq_iconviewwidget.h>
 #include <konq_settings.h>
 #include <kpropsdlg.h>
-#include <krun.h>
 #include <kstdaction.h>
-#include <kurl.h>
 #include <kparts/factory.h>
-#include <kiconloader.h>
-#include <kapp.h>
 #include <ktrader.h>
 #include <klocale.h>
 
-#include <qmessagebox.h>
-#include <qclipboard.h>
-#include <qfile.h>
-#include <qkeycode.h>
-#include <qpalette.h>
-#include <qregexp.h>
-#include <qvaluelist.h>
-#include <qpainter.h>
-#include <qpen.h>
 
 #include <config.h>
 

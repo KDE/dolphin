@@ -18,22 +18,13 @@
 */
 
 #include "konq_listview.h"
-#include "konq_textviewwidget.h"
 #include "konq_textviewitem.h"
 
-#include <qdragobject.h>
 #include <qheader.h>
 
 #include <kdebug.h>
 #include <konq_dirlister.h>
-#include <kglobal.h>
-#include <kio/job.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kprotocolmanager.h>
 
-#include <konq_settings.h>
-#include "konq_propsview.h"
 
 #include <stdlib.h>
 #include <assert.h>

@@ -21,16 +21,11 @@
 
 #include <assert.h>
 
-#include <qlabel.h>
 #include <qapplication.h>
-#include <qdragobject.h>
-#include <qpopupmenu.h>
 #include <qwhatsthis.h>
 
 #include <kurldrag.h>
-#include <ktoolbar.h>
 #include <ktoolbarbutton.h>
-#include <kcombobox.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
 #include <kstringhandler.h>

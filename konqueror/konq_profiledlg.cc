@@ -19,23 +19,18 @@
 
 #include "konq_profiledlg.h"
 #include "konq_viewmgr.h"
-#include "konq_mainwindow.h"
-#include "konq_factory.h"
 
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <qlayout.h>
-#include <qlineedit.h>
 #include <qlabel.h>
-#include <qpushbutton.h>
 #include <qheader.h>
 
 #include <klistview.h>
-#include <kglobal.h>
 #include <kdebug.h>
 #include <klineeditdlg.h>
 #include <kio/global.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
 

@@ -18,17 +18,11 @@
 */
 
 #include "konq_listview.h"
-#include "konq_listviewitems.h"
-#include "konq_listviewwidget.h"
-#include "konq_propsview.h"
 
 #include <konq_dirlister.h>
-#include <konq_operations.h>
 #include <konq_settings.h>
 
 #include <kdebug.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
 #include <kio/job.h>
 #include <klocale.h>
 #include <kmessagebox.h>

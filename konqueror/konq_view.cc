@@ -17,26 +17,20 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qfile.h>
 
 #include "konq_view.h"
 #include "KonqViewIface.h"
-#include "konq_factory.h"
 #include "konq_frame.h"
-#include "konq_mainwindow.h"
-#include "konq_propsview.h"
 #include "konq_run.h"
 #include "konq_events.h"
 #include "konq_viewmgr.h"
 #include "konq_browseriface.h"
-#include <kio/job.h>
 
 #include <konq_historymgr.h>
 #include <konq_pixmapprovider.h>
 
 #include <assert.h>
 #include <kdebug.h>
-#include <klocale.h>
 #include <kurldrag.h>
 
 #include <qapplication.h>
@@ -47,7 +41,6 @@
 #include <private/qucomextra_p.h>
 #endif
 
-#include <kparts/factory.h>
 
 template class QPtrList<HistoryEntry>;
 

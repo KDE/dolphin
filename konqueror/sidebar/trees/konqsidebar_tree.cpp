@@ -1,12 +1,8 @@
 #include "konqsidebar_tree.h"
-#include <klocale.h>
 #include "konqsidebar_tree.moc"
 #include "konq_sidebartree.h"
 #include <kdebug.h>
-#include <ksimpleconfig.h>
-#include <kconfig.h>
-#include <kstddirs.h>
-#include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 KonqSidebar_Tree::KonqSidebar_Tree(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name):
                    KonqSidebarPlugin(parent,widgetParent,desktopName_,name)

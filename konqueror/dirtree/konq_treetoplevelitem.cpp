@@ -16,19 +16,12 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_treetoplevelitem.h"
 #include "konq_treepart.h"
-#include "konq_tree.h"
-#include <qstrlist.h>
 #include <kdebug.h>
 #include <kdirnotify_stub.h>
-#include <kglobal.h>
-#include <kio/global.h>
 #include <kio/paste.h>
 #include <konq_operations.h>
-#include <kparts/browserextension.h>
 #include <kprotocolinfo.h>
-#include <ksimpleconfig.h>
 #include <kurldrag.h>
 #include <qapplication.h>
 #include <qclipboard.h>

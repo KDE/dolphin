@@ -23,10 +23,7 @@
 #include <unistd.h>
 #include <signal.h>
 
-#include <qcstring.h>
-#include <qtextview.h>
 #include <qsocketnotifier.h>
-#include <qfont.h>
 
 #include <klineeditdlg.h>
 #include <kdesu/process.h>

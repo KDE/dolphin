@@ -19,9 +19,6 @@
 */
 
 #include "konq_treepart.h"
-#include "konq_tree.h"
-#include <kparts/factory.h>
-#include <kinstance.h>
 #include <kdebug.h>
 #include <konq_drag.h>
 #include <qapplication.h>

@@ -20,7 +20,6 @@
 
 #include <qbuttongroup.h>
 #include <qdatetime.h>
-#include <qfont.h>
 #include <qheader.h>
 #include <qlabel.h>
 #include <qlayout.h>

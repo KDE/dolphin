@@ -17,31 +17,20 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qapplication.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
-#include <qlabel.h>
 #include <qlayout.h>
 #include <qpopupmenu.h>
-#include <qpushbutton.h>
 
 #include <kaction.h>
-#include <kapp.h>
-#include <kconfig.h>
 #include <kcursor.h>
-#include <kdialogbase.h>
 #include <kfontdialog.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <knuminput.h>
-#include <kprotocolinfo.h>
 #include <kstaticdeleter.h>
 #include <kwin.h>
 
-#include <konq_drag.h>
 #include <konq_faviconmgr.h>
-#include <konq_historymgr.h>
-#include <konq_tree.h>
 #include <konq_treepart.h>
 
 #include "history_dlg.h"

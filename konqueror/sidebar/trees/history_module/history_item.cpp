@@ -16,11 +16,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <kparts/browserextension.h>
 #include <kbookmarkdrag.h>
-#include <kbookmark.h>
-#include <kiconloader.h>
-#include <klocale.h>
 #include <kprotocolinfo.h>
 #include <konq_faviconmgr.h>
 #include <qpainter.h>

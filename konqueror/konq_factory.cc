@@ -19,17 +19,12 @@
 
 */
 
-#include <kparts/browserextension.h>
 #include <kparts/factory.h>
 #include "konq_factory.h"
-#include "konq_misc.h"
-#include "konq_run.h"
 #include "version.h"
 
 #include <konq_settings.h>
 #include <kdebug.h>
-#include <kstddirs.h>
-#include <kuserprofile.h>
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <kmessagebox.h>

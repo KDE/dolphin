@@ -20,9 +20,7 @@
 #include "dirtree_item.h"
 #include "dirtree_module.h"
 #include <konq_operations.h>
-#include <konq_fileitem.h>
 #include <konq_drag.h>
-#include <ksimpleconfig.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
 #include <kuserprofile.h>

@@ -1,19 +1,14 @@
 #include "konq_aboutpage.h"
 
-#include <qfile.h>
 #include <qtextcodec.h>
-#include <qtextstream.h>
 
 #include <kaboutdata.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdebug.h>
-#include <kglobal.h>
-#include <khtml_part.h>
-#include <kinstance.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ksavefile.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kaction.h>
 
 #include <assert.h>

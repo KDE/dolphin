@@ -18,27 +18,17 @@
 */
 // -*- mode: c++; c-basic-offset: 2 -*-
 
-#include <kparts/browserextension.h>
 #include "konq_viewmgr.h"
-#include "konq_mainwindow.h"
 #include "konq_view.h"
-#include "konq_factory.h"
 #include "konq_frame.h"
 #include "konq_profiledlg.h"
 
-#include <qstringlist.h>
-#include <qdir.h>
-#include <qevent.h>
-#include <qapplication.h>
 #include <qfileinfo.h>
 
 #include <kaccelgen.h>
-#include <kaction.h>
-#include <kconfig.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
-#include <kpopupmenu.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <dcopclient.h>
 
 #include <assert.h>

@@ -18,7 +18,6 @@
 
 #include "bookmark_item.h"
 #include <kbookmarkdrag.h>
-#include <konq_tree.h>
 #include <konq_treepart.h>
 #include <kdebug.h>
 

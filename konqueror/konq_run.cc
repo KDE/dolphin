@@ -21,7 +21,6 @@
 
 #include "konq_run.h"
 #include "konq_view.h"
-#include "konq_mainwindow.h"
 #include <kfiledialog.h>
 #include <kuserprofile.h>
 #include <kio/job.h>
