@@ -440,8 +440,6 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          fillWithGroup(lv, group, tree);
          tree->QListViewItem::setOpen(true);
          return;
-      } else {
-         parentItem = new KEBListViewItem(lv, group);
       }
    }
    KEBListViewItem *lastItem = 0;
@@ -452,7 +450,9 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
             continue;
          }
          KBookmarkGroup grp = bk.toGroup();
-         item = new KEBListViewItem(parentItem, lastItem, grp);
+         item = (parentItem)
+              ? new KEBListViewItem(parentItem, lastItem, grp)
+              : new KEBListViewItem(lv, lastItem, grp);
          fillWithGroup(lv, grp, item);
          if (grp.isOpen()) {
             item->QListViewItem::setOpen(true);
@@ -464,9 +464,13 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          lastItem = item;
 
       } else if (!(lv->isFolderList() && m_splitView)) {
-         item = (lastItem)
-              ? new KEBListViewItem(parentItem, lastItem, bk)
-              : new KEBListViewItem(parentItem, bk);
+         item = (parentItem)   
+              ? ( (lastItem)
+                 ? new KEBListViewItem(parentItem, lastItem, bk)
+                 : new KEBListViewItem(parentItem, bk))
+              : ( (lastItem)
+                 ? new KEBListViewItem(lv, lastItem, bk)
+                 : new KEBListViewItem(lv, bk));
          lastItem = item;
       }
    }
