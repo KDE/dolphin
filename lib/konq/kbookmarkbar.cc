@@ -37,7 +37,7 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
     : m_pOwner(_owner), m_toolBar(_toolBar), m_actionCollection(_collec)
 {
     // force the "icon to the left of the text" look
-    m_toolBar->setIconText(1);
+    m_toolBar->setIconText(KToolBar::IconTextRight);
 
     connect(KBookmarkManager::self(), SIGNAL(changed()),
             this,                     SLOT(slotBookmarksChanged()));
