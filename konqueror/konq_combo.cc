@@ -58,7 +58,7 @@ KonqCombo::~KonqCombo()
 
 void KonqCombo::setURL( const QString& url )
 {
-    // kdDebug(1002) << "*** setURL %s ***" << url << endl;
+    // kdDebug(1002) << "*** setURL: " << url << endl;
     setTemporary( url );
 
     if ( m_returnPressed ) { // really insert
@@ -79,7 +79,7 @@ void KonqCombo::setTemporary( const QString& text )
 
 void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 {
-    // kdDebug(1002 << "*** setTemporary (%s) ***", url << endl;
+    // kdDebug(1002) << "*** setTemporary: " << url << endl;
 
     if ( url != temporaryItem() )
 	applyPermanent();
@@ -104,7 +104,6 @@ void KonqCombo::insertPermanent( const QString& url )
 void KonqCombo::applyPermanent()
 {
     if ( m_permanent ) {
-    qDebug("** applyPermanent!");
 	// remove as many items as needed to honour maxCount()
 	int i = count();
 	while ( count() >= maxCount() )
@@ -137,10 +136,10 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
 
     setUpdatesEnabled( false );
     lineEdit()->setUpdatesEnabled( false );
-    
+
     removeItem( index );
     insertItem( pix, t, index );
-    
+
     setUpdatesEnabled( true );
     lineEdit()->setUpdatesEnabled( true );
     repaint();
