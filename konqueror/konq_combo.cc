@@ -290,6 +290,7 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
             if (e->key() == Key_Return || e->key() == Key_Enter) {
                 emit activated( currentText(), e->state() );
+                setTrapReturnKey( true );
             }
 
             if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
