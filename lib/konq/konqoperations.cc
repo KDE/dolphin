@@ -138,12 +138,12 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
     if ( config->readBoolEntry( "ConfirmDestructive", true ) )
     {
       KURL::List::ConstIterator it = selectedURLs.begin();
-      QStringList decodedList;
+      QStringList prettyList;
       for ( ; it != selectedURLs.end(); ++it )
-        decodedList.append( (*it).decodedURL() );
+        prettyList.append( (*it).prettyURL() );
 
       return ( KMessageBox::questionYesNoList(0,
-                   i18n( "Do you really want to delete the file(s) ?" ), decodedList )
+                   i18n( "Do you really want to delete the file(s) ?" ), prettyList )
                == KMessageBox::Yes );
     }
     return true;

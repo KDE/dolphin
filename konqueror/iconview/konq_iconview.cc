@@ -1064,7 +1064,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor() );
     m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
 
-    emit setWindowCaption( _url.decodedURL() );
+    emit setWindowCaption( _url.prettyURL() );
 
     calculateGridX();
     return true;

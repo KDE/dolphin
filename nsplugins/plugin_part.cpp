@@ -139,7 +139,7 @@ bool PluginPart::openURL(const KURL &url)
   kDebugInfo("-> PluginPart::openURL");
 
   m_url = url;
-  emit setWindowCaption( url.decodedURL() );
+  emit setWindowCaption( url.prettyURL() );
 
 //  delete _widget; _widget = 0;
 

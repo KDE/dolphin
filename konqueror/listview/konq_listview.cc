@@ -295,7 +295,7 @@ bool KonqListView::openURL( const KURL &url )
 
   KURL u( url );
 
-  emit setWindowCaption( u.decodedURL() );
+  emit setWindowCaption( u.prettyURL() );
 
   return m_pListView->openURL( url );
 }

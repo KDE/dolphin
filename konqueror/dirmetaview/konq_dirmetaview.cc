@@ -225,7 +225,7 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
     if ( !annotation.isNull() && !annotation.text().isEmpty() )
       m_widget->setText( annotation.text() );
     else
-      m_widget->setText( url.decodedURL() );
+      m_widget->setText( url.prettyURL() );
 
     m_currentSelection.clear();
     update = true;
@@ -243,7 +243,7 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
     if ( !annotation.isNull() && !annotation.text().isEmpty() )
       m_widget->setText( annotation.text() );
     else
-      m_widget->setText( item->url().decodedURL() );
+      m_widget->setText( item->url().prettyURL() );
 
     m_currentSelection.clear();
     m_currentSelection.append( item->url() );

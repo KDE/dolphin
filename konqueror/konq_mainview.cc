@@ -853,8 +853,8 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
            ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
       {
           serviceType = "text/html";
-          KURL::encode( indexFile );
-          url = KURL( indexFile );
+          url = KURL();
+          url.setPath( indexFile );
           serviceName = QString::null; // cancel what we just set, this is not a dir finally
       }
 
@@ -1344,7 +1344,7 @@ void KonqMainView::slotUpAboutToShow()
   u = u.upURL();
   while ( u.hasPath() )
   {
-    popup->insertItem( KMimeType::pixmapForURL( u ), u.decodedURL() );
+    popup->insertItem( KMimeType::pixmapForURL( u ), u.prettyURL() );
 
     if ( u.path() == "/" )
       break;
