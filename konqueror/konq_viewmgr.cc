@@ -588,6 +588,8 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   delete currentFrame;
 
+  tabContainer->slotCurrentChanged(tabContainer->currentPage());  
+  
   if (tabContainer->count() == 1) {
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
