@@ -1206,6 +1206,7 @@ void KonqMainWindow::slotReload()
 {
   if ( !m_currentView || m_currentView->url().isEmpty() )
     return;
+  m_currentView->lockHistory();
   KonqOpenURLRequest req( m_currentView->typedURL() );
   req.args.reload = true;
   openURL( m_currentView, m_currentView->url(), QString::null /* the servicetype may have changed */, req );

@@ -634,25 +634,6 @@ void KonqView::stop()
     updateHistoryEntry(true);
 }
 
-void KonqView::reload()
-{
-  //lockHistory();
-  if ( browserExtension() )
-  {
-    KParts::URLArgs args(true, browserExtension()->xOffset(), browserExtension()->yOffset());
-    args.serviceType = m_serviceType;
-    browserExtension()->setURLArgs( args );
-  }
-
-  // Happens with default webbrowsing profile
-  if ( m_pPart->url().isEmpty() )
-      return;
-
-  // Re-set the location bar URL (in case it was manually edited)
-  setLocationBarURL( m_sLocationBarURL );
-  m_pPart->openURL( m_pPart->url() );
-}
-
 void KonqView::setPassiveMode( bool mode )
 {
   // In theory, if m_bPassiveMode is true and mode is false,

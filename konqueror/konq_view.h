@@ -152,10 +152,6 @@ public:
    * Stop loading
    */
   void stop();
-  /**
-   * Reload
-   */
-  void reload();
 
   /**
    * Retrieve view's URL
