@@ -16,6 +16,7 @@
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
+#include <qwhatsthis.h>
 #include <qlineedit.h>
 #include <kglobal.h>
 #include <kconfig.h>
@@ -35,7 +36,8 @@ extern QString g_groupname;
 KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
-
+    QString wtstr;
+    
     QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 5);
     int r = 0;
     int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
@@ -43,6 +45,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
 					 i18n("Font Size"), this );
     lay->addMultiCellWidget(bg, r, r, E, W);
+    
+    QWhatsThis::add( bg, i18n("This is the relative font size konqueror uses to display web sites.") );
 
     bg->setExclusive( TRUE );
     connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
@@ -51,10 +55,15 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     m_pMedium = new QRadioButton( i18n("Medium"), bg );
     m_pLarge = new QRadioButton( i18n("Large"), bg );
 
-    lay->addWidget(new QLabel( i18n("Standard Font"), this ), ++r, E);
+    QLabel* label = new QLabel( i18n("Standard Font"), this ); 
+    lay->addWidget( label , ++r, E);
 
     m_pStandard = new QComboBox( false, this );
     lay->addMultiCellWidget(m_pStandard, r, r, M, W);
+    
+    wtstr = i18n("This is the font used to display normal text in a web page.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pStandard, wtstr );
 
     getFontList( standardFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
     m_pStandard->insertStrList( &standardFonts );
@@ -63,10 +72,16 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
 
-    lay->addWidget(new QLabel( i18n( "Fixed Font"), this ), ++r, E);
+    label = new QLabel( i18n( "Fixed Font"), this );
+    lay->addWidget( label, ++r, E);
 
     m_pFixed = new QComboBox( false, this );
     lay->addMultiCellWidget(m_pFixed, r, r, M, W);
+    
+    wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pFixed, wtstr );
+    
     getFontList( fixedFonts, "-*-*-*-*-*-*-*-*-*-*-m-*-*-*" );
     m_pFixed->insertStrList( &fixedFonts );
 
@@ -76,7 +91,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
              SLOT(changed() ) );
 
     // default charset Lars Knoll 17Nov98 (moved by David)
-    lay->addWidget(new QLabel( i18n( "Default Charset"), this ), ++r, E);
+    label = new QLabel( i18n( "Default Charset"), this );
+    lay->addWidget( label, ++r, E);
 
     m_pCharset = new QComboBox( false, this );
 #ifdef __GNUC__
@@ -87,6 +103,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     m_pCharset->insertStringList( charsets );
     lay->addMultiCellWidget(m_pCharset,r, r, M, W);
     
+    wtstr = i18n("Select the default charset to be used. Normally, you'll be fine with 'Use language charset' "
+       "and should not have to change this.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pCharset, wtstr );
+    
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
              SLOT( slotCharset(const QString&) ) );
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
@@ -94,37 +115,66 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
-    lay->addWidget(new QLabel( i18n("Background Color:"), this ), ++r, E);
+    label = new QLabel( i18n("Background Color:"), this );
+    lay->addWidget( label, ++r, E);
 
     m_pBg = new KColorButton( bgColor, this );
     lay->addWidget(m_pBg, r, M);
+    
+    wtstr = i18n("This is the default background color for web pages. Note that if 'Always use my colors' "
+       "is not selected, this value can be overridden by a differing web page.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pBg, wtstr );
+    
     connect( m_pBg, SIGNAL( changed( const QColor & ) ),
              SLOT( slotBgColorChanged( const QColor & ) ) );
     connect( m_pBg, SIGNAL( changed( const QColor & ) ),
              SLOT( changed() ) );
 
-    lay->addWidget(new QLabel( i18n("Normal Text Color:"), this ), ++r, E);
+    label = new QLabel( i18n("Normal Text Color:"), this );
+    lay->addWidget( label, ++r, E);
 
     m_pText = new KColorButton( textColor, this );
     lay->addWidget(m_pText, r, M);
+    
+    wtstr = i18n("This is the default text color for web pages. Note that if 'Always use my colors' "
+       "is not selected, this value can be overridden by a differing web page.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pText, wtstr );    
+    
     connect( m_pText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotTextColorChanged( const QColor & ) ) );
     connect( m_pText, SIGNAL( changed( const QColor & ) ),
              SLOT( changed() ) );
 
-    lay->addWidget(new QLabel( i18n("URL Link Color:"), this ), ++r, E);
+    label = new QLabel( i18n("URL Link Color:"), this );
+    lay->addWidget( label, ++r, E);
 
     m_pLink = new KColorButton( linkColor, this );
     lay->addWidget(m_pLink, r, M);
+    
+    wtstr = i18n("This is the default color used to display links. Note that if 'Always use my colors' "
+       "is not selected, this value can be overridden by a differing web page.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pLink, wtstr );    
+   
     connect( m_pLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotLinkColorChanged( const QColor & ) ) );
     connect( m_pLink, SIGNAL( changed( const QColor & ) ),
              SLOT( changed() ) );
 
-    lay->addWidget(new QLabel( i18n("Followed Link Color:"), this ), ++r, E);
+    label = new QLabel( i18n("Followed Link Color:"), this );
+    lay->addWidget( label, ++r, E);
 
     m_pVLink = new KColorButton( vLinkColor, this );
     lay->addWidget(m_pVLink, r, M);
+    
+    wtstr = i18n("This is the color used to display links that you've already visited, i.e. are cached. "
+       "Note that if 'Always use my colors' is not selected, this value can be overridden by a differing "
+       "web page.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( m_pVLink, wtstr );    
+    
     connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotVLinkColorChanged( const QColor & ) ) );
     connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
@@ -132,6 +182,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     forceDefaultsbox = new QCheckBox(i18n("Always use my colors"), this);
     r++; lay->addMultiCellWidget(forceDefaultsbox, r, r, E, W);
+
+    QWhatsThis::add( forceDefaultsbox, i18n("If this is selected, konqueror will always "
+       "use your default colors to display a web page, even if different colors are specified "
+       "in its HTML description.") );
+
     connect(forceDefaultsbox, SIGNAL(clicked()), this, SLOT(changed()));
 
     r++; lay->setRowStretch(r, 10);
@@ -350,51 +405,72 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     QVBoxLayout *vbox = new QVBoxLayout(javaScript, 5, 5);
     vbox->addSpacing(10);    
     vbox->addWidget(cb_enableJavaScript);
-    
+
+    QWhatsThis::add( cb_enableJavaScript, i18n("Enables the execution of scripts written in ECMA-Script "
+        "(as known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
+        "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
+
     lay->addWidget(javaScript);
 
     connect(cb_enableJavaScript, SIGNAL(clicked()), this, SLOT(changed()));
-    
+
     lay->setSpacing(10);
-    
+
     QGroupBox *java = new QGroupBox(i18n("Java"), this);
     cb_enableJava = new QCheckBox(i18n("Enable &Java"), java);
     cb_showJavaConsole = new QCheckBox(i18n("Show Java Console"), java);
     lb_JavaArgs = new QLabel(i18n("Additional Java arguments"), java);
-    le_JavaArgs = new QLineEdit(java); 
+    le_JavaArgs = new QLineEdit(java);
     QButtonGroup *bg = new QButtonGroup();
     rb_autoDetect = new QRadioButton( i18n("Automatically detect Java"), java );
     rb_userDetect = new QRadioButton( i18n("Use user-specified Java"), java );
     bg->insert(rb_autoDetect);
     bg->insert(rb_userDetect);
-    
+
     bg->setExclusive( TRUE );
-    
+
     lb_JavaPath = new QLabel(i18n("Path to JDK"),java);
     le_JavaPath = new QLineEdit(java);
-    
+
     QVBoxLayout *vbox2 = new QVBoxLayout(java, 5, 5);
-    vbox2->addSpacing(10);  
+    vbox2->addSpacing(10);
     vbox2->addWidget(cb_enableJava);
     vbox2->addWidget(cb_showJavaConsole);
-  
+
     QHBoxLayout *hlay3 = new QHBoxLayout(10);
     hlay3->addWidget(rb_autoDetect);
     hlay3->addWidget(rb_userDetect);
     vbox2->addLayout(hlay3);
-    
+
     QHBoxLayout *hlay = new QHBoxLayout(10);
     hlay->addWidget(lb_JavaPath, 1);
     hlay->addWidget(le_JavaPath, 5);
-    
+
     vbox2->addLayout(hlay);
-    
+
     QHBoxLayout *hlay2 = new QHBoxLayout(10);
     hlay2->addWidget(lb_JavaArgs, 1);
     hlay2->addWidget(le_JavaArgs, 5);
-    
+
     vbox2->addLayout(hlay2);
-    
+
+    QWhatsThis::add( cb_enableJava, i18n("This option enables konqueror's support for java applets.") );
+    QWhatsThis::add( cb_showJavaConsole, i18n("FIXME: what is this exactly?") );
+    QString wtstr = i18n("If 'Automatically detect Java' is selected, konqueror will try to find "
+       "your java installation on its own (this should normally work, if java is somewhere in your path). "
+       "Select 'Use user-specified Java' if konqueror can't find your Java installation or if you have "
+       "several virtual machines installed and want to use a special one. In this case, enter the full path "
+       "to your java installation in the edit field below.");
+    QWhatsThis::add( rb_autoDetect, wtstr );
+    QWhatsThis::add( rb_userDetect, wtstr );
+    wtstr = i18n("If 'Use user-specified Java' is selected, you'll need to enter the path to "
+       "your Java installation here (i.e. /usr/lib/jdk ).");
+    QWhatsThis::add( lb_JavaPath, wtstr );
+    QWhatsThis::add( le_JavaPath, wtstr );
+    wtstr = i18n("If you want special arguments to be passed to the virtual machine, enter them here.");
+    QWhatsThis::add( lb_JavaArgs, wtstr );
+    QWhatsThis::add( le_JavaArgs, wtstr );
+
     lay->addWidget(java);
 
     // Change

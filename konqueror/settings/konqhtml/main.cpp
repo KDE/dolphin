@@ -100,6 +100,13 @@ void KonqHTMLModule::defaults()
   misc->defaults();
 }
 
+QString KonqHTMLModule::quickHelp()
+{
+  return i18n("<h1>Konqueror Browser</h1> Here you can configure konqueror's browser functionality. "
+    "Please note that the file manager functionality has to be configured using the \"File Manager\" "
+    "configuration module. <h2>HTML</h2> ");
+}
+
 
 void KonqHTMLModule::moduleChanged(bool state)
 {

@@ -8,6 +8,7 @@
 #include <qlabel.h>
 #include <qgroupbox.h>
 #include <qlayout.h>//CT - 12Nov1998
+#include <qwhatsthis.h>
 #include <kapp.h>
 
 #include "miscopts.h"
@@ -30,10 +31,17 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     cbCursor = new QCheckBox(i18n("&Change cursor over links"), this);
     lay->addWidget(cbCursor);
+
+    QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "
+       "(usually to a hand) if it is moved over a hyperlink.") );
+
     connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 
     cbUnderline = new QCheckBox(i18n("&Underline links"), this);
     lay->addWidget(cbUnderline);
+
+    QWhatsThis::add( cbUnderline, i18n("Tells konqueror to underline hyperlinks.") );
+
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     QHBoxLayout * hlay = new QHBoxLayout(10);
@@ -43,11 +51,20 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     leEditor = new QLineEdit(this);
     hlay->addWidget(leEditor, 5);
+
+    QString wtstr = i18n("Here you can specify the text viewer or editor konqueror will use "
+        "to display the HTML source of a document.");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( leEditor, wtstr );
+
     connect(leEditor, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
      "Automatically load images\n"
      "(Otherwise, click the Images button to load when needed)" ), this );
+
+    QWhatsThis::add( m_pAutoLoadImagesCheckBox, "FIXME" );
+
     connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
 
     lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );

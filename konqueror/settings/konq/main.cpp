@@ -108,13 +108,13 @@ void KonqyModule::defaults()
 
 QString KonqyModule::quickHelp()
 {
-  return i18n("<h1>File Manager</h1> Here you can configure the konqueror "
-    "file manager. Please note that the browser functionality has to be "
-    "configured from the \"Konqueror Browser\" configuration module. "
+  return i18n("<h1>File Manager</h1> Here you can configure konqueror's "
+    "file manager functionality. Please note that the browser functionality has to be "
+    "configured using the \"Konqueror Browser\" configuration module. "
     "<h2>Behavior</h2>Here you can configure how konqueror will react "
     "on mouse clicks etc. "
     "<h2>Appearance</h2>On this tab you can configure the way konqueror "
-    "displays folders. "
+    "displays directories. "
     "<h2>Trash</h2>This determines the way konqueror \"deletes\" files. "
     "<h2>Other</h2>Here you can set some miscellaneous options. ");
 }
