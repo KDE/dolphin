@@ -21,7 +21,6 @@
 #include <qwhatsthis.h>
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qaccel.h>
 #include <qhbox.h>
 
 #include <kglobal.h>
@@ -60,9 +59,8 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
                             const char *name )
              :KDialog(parent, name, true)
 {
-  setIcon( SmallIcon("cookie") );
-  setCaption( caption );
 
+  setCaption( caption );
   QVBoxLayout *topl = new QVBoxLayout(this, marginHint(), spacingHint());
   topl->setAutoAdd( true );
 
@@ -88,17 +86,20 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
   QWhatsThis::add( l, wstr );
   QWhatsThis::add( m_cbPolicy, wstr );
 
-  QHBox* hbox = new QHBox( this );
-  hbox->setSpacing( KDialog::spacingHint() );
-  m_btnOK = new QPushButton( i18n("&OK"), hbox );
+  QWidget* bbox = new QWidget( this );
+  QBoxLayout* blay = new QHBoxLayout( bbox );
+  blay->setSpacing( KDialog::spacingHint() );
+  blay->addStretch( 1 );
+
+  m_btnOK = new QPushButton( i18n("&OK"), bbox );
   connect(m_btnOK, SIGNAL(clicked()), this, SLOT(accept()));
   m_btnOK->setDefault( true );
   m_btnOK->setEnabled( false );
+  blay->addWidget( m_btnOK );
 
-  m_btnCancel = new QPushButton( i18n("&Cancel"), hbox );
+  m_btnCancel = new QPushButton( i18n("&Cancel"), bbox );
   connect(m_btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
-  QAccel* a = new QAccel( this );
-  a->connectItem( a->insertItem(Qt::Key_Escape), m_btnCancel, SLOT(animateClick()) );
+  blay->addWidget( m_btnCancel );
 
   setFixedSize( sizeHint() );
   m_leDomain->setFocus();
@@ -118,6 +119,17 @@ void PolicyDialog::setDefaultPolicy( int value )
 
   if ( !m_leDomain->isEnabled() )
     m_cbPolicy->setFocus();
+}
+
+void PolicyDialog::keyPressEvent( QKeyEvent* e )
+{
+  int key = e->key();
+  if ( key == Qt::Key_Escape )
+  {
+    e->accept();
+    m_btnCancel->animateClick();
+  }
+  KDialog::keyPressEvent( e );
 }
 
 void PolicyDialog::slotTextChanged( const QString& text )

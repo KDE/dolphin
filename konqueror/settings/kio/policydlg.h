@@ -58,6 +58,9 @@ public:
 protected slots:
     void slotTextChanged( const QString& );
 
+protected:
+    virtual void keyPressEvent( QKeyEvent* );
+
 private:
     DomainLineEdit*  m_leDomain;
     KComboBox*       m_cbPolicy;
