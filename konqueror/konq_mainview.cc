@@ -882,16 +882,15 @@ void KonqMainView::setUpEnabled( QString _url, OpenParts::Id _id )
   if ( _id != m_currentId )
     return;
 
-  KURL u;
   bool bHasUpURL = false;
   
   if ( !_url.isNull() )
   {
-    u = _url;
+    KURL u( _url );
     if ( u.hasPath() )
       bHasUpURL = ( u.path() != "/");
   }
-  
+
   setItemEnabled( m_vMenuGo, MGO_UP_ID, bHasUpURL );
 }
 
@@ -941,8 +940,6 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
   //display the data addressed by the URL
   if ( m_currentView->supportsServiceType( serviceType ) )
   {
-    setUpEnabled( url, m_currentId );
-    
     if ( ( serviceType == "inode/directory" ) &&
          ( m_currentView->allowHTML() ) &&
          ( u.isLocalFile() ) &&
@@ -957,7 +954,6 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
 
   if ( m_currentView->changeViewMode( serviceType, url ) )
   {
-    setUpEnabled( url, m_currentId );
     m_pRun = 0L;
     return true;
   }
@@ -1495,7 +1491,7 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   it.data()->makeHistory( false /* not completed */, url );
   if ( id == m_currentId )
   {
-    setUpEnabled( m_currentView->url(), id );
+    setUpEnabled( url, id );
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
   }
