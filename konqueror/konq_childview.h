@@ -67,13 +67,20 @@ public:
   /* Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
+  /* */
   void repaint();
+
+  /**
+   * Displays another URL, but without changing the view mode (caller has to 
+   * ensure that the call makes sense)
+   */
+  void openURL( QString url );
 
   /**
    * Changes the view mode of the current view, if different from viewName
    * @returns the new openparts 'id'
    */
-  int changeViewMode( const char *viewName );
+  OpenParts::Id changeViewMode( const char *viewName );
 
   /**
    * Create a view

@@ -92,31 +92,36 @@ void KonqChildView::detach()
 {
   m_pFrame->detach();
   m_pFrame->hide();
-  m_vView->decRef();
+  // m_vView->decRef(); // ?
+  m_vView->disconnectObject( m_mainView );
+  m_vParent->removeChild( m_vView ); // doesn't seem necessary, since OPPartIf::cleanUp does it
   VeryBadHackToFixCORBARefCntBug( m_vView );
   m_vView = 0L;
 }
 
 void KonqChildView::repaint()
 {
+  assert(m_pFrame);
   m_pFrame->repaint();
 }
 
-int KonqChildView::changeViewMode( const char *viewName )
+void KonqChildView::openURL( QString url )
 {
-  CORBA::String_var sViewURL = m_vView->url();
-
-  detach();
-  Konqueror::View_var vView = KonqChildView::createViewByName( viewName );
-  attach( vView );
-/*
+  m_mainView->setUpEnabled( url, m_vView->id() );
   Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( sViewURL.in() );
+  eventURL.url = CORBA::string_dup( url.data() );
   eventURL.reload = (CORBA::Boolean)false;
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
-  EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
-*/  
+  EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
+}
+
+OpenParts::Id KonqChildView::changeViewMode( const char *viewName )
+{
+  detach();
+  Konqueror::View_var vView = KonqChildView::createViewByName( viewName );
+  attach( vView );
+
   return vView->id();
 }
 

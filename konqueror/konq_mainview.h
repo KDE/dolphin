@@ -101,6 +101,12 @@ public:
   
   // For Child View
   QString * getServiceType( QString viewName ) { return m_dctServiceTypes[viewName]; }
+  /**
+   * Enable or disable the "up" button (and the menu item)
+   * @param _url the URL shown in the view - the button state depends on it
+   * @param _id the view id - if not currentId, the call has no effect
+   */
+  void setUpEnabled( const char * _url, OpenParts::Id _id );
 
   ////////////////////
   /// Overloaded functions of KBookmarkOwner
@@ -203,10 +209,6 @@ protected:
   void splitView ( Konqueror::NewViewPosition newViewPosition );
 
  void changeViewMode( const char *viewName ) ; 
-  /**
-   * Enable or disable the "up" button (and the menu item) depending
-   * on the parameter, _url */
-  void setUpEnabled( const char * _url );
   /**
    * Enable menu item and related toolbar button if present
    * This will allow configurable toolbar buttons later
