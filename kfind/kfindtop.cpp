@@ -105,7 +105,7 @@ void KfindTop::menuInit()
   QString aboutAuthor = i18n(""
     "KFind %1\n"
     "Frontend to find utility\n"
-    "Miroslav Flídr <flidr@kky.zcu.cz>\n\n"
+    "Miroslav FlÃ­dr <flidr@kky.zcu.cz>\n\n"
     "Special thanks to Stephan Kulow\n<coolo@kde.org>").arg(KFIND_VERSION);
   _mainMenu->insertItem( i18n("&Help"), helpMenu(aboutAuthor) );
 
