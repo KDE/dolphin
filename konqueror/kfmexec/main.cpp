@@ -102,7 +102,7 @@ KFMExec::KFMExec()
                 // Build the destination filename, in ~/.kde/share/apps/kfmexec/tmp/
                 // Unlike KDE-1.1, we put the filename at the end so that the extension is kept
                 // (Some programs rely on it)
-                QString tmp = locateLocal( "appdata", "tmp/" ) +
+                QString tmp = KGlobal::dirs()->saveLocation( "cache", "krun/" ) +
                               QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
                 fileInfo file;
                 file.path = tmp;
