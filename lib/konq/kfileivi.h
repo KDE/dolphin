@@ -106,7 +106,7 @@ public:
      * See the docs for KIconEffect for details.
      */
     void setEffect( int group, int state );
-    
+
     /**
      * @return true if this item is a thumbnail
      */
@@ -141,21 +141,6 @@ public:
      */
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
 
-    /**
-     * Paints this item using the KAlphaPainter methods.
-     * @p bgx and @p bgy specify the coordinates where the background
-     * starts so that you don't have to use the whole background as
-     * third parameter. copyOnBg specify if you want to get a copy of
-     * the alpha blended item on the background image, or you prefer
-     * not to change it (default).
-     *
-     * Note that when using copyOnBg=true, it won't paint on the
-     * painter object, so you can use p=0L.
-     */
-    void paintAlphaItem( QPainter *p, const QColorGroup &cg,
-	QImage &background, QPixmap &unknown_icon,
-	bool copyOnBg=false, int bgx=0, int bgy=0);
-
     bool move( int x, int y );
 
 protected:
@@ -168,13 +153,13 @@ private:
     QString m_thumbnailName; // ### KDE 3.0 remove
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
-    
+
     /**
      * Private data for KFileIVI
      * Implementation in kfileivi.cc
      */
     struct Private;
-    
+
     Private *d;
 };
 
