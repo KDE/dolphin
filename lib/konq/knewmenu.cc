@@ -54,11 +54,15 @@ void KNewMenu::slotCheckUpToDate( )
 {
     if (menuItemsVersion < s_templatesVersion)
     {
+        kdDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
         // We need to clean up the action collection
         // We look for our actions using the group
         QValueList<KAction*> actions = m_actionCollection->actions( "KNewMenu" );
         for( QValueListIterator<KAction*> it = actions.begin(); it != actions.end(); ++it )
+        {
+            remove( *it );
             m_actionCollection->remove( *it );
+        }
 
         if (!s_templatesList) { // No templates list up to now
             s_templatesList = new QValueList<Entry>();
