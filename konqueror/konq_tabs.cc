@@ -355,4 +355,11 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
   }
 }
 
+void KonqFrameTabs::resizeEvent( QResizeEvent *e )
+{
+    KTabWidget::resizeEvent( e );
+    if ( count() )
+      setTitle( static_cast<KonqFrame*>( page( 0 ) )->title(), page( 0 ) );
+}
+
 #include "konq_tabs.moc"

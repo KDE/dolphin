@@ -91,6 +91,8 @@ signals:
   void ctrlTabPressed();
 
 protected:
+  void resizeEvent( QResizeEvent * );
+
   uint tabBarWidthForMaxChars( uint );
 
   QPtrList<KonqFrameBase>* m_pChildFrameList;
