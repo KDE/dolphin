@@ -35,54 +35,6 @@ class KFileIVI;
 class KAction;
 class QActionMenu;
 
-class KonqDragItem : public QIconDragItem
-{
-public:
-    KonqDragItem();
-    KonqDragItem( const QRect &ir, const QRect &tr, const QString &u );
-    ~KonqDragItem();
-	
-    QString url() const;
-    void setURL( const QString &u );
-
-protected:
-    void makeKey();
-
-    QString url_;
-
-};
-
-/*****************************************************************************
- *
- * Class KonqDrag
- *
- *****************************************************************************/
-
-class KonqDrag : public QIconDrag
-{
-    Q_OBJECT
-
-public:
-    typedef QValueList<KonqDragItem> KonqList;
-
-    KonqDrag( QWidget * dragSource, const char* name = 0 );
-    ~KonqDrag();
-
-    const char* format( int i ) const;
-    QByteArray encodedData( const char* mime ) const;
-
-    void append( const KonqDragItem &icon_ );
-
-    static bool canDecode( QMimeSource* e );
-
-    static bool decode( QMimeSource *e, QValueList<KonqDragItem> &list_ );
-    static bool decode( QMimeSource *e, QStringList &uris );
-
-protected:
-    KonqList icons;
-
-};
-
 class IconEditExtension : public EditExtension
 {
   friend class KonqKfmIconView;
