@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+                 2003       Sven Leiber <s.leiber@web.de>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -43,6 +44,7 @@
 #include <klineedit.h>
 #include <kurlrequester.h>
 #include <qlabel.h>
+#include <qpopupmenu.h>
 
 QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
 int KNewMenu::s_templatesVersion = 0;
@@ -56,10 +58,12 @@ public:
     KActionCollection * m_actionCollection;
     QString m_destPath;
     QWidget *m_parentWidget;
+    KActionMenu *m_menuDev;
+    KActionMenu *m_menuNew;
 };
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
-  KActionMenu( i18n( "Create Ne&w" ), "filenew", _collec, name ),
+  KActionMenu( i18n( "Create New" ), "filenew", _collec, name ),
   menuItemsVersion( 0 )
 {
     //kdDebug(1203) << "KNewMenu::KNewMenu " << this << endl;
@@ -67,21 +71,29 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
     d = new KNewMenuPrivate;
     d->m_actionCollection = _collec;
+    makeMenus();
 }
 
 KNewMenu::KNewMenu( KActionCollection * _collec, QWidget *parentWidget, const char *name ) :
-  KActionMenu( i18n( "Create Ne&w" ), "filenew", _collec, name ),
+  KActionMenu( i18n( "Create New" ), "filenew", _collec, name ),
   menuItemsVersion( 0 )
 {
     d = new KNewMenuPrivate;
     d->m_actionCollection = _collec;
     d->m_parentWidget = parentWidget;
+    makeMenus();
 }
 
 KNewMenu::~KNewMenu()
 {
     //kdDebug(1203) << "KNewMenu::~KNewMenu " << this << endl;
     delete d;
+}
+
+void KNewMenu::makeMenus()
+{
+    d->m_menuDev = new KActionMenu( i18n( "Device" ), "filenew", d->m_actionCollection, "devnew" );
+    d->m_menuNew = new KActionMenu( i18n( "File" ), "filenew", d->m_actionCollection, "devnew" );
 }
 
 void KNewMenu::slotCheckUpToDate( )
@@ -190,11 +202,8 @@ void KNewMenu::fillMenu()
 {
     //kdDebug(1203) << "KNewMenu::fillMenu()" << endl;
     popupMenu()->clear();
-    //KAction * act = new KAction( i18n( "Folder" ), 0, this, SLOT( slotNewFile() ),
-    //                              d->m_actionCollection, QString("newmenu1") );
-
-    //act->setGroup( "KNewMenu" );
-    //act->plug( popupMenu() );
+    d->m_menuDev->popupMenu()->clear();
+    d->m_menuNew->popupMenu()->clear();
 
     int i = 1; // was 2 when there was Folder
     QValueList<Entry>::Iterator templ = s_templatesList->begin();
@@ -223,10 +232,41 @@ void KNewMenu::fillMenu()
 
             if ( !bSkip )
             {
-                KAction * act = new KAction( (*templ).text+"...", (*templ).icon, 0, this, SLOT( slotNewFile() ),
-                                             d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
-                act->setGroup( "KNewMenu" );
-                act->plug( popupMenu() );
+                Entry entry = *(s_templatesList->at( i-1 ));
+
+                    // The best way to identify the "Create Directory" was the template
+                if((*templ).templatePath.right( 8 ) == "emptydir")
+                {
+                        KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
+                                         d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                        act->setGroup( "KNewMenu" );
+                    act->plug( popupMenu() );
+                }
+                else if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
+                {
+                    KDesktopFile df( entry.templatePath );
+                    if(df.readType() == "FSDevice")
+                    {
+                        KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
+                                                 d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                        act->setGroup( "KNewMenu" );
+                        act->plug( d->m_menuDev->popupMenu() );
+                    }
+                    else
+                    {
+                        KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
+                                                 d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                        act->setGroup( "KNewMenu" );
+                        act->plug( d->m_menuNew->popupMenu() );
+                    }
+                }
+                else
+                {
+                        KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
+                                        d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
+                        act->setGroup( "KNewMenu" );
+                    act->plug( d->m_menuNew->popupMenu() );
+                }
             }
         } else { // Separate system from personal templates
             Q_ASSERT( (*templ).entryType != 0 );
@@ -235,6 +275,9 @@ void KNewMenu::fillMenu()
             act->plug( popupMenu() );
         }
     }
+
+    d->m_menuNew->plug( popupMenu() );
+    d->m_menuDev->plug( popupMenu() );
 }
 
 void KNewMenu::slotFillTemplates()
@@ -262,7 +305,6 @@ void KNewMenu::slotFillTemplates()
     s_filesParsed = false;
 
     s_templatesList->clear();
-    //s_templatesList->append( "Folder" );
 
     // Look into "templates" dirs.
     QStringList files = d->m_actionCollection->instance()->dirs()->findAllResources("templates");
@@ -350,42 +392,27 @@ void KNewMenu::slotNewFile()
     // The template is not a desktop file [or it's a URL one]
     // Copy it.
     KURL::List::Iterator it = popupFiles.begin();
-    /*
-    if ( sFile =="Folder" )
-    {
-        for ( ; it != popupFiles.end(); ++it )
-        {
-          QString url = (*it).path(1) + KIO::encodeFileName(name);
-          KURL::encode(url); // hopefully will disappear with next KURL
-          KIO::Job * job = KIO::mkdir( url );
-          connect( job, SIGNAL( result( KIO::Job * ) ),
-                   SLOT( slotResult( KIO::Job * ) ) );
-        }
-    }
-    else
-    {
-    */
-        QString src = entry.templatePath;
-        for ( ; it != popupFiles.end(); ++it )
-        {
-            KURL dest( *it );
-            dest.addPath( KIO::encodeFileName(name) ); // Chosen destination file name
-            d->m_destPath = dest.path(); // will only be used if m_isURLDesktopFile and dest is local
 
-            KURL uSrc;
-            uSrc.setPath( src );
-            //kdDebug(1203) << "KNewMenu : KIO::copyAs( " << uSrc.url() << ", " << dest.url() << ")" << endl;
-            KIO::Job * job = KIO::copyAs( uSrc, dest );
-            connect( job, SIGNAL( result( KIO::Job * ) ),
-                     SLOT( slotResult( KIO::Job * ) ) );
-            if ( m_isURLDesktopFile )
-                connect( job, SIGNAL( renamed( KIO::Job *, const KURL&, const KURL& ) ),
-                     SLOT( slotRenamed( KIO::Job *, const KURL&, const KURL& ) ) );
-            KURL::List lst;
-            lst.append( uSrc );
-            (void)new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
-        }
-    //}
+    QString src = entry.templatePath;
+    for ( ; it != popupFiles.end(); ++it )
+    {
+        KURL dest( *it );
+        dest.addPath( KIO::encodeFileName(name) ); // Chosen destination file name
+        d->m_destPath = dest.path(); // will only be used if m_isURLDesktopFile and dest is local
+
+        KURL uSrc;
+        uSrc.setPath( src );
+        //kdDebug(1203) << "KNewMenu : KIO::copyAs( " << uSrc.url() << ", " << dest.url() << ")" << endl;
+        KIO::Job * job = KIO::copyAs( uSrc, dest );
+        connect( job, SIGNAL( result( KIO::Job * ) ),
+                 SLOT( slotResult( KIO::Job * ) ) );
+        if ( m_isURLDesktopFile )
+            connect( job, SIGNAL( renamed( KIO::Job *, const KURL&, const KURL& ) ),
+                 SLOT( slotRenamed( KIO::Job *, const KURL&, const KURL& ) ) );
+        KURL::List lst;
+        lst.append( uSrc );
+        (void)new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
+    }
 }
 
 // Special case (filename conflict when creating a link=url file)

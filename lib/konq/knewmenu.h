@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998-2000 David Faure <faure@kde.org>
+                 2003      Sven Leiber <s.leiber@web.de>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -31,6 +32,7 @@ namespace KIO { class Job; }
 class KDirWatch;
 class KLineEdit;
 class KURLRequester;
+class QPopupMenu;
 
 /**
  * The 'New' submenu, both for the File menu and the RMB popup menu.
@@ -50,6 +52,7 @@ class KNewMenu : public KActionMenu
 {
   Q_OBJECT
 public:
+
     /**
      * Constructor
      */
@@ -103,6 +106,11 @@ private:
      * Input: the entry list. Output: the entry list ;-)
      */
     void parseFiles();
+
+    /**
+     * Make the main menus on the startup.
+     */
+    void makeMenus();
 
     /**
      * For entryType
