@@ -259,17 +259,6 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
       setPassiveMode( true ); // set as passive
     }
 
-    prop = m_service->property( "X-KDE-BrowserView-HierarchicalView");
-    if ( prop.isValid() && prop.toBool() )
-    {
-      kdDebug() << "KonqView::switchView X-KDE-BrowserView-HierarchicalView -> setHierarchicalView" << endl;
-      setHierarchicalView( true );  // set as hierarchial
-    }
-    else
-    {
-      setHierarchicalView( false );
-    }
-
     // Honour "linked view"
     prop = m_service->property( "X-KDE-BrowserView-LinkedView");
     if ( prop.isValid() && prop.toBool() )
@@ -283,6 +272,17 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
           otherView->setLinkedView( true );
       }
     }
+  }
+
+  prop = m_service->property( "X-KDE-BrowserView-HierarchicalView");
+  if ( prop.isValid() && prop.toBool() )
+  {
+    kdDebug() << "KonqView::switchView X-KDE-BrowserView-HierarchicalView -> setHierarchicalView" << endl;
+    setHierarchicalView( true );  // set as hierarchial
+  }
+  else
+  {
+    setHierarchicalView( false );
   }
 }
 
