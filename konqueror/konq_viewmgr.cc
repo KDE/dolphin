@@ -555,6 +555,9 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
     }
   }
 
+  if ( tabContainer->count() == 1 )
+    return;
+
   if (currentFrame->widget() == tabContainer->currentPage())
     setActivePart( 0L, true );
 
@@ -574,11 +577,6 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
   }
 
   delete currentFrame;
-
-  if ( tabContainer->count() == 0 ) {
-    m_pMainWindow->close();
-    return;
-  }
 
   if (tabContainer->count() == 1) {
     KConfig *config = KGlobal::config();
