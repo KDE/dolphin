@@ -50,8 +50,6 @@ int main(int argc, char ** argv)
   QString bookmarksFile = (args->count() == 0)
                           ? locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml") )
                           : QString::fromLatin1(args->arg(0));
-  if (!QFile::exists(bookmarksFile))
-    kdFatal() << bookmarksFile << " not found" << endl;
   args->clear();
 
   KEBTopLevel * toplevel = new KEBTopLevel( bookmarksFile );
