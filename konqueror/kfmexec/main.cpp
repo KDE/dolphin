@@ -87,7 +87,7 @@ KFMExec::KFMExec()
 		urlList.append( url );
 
 		expectedCounter++;
-		KIO::Job *job = KIO::copy( url, tmp );
+		KIO::Job *job = KIO::file_copy( url, tmp );
 		jobList->append( job );
 
 		connect( job, SIGNAL( result( KIO::Job * ) ), SLOT( slotResult( KIO::Job * ) ) );
@@ -119,6 +119,12 @@ void KFMExec::slotResult( KIO::Job * job )
     {
         command.replace( i, 2, files );
         i += files.length();
+    }
+
+    if ( i == -1 ) // No %f found
+    {
+        command.append( " " );
+        command.append( files );
     }
 
     // Store modification times
