@@ -31,8 +31,8 @@ class KonqBookmarkManager : public KBookmarkManager
 public:
   KonqBookmarkManager( QString path ) : KBookmarkManager ( path ) {}
   ~KonqBookmarkManager() {}
-  virtual void editBookmarks( const char *_url );
-}; 
+  virtual void editBookmarks( const KURL & url );
+};
 
 /* Implement the openFileManagerWindow call that libkio does if necessary */
 class KonqFileManager : public KFileManager
@@ -40,8 +40,8 @@ class KonqFileManager : public KFileManager
 public:
   KonqFileManager() {} ;
   virtual ~KonqFileManager() {} ;
- 
-  virtual bool openFileManagerWindow( const QString & _url );
+
+  virtual bool openFileManagerWindow( const KURL & url );
 };
 
 #endif

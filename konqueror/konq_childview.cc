@@ -162,8 +162,8 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 void KonqChildView::connectView(  )
 {
 
-  connect( m_pView, SIGNAL( started( int ) ),
-           this, SLOT( slotStarted( int ) ) );
+  connect( m_pView, SIGNAL( started( KIO::Job * ) ),
+           this, SLOT( slotStarted( KIO::Job * ) ) );
   connect( m_pView, SIGNAL( completed() ),
            this, SLOT( slotCompleted() ) );
   connect( m_pView, SIGNAL( canceled( const QString & ) ),
@@ -180,16 +180,6 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
-  /*
-  QObject *obj = m_pView->child( 0L, "EditExtension" );
-  if ( obj )
-  {
-    EditExtension *editExtension = (EditExtension *)obj;
-    connect( editExtension, SIGNAL( selectionChanged() ),
-             m_pMainView, SLOT( checkEditExtension() ) );
-  }
-  */
-
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
@@ -204,7 +194,7 @@ void KonqChildView::connectView(  )
 
 }
 
-void KonqChildView::slotStarted( int jobId )
+void KonqChildView::slotStarted( KIO::Job * job )
 {
   m_bLoading = true;
   setViewStarted( true );
@@ -217,19 +207,11 @@ void KonqChildView::slotStarted( int jobId )
     m_pMainView->updateToolBarActions();
   }
 
-  if ( jobId )
+  if (job)
   {
-    KIOJob *job = KIOJob::find( jobId );
-    if (job)
-    {
       connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
       connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
       connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
-    }
-    else
-    {
-      kDebugWarning( 1202, "No such job %d !", jobId );
-    }
   }
   m_ulTotalDocumentSize = 0;
 }

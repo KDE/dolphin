@@ -89,7 +89,7 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
   shell->setView( mainView );
 
   */
-  
+
   KonqMainView *mainView = new KonqMainView( QString::null, false );
   mainView->show();
 
@@ -111,10 +111,10 @@ void KonquerorIfaceImpl::setMoveSelection( int move )
 
 int main( int argc, char **argv )
 {
-  KAboutData aboutData( "konqueror", I18N_NOOP("Konqueror"), 
-                        KONQUEROR_VERSION, 
+  KAboutData aboutData( "konqueror", I18N_NOOP("Konqueror"),
+                        KONQUEROR_VERSION,
                         I18N_NOOP("Web browser, file manager, ..."),
-                        KAboutData::License_GPL, 
+                        KAboutData::License_GPL,
                         "(c) 1999-2000, The Konqueror developers" );
   aboutData.addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
   aboutData.addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
@@ -159,13 +159,13 @@ int main( int argc, char **argv )
   {
      if (!args->isSet("silent"))
      {
-        fm.openFileManagerWindow( 0L );
+        fm.openFileManagerWindow( KURL() );
      }
   }
   else
   {
      for ( int i = 0; i < args->count(); i++ )
-        fm.openFileManagerWindow( args->arg(i) );
+        fm.openFileManagerWindow( args->url(i) );
   }
   args->clear();
 

@@ -63,7 +63,7 @@ class KonqMainView : public KParts::MainWindow,
   Q_OBJECT
   K_DCOP
 public:
-  KonqMainView( const QString &initialURL = QString::null, bool openInitialURL = true, const char *name = 0 );
+  KonqMainView( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
   ~KonqMainView();
 
   void openFilteredURL( KonqChildView *_view, const QString &_url );

@@ -46,7 +46,6 @@
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kiconloader.h>
-#include <kio_cache.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
 #include <knewmenu.h>
@@ -86,7 +85,7 @@ template class QList<KToggleAction>;
 QList<QPixmap> *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
 
-KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, const char *name )
+KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name ),  DCOPObject( "KonqMainViewIface" )
 {
   m_currentView = 0L;
@@ -158,7 +157,7 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   m_progressBar->hide();
 
   if ( !initialURL.isEmpty() )
-    openFilteredURL( 0L, initialURL );
+    openFilteredURL( 0L, initialURL.url() );
   else if ( openInitialURL )
   {
     KConfig *config = KonqFactory::instance()->config();
@@ -565,6 +564,8 @@ void KonqMainView::slotHome()
 
 void KonqMainView::slotShowCache()
 {
+    KMessageBox::error(0, i18n("Not implemented"));
+    /*
   QString file = KIOCache::storeIndex();
   if ( file.isEmpty() )
   {
@@ -576,6 +577,7 @@ void KonqMainView::slotShowCache()
   KURL::encode( f );
   f.prepend( "file:" );
   openURL( (KonqChildView *)m_currentView, KURL( f ) );
+  */
 }
 
 void KonqMainView::slotShowHistory()
@@ -983,7 +985,7 @@ void KonqMainView::speedProgress( int bytesPerSecond )
   QString sizeStr;
 
   if ( bytesPerSecond > 0 )
-    sizeStr = KIOJob::convertSize( bytesPerSecond ) + QString::fromLatin1( "/s" );
+    sizeStr = KIO::convertSize( bytesPerSecond ) + QString::fromLatin1( "/s" );
   else
     sizeStr = i18n( "stalled" );
 
@@ -1529,18 +1531,13 @@ void KonqMainView::openBookmarkURL( const QString & url )
 
 QString KonqMainView::currentTitle()
 {
-/*
+
   QString title = caption();
 
   if ( title.right( 12 ) == " - Konqueror" )
     title.truncate( title.length() - 12 );
 
   return title;
-*/
-#ifdef __GNUC__
-#warning FIXME
-#endif
-  return m_currentView->view()->url().url();
 }
 
 QString KonqMainView::currentURL()

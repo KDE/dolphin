@@ -219,8 +219,8 @@ signals:
   void sigViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
 protected slots:
-  // connected to the KROP's KIOJob
-  void slotStarted( int jobId );
+  // connected to the KROP's KIO::Job
+  void slotStarted( KIO::Job * job );
   void slotCompleted();
   void slotCanceled( const QString & errMsg );
   void slotTotalSize( int, unsigned long size );
