@@ -22,12 +22,6 @@
 #include "konq_listview.h"
 
 
-/**************************************************************
- *
- * KonqListViewDir
- *
- **************************************************************/
-
 KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
   : KonqListViewItem( _parent, _fileitem )
 {
@@ -40,11 +34,6 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir
 {
   setExpandable( true );
   m_bComplete = false;
-}
-
-KonqListViewDir::~KonqListViewDir()
-{
-  static_cast<KonqTreeViewWidget *>(m_pListViewWidget)->removeSubDir( item()->url() );
 }
 
 void KonqListViewDir::setOpen( bool _open )

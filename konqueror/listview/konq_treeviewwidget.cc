@@ -95,16 +95,6 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
     KonqBaseListViewWidget::restoreState( stream );
 }
 
-
-void KonqTreeViewWidget::removeSubDir( const KURL & _url )
-{
-   slotClear( _url );
-
-   m_dictSubDirs.remove( _url.url(-1) );
-   m_urlsToOpen.remove( _url.url(-1) );
-   m_urlsToReload.remove( _url.url(-1) );
-}
-
 void KonqTreeViewWidget::slotCompleted()
 {
    // This is necessary because after reloading it could happen that a
@@ -178,9 +168,10 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
       QListViewItem *child;
       while ( (child = item->firstChild()) )
          delete child;
-   }
 
-   reportItemCounts();
+      // only if we really deleted something update the statusbar
+      reportItemCounts();
+   }
 }
 
 void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl )
@@ -278,8 +269,14 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 {
+    QString url = _fileItem->url().url(-1);
+
     // Check if this item is in m_dictSubDirs, and if yes, then remove it
-    removeSubDir( KURL( _fileItem->url().url(-1) ) );
+    slotClear( KURL( url ) );
+   
+    m_dictSubDirs.remove( url );
+    m_urlsToOpen.remove( url );
+    m_urlsToReload.remove( url );
 
     KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }

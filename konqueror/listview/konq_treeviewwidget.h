@@ -27,6 +27,7 @@
 
 class KonqListView;
 
+
 class KonqTreeViewWidget : public KonqBaseListViewWidget
 {
    friend class KonqListViewDir;
@@ -53,9 +54,6 @@ protected slots:
 
 protected:
    KonqListViewDir *findDir( const QString &_url );
-
-   // Called by KonqListViewDir
-   void removeSubDir( const KURL & _url );
 
    void openSubFolder( KonqListViewDir *_dir, bool _reload );
    void stopListingSubFolder( KonqListViewDir *_dir );

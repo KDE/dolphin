@@ -37,7 +37,7 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem );
+  KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem *_fileitem );
 
   /**
    * Create an item representing a directory, inside a directory
@@ -45,9 +45,7 @@ public:
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KFileItem* _fileitem );
-
-  virtual ~KonqListViewDir();
+  KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir *_parent, KFileItem *_fileitem );
 
   /**
    * Called when user opens the directory (inherited from QListViewItem).
@@ -67,11 +65,6 @@ public:
    * Set to true when contents are completely known (one sublevel only).
    */
   virtual void setComplete( bool _b ) { m_bComplete = _b; }
-
-  /**
-   * (inherited from QListViewItem)
-   *
-  virtual void setup();*/
 
   /**
    * URL of this directory
