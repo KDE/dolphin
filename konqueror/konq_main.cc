@@ -101,7 +101,7 @@ int main( int argc, char **argv )
                  if( app.config()->readNumEntry( "MaxPreloadCount", 1 ) > 0 )
                  {
                      DCOPRef ref( "kded", "konqy_preloader" );
-                     if( !ref.call( "registerPreloadedKonqy", app.dcopClient()->appId(), DCOPRef::NoEventLoop, 5000 ))
+                     if( !ref.call<QCString,DCOPRef::EventLoopFlag,int>( "registerPreloadedKonqy", app.dcopClient()->appId(), DCOPRef::NoEventLoop, 5000 ))
                          return 0; // too many preloaded or failed
                      KonqMainWindow::setPreloadedFlag( true );
                      kdDebug(1202) << "Konqy preloaded :" << app.dcopClient()->appId() << endl;
