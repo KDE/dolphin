@@ -252,6 +252,9 @@ KonqMainWindow::~KonqMainWindow()
 
     config->sync();
   }
+
+  saveToolBarServicesMap();
+
   //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents done" << endl;
 
   delete m_pViewManager;
@@ -402,11 +405,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
     {
-        //kdDebug() << "KonqMainWindow::openURL : openView returned false" << endl;
+        //kdDebug(1202) << "KonqMainWindow::openURL : openView returned false" << endl;
         // Are we following another view ? Then forget about this URL. Otherwise fire app.
         if ( !req.followMode )
         {
-            //kdDebug() << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
+            //kdDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, true);
             // Remote URL: save or open ?
@@ -947,7 +950,7 @@ void KonqMainWindow::slotToolFind()
 
 void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 {
-    kdDebug() << "KonqMainWindow::slotFindClosed " << dirPart << endl;
+    kdDebug(1202) << "KonqMainWindow::slotFindClosed " << dirPart << endl;
     KonqView * dirView = m_mapViews.find( dirPart ).data();
     assert(dirView);
     dirView->lockHistory( false );
@@ -1421,7 +1424,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     ext = oldView->browserExtension();
     if ( ext )
     {
-      //kdDebug() << "Disconnecting extension for view " << oldView << endl;
+      //kdDebug(1202) << "Disconnecting extension for view " << oldView << endl;
       disconnectExtension( ext );
     }
   }
@@ -2120,7 +2123,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
   if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) &&
        m_combo && m_combo->lineEdit() == obj )
   {
-    kdDebug() << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
+    kdDebug(1202) << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == QFocusEvent::Popup)
@@ -2137,7 +2140,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
     //for ( char * s = slotNames.first() ; s ; s = slotNames.next() )
     //{
-    //    kdDebug() << "slotNames=" << s << endl;
+    //    kdDebug(1202) << "slotNames=" << s << endl;
     //}
 
     if (ev->type()==QEvent::FocusIn)
@@ -2641,7 +2644,7 @@ void KonqMainWindow::updateViewActions()
 
   // Can lock a view only if there is a next view
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
-  //kdDebug() << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
+  //kdDebug(1202) << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
 
   // Can remove view if we'll still have a main view after that
   m_paRemoveView->setEnabled( mainViewsCount() > 1 ||
@@ -3040,7 +3043,7 @@ void KonqMainWindow::saveProperties( KConfig *config )
 
 void KonqMainWindow::readProperties( KConfig *config )
 {
-  kdDebug() << "KonqMainWindow::readProperties( KConfig *config )" << endl;
+  kdDebug(1202) << "KonqMainWindow::readProperties( KConfig *config )" << endl;
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
 }
 
@@ -3121,7 +3124,12 @@ void KonqMainWindow::updateViewModeActions()
   // map
   if ( m_viewModeToolBarServices.count() > 0 &&
        !m_viewModeToolBarServices.begin().data()->serviceTypes().contains( m_currentView->serviceType() ) )
+  {
+      // Save the current map to the config file, for later reuse
+      saveToolBarServicesMap();
+
       m_viewModeToolBarServices.clear();
+  }
 
   KTrader::OfferList services = m_currentView->partServiceOffers();
 
@@ -3137,6 +3145,12 @@ void KonqMainWindow::updateViewModeActions()
   // Although I wrote this now only of icon/listview it has to work for
   // any view, that's why it's so general :)
   QMap<QString,KonqViewModeAction*> groupedServiceMap;
+
+  // Another temporary map, the preferred service for each library (2 entries in our example)
+  QMap<QString,QString> preferredServiceMap;
+
+  KConfig * config = KGlobal::config();
+  config->setGroup( "ModeToolBarServices" );
 
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
@@ -3170,10 +3184,11 @@ void KonqMainWindow::updateViewModeActions()
       // if we don't have -> create one
       if ( mapIt == groupedServiceMap.end() )
       {
-          // default
+          // default service on this action: the current one (i.e. the first one)
           QString text = (*it)->name();
           QString icon = (*it)->icon();
-          QCString name = (*it)->desktopEntryName().ascii();
+          QCString name = (*it)->desktopEntryName().latin1();
+          //kdDebug(1202) << " Creating action for " << (*it)->library() << ". Default service " << (*it)->name() << endl;
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
           // then we will want to use the previously used settings (previous as
@@ -3181,9 +3196,21 @@ void KonqMainWindow::updateViewModeActions()
           QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.find( (*it)->library() );
           if ( serviceIt != m_viewModeToolBarServices.end() )
           {
+              //kdDebug(1202) << " Setting action for " << (*it)->library() << " to " << (*serviceIt)->name() << endl;
               text = (*serviceIt)->name();
               icon = (*serviceIt)->icon();
               name = (*serviceIt)->desktopEntryName().ascii();
+          } else
+          {
+              // if we don't have it in the map, we should look for a setting
+              // for this library in the config file.
+              QString preferredService = config->readEntry( (*it)->library() );
+              if ( !preferredService.isEmpty() && name != preferredService.latin1() )
+              {
+                  //kdDebug(1202) << " Inserting into preferredServiceMap(" << (*it)->library() << ") : " << preferredService << endl;
+                  // The preferred service isn't the current one, so remember to set it later
+                  preferredServiceMap[ (*it)->library() ] = preferredService;
+              }
           }
 
           KonqViewModeAction *tbAction = new KonqViewModeAction( text,
@@ -3203,26 +3230,54 @@ void KonqMainWindow::updateViewModeActions()
           mapIt = groupedServiceMap.insert( (*it)->library(), tbAction );
       }
 
-      // make sure to check the appropriate viewmode action of the currently
-      // displayed viewmode and do likewise for the toolbar button (action)
-      if ( (*it)->desktopEntryName() == m_currentView->service()->desktopEntryName() )
+      // Check the actions (toolbar button and menu item) if they correspond to the current view
+      bool bIsCurrentView = (*it)->desktopEntryName() == m_currentView->service()->desktopEntryName();
+      if ( bIsCurrentView )
       {
-          action->setChecked( true );
-
           (*mapIt)->setChecked( true );
+          action->setChecked( true );
+      }
+
+      // Set the contents of the button from the current service, either if it's the current view
+      // or if it's our preferred service for this button (library)
+      if ( bIsCurrentView
+           || ( preferredServiceMap.contains( (*it)->library() ) && (*it)->desktopEntryName() == preferredServiceMap[ (*it)->library() ] ) )
+      {
+          //kdDebug(1202) << " Changing action for " << (*it)->library() << " into service " << (*it)->name() << endl;
+
           (*mapIt)->setText( (*it)->name() );
           (*mapIt)->setIcon( (*it)->icon() );
           (*mapIt)->setName( (*it)->desktopEntryName().ascii() ); // tricky...
+          preferredServiceMap.remove( (*it)->library() ); // The current view has priority over the saved settings
       }
 
       // plug action also into the delayed popupmenu of appropriate toolbar action
       action->plug( (*mapIt)->popupMenu() );
   }
 
+#ifndef NDEBUG
+  ASSERT( preferredServiceMap.isEmpty() );
+  QMap<QString,QString>::Iterator debugIt = preferredServiceMap.begin();
+  QMap<QString,QString>::Iterator debugEnd = preferredServiceMap.end();
+  for ( ; debugIt != debugEnd ; ++debugIt )
+      kdDebug(1202) << " STILL IN preferredServiceMap : " << debugIt.key() << " | " << debugIt.data() << endl;
+#endif
+
   if ( !m_currentView->isToggleView() ) // No view mode for toggable views
       // (The other way would be to enforce a better servicetype for them, than Browser/View)
       if ( /* already tested: services.count() > 1 && */ m_viewModeMenu )
           plugViewModeActions();
+}
+
+void KonqMainWindow::saveToolBarServicesMap()
+{
+    QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.begin();
+    QMap<QString,KService::Ptr>::ConstIterator serviceEnd = m_viewModeToolBarServices.end();
+    KConfig * config = KGlobal::config();
+    config->setGroup( "ModeToolBarServices" );
+    for ( ; serviceIt != serviceEnd ; ++serviceIt )
+        config->writeEntry( serviceIt.key(), serviceIt.data()->desktopEntryName() );
+    config->sync();
 }
 
 void KonqMainWindow::plugViewModeActions()
@@ -3261,7 +3316,7 @@ void KonqMainWindow::updateBookmarkBar()
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
 {
-  //kdDebug() << "KonqMainWindow::closeEvent begin" << endl;
+  //kdDebug(1202) << "KonqMainWindow::closeEvent begin" << endl;
   // This breaks session management (the window is withdrawn in kwin)
   // so let's do this only when closed by the user.
   if ( static_cast<KonquerorApplication *>(kapp)->closedByUser() )
@@ -3270,7 +3325,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
     qApp->flushX();
   }
   KParts::MainWindow::closeEvent( e );
-  //kdDebug() << "KonqMainWindow::closeEvent end" << endl;
+  //kdDebug(1202) << "KonqMainWindow::closeEvent end" << endl;
 }
 
 

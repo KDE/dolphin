@@ -342,6 +342,8 @@ protected:
 
   void applyKonqMainWindowSettings();
 
+    void saveToolBarServicesMap();
+
   void viewsChanged();
 
   void updateLocalPropsActions();
