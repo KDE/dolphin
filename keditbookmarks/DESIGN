@@ -1,22 +1,20 @@
-bookmarkiterator
--> favicons
--> testlink
-
-toplevel
-   listview (almost done)
-   gui
-   cmdgen
-   misc
-
-commands
-   move
-   delete
-   create
-   rename
-   edit (attribute)
--> importers
-
 3 different selection styles:
    bookmark iterators (ITR_ACTION)
    single bookmark (ITEM_ACTION)
    normal selection (SELC_ACTION)
+
+four layers:
+   toplevel     : startup, initialisation
+   listview     : listview, selection, action forwarding
+   commands     : bookmark undo/redo mechanism implementation
+   actionsimpl  : the actual slots, almost all of 'em
+
+various other thingies:
+   search           : incremental search implementation
+   favicons         : iterating action implementation using bookmarkiterator
+   importers        : forwarders to kio/bookmarks code
+   exporters        : forwarders to kio/bookmarks code, and html export code
+   dcop             : dcop handling, internal interface
+   bookmarkiterator : is a baseclass for iterating actions, of sorts...
+   updater          : favicon updating base stuff - kio/khtml crap
+   testlink         : link testing stuff
