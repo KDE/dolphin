@@ -27,6 +27,7 @@ class KBookmarkTextMap;
 class Searcher : public QObject {
    Q_OBJECT
 protected slots:
+   void slotSearchNext();
    void slotSearchTextChanged(const QString & text);
 public:
    static Searcher* self() { 
@@ -35,7 +36,6 @@ public:
 private:
    Searcher() { m_bktextmap = 0; }
    static Searcher *s_self;
-   KBookmark m_last_search_result;
    KBookmarkTextMap *m_bktextmap;
 };
 

@@ -216,6 +216,9 @@ void KEBApp::construct() {
    connect(m_iSearchLineEdit, SIGNAL( textChanged(const QString &) ),
            Searcher::self(),  SLOT( slotSearchTextChanged(const QString &) ));
 
+   connect(m_iSearchLineEdit, SIGNAL( returnPressed() ),
+           Searcher::self(),  SLOT( slotSearchNext() ));
+
    slotClipboardDataChanged();
 
    readConfig();

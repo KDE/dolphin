@@ -83,29 +83,31 @@ QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
 
 Searcher* Searcher::s_self = 0;
 
+static int m_currentResult;
+static QString m_searchText;
+
+void Searcher::slotSearchNext()
+{
+   QValueList<KBookmark> list = m_bktextmap->find(m_searchText);
+   if (list.empty()) {
+      return;
+   }
+   KEBListViewItem *item = ListView::self()->getItemAtAddress(list[m_currentResult].address());
+   m_currentResult = (m_currentResult+1) % (list.count()-1);
+   ListView::self()->clearSelection();
+   ListView::self()->setCurrent(item);
+   item->setSelected(true);
+}
+
 void Searcher::slotSearchTextChanged(const QString & text)
 {
-   if (!m_bktextmap)
+   if (!m_bktextmap) {
       m_bktextmap = new KBookmarkTextMap(CurrentMgr::self()->mgr());
-   m_bktextmap->update(); // TODO - should make update only when dirty
-
-   QValueList<KBookmark> list = m_bktextmap->find(text);
-   for ( QValueList<KBookmark>::iterator it = list.begin();
-         it != list.end(); ++it 
-   ) {
-      if (!m_last_search_result.isNull()) {
-         KEBListViewItem *item 
-            = ListView::self()->getItemAtAddress(m_last_search_result.address());
-         item->setSelected(false);
-         item->repaint();
-      }
-      KEBListViewItem *item 
-         = ListView::self()->getItemAtAddress((*it).address());
-      ListView::self()->setCurrent(item);
-      item->setSelected(true);
-      m_last_search_result = (*it);
-      break;
    }
+   m_bktextmap->update(); // FIXME - make this public and use it!!!
+   m_searchText = text;
+   m_currentResult = 0;
+   slotSearchNext();
 }
 
 #include "search.moc"
