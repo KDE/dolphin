@@ -43,14 +43,14 @@ PasswdProcess::PasswdProcess(QCString user)
     if (user.isEmpty()) {
 	pw = getpwuid(getuid());
 	if (pw == 0L) {
-	    kDebugError("You don't exist!");
-	    return;
+	    kdDebug() << "You don't exist!";
+            return;
 	}
 	m_User = pw->pw_name;
     } else {
 	pw = getpwnam(user);
 	if (pw == 0L) {
-	    kDebugError("%s: User %s does not exist.", ID, user.data());
+	    kdDebug() << ID << ": User " << user.data() << "does not exist.";
 	    return;
 	}
 	m_User = user;
@@ -79,7 +79,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 
     QString path = KStandardDirs::findExe("passwd");
     if (path.isEmpty()) {
-	kDebugError("passwd not found!");
+	kdDebug() << "passwd not found!";
 	return -1;
     }
     QCString cpath = path.latin1();
@@ -90,7 +90,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 
     int ret = ConversePasswd(oldpass, newpass, check);
     if (ret < 0) {
-	kDebugError("%s: Conversation with passwd failed", ID);
+	kdDebug() << ID << ": Conversation with passwd failed";
 	return -1;
     } 
     if (ret == 1) {
@@ -178,7 +178,7 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	}
     }
 
-    kDebugInfo("%s: Conversation ended", ID);
+    kdDebug() << ID << ": Conversation ended";
     return 0;
 }
     
@@ -203,4 +203,5 @@ bool PasswdProcess::isPrompt(QCString line, const char *word)
 
     return line.contains(word, false);
 }
+
 
