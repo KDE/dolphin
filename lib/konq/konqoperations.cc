@@ -310,34 +310,6 @@ void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
-    /*
-        All done by KIO::Job now
-    else
-    {
-      kdDebug() << "KonqOperations::slotResult : notifying using KDirNotify" << endl;
-      KDirNotify_stub allDirNotify("*", "KDirNotify*");
-      switch (m_method) {
-        case TRASH:
-            // Notify the listers showing the trash that new files are there
-            allDirNotify.FilesAdded( KGlobalSettings::trashPath() );
-            // fall through
-        case SHRED:
-        case DEL:
-            // Notify about the deletions
-            allDirNotify.FilesRemoved( m_srcURLs );
-            break;
-        case MOVE:
-            allDirNotify.FilesRemoved( m_srcURLs );
-            // fall through
-        case COPY:
-        case LINK:
-            allDirNotify.FilesAdded( m_destURL );
-            break;
-        default:
-            ASSERT(0);
-      }
-    }
-    */
     delete this;
 }
 
