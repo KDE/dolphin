@@ -744,7 +744,6 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     if ( !windowArgs.menuBarVisible )
     {
-        // ### for some strange reason this does not work :-(
         mainWindow->menuBar()->hide();
         mainWindow->m_paShowMenuBar->setChecked( false );
     }

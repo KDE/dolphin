@@ -245,7 +245,7 @@ public:
   void callExtensionBoolMethod( const char *methodName, bool value );
   void callExtensionStringMethod( const char *methodName, QString value );
 
-  void setViewName( const QString &name ) { m_name = name; }
+  void setViewName( const QString &name );
   QString viewName() const { return m_name; }
 
   QStringList frameNames() const;

@@ -677,6 +677,13 @@ void KonqView::callExtensionStringMethod( const char *methodName, QString value 
   }
 }
 
+void KonqView::setViewName( const QString &name )
+{
+    m_name = name;
+    if ( m_pPart )
+        m_pPart->setName( m_name.local8Bit().data() );
+}
+
 KonqViewIface * KonqView::dcopObject()
 {
   if ( !m_dcopObject )
