@@ -38,7 +38,7 @@
 #include <kservicetype.h>
 #include <klocale.h>
 
-KProfileOptions::KProfileOptions( int &argc, char **argv, QWidget *parent = 0L, const char *name = 0L )
+KProfileOptions::KProfileOptions( int &argc, char **argv, QWidget *parent, const char *name )
 : KConfigWidget( parent, name )
 {
   if ( !KdedInstance::self() )
