@@ -90,6 +90,7 @@ protected:
   QString _url;
   QString _fileURL;
   QString _mimeType;
+  QByteArray _data;
   class KTempFile *_tempFile;
 
 private:
@@ -113,7 +114,8 @@ public:
   NSPluginStream( class NSPluginInstance *instance );
   ~NSPluginStream();
 
-  bool get(QString url, QString mimeType, void *notifyData);
+  bool get(const QString& url, const QString& mimeType, void *notifyData);
+  bool post(const QString& url, const QByteArray& data, const QString& mimeType, void *notifyData);
 
 protected slots:
   void data(KIO::Job *job, const QByteArray &data);
@@ -136,7 +138,7 @@ public:
   NSPluginBufStream( class NSPluginInstance *instance );
   ~NSPluginBufStream();
 
-  bool get( QString url, QString mimeType, const QByteArray &buf, void *notifyData, bool singleShot=false );
+  bool get( const QString& url, const QString& mimeType, const QByteArray &buf, void *notifyData, bool singleShot=false );
 
 protected slots:
   void timer();
@@ -192,6 +194,9 @@ public:
   void requestURL( const QString &url, const QString &mime,
 		   const QString &target, void *notify );
 
+  void postURL( const QString &url, const QByteArray& data, const QString &mime,
+		   const QString &target, void *notify );
+
 public slots:
   void streamFinished( NSPluginStreamBase *strm );
 
@@ -223,13 +228,22 @@ private:
 
   struct Request
   {
+      // A GET request
       Request( const QString &_url, const QString &_mime,
 	       const QString &_target, void *_notify)
-	  { url=_url; mime=_mime; target=_target; notify=_notify; };
+	  { url=_url; mime=_mime; target=_target; notify=_notify; post=false; }
+
+      // A POST request
+      Request( const QString &_url, const QByteArray& _data,
+               const QString &_mime, const QString &_target, void *_notify)
+	  { url=_url; mime=_mime; target=_target;
+            notify=_notify; post=true; data=_data; }
 
       QString url;
       QString mime;
       QString target;
+      QByteArray data;
+      bool post;
       void *notify;
   };
 

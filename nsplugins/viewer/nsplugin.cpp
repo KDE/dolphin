@@ -210,7 +210,7 @@ NPError g_NPN_GetURL(NPP instance, const char *url, const char *target)
 {
    kdDebug(1431) << "g_NPN_GetURL: url=" << url << " target=" << target << endl;
 
-   NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
+   NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    inst->requestURL( QString::fromLatin1(url), QString::null,
                      QString::fromLatin1(target), 0 );
 
@@ -222,7 +222,7 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
                          void* notifyData)
 {
     kdDebug(1431) << "g_NPN_GetURLNotify: url=" << url << " target=" << target << " inst=" << (void*)instance << endl;
-   NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
+   NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    kdDebug(1431) << "g_NPN_GetURLNotify: ndata=" << (void*)inst << endl;
    inst->requestURL( QString::fromLatin1(url), QString::null,
                      QString::fromLatin1(target), notifyData );
@@ -231,10 +231,10 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
 }
 
 
-NPError g_NPN_PostURL(NPP /*instance*/, const char* url, const char* target,
-                    uint32 len, const char* buf, NPBool file)
+NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
+                     uint32 len, const char* buf, NPBool file, void* notifyData)
 {
-//http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api13.html
+// http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api14.html
    kdDebug(1431) << "g_NPN_PostURL() [incomplete]" << endl;
    QByteArray postdata;
 
@@ -252,20 +252,26 @@ NPError g_NPN_PostURL(NPP /*instance*/, const char* url, const char* target,
 
    if (!target) {
       // Send the results of the post to the plugin
+      // FIXME
    } else if (!strcmp(target, "_current") || !strcmp(target, "_self") ||
               !strcmp(target, "_top")) {
       // Unload the plugin, put the results in the frame/window that the
       // plugin was loaded in
+      // FIXME
    } else if (!strcmp(target, "_new") || !strcmp(target, "_blank")){
       // Open a new browser window and write the results there
+      // FIXME
    } else {
       // Write the results to the specified frame
+      // FIXME
    }
 
    KURL u(url);
 
    if (u.protocol() == "http" || u.protocol() == "https") {
-      /*job = */ KIO::http_post(u, postdata, false);
+      NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
+      inst->postURL( QString::fromLatin1(url), postdata, QString::null,
+                     QString::fromLatin1(target), notifyData );
    } else {
       // FIXME - must implement this
       return NPERR_INVALID_URL;
@@ -275,13 +281,13 @@ NPError g_NPN_PostURL(NPP /*instance*/, const char* url, const char* target,
 }
 
 
-NPError g_NPN_PostURLNotify(NPP /*instance*/, const char* /*url*/, const char* /*target*/,
-                          uint32 /*len*/, const char* /*buf*/, NPBool /*file*/, void* /*notifyData*/)
+NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
+                    uint32 len, const char* buf, NPBool file)
 {
-//http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api14.html
-   kdDebug(1431) << "g_NPN_PostURL() [unimplemented]" << endl;
+// http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api13.html
+   kdDebug(1431) << "g_NPN_PostURL() [incomplete]" << endl;
 
-   return NPERR_GENERIC_ERROR;
+   return g_NPN_PostURLNotify(instance, url, target, len, buf, file, 0L);
 }
 
 
@@ -361,6 +367,7 @@ NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void* /*value
 void
 NSPluginInstance::forwarder(Widget w, XtPointer cl_data, XEvent * event, Boolean * cont)
 {
+  Q_UNUSED(w);
   NSPluginInstance *inst = (NSPluginInstance*)cl_data;
   *cont = True;
   if (inst->_area == 0 || event->xkey.window == XtWindow(inst->_area))
@@ -380,6 +387,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    QObject *parent, const char* name )
    : QObject( parent, name ), DCOPObject()
 {
+    Q_UNUSED(embed);
    _visible = false;
    _npp = privateData;
    _npp->ndata = this;
@@ -590,6 +598,18 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << url << " target=" <<
         target << " notify=" << notify << endl;
     _waitingRequests.enqueue( new Request( url, mime, target, notify ) );
+    if ( _streams.count()==0 )
+        _timer->start( 0, true );
+}
+
+
+void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
+                                const QString &mime,
+                                const QString &target, void *notify )
+{
+    kdDebug(1431) << "NSPluginInstance::postURL url=" << url << " target=" <<
+        target << " notify=" << notify << endl;
+    _waitingRequests.enqueue( new Request( url, data, mime, target, notify ) );
     if ( _streams.count()==0 )
         _timer->start( 0, true );
 }
@@ -1348,8 +1368,9 @@ NSPluginBufStream::~NSPluginBufStream()
 }
 
 
-bool NSPluginBufStream::get( QString url, QString mimeType, const QByteArray &buf,
-                             void *notifyData, bool singleShot )
+bool NSPluginBufStream::get( const QString& url, const QString& mimeType,
+                             const QByteArray &buf, void *notifyData,
+                             bool singleShot )
 {
     _singleShot = singleShot;
     if ( create( url, mimeType, notifyData ) ) {
@@ -1394,12 +1415,33 @@ NSPluginStream::~NSPluginStream()
 }
 
 
-bool NSPluginStream::get( QString url, QString mimeType, void *notify )
+bool NSPluginStream::get( const QString& url, const QString& mimeType,
+                          void *notify )
 {
     // create new stream
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
         _job = KIO::get(url, false, false);
+        connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
+                SLOT(data(KIO::Job *, const QByteArray &)));
+        connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
+        connect(_job, SIGNAL(totalSize(KIO::Job *, KIO::filesize_t )),
+                SLOT(totalSize(KIO::Job *, KIO::filesize_t)));
+        connect(_job, SIGNAL(mimetype(KIO::Job *, const QString &)),
+                SLOT(mimetype(KIO::Job *, const QString &)));
+    }
+
+    return false;
+}
+
+
+bool NSPluginStream::post( const QString& url, const QByteArray& data, 
+                           const QString& mimeType, void *notify )
+{
+    // create new stream
+    if ( create( url, mimeType, notify ) ) {
+        // start the kio job
+        _job = KIO::http_post(url, data, false);
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
