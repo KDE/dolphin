@@ -106,6 +106,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect(this,SIGNAL(executed(QListViewItem* )),this,SLOT(slotExecuted(QListViewItem*)));
    connect(this,SIGNAL(currentChanged(QListViewItem*)),this,SLOT(slotCurrentChanged(QListViewItem*)));
    connect(this,SIGNAL(onItem(QListViewItem*)),this,SLOT(slotOnItem(QListViewItem*)));
+   connect(this,SIGNAL(itemRename(QListViewItem*, const QString &, int)),this,SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
    connect(this,SIGNAL(onViewport()),this,SLOT(slotOnViewport()));
    connect(this,SIGNAL(menuShortCutPressed (KListView* , QListViewItem* )),this,SLOT(slotPopupMenu(KListView*,QListViewItem*)));
    connect(this,SIGNAL(selectionChanged()),this,SLOT(updateSelectedFilesInfo()));
@@ -501,6 +502,15 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
    else
       if (m_filesSelected) s=m_selectedFilesStatusText;
    emit m_pBrowserView->setStatusBarText( s );
+}
+
+void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
+{
+    ASSERT(col==0);
+    if (col != 0) return;
+    assert(item);
+    KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
+    KonqOperations::rename( this, fileItem, name );
 }
 
 void KonqBaseListViewWidget::slotOnViewport()

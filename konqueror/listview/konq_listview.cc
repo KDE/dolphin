@@ -164,6 +164,7 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "properties", ( selection.count() == 1 ) &&
                      KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( selection.count() == 1 ) );
+  emit enableAction( "rename", ( selection.count() == 1 ) );
 }
 
 void ListViewBrowserExtension::copySelection( bool move )
@@ -197,6 +198,14 @@ void ListViewBrowserExtension::paste()
     pasteURL = m_listView->url();
 
   KonqOperations::doPaste( m_listView->listViewWidget(), pasteURL );
+}
+
+void ListViewBrowserExtension::rename()
+{
+  QValueList<KonqBaseListViewItem*> selection;
+  m_listView->listViewWidget()->selectedItems( selection );
+  ASSERT ( selection.count() == 1 );
+  m_listView->listViewWidget()->rename( selection.first(), 0 );
 }
 
 void ListViewBrowserExtension::reparseConfiguration()

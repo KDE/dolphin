@@ -128,6 +128,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotOnItem( QListViewItem* _item );
       virtual void slotOnViewport();
       virtual void slotExecuted( QListViewItem* _item );
+      void slotItemRenamed(QListViewItem*, const QString &, int);
 
    protected slots:
       // from QListView

@@ -172,6 +172,7 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
       void copy() { copySelection( false ); }
       void cut() { copySelection( true ); }
       void paste();
+      void rename();
       void trash() { KonqOperations::del(m_listView->listViewWidget(),
                                          KonqOperations::TRASH,
                                          m_listView->listViewWidget()->selectedUrls()); }
