@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>DesktopBehaviorBase</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>394</width>
-            <height>442</height>
+            <width>522</width>
+            <height>460</height>
         </rect>
     </property>
     <property name="caption">
@@ -95,7 +95,7 @@
                             <cstring>desktopMenuGroup</cstring>
                         </property>
                         <property name="title">
-                            <string>Menu bar at the top of the screen:</string>
+                            <string>Menu Bar at Top of Screen</string>
                         </property>
                         <vbox>
                             <property name="name">
