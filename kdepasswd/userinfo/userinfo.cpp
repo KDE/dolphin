@@ -372,7 +372,7 @@ const KAboutData* KUserInfoConfig::aboutData() const
                 I18N_NOOP("(c) 2002, Braden MacDonald"));
 
   about->addAuthor("Braden MacDonald", I18N_NOOP("Face editor"), "bradenm_k@shaw.ca");
-  about->addAuthor("Geert Jansen", I18N_NOOP("Passowrd changer"), "jansen@kde.org", "http://www.stack.nl/~geertj/");
+  about->addAuthor("Geert Jansen", I18N_NOOP("Password changer"), "jansen@kde.org", "http://www.stack.nl/~geertj/");
   about->addAuthor("Ravikiran Rajagopal", I18N_NOOP("Maintainer"), "ravi@ee.eng.ohio-state.edu");
 
   return about;

@@ -63,7 +63,7 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
   connect( browseBtn, SIGNAL( clicked() ), SLOT( slotGetCustomImage() ) );
   morePics->addWidget( browseBtn );
 #if 0
-  QPushButton *aquireBtn = new QPushButton( i18n("&Aquire Image..."), page );
+  QPushButton *aquireBtn = new QPushButton( i18n("&Acquire Image..."), page );
   aquireBtn->setEnabled( false );
   morePics->addWidget( aquireBtn );
 #endif
