@@ -93,6 +93,7 @@ KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part,
   if ( frameHeaderLook == PIXMAP ) {
     KIconLoader* iconLoader = new KIconLoader();
 
+#if 0
     iconLoader->getDirList().clear();
     
     iconLoader->insertDirectory(0, kapp->localkdedir()+"/share/apps/kwm/pics");
@@ -101,6 +102,7 @@ KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part,
     iconLoader->insertDirectory(3, kapp->kde_datadir()+"/kwm/toolbar");
     iconLoader->insertDirectory(4, kapp->localkdedir()+"/share/toolbar");
     iconLoader->insertDirectory(5, kapp->kde_toolbardir());
+#endif
 
     *(frameHeaderActive) = iconLoader->reloadIcon("activetitlebar.xpm");
     *(frameHeaderInactive) = iconLoader->reloadIcon("inactivetitlebar.xpm");
