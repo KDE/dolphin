@@ -77,6 +77,8 @@ public:
 
   void openURL( KonqView *_view, const KURL &_url, const QString &serviceType = QString::null );
 
+  void abortLoading();
+
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
   virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id );

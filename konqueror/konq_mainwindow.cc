@@ -277,7 +277,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
     if ( view == m_currentView )
     {
       //will do all the stuff below plus GUI stuff
-      slotStop();
+      abortLoading();
       // Show it for now in the location bar, but we'll need to store it in the view
       // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
       kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
@@ -412,6 +412,15 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   }
 
   openURL( childView, url, args.serviceType );
+}
+
+void KonqMainWindow::abortLoading()
+{
+  if ( m_currentView )
+  {
+    m_currentView->stop(); // will take care of the statusbar
+    stopAnimation();
+  }
 }
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
@@ -600,10 +609,10 @@ void KonqMainWindow::slotLockView()
 
 void KonqMainWindow::slotStop()
 {
+  abortLoading();
   if ( m_currentView )
   {
-    m_currentView->stop(); // will take care of the statusbar
-    stopAnimation();
+    m_currentView->frame()->statusbar()->message( i18n("Canceled.") ); 
   }
 }
 
