@@ -167,8 +167,8 @@ void ImportCommand::execute()
     // Find or create "Netscape Bookmarks" toplevel item
     // Hmm, let's just create it. The user will clean up if he imports twice.
 
-    KBookmarkGroup netscapeGroup = KBookmarkManager::self()->root().createNewFolder(i18n("Netscape Bookmarks"));
-    netscapeGroup.internalElement().setAttribute("ICON", "netscape");
+    KBookmarkGroup netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder);
+    netscapeGroup.internalElement().setAttribute("ICON", m_icon);
     m_group = netscapeGroup.address();
 
     mstack.push( &netscapeGroup );

@@ -77,6 +77,7 @@ public:
 
 public slots:
     void slotImportNS();
+    void slotImportMoz();
     void slotSave();
     void slotRename();
     void slotDelete();

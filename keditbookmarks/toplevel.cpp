@@ -20,6 +20,7 @@
 #include "commands.h"
 #include <kaction.h>
 #include <kbookmarkmanager.h>
+#include <kbookmarkimporter.h>
 #include <kdebug.h>
 #include <kstdaction.h>
 #include <klocale.h>
@@ -28,8 +29,8 @@
 #include <krun.h>
 #include <kiconloader.h>
 #include <kapp.h>
+#include <qfile.h>
 #include <dcopclient.h>
-#include <qdir.h>
 #include <assert.h>
 #include <stdlib.h>
 
@@ -155,8 +156,10 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     // Create the actions
 
-    (void) new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "file_importNS" );
-    // TODO Mozilla bookmarks
+    KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "file_importNS" );
+    act->setEnabled( QFile::exists( KBookmarkImporter::netscapeBookmarksFile() ) );
+    act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "file_importMoz" );
+    act->setEnabled( QFile::exists( KBookmarkImporter::mozillaBookmarksFile() ) );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "edit_delete" );
@@ -289,7 +292,17 @@ void KEBTopLevel::slotInsertSeparator()
 
 void KEBTopLevel::slotImportNS()
 {
-    ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), QDir::homeDirPath() + "/.netscape/bookmarks.html" );
+    ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KBookmarkImporter::netscapeBookmarksFile(),
+                                             i18n("Netscape Bookmarks"), "netscape");
+    cmd->execute();
+    m_commandHistory.addCommand( cmd );
+    setModified();
+}
+
+void KEBTopLevel::slotImportMoz()
+{
+    ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), KBookmarkImporter::mozillaBookmarksFile(),
+                                             i18n("Mozilla Bookmarks"), "mozilla");
     cmd->execute();
     m_commandHistory.addCommand( cmd );
     setModified();

@@ -98,8 +98,8 @@ class ImportCommand : public QObject, public KCommand
 {
     Q_OBJECT
 public:
-    ImportCommand( const QString & name, const QString & fileName )
-        : KCommand(name), m_fileName(fileName)
+    ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon )
+        : KCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon)
     {}
     virtual ~ImportCommand() {}
     virtual void execute();
@@ -115,6 +115,8 @@ private:
     QStack<KBookmarkGroup> mstack;
     QValueList<KBookmarkGroup> mlist;
     QString m_fileName;
+    QString m_folder;
+    QString m_icon;
     QString m_group;
 };
 

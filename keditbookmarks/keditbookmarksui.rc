@@ -1,12 +1,13 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="1">
+<kpartgui name="keditbookmarks" version="2">
 
 <MenuBar>
 
 <Menu name="file" noMerge="1"><text>&amp;File</text>
  <Action name="file_importNS"/>
+ <Action name="file_importMoz"/>
+ <Separator/>
  <Action name="file_save"/>
- <WeakSeparator/>
  <Action name="file_close"/>
 </Menu>
 
