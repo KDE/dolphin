@@ -1753,9 +1753,13 @@ void KonqMainWindow::slotUndoAvailable( bool avail )
 
   if ( avail && m_currentView && m_currentView->part() )
   {
-    QVariant prop = m_currentView->part()->property( "supportsUndo" );
-    if ( prop.isValid() && prop.toBool() )
-      enable = true;
+    // Avoid qWarning from QObject::property if it doesn't exist
+    if ( m_currentView->part()->metaObject()->findProperty( "supportsUndo" ) != -1 )
+    {
+      QVariant prop = m_currentView->part()->property( "supportsUndo" );
+      if ( prop.isValid() && prop.toBool() )
+        enable = true;
+    }
   }
 
   m_paUndo->setEnabled( enable );
