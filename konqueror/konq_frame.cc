@@ -27,7 +27,7 @@
 
 #define DEFAULT_HEADER_HEIGHT 9
 
-KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L ) : QWidget( _parent, _name ), m_pParentKonqFrame( _parent )
+KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) : QWidget( _parent, _name ), m_pParentKonqFrame( _parent )
 {
   QString key;
 
@@ -369,7 +369,7 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
     pm.gradientFill(ca, cb, vertShaded);
 }
 
-KonqFrame::KonqFrame( QWidget *_parent = 0L, const char *_name = 0L )
+KonqFrame::KonqFrame( QWidget *_parent, const char *_name )
                     : OPFrame( _parent, _name)
 {
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");

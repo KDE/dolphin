@@ -94,7 +94,7 @@ protected:
 private:
 
   // There is no default constructor. Use the provided one or copy constructor
-  KfmViewProps::KfmViewProps();
+  KfmViewProps();
 };
 
 // The class KfmViewSettings holds the general settings, that apply to
@@ -161,9 +161,9 @@ protected:
 
 private:
   // There is no default constructor. Use the provided one.
-  KfmViewSettings::KfmViewSettings();
+  KfmViewSettings();
   // No copy constructor either. What for ?
-  KfmViewSettings::KfmViewSettings( const KfmViewSettings &);
+  KfmViewSettings( const KfmViewSettings &);
 };
 
 #endif

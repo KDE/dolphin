@@ -82,7 +82,7 @@ public:
   
 private:
   // There is no default constructor. Use the provided one or copy constructor
-  KfmGuiProps::KfmGuiProps();
+  KfmGuiProps();
 
   bool m_bSplitView;
 

@@ -102,7 +102,7 @@ enum _ids {
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
 QList<OpenPartsUI::Pixmap>* KonqMainView::s_lstAnimatedLogo = 0L;
 
-KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWidget( _parent )
+KonqMainView::KonqMainView( const char *url, QWidget *_parent ) : QWidget( _parent )
 {
   ADD_INTERFACE( "IDL:Konqueror/MainView:1.0" );
 

@@ -80,7 +80,7 @@ public:
   virtual void openURL( const char *_url );
   virtual void openURL( const char *_url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char* _post_data = 0L );
 
-  virtual const char* url() { return m_strURL; }
+  // conflict with KonqHtmlView  virtual const char* url() { return m_strURL; }
   
   /**
    * You should overload this function to implement popup menus. By default this function does nothing.

@@ -10,6 +10,9 @@ datadir = $(kde_datadir)/kfm
 
 EXTRA_DIST = $(data_DATA)
 
+# this gives better compile-time warnings.
+# CXXFLAGS += -pedantic
+
 ####### Files
 
 bin_PROGRAMS = konqueror

@@ -1291,7 +1291,7 @@ void KIconContainerItem::breakText()
 
 void KIconContainerItem::breakText( QPainter *_painter )
 {
-  char str[ m_strText.size() + 1 ];
+  char * str = new char [ m_strText.size() + 1 ];
 
   int maxlen;
   if ( m_pContainer->displayMode() == KIconContainer::Vertical )
@@ -1361,6 +1361,7 @@ void KIconContainerItem::breakText( QPainter *_painter )
   }
   else
     assert( 0 );
+  delete str;
 }
 
 void KIconContainerItem::setFixedPos( int _x, int _y )
