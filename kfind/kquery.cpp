@@ -237,25 +237,26 @@ void KQuery::processQuery( KFileItem* file)
          KZip zipfile(file->url().path());
          KZipFileEntry *zipfileEntry;
 
-         if(!zipfile.open(IO_ReadOnly))
-           return;
-         const KArchiveDirectory *zipfileContent = zipfile.directory();
+         if(zipfile.open(IO_ReadOnly))
+         {
+           const KArchiveDirectory *zipfileContent = zipfile.directory();
 
-         if(file->mimetype()=="application/x-kword")
-           zipfileEntry=(KZipFileEntry*)zipfileContent->entry("maindoc.xml");
-         else
-           zipfileEntry=(KZipFileEntry*)zipfileContent->entry("content.xml"); //for oOo
+           if(file->mimetype()=="application/x-kword")
+             zipfileEntry=(KZipFileEntry*)zipfileContent->entry("maindoc.xml");
+           else
+             zipfileEntry=(KZipFileEntry*)zipfileContent->entry("content.xml"); //for oOo
 
-         if(!zipfileEntry)
-           return;
-             
-         zippedXmlFileContent=zipfileEntry->data();
-         xmlTags.setPattern("<.*>");
-         xmlTags.setMinimal(true);
-         stream = new QTextStream(zippedXmlFileContent, IO_ReadOnly);
-         isKWordDocument=true;
+           if(!zipfileEntry)
+             return;
+
+           zippedXmlFileContent=zipfileEntry->data();
+           xmlTags.setPattern("<.*>");
+           xmlTags.setMinimal(true);
+           stream = new QTextStream(zippedXmlFileContent, IO_ReadOnly);
+           isKWordDocument=true;
+         }
        }
-       else
+       if(!isKWordDocument) //any other file or non-compressed KWord
        {
          filename = file->url().path();
          if(filename.startsWith("/dev/"))
