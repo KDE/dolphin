@@ -22,6 +22,8 @@
 
 #include <qlist.h>
 #include <qobject.h>
+#include <sys/types.h>
+#include <kbookmark.h>
 
 class QString;
 class KBookmark;
@@ -68,20 +70,22 @@ public:
    * @param _collec parent for the KActions
    * @param _root true for the toplevel menu
    * @param _add true to show the "Add Bookmark" entry
+   * @param _parent a root bookmark for this menu
    */
   KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
-                 KActionCollection * _collec,  bool _root, bool _add = true);
+                 KActionCollection * _collec,  bool _root, bool _add = true,
+                 KBookmark * _parentBookmark = KBookmarkManager::self()->root() );
   ~KBookmarkMenu();
 
   /**
    * Even if you think you need to use this, you are probably wrong.
    * It fills a bookmark menu starting a given KBookmark.
    * This is public for KBookmarkBar.
-   * @param _parent a root bookmark that <em>must</em> be defined
    */
-  void fillBookmarkMenu( KBookmark *_parent );
+  void fillBookmarkMenu();
 
 protected slots:
+  void slotAboutToShow();
   void slotBookmarksChanged();
   void slotBookmarkSelected();
   void slotNSBookmarkSelected();
@@ -97,10 +101,29 @@ protected:
   bool m_bIsRoot;
   bool m_bAddBookmark;
   KBookmarkOwner *m_pOwner;
+  /**
+   * The menu in which we plug our actions.
+   * Supplied in the constructor.
+   */
   QPopupMenu * m_parentMenu;
+  /**
+   * List of our sub menus
+   */
   QList<KBookmarkMenu> m_lstSubMenus;
   KActionCollection * m_actionCollection;
+  /**
+   * List of our actions
+   */
   QList<KAction> m_actions;
+  /**
+   * Parent bookmark for this menu.
+   */
+  KBookmark * m_parentBookmark;
+  /**
+   * Modification time of the directory we're showing the contents of.
+   * Checked in aboutToShow and updated when parsing the dir.
+   */
+  time_t m_mtime;
 };
 
 #endif

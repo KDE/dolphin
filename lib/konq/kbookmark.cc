@@ -31,7 +31,7 @@
 #include <kurl.h>
 #include <kapp.h>
 #include <klocale.h>
-#include <kdirwatch.h>
+//#include <kdirwatch.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <krun.h>
@@ -98,15 +98,14 @@ KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 
   scan( m_sPath );
 
-  connect( KDirWatch::self(), SIGNAL( dirty( const QString & ) ),
-           this, SLOT( slotNotify( const QString & ) ) );
-
-  KDirWatch::self()->addDir( m_sPath );
+  //connect( KDirWatch::self(), SIGNAL( dirty( const QString & ) ),
+  //         this, SLOT( slotNotify( const QString & ) ) );
+  //KDirWatch::self()->addDir( m_sPath );
 }
 
 KBookmarkManager::~KBookmarkManager()
 {
-  KDirWatch::self()->removeDir( m_sPath );
+  //KDirWatch::self()->removeDir( m_sPath );
   delete m_Root;
   s_pSelf = 0L;
 }

@@ -64,17 +64,24 @@ template class QList<KBookmarkMenu>;
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, KActionCollection * _collec, bool _root, bool _add )
-  : m_bIsRoot(_root), m_bAddBookmark(_add), m_pOwner(_owner), m_parentMenu( _parentMenu ), m_actionCollection( _collec )
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
+                              KActionCollection * _collec, bool _root, bool _add,
+                              KBookmark * _parentBookmark )
+  : m_bIsRoot(_root), m_bAddBookmark(_add), m_pOwner(_owner),
+    m_parentMenu( _parentMenu ), m_actionCollection( _collec ),
+    m_parentBookmark( _parentBookmark ), m_mtime((time_t)0)
 {
   m_lstSubMenus.setAutoDelete( true );
   m_actions.setAutoDelete( true );
 
-  if ( m_bIsRoot )
+  /*if ( m_bIsRoot )
   {
     connect( KBookmarkManager::self(), SIGNAL( changed() ), this, SLOT( slotBookmarksChanged() ) );
     slotBookmarksChanged();
-  }
+  }*/
+  if ( m_parentBookmark ) // not for the netscape bookmark
+    connect( _parentMenu, SIGNAL( aboutToShow() ),
+             SLOT( slotAboutToShow() ) );
 }
 
 KBookmarkMenu::~KBookmarkMenu()
@@ -86,9 +93,24 @@ KBookmarkMenu::~KBookmarkMenu()
   m_lstSubMenus.clear();
 }
 
+void KBookmarkMenu::slotAboutToShow()
+{
+  struct stat statbuf;
+  kdDebug(1203) << "KBookmarkMenu::slotAboutToShow " << m_parentBookmark->file() << endl;
+  if ( stat( QFile::encodeName(m_parentBookmark->file()), &statbuf ) == 0 )
+  {
+    if ( statbuf.st_mtime > m_mtime )
+    {
+      m_mtime = statbuf.st_mtime;
+      kdDebug() << "Updating mtime" << endl;
+      slotBookmarksChanged();
+    }
+  }
+}
+
 void KBookmarkMenu::slotBookmarksChanged()
 {
-  //kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged()" << endl;
+  kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged()" << endl;
   m_lstSubMenus.clear();
 
   QListIterator<KAction> it( m_actions );
@@ -98,11 +120,12 @@ void KBookmarkMenu::slotBookmarksChanged()
   m_parentMenu->clear();
   m_actions.clear();
 
-  fillBookmarkMenu( KBookmarkManager::self()->root() );
+  fillBookmarkMenu();
 }
 
-void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
+void KBookmarkMenu::fillBookmarkMenu()
 {
+  kdDebug() << "KBookmarkMenu::fillBookmarkMenu " << m_parentBookmark->file() << endl;
   if ( m_bAddBookmark )
   {
     // create the first item, add bookmark, with the parent's ID (as a name)
@@ -112,7 +135,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
-                                              QCString().sprintf("bookmark%d", parent->id()) );
+                                              QCString().sprintf("bookmark%d", m_parentBookmark->id()) );
 
     paAddBookmarks->setStatusText( i18n( "Add a bookmark for the current document" ) );
 
@@ -136,7 +159,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
-                                              QCString().sprintf("newfolder%d", parent->id()) );
+                                              QCString().sprintf("newfolder%d", m_parentBookmark->id()) );
 
     paNewFolder->setStatusText( i18n( "Create a new bookmark folder in this menu" ) );
 
@@ -154,13 +177,13 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       m_actions.append( actionMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
-                                                  m_bAddBookmark );
+                                                  m_bAddBookmark, 0 );
       m_lstSubMenus.append(subMenu);
       connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
       m_parentMenu->insertSeparator();
     }
 
-  for ( KBookmark * bm = parent->first(); bm != 0L;  bm = parent->next() )
+  for ( KBookmark * bm = m_parentBookmark->first(); bm != 0L;  bm = m_parentBookmark->next() )
   {
     if ( bm->type() == KBookmark::URL )
     {
@@ -183,9 +206,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       m_actions.append( actionMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
-                                                  m_bAddBookmark );
+                                                  m_bAddBookmark, bm );
       m_lstSubMenus.append( subMenu );
-      subMenu->fillBookmarkMenu( bm );
+      // let's delay this. subMenu->fillBookmarkMenu( bm );
     }
   }
 }
@@ -304,14 +327,6 @@ void KBookmarkMenu::slotResult( KIO::Job * job )
 {
   if (job->error())
     job->showErrorDialog();
-
-  /*
-    Done by KIO::mkdir now
-  KURL uChanged;
-  uChanged.setPath( static_cast<KIO::SimpleJob *>(job)->url().directory() );
-  KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
-  allDirWatchers.FilesAdded( uChanged );
-  */
 }
 
 // -----------------------------------------------------------------------------
@@ -363,7 +378,7 @@ void KBookmarkMenu::openNSBookmarks()
         mstack.top()->m_actions.append( actionMenu );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                     m_actionCollection, false,
-                                                    m_bAddBookmark );
+                                                    m_bAddBookmark, 0 );
         mstack.top()->m_lstSubMenus.append( subMenu );
 
         mstack.push(subMenu);

@@ -77,7 +77,8 @@ public:
    */
   int id() const { return m_id; }
   /**
-   * Path to the local desktop file that defines this bookmarks.
+   * Path to the local desktop file that defines this bookmark.
+   * For submenus, this is the path to the directory.
    */
   QString file() const { return m_file; }
   /**
