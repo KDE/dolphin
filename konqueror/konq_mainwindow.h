@@ -372,7 +372,7 @@ private:
 
   bool m_bURLEnterLock;
 
-  QGuardedPtr<QComboBox> m_combo;
+  QGuardedPtr<KComboBox> m_combo;
 
   ToggleViewGUIClient *m_toggleViewGUIClient;
 

@@ -26,7 +26,7 @@
 #include <qlist.h>
 
 class KBookmarkOwner;
-class QComboBox;
+class KComboBox;
 class HistoryEntry;
 class QLabel;
 
@@ -40,13 +40,13 @@ public:
 
     virtual void unplug( QWidget *w );
 
-    QGuardedPtr<QComboBox> combo() { return m_combo; }
+    QGuardedPtr<KComboBox> combo() { return m_combo; }
 
 signals:
     void plugged();
 
 private:
-    QGuardedPtr<QComboBox> m_combo;
+    QGuardedPtr<KComboBox> m_combo;  // Is this a BCI ?? Although we inherit from QComboBox?
     QStringList m_items;
     const QObject *m_receiver;
     const char *m_member;

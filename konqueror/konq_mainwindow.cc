@@ -226,6 +226,7 @@ KonqMainWindow::~KonqMainWindow()
     KConfig *config = KonqFactory::instance()->config();
     config->setGroup( "Settings" );
     config->writeEntry( "ToolBarCombo", comboItems );
+    config->writeEntry( "CompletionMode", m_combo->completionMode() );
     config->sync();
   }
 
@@ -1427,16 +1428,27 @@ void KonqMainWindow::slotComboPlugged()
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Settings" );
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
+  int mode = config->readNumEntry("CompletionMode", KGlobalSettings::completionMode());
+  m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
 
   while ( locationBarCombo.count() > 10 )
     locationBarCombo.remove( locationBarCombo.fromLast() );
 
+/*
+  This leaves an empty item in the list box which is no longer
+  necessary using KComboBox.  As a side effect though the user
+  cannot drop down the list box originally if there was no text
+  entered in it.
   if ( locationBarCombo.count() == 0 )
     locationBarCombo << QString();
+*/
 
   m_combo->clear();
+  m_combo->setEditText( "" );  // replacement the above commented code
   m_combo->insertStringList( locationBarCombo );
-  m_combo->setCurrentItem( 0 );
+  m_combo->completionObject()->setItems( locationBarCombo );
+// m_combo->setCurrentItem( 0 ); // not necessary since we use "QComboBox::AtTop"
+
 }
 
 void KonqMainWindow::slotShowMenuBar()

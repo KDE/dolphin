@@ -23,9 +23,9 @@
 
 #include <qlabel.h>
 #include <qpopupmenu.h>
-#include <qcombobox.h>
 
 #include <ktoolbar.h>
+#include <kcombobox.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
 #include <konq_view.h> // HistoryEntry
@@ -49,16 +49,33 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
 
-  QComboBox *comboBox = toolBar->getCombo( id );
+  KComboBox *comboBox = toolBar->getCombo( id );
+  KCompletion *comp = comboBox->completionObject();
+  // Update the KCompletion object as well...
+  connect( comboBox, SIGNAL( returnPressed( QString& ) ), comp, SLOT( addItem( QString& ) ) );
 
   addContainer( toolBar, id );
 
   connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
 
   toolBar->setItemAutoSized( id, true );
-  comboBox->setAutoCompletion( true );
   comboBox->setMaxCount( 10 );
-  comboBox->setInsertionPolicy( QComboBox::AfterCurrent );
+
+  // No need to do this anymore as the user can now
+  // change the completion mode to whatever they like
+  // on the fly from the popup menu. ( RMB->Completion )
+  // Hmmm... we have to save this config later...(DA)
+  // comboBox->setAutocompletion( true );
+
+  // Why?? After current will arbitrarily add the item after the
+  // currently selected item. This means that if I select something for
+  // the listbox the next URL I enter will be added after it.  This is
+  // a very messed up way to keep a history list.  Specially since multiple
+  // enteries are allowed by default!!  Besides the nice *nix like shell
+  // completion in KcomboBox will not work in konqy under this mode. Switching
+  // to QComboBox::AtTop for now.  Ask me if this is not clear.(DA)
+  // comboBox->setInsertionPolicy( QComboBox::AfterCurrent );
+  comboBox->setInsertionPolicy( QComboBox::AtTop );
 
   m_combo = comboBox;
 
