@@ -71,9 +71,9 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
 
 KonqHTMLModule::~KonqHTMLModule()
 {
-  delete m_localConfig; 
+  delete m_localConfig;
   delete m_globalConfig;
-} 
+}
 
 void KonqHTMLModule::load()
 {
@@ -94,7 +94,9 @@ void KonqHTMLModule::save()
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
   QByteArray data;
-  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
+  kapp->dcopClient()->send( "konqueror*", "KonqMainViewIface", "reparseConfiguration()", data );
 }
 
 
