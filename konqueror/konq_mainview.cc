@@ -667,7 +667,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   m_mapViews.insert( view->id(), v );
 
-  if (isVisible()) view->show(true);
+  if (isVisible()) v->show();
   
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
 }
@@ -923,10 +923,6 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   insertView( vView, newViewPosition );
   MapViews::Iterator it = m_mapViews.find( vView->id() );
   it.data()->openURL( url );
-
-  //hack to fix slotRowAbove()
-  resize( width()+1, height()+1 );
-  resize( width()-1, height()-1 );
 }
 
 void KonqMainView::createViewMenu()

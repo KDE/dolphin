@@ -50,8 +50,6 @@ KonqHTMLView::KonqHTMLView()
 
   setWidget( this );
 
-  QWidget::show();
-
   QWidget::setFocusPolicy( StrongFocus );
 
 //  initConfig();

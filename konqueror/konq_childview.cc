@@ -81,7 +81,6 @@ void KonqChildView::attach( Konqueror::View_ptr view )
   m_vView->setParent( m_vParent );
   connectView( );
   m_pFrame->attach( view );
-  m_pFrame->show();
   KonqPlugins::installKOMPlugins( view );
 }
 
@@ -100,6 +99,14 @@ void KonqChildView::repaint()
   kdebug(0,1202,"KonqChildView::repaint()");
   assert(m_pFrame);
   m_pFrame->repaint();
+}
+
+void KonqChildView::show()
+{
+  kdebug(0,1202,"KonqChildView::show()");
+  assert(m_pFrame);
+  m_pFrame->show();
+  m_vView->show(true);
 }
 
 void KonqChildView::openURL( QString url )

@@ -47,7 +47,6 @@ KonqTxtView::KonqTxtView()
   
   setWidget( this );
   
-  QWidget::show();
   QWidget::setFocusPolicy( StrongFocus );
   
   setReadOnly( true );

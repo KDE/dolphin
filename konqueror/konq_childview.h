@@ -66,6 +66,9 @@ public:
   /** Force a repaint of the frame header */
   void repaint();
 
+  /** Show the view */
+  void show();
+
   /**
    * Displays another URL, but without changing the view mode (caller has to 
    * ensure that the call makes sense)

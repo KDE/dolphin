@@ -51,8 +51,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 
   setWidget( this );
 
-  //QWidget::show();
-
   QWidget::setFocusPolicy( StrongFocus );
   viewport()->setFocusPolicy( StrongFocus );
 
