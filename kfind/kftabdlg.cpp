@@ -433,7 +433,7 @@ bool KfindTabWidget::isDateValid()
   {
     if (timeBox->value() > 0 ) return TRUE;
 
-    KMessageBox::sorry(this, i18n("Can't search in a period which doesn't last a single minute."));
+    KMessageBox::sorry(this, i18n("Unable to search within a period which is less than a minute."));
     return FALSE;
   }
 
@@ -448,7 +448,7 @@ bool KfindTabWidget::isDateValid()
   else if ( hi1 > hi2 )
     str = i18n("Invalid date range!");
   else if ( QDate::currentDate() < hi1 )
-    str = i18n("Well, how can I search dates in the future?");
+    str = i18n("Unable to search dates in the future.");
 
   if (!str.isNull()) {
     KMessageBox::sorry(0, str);
@@ -500,7 +500,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   }
   size = sizeEdit->value() * size;
   if (size < 0)  // overflow
-     if (KMessageBox::warningYesNo(this, i18n("Size is too big... would you set max size value?"), i18n("Sorry"))
+     if (KMessageBox::warningYesNo(this, i18n("Size is too big... Set maximum size value?"), i18n("Error"))
            == KMessageBox::Yes)
 		{
          sizeEdit->setValue(INT_MAX);
