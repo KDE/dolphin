@@ -43,7 +43,12 @@ In addition to XBEL-bookmarks, favourite-icon support and Internet Keywords, Kon
         </TR>
         <TR BGCOLOR="#FFFFCC">
                 <TD>%1<!-- <A HREF="http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM">ECMA-262</A> Edition 3 (equals roughly Javascript<SUP>TM</SUP> 1.5) --></TD>
-                <TD>%1<!-- Enable Javascript (globally) <A HREF="">here</A>--></TD>
+<NOSCRIPT>
+                <TD>%1<!-- Javascript disabled [...] --></TD>
+</NOSCRIPT>
+<SCRIPT LANGUAGE="Javascript">
+                document.write("<TD>%1<!-- Javascript enabled [...]  --></TD>");
+</SCRIPT>
         </TR>
         <TR>
                 <TD>%1<!-- Secure <A HREF="http://java.sun.com">Java</A><SUP>&reg;</SUP> support--></TD>

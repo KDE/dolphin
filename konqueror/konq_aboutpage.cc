@@ -84,7 +84,7 @@ QString KonqAboutPageFactory::aboutPage()
 
     res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
           .arg( i18n( "" ) )
-          .arg( i18n( "In addition to <a href=\"http://pyxml.sourceforge.net/topics/xbel/\">XBEL-bookmarks</a>,"
+          .arg( i18n( "In addition to <a href=\"http://pyxml.sourceforge.net/topics/xbel/\">XBEL-bookmarks</a>, "
                       "favourite-icon support and Internet Keywords, Konqueror supports:" ) )
           .arg( i18n( "Specifications" ) )
           .arg( i18n( "Supported standards" ) )
@@ -96,7 +96,8 @@ QString KonqAboutPageFactory::aboutPage()
           .arg( i18n( "built-in" ) )
           .arg( i18n( "<a href=\"http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM\">ECMA-262</a>"
                       "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5" ) )
-          .arg( i18n( "Enable Javascript (globally) <a href=\"\">here</a>" ) )
+          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\\\"file:%1 konqhtml\\\">here</a>" ).arg(KStandardDirs::findExe("kcmshell")) )
+          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"file:%1 konqhtml\\\">here</a>" ).arg(KStandardDirs::findExe("kcmshell")) )
           .arg( i18n( "Secure <a href=\"http://java.sun.com\">Java</a><sup>&reg;</sup> support" ) )
 	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"http://www.blackdown.org\">Blackdown</A>, <A HREF=\"\">IBM</A>, <A HREF=\"http://www.kaffe.org\">Kaffe</A> or <A HREF=\"http://java.sun.com\">Sun</A>)" ) )
 	  .arg( i18n( "Enable Java (globally) <A HREF=\"\">here</A>" ) )
