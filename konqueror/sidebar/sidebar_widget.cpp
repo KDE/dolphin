@@ -736,7 +736,12 @@ void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
 	{
 		if (Buttons.at(i)->dock==wid)
 			{
-				if (ButtonBar->isTabRaised(i)) ButtonBar->setTab(i,false);
+				if (ButtonBar->isTabRaised(i))
+				{
+					ButtonBar->setTab(i,false);
+					showHidePage(i);
+				}
+
 //				latestViewed=-1;
 //				visibleViews.remove(Buttons.at(i)->file);
 //				break;
