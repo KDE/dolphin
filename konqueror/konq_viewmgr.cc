@@ -479,7 +479,7 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
   kdDebug(1202) << "KonqViewManager::createView" << endl;
   KonqViewFactory viewFactory;
 
-  if( serviceType.isEmpty() ) {
+  if( serviceType.isEmpty() && m_pMainView->currentChildView() ) {
     //clone current view
     KonqChildView *cv = m_pMainView->currentChildView();
 
