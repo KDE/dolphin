@@ -7,7 +7,7 @@
 #include <qpushbutton.h>
 
 #include <kio/ioslave_defaults.h>
-#include <kprotocolmanager.h>
+#include <ksaveioconfig.h>
 #include <dcopclient.h>
 #include <klocale.h>
 #include <kdialog.h>
@@ -139,11 +139,12 @@ void KIOPreferences::load()
   sb_serverResponse->setValue( KProtocolManager::responseTimeout() );
   sb_serverConnect->setValue( KProtocolManager::connectTimeout() );
   sb_proxyConnect->setValue( KProtocolManager::proxyConnectTimeout() );
-  int min_val = KProtocolManager::minimumTimeoutThreshold();
-  sb_socketRead->setMinValue( min_val );
-  sb_serverResponse->setMinValue( min_val );
-  sb_serverConnect->setMinValue( min_val );
-  sb_proxyConnect->setMinValue( min_val );
+
+  sb_socketRead->setMinValue( MIN_TIMEOUT_VALUE );
+  sb_serverResponse->setMinValue( MIN_TIMEOUT_VALUE );
+  sb_serverConnect->setMinValue( MIN_TIMEOUT_VALUE );
+  sb_proxyConnect->setMinValue( MIN_TIMEOUT_VALUE );
+
   sb_socketRead->setMaxValue( MAX_TIMEOUT_VALUE );
   sb_serverResponse->setMaxValue( MAX_TIMEOUT_VALUE );
   sb_serverConnect->setMaxValue( MAX_TIMEOUT_VALUE );
@@ -152,10 +153,10 @@ void KIOPreferences::load()
 
 void KIOPreferences::save()
 {
-  KProtocolManager::setReadTimeout( sb_socketRead->value() );
-  KProtocolManager::setResponseTimeout( sb_serverResponse->value() );
-  KProtocolManager::setConnectTimeout( sb_serverConnect->value() );
-  KProtocolManager::setProxyConnectTimeout( sb_proxyConnect->value() );
+  KSaveIOConfig::setReadTimeout( sb_socketRead->value() );
+  KSaveIOConfig::setResponseTimeout( sb_serverResponse->value() );
+  KSaveIOConfig::setConnectTimeout( sb_serverConnect->value() );
+  KSaveIOConfig::setProxyConnectTimeout( sb_proxyConnect->value() );
   emit changed(true);
 
   // Inform running io-slaves about change...
@@ -164,7 +165,8 @@ void KIOPreferences::save()
   stream << QString::null;
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
-  kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+  kapp->dcopClient()->send( "*", "KIO::Scheduler",
+                            "reparseSlaveConfiguration(QString)", data );
 }
 
 void KIOPreferences::defaults()
@@ -179,10 +181,10 @@ void KIOPreferences::defaults()
 QString KIOPreferences::quickHelp() const
 {
   return i18n("<h1>Network Preferences</h1>Here you can define"
-	      " the behavior of KDE programs when using Internet"
-	      " and network connections. If you experience timeouts"
-	      " and problems or sit behind a modem, you might want"
-	      " to adjust these values." );
+              " the behavior of KDE programs when using Internet"
+              " and network connections. If you experience timeouts"
+              " and problems or sit behind a modem, you might want"
+              " to adjust these values." );
 }
 
 #include "netpref.moc"

@@ -11,6 +11,7 @@
 #include "smbrodlg.h"
 #include "useragentdlg.h"
 #include "kproxydlg.h"
+#include "cache.h"
 
 
 extern "C"
@@ -38,7 +39,13 @@ extern "C"
   KCModule *create_proxy(QWidget *parent, const char *name)
   {
     KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KProxyOptions(parent, name);
+    return new KProxyDialog(parent, name);
+  };
+
+  KCModule *create_cache(QWidget *parent, const char *name)
+  {
+    KGlobal::locale()->insertCatalogue("kcmkio");
+    return new KCacheConfigDialog( parent, name );
   };
 
   KCModule *create_netpref(QWidget *parent, const char *name)

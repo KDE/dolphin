@@ -1,12 +1,25 @@
 /*
-   UserAgent Options
-   (c) Kalle Dalheimer 1997
+   Original Authors:
+   Copyright (c) Kalle Dalheimer 1997
+   Copyright (c) David Faure <faure@kde.org> 1998
+   Copyright (c) Dirk Mueller <mueller@kde.org> 2000
 
-   Port to KControl
-   (c) David Faure <faure@kde.org> 1998
+   Completely re-written by:
+   Copyright (C) 2000- Dawit Alemayehu <adawit@kde.org>
 
-   (c) Dirk Mueller <mueller@kde.org> 2000
-   (c) Dawit Alemayehu <adawit@kde.org> 2000-2001
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License (GPL)
+   version 2 as published by the Free Software Foundation.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
 */
 
 #ifndef _USERAGENTDLG_H
@@ -41,6 +54,7 @@ public:
 private slots:
   void addPressed();
   void deletePressed();
+  void deleteAllPressed();
   void changePressed();
   void importPressed();
   void exportPressed();
@@ -49,6 +63,8 @@ private slots:
   void changeDefaultUAModifiers( int );
 
 private:
+  bool handleDuplicate( const QString&, const QString&, const QString& );
+
   enum {
     SHOW_OS = 0,
     SHOW_OS_VERSION,
@@ -72,6 +88,7 @@ private:
   // Site specific settings
   KListView*      lv_siteUABindings;
   QGroupBox*      gb_siteSpecific;
+  QPushButton*    pb_deleteAll;
   QPushButton*    pb_delete;
   QPushButton*    pb_change;
   QPushButton*    pb_import;

@@ -1,12 +1,25 @@
 /*
-   UserAgent Options
-   (c) Kalle Dalheimer 1997
+   Original Authors:
+   Copyright (c) Kalle Dalheimer 1997
+   Copyright (c) David Faure <faure@kde.org> 1998
+   Copyright (c) Dirk Mueller <mueller@kde.org> 2000
 
-   Port to KControl
-   (c) David Faure <faure@kde.org> 1998
+   Completely re-written by:
+   Copyright (C) 2000- Dawit Alemayehu <adawit@kde.org>
 
-   (c) Dirk Mueller <mueller@kde.org> 2000
-   (c) Dawit Alemayehu <adawit@kde.org> 2000-2001
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License (GPL)
+   version 2 as published by the Free Software Foundation.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
 */
 
 #include <qvbox.h>
@@ -22,9 +35,9 @@
 #include <kdialog.h>
 #include <klistview.h>
 #include <dcopclient.h>
-#include <kprotocolmanager.h>
+#include <kmessagebox.h>
 #include <ksimpleconfig.h>
-
+#include <ksaveioconfig.h>
 #include <kio/http_slave_defaults.h>
 
 #include "useragentdlg.h"
@@ -37,7 +50,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(),
                                       KDialog::spacingHint() );
   lay->setAutoAdd( true );
-  //lay->setMargin( KDialog::marginHint() );
 
   // Send User-agent info ?
   cb_sendUAString = new QCheckBox( i18n("Se&nd browser identification"), this );
@@ -162,6 +174,10 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   QWhatsThis::add( pb_delete, i18n("Delete the selected entry") );
   connect( pb_delete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
+  pb_deleteAll = new QPushButton( i18n("D&elete All"), vbox );
+  QWhatsThis::add( pb_deleteAll, i18n("Delete all enteries") );
+  connect( pb_deleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
+
   pb_import = new QPushButton( i18n("Import..."), vbox );
   pb_import->hide();
   QWhatsThis::add( pb_import, i18n("Import pre-packaged site/domain specific identifiers") );
@@ -233,12 +249,14 @@ void UserAgentOptions::load()
   changeSendUAString();
 }
 
+
 void UserAgentOptions::updateButtons()
 {
   bool hasItems = lv_siteUABindings->childCount() > 0;
   bool itemSelected = ( hasItems && lv_siteUABindings->selectedItem()!=0 );
   pb_delete->setEnabled( itemSelected );
   pb_change->setEnabled( itemSelected );
+  pb_deleteAll->setEnabled( hasItems );
 }
 
 void UserAgentOptions::defaults()
@@ -326,50 +344,77 @@ void UserAgentOptions::save()
   kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
 }
 
+bool UserAgentOptions::handleDuplicate( const QString& site,
+                                        const QString& identity,
+                                        const QString& alias )
+{
+  QListViewItem* item = lv_siteUABindings->firstChild();
+  while ( item != 0 )
+  {
+    if ( item->text(0).findRev( site ) != -1 &&
+         item != lv_siteUABindings->currentItem() )
+    {
+      QString msg = i18n("<qt><center>Found an existing identification for"
+                         "<br/><b>%1</b><br/>"
+                         "Do you want to replace it ?</center>"
+                         "</qt>").arg(site);
+      int res = KMessageBox::warningYesNo(this, msg,
+                                          i18n("Duplicate Identification"),
+                                          QString::null);
+      if ( res == KMessageBox::Yes )
+      {
+        item->setText(0, site);
+        item->setText(1, identity);
+        item->setText(2, alias);
+        emit KCModule::changed(true);
+      }
+      return true;
+    }
+    item = item->nextSibling();
+  }
+  return false;
+}
+
 void UserAgentOptions::addPressed()
 {
-  UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"), this, 0L, m_provider );
+  UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"),
+                                          this, 0L, m_provider );
   if ( dlg->exec() == QDialog::Accepted )
   {
-    bool found = false;
-    QListViewItem* it = lv_siteUABindings->firstChild();
-    while( it )
+    if ( !handleDuplicate( dlg->siteName(), dlg->identity(), dlg->alias() ) )
     {
-      if( it->text(0) == dlg->siteName() )
-      {
-        it->setText( 1, dlg->identity() );
-        it->setText( 2, dlg->alias() );
-        found = true;
-        break;
-      }
-      it = it->nextSibling();
+      QListViewItem* index = new QListViewItem( lv_siteUABindings,
+                                                dlg->siteName(),
+                                                dlg->identity(),
+                                                dlg->alias() );
+      lv_siteUABindings->sort();
+      lv_siteUABindings->setCurrentItem( index );
+      emit KCModule::changed(true);
     }
-    if( !found )
-      (void) new QListViewItem( lv_siteUABindings, dlg->siteName(), dlg->identity(), dlg->alias() );
-
-    lv_siteUABindings->sort();
-    emit KCModule::changed(true);
   }
   delete dlg;
 }
 
 void UserAgentOptions::changePressed()
 {
-    if(!lv_siteUABindings->currentItem())
-        return;
-  UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"), this, 0L, m_provider );
-  dlg->setEnableHostEdit( false );
-  dlg->setSiteName( lv_siteUABindings->currentItem()->text(0) );
-  dlg->setIdentity( lv_siteUABindings->currentItem()->text(1) );
+  UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"),
+                                          this, 0L, m_provider );
+  QListViewItem *index = lv_siteUABindings->currentItem();
+  QString old_site = index->text(0);
+  dlg->setSiteName( old_site );
+  dlg->setIdentity( index->text(1) );
+
   if ( dlg->exec() == QDialog::Accepted )
   {
-    QListViewItem* it = lv_siteUABindings->currentItem();
-    if( it->text(0) == dlg->siteName() )
+    QString new_site = dlg->siteName();
+    if ( new_site == old_site ||
+         !handleDuplicate( dlg->siteName(), dlg->identity(), dlg->alias() ) )
     {
-      it->setText( 1, dlg->identity() );
-      it->setText( 2, dlg->alias() );
+      index->setText( 0, new_site );
+      index->setText( 1, dlg->identity() );
+      index->setText( 2, dlg->alias() );
+      emit KCModule::changed(true);
     }
-    emit KCModule::changed(true);
   }
   delete dlg;
 }
@@ -385,6 +430,14 @@ void UserAgentOptions::deletePressed()
   updateButtons();
   emit KCModule::changed(true);
 }
+
+void UserAgentOptions::deleteAllPressed()
+{
+  lv_siteUABindings->clear();
+  updateButtons();
+  emit KCModule::changed(true);
+}
+
 
 void UserAgentOptions::importPressed()
 {

@@ -33,7 +33,6 @@
 #include <kurllabel.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
-#include <kprotocolmanager.h>
 
 #include "fakeuaprovider.h"
 #include "uagentproviderdlg.h"
@@ -179,11 +178,6 @@ void UAProviderDlg::updateInfo()
   m_provider->setListDirty(true);
   init();
   setIdentity(citem);
-}
-
-void UAProviderDlg::setEnableHostEdit( bool state )
-{
-  m_leSite->setEnabled( state );
 }
 
 void UAProviderDlg::setSiteName( const QString& text )

@@ -53,7 +53,6 @@ public:
 
   void setSiteName( const QString& );
   void setIdentity( const QString& );
-  void setEnableHostEdit( bool );
 
   QString siteName();
   QString identity();
