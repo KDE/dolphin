@@ -40,10 +40,6 @@ private:
 
   QCheckBox *cbNewWin;
 
-  QCheckBox *cbEmbedText;
-  QCheckBox *cbEmbedImage;
-  QCheckBox *cbEmbedOther;
-
   QLabel *winPixmap;
 
   QLineEdit *homeURL;
