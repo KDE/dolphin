@@ -28,7 +28,6 @@
 #include "kinsertionsort.h"
 
 #include "toplevel.h"
-#include "mymanager.h"
 #include "listview.h"
 
 #include "commands.h"

@@ -35,13 +35,15 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
+#include <kbookmarkimporter.h>
+#include <kbookmarkexporter.h>
+#include <dcopref.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 
 #include "listview.h"
 #include "actionsimpl.h"
 #include "dcop.h"
-#include "mymanager.h"
 
 #include "toplevel.h"
 
@@ -93,6 +95,52 @@ void CmdHistory::addCommand(KCommand *cmd) {
 
 void CmdHistory::clearHistory() {
    m_commandHistory.clear();
+}
+
+CurrentMgr *CurrentMgr::s_mgr = 0;
+
+KBookmark CurrentMgr::bookmarkAt(const QString & a) { 
+   return self()->mgr()->findByAddress(a); 
+}
+
+bool CurrentMgr::managerSave() { return mgr()->save(); }
+void CurrentMgr::saveAs(const QString &fileName) { mgr()->saveAs(fileName); }
+void CurrentMgr::setUpdate(bool update) { mgr()->setUpdate(update); }
+QString CurrentMgr::path() { return mgr()->path(); }
+bool CurrentMgr::showNSBookmarks() { return mgr()->showNSBookmarks(); }
+
+void CurrentMgr::createManager(QObject *top, const QString &filename) {
+   if (m_mgr) {
+      QObject::disconnect(m_mgr, 0, 0, 0);
+   }
+
+   // TODO - delete m_mgr, and do testing
+
+   m_mgr = KBookmarkManager::managerForFile(filename, false);
+
+   QObject::connect(m_mgr, SIGNAL( changed(const QString &, const QString &) ),
+                    top,   SLOT( slotBookmarksChanged(const QString &, const QString &) ));
+}
+
+void CurrentMgr::notifyManagers() {
+   QCString objId("KBookmarkManager-");
+   objId += mgr()->path().utf8();
+   DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->dcopClient()->appId()));
+}
+
+void CurrentMgr::doExport(bool moz) {
+   QString path = 
+          (moz)
+        ? KNSBookmarkImporter::mozillaBookmarksFile(true)
+        : KNSBookmarkImporter::netscapeBookmarksFile(true);
+   if (!path.isEmpty()) {
+      KNSBookmarkExporter exporter(mgr(), path);
+      exporter.write(moz);
+   }
+}
+
+QString CurrentMgr::correctAddress(const QString &address) {
+   return mgr()->findByAddress(address, true).address();
 }
 
 KEBApp *KEBApp::s_topLevel = 0;

@@ -57,6 +57,30 @@ protected slots:
    void slotDocumentRestored();
 };
 
+class KBookmark;
+class KBookmarkManager;
+
+class CurrentMgr {
+public:
+   static CurrentMgr* self() 
+      { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
+   void createManager(QObject *top, const QString &filename);
+   void doExport(bool moz);
+   void notifyManagers();
+   QString correctAddress(const QString &address);
+   KBookmarkManager* mgr() const { return m_mgr; }
+   static KBookmark bookmarkAt(const QString & a);
+   bool managerSave();
+   void saveAs(const QString &fileName);
+   void setUpdate(bool update);
+   QString path();
+   bool showNSBookmarks();
+private:
+   CurrentMgr() : m_mgr(0) { ; }
+   KBookmarkManager *m_mgr;
+   static CurrentMgr *s_mgr;
+};
+
 class KEBApp : public KMainWindow
 {
    Q_OBJECT

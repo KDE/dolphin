@@ -34,7 +34,6 @@
 #include "commands.h"
 #include "toplevel.h"
 #include "listview.h"
-#include "mymanager.h"
 
 #include "importers.h"
 

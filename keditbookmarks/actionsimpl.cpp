@@ -51,7 +51,6 @@
 #include "testlink.h"
 #include "search.h"
 #include "listview.h"
-#include "mymanager.h"
 
 #include "actionsimpl.h"
 

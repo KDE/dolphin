@@ -24,11 +24,11 @@
 #include <qpainter.h>
 
 #include <klocale.h>
+#include <kbookmarkmanager.h>
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <kapplication.h>
 
-#include "mymanager.h"
 #include "toplevel.h"
 #include "commands.h"
 
@@ -50,10 +50,14 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
    // are added. therefore, we always updateaccessmetadata
    // without caring about our modified state like normal
    // and thusly there is no need to the bkmgr to do a "save"
+
+   // TODO - i'm not sure this is really true :)
+
    if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
       kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
       // no undo
       CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
+      // notice - no save here! see! :)
    }
 }
 

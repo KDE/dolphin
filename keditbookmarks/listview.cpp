@@ -42,7 +42,6 @@
 
 #include "toplevel.h"
 #include "commands.h"
-#include "mymanager.h"
 #include "testlink.h" // paintCellHelper
 
 #include "listview.h"
