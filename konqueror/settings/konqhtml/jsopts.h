@@ -52,7 +52,7 @@ private:
   QCheckBox *disableWindowOpenCB;
   QCheckBox *enableDebugOutputCB;
 
-  bool bJavaScriptGlobal;
+  //bool bJavaScriptGlobal;
 
   KListView* domainSpecificLV;
   QMap<QListViewItem*, int> javaScriptDomainPolicy;
