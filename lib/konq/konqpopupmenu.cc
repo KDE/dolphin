@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 David Faure <faure@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include <qdir.h>
 #include <qclipboard.h>
@@ -48,7 +48,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               QString viewURL,
                               QActionCollection & actions,
                               KNewMenu * newMenu )
-  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions), m_pMenuNew( newMenu ), 
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
   assert( m_lstItems.count() >= 1 );
@@ -68,7 +68,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   int id;
 
   KProtocolManager pManager = KProtocolManager::self();
-  
+
   KURL url;
   KFileItemListIterator it ( m_lstItems );
   // Check whether all URLs are correct
@@ -96,7 +96,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       QString path = url.path();
       if ( path.at(path.length() - 1) != '/' )
 	path += '/';
-    
+
       if ( protocol != "file" ||
 	   path != KUserPaths::trashPath() )
 	isTrash = false;
@@ -107,7 +107,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if ( sWriting )
       sWriting = pManager.supportsWriting( protocol );
-    
+
     if ( sDeleting )
       sDeleting = pManager.supportsDeleting( protocol );
 
@@ -118,7 +118,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   //check if current url is trash
   url = KURL( m_sViewURL );
   url.cleanPath();
-    
+
   if ( url.protocol() == "file" &&
        url.path(1) == KUserPaths::trashPath() )
     isCurrentTrash = true;
@@ -141,7 +141,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       */
     }
   }
-  
+
   QObject::disconnect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
   clear();
@@ -158,18 +158,24 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   if ( isTrash )
   {
-    id = insertItem( i18n( "New View" ), 
+    id = insertItem( i18n( "New View" ),
 				  this, SLOT( slotPopupNewView() ) );
-    insertSeparator();    
-    id = insertItem( i18n( "Empty Trash Bin" ), 
+    insertSeparator();
+    id = insertItem( i18n( "Empty Trash Bin" ),
 				  this, SLOT( slotPopupEmptyTrashBin() ) );
-  } 
-  else 
+  }
+  else
   {
     if ( S_ISDIR( mode ) ) // all URLs are directories
     {
       // Add the "new" menu
-      m_pMenuNew->plug( this );
+      if ( m_pMenuNew )
+      {
+        // As requested by KNewMenu :
+        m_pMenuNew->slotCheckUpToDate();
+        m_pMenuNew->setPopupFiles( m_lstPopupURLs );
+        m_pMenuNew->plug( this );
+      }
       insertSeparator();
 
       if ( currentDir ) {
@@ -185,11 +191,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
           act->plug( this );
         //setItemEnabled( id, canGoForward );
 
-        insertSeparator();  
+        insertSeparator();
       }
 
       id = insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
-      insertSeparator();    
+      insertSeparator();
 
     }
     else // not trash nor dir
@@ -209,8 +215,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         act->plug( this );
       if ( ( act = m_actions.action("copy") ) )
         act->plug( this );
-    }     
- 
+    }
+
     if ( ( act = m_actions.action("paste") ) )
       act->plug( this );
 
@@ -223,14 +229,14 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     // do we have to create the item in this case, or in the other case ?
       id = insertItem( *BarIcon( "editpaste" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
       setItemEnabled( id, canPaste );
-    }      
+    }
     */
-    
+
     /*
     if ( isClipboardEmpty() && m_bHandleEditOperations )
       setItemEnabled( id, false );
     */
-      
+
     if ( ( act = m_actions.action("trash") ) )
       act->plug( this );
     /*
@@ -240,9 +246,9 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       {
       id = insertItem( BarIcon( "kfm_trash", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
       setItemEnabled( id, canMove );
-      }      
+      }
     */
-      
+
     if ( ( act = m_actions.action("delete") ) )
       act->plug( this );
     /*
@@ -254,12 +260,10 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       setItemEnabled( id, canMove );
       }
     */
-    
+
   }
 
   id = insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupAddToBookmark() ) );
-
-  if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
   //////////////////////////////////////////////////////
 
@@ -268,7 +272,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   if ( !m_sMimeType.isNull() ) // common mimetype among all URLs ?
   {
     // Query the trader for offers associated to this mimetype
-       
+
     KTrader::OfferList offers = KTrader::self()->query( m_sMimeType, "Type == 'Application'" );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
@@ -283,11 +287,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
     QStringList::ConstIterator dIt = dirs.begin();
     QStringList::ConstIterator dEnd = dirs.end();
-      
+
     for (; dIt != dEnd; ++dIt )
     {
       QDir dir( *dIt );
- 
+
       QStringList entries = dir.entryList( QDir::Files );
       QStringList::ConstIterator eIt = entries.begin();
       QStringList::ConstIterator eEnd = entries.end();
@@ -295,7 +299,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       for (; eIt != eEnd; ++eIt )
       {
         KSimpleConfig cfg( *dIt + *eIt, true );
-	  
+	
         cfg.setDesktopGroup();
 	
         if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
@@ -304,28 +308,28 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
           KURL u( *dIt + *eIt );
           user += KDEDesktopMimeType::userDefinedServices( u );
         }
-	  
+	
       }
 	
     }
-  
+
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
       QObject::connect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
     if ( !offers.isEmpty() || !user.isEmpty() )
       insertSeparator();
-  
+
     m_mapPopup.clear();
     m_mapPopup2.clear();
-  
+
     // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
     KTrader::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
-    {    
+    {
       id = insertItem( (*it)->pixmap( KIconLoader::Small ), (*it)->name() );
       m_mapPopup[ id ] = *it;
     }
-    
+
     QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
     for( ; it2 != user.end(); ++it2 )
     {
@@ -338,7 +342,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
     }
-    
+
     if ( builtin.count() > 0 )
       insertSeparator();
 
@@ -357,7 +361,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     bLastSepInserted = true;
     insertSeparator();
-  
+
     id = insertItem( i18n( "Edit File Type..." ), // or "File Type Properties" ?
                      this, SLOT( slotPopupMimeType() ) );
   }
@@ -385,13 +389,13 @@ void KonqPopupMenu::slotPopupEmptyTrashBin()
   QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
   files.remove(QString("."));
   files.remove(QString(".."));
-  
+
   QStringList::Iterator it(files.begin());
   for (; it != files.end(); ++it )
   {
     (*it).prepend( KUserPaths::trashPath() );
   }
-  
+
   KIOJob *job = new KIOJob;
   job->del( files );
 }
@@ -433,7 +437,7 @@ void KonqPopupMenu::slotPopup( int id )
     KRun::run( **it, m_lstPopupURLs );
     return;
   }
-  
+
   // Is it a service specific to desktop entry files ?
   QMap<int,KDEDesktopMimeType::Service>::Iterator it2 = m_mapPopup2.find( id );
   if ( it2 == m_mapPopup2.end() )

@@ -37,12 +37,14 @@
 #include "knewmenu.h"
 
 QStringList * KNewMenu::templatesList = 0L;
-int KNewMenu::templatesVersion = 0;
+int KNewMenu::templatesVersion = 1; // one step ahead, to force filling the menu
 
 KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) :
-  KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ), menuItemsVersion(0)
+  KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ),
+  menuItemsVersion( 0 )
 {
-    fillMenu();
+  // Don't fill the menu yet
+  // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
 }
 
 void KNewMenu::setPopupFiles(QStringList & _files)
@@ -54,6 +56,12 @@ void KNewMenu::slotCheckUpToDate( )
 {
     if (menuItemsVersion < templatesVersion)
     {
+        // We need to clean up the action collection
+        // We look for our actions using the group
+        QValueList<QAction*> actions = m_actionCollection->actions( "KNewMenu" );
+        for( QValueListIterator<QAction*> it = actions.begin(); it != actions.end(); ++it )
+            m_actionCollection->remove( *it );
+
         fillMenu();
         menuItemsVersion = templatesVersion;
     }
@@ -71,6 +79,7 @@ void KNewMenu::fillMenu()
     KAction * act = new KAction( i18n( "Folder" ), 0, this, SLOT( slotNewFile() ),
                                  m_actionCollection, QString("newmenu1") );
 
+    act->setGroup( "KNewMenu" );
     act->plug( popupMenu() );
 
     int i = 2;
@@ -88,7 +97,8 @@ void KNewMenu::fillMenu()
         }
         name = config.readEntry("Name", name );
 
-	QAction *act = 0L;
+        // There might be a .desktop for that one already
+        bool bSkip = false;
 
         QValueList<QAction*> actions = m_actionCollection->actions();
         QValueListIterator<QAction*> it = actions.begin();
@@ -97,15 +107,17 @@ void KNewMenu::fillMenu()
           if ( (*it)->text() == name )
           {
             debug("skipping %s",(*templ).ascii());
-	    act = *it;
+            bSkip = true;
           }
         }
 
-        if ( !act )
-          act = new KAction( name, 0, this, SLOT( slotNewFile() ),
-                             m_actionCollection, QString("newmenu%1").arg( i ) );
-     
-        act->plug( popupMenu() );
+        if ( !bSkip )
+        {
+          KAction * act = new KAction( name, 0, this, SLOT( slotNewFile() ),
+                                       m_actionCollection, QString("newmenu%1").arg( i ) );
+          act->setGroup( "KNewMenu" );
+          act->plug( popupMenu() );
+        }
     }
 }
 
@@ -162,8 +174,6 @@ void KNewMenu::slotNewFile()
       }
       if ( KDesktopFile::isDesktopFile( x ) )
       {
-debug(x);
-debug("is desktop file !");
           QStringList::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
