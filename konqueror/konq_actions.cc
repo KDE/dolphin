@@ -325,8 +325,9 @@ class KonqDraggableLabel : public QToolButton
 public:
     KonqDraggableLabel( KonqMainWindow * mw, const QString & text, QWidget * parent = 0, const char * name = 0 )
         : QToolButton( parent, name ), m_mw(mw)
-    { 
+    {
 	setText(text);
+        setAcceptDrops(true);
         validDrag = false;
     }
 protected:
@@ -346,7 +347,7 @@ protected:
                 lst.append( m_mw->currentView()->url() );
                 QDragObject * drag = KURLDrag::newDrag( lst, m_mw );
                 drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
-                (void) drag->drag();
+                drag->dragCopy();
             }
         }
     }
@@ -366,11 +367,21 @@ protected:
         style().drawComplexControl( QStyle::CC_ToolButton, p, this, rect(), colorGroup(),
                                     QStyle::Style_Enabled, QStyle::SC_ToolButton );
         // Draw the label
-        style().drawControl( QStyle::CE_ToolButtonLabel, p, this, rect(), colorGroup(), 
+        style().drawControl( QStyle::CE_ToolButtonLabel, p, this, rect(), colorGroup(),
                              QStyle::Style_Enabled );
     }
     void enterEvent( QEvent* ) {};
     void leaveEvent( QEvent* ) {};
+    void dragEnterEvent( QDragEnterEvent *ev ) {
+        if ( QUriDrag::canDecode( ev ) )
+            ev->acceptAction();
+    }
+    void dropEvent( QDropEvent* ev ) {
+        KURL::List lst;
+        if ( KURLDrag::decode( ev, lst ) ) {
+            m_mw->openURL( 0L, lst.first() );
+        }
+    }
 private:
     QPoint startDragPos;
     bool validDrag;
