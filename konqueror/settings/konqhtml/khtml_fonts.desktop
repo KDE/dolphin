@@ -3,7 +3,7 @@ Encoding=UTF-8
 Type=Application
 DocPath=kcontrol/khtml/index.html#kbrowse-appearance
 Icon=fonts
-Exec=kcmshell khtml_appearance
+Exec=kcmshell khtml_fonts
 
 X-KDE-ModuleType=Library
 X-KDE-Library=konqhtml
