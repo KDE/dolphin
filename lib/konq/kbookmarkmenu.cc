@@ -115,7 +115,7 @@ void KBookmarkMenu::slotBookmarksChanged( const QString & groupAddress )
   if (m_bNSBookmark)
     return;
 
-  if ( groupAddress == m_parentAddress )
+  if ( groupAddress == m_parentAddress || groupAddress.isEmpty() )
   {
     //kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged -> setting m_bDirty on " << groupAddress << endl;
     m_bDirty = true;
