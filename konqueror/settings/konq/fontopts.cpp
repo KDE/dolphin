@@ -98,7 +98,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
     /*
     row++;
-    label = new QLabel( i18n("Highlighted Text Color:"), this );
+    label = new QLabel( i18n("Highlighted text color:"), this );
     lay->addWidget(label,row,0);
 
     m_pHighlightedText = new KColorButton( highlightedTextColor, this );

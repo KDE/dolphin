@@ -64,7 +64,7 @@ SMBRoOptions::SMBRoOptions(QWidget *parent, const char *name)
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
    m_encodingList->insertStringList( _strList );
 
-   label = new QLabel( m_encodingList, i18n( "MS Windows Encoding:" ), this );
+   label = new QLabel( m_encodingList, i18n( "MS Windows encoding:" ), this );
    layout->addWidget( label, 5, 0 );
    layout->addWidget( m_encodingList, 5, 1 );
 
