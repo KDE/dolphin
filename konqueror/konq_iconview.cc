@@ -433,22 +433,21 @@ void KonqKfmIconView::initConfig()
 
   // bool bUnderlineLink = m_pSettings->underlineLink();
 
-  /*
-  QPalette p          = viewport()->palette();
+  QPalette p    = palette();
   QColorGroup c = p.normal();
-  QColorGroup n( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
-		 m_textColor, m_bgColor );
+  QColorGroup n( textColor, bgColor, c.light(), c.dark(), c.mid(),
+		 textColor, bgColor );
   p.setNormal( n );
   c = p.active();
-  QColorGroup a( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
-		 m_textColor, m_bgColor );
+  QColorGroup a( textColor, bgColor, c.light(), c.dark(), c.mid(),
+		 textColor, bgColor );
   p.setActive( a );
   c = p.disabled();
-  QColorGroup d( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
-		 m_textColor, m_bgColor );
+  QColorGroup d( textColor, bgColor, c.light(), c.dark(), c.mid(),
+		 textColor, bgColor );
   p.setDisabled( d );
-  viewport()->setPalette( p );
-  */
+  setPalette( p );
+
   QFont font( stdFontName, fontSize );
   setFont( font );
 
