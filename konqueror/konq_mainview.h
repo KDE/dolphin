@@ -93,6 +93,8 @@ public slots:
   void slotEditMimeTypes();
   void slotEditApplications();
   
+  void slotConfigureFileManager();
+  void slotConfigureNetwork();
   void slotConfigureKeys();
 
   void slotViewChanged( BrowserView *oldView, BrowserView *newView );
@@ -231,7 +233,7 @@ private:
   KAction *m_paSaveSettingsPerURL;
   
   KAction *m_paConfigureFileManager;
-  KAction *m_paConfigureBrowser;
+  KAction *m_paConfigureNetwork;
   KAction *m_paConfigureKeys;
   KAction *m_paReloadPlugins;
   KAction *m_paConfigurePlugins;

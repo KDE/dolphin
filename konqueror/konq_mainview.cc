@@ -34,6 +34,7 @@
 #include <pwd.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <qaction.h>
 #include <qapplication.h>
@@ -440,6 +441,26 @@ void KonqMainView::slotEditMimeTypes()
 void KonqMainView::slotEditApplications()
 {
     openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) );
+}
+
+void KonqMainView::slotConfigureFileManager()
+{
+  if (fork() == 0) {
+    // execute 'kcmkonq'
+    execl(locate("exe", "kcmkonq"), 0);
+    warning("Error launching kcmkonq !");
+    exit(1);
+  }
+}
+
+void KonqMainView::slotConfigureNetwork()
+{
+  if (fork() == 0) {
+    // execute 'kcmkio'
+    execl(locate("exe", "kcmkio"), 0);
+    warning("Error launching kcmkio !");
+    exit(1);
+  }
 }
 
 void KonqMainView::slotConfigureKeys()
@@ -1162,7 +1183,7 @@ void KonqMainView::initActions()
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
 
   m_paConfigureFileManager = new KAction( i18n( "&Configure File Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  m_paConfigureBrowser = new KAction( i18n( "Configure &Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
+  m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
   m_paConfigureKeys = new KAction( i18n( "Configure &keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
   m_paReloadPlugins = new KAction( i18n( "Reload Plugins" ), 0, this, SLOT( slotReloadPlugins() ), actionCollection(), "reloadplugins" );
   m_paConfigurePlugins = new KAction( i18n( "Configure Plugins..." ), 0, this, SLOT( slotConfigurePlugins() ), actionCollection(), "configureplugins" );
