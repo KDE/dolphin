@@ -20,17 +20,15 @@
 //
 
 #include <qcheckbox.h>
-#include <qscrollview.h>
-#include <qvbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qwhatsthis.h>
 
 #include "previews.h"
 
-#include <kglobalsettings.h>
 #include <kprotocolinfo.h>
 #include <kdialog.h>
+#include <klistview.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <knuminput.h>
@@ -41,6 +39,24 @@
 
 //-----------------------------------------------------------------------------
 
+class PreviewCheckListItem : public QCheckListItem
+{
+  public:
+    PreviewCheckListItem( QListView *parent, const QString &text )
+      : QCheckListItem( parent, text, CheckBoxController )
+    {}
+
+    PreviewCheckListItem( QListViewItem *parent, const QString &text )
+      : QCheckListItem( parent, text, CheckBox )
+    {}
+
+  protected:
+    void stateChange( bool )
+    {
+        static_cast<KPreviewOptions *>( listView()->parent() )->changed();
+    }
+};
+
 KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
     : KCModule( parent, "kcmkonq" )
 {
@@ -49,54 +65,67 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
     lay->addWidget( new QLabel( i18n("<p>Allow previews, \"Folder Icons Reflect Contents\", and "
                                      "retrieval of meta-data on protocols:</p>"), this ) );
 
-    QHBoxLayout *hbox = new QHBoxLayout(); // hbox to avoid a very wide scrollview
-    lay->addLayout( hbox );
+    // Listview containing checkboxes for all protocols that support listing
+    KListView *listView = new KListView( this, "listView" );
+    listView->addColumn( i18n( "Select Protocols" ) );
+    listView->setFullWidth( true );
 
-    // Scrollview containing checkboxes for all protocols that support listing
-    QScrollView * scrollView = new QScrollView( this );
-    scrollView->setResizePolicy( QScrollView::AutoOneFit );
-    scrollView->setMaximumHeight( 400 ); // don't let the dialog become huge
-    //lay->addWidget( scrollView );
-    hbox->addWidget( scrollView, 1 );
+    QHBoxLayout *hbox = new QHBoxLayout( lay );
+    hbox->addWidget( listView );
+    hbox->addStretch();
 
-    hbox->addWidget( new QWidget( this ), 1 );
-
-    QVBox *box = new QVBox( scrollView->viewport() );
-    scrollView->addChild( box );
+    PreviewCheckListItem *localItems = new PreviewCheckListItem( listView,
+        i18n( "Local Protocols" ) );
+    PreviewCheckListItem *inetItems = new PreviewCheckListItem( listView,
+        i18n( "Internet Protocols" ) );
 
     QStringList protocolList = KProtocolInfo::protocols();
     protocolList.sort();
     QStringList::Iterator it = protocolList.begin();
+
+    KURL url;
+    url.setPath("/");
+
     for ( ; it != protocolList.end() ; ++it )
     {
-        //KURL testURL ( (*it) + "://host/" );
-        if ( KProtocolInfo::supportsListing( *it ) )
+        url.setProtocol( *it );
+        if ( KProtocolInfo::supportsListing( url ) )
         {
-            QCheckBox * cb = new QCheckBox( (*it), box, (*it).latin1() /*name*/ );
-            connect( cb, SIGNAL( toggled(bool) ), SLOT( changed() ) );
-            m_boxes.append( cb );
+            QCheckListItem *item;
+            if ( KProtocolInfo::protocolClass( *it ) == ":local" )
+                item = new PreviewCheckListItem( localItems, ( *it ) );
+            else
+                item = new PreviewCheckListItem( inetItems, ( *it ) );
+
+            m_items.append( item );
         }
     }
-    QWhatsThis::add( scrollView,
+
+    listView->setOpen( localItems, true );
+    listView->setOpen( inetItems, true );
+
+    QWhatsThis::add( listView,
                      i18n("This option makes it possible to choose when the file previews, "
                           "smart folder icons, and meta-data in the File Manager should be activated.\n"
                           "In the list of protocols that appear, select which ones are fast "
                           "enough for you to allow previews to be generated.") );
 
-    lay->addWidget( new QLabel( i18n( "Maximum file size:" ), this ) );
+    QLabel *label = new QLabel( i18n( "&Maximum file size:" ), this );
+    lay->addWidget( label );
 
     m_maxSize = new KDoubleNumInput( this );
     m_maxSize->setSuffix( i18n(" MB") );
     m_maxSize->setRange( 0.02, 10, 0.02, true );
     m_maxSize->setPrecision( 1 );
+    label->setBuddy( m_maxSize );
     lay->addWidget( m_maxSize );
     connect( m_maxSize, SIGNAL( valueChanged(double) ), SLOT( changed() ) );
 
-    m_boostSize = new QCheckBox(i18n("Increase size of previews relative to icons"), this);
+    m_boostSize = new QCheckBox(i18n("&Increase size of previews relative to icons"), this);
     connect( m_boostSize, SIGNAL( toggled(bool) ), SLOT( changed() ) );
     lay->addWidget(m_boostSize);
 
-    m_useFileThumbnails = new QCheckBox(i18n("Use thumbnails embedded in files"), this);
+    m_useFileThumbnails = new QCheckBox(i18n("&Use thumbnails embedded in files"), this);
     connect( m_useFileThumbnails, SIGNAL( toggled(bool) ), SLOT( changed() ) );
 
     lay->addWidget(m_useFileThumbnails);
@@ -120,12 +149,11 @@ void KPreviewOptions::load(bool useDefaults)
     // *** load and apply to GUI ***
     KGlobal::config()->setReadDefaults(useDefaults);
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    QPtrListIterator<QCheckBox> it( m_boxes );
+    QPtrListIterator<QCheckListItem> it( m_items );
+
     for ( ; it.current() ; ++it ) {
-        KURL url;
-        url.setProtocol( it.current()->name() );
-        url.setPath("/");
-        it.current()->setChecked( KGlobalSettings::showFilePreview(url) );
+        QString protocol( it.current()->text() );
+        it.current()->setOn( group.readBoolEntry( protocol, false ) );
     }
     // config key is in bytes (default value 1MB), numinput is in MB
     m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
@@ -148,10 +176,10 @@ void KPreviewOptions::defaults()
 void KPreviewOptions::save()
 {
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    QPtrListIterator<QCheckBox> it( m_boxes );
+    QPtrListIterator<QCheckListItem> it( m_items );
     for ( ; it.current() ; ++it ) {
-        QString protocol( it.current()->name() );
-        group.writeEntry( protocol, it.current()->isChecked(), true, true );
+        QString protocol( it.current()->text() );
+        group.writeEntry( protocol, it.current()->isOn(), true, true );
     }
     // config key is in bytes, numinput is in MB
     group.writeEntry( "MaximumSize", qRound( m_maxSize->value() *1024*1024 ), true, true );

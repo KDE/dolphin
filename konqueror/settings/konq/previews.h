@@ -33,11 +33,10 @@ Configuration of the maximum image size
 
 #include <qstring.h>
 #include <kcmodule.h>
-#include <qptrlist.h>
 
 class KConfig;
-class QWidget;
 class QCheckBox;
+class QCheckListItem;
 class KDoubleNumInput;
 
 class KPreviewOptions : public KCModule
@@ -53,11 +52,11 @@ public:
 protected:
     void load(bool useDefaults);
 
-private slots:
+public slots:
     void changed();
 
 private:
-    QPtrList<QCheckBox> m_boxes;
+    QPtrList<QCheckListItem> m_items;
     KDoubleNumInput *m_maxSize;
     QCheckBox *m_boostSize;
     QCheckBox *m_useFileThumbnails;
