@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Hard Disc
+Name[de]=Festplatte
+Comment=New Hard Disc
+Comment[de]=Neue Festplatte
+Type=Link
+URL=.source/HD.desktop
+Icon=hdd_unmount

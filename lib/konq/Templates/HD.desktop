@@ -1,0 +1,8 @@
+[Desktop Entry]
+MountPoint=
+Dev=
+ReadOnly=0
+FSType=Default
+Type=FSDevice
+Icon=hdd_mount
+UnmountIcon=hdd_unmount
