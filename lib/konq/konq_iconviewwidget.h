@@ -261,6 +261,17 @@ signals:
     void incIconSize();
     void decIconSize();
 
+    /**
+     * We need to track drag in icon views for the spring loading folders
+     */
+    void dragEntered();
+    void dragLeft();
+    /**
+     * Emited after the dropped() event. This way we know when the
+     * drag'n'drop is really finished.
+     */
+    void dragFinished();
+
 protected slots:
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
 
@@ -294,6 +305,7 @@ protected:
     virtual void drawBackground( QPainter *p, const QRect &r,
 		 			const QPoint &pt );
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
+    virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
     virtual void contentsDropEvent( QDropEvent *e );
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );

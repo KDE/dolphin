@@ -1239,7 +1239,15 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
     KIconView::contentsDragEnterEvent( e );
+    emit dragEntered();
 }
+
+void KonqIconViewWidget::contentsDragLeaveEvent( QDragLeaveEvent *e )
+{
+    QIconView::contentsDragLeaveEvent(e);
+    emit dragLeft();
+}
+
 
 void KonqIconViewWidget::setItemColor( const QColor &c )
 {
@@ -1426,6 +1434,11 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
   // slotSaveIconPositions();
   // If we want to save after the new file gets listed, though,
   // we could reimplement contentsDropEvent in KDIconView and set m_bNeedSave. Bah.
+
+  // This signal is sent last because we need to ensure it is
+  // taken in account when all the slots triggered by the dropped() signal
+  // are executed. This way we know that the Drag and Drop is truely finished
+  emit dragFinished();
 }
 
 void KonqIconViewWidget::doubleClickTimeout()
