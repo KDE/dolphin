@@ -307,6 +307,7 @@ struct KonqIconViewWidgetPrivate
         pPreviewJob = 0;
         updateAfterPreview = false;
         bAllowSetWallpaper = false;
+	gridXspacing = 50;
 
         doAnimations = true;
         m_movie = 0L;
@@ -330,6 +331,7 @@ struct KonqIconViewWidgetPrivate
     bool bSoundItemClicked;
     bool updateAfterPreview;
     bool bAllowSetWallpaper;
+    int gridXspacing;
 
     // Animated icons support
     bool doAnimations;
@@ -440,6 +442,7 @@ void KonqIconViewWidget::readAnimatedIconsConfig()
 {
     KConfigGroup cfgGroup( KGlobal::config(), "DesktopIcons" );
     d->doAnimations = cfgGroup.readBoolEntry( "Animated", true /*default*/ );
+    d->gridXspacing = cfgGroup.readNumEntry( "GridXSpacing", 50);
 }
 
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
@@ -861,7 +864,7 @@ void KonqIconViewWidget::calculateGridX()
 int KonqIconViewWidget::gridXValue() const
 {
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    int newGridX = sz + 50 + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
+    int newGridX = sz + (!m_bSetGridX ? d->gridXspacing : 50) + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
     kdDebug(1203) << "gridXValue: " << newGridX << "sz=" << sz << endl;
     return newGridX;
 }
