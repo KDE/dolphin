@@ -229,8 +229,6 @@ public slots:
   void slotConfigureToolbars();
 
   void slotUndoAvailable( bool avail );
-  // ugly temporary workaround until KAction::setText is a slot (Simon)
-  void slotUndoTextChanged( const QString &text );
 
   void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 

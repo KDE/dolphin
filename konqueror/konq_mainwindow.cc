@@ -907,11 +907,6 @@ void KonqMainWindow::slotUndoAvailable( bool avail )
   m_paUndo->setEnabled( enable );
 }
 
-void KonqMainWindow::slotUndoTextChanged( const QString &text )
-{
-  m_paUndo->setText( text );
-}
-
 void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart )
 {
   m_mapViews.remove( oldPart );
@@ -1915,9 +1910,8 @@ void KonqMainWindow::initActions()
 
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
   m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
-  // ugly temporary workaround until KAction::setText is a slot (Simon)
   connect( KonqUndoManager::self(), SIGNAL( undoTextChanged( const QString & ) ),
-	   this, SLOT( slotUndoTextChanged( const QString & ) ) );
+	   m_paUndo, SLOT( setText( const QString & ) ) );
 
   // Those are connected to the browserextension directly
   m_paCut = KStdAction::cut( 0, 0, actionCollection(), "cut" );
