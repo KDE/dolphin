@@ -119,7 +119,7 @@ public:
    */
   KFileItem * rootItem() { return m_rootFileItem; }
 
-  //int jobId() { return m_jobId; }
+  KIO::ListJob * job() { return m_job; }
 
   /**
    * @return true if koffice documents were listed since the last clear()
