@@ -119,7 +119,7 @@ bool KonqMainWindowIface::windowCanBeUsedForTab()
     if( KonqMainWindow::isPreloaded() )
         return false; // we want a tab in an already shown window
     if ( m_pMainWindow->isMinimized() )
-        return false;
+        m_pMainWindow->showNormal();
 
     m_pMainWindow->raise();
     return true;
