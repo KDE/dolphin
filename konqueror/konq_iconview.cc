@@ -318,8 +318,12 @@ void KonqKfmIconView::stop()
 
 char *KonqKfmIconView::url()
 {
-  assert( m_dirLister );
-  return CORBA::string_dup( m_dirLister->url().ascii() );
+  char *url = 0;
+
+  if ( m_dirLister )
+    url = m_dirLister->url().ascii();
+
+  return CORBA::string_dup( url );
 }
 
 CORBA::Long KonqKfmIconView::xOffset()
