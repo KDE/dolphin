@@ -57,7 +57,8 @@ public:
 };
 
 
-NSPluginLoader *NSPluginLoader::_instance = 0;
+NSPluginLoader *NSPluginLoader::s_instance = 0;
+int NSPluginLoader::s_refCount = 0;
 
 
 NSPluginInstance::NSPluginInstance(QWidget *parent, PluginPrivateData *data, const QCString& app, const QCString& id)
@@ -91,6 +92,29 @@ NSPluginLoader::NSPluginLoader()
   kapp->dcopClient()->setNotifications(true);
   QObject::connect(kapp->dcopClient(), SIGNAL(applicationRegistered(const QCString&)),
 	  this, SLOT(applicationRegistered(const QCString&)));
+}
+
+
+NSPluginLoader *NSPluginLoader::instance()
+{
+  if (!s_instance)
+    s_instance = new NSPluginLoader;
+
+  s_refCount++;
+
+  return s_instance;
+}
+
+
+void NSPluginLoader::release()
+{
+  s_refCount--;
+
+  if (s_refCount==0)
+  {
+    delete s_instance;
+    s_instance = 0;
+  }
 }
 
 
@@ -176,21 +200,15 @@ QString NSPluginLoader::lookup(const QString &mimeType)
 }
 
 
-NSPluginLoader *NSPluginLoader::instance()
-{
-  if (!_instance)
-    _instance = new NSPluginLoader;
-
-  return _instance;
-}
-
-
 bool NSPluginLoader::loadPlugin(const QString &plugin)
 {
   kDebugInfo("NSPluginLoader::loadPlugin");
   PluginPrivateData *data = _private[plugin];
 
-  if (!data)
+  if (data)
+  {
+    kDebugInfo("old plugin found: data=%x", data);
+  } else
     {
       data = new PluginPrivateData;
       data->running = false;
@@ -236,7 +254,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       int cnt = 0;
       while (!kapp->dcopClient()->isApplicationRegistered(data->dcopid))
 	{
-	  kapp->processEvents();
+	  //kapp->processEvents(); // would lead to recursive calls in khtml
 	  sleep(1); kdDebug() << "sleep" << endl;
 	  cnt++;
 	  if (cnt >= 100)
@@ -257,7 +275,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       	data->stub = new NSPluginClassIface_stub(data->dcopid, plugin.ascii());
       	if (data->stub) break;
       	
-      	kapp->processEvents();
+      	//kapp->processEvents(); // would lead to recursive calls in khtml
       	      	
       	sleep(1); kdDebug() << "sleep" << endl;      	
      	cnt++;
@@ -326,6 +344,8 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeType, int type,
 					      QStringList argn, QStringList argv)
 {
+  kDebugInfo("-> NSPluginLoader::NewInstance( parent=%x, url=%s, mime=%s, ...)", parent, url.ascii(), mimeType.ascii());
+
   // check the mime type
   QString mime = mimeType;
   if (mime.isEmpty())
@@ -366,12 +386,14 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
 
   // get a new plugin instance
   PluginPrivateData *data = _private[plugin];
-  
+
   kdDebug() << data->stub->GetMIMEDescription() << endl;
 
   DCOPRef ref = data->stub->NewInstance(mime, type, argn, argv);
+  NSPluginInstance *inst = 0L;
   if (!ref.isNull())
-    return new NSPluginInstance(parent, data, ref.app(), ref.object());
+    inst = new NSPluginInstance(parent, data, ref.app(), ref.object());
 
-  return 0;
+  kDebugInfo("<- NSPluginLoader::NewInstance = %x", inst );
+  return inst;
 }

@@ -78,6 +78,7 @@ public:
 
 
   static NSPluginLoader *instance();
+  void release();
 
 
 protected:
@@ -103,8 +104,8 @@ private:
   QDict<char> _mapping, _filetype;
   QDict<PluginPrivateData> _private;
 
-  static NSPluginLoader *_instance;
-
+  static NSPluginLoader *s_instance;
+  static int s_refCount;
 };
 
 
