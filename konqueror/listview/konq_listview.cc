@@ -448,6 +448,7 @@ void KonqListView::slotShowDot()
 
 void KonqListView::slotCaseInsensitive()
 {
+   m_pProps->setCaseInsensitiveSort( m_paCaseInsensitive->isChecked() );
    m_pListView->setCaseInsensitiveSort( m_paCaseInsensitive->isChecked() );
    m_pListView->sort();
 }
@@ -617,7 +618,6 @@ void KonqListView::setupActions()
 
   m_paShowDot = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
   m_paCaseInsensitive = new KToggleAction(i18n("Case Insensitive Sort"), 0, this, SLOT(slotCaseInsensitive()),actionCollection(), "sort_caseinsensitive" );
-  m_paCaseInsensitive->setChecked( m_pListView->caseInsensitiveSort() );
 
   newIconSize( KIcon::SizeSmall /* default size */ );
 }

@@ -913,6 +913,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    {
       m_pBrowserView->newIconSize( m_pBrowserView->m_pProps->iconSize() );
       m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
+      m_pBrowserView->m_paCaseInsensitive->setChecked( m_pBrowserView->m_pProps->isCaseInsensitiveSort() );
 
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.
