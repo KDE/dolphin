@@ -43,6 +43,9 @@
 #include <konq_defaults.h> // include default values directly from libkonq
 
 
+extern int konq_screen_number;
+
+
 //-----------------------------------------------------------------------------
 
 class PreviewItem : public QCheckListItem
@@ -57,7 +60,7 @@ public:
         setOn(on);
     }
     const QString &pluginName() const { return m_pluginName; }
-    
+
 protected:
     virtual void stateChange( bool ) { m_rootOpts->changed(); }
 
@@ -115,7 +118,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                        " displaying a directory, the order in which files should be sorted, etc."
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
-  
+
   row++;
   menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
   lay->addMultiCellWidget(menuBarBox, row, row, 0, 0);
@@ -124,7 +127,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                     " desktop popup menus to appear on the top of the screen in the style"
                                     " of Macintosh.  This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
-  
+
   row++;
   lay->setRowStretch( row, 10 );
   previewListView = new QListView( this );
@@ -132,7 +135,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->addMultiCellWidget( previewListView, row - 3, row, 1, RO_LASTCOL );
   QWhatsThis::add(previewListView, i18n("Select for which types of files you want to"
                                         " enable preview images"));
-    
+
   row++;
   QFrame * hLine2 = new QFrame(this);
   hLine2->setFrameStyle(QFrame::Sunken|QFrame::HLine);

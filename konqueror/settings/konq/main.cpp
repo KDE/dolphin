@@ -46,10 +46,19 @@
 #include "main.h"
 #include "main.moc"
 
+#include <X11/Xlib.h>
+
+
+// for multihead
+int konq_screen_number = 0;
+
 
 KonqyModule::KonqyModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
+  if (qt_xdisplay())
+      konq_screen_number = DefaultScreen(qt_xdisplay());
+
   KConfig *config = new KConfig("konquerorrc", false, true);
 
   QVBoxLayout *layout = new QVBoxLayout(this);
@@ -139,7 +148,13 @@ void KonqyModule::moduleChanged(bool state)
 KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-  KConfig *config = new KConfig("kdesktoprc", false, false);
+    QCString configname;
+    if (konq_screen_number == 0)
+	configname = "kdesktoprc";
+    else
+	configname.sprintf("kdesktop-screen-%drc", konq_screen_number);
+
+  KConfig *config = new KConfig(configname, false, false);
 
   QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
@@ -193,7 +208,13 @@ void KDesktopModule::save()
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
   QByteArray data;
-  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
+
+  QCString appname;
+  if (konq_screen_number == 0)
+      appname = "kdesktop";
+  else
+      appname.sprintf("kdesktop-screen-%d", konq_screen_number);
+  kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 }
 
 
