@@ -214,8 +214,7 @@ protected slots:
   void slotStarted( KIO::Job * job );
   void slotCompleted();
   void slotCanceled( const QString & errMsg );
-  void slotTotalSize( KIO::Job *, unsigned long size );
-  void slotProcessedSize( KIO::Job *, unsigned long size );
+  void slotPercent( KIO::Job *, unsigned long percent );
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
 
   /**
@@ -252,8 +251,6 @@ protected:
    ... is now m_lstHistory.current()
    */
   //QList<HistoryEntry>::Iterator m_currentHistoryEntry;
-
-  unsigned long m_ulTotalDocumentSize;
 
   KonqMainView *m_pMainView;
   bool m_bAllowHTML;

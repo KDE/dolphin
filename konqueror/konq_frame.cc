@@ -97,7 +97,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
 void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
 {
-   m_progressBar->setGeometry( width()-120, 0, width()-20, height() );
+   m_progressBar->setGeometry( width()-160, 0, 140, height() );
 }
 
 void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )

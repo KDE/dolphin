@@ -257,22 +257,14 @@ void KonqChildView::slotStarted( KIO::Job * job )
 
   if (job)
   {
-      connect( job, SIGNAL( totalSize( KIO::Job *, unsigned long ) ), this, SLOT( slotTotalSize( KIO::Job *, unsigned long ) ) );
-      connect( job, SIGNAL( processedSize( KIO::Job *, unsigned long ) ), this, SLOT( slotProcessedSize( KIO::Job *, unsigned long ) ) );
+      connect( job, SIGNAL( percent( KIO::Job *, unsigned long ) ), this, SLOT( slotPercent( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
   }
-  m_ulTotalDocumentSize = 0;
 }
 
-void KonqChildView::slotTotalSize( KIO::Job *, unsigned long size )
+void KonqChildView::slotPercent( KIO::Job *, unsigned long percent )
 {
-  m_ulTotalDocumentSize = size;
-}
-
-void KonqChildView::slotProcessedSize( KIO::Job *, unsigned long size )
-{
-  if ( m_ulTotalDocumentSize > (unsigned long)0 )
-    m_pKonqFrame->statusbar()->slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
+  m_pKonqFrame->statusbar()->slotLoadingProgress( percent );
 }
 
 void KonqChildView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
