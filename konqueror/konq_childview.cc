@@ -83,6 +83,7 @@ void KonqChildView::attach( Konqueror::View_ptr view )
   connectView( );
   m_pFrame->attach( view );
   m_pFrame->show();
+  KonqPlugins::installKOMPlugins( view );
 }
 
 void KonqChildView::detach()
@@ -183,9 +184,7 @@ Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
     QString serviceType = KonqPlugins::getServiceType( viewName );
     assert( !serviceType.isNull() );
     
-    assert( KonqPlugins::isPluginServiceType( serviceType ) );
-    
-    CORBA::Object_var obj = KonqPlugins::lookupServer( serviceType, KonqPlugins::View );
+    CORBA::Object_var obj = KonqPlugins::lookupViewServer( serviceType );
     assert( !CORBA::is_nil( obj ) );
     
     Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );

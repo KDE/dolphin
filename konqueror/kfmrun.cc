@@ -76,25 +76,19 @@ void KfmRun::foundMimeType( const char *_type )
        }
   }
 
-  bool isView, isPart, isEventFilter;
-  if ( KonqPlugins::isPluginServiceType( _type, &isView, &isPart, &isEventFilter ) )
+  CORBA::Object_var obj = KonqPlugins::lookupViewServer( _type );
+  if ( !CORBA::is_nil( obj ) )
   {
     kdebug(0,1202,"found plugin for %s", _type);
-    
-    if ( isView )
-    {
-      CORBA::Object_var obj = KonqPlugins::lookupServer( _type, KonqPlugins::View );
-      assert( !CORBA::is_nil( obj ) );
-      Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
-      Konqueror::View_var v = Konqueror::View::_duplicate( factory->create() );
-      KonqPlugins::associate( v->viewName(), _type );
-      m_pView->openPluginView( m_strURL, v );
-      m_pView = 0L;
-      m_bFinished = true;
-      m_timer.start( 0, true );
-      return;
-    }
-    else ;//TODO
+
+    Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
+    Konqueror::View_var v = Konqueror::View::_duplicate( factory->create() );
+    KonqPlugins::associate( v->viewName(), _type );
+    m_pView->openPluginView( m_strURL, v );
+    m_pView = 0L;
+    m_bFinished = true;
+    m_timer.start( 0, true );
+    return;
   }
   
   kdebug(0,1202,"Nothing special to do here");

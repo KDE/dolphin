@@ -8,88 +8,27 @@
 #include <ksimpleconfig.h>
 
 QDict< QList<KonqPlugins::imrActivationEntry> > KonqPlugins::s_dctViewServers;
-QDict< QList<KonqPlugins::imrActivationEntry> > KonqPlugins::s_dctPartServers;
-QDict< QList<KonqPlugins::imrActivationEntry> > KonqPlugins::s_dctEventFilterServers;
 QDict< QString > KonqPlugins::s_dctServiceTypes;
+QList< KonqPlugins::KOMPluginEntry > KonqPlugins::s_lstKOMPlugins;
+QDict< KonqPlugins::imrCreationEntry > KonqPlugins::s_dctServers;
       
-
 void KonqPlugins::init()
 {
   imr_init();
   
   s_dctViewServers.setAutoDelete( true );
-  s_dctPartServers.setAutoDelete( true );
-  s_dctEventFilterServers.setAutoDelete( true );
   s_dctServiceTypes.setAutoDelete( true );
+  
+  s_lstKOMPlugins.setAutoDelete( true );
+  
+  s_dctServers.setAutoDelete( true );
+  
+  parseAllServices();
 }
 
-bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter )
+CORBA::Object_ptr KonqPlugins::lookupViewServer( const QString serviceType )
 {
-  bool b1, b2, b3;
-
-  b1 = ( s_dctViewServers[ serviceType ] != 0L );
-  b2 = ( s_dctPartServers[ serviceType ] != 0L );
-  b3 = ( s_dctEventFilterServers[ serviceType ] != 0L );
-  
-  if ( isView )
-    *isView = b1;
-    
-  if ( isPart )
-    *isPart = b2;
-    
-  if ( isEventFilter )
-    *isEventFilter = b3;
-
-  if ( b1 || b2 || b3 )
-    return true;
-  
-  bool res = false;
-
-  QListIterator<KService> it( KService::services() );
-  for ( ; it.current(); ++it )
-  {
-    if ( it.current()->hasServiceType( serviceType ) && it.current()->file() )
-    {
-      parseService( it.current()->file(), serviceType, &b1, &b2, &b3 );
-
-      if ( b1 )
-      {
-        res = true;
-	if ( isView )
-	  *isView = true;
-      }
-      
-      if ( b2 )
-      {
-        res = true;
-	if ( isPart )
-	  *isPart = true;
-      }
-      
-      if ( b3 )
-      {
-        res = true;
-	if ( isEventFilter )
-	  *isEventFilter = true;
-      }
-      
-    }
-          
-  }
-
-  return res;    
-}
-
-CORBA::Object_ptr KonqPlugins::lookupServer( const QString serviceType, ServerType sType )
-{
-  QList<imrActivationEntry> *l = 0L;
-  
-  switch ( sType )
-  {
-    case View: l = s_dctViewServers[ serviceType ]; break;
-    case Part: l = s_dctPartServers[ serviceType ]; break;
-    case EventFilter: l = s_dctEventFilterServers[ serviceType ]; break;
-  }
+  QList<imrActivationEntry> *l = s_dctViewServers[ serviceType ];
   
   if ( !l )
     return CORBA::Object::_nil();
@@ -98,21 +37,92 @@ CORBA::Object_ptr KonqPlugins::lookupServer( const QString serviceType, ServerTy
   
   if ( !e )
     return CORBA::Object::_nil();
-    
+
+  checkServer( e->serverName );
+      
   return imr_activate( e->serverName, e->repoID );    
 }
- 
-void KonqPlugins::parseService( const QString file, const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter )
+
+void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 {
-  KSimpleConfig config( file, true );
+  kdebug(0, 1202, "void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )" );
+
+  QListIterator<KOMPluginEntry> it( s_lstKOMPlugins );
+  for (; it.current(); ++it )
+  {
+    bool b = true;
+    QStrListIterator it2( it.current()->requiredInterfaces );
+    for (; it2.current(); ++it2 )
+      {
+        kdebug(0, 1202, "checking interface %s", it2.current() );
+        if ( !comp->supportsInterface( it2.current() ) )
+	{
+	  kdebug(0, 1202, "no, bailing out" );
+          b = false;
+	}
+      }	  
+	
+    if ( b )
+    {
+      kdebug(0, 1202, "YES, activating plugin");
+      checkServer( it.current()->iae.serverName );
+      
+      CORBA::Object_var obj = imr_activate( it.current()->iae.serverName, it.current()->iae.repoID );
+      assert( !CORBA::is_nil( obj ) );
+      KOM::PluginFactory_var factory = KOM::PluginFactory::_narrow( obj );
+      assert( !CORBA::is_nil( factory ) );
+      
+      KOM::InterfaceSeq reqIf;
+      KOM::InterfaceSeq reqPlugins;
+      KOM::InterfaceSeq prov;
+      int i;
+      
+      reqIf.length( it.current()->requiredInterfaces.count() );
+      i = 0;
+      
+      it2 = QStrListIterator( it.current()->requiredInterfaces );
+      for (; it2.current(); ++it2 )
+        reqIf[ i++ ] = CORBA::string_dup( it2.current() );
+	
+      reqPlugins.length( 0 ); //TODO: support plugin dependencies (shouldn't be hard, I'm just too lazy to do it now :-) (Simon)
+
+      prov.length( it.current()->providedInterfaces.count() );
+      i = 0;
+      
+      it2 = QStrListIterator( it.current()->providedInterfaces );
+      for (; it2.current(); ++it2 )
+        prov[ i++ ] = CORBA::string_dup( it2.current() );
+	
+      comp->addPlugin( factory, reqIf, reqPlugins, prov, true );
+    }
+    
+  }
+}
+ 
+void KonqPlugins::reset()
+{
+  s_dctViewServers.clear();
+  s_dctServiceTypes.clear();
+  s_lstKOMPlugins.clear();
+  s_dctServers.clear();
+  parseAllServices();
+}
+
+void KonqPlugins::associate( const QString viewName, const QString serviceType )
+{
+  if ( s_dctServiceTypes[ viewName ] )
+    s_dctServiceTypes.remove( viewName );
+
+  s_dctServiceTypes.insert( viewName, new QString( serviceType ) );
+}
+
+void KonqPlugins::parseService( KService *service )
+{
+  KSimpleConfig config( service->file(), true );
   QString serverExec;
   QString serverName;
   QString activationMode;
-  QStrList repoIDs;
-
-  *isView = false;
-  *isPart = false;
-  *isEventFilter = false;
+  imrCreationEntry *creationEntry;
   
   config.setGroup( "KDE Desktop Entry" );
   
@@ -132,84 +142,100 @@ void KonqPlugins::parseService( const QString file, const QString serviceType, b
   activationMode = config.readEntry( "ActivationMode" );
   if ( activationMode.isNull() )
     return;
-    
-  repoIDs.setAutoDelete( true );        
+
+  creationEntry = new imrCreationEntry;    
+  creationEntry->repoIDs.setAutoDelete( true );
+  creationEntry->active = false;
+  creationEntry->serverExec = serverExec;
+  creationEntry->activationMode = activationMode;
     
   QStrListIterator it( serviceTypes );
   for (; it.current(); ++it )
   {
-    QList<imrActivationEntry> *l = 0L;
-    
     config.setGroup( QString("ServiceType ") + it.current() );
-    
+
+    kdebug(0, 1202, "parsing servicetype %s", it.current() );
+        
     if ( strcmp( it.current(), "KonquerorView" ) == 0 )
     {
-      *isView = true;
-      if ( !( l = s_dctViewServers[ serviceType ] ) )
-      {
-        l = new QList<imrActivationEntry>;
-	l->setAutoDelete( true );
-	s_dctViewServers.insert( serviceType, l );
-      }
-    }
-    else if ( strcmp( it.current(), "OpenPart" ) == 0 )
-    {
-      *isPart = true;
-      if ( !( l = s_dctPartServers[ serviceType ] ) )
-      {
-        l = new QList<imrActivationEntry>;
-	l->setAutoDelete( true );
-	s_dctPartServers.insert( serviceType, l );
-      }
-    }
-    else if ( strcmp( it.current(), "KonquerorEventFilter" ) == 0 )
-    {
-      *isEventFilter = true;
-      if ( !( l = s_dctEventFilterServers[ serviceType ] ) )
-      {
-        l = new QList<imrActivationEntry>;
-	l->setAutoDelete( true );
-	s_dctEventFilterServers.insert( serviceType, l );
-      }
-    }
+      QList<imrActivationEntry> *l = 0L;
     
-    if ( l )
-    {
-      imrActivationEntry *e = new imrActivationEntry;
-      e->serverName = serverName;
-      e->repoID = config.readEntry( "RepoID" );
-      if ( !e->repoID.isNull() )
+      QString repoID = config.readEntry( "RepoID" );
+      creationEntry->repoIDs.append( repoID );
+
+      kdebug(0, 1202, "found view plugin");
+            
+      QStringList serviceList = service->serviceTypes();
+      QStringList::ConstIterator it2 = serviceList.begin();
+      for (; it2 != serviceList.end(); ++it2 )
       {
+        if ( !( l = s_dctViewServers[ *it2 ] ) )
+        {
+          l = new QList<imrActivationEntry>;
+	  l->setAutoDelete( true );
+	  s_dctViewServers.insert( *it2, l );
+        }
+
+	kdebug(0, 1202, "registering view plugin for %s", it2->ascii() );
+        imrActivationEntry *e = new imrActivationEntry;
+        e->serverName = serverName;
+        e->repoID = repoID;
         l->append( e );
-	repoIDs.append( e->repoID );
-      }
+      }	
+    }
+    else if ( strcmp( it.current(), "KOMPlugin" ) == 0 )
+    {
+      kdebug(0, 1202, "found komplugin");
+    
+      KOMPluginEntry *e = new KOMPluginEntry;
+      e->iae.serverName = serverName;
+      e->iae.repoID = config.readEntry( "RepoID" );
+      creationEntry->repoIDs.append( e->iae.repoID );
+      
+      e->requiredInterfaces.setAutoDelete( true );
+      config.readListEntry( "RequiredInterfaces", e->requiredInterfaces );
+
+      e->providedInterfaces.setAutoDelete( true );
+      config.readListEntry( "ProvidedInterfaces", e->providedInterfaces );
+      
+      s_lstKOMPlugins.append( e );
     }
     else
     {
-     kdebug(0,1202,"unknown servicetype!!!!!!!!!!!!!!");
+      kdebug(0,1202,"unknown servicetype!!!!!!!!!!!!!!");
       return;
     }
-    
   }
-
-  CORBA::Object_var obj = opapp_orb->resolve_initial_references( "ImplementationRepository" );
-  CORBA::ImplRepository_var imr = CORBA::ImplRepository::_narrow( obj );
-  assert( !CORBA::is_nil( imr ) );
-  imr_create( serverName, activationMode, serverExec, repoIDs, imr );
+  
+  s_dctServers.insert( serverName, creationEntry );
 }
 
-void KonqPlugins::reset()
+void KonqPlugins::parseAllServices()
 {
-  s_dctViewServers.clear();
-  s_dctPartServers.clear();
-  s_dctEventFilterServers.clear();
-  s_dctServiceTypes.clear();
+  QListIterator<KService> it( KService::services() );
+  for (; it.current(); ++it )
+  {
+    kdebug(0, 1202, "parsing service %s for plugins", it.current()->name().ascii() );
+    parseService( it.current() );
+  }    
 }
 
-void KonqPlugins::associate( const QString viewName, const QString serviceType )
+void KonqPlugins::checkServer( const QString &serverName )
 {
-  if ( s_dctServiceTypes[ viewName ] )
-    s_dctServiceTypes.remove( viewName );
-
-  s_dctServiceTypes.insert( viewName, new QString( serviceType ) );
+  imrCreationEntry *e = s_dctServers[ serverName ];
+  kdebug( 0, 1202, "void KonqPlugins::checkServer( const QString &serverName )");
+  kdebug( 0, 1202, "checking server %s", serverName.ascii() );  
+  if ( !e ) return;
+  kdebug( 0, 1202, "found server entry" );
+  if ( !e->active )
+  {
+    kdebug(0, 1202, "creating %s", serverName.ascii() );
+    CORBA::Object_var obj = opapp_orb->resolve_initial_references( "ImplementationRepository" );
+    CORBA::ImplRepository_var imr = CORBA::ImplRepository::_narrow( obj );
+    assert( !CORBA::is_nil( imr ) );
+    
+    imr_create( serverName, e->activationMode, e->serverExec, e->repoIDs, imr );
+    e->active = true;
+  }
+  else kdebug( 0, 1202, "server already created!" );
 }

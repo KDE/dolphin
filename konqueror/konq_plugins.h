@@ -4,18 +4,22 @@
 #include <CORBA.h>
 
 #include <qstring.h>
+#include <qstrlist.h>
 #include <qdict.h>
 #include <qlist.h>
+
+#include <kom.h>
+#include <kservices.h>
 
 class KonqPlugins
 {
 public:
-  enum ServerType { View, Part, EventFilter };
-
   static void init();
    
-  static bool isPluginServiceType( const QString serviceType, bool *isView = 0L, bool *isPart = 0L, bool *isEventFilter = 0L );
-  static CORBA::Object_ptr lookupServer( const QString serviceType, ServerType sType );
+  static CORBA::Object_ptr lookupViewServer( const QString serviceType );
+  
+  static void installKOMPlugins( KOM::Component_ptr comp );
+  
   static void reset();
 
   /**
@@ -31,19 +35,40 @@ public:
   static QString getServiceType( QString viewName ) { return * s_dctServiceTypes[viewName]; }
 
 private:
-  static void parseService( const QString file, const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter );
+  static void parseService( KService *service );
 
+  static void parseAllServices();
+
+  static void checkServer( const QString &serverName );
+  
+  struct imrCreationEntry
+  {
+    bool active;
+    QString serverExec;
+    QString activationMode;
+    QStrList repoIDs;
+  };
+    
   struct imrActivationEntry
   {
     QString serverName;
     QString repoID;
   };
-  
+
+  struct KOMPluginEntry
+  {
+    imrActivationEntry iae;
+    QStrList requiredInterfaces;
+    QStrList providedInterfaces;
+  };
+
   static QDict< QList<imrActivationEntry> > s_dctViewServers;
-  static QDict< QList<imrActivationEntry> > s_dctPartServers;
-  static QDict< QList<imrActivationEntry> > s_dctEventFilterServers;
   /* Maps view names to service types (only for plugin views!!) */
   static QDict<QString> s_dctServiceTypes;
+  
+  static QList< KOMPluginEntry > s_lstKOMPlugins;
+  
+  static QDict<imrCreationEntry> s_dctServers;
 };
 
 #endif
