@@ -83,13 +83,14 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     wtstr = i18n("This is the font size used to display text in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pSize, wtstr );
+    int hAlign = QApplication::reverseLayout() ? AlignRight : AlignLeft;
 
     //
 #define COLOR_BUTTON_COL 1
     m_pNormalText = new KColorButton( normalTextColor, this );
     label = new QLabel( m_pNormalText, i18n("Normal te&xt color:"), this );
     lay->addWidget(label,row,0);
-    lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
+    lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,hAlign);
 
     wtstr = i18n("This is the color used to display text in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
@@ -104,7 +105,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     lay->addWidget(label,row,0);
 
     m_pHighlightedText = new KColorButton( highlightedTextColor, this );
-    lay->addWidget(m_pHighlightedText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
+    lay->addWidget(m_pHighlightedText,row,COLOR_BUTTON_COL,hAlign);
 
     wtstr = i18n("This is the color used to display selected text in Konqueror windows.");
     QWhatsThis::add( label, wtstr );
@@ -124,7 +125,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
                  SLOT( slotTextBackgroundClicked() ) );
 
         m_pTextBackground = new KColorButton( textBackgroundColor, this );
-        lay->addWidget(m_pTextBackground,row,COLOR_BUTTON_COL,Qt::AlignLeft);
+        lay->addWidget(m_pTextBackground,row,COLOR_BUTTON_COL,hAlign);
 
         wtstr = i18n("This is the color used behind the text for the icons on the desktop.");
         QWhatsThis::add( label, wtstr );
@@ -151,7 +152,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     }
 
     cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
-    lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,Qt::AlignLeft);
+    lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,hAlign);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbUnderline, i18n("Checking this option will result in filenames"
@@ -164,7 +165,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         row++;
 
         m_pSizeInBytes = new QCheckBox(i18n("Display file sizes in b&ytes"), this);
-        lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,Qt::AlignLeft );
+        lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,hAlign );
         connect( m_pSizeInBytes, SIGNAL(clicked()), this, SLOT(changed()) );
 
         QWhatsThis::add( m_pSizeInBytes, i18n("Checking this option will result in file sizes"
@@ -175,7 +176,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     row++;
     QPushButton* pbIconSize = new QPushButton( i18n("Icon Preferences"), this);
     connect( pbIconSize, SIGNAL(clicked()), this, SLOT(slotConfigureIconSize()) );
-    lay->addMultiCellWidget( pbIconSize, row, row, 0, LASTCOLUMN, Qt::AlignLeft );
+    lay->addMultiCellWidget( pbIconSize, row, row, 0, LASTCOLUMN, hAlign );
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
