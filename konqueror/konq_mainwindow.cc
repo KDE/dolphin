@@ -1730,8 +1730,8 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paSplitWindowHor = new KAction( i18n( "Split Window Left/Right" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
-  m_paSplitWindowVer = new KAction( i18n( "Split Window Top/Bottom" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
+  m_paSplitWindowHor = new KAction( i18n( "New View On Right" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
+  m_paSplitWindowVer = new KAction( i18n( "New View At Bottom" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ), CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
   // makes no sense since konqueror isn't launched directly (but through kfmclient)
