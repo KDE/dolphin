@@ -29,9 +29,6 @@ class QDropEvent;
 class KonqHistoryItem : public KonqTreeItem
 {
 public:
-    KonqHistoryItem( KonqTree *parent, KonqTreeItem *parentItem,
-		     KonqTreeTopLevelItem *topLevelItem,
-		     const KonqHistoryEntry *entry );
     KonqHistoryItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem,
 		     const KonqHistoryEntry *entry );
     ~KonqHistoryItem();
@@ -50,11 +47,11 @@ public:
     virtual KURL externalURL() const { return KURL(m_entry->url); }
 
     const QString& url() const { return m_entry->url; }
-    
+
     void update( const KonqHistoryEntry *entry );
 
     virtual QDragObject * dragObject( QWidget * parent, bool move = false );
-    
+
 private:
     const KonqHistoryEntry *m_entry;
 

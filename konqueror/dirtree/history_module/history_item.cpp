@@ -54,9 +54,6 @@ void KonqHistoryItem::itemSelected()
 
 void KonqHistoryItem::setOpen( bool open )
 {
-//     if ( open & !childCount() && m_bListable )
-//         MYMODULE->openSubFolder( this, m_topLevelItem );
-
     KonqTreeItem::setOpen( open );
 }
 
@@ -70,12 +67,16 @@ QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
     KURL::List lst;
     lst.append( externalURL() );
 
-    QDragObject * drag = KonqDrag::newDrag( lst, false, parent );
+    KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
+    drag->setMoveSelection( move );
 
-    QPoint hotspot;
-    hotspot.setX( pixmap( 0 )->width() / 2 );
-    hotspot.setY( pixmap( 0 )->height() / 2 );
-    drag->setPixmap( *(pixmap( 0 )), hotspot );
+    const QPixmap *pix = pixmap(0);
+    if ( pix ) {
+	QPoint hotspot;
+	hotspot.setX( pix->width() / 2 );
+	hotspot.setY( pix->height() / 2 );
+	drag->setPixmap( *pix, hotspot );
+    }
 
     return drag;
 }

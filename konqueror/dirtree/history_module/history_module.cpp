@@ -101,8 +101,6 @@ void KonqHistoryModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 
 void KonqHistoryModule::showPopupMenu( KonqHistoryItem * /*item*/ )
 {
-    qDebug("*** coll: %i", m_collection->count());
-    
     QPopupMenu *menu = new QPopupMenu;
     m_collection->action("remove")->plug( menu );
     m_collection->action("clear")->plug( menu );
