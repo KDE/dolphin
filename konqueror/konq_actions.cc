@@ -212,12 +212,15 @@ void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
 void KonqHistoryAction::slotActivated( int id )
 {
   // 1 for first item in the list, etc.
-  uint index = m_goMenu->indexOf(id) - m_firstIndex + 1;
-  kdDebug(1202) << "Item clicked has index " << index << endl;
-  // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
-  int steps = ( m_startPos+1 ) - index - m_currentPos; // make a drawing to understand this :-)
-  kdDebug(1202) << "Emit activated with steps = " << steps << endl;
-  emit activated( steps );
+  int index = m_goMenu->indexOf(id) - m_firstIndex + 1;
+  if ( index > 0 )
+  {
+      kdDebug(1202) << "Item clicked has index " << index << endl;
+      // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
+      int steps = ( m_startPos+1 ) - index - m_currentPos; // make a drawing to understand this :-)
+      kdDebug(1202) << "Emit activated with steps = " << steps << endl;
+      emit activated( steps );
+  }
 }
 
 void KonqHistoryAction::unplug( QWidget *widget )
@@ -322,27 +325,32 @@ QPopupMenu *KonqHistoryAction::popupMenu()
 KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent, const char* name )
   : KAction( text, accel, parent, name )
 {
+  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, int accel,
 	                       QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, accel, receiver, slot, parent, name )
 {
+  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
   : KAction( text, pix, accel, parent, name )
 {
+  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
+  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
   : KAction( parent, name )
 {
+  m_logoLabel = 0L;
 }
 
 void KonqLogoAction::setIconSet( const QIconSet& iconSet )
