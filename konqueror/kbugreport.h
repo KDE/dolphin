@@ -39,6 +39,7 @@ public:
 protected slots:
   virtual void slotConfigureEmail();
   virtual void slotSetFrom();
+  virtual void slotUrlClicked(const QString &);
 
 protected:
   QString text();

@@ -18,6 +18,7 @@
 */
 // $Id$
 
+
 #include <qmultilineedit.h>
 #include <qlineedit.h>
 #include <qlabel.h>
@@ -32,6 +33,7 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kprocess.h>
+#include <kurllabel.h>
 
 #include "kbugreport.h"
 
@@ -55,29 +57,37 @@ KBugReport::KBugReport( QWidget * parent )
   m_process = 0L;
   QWidget * parent = plainPage();
   QLabel * tmpLabel;
-  QVBoxLayout * lay = new QVBoxLayout( parent, KDialog::marginHint(), KDialog::spacingHint() );
+  QVBoxLayout * lay = new QVBoxLayout( parent, 0, spacingHint() );
+
+  QGridLayout *glay = new QGridLayout( lay, 3, 3 );
+  glay->setColStretch( 1, 10 );
 
   // From
-  QHBoxLayout * hlay = new QHBoxLayout( 0L, KDialog::marginHint(), KDialog::spacingHint() );
-  tmpLabel = new QLabel( i18n("From : "), parent );
-  hlay->addWidget( tmpLabel );
+  tmpLabel = new QLabel( i18n("From :"), parent );
+  glay->addWidget( tmpLabel, 0,0 );
   m_from = new QLabel( parent );
-  hlay->addWidget( m_from, 10 );
-  QPushButton * configureEmail = new QPushButton( i18n("Configure E-Mail"), parent );
-  hlay->addWidget( configureEmail );
-  connect( configureEmail, SIGNAL( clicked() ), this, SLOT( slotConfigureEmail() ) );
-  lay->addLayout(hlay);
-
+  glay->addWidget( m_from, 0, 1 );
   slotSetFrom();
 
   // Program name
-  tmpLabel = new QLabel( i18n("Application : ")+kapp->name(), parent );
-  lay->addWidget( tmpLabel );
+  tmpLabel = new QLabel( i18n("Application : "), parent );
+  glay->addWidget( tmpLabel, 1, 0 );
+  tmpLabel = new QLabel( kapp->name(), parent );
+  glay->addWidget( tmpLabel, 1, 1 );
 
   // Version : TODO : take it from the future kdelibs class containing it
+  tmpLabel = new QLabel( i18n("Version : "), parent );
+  glay->addWidget( tmpLabel, 2, 0 );
   m_strVersion = QString(KONQUEROR_VERSION) +" (KDE "+KDE_VERSION_STRING+")";
-  m_version = new QLabel( i18n("Version : ")+m_strVersion, parent );
-  lay->addWidget( m_version );
+  m_version = new QLabel( m_strVersion, parent );
+  glay->addWidget( m_version, 2, 1 );
+
+  // Configure email button
+  QPushButton * configureEmail = new QPushButton( i18n("Configure E-Mail"),
+						  parent );
+  connect( configureEmail, SIGNAL( clicked() ), this,
+	   SLOT( slotConfigureEmail() ) );
+  glay->addMultiCellWidget( configureEmail, 0, 2, 2, 2, AlignTop );
 
   // Severity
   m_bgSeverity = new QButtonGroup( i18n("Severity"), parent );
@@ -98,25 +108,50 @@ KBugReport::KBugReport( QWidget * parent )
   lay->addWidget( m_bgSeverity );
 
   // Subject
-  hlay = new QHBoxLayout( 0L, KDialog::marginHint(), KDialog::spacingHint() );
+  QHBoxLayout * hlay = new QHBoxLayout( lay );
   tmpLabel = new QLabel( i18n("Subject : "), parent );
   hlay->addWidget( tmpLabel );
   m_subject = new QLineEdit( parent );
   m_subject->setFocus();
   hlay->addWidget( m_subject );
-  lay->addLayout(hlay);
 
-  // A little help label
-  QLabel * label = new QLabel(
-    i18n("Enter below the text (in English if possible) that you wish to submit for the bug report\n"
-         "If you press Ok, and a mail will be sent to the maintainer of this program and to the KDE buglist\n"
-         "You can access the previously reported bugs and wishes at http://bugs.kde.org/"), parent, "label");
+  QString text = i18n(""
+    "Enter the text (in English if possible) that you wish to submit for the "
+    "bug report.\n"
+    "If you press \"OK\", a mail message will be sent to the maintainer of "
+    "this program \n"
+    "and to the KDE buglist.");
+  QLabel * label = new QLabel( parent, "label" );
+  label->setText( text );
   lay->addWidget( label );
 
   // The multiline-edit
   m_lineedit = new QMultiLineEdit( parent, "QMultiLineEdit" );
   m_lineedit->setMinimumHeight( 180 ); // make it big
   lay->addWidget( m_lineedit, 10 /*stretch*/ );
+
+
+  hlay = new QHBoxLayout( lay, 0 );
+
+  text = i18n("You can access previously reported bugs and wishes at ");
+  label = new QLabel( text, parent, "label");
+  hlay->addWidget( label, 0, AlignBottom );
+
+  text = "http://bugs.kde.org/";
+  KURLLabel *url = new KURLLabel( parent );
+  url->setFloat(true);
+  url->setUnderline(true);
+  url->setText(text);
+  url->setURL(text);
+  connect( url, SIGNAL(leftClickedURL(const QString &)),
+	   this, SLOT(slotUrlClicked(const QString &)));
+  hlay->addWidget( url, 0, AlignBottom );
+
+  hlay->addStretch( 10 );
+
+  // Necessary for vertical label and url alignment.
+  label->setFixedHeight( fontMetrics().lineSpacing() );
+  url->setFixedHeight( fontMetrics().lineSpacing()-1 );
 }
 
 KBugReport::~KBugReport()
@@ -144,6 +179,13 @@ void KBugReport::slotSetFrom()
   p = getpwuid(getuid());
   m_from->setText( emailConf.readEntry( "EmailAddress", p->pw_name ) );
 }
+
+void KBugReport::slotUrlClicked(const QString &urlText)
+{
+  kapp->invokeBrowser( urlText );
+}
+
+
 
 int KBugReport::exec()
 {
