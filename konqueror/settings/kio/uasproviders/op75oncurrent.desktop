@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=UADescription (Opera 7.50 on current)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=OPR
+X-KDE-UA-FULL=Opera/7.50 (appSysName; U;) [appLanguage]
+X-KDE-UA-NAME=Opera
+X-KDE-UA-VERSION=7.50
+X-KDE-UA-DYNAMIC-ENTRY=1

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=UADescription (Mozilla 1.6 on current)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=MOZ
+X-KDE-UA-FULL=Mozilla/5.0 (appPlatform; U; appSysName appMachineType; en-US; rv:1.6) Gecko/20040115
+X-KDE-UA-NAME=Mozilla
+X-KDE-UA-VERSION=1.6
+X-KDE-UA-DYNAMIC-ENTRY=1
