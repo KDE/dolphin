@@ -4844,7 +4844,7 @@ bool KonqMainWindow::stayPreloaded()
     if( mainWindowList()->count() > 1 )
         return false;
     // not running in full KDE environment?
-    if( getenv( "KDE_FULL_SESSION" ) == NULL )
+    if( getenv( "KDE_FULL_SESSION" ) == NULL || getenv( "KDE_FULL_SESSION" )[ 0 ] == '\0' )
     {
         kapp->deref(); // for the extra ref() done in main()
         return false;
