@@ -86,12 +86,12 @@ ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) 
     return importer;
 }
 
-    void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
-        bkGroup = CurrentMgr::self()->mgr()
-            ->root().createNewFolder(CurrentMgr::self()->mgr(), folder(), false);
-        bkGroup.internalElement().setAttribute("icon", m_icon);
-        m_group = bkGroup.address();
-    }
+void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
+    bkGroup = CurrentMgr::self()->mgr()
+        ->root().createNewFolder(CurrentMgr::self()->mgr(), folder(), false);
+    bkGroup.internalElement().setAttribute("icon", m_icon);
+    m_group = bkGroup.address();
+}
 
 void ImportCommand::execute() {
     KBookmarkGroup bkGroup;
@@ -110,7 +110,8 @@ void ImportCommand::execute() {
                     true /* contentOnly */));
 
         // unselect current item, it doesn't exist anymore
-        ListView::self()->clearSelection();
+        if (ListView::self())
+            ListView::self()->clearSelection();
         m_cleanUpCmd->execute();
 
         // import at the root
@@ -132,7 +133,8 @@ void ImportCommand::unexecute() {
         KCommand *cmd = DeleteCommand::deleteAll(root);
 
         // unselect current item, it doesn't exist anymore
-        ListView::self()->clearSelection();
+        if (ListView::self())
+            ListView::self()->clearSelection();
         cmd->execute();
         delete cmd;
 

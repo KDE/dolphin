@@ -66,7 +66,7 @@ CmdHistory::CmdHistory(KActionCollection *collection)
     connect(&m_commandHistory, SIGNAL( documentRestored() ), 
             SLOT( slotDocumentRestored() ));
     assert(!s_self);
-    s_self = this;
+    s_self = this; // this is hacky
 }
 
 CmdHistory* CmdHistory::self() {

@@ -68,7 +68,7 @@ ListView::~ListView() {
 }
 
 void ListView::createListViews(QSplitter *splitter) {
-    (void) self();
+    s_self = new ListView();
     self()->m_folderListView = self()->m_splitView ? new KEBListView(splitter, true) : 0;
     self()->m_listView = new KEBListView(splitter, false);
     splitter->setSizes(QValueList<int>() << 100 << 300);

@@ -167,7 +167,7 @@ public:
    void rename(int);
    void clearSelection();
 
-   static ListView* self() { if (!s_self) { s_self = new ListView(); } return s_self; }
+   static ListView* self() { return s_self; }
    static void createListViews(QSplitter *parent);
 
    void handleMoved(KEBListView *);
