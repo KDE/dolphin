@@ -91,6 +91,17 @@ void KonqyPreloader::reduceCount()
         }
     }
 
+void KonqyPreloader::unloadAllPreloaded()
+    {
+    while( instances.count() > 0 )
+        {
+        KonqyData konqy = instances.first();
+        instances.pop_front();
+        DCOPRef ref( konqy.id, "KonquerorIface" );
+        ref.send( "terminatePreloaded" );
+        }
+    }
+    
 extern "C"
 KDEDModule *create_konqy_preloader( const QCString& obj )
     {

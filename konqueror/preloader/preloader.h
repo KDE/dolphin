@@ -35,6 +35,7 @@ class KonqyPreloader
         QCString getPreloadedKonqy();
         ASYNC unregisterPreloadedKonqy( QCString id );
         void reconfigure();
+        void unloadAllPreloaded();
     private slots:
         void appRemoved( const QCString& id );
     private:
