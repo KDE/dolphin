@@ -319,15 +319,8 @@ void KfindWindow::deleteFiles()
 	  KMessageBox::error(parentWidget(),
 			     i18n("It is not possible to delete\nselected file(s)"));
 	}
-      else {
-#warning "TODO : implement a replacement for kfm->refreshDirectory(url)"
-	// KFM *kfm= new KFM();
-	// and replace the one below as well
-	// kfm->refreshDirectory(text(currentItem()));
-	// delete kfm;
-	
+      else
 	removeItem(item);
-      }
     }
     
     // Directory
@@ -348,12 +341,8 @@ void KfindWindow::deleteFiles()
 			     i18n("It is not possible to delete\nselected directory"));
 	}
       }
-      else {
-	// KFM *kfm= new KFM();
-	// kfm->refreshDirectory(text(currentItem()));
-	// delete kfm;
+      else
 	removeItem(item);
-      }
     }
   }
 }
