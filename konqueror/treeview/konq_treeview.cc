@@ -31,6 +31,7 @@
 #include <konq_propsview.h>
 #include <kaction.h>
 #include <kparts/mainwindow.h>
+#include <kparts/partmanager.h>
 
 #include <assert.h>
 #include <string.h>
@@ -222,6 +223,12 @@ KonqTreeView::~KonqTreeView()
 bool KonqTreeView::openURL( const KURL &url )
 {
   m_url = url; 
+
+  KURL u( url );
+
+  if (manager())
+    manager()->setWindowCaption( u.decodedURL() );
+
   return m_pTreeView->openURL( url );
 }
 
@@ -248,4 +255,5 @@ void KonqTreeView::slotShowDot()
 }
 
 #include "konq_treeview.moc"
+
 
