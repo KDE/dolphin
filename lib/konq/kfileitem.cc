@@ -157,10 +157,10 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
   {
     if ( S_ISDIR( m_fileMode ) )
      return KGlobal::iconLoader()->loadApplicationIcon( "folder", _size );
- 
+
     return KGlobal::iconLoader()->loadApplicationIcon( "mimetypes/unknown", _size );
   }
- 
+
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
   {
     QString xvpicPath = m_url.directory() +
@@ -246,7 +246,7 @@ bool KFileItem::acceptsDrops()
 {
   // Any directory : yes
 //  if ( mimetype() == "inode/directory" )
-  if ( S_ISDIR( mode() ) ) 
+  if ( S_ISDIR( mode() ) )
     return true;
 
   // But only local .desktop files and executables
@@ -265,7 +265,7 @@ bool KFileItem::acceptsDrops()
 
 QString KFileItem::getStatusBarInfo()
 {
-  QString comment = mimeType()->comment( m_url, false );
+  QString comment = determineMimeType()->comment( m_url, false );
   QString text = m_strText;
   // Extract from the UDSEntry the additional info we didn't get previously
   QString myLinkDest = linkDest();
@@ -370,20 +370,20 @@ QString KFileItem::time( unsigned int which ) const
 
 QString KFileItem::mimetype()
 {
-  return mimeType()->name();
+  return determineMimeType()->name();
 }
 
-KMimeType::Ptr KFileItem::mimeType()
+KMimeType::Ptr KFileItem::determineMimeType()
 {
   if ( !m_pMimeType )
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
-  
+
   return m_pMimeType;
 }
 
 QString KFileItem::mimeComment()
 {
- KMimeType::Ptr mType = mimeType(); 
+ KMimeType::Ptr mType = determineMimeType();
  QString comment = mType->comment( m_url, false );
   if (!comment.isEmpty())
     return comment;
@@ -393,7 +393,7 @@ QString KFileItem::mimeComment()
 
 QString KFileItem::iconName()
 {
-  return mimeType()->icon(m_url, false);
+  return determineMimeType()->icon(m_url, false);
 }
 
 void KFileItem::run()

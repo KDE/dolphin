@@ -141,7 +141,7 @@ public:
   /**
    * @return the mimetype of the file item
    */
-  KMimeType::Ptr mimeType();
+  KMimeType::Ptr determineMimeType();
 
   /**
    * @return the descriptive comment for this mime type, or

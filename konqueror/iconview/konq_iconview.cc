@@ -673,7 +673,7 @@ void KonqKfmIconView::slotCompleted()
   }
 
   slotOnViewport();
-  
+
   QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
@@ -776,18 +776,18 @@ void KonqKfmIconView::slotProcessMimeIcons()
 {
   if ( m_lstPendingMimeIconItems.count() == 0 )
     return;
-  
+
   KFileIVI *item = m_lstPendingMimeIconItems.first();
-  
+
   QPixmap currentIcon = item->icon();
-  
-  KMimeType::Ptr dummy = item->item()->mimeType();
-  
+
+  KMimeType::Ptr dummy = item->item()->determineMimeType();
+
   QPixmap newIcon = item->item()->pixmap( m_pIconView->size(), m_pProps->m_bImagePreview );
-  
+
   if ( currentIcon.serialNumber() != newIcon.serialNumber() )
     item->QIconViewItem::setIcon( newIcon );
-  
+
   m_lstPendingMimeIconItems.removeFirst();
   QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
