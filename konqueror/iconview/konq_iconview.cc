@@ -667,11 +667,6 @@ void KonqKfmIconView::slotCompleted()
   m_pIconView->setContentsPos( m_iXOffset, m_iYOffset );
   m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
-  if ( m_bNeedAlign )
-  {
-    m_pIconView->alignItemsInGrid();
-  }
-
   slotOnViewport();
 
   QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
@@ -775,11 +770,11 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 void KonqKfmIconView::slotProcessMimeIcons()
 {
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
-	if ( m_pProps->m_bImagePreview )
-	    m_pIconView->alignItemsInGrid();
-	return;
+        if ( m_bNeedAlign )
+            m_pIconView->alignItemsInGrid();
+        return;
     }
-    
+
   KFileIVI *item = m_lstPendingMimeIconItems.first();
 
   QPixmap currentIcon = item->icon();
@@ -790,7 +785,11 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
   bool recalc = !m_pProps->m_bImagePreview;
   if ( currentIcon.serialNumber() != newIcon.serialNumber() )
+  {
     item->QIconViewItem::setIcon( newIcon, TRUE, recalc );
+    if ( m_pProps->m_bImagePreview )
+        m_bNeedAlign = true;
+  }
 
   m_lstPendingMimeIconItems.removeFirst();
   QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
