@@ -144,8 +144,17 @@ KIconContainerItem *KIconContainer::find( const QString& _name )
 {
   iterator it = begin();
   for( ; *it; ++it )
+  {
+    // debug code
+    kdebug(KDEBUG_INFO, 1205, "::find '%s' | '%s'", (*it)->name().ascii(), _name.ascii() );
+
     if ( (*it)->name() == _name )
+    {
+      kdebug(KDEBUG_INFO, 1205, "OK '%s' = '%s'", (*it)->name().ascii(), _name.ascii() );
       return (*it);
+    }
+  }
+  kdebug(KDEBUG_WARN, 1205, "not found !");
   return 0L;
 }
 

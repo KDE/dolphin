@@ -41,9 +41,10 @@
 
 #include "kmimetypes.h"
 #include "kpixmapcache.h"
+#include "kfileitem.h"
 
 /**
- * Gloabl ID for bookmarks.
+ * Global ID for bookmarks.
  */
 int g_id = 0;
 
@@ -167,7 +168,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 
       if ( res->mimeType() == "inode/directory" )
       {
-        KBookmark* bm = new KBookmark( this, _bm, KBookmark::decode( ep->d_name ) );
+        KBookmark* bm = new KBookmark( this, _bm, KFileItem::decodeFileName( ep->d_name ) );
         scanIntern( bm, file );
       }
       else if ( res->mimeType() == "application/x-desktop" )
@@ -223,7 +224,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   m_pManager = _bm;
   m_lstChildren.setAutoDelete( true );
 
-  m_text = KBookmark::decode( _text );
+  m_text = KFileItem::decodeFileName( _text );
   if ( m_text.length() > 8 && m_text.right( 8 ) == ".desktop" )
     m_text.truncate( m_text.length() - 8 );
   if ( m_text.length() > 7 && m_text.right( 7 ) == ".kdelnk" )
@@ -256,7 +257,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   if ( !_text.isEmpty() )
   {
     m_file += "/";
-    m_file += encode( _text );
+    m_file += KFileItem::encodeFileName( _text );
   }
 
   if ( _parent )
@@ -295,7 +296,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 
   m_file = _parent->file();
   m_file += "/";
-  m_file += encode( _text );
+  m_file += KFileItem::encodeFileName( _text );
   // m_file += ".desktop"; // looks better to the user without extension
 
   FILE *f = fopen( m_file, "w" );
@@ -364,39 +365,6 @@ KBookmark* KBookmark::findBookmark( int _id )
   }
 
   return 0L;
-}
-
-QString KBookmark::encode( const char *_str )
-{
-  QString str( _str );
-
-  int i = 0;
-  while ( ( i = str.find( "%", i ) ) != -1 )
-  {
-    str.replace( i, 1, "%%");
-    i += 2;
-  }
-  while ( ( i = str.find( "/" ) ) != -1 )
-      str.replace( i, 1, "%2f");
-  return str;
-}
-
-QString KBookmark::decode( const char *_str )
-{
-  QString str( _str );
-
-  int i = 0;
-  while ( ( i = str.find( "%%", i ) ) != -1 )
-  {
-    str.replace( i, 2, "%");
-    i++;
-  }
-
-  while ( ( i = str.find( "%2f" ) ) != -1 )
-      str.replace( i, 3, "/");
-  while ( ( i = str.find( "%2F" ) ) != -1 )
-      str.replace( i, 3, "/");
-  return str;
 }
 
 QPixmap* KBookmark::pixmap( )

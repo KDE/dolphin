@@ -54,7 +54,7 @@
 #include <kfiledialog.h>
 #include <kmimetypes.h>
 #include <kservices.h>
-#include <kbookmark.h> // for encode. hum.
+#include <kfileitem.h> // for encodeFileName
 
 #include "kpropsdlg.h"
 #include "userpaths.h"
@@ -232,7 +232,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	filename = tmp2.mid( i + 1, tmp2.length() );
     else
 	filename = "/";
-    // decodeFileName( filename );
+    filename = KFileItem::decodeFileName( filename );
 
     QString tmp = path.data();
     if ( tmp.right(1) != "/" )
@@ -367,8 +367,7 @@ void FilePropsPage::applyChanges()
 {
     QString path = properties->kurl().path();
     QString fname = properties->kurl().filename();
-    QString n = name->text();
-    KBookmark::encode( n ); // hum this has nothing to do with bookmarks. We'll need to move it
+    QString n = KFileItem::encodeFileName( name->text() );
 
     // Do we need to rename the file ?
     if ( strcmp( oldName.data(), n.data() ) != 0 )

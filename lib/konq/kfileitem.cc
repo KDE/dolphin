@@ -41,7 +41,7 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
     if ( it->m_uds == UDS_FILE_TYPE )
       m_mode = (mode_t)it->m_long;
     else if ( it->m_uds == UDS_NAME )
-      m_strText = it->m_str;
+      m_strText = decodeFileName( it->m_str );
   }
   KFileItem::init(); // don't call derived methods !
 }
@@ -166,4 +166,37 @@ QString KFileItem::getStatusBarInfo() const
 void KFileItem::run()
 {
   (void) new KRun( m_url.url(), m_mode, m_bIsLocalURL );
+}
+
+QString KFileItem::encodeFileName( const QString & _str )
+{
+  QString str( _str );
+
+  int i = 0;
+  while ( ( i = str.find( "%", i ) ) != -1 )
+  {
+    str.replace( i, 1, "%%");
+    i += 2;
+  }
+  while ( ( i = str.find( "/" ) ) != -1 )
+      str.replace( i, 1, "%2f");
+  return str;
+}
+
+QString KFileItem::decodeFileName( const QString & _str )
+{
+  QString str( _str );
+
+  int i = 0;
+  while ( ( i = str.find( "%%", i ) ) != -1 )
+  {
+    str.replace( i, 2, "%");
+    i++;
+  }
+
+  while ( ( i = str.find( "%2f" ) ) != -1 )
+      str.replace( i, 3, "/");
+  while ( ( i = str.find( "%2F" ) ) != -1 )
+      str.replace( i, 3, "/");
+  return str;
 }

@@ -57,9 +57,6 @@ public:
   
   KBookmark* findBookmark( int _id );
  
-  static QString encode( const char* );
-  static QString decode( const char* );
-  
 protected:
   /**
    * Creates a folder.

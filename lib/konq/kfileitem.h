@@ -82,7 +82,8 @@ public:
    */
   QPixmap* getPixmap( bool _mini ) const;
   /**
-   * @return the text of the file item (i.e. the filename)
+   * @return the text of the file item
+   * It's not exactly the filename since some decoding happens ('%2F'->'/')
    * Named "getText" instead of "text" for the same reason as above.
    */
   QString getText() const { return m_strText; }
@@ -106,6 +107,21 @@ public:
    * (called when file is clicked or double-clicked or return is pressed)
    */
   void run();
+
+  /////////////
+
+  /**
+   * Encode (from the text displayed to the real filename)
+   * This translates % into %% and / into %2f
+   * Not used here, but by the 'add bookmark' methods
+   * But put here for consistency
+   */
+  static QString encodeFileName( const QString & _str );
+  /**
+   * Decode (from the filename to the text displayed)
+   * This translates %2[fF] into / and %% into %
+   */
+  static QString decodeFileName( const QString & _str );
 
 protected:
   /**
