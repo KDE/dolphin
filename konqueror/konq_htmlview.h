@@ -73,12 +73,12 @@ public:
   virtual void saveDocument();
   virtual void saveFrame();
 
-  virtual void openURL( const char *_url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
+  virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
       
 public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
   void slotFrameInserted( KBrowser *frame );
-  void slotURLClicked( const char *url );
+  void slotURLClicked( QString url );
 
 protected slots:
   void slotShowURL( KHTMLView *view, QString _url );

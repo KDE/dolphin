@@ -47,7 +47,7 @@ public:
   KBrowserURLRequestJob( KBrowser* _browser );
   ~KBrowserURLRequestJob();
 
-  void run( const char *_url, const char *_simple_url, bool _reload );
+  void run( QString _url, QString _simple_url, bool _reload );
 
 signals:
   void error( const char *_url, int _err, const char* _errtext );
@@ -77,8 +77,8 @@ public:
   KBrowser( QWidget *parent=0, const char *name=0, KBrowser *_parent_browser = 0L );
   virtual ~KBrowser();
 
-  virtual void openURL( const char *_url );
-  virtual void openURL( const char *_url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char* _post_data = 0L );
+  virtual void openURL( QString _url );
+  virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char* _post_data = 0L );
 
   // conflict with KonqHtmlView  virtual const char* url() { return m_strURL; }
   
@@ -111,7 +111,7 @@ signals:
   /**
    * Emitted if a link is pressed which has an invalid target, or the target <tt>_blank</tt>.
    */
-  void newWindow( const char *_url );
+  void newWindow( QString _url );
 
   void started( const char *_url );
   void completed();
@@ -119,7 +119,7 @@ signals:
   void mousePressed( const char* _url, const QPoint& _point, int _button);
 
   void frameInserted( KBrowser *frame );
-  void urlClicked( const char *url );
+  void urlClicked( QString url );
   
 protected slots:
   void slotFinished( int _id );
@@ -127,14 +127,14 @@ protected slots:
   void slotError( int _id, int _err, const char *_text );
   void slotRedirection( int _id, const char *_url );
 
-  void slotURLSelected( const char *_url, int _button, const char *_target );
+  void slotURLSelected( QString _url, int _button, QString _target );
   /**
    * Called if the user presses the submit button.
    *
    * @param _url is the <form action=...> value
    * @param _method is the <form method=...> value
    */
-  virtual void slotFormSubmitted( const char *_method, const char *_url, const char *_data );
+  virtual void slotFormSubmitted( QString _method, QString _url, const char *_data );
   virtual void slotUpdateSelect( int );
 
   /**
@@ -172,7 +172,7 @@ protected:
   /**
    * We want to clear our list of child frames here.
    */
-  virtual void begin( const char *_url = 0L, int _x_offset = 0, int _y_offset = 0 );
+  virtual void begin( QString _url = 0L, int _x_offset = 0, int _y_offset = 0 );
     
   /**
    * @return the currently selected view ( the one with the black
@@ -202,7 +202,7 @@ protected:
   virtual bool mousePressedHook( QString _url, QString _target, QMouseEvent *_ev,
 				 bool _isselected);
   
-  virtual QString completeURL( const char *_url );
+  virtual QString completeURL( QString _url );
 
   virtual KBrowser* findChildView( const char *_target );
   

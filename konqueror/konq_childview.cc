@@ -326,7 +326,7 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
 
   if ( !bCompleted )
   {
-    if ( !m_bHistoryLock ) // no lock
+    if ( !m_bHistoryLock && ( url != m_tmpInternalHistoryEntry.strURL ) ) // no lock
     {
       if ( m_bBack )
       {
@@ -353,20 +353,17 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
     h.bHasHistoryEntry = false;
     h.strURL = url;
     h.strServiceType = m_lstServiceTypes.first();
-    
     m_tmpInternalHistoryEntry = h;
   }
   else
   {
-// DISABLED because it's broken in KHTML (Simon)
-// let's try again later ;-)
-//    h = m_tmpInternalHistoryEntry;
-//      
-//    h.bHasHistoryEntry = true;
-//    Konqueror::View::HistoryEntry_var state = m_vView->saveState();
-//    h.entry = state;
-//
-//    m_tmpInternalHistoryEntry = h;
+    h = m_tmpInternalHistoryEntry;
+      
+    h.bHasHistoryEntry = true;
+    Konqueror::View::HistoryEntry_var state = m_vView->saveState();
+    h.entry = state;
+
+    m_tmpInternalHistoryEntry = h;
   }
 }
 
@@ -408,6 +405,7 @@ void KonqChildView::goForward()
   InternalHistoryEntry h = m_lstForward.front();
   m_lstForward.pop_front();
   m_bForward = true;
+  kdebug(0,1202,"restoring %s with stype %s", h.entry.url.in(), h.strServiceType.ascii());
 
   if ( h.bHasHistoryEntry )  
   {

@@ -1267,7 +1267,7 @@ void KonqMainView::slotStop()
     delete m_pRun;
     m_pRun = 0L;
   }
-  
+
   if ( m_currentView )
     m_currentView->stop();
 }

@@ -86,7 +86,7 @@ KBrowser* KBrowser::createFrame( QWidget *_parent, const char *_name )
   return new KBrowser( _parent, _name, this );
 }
 
-void KBrowser::begin( const char *_url, int _x_offset, int _y_offset )
+void KBrowser::begin( QString _url, int _x_offset, int _y_offset )
 {
   // Delete all frames in this view
   m_lstChildren.clear();
@@ -142,12 +142,12 @@ void KBrowser::slotReloadFrames()
     slotReload();
 }
 
-void KBrowser::openURL( const char *_url )
+void KBrowser::openURL( QString _url )
 {
   openURL( _url, false, 0, 0, 0L );
 }
 
-void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char* /*_post_data*/ )
+void KBrowser::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char* /*_post_data*/ )
 {
   // Check URL
   if ( KURL::split( _url ).isEmpty() )
@@ -303,7 +303,7 @@ void KBrowser::slotCancelURLRequest( QString _url )
   m_lstPendingURLRequests.remove( tmp );
 }
 
-void KBrowser::slotURLSelected( const char *_url, int _button, const char *_target )
+void KBrowser::slotURLSelected( QString _url, int _button, QString _target )
 {
 //   if ( !m_bComplete )
 //     slotStop();
@@ -319,12 +319,12 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     return;
   }
     
-  if ( !_url )
+  if ( _url.isNull() )
     return;
     
   QString url = completeURL( _url );
 
-  if ( _target != 0L && _target[0] != 0 && _button == LeftButton )
+  if ( !_target.isNull() && !_target.isEmpty() && _button == LeftButton )
   {
     if ( strcmp( _target, "_parent" ) == 0 )
     {
@@ -337,7 +337,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     }
     else if ( strcmp( _target, "_top" ) == 0 )
     {
-      kdebug(0,1202,"OPENING top %s", url.data());
+      kdebug(0,1202,"OPENING top %s", url.ascii());
       topView()->openURL( url );
       emit urlClicked( url );
       kdebug(0,1202,"OPENED top");
@@ -389,7 +389,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     if ( urlcmp( url, m_strURL, TRUE, TRUE ) )
     {
       QString anchor = u1.htmlRef();
-      kdebug(0,1202,"Going to anchor %s", anchor.data());
+      kdebug(0,1202,"Going to anchor %s", anchor.ascii());
       gotoAnchor( anchor );
       emit urlClicked( url );
       return;
@@ -400,7 +400,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
   }
 }
 
-void KBrowser::slotFormSubmitted( const char *_method, const char *_url, const char *_data )
+void KBrowser::slotFormSubmitted( QString _method, QString _url, const char *_data )
 { 
   QString url = completeURL( _url );
 
@@ -739,7 +739,7 @@ void KBrowser::setDefaultBGColor( const QColor& bgcolor )
     c->m_pBrowser->setDefaultBGColor( bgcolor );
 }
 
-QString KBrowser::completeURL( const char *_url )
+QString KBrowser::completeURL( QString _url )
 {
   KURL orig( m_strURL );
   
@@ -842,9 +842,9 @@ KBrowserURLRequestJob::~KBrowserURLRequestJob()
   kdebug(0,1202,"Destructor 2");
 }
 
-void KBrowserURLRequestJob::run( const char *_url, const char *_simple_url, bool _reload )
+void KBrowserURLRequestJob::run( QString _url, QString _simple_url, bool _reload )
 {
-  kdebug(0,1202,"$$$$$$$$$ BrowserJob for %s", _url);
+  kdebug(0,1202,"$$$$$$$$$ BrowserJob for %s", _url.latin1());
   
   m_strSimpleURL = _simple_url;
   m_strURL = _url;
@@ -864,7 +864,7 @@ void KBrowserURLRequestJob::slotFinished( int /*_id*/ )
 {
   m_jobId = 0;
   
-  kdebug(0,1202,"BROWSER JOB FINISHED %s %s", m_strURL.data(), m_strSimpleURL.data());
+  kdebug(0,1202,"BROWSER JOB FINISHED %s %s", m_strURL.ascii(), m_strSimpleURL.ascii());
   m_pBrowser->data( m_strSimpleURL, "", 0, true );
   m_pBrowser->urlRequestFinished( this );
   kdebug(0,1202,"Back");

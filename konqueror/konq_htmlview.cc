@@ -103,7 +103,7 @@ void KonqHTMLView::slotNewWindow( const char *_url )
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
-  openURL( eventURL.url, (bool)eventURL.reload ); // implemented by kbrowser
+  openURL( QString( eventURL.url ), (bool)eventURL.reload ); // implemented by kbrowser
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
   checkViewMenu();
   return true;
@@ -190,8 +190,8 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
   QObject::connect( frame, SIGNAL( frameInserted( KBrowser * ) ),
                     this, SLOT( slotFrameInserted( KBrowser * ) ) );		    
 
-  QObject::connect( frame, SIGNAL( urlClicked( const char * ) ),
-                    this, SLOT( slotURLClicked( const char * ) ) );		    
+  QObject::connect( frame, SIGNAL( urlClicked( QString ) ),
+                    this, SLOT( slotURLClicked( QString ) ) );		    
 
   KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
   KHTMLWidget* htmlWidget = frame->getKHTMLWidget();
@@ -212,9 +212,9 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
     checkViewMenu();
 }
 
-void KonqHTMLView::slotURLClicked( const char *url )
+void KonqHTMLView::slotURLClicked( QString url )
 {
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url.latin1(), 0 ) );
 }
 
 void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
@@ -558,10 +558,10 @@ void KonqHTMLView::saveFrame()
   }
 }
 
-void KonqHTMLView::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
+void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
 {
   KBrowser::openURL( _url, _reload, _xoffset, _yoffset, _post_data );
-  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)_url, 0 ) );
+  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)_url.latin1(), 0 ) );
 }
 
 void KonqHTMLView::checkViewMenu()
