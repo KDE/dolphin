@@ -37,6 +37,7 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
                           !req.typedURL.isEmpty(), trustedSource ),
     m_pMainWindow( mainWindow ), m_pView( _childView ), m_bFoundMimeType( false ), m_req( req )
 {
+  //kdDebug(1202) << "KonqRun::KonqRun() " << this << endl;
   assert( !m_pMainWindow.isNull() );
   if (m_pView)
     m_pView->setLoading(true);
@@ -44,7 +45,7 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
 
 KonqRun::~KonqRun()
 {
-  kdDebug(1202) << "KonqRun::~KonqRun()" << endl;
+  //kdDebug(1202) << "KonqRun::~KonqRun() " << this << endl;
 }
 
 void KonqRun::foundMimeType( const QString & _type )
@@ -149,6 +150,8 @@ void KonqRun::handleError( KIO::Job *job )
    */
   KURL newURL = QString("error:/?error=%1&errText=%2")
                 .arg( job->error() ).arg( job->errorText() );
+
+  m_strURL.setPass( QString::null ); // don't put the password in the error URL
 
   KURL::List lst;
   lst << newURL << m_strURL;
