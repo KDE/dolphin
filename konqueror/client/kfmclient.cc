@@ -51,56 +51,56 @@ int main( int argc, char **argv )
   clientApp a( argc, argv, "kfmclient" );
   if ( argc == 1 )
   {
-    printf(i18n("\nSyntax:\n"));
+    printf(i18n("\nSyntax:\n").local8Bit());
     printf(i18n("  kfmclient openURL 'url'\n"
                 "            # Opens a window showing 'url'.\n"
                 "            #  'url' may be a relative path\n"
                 "            #   or file name, such as . or subdir/\n"
-                "            #   If 'url' is omitted, $HOME is used instead.\n\n"));
+                "            #   If 'url' is omitted, $HOME is used instead.\n\n").local8Bit());
     printf(i18n("  kfmclient openProperties 'url'\n"
-                "            # Opens a properties menu\n\n"));
+                "            # Opens a properties menu\n\n").local8Bit());
     printf(i18n("  kfmclient exec ['url' ['binding']]\n"
                 "            # Tries to execute 'url'. 'url' may be a usual\n"
                 "            #   URL, this URL will be opened. You may omit\n"
-                "            #   'binding'. In this case the default binding\n"));
+                "            #   'binding'. In this case the default binding\n").local8Bit());
     printf(i18n("            #   is tried. Of course URL may be the URL of a\n"
-                "            #   document, or it may be a *.desktop file.\n"));
+                "            #   document, or it may be a *.desktop file.\n").local8Bit());
     printf(i18n("            #   This way you could for example mount a device\n"
                 "            #   by passing 'Mount default' as binding to \n"
-                "            #   'cdrom.desktop'\n\n"));
+                "            #   'cdrom.desktop'\n\n").local8Bit());
     printf(i18n("  kfmclient move 'src' 'dest'\n"
                 "            # Moves the URL 'src' to 'dest'.\n"
-                "            #   'src' may be a list of URLs.\n"));
+                "            #   'src' may be a list of URLs.\n").local8Bit());
     //printf(i18n("            #   'dest' may be \"trash:/\" to move the files\n"
-    //            "            #   in the trash bin.\n\n"));
+    //            "            #   in the trash bin.\n\n").local8Bit());
     printf(i18n("  kfmclient copy 'src' 'dest'\n"
                 "            # Copies the URL 'src' to 'dest'.\n"
-                "            #   'src' may be a list of URLs.\n\n"));
+                "            #   'src' may be a list of URLs.\n\n").local8Bit());
     printf(i18n("  kfmclient sortDesktop\n"
-                "            # Rearranges all icons on the desktop.\n\n"));
+                "            # Rearranges all icons on the desktop.\n\n").local8Bit());
     printf(i18n("  kfmclient selectDesktopIcons x y w h add\n"
                 "            # Selects the icons on the desktop in the given rectangle\n"
-                "            # If add is 1, adds selection to the current one\n\n"));
+                "            # If add is 1, adds selection to the current one\n\n").local8Bit());
     printf(i18n("  kfmclient configure\n"
-                "            # Re-read konqueror's configuration.\n\n"));
+                "            # Re-read konqueror's configuration.\n\n").local8Bit());
     printf(i18n("  kfmclient configureDesktop\n"
-                "            # Re-read kdesktop's configuration.\n\n"));
+                "            # Re-read kdesktop's configuration.\n\n").local8Bit());
 
     printf(i18n("*** Examples:\n"
                 "  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
-                "             // Mounts the CDROM\n\n"));	
+                "             // Mounts the CDROM\n\n").local8Bit());	
     printf(i18n("  kfmclient exec file:/home/weis/data/test.html\n"
-                "             // Opens the file with default binding\n\n"));
+                "             // Opens the file with default binding\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/home/weis/data/test.html Netscape\n"
-                "             // Opens the file with netscape\n\n"));
+                "             // Opens the file with netscape\n\n").local8Bit());
     printf(i18n("  kfmclient exec ftp://localhost/\n"
-                "             // Opens new window with URL\n\n"));
+                "             // Opens new window with URL\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/root/Desktop/emacs.desktop\n"
-                "             // Starts emacs\n\n"));
+                "             // Starts emacs\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/root/Desktop/cdrom.desktop\n"
-                "             // Opens the CD-ROM's mount directory\n\n"));
+                "             // Opens the CD-ROM's mount directory\n\n").local8Bit());
     printf(i18n("  kfmclient exec .\n"
-                "             // Opens the current directory. Very convenient.\n\n"));
+                "             // Opens the current directory. Very convenient.\n\n").local8Bit());
     return 0;
   }
 
