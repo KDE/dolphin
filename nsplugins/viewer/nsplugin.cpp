@@ -329,7 +329,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
    f.close();
 #endif
 
-   if (!target) {
+   if (!target || !*target) {
       // Send the results of the post to the plugin
       // (works by default)
    } else if (!strcmp(target, "_current") || !strcmp(target, "_self") ||
@@ -345,14 +345,12 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
       // FIXME
    }
 
-   KURL u(url);
-
-   if (u.protocol() == "http" || u.protocol() == "https") {
-      NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
+   NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
+   if (inst && !inst->normalizedURL(QString::fromLatin1(url)).isNull()) {
       inst->postURL( QString::fromLatin1(url), postdata, QString::null,
                      QString::fromLatin1(target), notifyData, args );
    } else {
-      // FIXME - must implement this
+      // Unsupported / insecure
       return NPERR_INVALID_URL;
    }
 
@@ -728,14 +726,35 @@ void NSPluginInstance::timer()
 }
 
 
+QString NSPluginInstance::normalizedURL(const QString& url) const {
+    KURL inURL(_baseURL, url);
+
+    if (inURL.protocol() == "http" ||
+        inURL.protocol() == "https" ||
+        inURL.protocol() == "javascript") {
+        return inURL.url();
+    }
+
+    // Allow: javascript:, http, https, or no protocol (match loading)
+    kdDebug(1431) << "NSPluginInstance::normalizedURL - I don't think so.  http or https only!" << endl;
+    return QString::null;
+}
+
+
 void NSPluginInstance::requestURL( const QString &url, const QString &mime,
                                    const QString &target, void *notify )
 {
-    kdDebug(1431) << "NSPluginInstance::requestURL url=" << url << " target=" <<
-        target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( url, mime, target, notify ) );
-    if ( _streams.count()==0 )
+    // Generally this should already be done, but let's be safe for now.
+    QString nurl = normalizedURL(url);
+    if (nurl.isNull()) {
+        return;
+    }
+
+    kdDebug(1431) << "NSPluginInstance::requestURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
+    _waitingRequests.enqueue( new Request( nurl, mime, target, notify ) );
+    if ( _streams.count() == 0 ) {
         _timer->start( 0, true );
+    }
 }
 
 
@@ -744,11 +763,17 @@ void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
                                 const QString &target, void *notify,
                                 const KParts::URLArgs& args )
 {
-    kdDebug(1431) << "NSPluginInstance::postURL url=" << url << " target=" <<
-        target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( url, data, mime, target, notify, args) );
-    if ( _streams.count()==0 )
+    // Generally this should already be done, but let's be safe for now.
+    QString nurl = normalizedURL(url);
+    if (nurl.isNull()) {
+        return;
+    }
+
+    kdDebug(1431) << "NSPluginInstance::postURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
+    _waitingRequests.enqueue( new Request( nurl, data, mime, target, notify, args) );
+    if ( _streams.count() == 0 ) {
         _timer->start( 0, true );
+    }
 }
 
 

@@ -198,6 +198,8 @@ public:
   void postURL( const QString &url, const QByteArray& data, const QString &mime,
              const QString &target, void *notify, const KParts::URLArgs& args );
 
+  QString normalizedURL(const QString& url) const;
+
 public slots:
   void streamFinished( NSPluginStreamBase *strm );
 
