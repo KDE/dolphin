@@ -181,7 +181,7 @@ KMacroCommand * DeleteCommand::deleteAll( const KBookmarkGroup & parentGroup )
         lstToDelete.prepend( bk.address() );
     for ( QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end() ; ++it )
     {
-        kdDebug() << "ImportCommand::execute: deleting " << *it << endl;
+        kdDebug() << "DeleteCommand::deleteAll: deleting " << *it << endl;
         cmd->addCommand( new DeleteCommand( QString::null, *it ) );
     }
     return cmd;

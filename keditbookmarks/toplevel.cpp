@@ -162,7 +162,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
     (void) new KAction( i18n( "Export To Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
     act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
-    act->setEnabled( QFile::exists( KNSBookmarkImporter::mozillaBookmarksFile() ) );
     (void) new KAction( i18n( "Export To Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::quit( this, SLOT( close() ), actionCollection() );
@@ -351,14 +350,22 @@ void KEBTopLevel::slotImportMoz()
 
 void KEBTopLevel::slotExportNS()
 {
-    KNSBookmarkExporter exporter( KNSBookmarkImporter::netscapeBookmarksFile() );
-    exporter.write();
+    QString path = KNSBookmarkImporter::netscapeBookmarksFile(true);
+    if (!path.isEmpty())
+    {
+        KNSBookmarkExporter exporter( path );
+        exporter.write();
+    }
 }
 
 void KEBTopLevel::slotExportMoz()
 {
-    KNSBookmarkExporter exporter( KNSBookmarkImporter::mozillaBookmarksFile() );
-    exporter.write();
+    QString path = KNSBookmarkImporter::mozillaBookmarksFile(true);
+    if (!path.isEmpty())
+    {
+        KNSBookmarkExporter exporter( path );
+        exporter.write();
+    }
 }
 
 void KEBTopLevel::slotCut()
