@@ -32,9 +32,10 @@ The KonqChildView contains the child part, which can be :
 - a tree view (KonqKfmTreeView)
 - an HTML view (KonqHTMLView) - inherits KBrowser (??)
 - a text view (KonqTxtView)
-- a part view (KonqPartView) - to embed a part from any other application
-   KonqChildView uses KonqPlugins, to parse the .desktop files in order to look
-   for plugins, and create a KonqPartView when wanted.
+- a part view (KonqPartView) - to make it possible for other applications to
+  embed a full-flegded part in them mainview. In fact this view does _not_ have
+  the functionality of a real Konqueror::View ! It is _no_ visual representation
+  of a resource, addressed by an URL.
 
 At this point, it would be interesting to read the IDL. It details most of
 the classes above, defining an interface for it.
@@ -50,7 +51,9 @@ Where to find those classes
 
 kbrowser.* : KBrowser
 kfmrun.* : Re-implementation of KRun (see libkio) for konqueror. Treats
-           HTML and directory in a special way compared to KRun.
+           HTML and directory in a special way compared to KRun and is also
+	   responsible for finding appropriate view<->mimetype bindings with
+	   the help of KonqPlugins.
 kiconcontainer.* : Widget containing icons, for KonqKfmIconView. Will
                    probably be moved somewhere else (libkonq ? kdeui ?)
 konq_baseview.* : KonqBaseView, base class for all builtin views.
@@ -62,8 +65,10 @@ konq_kfmview.* : KonqKfmViewItem, base class for items in the icon and tree view
 konq_main.* : The main() and the definition of KonqApp and KonqApplicationIf
 konq_mainview.* : KonqMainView, main view, one per main window
 konq_mainwindow.* : KonqMainWindow, konqueror window
-konq_partview.* : KonqPartView, embeds parts (e.g. from kview)
-konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins
+konq_partview.* : KonqPartView, embeds parts
+konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins,
+                 creating the approriate entries in the IMR and forcing the
+		 activation of the plugin servers if they're requested.
 konq_propsmainview.* : -- main view properties stuff, not sure it will remain as is --
 konq_propsview.* : -- view properties stuff, not sure it will remain as is --
 konq_topwidget.* : KonqTopWidget, the hidden widget used for session management
