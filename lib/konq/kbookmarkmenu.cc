@@ -148,7 +148,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 
   if ( m_bIsRoot )
     {
-      KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), QIconSet( ),
+      KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), "netscape",
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       m_actions.append( actionMenu );
