@@ -90,6 +90,7 @@
 #include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kprocess.h>
+#include <kio/scheduler.h>
 
 template class QPtrList<QPixmap>;
 template class QPtrList<KToggleAction>;
@@ -4343,6 +4344,7 @@ void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
     if( window == NULL )
         return;
     window->viewManager()->clear();
+    KIO::Scheduler::unregisterWindow( window );
 }
 
 // since the preloading code tries to reuse KonqMainWindow,
