@@ -342,13 +342,13 @@ void ListView::updateListView() {
             s_selected_addresses << it.current()->bookmark().address();
     int lastCurrentY = m_listView->contentsY();
     updateTree();
-    s_listview_is_dirty = true;
-    kdDebug() << "blah" << selectedItems()->isEmpty() << endl;
     if (selectedItems()->isEmpty())
         m_listView->setSelected(m_listView->currentItem(), true);
     m_listView->ensureVisible(0, lastCurrentY, 0, 0);
     m_listView->ensureVisible(0, lastCurrentY + m_listView->visibleHeight(), 0, 0);
 }
+
+KEBListViewItem *s_lazySettingCurrentItem;
 
 void ListView::updateTree(bool updateSplitView) {
     KBookmarkGroup root = CurrentMgr::self()->mgr()->root();
@@ -357,6 +357,9 @@ void ListView::updateTree(bool updateSplitView) {
     fillWithGroup(m_listView, root);
     if (m_splitView && updateSplitView)
         fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
+    s_listview_is_dirty = true;
+    setCurrent(s_lazySettingCurrentItem);
+    s_lazySettingCurrentItem = 0;
 }
 
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
@@ -372,6 +375,8 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
     }
     if (m_splitView && !lv->isFolderList())
         lastItem = new KEBListViewItem(lv, lastItem, group);
+    s_lazySettingCurrentItem = 0;
+    QString correctedCurrentAddr = CurrentMgr::self()->correctAddress(m_last_selection_address);
     for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
         KEBListViewItem *item = 0;
         if (bk.isGroup()) {
@@ -398,11 +403,10 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
                         : new KEBListViewItem(lv, bk));
             lastItem = item;
         }
-        QString addr = CurrentMgr::self()->correctAddress(m_last_selection_address);
-        if (bk.address() == addr)
-            setCurrent(item);
         if (s_selected_addresses.contains(bk.address()))
             lv->setSelected(item, true);
+        if (bk.address() == correctedCurrentAddr)
+            s_lazySettingCurrentItem = item;
     }
 }
 
@@ -773,7 +777,7 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk)
     normalConstruct(bk);
 }
 
-// root  bookmark (after another)
+// root bookmark (after another)
 KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const KBookmark &bk)
     : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
     normalConstruct(bk);

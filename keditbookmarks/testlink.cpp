@@ -247,7 +247,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
         statusStr = mkTimeStr(oldMod);
 
     } else {
-        return QString::null;
+        statusStr = QString::null;
     }
 
     _style = style;
