@@ -19,20 +19,35 @@
 */
 
 #include "konq_sidebartreemodule.h"
-#include <qheader.h>
+
+#include <qclipboard.h>
+#include <qcursor.h>
 #include <qdir.h>
+#include <qheader.h>
+#include <qpopupmenu.h>
 #include <qtimer.h>
+
+#include <dcopclient.h>
+#include <dcopref.h>
+
+#include <kaction.h>
+#include <kapplication.h>
 #include <kdebug.h>
-#include <kmimetype.h>
 #include <kdesktopfile.h>
+#include <kdirnotify_stub.h>
 #include <kglobalsettings.h>
+#include <kiconloader.h>
+#include <kinputdialog.h>
+#include <kio/netaccess.h>
+#include <kmimetype.h>
 #include <kprocess.h>
+#include <kpropertiesdialog.h>
+#include <kprotocolinfo.h>
 #include <kstandarddirs.h>
 #include <kurldrag.h>
+
 #include <stdlib.h>
 #include <assert.h>
-#include <kiconloader.h>
-#include <kio/netaccess.h>
 
 
 static const int autoOpenTimeout = 750;
@@ -101,8 +116,10 @@ public:
 
 KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidget, int virt, const QString& path )
     : KListView( parentWidget ),
+      m_currentTopLevelItem( 0 ),
       m_toolTip( this ),
-      m_scrollingLocked( false )
+      m_scrollingLocked( false ),
+      m_collection( 0 )
 {
     d = new KonqSidebarTree_Internal;
     d->m_dropMode = SidebarTreeMode;
@@ -319,7 +336,7 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
                for(KURL::List::ConstIterator it = urls.begin();
                    it != urls.end(); ++it)
                {
-                  addURL(*it);
+                  addURL(0, *it);
                }
             }
         }
@@ -339,32 +356,59 @@ static QString findUniqueFilename(const QString &path, QString filename)
        filename.truncate(filename.length()-8);
 
     QString name = filename;
-    int n = 1;
+    int n = 2;
     while(QFile::exists(path + filename + ".desktop"))
     {
-       filename = QString("%2_%1").arg(n).arg(name);
+       filename = QString("%2_%1").arg(n++).arg(name);
     }
     return path+filename+".desktop";
 }
 
-void KonqSidebarTree::addURL(const KURL & url)
+void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KURL & url)
 {
-    QString path = m_dirtreeDir.dir.path();
-    QString name = url.host();
-    if (name.isEmpty())
-       name = url.fileName();
-    QString filename = findUniqueFilename(path, name);
-
-    KDesktopFile cfg(filename);
-    cfg.writeEntry("Encoding", "UTF-8");
-    cfg.writeEntry("Type","Link");
-    cfg.writeEntry("URL", url.url());
-    cfg.writeEntry("Icon", KMimeType::favIconForURL(url));
-    cfg.writeEntry("Name", name);
-    cfg.writeEntry("Open", false);
-    cfg.sync();
+    QString path;
+    if (item)
+       path = item->path();
+    else
+       path = m_dirtreeDir.dir.path();
+       
+    KURL destUrl;
     
-    rescanConfiguration();
+    if (url.isLocalFile() && url.fileName().endsWith(".desktop"))
+    {
+       QString filename = findUniqueFilename(path, url.fileName());
+       destUrl.setPath(filename);
+       KIO::NetAccess::copy(url, destUrl, this);
+    }
+    else
+    {
+       QString name = url.host();
+       if (name.isEmpty())
+          name = url.fileName();
+       QString filename = findUniqueFilename(path, name);
+       destUrl.setPath(filename);
+
+       KDesktopFile cfg(filename);
+       cfg.writeEntry("Encoding", "UTF-8");
+       cfg.writeEntry("Type","Link");
+       cfg.writeEntry("URL", url.url());
+       QString icon = "folder";
+       if (!url.isLocalFile())
+          icon = KMimeType::favIconForURL(url);
+       if (icon.isEmpty())
+          icon = KProtocolInfo::icon( url.protocol() );
+       cfg.writeEntry("Icon", icon);
+       cfg.writeEntry("Name", name);
+       cfg.writeEntry("Open", false);
+       cfg.sync();
+    }
+
+    KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
+    destUrl.setPath( destUrl.directory() );
+    allDirNotify.FilesAdded( destUrl );
+
+    if (item)
+       item->setOpen(true);
 }
 
 bool KonqSidebarTree::acceptDrag(QDropEvent* e) const
@@ -436,12 +480,19 @@ void KonqSidebarTree::slotExecuted( QListViewItem *item )
 void KonqSidebarTree::slotMouseButtonPressed( int _button, QListViewItem* _item, const QPoint&, int col )
 {
     KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>( _item );
-    if ( _item && col < 2 && _button == RightButton)
+    if (_button == RightButton)
     {
-	item->setSelected( true );
-	item->rightButtonPressed();
+        if (!item)
+        {
+            showToplevelContextMenu();
+            return;
+        }
+        if ( item && col < 2)
+        {
+            item->setSelected( true );
+            item->rightButtonPressed();
+        }
     }
-
 }
 
 void KonqSidebarTree::slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint&, int col)
@@ -832,6 +883,158 @@ void KonqSidebarTree::enableActions( bool copy, bool cut, bool paste,
     enableAction( "rename", rename );
 }
 
+void KonqSidebarTree::showToplevelContextMenu()
+{
+    KonqSidebarTreeTopLevelItem *item = 0;
+    KonqSidebarTreeItem *treeItem = currentItem();
+    if (treeItem && treeItem->isTopLevelItem())
+        item = static_cast<KonqSidebarTreeTopLevelItem *>(treeItem);
+    
+    // see if the newTab() dcop function is available (i.e. the sidebar is embedded into konqueror)
+    bool tabSupport = false;
+    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
+    DCOPReply reply = ref.call("functions()");
+    if (reply.isValid()) {
+        QCStringList funcs;
+        reply.get(funcs, "QCStringList");
+        for (QCStringList::ConstIterator it = funcs.begin(); it != funcs.end(); ++it) {
+            if ((*it) == "void newTab(QString url)") {
+                tabSupport = true;
+                break;
+            }
+        }
+    }
+
+    if (!m_collection)
+    {
+        m_collection = new KActionCollection( this, "bookmark actions" );
+        (void) new KAction( i18n("&Create New Folder"), "folder_new", 0, this,
+                            SLOT( slotCreateFolder() ), m_collection, "create_folder");
+        (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
+                            SLOT( slotDelete() ), m_collection, "delete_folder");
+        (void) new KAction( i18n("Rename"), "editrename", 0, this,
+                            SLOT( slotRename() ), m_collection, "rename");
+        (void) new KAction( i18n("Delete Link"), "editdelete", 0, this,
+                            SLOT( slotDelete() ), m_collection, "delete_link");
+        (void) new KAction( i18n("Properties"), "edit", 0, this,
+                            SLOT( slotProperties() ), m_collection, "item_properties");
+        (void) new KAction( i18n("Open in New Window"), "window_new", 0, this,
+                            SLOT( slotOpenNewWindow() ), m_collection, "open_window");
+        (void) new KAction( i18n("Open in New Tab"), "tab_new", 0, this,
+                            SLOT( slotOpenTab() ), m_collection, "open_tab");
+        (void) new KAction( i18n("Copy Link Location"), "editcopy", 0, this,
+                            SLOT( slotCopyLocation() ), m_collection, "copy_location");
+    }
+
+    QPopupMenu *menu = new QPopupMenu;
+
+    if (item) {
+        if (item->isTopLevelGroup()) {
+            m_collection->action("rename")->plug(menu);
+            m_collection->action("delete_folder")->plug(menu);
+            menu->insertSeparator();
+            m_collection->action("create_folder")->plug(menu);
+        } else {
+            if (tabSupport)
+                m_collection->action("open_tab")->plug(menu);
+            m_collection->action("open_window")->plug(menu);
+            m_collection->action("copy_location")->plug(menu);
+            menu->insertSeparator();
+            m_collection->action("rename")->plug(menu);
+            m_collection->action("delete_link")->plug(menu);
+        }
+        menu->insertSeparator();
+        m_collection->action("item_properties")->plug(menu);
+    } else {
+        m_collection->action("create_folder")->plug(menu);
+    }
+
+    m_currentTopLevelItem = item;
+
+    menu->exec( QCursor::pos() );
+    delete menu;
+
+    m_currentTopLevelItem = 0;
+}
+
+void KonqSidebarTree::slotCreateFolder()
+{
+    QString path;
+    QString name = i18n("New Folder");
+
+    while(true)
+    {
+        name = KInputDialog::getText(i18n("Create New Folder"), 
+    			i18n("Enter folder name:"), name);
+        if (name.isEmpty())
+            return;
+
+        if (m_currentTopLevelItem)
+            path = m_currentTopLevelItem->path();
+        else
+            path = m_dirtreeDir.dir.path();
+
+        if (!path.endsWith("/"))
+            path += "/";
+
+        path = path + name;
+
+        if (!QFile::exists(path))
+            break;
+
+        name = name + "-2";
+   }
+   
+   KGlobal::dirs()->makeDir(path);
+
+   loadTopLevelGroup(m_currentTopLevelItem, path);
+}
+
+void KonqSidebarTree::slotDelete()
+{
+    if (!m_currentTopLevelItem) return;
+    m_currentTopLevelItem->del();
+}
+
+void KonqSidebarTree::slotRename()
+{
+    if (!m_currentTopLevelItem) return;
+    m_currentTopLevelItem->rename();
+}
+
+void KonqSidebarTree::slotProperties()
+{
+    if (!m_currentTopLevelItem) return;
+    
+    KURL url;
+    url.setPath(m_currentTopLevelItem->path());
+
+    KPropertiesDialog *dlg = new KPropertiesDialog( url );
+    dlg->setFileNameReadOnly(true);
+    dlg->exec();
+    delete dlg;
+}
+
+void KonqSidebarTree::slotOpenNewWindow()
+{
+    if (!m_currentTopLevelItem) return;
+    emit createNewWindow( m_currentTopLevelItem->externalURL() );
+}
+
+void KonqSidebarTree::slotOpenTab()
+{
+    if (!m_currentTopLevelItem) return;
+    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
+    ref.call( "newTab(QString)", m_currentTopLevelItem->externalURL() );
+}
+
+void KonqSidebarTree::slotCopyLocation()
+{
+    if (!m_currentTopLevelItem) return;
+    KURL url = m_currentTopLevelItem->externalURL();
+    kapp->clipboard()->setData( new KURLDrag(url, 0), QClipboard::Selection );
+    kapp->clipboard()->setData( new KURLDrag(url, 0), QClipboard::Clipboard );
+}
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////

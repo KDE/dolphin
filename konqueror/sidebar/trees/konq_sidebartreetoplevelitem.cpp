@@ -71,37 +71,10 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
         KURL::List lst;
         if ( KURLDrag::decode( ev, lst ) && !lst.isEmpty() ) // Are they urls ?
         {
-            // hack - we should check every file, but doDrop takes a dropevent...
-            if ( lst.first().fileName().right(8) == ".desktop" )
+            KURL::List::Iterator it = lst.begin();
+            for ( ; it != lst.end() ; it++ )
             {
-                KURL destURL;
-                destURL.setPath( m_path );
-                KonqOperations::doDrop( 0L, destURL, ev, tree() );
-            }
-            else
-            {
-                KURL::List::Iterator it = lst.begin();
-                for ( ; it != lst.end() ; it++ )
-                {
-                    const KURL & targetURL = (*it);
-                    KURL linkURL;
-                    linkURL.setPath( m_path );
-                    linkURL.addPath( KIO::encodeFileName( targetURL.fileName() )+".desktop" );
-                    KSimpleConfig config( linkURL.path() );
-                    config.setDesktopGroup();
-                    // Don't write a Name field in the desktop file, it makes renaming impossible
-                    config.writePathEntry( "URL", targetURL.url() );
-                    config.writeEntry( "Type", "Link" );
-                    QString icon = KMimeType::findByURL( targetURL )->icon( targetURL, false );
-                    static const QString& unknown = KGlobal::staticQString("unknown");
-                    if ( icon == unknown )
-                        icon = KProtocolInfo::icon( targetURL.protocol() );
-                    config.writeEntry( "Icon", icon );
-                    config.sync();
-                    KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
-                    linkURL.setPath( linkURL.directory() );
-                    allDirNotify.FilesAdded( linkURL );
-                }
+                tree()->addURL(this, *it);
             }
         } else
             kdError(1202) << "No URL !?  " << endl;
@@ -151,8 +124,7 @@ void KonqSidebarTreeTopLevelItem::rightButtonPressed()
 
     if ( !module() || !module()->handleTopLevelContextMenu( this, QCursor::pos() ) )
     {
-        emit tree()->popupMenu( QCursor::pos(), url,
-                     isTopLevelGroup() ? "inode/directory" : "application/x-desktop" );
+        tree()->showToplevelContextMenu();
     }
 }
 

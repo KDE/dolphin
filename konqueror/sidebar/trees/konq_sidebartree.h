@@ -31,6 +31,7 @@
 
 class KonqSidebarTreeModule;
 class KonqSidebarTreeItem;
+class KActionCollection;
 
 class QTimer;
 
@@ -107,6 +108,12 @@ public:
     void itemDestructed( KonqSidebarTreeItem *item );
 
     void setDropFormats( const QStringList &formats ); // used in KListView mode
+    
+    // Show context menu for toplevel items
+    void showToplevelContextMenu();
+
+    // Add an URL
+    void addURL(KonqSidebarTreeTopLevelItem* item, const KURL&url);
 
 public slots:
     virtual void setContentsPos( int x, int y );
@@ -137,6 +144,14 @@ private slots:
 
     void slotItemRenamed(QListViewItem*, const QString &, int);
 
+    void slotCreateFolder();
+    void slotDelete();
+    void slotRename();
+    void slotProperties();
+    void slotOpenNewWindow();
+    void slotOpenTab();
+    void slotCopyLocation();
+
 private:
     void clearTree();
     void scanDir( KonqSidebarTreeItem *parent, const QString &path, bool isRoot = false );
@@ -145,10 +160,10 @@ private:
 
     void loadModuleFactories();
     
-    void addURL(const KURL&url);
 
 private:
     QPtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
+    KonqSidebarTreeTopLevelItem *m_currentTopLevelItem;
 
     QPtrList<KonqSidebarTreeModule> m_lstModules;
 
@@ -187,8 +202,8 @@ private:
     QMap<QString, QString>   pluginInfo;
     QMap<QString, getModule> pluginFactories;
 
-    private:
     bool m_bOpeningFirstChild;
+    KActionCollection *m_collection;
 
     KonqSidebarTree_Internal *d;
 
