@@ -70,7 +70,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
           for (QStringList::ConstIterator mt = mimeTypes.begin(); mt != mimeTypes.end(); ++mt)
               mimeMap.insert(*mt, *it);
       }
-  
+
   // Look for images and store the items in our todo list :)
   bool bNeedCache = false;
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
@@ -98,7 +98,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
   KConfig * config = KGlobal::config();
   KConfigGroupSaver cgs( config, "FMSettings" );
   m_maximumSize = config->readNumEntry( "MaximumImageSize", 1024*1024 /* 1MB */ );
-  
+
   int size = m_iconView->iconSize() ? m_iconView->iconSize()
     : KGlobal::iconLoader()->currentSize( KIcon::Desktop ); // if 0
 
@@ -139,7 +139,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
       // clean out the path to avoid multiple cache dirs for the same
       // location (e.g. file:/foo/bar vs. file:/foo//bar)
       cleanURL.setPath( QDir::cleanDirPath( m_iconView->url().path() ) );
-      HASHHEX hash;
+      QCString hash;
       KMD5 md5( QFile::encodeName( cleanURL.url() ) );
       md5.hexDigest( hash );
       thumbPath = QString::fromLatin1( hash, 4 ) + "/" +
@@ -353,7 +353,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
         determineNextIcon();
         return;
       }
-      
+
       createThumbnail( static_cast<KIO::FileCopyJob*>(job)->destURL().path() );
       return;
     }
