@@ -31,10 +31,10 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
 {
   QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(),
                                       KDialog::spacingHint() );
-  onserverLA = new QLabel( i18n( "When connecting &to:" ), this );
-  lay->addWidget(onserverLA);
+  onserverLA = new QLabel( i18n( "When connecting &to:" ), this );  
   onserverED = new QLineEdit( this );
   onserverLA->setBuddy( onserverED );
+  lay->addWidget(onserverLA);  
   lay->addWidget(onserverED);
 
   QString wtstr = i18n( "Enter the name of the site you want to fool about Konqueror's identity. "
@@ -47,12 +47,13 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
            SLOT( textChanged( const QString&) ) );
 
   loginasLA = new QLabel( i18n("&Send useragent string:"), this );
-  lay->addWidget(loginasLA);
+  
   loginasED = new QComboBox( true, this );
-  loginasED->setInsertionPolicy( QComboBox::AtBottom );
-  lay->addWidget(loginasED);
+  loginasED->setInsertionPolicy( QComboBox::AtBottom );  
   loginasLA->setBuddy(loginasED);
-
+  lay->addWidget(loginasLA);
+  lay->addWidget(loginasED);
+   
   wtstr = i18n( "<qt>Here you can either enter or select the identification Konqueror should "
                 "use whenever it connects to the site given above. For example, <br/>"
                 "<em>Mozilla/4.0 (compatible; Konqueror 2.0; Linux)</em></qt>");
@@ -65,12 +66,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect( loginasED, SIGNAL( activated(const QString&) ),
            SLOT( activated(const QString&) ) );
 
-  loginidLA = new QLabel( i18n("A&lias for useragent string:"), this );
-  lay->addWidget(loginidLA);
-  loginidED = new QLineEdit( this );
-  lay->addWidget(loginidED);
+  loginidLA = new QLabel( i18n("A&lias for useragent string:"), this );  
+  loginidED = new QLineEdit( this );    
   loginidLA->setBuddy(loginidED);
-
+  lay->addWidget(loginidLA);
+  lay->addWidget(loginidED);
+   
   connect( loginidED, SIGNAL( textChanged(const QString&) ),
            SLOT( textChanged(const QString&) ) );
 
@@ -80,9 +81,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   QWhatsThis::add( loginidED, wtstr );
 
   QHBox *hbox = new QHBox( this );
-  lay->addSpacing(5);
+  lay->addSpacing(10);
   lay->addWidget(hbox);
-  lay->addSpacing(5);
 
   // Reset button
   resetPB = new QPushButton( i18n( "&Reset" ), hbox );
@@ -107,8 +107,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect( deletePB, SIGNAL( clicked() ), SLOT( changed() ) );
 
   // List box
-  bindingsLA = new QLabel( i18n( "Configured useragent bindings:" ), this );
-  lay->addWidget(bindingsLA);
+  bindingsLA = new QLabel( i18n( "Configured useragent bindings:" ), this );  
   bindingsLV = new QListView( this );
   bindingsLV->setShowSortIndicator(true);
   bindingsLV->setAllColumnsShowFocus(true);
@@ -120,6 +119,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   bindingsLV->setColumnAlignment(2, Qt::AlignLeft);
   bindingsLV->setTreeStepSize(0);
   bindingsLV->setSorting(0);
+  lay->addWidget(bindingsLA);
   lay->addWidget(bindingsLV);
   wtstr = i18n( "<qt>This box contains a list of user agent bindings.  These bindings enable "
                 "Konqueror to change its identity when you visit these particular site. "
@@ -238,15 +238,16 @@ void UserAgentOptions::save()
 
 void UserAgentOptions::textChanged( const QString& )
 {
-  QString server = onserverED->text();
-  QString login = loginasED->currentText();
+  QString server = onserverED->text().stripWhiteSpace();
+  QString login = loginasED->currentText().stripWhiteSpace();
 
   if ( !login.isEmpty() || !server.isEmpty() || !loginidED->text().isEmpty() )
     resetPB->setEnabled( true );
   else
     resetPB->setEnabled( false );
 
-  if ( !server.isEmpty() && !server[0].isLetterOrNumber() && server[0] != '.' )
+  if ( !server.isEmpty() && !server[0].isLetterOrNumber() && 
+       (server[0] != '.' || (server[0] == '.' && server.length() <= 4) ) )
     return;
 
   if( !login.isEmpty() && !server.isEmpty() )
