@@ -60,7 +60,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     dirBox  = new KComboBox(TRUE, pages[0], "combo2");
     QLabel * lookinL = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
-    caseSensCb  = new QCheckBox(i18n("C&ase sensitive search"), pages[0]);
+    caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
 
     // Setup
