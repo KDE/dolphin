@@ -406,7 +406,7 @@ void KonqKfmIconView::slotListEntry( int /*_id*/, UDSEntry& _entry )
 
 void KonqKfmIconView::slotBufferTimeout()
 {
-  cerr << "BUFFER TIMEOUT" << endl;
+  //cerr << "BUFFER TIMEOUT" << endl;
 
   list<UDSEntry>::iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ )
@@ -423,7 +423,7 @@ void KonqKfmIconView::slotBufferTimeout()
     if ( m_isShowingDotFiles || name[0]!='.' )
     {
 
-      cerr << "Processing " << name << endl;
+      //cerr << "Processing " << name << endl;
 
     // The first entry in the toplevel ?
       if ( !m_strWorkingURL.empty() )
@@ -442,15 +442,15 @@ void KonqKfmIconView::slotBufferTimeout()
       KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
       insert( item, -1, -1, false );
 
-      cerr << "Ended " << name << endl;
+      //cerr << "Ended " << name << endl;
     }
   }
 
-  cerr << "Doing setup" << endl;
+  //cerr << "Doing setup" << endl;
 
   setup();
 
-  cerr << "111111111111111111" << endl;
+  //cerr << "111111111111111111" << endl;
 
   // refresh();
 
@@ -705,17 +705,13 @@ void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, K2
   if ( m_pParent->displayMode() == KIconContainer::Vertical )
     mini = true;
 
-  cerr << ">>>>>>>>>MIME" << endl;
   m_pMimeType = KMimeType::findByURL( _url, mode, m_bIsLocalURL );
-  cerr << "<<<<<<<<<MIME" << endl;
 
   setText( _name );
 
-  cerr << ">>>>>>>>>PIX" << endl;
   QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, mini );
   if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
   else setPixmap( *p );
-  cerr << "<<<<<<<<<PIX" << endl;
 }
 
 void KonqKfmIconViewItem::refresh()

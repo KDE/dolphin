@@ -22,7 +22,7 @@
 #include "konq_mainview.h"
 #include "kfmguiprops.h"
 #include "kfmpaths.h"
-#include "kfmviewprops.h"
+//#include "kfmviewprops.h"
 #include "kbookmark.h"
 #include "konq_defaults.h"
 #include "konq_mainwindow.h"
@@ -39,23 +39,22 @@
 #include <qkeycode.h>
 
 #include <kapp.h>
-#include <kiconloader.h>
-#include <k2url.h>
+#include <kclipboard.h>
 #include <kconfig.h>
+#include <kkeydialog.h>
+#include <kio_cache.h>
+#include <kio_linedit_dlg.h>
+#include <kio_manager.h>
+#include <kio_openwith.h>
+#include <kio_paste.h>
+#include <kpixmapcache.h>
+#include <kstdaccel.h>
+/*#include <k2url.h>
 #include <kmimemagic.h>
 #include <kuserprofile.h>
 #include <kregistry.h>
-#include <kio_cache.h>
-#include <kio_manager.h>
-#include <kio_paste.h>
 #include <kurlcompletion.h>
-#include <kpixmapcache.h>
-#include <kio_linedit_dlg.h>
-#include <kio_openwith.h>
-#include <kkeydialog.h>
-#include <kstdaccel.h>
-#include <kclipboard.h>
-
+*/
 #include <iostream>
 #include <assert.h>
 
@@ -485,7 +484,8 @@ bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 void KonqMainView::insertView( Konqueror::View_ptr view,
                                Konqueror::NewViewPosition newViewPosition )
 {
-  Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
+//Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
+  Konqueror::View_ptr m_vView = view; // temporary
 
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( this );
@@ -505,10 +505,17 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
   {
+    debug("Creating a new row");
     currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
     v->m_pFrame = new OPFrame( currentRow->pRowSplitter );
-    if (newViewPosition == Konqueror::above)
+    if (newViewPosition == Konqueror::above) {
+      debug("Putting it ABOVE");
+      // WHY DOESN'T THIS WORK ?
       currentRow->pRowSplitter->moveToFirst( v->m_pFrame );
+    }
+    // TODO : determine whether lstViews is really necessary
+    // A row knows its row, and all rows are in the dict
+    // I'll probably remove that lstViews, then. (David)
     currentRow->lstViews.append( v );
   }
   else // left or right, in the current row
@@ -531,6 +538,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   v->m_pFrame->attach( m_vView );
   v->m_pFrame->show();
   v->row = currentRow;
+  m_vView->show( true );
 
   try
   {
@@ -1816,7 +1824,7 @@ void KonqMainView::initGui()
     {
       QString n;
       n.sprintf( "kde%i.xpm", i );
-      s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( ICON(n) ) );
+      s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( n ) ) );
     }
   }			
 
@@ -1863,7 +1871,6 @@ void KonqMainView::initView()
   insertView( vView, Konqueror::right );
 
   //temporary...
-  vView->show( true );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( QDir::homeDirPath().data() );
   eventURL.reload = (CORBA::Boolean)false;
