@@ -1,5 +1,6 @@
 ## Makefile.am for kdepasswd
 
+AM_CPPFLAGS = -DQT_NO_ASCII_CAST -DQT_CLEAN_NAMESPACE -DQT_NO_COMPAT
 INCLUDES= $(all_includes)
 
 ## kdepasswd
