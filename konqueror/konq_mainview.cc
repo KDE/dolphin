@@ -545,7 +545,8 @@ void KonqMainView::slotToggleDirTree( bool toggle )
     KonqChildView *cv = childView( view );
 
     cv->setPassiveMode( true );
-    cv->frame()->statusbar()->passiveModeCheckBox()->setChecked( true );
+    //    cv->frame()->statusbar()->passiveModeCheckBox()->setChecked( true );
+    cv->frame()->statusbar()->hideStuff();
   }
   else
   {
