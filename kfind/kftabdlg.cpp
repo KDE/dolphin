@@ -263,7 +263,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QLabel * textMetaKey = new QLabel(metainfokeyEdit, i18n("Search &metainfo sections:"), pages[2], "text");
 
     // Setup
-    typeBox->insertItem(i18n("All Files and Directories"));
+    typeBox->insertItem(i18n("All Files & Directories"));
     typeBox->insertItem(i18n("Files"));
     typeBox->insertItem(i18n("Directories"));
     typeBox->insertItem(i18n("Symbolic Links"));

@@ -242,7 +242,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   if ( !isKDesktop )
   {
     if (isCurrentTrash)
-      actNewView->setStatusText( i18n( "Open the Trash in a new window" ) );
+      actNewView->setStatusText( i18n( "Open the trash in a new window" ) );
     else
       actNewView->setStatusText( i18n( "Open the document in a new window" ) );
   }

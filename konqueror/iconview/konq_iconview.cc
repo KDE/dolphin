@@ -278,8 +278,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paUnselectAll->setStatusText( i18n( "Unselects all selected items" ) );
     m_paInvertSelection->setStatusText( i18n( "Inverts the current selection of items" ) );
 
-    //m_paBottomText = new KToggleAction( i18n( "Text at the &Bottom" ), 0, actionCollection(), "textbottom" );
-    //m_paRightText = new KToggleAction( i18n( "Text at the &Right" ), 0, actionCollection(), "textright" );
+    //m_paBottomText = new KToggleAction( i18n( "Text at &Bottom" ), 0, actionCollection(), "textbottom" );
+    //m_paRightText = new KToggleAction( i18n( "Text at &Right" ), 0, actionCollection(), "textright" );
     //m_paBottomText->setExclusiveGroup( "TextPos" );
     //m_paRightText->setExclusiveGroup( "TextPos" );
     //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );

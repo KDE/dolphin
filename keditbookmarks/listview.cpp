@@ -741,7 +741,7 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
 
 // empty folder item
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after)
-    : QListViewItem(parent, after, i18n("Empty folder") ), m_emptyFolderPadder(true) {
+    : QListViewItem(parent, after, i18n("Empty Folder") ), m_emptyFolderPadder(true) {
 
    setPixmap(0, SmallIcon("bookmark"));
 }

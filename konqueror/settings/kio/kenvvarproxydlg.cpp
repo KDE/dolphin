@@ -124,7 +124,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   m_lbEnvFtp->setBuddy ( m_leEnvFtp );
   glay->addWidget( m_leEnvFtp, 2, 1 );
 
-  m_lbEnvNoProxy = new QLabel( i18n("&No Proxy:"), m_gbHostnames, "lbl_envNoProxy" );
+  m_lbEnvNoProxy = new QLabel( i18n("&No proxy:"), m_gbHostnames, "lbl_envNoProxy" );
   glay->addWidget( m_lbEnvNoProxy, 3, 0 );
 
   m_leEnvNoProxy = new KLineEdit( m_gbHostnames, "m_leEnvNoProxy" );
