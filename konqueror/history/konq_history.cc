@@ -61,7 +61,7 @@ KInstance *KonqHistoryFactory::s_instance = 0;
 
 extern "C"
 {
-  void *init_libkonqhistory()
+  void *init_konq_history()
   {
     return new KonqHistoryFactory;
   }

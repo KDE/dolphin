@@ -72,7 +72,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    }
 }
 
-K_EXPORT_COMPONENT_FACTORY( libkshellcmdplugin, KGenericFactory<KShellCmdPlugin> );
+K_EXPORT_COMPONENT_FACTORY( konq_shellcmdplugin, KGenericFactory<KShellCmdPlugin> );
 
 #include "kshellcmdplugin.moc"
 

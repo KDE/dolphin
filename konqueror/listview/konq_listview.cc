@@ -89,7 +89,7 @@ KonqPropsView *KonqListViewFactory::s_defaultViewProps = 0;
 
 extern "C"
 {
-  void *init_libkonqlistview()
+  void *init_konq_listview()
   {
     return new KonqListViewFactory;
   }

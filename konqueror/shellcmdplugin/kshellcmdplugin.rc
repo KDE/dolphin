@@ -1,5 +1,5 @@
 <!DOCTYPE kpartplugin>
-<kpartplugin library="libkshellcmdplugin">
+<kpartplugin library="konq_shellcmdplugin">
 <MenuBar>
  <Menu name="tools"><text>&amp;Tools</text>
   <Action name="executeshellcommand"/>

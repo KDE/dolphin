@@ -101,7 +101,7 @@ KonqPropsView *KonqIconViewFactory::s_defaultViewProps = 0;
 
 extern "C"
 {
-    void *init_libkonqiconview()
+    void *init_konq_iconview()
     {
         return new KonqIconViewFactory;
     }

@@ -16,7 +16,7 @@
 
 extern "C"
 {
-    void *init_libkonqaboutpage()
+    void *init_konq_aboutpage()
     {
         return new KonqAboutPageFactory;
     }
