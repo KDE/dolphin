@@ -210,7 +210,8 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
       */
     }
   }
-  emit newItems( lstNewItems );
+  if (!lstNewItems.isEmpty())
+      emit newItems( lstNewItems );
 }
 
 void KDirLister::slotRedirection( KIO::Job *, const KURL & url )
