@@ -44,7 +44,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>24/01/2001</date>
+<date>08/02/2001</date>
 <releaseinfo>1.00.10</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole application.</para>
@@ -552,8 +552,12 @@ titlebar</action></para></listitem>
 appears in the titlebar</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><option>--title</option></term>
+<term><option>-T,--title</option></term>
 <listitem><para><action>Set the window title</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--xwin</option></term>
+<listitem><para><action>Ignored</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--nohist</option></term>
@@ -590,14 +594,6 @@ shell</action></para></listitem>
 
 <variablelist>
 <varlistentry>
-<term><option>--author</option></term>
-<listitem><para><action>Show the author(s) names</action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--V</option></term>
-<listitem><para><action>Show the version number</action></para></listitem>
-</varlistentry>
-<varlistentry>
 <term><option>--help-qt</option></term>
 <listitem><para><action>List Qt-specific options</action></para></listitem>
 </varlistentry>
@@ -608,6 +604,18 @@ shell</action></para></listitem>
 <varlistentry>
 <term><option>--help-all</option></term>
 <listitem><para><action>List all options</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--author</option></term>
+<listitem><para><action>Show the author(s) names</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-v,--version</option></term>
+<listitem><para><action>Show the version number</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--license</option></term>
+<listitem><para><action>Show license information</action></para></listitem>
 </varlistentry>
 </variablelist>
 
