@@ -260,7 +260,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     }
   }
 
-  act = new KAction( i18n( "Add To Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
+  act = new KAction( i18n( "Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
   addAction( act );
 
   //////////////////////////////////////////////////////
