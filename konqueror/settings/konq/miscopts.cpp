@@ -17,7 +17,7 @@
 #include "miscopts.h"
 
 #include <kdialog.h>
-#include <konqdefaults.h> // include default values directly from konqueror
+#include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
 #include <dcopclient.h>
 #include <kconfig.h>

@@ -35,7 +35,7 @@
 
 #include "rootopts.h"
 
-#include <konqdefaults.h> // include default values directly from libkonq
+#include <konq_defaults.h> // include default values directly from libkonq
 
 
 //-----------------------------------------------------------------------------

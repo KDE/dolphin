@@ -32,7 +32,7 @@
 
 #include <kapp.h>
 #include <kdialog.h>
-#include <konqdefaults.h> // include default values directly from libkonq
+#include <konq_defaults.h> // include default values directly from libkonq
 #include <klocale.h>
 #include <kconfig.h>
 

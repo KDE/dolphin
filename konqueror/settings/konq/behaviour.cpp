@@ -13,7 +13,7 @@
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <konqdefaults.h>
+#include <konq_defaults.h>
 #include <kstddirs.h>
 
 #include "behaviour.h"

@@ -35,7 +35,7 @@
 #include "fontopts.h"
 #include <assert.h>
 
-#include <konqdefaults.h> // include default values directly from konqueror
+#include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
 
 //-----------------------------------------------------------------------------

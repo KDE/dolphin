@@ -40,7 +40,7 @@
 #include "htmlopts.h"
 #include "policydlg.h"
 
-#include <konqdefaults.h> // include default values directly from konqueror
+#include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
 #include <khtml_settings.h>
 #include <khtmldefaults.h>

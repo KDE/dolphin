@@ -13,7 +13,7 @@
 
 #include "miscopts.h"
 
-#include <konqdefaults.h> // include default values directly from konqueror
+#include <konq_defaults.h> // include default values directly from konqueror
 #include <kglobalsettings.h> // get default for DEFAULT_CHANGECURSOR
 #include <klocale.h>
 #include <kconfig.h>
