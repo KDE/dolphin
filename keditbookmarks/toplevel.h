@@ -77,7 +77,24 @@ protected:
 
 typedef QMap<QString, QString> StringMap;
 
-class KEBTopLevel : public KMainWindow, virtual public KBookmarkListener
+// Those methods aren't in KEBTopLevel since KEBTopLevel registers in DCOP
+// and we need to create this DCOPObject after registration.
+class KBookmarkEditorIface : public QObject, public DCOPObject
+{
+    Q_OBJECT
+    K_DCOP
+public:
+    KBookmarkEditorIface();
+k_dcop:
+    void slotAddedBookmark( QString url, QString text, QString address, QString icon );
+    void slotCreatedNewFolder( QString text, QString address );
+signals:
+    void addedBookmark( QString url, QString text, QString address, QString icon );
+    void createdNewFolder( QString text, QString address );
+};
+
+// Also a DCOP object, in order to catch KBookmarkNotifier signals.
+class KEBTopLevel : public KMainWindow
 {
     Q_OBJECT
 public:
@@ -87,9 +104,6 @@ public:
     virtual ~KEBTopLevel();
 
 public:
-    void addBookmark( QString url, QString text, QString address, QString icon );
-    void createNewFolder( QString text, QString address );
-
     bool save();
 
     void setModified( bool modified = true );
@@ -153,6 +167,10 @@ protected slots:
     void slotCommandExecuted();
     void slotNewToolbarConfig();
 
+    // slots for DCOP-originated events
+    void slotAddedBookmark( QString url, QString text, QString address, QString icon );
+    void slotCreatedNewFolder( QString text, QString address );
+
 protected:
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
     virtual bool queryClose();
@@ -168,10 +186,13 @@ protected:
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;
+    
+    KBookmarkEditorIface * m_dcopIface;
 
     static KEBTopLevel * s_topLevel;
 
 };
+
 
 #endif
 

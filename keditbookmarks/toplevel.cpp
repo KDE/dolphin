@@ -317,11 +317,27 @@ QDragObject *KEBListView::dragObject()
     return drag;
 }
 
+KBookmarkEditorIface::KBookmarkEditorIface()
+ : QObject(), DCOPObject("KBookmarkEditor")
+{
+    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString)", "slotAddedBookmark(QString,QString,QString,QString)", false);
+    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString)", "slotCreatedNewFolder(QString,QString)", false);
+}
+
+void KBookmarkEditorIface::slotAddedBookmark( QString url, QString text, QString address, QString icon )
+{
+    emit addedBookmark( url, text, address, icon );
+}
+
+void KBookmarkEditorIface::slotCreatedNewFolder( QString text, QString address )
+{
+    emit createdNewFolder( text, address );
+}
 
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
-    : KMainWindow(), DCOPObject("KBookmarkListener"), m_commandHistory( actionCollection() )
+    : KMainWindow(), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
     // It will be available in KBookmarkManager::self() from now.
@@ -396,10 +412,14 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
        connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
        if (m_bUnique) {
-          connectDCOPSignal(0, 0, "addBookmark_signal(QString,QString,QString,QString)",
-                                  "addBookmark(QString,QString,QString,QString)", false);
-          connectDCOPSignal(0, 0, "createNewFolder_signal(QString,QString)",
-                                  "createNewFolder(QString,QString)", false);
+          // Create the DCOP interface object
+          m_dcopIface = new KBookmarkEditorIface();
+          connect(m_dcopIface,
+                  SIGNAL(addedBookmark(QString,QString,QString,QString)),
+                  SLOT(slotAddedBookmark(QString,QString,QString,QString)));
+          connect(m_dcopIface,
+                  SIGNAL(createdNewFolder(QString,QString)),
+                  SLOT(slotCreatedNewFolder(QString,QString)));
        }
     }
 
@@ -668,15 +688,19 @@ QString KEBTopLevel::correctAddress(QString address)
    return KBookmarkManager::self()->findByAddress(address,true).address();
 }
 
-void KEBTopLevel::createNewFolder(QString text, QString address) // DCOP call
+// Handling a DCOP-originated event
+void KEBTopLevel::slotCreatedNewFolder(QString text, QString address)
 {
+   kdDebug() << "slotCreatedNewFolder(" << text << "," << address << ")" << endl;
    if (!m_bModified) return;
    CreateCommand * cmd = new CreateCommand( i18n("Create Folder in Konqueror"), correctAddress(address), text, QString :: null, true );
    m_commandHistory.addCommand( cmd );
 }
 
-void KEBTopLevel::addBookmark(QString url, QString text, QString address, QString icon) // DCOP call
+// Handling a DCOP-originated event
+void KEBTopLevel::slotAddedBookmark(QString url, QString text, QString address, QString icon)
 {
+   kdDebug() << "slotAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
    if (!m_bModified) return;
    CreateCommand * cmd = new CreateCommand( i18n("Add Bookmark in Konqueror"), correctAddress(address), text, icon, KURL(url) );
    m_commandHistory.addCommand( cmd );
