@@ -32,11 +32,13 @@
 #include <qpopupmenu.h>
 #include <konq_events.h>
 #include <kfileitem.h>
+#include <kio/netaccess.h>
 
 QString  Sidebar_Widget::PATH=QString("");
 
 addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
 {
+
 	menu=addmenu;
 	connect(menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowAddMenu()));
 	connect(menu,SIGNAL(activated(int)),this,SLOT(activatedAddMenu(int)));
@@ -71,11 +73,32 @@ void addBackEnd::aboutToShowAddMenu()
 	delete confFile;
 
   }
+  menu->insertSeparator();
+  menu->insertItem(i18n("Rollback to system default"),i);
+}
+
+
+void addBackEnd::doRollBack()
+{
+      if (KMessageBox::questionYesNo(0,i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
+	{
+	       KStandardDirs *dirs = KGlobal::dirs();
+	       QString loc=dirs->saveLocation("data","konqsidebartng/",true);
+	       QDir dir(loc);
+	       QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
+	       dirEntries.remove(".");
+	       dirEntries.remove("..");
+		       for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
+			if ((*it)!="add") KIO::NetAccess::del(loc+(*it));
+       		}
+       		emit initialCopyNeeded();
+	}
 }
 
 void addBackEnd::activatedAddMenu(int id)
 {
 	kdDebug()<<"activatedAddMenu: " << QString("%1").arg(id)<<endl;
+	if (((uint)id)==libNames.size()) doRollBack();
 	if(((uint)id)>=libNames.size()) return;
 
 	KLibLoader *loader = KLibLoader::self();
@@ -200,7 +223,9 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertSeparator();
 	buttonPopup->insertItem(SmallIconSet("configure"),i18n("Configure Navigation Panel"), Menu, 4);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
+	addBackEnd *ab=new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd");
+	connect(ab,SIGNAL(updateNeeded()),this,SLOT(createButtons()));
+	connect(ab,SIGNAL(initialCopyNeeded()),this,SLOT(finishRollBack()));
 
 //	ButtonBar->setMinimumHeight(10);
 //	ButtonBar=new QButtonGroup(this);
@@ -213,6 +238,13 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 //	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
 	
+}
+
+void Sidebar_Widget::finishRollBack()
+{
+        PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
+        initialCopy();
+        QTimer::singleShot(0,this,SLOT(createButtons()));
 }
 
 void Sidebar_Widget::slotDeleted()
@@ -252,7 +284,9 @@ void Sidebar_Widget::aboutToShowConfigMenu()
 
 void Sidebar_Widget::initialCopy()
 {
+	kdDebug()<<"Initial copy"<<endl;
 	   QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/").last();
+	    if (dirtree_dir==PATH) exit (1);
             if ( !dirtree_dir.isEmpty() && dirtree_dir != PATH )
             {
 		   KSimpleConfig gcfg(dirtree_dir+".version");

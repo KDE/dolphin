@@ -65,12 +65,13 @@ class addBackEnd: public QObject
 		QGuardedPtr<class QPopupMenu> menu;
 		QPtrVector<QString> libNames;
 		QPtrVector<QString> libParam;
+		void doRollBack();
 	protected slots:
 		void aboutToShowAddMenu();
-		void activatedAddMenu(int);
+		void activatedAddMenu(int);		
 	signals:
 		void updateNeeded();
-
+		void initialCopyNeeded();
 };
 
 class Sidebar_Widget: public QWidget
@@ -126,6 +127,7 @@ class Sidebar_Widget: public QWidget
   protected slots:
 	void showHidePage(int value);
 	void createButtons();
+	void finishRollBack();
 	void activatedMenu(int id);
 	void buttonPopupActivate(int);
   	void dockWidgetHasUndocked(KDockWidget*);  
