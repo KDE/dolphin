@@ -222,10 +222,12 @@ QString KonqAboutPageFactory::tips()
 		      "(and don't forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
 	  .arg( i18n( "The History in your Sidebar makes sure that you will keep track of the "
 		      "pages you have visited recently." ) )
-	  .arg( i18n( "Use a caching proxy to speed up your internet-connection." ) )
+	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your internet-connection."
+).arg("exec:/kcmshell proxy") )
 	  .arg( i18n( "Advanced users will appreciate the konsole which you can embed into "
 		      "konqueror (Window -> Show Terminal Emulator)." ) )
-	  .arg( i18n( "Thanks to DCOP you can have full control over Konqueror using a script." ) )
+	  .arg( i18n( "Thanks to <A HREF=\"%1\">DCOP</A> you can have full control over Konqueror using a script."
+).arg("exec:/kdcop") )
 	  .arg( i18n( "Continue" ) )
           ;
 
