@@ -1588,7 +1588,12 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     {
       KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent->widget(), parent );
       connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
-      parent->insertChildFrame( newContainer );
+      
+      int tabindex = -1;
+      if(openAfterCurrentPage && parent->frameType() == "Tabs") // Need to honor it, if possible      
+	tabindex = static_cast<KonqFrameTabs*>(parent)->currentPageIndex() + 1;
+      parent->insertChildFrame( newContainer, tabindex );
+
 
       if (cfg.readBoolEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
         m_pDocContainer = newContainer;
