@@ -177,7 +177,9 @@ void KonqSidebarBookmarkModule::slotMoved(QListViewItem *i, QListViewItem*, QLis
         if (error)
             parentGroup = KonqBookmarkManager::self()->root();
     } else {
-        // most probably the root...
+        // No parent! This means the user dropped it before the top level item
+        // And KListView has moved the item there, we need to correct it
+        tree()->moveItem(item, m_topLevelItem, 0L);
         parentGroup = KonqBookmarkManager::self()->root();
     }
 
