@@ -1124,12 +1124,12 @@ void KonqMainWindow::slotOpenTerminal()
               dir = u.directory();
   }
 
-  QString cmd = QString("cd ");
-  cmd += KProcess::quote(dir);
-  cmd += ";";
-  cmd += term;
-  kdDebug(1202) << "slotOpenTerminal: " << cmd << endl;
-  system( QFile::encodeName(cmd) );
+  KProcess cmd;
+  cmd.setWorkingDirectory(dir);
+  cmd << term;
+  kdDebug(1202) << "slotOpenTerminal: directory " << dir
+		<< ", terminal:" << term << endl;
+  cmd.start(KProcess::DontCare);
 }
 
 void KonqMainWindow::slotOpenLocation()
