@@ -327,7 +327,6 @@ struct KonqIconViewWidgetPrivate
         pSoundPlayer = 0;
         pSoundTimer = 0;
         pPreviewJob = 0;
-        updateAfterPreview = false;
         bAllowSetWallpaper = false;
 	gridXspacing = 50;
 
@@ -350,9 +349,10 @@ struct KonqIconViewWidgetPrivate
     QTimer *pSoundTimer;
     bool bSoundPreviews;
     bool bSoundItemClicked;
-    bool updateAfterPreview;
     bool bAllowSetWallpaper;
     int gridXspacing;
+    
+    QTimer* rearrangeIconsTimer;
 
     // Animated icons support
     bool doAnimations;
@@ -373,6 +373,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
 {
     d = new KonqIconViewWidgetPrivate;
+    d->rearrangeIconsTimer = new QTimer( this );
     connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
              this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
 
@@ -384,6 +385,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
     connect( this, SIGNAL(itemRenamed(QIconViewItem *, const QString &)), SLOT(slotItemRenamed(QIconViewItem *, const QString &)) );
+
+    connect( d->rearrangeIconsTimer, SIGNAL( timeout() ), SLOT( slotRearrangeIcons() ) );
 
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
@@ -656,23 +659,30 @@ void KonqIconViewWidget::slotStartSoundPreview()
   d->pSoundPlayer->play(d->pSoundItem->item()->url().url());
 }
 
+
 void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
 {
     // ### slow. Idea: move KonqKfmIconView's m_itemDict into this class
     for (QIconViewItem *it = firstItem(); it; it = it->nextItem())
     {
-        if (static_cast<KFileIVI *>(it)->item() == item)
+        KFileIVI* current = static_cast<KFileIVI *>(it);
+        if (current->item() == item)
         {
+            bool needsUpdate = ( current->width() < pix.width() || current->height() < pix.height() );
             if(item->overlays() & KIcon::HiddenOverlay)
             {
                 QPixmap p(pix);
 
                 KIconEffect::semiTransparent(p);
-                static_cast<KFileIVI *>(it)->setThumbnailPixmap(p);
+                current->setThumbnailPixmap(p);
+            } else {
+                current->setThumbnailPixmap(pix);
             }
-            else
-                static_cast<KFileIVI *>(it)->setThumbnailPixmap(pix);
-            d->updateAfterPreview = true;
+            if ( needsUpdate 
+                    && autoArrange() 
+                    && !d->rearrangeIconsTimer->isActive() ) {
+                d->rearrangeIconsTimer->start( 500, true );
+            }
         }
     }
 }
@@ -680,9 +690,9 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
 void KonqIconViewWidget::slotPreviewResult()
 {
     d->pPreviewJob = 0;
-    if (autoArrange() && d->updateAfterPreview ) {
-        arrangeItemsInGrid();
-        d->updateAfterPreview = false;
+    if ( d->rearrangeIconsTimer->isActive() ) { 
+        d->rearrangeIconsTimer->stop();
+        slotRearrangeIcons();
     }
     emit imagePreviewFinished();
 }
@@ -1056,6 +1066,13 @@ void KonqIconViewWidget::slotAboutToCreate(const QPoint &, const QValueList<KIO:
 {
    // Do nothing :-)
 }
+
+void KonqIconViewWidget::slotRearrangeIcons()
+{
+    // We cannot actually call arrangeItemsInGrid directly as a slot because it has a default parameter.
+  arrangeItemsInGrid();
+}
+
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {

@@ -253,6 +253,9 @@ protected slots:
 
     void slotAboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
 
+private slots:
+    void slotRearrangeIcons();
+
 protected:
     virtual QDragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
