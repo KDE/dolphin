@@ -118,6 +118,14 @@ KonqIconViewWidget::~KonqIconViewWidget()
     delete d;
 }
 
+void KonqIconViewWidget::focusOutEvent( QFocusEvent * /* ev */ )
+{
+    // We can't possibly have the mouse pressed and still lose focus.
+    // Well, we can, but when we regain focus we should assume the mouse is
+    // not down anymore or the slotOnItem code will break with highlighting!
+    m_bMousePressed = false;
+}
+
 void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
 {
     kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
@@ -139,8 +147,11 @@ void KonqIconViewWidget::slotIconChanged( int group )
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 {
     // Reset icon of previous item
-    if (d->pActiveItem != 0L)
-        d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+    if( d->pActiveItem != 0L && d->pActiveItem != item )
+    {
+	d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+	d->pActiveItem = 0L;
+    }
 
     // Stop sound
     if (d->pSoundPlayer != 0 && static_cast<KFileIVI *>(item) != d->pSoundItem)
@@ -153,19 +164,36 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     	    d->pSoundTimer->stop();
     }
 
-    if ( !m_bMousePressed &&
-         !static_cast<KFileIVI *>(item)->isThumbnail() &&
-         (KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::DefaultState) !=
-          KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::ActiveState) ) )
+    if ( !m_bMousePressed )
     {
-      d->pActiveItem = static_cast<KFileIVI *>(item);
-      d->pActiveItem->setIcon( m_size, KIcon::ActiveState, false, true );
-      //kdDebug(1203) << "desktop;defaultstate=" << KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::DefaultState) << endl;
-      //kdDebug(1203) << "desktop;activestate=" << KGlobal::iconLoader()->iconEffect()->fingerprint(KIcon::Desktop, KIcon::ActiveState) << endl;
-    } else
-      // Feature disabled during mouse clicking, e.g. rectangular selection
-      // also disabled if the item is a thumbnail
+	if( item != d->pActiveItem )
+	{
+	    d->pActiveItem = static_cast<KFileIVI *>(item);
+	    d->pActiveItem->setEffect( KIcon::Desktop, KIcon::ActiveState );
+
+	    //kdDebug(1203) << "desktop;defaultstate=" <<
+	    //      KGlobal::iconLoader()->iconEffect()->
+	    //      fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
+	    //      endl;
+	    //kdDebug(1203) << "desktop;activestate=" <<
+	    //      KGlobal::iconLoader()->iconEffect()->
+	    //      fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
+	    //      endl;
+	}
+	else
+	{
+	    // No effect. If we want to underline on hover, we should
+	    // force the IVI to repaint here, though!
+	    d->pActiveItem = 0L;
+	}
+    }	// bMousePressed
+    else
+    {
+      // All features disabled during mouse clicking, e.g. rectangular
+      // selection
       d->pActiveItem = 0L;
+    }
+    
     if (d->bSoundPreviews && static_cast<KFileIVI *>(item)->item()->mimetype().startsWith("audio/"))
     {
       d->pSoundItem = static_cast<KFileIVI *>(item);
@@ -204,7 +232,8 @@ void KonqIconViewWidget::slotOnViewport()
 
     if (d->pActiveItem == 0L)
         return;
-    d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+				
+    d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
     d->pActiveItem = 0L;
 }
 
@@ -309,11 +338,16 @@ void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
-        if ( !ivi->isThumbnail() ||
-             ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) ||
-             ( stopImagePreviewFor && ivi->thumbnailName() == stopImagePreviewFor ) )
-            ivi->setIcon( size, ivi->state(),
-                          true, true /* perhaps we should do one big redraw instead ? */);
+	if ( !ivi->isThumbnail() ||
+	    ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) ||
+	    ( stopImagePreviewFor &&
+	    ivi->thumbnailName() == stopImagePreviewFor ) )
+	{
+            // perhaps we should do one big redraw instead ?
+	    ivi->setIcon( size, ivi->state(), true, true );
+	}
+	else
+	    ivi->invalidateThumb( ivi->state(), true );
     }
     if ( autoArrange() && (oldGridX != gridX() || stopImagePreviewFor) )
     {
@@ -1216,3 +1250,5 @@ void KonqIconViewWidget::backgroundPixmapChange( const QPixmap & )
 }
 
 #include "konq_iconviewwidget.moc"
+
+/* vim: set noet sw=4 ts=8 softtabstop=4: */

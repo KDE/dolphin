@@ -44,7 +44,7 @@ public:
      * @param size the icon size
      */
     KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size );
-    virtual ~KFileIVI() { }
+    virtual ~KFileIVI();
 
     /**
      * Handler for return (or single/double click) on ONE icon.
@@ -76,6 +76,16 @@ public:
                           bool redraw=false);
 
     /**
+     * Notifies that all icon effects on thumbs should be invalidated,
+     * e.g. because the effect settings have been changed. The thumb itself
+     * is assumed to be still valid (use setThumbnailPixmap() instead
+     * otherwise).
+     * @param state the state of the icon (enum in KIcon)
+     * @param redraw whether to redraw the item after setting the icon
+     */
+    void KFileIVI::invalidateThumb( int state, bool redraw = false );
+
+    /**
      * Return the current state of the icon
      * (KIcon::DefaultState, KIcon::ActiveState etc.)
      */
@@ -91,6 +101,12 @@ public:
      */
     void setThumbnailPixmap( const QPixmap & pixmap );
 
+    /**
+     * Set the icon to use the specified KIconEffect
+     * See the docs for KIconEffect for details.
+     */
+    void setEffect( int group, int state );
+    
     /**
      * @return true if this item is a thumbnail
      */
@@ -152,6 +168,14 @@ private:
     QString m_thumbnailName; // ### KDE 3.0 remove
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
+    
+    /**
+     * Private data for KFileIVI
+     * Implementation in kfileivi.cc
+     */
+    struct Private;
+    
+    Private *d;
 };
 
 #endif

@@ -71,6 +71,11 @@ public:
     void setIconArea( const QRect &rect );
 
     /**
+     * Reimplemented to make the slotOnItem highlighting work.
+     */
+    virtual void focusOutEvent( QFocusEvent * /* ev */ );
+
+    /**
      * Returns the icon area.
      */
     QRect iconArea() const;
