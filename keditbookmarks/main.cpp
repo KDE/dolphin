@@ -50,12 +50,16 @@ int main(int argc, char ** argv)
   KApplication app;
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-  QString bookmarksFile = (args->count() == 0)
+
+  int noargs = (args->count() == 0);
+  QString bookmarksFile = (noargs)
                           ? locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml") )
                           : QString::fromLatin1(args->arg(0));
   args->clear();
 
-  QCString appName = "keditbookmarks-" + bookmarksFile.utf8();
+  QCString appName = "keditbookmarks";
+  if (!noargs) appName += "-" + bookmarksFile.utf8();
+
   QCString givenName = app.dcopClient()->registerAs(appName,false);
 
   bool unique = (givenName == appName);
