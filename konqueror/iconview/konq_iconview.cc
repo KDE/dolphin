@@ -175,6 +175,12 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_pIconView,  SIGNAL(imagePreviewFinished()),
              this, SLOT(slotRenderingFinished()));
 
+    // connect up the icon inc/dec signals
+    connect( m_pIconView,  SIGNAL(incIconSize()),
+             this, SLOT(slotIncIconSize()));
+    connect( m_pIconView,  SIGNAL(decIconSize()),
+             this, SLOT(slotDecIconSize()));
+
     // pass signals to the extension
     connect( m_pIconView, SIGNAL( enableAction( const char *, bool ) ),
              m_extension, SIGNAL( enableAction( const char *, bool ) ) );

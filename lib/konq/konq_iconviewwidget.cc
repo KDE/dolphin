@@ -1391,6 +1391,25 @@ void KonqIconViewWidget::doubleClickTimeout()
     d->renameItem= false;
 }
 
+void KonqIconViewWidget::wheelEvent(QWheelEvent* e)
+{
+    if (e->state() == ControlButton)
+    {
+        if (e->delta() >= 0)
+        {
+            emit incIconSize();
+        }
+        else
+        {
+            emit decIconSize();
+        }
+        e->accept();
+        return;
+    }
+
+    KIconView::wheelEvent(e);
+}
+
 void KonqIconViewWidget::mousePressChangeValue()
 {
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;

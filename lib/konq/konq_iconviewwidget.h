@@ -235,6 +235,9 @@ signals:
     void dropped();
     void imagePreviewFinished();
 
+    void incIconSize();
+    void decIconSize();
+
 protected slots:
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
 
@@ -276,6 +279,7 @@ protected:
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
     virtual void contentsMouseMoveEvent( QMouseEvent *e );
     virtual void backgroundPixmapChange( const QPixmap & );
+    virtual void wheelEvent( QWheelEvent* );
     void readAnimatedIconsConfig();
     void mousePressChangeValue();
 
