@@ -11,6 +11,7 @@
 class KAboutData;
 class KInstance;
 class PluginBrowserExtension;
+class PluginLiveConnectExtension;
 class QLabel;
 class NSPluginInstance;
 class PluginPart;
@@ -26,6 +27,7 @@ public:
 
   ASYNC requestURL(QString url, QString target);
   ASYNC statusMessage( QString msg );
+  QString evalJavaScript( QString script );
 
 private:
   PluginPart *_part;
@@ -81,6 +83,7 @@ public:
 
   void requestURL(const QString& url, const QString& target);
   void statusMessage( QString msg );
+  QString evalJavaScript( const QString& script );
 
 protected:
   virtual bool openURL(const KURL &url);
@@ -94,9 +97,29 @@ private:
   QGuardedPtr<QWidget> _widget;
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;
+  PluginLiveConnectExtension *_liveconnect;
   NSPluginCallback *_callback;
   QStringList _args;
   class NSPluginLoader *_loader;
+};
+
+
+class PluginLiveConnectExtension : public KParts::LiveConnectExtension
+{
+Q_OBJECT
+public:
+    PluginLiveConnectExtension(PluginPart* part);
+    virtual ~PluginLiveConnectExtension();
+    virtual bool put( const unsigned long, const QString &field, const QString &
+value);
+
+    QString evalJavaScript( const QString & script );
+
+signals:
+    virtual void partEvent( const unsigned long objid, const QString & event, const KParts::LiveConnectExtension::ArgList & args );
+
+private:
+    QString __nsplugin;
 };
 
 

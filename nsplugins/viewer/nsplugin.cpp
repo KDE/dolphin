@@ -1341,7 +1341,7 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
 
 bool NSPluginStreamBase::pump()
 {
-    kdDebug(1431) << "queue pos " << _queuePos << ", size " << _queue.size() << endl;
+    //kdDebug(1431) << "queue pos " << _queuePos << ", size " << _queue.size() << endl;
 
     inform();
 
@@ -1374,15 +1374,15 @@ bool NSPluginStreamBase::pump()
 
 void NSPluginStreamBase::queue( const QByteArray &data )
 {
-    kdDebug(1431) << "new queue size " << data.size() << endl;
-    kdDebug(1431) << "data=" << (void*)data.data() << " size=" << data.size() << endl;
-
     _queue = data;
     _queue.detach();
     _queuePos = 0;
     _tries = 0;
 
-    kdDebug(1431) << "queue=" << (void*)_queue.data() << " size=" << _queue.size() << endl;
+    kdDebug(1431) << "new queue size=" << data.size()
+                  << " data=" << (void*)data.data() 
+                  << " queue=" << (void*)_queue.data() << " qsize="
+                  << _queue.size() << endl;
 }
 
 

@@ -6,6 +6,7 @@
 #include <qlabel.h>
 
 #include <kparts/browserinterface.h>
+#include <kparts/browserextension.h>
 
 #include "nspluginloader.h"
 
@@ -26,6 +27,30 @@ public:
 };
 
 
+PluginLiveConnectExtension::PluginLiveConnectExtension(PluginPart* part) 
+: KParts::LiveConnectExtension(part) {
+}
+
+PluginLiveConnectExtension::~PluginLiveConnectExtension() {
+}
+
+bool PluginLiveConnectExtension::put( const unsigned long, const QString &field, const QString &value) {
+    if (field == "__nsplugin") {
+        __nsplugin = value;
+        return true;
+    }
+    return false;
+}
+
+QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
+{
+    ArgList args;
+    QString jscode;
+    jscode.sprintf("this.__nsplugin=eval(\"%s\")", script.latin1());
+    args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
+    emit partEvent(0, "eval", args);
+    return __nsplugin;
+}
 
 extern "C"
 {
@@ -59,6 +84,10 @@ void NSPluginCallback::statusMessage( QString msg )
 }
 
 
+QString NSPluginCallback::evalJavaScript( QString script )
+{
+    return _part->evalJavaScript( script );
+}
 /**
  * We need one static instance of the factory for our C 'main'
  * function
@@ -128,6 +157,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     // we have to keep the class name of KParts::PluginBrowserExtension
     // to let khtml find it
     _extension = static_cast<PluginBrowserExtension*>(new KParts::BrowserExtension(this));
+    _liveconnect = new PluginLiveConnectExtension(this);
 
     // create
     _loader = NSPluginLoader::instance();
@@ -249,6 +279,10 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     emit _extension->openURLRequest( new_url, args );
 }
 
+QString PluginPart::evalJavaScript( const QString & script )
+{
+    return _liveconnect->evalJavaScript( script );
+}
 
 void PluginPart::statusMessage( QString msg )
 {

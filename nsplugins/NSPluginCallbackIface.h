@@ -36,6 +36,7 @@ k_dcop:
 
   virtual ASYNC requestURL(QString url, QString target) = 0;
   virtual ASYNC statusMessage( QString msg ) = 0;
+  virtual QString evalJavaScript( QString script ) = 0;
 
 };
 
