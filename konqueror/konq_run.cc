@@ -20,9 +20,10 @@
 #include <kdebug.h>
 
 #include "konq_run.h"
+#include "konq_view.h"
 #include "konq_mainwindow.h"
-#include "kprotocolmanager.h"
-#include "kio/job.h"
+#include <kprotocolmanager.h>
+#include <kio/job.h>
 
 #include <assert.h>
 #include <iostream.h>
@@ -33,6 +34,8 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView, const KURL &
   m_pMainWindow = mainWindow;
   assert( m_pMainWindow );
   m_pView = _childView;
+  if (m_pView)
+    m_pView->setLoading(true);
   m_bFoundMimeType = false;
 }
 
@@ -48,6 +51,9 @@ void KonqRun::foundMimeType( const QString & _type )
   m_bFoundMimeType = true;
 
   assert( m_pMainWindow );
+
+  if (m_pView)
+    m_pView->setLoading(false); // first phase finished, don't confuse KonqView
 
   if ( m_pMainWindow->openView( _type, m_strURL, m_pView ) )
   {
