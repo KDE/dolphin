@@ -81,8 +81,6 @@ public slots:
   void slotSelectAll();
   void slotUnselectAll();
   void slotInvertSelection();
-  void slotIncIconSize();
-  void slotDecIconSize();
 
   void slotSortByNameCaseSensitive( bool toggle );
   void slotSortByNameCaseInsensitive( bool toggle );
@@ -90,15 +88,6 @@ public slots:
   void slotSortByType( bool toggle );
   void slotSortDescending();
   void slotSortDirsFirst();
-
-  void slotViewDefault( bool b );
-  void slotViewLarge( bool b );
-  void slotViewMedium( bool b );
-  void slotViewSmall( bool b );
-  //void slotViewNone( bool b );
-
-  //void slotTextBottom( bool b );
-  //void slotTextRight( bool b );
 
 protected slots:
   // slots connected to QIconView
@@ -133,7 +122,7 @@ protected:
 
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
 
-  void newIconSize( int size );
+  virtual void newIconSize( int size );
 
   void setupSorting( SortCriterion criterion );
 
@@ -177,10 +166,6 @@ protected:
   KToggleAction *m_paImagePreview;
   KActionMenu *m_pamSort;
 
-  KToggleAction *m_paDefaultIcons;
-  KToggleAction *m_paLargeIcons;
-  KToggleAction *m_paMediumIcons;
-  KToggleAction *m_paSmallIcons;
   //KToggleAction *m_paNoIcons;
 
   //KToggleAction *m_paBottomText;
@@ -191,12 +176,8 @@ protected:
   KAction *m_paSelectAll;
   KAction *m_paUnselectAll;
   KAction *m_paInvertSelection;
-  KAction *m_paIncIconSize;
-  KAction *m_paDecIconSize;
 
   KToggleAction *m_paSortDirsFirst;
-
-  int m_iIconSize[4];
 
   KonqIconViewWidget *m_pIconView;
 

@@ -90,6 +90,8 @@ public:
   QList<KonqBaseListViewItem> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
   void listingComplete();
 
+  virtual void newIconSize( int );
+
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
   void setupActions();
@@ -101,7 +103,6 @@ protected slots:
   void slotUnselectAll();
   void slotInvertSelection();
   void slotCaseInsensitive();
-  void slotIconSizeToggled(bool b);
 
   void slotShowDot();
   //this is called if a item in the submenu is toggled
@@ -134,10 +135,6 @@ private:
   KAction *m_paInvertSelection;
 
   KToggleAction *m_paCaseInsensitive;
-  KToggleAction *m_paDefaultIcons;
-  KToggleAction *m_paLargeIcons;
-  KToggleAction *m_paMediumIcons;
-  KToggleAction *m_paSmallIcons;
 
   KToggleAction *m_paShowDot;
   KToggleAction *m_paShowTime;

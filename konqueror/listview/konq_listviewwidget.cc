@@ -394,7 +394,9 @@ void KonqBaseListViewWidget::startDrag()
 
          if (( urls.count() > 1 ) || (pixmap0Invalid))
          {
-            pixmap2 = DesktopIcon( "kmultiple", KIcon::SizeMedium );
+            int iconSize = m_pBrowserView->m_pProps->iconSize();
+            iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
+            pixmap2 = DesktopIcon( "kmultiple", iconSize );
             if ( pixmap2.isNull() )
                 kdWarning(1202) << "Could not find multiple pixmap" << endl;
          }
@@ -663,23 +665,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // of the old view
    if ( newProps )
    {
-      switch (m_pBrowserView->m_pProps->iconSize())
-      {
-      case 0:
-         m_pBrowserView->m_paDefaultIcons->setChecked(TRUE);
-         break;
-      case KIcon::SizeSmall:
-         m_pBrowserView->m_paSmallIcons->setChecked(TRUE);
-         break;
-      case KIcon::SizeMedium:
-         m_pBrowserView->m_paMediumIcons->setChecked(TRUE);
-         break;
-      case KIcon::SizeLarge:
-         m_pBrowserView->m_paLargeIcons->setChecked(TRUE);
-         break;
-      default:
-         break;
-      }
+      m_pBrowserView->newIconSize( m_pBrowserView->m_pProps->iconSize() );
       m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
 
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,

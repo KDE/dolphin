@@ -437,13 +437,10 @@ void KonqListView::slotInvertSelection()
     m_pListView->viewport()->update();
 }
 
-void KonqListView::slotIconSizeToggled( bool)
+void KonqListView::newIconSize( int size )
 {
-   if ( m_paDefaultIcons->isChecked() ) m_pProps->setIconSize(0);
-   else if (m_paLargeIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeLarge);
-   else if (m_paMediumIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeMedium);
-   else m_pProps->setIconSize(KIcon::SizeSmall);
-   m_pListView->updateListContents();
+    KonqDirPart::newIconSize( size );
+    m_pListView->updateListContents();
 }
 
 void KonqListView::slotShowDot()
@@ -603,32 +600,13 @@ void KonqListView::setupActions()
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
   m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
-  m_paDefaultIcons = new KRadioAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
-  m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
-  m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
-  m_paSmallIcons = new KRadioAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
-
   m_paShowDot = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
   m_paCaseInsensitive = new KToggleAction(i18n("Case Insensitive Sort"), 0, this, SLOT(slotCaseInsensitive()),actionCollection(), "sort_caseinsensitive" );
   m_paCaseInsensitive->setChecked( m_pListView->caseInsensitiveSort() );
-  /*KAction * m_paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
-  /*KAction * m_paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
+  new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
+  new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
-  m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
-  m_paLargeIcons->setExclusiveGroup( "ViewMode" );
-  m_paMediumIcons->setExclusiveGroup( "ViewMode" );
-  m_paSmallIcons->setExclusiveGroup( "ViewMode" );
-
-  m_paLargeIcons->setChecked( false );
-  m_paMediumIcons->setChecked( false );
-  m_paSmallIcons->setChecked( true );
-
-  connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-  connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-  connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-  connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-
-  slotIconSizeToggled( true );
+  newIconSize( KIcon::SizeSmall /* default size */ );
 }
 
 #include "konq_listview.moc"
