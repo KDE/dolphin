@@ -4636,6 +4636,13 @@ void KonqMainWindow::reparseConfiguration()
       m_deleteActions.clear();
       m_deleteActions.append( m_paDelete );
       plugActionList( "delactions", m_deleteActions );
+      if ( m_combo && !m_combo->lineEdit()->hasFocus() ) {
+        if ( m_currentView ) {
+          KParts::BrowserExtension * ext = m_currentView->browserExtension();
+          if ( ext && ext->metaObject()->slotNames().contains("del()") )
+            connect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
+        }
+      }
     }
   }
   else
