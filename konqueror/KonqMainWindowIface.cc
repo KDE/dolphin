@@ -80,7 +80,7 @@ DCOPRef KonqMainWindowIface::action( const QString &name )
 QStringList KonqMainWindowIface::actions()
 {
   QStringList res;
-  QValueList<KAction *> lst = m_pMainWindow->actionCollection()->actions();
+  QValueList<KAction *> lst = m_dcopActionProxy->actions();
   QValueList<KAction *>::ConstIterator it = lst.begin();
   QValueList<KAction *>::ConstIterator end = lst.end();
   for (; it != end; ++it )

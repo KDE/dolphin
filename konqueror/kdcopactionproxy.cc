@@ -68,6 +68,11 @@ KDCOPActionProxy::~KDCOPActionProxy()
   delete d;
 }
 
+QValueList<KAction *>KDCOPActionProxy::actions() const
+{
+  return d->m_actionCollection->actions(); 
+} 
+
 KAction *KDCOPActionProxy::action( const char *name ) const
 {
   return d->m_actionCollection->action( name ); 
@@ -86,9 +91,9 @@ QMap<QString,DCOPRef> KDCOPActionProxy::actionMap( const QCString &appId ) const
   if ( id.isEmpty() )
     id = kapp->dcopClient()->appId();
 
-  QValueList<KAction *> actions = d->m_actionCollection->actions();
-  QValueList<KAction *>::ConstIterator it = actions.begin();
-  QValueList<KAction *>::ConstIterator end = actions.end();
+  QValueList<KAction *> lst = actions();
+  QValueList<KAction *>::ConstIterator it = lst.begin();
+  QValueList<KAction *>::ConstIterator end = lst.end();
   for (; it != end; ++it )
   {
     QString name = QString::fromLatin1( (*it)->name() );

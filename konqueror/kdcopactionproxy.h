@@ -35,6 +35,7 @@ public:
   KDCOPActionProxy( KActionCollection *actionCollection, DCOPObject *parent );
   ~KDCOPActionProxy();
 
+  virtual QValueList<KAction *> actions() const;
   virtual KAction *action( const char *name ) const;
 
   virtual QCString actionObjectId( const QString &name ) const;
