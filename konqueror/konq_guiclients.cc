@@ -279,6 +279,8 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   }
 
 }
+
+
 void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
 {
   // This is used on konqueror's startup....... so it's never used, since
