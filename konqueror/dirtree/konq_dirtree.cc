@@ -623,8 +623,8 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
   if ( !item )
     return;
 
-  if ( m_unselectableItems.findRef( item ) != -1 )
-    return;
+  //  if ( m_unselectableItems.findRef( item ) != -1 )
+  //    return;
 
   item->setSelected( true );
 
@@ -854,7 +854,7 @@ void KonqDirTree::scanDir2( KonqDirTreeItem *parent, const QString &path )
   item->setListable( false );
   //  item->setSelectable( false );
 
-  //  m_unselectableItems.append( item );
+  m_unselectableItems.append( item );
 
   kdDebug(1202) << "Inserting group " << name << "   " << path << endl;;
   m_groupItems.insert( item, path );
