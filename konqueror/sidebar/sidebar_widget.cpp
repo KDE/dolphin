@@ -186,7 +186,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	Menu->insertItem(i18n("Add New"),addMenu,0);
 	Menu->insertSeparator();
 	Menu->insertItem(i18n("Multiple Views"),1);
-	Menu->insertItem(i18n("Show tabs left"),2);
+	Menu->insertItem(i18n("Show Tabs Left"),2);
         connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
