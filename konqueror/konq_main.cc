@@ -224,7 +224,7 @@ void copyDirectoryFile(const char *filename, const QString& dir, bool force)
 {
   if (force || !QFile::exists(dir + "/.directory")) {
     QString cmd;
-    cmd.sprintf( "cp %s %s/.directory", locate("data", QString("konqueror/") + filename).ascii,
+    cmd.sprintf( "cp %s %s/.directory", locate("data", QString("konqueror/") + filename).ascii(),
                  dir.ascii() );
     system( cmd.data() );
   }
@@ -316,9 +316,9 @@ void testLocalInstallation()
     // uniquq
     QStringList list = KGlobal::dirs()->findAllResources("data", "konqueror/Templates/*", false, true);
     QString cmd = "cp ";
-    for (QStringList::ConstIterator it = list.begin(); it = list.end(); it++)
-      cmd << *it << " ";
-    cmd << UserPaths::templatesPath();
+    for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
+      cmd += *it + " ";
+    cmd += UserPaths::templatesPath();
     system( cmd.ascii() );
     KWM::sendKWMCommand("krootwm:refreshNew");
   }
