@@ -25,8 +25,8 @@ int main( int argc, char ** argv )
 			VERSION, description, KAboutData::License_GPL,
 			I18N_NOOP("(c) 1998-2001, The KDE Developers"));
 
-  aboutData.addAuthor("Mark W. Webb", I18N_NOOP("Current Maintainer"), "markwebb@adelphia.net");
-  aboutData.addAuthor("Eric Coquelle", I18N_NOOP("Developer & Current Maintainer"), "coquelle@caramail.com");
+  aboutData.addAuthor("Eric Coquelle", I18N_NOOP("Current Maintainer"), "coquelle@caramail.com");
+  aboutData.addAuthor("Mark W. Webb", I18N_NOOP("Developer"), "markwebb@adelphia.net");
   aboutData.addAuthor("Beppe Grimaldi", I18N_NOOP("UI Design & more search options"), "grimalkin@ciaoweb.it");
   aboutData.addAuthor("Martin Hartig");
   aboutData.addAuthor("Stephan Kulow", 0, "coolo@kde.org");
@@ -63,4 +63,5 @@ int main( int argc, char ** argv )
 
   return kfinddlg.exec();
 }
+
 
