@@ -214,11 +214,11 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       }
       else
       {
-        QString msg = (m_method == DEL ? i18n( "Do you really want to delete the files?" ) :
-                       m_method == SHRED ? i18n( "Do you really want to shred the files?" ) :
-                       i18n( "Do you really want to move the files to the trashcan?" ));
+        QString msg = (m_method == DEL ? i18n( "Do you really want to delete those %1 elements?" ) :
+                       m_method == SHRED ? i18n( "Do you really want to shred those %1 elements?" ) :
+                       i18n( "Do you really want to move those %1 elements to the trashcan?" ));
 
-        return ( KMessageBox::questionYesNoList( 0, msg, prettyList ) == KMessageBox::Yes );
+        return ( KMessageBox::questionYesNoList( 0, msg.arg(prettyList.count()), prettyList ) == KMessageBox::Yes );
       }
     }
     return true;
