@@ -86,7 +86,7 @@ public:
    void notifyManagers();
    bool managerSave();
    void saveAs(const QString &fileName);
-   void doExport(ExportType type);
+   void doExport(ExportType type, const QString & path = QString::null);
    void setUpdate(bool update);
 
 protected slots:

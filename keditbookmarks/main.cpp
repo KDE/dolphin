@@ -38,6 +38,9 @@
 static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},
    {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (4.x and earlier) format."), 0},
+   {"exporthtml <filename>", I18N_NOOP("Export bookmarks to file in a printable HTML format."), 0},
+   {"exportie <filename>", I18N_NOOP("Export bookmarks to file in Internet Explorer's Favorites format."), 0},
+   {"exportopera <filename>", I18N_NOOP("Export bookmarks to file in Opera format."), 0},
    {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
    {"customcaption <caption>", I18N_NOOP("Set the user readable caption for example \"Konsole\""), 0},
    {"nobrowser", I18N_NOOP("Hide all browser related functions."), 0},
@@ -113,7 +116,12 @@ extern "C" int kdemain(int argc, char **argv) {
    KCmdLineArgs::addCmdLineOptions(options);
 
    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-   bool isGui = !(args->isSet("exportmoz") || args->isSet("exportns"));
+   bool isGui = !(args->isSet("exportmoz") 
+               || args->isSet("exportns")
+               || args->isSet("exporthtml")
+               || args->isSet("exportie")
+               || args->isSet("exportopera"));
+
    bool browser = args->isSet("browser");
 
    KApplication::disableAutoDcopRegistration(); 
@@ -126,14 +134,21 @@ extern "C" int kdemain(int argc, char **argv) {
                     : locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
 
    if (!isGui) {
-      KBookmarkManager *mgr = KBookmarkManager::managerForFile(filename, false);
-      bool mozFlag = args->isSet("exportmoz");
-      if (mozFlag && args->isSet("exportns")) {
-         KCmdLineArgs::usage("You may only choose one of the --export options.");
-      }
-      QString path = QString::fromLocal8Bit(args->getOption(mozFlag ? "exportmoz" : "exportns"));
-      KNSBookmarkExporter exporter(mgr, path);
-      exporter.write(mozFlag);
+      CurrentMgr::self()->createManager(filename);
+      CurrentMgr::ExportType exportType = CurrentMgr::MozillaExport; // uumm.. can i just set it to -1 ?
+      int got = 0;
+      const char *arg, *arg2 = 0;
+      if (arg = "exportmoz",   args->isSet(arg)) { exportType = CurrentMgr::MozillaExport;  arg2 = arg; got++; }
+      if (arg = "exportns",    args->isSet(arg)) { exportType = CurrentMgr::NetscapeExport; arg2 = arg; got++; }
+      if (arg = "exporthtml",  args->isSet(arg)) { exportType = CurrentMgr::HTMLExport;     arg2 = arg; got++; }
+      if (arg = "exportie",    args->isSet(arg)) { exportType = CurrentMgr::IEExport;       arg2 = arg; got++; }
+      if (arg = "exportopera", args->isSet(arg)) { exportType = CurrentMgr::OperaExport;    arg2 = arg; got++; }
+      Q_ASSERT(arg2);
+      // TODO - maybe an xbel export???
+      if (got > 1) // got == 0 isn't possible as !isGui is dependant on "export.*"
+         KCmdLineArgs::usage(I18N_NOOP("You may only a single --export option."));
+      QString path = QString::fromLocal8Bit(args->getOption(arg2));
+      CurrentMgr::self()->doExport(exportType, path);
       return 0; // error flag on exit?, 1?
    }
 

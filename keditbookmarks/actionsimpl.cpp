@@ -233,29 +233,38 @@ void ActionsImpl::slotSaveAs() {
       CurrentMgr::self()->saveAs(saveFilename);
 }
 
-void CurrentMgr::doExport(ExportType type) {
+void CurrentMgr::doExport(ExportType type, const QString & _path) {
+   QString path(_path);
    // TODO - add a factory and make all this use the base class
    if (type == OperaExport) {
-      QString path = KOperaBookmarkImporterImpl().findDefaultLocation(true);
+      if (path.isNull())
+         path = KOperaBookmarkImporterImpl().findDefaultLocation(true);
       KOperaBookmarkExporterImpl exporter(mgr(), path);
       exporter.write(mgr()->root());
       return;
+
    } else if (type == HTMLExport) {
-      QString path = KFileDialog::getSaveFileName( QDir::homeDirPath(),
+      if (path.isNull())
+         path = KFileDialog::getSaveFileName( QDir::homeDirPath(),
                                                    i18n("*.html|HTML Bookmark Listing") );
       HTMLExporter exporter;
       exporter.write(mgr()->root(), path);
       return;
+
    } else if (type == IEExport) {
-      QString path = KIEBookmarkImporterImpl().findDefaultLocation(true);
+      if (path.isNull())
+         path = KIEBookmarkImporterImpl().findDefaultLocation(true);
       KIEBookmarkExporterImpl exporter(mgr(), path);
       exporter.write(mgr()->root());
       return;
    }
+
    bool moz = (type == MozillaExport);
-   QString path = (moz)
-                ? KNSBookmarkImporter::mozillaBookmarksFile(true)
-                : KNSBookmarkImporter::netscapeBookmarksFile(true);
+
+   if (path.isNull())
+      path = (moz) ? KNSBookmarkImporter::mozillaBookmarksFile(true)
+                   : KNSBookmarkImporter::netscapeBookmarksFile(true);
+
    if (!path.isEmpty()) {
       KNSBookmarkExporter exporter(mgr(), path);
       exporter.write(moz);
