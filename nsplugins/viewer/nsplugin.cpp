@@ -1103,6 +1103,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
                                            // malloc here, just to be safe,
                                            // since the nsplugin plays with
                                            // this thing
+   memset(npp, 0, sizeof(NPP_t));
    npp->ndata = NULL;
 
    // Create plugin instance object
@@ -1158,7 +1159,8 @@ NSPluginStreamBase::~NSPluginStreamBase()
 {
    if (_stream) {
       _instance->NPDestroyStream( _stream, NPRES_USER_BREAK );
-      free(const_cast<char*>(_stream->url));
+      if (_stream && _stream->url)
+          free(const_cast<char*>(_stream->url));
       delete _stream;
       _stream = 0;
    }
@@ -1370,7 +1372,8 @@ void NSPluginStreamBase::finish( bool err )
     }
 
     // delete stream
-    free(const_cast<char *>(_stream->url));
+    if (_stream && _stream->url)
+        free(const_cast<char *>(_stream->url));
     delete _stream;
     _stream = 0;
 
