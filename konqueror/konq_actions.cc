@@ -145,7 +145,7 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
 
     connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
 
-    bar->setDelayedPopup( id_, popupMenu() );
+    bar->setDelayedPopup( id_, popupMenu(), true );
 
     return containerCount() - 1;
   }
