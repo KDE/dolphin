@@ -119,10 +119,6 @@
  <Action name="reload"/>
  <Action name="stop"/>
  <Separator/>
- <Action name="cut"/>
- <Action name="copy"/>
- <Action name="paste"/>
- <Separator/>
  <Action name="print"/>
  <WeakSeparator/>
  <Merge/>
