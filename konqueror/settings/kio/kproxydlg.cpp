@@ -151,10 +151,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->addWidget(le_max_cache_size,ROW_MAXCACHESIZE,2);
   connect(le_max_cache_size, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_max_cache_size = new QLabel( le_max_cache_size, i18n("Maximum Cache &Size:"), this);
+  lb_max_cache_size = new QLabel( le_max_cache_size, i18n("Average Cache &Size:"), this);
   lb_max_cache_size->setAlignment(AlignVCenter);
   lay->addWidget(lb_max_cache_size,ROW_MAXCACHESIZE,1);
-  wtstr = i18n( "This is the maximum size in KB that the cache will take on your hard disk. If it would get larger than this, the oldest pages are deleted from the cache." );
+  wtstr = i18n( "This is the average size in KB that the cache will take on your hard disk. Once in a while the oldest pages will be deleted from the cache to reduce it to this size." );
   QWhatsThis::add( le_max_cache_size, wtstr );
   QWhatsThis::add( lb_max_cache_size, wtstr );
 
