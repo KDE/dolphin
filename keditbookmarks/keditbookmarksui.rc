@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="25">
+<kpartgui name="keditbookmarks" version="26">
 
 <MenuBar>
 
@@ -7,6 +7,9 @@
   <Action name="file_open"/>
   <Action name="file_save"/>
   <Action name="file_save_as"/>
+  <Separator/>
+  <Action name="file_print"/>
+  <Separator/>
   <Menu name="import" noMerge="1"><text>&amp;Import</text>
     <Action name="importIE"/>
     <Action name="importOpera"/>
@@ -26,43 +29,49 @@
     <Action name="exportHTML"/>
   </Menu>
   <Separator/>
-  <Action name="file_print"/>
-  <Separator/>
   <Action name="file_quit"/>
 </Menu>
 
 <Menu name="edit"><text>&amp;Edit</text>
-  <!-- undo/redo/cut/copy/paste stuff is 
+  <!-- undo/redo/cut/copy/paste stuff is
        merged (?) at this point (ui_standards.rc) -->
   <!-- Various things -->
-  <Action name="rename"/>
+  <Action name="rename" append="edit_paste_merge"/>
+  <Action name="delete" append="edit_paste_merge"/>
+  <Separator/>
   <Action name="changeurl"/>
   <Action name="changecomment"/>
   <Action name="changeicon"/>
-  <Action name="delete"/>
-  <Action name="updatefavicon"/>
+  <Separator/>
   <Action name="showintoolbar"/>
-  <Separator/><!-- Stuff for folders -->
-  <Action name="setastoolbar"/>
-  <Action name="sort"/>
-  <Action name="recursivesort"/>
-  <Separator/><!-- Expand/collapse -->
+</Menu>
+
+<Menu name="view"><text>&amp;View</text>
   <Action name="expandall"/>
   <Action name="collapseall"/>
 </Menu>
 
-<Menu name="insert"><text>&amp;Insert</text>
-  <Action name="newbookmark"/>
+<Menu name="folder"><text>&amp;Folder</text>
   <Action name="newfolder"/>
   <Action name="insertseparator"/>
-</Menu>
+  <Separator/>
+  <Action name="setastoolbar"/>
+  <Action name="sort"/>
+  <Action name="recursivesort"/>
+  </Menu>
 
 <Menu name="bookmark"><text>&amp;Bookmark</text>
+  <Action name="newbookmark"/>
   <Action name="openlink"/>
-  <Action name="testlink"/>
   <Separator/>
+  <Action name="testlink"/>
+  <Action name="updatefavicon"/>
+</Menu>
+
+<Menu name="tools"><text>&amp;Tools</text>
   <Action name="testall"/>
   <Action name="canceltests"/>
+  <Separator/>
   <Action name="updateallfavicons"/>
   <Action name="cancelfaviconupdates"/>
 </Menu>
@@ -146,6 +155,8 @@
     <Action name="importMoz"/>
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
+    <Action name="settings_advancedaddbookmark"/>
+    <Action name="settings_filteredtoolbar"/>
   </Enable>
 </State>
 
@@ -200,6 +211,8 @@
     <Action name="updatefavicon"/>
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
+    <Action name="settings_advancedaddbookmark"/>
+    <Action name="settings_filteredtoolbar"/>
   </Disable>
 </State>
 
