@@ -30,7 +30,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
 	KGuiItem(i18n("Stop"), "stop"),
 	KStdGuiItem::saveAs())
 {
-  QWidget::setCaption( i18n("Find Files" ) );
+  QWidget::setCaption( i18n("Find Files/Folders" ) );
   setButtonBoxOrientation(Vertical);
 
   enableButton(Apply, true); // Enable "Find"
