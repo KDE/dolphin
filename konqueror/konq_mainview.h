@@ -34,7 +34,6 @@
 #include <kxmlguiclient.h>
 #include <ktrader.h>
 
-class FullScreenGUIClient;
 class KAction;
 class KActionMenu;
 class KBookmarkMenu;
@@ -384,7 +383,6 @@ private:
   ViewModeGUIClient *m_viewModeGUIClient;
   OpenWithGUIClient *m_openWithGUIClient;
   ToggleViewGUIClient *m_toggleViewGUIClient;
-  FullScreenGUIClient *m_fullScreenGUIClient;
 
   KTrader::OfferList m_popupEmbeddingServices;
   QString m_popupService;

@@ -1473,8 +1473,9 @@ void KonqMainView::slotToggleFullScreen( bool toggle )
 void KonqMainView::slotFullScreenStart()
 {
   // Create toolbar button for exiting from full-screen mode
-  m_fullScreenGUIClient = new FullScreenGUIClient( this );
-  guiFactory()->addClient( m_fullScreenGUIClient );
+  QList<KAction> lst;
+  lst.append( m_ptaFullScreen );
+  plugActionList( "fullscreen", lst );
 
   KonqFrame *widget = m_currentView->frame();
   m_tempContainer = widget->parentContainer();
@@ -1527,9 +1528,7 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
 
 void KonqMainView::slotFullScreenStop()
 {
-  guiFactory()->removeClient( m_fullScreenGUIClient );
-  delete m_fullScreenGUIClient;
-  m_fullScreenGUIClient = 0L;
+  unplugActionList( "fullscreen" );
   QWidget *toolbar1 = guiFactory()->container( "mainToolBar", this );
   QWidget *toolbar2 = guiFactory()->container( "locationToolBar", this );
 

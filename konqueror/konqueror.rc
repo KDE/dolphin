@@ -120,6 +120,7 @@
  <Action name="stop"/>
  <Separator/>
  <Merge/>
+ <ActionList name="fullscreen" />
  <Separator/>
  <Action name="animated_logo"/>
 </ToolBar>

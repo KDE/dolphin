@@ -411,21 +411,4 @@ void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
     static_cast<KToggleAction *>( action )->setChecked( false );
 }
 
-static const char *fullScreenGUI = ""
-"<!DOCTYPE fullscreenxml>"
-"<fullscreenxml name=\"fullScreen\">"
-"<ToolBar name=\"mainToolBar\">"
-" <Action name=\"fullscreen\"/>"
-"</ToolBar>"
-"</fullscreenxml>";
-
-FullScreenGUIClient::FullScreenGUIClient( KonqMainView * mainView )
-{
-  QDomDocument doc;
-  doc.setContent( QString::fromLatin1( fullScreenGUI ) );
-  setDocument( doc );
-  KAction * act = mainView->actionCollection()->action( "fullscreen" );
-  actionCollection()->insert( act );
-}
-
 #include "konq_guiclients.moc"

@@ -98,15 +98,4 @@ private:
   QMap<QString,bool> m_mapOrientation;
 };
 
-/**
- * This GUI client contains nothing in normal mode,
- * and only the "stop full screen" action in full-screen mode
- */
-class FullScreenGUIClient : public KXMLGUIClient
-{
-public:
-  FullScreenGUIClient( KonqMainView * mainView );
-  virtual ~FullScreenGUIClient() {};
-};
-
 #endif
