@@ -25,8 +25,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include <fstream.h>
-
 #include <qdir.h>
 
 #include <kio/job.h>
