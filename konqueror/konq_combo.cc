@@ -29,6 +29,7 @@
 #include <kstdaccel.h>
 #include <kurldrag.h>
 #include <konq_mainwindow.h>
+#include <kstringhandler.h>
 
 #include <dcopclient.h>
 
@@ -36,6 +37,27 @@
 
 KConfig * KonqCombo::s_config = 0L;
 const int KonqCombo::temporary = 0;
+
+class Q_EXPORT KonqComboListBoxPixmap : public QListBoxItem
+{
+public:
+    KonqComboListBoxPixmap( const QPixmap &, const QString& text, const QString& title );
+
+    const QPixmap *pixmap() const { return &pm; }
+
+    int height( const QListBox * ) const;
+    int width( const QListBox * )  const;
+
+    int rtti() const;
+    static int RTTI;
+
+protected:
+    void paint( QPainter * );
+
+private:
+    QPixmap pm;
+    QString title;
+};
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
           : KHistoryCombo( parent, name ),
@@ -69,6 +91,8 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
 
     if ( !kapp->dcopClient()->isAttached() )
         kapp->dcopClient()->attach();
+
+    historylist = KonqHistoryManager::kself()->entries();
 }
 
 KonqCombo::~KonqCombo()
@@ -110,13 +134,13 @@ void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
     
     // Insert a temporary item when we don't have one yet
     if ( count() == 0 )
-      insertItem( pix, url, temporary );
+      insertItem( pix, url, temporary, historyTitle( url ) );
     else
     {
         if (url != temporaryItem())
           applyPermanent();
         
-        updateItem( pix, url, temporary );
+        updateItem( pix, url, temporary, historyTitle( url ) );
     }
         
     setCurrentItem( temporary );
@@ -164,7 +188,7 @@ void KonqCombo::applyPermanent()
             removeItem( --index );
         
         QString url (temporaryItem());
-        insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1 );
+        insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1, historyTitle( url ) );
         //kdDebug(1202) << "KonqCombo::applyPermanent: " << url << endl;
         
         // Remove all duplicates starting from index = 2
@@ -173,8 +197,19 @@ void KonqCombo::applyPermanent()
     }
 }
 
+void KonqCombo::insertItem( const QString &text, int index, const QString& title )
+{
+    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( 0, text, title );
+    listBox()->insertItem( item, index );
+}
 
-void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
+void KonqCombo::insertItem( const QPixmap &pixmap, const QString& text, int index, const QString& title )
+{
+    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pixmap, text, title );
+    listBox()->insertItem( item, index );
+}
+
+void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, const QString& title )
 {
     // No need to flicker
     if (text( index ) == t &&
@@ -189,9 +224,10 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
     // ### use QComboBox::changeItem(), once that finally works
     // Well lets try it now as it seems to work fine for me. We
     // can always revert :)
-    changeItem (pix, t, index);
-    
-    /*        
+    KonqComboListBoxPixmap* item = new KonqComboListBoxPixmap( pix, t, title );
+    listBox()->changeItem( item, index );
+
+    /*
     setUpdatesEnabled( false );
     lineEdit()->setUpdatesEnabled( false );
 
@@ -224,7 +260,7 @@ void KonqCombo::updatePixmaps()
     setUpdatesEnabled( false );
     KonqPixmapProvider *prov = KonqPixmapProvider::self();
     for ( int i = 1; i < count(); i++ ) {
-        updateItem( prov->pixmapFor( text( i ) ), text( i ), i );
+        updateItem( prov->pixmapFor( text( i ) ), text( i ), i, historyTitle( text( i ) ) );
     }
     setUpdatesEnabled( true );
     repaint();
@@ -248,12 +284,13 @@ void KonqCombo::loadItems()
     while ( it != items.end() ) {
         item = *it;
         if ( !item.isEmpty() ) { // only insert non-empty items
-            if( first )
-                insertItem( KonqPixmapProvider::self()->pixmapFor(item,
-                    KIcon::SizeSmall), item, i++ );
+	    if( first ) {
+                insertItem( KonqPixmapProvider::self()->pixmapFor( item, KIcon::SizeSmall ),
+                            item, i++, historyTitle( item ) );
+	    }
             else
                 // icons will be loaded on-demand
-                insertItem( item, i++ );
+                insertItem( item, i++, historyTitle( item ) );
             first = false;
         }
         ++it;
@@ -268,19 +305,20 @@ void KonqCombo::slotSetIcon( int index )
     if( pixmap( index ) == NULL )
         // on-demand icon loading
         updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
-            KIcon::SizeSmall), text( index ), index );
+                    KIcon::SizeSmall ), text( index ), index, 
+                    historyTitle( text( index ) ) );
     update();
 }
 
 void KonqCombo::popup()
 {
-    for( int i = 0; i < count(); ++i )
+  for( int i = 0; i < count(); ++i )
     {
-        if( pixmap( i ) == NULL )
+        if( pixmap( i ) == NULL || pixmap( i )->isNull() )
         {
             // on-demand icon loading
             updateItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
-                KIcon::SizeSmall), text( i ), i );
+                        KIcon::SizeSmall), text( i ), i, historyTitle( text( i ) ) );
         }
     }
     KHistoryCombo::popup();
@@ -365,12 +403,12 @@ void KonqCombo::selectWord(QKeyEvent *e)
     int pos = edit->cursorPosition();
     int pos_old = pos;
     int count = 0;  
-    
+
     // TODO: make these a parameter when in kdelibs/kdeui...
     QValueList<QChar> chars;
     chars << QChar('/') << QChar('.') << QChar('?') << QChar('#') << QChar(':');    
     bool allow_space_break = true;
-    
+
     if( e->key() == Key_Left || e->key() == Key_Backspace ) {
         do {
             pos--;
@@ -378,7 +416,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             if( allow_space_break && text[pos].isSpace() && count > 1 )
                 break;
         } while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
-        
+
         if( e->state() & ShiftButton ) {
                   edit->cursorForward(true, 1-count);
         } 
@@ -401,7 +439,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
                   if( allow_space_break && text[pos].isSpace() )
                       break;
         } while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
-        
+
         if( e->state() & ShiftButton ) {
             edit->cursorForward(true, count+1);
         } 
@@ -450,7 +488,7 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
         // check if the pixmap was clicked
         int x = e->pos().x();
         int x0 = QStyle::visualRect( style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField ), this ).x();
-	
+
         if ( x > x0 + 2 && x < lineEdit()->x() ) {
             m_dragStart = e->pos();
             return; // don't call KComboBox::mousePressEvent!
@@ -510,7 +548,7 @@ void KonqCombo::paintEvent( QPaintEvent *pe )
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
         QColor color(245, 246, 190);
         bool useColor = hasSufficientContrast(color,edit->paletteForegroundColor());
-      
+
         QPainter p( this );
         p.setClipRect( re );
 
@@ -551,30 +589,108 @@ void KonqCombo::setPageSecurity( int pageSecurity )
 
 bool KonqCombo::hasSufficientContrast(const QColor &c1, const QColor &c2)
 {
-   // Taken from khtml/misc/helper.cc
+    // Taken from khtml/misc/helper.cc
 #define HUE_DISTANCE 40
 #define CONTRAST_DISTANCE 10
 
-   int h1, s1, v1, h2, s2, v2;
-   int hdist = -CONTRAST_DISTANCE;
-   c1.hsv(&h1,&s1,&v1);
-   c2.hsv(&h2,&s2,&v2);
-   if(h1!=-1 && h2!=-1) { // grey values have no hue
-     hdist = kAbs(h1-h2);
-     if (hdist > 180) hdist = 360-hdist;
-     if (hdist < HUE_DISTANCE) {
-       hdist -= HUE_DISTANCE;
-          // see if they are high key or low key colours
-       bool hk1 = h1>=45 && h1<=225;
-       bool hk2 = h2>=45 && h2<=225;
-       if (hk1 && hk2)
-	 hdist = (5*hdist)/3;
-       else if (!hk1 && !hk2)
-	 hdist = (7*hdist)/4;
-     }
-     hdist = kMin(hdist, HUE_DISTANCE*2);
-   }
-   return hdist + (kAbs(s1-s2)*128)/(160+kMin(s1,s2)) + kAbs(v1-v2) > CONTRAST_DISTANCE;
+    int h1, s1, v1, h2, s2, v2;
+    int hdist = -CONTRAST_DISTANCE;
+    c1.hsv(&h1,&s1,&v1);
+    c2.hsv(&h2,&s2,&v2);
+    if(h1!=-1 && h2!=-1) { // grey values have no hue
+        hdist = kAbs(h1-h2);
+        if (hdist > 180) hdist = 360-hdist;
+        if (hdist < HUE_DISTANCE) {
+            hdist -= HUE_DISTANCE;
+            // see if they are high key or low key colours
+            bool hk1 = h1>=45 && h1<=225;
+            bool hk2 = h2>=45 && h2<=225;
+            if (hk1 && hk2)
+                hdist = (5*hdist)/3;
+            else if (!hk1 && !hk2)
+                hdist = (7*hdist)/4;
+        }
+        hdist = kMin(hdist, HUE_DISTANCE*2);
+    }
+    return hdist + (kAbs(s1-s2)*128)/(160+kMin(s1,s2)) + kAbs(v1-v2) > CONTRAST_DISTANCE;
+}
+
+QString KonqCombo::historyTitle( const KURL& url )
+{
+    KonqHistoryEntry *historyentry = historylist.findEntry( url );
+    if ( !historyentry && !url.url().endsWith( "/" ) ) {
+        KURL _url = url;
+        _url.setPath( url.path()+'/' );
+        historyentry = historylist.findEntry( _url );
+    }
+    return ( historyentry ? historyentry->title : QString::null );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QPixmap & pix, const QString& text, const QString& _title )
+  : QListBoxItem()
+{
+    pm = pix;
+    title = _title;
+    setText( text );
+}
+
+void KonqComboListBoxPixmap::paint( QPainter *painter )
+{
+    int itemHeight = height( listBox() );
+    int yPos, pmWidth = 0;
+    const QPixmap *pm = pixmap();
+
+    if ( pm && ! pm->isNull() ) {
+        yPos = ( itemHeight - pm->height() ) / 2;
+        painter->drawPixmap( 3, yPos, *pm );
+        pmWidth = pm->width() + 5;
+    }
+
+    int entryWidth = listBox()->width() - listBox()->style().pixelMetric( QStyle::PM_ScrollBarExtent ) -
+                     2 * listBox()->style().pixelMetric( QStyle::PM_DefaultFrameWidth );
+    int titleWidth = ( entryWidth / 3 ) - 1;
+    int urlWidth = entryWidth - titleWidth - pmWidth - 2;
+
+    if ( !text().isEmpty() ) {
+        QString squeezedText = KStringHandler::rPixelSqueeze( text(), listBox()->fontMetrics(), urlWidth );
+        painter->drawText( pmWidth, 0, urlWidth + pmWidth, itemHeight, 
+                           Qt::AlignLeft | Qt::AlignTop, squeezedText );
+
+        //painter->setPen( KGlobalSettings::inactiveTextColor() );
+        squeezedText = KStringHandler::rPixelSqueeze( title, listBox()->fontMetrics(), titleWidth );
+        QFont font = painter->font();
+        font.setItalic( true );
+        painter->setFont( font );
+        painter->drawText( entryWidth - titleWidth, 0, titleWidth,
+                           itemHeight, Qt::AlignLeft | Qt::AlignTop, squeezedText );
+    }
+}
+
+int KonqComboListBoxPixmap::height( const QListBox* lb ) const
+{
+    int h;
+    if ( text().isEmpty() )
+        h = pm.height();
+    else
+        h = QMAX( pm.height(), lb->fontMetrics().lineSpacing() + 2 );
+    return QMAX( h, QApplication::globalStrut().height() );
+}
+
+int KonqComboListBoxPixmap::width( const QListBox* lb ) const
+{
+    if ( text().isEmpty() )
+        return QMAX( pm.width() + 6, QApplication::globalStrut().width() );
+    return QMAX( pm.width() + lb->fontMetrics().width( text() ) + 6,
+                 QApplication::globalStrut().width() );
+}
+
+int KonqComboListBoxPixmap::RTTI = 1003;
+
+int KonqComboListBoxPixmap::rtti() const
+{
+    return RTTI;
 }
 
 #include "konq_combo.moc"

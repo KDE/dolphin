@@ -23,6 +23,7 @@
 #include <qevent.h>
 
 #include <kcombobox.h>
+#include <konq_historymgr.h>
 
 class KCompletion;
 class KConfig;
@@ -60,7 +61,10 @@ public:
     virtual void popup();
 
     void setPageSecurity( int );
-    
+
+    void insertItem( const QString &text, int index=-1, const QString& title=QString::null );
+    void insertItem( const QPixmap &pixmap, const QString &text, int index=-1, const QString& title=QString::null );
+
 protected:
     virtual void keyPressEvent( QKeyEvent * );
     virtual bool eventFilter( QObject *, QEvent * );
@@ -82,13 +86,14 @@ private slots:
     void slotActivated( const QString& text );
 
 private:
-    void updateItem( const QPixmap& pix, const QString&, int index );
+    void updateItem( const QPixmap& pix, const QString&, int index, const QString& title );
     void saveState();
     void restoreState();
     void applyPermanent();
     QString temporaryItem() const { return text( temporary ); }
     void removeDuplicates( int index );
     bool hasSufficientContrast(const QColor &c1, const QColor &c2);
+    QString historyTitle( const KURL& url );
 
     bool m_returnPressed;
     bool m_permanent;
@@ -101,7 +106,8 @@ private:
 
     static KConfig *s_config;
     static const int temporary; // the index of our temporary item
-};
 
+    KonqHistoryList historylist;
+};
 
 #endif // KONQ_COMBO_H
