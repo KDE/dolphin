@@ -68,7 +68,9 @@ KonqSearcherFactory::~KonqSearcherFactory() {
 
 QObject *KonqSearcherFactory::create( QObject *parent, const char *, const char*, const QStringList & )
 {
-  return new KonqSearcher( parent );
+  QObject *obj = new KonqSearcher( parent );
+  emit objectCreated( obj );
+  return obj;
 }
 
 KInstance *KonqSearcherFactory::instance() {
