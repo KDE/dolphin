@@ -113,6 +113,7 @@ private:
         QString templatePath; // same as filePath for TEMPLATE
         QString icon;
         int entryType;
+        QString comment;
     } Entry;
     // NOTE: only filePath is known before we call parseFiles
 

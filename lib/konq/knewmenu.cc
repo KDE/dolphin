@@ -104,6 +104,7 @@ void KNewMenu::parseFiles()
                 config.setDesktopGroup();
                 text = config.readEntry("Name");
                 (*templ).icon = config.readEntry("Icon");
+                (*templ).comment = config.readEntry("Comment");
                 QString type = config.readEntry( "Type" );
                 if ( type == "Link" )
                 {
@@ -285,7 +286,7 @@ void KNewMenu::slotNewFile()
 
     // The template is not a desktop file [or a URL one]
     // Show the small dialog for getting the destination filename
-    KLineEditDlg l( i18n("New %1:").arg(entry.text), defaultName, 0L );
+    KLineEditDlg l( entry.comment, defaultName, 0L );
     if ( l.exec() )
     {
         QString name = l.text();
