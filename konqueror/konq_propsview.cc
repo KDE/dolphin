@@ -40,7 +40,7 @@ KonqPropsView * KonqPropsView::defaultProps()
   return m_pDefaultProps;
 }
 
-KonqPropsView::KonqPropsView( const KConfig * config )
+KonqPropsView::KonqPropsView( KConfig * config )
 {
   QString entry = "LargeIcons"; // default
 /*  m_viewMode = KfmView::HOR_ICONS;
@@ -123,7 +123,7 @@ KfmViewSettings * KfmViewSettings::defaultHTMLSettings()
   return m_pDefaultHTMLSettings;
 }
 
-KfmViewSettings::KfmViewSettings( const KConfig * config )
+KfmViewSettings::KfmViewSettings( KConfig * config )
 {
   m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
   if ( m_iFontSize < 8 )

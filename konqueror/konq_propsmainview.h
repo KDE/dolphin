@@ -55,7 +55,7 @@ public:
    * TODO : will have to be called on slotConfigure
    * TODO : will have to be called for local properties
    */
-  KonqPropsMainView( const KConfig * config );
+  KonqPropsMainView( KConfig * config );
 
   /**
    * Destructor

@@ -63,7 +63,7 @@ public:
   // Set the group before calling.
   // ("Settings" for global props, "ViewNNN" for local props)
   // TODO : will have to be called for local properties
-  KonqPropsView( const KConfig * config );
+  KonqPropsView( KConfig * config );
 
   // Destructor
   virtual ~KonqPropsView();
@@ -121,7 +121,7 @@ public:
   // Set the group before calling.
   // ("Settings" for global props, "URL properties" in local props)
   // TODO : will have to be called on slotConfigure
-  KfmViewSettings( const KConfig * config );
+  KfmViewSettings( KConfig * config );
 
   // Destructor
   virtual ~KfmViewSettings();

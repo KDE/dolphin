@@ -24,7 +24,7 @@
 
 KonqPropsMainView * KonqPropsMainView::m_pDefaultProps = 0L;
 
-KonqPropsMainView::KonqPropsMainView( const KConfig * config )
+KonqPropsMainView::KonqPropsMainView( KConfig * config )
 {
   QString entry;
   m_bSplitView = config->readBoolEntry( "SplitView", false );
