@@ -248,7 +248,7 @@ protected:
   bool m_bReloadURL;
   int m_iXOffset;
   int m_iYOffset;
-  KonqFrame* m_pKonqFrame;
+  KonqFrame *m_pKonqFrame;
   bool m_bLoading;
   int m_iProgress;
   bool m_bPassiveMode;

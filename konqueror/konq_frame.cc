@@ -457,6 +457,7 @@ KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /
   config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
+  config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
 }
 
 void

@@ -903,6 +903,9 @@ void KonqMainView::slotLoadingProgress( int percent )
 
   BrowserView *view = (BrowserView *)sender();
 
+  if ( !view )
+    return;
+
   if ( m_currentView->view() == view && m_currentView->isLoading() )
   {
     if ( !m_progressBar->isVisible() )
@@ -911,7 +914,9 @@ void KonqMainView::slotLoadingProgress( int percent )
     m_progressBar->setValue( percent );
   }
 
-  childView( view )->setProgress( percent );
+  KonqChildView *child = childView( view );
+  if ( child )
+    child->setProgress( percent );
 }
 
 void KonqMainView::slotSpeedProgress( int bytesPerSecond )

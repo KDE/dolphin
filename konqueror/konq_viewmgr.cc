@@ -166,7 +166,7 @@ void KonqViewManager::removeView( KonqChildView *view )
   m_pMainView->removeChildView( view );
 
   //triggering QObject::childEvent manually
-  parentContainer->removeChild( view->frame() );
+  //  parentContainer->removeChild( view->frame() );
   delete view;
 
   //triggering QObject::childEvent manually
@@ -222,7 +222,17 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   loadItem( cfg, m_pMainContainer, rootItem );
   
   QValueList<BrowserView *> lst = m_pMainView->viewList();
-  m_pMainView->setActiveView( (*lst.begin()) );
+
+  BrowserView *view = *lst.begin();
+  KonqChildView *childView = m_pMainView->childView( view );
+
+  if ( childView->passiveMode() )
+    m_pMainView->setActiveView( chooseNextView( childView )->view() );
+  else
+    m_pMainView->setActiveView( view );
+
+  if ( lst.count() == 1 && !childView->passiveMode() )
+    childView->frame()->header()->passiveModeCheckBox()->hide();
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
@@ -245,6 +255,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
+    bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
+
     BrowserView *pView;
     KService::Ptr service;
     KTrader::OfferList serviceOffers;
@@ -255,7 +267,15 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       kdebug(0, 1202, "Creating View Stuff");  
       setupView( parent, pView, service, serviceOffers );
 
-      m_pMainView->childView( pView )->openURL( url );
+      KonqChildView *childView = m_pMainView->childView( pView );
+
+      childView->setPassiveMode( passiveMode );
+
+      QCheckBox *checkBox = childView->frame()->header()->passiveModeCheckBox();
+
+      checkBox->setChecked( passiveMode );
+
+      childView->openURL( url );
     }
     else
       warning("Profile Loading Error: View creation failed" );
@@ -335,16 +355,28 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
   m_pMainContainer->listViews( &viewList );
 
-  if ( !view )
-    return viewList.first();
+  KonqChildView *nextView = viewList.first();
 
-  int pos = viewList.find( view ) + 1;
-  if( pos >= (int)viewList.count() )
-    pos = 0;
-  kdebug(0, 1202, "next view: %d", pos );  
+  if ( !view && !nextView->passiveMode() )
+    return nextView;
 
-  return viewList.at( pos );
+  nextView = 0;
+
+  int startPos = viewList.find( view );
+  int pos = startPos + 1;
+  while ( pos != startPos )
+  {
+    if( pos >= (int)viewList.count() )
+      pos = 0;
+    kdebug(0, 1202, "next view: %d", pos );  
+    nextView = viewList.at( pos++ );
+    if ( !nextView->passiveMode() )
+      break;
+  }
+
+  return nextView;
 }
+
 #warning FIXME (Simon)
 /*
 unsigned long KonqViewManager::viewIdByNumber( int number )
