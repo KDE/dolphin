@@ -22,6 +22,7 @@
 
 #include <qbuffer.h>
 #include <qfile.h>
+#include <qcache.h>
 #include <qimage.h>
 #include <qtimer.h>
 
@@ -50,6 +51,7 @@ struct FaviconsModulePrivate
     QPtrList<KIO::Job> killJobs;
     KIO::MetaData metaData;
     QString faviconsDir;
+    QCache<QString> faviconsCache;
 };
 
 FaviconsModule::FaviconsModule(const QCString &obj)
@@ -63,6 +65,7 @@ FaviconsModule::FaviconsModule(const QCString &obj)
     d->metaData.insert("ssl_militant", "TRUE");
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
     d->killJobs.setAutoDelete(true);
+    d->faviconsCache.setAutoDelete(true);
 }
 
 FaviconsModule::~FaviconsModule()
@@ -75,7 +78,14 @@ QString FaviconsModule::iconForURL(const KURL &url)
     if (url.host().isEmpty())
         return QString::null;
 
-    QString icon = d->config->readEntry(simplifyURL(url));
+    QString icon;
+
+    QString *iconURL = d->faviconsCache.find( simplifyURL(url) );
+    if (iconURL)
+        icon = *iconURL;
+    else
+        icon = d->config->readEntry(simplifyURL(url));
+
     if (!icon.isEmpty())
         icon = iconNameFromURL(icon);
     else 
@@ -129,11 +139,20 @@ bool FaviconsModule::isIconOld(const QString &icon)
 
 void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
 {
+    QString simplifiedURL = simplifyURL(url);
     QString iconFile = d->faviconsDir + "favicons/" + iconNameFromURL(iconURL) + ".png";
-    if (!isIconOld(iconFile))
-        return;
 
-    startDownload(simplifyURL(url), false, iconURL);
+    if (!d->faviconsCache.insert(simplifiedURL, new QString(iconURL.url()) )) {
+        // AK - do failure stuff
+    }
+
+    if (!isIconOld(iconFile)) {
+        QString iconName = "favicons/" + iconNameFromURL(iconURL);
+        emit iconChanged(false, simplifiedURL, iconName);
+        return;
+    }
+
+    startDownload(simplifiedURL, false, iconURL);
 }
 
 void FaviconsModule::downloadHostIcon(const KURL &url)
@@ -205,7 +224,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
                 iconName = iconNameFromURL(iconURL);
 
             iconName = "favicons/" + iconName;
-                
+
             io.setIODevice(0);
             io.setFileName(d->faviconsDir + iconName + ".png");
             io.setFormat("PNG");
