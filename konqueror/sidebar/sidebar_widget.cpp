@@ -34,6 +34,7 @@
 #include <kfileitem.h>
 #include <kio/netaccess.h>
 #include <kpopupmenu.h>
+#include <kprocess.h>
 
 #include <qwhatsthis.h>
 
@@ -315,9 +316,12 @@ void Sidebar_Widget::initialCopy()
                     if ( *eIt != "." && *eIt != ".."
                          && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
                     { // we don't have that one yet -> copy it.
-                        QString cp = QString("cp -R %1%2 %3").arg(dirtree_dir).arg(*eIt).arg(PATH);
+                        QString cp("cp -R ");
+                        cp += KProcess::quote(dirtree_dir + *eIt);
+                        cp += " ";
+                        cp += KProcess::quote(PATH);
                         kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
-                        ::system( cp.local8Bit().data() );
+                        ::system( QFile::encodeName(cp) );
                     }
                 }
 		lcfg.writeEntry("Version",gversion);

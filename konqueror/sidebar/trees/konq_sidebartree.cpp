@@ -25,6 +25,7 @@
 #include <kmimetype.h>
 #include <kdesktopfile.h>
 #include <kglobalsettings.h>
+#include <kprocess.h>
 #include <kstandarddirs.h>
 #include <kurldrag.h>
 #include <stdlib.h>
@@ -509,9 +510,12 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
                     if ( *eIt != "." && *eIt != ".."
                          && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
                     { // we don't have that one yet -> copy it.
-                        QString cp = QString("cp -R %1%2 %3").arg(dirtree_dir).arg(*eIt).arg(path);
+                        QString cp("cp -R ");
+                        cp += KProcess::quote(dirtree_dir + *eIt);
+                        cp += " ";
+                        cp += KProcess::quote(path);
                         kdDebug(1201) << "KonqSidebarTree::scanDir executing " << cp << endl;
-                        ::system( cp.local8Bit().data() );
+                        ::system( QFile::encodeName(cp) );
                     }
                 }
 
