@@ -481,7 +481,6 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
-  m_pIconView->setGridY( 70 );
 #warning "Uncomment the line below if we switch to a more recent Qt 2.1 snaphsot"
   //m_pIconView->setWordWrapIconText( FALSE );
   m_pIconView->setReorderItemsWhenInsert( true );
