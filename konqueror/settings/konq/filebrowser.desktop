@@ -1,0 +1,55 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/filemanager/index.html
+Icon=kfm
+Exec=kcmshell filebrowser
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=browser
+X-KDE-ParentApp=kcontrol
+
+Name=File Manager
+
+Comment=You can configure Konqueror's file manager mode here
+Comment[af]=jy kan konfigureer hoe konqueror kyk as 'n lêer bestuurder hier
+Comment[bs]=Ovdje možete podesiti kako izgleda Konqueror kao upravitelj datotekama
+Comment[cs]=Zde je možné nastavit vzhled správce souborů
+Comment[da]=Her kan du indstille hvordan Konqueror ser ud som filhåndtering
+Comment[de]=Hier können Sie das Erscheinungsbild von Konqueror als Dateimanager festlegen
+Comment[el]=Εδώ μπορείτε να ρυθμίσετε το πως θα εμφανίζεται το Konqueror σα διαχειριστής αρχείων
+Comment[es]=Configuración del aspecto de Konqueror como administrador de archivos
+Comment[fa]=شما میتوانید ظاهر کانکرر زا به عنوان مدیر پرونده اینجا تنظیم کنید.
+Comment[fi]=Voit asettaa Konqueror tiedostoselaimen ulkonäköä tässä
+Comment[fr]=Vous pouvez configurer ici à quoi ressemble Konqueror en tant que gestionnaire de fichiers
+Comment[hu]=Itt lehet beállítani a Konqueror fájlkezelő jellemzőit
+Comment[ja]=ここでKonquerorがファイルマネージャとしてどのような外観を持つか設定をします
+Comment[mt]=Hawn tista' tikkonfigura kif jidher Konqueror bħala manager tal-fajls
+Comment[nb]=Sett opp hvordan Konqueror ser ut som filhåndterer her
+Comment[nl]=Hier kunt u het uiterlijk van Konqueror als bestandsbeheerder instellen
+Comment[pt]=O utilizador pode configurar aqui como é que o Konqueror age como um gestor de ficheiros
+Comment[pt_BR]=Você pode configurar aqui como o Konqueror ficará como gerenciador de arquivos
+Comment[sk]=Nastavenie vzhľadu Konquerora ako správcu súborov
+Comment[sv]=Anpassa hur Konqueror ser ut som filhanterare
+Comment[xh]=Ungaqwalasela imbonakalo ye Konqueror njengomphathi wefayile
+Comment[zh_TW]=您可以在這裡設定 Konqueror 做為檔案管理程式的外觀
+Keywords=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour
+Keywords[da]=konqueror,filhåndtering,ordombrydning,ombrydning,understreg,vis,filstørrelse,byte,skrifttype,farve
+Keywords[de]=Konqueror,Dateimanager,Zeilenfall,Textumbruch,Unterstreichen,Darstellung,Dateigröße,Schrift,Farbe,Byte
+Keywords[el]=konqueror,διαχειριστής αρχείων,αναδίπλωση λέξεων,αναδίπλωση,υπογράμμιση,προβολή,μέγεθος αρχείου,bytes,γραμματοσειρά,χρώμα,χρώμα
+Keywords[es]=konqueror,administrador de archivos, ajuste de línea,subrayar,mostrar,tamaño de archivo,bytes,fuente,color
+Keywords[fa]=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour, کانکرر, مدیر پرونده, نمایش, اندازه‌ی پرونده
+Keywords[fi]=konqueror,tiedostonhallinta,sanankatkaisu,alleviivaus,tiedostokoko,tavuja, kirjasin,väri
+Keywords[fr]=konqueror,gestionnaire de fichiers,explorateur,retour à la ligne,soulignement,affichage,taille des fichiers,octets,police,couleur
+Keywords[hu]=konqueror,fájlkezelő,szótördelés,tördelés,aláhúzás,képernyő,fájlméret,bájt,betűtípus,szín,színek
+Keywords[ja]=konqueror,ファイルマネージャ,ワードラップ,単語,下線,ディスプレイ,ファイルサイズ,バイト,フォント,色
+Keywords[mt]=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour,manager tal-fajls,daqs,kulur,kuluri
+Keywords[nb]=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour, filhåndterer,tekstbryting,understreket,skjerm,filstørrelse,byter,fonter,farger
+Keywords[nl]=konqueror,filemanager,bestandsbeheer,word wrap,regelafbreking,onderstrepen,display,weergave,filesize,bestandsgrootte,bytes,fonts,lettertypen,kleur,color
+Keywords[pt]=konqueror,gestor de ficheiros,mudança de linha,mudança,sublinhado,ecrã,tamanho do ficheiro,bytes,tipo de letra,cor
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,quebra de linha, sublinhado, display,tamanho de arquivo,bytes,fonte,cor,cor
+Keywords[sk]=konqueror,správa súborov,zalamovanie slov,podčiarknutie,zobrazenie,veľkosť súborov,bajty,písmo,farba
+Keywords[sv]=konqueror,filhanterare,radbrytning,understreck,visa,filstorlek,byte,teckensnitt,färg
+Keywords[xh]=konqueror,umphathi wefayile,songela amagama,songela, yenza umgca ezantsi,bonisa, ubngakanani befayile,bytes,umgca,umbala,umbala
+Keywords[zh_TW]=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour,征服家,檔案管理程式,文字換行,換行,底線,顯示,檔案大小,位元組,字型,顏色

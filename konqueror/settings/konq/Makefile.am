@@ -6,7 +6,7 @@ METASOURCES = AUTO
 kde_module_LTLIBRARIES = kcm_konq.la
 
 kcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp \
-		fontopts.cpp previews.cpp \
+		fontopts.cpp previews.cpp browser.cpp \
 		desktop.cpp uiserver.stub main.cpp
 
 kcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
@@ -16,14 +16,16 @@ kcm_konq_la_DATA = overlapping.png onlyone.png
 kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 
 data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
-datadir = $(kde_appsdir)/Settings/FileBrowsing
-
+datadir = $(kde_appsdir)/.hidden
 
 datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop desktop.desktop
 datadeskdir = $(kde_appsdir)/Settings/Desktop
 
 data2_DATA = desktoppath.desktop
-data2dir = $(kde_appsdir)/Settings/Personalization
+data2dir = $(kde_appsdir)/Settings/System
+
+data3_DATA = filebrowser.desktop
+data3dir = $(kde_appsdir)/Settings/Components
 
 install-data-local: uninstall.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel

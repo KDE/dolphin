@@ -27,6 +27,7 @@
 #include "fontopts.h"
 #include "desktop.h"
 #include "previews.h"
+#include "browser.h"
 
 #include <kconfig.h>
 #include <X11/Xlib.h>
@@ -242,6 +243,11 @@ static QCString configname()
 
 extern "C"
 {
+  KCModule *create_browser(QWidget *parent, const char *name)
+  {
+    KConfig *config = new KConfig("konquerorrc", false, true);
+    return new KBrowserOptions(config, "FMSettings", parent, name);
+  }
 
   KCModule *create_behavior(QWidget *parent, const char *name)
   {
