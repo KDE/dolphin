@@ -233,7 +233,7 @@ void KJavaScriptOptions::changePressed()
     if( pDlg.exec() )
     {
         javaScriptDomainPolicy[index] = pDlg.javaScriptPolicyAdvice();
-        index->setText(2, i18n(KHTMLSettings::adviceToStr(
+        index->setText(1, i18n(KHTMLSettings::adviceToStr(
                 (KHTMLSettings::KJavaScriptAdvice)javaScriptDomainPolicy[index])));
         changed();
     }
