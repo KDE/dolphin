@@ -34,77 +34,16 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-/*
-#!/home/kelletta/install/ruby/bin/ruby
-
-logdir = "/tmp/kde-kelletta"
-logprefix = "konqueror-crashlog";
-
-sessions = []
-
-Dir.foreach(logdir) {
-   |fname|
-   sessions << "#{logdir}/#{$1}" if fname =~ /^(#{logprefix}.*)$/
-}
-
-crashxbel = File.open("/tmp/crash.xml","w")
-
-crashxbel.print "<!DOCTYPE xbel>\n"
-crashxbel.print "<xbel>\n"
-
-sessions.each {
-
-   |session|
-
-   id = /^.*?\/#{logprefix}([^\/]*)$/.match(session)[1];
-
-   map = {}
-
-   IO.foreach(session) {
-      |line|
-      if line =~ /^(.*?)\((.*?)\) == (.*)$/
-         if $1 == "opened"
-            map[$2] = $3
-         elsif $1 == "close"
-            map.delete($2)
-         end
-      end
-   }
-
-   crashxbel.print "  <folder>\n"
-   crashxbel.print "    <title>#{id}</title>\n"
-
-   map.each {
-      |viewid, url|
-      crashxbel.print "      <bookmark icon=\"html\" href=\"#{url}\">\n"
-      crashxbel.print "        <title>#{url}</title>\n"
-      crashxbel.print "      </bookmark>\n"
-   }
-
-   crashxbel.print "  </folder>\n"
-
-   $stderr.print "would unlink(#{session})\n";
-
-}
-
-crashxbel.print "</xbel>\n"
-
-crashxbel.close
-*/
-
 #define LINELIMIT 4096
 
-void KCrashBookmarkImporter::parse_crash_file( QString filename, bool del )
+//    QTextCodec * codec = QTextCodec::codecForName("UTF-8");
+//    Q_ASSERT(codec);
+//    if (!codec)
+//        return;
+
+void KCrashBookmarkImporter::parseCrashLog( QString filename, bool del )
 {
     QFile f(filename);
-
-    /*
-    // TODO - what sort of url's can we get???
-    QTextCodec * codec = QTextCodec::codecForName("UTF-8");
-    Q_ASSERT(codec);
-    if (!codec)
-        return;
-    */
 
     if(f.open(IO_ReadOnly)) {
 
@@ -126,20 +65,11 @@ void KCrashBookmarkImporter::parse_crash_file( QString filename, bool del )
             if (rx.cap(1) == "opened") {
                views[rx.cap(2)] = rx.cap(3);
             }
-            /* else if (rx.cap(1) == "close") {
-               views.remove(rx.cap(2));
-               error message here???
-            } */
         }
-
-        // if (nViews > 1)
-        emit newFolder( "View 1", false, "" );
 
         for ( ViewMap::Iterator it = views.begin(); it != views.end(); ++it ) {
            emit newBookmark( it.data(), it.data().latin1(), QString("") );
         }
-
-        emit endFolder();
 
         f.close();
 
@@ -147,10 +77,13 @@ void KCrashBookmarkImporter::parse_crash_file( QString filename, bool del )
     }
 }
 
-void KCrashBookmarkImporter::parseCrashBookmarks( )
-{
-   typedef QMap<QString, bool> FileMap;
-   FileMap activeLogs;
+QStringList KCrashBookmarkImporter::getCrashLogs() {
+
+   QDir d( crashBookmarksDir() );
+   d.setFilter( QDir::Files );
+   d.setNameFilter("konqueror-crashlog*.xml");
+
+   QMap<QString, bool> activeLogs;
 
    DCOPClient* dcop = kapp->dcopClient();
 
@@ -183,21 +116,35 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
       }
    }
 
-   QDir d(m_fileName);
-   d.setFilter( QDir::Files );
-   d.setNameFilter("konqueror-crashlog*.xml");
-
    const QFileInfoList *list = d.entryInfoList();
    QFileInfoListIterator it( *list );
+
    QFileInfo *fi;
+   QStringList crashFiles;
 
-   while ( (fi = it.current()) != 0 ) {
-      ++it;
-
+   for ( ; (fi = it.current()) != 0; ++it ) {
       bool stillActive = activeLogs.contains(fi->absFilePath());
-
       if (!stillActive) {
-         parse_crash_file(fi->absFilePath(), true);
+         crashFiles << fi->absFilePath();
+      }
+   }
+
+   return crashFiles;
+}
+
+void KCrashBookmarkImporter::parseCrashBookmarks( )
+{
+   QStringList crashFiles = KCrashBookmarkImporter::getCrashLogs();
+   int len = crashFiles.count();
+   int n = 1;
+
+   for ( QStringList::Iterator it = crashFiles.begin(); it != crashFiles.end(); ++it ) {
+      if (len > 1) {
+         emit newFolder( QString("Instance %1").arg(n++), false, "" );
+      }
+      parseCrashLog(*it, true);
+      if (len > 1) {
+         emit endFolder();
       }
    }
 }

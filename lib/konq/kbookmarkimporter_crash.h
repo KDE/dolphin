@@ -22,6 +22,7 @@
 #include <qdom.h>
 #include <qcstring.h>
 #include <qstringlist.h>
+#include <qmap.h>
 #include <ksimpleconfig.h>
 
 /**
@@ -40,6 +41,9 @@ public:
 
     // Usual place for crash bookmarks
     static QString crashBookmarksDir( );
+
+    // Returns the list of crash logs
+    static QStringList getCrashLogs();
 
 signals:
 
@@ -69,7 +73,7 @@ signals:
 protected:
     QString m_fileName;
 
-    void parse_crash_file( QString filename, bool del = true );
+    void parseCrashLog( QString filename, bool del = true );
 };
 
 #endif
