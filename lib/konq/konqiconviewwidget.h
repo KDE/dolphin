@@ -74,7 +74,7 @@ public:
     void setItemFont( const QFont &f );
     void setItemColor( const QColor &c );
     QColor itemColor() const;
-    
+
 protected slots:
 
     virtual void slotDrop( QDropEvent *e );
@@ -109,7 +109,7 @@ class IconEditExtension : public EditExtension
     friend class KonqKfmIconView; //HACK
     Q_OBJECT
 public:
-    IconEditExtension( KonqIconViewWidget *iconView );
+    IconEditExtension( QObject *parent, KonqIconViewWidget *iconView );
 
     virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 

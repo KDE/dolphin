@@ -388,8 +388,8 @@ QColor KonqIconViewWidget::itemColor() const
 
 ////////////////////////////////////////////////////////////////////////////
 
-IconEditExtension::IconEditExtension( KonqIconViewWidget *iconView )
-    : EditExtension( iconView, "IconEditExtension" )
+IconEditExtension::IconEditExtension( QObject *parent, KonqIconViewWidget *iconView )
+    : EditExtension( parent, "IconEditExtension" )
 {
     m_iconView = iconView;
     connect( m_iconView, SIGNAL( selectionChanged() ),
