@@ -86,7 +86,7 @@ public:
    * @param _url the item URL
    * @return the pointer to the KFileItem
    **/
-  KFileItem* KDirLister::item( const QString& _url );
+  KFileItem* item( const QString& _url );
 
 signals:
   /** Tell the view that we started to list _url */

@@ -48,7 +48,7 @@ public:
    * @param _mode the file mode (according to stat())
    * @param _url the file url
    */
-  KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url );
+  KFileItem( QString _text, mode_t _mode, KURL& _url );
   /**
    * Destructor
    */
