@@ -110,11 +110,11 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   m_pGrid->addWidget( m_pCloseButton, 9, 2 );
 
-  connect( m_pListBox, SIGNAL( selected( const QString & ) ),
+  connect( m_pListBox, SIGNAL( highlighted( const QString & ) ),
            m_pProfileNameLineEdit, SLOT( setText( const QString & ) ) );
 
   connect( m_pProfileNameLineEdit, SIGNAL( textChanged( const QString & ) ),
-           this, SLOT( slotEnableSave( const QString & ) ) );
+           this, SLOT( slotTextChanged( const QString & ) ) );
 	
   connect( m_pSaveButton, SIGNAL( clicked() ),
            this, SLOT( slotSave() ) );
@@ -132,14 +132,21 @@ KonqProfileDlg::~KonqProfileDlg()
 {
 }
 
-void KonqProfileDlg::slotEnableSave( const QString &text )
-{
-  m_pSaveButton->setEnabled( !text.isEmpty() );
-}
-
 void KonqProfileDlg::slotSave()
 {
   QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
+
+  // Reuse filename of existing item, if any
+  if ( m_pListBox->currentItem() != -1 )
+  {
+    QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->currentText() );
+    if ( it != m_mapEntries.end() )
+    {
+      QFileInfo info( it.data() );
+      name = info.baseName();
+    }
+  }
+
   QString fileName = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
                                           name, KonqFactory::instance() );
 
@@ -148,6 +155,7 @@ void KonqProfileDlg::slotSave()
 
   KSimpleConfig cfg( fileName );
   cfg.setGroup( "Profile" );
+  cfg.writeEntry( "Name", m_pListBox->currentText() );
   m_pViewManager->saveViewProfile( cfg, m_cbSaveURLs->isChecked() );
   if ( m_cbSaveSize->isChecked() )
   {
@@ -160,7 +168,7 @@ void KonqProfileDlg::slotSave()
 
 void KonqProfileDlg::slotDelete()
 {
-  QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->text( m_pListBox->currentItem() ) );
+  QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->currentText() );
 
   if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
   {
@@ -168,6 +176,19 @@ void KonqProfileDlg::slotDelete()
     m_mapEntries.remove( it );
   }
 
+}
+
+void KonqProfileDlg::slotTextChanged( const QString & text )
+{
+  m_pSaveButton->setEnabled( !text.isEmpty() );
+
+  // If we type the name of a profile, select it in the list
+  QListBoxItem * item = m_pListBox->findItem( text );
+  if ( item )
+    m_pListBox->setSelected( item, true );
+  else
+    // otherwise, clear selection
+    m_pListBox->clearSelection();
 }
 
 #include "konq_profiledlg.moc"

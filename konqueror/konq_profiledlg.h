@@ -44,9 +44,9 @@ public:
   static QMap<QString,QString> readAllProfiles();
 
 protected slots:
-  void slotEnableSave( const QString &text );
   void slotSave();
   void slotDelete();
+  void slotTextChanged( const QString & );
 
 private:
   KonqViewManager *m_pViewManager;
