@@ -342,12 +342,16 @@ QString KonqMainWindow::detectNameFilter( QString & url )
 
 void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 {
-    QString url( _url );
-    QString nameFilter = detectNameFilter( url );
-
     // Filter URL to build a correct one
-    KURL filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
-    kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
+    KURL filteredURL = KonqMisc::konqFilteredURL( this, _url, m_currentDir );
+    kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
+
+    QString url = filteredURL.prettyURL();
+    // Detect name filter _after_ doing URL parsing, necessary for urls like file:/path/*.[hc]
+    // The prettyURL above is necessary in such a case, to avoid *.%5Bhc%5D
+    QString nameFilter = detectNameFilter( url );
+    if ( !nameFilter.isEmpty() )
+        filteredURL = url; // reparse, without the filter this time
 
     if (!KProtocolInfo::supportsListing(filteredURL.protocol()))
     {
