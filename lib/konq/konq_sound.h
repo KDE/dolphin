@@ -42,7 +42,6 @@ protected:
 		const char *className = "QObject", const QStringList &args = QStringList());
 
 private:
-	Arts::Dispatcher m_dispatcher;
 	Arts::SoundServerV2 m_soundServer;
 	KPlayObjectFactory *m_factory;
 };
