@@ -62,8 +62,9 @@ public:
    * Returns the newly created view or 0L if the view couldn't be created.
    */
   KonqChildView* splitView( Qt::Orientation orientation,
-				   const KURL &url,
-				   QString serviceType = QString::null );
+                            const KURL &url,
+                            QString serviceType = QString::null,
+                            const QString & serviceName = QString::null );
 
   /**
    * Does basically the same as splitView() but inserts the new view at the top

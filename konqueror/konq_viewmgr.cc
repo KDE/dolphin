@@ -62,7 +62,8 @@ KonqViewManager::~KonqViewManager()
 
 KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
                                             const KURL &url,
-                                            QString serviceType )
+                                            QString serviceType,
+                                            const QString &serviceName )
 {
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
@@ -74,7 +75,7 @@ KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
     locationBarURL = m_pMainView->currentChildView()->locationBarURL();
   }
 
-  KonqChildView* childView = split( viewFrame, orientation, serviceType );
+  KonqChildView* childView = split( viewFrame, orientation, serviceType, serviceName );
 
   if( childView )
   {

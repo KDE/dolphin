@@ -495,6 +495,26 @@ void KonqMainView::slotViewModeToggle( bool toggle )
 
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
                                  m_currentView->url() );
+
+  // Now save this setting, either locally or globally
+  if ( m_bSaveViewPropertiesLocally )
+  {
+      KURL u ( m_currentView->url() );
+      u.addPath(".directory");
+      if ( u.isLocalFile() )
+      {
+          KSimpleConfig config( u.path() );
+          config.setGroup( "URL properties" );
+          config.writeEntry( "ViewMode", modeName );
+          config.sync();
+      }
+  } else
+  {
+      KConfig *config = KonqFactory::instance()->config();
+      KConfigGroupSaver cgs( config, "MainView Settings" );
+      config->writeEntry( "ViewMode", modeName );
+      config->sync();
+  }
 }
 
 void KonqMainView::slotOpenWith()
@@ -738,8 +758,18 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
   if ( !childView )
     {
+      QString serviceName;
+      // Special case for directories : apply viewmode setting
+      if ( serviceType == "inode/directory" )
+      {
+          // TODO honour .directory
+          KConfig * config = KonqFactory::instance()->config();
+          KConfigGroupSaver cgs( config, "MainView Settings" );
+          serviceName = config->readEntry( "ViewMode" );
+      }
+
       // Create a new view
-      KonqChildView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
+      KonqChildView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
 
       if ( !newView )
       {
