@@ -40,7 +40,6 @@ public:
   KonquerorIfaceImpl();
   virtual ~KonquerorIfaceImpl();
   
-  virtual void configure();
   virtual void openBrowserWindow( const QString &url );
 
   virtual void setMoveSelection( int move );
@@ -53,12 +52,6 @@ KonquerorIfaceImpl::KonquerorIfaceImpl()
 
 KonquerorIfaceImpl::~KonquerorIfaceImpl()
 {
-}
-
-void KonquerorIfaceImpl::configure()
-{
-  debug("KonquerorIFaceImpl::configure()");
-  // TODO : re-read configuration and apply
 }
 
 void KonquerorIfaceImpl::openBrowserWindow( const QString &url )

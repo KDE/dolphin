@@ -33,7 +33,7 @@ browser.moc.cc: $(kde_includes)/browser.h
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = konq_main.cc KonquerorIface.skel
+konqueror_SOURCES = konq_main.cc KonquerorIface.skel KonqMainViewIface.skel
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 

@@ -78,7 +78,7 @@ QList<QPixmap> *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
 
 KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
- : View( part, parent, name )
+ : View( part, parent, name ),  DCOPObject( "KonqMainViewIface" )
 {
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
@@ -1400,6 +1400,12 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 
   pPopupMenu->exec( _global );
   delete pPopupMenu;
+}
+
+void KonqMainView::configure()
+{
+  debug("KonqMainView::configure() !");
+  // TODO
 }
 
 #include "konq_mainview.moc"
