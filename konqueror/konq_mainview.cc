@@ -687,6 +687,8 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   m_mapViews.insert( view->id(), v );
 
+  v->lockHistory(); // first URL won't go into history
+
   if (isVisible()) v->show();
   
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
@@ -923,7 +925,6 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
     insertView( vView, left, serviceTypes );
 
     MapViews::Iterator it = m_mapViews.find( vView->id() );
-    it.data()->lockHistory(); // first URL won't go into history
     it.data()->openURL( m_sInitialURL );
   
     setActiveView( vView->id() );
