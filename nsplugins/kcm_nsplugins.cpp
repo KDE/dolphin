@@ -46,7 +46,7 @@ extern "C"
         bool firstTime = config->readBoolEntry( "firstTime", true );
         delete config;
 
-        if ( 1 || scan || firstTime )
+        if ( scan || firstTime )
         {
             KApplication::kdeinitExec("nspluginscan");
         }
