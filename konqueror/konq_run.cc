@@ -54,7 +54,7 @@ KonqRun::~KonqRun()
 
 void KonqRun::foundMimeType( const QString & _type )
 {
-  kdDebug(1202) << "KonqRun::foundMimeType " << _type << " m_req=" << m_req.debug() << endl;
+  //kdDebug(1202) << "KonqRun::foundMimeType " << _type << " m_req=" << m_req.debug() << endl;
 
   QString mimeType = _type; // this ref comes from the job, we lose it when using KIO again
 
