@@ -231,6 +231,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
   else
   {
     kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
+    m_paURLCombo->QSelectAction::changeItem( 0, url );
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
 }
