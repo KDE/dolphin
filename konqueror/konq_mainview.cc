@@ -1506,6 +1506,9 @@ void KonqMainView::setUpEnabled( const KURL &url )
 
 void KonqMainView::initActions()
 {
+  actionCollection()->setHighlightingEnabled( true );
+  connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
+	   this, SLOT( slotActionHighlighted( KAction * ) ) );
 
   // Note about this method : don't call setEnabled() on any of the actions.
   // They are all disabled then re-enabled with enableAllActions
@@ -1652,10 +1655,6 @@ void KonqMainView::initActions()
   connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
 
   enableAllActions( false );
-
-  actionCollection()->setHighlightingEnabled( true );
-  connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
-	   this, SLOT( slotActionHighlighted( KAction * ) ) );
 
   // help stuff
 
