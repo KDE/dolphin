@@ -490,8 +490,15 @@ void KJavaEmbed::embed( WId w )
     XWithdrawWindow( qt_xdisplay(), window, qt_xscreen() );
     QApplication::flushX();
 
+    //make sure we will receive destroy notifications for the embedded window.
+    XWindowAttributes xwattr;
+    XGetWindowAttributes(qt_xdisplay(), winId(), &xwattr);
+    XSelectInput(qt_xdisplay(), winId(), SubstructureNotifyMask | xwattr.your_event_mask);
+
     //now reparent the window to be swallowed by the KJavaEmbed widget
     XReparentWindow( qt_xdisplay(), window, winId(), 0, 0 );
+    //and add it to the save set in case this window gets destroyed before
+    XAddToSaveSet(qt_xdisplay(), window);
     QApplication::syncX();
 
     //now resize it
