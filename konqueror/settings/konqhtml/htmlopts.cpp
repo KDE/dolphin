@@ -42,7 +42,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     QVGroupBox *bgBookmarks = new QVGroupBox( i18n("Boo&kmarks"), this );
     m_pAdvancedAddBookmarkCheckBox = new QCheckBox(i18n( "Ask for name and folder when adding bookmarks" ), bgBookmarks);
     QWhatsThis::add( m_pAdvancedAddBookmarkCheckBox, i18n( "If this box is checked, Konqueror will allow you to"
-                                                        " change the bookmark title and choose a folder to store it within if you add a bookmark." ) );
+                                                        " change the title of the bookmark and choose a folder in which to store it when you add a new bookmark." ) );
     connect(m_pAdvancedAddBookmarkCheckBox, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pOnlyMarkedBookmarksCheckBox = new QCheckBox(i18n( "Show only marked bookmarks in bookmark toolbar" ), bgBookmarks);
