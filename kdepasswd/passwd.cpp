@@ -21,9 +21,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <qcstring.h>
 
 #include <kdebug.h>
+#include <kstddirs.h>
 
+#include <kdesu/process.h>
 #include "passwd.h"
 
 
@@ -78,7 +81,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
     putenv("LANG=C");
 
     QCStringList args;
-    if (m_User != m_ThisUser)
+    if(m_User != m_ThisUser)
         args += m_User;
     int ret = PtyProcess::exec("passwd", args);
     if (ret < 0)
@@ -105,7 +108,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass, 
 	int check)
 {
-    QCString line;
+    QCString line, errline;
     int state = 0;
 
     while (state != 7)
@@ -116,11 +119,11 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    return -1;
 	}
 
-        if (state == 0 && isPrompt(line, "new"))
-            // If root is changing a user's password,
-            // passwd can't prompt for the original password.
-            // Therefore, we have to start at state=2.
-            state=2;
+	if (state == 0 && isPrompt(line, "new"))
+	    // If root is changing a user's password,
+	    // passwd can't prompt for the original password.
+	    // Therefore, we have to start at state=2.
+	    state=2;
 
 	switch (state) 
 	{
@@ -150,25 +153,32 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 
 	case 2: 
 	    // Wait for second prompt.
-	    if (isPrompt(line, "new")) 
+	    errline = line;  // use first line for error message
+	    while (!isPrompt(line, "new"))
 	    {
-		if (check)
-		{
-		    kill(m_Pid, SIGKILL);
+	    	line = readLine();
+				if (line.isNull())
+				{
+	    		// We didn't get the new prompt so assume incorrect password.
+	    		if (m_bTerminal)
+						fputs(errline, stdout);
+					m_Error = errline;
+					return PasswordIncorrect;
+				}
+	    }
+
+			// we have the new prompt
+			if (check)
+			{
+				kill(m_Pid, SIGKILL);
 		    waitForChild();
 		    return 0;
-		}
-		WaitSlave();
-		write(m_Fd, newpass, strlen(newpass));
-		write(m_Fd, "\n", 1);
-		state++; 
-		break;
-	    }
-	    // Assume incorrect password.
-	    if (m_bTerminal) 
-		fputs(line, stdout);
-	    m_Error = line;
-	    return PasswordIncorrect;
+			}
+			WaitSlave();
+			write(m_Fd, newpass, strlen(newpass));
+			write(m_Fd, "\n", 1);
+			state++;
+			break;
 
 	case 4:
 	    // Wait for third prompt
