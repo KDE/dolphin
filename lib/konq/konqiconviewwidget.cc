@@ -287,6 +287,10 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
     const QPixmap *pm  = backgroundPixmap();
     bool hasPixmap = pm && !pm->isNull();
+    if ( !hasPixmap ) {
+	pm = viewport()->backgroundPixmap();
+	hasPixmap = pm && !pm->isNull();
+    }
     if (!hasPixmap && backgroundMode() != NoBackground) {
 	p->fillRect(r, backgroundColor());
 	return;
