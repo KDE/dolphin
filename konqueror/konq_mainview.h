@@ -131,9 +131,11 @@ public slots:
   void slotGoAutostart();
 
   void slotConfigureFileManager();
-  void slotConfigureBrowser();
   void slotConfigureFileTypes();
-  void slotConfigureNetwork();
+  void slotConfigureBrowser();
+  void slotConfigureEBrowsing();
+  void slotConfigureCookies();
+  void slotConfigureProxies();
   void slotConfigureKeys();
   void slotConfigureToolbars();
 
@@ -313,13 +315,6 @@ private:
 
   KToggleAction *m_paSaveViewPropertiesLocally;
   KAction *m_paRemoveLocalProperties;
-
-  KAction *m_paConfigureFileManager;
-  KAction *m_paConfigureBrowser;
-  KAction *m_paConfigureFileTypes;
-  KAction *m_paConfigureNetwork;
-  KAction *m_paConfigureKeys;
-  KAction *m_paConfigureToolbars;
 
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;

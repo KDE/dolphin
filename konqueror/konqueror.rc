@@ -70,9 +70,12 @@
   <Separator/>
   <Menu name="configure" icon="configure"><text>&amp;Configure</text>
     <Action name="configurefilemanager"/>
-    <Action name="configurebrowser"/>
     <Action name="configurefiletypes"/>
-    <Action name="configurenetwork"/>
+    <Separator/>
+    <Action name="configurebrowser"/>
+    <Action name="configureebrowsing"/>
+    <Action name="configurecookies"/>
+    <Action name="configureproxies"/>
     <Separator/>
     <Action name="configurekeys"/>
     <Action name="configuretoolbars"/>

@@ -655,15 +655,6 @@ void KonqMainView::slotConfigureFileManager()
   }
 }
 
-void KonqMainView::slotConfigureBrowser()
-{
-  if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "konqhtml", 0);
-    warning("Error launching kcmshell konqhtml!");
-    exit(1);
-  }
-}
-
 void KonqMainView::slotConfigureFileTypes()
 {
   if (fork() == 0) {
@@ -673,11 +664,40 @@ void KonqMainView::slotConfigureFileTypes()
   }
 }
 
-void KonqMainView::slotConfigureNetwork()
+void KonqMainView::slotConfigureBrowser()
 {
-  // This should be kcmshell instead, when it supports multiple tabs
-  const char * cmd = "kcontrol Network/smb Network/cookies Network/useragent Network/proxy";
-  system( cmd );
+  if (fork() == 0) {
+    execl(locate("exe", "kcmshell"), "kcmshell", "konqhtml", 0);
+    warning("Error launching kcmshell konqhtml!");
+    exit(1);
+  }
+}
+
+void KonqMainView::slotConfigureEBrowsing()
+{
+  if (fork() == 0) {
+    execl(locate("exe", "kcmshell"), "kcmshell", "ebrowsing", 0);
+    warning("Error launching kcmshell konqhtml!");
+    exit(1);
+  }
+}
+
+void KonqMainView::slotConfigureCookies()
+{
+  if (fork() == 0) {
+    execl(locate("exe", "kcmshell"), "kcmshell", "cookies", 0);
+    warning("Error launching kcmshell konqhtml!");
+    exit(1);
+  }
+}
+
+void KonqMainView::slotConfigureProxies()
+{
+  if (fork() == 0) {
+    execl(locate("exe", "kcmshell"), "kcmshell", "proxy", 0);
+    warning("Error launching kcmshell konqhtml!");
+    exit(1);
+  }
 }
 
 void KonqMainView::slotConfigureKeys()
@@ -1658,14 +1678,20 @@ void KonqMainView::initActions()
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
-  m_paConfigureFileManager = new KAction( i18n( "File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  m_paConfigureBrowser = new KAction( i18n( "&Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
-  m_paConfigureFileTypes = new KAction( i18n( "File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
-  m_paConfigureNetwork = new KAction( i18n( "&Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
-  m_paConfigureKeys = new KAction( i18n( "&Key Bindings..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
+  // Configure submenu 
 
-  m_paConfigureToolbars = new KAction( i18n( "Tool&bars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
+  new KAction( i18n( "File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
+  new KAction( i18n( "File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
 
+  new KAction( i18n( "&Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
+  new KAction( i18n( "&Internet Keywords..." ), 0, this, SLOT( slotConfigureEBrowsing() ), actionCollection(), "configureebrowsing" );
+  new KAction( i18n( "&Cookies..." ), 0, this, SLOT( slotConfigureCookies() ), actionCollection(), "configurecookies" );
+  new KAction( i18n( "&Proxies..." ), 0, this, SLOT( slotConfigureProxies() ), actionCollection(), "configureproxies" );
+
+  new KAction( i18n( "&Key Bindings..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
+  new KAction( i18n( "&Toolbars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
+
+  // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
   m_paSplitWindowHor = new KAction( i18n( "Split Window Left/Right" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
