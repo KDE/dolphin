@@ -53,11 +53,15 @@ Kfind::Kfind(QWidget *parent, const char *name)
   tabWidget = new KfindTabWidget( this );
   mTopLayout->addWidget(tabWidget);
 
+  /*
+   * This is ugly.  Might be a KSeparator bug, but it makes a small black
+   * pixel for me which is visually distracting (GS).
   // create separator
   KSeparator * mActionSep = new KSeparator( this );
   mActionSep->setFocusPolicy( QWidget::ClickFocus );
   mActionSep->setOrientation( QFrame::VLine );
   mTopLayout->addWidget(mActionSep);
+  */
 
   // create button box
   QVBox * mButtonBox = new QVBox( this );
