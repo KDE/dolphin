@@ -611,8 +611,6 @@ void KonqOperations::doFileCopy()
         popup.insertItem(SmallIconSet("cancel"), i18n( "C&ancel" ), 5);
 
         int result = popup.exec( m_info->mousePos );
-        if (  iconView && iconView->isDesktop() )
-            iconView->setLastIconPosition( m_info->mousePos );
 
         switch (result) {
         case 1 : action = QDropEvent::Copy; break;

@@ -202,8 +202,6 @@ public:
      */
     virtual void setWallpaper(const KURL&) { }
 
-    virtual void setLastIconPosition( const QPoint & ) { }
-
     bool maySetWallpaper();
     void setMaySetWallpaper(bool b);
 
