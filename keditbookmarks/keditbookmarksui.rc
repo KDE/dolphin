@@ -10,18 +10,20 @@
   <Menu name="import" noMerge="1"><text>&amp;Import</text>
     <Action name="importIE"/>
     <Action name="importOpera"/>
-    <Action name="importCrashes"/>
-    <Action name="importGaleon"/>
-    <Action name="importKDE2"/>
     <Action name="importMoz"/>
     <Action name="importNS"/>
+    <Action name="importKDE2"/>
+    <Action name="importGaleon"/>
+    <Separator/>
+    <Action name="importCrashes"/>
   </Menu>
   <Menu name="export" noMerge="1"><text>&amp;Export</text>
-    <Action name="exportOpera"/>
-    <Action name="exportHTML"/>
     <Action name="exportIE"/>
+    <Action name="exportOpera"/>
     <Action name="exportMoz"/>
     <Action name="exportNS"/>
+    <Separator/>
+    <Action name="exportHTML"/>
   </Menu>
   <Separator/>
   <Action name="file_quit"/>
