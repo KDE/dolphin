@@ -90,7 +90,7 @@ public:
     WinIdEmbedder(bool printID = false, WId winId = 0): 
         QObject(qApp), print(printID), id(winId)
     {
-	if (qApp)
+        if (qApp)
             qApp->installEventFilter(this);
     }
 protected:
@@ -103,14 +103,14 @@ private:
 bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::Show && o->isWidgetType()
-	&& o->inherits("KDialog"))
+        && o->inherits("KDialog"))
     {
-	QWidget *w = static_cast<QWidget*>(o);
-	if (print)
-	    cout << "winId: " << w->winId() << endl;
+        QWidget *w = static_cast<QWidget*>(o);
+        if (print)
+            cout << "winId: " << w->winId() << endl;
 #ifdef Q_WS_X11
-	if (id)
-	    XSetTransientForHint(w->x11Display(), w->winId(), id);
+        if (id)
+            XSetTransientForHint(w->x11Display(), w->winId(), id);
 #endif
     }
     return QObject::eventFilter(o, e);
@@ -171,6 +171,10 @@ int directCommand(KCmdLineArgs *args)
         option = "warningyesno";
         type = KMessageBox::WarningYesNo;
     }
+    else if (args->isSet("warningcontinuecancel")) {
+        option = "warningcontinuecancel";
+        type = KMessageBox::WarningContinueCancel;
+    }
     else if (args->isSet("warningyesnocancel")) {
         option = "warningyesnocancel";
         type = KMessageBox::WarningYesNoCancel;
@@ -190,6 +194,8 @@ int directCommand(KCmdLineArgs *args)
 
     if ( !option.isEmpty() )
     {
+        int ret;
+
         QString text = QString::fromLocal8Bit(args->getOption( option ));
         int pos;
         while ((pos = text.find( QString::fromLatin1("\\n") )) >= 0)
@@ -197,7 +203,12 @@ int directCommand(KCmdLineArgs *args)
             text.replace(pos, 2, QString::fromLatin1("\n"));
         }
 
-        int ret = KMessageBox::messageBox( 0, type, text, title /*, TODO configurable button texts*/ );
+        if ( type == KMessageBox::WarningContinueCancel ) {
+            /* TODO configurable button texts*/
+            ret = KMessageBox::messageBox( 0, type, text, title, KStdGuiItem::cont() ); 
+        } else {
+            ret = KMessageBox::messageBox( 0, type, text, title /*, TODO configurable button texts*/ );
+        }
         // ret is 1 for Ok, 2 for Cancel, 3 for Yes, 4 for No and 5 for Continue.
         // We want to return 0 for ok, yes and continue, 1 for no and 2 for cancel
         return (ret == KMessageBox::Ok || ret == KMessageBox::Yes || ret == KMessageBox::Continue) ? 0
@@ -300,10 +311,10 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("getopenfilename")) {
         QString startDir;
         QString filter;
-	startDir = QString::fromLocal8Bit(args->getOption("getopenfilename"));
-	if (args->count() >= 1)  {
-	    filter = QString::fromLocal8Bit(args->arg(0));
-	}
+        startDir = QString::fromLocal8Bit(args->getOption("getopenfilename"));
+        if (args->count() >= 1)  {
+            filter = QString::fromLocal8Bit(args->arg(0));
+        }
         QString result = KFileDialog::getOpenFileName( startDir, filter, 0, title );
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
@@ -316,10 +327,10 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("getsavefilename")) {
         QString startDir;
         QString filter;
-	startDir = QString::fromLocal8Bit(args->getOption("getsavefilename"));
-	if (args->count() >= 1)  {
-	    filter = QString::fromLocal8Bit(args->arg(0));
-	}
+        startDir = QString::fromLocal8Bit(args->getOption("getsavefilename"));
+        if (args->count() >= 1)  {
+            filter = QString::fromLocal8Bit(args->arg(0));
+        }
         QString result = KFileDialog::getSaveFileName( startDir, filter, 0, title );
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
@@ -331,7 +342,7 @@ int directCommand(KCmdLineArgs *args)
     // getexistingdirectory [startDir]
     if (args->isSet("getexistingdirectory")) {
         QString startDir;
-	startDir = QString::fromLocal8Bit(args->getOption("getexistingdirectory"));
+        startDir = QString::fromLocal8Bit(args->getOption("getexistingdirectory"));
         QString result = KFileDialog::getExistingDirectory( startDir, 0, title );
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
@@ -344,10 +355,10 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("getopenurl")) {
         QString startDir;
         QString filter;
-	startDir = QString::fromLocal8Bit(args->getOption("getopenurl"));
-	if (args->count() >= 1)  {
-	    filter = QString::fromLocal8Bit(args->arg(0));
-	}
+        startDir = QString::fromLocal8Bit(args->getOption("getopenurl"));
+        if (args->count() >= 1)  {
+            filter = QString::fromLocal8Bit(args->arg(0));
+        }
         KURL result = KFileDialog::getOpenURL( startDir, filter, 0, title );
         if (!result.isEmpty())  {
             cout << result.url().local8Bit().data() << endl;
@@ -360,10 +371,10 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("getsaveurl")) {
         QString startDir;
         QString filter;
-	startDir = QString::fromLocal8Bit(args->getOption("getsaveurl"));
-	if (args->count() >= 1)  {
-	    filter = QString::fromLocal8Bit(args->arg(0));
-	}
+        startDir = QString::fromLocal8Bit(args->getOption("getsaveurl"));
+        if (args->count() >= 1)  {
+            filter = QString::fromLocal8Bit(args->arg(0));
+        }
         KURL result = KFileDialog::getSaveURL( startDir, filter, 0, title );
         if (!result.isEmpty())  {
             cout << result.url().local8Bit().data() << endl;
