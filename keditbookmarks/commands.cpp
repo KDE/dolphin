@@ -94,18 +94,21 @@ void CreateCommand::execute()
 
     // Create
     KBookmark bk = KBookmark(QDomElement());
-    if (m_separator)
-        bk = parentGroup.createNewSeparator();
-    else
-        if (m_group)
-        {
-            bk = parentGroup.createNewFolder( m_text );
-            m_text = bk.fullText(); // remember it, we won't have to ask it again
-            kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
-            bk.internalElement().setAttribute( "OPEN", m_open ? 1 : 0 );
-        }
+    if (m_originalBookmark.isNull())
+        if (m_separator)
+            bk = parentGroup.createNewSeparator();
         else
-            bk = parentGroup.addBookmark( m_text, m_url );
+            if (m_group)
+            {
+                bk = parentGroup.createNewFolder( m_text );
+                m_text = bk.fullText(); // remember it, we won't have to ask it again
+                kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
+                bk.internalElement().setAttribute( "OPEN", m_open ? 1 : 0 );
+            }
+            else
+                bk = parentGroup.addBookmark( m_text, m_url );
+    else
+        bk = m_originalBookmark;
 
     // Move to right position
     parentGroup.moveItem( bk, prev );

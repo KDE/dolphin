@@ -47,21 +47,28 @@ public:
     // Create a separator
     CreateCommand( const QString & name, const QString & address )
         : KCommand(name), m_to(address),
-          m_group(false), m_separator(true)
+          m_group(false), m_separator(true), m_originalBookmark(QDomElement())
     {}
 
     // Create a bookmark
     CreateCommand( const QString & name, const QString & address,
                    const QString & text, const QString & url )
         : KCommand(name), m_to(address), m_text(text), m_url(url),
-          m_group(false), m_separator(false)
+          m_group(false), m_separator(false), m_originalBookmark(QDomElement())
     {}
 
     // Create a folder
     CreateCommand( const QString & name, const QString & address,
                    const QString & text, bool open )
         : KCommand(name), m_to(address), m_text(text),
-          m_group(true), m_separator(false), m_open(open)
+          m_group(true), m_separator(false), m_open(open), m_originalBookmark(QDomElement())
+    {}
+
+    // Create a copy of an existing bookmark (whatever it is)
+    CreateCommand( const QString & name, const QString & address,
+                   const KBookmark & original )
+        : KCommand(name), m_to(address), m_group(false), m_separator(false),
+          m_open(false), m_originalBookmark( original )
     {}
 
     virtual ~CreateCommand() {}
@@ -74,6 +81,7 @@ private:
     bool m_group:1;
     bool m_separator:1;
     bool m_open:1;
+    KBookmark m_originalBookmark;
 };
 
 class DeleteCommand : public KCommand

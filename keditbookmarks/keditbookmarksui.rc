@@ -1,38 +1,38 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="2">
+<kpartgui name="keditbookmarks" version="3">
 
 <MenuBar>
 
 <Menu name="file" noMerge="1"><text>&amp;File</text>
- <Action name="file_importNS"/>
- <Action name="file_importMoz"/>
- <Action name="file_exportNS"/>
- <Action name="file_exportMoz"/>
+ <Action name="importNS"/>
+ <Action name="importMoz"/>
+ <Action name="exportNS"/>
+ <Action name="exportMoz"/>
+ <Separator/><!-- Creation -->
+ <Action name="newfolder"/>
+ <Action name="insertseparator"/>
  <Separator/>
  <Action name="file_save"/>
  <Action name="file_close"/>
 </Menu>
 
-<Menu name="edit" noMerge="1"><text>&amp;Edit</text>
- <Action name="edit_undo"/>
- <Action name="edit_redo"/>
- <Separator/><!-- Edition -->
- <Action name="edit_rename"/>
- <Action name="edit_changeicon"/>
- <Action name="edit_delete"/>
- <Separator/><!-- Creation -->
- <Action name="edit_newfolder"/>
- <Action name="edit_insertseparator"/>
+<Menu name="edit"><text>&amp;Edit</text>
+ <!-- The undo/redo/cut/copy/paste stuff goes here (ui_standards.rc) -->
+ <Action name="rename"/>
+ <Action name="changeicon"/>
+ <Action name="delete"/>
  <Separator/><!-- Stuff for folders -->
- <Action name="edit_sort"/>
- <Action name="edit_setastoolbar"/>
- <Separator/><!-- Stuff for bookmarks -->
- <Action name="edit_openlink"/>
- <Action name="edit_testlink"/>
+ <Action name="sort"/>
+</Menu>
+
+<Menu name="bookmark"><text>&amp;Bookmark</text>
+ <Action name="openlink"/>
+ <!--<Action name="testlink"/> not implemented -->
 </Menu>
 
 <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-  <Action name="settings_showNS"/>
+ <Action name="settings_showNS"/>
+ <Action name="setastoolbar"/>
 </Menu>
 
 </MenuBar>
@@ -41,34 +41,42 @@
  <Action name="file_save"/>
  <Action name="edit_undo"/>
  <Action name="edit_redo"/>
- <Action name="edit_delete"/>
- <Action name="edit_newfolder"/>
+ <Action name="delete"/>
+ <Action name="newfolder"/>
 </ToolBar>
 
 <Menu name="popup_folder">
              <!-- Edition -->
- <Action name="edit_rename"/>
- <Action name="edit_changeicon"/>
- <Action name="edit_delete"/>
+ <Action name="edit_cut"/>
+ <Action name="edit_copy"/>
+ <Action name="edit_paste"/>
+ <Separator/>
+ <Action name="rename"/>
+ <Action name="changeicon"/>
+ <Action name="delete"/>
  <Separator/><!-- Creation -->
- <Action name="edit_newfolder"/>
- <Action name="edit_insertseparator"/>
+ <Action name="newfolder"/>
+ <Action name="insertseparator"/>
  <Separator/><!-- Stuff for folders -->
- <!--<Action name="edit_sort"/>-->
- <Action name="edit_setastoolbar"/>
+ <Action name="sort"/>
+ <Action name="setastoolbar"/>
 </Menu>
 
 <Menu name="popup_bookmark">
              <!-- Edition -->
- <Action name="edit_rename"/>
- <Action name="edit_changeicon"/>
- <Action name="edit_delete"/>
+ <Action name="edit_cut"/>
+ <Action name="edit_copy"/>
+ <Action name="edit_paste"/>
+ <Separator/>
+ <Action name="rename"/>
+ <Action name="changeicon"/>
+ <Action name="delete"/>
  <Separator/><!-- Creation -->
- <Action name="edit_newfolder"/>
- <Action name="edit_insertseparator"/>
+ <Action name="newfolder"/>
+ <Action name="insertseparator"/>
  <Separator/><!-- Stuff for bookmarks -->
- <Action name="edit_openlink"/>
- <!--<Action name="edit_testlink"/>-->
+ <Action name="openlink"/>
+ <!--<Action name="testlink"/>-->
 </Menu>
 
 </kpartgui>

@@ -17,6 +17,7 @@
 */
 
 #include "toplevel.h"
+#include "drag.h"
 #include "commands.h"
 #include <kaction.h>
 #include <kbookmarkmanager.h>
@@ -31,6 +32,7 @@
 #include <kiconloader.h>
 #include <kicondialog.h>
 #include <kapp.h>
+#include <qclipboard.h>
 #include <qfile.h>
 #include <dcopclient.h>
 #include <assert.h>
@@ -90,6 +92,8 @@ public:
 
 protected:
     // KListView is no good for undoable operations. It moves stuff before telling us.
+    // Hmm, it turns out there is an alternative : disabling "items movable", asking
+    // for a drop visualizer, and reacting to the dropped() signal...
     virtual void contentsDropEvent(QDropEvent* e)
     {
         cleanDropVisualizer();
@@ -174,35 +178,37 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     // Create the actions
 
-    KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "file_importNS" );
+    KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
     act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
-    (void) new KAction( i18n( "Export To Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "file_exportNS" );
-    act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "file_importMoz" );
+    (void) new KAction( i18n( "Export To Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
+    act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
     act->setEnabled( QFile::exists( KNSBookmarkImporter::mozillaBookmarksFile() ) );
-    (void) new KAction( i18n( "Export To Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "file_exportMoz" );
-    // TODO export to NS and Moz
+    (void) new KAction( i18n( "Export To Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
-    (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "edit_delete" );
-    (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "edit_rename" );
-    (void) new KAction( i18n( "Chan&ge Icon" ), "www", 0, this, SLOT( slotChangeIcon() ), actionCollection(), "edit_changeicon" );
-    (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "edit_newfolder" );
-    (void) new KAction( i18n( "&Insert separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "edit_insertseparator" );
-    (void) new KAction( i18n( "&Sort alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "edit_sort" );
-    (void) new KAction( i18n( "Set As &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "edit_setastoolbar" );
-    (void) new KAction( i18n( "&Open Link" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "edit_openlink" );
-    (void) new KAction( i18n( "Test &Link" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "edit_testlink" );
+    (void) KStdAction::cut( this, SLOT( slotCut() ), actionCollection() );
+    (void) KStdAction::copy( this, SLOT( slotCopy() ), actionCollection() );
+    (void) KStdAction::paste( this, SLOT( slotPaste() ), actionCollection() );
+    (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
+    (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
+    (void) new KAction( i18n( "Chan&ge Icon" ), "www", 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
+    (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
+    (void) new KAction( i18n( "&Insert separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
+    (void) new KAction( i18n( "&Sort alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
+    (void) new KAction( i18n( "Set As &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
+    (void) new KAction( i18n( "&Open In Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
+    (void) new KAction( i18n( "Test &Link" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 
     m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
 
-    actionCollection()->action("edit_testlink")->setEnabled(false); // not implemented
+    actionCollection()->action("testlink")->setEnabled(false); // not implemented
 
     slotSelectionChanged();
 
     createGUI();
 
-    setAutoSaveSettings( QString::null, true );
+    setAutoSaveSettings();
     setModified(false); // for a nice caption
 
     s_topLevel = this;
@@ -210,7 +216,44 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
 KEBTopLevel::~KEBTopLevel()
 {
+    //if ( kapp->clipboard()->ownsSelection() )
+    //    kapp->clipboard()->clear();
     s_topLevel = 0L;
+}
+
+void KEBTopLevel::slotSelectionChanged()
+{
+    QListViewItem * item = m_pListView->selectedItem();
+    kdDebug() << "KEBTopLevel::slotSelectionChanged " << item << endl;
+    bool itemSelected = (item != 0L);
+    bool group = false;
+    bool root = false;
+    bool separator = false;
+    if ( itemSelected )
+    {
+        KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
+        group = kebItem->bookmark().isGroup();
+        separator = kebItem->bookmark().isSeparator();
+        root = (m_pListView->firstChild() == item);
+    }
+
+    QMimeSource *data = QApplication::clipboard()->data();
+    bool canPaste = KEBDrag::canDecode( data );
+
+    KActionCollection * coll = actionCollection();
+
+    coll->action("edit_cut")->setEnabled(itemSelected && !root);
+    coll->action("edit_copy")->setEnabled(itemSelected && !root);
+    coll->action("edit_paste")->setEnabled(itemSelected && !root && canPaste);
+    coll->action("rename")->setEnabled(itemSelected && !separator && !root);
+    coll->action("delete")->setEnabled(itemSelected && !root);
+    coll->action("newfolder")->setEnabled(itemSelected);
+    coll->action("changeicon")->setEnabled(itemSelected);
+    coll->action("insertseparator")->setEnabled(itemSelected);
+    coll->action("sort")->setEnabled(group);
+    coll->action("setastoolbar")->setEnabled(group);
+    coll->action("openlink")->setEnabled(itemSelected && !group && !separator);
+    //coll->action("testlink")->setEnabled(itemSelected && !group && !separator); // not implemented
 }
 
 void KEBTopLevel::slotSave()
@@ -345,11 +388,46 @@ void KEBTopLevel::slotExportMoz()
     exporter.write();
 }
 
+void KEBTopLevel::slotCut()
+{
+    KBookmark bk = selectedBookmark();
+    ASSERT(!bk.isNull());
+    slotCopy();
+    // Very much like slotDelete, except for the name
+    DeleteCommand * cmd = new DeleteCommand( i18n("Cut item"), bk.address() );
+    m_commandHistory.addCommand( cmd );
+}
+
+void KEBTopLevel::slotCopy()
+{
+    KBookmark bk = selectedBookmark();
+    ASSERT(!bk.isNull());
+    // This is not a command, because it can't be undone
+
+    KEBDrag* data = KEBDrag::newDrag( bk, 0L /* not this ! */ );
+    QApplication::clipboard()->setData( data );
+}
+
+void KEBTopLevel::slotPaste()
+{
+    QMimeSource *data = QApplication::clipboard()->data();
+    if ( KEBDrag::canDecode( data ) )
+    {
+        KBookmark bk = KEBDrag::decode( data );
+        kdDebug() << "KEBTopLevel::slotPaste url=" << bk.url() << endl;
+        CreateCommand * cmd = new CreateCommand( i18n("Paste"), insertionAddress(), bk );
+        m_commandHistory.addCommand( cmd );
+    }
+}
+
 void KEBTopLevel::slotSort()
 {
     KBookmark bk = selectedBookmark();
     ASSERT(!bk.isNull());
     ASSERT(bk.isGroup());
+
+    ////
+
     SortCommand * cmd = new SortCommand("Sort alphabetically", bk.address());
     m_commandHistory.addCommand( cmd );
 }
@@ -481,35 +559,6 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * _newParent, QL
                                              oldAddress, newAddress );
         m_commandHistory.addCommand( cmd );
     }
-}
-
-void KEBTopLevel::slotSelectionChanged()
-{
-    QListViewItem * item = m_pListView->selectedItem();
-    kdDebug() << "KEBTopLevel::slotSelectionChanged " << item << endl;
-    bool itemSelected = (item != 0L);
-    bool group = false;
-    bool root = false;
-    bool separator = false;
-    if ( itemSelected )
-    {
-        KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
-        group = kebItem->bookmark().isGroup();
-        separator = kebItem->bookmark().isSeparator();
-        root = (m_pListView->firstChild() == item);
-    }
-
-    KActionCollection * coll = actionCollection();
-
-    coll->action("edit_rename")->setEnabled(itemSelected && !separator && !root);
-    coll->action("edit_delete")->setEnabled(itemSelected && !root);
-    coll->action("edit_newfolder")->setEnabled(itemSelected);
-    coll->action("edit_changeicon")->setEnabled(itemSelected);
-    coll->action("edit_insertseparator")->setEnabled(itemSelected);
-    coll->action("edit_sort")->setEnabled(group);
-    coll->action("edit_setastoolbar")->setEnabled(group);
-    coll->action("edit_openlink")->setEnabled(itemSelected && !group && !separator);
-    //coll->action("edit_testlink")->setEnabled(itemSelected && !group && !separator); // not implemented
 }
 
 void KEBTopLevel::slotContextMenu( KListView *, QListViewItem * _item, const QPoint &p )

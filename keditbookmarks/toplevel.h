@@ -82,6 +82,9 @@ public slots:
     void slotImportMoz();
     void slotExportMoz();
     void slotSave();
+    void slotCut();
+    void slotCopy();
+    void slotPaste();
     void slotRename();
     void slotChangeIcon();
     void slotDelete();
