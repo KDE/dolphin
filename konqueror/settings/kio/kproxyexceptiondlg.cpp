@@ -117,7 +117,7 @@ KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name )
     le_exceptions->setFocus();
 
     connect( pb_ok, SIGNAL( clicked() ), SLOT( accept() ) );
-    connect( le_exceptions, SIGNAL( clicked() ), pb_ok, SLOT( animateClick() ) );
+    connect( le_exceptions, SIGNAL( returnPressed() ), pb_ok, SLOT( animateClick() ) );
     connect( pb_cancel, SIGNAL( clicked() ), SLOT( reject() ) );
     connect( le_exceptions, SIGNAL( textChanged( const QString& ) ),
              SLOT( slotTextChanged( const QString& ) ) );
