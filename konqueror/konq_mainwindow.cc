@@ -96,6 +96,7 @@ template class QList<KToggleAction>;
 
 QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
+KCompletion * KonqMainWindow::s_pCompletion = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
@@ -116,7 +117,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bLocationBarConnected = false;
   m_bLockLocationBarURL = false;
   m_paBookmarkBar = 0L;
-  m_pCompletion = 0L;
+  m_pURLCompletion = 0L;
   m_bFullScreen = false;
   m_qComboHack = false;
 
@@ -211,6 +212,14 @@ KonqMainWindow::~KonqMainWindow()
     {
       delete s_lstViews;
       s_lstViews = 0;
+
+      KSimpleConfig historyConfig( "konq_history" );
+      historyConfig.setGroup("History");
+      historyConfig.writeEntry("CompletionItems", s_pCompletion->items());
+      historyConfig.sync();
+
+      delete s_pCompletion;
+      s_pCompletion = 0;
     }
   }
 
@@ -225,10 +234,10 @@ KonqMainWindow::~KonqMainWindow()
     KConfig *config = KGlobal::config();
     config->setGroup( "Settings" );
     config->writeEntry( "Maximum of URLs in combo", m_combo->maxCount() );
+
     QStringList histItems = m_combo->historyItems();
     config->writeEntry( "ToolBarCombo", histItems );
-    config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
-    config->writeEntry( "CompletionItems", m_combo->completionObject()->items() );
+
     KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
     if ( prov )
         prov->save( config, "ComboIconCache", histItems );
@@ -242,7 +251,7 @@ KonqMainWindow::~KonqMainWindow()
   createShellGUI( false );
 
   delete m_pBookmarkMenu;
-  delete m_pCompletion;
+  delete m_pURLCompletion;
 
   m_viewModeActions.clear();
 
@@ -1892,21 +1901,34 @@ void KonqMainWindow::slotForwardActivated( int id )
 void KonqMainWindow::slotComboPlugged()
 {
   m_combo = m_paURLCombo->combo();
-
   m_combo->clearHistory();
+
   KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
+  int mode = config->readNumEntry("CompletionMode",
+				  KGlobalSettings::completionMode());
+
+  if ( !s_pCompletion ) {
+      KSimpleConfig historyConfig( "konq_history" );
+      historyConfig.setGroup( "History" );
+      s_pCompletion = new KCompletion;
+      s_pCompletion->setOrder( KCompletion::Weighted );
+      s_pCompletion->setItems( historyConfig.readListEntry( "CompletionItems" ) );
+      s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
+  }
+
+  m_combo->setCompletionObject( s_pCompletion, false ); //we handle the signals
+  m_combo->setAutoDeleteCompletionObject( false );
+  m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
+
   KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
   prov->load( config, "ComboIconCache" );
   m_combo->setMaxCount( config->readNumEntry("Maximum of URLs in combo", 10 ));
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
-  int mode = config->readNumEntry("CompletionMode", KGlobalSettings::completionMode());
-  m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
-  m_combo->completionObject()->setItems( config->readListEntry( "CompletionItems" ) );
+
   m_combo->setHistoryItems( locationBarCombo );
-  m_combo->setHandleSignals( false );
-  m_pCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
-  m_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
+  m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
+  m_pURLCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
 
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
@@ -1921,17 +1943,24 @@ void KonqMainWindow::slotComboPlugged()
 // the user changed the completion mode in the combo
 void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
 {
-  m_pCompletion->setCompletionMode( m );
+  m_pURLCompletion->setCompletionMode( m );
+  KConfig *config = KGlobal::config();
+  config->setGroup( "Settings" );
+  config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
+  config->sync();
 }
 
 // at first, try to find a completion in the current view, then use the global
 // completion (history)
 void KonqMainWindow::slotMakeCompletion( const QString& text )
 {
-  QString completion = m_pCompletion->makeCompletion( text );
+  QString completion = m_pURLCompletion->makeCompletion( text );
 
-  if ( completion.isNull() ) // ask the global one
-    completion = m_combo->completionObject()->makeCompletion( text );
+  if ( completion.isNull() ) { // ask the global one
+      // tell the static completion object about the current completion mode
+      s_pCompletion->setCompletionMode( m_combo->completionMode() );
+      completion = s_pCompletion->makeCompletion( text );
+  }
 
   if ( !completion.isNull() )
     m_combo->setCompletedText( completion );
@@ -1941,12 +1970,13 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 {
   bool prev = (type == KCompletionBase::PrevCompletionMatch);
   if ( prev || type == KCompletionBase::NextCompletionMatch ) {
-    QString completion = prev ? m_pCompletion->previousMatch() :
-                                m_pCompletion->nextMatch();
+    QString completion = prev ? m_pURLCompletion->previousMatch() :
+                                m_pURLCompletion->nextMatch();
 
     if( completion.isNull() ) { // try the history KCompletion object
-      KCompletion *comp = m_combo->completionObject();
-      completion = prev ? comp->previousMatch() : comp->nextMatch();
+	s_pCompletion->setCompletionMode( m_combo->completionMode() );
+	completion = prev ? s_pCompletion->previousMatch() : 
+	                    s_pCompletion->nextMatch();
     }
     if ( completion.isEmpty() || completion == m_combo->currentText() )
       return;

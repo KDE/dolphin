@@ -30,6 +30,7 @@
 
 #include <kparts/mainwindow.h>
 #include <kbookmark.h>
+#include <kcompletion.h>
 #include <kurlcompletion.h>
 #include <kglobalsettings.h>
 #include <dcopobject.h>
@@ -70,7 +71,7 @@ namespace KParts {
 };
 
 class KonqMainWindow : public KParts::MainWindow,
-                     virtual public KBookmarkOwner
+		       virtual public KBookmarkOwner
 {
   Q_OBJECT
 public:
@@ -458,7 +459,8 @@ private:
   QString m_title;
 
   QGuardedPtr<KHistoryCombo> m_combo;
-  KURLCompletion *m_pCompletion;
+  KURLCompletion *m_pURLCompletion;
+  static KCompletion *s_pCompletion;
 
   ToggleViewGUIClient *m_toggleViewGUIClient;
 
@@ -476,7 +478,7 @@ private:
   QList<KAction> m_viewModeActions;
 
   KonqMainWindowIface * m_dcopObject;
-  
+
   bool m_qComboHack; // FIXME, remove when QComboBox is ready
 
   static QStringList *s_plstAnimatedLogo;
@@ -485,7 +487,7 @@ private:
 
   typedef QMap<QCString,QCString> ActionSlotMap;
   static ActionSlotMap *s_actionSlotMap;
-
+    
 };
 
 #endif
