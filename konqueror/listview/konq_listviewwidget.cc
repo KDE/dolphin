@@ -832,7 +832,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 void KonqBaseListViewWidget::slotPopupMenu(QListViewItem*, const QPoint &point, int )
 {
    kdDebug() << "KonqBaseListViewWidget::slotPopupMenu" << endl;
-   popupMenu( point,true );
+   popupMenu( point,false );
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
