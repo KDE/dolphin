@@ -14,7 +14,7 @@
 
 
 KDEpasswd1Dialog::KDEpasswd1Dialog(QCString user)
-    : KPasswordDialog(Password, "")
+    : KPasswordDialog(Password, false, 0)
 {
     m_User = user;
 
