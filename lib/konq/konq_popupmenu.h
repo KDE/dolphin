@@ -108,9 +108,6 @@ public:
   KURL::List popupURLList( ) const;
   ProtocolInfo protocolInfo() const;
 
-  // KonqMainWindow needs position of "newview" to insert "newtab" properly
-  int newviewPos() const;
-
 public slots:
   void slotPopupNewDir();
   void slotPopupNewView();

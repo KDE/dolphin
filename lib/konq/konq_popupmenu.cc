@@ -73,7 +73,6 @@ class KonqPopupMenu::KonqPopupMenuPrivate
 {
 public:
   QString m_urlTitle;
-  int     m_newviewPos;
 };
 
 KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
@@ -114,7 +113,6 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
   d = new KonqPopupMenuPrivate;
-  d->m_newviewPos=0;
   assert( m_lstItems.count() >= 1 );
 
   m_ownActions.setWidget( this );
@@ -221,6 +219,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
        ( m_lstItems.count() == 1 && bTrashIncluded ) )
   {
     addAction( actNewView );
+    addGroup( "tabhandling" );
     addSeparator();
 
     act = new KAction( i18n( "Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
@@ -246,7 +245,6 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
         addAction( actNewDir );
         addSeparator();
       }
-      d->m_newviewPos+=2;
     }
 
     // hack for khtml pages/frames
@@ -257,17 +255,15 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       addAction( "up" );
       addAction( "back" );
       addAction( "forward" );
-      if ( currentDir ) { // khtml adds a different "reload frame" for frames
+      if ( currentDir ) // khtml adds a different "reload frame" for frames
         addAction( "reload" );
-	d->m_newviewPos+=1;
-      }
       addGroup( "reload" );
       addSeparator();
-      d->m_newviewPos+=4;
     }
 
     // "open in new window" always available
     addAction( actNewView );
+    addGroup( "tabhandling" );
     addSeparator();
 
     if ( !currentDir && sReading ) {
@@ -512,9 +508,6 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   m_factory->addClient( this );
 }
 
-int KonqPopupMenu::newviewPos() const {
-  return d->m_newviewPos;
-}
 
 void KonqPopupMenu::slotOpenShareFileDialog()
 {

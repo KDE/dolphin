@@ -3371,6 +3371,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
+  KAction *actNewTab = new KAction( i18n( "New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
+  actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
+
   if ( _items.count() == 1 )
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
                                                        "KParts/ReadOnlyPart",
@@ -3418,10 +3421,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              showPropsAndFileType );
   if ( openedForViewURL && !viewURL.isLocalFile() )
       pPopupMenu.setURLTitle( m_currentView->caption() );
-
-  KAction *actNewTab = new KAction( i18n( "New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), &popupMenuCollection, "newtab" );
-  actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
-  actNewTab->plug( &pPopupMenu, pPopupMenu.newviewPos()+1 );
 
   // We will need these if we call the newTab slot
   popupItems = _items;
