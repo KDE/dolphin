@@ -32,10 +32,9 @@ KonqDirLister::~KonqDirLister()
 
 KFileItem * KonqDirLister::createFileItem( const KIO::UDSEntry& entry,
 					   const KURL& url,
-					   bool determineMimeTypeOnDemand,
-					   bool isDirectory )
+					   bool determineMimeTypeOnDemand )
 {
-    return new KonqFileItem( entry, url, determineMimeTypeOnDemand, isDirectory );
+    return new KonqFileItem( entry, url, determineMimeTypeOnDemand, true );
 }
 
 #include "konqdirlister.moc"
