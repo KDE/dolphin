@@ -39,9 +39,16 @@ KBookmarkDrag * KBookmarkDrag::newDrag( const KBookmark & bookmark, QWidget * dr
 
 KBookmarkDrag::KBookmarkDrag( const KBookmark & bookmark, const QStrList & urls,
                   QWidget * dragSource, const char * name )
-    : QUriDrag( urls, dragSource, name ), m_bookmark( bookmark )
+    : QUriDrag( urls, dragSource, name ), m_bookmark( bookmark ), m_doc("xbel")
 {
-
+    // We need to create the XML for this drag right now and not
+    // in encodedData because when cutting a folder, the children
+    // wouldn't be part of the bookmarks anymore, when encodedData
+    // is requested.
+    QDomElement elem = m_doc.createElement("xbel");
+    m_doc.appendChild( elem );
+    elem.appendChild( m_bookmark.internalElement().cloneNode( true /* deep */ ) );
+    kdDebug(1203) << "KBookmarkDrag::KBookmarkDrag " << m_doc.toString() << endl;
 }
 
 const char* KBookmarkDrag::format( int i ) const
@@ -61,12 +68,8 @@ QByteArray KBookmarkDrag::encodedData( const char* mime ) const
         return QUriDrag::encodedData( mime );
     else if ( mimetype == "application/x-xbel" )
     {
-        QDomDocument doc("xbel");
-        QDomElement elem = doc.createElement("xbel");
-        doc.appendChild( elem );
-        elem.appendChild( m_bookmark.internalElement().cloneNode( true /* deep */ ) );
-        kdDebug(1203) << "KBookmarkDrag::encodedData " << doc.toString() << endl;
-        a = doc.toCString();
+        a = m_doc.toCString();
+        kdDebug() << "KBookmarkDrag::encodedData " << m_doc.toCString() << endl;
     }
     return a;
 }

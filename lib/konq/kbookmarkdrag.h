@@ -45,6 +45,6 @@ public:
 
 protected:
     KBookmark m_bookmark;
+    QDomDocument m_doc;
 };
 #endif
-
