@@ -155,7 +155,8 @@ void KonqIconViewWidget::setIcons( int size )
 {
     m_size = size;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-	(static_cast<KFileIVI *>( it ))->setIcon( size, m_bImagePreviewAllowed );
+        KFileIVI * ivi = static_cast<KFileIVI *>( it );
+	ivi->setIcon( size, ivi->state(), m_bImagePreviewAllowed );
     }
 }
 
