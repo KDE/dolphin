@@ -18,6 +18,10 @@ Hmm, that last line is a hack (the url is appended).
 In fact we miss %D or something like that, in the desktop entry
 standard, for "the device in the Type=FSDevice .desktop file"...
 
+- About mounting : handle warnings differently than errors.
+(After a message on stderr, test if mounted, and if yes -> it was just a
+warning.)
+
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
 
@@ -65,6 +69,9 @@ would rock no ?
 - HTMLView (if local dir) : drop should copy to parent dir (for Antonio :)
 
 - Integrate kdf and kdu ...
+
+- Add URL support to KDirWatch (faked of course, manually signalled,
+  but so that doing anything over FTP refreshes the view)...
 
 - More key bindings
 

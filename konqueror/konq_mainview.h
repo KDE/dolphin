@@ -188,11 +188,11 @@ protected slots:
   void slotTrash();
   void slotDelete();
   void slotShred();
+  void slotPrint();
 
   void slotSetLocationBarURL( const QString &url );
 
   void slotAbout();
-  void slotReportBug();
 
   void slotUpAboutToShow();
   void slotBackAboutToShow();
@@ -247,6 +247,7 @@ private:
   KAction *m_paToolFind;
 
   KAction *m_paPrint;
+  KAction *m_paShellClose;
 
   KActionMenu *m_pamBookmarks;
 
@@ -281,9 +282,6 @@ private:
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
 
-  KAction *m_paAbout;
-  KAction *m_paReportBug;
-
   KAction *m_paReload;
   KAction *m_paCut;
   KAction *m_paCopy;
@@ -301,10 +299,6 @@ private:
 
   KToggleAction *m_ptaUseHTML;
   KToggleAction *m_ptaShowDirTree;
-
-  KAction *m_paShellClose;
-  KAction *m_paShellHelpAboutKDE;
-  KHelpMenu *m_helpMenu;
 
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;

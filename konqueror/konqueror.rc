@@ -11,7 +11,7 @@
   <Separator/>
   <Action name="print"/>
   <Separator/>
-  <Action name="konqueror_shell_close"/>
+  <Action name="close"/>
  </Menu>
  <Menu name="edit"><text>&amp;Edit</text>
   <Action name="cut"/>
@@ -76,10 +76,14 @@
  <Merge/>
  <Separator/>
  <Menu name="help"><text>&amp;Help</text>
-  <Action name="about"/>
-  <Action name="reportbug"/>
+  <Merge />
+  <Action name="contents"/>
+  <Action name="whats_this"/>
   <Separator/>
-  <Action name="konqueror_shell_aboutkde"/>
+  <Action name="report_bug"/>
+  <Separator/>
+  <Action name="about_app"/>
+  <Action name="about_kde"/>
  </Menu>
 </MenuBar>
 <ToolBar fullWidth="true" name="mainToolBar">

@@ -43,7 +43,6 @@
 
 #include <kaction.h>
 #include <kdebug.h>
-// #include <kdebug2.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kiconloader.h>
@@ -73,7 +72,6 @@
 #include <kparts/part.h>
 #include <kmenubar.h>
 
-#include <kbugreport.h>
 #include "version.h"
 
 #define STATUSBAR_LOAD_ID 1
@@ -119,8 +117,6 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
   m_viewModeGUIServant = new ViewModeGUIServant( this );
-
-  m_helpMenu = new KHelpMenu( this );
 
   initActions();
   initPlugins();
@@ -1072,6 +1068,12 @@ void KonqMainView::slotSetLocationBarURL( const QString &url )
   setLocationBarURL( childView( view ), url );
 }
 
+void KonqMainView::slotPrint()
+{
+  // Call print on the child object
+  callExtensionMethod( m_currentView, "print()" );
+}
+
 void KonqMainView::slotAbout()
 {
   KMessageBox::about( 0, i18n(
@@ -1091,12 +1093,6 @@ void KonqMainView::slotAbout()
 "  Matt Koss <koss@napri.sk>\n"
 "  Alex Zepeda <garbanzo@hooked.net>\n"
   ));
-}
-
-void KonqMainView::slotReportBug()
-{
-  KBugReport dlg;
-  dlg.exec();
 }
 
 void KonqMainView::slotUpAboutToShow()
@@ -1284,7 +1280,8 @@ void KonqMainView::initActions()
 	m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
-  m_paPrint = KStdAction::print( 0L, 0, actionCollection(), "print" );
+  m_paPrint = KStdAction::print( this, SLOT( slotPrint() ), actionCollection(), "print" );
+  m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
@@ -1315,7 +1312,7 @@ void KonqMainView::initActions()
 
   m_paHome = KStdAction::home( this, SLOT( slotHome() ), actionCollection(), "home" );
 
-  m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
+  //m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
   //m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
   m_paMimeTypes = new KAction( i18n( "File &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
@@ -1344,11 +1341,19 @@ void KonqMainView::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
+  /*
   QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIconLoader::Small );
-  m_paAbout = new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
-  m_paReportBug = new KAction( i18n( "&Report bug..." ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotReportBug() ), actionCollection(), "reportbug" );
+  (void) new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
+  */
 
-	m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
+  KHelpMenu * m_helpMenu = new KHelpMenu( this );
+  KStdAction::helpContents( m_helpMenu, SLOT( appHelpActivated() ), actionCollection(), "contents" );
+  KStdAction::whatsThis( m_helpMenu, SLOT( contextHelpActivated() ), actionCollection(), "whats_this" );
+  KStdAction::aboutApp( this, SLOT( slotAbout() ), actionCollection(), "about_app" );
+  KStdAction::aboutKDE( m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "about_kde" );
+  KStdAction::reportBug( m_helpMenu, SLOT( reportBug() ), actionCollection(), "report_bug" );
+
+  m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paCut = KStdAction::cut( this, SLOT( slotCut() ), actionCollection(), "cut" );
   m_paCopy = KStdAction::copy( this, SLOT( slotCopy() ), actionCollection(), "copy" );
@@ -1377,25 +1382,15 @@ void KonqMainView::initActions()
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
 
-  //TODO: merge with the above stuff
-  m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "konqueror_shell_close" );
-  m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
-
-  m_paShowMenuBar = KStdAction::showMenubar( 0L, 0L, actionCollection(), "showmenubar" );
-  m_paShowStatusBar = KStdAction::showStatusbar( 0L, 0L, actionCollection(), "showstatusbar" );
-  m_paShowToolBar = KStdAction::showToolbar( 0L, 0L, actionCollection(), "showtoolbar" );
+  m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
+  m_paShowStatusBar = KStdAction::showStatusbar( this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
+  m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmarkbar" ), 0, actionCollection(), "showbookmarkbar" );
 
-  m_paShowMenuBar->setChecked( true );
-  m_paShowStatusBar->setChecked( true );
-  m_paShowToolBar->setChecked( true );
   m_paShowLocationBar->setChecked( true );
   m_paShowBookmarkBar->setChecked( true );
 
-  connect( m_paShowMenuBar, SIGNAL( activated() ), this, SLOT( slotShowMenuBar() ) );
-  connect( m_paShowStatusBar, SIGNAL( activated() ), this, SLOT( slotShowStatusBar() ) );
-  connect( m_paShowToolBar, SIGNAL( activated() ), this, SLOT( slotShowToolBar() ) );
   connect( m_paShowLocationBar, SIGNAL( activated() ), this, SLOT( slotShowLocationBar() ) );
   connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
 
@@ -1551,7 +1546,7 @@ void KonqMainView::enableAllActions( bool enable )
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
 
-  actionCollection()->action( "konqueror_shell_close" )->setEnabled( true );
+  actionCollection()->action( "close" )->setEnabled( true );
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )
@@ -1577,7 +1572,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const 
   KFileItemList items;
   items.append( &item );
   slotPopupMenu( _global, items ); //BE CAREFUL WITH sender() !
-} 
+}
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
