@@ -72,7 +72,7 @@ public:
   KonqDirTreeItem( KonqDirTree *parent, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
 
   void initItem( KonqDirTree *parent, KonqDirTreeItem *topLevelItem, KonqFileItem *item );
-    
+
   virtual ~KonqDirTreeItem();
 
   virtual void setOpen( bool open );
@@ -179,8 +179,6 @@ private:
   QPixmap m_folderPixmap;
 
   QTimer *m_autoOpenTimer;
-
-  QListViewItem *m_lastItem;
 
   KURL m_selectAfterOpening;
 

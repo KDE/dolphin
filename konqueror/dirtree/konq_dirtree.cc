@@ -311,7 +311,6 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
            this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
 
-  m_lastItem = 0L;
   m_bDrag = false;
 
   assert( KonqDirTreeFactory::instance()->dirs() );
@@ -625,9 +624,6 @@ void KonqDirTree::slotClicked( QListViewItem *item )
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
 
-  if ( item == m_lastItem )
-    return;
-
   KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
 
   KParts::URLArgs args;
@@ -637,8 +633,6 @@ void KonqDirTree::slotClicked( QListViewItem *item )
 
   args.trustedSource = true;
   emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
-
-  m_lastItem = item;
 }
 
 void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
