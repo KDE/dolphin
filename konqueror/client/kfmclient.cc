@@ -273,7 +273,7 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
     return ret;
 }
 
-bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & mimetype, bool tempFile)
+bool clientApp::createNewWindow(const KURL & url, bool newTab, bool tempFile, const QString & mimetype)
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
     // check if user wants to use external browser
@@ -460,19 +460,20 @@ bool clientApp::doIt()
 	KApplication::dcopClient()->attach();
     }
     checkArgumentCount(argc, 1, 3);
+    bool tempFile = KCmdLineArgs::isTempFileSet();
     if ( argc == 1 )
     {
       KURL url;
       url.setPath(QDir::homeDirPath());
-      return createNewWindow( url, command == "newTab" );
+      return createNewWindow( url, command == "newTab", tempFile );
     }
     if ( argc == 2 )
     {
-      return createNewWindow( args->url(1), command == "newTab" );
+      return createNewWindow( args->url(1), command == "newTab", tempFile );
     }
     if ( argc == 3 )
     {
-      return createNewWindow( args->url(1), command == "newTab", QString::fromLatin1(args->arg(2)) );
+      return createNewWindow( args->url(1), command == "newTab", tempFile, QString::fromLatin1(args->arg(2)) );
     }
   }
   else if ( command == "openProfile" )
