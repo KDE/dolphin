@@ -166,6 +166,8 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
+  // --- from here, keep in sync with konqtextviewitem !
+
   // Don't set a brush, we draw the background ourselves
   cg.setBrush( QColorGroup::Base, NoBrush );
 

@@ -198,8 +198,16 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
    cg.setColor(QColorGroup::HighlightedText, m_pTextView->highlight[type]);
    cg.setColor(QColorGroup::Highlight, Qt::darkGray);
 
-   // Don't set a brush, the background is drawn in drawContentsOffset
+   // Don't set a brush, we draw the background ourselves
    cg.setBrush( QColorGroup::Base, NoBrush );
+
+   // Gosh this is ugly. We need to paint the background, but for this we need
+   // to translate the painter back to the viewport coordinates.
+   QPoint offset = listView()->itemRect(this).topLeft();
+   _painter->translate( -offset.x(), -offset.y() );
+   static_cast<KonqBaseListViewWidget *>(listView())->paintEmptyArea( _painter,
+                                                                      QRect( offset.x(), offset.y(), _width, height() ) );
+   _painter->translate( offset.x(), offset.y() );
 
    QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 };
