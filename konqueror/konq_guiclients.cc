@@ -245,11 +245,13 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     KonqFrameContainer *newContainer = childView->frame()->parentContainer();
     newContainer->setSizes( newSplitterSizes );
 
+#if 0 // already done by splitWindow
     if ( m_mainWindow->currentView() )
     {
         QString locBarURL = m_mainWindow->currentView()->url().prettyURL(); // default one in case it doesn't set it
         childView->openURL( m_mainWindow->currentView()->url(), locBarURL );
     }
+#endif
 
     // If not passive, set as active :)
     if (!childView->isPassiveMode())
