@@ -87,6 +87,8 @@ public:
   bool isShowingImagePreview() { return m_bImagePreview; }
   bool isHTMLAllowed() { return m_bHTMLAllowed; }
   // Cache ?
+
+  const QColor& bgColor() { return m_bgColor; }
   const QPixmap& bgPixmap() { return m_bgPixmap; }
   
 protected:
@@ -98,6 +100,7 @@ protected:
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
   // bool m_bCache; ?
+  QColor m_bgColor;
   QPixmap m_bgPixmap; // one per view or one per GUI ?
 
 private:

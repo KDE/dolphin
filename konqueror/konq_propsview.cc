@@ -20,6 +20,7 @@
 #include "konq_propsview.h"
 #include "konq_factory.h"
 #include <konqdefaults.h>
+#include <konqsettings.h>
 
 #include <kdebug.h>
 #include <qpixmap.h>
@@ -59,6 +60,9 @@ KonqPropsView::KonqPropsView( KConfig * config )
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
   // m_bCache = false; // What is it ???
 
+  // Default background color is the one from the settings, i.e. configured in kcmkonq
+  m_bgColor = KonqSettings::defaultFMSettings()->bgColor();
+
   m_bgPixmap = 0L;
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( !pix.isEmpty() )
@@ -86,12 +90,17 @@ bool KonqPropsView::enterDir( const KURL & dir )
     kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
     KSimpleConfig config( u.path(), true);
     config.setDesktopGroup();
+    // TODO add support for setting both of those in konqueror !
+    m_bgColor = config.readColorEntry( "BgColor", &m_pDefaultProps->m_bgColor );
     QString pix = config.readEntry( "BgImage", "" );
     if ( !pix.isEmpty() )
     {
       QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
       if ( p )
         m_bgPixmap = * p;
+    } else
+    { // No background pixmap here, revert to default setting
+      m_bgPixmap = m_pDefaultProps->m_bgPixmap;
     }
     return true;
   }
