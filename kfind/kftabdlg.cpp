@@ -214,7 +214,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
 			pages[2],"size");
     sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
     appendGUIItem(sizeEdit);
-    kbL     =new QLabel("KB"               ,pages[2],"kb");
+    kbL     =new QLabel(i18n("KB")               ,pages[2],"kb");
 
     typeL->setAlignment(namedL->alignment()|ShowPrefix);
     textL->setAlignment(namedL->alignment()|ShowPrefix);
