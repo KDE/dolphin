@@ -203,6 +203,7 @@ static void remove(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTr
          {
             dict.insert(key, otherItem);
          }
+	 delete otherItems;
          return;
       }
       // Not the item we are looking for
@@ -285,7 +286,10 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
     if ( !m_dirLister ) // created on demand
     {
         m_dirLister = new KDirLister( true );
-        m_dirLister->setDirOnlyMode( true );
+        //m_dirLister->setDirOnlyMode( true );
+	QStringList mimetypes;
+	mimetypes<<QString("inode/directory");
+	m_dirLister->setMimeFilter(mimetypes);
 
         connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
                  this, SLOT( slotNewItems( const KFileItemList & ) ) );
@@ -346,8 +350,22 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
           KFileItem * fileItem = oldItem->fileItem();
           if (! fileItem->isDir() )
           {
-              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
-              continue;
+	      KMimeType::Ptr ptr=fileItem->determineMimeType();
+
+
+		kdDebug()<<"isLocalFile:"<< fileItem->url().isLocalFile()<<endl;
+		kdDebug()<<"ptr==0:"<<(ptr==0)<<endl;
+		if (ptr!=0) {
+			kdDebug()<<"is inode/directory:"<<ptr->is("inode/directory")<<endl;
+			kdDebug()<<"Local protocol:"<<ptr->property("X-KDE-LocalProtocol")<<endl;
+		}
+		
+	      if ( fileItem->url().isLocalFile() && ((ptr!=0) &&  ((ptr->is("inode/directory")) && (!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
+		kdDebug()<<"Something not really a directory"<<endl;
+	      } else {
+	              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+        	      continue;
+	      }
           }
 
           KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
@@ -365,8 +383,8 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
 
     if (tree()->isOpeningFirstChild()) m_dirLister->setAutoErrorHandlingEnabled(false,0);
 	else m_dirLister->setAutoErrorHandlingEnabled(true,tree());
+     
     m_dirLister->openURL( url, true /*keep*/ );
-
 }
 
 void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
@@ -391,19 +409,36 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
         KMessageBox::error( tree(), i18n("Cannot find parent item %1 in the tree. Internal error.").arg( dir.url(-1) ) );
        	return;
     }
-
+    
+    kdDebug()<<"number of additional parent items:"<< (parentItemList?parentItemList->count():0)<<endl;
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
     do 
     {
+    	kdDebug()<<"Parent Item URL:"<<parentItem->externalURL()<<endl;
         QPtrListIterator<KFileItem> kit ( entries );
         for( ; kit.current(); ++kit )
         {
             KFileItem * fileItem = *kit;
-            if (! fileItem->isDir() )
-            {
-                kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
-                break;
-            }
+
+          if (! fileItem->isDir() )
+          {
+	      KMimeType::Ptr ptr=fileItem->determineMimeType();
+
+
+		kdDebug()<<"isLocalFile:"<< fileItem->url().isLocalFile()<<endl;
+		kdDebug()<<"ptr==0:"<<(ptr==0)<<endl;
+		if (ptr!=0) {
+			kdDebug()<<"is inode/directory:"<<ptr->is("inode/directory")<<endl;
+			kdDebug()<<"Local protocol:"<<ptr->property("X-KDE-LocalProtocol")<<endl;
+		}
+		
+	      if ( fileItem->url().isLocalFile() && ((ptr!=0) &&  ((ptr->is("inode/directory")) && (!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
+		kdDebug()<<"Something really a directory"<<endl;
+	      } else {
+	              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+        	      continue;
+	      }
+          }
 
             KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
             dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
@@ -508,6 +543,8 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
 
     do 
     {
+	if (item->alias.contains(newUrlStr)) continue;
+	kdDebug()<<"Redirectiong element"<<endl;
         // We need to update the URL in m_dictSubDirs
         m_dictSubDirs.insert( newUrlStr, item );
         item->alias << newUrlStr;
