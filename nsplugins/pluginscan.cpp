@@ -6,22 +6,22 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/                                                                            
+
+*/
 
 #include <qdir.h>
 #include <qfile.h>
@@ -38,7 +38,7 @@
 bool mimeExists(QString mime)
 {
   QString fname = KGlobal::dirs()->findResource("mime", mime+".desktop");
-  
+
   return !fname.isEmpty();
 }
 
@@ -54,7 +54,7 @@ void generateMimeType(QString mime, QString extensions, QString description)
   dir = KGlobal::dirs()->saveLocation("mime", dir);
 
   kdDebug() << "Saving to " << dir + mime.mid(pos) + ".desktop" << endl;
-  
+
   QFile f(dir + mime.mid(pos) + ".desktop");
   if (f.open(IO_WriteOnly))
     {
@@ -65,7 +65,7 @@ void generateMimeType(QString mime, QString extensions, QString description)
       ts << "Type=MimeType" << endl;
       ts << "MimeType=" << mime << endl;
       ts << "Icon=netscape" << endl;
-      
+
       if (!extensions.isEmpty())
 	{
 	  ts << "Patterns=";
@@ -73,7 +73,7 @@ void generateMimeType(QString mime, QString extensions, QString description)
 	  for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
 	  {
 	     // filter dangerous extension
-	     if ( *id!="rpm" )
+	     if ( *it!="rpm" )
 		ts << "*." << *it << ";";
 	  }
 	  ts << endl;
@@ -88,25 +88,25 @@ void generateMimeType(QString mime, QString extensions, QString description)
     }
 }
 
-void scanDirectory( QString dir, QStringList &mimeInfoList, 
+void scanDirectory( QString dir, QStringList &mimeInfoList,
 		    QTextStream &cache )
 {
-   kdDebug() << "Scanning " << dir << endl; 
+   kdDebug() << "Scanning " << dir << endl;
    QRegExp version(";version=[^:]*:");
 
-   // iterate over all files 
+   // iterate over all files
    QDir files( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files );
    if ( !files.exists(dir) )
       return;
-   
+
    for (unsigned int i=0; i<files.count(); i++)
-   {      
+   {
       QString absFile = files.absFilePath( files[i] );
 
       kdDebug() << "  testing " << absFile << endl;
 
       // open the library and ask for the mimetype
-      void *func_GetMIMEDescription = 0; 
+      void *func_GetMIMEDescription = 0;
       KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
 
       if (!_handle)
@@ -116,7 +116,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       }
 
       func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
-	  
+	
       if (!func_GetMIMEDescription)
       {
 	 kdDebug() << " not a plugin" << endl;
@@ -125,9 +125,9 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       }
 
       char *(*fp)();
-      fp = (char *(*)()) func_GetMIMEDescription;	  
+      fp = (char *(*)()) func_GetMIMEDescription;	
       QString mimeInfo = fp();
-     
+
       // check the mimeInformation
       if (!mimeInfo)
       {
@@ -145,13 +145,13 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       kdDebug() << "Mime info: " <<  mimeInfo << endl;
 
       // note the plugin name
-      cache << "[" << absFile << "]" << endl;      
+      cache << "[" << absFile << "]" << endl;
 
       // parse mime info string
       QStringList entries = QStringList::split(';', mimeInfo);
       QStringList::Iterator entry;
       for (entry = entries.begin(); entry!=entries.end(); ++entry)
-      {	 
+      {	
 	 QStringList tokens = QStringList::split(':', *entry, TRUE);
 	 QStringList::Iterator token;
 	 token = tokens.begin();
@@ -164,9 +164,9 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 	 if (!mimeInfoList.contains(*entry))
 	    mimeInfoList.append(*entry);
       }
-	  
+	
       kdDebug() << "  is a plugin" << endl;
-	  
+	
       KLibLoader::self()->unloadLibrary( absFile.latin1() );
    }
 
@@ -178,10 +178,10 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
    static int depth = 0; // avoid recursion because of symlink circles
    depth++;
    for (unsigned int i=0; i<dirs.count(); i++)
-   {        
+   {
       if ( depth<8 && !dirs[i].contains(".") )
-      {	 
-	 kdDebug() << "-> Entering subdir " << dirs[i] << endl;	 
+      {	
+	 kdDebug() << "-> Entering subdir " << dirs[i] << endl;	
 	 scanDirectory( dirs.absFilePath(dirs[i]), mimeInfoList, cache );
 	 kdDebug() << "<- Leaving subdir " << dirs[i] << endl;
       }
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
   KApplication app(argc, argv, "pluginscan");
 
   QStringList searchPaths, mimeInfoList;
-  
+
   // set up the paths used to look for plugins -----------------------------
   searchPaths.append("/usr/local/netscape/plugins");
   searchPaths.append("/opt/netscape/plugins");
@@ -218,9 +218,9 @@ int main(int argc, char *argv[])
   QTextStream cache(&cachef);
 
   // read in the plugins mime information ----------------------------------
-  for (it = searchPaths.begin(); it != searchPaths.end(); ++it) 
+  for (it = searchPaths.begin(); it != searchPaths.end(); ++it)
       scanDirectory( *it, mimeInfoList, cache );
-  
+
   // write mimetype files
   QStringList mimeTypes;
   for (QStringList::Iterator it=mimeInfoList.begin(); it!=mimeInfoList.end(); ++it)
@@ -237,13 +237,13 @@ int main(int argc, char *argv[])
 	    generateMimeType(info[0].lower(),info[1],info[2]);
 	}
     }
-  
+
   // write plugin lib service file
   QString fname = KGlobal::dirs()->saveLocation("services", "") + "/nsplugin.desktop";
 
   kdDebug() << "Writing service file to " << fname << endl;
 
-  QFile f(fname);   
+  QFile f(fname);
   if (f.open(IO_WriteOnly))
     {
       QTextStream ts(&f);
