@@ -1169,9 +1169,10 @@ void KonqMainView::slotGoMenuAboutToShow()
 
 void KonqMainView::slotUpActivated( int id )
 {
-  QString url = m_paUp->popupMenu()->text( id );
-  KURL::encode(url); // re-encode
-  openURL( 0L, KURL( url ) );
+  KURL u( m_currentView->view()->url() );
+  for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
+      u.cd( ".." );
+  openURL( 0L, u );
 }
 
 void KonqMainView::slotGoHistoryActivated( int steps )
@@ -1757,15 +1758,15 @@ void KonqMainView::slotSelectionInfo( const KonqFileItemList &items )
   assert( obj->inherits( "KParts::BrowserExtension" ) );
   assert( obj->parent() );
   assert( obj->parent()->inherits( "KParts::ReadOnlyPart" ) );
- 
+
   KonqFileSelectionEvent ev( items, static_cast<KParts::ReadOnlyPart *>( obj->parent() ) );
-  MapViews::ConstIterator it = m_mapViews.begin(); 
+  MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     QApplication::sendEvent( (*it)->view(), &ev );
-  
+
   QApplication::sendEvent( this, &ev );
-} 
+}
 
 static const char *viewModeGUI = ""
 "<!DOCTYPE viewmodexml>"
