@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <dcopref.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <dcopclient.h>
@@ -232,22 +233,8 @@ void KSaveIOConfig::setPersistentConnections( bool enable )
 void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
 {
   // Inform all running io-slaves about the changes...
-
-  DCOPClient client;
-  bool updateSuccessful = false;
-
-  if (client.attach())
-  {
-    QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
-    stream << QString::null;
-    updateSuccessful= client.send( "*", "KIO::Scheduler",
-                                    "reparseSlaveConfiguration(QString)",
-                                    data );
-  }
-
   // if we cannot update, ioslaves inform the end user...
-  if (!updateSuccessful)
+  if (!DCOPRef("*", "KIO::Scheduler").send("reparseConfiguration", QString::null))
   {
     QString caption = i18n("Update Failed");
     QString message = i18n("You have to restart the running applications "
@@ -256,3 +243,18 @@ void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
     return;
   }
 }
+
+void KSaveIOConfig::updateProxyScout( QWidget * parent )
+{
+  // Inform the proxyscout kded module about changes
+  // if we cannot update, ioslaves inform the end user...
+  if (!DCOPRef("kded", "proxyscout").send("reset"))
+  {
+    QString caption = i18n("Update Failed");
+    QString message = i18n("You have to restart KDE "
+                           "for these changes to take effect.");
+    KMessageBox::information (parent, message, caption);
+    return;
+  }
+}
+

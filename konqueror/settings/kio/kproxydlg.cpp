@@ -258,11 +258,14 @@ void KProxyDialog::load()
 
 void KProxyDialog::save()
 {
+  bool updateProxyScout = false;
+
   if ( dlg->cbUseProxy->isChecked() )
   {
     if ( dlg->rbAutoDiscover->isChecked() )
     {
       KSaveIOConfig::setProxyType( KProtocolManager::WPADProxy );
+      updateProxyScout = true;
     }
     else if ( dlg->rbAutoScript->isChecked() )
     {
@@ -284,6 +287,7 @@ void KProxyDialog::save()
       {
         KSaveIOConfig::setProxyType( KProtocolManager::PACProxy );
         m_data->scriptProxy = u.url();
+        updateProxyScout = true;
       }
     }
     else if ( dlg->rbManual->isChecked() )
@@ -354,6 +358,8 @@ void KProxyDialog::save()
 
 
   KSaveIOConfig::updateRunningIOSlaves (this);
+  if ( updateProxyScout )
+    KSaveIOConfig::updateProxyScout( this );
 
   emit changed( false );
 }

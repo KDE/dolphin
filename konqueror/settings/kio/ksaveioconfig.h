@@ -81,6 +81,9 @@ public:
     
   /** Update all running io-slaves */
   static void updateRunningIOSlaves (QWidget * parent = 0L);
+
+  /** Update proxy scout */
+  static void updateProxyScout( QWidget * parent = 0L );
   
 protected:
   static KConfig* config ();
