@@ -1691,17 +1691,6 @@ void KonqMainWindow::slotConfigureSpellChecking()
     KApplication::startServiceByDesktopName("spellchecking");
 }
 
-void KonqMainWindow::slotConfigureKeys()
-{
-  KKeyDialog dlg( true, this );
-
-  dlg.insert( actionCollection() );
-  if ( currentPart() )
-    dlg.insert( currentPart()->actionCollection(), m_currentView->service()->name() );
-
-  dlg.configure();
-}
-
 void KonqMainWindow::slotConfigureToolbars()
 {
   if ( autoSaveSettings() )
@@ -3247,7 +3236,7 @@ void KonqMainWindow::initActions()
 
   KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
 
-  KStdAction::keyBindings( this, SLOT( slotConfigureKeys() ), actionCollection() );
+  KStdAction::keyBindings( guiFactory(), SLOT( configureShortcuts() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
 
   m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), "spellcheck", 0,this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");

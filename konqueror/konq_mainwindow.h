@@ -366,7 +366,6 @@ public slots:
   void slotGoAutostart();
 
   void slotConfigure();
-  void slotConfigureKeys();
   void slotConfigureToolbars();
     void slotConfigureSpellChecking();
   void slotNewToolbarConfig();
