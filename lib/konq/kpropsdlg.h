@@ -455,7 +455,6 @@ protected:
   QLineEdit *mimeEdit;
   KIconLoaderButton *iconBox;
   QComboBox *appBox;
-  QStrList kdelnklist; // holds the kdelnk names for the combobox items
   
   QPixmap pixmap;
   QString pixmapFile;

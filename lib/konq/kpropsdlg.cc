@@ -44,6 +44,7 @@
 #include <qmessagebox.h>
 #include <qlist.h>
 #include <qstrlist.h>
+#include <qstringlist.h>
 #include <qpainter.h>
 
 #include <kurl.h>
@@ -1856,29 +1857,29 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     iconBox->setIcon( iconStr );
     
     // Get list of all applications
-    QStrList applist;
+    QStringList applist;
     QString currApp;
     appBox->insertItem( i18n("<none>") );
-    kdelnklist.append( "" ); // empty item
     QListIterator<KService> it ( KService::services() );
     for ( ; it.current(); ++it )
     {
 	currApp = it.current()->name();
 
 	// list every app only once
-	if ( applist.find( currApp ) == -1 ) { 
+	if ( applist.find( currApp ) == applist.end() ) { 
 	    appBox->insertItem( currApp );
 	    applist.append( currApp );
-            kdelnklist.append( it.current()->file());
 	}
     }
     
+    // TODO: Torben: No default app any more here.
     // Set the default app (DefaultApp=... is the kdelnk name)
-    int index = kdelnklist.find( appStr );
-    //debug ("appStr = %s\n\n",appStr.data());
-    if ( index == -1 )
-	index = 0;
-    appBox->setCurrentItem( index );
+    // QStringList::Iterator it = applist.find( appStr );
+    // debug ("appStr = %s\n\n",appStr.data());
+    // if ( it == applist.end() )
+    // appBox->setCurrentItem( 0 );
+    // index = 0;
+    // appBox->setCurrentItem( index );
 }
 
 bool BindingPropsPage::supports( const KURL& _kurl, mode_t _mode )
@@ -2074,7 +2075,8 @@ void BindingPropsPage::applyChanges()
     config.writeEntry( "Comment", commentEdit->text(), true, false, true );
     config.writeEntry( "MimeType", mimeEdit->text() );
     config.writeEntry( "Icon", iconBox->icon() );
-    config.writeEntry( "DefaultApp", kdelnklist.at( appBox->currentItem() ) );
+    // Torben: TODO: Now default app any more
+    // config.writeEntry( "DefaultApp", kdelnklist.at( appBox->currentItem() ) );
 
     config.sync();
 
