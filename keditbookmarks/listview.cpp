@@ -173,7 +173,9 @@ void ListView::updateSelectedItems() {
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
-      if (!it.current()->isSelected() || it.current()->isEmptyFolder()) {
+      if (!it.current()->isSelected() 
+       || it.current()->isEmptyFolder()
+       || it.current() == getFirstChild()) {
          continue;
       }
       if (it.current()->childCount() > 0) {

@@ -54,7 +54,7 @@ FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
 
 FavIconsItr::~FavIconsItr() {
    delete m_updater;
-   if (!m_done) {
+   if (!m_done && curItem()) {
       curItem()->restoreStatus();
    }
 }

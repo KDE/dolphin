@@ -57,7 +57,7 @@ void BookmarkIterator::nextOne() {
    QValueListIterator<KBookmark> head = m_bks.begin();
    KBookmark bk = (*head);
 
-   if (isBlahable(bk) && bk.address() != "ERROR") {
+   if (bk.hasParent() && isBlahable(bk)) {
       m_url = bk.url().url();
 
       // kdDebug() << "BookmarkIterator::nextOne " << m_url << " : " << bk.address() << "\n";
