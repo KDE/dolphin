@@ -1072,72 +1072,37 @@ void KonqMainWindow::slotGoAutostart()
 
 void KonqMainWindow::slotConfigureFileManager()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "kcmkonq", 0);
-    kdWarning(1202) << "Error launching kcmshell kcmkonq!" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell kcmkonq", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureFileTypes()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "filetypes", 0);
-    kdWarning(1202) << "Error launching kcmshell filetypes !" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell filetypes", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureBrowser()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "konqhtml", 0);
-    kdWarning(1202) << "Error launching kcmshell konqhtml!" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell konqhtml", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureEBrowsing()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "ebrowsing", 0);
-    kdWarning(1202) << "Error launching kcmshell ebrowsing!" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell ebrowsing", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureCookies()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "cookies", 0);
-    kdWarning(1202) << "Error launching kcmshell cookies!" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell cookies", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureProxies()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "proxy", 0);
-    kdWarning(1202) << "Error launching kcmshell proxy!" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell proxy", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureCrypto()
 {
-  if (fork() == 0) {
-    execl(QFile::encodeName(locate("exe", "kcmshell")),
-          "kcmshell", "crypto", 0);
-    kdWarning(1202) << "Error launching kcmshell crypto!" << endl;
-    exit(1);
-  }
+  KRun::runCommand( "kcmshell crypto", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureKeys()
