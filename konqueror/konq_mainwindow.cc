@@ -2934,7 +2934,8 @@ void KonqMainWindow::slotToggleFullScreen()
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
 
-    m_ptaFullScreen->setChecked(true);
+    m_ptaFullScreen->setText( i18n( "Exit Full-Screen Mode" ) );
+    m_ptaFullScreen->setIcon( "window_nofullscreen" );
   }
   else
   {
@@ -2952,7 +2953,8 @@ void KonqMainWindow::slotToggleFullScreen()
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
 
-    m_ptaFullScreen->setChecked(false);
+    m_ptaFullScreen->setText( i18n( "Full-Screen Mode" ) );
+    m_ptaFullScreen->setIcon( "window_fullscreen" );
   }
 }
 
@@ -3151,7 +3153,7 @@ void KonqMainWindow::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = KStdAction::fullScreen( this, SLOT( slotToggleFullScreen() ), actionCollection() );
+  m_ptaFullScreen = new KAction( i18n( "&Full-Screen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
@@ -3794,8 +3796,10 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              viewURL,
                              popupMenuCollection,
                              m_pMenuNew,
-			     this,
-                             showPropsAndFileType );
+                             this,
+                             showPropsAndFileType,
+                             m_currentView->isHierarchicalView());
+  
   if ( openedForViewURL && !viewURL.isLocalFile() )
       pPopupMenu.setURLTitle( m_currentView->caption() );
 

@@ -47,7 +47,8 @@ protected:
   void addSeparator( const QDomElement &menu = QDomElement() );
   void addGroup( const QString &grp );
   void addMerge( const QString &name );
-	void prepareXMLGUIStuff();
+
+  void prepareXMLGUIStuff();
   QDomDocument m_doc;
   QDomElement m_menuElement;
 	QString attrName;

@@ -229,6 +229,10 @@ public:
   bool isPassiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
+  // True if is hierarchical view
+  bool isHierarchicalView() const { return m_bHierarchicalView; }
+  void setHierarchicalView( bool mode );
+
   // True if 'link' symbol set
   bool isLinkedView() const { return m_bLinkedView; }
   void setLinkedView( bool mode );
@@ -412,6 +416,7 @@ protected:
   KonqViewIface * m_dcopObject;
   KonqBrowserInterface *m_browserIface;
   bool m_bBackRightClick;
+  bool m_bHierarchicalView;
   int m_randID;
 };
 

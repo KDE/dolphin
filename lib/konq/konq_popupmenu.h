@@ -79,6 +79,15 @@ public:
 		 QWidget * parentWidget,
 		 bool showPropertiesAndFileType = true );
 
+  KonqPopupMenu( KBookmarkManager* manager,
+                 const KFileItemList &items,
+                 KURL viewURL,
+                 KActionCollection & actions,
+                 KNewMenu * newMenu,
+                 QWidget * parentWidget,
+                 bool showPropertiesAndFileType = true,
+                 bool isHierView = false );
+  
   /**
    * Don't forget to destroy the object
    */
@@ -134,6 +143,7 @@ protected:
   KActionCollection m_ownActions;
 
 private:
+  void init (QWidget * parentWidget, bool showPropertiesAndFileType, bool isHierView);
   void setup(bool showPropertiesAndFileType);
   void addPlugins( );
   void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);

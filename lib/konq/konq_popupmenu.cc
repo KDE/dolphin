@@ -73,9 +73,13 @@ public:
 class KonqPopupMenu::KonqPopupMenuPrivate
 {
 public:
-  KonqPopupMenuPrivate() : m_parentWidget(0) {}
+  KonqPopupMenuPrivate() : m_parentWidget(0) 
+  {
+    m_hierarchicalDirectoryView=false;
+  }
   QString m_urlTitle;
   QWidget *m_parentWidget;
+  bool m_hierarchicalDirectoryView;
 };
 
 KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
@@ -111,12 +115,13 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
-                  bool showPropertiesAndFileType )
-  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
+                              bool showPropertiesAndFileType ) 
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "
+KonqPopupMenu::m_ownActions" ),
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+
 {
-  d = new KonqPopupMenuPrivate;
-  setup(showPropertiesAndFileType);
+  init(0, showPropertiesAndFileType, false);
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
@@ -124,14 +129,32 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
 			      QWidget * parentWidget,
-                  bool showPropertiesAndFileType )
-  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
-    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+                              bool showPropertiesAndFileType )  
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+{
+  init(parentWidget, showPropertiesAndFileType, false);
+}
+
+KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
+                              KURL viewURL,
+                              KActionCollection & actions,
+                              KNewMenu * newMenu,
+                              QWidget * parentWidget,
+                              bool showPropertiesAndFileType,
+                              bool isHierView)
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+{
+  init(parentWidget, showPropertiesAndFileType, isHierView);
+}
+
+void KonqPopupMenu::init (QWidget * parentWidget, bool showPropertiesAndFileType, bool isHierView)
 {
   d = new KonqPopupMenuPrivate;
   d->m_parentWidget = parentWidget;
-  setup(showPropertiesAndFileType);
+  d->m_hierarchicalDirectoryView = isHierView;
+  setup(showPropertiesAndFileType); 
 }
+
 
 
 void KonqPopupMenu::insertServices(const ServiceList& list,
@@ -313,9 +336,12 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
       }
       else
       {
-        KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
-        addAction( actNewDir );
-        addSeparator();
+        if ( d->m_hierarchicalDirectoryView)
+        {
+          KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+          addAction( actNewDir );
+          addSeparator();
+        }
       }
     }
 

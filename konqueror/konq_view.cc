@@ -89,6 +89,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bLinkedView = false;
   m_bAborted = false;
   m_bToggleView = false;
+  m_bHierarchicalView = false;
   m_bGotIconURL = false;
   m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
@@ -245,6 +246,17 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
       setPassiveMode( true ); // set as passive
     }
 
+    prop = m_service->property( "X-KDE-BrowserView-HierarchicalView");
+    if ( prop.isValid() && prop.toBool() )
+    {
+      kdDebug() << "KonqView::switchView X-KDE-BrowserView-HierarchicalView -> setHierarchicalView" << endl;	    
+      setHierarchicalView( true );  // set as hierarchial
+    }
+    else
+    {
+	    setHierarchicalView( false );
+    }
+    
     // Honour "linked view"
     prop = m_service->property( "X-KDE-BrowserView-LinkedView");
     if ( prop.isValid() && prop.toBool() )
@@ -836,6 +848,13 @@ void KonqView::setPassiveMode( bool mode )
   // Update statusbar stuff
   m_pMainWindow->viewManager()->viewCountChanged();
 }
+
+void KonqView::setHierarchicalView( bool mode )
+{
+ m_bHierarchicalView=mode;
+}
+		
+
 
 void KonqView::setLinkedView( bool mode )
 {
