@@ -1050,6 +1050,7 @@ void KEBTopLevel::slotBookmarksChanged( const QString &, const QString & caller 
 void KEBTopLevel::update()
 {
     QListViewItem * item = m_pListView->selectedItem();
+	QPoint pos(m_pListView->contentsX(), m_pListView->contentsY());
     if (item)
     {
         QString address = static_cast<KEBListViewItem*>(item)->bookmark().address();
@@ -1068,6 +1069,8 @@ void KEBTopLevel::update()
         fillListView();
         slotSelectionChanged();
     }
+
+	m_pListView->setContentsPos(pos.x(), pos.y());
 }
 
 void KEBTopLevel::fillListView()
