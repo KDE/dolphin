@@ -2840,7 +2840,7 @@ void KonqMainWindow::initActions()
                      0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
 
   // Bookmarks menu
-  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
+  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), "bookmark", actionCollection(), "bookmarks" );
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
