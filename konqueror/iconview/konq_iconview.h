@@ -111,7 +111,7 @@ protected slots:
 
   void slotClear();
 
-  void slotTotalFiles( int, unsigned long files );
+  //void slotTotalFiles( int, unsigned long files );
 
   void slotDisplayFileSelectionInfo();
 
@@ -148,7 +148,7 @@ protected:
    */
   bool m_bNeedAlign;
 
-  unsigned long m_ulTotalFiles;
+  //unsigned long m_ulTotalFiles;
 
   SortCriterion m_eSortCriterion;
 

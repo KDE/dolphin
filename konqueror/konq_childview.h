@@ -220,9 +220,10 @@ protected slots:
   void slotStarted( KIO::Job * job );
   void slotCompleted();
   void slotCanceled( const QString & errMsg );
-  void slotTotalSize( int, unsigned long size );
-  void slotProcessedSize( int, unsigned long size );
-  void slotSpeed( int, unsigned long bytesPerSecond );
+  void slotTotalSize( KIO::Job *, unsigned long size );
+  void slotProcessedSize( KIO::Job *, unsigned long size );
+  void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
+  // connected to the extension's signals (if the part doesn't use KIO::Job)
   void slotLoadingProgress( int percent );
   void slotSpeedProgress( int bytesPerSecond );
 

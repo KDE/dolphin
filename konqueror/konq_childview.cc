@@ -158,7 +158,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 {
   if ( m_bViewStarted )
     stop();
-  
+
   if ( m_lstHistory.count() > 0 )
     updateHistoryEntry();
 
@@ -259,25 +259,25 @@ void KonqChildView::slotStarted( KIO::Job * job )
 
   if (job)
   {
-      connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
-      connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
-      connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
+      connect( job, SIGNAL( totalSize( KIO::Job *, unsigned long ) ), this, SLOT( slotTotalSize( KIO::Job *, unsigned long ) ) );
+      connect( job, SIGNAL( processedSize( KIO::Job *, unsigned long ) ), this, SLOT( slotProcessedSize( KIO::Job *, unsigned long ) ) );
+      connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
   }
   m_ulTotalDocumentSize = 0;
 }
 
-void KonqChildView::slotTotalSize( int, unsigned long size )
+void KonqChildView::slotTotalSize( KIO::Job *, unsigned long size )
 {
   m_ulTotalDocumentSize = size;
 }
 
-void KonqChildView::slotProcessedSize( int, unsigned long size )
+void KonqChildView::slotProcessedSize( KIO::Job *, unsigned long size )
 {
   if ( m_ulTotalDocumentSize > (unsigned long)0 )
     slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
 }
 
-void KonqChildView::slotSpeed( int, unsigned long bytesPerSecond )
+void KonqChildView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
 {
   slotSpeedProgress( (long int)bytesPerSecond );
 }
@@ -287,6 +287,7 @@ void KonqChildView::slotLoadingProgress( int percent )
   m_iProgress = percent;
   if ( m_pMainView->currentChildView() == this )
   {
+    kdDebug(1202) << "KonqChildView::slotLoadingProgress " << percent << endl;
     m_pMainView->updateStatusBar();
   }
 }

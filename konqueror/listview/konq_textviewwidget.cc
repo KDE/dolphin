@@ -158,7 +158,7 @@ bool KonqTextViewWidget::openURL( const KURL &url )
 void KonqTextViewWidget::slotStarted( const QString & /*url*/ )
 {
    if ( !m_bTopLevelComplete )
-      emitStarted(0);
+      emitStarted(m_dirLister->job());
    setUpdatesEnabled(FALSE);
    timer.restart();
    if (m_settingsChanged)

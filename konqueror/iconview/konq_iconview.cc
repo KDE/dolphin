@@ -185,7 +185,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     setWidget( m_pIconView );
 
-    m_ulTotalFiles = 0;
+    //m_ulTotalFiles = 0;
 
     // Don't repaint on configuration changes during construction
     m_bInit = true;
@@ -714,7 +714,7 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
 {
     m_pIconView->selectAll( false );
     if ( m_bLoading )
-	emit started( 0 /* no iojob */ );
+	emit started( m_dirLister->job() );
     m_lstPendingMimeIconItems.clear();
 }
 
@@ -780,8 +780,9 @@ void KonqKfmIconView::slotNewItems( const KonqFileItemList& entries )
 
     item->setKey( key );
 
-    if ( m_ulTotalFiles > 0 )
-      emit m_extension->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
+    // old method
+    //if ( m_ulTotalFiles > 0 )
+    //  emit m_extension->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
 
     m_lstPendingMimeIconItems.append( item );
   }
@@ -817,10 +818,12 @@ void KonqKfmIconView::slotClear()
     m_lstPendingMimeIconItems.clear();
 }
 
+/*
 void KonqKfmIconView::slotTotalFiles( int, unsigned long files )
 {
     m_ulTotalFiles = files;
 }
+*/
 
 static QString displayString(int items, int files, long size, int dirs)
 {
@@ -968,15 +971,17 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_dirLister->openURL( url(), m_pProps->m_bShowDot );
     // Note : we don't store the url. KDirLister does it for us.
 
+    /*
+      // should be possible to it without this now
     KIO::Job *job = m_dirLister->job();
     if ( job )
     {
-        //TODO
-	//connect( job, SIGNAL( sigTotalFiles( int, unsigned long ) ),
-	//         this, SLOT( slotTotalFiles( int, unsigned long ) ) );
+	connect( job, SIGNAL( totalSize( KIO::Job *, unsigned long ) ),
+	         this, SLOT( slotTotalFiles( KIO::Job *, unsigned long ) ) );
     }
+    */
 
-    m_ulTotalFiles = 0;
+    //m_ulTotalFiles = 0;
     m_bNeedAlign = false;
 
     // do it after starting the dir lister to avoid changing bgcolor of the

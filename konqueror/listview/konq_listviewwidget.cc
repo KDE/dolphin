@@ -290,7 +290,7 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
       _ev->ignore();
       m_dragOverItem = 0L;
    }
-   
+
    return;
 }
 
@@ -479,11 +479,11 @@ void KonqBaseListViewWidget::slotOnViewport()
    //TODO: Display summary in DetailedList in statusbar, like iconview does
 }
 
-void KonqBaseListViewWidget::slotExecuted( QListViewItem* _item ) 
+void KonqBaseListViewWidget::slotExecuted( QListViewItem* _item )
 {
-  //if ( isSingleClickArea( _mouse->pos() ) ) 
+  //if ( isSingleClickArea( _mouse->pos() ) )
   {
-      
+
     if ( m_pressedItem->isExpandable() )
       m_pressedItem->setOpen( !m_pressedItem->isOpen() );
     slotReturnPressed( m_pressedItem );
@@ -660,7 +660,7 @@ void KonqBaseListViewWidget::setComplete()
 void KonqBaseListViewWidget::slotStarted( const QString & /*url*/ )
 {
    if (!m_bTopLevelComplete)
-      emitStarted(0);
+      emitStarted(m_dirLister->job());
 }
 
 void KonqBaseListViewWidget::slotCompleted()
