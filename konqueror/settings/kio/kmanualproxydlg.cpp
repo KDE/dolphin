@@ -169,7 +169,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                                       label->sizePolicy().hasHeightForWidth()) );
     sb_ftpproxy = new QSpinBox( gb_servers, "sb_ftpport" );
     sb_ftpproxy->setEnabled( false );
-    QWhatsThis::add( sb_ftpproxy, i18n("Enter the port number of the ftp "
+    QWhatsThis::add( sb_ftpproxy, i18n("Enter the port number of the FTP "
                                       "proxy server.  Default 8080. "
                                       "Another common value is 3128.") );
 
@@ -181,14 +181,14 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     cb_gopherproxy = new QCheckBox( i18n("&Gopher:"), gb_servers,
                                     "cb_gopherproxy" );
     QWhatsThis::add( cb_gopherproxy, i18n("Check this box to enable manual "
-                                          "proxy setup for Gopher "
+                                          "proxy setup for gopher "
                                           "connections."));
     le_gopherproxy = new KManLineEdit( gb_servers, "le_gopherproxy" );
     le_gopherproxy->setEnabled( false );
     le_gopherproxy->setSizePolicy( QSizePolicy( QSizePolicy::MinimumExpanding,
                                                 QSizePolicy::Fixed,
                                                 le_gopherproxy->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( le_gopherproxy, i18n("Enter the address of the gropher "
+    QWhatsThis::add( le_gopherproxy, i18n("Enter the address of the gopher "
                                           "proxy server.") );
     label = new QLabel( i18n("Port"), gb_servers, "lbl_gopherproxy" );
     connect( cb_gopherproxy, SIGNAL( toggled(bool) ), label,
