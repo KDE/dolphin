@@ -438,6 +438,7 @@ QStringList getSearchPaths()
         paths.append("$HOME/.netscape/plugins");
         paths.append("/usr/local/netscape/plugins");
         paths.append("/opt/mozilla/plugins");
+	paths.append("/opt/mozilla/lib/plugins");
         paths.append("/opt/netscape/plugins");
         paths.append("/opt/netscape/communicator/plugins");
         paths.append("/usr/lib/netscape/plugins");
