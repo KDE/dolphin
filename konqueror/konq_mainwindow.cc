@@ -273,8 +273,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
   }
 
   KonqView *view = _view;
-  if ( !view /* || view->passiveMode() */ ) // David: we can open a URL in a passive view
-    view = m_currentView;
+  if ( !view )
+    view = m_currentView; /* Note, this can be 0L, e.g. on startup */
 
   if ( view )
   {
@@ -316,7 +316,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
         //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
         if ( !offer || !KRun::run( *offer, lst ) )
         {
-       (void)new KRun( url );
+          (void)new KRun( url );
         }
     }
   }
@@ -625,7 +625,7 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoApplications()
 {
-  openURL( m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("apps") ) );
+  openURL( 0L, KURL( KonqFactory::instance()->dirs()->saveLocation("apps") ) );
 }
 
 void KonqMainWindow::slotGoDirTree()
@@ -777,7 +777,8 @@ void KonqMainWindow::slotRunFinished()
     {
       stopAnimation();
       // Revert to working URL
-      childView->setLocationBarURL( childView->history().current()->locationBarURL );
+      //childView->setLocationBarURL( childView->history().current()->locationBarURL );
+      // Not anymore - it's been reported to be very annoying
     }
   }
 }
@@ -809,7 +810,7 @@ void KonqMainWindow::slotSetStatusBarText( const QString & )
 
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView )
 {
-  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << endl;
+  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
   QString indexFile;
 
   KURL url( _url );
@@ -879,9 +880,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
       enableAllActions( true );
 
+      newView->setLocationBarURL( originalURL );
+
       newView->part()->widget()->setFocus();
 
-      newView->setLocationBarURL( originalURL );
       newView->setViewName( m_initialFrameName );
       m_initialFrameName = QString::null;
 
@@ -904,7 +906,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   KonqView *newView = 0;
   KonqView *oldView = m_currentView;
-  
+
   if ( part )
   {
     newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
@@ -1127,6 +1129,12 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
     QString url = static_cast<KonqURLEnterEvent *>( event )->url();
 
     openURL( 0L, KURL( url ) );
+
+    // #4070: Give focus to view after URL was entered manually
+    // Note: we do it here if the view mode (i.e. part) wasn't changed
+    // If it is changed, then it's done in KonqView::changeViewMode
+    if ( m_currentView && m_currentView->part() )
+      m_currentView->part()->widget()->setFocus();
 
     return;
   }
@@ -1373,7 +1381,7 @@ void KonqMainWindow::slotUpAboutToShow()
 void KonqMainWindow::slotUp()
 {
   kdDebug(1202) << "slotUp. Start URL is " << m_currentView->locationBarURL() << endl;
-  openURL( m_currentView, KURL(m_currentView->locationBarURL()).upURL() );
+  openURL( 0L, KURL(m_currentView->locationBarURL()).upURL() );
 }
 
 void KonqMainWindow::slotUpActivated( int id )
@@ -1740,9 +1748,11 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
   */
 
-  KHelpMenu * m_helpMenu = new KHelpMenu( this );
+  KHelpMenu * m_helpMenu = new KHelpMenu( this, KonqFactory::aboutData() );
   KStdAction::helpContents( m_helpMenu, SLOT( appHelpActivated() ), actionCollection(), "contents" );
   KStdAction::whatsThis( m_helpMenu, SLOT( contextHelpActivated() ), actionCollection(), "whats_this" );
+  // Hmm, the generated dialog is HUGE ! Too many developers ;-)
+  //KStdAction::aboutApp( m_helpMenu, SLOT( aboutApplication() ), actionCollection(), "about_app" );
   KStdAction::aboutApp( this, SLOT( slotAbout() ), actionCollection(), "about_app" );
   KStdAction::aboutKDE( m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "about_kde" );
   KStdAction::reportBug( m_helpMenu, SLOT( reportBug() ), actionCollection(), "report_bug" );

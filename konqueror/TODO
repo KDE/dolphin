@@ -27,6 +27,11 @@ libkonq:
 
 - Bookmarks : DCOP call to notify changes (when 'add bookmark'), like in KDE 1.1
 
+- Dialog box for choosing bookmark name :
+   ( ) [ <Title> ]   (editable)
+   ( ) [ <URL> ]     (editable)
+ and option in kcmkonqhtml for showing this dialog (on by default ?)
+
 - When you are adding to the selection (eg. by shift + LMB)
   then change the mouse cursor to indicate this. Several drawing programs do
   this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
@@ -58,6 +63,9 @@ before pasting another one ?
 - Bug #2760 and other problems with splitter sizes
 
 - #3176 : From the main KDE menu, choose "Context Help", next click on the main form of konqueror
+
+- New window -> empty one (uses profile) and Duplicate window -> duplicates
+ everything, including history and layout.
 
 
 iconview:
