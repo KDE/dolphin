@@ -87,6 +87,10 @@ extern "C" int kdemain( int argc, char **argv )
                 "            #   component that Konqueror should use. For instance, set it to\n"
                 "            #   text/html for a web page, to make it appear faster\n\n").local8Bit());
 
+    puts(i18n("  kfmclient newTab 'url' ['mimetype']\n"
+                "            # Same as above but opens a new tab with 'url' in an existing Konqueror\n"
+                "            #   window on the current active desktop if possible.\n\n").local8Bit());
+
     puts(i18n("  kfmclient openProfile 'profile' ['url']\n"
                 "            # Opens a window using the given profile.\n"
                 "            #   'profile' is a file under ~/.kde/share/apps/konqueror/profiles.\n"
@@ -263,7 +267,7 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
     return ret;
 }
 
-bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
+bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & mimetype)
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
 
@@ -281,7 +285,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "FMSettings" );
-    if ( cfg.readBoolEntry( "KonquerorTabforExternalURL", false ) )
+    if ( newTab || cfg.readBoolEntry( "KonquerorTabforExternalURL", false ) )
     {
         QCString foundApp, foundObj;
         QByteArray data;
@@ -420,7 +424,7 @@ bool clientApp::doIt()
   // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();
 
-  if ( command == "openURL" )
+  if ( command == "openURL" || command == "newTab" )
   {
     KInstance inst(appName);
     if( !KApplication::dcopClient()->attach())
@@ -433,15 +437,15 @@ bool clientApp::doIt()
     {
       KURL url;
       url.setPath(QDir::homeDirPath());
-      return createNewWindow( url );
+      return createNewWindow( url, command == "newTab" );
     }
     if ( argc == 2 )
     {
-      return createNewWindow( args->url(1) );
+      return createNewWindow( args->url(1), command == "newTab" );
     }
     if ( argc == 3 )
     {
-      return createNewWindow( args->url(1), QString::fromLatin1(args->arg(2)) );
+      return createNewWindow( args->url(1), command == "newTab", QString::fromLatin1(args->arg(2)) );
     }
   }
   else if ( command == "openProfile" )

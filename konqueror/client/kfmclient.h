@@ -31,7 +31,7 @@ public:
   static bool doIt();
 
   /** Make konqueror open a window for @p url */
-  static bool createNewWindow(const KURL & url, const QString & mimetype = QString::null);
+  static bool createNewWindow(const KURL & url, bool newTab, const QString & mimetype = QString::null);
 
   /** Make konqueror open a window for @p profile, @p url and @p mimetype */
   static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString::null);
