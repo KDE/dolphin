@@ -210,8 +210,8 @@ void KonqViewManager::removeView( KonqView *view )
       return;
     // Ensure this is not the active view anymore
     //kdDebug(1202) << "Setting part " << nextView->part() << " as active" << endl;
-    nextView->part()->widget()->setFocus(); // hack ?
-    setActivePart( nextView->part() );
+    nextView->part()->widget()->setFocus(); // Will set the part as active
+    //setActivePart( nextView->part() );
   }
 
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
