@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+ServiceTypes=text/css
+Actions=Print
+
+[Desktop Action Print]
+Name=Print CSS Source...
+Exec=kprinter -t %n --caption %n --icon %i --miniicon %m %U
+Icon=filequickprint

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+ServiceTypes=text/x-tex
+Actions=Print
+
+[Desktop Action Print]
+Name=Print TeX Source...
+Exec=kprinter -t %n --caption %n --icon %i --miniicon %m %U
+Icon=filequickprint

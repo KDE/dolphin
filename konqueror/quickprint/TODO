@@ -1,0 +1,18 @@
+- make small programms to print the files and other data better
+   - printing text
+      - you can enable for example syntaxhighlighting
+   - printing pictures  (I think that can go than to the kdegraphics package)
+      - set the position of the picture on the site and something like that
+   - printing html (homepges)
+      - print the html code like for the textprinting
+      - print the html file like it was parsed with khtml
+   - printing TeX documents with a action on the TeX source
+      - I don't know at the moment options for that
+   - ...
+     and something like that   ;)
+
+If we have small programms for that printing things we have no longer the question
+from kprinter to convert the text/picture or not.
+
+If somebody ont to add some other things to this TODO list we can make step by step
+a compleate list of parser for printing.   ;)
