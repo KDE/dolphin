@@ -140,9 +140,11 @@ void KBookmarkManager::save()
         kdWarning() << "KBookmarkManager::save : can't open for writing " << m_bookmarksFile << endl;
         return;
     }
-    QTextStream ts( &file );
-    ts << m_doc;
-    //m_doc.save( ts, 0 );
+    //This seems to save in local8bit ?!?!?!?
+    //QTextStream ts( &file );
+    //ts << m_doc;
+    QCString cstr = m_doc.toCString(); // is in UTF8
+    file.writeBlock( cstr );
     file.close();
 }
 
