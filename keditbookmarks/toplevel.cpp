@@ -72,14 +72,21 @@ QDragObject *KEBListView::dragObject()
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
-// AK - note, possible ugly solution to remove code dup, a "init" bool
-
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL)
 {
-    // Create the bookmark manager.
-    s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
+    m_bookmarksFilename = bookmarksFile;
     m_bReadOnly = readonly;
+    construct();
+}
+
+void KEBTopLevel::construct(bool firstTime) {
+
+    // TODO - actually use the firstTime param to 
+    //        help remove the slotLoad code duplication
+
+    // Create the bookmark manager.
+    s_pManager = KBookmarkManager::managerForFile( m_bookmarksFilename, false );
 
     if (!m_bReadOnly) {
        // Create the DCOP interface object
@@ -96,6 +103,24 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
 
     setCentralWidget( m_pListView );
     resize( m_pListView->sizeHint().width(), 400 );
+
+    createActions();
+    resetActions();
+
+    slotSelectionChanged();
+    slotClipboardDataChanged();
+
+    createGUI();
+
+    setAutoSaveSettings();
+    setModified(false); // for a very nice caption
+    m_commandHistory.documentSaved();
+
+    KGlobal::locale()->insertCatalogue("libkonq");
+
+}
+
+void KEBTopLevel::createActions() {
 
     // Create the actions
 
@@ -130,27 +155,18 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     (void) new KAction( i18n( "Check Status: &All" ), 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
     (void) new KAction( i18n( "Cancel &Checks" ), 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
-
-    resetActions();
-
-    slotSelectionChanged();
-    slotClipboardDataChanged();
-
-    createGUI();
-
-    setAutoSaveSettings();
-    setModified(false); // for a very nice caption
-    m_commandHistory.documentSaved();
-
-    KGlobal::locale()->insertCatalogue("libkonq");
 }
 
 void KEBTopLevel::slotLoad()
 {
+    // TODO - this is a hack, need to remove it! :)
     if (!queryClose()) return;
     QString bookmarksFile = KFileDialog::getOpenFileName( QString::null, "*.xml", this );
+    m_bookmarksFilename = bookmarksFile;
+    if (bookmarksFile == QString::null) return;
+
     // add a few default place to the file dialog somehow?, e.g kfile bookmarks +  normal bookmarks file dir
-    KBookmarkManager::managerForFile( bookmarksFile, false )->slotEditBookmarks();
+    KBookmarkManager::managerForFile( m_bookmarksFilename, false )->slotEditBookmarks();
     close();
 
     return;
@@ -164,8 +180,8 @@ void KEBTopLevel::slotLoad()
     delete s_pManager; // AK - currently crashes!
 
     // recreate the bookmark manager.
-    s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
-    m_bReadOnly = true; // readonly;
+    s_pManager = KBookmarkManager::managerForFile( m_bookmarksFilename, false );
+    m_bReadOnly = true;
  
     if (!m_bReadOnly) {
        // Create the DCOP interface object
@@ -177,13 +193,11 @@ void KEBTopLevel::slotLoad()
 
     fillListView();
 
-    // resize( m_pListView->sizeHint().width(), 400 );
-
     resetActions();
     slotSelectionChanged();
 
-    setAutoSaveSettings(); // NEEDED???
-    setModified(false); // for a very nice caption
+    setAutoSaveSettings(); // TODO check if needed for firstTime
+    setModified(false);
     m_commandHistory.documentSaved();
 }
 

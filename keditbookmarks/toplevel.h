@@ -189,11 +189,15 @@ protected slots:
     void slotCreatedNewFolder( QString text, QString address );
 
 protected:
-    void initListView();
-    void resetActions();
+    void construct(bool firstTime = true);
 
     void disconnectSignals();
     void connectSignals();
+
+    void initListView();
+
+    void resetActions();
+    void createActions();
 
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
     virtual bool queryClose();
@@ -207,6 +211,8 @@ protected:
     bool m_bModified;
     bool m_bCanPaste;
     bool m_bReadOnly;
+
+    QString m_bookmarksFilename;
 
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
