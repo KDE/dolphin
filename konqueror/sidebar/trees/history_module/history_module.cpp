@@ -77,11 +77,11 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
     m_collection = new KActionCollection( this, "history actions" );
     (void) new KAction( i18n("New &Window"), "window_new", 0, this,
  			SLOT( slotNewWindow() ), m_collection, "open_new");
-    (void) new KAction( i18n("&Remove Entry"), 0, this,
+    (void) new KAction( i18n("&Remove Entry"), "editdelete", 0, this,
 			SLOT( slotRemoveEntry() ), m_collection, "remove");
     (void) new KAction( i18n("C&lear History"), "history_clear", 0, this,
 			SLOT( slotClearHistory() ), m_collection, "clear");
-    (void) new KAction( i18n("&Preferences..."), 0, this,
+    (void) new KAction( i18n("&Preferences..."), "configure", 0, this,
 			SLOT( slotPreferences()), m_collection, "preferences");
 
     KRadioAction *sort;
