@@ -55,9 +55,9 @@ KBrowser::KBrowser( QWidget *parent, const char *name, KBrowser *_parent_browser
 	   SLOT( slotUpdateSelect(int) ) );
 
   // We need to know which files the HTML widget wants to get from us
-  connect( this, SIGNAL( imageRequest( const char * ) ), this, SLOT( slotURLRequest( const char * ) ) );
-  connect( this, SIGNAL( cancelImageRequest( const char * ) ),
-	   this, SLOT( slotCancelURLRequest( const char * ) ) );
+  connect( this, SIGNAL( imageRequest( QString ) ), this, SLOT( slotURLRequest( QString ) ) );
+  connect( this, SIGNAL( cancelImageRequest( QString ) ),
+	   this, SLOT( slotCancelURLRequest( QString ) ) );
   connect( this, SIGNAL( documentDone( KHTMLView* ) ), this, SLOT( slotDocumentFinished( KHTMLView* ) ) );
   
   m_lstChildren.setAutoDelete( true );
@@ -266,9 +266,9 @@ void KBrowser::slotError( int /*_id*/, int _err, const char *_text )
   // emit canceled();
 }
 
-void KBrowser::slotURLRequest( const char *_url )
+void KBrowser::slotURLRequest( QString _url )
 {
-  kdebug(0,1202,"URLRequest %s", _url);
+  kdebug(0,1202,"URLRequest %s", _url.ascii());
   
   m_lstPendingURLRequests.append( _url );
  
@@ -286,7 +286,7 @@ void KBrowser::servePendingURLRequests()
   m_lstURLRequestJobs.append( j );
   QString url = m_lstPendingURLRequests.getFirst();
   QString tmp = completeURL( url );
-  m_lstPendingURLRequests.removeFirst();
+  m_lstPendingURLRequests.remove(m_lstPendingURLRequests.begin());
 
   j->run( tmp, url, m_bReload );
 }
@@ -297,7 +297,7 @@ void KBrowser::urlRequestFinished( KBrowserURLRequestJob* _request )
   servePendingURLRequests();
 }
 
-void KBrowser::slotCancelURLRequest( const char *_url )
+void KBrowser::slotCancelURLRequest( QString _url )
 {
   QString tmp = completeURL( _url );
   m_lstPendingURLRequests.remove( tmp );

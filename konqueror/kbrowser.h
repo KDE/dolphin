@@ -140,11 +140,11 @@ protected slots:
   /**
    * Overloads a method in @ref KHTMLView
    */
-  virtual void slotURLRequest( const char *_url );
+  virtual void slotURLRequest( QString _url );
   /**
    * Overloads a method in @ref KHTMLView
    */
-  virtual void slotCancelURLRequest( const char *_url );
+  virtual void slotCancelURLRequest( QString _url );
 
   virtual void slotDocumentFinished( KHTMLView* _view );
   
@@ -291,7 +291,7 @@ protected:
    */
   bool m_bParsing;
 
-  QStrList m_lstPendingURLRequests;
+  QStringList m_lstPendingURLRequests;
   QList<KBrowserURLRequestJob>  m_lstURLRequestJobs;
   
   KBrowser* m_pParentBrowser;
