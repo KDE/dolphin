@@ -358,7 +358,7 @@ void KonqPopupMenu::slotPopupOpenWith()
     {
       QString exec = l.text();
       exec += " %f";
-      KRun::runOldApplication( exec, m_lstPopupURLs, false );
+      KRun::run( exec, m_lstPopupURLs );
     }
   }
 }
