@@ -73,14 +73,19 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
   connect(parentWidget(),SIGNAL(unselectAll()),
 	  win,SLOT(unselectAll()));
   
-  connect(&findProcess, SIGNAL(processExited(KProcess *)),
+  // We want to use /bin/sh as a shell. With tcsh and csh 
+  // find process can not be stopped by kill() call.
+  findProcess = new KShellProcess("/bin/sh");
+  
+  connect(findProcess, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(stopSearch()));
-  connect(&findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)), 
+  connect(findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)), 
 	  this, SLOT(handleStdout(KProcess *, char *, int))) ;
 }
 
 Kfind::~Kfind() {
   delete [] iBuffer;
+  delete findProcess;
 }
 
 void Kfind::startSearch() {
@@ -107,9 +112,9 @@ void Kfind::startSearch() {
 
   setExpanded(true);
   
-  findProcess.clearArguments ();
-  findProcess << cmdline;
-  findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
+  findProcess->clearArguments();
+  findProcess->setExecutable(cmdline);
+  findProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
 void Kfind::stopSearch() {
@@ -118,10 +123,8 @@ void Kfind::stopSearch() {
   win->endSearch();
   tabWidget->endSearch();
 
-  if(findProcess.isRunning())
-    findProcess.kill();
-  
-  
+  if(findProcess->isRunning())
+    findProcess->kill();
   
   setFocus();
 }
@@ -140,6 +143,11 @@ void Kfind::newSearch() {
 }
 
 void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
+  
+  // If find process has been stopped ignore rest of the input
+  if(!findProcess->isRunning())
+    return;
+  
   // copy data to I/O buffer
   int len = strlen(iBuffer);
   memcpy(iBuffer + len, buffer, buflen);

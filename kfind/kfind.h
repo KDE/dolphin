@@ -48,7 +48,7 @@ signals:
 protected:
 
 private:
-  KShellProcess findProcess;
+  KShellProcess *findProcess;
   KfindTabWidget *tabWidget;
   KfindWindow * win;
 
