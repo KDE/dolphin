@@ -146,7 +146,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   QVBoxLayout* vlay = new QVBoxLayout;
   vlay->setSpacing( KDialog::spacingHint() );
   vlay->setMargin( 0 );
-
+  
   m_pbVerify = new QPushButton( i18n("&Verify"), m_gbHostnames, "m_pbVerify" );
   QWhatsThis::add( m_pbVerify, i18n("<qt>Click this button to quickly "
                                     "determine whether or not the environment "
@@ -174,14 +174,17 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   
   vlay->addWidget( m_pbDetect );
   
-  m_pbShowValue = new QPushButton( i18n("Show &values"), m_gbHostnames,
+  m_pbShowValue = new QPushButton( i18n("Show &Values"), m_gbHostnames,
                                    "m_pbDetect" );
   m_pbShowValue->setToggleButton ( true );
-  m_pbShowValue->setMinimumSize (m_pbShowValue->size ());
   
+  m_pbShowValue->setSizePolicy( QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed,
+                                m_pbShowValue->sizePolicy().hasHeightForWidth()) );
+                                          
   QWhatsThis::add( m_pbShowValue, i18n("<qt>Click on this button to see "
                                    "the actual values associated with the "
                                    "environment variables.</qt>"));
+  
   vlay->addWidget( m_pbShowValue );
 
   spacer = new QSpacerItem( 10, 10, QSizePolicy::Minimum,
@@ -189,8 +192,9 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   vlay->addItem( spacer );
 
   serverLayout->addLayout( vlay, 0, 1 );
-  mainLayout->addWidget( m_gbHostnames );
 
+  mainLayout->addWidget( m_gbHostnames );
+  
   m_gbExceptions = new KExceptionBox( page, "m_gbExceptions" );
   m_gbExceptions->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
                                             QSizePolicy::Preferred,
@@ -239,8 +243,9 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
       m_leEnvHttp->setText( data.httpProxy );
   }
 
-  bool useSameProxy = (data.httpProxy == data.httpsProxy &&
-                      data.httpProxy == data.ftpProxy);
+  bool useSameProxy = (!m_leEnvHttp->text().isEmpty() &&
+                       data.httpProxy == data.httpsProxy &&
+                       data.httpProxy == data.ftpProxy);
 
   m_cbSameProxy->setChecked ( useSameProxy );
 
@@ -359,30 +364,43 @@ void KEnvVarProxyDlg::autoDetectPressed()
       break;
     }
   }
-
-  list = QStringList::split( ',', QString::fromLatin1(ENV_HTTPS_PROXY));
-  it = list.begin();
-  for( ; it != list.end(); ++it )
-  {
-    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-    if ( !env.isEmpty() )
-    {
-      m_leEnvHttps->setText( (m_pbShowValue->isOn()?env:*it) );
-      found |= true;
-      break;
-    }
-  }
   
-  list = QStringList::split( ',', QString::fromLatin1(ENV_FTP_PROXY) );
-  it = list.begin();
-  for( ; it != list.end(); ++it )
+  if (m_cbSameProxy->isChecked())
   {
-    env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-    if ( !env.isEmpty() )
+    m_oldHttpsText = m_leEnvHttps->text();
+    m_oldFtpText = m_leEnvFtp->text();
+  
+    QString text = m_leEnvHttp->text();
+    
+    m_leEnvFtp->setText( text );
+    m_leEnvHttps->setText( text );
+  }
+  else
+  {
+    list = QStringList::split( ',', QString::fromLatin1(ENV_HTTPS_PROXY));
+    it = list.begin();
+    for( ; it != list.end(); ++it )
     {
-      m_leEnvFtp->setText( (m_pbShowValue->isOn()?env:*it) );
-      found |= true;
-      break;
+      env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+      if ( !env.isEmpty() )
+      {
+        m_leEnvHttps->setText( (m_pbShowValue->isOn()?env:*it) );
+        found |= true;
+        break;
+      }
+    }
+
+    list = QStringList::split( ',', QString::fromLatin1(ENV_FTP_PROXY) );
+    it = list.begin();
+    for( ; it != list.end(); ++it )
+    {
+      env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
+      if ( !env.isEmpty() )
+      {
+        m_leEnvFtp->setText( (m_pbShowValue->isOn()?env:*it) );
+        found |= true;
+        break;
+      }
     }
   }
   
@@ -408,7 +426,8 @@ void KEnvVarProxyDlg::showValue( bool enable )
 {
   if ( enable )
   {
-    QString txt, env;
+    QString txt;
+    QString env;
 
     m_lstEnvVars.clear();
     txt = m_leEnvHttp->text();
@@ -420,7 +439,17 @@ void KEnvVarProxyDlg::showValue( bool enable )
       m_leEnvHttp->setText( env );
       m_lstEnvVars << txt;
     }
-
+    
+    if (m_cbSameProxy->isChecked())
+    {
+      m_lstEnvVars << txt;
+      m_lstEnvVars << txt;
+      
+      m_leEnvHttps->setText( env );
+      m_leEnvFtp->setText( env );
+      return;
+    }
+    
     txt = m_leEnvHttps->text();
     if (!txt.isEmpty())
     {
@@ -451,19 +480,35 @@ void KEnvVarProxyDlg::showValue( bool enable )
   }
 }
 
-void KEnvVarProxyDlg::textChanged(const QString& text)
+void KEnvVarProxyDlg::textChanged (const QString& text)
 {
-    if (!m_cbSameProxy->isChecked())
-        return;
-        
-    m_leEnvFtp->setText (text);
-    m_leEnvHttps->setText (text);
+  if (!m_cbSameProxy->isChecked())
+    return;
+
+  m_leEnvHttps->setText (text);
+  m_leEnvFtp->setText (text);    
 }
 
 void KEnvVarProxyDlg::sameProxy( bool enable )
 {
   m_leEnvHttps->setEnabled (!enable);
   m_leEnvFtp->setEnabled (!enable);
+  
+  if (enable)
+  {
+    m_oldHttpsText = m_leEnvHttps->text();
+    m_oldFtpText = m_leEnvFtp->text();
+
+    QString text = m_leEnvHttp->text();
+
+    m_leEnvHttps->setText (text);
+    m_leEnvFtp->setText (text);
+  }
+  else
+  {
+    m_leEnvHttps->setText (m_oldHttpsText);
+    m_leEnvFtp->setText (m_oldFtpText);
+  }    
 }
 
 bool KEnvVarProxyDlg::validate()
@@ -471,14 +516,16 @@ bool KEnvVarProxyDlg::validate()
   QFont f;
   QString value;
   
-  m_bHasValidData = true;
+  m_bHasValidData = false;
   
   if ( !m_pbShowValue->isOn() )
     value = m_leEnvHttp->text();
   else
     value = m_lstEnvVars.count() > 0 ? m_lstEnvVars[0]: "";     
-
-  if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
+  
+  if ( value.isEmpty() || getenv( value.local8Bit() ) != 0 )
+    m_bHasValidData |= true;
+  else
   {
     f = m_lbEnvHttp->font();
     f.setBold( true );
@@ -493,7 +540,9 @@ bool KEnvVarProxyDlg::validate()
     else
       value = m_lstEnvVars.count() > 1 ? m_lstEnvVars[1]: "";
   
-    if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
+    if ( value.isEmpty() || getenv( value.local8Bit() ) != 0L )    
+      m_bHasValidData |= true;
+    else
     {
       f = m_lbEnvHttps->font();
       f.setBold( true );
@@ -506,7 +555,9 @@ bool KEnvVarProxyDlg::validate()
     else
       value = m_lstEnvVars.count() > 2 ? m_lstEnvVars[2]: "";
   
-    if ( value.isEmpty() || getenv( value.local8Bit() ) == 0L )
+    if ( value.isEmpty() || getenv( value.local8Bit() ) != 0L )
+      m_bHasValidData |= true;
+    else    
     {
       f = m_lbEnvFtp->font();
       f.setBold( true );
@@ -514,7 +565,7 @@ bool KEnvVarProxyDlg::validate()
       m_bHasValidData = false;
     }
   }
-
+  
   return m_bHasValidData;
 }
 

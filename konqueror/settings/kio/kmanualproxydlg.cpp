@@ -211,7 +211,7 @@ void KManualProxyDlg::init()
     connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
     connect( m_pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
     connect( m_leHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
-    connect( m_sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );
+    connect( m_sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );    
 }
 
 void KManualProxyDlg::setProxyData( const KProxyData &data )
@@ -221,7 +221,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
     QString host;
     int port = DEFAULT_PROXY_PORT;
 
-    // Set the HTTP proxy
+    // Set the HTTP proxy...
     u = data.httpProxy;    
     if (!u.isValid())
         m_sbHttp->setValue(port);
@@ -237,8 +237,9 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
         m_sbHttp->setValue( port );
     }
 
-    bool useSameProxy = (data.httpProxy == data.httpsProxy &&
-                        data.httpProxy == data.ftpProxy);
+    bool useSameProxy = (!m_leHttp->text().isEmpty () &&
+                         data.httpProxy == data.httpsProxy &&
+                         data.httpProxy == data.ftpProxy);
     
     m_cbSameProxy->setChecked ( useSameProxy );
 
@@ -253,7 +254,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
     }
     else
     {
-      // Set the HTTPS proxy
+      // Set the HTTPS proxy...
       u = data.httpsProxy;
       if (!u.isValid())
           m_sbHttps->setValue( DEFAULT_PROXY_PORT );
@@ -270,7 +271,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
 
       // Set the FTP proxy...
       u = data.ftpProxy;
-      if (u.isValid())
+      if (!u.isValid())
           m_sbFtp->setValue( DEFAULT_PROXY_PORT );
       else
       {
@@ -279,6 +280,7 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
               port = p;      
           
           u.setPort( 0 );
+          
           m_leFtp->setText( u.url() );
           m_sbFtp->setValue( port );
       }
@@ -341,7 +343,33 @@ void KManualProxyDlg::sameProxy( bool enable )
     m_leFtp->setEnabled (!enable );
     m_sbHttps->setEnabled (!enable );
     m_sbFtp->setEnabled (!enable );  
-    m_pbCopyDown->setEnabled( !enable );      
+    m_pbCopyDown->setEnabled( !enable );
+    
+    if (enable)
+    {
+      m_oldFtpText = m_leFtp->text();
+      m_oldHttpsText = m_leHttps->text();
+            
+      m_oldFtpPort = m_sbFtp->value();
+      m_oldHttpsPort = m_sbHttps->value();
+      
+      int port = m_sbHttp->value();            
+      QString text = m_leHttp->text();
+            
+      m_leFtp->setText (text);
+      m_leHttps->setText (text);
+          
+      m_sbFtp->setValue (port);
+      m_sbHttps->setValue (port);
+    }
+    else
+    {      
+      m_leFtp->setText (m_oldFtpText);
+      m_leHttps->setText (m_oldHttpsText);
+    
+      m_sbFtp->setValue (m_oldFtpPort);
+      m_sbHttps->setValue (m_oldHttpsPort);
+    }    
 }
 
 bool KManualProxyDlg::validate()
@@ -407,7 +435,7 @@ void KManualProxyDlg::textChanged(const QString& text)
 {
     if (!m_cbSameProxy->isChecked())
         return;
-        
+
     m_leFtp->setText (text);
     m_leHttps->setText (text);
 }
@@ -416,10 +444,10 @@ void KManualProxyDlg::valueChanged(int value)
 {
     if (!m_cbSameProxy->isChecked())
         return;
-        
+
     m_sbFtp->setValue (value);
     m_sbHttps->setValue (value);
-}
+ }
 
 void KManualProxyDlg::copyDown()
 {

@@ -57,7 +57,7 @@ protected slots:
 protected:
     void init();
     bool validate();
-
+    
 private:
     QLabel *m_lbEnvFtp;
     QLabel *m_lbEnvHttp;
@@ -77,6 +77,8 @@ private:
     QGroupBox *m_gbHostnames;
     KExceptionBox *m_gbExceptions;
     
+    QString m_oldFtpText;
+    QString m_oldHttpsText;  
     QStringList m_lstEnvVars;
 };
 #endif

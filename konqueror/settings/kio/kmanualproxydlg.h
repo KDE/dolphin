@@ -54,7 +54,7 @@ protected slots:
   void sameProxy( bool );
   void textChanged (const QString&);
   void valueChanged (int value);
-
+  
 private:
   QSpinBox* m_sbFtp;
   QSpinBox* m_sbHttp;
@@ -74,5 +74,10 @@ private:
   KExceptionBox* m_gbExceptions;
 
   QPushButton* m_pbCopyDown;
+  
+  int m_oldFtpPort;
+  int m_oldHttpsPort;  
+  QString m_oldFtpText;
+  QString m_oldHttpsText;
 };
 #endif
