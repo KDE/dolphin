@@ -202,7 +202,6 @@ protected:
   virtual bool mousePressedHook( const char* _url, const char *_target, QMouseEvent *_ev,
 				 bool _isselected);
   
-  // virtual string completeSimpleURL( const char *_url );
   virtual QString completeURL( const char *_url );
 
   virtual KBrowser* findChildView( const char *_target );

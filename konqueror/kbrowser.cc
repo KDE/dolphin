@@ -147,8 +147,8 @@ void KBrowser::openURL( const char *_url )
 
 void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char* _post_data )
 {
-  KURLList lst;
-  if ( !KURL::split( _url, lst ) )
+  // Check URL
+  if ( KURL::split( _url ).isEmpty() )
   {
     emit error( ERR_MALFORMED_URL, _url );
     return;
@@ -236,9 +236,9 @@ void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
     m_lstChildren.clear();
     m_strURL = m_strWorkingURL;
     m_strWorkingURL = "";
-    KURLList lst;
-    assert ( KURL::split( m_strURL, lst ) );
-    QString baseurl = lst.getLast()->url();
+    KURL::List lst = KURL::split( m_strURL );
+    assert ( !lst.isEmpty() );
+    QString baseurl = lst.begin()->url();
 
     m_bParsing = true;
     begin( baseurl, m_iNextXOffset, m_iNextYOffset );
@@ -376,24 +376,17 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
   else if ( _button == LeftButton )
   { 
     // Test whether both URLs differ in the Reference only.
-    KURLList l1;
-    if ( !KURL::split( url, l1 ) )
+    KURL u1( url );
+    if ( u1.isMalformed() )
     {
       kioErrorDialog( ERR_MALFORMED_URL, url );
       return;
     }
-    
-    KURLList l2;
-    assert( KURL::split( m_strURL, l2 ) );
-    
-    QString anchor = l1.getLast()->ref();
-    
-    l1.getLast()->setRef("");
-    l2.getLast()->setRef("");
+
     // if only the reference differs, then we just go to the new anchor
-    if ( urlcmp( l1, l2 ) )
+    if ( urlcmp( url, m_strURL, TRUE, TRUE ) )
     {
-      KURL::decode( anchor );
+      QString anchor = u1.htmlRef();
       cerr << "Going to anchor " << anchor << endl;
       gotoAnchor( anchor );
       emit urlClicked( url );
@@ -409,8 +402,8 @@ void KBrowser::slotFormSubmitted( const char *_method, const char *_url, const c
 { 
   QString url = completeURL( _url );
 
-  KURLList lst;
-  if ( !KURL::split( url, lst ) )
+  KURL u( _url );
+  if ( u.isMalformed() )
   {
     emit error( ERR_MALFORMED_URL, url );
     return;
@@ -419,19 +412,17 @@ void KBrowser::slotFormSubmitted( const char *_method, const char *_url, const c
   if ( strcasecmp( _method, "GET" ) == 0 )
   {
     // GET
-    QString query = lst.getLast()->query();
+    QString query = u.query();
     if ( !query.isEmpty() )
     {
-      lst.getLast()->setQuery( query + "&" + _data );
+      u.setQuery( query + "&" + _data );
     }
     else
     {
-      lst.getLast()->setQuery( _data );
+      u.setQuery( _data );
     }
-    QString new_url;
-    KURL::join( lst, new_url );
     
-    openURL( new_url );
+    openURL( u.url() );
   }
   else
   {
@@ -746,32 +737,12 @@ void KBrowser::setDefaultBGColor( const QColor& bgcolor )
     c->m_pBrowser->setDefaultBGColor( bgcolor );
 }
 
-/*
-string KBrowser::completeSimpleURL( const char *_url )
-{
-  KURLList lst;
-  assert( KURL::split( m_strURL, lst ) );
-  KURL u( lst.back(), _url );
-  return u.url();
-}
-*/
-
 QString KBrowser::completeURL( const char *_url )
 {
-  KURLList lst;
-  assert( KURL::split( m_strURL, lst ) );
-  KURL u( *lst.getLast(), _url );
+  KURL orig( m_strURL );
   
-  if ( strcmp( u.protocol(), lst.getLast()->protocol() ) != 0 )
-  {
-    return u.url();
-  }
-  
-  *lst.getLast() = u;
-  QString result;
-  KURL::join( lst, result );
-  
-  return result;
+  KURL u( orig, _url );
+  return u.url();
 }
 
 KBrowser* KBrowser::findChildView( const char *_target )

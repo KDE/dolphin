@@ -29,7 +29,7 @@
 #include <kregfactories.h>
 #include <kio_job.h>
 #include <kio_cache.h>
-#include <kio_manager.h>
+
 #include <khtml.h>
 #include <kimgio.h>
 #include <kapp.h>
@@ -326,10 +326,7 @@ int main( int argc, char **argv )
   signal(SIGTERM,sig_term_handler);
   signal(SIGPIPE,sig_pipe_handler);
 
-  ProtocolManager manager;
-
   KfmPaths::initStatic();
-  KIOJob::initStatic();
   KIOCache::initStatic();
   // KMimeType::initStatic();
   // KService::initStatic();

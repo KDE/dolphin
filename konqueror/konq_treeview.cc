@@ -20,7 +20,6 @@
 #include "konq_treeview.h"
 #include "kfmviewprops.h"
 
-#include <kio_manager.h>
 #include <kio_job.h>
 #include <kio_error.h>
 #include <kpixmapcache.h>
@@ -28,6 +27,7 @@
 #include <krun.h>
 #include <kdirwatch.h>
 #include <kcursor.h>
+#include <kprotocolmanager.h>
 
 #include <assert.h>
 #include <string.h>
@@ -771,8 +771,8 @@ void KonqKfmTreeView::openURL( const char *_url )
   // The first time or new protocol ? So create the columns first
   if ( m_iColumns == -1 || isNewProtocol )
   {
-    list<string> listing;
-    if ( !ProtocolManager::self()->listing( url.protocol(), listing ) )
+    QStringList listing = KProtocolManager::self().listing( url.protocol() );
+    if ( listing.isEmpty() )
     {
       QString tmp = i18n( "Unknown Protocol %s" ).arg( url.protocol());
       QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
@@ -784,18 +784,18 @@ void KonqKfmTreeView::openURL( const char *_url )
 
     int currentColumn = 0;
 
-    list<string>::iterator it = listing.begin();
+    QStringList::Iterator it = listing.begin();
     for( ; it != listing.end(); it++ )
     {	
       if ( currentColumn > m_iColumns - 1 )
       {
-	addColumn( it->c_str() );
+	addColumn( *it );
 	m_iColumns++;
 	currentColumn++;
       }
       else
       {
-	setColumnText( currentColumn, it->c_str() );
+	setColumnText( currentColumn, *it );
 	currentColumn++;
       }
     }
