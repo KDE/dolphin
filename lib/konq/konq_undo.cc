@@ -37,6 +37,7 @@
 #include <kipc.h>
 
 #include <kio/job.h>
+#include <kdirnotify_stub.h>
 
 inline const char *dcopTypeName( const KonqCommand & ) { return "KonqCommand"; }
 inline const char *dcopTypeName( const KonqCommand::Stack & ) { return "KonqCommand::Stack"; }
@@ -182,6 +183,7 @@ public:
   QValueStack<KURL> m_dirStack;
   QValueStack<KURL> m_dirCleanupStack;
   QValueStack<KURL> m_fileCleanupStack;
+  QValueList<KURL> m_dirsToUpdate;
 
   bool m_lock;
 
@@ -277,6 +279,7 @@ void KonqUndoManager::undo()
   d->m_current = cmd;
   d->m_dirCleanupStack.clear();
   d->m_dirStack.clear();
+  d->m_dirsToUpdate.clear();
 
   d->m_undoState = MOVINGFILES;
   kdDebug(1203) << "KonqUndoManager::undo MOVINGFILES" << endl;
@@ -365,6 +368,13 @@ void KonqUndoManager::slotResult( KIO::Job *job )
   undoStep();
 }
 
+
+void KonqUndoManager::addDirToUpdate( const KURL& url )
+{
+  if ( d->m_dirsToUpdate.find( url ) == d->m_dirsToUpdate.end() )
+    d->m_dirsToUpdate.prepend( url );
+}
+
 void KonqUndoManager::undoStep()
 {
   d->m_currentJob = 0;
@@ -434,6 +444,16 @@ void KonqUndoManager::undoMovingFiles()
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
         d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
       }
+
+      // The above KIO jobs are lowlevel, they don't trigger KDirNotify notification
+      // So we need to do it ourselves (but schedule it to the end of the undo, to compress them)
+      KURL url( op.m_dst );
+      url.setPath( url.directory() );
+      addDirToUpdate( url );
+
+      url = op.m_src;
+      url.setPath( url.directory() );
+      addDirToUpdate( url );
     }
     else
       d->m_undoState = REMOVINGFILES;
@@ -448,6 +468,10 @@ void KonqUndoManager::undoRemovingFiles()
       kdDebug(1203) << "KonqUndoManager::undoStep file_delete " << file.prettyURL() << endl;
       d->m_currentJob = KIO::file_delete( file );
       d->m_uiserver->deleting( d->m_uiserverJobId, file );
+
+      KURL url( file );
+      url.setPath( url.directory() );
+      addDirToUpdate( url );
     }
     else
     {
@@ -466,6 +490,7 @@ void KonqUndoManager::undoRemovingDirectories()
       kdDebug(1203) << "KonqUndoManager::undoStep rmdir " << dir.prettyURL() << endl;
       d->m_currentJob = KIO::rmdir( dir );
       d->m_uiserver->deleting( d->m_uiserverJobId, dir );
+      addDirToUpdate( dir );
     }
     else
     {
@@ -477,6 +502,12 @@ void KonqUndoManager::undoRemovingDirectories()
           d->m_uiserver->jobFinished( d->m_uiserverJobId );
           delete d->m_undoJob;
           d->m_undoJob = 0;
+      }
+      KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
+      QValueList<KURL>::ConstIterator it = d->m_dirsToUpdate.begin();
+      for( ; it != d->m_dirsToUpdate.end(); ++it ) {
+          kdDebug() << "Notifying FilesAdded for " << *it << endl;
+          allDirNotify.FilesAdded( *it );
       }
       broadcastUnlock();
     }

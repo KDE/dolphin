@@ -143,6 +143,7 @@ private:
   void broadcastLock();
   void broadcastUnlock();
 
+  void addDirToUpdate( const KURL& url );
   bool initializeFromKDesky();
 
   class KonqUndoManagerPrivate;
