@@ -38,7 +38,7 @@
 #include <kio/netaccess.h>
 #include <kpopupmenu.h>
 #include <kprocess.h>
-
+#include <kurlrequesterdlg.h>
 #include "konqsidebar.h"
 
 #include "sidebar_widget.h"
@@ -192,7 +192,7 @@ void addBackEnd::activatedAddMenu(int id)
 				} else {
 					kdWarning() << "No unique filename found" << endl;
 				}
-			} else {	
+			} else {
 				kdWarning() << "No new entry (error?)" << endl;
 			}
 			delete tmp;
@@ -275,9 +275,9 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_config = new KConfig("konqsidebartng_kicker.rc");
 	else
 	m_config = new KConfig("konqsidebartng.rc");
-	connect(&m_configTimer, SIGNAL(timeout()), 
+	connect(&m_configTimer, SIGNAL(timeout()),
 		this, SLOT(saveConfig()));
-	connect(&m_resizeTimer, SIGNAL(timeout()), 
+	connect(&m_resizeTimer, SIGNAL(timeout()),
 		this, SLOT(delayedResize()));
         readConfig();
 	m_somethingVisible = !m_openViews.isEmpty();
@@ -391,7 +391,7 @@ void Sidebar_Widget::initialCopy()
 	else
 		dirtree_dirs = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/");
 	if (dirtree_dirs.last()==m_path)
-		return; //oups;	
+		return; //oups;
 
 	int nVersion=-1;
 	KSimpleConfig lcfg(m_path+".version");
@@ -400,7 +400,7 @@ void Sidebar_Widget::initialCopy()
 
 	for (QStringList::const_iterator ddit=dirtree_dirs.begin();ddit!=dirtree_dirs.end();++ddit) {
 		QString dirtree_dir=*ddit;
-		if (dirtree_dir == m_path) continue;	
+		if (dirtree_dir == m_path) continue;
 
 
 		kdDebug()<<"************************************ retrieving directory info:"<<dirtree_dir<<endl;
@@ -470,18 +470,25 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		}
 		case 2:
 		{
-			bool ok;
-			QString newurl = KInputDialog::getText(QString::null,
-				i18n("Enter a URL:"), m_currentButton->URL,&ok,this);
-			if (ok)
+                        KURLRequesterDlg * dlg = new KURLRequesterDlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
+			if (dlg->exec())
 			{
 				KSimpleConfig ksc(m_path+m_currentButton->file);
 				ksc.setGroup("Desktop Entry");
-				ksc.writeEntry("Name",newurl);
-				ksc.writePathEntry("URL",newurl);
-				ksc.sync();
-				QTimer::singleShot(0,this,SLOT(updateButtons()));
+                                if ( !dlg->selectedURL().isValid())
+                                {
+                                    KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist<qt>").arg(dlg->selectedURL().url()));
+                                }
+                                else
+                                {
+                                    QString newurl= dlg->selectedURL().path();
+                                    ksc.writeEntry("Name",newurl);
+                                    ksc.writePathEntry("URL",newurl);
+                                    ksc.sync();
+                                    QTimer::singleShot(0,this,SLOT(updateButtons()));
+                                }
 			}
+                        delete dlg;
 			break;
 		}
 		case 3:
@@ -522,7 +529,7 @@ void Sidebar_Widget::activatedMenu(int id)
 							m_mainDockWidget->undock();
 						}
 					}
-				}		
+				}
 				m_latestViewed=tmpViewID;
 			} else {
 				if (!m_singleWidgetMode)
@@ -615,7 +622,7 @@ void Sidebar_Widget::updateButtons()
 {
 	//PARSE ALL DESKTOP FILES
 	m_openViews = m_visibleViews;
-	
+
 	if (m_buttons.count() > 0)
 	{
 		for (uint i = 0; i < m_buttons.count(); i++)
@@ -640,7 +647,7 @@ void Sidebar_Widget::updateButtons()
 	readConfig();
 	doLayout();
 	createButtons();
-}	
+}
 
 void Sidebar_Widget::createButtons()
 {
