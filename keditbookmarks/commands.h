@@ -90,5 +90,32 @@ private:
     QString m_from;
     KCommand * m_cmd;
 };
-#endif
 
+#include <qstack.h>
+#include <qobject.h>
+#include <kbookmark.h>
+class ImportCommand : public QObject, public KCommand
+{
+    Q_OBJECT
+public:
+    ImportCommand( const QString & name, const QString & fileName )
+        : KCommand(name), m_fileName(fileName)
+    {}
+    virtual ~ImportCommand() {}
+    virtual void execute();
+    virtual void unexecute();
+
+protected slots:
+    void newBookmark( const QString & text, const QCString & url );
+    void newFolder( const QString & text );
+    void newSeparator();
+    void endMenu();
+
+private:
+    QStack<KBookmarkGroup> mstack;
+    QValueList<KBookmarkGroup> mlist;
+    QString m_fileName;
+    QString m_group;
+};
+
+#endif

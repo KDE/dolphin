@@ -20,10 +20,10 @@ keditbookmarks_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 dummy.cpp:
 	echo > dummy.cpp
 
-data_DATA = keditbookmarks.desktop
-datadir = $(kde_appsdir)/Internet
-
 rcdir = $(kde_datadir)/keditbookmarks
 rc_DATA = keditbookmarksui.rc  
+
+data_DATA = keditbookmarks.desktop
+datadir = $(kde_appsdir)/Internet
 
 KDE_ICON = AUTO

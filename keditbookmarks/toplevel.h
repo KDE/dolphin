@@ -76,6 +76,7 @@ public:
     KListView * listView() const { return m_pListView; }
 
 public slots:
+    void slotImportNS();
     void slotSave();
     void slotRename();
     void slotDelete();

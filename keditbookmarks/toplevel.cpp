@@ -29,6 +29,7 @@
 #include <kiconloader.h>
 #include <kapp.h>
 #include <dcopclient.h>
+#include <qdir.h>
 #include <assert.h>
 #include <stdlib.h>
 
@@ -154,7 +155,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     // Create the actions
 
-    // TODO importNS (icon : "netscape")
+    (void) new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "file_importNS" );
+    // TODO Mozilla bookmarks
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "edit_delete" );
@@ -166,9 +168,9 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) new KAction( i18n( "&Open Link" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "edit_openlink" );
     (void) new KAction( i18n( "Test &Link" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "edit_testlink" );
     // TODO change icon (calls KIconDialog) ?
-    m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
-    m_taShowNS->setEnabled(false); // not implemented
-    // TODO m_taShowNS->setChecked(....)
+    m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
+
+    m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
 
     actionCollection()->action("edit_sort")->setEnabled(false); // not implemented
     actionCollection()->action("edit_testlink")->setEnabled(false); // not implemented
@@ -200,7 +202,7 @@ bool KEBTopLevel::save()
         QByteArray data;
         // We don't want to notify ourselves (keditbookmarks), because this would
         // call slotBookmarksChanged, which clears the history.
-        // There's probably a better solution, but not at 4:47am.
+        // There's probably a better solution than hardcoding konq/kdesktop, but not at 4:47am.
         kapp->dcopClient()->send( "konqueror*", "KBookmarkManager", "notifyCompleteChange()", data );
         kapp->dcopClient()->send( "kdesktop", "KBookmarkManager", "notifyCompleteChange()", data );
         setModified( false );
@@ -258,7 +260,7 @@ void KEBTopLevel::slotDelete()
     kdDebug() << "KEBTopLevel::slotDelete child count=" << bk.internalElement().childNodes().count() << endl;
     if ( bk.isGroup() && bk.internalElement().childNodes().count() > 1 /*there's always "TEXT"*/ )
     {
-        if ( KMessageBox::questionYesNo( this, i18n("This is a bookmark folder. Are you sure you want to delete it ?"),
+        if ( KMessageBox::questionYesNo( this, i18n("This is a bookmark folder. Are you sure you want to delete it ?\nThis operation can't be undone."),
                                          i18n("Confirmation required") ) == KMessageBox::No )
             return;
     }
@@ -280,6 +282,14 @@ void KEBTopLevel::slotNewFolder()
 void KEBTopLevel::slotInsertSeparator()
 {
     CreateCommand * cmd = new CreateCommand( i18n("Insert separator"), insertionAddress() );
+    cmd->execute();
+    m_commandHistory.addCommand( cmd );
+    setModified();
+}
+
+void KEBTopLevel::slotImportNS()
+{
+    ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), QDir::homeDirPath() + "/.netscape/bookmarks.html" );
     cmd->execute();
     m_commandHistory.addCommand( cmd );
     setModified();
@@ -319,7 +329,11 @@ void KEBTopLevel::slotTestLink()
 
 void KEBTopLevel::slotShowNS()
 {
-
+    QDomElement rootElem = KBookmarkManager::self()->root().internalElement();
+    QString attr = "HIDE_NSBK";
+    rootElem.setAttribute(attr, rootElem.attribute(attr) == "1" ? "0" : "1");
+    setModified(); // one will need to save, to get konq to notice the change
+    // If that's bad, then we need to put this flag in a KConfig.
 }
 
 void KEBTopLevel::setModified( bool modified )
@@ -543,5 +557,6 @@ bool KEBTopLevel::queryClose()
     }
     return true;
 }
+
 
 #include "toplevel.moc"

@@ -19,8 +19,10 @@
 #include "commands.h"
 #include "toplevel.h"
 #include <kbookmarkmanager.h>
+#include <kbookmarkimporter.h>
 #include <kdebug.h>
 #include <klistview.h>
+#include <klocale.h>
 
 void MoveCommand::execute()
 {
@@ -159,3 +161,61 @@ void DeleteCommand::unexecute()
 {
     m_cmd->execute();
 }
+
+void ImportCommand::execute()
+{
+    // Find or create "Netscape Bookmarks" toplevel item
+    // Hmm, let's just create it. The user will clean up if he imports twice.
+
+    KBookmarkGroup netscapeGroup = KBookmarkManager::self()->root().createNewFolder(i18n("Netscape Bookmarks"));
+    netscapeGroup.internalElement().setAttribute("ICON", "netscape");
+    m_group = netscapeGroup.address();
+
+    mstack.push( &netscapeGroup );
+    KNSBookmarkImporter importer(m_fileName);
+    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString & ) ),
+             SLOT( newBookmark( const QString &, const QCString & ) ) );
+    connect( &importer, SIGNAL( newFolder( const QString & ) ),
+             SLOT( newFolder( const QString & ) ) );
+    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
+    connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
+    importer.parseNSBookmarks();
+    // Update GUI
+    KEBTopLevel::self()->update();
+    // Save memory
+    mlist.clear();
+    mstack.clear();
+}
+
+void ImportCommand::unexecute()
+{
+    // Just delete the whole imported group
+    CreateCommand cmd("dummy", m_group, "dummy");
+    cmd.unexecute();
+    // Update GUI
+    KEBTopLevel::self()->update();
+}
+
+void ImportCommand::newBookmark( const QString & text, const QCString & url )
+{
+    mstack.top()->addBookmark( text, QString::fromUtf8(url) );
+}
+
+void ImportCommand::newFolder( const QString & text )
+{
+    // We use a qvaluelist so that we keep pointers to valid objects in the stack
+    mlist.append( mstack.top()->createNewFolder( text ) );
+    mstack.push( &(mlist.last()) );
+}
+
+void ImportCommand::newSeparator()
+{
+    mstack.top()->createNewSeparator();
+}
+
+void ImportCommand::endMenu()
+{
+    mstack.pop();
+}
+
+#include "commands.moc"
