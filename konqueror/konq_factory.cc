@@ -104,9 +104,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     }
   }
 
-  static QString preferenceExpr = QString::fromLatin1( "max InitialPreference" );
-  
-  KTrader::OfferList offers = KTrader::self()->query( serviceType, QString::null, preferenceExpr );
+  KTrader::OfferList offers = KTrader::self()->query( serviceType );
 
   if ( appServiceOffers )
   {
