@@ -138,7 +138,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     s_pCompletion = mgr->completionObject();
 
     // add all bookmarks to the completion list for easy access
-    bookmarksIntoCompletion( KBookmarkManager::self()->root() );
+    // neil: disabled for faster startup
+    // bookmarksIntoCompletion( KBookmarkManager::self()->root() );
 
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
