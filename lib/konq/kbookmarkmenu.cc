@@ -205,11 +205,11 @@ void KBookmarkMenu::fillBookmarkMenu()
     if ( m_bAddBookmark )
       addNewFolder();
 
-    m_parentMenu->insertSeparator();
-
     if ( KBookmarkManager::self()->showNSBookmarks()
          && QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) )
     {
+      m_parentMenu->insertSeparator();
+
       KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), "netscape",
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
@@ -219,14 +219,18 @@ void KBookmarkMenu::fillBookmarkMenu()
                                                   m_bAddBookmark, QString::null );
       m_lstSubMenus.append(subMenu);
       connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
-      m_parentMenu->insertSeparator();
     }
   }
 
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
   Q_ASSERT(!parentBookmark.isNull());
+  bool separatorInserted = false;
   for ( KBookmark bm = parentBookmark.first(); !bm.isNull();  bm = parentBookmark.next(bm) )
   {
+    if ( !separatorInserted ) { // inserted before the first konq bookmark, to avoid the separator if no konq bookmark
+      m_parentMenu->insertSeparator();
+      separatorInserted = true;
+    }
     if ( !bm.isGroup() )
     {
       if ( bm.isSeparator() )
