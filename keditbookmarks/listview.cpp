@@ -61,42 +61,54 @@ void ListView::createListView(QWidget *parent) {
 }
 
 void ListView::initListView() {
-   m_listView->setRootIsDecorated(false);
-   m_listView->addColumn(i18n("Bookmark"), 300);
-   m_listView->addColumn(i18n("URL"), 300);
-   m_listView->addColumn(i18n("Comment"), 300);
-   m_listView->addColumn(i18n("Status/Last Modified"), 300);
+   self()->m_listView->init();
+}
+
+void KEBListView::init() {
+   setRootIsDecorated(false);
+   addColumn(i18n("Bookmark"), 300);
+   addColumn(i18n("URL"), 300);
+   addColumn(i18n("Comment"), 300);
+   addColumn(i18n("Status/Last Modified"), 300);
 #ifdef DEBUG_ADDRESSES
-   m_listView->addColumn(i18n("Address"), 100);
+   addColumn(i18n("Address"), 100);
 #endif
-   m_listView->setRenameable(KEBListView::NameColumn);
-   m_listView->setRenameable(KEBListView::UrlColumn);
-   m_listView->setRenameable(KEBListView::CommentColumn);
-   m_listView->setTabOrderedRenaming(false);
-   m_listView->setSorting(-1, false);
-   m_listView->setDragEnabled(true);
-   m_listView->setSelectionModeExt(KListView::Extended);
-   m_listView->setAllColumnsShowFocus(true);
+   setRenameable(KEBListView::NameColumn);
+   setRenameable(KEBListView::UrlColumn);
+   setRenameable(KEBListView::CommentColumn);
+   setTabOrderedRenaming(false);
+   setSorting(-1, false);
+   setDragEnabled(true);
+   setSelectionModeExt(KListView::Extended);
+   setAllColumnsShowFocus(true);
 }
 
 void ListView::updateListViewSetup(bool readonly) {
-   m_listView->setItemsMovable(readonly); // we move items ourselves (for undo)
-   m_listView->setItemsRenameable(!readonly);
-   m_listView->setAcceptDrops(!readonly);
-   m_listView->setDropVisualizer(!readonly);
+   self()->m_listView->readonlyFlagInit(readonly);
+}
+
+void KEBListView::readonlyFlagInit(bool readonly) {
+   setItemsMovable(readonly); // we move items ourselves (for undo)
+   setItemsRenameable(!readonly);
+   setAcceptDrops(!readonly);
+   setDropVisualizer(!readonly);
 }
 
 void ListView::connectSignals() {
-   connect(m_listView, SIGNAL( selectionChanged() ),
-           this,       SLOT( slotSelectionChanged() ));
-   connect(m_listView, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
-           this,       SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
-   connect(m_listView, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
-           this,       SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
-   connect(m_listView, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
-           this,       SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
-   connect(m_listView, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
-           this,       SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
+   connectSignals(m_listView);
+}
+
+void ListView::connectSignals(KEBListView *listview) {
+   connect(listview, SIGNAL( selectionChanged() ),
+           this,     SLOT( slotSelectionChanged() ));
+   connect(listview, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
+           this,     SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
+   connect(listview, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
+           this,     SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
+   connect(listview, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
+           this,     SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
+   connect(listview, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
+           this,     SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
 KEBListViewItem* ListView::getFirstChild() {

@@ -44,6 +44,9 @@ public:
    KEBListView(QWidget *parent) : KListView(parent) {}
    virtual ~KEBListView() {}
 
+   void init();
+   void readonlyFlagInit(bool);
+
 public slots:
    virtual void rename(QListViewItem *item, int c);
 
@@ -95,7 +98,9 @@ public:
    void initListView();
 
    void updateListViewSetup(bool readOnly);
+
    void connectSignals();
+   void connectSignals(KEBListView *listview);
 
    // item stuff
    KEBListViewItem* getFirstChild();
