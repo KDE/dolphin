@@ -36,9 +36,8 @@ public:
     KonqSidebarHistorySettings( QObject *parent, const char *name );
     virtual ~KonqSidebarHistorySettings();
 
-    void readSettings();
+    void readSettings(bool global);
     void applySettings();
-    void setActiveDialog( QWidget *dialog );
 
     uint m_valueYoungerThan;
     uint m_valueOlderThan;
@@ -51,23 +50,17 @@ public:
     QFont m_fontYoungerThan;
     QFont m_fontOlderThan;
 
-    QWidget *m_activeDialog;
-
 signals:
-    void settingsChanged( const KonqSidebarHistorySettings *oldSettings );
+    void settingsChanged();
 
 protected:
     KonqSidebarHistorySettings();
     KonqSidebarHistorySettings( const KonqSidebarHistorySettings& );
 
 k_dcop:
-    void notifySettingsChanged( KonqSidebarHistorySettings settings, QCString id );
+    void notifySettingsChanged();
 
 private: // to make dcopidl happy :-/
 };
-
-QDataStream& operator<< (QDataStream& s, const KonqSidebarHistorySettings& e);
-QDataStream& operator>> (QDataStream& s, KonqSidebarHistorySettings& e);
-
 
 #endif // HISTORY_SETTINGS_H

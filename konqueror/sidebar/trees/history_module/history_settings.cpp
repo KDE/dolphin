@@ -8,24 +8,21 @@
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent, const char *name )
     : QObject( parent, name ),
-      DCOPObject( "KonqSidebarHistorySettings" ),
-      m_activeDialog( 0L )
+      DCOPObject( "KonqSidebarHistorySettings" )
 {
     m_fontOlderThan.setItalic( true ); // default
 }
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings()
     : QObject(),
-      DCOPObject( "KonqSidebarHistorySettings" ),
-      m_activeDialog( 0L )
+      DCOPObject( "KonqSidebarHistorySettings" )
 {
     m_fontOlderThan.setItalic( true ); // default
 }
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings( const KonqSidebarHistorySettings& s )
     : QObject(),
-      DCOPObject( "KonqSidebarHistorySettings" ),
-      m_activeDialog( 0L )
+      DCOPObject( "KonqSidebarHistorySettings" )
 {
     m_valueYoungerThan = s.m_valueYoungerThan;
     m_valueOlderThan = s.m_valueOlderThan;
@@ -43,11 +40,19 @@ KonqSidebarHistorySettings::~KonqSidebarHistorySettings()
 {
 }
 
-void KonqSidebarHistorySettings::readSettings()
+void KonqSidebarHistorySettings::readSettings(bool global)
 {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "HistorySettings" );
+    KConfig *config;
+    QString oldgroup;
 
+    if (global) {
+      config = KGlobal::config();
+      oldgroup= config->group();
+    }
+    else
+      config = new KConfig("konquerorrc");
+
+    config->setGroup("HistorySettings");
     m_valueYoungerThan = config->readNumEntry("Value youngerThan", 1 );
     m_valueOlderThan = config->readNumEntry("Value olderThan", 2 );
 
@@ -64,37 +69,16 @@ void KonqSidebarHistorySettings::readSettings()
 					       &m_fontYoungerThan );
     m_fontOlderThan   = config->readFontEntry( "Font olderThan",
 					       &m_fontOlderThan );
+    if (global)
+      config->setGroup( oldgroup );
+    else
+      delete config;
 }
 
 void KonqSidebarHistorySettings::applySettings()
 {
-    // notify other konqueror instances about the new configuration
-    QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
-    stream << *this << objId();
-    kapp->dcopClient()->send( "konqueror*", "KonqSidebarHistorySettings",
-			      "notifySettingsChanged(KonqSidebarHistorySettings,QCString)",
-			      data );
-}
-
-void KonqSidebarHistorySettings::notifySettingsChanged( KonqSidebarHistorySettings s,
-						 QCString id )
-{
-    KonqSidebarHistorySettings oldSettings( s );
-
-    m_valueYoungerThan = s.m_valueYoungerThan;
-    m_valueOlderThan   = s.m_valueOlderThan;
-
-    m_metricYoungerThan = s.m_metricYoungerThan;
-    m_metricOlderThan   = s.m_metricOlderThan;
-
-    m_detailedTips       = s.m_detailedTips;
-
-    m_fontYoungerThan = s.m_fontYoungerThan;
-    m_fontOlderThan   = s.m_fontOlderThan;
-
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, "HistorySettings" );
+    KConfig *config = new KConfig("konquerorrc");
+    config->setGroup("HistorySettings");
 
     config->writeEntry("Value youngerThan", m_valueYoungerThan );
     config->writeEntry("Value olderThan", m_valueOlderThan );
@@ -102,57 +86,26 @@ void KonqSidebarHistorySettings::notifySettingsChanged( KonqSidebarHistorySettin
     QString minutes = QString::fromLatin1("minutes");
     QString days = QString::fromLatin1("days");
     config->writeEntry("Metric youngerThan", m_metricYoungerThan == DAYS ?
-		       days : minutes );
+			  days : minutes );
     config->writeEntry("Metric olderThan", m_metricOlderThan == DAYS ?
-		       days : minutes );
+ 	 	 	   days : minutes );
 
     config->writeEntry("Detailed Tooltips", m_detailedTips);
 
     config->writeEntry("Font youngerThan", m_fontYoungerThan );
     config->writeEntry("Font olderThan", m_fontOlderThan );
 
-    if ( id == objId() )
-	config->sync();
+    delete config;
 
-    emit settingsChanged( &oldSettings );
+    // notify konqueror instances about the new configuration
+    kapp->dcopClient()->send( "konqueror*", "KonqSidebarHistorySettings",
+			      "notifySettingsChanged()", QByteArray() );
 }
 
-
-void KonqSidebarHistorySettings::setActiveDialog( QWidget *dialog )
+void KonqSidebarHistorySettings::notifySettingsChanged()
 {
-    m_activeDialog = dialog;
-}
-
-QDataStream& operator<< (QDataStream& s, const KonqSidebarHistorySettings& e)
-{
-    s << e.m_valueYoungerThan;
-    s << e.m_valueOlderThan;
-
-    s << (int) e.m_metricYoungerThan;
-    s << (int) e.m_metricOlderThan;
-
-    s << (int) e.m_detailedTips;
-
-    s << e.m_fontYoungerThan;
-    s << e.m_fontOlderThan;
-
-    return s;
-}
-QDataStream& operator>> (QDataStream& s, KonqSidebarHistorySettings& e)
-{
-    int i;
-    s >> e.m_valueYoungerThan;
-    s >> e.m_valueOlderThan;
-
-    s >> i; e.m_metricYoungerThan = (bool) i;
-    s >> i; e.m_metricOlderThan = (bool) i;
-
-    s >> i; e.m_detailedTips = (bool) i;
-
-    s >> e.m_fontYoungerThan;
-    s >> e.m_fontOlderThan;
-
-    return s;
+    readSettings(false);
+    emit settingsChanged();
 }
 
 #include "history_settings.moc"

@@ -29,11 +29,9 @@
 #include <konq_sidebartreemodule.h>
 
 #include "history_item.h"
-#include "history_dlg.h"
 
 class KActionCollection;
 class KDialogBase;
-class KonqSidebarHistoryDialog;
 class KonqSidebarHistorySettings;
 class KonqSidebarTree;
 class KonqSidebarTreeItem;
@@ -70,8 +68,7 @@ private slots:
     void slotNewWindow();
     void slotRemoveEntry();
     void slotPreferences();
-    void slotDialogFinished();
-    void slotSettingsChanged( const KonqSidebarHistorySettings *old );
+    void slotSettingsChanged();
 
     void slotItemExpanded( QListViewItem * );
 
@@ -92,41 +89,12 @@ private:
     KActionCollection *m_collection;
 
     KDialogBase *m_dlg;
-    KonqSidebarHistoryDialog *m_settingsDlg;
     QPixmap m_folderClosed;
     QPixmap m_folderOpen;
     bool m_initialized;
     bool m_sortsByName;
     QDateTime m_currentTime; // used for sorting the items by date
     static KonqSidebarHistorySettings *s_settings;
-};
-
-
-class KonqSidebarHistoryDialog : public KonqSidebarHistoryDlg
-{
-    Q_OBJECT
-
-public:
-    KonqSidebarHistoryDialog( KonqSidebarHistorySettings *settings,
-		       QWidget *parent, const char *name=0 );
-    ~KonqSidebarHistoryDialog();
-
-    void initFromSettings();
-
-public slots:
-    void applySettings();
-    void slotGetFontNewer();
-    void slotGetFontOlder();
-
-private slots:
-    void slotExpireChanged( int );
-    void slotNewerChanged( int );
-    void slotOlderChanged( int );
-
-private:
-    QFont m_fontNewer;
-    QFont m_fontOlder;
-    KonqSidebarHistorySettings *m_settings;
 };
 
 #endif // HISTORY_MODULE_H

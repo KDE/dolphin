@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=history
+Type=Application
+DocPath=kcontrol/history.html
+Exec=kcmshell kcmhistory
+
+X-KDE-ModuleType=Library
+X-KDE-Library=history
+X-KDE-FactoryName=history
+
+Name=History Sidebar
+Comment=You can configure the history sidebar here
+Keywords=history,expire
