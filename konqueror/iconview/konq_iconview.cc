@@ -387,6 +387,34 @@ KonqKfmIconView::KonqKfmIconView()
   m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
   m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
 
+  KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive" ), 0, this );
+  KToggleAction *aSortByNameCI = new KToggleAction( i18n( "by Name (Case Insensitive" ), 0, this );
+  KToggleAction *aSortBySize = new KToggleAction( i18n( "By Size" ), 0, this );
+
+  aSortByNameCS->setExclusiveGroup( "sorting" );
+  aSortByNameCI->setExclusiveGroup( "sorting" );
+  aSortBySize->setExclusiveGroup( "sorting" );
+ 
+  aSortByNameCS->setChecked( true );
+  aSortByNameCI->setChecked( false );
+  aSortBySize->setChecked( false );
+
+  connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseSensitive( bool ) ) );
+  connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
+  connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
+    
+  KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, this, SLOT( foo ), this );
+
+  connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending( bool ) ) );
+
+  m_pamSort->insert( aSortByNameCS );
+  m_pamSort->insert( aSortByNameCI );
+  m_pamSort->insert( aSortBySize );
+  
+  m_pamSort->popupMenu()->insertSeparator();
+  
+  m_pamSort->insert( aSortDescending );
+
   m_paSelect = new KAction( i18n( "&Select" ), 0, this, SLOT( slotSelect() ), this );
   m_paUnselect = new KAction( i18n( "&Unselect" ), 0, this, SLOT( slotUnselect() ), this );
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
@@ -619,18 +647,27 @@ void KonqKfmIconView::slotUnselectAll()
   m_pIconView->selectAll( false );
 }
 
-void KonqKfmIconView::slotSortByNameCaseSensitive()
+void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
 {
+  if ( !toggle )
+    return;
+    
   setupSorting( NameCaseSensitive );
 }
 
-void KonqKfmIconView::slotSortByNameCaseInsensitive()
+void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
 {
+  if ( !toggle )
+    return;
+    
   setupSorting( NameCaseInsensitive );
 }
 
-void KonqKfmIconView::slotSortBySize()
+void KonqKfmIconView::slotSortBySize( bool toggle )
 {
+  if ( !toggle )
+    return;
+    
   setupSorting( Size );
 }
 
@@ -650,8 +687,11 @@ void KonqKfmIconView::resizeEvent( QResizeEvent * )
   m_pIconView->setGeometry( 0, 0, width(), height() );
 }
 
-void KonqKfmIconView::slotSetSortDirectionDescending()
+void KonqKfmIconView::slotSortDescending( bool toggle )
 {
+  if ( !toggle )
+    return;
+
   if ( m_pIconView->sortOrder() )
     m_pIconView->setResortItemsWhenInsert( true, false );
   else

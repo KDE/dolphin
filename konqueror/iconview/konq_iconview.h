@@ -128,25 +128,17 @@ public:
 
   KonqIconViewWidget *iconView() const { return m_pIconView; }
 
-/*
-  virtual void can( bool &copy, bool &paste, bool &move );
-
-  virtual void copySelection();
-  virtual void pasteSelection();
-  virtual void moveSelection( const QCString &destinationURL );
-*/
 public slots:
-  //TODO: move to BrowserIconView (Simon) What's that ? (David) :)
   void slotShowDot();
   void slotSelect();
   void slotUnselect();
   void slotSelectAll();
   void slotUnselectAll();
 
-  void slotSortByNameCaseSensitive();
-  void slotSortByNameCaseInsensitive();
-  void slotSortBySize();
-  void slotSetSortDirectionDescending();
+  void slotSortByNameCaseSensitive( bool toggle );
+  void slotSortByNameCaseInsensitive( bool toggle );
+  void slotSortBySize( bool toggle );
+  void slotSortDescending( bool toggle );
 
   void slotKofficeMode( bool b );
   void slotViewLarge( bool b );
