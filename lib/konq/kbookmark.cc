@@ -21,9 +21,6 @@
 
 #include "kbookmark.h"
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <stddef.h>
 #include <dirent.h>
@@ -35,7 +32,6 @@
 #include <kapp.h>
 #include <klocale.h>
 #include <kwm.h>
-#include <kmimemagic.h>
 #include <kdirwatch.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -132,6 +128,7 @@ void KBookmarkManager::emitChanged()
   {
     // ... no => emit signal
     emit changed();
+    // OLD AND DEPRECATED - check if still needed
     // tell krootwm to refresh the bookmarks popup menu
     KWM::sendKWMCommand ("krootwm:refreshBM");
   }
@@ -353,26 +350,11 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     return;
   }
 
-  //fprintf( f, "# KDE Config File\n" );
   fprintf( f, "[Desktop Entry]\n" );
   fprintf( f, "URL=%s\n", m_url.ascii() );
   fprintf( f, "Icon=%s\n", icon.ascii() );
-  //fprintf( f, "MiniIcon=%s\n", icon.ascii() );
   fprintf( f, "Type=Link\n" );
   fclose( f );
-
-  m_pManager->disableNotify();
-
-  // Update opened KFM windows. Perhaps there is one
-  // that shows the bookmarks directory.
-  //QString fe( _parent->file() );
-  // To make an URL, we have th encode the path
-  //KURL::encode( fe );
-  //fe.prepend( "file:" );
-  // HACK
-  // KIOServer::sendNotify( fe );
-
-  m_pManager->enableNotify();
 
   _parent->append( _text, this );
 
