@@ -5,8 +5,6 @@ bin_PROGRAMS = kfind
 LDFLAGS =  $(all_libraries) $(KDE_RPATH)
 LDADD = $(LIB_KFILE)
 
-ICONSDIR=$(kde_icondir)
-
 ####### Files
 
 kfind_SOURCES  =  kfarch.cpp kfdird.cpp kfindtop.cpp  kftabdlg.cpp \
@@ -23,14 +21,13 @@ EXTRA_DIST = kfind.xpm mini-kfind.xpm DESCRIPTION
 
 SUBDIRS = pics
 
+kde_icon_DATA = kfind.xpm
+
 install-data-local:
-	$(mkinstalldirs) $(ICONSDIR)
-	$(INSTALL_DATA) $(srcdir)/kfind.xpm $(ICONSDIR)
 	$(mkinstalldirs) $(kde_minidir)
 	$(INSTALL_DATA) $(srcdir)/mini-kfind.xpm $(kde_minidir)/kfind.xpm
 
 uninstall-local:
-	rm -f $(ICONSDIR)/$(TARGET).xpm
 	rm -f $(kde_minidir)/kfind.xpm
 
 messages:
