@@ -429,8 +429,10 @@ void KonqDirPart::slotIncIconSize()
     for ( int idx=1; idx < 5 ; ++idx )
         if (s == m_iIconSize[idx])
             sizeIndex = idx;
-    Q_ASSERT( sizeIndex != 0 && sizeIndex < 4 );
-    setIconSize( m_iIconSize[sizeIndex + 1] );
+    if ( sizeIndex > 0 && sizeIndex < 4 )
+    {
+        setIconSize( m_iIconSize[sizeIndex + 1] );
+    }
 }
 
 void KonqDirPart::slotDecIconSize()
@@ -441,8 +443,10 @@ void KonqDirPart::slotDecIconSize()
     for ( int idx=1; idx < 5 ; ++idx )
         if (s == m_iIconSize[idx])
             sizeIndex = idx;
-    Q_ASSERT( sizeIndex > 1 );
-    setIconSize( m_iIconSize[sizeIndex - 1] );
+    if ( sizeIndex > 1 )
+    {
+        setIconSize( m_iIconSize[sizeIndex - 1] );
+    }
 }
 
 // Only updates the GUI (that's the one that is reimplemented by the views, too)
