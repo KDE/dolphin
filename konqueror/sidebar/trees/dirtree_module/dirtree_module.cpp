@@ -95,7 +95,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     else
         return;
 
-    bool bListable = KProtocolInfo::supportsListing( targetURL.protocol() );
+    bool bListable = KProtocolInfo::supportsListing( targetURL );
     //kdDebug(1201) << targetURL.prettyURL() << " listable : " << bListable << endl;
 
     if ( !bListable )
