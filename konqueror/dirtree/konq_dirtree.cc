@@ -786,7 +786,10 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 
   addSubDir( item, item, fileItem->url() );
 
-  if ( fileItem->url().isLocalFile() )
+  bool hasOpenKey = cfg.hasKey( "Open" );
+  bool open = cfg.readBoolEntry( "Open", true );
+  
+  if ( ( !hasOpenKey && fileItem->url().isLocalFile() ) || ( hasOpenKey && open ) )
     item->setOpen( true );
 
 }
