@@ -3455,13 +3455,13 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
     QValueList<KURL>::Iterator it = list.begin();
     for (; it != list.end(); ++it )
       popupItems.append( new KFileItem( (*it), QString::null, KFileItem::Unknown) );
-    pm->insertItem( i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTab() ) );
+    pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTab() ) );
   }
   else
   {
     popupItems.append( new KFileItem( bk.url(), QString::null, KFileItem::Unknown) );
-    pm->insertItem( i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
-    pm->insertItem( i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
+    pm->insertItem( SmallIcon("window_new"), i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
+    pm->insertItem( SmallIcon("tab_new"), i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
   }
 }
 
