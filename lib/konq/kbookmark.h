@@ -23,6 +23,7 @@
 #include <qdom.h>
 
 class KBookmarkManager;
+class KBookmarkGroup;
 
 class KBookmark
 {

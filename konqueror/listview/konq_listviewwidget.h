@@ -39,6 +39,8 @@ class KDirLister;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
 class KToggleAction;
+class KonqListView;
+class ListViewBrowserExtension;
 
 class ColumnInfo
 {
