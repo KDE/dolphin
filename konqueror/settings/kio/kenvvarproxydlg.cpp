@@ -441,7 +441,7 @@ void KEnvVarProxyDlg::showValue( bool enable )
 }
 void KEnvVarProxyDlg::setHighLight (bool highlight, QWidget* widget)
 {
-  if (widget == 0);
+  if (!widget)
     return;
 
   QFont f = widget->font();
