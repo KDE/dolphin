@@ -78,6 +78,8 @@ ac_cv_motif_includes=
 # Other directories are just guesses.
 for dir in "$x_includes" "${prefix}/include" /usr/include /usr/local/include \
            /usr/include/Motif2.0 /usr/include/Motif1.2 /usr/include/Motif1.1 \
+	   /usr/X11R6/LessTif/Motif1.2/include \
+	   /usr/X11R6/LessTif/Motif2.0/include \
            /usr/include/X11R6 /usr/include/X11R5 /usr/include/X11R4 \
            /usr/dt/include /usr/openwin/include \
            /usr/dt/*/include /opt/*/include /usr/include/Motif* \
