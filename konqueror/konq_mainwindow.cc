@@ -2591,11 +2591,9 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    QString comment = (*it)->comment();
-    if ( comment.isEmpty() )
-      comment = (*it)->name();
+    QString name = (*it)->name();
 
-    KAction *action = new KAction( i18n( "Open With %1" ).arg( comment ), 0, 0, (*it)->name().latin1() );
+    KAction *action = new KAction( i18n( "Open With %1" ).arg( name ), 0, 0, (*it)->name().latin1() );
     action->setIcon( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),

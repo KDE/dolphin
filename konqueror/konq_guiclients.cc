@@ -72,7 +72,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
     builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
     if ( ( !builtin.isValid() || !builtin.toBool() ) &&
 	 service->name() != currentServiceName )
-      addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->comment() ), service );
+      addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
   }
   else if ( embeddingServices.count() > 1 )
   {
@@ -92,7 +92,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
       if ( ( !builtin.isValid() || !builtin.toBool() ) &&
        (*it)->name() != currentServiceName )
       {
-        addEmbeddingService( subMenu, idx++, (*it)->comment(), *it );
+        addEmbeddingService( subMenu, idx++, (*it)->name(), *it );
 	inserted = true;
       }
     }
