@@ -461,12 +461,6 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "del", del );
     emit enableAction( "shred", del );
 
-    QMimeSource *data = QApplication::clipboard()->data();
-    bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
-        (iCount <= 1); // We can't paste to more than one destination, can we ?
-
-    emit enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
-
     KFileItemList lstItems;
     if ( firstSelectedItem )
         lstItems.append( firstSelectedItem );

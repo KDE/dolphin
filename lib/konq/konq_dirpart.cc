@@ -43,6 +43,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
+    m_bMultipleItemsSelected = false;
 
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 
@@ -156,6 +157,17 @@ void KonqDirPart::slotClipboardDataChanged()
             (void) KURLDrag::decode( data, lst );
 
     disableIcons( lst );
+
+    updatePasteAction();
+}
+
+void KonqDirPart::updatePasteAction()
+{
+    QMimeSource *data = QApplication::clipboard()->data();
+    bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
+        (!m_bMultipleItemsSelected); // We can't paste to more than one destination
+
+    emit m_extension->enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
 }
 
 void KonqDirPart::newItems( const KFileItemList & entries )
@@ -197,9 +209,17 @@ void KonqDirPart::emitTotalCount()
 
 void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
 {
+    // Compare the new value with our cache
+    bool multiple = lst.count()>1;
+    if (multiple != m_bMultipleItemsSelected)
+    {
+        m_bMultipleItemsSelected = multiple;
+        updatePasteAction();
+    }
+
     if ( lst.count()==1)
     {
-       emit setStatusBarText( ((KFileItemList)lst).first()->getStatusBarInfo() );
+        emit setStatusBarText( ((KFileItemList)lst).first()->getStatusBarInfo() );
     }
     else if ( lst.count()>1)
     {
@@ -208,14 +228,14 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
         uint dirCount = 0;
 
         for (KFileItemListIterator it( lst ); it.current(); ++it )
-                if ( it.current()->isDir() )
-                    dirCount++;
-                else
-                {
-                    if (!it.current()->isLink()) // ignore symlinks
-                        fileSizeSum += it.current()->size();
-                    fileCount++;
-                }
+            if ( it.current()->isDir() )
+                dirCount++;
+            else
+            {
+                if (!it.current()->isLink()) // ignore symlinks
+                    fileSizeSum += it.current()->size();
+                fileCount++;
+            }
 
         emit setStatusBarText( KIO::itemsSummaryString(fileCount + dirCount,
                                                        fileCount,

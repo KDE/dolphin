@@ -92,6 +92,13 @@ public:
     void emitCounts( const KFileItemList & lst, bool selectionChanged );
 
     /**
+     * Enables or disables the paste action. This depends both on
+     * the data in the clipboard and the number of files selected
+     * (pasting is only possible if not more than one file is selected).
+     */
+    void updatePasteAction();
+
+    /**
      * This is called by the actions that change the icon size. The view
      * should also call it initially, or any time it wants to change the size.
      * The view should also reimplement it, to update the view.
@@ -171,6 +178,7 @@ protected:
     unsigned long m_lDirSize;
     uint m_lFileCount;
     uint m_lDirCount;
+    bool m_bMultipleItemsSelected;
 };
 
 #endif
