@@ -968,7 +968,7 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
     }	
   }
 
-  KfmRun *run = new KfmRun( this, view, url, 0, false, false );
+  KfmRun *run = new KfmRun( this, view, url, 0, false, true );
   
   if ( view )
   {
