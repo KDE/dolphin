@@ -29,7 +29,7 @@
 
 // at first, tries to find the iconname in the cache
 // if not available, tries to find the pixmap for the mimetype of url
-// if that fails, gets the mimetype for the protocol
+// if that fails, gets the icon for the protocol
 // finally, inserts the url/icon pair into the cache
 QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
 {

@@ -2734,4 +2734,12 @@ void KonqMainWindow::updateBookmarkBar()
     m_paShowBookmarkBar->setChecked( true );
 }
 
+void KonqMainWindow::closeEvent( QCloseEvent *e )
+{
+  hide();
+  qApp->flushX();
+  KParts::MainWindow::closeEvent( e );
+}
+
+
 #include "konq_mainwindow.moc"

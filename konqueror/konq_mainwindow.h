@@ -322,6 +322,8 @@ protected:
 
   void viewsChanged();
 
+  virtual void closeEvent( QCloseEvent * );
+
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
