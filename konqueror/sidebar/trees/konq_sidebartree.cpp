@@ -629,6 +629,8 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     // Here's where we need to create the right module...
     // ### TODO: make this KTrader/KLibrary based.
     QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
+    QString showHidden=cfg.readEntry("X-KDE-TreeModule-ShowHidden","");
+
     if (moduleName.isEmpty()) moduleName="Directory";
     kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
 
@@ -636,7 +638,8 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     func=plugins[moduleName];
     if (func!=0)
 	{
-		module=func(this);
+		kdDebug(1201)<<"showHidden: "<<showHidden<<endl;
+		module=func(this,showHidden.upper()=="TRUE");
 	}
 
     if (module==0) {kdDebug()<<"No Module loaded"<<endl; return;}

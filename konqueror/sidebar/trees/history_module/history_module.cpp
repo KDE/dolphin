@@ -338,7 +338,7 @@ void KonqSidebarHistoryModule::slotClearHistory()
 
 extern "C"
 {
-	KonqSidebarTreeModule* create_konq_sidebartree_history(KonqSidebarTree* par)
+	KonqSidebarTreeModule* create_konq_sidebartree_history(KonqSidebarTree* par, const bool)
 	{
 		return new KonqSidebarHistoryModule(par);
 	}

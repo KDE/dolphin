@@ -34,8 +34,8 @@ class KonqSidebarTree;
 class KonqSidebarTreeModule
 {
 public:
-    KonqSidebarTreeModule( KonqSidebarTree * parentTree )
-        : m_pTree( parentTree ) {}
+    KonqSidebarTreeModule( KonqSidebarTree * parentTree , bool showHidden=false)
+        : m_pTree( parentTree ), m_showHidden(showHidden) {}
     virtual ~KonqSidebarTreeModule() {}
 
     // Handle this new toplevel item [can only be called once currently]
@@ -50,9 +50,12 @@ public:
     virtual void followURL( const KURL & ) {}
 
     KonqSidebarTree *tree() const { return m_pTree; }
+    bool showHidden() { return m_showHidden;}
+    virtual void setShowHidden(bool showhidden) {m_showHidden=showhidden;}
 
 protected:
     KonqSidebarTree * m_pTree;
+    bool m_showHidden;
 };
 
 

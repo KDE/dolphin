@@ -38,7 +38,7 @@ class KonqSidebarTree_Internal;
 #define VIRT_Link 0
 #define VIRT_Folder 1 // A directory which is parsed for .desktop files
 
-typedef KonqSidebarTreeModule*(*getModule)(KonqSidebarTree*); 
+typedef KonqSidebarTreeModule*(*getModule)(KonqSidebarTree*, const bool); 
 
 typedef struct DirTreeConfigData_
 {

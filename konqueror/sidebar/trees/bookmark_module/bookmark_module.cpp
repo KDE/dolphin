@@ -107,7 +107,7 @@ KonqSidebarBookmarkItem * KonqSidebarBookmarkModule::findByAddress( const QStrin
 
 extern "C"
 {
-   KonqSidebarTreeModule* create_konq_sidebartree_bookmarks(KonqSidebarTree* par)
+   KonqSidebarTreeModule* create_konq_sidebartree_bookmarks(KonqSidebarTree* par,const bool)
 	{
 		return new KonqSidebarBookmarkModule(par);
 	} 

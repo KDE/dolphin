@@ -20,7 +20,6 @@
 #include "dirtree_module.h"
 #include "dirtree_item.h"
 #include <kdebug.h>
-#include <konq_propsview.h>
 #include <kprotocolinfo.h>
 #include <kdesktopfile.h>
 #include <kmessagebox.h>
@@ -28,20 +27,13 @@
 #include <kdirlister.h>
 
 
-KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree )
-    : KonqSidebarTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)
+KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree , bool showHidden)
+    : KonqSidebarTreeModule( parentTree, showHidden ), m_dirLister(0L), m_topLevelItem(0L)
 {
-    // Used to be static...
-    s_defaultViewProps = new KonqPropsView(
-	tree()->part()->parentInstance(),0);
-
-    //KonqSidebarTreeFactory::instance(), 0L );
 }
 
 KonqSidebarDirTreeModule::~KonqSidebarDirTreeModule()
 {
-    delete m_pProps;
-    delete s_defaultViewProps;
     delete m_dirLister;
 }
 
@@ -178,12 +170,6 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
                  this, SLOT( slotRedirection( const KURL &, const KURL & ) ) );
     }
 
-    if ( !m_pProps ) // created on demand
-    {
-        // Create a properties instance for this view
-        //m_pProps = new KonqPropsView( KonqSidebarTreeFactory::instance(), s_defaultViewProps );
-        m_pProps = new KonqPropsView(tree()->part()->parentInstance(), s_defaultViewProps );
-    }
 
     if ( !item->isTopLevelItem() &&
          static_cast<KonqSidebarDirTreeItem *>(item)->hasStandardIcon() )
@@ -203,23 +189,12 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
     // This causes a reparsing, but gets rid of the trailing slash
     KURL url( item->externalURL().url(-1) );
 
-    // Check for new properties in the new dir
-    // newProps returns true the first time, and any time something might
-    // have changed.
-    /*bool newProps = */m_pProps->enterDir( url );
-    m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
+    m_dirLister->setShowingDotFiles( showHidden());
     
     if (tree()->isOpeningFirstChild()) m_dirLister->setAutoErrorHandlingEnabled(false,0);
 	else m_dirLister->setAutoErrorHandlingEnabled(true,tree());
     m_dirLister->openURL( url, true /*keep*/ );
 
-#if 0
-    if ( newProps )
-    {
-        // See the other parts
-        m_pProps->applyColors( viewport() );
-    }
-#endif
 }
 
 void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
@@ -418,9 +393,9 @@ void KonqSidebarDirTreeModule::followURL( const KURL & url )
 
 extern "C"
 {
-        KonqSidebarTreeModule *create_konq_sidebartree_dirtree(KonqSidebarTree* par)
+        KonqSidebarTreeModule *create_konq_sidebartree_dirtree(KonqSidebarTree* par,const bool showHidden)
 	{
-		return new KonqSidebarDirTreeModule(par);
+		return new KonqSidebarDirTreeModule(par,showHidden);
 	}
 }
 

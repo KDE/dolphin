@@ -132,6 +132,7 @@ extern "C"
 			map->insert("URL",ksc2.readEntry("X-KDE-Default-URL"));
 			map->insert("X-KDE-KonqSidebarModule","konqsidebar_tree");
 			map->insert("X-KDE-TreeModule",ksc2.readEntry("X-KDE-TreeModule"));
+			map->insert("X-KDE-TreeModule-ShowHidden",ksc2.readEntry("X-KDE-TreeModule-ShowHidden"));
 			fn->setLatin1("dirtree%1.desktop");
 			return true;
 		}

@@ -34,7 +34,7 @@ class KonqSidebarDirTreeModule : public QObject, public KonqSidebarTreeModule
 {
     Q_OBJECT
 public:
-    KonqSidebarDirTreeModule( KonqSidebarTree * parentTree );
+    KonqSidebarDirTreeModule( KonqSidebarTree * parentTree, bool );
     virtual ~KonqSidebarDirTreeModule();
 
     virtual void addTopLevelItem( KonqSidebarTreeTopLevelItem * item );
@@ -68,9 +68,6 @@ private:
     KURL m_selectAfterOpening;
 
     KonqSidebarTreeTopLevelItem * m_topLevelItem;
-
-    KonqPropsView * s_defaultViewProps;
-    KonqPropsView * m_pProps;
 };
 
 
