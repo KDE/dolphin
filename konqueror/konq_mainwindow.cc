@@ -4490,7 +4490,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
                         "are you sure you wish to close it?"),
                   i18n("Confirmation"),
                   KStdGuiItem::quit(),
-                  KGuiItem(i18n( "Close Current Tab" ), "tab_remove"),
+                  KGuiItem(i18n( "C&lose Current Tab" ), "tab_remove"),
                   "MultipleTabConfirm"
               )
             ) {
