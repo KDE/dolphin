@@ -208,27 +208,31 @@ const KAboutData *KonqFactory::aboutData()
                         KONQUEROR_VERSION,
                         I18N_NOOP("Web browser, file manager, ..."),
                         KAboutData::License_GPL,
-                        I18N_NOOP("(c) 1999-2003, The Konqueror developers"),
+                        I18N_NOOP("(c) 1999-2004, The Konqueror developers"),
                         0,
                         I18N_NOOP("http://konqueror.kde.org") );
-    s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
+    s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (framework, parts, Javascript, I/O lib) and maintainer"), "faure@kde.org" );
     s_aboutData->addAuthor( "Simon Hausmann", I18N_NOOP("developer (framework, parts)"), "hausmann@kde.org" );
     s_aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
     s_aboutData->addAuthor( "Matthias Welk", I18N_NOOP("developer"), "welk@fokus.gmd.de" );
     s_aboutData->addAuthor( "Alexander Neundorf", I18N_NOOP("developer (List views)"), "neundorf@kde.org" );
     s_aboutData->addAuthor( "Michael Brade", I18N_NOOP("developer (List views, I/O lib)"), "brade@kde.org" );
     s_aboutData->addAuthor( "Lars Knoll", I18N_NOOP("developer (HTML rendering engine)"), "knoll@kde.org" );
-    s_aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
     s_aboutData->addAuthor( "Dirk Mueller", I18N_NOOP("developer (HTML rendering engine)"), "mueller@kde.org" );
     s_aboutData->addAuthor( "Peter Kelly", I18N_NOOP("developer (HTML rendering engine)"), "pmk@post.com" );
     s_aboutData->addAuthor( "Waldo Bastian", I18N_NOOP("developer (HTML rendering engine, I/O lib)"), "bastian@kde.org" );
+    s_aboutData->addAuthor( "Germain Garand", I18N_NOOP("developer (HTML rendering engine)"), "germain@ebooksfrance.org" );
+    s_aboutData->addAuthor( "Leo Savernik", I18N_NOOP("developer (HTML rendering engine)"), "l.savernik@aon.at" );
+    s_aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (HTML rendering engine, I/O lib, regression test framework)"), "coolo@kde.org" );
+    s_aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
+    s_aboutData->addAuthor( "Apple Safari Developers", I18N_NOOP("developer (HTML rendering engine, Javascript)"), "" );
+    s_aboutData->addAuthor( "Harri Porten", I18N_NOOP("developer (JavaScript)"), "porten@kde.org" );
+    s_aboutData->addAuthor( "Koos Vriezen", I18N_NOOP("developer (Java applets and other embedded objects)"), "koos.vriezen@xs4all.nl" );
     s_aboutData->addAuthor( "Matt Koss", I18N_NOOP("developer (I/O lib)"), "koss@miesto.sk" );
     s_aboutData->addAuthor( "Alex Zepeda", I18N_NOOP("developer (I/O lib)"), "zipzippy@sonic.net" );
-    s_aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (I/O lib)"), "coolo@kde.org" );
     s_aboutData->addAuthor( "Richard Moore", I18N_NOOP("developer (Java applet support)"), "rich@kde.org" );
     s_aboutData->addAuthor( "Dima Rogozin", I18N_NOOP("developer (Java applet support)"), "dima@mercury.co.il" );
     s_aboutData->addAuthor( "Wynn Wilkes", I18N_NOOP("developer (Java 2 security manager support,\n and other major improvements to applet support)"), "wynnw@calderasystems.com" );
-    s_aboutData->addAuthor( "Harri Porten", I18N_NOOP("developer (JavaScript)"), "porten@kde.org" );
     s_aboutData->addAuthor( "Stefan Schimanski", I18N_NOOP("developer (Netscape plugin support)"), "schimmi@kde.org" );
     s_aboutData->addAuthor( "George Staikos", I18N_NOOP("developer (SSL, Netscape plugins)"), "staikos@kde.org" );
     s_aboutData->addAuthor( "Dawit Alemayehu",I18N_NOOP("developer (I/O lib, Authentication support)"), "adawit@kde.org" );
