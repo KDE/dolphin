@@ -25,8 +25,8 @@
 #include <kbookmark.h>
 #include <kdebug.h>
 #include <kio/job.h>
-#include <kio/openwith.h>
 #include <kio/paste.h>
+#include <kopenwith.h>
 #include <kmessagebox.h>
 #include <kprotocolmanager.h>
 #include <krun.h>
