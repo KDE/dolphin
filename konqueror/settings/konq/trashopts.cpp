@@ -102,7 +102,7 @@ QString KTrashOptions::quickHelp() const
                 "of Konqueror when you want to delete a file."
                 "<h2>On delete:</h2>This option determines what Konqueror "
                 "will do with a file you chose to delete (e.g. in a context menu).<ul>"
-                "<li><em>Move To Trash</em> will move the file to the trash folder, "
+                "<li><em>Move To Trash</em> will move the file to the trash directory, "
                 "instead of deleting it, so you can easily recover it.</li>"
                 "<li><em>Delete</em> will simply delete the file.</li>"
                 "<li><em>Shred</em> will not only delete the file, but will first "
