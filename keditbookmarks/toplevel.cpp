@@ -646,6 +646,7 @@ void KEBTopLevel::slotBookmarksChanged( const QString &, const QString & caller 
         kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
         m_commandHistory.clear();
         fillListView();
+        slotSelectionChanged(); // to disable everything, because no more current item
     }
 }
 
