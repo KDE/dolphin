@@ -81,7 +81,7 @@ KBookmarkMenu::~KBookmarkMenu()
 {
   QListIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
-    it.current()->unplug( m_parentMenu );
+    it.current()->unplugAll();
 
   m_lstSubMenus.clear();
 }
