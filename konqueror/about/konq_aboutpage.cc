@@ -156,12 +156,12 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("<A HREF=\"%1\">Cascading Style Sheets</A> (CSS 1, partially CSS 2)").arg("http://www.w3.org/Style/CSS/") )
           .arg( i18n("built-in") )
           .arg( i18n("<A HREF=\"%1\">ECMA-262</A> Edition 3 (roughly equals JavaScript 1.5)").arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
-          .arg( i18n("JavaScript disabled (globally). Enable JavaScript <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell WebBrowsing/khtml_java_js") )
-          .arg( i18n("JavaScript enabled (globally). Configure JavaScript <A HREF=\\\"%1\\\">here</A>.").arg("exec:/kcmshell WebBrowsing/khtml_java_js") ) // leave the double backslashes here, they are necessary for javascript !
+          .arg( i18n("JavaScript disabled (globally). Enable JavaScript <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell khtml_java_js") )
+          .arg( i18n("JavaScript enabled (globally). Configure JavaScript <A HREF=\\\"%1\\\">here</A>.").arg("exec:/kcmshell khtml_java_js") ) // leave the double backslashes here, they are necessary for javascript !
           .arg( i18n("Secure <A HREF=\"%1\">Java</A><SUP>&reg;</SUP> support").arg("http://java.sun.com") )
           .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A> or <A HREF=\"%3\">Sun</A>)")
                       .arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://java.sun.com") )
-          .arg( i18n("Enable Java (globally) <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell WebBrowsing/khtml_java_js") ) // TODO Maybe test if Java is enabled ?
+          .arg( i18n("Enable Java (globally) <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell khtml_java_js") ) // TODO Maybe test if Java is enabled ?
           .arg( i18n("Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A>, <A HREF=\"%2\">Real</A>Audio, <A HREF=\"%3\">Real</A>Video, etc.)")
                       .arg("http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash")
                       .arg("http://www.real.com").arg("http://www.real.com") )
