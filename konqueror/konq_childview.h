@@ -69,7 +69,8 @@ public:
 		 KonqFrame* viewFrame,
 		 KonqMainView * mainView,
 		 const KService::Ptr &service,
-		 const KTrader::OfferList &serviceOffers );
+		 const KTrader::OfferList &serviceOffers,
+		 const QString &serviceType );
 
   ~KonqChildView();
 

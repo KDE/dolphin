@@ -38,7 +38,8 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
 			      const KService::Ptr &service,
-			      const KTrader::OfferList &serviceOffers
+			      const KTrader::OfferList &serviceOffers,
+			      const QString &serviceType
                               )
 {
   m_pKonqFrame = viewFrame;
@@ -56,20 +57,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 
   m_service = service;
   m_serviceOffers = serviceOffers;
-
-  QStringList serviceTypes = m_service->serviceTypes();
-  QStringList::ConstIterator serviceTypeIt = serviceTypes.begin();
-  while ( serviceTypeIt != serviceTypes.end() )
-  {
-    if ( *serviceTypeIt != "Browser/View" )
-      break;
-    serviceTypeIt++;
-  }
-
-  if ( *serviceTypeIt == "Browser/View" )
-    qFatal( "invalid history entry! we're missing a proper servicetype!" );
-
-  m_serviceType = *serviceTypeIt;
+  m_serviceType = serviceType;
 
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
   m_lstBack.setAutoDelete( true );
@@ -127,7 +115,7 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
 
   KParts::ReadOnlyPart *oldView = m_pView;
   m_pView = m_pKonqFrame->attach( viewFactory );
-  
+
   if ( oldView )
   {
     emit sigViewChanged( oldView, m_pView );

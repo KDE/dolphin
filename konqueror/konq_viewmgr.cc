@@ -154,7 +154,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
     debug("Create new Child");
-    KonqChildView *childView = setupView( newContainer, newViewFactory, service, serviceOffers );
+    KonqChildView *childView = setupView( newContainer, newViewFactory, service, serviceOffers, serviceType );
 
     view = childView->view();
 
@@ -173,7 +173,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
-    KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, serviceOffers );
+    KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, serviceOffers, serviceType );
 
     // exclude the splitter and all child widgets from the part focus handling
     m_pMainContainer->show();
@@ -314,7 +314,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     }
 
     kdebug(0, 1202, "Creating View Stuff");
-    KonqChildView *childView = setupView( parent, viewFactory, service, serviceOffers );
+    KonqChildView *childView = setupView( parent, viewFactory, service, serviceOffers, serviceType );
 
     childView->setPassiveMode( passiveMode );
 
@@ -479,14 +479,15 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
                                            KonqViewFactory &viewFactory,
 				           const KService::Ptr &service,
-				           const KTrader::OfferList &serviceOffers )
+				           const KTrader::OfferList &serviceOffers,
+					   const QString &serviceType )
 {
   kdebug(0, 1202, "KonqViewManager::setupView" );
 
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
-					m_pMainView, service, serviceOffers );
+					m_pMainView, service, serviceOffers, serviceType );
 
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );

@@ -478,6 +478,11 @@ void KonqMainView::slotToggleDirTree( bool toggle )
     KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
 
     newContainer->moveToLast( splitFrame->widget() );
+    
+    KonqFrameBase *firstCh = newContainer->firstChild();
+    KonqFrameBase *secondCh = newContainer->secondChild();
+    newContainer->setFirstChild( secondCh );
+    newContainer->setSecondChild( firstCh );
 
     QValueList<int> newSplitterSizes;
     newSplitterSizes << 30 << 100;

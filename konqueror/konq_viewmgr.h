@@ -133,7 +133,8 @@ private:
   KonqChildView *setupView( KonqFrameContainer *parentContainer,
                             KonqViewFactory &viewFactory,
 		            const KService::Ptr &service,
-		            const KTrader::OfferList &serviceOffers );
+		            const KTrader::OfferList &serviceOffers,
+			    const QString &serviceType );
 
 public:
   /**
