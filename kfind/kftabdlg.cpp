@@ -176,8 +176,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     textEdit=new QLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("&Containing text:"), pages[2], "text");
 
-    caseContextCb  =new QCheckBox(i18n("Case s&ensitive (content)"), pages[2]);
-    regexpContentCb  =new QCheckBox(i18n("Use &regular expression matching"), pages[2]);
+    caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
+    regexpContentCb  =new QCheckBox(i18n("&Regular expression"), pages[2]);
 
     QPushButton* editRegExp = 0;
     if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
@@ -238,14 +238,14 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
-    QGridLayout *grid2 = new QGridLayout( pages[2], 4, 6,
+    QGridLayout *grid2 = new QGridLayout( pages[2], 4, 3,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
     grid2->addWidget( typeL, 0, 0 );
     grid2->addWidget( textL, 1, 0 );
-    grid2->addMultiCellWidget( typeBox, 0, 0, 1, 6 );
-    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 6 );
-    grid2->addMultiCellWidget( regexpContentCb, 2, 2, 2, 3);
+    grid2->addMultiCellWidget( typeBox, 0, 0, 1, 3 );
+    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 3 );
+    grid2->addWidget( regexpContentCb, 2, 2);
     grid2->addWidget( caseContextCb, 2, 1 );
     grid2->addWidget( sizeL, 3, 0 );
     grid2->addWidget( sizeBox, 3, 1 );
@@ -254,12 +254,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     if ( editRegExp ) {
       // The editor was available, so lets use it.
-      grid2->addWidget( editRegExp, 2, 4 );
+      grid2->addWidget( editRegExp, 2, 3 );
     }
     
-    grid2->addColSpacing(4, KDialog::spacingHint());
-    grid2->setColStretch(6,1);
-
     addTab( pages[2], i18n(" Advanced ") );
 
     fixLayout();
