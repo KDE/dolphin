@@ -2249,7 +2249,13 @@ void KonqMainWindow::slotURLEntered( const QString &text, ButtonState state )
 
   m_bURLEnterLock = true;
 
-  openFilteredURL( text.stripWhiteSpace(), state & ControlButton );
+  if (state & ControlButton)
+  {
+      m_combo->setURL( m_currentView ? m_currentView->url().prettyURL() : "" );
+      openFilteredURL( text.stripWhiteSpace(), true );
+  }
+  else
+      openFilteredURL( text.stripWhiteSpace() );
 
   m_bURLEnterLock = false;
 }

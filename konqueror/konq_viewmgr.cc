@@ -716,6 +716,7 @@ void KonqViewManager::activatePrevTab()
 void KonqViewManager::showTab( KonqView *view )
 {
   static_cast<KonqFrameTabs*>( docContainer() )->showPage( view->frame() );
+  emitActivePartChanged();
 }
 
 void KonqViewManager::removeView( KonqView *view )
