@@ -491,7 +491,7 @@ Commander</application> file browser.</para>
 <varlistentry>
 <term>
 <menuchoice><guimenu>Session</guimenu>
-<guimenuitem>New Root Console</guimenuitem></menuchoice>
+<guimenuitem>New Root Shell</guimenuitem></menuchoice>
 </term>
 <listitem>
 <para><action>Open a new session with a terminal shell</action>, as the
@@ -1287,14 +1287,12 @@ lines</action>.</para></listitem>
 
 <informalexample>
 <para>Examples:</para>
-<screen><prompt>&percnt;</prompt> <userinput><command>konsole</command> <option>--vt_sz</option>
-<parameter>90x25</parameter> <option>--nohist</option></userinput></screen>
+<screen><prompt>&percnt;</prompt> <userinput><command>konsole</command> <option>--vt_sz</option> <parameter>90x25</parameter> <option>--nohist</option></userinput></screen>
 
 <para>Starts a &konsole; window with 90 columns and 25 rows, with no
 history</para>
 
-<screen><prompt>&percnt;</prompt> <userinput><command>konsole</command> <option>--noclose</option>
-<option>-e</option> <parameter>echo_args</parameter> <parameter>Hello, thanks for using Konsole!</parameter></userinput></screen>
+<screen><prompt>&percnt;</prompt> <userinput><command>konsole</command> <option>--noclose</option> <option>-e</option> <parameter>echo_args</parameter> <parameter>Hello, thanks for using Konsole!</parameter></userinput></screen>
 
 <para>Starts a &konsole; window with the text printed 'Hello, thanks for using Konsole!'
 </para>
