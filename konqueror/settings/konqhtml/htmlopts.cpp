@@ -196,7 +196,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->setGroup( "HTML Settings" );
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
-    m_pConfig->writeEntry( "AutoDekayedActions", m_pAutoRedirectCheckBox->isChecked() );
+    m_pConfig->writeEntry( "AutoDelayedActions", m_pAutoRedirectCheckBox->isChecked() );
     switch(m_pUnderlineCombo->currentItem())
     {
       case UnderlineAlways:
