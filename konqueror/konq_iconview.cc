@@ -28,7 +28,6 @@
 #include <stdlib.h>
 
 #include <kaccel.h>
-#include <kapp.h>
 #include <kcursor.h>
 #include <kdirlister.h>
 #include <kfileivi.h>
@@ -48,6 +47,7 @@
 #include <qpalette.h>
 #include <qdragobject.h>
 #include <klocale.h>
+#include <qapplication.h>
 #include <qclipboard.h>
 #include <qregexp.h>
 

@@ -18,6 +18,7 @@
 */ 
 
 #include "konq_txtview.h"
+#include "konq_factory.h"
 #include "konq_searchdia.h"
 #include "konq_progressproxy.h"
 
@@ -37,13 +38,12 @@
 #include <kio_error.h>
 #include <kurl.h>
 #include <klocale.h>
-#include <kapp.h>
-#include <kglobal.h>
 #include <kmessagebox.h>
 #include <kpixmapcache.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <konqdefaults.h>
+#include <kfileitem.h>
 
 KonqTxtPrintingExtension::KonqTxtPrintingExtension( KonqTxtView *txtView )
 : PrintingExtension( txtView, "KonqTxtPrintingExtension" )
@@ -137,11 +137,11 @@ KonqTxtView::KonqTxtView()
   
   m_jobId = 0;
   m_bFixedFont = false;
-  m_pEdit->setFont( KGlobal::generalFont() );
+  m_pEdit->setFont( KonqFactory::global()->generalFont() );
   
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll ), this );
-  m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil" ) ), 0, this, SLOT( slotEdit() ), this );
-  m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search" ) ), 0, this, SLOT( slotSearch() ), this );
+  m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::global() ) ), 0, this, SLOT( slotEdit() ), this );
+  m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search", KonqFactory::global() ) ), 0, this, SLOT( slotSearch() ), this );
   m_ptaFixedFont = new QToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
 
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuView ) );
@@ -308,7 +308,7 @@ void KonqTxtView::slotSelectAll()
 
 void KonqTxtView::slotEdit()
 {
-  KConfig *config = kapp->config();
+  KConfig *config = KonqFactory::global()->config();
   config->setGroup( "Misc Defaults" );
   QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
     
@@ -324,9 +324,9 @@ void KonqTxtView::slotFixedFont()
 //    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
     
   if ( m_bFixedFont )
-    m_pEdit->setFont( KGlobal::fixedFont() );
+    m_pEdit->setFont( KonqFactory::global()->fixedFont() );
   else
-    m_pEdit->setFont( KGlobal::generalFont() );
+    m_pEdit->setFont( KonqFactory::global()->generalFont() );
 }
 
 void KonqTxtView::slotSearch()

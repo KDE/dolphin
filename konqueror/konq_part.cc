@@ -20,6 +20,9 @@
 #include "konq_part.h"
 #include "konq_mainview.h"
 #include "konq_shell.h"
+#include "konq_factory.h"
+
+#include <kstddirs.h>
 
 KonqPart::KonqPart( Part *parent, const char *name )
  : Part( parent, name )
@@ -52,6 +55,6 @@ void KonqPart::paintEverything( QPainter &/*painter*/, const QRect &/*rect*/,
 
 QString KonqPart::configFile() const
 {
-  return readConfigFile( "konqueror_part.rc" );
+  return readConfigFile( locate( "data", "konqueror/konqueror_part.rc", KonqFactory::global() ) );
 }
 

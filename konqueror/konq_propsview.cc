@@ -18,9 +18,9 @@
 */     
 
 #include "konq_propsview.h"
+#include "konq_factory.h"
 #include <konqdefaults.h>
 
-#include <kapp.h>
 #include <kdebug.h>
 #include <kpixmapcache.h>
 #include <iostream>
@@ -33,7 +33,7 @@ KonqPropsView * KonqPropsView::defaultProps()
   if (!m_pDefaultProps)
   {
     kdebug(0,1202,"Reading global config for konq_propsview");
-    KConfig *config = kapp->config();
+    KConfig *config = KonqFactory::global()->config();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KonqPropsView(config);
   }

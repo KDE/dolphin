@@ -26,6 +26,7 @@
 #include <klocale.h>
 #include <kapp.h>
 #include <kstdaccel.h>
+#include <kstddirs.h>
 
 KonqShell::KonqShell()
 {
@@ -53,6 +54,6 @@ void KonqShell::slotQuit()
 
 QString KonqShell::configFile() const
 {
-  return readConfigFile( "konqueror_shell.rc" );
+  return readConfigFile( locate( "data", "konqueror/konqueror_shell.rc" ) );
 }
 

@@ -58,7 +58,7 @@ public:
 
 public slots:
 
-  void slotPopupMenu( const QPoint &_global, KFileItemList _items );
+  void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
 
   void openURL( const QString &url, bool reload, int xOffset, int yOffset );
 

@@ -20,7 +20,7 @@
 */
 
 #include "konq_factory.h"
-#include "konq_mainview.h"
+#include "konq_part.h"
 #include "konq_iconview.h"
 #include "konq_treeview.h"
 #include "konq_txtview.h"
@@ -30,6 +30,22 @@
 #include <kded_instance.h>
 #include <ktrader.h>
 #include <kdebug.h>
+#include <klibglobal.h>
+
+KLibGlobal *KonqFactory::s_global = 0L;
+
+extern "C"
+{
+  void *init_konqueror()
+  {
+    return new KonqFactory;
+  }
+};
+
+KonqFactory::KonqFactory()
+{
+  s_global = new KLibGlobal( "konqueror" );
+}
 
 BrowserView *KonqFactory::createView( const QString &serviceType,
 			              QStringList &serviceTypes,
@@ -103,4 +119,20 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
 
   return factory->create();
 */
+}
+
+QObject* KonqFactory::create( QObject* parent = 0, const char* name = 0 )
+{
+  if ( !parent || !parent->inherits( "Part" ) )
+    return 0L;
+  
+  return new KonqPart( (Part *)parent, name );
+}
+
+KLibGlobal *KonqFactory::global()
+{
+  if ( !s_global )
+    (void)init_konqueror();
+  
+  return s_global;
 }

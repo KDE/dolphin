@@ -207,8 +207,8 @@ void KonqChildView::connectView(  )
   connect( m_pView, SIGNAL( setStatusBarText( const QString & ) ),
            m_pMainView, SLOT( slotSetStatusBarText( const QString & ) ) );
 
-  connect( m_pView, SIGNAL( popupMenu( const QPoint &, KFileItemList ) ),
-           m_pMainView, SLOT( slotPopupMenu( const QPoint &, KFileItemList ) ) );
+  connect( m_pView, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
+           m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
   QObject *obj = m_pView->child( 0L, "EditExtension" );
   if ( obj )

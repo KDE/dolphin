@@ -19,6 +19,7 @@
 
 #include "konq_treeview.h"
 #include "konq_propsview.h"
+#include "konq_factory.h"
 
 #include <kcursor.h>
 #include <kdirlister.h>
@@ -39,9 +40,6 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
-
-#include <kapp.h>
-#include <kglobal.h>
 
 #include <qheader.h>
 #include <qpixmap.h>
@@ -534,7 +532,7 @@ void KfmTreeView::viewportMouseMoveEvent( QMouseEvent *_mouse )
   int x = _mouse->pos().x();
   int y = _mouse->pos().y();
 
-  if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
+  if ( abs( x - m_pressedPos.x() ) > KonqFactory::global()->dndEventDelay() || abs( y - m_pressedPos.y() ) > KonqFactory::global()->dndEventDelay() )
   {
     // Collect all selected items
     QStrList urls;

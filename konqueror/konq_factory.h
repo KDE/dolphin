@@ -27,14 +27,29 @@
 
 #include "konq_defs.h"
 
-class BrowserView;
+#include <klibglobal.h>
 
-class KonqFactory
+#include <loader.h>
+
+class BrowserView;
+class KLibGlobal;
+
+class KonqFactory : public Factory
 {
+  Q_OBJECT
 public:
+  KonqFactory();
+
   static BrowserView *createView( const QString &serviceType, 
 			          QStringList &serviceTypes, 
 				  Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
+
+  virtual QObject* create( QObject* parent = 0, const char* name = 0 );
+
+  static KLibGlobal *global();				  
+
+private:
+  static KLibGlobal *s_global;
 };
 
 #endif
