@@ -403,7 +403,7 @@ void KonqTreeViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
     QPixmap pixmap2;
     if ( urls.count() > 1 )
     {
-      pixmap2 = *( KPixmapCache::pixmap( "kmultiple", true ) );
+      pixmap2 = KPixmapCache::pixmap( "kmultiple", true );
       if ( pixmap2.isNull() )
 	warning("KDesktop: Could not find kmultiple pixmap\n");
     }

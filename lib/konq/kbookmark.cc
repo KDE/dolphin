@@ -291,9 +291,9 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     icon = KMimeType::findByURL( u, buff.st_mode, true )->icon( u.path(), true );
   }
   else if ( strcmp( u.protocol(), "ftp" ) == 0 )
-    icon = "ftp.png";
+    icon = "ftp";
   else
-    icon = "www.png";
+    icon = "www";
 
   m_id = g_id++;
   m_pManager = _bm;
@@ -388,7 +388,7 @@ QString KBookmark::pixmapFile( )
   return m_sPixmap;
 }
 
-QPixmap* KBookmark::pixmap( )
+QPixmap KBookmark::pixmap( )
 {
   return KPixmapCache::pixmap( pixmapFile(), true /* mini icon */);
 }

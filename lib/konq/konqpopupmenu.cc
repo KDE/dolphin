@@ -319,7 +319,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     KTrader::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
     {    
-      id = insertItem( *(KPixmapCache::pixmap( (*it)->icon(), true ) ),
+      id = insertItem( KPixmapCache::pixmap( (*it)->icon(), true ),
 				    (*it)->name() );
       m_mapPopup[ id ] = *it;
     }
@@ -328,7 +328,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     for( ; it2 != user.end(); ++it2 )
     {
       if ( !(*it2).m_strIcon.isEmpty() )
-	id = insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
+	id = insertItem( KPixmapCache::pixmap( (*it2).m_strIcon, true ), (*it2).m_strName );
       else
 	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
@@ -341,7 +341,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     for( ; it2 != builtin.end(); ++it2 )
     {
       if ( !(*it2).m_strIcon.isEmpty() )
-	id = insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
+	id = insertItem( KPixmapCache::pixmap( (*it2).m_strIcon, true ), (*it2).m_strName );
       else
 	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;

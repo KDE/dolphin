@@ -108,7 +108,7 @@ public:
    * then setPixmap to store the pixmap in the item, then pixmap() to get it later.
    * getPixmap() should only be called it might have changed
    */
-  QPixmap* getPixmap( bool _mini ) const;
+  QPixmap getPixmap( bool _mini ) const;
   /**
    * @return the text of the file item
    * It's not exactly the filename since some decoding happens ('%2F'->'/')

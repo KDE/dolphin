@@ -67,11 +67,11 @@ KonqPropsView::KonqPropsView( KConfig * config )
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( !pix.isEmpty() )
   {
-    QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
-    if ( p )
+    QPixmap p = KPixmapCache::wallpaperPixmap( pix );
+    if ( !p.isNull() )
     {
       kdebug(0,1202,"Got background");
-      m_bgPixmap = * p;
+      m_bgPixmap = p;
     }
   }
 }
@@ -96,9 +96,9 @@ bool KonqPropsView::enterDir( const KURL & dir )
     if ( !pix.isEmpty() )
     {
       debug("BgImage is %s", pix.data());
-      QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
-      if ( p )
-        m_bgPixmap = * p;
+      QPixmap p = KPixmapCache::wallpaperPixmap( pix );
+      if ( !p.isNull() )
+        m_bgPixmap = p;
       else debug("Wallpaper not found");
     } else
     { // No background pixmap here, revert to default setting

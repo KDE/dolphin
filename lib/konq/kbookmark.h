@@ -50,7 +50,7 @@ public:
   int id() { return m_id; }
   QString file() { return m_file; }
   QString pixmapFile();
-  QPixmap* pixmap();
+  QPixmap pixmap();
   
   void append( KBookmark *_bm ) { m_lstChildren.append( _bm ); }
   

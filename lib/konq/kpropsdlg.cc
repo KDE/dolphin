@@ -356,9 +356,9 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   } else {
     QLabel *iconLabel = new QLabel(this);
     iconLabel->setFixedSize(50, 50);
-    iconLabel->setPixmap(*(KPixmapCache::pixmapForURL(properties->kurl(),
-						      properties->item()->mode(),
-						      properties->kurl().isLocalFile())));
+    iconLabel->setPixmap(KPixmapCache::pixmapForURL(properties->kurl(),
+						    properties->item()->mode(),
+						    properties->kurl().isLocalFile()));
     iconArea = iconLabel;
   }
   grid->addWidget(iconArea, curRow, 0, AlignLeft);
