@@ -94,7 +94,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
    m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, this );
    m_progressBar->hide();
   //m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
-   m_msgTimer = 0;
+//   m_msgTimer = 0;
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
@@ -149,14 +149,16 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
 
 void KonqFrameStatusBar::message( const QString &msg )
 {
+    /*
   if ( !m_msgTimer )
   {
     m_msgTimer = new QTimer( this, "msgtimer" );
     connect( m_msgTimer, SIGNAL( timeout() ),
-	     this, SLOT( slotClear() ) );
+             this, SLOT( slotClear() ) );
   }
   else if ( m_msgTimer->isActive() )
     m_msgTimer->stop();
+    */
 
   QString saveMsg = m_savedMessage;
 
@@ -164,7 +166,7 @@ void KonqFrameStatusBar::message( const QString &msg )
 
   m_savedMessage = saveMsg;
 
-  m_msgTimer->start( 2000 );
+//  m_msgTimer->start( 2000 );
 }
 
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
@@ -174,8 +176,8 @@ void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
    m_pStatusLabel->setText(text);
    m_savedMessage = text;
 
-   if ( m_msgTimer && m_msgTimer->isActive() )
-     m_msgTimer->stop();
+//   if ( m_msgTimer && m_msgTimer->isActive() )
+//     m_msgTimer->stop();
 }
 
 void KonqFrameStatusBar::slotClear()
@@ -446,8 +448,8 @@ void KonqFrame::attachMetaView( KParts::ReadOnlyPart *, bool, const QMap<QString
 //###################################################################
 
 KonqFrameContainer::KonqFrameContainer( Orientation o,
-					QWidget* parent,
-					const char * name)
+                                        QWidget* parent,
+                                        const char * name)
   : QSplitter( o, parent, name)
 {
   m_pFirstChild = 0L;

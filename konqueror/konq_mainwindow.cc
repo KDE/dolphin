@@ -2029,8 +2029,11 @@ void KonqMainWindow::setUpEnabled( const KURL &url )
 void KonqMainWindow::initActions()
 {
   actionCollection()->setHighlightingEnabled( true );
-  connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
-           this, SLOT( slotActionHighlighted( KAction * ) ) );
+  connect( actionCollection(), SIGNAL( actionStatusText( const QString &) ),
+           this, SLOT( slotActionStatusText( const QString & ) ) );
+  connect( actionCollection(), SIGNAL( clearStatusText() ),
+           this, SLOT( slotClearStatusText() ) );
+
 
   // Note about this method : don't call setEnabled() on any of the actions.
   // They are all disabled then re-enabled with enableAllActions
@@ -2556,7 +2559,7 @@ void KonqMainWindow::setInitialFrameName( const QString &name )
   m_initialFrameName = name;
 }
 
-void KonqMainWindow::slotActionHighlighted( KAction *action )
+void KonqMainWindow::slotActionStatusText( const QString &text )
 {
   if ( !m_currentView )
     return;
@@ -2566,9 +2569,20 @@ void KonqMainWindow::slotActionHighlighted( KAction *action )
   if ( !statusBar )
     return;
 
-  QString text = action->statusText();
-  if ( !text.isEmpty() )
-    statusBar->message( text );
+  statusBar->message( text );
+}
+
+void KonqMainWindow::slotClearStatusText()
+{
+  if ( !m_currentView )
+    return;
+
+  KonqFrameStatusBar *statusBar = m_currentView->frame()->statusbar();
+
+  if ( !statusBar )
+    return;
+
+  statusBar->slotClear();
 }
 
 void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )

@@ -297,7 +297,8 @@ protected slots:
   void slotShowLocationBar();
   void slotShowBookmarkBar();
 
-  void slotActionHighlighted( KAction *action );
+  void slotActionStatusText( const QString &text );
+  void slotClearStatusText();
 
 protected:
 

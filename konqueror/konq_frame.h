@@ -121,7 +121,7 @@ class KonqFrameStatusBar : public QWidget
       QLabel *m_pStatusLabel;
       int m_yOffset;
       bool m_showLed;
-      QTimer *m_msgTimer;
+//      QTimer *m_msgTimer;
       QString m_savedMessage;
 };
 
@@ -164,7 +164,7 @@ class KonqFrame : public QWidget, public KonqFrameBase
 
 public:
   KonqFrame( KonqFrameContainer *_parentContainer = 0L,
-	     const char *_name = 0L );
+             const char *_name = 0L );
   virtual ~KonqFrame();
 
   /**
@@ -246,8 +246,8 @@ class KonqFrameContainer : public QSplitter, public KonqFrameBase
 
 public:
   KonqFrameContainer( Orientation o,
-		      QWidget* parent,
-		      const char * name = 0);
+                      QWidget* parent,
+                      const char * name = 0);
   virtual ~KonqFrameContainer();
 
   virtual void listViews( ChildViewList *viewList );
