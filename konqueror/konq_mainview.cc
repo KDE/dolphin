@@ -129,7 +129,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *_parent ) : QWidget( _pare
 
   m_vToolBar = 0L;
   m_vLocationBar = 0L;
-
+  m_vMenuBar = 0L;
   m_vStatusBar = 0L;
 
   m_pRun = 0L;
@@ -351,6 +351,7 @@ bool KonqMainView::event( const char* event, const CORBA::Any& value )
 
 bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 {
+  m_vMenuBar = OpenPartsUI::MenuBar::_duplicate( menuBar );
 
   if ( CORBA::is_nil( menuBar ) )
   {
@@ -1234,13 +1235,7 @@ void KonqMainView::slotShowMenubar()
 {
   m_Props->m_bShowMenuBar = !m_Props->m_bShowMenuBar;
   m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, m_Props->m_bShowMenuBar );
-/* TODO !! - Not sure it can be done with a menubarmanager...
-  OPMenuBarManager* m = m_vMainWindow->menuBarManager();
-  if (m_Props->m_bShowMenuBar)
-    m->create( id() );
-  else
-    m->clear();
-*/
+  m_vMenuBar->enable( m_Props->m_bShowMenuBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
 }
 
 void KonqMainView::slotShowStatusbar()

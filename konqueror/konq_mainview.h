@@ -239,7 +239,7 @@ protected:
 
   OpenPartsUI::ToolBar_var m_vToolBar;
   OpenPartsUI::ToolBar_var m_vLocationBar;
-  
+  OpenPartsUI::MenuBar_var m_vMenuBar;
   OpenPartsUI::StatusBar_var m_vStatusBar;
 
   KBookmarkMenu* m_pBookmarkMenu;
