@@ -110,7 +110,7 @@ void KDirLister::openURL( const KURL& _url )
   m_jobId = job->id();
   job->listDir( _url.url() );
 
-  emit started( m_initialURL.url() );
+  emit started( _url.url() );
 }
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
@@ -212,7 +212,7 @@ void KDirLister::updateDirectory()
   job->listDir( m_sURL );
   kdebug(KDEBUG_INFO, 1203, "update started in %s", m_sURL.data());
 
-  emit started( QString::null );
+  emit started( m_sURL );
 }
 
 void KDirLister::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )

@@ -97,10 +97,8 @@ public:
 signals:
   /**
    * Tell the view that we started to list _url.
-   * It is usefull for the rotating gear. The view knows that openURL
-   * should start it, but it doesn't know when an automatic update
-   * of the directory happens. In this case, this signal is emitted with
-   * _url = QString::null.
+   * The view knows that openURL should start it, so it might seem useless, 
+   * but the view also needs to know when an automatic update happens.
    */
   void started( const QString& _url );
 
