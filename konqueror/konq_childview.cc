@@ -242,7 +242,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType, const QString &_
   return true;
 }
 
-void KonqChildView::changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &_url = QString::null )
+void KonqChildView::changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &_url )
 {
   QString url = _url;
   if ( url.isEmpty() )

@@ -154,7 +154,7 @@ bool KonqKfmTreeView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
   return true;
 }
 
-bool KonqKfmTreeView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+bool KonqKfmTreeView::mappingFillMenuEdit( Konqueror::View::EventFillMenu /*editMenu*/ )
 {
   // TODO : add select and selectall
   return true;
