@@ -283,6 +283,7 @@ public slots:
   void slotPartActivated( KParts::Part *part );
 
   virtual void setIcon( const QPixmap& );
+  void slotGoHistoryActivated( int steps );
 
 protected slots:
   void slotViewCompleted( KonqView * view );
@@ -317,7 +318,6 @@ protected slots:
   void slotBackAboutToShow();
   void slotForwardAboutToShow();
 
-  void slotGoHistoryActivated( int steps );
   void slotUpActivated( int id );
   void slotBackActivated( int id );
   void slotForwardActivated( int id );
