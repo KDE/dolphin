@@ -10,10 +10,26 @@
 #include <kio_job.h>
 #include <kio_netaccess.h>
 #include <klocale.h>
+#include <kcmdlineargs.h>
+
 #include <qlist.h>
 #include <qstring.h>
 
 #include "main.h"
+
+
+static const char *description = 
+	I18N_NOOP("KFM Exec - A Location opener");
+
+static const char *version = "v0.0.1";
+
+static KCmdLineOptions options[] =
+{
+   { "+command", I18N_NOOP("Command to execute."), 0 },
+   { "[URLs]", I18N_NOOP("URL(s) or local file used for 'command'."), 0 },
+   { 0, 0, 0 }
+};
+
 
 int jobCounter = 0;
 
@@ -21,22 +37,27 @@ template class QList<KIOJob>;
 
 QList<KIOJob>* jobList = 0L;
 
-KFMExec::KFMExec( int argc, char **argv )
+KFMExec::KFMExec()
 {
     jobList = new QList<KIOJob>;
     jobList->setAutoDelete( false ); // jobs autodelete themselves
 
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    if (args->count() < 1)
+       KCmdLineArgs::usage(i18n("'command' expected.\n"));
+
     expectedCounter = 0;
-    command = argv[ 1 ];
+    command = args->arg(0);
     kDebugString( command );
 
-    for ( int i = 3; i <= argc; i++ )
+    for ( int i = 1; i < args->count(); i++ )
     {
+        QCString arg = args->arg(i);
         // A local file, not an URL ?
 	// => It is not encoded and not shell escaped, too.
-	if ( *argv[ i - 1 ] == '/' )
+	if ( arg[0] == '/' )
 	{
-	    QCString tmp( shellQuote( argv[ i - 1 ] ) );
+	    QCString tmp( shellQuote( arg ) );
 	    if ( !files.isEmpty() )
 		files += " ";
 	    files += "\"";
@@ -46,10 +67,10 @@ KFMExec::KFMExec( int argc, char **argv )
 	// It is an URL
 	else
         {
-	    KURL u( argv[ i - 1 ] );
+	    KURL u( arg );
 	    if ( u.isMalformed() )
 	    {
-                KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( argv[ i - 1 ] ) );
+                KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( arg ) );
 	    }
 	    // Must we fetch the file ?
 	    else if ( !u.isLocalFile() )
@@ -72,10 +93,10 @@ KFMExec::KFMExec( int argc, char **argv )
 		files += tmp;
 		files += "\"";
 		fileList.append( tmp );
-		urlList.append( argv[ i - 1 ] );
+		urlList.append( arg );
 
 		expectedCounter++;
-		job->copy( argv[ i - 1 ], tmp );
+		job->copy( arg, tmp );
 	    }
 	    else // It is a local file system URL
 	    {
@@ -90,6 +111,7 @@ KFMExec::KFMExec( int argc, char **argv )
 	    }
 	}
     }
+    args->clear();
 
     counter = 0;
     if ( counter == expectedCounter )
@@ -196,7 +218,11 @@ QString KFMExec::shellQuote( const char *_data )
 
 int main( int argc, char **argv )
 {
-    KApplication app( argc, argv, "kfmexec" );
+    KCmdLineArgs::init(argc, argv, "kfmexec", description, version);
+
+    KCmdLineArgs::addCmdLineOptions( options );
+
+    KApplication app;
 
     if ( argc < 2 )
     {
@@ -204,7 +230,7 @@ int main( int argc, char **argv )
 	exit(1);
     }
 
-    KFMExec exec(argc, argv);
+    KFMExec exec;
 
     app.exec();
 

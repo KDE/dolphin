@@ -9,7 +9,7 @@ class KFMExec : public QObject
 {
     Q_OBJECT
 public:
-    KFMExec( int argc, char **argv );
+    KFMExec();
 
     QString shellQuote( const char *_data );    
 
