@@ -44,7 +44,7 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir
 
 KonqListViewDir::~KonqListViewDir()
 {
-  static_cast<KonqTreeViewWidget *>(listView())->removeSubDir( item()->url() );
+  static_cast<KonqTreeViewWidget *>(m_pListViewWidget)->removeSubDir( item()->url() );
 }
 
 void KonqListViewDir::setOpen( bool _open )
