@@ -5,7 +5,7 @@ noinst_HEADERS = nspluginloader.h
 
 NSPluginClassIface_DIR = $(srcdir)/viewer
 
-kde_module_LTLIBRARIES = libnsplugin.la
+kde_module_LTLIBRARIES = libnsplugin.la kcm_nsplugins.la
 libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp		\
 			NSPluginClassIface.stub				\
 			NSPluginCallbackIface.skel
@@ -17,8 +17,6 @@ bin_PROGRAMS = nspluginscan
 nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries) -export-dynamic
 nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
-
-kde_module_LTLIBRARIES = kcm_nsplugins.la
 
 kcm_nsplugins_la_SOURCES = kcm_nsplugins.cpp
 kcm_nsplugins_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
