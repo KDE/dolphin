@@ -172,10 +172,10 @@ void KPluginOptions::save()
 
 QString KPluginOptions::quickHelp() const
 {
-      return i18n("<h1>Plugins</h1> The Konqueror web browser can use netscape"
-        " plugins to show special content, just like the Navigator does. Please note that"
-        " how you have to install netscape plugins may depend on your distribution. A typical"
-        " place to install them is for example '/opt/netscape/plugins'.");
+      return i18n("<h1>Plugins</h1> The Konqueror web browser can use Netscape"
+        " plugins to show special content, just like the Navigator does. Please note that,"
+        " the way you have to install Netscape plugins may depend on your distribution. A typical"
+        " place to install them is, for example, '/opt/netscape/plugins'.");
 }
 
 void KPluginOptions::changed()
@@ -206,8 +206,8 @@ void KPluginOptions::scan()
         delete nspluginscan;
 
         KMessageBox::sorry ( this,
-                             i18n("The nspluginscan executable can't be found. "
-                                  "Netscape plugins won't be scanned.") );
+                             i18n("The nspluginscan executable cannot be found. "
+                                  "Netscape plugins will not be scanned.") );
         return;
     }
     m_progress->setProgress( 5 );
