@@ -100,10 +100,10 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
   connect( &m_animatedLogoTimer, SIGNAL( timeout() ),
            this, SLOT( slotAnimatedLogoTimeout() ) );
 
+  m_pViewManager = new KonqViewManager( this );
+  
   initActions();
   initPlugins();
-
-  m_pViewManager = new KonqViewManager( this );
 
   m_bMenuEditDirty = true;
   m_bMenuViewDirty = true;
@@ -192,11 +192,11 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
 
   KonqChildView *view = _view;
   if ( !view || view->passiveMode() )
-    view = m_currentView;
+    view = (KonqChildView *)m_currentView;
 
   if ( view )
   {
-    if ( view == m_currentView )
+    if ( view == (KonqChildView *)m_currentView )
       //will do all the stuff below plus GUI stuff
       slotStop();
     else
@@ -266,7 +266,7 @@ void KonqMainView::slotOpenLocation()
     // Exit if the user did not enter an URL
     if ( u.isEmpty() )
       return;
-    openURL( m_currentView, u.ascii() );
+    openURL( (KonqChildView *)m_currentView, u.ascii() );
   }
 }
 
@@ -409,7 +409,7 @@ void KonqMainView::slotUp()
   KURL u( url );
   u.cd( ".." );
 
-  openURL( m_currentView, u.url() );
+  openURL( (KonqChildView *)m_currentView, u.url() );
 }
 
 void KonqMainView::slotBack()
@@ -443,7 +443,7 @@ void KonqMainView::slotShowCache()
   QString f = file;
   KURL::encode( f );
   f.prepend( "file:" );
-  openURL( m_currentView, f );
+  openURL( (KonqChildView *)m_currentView, f );
 }
 
 void KonqMainView::slotShowHistory()
@@ -453,12 +453,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( m_currentView, KonqFactory::global()->dirs()->saveLocation("mime").prepend( "file:" ) );
+    openURL( (KonqChildView *)m_currentView, KonqFactory::global()->dirs()->saveLocation("mime").prepend( "file:" ) );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( m_currentView, KonqFactory::global()->dirs()->saveLocation("apps").prepend( "file:" ) );
+    openURL( (KonqChildView *)m_currentView, KonqFactory::global()->dirs()->saveLocation("apps").prepend( "file:" ) );
 }
 
 void KonqMainView::slotConfigureKeys()
@@ -473,7 +473,7 @@ void KonqMainView::slotViewChanged( BrowserView *oldView, BrowserView *newView )
   m_mapViews.remove( oldView );
   m_mapViews.insert( newView, (KonqChildView *)sender() );
 
-  if ( (KonqChildView *)sender() == m_currentView )
+  if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
   {
     unPlugViewGUI( oldView );
     plugInViewGUI( newView );
@@ -495,8 +495,8 @@ void KonqMainView::slotStarted()
   (*it)->setLoading( true );
 
   (*it)->makeHistory( true );
-
-  if ( m_currentView == *it )
+  
+  if ( (KonqChildView *)m_currentView == *it )
   {
     startAnimation();
     setUpEnabled( url );
@@ -517,7 +517,7 @@ void KonqMainView::slotCompleted()
   (*it)->setLoading( false );
   (*it)->setProgress( -1 );
 
-  if ( m_currentView == *it )
+  if ( (KonqChildView *)m_currentView == *it )
   {
     stopAnimation();
     m_paBack->setEnabled( m_currentView->canGoBack() );
@@ -611,6 +611,7 @@ void KonqMainView::setActiveView( BrowserView *view )
   m_currentView = m_mapViews.find( view ).data();
 
   m_currentView->frame()->header()->repaint();
+  
   if ( oldView )
     oldView->frame()->header()->repaint();
 
@@ -619,8 +620,13 @@ void KonqMainView::setActiveView( BrowserView *view )
   m_paURLCombo->changeItem( m_currentView->locationBarURL(), 0 );
 
   updateStatusBar();
+  
+  m_paStop->setEnabled( m_currentView->isLoading() );
+  m_paBack->setEnabled( m_currentView->canGoBack() );
+  m_paForward->setEnabled( m_currentView->canGoForward() );
 
   checkEditExtension();
+  
 }
 
 void KonqMainView::insertChildView( KonqChildView *childView )
@@ -636,6 +642,12 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   m_mapViews.remove( it );
 
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
+  
+  if ( childView == m_currentView )
+  {
+    unPlugViewGUI( m_currentView->view() );
+    m_currentView = 0L;
+  }    
 }
 
 KonqChildView *KonqMainView::childView( BrowserView *view )
@@ -647,9 +659,24 @@ KonqChildView *KonqMainView::childView( BrowserView *view )
     return 0L;
 }
 
+QValueList<BrowserView *> KonqMainView::viewList()
+{
+  QValueList<BrowserView *> res;
+  
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    res.append( (*it)->view() );
+  
+  return res;
+}
+
 BrowserView *KonqMainView::currentView()
 {
-  return m_currentView->view();
+  if ( m_currentView )
+    return m_currentView->view();
+  else
+    return 0L;
 }
 
 void KonqMainView::customEvent( QCustomEvent *event )
@@ -782,12 +809,19 @@ void KonqMainView::slotSplitWindowVertical()
 
 void KonqMainView::slotRemoveView()
 {
-  KonqChildView *nextView = m_pViewManager->chooseNextView( m_currentView );
+  KonqChildView *nextView = m_pViewManager->chooseNextView( (KonqChildView *)m_currentView );
   KonqChildView *prevView = m_currentView;
 
   setActiveView( nextView->view() );
 
   m_pViewManager->removeView( prevView );
+}
+
+void KonqMainView::slotSaveDefaultProfile()
+{
+  KConfig *config = KonqFactory::global()->config();
+  config->setGroup( "Default View Profile" );
+  m_pViewManager->saveViewProfile( *config );
 }
 
 void KonqMainView::slotLoadingProgress( int percent )
@@ -954,8 +988,8 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
 {
 
   childView->setLocationBarURL( url );
-
-  if ( childView == m_currentView )
+  
+  if ( childView == (KonqChildView *)m_currentView )
     m_paURLCombo->changeItem( url, 0 );
 
 }
@@ -1110,8 +1144,12 @@ void KonqMainView::initActions()
   m_paSplitWindowVer = new KAction( i18n( "Split Window &Vertically" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "Remove Active View" ), CTRL+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
-  m_paSaveRemoveViewProfile = new KAction( i18n( "Save/Remove View Profile" ), 0, this, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
+  m_paSaveDefaultProfile = new KAction( i18n( "Save Current Profile As Default" ), 0, this, SLOT( slotSaveDefaultProfile() ), actionCollection(), "savedefaultprofile" );
+
+  m_paSaveRemoveViewProfile = new KAction( i18n( "Save/Remove View Profile" ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load View Profile" ), actionCollection(), "loadviewprofile" );
+  
+  m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
   m_paAbout = new KAction( i18n( "&About Konqueror" ), 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
 

@@ -14,7 +14,8 @@ libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_factory.cc konq_events.cc konq_iconview.cc \
 			  konq_searchdia.cc konq_txtview.cc \
 			  konq_treeview.cc konq_misc.cc konq_progressproxy.cc \
-			  konq_htmlview.cc konq_actions.cc browser.moc.cc
+			  konq_htmlview.cc konq_actions.cc konq_profiledlg.cc \
+			  browser.moc.cc
 
 libkonqueror_la_METASOURCES = AUTO
 

@@ -23,6 +23,7 @@
 #include <qnamespace.h>
 #include <qobject.h>
 #include <qmap.h>
+#include <qguardedptr.h>
 
 #include "konq_defs.h"
 
@@ -33,6 +34,7 @@ class KonqMainView;
 class KonqFrameContainer;
 class KonqChildView;
 class BrowserView;
+class KActionMenu;
 
 class KonqViewManager : public QObject
 {
@@ -73,6 +75,15 @@ public:
 //  unsigned long viewIdByNumber( int number );
 
   bool eventFilter( QObject *obj, QEvent *ev );
+  
+  void setProfiles( KActionMenu *profiles );
+  
+protected slots:
+  void slotProfileDlg(); 
+  
+  void slotProfileActivated( int id ); 
+
+  void slotProfileListAboutToShow();
 
 private:
 
@@ -85,6 +96,9 @@ private:
   KonqMainView *m_pMainView;
   
   KonqFrameContainer *m_pMainContainer;
+  
+  QGuardedPtr<KActionMenu> m_pamProfiles;
+  bool m_bProfileListDirty;
 };
 
 #endif

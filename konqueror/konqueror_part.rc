@@ -47,6 +47,8 @@
   <Action name="splitwindowv"/>
   <Action name="removeview"/>
   <Separator/>
+  <Action name="savedefaultprofile"/>
+  <Separator/>
   <Action name="saveremoveviewprofile"/>
   <Action name="loadviewprofile"/>
  </Menu>

@@ -66,13 +66,16 @@ bool KonqFileManager::openFileManagerWindow( const char *_url )
   KonqShell *shell = new KonqShell;
   
   KonqPart *part = new KonqPart;
-  part->setOpenInitialURL( false );
+  
+  if ( _url )
+    part->setOpenInitialURL( false );
   
   shell->setRootPart( part );
   
   shell->show();
 
-  ((KonqMainView *)shell->rootView())->openURL( 0L, url );
+  if ( _url )
+    ((KonqMainView *)shell->rootView())->openURL( 0L, url );
 
   return true; // why would it fail ? :)
 }

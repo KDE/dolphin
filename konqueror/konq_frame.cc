@@ -32,7 +32,10 @@
 
 #include "konq_frame.h"
 #include "konq_childview.h"
+#include "konq_iconview.h"
 #include "browser.h"
+
+#include <assert.h>
 
 #define DEFAULT_HEADER_HEIGHT 11
 
@@ -435,31 +438,23 @@ KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
     
     BrowserView *pView = childView()->view();
       
-    if ( pView->inherits( "KfmTreeView" ) )
+    if ( pView->inherits( "KonqTreeView" ) )
       strDirMode = "TreeView";
     else
     {
-#warning FIXME (Simon)
-      strDirMode = "LargeIcons";
-/*    
-      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( pView );
-      
-      Konqueror::DirectoryDisplayMode dirMode = iv->viewMode();
-      
-      switch ( dirMode )
+      switch ( ((KonqKfmIconView *)pView)->viewMode() )
       {
-      case Konqueror::LargeIcons:
-	strDirMode = "LargeIcons";
-	break;
-      case Konqueror::SmallIcons:
-	strDirMode = "SmallIcons";
-	break;
-      case Konqueror::SmallVerticalIcons:
-	strDirMode = "SmallVerticalIcons";
-	break;
-      default: assert( 0 );
-      }
-*/      
+        case Konqueror::LargeIcons:
+  	  strDirMode = "LargeIcons";
+	  break;
+        case Konqueror::SmallIcons:
+	  strDirMode = "SmallIcons";
+	  break;
+        case Konqueror::SmallVerticalIcons:
+	  strDirMode = "SmallVerticalIcons";
+	  break;
+        default: assert( 0 );
+      }	
     }
       
     config->writeEntry( QString::fromLatin1( "DirectoryMode" ), strDirMode );

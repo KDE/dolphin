@@ -217,7 +217,7 @@ void KonqHTMLView::slotMousePressed( const QString &_url,
         mode = S_IFDIR;
     }
 #if 0
-    KFileItem item( "viewURL" /*whatever*/ /*, mode, u );
+    KFileItem item( "viewURL" /*whatever*/ , mode, u );
     KFileItemList items;
     items.append( &item );
     m_pMainView->popupMenu( _global, items );

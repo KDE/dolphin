@@ -21,10 +21,12 @@
 #include "konq_mainview.h"
 #include "konq_shell.h"
 #include "konq_factory.h"
+#include "konq_viewmgr.h"
 
 #include <qdir.h>
 
 #include <kstddirs.h>
+#include <kconfig.h>
 
 KonqPart::KonqPart( QObject *parent, const char *name )
  : Part( parent, name )
@@ -41,8 +43,18 @@ View *KonqPart::createView( QWidget *parent, const char *name )
   KonqMainView *view = new KonqMainView( this, parent, name ? name : "KonqMainView" );
 
   if ( m_bOpenInitialURL )
-    view->openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );
-
+  {
+    KConfig *config = KonqFactory::global()->config();
+    
+    if ( config->hasGroup( "Default View Profile" ) )
+    {
+      config->setGroup( "Default View Profile" );
+      view->viewManager()->loadViewProfile( *config );
+    }
+    else
+      view->openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );
+  }    
+  
   return view;
 }
 

@@ -22,6 +22,8 @@
 #include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_frame.h"
+#include "konq_profiledlg.h"
+#include "konq_iconview.h"
 #include "browser.h"
 
 #include <qstringlist.h>
@@ -30,6 +32,7 @@
 #include <qapplication.h>
 
 #include <kconfig.h>
+#include <kstddirs.h>
 #include <kdebug.h>
 
 #include <assert.h>
@@ -39,6 +42,8 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
   m_pMainView = mainView;
 
   m_pMainContainer = 0L;
+  
+  m_bProfileListDirty = true;
   
   qApp->installEventFilter( this );
 }
@@ -67,17 +72,18 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
   if ( currentChildView->supportsServiceType( "inode/directory" ) )
   {
 //    if ( currentChildView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-    if ( currentChildView->view()->inherits( "KfmTreeView" ) )
+    if ( currentChildView->view()->inherits( "KonqTreeView" ) )
       dirMode = Konqueror::TreeView;
     else
-    {
+      dirMode = ((KonqKfmIconView *)currentChildView->view())->viewMode();
+//    {
 //      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( currentChildView->view() );
 //      KonqKfmIconView *iconView = (KonqKfmIconView *)(currentChildView->view());
       
 //      dirMode = iconView->viewMode();
-#warning FIXME (Simon)
-        dirMode = Konqueror::LargeIcons;
-    }
+//#warning FIXME (Simon)
+//        dirMode = Konqueror::LargeIcons;
+//    }
   }
   
   if ( !( pView = KonqFactory::createView( serviceType, serviceTypes, dirMode ) ) )
@@ -221,6 +227,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   m_pMainContainer->show();
 
   loadItem( cfg, m_pMainContainer, rootItem );
+  
+  QValueList<BrowserView *> lst = m_pMainView->viewList();
+  m_pMainView->setActiveView( (*lst.begin()) );
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
@@ -265,8 +274,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       kdebug(0, 1202, "Creating View Stuff");  
       setupView( parent, pView, serviceTypes);
 
-//      m_pMainView->childView( pView->id() )->openURL( url );
-      pView->openURL( url );
+      m_pMainView->childView( pView )->openURL( url );
     }
     else
       warning("Profile Loading Error: View creation failed" );
@@ -318,7 +326,7 @@ void KonqViewManager::clear()
   if (m_pMainContainer) {
     m_pMainContainer->listViews( &viewList );
 
-    for ( ; it.current(); ++it ) {
+    for ( it.toFirst(); it.current(); ++it ) {
       m_pMainView->removeChildView( it.current() );
       delete it.current();
     }    
@@ -405,6 +413,28 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
   return false;
 }
 
+void KonqViewManager::setProfiles( KActionMenu *profiles )
+{
+  m_pamProfiles = profiles;
+  
+  if ( m_pamProfiles )
+  {
+    connect( m_pamProfiles->popupMenu(), SIGNAL( activated( int ) ),
+             this, SLOT( slotProfileActivated( int ) ) );
+    connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
+             this, SLOT( slotProfileListAboutToShow() ) );
+  }	     
+	     
+  m_bProfileListDirty = true;
+}
+
+void KonqViewManager::slotProfileDlg()
+{
+  KonqProfileDlg dlg( this, m_pMainView );
+  dlg.exec();
+  m_bProfileListDirty = true;
+}
+
 void KonqViewManager::setupView( KonqFrameContainer *parentContainer, BrowserView *view, const QStringList &serviceTypes )
 {
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
@@ -420,4 +450,43 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer, BrowserVie
   v->lockHistory();
 
   //if (isVisible()) v->show();
+}
+
+void KonqViewManager::slotProfileActivated( int id )
+{
+  QString name = QString::fromLatin1( "konqueror/profiles/" ) + m_pamProfiles->popupMenu()->text( id );
+  
+  QString fileName = locate( "data", name, KonqFactory::global() );
+  
+  KConfig cfg( fileName, true );
+  cfg.setGroup( "Profile" );
+  loadViewProfile( cfg );
+}
+
+void KonqViewManager::slotProfileListAboutToShow()
+{
+  if ( !m_pamProfiles || !m_bProfileListDirty )
+    return;
+    
+  QPopupMenu *popup = m_pamProfiles->popupMenu();
+  
+  popup->clear();
+  
+  QStringList dirs = KonqFactory::global()->dirs()->findDirs( "data", "konqueror/profiles/" );
+  QStringList::ConstIterator dIt = dirs.begin();
+  QStringList::ConstIterator dEnd = dirs.end();
+  
+  for (; dIt != dEnd; ++dIt )
+  {
+    QDir dir( *dIt );
+    QStringList entries = dir.entryList( QDir::Files );
+    
+    QStringList::ConstIterator eIt = entries.begin();
+    QStringList::ConstIterator eEnd = entries.end();
+    
+    for (; eIt != eEnd; ++eIt )
+      popup->insertItem( *eIt );
+  }
+  
+  m_bProfileListDirty = false;
 }

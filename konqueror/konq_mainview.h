@@ -56,6 +56,8 @@ public:
   // File menu
                 int xOffset = 0, int yOffset = 0 );
 
+  KonqViewManager *viewManager() const { return m_pViewManager; }
+
 public slots:
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
@@ -113,6 +115,8 @@ public:
   void insertChildView( KonqChildView *childView );
   void removeChildView( KonqChildView *childView );
   KonqChildView *childView( BrowserView *view );
+
+  QValueList<BrowserView *> viewList();
   
   KonqChildView *currentChildView() { return m_currentView; }
   BrowserView *currentView();
@@ -143,6 +147,8 @@ protected slots:
   void slotSplitWindowHorizontal();
   void slotSplitWindowVertical();
   void slotRemoveView();
+
+  void slotSaveDefaultProfile();
 
   void slotLoadingProgress( int percent );
   void slotSpeedProgress( int bytesPerSecond );
@@ -202,9 +208,9 @@ private:
   
   KAction *m_paPrint;
   
-  QActionMenu *m_pamEdit;
-  QActionMenu *m_pamView;
-  QActionMenu *m_pamBookmarks;
+  KActionMenu *m_pamEdit;
+  KActionMenu *m_pamView;
+  KActionMenu *m_pamBookmarks;
   
   KActionMenu *m_paUp;
   KActionMenu *m_paBack;
@@ -236,8 +242,10 @@ private:
   KAction *m_paSplitWindowVer;
   KAction *m_paRemoveView;
   
+  KAction *m_paSaveDefaultProfile;
+  
   KAction *m_paSaveRemoveViewProfile;
-  QActionMenu *m_pamLoadViewProfile;
+  KActionMenu *m_pamLoadViewProfile;
   
   KAction *m_paAbout; 
   

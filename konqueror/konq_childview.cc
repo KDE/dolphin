@@ -22,6 +22,7 @@
 #include "konq_propsview.h"
 #include "konq_factory.h"
 #include "konq_run.h"
+#include "konq_iconview.h"
 
 #include <assert.h>
 
@@ -355,9 +356,13 @@ void KonqChildView::makeHistory( bool pushEntry )
   
   if ( m_pCurrentHistoryEntry->strServiceType == "inode/directory" )
   {
+    if ( m_pView->inherits( "KonqTreeView" ) )
+      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
+    else
+      m_pCurrentHistoryEntry->eDirMode = ((KonqKfmIconView *)m_pView)->viewMode();
 //    if ( m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-#warning FIXME (Simon)
-  m_pCurrentHistoryEntry->eDirMode = Konqueror::LargeIcons;
+//#warning FIXME (Simon)
+//  m_pCurrentHistoryEntry->eDirMode = Konqueror::LargeIcons;
 //    if ( m_pView->inherits( "KfmTreeView" ) )
 //      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
 //    else

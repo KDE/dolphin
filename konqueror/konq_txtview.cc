@@ -139,7 +139,7 @@ KonqTxtView::KonqTxtView()
   m_bFixedFont = false;
   m_pEdit->setFont( KonqFactory::global()->generalFont() );
   
-  m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll ), this );
+  m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
   m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::global() ) ), 0, this, SLOT( slotEdit() ), this );
   m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search", KonqFactory::global() ) ), 0, this, SLOT( slotSearch() ), this );
   m_ptaFixedFont = new QToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
