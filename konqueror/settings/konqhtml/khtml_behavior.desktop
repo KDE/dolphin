@@ -9,7 +9,7 @@ X-KDE-ModuleType=Library
 X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_behavior
 
-Name=Behavior
+Name=Web Behavior
 Name[af]=Gedrag
 Name[be]=Паводзіны
 Name[bg]=Поведение
