@@ -714,7 +714,6 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 
 void Sidebar_Widget::showHidePage(int page)
 {
-	qDebug(" *******************************************ShowHidePage");
 	ButtonInfo *info=Buttons.at(page);
 	if (!info->dock)
 		{
