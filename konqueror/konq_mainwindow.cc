@@ -171,9 +171,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
       // silent
       m_bNeedApplyKonqMainWindowSettings = false;
 
-  // Read basic main-view settings
-  KConfig *config = KGlobal::config();
-  applyMainWindowSettings( config );
+  // Read basic main-view settings, and set to autosave
   setAutoSaveSettings( QString::null, false );
 
   m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
