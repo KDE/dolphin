@@ -54,7 +54,12 @@ i've been able to reproduce this bug with kvt, rxvt and xterm, and
 i validated also that the data is already lost at read(3), i may
 well have stumbled into something different here. Because i was
 also only able to produce this effect while running mc, i feel
-pretty certain that mc's sub shell handling causes this effect.</LI>
+pretty certain that mc's sub shell handling causes this effect.
+</LI>
+<LI> Resizing does not work well when running under linux console emulation.
+Especially, mc does not forward the resize information to the subshell.
+It is not mouse aware then any longer, too.
+</LI>
 </UL>
 <P>
 <H4>vim 4.6</H4>
@@ -70,7 +75,8 @@ secondary screen when run together with mc as default editor.</LI>
 <P>
 <UL>
 <LI> assumes black background. So turn to white-on-black color scheme
-when using it.</LI>
+when using it. When run under the linux console emulation, it does
+not cope well with resize events (segfault).</LI>
 </UL>
 <P>
 <P>
@@ -122,37 +128,17 @@ are prefixes (i.e. are eventually to be continued with a second
 character). X11 is known to have these dead keys.
 <P>
 <P>
-<H3><A NAME="ss5.4">5.4 Color Scheme and Font Attributes</A>
+<H3><A NAME="ss5.4">5.4 Color Scheme</A>
 </H3>
 
-<P>
-<UL>
-<LI> The colors have been chosen to match VGA, that is the
-appearance of the Linux character console. Therefore,
-the colors are gamma-corrected a little and appear more
-dim then the colors of xterm.
-</LI>
-<LI> Dark yellow is brown for the same reason.
-</LI>
-<LI> Apparently, not emulation used with Linux does carefully
-distinguishes between the BOLD and the INTENSIVE attribute.
-The later does not even exists. Thus, while bold means
-intensive on VT100 terminals, it is treated as a font
-attribute by xterm and rxvt. For strange reasons, both
-applications really treat bold as meaning bold+intensive.
-I found that looks weird, and hacked around it so that bold
-means intensive for all but the default colors, which are
-instead presented bold (and cannot be intensified).
-Although the rendition function is well able to handle
-bold and intensive separately, it appears that no agreed-on
-escape codes exists, that could be used to take these two
-orthogonal attributes apart. (I'm working on this.)</LI>
-</UL>
-<P>
+<P>Because of a storm of complaints about the color scheme,
+konsole offers configurable color schemes in it's latest
+versions. A proper document on them is still missing.
 <P>
 <H3><A NAME="ss5.5">5.5 Fonts</A>
 </H3>
 
+<P>(Slightly outdated, check README.linux.console)
 <P>
 <UL>
 <LI> the VGA font uses a different encoding then the other ones,
@@ -182,42 +168,7 @@ immediately after being started. Secure keyboard is not implemented
 and konsole does not fchown(2) the pseudo tty.
 <P>
 <P>
-<H3><A NAME="probPack"></A> <A NAME="ss5.7">5.7 Problems compiling the distribution</A>
-</H3>
-
-<P>Due to the fact that this (and all other packages) are produced as
-daily snapshots to provide you with the most actual developer's version,
-you might well experience that konsole does not compile right out of
-the box because a peer program or the package configuration material
-itself is temporarily broken. Here is a workaround to compile konsole
-in this cases:
-<UL>
-<LI>if configure works
-<PRE>
-  $ cd konsole
-  $ make
-  $ make install
-</PRE>
-</LI>
-<LI>if configure fails or you've downloaded konsole alone from cvs:
-<PRE>
-  $ cd konsole
-  $ rm * (just keep the directories)
-  $ mv config/var/Makefile.am.aside config/var/Makefile.am
-  $ [evtl. remove (recursively) all CVS directories from config]
-  $ cp config/var/Makefile.cvs .
-  $ edit src/Makefile.am:
-    change: TOPDIR=$(top_srcdir)/konsole
-        to: TOPDIR=$(top_srcdir)
-  $ make -f Makefile.cvs
-  $ configure
-  $ make
-  $ make install
-</PRE>
-</LI>
-</UL>
-<P>
-<H3><A NAME="ss5.8">5.8 Known bugs (konsole-0.8.6)</A>
+<H3><A NAME="ss5.7">5.7 Known bugs (konsole-0.8.6)</A>
 </H3>
 
 <P>
@@ -227,14 +178,11 @@ set. This truly reflects, what i receive from Qt. All the keys
 come in as #ffff. Think this comes from the eventFilter i had to
 install to get the key-presses.
 </LI>
-<LI> The decision when to put lines into the history is sometimes not
-ideal.
-</LI>
 <LI> check TODO for "bugs" due to missing features, also.</LI>
 </UL>
 <P>
 <P>
-<H3><A NAME="ss5.9">5.9 Features that will not be implemented.</A>
+<H3><A NAME="ss5.8">5.8 Features that will not be implemented.</A>
 </H3>
 
 <P>

@@ -111,7 +111,7 @@ The buttons have different functions:
     the shift and the control key may be uses with this button to
     get access to other parts of the menu.
   </itemize>
-
+<p>
 <item>Sessions
 <p>
 Konsole offers to run several sessions (programs) at once. New sessions
@@ -245,11 +245,12 @@ Some programs have flaws when run under a X console.
     well have stumbled into something different here. Because i was
     also only able to produce this effect while running mc, i feel
     pretty certain that mc's sub shell handling causes this effect.
-</itemize>
 
 <item> Resizing does not work well when running under linux console emulation.
     Especially, mc does not forward the resize information to the subshell.
     It is not mouse aware then any longer, too.
+
+</itemize>
    
 <sect2>vim 4.6
 <p>
