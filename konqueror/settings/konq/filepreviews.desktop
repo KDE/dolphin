@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/file-manager.html
+Icon=kfm
+Exec=kcmshell filepreviews
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=previews
+
+Name=Previews
+
+Comment=You can configure how Konqueror Previews work here
+Keywords=konqueror,filemanager,previews,file previews,maximum size

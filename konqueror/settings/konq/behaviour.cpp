@@ -181,6 +181,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     }
 
     lay->addMultiCellWidget(bgOneProcess, row, row, 0, 3);
+	lay->addMultiCellWidget(new QWidget(this), row+1, row+1, 0, 3);
 
     load();
 }

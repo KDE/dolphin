@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/file-manager.html
+Icon=kfm
+Exec=kcmshell desktoppath
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=dpath
+
+Name=Paths
+
+Comment=You can configure what directories desktop icons have here
+Keywords=konqueror,filemanager,paths,desktop,trash,directories,autostart

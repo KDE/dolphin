@@ -22,16 +22,6 @@
  */
 
 
-#include <unistd.h>
-
-#include <qlayout.h>
-
-#include <kapplication.h>
-#include <dcopclient.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kconfig.h>
-
 #include "rootopts.h"
 #include "behaviour.h"
 #include "fontopts.h"
@@ -39,13 +29,10 @@
 #include "desktop.h"
 #include "previews.h"
 
-#include "main.h"
-#include "main.moc"
-
+#include <kconfig.h>
 #include <X11/Xlib.h>
-#undef CallSucceeded
-#undef Status
 
+/*
 // for multihead
 int konq_screen_number = 0;
 
@@ -237,19 +224,72 @@ QString KDesktopModule::quickHelp() const
     "with clicks of the middle and right mouse buttons on the desktop.\n"
     "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");               }
 
+*/
+
+static QCString configname()
+{
+	int desktop=0;
+	if (qt_xdisplay())
+		desktop = DefaultScreen(qt_xdisplay());
+	QCString name;
+	if (desktop == 0)
+		name = "kdesktoprc";
+    else
+		name.sprintf("kdesktop-screen-%drc", desktop);
+
+	return name;
+}
+
+
 extern "C"
 {
 
-  KCModule *create_konqueror(QWidget *parent, const char *name)
+  KCModule *create_behavior(QWidget *parent, const char *name)
   {
-    return new KonqyModule(parent, name);
+    KConfig *config = new KConfig("konquerorrc", false, true);
+    return new KBehaviourOptions(config, "FMSettings", parent, name);
   }
 
-  KCModule *create_desktop(QWidget *parent, const char *name)
+  KCModule *create_appearance(QWidget *parent, const char *name)
   {
-    return new KDesktopModule(parent, name);
+    KConfig *config = new KConfig("konquerorrc", false, true);
+    return new KonqFontOptions(config, "FMSettings", false, parent, name);
   }
 
+  KCModule *create_trash(QWidget *parent, const char *name)
+  {
+    KConfig *config = new KConfig("konquerorrc", false, true);
+    return new KTrashOptions(config, "Trash", parent, name);
+  }
+
+  KCModule *create_previews(QWidget *parent, const char *name)
+  {
+    return new KPreviewOptions(parent, name);
+  }
+
+
+  KCModule *create_dbehavior(QWidget *parent, const char *name)
+  {
+    KConfig *config = new KConfig(configname(), false, false);
+    return new KRootOptions(config, parent);
+  }
+
+  KCModule *create_dappearance(QWidget *parent, const char *name)
+  {
+    KConfig *config = new KConfig(configname(), false, false);
+    return new KonqFontOptions(config, "FMSettings", true, parent, name);
+  }
+
+  KCModule *create_dpath(QWidget *parent, const char *name)
+  {
+    KConfig *config = new KConfig(configname(), false, false);
+    return new DesktopPathConfig(parent);
+  }
+
+  KCModule *create_ddesktop(QWidget *parent, const char *name)
+  {
+    return new KDesktopConfig(parent, "VirtualDesktops");
+  }
 }
 
 

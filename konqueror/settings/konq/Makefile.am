@@ -15,11 +15,16 @@ kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA)
 kcm_konq_la_DATA = overlapping.png onlyone.png
 kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 
-data_DATA = kcmkonq.desktop
+data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
 datadir = $(kde_appsdir)/Settings/FileBrowsing
 
-data2_DATA = desktop.desktop virtualdesktops.desktop
-data2dir = $(kde_appsdir)/Settings/LookNFeel
+
+datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop filetrash.desktop desktop.desktop desktoppath.desktop
+datadeskdir = $(kde_appsdir)/Settings/Desktop
+
+
+#data2_DATA = desktop.desktop virtualdesktops.desktop
+#data2dir = $(kde_appsdir)/Settings/LookNFeel
 
 install-data-local: uninstall.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop

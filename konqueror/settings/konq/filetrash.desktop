@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/file-manager.html
+Icon=kfm
+Exec=kcmshell filetrash
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=trash
+
+Name=Trash
+
+Comment=You can configure how the KDE Trash behaves behaves here
+Keywords=konqueror,filemanager,trash,move to trash,shred,delete,recycle bin,bit bucket

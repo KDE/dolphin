@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/file-manager.html
+Icon=kfm
+Exec=kcmshell desktopappearance
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=dappearance
+
+Name=Appearance
+
+Comment=Here, you can configure the appearance of the desktop
+Keywords=konqueror,filemanager,desktop,fonts,colors,colours,color,colour

@@ -14,7 +14,7 @@
 
 
 #include <qstring.h>
-
+#include <kurl.h>
 #include <kcmodule.h>
 
 class QPushButton;
