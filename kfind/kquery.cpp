@@ -28,6 +28,7 @@ KQuery::KQuery(QObject *parent, const char * name)
 
 KQuery::~KQuery()
 {
+		delete processLocate;
 }
 
 void KQuery::kill()
