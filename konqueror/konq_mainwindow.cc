@@ -434,7 +434,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
-                              const QString &_serviceType, const KonqOpenURLRequest & req,
+                              const QString &_serviceType, KonqOpenURLRequest req,
                               bool trustedSource )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << _url.url() << "'  "
@@ -547,6 +547,14 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   else // no known serviceType, use KonqRun
   {
       kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
+      if (currentURL().startsWith("http")) {
+          KURL tmp = currentURL();
+          tmp.setRef(QString::null);
+          tmp.setUser(QString::null);
+          tmp.setPass(QString::null);
+          req.args.metaData()["referrer"] = tmp.url();
+      }
+
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
       if ( view )
         view->setRun( run );
@@ -586,6 +594,14 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
   kdDebug(1202) << "req.openAfterCurrentPage= " << req.openAfterCurrentPage << endl;
   bool bOthersFollowed = false;
+
+  if (currentURL().startsWith("http")) {
+      KURL tmp = currentURL();
+      tmp.setRef(QString::null);
+      tmp.setUser(QString::null);
+      tmp.setPass(QString::null);
+      req.args.metaData()["referrer"] = tmp.url();
+  }
 
   if ( childView )
   {
@@ -776,6 +792,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   {
       //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
       //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
+      //kdDebug(1202) << "Browser extension? " << (childView->browserExtension() ? "YES" : "NO") << endl;
+      //kdDebug(1202) << "Referrer: " << req.args.metaData()["referrer"] << endl;
       childView->setTypedURL( req.typedURL );
       if ( childView->browserExtension() )
           childView->browserExtension()->setURLArgs( req.args );

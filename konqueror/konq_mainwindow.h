@@ -109,7 +109,7 @@ public:
    */
   void openURL( KonqView * view, const KURL & url,
                 const QString &serviceType = QString::null,
-                const KonqOpenURLRequest & req = KonqOpenURLRequest(), bool trustedSource = false );
+                KonqOpenURLRequest req = KonqOpenURLRequest(), bool trustedSource = false );
 
   /**
    * Called by openURL when it knows the service type (either directly,
