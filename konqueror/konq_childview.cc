@@ -19,7 +19,6 @@
 
 #include "konq_childview.h"
 #include "konq_frame.h"
-#include "konq_partview.h"
 #include "konq_iconview.h"
 #include "konq_treeview.h"
 #include "konq_txtview.h"

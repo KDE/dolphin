@@ -56,7 +56,6 @@
 #include "konq_mainview.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
-#include "konq_partview.h"
 #include "konq_treeview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
@@ -151,14 +150,6 @@ Konqueror::KfmTreeView_ptr KonqApplicationIf::createKfmTreeView()
   KOMShutdownManager::self()->watchObject( treeView );
   KonqPlugins::installKOMPlugins( treeView );
   return Konqueror::KfmTreeView::_duplicate( treeView );
-}
-
-Konqueror::PartView_ptr KonqApplicationIf::createPartView()
-{
-  KonqPartView *partView = new KonqPartView;
-  KOMShutdownManager::self()->watchObject( partView );
-  KonqPlugins::installKOMPlugins( partView );
-  return Konqueror::PartView::_duplicate( partView );
 }
 
 Konqueror::TxtView_ptr KonqApplicationIf::createTxtView()

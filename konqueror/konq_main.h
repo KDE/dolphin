@@ -58,7 +58,6 @@ public:
   Konqueror::KfmIconView_ptr createKfmIconView();
   Konqueror::HTMLView_ptr createHTMLView();
   Konqueror::KfmTreeView_ptr createKfmTreeView();
-  Konqueror::PartView_ptr createPartView();
   Konqueror::TxtView_ptr createTxtView();
 };
 

@@ -29,7 +29,6 @@
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
 #include "konq_treeview.h"
-#include "konq_partview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
 #include "konq_propsmainview.h"

@@ -79,19 +79,12 @@ module Konqueror
     void parseDoc();
   };
   
-  interface PartView : Browser::View
-  {
-    void setPart( in OpenParts::Part part );
-    OpenParts::Part part();
-    
-    slot void detachPart();
-  };
-
   interface TxtView : Browser::View, Browser::PrintingExtension
   {
     slot void slotSelectAll();
     slot void slotEdit();
     slot void slotFixedFont();
+    slot void slotSearch();
   };
 
   interface MainView : OpenParts::Part
@@ -185,7 +178,6 @@ module Konqueror
     KfmIconView createKfmIconView();
     HTMLView createHTMLView();
     KfmTreeView createKfmTreeView();
-    PartView createPartView();
     TxtView createTxtView();
   };
   

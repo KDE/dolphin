@@ -20,6 +20,7 @@
 #include "konq_txtview.h"
 #include "konq_mainview.h"
 #include "konq_defaults.h"
+#include "konq_searchdia.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -124,6 +125,7 @@ bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu editMenu )
 #define MEDIT_BASE_ID 1523
 #define MEDIT_SELECTALL_ID MEDIT_BASE_ID+1
 #define MEDIT_EDIT_ID MEDIT_BASE_ID+2
+#define MEDIT_SEARCH_ID MEDIT_BASE_ID+3
 
   if ( !CORBA::is_nil( editMenu.menu ) )
   {
@@ -135,11 +137,14 @@ bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu editMenu )
 				  MEDIT_SELECTALL_ID, -1 );
       editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Launch &Editor" ) ) ),
                                   this, "slotEdit", 0, MEDIT_EDIT_ID, -1 );
+      editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Search..." ) ) ),
+                                  this, "slotSearch", 0, MEDIT_SEARCH_ID, -1 );
     }
     else
     {
       editMenu.menu->removeItem( MEDIT_SELECTALL_ID );
       editMenu.menu->removeItem( MEDIT_EDIT_ID );
+      editMenu.menu->removeItem( MEDIT_SEARCH_ID );
     }
   }
 
@@ -193,6 +198,13 @@ void KonqTxtView::slotFixedFont()
     setFont( KGlobal::fixedFont() );
   else
     setFont( KGlobal::generalFont() );
+}
+
+void KonqTxtView::slotSearch()
+{
+  KonqSearchDialog *searchDia = new KonqSearchDialog( this );
+  searchDia->exec();
+  delete searchDia;
 }
 
 void KonqTxtView::print()

@@ -50,6 +50,7 @@ public:
   virtual void slotSelectAll();
   virtual void slotEdit();
   virtual void slotFixedFont();
+  virtual void slotSearch();
 
   virtual void print();
 
