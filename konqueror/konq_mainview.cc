@@ -64,7 +64,6 @@
 #include <ksycoca.h>
 #include <kurl.h>
 #include <kwm.h>
-#include <klineeditdlg.h>
 #include <konqdefaults.h>
 #include <konqpopupmenu.h>
 #include <konqsettings.h>
@@ -84,6 +83,7 @@
 #include <kmenubar.h>
 #include <kglobalsettings.h>
 #include <kedittoolbar.h>
+#include <kurlrequesterdlg.h>
 
 #include "version.h"
 
@@ -443,22 +443,13 @@ void KonqMainView::slotOpenTerminal()
 void KonqMainView::slotOpenLocation()
 {
   QString u;
+  KURL url;
 
   if (m_currentView)
     u = m_currentView->url().url();
 
-  KLineEditDlg l( i18n("Open Location:"), u, this, true );
-  int x = l.exec();
-  if ( x )
-  {
-    u = l.text();
-    u = u.stripWhiteSpace();
-    // Exit if the user did not enter an URL
-    if ( u.isEmpty() )
-      return;
-
-    openFilteredURL( 0L, u );
-  }
+  url = KURLRequesterDlg::getURL( u, this, i18n("Open Location") );
+  openFilteredURL( 0L, url.url() );
 }
 
 void KonqMainView::slotToolFind()

@@ -195,7 +195,7 @@ void KNewMenu::slotNewFile()
       text = i18n("New Folder :");
     }
 
-    KLineEditDlg l( text, value, 0L, true );
+    KLineEditDlg l( text, value, 0L );
     if ( l.exec() )
     {
 	QString name = l.text();
