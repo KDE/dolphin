@@ -235,7 +235,7 @@ int main(int argc, char** argv)
   //QString mime = "video/avi";
 
   /*QStringList _argn, _argv;
-  _argn << "WIDTH" << "HEIGHT" << "SRC" << "MIME";
+  _argn << "WIDTH" << "HEIGHT" << "SRC" << "TYPE";
   _argv << "400" << "250" << src << mime;
   cls->NewInstance(mime, 1, _argn, _argv);*/
 
