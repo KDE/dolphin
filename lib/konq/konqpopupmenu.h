@@ -53,6 +53,8 @@ public:
    * @param viewURL the URL shown in the view, to test for RMB click on view background
    * @param actions list of actions the caller wants to see in the menu
    * @param newMenu "New" menu, shared with the File menu, in konqueror
+   * @param allowEmbeddingServices whether to allow services to be embedded
+   * (true in konqueror, false in kdesktop and others)
    *
    * The actions to pass in include :
    * showmenubar, back, forward, up, cut, copy, paste, trash, del, shred
@@ -62,11 +64,18 @@ public:
   KonqPopupMenu( const KonqFileItemList &items,
                  KURL viewURL,
                  QActionCollection & actions,
-                 KNewMenu * newMenu );
+                 KNewMenu * newMenu,
+                 bool allowEmbeddingServices = false );
   /**
    * Don't forget to destroy the object
    */
   ~KonqPopupMenu();
+
+signals:
+  /**
+   * Emitted when an embedding service is chosen - only of interest for konqueror
+   */
+  void openEmbedded( const QString & serviceType, const KURL & url, const QString & serviceName );
 
 public slots:
   void slotPopupNewView();
@@ -88,7 +97,8 @@ protected:
   KonqFileItemList m_lstItems;
   KURL::List m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
-  QMap<int,KDEDesktopMimeType::Service> m_mapPopup2;
+  QMap<int,KService::Ptr> m_mapPopupEmbedding;
+  QMap<int,KDEDesktopMimeType::Service> m_mapPopupServices;
   bool m_bHandleEditOperations;
 };
 

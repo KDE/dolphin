@@ -47,7 +47,8 @@
 KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
                               KURL viewURL,
                               QActionCollection & actions,
-                              KNewMenu * newMenu )
+                              KNewMenu * newMenu,
+                              bool allowEmbeddingServices )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
@@ -226,12 +227,15 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
     // Query the trader for offers associated to this mimetype
 
     // 1 - Query for services that could embed it
-    // How do we know that this is konqueror ?? Major hack (appname) or param ?
-    // TODO
+    KTrader::OfferList embeddingOffers;
+    if ( m_lstItems.count() == 1 && allowEmbeddingServices )
+    { // Only if one item was selected
+      // Can't use X-KDE-BrowserView-Builtin directly in the query because '-' is a substraction !!!
+        embeddingOffers = KTrader::self()->query( m_sMimeType,
+        "('Browser/View' in ServiceTypes) or ('KParts/ReadOnlyPart' in ServiceTypes)" );
+    }
 
-    // 2 - Query for applications
-    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType, "Type == 'Application'" );
-
+    // 2 - Look for builtin and user-defined services
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
     if ( m_sMimeType == "application/x-desktop" ) // .desktop file
@@ -241,6 +245,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
       user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
     }
 
+    // 3 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
     QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
     QStringList::ConstIterator dIt = dirs.begin();
     QStringList::ConstIterator dEnd = dirs.end();
@@ -270,57 +275,82 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 	
     }
 
-    if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
-      QObject::connect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
+    // 4 - Query for applications
+    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType, "Type == 'Application'" );
 
-    if ( !offers.isEmpty() || !user.isEmpty() )
-      insertSeparator();
+    //// Ok, we have everything, now insert
 
     m_mapPopup.clear();
-    m_mapPopup2.clear();
+    m_mapPopupServices.clear();
+    m_mapPopupEmbedding.clear();
 
-    // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
-    KTrader::OfferList::Iterator it = offers.begin();
-    for( ; it != offers.end(); it++ )
+    if ( !embeddingOffers.isEmpty() || !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
     {
-      id = insertItem( (*it)->pixmap( KIconLoader::Small ), (*it)->name() );
-      m_mapPopup[ id ] = *it;
-    }
+      QObject::connect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
-    QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
-    for( ; it2 != user.end(); ++it2 )
-    {
-      if ((*it2).m_display == true)
+      // First block, embedding offers + app offers + user
+      insertSeparator();
+
+      bool insertedOffer = false;
+      KTrader::OfferList::Iterator it = embeddingOffers.begin();
+      for( ; it != embeddingOffers.end(); it++ )
+      {
+        QVariant builtin = (*it)->property( "X-KDE-BrowserView-Builtin" );
+        if (!builtin.isValid() || !builtin.toBool()) // Either not specified or false
+        {
+          id = insertItem( (*it)->pixmap( KIconLoader::Small ), i18n("Preview %1").arg( (*it)->name() ) );
+          m_mapPopupEmbedding[ id ] = *it;
+          insertedOffer = true;
+        }
+      }
+
+      // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
+      it = offers.begin();
+      for( ; it != offers.end(); it++ )
+      {
+        id = insertItem( (*it)->pixmap( KIconLoader::Small ), (*it)->name() );
+        m_mapPopup[ id ] = *it;
+        insertedOffer = true;
+      }
+
+      QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
+      for( ; it2 != user.end(); ++it2 )
+      {
+        if ((*it2).m_display == true)
+        {
+          if ( !(*it2).m_strIcon.isEmpty() )
+          {
+            QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
+            id = insertItem( pix, (*it2).m_strName );
+          }
+          else
+            id = insertItem( (*it2).m_strName );
+          m_mapPopupServices[ id ] = *it2;
+          insertedOffer = true;
+        }
+      }
+
+      // Second block, builtin
+      if ( insertedOffer )
+        insertSeparator();
+
+      it2 = builtin.begin();
+      for( ; it2 != builtin.end(); ++it2 )
       {
         if ( !(*it2).m_strIcon.isEmpty() )
         {
           QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
-    id = insertItem( pix, (*it2).m_strName );
+          id = insertItem( pix, (*it2).m_strName );
         }
         else
           id = insertItem( (*it2).m_strName );
-        m_mapPopup2[ id ] = *it2;
+        m_mapPopupServices[ id ] = *it2;
       }
     }
-
-    if ( builtin.count() > 0 )
+    else
       insertSeparator();
 
-    it2 = builtin.begin();
-    for( ; it2 != builtin.end(); ++it2 )
-    {
-      if ( !(*it2).m_strIcon.isEmpty() )
-      {
-        QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
-	id = insertItem( pix, (*it2).m_strName );
-      }
-      else
-	id = insertItem( (*it2).m_strName );
-      m_mapPopup2[ id ] = *it2;
-    }
-
     bLastSepInserted = true;
-    insertSeparator();
 
     id = insertItem( i18n( "Edit File Type..." ), // or "File Type Properties" ?
                      this, SLOT( slotPopupMimeType() ) );
@@ -397,7 +427,7 @@ void KonqPopupMenu::slotPopupAddToBookmark()
 
 void KonqPopupMenu::slotPopup( int id )
 {
-  // Is it a usual service
+  // Is it a usual service (application)
   QMap<int,KService::Ptr>::Iterator it = m_mapPopup.find( id );
   if ( it != m_mapPopup.end() )
   {
@@ -405,14 +435,22 @@ void KonqPopupMenu::slotPopup( int id )
     return;
   }
 
-  // Is it a service specific to desktop entry files ?
-  QMap<int,KDEDesktopMimeType::Service>::Iterator it2 = m_mapPopup2.find( id );
-  if ( it2 == m_mapPopup2.end() )
+  // Is it an embedding service ?
+  QMap<int,KService::Ptr>::Iterator itEmbed = m_mapPopupEmbedding.find( id );
+  if ( itEmbed != m_mapPopupEmbedding.end() )
+  {
+    emit openEmbedded( m_sMimeType, m_lstPopupURLs.first(), (*itEmbed)->name() );
     return;
+  }
 
-  KURL::List::Iterator it3 = m_lstPopupURLs.begin();
-  for( ; it3 != m_lstPopupURLs.end(); ++it3 )
-    KDEDesktopMimeType::executeService( (*it3).path(), it2.data() );
+  // Is it a service specific to desktop entry files ?
+  QMap<int,KDEDesktopMimeType::Service>::Iterator it2 = m_mapPopupServices.find( id );
+  if ( it2 != m_mapPopupServices.end() )
+  {
+    KURL::List::Iterator it3 = m_lstPopupURLs.begin();
+    for( ; it3 != m_lstPopupURLs.end(); ++it3 )
+      KDEDesktopMimeType::executeService( (*it3).path(), it2.data() );
+  }
 
   return;
 }
