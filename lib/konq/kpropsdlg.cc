@@ -851,8 +851,8 @@ bool ExecPropsPage::supports( const KURL& _kurl, mode_t )
     fclose( f );
     if ( n <= 0 )
       return false;
-    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-      return false;
+//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
+//      return false;
 
     KConfig config( t );
     config.setDesktopGroup();
@@ -1048,13 +1048,13 @@ bool URLPropsPage::supports( const KURL& _kurl, mode_t  )
     if ( f == 0L )
       return false;
 
-    char buffer[ 101 ];
-    int n = fread( buffer, 1, 100, f );
+//    char buffer[ 101 ];
+//    int n = fread( buffer, 1, 100, f );
     fclose( f );
-    if ( n <= 0 )
-      return false;
-    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-      return false;
+//    if ( n <= 0 )
+//      return false;
+//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
+//      return false;
 
     KConfig config( path );
     config.setDesktopGroup();
@@ -1528,13 +1528,13 @@ bool ApplicationPropsPage::supports( const KURL& _kurl, mode_t  )
     if ( f == 0L )
       return false;
 
-    char buffer[ 101 ];
-    int n = fread( buffer, 1, 100, f );
+//    char buffer[ 101 ];
+//    int n = fread( buffer, 1, 100, f );
     fclose( f );
-    if ( n <= 0 )
-      return false;
-    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-      return false;
+//    if ( n <= 0 )
+//      return false;
+//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
+//      return false;
 
     KConfig config( path );
     config.setDesktopGroup();
@@ -1895,13 +1895,13 @@ bool BindingPropsPage::supports( const KURL& _kurl, mode_t )
     if ( f == 0L )
       return false;
 
-    char buffer[ 101 ];
-    int n = fread( buffer, 1, 100, f );
+//    char buffer[ 101 ];
+//    int n = fread( buffer, 1, 100, f );
     fclose( f );
-    if ( n <= 0 )
-      return false;
-    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-      return false;
+//    if ( n <= 0 )
+//      return false;
+//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
+//      return false;
 
     KConfig config( path );
     config.setDesktopGroup();
@@ -2199,13 +2199,13 @@ bool DevicePropsPage::supports( const KURL& _kurl, mode_t _mode )
     if ( f == 0L )
       return false;
 
-    char buffer[ 101 ];
-    int n = fread( buffer, 1, 100, f );
+//    char buffer[ 101 ];
+//    int n = fread( buffer, 1, 100, f );
     fclose( f );
-    if ( n <= 0 )
-      return false;
-    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-      return false;
+//    if ( n <= 0 )
+//      return false;
+//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
+//      return false;
 
     KConfig config( path );
     config.setDesktopGroup();
