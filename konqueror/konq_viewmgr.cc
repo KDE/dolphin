@@ -145,12 +145,13 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     QPoint pos = splitFrame->widget()->pos();
 
-    debug("Move out child");
-    //splitFrame->widget()->hide();
+    //kdDebug(1202) << "Move out child" << endl;
+    parentContainer->removeChildFrame( splitFrame );
     splitFrame->widget()->reparent( m_pMainView, pos );
+    splitFrame->widget()->hide(); // Can't hide before, but after is better than nothing
     splitFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize, so that both container childs are equally size after split
 
-    debug("Create new Container");
+    //kdDebug(1202) << "Create new Container" << endl;
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
     newContainer->setUpdatesEnabled( false );
     newContainer->setOpaqueResize( true );
@@ -159,12 +160,12 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
     if( moveNewContainer )
       parentContainer->moveToFirst( newContainer );
 
-    debug("Move in Child");
+    //kdDebug(1202) << "Move in child" << endl;
     splitFrame->widget()->reparent( newContainer, pos, true /*showIt*/ );
 
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
-    debug("Create new Child");
+    //kdDebug(1202) << "Create new child" << endl;
     childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     printSizeInfo( splitFrame, parentContainer, "after child insert" );
@@ -199,11 +200,15 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
     if ( newFrameContainer )
       *newFrameContainer = m_pMainContainer;
   }
+
+  printFullHierarchy( m_pMainContainer );
+
   return childView;
 }
 
 void KonqViewManager::removeView( KonqChildView *view )
 {
+  //kdDebug(1202) << "---------------- removeView" << view << endl;
   if ( activePart() == view->view() )
   {
     KonqChildView *nextView = chooseNextView( view );
@@ -217,8 +222,9 @@ void KonqViewManager::removeView( KonqChildView *view )
   }
 
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
-  //kdDebug(1202) << "view=" << view << " parentContainer=" << parentContainer << endl;
   KonqFrameContainer* grandParentContainer = parentContainer->parentContainer();
+  //kdDebug(1202) << "view=" << view << " parentContainer=" << parentContainer
+  //              << " grandParentContainer=" << grandParentContainer << endl;
   bool moveOtherChild = (grandParentContainer->idAfter( parentContainer ) != 0);
 
   KonqFrameBase* otherFrame = parentContainer->otherChild( view->frame() );
@@ -230,27 +236,31 @@ void KonqViewManager::removeView( KonqChildView *view )
 
   QPoint pos = otherFrame->widget()->pos();
 
-  //otherFrame->widget()->hide();
   otherFrame->reparentFrame( m_pMainView, pos );
+  otherFrame->widget()->hide(); // Can't hide before, but after is better than nothing
   otherFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize
 
   m_pMainView->removeChildView( view );
 
-  //triggering QObject::childEvent manually
-  //  parentContainer->removeChild( view->frame() );
+  parentContainer->removeChildFrame( view->frame() );
+  //kdDebug(1202) << "Deleting view frame" << view->frame() << endl;
+  delete view->frame();
+  // This deletes the widgets inside, including the part's widget, so tell the child view
+  view->partDeleted();
   //kdDebug(1202) << "Deleting view " << view << endl;
   delete view;
 
-  kdDebug(1202) << "triggering QObject::childEvent manually " << endl;
-  grandParentContainer->removeChild( parentContainer ); // ????? (David)
-  kdDebug(1202) << "Deleting parentContainer " << parentContainer << endl;
+  grandParentContainer->removeChildFrame( parentContainer );
+  //kdDebug(1202) << "Deleting parentContainer " << parentContainer
+  //              << ". Its parent is " << parentContainer->parent() << endl;
   delete parentContainer;
 
   otherFrame->reparentFrame( grandParentContainer, pos, true/*showIt*/ );
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
-  //kdDebug(1202) << "removeView done " << view << endl;
+  //kdDebug(1202) << "------------- removeView done " << view << endl;
+  printFullHierarchy( m_pMainContainer );
 }
 
 // reimplemented from PartManager
@@ -315,25 +325,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   loadItem( cfg, m_pMainContainer, rootItem );
 
-  // Why not use m_pMainView->viewMap() ? viewList is built by hand... (David)
-  QValueList<KParts::ReadOnlyPart *> lst = m_pMainView->viewList();
-
-  KParts::ReadOnlyPart *view = *lst.begin();
-  KonqChildView *childView = m_pMainView->childView( view );
-
-  if ( childView->passiveMode() )
-  {
-    KonqChildView *nextChildView = chooseNextView( childView );
-    setActivePart( nextChildView->view() );
-    //if ( lst.count() == 2 )
-    //  nextChildView->frame()->statusbar()->hideStuff();
-  }
-  else
-    setActivePart( view );
+  KonqChildView *nextChildView = chooseNextView( 0L );
+  setActivePart( nextChildView->view() );
 
   //if ( lst.count() == 1 && !childView->passiveMode() )
   //  childView->frame()->statusbar()->hideStuff();
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
+  printFullHierarchy( m_pMainContainer );
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
@@ -453,14 +451,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
   kdDebug() << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
   KonqMainView::MapViews mapViews = m_pMainView->viewMap();
 
-  if ( !view )
-  {
-    // Should this happen ?
-    kdWarning() << "KonqViewManager::chooseNextView called with view = 0L" << endl;
-    return mapViews.begin().data(); // what if it's passive ?
-  }
-
-  KonqMainView::MapViews::Iterator it = mapViews.find( view->view() );
+  KonqMainView::MapViews::Iterator it = view ? mapViews.find( view->view() ) : mapViews.begin();
   KonqMainView::MapViews::Iterator end = mapViews.end();
 
   KonqMainView::MapViews::Iterator startIt = it;
@@ -546,7 +537,6 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 					   const QString &serviceType )
 {
   kdDebug(1202) << "KonqViewManager::setupView" << endl;
-  kdDebug(1202) << "main view is " << m_pMainView <<  endl;
 
   QString sType = serviceType;
 
@@ -556,16 +546,13 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   KonqFrame* newViewFrame = new KonqFrame( parentContainer, "KonqFrame" );
 
   kdDebug(1202) << "Creating KonqChildView" << endl;
-  kdDebug(1202) << "main view is " << m_pMainView <<  endl;
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
 					m_pMainView, service, partServiceOffers, appServiceOffers, sType );
   kdDebug(1202) << "KonqChildView created" << endl;
-  kdDebug(1202) << "main view is " << m_pMainView <<  endl;
 
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
 
-  kdDebug(1202) << "(insertChildView) main view is " << m_pMainView <<  endl;
   m_pMainView->insertChildView( v );
 
   newViewFrame->show();
@@ -632,6 +619,35 @@ void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
   for( it = sizes.begin(); it != sizes.end(); ++it )
     printf( " %d", (*it) );
   printf("\n");
+}
+
+void KonqViewManager::printFullHierarchy( KonqFrameContainer * container, int ident )
+{
+    if (container)
+    {
+        QString spaces;
+        for ( int i = 0 ; i < ident ; i++ )
+            spaces += " ";
+        kdDebug(1202) << spaces << "Container " << container << endl;
+        KonqFrameBase * child = container->firstChild();
+        if ( !child )
+            kdDebug(1202) << spaces << "  Null child ! " << endl;
+        else if ( child->widget()->isA("KonqFrameContainer") )
+            printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
+        else
+            kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing a "
+                          << static_cast<KonqFrame *>(child)->view()->widget()->className() << endl;
+        child = container->secondChild();
+        if ( !child )
+            kdDebug(1202) << spaces << "  Null child ! " << endl;
+        else if ( child->widget()->isA("KonqFrameContainer") )
+            printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
+        else
+            kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing a "
+                          << static_cast<KonqFrame *>(child)->view()->widget()->className() << endl;
+    }
+    else
+        kdDebug(1202) << "Null container ?!?!" << endl;
 }
 
 #include "konq_viewmgr.moc"

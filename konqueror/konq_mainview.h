@@ -169,7 +169,7 @@ public:
 
   // It is recommended to use @ref viewMap instead
   // (the list has to be built from the map...)
-  QValueList<KParts::ReadOnlyPart *> viewList() const;
+  //QValueList<KParts::ReadOnlyPart *> viewList() const;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 

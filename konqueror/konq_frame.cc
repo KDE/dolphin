@@ -223,8 +223,9 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
    QWidget::paintEvent(e);
    if (!m_showLed) return;
    bool hasFocus = m_pParentKonqFrame->isActivePart();
-   if ( m_pParentKonqFrame->childView()->passiveMode() )
-      hasFocus = false;
+   // Can't happen
+   //   if ( m_pParentKonqFrame->childView()->passiveMode() )
+   //   hasFocus = false;
    QPainter p(this);
    if (hasFocus)
       p.drawPixmap(4,m_yOffset,green);
@@ -268,7 +269,8 @@ KParts::ReadOnlyPart * KonqFrame::view()
 
 bool KonqFrame::isActivePart()
 {
-  return ( (KParts::ReadOnlyPart *)m_pView == m_pChildView->mainView()->currentView() );
+  return ( m_pChildView &&
+           static_cast<KonqChildView*>(m_pChildView) == m_pChildView->mainView()->currentChildView() );
 }
 
 void KonqFrame::listViews( ChildViewList *viewList )
@@ -342,7 +344,7 @@ void KonqFrame::attachInternal()
 void KonqFrame::setChildView( KonqChildView* child )
 {
    m_pChildView = child;
-   if (m_pChildView!=0)
+   if (m_pChildView)
    {
      connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
              m_pStatusBar,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
@@ -359,15 +361,14 @@ KonqFrameContainer* KonqFrame::parentContainer()
       return 0L;
 }
 
-void KonqFrame::reparentFrame( QWidget* parent,
-                               const QPoint & p, bool showIt )
+void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 {
    QWidget::reparent( parent, p, showIt );
 }
 
 void KonqFrame::slotStatusBarClicked()
 {
-  if ( m_pView != m_pChildView->mainView()->viewManager()->activePart() )
+  if ( !isActivePart() )
      m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
 }
 
@@ -399,9 +400,9 @@ void KonqFrame::detachMetaView()
   m_separator = 0;
 }
 
+#ifdef METAVIEWS
 void KonqFrame::attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewFrame, const QMap<QString,QVariant> &framePropertyMap )
 {
-#ifdef METAVIEWS
 //  m_separator = new KSeparator( this );
 //  m_pLayout->insertWidget( 0, m_separator );
 //  m_pLayout->insertWidget( 0, view->widget() );
@@ -415,10 +416,13 @@ void KonqFrame::attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewF
 
     m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
   }
-#else
-  kdError(1202) << "Meta views not supported" << endl;
-#endif
 }
+#else
+void KonqFrame::attachMetaView( KParts::ReadOnlyPart *, bool, const QMap<QString,QVariant> & )
+{
+  kdError(1202) << "Meta views not supported" << endl;
+}
+#endif
 
 //###################################################################
 
@@ -433,7 +437,7 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
 
 KonqFrameContainer::~KonqFrameContainer()
 {
-    kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer()" << endl;
+    kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer() " << this << " - " << className() << endl;
 }
 
 void KonqFrameContainer::listViews( ChildViewList *viewList )
@@ -501,8 +505,7 @@ KonqFrameContainer* KonqFrameContainer::parentContainer()
     return 0L;
 }
 
-void KonqFrameContainer::reparentFrame( QWidget* parent,
-                                        const QPoint & p, bool showIt )
+void KonqFrameContainer::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 {
   QWidget::reparent( parent, p, showIt );
 }
@@ -514,50 +517,47 @@ void KonqFrameContainer::swapChildren()
   m_pSecondChild = firstCh;
 }
 
+// Ok, here it goes. When we receive the event for a KonqFrame[Container] that has been
+// deleted - it's from the QObject destructor, so isA won't work. The class name is "QObject" !
+// This is why childEvent only catches child insertion, and there is a manual removeChildFrame.
 void KonqFrameContainer::childEvent( QChildEvent * ce )
 {
   //kdDebug(1202) << "KonqFrameContainer::childEvent this" << this << endl;
 
-   KonqFrameBase* castChild = 0L;
-   if( ce->child()->isA("KonqFrame") )
+  if( ce->type() == QEvent::ChildInserted )
+  {
+    KonqFrameBase* castChild = 0L;
+    if( ce->child()->isA("KonqFrame") )
       castChild = static_cast< KonqFrame* >(ce->child());
-   else if( ce->child()->isA("KonqFrameContainer") )
+    else if( ce->child()->isA("KonqFrameContainer") )
       castChild = static_cast< KonqFrameContainer* >(ce->child());
 
-   if( castChild )
-   {
-     if( ce->type() == QEvent::ChildInserted )
-     {
-       if( !firstChild() )
-         m_pFirstChild = castChild;
+    kdDebug(1202) << "KonqFrameContainer " << this << ": child " << castChild << " inserted" << endl;
+    if( !m_pFirstChild )
+      m_pFirstChild = castChild;
 
-       else if( !secondChild() )
-         m_pSecondChild = castChild;
+    else if( !m_pSecondChild )
+      m_pSecondChild = castChild;
 
-       else
-         kdWarning(1202) << "Already have two children..." << endl;
+    else
+      kdWarning(1202) << this << " already has two children..."
+                      << m_pFirstChild << " and " << m_pSecondChild << endl;
 
-     }
-     else if( ce->type() == QEvent::ChildRemoved )
-     {
-       if( m_pFirstChild == castChild )
-         m_pFirstChild = 0L;
+  }
+  QSplitter::childEvent( ce );
+}
 
-       else if( m_pSecondChild == castChild )
-         m_pSecondChild = 0L;
+void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
+{
+  kdDebug(1202) << "KonqFrameContainer::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
+  if( m_pFirstChild == frame )
+    m_pFirstChild = 0L;
 
-       else
-         kdWarning(1202) << "Can't find this child..." << endl;
-     }
-   }
-     /*
-   else // this happens with the splitter handle..
-     kdDebug(1202) << "KonqFrameContainer::childEvent."
-               << " Child " << ce->child() << " is a " << ce->child()->className()
-               << " name=" << ce->child()->name() << endl;
-               */
+  else if( m_pSecondChild == frame )
+    m_pSecondChild = 0L;
 
-   QSplitter::childEvent( ce );
+  else
+    kdWarning(1202) << this << " Can't find this child:" << frame << endl;
 }
 
 #include "konq_frame.moc"

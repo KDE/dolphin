@@ -218,7 +218,7 @@ protected:
   QVBoxLayout *m_metaViewLayout;
   QFrame *m_metaViewFrame;
   QVBoxLayout *m_pLayout;
-  KonqChildView *m_pChildView;
+  QGuardedPtr<KonqChildView> m_pChildView;
 
   QGuardedPtr<KParts::ReadOnlyPart> m_pView;
 
@@ -258,6 +258,12 @@ public:
   KonqFrameContainer* parentContainer();
   virtual QWidget* widget() { return this; }
   virtual QString frameType() { return QString("Container"); }
+
+  /**
+   * Call this before deleting one of our children.
+   * This is because childEvent can't do a proper job
+   */
+  void removeChildFrame( KonqFrameBase * frame );
 
   //inherited
   void reparentFrame(QWidget * parent,

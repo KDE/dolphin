@@ -73,12 +73,11 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 
 KonqChildView::~KonqChildView()
 {
-  kdDebug(1202) << "KonqChildView::~KonqChildView : part = " << m_pView << endl;
+  //kdDebug(1202) << "KonqChildView::~KonqChildView : part = " << m_pView << endl;
 
-  // No! We don't take ownership! (David) delete m_pKonqFrame;
   delete m_pView;
   delete (KonqRun *)m_pRun;
-  kdDebug(1202) << "KonqChildView::~KonqChildView done" << endl;
+  //kdDebug(1202) << "KonqChildView::~KonqChildView " << this << " done" << endl;
 }
 
 void KonqChildView::repaint()

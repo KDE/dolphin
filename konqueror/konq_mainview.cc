@@ -933,18 +933,6 @@ KonqChildView *KonqMainView::findChildView( const QString &name, KonqMainView **
   return 0;
 }
 
-QValueList<KParts::ReadOnlyPart *> KonqMainView::viewList() const
-{
-  QValueList<KParts::ReadOnlyPart *> res;
-
-  MapViews::ConstIterator it = m_mapViews.begin();
-  MapViews::ConstIterator end = m_mapViews.end();
-  for (; it != end; ++it )
-    res.append( (*it)->view() );
-
-  return res;
-}
-
 int KonqMainView::activeViewsCount() const
 {
   int res = 0;
@@ -1426,7 +1414,7 @@ void KonqMainView::initActions()
 
   m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
-  m_paNewWindow = new KAction( i18n( "New &Window" ), "filenew", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+  m_paNewWindow = new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );

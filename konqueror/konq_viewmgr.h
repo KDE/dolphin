@@ -152,6 +152,7 @@ private:
   void printSizeInfo( KonqFrameBase* frame,
 		      KonqFrameContainer* parent,
 		      const char* msg );
+  void printFullHierarchy( KonqFrameContainer * container, int ident = 0 );
 
   KonqMainView *m_pMainView;
 
