@@ -221,11 +221,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
         visitStr = nVisit;
         if (!nVisit.isEmpty())
             self()->setOldVisit(url, visitStr);
-
-    } else if (!newModStr.isNull()) {
-        visitStr = self()->getOldVisit(url);
-
-    } else { 
+    } else {
         // may be reading a second bookmark with same url
         QString oom = nVisit;
         visitStr = self()->getOldVisit(url);
