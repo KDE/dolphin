@@ -25,6 +25,7 @@ class QLineEdit;
 class QString;
 class QDate;
 class QRegExp;
+class KRegExpDialog;
 
 class KfDirDialog;
 
@@ -53,6 +54,7 @@ private slots:
   void getDirectory();
   void fixLayout();
   void slotSizeBoxChanged(int);
+  void slotEditRegExp();
 
 signals:
 
@@ -95,6 +97,7 @@ private:
   QSpinBox *sizeEdit;
   QCheckBox *caseContextCb;
   QCheckBox *regexpContentCb;
+  KRegExpDialog *regExpDialog;
 
   KURL m_url;
 

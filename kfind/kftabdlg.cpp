@@ -14,6 +14,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include <kregexpdialog.h>
 
 #include "kquery.h"
 #include <qpushbutton.h>
@@ -40,7 +41,7 @@ public:
 };
 
 KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
-  : QTabWidget( parent, name )
+  : QTabWidget( parent, name ), regExpDialog(0)
 {
     // This validator will be used for all numeric edit fields
     KDigitValidator *digitV = new KDigitValidator(this);
@@ -153,6 +154,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     caseContextCb  =new QCheckBox(i18n("Case S&ensitive (content)"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Use &Regular Expression Matching"), pages[2]);
+    QPushButton* editRegExp = new QPushButton(i18n("&Edit Regular Expression"), pages[2], "editRegExp");
 
     sizeBox =new QComboBox(FALSE, pages[2], "sizeBox");
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
@@ -193,7 +195,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
     // Connect
-    connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
+    connect( sizeBox, SIGNAL(highlighted(int)),
+	     this, SLOT(slotSizeBoxChanged(int)));
+    connect( regexpContentCb, SIGNAL(toggled(bool) ), editRegExp, SLOT(setEnabled(bool)) );
+    editRegExp->setEnabled(false);
+    connect( editRegExp, SIGNAL(clicked()), this, SLOT( slotEditRegExp() ) );
 
     // Layout
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
@@ -206,12 +212,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( textL, 1, 0 );
     grid2->addWidget( sizeL, 2, 0 );
     grid2->addMultiCellWidget( typeBox, 0, 0, 1, 6 );
-    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 4/*6*/ );
-    grid2->addWidget( caseContextCb, 1, 5 );
-    grid2->addWidget( regexpContentCb, 2, 5);
+    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 6 );
+    grid2->addWidget( caseContextCb, 2, 5 );
     grid2->addWidget( sizeBox, 2, 1 );
     grid2->addWidget( sizeEdit, 2, 2 );
     grid2->addWidget( sizeUnitBox, 2, 3 );
+    grid2->addMultiCellWidget( regexpContentCb, 3, 3, 1, 2);
+    grid2->addWidget( editRegExp, 3, 3 );
     grid2->addColSpacing(4, KDialog::spacingHint());
     grid2->setColStretch(6,1);
 
@@ -293,6 +300,17 @@ void KfindTabWidget::loadHistory()
     nameBox->insertStringList(sl);
   else
     nameBox->insertItem("*");
+}
+
+void KfindTabWidget::slotEditRegExp() 
+{
+  if ( ! regExpDialog )
+    regExpDialog = new KRegExpDialog( this );
+
+  regExpDialog->slotSetRegExp( textEdit->text() );
+  bool ok = regExpDialog->exec();
+  if ( ok )
+    textEdit->setText( regExpDialog->regexp() );
 }
 
 void KfindTabWidget::slotSizeBoxChanged(int index)

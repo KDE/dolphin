@@ -10,7 +10,7 @@ kde_module_LTLIBRARIES = libkfindpart.la
 
 libkfindpart_la_SOURCES = kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp kfindpart.cpp
 libkfindpart_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkfindpart_la_LIBADD = $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la
+libkfindpart_la_LIBADD = $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la -lkregexpeditor
 
 noinst_HEADERS	= kftabdlg.h kfind.h version.h kquery.h  kdatecombo.h
 
