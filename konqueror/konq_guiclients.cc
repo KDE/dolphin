@@ -34,7 +34,7 @@ ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
 {
   m_mainView = mainView;
   m_actions.setAutoDelete( true );
-  m_menu = 0;  
+  m_menu = 0;
 }
 
 QList<KAction> ViewModeGUIClient::actions() const
@@ -43,7 +43,7 @@ QList<KAction> ViewModeGUIClient::actions() const
   if ( m_menu )
     res.append( m_menu );
   return res;
-} 
+}
 
 void ViewModeGUIClient::update( const KTrader::OfferList &services )
 {
@@ -57,12 +57,12 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
 
   m_menu = 0;
   m_actions.clear();
-  
+
   if ( services.count() <= 1 )
     return;
 
   m_menu = new KActionMenu( i18n( "View Mode..." ), this );
-  
+
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
@@ -79,37 +79,10 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
 
           connect( action, SIGNAL( toggled( bool ) ),
                    m_mainView, SLOT( slotViewModeToggle( bool ) ) );
-	  
+	
 	  m_actions.append( action );
 	  action->plug( m_menu->popupMenu() );
       }
-  }
-}
-
-OpenWithGUIClient::OpenWithGUIClient( KonqMainView *mainView )
- : QObject( mainView )
-{
-  m_mainView = mainView;
-  m_actions.setAutoDelete( true );
-}
-
-void OpenWithGUIClient::update( const KTrader::OfferList &services )
-{
-  static QString openWithText = i18n( "Open With" ).append( ' ' );
-
-  m_actions.clear();
-
-  KTrader::OfferList::ConstIterator it = services.begin();
-  KTrader::OfferList::ConstIterator end = services.end();
-  for (; it != end; ++it )
-  {
-    KAction *action = new KAction( (*it)->comment().prepend( openWithText ), 0, 0, (*it)->name().latin1() );
-    action->setIcon( (*it)->icon() );
-
-    connect( action, SIGNAL( activated() ),
-	     m_mainView, SLOT( slotOpenWith() ) );
-
-    m_actions.append( action );
   }
 }
 

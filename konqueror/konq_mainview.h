@@ -290,6 +290,8 @@ private:
   void connectExtension( KParts::BrowserExtension *ext );
   void disconnectExtension( KParts::BrowserExtension *ext );
 
+  void updateOpenWithActions( const KTrader::OfferList &services );
+
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;
 
@@ -378,7 +380,6 @@ private:
   QGuardedPtr<QComboBox> m_combo;
 
   ViewModeGUIClient *m_viewModeGUIClient;
-  OpenWithGUIClient *m_openWithGUIClient;
   ToggleViewGUIClient *m_toggleViewGUIClient;
 
   KTrader::OfferList m_popupEmbeddingServices;
@@ -394,6 +395,8 @@ private:
   bool m_bSaveViewPropertiesLocally;
   bool m_bHTMLAllowed;
   QString m_sViewModeForDirectory; // is actually the name of the service
+
+  QList<KAction> m_openWithActions;  
 
   static QStringList *s_plstAnimatedLogo;
 

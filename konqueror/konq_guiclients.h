@@ -44,20 +44,6 @@ private:
   KActionMenu *m_menu;
 };
 
-class OpenWithGUIClient : public QObject
-{
-public:
-  OpenWithGUIClient( KonqMainView *mainView );
-
-  void update( const KTrader::OfferList &services );
-
-  QList<KAction> actions() const { return m_actions; }
-
-private:
-  KonqMainView *m_mainView;
-  QList<KAction> m_actions;
-};
-
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:

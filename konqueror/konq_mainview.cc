@@ -124,9 +124,10 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
   m_viewModeGUIClient = new ViewModeGUIClient( this );
-  m_openWithGUIClient = new OpenWithGUIClient( this );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
+  
+  m_openWithActions.setAutoDelete( true );
 
   initActions();
   initPlugins();
@@ -694,7 +695,7 @@ void KonqMainView::slotConfigureToolbars()
     if ( m_toggleViewGUIClient )
       plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
     if ( m_currentView->appServiceOffers().count() > 0 )
-      plugActionList( "openwith", m_openWithGUIClient->actions() );
+      plugActionList( "openwith", m_openWithActions );
 
   }
 }
@@ -920,7 +921,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   unplugActionList( "viewmode" );
   unplugActionList( "openwith" );
   m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
-  m_openWithGUIClient->update( m_currentView->appServiceOffers() );
+  updateOpenWithActions( m_currentView->appServiceOffers() );
 
   KService::Ptr service = currentChildView()->service();
   QVariant prop = service->property( "X-KDE-BrowserView-Toggable" );
@@ -932,7 +933,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     //      guiFactory()->addClient( m_viewModeGUIClient );
 
   if ( m_currentView->appServiceOffers().count() > 0 )
-    plugActionList( "openwith", m_openWithGUIClient->actions() );
+    plugActionList( "openwith", m_openWithActions );
   //    guiFactory()->addClient( m_openWithGUIClient );
 
   m_currentView->frame()->statusbar()->repaint();
@@ -2090,5 +2091,25 @@ void KonqMainView::slotActionHighlighted( KAction *action )
   if ( !text.isEmpty() )
     statusBar->message( text );
 }
+
+void KonqMainView::updateOpenWithActions( const KTrader::OfferList &services )
+{
+  static QString openWithText = i18n( "Open With" ).append( ' ' );
+
+  m_openWithActions.clear();
+
+  KTrader::OfferList::ConstIterator it = services.begin();
+  KTrader::OfferList::ConstIterator end = services.end();
+  for (; it != end; ++it )
+  {
+    KAction *action = new KAction( (*it)->comment().prepend( openWithText ), 0, 0, (*it)->name().latin1() );
+    action->setIcon( (*it)->icon() );
+
+    connect( action, SIGNAL( activated() ),
+	     this, SLOT( slotOpenWith() ) );
+
+    m_openWithActions.append( action );
+  }
+} 
 
 #include "konq_mainview.moc"
