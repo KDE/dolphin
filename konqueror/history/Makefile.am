@@ -1,6 +1,7 @@
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
-lib_LTLIBRARIES = libkonqhistory.la
+# should be called libkonqhistorypart.la
+kde_module_LTLIBRARIES = libkonqhistory.la
 
 METASOURCES = AUTO
 

@@ -1,7 +1,7 @@
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
-lib_LTLIBRARIES = libkonqlistview.la
+kde_module_LTLIBRARIES = libkonqlistview.la
 
 METASOURCES = AUTO
 
@@ -9,8 +9,7 @@ libkonqlistview_la_SOURCES = konq_listview.cc konq_listviewitems.cc konq_listvie
 libkonqlistview_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
 libkonqlistview_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 
-servicedir = $(kde_servicesdir)
-service_DATA = konq_treeview.desktop konq_detailedlistview.desktop konq_textview.desktop
+kde_services_DATA = konq_treeview.desktop konq_detailedlistview.desktop konq_textview.desktop
 
 rcdir = $(kde_datadir)/konqlistview
 rc_DATA = konq_treeview.rc konq_detailedlistview.rc konq_textview.rc

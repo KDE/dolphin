@@ -2,7 +2,7 @@ SUBDIRS = init
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
-lib_LTLIBRARIES = libkonqdirtree.la
+kde_module_LTLIBRARIES = libkonqdirtree.la
 
 METASOURCES = AUTO
 
