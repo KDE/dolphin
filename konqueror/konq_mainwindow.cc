@@ -235,8 +235,6 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_pBookmarkMenu;
 
-  delete m_pMenuNew;
-
   m_viewModeActions.clear();
 
   KonqUndoManager::decRef();
