@@ -2,6 +2,7 @@
 //
 // Plugin Options
 //
+// (c) 2002 Leo Savernik, per-domain settings
 // (c) 2001, Daniel Naber, based on javaopts.h
 // (c) 2000, Stefan Schimanski <1Stein@gmx.de>, Netscape parts
 //
@@ -11,7 +12,9 @@
 #define __PLUGINOPTS_H__
 
 #include <qwidget.h>
-#include <qmap.h>
+
+#include "domainlistview.h"
+#include "policies.h"
 
 class KConfig;
 class QCheckBox;
@@ -20,7 +23,68 @@ class QCheckBox;
 #include "nsconfigwidget.h"
 
 class QProgressDialog;
+class QBoxLayout;
 class KProcIO;
+class KDialogBase;
+
+/** policies with plugin-specific constructor
+  */
+class PluginPolicies : public Policies {
+public:
+  /**
+   * constructor
+   * @param config configuration to initialize this instance from
+   * @param group config group to use if this instance contains the global
+   *	policies (global == true)
+   * @param global true if this instance contains the global policy settings,
+   *	false if this instance contains policies specific for a domain.
+   * @param domain name of the domain this instance is used to configure the
+   *	policies for (case insensitive, ignored if global == true)
+   */
+  PluginPolicies(KConfig* config, const QString &group, bool global,
+  		const QString &domain = QString::null);
+
+  virtual ~PluginPolicies();
+};
+
+/** Plugin-specific enhancements to the domain list view
+  */
+class PluginDomainListView : public DomainListView {
+  Q_OBJECT
+public:
+  PluginDomainListView(KConfig *config,const QString &group,QWidget *parent,
+  		const char *name = 0);
+  virtual ~PluginDomainListView();
+
+protected:
+  virtual PluginPolicies *createPolicies();
+  virtual PluginPolicies *copyPolicies(Policies *pol);
+  virtual void setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
+  		Policies *copy);
+
+private:
+  QString group;
+};
+
+/**
+ * dialog for embedding a PluginDomainListView widget
+ */
+class PluginDomainDialog : public QWidget {
+  Q_OBJECT
+public:
+
+  PluginDomainDialog(QWidget *parent);
+  virtual ~PluginDomainDialog();
+
+  void setMainWidget(QWidget *widget);
+
+private slots:
+  virtual void slotClose();
+
+private:
+  PluginDomainListView *domainSpecific;
+  QBoxLayout *thisLayout;
+};
 
 class KPluginOptions : public KCModule
 {
@@ -37,6 +101,8 @@ public:
 
 private slots:
     void slotChanged();
+    void slotTogglePluginsEnabled();
+    void slotShowDomainDlg();
 
 private:
 
@@ -44,7 +110,8 @@ private:
     QString  m_groupname;
 
     QCheckBox*    enablePluginsGloballyCB;
- 
+
+
  protected slots:
   void progress(KProcIO *);
   void change() { change( true ); };
@@ -57,6 +124,9 @@ private:
   NSConfigWidget *m_widget;
   bool m_changed;
   QProgressDialog *m_progress;
+  PluginPolicies global_policies;
+  PluginDomainListView *domainSpecific;
+  KDialogBase *domainSpecificDlg;
 
 /******************************************************************************/
  protected:

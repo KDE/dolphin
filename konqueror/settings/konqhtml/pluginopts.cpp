@@ -1,3 +1,4 @@
+// (c) 2002 Leo Savernik, per-domain settings
 // (c) 2001, Daniel Naber, based on javaopts.cpp
 // (c) 2000 Stefan Schimanski <1Stein@gmx.de>, Netscape parts
 
@@ -33,22 +34,37 @@
 #include <kprocio.h>
 #include <qprogressdialog.h>
 #include <kmessagebox.h>
-#include <qlistview.h>
+#include <klistview.h>
 #include <qlistbox.h>
 #include <kfile.h>
+#include <kdialogbase.h>
 
 #include "htmlopts.h"
 #include "pluginopts.h"
+#include "policydlg.h"
 
 #include <konq_defaults.h> // include default values directly from konqueror
 
 #include "pluginopts.moc"
 
+// == class PluginPolicies =====
+
+PluginPolicies::PluginPolicies(KConfig* config, const QString &group, bool global,
+  		const QString &domain) :
+	Policies(config,group,global,domain,"plugins.","EnablePlugins") {
+}
+
+PluginPolicies::~PluginPolicies() {
+}
+
+// == class KPluginOptions =====
+
 KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
                             const char *)
     : KCModule( parent, "kcmkonqhtml" ),
       m_pConfig( config ),
-      m_groupname( group )
+      m_groupname( group ),
+      global_policies(config,group,true)
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
@@ -57,8 +73,33 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
      **************************************************************************/
     QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
-    enablePluginsGloballyCB = new QCheckBox( i18n( "Enable plugins globally" ), globalGB );
+    enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+    connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
+
+    QFrame *hrule = new QFrame(globalGB);
+    hrule->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+    hrule->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+
+    /***************************************************************************
+     ********************* Domain-specific Settings ****************************
+     **************************************************************************/
+    QPushButton *domainSpecPB = new QPushButton(i18n("Domain-specific Settin&gs..."),
+    						globalGB);
+    domainSpecPB->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    connect(domainSpecPB,SIGNAL(clicked()),SLOT(slotShowDomainDlg()));
+
+    domainSpecificDlg = new KDialogBase(KDialogBase::Swallow,
+    			i18n("Domain-specific Policies"),KDialogBase::Close,
+			KDialogBase::Close,this,"domainSpecificDlg",
+			true,true);
+    domainSpecificDlg->setEscapeButton(KDialogBase::Close);
+
+    domainSpecific = new PluginDomainListView(config,group,domainSpecificDlg);
+    domainSpecific->setMinimumSize(320,200);
+    connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
+
+    domainSpecificDlg->setMainWidget(domainSpecific);
 
     /***************************************************************************
      ********************** WhatsThis? items ***********************************
@@ -66,6 +107,31 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     QWhatsThis::add( enablePluginsGloballyCB, i18n("Enables the execution of plugins "
           "that can be contained in HTML pages, e.g. Macromedia Flash. "
           "Note that, as with any browser, enabling active contents can be a security problem.") );
+
+    QString wtstr = i18n("This box contains the domains and hosts you have set "
+                         "a specific plugin policy for. This policy will be used "
+                         "instead of the default policy for enabling or disabling plugins on pages sent by these "
+                         "domains or hosts. <p>Select a policy and use the controls on "
+                         "the right to modify it.");
+    QWhatsThis::add( domainSpecific->listView(), wtstr );
+    QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
+                                          "the plugin policies. These policies will be merged "
+                                          "with the exisiting ones. Duplicate entries are ignored.") );
+    QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the plugin policy to a zipped "
+                                          "file. The file, named <b>plugin_policy.tgz</b>, will be "
+                                          "saved to a location of your choice." ) );
+    QWhatsThis::add( domainSpecific, i18n("Here you can set specific plugin policies for any particular "
+                                            "host or domain. To add a new policy, simply click the <i>New...</i> "
+                                            "button and supply the necessary information requested by the "
+                                            "dialog box. To change an existing policy, click on the <i>Change...</i> "
+                                            "button and choose the new policy from the policy dialog box. Clicking "
+                                            "on the <i>Delete</i> button will remove the selected policy causing the default "
+                                            "policy setting to be used for that domain.") );
+#if 0
+                                            "The <i>Import</i> and <i>Export</i> "
+                                            "button allows you to easily share your policies with other people by allowing "
+                                            "you to save and retrieve them from a zipped file.") );
+#endif
 
 /***********************************************************************************/
 
@@ -90,17 +156,19 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
 
 KPluginOptions::~KPluginOptions()
 {
-delete m_pConfig;
+  delete m_pConfig;
 }
 
 void KPluginOptions::load()
 {
     // *** load ***
-    m_pConfig->setGroup(m_groupname);
-    bool bPluginGlobal = m_pConfig->readBoolEntry( "EnablePlugins", true );
+    global_policies.load();
+    bool bPluginGlobal = global_policies.isFeatureEnabled();
 
     // *** apply to GUI ***
     enablePluginsGloballyCB->setChecked( bPluginGlobal );
+
+    domainSpecific->initialize(m_pConfig->readListEntry("PluginDomains"));
 
 /***********************************************************************************/
 
@@ -119,7 +187,8 @@ void KPluginOptions::load()
 
 void KPluginOptions::defaults()
 {
-    enablePluginsGloballyCB->setChecked( true );
+    global_policies.defaults();
+    enablePluginsGloballyCB->setChecked( global_policies.isFeatureEnabled() );
 
 /***********************************************************************************/
 
@@ -141,8 +210,12 @@ void KPluginOptions::defaults()
 
 void KPluginOptions::save()
 {
-    m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry( "EnablePlugins", enablePluginsGloballyCB->isChecked() );
+    global_policies.save();
+
+    domainSpecific->save(m_groupname,"PluginDomains");
+    
+    m_pConfig->sync();	// I need a sync here, otherwise "apply" won't work
+    			// instantly
 
   QByteArray data;
   if ( !kapp->dcopClient()->isAttached() )
@@ -175,6 +248,14 @@ QString KPluginOptions::quickHelp() const
 void KPluginOptions::slotChanged()
 {
     emit changed(true);
+}
+
+void KPluginOptions::slotTogglePluginsEnabled() {
+  global_policies.setFeatureEnabled(enablePluginsGloballyCB->isChecked());
+}
+
+void KPluginOptions::slotShowDomainDlg() {
+  domainSpecificDlg->show();
 }
 
 /***********************************************************************************/
@@ -486,3 +567,71 @@ void KPluginOptions::pluginSave( KConfig */*config*/ )
 {
 
 }
+
+// == class PluginDomainDialog =====
+
+PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
+	QWidget(parent,"PluginDomainDialog") {
+  setCaption(i18n("Domain-specific Policies"));
+
+  thisLayout = new QVBoxLayout(this);
+  thisLayout->addSpacing(6);
+  QFrame *hrule = new QFrame(this);
+  hrule->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+  thisLayout->addWidget(hrule);
+  thisLayout->addSpacing(6);
+
+  QBoxLayout *hl = new QHBoxLayout(this,0,6);
+  hl->addStretch(10);
+
+  QPushButton *closePB = new QPushButton(i18n("&Close"),this);
+  connect(closePB,SIGNAL(clicked()),SLOT(slotClose()));
+  hl->addWidget(closePB);
+  thisLayout->addLayout(hl);
+}
+
+PluginDomainDialog::~PluginDomainDialog() {
+}
+
+void PluginDomainDialog::setMainWidget(QWidget *widget) {
+  thisLayout->insertWidget(0,widget);
+}
+
+void PluginDomainDialog::slotClose() {
+  hide();
+}
+
+// == class PluginDomainListView =====
+
+PluginDomainListView::PluginDomainListView(KConfig *config,const QString &group,
+	QWidget *parent,const char *name)
+	: DomainListView(config,i18n( "Doma&in-Specific" ), parent, name),
+	group(group) {
+}
+
+PluginDomainListView::~PluginDomainListView() {
+}
+
+void PluginDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
+		Policies */*pol*/) {
+  QString caption;
+  switch (trigger) {
+    case AddButton: caption = i18n( "New Plugin Policy" ); break;
+    case ChangeButton: caption = i18n( "Change Plugin Policy" ); break;
+    default: ; // inhibit gcc warning
+  }/*end switch*/
+  pDlg.setCaption(caption);
+  pDlg.setFeatureEnabledLabel(i18n("&Plugin policy:"));
+  pDlg.setFeatureEnabledWhatsThis(i18n("Select a plugin policy for "
+                                    "the above host or domain."));
+  pDlg.refresh();
+}
+
+PluginPolicies *PluginDomainListView::createPolicies() {
+  return new PluginPolicies(config,group,false);
+}
+
+PluginPolicies *PluginDomainListView::copyPolicies(Policies *pol) {
+  return new PluginPolicies(*static_cast<PluginPolicies *>(pol));
+}
+
