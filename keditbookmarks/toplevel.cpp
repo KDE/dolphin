@@ -367,8 +367,10 @@ QValueList<KBookmark> KEBTopLevel::allBookmarks() const
 {
    QValueList<KBookmark> bookmarks;
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if (IS_REAL(it) && (it.current()->childCount() == 0)) {
-         bookmarks.append(ITEM_TO_BK(it.current()));
+      if (IS_REAL(it) && (it.current()->childCount() == 0) ) {
+          KBookmark brk = ITEM_TO_BK(it.current());
+          if ( !brk.isSeparator() )
+              bookmarks.append(ITEM_TO_BK(it.current()));
       }
    }
    return bookmarks;
