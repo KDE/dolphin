@@ -28,6 +28,8 @@
 #include <kregfactories.h>
 #include <kio_cache.h>
 
+#include <kded_instance.h>
+
 #include <kimgio.h>
 #include <kapp.h>
 #include <klocale.h>
@@ -339,8 +341,12 @@ int main( int argc, char **argv )
 
   KRegistry registry;
   registry.addFactory( new KServiceTypeFactory );
-  registry.addFactory( new KServiceFactory );
+  // registry.addFactory( new KServiceFactory ); // not needed anymore - we use kded
   registry.load( );
+
+  // create a KdedInstance object, which takes care about connecting to kded
+  // and providing a trader and an activator
+  KdedInstance kded( argc, argv, komapp_orb );
 
   KonqPlugins::init();
   
