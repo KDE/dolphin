@@ -18,6 +18,7 @@
 */
 
 #include "konqdrag.h"
+#include <kdebug.h>
 
 KonqIconDrag::KonqIconDrag( QWidget * dragSource, const char* name )
   : QIconDrag( dragSource, name ),
@@ -45,13 +46,13 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
     else if ( mimetype == "text/uri-list" ) {
         QCString s = urls.join( "\r\n" ).latin1();
         // perhaps use QUriDrag::unicodeUriToUri here ?
-	a.resize( s.length() );
-	memcpy( a.data(), s.data(), s.length() );
+	a.resize( s.length() + 1 ); // trailing zero
+	memcpy( a.data(), s.data(), s.length() + 1 );
     }
     else if ( mimetype == "application/x-kde-cutselection" ) {
         QCString s ( m_bCutSelection ? "1" : "0" );
-	a.resize( s.length() );
-	memcpy( a.data(), s.data(), s.length() );
+	a.resize( s.length() + 1 ); // trailing zero
+	memcpy( a.data(), s.data(), s.length() + 1 );
     }
     return a;
 }
@@ -93,8 +94,8 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
         return QUriDrag::encodedData( mime );
     else if ( mimetype == "application/x-kde-cutselection" ) {
         QCString s ( m_bCutSelection ? "1" : "0" );
-	a.resize( s.length() );
-	memcpy( a.data(), s.data(), s.length() );
+	a.resize( s.length() + 1 ); // trailing zero
+	memcpy( a.data(), s.data(), s.length() + 1 );
     }
     return a;
 }
@@ -118,7 +119,10 @@ bool KonqDrag::decodeIsCutSelection( const QMimeSource *e )
   if ( a.isEmpty() )
     return false;
   else
-    return QCString( a ) = "1";
+  {
+    kdDebug(1203) << "KonqDrag::decodeIsCutSelection : a=" << QCString(a) << endl;
+    return !strcmp(QCString( a ).data(), "1"); // true if 1
+  }
 }
 
 #include "konqdrag.moc"
