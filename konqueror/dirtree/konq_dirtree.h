@@ -3,6 +3,7 @@
 #define __konq_dirtree_h__
 
 #include <kbrowser.h>
+#include <kurl.h>
 
 #include <qlistview.h>
 #include <qdict.h>
@@ -81,16 +82,16 @@ public:
 
   void openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel );
 
-  void addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url );
-  void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url );
+  void addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
+  void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
 
-  QList<KonqDirTreeItem> selectedItems();
+  // QList<KonqDirTreeItem> selectedItems();
 
 protected:
   virtual void contentsDragEnterEvent( QDragEnterEvent *e );
   virtual void contentsDragMoveEvent( QDragMoveEvent *e );
   virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
-  virtual void contentsDropEvent( QDropEvent *ev );  
+  virtual void contentsDropEvent( QDropEvent *ev );
 
   virtual void contentsMousePressEvent( QMouseEvent *e );
   virtual void contentsMouseMoveEvent( QMouseEvent *e );
@@ -122,20 +123,20 @@ private:
   void addLink( const QString &path, QListViewItem *item );
   void removeGroup( const QString &path, QListViewItem *item );
 
-  KonqDirTreeItem *findDir( const QDict<KonqDirTreeItem> &dict, const QString &url );
+  //  KonqDirTreeItem *findDir( const QMap<KURL, KonqDirTreeItem*> &dict, const KURL &url );
 
-  void unselectAll();
+  //  void unselectAll();
 
   struct TopLevelItem
   {
-    TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QDict<KonqDirTreeItem> *subDirMap, QStringList *pendingURLList )
+    TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QMap<KURL, KonqDirTreeItem*> *subDirMap, KURL::List *pendingURLList )
     { m_item = item; m_dirLister = lister; m_mapSubDirs = subDirMap; m_lstPendingURLs = pendingURLList; }
     TopLevelItem() { m_item = 0; m_dirLister = 0; m_mapSubDirs = 0; }
 
     KonqDirTreeItem *m_item;
     KDirLister *m_dirLister;
-    QDict<KonqDirTreeItem> *m_mapSubDirs;
-    QStringList *m_lstPendingURLs;
+    QMap<KURL,KonqDirTreeItem *> *m_mapSubDirs;
+    KURL::List *m_lstPendingURLs;
   };
 
   TopLevelItem findTopLevelByItem( KonqDirTreeItem *item );
@@ -151,7 +152,7 @@ private:
 
   KonqDirTreeBrowserView *m_view;
 
-  QMap<QString, QListViewItem *> m_mapCurrentOpeningFolders;
+  QMap<KURL, QListViewItem *> m_mapCurrentOpeningFolders;
 
   QTimer *m_animationTimer;
 
@@ -161,6 +162,9 @@ private:
   bool m_bDrag;
 
   QListViewItem *m_dropItem;
+
+  QPixmap m_folderPixmap;
+  QPixmap m_folderOpenPixmap;
 
   QTimer *m_autoOpenTimer;
 };

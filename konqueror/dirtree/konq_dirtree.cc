@@ -35,6 +35,11 @@
         - merge with KonqTreeView?
  */
 
+inline bool operator<( const KURL &u1, const KURL &u2 )
+{
+  return u1.url( 0 ) < u2.url( 0 );
+}
+
 class KonqDirTreeFactory : public KLibFactory
 {
 public:
@@ -74,21 +79,18 @@ void KonqDirTreeEditExtension::can( bool &cut, bool &copy, bool &paste, bool &mo
 {
   bool bInTrash = false;
 
-  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
-  QListIterator<KonqDirTreeItem> it( selection );
+  KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
+  
+  if ( selection && selection->fileItem()->url().directory(false) == KUserPaths::trashPath() )
+    bInTrash = true;
 
-  for (; it.current(); ++it )
-    if ( it.current()->fileItem()->url().directory(false) == KUserPaths::trashPath() )
-      bInTrash = true;
-
-  cut = move = copy = selection.count() > 0;
+  cut = move = copy = selection;
   move = move && !bInTrash;
 
   bool bKIOClipboard = !isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
-    (selection.count() <= 1); // We can't paste to more than one destination, can we ?
-  // TODO : if only one url, check that it's a dir
+	  ( selection );
 }
 
 void KonqDirTreeEditExtension::cutSelection()
@@ -101,11 +103,12 @@ void KonqDirTreeEditExtension::copySelection()
 {
   QStringList lst;
 
-  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
-  QListIterator<KonqDirTreeItem> it( selection );
+  KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
-  for (; it.current(); ++it )
-    lst.append( it.current()->fileItem()->url().url() );
+  if ( !selection )
+    return;
+
+  lst.append( selection->fileItem()->url().url() );
 
   QUriDrag *drag = new QUriDrag( m_tree->viewport() );
   drag->setUnicodeUris( lst );
@@ -114,27 +117,26 @@ void KonqDirTreeEditExtension::copySelection()
 
 void KonqDirTreeEditExtension::pasteSelection( bool move )
 {
-  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
+  KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
-  assert( selection.count() == 1 );
+  assert( selection );
 
-  pasteClipboard( selection.first()->fileItem()->url().url(), move );
+  pasteClipboard( selection->fileItem()->url().url(), move );
 }
 
 void KonqDirTreeEditExtension::moveSelection( const QString &destinationURL )
 {
   QStringList lst;
 
-  QList<KonqDirTreeItem> selection = m_tree->selectedItems();
-  QListIterator<KonqDirTreeItem> it( selection );
+  KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
-  for (; it.current(); ++it )
-    lst.append( it.current()->fileItem()->url().url() );
-
+  if ( !selection )
+    return;
+  
   KIOJob *job = new KIOJob;
 
   if ( !destinationURL.isEmpty() )
-    job->move( lst, destinationURL );
+    job->move( selection->fileItem()->url().url(), destinationURL );
   else
     job->del( lst );
 }
@@ -189,7 +191,7 @@ KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem
   m_tree = parent;
 
   if ( m_topLevelItem )
-    m_tree->addSubDir( this, m_topLevelItem, m_item->url().url( 0 ) );
+    m_tree->addSubDir( this, m_topLevelItem, m_item->url() );
 
   setExpandable( true );
 }
@@ -197,7 +199,7 @@ KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem
 KonqDirTreeItem::~KonqDirTreeItem()
 {
   if ( m_topLevelItem )
-    m_tree->removeSubDir( this, m_topLevelItem, m_item->url().url( 0 ) );
+    m_tree->removeSubDir( this, m_topLevelItem, m_item->url() );
 }
 
 void KonqDirTreeItem::setOpen( bool open )
@@ -216,9 +218,13 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   : QListView( parent )
 {
 
+  m_folderPixmap = KonqFactory::instance()->iconLoader()->loadApplicationIcon( "folder", KIconLoader::Small );
+
   setAcceptDrops( true );
   viewport()->setAcceptDrops( true );
 
+  setSelectionMode( QListView::Single );
+  
   m_view = parent;
 
   m_animationCounter = 1;
@@ -271,7 +277,7 @@ KonqDirTree::~KonqDirTree()
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
 {
-  qDebug( "openSubFolder( %s )", item->fileItem()->url().url().ascii() );
+//  qDebug( "openSubFolder( %s )", item->fileItem()->url().url().ascii() );
   TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
@@ -280,35 +286,38 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   if ( topLevelItem.m_dirLister->jobId() == 0 )
     topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
-  else  if ( !topLevelItem.m_lstPendingURLs->contains( u.url() ) )
-    topLevelItem.m_lstPendingURLs->append( u.url() );
+  else  if ( !topLevelItem.m_lstPendingURLs->contains( u ) )
+    topLevelItem.m_lstPendingURLs->append( u );
 
   if ( !topLevel )
     return;
 
-  m_mapCurrentOpeningFolders.insert( u.url(), item );
+  m_mapCurrentOpeningFolders.insert( u, item );
 
   if ( !m_animationTimer->isActive() )
     m_animationTimer->start( 50 );
 }
 
-void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url )
+void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url )
 {
   TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
 
   topLevelItem.m_mapSubDirs->insert( url, item );
+  
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator it = topLevelItem.m_mapSubDirs->begin();
+  for (; it != topLevelItem.m_mapSubDirs->end(); ++it )
+    qDebug( "new map %s", it.key().url().ascii() );
 }
 
-void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url )
+void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url )
 {
   TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
 
-  bool bRemoved = topLevelItem.m_mapSubDirs->remove( url );
-  assert( bRemoved );
+  topLevelItem.m_mapSubDirs->remove( url );
 }
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )
@@ -349,11 +358,9 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 {
   m_autoOpenTimer->stop();
 
-  QList<KonqDirTreeItem> selection = selectedItems();
+  KonqDirTreeItem *selection = (KonqDirTreeItem *)selectedItem();
 
-  assert( selection.count() == 1 );
-
-  KonqDirTreeItem *item = selection.first();
+  assert( selection );
 
   QStringList lst;
 
@@ -373,7 +380,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
     }
     KIOJob* job = new KIOJob;
 
-    KURL dest( item->fileItem()->url() );
+    KURL dest( selection->fileItem()->url() );
 
     switch ( ev->action() ) {
       case QDropEvent::Move : job->move( lst, dest.url( 1 ) ); break;
@@ -387,8 +394,8 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
   }
   else if ( formats.count() >= 1 )
   {
-    kdebug(0,1202,"Pasting to %s", item->fileItem()->url().url().ascii() /* item's url */);
-    pasteData( item->fileItem()->url().url()/* item's url */, ev->data( formats.first() ) );
+    kdebug(0,1202,"Pasting to %s", selection->fileItem()->url().url().ascii() /* item's url */);
+    pasteData( selection->fileItem()->url().url()/* item's url */, ev->data( formats.first() ) );
   }
 
 }
@@ -439,12 +446,27 @@ void KonqDirTree::slotNewItem( KFileItem *item )
   KURL dir( item->url() );
   dir.setFileName( "" );
 
-  KonqDirTreeItem *parentDir = findDir( *topLevelItem.m_mapSubDirs, dir.url( 0 ) );
+  //  KonqDirTreeItem *parentDir = findDir( *topLevelItem.m_mapSubDirs, dir.url( 0 ) );
+  //  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->find( dir );
+  // *mumble* can't use QMap::find() because the cmp doesn't ingore the trailing slash :-(
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->begin();
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
+  for (; dirIt != dirEnd; ++dirIt )
+  {
+  //    qDebug( "comparing %s with %s", dirIt.key().url().ascii(), dir.url().ascii() );
+#warning "can someone PLEASE add a const to KURL::cmp!"  
+    if ( dir.cmp( *((KURL*)&(dirIt.key())), true ) )
+      break;
+  }    
+  
+  assert( dirIt != topLevelItem.m_mapSubDirs->end() );
+  
+  KonqDirTreeItem *parentDir = dirIt.data();
 
   assert( parentDir );
 
   KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( this, parentDir, topLevelItem.m_item, item );
-  dirTreeItem->setPixmap( 0, item->pixmap( KIconLoader::Small, false ) );
+  dirTreeItem->setPixmap( 0, m_folderPixmap );
   dirTreeItem->setText( 0, item->url().filename() );
 }
 
@@ -452,7 +474,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
 {
   assert( S_ISDIR( item->mode() ) );
 
-  qDebug( "slotDeleteItem( %s )", item->url().url().ascii() );
+  //  qDebug( "slotDeleteItem( %s )", item->url().url().ascii() );
 
   KDirLister *lister = (KDirLister *)sender();
 
@@ -470,7 +492,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
   {
     if ( ((KonqDirTreeItem *)it.current())->fileItem() == item )
     {
-      qDebug( "removing %s", item->url().url().ascii() );
+    //      qDebug( "removing %s", item->url().url().ascii() );
       delete it.current();
       return;
     }
@@ -492,10 +514,10 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
 void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 {
   if ( !item )
-  {
-    unselectAll();
+  //  {
+  //    unselectAll();
     return;
-  }
+  //  }
 
   QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.find( item );
   if ( groupItem != m_groupItems.end() )
@@ -511,10 +533,7 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   KFileItemList lstItems;
 
-  QList<KonqDirTreeItem> selection = selectedItems();
-  QListIterator<KonqDirTreeItem> it( selection );
-  for (; it.current(); ++it )
-    lstItems.append( it.current()->fileItem() );
+  lstItems.append( ((KonqDirTreeItem *)item)->fileItem() );
 
   emit m_view->popupMenu( QCursor::pos(), lstItems );
 }
@@ -522,10 +541,10 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 void KonqDirTree::slotClicked( QListViewItem *item )
 {
   if ( !item )
-  {
-    unselectAll();
+  //  {
+  //    unselectAll();
     return;
-  }
+  //  }
 
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
@@ -541,19 +560,19 @@ void KonqDirTree::slotListingStopped()
 
   assert( topLevelItem.m_item );
 
-  QString url = lister->url();
+  KURL url = lister->kurl();
 
-  QStringList::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
+  KURL::List::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
   if ( it != topLevelItem.m_lstPendingURLs->end() )
     topLevelItem.m_lstPendingURLs->remove( it );
 
   if ( topLevelItem.m_lstPendingURLs->count() > 0 )
     topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
 
-  QMap<QString, QListViewItem *>::Iterator oIt = m_mapCurrentOpeningFolders.find( url );
+  QMap<KURL, QListViewItem *>::Iterator oIt = m_mapCurrentOpeningFolders.find( url );
   if ( oIt != m_mapCurrentOpeningFolders.end() )
   {
-    oIt.data()->setPixmap( 0, ((KonqDirTreeItem *)oIt.data())->fileItem()->pixmap( KIconLoader::Small, false ) );
+    oIt.data()->setPixmap( 0, m_folderPixmap );
 
     m_mapCurrentOpeningFolders.remove( oIt );
 
@@ -566,8 +585,8 @@ void KonqDirTree::slotAnimation()
 {
   QPixmap gearPixmap = BarIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqFactory::instance() );
 
-  QMap<QString, QListViewItem *>::ConstIterator it = m_mapCurrentOpeningFolders.begin();
-  QMap<QString, QListViewItem *>::ConstIterator end = m_mapCurrentOpeningFolders.end();
+  QMap<KURL, QListViewItem *>::ConstIterator it = m_mapCurrentOpeningFolders.begin();
+  QMap<KURL, QListViewItem *>::ConstIterator end = m_mapCurrentOpeningFolders.end();
   for (; it != end; ++it )
     it.data()->setPixmap( 0, gearPixmap );
 
@@ -646,7 +665,8 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   QListViewItem *item = new QListViewItem( parent );
   item->setText( 0, name );
   item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadApplicationIcon( icon, KIconLoader::Small ) );
-
+  item->setSelectable( false );
+  
   m_unselectableItems.append( item );
 
   QString groupPath = QString( path ).append( "/" );
@@ -691,7 +711,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   connect( dirLister, SIGNAL( canceled() ),
 	   this, SLOT( slotListingStopped() ) );
 
-  m_topLevelItems.append( TopLevelItem( item, dirLister, new QDict<KonqDirTreeItem>, new QStringList ) );
+  m_topLevelItems.append( TopLevelItem( item, dirLister, new QMap<KURL, KonqDirTreeItem *>, new KURL::List ) );
   addSubDir( item, item, fileItem->url().url( 0 ) );
 
   if ( cfg.readBoolEntry( "Open", true ) )
@@ -753,11 +773,12 @@ void KonqDirTree::removeGroup( const QString &path, QListViewItem *item )
   KIOJob *job = new KIOJob;
   job->del( QString( path ).prepend( "file:" ) );
 }
-
-KonqDirTreeItem *KonqDirTree::findDir( const QDict<KonqDirTreeItem> &dict, const QString &url )
+/*
+KonqDirTreeItem *KonqDirTree::findDir( const QMap<KURL, KonqDirTreeItem*> &dict, const KURL &url )
 {
-  QDictIterator<KonqDirTreeItem> it( dict );
-  for (; it.current(); ++it )
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator it = dict.begin();
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator end = dics.end();
+  for (; it != end; ++it )
     if ( urlcmp( it.current()->fileItem()->url().url( 0 ), url, true, true ) )
       return it.current();
 
@@ -783,7 +804,7 @@ void KonqDirTree::unselectAll()
   for (; it.current(); ++it )
     it.current()->setSelected( false );
 }
-
+*/
 KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item )
 {
   QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
