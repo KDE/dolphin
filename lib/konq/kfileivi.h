@@ -32,9 +32,8 @@ class KonqIconViewWidget;
  * All the information about the file is contained in the KonqFileItem
  * pointer.
  */
-class KFileIVI : public QObject, public QIconViewItem
+class KFileIVI : public QIconViewItem
 {
-    Q_OBJECT
 public:
     /**
      * Create an icon, within a qlistview, representing a file
@@ -103,9 +102,6 @@ public:
 
     virtual void setKey( const QString &key );
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
-
-signals:
-    void dropMe( KFileIVI *item, QDropEvent *e );
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );

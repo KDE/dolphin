@@ -146,6 +146,10 @@ void KonqIconViewWidget::takeItem( QIconViewItem *item )
 {
     if ( m_pActiveItem == static_cast<KFileIVI *>(item) )
         m_pActiveItem = 0L;
+
+    if ( m_pImagePreviewJob )
+      m_pImagePreviewJob->itemRemoved( static_cast<KFileIVI *>(item) );
+
     KIconView::takeItem( item );
 }
 
@@ -221,6 +225,7 @@ void KonqIconViewWidget::refreshMimeTypes()
 
 void KonqIconViewWidget::setURL( const KURL &kurl )
 {
+    stopImagePreview();
     m_url = kurl;
     if ( m_url.isLocalFile() )
         m_dotDirectoryPath = m_url.path().append( ".directory" );
@@ -269,12 +274,6 @@ void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDrag
 
     if ( !m_rootItem )
         delete item; // we just created it
-}
-
-void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
-{
-    assert( item );
-    KonqOperations::doDrop( item->item(), ev, this );
 }
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )

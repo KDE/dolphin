@@ -21,6 +21,7 @@
 #include "konqfileitem.h"
 #include "konqdrag.h"
 #include "konqiconviewwidget.h"
+#include "konqoperations.h"
 
 #include <kapp.h>
 #include <kipc.h>
@@ -108,7 +109,7 @@ void KFileIVI::setKey( const QString &key )
 
 void KFileIVI::dropped( QDropEvent *e, const QValueList<QIconDragItem> & )
 {
-    emit dropMe( this, e );
+  KonqOperations::doDrop( item(), e, iconView() );
 }
 
 void KFileIVI::returnPressed()

@@ -20,7 +20,6 @@
 #define __konq_imagepreviewjob_h__
 
 #include <kio/job.h>
-#include <qguardedptr.h>
 
 class KFileIVI;
 class KonqIconViewWidget;
@@ -47,6 +46,8 @@ public:
     // Call this to get started
     void startImagePreview();
 
+    void itemRemoved( KFileIVI * item );
+
 protected:
     void determineNextIcon();
     void determineThumbnailURL();
@@ -61,15 +62,11 @@ private:
            STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_GETORIG, STATE_PUTTHUMB // if we create it
     } m_state;
 
-    // The item might get deleted from the icon view while we
-    // process it or another one -> QGuardedPtr
-    typedef QGuardedPtr<KFileIVI> KFileIVIPtr;
-
     // Our todo list :)
-    QValueList<KFileIVIPtr> m_items;
+    QList<KFileIVI> m_items;
 
     // The current item
-    KFileIVIPtr m_currentItem;
+    KFileIVI *m_currentItem;
     // The URL of the current item (always equivalent to m_items.first()->item()->url())
     KURL m_currentURL;
     // The modification time of that URL

@@ -60,9 +60,6 @@ void KonqImagePreviewJob::startImagePreview()
 
 void KonqImagePreviewJob::determineNextIcon()
 {
-  // Get next item to determine... but check if it has been deleted first
-  while ( !m_items.isEmpty() && m_items.first().isNull() )
-    m_items.remove( m_items.begin() );
   // No more items ?
   if ( m_items.isEmpty() )
   {
@@ -80,7 +77,20 @@ void KonqImagePreviewJob::determineNextIcon()
     KIO::Job * job = KIO::stat( m_currentURL, false );
     kdDebug(1203) << "KonqImagePreviewJob: KIO::stat orig " << m_currentURL.url() << endl;
     addSubjob(job);
-    m_items.remove( m_items.begin() );
+    m_items.removeFirst();
+  }
+}
+
+void KonqImagePreviewJob::itemRemoved( KFileIVI * item )
+{
+  m_items.removeRef( item );
+
+  if ( item == m_currentItem )
+  {
+    // Abort
+    subjobs.first()->kill();
+    subjobs.removeFirst();
+    determineNextIcon();
   }
 }
 

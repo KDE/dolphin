@@ -178,8 +178,6 @@ protected slots:
     virtual void slotViewportScrolled(int);
 
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
-    /** connect each item to this */
-    virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
     void slotIconChanged(int);
     void slotOnItem(QIconViewItem *);
