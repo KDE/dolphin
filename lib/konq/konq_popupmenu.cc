@@ -35,7 +35,7 @@
 
 #include <assert.h>
 
-#include "kpropsdlg.h"
+#include "kpropertiesdialog.h"
 #include "knewmenu.h"
 #include "konq_popupmenu.h"
 #include "konq_operations.h"

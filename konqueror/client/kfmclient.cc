@@ -31,7 +31,7 @@
 
 #include <kio/job.h>
 #include <kcmdlineargs.h>
-#include <kpropsdlg.h>
+#include <kpropertiesdialog.h>
 #include <klocale.h>
 #include <ktrader.h>
 #include <kprocess.h>

@@ -27,7 +27,7 @@
 #include <klineeditdlg.h>
 #include <klocale.h>
 #include <konq_drag.h>
-#include <kpropsdlg.h>
+#include <kpropertiesdialog.h>
 #include <kstdaction.h>
 
 #include <qapplication.h>

@@ -26,7 +26,7 @@
 #include <kapplication.h>
 #include <krun.h>
 #include <kprocess.h>
-#include <kpropsdlg.h>
+#include <kpropertiesdialog.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kmimetype.h>

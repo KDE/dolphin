@@ -32,7 +32,7 @@
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <konq_settings.h>
-#include <kpropsdlg.h>
+#include <kpropertiesdialog.h>
 #include <kstdaction.h>
 #include <kparts/factory.h>
 #include <ktrader.h>

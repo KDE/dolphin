@@ -36,7 +36,7 @@
 #include <konq_drag.h>
 #include <konq_operations.h>
 #include <kglobalsettings.h>
-#include <kpropsdlg.h>
+#include <kpropertiesdialog.h>
 #include <kipc.h>
 #include <kicontheme.h>
 #include <kiconeffect.h>

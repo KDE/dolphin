@@ -32,7 +32,7 @@
 
 #include <kio/job.h>
 
-#include <kpropsdlg.h>
+#include <kpropertiesdialog.h>
 //#include <konq_dirwatcher_stub.h>
 #include "konq_undo.h"
 #include "knewmenu.h"
