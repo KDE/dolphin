@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Type=Service
+Type=Application
+NoDisplay=true
 Name=Konqueror
 Name[eo]=Konkeranto
 Name[fa]=کانکرر

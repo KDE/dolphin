@@ -10,8 +10,8 @@ lib_LTLIBRARIES = konqueror.la
 konqdatadir = $(kde_datadir)/konqueror
 konqdata_DATA = konqueror.rc
 
-kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop konqueror_config.desktop
+kde_services_DATA = konqueror_config.desktop
+kde_apps_DATA = konqueror.desktop
 
 # servicetypedir = $(kde_servicetypesdir)
 # servicetype_DATA = konq_metaview.desktop
