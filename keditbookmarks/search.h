@@ -63,7 +63,7 @@ private:
    int m_showstatuscounter;
    KEBListViewItem *m_statusitem;
 
-   KFind *m_kfind;
+   KFind *m_find;
    KEBListViewItem *m_finditem;
 };
 
