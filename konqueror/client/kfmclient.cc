@@ -28,6 +28,10 @@
 #include <qmessagebox.h>
 #include <qstring.h>
 
+#include <kio_propsdlg.h>
+#include <kregistry.h>
+#include <kregfactories.h>
+
 #include "kfmclient.h"
 
 /*
@@ -102,6 +106,12 @@ int main( int argc, char **argv )
   }
     
   clientApp a( argc, argv );
+
+  // Register mimetypes and services, for kio_propsdlg (and krun, later)
+  KRegistry registry;
+  registry.addFactory( new KMimeTypeFactory );
+  registry.addFactory( new KServiceFactory );
+  registry.load( );
 
   return a.doIt( argc, argv );
 }
@@ -187,7 +197,9 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 3 )
     {
-      // kfm.openProperties( argv[2] );
+      PropertiesDialog * p = new PropertiesDialog( argv[2] );
+      QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
+      exec();
     }
     else
     {

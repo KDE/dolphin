@@ -11,7 +11,7 @@ konqueror.h: ../konqueror.idl
 
 bin_PROGRAMS = kfmclient
 
-kfmclient_SOURCES = kfmclient.cpp konqueror.cc
+kfmclient_SOURCES = kfmclient.cc konqueror.cc
 noinst_HEADERS = kfmclient.h
 
 BUILT_SOURCES =
