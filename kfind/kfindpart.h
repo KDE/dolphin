@@ -72,7 +72,7 @@ signals:
     void canceled(); // the user canceled the search
     void findClosed(); // close us
     void deleteItem( KFileItem *item);
-    
+
 protected slots:
     void slotStarted();
     void slotDestroyMe();

@@ -14,6 +14,7 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kaboutapplication.h>
+#include <kstandarddirs.h>
 
 #include "kftabdlg.h"
 #include "kquery.h"
@@ -86,6 +87,11 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
 	  SLOT(addFile(const KFileItem*,const QString&)));
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
   aboutWin = new KAboutApplication(this, "about", true);
+
+  //Disable the search results update if one hasn't FAM
+  KStandardDirs dirs;
+  dirs.addPrefix("/usr");
+  has_libfam=!dirs.findResource("lib","libfam.so").isNull();
   dirwatch=NULL;
 }
 
@@ -132,9 +138,9 @@ void KfindDlg::startSearch()
   connect(dirwatch, SIGNAL(created(const QString&)), this, SLOT(slotNewItems(const QString&)));
   connect(dirwatch, SIGNAL(deleted(const QString&)), this, SLOT(slotDeleteItem(const QString&)));
   dirwatch->addDir(query->url().path(),true);
-  
+
   //Getting a list of all subdirs
-  if(tabWidget->isSearchRecursive())
+  if(tabWidget->isSearchRecursive() && has_libfam)
   {
     QStringList subdirs=getAllSubdirs(query->url().path());
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
