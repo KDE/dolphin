@@ -1,0 +1,25 @@
+[Desktop Entry]
+Type=Application
+Exec=kfmclient openURL %u
+Icon=kfm
+DocPath=konqueror/index.html
+
+Name=File Manager
+Name[ca]=Gestor de fitxers
+Name[cs]=Správce souborů
+Name[de]=Datei-Manager
+Name[eo]=Dosieradministrilo
+Name[fi]=Tiedostonhallinta
+Name[fr]=Gestionnaire de fichiers
+Name[he]=םיצבקה להנמ
+Name[hu]=Fájlkezelő
+Name[it]=File manager
+Name[ja]=ファイルマネージャ
+Name[no]=Filbehandler
+Name[no_NY]=Filbehandsamar
+Name[pt]=Gestor de Ficheiros
+Name[ro]=Manager de fişiere
+Name[sl]=Upravljalnik datotek
+Name[sv]=Filhanterare
+Name[ta]=§¸¡ôÒ §ÁÄ¡Ç÷
+XClassHintResName=konqueror

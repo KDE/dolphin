@@ -56,3 +56,7 @@ messages: rc.cpp
 	$(EXTRACTRC) */*.rc >> rc.cpp
 	$(XGETTEXT) -kaliasLocal -o $(podir)/konqueror.pot rc.cpp *.h *.cc *view/*h *view/*cc
 
+data_DATA = konquerorsu.desktop kfmclient.desktop Arrange.desktop
+datadir = $(kde_appsdir)/System
+
+EXTRA_DIST = $(data_DATA)

@@ -1,0 +1,41 @@
+[Desktop Entry]
+Type=Application
+Exec=kdesu konqueror
+DocPath=konqueror/index.html
+Icon=kfm
+
+Name=File Manager (Super User Mode)
+Name[ca]=Gestor de fitxers (Mode super usuari)
+Name[cs]=Správce souborů ( Super uživatelský mod )
+Name[de]=KFM-Dateimanager (Administrator-Modus)
+Name[eo]=Dosieradministrilo (kiel administranto)
+Name[fi]=Tiedostonhallinta (pääkäyttäjätila)
+Name[fr]=Gestionnaire de fichiers (super-utilisateur)
+Name[hu]=Fájlkezelő (Superuser módban)
+Name[it]=File manager (modalità super utente)
+Name[ja]=ファイルマネージャー(スーパーユーザモード)
+Name[no]=Filbehandler (Superbrukermodus)
+Name[no_NY]=Filbehandlar (superbrukarmodus)
+Name[pt]=Gestor de Ficheiros (Super Utilizador)
+Name[ro]=Manager de fişiere (root)
+Name[sl]=Upravljalnik datotek (administratorski način)
+Name[sv]=Filhanterare (systemadministreringsläge)
+Name[ta]=§¸¡ôÒ §ÁÄ¡Ç÷ (§Áø ÀÂÉ÷ Ó¨È¨Á)
+
+Comment=File manager with root privileges
+Comment[ca]=Gestor de fitxers amb privilegis root
+Comment[cs]=Správce souborů s privilegii uživatele root
+Comment[de]=Dateimanager mit allen Privilegien des Systemverwalters
+Comment[eo]=Dosieradministrilo kun la rajtoj de la administranto (root)
+Comment[fi]=Tiedostonhallinta pääkäyttäjän oikeuksilla
+Comment[fr]=Gestionnaire de fichiers avec les droits root
+Comment[hu]=Fájlkezelő root jogosultságokkal
+Comment[it]=File manager con privilegi di root
+Comment[ja]=スーパーユーザモードでのファイルマネージャー
+Comment[no]=Filbehandler med root-privilegier
+Comment[no_NY]=Filbehandlar med rotprivilegium
+Comment[pt]=Gestor de Ficheiros com privilégios de super utilizador
+Comment[ro]=Manager de fişiere cu privilegii de root
+Comment[sl]=Upravljalnik datotek s pravicami superuporabnika
+Comment[sv]=Filhanterare med root-rättigheter
+Comment[ta]=§Å÷ º¢ÈôÒÃ¢¨Á ¯ûÇ §¸¡ôÒ §ÁÄ¡Ç÷

@@ -1,0 +1,42 @@
+[Desktop Entry]
+Exec=kfmclient sortDesktop
+Icon=kfm_refresh
+Type=Application
+Terminal=0
+
+Name=Cleanup Icons
+Name[ca]=Endreça les icones
+Name[cs]=Uspořádat ikony
+Name[de]=Symbole aufräumen
+Name[eo]=Reordigu piktogramojn
+Name[fi]=Puhdista kuvakkeet
+Name[fr]=Réorganisation des icônes
+Name[hu]=Ikonok takarítása
+Name[it]=Ordina icone
+Name[ja]=アイコンのクリーンアップ
+Name[no]=Rens opp ikoner
+Name[no_NY]=Arranger skrivebordsikona
+Name[pt]=Arranjar Ícones
+Name[ro]=Ordine iconiţe
+Name[sl]=Čiščenje ikon
+Name[sv]=Rensa upp ikonerna
+Name[ta]=ÌÚõÀ¼í¸¨Ç ÅÃ¢¨ºÀÎòÐ
+
+Comment=Neatly arrange desktop icons
+Comment[ca]=Arranja pulcrament les icones de l'escriptori
+Comment[cs]=Uspořádá ikony na pracovní ploše
+Comment[de]=Symbole auf der Arbeitsfläche anordnen
+Comment[eo]=Ordigas la piktogramojn sur la laburtabulo
+Comment[fi]=Järjestä työpöydän ikonit
+Comment[fr]=Réordonne les icônes du bureau
+Comment[hu]=Ikonok elrendezése az asztalon
+Comment[it]=Dispone ordinatamente le icone sul desktop
+Comment[ja]=デスクトップアイコンを並べ直します
+Comment[no]=Arranger ikonene på skrivebordet på en fin måte
+Comment[no_NY]=Still skrivebordsikona fint opp
+Comment[pt]=Ordenar ícones do ambiente de trabalho
+Comment[ro]=Aranjează iconiţele pe ecran
+Comment[sl]=Prijetno razporedimo namizne ikone
+Comment[sv]=Ordna ikonerna fint på skrivbordet
+Comment[ta]=§Á¨º ÌÕõÀ¼í¸¨Ç ÅÃ¢¨ºÀÎò¾×õ
+
