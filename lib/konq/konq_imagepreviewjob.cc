@@ -165,8 +165,10 @@ KonqImagePreviewJob::~KonqImagePreviewJob()
 	<< " seconds" << endl;
 #endif
   kdDebug(1203) << "KonqImagePreviewJob::~KonqImagePreviewJob()" << endl;
-  if (m_shmaddr)
+  if (m_shmaddr) {
       shmdt(m_shmaddr);
+      shmctl(m_shmid, IPC_RMID, 0);
+  }
 }
 
 void KonqImagePreviewJob::startImagePreview()
@@ -472,9 +474,9 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
         if (m_shmid != -1)
         {
             m_shmaddr = (char*) shmat(m_shmid, 0, SHM_RDONLY);
-            shmctl(m_shmid, IPC_RMID, 0);
             if (m_shmaddr == (char *)-1)
             {
+                shmctl(m_shmid, IPC_RMID, 0);
                 m_shmaddr = 0;
                 m_shmid = -1;
             }
