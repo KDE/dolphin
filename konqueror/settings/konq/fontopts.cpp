@@ -31,6 +31,7 @@
 #include <X11/Xlib.h>
 
 #include "fontopts.h"
+#include <assert.h>
 
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
@@ -43,24 +44,11 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     QLabel *label;
     int row = 0;
 
-    QGridLayout *lay = new QGridLayout(this,8/*rows*/,6 /*cols*/,10,5);
-    lay->addRowSpacing(0,10);
-    lay->addRowSpacing(4,10);
-    lay->addRowSpacing(3,10);
-
-    lay->setRowStretch(0,0);
-    lay->setRowStretch(1,1);
-    lay->setRowStretch(2,1);
-    lay->setRowStretch(3,0);
-    lay->setRowStretch(4,0);
-    lay->setRowStretch(5,0);
-    lay->setRowStretch(6,0);
-    lay->setRowStretch(7,10);
-
-    lay->setColStretch(0,0);
-    lay->setColStretch(1,1);
-    lay->setColStretch(2,2);
-    lay->setColStretch(3,0);
+    QGridLayout *lay = new QGridLayout(this,9/*rows*/,3 /*cols*/,10,5);
+#define LASTLINE 8
+#define LASTCOLUMN 2
+    lay->setRowStretch(LASTLINE,10);
+    lay->setColStretch(LASTCOLUMN,10);
 
     row++;
     QButtonGroup *bg = new QButtonGroup( i18n("Font Size"), this );
@@ -83,16 +71,15 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     bgLay->addWidget(m_pLarge,1,2);
 
     bgLay->activate();
-#define COLUMNS 3
-    lay->addMultiCellWidget(bg,row,row,1,COLUMNS);
+    lay->addMultiCellWidget(bg,row,row,0,LASTCOLUMN);
     row += 2;
 
 
-    label = new QLabel( i18n("Standard Font"), this );    label->adjustSize();
-    lay->addWidget(label,row,1);
+    label = new QLabel( i18n("Standard Font"), this );
+    lay->addWidget(label,row,0);
 
     m_pStandard = new QComboBox( false, this );
-    lay->addMultiCellWidget(m_pStandard,row,row,2,COLUMNS);
+    lay->addMultiCellWidget(m_pStandard,row,row,1,1);
 
     getFontList( standardFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
     m_pStandard->insertStrList( &standardFonts );
@@ -104,40 +91,42 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     row++;
 
     //
-#define COLOR_BUTTON_COL 3
+#define COLOR_BUTTON_COL 1
 
     label = new QLabel( i18n("Background Color:"), this );
-    lay->addWidget(label,row,1);
+    lay->addWidget(label,row,0);
 
     m_pBg = new KColorButton( bgColor, this );
-    lay->addWidget(m_pBg,row,COLOR_BUTTON_COL);
+    lay->addWidget(m_pBg,row,COLOR_BUTTON_COL,Qt::AlignLeft);
     connect( m_pBg, SIGNAL( changed( const QColor & ) ),
              SLOT( slotBgColorChanged( const QColor & ) ) );
 
     row++;
     label = new QLabel( i18n("Normal Text Color:"), this );
-    lay->addWidget(label,row,1);
+    lay->addWidget(label,row,0);
 
     m_pNormalText = new KColorButton( normalTextColor, this );
-    lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL);
+    lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
     connect( m_pNormalText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotNormalTextColorChanged( const QColor & ) ) );
 
     row++;
     label = new QLabel( i18n("Highlighted Text Color:"), this );
-    lay->addWidget(label,row,1);
+    lay->addWidget(label,row,0);
 
     m_pHighlightedText = new KColorButton( highlightedTextColor, this );
-    lay->addWidget(m_pHighlightedText,row,COLOR_BUTTON_COL);
+    lay->addWidget(m_pHighlightedText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
     connect( m_pHighlightedText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotHighlightedTextColorChanged( const QColor & ) ) );
 
     row++;
 
     m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
-    lay->addMultiCellWidget(m_pWordWrap,row,row,1,COLUMNS);
+    lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
     connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
 
+    assert( row == LASTLINE-1 );
+    // The last line is empty and grows if resized
 
     load();
 }
