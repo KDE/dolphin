@@ -919,7 +919,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
   {
     setUpEnabled( url, m_currentId );
     m_pRun = 0L;
-    return false;
+    return true;
   }
     
   return false;
