@@ -1,3 +1,4 @@
+SUBDIRS = init
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
@@ -11,14 +12,3 @@ libkonqdirtree_la_LIBADD = $(top_builddir)/konqueror/libkonqueror.la
 
 servicedir = $(kde_servicesdir)
 service_DATA = konq_dirtree.desktop
-
-dirtreestuffdir = $(kde_datadir)/konqueror/dirtree
-dirtreestuff_DATA = home.desktop root.desktop
-#dirtreestuff_DATA = root.desktop home.desktop
-
-#dirtreeftpstuffdir = $(kde_datadir)/konqueror/dirtree/FTPs
-#dirtreeftpstuff_DATA = .directory kde_ftp.desktop
-
-#dirtreeprofiledir = $(kde_datadir)/konqueror/profiles
-#dirtreeprofile_DATA = dirtree_profile.desktop
-

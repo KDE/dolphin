@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Link
+URL=smb:///
+Icon=package_network
+Name=Windows Shares
+Open=false

@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Link
+URL=file:$HOME
+Icon=kfm_home
+Name=Home Directory
+Name[ca]=Directori inici
+Name[cs]=Domovský adresář
+Name[de]=Persönliches Verzeichnis
+Name[eo]=Hejmdosierujo
+Name[fi]=Kotihakemisto
+Name[fr]=Répertoire utilisateur
+Name[he]=תיבה תיירפס
+Name[hu]=Saját könyvtár
+Name[it]=Directory home
+Name[ja]=ホームディレクトリ
+Name[no]=Hjemmekatalog
+Name[no_NY]=Heimekatalog
+Name[pt]=A Minha Área
+Name[ro]=Director personal
+Name[sl]=Doma�i imenik
+Name[sv]=Hemkatalogen
+Name[ta]=¦¾¡¼ì¸ «¨¼×
+Open=false
