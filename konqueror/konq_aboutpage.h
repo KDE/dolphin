@@ -43,6 +43,8 @@ public:
     virtual void saveState( QDataStream &stream );
     virtual void restoreState( QDataStream &stream );
 
+    virtual void urlSelected( const QString &url, int button, int state, const QString &target );
+
 private:
     static QString generateAboutPage();
 

@@ -9,6 +9,7 @@
 #include <qfile.h>
 #include <qtextstream.h>
 
+#include <kapp.h>
 #include <kinstance.h>
 #include <khtml_part.h>
 #include <klocale.h>
@@ -82,9 +83,8 @@ QString KonqAboutPageFactory::aboutPage()
 
     res = QString::fromLatin1( data.data() );
 
-    QString kcmshell = KStandardDirs::findExe("kcmshell");
-    QString kcmshell_konqhtml = QString::fromLatin1("file:%1 konqhtml").arg(kcmshell);
-    QString kcmshell_ioslaveinfo = QString::fromLatin1("file:%1 ioslaveinfo").arg(kcmshell);
+    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
+    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
 
     res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
           .arg( "" ) // TODO Konqueror-Logo
@@ -165,6 +165,21 @@ void KonqAboutPage::saveState( QDataStream &stream )
 void KonqAboutPage::restoreState( QDataStream &stream )
 {
     browserExtension()->KParts::BrowserExtension::restoreState( stream );
+}
+
+void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target )
+{
+    KURL u( url );
+    if ( u.protocol() == "exec" )
+    {
+        QStringList args = QStringList::split( QChar( ' ' ), url.mid( 6 ) );
+        QString executable = args[ 0 ];
+        args.remove( args.begin() );
+        KApplication::kdeinitExec( executable, args );
+        return;
+    }
+
+    KHTMLPart::urlSelected( url, button, state, target );
 }
 
 #include "konq_aboutpage.moc"
