@@ -82,7 +82,7 @@ private:
 static const char * s_choices[6] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "CustomMenu1", "CustomMenu2" };
 
 KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
-    : KCModule( parent, name ), g_pConfig(config)
+    : KCModule( parent, "kcmkonq" ), g_pConfig(config)
 {
   QLabel * tmpLabel;
 
@@ -372,7 +372,7 @@ QString KRootOptions::quickHelp() const
 }
 
 DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
-    : KCModule( parent, name )
+    : KCModule( parent, "kcmkonq" )
 {
   QLabel * tmpLabel;
 

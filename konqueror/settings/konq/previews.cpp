@@ -39,7 +39,7 @@
 //-----------------------------------------------------------------------------
 
 KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
-    : KCModule( parent, name )
+    : KCModule( parent, "kcmkonq" )
 {
     QVBoxLayout *lay = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
 

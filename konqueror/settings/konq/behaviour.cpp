@@ -42,7 +42,7 @@
 #include "behaviour.h"
 
 KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule(parent, name), g_pConfig(config), groupname(group)
+    : KCModule(parent, "kcmkonq"), g_pConfig(config), groupname(group)
 {
     QLabel * label;
     int row = 0;

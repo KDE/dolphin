@@ -37,7 +37,7 @@
 //-----------------------------------------------------------------------------
 
 KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
+    : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group)
 {
     QGridLayout *lay = new QGridLayout(this, 2 /* rows */, 1/*2*/,
                                        KDialog::marginHint(),

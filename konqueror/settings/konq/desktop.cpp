@@ -46,7 +46,7 @@ extern "C"
 // asking why I did not implement a more intelligent/smaller GUI.
 
 KDesktopConfig::KDesktopConfig(QWidget *parent, const char *name)
-  : KCModule(parent, name)
+  : KCModule(parent, "kcmkonq")
 {
   QVBoxLayout *layout = new QVBoxLayout(this,
                     KDialog::marginHint(),
