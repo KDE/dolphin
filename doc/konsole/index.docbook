@@ -684,11 +684,7 @@ lines</action></para></listitem>
 <para>For instance:</para>
 
 <informalexample>
-<screen>
-<prompt>bash$</prompt> <userinput><command>konsole</command>
- <option>--vt_sz</option> <parameter>90x25</parameter>
- <option>--nohist</option></userinput>
-</screen>
+<screen><prompt>bash$</prompt> <userinput><command>konsole</command><option>--vt_sz</option> <parameter>90x25</parameter><option>--nohist</option></userinput></screen>
 
 <para> starts a &konsole; window with 90 columns and 25 rows, with no
 history</para>
