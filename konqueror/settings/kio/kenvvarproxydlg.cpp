@@ -73,8 +73,6 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   {
     mEnvVarsMap["http"].name = data.proxyList["http"];
     mEnvVarsMap["http"].value = QString::fromLocal8Bit( getenv(data.proxyList["http"].local8Bit()) );
-    if ( !mEnvVarsMap["http"].value.isEmpty() )
-      mDlg->leHttp->setText( data.proxyList["http"] );
   }
 
   // Setup HTTPS Proxy...
@@ -83,8 +81,6 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   {
     mEnvVarsMap["https"].name = data.proxyList["https"];
     mEnvVarsMap["https"].value = QString::fromLocal8Bit( getenv(data.proxyList["https"].local8Bit()) );
-    if ( !mEnvVarsMap["https"].value.isEmpty() )
-      mDlg->leHttps->setText( data.proxyList["https"] );
   }
 
   // Setup FTP Proxy...
@@ -93,8 +89,6 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
   {
     mEnvVarsMap["ftp"].name = data.proxyList["ftp"];
     mEnvVarsMap["ftp"].value = QString::fromLocal8Bit( getenv(data.proxyList["ftp"].local8Bit()) );
-    if ( !mEnvVarsMap["ftp"].value.isEmpty() )
-      mDlg->leFtp->setText( data.proxyList["ftp"] );
   }
 
   u = data.noProxyFor.join(",");
@@ -103,11 +97,10 @@ void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
     QString noProxy = u.url();
     mEnvVarsMap["noProxy"].name = noProxy;
     mEnvVarsMap["noProxy"].value = QString::fromLocal8Bit( getenv(noProxy.local8Bit()) );
-    if ( !mEnvVarsMap["noProxy"].value.isEmpty() )
-      mDlg->leNoProxy->setText( noProxy );
   }
 
   mDlg->cbShowValue->setChecked( data.showEnvVarValue );
+  showValue();
 }
 
 const KProxyData KEnvVarProxyDlg::data() const
@@ -249,28 +242,19 @@ void KEnvVarProxyDlg::showValue()
   mDlg->leFtp->setReadOnly (enable);
   mDlg->leNoProxy->setReadOnly (enable);
 
-  if (!mDlg->leHttp->text().isEmpty())
+  if (enable)
   {
-    QString value = enable ? mEnvVarsMap["http"].value : mEnvVarsMap["http"].name;
-    mDlg->leHttp->setText( value );
+    mDlg->leHttp->setText( mEnvVarsMap["http"].value );
+    mDlg->leHttps->setText( mEnvVarsMap["https"].value );
+    mDlg->leFtp->setText( mEnvVarsMap["ftp"].value );
+    mDlg->leNoProxy->setText( mEnvVarsMap["noProxy"].value );
   }
-
-  if (!mDlg->leHttps->text().isEmpty())
+  else
   {
-    QString value = enable ? mEnvVarsMap["https"].value : mEnvVarsMap["https"].name;
-    mDlg->leHttps->setText( value );
-  }
-
-  if (!mDlg->leFtp->text().isEmpty())
-  {
-    QString value = enable ? mEnvVarsMap["ftp"].value : mEnvVarsMap["ftp"].name;
-    mDlg->leFtp->setText( value );
-  }
-
-  if (!mDlg->leNoProxy->text().isEmpty())
-  {
-    QString value = enable ? mEnvVarsMap["noProxy"].value : mEnvVarsMap["noProxy"].name;
-    mDlg->leNoProxy->setText( value );
+    mDlg->leHttp->setText( mEnvVarsMap["http"].name );
+    mDlg->leHttps->setText( mEnvVarsMap["https"].name );
+    mDlg->leFtp->setText( mEnvVarsMap["ftp"].name );
+    mDlg->leNoProxy->setText( mEnvVarsMap["noProxy"].name );
   }
 }
 
