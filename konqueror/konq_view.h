@@ -368,7 +368,6 @@ protected:
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
-  QString m_name;
   QString m_caption;
   KonqViewIface * m_dcopObject;
   KonqBrowserInterface *m_browserIface;

@@ -153,6 +153,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   // Activate the new part
   if ( oldPart )
   {
+    m_pPart->setName( oldPart->name() );   
     emit sigPartChanged( this, oldPart, m_pPart );
     delete oldPart;
   }
@@ -783,16 +784,13 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
 void KonqView::setViewName( const QString &name )
 {
     //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
-    m_name = name;
     if ( m_pPart )
-        m_pPart->setName( m_name.local8Bit().data() );
+        m_pPart->setName( name.local8Bit().data() );
 }
 
 QString KonqView::viewName() const
 {
-    // The name might be set by javascript code (window.name=...). In that case,
-    // the name is only set in the part and not in the view.
-    return m_name.isEmpty() && m_pPart ? QString::fromLocal8Bit( m_pPart->name() ) : m_name;
+    return m_pPart ? QString::fromLocal8Bit( m_pPart->name() ) : QString::null;
 }
 
 void KonqView::enablePopupMenu( bool b )
