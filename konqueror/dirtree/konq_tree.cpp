@@ -518,6 +518,8 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
         item = new KonqTreeTopLevelItem( this, module, path );
 
     item->setText( 0, name );
+    item->setPixmap( 0, SmallIcon( cfg.readIcon() ));
+    item->setOpen( cfg.readBoolEntry( "Open", false ));
 
     module->addTopLevelItem( item );
 

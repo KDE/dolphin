@@ -134,7 +134,7 @@ void KonqHistoryModule::slotCreateItems()
 	++it2;
     }
 
-    m_topLevelItem->sortChildItems( 0, false );
+    m_topLevelItem->sort();
     m_initialized = true;
 }
 
