@@ -58,12 +58,8 @@
 #include <assert.h>
 
 enum _ids {
-////// toolbar buttons //////
-  // TOOLBAR_UP_ID, TOOLBAR_BACK_ID, TOOLBAR_FORWARD_ID, TOOLBAR_HOME_ID,      used menu IDs instead
-    TOOLBAR_RELOAD_ID, TOOLBAR_COPY_ID, TOOLBAR_PASTE_ID,
-    TOOLBAR_HELP_ID, TOOLBAR_STOP_ID, TOOLBAR_GEAR_ID,
-/////  toolbar lineedit /////
-    TOOLBAR_URL_ID,
+/////  toolbar gear and lineedit /////
+    TOOLBAR_GEAR_ID, TOOLBAR_URL_ID,
 
 ////// menu items //////
     MFILE_NEW_ID, MFILE_NEWWINDOW_ID, MFILE_RUN_ID, MFILE_OPENTERMINAL_ID,
@@ -77,14 +73,16 @@ enum _ids {
     MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID, MVIEW_REMOVEVIEW_ID, 
     MVIEW_SHOWDOT_ID, MVIEW_SHOWHTML_ID,
     MVIEW_LARGEICONS_ID, MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, 
-    MVIEW_RELOAD_ID, MVIEW_STOPLOADING_ID,
+    MVIEW_RELOAD_ID, MVIEW_STOP_ID,
     // + view frame source, view document source, document encoding
 
     MGO_UP_ID, MGO_BACK_ID, MGO_FORWARD_ID, MGO_HOME_ID,
-    MGO_CACHE_ID, MGO_HISTORY_ID, MGO_MIMETYPES_ID, MGO_APPLICATIONS_ID
+    MGO_CACHE_ID, MGO_HISTORY_ID, MGO_MIMETYPES_ID, MGO_APPLICATIONS_ID,
 
     // clear cache is needed somewhere
     // MOPTIONS_...
+
+    MHELP_HELP_ID
 };
 
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
@@ -381,29 +379,29 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vToolBar->insertSeparator( -1 );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_RELOAD_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MVIEW_RELOAD_ID, SIGNAL(clicked()),
                              this, "slotReload", true, i18n("Reload"), -1);
 
   m_vToolBar->insertSeparator( -1 );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_COPY_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MEDIT_COPY_ID, SIGNAL(clicked()),
                              this, "slotCopy", true, i18n("Copy"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_PASTE_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MEDIT_PASTE_ID, SIGNAL(clicked()),
                              this, "slotPaste", true, i18n("Paste"), -1);
  				
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_HELP_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MHELP_HELP_ID, SIGNAL(clicked()),
                              this, "slotHelp", true, i18n("Stop"), -1);
 				
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "stop.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_STOP_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MVIEW_STOP_ID, SIGNAL(clicked()),
                              this, "slotStop", false, i18n("Stop"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.xpm" ) );
@@ -1145,7 +1143,8 @@ void KonqMainView::createViewMenu()
     m_vMenuView->insertSeparator( -1 );
 
     m_vMenuView->insertItem4( i18n("&Reload Document"), this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
-    //TODO: stop loading, view frame source, view document source, document encoding
+    m_vMenuView->insertItem4( i18n("Sto&p loading"), this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
+    //TODO: view frame source, view document source, document encoding
 
   }
 }
@@ -1520,9 +1519,7 @@ void KonqMainView::slotStartAnimation()
 {
   m_animatedLogoCounter = 0;
   m_animatedLogoTimer.start( 50 );
-
-  if ( !CORBA::is_nil( m_vToolBar ) )
-    m_vToolBar->setItemEnabled( TOOLBAR_STOP_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_STOP_ID, true );
 }
 
 void KonqMainView::slotStopAnimation()
@@ -1532,7 +1529,7 @@ void KonqMainView::slotStopAnimation()
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
     m_vToolBar->setButtonPixmap( TOOLBAR_GEAR_ID, *( s_lstAnimatedLogo->at( 0 ) ) );
-    m_vToolBar->setItemEnabled( TOOLBAR_STOP_ID, false );
+    setItemEnabled( m_vMenuView, MVIEW_STOP_ID, false );
   }
 
   setStatusBarText( i18n("Document: Done") );
