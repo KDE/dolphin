@@ -119,7 +119,8 @@ void KonqView::openURL( const KURL &url )
   if ( m_bAborted && m_pPart && m_pPart->url() == url )
   {
     args.reload = true;
-    ext->setURLArgs( args );
+    if ( ext )
+      ext->setURLArgs( args );
   }
 
   m_bAborted = false;
