@@ -31,6 +31,7 @@
 #include <unistd.h>
 
 #include "kbookmarkmenu.h"
+#include "konq_dirwatcher_stub.h"
 
 #include <qdir.h>
 #include <qfile.h>
@@ -213,6 +214,7 @@ void KBookmarkMenu::slotBookmarkSelected()
     if ( bm )
     {
       KLineEditDlg l( i18n("New Folder:"), "", 0L );
+      l.setCaption( i18n("Create new folder in %1").arg(bm->file()) );
       if ( l.exec() )
       {
         KURL url;
@@ -244,7 +246,11 @@ void KBookmarkMenu::slotBookmarkSelected()
         if (title.isEmpty())
           title = url;
         (void)new KBookmark( KBookmarkManager::self(), bm, title, url );
-        // TODO: DCOP broadcast to notify about this new bookmark
+        // DCOP broadcast to notify about this new bookmark
+        KURL uChanged;
+        uChanged.setPath( bm->file() );
+        KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
+        allDirWatchers.FilesAdded( uChanged );
         return;
       }
 
@@ -267,10 +273,15 @@ void KBookmarkMenu::slotResult( KIO::Job * job )
 {
   if (job->error())
     job->showErrorDialog();
-  // TODO: DCOP broadcast to notify about this new folder
 
-  // HACK - waiting for the above
-  KBookmarkManager::self()->slotNotify( KBookmarkManager::self()->path() );
+  KURL uChanged;
+  uChanged.setPath( static_cast<KIO::SimpleJob *>(job)->url().directory() );
+
+  // DCOP broadcast to notify about this new folder
+  KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
+  allDirWatchers.FilesAdded( uChanged );
+
+  // HACK KBookmarkManager::self()->slotNotify( KBookmarkManager::self()->path() );
 }
 
 // -----------------------------------------------------------------------------

@@ -131,7 +131,7 @@ void KNewMenu::parseFiles()
             }
             if (text.isEmpty())
             {
-                text = KURL(filePath).filename();
+                text = KURL(filePath).fileName();
                 if ( text.right(8) == ".desktop" )
                     text.truncate( text.length() - 8 );
                 else if ( text.right(7) == ".kdelnk" )
@@ -224,7 +224,7 @@ void KNewMenu::slotFillTemplates()
     s_templatesList->clear();
     //s_templatesList->append( "Folder" );
 
-    // Look into "templates" dirs. No filter, not recursive, suppress duplicate filenames
+    // Look into "templates" dirs. No filter, not recursive, suppress duplicate fileNames
     QStringList files = m_actionCollection->instance()->dirs()->findAllResources("templates"); //, QString::null, false, true);
     for ( QStringList::Iterator it = files.begin() ; it != files.end() ; ++it )
     {
@@ -253,7 +253,7 @@ void KNewMenu::slotNewFile()
           KMessageBox::sorry( 0L, i18n("The templates file %1 doesn't exist !").arg(entry.templatePath));
           return;
     }
-    QString defaultName = KURL( entry.templatePath ).filename();
+    QString defaultName = KURL( entry.templatePath ).fileName();
     if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
     {
           KURL::List::Iterator it = popupFiles.begin();

@@ -72,7 +72,7 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, 
 
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
         m_wallBox->insertItem( ( (*it).at(0)=='/' ) ?        // if absolute path
-                             KURL( *it ).filename() :    // then only filename
+                             KURL( *it ).fileName() :    // then only fileName
                              *it );
 
     m_wallBox->adjustSize();
@@ -94,11 +94,11 @@ KBgndDialogPage::~KBgndDialogPage()
 {
 }
 
-void KBgndDialogPage::showSettings( QString filename )
+void KBgndDialogPage::showSettings( QString fileName )
 {
   for ( int i = 1; i < m_wallBox->count(); i++ )
     {
-      if ( filename == m_wallBox->text( i ) )
+      if ( fileName == m_wallBox->text( i ) )
         {
           m_wallBox->setCurrentItem( i );
           loadWallPaper();
@@ -106,9 +106,9 @@ void KBgndDialogPage::showSettings( QString filename )
         }
     }
 
-  if ( !filename.isEmpty() )
+  if ( !fileName.isEmpty() )
     {
-      m_wallBox->insertItem( filename );
+      m_wallBox->insertItem( fileName );
       m_wallBox->setCurrentItem( m_wallBox->count()-1 );
       m_wallBox->adjustSize();
     }

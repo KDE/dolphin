@@ -49,38 +49,38 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
       // Check if pixie thumbnail of any size is there first, preferring
       // the pixie equivalent to the requested icon size
       if(_size < 28){
-          thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+          thumbPath = m_url.directory() + "/.mospics/small/" + m_url.fileName();
           bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           if(!bAvail){
-              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.fileName();
               bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           }
           if(!bAvail){
-              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.fileName();
               bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           }
       }
       else if(_size < 40){
-          thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+          thumbPath = m_url.directory() + "/.mospics/med/" + m_url.fileName();
           bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           if(!bAvail){
-              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.fileName();
               bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           }
           if(!bAvail){
-              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.fileName();
               bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           }
       }
       else{
-          thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+          thumbPath = m_url.directory() + "/.mospics/large/" + m_url.fileName();
           bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           if(!bAvail){
-              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.fileName();
               bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           }
           if(!bAvail){
-              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.fileName();
               bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
           }
       }
@@ -105,8 +105,8 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
       // check to see if there is an existing Xv thumbnail
 
       thumbPath = m_url.directory() +
-          ((KURL(m_url.directory()).filename(true) != ".xvpics") ? "/.xvpics/" : "/");
-      thumbPath += m_url.filename();
+          ((KURL(m_url.directory()).fileName(true) != ".xvpics") ? "/.xvpics/" : "/");
+      thumbPath += m_url.fileName();
 
       // Is the xv pic available ?
       if ( stat( thumbPath.local8Bit(), &buff ) == 0 )
@@ -134,17 +134,17 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
           int extent;
           QString sizeStr;
           if(_size < 28){
-              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/small/" + m_url.fileName();
               extent = 48;
               sizeStr = ".mospics/small";
           }
           else if(_size < 40){
-              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/med/" + m_url.fileName();
               extent = 64;
               sizeStr = ".mospics/med";
           }
           else{
-              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+              thumbPath = m_url.directory() + "/.mospics/large/" + m_url.fileName();
               extent = 90;
               sizeStr = ".mospics/large";
           }

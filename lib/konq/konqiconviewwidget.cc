@@ -404,7 +404,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
     KFileIVI *ivi = static_cast<KFileIVI *>( it );
     KonqFileItem *item = ivi->item();
 
-    dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().filename() ) );
+    dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
     dotDirectory.writeEntry( "X", it->x() );
     dotDirectory.writeEntry( "Y", it->y() );
     dotDirectory.writeEntry( "Exists", true );

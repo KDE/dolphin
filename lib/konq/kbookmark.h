@@ -282,8 +282,8 @@ public slots:
   void slotEditBookmarks();
 
 protected:
-  virtual void scan( const char *filename );
-  virtual void scanIntern( KBookmark*, const char *filename );
+  virtual void scan( const char *fileName );
+  virtual void scanIntern( KBookmark*, const char *fileName );
 
   void disableNotify() { m_bNotify = false; }
   void enableNotify() { m_bNotify = true; }
