@@ -207,7 +207,7 @@ public:
 
     void showHTML( KonqView * view, bool b, bool _activateView );
 
-  bool fullScreenMode() const { return m_bFullScreen; }
+  bool fullScreenMode() const { return m_ptaFullScreen->isChecked(); }
 
   /**
    * @return the "link view" action, for checking/unchecking from KonqView
@@ -303,7 +303,7 @@ signals:
 public slots:
   void slotCtrlTabPressed();
 
-  void slotToggleFullScreen();
+  void slotSetFullScreen( bool set );
 
   void slotFillContextMenu( const KBookmark &, QPopupMenu * );
 
@@ -512,7 +512,7 @@ private slots:
   void bookmarksIntoCompletion();
 
   void initBookmarkBar();
-
+  
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
@@ -559,8 +559,6 @@ private:
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
-
-  void updateFullScreen();
 
   KNewMenu * m_pMenuNew;
 
@@ -632,7 +630,6 @@ private:
 
   uint m_bLocationBarConnected:1;
   uint m_bURLEnterLock:1;
-  uint m_bFullScreen:1;
   // Global settings
   uint m_bSaveViewPropertiesLocally:1;
   uint m_bHTMLAllowed:1;

@@ -156,7 +156,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bLockLocationBarURL = false;
   m_paBookmarkBar = 0L;
   m_pURLCompletion = 0L;
-  m_bFullScreen = false;
   m_goBuffer = 0;
 
   m_bViewModeToggled = false;
@@ -2959,21 +2958,13 @@ void KonqMainWindow::slotShowMenuBar()
   slotForceSaveMainWindowSettings();
 }
 
-void KonqMainWindow::slotToggleFullScreen()
+void KonqMainWindow::slotSetFullScreen( bool set )
 {
-  if( m_bFullScreen )
-    showNormal();
-  else // both calls will generate event triggering updateFullScreen()
-    showFullScreen();
-}
-
-void KonqMainWindow::updateFullScreen()
-{
-  if( isFullScreen() == m_bFullScreen )
-      return;
-  m_bFullScreen = isFullScreen();
-  if ( m_bFullScreen )
+  if( set == isFullScreen())
+    return;
+  if( set )
   {
+    showFullScreen();
     // Create toolbar button for exiting from full-screen mode
     QPtrList<KAction> lst;
     lst.append( m_ptaFullScreen );
@@ -2989,11 +2980,10 @@ void KonqMainWindow::updateFullScreen()
     setAcceptDrops( FALSE );
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
-
-    m_ptaFullScreen->setChecked(true);
   }
   else
   {
+    showNormal();
     unplugActionList( "fullscreen" );
 
     menuBar()->show(); // maybe we should store this setting instead of forcing it
@@ -3005,8 +2995,6 @@ void KonqMainWindow::updateFullScreen()
     setAcceptDrops( FALSE );
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
-
-    m_ptaFullScreen->setChecked(false);
   }
 }
 
@@ -3199,7 +3187,8 @@ void KonqMainWindow::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = KStdAction::fullScreen( this, SLOT( slotToggleFullScreen() ), actionCollection() );
+  m_ptaFullScreen = KStdAction::fullScreen( 0, 0, actionCollection(), this );
+  connect( m_ptaFullScreen, SIGNAL( toggled( bool )), this, SLOT( slotSetFullScreen( bool )));
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::shortcut(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
@@ -4812,8 +4801,6 @@ bool KonqMainWindow::event( QEvent* e )
             return true; // no deleting
         }
     }
-    if( e->type() == QEvent::ShowFullScreen || e->type() == QEvent::ShowNormal )
-        updateFullScreen();
     return KParts::MainWindow::event( e );
 }
 
