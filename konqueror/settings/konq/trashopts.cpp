@@ -103,17 +103,17 @@ void KTrashOptions::save()
 
 QString KTrashOptions::quickHelp()
 {
-    return i18n("<h1>Trash Options</h1> Here you can modify the behaviour"
+    return i18n("<h1>Trash Options</h1> Here you can modify the behaviour "
                 "of konqueror when you want to delete a file."
-                "<h2>On delete:</h2>This option determines what konqueror"
+                "<h2>On delete:</h2>This option determines what konqueror "
                 "will do with a file you chose to delete (e.g. in a context menu).<ul>"
-                "<li><em>Move To Trash</em> will move the file to the trash folder,"
+                "<li><em>Move To Trash</em> will move the file to the trash folder, "
                 "instead of deleting it, so you can easily recover it.</li>"
                 "<li><em>Delete</em> will simply delete the file.</li>"
-                "<li><em>Shred</em> will not only delete the file, but will first"
-                "overwrite it with different bit patterns. This makes recovery impossible."
+                "<li><em>Shred</em> will not only delete the file, but will first "
+                "overwrite it with different bit patterns. This makes recovery impossible. "
                 "Use it, if you're keeping very sensitive data."
-                "<h2>Confirm destructive actions</h2>Check this box if you want konqueror"
+                "<h2>Confirm destructive actions</h2>Check this box if you want konqueror "
                 "to ask \"Are you sure?\" before doing any destructive action (e.g. delete or shred).");
 }
 
