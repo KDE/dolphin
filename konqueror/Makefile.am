@@ -1,3 +1,4 @@
+AM_CPPFLAGS = -D_LARGEFILE64_SOURCE
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
 
