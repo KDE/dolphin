@@ -77,22 +77,26 @@ QString KonqTreeViewItem::text( int _column ) const
     return "";
 
   const KUDSAtom & atom = m_fileitem->entry()[ _column ];
-  unsigned long uds = atom.m_uds;
 
-  if ( uds == KIO::UDS_ACCESS )
+  switch (atom.m_uds) {
+  case KIO::UDS_ACCESS:
     return makeAccessString( atom );
-  else if ( uds == KIO::UDS_FILE_TYPE )
+  case KIO::UDS_FILE_TYPE :
     return makeTypeString( atom );
-  else if ( ( uds & KIO::UDS_TIME ) == KIO::UDS_TIME )
-    return makeTimeString( atom );
-  else if ( uds & KIO::UDS_NAME )
+  case KIO::UDS_NAME :
     return m_fileitem->text();
-  else if ( uds & KIO::UDS_STRING )
+  }
+
+  // Otherwise use the type
+  switch (atom.m_uds & (KIO::UDS_TIME|KIO::UDS_STRING|KIO::UDS_LONG) )  {
+  case KIO::UDS_TIME :
+    return makeTimeString( atom );
+  case KIO::UDS_STRING :
     return atom.m_str;
-  else if ( uds & KIO::UDS_LONG )
+  case KIO::UDS_LONG :
     return makeNumericString( atom );
-  else
-    assert( 0 );
+  }
+  assert( 0 );
 }
 
 QString KonqTreeViewItem::makeNumericString( const KUDSAtom &_atom ) const
