@@ -195,12 +195,13 @@ public:
   void setViewStarted( bool b ) { m_bViewStarted = b; }
   bool viewStarted() const { return m_bViewStarted; }
 
-  void setProgress( int percent ) { m_iProgress = percent; }
+  // set by slotLoadingProgress
   int progress() const { return m_iProgress; }
 
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
+  // Is this useful for anything ? (David)
   bool supportsProgressIndication() const { return m_bProgressSignals; }
 
   KService::Ptr service() { return m_service; }
@@ -215,6 +216,17 @@ signals:
    * Signal the main view that our id changed (e.g. because of changeViewMode)
    */
   void sigViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
+
+protected slots:
+  // connected to the KROP's KIOJob
+  void slotStarted( int jobId );
+  void slotCompleted();
+  void slotCanceled( const QString & errMsg );
+  void slotTotalSize( int, unsigned long size );
+  void slotProcessedSize( int, unsigned long size );
+  void slotSpeed( int, unsigned long bytesPerSecond );
+  void slotLoadingProgress( int percent );
+  void slotSpeedProgress( int bytesPerSecond );
 
 protected:
   /**
@@ -240,6 +252,8 @@ protected:
 
   /** If true, next call to makeHistory won't change the history */
   bool m_bHistoryLock;
+
+  unsigned long m_ulTotalDocumentSize;
 
   KonqMainView *m_pMainView;
   bool m_bAllowHTML;

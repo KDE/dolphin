@@ -527,21 +527,8 @@ void KonqMainView::slotStop()
 {
   if ( m_currentView )
   {
-    m_currentView->stop();
+    m_currentView->stop(); // will take care of the statusbar
     stopAnimation();
-
-    if ( m_progressBar )
-    {
-      m_progressBar->setValue( -1 );
-      m_progressBar->hide();
-    }
-
-    if ( m_statusBar )
-    {
-      m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-      m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
-    }
-
   }
 }
 
@@ -674,90 +661,6 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
   m_pViewManager->addPart( newView, true );
 }
 
-
-void KonqMainView::slotStarted( int jobId )
-{
-  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender();
-
-  MapViews::ConstIterator it = m_mapViews.find( view );
-
-  assert( it != m_mapViews.end() );
-
-  (*it)->setLoading( true );
-  (*it)->setViewStarted( true );
-
-  (*it)->makeHistory( true );
-
-  if ( (KonqChildView *)m_currentView == *it )
-  {
-    updateStatusBar();
-    updateToolBarActions();
-  }
-
-  if ( jobId )
-  {
-    KIOJob *job = KIOJob::find( jobId );
-    if (job)
-    {
-      connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
-      connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
-      connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
-    }
-    else
-    {
-     kDebugWarning( 1202, "No such job %d !", jobId );
-    }
-  }
-  m_ulTotalDocumentSize = 0;
-}
-
-void KonqMainView::slotTotalSize( int, unsigned long size )
-{
-  m_ulTotalDocumentSize = size;
-}
-
-void KonqMainView::slotProcessedSize( int, unsigned long size )
-{
-  if ( m_ulTotalDocumentSize > (unsigned long)0 )
-    slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
-}
-
-void KonqMainView::slotSpeed( int, unsigned long bytesPerSecond )
-{
-  slotSpeedProgress( (long int)bytesPerSecond );
-}
-
-void KonqMainView::slotCompleted()
-{
-  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender();
-
-  MapViews::ConstIterator it = m_mapViews.find( view );
-
-  (*it)->setLoading( false );
-  (*it)->setViewStarted( false );
-  (*it)->setProgress( -1 );
-
-  if ( (KonqChildView *)m_currentView == *it )
-  {
-    updateToolBarActions();
-
-    if ( m_progressBar )
-    {
-      m_progressBar->setValue( -1 );
-      m_progressBar->hide();
-    }
-
-    if ( m_statusBar )
-      m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-  }
-
-}
-
-void KonqMainView::slotCanceled( const QString & )
-{
-  #warning TODO obey errMsg
-  slotCompleted();
-}
 
 void KonqMainView::slotRunFinished()
 {
@@ -1137,38 +1040,10 @@ void KonqMainView::slotSaveDefaultProfile()
   m_pViewManager->saveViewProfile( *config );
 }
 
-void KonqMainView::slotLoadingProgress( int percent )
+void KonqMainView::speedProgress( int bytesPerSecond )
 {
-  if ( !m_progressBar )
-    return;
-
-  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
-
-#warning "The caller of KonqMainView::slotLoadingProgress isn't necessarily a Part !"
-// How to check if it comes from the job of the current view ? Looks like we need
-// a jobId stored in each view...
-
-  if ( !view )
-    return;
-
-  if ( m_currentView->view() == view && m_currentView->isLoading() )
-  {
-    if ( !m_progressBar->isVisible() )
-      m_progressBar->show();
-
-    m_progressBar->setValue( percent );
-  }
-
-  KonqChildView *child = childView( view );
-  if ( child )
-    child->setProgress( percent );
-}
-
-void KonqMainView::slotSpeedProgress( int bytesPerSecond )
-{
-  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
-
-  if ( !m_statusBar || m_currentView->view() != view || !m_currentView->isLoading() )
+  // We assume this was called from the current view (see KonqChildView::slotSpeedProgress)
+  if ( !m_statusBar || !m_currentView->isLoading() )
     return;
 
   QString sizeStr;
@@ -1180,6 +1055,7 @@ void KonqMainView::slotSpeedProgress( int bytesPerSecond )
 
   m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
 }
+
 /*
 void KonqMainView::checkEditExtension()
 {
@@ -1664,58 +1540,6 @@ void KonqMainView::initPlugins()
   }
 }
 
-/*
-void KonqMainView::plugInViewGUI( BrowserView *view )
-{
-//  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
-  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
-
-  const QValueList<BrowserView::ViewAction> *actions = view->actions();
-  QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
-  QValueList<BrowserView::ViewAction>::ConstIterator end = actions->end();
-  for (; it != end; ++it )
-  {
-
-    // The View Menu is handled in the aboutToShow() slot of the view menu
-
-    if ( ( (*it).m_flags & BrowserView::MenuEdit ) == BrowserView::MenuEdit )
-     (*it).m_action->plug( m_pamEdit->popupMenu() );
-
-    if ( ( (*it).m_flags & BrowserView::ToolBar ) == BrowserView::ToolBar &&
-         bar )
-     (*it).m_action->plug( bar );
-
-  }
-
-  updateExtensionDependendActions( view );
-}
-
-void KonqMainView::unPlugViewGUI( BrowserView *view )
-{
-//  KToolBar *bar = shell()->viewToolBar( "mainToolBar" );
-  KToolBar *bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
-
-  const QValueList<BrowserView::ViewAction> *actions = view->actions();
-  QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
-  QValueList<BrowserView::ViewAction>::ConstIterator end = actions->end();
-
-  for (; it != end; ++it )
-  {
-
-    if ( ( (*it).m_flags & BrowserView::MenuView ) == BrowserView::MenuView )
-     (*it).m_action->unplug( m_pamView->popupMenu() );
-
-    if ( ( (*it).m_flags & BrowserView::MenuEdit ) == BrowserView::MenuEdit )
-     (*it).m_action->unplug( m_pamEdit->popupMenu() );
-
-    if ( ( (*it).m_flags & BrowserView::ToolBar ) == BrowserView::ToolBar &&
-         bar )
-     (*it).m_action->unplug( bar );
-
-  }
-}
-*/
-
 void KonqMainView::updateStatusBar()
 {
   if ( !m_progressBar || !m_statusBar )
@@ -1723,15 +1547,17 @@ void KonqMainView::updateStatusBar()
 
   int progress = m_currentView->progress();
 
-  if ( progress != -1 && !m_progressBar->isVisible() )
-    m_progressBar->show();
+  if ( progress != -1 )
+  {
+    if ( !m_progressBar->isVisible() )
+      m_progressBar->show();
+  }
   else
     m_progressBar->hide();
 
   m_progressBar->setValue( progress );
 
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-
   m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
 }
 

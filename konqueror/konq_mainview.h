@@ -115,9 +115,6 @@ public slots:
 
   void slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
-  void slotStarted( int jobId );
-  void slotCompleted();
-  void slotCanceled( const QString & errMsg );
   void slotRunFinished();
 
   void slotSetStatusBarText( const QString &text );
@@ -155,6 +152,11 @@ public:
 
   static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
 
+  void updateStatusBar();
+  void updateToolBarActions();
+
+  void speedProgress( int bytesPerSecond );
+
 protected slots:
   void slotPartActivated( KParts::Part *part );
   void slotEnableAction( const char * name, bool enabled );
@@ -174,15 +176,6 @@ protected slots:
   void slotRemoveView();
 
   void slotSaveDefaultProfile();
-
- // connected to the KROP's KIOJob
-  void slotTotalSize( int, unsigned long size );
-  void slotProcessedSize( int, unsigned long size );
-  void slotSpeed( int, unsigned long bytesPerSecond );
-
- // connected to the BrowserExtension
-  void slotLoadingProgress( int percent );
-  void slotSpeedProgress( int bytesPerSecond );
 
   //void checkEditExtension();
   void slotDatabaseChanged(); // connect to KSycoca
@@ -235,8 +228,6 @@ private:
   //  void plugInViewGUI( BrowserView *view );
   //  void unPlugViewGUI( BrowserView *view );
 
-  void updateStatusBar();
-  void updateToolBarActions();
   // void updateExtensionDependendActions( KonqChildView *childView );
 
   QString konqFilteredURL( const QString &url );
@@ -354,8 +345,6 @@ private:
   QGuardedPtr<QComboBox> m_combo;
 
   ViewModeGUIServant *m_viewModeGUIServant;
-
-  unsigned long m_ulTotalDocumentSize;
 
   static QList<QPixmap> *s_plstAnimatedLogo;
 

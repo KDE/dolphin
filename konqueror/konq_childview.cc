@@ -24,6 +24,7 @@
 #include "konq_run.h"
 #include "konq_viewmgr.h"
 #include "konq_mainview.h"
+#include <kio_job.h>
 
 #include <assert.h>
 
@@ -170,11 +171,11 @@ void KonqChildView::connectView(  )
 {
 
   connect( m_pView, SIGNAL( started( int ) ),
-           m_pMainView, SLOT( slotStarted( int ) ) );
+           this, SLOT( slotStarted( int ) ) );
   connect( m_pView, SIGNAL( completed() ),
-           m_pMainView, SLOT( slotCompleted() ) );
+           this, SLOT( slotCompleted() ) );
   connect( m_pView, SIGNAL( canceled( const QString & ) ),
-           m_pMainView, SLOT( slotCanceled( const QString & ) ) );
+           this, SLOT( slotCanceled( const QString & ) ) );
 
   KParts::BrowserExtension *ext = browserExtension();
 
@@ -207,11 +208,92 @@ void KonqChildView::connectView(  )
            m_pMainView, SLOT( slotCreateNewWindow( const KURL & ) ) );
 
   connect( ext, SIGNAL( loadingProgress( int ) ),
-           m_pMainView, SLOT( slotLoadingProgress( int ) ) );
+           this, SLOT( slotLoadingProgress( int ) ) );
 
   connect( ext, SIGNAL( speedProgress( int ) ),
-           m_pMainView, SLOT( slotSpeedProgress( int ) ) );
+           this, SLOT( slotSpeedProgress( int ) ) );
 
+}
+
+void KonqChildView::slotStarted( int jobId )
+{
+  m_bLoading = true;
+  setViewStarted( true );
+
+  makeHistory( true );
+
+  if ( m_pMainView->currentChildView() == this )
+  {
+    m_pMainView->updateStatusBar();
+    m_pMainView->updateToolBarActions();
+  }
+
+  if ( jobId )
+  {
+    KIOJob *job = KIOJob::find( jobId );
+    if (job)
+    {
+      connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
+      connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
+      connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
+    }
+    else
+    {
+      kDebugWarning( 1202, "No such job %d !", jobId );
+    }
+  }
+  m_ulTotalDocumentSize = 0;
+}
+
+void KonqChildView::slotTotalSize( int, unsigned long size )
+{
+  m_ulTotalDocumentSize = size;
+}
+
+void KonqChildView::slotProcessedSize( int, unsigned long size )
+{
+  if ( m_ulTotalDocumentSize > (unsigned long)0 )
+    slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
+}
+
+void KonqChildView::slotSpeed( int, unsigned long bytesPerSecond )
+{
+  slotSpeedProgress( (long int)bytesPerSecond );
+}
+
+void KonqChildView::slotLoadingProgress( int percent )
+{
+  m_iProgress = percent;
+  if ( m_pMainView->currentChildView() == this )
+  {
+    m_pMainView->updateStatusBar();
+  }
+}
+
+void KonqChildView::slotSpeedProgress( int bytesPerSecond )
+{
+  if ( m_pMainView->currentChildView() == this )
+  {
+    m_pMainView->speedProgress( bytesPerSecond );
+  }
+}
+
+void KonqChildView::slotCompleted()
+{
+  m_bLoading = false;
+  setViewStarted( false );
+  slotLoadingProgress( -1 );
+
+  if ( m_pMainView->currentChildView() == this )
+  {
+    m_pMainView->updateToolBarActions();
+  }
+}
+
+void KonqChildView::slotCanceled( const QString & )
+{
+#warning TODO obey errMsg
+  slotCompleted();
 }
 
 void KonqChildView::makeHistory( bool pushEntry )
@@ -358,6 +440,7 @@ void KonqChildView::stop()
     delete (KonqRun *)m_pRun; // should set m_pRun to 0L
 
   m_bLoading = false;
+  slotLoadingProgress( -1 );
 
     //  if ( m_pRun ) debug(" m_pRun is not NULL "); else debug(" m_pRun is NULL ");
   //if ( m_pRun ) delete (KonqRun *)m_pRun; // should set m_pRun to 0L
