@@ -124,6 +124,30 @@ bool KDCOPActionProxy::processAction( const QCString &, const QCString &fun, con
     return true;
   }
 
+  if ( fun == "functions()" )
+  {
+    QCString s = "functions();activate();isPlugged();";
+    
+    QStrList properties = action->metaObject()->propertyNames( true );
+    QStrListIterator it( properties );
+    for (; it.current(); ++it )
+    {
+      QCString name = it.current();
+      name.append( "();" );
+      QCString setName = name.copy();
+      setName[ 0 ] = toupper( setName[ 0 ] );
+      setName.prepend( "set" );
+      
+      s += name;
+      s += setName;
+    }
+  
+    replyType = "QCString";
+    QDataStream reply( replyData, IO_WriteOnly );
+    reply << s;
+    return true;
+  }
+  
   if ( fun.length() < 3 )
     return false;
 
