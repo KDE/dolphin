@@ -29,6 +29,7 @@
 #include <qlabel.h>
 #include <qmovie.h>
 #include <qregexp.h>
+#include <qcursor.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -1319,6 +1320,14 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
 
 void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 {
+    if ( QApplication::widgetAt( QCursor::pos() ) != topLevelWidget() )
+    {
+        if (d->pSoundPlayer)
+            d->pSoundPlayer->stop();
+        d->pSoundItem = 0;
+        if (d->pSoundTimer && d->pSoundTimer->isActive())
+            d->pSoundTimer->stop();
+    }
     d->renameItem= false;
     QIconView::contentsMouseMoveEvent( e );
 }
