@@ -2697,6 +2697,11 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // Make this view active temporarily, if not the current one (e.g. because it's passive)
   m_currentView = childView( static_cast<KParts::ReadOnlyPart *>( sender()->parent() ) );
 
+  // the page is currently loading something -> Don't enter a local event loop
+  // by launching a popupmenu!
+  if ( m_currentView->run() != 0 )
+      return;
+
   if ( m_oldView && m_oldView != m_currentView )
   {
     if ( m_oldView->browserExtension() )

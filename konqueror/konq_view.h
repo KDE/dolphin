@@ -141,6 +141,9 @@ public:
    * The main window uses this to store the KonqRun for each child view.
    */
   void setRun( KonqRun * run  );
+
+  KonqRun *run() const { return m_pRun; }
+
   /**
    * Stop loading
    */
