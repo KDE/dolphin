@@ -50,6 +50,8 @@ public:
     return s_pSelf;
   }
 
+  static void abortFullScreenMode();
+
   bool openFileManagerWindow( const KURL & url );
 
   bool openFileManagerWindow( const KURL &url, const QString &name );

@@ -39,7 +39,7 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url )
   return openFileManagerWindow( _url, QString::null );
 }
 
-bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &name )
+void KonqFileManager::abortFullScreenMode()
 {
   QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
@@ -49,6 +49,11 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
       if ( it.current()->fullScreenMode() )
         it.current()->slotToggleFullScreen();
   }
+}
+
+bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &name )
+{
+  abortFullScreenMode();
 
   // If _url is 0L, open $HOME [this doesn't happen anymore]
   KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
