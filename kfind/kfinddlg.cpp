@@ -156,6 +156,11 @@ void KfindDlg::slotResult(int errorCode)
     setStatusMsg(i18n("Ready."));
   else if (errorCode == KIO::ERR_USER_CANCELED)
     setStatusMsg(i18n("Aborted."));
+  else if (errorCode == KIO::ERR_MALFORMED_URL)
+  {
+     setStatusMsg(i18n("Error."));
+     KMessageBox::sorry( this, i18n("Please specify an absolute path in the \"Look in\" box."));
+  }
   else if (errorCode == KIO::ERR_DOES_NOT_EXIST)
   {
      setStatusMsg(i18n("Error."));
