@@ -1931,10 +1931,7 @@ void KonqMainWindow::slotCopyFiles()
   for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
      lst.append(item->url());
 
-  KonqOperations * op = new KonqOperations( this );
-  KIO::Job * job = KIO::copy( lst, dest );
-  op->setOperation( job, KonqOperations::COPY, lst,dest );
-  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
+  KonqOperations::copy(this,KonqOperations::COPY,lst,dest);
 }
 
 void KonqMainWindow::slotMoveFiles()
@@ -1951,10 +1948,7 @@ void KonqMainWindow::slotMoveFiles()
   for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
      lst.append(item->url());
 
-  KonqOperations * op = new KonqOperations( this );
-  KIO::Job * job = KIO::move( lst, dest );
-  op->setOperation( job, KonqOperations::MOVE, lst,dest );
-  (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
+  KonqOperations::copy(this,KonqOperations::MOVE,lst,dest);
 }
 
 // Only valid if there are one or two views
