@@ -162,6 +162,8 @@ private:
   bool m_bProfileListDirty;
 
   QMap<QString, QString> m_mapProfileNames;
+
+  QGuardedPtr<QWidget> m_dummyWidget;
 };
 
 #endif

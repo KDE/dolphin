@@ -48,6 +48,10 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
   m_pMainContainer = 0L;
 
   m_bProfileListDirty = true;
+  
+  // we need this for a proper layout of the toolbars upon startup, when no real view has been loaded, yet
+  m_dummyWidget = new QWidget( mainView );
+  mainView->setView( m_dummyWidget );
 }
 
 KonqViewManager::~KonqViewManager()
@@ -175,6 +179,9 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, serviceOffers, serviceType );
 
+    if ( m_dummyWidget )
+      delete (QWidget *)m_dummyWidget;
+    
     // exclude the splitter and all child widgets from the part focus handling
     m_pMainContainer->show();
 
@@ -257,6 +264,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
   m_pMainContainer->show();
 
+  if ( m_dummyWidget )
+    delete (QWidget *)m_dummyWidget;
+  
   loadItem( cfg, m_pMainContainer, rootItem );
 
   QValueList<KParts::ReadOnlyPart *> lst = m_pMainView->viewList();
