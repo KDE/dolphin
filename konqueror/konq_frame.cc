@@ -881,8 +881,14 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
 
 void KonqFrameTabs::setTitle( QString title , QWidget* sender)
 {
-  //kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
+  // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
+#if QT_VERSION < 0x030100
+  newTitle.replace(QRegExp("&", "&&"));
+#else
+  newTitle.replace('&', "&&");
+#endif
+ 
   removeTabToolTip( sender );
   if (newTitle.length() > 30)
   {
