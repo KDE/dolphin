@@ -674,14 +674,34 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
     op->setOperation( job, MOVE, lst, newurl );
     (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
     // if old trash then update config file and emit
-    if(oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::trashPath() ) {
-        kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
-        KConfig *globalConfig = KGlobal::config();
-        KConfigGroupSaver cgs( globalConfig, "Paths" );
-        globalConfig->writeEntry("Trash" , newurl.path(), true, true );
-        globalConfig->sync();
-        KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+    if(oldurl.isLocalFile() )
+    {
+        if (  oldurl.path(1) == KGlobalSettings::trashPath() ) {
+            kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
+            KConfig *globalConfig = KGlobal::config();
+            KConfigGroupSaver cgs( globalConfig, "Paths" );
+            globalConfig->writeEntry("Trash" , newurl.path(), true, true );
+            globalConfig->sync();
+            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+        }
+        // if old trash then update config file and emit
+        if(oldurl.path(1) == KGlobalSettings::desktopPath() )
+        {
+            kdDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
+            KConfig *globalConfig = KGlobal::config();
+            KConfigGroupSaver cgs( globalConfig, "Paths" );
+            globalConfig->writeEntry("Desktop" , newurl.path(), true, true );
+            if ( KGlobalSettings::trashPath().startsWith(oldurl.path(1) ))
+            {
+                QString newTrashPath = newurl.path()+KGlobalSettings::trashPath().right(KGlobalSettings::trashPath().length()-KURL(KGlobalSettings::trashPath()).directory().length());
+
+                globalConfig->writeEntry("Trash" , newTrashPath, true, true );
+            }
+            globalConfig->sync();
+            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+        }
     }
+
 }
 
 void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & /*src*/, const KURL & dest )
