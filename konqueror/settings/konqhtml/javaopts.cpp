@@ -174,7 +174,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group, QWidget *parent,
                                             "on the <i>Delete</i> button will remove the selected policy causing the default "
                                             "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                             "button allows you to easily share your policies with other people by allowing "
-                                            "you to save and retrive them from a zipped file.") );
+                                            "you to save and retrieve them from a zipped file.") );
     QWhatsThis::add( javaConsoleCB, i18n( "If this box is checked, Konqueror will open a console window that Java programs "
                                           "can use for character-based input/output. Well-written Java applets do not need "
                                           "this, but the console can help to find problems with Java applets.") );
