@@ -134,6 +134,7 @@ void KonqFrameHeader::slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::
 {
    if (newOne!=0)
       connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
+   slotDisplayStatusText( QString::null );
 };
 
 void KonqFrameHeader::paintEvent(QPaintEvent* e)
