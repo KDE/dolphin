@@ -1843,7 +1843,7 @@ void KonqMainWindow::slotConfigure()
             m_configureDialog->addModule( *it );
 
     }
-    
+
     m_configureDialog->show();
 
 }
@@ -4740,9 +4740,15 @@ void KonqMainWindow::updateViewModeActions()
       m_viewModeActions.append( action );
       action->plug( m_viewModeMenu->popupMenu() );
 
+      QString library = (*it)->library();
+      // Group all non-builtin views together
+      QVariant builtIntoProp = (*it)->property( "X-KDE-BrowserView-Built-Into" );
+      if ( !builtIntoProp.isValid() || builtIntoProp.toString() != "konqueror" )
+          library = "external";
+
       // look if we already have a KonqViewModeAction (in the toolbar)
       // for this component
-      QMap<QString,KonqViewModeAction*>::Iterator mapIt = groupedServiceMap.find( (*it)->library() );
+      QMap<QString,KonqViewModeAction*>::Iterator mapIt = groupedServiceMap.find( library );
 
       // if we don't have -> create one
       if ( mapIt == groupedServiceMap.end() )
@@ -4751,30 +4757,30 @@ void KonqMainWindow::updateViewModeActions()
           QString text = itname;
           QString icon = (*it)->icon();
           QCString name = (*it)->desktopEntryName().latin1();
-          //kdDebug(1202) << " Creating action for " << (*it)->library() << ". Default service " << itname << endl;
+          //kdDebug(1202) << " Creating action for " << library << ". Default service " << itname << endl;
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
           // then we will want to use the previously used settings (previous as
           // in before the actions got deleted)
-          QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.find( (*it)->library() );
+          QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.find( library );
           if ( serviceIt != m_viewModeToolBarServices.end() )
           {
-              //kdDebug(1202) << " Setting action for " << (*it)->library() << " to " << (*serviceIt)->name() << endl;
+              //kdDebug(1202) << " Setting action for " << library << " to " << (*serviceIt)->name() << endl;
               text = (*serviceIt)->genericName();
               if (text.isEmpty())
-              text = (*serviceIt)->name();
+                  text = (*serviceIt)->name();
               icon = (*serviceIt)->icon();
               name = (*serviceIt)->desktopEntryName().ascii();
           } else
           {
               // if we don't have it in the map, we should look for a setting
               // for this library in the config file.
-              QString preferredService = config->readEntry( (*it)->library() );
+              QString preferredService = config->readEntry( library );
               if ( !preferredService.isEmpty() && name != preferredService.latin1() )
               {
                   //kdDebug(1202) << " Inserting into preferredServiceMap(" << (*it)->library() << ") : " << preferredService << endl;
                   // The preferred service isn't the current one, so remember to set it later
-                  preferredServiceMap[ (*it)->library() ] = preferredService;
+                  preferredServiceMap[ library ] = preferredService;
               }
           }
 
@@ -4792,7 +4798,7 @@ void KonqMainWindow::updateViewModeActions()
 
           m_toolBarViewModeActions.append( tbAction );
 
-          mapIt = groupedServiceMap.insert( (*it)->library(), tbAction );
+          mapIt = groupedServiceMap.insert( library, tbAction );
       }
 
       // Check the actions (toolbar button and menu item) if they correspond to the current view
@@ -4806,9 +4812,9 @@ void KonqMainWindow::updateViewModeActions()
       // Set the contents of the button from the current service, either if it's the current view
       // or if it's our preferred service for this button (library)
       if ( bIsCurrentView
-           || ( preferredServiceMap.contains( (*it)->library() ) && (*it)->desktopEntryName() == preferredServiceMap[ (*it)->library() ] ) )
+           || ( preferredServiceMap.contains( library ) && (*it)->desktopEntryName() == preferredServiceMap[ library ] ) )
       {
-          //kdDebug(1202) << " Changing action for " << (*it)->library() << " into service " << (*it)->name() << endl;
+          //kdDebug(1202) << " Changing action for " << library << " into service " << (*it)->name() << endl;
 
           QString mapitname = (*it)->genericName();
           if (mapitname.isEmpty())
@@ -4816,7 +4822,7 @@ void KonqMainWindow::updateViewModeActions()
           (*mapIt)->setText( mapitname );
           (*mapIt)->setIcon( (*it)->icon() );
           (*mapIt)->setName( (*it)->desktopEntryName().ascii() ); // tricky...
-          preferredServiceMap.remove( (*it)->library() ); // The current view has priority over the saved settings
+          preferredServiceMap.remove( library ); // The current view has priority over the saved settings
       }
 
       // plug action also into the delayed popupmenu of appropriate toolbar action
