@@ -1196,6 +1196,11 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   if (nextChildView == 0L) nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */);
 
+  // #71164
+  if ( !req.args.frameName.isEmpty() ) {
+      nextChildView->setViewName( req.args.frameName );
+  }
+
   if ( !forcedURL.isEmpty())
   {
       KonqOpenURLRequest _req(req);
