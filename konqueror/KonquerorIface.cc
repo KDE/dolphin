@@ -36,6 +36,7 @@
 // of detecting the time when the user action that triggered all this
 // happened
 #ifdef QT_COPY_PATCH_0008
+#include <X11/Xlib.h>
 extern Time qt_x_last_input_time;
 #endif
 
