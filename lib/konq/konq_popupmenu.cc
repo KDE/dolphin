@@ -126,19 +126,17 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
          (*it)->url().path( 1 ) == KGlobalSettings::trashPath() )
         bTrashIncluded = true;
 
-    QString protocol = url.protocol();
-
     if ( sReading )
-      sReading = KProtocolInfo::supportsReading( protocol );
+      sReading = KProtocolInfo::supportsReading( url );
 
     if ( sWriting )
-      sWriting = KProtocolInfo::supportsWriting( protocol );
+      sWriting = KProtocolInfo::supportsWriting( url );
 
     if ( sDeleting )
-      sDeleting = KProtocolInfo::supportsDeleting( protocol );
+      sDeleting = KProtocolInfo::supportsDeleting( url );
 
     if ( sMoving )
-      sMoving = KProtocolInfo::supportsMoving( protocol );
+      sMoving = KProtocolInfo::supportsMoving( url );
   }
   // Be on the safe side when including the trash
   if ( bTrashIncluded )

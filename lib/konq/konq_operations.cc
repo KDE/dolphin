@@ -443,13 +443,12 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             }
 
             // Check what the source can do
-            QString protocol = lst.first().protocol(); // we'll assume it's the same for all URLs (hack)
-            bool sReading = KProtocolInfo::supportsReading( protocol );
-            bool sDeleting = KProtocolInfo::supportsDeleting( protocol );
-            bool sMoving = KProtocolInfo::supportsMoving( protocol );
+            KURL url = lst.first(); // we'll assume it's the same for all URLs (hack)
+            bool sReading = KProtocolInfo::supportsReading( url );
+            bool sDeleting = KProtocolInfo::supportsDeleting( url );
+            bool sMoving = KProtocolInfo::supportsMoving( url );
             // Check what the destination can do
-            protocol = dest.protocol();
-            bool dWriting = KProtocolInfo::supportsWriting( protocol );
+            bool dWriting = KProtocolInfo::supportsWriting( dest );
             if ( !dWriting )
             {
                 delete this;
