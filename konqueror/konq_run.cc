@@ -170,6 +170,9 @@ void KonqRun::scanFile()
   }
 
   KIO::TransferJob *job;
+  m_req.args.metaData().insert("main_frame_request", "TRUE" );
+  m_req.args.metaData().insert("ssl_was_in_use", "FALSE" );  
+  m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
   if ( m_req.args.doPost() && m_strURL.protocol().startsWith("http"))
   {
       job = KIO::http_post( m_strURL, m_req.args.postData, false );
@@ -180,11 +183,12 @@ void KonqRun::scanFile()
 
   //set referrer if request not manual.
   // ### TODO: turn this off optionally.
-  if (m_req.typedURL.isEmpty())
+  if (!m_req.typedURL.isEmpty())
+     m_req.args.metaData().remove("referrer");
       // ###this does not work for some strange reason:
       // job->addMetaData("Referer", m_req.args.metaData()["referrer"]);
       // The reason is : it's referrer, not Referer ! (David)
-      job->addMetaData( m_req.args.metaData());
+  job->addMetaData( m_req.args.metaData());
   job->setWindow((KMainWindow *)m_pMainWindow);
   connect( job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotKonqScanFinished(KIO::Job *)));
