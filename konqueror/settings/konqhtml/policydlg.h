@@ -6,10 +6,11 @@
 #define _POLICYDLG_H
 
 #include <kdialog.h>
-
+                        
+#include <qlineedit.h>
 #include <qstringlist.h>
 
-class QLineEdit;
+class QLabel;
 class QComboBox;
 class QString;
 class QVBoxLayout;

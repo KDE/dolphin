@@ -50,6 +50,8 @@
 
 #include "jsopts.moc"
 
+// == class KJavaScriptOptions =====
+
 KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent,
 										const char *name ) :
   KCModule( parent, name ),
@@ -76,73 +78,12 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 //        "Note that this has a small performance impact and is mainly only useful for developers.") );
 //  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
-  // the domain-specific listview (copied and modified from Cookies configuration)
-  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Do&main-Specific" ), this );
-  domainSpecificGB->setColumnLayout(0, Qt::Vertical );
-  domainSpecificGB->layout()->setSpacing( 0 );
-  domainSpecificGB->layout()->setMargin( 0 );
-  QGridLayout* domainSpecificGBLayout = new QGridLayout( domainSpecificGB->layout() );
-  domainSpecificGBLayout->setAlignment( Qt::AlignTop );
-  domainSpecificGBLayout->setSpacing( 6 );
-  domainSpecificGBLayout->setMargin( 11 );
+  // the domain-specific listview
+  domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this);
+  connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
+  toplevel->addWidget( domainSpecific, 2 );
 
-  domainSpecificLV = new KListView( domainSpecificGB );
-  domainSpecificLV->addColumn(i18n("Host/Domain"));
-  domainSpecificLV->addColumn(i18n("Policy"), 100);
-  QString wtstr = i18n("This box contains the domains and hosts you have set "
-                       "a specific JavaScript policy for. This policy will be used "
-                       "instead of the default policy for enabling or disabling JavaScript on pages sent by these "
-                       "domains or hosts. <p>Select a policy and use the controls on "
-                       "the right to modify it.");
-  QWhatsThis::add( domainSpecificLV, wtstr );
-  QWhatsThis::add( domainSpecificGB, wtstr );
-  connect(domainSpecificLV,SIGNAL(doubleClicked ( QListViewItem * )), this, SLOT( changePressed() ) );
-  connect(domainSpecificLV,SIGNAL(returnPressed ( QListViewItem * )), this, SLOT( changePressed() ) );
-
-
-  domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
-  QPushButton* addDomainPB = new QPushButton( i18n("&New..."), domainSpecificGB );
-  domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
-  QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
-                                     "specific policy.") );
-  connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
-
-  QPushButton* changeDomainPB = new QPushButton( i18n("Chan&ge..."), domainSpecificGB );
-  domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
-  QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
-                                        "host or domain selected in the list box.") );
-  connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-
-  QPushButton* deleteDomainPB = new QPushButton( i18n("De&lete"), domainSpecificGB );
-  domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
-  QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
-                                        "host or domain selected in the list box.") );
-  connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
-
-  QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificGB );
-  domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
-  QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
-                                        "the JavaScript policies. These policies will be merged "
-                                        "with the existing ones. Duplicate entries are ignored.") );
-  connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-  importDomainPB->setEnabled( false );
-  importDomainPB->hide();
-
-  QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificGB );
-  domainSpecificGBLayout->addWidget( exportDomainPB, 4, 1 );
-  QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
-                                        "file. The file, named <b>javascript_policy.tgz</b>, will be "
-                                        "saved to a location of your choice." ) );
-
-  connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
-  exportDomainPB->setEnabled( false );
-  exportDomainPB->hide();
-
-  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-  domainSpecificGBLayout->addItem( spacer, 5, 1 );
-  toplevel->addWidget( domainSpecificGB, 2 );
-
-  QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific JavaScript policies for any particular "
+  QWhatsThis::add( domainSpecific, i18n("Here you can set specific JavaScript policies for any particular "
                                           "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                           "button and supply the necessary information requested by the "
                                           "dialog box. To change an existing policy, click on the <i>Change...</i> "
@@ -152,6 +93,21 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
+  QString wtstr = i18n("This box contains the domains and hosts you have set "
+                       "a specific JavaScript policy for. This policy will be used "
+                       "instead of the default policy for enabling or disabling JavaScript on pages sent by these "
+                       "domains or hosts. <p>Select a policy and use the controls on "
+                       "the right to modify it.");
+  QWhatsThis::add( domainSpecific->listView(), wtstr );
+
+  QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
+                                        "the JavaScript policies. These policies will be merged "
+                                        "with the existing ones. Duplicate entries are ignored.") );
+  QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the JavaScript policy to a zipped "
+                                        "file. The file, named <b>javascript_policy.tgz</b>, will be "
+                                        "saved to a location of your choice." ) );
+
+  // the frame containing the JavaScript policies settings
   js_policies_frame = new JSPoliciesFrame(&js_global_policies,
   		i18n("Global JavaScript Policies"),this);
   toplevel->addWidget(js_policies_frame);
@@ -179,12 +135,12 @@ void KJavaScriptOptions::load()
     m_pConfig->setGroup(m_groupname);
 
     if( m_pConfig->hasKey( "ECMADomains" ) )
-	updateDomainList(m_pConfig->readListEntry("ECMADomains"));
+	domainSpecific->initialize(m_pConfig->readListEntry("ECMADomains"));
     else if( m_pConfig->hasKey( "ECMADomainSettings" ) ) {
-        updateDomainListLegacy( m_pConfig->readListEntry( "ECMADomainSettings" ) );
+        domainSpecific->updateDomainListLegacy( m_pConfig->readListEntry( "ECMADomainSettings" ) );
 	_removeECMADomainSettings = true;
     } else {
-        updateDomainListLegacy(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+        domainSpecific->updateDomainListLegacy(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
 	_removeJavaScriptDomainAdvice = true;
     }
 
@@ -214,17 +170,7 @@ void KJavaScriptOptions::save()
 
 //    m_pConfig->writeEntry( "EnableJSDebugOutput", enableDebugOutputCB->isChecked() );
 
-    QStringList domainList;
-    DomainPolicyMap::Iterator it = javaScriptDomainPolicy.begin();
-    for (; it != javaScriptDomainPolicy.end(); ++it) {
-    	QListViewItem *current = it.key();
-	JSPolicies &pol = it.data();
-	pol.save();
-	domainList.append(current->text(0));
-    }
-    m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry("ECMADomains", domainList);
-
+    domainSpecific->save(m_groupname,"ECMADomains");
     js_policies_frame->save();
 
     if (_removeECMADomainSettings) {
@@ -241,72 +187,6 @@ void KJavaScriptOptions::slotChanged()
   emit changed(true);
 }
 
-void KJavaScriptOptions::addPressed()
-{
-    JSPolicies pol_copy(m_pConfig,m_groupname,false);
-    pol_copy.defaults();
-    PolicyDialog pDlg(&pol_copy, this);
-    pDlg.setCaption( i18n( "New JavaScript Policy" ) );
-    setupPolicyDlg(pDlg,pol_copy);
-    if( pDlg.exec() ) {
-        QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-                                                  pDlg.featureEnabledPolicyText() );
-	pol_copy.setDomain(pDlg.domain());
-        javaScriptDomainPolicy.insert(index, pol_copy);
-        domainSpecificLV->setCurrentItem( index );
-        slotChanged();
-    }
-}
-
-void KJavaScriptOptions::changePressed()
-{
-    QListViewItem *index = domainSpecificLV->currentItem();
-    if ( index == 0 )
-    {
-        KMessageBox::information( 0, i18n("You must first select a policy to be changed!" ) );
-        return;
-    }
-
-    JSPolicies pol_copy = javaScriptDomainPolicy[index];
-
-    PolicyDialog pDlg( &pol_copy, this );
-    pDlg.setDisableEdit( true, index->text(0) );
-    pDlg.setCaption( i18n( "Change JavaScript Policy" ) );
-    setupPolicyDlg(pDlg,pol_copy);
-    if( pDlg.exec() )
-    {
-        pol_copy.setDomain(pDlg.domain());
-        javaScriptDomainPolicy[index] = pol_copy;
-        index->setText(0, pDlg.domain() );
-        index->setText(1, pDlg.featureEnabledPolicyText());
-        slotChanged();
-    }
-}
-
-void KJavaScriptOptions::deletePressed()
-{
-    QListViewItem *index = domainSpecificLV->currentItem();
-    if ( index == 0 )
-    {
-        KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
-        return;
-    }
-    javaScriptDomainPolicy.remove(index);
-    delete index;
-    slotChanged();
-}
-
-void KJavaScriptOptions::importPressed()
-{
-  // PENDING(kalle) Implement this.
-}
-
-void KJavaScriptOptions::exportPressed()
-{
-  // PENDING(kalle) Implement this.
-}
-
-
 void KJavaScriptOptions::changeJavaScriptEnabled()
 {
   bool enabled = enableJavaScriptGloballyCB->isChecked();
@@ -314,35 +194,21 @@ void KJavaScriptOptions::changeJavaScriptEnabled()
   enableJavaScriptGloballyCB->setChecked( enabled );
 }
 
-void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
-{
-    domainSpecificLV->clear();
-    JSPolicies pol(m_pConfig,m_groupname,false);
-    for (QStringList::ConstIterator it = domainConfig.begin();
-         it != domainConfig.end(); ++it) {
-      QString domain = *it;
-      pol.setDomain(domain);
-      pol.load();
+// == class JSDomainListView =====
 
-      QString policy;
-      if (pol.isFeatureEnabledPolicyInherited())
-        policy = i18n("Use global");
-      else if (pol.isFeatureEnabled())
-        policy = i18n("Accept");
-      else
-        policy = i18n("Reject");
-      QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain, policy );
-
-      javaScriptDomainPolicy[index] = pol;
-
-    }
+JSDomainListView::JSDomainListView(KConfig *config,const QString &group,
+	QWidget *parent,const char *name)
+	: DomainListView(config,i18n( "Do&main-Specific" ), parent, name),
+	group(group) {
 }
 
-void KJavaScriptOptions::updateDomainListLegacy(const QStringList &domainConfig)
+JSDomainListView::~JSDomainListView() {
+}
+
+void JSDomainListView::updateDomainListLegacy(const QStringList &domainConfig)
 {
     domainSpecificLV->clear();
-    JSPolicies pol(m_pConfig,m_groupname,false);
+    JSPolicies pol(config,group,false);
     pol.defaults();
     for (QStringList::ConstIterator it = domainConfig.begin();
          it != domainConfig.end(); ++it) {
@@ -350,23 +216,44 @@ void KJavaScriptOptions::updateDomainListLegacy(const QStringList &domainConfig)
       KHTMLSettings::KJavaScriptAdvice javaAdvice;
       KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
       KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
-      QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain,
+      if (javaScriptAdvice != KHTMLSettings::KJavaScriptDunno) {
+        QListViewItem *index =
+          new QListViewItem( domainSpecificLV, domain,
                 i18n(KHTMLSettings::adviceToStr(javaScriptAdvice)) );
 
-      pol.setDomain(domain);
-      pol.setFeatureEnabled(javaScriptAdvice != KHTMLSettings::KJavaScriptReject);
-      javaScriptDomainPolicy[index] = pol;
+        pol.setDomain(domain);
+        pol.setFeatureEnabled(javaScriptAdvice != KHTMLSettings::KJavaScriptReject);
+        domainPolicies[index] = new JSPolicies(pol);
+      }
     }
 }
 
-void KJavaScriptOptions::setupPolicyDlg(PolicyDialog &pDlg,JSPolicies &pol) {
+void JSDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
+		Policies *pol) {
+  JSPolicies *jspol = static_cast<JSPolicies *>(pol);
+  QString caption;
+  switch (trigger) {
+    case AddButton: caption = i18n( "New JavaScript Policy" ); break;
+    case ChangeButton: caption = i18n( "Change JavaScript Policy" ); break;
+    default: ; // inhibit gcc warning
+  }/*end switch*/
+  pDlg.setCaption(caption);
   pDlg.setFeatureEnabledLabel(i18n("JavaScript policy:"));
   pDlg.setFeatureEnabledWhatsThis(i18n("Select a JavaScript policy for "
                                           "the above host or domain."));
-  JSPoliciesFrame *panel = new JSPoliciesFrame(&pol,i18n("Domain-specific "
+  JSPoliciesFrame *panel = new JSPoliciesFrame(jspol,i18n("Domain-specific "
   				"JavaScript policies"),&pDlg);
   panel->refresh();
   pDlg.addPolicyPanel(panel);
   pDlg.refresh();
 }
+
+JSPolicies *JSDomainListView::createPolicies() {
+  return new JSPolicies(config,group,false);
+}
+
+JSPolicies *JSDomainListView::copyPolicies(Policies *pol) {
+  return new JSPolicies(*static_cast<JSPolicies *>(pol));
+}
+
+

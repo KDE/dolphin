@@ -16,8 +16,8 @@
 #define __JAVAOPTS_H__
 
 #include <kcmodule.h>
-#include <qmap.h>
 
+#include "domainlistview.h"
 #include "policies.h"
 
 class KColorButton;
@@ -58,6 +58,29 @@ public:
   virtual ~JavaPolicies();
 };
 
+/** Java-specific enhancements to the domain list view
+  */
+class JavaDomainListView : public DomainListView {
+  Q_OBJECT
+public:
+  JavaDomainListView(KConfig *config,const QString &group,QWidget *parent,
+  		const char *name = 0);
+  virtual ~JavaDomainListView();
+
+  /** remnant for importing pre KDE 3.2 settings
+    */
+  void updateDomainListLegacy(const QStringList &domainConfig);
+
+protected:
+  virtual JavaPolicies *createPolicies();
+  virtual JavaPolicies *copyPolicies(Policies *pol);
+  virtual void setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
+  		Policies *copy);
+
+private:
+  QString group;
+};
+
 class KJavaOptions : public KCModule
 {
     Q_OBJECT
@@ -73,23 +96,14 @@ public:
 
 private slots:
     void slotChanged();
-    void importPressed();
-    void exportPressed();
-    void addPressed();
-    void changePressed();
-    void deletePressed();
     void toggleJavaControls();
 
 private:
-    void setupPolicyDlg(PolicyDialog &,JavaPolicies &copy);
-    void updateDomainList(const QStringList &domainList);
-    void updateDomainListLegacy(const QStringList &domainConfig);
 
     KConfig* m_pConfig;
     QString  m_groupname;
     JavaPolicies java_global_policies;
 
-    KListView*     domainSpecificLV;
     QCheckBox*     enableJavaGloballyCB;
     QCheckBox*     javaConsoleCB;
     QCheckBox*     javaSecurityManagerCB;
@@ -99,10 +113,9 @@ private:
     KURLRequester* pathED;
     bool           _removeJavaDomainSettings;
 
-    typedef QMap<QListViewItem*, JavaPolicies> DomainPolicyMap;
-    DomainPolicyMap javaDomainPolicy;
-};
+    JavaDomainListView *domainSpecific;
 
+};
 
 #endif		// __HTML_OPTIONS_H__
 

@@ -48,6 +48,7 @@
 #include "policydlg.h"
 #include "javaopts.h"
 
+// == class JavaPolicies =====
 
 JavaPolicies::JavaPolicies(KConfig* config, const QString &group, bool global,
   		const QString &domain) :
@@ -60,6 +61,8 @@ JavaPolicies::JavaPolicies() : Policies(0,QString::null,false,
 
 JavaPolicies::~JavaPolicies() {
 }
+
+// == class KJavaOptions =====
 
 KJavaOptions::KJavaOptions( KConfig* config, QString group,
                             QWidget *parent, const char *name )
@@ -85,53 +88,9 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ***************** Domain Specific Settings ********************************
      **************************************************************************/
-    QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Doma&in-Specific" ), this );
-    domainSpecificGB->setColumnLayout(0, Qt::Vertical );
-    domainSpecificGB->layout()->setSpacing( 0 );
-    domainSpecificGB->layout()->setMargin( 0 );
-    QGridLayout* domainSpecificGBLayout = new QGridLayout( domainSpecificGB->layout() );
-    domainSpecificGBLayout->setAlignment( Qt::AlignTop );
-    domainSpecificGBLayout->setSpacing( 6 );
-    domainSpecificGBLayout->setMargin( 11 );
-
-
-    domainSpecificLV = new KListView( domainSpecificGB );
-    domainSpecificLV->addColumn(i18n("Host/Domain"));
-    domainSpecificLV->addColumn(i18n("Policy"), 100);
-    connect(domainSpecificLV,SIGNAL(doubleClicked ( QListViewItem * )), this, SLOT( changePressed() ) );
-    connect(domainSpecificLV,SIGNAL(returnPressed ( QListViewItem * )), this, SLOT( changePressed() ) );
-
-    domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
-
-    QPushButton* addDomainPB = new QPushButton( i18n("&New..."), domainSpecificGB );
-    domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
-    connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
-
-    QPushButton* changeDomainPB = new QPushButton( i18n("Chan&ge..."), domainSpecificGB );
-    domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
-    connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-
-    QPushButton* deleteDomainPB = new QPushButton( i18n("D&elete"), domainSpecificGB );
-    domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
-    connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
-
-#if 0
-    QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificGB );
-    domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
-    connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-    importDomainPB->setEnabled( false );
-    importDomainPB->hide();
-
-    QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificGB );
-    domainSpecificGBLayout->addWidget( exportDomainPB, 4, 1 );
-    connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
-    exportDomainPB->setEnabled( false );
-    exportDomainPB->hide();
-#endif
-
-    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-    domainSpecificGBLayout->addItem( spacer, 5, 1 );
-    toplevel->addWidget( domainSpecificGB, 2 );
+    domainSpecific = new JavaDomainListView(m_pConfig,m_groupname,this);
+    connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
+    toplevel->addWidget( domainSpecific, 2 );
 
     /***************************************************************************
      ***************** Java Runtime Settings ***********************************
@@ -183,23 +142,16 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                          "instead of the default policy for enabling or disabling Java applets on pages sent by these "
                          "domains or hosts. <p>Select a policy and use the controls on "
                          "the right to modify it.");
-    QWhatsThis::add( domainSpecificLV, wtstr );
-    QWhatsThis::add( domainSpecificGB, wtstr );
-    QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
-                                       "specific policy.") );
-    QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
-                                          "host or domain selected in the list box.") );
-    QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
-                                          "host or domain selected in the list box.") );
+    QWhatsThis::add( domainSpecific->listView(), wtstr );
 #if 0
-    QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
+    QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
                                           "the Java policies. These policies will be merged "
                                           "with the exisiting ones. Duplicate entries are ignored.") );
-    QWhatsThis::add( exportDomainPB, i18n("Click this button to save the Java policy to a zipped "
+    QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the Java policy to a zipped "
                                           "file. The file, named <b>java_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
 #endif
-    QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific Java policies for any particular "
+    QWhatsThis::add( domainSpecific, i18n("Here you can set specific Java policies for any particular "
                                             "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
@@ -262,12 +214,12 @@ void KJavaOptions::load()
         sJavaPath = "java";
 
     if( m_pConfig->hasKey( "JavaDomains" ) )
-    	updateDomainList(m_pConfig->readListEntry("JavaDomains"));
+    	domainSpecific->initialize(m_pConfig->readListEntry("JavaDomains"));
     else if( m_pConfig->hasKey( "JavaDomainSettings" ) ) {
-        updateDomainListLegacy( m_pConfig->readListEntry("JavaDomainSettings") );
+        domainSpecific->updateDomainListLegacy( m_pConfig->readListEntry("JavaDomainSettings") );
 	_removeJavaDomainSettings = true;
     } else {
-        updateDomainListLegacy( m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+        domainSpecific->updateDomainListLegacy( m_pConfig->readListEntry("JavaScriptDomainAdvice") );
 	_removeJavaScriptDomainAdvice = true;
     }
 
@@ -308,30 +260,7 @@ void KJavaOptions::save()
     m_pConfig->writeEntry( "ShutdownAppletServer", enableShutdownCB->isChecked() );
     m_pConfig->writeEntry( "AppletServerTimeout", serverTimeoutSB->value() );
 
-    QStringList domainList;
-    DomainPolicyMap::Iterator it = javaDomainPolicy.begin();
-    for (; it != javaDomainPolicy.end(); ++it) {
-    	QListViewItem *current = it.key();
-	JavaPolicies &pol = it.data();
-	pol.save();
-	domainList.append(current->text(0));
-    }
-    m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry("JavaDomains", domainList);
-#if 0
-    QStringList domainConfig;
-    QListViewItemIterator it( domainSpecificLV );
-    QListViewItem* current;
-    while( ( current = it.current() ) )
-    {
-        ++it;
-        QCString javaPolicy = KHTMLSettings::adviceToStr(
-                 (KHTMLSettings::KJavaScriptAdvice) javaDomainPolicy[current]);
-        QCString javaScriptPolicy = KHTMLSettings::adviceToStr( KHTMLSettings::KJavaScriptDunno );
-        domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
-    }
-    m_pConfig->writeEntry("JavaDomainSettings", domainConfig);
-#endif
+    domainSpecific->save(m_groupname,"JavaDomains");
 
     if (_removeJavaDomainSettings) {
       m_pConfig->deleteEntry("JavaDomainSettings");
@@ -361,101 +290,21 @@ void KJavaOptions::toggleJavaControls()
     serverTimeoutSB->setEnabled( enableShutdownCB->isChecked() && isEnabled );
 }
 
-void KJavaOptions::addPressed()
-{
-    JavaPolicies pol_copy(m_pConfig,m_groupname,false);
-    pol_copy.defaults();
-    PolicyDialog pDlg(&pol_copy, this);
-    pDlg.setCaption( i18n( "New Java Policy" ) );
-    setupPolicyDlg(pDlg,pol_copy);
-    if( pDlg.exec() ) {
-        QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-                                                  pDlg.featureEnabledPolicyText() );
-	pol_copy.setDomain(pDlg.domain());
-        javaDomainPolicy.insert(index, pol_copy);
-        domainSpecificLV->setCurrentItem( index );
-        slotChanged();
-    }
+// == class JavaDomainListView =====
+
+JavaDomainListView::JavaDomainListView(KConfig *config,const QString &group,
+	QWidget *parent,const char *name)
+	: DomainListView(config,i18n( "Doma&in-Specific" ), parent, name),
+	group(group) {
 }
 
-void KJavaOptions::changePressed()
-{
-    QListViewItem *index = domainSpecificLV->currentItem();
-    if ( index == 0 )
-    {
-        KMessageBox::information( 0, i18n("You must first select a policy to be changed!" ) );
-        return;
-    }
-
-    JavaPolicies pol_copy = javaDomainPolicy[index];
-
-    PolicyDialog pDlg( &pol_copy, this );
-    pDlg.setDisableEdit( true, index->text(0) );
-    pDlg.setCaption( i18n( "Change Java Policy" ) );
-    setupPolicyDlg(pDlg,pol_copy);
-    if( pDlg.exec() )
-    {
-        pol_copy.setDomain(pDlg.domain());
-        javaDomainPolicy[index] = pol_copy;
-        index->setText(0, pDlg.domain() );
-        index->setText(1, pDlg.featureEnabledPolicyText());
-        slotChanged();
-    }
+JavaDomainListView::~JavaDomainListView() {
 }
 
-void KJavaOptions::deletePressed()
-{
-    QListViewItem *index = domainSpecificLV->currentItem();
-    if ( index == 0 )
-    {
-        KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
-        return;
-    }
-
-    javaDomainPolicy.remove(index);
-    delete index;
-    slotChanged();
-}
-
-void KJavaOptions::importPressed()
-{
-  // PENDING(kalle) Implement this.
-}
-
-void KJavaOptions::exportPressed()
-{
-  // PENDING(kalle) Implement this.
-}
-
-void KJavaOptions::updateDomainList(const QStringList &domainConfig)
+void JavaDomainListView::updateDomainListLegacy(const QStringList &domainConfig)
 {
     domainSpecificLV->clear();
-    JavaPolicies pol(m_pConfig,m_groupname,false);
-    for (QStringList::ConstIterator it = domainConfig.begin();
-         it != domainConfig.end(); ++it) {
-      QString domain = *it;
-      pol.setDomain(domain);
-      pol.load();
-
-      QString policy;
-      if (pol.isFeatureEnabledPolicyInherited())
-        policy = i18n("Use global");
-      else if (pol.isFeatureEnabled())
-        policy = i18n("Accept");
-      else
-        policy = i18n("Reject");
-      QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain, policy );
-
-      javaDomainPolicy[index] = pol;
-
-    }
-}
-
-void KJavaOptions::updateDomainListLegacy(const QStringList &domainConfig)
-{
-    domainSpecificLV->clear();
-    JavaPolicies pol(m_pConfig,m_groupname,false);
+    JavaPolicies pol(config,group,false);
     pol.defaults();
     for ( QStringList::ConstIterator it = domainConfig.begin();
           it != domainConfig.end(); ++it)
@@ -464,19 +313,37 @@ void KJavaOptions::updateDomainListLegacy(const QStringList &domainConfig)
         KHTMLSettings::KJavaScriptAdvice javaAdvice;
         KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
         KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
-        QListViewItem* index = new QListViewItem( domainSpecificLV, domain,
+	if (javaAdvice != KHTMLSettings::KJavaScriptDunno) {
+          QListViewItem* index = new QListViewItem( domainSpecificLV, domain,
                                                   i18n(KHTMLSettings::adviceToStr(javaAdvice))  );
-        pol.setDomain(domain);
-        pol.setFeatureEnabled(javaAdvice != KHTMLSettings::KJavaScriptReject);
-        javaDomainPolicy[index] = pol;
+          pol.setDomain(domain);
+          pol.setFeatureEnabled(javaAdvice != KHTMLSettings::KJavaScriptReject);
+          domainPolicies[index] = new JavaPolicies(pol);
+	}
     }
 }
 
-void KJavaOptions::setupPolicyDlg(PolicyDialog &pDlg,JavaPolicies &pol) {
+void JavaDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
+		Policies */*pol*/) {
+  QString caption;
+  switch (trigger) {
+    case AddButton: caption = i18n( "New Java Policy" ); break;
+    case ChangeButton: caption = i18n( "Change Java Policy" ); break;
+    default: ; // inhibit gcc warning
+  }/*end switch*/
+  pDlg.setCaption(caption);
   pDlg.setFeatureEnabledLabel(i18n("&Java policy:"));
   pDlg.setFeatureEnabledWhatsThis(i18n("Select a Java policy for "
                                     "the above host or domain."));
   pDlg.refresh();
+}
+
+JavaPolicies *JavaDomainListView::createPolicies() {
+  return new JavaPolicies(config,group,false);
+}
+
+JavaPolicies *JavaDomainListView::copyPolicies(Policies *pol) {
+  return new JavaPolicies(*static_cast<JavaPolicies *>(pol));
 }
 
 #include "javaopts.moc"

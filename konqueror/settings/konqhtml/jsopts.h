@@ -11,13 +11,12 @@
 #define __JSOPTS_H__
 
 #include <kcmodule.h>
-#include <qmap.h>
 
+#include "domainlistview.h"
 #include "jspolicies.h"
 
 class KColorButton;
 class KConfig;
-class KListView;
 class KURLRequester;
 class QCheckBox;
 class QComboBox;
@@ -28,6 +27,29 @@ class QSpinBox;
 class QButtonGroup;
 
 class PolicyDialog;
+
+/** JavaScript-specific enhancements to the domain list view
+  */
+class JSDomainListView : public DomainListView {
+  Q_OBJECT
+public:
+  JSDomainListView(KConfig *config,const QString &group,QWidget *parent,
+  		const char *name = 0);
+  virtual ~JSDomainListView();
+
+  /** remnant for importing pre KDE 3.2 settings
+    */
+  void updateDomainListLegacy(const QStringList &domainConfig);
+
+protected:
+  virtual JSPolicies *createPolicies();
+  virtual JSPolicies *copyPolicies(Policies *pol);
+  virtual void setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
+  		Policies *copy);
+
+private:
+  QString group;
+};
 
 class KJavaScriptOptions : public KCModule
 {
@@ -43,17 +65,9 @@ public:
 
 private slots:
   void slotChanged();
-  void importPressed();
-  void exportPressed();
-  void addPressed();
-  void changePressed();
-  void deletePressed();
 
 private:
-  void setupPolicyDlg(PolicyDialog &,JSPolicies &copy);
   void changeJavaScriptEnabled();
-  void updateDomainList(const QStringList &domainConfig);
-  void updateDomainListLegacy(const QStringList &domainConfig); // old format
 
   KConfig *m_pConfig;
   QString m_groupname;
@@ -61,13 +75,10 @@ private:
   QCheckBox *enableJavaScriptGloballyCB;
   QCheckBox *enableJavaScriptDebugCB;
   JSPoliciesFrame *js_policies_frame;
-  KListView* domainSpecificLV;
   bool _removeECMADomainSettings;
 
-  typedef QMap<QListViewItem*, JSPolicies> DomainPolicyMap;
-  DomainPolicyMap javaScriptDomainPolicy;
+  JSDomainListView* domainSpecific;
 };
 
-
-#endif		// __HTML_OPTIONS_H__
+#endif		// __JSOPTS_H__
 
