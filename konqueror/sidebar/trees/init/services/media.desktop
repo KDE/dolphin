@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Link
-URL=devices:/
+URL=media:/
 Icon=kfm
 Name=Media
 Open=false
