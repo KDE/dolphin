@@ -351,9 +351,16 @@ void KRootOptions::save()
                 kdDebug() << "The trash is moved with the desktop" << endl;
                 trashMoved = true;
             }
-            // or it has been changed (->need to move it from here)
-            else
-                trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text() );
+            // or it has been changed (->need to move it from here, unless moving the desktop does it)
+            else 
+            {
+                KURL futureTrashURL;
+                futureTrashURL.setPath( leDesktop->text() + trashURL.fileName() );
+                if ( newTrashURL.cmp( futureTrashURL, true ) )
+                    trashMoved = true; // The trash moves with the desktop
+                else
+                    trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text() );
+            }
         }
 
         if ( desktopURL.isParentOf( autostartURL ) )
@@ -370,7 +377,14 @@ void KRootOptions::save()
             }
             // or it has been changed (->need to move it from here)
             else
-                autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
+            {
+                KURL futureAutostartURL;
+                futureAutostartURL.setPath( leDesktop->text() + "Autostart/" );
+                if ( newAutostartURL.cmp( futureAutostartURL, true ) )
+                    autostartMoved = true;
+                else
+                    autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
+            }
         }
 
         if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text() ) )
