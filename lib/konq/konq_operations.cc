@@ -602,7 +602,7 @@ void KonqOperations::doFileCopy()
 
         QPopupMenu popup;
         if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
-            popup.insertItem( i18n( "&Move Here" ), 2 );
+            popup.insertItem(SmallIconSet("goto"), i18n( "&Move Here" ), 2 );
         if ( sReading && !linkOnly)
             popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
