@@ -52,13 +52,13 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                                             cb_useCache->sizePolicy().hasHeightForWidth()) );
     
     QWhatsThis::add( cb_useCache, i18n("Click here if you want the web pages "
-                                       "you view to be stored in your hard "
+                                       "you view to be stored on your hard "
                                        "disk for quicker access. Enabling "
                                        "this feature will make browsing "
-                                       "faster since the pages will only be "
-                                       "downloaded as necessary.  This is "
-                                       "specially true if you have a slow "
-                                       "connection to the internet") );
+                                       "faster, since the pages will only be "
+                                       "downloaded as necessary. This is "
+                                       "especially true if you have a slow "
+                                       "connection to the Internet.") );
     hlay->addWidget( cb_useCache );
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                                            QSizePolicy::Minimum );

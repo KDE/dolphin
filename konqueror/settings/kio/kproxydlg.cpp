@@ -56,16 +56,16 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                 QSizePolicy::Fixed,
                                 m_cbUseProxy->sizePolicy().hasHeightForWidth()));
     QWhatsThis::add( m_cbUseProxy, i18n("<qt>Check this box to enable the use "
-                                       "of proxy servers for your internet "
+                                       "of proxy servers for your Internet "
                                        "connection.<p>Please note that using "
                                        "proxy servers is optional, but has the "
                                        "benefit or advantage of giving you "
-                                       "faster access to data on the internet."
+                                       "faster access to data on the Internet."
                                        "<p>If you are uncertain whether or not "
                                        "you need to use a proxy server to "
-                                       "connect to the internet, please consult "
-                                       "with your internet service provider's "
-                                       "setup guide or your system administrator."
+                                       "connect to the Internet, consult your "
+                                       "Internet service provider's setup "
+                                       "guide or your system administrator."
                                        "</qt>") );
     hlay->addWidget( m_cbUseProxy );
     QSpacerItem* spacer = new QSpacerItem( 20, 20,
