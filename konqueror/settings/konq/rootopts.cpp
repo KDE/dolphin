@@ -75,7 +75,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 15   // 3 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths and 1 label + last row
+#define RO_LASTROW 14   // 3 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -295,12 +295,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( leDocument, wtstr );
 
-  row++;
-  // TODO (post message freeze) : the message below is true only for local dirs.
-  tmpLabel = new QLabel(i18n("Note that changing a path automatically moves"
-                             " the contents of the directory.\nMoving them manually is not necessary."), this);
-  lay->addMultiCellWidget(tmpLabel, row, row, 0, RO_LASTCOL);
-
   // -- Bottom --
   assert( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
   lay->activate();
@@ -450,7 +444,7 @@ void KRootOptions::save()
                 if ( newTrashURL.cmp( futureTrashURL, true ) )
                     trashMoved = true; // The trash moves with the desktop
                 else
-                    trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text() );
+                    trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text(), i18n("Trash") );
             }
         }
 
@@ -474,11 +468,11 @@ void KRootOptions::save()
                 if ( newAutostartURL.cmp( futureAutostartURL, true ) )
                     autostartMoved = true;
                 else
-                    autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
+                    autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text(), i18n("Autostart") );
             }
         }
 
-        if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text() ) )
+        if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text(), i18n("Desktop") ) )
         {
             config->writeEntry( "Desktop", leDesktop->text(), true, true );
             pathChanged = true;
@@ -488,7 +482,7 @@ void KRootOptions::save()
     if ( !newTrashURL.cmp( trashURL, true ) )
     {
         if (!trashMoved)
-            trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text() );
+            trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text(), i18n("Trash") );
         if (trashMoved)
         {
             config->writeEntry( "Trash", leTrash->text(), true, true );
@@ -499,7 +493,7 @@ void KRootOptions::save()
     if ( !newAutostartURL.cmp( autostartURL, true ) )
     {
         if (!autostartMoved)
-            autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
+            autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text(), i18n("Autostart") );
         if (autostartMoved)
         {
             config->writeEntry( "Autostart", leAutostart->text(), true, true );
@@ -523,13 +517,21 @@ void KRootOptions::save()
     }
 }
 
-bool KRootOptions::moveDir( const KURL & src, const KURL & dest )
+bool KRootOptions::moveDir( const KURL & src, const KURL & dest, const QString & type )
 {
-    KIO::Job * job = KIO::move( src, dest );
-    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+    if (!src.isLocalFile() || !dest.isLocalFile())
+        return true;
     m_ok = true;
-    // wait for job
-    qApp->enter_loop();
+    // Ask for confirmation before moving the files
+    if ( KMessageBox::questionYesNo( this, i18n("The path for '%1' has been changed.\nDo you want me to move the files from '%2' to '%3'?").
+                              arg(type).arg(src.path()).arg(dest.path()), i18n("Confirmation required") )
+            == KMessageBox::Yes )
+    {
+        KIO::Job * job = KIO::move( src, dest );
+        connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+        // wait for job
+        qApp->enter_loop();
+    }
     kdDebug() << "KRootOptions::slotResult returning " << m_ok << endl;
     return m_ok;
 }

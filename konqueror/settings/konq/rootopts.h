@@ -68,7 +68,7 @@ private:
         QLineEdit *leAutostart;
         QLineEdit *leDocument;
 
-        bool moveDir( const KURL & src, const KURL & dest );
+        bool moveDir( const KURL & src, const KURL & dest, const QString & type );
         bool m_ok;
 
 private slots:
