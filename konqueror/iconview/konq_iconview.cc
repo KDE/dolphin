@@ -335,7 +335,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
 KonqKfmIconView::~KonqKfmIconView()
 {
-    kdebug(0, 1202, "-KonqKfmIconView");
+    kDebugInfo( 1202, "-KonqKfmIconView");
     if ( m_dirLister ) delete m_dirLister;
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
@@ -351,7 +351,7 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
 
 void KonqKfmIconView::slotShowDot()
 {
-    kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
+    kDebugInfo( 1202, "KonqKfmIconView::slotShowDot()");
     m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
     m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
     //we don't want the non-dot files to remain where they are
@@ -710,7 +710,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
     else
 	m_lDirCount++;
 
-//  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
+//  kDebugInfo( 1202, "KonqKfmIconView::slotNewItem(...)");
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
 				   m_pIconView->size(), m_pProps->m_bImagePreview );
     item->setRenameEnabled( false );
@@ -745,7 +745,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     else
 	m_lDirCount--;
 
-    //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotDeleteItem(...)");
+    //kDebugInfo( 1202, "KonqKfmIconView::slotDeleteItem(...)");
     // we need to find out the iconcontainer item containing the fileitem
     QIconViewItem *it = m_pIconView->firstItem();
     while ( it )
@@ -783,7 +783,7 @@ static QString displayString(int items, int files, long size, int dirs)
     else
 	text += i18n("%1 Files").arg(files);
     text += " ";
-    text += i18n("(%1 Total)").arg(KIOJob::convertSize( size ) );
+    text += i18n("(%1 Total)").arg(KIO::convertSize( size ) );
     text += " - ";
     if (dirs == 1)
 	text += i18n("One Directory");
@@ -879,9 +879,10 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     m_pIconView->setURL( _url.url() );
 
-    KIOJob *job = KIOJob::find( m_dirLister->jobId() );
+    KIO::Job *job = m_dirLister->job();
     if ( job )
     {
+        //TODO
 	connect( job, SIGNAL( sigTotalFiles( int, unsigned long ) ),
 		 this, SLOT( slotTotalFiles( int, unsigned long ) ) );
     }
