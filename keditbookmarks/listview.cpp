@@ -138,7 +138,7 @@ KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) {
       if (c = c->parent(), !c) {
          return 0;
       } else if (c->isOpen()) {
-         return c;
+         return static_cast<KEBListViewItem*>(c);
       }
    }
 }
