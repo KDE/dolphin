@@ -627,7 +627,10 @@ extern "C" int kdemain(int argc, char **argv)
       {
         KWrite *t = new KWrite();
 
-        if (!KIO::NetAccess::mimetype( args->url(z), t ).startsWith(QString ("inode/directory")))
+        // this file is no local dir, open it, else warn
+        bool noDir = !args->url(z).isLocalFile() || !QDir (args->url(z).path()).exists();
+
+        if (noDir)
         {
           if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (false);
