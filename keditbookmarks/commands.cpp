@@ -571,7 +571,7 @@ void TestLink::doNext()
    QValueListIterator<KBookmark> head = m_bks.begin();
    KBookmark bk = (*head);
 
-   if (!bk.isGroup() && !bk.isSeparator()) {
+   if (!bk.isGroup() && !bk.isSeparator() && bk.address() != "ERROR") {
       m_url = bk.url().url();
 
       kdDebug() << "TestLink::setCurrent " << m_url << " : " << bk.address() << "\n";
