@@ -76,8 +76,7 @@ KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
-    : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL)
-{
+    : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL) {
     m_bookmarksFilename = bookmarksFile;
     m_bReadOnly = readonly;
     construct();
@@ -133,6 +132,7 @@ void KEBTopLevel::createActions() {
     KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
     (void) new KAction( i18n( "Import Crashed Sessions as Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
     (void) new KAction( i18n( "Import Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
+    (void) new KAction( i18n( "Import Galeon Bookmarks..." ), "galeon", 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
     (void) new KAction( i18n( "Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
     (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
     act = new KAction( i18n( "Import Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
@@ -206,6 +206,7 @@ void KEBTopLevel::resetActions()
 
     if (!m_bReadOnly) {
        actionCollection()->action("importCrash")->setEnabled(true);
+       actionCollection()->action("importGaleon")->setEnabled(true);
        actionCollection()->action("importOpera")->setEnabled(true);
        actionCollection()->action("importIE")->setEnabled(true);
        bool nsExists = QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() );
@@ -670,6 +671,8 @@ void KEBTopLevel::selectImport(ImportCommand *cmd)
     }
 }
 
+// TODO - AK - remove duplicate code - FIXME
+
 void KEBTopLevel::slotImportIE()
 {
     // Hmm, there's no questionYesNoCancel...
@@ -678,6 +681,35 @@ void KEBTopLevel::slotImportIE()
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import IE Bookmarks"), KIEBookmarkImporter::IEBookmarksDir(),
                                              subFolder ? i18n("IE Bookmarks") : QString::null, "ie", false, BK_IE); // TODO - icon
+    m_commandHistory.addCommand( cmd );
+    selectImport(cmd);
+}
+
+QString galeonBookmarksFile() {
+   return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.galeon", 
+                                        i18n("*.xbel|Galeon bookmark files (*.xbel)") );
+}
+
+/*
+#define FOLDER_OR_REPLACE i18n("Import as a new subfolder or replace all the current bookmarks?")
+#define FOLDER i18n("As New Folder")
+#define REPLACE i18n("Replace")
+int answer = KMessageBox::questionYesNo( this, FOLDER_OR_REPLACE,
+                                         i18n("Opera Galeon Import"), FOLDER, REPLACE );
+*/
+
+void KEBTopLevel::slotImportGaleon()
+{
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                             i18n("Galeon Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+
+    // update the gui
+    slotCommandExecuted();
+
+    ImportCommand * cmd = new ImportCommand( i18n("Import Galeon Bookmarks"), galeonBookmarksFile(),
+                                             subFolder ? i18n("Galeon Bookmarks") : QString::null, "galeon", false, BK_XBEL); // TODO - icon
     m_commandHistory.addCommand( cmd );
     selectImport(cmd);
 }

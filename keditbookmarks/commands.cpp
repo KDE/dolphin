@@ -343,7 +343,7 @@ void SortCommand::unexecute()
 void ImportCommand::execute()
 {
     KBookmarkGroup bkGroup;
-    if ( !m_folder.isEmpty() )
+    if ( !m_folder.isEmpty() && m_bookmarksType != BK_XBEL )
     {
         // Find or create "Netscape Bookmarks" toplevel item
         // Hmm, let's just create it. The user will clean up if he imports twice.
@@ -362,23 +362,28 @@ void ImportCommand::execute()
         m_group = ""; // import at the root
     }
 
-    mstack.push( &bkGroup );
 
-    // TODO - convert to enum rather than define!
+    if (m_bookmarksType == BK_XBEL) {
+       xbelExecute();
 
-    if (m_bookmarksType == BK_NS) {
-       nsExecute();
-    } else if (m_bookmarksType == BK_IE) {
-       IEExecute();
-    } else if (m_bookmarksType == BK_OPERA) {
-       operaExecute();
-    } else if (m_bookmarksType == BK_CRASH) {
-       crashExecute();
+    } else {
+       mstack.push( &bkGroup );
+
+       if (m_bookmarksType == BK_NS) {
+          nsExecute();
+       } else if (m_bookmarksType == BK_IE) {
+          IEExecute();
+       } else if (m_bookmarksType == BK_OPERA) {
+          operaExecute();
+       } else if (m_bookmarksType == BK_CRASH) {
+          crashExecute();
+       }
+
+       // Save memory
+       mlist.clear();
+       mstack.clear();
     }
 
-    // Save memory
-    mlist.clear();
-    mstack.clear();
 }
 
 // FIXME - EVIL CODE DUPLICATION
@@ -430,6 +435,62 @@ void ImportCommand::nsExecute()
     connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
     importer.parseNSBookmarks( m_utf8 );
 }
+
+// NOT CODE DUPLICATION BUT STILL EVIL!!! :))
+
+void ImportCommand::xbelExecute()
+{
+    KBookmarkManager * pManager;
+    pManager = KBookmarkManager::managerForFile( m_fileName, false );
+    QDomDocument doc = KEBTopLevel::bookmarkManager()->internalDocument();
+
+    // get the xbel and transform into a folder
+    QDomNode subDoc = pManager->internalDocument().namedItem("xbel");
+
+    if ( !m_folder.isEmpty() ) {
+
+       // transform into folder
+       subDoc.toElement().setTagName("folder");
+
+       // clear attributes
+       QStringList tags;
+       for (int i = 0; i < subDoc.attributes().count(); i++)
+          tags << subDoc.attributes().item(i).toAttr().name();
+       for ( QStringList::Iterator it = tags.begin(); it != tags.end(); ++it )
+          subDoc.attributes().removeNamedItem( (*it) );
+
+       // give the folder a name
+       QDomElement textElem = doc.createElement( "title" );
+       subDoc.insertBefore(textElem, subDoc.firstChild());
+       textElem.appendChild(doc.createTextNode( i18n("Galeon Bookmarks") ));
+    }
+
+    // import and add it
+    QDomNode node = doc.importNode( subDoc, true );
+
+    if ( !m_folder.isEmpty() ) {
+       KEBTopLevel::bookmarkManager()->root().internalElement().appendChild(node);
+
+    } else {
+       QDomElement root = KEBTopLevel::bookmarkManager()->root().internalElement();
+
+       QValueList<QDomElement> childList;
+
+       QDomNode n = subDoc.firstChild().toElement();
+       while( !n.isNull() ) {
+          QDomElement e = n.toElement(); // try to convert the node to an element.
+          if( !e.isNull() )
+             childList.append( e );
+          n = n.nextSibling();
+       }
+
+       QValueList<QDomElement>::Iterator it = childList.begin();
+       QValueList<QDomElement>::Iterator end = childList.end();
+       for ( ; it!= end ; ++it )
+          root.appendChild( *it );
+    }
+}
+
 
 void ImportCommand::unexecute()
 {

@@ -174,8 +174,9 @@ private:
     QString m_groupAddress;
 };
 
-#define BK_IE     2
+#define BK_XBEL   4
 #define BK_OPERA  3
+#define BK_IE     2
 #define BK_CRASH  1
 #define BK_NS     0
 
@@ -208,6 +209,7 @@ protected slots:
     void endFolder();
 
 private:
+    void xbelExecute(); // doesn't use signals
     void nsExecute();
     void crashExecute();
     void IEExecute();
