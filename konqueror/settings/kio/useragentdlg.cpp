@@ -93,6 +93,10 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changeDefaultUAModifiers(int)));
   lb_default = new KLineEdit( bg_default );
   lb_default->setReadOnly( true );
+  lb_default->setFrameShape( QFrame::Box );
+  lb_default->setFrameShadow( QFrame::Raised );
+  lb_default->setLineWidth( 0 );
+  lb_default->setMidLineWidth( 0 );
   QFont f = lb_default->font();
   f.setBold( true );
   lb_default->setFont( f );
