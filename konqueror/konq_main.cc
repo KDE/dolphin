@@ -65,6 +65,7 @@ void sig_term_handler( int signum );
 void sig_pipe_handler( int signum );
 
 bool g_bWithGUI = true;
+QValueList<QCString> g_lstOpenURLs;
 
 /**********************************************
  *
@@ -190,8 +191,19 @@ void KonqApp::start()
       RESTORE( KonqMainWindow )
     else
     {
-      KonqMainWindow *pShell = new KonqMainWindow();
-      pShell->show();
+      if ( g_lstOpenURLs.count() == 0 )
+      {
+        KonqMainWindow *pShell = new KonqMainWindow();
+        pShell->show();
+      }
+      else
+      {
+        QValueList<QCString>::ConstIterator it = g_lstOpenURLs.begin();
+	QValueList<QCString>::ConstIterator end = g_lstOpenURLs.end();
+	for (; it != end; ++it )
+	  ( new KonqMainWindow( *it ) )->show();
+        g_lstOpenURLs.clear();
+      }	
     }
   }
 }
@@ -360,6 +372,12 @@ int main( int argc, char **argv )
   {
     i++;
     g_bWithGUI = false;
+  }
+
+  if ( g_bWithGUI )
+  {
+    for ( i = 1; i < argc; i++ )
+      g_lstOpenURLs.append( QCString( argv[ i ] ) );
   }
 
   signal(SIGCHLD,sig_handler);

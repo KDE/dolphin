@@ -1068,7 +1068,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 {
   QString indexFile;
   KURL u( url );
-
+/*
   if ( !m_sInitialURL.isEmpty() )
   {
     Browser::View_var vView;
@@ -1096,7 +1096,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
     
     return true;
   }
-  
+*/  
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
   //display the data addressed by the URL
@@ -2042,21 +2042,26 @@ void KonqMainView::initConfig()
 
 void KonqMainView::initGui()
 {
-  if ( !m_sInitialURL.isEmpty() )
-    openURL( m_sInitialURL );
+  KConfig *config = kapp->getConfig();
+  if ( config->hasGroup( "Default View Profile" ) && m_sInitialURL.isEmpty() )
+  {
+    config->setGroup( "Default View Profile" );
+    m_pViewManager->loadViewProfile( *config );
+  }
   else
   {
-    KConfig *config = kapp->getConfig();
-    if ( config->hasGroup( "Default View Profile" ) )
-    {
-      config->setGroup( "Default View Profile" );
-      m_pViewManager->loadViewProfile( *config );
-    }
-    else
-    {
+    //dummy default view
+    QStringList serviceTypes;
+    //this *may* not fail
+    Browser::View_var vView = KonqFactory::createView( "text/plain", serviceTypes, this );
+    m_pViewManager->splitView( Qt::Horizontal, vView, serviceTypes );
+    
+    m_vMainWindow->setActivePart( vView->id() );
+    
+    if ( m_sInitialURL.isEmpty() )
       m_sInitialURL = QDir::homeDirPath().prepend( "file:" );
-      openURL( m_sInitialURL );
-    }      
+      
+    openURL( m_sInitialURL );
   }
 
   if ( s_lstAnimatedLogo->count() == 0 )
