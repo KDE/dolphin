@@ -55,9 +55,9 @@ private slots:
   void slotQueryTextChanged();
   
 private:
-  void saveEngine( const EngineCfg::Entry &e );
+  void saveEngine( const EngineCfg::SearchEntry &e );
 
-  QValueList<EngineCfg::Entry> m_lstSearchEngines;
+  QValueList<EngineCfg::SearchEntry> m_lstSearchEngines;
 
   QPushButton *m_pSaveEntryPushButton;
   

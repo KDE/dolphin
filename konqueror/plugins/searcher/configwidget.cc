@@ -106,9 +106,9 @@ ConfigWidget::ConfigWidget()
   
   topLayout->addWidget( m_pListView );
 
-  QValueList<EngineCfg::Entry> lstSearchEngines = EngineCfg::self()->engines();
-  QValueList<EngineCfg::Entry>::ConstIterator it = lstSearchEngines.begin();
-  QValueList<EngineCfg::Entry>::ConstIterator end = lstSearchEngines.end();
+  QValueList<EngineCfg::SearchEntry> lstSearchEngines = EngineCfg::self()->searchEngines();
+  QValueList<EngineCfg::SearchEntry>::ConstIterator it = lstSearchEngines.begin();
+  QValueList<EngineCfg::SearchEntry>::ConstIterator end = lstSearchEngines.end();
   for (; it != end; ++it )
     saveEngine( *it );
   
@@ -161,7 +161,7 @@ void ConfigWidget::slotSelectionChanged( QListViewItem *item )
 {
   m_pRemoveEntryPushButton->setEnabled( true );
 
-  EngineCfg::Entry entry = EngineCfg::self()->entryByName( item->text( 0 ) );
+  EngineCfg::SearchEntry entry = EngineCfg::self()->searchEntryByName( item->text( 0 ) );
 
   m_strCurrentName = entry.m_strName;
 
@@ -180,7 +180,7 @@ void ConfigWidget::slotSelectionChanged( QListViewItem *item )
 
 void ConfigWidget::slotSaveEntry()
 {
-  EngineCfg::Entry e;
+  EngineCfg::SearchEntry e;
   
   e.m_strName = m_pNameLineEdit->text();
  
@@ -191,7 +191,7 @@ void ConfigWidget::slotSaveEntry()
   
   saveEngine( e );
   
-  EngineCfg::self()->saveEngine( e );
+  EngineCfg::self()->saveSearchEngine( e );
   
   m_pSaveEntryPushButton->setEnabled( false );
 }
@@ -205,7 +205,7 @@ void ConfigWidget::slotRemoveEntry()
   if ( current && current->text( 0 ) == m_pNameLineEdit->text() )
     m_pListView->removeItem( current );
 
-  EngineCfg::self()->removeEngine( m_pNameLineEdit->text() );
+  EngineCfg::self()->removeSearchEngine( m_pNameLineEdit->text() );
   
   m_pNameLineEdit->clear();
   m_pQueryLineEdit->clear();
@@ -274,7 +274,7 @@ void ConfigWidget::slotQueryTextChanged()
   slotTextChanged( m_pNameLineEdit->text() );
 }
 
-void ConfigWidget::saveEngine( const EngineCfg::Entry &e )
+void ConfigWidget::saveEngine( const EngineCfg::SearchEntry &e )
 {
   QListViewItem *item = 0L;
 

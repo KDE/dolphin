@@ -1,6 +1,8 @@
 /*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
- 
+    Internet Keywords support (C) 1999 Yves Arrouye <yves@realnames.com>
+    Current maintainer Yves Arrouye <yves@realnames.com>
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -15,7 +17,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
-*/ 
+*/
 
 #ifndef __enginecfg_h__
 #define __enginecfg_h__ $Id$
@@ -24,35 +26,54 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
-class EngineCfg
-{
+class EngineCfg {
 public:
-  EngineCfg();
-  
-  static EngineCfg *self();
+    EngineCfg();
 
-  struct Entry
-  {
-    QString m_strName;
-    QStringList m_lstKeys;
-    QString m_strQuery;
-  };
+    static EngineCfg *self();
 
-  void saveEngine( Entry e );
-  void removeEngine( const QString &name );
+    struct SearchEntry {
+	QString m_strName;
+	QString m_strQuery;
+	QStringList m_lstKeys;
+    };
 
-  QValueList<Entry> engines() const { return m_lstSearchEngines; }
-  
-  QString query( const QString &key );
-  
-  Entry entryByName( const QString &Name );
+    struct NavEntry {
+	QString m_strName;
+	QString m_strQuery;
+	QString m_strQueryWithSearch;
+    };
+
+    void saveSearchEngine(SearchEntry e);
+    void removeSearchEngine(const QString & name);
+
+    QValueList < SearchEntry > searchEngines() const {
+	return m_lstSearchEngines;
+    }
+    QString searchQuery(const QString & key) const;
+    QString navQuery() const;
+
+    SearchEntry searchEntryByName(const QString & name) const;
+    NavEntry navEntryByName(const QString & name) const;
+
+    bool verbose() const {
+	return m_bVerbose;
+    }
 
 private:
-  void saveConfig();
+    void saveConfig() const;
 
-  QValueList<Entry> m_lstSearchEngines;
-  
-  static EngineCfg *s_pSelf;
+    QValueList < SearchEntry > m_lstSearchEngines;
+
+    bool m_bInternetKeywordsEnabled;
+    QValueList < NavEntry > m_lstInternetKeywordsEngines;
+
+    NavEntry m_currInternetKeywordsNavEngine;
+    SearchEntry m_currInternetKeywordsSearchEngine;
+
+    bool m_bVerbose;
+
+    static EngineCfg *s_pSelf;
 };
 
 #endif

@@ -1,5 +1,7 @@
 /*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
+    Internet Keywords support (C) 1999 Yves Arrouye <yves@realnames.com>
+    Current maintainer Yves Arrouye <yves@realnames.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,30 +27,28 @@
 class KInstance;
 class KonqMainView;
 
-class KonqSearcher : public QObject
-{
-  Q_OBJECT
+class KonqSearcher : public QObject {
+    Q_OBJECT
 public:
-  KonqSearcher( QObject *parent );
-  ~KonqSearcher();
+    KonqSearcher( QObject *parent );
+    ~KonqSearcher();
 
 protected:
-  bool eventFilter( QObject *obj, QEvent *ev );
+    bool eventFilter( QObject *obj, QEvent *ev );
 };
 
-class KonqSearcherFactory : public KLibFactory
-{
-  Q_OBJECT
+class KonqSearcherFactory : public KLibFactory {
+    Q_OBJECT
 public:
-  KonqSearcherFactory( QObject *parent = 0, const char *name = 0 );
-  ~KonqSearcherFactory();
+    KonqSearcherFactory( QObject *parent = 0, const char *name = 0 );
+    ~KonqSearcherFactory();
 
-  virtual QObject *create( QObject *parent = 0, const char *name = 0, const char* classname = "QObject" );
+    virtual QObject *create( QObject *parent = 0, const char *name = 0, const char* classname = "QObject" );
 
-  static KInstance *instance();
+    static KInstance *instance();
 
 private:
-  static KInstance *s_instance;
+    static KInstance *s_instance;
 };
 
 #endif

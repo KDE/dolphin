@@ -1,26 +1,34 @@
 [General]
-SearchEngines=Yahoo,AltaVista,Open Directory,Lycos,Freshmeat,Google
+SearchEngines=Yahoo,AltaVista,Open Directory,Lycos,Freshmeat,Google,RealNames
 
-[AltaVista]
+[Internet Keywords]
+NavEnabled=true
+NavSearchFallback=Google
+
+[AltaVista Search]
 Keys=av,altavista
-Query=http://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=|
+Query=http://www.altavista.com/cgi-bin/query?pg=q&kl=XX&stype=stext&q=%1
 
-[Yahoo]
+[Yahoo Search]
 Keys=ya,yahoo
-Query=http://search.yahoo.com/bin/search?p=|
+Query=http://search.yahoo.com/bin/search?p=%1
 
-[Open Directory]
+[Open Directory Search]
 Keys=dmoz,odp
-Query=http://search.dmoz.org/cgi-bin/search?search=|
+Query=http://search.dmoz.org/cgi-bin/search?search=%1
 
-[Lycos]
+[Lycos Search]
 Keys=lycos,ly
-Query=http://www.lycos.com/cgi-bin/pursuit?cat=dir&query=|
+Query=http://www.lycos.com/cgi-bin/pursuit?cat=dir&query=%1
 
-[Freshmeat]
+[Freshmeat Search]
 Keys=fm,freshmeat
-Query=http://core.freshmeat.net/search/search.php3?query=|
+Query=http://core.freshmeat.net/search/search.php3?query=%1
 
 [Google]
 Keys=gg,google
-Query=http://google.com/search?q=|
+Query=http://google.com/search?q=%1
+
+[RealNames Search]
+Keys=rn,realnames
+Query=http://lookup.realnames.com/action=lookup&realname=%1
