@@ -1,9 +1,10 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qspinbox.h>
-#include <qgroupbox.h>
+#include <qvgroupbox.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
+#include <qgrid.h>
 
 #include <kio/ioslave_defaults.h>
 #include <ksaveioconfig.h>
@@ -19,104 +20,52 @@
 KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
                :KCModule( parent, name )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, 2*KDialog::marginHint(),
+    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                                KDialog::spacingHint() );
-    gb_Timeout = new QGroupBox( i18n("Timeout Values"), this, "gb_Timeout" );
-    gb_Timeout->setColumnLayout(0, Qt::Vertical );
-    gb_Timeout->layout()->setSpacing( 0 );
-    gb_Timeout->layout()->setMargin( 0 );
+    gb_Timeout = new QVGroupBox( i18n("Timeout Values"), this, "gb_Timeout" );
     QWhatsThis::add( gb_Timeout, i18n( "Here you can set timeout values. "
 				       "You might want to tweak them if "
 				       "your connection is very slow." ) );
 
-    QVBoxLayout* gb_TimeoutLayout = new QVBoxLayout( gb_Timeout->layout() );
-    gb_TimeoutLayout->setAlignment( Qt::AlignTop );
-    gb_TimeoutLayout->setSpacing( 6 );
-    gb_TimeoutLayout->setMargin( 11 );
 
-    QGridLayout* grid_topLevel = new QGridLayout;
-    grid_topLevel->setSpacing( KDialog::spacingHint() );
-    grid_topLevel->setMargin( 2*KDialog::marginHint() );
+    QGrid *grid = new QGrid(4, Qt::Vertical, gb_Timeout);
+    grid->setSpacing(KDialog::spacingHint());
 
-    QGridLayout* grid_firstColumn = new QGridLayout;
-    grid_firstColumn->setSpacing( KDialog::spacingHint() );
-    grid_firstColumn->setMargin( 0 );
-    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum );
-    grid_firstColumn->addItem( spacer, 0, 1 );
-
-    QVBoxLayout* vlay_firstColumnLabels = new QVBoxLayout;
-    vlay_firstColumnLabels->setSpacing( KDialog::spacingHint() );
-    vlay_firstColumnLabels->setMargin( 0 );
-
-    QLabel* lbl_socket = new QLabel( i18n( "Soc&ket Read:" ), gb_Timeout,
+    QLabel* lbl_socket = new QLabel( i18n( "Soc&ket Read:" ), grid,
                                      "lbl_socket" );
-    vlay_firstColumnLabels->addWidget( lbl_socket );
-    QLabel* lbl_proxy = new QLabel( i18n( "Pro&xy Connect:" ), gb_Timeout,
+    QLabel* lbl_proxy = new QLabel( i18n( "Pro&xy Connect:" ), grid,
                             "lbl_proxy" );
-    vlay_firstColumnLabels->addWidget( lbl_proxy );
 
-    grid_firstColumn->addLayout( vlay_firstColumnLabels, 0, 0 );
+    QLabel* lbl_serverConnect = new QLabel( i18n("Server Co&nnect:"), grid,
+                                            "lbl_serverConnect" );
+    QLabel* lbl_serverResponse = new QLabel( i18n("Server &Response:"), grid,
+                                             "lbl_serverResponse" );
 
-    QVBoxLayout* vlay_firstColumnSpinBox = new QVBoxLayout;
-    vlay_firstColumnSpinBox->setSpacing( KDialog::spacingHint() );
-    vlay_firstColumnSpinBox->setMargin( 0 );
-
-    sb_socketRead = new QSpinBox( gb_Timeout, "sb_socketRead" );
+    sb_socketRead = new QSpinBox( grid, "sb_socketRead" );
     sb_socketRead->setSuffix( i18n( " sec" ) );
     connect(sb_socketRead, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
-    vlay_firstColumnSpinBox->addWidget( sb_socketRead );
 
-    sb_proxyConnect = new QSpinBox( gb_Timeout, "sb_proxyConnect" );
+    sb_proxyConnect = new QSpinBox( grid, "sb_proxyConnect" );
     sb_proxyConnect->setSuffix( i18n( " sec" ) );
     connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
-    vlay_firstColumnSpinBox->addWidget( sb_proxyConnect );
 
-    grid_firstColumn->addLayout( vlay_firstColumnSpinBox, 0, 2 );
-
-    grid_topLevel->addLayout( grid_firstColumn, 0, 0 );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Preferred, QSizePolicy::Minimum );
-    grid_topLevel->addItem( spacer, 0, 3 );
-
-    QGridLayout* grid_secondColumn = new QGridLayout;
-    grid_secondColumn->setSpacing( KDialog::spacingHint() );
-    grid_secondColumn->setMargin( 0 );
-
-    QVBoxLayout* vlay_secondColumnLabel = new QVBoxLayout;
-    vlay_secondColumnLabel->setSpacing( KDialog::spacingHint() );
-    vlay_secondColumnLabel->setMargin( 0 );
-    QLabel* lbl_serverConnect = new QLabel( i18n("Server Co&nnect:"), gb_Timeout,
-                                            "lbl_serverConnect" );
-    vlay_secondColumnLabel->addWidget( lbl_serverConnect );
-    QLabel* lbl_serverResponse = new QLabel( i18n("Server &Response:"), gb_Timeout,
-                                             "lbl_serverResponse" );
-    vlay_secondColumnLabel->addWidget( lbl_serverResponse );
-    grid_secondColumn->addLayout( vlay_secondColumnLabel, 0, 0 );
-
-    QVBoxLayout* vlay_secondColumnSpinBox = new QVBoxLayout;
-    vlay_secondColumnSpinBox->setSpacing( KDialog::spacingHint() );
-    vlay_secondColumnSpinBox->setMargin( 0 );
-
-    sb_serverConnect = new QSpinBox( gb_Timeout, "sb_serverConnect" );
+    sb_serverConnect = new QSpinBox( grid, "sb_serverConnect" );
     sb_serverConnect->setSuffix( i18n( " sec" ) );
-    vlay_secondColumnSpinBox->addWidget( sb_serverConnect );
     connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
 
-    sb_serverResponse = new QSpinBox( gb_Timeout, "sb_serverResponse" );
+    sb_serverResponse = new QSpinBox( grid, "sb_serverResponse" );
     sb_serverResponse->setSuffix( i18n( " sec" ) );
-    vlay_secondColumnSpinBox->addWidget( sb_serverResponse );
     connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
-    grid_secondColumn->addLayout( vlay_secondColumnSpinBox, 0, 2 );
 
-    spacer = new QSpacerItem( 16, 20, QSizePolicy::Fixed, QSizePolicy::Minimum );
-    grid_secondColumn->addItem( spacer, 0, 1 );
+	 QWidget *spacer = new QWidget(grid);
+    spacer->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
-    grid_topLevel->addLayout( grid_secondColumn, 0, 2 );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Preferred, QSizePolicy::Minimum );
-    grid_topLevel->addItem( spacer, 0, 1 );
-    gb_TimeoutLayout->addLayout( grid_topLevel );
+
     mainLayout->addWidget( gb_Timeout );
 
-    gb_Ftp = new QGroupBox( 1, Qt::Vertical, i18n( "FTP Options" ), this, "gb_Ftp" );
+
+
+    gb_Ftp = new QVGroupBox( i18n( "FTP Options" ), this, "gb_Ftp" );
     cb_ftpEnablePasv = new QCheckBox( i18n( "Enable Passive &Mode (PASV)" ), gb_Ftp );
     mainLayout->addWidget( gb_Ftp );
     connect(cb_ftpEnablePasv, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
