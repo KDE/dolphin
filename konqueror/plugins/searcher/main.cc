@@ -60,19 +60,24 @@ bool KonqSearcher::eventFilter(QObject *, QEvent *ev) {
 
 	if (kurl.isMalformed() || !KProtocolManager::self().protocols().contains(kurl.protocol())) {
 	    QString query = QString::null;
+	    int pos = -1;
 
 	    // See if it's a searcher prefix. If not, use Internet Keywords
 	    // if we can. Note that we want a colon to match a searcher
 	    // prefix. Also note that other filterings like doing a DNS
 	    // lookup for a hostname should have been taken care of before.
 
-	    int pos = url.find(':');
-	    if (pos >= 0) {
-	        QString key = url.left(pos);
-	        query = EngineCfg::self()->searchQuery(key);
-	    }
-	    if (query == QString::null) {
+	    if (kurl.isMalformed()) {
 		query = EngineCfg::self()->navQuery();
+	    } else {
+		pos = url.find(':');
+		if (pos >= 0) {
+		    QString key = url.left(pos);
+		    query = EngineCfg::self()->searchQuery(key);
+		    if (query == QString::null) {
+			return false;
+		    }
+		}
 	    }
 
 	    // Substitute the variable part in the query we found.
