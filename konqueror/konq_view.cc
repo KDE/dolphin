@@ -351,11 +351,7 @@ void KonqView::slotCompleted()
   // Success... update history entry (mostly for location bar URL)
   updateHistoryEntry();
 
-  if ( m_pMainWindow->currentView() == this )
-  {
-    //kdDebug(1202) << "updating toolbar actions" << endl;
-    m_pMainWindow->updateToolBarActions();
-  }
+  emit viewCompleted( this );
 }
 
 void KonqView::slotCanceled( const QString & )

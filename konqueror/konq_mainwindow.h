@@ -216,6 +216,7 @@ public slots:
 
 protected slots:
   void slotPartActivated( KParts::Part *part );
+  void slotViewCompleted( KonqView * view );
   void slotEnableAction( const char * name, bool enabled );
 
   void slotURLEntered( const QString &text );

@@ -241,6 +241,11 @@ signals:
    */
   void sigPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
+  /**
+   * Emitted in slotCompleted
+   */
+  void viewCompleted( KonqView * view );
+
 public slots:
   /**
    * Store location-bar URL in the child view

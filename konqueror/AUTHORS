@@ -1,9 +1,14 @@
 Started by Torben Weis <weis@kde.org>
+Maintained by David Faure <faure@kde.org>
 Current team :
  Simon Hausmann <tronical@gmx.net>
  Matthias Welk <welk@fokus.gmd.de>
- David Faure <faure@kde.org>
  Michael Reiher <michael.reiher@gmx.de>
- Waldo Bastian <bastian@kde.org> (khtml library)
- Matt Koss <koss@napri.sk> (kio library)
+ Lars Knoll <knoll@kde.org> (HTML rendering engine)
+ Antti Koivisto <koivisto@kde.org> (HTML rendering engine)
+ Waldo Bastian <bastian@kde.org> (HTML rendering engine)
+ Matt Koss <koss@napri.sk> (I/O lib)
+ Stephan Kulow <coolo@kde.org> (I/O lib)
+ Richard Moore <rich@kde.org> (Java applet support)
+ Dina Rogozin <dima@mercury.co.il> (Java applet support)
 

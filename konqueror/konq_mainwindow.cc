@@ -902,6 +902,20 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
 }
 
+void KonqMainWindow::slotViewCompleted( KonqView * view )
+{
+  assert( view );
+
+  if ( currentView() == view )
+  {
+    //kdDebug(1202) << "updating toolbar actions" << endl;
+    updateToolBarActions();
+  }
+
+  // Register this URL as a working one, in the completion object
+  m_combo->completionObject()->addItem( view->locationBarURL() );
+}
+
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
 {
   kdDebug(1202) << "slotPartActivated " << part << " "
@@ -1016,6 +1030,9 @@ void KonqMainWindow::insertChildView( KonqView *childView )
 {
   m_mapViews.insert( childView->part(), childView );
 
+  connect( childView, SIGNAL( viewCompleted( KonqView * ) ),
+           this, SLOT( slotViewCompleted( KonqView * ) ) );
+
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
   childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
@@ -1025,6 +1042,9 @@ void KonqMainWindow::insertChildView( KonqView *childView )
 
 void KonqMainWindow::removeChildView( KonqView *childView )
 {
+  disconnect( childView, SIGNAL( viewCompleted( KonqView * ) ),
+              this, SLOT( slotViewCompleted( KonqView * ) ) );
+
   MapViews::Iterator it = m_mapViews.begin();
   MapViews::Iterator end = m_mapViews.end();
   // find it in the map - can't use the key since childView->part() might be 0L
@@ -1473,8 +1493,8 @@ void KonqMainWindow::slotComboPlugged()
 */
 
   m_combo->clear();
-  m_combo->setEditText( "" );  // replacement the above commented code
   m_combo->insertStringList( locationBarCombo );
+  m_combo->setEditText( "" );  // replacement the above commented code
   m_combo->completionObject()->setItems( locationBarCombo );
 // m_combo->setCurrentItem( 0 ); // not necessary since we use "QComboBox::AtTop"
 
