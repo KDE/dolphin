@@ -438,7 +438,7 @@ void Sidebar_Widget::activatedMenu(int id)
 			showExtraButtons = ! showExtraButtons;
 			if(showExtraButtons)
 			{
-				ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+				ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
 //JW - TEST				ButtonBar->insertButton(SmallIcon("remove"),-2);
 //JW - TEST				connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 			}
@@ -557,7 +557,7 @@ void Sidebar_Widget::createButtons()
 	{
 		if (!ButtonBar->getButton(-1))
 		{
-			ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+			ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
 //JW - TEST			ButtonBar->insertButton(SmallIcon("remove"),-2);
 //JW - TEST			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 		}
@@ -619,7 +619,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
 	if (pos==-1)
 	{
-	  	ButtonBar->insertTab(SmallIcon(icon), lastbtn,name);
+	  	ButtonBar->appendTab(SmallIcon(icon), lastbtn,name);
 		/*int id=*/Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,name,icon,this));
 		KMultiTabBarTab *tab=ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
