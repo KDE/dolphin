@@ -25,6 +25,7 @@
 #include "kmimetypes.h"
 
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include <qstring.h>
 #include <string.h>

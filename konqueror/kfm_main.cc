@@ -167,15 +167,26 @@ int main( int argc, char **argv )
   KfmPaths::initStatic();
   KIOJob::initStatic();
   KIOCache::initStatic();
-  KMimeType::initStatic();
-  KMimeMagic::initStatic();
-  KService::initStatic();
-  KServiceTypeProfile::initStatic();
+  // KMimeType::initStatic();
+  // KService::initStatic();
+  // KServiceTypeProfile::initStatic();
 
   KRegistry registry;
   registry.addFactory( new KMimeTypeFactory );
-  KMimeType::check();
   registry.addFactory( new KServiceFactory );
+  // HACK
+  registry.load( "/tmp/dump" );
+  if ( registry.modified() )
+  {    
+    registry.save( "/tmp/dump" );
+    registry.clearModified();
+  }
+  
+  KMimeType::check();
+
+  KMimeMagic::initStatic();
+
+  cerr << "===================== fuck you ==============" << endl;
   
   kimgioRegister();
   
