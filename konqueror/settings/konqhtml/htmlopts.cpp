@@ -95,7 +95,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     laygroup->addWidget(m_pDynamicTabbarHide);
 
     QHBoxLayout *laytab = new QHBoxLayout(laygroup, KDialog::spacingHint());
-    QPushButton *advancedTabButton = new QPushButton( i18n( "Advanced Options..."), bgTabbedBrowsing );
+    QPushButton *advancedTabButton = new QPushButton( i18n( "Advanced Options"), bgTabbedBrowsing );
     laytab->addWidget(advancedTabButton);
     laytab->addStretch();
     connect(advancedTabButton, SIGNAL(clicked()), this, SLOT(launchAdvancedTabDialog()));
