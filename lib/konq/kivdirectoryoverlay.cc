@@ -17,7 +17,7 @@
     Boston, MA 02111-1307, USA.
 */
 
-// $Id:  $
+// $Id$
 
 #include <qdict.h>
 #include <qpixmap.h>
@@ -99,6 +99,8 @@ void KIVDirectoryOverlay::slotCompleted()
 
 void KIVDirectoryOverlay::slotNewItems( const KFileItemList& items )
 {
+    if ( !m_popularIcons) return;
+
     KFileItemListIterator files( items );
 
     KFileItem* file;
@@ -112,7 +114,6 @@ void KIVDirectoryOverlay::slotNewItems( const KFileItemList& items )
         if (!iconCount) {
             iconCount = new int(0);
             Q_ASSERT(file);
-            Q_ASSERT(m_popularIcons);
             m_popularIcons -> insert(file -> iconName(), iconCount);
         }
         (*iconCount)++;
