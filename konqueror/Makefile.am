@@ -70,11 +70,14 @@ data3dir = $(kde_appsdir)/Internet
 data4_DATA = konqfilemgr.desktop
 data4dir = $(kde_appsdir)/.hidden
 
+# Use a hand-made rule for profiles because they are renamed upon installation
 profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
 	$(mkinstalldirs) $(profiledir)
 	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing.desktop $(profiledir)/webbrowsing
 	$(INSTALL_DATA) $(srcdir)/profile_filemanagement.desktop $(profiledir)/filemanagement
+	$(INSTALL_DATA) $(srcdir)/profile_midnightcommander.desktop $(profiledir)/midnightcommander
+	$(INSTALL_DATA) $(srcdir)/profile_filepreview.desktop $(profiledir)/filepreview
 uninstall-local:
-	-rm -f $(profiledir)/webbrowsing $(profiledir)/filemanagement
+	-rm -f $(profiledir)/webbrowsing $(profiledir)/filemanagement $(profiledir)/midnightcommander $(profiledir)/filepreview
 
