@@ -1145,6 +1145,8 @@ QString KonqMainView::currentTitle()
 {
   CORBA::WString_var t = m_vMainWindow->partCaption( m_currentId );
   QString title = C2Q( t );
+  if ( title.left( 11 ) == "Konqueror: " )
+    return title.mid( 11 );
   return title;
 }
  
