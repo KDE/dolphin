@@ -351,6 +351,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     // If we want something else, we have to adapt the configuration or remove it...
     m_pIconView->setWordWrapIconText(KonqFMSettings::settings()->wordWrapText());
 
+    // Finally, determine initial grid size again, with those parameters
+    m_pIconView->calculateGridX();
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -369,33 +371,12 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(), true );
-        calculateGridX();
-        m_pIconView->arrangeItemsInGrid( true );
+        m_pIconView->setIcons( m_pIconView->iconSize(), true /* stopImagePreview */);
     }
     else
     {
         m_pIconView->startImagePreview();
     }
-}
-
-void KonqKfmIconView::calculateGridX()
-{
-  int realIconSize = m_pIconView->iconSize();
-  if ( realIconSize == 0 ) // default size
-  {
-    KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
-    realIconSize = root->defaultSize( KIcon::Desktop );
-  }
-  bool bSmall = (realIconSize == m_iIconSize[0]);
-  //kdDebug(1202) << "realIconSize=" << realIconSize << " Smaller size=" << m_iIconSize[0] << endl;
-
-  // This is the method that determines the GridX to use - but
-  // when we are in image preview mode, it's not enough
-  if ( m_pIconView->itemTextPos() == QIconView::Bottom )
-    m_pIconView->setGridX( bSmall ? 50 : 70 );
-  else
-    m_pIconView->setGridX( bSmall ? 90 : 120 );
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -570,8 +551,6 @@ void KonqKfmIconView::slotViewLarge( bool b )
     {
 	m_pProps->setIconSize( m_iIconSize[2] );
 	m_pIconView->setIcons( m_pProps->iconSize() );
-        calculateGridX();
-	m_pIconView->arrangeItemsInGrid( true );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview();
     }
@@ -583,8 +562,6 @@ void KonqKfmIconView::slotViewMedium( bool b )
     {
 	m_pProps->setIconSize( m_iIconSize[1] );
 	m_pIconView->setIcons( m_pProps->iconSize() );
-        calculateGridX();
-	m_pIconView->arrangeItemsInGrid( true );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview();
     }
@@ -596,8 +573,6 @@ void KonqKfmIconView::slotViewSmall( bool b )
     {
 	m_pProps->setIconSize( m_iIconSize[0] );
 	m_pIconView->setIcons( m_pProps->iconSize() );
-        calculateGridX();
-	m_pIconView->arrangeItemsInGrid( true );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview();
     }
@@ -609,8 +584,6 @@ void KonqKfmIconView::slotViewDefault( bool b)
     {
 	m_pProps->setIconSize( 0 );
 	m_pIconView->setIcons( m_pProps->iconSize() );
-        calculateGridX();
-	m_pIconView->arrangeItemsInGrid( true );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview();
     }
@@ -621,8 +594,6 @@ void KonqKfmIconView::slotViewDefault( bool b)
     if ( b ) {
         m_pProps->setItemTextPos( QIconView::Bottom );
 	m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
-        calculateGridX();
-	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
@@ -631,8 +602,6 @@ void KonqKfmIconView::slotTextRight( bool b )
     if ( b ) {
 	m_pProps->setItemTextPos( QIconView::Right );
 	m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
-        calculateGridX();
-	m_pIconView->arrangeItemsInGrid( true );
     }
 }*/
 
@@ -1142,8 +1111,6 @@ bool KonqKfmIconView::openURL( const KURL & url )
       //m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
 
       m_pProps->applyColors( m_pIconView );
-
-      calculateGridX();
     }
 
     emit setWindowCaption( url.prettyURL() );
