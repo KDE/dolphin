@@ -377,7 +377,7 @@ void KonqMainView::openURL( const KURL &url, bool reload, int xOffset,
 void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
- 
+
   //  ### HACK !!
   if ( args.postData.size() > 0 )
   {
@@ -386,7 +386,7 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
     openURL( view, url, args.reload, args.xOffset, args.yOffset, QString::fromLatin1( "text/html" ) );
     return;
   }
-  
+
   openURL( url, args.reload, args.xOffset, args.yOffset, args.serviceType );
 }
 
@@ -1564,6 +1564,12 @@ QString KonqMainView::currentTitle()
 
   return title;
 }
+
+QString KonqMainView::currentURL()
+{
+  assert( m_currentView );
+  return m_currentView->view()->url().url();
+} 
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
 {

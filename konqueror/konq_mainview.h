@@ -149,6 +149,7 @@ public:
   /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
   virtual QString currentTitle();
+  virtual QString currentURL();
 
   void setLocationBarURL( KonqChildView *childView, const QString &url );
 
