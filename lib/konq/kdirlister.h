@@ -135,6 +135,9 @@ signals:
   /** Tell the view that user canceled the listing */
   void canceled();
 
+  /** Signal a redirection */
+  void redirection( const KURL & url );
+
   /** Clear all items */
   void clear();
   /** Signal new items */
@@ -144,18 +147,19 @@ signals:
 
 protected slots:
   // internal slots used by the directory lister (connected to the job)
-  virtual void slotResult( KIO::Job * );
-  virtual void slotEntries( KIO::Job*, const KIO::UDSEntryList& );
-  virtual void slotUpdateResult( KIO::Job * );
-  virtual void slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList& );
+  void slotResult( KIO::Job * );
+  void slotEntries( KIO::Job*, const KIO::UDSEntryList& );
+  void slotUpdateResult( KIO::Job * );
+  void slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList& );
+  void slotRedirection( KIO::Job *, const KURL & url );
 
   // internal slots connected to KDirWatch
-  virtual void slotDirectoryDirty( const QString& _dir );
-  virtual void slotFileDirty( const QString& _file );
+  void slotDirectoryDirty( const QString& _dir );
+  void slotFileDirty( const QString& _file );
 
 protected:
   /** Unregister dirs from kdirwatch and clear m_lstDirs */
-  virtual void forgetDirs();
+  void forgetDirs();
 
   /** The url that we used to list (can be different in case of redirect) */
   KURL m_url;

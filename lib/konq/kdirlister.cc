@@ -128,6 +128,8 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
            SLOT( slotEntries( KIO::Job*, const KIO::UDSEntryList&)));
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
 	   SLOT( slotResult( KIO::Job * ) ) );
+  connect( m_job, SIGNAL( redirection( KIO::Job *, const KURL & ) ),
+	   this, SLOT( slotRedirection( KIO::Job *, const KURL & ) ) );
 
   emit started( m_url.url() );
   if ( !_keep )
@@ -205,6 +207,13 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
     }
   }
   emit newItems( lstNewItems );
+}
+
+void KDirLister::slotRedirection( KIO::Job *, const KURL & url )
+{
+  kdDebug(1203) << "KDirLister::slotRedirection " << url.url() << endl;
+  m_url = url;
+  emit redirection( url );
 }
 
 void KDirLister::updateDirectory( const QString& _dir )
