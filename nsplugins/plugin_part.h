@@ -114,8 +114,9 @@ Q_OBJECT
 public:
     PluginLiveConnectExtension(PluginPart* part);
     virtual ~PluginLiveConnectExtension();
-    virtual bool put( const unsigned long, const QString &field, const QString &
-value);
+    virtual bool put(const unsigned long, const QString &field, const QString &value);
+    virtual bool get(const unsigned long, const QString&, Type&, unsigned long&, QString&);
+    virtual bool call(const unsigned long, const QString&, const QStringList&, Type&, unsigned long&, QString&);
 
     QString evalJavaScript( const QString & script );
 

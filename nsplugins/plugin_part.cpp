@@ -34,6 +34,16 @@ PluginLiveConnectExtension::PluginLiveConnectExtension(PluginPart* part)
 PluginLiveConnectExtension::~PluginLiveConnectExtension() {
 }
 
+bool PluginLiveConnectExtension::get(const unsigned long, const QString &field, Type &type, unsigned long &retobj, QString &value) {
+    kdDebug(1432) << "PLUGIN:LiveConnect::get " << field << endl;
+    return false;
+}
+
+bool PluginLiveConnectExtension::call(const unsigned long, const QString &func, const QStringList &args, Type &type, unsigned long &retobjid, QString &value) {
+    kdDebug(1432) << "PLUGIN:LiveConnect::call " << func << " args: " << args << endl;
+      return false;
+}
+
 bool PluginLiveConnectExtension::put( const unsigned long, const QString &field, const QString &value) {
     kdDebug(1432) << "PLUGIN:LiveConnect::put " << field << " " << value << endl;
     if (field == "__nsplugin") {
