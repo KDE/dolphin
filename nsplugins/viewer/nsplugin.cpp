@@ -605,21 +605,10 @@ NPError NPN_GetURL(NPP instance, const char *url, const char *target)
 {
   kdDebug() << "NPN_GetURL: url=" << url << " target=" << target << endl;
 
-  // TODO: Implement other targets!
+  NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
+  inst->requestURL(url, target);
 
-  if (!strcmp(target, "_blank") || !strcmp(target, "_new"))
-    {
-      kapp->invokeBrowser(url);
-      return NPERR_NO_ERROR;
-    }
-
-  if (!strcmp(target, "_top"))
-    {
-      ((NSPluginInstance*)instance->ndata)->requestURL(url);
-      return NPERR_NO_ERROR;
-    }
-
-  return NPERR_GENERIC_ERROR;
+  return NPERR_NO_ERROR;
 }
 
 

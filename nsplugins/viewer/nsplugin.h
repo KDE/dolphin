@@ -136,7 +136,7 @@ public:
 
   void setCallback(QCString app, QCString obj);
 
-  void requestURL(const char *url) { if (callback) callback->requestURL(url); };
+  void requestURL(QCString url, QCString target) { if (callback) callback->requestURL(url, target); };
 
   void destroyPlugin();
 
