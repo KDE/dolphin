@@ -33,10 +33,7 @@
 
 
 class KBehaviourOptions;
-class KFontOptions;
-class KColorOptions;
-class KHtmlOptions;
-class KHTTPOptions;
+class KonqFontOptions;
 class KMiscOptions;
 class KRootOptions;
 
@@ -69,10 +66,7 @@ private:
   QTabWidget   *tab;
 
   KBehaviourOptions *behaviour;
-  KFontOptions      *font;
-  KColorOptions     *color;
-  KHtmlOptions      *html;
-  KHTTPOptions      *http;
+  KonqFontOptions   *font;
   KMiscOptions      *misc;
 
 };
@@ -105,10 +99,9 @@ private:
 
   QTabWidget   *tab;
 
+  KBehaviourOptions *behaviour;
+  KonqFontOptions      *font;
   KRootOptions      *root;
-  KFontOptions      *font;
-  KColorOptions     *color;
-  KHtmlOptions      *html;
 
 };
 

@@ -22,7 +22,7 @@ class QComboBox;
 //-----------------------------------------------------------------------------
 // The "Desktop Icons Options" Tab contains :
 // Show Hidden Files on Desktop
-// TODO which menus for which mouse clicks on the desktop
+// Which menus for which mouse clicks on the desktop
 
 class KRootOptions : public KCModule
 {

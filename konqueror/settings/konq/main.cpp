@@ -36,8 +36,7 @@
 
 #include "rootopts.h"
 #include "behaviour.h"
-#include "htmlopts.h"
-#include "khttpoptdlg.h"
+#include "fontopts.h"
 #include "miscopts.h"
 
 #include "main.h"
@@ -51,30 +50,18 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   
   tab = new QTabWidget(this);
 
-  behaviour = new KBehaviourOptions(config, "HTML Settings", this);
+  QString groupName = "FM Settings";
+  behaviour = new KBehaviourOptions(config, groupName, this);
   tab->addTab(behaviour, i18n("&Behaviour"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KFontOptions(config, "HTML Settings", this);
-  tab->addTab(font, i18n("&Fonts"));
+  font = new KonqFontOptions(config, groupName, this);
+  tab->addTab(font, i18n("&Fonts / Colors"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  color = new KColorOptions(config, "HTML Settings", this);
-  tab->addTab(color, i18n("&Colors"));
-  connect(color, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  html = new KHtmlOptions(config, "HTML Settings", this);
-  tab->addTab(html, i18n("&HTML"));
-  connect(html, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  http = new KHTTPOptions(config, "HTML Settings", this);
-  tab->addTab(http, i18n("H&TTP"));
-  connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  misc = new KMiscOptions(config, "HTML Settings", this);
+  misc = new KMiscOptions(config, groupName, this);
   tab->addTab(misc, i18n("&Other"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
 }
 
 
@@ -82,9 +69,6 @@ void KonqyModule::load()
 {
   behaviour->load();
   font->load();
-  color->load();
-  html->load();
-  http->load();
   misc->load();
 }
 
@@ -93,9 +77,6 @@ void KonqyModule::save()
 {
   behaviour->save();
   font->save();
-  color->save();
-  html->save();
-  http->save();
   misc->save();
   
   // Send signal to konqueror
@@ -109,9 +90,6 @@ void KonqyModule::defaults()
 {
   behaviour->defaults();
   font->defaults();
-  color->defaults();
-  html->defaults();
-  http->defaults();
   misc->defaults();
 }
 
@@ -131,74 +109,51 @@ void KonqyModule::resizeEvent(QResizeEvent *)
 KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-  KConfig *config = new KConfig("konquerorrc", false, false);
+  KConfig *config = new KConfig("kdesktoprc", false, false);
 
   tab = new QTabWidget(this);
 
   root = new KRootOptions(config, "Desktop Settings", this);
-  tab->addTab(root, i18n("&Behaviour"));
+  tab->addTab(root, i18n("&Desktop"));
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KFontOptions(config, "Desktop Settings", this);
+  // those use "Icon Settings" since they are read by KonqFMSettings
+  behaviour = new KBehaviourOptions(config, "Icon Settings", this);
+  tab->addTab(behaviour, i18n("&Behaviour"));
+  connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  font = new KonqFontOptions(config, "Icon Settings", this);
   tab->addTab(font, i18n("&Fonts"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  color = new KColorOptions(config, "Desktop Settings", this);
-  tab->addTab(color, i18n("&Colors"));
-  connect(color, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  html = new KHtmlOptions(config, "Desktop Settings", this);
-  tab->addTab(html, i18n("&HTML"));
-  connect(html, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
 }
 
 
 void KDesktopModule::load()
 {
-  font->load();
-  color->load();
-  html->load();
+  behaviour->load();
   root->load();
+  font->load();
 }
 
 
 void KDesktopModule::save()
 {
+  behaviour->save();
+  root->save();
   font->save();
-  color->save();
-  html->save();
-  root->load();
 
-#warning David: What to do here?
-
-  /*
-  QString exeloc = locate("exe","kfmclient");
-  if ( exeloc.isEmpty() ) {
-  	  KMessageBox::error( 0L,
-	  i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
-	return;
-  }
-
-  QApplication::flushX();
-
-  if ( fork() == 0 )
-  {
-    // execute 'kfmclient configure'
-    execl(exeloc, "kfmclient", "configure", 0L);
-    warning("Error launching 'kfmclient configure' !");
-    exit(1);
-  }
-  */
+  // Tell kdesktop about the new config file
+  QByteArray data;
+  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
 }
 
 
 void KDesktopModule::defaults()
 {
+  behaviour->defaults();
+  root->defaults();
   font->defaults();
-  color->defaults();
-  html->defaults();
-  root->load();
 }
 
 
@@ -216,12 +171,6 @@ void KDesktopModule::resizeEvent(QResizeEvent *)
 
 extern "C"
 {
-
-  KCModule *create_icons(QWidget *parent, const char *name) 
-  { 
-    KGlobal::locale()->insertCatalogue("kcmkonq");
-    return new KRootOptions(new KConfig("kdesktoprc", false, false), "", parent, name);
-  }
 
   KCModule *create_konqueror(QWidget *parent, const char *name) 
   { 

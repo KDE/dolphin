@@ -155,9 +155,6 @@ void KRootOptions::save()
 
     g_pConfig->sync();
 
-    // Tell kdesktop about the new config file
-    QByteArray data;
-    kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
 }
 
 
