@@ -225,7 +225,9 @@ void KDirLister::updateDirectory( const QString& _dir )
   m_bComplete = false;
   m_buffer.clear();
 
-  m_url = KURL( _dir );
+  m_sURL = _dir;
+  KURL::encode(m_sURL);
+  m_url = KURL( m_sURL );
   m_job = KIO::listDir( m_url );
   connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
            SLOT( slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList&)));
