@@ -290,6 +290,13 @@ KonqMainWindow::~KonqMainWindow()
       s_comboConfig = 0L;
   }
 
+  delete m_dcopObject;
+  m_dcopObject = 0L;
+  delete m_psNextTab;
+  m_psNextTab = 0L;
+  delete m_psPrevTab;
+  m_psPrevTab = 0L;
+
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
 

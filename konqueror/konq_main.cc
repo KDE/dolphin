@@ -55,7 +55,8 @@ extern "C" int kdemain( int argc, char **argv )
 
   app.dcopClient()->registerAs( "konqueror" );
 
-  app.dcopClient()->setDefaultObject( (new KonquerorIface())->objId() );
+  KonquerorIface *kiface = new KonquerorIface;
+  app.dcopClient()->setDefaultObject( kiface->objId() );
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
   KImageIO::registerFormats();
@@ -165,6 +166,8 @@ extern "C" int kdemain( int argc, char **argv )
   { // the list will be deleted by last KonqMainWindow
       delete KonqMainWindow::mainWindowList()->first();
   }
+
+  delete kiface;
 
   crashlog_file.unlink();
 
