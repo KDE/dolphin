@@ -677,6 +677,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
 
   if ( browserExtension() )
   {
+    current->buffer = QByteArray(); // Start with empty buffer.
     QDataStream stream( current->buffer, IO_WriteOnly );
 
     browserExtension()->saveState( stream );
