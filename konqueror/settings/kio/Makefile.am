@@ -25,5 +25,5 @@ test.cpp:
 test_LDFLAGS  = $(all_libraries) -module -avoid-version
 test_LDADD = -lkdeui -lkio
 
-data_DATA = cookies.desktop proxy.desktop useragent.desktop 
+data_DATA = cookies.desktop proxy.desktop useragent.desktop smb.desktop
 datadir = $(kde_appsdir)/Settings/WebBrowsing
