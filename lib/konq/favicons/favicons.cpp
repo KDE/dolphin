@@ -48,6 +48,7 @@ struct FaviconsModulePrivate
     QStringList failedDownloads;
     KSimpleConfig *config;
 	QPtrList<KIO::Job> killJobs;
+    KIO::MetaData metaData;
 };
 
 FaviconsModule::FaviconsModule(const QCString &obj)
@@ -144,7 +145,10 @@ void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const 
     if (d->failedDownloads.contains(iconURL.url()))
         return;
 
+    d->metaData.insert("ssl_no_client_cert", "TRUE");
+    d->metaData.insert("ssl_militant", "TRUE");
     KIO::Job *job = KIO::get(iconURL, false, false);
+    job->addMetaData(d->metaData);
     connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)), SLOT(slotData(KIO::Job *, const QByteArray &)));
     connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotResult(KIO::Job *)));
     connect(job, SIGNAL(infoMessage(KIO::Job *, const QString &)), SLOT(slotInfoMessage(KIO::Job *, const QString &)));
