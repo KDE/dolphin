@@ -1411,7 +1411,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
         }
       }
     }
-    KonqConfigEvent ev( &cfg, prefix+":", false/*load*/);
+    KonqConfigEvent ev( &cfg, prefix+"_", false/*load*/);
     QApplication::sendEvent( childView->part(), &ev );
    
     childView->frame()->show();

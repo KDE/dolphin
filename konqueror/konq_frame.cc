@@ -335,7 +335,7 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
   //config->writeEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), statusbar()->isVisible() );
   if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
 
-  KonqConfigEvent ev( config, prefix+":", true/*save*/);
+  KonqConfigEvent ev( config, prefix+"_", true/*save*/);
   QApplication::sendEvent( childView()->part(), &ev );
 }
 
