@@ -32,12 +32,10 @@
 #include "kfmpopup.h"
 #include "kfmrun.h"
 #include "konq_childview.h"
-#include "konq_frame.h"
 #include "konqueror.h"
 
 #include <opPart.h>
 #include <opMainWindow.h>
-#include <opFrame.h>
 #include <openparts_ui.h>
 #include <opMenu.h>
 #include <opToolBar.h>
@@ -209,7 +207,6 @@ protected:
   void makeHistory( KonqChildView *v );
 
   void createViewMenu();
-  void setupViewMenus();
   
   ///////// protected members //////////////
 
@@ -270,6 +267,7 @@ protected:
   KfmGuiProps *m_Props;
 
   QStrList m_lstPopupURLs;
+  CORBA::Long m_popupMode; // mode_t of first URL in m_lstPopupURLs
   map<int,KService*> m_mapPopup;
   map<int,KDELnkMimeType::Service> m_mapPopup2;
 

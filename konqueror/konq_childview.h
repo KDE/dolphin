@@ -42,25 +42,41 @@ class KonqChildView : public QObject
 {
   Q_OBJECT
 public:
-  //C++
-  KonqChildView();
+  /**
+   * Create a child view
+   * @param view the IDL View to be added in the child view
+   * @param row the row (i.e. splitter) where to add the frame
+   * @param newViewPosition only valid if Left or Right
+   */
+  KonqChildView( Konqueror::View_ptr view, Row * row,
+                 Konqueror::NewViewPosition newViewPosition );
   ~KonqChildView();
+
+  /* Attach a view */
+  void attach( Konqueror::View_ptr view );
+  /* Detach attached view, before deleting myself, or attaching another one */
+  void detach();
+
+  void repaint();
 
   //  bool mappingGotFocus( OpenParts::Part_ptr child );
   //  bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
   //  virtual void openURL( const Konqueror::URLRequest &url );
   //  virtual void openURL( const char * _url, CORBA::Boolean _reload );
-  
-//public slots:  
-  
-// protected: TODO !!
+
   /* Changes the view mode of the current view, if different from viewName*/
   //  void changeViewMode( const char *viewName );
   /* Connects a view to the mainview. Do this after creating it and before inserting it */
   //  void connectView( Konqueror::View_ptr view );
 
   // void makeHistory( View *v );
+  
+//public slots:  
+  
+protected:
+
+public: // temporary !!
 
   struct InternalHistoryEntry
   {
@@ -90,7 +106,7 @@ public:
   list<InternalHistoryEntry> m_lstForward;
     
   KonqFrame *m_pFrame;
-  Row * row;
+  Row * m_row;
 };
 
 #endif

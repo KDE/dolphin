@@ -22,7 +22,6 @@
 #include "konq_mainview.h"
 #include "kfmguiprops.h"
 #include "kfmpaths.h"
-//#include "kfmviewprops.h"
 #include "kbookmarkmenu.h"
 #include "konq_defaults.h"
 #include "konq_mainwindow.h"
@@ -31,6 +30,7 @@
 #include "konq_treeview.h"
 #include "konq_partview.h"
 #include "konq_plugins.h"
+#include "propsdlg.h"
 
 #include <opUIUtils.h>
 #include <opMenu.h>
@@ -52,12 +52,7 @@
 #include <kio_paste.h>
 #include <kpixmapcache.h>
 #include <kstdaccel.h>
-/*#include <kurl.h>
-#include <kmimemagic.h>
-#include <kuserprofile.h>
-#include <kregistry.h>
-#include <kurlcompletion.h>
-*/
+
 #include <iostream>
 #include <assert.h>
 
@@ -91,23 +86,6 @@ enum _ids {
 
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
 QList<OpenPartsUI::Pixmap>* KonqMainView::s_lstAnimatedLogo = 0L;
-
-/*
- The award for the worst hack (aka Bug Oscar) goes to..... ah no, 
- it's not Microsoft, it's me :-(
- Well, there's somewhere in there a bug in regard to freeing references
- of a view. As a quick/bad hack we "force" the destruction of the object 
- (in case of a local view, for a remote view this doesn't matter) by
- simply "deref'ing" .... (ask me for further details about this)
- In contrary to the Microsoft way of hacking this hack should increase the
- stability of the product ;-) . Anyway, the problem remains and this is not
- meant to be a solution.
- Simon
- */
-void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
-{
-  while ( obj->_refcnt() > 1 ) obj->_deref();
-}
 
 KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWidget( _parent )
 {
@@ -162,8 +140,6 @@ KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWid
 
   m_lstRows.setAutoDelete( true );
   
-//  m_pCompletion = 0L;
-
   initConfig();
 
   initPanner();
@@ -235,10 +211,6 @@ void KonqMainView::cleanUp()
       {
         it->second->m_vView->disconnectObject( this );
 	OPPartIf::removeChild( it->second->m_vView );
-	it->second->m_vView = 0L;
-	it->second->m_pFrame->detach();
-	it->second->m_pFrame->hide();
-        delete it->second->m_pFrame;
 	delete it->second;
       }	
 
@@ -469,8 +441,8 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 
   setActiveView( child->id() );
 
-  previousView->m_pFrame->repaint();
-  m_currentView->m_pFrame->repaint();
+  previousView->repaint();
+  m_currentView->repaint();
   
   return true;
 }
@@ -491,38 +463,24 @@ bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 void KonqMainView::insertView( Konqueror::View_ptr view,
                                Konqueror::NewViewPosition newViewPosition )
 {
-  Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
-
-  KonqChildView *v = new KonqChildView;
   Row * currentRow;
-  if (m_currentView)
-    currentRow = m_currentView->row;
+  if ( m_currentView )
+    currentRow = m_currentView->m_row;
   else // complete beginning, we don't even have a view
     currentRow = m_lstRows.first();
-
-  m_mapViews[ view->id() ] = v;
-  v->m_vView = Konqueror::View::_duplicate( m_vView );
 
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
   {
     debug("Creating a new row");
     currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
-    // Now insert a view, say on the right
+    // Now insert a view, say on the right (doesn't matter)
     newViewPosition = Konqueror::right;
   }
 
-  v->m_pFrame = new KonqFrame( currentRow );
+  KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition );
 
-  if (newViewPosition == Konqueror::left) {
-    // FIXME doesn't seem to work properly
-    currentRow->moveToFirst( v->m_pFrame );
-  }
-  
-  v->m_pFrame->attach( m_vView );
-  v->m_pFrame->show();
-  v->row = currentRow;
-  m_vView->show( true );
+  m_mapViews[ view->id() ] = v;
 
   createViewMenu();
 }
@@ -599,11 +557,7 @@ void KonqMainView::removeView( OpenParts::Id id )
       m_vMainWindow->setActivePart( this->id() );
       
     it->second->m_vView->disconnectObject( this );
-    OPPartIf::removeChild( it->second->m_vView );
-    it->second->m_vView = 0L;
-    it->second->m_pFrame->detach();
-    it->second->m_pFrame->hide();
-    delete it->second->m_pFrame;
+    // delete it->second; done by erase, right ?
     m_mapViews.erase( it );
   }
 }
@@ -632,17 +586,10 @@ void KonqMainView::changeViewMode( const char *viewName )
     
     m_currentView->m_vView->disconnectObject( this );
     OPPartIf::removeChild( m_currentView->m_vView );
-    m_currentView->m_pFrame->detach();
-    m_currentView->m_pFrame->hide();
-    m_currentView->m_vView->decRef();
-    VeryBadHackToFixCORBARefCntBug( m_currentView->m_vView );
-    m_currentView->m_vView = 0L;
+    m_currentView->detach();
+    m_currentView->attach( vView );
     
-    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-    m_currentView->m_pFrame->attach( vView );
-    m_currentView->m_pFrame->show();
     m_currentId = vView->id();
-
     m_mapViews[ vView->id() ] = m_currentView;
     
     m_vMainWindow->setActivePart( m_currentId );
@@ -856,6 +803,7 @@ void KonqMainView::createNewWindow( const char *url )
 void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 {
   assert( popup.urls.length() >= 1 );
+  m_popupMode = popup.mode;
 
   OPMenu *m_popupMenu = new OPMenu;
   bool bHttp          = true;
@@ -929,11 +877,6 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     if ( strcmp( viewURL.in(), ((popup.urls)[0]) ) == 0 )
       currentDir = true;
 
-  m_lstPopupURLs.setAutoDelete( true );
-  m_lstPopupURLs.clear();
-  for ( i = 0; i < popup.urls.length(); i++ )
-    m_lstPopupURLs.append( (popup.urls)[i] );
-      
   QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
   m_popupMenu->clear();
@@ -1017,6 +960,11 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   }
 
   id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupBookmarks() ) );
+
+  m_lstPopupURLs.setAutoDelete( true );
+  m_lstPopupURLs.clear();
+  for ( i = 0; i < popup.urls.length(); i++ )
+    m_lstPopupURLs.append( (popup.urls)[i] );
 
   if ( m_menuNew ) m_menuNew->setPopupFiles( m_lstPopupURLs );
 
@@ -1183,16 +1131,10 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
     
   m_currentView->m_vView->disconnectObject( this );
   OPPartIf::removeChild( m_currentView->m_vView );
-  m_currentView->m_pFrame->detach();
-  m_currentView->m_pFrame->hide();
-  m_currentView->m_vView->decRef();
-  VeryBadHackToFixCORBARefCntBug( m_currentView->m_vView );
-  m_currentView->m_vView = 0L;
+  m_currentView->detach();
 
   connectView( vView );
-  m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-  m_currentView->m_pFrame->attach( vView );
-  m_currentView->m_pFrame->show();
+  m_currentView->attach( vView );
   m_currentId = vView->id();
 
   m_mapViews[ vView->id() ] = m_currentView;
@@ -1327,34 +1269,6 @@ void KonqMainView::createViewMenu()
     //TODO: stop loading, view frame source, view document source, document encoding
 
   }
-  setupViewMenus();
-}
-
-void KonqMainView::setupViewMenus()
-{
-/*  if ( CORBA::is_nil( m_vMenuView ) )
-     {
-       //tell the views to eventually clean up
-       map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
-       for (; it != m_mapViews.end(); it++ )
-       {
-         Konqueror::View::EventCreateViewMenu EventViewMenu;
-	 EventViewMenu.menu = OpenPartsUI::Menu::_nil();
-	 
-	 EMIT_EVENT( it->second->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
-       }
-       return;
-     }
-
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
-  for (; it != m_mapViews.end(); ++it )
-  {
-    m_vMenuView->insertSeparator( -1 );
-    CORBA::String_var viewName = it->second->m_vView->viewName();
-    m_vMenuView->insertItem8( viewName.in(), viewMenu, -1, -1 );
-    
-    Konqueror::View::EventCreateViewMenu EventViewMenu;
-  }*/
 }
 
 void KonqMainView::slotSplitView()
@@ -1843,7 +1757,9 @@ void KonqMainView::slotPopup( int id )
 
 void KonqMainView::slotPopupProperties()
 {
-  //TODO
+  if ( m_lstPopupURLs.count() == 1 )
+    (void) new Properties( m_lstPopupURLs.getFirst(), m_popupMode );
+  // else ERROR
 }
 
 void KonqMainView::resizeEvent( QResizeEvent *e )
