@@ -42,7 +42,9 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
-#define DEBUG_ADDRESSES
+// #include <konq_faviconmgr.h>
+
+//#define DEBUG_ADDRESSES
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
@@ -415,7 +417,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
 void KEBTopLevel::slotLoad()
 {
     if (!queryClose()) return;
-    QString bookmarksFile = KFileDialog::getLoadFileName( QString::null, "*.xml", this );
+    QString bookmarksFile = KFileDialog::getOpenFileName( QString::null, "*.xml", this );
     // add a few default place to the file dialog somehow?, e.g kfile bookmarks +  normal bookmarks file dir
     KBookmarkManager::managerForFile( bookmarksFile, false )->slotEditBookmarks();
     close();
@@ -428,7 +430,7 @@ void KEBTopLevel::slotLoad()
     disconnectSignals();
 
     delete m_dcopIface;
-    delete s_pManager;
+    delete s_pManager; // AK - currently crashes!
 
     // recreate the bookmark manager.
     s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
@@ -525,9 +527,9 @@ void KEBTopLevel::disconnectSignals() {
     kdWarning() << disconnect( &m_commandHistory, 0, 0, 0 ) << endl;
     kdWarning() << disconnect( m_dcopIface, 0, 0, 0 ) << endl;
 
-    // OLD not so evil way
-
     return;
+
+    // OLD not so evil way
 
     disconnect( m_pListView, SIGNAL( selectionChanged()), 0, 0 );
     disconnect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem *, const QPoint & )), 0, 0 );
