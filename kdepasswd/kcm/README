@@ -21,3 +21,7 @@ Some information which was available in userinfo is left out - the home
 folder and shell info. A typical user is not interested in the info nor 
 knows what it means. And the advanced users already knows it.
 
+If further information is added, think twice if it should not be 
+added in a "Details..." dialog - is it useful for the majority or not? 
+The SMTP setting as well as UID should be moved to that dialog too, IMO.
+

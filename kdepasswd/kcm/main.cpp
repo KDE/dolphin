@@ -274,7 +274,7 @@ void KCMUserAccount::slotFaceButtonClicked()
 {
   if ( _facePerm < userFirst )
   {
-    KMessageBox::sorry( this, i18n("Your administrator has disallowed changing your face.") );
+    KMessageBox::sorry( this, i18n("Your administrator has disallowed changing your image.") );
     return;
   }
   /*
