@@ -204,8 +204,12 @@ void KDesktopModule::resizeEvent(QResizeEvent *)
 
 QString KDesktopModule::quickHelp() const
 {
-  return root->quickHelp();
-}
+  return i18n("<h1>Desktop</h1>\n"
+    "This module allows you to choose various options\n"
+    "for your desktop, including the way in which icons are arranged, the\n"
+    "location of your desktop directory, and the pop-up menus associated\n"
+    "with clicks of the middle and right mouse buttons on the desktop.\n"
+    "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");               }
 
 extern "C"
 {
