@@ -126,6 +126,8 @@ protected slots:
    * after everything was done.
    */
   void slotRenderingFinished();
+  // (Re)Draws m_pIconView's contents. Connected to m_pTimeoutRefreshTimer.
+  void slotRefreshViewport();
 
   // Connected to KonqDirPart
   void slotKFindOpened();
@@ -205,6 +207,8 @@ protected:
   KToggleAction *m_paSortDirsFirst;
 
   KonqIconViewWidget *m_pIconView;
+
+  QTimer *m_pTimeoutRefreshTimer;
 
   QPtrDict<KFileIVI> m_itemDict; // maps KFileItem * -> KFileIVI *
 

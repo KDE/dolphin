@@ -165,6 +165,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     , m_bNeedSetCurrentItem( false )
     , m_pEnsureVisible( 0 )
     , m_paOutstandingOverlaysTimer( 0 )
+    , m_pTimeoutRefreshTimer( 0 )
     , m_itemDict( 43 )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
@@ -849,6 +850,11 @@ void KonqKfmIconView::slotCanceled( const KURL& url )
         m_bLoading = false;
     }
 
+    // Stop the "refresh if busy too long" timer because a viewport
+    // update is coming.
+    if ( m_pTimeoutRefreshTimer && m_pTimeoutRefreshTimer->isActive() )
+        m_pTimeoutRefreshTimer->stop();
+
     // See slotCompleted(). If a listing gets canceled, it doesn't emit
     // the completed() signal, so handle that case.
     if ( !m_pIconView->viewport()->isUpdatesEnabled() )
@@ -864,6 +870,11 @@ void KonqKfmIconView::slotCanceled( const KURL& url )
 
 void KonqKfmIconView::slotCompleted()
 {
+    // Stop the "refresh if busy too long" timer because a viewport
+    // update is coming.
+    if ( m_pTimeoutRefreshTimer && m_pTimeoutRefreshTimer->isActive() )
+        m_pTimeoutRefreshTimer->stop();
+
     // If updates to the viewport are still blocked (so slotNewItems() has
     // not been called), a viewport repaint is forced.
     if ( !m_pIconView->viewport()->isUpdatesEnabled() )
@@ -1103,16 +1114,25 @@ void KonqKfmIconView::slotClear()
     resetCount();
 
     // We're now going to update the view with new contents. To avoid
-    // meaningless paint operations we disable updating the viewport from now
-    // to the time we'll receive some new data (or in slotComplete in case of
-    // no new data).
+    // meaningless paint operations (such as a clear() just before drawing
+    // fresh contents) we disable updating the viewport until we'll
+    // receive some data or a timeout timer expires.
     m_pIconView->viewport()->setUpdatesEnabled( false );
+    if ( !m_pTimeoutRefreshTimer )
+    {
+        m_pTimeoutRefreshTimer = new QTimer( this );
+        connect( m_pTimeoutRefreshTimer, SIGNAL( timeout() ), 
+                 this, SLOT( slotRefreshViewport() ) );
+    }
+    m_pTimeoutRefreshTimer->start( 700, true );
 
+    // Clear contents but don't clear graphics as updates are disabled.
     m_pIconView->clear();
     // If directory properties are changed, apply pending changes
     // changes are: view background or color, iconsize, enabled previews
     if ( m_bDirPropertiesChanged )
     {
+        m_bDirPropertiesChanged = false;
         m_pProps->applyColors( m_pIconView->viewport() );
         newIconSize( m_pProps->iconSize() );
         m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
@@ -1186,6 +1206,16 @@ void KonqKfmIconView::slotRenderingFinished()
 	kdDebug(1202) << "arrangeItemsInGrid" << endl;
         m_pIconView->arrangeItemsInGrid();
     }
+}
+
+void KonqKfmIconView::slotRefreshViewport()
+{
+    kdDebug(1202) << "KonqKfmIconView::slotRefreshViewport()" << endl;
+    QWidget * vp = m_pIconView->viewport();
+    bool prevState = vp->isUpdatesEnabled();
+    vp->setUpdatesEnabled( true );
+    vp->repaint();
+    vp->setUpdatesEnabled( prevState );
 }
 
 bool KonqKfmIconView::doOpenURL( const KURL & url )
