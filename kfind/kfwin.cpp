@@ -88,10 +88,14 @@ KfFileLVI::~KfFileLVI() {
 
 QString KfFileLVI::key(int column, bool) const
 {
-  // Returns time in secs from 1/1/1980. Used for sorting
-  if(column == 3) {
-    QDateTime epoch( QDate( 1980, 1, 1 ) );
-    return QString().sprintf("%08d", epoch.secsTo(fileInfo->lastModified()));
+  switch (column) {
+  case 2:
+    // Returns date in bytes. Used for sorting
+    return QString().sprintf("%10d", fileInfo->size());
+  case 3:
+    // Returns time in secs from 1/1/1970. Used for sorting
+    QDateTime epoch( QDate( 1970, 1, 1 ) );
+    return QString().sprintf("%10d", epoch.secsTo(fileInfo->lastModified()));
   }
 
   return text(column);
