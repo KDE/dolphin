@@ -153,7 +153,7 @@ public:
    * Get view's location bar URL, i.e. the one that the view signals
    * It can be different from url(), for instance if we display a index.html (David)
    */
-  const QString locationBarURL() { return m_sLocationBarURL.stripWhiteSpace(); }
+  const QString locationBarURL() { return m_sLocationBarURL; }
 
   /**
    * Get view object (should never be needed, except for IDL methods

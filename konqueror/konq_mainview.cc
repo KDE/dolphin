@@ -1154,7 +1154,7 @@ void KonqMainView::slotURLEntered( const QString &text )
 
   m_bURLEnterLock = true;
 
-  openFilteredURL( 0L, text );
+  openFilteredURL( 0L, text.stripWhiteSpace() );
 
   m_bURLEnterLock = false;
 }
