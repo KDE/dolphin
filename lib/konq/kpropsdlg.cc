@@ -167,14 +167,6 @@ void PropertiesDialog::slotApply()
   for ( page = pageList.first(); page != 0L; page = pageList.next() )
     page->applyChanges();
 
-  if ( PropsPage::isDesktopFile( m_items.first() ) )
-  {
-    kdebug( KDEBUG_INFO, 1203, "emitting setFileDirty..." );
-    // Force updates if that file is displayed.
-    // This is useful especially when changing the icon of a .desktop file
-    KDirWatch::self()->setFileDirty( kurl().path() );
-  }
-
   emit applied();
   emit propertiesClosed();
   delete this;
