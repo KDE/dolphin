@@ -46,6 +46,7 @@
 #include <qdragobject.h>
 #include <klocale.h>
 #include <qclipboard.h>
+#include <qregexp.h>
 
 #include <opUIUtils.h>
 
@@ -181,11 +182,13 @@ void KonqKfmIconView::slotSelect()
     if ( pattern.isEmpty() )
       return;
 
-    // QRegExp re( pattern, true, true );
-    // view->getActiveView()->select( re, true );
-
-    // TODO
-    // Do we need unicode support ? (kregexp?)
+    QRegExp re( pattern, true, true );
+    
+    iterator it = KIconContainer::begin();
+    for( ; *it; ++it )
+      setSelected( *it, ( re.match( (*it)->text() ) != -1 ) );
+    
+    emit selectionChanged();
   }
 }
 
@@ -433,6 +436,7 @@ void KonqKfmIconView::slotSelectionChanged()
 
 void KonqKfmIconView::slotStarted( const QString & url )
 {
+  unselectAll();
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
   bSetupNeeded = false;
 }
