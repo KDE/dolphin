@@ -1,0 +1,264 @@
+nsplugins
+=========
+
+The 'nsplugins' directory contains various tools used to utilize Netscape(R)
+browser plugins in KDE applications.
+
+ - ./       - common headers and utilities
+
+ - viewer/  - provides means to embed a Netscape(R) browser plugin
+              into a KDE application.
+
+ - sdk/     - headers from the Netscape(R) browser plugin SDK.
+
+ - control/ - KDE Control Center applet for managing plugins
+
+ - test/    - simple applications to test nsplugin
+
+ - wrapper/ - currently unused.
+
+
+At the time of writing, nsplugins supports Navigator 4 API plugins
+and doesn't support new Mozilla XPCOM components.
+
+Parts
+=====
+
+The Netscape(R) browser plugin support consists of 3 parts:
+- "PluginPart" KPart which is embedded into KHTML pages
+  (alone, it looks no different than a gray rectangle)
+- "nspluginviewer", a separate application which is capable of
+  actually loading and playing the various Netscape(R) plugins.
+- "pluginscan", a small utility to scan predefined directories
+  for Netscape(R) browser plugins.
+
+PluginPart's responsibility is to run "nspluginviewer" and instruct
+it to display the plugin inside its' rectangle.
+
+* KParts is KDE's standard for embeddable objects, much like
+  Microsoft's OLE.
+
+PluginPart / nspluginviewer separation
+======================================
+
+Plugins contain 3rd-party code which might crash if badly written
+(especially inside our "Netscape emulation" environment).
+The PluginPart runs inside the memory space of the embedding application,
+making the embedding application susceptible to a crash in the PluginPart.
+In our case, the "embedding application" would be the browser, and having
+the whole browser shut down just because some plugin crashed is bad.
+By loading and talking to the plugin is a separate process
+("nspluginviewer"), we prevent such crashes from taking
+the browser down with them -- the worst that could happen
+is the plugin suddenly disappearing from the page, revealing
+PluginPart's gray background.
+
+nspluginviewer to PluginPart communications
+===========================================
+
+The communications between the PluginPart and nspluginviewer
+are done via DCOP. Messages which nspluginviewer could send
+to PluginPart include:
+- requestURL(url, target) - make the browser load a URL
+- statusMessage(msg)      - change the status bar in the
+                            embedding application
+
+(For an updated list of messages, see NSPluginCallbackIface.h)
+
+When received, those messages are mapped to functions in
+NSPluginCallback, which in turn calls PluginPart functions.
+
+* DCOP is KDE's standard for RPC, typically used by local
+  processes to pass messages.
+
+PluginPart to nspluginviewer communications
+===========================================
+
+nspluginviewer's window is, all in all, a simple X11 window,
+it can be resized, focused and unfocused with standard X11 functions
+as long as we know its' window ID.
+
+PluginPart gets a NSPluginInstance (from NSPluginLoader::newInstance),
+which it sees as a regular QWidget. e.g. it can resize the QWidget and
+nspluginviewer's window will resize.
+
+This magic happens thanks to KJavaEmbed which NSPluginInstance inherits.
+KJavaEmbed inherits QWidget and hooks up to QWidget's events, mapping
+those events to the appropriate X11 window operations.
+Resizing, focusing in and out is about all PluginPart could ever do
+with the nspluginviewer.
+
+How does KJavaEmbed know the window ID of the nspluginviewer window?
+NSPluginInstance retrieves it from nspluginviewer with a DCOP call
+("int winId()") and gives it to KJavaEmbed.
+
+Main classes
+============
+
+- PluginPart class (plugin_part.h, plugin_part.cpp)
+  
+  A KParts::ReadOnlyPart.
+  
+- PluginFactory class (plugin_part.h, plugin_part.cpp)
+
+  Creates PluginPart objects.
+
+- NSPluginInstance class (nspluginloader.h, nspluginloader.cpp)
+
+  PluginPart's "looking glass" to "nspluginviewer".
+
+- NSPluginLoader class (nspluginloader.h, nspluginloader.cpp)
+
+  Responsible for starting a new independant process of the
+  plugin viewer and initiating DCOP communications with it.
+  
+- NSPluginCallbackIface (NSPluginCallbackIface.h)
+
+  Defines functions which the nspluginviewer can call in the PluginPart.
+  Those function calls would be transfered over DCOP and implemented
+  in PluginPart's NSPluginCallback class.
+
+- KJavaEmebed (javaembed.h, javaembed.cpp)
+
+  The same code we use for embedding Java(R) applets inside
+  KHTML happens to be useful for plugins too. The code
+  in kdelibs/khtml/java/ is similar so there's indeed a bit
+  of duplication here.
+
+  Note: Our use of this class has nothing to do with Java(R) applets.
+
+  This code provides a custom QWidget, which, when operated upon
+  (e.g. resized), does the same operation to another X11 window.
+  This is useful, since the other X11 window can belong to the
+  nspluginviewer, and then we could resize the QWidget and at the
+  same time resize the plugin window. That's how the "embedding"
+  magic happens.
+
+Plugin Scanner
+==============
+
+Implemented in: pluginscan.cpp
+
+Utility which scans for Netscape(R) browser plugins in pre-defined
+directories (according to KDE's configuration) and writes down
+information about the located plugins into the plugin information
+cache. To locate all the plugins, it doesn't limit itself to files
+with .so extension. A forking mechanism is implemented to prevent
+faulty .so's from crashing the scanning process.
+	
+This utility is usually not invoked standalone, but used by the
+KDE Control Center applet which invokes it on:
+- explicit request (ie. pressing "Scan for new plugins" button)
+- KDE startup (in the applet's initialization code)
+- first time the applet is ran
+
+	
+Viewer
+======
+
+Implemented in: viewer/
+
+The viewer is a KDE component used to embed Netscape(R) plugins
+into KDE applications (such as KHTML / Konqueror). To the plugin, it
+emulates a Netscape(R) browser, while outside - it offers a standard KParts
+object.
+
+NSPluginCallbackIface.h
+
+  Defines functions which the nspluginviewer can call in the PluginPart.
+  Those function calls would be transfered over DCOP and implemented
+  in PluginPart's NSPluginCallback class.
+
+kxt.h, kxt.cpp
+
+  ...
+	
+resolve.h
+
+  Some macros to resolve symbols.
+	
+nsplugin.h, nsplugin.cpp
+
+  The implementation of the interface between KDE and the Netscape(R)
+  browser plugin as a KParts object.
+	
+  Note: This file implements its own NSPluginInstance, which should
+  not be confused with PluginPart's NSPluginInstance.
+
+  It implements:
+  - The Netscape(R) emulation side:
+    g_NPN_* functions, which implement Netscape(R) browser
+    plugin API NPN_* C methods accordingly. Our emulation
+    of a Netscape(R) browser is as good as those functions are.
+    
+    By definition, all functions are passed with an NPN ("plugin
+    instance") struct, and each NPN has an 'ndata'  pointer member.
+    That's good news to us, since we now can use it to point to
+    our NSPluginInstance object.
+    
+    Those functions contain the minimum necessary code to
+    call the NSPluginInstance function for the requested operation
+
+  - The KDE side:
+    NSPluginInstance implements functions for various g_NPN_*
+    operations. Typically those operations will be passed via DCOP
+    to the PluginPart -- e.g. a operation which changes the window's
+    status bar.
+	
+viewer.cpp
+
+  A standalone application that executes Netscape plugins.
+
+Control Center applet
+=====================
+
+The Control Center applet allows the user to:
+- Add additional directories which "pluginscan" would scan for
+  Netscape(R) plugins. 
+- See which plugins "pluginscan" found (by reading the plugin cache). 
+- Force a "pluginscan" rescan.
+
+The KDE Control Center API is well documented in the KDE SDK.
+
+Compatibility notes
+===================
+
+Although nsplugins strive for full compatibility with the Netscape(R)
+browser plugin execution environment, it still lacks the following features:
+
+- LiveConnect (Netscape Navigator 3.0) Java / JavaScript connectivity
+
+  Support for LiveConnect (for JavaScript support) requires:
+  - Reimplementation of Netscape's JRI functions (see sdk/jri.h)
+    to communicate back (via DCOP?) with the PluginPart, which'll
+    signal them to KHTML's KJS interpretor. KParts::BrowserExtension
+    should be extended to support those signals. Of course, only
+    JRI calls in the "netscape.javascript" namespace should be handled.
+  - Implementation of g_NPN_GetJavaEnv and g_NPN_GetJavaPeer
+    (currently they're empty placeholders).
+  - Implementing g_NPN_GetValue(NPNVjavascriptEnabledBool, ...)
+    (currently always returns "false").
+    Should involve adding a slot to KParts::BrowserExtension
+    and making KHTML signal it whenever JS gets enabled or disabled.
+
+- XPConnect (Mozilla) JavaScript connectivity
+
+The current support is enough to run common plugins such as Macromedia(R)
+Flash(R) and RealPlayer(R), but some of their functionality might be missing.
+For instance, Flash(R) animations cannot call user-defined JavaScript
+routines nor can the user control the Flash(R) animation via JavaScript.
+
+Additional documentation
+========================
+
+Additional documentation on the Netscape(R) plugin API is available at:
+
+- http://developer.netscape.com/docs/manuals/plugins.html
+- http://www.mozilla.org/docs/plugin.html
+
+Author
+======
+
+This README was authored Ilya Konstantinov <kde-devel@future.shiny.co.il>.
+Thanks go to Matthias Hoelzer-Kluepfel and Stefan Schimanski for writing
+the actual code and making it all possible.
