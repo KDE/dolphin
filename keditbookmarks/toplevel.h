@@ -52,7 +52,7 @@ public:
 
    QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
-   KEBTopLevel(const QString & bookmarksFile, bool readonly);
+   KEBTopLevel(const QString & bookmarksFile, bool readonly, QString address);
    virtual ~KEBTopLevel();
 
    void setModifiedFlag(bool);

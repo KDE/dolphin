@@ -38,6 +38,7 @@
 static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},
    {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (<=4) format."), 0},
+   {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
    {"+[file]", I18N_NOOP("File to edit"), 0},
    KCmdLineLastOption
 };
@@ -106,11 +107,16 @@ int main(int argc, char **argv) {
       return 0;
    }
 
+   QString address = 
+      args->isSet("address")
+        ? QString::fromLocal8Bit(args->getOption("address"))
+        : "/0";
+
    args->clear();
 
    bool readonly = false;
    if (askUser(app, (gotArg ? filename : ""), readonly)) {
-      KEBTopLevel *toplevel = new KEBTopLevel(filename, readonly);
+      KEBTopLevel *toplevel = new KEBTopLevel(filename, readonly, address);
       toplevel->show();
       app.setMainWidget(toplevel);
       return app.exec();

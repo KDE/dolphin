@@ -64,7 +64,7 @@
 
 KEBTopLevel *KEBTopLevel::s_topLevel = 0;
 
-KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly)
+KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString address)
    : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) {
 
    m_bookmarksFilename = bookmarksFile;
@@ -92,6 +92,13 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly)
    KGlobal::locale()->insertCatalogue("libkonq");
 
    construct();
+
+   kdDebug() << address << endl;
+   KEBListViewItem *item = listview->getItemAtAddress(address);
+   if (item) {
+      listview->setCurrent(item);
+      item->setSelected(true);
+   }
 }
 
 void KEBTopLevel::construct() {
