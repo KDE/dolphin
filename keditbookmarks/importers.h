@@ -47,17 +47,7 @@
 // the importers should just suggest rather than
 // forcing the filename to import
 
-template <class TheImporter>
-static TheImporter *callImporter(QWidget *parent)
-{
-   QString mydirname = TheImporter::requestFilename();
-   if (mydirname.isEmpty()) {
-      return 0;
-   }
-   int ret = TheImporter::doImport(parent, TheImporter().visibleName());
-   return (ret == 0) ? 0 : new TheImporter(mydirname, (ret == 2));
-}
-
+// part pure
 class ImportCommand : public QObject, public KCommand
 {
    Q_OBJECT
@@ -82,6 +72,7 @@ public:
 
    virtual QString name() const;
    virtual QString visibleName() const = 0;
+   virtual QString requestFilename() const = 0;
 
    static int doImport(QWidget*, QString);
 
@@ -118,6 +109,7 @@ protected:
    bool m_utf8;
 };
 
+// part pure
 class XBELImportCommand : public ImportCommand
 {
 public:
@@ -125,6 +117,7 @@ public:
                      bool folder, const QString &icon);
    XBELImportCommand() { ; }
    virtual QString visibleName() const = 0;
+   virtual QString requestFilename() const = 0;
 private:
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
    virtual void doExecuteWrapper(const KBookmarkGroup bkGroup);
@@ -137,7 +130,7 @@ public:
    GaleonImportCommand(const QString &fileName, bool folder);
    GaleonImportCommand() { ; }
    virtual QString visibleName() const;
-   static QString requestFilename();
+   virtual QString requestFilename() const;
 private:
 };
 
@@ -147,16 +140,18 @@ public:
    KDE2ImportCommand(const QString &fileName, bool folder);
    KDE2ImportCommand() { ; }
    virtual QString visibleName() const;
-   static QString requestFilename();
+   virtual QString requestFilename() const;
 private:
 };
 
+// part pure
 class HTMLImportCommand : public ImportCommand
 {
 public:
    HTMLImportCommand(const QString &fileName, bool folder, const QString &icon, bool utf8);
    HTMLImportCommand() { ; }
    virtual QString visibleName() const = 0;
+   virtual QString requestFilename() const = 0;
 private:
    virtual void doExecute();
 };
@@ -167,7 +162,7 @@ public:
    NSImportCommand(const QString &fileName, bool folder);
    NSImportCommand() { ; }
    virtual QString visibleName() const;
-   static QString requestFilename();
+   virtual QString requestFilename() const;
 private:
 };
 
@@ -177,7 +172,7 @@ public:
    MozImportCommand(const QString &fileName, bool folder);
    MozImportCommand() { ; }
    virtual QString visibleName() const;
-   static QString requestFilename();
+   virtual QString requestFilename() const;
 private:
 };
 
@@ -187,7 +182,7 @@ public:
    IEImportCommand(const QString &fileName, bool folder);
    IEImportCommand() { ; }
    virtual QString visibleName() const;
-   static QString requestFilename();
+   virtual QString requestFilename() const;
 private:
    virtual void doExecute();
 };
@@ -198,7 +193,7 @@ public:
    OperaImportCommand(const QString &fileName, bool folder);
    OperaImportCommand() { ; }
    virtual QString visibleName() const;
-   static QString requestFilename();
+   virtual QString requestFilename() const;
 private:
    virtual void doExecute();
 };
@@ -206,14 +201,7 @@ private:
 class ImportCommandFactory
 {
 public:
-   static ImportCommand* call(const QCString &type, QWidget *top) {
-      if (type == "Galeon") return callImporter<GaleonImportCommand>(top);
-      if (type == "IE")     return callImporter<IEImportCommand>    (top);
-      if (type == "KDE2")   return callImporter<KDE2ImportCommand>  (top);
-      if (type == "Opera")  return callImporter<OperaImportCommand> (top);
-      if (type == "Moz")    return callImporter<MozImportCommand>   (top);
-      if (type == "NS")     return callImporter<NSImportCommand>    (top);
-   }
+   static ImportCommand* call(const QCString &, QWidget *);
 };
 
 #endif

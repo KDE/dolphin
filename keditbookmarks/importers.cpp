@@ -158,7 +158,7 @@ OperaImportCommand::OperaImportCommand(const QString &fileName, bool folder)
    ;
 }
 
-QString OperaImportCommand::requestFilename() {
+QString OperaImportCommand::requestFilename() const {
    return KOperaBookmarkImporter::operaBookmarksFile();
 }
 
@@ -177,7 +177,7 @@ IEImportCommand::IEImportCommand(const QString &fileName, bool folder)
    ;
 }
 
-QString IEImportCommand::requestFilename() {
+QString IEImportCommand::requestFilename() const {
    return KIEBookmarkImporter::IEBookmarksDir();
 }
 
@@ -202,7 +202,7 @@ MozImportCommand::MozImportCommand(const QString &fileName, bool folder)
    ;
 }
 
-QString MozImportCommand::requestFilename() {
+QString MozImportCommand::requestFilename() const {
    return KNSBookmarkImporter::mozillaBookmarksFile();
 }
 
@@ -215,7 +215,7 @@ NSImportCommand::NSImportCommand(const QString &fileName, bool folder)
    ;
 }
 
-QString NSImportCommand::requestFilename() {
+QString NSImportCommand::requestFilename() const {
    return KNSBookmarkImporter::netscapeBookmarksFile();
 }
 
@@ -239,7 +239,7 @@ GaleonImportCommand::GaleonImportCommand(const QString &fileName, bool folder)
    ;
 }
 
-QString GaleonImportCommand::requestFilename() {
+QString GaleonImportCommand::requestFilename() const {
    return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.galeon",
                i18n("*.xbel|Galeon bookmark files (*.xbel)"));
@@ -254,7 +254,7 @@ KDE2ImportCommand::KDE2ImportCommand(const QString &fileName, bool folder)
    ;
 }
 
-QString KDE2ImportCommand::requestFilename() {
+QString KDE2ImportCommand::requestFilename() const {
    // locateLocal on the bookmarks file and get dir?
    return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.kde",
@@ -333,6 +333,27 @@ void XBELImportCommand::doExecute() {
          root.appendChild((*it));
       }
    }
+}
+
+template <class TheImporter>
+static TheImporter* callImporter(QWidget *parent)
+{
+   TheImporter* importer = new TheImporter();
+   QString mydirname = importer->requestFilename();
+   if (mydirname.isEmpty()) {
+      return 0;
+   }
+   int ret = TheImporter::doImport(parent, importer->visibleName());
+   return (ret == 0) ? 0 : new TheImporter(mydirname, (ret == 2));
+}
+
+ImportCommand* ImportCommandFactory::call(const QCString &type, QWidget *top) {
+   if (type == "Galeon") return callImporter<GaleonImportCommand>(top);
+   if (type == "IE")     return callImporter<IEImportCommand>    (top);
+   if (type == "KDE2")   return callImporter<KDE2ImportCommand>  (top);
+   if (type == "Opera")  return callImporter<OperaImportCommand> (top);
+   if (type == "Moz")    return callImporter<MozImportCommand>   (top);
+   if (type == "NS")     return callImporter<NSImportCommand>    (top);
 }
 
 #include "importers.moc"
