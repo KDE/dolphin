@@ -48,10 +48,10 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     vlay_firstColumnLabels->setSpacing( KDialog::spacingHint() );
     vlay_firstColumnLabels->setMargin( 0 );
 
-    QLabel* lbl_socket = new QLabel( i18n( "Soc&ket Read" ), gb_Timeout,
+    QLabel* lbl_socket = new QLabel( i18n( "Soc&ket Read:" ), gb_Timeout,
                                      "lbl_socket" );
     vlay_firstColumnLabels->addWidget( lbl_socket );
-    QLabel* lbl_proxy = new QLabel( i18n( "Pro&xy Connect" ), gb_Timeout,
+    QLabel* lbl_proxy = new QLabel( i18n( "Pro&xy Connect:" ), gb_Timeout,
                             "lbl_proxy" );
     vlay_firstColumnLabels->addWidget( lbl_proxy );
 
@@ -82,10 +82,10 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     QVBoxLayout* vlay_secondColumnLabel = new QVBoxLayout;
     vlay_secondColumnLabel->setSpacing( KDialog::spacingHint() );
     vlay_secondColumnLabel->setMargin( 0 );
-    QLabel* lbl_serverConnect = new QLabel( i18n("Server Co&nnect"), gb_Timeout,
+    QLabel* lbl_serverConnect = new QLabel( i18n("Server Co&nnect:"), gb_Timeout,
                                             "lbl_serverConnect" );
     vlay_secondColumnLabel->addWidget( lbl_serverConnect );
-    QLabel* lbl_serverResponse = new QLabel( i18n("Server &Response"), gb_Timeout,
+    QLabel* lbl_serverResponse = new QLabel( i18n("Server &Response:"), gb_Timeout,
                                              "lbl_serverResponse" );
     vlay_secondColumnLabel->addWidget( lbl_serverResponse );
     grid_secondColumn->addLayout( vlay_secondColumnLabel, 0, 0 );
@@ -114,7 +114,7 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     mainLayout->addWidget( gb_Timeout );
 
     gb_Ftp = new QGroupBox( 1, Qt::Vertical, i18n( "FTP Options" ), this, "gb_Ftp" );
-    cb_ftpDisablePasv = new QCheckBox( i18n( "Disable Passive Mode (PASV)" ), gb_Ftp );
+    cb_ftpDisablePasv = new QCheckBox( i18n( "Disable Passive &Mode (PASV)" ), gb_Ftp );
     mainLayout->addWidget( gb_Ftp );
 
     mainLayout->addStretch();
