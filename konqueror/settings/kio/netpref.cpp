@@ -25,44 +25,37 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
                                                KDialog::spacingHint() );
     gb_Timeout = new QVGroupBox( i18n("Timeout Values"), this, "gb_Timeout" );
     QWhatsThis::add( gb_Timeout, i18n("Here you can set timeout values. "
-                                      "You might want to tweak them if your "
-                                      "connection is very slow. The maximum "
-                                      "allowed value is %1 seconds.").arg(MAX_TIMEOUT_VALUE));
-
-
-    QGrid *grid = new QGrid(4, Qt::Vertical, gb_Timeout);
-    grid->setSpacing(KDialog::spacingHint());
-
-    QLabel* lbl_socket = new QLabel( i18n( "Soc&ket read:" ), grid,
-                                     "lbl_socket" );
-    QLabel* lbl_proxy = new QLabel( i18n( "Pro&xy connect:" ), grid,
-                            "lbl_proxy" );
-
-    QLabel* lbl_serverConnect = new QLabel( i18n("Server co&nnect:"), grid,
-                                            "lbl_serverConnect" );
-    QLabel* lbl_serverResponse = new QLabel( i18n("Server &response:"), grid,
-                                             "lbl_serverResponse" );
-
-    sb_socketRead = new KIntNumInput( grid, "sb_socketRead" );
-    sb_socketRead->setSuffix( i18n( " sec" ) );
-    connect(sb_socketRead, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
-
-    sb_proxyConnect = new KIntNumInput( grid, "sb_proxyConnect" );
-    sb_proxyConnect->setSuffix( i18n( " sec" ) );
-    connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
-
-    sb_serverConnect = new KIntNumInput( grid, "sb_serverConnect" );
-    sb_serverConnect->setSuffix( i18n( " sec" ) );
-    connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
-
-    sb_serverResponse = new KIntNumInput( grid, "sb_serverResponse" );
-    sb_serverResponse->setSuffix( i18n( " sec" ) );
-    connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
-
-    QWidget *spacer = new QWidget(grid);
-    spacer->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
-
+                    "You might want to tweak them if your "
+                    "connection is very slow. The maximum "
+                    "allowed value is %1 seconds.").arg(MAX_TIMEOUT_VALUE));
     mainLayout->addWidget( gb_Timeout );
+
+    sb_socketRead = new KIntNumInput( gb_Timeout, "sb_socketRead" );
+    sb_socketRead->setSuffix( i18n( " sec" ) );
+    sb_socketRead->setLabel( i18n( "Soc&ket read:" ), AlignVCenter);
+    connect(sb_socketRead, SIGNAL(valueChanged ( int )),
+            this, SLOT(timeoutChanged(int)));
+
+    sb_proxyConnect = new KIntNumInput( sb_socketRead, 0, gb_Timeout, 
+            10, "sb_proxyConnect" );
+    sb_proxyConnect->setSuffix( i18n( " sec" ) );
+    sb_proxyConnect->setLabel( i18n( "Pro&xy connect:" ), AlignVCenter);
+    connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),
+            this, SLOT(timeoutChanged(int)));
+
+    sb_serverConnect = new KIntNumInput( sb_proxyConnect, 0, gb_Timeout, 
+            10, "sb_serverConnect" );
+    sb_serverConnect->setSuffix( i18n( " sec" ) );
+    sb_serverConnect->setLabel( i18n("Server co&nnect:"), AlignVCenter);
+    connect(sb_serverConnect, SIGNAL(valueChanged ( int )),
+            this, SLOT(timeoutChanged(int)));
+
+    sb_serverResponse = new KIntNumInput( sb_serverConnect, 0, gb_Timeout, 
+            10, "sb_serverResponse" );
+    sb_serverResponse->setSuffix( i18n( " sec" ) );
+    sb_serverResponse->setLabel( i18n("Server &response:"), AlignVCenter);
+    connect(sb_serverResponse, SIGNAL(valueChanged ( int )),
+            this, SLOT(timeoutChanged(int)));
 
     gb_Ftp = new QVGroupBox( i18n( "FTP Options" ), this, "gb_Ftp" );
     cb_ftpEnablePasv = new QCheckBox( i18n( "Enable passive &mode (PASV)" ), gb_Ftp );
@@ -79,11 +72,6 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     connect(cb_ftpMarkPartial, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
 
     mainLayout->addStretch();
-
-    lbl_socket->setBuddy( sb_socketRead );
-    lbl_proxy->setBuddy( sb_proxyConnect );
-    lbl_serverConnect->setBuddy( sb_serverConnect );
-    lbl_serverResponse->setBuddy( sb_serverResponse );
 
     load();
 }

@@ -4,7 +4,7 @@
 #include <kcmodule.h>
 
 class QLabel;
-class QGroupBox;
+class QVGroupBox;
 class QCheckBox;
 class QVBoxLayout;
 class QHBoxLayout;
@@ -34,8 +34,8 @@ protected slots:
     void configChanged() { emit changed(true); }
 
 private:
-    QGroupBox* gb_Ftp;
-    QGroupBox* gb_Timeout;
+    QVGroupBox* gb_Ftp;
+    QVGroupBox* gb_Timeout;
     QCheckBox* cb_ftpEnablePasv;
     QCheckBox* cb_ftpMarkPartial;
 
