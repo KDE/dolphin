@@ -25,6 +25,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
+#include <qfile.h>
 
 #include <kaction.h>
 #include <kdebug.h>
@@ -561,8 +562,13 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         return;
     if ( !fileItem->isReadable() )
     {
-        KMessageBox::error( m_pIconView, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(fileItem->url().prettyURL()) );
-        return;
+        // No permissions or local file that doesn't exist - need to find out which
+        if ( !fileItem->isLocalFile() || QFile::exists( fileItem->url().path() ) )
+        {
+            KMessageBox::error( m_pIconView, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(fileItem->url().prettyURL()) );
+            return;
+        }
+        // ### Add error message if the latter case, after msg freeze.
     }
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
         fileItem->run();

@@ -36,6 +36,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <kiconloader.h>
+#include <qfile.h>
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)
@@ -757,8 +758,13 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    KURL u( fileItem->url() );
    if ( !fileItem->isReadable() )
    {
-      KMessageBox::error( this, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(u.prettyURL()) );
-      return;
+        // No permissions or local file that doesn't exist - need to find out which
+        if ( !fileItem->isLocalFile() || QFile::exists( fileItem->url().path() ) )
+        {
+            KMessageBox::error( this, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(u.prettyURL()) );
+            return;
+        }
+        // ### Add error message if the latter case, after msg freeze.
    }
    if ( fileItem->isLink() )
       u = KURL( u, fileItem->linkDest() );
