@@ -1,4 +1,6 @@
 [KDE Desktop Entry]
+Icon=kfm_fulltrash.xpm
+EmptyIcon=kfm_trash.xpm
 Name=Trash
 Name[br]=Pod-lastez
 Name[cs]=Ko¹
