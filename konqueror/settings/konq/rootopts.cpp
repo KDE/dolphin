@@ -102,7 +102,8 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 #define RO_LASTROW 3   // 2 GroupBoxes + last row = 3 rows. But it starts at 0 ;)
 #define RO_LASTCOL 2
   int row = 0;
-  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, KDialog::spacingHint());
+  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 
+      0, KDialog::spacingHint());
   QString strMouseButton1, strMouseButton3, strButtonTxt1, strButtonTxt3;
   bool leftHandedMouse;
 
@@ -265,7 +266,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   QGridLayout *gridLayout = new QGridLayout(grid, 3, 3);
   gridLayout->setColStretch(0, 0);
   gridLayout->setColStretch(1, 1);
-  gridLayout->setColStretch(1, 0);
+  gridLayout->setColStretch(2, 0);
 
   gridLayout->addWidget(leftLabel, 0, 0, AlignVCenter | AlignLeft);
   gridLayout->addWidget(leftComboBox, 0, 1, AlignCenter);
@@ -535,7 +536,8 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
 #define RO_LASTCOL 2
 
   int row = 0;
-  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
+  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 
+      0, KDialog::spacingHint());
 
   lay->setRowStretch(RO_LASTROW,10); // last line grows
 

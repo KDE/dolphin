@@ -56,9 +56,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
 
   Q_ASSERT(maxDesktops % 2 == 0);
 	
-  QVBoxLayout *layout = new QVBoxLayout(this,
-                    KDialog::marginHint(),
-                    KDialog::spacingHint());
+  QVBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
   // number group
   QGroupBox *number_group = new QGroupBox(this);
