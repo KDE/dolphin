@@ -47,6 +47,7 @@
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/factory.h>
+#include <kiconloader.h>
 
 #include <qmessagebox.h>
 #include <qfile.h>
@@ -54,8 +55,10 @@
 #include <qpalette.h>
 #include <klocale.h>
 #include <qregexp.h>
+#include <qvaluelist.h>
 
 template class QList<KFileIVI>;
+template class QValueList<int>;
 
 class KonqIconViewFactory : public KParts::Factory
 {
@@ -242,20 +245,23 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
     m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
+    m_paDefaultIcons = new KToggleAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
     m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
     m_paSmallIcons = new KToggleAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
     m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
     //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
+    m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
     m_paMediumIcons->setExclusiveGroup( "ViewMode" );
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
     m_paNoIcons->setExclusiveGroup( "ViewMode" );
     //m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
+    m_paDefaultIcons->setChecked( true );
     m_paLargeIcons->setChecked( false );
-    m_paMediumIcons->setChecked( true );
+    m_paMediumIcons->setChecked( false );
     m_paSmallIcons->setChecked( false );
     m_paNoIcons->setChecked( false );
     //m_paKOfficeMode->setChecked( false );
@@ -275,6 +281,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     //
 
+    connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewDefault( bool ) ) );
     connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewMedium( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
@@ -331,6 +338,19 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     QObject::connect( m_pIconView, SIGNAL( rightButtonPressed( QIconViewItem *, const QPoint &) ),
 		      this, SLOT( slotViewportRightClicked( QIconViewItem * ) ) );
 
+    // Extract 3 icon sizes from the icon theme. Use 16,32,48 as default.
+    int i;
+    m_iIconSize[0] = 16;
+    m_iIconSize[1] = 32;
+    m_iIconSize[2] = 48;
+    KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
+    QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
+    QValueList<int>::Iterator it;
+    for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
+    {
+	m_iIconSize[i] = *it;
+    }
+
     // Now we may react to configuration changes
     m_bInit = false;
 
@@ -339,8 +359,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bNeedAlign = false;
 
     m_pIconView->setResizeMode( QIconView::Adjust );
-    // KDE extension : KIconLoader size
-    m_pIconView->setIcons( KIconLoader::Medium ); // TODO : part of KonqPropsView
+    m_pIconView->setIcons( 0 ); // TODO : part of KonqPropsView
 
     m_eSortCriterion = NameCaseInsensitive;
 
@@ -550,7 +569,7 @@ void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
     {
-	m_pIconView->setIcons( KIconLoader::Large );
+	m_pIconView->setIcons( m_iIconSize[2] );
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
@@ -559,7 +578,7 @@ void KonqKfmIconView::slotViewMedium( bool b )
 {
     if ( b )
     {
-	m_pIconView->setIcons( KIconLoader::Medium );
+	m_pIconView->setIcons( m_iIconSize[1] );
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
@@ -573,11 +592,20 @@ void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
     {
-	m_pIconView->setIcons( KIconLoader::Small );
+	m_pIconView->setIcons( m_iIconSize[0] );
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
+void KonqKfmIconView::slotViewDefault( bool b)
+{
+    if ( b )
+    {
+	m_pIconView->setIcons( 0 );
+	m_pIconView->arrangeItemsInGrid( true );
+    }
+}
+	
 void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {
@@ -644,15 +672,16 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
 
     stream >> iIconSize >> iTextPos >> iImagePreview >> iShowDot >> iHTMLAllowed;
 
-    KIconLoader::Size iconSize = (KIconLoader::Size)iIconSize;
     QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
 
-    switch ( iconSize )
-    {
-    case KIconLoader::Large: m_paLargeIcons->setChecked( true ); break;
-    case KIconLoader::Medium: m_paMediumIcons->setChecked( true ); break;
-    case KIconLoader::Small: m_paSmallIcons->setChecked( true ); break;
-    }
+    if (iIconSize == m_iIconSize[0])
+	m_paSmallIcons->setChecked( true );
+    else if (iIconSize == m_iIconSize[1])
+	m_paMediumIcons->setChecked( true );
+    else if (iIconSize == m_iIconSize[2])
+	m_paLargeIcons->setChecked( true );
+    else
+	m_paDefaultIcons->setChecked( true );
 
     if ( textPos == QIconView::Bottom )
 	m_paBottomText->setChecked( true );

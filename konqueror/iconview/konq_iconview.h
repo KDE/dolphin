@@ -83,6 +83,7 @@ public slots:
   void slotSortDirsFirst();
 
   void slotKofficeMode( bool b );
+  void slotViewDefault( bool b );
   void slotViewLarge( bool b );
   void slotViewMedium( bool b );
   void slotViewSmall( bool b );
@@ -156,6 +157,7 @@ protected:
   KToggleAction *m_paImagePreview;
   KActionMenu *m_pamSort;
 
+  KToggleAction *m_paDefaultIcons;
   KToggleAction *m_paLargeIcons;
   KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;
@@ -176,6 +178,8 @@ protected:
   long m_lDirSize;
   long m_lFileCount;
   long m_lDirCount;
+
+  int m_iIconSize[3];
 
   IconViewBrowserExtension *m_extension;
 
