@@ -56,7 +56,6 @@ CmdHistory::CmdHistory(KActionCollection *collection) : m_commandHistory(collect
                               SLOT( slotCommandExecuted() ));
    connect(&m_commandHistory, SIGNAL( documentRestored() ), 
                               SLOT( slotDocumentRestored() ));
-
    assert(!s_self);
    s_self = this;
 }
@@ -98,6 +97,8 @@ void CmdHistory::addCommand(KCommand *cmd) {
 void CmdHistory::clearHistory() {
    m_commandHistory.clear();
 }
+
+/* -------------------------- */
 
 CurrentMgr *CurrentMgr::s_mgr = 0;
 
@@ -155,6 +156,8 @@ void CurrentMgr::doExport(bool moz) {
 QString CurrentMgr::correctAddress(const QString &address) {
    return mgr()->findByAddress(address, true).address();
 }
+
+/* -------------------------- */
 
 KEBApp *KEBApp::s_topLevel = 0;
 
@@ -221,8 +224,6 @@ KEBApp::~KEBApp() {
    s_topLevel = 0;
    delete m_dcopIface;
 }
-
-/* -------------------------- */
 
 void KEBApp::createActions() {
 

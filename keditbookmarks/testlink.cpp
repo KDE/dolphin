@@ -307,6 +307,8 @@ static void Bk_setBkNsInfo(KBookmark bk, const QString &info) {
    bk.internalElement().setAttribute(NetscapeInfoAttribute, info);
 }
 
+/* -------------------------- */
+
 void KEBListViewItem::nsPut(const QString &newModDate) {
    const QString info = Bk_getNsInfo(m_bookmark);
    Bk_setBkNsInfo(m_bookmark, updateNsInfoMod(info, newModDate));

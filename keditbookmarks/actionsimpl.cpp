@@ -55,8 +55,6 @@
 
 ActionsImpl* ActionsImpl::s_self = 0;
 
-/* -------------------------------------- */
-
 void ActionsImpl::slotCut() {
    slotCopy();
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Cut Items"), ListView::self()->selectedItems());
