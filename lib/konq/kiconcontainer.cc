@@ -740,14 +740,14 @@ void KIconContainer::dropEvent( QDropEvent * e )
       }
     } else // It's not : emit event
     {
-      kdebug(KDEBUG_INFO, 1205, "Dropping to desktop from other app");
+      kdebug(KDEBUG_INFO, 1205, "Dropping to background from other app");
       emit drop( e, 0L, m_lstDropFormats );
     }
   }
   // Drop on item
   else
   {
-    kdebug(KDEBUG_INFO, 1205, "Dropping to desktop icon from other app");
+    kdebug(KDEBUG_INFO, 1205, "Dropping to icon from other app");
     emit drop( e, item, m_lstDropFormats );
   }
 
@@ -757,7 +757,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
 
 void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 {
-  // TODO: What is that good for ... ?
+  // mouse click -> set focus if not yet focused
   if ( !hasFocus() )
     setFocus();
 
