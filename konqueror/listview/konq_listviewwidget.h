@@ -161,8 +161,6 @@ class KonqBaseListViewWidget : public KListView
       //this is called in the constructor, so virtual would be nonsense
       void initConfig();
       void emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args);
-      void emitStarted( KIO::Job* job);
-      void emitCompleted();
       //QStringList readProtocolConfig( const QString & protocol );
 
       virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );

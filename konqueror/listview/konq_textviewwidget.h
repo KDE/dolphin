@@ -38,11 +38,11 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
    public:
       KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget );
       ~KonqTextViewWidget();
-      
+
    protected slots:
       // slots connected to the directory lister
       virtual void slotStarted( const QString & );
-      virtual void slotCompleted();
+      //virtual void slotCompleted();
       virtual void slotNewItems( const KFileItemList & );
    protected:
       virtual void createColumns();

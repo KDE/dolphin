@@ -597,21 +597,11 @@ KonqPropsView * KonqBaseListViewWidget::props() const
   return m_pBrowserView->m_pProps;
 }
 
-void KonqBaseListViewWidget::emitCompleted()
-{
-   emit m_pBrowserView->completed();
-}
-
 void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args)
 {
    KParts::URLArgs a = args;
    a.trustedSource = true;
    emit m_pBrowserView->extension()->openURLRequest(url,a);
-}
-
-void KonqBaseListViewWidget::emitStarted( KIO::Job * job)
-{
-   emit m_pBrowserView->started( job );
 }
 
 void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
@@ -827,7 +817,7 @@ void KonqBaseListViewWidget::setComplete()
 void KonqBaseListViewWidget::slotStarted( const QString & /*url*/ )
 {
    if (!m_bTopLevelComplete)
-      emitStarted(m_dirLister->job());
+      emit m_pBrowserView->started(m_dirLister->job());
 }
 
 void KonqBaseListViewWidget::slotCompleted()
@@ -835,7 +825,7 @@ void KonqBaseListViewWidget::slotCompleted()
    bool complete = m_bTopLevelComplete;
    setComplete();
    if ( !complete )
-      emitCompleted();
+     emit m_pBrowserView->completed();
 }
 
 void KonqBaseListViewWidget::slotCanceled()

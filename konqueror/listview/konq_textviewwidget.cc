@@ -140,10 +140,9 @@ void KonqTextViewWidget::createColumns()
    };
 };
 
-void KonqTextViewWidget::slotStarted( const QString & /*url*/ )
+void KonqTextViewWidget::slotStarted( const QString & url )
 {
-   if ( !m_bTopLevelComplete )
-      emitStarted(m_dirLister->job());
+   KonqBaseListViewWidget::slotStarted( url );
    setUpdatesEnabled(FALSE);
    timer.restart();
 }
@@ -160,12 +159,14 @@ void KonqTextViewWidget::setComplete()
 //   show();
 }
 
+/* What's different compared to KonqBaseListViewWidget::slotCompleted ?
 void KonqTextViewWidget::slotCompleted()
 {
    setComplete();
    emitCompleted();
    //cerr<<"needed "<<timer.elapsed()<<" msecs"<<endl;
 }
+*/
 
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
