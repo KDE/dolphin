@@ -547,12 +547,12 @@ void KonqOperations::doFileCopy()
     assert(m_info); // setDropInfo - and asyncDrop - should have been called before asyncDrop
     KURL::List lst = m_info->lst;
     QDropEvent::Action action = m_info->action;
-    bool moveTrash = false;
+    QString newTrashPath;
     KURL::List mlst;
     for (KURL::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
     {
         if ( (*it).path(1) == KGlobalSettings::trashPath())
-            moveTrash = true;
+            newTrashPath=m_destURL.path()+(*it).path().right((*it).path().length()-(*it).directory().length());
         if ( KProtocolInfo::supportsDeleting( *it ) )
             mlst.append(*it);
     }
@@ -630,12 +630,13 @@ void KonqOperations::doFileCopy()
         job = KIO::move( mlst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, MOVE, lst, m_destURL );
-        if ( moveTrash )
+        if ( !newTrashPath.isEmpty() )
         {
-            kdDebug(1203) << "Update trash path" <<m_destURL.path()<< endl;
+
+            kdDebug(1203) << "Update trash path" <<newTrashPath<< endl;
             KConfig *globalConfig = KGlobal::config();
             KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writeEntry("Trash" , m_destURL.path(), true, true );
+            globalConfig->writeEntry("Trash" , newTrashPath, true, true );
             globalConfig->sync();
             KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
         }

@@ -32,6 +32,9 @@
 #include <kdatastream.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kglobalsettings.h>
+#include <kconfig.h>
+#include <kipc.h>
 
 #include <kio/job.h>
 
@@ -249,7 +252,6 @@ QString KonqUndoManager::undoText() const
 void KonqUndoManager::undo()
 {
   KonqCommand cmd = d->m_commands.top();
-
   broadcastPop();
   broadcastLock();
 
@@ -266,6 +268,16 @@ void KonqUndoManager::undo()
   QValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
   while ( it != end )
   {
+      if ( d->m_current.m_type == KonqCommand::MOVE && (*it).m_src.path(1) == KGlobalSettings::trashPath())
+      {
+          kdDebug(1203) << "Update trash path" <<(*it).m_dst.path()<< endl;
+          KConfig *globalConfig = KGlobal::config();
+          KConfigGroupSaver cgs( globalConfig, "Paths" );
+          globalConfig->writeEntry("Trash" , (*it).m_dst.path(), true, true );
+          globalConfig->sync();
+          KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+      }
+
     if ( (*it).m_directory && !(*it).m_renamed )
     {
       d->m_dirStack.push( (*it).m_src );
@@ -308,7 +320,6 @@ void KonqUndoManager::undo()
 
   d->m_undoJob = new KonqUndoJob;
   d->m_uiserverJobId = d->m_undoJob->progressId();
-
   undoStep();
 }
 
