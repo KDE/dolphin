@@ -48,7 +48,7 @@ public:
   KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, K2URL& _url );
   virtual ~KfmTreeViewItem() { }
 
-  virtual const char* name() const { return text( 0 ); }
+  virtual const QString name() const { return text( 0 ); }
   virtual QString text( int column ) const;
   virtual QString key( int _column, bool ) const;
 

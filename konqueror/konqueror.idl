@@ -18,7 +18,7 @@ module Konqueror
     long xOffset /* = 0 */ ;
     long yOffset /* = 0 */ ;
   };
-  
+    
   /*
    * This event is mapped by Konqueror's implementation of the MainView
    * interface as well as by all the views.
@@ -30,6 +30,15 @@ module Konqueror
 
   interface View : OpenParts::Part
   {
+    struct MenuPopupRequest
+    {
+      long x;
+      long y;
+      StrList urls;
+      long mode;      
+      boolean isLocalFile;      
+    };
+  
     /*
      * A full featured Konqueror View has to map the eventOpenURL event (which 
      * has a structure EventOpenURL as parameter)
@@ -42,7 +51,7 @@ module Konqueror
      *      - signal void setStatusBarText( in string text );
      *      - signal void setLocationBarURL( in string url );
      *      - signal void createNewWindow( in string url );
-     *      - signal void popupMenu( in long x, in long y, in StrList urls, in long mode, in boolean is_local_file );
+     *      - signal void popupMenu( in MenuPopupRequest popup );
      *      - signal void addHistory( in string url, in long xOffset, in long yOffset );
      */
      
@@ -159,6 +168,7 @@ module Konqueror
     slot void addHistory( in string url, in long xOffset, in long yOffset );
     
     slot void createNewWindow( in string url );
+    slot void popupMenu( in View::MenuPopupRequest popup );
 
     string currentTitle();
     string currentURL();

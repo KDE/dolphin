@@ -72,7 +72,7 @@ KBookmarkManager::KBookmarkManager() : m_Root( 0L, 0L, 0L )
   m_bAllowSignalChanged = true;
   m_bNotify = true;
 
-  QString p = kapp->localkdedir().data();
+  QString p = kapp->localkdedir();
   p += "/share/apps/kfm/bookmarks";
   scan( p );
 
@@ -90,7 +90,7 @@ void KBookmarkManager::slotNotify( const char *_url )
   if ( !u.isLocalFile() )
     return;
 
-  QString p = kapp->localkdedir().data();
+  QString p = kapp->localkdedir();
   p += "/share/apps/kfm/bookmarks";
   QDir dir2( p );
   QDir dir1( u.path() );
@@ -100,11 +100,11 @@ void KBookmarkManager::slotNotify( const char *_url )
   if ( p1.isEmpty() )
     p1 = u.path();
   if ( p2.isEmpty() )
-    p2 = p.data();
+    p2 = p;
 
-  if ( strncmp( p1.data(), p2.data(), p2.length() ) == 0 )
+  if ( qstrncmp( p1, p2, p2.length() ) == 0 )
   {
-    QString d = kapp->localkdedir().data();
+    QString d = kapp->localkdedir();
     d += "/share/apps/kfm/bookmarks/";
     scan( d );
   }
@@ -144,10 +144,10 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   // Did we scan this one already ?
   for( s = m_lstParsedDirs.first(); s != 0L; s = m_lstParsedDirs.next() )
   {
-    if ( strcmp( s->data(), canonical.data() ) == 0 )
+    if ( qstrcmp( *s, canonical ) == 0 )
       return;
   }
-  m_lstParsedDirs.append( new QString( canonical.data() ) );
+  m_lstParsedDirs.append( new QString( canonical ) );
 
   DIR *dp;
   struct dirent *ep;
@@ -211,7 +211,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 
 void KBookmarkManager::slotEditBookmarks()
 {
-  QString q = kapp->localkdedir().data();
+  QString q = kapp->localkdedir();
   string u = q.data();
   u += "/share/apps/kfm/bookmarks";
   K2URL::encode( u );
@@ -264,7 +264,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   m_type = Folder;
   m_text = _text;
 
-  QString p = kapp->localkdedir().data();
+  QString p = kapp->localkdedir();
   p += "/share/apps/kfm/bookmarks";
   const char *dir = p;
   if ( _parent )
@@ -389,6 +389,7 @@ QString KBookmark::encode( const char *_str )
 {
   QString str( _str );
 
+/* FIXME: temporarily disabled... I'm too lazy to fix this now ;) (Simon)
   int i = 0;
   while ( ( i = str.find( "%", i ) ) != -1 )
   {
@@ -397,14 +398,17 @@ QString KBookmark::encode( const char *_str )
   }
   while ( ( i = str.find( "/" ) ) != -1 )
       str.replace( i, 1, "%2f");
-
-  return QString( str.data() );
+*/
+  return str;
 }
 
 QString KBookmark::decode( const char *_str )
 {
   QString str( _str );
 
+/* FIXME: temporarily disabled... I'm too lazy to fix this now ;) (Simon)
+  BTW, why don't we use K(2)URL::(decode,encode) ?
+  
   int i = 0;
   while ( ( i = str.find( "%%", i ) ) != -1 )
   {
@@ -416,8 +420,8 @@ QString KBookmark::decode( const char *_str )
       str.replace( i, 3, "/");
   while ( ( i = str.find( "%2F" ) ) != -1 )
       str.replace( i, 3, "/");
-
-  return QString( str.data() );
+*/
+  return str;
 }
 
 QPixmap* KBookmark::pixmap( bool _mini )

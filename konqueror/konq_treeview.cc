@@ -652,11 +652,13 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
       if ( comment.isEmpty() )
 	tmp = i18n ( "Symbolic Link" );
       else
-	tmp.sprintf(i18n( "%s (Link)" ), comment.data() );
+        tmp = comment + " " + i18n("(Link)");
+//	tmp.sprintf(i18n( "%s (Link)" ), comment.data() );
+
       text += "->";
       text += linkDest;
       text += "  ";
-      text += tmp.data();
+      text += tmp;
     }
     else if ( S_ISREG( mode ) )
     {
@@ -671,20 +673,20 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
 	text.sprintf( "%s (%.2f K)", text2.data(), d);
       }
       text += "  ";
-      text += comment.data();
+      text += comment;
     }
     else if ( S_ISDIR( mode ) )
     {
       text += "/  ";
-      text += comment.data();
+      text += comment;
     }
     else
       {
 	text += "  ";
-	text += comment.data();
+	text += comment;
       }	
 //    m_pView->gui()->setStatusBarText( text );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.ascii(), 0 ) );
   }
   else
 //    m_pView->gui()->setStatusBarText( url.url().c_str() );
@@ -1199,7 +1201,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
         item = firstChild();
       while( item )
       {
-        if ( name == ((KfmTreeViewItem*)item)->name() )
+        if ( name == ((KfmTreeViewItem*)item)->name().ascii() )
         {
           ((KfmTreeViewItem*)item)->mark();
           done = true;

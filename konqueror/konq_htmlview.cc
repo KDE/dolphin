@@ -121,14 +121,8 @@ KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
+  KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url, (bool)eventURL.reload ); // implemented by kbrowser
-
-// Simon: here's what's left of merging conflicts:
-// comment: - obey the reload flag (I did so above)
-//          - there's no need to call KonqBaseView::mappingOpenURL since
-//            it's "empty" :-)
-//  KonqBaseView::mappingOpenURL(eventURL);
-//  openURL( eventURL.url ); // implemented by kbrowser
 
   return true;
 }

@@ -90,6 +90,7 @@ public:
   virtual void addHistory( const char *_url, CORBA::Long _xoffset, CORBA::Long _yoffset );
   
   virtual void createNewWindow( const char *url );
+  virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
 
   virtual char *currentTitle() { return ""; }
   virtual char *currentURL() { return ""; }
@@ -221,7 +222,9 @@ protected:
   KAccel* m_pAccel;
 
   KfmGuiProps *m_Props;
-  
+
+  QStrList m_lstPopupURLs;
+    
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;
 };

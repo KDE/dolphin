@@ -110,7 +110,9 @@ void KNewMenu::fillMenu()
         if ( tmp.right(7) == ".kdelnk" )
             tmp.truncate( tmp.length() - 7 );
         if ( m_bUseOPMenu )
-	  m_vMenu->insertItem( config.readEntry("Name", tmp ), CORBA::Object::_nil(), 0L, 0 );
+	  {
+	    m_vMenu->insertItem( config.readEntry("Name", tmp ).data(), CORBA::Object::_nil(), 0L, 0 );
+	  }    
 	else
 	  m_pMenu->insertItem( config.readEntry("Name", tmp ) );
     }
