@@ -141,7 +141,7 @@ void KonqDirPart::slotBackgroundSettings()
 {
     QColor bgndColor = m_pProps->bgColor( widget() );
     QColor defaultColor = KGlobalSettings::baseColor();
-    KonqBgndDialog dlg( m_pProps->bgPixmapFile(), instance(), bgndColor, defaultColor );
+    KonqBgndDialog dlg( widget(), m_pProps->bgPixmapFile(), bgndColor, defaultColor );
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
         if ( dlg.color().isValid() )

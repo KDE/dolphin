@@ -18,220 +18,194 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qhbox.h>
+#include <qbuttongroup.h>
 #include <qlabel.h>
+#include <qlayout.h>
+#include <qradiobutton.h>
 
 #include <kcolorbutton.h>
-#include <kfiledialog.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
+#include <kcombobox.h>
 #include <kdebug.h>
 #include <kimagefilepreview.h>
-#include <krecentdocument.h>
+#include <klocale.h>
+//#include <krecentdocument.h>
+#include <kstandarddirs.h>
+#include <kurlrequester.h>
 
 #include "konq_bgnddlg.h"
 
 
-KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile, KInstance *instance,
-                                QColor &theColor, const QColor& defaultColor )
-  : KDialogBase( Plain,
-		 i18n("Configure Background Settings"),
-                 Ok|Cancel,
-                 Ok,
-		 0L, // no parent,
-                 "KonqBgndDialog",
-                 true, //modal
-                 false, // no separator
-                 i18n( "Set as default" )
-    )
+KonqBgndDialog::KonqBgndDialog( QWidget* parent,
+                                const QString& pixmapFile,
+                                const QColor& theColor,
+                                const QColor& defaultColor )
+ : KDialogBase( parent, "KonqBgndDialog", false,
+                i18n("Background Settings"), Ok|Cancel, Ok, true )
 {
-    KGlobal::dirs()->addResourceType("tiles",
-                                     KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
-    kdDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
-    QFrame *page = plainPage();
-    QLayout *layout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
-    layout->setAutoAdd( true );
+    QWidget* page = new QWidget( this );
+    setMainWidget( page );
+    QVBoxLayout* mainLayout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
     
-    QHBox *hbox =  new QHBox(page);
-    QLabel *label = new QLabel(i18n("What shall define the background:")+" ", hbox);
-    combobox = new QComboBox(false, hbox);
-    combobox->insertItem(i18n("Color"));
-    combobox->insertItem(i18n("Image"));
+    m_buttonGroup = new QButtonGroup( i18n("Background"), page );
+    m_buttonGroup->setColumnLayout( 0, Qt::Vertical );
+    m_buttonGroup->layout()->setMargin( KDialog::marginHint() );
+    m_buttonGroup->layout()->setSpacing( KDialog::spacingHint() );
+    QGridLayout* groupLayout = new QGridLayout( m_buttonGroup->layout() );
+    groupLayout->setAlignment( Qt::AlignTop );
+    mainLayout->addWidget( m_buttonGroup );
 
-    colorbox =  new QHBox(page);
-    new QLabel(i18n("Background color:"), colorbox);
-    colorbutton = new KColorButton(theColor, defaultColor, colorbox);
+    connect( m_buttonGroup, SIGNAL( clicked(int) ),
+             this, SLOT( slotBackgroundModeChanged() ) );
+
+    // color
+    m_radioColor = new QRadioButton( i18n("&Color:"), m_buttonGroup );
+    groupLayout->addWidget( m_radioColor, 0, 0 );
+    m_buttonColor = new KColorButton( theColor, defaultColor, m_buttonGroup );
+    m_buttonColor->setSizePolicy( QSizePolicy::Preferred,
+                                QSizePolicy::Minimum );
+    groupLayout->addWidget( m_buttonColor, 0, 1 );
+
+    connect( m_buttonColor, SIGNAL( changed( const QColor& ) ),
+             this, SLOT( slotColorChanged() ) );
     
-    m_propsPage = new KBgndDialogPage( page, pixmapFile, instance, "tiles" );
+    // picture
+    m_radioPicture = new QRadioButton( i18n("&Picture:"), m_buttonGroup );
+    groupLayout->addWidget( m_radioPicture, 1, 0 );
+    m_comboPicture = new KURLComboRequester( m_buttonGroup );
+    groupLayout->addMultiCellWidget( m_comboPicture, 1, 1, 1, 2 );
+    initPictures();
     
-    if (pixmapFile.isEmpty()) {
-      combobox->setCurrentItem(0);
-      m_propsPage->setEnabled(false);
-    } 
+    connect( m_comboPicture->comboBox(), SIGNAL( activated( int ) ),
+	     this, SLOT( slotPictureChanged() ) );
+    connect( m_comboPicture, SIGNAL( urlSelected(const QString &) ),
+             this, SLOT( slotPictureChanged() ) );
+
+    QSpacerItem* spacer1 = new QSpacerItem( 0, 0, QSizePolicy::Expanding,
+                                            QSizePolicy::Minimum );
+    groupLayout->addItem( spacer1, 0, 2 );
+
+    // preview title
+    QHBoxLayout* hlay = new QHBoxLayout( mainLayout, KDialog::spacingHint() );
+    //mainLayout->addLayout( hlay );
+    QLabel* lbl = new QLabel( i18n("Preview"), page );
+    hlay->addWidget( lbl );
+    QFrame* frame = new QFrame( page );
+    frame->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
+    frame->setFrameShape( QFrame::HLine );
+    frame->setFrameShadow( QFrame::Sunken );
+    hlay->addWidget( frame );
+
+    // preview frame
+    m_preview = new QFrame( page );
+    m_preview->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    m_preview->setMinimumSize( 370, 180 );
+    m_preview->setFrameShape( QFrame::Panel );
+    m_preview->setFrameShadow( QFrame::Raised );
+    mainLayout->addWidget( m_preview );
+
+    if ( !pixmapFile.isEmpty() ) {
+        loadPicture( pixmapFile );
+        m_buttonColor->setColor( defaultColor );
+        m_radioPicture->setChecked( true );
+    }
     else {
-      combobox->setCurrentItem(1);
-      colorbox->setEnabled(false);
+        m_buttonColor->setColor( theColor );
+        m_comboPicture->comboBox()->setCurrentItem( 0 );
+        m_radioColor->setChecked( true );
     }
-    
-    connect(combobox, SIGNAL(activated(int)), this, SLOT(comboboxChange()));    
-}
-
-void KonqBgndDialog::comboboxChange()
-{
-    if (combobox->currentItem()) {
-      colorbox->setEnabled(false);
-      m_propsPage->setEnabled(true);
-    }
-    else {   
-      colorbox->setEnabled(true);
-      m_propsPage->setEnabled(false);
-    }
-}
-
-QColor KonqBgndDialog::color()
-{
-     if (combobox->currentItem())
-       return QColor();
-     else
-       return colorbutton->color();
+    slotBackgroundModeChanged();
 }
 
 KonqBgndDialog::~KonqBgndDialog()
 {
 }
 
-KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile,
-				  KInstance *instance, const char * resource )
-  : QGroupBox( parent, "KBgndDialogPage" ),
-    m_resource( resource )
+QColor KonqBgndDialog::color() const
 {
-    setTitle( i18n("Background Image") );
-    m_instance = instance;
-
-    m_wallBox = new QComboBox( false, this, "ComboBox_1" );
-    m_wallBox->insertItem( i18n("None") );
-
-    QStringList list = KGlobal::dirs()->findAllResources(resource);
-
-    for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
-        m_wallBox->insertItem( ( (*it).at(0)=='/' ) ?    // if absolute path
-			       KURL( *it ).fileName() :  // then only fileName
-			       *it );
-
-    m_wallBox->adjustSize();
-
-    m_browseButton = new QPushButton( i18n("&Browse..."), this );
-    m_browseButton->adjustSize();
-    connect( m_browseButton, SIGNAL( clicked() ), SLOT( slotBrowse() ) );
-
-    m_wallWidget = new QFrame( this );
-    m_wallWidget->setLineWidth( 2 );
-    m_wallWidget->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-
-    showSettings( pixmapFile );
-
-    connect( m_wallBox, SIGNAL( activated( int ) ),
-	     this, SLOT( slotWallPaperChanged( int ) ) );
-
-    setMinimumSize( QSize( 400, 300 ) );
+    if ( m_radioColor->isChecked() )
+        return m_buttonColor->color();
+        
+    return QColor();
 }
 
-KBgndDialogPage::~KBgndDialogPage()
+void KonqBgndDialog::initPictures()
 {
+    KGlobal::dirs()->addResourceType( "tiles",
+        KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
+    kdDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
+    
+    QStringList list = KGlobal::dirs()->findAllResources("tiles");
+    
+    if ( list.isEmpty() )
+        m_comboPicture->comboBox()->insertItem( i18n("None") );
+    else {
+        QStringList::ConstIterator it;
+        for ( it = list.begin(); it != list.end(); it++ )
+            m_comboPicture->comboBox()->insertItem(
+                ( (*it).at(0) == '/' ) ?    // if absolute path
+                KURL( *it ).fileName() :  // then only fileName
+                *it );
+    }
 }
 
-void KBgndDialogPage::showSettings( const QString& fileName )
+void KonqBgndDialog::loadPicture( const QString& fileName )
 {
-  for ( int i = 1; i < m_wallBox->count(); i++ )
-    {
-      if ( fileName == m_wallBox->text( i ) )
-        {
-          m_wallBox->setCurrentItem( i );
-          loadWallPaper();
-          return;
+    int i ;
+    for ( i = 0; i < m_comboPicture->comboBox()->count(); i++ ) {
+        if ( fileName == m_comboPicture->comboBox()->text( i ) ) {
+            m_comboPicture->comboBox()->setCurrentItem( i );
+            return;
         }
     }
-
-  if ( !fileName.isEmpty() )
-    {
-      m_wallBox->insertItem( fileName );
-      m_wallBox->setCurrentItem( m_wallBox->count()-1 );
-      m_wallBox->adjustSize();
-    }
-  else m_wallBox->setCurrentItem( 0 );
-
-  loadWallPaper();
-}
-
-void KBgndDialogPage::slotBrowse( )
-{
-    KURL url = KFileDialog::getImageOpenURL( QString::null, this, 
-                                             i18n("Select Image" ) );
-
-    if (!url.isValid())
-      return;
-
-    if (!url.isLocalFile()) {
-      KMessageBox::sorry(this, i18n("Currently only local wallpapers are allowed."));
-    } else
-      showSettings( url.path() );
-}
-
-void KBgndDialogPage::slotWallPaperChanged( int )
-{
-    loadWallPaper();
-}
-
-void KBgndDialogPage::loadWallPaper()
-{
-    int i = m_wallBox->currentItem();
-    if ( i == -1 || i == 0 )  // 0 is 'None'
-    {
-        m_wallPixmap.resize(0,0);
-        m_wallFile = "";
+    
+    if ( !fileName.isEmpty() ) {
+        m_comboPicture->comboBox()->insertItem( fileName );
+        m_comboPicture->comboBox()->setCurrentItem( i );
     }
     else
-    {
-        m_wallFile = m_wallBox->text( i );
-        QString file = locate(m_resource.data(), m_wallFile);
-        if ( file.isEmpty() && m_resource != "wallpaper") // add fallback for compatibility
-            file = locate("wallpaper", m_wallFile);
-        if ( file.isEmpty() )
-        {
-          kdWarning(1203) << "Couldn't locate wallpaper " << m_wallFile << endl;
-          m_wallPixmap.resize(0,0);
-          m_wallFile = "";
-        }
-        else
-        {
-          m_wallPixmap.load( file );
-
-          if ( m_wallPixmap.isNull() )
-              kdWarning(1203) << "Could not load wallpaper " << file << endl;
-        }
-    }
-    m_wallWidget->setBackgroundPixmap( m_wallPixmap );
+        m_comboPicture->comboBox()->setCurrentItem( 0 );
 }
 
-void KBgndDialogPage::resizeEvent ( QResizeEvent *e )
+void KonqBgndDialog::slotPictureChanged()
 {
-    QGroupBox::resizeEvent( e );
-    int fontHeight = fontMetrics().height();
-    m_wallBox->move( KDialog::marginHint(), KDialog::marginHint() + fontHeight );
-    int x = m_wallBox->x() + m_wallBox->width() + KDialog::spacingHint();
-    int y = m_wallBox->y() + (m_wallBox->height() - m_browseButton->height()) / 2;
-    m_browseButton->move( x, y );
+    m_pixmapFile = m_comboPicture->comboBox()->currentText();
+    QString file = locate( "tiles", m_pixmapFile );
+    if ( file.isEmpty() )
+        file = locate("wallpaper", m_pixmapFile); // add fallback for compatibility
+    if ( file.isEmpty() ) {
+        kdWarning(1203) << "Couldn't locate wallpaper " << m_pixmapFile << endl;
+        m_preview->unsetPalette();
+        m_pixmap = QPixmap();
+        m_pixmapFile = "";
+    }
+    else {
+        m_pixmap.load( file );
 
-    imageX = m_wallBox->x();
-    imageY = m_browseButton->y()+m_browseButton->height()+KDialog::spacingHint(); // under the browse button
-    imageW = width() - imageX - KDialog::marginHint();
-    imageH = height() - imageY - KDialog::marginHint()*2;
-
-    m_wallWidget->setGeometry( imageX, imageY, imageW, imageH );
+        if ( m_pixmap.isNull() )
+            kdWarning(1203) << "Could not load wallpaper " << file << endl;
+    }
+    m_preview->setPaletteBackgroundPixmap( m_pixmap );
 }
+
+void KonqBgndDialog::slotColorChanged()
+{
+    m_preview->setPaletteBackgroundColor( m_buttonColor->color() );
+}
+
+void KonqBgndDialog::slotBackgroundModeChanged()
+{
+    if ( m_radioColor->isChecked() ) {
+        m_buttonColor->setEnabled( true );
+        m_comboPicture->setEnabled( false );
+        m_pixmapFile = "";
+        slotColorChanged();
+    }
+    else {  // m_comboPicture->isChecked() == true
+        m_comboPicture->setEnabled( true );
+        m_buttonColor->setEnabled( false );
+        slotPictureChanged();
+    }
+}
+
 
 #include "konq_bgnddlg.moc"

@@ -21,59 +21,18 @@
 #ifndef __konq_bgnd_h
 #define __konq_bgnd_h
 
-#include <qgroupbox.h>
 #include <qstring.h>
 #include <qpixmap.h>
 
 #include <kdialogbase.h>
 
-class QComboBox;
-class QPushButton;
 class KColorButton;
+class KURLRequester;
+class QButtonGroup;
+class QRadioButton;
 
 /**
- * Reuseable widget that is the core of the background-image dialog.
- * It features a combobox with a list of available 'wallpaper' pixmaps,
- * and an area to show the image, auto-sizing.
- */
-class KBgndDialogPage : public QGroupBox
-{
-  Q_OBJECT
-public:
-  /**
-   * @param parent
-   * @param pixmapFile
-   * @param instance
-   * @param resource the resource to use to list the available pixmaps. e.g. "wallpapers"
-   */
-  KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance, const char * resource );
-  virtual ~KBgndDialogPage();
-
-  QPixmap pixmap() { return m_wallPixmap; }
-  QString pixmapFile() { return m_wallFile; }
-
-public slots:
-  void slotWallPaperChanged( int );
-  void slotBrowse();
-
-protected:
-  void showSettings( const QString& fileName );
-  void loadWallPaper();
-  virtual void resizeEvent ( QResizeEvent * );
-
-  QPushButton * m_browseButton;
-  QComboBox * m_wallBox;
-  QFrame * m_wallWidget;
-  QPixmap m_wallPixmap;
-  QString m_wallFile;
-  int imageX, imageW, imageH, imageY;
-  KInstance *m_instance;
-  QCString m_resource;
-};
-
-
-/**
- * Dialog for configuring the background image
+ * Dialog for configuring the background
  * Currently it defines and shows the pixmaps under the tiles resource
  */
 class KonqBgndDialog : public KDialogBase
@@ -83,21 +42,33 @@ public:
   /**
    * Constructor
    */
-  KonqBgndDialog( const QString & pixmapFile, KInstance *instance, QColor &theColor, const QColor& defaultColor );
+  KonqBgndDialog( QWidget* parent, const QString& pixmapFile,
+                  const QColor& theColor, const QColor& defaultColor );
   ~KonqBgndDialog();
 
-  QColor  color();
-  QPixmap pixmap() { return m_propsPage->pixmap(); }
-  QString pixmapFile() { return m_propsPage->pixmapFile(); }
+  QColor color() const;
+  const QString& pixmapFile() const { return m_pixmapFile; }
 
-public slots:
-  void comboboxChange();
+private slots:
+  void slotBackgroundModeChanged();
+  void slotPictureChanged();
+  void slotColorChanged();
   
 private:
-  KBgndDialogPage * m_propsPage;
-  QComboBox *combobox;
-  QHBox *colorbox;
-  KColorButton *colorbutton;
+  void initPictures();
+  void loadPicture( const QString& fileName );
+
+  QColor m_color;
+  QPixmap m_pixmap;
+  QString m_pixmapFile;
+  QFrame* m_preview;
+  
+  QButtonGroup* m_buttonGroup;
+  QRadioButton* m_radioColor;
+  QRadioButton* m_radioPicture;
+  KURLRequester* m_comboPicture;
+  KColorButton* m_buttonColor;
+  
 };
 
 #endif
