@@ -67,6 +67,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_iProgress = -1;
   m_bPassiveMode = false;
   m_bProgressSignals = true;
+  show();
 }
 
 KonqChildView::~KonqChildView()
@@ -147,7 +148,6 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   }
 
   connectView();
-  show();
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType,
@@ -177,9 +177,16 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
   openURL( url, useMiscURLData );
 
+  show();
   // Give focus to the view
   m_pView->widget()->setFocus();
 
+  // openURL is the one that changes the history
+  if ( m_pMainView->currentChildView() == this )
+  {
+    kdDebug() << "updating toolbar actions" << endl;
+    m_pMainView->updateToolBarActions();
+  }
   return true;
 }
 
@@ -223,6 +230,7 @@ void KonqChildView::connectView(  )
 
 void KonqChildView::slotStarted( KIO::Job * job )
 {
+  kdDebug(1202) << "KonqChildView::slotStarted"  << job << endl;
   m_bLoading = true;
   setViewStarted( true );
 
@@ -276,12 +284,14 @@ void KonqChildView::slotSpeedProgress( int bytesPerSecond )
 
 void KonqChildView::slotCompleted()
 {
+  kdDebug() << "KonqChildView::slotCompleted" << endl;
   m_bLoading = false;
   setViewStarted( false );
   slotLoadingProgress( -1 );
 
   if ( m_pMainView->currentChildView() == this )
   {
+    kdDebug() << "updating toolbar actions" << endl;
     m_pMainView->updateToolBarActions();
   }
 }

@@ -1727,7 +1727,7 @@ void KonqMainView::slotOpenEmbedded( const QString & serviceType, const KURL & u
 
 void KonqMainView::slotOpenEmbeddedDoIt()
 {
-  (void) m_currentView->changeViewMode( m_embeddingData->serviceType, m_embeddingData->url, true, m_embeddingData->serviceName );
+  (void) m_currentView->changeViewMode( m_embeddingData->serviceType, m_embeddingData->url, false, m_embeddingData->serviceName );
   delete m_embeddingData;
 }
 
