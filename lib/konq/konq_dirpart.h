@@ -124,11 +124,17 @@ public:
     void updatePasteAction();
 
     /**
-     * This is called by the actions that change the icon size. The view
-     * should also call it initially, or any time it wants to change the size.
-     * The view should also reimplement it, to update the view.
+     * Change the icon size of the view.
+     * The view should call it initially.
+     * The view should also reimplement it, to update the icons.
      */
     virtual void newIconSize( int size );
+
+    /**
+     * This is called by the actions that change the icon size.
+     * It stores the new size and calls newIconSize.
+     */
+    void setIconSize( int size );
 
     /**
      * This is called by konqueror itself, when the "find" functionality is activated

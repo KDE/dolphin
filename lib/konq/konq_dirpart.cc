@@ -161,7 +161,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     // Optimisation to avoid KRun to call kfmclient that then tells us
     // to open a window :-)
     KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
-    if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+    //if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
     if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
     {
         KParts::URLArgs args;
@@ -179,12 +179,12 @@ void KonqDirPart::saveNameFilter( QDataStream &stream )
 
 void KonqDirPart::saveState( QDataStream &stream )
 {
-    kdDebug(1203) << " -- void KonqDirPart::saveState( QDataStream &stream )" << endl;
+    //kdDebug(1203) << " -- void KonqDirPart::saveState( QDataStream &stream )" << endl;
     if ( !m_findPart )
         stream << false;
     else
     {
-        kdDebug(1203) << "KonqDirPart::saveState -> saving TRUE" << endl;
+        //kdDebug(1203) << "KonqDirPart::saveState -> saving TRUE" << endl;
         stream << true;
         // TODO save the kfindpart in there
     }
@@ -199,10 +199,10 @@ void KonqDirPart::restoreNameFilter( QDataStream &stream )
 void KonqDirPart::restoreState( QDataStream &stream )
 {
     // Warning: see comment in IconViewBrowserExtension::restoreState about order
-    kdDebug(1203) << " -- void KonqDirPart::restoreState( QDataStream &stream )" << endl;
+    //kdDebug(1203) << " -- void KonqDirPart::restoreState( QDataStream &stream )" << endl;
     bool bFindPart;
     stream >> bFindPart;
-    kdDebug() << "KonqDirPart::restoreState " << bFindPart << endl;
+    //kdDebug(1203) << "KonqDirPart::restoreState " << bFindPart << endl;
     if ( bFindPart )
     {
         // TODO restore the kfindpart data
@@ -331,14 +331,15 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
 
 void KonqDirPart::slotIconSizeToggled( bool )
 {
+    //kdDebug(1203) << "KonqDirPart::slotIconSizeToggled" << endl;
     if ( m_paDefaultIcons->isChecked() )
-        newIconSize(0);
+        setIconSize(0);
     else if ( m_paLargeIcons->isChecked() )
-        newIconSize(m_iIconSize[3]);
+        setIconSize(m_iIconSize[3]);
     else if ( m_paMediumIcons->isChecked() )
-        newIconSize(m_iIconSize[2]);
+        setIconSize(m_iIconSize[2]);
     else if ( m_paSmallIcons->isChecked() )
-        newIconSize(m_iIconSize[1]);
+        setIconSize(m_iIconSize[1]);
 }
 
 void KonqDirPart::slotIncIconSize()
@@ -350,7 +351,7 @@ void KonqDirPart::slotIncIconSize()
         if (s == m_iIconSize[idx])
             sizeIndex = idx;
     ASSERT( sizeIndex != 0 && sizeIndex < 3 );
-    newIconSize( m_iIconSize[sizeIndex + 1] );
+    setIconSize( m_iIconSize[sizeIndex + 1] );
 }
 
 void KonqDirPart::slotDecIconSize()
@@ -362,20 +363,26 @@ void KonqDirPart::slotDecIconSize()
         if (s == m_iIconSize[idx])
             sizeIndex = idx;
     ASSERT( sizeIndex > 1 );
-    newIconSize( m_iIconSize[sizeIndex - 1] );
+    setIconSize( m_iIconSize[sizeIndex - 1] );
 }
 
+// Only updates the GUI (that's the one that is reimplemented by the views, too)
 void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
 {
-    m_pProps->setIconSize( size );
-
-    // Update the actions
     m_paDecIconSize->setEnabled(size > m_iIconSize[1]);
     m_paIncIconSize->setEnabled(size < m_iIconSize[3]);
     m_paDefaultIcons->setChecked( size == 0 );
     m_paLargeIcons->setChecked( size == m_iIconSize[3] );
     m_paMediumIcons->setChecked( size == m_iIconSize[2] );
     m_paSmallIcons->setChecked( size == m_iIconSize[1] );
+}
+
+// Stores the new icon size and updates the GUI
+void KonqDirPart::setIconSize( int size )
+{
+    //kdDebug(1203) << "KonqDirPart::setIconSize " << size << " -> updating props and GUI" << endl;
+    m_pProps->setIconSize( size );
+    newIconSize( size );
 }
 
 void KonqDirPart::beforeOpenURL()
