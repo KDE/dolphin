@@ -4,6 +4,7 @@
 #include "konq_view.h"
 
 #include <qfile.h>
+#include <qtextstream.h>
 
 #include <kapp.h>
 #include <kinstance.h>
@@ -61,18 +62,16 @@ QString KonqAboutPageFactory::loadFile( const QString& file )
     QString res;
     if ( file.isEmpty() )
 	return res;
-    
+
     QFile f( file );
+
     if ( !f.open( IO_ReadOnly ) )
 	return res;
 
-    QByteArray data = f.readAll();
-    f.close();
+    QTextStream t( &f );
 
-    data.resize( data.size() + 1 );
-    data[ data.size() - 1 ] = 0;
+    res = t.read();
 
-    res = QString::fromLatin1( data.data() );
     // otherwise all embedded objects are referenced as about:/...
     QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
 		       file.left( file.findRev( '/' )) +
@@ -203,16 +202,16 @@ QString KonqAboutPageFactory::tips()
 		      "Web-Shortcuts predefined to make searching for software or looking "
 		      "up certain words in an encyclopedia a breeze. And you can even "
                       "<A HREF=\"%1\">create your own</A> Web-Shortcuts!" ).arg("exec:/kcmshell ebrowsing") )
-	  .arg( i18n( "Use the magnifier button <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the"		      
+	  .arg( i18n( "Use the magnifier button <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the"
 		      " toolbar to increase the fontsize on your webpage.").arg("viewmag.png") )
 	  .arg( i18n( "When you want to paste a new address into the Location Toolbar you might want to "
-		      "clear the current entry by pressing the white-crossed black arrow &nbsp;" 
+		      "clear the current entry by pressing the white-crossed black arrow &nbsp;"
 		      "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the toolbar.").arg("locationbar_erase.png"))
 	  .arg( i18n( "You can also find the <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; \"Fullscreen Mode\" "
 		      "in the Window-Menu. This feature is very useful for \"talk\" "
 		      "sessions.").arg("window_fullscreen.png") )
 	  .arg( i18n( "Divide et impera (lat. \"Divide and Konquer\") - by splitting a window "
-		      "into two parts (e.g. Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Split View" 
+		      "into two parts (e.g. Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Split View"
 		      "Left/Right) you can make Konqueror appear the way you like. You"
 		      " can even load some example view-profiles (e.g. Midnight-Commander)"
 		      ", or create your own ones." ).arg("view_left_right.png"))
@@ -221,7 +220,7 @@ QString KonqAboutPageFactory::tips()
 		      "(and don't forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
 	  .arg( i18n( "The <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; History in your Sidebar makes sure "
 		      "that you will keep track of the pages you have visited recently.").arg("history.png") )
-	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your" 
+	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your"
 		      " internet-connection.").arg("exec:/kcmshell proxy") )
 	  .arg( i18n( "Advanced users will appreciate the Konsole which you can embed into "
 		      "Konqueror (Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Show"
