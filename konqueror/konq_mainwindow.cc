@@ -1881,7 +1881,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    QHBox *hbox=new QHBox(dlg);
    layout->addWidget(hbox);
    hbox->setSpacing(dlg->spacingHint());
-   QPushButton *ok=new QPushButton(i18n("Ok"),hbox);
+   QPushButton *ok=new QPushButton(i18n("OK"),hbox);
    QPushButton *cancel=new QPushButton(i18n("Cancel"),hbox);
    connect(ok,SIGNAL(clicked()),dlg,SLOT(accept()));
    connect(cancel,SIGNAL(clicked()),dlg,SLOT(reject()));
