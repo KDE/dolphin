@@ -266,7 +266,7 @@ void KProxyOptions::setProxy()
   ui->sb_http_port->setEnabled( useProxy && !autoProxy );
   ui->le_ftp_url->setEnabled( useProxy && !autoProxy );
   ui->sb_ftp_port->setEnabled( useProxy && !autoProxy );
-  ui->mle_no_prx->setEnabled( useProxy && !autoProxy );
+  ui->gb_no_proxy_for->setEnabled( useProxy && !autoProxy );
   ui->pb_down->setEnabled( useProxy && !autoProxy );
   ui->cb_useProxy->setChecked( useProxy );
 }
