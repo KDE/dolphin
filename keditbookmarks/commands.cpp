@@ -405,12 +405,29 @@ KMacroCommand* CmdGen::deleteItems(const QString &commandName, QPtrList<KEBListV
    return mcmd;
 }
 
-KMacroCommand* CmdGen::insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr) {
+KMacroCommand* CmdGen::insertMimeSource(
+   const QString &cmdName, QMimeSource *_data, const QString &addr
+) {
+   QMimeSource *data = _data;
+   bool modified = false;
+   const char *format = 0;
+   for (int i = 0; format = data->format(i), format; i++) {
+      // qt docs don't say if encodedData(blah) where
+      // blah is not a stored mimetype should return null
+      // or not. so, we search. sucky...
+      if (strcmp(format, "GALEON_BOOKMARK") == 0) { 
+         modified = true;
+         QStoredDrag *mydrag = new QStoredDrag("application/x-xbel");
+         mydrag->setEncodedData(data->encodedData("GALEON_BOOKMARK"));
+         data = mydrag;
+         break;
+      }
+   }
    if (!KBookmarkDrag::canDecode(data)) {
       return 0;
    }
-   QString currentAddress = addr;
    KMacroCommand *mcmd = new KMacroCommand(cmdName);
+   QString currentAddress = addr;
    QValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
    for (QValueListConstIterator<KBookmark> it = bookmarks.begin(); it != bookmarks.end(); ++it) {
       CreateCommand *cmd = new CreateCommand(currentAddress, (*it));
@@ -419,6 +436,9 @@ KMacroCommand* CmdGen::insertMimeSource(const QString &cmdName, QMimeSource *dat
       // kdDebug() << "CmdGen::insertMimeSource url=" 
       //           << (*it).url().prettyURL() << currentAddress << endl;
       currentAddress = KBookmark::nextAddress(currentAddress);
+   }
+   if (modified) {
+      delete data;
    }
    return mcmd;
 }
