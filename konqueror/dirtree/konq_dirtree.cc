@@ -71,7 +71,7 @@ private:
   static KInstance *s_instance;
 };
 
-static KInstance *KonqDirTreeFactory::s_instance = 0;
+KInstance *KonqDirTreeFactory::s_instance = 0;
 
 extern "C"
 {
