@@ -38,14 +38,14 @@ DISTDIR   =  kfind-$(KFIND_VERSION)
 
 ####### Implicit rules
 
-.SUFFIXES: .cpp
+.SUFFIXES: .cpp 
 
 .cpp.o:
 	$(CXX) -c $(CXXFLAGS) $(INCLDIR) $<
 
 ####### Build rules
 
-all: $(TARGET)
+all: Makefile $(TARGET)
 
 Makefile: Makefile.in
 	cd .. && CONFIG_FILES=kfind/$@ CONFIG_HEADERS= $(SHELL) ./config.status
@@ -90,8 +90,22 @@ dist:
 
 ####### Explicit dependencies
 
+mkfdird.cpp: kfdird.h
+	$(MOC) kfdird.h -o $@
 
-m%.cpp: %.h
-	$(MOC) $< -o $@  
+mkfwin.cpp: kfwin.h
+	$(MOC) kfwin.h -o $@
+
+mkfmenu.cpp: kfmenu.h
+	$(MOC) kfmenu.h -o $@
+
+mkftabdlg.cpp: kftabdlg.h
+	$(MOC) kftabdlg.h -o $@
+
+mkfoptions.cpp: kfoptions.h
+	$(MOC) kfoptions.h -o $@
+
+mkfind.cpp: kfind.h
+	$(MOC) kfind.h -o $@
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
