@@ -532,16 +532,18 @@ void KonqKfmIconView::saveState( QDataStream &stream )
 
   stream << (Q_INT32)m_pIconView->size()
          << (Q_INT32)m_pIconView->itemTextPos()
-         << (Q_INT32)m_pProps->m_bImagePreview;
+         << (Q_INT32)m_pProps->m_bImagePreview
+         << (Q_INT32)m_pProps->m_bShowDot
+         << (Q_INT32)m_pProps->m_bHTMLAllowed;
 }
 
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
   BrowserView::restoreState( stream );
 
-  Q_INT32 iIconSize, iTextPos, iImagePreview;
+  Q_INT32 iIconSize, iTextPos, iImagePreview, iShowDot, iHTMLAllowed;
 
-  stream >> iIconSize >> iTextPos >> iImagePreview;
+  stream >> iIconSize >> iTextPos >> iImagePreview >> iShowDot >> iHTMLAllowed;
 
   KIconLoader::Size iconSize = (KIconLoader::Size)iIconSize;
   QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
@@ -559,6 +561,8 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     m_paRightText->setChecked( true );
 
   m_paImagePreview->setChecked( (bool) iImagePreview );
+  m_paDotFiles->setChecked( (bool) iShowDot );
+  // TODO apply HTML allowed
 }
 
 QString KonqKfmIconView::url()
