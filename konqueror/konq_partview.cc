@@ -1,6 +1,7 @@
 
 #include "konq_partview.h"
 #include <opFrame.h>
+#include <opUIUtils.h>
 #include <klocale.h>
 
 /*
@@ -62,7 +63,8 @@ bool KonqPartView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu v
   
   if ( !CORBA::is_nil( menu ) )
   {
-    menu->insertItem( i18n("Detach part"), this, "detachPart", 0 );
+    CORBA::WString_var text = Q2C( i18n("Detach part") );
+    menu->insertItem( text, this, "detachPart", 0 );
   }
 }
 

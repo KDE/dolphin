@@ -91,7 +91,10 @@ void KBookmarkMenu::slotBookmarksChanged()
   m_vMenu->clear();
 
   if ( m_bIsRoot )
-    m_vMenu->insertItem( i18n("&Edit Bookmarks..."), m_vPart, "slotEditBookmarks", 0 );
+  {
+    CORBA::WString_var text = Q2C( i18n("&Edit Bookmarks...") );
+    m_vMenu->insertItem( text, m_vPart, "slotEditBookmarks", 0 );
+  }    
 
   fillBookmarkMenu( KBookmarkManager::self()->root() );
 }
@@ -99,10 +102,12 @@ void KBookmarkMenu::slotBookmarksChanged()
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 {
   KBookmark *bm;
+  CORBA::WString_var text;
 
   assert( !CORBA::is_nil( m_vMenu ) );
 
-  m_vMenu->insertItem7( i18n("&Add Bookmark"), (CORBA::Long)parent->id(), -1 );
+  text = Q2C( i18n("&Add Bookmark") );
+  m_vMenu->insertItem7( text, (CORBA::Long)parent->id(), -1 );
   m_vMenu->insertSeparator( -1 );
 
   for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
@@ -113,13 +118,15 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       if ( bm->type() == KBookmark::URL )
       {
         OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
-        m_vMenu->insertItem11( pix, bm->text(), (CORBA::Long)bm->id(), -1 );	
+	text = Q2C( bm->text() );
+        m_vMenu->insertItem11( pix, text, (CORBA::Long)bm->id(), -1 );	
       }
       else
       {	
         OpenPartsUI::Menu_var subMenuVar;
         OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
-        m_vMenu->insertItem12( pix, bm->text(), subMenuVar, -1, -1 );
+	text = Q2C( bm->text() );
+        m_vMenu->insertItem12( pix, text, subMenuVar, -1, -1 );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
         m_lstSubMenus.append( subMenu );
         subMenu->fillBookmarkMenu( bm );

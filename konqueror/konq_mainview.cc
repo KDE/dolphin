@@ -377,65 +377,96 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 
   KStdAccel stdAccel;
 
-  CORBA::Long m_idMenuFile = menuBar->insertMenu( i18n("&File"), m_vMenuFile, -1, -1 );
+  CORBA::WString_var text = Q2C( i18n("&File") );
+  
+  CORBA::Long m_idMenuFile = menuBar->insertMenu( text, m_vMenuFile, -1, -1 );
 
-  m_vMenuFile->insertItem8( i18n("&New"), m_vMenuFileNew, MFILE_NEW_ID, -1 );
+  text = Q2C( i18n("&New") );
+  m_vMenuFile->insertItem8( text, m_vMenuFileNew, MFILE_NEW_ID, -1 );
 
   m_vMenuFileNew->connect("activated", this, "slotFileNewActivated");
   m_vMenuFileNew->connect("aboutToShow", this, "slotFileNewAboutToShow");
   
   m_pMenuNew = new KNewMenu( m_vMenuFileNew );
 
-  m_vMenuFile->insertItem4( i18n("New &Window"), this, "slotNewWindow", stdAccel.openNew(), MFILE_NEWWINDOW_ID, -1 );
+  text = Q2C( i18n("New &Window") );
+  m_vMenuFile->insertItem4( text, this, "slotNewWindow", stdAccel.openNew(), MFILE_NEWWINDOW_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  m_vMenuFile->insertItem4( i18n("&Run..."), this, "slotRun", 0, MFILE_RUN_ID, -1  );
-  m_vMenuFile->insertItem4( i18n("Open &Terminal"), this, "slotTerminal", CTRL+Key_T, MFILE_OPENTERMINAL_ID, -1 );
+  text = Q2C( i18n("&Run...") );
+  m_vMenuFile->insertItem4( text, this, "slotRun", 0, MFILE_RUN_ID, -1  );
+  text = Q2C( i18n("Open &Terminal") );
+  m_vMenuFile->insertItem4( text, this, "slotTerminal", CTRL+Key_T, MFILE_OPENTERMINAL_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
 
-  m_vMenuFile->insertItem4( i18n("&Open Location..."), this, "slotOpenLocation", stdAccel.open(), MFILE_OPENLOCATION_ID, -1 );
-  m_vMenuFile->insertItem4( i18n("&Find"), this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
+  text = Q2C( i18n("&Open Location...") );
+  m_vMenuFile->insertItem4( text, this, "slotOpenLocation", stdAccel.open(), MFILE_OPENLOCATION_ID, -1 );
+  text = Q2C( i18n("&Find") );
+  m_vMenuFile->insertItem4( text, this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  m_vMenuFile->insertItem4( i18n("&Print..."), this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
+  text = Q2C( i18n("&Print...") );
+  m_vMenuFile->insertItem4( text, this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  m_vMenuFile->insertItem4( i18n("&Close"), this, "slotClose", stdAccel.close(), MFILE_CLOSE_ID, -1 );
+  text = Q2C( i18n("&Close") );
+  m_vMenuFile->insertItem4( text, this, "slotClose", stdAccel.close(), MFILE_CLOSE_ID, -1 );
 
   menuBar->setFileMenu( m_idMenuFile );
 
-  menuBar->insertMenu( i18n("&Edit"), m_vMenuEdit, -1, -1 );
+  text = Q2C( i18n("&Edit") );
+  menuBar->insertMenu( text, m_vMenuEdit, -1, -1 );
 
-  m_vMenuEdit->insertItem4( i18n("&Copy"), this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
-  m_vMenuEdit->insertItem4( i18n("&Paste"), this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
-  m_vMenuEdit->insertItem4( i18n("&Move to Trash"), this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
-  m_vMenuEdit->insertItem4( i18n("&Delete"), this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
+  text = Q2C( i18n("&Copy") );
+  m_vMenuEdit->insertItem4( text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
+  text = Q2C( i18n("&Paste") );
+  m_vMenuEdit->insertItem4( text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
+  text = Q2C( i18n("&Move to Trash") );
+  m_vMenuEdit->insertItem4( text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
+  text = Q2C( i18n("&Delete") );
+  m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  m_vMenuEdit->insertItem4( i18n("&Select"), this, "slotSelect", CTRL+Key_S, MEDIT_SELECT_ID, -1 );
-  m_vMenuEdit->insertItem4( i18n("Select &all"), this, "slotSelectAll", CTRL+Key_A, MEDIT_SELECTALL_ID, -1 );
+  text = Q2C( i18n("&Select") );
+  m_vMenuEdit->insertItem4( text, this, "slotSelect", CTRL+Key_S, MEDIT_SELECT_ID, -1 );
+  text = Q2C( i18n("Select &all") );
+  m_vMenuEdit->insertItem4( text, this, "slotSelectAll", CTRL+Key_A, MEDIT_SELECTALL_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  m_vMenuEdit->insertItem4( i18n("Save &Geometry"), this, "slotSaveGeometry", 0, MEDIT_SAVEGEOMETRY_ID, -1 );
+  text = Q2C( i18n("Save &Geometry") );
+  m_vMenuEdit->insertItem4( text, this, "slotSaveGeometry", 0, MEDIT_SAVEGEOMETRY_ID, -1 );
 
-  menuBar->insertMenu( i18n("&View"), m_vMenuView, -1, -1 );  
+  text = Q2C( i18n("&View") );
+  menuBar->insertMenu( text, m_vMenuView, -1, -1 );  
   
   createViewMenu();
   
-  menuBar->insertMenu( i18n("&Go"), m_vMenuGo, -1, -1 );
+  text = Q2C( i18n("&Go") );
+  menuBar->insertMenu( text, m_vMenuGo, -1, -1 );
 
-  m_vMenuGo->insertItem4( i18n("&Up"), this, "slotUp", 0, MGO_UP_ID, -1 );
-  m_vMenuGo->insertItem4( i18n("&Back"), this, "slotBack", 0, MGO_BACK_ID, -1 );
-  m_vMenuGo->insertItem4( i18n("&Forward"), this, "slotForward", 0, MGO_FORWARD_ID, -1 );
-  m_vMenuGo->insertItem4( i18n("&Home"), this, "slotHome", 0, MGO_HOME_ID, -1 );
+  text = Q2C( i18n("&Up") );
+  m_vMenuGo->insertItem4( text, this, "slotUp", 0, MGO_UP_ID, -1 );
+  text = Q2C( i18n("&Back") );
+  m_vMenuGo->insertItem4( text, this, "slotBack", 0, MGO_BACK_ID, -1 );
+  text = Q2C( i18n("&Forward") );
+  m_vMenuGo->insertItem4( text, this, "slotForward", 0, MGO_FORWARD_ID, -1 );
+  text = Q2C( i18n("&Home") );
+  m_vMenuGo->insertItem4( text, this, "slotHome", 0, MGO_HOME_ID, -1 );
   m_vMenuGo->insertSeparator( -1 );
-  m_vMenuGo->insertItem4( i18n("&Cache"), this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
-  m_vMenuGo->insertItem4( i18n("&History"), this, "slotShowHistory", 0, MGO_HISTORY_ID, -1 );
-  m_vMenuGo->insertItem4( i18n("Mime &Types"), this, "slotEditMimeTypes", 0, MGO_MIMETYPES_ID, -1 );
-  m_vMenuGo->insertItem4( i18n("App&lications"), this, "slotEditApplications", 0, MGO_APPLICATIONS_ID, -1 );
+  text = Q2C( i18n("&Cache") );
+  m_vMenuGo->insertItem4( text, this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
+  text = Q2C( i18n("&History") );
+  m_vMenuGo->insertItem4( text, this, "slotShowHistory", 0, MGO_HISTORY_ID, -1 );
+  text = Q2C( i18n("Mime &Types") );
+  m_vMenuGo->insertItem4( text, this, "slotEditMimeTypes", 0, MGO_MIMETYPES_ID, -1 );
+  text = Q2C( i18n("App&lications") );
+  m_vMenuGo->insertItem4( text, this, "slotEditApplications", 0, MGO_APPLICATIONS_ID, -1 );
   //TODO: Global mime types and applications for root
 
-  menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
+  text = Q2C( i18n("&Bookmarks") );
+  menuBar->insertMenu( text, m_vMenuBookmarks, -1, -1 );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_vMenuBookmarks, this, true );
 
-  menuBar->insertMenu( i18n("&Options"), m_vMenuOptions, -1, -1 );
+  text = Q2C( i18n("&Options") );
+  menuBar->insertMenu( text, m_vMenuOptions, -1, -1 );
 
-  m_vMenuOptions->insertItem( i18n("Configure &keys"), this, "slotConfigureKeys", 0 );
+  text = Q2C( i18n("Configure &keys") );
+  m_vMenuOptions->insertItem( text, this, "slotConfigureKeys", 0 );
 
   return true;
 }
@@ -865,28 +896,40 @@ void KonqMainView::createViewMenu()
   {
     m_vMenuView->clear();
   
+    CORBA::WString_var text;
+    
     m_vMenuView->setCheckable( true );
     //  m_vMenuView->insertItem4( i18n("Show Directory Tr&ee"), this, "slotShowTree" , 0 );
-    m_vMenuView->insertItem4( i18n("Split &window"), this, "slotSplitView" , 0, MVIEW_SPLITWINDOW_ID, -1 );
-    m_vMenuView->insertItem4( i18n("Add row &above"), this, "slotRowAbove" , 0, MVIEW_ROWABOVE_ID, -1 );
-    m_vMenuView->insertItem4( i18n("Add row &below"), this, "slotRowBelow" , 0, MVIEW_ROWBELOW_ID, -1 );
-    m_vMenuView->insertItem4( i18n("Remove view"), this, "slotRemoveView" , 0, MVIEW_REMOVEVIEW_ID, -1 );
+    text = Q2C( i18n("Split &window") );
+    m_vMenuView->insertItem4( text, this, "slotSplitView" , 0, MVIEW_SPLITWINDOW_ID, -1 );
+    text = Q2C( i18n("Add row &above") );
+    m_vMenuView->insertItem4( text, this, "slotRowAbove" , 0, MVIEW_ROWABOVE_ID, -1 );
+    text = Q2C( i18n("Add row &below") );
+    m_vMenuView->insertItem4( text, this, "slotRowBelow" , 0, MVIEW_ROWBELOW_ID, -1 );
+    text = Q2C( i18n("Remove view") );
+    m_vMenuView->insertItem4( text, this, "slotRemoveView" , 0, MVIEW_REMOVEVIEW_ID, -1 );
     m_vMenuView->insertSeparator( -1 );
     
     // Two namings for the same thing ! We have to decide ourselves. 
     // I prefer the second one, because of .kde.html
     //m_vMenuView->insertItem4( i18n("&Always Show index.html"), this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
-    m_vMenuView->insertItem4( i18n("&Use HTML"), this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
+    text = Q2C( i18n("&Use HTML") );
+    m_vMenuView->insertItem4( text, this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
     
     m_vMenuView->insertSeparator( -1 );
 
-    m_vMenuView->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
-    m_vMenuView->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
-    m_vMenuView->insertItem4( i18n("&Tree View"), this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
+    text = Q2C( i18n("&Large Icons") );
+    m_vMenuView->insertItem4( text, this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
+    text = Q2C( i18n("&Small Icons") );
+    m_vMenuView->insertItem4( text, this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
+    text = Q2C( i18n("&Tree View") );
+    m_vMenuView->insertItem4( text, this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
     m_vMenuView->insertSeparator( -1 );
 
-    m_vMenuView->insertItem4( i18n("&Reload Document"), this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
-    m_vMenuView->insertItem4( i18n("Sto&p loading"), this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
+    text = Q2C( i18n("&Reload Document") );
+    m_vMenuView->insertItem4( text, this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
+    text = Q2C( i18n("Sto&p loading") );
+    m_vMenuView->insertItem4( text, this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
     //TODO: view frame source, view document source, document encoding
 
   }
@@ -1323,8 +1366,8 @@ void KonqMainView::openBookmarkURL( const char *url )
  
 QString KonqMainView::currentTitle()
 {
-  CORBA::String_var t = m_vMainWindow->partCaption( m_currentId );
-  QString title = t.in();
+  CORBA::WString_var t = m_vMainWindow->partCaption( m_currentId );
+  QString title = C2Q( t );
   return title;
 }
  

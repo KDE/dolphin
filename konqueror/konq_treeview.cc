@@ -46,6 +46,8 @@
 #include <klocale.h>
 #include <drag.h>
 
+#include <opUIUtils.h>
+
 KonqKfmTreeView::KonqKfmTreeView()
 {
   ADD_INTERFACE( "IDL:Konqueror/KfmTreeView:1.0" );
@@ -138,7 +140,8 @@ bool KonqKfmTreeView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMen
     if ( viewMenu.create )
     {
       kdebug(0,1202,"Adding reload tree");
-      viewMenu.menu->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID, -1 );
+      CORBA::WString_var text = Q2C( i18n("Rel&oad Tree") );
+      viewMenu.menu->insertItem4( text, this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID, -1 );
     }
     else
     {

@@ -41,6 +41,8 @@
 #include <qdragobject.h>
 #include <klocale.h>
 
+#include <opUIUtils.h>
+
 KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 {
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
@@ -105,11 +107,14 @@ bool KonqKfmIconView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMen
   {
     if ( viewMenu.create )
     {
+      CORBA::WString_var text;
       //    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
       //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
       kdebug(0,1202,"adding image preview and showdotfiles");
-      viewMenu.menu->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
-      viewMenu.menu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
+      text = Q2C( i18n("Image &Preview") );
+      viewMenu.menu->insertItem4( text, this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
+      text = Q2C( i18n("Show &Dot Files") );
+      viewMenu.menu->insertItem4( text, this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
     }
     else
     {
@@ -394,7 +399,8 @@ void KonqKfmIconView::openURL( const char *_url )
   job->listDir( url.url() );
 
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_sWorkingURL.data(), 0 ) );
-  m_vMainWindow->setPartCaption( id(), m_sWorkingURL );
+  CORBA::WString_var caption = Q2C( m_sWorkingURL );
+  m_vMainWindow->setPartCaption( id(), caption );
 }
 
 void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext )

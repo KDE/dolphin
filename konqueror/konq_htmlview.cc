@@ -42,6 +42,8 @@
 #include <kio_error.h>
 #include <klocale.h>
 
+#include <opUIUtils.h>
+
 KonqHTMLView::KonqHTMLView()
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
@@ -117,8 +119,10 @@ bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu v
   {
     if ( viewMenu.create )
     {
-      viewMenu.menu->insertItem4( i18n("&Save As..."), this, "saveDocument", 0, ID_BASE+1, -1 );
-      viewMenu.menu->insertItem4( i18n("Save &Frame As..."), this, "saveFrame", 0, ID_BASE+2, -1 );
+      CORBA::WString_var text = Q2C( i18n("&Save As...") );
+      viewMenu.menu->insertItem4( text, this, "saveDocument", 0, ID_BASE+1, -1 );
+      text = Q2C( i18n("Save &Frame As...") );
+      viewMenu.menu->insertItem4( text, this, "saveFrame", 0, ID_BASE+2, -1 );
       m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
       checkViewMenu();
     }
@@ -302,7 +306,8 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
 
 void KonqHTMLView::slotSetTitle( const char *title )
 {
-  m_vMainWindow->setPartCaption( id(), title );
+  CORBA::WString_var ctitle = Q2C( QString( title ) );
+  m_vMainWindow->setPartCaption( id(), ctitle );
 }
 
 void KonqHTMLView::slotStarted( const char *url )
@@ -551,14 +556,17 @@ void KonqHTMLView::checkViewMenu()
 {
   if ( !CORBA::is_nil( m_vViewMenu ) )
   {
+    CORBA::WString_var text;
     if ( isFrameSet() )
     {
-      m_vViewMenu->changeItemText( i18n("&Save Frameset As..."), ID_BASE + 1 );
+      text = Q2C( i18n("&Save Frameset As...") );
+      m_vViewMenu->changeItemText( text, ID_BASE + 1 );
       m_vViewMenu->setItemEnabled( ID_BASE + 2, true );
     }      
     else
     {
-      m_vViewMenu->changeItemText( i18n("&Save As..."), ID_BASE + 1 );
+      text = Q2C( i18n("&Save As...") );
+      m_vViewMenu->changeItemText( text, ID_BASE + 1 );
       m_vViewMenu->setItemEnabled( ID_BASE + 2, false );
     }      
   }

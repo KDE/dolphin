@@ -141,7 +141,8 @@ void KonqTxtView::slotRedirection( int, const char *url )
 {
 //  m_strURL = url;
   SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)url, 0 ) );
-  m_vMainWindow->setPartCaption( id(), url );  
+  CORBA::WString_var caption = Q2C( QString( url ) );  
+  m_vMainWindow->setPartCaption( id(), caption );  
 }
 
 void KonqTxtView::slotData( int, const char *data, int len )
