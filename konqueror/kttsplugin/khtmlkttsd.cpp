@@ -76,7 +76,7 @@ void KHTMLPluginKTTSD::slotReadOut()
         {
             QString error;
             if (kapp->startServiceByName("KTTSD", QStringList(), &error))
-                QMessageBox::warning(0, i18n( "Starting KTTSD failed"), error );
+                QMessageBox::warning(0, i18n( "Starting KTTSD Failed"), error );
             else
             {
                 // Give KTTSD time to load.
@@ -92,14 +92,14 @@ void KHTMLPluginKTTSD::slotReadOut()
         arg << query << "";
         if ( !client->call("kttsd", "kspeech", "setText(QString,QString)",
                            data, replyType, replyData, true) )
-           QMessageBox::warning( 0, i18n( "DCOP Call failed" ),
-                                    i18n( "The DCOP call setText failed" ));
+           QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
+                                    i18n( "The DCOP call setText failed." ));
         QDataStream arg2(data2, IO_WriteOnly);
         arg2 << 0;
         if ( !client->call("kttsd", "kspeech", "startText(uint)",
                            data2, replyType, replyData, true) )
-           QMessageBox::warning( 0, i18n( "DCOP Call failed" ),
-                                    i18n( "The DCOP call startText failed" ));
+           QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
+                                    i18n( "The DCOP call startText failed." ));
     }
 }
 
