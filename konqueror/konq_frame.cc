@@ -109,7 +109,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   frameHeaderInactive = new QPixmap;
 
   if ( frameHeaderLook == XPixmap ) {
-    KIconLoader* iconLoader = new KIconLoader(0, "kwm");
+    KIconLoader* iconLoader = new KIconLoader( config, "kwm" );
     
     *(frameHeaderActive) = iconLoader->reloadIcon("activetitlebar.xpm");
     *(frameHeaderInactive) = iconLoader->reloadIcon("inactivetitlebar.xpm");
