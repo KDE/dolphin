@@ -34,6 +34,7 @@
 #include <kiconloader.h>
 #include <kicondialog.h>
 #include <kapp.h>
+#include <krfcdate.h>
 #include <qclipboard.h>
 #include <qfile.h>
 #include <dcopclient.h>
@@ -71,13 +72,214 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
     init(gp);
     setExpandable(true);
 }
+void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment)
+{
+  QColorGroup col(cg);
+
+  int h, s, v;
+
+  if (column == 2) {
+    if (render == 0) {
+      col.background().hsv(&h,&s,&v);
+      if (v >180 && v < 220) {
+	col.setColor(QColorGroup::Text, Qt::darkGray);
+      } else
+	col.setColor(QColorGroup::Text, Qt::gray);
+    } else if (render == 2) {
+      QFont font=p->font();
+      font.setBold( true );
+      p->setFont(font);
+    }
+  }
+
+  QListViewItem::paintCell( p, col, column, width, alignment );
+}
+
 
 void KEBListViewItem::init( const KBookmark & bk )
 {
     setPixmap(0, SmallIcon( bk.icon() ) );
 #ifdef DEBUG_ADDRESSES
-    setText(2, bk.address());
+    setText(3, bk.address());
 #endif
+    modUpdate();
+}
+
+void KEBListViewItem::nsGet(QString & nModify )
+{
+  QString c, a;
+  nsGet(c, a, nModify);
+}
+
+void KEBListViewItem::nsGet(QString & nCreate, QString & nAccess, QString & nModify )
+{
+  QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
+
+  QStringList sl = QStringList::split(' ', nsinfo);
+  for ( QStringList::Iterator it = sl.begin(); it != sl.end(); ++it ) {
+    QStringList spl = QStringList::split('"', *it);
+    //      kdDebug() << spl[0] << "+" << spl[1] << "\n";
+    if (spl[0] == "LAST_MODIFIED=") {
+      nModify = spl[1];
+    } else if (spl[0] == "ADD_DATE=") {
+      nCreate = spl[1];
+    } else if (spl[0] == "LAST_VISIT=") {
+      nAccess = spl[1];
+    }
+  }
+}
+
+void KEBListViewItem::modUpdate( )
+{
+  QString url = m_bookmark.url().url();
+
+  KEBTopLevel *top = KEBTopLevel::self();
+
+  if (top) {
+    QString nModify, oModify;
+    bool ois = false, nis = false, nMod = false;
+    int nM = 0, oM = 0;
+
+    // get new mod date if there is one
+    if ( top->Modify.contains(url)) {
+      nModify = top->Modify[url];
+      nMod = true;
+      bool ok = false;
+      nM = nModify.toInt(&ok);
+      if (!ok)
+	nis = true;
+    }	
+
+    if (top->oldModify.contains(url)) {
+      if (nMod) {
+	oModify = top->oldModify[url];
+      } else { // may be reading a second bookmark with same url
+	QString oom;
+	nsGet(oom);
+	int ood = oom.toInt();
+
+	oModify = top->oldModify[url];
+	int ond = oModify.toInt();
+
+	if (ood > ond) {
+	  top->oldModify[url] = oom;
+	  oModify = oom;
+	}
+      }
+    } else { // first time 
+      nsGet(oModify);
+      top->oldModify[url] = oModify;
+    }
+    oM = oModify.toInt();
+    if (oM == 1) {
+      ois = true;
+    }
+    
+    //    kdDebug() << "nMod=" << nMod << " nis=" << nis << " nM=" << nM << " oM=" << nM << "\n";
+    QString sn;
+    QDateTime dt;
+
+    if (nMod && nis) { // Eror in current check
+      sn = nModify;
+      if (ois)
+	render = 1;
+      else
+	render = 2;
+    } else if (nMod && nM == 0) { // No modify time returned
+      sn = i18n(".");
+    } else if (nMod && nM >= oM) { // Info from current check
+      dt.setTime_t(nM);
+      if (dt.daysTo(QDateTime::currentDateTime()) > 31) {
+	sn =  KGlobal::locale()->formatDate(dt.date(), false);
+      } else {
+	sn =  KGlobal::locale()->formatDateTime(dt, false);
+      }
+      if (nM == oM)
+	render = 1;
+      else {
+	render = 2;
+      }
+    } else if (ois) { // Error in previous check
+      sn = i18n("...Error...");
+      render = 0;
+    } else if (oM) { // Info from previous check
+      dt.setTime_t(oM);
+      if (dt.daysTo(QDateTime::currentDateTime()) > 31) {
+	sn =  KGlobal::locale()->formatDate(dt.date(), false);
+      } else {
+	sn =  KGlobal::locale()->formatDateTime(dt, false);
+      }
+      render = 0;
+    }
+    setText(2,  sn);
+  }
+}
+
+void KEBListViewItem::setTmpStatus(QString status, QString &oldStatus) {
+  KEBTopLevel *top = KEBTopLevel::self();
+  QString url = m_bookmark.url().url();
+
+  render = 2;
+  setText(2,status);
+  if (top->Modify.contains(url)) {
+    oldStatus = top->Modify[url];
+  } else {
+    oldStatus = "";
+  }
+  //  kdDebug() << "setStatus " << status << " old=" << oldStatus << "\n";
+  top->Modify[url] = status;
+}
+
+void KEBListViewItem::restoreStatus( QString oldStatus) 
+{
+  KEBTopLevel *top = KEBTopLevel::self();
+  QString url = m_bookmark.url().url();
+
+  if (! oldStatus.isEmpty()) {
+    top->Modify[url] = oldStatus;
+  } else {
+    top->Modify.remove(url);
+  }
+  modUpdate();
+}
+
+void KEBListViewItem::nsPut (QString nm)
+{
+  QString nCreate, nAccess, nModify;
+
+  bool okNum = false;
+  nm.toInt(&okNum);
+
+  nsGet(nCreate, nAccess, nModify);
+ 
+  QString nsinfo = "ADD_DATE=\"";
+
+  if (!nCreate.isEmpty()) {
+    nsinfo += nCreate;
+  } else {
+    QString ct;
+    ct.setNum(time(0));
+    nsinfo += ct;
+  }
+
+  nsinfo += "\" LAST_VISIT=\"";
+  if (!nAccess.isEmpty()) {
+    nsinfo += nAccess;
+  } else {
+    nsinfo += "0";
+  }
+
+  nsinfo += "\" LAST_MODIFIED=\"";
+  if (okNum)
+    nsinfo += nm;
+  else
+    nsinfo += "1";
+  nsinfo += "\"";
+  m_bookmark.internalElement().setAttribute("netscapeinfo",nsinfo);
+
+  KEBTopLevel::self()->setModified(true);
+  KEBTopLevel::self()->Modify[m_bookmark.url().url()] = nm;
+  setText(2, nm);
 }
 
 void KEBListViewItem::setOpen( bool open )
@@ -123,6 +325,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_pListView->setDragEnabled( true );
     m_pListView->addColumn( i18n("Bookmark"), 300 );
     m_pListView->addColumn( i18n("URL"), 300 );
+    m_pListView->addColumn( i18n("Status/Last Modified"), 300 );
 #ifdef DEBUG_ADDRESSES
     m_pListView->addColumn( "Address", 100 );
 #endif
@@ -157,6 +360,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
     connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
+    s_topLevel = this;
     fillListView();
 
     // Create the actions
@@ -183,12 +387,15 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) new KAction( i18n( "&Sort alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
     (void) new KAction( i18n( "Set As &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
     (void) new KAction( i18n( "&Open In Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
-    (void) new KAction( i18n( "Test &Link" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
+    (void) new KAction( i18n( "Check &Status" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
+    (void) new KAction( i18n( "Check Status: &All" ), "testall", 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
+    (void) new KAction( i18n( "Cancel &Checks" ), "canceltests", 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
+
 
     m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
 
-    actionCollection()->action("testlink")->setEnabled(false); // not implemented
+    actionCollection()->action("canceltests")->setEnabled( false );
 
     slotSelectionChanged();
     slotClipboardDataChanged();
@@ -199,7 +406,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     setModified(false); // for a nice caption
     m_commandHistory.documentSaved();
 
-    s_topLevel = this;
     KGlobal::locale()->insertCatalogue("libkonq");
 }
 
@@ -264,7 +470,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("sort")->setEnabled(group);
     coll->action("setastoolbar")->setEnabled(group);
     coll->action("openlink")->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
-    //coll->action("testlink")->setEnabled(itemSelected && !group && !separator); // not implemented
+    coll->action("testlink")->setEnabled(itemSelected && !separator); 
 }
 
 void KEBTopLevel::slotClipboardDataChanged()
@@ -515,17 +721,47 @@ void KEBTopLevel::slotOpenLink()
 {
     KBookmark bk = selectedBookmark();
     Q_ASSERT( !bk.isGroup() );
+
     (void) new KRun( bk.url() );
+}
+
+
+void KEBTopLevel::slotTestAllLinks()
+{
+  KEBListViewItem *p = findByAddress("/0");
+  KBookmark bk = p->bookmark();
+  tests.insert(0, new TestLink(bk));
+  actionCollection()->action("canceltests")->setEnabled( true );
 }
 
 void KEBTopLevel::slotTestLink()
 {
+    KBookmark bk = selectedBookmark();
+    tests.insert(0, new TestLink(bk));
+    actionCollection()->action("canceltests")->setEnabled( true );
+}
+
+void KEBTopLevel::slotCancelAllTests()
+{
+  TestLink *t, *p;
+  
+  for (t = tests.first(); t != 0; t=p) {
+    p = tests.next();
+    slotCancelTest(t);
+  }
+}
+
+void KEBTopLevel::slotCancelTest(TestLink *t)
+{
+  tests.removeRef(t);
+  delete t;
+  if (tests.count() == 0)
+    actionCollection()->action("canceltests")->setEnabled( false );
 
 }
 
 void KEBTopLevel::slotShowNS()
 {
-    kdDebug() << "KEBTopLevel::slotShowNS" << endl;
     QDomElement rootElem = KBookmarkManager::self()->root().internalElement();
     QString attr = "hide_nsbk";
     rootElem.setAttribute(attr, rootElem.attribute(attr) == "yes" ? "no" : "yes");
@@ -774,5 +1010,6 @@ void KEBTopLevel::slotCommandExecuted()
     KEBTopLevel::self()->setModified();
     KEBTopLevel::self()->update();     // Update GUI
 }
+
 
 #include "toplevel.moc"

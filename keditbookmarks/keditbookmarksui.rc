@@ -30,7 +30,10 @@
 
 <Menu name="bookmark"><text>&amp;Bookmark</text>
  <Action name="openlink"/>
- <!--<Action name="testlink"/> not implemented -->
+ <Action name="testlink"/>
+ <Separator/>
+ <Action name="testall"/>
+ <Action name="canceltests"/>
 </Menu>
 
 <Menu name="settings"><text>&amp;Settings</text>
@@ -49,6 +52,7 @@
 </ToolBar>
 
 <Menu name="popup_folder">
+ <Action name="testlink"/>
              <!-- Edition -->
  <Action name="edit_undo"/>
  <Action name="edit_redo"/>
@@ -72,7 +76,7 @@
 <Menu name="popup_bookmark">
  <!-- Stuff for bookmarks -->
  <Action name="openlink"/>
- <!--<Action name="testlink"/>-->
+ <Action name="testlink"/>
  <Separator/><!-- Edition -->
  <Action name="edit_undo"/>
  <Action name="edit_redo"/>

@@ -19,6 +19,7 @@
 #ifndef __toplevel_h
 #define __toplevel_h
 
+#include <time.h>
 #include <kmainwindow.h>
 #include <kbookmark.h>
 #include <qlistview.h>
@@ -26,6 +27,7 @@
 #include <kcommand.h>
 
 class KToggleAction;
+class TestLink;
 
 class KEBListViewItem : public QListViewItem
 {
@@ -38,13 +40,23 @@ public:
     KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk );
     // group
     KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp );
+    void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
 
     virtual void setOpen( bool );
+    void modUpdate( );
+    void nsPut ( QString nm);
+    void setTmpStatus(QString status,  QString &oldStatus);
+    void restoreStatus( QString oldStatus);
 
     const KBookmark & bookmark() { return m_bookmark; }
+
 private:
     void init( const KBookmark & bk );
+    void nsGet( QString &nModify );
+    void nsGet( QString &nCreate, QString &nAccess, QString &nModify );
+
     KBookmark m_bookmark;
+    int render;
 };
 
 class KEBListView : public KListView
@@ -61,6 +73,9 @@ protected:
     virtual bool acceptDrag( QDropEvent * e ) const;
     virtual QDragObject *dragObject() const;
 };
+
+
+typedef QMap<QString, QString> StringMap;
 
 class KEBTopLevel : public KMainWindow
 {
@@ -91,6 +106,10 @@ public:
 
     KListView * listView() const { return m_pListView; }
 
+    StringMap Modify;
+    StringMap oldModify;
+    QList <TestLink> tests;
+
 public slots:
     void slotImportNS();
     void slotExportNS();
@@ -111,10 +130,13 @@ public slots:
     void slotSort();
     void slotSetAsToolbar();
     void slotOpenLink();
-    void slotTestLink();
     void slotShowNS();
     void slotConfigureKeyBindings();
     void slotConfigureToolbars();
+    void slotTestLink();
+    void slotTestAllLinks();
+    void slotCancelTest(TestLink *);
+    void slotCancelAllTests();
 
 protected slots:
     void slotItemRenamed(QListViewItem *, const QString &, int);
@@ -140,6 +162,7 @@ protected:
     KCommandHistory m_commandHistory;
 
     static KEBTopLevel * s_topLevel;
+
 };
 
 #endif

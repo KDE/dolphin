@@ -207,4 +207,38 @@ private:
     bool m_utf8;
 };
 
+class KEBListViewItem;
+
+#include <kio/job.h>
+class TestLink: public QObject
+{
+    Q_OBJECT
+public:
+    
+  TestLink(KBookmark  bk);
+  ~TestLink();
+
+public slots:
+  void Url(KBookmark  bk);
+  void finished(KIO::Job *j);
+  void read(KIO::Job *j, const QByteArray &a);
+
+signals:
+  void deleteSelf(TestLink *);
+
+private:
+  void setStatus(KEBListViewItem *p, QString err);
+  void setTmpStatus(KEBListViewItem *p, QString status);
+  void setMod(KEBListViewItem *p, QString mod);
+  bool doNext(KEBListViewItem *p);
+
+  KIO::TransferJob *job;
+  KBookmark book;
+  bool jobActive;
+  QString url;
+  int depth;
+  bool errSet;
+  QString oldStatus;
+};
+
 #endif
