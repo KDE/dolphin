@@ -90,6 +90,11 @@ void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
 
 void KonqSideBarWebModule::loadFavicon() {
 	QString icon = KonqPixmapProvider::iconForURL(_url);
+	if (icon.isEmpty()) {
+		KonqFavIconMgr::downloadHostIcon(_url);
+		icon = KonqPixmapProvider::iconForURL(_url);
+	}
+
 	if (!icon.isEmpty()) {
 		emit setIcon(icon);
 
