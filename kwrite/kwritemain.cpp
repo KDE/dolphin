@@ -572,8 +572,6 @@ extern "C" int kdemain(int argc, char **argv)
   aboutData.addCredit ("Daniel Naber","","");
   aboutData.addCredit ("Roland Pabel",I18N_NOOP("Highlighting for Scheme"),"");
   aboutData.addCredit ("Cristi Dumitrescu",I18N_NOOP("PHP Keyword/Datatype list"),"");
-  aboutData.addCredit ("Carsten Presser", I18N_NOOP("Betatest"), "mord-slime@gmx.de");
-  aboutData.addCredit ("Jens Haupert", I18N_NOOP("Betatest"), "haupert@babylon2k.de");
   aboutData.addCredit ("Carsten Pfeiffer", I18N_NOOP("Very nice help"), "");
   aboutData.addCredit (I18N_NOOP("All people who have contributed and I have forgotten to mention"),"","");
 
