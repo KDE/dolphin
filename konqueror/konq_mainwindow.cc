@@ -2589,11 +2589,7 @@ void KonqMainWindow::slotToggleFullScreen()
     menuBar()->hide();
     m_paShowMenuBar->setChecked( false );
 
-    // Preserve caption, reparent calls setCaption (!)
-    QString m_oldTitle = m_currentView ? m_currentView->caption() : QString::null;
     showFullScreen();
-    if (!m_oldTitle.isEmpty())
-      setCaption( m_oldTitle );
 
     // Qt bug, the flags are lost. They know about it.
     setWFlags( WDestructiveClose );
@@ -2616,10 +2612,7 @@ void KonqMainWindow::slotToggleFullScreen()
     menuBar()->show(); // maybe we should store this setting instead of forcing it
     m_paShowMenuBar->setChecked( true );
 
-    QString m_oldTitle = m_currentView ? m_currentView->caption() : QString::null;
     showNormal();  // (calls setCaption, i.e. the one in this class!)
-    if (!m_oldTitle.isEmpty())
-      setCaption( m_oldTitle );
 
     // Qt bug, the flags aren't restored. They know about it.
     setWFlags( WType_TopLevel | WDestructiveClose );
