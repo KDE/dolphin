@@ -35,6 +35,10 @@
 
 #include <assert.h>
 
+#include <kfileshare.h>
+#include <kprocess.h>
+#include <libintl.h>
+
 #include "kpropertiesdialog.h"
 #include "knewmenu.h"
 #include "konq_popupmenu.h"
@@ -119,9 +123,11 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   m_sMimeType         = m_lstItems.first()->mimetype();
   mode_t mode         = m_lstItems.first()->mode();
   bool bTrashIncluded = false;
+  bool bCanChangeSharing = false;
   m_lstPopupURLs.clear();
   int id = 0;
-
+  if( m_sMimeType=="inode/directory" && m_lstItems.first()->isLocalFile())
+    bCanChangeSharing=true;
   setFont(KGlobalSettings::menuFont());
   m_pluginList.setAutoDelete( true );
   m_ownActions.setHighlightingEnabled( true );
@@ -475,9 +481,48 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
             m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
     m_menuElement.removeChild( m_menuElement.lastChild() );
 
+  if( bCanChangeSharing)
+  {
+   if(KFileShare::authorization()==KFileShare::Authorized)
+   {
+       addSeparator();
+       QString label;
+       label=i18n("Share");
+
+       act = new KAction( label, 0, this, SLOT( slotOpenShareFileDialog() ),
+                  &m_ownActions, "sharefile" );
+       addAction( act );
+   }
+  }
+
+
   addMerge( 0 );
 
   m_factory->addClient( this );
+}
+
+
+void KonqPopupMenu::slotOpenShareFileDialog()
+{
+  //kdDebug()<<"KonqPopupMenu::slotOpenShareFileDialog()\n";
+  // It may be that the kfileitem was created by hand
+  // (see KonqKfmIconView::slotMouseButtonPressed)
+  // In that case, we can get more precise info in the properties
+  // (like permissions) if we stat the URL.
+  if ( m_lstItems.count() == 1 )
+    {
+      KFileItem * item = m_lstItems.first();
+      if (item->entry().count() == 0) // this item wasn't listed by a slave
+        {
+     // KPropertiesDialog will use stat to get more info on the file
+     KPropertiesDialog*dlg= new KPropertiesDialog( item->url() );
+     dlg->showFileSharingPage();
+
+     return;
+        }
+    }
+  KPropertiesDialog*dlg=new KPropertiesDialog( m_lstItems );
+  dlg->showFileSharingPage();
 }
 
 KonqPopupMenu::~KonqPopupMenu()

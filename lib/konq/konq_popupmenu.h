@@ -117,7 +117,7 @@ public slots:
   void slotRunService();
   void slotPopupMimeType();
   void slotPopupProperties();
-
+  void slotOpenShareFileDialog();
 protected:
   KActionCollection &m_actions;
   KActionCollection m_ownActions;
