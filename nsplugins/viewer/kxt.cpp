@@ -47,8 +47,8 @@
 
 #include <kapp.h>
 #include <qwidget.h>
-#include <qobjcoll.h>
-#include <qwidcoll.h>
+#include <qobjectlist.h>
+#include <qwidgetlist.h>
 #include <kdebug.h>
 #include <qtimer.h>
 
