@@ -210,7 +210,7 @@ void KonqDirTree::slotNewItem( KFileItem *item )
   assert( parentDir );
 
   KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( this, parentDir, topLevelItem.m_item, item );
-  dirTreeItem->setPixmap( 0, item->pixmap( KIconLoader::Small ) );
+  dirTreeItem->setPixmap( 0, item->pixmap( KIconLoader::Small, false ) );
   dirTreeItem->setText( 0, item->url().filename() );
 }
 
@@ -505,3 +505,4 @@ KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( KDirLister *list
   return TopLevelItem();
 }
 
+#include <konq_dirtree.moc>

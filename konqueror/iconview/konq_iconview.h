@@ -77,6 +77,7 @@ public:
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
 public slots:
+  void slotImagePreview();
   void slotShowDot();
   void slotSelect();
   void slotUnselect();
@@ -151,15 +152,10 @@ protected:
 
   unsigned long m_ulTotalFiles;
 
-  long int m_idShowDotFiles;
-  long int m_idSortByNameCaseSensitive;
-  long int m_idSortByNameCaseInsensitive;
-  long int m_idSortBySize;
-  long int m_idSortDescending;
-
   SortCriterion m_eSortCriterion;
 
   KToggleAction *m_paDotFiles;
+  KToggleAction *m_paImagePreview;
   KActionMenu *m_pamSort;
 
   KToggleAction *m_paLargeIcons;

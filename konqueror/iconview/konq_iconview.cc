@@ -157,6 +157,7 @@ KonqKfmIconView::KonqKfmIconView()
   m_bInit = true;
 
   m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
+  m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, this, SLOT( slotImagePreview() ), this );
   m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
 
   KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive)" ), 0, this );
@@ -232,6 +233,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   //
 
+  actions()->append( BrowserView::ViewAction( m_paImagePreview, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
 
@@ -294,6 +296,13 @@ KonqKfmIconView::~KonqKfmIconView()
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
   delete m_pIconView;
+}
+
+void KonqKfmIconView::slotImagePreview()
+{
+  m_pProps->m_bImagePreview = !m_pProps->m_bImagePreview;
+  m_pIconView->setImagePreviewAllowed ( m_pProps->m_bImagePreview );
+  m_pIconView->alignItemsInGrid( true );
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -609,7 +618,8 @@ void KonqKfmIconView::slotCompleted()
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 {
 //  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
-  KFileIVI* item = new KFileIVI( m_pIconView, _fileitem, m_pIconView->size() );
+  KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
+                                 m_pIconView->size(), m_pProps->m_bImagePreview );
   item->setRenameEnabled( false );
 
   QObject::connect( item, SIGNAL( dropMe( KFileIVI *, QDropEvent * ) ),
