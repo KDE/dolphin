@@ -18,8 +18,8 @@ libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)
 
-messages:
-	$(XGETTEXT) $(libkcm_kio_la_SOURCES) -o $(podir)/kcmkio.pot
+messages: rc.cpp
+	$(XGETTEXT) *.cpp -o $(podir)/kcmkio.pot
 
 check_PROGRAMS = test
 test_SOURCES = $(libkcm_kio_la_SOURCES) test.cpp
