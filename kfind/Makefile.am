@@ -3,7 +3,7 @@ METASOURCES = AUTO
 EXTRA_DIST = DESCRIPTION
 SUBDIRS = pics
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes)
+INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
 
 #This section is kfindpart
 kde_module_LTLIBRARIES = libkfindpart.la
