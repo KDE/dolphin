@@ -1,8 +1,6 @@
-- make it work with Macromedia Flash
 - add Get/PostURL handling
 - add plugin initiated streams
-- remove segfault on mouse events
 - embed in Konqi
 - use Konqui's cache
-- set requested size
+- repair ASFILE mode, saved file is corrupt at the moment
 ...
