@@ -20,7 +20,10 @@
 #include "konq_dirpart.h"
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
+#include "konqsettings.h"
 
+#include <kparts/browserextension.h>
+#include <kfileitem.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
 
@@ -60,6 +63,18 @@ void KonqDirPart::slotBackgroundImage()
         m_pProps->applyColors( widget() );
 	widget()->repaint();
     }
+}
+
+void KonqDirPart::mmbClicked( KFileItem * fileItem )
+{
+  if ( KonqFMSettings::settings()->shouldEmbed( fileItem->mimetype() ) )
+  {
+    KParts::URLArgs args;
+    args.serviceType = fileItem->mimetype();
+    emit m_extension->createNewWindow( fileItem->url(), args );
+  }
+  else
+    fileItem->run();
 }
 
 void KonqDirPart::saveState( QDataStream &stream )

@@ -23,25 +23,37 @@
 #include <qstring.h>
 #include <kparts/part.h>
 
+namespace KParts { class BrowserExtension; }
 class KonqPropsView;
 class QScrollView;
+class KFileItem;
 
 class KonqDirPart: public KParts::ReadOnlyPart
 {
-  // TODO get rid of this
-  friend class IconViewBrowserExtension; // to access m_pProps
-  friend class ListViewBrowserExtension;
   Q_OBJECT
 public:
     KonqDirPart( QObject *parent, const char *name );
     virtual ~KonqDirPart();
+
+    /**
+     * The derived part should call this in its constructor
+     */
+    void setBrowserExtension( KParts::BrowserExtension * extension )
+      { m_extension = extension; }
+    KParts::BrowserExtension * extension()
+      { return m_extension; }
 
     QScrollView * scrollWidget();
 
     virtual void saveState( QDataStream &stream );
     virtual void restoreState( QDataStream &stream );
 
+    void mmbClicked( KFileItem * fileItem );
+
+    void setNameFilter( const QString & nameFilter ) { m_nameFilter = nameFilter; }
     QString nameFilter() const { return m_nameFilter; }
+
+    KonqPropsView * props() const { return m_pProps; }
 
 public slots:
     void slotBackgroundColor();
@@ -49,6 +61,8 @@ public slots:
 
 protected:
     QString m_nameFilter;
+
+    KParts::BrowserExtension * m_extension;
     /**
      * View properties
      */
