@@ -172,7 +172,7 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
       id = m_popupMenu->insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
   }
 
-  id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupBookmarks() ) );
+  id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupAddToBookmark() ) );
 
   m_lstPopupURLs.clear();
   for ( i = 0; i < popup.urls.length(); i++ )
@@ -182,7 +182,6 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
 
   // Do all URLs have the same mimetype ?
   url = KURL( m_lstPopupURLs.getFirst() );
-
 
   KMimeType* mime = KMimeType::findByURL( url, (mode_t)popup.mode, (bool)popup.isLocalFile );
   ASSERT( mime );
@@ -265,9 +264,12 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
   // EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
     
   delete m_popupMenu;
-  if ( m_pMenuNew ) delete m_pMenuNew;
 }
 
+KonqPopupMenu::~KonqPopupMenu()
+{
+  if ( m_pMenuNew ) delete m_pMenuNew;
+}
 
 void KonqPopupMenu::slotFileNewActivated( CORBA::Long id )
 {
@@ -351,7 +353,7 @@ void KonqPopupMenu::slotPopupOpenWith()
   }
 }
 
-void KonqPopupMenu::slotPopupBookmarks()
+void KonqPopupMenu::slotPopupAddToBookmark()
 {
   //TODO
 }
@@ -380,9 +382,8 @@ void KonqPopupMenu::slotPopup( int id )
 
 void KonqPopupMenu::slotPopupProperties()
 {
-  if ( m_lstPopupURLs.count() == 1 )
-    (void) new PropertiesDialog( m_lstPopupURLs.getFirst(), m_popupMode );
-  // else ERROR
+  assert ( m_lstPopupURLs.count() == 1 );
+  (void) new PropertiesDialog( m_lstPopupURLs.getFirst(), m_popupMode );
 }
 
 #include "kpopupmenu.moc"

@@ -20,7 +20,7 @@ public:
                  bool canGoBack, 
                  bool canGoForward, 
                  bool canGoUp );
-  ~KonqPopupMenu() {}
+  ~KonqPopupMenu();
 
 public slots:
   void slotFileNewActivated( CORBA::Long id );
@@ -32,7 +32,7 @@ public slots:
   void slotPopupTrash();
   void slotPopupDelete();
   void slotPopupOpenWith();
-  void slotPopupBookmarks();
+  void slotPopupAddToBookmark();
   void slotPopup( int id );
   void slotPopupProperties();
 
