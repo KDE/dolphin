@@ -34,6 +34,7 @@
 
 #include <kcursor.h>
 #include <khtml.h>
+#include <khtmlsavedpage.h>
 #include <kapp.h>
 
 #include <k2url.h>
@@ -323,6 +324,164 @@ char *KonqHTMLView::url()
 char *KonqHTMLView::title()
 {
   return m_vMainWindow->partCaption( id() );
+}
+
+Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
+{
+  Konqueror::View::HistoryEntry *entry = KonqBaseView::saveState();
+  
+  SavedPage *p = saveYourself();
+  savePage( &entry->data, p );
+  delete p;
+  return entry;
+}
+
+void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )
+{
+  SavedPage *p = restorePage( &entry.data );
+  restore( p );
+  delete p;
+}
+
+void KonqHTMLView::savePage( CORBA::Any *data, SavedPage *p )
+{
+  (*data) <<= CORBA::Any::from_string( (char *)p->frameName.ascii(), 0 );
+  (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->isFrame );
+  (*data) <<= (CORBA::Long)p->scrolling;
+  (*data) <<= (CORBA::Long)p->frameborder;
+  (*data) <<= (CORBA::Long)p->marginwidth;
+  (*data) <<= (CORBA::Long)p->marginheight;
+  (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->allowresize );
+  (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->isFrameSet );
+  (*data) <<= CORBA::Any::from_string( (char *)p->url.ascii(), 0 );
+  (*data) <<= CORBA::Any::from_string( (char *)p->title.ascii(), 0 );
+  (*data) <<= (CORBA::Long)p->xOffset;
+  (*data) <<= (CORBA::Long)p->yOffset;
+
+  if ( p->forms )
+  {
+    (*data) <<= (CORBA::ULong)p->forms->count();
+    QStrListIterator it( *p->forms );
+    for (; it.current(); ++it )
+      (*data) <<= CORBA::Any::from_string( it.current(), 0 );
+  }
+  else
+    (*data) <<= (CORBA::ULong)0;
+
+  if ( p->frameLayout )
+  {
+    (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)true );
+    (*data) <<= CORBA::Any::from_string( (char *)p->frameLayout->rows.ascii(), 0 );
+    (*data) <<= CORBA::Any::from_string( (char *)p->frameLayout->cols.ascii(), 0 );
+    (*data) <<= (CORBA::Long)p->frameLayout->frameBorder;
+    (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->frameLayout->allowResize );
+  }
+  else
+    (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)false );
+        
+  if ( p->frames )
+  {
+    (*data) <<= (CORBA::ULong)p->frames->count();
+    QListIterator<SavedPage> it( *p->frames );
+    for (; it.current(); ++it )
+      savePage( data, it.current() );
+  }
+  else
+    (*data) <<= (CORBA::ULong)0;
+
+}
+
+SavedPage *KonqHTMLView::restorePage( const CORBA::Any *data )
+{
+  SavedPage *p = new SavedPage;
+  
+  CORBA::String_var s;
+  CORBA::Boolean b;
+  CORBA::ULong u, c;
+  
+  (*data) >>= CORBA::Any::to_string( s, 0 );
+  p->frameName = s;
+  
+  (*data) >>= CORBA::Any::to_boolean( b );
+  p->isFrame = b;
+
+  (*data) >>= u;
+  p->scrolling = u;
+  
+  (*data) >>= u;
+  p->frameborder = u;
+  
+  (*data) >>= u;
+  p->marginwidth = u;
+  
+  (*data) >>= u;
+  p->marginheight = u;
+  
+  (*data) >>= CORBA::Any::to_boolean( b );
+  p->allowresize = b;
+  
+  (*data) >>= CORBA::Any::to_boolean( b );
+  p->isFrameSet = b;
+  
+  (*data) >>= CORBA::Any::to_string( s, 0 );
+  p->url = s;
+  
+  (*data) >>= CORBA::Any::to_string( s, 0 );
+  p->title = s;
+  
+  (*data) >>= u;
+  p->xOffset = u;
+  
+  (*data) >>= u;
+  p->yOffset = u;
+  
+  (*data) >>= c;
+  if ( c > 0 )
+  {
+    p->forms = new QStrList;
+    for ( u = 0; u < c; u++ )
+    {
+      (*data) >>= CORBA::Any::to_string( s, 0 );
+      p->forms->append( s );
+    }
+    
+  }
+  else
+    p->forms = 0L;
+  
+  (*data) >>= CORBA::Any::to_boolean( b );
+  if ( (bool)b )
+  {
+    p->frameLayout = new FrameLayout;
+    
+    (*data) >>= s;
+    p->frameLayout->rows = s;
+    
+    (*data) >>= s;
+    p->frameLayout->cols = s;
+    
+    (*data) >>= u;
+    p->frameLayout->frameBorder = u;
+    
+    (*data) >>= CORBA::Any::to_boolean( b );
+    p->frameLayout->allowResize = b;
+  }
+  else
+    p->frameLayout = 0L;    
+    
+  (*data) >>= c;
+  if ( c > 0 )
+  {
+    p->frames = new QList<SavedPage>;
+    for ( u = 0; u < c; u++ )
+    {
+      SavedPage *sp = restorePage( data );
+      p->frames->append( sp );
+    }
+  }
+  else p->frames = 0L;
+  
+  return p;
 }
 
 #include "konq_partview.h"

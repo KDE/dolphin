@@ -63,6 +63,11 @@ public:
   virtual char *url();
   virtual char *title();
 
+  virtual Konqueror::View::HistoryEntry *saveState();
+  virtual void restoreState( const Konqueror::View::HistoryEntry &history );
+  virtual void savePage( CORBA::Any *data, SavedPage *page );
+  virtual SavedPage *restorePage( const CORBA::Any *data );
+  
   virtual void testIgnore();
     
 public slots:

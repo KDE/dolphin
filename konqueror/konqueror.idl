@@ -38,7 +38,13 @@ module Konqueror
       long mode;      
       boolean isLocalFile;      
     };
-  
+
+    struct HistoryEntry
+    {
+      string url;
+      any data;
+    };
+    
     /*
      * A full featured Konqueror View has to map the eventOpenURL event (which 
      * has a structure EventOpenURL as parameter)
@@ -52,7 +58,6 @@ module Konqueror
      *      - signal void setLocationBarURL( in string url );
      *      - signal void createNewWindow( in string url );
      *      - signal void popupMenu( in MenuPopupRequest popup );
-     *      - signal void addHistory( in string url, in long xOffset, in long yOffset );
      */
      
     string url();
@@ -60,6 +65,9 @@ module Konqueror
     
     void stop();
 
+    HistoryEntry saveState();
+    void restoreState( in HistoryEntry history );
+    
     /*
      * returns a name for the view (for example just like "KMailFolderView" or
      * "KonquerorHTMLView")

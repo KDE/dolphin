@@ -76,3 +76,22 @@ char *KonqBaseView::title()
 {
   return CORBA::string_dup( m_strTitle.data() );
 }
+
+Konqueror::View::HistoryEntry *KonqBaseView::saveState()
+{
+  Konqueror::View::HistoryEntry *entry = new Konqueror::View::HistoryEntry;
+  
+  entry->url = url();
+  
+  return entry;
+}
+
+void KonqBaseView::restoreState( const Konqueror::View::HistoryEntry &entry )
+{
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( entry.url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL );
+}

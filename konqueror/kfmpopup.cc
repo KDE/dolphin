@@ -162,7 +162,13 @@ void KNewMenu::slotNewFile( int _id )
     else if ( m_pMenu->text( _id ) == 0 )
       return;
 
-    QString p = templatesList->at( _id );
+    QString p;
+    
+    if ( m_bUseOPMenu )
+      p = templatesList->at( m_vMenu->indexOf( _id ) );
+    else
+      p = templatesList->at( m_pMenu->indexOf( _id ) );
+      
     QString tmp = p;
     // Reggie: not needed anymore (Qt 2.0)
     //tmp.detach();

@@ -31,6 +31,8 @@
 #include "konq_treeview.h"
 
 #include <opUIUtils.h>
+#include <opMenu.h>
+#include <opMenuIf.h>
 
 #include <qmsgbox.h>
 #include <qstring.h>
@@ -806,7 +808,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 {
   assert( popup.urls.length() >= 1 );
 
-  QPopupMenu *m_popupMenu = new QPopupMenu;  
+  OPMenu *m_popupMenu = new OPMenu;
   bool bHttp          = true;
   bool isTrash        = true;
   bool currentDir     = false;
@@ -816,7 +818,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   bool sDeleting      = true;
   bool sMoving        = true;
   int id;
-  KNewMenu *m_menuNew = new KNewMenu;
+  KNewMenu *m_menuNew = 0L;
 
   ProtocolManager* pManager = ProtocolManager::self();
   
@@ -910,7 +912,10 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   } 
   else if ( S_ISDIR( (mode_t)popup.mode ) )
   {
-    id = m_popupMenu->insertItem( i18n("&New"), m_menuNew->popupMenu() );
+    OPMenu *newMenu = new OPMenu;
+    m_popupMenu->insertItem( i18n("&New"), newMenu );
+    m_menuNew = new KNewMenu( newMenu->interface() );
+// id = m_popupMenu->insertItem( i18n("&New"), m_menuNew->popupMenu() );
     m_popupMenu->insertSeparator();
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), this, SLOT( slotUp() ), 100 );
@@ -961,7 +966,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 
   id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupBookmarks() ) );
 
-  m_menuNew->setPopupFiles( m_lstPopupURLs );
+  if ( m_menuNew ) m_menuNew->setPopupFiles( m_lstPopupURLs );
 
   // Do all URLs have the same mimetype ?
   url = K2URL( m_lstPopupURLs.first() );
@@ -1036,11 +1041,16 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     m_popupMenu->insertSeparator();
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
   }
-  
+
+  m_popupMenu->insertSeparator();
+  Konqueror::View::EventCreateViewMenu viewMenu;
+  viewMenu.menu = OpenPartsUI::Menu::_duplicate( m_popupMenu->interface() );
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
+    
   m_popupMenu->exec( QPoint( popup.x, popup.y ) );
   
   delete m_popupMenu;
-  delete m_menuNew;
+  if ( m_menuNew ) delete m_menuNew;
 }
 
 void KonqMainView::openDirectory( const char *url )
