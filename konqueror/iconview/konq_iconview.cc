@@ -307,9 +307,9 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
-  m_pIconView->setWordWrapIconText( true );
-  m_pIconView->setAlignItemsWhenInsert( true );
-  m_pIconView->setSortItemsWhenInsert( true, m_pIconView->sortDirection() );
+  m_pIconView->setWordWrapIconText( FALSE );
+  m_pIconView->setAligning( true );
+  m_pIconView->setSorting( true, m_pIconView->sortDirection() );
 
   m_eSortCriterion = NameCaseInsensitive;
 }
@@ -439,9 +439,9 @@ void KonqKfmIconView::slotSortDescending( bool toggle )
     return;
 
   if ( m_pIconView->sortDirection() )
-    m_pIconView->setSortItemsWhenInsert( true, false );
+    m_pIconView->setSorting( true, false );
   else
-    m_pIconView->setSortItemsWhenInsert( true, true );
+    m_pIconView->setSorting( true, true );
 
   m_pIconView->sort( m_pIconView->sortDirection() );
 }
@@ -471,10 +471,6 @@ void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b ) {
 	m_pIconView->setViewMode( QIconSet::Large );
-	m_pIconView->alignItemsInGrid();
-	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
-				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
-				      FALSE );
     }
 }
 
@@ -482,10 +478,6 @@ void KonqKfmIconView::slotViewNormal( bool b )
 {
     if ( b ) {
 	m_pIconView->setViewMode( QIconSet::Automatic );
-	m_pIconView->alignItemsInGrid();
-	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
-				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
-				      FALSE );
     }
 }
 
@@ -493,11 +485,6 @@ void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b ) {
 	m_pIconView->setViewMode( QIconSet::Small );
-	m_pIconView->alignItemsInGrid();
-	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
-				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
-				      FALSE );
-	m_pIconView->repaint( FALSE );
     }
 }
 
@@ -676,9 +663,6 @@ void KonqKfmIconView::slotCompleted()
   if ( m_bNeedAlign )
   {
     m_pIconView->alignItemsInGrid();
-    m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
-                                  m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
-                                  FALSE );
   }
 }
 
