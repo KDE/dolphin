@@ -98,7 +98,9 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
 NSPluginInstance::~NSPluginInstance()
 {
   kDebugInfo("~NSPluginInstance");
-  _pluginFuncs.destroy(_npp, 0);
+  
+  if (_pluginFuncs.destroy)
+    _pluginFuncs.destroy(_npp, 0);
 
   ::free(_npp);
 
@@ -180,6 +182,9 @@ void NSPluginInstance::resizePlugin(int w, int h)
 
 NPError NSPluginInstance::GetValue(NPPVariable variable, void *value)
 {
+  if (!_pluginFuncs.getvalue)
+    return NPERR_GENERIC_ERROR;
+
   NPError error = _pluginFuncs.getvalue(_npp, variable, value);
 
   CHECK(GetValue,error);
@@ -188,6 +193,9 @@ NPError NSPluginInstance::GetValue(NPPVariable variable, void *value)
 
 NPError NSPluginInstance::SetValue(NPNVariable variable, void *value)
 {
+  if (!_pluginFuncs.setvalue)
+    return NPERR_GENERIC_ERROR;
+
   NPError error = _pluginFuncs.setvalue(_npp, variable, value);
 
   CHECK(SetValue,error);
@@ -196,6 +204,9 @@ NPError NSPluginInstance::SetValue(NPNVariable variable, void *value)
 
 NPError NSPluginInstance::SetWindow(NPWindow *window)
 {
+  if (!_pluginFuncs.setwindow)
+    return NPERR_GENERIC_ERROR;
+
   NPError error = _pluginFuncs.setwindow(_npp, window);
 
   CHECK(SetWindow,error);
@@ -204,6 +215,9 @@ NPError NSPluginInstance::SetWindow(NPWindow *window)
 
 NPError NSPluginInstance::DestroyStream(NPStream *stream, NPReason reason)
 {
+  if (!_pluginFuncs.destroystream)
+    return NPERR_GENERIC_ERROR;
+
   NPError error = _pluginFuncs.destroystream(_npp, stream, reason);
 
   CHECK(DestroyStream,error);
@@ -212,6 +226,9 @@ NPError NSPluginInstance::DestroyStream(NPStream *stream, NPReason reason)
 
 NPError NSPluginInstance::NewStream(const NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype)
 {
+  if (!_pluginFuncs.newstream)
+    return NPERR_GENERIC_ERROR;
+
   NPError error = _pluginFuncs.newstream(_npp, type, stream, seekable, stype);
 
   CHECK(NewStream,error);
@@ -220,24 +237,36 @@ NPError NSPluginInstance::NewStream(const NPMIMEType type, NPStream *stream, NPB
 
 void NSPluginInstance::StreamAsFile(NPStream *stream, const char *fname)
 {
+  if (!_pluginFuncs.asfile)
+    return;
+
   _pluginFuncs.asfile(_npp, stream, fname);
 }
 
 
 int32 NSPluginInstance::Write(NPStream *stream, int32 offset, int32 len, void *buf)
 {
+  if (!_pluginFuncs.write)
+    return 0;
+
   return _pluginFuncs.write(_npp, stream, offset, len, buf);
 }
 
 
 int32 NSPluginInstance::WriteReady(NPStream *stream)
 {
+  if (!_pluginFuncs.writeready)
+    return 0;
+
   return _pluginFuncs.writeready(_npp, stream);
 }
 
 
 void NSPluginInstance::URLNotify(const char *url, NPReason reason, void *notifyData)
 {
+  if (!_pluginFuncs.urlnotify)
+    return;
+
   _pluginFuncs.urlnotify(_npp, url, reason, notifyData);
 }
 
