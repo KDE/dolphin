@@ -111,7 +111,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             i18n( "Close &Other Tabs" ),
                             m_pViewManager->mainWindow(),
                             SLOT( slotRemoveOtherTabsPopup() ),
-                            QKeySequence(),
+                            m_pViewManager->mainWindow()->action("removeothertabs")->shortcut(),
                             CLOSE_OTHER_ID );
   connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & ) ),
            SLOT(slotContextMenu( QWidget *, const QPoint & ) ) );

@@ -605,6 +605,7 @@ private:
   KAction *m_paBreakOffTab;
   KAction *m_paRemoveView;
   KAction *m_paRemoveTab;
+  KAction *m_paRemoveOtherTabs;
   KAction *m_paActivateNextTab;
   KAction *m_paActivatePrevTab;
   KAction *m_paDumpDebugInfo;

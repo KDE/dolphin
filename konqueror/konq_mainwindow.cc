@@ -3324,6 +3324,7 @@ void KonqMainWindow::initActions()
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Close Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
   m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
+  m_paRemoveOtherTabs = new KAction( i18n( "Close &Other Tabs" ), "tab_remove", 0, this, SLOT( slotRemoveOtherTabsPopup() ), actionCollection(), "removeothertabs" );
 
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::reverseLayout() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::reverseLayout() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
@@ -3600,6 +3601,7 @@ void KonqMainWindow::updateViewActions()
     m_paAddTab->setEnabled( false );
     m_paDuplicateTab->setEnabled( false );
     m_paRemoveTab->setEnabled( false );
+    m_paRemoveOtherTabs->setEnabled( false );
     m_paBreakOffTab->setEnabled( false );
     m_paActivateNextTab->setEnabled( false );
     m_paActivatePrevTab->setEnabled( false );
@@ -3615,6 +3617,7 @@ void KonqMainWindow::updateViewActions()
         KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
         bool state = (tabContainer->count()>1);
         m_paRemoveTab->setEnabled( state );
+	m_paRemoveOtherTabs->setEnabled( state );
         m_paBreakOffTab->setEnabled( state );
         m_paActivateNextTab->setEnabled( state );
         m_paActivatePrevTab->setEnabled( state );
@@ -3628,6 +3631,7 @@ void KonqMainWindow::updateViewActions()
     else
     {
       m_paRemoveTab->setEnabled( false );
+      m_paRemoveOtherTabs->setEnabled( false );
       m_paBreakOffTab->setEnabled( false );
       m_paActivateNextTab->setEnabled( false );
       m_paActivatePrevTab->setEnabled( false );
