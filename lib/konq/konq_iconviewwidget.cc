@@ -914,7 +914,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
 
     KFileItemList items;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-        if ( force || !static_cast<KFileIVI *>( it )->isThumbnail() )
+        if ( force || !static_cast<KFileIVI *>( it )->hasValidThumbnail() )
             items.append( static_cast<KFileIVI *>( it )->item() );
 
     bool onlyAudio = true;

@@ -272,6 +272,16 @@ void KFileIVI::refreshIcon( bool redraw )
         setIcon( m_size, m_state, true, redraw );
 }
 
+void KFileIVI::invalidateThumbnail()
+{
+    d->thumb = QPixmap();
+}
+
+bool KFileIVI::isThumbnailInvalid() const
+{
+    return d->thumb.isNull();
+}
+
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
 {
     if ( mime->provides( "text/uri-list" ) ) // We're dragging URLs

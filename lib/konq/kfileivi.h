@@ -99,6 +99,15 @@ public:
     void invalidateThumb( int state, bool redraw = false );
 
     /**
+     * Our current thumbnail is not longer "current".
+     * Called when the file contents have changed.
+     */
+    void invalidateThumbnail();
+    bool isThumbnailInvalid() const;
+
+    bool hasValidThumbnail() const { return isThumbnail() && !isThumbnailInvalid(); }
+
+    /**
      * Return the current state of the icon
      * (KIcon::DefaultState, KIcon::ActiveState etc.)
      */
@@ -133,10 +142,9 @@ public:
     /**
      * Sets an icon to be shown over the bottom left corner of the icon.
      * Currently used for directory overlays.
-     * setOverlay(QString()) to remove icon.
+     * setOverlay(QString::null) to remove icon.
      */
-
-	void setOverlay( const QString & iconName);
+    void setOverlay( const QString & iconName);
 
     /**
      * Redetermines the icon (useful if KFileItem might return another icon).
@@ -161,6 +169,7 @@ public:
      */
     void setMouseOverAnimation( const QString& movieFileName );
     QString mouseOverAnimation() const;
+
     /**
      * Return true if the icon _might_ have an animation available.
      * This doesn't mean the .mng exists (only determined when hovering on the
@@ -177,7 +186,7 @@ public:
     void setActive( bool active );
 
     /**
-     * Sets showing of directory overlays. Does nothing if this does 
+     * Sets showing of directory overlays. Does nothing if this does
      * not represent a folder.
      */
     KIVDirectoryOverlay* setShowDirectoryOverlay( bool );
