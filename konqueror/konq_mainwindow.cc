@@ -3145,7 +3145,7 @@ void KonqMainWindow::disableActionsNoView()
     // settings, etc.
     m_paHome->setEnabled( true );
     m_pamBookmarks->setEnabled( true );
-    static const char* s_enActions[] = { "new_window", "duplicate_window", "open_location",
+    static const char* const s_enActions[] = { "new_window", "duplicate_window", "open_location",
                                          "toolbar_url_combo", "clear_location", "animated_logo",
                                          "konqintro", "go_most_often", "go_applications", "go_dirtree",
                                          "go_trash", "go_templates", "go_autostart", "go_url", 0 };
