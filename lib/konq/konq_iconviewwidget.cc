@@ -50,6 +50,7 @@
 
 #include <assert.h>
 #include <unistd.h>
+#include <klocale.h>
 
 class KFileTip: public QFrame
 {
@@ -464,14 +465,14 @@ void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )
     // Well, we can, but when we regain focus we should assume the mouse is
     // not down anymore or the slotOnItem code will break with highlighting!
     m_bMousePressed = false;
-    
+
     // This will ensure that tooltips don't pop up and the mouseover icon
     // effect will go away if the mouse goes out of the view without
     // first moving into an empty portion of the view
     // Fixes part of #86968, and #85204
     // Matt Newell 2004-09-24
     slotOnViewport();
-    
+
     KIconView::focusOutEvent( ev );
 }
 
@@ -1240,13 +1241,6 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 
 void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 {
-#ifdef KFILEITEM_HAS_ISWRITABLE
-    if ( m_rootItem && !m_rootItem->isWritable() ) {
-        e->ignore();
-        emit dragEntered( false );
-        return;
-    }
-#endif
     if ( e->provides( "text/uri-list" ) )
     {
         QByteArray payload = e->encodedData( "text/uri-list" );
@@ -1265,11 +1259,15 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
 {
 #ifdef KFILEITEM_HAS_ISWRITABLE
-    if ( m_rootItem && !m_rootItem->isWritable() ) {
+    QIconViewItem *item = findItem( e->pos() );
+    if ( !item && m_rootItem && !m_rootItem->isWritable() ) {
+        emit dragMove( false );
         e->ignore();
+        cancelPendingHeldSignal();
         return;
     }
 #endif
+    emit dragMove( true );
     KIconView::contentsDragMoveEvent( e );
 }
 
@@ -1459,13 +1457,15 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 {
+  QIconViewItem *i = findItem( ev->pos() );
+  
 #ifdef KFILEITEM_HAS_ISWRITABLE
-    if ( m_rootItem && !m_rootItem->isWritable() ) {
+    if ( !i && m_rootItem && !m_rootItem->isWritable() ) {
         ev->accept( false );
         return;
     }
 #endif
-  QIconViewItem *i = findItem( ev->pos() );
+  
   // Short-circuit QIconView if Ctrl is pressed, so that it's possible
   // to drop a file into its own parent widget to copy it.
   if ( !i && (ev->action() == QDropEvent::Copy || ev->action() == QDropEvent::Link)
@@ -1560,7 +1560,7 @@ void KonqIconViewWidget::mousePressChangeValue()
     d->pSoundPlayer->stop();
   d->bSoundItemClicked = true;
   d->firstClick = false;
-  
+
   // Once we click on the item, we don't want a tooltip
   // Fixes part of #86968
   d->pFileTip->setItem( 0 );

@@ -362,6 +362,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              this, SLOT( slotDragEntered( bool ) ) );
     connect( m_pIconView, SIGNAL( dragLeft() ),
              this, SLOT( slotDragLeft() ) );
+    connect( m_pIconView, SIGNAL( dragMove( bool ) ),
+             this, SLOT( slotDragMove( bool ) ) );
     connect( m_pIconView, SIGNAL( dragFinished() ),
              this, SLOT( slotDragFinished() ) );
 
@@ -758,14 +760,8 @@ void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
     SpringLoadingManager::self().springLoadTrigger(this, fileItem, item);
 }
 
-void KonqKfmIconView::slotDragEntered( bool accepted )
+void KonqKfmIconView::slotDragEntered( bool )
 {
-    kdDebug() << "KonqKfmIconView::slotDragEntered()" << endl;
-    if ( !accepted ) {
-        emit setStatusBarText( i18n( "You cannot drop any items in a directory in which you do not have write permission" ) );
-        return;
-    }
-
     if ( SpringLoadingManager::exists() )
         SpringLoadingManager::self().dragEntered(this);
 }
@@ -776,6 +772,12 @@ void KonqKfmIconView::slotDragLeft()
 
     if ( SpringLoadingManager::exists() )
         SpringLoadingManager::self().dragLeft(this);
+}
+
+void KonqKfmIconView::slotDragMove( bool accepted )
+{
+    if ( !accepted )
+        emit setStatusBarText( i18n( "You cannot drop any items in a directory in which you do not have write permission" ) );
 }
 
 void KonqKfmIconView::slotDragFinished()

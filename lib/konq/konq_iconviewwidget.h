@@ -267,6 +267,8 @@ signals:
      */
     void dragEntered( bool accepted );
     void dragLeft();
+
+    void dragMove( bool accepted );
     /**
      * Emited after the dropped() event. This way we know when the
      * drag'n'drop is really finished.
@@ -316,7 +318,7 @@ protected:
     virtual void wheelEvent( QWheelEvent* );
     void readAnimatedIconsConfig();
     void mousePressChangeValue();
-    
+
     bool boostPreview() const;
     int previewIconSize( int size ) const;
     int largestPreviewIconSize( int size ) const;
