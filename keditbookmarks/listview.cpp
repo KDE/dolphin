@@ -24,13 +24,14 @@
 #include "toplevel.h"
 #include "bookmarkinfo.h"
 #include "commands.h"
-#include "testlink.h" // paintCellHelper
+#include "testlink.h"
 
 #include <stdlib.h>
 
 #include <qclipboard.h>
 #include <qpopupmenu.h>
 #include <qpainter.h>
+#include <qheader.h>
 
 #include <klocale.h>
 #include <dcopclient.h>
@@ -274,7 +275,7 @@ void ListView::setOpen(bool open) {
 }
 
 SelcAbilities ListView::getSelectionAbilities() const {
-    static SelcAbilities sa = { false, false, false, false, false, false, false, false, false };
+    SelcAbilities sa = { false, false, false, false, false, false, false, false, false };
 
     if (VALID_FIRST(selectedItems())) {
         KBookmark nbk = selectedItems()->first()->bookmark();
@@ -289,7 +290,7 @@ SelcAbilities ListView::getSelectionAbilities() const {
     }
 
     sa.notEmpty = (m_listView->rootItem()->childCount() > 0);
-
+    
     return sa;
 }
 
@@ -558,8 +559,6 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
 }
 
 /* -------------------------------------- */
-
-#include <qheader.h>
 
 void KEBListView::loadColumnSetting() 
 {

@@ -336,6 +336,7 @@ bool KEBApp::nsShown() const {
 
 // this should be pushed from listview, not pulled
 void KEBApp::updateActions() {
+    resetActions();
     setActionsEnabled(ListView::self()->getSelectionAbilities());
 }
 

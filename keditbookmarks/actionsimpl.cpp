@@ -344,6 +344,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
                 toEnable << "edit_paste";
             if (!sa.separator)
                 toEnable << "testlink" << "updatefavicon";
+            toEnable << "showintoolbar";
         }
 
         if (sa.singleSelect && !sa.root && !sa.separator) {
@@ -353,8 +354,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
         }
 
         if (!sa.multiSelect) {
-            toEnable << "newfolder" << "newbookmark" 
-                << "insertseparator" << "showintoolbar";
+            toEnable << "newfolder" << "newbookmark" << "insertseparator";
             if (sa.group)
                 toEnable << "sort" << "recursivesort" << "setastoolbar";
         }
@@ -366,7 +366,10 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
 
     for ( QStringList::Iterator it = toEnable.begin(); 
             it != toEnable.end(); ++it )
+    {
         coll->action((*it).ascii())->setEnabled(true);
+        //kdDebug() << (*it) << endl;
+    }
 }
 
 void KEBApp::setCancelFavIconUpdatesEnabled(bool enabled) {
