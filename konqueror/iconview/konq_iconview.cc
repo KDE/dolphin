@@ -763,7 +763,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
     if(_item) {
 	switch(_button) {
 	case RightButton:
-	    (static_cast<KFileIVI*>(_item))->setSelected( true );
+            (static_cast<KFileIVI*>(_item))->setSelected( true, true /* don't touch other items */ );
 	    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
 	    break;
 	case MidButton:
