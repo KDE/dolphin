@@ -56,7 +56,12 @@ public:
     KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0, bool kdesktop = FALSE );
     virtual ~KonqIconViewWidget();
 
-    void initConfig();
+    /**
+     * Read the configuration and apply it.
+     * Call this in the inherited constructor with bInit=true,
+     * and in some reparseConfiguration() slot with bInit=false.
+     */
+    void initConfig( bool bInit );
 
     /**
      * Set the area that will be occupied by icons. It is still possible to

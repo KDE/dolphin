@@ -177,7 +177,7 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
     }
 }
 
-void KonqIconViewWidget::initConfig()
+void KonqIconViewWidget::initConfig( bool bInit )
 {
     m_pSettings = KonqFMSettings::settings();
 
@@ -200,6 +200,9 @@ void KonqIconViewWidget::initConfig()
     setItemFont( font );
 
     setWordWrapIconText( m_pSettings->wordWrapText() );
+
+    if (!bInit)
+        updateContents();
 }
 
 void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
