@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>MainWidget</class>
 <author>Frans Englich &lt;frans.englich@telia.com&gt;</author>
 <widget class="QWidget">
@@ -9,8 +9,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>420</width>
-            <height>514</height>
+            <width>518</width>
+            <height>561</height>
         </rect>
     </property>
     <property name="caption">
@@ -20,14 +20,6 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="0" column="1" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>lblClickButtonInfo</cstring>
-            </property>
-            <property name="text">
-                <string>&lt;i&gt;Click the button to change your image&lt;/i&gt;</string>
-            </property>
-        </widget>
         <widget class="KPushButton" row="0" column="0">
             <property name="name">
                 <cstring>btnChangeFace</cstring>
@@ -107,7 +99,7 @@
                         <cstring>lblEmail</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Email:</string>
+                        <string>&amp;Email Address:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leEmail</cstring>
@@ -134,22 +126,6 @@
                         <cstring>leSMTP</cstring>
                     </property>
                 </widget>
-                <widget class="QLabel" row="4" column="1">
-                    <property name="name">
-                        <cstring>lblUsername</cstring>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="4" column="0">
-                    <property name="name">
-                        <cstring>lblUsernameTell</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Username:</string>
-                    </property>
-                </widget>
                 <widget class="QLabel" row="5" column="0">
                     <property name="name">
                         <cstring>lblUIDTell</cstring>
@@ -168,12 +144,12 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup" row="2" column="0" rowspan="2" colspan="2">
+        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>bgpPassword</cstring>
             </property>
             <property name="title">
-                <string>Echo Character As</string>
+                <string>At Password Prompt</string>
             </property>
             <property name="flat">
                 <bool>false</bool>
@@ -196,7 +172,7 @@
                         <cstring>rdbOneStar</cstring>
                     </property>
                     <property name="text">
-                        <string>One star</string>
+                        <string>Show one star for each letter</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton" row="1" column="0">
@@ -204,39 +180,22 @@
                         <cstring>rdbThreeStars</cstring>
                     </property>
                     <property name="text">
-                        <string>Three stars</string>
+                        <string>Show three stars for each letter</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton" row="2" column="0">
                     <property name="name">
-                        <cstring>rdbNoEcho</cstring>
+                        <cstring>rdbShowPassword</cstring>
                     </property>
                     <property name="text">
-                        <string>Show password</string>
+                        <string>Show nothing</string>
                     </property>
                 </widget>
             </grid>
         </widget>
-        <spacer row="2" column="2">
+        <spacer row="4" column="2">
             <property name="name">
-                <cstring>spacer5</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>70</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <spacer row="3" column="3">
-            <property name="name">
-                <cstring>spacer6</cstring>
+                <cstring>spacer3</cstring>
             </property>
             <property name="orientation">
                 <enum>Vertical</enum>
@@ -247,18 +206,73 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>150</height>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>
-        <widget class="KPushButton" row="2" column="3">
+        <widget class="QLayoutWidget" row="0" column="1" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>layout1</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>lblUsername</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <family>Bitstream Charter</family>
+                            <pointsize>14</pointsize>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter</set>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>lblClickButtonInfo</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&lt;i&gt;(Click the button to change your image)&lt;/i&gt;</string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter</set>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="KPushButton" row="3" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>btnChangePassword</cstring>
             </property>
             <property name="text">
-                <string></string>
+                <string>Change Password...</string>
             </property>
         </widget>
+        <spacer row="3" column="3">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>111</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
     </grid>
 </widget>
 <tabstops>
@@ -273,8 +287,4 @@
 </includes>
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
 </UI>
