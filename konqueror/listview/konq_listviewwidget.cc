@@ -157,8 +157,6 @@ void KonqBaseListViewWidget::focusInEvent( QFocusEvent *fe )
 
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
-   kdDebug(1202)<<"readProtocolConfig: -"<<protocol<<"-"<<endl;
-
    KConfig * config = KGlobal::config();
    if ( config->hasGroup( "ListView_" + protocol ) )
       config->setGroup( "ListView_" + protocol );
@@ -208,17 +206,12 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    //check what the protocol provides
    QStringList listingList=KProtocolInfo::listing(protocol);
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
-   for (unsigned int j=0; j<listingList.count(); j++)
-      kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
 
    // Even if this is not given by the protocol, we can determine it.
    // Please don't remove this ;-). It makes it possible to show the file type
    // using the mimetype comment, which for most users is a nicer alternative
    // than the raw mimetype name.
    listingList.append( "MimeType" );
-   for (unsigned int i=0; i<NumberOfAtoms; i++)
-      kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
-
    for (unsigned int i=0; i<NumberOfAtoms; i++)
    {
       if ((confColumns[i].udsId==KIO::UDS_URL) || (confColumns[i].udsId==KIO::UDS_MIME_TYPE))
@@ -238,8 +231,6 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
          confColumns[i].toggleThisOne->setChecked(FALSE);
       }
    }
-   for (unsigned int i=0; i<NumberOfAtoms; i++)
-      kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 }
 
 void KonqBaseListViewWidget::createColumns()
