@@ -56,6 +56,7 @@ public:
 protected:
     void determineNextIcon();
     void determineThumbnailURL();
+    void getOrCreateThumbnail();
     bool statResultThumbnail( KIO::StatJob * );
     void createThumbnail( QString );
 
@@ -67,11 +68,11 @@ private slots:
 
 private:
     void saveThumbnail(const QImage &img);
-    
+
 private:
     enum { STATE_STATORIG, STATE_STATTHUMB, STATE_STATXV, STATE_GETTHUMB, // if the thumbnail exists
            STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_GETORIG, STATE_PUTTHUMB, // if we create it
-           STATE_CREATETHUMB // thumbnail:/ slave 
+           STATE_CREATETHUMB // thumbnail:/ slave
     } m_state;
 
     // Our todo list :)

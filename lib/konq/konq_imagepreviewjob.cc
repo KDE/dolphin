@@ -174,6 +174,17 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
 
       determineThumbnailURL();
 
+      QString mimeType = m_currentItem->item()->mimetype();
+      if ( mimeType.startsWith( "text/") &&
+           ! (mimeType == "text/html" && m_renderHTML))
+      {
+          // This is a text preview, no need to look for a saved thumbnail
+          // Just create it, and be done
+          getOrCreateThumbnail();
+          return;
+      }
+
+
       m_state = STATE_STATTHUMB;
       KIO::Job * job = KIO::stat( m_thumbURL, false );
       kdDebug(1203) << "KonqImagePreviewJob: KIO::stat thumb " << m_thumbURL.url() << endl;
@@ -283,19 +294,8 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
               m_bDirsCreated = true;
       }
 
-      // We still need to load the orig file ! (This is getting tedious) :)
-      if ( m_currentURL.isLocalFile() )
-        createThumbnail( m_currentURL.path() );
-      else
-      {
-        m_state = STATE_GETORIG;
-        QString localFile = tmpnam(0);  // Generate a temp file name
-        KURL localURL;
-        localURL.setPath( localFile );
-        KIO::Job * job = KIO::file_copy( m_currentURL, localURL, -1, false, false, false /* No GUI */ );
-        kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy orig " << m_currentURL.url() << " to " << localFile << endl;
-        addSubjob(job);
-      }
+      // This is the next stage
+      getOrCreateThumbnail();
       return;
     case STATE_GETORIG:
     {
@@ -362,47 +362,67 @@ void KonqImagePreviewJob::determineThumbnailURL()
 
 bool KonqImagePreviewJob::statResultThumbnail( KIO::StatJob * job )
 {
-  bool bThumbnail = false;
-  if (!job->error()) // found a thumbnail
-  {
-    KIO::UDSEntry entry = job->statResult();
-    KIO::UDSEntry::ConstIterator it = entry.begin();
-    time_t tThumb = 0;
-    for( ; it != entry.end(); it++ ) {
-      if ( (*it).m_uds == KIO::UDS_MODIFICATION_TIME ) {
-        tThumb = (time_t)((*it).m_long);
-      }
-    }
-    // Only ok if newer than the file
-    bThumbnail = (tThumb >= m_tOrig);
-  }
-
-  if ( !bThumbnail )
-    return false;
-
-  if ( m_thumbURL.isLocalFile() )
-  {
-    QPixmap pix;
-    if ( pix.load( m_thumbURL.path() ) )
+    bool bThumbnail = false;
+    if (!job->error()) // found a thumbnail
     {
-      // Found it, use it
-      m_iconView->setThumbnailPixmap( m_currentItem, pix );
-      determineNextIcon();
-      return true;
+        KIO::UDSEntry entry = job->statResult();
+        KIO::UDSEntry::ConstIterator it = entry.begin();
+        time_t tThumb = 0;
+        for( ; it != entry.end(); it++ ) {
+            if ( (*it).m_uds == KIO::UDS_MODIFICATION_TIME ) {
+                tThumb = (time_t)((*it).m_long);
+            }
+        }
+        // Only ok if newer than the file
+        bThumbnail = (tThumb >= m_tOrig);
     }
-  }
-  else
-  {
-    m_state = STATE_GETTHUMB;
-    QString localFile = tmpnam(0);  // Generate a temp file name
-    KURL localURL;
-    localURL.setPath( localFile );
-    KIO::Job * job = KIO::file_copy( m_thumbURL, localURL, -1, false, false, false /* No GUI */ );
-    kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy thumb " << m_thumbURL.url() << " to " << localFile << endl;
-    addSubjob(job);
-    return true;
-  }
-  return false;
+
+    if ( !bThumbnail )
+        return false;
+
+    if ( m_thumbURL.isLocalFile() )
+    {
+        QPixmap pix;
+        if ( pix.load( m_thumbURL.path() ) )
+        {
+            // Found it, use it
+            m_iconView->setThumbnailPixmap( m_currentItem, pix );
+            determineNextIcon();
+            return true;
+        }
+    }
+    else
+    {
+        m_state = STATE_GETTHUMB;
+        QString localFile = tmpnam(0);  // Generate a temp file name
+        KURL localURL;
+        localURL.setPath( localFile );
+        KIO::Job * job = KIO::file_copy( m_thumbURL, localURL, -1, false, false, false /* No GUI */ );
+        kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy thumb " << m_thumbURL.url() << " to " << localFile << endl;
+        addSubjob(job);
+        return true;
+    }
+    return false;
+}
+
+
+void KonqImagePreviewJob::getOrCreateThumbnail()
+{
+    // We still need to load the orig file ! (This is getting tedious) :)
+    if ( m_currentURL.isLocalFile() )
+        createThumbnail( m_currentURL.path() );
+    else
+    {
+        m_state = STATE_GETORIG;
+        QString localFile = tmpnam(0);  // Generate a temp file name
+        KURL localURL;
+        localURL.setPath( localFile );
+        KIO::Job * job = KIO::file_copy( m_currentURL, localURL, -1, false,
+                                         false, false /* No GUI */ );
+        kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy orig "
+                      << m_currentURL.url() << " to " << localFile << endl;
+        addSubjob(job);
+    }
 }
 
 void KonqImagePreviewJob::createThumbnail( QString pixPath )
