@@ -1744,8 +1744,8 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
     QVariant prop = reloadView->part()->property("modified");
     if (prop.isValid() && prop.toBool())
       if ( KMessageBox::warningContinueCancel( this,
-           i18n("This page contains changes that have not been submitted.\nClosing the page will discard these changes."),
-	   i18n("Discard Changes?"), i18n("&Discard Changes"), "discardchangesclose") != KMessageBox::Continue )
+           i18n("This page contains changes that have not been submitted.\nReloading the page will discard these changes."),
+	   i18n("Discard Changes?"), i18n("&Discard Changes"), "discardchangesreload") != KMessageBox::Continue )
         return;
   }
 
