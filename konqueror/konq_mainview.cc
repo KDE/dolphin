@@ -194,7 +194,7 @@ void KonqMainView::init()
 
   initGui();
 
-  KonqPlugins::installKOMPlugins( this );
+//  KonqPlugins::installKOMPlugins( this );
   m_bInit = false;
 }
 
