@@ -663,7 +663,8 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
   QString s;
   if ( _item )
     s = _item->getStatusBarInfo();
-  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)s.data(), 0 ) );
+  CORBA::WString_var ws = Q2C( s );
+  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
 }
 
 void KonqKfmTreeView::selectedItems( list<KfmTreeViewItem*>& _list )

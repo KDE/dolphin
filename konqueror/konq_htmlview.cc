@@ -216,7 +216,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
 {
   if ( !_url )
   {
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( "", 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( 0L, 0 ) );
     return;
   }
 
@@ -230,7 +230,8 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
 
   if ( url.isMalformed() )
   {
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)_url, 0 ) );
+    CORBA::WString_var wurl = Q2C( url.url() );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
     return;
   }
 
@@ -264,8 +265,8 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
       {
         text2 += "  ";
         text2 += tmp;
-        SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char*)text2.data(), 0 ) );
-
+	CORBA::WString_var wtext2 = Q2C( text2 );
+        SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wtext2, 0 ) );
 	return;
       }
       buff_two[n] = 0;
@@ -298,10 +299,14 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
       text += "  ";
       text += com.data();
     }
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.ascii(), 0 ) );
+    CORBA::WString_var wtext = Q2C( text );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wtext.out(), 0 ) );
   }
   else
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().ascii(), 0 ) );
+  {
+    CORBA::WString_var wurl = Q2C( url.url() );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
+  }    
 }
 
 void KonqHTMLView::slotSetTitle( const char *title )

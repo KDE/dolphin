@@ -62,7 +62,7 @@ module Konqueror
      *      - signal void started( in OpenParts::Id id, in string url );
      *      - signal void completed( in OpenParts::Id id );
      *      - signal void canceled( in OpenParts::Id id );
-     *      - signal void setStatusBarText( in string text );
+     *      - signal void setStatusBarText( in wstring text );
      *      - signal void setLocationBarURL( in OpenParts::Id id, in string url );
      *      - signal void createNewWindow( in string url );
      *      - signal void popupMenu( in MenuPopupRequest popup );
@@ -218,7 +218,7 @@ module Konqueror
 
     slot void openURL( in URLRequest url );    
     
-    slot void setStatusBarText( in string text );
+    slot void setStatusBarText( in wstring text );
     slot void setLocationBarURL( in OpenParts::Id id, in string url );
     
     slot void createNewWindow( in string url );

@@ -183,7 +183,8 @@ void KonqMainView::init()
   if ( !CORBA::is_nil( statusBarManager ) )
     m_vStatusBar = statusBarManager->registerClient( id() );
 
-  m_vStatusBar->insertItem( i18n("Konqueror :-)"), 1 );
+  CORBA::WString_var item = Q2C( i18n("Konqueror :-)") );
+  m_vStatusBar->insertItem( item, 1 );
 
   m_vStatusBar->enable( OpenPartsUI::Show );
   if ( !m_Props->m_bShowStatusBar )
@@ -792,7 +793,7 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
   m_pRun = new KfmRun( this, url, 0, false, false );
 }
 
-void KonqMainView::setStatusBarText( const char *_text )
+void KonqMainView::setStatusBarText( CORBA::WChar *_text )
 {
   if ( !CORBA::is_nil( m_vStatusBar ) )
     m_vStatusBar->changeItem( _text, 1 );
@@ -1341,7 +1342,8 @@ void KonqMainView::slotStopAnimation()
     setItemEnabled( m_vMenuView, MVIEW_STOP_ID, false );
   }
 
-  setStatusBarText( i18n("Document: Done") );
+  CORBA::WString_var msg = Q2C( i18n("Document: Done") );
+  setStatusBarText( msg );
 }
 
 void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
