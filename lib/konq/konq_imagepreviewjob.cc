@@ -389,7 +389,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 
   bool ok = false;
   bool saveImage = m_bCanSave;
-  
+
   // create text-preview
   if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
       saveImage = false; // generating them on the fly is slightly faster
@@ -474,7 +474,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		  rect = m_splitter->coordinates( ch );
 		  if ( !rect.isEmpty() ) {
 		      bitBlt( &pix, QPoint(x,y), 
-			      &m_splitter->pixmap(), rect, CopyROP );
+			      &(m_splitter->pixmap()), rect, CopyROP );
 		  }
 
 		  x += xOffset; // next character

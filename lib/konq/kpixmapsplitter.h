@@ -39,7 +39,7 @@
  * item.fill( Qt::white );
  * QRect rect = splitter.coordinates( 4 );
  * if ( !rect.isEmpty() )
- *     bitBlt( &splitter.pixap(), QPoint(0,0), &source, rect, CopyROP );
+ *     bitBlt( &item, QPoint(0,0), &somePixmap, rect, CopyROP );
  *
  * @short A class to split a pixmap into several items.
  * @author Carsten Pfeiffer <pfeiffer@kde.org>
