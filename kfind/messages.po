@@ -1,0 +1,203 @@
+#: kfindtop.cpp:109
+msgid "_abouttext"
+msgstr ""
+
+#: kfindtop.cpp:124
+msgid "&File"
+msgstr ""
+
+#: kfindtop.cpp:125
+msgid "&Edit"
+msgstr ""
+
+#: kfindtop.cpp:126
+msgid "&Options"
+msgstr ""
+
+#: kfindtop.cpp:128
+msgid "&Help"
+msgstr ""
+
+#: kfindtop.cpp:133 kfindtop.cpp:217
+msgid "Add to archive"
+msgstr ""
+
+#: kfindtop.cpp:136 kfindtop.cpp:222
+msgid "Delete"
+msgstr ""
+
+#: kfindtop.cpp:138 kfindtop.cpp:227
+msgid "Properties"
+msgstr ""
+
+#: kfindtop.cpp:141 kfindtop.cpp:232
+msgid "Open Containing Folder"
+msgstr ""
+
+#: kfindtop.cpp:144
+msgid "Save Search"
+msgstr ""
+
+#: kfindtop.cpp:153
+msgid "Undo"
+msgstr ""
+
+#: kfindtop.cpp:156
+msgid "Cut"
+msgstr ""
+
+#: kfindtop.cpp:158
+msgid "Copy"
+msgstr ""
+
+#: kfindtop.cpp:161
+msgid "Select All"
+msgstr ""
+
+#: kfindtop.cpp:163
+msgid "Invert Selection"
+msgstr ""
+
+#: kfindtop.cpp:174
+msgid "Preferences ..."
+msgstr ""
+
+#: kfindtop.cpp:178
+msgid "Kfind help"
+msgstr ""
+
+#: kfindtop.cpp:194
+msgid "Start Search"
+msgstr ""
+
+#: kfindtop.cpp:199
+msgid "New Search"
+msgstr ""
+
+#: kfindtop.cpp:204
+msgid "Stop Search"
+msgstr ""
+
+#: kfindtop.cpp:237
+msgid "Save Search Results"
+msgstr ""
+
+#: kfindtop.cpp:243
+msgid "Help"
+msgstr ""
+
+#: kfoptions.cpp:51
+msgid "Preferences"
+msgstr ""
+
+#: kfoptions.cpp:67
+msgid "File format:"
+msgstr ""
+
+#: kfoptions.cpp:69
+msgid "Save results to file:"
+msgstr ""
+
+#: kfoptions.cpp:72
+msgid "Save results to file ~/.kfind-results.html"
+msgstr ""
+
+#: kfoptions.cpp:74
+msgid "Browse"
+msgstr ""
+
+#: kfoptions.cpp:87
+msgid "Plain Text"
+msgstr ""
+
+#: kfoptions.cpp:116
+msgid "Saving"
+msgstr ""
+
+#: kftabdlg.cpp:44
+msgid "&Named:"
+msgstr ""
+
+#: kftabdlg.cpp:46
+msgid "&Look in:"
+msgstr ""
+
+#: kftabdlg.cpp:49
+msgid "&Browse ..."
+msgstr ""
+
+#: kftabdlg.cpp:61
+msgid "Include &subfolders"
+msgstr ""
+
+#: kftabdlg.cpp:91
+msgid " Name&Location "
+msgstr ""
+
+#: kftabdlg.cpp:103
+msgid "and"
+msgstr ""
+
+#: kftabdlg.cpp:104
+msgid "month(s)"
+msgstr ""
+
+#: kftabdlg.cpp:105
+msgid "day(s)"
+msgstr ""
+
+#: kftabdlg.cpp:111
+msgid "&All files"
+msgstr ""
+
+#: kftabdlg.cpp:112
+msgid "_findall"
+msgstr ""
+
+#: kftabdlg.cpp:114
+msgid "&between"
+msgstr ""
+
+#: kftabdlg.cpp:115
+msgid "during the previou&s "
+msgstr ""
+
+#: kftabdlg.cpp:116
+msgid "&during the previous "
+msgstr ""
+
+#: kftabdlg.cpp:164
+msgid " Date Modified "
+msgstr ""
+
+#: kftabdlg.cpp:169
+msgid "Of &type:"
+msgstr ""
+
+#: kftabdlg.cpp:171
+msgid "&Containing Text:"
+msgstr ""
+
+#: kftabdlg.cpp:173
+msgid "&Size is:"
+msgstr ""
+
+#: kftabdlg.cpp:196
+msgid "_alltypes"
+msgstr ""
+
+#: kftabdlg.cpp:204
+msgid "(none)"
+msgstr ""
+
+#: kftabdlg.cpp:205
+msgid "At Least"
+msgstr ""
+
+#: kftabdlg.cpp:206
+msgid "At Most"
+msgstr ""
+
+#: kftabdlg.cpp:213
+msgid " Advanced "
+msgstr ""
