@@ -1505,7 +1505,8 @@ void KonqMainWindow::slotConfigureToolbars()
     saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
   KEditToolbar dlg(factory());
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
-  dlg.exec();
+  if ( dlg.exec() )
+    createGUI( m_pViewManager->activePart() );
 }
 
 void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply is clicked
