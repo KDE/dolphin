@@ -30,9 +30,6 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
-//#ifdef HAVE_UNISTD_H
-//#include <unistd.h>
-//#endif
 #include <assert.h>
 
 #include "rootopts.h"
