@@ -47,7 +47,7 @@
 #ifndef KXT_H
 #define KXT_H
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <qwidget.h>
 #include <X11/Intrinsic.h>
 
