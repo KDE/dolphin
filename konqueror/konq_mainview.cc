@@ -1239,8 +1239,8 @@ void KonqMainView::initActions()
   m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
   m_paConfigureKeys = new KAction( i18n( "Configure &keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
 
-  m_paSplitViewHor = new KAction( i18n( "Split View &Horizontally" ), 0, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
-  m_paSplitViewVer = new KAction( i18n( "Split View &Vertically" ), 0, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
+  m_paSplitViewHor = new KAction( i18n( "Split View &Horizontally" ), CTRL+Key_H, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
+  m_paSplitViewVer = new KAction( i18n( "Split View &Vertically" ), CTRL+Key_V, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
   m_paSplitWindowHor = new KAction( i18n( "Split Window &Horizontally" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
   m_paSplitWindowVer = new KAction( i18n( "Split Window &Vertically" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "Remove Active View" ), CTRL+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );

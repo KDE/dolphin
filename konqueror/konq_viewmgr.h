@@ -48,17 +48,25 @@ public:
    * Splits the view, depending on orientation, either horizontally or 
    * vertically. The first of the resulting views will contain the initial 
    * view, the other will be a new one with the same URL and the same view type
+   * Returns the newly created view or 0L if the view couldn't be created.
    */
   BrowserView* splitView( Qt::Orientation orientation );
 
   /**
-   * Does the same as the above, except that the second view will be the one 
-   * provided by newView
+   * Does the same as the above, except that the second view will be 
+   * constructed from the given Service Type and open the given URL. 
+   * If no Service Type was provided it takes the one from the current view.
+   * Returns the newly created view or 0L if the view couldn't be created.
    */
   BrowserView* splitView( Qt::Orientation orientation,
 			  QString url,
 			  QString serviceType = QString::null );
 
+  /**
+   * Does basically the same as splitView() but inserts the new view at the top
+   * of the view tree.
+   * Returns the newly created view or 0L if the view couldn't be created.
+   */
   BrowserView* splitWindow( Qt::Orientation orientation );
 
   /**
@@ -66,8 +74,19 @@ public:
    */
   void removeView( KonqChildView *view );
 
+  /**
+   * Loads a view layout from a config file. Removes all views before loading.
+   */
   void saveViewProfile( KConfig &cfg );
+
+  /**
+   * Savess the current view layout to a config file.
+   */
   void loadViewProfile( KConfig &cfg );
+
+  /**
+   * Load the config entries for a view.
+   */
   void loadItem( KConfig &cfg, KonqFrameContainer *parent, const QString &name );
 
   void clear();
@@ -93,6 +112,7 @@ private:
   /**
    * Creates a new View based on the given ServiceType. If servicsType is empty
    * it clones the current view.
+   * Returns the newly created view.
    */
   BrowserView* createView( QString serviceType, 
 			   KService::Ptr &service,
@@ -109,11 +129,16 @@ private:
   
   /**
    * Do the actual splitting. The new View will be created from serviceType.
-   * Returns the new View or 0L if the new View couldn't be created.
+   * Returns the newly created view or 0L if the new view couldn't be created.
    */
   BrowserView* split (KonqFrameBase* splitFrame,
 		      Qt::Orientation orientation, 
 		      QString serviceType = QString::null );
+
+  //just for debugging
+  void printSizeInfo( KonqFrameBase* frame, 
+		      KonqFrameContainer* parent,
+		      const char* msg );
 
   KonqMainView *m_pMainView;
   

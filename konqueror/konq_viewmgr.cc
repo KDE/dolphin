@@ -118,45 +118,43 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     KonqFrameContainer* parentContainer = splitFrame->parentContainer();
     bool moveNewContainer = (parentContainer->idAfter( splitFrame->widget() ) != 0);
 
-    QWidget *frameWidget = splitFrame->widget();
-    if ( frameWidget->inherits( "KonqFrame" ) )
-      ((KonqFrame *)frameWidget)->header()->passiveModeCheckBox()->show();
+    printSizeInfo( splitFrame, parentContainer, "before split");
+ 
+    if ( splitFrame->widget()->inherits( "KonqFrame" ) )
+      ((KonqFrame *)splitFrame->widget())->header()->passiveModeCheckBox()->show();
 
-    if( moveNewContainer )       
-      kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( splitFrame->widget() ) );
-    else
-      kdebug(0, 1202, "Move new splitter: No %d",parentContainer->idAfter( splitFrame->widget() ) );
-    
-    QValueList<int> sizes;
-    sizes = parentContainer->sizes();
+    splitFrame->widget()->setUpdatesEnabled( false );
+    parentContainer->setUpdatesEnabled( false );
 
     QPoint pos = splitFrame->widget()->pos();
 
-    splitFrame->widget()->hide();
+    debug("Move out child");
+    //splitFrame->widget()->hide();
     splitFrame->widget()->reparent( m_pMainView, 0, pos );
+    splitFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize, so that both container childs are equally size after split
     
+    debug("Create new Container");
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
+    newContainer->setUpdatesEnabled( false );
     newContainer->setOpaqueResize( true );
+    newContainer->show();
 
     if( moveNewContainer )
       parentContainer->moveToFirst( newContainer );
 
+    debug("Move in Child");
     splitFrame->widget()->reparent( newContainer, 0, pos, true );
 
+    printSizeInfo( splitFrame, parentContainer, "after reparent" );
+
+    debug("Create new Child");
     setupView( newContainer, newView, service, serviceOffers );
 
-    //have to to something about the flickering. Well, actually these 
-    //adjustments shouldn't be neccessary. I'm not sure wether this is a 
-    //QSplitter problem or not. Michael.
-    QValueList<int> sizesNew;
-    sizesNew.append(100);
-    sizesNew.append(100);
-    newContainer->setSizes( sizesNew );
+    printSizeInfo( splitFrame, parentContainer, "after child insert" );
 
-    parentContainer->setSizes( sizes );
-
-    newContainer->show();
-
+    splitFrame->widget()->setUpdatesEnabled( true );
+    newContainer->setUpdatesEnabled( true );
+    parentContainer->setUpdatesEnabled( true );
   }
   else {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
@@ -174,48 +172,6 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
   return newView;
 }
 
-// void KonqViewManager::splitWindow( Qt::Orientation orientation )
-// {
-//   if ( !m_pMainContainer )
-//   {
-//     splitView( orientation );
-//     return;
-//   }
-
-//   KonqFrameContainer *oldMainContainer = m_pMainContainer;
-
-//   KonqChildView* currentChildView = m_pMainView->currentChildView();
-//   QString url = currentChildView->url();
-//   const QString serviceType = currentChildView->serviceType();
-
-//   BrowserView *pView;
-//   QStringList serviceTypes;
-  
-//   QString serviceName = currentChildView->service()->name();
-  
-//   KService::Ptr service;
-//   KTrader::OfferList serviceOffers;
-  
-//   if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
-//     return; //do not split the window at all if we can't clone the current view
-
-//   m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
-//   m_pMainContainer->setOpaqueResize();
-//   m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
-
-//   oldMainContainer->reparent( m_pMainContainer, 0, QPoint( 0, 0 ), true );
-
-//   setupView( m_pMainContainer, pView, service, serviceOffers );
-
-//   QValueList<int> sizes;
-//   sizes << 100 << 100;
-//   m_pMainContainer->setSizes( sizes );
-
-//   m_pMainContainer->show();
-
-// //   m_pMainView->childView( pView )->openURL( url );
-// }
-
 void KonqViewManager::removeView( KonqChildView *view )
 {
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
@@ -231,11 +187,9 @@ void KonqViewManager::removeView( KonqChildView *view )
   
   QPoint pos = otherFrame->widget()->pos();
 
-  QValueList<int> sizes;
-  sizes = grandParentContainer->sizes();
-
   //otherFrame->widget()->hide();
   otherFrame->reparent( m_pMainView, 0, pos );
+  otherFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize
 
   m_pMainView->removeChildView( view );
 
@@ -251,13 +205,8 @@ void KonqViewManager::removeView( KonqChildView *view )
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
-  //have to to something about the flickering. Well, actually these 
-  //adjustments shouldn't be neccessary. I'm not sure wether this is a 
-  //QSplitter problem or not. Michael.
-  grandParentContainer->setSizes( sizes );
-
-  m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()+1 );
-  m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()-1 );
+//   m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()+1 );
+//   m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()-1 );
 }
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
@@ -573,7 +522,7 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   v->lockHistory();
 
   //if (isVisible()) v->show();
-
+  newViewFrame->show();
   return;
 }
 
@@ -614,6 +563,23 @@ void KonqViewManager::slotProfileListAboutToShow()
   }
   
   m_bProfileListDirty = false;
+}
+
+void KonqViewManager::printSizeInfo( KonqFrameBase* frame, 
+				     KonqFrameContainer* parent,
+				     const char* msg )
+{
+  QRect r;
+  r = frame->widget()->geometry();
+  debug("Child size %s : x: %d, y: %d, w: %d, h: %d", msg, r.x(),r.y(),r.width(),r.height() );
+  
+  QValueList<int> sizes;
+  sizes = parent->sizes();
+  printf( "Parent sizes %s :", msg );
+  QValueList<int>::Iterator it;
+  for( it = sizes.begin(); it != sizes.end(); ++it )
+    printf( " %d", (*it) );
+  printf("\n");  
 }
 
 #include "konq_viewmgr.moc"

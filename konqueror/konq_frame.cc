@@ -447,7 +447,6 @@ bool KonqFrame::isActivePart()
 void 
 KonqFrame::listViews( ChildViewList *viewList )
 {
-  kdebug(0, 1202, "listViews: Append ChildView");
   viewList->append( childView() );
 }
 
@@ -486,8 +485,6 @@ KonqFrame::detach( void )
 KonqFrameContainer* 
 KonqFrame::parentContainer()
 {
-  kdebug(0, 1202, "KonqFrame::parentContainer: %s", 
-	 parentWidget()->className());
   if( parentWidget()->isA("KonqFrameContainer") )
     return (KonqFrameContainer*)parentWidget();
   else
@@ -498,10 +495,7 @@ void
 KonqFrame::reparent( QWidget* parent, WFlags f, 
 		     const QPoint & p, bool showIt )
 {
-  kdebug(0, 1202, "KonqFrame::reparent(QWidget) %s", parent->className());
-
   QWidget::reparent( parent, f, p, showIt );
-  kdebug(0, 1202, "KonqFrame::reparent(QWidget) %s done", parent->className());
 }
 
 void
@@ -542,18 +536,11 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
 void 
 KonqFrameContainer::listViews( ChildViewList *viewList )
 {
-  kdebug(0, 1202, "begin listViews");  
-  
-  if( firstChild() ) {
-      kdebug(0, 1202, "listViews: List FirstChild");  
-      firstChild()->listViews( viewList );
-    }
+  if( firstChild() )
+    firstChild()->listViews( viewList );
 
-  if( secondChild() ) {
-      kdebug(0, 1202, "listViews: List SecondChild");  
-      secondChild()->listViews( viewList );
-    }
-  kdebug(0, 1202, "end listViews");  
+  if( secondChild() )
+    secondChild()->listViews( viewList );
 }
 
 void 
@@ -614,9 +601,6 @@ KonqFrameContainer::otherChild( KonqFrameBase* child )
 KonqFrameContainer* 
 KonqFrameContainer::parentContainer()
 {
-  kdebug(0, 1202, "KonqFrameContainer::parentContainer: %s", 
-	 parentWidget()->className());
-
   if( parentWidget()->isA("KonqFrameContainer") )
     return (KonqFrameContainer*)parentWidget();
   else
@@ -626,63 +610,43 @@ KonqFrameContainer::parentContainer()
 void 
 KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt )
 {
-  kdebug(0, 1202, "KonqFrameContainer::reparent(QWidget) %s", parent->className() );
-
   QWidget::reparent( parent, f, p, showIt );
 }
 
 void 
 KonqFrameContainer::childEvent( QChildEvent * ce )
 {
-   kdebug( 0, 1202, "this = %ld -- className() == %s", this, className() );
-   kdebug(0, 1202, "firstChild %ld", firstChild());	
-   kdebug(0, 1202, "secondChild %ld", secondChild());	
-   kdebug(0, 1202, "event %ld", ce->child());	
-
   KonqFrameBase* castChild = 0L;
     
   if( ce->child()->isA("KonqFrame") )
     castChild = ( KonqFrame* )ce->child();
   else if( ce->child()->isA("KonqFrameContainer") )
     castChild = ( KonqFrameContainer* )ce->child();
-  //kdebug(0, 1202, "castChild %ld", castChild);	
 
   if( ce->type() == QEvent::ChildInserted ) {
-    kdebug(0, 1202, "New Child: %s", ce->child()->className());
 
     if( castChild ) 
       if( !firstChild() ) {
-	kdebug(0, 1202, "Insert FirstChild");	
 	setFirstChild( castChild );
       }
       else if( !secondChild() ) {
-	kdebug(0, 1202, "Insert SecondChild");	
 	setSecondChild( castChild );
       }
   
   } 
   else if( ce->type() == QEvent::ChildRemoved ) {
-    kdebug(0, 1202, "Remove Child: %s", ce->child()->className());
 
     if( castChild ) {
-      //kdebug(0, 1202, "remChild %ld", ( KonqFrameBase* )castChild);	
       if( firstChild() == ( KonqFrameBase* )castChild ) {
-	kdebug(0, 1202, "Remove FirstChild");	
 	setFirstChild( 0L );
       }
       else if( secondChild() == ( KonqFrameBase* )castChild ) {
-	kdebug(0, 1202, "Remove SecondChild");	
 	setSecondChild( 0L );
       }
     }
   }
 
-//   kdebug(0, 1202, "firstChild %ld", firstChild());	
-//   kdebug(0, 1202, "secondChild %ld", secondChild());	
-//   kdebug(0, 1202, "event %ld", ce->child());	
-  kdebug(0, 1202, "QSplitter::childEvent");	
   QSplitter::childEvent( ce );
-  kdebug(0, 1202, "ChildEvent done");	
 }
 
 #include "konq_frame.moc"
