@@ -112,21 +112,21 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
 
-  menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), groupBox);
+  menuBarBox = new QCheckBox(i18n("Enable desktop &menu"), groupBox);
   connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
                                     " desktop popup menus to appear at the top of the screen in the style"
                                     " of Macintosh. This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
 
-  iconsEnabledBox = new QCheckBox(i18n("Enable &Icons on Desktop"), groupBox);
+  iconsEnabledBox = new QCheckBox(i18n("Enable &icons on desktop"), groupBox);
   connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
   QWhatsThis::add( iconsEnabledBox, i18n("Uncheck this option if you do not want to have icons on the desktop."
                                       " Without icons the desktop will be somewhat faster but you will no"
                                       " longer be able to drag files to the desktop." ) );
 
 
-  vertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), groupBox);
+  vertAlignBox = new QCheckBox(i18n("Align icons &vertically on desktop"), groupBox);
   connect(vertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( vertAlignBox, i18n("Check this option if you want the icons"
                                       " on the desktop to be aligned vertically (in columns). If you leave this"
@@ -135,7 +135,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                                       " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
                                       " arranged horizontally or vertically.") );
 
-  showHiddenBox = new QCheckBox(i18n("Show H&idden Files on Desktop"), groupBox);
+  showHiddenBox = new QCheckBox(i18n("Show h&idden files on desktop"), groupBox);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
                                        " in your desktop directory that begin with a period (.) will be shown."
@@ -147,7 +147,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
 
-  vrootBox = new QCheckBox(i18n("Pr&ograms in Desktop Window"), groupBox);
+  vrootBox = new QCheckBox(i18n("Pr&ograms in desktop window"), groupBox);
   connect(vrootBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( vrootBox, i18n("Check this option if you want to"
                                     " run X11 programs that draw into the desktop such as xsnow, xpenguin or"
@@ -163,16 +163,16 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   lay->addWidget(previewListView, row, RO_LASTCOL);
 
   row++;
-  groupBox = new QVGroupBox( i18n("Clicks on the desktop"), this );
+  groupBox = new QVGroupBox( i18n("Clicks on the Desktop"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
 
   QGrid * grid = new QGrid(2, groupBox);
 
-  strMouseButton1 = i18n("Left Button:");
+  strMouseButton1 = i18n("Left button:");
   strButtonTxt1 = i18n( "You can choose what happens when"
    " you click the left button of your pointing device on the desktop:");
 
-  strMouseButton3 = i18n("Right Button:");
+  strMouseButton3 = i18n("Right button:");
   strButtonTxt3 = i18n( "You can choose what happens when"
    " you click the right button of your pointing device on the desktop:");
 
@@ -204,7 +204,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( leftComboBox, wtstr );
 
-  tmpLabel = new QLabel( i18n("Middle Button:"), grid );
+  tmpLabel = new QLabel( i18n("Middle button:"), grid );
   middleComboBox = new QComboBox( grid );
   tmpLabel->setBuddy( middleComboBox );
   fillMenuCombo( middleComboBox );

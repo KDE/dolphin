@@ -54,7 +54,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     row++;
 
     m_pStandard = new KFontCombo( this );
-    label = new QLabel( m_pStandard, i18n("&Standard Font:"), this );
+    label = new QLabel( m_pStandard, i18n("&Standard font:"), this );
     lay->addWidget(label,row,0);
     lay->addMultiCellWidget(m_pStandard,row,row,1,1);
 
@@ -69,7 +69,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
              SLOT(changed() ) );
 
     m_pSize = new QSpinBox( 4,18,1,this );
-    label = new QLabel( m_pSize, i18n("Font Si&ze:"), this );
+    label = new QLabel( m_pSize, i18n("Font si&ze:"), this );
     lay->addWidget(label,row,0);
     lay->addMultiCellWidget(m_pSize,row,row,1,1);
 
@@ -84,7 +84,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     //
 #define COLOR_BUTTON_COL 1
     m_pNormalText = new KColorButton( normalTextColor, this );
-    label = new QLabel( m_pNormalText, i18n("Normal Te&xt Color:"), this );
+    label = new QLabel( m_pNormalText, i18n("Normal te&xt color:"), this );
     lay->addWidget(label,row,0);
     lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
 
@@ -115,7 +115,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
     if ( m_bDesktop )
     {
-        m_cbTextBackground = new QCheckBox( i18n("&Text Background Color:"), this );
+        m_cbTextBackground = new QCheckBox( i18n("&Text background color:"), this );
         lay->addWidget(m_cbTextBackground,row,0);
         connect( m_cbTextBackground, SIGNAL( clicked() ),
                  SLOT( slotTextBackgroundClicked() ) );
