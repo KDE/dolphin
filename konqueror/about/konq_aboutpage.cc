@@ -211,7 +211,7 @@ QString KonqAboutPageFactory::tips()
 		      "in the Window-Menu. This feature is very useful for \"talk\" "
 		      "sessions.").arg("window_fullscreen.png") )
 	  .arg( i18n( "Divide et impera (lat. \"Divide and Konquer\") - by splitting a window "
-		      "into two parts (e.g. Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Split View"
+		      "into two parts (e.g. Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Split View "
 		      "Left/Right) you can make Konqueror appear the way you like. You"
 		      " can even load some example view-profiles (e.g. Midnight-Commander)"
 		      ", or create your own ones." ).arg("view_left_right.png"))
@@ -223,7 +223,7 @@ QString KonqAboutPageFactory::tips()
 	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your"
 		      " internet-connection.").arg("exec:/kcmshell proxy") )
 	  .arg( i18n( "Advanced users will appreciate the Konsole which you can embed into "
-		      "Konqueror (Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Show"
+		      "Konqueror (Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; Show "
  		      "Terminal Emulator).").arg("openterm.png"))
 	  .arg( i18n( "Thanks to <A HREF=\"%1\">DCOP</A> you can have full control over Konqueror using a script."
 ).arg("exec:/kdcop") )
