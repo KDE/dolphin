@@ -360,7 +360,7 @@ void KRootOptions::defaults()
     VertAlignBox->setChecked(true);
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<PreviewItem *>(item)->setOn(false);
-    menuBarBox->setChecked(true);
+    menuBarBox->setChecked(false);
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
