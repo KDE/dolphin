@@ -304,8 +304,6 @@ protected slots:
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
-  void slotSplitWindowHorizontal();
-  void slotSplitWindowVertical();
   void slotRemoveView();
 
   void slotSaveViewProfile();
@@ -443,8 +441,6 @@ private:
 
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;
-  KAction *m_paSplitWindowHor;
-  KAction *m_paSplitWindowVer;
   KAction *m_paRemoveView;
 
   KAction *m_paSaveRemoveViewProfile;

@@ -1781,16 +1781,6 @@ void KonqMainWindow::slotSplitViewVertical()
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
 }
 
-void KonqMainWindow::slotSplitWindowHorizontal()
-{
-  m_pViewManager->splitWindow( Qt::Horizontal );
-}
-
-void KonqMainWindow::slotSplitWindowVertical()
-{
-  m_pViewManager->splitWindow( Qt::Vertical );
-}
-
 void KonqMainWindow::slotRemoveView()
 {
   // takes care of choosing the new active view
@@ -2629,8 +2619,6 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paSplitWindowHor = new KAction( i18n( "New View On Right" ), "view_right", 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
-  m_paSplitWindowVer = new KAction( i18n( "New View At Bottom" ), "view_bottom", 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "&Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
@@ -2783,8 +2771,6 @@ void KonqMainWindow::updateViewActions()
   bool isNotToggle = m_currentView && !m_currentView->isToggleView();
   m_paSplitViewHor->setEnabled( isNotToggle );
   m_paSplitViewVer->setEnabled( isNotToggle );
-  m_paSplitWindowVer->setEnabled( isNotToggle );
-  m_paSplitWindowHor->setEnabled( isNotToggle );
 
   m_paLinkView->setChecked( m_currentView && m_currentView->isLinkedView() );
 
@@ -2972,8 +2958,6 @@ void KonqMainWindow::disableActionsNoView()
     m_pMenuNew->setEnabled( false );
     m_paLockView->setEnabled( false );
     m_paUnlockView->setEnabled( false );
-    m_paSplitWindowVer->setEnabled( false );
-    m_paSplitWindowHor->setEnabled( false );
     m_paSplitViewVer->setEnabled( false );
     m_paSplitViewHor->setEnabled( false );
     m_paRemoveView->setEnabled( false );
@@ -3557,7 +3541,7 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
 {
     const QString& http = KGlobal::staticQString( "http" );
     const QString& ftp = KGlobal::staticQString( "ftp" );
-    
+
     if ( !group.isNull() ) {
         for ( KBookmark bm = group.first();
               !bm.isNull(); bm = group.next(bm) ) {

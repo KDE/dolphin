@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="33">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="34">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -82,8 +82,6 @@
  <Menu name="window" append="settings_merge"><text>&amp;Window</text>
   <Action name="splitviewh"/>
   <Action name="splitviewv"/>
-  <Action name="splitwindowh"/>
-  <Action name="splitwindowv"/>
   <Action name="removeview"/>
   <Separator/>
   <ActionList name="toggleview" />
@@ -123,8 +121,8 @@
 <ToolBar hidden="true" name="extraToolBar" newline="false" index="1"><text>Extra Toolbar</text>
   <Action name="konq_dirtree" />
   <Action name="findfile" />
-  <Action name="splitwindowv" />
-  <Action name="splitwindowh" />
+  <Action name="splitviewv" />
+  <Action name="splitviewh" />
   <Action name="removeview" /> 
 </ToolBar>
 <ToolBar fullWidth="true" name="locationToolBar" newline="true"><text>Location Toolbar</text>
