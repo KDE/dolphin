@@ -42,6 +42,7 @@
 #include <qdir.h>
 #include <qdict.h>
 #include <qlineedit.h>
+#include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qlist.h>
