@@ -819,8 +819,8 @@ administrator, often known as the Super User or "root". </para>
 login password but as long as you can provide that &Konqueror; will be started
 up with full access privileges to all files on your system.</para>
 
-<!-- Lauri: There should probably be a major caution here about the damage that -->
-<!-- can be done to the system in Super User Mode -->
+<warning><para>Take care.  As Super User (root), you have complete control of your system, and a wrong command can easily do irrevocable damage.</para>
+<para>Also, connecting to the internet as root is an extremely bad idea, as it seriously increases your vulnerability to hacking.</para></warning>
 
 </sect2>
 </sect1>
