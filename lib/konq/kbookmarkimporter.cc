@@ -168,29 +168,38 @@ void KNSBookmarkImporter::parseNSBookmarks()
                continue;
             }
             QCString t = s.stripWhiteSpace();
-            if(t.left(12) == "<DT><A HREF=" ||
-               t.left(16) == "<DT><H3><A HREF=") {
+            if(t.left(12).upper() == "<DT><A HREF=" ||
+               t.left(16).upper() == "<DT><H3><A HREF=") {
                 int firstQuotes = t.find('"')+1;
-                QCString link = t.mid(firstQuotes, t.find('"', firstQuotes)-firstQuotes);
-                QCString name = t.mid(t.find('>', 15)+1);
+                int secondQuotes = t.find('"', firstQuotes);
+                QCString link = t.mid(firstQuotes, secondQuotes-firstQuotes);
+                int endTag = t.find('>', 15);
+                QCString name = t.mid(endTag+1);
                 name = name.left(name.findRev('<'));
                 if ( name.right(4) == "</A>" )
                     name = name.left( name.length() - 4 );
                 name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
+                QCString additionnalInfo = t.mid( secondQuotes+1, endTag-secondQuotes-1 );
 
                 emit newBookmark( KStringHandler::csqueeze(QString::fromLocal8Bit(name)),
-                                  link );
+                                  link, QString::fromLocal8Bit(additionnalInfo) );
             }
-            else if(t.left(7) == "<DT><H3") {
-                QCString name = t.mid(t.find('>', 7)+1);
+            else if(t.left(7).upper() == "<DT><H3") {
+                int endTag = t.find('>', 7);
+                QCString name = t.mid(endTag+1);
                 name = name.left(name.findRev('<'));
                 name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
+                QCString additionnalInfo = t.mid( 8, endTag-8 );
+                bool folded = (additionnalInfo.left(6) == "FOLDED");
+                if (folded) additionnalInfo.remove(0,7);
 
-                emit newFolder( KStringHandler::csqueeze(QString::fromLocal8Bit(name)) );
+                emit newFolder( KStringHandler::csqueeze(QString::fromLocal8Bit(name)),
+                                !folded,
+                                QString::fromLocal8Bit(additionnalInfo) );
             }
-            else if(t.left(4) == "<HR>")
+            else if(t.left(4).upper() == "<HR>")
                 emit newSeparator();
-            else if(t.left(8) == "</DL><p>")
+            else if(t.left(8).upper() == "</DL><P>")
                 emit endMenu();
         }
 
@@ -198,12 +207,12 @@ void KNSBookmarkImporter::parseNSBookmarks()
     }
 }
 
-QString KBookmarkImporter::netscapeBookmarksFile()
+QString KNSBookmarkImporter::netscapeBookmarksFile()
 {
     return QDir::homeDirPath() + "/.netscape/bookmarks.html";
 }
 
-QString KBookmarkImporter::mozillaBookmarksFile()
+QString KNSBookmarkImporter::mozillaBookmarksFile()
 {
     return QDir::homeDirPath() + "/.mozilla/default/bookmarks.html";
 }

@@ -25,7 +25,7 @@ libkonq_la_LIBADD = $(LIB_KPARTS)
 
 libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
 	kbookmarkmenu.cc kbookmark.cc kbookmarkbar.cc kbookmarkimporter.cc \
-	kbookmarkmanager.cc kbookmarkmanager.skel \
+	kbookmarkexporter.cc kbookmarkmanager.cc kbookmarkmanager.skel \
 	konq_dirlister.cc \
 	kfileivi.cc konq_iconviewwidget.cc konq_imagepreviewjob.cc \
 	konq_settings.cc konq_drag.cc  \
@@ -42,7 +42,7 @@ METASOURCES = AUTO
 
 include_HEADERS = konq_popupmenu.h knewmenu.h \
 	kbookmark.h kbookmarkmenu.h kbookmarkbar.h kbookmarkimporter.h \
-	kbookmarkmanager.h \
+	kbookmarkexporter.h kbookmarkmanager.h \
 	konq_dirlister.h konq_fileitem.h \
 	kfileivi.h konq_drag.h konq_iconviewwidget.h konq_imagepreviewjob.h \
 	konq_defaults.h konq_settings.h \

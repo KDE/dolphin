@@ -152,8 +152,8 @@ public:
     void openNSBookmarks();
 
 protected slots:
-    void newBookmark( const QString & text, const QCString & url );
-    void newFolder( const QString & text );
+    void newBookmark( const QString & text, const QCString & url, const QString & );
+    void newFolder( const QString & text, bool, const QString & );
     void newSeparator();
     void endMenu();
 

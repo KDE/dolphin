@@ -195,7 +195,7 @@ void KBookmarkMenu::fillBookmarkMenu()
   }
 
   if ( m_bIsRoot && KBookmarkManager::self()->showNSBookmarks()
-       && QFile::exists( KBookmarkImporter::netscapeBookmarksFile() ) )
+       && QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) )
     {
       KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), "netscape",
                                                   m_actionCollection, 0L );
@@ -340,17 +340,17 @@ void KBookmarkMenu::slotNSLoad()
 void KBookmarkMenuNSImporter::openNSBookmarks()
 {
   mstack.push(m_menu);
-  KNSBookmarkImporter importer( KBookmarkImporter::netscapeBookmarksFile() );
-  connect( &importer, SIGNAL( newBookmark( const QString &, const QCString & ) ),
-           SLOT( newBookmark( const QString &, const QCString & ) ) );
-  connect( &importer, SIGNAL( newFolder( const QString & ) ),
-           SLOT( newFolder( const QString & ) ) );
+  KNSBookmarkImporter importer( KNSBookmarkImporter::netscapeBookmarksFile() );
+  connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
+           SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
+  connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
+           SLOT( newFolder( const QString &, bool, const QString & ) ) );
   connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
   connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
   importer.parseNSBookmarks();
 }
 
-void KBookmarkMenuNSImporter::newBookmark( const QString & text, const QCString & url )
+void KBookmarkMenuNSImporter::newBookmark( const QString & text, const QCString & url, const QString & )
 {
   QCString actionLink = "bookmark" + url;
   KAction * action = new KAction( text, "html", 0, m_menu, SLOT( slotNSBookmarkSelected() ),
@@ -360,7 +360,7 @@ void KBookmarkMenuNSImporter::newBookmark( const QString & text, const QCString 
   mstack.top()->m_actions.append( action );
 }
 
-void KBookmarkMenuNSImporter::newFolder( const QString & text )
+void KBookmarkMenuNSImporter::newFolder( const QString & text, bool, const QString & )
 {
   KActionMenu * actionMenu = new KActionMenu( text, "folder", m_actionCollection, 0L );
   actionMenu->plug( mstack.top()->m_parentMenu );

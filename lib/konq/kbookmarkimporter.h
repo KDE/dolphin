@@ -34,11 +34,6 @@ class KBookmarkImporter
 public:
     KBookmarkImporter( QDomDocument * doc ) : m_pDoc(doc) {}
 
-    // Usual place for NS bookmarks
-    static QString netscapeBookmarksFile();
-    // Usual place for Mozilla bookmarks
-    static QString mozillaBookmarksFile();
-
     void import( const QString & path );
 
 private:
@@ -64,19 +59,24 @@ public:
     // go for it
     void parseNSBookmarks();
 
+    // Usual place for NS bookmarks
+    static QString netscapeBookmarksFile();
+    // Usual place for Mozilla bookmarks
+    static QString mozillaBookmarksFile();
+
 signals:
 
     /**
      * Notify about a new bookmark
      * Use "html" for the icon
      */
-    void newBookmark( const QString & text, const QCString & url );
+    void newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo );
 
     /**
      * Notify about a new folder
      * Use "folder" for the icon
      */
-    void newFolder( const QString & text );
+    void newFolder( const QString & text, bool open, const QString & additionnalInfo );
 
     /**
      * Notify about a new separator
@@ -92,7 +92,5 @@ signals:
 protected:
     QString m_fileName;
 };
-
-// TODO a NS bookmark export facility
 
 #endif
