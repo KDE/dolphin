@@ -524,6 +524,15 @@ void KonqUndoManager::broadcastUnlock()
 
 bool KonqUndoManager::initializeFromKDesky()
 {
+  // ### workaround for dcop problem and upcoming 2.1 release:
+  // in case of huge io operations the amount of data sent over
+  // dcop (containing undo information broadcasted for global undo
+  // to all konqueror instances) can easily exceed the 64kb limit
+  // of dcop. In order not to run into trouble we disable global
+  // undo for now! (Simon)
+  // ### FIXME: post 2.1
+  return false;
+
   DCOPClient *client = kapp->dcopClient();
 
   if ( client->appId() == "kdesktop" ) // we are master :)
