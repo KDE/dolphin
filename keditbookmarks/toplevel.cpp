@@ -145,7 +145,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     connect( m_pListView, SIGNAL(selectionChanged() ),
              SLOT(slotSelectionChanged() ) );
     connect( kapp->clipboard(), SIGNAL(dataChanged()),
-             SLOT(slotSelectionChanged() ) );
+             SLOT(slotClipboardDataChanged() ) );
     // If someone plays with konq's bookmarks while we're open, update.
     connect( KBookmarkManager::self(), SIGNAL(changed(const QString &) ),
              SLOT( slotBookmarksChanged() ) );
@@ -183,6 +183,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     actionCollection()->action("testlink")->setEnabled(false); // not implemented
 
     slotSelectionChanged();
+    slotClipboardDataChanged();
 
     createGUI();
 
@@ -215,14 +216,11 @@ void KEBTopLevel::slotSelectionChanged()
         root = (m_pListView->firstChild() == item);
     }
 
-    QMimeSource *data = QApplication::clipboard()->data();
-    bool canPaste = KEBDrag::canDecode( data );
-
     KActionCollection * coll = actionCollection();
 
     coll->action("edit_cut")->setEnabled(itemSelected && !root);
     coll->action("edit_copy")->setEnabled(itemSelected && !root);
-    coll->action("edit_paste")->setEnabled(itemSelected && !root && canPaste);
+    coll->action("edit_paste")->setEnabled(itemSelected && !root && m_bCanPaste);
     coll->action("rename")->setEnabled(itemSelected && !separator && !root);
     coll->action("delete")->setEnabled(itemSelected && !root);
     coll->action("newfolder")->setEnabled(itemSelected);
@@ -232,6 +230,14 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("setastoolbar")->setEnabled(group);
     coll->action("openlink")->setEnabled(itemSelected && !group && !separator);
     //coll->action("testlink")->setEnabled(itemSelected && !group && !separator); // not implemented
+}
+
+void KEBTopLevel::slotClipboardDataChanged()
+{
+    kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
+    QMimeSource *data = QApplication::clipboard()->data();
+    m_bCanPaste = KEBDrag::canDecode( data );
+    slotSelectionChanged();
 }
 
 void KEBTopLevel::slotSave()
@@ -384,6 +390,7 @@ void KEBTopLevel::slotCopy()
 
     KEBDrag* data = KEBDrag::newDrag( bk, 0L /* not this ! */ );
     QApplication::clipboard()->setData( data );
+    slotClipboardDataChanged(); // don't ask
 }
 
 void KEBTopLevel::slotPaste()
@@ -546,9 +553,7 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
                 chk = chk->parent();
             }
 
-            //TODO if (e->action() == Copy)
-
-            itemMoved(i, newAddress);
+            itemMoved(i, newAddress, e->action() == QDropEvent::Copy);
         }
     } else
     {
@@ -557,18 +562,26 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
     }
 }
 
-void KEBTopLevel::itemMoved(QListViewItem *_item, const QString & newAddress)
+void KEBTopLevel::itemMoved(QListViewItem *_item, const QString & newAddress, bool copy)
 {
     KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
-
-    QString oldAddress = item->bookmark().address();
-    if ( oldAddress != newAddress )
+    if ( copy )
     {
-        kdDebug() << "KEBTopLevel::slotMoved moving " << oldAddress << " to " << newAddress << endl;
-
-        MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
-                                             oldAddress, newAddress );
+        CreateCommand * cmd = new CreateCommand( i18n("Copy %1").arg(item->bookmark().text()), newAddress,
+                                                 item->bookmark().internalElement().cloneNode( true ).toElement() );
         m_commandHistory.addCommand( cmd );
+    }
+    else
+    {
+        QString oldAddress = item->bookmark().address();
+        if ( oldAddress != newAddress )
+        {
+            kdDebug() << "KEBTopLevel::slotMoved moving " << oldAddress << " to " << newAddress << endl;
+
+            MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
+                                                 oldAddress, newAddress );
+            m_commandHistory.addCommand( cmd );
+        }
     }
 }
 

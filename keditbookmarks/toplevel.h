@@ -100,6 +100,7 @@ protected slots:
     void slotItemRenamed(QListViewItem *, const QString &, int);
     void slotDropped(QDropEvent* , QListViewItem* , QListViewItem* );
     void slotSelectionChanged();
+    void slotClipboardDataChanged();
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
     void slotBookmarksChanged();
     void slotCommandExecuted();
@@ -109,9 +110,10 @@ protected:
     virtual bool queryClose();
     void fillListView();
     void pasteData( const QString & cmdName, QMimeSource * data, const QString & insertionAddress );
-    void itemMoved(QListViewItem * item, const QString & newAddress);
+    void itemMoved(QListViewItem * item, const QString & newAddress, bool copy);
 
     bool m_bModified;
+    bool m_bCanPaste;
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;
