@@ -25,7 +25,7 @@
 #include "konq_mainview.h"
 #include "konq_factory.h"
 
-#include <kbrowser.h>
+#include <kparts/browserextension.h>
 
 #include <qlist.h>
 #include <qstring.h>

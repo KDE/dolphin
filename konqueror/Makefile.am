@@ -22,15 +22,11 @@ libkonqueror_la_SOURCES = \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
 			  konq_events.cc \
 			  konq_bgnddlg.cc \
-		          konq_factory.cc \
-			  kbrowser.moc.cc
+		          konq_factory.cc
 
 libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
 
 libkonqueror_la_LIBADD = ../libkonq/libkonq.la -lkparts $(LIB_KDEUI)
-
-kbrowser.moc.cc: $(kde_includes)/kbrowser.h
-	$(MOC) $(kde_includes)/kbrowser.h -o $(top_builddir)/konqueror/kbrowser.moc.cc
 
 bin_PROGRAMS = konqueror
 
