@@ -41,14 +41,14 @@ class IconEditExtension : public EditExtension
   Q_OBJECT
 public:
   IconEditExtension( KonqKfmIconView *iconView );
-  
+
   virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 
   virtual void cutSelection();
   virtual void copySelection();
   virtual void pasteSelection( bool move = false );
   virtual void moveSelection( const QString &destinationURL = QString::null );
-  
+
 private:
   KonqKfmIconView *m_iconView;
 };
@@ -97,7 +97,7 @@ public slots:
   void slotViewLarge( bool b );
   void slotViewNormal( bool b );
   void slotViewSmall( bool b );
-  
+
   void slotTextBottom( bool b );
   void slotTextRight( bool b );
 
@@ -187,7 +187,7 @@ protected:
 class KonqIconViewWidget : public QIconView
 {
 public:
-  KonqIconViewWidget( KonqPropsView *props, 
+  KonqIconViewWidget( KonqPropsView *props,
              QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 )
   : QIconView( parent, name, f ), m_pProps( props ) {}
 
@@ -198,7 +198,7 @@ public:
 protected:
   virtual void drawBackground( QPainter *p, const QRect &r );
 
-  void initDrag( QDropEvent *e );
+  void initDragEnter( QDropEvent *e );
 
   KonqPropsView * m_pProps;
   /** Konqueror settings */

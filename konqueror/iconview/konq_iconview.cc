@@ -191,7 +191,7 @@ KonqKfmIconView::KonqKfmIconView()
   aSortByNameCS->setExclusiveGroup( "sorting" );
   aSortByNameCI->setExclusiveGroup( "sorting" );
   aSortBySize->setExclusiveGroup( "sorting" );
- 
+
   aSortByNameCS->setChecked( true );
   aSortByNameCI->setChecked( false );
   aSortBySize->setChecked( false );
@@ -199,7 +199,7 @@ KonqKfmIconView::KonqKfmIconView()
   connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseSensitive( bool ) ) );
   connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
   connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
-    
+
   KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, this );
 
   connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending( bool ) ) );
@@ -207,9 +207,9 @@ KonqKfmIconView::KonqKfmIconView()
   m_pamSort->insert( aSortByNameCS );
   m_pamSort->insert( aSortByNameCI );
   m_pamSort->insert( aSortBySize );
-  
+
   m_pamSort->popupMenu()->insertSeparator();
-  
+
   m_pamSort->insert( aSortDescending );
 
   m_paSelect = new KAction( i18n( "&Select" ), 0, this, SLOT( slotSelect() ), this );
@@ -306,10 +306,9 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
-#warning "Uncomment the line below if we switch to a more recent Qt 2.1 snaphsot"
-  //m_pIconView->setWordWrapIconText( FALSE );
-  m_pIconView->setReorderItemsWhenInsert( true );
-  m_pIconView->setResortItemsWhenInsert( true, m_pIconView->sortOrder() );
+  m_pIconView->setWordWrapIconText( FALSE );
+  m_pIconView->setAlignItemsWhenInsert( true );
+  m_pIconView->setSortItemsWhenInsert( true, m_pIconView->sortDirection() );
 
   m_eSortCriterion = NameCaseInsensitive;
 }
@@ -329,6 +328,10 @@ void KonqKfmIconView::slotShowDot()
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
   // TODO : reArrange() [asked Reggie already]
   //we don't want the non-dot files to remain where they are !
+  alignItemsInGrid();
+  m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
+				m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
+				FALSE );
 }
 
 void KonqKfmIconView::slotSelect()
@@ -391,7 +394,7 @@ void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
 {
   if ( !toggle )
     return;
-    
+
   setupSorting( NameCaseSensitive );
 }
 
@@ -399,7 +402,7 @@ void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
 {
   if ( !toggle )
     return;
-    
+
   setupSorting( NameCaseInsensitive );
 }
 
@@ -407,7 +410,7 @@ void KonqKfmIconView::slotSortBySize( bool toggle )
 {
   if ( !toggle )
     return;
-    
+
   setupSorting( Size );
 }
 
@@ -417,7 +420,7 @@ void KonqKfmIconView::setupSorting( SortCriterion criterion )
 
   setupSortKeys();
 
-  m_pIconView->sortItems( m_pIconView->sortOrder() );
+  m_pIconView->sort( m_pIconView->sortDirection() );
 }
 
 void KonqKfmIconView::resizeEvent( QResizeEvent * )
@@ -430,12 +433,12 @@ void KonqKfmIconView::slotSortDescending( bool toggle )
   if ( !toggle )
     return;
 
-  if ( m_pIconView->sortOrder() )
-    m_pIconView->setResortItemsWhenInsert( true, false );
+  if ( m_pIconView->sortDirection() )
+    m_pIconView->setSortItemsWhenInsert( true, false );
   else
-    m_pIconView->setResortItemsWhenInsert( true, true );
+    m_pIconView->setSortItemsWhenInsert( true, true );
 
-  m_pIconView->sortItems( m_pIconView->sortOrder() );
+  m_pIconView->sort( m_pIconView->sortDirection() );
 }
 
 void KonqKfmIconView::slotKofficeMode( bool b )
@@ -463,9 +466,9 @@ void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b ) {
 	m_pIconView->setViewMode( QIconSet::Large );
-	m_pIconView->orderItemsInGrid();
-	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), 
-				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), 
+	m_pIconView->alignItemsInGrid();
+	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
+				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
 				      FALSE );
     }
 }
@@ -474,9 +477,9 @@ void KonqKfmIconView::slotViewNormal( bool b )
 {
     if ( b ) {
 	m_pIconView->setViewMode( QIconSet::Automatic );
-	m_pIconView->orderItemsInGrid();
-	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), 
-				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), 
+	m_pIconView->alignItemsInGrid();
+	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
+				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
 				      FALSE );
     }
 }
@@ -485,9 +488,9 @@ void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b ) {
 	m_pIconView->setViewMode( QIconSet::Small );
-	m_pIconView->orderItemsInGrid();
-	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), 
-				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), 
+	m_pIconView->alignItemsInGrid();
+	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
+				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
 				      FALSE );
 	m_pIconView->repaint( FALSE );
     }
@@ -743,7 +746,7 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
   {
     // nothing to do yet
   }
-  
+
   // Start the directory lister !
   m_dirLister->openURL( u, m_pProps->m_bShowDot );
   // Note : we don't store the url. KDirLister does it for us.
@@ -862,31 +865,24 @@ QDragObject * KonqIconViewWidget::dragObject()
 }
 
 
-void KonqIconViewWidget::initDrag( QDropEvent *e )
+void KonqIconViewWidget::initDragEnter( QDropEvent *e )
 {
     if ( KonqDrag::canDecode( e ) ) {	
 	QValueList<KonqDragItem> lst;
 	KonqDrag::decode( e, lst );
 	if ( lst.count() != 0 ) {
-	    setDragObjectIsKnown( TRUE );
-	    QValueList<QIconDragItem> lst2;
-	    for ( QValueList<KonqDragItem>::Iterator it = lst.begin();
-		  it != lst.end(); ++it )
-		lst2.append( *it );
-	    setIconDragData( lst2 );
+	    setDragObjectIsKnown( e );
 	} else {
 	    QStringList l;
 	    KonqDrag::decode( e, l );
 	    setNumDragItems( l.count() );
-	    setDragObjectIsKnown( FALSE );
 	}
     } else if ( QUriDrag::canDecode( e ) ) {
 	QStringList l;
 	QUriDrag::decodeLocalFiles( e, l );
 	setNumDragItems( l.count() );
-	setDragObjectIsKnown( FALSE );
     } else {
-	QIconView::initDrag( e );
+	QIconView::initDragEnter( e );
     }
 }
 
