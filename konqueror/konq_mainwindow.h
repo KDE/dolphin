@@ -279,6 +279,7 @@ protected slots:
   void slotSaveViewProfile();
   void slotSaveViewPropertiesLocally();
   void slotRemoveLocalProperties();
+  void slotSaveOptions();
 
   void slotOpenEmbedded();
   void slotOpenEmbeddedDoIt();
@@ -325,7 +326,8 @@ protected slots:
 protected:
   QString detectNameFilter( QString & url );
 
-  void toggleBar( const char *name, const char *className );
+  void toggleBar( const char *name );
+  KToolBar * toolBarByName( const char *name );
 
   bool eventFilter(QObject*obj,QEvent *ev);
 
@@ -334,7 +336,7 @@ protected:
   bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
                         KonqView * senderView );
 
-  void applyMainWindowSettings();
+  void applyKonqMainWindowSettings();
 
   void viewsChanged();
 
@@ -441,7 +443,7 @@ private:
   uint m_bSaveViewPropertiesLocally:1;
   uint m_bHTMLAllowed:1;
   // Set in constructor, used in slotRunFinished
-  uint m_bNeedApplyMainWindowSettings:1;
+  uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
   uint m_bLockLocationBarURL:1;
 

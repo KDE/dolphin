@@ -157,7 +157,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   updateBookmarkBar();
 
-  m_bNeedApplyMainWindowSettings = true;
+  m_bNeedApplyKonqMainWindowSettings = true;
   if ( !initialURL.isEmpty() )
   {
     openFilteredURL( initialURL.url() );
@@ -170,11 +170,20 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   }
   else
       // silent
-      m_bNeedApplyMainWindowSettings = false;
+      m_bNeedApplyKonqMainWindowSettings = false;
 
   // Read basic main-view settings
   KConfig *config = KGlobal::config();
-  KConfigGroupSaver cgs( config, "MainView Settings" );
+
+  KConfigGroupSaver cgs( config, "MainWindow" );
+  applyMainWindowSettings( config );
+
+  m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
+  m_paShowToolBar->setChecked( !toolBarByName("mainToolBar")->isHidden() );
+  m_paShowLocationBar->setChecked( !toolBarByName("locationToolBar")->isHidden() );
+  m_paShowBookmarkBar->setChecked( !toolBarByName("bookmarkToolBar")->isHidden() );
+
+  config->setGroup("MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
@@ -1182,25 +1191,16 @@ void KonqMainWindow::slotRunFinished()
     // We do this here and not in the constructor, because
     // we are waiting for the first view to be set up before doing this...
     // Note: this is only used when konqueror is started from command line.....
-    if ( m_bNeedApplyMainWindowSettings )
+    if ( m_bNeedApplyKonqMainWindowSettings )
     {
-      m_bNeedApplyMainWindowSettings = false; // only once
-      applyMainWindowSettings();
+      m_bNeedApplyKonqMainWindowSettings = false; // only once
+      applyKonqMainWindowSettings();
     }
 
     return;
   }
 
-  if ( !childView )
-  {
-    if ( run->hasError() ) // Nothing to show ??
-    {
-      close(); // This window is useless
-      //KMessageBox::sorry(0L, i18n("Could not display the requested URL, closing the window"));
-      // or should we go back $HOME ?
-    }
-    // else : no error but no mimetype either... we just drop it.
-  } else
+  if ( childView )
   {
     childView->setLoading( false );
 
@@ -1214,7 +1214,7 @@ void KonqMainWindow::slotRunFinished()
   }
 }
 
-void KonqMainWindow::applyMainWindowSettings()
+void KonqMainWindow::applyKonqMainWindowSettings()
 {
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
@@ -1942,7 +1942,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {
   if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) && m_currentView )
   {
-    kdDebug() << "KonqMainWindow::eventFilter " << obj << endl;
+    kdDebug() << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == QFocusEvent::Popup )
@@ -2106,28 +2106,42 @@ void KonqMainWindow::slotShowStatusBar()
 
 void KonqMainWindow::slotShowToolBar()
 {
-  toggleBar( "mainToolBar", "KToolBar" );
+  toggleBar( "mainToolBar" );
 }
 
 void KonqMainWindow::slotShowLocationBar()
 {
-  toggleBar( "locationToolBar", "KToolBar" );
+  toggleBar( "locationToolBar" );
 }
 
 void KonqMainWindow::slotShowBookmarkBar()
 {
-  toggleBar( "bookmarkToolBar", "KToolBar" );
+  toggleBar( "bookmarkToolBar" );
 }
 
-void KonqMainWindow::toggleBar( const char *name, const char *className )
+KToolBar * KonqMainWindow::toolBarByName( const char *name )
 {
-  KToolBar *bar = static_cast<KToolBar *>( child( name, className ) );
+  KToolBar *bar = static_cast<KToolBar *>( child( name, "KToolBar" ) );
+  return bar;
+}
+
+void KonqMainWindow::toggleBar( const char *name )
+{
+  KToolBar *bar = toolBarByName( name );
   if ( !bar )
     return;
   if ( bar->isVisible() )
     bar->hide();
   else
     bar->show();
+}
+
+void KonqMainWindow::slotSaveOptions()
+{
+    KConfig * config = KGlobal::config();
+    KConfigGroupSaver cgs( config, "MainWindow" );
+    saveMainWindowSettings( config );
+    config->sync();
 }
 
 void KonqMainWindow::slotToggleFullScreen()
@@ -2358,14 +2372,9 @@ void KonqMainWindow::initActions()
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
-  m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, actionCollection(), "showlocationbar" );
-  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, actionCollection(), "showbookmarkbar" );
-
-  m_paShowLocationBar->setChecked( true );
-  m_paShowBookmarkBar->setChecked( true );
-
-  connect( m_paShowLocationBar, SIGNAL( activated() ), this, SLOT( slotShowLocationBar() ) );
-  connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
+  m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
+  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, this, SLOT( slotShowBookmarkBar() ),actionCollection(), "showbookmarkbar" );
+  (void) KStdAction::saveOptions( this, SLOT( slotSaveOptions() ), actionCollection(), "options_save_options" );
 
   enableAllActions( false );
 
