@@ -150,7 +150,7 @@ int directCommand(KCmdLineArgs *args)
       QString init;
 
       if (args->count() > 0)
-          init = args->arg(0);
+          init = QString::fromLocal8Bit(args->arg(0));
 
       bool retcode = Widgets::inputBox(0, title, QString::fromLocal8Bit(args->getOption("inputbox")), init, result);
       cout << result.local8Bit().data() << endl;
