@@ -249,8 +249,9 @@ void KCookiesPolicies::addPressed()
     pDlg.setDefaultPolicy( def_policy );
     pDlg.setCaption( i18n( "New Cookie Policy" ) );
     if( pDlg.exec() ) {
-        (void)new QListViewItem(lb_domainPolicy, pDlg.domain(),
-                                adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
+        QListViewItem* index = new QListViewItem(lb_domainPolicy, pDlg.domain(),
+												 adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
+		domainPolicy.insert( index, adviceToStr( (KCookieAdvice)pDlg.policyAdvice() ) );
         changed();
     }
 }
