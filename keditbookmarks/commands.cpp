@@ -103,11 +103,12 @@ void CreateCommand::execute()
             {
                 ASSERT( !m_text.isEmpty() );
                 bk = parentGroup.createNewFolder( m_text );
+
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
                 bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
             }
             else
-                bk = parentGroup.addBookmark( m_text, m_url );
+                bk = parentGroup.addBookmark( m_text, m_url, m_iconPath);
     else
         bk = m_originalBookmark;
 
@@ -167,7 +168,7 @@ void DeleteCommand::execute()
     if ( !m_cmd )
         if ( bk.isGroup() )
         {
-            m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),
+            m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),bk.icon(),
                                       bk.internalElement().attribute("folded")=="no");
             m_subCmd = deleteAll( bk.toGroup() );
             m_subCmd->execute();
@@ -176,7 +177,9 @@ void DeleteCommand::execute()
             if ( bk.isSeparator() )
                 m_cmd = new CreateCommand(QString::null, m_from );
             else
-                m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(), bk.url());
+            {
+                m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),bk.icon(),bk.url());
+            }
 
     m_cmd->unexecute();
 }

@@ -52,15 +52,15 @@ public:
 
     // Create a bookmark
     CreateCommand( const QString & name, const QString & address,
-                   const QString & text, const KURL & url )
-        : KCommand(name), m_to(address), m_text(text), m_url(url),
+                   const QString & text, const QString &iconPath, const KURL & url )
+        : KCommand(name), m_to(address), m_text(text),m_iconPath(iconPath), m_url(url),
           m_group(false), m_separator(false), m_originalBookmark(QDomElement())
     {}
 
     // Create a folder
     CreateCommand( const QString & name, const QString & address,
-                   const QString & text, bool open )
-        : KCommand(name), m_to(address), m_text(text),
+                   const QString & text, const QString &iconPath, bool open )
+        : KCommand(name), m_to(address), m_text(text),m_iconPath(iconPath),
           m_group(true), m_separator(false), m_open(open), m_originalBookmark(QDomElement())
     {}
 
@@ -77,6 +77,7 @@ public:
 private:
     QString m_to;
     QString m_text;
+    QString m_iconPath;
     KURL m_url;
     bool m_group:1;
     bool m_separator:1;

@@ -344,7 +344,7 @@ void KEBTopLevel::slotNewFolder()
     KBookmark bk = grp.createNewFolder( QString::null ); // Asks for the name
     if ( !bk.fullText().isEmpty() ) // Not canceled
     {
-        CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), bk.fullText(), true /*open*/ );
+        CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), bk.fullText(),bk.icon() , true /*open*/ );
         m_commandHistory.addCommand( cmd );
     }
 }
@@ -356,7 +356,7 @@ void KEBTopLevel::slotNewBookmark()
         kdWarning() << "KEBTopLevel::slotNewBookmark no selected item !" << endl;
         return;
     }
-    CreateCommand * cmd = new CreateCommand( i18n("Create bookmark" ), insertionAddress(), QString::null, KURL() );
+    CreateCommand * cmd = new CreateCommand( i18n("Create bookmark" ), insertionAddress(), QString::null, QString::null, KURL() );
     m_commandHistory.addCommand( cmd );
 }
 
