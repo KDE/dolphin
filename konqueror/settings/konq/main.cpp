@@ -94,7 +94,7 @@ void KonqyModule::save()
   QByteArray data;
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
-  kapp->dcopClient()->send( "konqueror*", "KonqMainViewIface", "reparseConfiguration()", data );
+  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 }
 
 
