@@ -328,10 +328,9 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             QString protocol = lst.first().protocol(); // we'll assume it's the same for all URLs (hack)
             bool sReading = KProtocolInfo::supportsReading( protocol );
             bool sDeleting = KProtocolInfo::supportsDeleting( protocol );
-            bool sMoving = KProtocolInfo::supportsMoving( protocol );  
+            bool sMoving = KProtocolInfo::supportsMoving( protocol );
             // Check what the destination can do
             protocol = dest.protocol();
-            bool dReading = KProtocolInfo::supportsReading( protocol );
             bool dWriting = KProtocolInfo::supportsWriting( protocol );
             if ( !dWriting )
                 return;

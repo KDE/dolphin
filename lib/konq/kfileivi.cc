@@ -48,10 +48,10 @@ static QPixmap *get_konqiv_buffer_pixmap( const QSize &s )
 	  new QPixmap( s ));
       return konqiv_buffer_pixmap;
     }
- 
+
     konqiv_buffer_pixmap->resize( s );
     return konqiv_buffer_pixmap;
-} 
+}
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size )
     : QIconViewItem( iconview, fileitem->text(),
@@ -154,7 +154,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
         f.setItalic( TRUE );
         p->setFont( f );
     }
-   
+
     if (!KGlobal::iconLoader()->alphaBlending())
     {
       // default fallback if we're not using alphablending
@@ -178,9 +178,9 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     static_cast<KonqIconViewWidget *>(iconView())->drawBackground(pbg,
 	r , QPoint(0,0));
     delete pbg;
-    
+
     QImage bgImg(background.convertToImage());
- 
+
     // This is done to handle overlapped icons. There are no overlapped
     // icons in 98% of the cases, so I don't think it's a bad solution.
     // The right solution would be using QIconView's ItemContainer,
@@ -193,7 +193,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     {
       if ( r.intersects( it->rect() ) &&
 	( r.intersects(it->pixmapRect(false)) || r.intersects(it->textRect(false)) ) )
-	  static_cast<KFileIVI *>(it)->paintAlphaItem(p, cg, bgImg, 
+	  static_cast<KFileIVI *>(it)->paintAlphaItem(p, cg, bgImg,
 	      unknown_icon, true, r.x(), r.y());
       it=it->nextItem();
     }
@@ -203,7 +203,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     {
       if ( r.intersects( it->rect() ) &&
 	( r.intersects(it->pixmapRect(false)) || r.intersects(it->textRect(false)) ) )
-	  static_cast<KFileIVI *>(it)->paintAlphaItem(p, cg, bgImg, 
+	  static_cast<KFileIVI *>(it)->paintAlphaItem(p, cg, bgImg,
 	      unknown_icon, true, r.x(), r.y());
       it=it->nextItem();
     }
@@ -219,7 +219,7 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
     QPixmap *txtPixmap=0L;
     QRect txtRect=textRect(false);
     if (onBg)
-    { 
+    {
       txtRect.moveTopLeft(QPoint(0,0));
       txtPixmap=new QPixmap(txtRect.size());
       p=new QPainter(txtPixmap);
@@ -228,7 +228,7 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
       p->save();
     }
 
-    // antonio: The next lines have been copied from Qt and are 
+    // antonio: The next lines have been copied from Qt and are
     // copyrighted by Trolltech AS (1992-2000) . They also include
     // many changes by me.
 
@@ -258,15 +258,15 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
 		p2.fillRect( pix->rect(), QBrush( cg.highlight(),
 		      QBrush::Dense4Pattern) );
 		p2.end();
-		QRect cr = pix->rect();
+		//QRect cr = pix->rect();
 		KAlphaPainter::draw(((onBg)? 0L : p) , *buffer, background,
 		    x() + ( width() - w ) / 2, y(), onBg, bgx, bgy);
 	    }
-	} else 
-	  KAlphaPainter::draw( ((onBg)? 0L : p), 
+	} else
+	  KAlphaPainter::draw( ((onBg)? 0L : p),
 	      *( pixmap() ? pixmap() : &unknown_icon), background,
 	      x() + ( width() - w ) / 2, y(), onBg, bgx, bgy);
-	
+
 
 	p->save();
 	if ( isSelected() ) {
@@ -298,7 +298,7 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
 		p2.begin( buffer );
 		p2.fillRect( pix->rect(), QBrush( cg.highlight(), QBrush::Dense4Pattern) );
 		p2.end();
-		QRect cr = pix->rect();
+		//QRect cr = pix->rect();
 		KAlphaPainter::draw(((onBg)? 0L : p), *buffer, background,
 		    x(), y() + ( height() - h ) / 2 , onBg, bgx, bgy);
 	    }
@@ -323,7 +323,7 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
 	p->restore();
     }
 
-    if (onBg) { 
+    if (onBg) {
       delete p;
       KImageEffect::paint(textRect(false).x()-bgx, textRect(false).y()-bgy, background,
 	  txtPixmap->convertToImage());

@@ -204,24 +204,25 @@ void KonqIconViewWidget::initConfig()
     setWordWrapIconText( m_pSettings->wordWrapText() );
 }
 
-void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
+void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
 {
-    //kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreview << ")" << endl;
+    //kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreviewFor << ")" << endl;
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
-    if ( sizeChanged || stopImagePreview )
+    if ( sizeChanged || stopImagePreviewFor )
     {
         calculateGridX();
     }
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
-        if ( stopImagePreview || !ivi->isThumbnail() )
+        if ( !ivi->isThumbnail() ||
+             ( stopImagePreviewFor && ivi->item()->mimetype().startsWith(stopImagePreviewFor) ) )
             ivi->setIcon( size, ivi->state(),
                           true, true /* perhaps we should do one big redraw instead ? */);
     }
-    if ( oldGridX != gridX() || stopImagePreview )
+    if ( oldGridX != gridX() || stopImagePreviewFor )
     {
         arrangeItemsInGrid( true ); // take new grid into account
     }

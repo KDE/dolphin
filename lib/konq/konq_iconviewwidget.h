@@ -93,8 +93,9 @@ public:
      * Sets the icons of all items, and stores the @p size
      * This doesn't touch thumbnails, except @p stopImagePreview is set to true
      * Takes care of the grid, when changing the size
+     * @param stopImagePreviewFor set to "image/" to make images normal again, etc.
      */
-    void setIcons( int size, bool stopImagePreview = false );
+    void setIcons( int size, const char * stopImagePreviewFor = 0 );
 
     /**
      * Called on databaseChanged
