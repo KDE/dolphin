@@ -92,7 +92,7 @@ void ImportCommand::execute() {
       // import into the root, after cleaning it up
       bkGroup = CurrentMgr::self()->mgr()->root();
       delete m_cleanUpCmd;
-      m_cleanUpCmd = DeleteCommand::deleteAll( bkGroup );
+      m_cleanUpCmd = DeleteCommand::deleteAll(bkGroup);
 
       // unselect current item, it doesn't exist anymore
       ListView::self()->clearSelection();
@@ -102,7 +102,7 @@ void ImportCommand::execute() {
       m_group = "";
    }
 
-   doExecuteWrapper(bkGroup);
+   doExecute(bkGroup);
 }
 
 void ImportCommand::unexecute() {
@@ -126,8 +126,7 @@ void ImportCommand::unexecute() {
    }
 }
 
-void ImportCommand::connectImporter(const QObject *importer) {
-   const QObject *builder = this;
+void ImportCommand::connectImporter(const QObject *importer, const QObject *builder) {
    connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ),
            builder,  SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
    connect(importer, SIGNAL( newFolder(const QString &, bool, const QString &) ),
@@ -140,7 +139,7 @@ void ImportCommand::connectImporter(const QObject *importer) {
 
 //////////////////////////////
 
-void ImportCommand::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
+void KBookmarkDomBuilder::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
    KBookmark bk = m_stack.top()->addBookmark(
                                     CurrentMgr::self()->mgr(),
                                     text, QString::fromUtf8(url),
@@ -149,7 +148,7 @@ void ImportCommand::newBookmark(const QString &text, const QCString &url, const 
    bk.internalElement().setAttribute("netscapeinfo", additionnalInfo);
 }
 
-void ImportCommand::newFolder( const QString & text, bool open, const QString & additionnalInfo ) {
+void KBookmarkDomBuilder::newFolder( const QString & text, bool open, const QString & additionnalInfo ) {
    // we use a qvaluelist so that we keep pointers to valid objects in the stack
    m_list.append(m_stack.top()->createNewFolder(CurrentMgr::self()->mgr(), text, false));
    m_stack.push(&(m_list.last()));
@@ -160,11 +159,11 @@ void ImportCommand::newFolder( const QString & text, bool open, const QString & 
    element.setAttribute("folded", (open?"no":"yes"));
 }
 
-void ImportCommand::newSeparator() {
+void KBookmarkDomBuilder::newSeparator() {
    m_stack.top()->createNewSeparator();
 }
 
-void ImportCommand::endFolder() {
+void KBookmarkDomBuilder::endFolder() {
    m_stack.pop();
 }
 
@@ -179,10 +178,11 @@ void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
    m_group = bkGroup.address();
 }
 
-void ImportCommand::doExecuteWrapper(const KBookmarkGroup bkGroup) {
-   // setup some things we need before executing
+KBookmarkDomBuilder::KBookmarkDomBuilder(const KBookmarkGroup &bkGroup) {
    m_stack.push(&bkGroup);
-   doExecute();
+}
+
+KBookmarkDomBuilder::~KBookmarkDomBuilder() {
    m_list.clear();
    m_stack.clear();
 }
@@ -193,9 +193,10 @@ QString OperaImportCommand::requestFilename() const {
    return KOperaBookmarkImporter::operaBookmarksFile();
 }
 
-void OperaImportCommand::doExecute() {
+void OperaImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
+   KBookmarkDomBuilder builder(bkGroup);
    KOperaBookmarkImporter importer(m_fileName);
-   connectImporter(&importer);
+   connectImporter(&importer, &builder);
    importer.parseOperaBookmarks();
 }
 
@@ -205,17 +206,19 @@ QString IEImportCommand::requestFilename() const {
    return KIEBookmarkImporter::IEBookmarksDir();
 }
 
-void IEImportCommand::doExecute() {
+void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
+   KBookmarkDomBuilder builder(bkGroup);
    KIEBookmarkImporter importer(m_fileName);
-   connectImporter(&importer);
+   connectImporter(&importer, &builder);
    importer.parseIEBookmarks();
 }
 
 /* -------------------------------------- */
 
-void HTMLImportCommand::doExecute() {
+void HTMLImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
+   KBookmarkDomBuilder builder(bkGroup);
    KNSBookmarkImporter importer(m_fileName);
-   connectImporter(&importer);
+   connectImporter(&importer, &builder);
    importer.parseNSBookmarks(m_utf8);
 }
 
@@ -238,11 +241,7 @@ void XBELImportCommand::doCreateHoldingFolder(KBookmarkGroup &) {
    // root xbel node into the group when doing an xbel import
 }
 
-void XBELImportCommand::doExecuteWrapper(const KBookmarkGroup) {
-   doExecute();
-}
-
-void XBELImportCommand::doExecute() {
+void XBELImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KBookmarkManager *pManager;
 
    // check if already open first???

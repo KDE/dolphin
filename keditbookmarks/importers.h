@@ -74,12 +74,6 @@ public:
    QString groupAddress() const { return m_group; }
    QString folder() const;
 
-protected slots:
-   void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
-   void newFolder(const QString &text, bool open, const QString &additionnalInfo);
-   void newSeparator();
-   void endFolder();
-
 protected:
    /**
     * @param fileName HTML file to import
@@ -95,15 +89,11 @@ protected:
       m_utf8 = utf8;
    }
 
-   void connectImporter(const QObject *importer);
+   void connectImporter(const QObject *importer, const QObject *builder);
 
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
-   virtual void doExecuteWrapper(const KBookmarkGroup bkGroup);
+   virtual void doExecute(const KBookmarkGroup &) = 0;
 
-   virtual void doExecute() = 0;
-
-   QPtrStack<KBookmarkGroup> m_stack;
-   QValueList<KBookmarkGroup> m_list;
    QString m_fileName;
    bool m_folder;
    QString m_icon;
@@ -111,6 +101,21 @@ protected:
    KMacroCommand *m_cleanUpCmd;
    bool m_utf8;
    QString m_visibleName;
+};
+
+class KBookmarkDomBuilder : public QObject {
+   Q_OBJECT
+public:
+   KBookmarkDomBuilder(const KBookmarkGroup &group);
+   virtual ~KBookmarkDomBuilder();
+protected slots:
+   void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
+   void newFolder(const QString &text, bool open, const QString &additionnalInfo);
+   void newSeparator();
+   void endFolder();
+public:
+   QPtrStack<KBookmarkGroup> m_stack;
+   QValueList<KBookmarkGroup> m_list;
 };
 
 // part pure
@@ -122,8 +127,7 @@ public:
    virtual QString requestFilename() const = 0;
 private:
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
-   virtual void doExecuteWrapper(const KBookmarkGroup bkGroup);
-   virtual void doExecute();
+   virtual void doExecute(const KBookmarkGroup &);
 };
 
 class GaleonImportCommand : public XBELImportCommand
@@ -154,7 +158,7 @@ public:
    virtual void import(const QString &fileName, bool folder) = 0;
    virtual QString requestFilename() const = 0;
 private:
-   virtual void doExecute();
+   virtual void doExecute(const KBookmarkGroup &);
 };
 
 class NSImportCommand : public HTMLImportCommand
@@ -186,7 +190,7 @@ public:
    }
    virtual QString requestFilename() const;
 private:
-   virtual void doExecute();
+   virtual void doExecute(const KBookmarkGroup &);
 };
 
 class OperaImportCommand : public ImportCommand
@@ -198,7 +202,7 @@ public:
    }
    virtual QString requestFilename() const;
 private:
-   virtual void doExecute();
+   virtual void doExecute(const KBookmarkGroup &);
 };
 
 #endif
