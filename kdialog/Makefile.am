@@ -1,0 +1,13 @@
+KDE_CXXFLAGS = -DQT_NO_CAST_ASCII -DQT_NO_ASCII_CAST
+INCLUDES = $(all_includes)
+
+bin_PROGRAMS = kdialog
+
+kdialog_SOURCES = kdialog.cpp widgets.cpp klistboxdialog.cpp
+kdialog_LDADD = $(LIB_KDEUI)
+kdialog_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+
+METASOURCES = AUTO
+
+messages:        
+	$(XGETTEXT) $(kdialog_SOURCES) -o $(podir)/kdialog.pot 
