@@ -258,8 +258,6 @@ void KPluginOptions::scan()
              save();
     }
 
-    // find nspluginscan executable
-    m_progress = new QProgressDialog( i18n("Scanning for plugins"), i18n("Cancel"), 100, this );
     KProcIO* nspluginscan = new KProcIO;
     QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
     if (!scanExe) {
@@ -271,6 +269,9 @@ void KPluginOptions::scan()
                                   "Netscape plugins will not be scanned.") );
         return;
     }
+
+    // find nspluginscan executable
+    m_progress = new QProgressDialog( i18n("Scanning for plugins"), i18n("Cancel"), 100, this );
     m_progress->setProgress( 5 );
 
     // start nspluginscan
@@ -280,6 +281,8 @@ void KPluginOptions::scan()
             this, SLOT(progress(KProcIO*)));
     connect(nspluginscan, SIGNAL(processExited(KProcess *)),
             this, SLOT(scanDone()));
+    connect(m_progress, SIGNAL(cancelled()), this, SLOT(scanDone()));
+
     if (nspluginscan->start())
        kapp->enter_loop();
 
@@ -289,12 +292,14 @@ void KPluginOptions::scan()
     m_progress->setProgress(100);
     load();
     delete m_progress;
+    m_progress = 0;
 }
 
 void KPluginOptions::progress(KProcIO *proc)
 {
     QString line;
-    while(proc->readln(line) > 0);
+    while(proc->readln(line) > 0)
+        ;
     m_progress->setProgress(line.stripWhiteSpace().toInt());
 }
 
