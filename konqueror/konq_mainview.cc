@@ -1773,8 +1773,8 @@ void KonqMainView::initActions()
   m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
 				   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
 	
-  m_paHome->setWhatsThis( i18n( "Click this button to display of your home directory<br><br>\n\n"
-				"You can configure the path your home directory in the"
+  m_paHome->setWhatsThis( i18n( "Click this button to display your home directory<br><br>\n\n"
+				"You can configure the path of your home directory in the"
 				"<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
   m_paHome->setShortText( i18n( "Enter your home directory" ) );
 				
