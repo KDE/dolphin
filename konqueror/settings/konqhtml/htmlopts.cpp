@@ -26,7 +26,7 @@ enum AnimationsType { AnimationsAlways=0, AnimationsNever=1, AnimationsLoopOnce=
 //-----------------------------------------------------------------------------
 
 KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
+    : QWidget( parent, name ), m_pConfig(config), m_groupname(group)
 {
     int row = 0;
     QGridLayout *lay = new QGridLayout(this, 10, 2, KDialog::marginHint(), KDialog::spacingHint());
@@ -234,5 +234,5 @@ void KMiscHTMLOptions::save()
 void KMiscHTMLOptions::changed()
 {
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
-    emit KCModule::changed(true);
+    emit changed(true);
 }

@@ -49,7 +49,7 @@
 
 KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent,
 										const char *name ) :
-  KCModule( parent, name ), m_pConfig( config ), m_groupname( group )
+  QWidget( parent, name ), m_pConfig( config ), m_groupname( group )
 {
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
@@ -233,7 +233,7 @@ void KJavaScriptOptions::save()
 
 void KJavaScriptOptions::changed()
 {
-  emit KCModule::changed(true);
+  emit changed(true);
 }
 
 void KJavaScriptOptions::addPressed()

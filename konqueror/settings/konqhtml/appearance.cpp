@@ -21,7 +21,7 @@
 #include "appearance.moc"
 
 KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
+    : QWidget( parent, name ), m_pConfig(config), m_groupname(group)
 {
   QString wtstr;
 
@@ -352,6 +352,6 @@ void KAppearanceOptions::save()
 
 void KAppearanceOptions::changed()
 {
-  emit KCModule::changed(true);
+  emit changed(true);
 }
 

@@ -17,7 +17,7 @@
 
 KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
                             const char *name )
-    : KCModule( parent, name ),
+    : QWidget( parent, name ),
       m_pConfig( config ),
       m_groupname( group )
 {
@@ -68,5 +68,5 @@ void KPluginOptions::save()
 
 void KPluginOptions::changed()
 {
-    emit KCModule::changed(true);
+    emit changed(true);
 }

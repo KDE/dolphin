@@ -10,7 +10,7 @@
 #ifndef __JSOPTS_H__
 #define __JSOPTS_H__
 
-#include <kcmodule.h>
+#include <qwidget.h>
 #include <qmap.h>
 
 class KColorButton;
@@ -25,7 +25,7 @@ class QRadioButton;
 class QSpinBox;
 class QButtonGroup;
 
-class KJavaScriptOptions : public KCModule
+class KJavaScriptOptions : public QWidget
 {
   Q_OBJECT
 public:
@@ -34,6 +34,9 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
+
+signals:
+  void changed( bool state );
 
 private slots:
   void changed();

@@ -48,7 +48,7 @@
 
 KJavaOptions::KJavaOptions( KConfig* config, QString group,
                             QWidget *parent, const char *name )
-    : KCModule( parent, name ),
+    : QWidget( parent, name ),
       m_pConfig( config ),
       m_groupname( group )
 {
@@ -286,7 +286,7 @@ void KJavaOptions::save()
 
 void KJavaOptions::changed()
 {
-    emit KCModule::changed(true);
+    emit changed(true);
 }
 
 

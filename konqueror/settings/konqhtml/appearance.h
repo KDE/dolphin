@@ -11,13 +11,13 @@
 #ifndef __APPEARANCE_H__
 #define __APPEARANCE_H__
 
-#include <kcmodule.h>
+#include <qwidget.h>
 #include <qmap.h>
 
 class QSpinBox;
 class KFontCombo;
 
-class KAppearanceOptions : public KCModule
+class KAppearanceOptions : public QWidget
 {
   Q_OBJECT
 public:
@@ -26,6 +26,9 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
+
+signals:
+  void changed( bool state );
 
 public slots:
   void slotFontSize( int );

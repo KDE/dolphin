@@ -48,7 +48,7 @@ typedef KGenericFactory<KonqHTMLModule, QWidget> KonqHTMLFactory;
 K_EXPORT_COMPONENT_FACTORY( libkcm_konqhtml, KonqHTMLFactory("kcmkonqhtml") );
 
 KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name, const QStringList &)
-  : KCModule(parent, name)
+  : KCModule(KonqHTMLFactory::instance(), parent, name)
 {
   m_globalConfig = new KConfig("khtmlrc", false, false);
   m_localConfig = new KConfig( "konquerorrc", false, false );

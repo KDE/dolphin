@@ -9,13 +9,13 @@
 #ifndef __PLUGINOPTS_H__
 #define __PLUGINOPTS_H__
 
-#include <kcmodule.h>
+#include <qwidget.h>
 #include <qmap.h>
 
 class KConfig;
 class QCheckBox;
 
-class KPluginOptions : public KCModule
+class KPluginOptions : public QWidget
 {
     Q_OBJECT
 
@@ -25,6 +25,9 @@ public:
     virtual void load();
     virtual void save();
     virtual void defaults();
+
+signals:
+    void changed( bool state );
 
 private slots:
     void changed();

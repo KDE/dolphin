@@ -9,7 +9,6 @@
 #include <qcheckbox.h>
 #include <qstring.h>
 
-#include <kcmodule.h>
 #include <kconfig.h>
 
 
@@ -17,7 +16,7 @@
 *  Dialog for configuring HTTP Options like charset and language negotiation
 *  and assuming that file got from HTTP is HTML if no Content-Type is given
 */
-class KHTTPOptions : public KCModule
+class KHTTPOptions : public QWidget
 {
 Q_OBJECT
   public:
@@ -26,6 +25,9 @@ Q_OBJECT
     virtual void load();
     virtual void save();
     virtual void defaults();
+
+signals:
+    void changed( bool state );
 
   private:
 

@@ -15,7 +15,7 @@
 #ifndef __JAVAOPTS_H__
 #define __JAVAOPTS_H__
 
-#include <kcmodule.h>
+#include <qwidget.h>
 #include <qmap.h>
 
 class KColorButton;
@@ -30,7 +30,7 @@ class QLineEdit;
 class QListViewItem;
 class QRadioButton;
 
-class KJavaOptions : public KCModule
+class KJavaOptions : public QWidget
 {
     Q_OBJECT
 
@@ -40,6 +40,9 @@ public:
     virtual void load();
     virtual void save();
     virtual void defaults();
+
+signals:
+    void changed( bool state );
 
 private slots:
     void changed();

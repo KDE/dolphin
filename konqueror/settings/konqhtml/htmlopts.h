@@ -13,8 +13,6 @@
 #include <qlineedit.h>
 #include <qcombobox.h>
 
-#include <kcmodule.h>
-
 
 //-----------------------------------------------------------------------------
 // The "Misc Options" Tab for the HTML view contains :
@@ -30,7 +28,7 @@
 class QRadioButton;
 class KIntNumInput;
 
-class KMiscHTMLOptions : public KCModule
+class KMiscHTMLOptions : public QWidget
 {
     Q_OBJECT
 
@@ -40,6 +38,8 @@ public:
     virtual void save();
     virtual void defaults();
 
+signals:
+    void changed( bool state );
 private slots:
     void changed();
 
