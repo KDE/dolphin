@@ -452,7 +452,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
 
   clear();
 
-  QString rootItem = cfg.readEntry( "RootItem" );
+  QString rootItem = cfg.readEntry( "RootItem", "empty" );
 
   if( rootItem.isNull() ) {
     // Config file doesn't contain anything about view profiles, fallback to defaults
@@ -460,14 +460,24 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   }
   kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
 
-  m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
-  m_pMainWindow->setView( m_pMainContainer );
-  m_pMainContainer->setOpaqueResize();
-  m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
-  m_pMainContainer->show();
+  if ( rootItem != "empty" )
+  {
+      m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
+      m_pMainWindow->setView( m_pMainContainer );
+      m_pMainContainer->setOpaqueResize();
+      m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
+      m_pMainContainer->show();
 
-  loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
+      loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
+  }
 
+  if (m_pMainWindow->viewCount() == 0 && !forcedURL.isEmpty())
+  {
+      // We want to open something, but the profile contained no view
+      // [this is the case with the default web browsing profile]
+
+      m_pMainWindow->openURL( 0L, forcedURL );
+  }
   KonqView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */ );
 
