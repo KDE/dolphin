@@ -99,6 +99,7 @@ protected:
   void addAction( const char *name, const QDomElement &menu = QDomElement() );
   void addSeparator( const QDomElement &menu = QDomElement() );
   void addMerge( const char *name );
+  void addGroup( const QString &grp );
 
   KActionCollection &m_actions;
   KActionCollection m_ownActions;
