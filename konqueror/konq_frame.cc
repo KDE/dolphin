@@ -544,8 +544,13 @@ KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, 
 
   //write own config
 
+  QStringList ssizes;
+  QValueList<int> isizes = sizes();
+  for (QValueList<int>::ConstIterator it = isizes.begin(); it != isizes.end(); it++)
+      ssizes << QString::number(*it);
+
   //write children sizes
-  config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), QVariant( sizes() ) );
+  config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), ssizes );
 
   //write children
   QStringList strlst;
