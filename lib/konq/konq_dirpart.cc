@@ -22,8 +22,6 @@
 #include "konq_propsview.h"
 #include "konq_settings.h"
 
-#include "kshellcmddialog.h"
-
 #include <kaction.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
@@ -33,8 +31,6 @@
 #include <kparts/browserextension.h>
 #include <kurldrag.h>
 #include <kuserprofile.h>
-#include <kmessagebox.h>
-#include <klineeditdlg.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -89,9 +85,6 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 
     new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
     new KAction( i18n( "Background Image..." ), "background", 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
-
-    m_paExecuteShellCommand = new KAction( i18n( "&Execute Shell Command" ),
-        CTRL+Key_E, this, SLOT( slotExecuteShellCommand() ), actionCollection(), "executeshellcommand" );
 }
 
 KonqDirPart::~KonqDirPart()
@@ -127,28 +120,6 @@ void KonqDirPart::slotBackgroundImage()
         m_pProps->applyColors( scrollWidget()->viewport() );
         scrollWidget()->viewport()->repaint();
     }
-}
-
-void KonqDirPart::slotExecuteShellCommand()
-{
-   if (!url().isLocalFile())
-   {
-      KMessageBox::sorry(widget(),i18n("Executing shell commands works only on local directories."));
-      return;
-   }
-   KLineEditDlg l( i18n("Execute shell command:"), /*TODO m_pListView->currentItem()?m_pListView->currentItem()->text(0):*/"", widget() );
-   if ( l.exec() )
-   {
-      QString chDir="cd ";
-      chDir+=url().path();
-      chDir+="; ";
-      chDir+=l.text();
-
-      KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(l.text()),chDir,widget(),true);
-      shellCmdDialog->resize(500,300);
-      shellCmdDialog->executeCommand();
-      delete shellCmdDialog;
-   }
 }
 
 void KonqDirPart::mmbClicked( KFileItem * fileItem )

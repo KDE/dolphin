@@ -134,7 +134,6 @@ public slots:
      */
     void slotClipboardDataChanged();
 
-    void slotExecuteShellCommand();
     void slotIncIconSize();
     void slotDecIconSize();
 
@@ -165,7 +164,6 @@ protected:
      */
     KonqPropsView * m_pProps;
 
-    KAction *m_paExecuteShellCommand;
     KAction *m_paIncIconSize;
     KAction *m_paDecIconSize;
     KToggleAction *m_paDefaultIcons;
