@@ -438,7 +438,8 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      int posLastLine = m_extent - (chSize.height() + yborder);
 	      bool newLine = false;
 	      ASSERT( posNewLine > 0 );
-	
+	      const QPixmap *fontPixmap = &(m_splitter->pixmap());
+	      
 	      for ( uint i = 0; i < text.length(); i++ ) {
 		  if ( x > posNewLine || newLine ) { // start a new line?
 		      x = xborder;
@@ -473,8 +474,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		
 		  rect = m_splitter->coordinates( ch );
 		  if ( !rect.isEmpty() ) {
-		      bitBlt( &pix, QPoint(x,y), 
-			      &(m_splitter->pixmap()), rect, CopyROP );
+		      bitBlt( &pix, QPoint(x,y), fontPixmap, rect, CopyROP );
 		  }
 
 		  x += xOffset; // next character
