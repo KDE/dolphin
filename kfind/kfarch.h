@@ -18,7 +18,7 @@ public:
   /**
     * Create a KfArchiver with archiver
     */
-  KfArchiver(const char*); 
+  KfArchiver(const QString&); 
       
   virtual ~KfArchiver() {}
 
@@ -36,22 +36,22 @@ public:
   /**
     * Returns archiver name
     */
-  const char* getArName() { return arName; };
+  QString getArName() { return arName; };
       
   /** 
     * Returns comment for archiver
     */
-  const char* getArComment() { return arComment; };
+  QString getArComment() { return arComment; };
   
   /**
     * Returns command for creating new archive
     */
-  const char* getOnCreate() { return arOnCreate; };
+  QString getOnCreate() { return arOnCreate; };
       
   /**
     * Returns command for updating archive
     */
-  const char* getOnUpdate() { return arOnUpdate; };
+  QString getOnUpdate() { return arOnUpdate; };
       
   /** Returns valid pattern for archive
     * Returns the extensions assoziated with this archiver, 
@@ -62,17 +62,17 @@ public:
   /**
     * Sets the comment
     */
-  void setComment( const char *_c) { arComment = _c; }
+  void setComment( const QString& _c) { arComment = _c; }
 
   /**
     * Sets the command for archive creating 
     */
-  void setOnCreate( const char *_command) { arOnCreate = _command; }
+  void setOnCreate( const QString& _command) { arOnCreate = _command; }
 
   /**
     * Sets the command for archive updating
     */
-  void setOnUpdate( const char *_command) { arOnUpdate = _command; }
+  void setOnUpdate( const QString& _command) { arOnUpdate = _command; }
 
   /**
     * Add a pattern which matches this type.

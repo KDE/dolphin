@@ -13,7 +13,7 @@
 QList<KfArchiver> *archivers;        
 
 // Create KfArchivers object
-KfArchiver::KfArchiver(const char *_archiver)
+KfArchiver::KfArchiver(const QString& _archiver)
 {
   arName = _archiver;
 };
@@ -59,8 +59,8 @@ void KfArchiver::initArchivers()
     {
       // Read a archiver names from the list
       name = arch.mid( old_pos, pos - old_pos );
-      if (names.find(name) == -1 )
-	names.append( name );
+      if (names.find(name.ascii()) == -1 )
+	names.append(name.ascii());
       pos++;
       old_pos = pos;
     };
@@ -74,10 +74,10 @@ void KfArchiver::initArchivers()
       QString onupdate  = config->readEntry( "ExecOnUpdate" );
       QString patterns  = config->readEntry( "Pattern" );
       
-      if ( !( (oncreate.isNull() ) | (strcmp(oncreate.data(),"")==0) 
-	    | (onupdate.isNull() ) | (strcmp(onupdate.data(),"")==0) ) )
+      if ( !( oncreate.isEmpty()
+	    | onupdate.isEmpty() ) )
 	{
-	  KfArchiver *ar   = new KfArchiver( name.data() );
+	  KfArchiver *ar   = new KfArchiver( name.ascii() );
 	  ar -> setComment(comment);
 	  ar -> setOnCreate(oncreate);
 	  ar -> setOnUpdate(onupdate);
@@ -88,7 +88,7 @@ void KfArchiver::initArchivers()
 	    {
 	      // Read a pattern from the list
 	      QString pattern = patterns.mid( old_pos, pos - old_pos );
-	      ar->addPattern( pattern.data() );
+	      ar->addPattern( pattern.ascii() );
 	      pos++;
 	      old_pos = pos;
 	    };

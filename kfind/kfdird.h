@@ -21,15 +21,15 @@ class KfDirDialog : public QDialog
 {
     Q_OBJECT
 public:
-    KfDirDialog( const char *dirName,
+    KfDirDialog( const QString& dirName,
                  QWidget *parent=0, const char *name=0, bool modal=FALSE );
     KfDirDialog( QWidget *parent=0, const char *name=0, bool modal=FALSE );
    ~KfDirDialog();
 
     QString     selectedDir()  const;
 
-    const char *dirPath() const;
-    void        setDir( const char * );
+    QString dirPath() const;
+    void        setDir( const QString& );
     const QDir *dir() const;
     void        setDir( const QDir & );
 
@@ -53,7 +53,7 @@ protected:
       
 private:
     void        init();
-    void        updatePathBox( const char * );
+    void        updatePathBox( const QString& );
 
     QDir        d;
     QString     dirName;

@@ -17,11 +17,11 @@
 
 QList<KfFileType> *types; 
 
-void KfFileType::initFileTypes( const char* _path )
+void KfFileType::initFileTypes( const QString& _path )
 {
     DIR *dp;
     struct dirent *ep;
-    dp = opendir( _path );
+    dp = opendir( _path.ascii() );
     if ( dp == NULL )
         return;
 
@@ -36,9 +36,9 @@ void KfFileType::initFileTypes( const char* _path )
             file += "/";
             file += ep->d_name;
             struct stat buff;
-            stat( file.data(), &buff );
+            stat( file.ascii(), &buff );
             if ( S_ISDIR( buff.st_mode ) )
-                initFileTypes( file.data() );
+                initFileTypes( file );
             else if ( tmp.right( 8 ) == ".desktop" )
             {
                 QFile f( file );
@@ -66,17 +66,17 @@ void KfFileType::initFileTypes( const char* _path )
 		if ( (!pats.isNull() && pats!="") &&  pats!=";" )
 		  {
 		    // Is this file type already registered ?
-		    KfFileType *t = KfFileType::findByName( ext.data() );
+		    KfFileType *t = KfFileType::findByName( ext );
 		    // If not then create a new type, 
 		    //but only if we have an icon
 		    if ( t == 0L && !icon.isNull() )
-		      types->append( t = new KfFileType(ext.data()));
+		      types->append( t = new KfFileType(ext));
 		    
 		    // Set the default binding
 		    if ( !defapp.isNull() && t != 0L )
-		      t->setDefaultBinding( defapp.data() );
+		      t->setDefaultBinding( defapp );
 		    if ( t != 0L )
-		      t->setComment( comment.data() );
+		      t->setComment( comment );
 
 		    int pos2 = 0;
 		    int old_pos2 = 0;
@@ -85,7 +85,7 @@ void KfFileType::initFileTypes( const char* _path )
 			// Read a pattern from the list
 			QString name = pats.mid( old_pos2, pos2 - old_pos2 );
 			if ( t != 0L )
-			  t->addPattern( name.data() );
+			  t->addPattern( name );
 			pos2++;
 			old_pos2 = pos2;
 		      }
@@ -102,16 +102,16 @@ void KfFileType::init()
 
   // Read the filetypes
   QString path = KApplication::kde_mimedir();
-  initFileTypes( path.data() );
+  initFileTypes( path );
 };
 
-KfFileType* KfFileType::findByName( const char *_name )
+KfFileType* KfFileType::findByName( const QString& _name )
 {
   KfFileType *typ;
 
   for ( typ = types->first(); typ != 0L; typ = types->next() )
     {
-      if ( strcmp( typ->getName(), _name ) == 0 )
+      if (typ->getName() == _name)
 	return typ;
     };
 

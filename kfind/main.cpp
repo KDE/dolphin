@@ -47,7 +47,7 @@ int main( int argc, char ** argv )
     if ( searchPath.isNull() )
       searchPath = getenv( "HOME" );
 
-    if ( strchr(searchPath.data(),':') )
+    if (searchPath.contains(':') > 0)
       {
  	if (searchPath.left(searchPath.find(":"))=="file")
  	  searchPath.remove(0,5);
@@ -72,13 +72,13 @@ int main( int argc, char ** argv )
     if (kapp->isRestored()){
       int n = 1;
       while (KTopLevelWidget::canBeRestored(n)){
-	kfind = new KfindTop(searchPath); 
+	kfind = new KfindTop(searchPath.ascii()); 
 	kfind->restore(n);
 	n++;
       }
       // end session management
     } else {
-      kfind = new KfindTop(searchPath);
+      kfind = new KfindTop(searchPath.ascii());
       kfind->show();
     }
     app.setMainWidget(kfind);

@@ -27,12 +27,12 @@ KfDirDialog::KfDirDialog( QWidget *parent, const char *name, bool modal )
     resize( 200, 300 );
 };
 
-KfDirDialog::KfDirDialog( const char *dirName,
+KfDirDialog::KfDirDialog( const QString& dirName,
 			  QWidget *parent, const char *name, bool modal )
     : QDialog( parent, name, modal )
 {
     init();
-    if ( dirName )
+    if ( !dirName.isNull() )
 	d.setPath( dirName );
     d.convertToAbs();
     rereadDir();
@@ -77,7 +77,7 @@ KfDirDialog::~KfDirDialog()
   \sa dir(), setDir()
 */
 
-const char *KfDirDialog::dirPath() const
+QString KfDirDialog::dirPath() const
 {
     return d.path();
 }
@@ -87,9 +87,9 @@ const char *KfDirDialog::dirPath() const
   \sa dir()
 */
 
-void KfDirDialog::setDir( const char *pathstr )
+void KfDirDialog::setDir( const QString& pathstr )
 {
-    if ( strcmp(d.path(),pathstr) == 0 )
+    if (d.path() == pathstr)
 	return;
     d.setPath( pathstr );
     d.convertToAbs();
@@ -161,13 +161,14 @@ void KfDirDialog::rereadDir()
 	QFileInfoListIterator it( *filist );
 	QFileInfo		 *fi = it.current();
 	while ( fi && fi->isDir() ) {
-	    dirs->insertItem( fi->fileName().data() );
+	    dirs->insertItem( fi->fileName() );
 	    fi = ++it;
 	}
     } else {
 	qApp->restoreOverrideCursor();
 	QMessageBox::message( i18n("Sorry"), 
-			      i18n("Cannot open or read directory.") );
+			      i18n("Cannot open or read directory."),
+			      i18n("OK") );
 	qApp ->setOverrideCursor( waitCursor );
     }
     dirs ->setAutoUpdate( TRUE );
@@ -188,11 +189,12 @@ void KfDirDialog::dirHighlighted( int index )
      QDir tmp = d;
      if ( d.cd( dirs->text(index) ) && d.isReadable() ) {
        //	 nameEdit->setText( "" );
-	 emit dirEntered( d.path() );
+	 emit dirEntered( d.path().ascii() );
 	 rereadDir();
        } else {
 	 QMessageBox::message( i18n("Sorry"), 
-			       i18n("Cannot open or read directory.") );
+			       i18n("Cannot open or read directory."),
+			       i18n("OK") );
 	 d = tmp;
      };
 }
@@ -206,11 +208,12 @@ void KfDirDialog::dirSelected( int index )
 {
     QDir tmp = d;
     if ( d.cd( dirs->text(index) ) && d.isReadable() ) {
-	emit dirEntered( d.path() );
+	emit dirEntered( d.path().ascii() );
 	rereadDir();
     } else {
 	QMessageBox::message( i18n("Sorry"), 
-			      i18n("Cannot open or read directory.") );
+			      i18n("Cannot open or read directory."),
+			      i18n("OK") );
 	d = tmp;
     }
 }
@@ -239,7 +242,7 @@ void KfDirDialog::pathSelected( int index )
 
 void KfDirDialog::okClicked()
   {
-    emit dirSelected( d.path() );
+    emit dirSelected( d.path().ascii() );
     accept();
   };
 
@@ -289,18 +292,18 @@ void KfDirDialog::resizeEvent( QResizeEvent * )
   \internal
   Updates the path box.	 Called from rereadDir().
 */
-void KfDirDialog::updatePathBox( const char *s )
+void KfDirDialog::updatePathBox( const QString& s )
 {
     QStrList l;
     QString tmp;
-    char *safe = qstrdup(s);
+    char *safe = qstrdup(s.ascii());
 
     l.insert( 0, "/" );
     tmp = strtok( safe, "/" );
     while ( TRUE ) {
 	if ( tmp.isNull() )
 	    break;
-	l.insert( 0, tmp + "/" );
+	l.insert( 0, (tmp + "/").ascii() );
 	tmp = strtok( 0, "/" );
     }
     pathBox->setUpdatesEnabled( FALSE );

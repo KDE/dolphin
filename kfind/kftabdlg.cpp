@@ -307,11 +307,11 @@ void KfindTabDialog::saveHistory() {
   // save pattern history
   QStrList sl;
   QDict<char> dict(17, FALSE);
-  sl.append(nameBox->currentText());
+  sl.append(nameBox->currentText().ascii());
   for(int i = 0; i < nameBox->count(); i++) {   
     if(!dict.find(nameBox->text(i))) {
       dict.insert(nameBox->text(i), "dummy");
-      sl.append(nameBox->text(i));
+      sl.append(nameBox->text(i).ascii());
     }
   }
   KConfig *conf = kapp->getConfig();
@@ -320,11 +320,11 @@ void KfindTabDialog::saveHistory() {
 
   dict.clear();
   sl.clear();
-  sl.append(dirBox->currentText());
+  sl.append(dirBox->currentText().ascii());
   for(int i = 0; i < dirBox->count(); i++) {
     if(!dict.find(dirBox->text(i))) {
       dict.insert(dirBox->text(i), "dummy");
-      sl.append(dirBox->text(i));
+      sl.append(dirBox->text(i).ascii());
     }
   }
   conf->writeEntry("Directories", sl);
@@ -482,14 +482,14 @@ void KfindTabDialog::isCheckedValid()
         bool rightDates = TRUE;
 
         match = date.match(le[0]->text(), 0,&len);
-        if ( !(match != -1 && len == (int)strlen(le[0]->text())) )
+        if ( !(match != -1 && len == (int)le[0]->text().length() ) )
 	  rightDates=FALSE;
 
         if ( string2Date(le[0]->text(), &hi).isNull() ) 
           rightDates=FALSE;
 
         match = date.match(le[1]->text(), 0,&len);
-        if ( !(match != -1 && len == (int)strlen(le[1]->text())) )
+        if ( !(match != -1 && len == (int)le[1]->text().length() ) )
 	  rightDates=FALSE;
 
        if ( string2Date(le[1]->text(), &hi).isNull() ) 
@@ -511,7 +511,7 @@ void KfindTabDialog::isCheckedValid()
     if (prevMonth == TRUE)
       {
         match = r.match(le[2]->text(), 0,&len);
-        if ( !(match != -1 && len == (int)strlen(le[2]->text())) )
+        if ( !(match != -1 && len == (int)le[2]->text().length() ) )
           {
             QMessageBox mb(this,"message box");
             mb.setText( i18n("The month(s) value isn't valid!!"));
@@ -522,7 +522,7 @@ void KfindTabDialog::isCheckedValid()
     if (prevDay == TRUE)
       {
         match = r.match(le[3]->text(), 0,&len);
-        if (! (match != -1 && len == (int)strlen(le[3]->text())) )
+        if (! (match != -1 && len == (int)le[3]->text().length() ) )
           {
             QMessageBox mb(this,"message box");
             mb.setText( i18n("The day(s) value isn't valid!!"));
@@ -539,7 +539,7 @@ void KfindTabDialog::checkSize()
     QRegExp r("[0-9]+");
 
     match = r.match(sizeEdit->text(), 0,&len);
-    if ( !(match != -1 && len == (int)strlen(sizeEdit->text())) )
+    if ( !(match != -1 && len == (int)sizeEdit->text().length() ) )
       {
         QMessageBox mb(this,"message box");
         mb.setText( i18n("The value in size isn't valid number!!"));
@@ -613,7 +613,7 @@ QString KfindTabDialog::createQuery()
              typ = types->first();
              for (int i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
                typ = types->next();
-             //      printf("Take filetype: %s\n",typ->getComment("").data());
+             //      printf("Take filetype: %s\n",typ->getComment("").ascii());
 
              QStrList& pats = typ->getPattern();
              bool firstpattern = FALSE;
@@ -642,7 +642,7 @@ QString KfindTabDialog::createQuery()
                };                                             
              str += " \")\"";
 
-             //      printf("Query : %s\n",str.data());
+             //      printf("Query : %s\n",str.ascii());
           }
 	}
 
@@ -663,28 +663,28 @@ QString KfindTabDialog::createQuery()
 
             if (prevMonth == TRUE)
               {
-                sscanf(le[2]->text(),"%d",&month);
-                str.append(pom.sprintf(" -daystart -mtime -%d ",
-                           (int)(month*30.416667)));
+                sscanf(le[2]->text().ascii(),"%d",&month);
+                str.append(pom = QString(" -daystart -mtime -%1 ")
+                           .arg((int)(month*30.416667)));
               };
 
             if (prevDay == TRUE)
-                str.append(pom.sprintf(" -daystart -mtime -%s",le[3]->text().ascii()));
+                str.append(pom = QString(" -daystart -mtime -%1").arg(le[3]->text()));
           };
 
         if (sizeBox->currentItem() !=  0)
           {
             switch(sizeBox->currentItem())
               {
-	        case 1: {type=(char *)(atoi(sizeEdit->text())==0?"":"+");break;}
-	        case 2: {type=(char *)(atoi(sizeEdit->text())==0?"":"-"); break;}
-	        default: {type=(char *)(atoi(sizeEdit->text())==0?"":" ");} 
+	        case 1: {type=(char *)(sizeEdit->text().toInt()==0?"":"+");break;}
+	        case 2: {type=(char *)(sizeEdit->text().toInt()==0?"":"-"); break;}
+	        default: {type=(char *)(sizeEdit->text().toInt()==0?"":" ");} 
               };
-            str.append(pom.sprintf(" -size  %s%sk ",type,sizeEdit->text().ascii()));
+            str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
           };
       };
 
-    if(strlen(textEdit->text()) > 0) {
+    if(!textEdit->text().isEmpty()) {
       str += "|xargs egrep -l";
       if(caseCb->isChecked())
 	str += " \"";
@@ -694,7 +694,7 @@ QString KfindTabDialog::createQuery()
       str += "\"";
     }
 
-    kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.data());    
+    kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());    
 
     return(str);
   };        
@@ -712,7 +712,7 @@ QDate &KfindTabDialog::string2Date(QString str, QDate *qd)
 {   
     int year,month,day;
             
-    sscanf(str,"%2d/%2d/%4d",&day,&month,&year);
+    sscanf(str.ascii(),"%2d/%2d/%4d",&day,&month,&year);
     qd->setYMD(year, month, day);
     return *qd; 
 
@@ -732,7 +732,7 @@ void  KfindTabDialog::getDirectory()
 
     if (!result.isNull())
       {
-        //printf("Dir: %s\n",result.data());
+        //printf("Dir: %s\n",result.ascii());
         dirBox->insertItem(result,0);
         dirBox->setCurrentItem(0);
       };

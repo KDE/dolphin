@@ -109,16 +109,14 @@ void KfindWindow::beginSearch() {
 void KfindWindow::doneSearch() {
   killTimers();
   
-  QString str;
-  str.sprintf(i18n("%d file(s) found"), (int)lbx->count());
-  emit statusChanged(str);
+  QString str = i18n("%1 file(s) found").arg(lbx->count());
+  emit statusChanged(str.ascii());
 }
 
 void KfindWindow::timerEvent(QTimerEvent *) {
   if(lbx->count() > 0) {
-    QString str;
-    str.sprintf(i18n("%d file(s) found"), (int)lbx->count());
-    emit statusChanged(str);
+    QString str = i18n("%1 file(s) found").arg(lbx->count());
+    emit statusChanged(str.ascii());
   }
 }
 
@@ -137,8 +135,8 @@ void KfindWindow::updateResults(const char *file )
     FILE *f = fopen(file,"rb");
     if (f==0)
       {
-	sprintf(str,i18n("%d file(s) found"),0);
-	emit statusChanged(str);
+	QString statusmsg =i18n("%1 file(s) found").arg(0);
+	emit statusChanged(statusmsg.ascii());
 	return;
       };
     
@@ -164,8 +162,8 @@ void KfindWindow::updateResults(const char *file )
       strl->removeLast();
 
     lbx->insertStrList(strl,-1);
-    sprintf(str,i18n("%d file(s) found"),count);
-    emit statusChanged(str);
+    QString statusmsg = i18n("%1 file(s) found").arg(count);
+    emit statusChanged(statusmsg.ascii());
 
 	unlink( file );
     fclose(f);    
@@ -243,7 +241,7 @@ void KfindWindow::saveResults()
     else
       filename = saving->getSaveFile();
 
-    results=fopen(filename,"w");
+    results=fopen(filename.ascii(),"w");
 
     items=lbx->count();
     if (results==0L)
@@ -252,7 +250,7 @@ void KfindWindow::saveResults()
 		     i18n("OK"));
     else
       {
-	if ( strcmp(saving->getSaveFormat(),"HTML")==0)
+	if ( saving->getSaveFormat() == "HTML" )
 	  {
 	    fprintf(results,"<HTML><HEAD>\n");
 	    fprintf(results,"<!DOCTYPE %s>\n",
@@ -306,7 +304,7 @@ void KfindWindow::deleteFiles()
         QFileInfo *file = new QFileInfo(lbx->text(lbx->currentItem()));
 	if (file->isFile()||file->isSymLink())
             {
-              if (remove(file->filePath())==-1)
+              if (remove(file->filePath().ascii())==-1)
                   switch(errno)
                     {
     	              case EACCES: 
@@ -333,7 +331,7 @@ void KfindWindow::deleteFiles()
             }
           else
             {
-              if (rmdir(file->filePath())==-1)
+              if (rmdir(file->filePath().ascii())==-1)
 		  switch(errno)
                     {
 		    case EACCES: QMessageBox::warning(parentWidget(),
@@ -416,10 +414,10 @@ void KfindWindow::addToArchive()
   QString pattern1 = filename.right(filename.length()-pos1);
   QString pattern2 = "*"+filename.mid(pos2,pos1-pos2)+pattern1;
 
-  if ( (arch = KfArchiver::findByPattern(pattern2))!=0L)
+  if ( (arch = KfArchiver::findByPattern(pattern2.ascii()))!=0L)
     execAddToArchive(arch,filename);
   else
-    if ( (arch = KfArchiver::findByPattern("*"+pattern1))!=0L)
+    if ( (arch = KfArchiver::findByPattern(("*"+pattern1).ascii()))!=0L)
       execAddToArchive(arch,filename);
     else
       QMessageBox::warning(parentWidget(),i18n("Error"),
@@ -449,7 +447,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
   buffer = buffer.remove(0,pos+1);
 
   archProcess.clearArguments ();
-  archProcess.setExecutable(pom.data());
+  archProcess.setExecutable(pom);
 
   while( !buffer.isEmpty() )
     {
@@ -474,7 +472,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 	  pom = fileInfo->fileName();
 	};
 
-      archProcess << pom.data();
+      archProcess << pom;
 
       if (pos==-1) 
 	pos = buffer.length();
@@ -482,7 +480,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
     };
 
   if ( !archProcess.start(KProcess::DontCare) )
-    warning(i18n("Error while creating child process!"));
+    warning(i18n("Error while creating child process!").ascii());
 };
 
 int KfindWindow::numItems() { 

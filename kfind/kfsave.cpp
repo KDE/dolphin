@@ -35,13 +35,13 @@ KfSaveOptions::KfSaveOptions()
 };
 
 // sets filename
-void KfSaveOptions::setSaveFile(const char *_file)
+void KfSaveOptions::setSaveFile(const QString& _file)
 {
   saveFile = _file;
 };
 
 //sets format
-void KfSaveOptions::setSaveFormat(const char *_format)
+void KfSaveOptions::setSaveFormat(const QString& _format)
 {
   saveFormat = _format;
 };

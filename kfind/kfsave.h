@@ -13,19 +13,19 @@ public:
   KfSaveOptions();
 
   // returns filename
-  const char* getSaveFile() { return saveFile; };
+  QString getSaveFile() { return saveFile; };
 
   // returns file format (HTML or Plain Text
-  const char* getSaveFormat() { return saveFormat; };
+  QString getSaveFormat() { return saveFormat; };
 
   //aks whether standart output file shoud be used
   bool getSaveStandard() { return saveStandard; };
 
   // sets filename
-  void setSaveFile(const char*);
+  void setSaveFile(const QString&);
 
   //sets format
-  void setSaveFormat(const char*);
+  void setSaveFormat(const QString&);
 
   //sets whether standart output file shoud be used
   void setSaveStandard(bool);

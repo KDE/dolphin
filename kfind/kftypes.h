@@ -45,7 +45,7 @@ public:
      The file type in the file '$KDEDIR/filetypes/Spreadsheet.desktop' for
      example is called 'Spreadsheet'.
   */
-  const char* getName() { return name.data(); }
+  const QString getName() { return name; }
 
   /// Returns this file types comment.
   /**
@@ -53,7 +53,7 @@ public:
      This method does not use _url but some overloading methods do so.
   */
   virtual QString getComment( const char * ) 
-    { return QString( comment.data() ); }
+    { return comment; }
 
   /// Sets the comment
   void setComment( const char *_c) { comment = _c; }
@@ -63,7 +63,7 @@ public:
      a special default binding. That does not mean that there is no
      binding at all.
   */
-  virtual const char* getDefaultBinding() { return defaultBinding; }
+  virtual QString getDefaultBinding() { return defaultBinding; }
 
   /// Set the default bindings name
   virtual void setDefaultBinding( const char *_b ) 
@@ -87,7 +87,7 @@ public:
      The file type in the file '$KDEDIR/filetypes/Spreadsheet.desktop' for
      example is called 'Spreadsheet'.
   */
-  static KfFileType *findByName( const char *_name );
+  static KfFileType *findByName( const QString& _name );
 
   /*********************************************************
   * Call this function before you call any other function. This
@@ -96,7 +96,7 @@ public:
   static void init();
 
   /// Scan the $KDEDIR/filetypes directory for the file types
-  static void initFileTypes( const char *_path );
+  static void initFileTypes( const QString& _path );
 
   /// Return the path for the icons
   static const char* getIconPath() { return icon_path; }

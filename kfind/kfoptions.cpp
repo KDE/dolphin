@@ -187,8 +187,8 @@ void KfOptions::selectFile()
 
     switch(formatBox->currentItem())
       {
-        case 0: filter =  QString("*.html");break;
-        case 1: filter =  QString("");
+        case 0: filter =  "*.html"; break;
+        case 1: filter =  "";
       }
     QString s( KFileDialog::getOpenFileName(path,filter) );
     if ( s.isNull() )
@@ -211,7 +211,7 @@ void KfOptions::initFileSelecting()
     selectfileB->setChecked ( TRUE );
     
   fileE->setText(saving->getSaveFile());
-  if ( strcmp(saving->getSaveFormat(),"HTML")==0)
+  if ( saving->getSaveFormat() == "HTML" )
     formatBox->setCurrentItem(0);
   else
     formatBox->setCurrentItem(1);
@@ -260,7 +260,7 @@ void KfOptions::applyChanges()
     saving->setSaveFile( fileE->text() );
     saving->setSaveFormat( formatBox->text(formatBox->currentItem()) );
 
-    if ( kfindfileB->isChecked() | (strcmp(fileE->text(),"")==0) )
+    if ( kfindfileB->isChecked() | fileE->text().isEmpty() )
       {
 	saving->setSaveStandard(TRUE);
 	config->writeEntry( "Filename", QString() );
@@ -269,8 +269,8 @@ void KfOptions::applyChanges()
     else
       {
 	saving->setSaveStandard(FALSE);
-	config->writeEntry( "Filename", QString( saving->getSaveFile() ) );
-	config->writeEntry( "Format", QString( saving->getSaveFormat() ) );
+	config->writeEntry( "Filename", saving->getSaveFile() );
+	config->writeEntry( "Format", saving->getSaveFormat() );
       };
   };
 
