@@ -2,6 +2,7 @@
 #define __konq_metadata_h__
 
 #include <qobject.h>
+#include <qdom.h>
 
 #include <kurl.h>
 
@@ -17,10 +18,19 @@ public:
 
   virtual bool openDir( const KURL &url );
 
-  virtual bool metaData( const KURL &url, const QString &serviceType, const QString &key, QString &val );
+  virtual QDomElement metaData( const KURL &url, const QString &serviceType, const QString &key );
 
-  virtual void saveMetaData( const KURL &url, const QString &serviceType, const QString &key, const QString &val );
+  virtual bool commit();
+
 private:
+  void clear();
+
+  struct SubProvider
+  {
+    KURL m_url;
+    KonqMetaDataProvider *m_provider;
+  };
+
   KonqMetaDataProviderPrivate *d;
 };
 

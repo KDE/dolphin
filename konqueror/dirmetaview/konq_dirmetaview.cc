@@ -220,10 +220,10 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
 
     m_widget->setPixmap( pix );
 
-    QString annotation;
+    QDomElement annotation = m_metaDataProvider->metaData( url, "inode/directory", "annotation" );
 
-    if ( m_metaDataProvider->metaData( url, "inode/directory", "annotation", annotation ) && !annotation.isEmpty() )
-      m_widget->setText( annotation );
+    if ( !annotation.isNull() && !annotation.text().isEmpty() )
+      m_widget->setText( annotation.text() );
     else
       m_widget->setText( url.decodedURL() );
 
@@ -238,10 +238,10 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
 
     m_widget->setPixmap( item->pixmap( KIconLoader::Large, true ) );
 
-    QString annotation;
-
-    if ( m_metaDataProvider->metaData( item->url(), item->mimetype(), "annotation", annotation ) && !annotation.isEmpty() )
-      m_widget->setText( annotation );
+    QDomElement annotation = m_metaDataProvider->metaData( item->url(), item->mimetype(), "annotation" );
+    
+    if ( !annotation.isNull() && !annotation.text().isEmpty() )
+      m_widget->setText( annotation.text() );
     else
       m_widget->setText( item->url().decodedURL() );
 
@@ -278,7 +278,22 @@ bool DirDetailView::eventFilter( QObject *, QEvent *event )
 
 void DirDetailView::saveAnnotation( const QString &text )
 {
-  m_metaDataProvider->saveMetaData( m_currentURL, m_currentServiceType, "annotation", text );
+  QDomElement annotation = m_metaDataProvider->metaData( m_currentURL, m_currentServiceType, "annotation" );
+  if ( annotation.isNull() )
+    return; //ouch
+  
+  QDomNode n = annotation.firstChild();
+  while ( !n.isNull() )
+  {
+    annotation.removeChild( n );
+    n = annotation.firstChild();
+  }
+  
+  // HACK to get stuff like linefeeds correct
+  QDomCDATASection textNode = annotation.ownerDocument().createCDATASection( text );
+  annotation.appendChild( textNode );
+  
+  m_metaDataProvider->commit();
   QTimer::singleShot( 0, this, SLOT( slotUpdate() ) );
 }
 
