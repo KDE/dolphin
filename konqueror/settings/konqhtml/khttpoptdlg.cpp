@@ -5,9 +5,7 @@
 
 #include <klocale.h>
 #include <kglobal.h>
-#include <kapp.h>
 #include "khttpoptdlg.h"
-#include <kconfig.h>
 
 
 KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, const char *name)

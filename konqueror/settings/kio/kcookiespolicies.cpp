@@ -25,7 +25,6 @@
 #include <qvbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
@@ -34,10 +33,8 @@
 #include <kmessagebox.h>
 #include <klistview.h>
 #include <klocale.h>
-#include <kapp.h>
 #include <kconfig.h>
 #include <kdebug.h>
-#include <kiconloader.h>
 #include <dcopclient.h>
 
 #include "kcookiespolicies.h"

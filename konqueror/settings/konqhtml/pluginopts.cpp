@@ -1,14 +1,9 @@
 // (c) 2001, Daniel Naber, based on javaopts.cpp
 
-#include <qcheckbox.h>
-#include <qcombobox.h>
 #include <qlayout.h>
 #include <qwhatsthis.h>
 #include <qvgroupbox.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
 #include <kconfig.h>
-#include <kmessagebox.h>
 #include <kdebug.h>
 #include <X11/Xlib.h>
 
@@ -17,8 +12,6 @@
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
-#include <khtml_settings.h>
-#include <khtmldefaults.h>
 
 #include "pluginopts.moc"
 

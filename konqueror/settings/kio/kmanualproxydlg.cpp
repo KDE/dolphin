@@ -22,17 +22,14 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
-#include <qstringlist.h>
 
 #include <kurl.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kio/ioslave_defaults.h>
-#include <kio/http_slave_defaults.h>
 
 #include "kproxydlg.h"
 

@@ -30,9 +30,7 @@
 #include <qpushbutton.h>
 #include <qvbuttongroup.h>
 
-#include <kapp.h>
 #include <klocale.h>
-#include <kdialog.h>
 #include <klistview.h>
 #include <dcopclient.h>
 #include <kmessagebox.h>

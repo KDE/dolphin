@@ -4,24 +4,17 @@
 // (c) Sven Radej 1998
 // (c) David Faure 1998
 
-#include <qlabel.h>
-#include <qgroupbox.h>
 #include <qlayout.h>//CT - 12Nov1998
 #include <qwhatsthis.h>
 #include <qvbuttongroup.h>
 #include <qvgroupbox.h>
 #include <qradiobutton.h>
-#include <kapp.h>
 
 #include "htmlopts.h"
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <kglobalsettings.h> // get default for DEFAULT_CHANGECURSOR
 #include <klocale.h>
-#include <kconfig.h>
-#include <kurlrequester.h>
-#include <klineedit.h>
-#include <kfiledialog.h>
 #include <knuminput.h>
 
 #include "htmlopts.moc"

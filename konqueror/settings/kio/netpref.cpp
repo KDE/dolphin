@@ -1,17 +1,14 @@
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qtooltip.h>
 #include <qspinbox.h>
 #include <qgroupbox.h>
 #include <qwhatsthis.h>
-#include <qpushbutton.h>
 
 #include <kio/ioslave_defaults.h>
 #include <ksaveioconfig.h>
 #include <dcopclient.h>
 #include <klocale.h>
 #include <kdialog.h>
-#include <kapp.h>
 
 #include "netpref.h"
 

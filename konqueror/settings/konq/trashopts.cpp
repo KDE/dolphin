@@ -22,7 +22,6 @@
 //
 // (c) David Faure 2000
 
-#include <qlabel.h>
 #include <qbuttongroup.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
@@ -30,7 +29,6 @@
 
 #include "trashopts.h"
 
-#include <kapp.h>
 #include <kdialog.h>
 #include <konq_defaults.h> // include default values directly from libkonq
 #include <klocale.h>

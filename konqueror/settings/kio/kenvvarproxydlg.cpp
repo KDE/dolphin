@@ -23,11 +23,9 @@
 
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 
-#include <kurl.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 

@@ -16,16 +16,14 @@
 
 #include <qdir.h>
 #include <dcopclient.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
-#include <kglobal.h>
 #include <klocale.h>
-#include <kio/global.h>
 #include <kio/job.h>
 #include <kmessagebox.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kipc.h>
 #include <ktrader.h>
 #include <kseparator.h>
@@ -35,7 +33,6 @@
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qwhatsthis.h>
-#include <qtl.h>
 #include <qlistview.h>
 #include <assert.h>
 

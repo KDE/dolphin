@@ -19,14 +19,10 @@
 #include <time.h>
 #include <sys/utsname.h>
 
-#include <qstringlist.h>
 
-#include <kapp.h>
 #include <kdebug.h>
-#include <kconfig.h>
 #include <klocale.h>
-#include <kglobal.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 #include "fakeuaprovider.h"
 

@@ -17,18 +17,12 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qbuttongroup.h>
 #include <qcheckbox.h>
-#include <qcolor.h>
 #include <qcombobox.h>
-#include <qspinbox.h>
 #include <qlabel.h>
 #include <qlayout.h>//CT - 12Nov1998
-#include <qradiobutton.h>
 #include <qwhatsthis.h>
-#include <kglobal.h>
 #include <kglobalsettings.h>
-#include <kdialog.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kcolorbutton.h>

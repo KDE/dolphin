@@ -16,18 +16,12 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <qstringlist.h>
 #include <qpushbutton.h>
 #include <qwhatsthis.h>
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qhbox.h>
 
-#include <kglobal.h>
 #include <klocale.h>
-#include <kcombobox.h>
-#include <kiconloader.h>
-#include <kmessagebox.h>
 
 #include "policydlg.h"
 

@@ -7,12 +7,9 @@
 #include <qtabwidget.h>
 
 #include <klocale.h>
-#include <kapp.h>
-#include <kbuttonbox.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
 #include <kdebug.h>
-#include <ksimpleconfig.h>
 #include <dcopclient.h>
 
 #include "kcookiesmain.h"

@@ -20,12 +20,8 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qwhatsthis.h>
 
-#include <kapp.h>
-#include <kdialog.h>
 #include <klocale.h>
-#include <kglobal.h>
 #include <kconfig.h>
 
 #include "smbrodlg.h"

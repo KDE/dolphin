@@ -24,23 +24,15 @@
 #include <qregexp.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
-#include <qpushbutton.h>
 #include <qradiobutton.h>
 
-#include <kapp.h>
-#include <kurl.h>
 #include <kdebug.h>
-#include <kdialog.h>
 #include <klocale.h>
-#include <kglobal.h>
-#include <klineedit.h>
 #include <klistview.h>
 #include <dcopclient.h>
 #include <kmessagebox.h>
 #include <kurlrequester.h>
 #include <ksaveioconfig.h>
-#include <kio/http_slave_defaults.h>
-#include <kio/ioslave_defaults.h>
 
 #include "kproxydlg.h"
 #include "kproxydlg.moc"

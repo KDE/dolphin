@@ -19,7 +19,6 @@
 
 #include <kconfig.h>
 #include <kio/ioslave_defaults.h>
-#include <kio/http_slave_defaults.h>
 
 #include "ksaveioconfig.h"
 

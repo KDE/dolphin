@@ -21,20 +21,15 @@
 
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qspinbox.h>
 #include <qcheckbox.h>
-#include <qlineedit.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
 
 #include <kdebug.h>
-#include <kdialog.h>
 #include <klocale.h>
 #include <dcopclient.h>
 #include <ksaveioconfig.h>
-#include <kio/ioslave_defaults.h>
 #include <kio/http_slave_defaults.h>
 
 #include "cache.h"

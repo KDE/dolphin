@@ -5,7 +5,7 @@
 #include <qwhatsthis.h>
 #include <kbuttonbox.h>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <kglobal.h>

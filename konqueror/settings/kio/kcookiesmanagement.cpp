@@ -22,21 +22,17 @@
  */
 
 #include <qlayout.h>
-#include <qwhatsthis.h>
 #include <qpushbutton.h>
 #include <qgroupbox.h>
 #include <qhbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qdatetime.h>
-#include <qvaluelist.h>
 
-#include <kglobal.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <klistview.h>
 #include <dcopclient.h>
-#include <kmessagebox.h>
 #include <kiconloader.h>
 #include <kapplication.h>
 

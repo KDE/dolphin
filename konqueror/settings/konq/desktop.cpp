@@ -23,7 +23,6 @@
 #include <qwhatsthis.h>
 #include <qslider.h>
 
-#include <kconfig.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdialog.h>

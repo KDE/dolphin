@@ -26,19 +26,14 @@
 #include <unistd.h>
 
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <dcopclient.h>
 #include <klocale.h>
-#include <kglobal.h>
-#include <kstddirs.h>
-#include <kmessagebox.h>
-#include <kconfig.h>
-#include <qmessagebox.h>
+#include <kstandarddirs.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
 
 #include "htmlopts.h"
-#include "khttpoptdlg.h"
 #include "jsopts.h"
 #include "javaopts.h"
 #include "pluginopts.h"
