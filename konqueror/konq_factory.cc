@@ -219,7 +219,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Dima Rogozin", I18N_NOOP("developer (Java applet support)"), "dima@mercury.co.il" );
     s_aboutData->addAuthor( "Wynn Wilkes", I18N_NOOP("developer (Java 2 security manager support,\n and other major improvements to applet support)"), "wynnw@calderasystems.com" );
     s_aboutData->addAuthor( "Harri Porten", I18N_NOOP("developer (JavaScript)"), "porten@kde.org" );
-    s_aboutData->addAuthor( "Stefan Schimanski", I18N_NOOP("developer (Netscape plugin support)"), "1Stein@gmx.de" );
+    s_aboutData->addAuthor( "Stefan Schimanski", I18N_NOOP("developer (Netscape plugin support)"), "schimmi@kde.org" );
     s_aboutData->addAuthor( "George Staikos", I18N_NOOP("developer (SSL support)"), "staikos@kde.org" );
     s_aboutData->addAuthor( "Dawit Alemayehu",I18N_NOOP("developer (I/O lib, Authentication support)"), "adawit@kde.org" );
     s_aboutData->addAuthor( "Carsten Pfeiffer",I18N_NOOP("developer (framework)"), "pfeiffer@kde.org" );
