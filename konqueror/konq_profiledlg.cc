@@ -115,7 +115,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 
   m_pGrid->addWidget( m_pSaveButton, 9, 0 );
 
-  m_pDeleteProfileButton = new KPushButton( i18n( "&Delete Profile" ), this );
+  m_pDeleteProfileButton = new KPushButton( KGuiItem( i18n( "&Delete Profile" ), "editdelete"), this );
 
   m_pGrid->addWidget( m_pDeleteProfileButton, 9, 1 );
 
