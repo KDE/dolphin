@@ -40,6 +40,8 @@ private:
    QPtrList<KEBListViewItem> m_foundlist;
 };
 
+class KFind;
+
 class SearchItr : public BookmarkIterator
 {
    Q_OBJECT
@@ -55,9 +57,14 @@ private:
    virtual void doAction();
    virtual bool isApplicable(const KBookmark &bk);
 
+   int m_options;
+   QString m_text;
+
    int m_showstatuscounter;
    KEBListViewItem *m_statusitem;
-   QString m_text;
+
+   KFind *m_kfind;
+   KEBListViewItem *m_finditem;
 };
 
 #endif

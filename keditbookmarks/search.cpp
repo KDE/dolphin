@@ -21,6 +21,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kfind.h>
 
 #include <kbookmarkmanager.h>
 
@@ -77,7 +78,8 @@ SearchItr::~SearchItr() {
 #include <kfind.h>
 #include <kfinddialog.h>
 
-void SearchItr::setSearch(int /*options*/, const QString& pattern) {
+void SearchItr::setSearch(int options, const QString& pattern) {
+   m_options = options;
    m_text = pattern;
    /*
    m_find = new KFind( pattern, options, this );
