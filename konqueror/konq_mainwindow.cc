@@ -405,28 +405,28 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
 
   if ( !childView )
+  {
+    // Create a new view
+    KonqView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
+
+    if ( !newView )
     {
-      // Create a new view
-      KonqView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
-
-      if ( !newView )
-      {
-        KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
-        return true; // fake everything was ok, we don't want to propagate the error
-      }
-
-      enableAllActions( true );
-
-      newView->setTypedURL( req.typedURL );
-      newView->setLocationBarURL( originalURL );
-
-      newView->part()->widget()->setFocus();
-
-      newView->setViewName( m_initialFrameName );
-      m_initialFrameName = QString::null;
-
-      return true;
+      KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
+      return true; // fake everything was ok, we don't want to propagate the error
     }
+
+    enableAllActions( true );
+
+    newView->setTypedURL( req.typedURL );
+    newView->setLocationBarURL( originalURL );
+
+    newView->part()->widget()->setFocus();
+
+    newView->setViewName( m_initialFrameName );
+    m_initialFrameName = QString::null;
+
+    return true;
+  }
   else // We know the child view
   {
     return childView->changeViewMode( serviceType, serviceName, url, originalURL, req.typedURL );
@@ -518,7 +518,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 // Linked-views feature
 void KonqMainWindow::makeViewsFollow( const KURL & url, KonqView * senderView )
 {
-  kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url:" << url.url() << endl;
+  kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
   MapViews::ConstIterator it = m_mapViews.begin();
@@ -527,17 +527,9 @@ void KonqMainWindow::makeViewsFollow( const KURL & url, KonqView * senderView )
   {
     if ( (*it != senderView) && (*it)->linkedView() )
     {
-      // A linked view follows this URL if it supports that service type
-      // _OR_ if the sender is locked (in this case it's locked and we want
-      // the active view to show the URL anyway - example is a web URL in konqdirtree)
-      if ( (*it)->supportsServiceType( senderView->serviceType() )
-           || senderView->lockedLocation() )
-      {
-        kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << url.url() << endl;
-        openView( (*it)->serviceType(), url, (*it), req );
-        //openURL( (*it), ev->url(), req );
-      } else
-        kdDebug(1202) << "View doesn't support service type " << senderView->serviceType() << endl;
+      kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url=" << url.url() << endl;
+      // We can't assume the service type. People put HTML links in their dirtree ;)
+      openURL( (*it), url, QString::null, req );
     }
   }
 }

@@ -333,12 +333,13 @@ void KonqDirTree::clear()
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
 {
-//  kdDebug(1202) << "openSubFolder( " << item->fileItem()->url().url() << " )" << endl;
   TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
 
   KURL u = item->fileItem()->url();
+
+  kdDebug(1202) << "openSubFolder( " << u.url() << " )" << endl;
 
   if ( topLevelItem.m_dirLister->job() == 0 )
     topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
@@ -500,7 +501,7 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
 
 void KonqDirTree::slotNewItems( const KFileItemList& entries )
 {
-  kdDebug(1202) << "slotNewItems " << entries.count() << endl;
+  kdDebug(1202) << "KonqDirTree::slotNewItems " << entries.count() << endl;
 
   const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
 
@@ -517,6 +518,7 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
 
     KURL dir( item->url() );
     dir.setFileName( "" );
+    //KURL dir( item->url().directory() );
 
     //  KonqDirTreeItem *parentDir = findDir( *topLevelItem.m_mapSubDirs, dir.url( 0 ) );
     //  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->find( dir );
@@ -530,7 +532,13 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
         break;
     }
 
-    assert( dirIt != topLevelItem.m_mapSubDirs->end() );
+    if( dirIt == topLevelItem.m_mapSubDirs->end() )
+    {
+      kdError(1202) << "THIS SHOULD NOT HAPPEN. INTERNAL ERROR" << endl;
+      kdError(1202) << "KonqDirTree:slotNewItems got item " << item->url().url() << endl;
+      kdError(1202) << "Couldn't find directory " << dir.url() << " in dirtree's m_mapSubDirs" << endl;
+      assert( 0 );
+    }
 
     KonqDirTreeItem *parentDir = dirIt.data();
 
@@ -672,7 +680,10 @@ void KonqDirTree::slotListingStopped()
   }
 
   if ( topLevelItem.m_lstPendingURLs->count() > 0 )
+  {
+    kdDebug(1202) << "openURL (was pending) " << topLevelItem.m_lstPendingURLs->first().url() << endl;
     topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
+  }
 
   QMap<KURL, QListViewItem *>::Iterator oIt = m_mapCurrentOpeningFolders.find( url );
   if ( oIt != m_mapCurrentOpeningFolders.end() )

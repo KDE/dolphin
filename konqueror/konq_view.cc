@@ -219,6 +219,9 @@ bool KonqView::changeViewMode( const QString &serviceType,
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
   {
 
+    if ( lockedViewMode() )
+      return true; // we can't do that if our view mode is locked
+
     KTrader::OfferList partServiceOffers, appServiceOffers;
     KService::Ptr service = 0L;
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
