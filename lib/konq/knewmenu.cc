@@ -51,7 +51,6 @@ KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) :
 
 void KNewMenu::slotCheckUpToDate( )
 {
-    kdebug( KDEBUG_INFO, 1202, "slotCheckUpToDate" );
     if (menuItemsVersion < templatesVersion)
     {
         // We need to clean up the action collection
@@ -168,7 +167,7 @@ void KNewMenu::slotNewFile()
     m_sDest.setAutoDelete(true);
 
     QString sFile = *(templatesList->at( id - 1 ));
-    kdebug(0, 1203, QString("sFile = %1").arg(sFile));
+    //kdebug(0, 1203, QString("sFile = %1").arg(sFile));
 
     QString sName ( sFile );
     QString text, value;
