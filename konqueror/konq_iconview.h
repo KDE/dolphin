@@ -71,8 +71,6 @@ public:
   virtual void pasteSelection();
   virtual void moveSelection( const QCString &destinationURL );  
   
-  //virtual void updateDirectory();
-
 public slots:
   // IDL
   virtual void slotShowDot();
@@ -107,7 +105,6 @@ protected slots:
   virtual void slotStarted( const QString & );
   virtual void slotCompleted();
   virtual void slotCanceled();
-  virtual void slotDirListerUpdate();
   virtual void slotClear();
   virtual void slotNewItem( KFileItem * );
   virtual void slotDeleteItem( KFileItem * );

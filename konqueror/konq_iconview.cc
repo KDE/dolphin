@@ -541,28 +541,6 @@ void KonqKfmIconView::slotCanceled()
   SIGNAL_CALL1( "canceled", id() );
 }
 
-void KonqKfmIconView::slotDirListerUpdate()
-{
-  // Warning : the meaning of this method has changed.
-  // Since QIconView is smart and uses its own timer to redraw
-  // itself while being filled, the update() signal now means :
-  // reload completely. And it's used when a veryDirty signal occurs
-  // (icon changed in a .desktop file for instance)
-
-  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotDirListerUpdate()");
-  /*
-  if ( bSetupNeeded )
-  {
-    bSetupNeeded = false;
-//    setup();
-  }
-  */
-//  viewport()->update();
-
-  // Force a full reload
-  m_dirLister->openURL( m_dirLister->url(), m_pProps->m_bShowDot );
-}
-  
 void KonqKfmIconView::slotClear()
 {
   //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotClear()");
@@ -619,7 +597,6 @@ void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
                       this, SLOT( slotStarted( const QString & ) ) );
     QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
     QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-    QObject::connect( m_dirLister, SIGNAL( update() ), this, SLOT( slotDirListerUpdate() ) );
     QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
     QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ), 
                       this, SLOT( slotNewItem( KFileItem * ) ) );
