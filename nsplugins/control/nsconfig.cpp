@@ -144,7 +144,7 @@ void NSPluginConfig::scan()
         delete nspluginscan;
 
         KMessageBox::sorry ( this,
-                             i18n("The nspluginscan executable can't be found."
+                             i18n("The nspluginscan executable can't be found. "
                                   "Netscape plugins won't be scanned.") );
         return;
     }
