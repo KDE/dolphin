@@ -100,7 +100,7 @@ cache?</para></question> <answer>
 <para>If you select <guimenuitem>Cache</guimenuitem> dialog launched by 
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror
 </guimenuitem></menuchoice> you will be presented with a dialog box that lets 
-you disable the cache, clear it or set its size, and change the cacheing 
+you disable the cache, clear it or set its size, and change the caching 
 policy.</para>
 </answer>
 </qandaentry>

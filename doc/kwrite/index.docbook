@@ -794,7 +794,7 @@ To be written
 </term>  
 <listitem>  
 <para>
-This command will remove all the markers from the docucument as well as
+This command will remove all the markers from the document as well as
 the list of markers which is appended at the bottom of this menu
 item.
 </para> 
@@ -862,7 +862,7 @@ consideration in the document with the word in the
 <term><guibutton>Replace All</guibutton></term>
 <listitem><para> This button causes the checker to replace not only the current
 <guilabel>Misspelled Word:</guilabel> but to automatically make the same
-substitution for any other occurences of this <guilabel>Misspelled
+substitution for any other occurrences of this <guilabel>Misspelled
 Word:</guilabel> in the document.</para></listitem>
 </varlistentry>
 <varlistentry>

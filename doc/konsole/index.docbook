@@ -595,7 +595,7 @@ Activity</guimenuitem></menuchoice></term>
 an alert if activity occurs.</action> An icon of a lit light bulb will
 appear in the session's tab. Use this to alert you if something
 happens while you are working in another session. The time before an alert can be
-mdified in the &konsole; preferences.</para></listitem>
+modified in the &konsole; preferences.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -605,7 +605,7 @@ Silence</guimenuitem></menuchoice></term>
 if no activity occurs for 10 seconds.</action> An icon of a dark light bulb will
 appear in the session's tab. Use this to alert you if a task stops
 while you are working in another session. The time before an alert can be
-mdified in the &konsole; preferences.</para></listitem>
+modified in the &konsole; preferences.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -812,7 +812,7 @@ Shortcuts...</guimenuitem></menuchoice></term>
 &konsole;...</guimenuitem></menuchoice></term>
 <listitem><para><action>Open the &kcontrolcenter; module, allowing
 many additional changes to &konsole;'s interface and behavior, including the creation
-of custom schemas and mdification of the available sessions.</action></para>
+of custom schemas and modification of the available sessions.</action></para>
 </listitem>
 </varlistentry>
 

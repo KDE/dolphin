@@ -124,7 +124,7 @@ new <filename>thumbs</filename> directory.
 <varlistentry>
 <term>User Agent Changer</term>
 <listitem><para>Select <menuchoice><guimenu>Tools</guimenu><guisubmenu>Change
-Browser Indentification</guisubmenu></menuchoice> to get a menu that allows
+Browser Identification</guisubmenu></menuchoice> to get a menu that allows
 you to change the User Agent string without going through the <guimenu>Settings
 </guimenu> dialog procedure.
 </para></listitem>

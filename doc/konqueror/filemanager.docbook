@@ -153,7 +153,7 @@ name or icon.</para>
 details to generate a preview, file previews may not be appropriate 
 when viewing files on a floppy or from a remote system. The <guilabel>Previews
 </guilabel> page of the File Manager Configuration 
-dialog alows you to disable file previews for protocols such as 
+dialog allows you to disable file previews for protocols such as 
 <link linkend="ftp">ftp</link> where reading the extra data would take too 
 long.</para>
 </sect2>
@@ -615,7 +615,7 @@ move commands will act on all of the selected files at once. </para>
 that the <keycombo
 action="simul">&Ctrl;<keycap>+</keycap></keycombo>, <keycombo
 action="simul">&Ctrl;<keycap>-</keycap></keycombo> and <keycombo
-action="simul">&Ctrl;<keycap>*</keycap></keycombo> shorctuts 
+action="simul">&Ctrl;<keycap>*</keycap></keycombo> shortcuts 
 only work with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
 <keycap>*</keycap> keys.</para></note>
 
@@ -654,7 +654,7 @@ your system) or get to the
 <mousebutton>right</mousebutton> clicking on a free area of the desktop 
 instead of within &konqueror;'s window.</para>
 
-<para>If you have a lot of specialised application links and don't want to
+<para>If you have a lot of specialized application links and don't want to
 clutter up the desktop, then why not create them in your Applications
 directory. You can get there in &konqueror; by choosing
 <menuchoice><guimenu>Go</guimenu>
@@ -780,7 +780,7 @@ role="extension">.kil</literal>.</para></listitem>
 <menuchoice><guimenu>Edit</guimenu> 
 <guimenuitem>Properties</guimenuitem></menuchoice> option.</para>
 
-<para>This will bring up the Properties dialog box whith several tabbed 
+<para>This will bring up the Properties dialog box with several tabbed 
 pages, the important ones being:</para>
 
 <itemizedlist>
