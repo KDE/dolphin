@@ -45,7 +45,8 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
   
-  MAPPING( Konqueror::View::eventCreateViewMenu, Konqueror::View::EventCreateViewMenu, mappingCreateViewMenu );
+  MAPPING( Konqueror::View::eventFillMenuEdit, Konqueror::View::EventFillMenu, mappingFillMenuEdit );
+  MAPPING( Konqueror::View::eventFillMenuView, Konqueror::View::EventFillMenu, mappingFillMenuView );
   MAPPING( Konqueror::View::eventCreateViewToolBar, Konqueror::View::EventCreateViewToolBar, mappingCreateViewToolBar );
   MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
     
@@ -54,12 +55,17 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
   return false;
 }
 
-bool KonqBaseView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+bool KonqBaseView::mappingFillMenuView( Konqueror::View::EventFillMenu )
 {
   return false;
 }
 
-bool KonqBaseView::mappingCreateViewToolBar( Konqueror::View::EventCreateViewToolBar viewToolBar )
+bool KonqBaseView::mappingFillMenuEdit( Konqueror::View::EventFillMenu )
+{
+  return false;
+}
+
+bool KonqBaseView::mappingCreateViewToolBar( Konqueror::View::EventCreateViewToolBar )
 {
   return false;
 }

@@ -59,11 +59,8 @@ public:
   virtual ~KonqKfmIconView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-  virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
-
-  virtual void slotLargeIcons();
-  virtual void slotSmallIcons();
-  virtual void slotShowDot();
+  virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
+  virtual bool mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu );
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup("KonquerorKfmIconView"); }
@@ -84,6 +81,13 @@ public slots:
   virtual void slotError( int _id, int _errid, const char *_errortext );
   
   virtual void slotBufferTimeout();
+
+  // IDL
+  virtual void slotLargeIcons();
+  virtual void slotSmallIcons();
+  virtual void slotShowDot();
+  virtual void slotSelect();
+  virtual void slotSelectAll();
 
 protected slots:
   virtual void slotMousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );

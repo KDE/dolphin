@@ -43,6 +43,7 @@ QString C2Q( const CORBA::WChar *s )
 
 KonqTxtView::KonqTxtView()
 {
+  kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
   
   setWidget( this );
@@ -57,6 +58,7 @@ KonqTxtView::KonqTxtView()
 
 KonqTxtView::~KonqTxtView()
 {
+  kdebug(KDEBUG_INFO, 1202, "-KonqTxtView");
   stop();
 }
 
@@ -85,9 +87,15 @@ bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqTxtView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
   //TODO
+  return true;
+}
+
+bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+{
+  //TODO : selectall
   return true;
 }
 

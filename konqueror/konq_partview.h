@@ -2,6 +2,7 @@
 #define __konq_partview_h__
 
 #include "konq_baseview.h"
+#include <qwidget.h>
 
 class OPFrame;
 
@@ -17,7 +18,7 @@ public:
   virtual void init();  
   virtual void cleanUp();
 
-  virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
+  virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
 
   virtual void detachPart();
       

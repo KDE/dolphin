@@ -124,8 +124,6 @@ public slots:
   virtual void slotPaste();
   virtual void slotTrash();
   virtual void slotDelete();
-  virtual void slotSelect();
-  virtual void slotSelectAll();
   virtual void slotSaveGeometry();
 
   // View menu

@@ -425,11 +425,6 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Delete") );
   m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  text = Q2C( i18n("&Select") );
-  m_vMenuEdit->insertItem4( text, this, "slotSelect", CTRL+Key_S, MEDIT_SELECT_ID, -1 );
-  text = Q2C( i18n("Select &all") );
-  m_vMenuEdit->insertItem4( text, this, "slotSelectAll", CTRL+Key_A, MEDIT_SELECTALL_ID, -1 );
-  m_vMenuEdit->insertSeparator( -1 );
   text = Q2C( i18n("Save &Geometry") );
   m_vMenuEdit->insertItem4( text, this, "slotSaveGeometry", 0, MEDIT_SAVEGEOMETRY_ID, -1 );
 
@@ -608,7 +603,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
   // removing view-specific menu entries (view will probably be destroyed !)
   if (m_currentView)
   {
-    m_currentView->emitEventViewMenu( m_vMenuView, false );
+    m_currentView->emitMenuEvents( m_vMenuView, m_vMenuEdit, false );
     m_currentView->repaint();
   }
   m_currentView = 0L;
@@ -673,8 +668,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   KonqChildView* previousView = m_currentView;
   // clean view-specific part of the view menu
   if ( previousView != 0L )
-    previousView->emitEventViewMenu( m_vMenuView, false );
-  
+    previousView->emitMenuEvents( m_vMenuView, m_vMenuEdit, false );
+
   MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
   
@@ -692,7 +687,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
   }    
 
-  m_currentView->emitEventViewMenu( m_vMenuView, true );
+  m_currentView->emitMenuEvents( m_vMenuView, m_vMenuEdit, true );
   if ( isVisible() )
   {
     if (previousView != 0L) // might be 0L e.g. if we just removed the current view
@@ -1071,34 +1066,6 @@ void KonqMainView::slotTrash()
 void KonqMainView::slotDelete()
 {
   // TODO
-}
-
-void KonqMainView::slotSelect()
-{
-  KLineEditDlg l( i18n("Select files:"), "", this );
-  if ( l.exec() )
-  {
-    QString pattern = l.text();
-    if ( pattern.isEmpty() )
-      return;
-
-    // QRegExp re( pattern, true, true );
-    // view->getActiveView()->select( re, true );
-
-    // TODO
-    // 1) Do we need unicode support ?
-    // 2) Let's let views implement this (icon, tree, html??)
-    // 3) To add : Konqueror::View::supportsSelectRegExp()
-    // (in order to enabled/disable menu item)
-  }
-}
-
-void KonqMainView::slotSelectAll()
-{
-  // TODO
-  // Icon, tree, HTML, text :: all except part views should handle that
-  // (and return true to Konqueror::View::supportsSelectAll())
-  // m_currentView->selectAll();
 }
 
 void KonqMainView::slotSaveGeometry()

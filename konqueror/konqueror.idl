@@ -86,25 +86,26 @@ module Konqueror
     string viewName();
 
     /*
-     * The two below defined events can be mapped by a view to provide view
+     * The three events defined below can be mapped by a view to provide view
      * specific GUI elements.
-     * note: If the menu/toolbar provided in the event strcture is nil this
+     * note: If the menu/toolbar provided in the event structure is nil this
      * means that the gui element (menu/toolbar) is meant to be cleared and
-     * you should free all references to any related menus/toolbars.
+     * the view should free all references to any related menus/toolbars.
      */
 
-    struct EventCreateViewMenu
+    struct EventFillMenu
     {
       OpenPartsUI::Menu menu;
-      boolean create; // create items if true, cleanup if false
+      boolean create; // add items to menu if true, remove if false
     };
 
     struct EventCreateViewToolBar
     {
       OpenPartsUI::ToolBar toolBar;
     };
-  
-    const string eventCreateViewMenu = "Konqueror/GUI/createViewMenu";
+
+    const string eventFillMenuEdit = "Konqueror/GUI/fillMenu/Edit";
+    const string eventFillMenuView = "Konqueror/GUI/fillMenu/View";
     const string eventCreateViewToolBar = "Konqueror/GUI/createViewToolBar";
   };
 
@@ -148,6 +149,8 @@ module Konqueror
     slot void slotShowDot();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
+    slot void slotSelect();
+    slot void slotSelectAll();
   };
 
   interface KfmTreeViewItem : KfmIconTreeViewItem
@@ -238,8 +241,6 @@ module Konqueror
     slot void slotPaste();
     slot void slotTrash();
     slot void slotDelete();
-    slot void slotSelect();
-    slot void slotSelectAll();
     slot void slotSaveGeometry();
 
     // View menu

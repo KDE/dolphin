@@ -172,12 +172,14 @@ void KonqChildView::openURL( QString url )
   EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
-void KonqChildView::emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create )
+void KonqChildView::emitMenuEvents( OpenPartsUI::Menu_ptr viewMenu, OpenPartsUI::Menu_ptr editMenu, bool create )
 {
-  Konqueror::View::EventCreateViewMenu EventViewMenu;
-  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( menu );
-  EventViewMenu.create = create;
-  EMIT_EVENT( m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
+  Konqueror::View::EventFillMenu ev;
+  ev.menu = OpenPartsUI::Menu::_duplicate( viewMenu );
+  ev.create = create;
+  EMIT_EVENT( m_vView, Konqueror::View::eventFillMenuView, ev );
+  ev.menu = OpenPartsUI::Menu::_duplicate( editMenu );
+  EMIT_EVENT( m_vView, Konqueror::View::eventFillMenuEdit, ev );
 }
 
 void KonqChildView::switchView( Konqueror::View_ptr _vView )

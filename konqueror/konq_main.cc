@@ -307,6 +307,7 @@ int main( int argc, char **argv )
   KonqBoot boot( "IDL:Konqueror/Application:1.0", "Konqueror" );
   
   KonqApp app( argc, argv );
+  app.getLocale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 
   int i = 1;
   if ( strcmp( argv[i], "-s" ) == 0 || strcmp( argv[i], "--server" ) == 0 )
@@ -320,7 +321,7 @@ int main( int argc, char **argv )
   signal(SIGPIPE,sig_pipe_handler);
 
   KIOCache::initStatic();
-
+  
   KonqFileManager fm;
 
   testLocalInstallation();

@@ -57,7 +57,7 @@ void KonqPartView::cleanUp()
   KonqBaseView::cleanUp();    
 }
 
-bool KonqPartView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+bool KonqPartView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
   OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
   

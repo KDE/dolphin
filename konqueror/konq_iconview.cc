@@ -30,6 +30,7 @@
 #include <kapp.h>
 #include <kio_job.h>
 #include <kio_error.h>
+#include <klineeditdlg.h>
 #include <kpixmapcache.h>
 #include <krun.h>
 #include <kio_paste.h>
@@ -98,7 +99,7 @@ bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqKfmIconView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
 #define MVIEW_IMAGEPREVIEW_ID 1594 // temporary
 #define MVIEW_SHOWDOT_ID 1595 // temporary
@@ -127,6 +128,35 @@ bool KonqKfmIconView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMen
   return true;
 }
 
+bool KonqKfmIconView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+{
+#define MEDIT_SELECT_ID 1394 // hmm...
+#define MEDIT_SELECTALL_ID 1395
+
+  if ( !CORBA::is_nil( editMenu.menu ) )
+  {
+    if ( editMenu.create )
+    {
+      CORBA::WString_var text;
+      //    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
+      //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
+      kdebug(0,1202,"adding select and selectall");
+      text = Q2C( i18n("Select") );
+      editMenu.menu->insertItem4( text, this, "slotSelect" , 0, MEDIT_SELECT_ID, -1 );
+      text = Q2C( i18n("Select &All") );
+      editMenu.menu->insertItem4( text, this, "slotSelectAll" , 0, MEDIT_SELECTALL_ID, -1 );
+    }
+    else
+    {
+      kdebug(0,1202,"removing select and selectall");
+      editMenu.menu->removeItem( MEDIT_SELECT_ID );
+      editMenu.menu->removeItem( MEDIT_SELECTALL_ID );
+    }
+  }
+  
+  return true;
+}
+
 void KonqKfmIconView::slotLargeIcons()
 {
   setDisplayMode( KIconContainer::Horizontal );
@@ -140,6 +170,29 @@ void KonqKfmIconView::slotSmallIcons()
 void KonqKfmIconView::slotShowDot()
 {
   // TODO
+}
+
+void KonqKfmIconView::slotSelect()
+{
+  KLineEditDlg l( i18n("Select files:"), "", this );
+  if ( l.exec() )
+  {
+    QString pattern = l.text();
+    if ( pattern.isEmpty() )
+      return;
+
+    // QRegExp re( pattern, true, true );
+    // view->getActiveView()->select( re, true );
+
+    // TODO
+    // Do we need unicode support ? (kregexp?)
+  }
+}
+
+void KonqKfmIconView::slotSelectAll()
+{
+  kdebug(0, 1202, "KonqKfmIconView::slotSelectAll");
+  selectAll();
 }
 
 void KonqKfmIconView::stop()

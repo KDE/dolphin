@@ -108,7 +108,7 @@ bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
 //FIXME!!!!!!!!!!!!!!!
 #define ID_BASE 14226
@@ -133,6 +133,12 @@ bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu v
   }
   
   return true;
+}
+
+bool KonqHTMLView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+{
+  // todo : add "Select All"
+  return false;
 }
 
 void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, int _button )

@@ -300,7 +300,10 @@ void KIconContainer::selectAll()
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( !(*it)->isSelected() )
+    {
       setSelected( &**it, true );
+      (*it)->refresh();
+    }
 }
 
 void KIconContainer::unselectAll()

@@ -92,9 +92,9 @@ public:
    */
   void openURL( QString url );
   /**
-   * Builds or destroys view-specific part of the view menu.
+   * Builds or destroys view-specific part of the menus.
    */
-  void emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create );
+  void emitMenuEvents( OpenPartsUI::Menu_ptr viewMmenu, OpenPartsUI::Menu_ptr editMenu, bool create );
 
   /**
    * Changes the view mode of the current view, if different from viewName

@@ -132,7 +132,7 @@ bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqKfmTreeView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+bool KonqKfmTreeView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
 #define MVIEW_RELOADTREE_ID 1483 // temporary
   
@@ -151,6 +151,12 @@ bool KonqKfmTreeView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMen
     }
   }
   
+  return true;
+}
+
+bool KonqKfmTreeView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+{
+  // TODO : add select and selectall
   return true;
 }
 
