@@ -113,7 +113,7 @@ void KonqyPreloader::updateCount()
 	if( !check_always_preloaded_timer.isActive())
 	    {
 	    if( kapp->kdeinitExec( QString::fromLatin1( "konqueror" ),
-		QStringList() << QString::fromLatin1( "--preload" )) == 0 )
+		QStringList() << QString::fromLatin1( "--preload" ), NULL, NULL, "0" ) == 0 )
 		{
 		kdDebug( 1202 ) << "Preloading Konqueror instance" << endl;
 	        check_always_preloaded_timer.start( 5000, true );
