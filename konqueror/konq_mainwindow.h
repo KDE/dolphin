@@ -492,7 +492,7 @@ private:
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
    */
-  QString findIndexFile( const QString &directory );
+  static QString findIndexFile( const QString &directory );
 
   void connectExtension( KParts::BrowserExtension *ext );
   void disconnectExtension( KParts::BrowserExtension *ext );
