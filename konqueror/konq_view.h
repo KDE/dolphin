@@ -236,7 +236,6 @@ public:
   void setService( const KService::Ptr &s ) { m_service = s; }
   KService::Ptr service() { return m_service; }
 
-  void setCaption( const QString & caption ) { m_caption = caption; }
   QString caption() const { return m_caption; }
 
   KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }
@@ -286,6 +285,7 @@ public slots:
    */
   void setIconURL( const KURL &iconURL );
 
+  void setCaption( const QString & caption ) { m_caption = caption; }
 
 protected slots:
   // connected to the KROP's KIO::Job

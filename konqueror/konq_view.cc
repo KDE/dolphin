@@ -253,8 +253,10 @@ void KonqView::connectPart(  )
            this, SLOT( slotCompleted() ) );
   connect( m_pPart, SIGNAL( completed(bool) ),
            this, SLOT( slotCompleted(bool) ) );
-   connect( m_pPart, SIGNAL( canceled( const QString & ) ),
+  connect( m_pPart, SIGNAL( canceled( const QString & ) ),
            this, SLOT( slotCanceled( const QString & ) ) );
+  connect( m_pPart, SIGNAL( setWindowCaption( const QString & ) ),
+           this, SLOT( setCaption( const QString & ) ) );
 
   KParts::BrowserExtension *ext = browserExtension();
 
