@@ -237,8 +237,8 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     QValueList<KDEDesktopMimeType::Service> user;
     if ( mime == "application/x-desktop" ) // .desktop file (???)
     {
-      builtin = KDEDesktopMimeType::builtinServices( url );
-      user = KDEDesktopMimeType::userDefinedServices( url );
+      builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
+      user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
     }
   
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
