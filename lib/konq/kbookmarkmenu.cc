@@ -141,20 +141,23 @@ void KBookmarkMenu::fillBookmarkMenu()
 
     paAddBookmarks->plug( m_parentMenu );
     m_actions.append( paAddBookmarks );
+  }
 
-    if ( m_bIsRoot )
-    {
-      KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
-      m_paEditBookmarks->plug( m_parentMenu );
-      m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
-      m_actions.append( m_paEditBookmarks );
+  if ( m_bIsRoot )
+  {
+    KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
+    m_paEditBookmarks->plug( m_parentMenu );
+    m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
+    m_actions.append( m_paEditBookmarks );
 
-      if ( !m_bAddBookmark )
-        m_parentMenu->insertSeparator();
-    }
+    if ( !m_bAddBookmark )
+      m_parentMenu->insertSeparator();
+  }
 
+  if ( m_bAddBookmark )
+  {
     KAction * paNewFolder = new KAction( i18n( "&New Folder " ),
-                                              "folder_new", //"folder",
+                                         "folder_new", //"folder",
                                               0,
                                               this,
                                               SLOT( slotBookmarkSelected() ),
