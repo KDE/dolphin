@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>381</width>
-            <height>424</height>
+            <width>577</width>
+            <height>517</height>
         </rect>
     </property>
     <property name="whatsThis" stdset="0">
@@ -361,7 +361,7 @@ Manually enter proxy server configuration information.
                                 <bool>false</bool>
                             </property>
                             <property name="text">
-                                <string>Password</string>
+                                <string>Password:</string>
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Login password.</string>
@@ -375,7 +375,7 @@ Manually enter proxy server configuration information.
                                 <bool>false</bool>
                             </property>
                             <property name="text">
-                                <string>Username</string>
+                                <string>Username:</string>
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Login name.</string>
