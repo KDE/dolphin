@@ -58,18 +58,22 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
   QString matchingLine;
 	int matchingLineNumber;
 
+  KFileItem * file = NULL;
+  QRegExp *filename_match;
+
   KIO::UDSEntryListConstIterator it = list.begin();
   KIO::UDSEntryListConstIterator end = list.end();
   for (; it != end; ++it)
   {
-    KFileItem * file = new KFileItem(*it, m_url, true, true);
+    if ( file != NULL )
+       delete file;
+    file = new KFileItem(*it, m_url, true, true);
 
     // we don't want this
     if ( file->name() == "." || file->name() == ".." )
       continue;
 
     
-    QRegExp *filename_match;
     bool matched=false;
     
     for ( filename_match = m_regexps.first(); !matched && filename_match; filename_match = m_regexps.next() )
@@ -181,6 +185,8 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
     emit addFile(file,matchingLine);
     //emit addFile(file);//Tested OK
   }
+  if ( file != NULL )
+     delete file;
 }
 
 void KQuery::setContext(const QString & context, bool casesensitive, bool useRegexp)
