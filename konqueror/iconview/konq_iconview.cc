@@ -595,7 +595,8 @@ void KonqKfmIconView::newIconSize( int size )
     m_pIconView->setIcons( size );
     if ( m_pProps->isShowingPreview() )
         m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
-    m_pIconView->arrangeItemsInGrid();
+    // arrangeItemsInGrid already done in KonqIconViewWidget::setIcons
+    //m_pIconView->arrangeItemsInGrid();
 }
 
 bool KonqKfmIconView::doCloseURL()
