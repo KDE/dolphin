@@ -140,6 +140,7 @@ void addBackEnd::activatedAddMenu(int id)
 
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name),KonqSidebar_PluginInterface()
 {
+        kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
 	Buttons.resize(0);
 	Buttons.setAutoDelete(true);
 	stored_url=false;
@@ -313,7 +314,7 @@ void Sidebar_Widget::createButtons()
 	Buttons.resize(0);
 	KStandardDirs *dirs = KGlobal::dirs(); 
         QStringList list=dirs->findAllResources("data","konqsidebartng/entries/*.desktop",false,true);
- 	
+	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
   	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();	    	
 }
