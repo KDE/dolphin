@@ -920,7 +920,7 @@ void KonqSidebarTree::showToplevelContextMenu()
                             SLOT( slotOpenNewWindow() ), m_collection, "open_window");
         (void) new KAction( i18n("Open in New Tab"), "tab_new", 0, this,
                             SLOT( slotOpenTab() ), m_collection, "open_tab");
-        (void) new KAction( i18n("Copy Link Location"), "editcopy", 0, this,
+        (void) new KAction( i18n("Copy Link Address"), "editcopy", 0, this,
                             SLOT( slotCopyLocation() ), m_collection, "copy_location");
     }
 
