@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <kiconloader.h>
+#include <kio/netaccess.h>
 
 
 static const int autoOpenTimeout = 750;
@@ -312,6 +313,15 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
         if ( !selectedItem() )
         {
     //        KonqOperations::doDrop( 0L, m_dirtreeDir.dir, ev, this );
+            KURL::List urls;
+            if ( KURLDrag::decode( ev, urls ) )
+            {
+               for(KURL::List::ConstIterator it = urls.begin();
+                   it != urls.end(); ++it)
+               {
+                  addURL(*it);
+               }
+            }
         }
         else
         {
@@ -321,6 +331,40 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
     } else {
         KListView::contentsDropEvent(ev);
     }
+}
+
+static QString findUniqueFilename(const QString &path, QString filename)
+{
+    if (filename.endsWith(".desktop"))
+       filename.truncate(filename.length()-8);
+
+    QString name = filename;
+    int n = 1;
+    while(QFile::exists(path + filename + ".desktop"))
+    {
+       filename = QString("%2_%1").arg(n).arg(name);
+    }
+    return path+filename+".desktop";
+}
+
+void KonqSidebarTree::addURL(const KURL & url)
+{
+    QString path = m_dirtreeDir.dir.path();
+    QString name = url.host();
+    if (name.isEmpty())
+       name = url.fileName();
+    QString filename = findUniqueFilename(path, name);
+
+    KDesktopFile cfg(filename);
+    cfg.writeEntry("Encoding", "UTF-8");
+    cfg.writeEntry("Type","Link");
+    cfg.writeEntry("URL", url.url());
+    cfg.writeEntry("Icon", KMimeType::favIconForURL(url));
+    cfg.writeEntry("Name", name);
+    cfg.writeEntry("Open", false);
+    cfg.sync();
+    
+    rescanConfiguration();
 }
 
 bool KonqSidebarTree::acceptDrag(QDropEvent* e) const

@@ -28,6 +28,7 @@
 #include <qpoint.h>
 #include <qstrlist.h>
 #include <qtooltip.h>
+
 class KonqSidebarTreeModule;
 class KonqSidebarTreeItem;
 
@@ -143,7 +144,10 @@ private:
     void loadTopLevelItem( KonqSidebarTreeItem *parent, const QString &filename );
 
     void loadModuleFactories();
+    
+    void addURL(const KURL&url);
 
+private:
     QPtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
 
     QPtrList<KonqSidebarTreeModule> m_lstModules;
