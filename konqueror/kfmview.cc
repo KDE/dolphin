@@ -251,6 +251,18 @@ void KfmView::setViewMode( ViewMode _mode, bool _open_url )
   }
 }
 
+void KfmView::setShowDot( bool bShowDotFiles )
+{
+  m_Props->m_bShowDot = bShowDotFiles;
+  switch( m_viewMode )
+  {
+  case HOR_ICONS:
+      m_pIconView->setShowingDotFiles( bShowDotFiles );
+      break;
+  }
+  // TODO
+}
+
 void KfmView::openURL( const char *_url, mode_t _mode, bool _is_local_file,
 		       int _xoffset, int _yoffset )
 {

@@ -903,6 +903,15 @@ void KfmGui::openURL( const char *url )
   m_currentView->m_pView->openURL( url );
 }
 
+void KfmGui::slotShowDot()
+{
+  KfmView * v = m_currentView->m_pView;
+  v->setShowDot( ! v->props()->isShowingDotFiles() );
+  debug("v->props()->isShowingDotFiles() : %s",
+        v->props()->isShowingDotFiles() ? "TRUE" : "FALSE");
+  m_vMenuView->setItemChecked( MVIEW_SHOWDOT_ID, v->props()->isShowingDotFiles() );
+}
+
 void KfmGui::slotLargeIcons()
 {
   m_currentView->m_pView->setViewMode( KfmView::HOR_ICONS );

@@ -93,6 +93,8 @@ public slots:
   /////////////////////////
   // MenuBar
   /////////////////////////
+  virtual void slotSplitView();
+  virtual void slotShowDot();
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
   virtual void slotTreeView();
@@ -101,9 +103,14 @@ public slots:
   virtual void slotShowCache();
   virtual void slotShowHistory();
   virtual void slotOpenLocation();
-  virtual void slotSplitView();
   virtual void slotConfigureKeys();
   virtual void slotAboutApp();
+
+  virtual void slotFileNewActivated( CORBA::Long id );
+  virtual void slotFileNewAboutToShow();
+  
+  virtual void slotBookmarkSelected( CORBA::Long id );
+  virtual void slotEditBookmarks();  
 
   /////////////////////////
   // Location Bar
@@ -121,12 +128,6 @@ public slots:
   virtual void slotForward();
   virtual void slotReload();
 
-  virtual void slotFileNewActivated( CORBA::Long id );
-  virtual void slotFileNewAboutToShow();
-  
-  virtual void slotBookmarkSelected( CORBA::Long id );
-  virtual void slotEditBookmarks();
-    
   /////////////////////////
   // Accel
   /////////////////////////
@@ -139,7 +140,8 @@ public slots:
   void slotAnimatedLogoTimeout();
   void slotStartAnimation();
   void slotStopAnimation();
-  
+
+  /// Other
   void slotGotFocus( KfmView* _view );
 
 protected:

@@ -77,7 +77,9 @@ public:
    */
   virtual void setViewMode( ViewMode _mode, bool _open_url = true );
   virtual ViewMode viewMode() { return m_viewMode; };
-  
+
+  virtual void setShowDot( bool bShowDotFiles );
+      
   virtual void openURL( const char *_url, mode_t _mode = 0, bool _is_local_file = false,
 			int _xoffset = 0, int _yoffset = 0 );
 

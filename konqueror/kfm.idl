@@ -30,6 +30,8 @@ module KFM
 	{
 	  void openURL( in string url );
 	
+          slot void slotSplitView();
+	  slot void slotShowDot();
           slot void slotLargeIcons();
           slot void slotSmallIcons();
           slot void slotTreeView();
@@ -38,7 +40,6 @@ module KFM
           slot void slotShowCache();
           slot void slotShowHistory();
           slot void slotOpenLocation();
-          slot void slotSplitView();
           slot void slotConfigureKeys();
           slot void slotAboutApp();
 
