@@ -137,10 +137,10 @@ actionCollection());
         i18n("Recursive Sort"), 0,
         actn, SLOT( slotRecursiveSort() ), actionCollection(), "recursivesort");
     (void) new KAction(
-        i18n("&Create New Folder..."), "folder_new", CTRL+Key_N,
+        i18n("&New Folder..."), "folder_new", CTRL+Key_N,
         actn, SLOT( slotNewFolder() ), actionCollection(), "newfolder");
     (void) new KAction(
-        i18n("Create &New Bookmark"), "www", 0,
+        i18n("&New Bookmark"), "www", 0,
         actn, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark");
     (void) new KAction(
         i18n("&Insert Separator"), CTRL+Key_I,
