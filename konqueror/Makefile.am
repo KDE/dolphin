@@ -3,7 +3,7 @@ INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes
 
 SUBDIRS = . plugins kfmexec client iconview dirtree listview pics
 
-lib_LTLIBRARIES = libkonqueror.la
+lib_LTLIBRARIES = libkonqueror.la konqueror.la
 
 rcdir = $(kde_datadir)/konqueror
 rc_DATA = konqueror.rc
@@ -22,7 +22,7 @@ libkonqueror_la_SOURCES = \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
 			  konq_events.cc \
 			  konq_bgnddlg.cc \
-		          konq_factory.cc 
+		          konq_factory.cc
 #			  konq_metadata.cc
 
 libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
@@ -31,7 +31,7 @@ libkonqueror_la_LIBADD = ../libkonq/libkonq.la -lkparts
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
+konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_mainview.cc \
 		    konq_run.cc konq_childview.cc konq_viewmgr.cc \
                     konq_misc.cc \
@@ -39,8 +39,15 @@ konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_actions.cc \
 		    konq_profiledlg.cc
 
+konqueror_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -module -avoid-version
+konqueror_la_LIBADD = libkonqueror.la $(LIB_KIMGIO)
+
+konqueror_SOURCES = dummy.cc
+konqueror_LDADD = konqueror.la
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
+
+dummy.cc:
+	echo > dummy.cc
 
 messages: rc.cpp
 	$(EXTRACTRC) */*.rc >> rc.cpp
