@@ -402,7 +402,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             case QDropEvent::Link :
                 kdDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
                 job = KIO::link( lst, dest );
-                setOperation( 0L, LINK, lst, dest );
+                setOperation( job, LINK, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
                 return;
             default : kdError(1203) << "Unknown action " << (int)action << endl;
