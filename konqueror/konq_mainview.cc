@@ -2030,7 +2030,7 @@ void KonqMainView::slotActionHighlighted( KAction *action )
 
   QString text = action->shortText();
   if ( !text.isEmpty() )
-    statusBar->slotDisplayStatusText( text );
+    statusBar->message( text );
 }
 
 #include "konq_mainview.moc"

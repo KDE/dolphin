@@ -24,6 +24,7 @@
 #include <qlayout.h>
 #include <qsplitter.h>
 #include <qwhatsthis.h>
+#include <qtimer.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -93,7 +94,12 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
    m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, this );
    m_progressBar->hide();
   //m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
+   m_msgTimer = 0;
 }
+
+KonqFrameStatusBar::~KonqFrameStatusBar()
+{
+} 
 
 void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
 {
@@ -140,12 +146,41 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
    return FALSE;
 }
 
+void KonqFrameStatusBar::message( const QString &msg )
+{
+  if ( !m_msgTimer )
+  {
+    m_msgTimer = new QTimer( this, "msgtimer" );
+    connect( m_msgTimer, SIGNAL( timeout() ),
+	     this, SLOT( slotClear() ) );
+  }
+  else if ( m_msgTimer->isActive() )
+    m_msgTimer->stop();
+  
+  QString saveMsg = m_savedMessage;
+  
+  slotDisplayStatusText( msg );
+  
+  m_savedMessage = saveMsg;
+  
+  m_msgTimer->start( 2000 );
+} 
+
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
    //kdDebug(1202)<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
    m_pStatusLabel->resize(fontMetrics().width(text),13);
    m_pStatusLabel->setText(text);
+   m_savedMessage = text;
+   
+   if ( m_msgTimer && m_msgTimer->isActive() )
+     m_msgTimer->stop();
 }
+
+void KonqFrameStatusBar::slotClear()
+{
+  slotDisplayStatusText( m_savedMessage );
+} 
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
 {

@@ -31,10 +31,9 @@
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
 
-class BrowserView;
 class QPixmap;
 class QVBoxLayout;
-class OPFrame;
+class QTimer;
 class KonqChildView;
 class KonqFrameBase;
 class KonqFrame;
@@ -75,7 +74,7 @@ class KonqFrameStatusBar : public QWidget
 
    public:
       KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
-      virtual ~KonqFrameStatusBar() {}
+      virtual ~KonqFrameStatusBar();
 
       void setLinkedView( bool b );
       /**
@@ -87,11 +86,14 @@ class KonqFrameStatusBar : public QWidget
        */
       void hideStuff();
 
+      void message( const QString &msg );
+
    public slots:
       void slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
       void slotDisplayStatusText(const QString& text);
+      void slotClear();
 
    signals:
       /**
@@ -120,6 +122,8 @@ class KonqFrameStatusBar : public QWidget
       QLabel *m_pStatusLabel;
       int m_yOffset;
       bool m_showLed;
+      QTimer *m_msgTimer;
+      QString m_savedMessage;
 };
 
 typedef QList<KonqChildView> ChildViewList;
