@@ -26,6 +26,7 @@
 #include <klocale.h>
 #include <kstddirs.h>
 #include <kglobal.h>
+#include <kprotocolinfo.h>
 #include <qdir.h>
 
 /**********************************************
@@ -65,8 +66,9 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
   abortFullScreenMode();
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
-  QString profileName = ( url.protocol().startsWith("http") ||
-                        url.path().right(5) == ".html" || url.path().right(4) == ".htm" )
+  QString profileName = (!(KProtocolInfo::supportsListing(url.protocol())) ||
+                        url.path().right(5) == ".html" || 
+			url.path().right(4) == ".htm" )
           ? "webbrowsing" : "filemanagement";
 
   QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
