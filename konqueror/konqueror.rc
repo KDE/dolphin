@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="5">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="6">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -132,6 +132,7 @@
  <Action name="animated_logo"/>
 </ToolBar>
 <ToolBar fullWidth="true" name="locationToolBar" >
+  <Action name="clear_location" />
   <Action name="location_label" />
   <Action name="toolbar_url_combo" />
 </ToolBar>

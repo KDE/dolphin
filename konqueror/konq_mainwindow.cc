@@ -115,6 +115,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_dcopObject = 0L;
+  m_combo = 0L;
   m_bURLEnterLock = false;
 
   m_bViewModeToggled = false;
@@ -1005,6 +1006,9 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
     updateToolBarActions();
   }
 
+  if (!m_combo) // happens if removed from .rc file :)
+    return;
+
   // Register this URL as a working one, in the completion object and the combo.
   if ( !m_combo->contains( view->locationBarURL() ) )
       // goes both into the combo and the completion object
@@ -1530,6 +1534,11 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->setHistoryItems( locationBarCombo );
 }
 
+void KonqMainWindow::slotClearLocationBar()
+{
+  m_combo->setEditText( "" );
+}
+
 void KonqMainWindow::slotShowMenuBar()
 {
   if (menuBar()->isVisible())
@@ -1842,11 +1851,15 @@ void KonqMainWindow::initActions()
 
   m_paAnimatedLogo = new KonqLogoAction( *s_plstAnimatedLogo, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
+  // Location bar
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
 
   m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
+
+  (void)new KAction( i18n( "Clear location bar" ), "eraser",
+                     0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
