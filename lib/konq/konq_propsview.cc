@@ -48,7 +48,11 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
     QString path = locate("wallpaper", _wallpaper);
     if (!path.isEmpty())
     {
-      pix.load( path, 0, KPixmap::LowColor ); // ?
+      // This looks really ugly, especially on an 8bit display.
+      // I'm not sure what it's good for.
+      // Anyway, if you change it here, keep konq_bgnddlg in sync (David)
+      // pix.load( path, 0, KPixmap::LowColor );
+      pix.load( path );
       if ( pix.isNull() )
         kdWarning(1203) << "Could not load wallpaper " << path << endl;
       else
