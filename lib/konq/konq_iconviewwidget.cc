@@ -939,7 +939,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
     stopImagePreview();
     m_url = kurl;
 
-    d->pFileTip->setPreview( KConfigGroup( KGlobal::config(), "PreviewSettings" ).readBoolEntry( m_url.protocol(), true ) );
+    d->pFileTip->setPreview( KGlobalSettings::showFilePreview(m_url) );
 
     if ( m_url.isLocalFile() )
         m_dotDirectoryPath = m_url.path(1).append( ".directory" );
@@ -952,8 +952,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
     stopImagePreview(); // just in case
 
     // Check config
-    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    if ( !group.readBoolEntry( url().protocol(), true ) ) {
+    if ( !KGlobalSettings::showFilePreview( url() ) ) {
         kdDebug(1203) << "Previews disabled for protocol " << url().protocol() << endl;
         emit imagePreviewFinished();
         return;
@@ -990,6 +989,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int size;
 
+    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     if ( group.readBoolEntry("BoostSize", false) ) {
         if (iconSize < 28)
             size = 48;

@@ -30,6 +30,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kdirlister.h>
+#include <kglobalsettings.h>
 #include <kinputdialog.h>
 #include <konq_settings.h>
 #include <kpropertiesdialog.h>
@@ -833,8 +834,7 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
 {
     KFileItem* fileItem = item->item();
 
-    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    if ( group.readBoolEntry( fileItem->url().protocol(), true /*default*/ ) ) {
+    if ( KGlobalSettings::showFilePreview( fileItem->url() ) ) {
         m_paOutstandingOverlays.append(item);
         if (m_paOutstandingOverlays.count() == 1)
         {

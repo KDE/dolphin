@@ -28,6 +28,7 @@
 
 #include "previews.h"
 
+#include <kglobalsettings.h>
 #include <kprotocolinfo.h>
 #include <kdialog.h>
 #include <klocale.h>
@@ -114,31 +115,34 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
 // Default: 1 MB
 #define DEFAULT_MAXSIZE (1024*1024)
 
-void KPreviewOptions::load()
+void KPreviewOptions::load(bool useDefaults)
 {
     // *** load and apply to GUI ***
+    KGlobal::config()->setReadDefaults(useDefaults);
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     QPtrListIterator<QCheckBox> it( m_boxes );
     for ( ; it.current() ; ++it ) {
-        QString protocol( it.current()->name() );
-        it.current()->setChecked( group.readBoolEntry( protocol, true /*default*/ ) );
+        KURL url;
+        url.setProtocol( it.current()->name() );
+        url.setPath("/");
+        it.current()->setChecked( KGlobalSettings::showFilePreview(url) );
     }
     // config key is in bytes (default value 1MB), numinput is in MB
     m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
 
     m_boostSize->setChecked( group.readBoolEntry( "BoostSize", false /*default*/ ) );
     m_useFileThumbnails->setChecked( group.readBoolEntry( "UseFileThumbnails", true /*default*/ ) );
+    KGlobal::config()->setReadDefaults(false);
+}
+
+void KPreviewOptions::load()
+{
+    load(false);
 }
 
 void KPreviewOptions::defaults()
 {
-    QPtrListIterator<QCheckBox> it( m_boxes );
-    for ( ; it.current() ; ++it ) {
-        it.current()->setChecked( true /*default*/ );
-    }
-    m_maxSize->setValue( DEFAULT_MAXSIZE / (1024*1024) );
-    m_boostSize->setChecked( false );
-    m_useFileThumbnails->setChecked( true );
+    load(true);
 }
 
 void KPreviewOptions::save()

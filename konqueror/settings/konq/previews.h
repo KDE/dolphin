@@ -50,6 +50,9 @@ public:
     virtual void defaults();
     virtual QString quickHelp() const;
 
+protected:
+    void load(bool useDefaults);
+
 private slots:
     void changed();
 
