@@ -49,6 +49,9 @@
 #include <kstddirs.h>
 #include <kfileitem.h>
 
+#include <kaction.h>
+#include <kpartmanager.h>
+
 
 class KonqHTMLViewFactory : public KLibFactory
 {
@@ -64,7 +67,7 @@ public:
 
   virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqHTMLView( (QWidget *)parent, name );
+    QObject *obj = new KonqHTMLView( (QWidget*)parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -79,129 +82,93 @@ extern "C"
   }
 };
 
-HTMLViewPropertiesExtension::HTMLViewPropertiesExtension( KonqHTMLView *htmlView )
-  : ViewPropertiesExtension( htmlView, "ViewPropertiesExtension" )
+KonqHTMLWidget::KonqHTMLWidget( QWidget * parent, const char *name )
+  : KHTMLWidget( parent, name )
 {
-  m_HTMLView = htmlView;
+  initConfig();
 }
 
-void HTMLViewPropertiesExtension::reparseConfiguration()
+void KonqHTMLWidget::openURL( const KURL &url, bool reload, int xOffset, int yOffset, const char *post_data )
 {
-  // Called by "kfmclient configure".
-  // TODO : some stuff not done in initConfig :)
-  m_HTMLView->initConfig();
-}
+  m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
+  enableImages( m_bAutoLoadImages );
 
-void HTMLViewPropertiesExtension::saveLocalProperties()
-{
-  //  m_HTMLView->m_pProps->saveLocal( KURL( m_HTMLView->url() ) );
-}
-
-void HTMLViewPropertiesExtension::savePropertiesAsDefault()
-{
-  //  m_HTMLView->m_pProps->saveAsDefault();
-}
-
-KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
-: KHTMLWidget( htmlView, name )
-{
-  m_pHTMLView = htmlView;
-}
-
-void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOffset, const char *post_data )
-{
 #ifdef __GNUC__
 #warning remove this hack after krash (lars)
 #endif
 
     if(post_data)
     {
-	KHTMLWidget::openURL(url, reload, xOffset, yOffset, post_data);
+      // IMO KHTMLWidget should take a KURL as argument (David)
+	KHTMLWidget::openURL(url.url(), reload, xOffset, yOffset, post_data);
 	return;
     }
 
-  emit m_pHTMLView->openURLRequest( url, reload, xOffset, yOffset );
+  emit openURLRequest( url.url(), reload, xOffset, yOffset );
 }
 
+
 KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
- : BrowserView( parent, name )
+ : KParts::ReadOnlyPart( parent, name )
 {
-  (void)new HTMLViewPropertiesExtension( this );
+  setInstance( KonqFactory::instance() );
+  setXMLFile( "konq_htmlview.rc" );
 
-  m_pBrowser = new KonqBrowser( this, "konqbrowser" );
-  setFocusProxy( m_pBrowser );
-  setFocusPolicy( m_pBrowser->focusPolicy() );
+  m_pWidget = new KonqHTMLWidget( parent, "konqhtmlview" );
+  setWidget( m_pWidget );
 
-  QObject::connect( m_pBrowser, SIGNAL( setTitle( QString ) ),
+  m_extension = new KonqHTMLViewExtension( this );
+
+  m_iXOffset = 0;
+  m_iYOffset = 0;
+
+  QObject::connect( m_pWidget, SIGNAL( setTitle( QString ) ),
                     this, SLOT( slotSetTitle( QString ) ) );
-  QObject::connect( m_pBrowser, SIGNAL( completed() ),
-                    this, SIGNAL( completed() ) );
-  QObject::connect( m_pBrowser, SIGNAL( started( const QString & ) ),
+  QObject::connect( m_pWidget, SIGNAL( completed() ),
+                    //this, SIGNAL( completed() ) );
+                    this, SLOT( slotCompleted() ) );
+  QObject::connect( m_pWidget, SIGNAL( started( const QString & ) ),
                     this, SIGNAL( started() ) );
-  QObject::connect( m_pBrowser, SIGNAL( completed() ),
+  QObject::connect( m_pWidget, SIGNAL( completed() ),
                     this, SLOT( updateActions() ) );
-  QObject::connect( m_pBrowser, SIGNAL( canceled() ),
+  QObject::connect( m_pWidget, SIGNAL( canceled() ),
                     this, SIGNAL( canceled() ) );
 
-  initConfig();
+  // pass signals from the widget directly to the extension
+  connect( m_pWidget, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
+           m_extension, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ) );
+  connect( m_pWidget, SIGNAL( onURL( const QString & ) ),
+           m_extension, SLOT( slotShowURL( const QString & ) ) );
+  connect( m_pWidget, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
+           m_extension, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ) );
+  connect( m_pWidget, SIGNAL( createNewWindow( const QString & ) ),
+           m_extension, SIGNAL( createNewWindow( const QString & ) ) );
 
-  m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
-  m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
-  m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), this );
-  m_paSaveDocument = new KAction( i18n( "&Save As.." ), 0, this, SLOT( saveDocument() ), this );
-  m_paSaveFrame = new KAction( i18n( "Save &Frame As.." ), 0, this, SLOT( saveFrame() ), this );
+  m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this, "viewDocumentSource" );
+  m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this, "viewFrameSource" );
+  m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), this, "saveBackground" );
+  m_paSaveDocument = new KAction( i18n( "&Save As.." ), 0, this, SLOT( saveDocument() ), this, "saveDocument" );
+  m_paSaveFrame = new KAction( i18n( "Save &Frame As.." ), 0, this, SLOT( saveFrame() ), this, "saveFrame" );
 
-  actions()->append( BrowserView::ViewAction( m_paViewDocument, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( m_paViewFrame, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( m_paSaveBackground, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( m_paSaveDocument, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( m_paSaveFrame, BrowserView::MenuView ) );
-
-  slotFrameInserted( m_pBrowser );
+  // basically, it's inserted into itself :)
+  m_pWidget->slotFrameInserted( m_pWidget );
 }
 
 KonqHTMLView::~KonqHTMLView()
 {
-  delete m_pBrowser;
 }
 
-void KonqHTMLView::initConfig()
+bool KonqHTMLView::openURL( const KURL &url )
 {
-  m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
-  bool enableJava = KonqHTMLSettings::defaultHTMLSettings()->enableJava();
-  QString javaPath = KonqHTMLSettings::defaultHTMLSettings()->javaPath();
-  // ### hack... fix this
-  QString path = getenv("PATH");
-  //  if(path.find(javaPath) == -1)
-      path += ":" + javaPath + "/bin/";
-  javaPath = QString("/share/apps/kjava/kjava-classes.zip:")+javaPath;
-  javaPath += "/lib";
-  javaPath = getenv("KDEDIR") + javaPath;
-  bool enableJavaScript = KonqHTMLSettings::defaultHTMLSettings()->enableJavaScript();
+  m_url = url;
+  m_pWidget->openURL( url /*,reload, xOffset, yOffset*/ );
 
-  m_pBrowser->enableJava(enableJava);
-  printf("PATH = %s\n", path.latin1());
-  printf("CLASSPATH = %s\n", javaPath.latin1());
-  setenv("CLASSPATH",javaPath.latin1(), 1);
-  setenv("PATH",path.latin1(), 1);
-  m_pBrowser->enableJScript(enableJavaScript);
-}
-
-void KonqHTMLView::openURL( const QString &url, bool reload,
-                            int xOffset, int yOffset )
-{
-  m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
-  m_pBrowser->enableImages( m_bAutoLoadImages );
-
-  m_strURL = url;
-  m_pBrowser->KHTMLWidget::openURL( url, reload, xOffset, yOffset );
-
-  if ( m_pBrowser->jobId() )
+  if ( m_pWidget->jobId() )
   {
-    KIOJob *job = KIOJob::find( m_pBrowser->jobId() );
+    KIOJob *job = KIOJob::find( m_pWidget->jobId() );
     if ( job )
     {
-      (void)new KonqProgressProxy( this, job );
+      (void)new KonqProgressProxy( m_extension, job );
 
       QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ),
                         this, SLOT( slotDocumentRedirection( int, const char * ) ) );
@@ -209,39 +176,22 @@ void KonqHTMLView::openURL( const QString &url, bool reload,
   }
 
   updateActions();
+
+  return true;
 }
 
-QString KonqHTMLView::url()
+void KonqHTMLView::slotCompleted()
 {
-  return m_strURL;
+  // Lars said : not now but earlier (when the height is big enough)
+  // and : not if the user already moved the scrollbars
+  // Ok, since I'm lazy it will simple to start with (David)
+  m_pWidget->setContentsPos( m_iXOffset, m_iYOffset );
 }
 
-int KonqHTMLView::xOffset()
+void KonqHTMLView::closeURL()
 {
-  return m_pBrowser->contentsX();
+  m_pWidget->slotStop();
 }
-
-int KonqHTMLView::yOffset()
-{
-  return m_pBrowser->contentsY();
-}
-
-void KonqHTMLView::stop()
-{
-  m_pBrowser->slotStop();
-}
-
-#if 1
-void KonqHTMLView::saveState( QDataStream &stream )
-{
-    m_pBrowser->saveState(stream);
-}
-
-void KonqHTMLView::restoreState( QDataStream &stream )
-{
-    m_pBrowser->restoreState(stream);
-}
-#endif
 
 /*
 bool KonqHTMLView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
@@ -296,32 +246,53 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
 }
 */
 
-void KonqHTMLView::slotRightButtonPressed( const QString &_url,
+void KonqHTMLWidget::initConfig()
+{
+  m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
+  bool enableJava = KonqHTMLSettings::defaultHTMLSettings()->enableJava();
+  QString javaPath = KonqHTMLSettings::defaultHTMLSettings()->javaPath();
+  // ### hack... fix this
+  QString path = getenv("PATH");
+  //  if(path.find(javaPath) == -1)
+      path += ":" + javaPath + "/bin/";
+  javaPath = QString("/share/apps/kjava/kjava-classes.zip:")+javaPath;
+  javaPath += "/lib";
+  javaPath = getenv("KDEDIR") + javaPath;
+  bool enableJavaScript = KonqHTMLSettings::defaultHTMLSettings()->enableJavaScript();
+
+  this->enableJava(enableJava);
+  printf("PATH = %s\n", path.latin1());
+  printf("CLASSPATH = %s\n", javaPath.latin1());
+  setenv("CLASSPATH",javaPath.latin1(), 1);
+  setenv("PATH",path.latin1(), 1);
+  this->enableJScript(enableJavaScript);
+}
+
+void KonqHTMLWidget::slotRightButtonPressed( const QString &_url,
 					   const QPoint &_global)
 {
     slotMousePressed(_url, _global, RightButton);
 }
 
-void KonqHTMLView::slotMousePressed( const QString &_url,
+void KonqHTMLWidget::slotMousePressed( const QString &_url,
 				     const QPoint &_global, int _button )
 {
-debug(" KonqHTMLView::slotMousePressed ");
-  QString url = _url;
-
+debug(" KonqHTMLWidget::slotMousePressed ");
+  KURL u;
   if ( _url.isEmpty() )
-    url = m_strURL;
+    u = url();
+  else
+    u = _url;
 
   if ( _button == RightButton )
   {
-    KURL u( url );
-
     mode_t mode = 0;
     if ( u.isLocalFile() )
     {
       struct stat buff;
       if ( stat( u.path(), &buff ) == -1 )
       {
-        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, url );
+        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, u.url() );
         return;
       }
       mode = buff.st_mode;
@@ -340,7 +311,7 @@ debug(" KonqHTMLView::slotMousePressed ");
   }
 }
 
-void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
+void KonqHTMLWidget::slotFrameInserted( KHTMLWidget *frame )
 {
   QObject::connect( frame, SIGNAL( onURL( const QString &) ),
                     this, SLOT( slotShowURL( const QString &) ) );
@@ -350,16 +321,16 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
   QObject::connect( frame, SIGNAL( popupMenu( const QString &, const QPoint& ) ),
                     this, SLOT( slotRightButtonPressed( const QString &, const QPoint& ) ) );
 		
-  QObject::connect( frame, SIGNAL( frameInserted( KBrowser * ) ),
-                    this, SLOT( slotFrameInserted( KBrowser * ) ) );		
+  QObject::connect( frame, SIGNAL( frameInserted( KHTMLWidget * ) ),
+                    this, SLOT( slotFrameInserted( KHTMLWidget * ) ) );		
 
   QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
                     this, SLOT( slotNewWindow( const QString & ) ) );
 
 #ifdef __GNUC__
-#warning TODO (extension!) (Simon)
+#warning TODO (emit enableAction...) (David)
 #endif
-//  QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
+//  QObject::connect( frame, SIGNAL( textSelected( KHTMLWidget *, bool ) ),
 //                    this, SIGNAL( selectionChanged() ) );
 
   KonqHTMLSettings *settings = KonqHTMLSettings::defaultHTMLSettings();
@@ -378,13 +349,14 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
   else
     frame->setURLCursor( KCursor().arrowCursor() );		
 
-  updateActions();
+  // I guess we need a slot in KonqHTMLView connected to "frameInserted" (David)
+  //updateActions();
 
   frame->enableImages( m_bAutoLoadImages );
 }
 
 #if 0
-void KonqTextView::slotSearch()
+void KonqHTMLView::slotSearch()
 {
   m_pSearchDialog = new KonqSearchDialog( this );
 
@@ -404,11 +376,11 @@ void KonqHTMLView::slotShowURL( const QString &_url )
 {
   if ( !_url )
   {
-    emit setStatusBarText( QString::null );
+    emit m_extension->setStatusBarText( QString::null );
     return;
   }
 
-  KURL url( m_pBrowser->url(), _url );
+  KURL url( url(), _url );
   QString com;
 
   KMimeType::Ptr typ = KMimeType::findByURL( url );
@@ -420,7 +392,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
   {
     QString decodedURL = _url;
     KURL::decode( decodedURL );
-    emit setStatusBarText( decodedURL );
+    emit m_extension->setStatusBarText( decodedURL );
     return;
   }
 
@@ -452,7 +424,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
       {
         text2 += "  ";
         text2 += tmp;
-	emit setStatusBarText( text2 );
+	emit m_extension->setStatusBarText( text2 );
 	return;
       }
       buff_two[n] = 0;
@@ -483,45 +455,33 @@ void KonqHTMLView::slotShowURL( const QString &_url )
       text += "  ";
       text += com;
     }
-    emit setStatusBarText( text );
+    emit m_extension->setStatusBarText( text );
   }
   else
-    emit setStatusBarText( url.decodedURL() );
+    emit m_extension->setStatusBarText( url.decodedURL() );
 }
 
-void KonqHTMLView::slotSetTitle( QString )
+void KonqHTMLView::slotSetTitle( QString title )
 {
-#ifdef __GNUC__
-#warning TODO (in the Canossa framework) (Simon)
-#endif
-/*
   QString decodedTitle = title;
   KURL::decode( decodedTitle );
 
-  if ( m_pMainView ) //builtin view?
-    decodedTitle.prepend( "Konqueror: " );
-
-  m_vMainWindow->setPartCaption( id(), decodedTitle );
-*/
+  if ( manager() )
+    manager()->setWindowCaption( decodedTitle );
 }
 
 void KonqHTMLView::slotDocumentRedirection( int, const char *url )
 {
-  //no need for special stuff, KBrowser does everything for us. Let's just make
+  //no need for special stuff, KonqHTMLWidget does everything for us. Let's just make
   //sure the url in the mainview gets updated
   QString decodedURL = url;
   KURL::decode( decodedURL );
-  emit setLocationBarURL( decodedURL );
+  emit m_extension->setLocationBarURL( decodedURL );
 }
 
-void KonqHTMLView::slotNewWindow( const QString &url )
+void KonqHTMLWidget::slotNewWindow( const QString &url )
 {
   emit createNewWindow( url );
-}
-
-void KonqHTMLView::resizeEvent( QResizeEvent * )
-{
-  m_pBrowser->setGeometry( 0, 0, width(), height() );
 }
 
 /*
@@ -563,27 +523,21 @@ KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char
 }
 #endif
 
-void KonqHTMLView::print()
-{
-    // ### FIXME
-    //m_pBrowser->print();
-}
-
 void KonqHTMLView::saveDocument()
 {
-  if ( m_pBrowser->isFrameSet() )
+  if ( m_pWidget->isFrameSet() )
   {
     //TODO
   }
   else
   {
-    KURL srcURL( m_strURL );
+    KURL srcURL( url() );
 
     if ( srcURL.filename(false).isEmpty() )
       srcURL.setFileName( "index.html" );
 
     KFileDialog *dlg = new KFileDialog( QString::null, i18n("HTML files|* *.html *.htm"),
-					this , "filedialog", true );
+					m_pWidget , "filedialog", true );
     dlg->setCaption(i18n("Save as"));
 
     dlg->setSelection( srcURL.filename() );
@@ -593,7 +547,7 @@ void KonqHTMLView::saveDocument()
 	if ( !destURL.isMalformed() )
 	{
     	  KIOJob *job = new KIOJob;
-	  job->copy( m_strURL, destURL.url() );
+	  job->copy( url().url(), destURL.url() );
 	}
       }
 
@@ -603,7 +557,7 @@ void KonqHTMLView::saveDocument()
 
 void KonqHTMLView::saveFrame()
 {
-  KHTMLWidget *frame = m_pBrowser->selectedFrame();
+  KHTMLWidget *frame = m_pWidget->selectedFrame();
 
   if ( !frame )
     return;
@@ -614,7 +568,7 @@ void KonqHTMLView::saveFrame()
     srcURL.setFileName( "index.html" );
 
   KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
-					this , "filedialog", true );
+					m_pWidget , "filedialog", true );
   dlg->setCaption(i18n("Save frameset as"));
   dlg->setSelection( srcURL.filename() );
   if ( dlg->exec() )
@@ -623,7 +577,7 @@ void KonqHTMLView::saveFrame()
     if ( !destURL.isMalformed() )
     {
       KIOJob *job = new KIOJob;
-      job->copy( m_strURL, destURL.url() );
+      job->copy( url().url(), destURL.url() );
     }
   }
 
@@ -633,12 +587,12 @@ void KonqHTMLView::saveFrame()
 void KonqHTMLView::saveBackground()
 {
 
-  QString relURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string().ascii();
+  QString relURL = m_pWidget->htmlDocument().body().getAttribute( "background" ).string().ascii();
 
-  KURL backgroundURL( KURL( m_pBrowser->url() ), relURL );
+  KURL backgroundURL( url(), relURL );
 
   KFileDialog *dlg = new KFileDialog( QString::null, "*",
-					this , "filedialog", true );
+					m_pWidget , "filedialog", true );
   dlg->setCaption(i18n("Save background image as"));
 
   dlg->setSelection( backgroundURL.filename() );
@@ -648,7 +602,7 @@ void KonqHTMLView::saveBackground()
     if ( !destURL.isMalformed() )
     {
       KIOJob *job = new KIOJob;
-      job->copy( m_strURL, destURL.url() );
+      job->copy( url().url(), destURL.url() );
     }
   }
 
@@ -657,12 +611,12 @@ void KonqHTMLView::saveBackground()
 
 void KonqHTMLView::viewDocumentSource()
 {
-  openTxtView( m_strURL );
+  openTxtView( url().url() );
 }
 
 void KonqHTMLView::viewFrameSource()
 {
-  KHTMLWidget *w = m_pBrowser->selectedFrame();
+  KHTMLWidget *w = m_pWidget->selectedFrame();
   if ( w )
     openTxtView( w->url() );
 }
@@ -697,7 +651,7 @@ void KonqHTMLView::openTxtView( const QString &url )
   }
 
   if ( obj && obj->inherits( "KonqFrame" ) )
-    emit openURLRequest( url, false, 0, 0, "text/plain" );
+    emit m_extension->openURLRequest( url, false, 0, 0, "text/plain" );
   else
   {
     KConfig *config = KonqFactory::instance()->config();
@@ -751,13 +705,13 @@ void KonqHTMLView::updateActions()
 {
   qDebug( "void KonqHTMLView::updateActions()" );
 
-  m_paViewFrame->setEnabled( m_pBrowser->isFrameSet() );
+  m_paViewFrame->setEnabled( m_pWidget->isFrameSet() );
 
   QString bgURL;
 
-  if ( m_pBrowser->isFrameSet() )
+  if ( m_pWidget->isFrameSet() )
   {
-    KHTMLWidget *frame =  m_pBrowser->selectedFrame();
+    KHTMLWidget *frame =  m_pWidget->selectedFrame();
     if(frame)
 	bgURL = frame->htmlDocument().body().getAttribute( "background" ).string();
 
@@ -766,7 +720,7 @@ void KonqHTMLView::updateActions()
   }
   else
   {
-    bgURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string();
+    bgURL = m_pWidget->htmlDocument().body().getAttribute( "background" ).string();
 
     m_paSaveDocument->setText( i18n( "&Save As.." ) );
     m_paSaveFrame->setEnabled( false );
@@ -807,6 +761,61 @@ void KonqHTMLView::updateActions()
     m_vViewMenu->setItemEnabled( m_idSaveBackground, !bURL.isNull() && !bURL.isEmpty() );
   }
 */
+}
+
+/**********************************************
+ *
+ * KonqHTMLViewExtension
+ *
+ **********************************************/
+
+KonqHTMLViewExtension::KonqHTMLViewExtension( KonqHTMLView *view, const char *name )
+  : KParts::BrowserExtension( view, name )
+{
+  m_pView = view;
+}
+
+void KonqHTMLViewExtension::print()
+{
+    // ### FIXME
+    //m_pView->htmlWidget()->print();
+}
+
+int KonqHTMLViewExtension::xOffset()
+{
+  return m_pView->htmlWidget()->contentsX();
+}
+
+int KonqHTMLViewExtension::yOffset()
+{
+  return m_pView->htmlWidget()->contentsY();
+}
+
+void KonqHTMLViewExtension::reparseConfiguration()
+{
+  // Called by "kfmclient configure".
+  // TODO : some stuff not done in initConfig :)
+  m_pView->htmlWidget()->initConfig();
+}
+
+void KonqHTMLViewExtension::saveLocalProperties()
+{
+  //  m_pView->m_pProps->saveLocal( KURL( m_HTMLView->url() ) );
+}
+
+void KonqHTMLViewExtension::savePropertiesAsDefault()
+{
+  //  m_pView->m_pProps->saveAsDefault();
+}
+
+void KonqHTMLViewExtension::saveState( QDataStream &stream )
+{
+    m_pView->htmlWidget()->saveState(stream);
+}
+
+void KonqHTMLViewExtension::restoreState( QDataStream &stream )
+{
+    m_pView->htmlWidget()->restoreState(stream);
 }
 
 #if 0

@@ -25,22 +25,9 @@
 
 #include <qpoint.h>
 
-class KonqHTMLView;
 class KonqSearchDialog;
-
-class HTMLViewPropertiesExtension : public ViewPropertiesExtension
-{
-  Q_OBJECT
-public:
-  HTMLViewPropertiesExtension( KonqHTMLView *htmlView );
-
-  virtual void reparseConfiguration();
-  virtual void saveLocalProperties();
-  virtual void savePropertiesAsDefault();
-
-private:
-  KonqHTMLView *m_HTMLView;
-};
+class KAction;
+class KonqHTMLViewExtension;
 
 /* ### FIXME (Lars)
 class KonqEmbededFrame : public KHTMLEmbededWidget
@@ -59,54 +46,28 @@ protected:
 };
 */
 
-class KonqHTMLView;
-
-class KonqBrowser : public KHTMLWidget
+/**
+ *
+ */
+class KonqHTMLWidget : public KHTMLWidget
 {
   Q_OBJECT
 public:
-  KonqBrowser( KonqHTMLView *htmlView, const char *name );
+  KonqHTMLWidget( QWidget * parent, const char *name );
+  virtual ~KonqHTMLWidget() {}
 
-  virtual void openURL( const QString &url, bool reload = false, int xOffset = 0, int yOffset = 0, const char *post_data = 0L );
+  virtual void openURL( const KURL &url, bool reload = false, int xOffset = 0, int yOffset = 0, const char *post_data = 0L );
 
-private:
-  KonqHTMLView *m_pHTMLView;
-};
+  void initConfig();
 
-class KonqHTMLView : public BrowserView
-{
-  Q_OBJECT
-  friend class KonqBrowser;
-  friend class HTMLViewPropertiesExtension;
-public:
-  KonqHTMLView( QWidget *parent, const char *name );
-  virtual ~KonqHTMLView();
+signals:
+  // ok, this is a bit dirty. Our widget emits signals with the exact same signature as the
+  // BrowserExtension ones, so that they get connected directly.
+   void openURLRequest( const QString &url, bool reload, int xOffset, int yOffset, const QString &serviceType = QString::null );
+   void onURL( const QString & url );
+   void popupMenu( const QPoint &_global, const KFileItemList &_items );
+   void createNewWindow( const QString &url );
 
-  virtual void openURL( const QString &url, bool reload = false,
-                        int xOffset = 0, int yOffset = 0 );
-
-  virtual QString url();
-  virtual int xOffset();
-  virtual int yOffset();
-  virtual void stop();
-
-  virtual void print();
-
-  virtual void slotLoadImages();
-
-#if 1
-  virtual void saveState( QDataStream &stream );
-  virtual void restoreState( QDataStream &stream );
-#endif
-
-//  virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
-/*
-  virtual void can( bool &copy, bool &paste, bool &move );
-
-  virtual void copySelection();
-  virtual void pasteSelection();
-  virtual void moveSelection( const QCString & );
-*/
 public slots:
   // small hack to get popupmenus. Fix after krash
   void slotRightButtonPressed( const QString &_url, const QPoint &_global);
@@ -114,27 +75,12 @@ public slots:
   void slotFrameInserted( KHTMLWidget *frame );
 
 protected slots:
-  void slotShowURL( const QString &_url );
-  void slotSetTitle( QString title );
-  void viewDocumentSource();
-  void viewFrameSource();
-  void saveBackground();
-  void saveDocument();
-  void saveFrame();
-
-  void slotDocumentRedirection( int, const char *url );
   void slotNewWindow( const QString &url );
 
-    //void slotSearch();
-
-//  void slotSelectionChanged();
+//void slotSearch();
+//void slotSelectionChanged();
 
 protected:
-  void initConfig();
-
-  virtual void resizeEvent( QResizeEvent * );
-
-  void openTxtView( const QString &url );
 
 //  virtual KBrowser *createFrame( QWidget *_parent, const char *_name );
 
@@ -143,26 +89,96 @@ protected:
     //						int _marginwidth, int _marginheight,
     //						int _frameborder, bool _noresize );
 
-private slots:
+private:
+  bool m_bAutoLoadImages;
+    // KonqSearchDialog *m_pSearchDialog;
+};
+
+/**
+ * The konqueror view, i.e. the part.
+ */
+class KonqHTMLView : public KParts::ReadOnlyPart
+{
+  Q_OBJECT
+public:
+  KonqHTMLView( QWidget * parent = 0, const char *name = 0 );
+  virtual ~KonqHTMLView();
+
+  virtual bool openURL( const KURL &url );
+
+  // we reimplement openURL so this is never called
+  virtual bool openFile() { return false; }
+
+  // used to be called stop()
+  virtual void closeURL();
+
+  // to avoid having to call widget() and cast very often
+  KonqHTMLWidget * htmlWidget() { return m_pWidget; }
+
+  virtual void setXYOffset( int x, int y )
+    { m_iXOffset = x; m_iYOffset = y; }
+
+protected slots:
+  void slotCompleted();
+  void slotShowURL( const QString &_url );
+  void slotSetTitle( QString title );
+  void slotDocumentRedirection( int, const char *url );
+  void saveDocument();
+  void saveFrame();
+  void saveBackground();
+  void viewDocumentSource();
+  void viewFrameSource();
+  void slotLoadImages();
+
   void updateActions();
 
-private:
+protected:
+  void openTxtView( const QString &url );
 
-  bool m_bAutoLoadImages;
-
-  KonqBrowser *m_pBrowser;
-
-    // KonqSearchDialog *m_pSearchDialog;
-
-  QString m_strURL;
+  int m_iXOffset;
+  int m_iYOffset;
 
   KAction *m_paViewDocument;
   KAction *m_paViewFrame;
   KAction *m_paSaveBackground;
   KAction *m_paSaveDocument;
   KAction *m_paSaveFrame;
-    //QAction *m_paSearch;
+  //KAction *m_paSearch;
 
+  KonqHTMLWidget * m_pWidget;
+  KonqHTMLViewExtension * m_extension;
+};
+
+/**
+ * The browser-extension that allows the view to be embedded in konqueror
+ */
+class KonqHTMLViewExtension : public KParts::BrowserExtension
+{
+  Q_OBJECT
+    friend class KonqHTMLView; // emits our signals
+public:
+  KonqHTMLViewExtension( KonqHTMLView *view, const char *name = 0 );
+  virtual ~KonqHTMLViewExtension() {}
+
+  virtual void setXYOffset( int x, int y )
+    {
+      m_pView->setXYOffset( x, y );
+    }
+  virtual int xOffset();
+  virtual int yOffset();
+
+public slots:
+  // Automatically detected by konqueror
+  // TODO add cut, copy, pastecopy, pastecut, ...
+  virtual void print();
+  virtual void reparseConfiguration();
+  virtual void saveLocalProperties();
+  virtual void savePropertiesAsDefault();
+  virtual void saveState( QDataStream &stream );
+  virtual void restoreState( QDataStream &stream );
+
+private:
+  KonqHTMLView * m_pView;
 };
 
 #endif
