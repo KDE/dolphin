@@ -438,9 +438,6 @@ void KWrite::readConfig() {
 
   config->setGroup("General Options");
   readConfig(config);
-
-  KTextEditor::ConfigInterface *cfgIf=KTextEditor::configInterface(m_kateView->document());
-  if (cfgIf) cfgIf->readConfig();
 }
 
 
