@@ -28,7 +28,6 @@
 class KonqFMSettings;
 class KFileIVI;
 class KonqIconDrag;
-class KonqImagePreviewJob;
 namespace KIO { class Job; }
 
 /**
@@ -237,8 +236,6 @@ protected:
     KURL::List m_lstDragURLs;
 
     int m_size;
-
-    QGuardedPtr<KonqImagePreviewJob> m_pImagePreviewJob; /// ### KDE 3.0 remove
 
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;
