@@ -261,7 +261,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                     {
                         delete d->m_movie;
                         d->m_movie = new QMovie( movie ); // shallow copy, don't worry
-			// Fix alpha-channel - currently only if no background pixmap, 
+			// Fix alpha-channel - currently only if no background pixmap,
 			// the bg pixmap case requires to uncomment the code at qmovie.cpp:404
                         const QPixmap* pm = backgroundPixmap();
                         bool hasPixmap = pm && !pm->isNull();
@@ -307,7 +307,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     }
 
     // ## shouldn't this be disabled during rectangular selection too ?
-    if (d->bSoundPreviews && d->pSoundPlayer->mimeTypes().contains(
+    if (d->bSoundPreviews && d->pSoundPlayer &&
+        d->pSoundPlayer->mimeTypes().contains(
             static_cast<KFileIVI *>(item)->item()->mimetype()))
     {
         d->pSoundItem = static_cast<KFileIVI *>(item);
