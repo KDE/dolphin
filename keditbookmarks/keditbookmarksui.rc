@@ -1,0 +1,58 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="keditbookmarks" version="1">
+
+<MenuBar>
+
+<Menu name="file" noMerge="1"><text>&amp;File</text>
+ <Action name="file_importNS"/>
+ <Action name="file_save"/>
+ <WeakSeparator/>
+ <Action name="file_close"/>
+</Menu>
+
+<Menu name="edit" noMerge="1"><text>&amp;Edit</text>
+ <Action name="edit_undo"/>
+ <Action name="edit_rename"/>
+ <Action name="edit_delete"/>
+ <Separator/><!-- Stuff for folders -->
+ <Action name="edit_newfolder"/>
+ <Action name="edit_insertseparator"/>
+ <Action name="edit_sort"/>
+ <Action name="edit_setastoolbar"/>
+ <Separator/><!-- Stuff for bookmarks -->
+ <Action name="edit_openlink"/>
+ <Action name="edit_testlink"/>
+</Menu>
+
+<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+  <Action name="settings_showNS"/>
+</Menu>
+
+</MenuBar>
+
+<ToolBar name="mainToolBar" noMerge="1" fullWidth="true"><text>Main Toolbar</text>
+ <Action name="file_save"/>
+ <Action name="edit_undo"/>
+ <Action name="edit_delete"/>
+ <Action name="edit_newfolder"/>
+</ToolBar>
+
+<Menu name="popup_folder">
+ <Action name="edit_rename"/>
+ <Action name="edit_delete"/>
+ <Separator/><!-- Stuff for folders -->
+ <Action name="edit_newfolder"/>
+ <Action name="edit_insertseparator"/>
+ <!--<Action name="edit_sort"/>-->
+ <Action name="edit_setastoolbar"/>
+</Menu>
+
+<Menu name="popup_bookmark">
+ <Action name="edit_rename"/>
+ <Action name="edit_delete"/>
+ <Separator/><!-- Stuff for bookmarks -->
+ <Action name="edit_openlink"/>
+ <!--<Action name="edit_testlink"/>-->
+</Menu>
+
+</kpartgui>

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Exec=keditbookmarks
+Icon=keditbookmarks
+DocPath=keditbookmarks/index.html
+Type=Application
+MapNotify=true
+
+Name=Bookmarks Editor
+
+Comment=Edit your Konqueror Bookmarks
+
