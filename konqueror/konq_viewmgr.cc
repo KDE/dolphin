@@ -1211,7 +1211,8 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
     QRect geom;
     KConfig gc("kdeglobals", false, false);
     gc.setGroup("Windows");
-    if (gc.readBoolEntry("XineramaEnabled", true) &&
+    if (QApplication::desktop()->isVirtualDesktop() &&
+        gc.readBoolEntry("XineramaEnabled", true) &&
         gc.readBoolEntry("XineramaPlacementEnabled", true)) {
         int screen = widget ? QApplication::desktop()->screenNumber(widget) :-1;
         geom = QApplication::desktop()->screenGeometry(screen);
