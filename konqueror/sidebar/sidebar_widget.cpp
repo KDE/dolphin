@@ -181,6 +181,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 //	ButtonBar->setFixedWidth(25);
 	QTimer::singleShot(0,this,SLOT(createButtons()));
 	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
+	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
 }
 
 
@@ -461,6 +462,9 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);	
 				KParts::BrowserExtension *browserExtCli;
 				KParts::BrowserExtension *browserExtMst=KParts::BrowserExtension::childObject(partParent);
+				connect(data->module,SIGNAL(started(KIO::Job *)),
+					this, SIGNAL(started(KIO::Job*)));
+		                connect(data->module,SIGNAL(completed()),this,SIGNAL(completed()));
 				if ((browserExtCli=(KParts::BrowserExtension*)data->module->provides("KParts::BrowserExtension"))!=0)
 					{
 					connect(browserExtCli,SIGNAL(popupMenu( const QPoint &, const KURL &,
@@ -541,6 +545,22 @@ void Sidebar_Widget::showHidePage(int page)
 	
 }
 
+void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
+{
+	kdDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(KDockWidget*)"<<endl;
+	for (unsigned int i=0;i<Buttons.count();i++)
+	{
+		if (Buttons.at(i)->dock==wid)
+			{
+				ButtonBar->setButton(i,false);
+//				latestViewed=-1;
+//				visibleViews.remove(Buttons.at(i)->file);
+//				break;
+			}
+	}
+}
+
+
 Sidebar_Widget::~Sidebar_Widget()
 {
 	KConfig conf("konqsidebartng.rc");
@@ -548,3 +568,4 @@ Sidebar_Widget::~Sidebar_Widget()
         conf.writeEntry("OpenViews", visibleViews);
 	conf.sync();
 }
+

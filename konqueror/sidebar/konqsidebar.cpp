@@ -19,6 +19,9 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
     // this should be your custom internal widget
     m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
     m_extension = new KonqSidebarBrowserExtension( this, m_widget,"KonqSidebar::BrowserExtension" );
+    connect(m_widget,SIGNAL(started(KIO::Job *)),
+            this, SIGNAL(started(KIO::Job*)));
+    connect(m_widget,SIGNAL(completed()),this,SIGNAL(completed()));
     setWidget(m_widget);
 }
 

@@ -91,6 +91,10 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 	void createButtons();
 	void activatedMenu(int id);
 	void buttonPopupActivate(int);
+  	void dockWidgetHasUndocked(KDockWidget*);  
+  signals:
+		void started(KIO::Job *);
+                void complete();
 };
 
 #endif

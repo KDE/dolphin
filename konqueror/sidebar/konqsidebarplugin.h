@@ -6,6 +6,7 @@
 #include <qstring.h>
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+#include <kio/job.h>
 
 class KonqSidebar_PluginInterface;
 
@@ -23,6 +24,9 @@ class KonqSidebarPlugin : public QObject
 		QString desktopName;
 	signals:
 		void requestURL(KURL&);
+		void started(KIO::Job *);
+		void completed();
+		
 	public slots:
 		void openURL(const KURL& url){handleURL(url);}
 };

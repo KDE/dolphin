@@ -33,6 +33,9 @@ void KonqSidebar_Tree::enableActions( bool copy, bool cut, bool paste,
 
 void KonqSidebar_Tree::handleURL(const KURL &url)
     {
+	emit started( 0 );
+        tree->followURL( url );
+        emit completed();
     }
 
 
