@@ -195,6 +195,11 @@ void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )
        return; // Error will follow
     }
     KonqHistoryManager::kself()->addPending( redirectedToURL );
+
+    // Do not post data on reload if we were redirected to a new URL when
+    // doing a POST request.
+    if (redirectFromURL != redirectedToURL)
+        m_args.setDoPost (false);
 }
 
 #include "konq_run.moc"
