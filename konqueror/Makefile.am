@@ -1,7 +1,7 @@
 
 INCLUDES = -I$(srcdir)/../libkonq $(all_includes)
 
-SUBDIRS = . plugins kfmexec client iconview dirtree listview pics
+SUBDIRS = . plugins kfmexec client iconview dirtree listview textview pics
 
 lib_LTLIBRARIES = libkonqueror.la
 
@@ -58,6 +58,7 @@ linktest_LDADD = $(lib_LTLIBRARIES) \
 	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
 	$(top_builddir)/konqueror/iconview/libkonqiconview.la \
 	$(top_builddir)/konqueror/listview/libkonqlistview.la \
+	$(top_builddir)/konqueror/textview/libkonqtextview.la \
 	$(top_builddir)/konqueror/dirtree/libkonqdirtree.la $(LIB_KDECORE)
 
 linktest_LDFLAGS = $(konqueror_LDFLAGS)
