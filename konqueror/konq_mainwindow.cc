@@ -424,12 +424,12 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
   //FIXME: obey args (like passing post-data (to KRun), etc.)
-  static_cast<KonqFileManager *>( KonqFileManager::getFileManager() )->openFileManagerWindow( url.url(), args.frameName );
+  KonqFileManager::self()->openFileManagerWindow( url.url(), args.frameName );
 }
 
 void KonqMainWindow::slotNewWindow()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( m_currentView->url() );
+  KonqFileManager::self()->openFileManagerWindow( m_currentView->url() );
 }
 
 void KonqMainWindow::slotRun()
@@ -630,23 +630,23 @@ void KonqMainWindow::slotGoApplications()
 
 void KonqMainWindow::slotGoDirTree()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( locateLocal( "data", "konqueror/dirtree/" ) );
+  KonqFileManager::self()->openFileManagerWindow( locateLocal( "data", "konqueror/dirtree/" ) );
 }
 
 void KonqMainWindow::slotGoTrash()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::trashPath() );
+  KonqFileManager::self()->openFileManagerWindow( KGlobalSettings::trashPath() );
 }
 
 void KonqMainWindow::slotGoTemplates()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow(
+  KonqFileManager::self()->openFileManagerWindow(
       KonqFactory::instance()->dirs()->resourceDirs("templates").last() );
 }
 
 void KonqMainWindow::slotGoAutostart()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::autostartPath() );
+  KonqFileManager::self()->openFileManagerWindow( KGlobalSettings::autostartPath() );
 }
 
 void KonqMainWindow::slotConfigureFileManager()
@@ -1153,7 +1153,7 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
     KonqView * senderChildView = childView(ev->part());
 
     KParts::BrowserExtension *ext = senderChildView->browserExtension();
-    
+
     // Check if sender is linked
     bool bLinked = senderChildView->linkedView();
     // Forward the event to all views

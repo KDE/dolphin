@@ -59,7 +59,6 @@ int main( int argc, char **argv )
 
   QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
-  KonqFileManager fm;
   KFileOpenWithHandler fowh;
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -93,7 +92,7 @@ int main( int argc, char **argv )
              urlToOpen = url;
          else
              urlToOpen = KURL( konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
-         fm.openFileManagerWindow( urlToOpen );
+         KonqFileManager::self()->openFileManagerWindow( urlToOpen );
      }
   }
   args->clear();

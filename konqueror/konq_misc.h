@@ -35,15 +35,26 @@ public:
 };
 
 /* Implement the openFileManagerWindow call that libkio does if necessary */
-class KonqFileManager : public KFileManager
+class KonqFileManager
 {
 public:
-  KonqFileManager() {} ;
+  KonqFileManager() 
+  {} ;
   virtual ~KonqFileManager() {} ;
 
-  virtual bool openFileManagerWindow( const KURL & url );
+  static KonqFileManager *self()
+  {
+    if ( !s_pSelf )
+      s_pSelf = new KonqFileManager();
+    return s_pSelf;
+  }
+
+  bool openFileManagerWindow( const KURL & url );
 
   bool openFileManagerWindow( const KURL &url, const QString &name );
+
+private:
+  static KonqFileManager *s_pSelf;
 };
 
 QString konqFilteredURL( QWidget * parent, const QString &url );

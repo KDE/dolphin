@@ -40,7 +40,7 @@ KonquerorIface::~KonquerorIface()
 
 void KonquerorIface::openBrowserWindow( const QString &url )
 {
-  KFileManager::getFileManager()->openFileManagerWindow( url );
+  KonqFileManager::self()->openFileManagerWindow( url );
 }
 
 void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )

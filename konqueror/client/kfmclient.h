@@ -23,8 +23,7 @@
 #include <kapp.h>
 #include <krun.h>
 
-class clientApp : public KApplication,
-                  public KFileManager
+class clientApp : public KApplication
 {
   Q_OBJECT
 public:

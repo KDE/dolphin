@@ -30,6 +30,8 @@
  *
  **********************************************/
 
+KonqFileManager *KonqFileManager::s_pSelf = 0;
+
 bool KonqFileManager::openFileManagerWindow( const KURL & _url )
 {
   return openFileManagerWindow( _url, QString::null );
@@ -88,6 +90,6 @@ QString konqFilteredURL( QWidget * parent, const QString &_url )
 void KonqBookmarkManager::editBookmarks( const KURL & _url )
 {
   // Will call the KonqFileManager re-implementation
-  KFileManager::getFileManager()->openFileManagerWindow( _url );
+  KonqFileManager::self()->openFileManagerWindow( _url );
 }
 

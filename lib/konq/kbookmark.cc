@@ -232,7 +232,8 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 
 void KBookmarkManager::editBookmarks( const QString & _url )
 {
-  KFileManager::getFileManager()->openFileManagerWindow( _url );
+//  KFileManager::getFileManager()->openFileManagerWindow( _url );
+  KRun::runURL( _url, "inode/directory" ); 
 }
 
 void KBookmarkManager::slotEditBookmarks()
