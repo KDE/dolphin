@@ -19,3 +19,8 @@ SUBDIRS = pics
 
 kde_services_DATA = kfindpart.desktop
 kde_servicetypes_DATA = findpart.desktop
+
+ 
+messages:
+	$(XGETTEXT) *.cpp *.h -o $(podir)/kfindpart.pot
+
