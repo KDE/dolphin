@@ -432,16 +432,16 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( url.protocol() == "javascript" && !req.typedURL.isEmpty() ) 
   {
     m_pendingBookmarklet = url;    
-    if ( !view || view->url().isEmpty() || !view->part() || !view->part()->inherits("KHTMLPart") ) 
+    if ( view && view->part() && view->part()->inherits("KHTMLPart") && !view->url().isEmpty() ) 
+    {
+      executePendingBookmarklet( view );
+      return;
+    }
+    else 
     {
       abortLoading();
       serviceType = "text/html";
       url = "about:blank";
-    }
-    else 
-    {
-      executePendingBookmarklet( view );
-      return;
     }
   }
   else if ( view )
