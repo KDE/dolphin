@@ -29,7 +29,7 @@ servicetypesdir = $(kde_servicetypesdir)
 data_DATA = cookies.desktop useragent.desktop cache.desktop
 datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
 
-data2_DATA = netpref.desktop proxy.desktop 
+data2_DATA = lanbrowser.desktop netpref.desktop proxy.desktop 
 data2dir = $(kde_appsdir)/Settings/Network
 
 smb_DATA = smb.desktop
