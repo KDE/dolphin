@@ -1524,7 +1524,7 @@ www.kde.org</ulink>.</para>
   
 
   
-<![ %addindex; [ &documentation.index ]]>  
+<![ %addindex; [ &documentation.index; ]]>  
 </book>  
 <!--  
 Local Variables:  

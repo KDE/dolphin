@@ -3254,7 +3254,7 @@ url="http://www.kde.org">http://www.kde.org</ulink>.</para>
 </appendix>
 
 
-<![ %addindex; [ &documentation.index ]]>
+<![ %addindex; [ &documentation.index; ]]>
 </book>
 
 <!--
