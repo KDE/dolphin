@@ -483,7 +483,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
                                 }
                                 else
                                 {
-                                    QString newurl= dlg->selectedURL().path();
+                                    QString newurl= dlg->selectedURL().prettyURL();
                                     ksc.writeEntry("Name",newurl);
                                     ksc.writePathEntry("URL",newurl);
                                     ksc.sync();
