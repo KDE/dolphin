@@ -744,7 +744,7 @@ void KonqKfmIconView::slotCanceled( const KURL& url )
 {
     // Check if this canceled() signal is about the URL we're listing.
     // It could be about the URL we were listing, and openURL() aborted it.
-    if ( m_bLoading && url.cmp( m_pIconView->url(), true ) )
+    if ( m_bLoading && url.equals( m_pIconView->url(), true ) )
     {
         emit canceled( QString::null );
         m_bLoading = false;

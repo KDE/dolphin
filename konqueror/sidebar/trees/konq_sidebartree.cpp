@@ -202,7 +202,7 @@ void KonqSidebarTree::followURL( const KURL &url )
 {
     // Maybe we're there already ?
     KonqSidebarTreeItem *selection = static_cast<KonqSidebarTreeItem *>( selectedItem() );
-    if (selection && selection->externalURL().cmp( url, true ))
+    if (selection && selection->externalURL().equals( url, true ))
     {
         ensureItemVisible( selection );
         return;

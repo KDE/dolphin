@@ -108,7 +108,7 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
       QDictIterator<KonqListViewDir> it( m_dictSubDirs );
       for ( ; it.current(); ++it )
       {
-         if ( !_url.cmp( it.current()->item()->url(), true )
+         if ( !_url.equals( it.current()->item()->url(), true )
               && _url.isParentOf( it.current()->item()->url() ) )
          {
             setSelected( it.current(), false );
@@ -152,7 +152,7 @@ void KonqTreeViewWidget::slotCompleted()
 void KonqTreeViewWidget::slotCompleted( const KURL & _url )
 {
     // do nothing if the view itself is finished
-    if ( m_url.cmp( _url, true ) )
+    if ( m_url.equals( _url, true ) )
         return;
 
     KonqListViewDir *dir = m_dictSubDirs[ _url.url(-1) ];
@@ -206,7 +206,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
     dir.setFileName( "" );
 
     KonqListViewDir * parentDir = 0L;
-    if ( !m_url.cmp( dir, true ) ) // ignore trailing slash
+    if ( !m_url.equals( dir, true ) ) // ignore trailing slash
         parentDir = m_dictSubDirs[ dir.url(-1) ];
 
     for ( ; kit.current(); ++kit )

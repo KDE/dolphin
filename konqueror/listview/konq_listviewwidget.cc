@@ -849,7 +849,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    m_bTopLevelComplete = false;
    m_itemFound = false;
 
-   if ( m_itemToGoTo.isEmpty() && url.cmp( m_url.upURL(), true ) )
+   if ( m_itemToGoTo.isEmpty() && url.equals( m_url.upURL(), true ) )
       m_itemToGoTo = m_url.fileName( true );
 
    // Check for new properties in the new dir
