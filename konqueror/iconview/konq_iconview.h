@@ -166,6 +166,13 @@ protected:
   KToggleAction *m_paDotFiles;
   KActionMenu *m_pamSort;
 
+  KToggleAction *m_paLargeIcons;
+  KToggleAction *m_paNormalIcons;
+  KToggleAction *m_paSmallIcons;
+
+  KToggleAction *m_paBottomText;
+  KToggleAction *m_paRightText;
+
   KToggleAction *m_paKOfficeMode;
   KAction *m_paSelect;
   KAction *m_paUnselect;

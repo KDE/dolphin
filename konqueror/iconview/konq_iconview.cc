@@ -217,52 +217,52 @@ KonqKfmIconView::KonqKfmIconView()
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), 0, this, SLOT( slotUnselectAll() ), this );
 
-  KToggleAction *aLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
-  KToggleAction *aNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
-  KToggleAction *aSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
+  m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
+  m_paNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
+  m_paSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
   m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
-  aLargeIcons->setExclusiveGroup( "ViewMode" );
-  aNormalIcons->setExclusiveGroup( "ViewMode" );
-  aSmallIcons->setExclusiveGroup( "ViewMode" );
+  m_paLargeIcons->setExclusiveGroup( "ViewMode" );
+  m_paNormalIcons->setExclusiveGroup( "ViewMode" );
+  m_paSmallIcons->setExclusiveGroup( "ViewMode" );
   m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
-  aLargeIcons->setChecked( true );
-  aNormalIcons->setChecked( false );
-  aSmallIcons->setChecked( false );
+  m_paLargeIcons->setChecked( true );
+  m_paNormalIcons->setChecked( false );
+  m_paSmallIcons->setChecked( false );
   m_paKOfficeMode->setChecked( false );
   m_paKOfficeMode->setEnabled( false );
 
-  KToggleAction *aBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this );
-  KToggleAction *aRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this );
+  m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this );
+  m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this );
 
-  aBottomText->setExclusiveGroup( "TextPos" );
-  aRightText->setExclusiveGroup( "TextPos" );
+  m_paBottomText->setExclusiveGroup( "TextPos" );
+  m_paRightText->setExclusiveGroup( "TextPos" );
 
-  aBottomText->setChecked( true );
-  aRightText->setChecked( false );
+  m_paBottomText->setChecked( true );
+  m_paRightText->setChecked( false );
 
-  connect( aLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
-  connect( aNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
-  connect( aSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
+  connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
+  connect( m_paNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
+  connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
   connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
 
-  connect( aBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
-  connect( aRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
+  connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
+  connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
   actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
-  actions()->append( BrowserView::ViewAction( aBottomText, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( aRightText, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paBottomText, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paRightText, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
-  actions()->append( BrowserView::ViewAction( aLargeIcons, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( aNormalIcons, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( aSmallIcons, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paLargeIcons, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paNormalIcons, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paSmallIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( m_paSelect, BrowserView::MenuEdit ) );
@@ -534,8 +534,17 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
   QIconSet::Size iconSize = (QIconSet::Size)iIconSize;
   QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
 
-  m_pIconView->setViewMode( iconSize );
-  m_pIconView->setItemTextPos( textPos );
+  switch ( iconSize )
+  {
+    case QIconSet::Large: m_paLargeIcons->setChecked( true ); break;
+    case QIconSet::Automatic: m_paNormalIcons->setChecked( true ); break;
+    case QIconSet::Small: m_paSmallIcons->setChecked( true ); break;
+  }
+
+  if ( textPos == QIconView::Bottom )
+    m_paBottomText->setChecked( true );
+  else
+    m_paRightText->setChecked( true );
 }
 
 QString KonqKfmIconView::url()
