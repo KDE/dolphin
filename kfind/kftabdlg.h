@@ -75,7 +75,8 @@ public:
   //for fourth page
   QLineEdit *metainfoEdit;
   QLineEdit *metainfokeyEdit;
-
+  QDate dt;
+  
 private:
   bool isDateValid();
 
