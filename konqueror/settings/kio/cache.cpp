@@ -54,7 +54,6 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     cb_useCache->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                             QSizePolicy::Fixed,
                                             cb_useCache->sizePolicy().hasHeightForWidth()) );
-    cb_useCache->setAutoResize( true );
     QWhatsThis::add( cb_useCache, i18n("Click here if you want the web pages "
                                        "you view to be stored in your hard "
                                        "disk for quciker access. Enabling "
@@ -86,7 +85,6 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_verify = new QRadioButton( i18n("&Keep cache in sync"), gb_Cache_policy,
                                   "rb_verify" );
-    rb_verify->setAutoResize( true );
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
                                      "disk is still valid.  If this is disabled"
@@ -108,7 +106,6 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     rb_cacheIfPossible = new QRadioButton( i18n("Use cache if &possible"),
                                            gb_Cache_policy,
                                            "rb_cacheIfPossible" );
-    rb_cacheIfPossible->setAutoResize( true );
     QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always lookup "
                                               "the cache before connecting "
                                               "to the internet.") );
@@ -124,7 +121,6 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_offlineMode = new QRadioButton( i18n("&Offline browsing mode"),
                                        gb_Cache_policy, "rb_offlineMode" );
-    rb_offlineMode->setAutoResize( true );
     QWhatsThis::add( rb_offlineMode, i18n("Enable this to prevent http "
                                           "requests by KDE applications "
                                           "by default.") );

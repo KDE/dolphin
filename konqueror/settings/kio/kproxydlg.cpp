@@ -269,7 +269,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     cb_useProxy->setSizePolicy( QSizePolicy( QSizePolicy::Fixed,
                                 QSizePolicy::Fixed,
                                 cb_useProxy->sizePolicy().hasHeightForWidth()));
-    cb_useProxy->setAutoResize( true );
     QWhatsThis::add( cb_useProxy, i18n("<qt>Check this box to enable the use "
                                        "of proxy servers for your internet "
                                        "connection.<p>Please note that using "
@@ -313,7 +312,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     rb_autoDiscover = new QRadioButton( i18n("A&utomatically detected script "
                                         "file"), gb_configure,
                                         "rb_autoDiscover" );
-    rb_autoDiscover->setAutoResize( true );
     rb_autoDiscover->setChecked( true );
     QWhatsThis::add( rb_autoDiscover, i18n("<qt> Select this option if you want "
                                            "the proxy setup configuration script "
@@ -341,7 +339,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
 
     rb_autoScript = new QRadioButton( i18n("Specified &script file"),
                                       gb_configure, "rb_autoScript" );
-    rb_autoScript->setAutoResize( true );
     QWhatsThis::add( rb_autoScript, i18n("Select this option if your proxy "
                                          "support is provided through a script "
                                          "file located at a specific address.  "
@@ -386,7 +383,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
 
     rb_envVar = new QRadioButton( i18n("Preset environment &variables"),
                                   gb_configure, "rb_envVar" );
-    rb_envVar->setAutoResize( true );
     QWhatsThis::add( rb_envVar, i18n("<qt>Some systems are setup with "
                                      "environment variables such as "
                                      "<b>$HTTP_PROXY</b> to allow graphical "
@@ -420,7 +416,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
 
     rb_manual = new QRadioButton( i18n("&Manually specified settings"),
                                   gb_configure, "rb_manual" );
-    rb_manual->setAutoResize( true );
     QWhatsThis::add( rb_manual, i18n("<qt>Select this option and click on "
                                      "the <i>Setup...</i> button on the "
                                      "right side to manually setup the "
@@ -468,7 +463,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
 
     rb_prompt = new QRadioButton( i18n("Prompt as &needed"), gb_auth,
                                   "rb_prompt" );
-    rb_prompt->setAutoResize( true );
     rb_prompt->setChecked( true );
     QWhatsThis::add( rb_prompt, i18n("Select this option if you want to "
                                      "be prompted for the login information "
@@ -485,7 +479,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
 
     rb_autoLogin = new QRadioButton( i18n("Use automatic lo&gin"), gb_auth,
                                      "rb_autoLogin" );
-    rb_autoLogin->setAutoResize( true );
     QWhatsThis::add( rb_autoLogin, i18n("Select this option if you have "
                                         "already setup a login entry for "
                                         "your proxy server(s) in <tt>"

@@ -101,7 +101,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
     glay->setMargin( 0 );
 
     cb_envHttp = new QCheckBox( i18n("&HTTP:"), gb_servers, "cb_envHttp" );
-    cb_envHttp->setAutoResize( false );
     QWhatsThis::add( cb_envHttp, i18n("Check this box to enable environment "
                                       "variable based proxy setup for HTTP "
                                       "connections.") );
@@ -122,7 +121,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
     glay->addWidget( le_envHttp, 0, 1 );
 
     cb_envSecure = new QCheckBox( i18n("HTTP&S:"), gb_servers, "cb_envSecure" );
-    cb_envSecure->setAutoResize( true );
     QWhatsThis::add( cb_envSecure, i18n("Check this box to enable environment "
                                         "variable based proxy setup for secure "
                                         "connections such as HTTPS.") );
@@ -144,7 +142,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
     glay->addWidget( le_envSecure, 1, 1 );
 
     cb_envFtp = new QCheckBox( i18n("&FTP:"), gb_servers, "cb_envFtp" );
-    cb_envFtp->setAutoResize( true );
     QWhatsThis::add( cb_envFtp, i18n("Check this box to enable environment "
                                      "variable based proxy setup for FTP "
                                      "connections.") );
@@ -167,7 +164,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
 
     cb_envGopher = new QCheckBox( gb_servers, "cb_envGopher" );
     cb_envGopher->setText( i18n( "&Gopher:" ) );
-    cb_envGopher->setAutoResize( TRUE );
     QWhatsThis::add( cb_envGopher, i18n("Check this box to enable environment "
                                         "variable based proxy setup for "
                                         "Gopher connections.") );
@@ -200,7 +196,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
 
     cb_showValue = new QCheckBox( i18n("Show Actual &Values"), gb_servers,
                                   "cb_showValue" );
-    cb_showValue->setAutoResize( true );
     hlay->addWidget( cb_showValue );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::MinimumExpanding,
                               QSizePolicy::Minimum );
