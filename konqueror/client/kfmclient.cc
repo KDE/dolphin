@@ -32,6 +32,7 @@
 
 #include <kpropsdlg.h>
 #include <krun.h>
+#include <klocale.h>
 #include <kservice.h>
 #include <ktrader.h>
 #include <kprocess.h>
@@ -45,62 +46,55 @@ int main( int argc, char **argv )
 {
   if ( argc == 1 )
   {
-    // Should all the following be i18n'ed ?
-    printf("\nSyntax:\n");
-    printf("  kfmclient openURL\n"
-           "            # Opens a dialog to ask you for the URL\n\n");
-    printf("  kfmclient openURL 'url'\n"
-           "            # Opens a window showing 'url'. If such a window\n");
-    printf("            #   exists, it is shown. 'url' may be \"trash:/\"\n"
-           "            #   to open the trash bin.\n\n");
-    printf("  kfmclient refreshDesktop\n"
-           "            # Refreshes the desktop (obsolete)\n\n");
-    printf("  kfmclient refreshDirectory 'url'\n"
-           "            # Tells KFM that an URL has changes. If KFM\n");
-    printf("            #   is displaying that URL, it will be reloaded. (obsolete)\n\n");
-    printf("  kfmclient openProperties 'url'\n"
-           "            # Opens a properties menu\n\n");
-    printf("  kfmclient exec 'url' ['binding']\n"
-           "            # Tries to execute 'url'. 'url' may be a usual\n"
-           "            #   URL, this URL will be opened. You may omit\n"
-           "            #   'binding'. In this case the default binding\n");
-    printf("            #   is tried. Of course URL may be the URL of a\n"
-           "            #   document, or it may be a *.desktop file.\n");
-    printf("            #   This way you could for example mount a device\n"
-           "            #   by passing 'Mount default' as binding to \n"
-           "            #   'cdrom.desktop'\n\n");
-    printf("  kfmclient move 'src' 'dest'\n"
-           "            # Copies the URL 'src' to 'dest'.\n"
-           "            #   'src' may be a list of URLs.\n");
-    printf("            #   'dest' may be \"trash:/\" to move the files\n"
-           "            #   in the trash bin.\n\n");
-    printf("  kfmclient folder 'src' 'dest'\n"
-           "            # Like move if 'src' is given,\n"
-           "            #   otherwise like openURL src \n\n");
-    printf("  kfmclient sortDesktop\n"
-           "            # Rearranges all icons on the desktop.\n\n");
-    printf("  kfmclient selectDesktopIcons x y w h add\n"
-           "            # Selects the icons on the desktop in the given rectangle\n"
-           "            # If add is 1, adds selection to the current one\n");
-    printf("  kfmclient configure\n"
-           "            # Re-read konqueror's configuration.\n\n");
-    printf("  kfmclient configureDesktop\n"
-           "            # Re-read konqueror's configuration.\n\n");
-    printf("*** Examples:\n"
-           "  kfmclient exec file:/usr/local/kde/bin/kdehelp Open\n"
-           "             // Starts kdehelp\n\n");
-    printf("  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
-           "             // Mounts the CDROM\n\n");	
-    printf("  kfmclient exec file:/home/weis/data/test.html\n"
-           "             // Opens the file with default binding\n\n");
-    printf("  kfmclient exec file:/home/weis/data/test.html Netscape\n"
-           "             // Opens the file with netscape\n\n");
-    printf("  kfmclient exec ftp://localhost/ Open\n"
-           "             // Opens new window with URL\n\n");
-    printf("  kfmclient exec file:/root/Desktop/emacs.desktop\n"
-           "             // Starts emacs\n\n");
-    printf("  kfmclient exec file:/root/Desktop/cdrom.desktop\n"
-           "             // Opens the CD-ROM's mount directory\n\n");
+    printf(i18n("\nSyntax:\n"));
+    printf(i18n("  kfmclient openURL\n"
+                "            # Opens a dialog to ask you for the URL\n\n"));
+    printf(i18n("  kfmclient openURL 'url'\n"
+                "            # Opens a window showing 'url'. If such a window\n"));
+    printf(i18n("            #   exists, it is shown. 'url' may be \"trash:/\"\n"
+                "            #   to open the trash bin.\n\n"));
+    printf(i18n("  kfmclient openProperties 'url'\n"
+                "            # Opens a properties menu\n\n"));
+    printf(i18n("  kfmclient exec 'url' ['binding']\n"
+                "            # Tries to execute 'url'. 'url' may be a usual\n"
+                "            #   URL, this URL will be opened. You may omit\n"
+                "            #   'binding'. In this case the default binding\n"));
+    printf(i18n("            #   is tried. Of course URL may be the URL of a\n"
+                "            #   document, or it may be a *.desktop file.\n"));
+    printf(i18n("            #   This way you could for example mount a device\n"
+                "            #   by passing 'Mount default' as binding to \n"
+                "            #   'cdrom.desktop'\n\n"));
+    printf(i18n("  kfmclient move 'src' 'dest'\n"
+                "            # Moves the URL 'src' to 'dest'.\n"
+                "            #   'src' may be a list of URLs.\n"));
+    printf(i18n("            #   'dest' may be \"trash:/\" to move the files\n"
+                "            #   in the trash bin.\n\n"));
+    printf(i18n("  kfmclient copy 'src' 'dest'\n"
+                "            # Copies the URL 'src' to 'dest'.\n"
+                "            #   'src' may be a list of URLs.\n\n"));
+    printf(i18n("  kfmclient sortDesktop\n"
+                "            # Rearranges all icons on the desktop.\n\n"));
+    printf(i18n("  kfmclient selectDesktopIcons x y w h add\n"
+                "            # Selects the icons on the desktop in the given rectangle\n"
+                "            # If add is 1, adds selection to the current one\n\n"));
+    printf(i18n("  kfmclient configure\n"
+                "            # Re-read konqueror's configuration.\n\n"));
+    printf(i18n("  kfmclient configureDesktop\n"
+                "            # Re-read kdesktop's configuration.\n\n"));
+    
+    printf(i18n("*** Examples:\n"
+                "  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
+                "             // Mounts the CDROM\n\n"));	
+    printf(i18n("  kfmclient exec file:/home/weis/data/test.html\n"
+                "             // Opens the file with default binding\n\n"));
+    printf(i18n("  kfmclient exec file:/home/weis/data/test.html Netscape\n"
+                "             // Opens the file with netscape\n\n"));
+    printf(i18n("  kfmclient exec ftp://localhost/\n"
+                "             // Opens new window with URL\n\n"));
+    printf(i18n("  kfmclient exec file:/root/Desktop/emacs.desktop\n"
+                "             // Starts emacs\n\n"));
+    printf(i18n("  kfmclient exec file:/root/Desktop/cdrom.desktop\n"
+                "             // Opens the CD-ROM's mount directory\n\n"));
     return 0;
   }
     
@@ -133,61 +127,11 @@ int clientApp::doIt( int argc, char **argv )
 {
   if ( argc < 2 )
   {
-    fprintf( stderr, "Syntax Error: Too few arguments\n" );
+    fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
     return 1;
   }
     
-  if ( strcmp( argv[1], "refreshDesktop" ) == 0 )
-  {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, "Syntax Error: Too many arguments\n" );
-      return 1;
-    }
-    //	kfm.refreshDesktop();
-    // obsolete
-  }
-  else if ( strcmp( argv[1], "sortDesktop" ) == 0 )
-  {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, "Syntax Error: Too many arguments\n" );
-      return 1;
-    }
-    
-    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-    kdesky.rearrangeIcons( (int)false );
-
-    return true;
-  }
-  else if ( strcmp( argv[1], "configure" ) == 0 )
-  {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, "Syntax Error: Too many arguments\n" );
-      return 1;
-    }
-/*    
-    bool ok = getKonqy();
-    if (ok)
-    {
-      CORBA::Request_var req = m_vKonqy->_request( "configure" );
-      //req->result()->value()->type( OpenParts::_tc_MainWindow );
-      req->invoke();
-    }*/
-  }
-  else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
-  {
-    if ( argc != 2 )
-    {
-      fprintf( stderr, "Syntax Error: Too many arguments\n" );
-      return 1;
-    }
-
-    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-    kdesky.configure();
-  }
-  else if ( strcmp( argv[1], "openURL" ) == 0 )
+  if ( strcmp( argv[1], "openURL" ) == 0 )
   {
     if ( argc == 2 )
     {
@@ -199,24 +143,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, "Syntax Error: Too many arguments\n" );
-      return 1;
-    }
-  }
-  else if ( strcmp( argv[1], "refreshDirectory" ) == 0 )
-  {
-    if ( argc == 2 )
-    {
-      return openFileManagerWindow( QDir::homeDirPath() );
-    }
-    else if ( argc == 3 )
-    {
-      // kfm.refreshDirectory( argv[2] );
-      // obsolete
-    }
-    else
-    {
-      fprintf( stderr, "Syntax Error: Too many arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
       return 1;
     }
   }
@@ -230,7 +157,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n") );
       return 1;
     }
   }
@@ -255,7 +182,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n") );
       return 1;
     }
   }
@@ -263,7 +190,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc <= 3 )
     {
-      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
       return 1;
     }
     QString src = "";
@@ -275,14 +202,14 @@ int clientApp::doIt( int argc, char **argv )
         src += "\n";
       i++;
     }
-	
+    // TODO	
     // kfm.moveClient( src.data(), argv[ argc - 1 ] );
   }
   else if ( strcmp( argv[1], "copy" ) == 0 )
   {
     if ( argc <= 3 )
     {
-      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
       return 1;
     }
     QString src = "";
@@ -294,34 +221,21 @@ int clientApp::doIt( int argc, char **argv )
         src += "\n";
       i++;
     }
-	
+    // TODO
     // kfm.copy( src.data(), argv[ argc - 1 ] );
   }
-  else if ( strcmp( argv[1], "folder" ) == 0 )
+  else if ( strcmp( argv[1], "sortDesktop" ) == 0 )
   {
-    if ( argc <=2 )
+    if ( argc != 2 )
     {
-      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
       return 1;
     }
+    
+    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+    kdesky.rearrangeIcons( (int)false );
 
-    if (argc > 3) {
-      QString src = "";
-      int i = 2;
-      while ( i <= argc - 2 )
-      {
-        src += argv[i];
-        if ( i < argc - 2 )
-          src += "\n";
-        i++;
-      }
-	
-      // kfm.moveClient( src.data(), argv[ argc - 1 ] );
-    }
-    else
-    {
-      return openFileManagerWindow( argv[2] );
-    }
+    return true;
   }
   else if ( strcmp( argv[1], "selectDesktopIcons" ) == 0 )
   {
@@ -331,19 +245,39 @@ int clientApp::doIt( int argc, char **argv )
       int y = atoi( argv[3] );	  
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
-      // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */
-    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-    kdesky.selectIconsInRect( x, y, w, h );
+      // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */ // TODO
+      KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+      kdesky.selectIconsInRect( x, y, w, h );
     }
     else
     {
-      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, i18n("Syntax Error: Wrong number of arguments\n") );
       return 1;
     }
   }
+  else if ( strcmp( argv[1], "configure" ) == 0 )
+  {
+    if ( argc != 2 )
+    {
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
+      return 1;
+    }
+    // TODO
+  }
+  else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
+  {
+    if ( argc != 2 )
+    {
+      fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
+      return 1;
+    }
+
+    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+    kdesky.configure();
+  }
   else
   {
-    fprintf( stderr, "Syntax Error: Unknown command '%s'\n",argv[1] );
+    fprintf( stderr, i18n("Syntax Error: Unknown command '%s'\n"),argv[1] );
     return 1;
   }
   return 0;
