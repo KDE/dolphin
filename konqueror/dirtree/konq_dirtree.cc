@@ -504,5 +504,3 @@ KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( KDirLister *list
 
   return TopLevelItem();
 }
-
-#include <konq_dirtree.moc>
