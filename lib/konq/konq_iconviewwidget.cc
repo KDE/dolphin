@@ -118,7 +118,7 @@ void KFileTip::setItem( KFileIVI *ivi )
         move( pos );
         killTimers();
         setFilter( true );
-        if ( !isVisible() ) startTimer( 2000 );
+        if ( !isVisible() ) startTimer( 700 );
     }
     else {
         killTimers();
