@@ -201,16 +201,18 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ),
                                       actionCollection(), "show_dot" );
-    m_paDotFiles->setStatusText( i18n( "Toggle displaying of hidden dot files" ) );
+    m_paDotFiles->setToolTip( i18n( "Toggle displaying of hidden dot files" ) );
 
     m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
                                       actionCollection(), "show_directory_overlays" );
 
     m_pamPreview = new KActionMenu( i18n( "&Preview" ), actionCollection(), "iconview_preview" );
 
-    m_paEnablePreviews = new KToggleAction( i18n("Show Previews"), 0, actionCollection(), "iconview_preview_all" );
+    m_paEnablePreviews = new KToggleAction( i18n("Enable Previews"), 0, actionCollection(), "iconview_preview_all" );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
     m_paEnablePreviews->setIcon("thumbnail");
+    KGuiItem guiItem( i18n("Disable Previews") );
+    m_paEnablePreviews->setCheckedState( guiItem );
     m_pamPreview->insert( m_paEnablePreviews );
     m_pamPreview->insert( new KActionSeparator(this) );
 
@@ -301,11 +303,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
                                        this, SLOT( slotInvertSelection() ),
                                        actionCollection(), "invertselection" );
 
-    m_paSelect->setStatusText( i18n( "Allows selecting of file or folder items based on a given mask" ) );
-    m_paUnselect->setStatusText( i18n( "Allows unselecting of file or folder items based on a given mask" ) );
-    m_paSelectAll->setStatusText( i18n( "Selects all items" ) );
-    m_paUnselectAll->setStatusText( i18n( "Unselects all selected items" ) );
-    m_paInvertSelection->setStatusText( i18n( "Inverts the current selection of items" ) );
+    m_paSelect->setToolTip( i18n( "Allows selecting of file or folder items based on a given mask" ) );
+    m_paUnselect->setToolTip( i18n( "Allows unselecting of file or folder items based on a given mask" ) );
+    m_paSelectAll->setToolTip( i18n( "Selects all items" ) );
+    m_paUnselectAll->setToolTip( i18n( "Unselects all selected items" ) );
+    m_paInvertSelection->setToolTip( i18n( "Inverts the current selection of items" ) );
 
     //m_paBottomText = new KToggleAction( i18n( "Text at &Bottom" ), 0, actionCollection(), "textbottom" );
     //m_paRightText = new KToggleAction( i18n( "Text at &Right" ), 0, actionCollection(), "textright" );
