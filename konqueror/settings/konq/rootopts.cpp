@@ -168,8 +168,8 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   toolTipBox = new QCheckBox(i18n("Show tooltips"), groupBox);
   connect (toolTipBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add ( toolTipBox, i18n("Check this option if you "
-	      "want to see tool tips for icons when your hover the mouse "
-	      "on them.") );
+	      "want to see tooltips for icons when you hover the mouse "
+	      "over them.") );
 
   previewListView = new KListView( this );
   previewListView->setFullWidth(true);
