@@ -86,15 +86,14 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   label->setFrameStyle(QFrame::HLine|QFrame::Sunken);
   lay->addMultiCellWidget(label, 6, 6, 0, 6);
 
-  lb_http_port = new QLabel( le_http_port, i18n("Port:"), this);
+  lb_http_port = new QLabel( le_http_port, i18n("P&ort:"), this);
   lb_http_port->setAlignment(AlignVCenter);
   lay->addWidget(lb_http_port,ROW_HTTP,4);
 
   QString wtstr = i18n("If you want access to an HTTP proxy server, enter its address here.");
   QWhatsThis::add( lb_http_url, wtstr );
   QWhatsThis::add( le_http_url, wtstr );
-  wtstr = i18n("If you want access to an HTTP proxy server, enter its port number here."
-    " FIXME: standard port? default value?");
+  wtstr = i18n("If you want access to an HTTP proxy server, enter its port number here. Your system administrator or ISP should be able to provide with the correct value, but 8000 and 8080 are good guesses. " );
   QWhatsThis::add( lb_http_port, wtstr );
   QWhatsThis::add( le_http_port, wtstr );
 
@@ -110,15 +109,14 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->addWidget(le_ftp_port,ROW_FTP,5);
   connect(le_ftp_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_ftp_port = new QLabel( le_ftp_port, i18n("Port:"), this);
+  lb_ftp_port = new QLabel( le_ftp_port, i18n("Po&rt:"), this);
   lb_ftp_port->setAlignment(AlignVCenter);
   lay->addWidget(lb_ftp_port,ROW_FTP,4);
 
   wtstr = i18n("If you want access to an FTP proxy server, enter its address here.");
   QWhatsThis::add( lb_ftp_url, wtstr );
   QWhatsThis::add( le_ftp_url, wtstr );
-  wtstr = i18n("If you want access to an FTP proxy server, enter its port number here."
-    " FIXME: standard port? default value?");
+  wtstr = i18n("If you want access to an FTP proxy server, enter its port number here. Your system administrator or ISP should be able to provide you with the correct value for this." );
   QWhatsThis::add( lb_ftp_port, wtstr );
   QWhatsThis::add( le_ftp_port, wtstr );
 
@@ -130,13 +128,21 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_no_prx->setAlignment(AlignVCenter);
   lay->addWidget(lb_no_prx,ROW_NOPROXY,1);
 
-  wtstr = i18n("Here you can provide a list of hosts that will be directly accessed without"
-    " asking a proxy first. FIXME");
+  wtstr = i18n("Here you can provide a list of hosts or domains that will be directly accessed without"
+    " asking a proxy first. Usually, this will be hosts on your local network.");
   QWhatsThis::add( le_no_prx, wtstr );
   QWhatsThis::add( lb_no_prx, wtstr );
 
+  // buddies
+  lb_http_url->setBuddy( le_http_url );
+  lb_http_port->setBuddy( le_http_port );
+  lb_ftp_url->setBuddy( le_ftp_url );
+  lb_ftp_port->setBuddy( le_ftp_port );
+  lb_no_prx->setBuddy( le_no_prx );
+
   cb_useCache = new QCheckBox( i18n("Use &Cache"), this );
   lay->addMultiCellWidget(cb_useCache,ROW_USECACHE,ROW_USECACHE,1,6);
+  QWhatsThis::add( cb_useCache, i18n( "If this box is checked, Konqueror will use its cache to display recently loaded web pages again. It is advisable to use the cache, as it makes switching back and forth between web pages a lot faster. The disadvantage is that it takes up disk space." ) );
 
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
@@ -148,6 +154,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_max_cache_size = new QLabel( le_max_cache_size, i18n("Maximum Cache &Size:"), this);
   lb_max_cache_size->setAlignment(AlignVCenter);
   lay->addWidget(lb_max_cache_size,ROW_MAXCACHESIZE,1);
+  wtstr = i18n( "This is the maximum size in KB that the cache will take on your hard disk. If it would get larger than this, the oldest pages are deleted from the cache." );
+  QWhatsThis::add( le_max_cache_size, wtstr );
+  QWhatsThis::add( lb_max_cache_size, wtstr );
 
   le_max_cache_age = new QLineEdit(this);
   lay->addWidget(le_max_cache_age,ROW_MAXCACHEAGE,2);
@@ -157,6 +166,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 				i18n("Maximum Cache &Age:"), this);
   lb_max_cache_age->setAlignment(AlignVCenter);
   lay->addWidget(lb_max_cache_age,ROW_MAXCACHEAGE,1);
+  wtstr = i18n( "Pages that are older than the time entered here will be deleted from the cache automatically. This feature is not yet implemented." );
+  QWhatsThis::add( lb_max_cache_age, wtstr );
+  QWhatsThis::add( le_max_cache_age, wtstr );
 
   QString path;
   cp_down = new QPushButton( this );
@@ -190,6 +202,12 @@ KProxyOptions::~KProxyOptions()
   delete cp_down;
   delete cb_useProxy;
   // time to say goodbye ...
+}
+
+
+QString KProxyOptions::quickHelp() const
+{
+  return i18n( "This module lets you configure your proxy and cache settings. A proxy is a program on another computer that receives requests from your machine to access a certain web page (or other Internet ressources), retrieves the page and sends it back to you.<br>Proxies can help increase network throughput, but can also be a means of controlling which web pages you access. The  cache is an internal memory in Konqueror where recently read web pages are stored. If you want to retrieve a web page again that you have recently read, it will not be downloaded from the net, but rather retrieved from the cache which is a lot faster." );
 }
 
 void KProxyOptions::load()

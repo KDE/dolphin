@@ -30,6 +30,8 @@ Q_OBJECT
     virtual void load();
     virtual void save();
     virtual void defaults();
+
+    QString quickHelp() const;
     
   private:
     // a little information for the user

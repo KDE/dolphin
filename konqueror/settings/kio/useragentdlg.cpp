@@ -42,11 +42,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   lay->setColStretch(3,0);
   lay->setColStretch(4,0);
 
-  onserverLA = new QLabel( i18n( "On server:" ), this );
+  onserverLA = new QLabel( i18n( "On &server:" ), this );
   onserverLA->setAlignment( AlignRight|AlignVCenter );
   lay->addWidget(onserverLA,1,1);
 
   onserverED = new QLineEdit( this );
+  onserverLA->setBuddy( onserverED );
   lay->addWidget(onserverED,1,2);
 
   wtstr = i18n( "Enter the server (or a domain) you want to fool about Konqueror's identity here."
@@ -57,12 +58,13 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( onserverED, SIGNAL( textChanged(const QString&) ),
            SLOT( textChanged( const QString&) ) );
 
-  loginasLA = new QLabel( i18n( "login as:" ), this );
+  loginasLA = new QLabel( i18n( "&login as:" ), this );
   loginasLA->setAlignment( AlignRight|AlignVCenter );
   lay->addWidget(loginasLA,2,1);
 
   loginasED = new QLineEdit( this );
   lay->addWidget(loginasED,2,2);
+  loginasLA->setBuddy( loginasED );
 
   wtstr = i18n( "Here you can enter the identification Konqueror should use for the given server."
     " Example: <em>Mozilla/4.0 (compatible; Konqueror 2.0; Linux)</em>");
