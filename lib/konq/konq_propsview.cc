@@ -18,6 +18,7 @@
 */
 
 #include "konq_propsview.h"
+#include "konq_settings.h"
 
 #include <kdebug.h>
 #include <kstandarddirs.h>
@@ -108,7 +109,8 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", true );
 
-  m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
+  QColor tc = KonqFMSettings::settings()->normalTextColor();
+  m_textColor = config->readColorEntry( "TextColor", &tc );
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
   m_bgPixmapFile = config->readPathEntry( "BgImage" );
   //kdDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
@@ -535,38 +537,13 @@ QPixmap KonqPropsView::loadPixmap() const
 
 void KonqPropsView::applyColors(QWidget * widget) const
 {
-    //kdDebug(1203) << "KonqPropsView::applyColors " << (void*)this << endl;
-    QColorGroup a = widget->palette().active();
-    QColorGroup d = widget->palette().disabled(); // is this one ever used ?
-    QColorGroup i = widget->palette().inactive(); // is this one ever used ?
-    bool setPaletteNeeded = false;
-
     if ( m_bgPixmapFile.isEmpty() )
-    {
-        QColor col = bgColor(widget);
-        a.setColor( QColorGroup::Base, col );
-        d.setColor( QColorGroup::Base, col );
-        i.setColor( QColorGroup::Base, col );
-        widget->setBackgroundColor( col );
-        setPaletteNeeded = true;
-    }
+        widget->setPaletteBackgroundColor( bgColor( widget ) );
     else
-    {
         widget->setPaletteBackgroundPixmap( loadPixmap() );
-    }
 
     if ( m_textColor.isValid() )
-    {
-        a.setColor( QColorGroup::Text, m_textColor );
-        d.setColor( QColorGroup::Text, m_textColor );
-        i.setColor( QColorGroup::Text, m_textColor );
-        setPaletteNeeded = true;
-    }
-
-    // Avoid calling setPalette if we are fine with the default values.
-    // This makes us react to the palette-change event accordingly.
-    if ( setPaletteNeeded )
-        widget->setPalette( QPalette( a, d, i ) );
+        widget->setPaletteForegroundColor( m_textColor );
 }
 
 const QStringList& KonqPropsView::previewSettings()
