@@ -1255,12 +1255,14 @@ void KonqMainView::initActions()
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
-  m_paNewWindow = new KAction( i18n( "New &Window" ), stdAccel.openNew(), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+  m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), stdAccel.openNew(), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
-  m_paRun = new KAction( i18n( "&Run..." ), 0, this, SLOT( slotRun() ), actionCollection(), "run" );
-  m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
-  m_paOpenLocation = new KAction( i18n( "&Open Location..." ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
-  m_paToolFind = new KAction( i18n( "&Find" ), 0, this, SLOT( slotToolFind() ), actionCollection(), "find" );
+  QPixmap execpix = KGlobal::iconLoader()->loadApplicationIcon( "exec", KIconLoader::Small );
+  m_paRun = new KAction( i18n( "&Run..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
+  QPixmap terminalpix = KGlobal::iconLoader()->loadApplicationIcon( "terminal", KIconLoader::Small );
+  m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), terminalpix, CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
+  m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
+  m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not stdAccel.find()!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
   m_paPrint = new KAction( i18n( "&Print..."), QIconSet( BarIcon( "fileprint", KonqFactory::instance() ) ), stdAccel.print(), this, SLOT( slotPrint() ), actionCollection(), "print" );
 
@@ -1526,9 +1528,9 @@ QString KonqMainView::currentURL()
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
   m_oldView = m_currentView;
-  
+
   m_currentView = childView( (BrowserView *)sender() );
-  
+
   //kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
   QString url = m_currentView->url();
 
@@ -1556,7 +1558,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 
   pPopupMenu->exec( _global );
   delete pPopupMenu;
-  
+
   m_currentView = m_oldView;
   checkEditExtension();
 }
