@@ -63,7 +63,7 @@ konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 #konqueror_static_LDADD = konqueror.la *view/*.la dirtree/*.la $(libdir)/libkhtml.la
 #konqueror_static_LDFLAGS = $(all_libraries) -static
 
-dummy.cc:
+dummy.cc: $(srcdir)/Makefile.am
 	echo "extern \"C\" int kdemain( int argc, char **argv ); int main( int argc, char **argv ) { return kdemain( argc, argv ); }" > dummy.cc
 
 messages: rc.cpp
