@@ -359,6 +359,7 @@ KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
     connect( popupMenu(), SIGNAL( aboutToHide() ), SLOT( slotClearMenu() ));
     connect( popupMenu(), SIGNAL( activated( int ) ),
 	     SLOT( slotActivated(int) ));
+    slotFillMenu();
 }
 
 KonqMostOftenURLSAction::~KonqMostOftenURLSAction()
@@ -425,6 +426,7 @@ void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry *entry )
 
     else
 	s_mostEntries->inSort( entry );
+    setEnabled( !s_mostEntries->isEmpty() );
 }
 
 void KonqMostOftenURLSAction::slotEntryRemoved( const KonqHistoryEntry *entry )
@@ -434,6 +436,7 @@ void KonqMostOftenURLSAction::slotEntryRemoved( const KonqHistoryEntry *entry )
 	return;
 
     s_mostEntries->removeRef( entry );
+    setEnabled( !s_mostEntries->isEmpty() );
 }
 
 void KonqMostOftenURLSAction::slotHistoryCleared()
@@ -443,6 +446,7 @@ void KonqMostOftenURLSAction::slotHistoryCleared()
 	return;
 
     s_mostEntries->clear();
+    setEnabled( false );
 }
 
 void KonqMostOftenURLSAction::slotFillMenu()
@@ -468,6 +472,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
 
 	entry = (id > 0) ? s_mostEntries->at( --id ) : 0L;
     }
+    setEnabled( !s_mostEntries->isEmpty() );
 }
 
 void KonqMostOftenURLSAction::slotClearMenu()
