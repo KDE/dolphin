@@ -907,12 +907,22 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
   //display the data addressed by the URL
-  if ( !m_currentView->supportsServiceType( serviceType ) &&
-       !m_currentView->changeViewMode( serviceType, url ) )
+  if ( m_currentView->supportsServiceType( serviceType ) )
+  {
+    setUpEnabled( url, m_currentId );
+    m_currentView->openURL( url );
+    m_pRun = 0L;
+    return true;
+  }
+
+  if ( m_currentView->changeViewMode( serviceType, url ) )
+  {
+    setUpEnabled( url, m_currentId );
+    m_pRun = 0L;
     return false;
+  }
     
-  m_pRun = 0L;
-  return true;
+  return false;
 }
 
 // protected
@@ -1203,7 +1213,8 @@ void KonqMainView::slotUp()
   KURL u( url );
   u.cd(".."); // KURL does it for us
   
-  m_currentView->openURL( u.url() );
+//  m_currentView->openURL( u.url() );
+  openURL( u.url(), false ); //is this ok, David?
 }
 
 void KonqMainView::slotBack()
@@ -1403,20 +1414,13 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   if ( id == m_currentId )
     slotStartAnimation();
 
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #1", id, url);
   it.data()->makeHistory( false /* not completed */, url );
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #2", id, url);
   if ( id == m_currentId )
   {
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #3", id, url);
     setUpEnabled( m_currentView->url(), id );
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #4", id, url);
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #5", id, url);
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #6", id, url);
   }
-  kdebug(0, 1202, "KonqMainView::slotURLStarted #7", id, url);
 }
 
 void KonqMainView::slotURLCompleted( OpenParts::Id id )
