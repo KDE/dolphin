@@ -20,7 +20,7 @@
 #include <kbookmarkbar.h>
 
 #include <kaction.h>
-#include <kbookmark.h>
+#include <kbookmarkmanager.h>
 #include <kbookmarkmenu.h>
 
 #include <ktoolbar.h>
@@ -45,8 +45,8 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
 
     m_lstSubMenus.setAutoDelete( true );
 
-    connect( KBookmarkManager::self(), SIGNAL( changed(KBookmarkGroup &) ),
-             SLOT( slotBookmarksChanged(KBookmarkGroup &) ) );
+    connect( KBookmarkManager::self(), SIGNAL( changed(const QString &) ),
+             SLOT( slotBookmarksChanged(const QString &) ) );
 
     KBookmarkGroup toolbar = KBookmarkManager::self()->toolbar();
     fillBookmarkBar( toolbar );
@@ -74,13 +74,16 @@ void KBookmarkBar::clear()
 
 }
 
-void KBookmarkBar::slotBookmarksChanged( KBookmarkGroup & group )
+void KBookmarkBar::slotBookmarksChanged( const QString & group )
 {
-    if ( group.isToolbarGroup() )
+    KBookmarkGroup tb = KBookmarkManager::self()->toolbar();
+    if ( tb.isNull() )
+        return;
+    if ( tb.address() == group )
     {
         clear();
 
-        fillBookmarkBar( group );
+        fillBookmarkBar( tb );
     } else
     {
         // Iterate recursively into child menus
@@ -113,15 +116,13 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
         }
         else
         {
-            KActionMenu *action;
-            action = new KActionMenu(bm.text(), bm.icon(),
-                                     m_actionCollection, "bookmarkbar-actionmenu");
+            KActionMenu *action = new KActionMenu(bm.text(), bm.icon(),
+                                                  m_actionCollection, "bookmarkbar-actionmenu");
             action->setDelayed(false);
 
-            KBookmarkMenu *menu;
-            menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
-                                     m_actionCollection, false, true,
-                                     bm.toGroup());
+            KBookmarkMenu *menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
+                                                    m_actionCollection, false, true,
+                                                    bm.address());
             //menu->fillBookmarkMenu();
             action->plug(m_toolBar);
             m_actions.append( action );

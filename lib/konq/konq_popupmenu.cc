@@ -25,6 +25,7 @@
 #include <klocale.h>
 #include <krun.h>
 #include <kbookmark.h>
+#include <kbookmarkmanager.h>
 #include <kdebug.h>
 #include <kio/job.h>
 #include <kio/paste.h>

@@ -26,6 +26,7 @@
 
 class KToolBar;
 class KBookmarkMenu;
+class KBookmarkOwner;
 class KActionCollection;
 class KAction;
 
@@ -53,7 +54,7 @@ public:
     virtual ~KBookmarkBar();
 
 public slots:
-    void slotBookmarksChanged( KBookmarkGroup & );
+    void slotBookmarksChanged( const QString & );
     void slotBookmarkSelected();
     void clear();
 

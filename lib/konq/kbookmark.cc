@@ -17,6 +17,7 @@
 */
 
 #include "kbookmark.h"
+#include "kbookmarkmanager.h"
 #include "kbookmarkimporter.h"
 #include <kdebug.h>
 #include <kglobal.h>
@@ -26,163 +27,23 @@
 #include <kstringhandler.h>
 #include <kurl.h>
 #include <qdom.h>
-#include <qfile.h>
-#include <ksavefile.h>
 #include <klineeditdlg.h>
 #include <qtextstream.h>
-#include <kmessagebox.h>
-#include <kprocess.h>
 #include <klocale.h>
+#include <assert.h>
 
-KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
-
-KBookmarkManager* KBookmarkManager::self()
+KBookmarkGroup::KBookmarkGroup( QDomElement elem )
+ : KBookmark(elem)
 {
-  if ( !s_pSelf )
-    s_pSelf = new KBookmarkManager;
-
-  return s_pSelf;
 }
 
-KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportDesktopFiles )
-    : m_doc("BOOKMARKS")
+QString KBookmarkGroup::groupAddress() const
 {
-    if ( s_pSelf )
-        delete s_pSelf;
-    s_pSelf = this;
-
-    if (m_bookmarksFile.isEmpty())
-        m_bookmarksFile = locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
-    else
-        m_bookmarksFile = bookmarksFile;
-
-    if ( !QFile::exists(m_bookmarksFile) )
-    {
-        // First time we use this class
-        if ( m_doc.documentElement().isNull() )
-        {
-            QDomElement topLevel = m_doc.createElement("BOOKMARKS");
-            m_doc.appendChild( topLevel );
-        }
-        if ( bImportDesktopFiles )
-            importDesktopFiles();
-    }
-    else
-    {
-        parse();
-    }
+    if (m_address.isEmpty())
+        m_address = address();
+    assert(!m_address.isEmpty());
+    return m_address;
 }
-
-KBookmarkManager::~KBookmarkManager()
-{
-    s_pSelf = 0L;
-}
-
-void KBookmarkManager::parse()
-{
-    QFile file( m_bookmarksFile );
-    if ( !file.open( IO_ReadOnly ) )
-    {
-        kdWarning() << "Can't open " << m_bookmarksFile << endl;
-        return;
-    }
-    m_doc.setContent( &file );
-
-    QDomElement docElem = m_doc.documentElement(); // <BOOKMARKS>
-    if ( docElem.isNull() )
-        kdWarning() << "KBookmarkManager::parse : can't parse " << m_bookmarksFile << endl;
-
-    file.close();
-}
-
-/* for debugging only
-void KBookmarkManager::printGroup( QDomElement & group, int indent )
-{
-    QDomNode n = group.firstChild();
-    while( !n.isNull() )
-    {
-        QDomElement e = n.toElement();
-        if ( !e.isNull() )
-            if ( e.tagName() == "TEXT" )
-            {
-                kdDebug() << "KBookmarkManager::printGroup text=" << e.text() << endl;
-            }
-            else if ( e.tagName() == "GROUP" )
-                printGroup( e, indent+1 );
-            else
-                if ( e.tagName() == "BOOKMARK" )
-                {
-                    QString spaces;
-                    for ( int i = 0 ; i < indent ; i++ )
-                        spaces += " ";
-                    kdDebug() << "URL=" << e.attribute("URL") << endl;
-                    kdDebug() << spaces << e.text() << endl;
-                }
-                else
-                    kdDebug() << "Unknown tag " << e.tagName() << endl;
-        n = n.nextSibling();
-    }
-}
-*/
-
-void KBookmarkManager::importDesktopFiles()
-{
-    KBookmarkImporter importer( &m_doc );
-    QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
-    importer.import( path );
-    //kdDebug() << m_doc.toCString() << endl;
-
-    save();
-}
-
-bool KBookmarkManager::save()
-{
-    KSaveFile file( m_bookmarksFile );
-
-    if ( file.status() != 0 )
-    {
-        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
-        return false;
-    }
-    //This seems to save in local8bit ?!?!?!?
-    //QTextStream ts( &file );
-    //ts << m_doc;
-    QCString cstr = m_doc.toCString(); // is in UTF8
-    file.file()->writeBlock( cstr.data(), cstr.length() );
-    if (!file.close())
-    {
-        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
-        return false;
-    }
-    return true;
-}
-
-KBookmarkGroup KBookmarkManager::root()
-{
-    return KBookmarkGroup(m_doc.documentElement());
-}
-
-KBookmarkGroup KBookmarkManager::toolbar()
-{
-    return KBookmarkGroup(root().findToolbar());
-}
-
-void KBookmarkManager::emitChanged( KBookmarkGroup & group )
-{
-    save(); // The best time to save to disk is probably after each change.....
-
-    // ######## TODO: tell the other processes too !
-    emit changed( group );
-}
-
-void KBookmarkManager::slotEditBookmarks()
-{
-    KProcess proc;
-    proc << QString::fromLatin1("keditbookmarks") << m_bookmarksFile;
-    proc.start(KProcess::DontCare);
-}
-
-///////
 
 KBookmark KBookmarkGroup::first() const
 {
@@ -199,6 +60,7 @@ KBookmark KBookmarkGroup::next( KBookmark & current ) const
 
 KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
 {
+    kdDebug() << "KBookmarkGroup::createNewFolder " << groupAddress() <<  endl;
     QString txt( text );
     if ( text.isEmpty() )
     {
@@ -221,8 +83,20 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
     return KBookmarkGroup(groupElem);
 }
 
+KBookmark KBookmarkGroup::createNewSeparator()
+{
+    ASSERT(!element.isNull());
+    QDomDocument doc = element.ownerDocument();
+    ASSERT(!doc.isNull());
+    QDomElement groupElem = doc.createElement( "SEPARATOR" );
+    element.appendChild( groupElem );
+    KBookmarkManager::self()->emitChanged( *this );
+    return KBookmark(groupElem);
+}
+
 void KBookmarkGroup::addBookmark( const QString & text, const QString & url )
 {
+    kdDebug() << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
     QDomDocument doc = element.ownerDocument();
     QDomElement elem = doc.createElement( "BOOKMARK" );
     element.appendChild( elem );
@@ -270,6 +144,11 @@ bool KBookmark::isGroup() const
             || element.tagName() == "BOOKMARKS" ); // don't forget the toplevel group
 }
 
+bool KBookmark::isSeparator() const
+{
+    return (element.tagName() == "SEPARATOR");
+}
+
 QString KBookmark::text() const
 {
     return KStringHandler::csqueeze( fullText() );
@@ -283,7 +162,10 @@ QString KBookmark::fullText() const
     if (isGroup())
         txt = element.namedItem("TEXT").toElement().text();
     else
-        txt = element.text();
+        if (isSeparator())
+            txt = i18n("--- separator ---");
+        else
+            txt = element.text();
 
     return txt;
 }
@@ -302,7 +184,10 @@ QString KBookmark::icon() const
         if ( isGroup() )
             icon = KMimeType::mimeType( "inode/directory" )->KMimeType::icon( QString::null, true );
         else
-            icon = KMimeType::iconForURL( url() );
+            if ( isSeparator() )
+                icon = "eraser"; // whatever
+            else
+                icon = KMimeType::iconForURL( url() );
     return icon;
 }
 
@@ -317,11 +202,27 @@ KBookmarkGroup KBookmark::toGroup() const
     return KBookmarkGroup(element);
 }
 
-//////////////
-
-void KBookmarkOwner::openBookmarkURL(const QString& url)
+QString KBookmark::address() const
 {
-  (void) new KRun(url);
+    if ( element.tagName() == "BOOKMARKS" )
+        return "/";
+    else
+    {
+        // Use keditbookmarks's DEBUG_ADDRESSES flag to debug this code :)
+        QDomElement parent = element.parentNode().toElement();
+        assert(!parent.isNull());
+        KBookmarkGroup group( parent );
+        QString parentAddress = group.address();
+        if ( parentAddress == "/" ) parentAddress = QString::null; // we'll append a slash below
+        uint counter = 0;
+        // Implementation note: we don't use QDomNode's childNode list because we
+        // would have to skip "TEXT", which KBookmarkGroup already does for us.
+        for ( KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk), ++counter )
+        {
+            if ( bk.element == element )
+                return parentAddress + "/" + QString::number(counter);
+        }
+        kdWarning() << "KBookmark::address : this can't happen!  " << parentAddress << endl;
+        return "ERROR";
+    }
 }
-
-#include "kbookmark.moc"

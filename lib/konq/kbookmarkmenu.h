@@ -23,7 +23,8 @@
 #include <qlist.h>
 #include <qobject.h>
 #include <sys/types.h>
-#include <kbookmark.h>
+#include "kbookmark.h"
+#include "kbookmarkmanager.h"
 
 class QString;
 class KBookmark;
@@ -71,11 +72,13 @@ public:
    * @param collec parent for the KActions
    * @param root true for the toplevel menu
    * @param add true to show the "Add Bookmark" and "New Folder" entries
-   * @param parentBookmark the group containing the items we want to show
+   * @param parentBookmark the address of the group containing the items
+   * that we want to show. @see KBookmark::address.
+   * Empty parentAddress denotes a NS-bookmark menu.
    */
   KBookmarkMenu( KBookmarkOwner * owner, QPopupMenu * parentMenu,
                  KActionCollection * collec, bool root, bool add = true,
-                 KBookmarkGroup parentBookmark = KBookmarkManager::self()->root() );
+                 const QString & parentAddress = "/" );
 
   ~KBookmarkMenu();
 
@@ -87,7 +90,7 @@ public:
   void fillBookmarkMenu();
 
 public slots: // public for bookmark bar
-  void slotBookmarksChanged(KBookmarkGroup &);
+  void slotBookmarksChanged(const QString &);
 
 protected slots:
   void slotAboutToShow();
@@ -106,9 +109,11 @@ protected:
    */
   void openNSBookmarks();
 
-  bool m_bIsRoot;
-  bool m_bAddBookmark;
-  bool m_bDirty;
+  bool m_bIsRoot:1;
+  bool m_bAddBookmark:1;
+  bool m_bDirty:1;
+  bool m_bNSBookmark:1;
+
   KBookmarkOwner *m_pOwner;
   /**
    * The menu in which we plug our actions.
@@ -127,7 +132,7 @@ protected:
   /**
    * Parent bookmark for this menu.
    */
-  KBookmarkGroup m_parentBookmark;
+  QString m_parentAddress;
 };
 
 #endif
