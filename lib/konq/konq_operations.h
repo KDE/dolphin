@@ -92,7 +92,7 @@ public:
 signals:
     void statFinished( const KFileItem * item );
     /** Internally used, at the moment only when a rename operation failed.*/
-    void operationFailed();
+    void operationFinished(bool success);
 
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };

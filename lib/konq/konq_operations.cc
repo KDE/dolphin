@@ -628,7 +628,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
         KonqOperations * op = new KonqOperations( parent );
         op->setOperation( job, MOVE, lst, newurl );
         if ((receiver) && (slot))
-           connect(op,SIGNAL(operationFailed()),receiver,slot);
+           connect(op,SIGNAL(operationFinished(bool)),receiver,slot);
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
         // if old trash then update config file and emit
         if(oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::trashPath() ) {
@@ -677,12 +677,16 @@ void KonqOperations::_statURL( const KURL & url, const QObject *receiver, const 
 void KonqOperations::slotStatResult( KIO::Job * job )
 {
     if ( job->error())
+    {
         job->showErrorDialog( (QWidget*)parent() );
+        emit operationFinished(false);
+    }
     else
     {
         KIO::StatJob * statJob = static_cast<KIO::StatJob*>(job);
         KFileItem * item = new KFileItem( statJob->statResult(), statJob->url() );
         emit statFinished( item );
+        emit operationFinished(true);
         delete item;
     }
     // If we're only here for a stat, we're done. But not if we used _statURL internally
@@ -692,11 +696,13 @@ void KonqOperations::slotStatResult( KIO::Job * job )
 
 void KonqOperations::slotResult( KIO::Job * job )
 {
+    bool success=true;
     if (job && job->error())
     {
         job->showErrorDialog( (QWidget*)parent() );
-        emit operationFailed();
+        success=false;
     };
+    emit operationFinished(success);
     // Update trash bin icon if trashing files or emptying trash
     bool bUpdateTrash = m_method == TRASH || m_method == EMPTYTRASH;
     // ... or if creating a new file in the trash

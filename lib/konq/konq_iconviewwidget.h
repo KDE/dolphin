@@ -238,7 +238,7 @@ protected slots:
     void slotMovieStatus( int status );
     void slotReenableAnimation();
 
-    void renamingFailed();
+    void renamingFinished(bool success);
 
 protected:
     virtual QDragObject *dragObject();

@@ -332,13 +332,13 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
     kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
     KFileItem * fileItem = static_cast<KFileIVI *>(item)->item();
     d->renamedIcon=static_cast<KFileIVI *>(item);
-    KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFailed()));
+    KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFinished(bool)));
 }
 
-void KonqIconViewWidget::renamingFailed()
+void KonqIconViewWidget::renamingFinished(bool success)
 {
-    kdDebug(1203) << "KonqIconViewWidget::renamingFailed" << endl;
-   if (d->renamedIcon!=0)
+    kdDebug(1203) << "KonqIconViewWidget::renamingFinished" << endl;
+   if ((d->renamedIcon!=0) && (!success))
       d->renamedIcon->setText(d->renamedIcon->item()->text());
    d->renamedIcon=0;
 }
