@@ -868,6 +868,11 @@ void KonqKfmIconView::slotClear()
     m_lstPendingMimeIconItems.clear();
 }
 
+void KonqKfmIconView::slotRedirection( const KURL & url )
+{
+    emit m_extension->setLocationBarURL( url.url() );
+}
+
 static QString displayString(int items, int files, long size, int dirs)
 {
     QString text;
@@ -1013,6 +1018,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 			  this, SLOT( slotNewItems( const KFileItemList& ) ) );
 	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
+	QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+                          this, SLOT( slotRedirection( const KURL & ) ) );
     }
 
     m_bLoading = true;
