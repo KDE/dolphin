@@ -41,10 +41,12 @@ private:
 KonqControlApplication::KonqControlApplication( int &argc, char **argv )
 : KControlApplication( argc, argv, "kcmkonq" )
 {
+  m_pBehaviourOptions  = 0L;
   m_pFontOptions  = 0L;
   m_pColorOptions = 0L;
   m_pHTTPOptions  = 0L;
   m_pMiscOptions  = 0L;
+  m_pRootOptions  = 0L;
 
   if ( !runGUI() )
     return;
