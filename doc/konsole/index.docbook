@@ -35,8 +35,7 @@
 <releaseinfo>0.09.15</releaseinfo>
 
 <abstract><para>This document is the user handbook for the
-&konsole
- 
+&konsole 
 application.</para><para>&konsole is an X terminal
 emulator for KDE 2.0</para></abstract>
 
@@ -236,8 +235,8 @@ Console</guimenuitem></menuchoice></term>
 <listitem><para><action> Opens a new session emulating a text-only Linux
 system.</action></para><para>
 (See the file <filename>README.linux.console</filename> for detailed
-information on how the Linux
-console differs from a typical Unix shell.)</para></listitem>
+information on how the Linux console differs from a typical Unix console.)</para></listitem>
+
 </varlistentry>
 
 <varlistentry>
@@ -300,7 +299,9 @@ started.</action></para><para>Currently available signals are:</para>
 <varlistentry>
 <term><menuchoice><guimenu>Options</guimenu><guimenuitem>Session icons...</guimenuitem></menuchoice></term>
 <listitem><para>At the bottom of the menu is a list of the available sessions. Selecting one
-makes that session active.</para></listitem>
+makes that session active.</para>
+<para>You can use the Shift-Left/Right keys to cycle through the available sesions, too.</para>
+</listitem>
 </varlistentry>
 </variablelist>
 
