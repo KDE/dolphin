@@ -92,9 +92,11 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 
     ret = ConversePasswd(oldpass, newpass, check);
     if (ret < 0)
-	kdDebug(1512) << k_lineinfo << "Conversation with passwd failed.\n";
+        kdDebug(1512) << k_lineinfo << "Conversation with passwd failed. pid = " << pid() << endl;
 
-    waitForChild();
+    if ((waitForChild() != 0) && !check)
+        return PasswordNotGood;
+
     return ret;
 }
 
@@ -220,6 +222,27 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 	    m_Error += line + "\n";
 	    break;
 	}
+    }
+
+    // Are we ok or do we still get an error thrown at us?
+    m_Error = "";
+    state = 0;
+    while (state != 1)
+    {
+	line = readLine();
+	if (line.isNull()) 
+	{
+	    // No more input... OK
+	    return 0;
+	}
+	if (isPrompt(line, "password"))
+	{
+	   // Uh oh, another prompt. Not good!
+           kill(m_Pid, SIGKILL);
+	   waitForChild();
+	   return PasswordNotGood;
+	}
+	m_Error += line + "\n"; // Collect error message
     }
 
     kdDebug(1512) << k_lineinfo << "Conversation ended successfully.\n";

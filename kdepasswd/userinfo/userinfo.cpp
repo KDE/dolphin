@@ -259,9 +259,6 @@ void KUserInfoConfig::slotChangePassword()
 
   KDEpasswd2Dialog *dlg = new KDEpasswd2Dialog(oldpass, user);
   dlg->exec();
-
-  if (dlg->result() == KDEpasswd2Dialog::Accepted)
-    KMessageBox::information(0L, i18n("Your password has been changed."));
   delete dlg;
 }
 

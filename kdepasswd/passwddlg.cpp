@@ -34,9 +34,15 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
     switch (ret)
     {
     case -1:
-	KMessageBox::error(this, i18n("Conversation with `passwd' failed:\n")+QString::fromLocal8Bit(proc.error()));
+    {
+        QString msg = QString::fromLocal8Bit(proc.error());
+        if (!msg.isEmpty())
+            msg = "<p>\"<i>" + msg + "</i>\"";
+        msg = "<qt>" + i18n("Conversation with `passwd' failed.") + msg;
+	KMessageBox::error(this, msg);
 	done(Rejected);
 	return false;
+    }
 
     case 0:
 	return true;
@@ -124,20 +130,34 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
     switch (ret)
     {
     case 0:
-	if (!proc.error().isEmpty())
-	{
-	    // The pw change succeeded but there is a warning.
-	    KMessageBox::information(this, proc.error());
-	}
-	return true;
+    {
+        hide();
+        QString msg = QString::fromLocal8Bit(proc.error());
+        if (!msg.isEmpty())
+            msg = "<p>\"<i>" + msg + "</i>\"";
+        msg = "<qt>" + i18n("Your password has been changed.") + msg;
+        KMessageBox::information(0L, msg);
+        return true;
+    }
 
     case PasswdProcess::PasswordNotGood:
-	// The pw change did not succeed. Print the error.
-	KMessageBox::sorry(this, proc.error());
-	return false;
+    {
+        QString msg = QString::fromLocal8Bit(proc.error());
+        if (!msg.isEmpty())
+            msg = "<p>\"<i>" + msg + "</i>\"";
+        msg = "<qt>" + i18n("Your password has not been changed.") + msg;
+                                  
+        // The pw change did not succeed. Print the error.
+        KMessageBox::sorry(this, msg);
+        return false;
+    }
 
     default:
-	KMessageBox::sorry(this, i18n("Conversation with `passwd' failed."));
+        QString msg = QString::fromLocal8Bit(proc.error());
+        if (!msg.isEmpty())
+            msg = "<p>\"<i>" + msg + "</i>\"";
+        msg = "<qt>" + i18n("Conversation with `passwd' failed.") + msg;
+	KMessageBox::sorry(this, msg);
 	done(Rejected);
 	return true;
     }
