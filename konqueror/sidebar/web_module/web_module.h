@@ -87,7 +87,7 @@ class KHTMLSideBar : public KHTMLPart
 			}
 				// A refresh
 			if (button == 0 && _target.lower() == "_self") {
-				openURL(completeURL(url).url());
+				openURL(completeURL(url));
 				return;
 			}
 			KHTMLPart::urlSelected(url,button,state,_target,args);
@@ -179,7 +179,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	private:
 		KHTMLSideBar *_htmlPart;
-		QString _url;
+		KURL _url;
 		QString _desktopName;
 };
 

@@ -56,7 +56,7 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 	ksc.setGroup("Desktop Entry");
 
 	_url = ksc.readPathEntry("URL");
-	_htmlPart->openURL(_url);
+	_htmlPart->openURL(_url );
 	// Must load this delayed
 	QTimer::singleShot(0, this, SLOT(loadFavicon()));
 }
@@ -82,21 +82,23 @@ void KonqSideBarWebModule::handleURL(const KURL &) {
 }
 
 
-void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args) {
-	emit createNewWindow(url, args);
+void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args)
+{
+	emit createNewWindow(KURL( url ), args);
 }
 
 
-void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) {
-	emit openURLRequest(url, args);
+void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
+{
+	emit openURLRequest(KURL( url ), args);
 }
 
 
 void KonqSideBarWebModule::loadFavicon() {
-	QString icon = KonqPixmapProvider::iconForURL(_url);
+	QString icon = KonqPixmapProvider::iconForURL(_url.url());
 	if (icon.isEmpty()) {
 		KonqFavIconMgr::downloadHostIcon(_url);
-		icon = KonqPixmapProvider::iconForURL(_url);
+		icon = KonqPixmapProvider::iconForURL(_url.url());
 	}
 
 	if (!icon.isEmpty()) {
