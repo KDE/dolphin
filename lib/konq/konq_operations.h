@@ -87,9 +87,12 @@ public:
     static void statURL( const KURL & url, const QObject *receiver, const char *member );
 
     static void rename( QWidget * parent, const KURL & oldurl, const QString & name );
+    static void rename( QWidget * parent, const KURL & oldurl, const QString & name, QObject* receiver, const char* slot);
 
 signals:
     void statFinished( const KFileItem * item );
+    /** Internally used, at the moment only when a rename operation failed.*/
+    void operationFailed();
 
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };

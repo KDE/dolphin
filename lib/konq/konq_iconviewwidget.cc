@@ -233,6 +233,7 @@ struct KonqIconViewWidgetPrivate
         m_movie = 0L;
         m_movieBlocked = 0;
         pFileTip = 0;
+        renamedIcon = 0;
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
@@ -259,6 +260,7 @@ struct KonqIconViewWidgetPrivate
 
     KIO::PreviewJob *pPreviewJob;
     KFileTip* pFileTip;
+    KFileIVI *renamedIcon;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -329,8 +331,18 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
 {
     kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
     KFileItem * fileItem = static_cast<KFileIVI *>(item)->item();
-    KonqOperations::rename( this, fileItem->url(), name );
+    d->renamedIcon=static_cast<KFileIVI *>(item);
+    KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFailed()));
 }
+
+void KonqIconViewWidget::renamingFailed()
+{
+    kdDebug(1203) << "KonqIconViewWidget::renamingFailed" << endl;
+   if (d->renamedIcon!=0)
+      d->renamedIcon->setText(d->renamedIcon->item()->text());
+   d->renamedIcon=0;
+}
+
 
 void KonqIconViewWidget::slotIconChanged( int group )
 {

@@ -614,7 +614,7 @@ void KonqOperations::doFileCopy()
     delete this;
 }
 
-void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name )
+void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name, QObject* receiver, const char* slot )
 {
     QString newPath = oldurl.directory(false,true) + name;
     kdDebug(1203) << "KonqOperations::rename " << oldurl.prettyURL() << " newPath=" << newPath << endl;
@@ -627,6 +627,8 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
         KIO::Job * job = KIO::moveAs( oldurl, newurl, !oldurl.isLocalFile() );
         KonqOperations * op = new KonqOperations( parent );
         op->setOperation( job, MOVE, lst, newurl );
+        if ((receiver) && (slot))
+           connect(op,SIGNAL(operationFailed()),receiver,slot);
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
         // if old trash then update config file and emit
         if(oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::trashPath() ) {
@@ -638,6 +640,11 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
             KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
         }
     }
+}
+
+void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name )
+{
+   rename(parent,oldurl,name,0,0);
 }
 
 void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & /*src*/, const KURL & dest )
@@ -686,7 +693,10 @@ void KonqOperations::slotStatResult( KIO::Job * job )
 void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
+    {
         job->showErrorDialog( (QWidget*)parent() );
+        emit operationFailed();
+    };
     // Update trash bin icon if trashing files or emptying trash
     bool bUpdateTrash = m_method == TRASH || m_method == EMPTYTRASH;
     // ... or if creating a new file in the trash
