@@ -1,4 +1,4 @@
-/*
+/* -*- indent-tabs-mode: t; tab-width: 4; c-basic-offset:4 -*-
     konq_extensionmanager.cc - Extension Manager for Konqueror
 
     Copyright (c) 2003      by Martijn Klingens      <klingens@kde.org>
@@ -32,16 +32,16 @@
 
 class KonqExtensionManagerPrivate
 {
-	public:
-		KPluginSelector *pluginSelector;
-		KonqMainWindow *mainWindow;
-		KConfig *khtmlConfig;
-		bool isChanged;
+public:
+	KPluginSelector *pluginSelector;
+	KonqMainWindow *mainWindow;
+	KParts::ReadOnlyPart* activePart;
+	bool isChanged;
 };
 
-KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name, KonqMainWindow *mainWindow) :
+KonqExtensionManager::KonqExtensionManager(QWidget *parent, KonqMainWindow *mainWindow, KParts::ReadOnlyPart* activePart) :
   KDialogBase(Plain, i18n("Configure"), Help | Default | Cancel | Apply | Ok | User1,
-              Ok, parent, name, false, true, KGuiItem(i18n("&Reset"), "undo"))
+              Ok, parent, "extensionmanager", false, true, KGuiItem(i18n("&Reset"), "undo"))
 {
 	d = new KonqExtensionManagerPrivate;
 	showButton(User1, false);
@@ -60,17 +60,17 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name, Ko
 	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const QCString &)));
 
 	d->mainWindow = mainWindow;
+	d->activePart = activePart;
 
-	d->khtmlConfig = new KConfig("khtmlrc");
 	d->pluginSelector->addPlugins("konqueror", i18n("Extensions"), "Extensions", KGlobal::config());
-	d->pluginSelector->addPlugins("khtml",     i18n("Tools"),      "Tools",      d->khtmlConfig);
-	//d->pluginSelector->addPlugins(KPluginInfo::fromServices(KTrader::self()->query("Browser/View")), i18n("Browser Plugins"), QString::null, KGlobal::config());
+	if ( activePart )
+		d->pluginSelector->addPlugins(activePart->instance()->instanceName(), i18n("Tools"), "Tools", activePart->instance()->config());
 }
 
 KonqExtensionManager::~KonqExtensionManager()
 {
-	delete d->khtmlConfig;
-        delete d;
+	//delete d->khtmlConfig;
+	delete d;
 }
 
 void KonqExtensionManager::setChanged(bool c)
@@ -97,7 +97,7 @@ void KonqExtensionManager::apply()
 	{
 		d->pluginSelector->save();
 		setChanged(false);
-		if(d->mainWindow != 0L)
+		if( d->mainWindow )
 		{
 			KParts::Plugin::loadPlugins(d->mainWindow, d->mainWindow, KGlobal::instance());
 			QPtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects(d->mainWindow);
@@ -109,8 +109,18 @@ void KonqExtensionManager::apply()
 				d->mainWindow->factory()->addClient(plugin);
 			}
 		}
-		DCOPRef preloader( "kded", "konqy_preloader" );
-		preloader.send( "unloadAllPreloaded" );
+		if ( d->activePart )
+		{
+			KParts::Plugin::loadPlugins( d->activePart, d->activePart, d->activePart->instance() );
+			QPtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects( d->activePart );
+			QPtrListIterator<KParts::Plugin> it(plugins);
+			KParts::Plugin *plugin;
+			while((plugin = it.current()) != 0)
+			{
+				++it;
+				d->activePart->factory()->addClient(plugin);
+			}
+		}
 	}
 }
 

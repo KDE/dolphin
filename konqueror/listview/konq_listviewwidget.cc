@@ -201,7 +201,6 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
 
    m_filenameColumnWidth = config.fileNameColumnWidth();
 
-   bool defaultColumns = false;
    QStringList lstColumns = config.columns();
    QValueList<int> lstColumnWidths = config.columnWidths();
    if (lstColumns.isEmpty())
@@ -484,7 +483,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          item->setActive( true );
          emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
          m_pBrowserView->emitMouseOver( item->item() );
-         
+
          vp.setY( itemRect( item ).y() );
          QRect rect( viewportToContents( vp ), QSize(20, item->height()) );
          m_fileTip->setItem( item->item(), rect, item->pixmap( 0 ) );
@@ -530,7 +529,7 @@ void KonqBaseListViewWidget::leaveEvent( QEvent *e )
 
    reportItemCounts();
    m_pBrowserView->emitMouseOver( 0 );
-   
+
    m_fileTip->setItem( 0 );
 
    KListView::leaveEvent( e );

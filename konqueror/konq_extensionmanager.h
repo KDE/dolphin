@@ -1,4 +1,5 @@
-/*
+/* -*- indent-tabs-mode: t; tab-width: 4; c-basic-offset:4 -*-
+
     konq_extensionmanager.h - Extension Manager for Konqueror
 
     Copyright (c) 2003      by Martijn Klingens      <klingens@kde.org>
@@ -21,6 +22,7 @@
 
 class KonqExtensionManagerPrivate;
 class KonqMainWindow;
+namespace KParts { class ReadOnlyPart; }
 
 /**
  * Extension Manager for Konqueror. See KPluginSelector in kdelibs for
@@ -34,7 +36,7 @@ class KonqExtensionManager : public KDialogBase
 	Q_OBJECT
 
 	public:
-		KonqExtensionManager(QWidget *parent, const char *name = 0L, KonqMainWindow *mainWindow = 0L);
+		KonqExtensionManager(QWidget *parent, KonqMainWindow *mainWindow, KParts::ReadOnlyPart* activePart);
 		~KonqExtensionManager();
 
 		void apply();
