@@ -22,6 +22,7 @@
 
 #include <kmainwindow.h>
 #include <kcommand.h>
+#include <kbookmark.h>
 
 class KBookmarkManager;
 class KToggleAction;
@@ -85,6 +86,16 @@ private:
    static CurrentMgr *s_mgr;
 };
 
+class BookmarkInfoWidget : public QWidget {
+public:
+   BookmarkInfoWidget(QWidget * = 0, const char * = 0);
+public:
+   void showBookmark(const KBookmark &bk);
+private:
+   KLineEdit *m_title_le, *m_url_le, *m_comment_le, *m_moddate_le, *m_credate_le;
+   KBookmark m_bk;
+};
+
 class KEBApp : public KMainWindow
 {
    Q_OBJECT
@@ -113,6 +124,8 @@ public:
    bool readonly() { return m_readOnly; }
    bool modified() { return m_modified; }
    bool nsShown();
+
+   BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
 
 private:
    static KBookmarkManager* bookmarkManager();
@@ -154,6 +167,8 @@ private:
    bool m_advancedAddBookmark;
 
    static KEBApp *s_topLevel;
+
+   BookmarkInfoWidget *m_bkinfo;
 };
 
 #endif
