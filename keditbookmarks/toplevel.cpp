@@ -489,7 +489,7 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
             if ( bk.url() != newText )
             {
                 EditCommand * cmd = new EditCommand( i18n("URL change"), bk.address(),
-                                                     EditCommand::Edition("URL", newText) );
+                                                     EditCommand::Edition("href", newText) );
                 m_commandHistory.addCommand( cmd );
             }
             break;
