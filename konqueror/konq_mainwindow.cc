@@ -455,7 +455,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   bool newTabsinFront= config->readBoolEntry( "NewTabsInFront", true );
   if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
-  else if ( !view && req.newTab && !newTabsinFront) {
+  else if ( !view && req.newTab ) {
     bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
     view = m_pViewManager->addTab(QString::null,
                                   QString::null,
@@ -463,6 +463,9 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                                   openAfterCurrentPage);
     view->frame()->setTitle( _url.host() , 0L);
   }
+
+  if ( newTabsinFront )
+    m_pViewManager->showTab( view );
 
   if ( view )
   {
