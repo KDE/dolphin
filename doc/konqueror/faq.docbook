@@ -129,7 +129,7 @@ Browsing"</guimenuitem> from the <guimenu>Settings</guimenu> menu.</para>
 Browser</guiicon> icon on the panel, or from the <guimenu>location</guimenu>
 menu, and new empty tabs, will now start at this page.</para>
 
-<note><para>This does not change the behaviour of the
+<note><para>This does not change the behavior of the
 <guiicon>Home</guiicon> button on the &konqueror; toolbar, which will
 continue to take you to the &URI; defined in the &konqueror; configuration
 module. You can reach that module from within &konqueror;, via
@@ -140,7 +140,7 @@ You may set this to any &URI;, either local or remote, and pressing the
 <guiicon>Home</guiicon> icon on the toolbar will display it.</para></note>
 
 <para>To have &konqueror; start up with no page loaded, use
-<userinput>about:blank</userinput></para>
+<userinput>about:blank</userinput>.</para>
 </answer>
 </qandaentry>
 
