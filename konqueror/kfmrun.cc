@@ -36,9 +36,6 @@ KfmRun::KfmRun( KonqMainView* _view, KonqChildView *_childView, const char *_url
 
 KfmRun::~KfmRun()
 {
-// ? do we need this? (Simon)
-//  if ( m_pView )
-//    m_pView->openNothing();
 }
 
 void KfmRun::foundMimeType( const char *_type )
