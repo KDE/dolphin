@@ -47,23 +47,12 @@ void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )
 {
   kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &filename ) " << endl;
   kdDebug(1202) << filename << endl;
-
-  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
-  mainWindow->viewManager()->loadViewProfile( filename );
-  mainWindow->enableAllActions( true );
-  mainWindow->show();
+  KonqFileManager::self()->createBrowserWindowFromProfile( filename, QString::null );
 }
 
 void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &filename, const QString &url )
 {
-  kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfileAndURL() " << endl;
-  kdDebug(1202) << filename << "," << url << endl;
-
-  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
-  mainWindow->viewManager()->loadViewProfile( filename, KURL(url) );
-  mainWindow->enableAllActions( true );
-  mainWindow->show();
-
+  KonqFileManager::self()->createBrowserWindowFromProfile( filename, url );
 }
 
 void KonquerorIface::reparseConfiguration()
@@ -85,7 +74,7 @@ void KonquerorIface::updateProfileList()
   QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( !mainWindows )
     return;
-    
+
   QListIterator<KonqMainWindow> it( *mainWindows );
   for (; it.current(); ++it )
     it.current()->viewManager()->profileListDirty( false );

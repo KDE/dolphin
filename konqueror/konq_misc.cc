@@ -19,6 +19,8 @@
 
 #include "konq_misc.h"
 #include "konq_mainwindow.h"
+#include "konq_viewmgr.h"
+#include <kdebug.h>
 #include <kmessagebox.h>
 #include <kurifilter.h>
 #include <klocale.h>
@@ -51,7 +53,7 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
       }
   }
 
-  // If _url is 0L, open $HOME
+  // If _url is 0L, open $HOME [this doesn't happen anymore]
   KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
 
   KonqMainWindow *win = new KonqMainWindow( url );
@@ -60,6 +62,19 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
 
   return true; // why would it fail ? :)
 }
+
+KonqMainWindow * KonqFileManager::createBrowserWindowFromProfile( const QString &filename, const QString &url )
+{
+  kdDebug(1202) << "void KonqFileManager::createBrowserWindowFromProfile() " << endl;
+  kdDebug(1202) << filename << "," << url << endl;
+
+  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
+  mainWindow->viewManager()->loadViewProfile( filename, KURL(url) );
+  mainWindow->enableAllActions( true );
+  mainWindow->show();
+  return mainWindow;
+}
+
 
 QString konqFilteredURL( QWidget * parent, const QString &_url )
 {
@@ -92,7 +107,6 @@ QString konqFilteredURL( QWidget * parent, const QString &_url )
 
 void KonqBookmarkManager::editBookmarks( const KURL & _url )
 {
-  // Will call the KonqFileManager re-implementation
   KonqFileManager::self()->openFileManagerWindow( _url );
 }
 

@@ -76,7 +76,6 @@ int main( int argc, char **argv )
   {
      if (!args->isSet("silent"))
      {
-     //        fm.openFileManagerWindow( KURL() );
        KonqMainWindow *mainWindow = new KonqMainWindow;
        mainWindow->show();
      }

@@ -229,8 +229,8 @@ KonqMainWindow::~KonqMainWindow()
     config->writeEntry( "CompletionItems", m_combo->completionObject()->items() );
     KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
     if ( prov )
-	prov->save( config, "ComboIconCache", histItems );
-    
+        prov->save( config, "ComboIconCache", histItems );
+
     config->sync();
   }
 
@@ -617,27 +617,25 @@ void KonqMainWindow::abortLoading()
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
-  //FIXME: obey args (like passing post-data (to KRun), etc.)
-  KonqFileManager::self()->openFileManagerWindow( url.url(), args.frameName );
+  // If we want to open an HTTP url, use the web browsing profile
+  if (url.protocol().left(4) == QString::fromLatin1("http"))
+  {
+    QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") );
+    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, url.url() );
+    mainWindow->setInitialFrameName( args.frameName );
+    //FIXME: obey args (like passing post-data (to KRun), etc.)
+  }
+  //KonqFileManager::self()->openFileManagerWindow( url, args.frameName );
 }
 
 void KonqMainWindow::slotNewWindow()
 {
-  //KonqFileManager::self()->openFileManagerWindow( m_currentView->url() );
-
-  // This code is very related to KonquerorIface::createBrowserWindowFromProfile
-  // -> for konq_misc ?
-  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
-  // We assume it exists, since we install it... otherwise the window should remain empty
-  mainWindow->viewManager()->loadViewProfile( locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ) );
-  mainWindow->enableAllActions( true );
-  mainWindow->show();
+  KonqFileManager::self()->createBrowserWindowFromProfile(
+      locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ) );
 }
 
 void KonqMainWindow::slotDuplicateWindow()
 {
-  //KonqFileManager::self()->openFileManagerWindow( m_currentView->url() );
-
   KTempFile tempFile;
   tempFile.setAutoDelete( true );
   KConfig config( tempFile.name() );

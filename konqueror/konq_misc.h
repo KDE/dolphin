@@ -25,6 +25,7 @@
 
 #include <kbookmark.h>
 #include <krun.h>
+class KonqMainWindow;
 
 class KonqBookmarkManager : public KBookmarkManager
 {
@@ -38,7 +39,7 @@ public:
 class KonqFileManager
 {
 public:
-  KonqFileManager() 
+  KonqFileManager()
   {} ;
   virtual ~KonqFileManager() {} ;
 
@@ -52,6 +53,8 @@ public:
   bool openFileManagerWindow( const KURL & url );
 
   bool openFileManagerWindow( const KURL &url, const QString &name );
+
+  KonqMainWindow * createBrowserWindowFromProfile( const QString &filename, const QString &url = QString::null );
 
 private:
   static KonqFileManager *s_pSelf;
