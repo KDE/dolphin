@@ -91,6 +91,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
 
 NSPluginInstance::~NSPluginInstance()
 {
+  kDebugInfo("~NSPluginInstance");
   _pluginFuncs.destroy(_npp, 0);
 
   ::free(_npp);
@@ -221,6 +222,7 @@ NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
   : DCOPObject(dcopId), _libname(library), _constructed(false),  _initialized(false)
 {
   _handle = KLibLoader::self()->library(library);
+  _instances.setAutoDelete(TRUE);
 
   kDebugInfo("Library handle=%p", _handle);
 
@@ -324,7 +326,6 @@ QString NSPluginClass::GetMIMEDescription()
 }
 
 
-
 void NSPluginClass::Shutdown()
 {
 	_NP_Shutdown();
@@ -398,9 +399,17 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
     return 0;
   }
 
-  return new NSPluginInstance(npp, &_pluginFuncs, _handle, width, height);
+  NSPluginInstance *inst = new NSPluginInstance(npp, &_pluginFuncs, _handle, width, height);
+  _instances.insert(inst->winId(), inst);
+  return inst;
 }
 
+
+void NSPluginClass::DestroyInstance(int winid)
+{
+  kDebugInfo("NSPluginClass::DestroyInstance( winid = %d )", winid);
+  _instances.remove(winid);
+}
 
 
 // server side functions -----------------------------------------------------
@@ -756,7 +765,7 @@ void NSPluginStream::get(QString url, QString mimeType)
 
 void NSPluginStream::data(KIO::Job */*job*/, const QByteArray &data)
 {
-  kDebugInfo("NSPluginStream::data");
+  //kDebugInfo("NSPluginStream::data");
   unsigned int pos = process( data, 0 );
   if (pos<data.size())
   {
@@ -807,9 +816,9 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
       max = _instance->WriteReady(_stream);
       len = QMIN(max, to_sent);
 
-      kDebugInfo("-> Feeding stream to plugin: offset=%d, len=%d", _pos, len);
+//      kDebugInfo("-> Feeding stream to plugin: offset=%d, len=%d", _pos, len);
       sent = _instance->Write(_stream, _pos, len, d);
-      kDebugInfo("<- Feeding stream: sent = %d", sent);
+//      kDebugInfo("<- Feeding stream: sent = %d", sent);
 
       if (sent==0) // interrupt the stream for a few ms
         break;

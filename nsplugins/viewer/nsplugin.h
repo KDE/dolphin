@@ -31,6 +31,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdict.h>
+#include <qintdict.h>
 
 #include <dcopobject.h>
 #include "NSPluginClassIface.h"
@@ -169,6 +170,7 @@ public:
   void Shutdown();
 
   int NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv);
+  void DestroyInstance(int winid);
 
   NSPluginInstance *New(const char *mimeType, uint16 mode=NP_EMBED, int16 argc=0,
   		        char *argn[]=0, char *argv[]=0, NPSavedData *saved=0);
@@ -187,6 +189,7 @@ private:
   NPNetscapeFuncs _nsFuncs;
 
   QList<NSPluginStream> _streams;
+  QIntDict<NSPluginInstance> _instances;
 };
 
 
