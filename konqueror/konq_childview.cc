@@ -60,6 +60,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
 KonqChildView::~KonqChildView()
 {
   detach();
+  delete m_pFrame;
 }
 
 void KonqChildView::attach( Konqueror::View_ptr view )
@@ -73,7 +74,6 @@ void KonqChildView::detach()
 {
   m_pFrame->detach();
   m_pFrame->hide();
-  delete m_pFrame;
   m_vView->decRef();
   VeryBadHackToFixCORBARefCntBug( m_vView );
   m_vView = 0L;
