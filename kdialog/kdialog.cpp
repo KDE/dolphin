@@ -21,7 +21,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 
 #include <qptrlist.h>
 #include <qfile.h>
@@ -40,6 +40,8 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kfiledialog.h>
+
+using namespace std;
 
 static KCmdLineOptions options[] =
 {
