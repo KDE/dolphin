@@ -1039,7 +1039,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
   enableSuidEdit();
 
   // Provide username completion
-  KCompletion *compl = new KCompletion;
+  KCompletion *compl = suidEdit->completionObject();
   compl->setSorted(true);
   struct passwd *pw;
   setpwent();
