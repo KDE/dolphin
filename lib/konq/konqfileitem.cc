@@ -142,7 +142,7 @@ void KonqFileItem::init( bool _determineMimeTypeOnDemand )
     if ( m_fileMode == (mode_t) -1 )
       m_fileMode = mode & S_IFMT; // extract file type
     if ( m_permissions == (mode_t) -1 )
-      m_permissions = mode & 0x1FF; // extract permissions
+      m_permissions = mode & 07777; // extract permissions
   }
 
   // determine the mimetype
