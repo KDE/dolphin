@@ -403,7 +403,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         if ( currentDir || httpPage ) // rmb on background or html frame
         {
-            if (!httpPage)
+            if (!currentDir)
                 addAction( "up" ); // don't show when viewing html
             addAction( "back" );
             addAction( "forward" );
