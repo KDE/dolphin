@@ -281,8 +281,8 @@ void KFileTip::timerEvent( QTimerEvent * )
     killTimers();
     if ( !isVisible() ) {
         startTimer( 15000 );
-        show();
         reposition();
+        show();
     }
     else {
         setFilter( false );
