@@ -846,6 +846,8 @@ void KonqBaseListViewWidget::updateListContents()
 
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
+   m_url = url;
+
    // The first time or new protocol ? So create the columns first
    kdDebug(1202) << "protocol in ::openURL: -" << url.protocol() <<"- url: -"
                  << url.path() << "-" << endl;
