@@ -74,37 +74,38 @@ KWinDesktopConfig::KWinDesktopConfig (QWidget * parent, const char *name)
 {
   QBoxLayout *lay = new QVBoxLayout(this, 5);
 
-  ElectricBox = new QVButtonGroup(i18n("Active desktop borders"),
-                 this);
-  ElectricBox->setMargin(15);
-
-  enable= new QCheckBox(i18n("Enable &active desktop borders"), ElectricBox);
-  QWhatsThis::add( enable, i18n("If this option is enabled, moving the mouse to a screen border"
-    " will change your desktop. This is e.g. useful if you want to drag windows from one desktop"
-    " to the other.") );
-
-  movepointer = new QCheckBox(i18n("&Move pointer towards center after switch"),
-                              ElectricBox);
-  QWhatsThis::add( movepointer, i18n("If this option is enabled, after switching desktops using"
-    " the active borders feature the mouse pointer will be moved to the middle of the screen. This"
-    " way you don't repeatedly change desktops because the mouse pointer is still on the border"
-    " of the screen.") );
-
-  delays = new KIntNumInput(10, ElectricBox);
-  delays->setRange(0, MAX_EDGE_RES/10, 10, true);
-  delays->setLabel(i18n("&Desktop switch delay:"));
-  QWhatsThis::add( delays, i18n("Here you can set a delay for switching desktops using the active"
-    " borders feature. Desktops will be switched after the mouse has been touching a screen border"
-    " for the specified number of seconds.") );
-
-  connect( enable, SIGNAL(clicked()), this, SLOT(setEBorders()));
-
-  lay->addWidget(ElectricBox);
-
-  // Electric borders are not in kwin yet => disable controls
-  enable->setEnabled(false);
-  movepointer->setEnabled(false);
-  delays->setEnabled(false);
+//CT disabled <i>sine die</i>
+//  ElectricBox = new QVButtonGroup(i18n("Active desktop borders"),
+//                 this);
+//  ElectricBox->setMargin(15);
+//
+//  enable= new QCheckBox(i18n("Enable &active desktop borders"), ElectricBox);
+//  QWhatsThis::add( enable, i18n("If this option is enabled, moving the mouse to a screen border"
+//    " will change your desktop. This is e.g. useful if you want to drag windows from one desktop"
+//    " to the other.") );
+//
+//  movepointer = new QCheckBox(i18n("&Move pointer towards center after switch"),
+//                              ElectricBox);
+//  QWhatsThis::add( movepointer, i18n("If this option is enabled, after switching desktops using"
+//    " the active borders feature the mouse pointer will be moved to the middle of the screen. This"
+//    " way you don't repeatedly change desktops because the mouse pointer is still on the border"
+//    " of the screen.") );
+//
+//  delays = new KIntNumInput(10, ElectricBox);
+//  delays->setRange(0, MAX_EDGE_RES/10, 10, true);
+//  delays->setLabel(i18n("&Desktop switch delay:"));
+//  QWhatsThis::add( delays, i18n("Here you can set a delay for switching desktops using the active"
+//    " borders feature. Desktops will be switched after the mouse has been touching a screen border"
+//    " for the specified number of seconds.") );
+//
+//  connect( enable, SIGNAL(clicked()), this, SLOT(setEBorders()));
+//
+//  lay->addWidget(ElectricBox);
+//
+//  // Electric borders are not in kwin yet => disable controls
+//  enable->setEnabled(false);
+//  movepointer->setEnabled(false);
+//  delays->setEnabled(false);
 
 
   //CT 15mar98 - add EdgeResistance, BorderAttractor, WindowsAttractor config
