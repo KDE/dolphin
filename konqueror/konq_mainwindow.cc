@@ -1161,18 +1161,23 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       return;
     }
   }
-  //else
-  //  kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
-  // Well, it happens when closing the window
+  else
+    if ( viewCount() > 0 ) // No warning if we're closing the window
+      kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
 
   KParts::BrowserExtension *ext = 0;
 
   if ( oldView )
+  {
     ext = oldView->browserExtension();
+    if ( ext )
+    {
+      //kdDebug() << "Disconnecting extension for view " << oldView << endl;
+      disconnectExtension( ext );
+    }
+  }
 
-  if ( ext )
-    disconnectExtension( ext );
-
+  kdDebug(1202) << "New current view " << newView << endl;
   m_currentView = newView;
   if ( !part )
   {
@@ -1185,7 +1190,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   if ( ext )
   {
-    kdDebug(1202) << "There is a Browser Extension for the new part" << endl;
+    //kdDebug() << "Connecting extension for view " << newView << endl;
     connectExtension( ext );
     createGUI( part );
   }
@@ -2279,7 +2284,6 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
 void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 {
   kdDebug(1202) << "Connecting extension " << ext << endl;
-  typedef QValueList<QCString> QCStringList;
   ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
   ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
 
@@ -2295,8 +2299,7 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
       // Does the extension have a slot with the name of this action ?
       if ( slotNames.contains( it.key()+"()" ) )
       {
-        //if ( ! s_dontConnect->contains( it.key() ) )
-          connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
+        connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
         enable = true;
       }
       act->setEnabled( enable );
@@ -2310,11 +2313,21 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
 {
   kdDebug(1202) << "Disconnecting extension " << ext << endl;
-  QValueList<KAction *> actions = actionCollection()->actions();
-  QValueList<KAction *>::ConstIterator it = actions.begin();
-  QValueList<KAction *>::ConstIterator end = actions.end();
-  for (; it != end; ++it )
-    (*it)->disconnect( ext );
+  ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
+  ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
+
+  QStrList slotNames =  ext->metaObject()->slotNames();
+
+  for ( ; it != itEnd ; ++it )
+  {
+    KAction * act = actionCollection()->action( it.key() );
+    //kdDebug(1202) << it.key() << endl;
+    if ( act && slotNames.contains( it.key()+"()" ) )
+    {
+        //kdDebug(1202) << "disconnectExtension: " << act << " " << act->name() << endl;
+        act->disconnect( ext );
+    }
+  }
   disconnect( ext, SIGNAL( enableAction( const char *, bool ) ),
            this, SLOT( slotEnableAction( const char *, bool ) ) );
 }
@@ -2385,7 +2398,7 @@ void KonqMainWindow::setCaption( const QString &caption )
   // but here we never do that.
   if ( !caption.isEmpty() )
   {
-    kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
+    //kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
     // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
     m_title = caption;
     KParts::MainWindow::setCaption( caption );
