@@ -136,19 +136,19 @@ void KUserInfoChFaceDlg::slotGetCustomImage(  )
 {
   QCheckBox* checkWidget = new QCheckBox( i18n("&Save copy in custom faces folder for future use"), 0 );
 
-  KFileDialog dlg( QDir::homeDirPath(), KImageIO::pattern( KImageIO::Reading ),
+  KFileDialog *dlg = new KFileDialog( QDir::homeDirPath(), KImageIO::pattern( KImageIO::Reading ),
                   this, 0, true, checkWidget);
 
-  dlg.setOperationMode( KFileDialog::Opening );
-  dlg.setCaption( i18n("Choose Image") );
-  dlg.setMode( KFile::File | KFile::LocalOnly );
+  dlg->setOperationMode( KFileDialog::Opening );
+  dlg->setCaption( i18n("Choose Image") );
+  dlg->setMode( KFile::File | KFile::LocalOnly );
 
-  KImageFilePreview ip( &dlg );
-  dlg.setPreviewWidget( &ip );
-  if (dlg.exec() == QDialog::Accepted)
-      addCustomPixmap( dlg.selectedFile(), checkWidget->isChecked() );
-
-  delete checkWidget;
+  KImageFilePreview *ip = new KImageFilePreview( dlg );
+  dlg->setPreviewWidget( ip );
+  if (dlg->exec() == QDialog::Accepted)
+      addCustomPixmap( dlg->selectedFile(), checkWidget->isChecked() );
+  // Because we give it a parent we have to close it ourselves.
+  dlg->close(true);
 }
 
 #if 0
