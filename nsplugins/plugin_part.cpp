@@ -85,9 +85,8 @@ extern "C"
    * the form 'void *init_lib<library name>()  It always returns a
    * new factory object
    */
-  void *init_libnsplugin() {
-      return new PluginFactory;
-  }
+
+   K_EXPORT_COMPONENT_FACTORY(libnsplugin,PluginFactory);
 }
 
 
