@@ -334,7 +334,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
     return;
   }
-  if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) && url.protocol() != QString::fromLatin1( "mailto" ) )
+  if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) )
   {
     // after message freeze QString tmp = i_18_n("Protocol not supported\n%1").arg(url.protocol());
     KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
