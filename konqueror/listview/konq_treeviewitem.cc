@@ -20,6 +20,7 @@
 #include "konq_treeviewwidget.h"
 #include "konq_listview.h"
 
+#include <kfileitem.h>
 
 /**************************************************************
  *
@@ -27,7 +28,7 @@
  *
  **************************************************************/
 
-KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem )
+KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
 :KonqListViewItem( _parent, _fileitem )
 {
   setExpandable (TRUE);
@@ -35,7 +36,7 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fi
   _parent->addSubDir( this );
 }
 
-KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem )
+KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KFileItem* _fileitem )
 :KonqListViewItem(_treeview,_parent,_fileitem)
 {
   setExpandable( TRUE );
@@ -83,7 +84,7 @@ void KonqListViewDir::setOpen( bool _open )
         // unselect the items in the closed folder
         treeView->setSelected( it, false );
         // delete the item from the counts for the statusbar
-        KonqFileItem* item = static_cast<KonqListViewItem*>(it)->item();
+        KFileItem* item = static_cast<KonqListViewItem*>(it)->item();
         treeView->m_pBrowserView->deleteItem( item );
         it = it->nextSibling();
       }

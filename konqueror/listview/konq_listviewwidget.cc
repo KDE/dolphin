@@ -19,10 +19,10 @@
 
 #include "konq_listview.h"
 
-#include <konq_dirlister.h>
 #include <konq_settings.h>
 
 #include <kdebug.h>
+#include <kdirlister.h>
 #include <kio/job.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -71,7 +71,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
     :KListView(parentWidget)
 ,sortedByColumn(0)
 ,m_pBrowserView(parent)
-,m_dirLister(new KonqDirLister( true /*m_showIcons==FALSE*/))
+,m_dirLister(new KDirLister( true /*m_showIcons==FALSE*/))
 ,m_dragOverItem(0)
 ,m_scrollTimer(0)
 ,m_rubber(0)
@@ -596,7 +596,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqBaseListViewItem *item =
        isExecuteArea( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
-   KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
+   KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
    KURL u = destItem ? destItem->url() : url();
    if ( u.isEmpty() )
       return;
@@ -748,7 +748,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 {
    if ( !_item )
       return;
-   KonqFileItem *fileItem = static_cast<KonqBaseListViewItem*>(_item)->item();
+   KFileItem *fileItem = static_cast<KonqBaseListViewItem*>(_item)->item();
    if ( !fileItem )
       return;
 
@@ -995,7 +995,7 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
    //kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
    for (QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
-      KonqListViewItem * tmp = new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
+      KonqListViewItem * tmp = new KonqListViewItem( this, *kit );
       if (m_goToFirstItem==false)
          if (m_itemFound==false)
             if (tmp->text(0)==m_itemToGoTo)

@@ -21,6 +21,7 @@
 #include <konq_settings.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kfileitem.h>
 #include <assert.h>
 #include <stdio.h>
 #include <qpainter.h>
@@ -31,13 +32,13 @@
  * KonqListViewItem
  *
  **************************************************************/
-KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem * _parent, KonqFileItem* _fileitem )
+KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem * _parent, KFileItem* _fileitem )
 :KonqBaseListViewItem( _parent,_fileitem )
 {
    updateContents();
 }
 
-KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem )
+KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem )
 :KonqBaseListViewItem(_listViewWidget,_fileitem)
 {
    updateContents();
@@ -210,14 +211,14 @@ const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
 }
 
 
-KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
+KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem)
 :KListViewItem(_listViewWidget)
 ,sortChar('1')
 ,m_bDisabled(false)
 ,m_fileitem(_fileitem)
 {}
 
-KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
+KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent, KFileItem* _fileitem)
 :KListViewItem(_parent)
 ,sortChar('1')
 ,m_bDisabled(false)

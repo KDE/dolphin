@@ -23,7 +23,7 @@
 #include <qstring.h>
 #include "konq_listviewitems.h"
 
-class KonqFileItem;
+class KFileItem;
 class KonqTreeViewWidget;
 
 /**
@@ -35,17 +35,17 @@ public:
   /**
    * Create an item in the tree toplevel representing a directory
    * @param _parent the parent widget, the tree view
-   * @param _fileitem the file item created by KonqDirLister
+   * @param _fileitem the file item created by KDirLister
    */
-  KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem );
+  KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem );
 
   /**
    * Create an item representing a directory, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
-   * @param _fileitem the file item created by KonqDirLister
+   * @param _fileitem the file item created by KDirLister
    */
-  KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem );
+  KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KFileItem* _fileitem );
 
   virtual ~KonqListViewDir();
 

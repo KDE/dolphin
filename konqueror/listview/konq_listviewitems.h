@@ -23,22 +23,20 @@
 #include <klistview.h>
 #include <qstring.h>
 #include <kicontheme.h>
-#include <konq_fileitem.h>
 
-class KonqBaseListViewWidget;
-class KonqListViewDir;
 class QPainter;
-class KonqBaseListViewItem;
-class KonqListViewItem;
+class KFileItem;
+class KonqBaseListViewWidget;
+
 
 class KonqBaseListViewItem : public KListViewItem
 {
    public:
-      KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem);
-      KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem);
+      KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem);
+      KonqBaseListViewItem(KonqBaseListViewItem *_parent, KFileItem* _fileitem);
       virtual ~KonqBaseListViewItem() {}
       /** @return the file item held by this instance */
-      KonqFileItem * item() { return m_fileitem; }
+      KFileItem * item() { return m_fileitem; }
       void mimetypeFound();
       virtual void updateContents() = 0;
       virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
@@ -50,8 +48,8 @@ class KonqBaseListViewItem : public KListViewItem
    protected:
       QChar sortChar;
       bool m_bDisabled;
-      /** Pointer to the file item in KonqDirLister's list */
-      KonqFileItem* m_fileitem;
+      /** Pointer to the file item in KDirLister's list */
+      KFileItem* m_fileitem;
       static const char* makeAccessString( const mode_t mode );
 };
 
@@ -64,16 +62,16 @@ class KonqListViewItem : public KonqBaseListViewItem
       /**
        * Create an item in the tree toplevel representing a file
        * @param _parent the parent widget, the tree view
-       * @param _fileitem the file item created by KonqDirLister
+       * @param _fileitem the file item created by KDirLister
        */
-      KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem );
+      KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem );
       /**
        * Create an item representing a file, inside a directory
        * @param _treeview the parent tree view  - now unused
        * @param _parent the parent widget, a directory item in the tree view
-       * @param _fileitem the file item created by KonqDirLister
+       * @param _fileitem the file item created by KDirLister
        */
-      KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem *_parent, KonqFileItem* _fileitem );
+      KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem *_parent, KFileItem* _fileitem );
 
       virtual ~KonqListViewItem() { }
 

@@ -23,9 +23,9 @@
 
 #include <kaction.h>
 #include <kdebug.h>
+#include <kdirlister.h>
 #include <klineeditdlg.h>
 #include <klocale.h>
-#include <konq_dirlister.h>
 #include <konq_drag.h>
 #include <kpropsdlg.h>
 #include <kstdaction.h>
@@ -33,6 +33,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qheader.h>
+#include <qregexp.h>
 
 #include <assert.h>
 #include <string.h>

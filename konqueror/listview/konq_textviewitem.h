@@ -27,7 +27,7 @@
 #include "konq_listviewitems.h"
 #include "konq_textviewwidget.h"
 
-class KonqFileItem;
+class KFileItem;
 class QPainter;
 
 #define KTVI_REGULAR 0
@@ -51,7 +51,7 @@ class KonqTextViewItem : public KonqBaseListViewItem
        * @param _parent the parent widget, the text view
        * @param _fileitem the file item created by KDirLister
        */
-      KonqTextViewItem( KonqTextViewWidget *_parent, KonqFileItem* _fileitem);
+      KonqTextViewItem( KonqTextViewWidget *_parent, KFileItem* _fileitem );
       virtual ~KonqTextViewItem() {/*cerr<<"~KonqTextViewItem: "<<text(1)<<endl;*/ };
       virtual QString key( int _column, bool asc) const;
       /** Call this before destroying the text view (decreases reference count
@@ -65,7 +65,7 @@ class KonqTextViewItem : public KonqBaseListViewItem
       int type;
 };
 
-inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KonqFileItem* _fileitem)
+inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KFileItem* _fileitem )
 :KonqBaseListViewItem( _parent,_fileitem )
 {
    updateContents();

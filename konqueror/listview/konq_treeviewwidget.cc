@@ -21,7 +21,6 @@
 #include "konq_treeviewwidget.h"
 
 #include <kdebug.h>
-#include <konq_dirlister.h>
 
 
 template class QDict<KonqListViewDir>;
@@ -152,16 +151,16 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
         if ( parentDir )
         { // adding under a directory item
             if ( (*kit)->isDir() )
-                dirItem = new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
+                dirItem = new KonqListViewDir( this, parentDir, *kit );
             else
-                fileItem = new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
+                fileItem = new KonqListViewItem( this, parentDir, *kit );
         }
         else
         { // adding on the toplevel
             if ( (*kit)->isDir() )
-                dirItem = new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
+                dirItem = new KonqListViewDir( this, *kit );
             else
-                fileItem = new KonqListViewItem( this, static_cast<KonqFileItem*>(*kit) );
+                fileItem = new KonqListViewItem( this, *kit );
         }
 
         if (m_goToFirstItem==false)

@@ -23,15 +23,14 @@
 #include <qheader.h>
 
 #include <kdebug.h>
-#include <konq_dirlister.h>
-
+#include <kdirlister.h>
 
 #include <stdlib.h>
 #include <assert.h>
 
+
 KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget )
 :KonqBaseListViewWidget(parent,parentWidget)
-//,timer()
 {
    kdDebug(1202) << "+KonqTextViewWidget" << endl;
    m_filenameColumn=1;
@@ -67,7 +66,6 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    highlight[KTVI_UNKNOWN]=colors[KTVI_UNKNOWN].light();
    highlight[KTVI_CHARDEV]=colors[KTVI_CHARDEV].light(180);
    highlight[KTVI_BLOCKDEV]=colors[KTVI_BLOCKDEV].light(180);
-   //timer.start();
    m_showIcons=FALSE;
 }
 
@@ -145,7 +143,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
    for( QPtrListIterator<KFileItem> kit (entries); kit.current(); ++kit )
    {
-      KonqTextViewItem *tmp=new KonqTextViewItem( this,static_cast<KonqFileItem*> (*kit));
+      KonqTextViewItem *tmp=new KonqTextViewItem( this, *kit );
       if (m_goToFirstItem==false)
          if (m_itemFound==false)
             if (tmp->text(0)==m_itemToGoTo)
@@ -268,7 +266,7 @@ void KonqTextViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqBaseListViewItem *item =
        isNameColumn( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
-   KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
+   KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
    KonqOperations::doDrop( destItem /*may be 0L*/, destItem ? destItem->url() : url(), ev, this );
 }
 

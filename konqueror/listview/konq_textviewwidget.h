@@ -21,9 +21,7 @@
 
 #include "konq_listviewwidget.h"
 
-//#include <qtimer.h>
 #include <kurl.h>
-#include <konq_fileitem.h>
 
 class KonqListView;
 class KonqTextViewItem;

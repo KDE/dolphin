@@ -26,7 +26,7 @@
 #include <qvaluelist.h>
 
 #include <kurl.h>
-#include <konq_fileitem.h>
+#include <kfileitem.h>
 #include <klistview.h>
 #include <kparts/browserextension.h>
 #include <konq_propsview.h>
@@ -35,7 +35,7 @@
 namespace KIO { class Job; }
 class QCursor;
 class QRect;
-class KonqDirLister;
+class KDirLister;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
 class KToggleAction;
@@ -205,10 +205,10 @@ class KonqBaseListViewWidget : public KListView
       virtual void popupMenu( const QPoint& _global, bool alwaysForSelectedFiles=false );
 
       //this one is called only by KListView, and this is friend anyways (Alex)
-      //KonqDirLister *dirLister() const { return m_dirLister; }
+      //KDirLister *dirLister() const { return m_dirLister; }
 
       /** The directory lister for this URL */
-      KonqDirLister* m_dirLister;
+      KDirLister* m_dirLister;
 
       //QPtrList<ColumnInfo> confColumns;
       // IMO there is really no need for an advanced data structure
