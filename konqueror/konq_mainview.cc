@@ -671,19 +671,34 @@ void KonqMainView::removeView( OpenParts::Id id )
   createViewMenu();
 }
 
-void KonqMainView::createViewByName( const char *viewName )
+void KonqMainView::changeViewMode( const char *viewName )
+{
+  cerr << "current view is a " << m_currentView->m_vView->viewName() << endl;
+  
+  // check the current view name against the asked one
+  if ( strcmp( viewName, m_currentView->m_vView->viewName() ) == 0 )
+    cerr << "skippinggggggggggggggg" << endl;
+  else
+  {
+    Konqueror::View_var vView = createViewByName( viewName );
+
+    m_mapViews.erase( m_currentView->m_vView->id() );
+    
+    m_currentView->m_vView->disconnectObject( this );
+    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+    m_currentView->m_pFrame->attach( vView );
+    m_currentView->m_pFrame->show();
+
+    m_mapViews[ vView->id() ] = m_currentView;
+  }
+}
+
+Konqueror::View_var KonqMainView::createViewByName( const char *viewName )
 {
   Konqueror::View_var vView;
 
   cerr << "void KonqMainView::createViewByName( " << viewName << " )" << endl;
-  cerr << "current view is a " << m_currentView->m_vView->viewName() << endl;
-  
-  if ( strcmp( viewName, m_currentView->m_vView->viewName() ) == 0 )
-  {
-    cerr << "skippinggggggggggggggg" << endl;
-    return;
-  }
-  
+
   //check for builtin views
   if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
   {
@@ -709,13 +724,6 @@ void KonqMainView::createViewByName( const char *viewName )
     
   vView->setMainWindow( m_vMainWindow );
   vView->setParent( this );
-    
-  m_mapViews.erase( m_currentView->m_vView->id() );
-    
-  m_currentView->m_vView->disconnectObject( this );
-  m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-  m_currentView->m_pFrame->attach( vView );
-  m_currentView->m_pFrame->show();
     
   try
   {
@@ -774,7 +782,7 @@ void KonqMainView::createViewByName( const char *viewName )
     cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
   }
 
-  m_mapViews[ vView->id() ] = m_currentView;
+  return Konqueror::View::_duplicate( vView );
 }
 
 void KonqMainView::openURL( const Konqueror::URLRequest &url )
@@ -1120,7 +1128,7 @@ void KonqMainView::openDirectory( const char *url )
   m_pRun = 0L;
   
   if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorKfmIconView" ) != 0 )
-    createViewByName( "KonquerorKfmIconView" );  
+    changeViewMode( "KonquerorKfmIconView" );  
 
   createViewMenu();
 
@@ -1164,7 +1172,7 @@ void KonqMainView::openHTML( const char *url )
   m_pRun = 0L;
   
   if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorHTMLView" ) != 0 )
-    createViewByName( "KonquerorHTMLView" );
+    changeViewMode( "KonquerorHTMLView" );
 
   createViewMenu();
 
@@ -1182,6 +1190,7 @@ void KonqMainView::openHTML( const char *url )
 void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
 {
   char * url = m_currentView->m_vView->url();
+  char * viewName = m_currentView->m_vView->viewName();
 
   // HACK - could be something else than icon view - has to be the same
   // view mode as current view
@@ -1191,7 +1200,9 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   // - if it is a builtin view just create a new view
   // - if it is not a builtin view just call the appropriate view factory
   // Well, let's simply call createViewByName, then :) (David)
-  insertView( new KonqKfmIconView, newViewPosition );
+
+  Konqueror::View_var vView = createViewByName( viewName );
+  insertView ( vView, newViewPosition );
   
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
@@ -1199,7 +1210,7 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
   m_iStackLock = 1;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
 }
 
 void KonqMainView::createViewMenu()
@@ -1515,8 +1526,7 @@ void KonqMainView::slotBack()
 
   m_bBack = true;
 
-  if ( m_currentView->m_vView->viewName() != h.viewName )
-    createViewByName( h.viewName );
+  changeViewMode( h.viewName );
   
   m_currentView->m_vView->restoreState( h.entry );
 }
@@ -1535,8 +1545,7 @@ void KonqMainView::slotForward()
 
   m_bForward = true;
 
-  if ( m_currentView->m_vView->viewName() != h.viewName )
-    createViewByName( h.viewName );
+  changeViewMode( h.viewName );
     
   m_currentView->m_vView->restoreState( h.entry );
 }

@@ -88,7 +88,6 @@ public:
   virtual Konqueror::View_ptr activeView();
   virtual Konqueror::ViewList *viewList();
   virtual void removeView( OpenParts::Id id );
-  void createViewByName( const char *viewName ); //affects m_currentView!
 
   virtual void openURL( const Konqueror::URLRequest &url );
   virtual void openURL( const char * _url, CORBA::Boolean _reload );
@@ -184,6 +183,12 @@ protected:
   void initPanner();
   void initView();
 
+  /* Changes the view mode of the current view, if different from viewName*/
+  void changeViewMode( const char *viewName );
+  /* Create a view
+   * @param viewName the type of view to be created (e.g. "KonqKfmIconView") */
+  Konqueror::View_var createViewByName( const char *viewName );
+  /* Create a new view from the current view (same URL, same view type) */
   void splitView ( Konqueror::NewViewPosition newViewPosition );
 
   void createViewMenu();
