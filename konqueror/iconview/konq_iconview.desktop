@@ -2,7 +2,13 @@
 Type=Service
 Exec=blahfoo
 Comment=Iconview
+Comment[cs]=Pohled s ikonami
+Comment[de]=Symbol-Ansicht
+Comment[eo]=Piktogramrigardo
+Comment[hu]=Ikon nézet
+Comment[no]=Ikonvisning
+Comment[sl]=Ikoniziran pogled
 MimeType=inode/directory
 Name=KonqKfmIconView
-ServiceTypes=Browser/View
+ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=libkonqiconview
