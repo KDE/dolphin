@@ -1,10 +1,17 @@
 [Desktop Entry]
 Name=FTP Archives
 Name[ca]=Arxius FTP
+Name[de]=FTP-Archive
+Name[et]=FTP arhiivid
 Name[fi]=FTP arkisto
 Name[he]=FTP ינויכרא
 Name[hu]=FTP arhívumok
+Name[ja]=FTPアーカイブ
+Name[nl]=FTP-archieven
 Name[no]=FTP-arkiver
-Name[no_NY]=FTP-arkiver
+Name[no_NY]=FTP-arkiv
+Name[pt]=Arquivos FTP
+Name[ro]=Arhive FTP
 Name[sl]=Arhivi FTP
+Name[tr]=FTP Arþivleri
 Icon=package_network

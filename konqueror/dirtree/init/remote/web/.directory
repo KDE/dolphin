@@ -1,10 +1,17 @@
 [Desktop Entry]
 Name=Web Sites
 Name[ca]=Llocs web
+Name[de]=Webseiten
+Name[et]=Veebi saidid
 Name[fi]=WWW-palvelimet
 Name[he]=תשרב םירתא
 Name[hu]=Web oldalak
+Name[ja]=ウェブサイト
+Name[nl]=Websites
 Name[no]=Vev-steder
-Name[no_NY]=Vev-steder
+Name[no_NY]=Nettsider
+Name[pt]=Páginas na WWW
+Name[ro]=Site-uri de web
 Name[sl]=Spletne strani
+Name[tr]=Ýnternet Siteleri
 Icon=package_network
