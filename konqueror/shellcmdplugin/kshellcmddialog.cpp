@@ -53,6 +53,8 @@ KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& co
    box->addWidget(m_shell,1);
    box->addWidget(buttonsBox,0);
 
+   m_shell->setFocus();
+
    connect(stopButton, SIGNAL(clicked()), m_shell, SLOT(slotFinished()));
    connect(m_shell, SIGNAL(finished()), this, SLOT(disableStopButton()));
    connect(closeButton,SIGNAL(clicked()), this, SLOT(slotClose()));
