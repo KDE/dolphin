@@ -122,11 +122,20 @@ void KonqHTMLView::initConfig()
   m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
   bool enableJava = KonqSettings::defaultHTMLSettings()->enableJava();
   QString javaPath = KonqSettings::defaultHTMLSettings()->javaPath();
-  javaPath = "$KDEDIR/share/apps/kjava/kjava-classes.zip:"+javaPath+"/lib";
+  // ### hack... fix this
+  QString path = getenv("PATH");
+  //  if(path.find(javaPath) == -1)
+      path += ":" + javaPath + "/bin/";
+  javaPath = QString("/share/apps/kjava/kjava-classes.zip:")+javaPath;
+  javaPath += "/lib";
+  javaPath = getenv("KDEDIR") + javaPath;
   bool enableJavaScript = KonqSettings::defaultHTMLSettings()->enableJavaScript();
 
   m_pBrowser->enableJava(enableJava);
+  printf("PATH = %s\n", path.latin1());
+  printf("CLASSPATH = %s\n", javaPath.latin1());
   setenv("CLASSPATH",javaPath.latin1(), 1);
+  setenv("PATH",path.latin1(), 1);
   m_pBrowser->enableJScript(enableJavaScript);
 }
 
