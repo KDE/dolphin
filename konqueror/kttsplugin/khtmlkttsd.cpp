@@ -121,3 +121,5 @@ KPluginFactory::~KPluginFactory()
 K_EXPORT_COMPONENT_FACTORY( libkhtmlkttsdplugin, KPluginFactory )
 
 KInstance* KPluginFactory::s_instance = 0L;
+
+#include "khtmlkttsd.moc"
