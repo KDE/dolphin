@@ -18,12 +18,6 @@ servicetype_DATA = konq_plugin.desktop
 
 METASOURCES = AUTO
 
-KonquerorIface.kidl: $(srcdir)/KonquerorIface.h
-	dcopidl $(srcdir)/KonquerorIface.h > KonquerorIface.kidl 
-
-KonquerorIface_skel.cpp: KonquerorIface.kidl
-	dcopidl2cpp --no-stub KonquerorIface.kidl
-
 libkonqhtmlview_la_SOURCES = konq_htmlview.cc
 libkonqhtmlview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
 libkonqhtmlview_la_LIBADD = libkonqueror.la $(LIB_KHTML)
@@ -57,7 +51,7 @@ browser.moc.cc: $(kde_includes)/browser.h
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = konq_main.cc KonquerorIface_skel.cpp
+konqueror_SOURCES = konq_main.cc KonquerorIface.skel
 
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
