@@ -588,9 +588,10 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
   m_iXOffset = xOffset;
   m_iYOffset = yOffset;
 
+  m_strURL = url.url();
+  
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
-  m_strURL = url.url();
 
 //  setCaptionFromURL( m_strURL );
 }
