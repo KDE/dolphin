@@ -3202,10 +3202,13 @@ void KonqMainWindow::slotOpenEmbeddedDoIt()
 
 void KonqMainWindow::slotDatabaseChanged()
 {
-  MapViews::ConstIterator it = m_mapViews.begin();
-  MapViews::ConstIterator end = m_mapViews.end();
-  for (; it != end; ++it )
-    (*it)->callExtensionMethod( "refreshMimeTypes()" );
+  if ( KSycoca::isChanged("mimetypes") )
+  {
+    MapViews::ConstIterator it = m_mapViews.begin();
+    MapViews::ConstIterator end = m_mapViews.end();
+    for (; it != end; ++it )
+      (*it)->callExtensionMethod( "refreshMimeTypes()" );
+  }
 }
 
 void KonqMainWindow::slotReconfigure()
