@@ -26,6 +26,7 @@
 #include <klocale.h>
 #include <kstddirs.h>
 #include <kglobal.h>
+#include <kwin.h>
 #include <kprotocolinfo.h>
 #include <qdir.h>
 
@@ -35,15 +36,23 @@
  *
  **********************************************/
 
+// Terminates fullscreen-mode for any full-screen window on the current desktop
 void KonqMisc::abortFullScreenMode()
 {
   QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
+    int currentDesktop = KWin::currentDesktop();
     QListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
+    {
       if ( it.current()->fullScreenMode() )
-        it.current()->slotToggleFullScreen();
+      {
+	KWin::Info info = KWin::info( it.current()->winId() );
+	if ( info.desktop == currentDesktop )
+          it.current()->slotToggleFullScreen();
+      }
+    }
   }
 }
 
@@ -64,7 +73,6 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString 
 KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
   kdDebug() << "KonqMisc::createNewWindow url=" << url.url() << endl;
-  abortFullScreenMode();
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
   QString profileName = (!(KProtocolInfo::supportsListing(url)) ||
@@ -81,6 +89,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
 {
   kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
   kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
+  abortFullScreenMode();
 
   KonqMainWindow * mainWindow;
   if ( path.isEmpty() )

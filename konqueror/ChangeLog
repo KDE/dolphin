@@ -2,6 +2,8 @@
 
 	* konq_mainwindow.cc: Set WDestructiveClose again when going
 	to fullscreen mode (Qt bug), to prevent Alt+F4 from crashing.
+	* konq_misc.cc: Only abort full-screen mode for windows on the
+	current desktop.
 
 2001-05-01  Simon Hausmann  <simon@kde.org>
 
