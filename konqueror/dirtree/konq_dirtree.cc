@@ -126,19 +126,28 @@ void KonqDirTreeEditExtension::pasteSelection( bool move )
 
 void KonqDirTreeEditExtension::moveSelection( const QString &destinationURL )
 {
-  QStringList lst;
+  QStringList lst = selectedUrls();
 
-  KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
-
-  if ( !selection )
+  if ( lst.count() == 0 )
     return;
   
   KIOJob *job = new KIOJob;
 
   if ( !destinationURL.isEmpty() )
-    job->move( selection->fileItem()->url().url(), destinationURL );
+    job->move( lst.first(), destinationURL );
   else
     job->del( lst );
+}
+
+QStringList KonqDirTreeEditExtension::selectedUrls()
+{
+   QStringList lst;
+   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
+   if (selection)
+    // only one item selected
+    lst.append( selection->fileItem()->url().url() );
+
+   return lst;
 }
 
 KonqDirTreeBrowserView::KonqDirTreeBrowserView( QWidget *parent, const char *name )
@@ -454,8 +463,7 @@ void KonqDirTree::slotNewItem( KFileItem *item )
   for (; dirIt != dirEnd; ++dirIt )
   {
   //    qDebug( "comparing %s with %s", dirIt.key().url().ascii(), dir.url().ascii() );
-#warning "can someone PLEASE add a const to KURL::cmp!"  
-    if ( dir.cmp( *((KURL*)&(dirIt.key())), true ) )
+    if ( dir.cmp( dirIt.key(), true ) )
       break;
   }    
   

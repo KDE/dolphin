@@ -40,7 +40,7 @@ public:
   virtual void savePropertiesAsDefault();
 
 private:
-  KonqTreeView *m_treeView;  
+  KonqTreeView *m_treeView;
 };
 
 class TreeViewEditExtension : public EditExtension
@@ -48,14 +48,15 @@ class TreeViewEditExtension : public EditExtension
   Q_OBJECT
 public:
   TreeViewEditExtension( KonqTreeView *treeView );
-  
+
   virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 
   virtual void cutSelection();
   virtual void copySelection();
   virtual void pasteSelection( bool move );
   virtual void moveSelection( const QString &destinationURL = QString::null );
-  
+  virtual QStringList selectedUrls();
+
 private:
   KonqTreeView *m_treeView;
 };
@@ -68,7 +69,7 @@ class KonqTreeView : public BrowserView
 public:
   KonqTreeView();
   virtual ~KonqTreeView();
-  
+
   virtual void openURL( const QString &url, bool reload = false,
                         int xOffset = 0, int yOffset = 0 );
 

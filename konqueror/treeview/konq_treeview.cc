@@ -48,7 +48,7 @@
 class KonqTreeViewFactory : public KLibFactory
 {
 public:
-  KonqTreeViewFactory() 
+  KonqTreeViewFactory()
   {
     KonqFactory::instanceRef();
   }
@@ -56,14 +56,14 @@ public:
   {
     KonqFactory::instanceUnref();
   }
-  
+
   virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {
     QObject *obj = new KonqTreeView;
     emit objectCreated( obj );
     return obj;
   }
-  
+
 };
 
 extern "C"
@@ -83,7 +83,7 @@ TreeViewPropertiesExtension::TreeViewPropertiesExtension( KonqTreeView *treeView
 void TreeViewPropertiesExtension::reparseConfiguration()
 {
   // m_pProps is a problem here (what is local, what is global ?)
-  // but settings is easy : 
+  // but settings is easy :
   m_treeView->treeViewWidget()->initConfig();
 }
 
@@ -107,9 +107,9 @@ TreeViewEditExtension::TreeViewEditExtension( KonqTreeView *treeView )
 void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
   QValueList<KonqTreeViewItem*> selection;
-  
+
   m_treeView->treeViewWidget()->selectedItems( selection );
-  
+
   cut = move = copy = ( selection.count() != 0 );
   bool bInTrash = false;
   QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
@@ -120,7 +120,7 @@ void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move 
       bInTrash = true;
   }
   move = move && !bInTrash;
-  
+
   bool bKIOClipboard = !isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
@@ -136,16 +136,16 @@ void TreeViewEditExtension::cutSelection()
 void TreeViewEditExtension::copySelection()
 {
   QValueList<KonqTreeViewItem*> selection;
-  
+
   m_treeView->treeViewWidget()->selectedItems( selection );
-  
+
   QStringList lstURLs;
-  
+
   QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
   QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
   for (; it != end; ++it )
     lstURLs.append( (*it)->item()->url().url() );
-    
+
   QUriDrag *urlData = new QUriDrag;
   urlData->setUnicodeUris( lstURLs );
   QApplication::clipboard()->setData( urlData );
@@ -161,22 +161,28 @@ void TreeViewEditExtension::pasteSelection( bool move )
 
 void TreeViewEditExtension::moveSelection( const QString &destinationURL )
 {
-  QValueList<KonqTreeViewItem*> selection;
-  m_treeView->treeViewWidget()->selectedItems( selection );
-  
-  QStringList lstURLs;
-  
-  QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
-  for (; it != end; ++it )
-    lstURLs.append( (*it)->item()->url().url() );
-    
+  QStringList lstURLs = selectedUrls();
+
   KIOJob *job = new KIOJob;
-  
+
   if ( !destinationURL.isEmpty() )
     job->move( lstURLs, destinationURL );
   else
     job->del( lstURLs );
+}
+
+QStringList TreeViewEditExtension::selectedUrls()
+{
+  QValueList<KonqTreeViewItem*> selection;
+  m_treeView->treeViewWidget()->selectedItems( selection );
+
+  QStringList lstURLs;
+  QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
+  for (; it != end; ++it )
+    lstURLs.append( (*it)->item()->url().url() );
+
+  return lstURLs;
 }
 
 KonqTreeView::KonqTreeView()

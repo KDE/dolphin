@@ -1,21 +1,21 @@
 /*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
- 
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
- 
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/ 
+
+*/
 
 #ifndef __konq_textview_h__
 #define __konq_textview_h__
@@ -48,7 +48,7 @@ class KonqTextEditExtension : public EditExtension
   Q_OBJECT
 public:
   KonqTextEditExtension( KonqTextView *textView );
-  
+
   virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 
   virtual void copySelection();
@@ -59,7 +59,7 @@ public:
   virtual void moveSelection( const QString & ){}
 
 private:
-  KonqTextView *m_textView;  
+  KonqTextView *m_textView;
 };
 
 class KonqTextView : public BrowserView
@@ -68,11 +68,11 @@ class KonqTextView : public BrowserView
   friend class KonqTextEditExtension;
 
   Q_OBJECT
-  
+
 public:
   KonqTextView();
   virtual ~KonqTextView();
-  
+
   virtual void openURL( const QString &url, bool reload = false,
                         int xOffset = 0, int yOffset = 0 );
 
@@ -85,7 +85,7 @@ public:
 
 /*
   virtual void can( bool &copy, bool &paste, bool &move );
-  
+
   virtual void copySelection();
   virtual void pasteSelection();
   virtual void moveSelection( const QCString & );
@@ -120,15 +120,15 @@ private:
   int m_iXOffset;
   int m_iYOffset;
   bool m_bFixedFont;
-  
+
   QString m_strSearchText;
   int m_iSearchPos;
   int m_iSearchLine;
   KonqSearchDialog *m_pSearchDialog;
   bool m_bFound;
-  
+
   long int m_idFixedFont;
-  
+
   KAction *m_paSelectAll;
   KAction *m_paEdit;
   KAction *m_paSearch;
@@ -142,14 +142,14 @@ class KMultiLineEdit : public QMultiLineEdit
 public:
   KMultiLineEdit( QWidget *parent = 0, const char *name = 0 ) : QMultiLineEdit( parent, name ) {}
   ~KMultiLineEdit() {}
-  
+
   bool textMarked() const { return hasMarkedText(); }
 
   int xScrollOffset() const { return xOffset(); }
   int yScrollOffset() const { return yOffset(); }
-  
+
   void setScrollOffset( int x, int y ) { setOffset( x, y ); }
- 
+
 };
 
 #endif

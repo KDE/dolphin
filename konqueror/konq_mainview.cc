@@ -1084,15 +1084,17 @@ void KonqMainView::slotTrash()
 
 void KonqMainView::slotDelete()
 {
+  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
+
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
   bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
   if (confirm)
-    if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
+    if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ),
+         obj ? ((EditExtension *)obj)->selectedUrls() : 0L)
 	 == KMessageBox::No)
       return;
 
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
     ((EditExtension *)obj)->moveSelection();
 }
