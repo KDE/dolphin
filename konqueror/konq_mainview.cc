@@ -2221,7 +2221,7 @@ QStringList KonqMainView::locationBarCombo()
   QStringList entryList;
   
   long int count = m_vLocationBar->comboItemCount( TOOLBAR_URL_ID );
-  for ( CORBA::ULong i = 0; i < (CORBA::ULong)count; i++ )
+  for ( long int i = 0; i < count; i++ )
     entryList.append( m_vLocationBar->comboItem( TOOLBAR_URL_ID, i ) );
 
   return entryList;

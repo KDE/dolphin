@@ -650,14 +650,27 @@ void KonqKfmIconView::can( bool &copy, bool &paste, bool &move )
 
 void KonqKfmIconView::copySelection()
 {
+  QDragObject * obj = dragObject();
+  QApplication::clipboard()->setData( obj );
+}
+
+QDragObject * KonqKfmIconView::dragObject()
+{
   QStringList lstURLs;
  
   for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-    lstURLs.append( ((KFileIVI *)it)->item()->url().url() );
+    if ( it->isSelected() )
+    {
+      lstURLs.append( ((KFileIVI *)it)->item()->url().url() );
+      debug("appended %s",((KFileIVI *)it)->item()->url().url().ascii());
+    }
   
-  QUriDrag *urlData = new QUriDrag;
-  urlData->setUnicodeUris( lstURLs );
-  QApplication::clipboard()->setData( urlData );
+  QUriDrag *drag = new QUriDrag( viewport() );
+  drag->setUnicodeUris( lstURLs );
+  drag->setPixmap( QPixmap( currentItem()->icon().pixmap( QIconView::viewMode(), QIconSet::Normal ) ),
+                   QPoint( currentItem()->iconRect().width() / 2,
+                           currentItem()->iconRect().height() / 2 ) ); 
+  return drag;
 }
 
 void KonqKfmIconView::pasteSelection()
@@ -670,7 +683,8 @@ void KonqKfmIconView::moveSelection( const QCString &destinationURL )
   QStringList lstURLs;
  
   for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-    lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
+    if ( it->isSelected() )
+      lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
   
   KIOJob *job = new KIOJob;
   

@@ -382,7 +382,7 @@ void KonqKfmTreeView::viewportDragMoveEvent( QDragMoveEvent *_ev )
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
 
-  if ( item->item()->acceptsDrops( m_lstDropFormats ) )
+  if ( item->item()->acceptsDrops( ) )
   {
     _ev->accept();
     setSelected( item, true );

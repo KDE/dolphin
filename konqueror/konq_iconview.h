@@ -113,7 +113,11 @@ protected slots:
   virtual void slotDeleteItem( KFileItem * );
 
 protected:  
+  /** Common to slotDrop and slotDropItem */
   void dropStuff( QDropEvent *e, KFileIVI *item = 0L );
+
+  /** Overloaded from QIconView */
+  virtual QDragObject *dragObject();
 
   virtual void initConfig();
 
