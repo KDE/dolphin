@@ -9,13 +9,13 @@
  <Action name="file_save_as"/>
  <Separator/>
  <Action name="importIE"/>
- <Action name="importNS"/>
- <Action name="importMoz"/>
- <Action name="importCrash"/>
  <Action name="importOpera"/>
+ <Action name="importMoz"/>
+ <Action name="importNS"/>
+ <Action name="importCrash"/>
  <Separator/>
- <Action name="exportNS"/>
  <Action name="exportMoz"/>
+ <Action name="exportNS"/>
  <Separator/>
  <Action name="file_quit"/>
 </Menu>

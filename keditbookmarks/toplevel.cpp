@@ -128,13 +128,13 @@ void KEBTopLevel::createActions() {
     // Create the actions
 
     KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
-    (void) new KAction( i18n( "Import Crash Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
-    (void) new KAction( i18n( "Import Opera Bookmarks" ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
-    (void) new KAction( i18n( "Import IE Bookmarks" ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
+    (void) new KAction( i18n( "Import Crashed Sessions as Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
+    (void) new KAction( i18n( "Import Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
+    (void) new KAction( i18n( "Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
     act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
     (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
-    act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
-    (void) new KAction( i18n( "Export to Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
+    act = new KAction( i18n( "Import Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
+    (void) new KAction( i18n( "Export to Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
     (void) KStdAction::open( this, SLOT( slotLoad() ), actionCollection() );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::saveAs( this, SLOT( slotSaveAs() ), actionCollection() );
