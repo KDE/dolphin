@@ -588,12 +588,12 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
-
+        bool sTrash = url.path(1) == KGlobalSettings::trashPath();
         // Nor control nor shift are pressed => show popup menu
         QPopupMenu popup;
         if ( sReading )
             popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
-        if ( (sMoving || (sReading && sDeleting)) )
+        if ( (sMoving || (sReading && sDeleting)) && !sTrash)
             popup.insertItem( i18n( "&Move Here" ), 2 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
         if (bSetWallpaper)
