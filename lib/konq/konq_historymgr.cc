@@ -34,6 +34,8 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
               KonqHistoryComm( "KonqHistoryManager" )
 {
+    m_updateTimer = new QTimer( this );
+
     // defaults
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
@@ -55,6 +57,8 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
 
     // and load the history
     loadHistory();
+
+    connect( m_updateTimer, SIGNAL( timeout() ), SLOT( slotEmitUpdated() ));
 }
 
 
@@ -150,7 +154,11 @@ bool KonqHistoryManager::loadHistory()
 	adjustSize();
     }
 
-    // ### KParts::HistoryProvider::update();
+    // Theoretically, we should emit update() here, but as we only ever
+    // load items on startup up to now, this doesn't make much sense. Same
+    // thing for the above loadFallback().
+    // emit KParts::HistoryProvider::update( some list );
+
     file.close();
     emit loadingFinished();
 
@@ -200,8 +208,11 @@ void KonqHistoryManager::adjustSize()
 	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
 
-	KParts::HistoryProvider::remove( entry->url.url() );
+        QString urlString = entry->url.url();
+	KParts::HistoryProvider::remove( urlString );
 
+        addToUpdateList( urlString );
+        
 	emit entryRemoved( m_history.getFirst() );
 	m_history.removeFirst(); // deletes the entry
 
@@ -389,6 +400,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
     KonqHistoryEntry *entry = findEntry( e.url );
+    QString urlString = e.url.url();
 
     if ( !entry ) { // create a new history entry
 	entry = new KonqHistoryEntry;
@@ -396,7 +408,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 	entry->firstVisited = e.firstVisited;
 	entry->numberOfTimesVisited = 0; // will get set to 1 below
 	m_history.append( entry );
-	KParts::HistoryProvider::insert( entry->url.url() );
+	KParts::HistoryProvider::insert( urlString );
     }
 
     if ( !e.typedURL.isEmpty() )
@@ -416,6 +428,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     if ( saveId == objId() ) // we are the sender of the broadcast, so we save
 	saveHistory();
 
+    addToUpdateList( urlString );
     emit entryAdded( entry );
 }
 
@@ -472,7 +485,10 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
 
-	KParts::HistoryProvider::remove( entry->url.url() );
+        QString urlString = entry->url.url();
+	KParts::HistoryProvider::remove( urlString );
+
+        addToUpdateList( urlString );
 
 	m_history.take(); // does not delete
 	emit entryRemoved( entry );
@@ -495,8 +511,11 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	    m_pCompletion->removeItem( entry->url.prettyURL() );
 	    m_pCompletion->removeItem( entry->typedURL );
 
-	    KParts::HistoryProvider::remove( entry->url.url() );
+            QString urlString = entry->url.url();
+	    KParts::HistoryProvider::remove( urlString );
 
+            addToUpdateList( urlString );
+            
 	    m_history.take(); // does not delete
 	    emit entryRemoved( entry );
 	    delete entry;
@@ -539,8 +558,6 @@ bool KonqHistoryManager::loadFallback()
     m_history.sort();
     adjustSize();
     saveHistory();
-
-    // ### KParts::HistoryProvider::update();
 
     return true;
 }
@@ -592,6 +609,12 @@ KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
 bool KonqHistoryManager::filterOut( const KURL& url )
 {
     return ( url.isLocalFile() || url.host().isEmpty() );
+}
+
+void KonqHistoryManager::slotEmitUpdated()
+{
+    emit KParts::HistoryProvider::updated( m_updateURLs );
+    m_updateURLs.clear();
 }
 
 //////////////////////////////////////////////////////////////////

@@ -25,6 +25,7 @@
 #include <qptrlist.h>
 #include <qobject.h>
 #include <qmap.h>
+#include <qtimer.h>
 
 #include <dcopobject.h>
 
@@ -303,6 +304,25 @@ protected:
      */
     virtual bool filterOut( const KURL& url );
 
+    void addToUpdateList( const QString& url ) {
+        m_updateURLs.append( url );
+        m_updateTimer->start( 500, true );
+    }
+
+    /**
+     * The list of urls that is going to be emitted in slotEmitUpdated. Add
+     * urls to it whenever you modify the list of history entries and start
+     * @ref m_updateTimer.
+     */
+    QStringList m_updateURLs;
+
+private slots:
+    /**
+     * Called by the updateTimer to emit the KParts::HistoryProvider::updated()
+     * signal so that khtml can repaint the updated links.
+     */
+    void slotEmitUpdated();
+
 private:
     void clearPending();
     /**
@@ -335,6 +355,12 @@ private:
     Q_UINT32 m_maxAgeDays; // maximum age of a history entry
 
     KCompletion *m_pCompletion; // the completion object we sync with
+
+    /**
+     * A timer that will emit the KParts::HistoryProvider::updated() signal
+     * thru the slotEmitUpdated slot.
+     */
+    QTimer *m_updateTimer;
 
     static const Q_UINT32 s_historyVersion = 2;
 };
