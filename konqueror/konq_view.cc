@@ -180,7 +180,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   } else
     m_bLockHistory = false;
 
-  callExtensionStringMethod( "setNameFilter(QString)", nameFilter );
+  callExtensionStringMethod( "setNameFilter(const QString&)", nameFilter );
   setLocationBarURL( locationBarURL );
 
   if ( !args.reload )
