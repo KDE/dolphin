@@ -59,6 +59,11 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
   KService::Ptr service;
   KTrader::OfferList partServiceOffers, appServiceOffers;
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true );
+  if ( newViewFactory.isNull() )
+  {
+    kdDebug(1202) << "KonqViewManager::Initialize() No suitable factory found." << endl;
+    return 0;
+  }
   KonqView* childView = setupView( m_pMainWindow, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, false );
   setActivePart( childView->part() );
   m_pDocContainer = childView->frame();

@@ -755,11 +755,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       }
 
       if ( !childView )
-      {
-          KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nThe diagnostics is:\n%2").arg(serviceType)
-              .arg(KLibLoader::self()->lastErrorMessage()) );
-          return true; // fake everything was ok, we don't want to propagate the error
-      }
+          return false; // It didn't work out.
   }
   else // We know the child view
   {
