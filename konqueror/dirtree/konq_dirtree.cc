@@ -285,11 +285,20 @@ KURL KonqDirTreeItem::externalURL() const
         KSimpleConfig config( m_item->url().path() );
         config.setDesktopGroup();
         config.setDollarExpansion(true);
-        KURL url = config.readEntry("URL");
+        if ( config.readEntry("Type") == "FSDevice" )
+        {
+            KURL url;
+            url.setPath( config.readEntry("MountPoint") );
+            return url;
+        }
+        else
+        {
+            KURL url = config.readEntry("URL");
 
-        if ( url.path().isEmpty() )
-            url.setPath( "/" );
-        return url;
+            if ( url.path().isEmpty() )
+                url.setPath( "/" );
+            return url;
+        }
     }
     else
         return m_item->url();
@@ -999,12 +1008,16 @@ void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &fil
   else if ( cfg.hasDeviceType() )
   {
     // Determine the mountpoint
-    path = KIO::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
 
-    if ( path.isEmpty() )
+
+    // wrong - this needs the device to be already mounted
+    //mp = KIO::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
+    QString mp = cfg.readEntry("MountPoint");
+
+    if ( mp.isEmpty() )
       return;
 
-    targetURL.setPath(path);
+    targetURL.setPath(mp);
     icon = cfg.readIcon();
     name = cfg.readEntry( "Name", name );
   }
