@@ -563,10 +563,12 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   tmpLabel->setBuddy( urDesktop );
   lay->addMultiCellWidget(urDesktop, row, row, 1, RO_LASTCOL);
   connect(urDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  QWhatsThis::add( urDesktop, i18n("This directory contains all the files"
-                                   " which you see on your desktop. You can change the location of this"
-                                   " directory if you want to, and the contents will move automatically"
-                                   " to the new location as well.") );
+  QString wtstr = i18n("This directory contains all the files"
+                       " which you see on your desktop. You can change the location of this"
+                       " directory if you want to, and the contents will move automatically"
+                       " to the new location as well.");
+  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( urDesktop, wtstr );
 
   row++;
   tmpLabel = new QLabel(i18n("&Trash path:"), this);
@@ -576,7 +578,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   tmpLabel->setBuddy( urTrash );
   lay->addMultiCellWidget(urTrash, row, row, 1, RO_LASTCOL);
   connect(urTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  QString wtstr = i18n("This directory contains deleted files (until"
+  wtstr = i18n("This directory contains deleted files (until"
                " you empty the trashcan). You can change the location of this"
                " directory if you want to, and the contents will move automatically"
                " to the new location as well.");
