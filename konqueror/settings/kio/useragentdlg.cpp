@@ -26,7 +26,6 @@
 #include <kdialog.h>
 #include <kprotocolmanager.h>
 
-
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                  :KCModule( parent, name )
 {
@@ -242,13 +241,13 @@ void UserAgentOptions::textChanged( const QString& )
   QString server = onserverED->text();
   QString login = loginasED->currentText();
 
-  // Allow only text that starts with a text or number
-  // for the server name
-  if ( !login.isEmpty() || !server.isEmpty() ||
-       !loginidED->text().isEmpty() )
+  if ( !login.isEmpty() || !server.isEmpty() || !loginidED->text().isEmpty() )
     resetPB->setEnabled( true );
   else
     resetPB->setEnabled( false );
+
+  if ( !server.isEmpty() && server[0].isLetterOrNumber() )
+    return;
 
   if( !login.isEmpty() && !server.isEmpty() )
   {

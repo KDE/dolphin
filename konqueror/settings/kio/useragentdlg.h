@@ -7,12 +7,15 @@
 // (c) David Faure <faure@kde.org> 1998
 //
 // (C) Dirk Mueller <mueller@kde.org> 2000
+//
+// (C) Dawit Alemayehu <adawit@kde.org> 2000
 
 #ifndef _USERAGENTDLG_H
 #define _USERAGENTDLG_H "$Id$"
 
 #include <qmap.h>
 #include <qwidget.h>
+
 #include <kcmodule.h>
 
 class QPushButton;
@@ -32,7 +35,6 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
-
   QString quickHelp() const;
 
 private slots:
@@ -69,6 +71,4 @@ private:
 
   QMap<QString, QString> aliasMap;
 };
-
-
 #endif
