@@ -396,6 +396,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   if ( sType.isEmpty() )
     sType = m_pMainWindow->currentView()->serviceType();
 
+  //kdDebug(1202) << "KonqViewManager::setupView creating KonqFrame with parent=" << parentContainer << endl;
   KonqFrame* newViewFrame = new KonqFrame( parentContainer, "KonqFrame" );
 
   kdDebug(1202) << "Creating KonqView" << endl;
@@ -467,8 +468,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
 
   loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
 
-  printFullHierarchy( m_pMainContainer );
-
   KonqView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */ );
 
@@ -512,6 +511,11 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
 
   if ( width > -1 && height > -1 )
     m_pMainWindow->resize( width, height );
+
+  // Careful, this may not be accurate. ChildEvents to KonqFrame have
+  // not been sent yet. Yeah, this childEvent stuff makes it harder to debug.
+  // TODO for 2.1: replace them with an explicit insertChildFrame.
+  //printFullHierarchy( m_pMainContainer );
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
 }

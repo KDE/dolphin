@@ -1160,9 +1160,13 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       return;
     }
   }
+  /*
+    // Hmm, KonqViewManager::loadViewProfile has to set the active part to 0L
+    // before clearing all views. No warning, then.
   else
     if ( viewCount() > 0 ) // No warning if we're closing the window
       kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
+      */
 
   KParts::BrowserExtension *ext = 0;
 
