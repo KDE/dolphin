@@ -505,6 +505,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
 
       loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
   }
+  else
+  {
+      m_pMainWindow->disableActionsNoView();
+  }
 
   if (m_pMainWindow->viewCount() == 0 && !forcedURL.isEmpty())
   {

@@ -159,6 +159,8 @@ public:
 
   void enableAllActions( bool enable );
 
+  void disableActionsNoView();
+
   void updateToolBarActions();
 
   bool fullScreenMode() const { return m_bFullScreen; }

@@ -2478,6 +2478,31 @@ void KonqMainWindow::enableAllActions( bool enable )
   actionCollection()->action( "quit" )->setEnabled( true );
 }
 
+void KonqMainWindow::disableActionsNoView()
+{
+    // No view -> there are some things we can't do
+    // There are things we can do, though : bookmarks, view profile, location bar, new window etc.
+    m_paUp->setEnabled( false );
+    m_paReload->setEnabled( false );
+    m_paBack->setEnabled( false );
+    m_paForward->setEnabled( false );
+    m_ptaUseHTML->setEnabled( false );
+    m_pMenuNew->setEnabled( false );
+    m_paUnlockAll->setEnabled( false );
+    m_paSplitWindowVer->setEnabled( false );
+    m_paSplitWindowHor->setEnabled( false );
+    m_paSplitViewVer->setEnabled( false );
+    m_paSplitViewHor->setEnabled( false );
+    m_paRemoveView->setEnabled( false );
+    m_paLinkView->setEnabled( false );
+    if (m_toggleViewGUIClient)
+    {
+        QList<KAction> actions = m_toggleViewGUIClient->actions();
+        for ( KAction * it = actions.first(); it ; it = actions.next() )
+            it->setEnabled( false );
+    }
+}
+
 void KonqMainWindow::openBookmarkURL( const QString & url )
 {
   kdDebug(1202) << (QString("KonqMainWindow::openBookmarkURL(%1)").arg(url)) << endl;
