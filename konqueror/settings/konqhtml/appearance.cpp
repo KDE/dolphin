@@ -286,6 +286,9 @@ void KAppearanceOptions::load()
     defaultFonts.append( QString("0") ); // default font size adjustment
 
     fonts = m_pConfig->readListEntry( "Fonts" );
+    while (fonts.count() < 7)
+       fonts.append(QString::null);
+       
     encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
 
     //kdDebug(0) << "encoding = " << encodingName << endl;
@@ -306,6 +309,9 @@ void KAppearanceOptions::defaults()
   defaultFonts.append( HTML_DEFAULT_VIEW_CURSIVE_FONT );
   defaultFonts.append( HTML_DEFAULT_VIEW_FANTASY_FONT );
   defaultFonts.append( QString("0") );
+  fonts.clear();
+  while (fonts.count() < 7)
+    fonts.append(QString::null);
 
   updateGUI();
 }
@@ -313,29 +319,14 @@ void KAppearanceOptions::defaults()
 void KAppearanceOptions::updateGUI()
 {
     //kdDebug() << "KAppearanceOptions::updateGUI " << charset << endl;
-    int i;
-    if(fonts.count() != 7) {
-	kdDebug() << "fonts wrong" << endl;
-	fonts = defaultFonts;
-    }
-
-
     for ( int f = 0; f < 6; f++ ) {
-        QString cf = defaultFonts[f];
-        QString ff = fonts[f].lower();
-
-        for ( QStringList::Iterator sit = m_families.begin(); sit != m_families.end(); ++sit, i++ )
-            if ( ( *sit ).lower() == ff )
-                cf = *sit;
-
-        i = 0;
-        for ( QStringList::Iterator sit = m_families.begin(); sit != m_families.end(); ++sit, i++ ) {
-            if ( cf == *sit )
-                m_pFonts[f]->setCurrentItem( i );
-        }
+        QString ff = fonts[f];
+        if (ff.isEmpty())
+           ff = defaultFonts[f];
+        m_pFonts[f]->setCurrentFont(ff);
     }
 
-    i = 0;
+    int i = 0;
     for ( QStringList::Iterator it = encodings.begin(); it != encodings.end(); ++it, ++i )
         if ( encodingName == *it )
             m_pEncoding->setCurrentItem( i );
