@@ -51,6 +51,7 @@
 #include <qstring.h>
 #include <qtimer.h>
 #include <qpoint.h>
+#include <qregexp.h>
 
 #include <kaccel.h>
 #include <kapp.h>
@@ -748,11 +749,28 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
     KURL::encode( url );
   }
   // Home directory?
-  else if ( url[0] == '~' )
+  else if ( url.find( QRegExp( "^~.*" ) ) == 0 )
   {
-    QString tmp( QDir::homeDirPath() );
-    tmp += _url + 1;
-    KURL u( tmp );
+    QString user;
+    QString path;
+    int index;
+    
+    index = url.find( "/" );
+    if ( index != -1 )
+    {
+      user = url.mid( 1, index );
+      path = url.mid( index+1 );
+    }
+    else
+      user = url.mid( 1 );
+      
+    if ( user.isEmpty() )
+      user = QDir::homeDirPath();
+    else
+      //HACK, is this ok????????????
+      user.prepend( "/home/" );
+      
+    KURL u( user + path );
     url = u.url();
   }
   else if ( strncmp( url, "www.", 4 ) == 0 )
