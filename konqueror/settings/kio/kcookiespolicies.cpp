@@ -67,14 +67,13 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                                    m_bgPreferences );    
     QWhatsThis::add( m_cbRejectCrossDomainCookies, 
                      i18n("Check this option to reject all cookies that "
-                          "originate from a site other than the one you "
+                          "originate from sites other than the one you "
                           "requested. If you, for example, visit www.foobar.com "
                           "while this option is checked, only cookies that come "
                           "from www.foobar.com will be processed per your "
-                          "default or site specific policy. All other cookies "
-                          "will be automatically rejected. This reduces the "
-                          "chances of site operators compiling a profile about "
-                          "your daily browsing habits.") );
+                          "your settings. All other cookies will be automatically "
+                          "rejected. This reduces the chances of site operators "
+                          "compiling a profile about your daily browsing habits.") );
     m_bgPreferences->insert( m_cbRejectCrossDomainCookies );
        
     m_cbAutoAcceptSessionCookies = new QCheckBox ( i18n("Automatically accept "
@@ -83,28 +82,34 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( m_cbAutoAcceptSessionCookies, 
                      i18n("Check this option to automatically accept temporary "
                           "cookies meant to expire at the end of the current "
-                          "session. Such cookie will not be stored in hard "
-                          "drive or local storage device.  Instead, they are "
-                          "deleted when you close all applications (e.g. your "
-                          "browser) that use them. NOTE: Checking this option "
-                          "along with the next one will override your default "
-                          "as well as site specific cookie policies.") );
+                          "session. Such cookies will not be stored in your "
+                          "computer's hard drive or storage device. Instead, "
+                          "they are deleted when you close all applications "
+                          "(e.g. your browser) that use them."
+                          "<P>NOTE: Checking this option along with the next "
+                          "one will override your default as well as site "
+                          "specific cookie policies. However, doing so also "
+                          "increases your privacy since all cookies will be "
+                          "removed when the current session ends.") );
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
   
-    m_cbIgnoreCookieExpirationDate = new QCheckBox ( i18n("Accept all cookies as "
+    m_cbIgnoreCookieExpirationDate = new QCheckBox ( i18n("Treat all cookies as "
                                                      "session cookies"),
                                                      m_bgPreferences );
     QWhatsThis::add( m_cbIgnoreCookieExpirationDate, 
-                     i18n("Check this option to automatically accept <b>all "
-                          "cookies</b> as session based. This means all "
-                          "cookies sent by any site you visit will "
-                          "automatically be accepted, but will never get stored "
-                          "on your hard drive or local storage device. "
-                          "Instead they only reside in memory until you close "
-                          "all applications (e.g. your browser) that use them. "
-                          "NOTE: Checking this option along with the "
-                          "previous one will override your default as well as "
-                          "site specific cookie policies.") );
+                     i18n("Check this option to treat all cookies like "
+                          "session cookies. Session cookies are small "
+                          "pieces of data that are stored in the memory "
+                          "of your computer until you quit or close all "
+                          "applications (e.g. your browser) that make "
+                          "use of them.  Unlike regular cookies, session "
+                          "cookies are never stored on your hard drive or "
+                          "local storage device."
+                          "<P>NOTE: checking this option along with the "
+                          "previous one will override your default as well "
+                          "as site specific cookie policies. However, doing "
+                          "so also increases your privacy since all cookies "
+                          "will be removed when the current session ends.") );
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
     mainLayout->addWidget( m_bgPreferences );
         
