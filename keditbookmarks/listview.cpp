@@ -492,10 +492,8 @@ void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qi
    }
 }
 
-/* MOVE */
 void ListView::handleDoubleClicked(KEBListView *lv, QListViewItem *item, const QPoint &, int column) {
-   Q_UNUSED(lv);
-   m_listView->rename(item, column);
+   lv->rename(item, column);
 }
 
 void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QString &newText, int column) {
@@ -503,43 +501,33 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
    Q_ASSERT(item);
    KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
    KCommand *cmd = 0;
-   switch (column) {
-      case KEBListView::NameColumn:
-         if (newText.isEmpty()) {
-            // can't have an empty name, therefore undo the user action
-            item->setText(KEBListView::NameColumn, bk.fullText());
-         } else if (bk.fullText() != newText) {
-            cmd = new NodeEditCommand(bk.address(), newText, "title");
-         }
-         break;
-
-      case KEBListView::UrlColumn:
-         if (bk.url() != newText) {
-            cmd = new EditCommand(bk.address(), EditCommand::Edition("href", newText), i18n("URL"));
-         }
-         break;
-
-      case KEBListView::CommentColumn:
-         if (NodeEditCommand::getNodeText(bk, "desc") != newText) {
-            cmd = new NodeEditCommand(bk.address(), newText, "desc");
-         }
-         break;
-
-      default:
-         kdWarning() << "No such column " << column << endl;
-         return;
+   if (column == KEBListView::NameColumn) {
+      if (newText.isEmpty()) {
+         // can't have an empty name, therefore undo the user action
+         item->setText(KEBListView::NameColumn, bk.fullText());
+      } else if (bk.fullText() != newText) {
+         cmd = new NodeEditCommand(bk.address(), newText, "title");
+      }
+   } else if (column == KEBListView::UrlColumn) {
+      if (bk.url() != newText) {
+         cmd = new EditCommand(bk.address(), EditCommand::Edition("href", newText), i18n("URL"));
+      }
+   } else if (column == KEBListView::CommentColumn) {
+      if (NodeEditCommand::getNodeText(bk, "desc") != newText) {
+         cmd = new NodeEditCommand(bk.address(), newText, "desc");
+      }
    }
    KEBApp::self()->addCommand(cmd);
 }
 
-/* MOVE */
 // used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
-   m_listView->rename(firstSelected(), column);
+   // TODO - check which listview has focus
+   typ->rename(firstSelected(), column);
 }
 
-/* MOVE */
 void ListView::clearSelection() {
+   // num 2 can't have a selection
    m_listView->clearSelection();
 }
 
@@ -555,7 +543,6 @@ protected:
 static int myrenamecolumn = -1;
 static KEBListViewItem *myrenameitem = 0;
 
-/* MOVE */
 void ListView::renameNextCell(bool fwd) {
    // this needs to take special care
    // of the current listview focus!
