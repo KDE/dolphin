@@ -144,11 +144,8 @@ PluginPart::~PluginPart()
 {
     kdDebug(1432) << "PluginPart::~PluginPart" << endl;
 
-//    delete _widget;
     delete _callback;
     _loader->release();
-
-    kdDebug(1432) << "----------------------------------------------------" << endl;
 }
 
 

@@ -33,12 +33,11 @@
 #include <qobject.h>
 #include <qwidget.h>
 #include <qxembed.h>
-#include "../../kdelibs/khtml/java/javaembed.h"
+#include "javaembed.h"
 
 #include "NSPluginClassIface_stub.h"
 
-#define EMBEDCLASS QXEmbed
-//KJavaEmbed
+#define EMBEDCLASS KJavaEmbed
 
 class KProcess;
 

@@ -38,9 +38,6 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
-#include "../../kdelibs/khtml/java/javaembed.cpp"
-
-
 #include "nspluginloader.h"
 #include "nspluginloader.moc"
 
