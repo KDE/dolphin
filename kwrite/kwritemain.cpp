@@ -59,6 +59,7 @@
 #include <qdropsite.h>
 #include <qdragobject.h>
 #include <qvbox.h>
+#include <qtextcodec.h>
 #include <qlayout.h>
 
 // StatusBar field IDs
@@ -530,6 +531,9 @@ void KWrite::restore()
 static KCmdLineOptions options[] =
 {
   { "stdin",    I18N_NOOP("Read the contents of stdin"), 0},
+  { "encoding <argument>",      I18N_NOOP("Set encoding for the file to open"), 0 },
+  { "line <argument>",      I18N_NOOP("Navigate to this line"), 0 },
+  { "column <argument>",      I18N_NOOP("Navigate to this column"), 0 },
   { "+[URL]",   I18N_NOOP("Document to open"), 0 },
   KCmdLineLastOption
 };
@@ -599,6 +603,23 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv)
   }
   else
   {
+    bool nav = false;
+    int line = 0, column = 0;
+
+    QTextCodec *codec = args->isSet("encoding") ? QTextCodec::codecForName(args->getOption("encoding")) : 0;
+
+    if (args->isSet ("line"))
+    {
+      line = args->getOption ("line").toInt();
+      nav = true;
+    }
+
+    if (args->isSet ("column"))
+    {
+      column = args->getOption ("column").toInt();
+      nav = true;
+    }
+
     if ( args->count() == 0 )
     {
         KWrite *t = new KWrite;
@@ -606,6 +627,11 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv)
         if( args->isSet( "stdin" ) )
         {
           QTextIStream input(stdin);
+
+          // set chosen codec
+          if (codec)
+            input.setCodec (codec);
+
           QString line;
           QString text;
 
@@ -620,6 +646,9 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv)
           if( doc )
               doc->setText( text );
         }
+
+        if (nav && KTextEditor::viewCursorInterface(t->view()))
+          KTextEditor::viewCursorInterface(t->view())->setCursorPosition (line, column);
     }
     else
     {
@@ -635,10 +664,16 @@ extern "C" KDE_EXPORT int kdemain(int argc, char **argv)
           if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (false);
 
+          if (codec && KTextEditor::encodingInterface(t->view()->document()))
+            KTextEditor::encodingInterface(t->view()->document())->setEncoding(codec->name());
+
           t->loadURL( args->url( z ) );
 
           if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (true);
+
+          if (nav && KTextEditor::viewCursorInterface(t->view()))
+            KTextEditor::viewCursorInterface(t->view())->setCursorPosition (line, column);
         }
         else
           KMessageBox::sorry( t, i18n("The file '%1' could not be opened: it is not a normal file, it is a folder.").arg(args->url(z).url()) );
