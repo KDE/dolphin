@@ -200,7 +200,7 @@ KonqKfmIconView::KonqKfmIconView()
   connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
   connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
     
-  KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, this, SLOT( foo ), this );
+  KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, this );
 
   connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending( bool ) ) );
 
