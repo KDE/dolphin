@@ -68,6 +68,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
   QLabel *label = new QLabel(i18n("N&umber of desktops: "), number_group);
   _numInput = new KIntNumInput(4, number_group);
   _numInput->setRange(1, 16, 1, true);
+  connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
   connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotOptionChanged()));
   label->setBuddy( _numInput );
   QString wtstr = i18n( "Here you can set how many virtual desktops you want on your KDE desktop. Move the slider to change the value." );
@@ -96,11 +97,14 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
       QWhatsThis::add( _nameInput[i+8], i18n( "Here you can enter the name for desktop %1" ).arg( i+8+1 ) );
 
       connect(_nameInput[i], SIGNAL(textChanged(const QString&)),
-          SLOT(slotTextChanged(const QString&)));
+          SLOT(slotOptionChanged()));
       connect(_nameInput[i+8], SIGNAL(textChanged(const QString&)),
-          SLOT(slotTextChanged(const QString&)));
+          SLOT(slotOptionChanged()));
     }
 
+  for(int i = 1; i < 16; i++)
+      setTabOrder( _nameInput[i-1], _nameInput[i] );
+      
   layout->addWidget(name_group);
   
   _wheelOption = new QCheckBox(i18n("Mouse wheel over desktop switches desktop"), this);
@@ -121,7 +125,11 @@ void KDesktopConfig::load()
   _numInput->setValue(n);
 
   for(int i = 1; i <= 16; i++)
-    _nameInput[i-1]->setText(QString::fromUtf8(info.desktopName(i)));
+  {
+    QString name = QString::fromUtf8(info.desktopName(i));
+    if( !name.isEmpty())
+        _nameInput[i-1]->setText(name);
+  }
 
   for(int i = 1; i <= 16; i++)
     _nameInput[i-1]->setEnabled(i <= n);
@@ -136,17 +144,16 @@ void KDesktopConfig::load()
 
 void KDesktopConfig::save()
 {
-  // set number of desktops
   NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
-  info.setNumberOfDesktops(_numInput->value());
-  info.activate();
-
   // set desktop names
   for(int i = 1; i <= 16; i++)
   {
     info.setDesktopName(i, (_nameInput[i-1]->text()).utf8());
     info.activate();
   }
+  // set number of desktops
+  info.setNumberOfDesktops(_numInput->value());
+  info.activate();
 
   XSync(qt_xdisplay(), FALSE);
 
