@@ -19,3 +19,7 @@ EXTRA_DIST = $(data_DATA)
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkonqhtml.pot
+
+install-data-local: uninstall.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/WebBrowsing
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/WebBrowsing/nsplugin.desktop
