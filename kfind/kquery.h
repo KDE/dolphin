@@ -64,6 +64,7 @@ class KQuery : public QObject
   bool m_casesensitive;
   bool m_regexpForContent;
   QPtrList<QRegExp> m_regexps;// regexps for file name
+  QValueList<bool> m_regexpsContainsGlobs;
   KIO::ListJob *job;
 };
 
