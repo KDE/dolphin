@@ -377,7 +377,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   // If linked view and if we are not already following another view
   if ( childView && childView->isLinkedView() && !req.followMode )
-    makeViewsFollow( _url, childView );
+    makeViewsFollow( _url, serviceType, childView );
 
   if ( childView && childView->isLockedLocation() )
     return true;
@@ -553,20 +553,25 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 }
 
 // Linked-views feature
-void KonqMainWindow::makeViewsFollow( const KURL & url, KonqView * senderView )
+void KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceType, KonqView * senderView )
 {
-  kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << endl;
+  kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
+  // We can't iterate over the map here, and openURL for each, because the map can get modified
+  // (e.g. by part changes). Better copy the views into a list.
+  QList<KonqView> listViews;
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
+    listViews.append( it.data() );
+
+  for ( KonqView * view = listViews.first() ; view ; view = listViews.next() )
   {
-    if ( (*it != senderView) && (*it)->isLinkedView() )
+    if ( (view != senderView) && (view)->isLinkedView() )
     {
-      kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url=" << url.url() << endl;
-      // We can't assume the service type. People put HTML links in their dirtree ;)
-      openURL( (*it), url, QString::null, req );
+      kdDebug(1202) << "Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
+      openURL( view, url, serviceType, req );
     }
   }
 }
@@ -1123,11 +1128,11 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
     newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
 
-    if ( newView->isPassiveMode() || m_currentView == newView )
+    if ( newView->isPassiveMode() )
     {
-      kdDebug(1203) << "Passive mode or already current view - return" << endl;
       // Passive view. Don't connect anything, don't change m_currentView
       // Another view will become the current view very soon
+      kdDebug(1202) << "Passive mode - return" << endl;
       return;
     }
   }
@@ -1143,6 +1148,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   m_currentView = newView;
   if ( !part )
   {
+    kdDebug(1202) << "No part activated - returning" << endl;
     createGUI( 0L );
     return;
   }
@@ -1151,11 +1157,13 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   if ( ext )
   {
+    kdDebug(1202) << "There is a Browser Extension for the new part" << endl;
     connectExtension( ext );
     createGUI( part );
   }
   else
   {
+    kdDebug(1202) << "No Browser Extension for the new part" << endl;
     // Disable all browser-extension actions
 
     ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();

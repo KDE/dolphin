@@ -80,7 +80,8 @@ public:
                    Qt::Orientation orientation,
                    const QString &serviceType = QString::null,
                    const QString &serviceName = QString::null,
-                   KonqFrameContainer **newFrameContainer = 0L );
+                   KonqFrameContainer **newFrameContainer = 0L,
+                   bool passiveMode = false );
 
   /**
    * Guess!:-)
@@ -175,11 +176,12 @@ private:
    * connects it
    */
   KonqView *setupView( KonqFrameContainer *parentContainer,
-                            KonqViewFactory &viewFactory,
-		            const KService::Ptr &service,
-		            const KTrader::OfferList &partServiceOffers,
-			    const KTrader::OfferList &appServiceOffers,
-			    const QString &serviceType );
+                       KonqViewFactory &viewFactory,
+                       const KService::Ptr &service,
+                       const KTrader::OfferList &partServiceOffers,
+                       const KTrader::OfferList &appServiceOffers,
+                       const QString &serviceType,
+                       bool passiveMode);
 
   //just for debugging
   void printSizeInfo( KonqFrameBase* frame,

@@ -98,9 +98,10 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation )
 }
 
 KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
-                                       Qt::Orientation orientation,
-                                       const QString &serviceType, const QString &serviceName,
-                                       KonqFrameContainer **newFrameContainer )
+                                  Qt::Orientation orientation,
+                                  const QString &serviceType, const QString &serviceName,
+                                  KonqFrameContainer **newFrameContainer,
+                                  bool passiveMode )
 {
   kdDebug(1202) << "KonqViewManager::split" << endl;
 
@@ -148,7 +149,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
     //kdDebug(1202) << "Create new child" << endl;
-    childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
+    childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
     printSizeInfo( splitFrame, parentContainer, "after child insert" );
 
@@ -167,7 +168,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
 
-    childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
+    childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
     m_pMainContainer->show();
 
@@ -379,13 +380,14 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 }
 
 KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
-                                           KonqViewFactory &viewFactory,
-				           const KService::Ptr &service,
-				           const KTrader::OfferList &partServiceOffers,
-					   const KTrader::OfferList &appServiceOffers,
-					   const QString &serviceType )
+                                      KonqViewFactory &viewFactory,
+                                      const KService::Ptr &service,
+                                      const KTrader::OfferList &partServiceOffers,
+                                      const KTrader::OfferList &appServiceOffers,
+                                      const QString &serviceType,
+                                      bool passiveMode )
 {
-  kdDebug(1202) << "KonqViewManager::setupView" << endl;
+  kdDebug(1202) << "KonqViewManager::setupView passiveMode=" << passiveMode << endl;
 
   QString sType = serviceType;
 
@@ -396,7 +398,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   kdDebug(1202) << "Creating KonqView" << endl;
   KonqView *v = new KonqView( viewFactory, newViewFrame,
-                              m_pMainWindow, service, partServiceOffers, appServiceOffers, sType );
+                              m_pMainWindow, service, partServiceOffers, appServiceOffers, sType, passiveMode );
   kdDebug(1202) << "KonqView created" << endl;
 
   QObject::connect( v, SIGNAL( sigPartChanged( KonqView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
@@ -406,7 +408,9 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   newViewFrame->show();
 
-  addPart( v->part(), false );
+  // Don't register passive views to the part manager
+  if ( !v->isPassiveMode() ) // note that KonqView's constructor could set this to true even if passiveMode is false
+    addPart( v->part(), false );
 
   kdDebug(1202) << "KonqViewManager::setupView done" << endl;
   return v;
@@ -540,9 +544,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     }
 
     kdDebug(1202) << "Creating View Stuff" << endl;
-    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
+    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
-    childView->setPassiveMode( passiveMode );
     childView->setLinkedView( linkedView );
 
     //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
@@ -643,7 +646,7 @@ void KonqViewManager::profileListDirty( bool broadcast )
 #endif
     return;
   }
-  
+
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "updateProfileList()", QByteArray() );
 }
 

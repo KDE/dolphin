@@ -46,7 +46,8 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
                     const KService::Ptr &service,
                     const KTrader::OfferList &partServiceOffers,
                     const KTrader::OfferList &appServiceOffers,
-                    const QString &serviceType
+                    const QString &serviceType,
+                    bool passiveMode
                     )
 {
   m_pKonqFrame = viewFrame;
@@ -67,7 +68,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bAllowHTML = m_pMainWindow->isHTMLAllowed();
   m_lstHistory.setAutoDelete( true );
   m_bLoading = false;
-  m_bPassiveMode = false;
+  m_bPassiveMode = passiveMode;
   m_bLockedViewMode = false;
   m_bLockedLocation = false;
   m_bLinkedView = false;
@@ -513,6 +514,9 @@ void KonqView::reload()
 
 void KonqView::setPassiveMode( bool mode )
 {
+  // In theory, if m_bPassiveMode is true and mode is false,
+  // the part should be removed from the part manager,
+  // and if the other way round, it should be readded to the part manager...
   m_bPassiveMode = mode;
 
   if ( mode && m_pMainWindow->viewCount() > 1 && m_pMainWindow->currentView() == this )

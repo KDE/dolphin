@@ -69,6 +69,7 @@ public:
    * @param partServiceOffers list of part offers found by the factory
    * @param appServiceOffers list of app offers found by the factory
    * @param serviceType the serviceType implemented by the part
+   * @param passiveMode whether to initially make the view passive
    */
   KonqView( KonqViewFactory &viewFactory,
             KonqFrame* viewFrame,
@@ -76,7 +77,8 @@ public:
             const KService::Ptr &service,
             const KTrader::OfferList &partServiceOffers,
             const KTrader::OfferList &appServiceOffers,
-            const QString &serviceType );
+            const QString &serviceType,
+            bool passiveMode);
 
   ~KonqView();
 
