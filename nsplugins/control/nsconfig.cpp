@@ -201,8 +201,7 @@ extern "C"
 {
     KCModule *create_nsplugin(QWidget *parent, const char *name)
     {
-        KGlobal::locale()->insertCatalogue("nsplugin");
-        return new NSPluginConfig(parent, name);
+        return new NSPluginConfig(parent, "nsplugin");
     };
 
     void init_nsplugin()
