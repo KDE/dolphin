@@ -122,8 +122,6 @@ protected slots:
 
 protected:
 
-  virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
-
   virtual void newIconSize( int size );
 
   void setupSorting( SortCriterion criterion );

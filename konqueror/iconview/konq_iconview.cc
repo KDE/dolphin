@@ -516,13 +516,6 @@ void KonqKfmIconView::slotSortDirsFirst()
     m_pIconView->sort( m_pIconView->sortDirection() );
 }
 
-void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
-{
-    KParts::ReadOnlyPart::guiActivateEvent( event );
-    if ( event->activated() )
-        m_pIconView->slotSelectionChanged();
-}
-
 void KonqKfmIconView::newIconSize( int size )
 {
     KonqDirPart::newIconSize( size );
