@@ -9,7 +9,7 @@ rcdir = $(kde_datadir)/konqueror
 rc_DATA = konqueror.rc
 
 kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop
+kdelnk_DATA = konqueror.desktop konqueror_config.desktop
 
 # servicetypedir = $(kde_servicetypesdir)
 # servicetype_DATA = konq_metaview.desktop

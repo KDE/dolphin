@@ -1239,7 +1239,7 @@ void KonqMainWindow::slotGoAutostart()
 
 void KonqMainWindow::slotConfigure()
 {
-  KRun::runCommand( "kcmshell kcmkonq filetypes konqhtml ebrowsing cookies proxy crypto useragent", "kcmshell", "" );
+  kapp->startServiceByDesktopName("konqueror_config");
 }
 
 void KonqMainWindow::slotConfigureKeys()

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+Exec=kcmshell kcmkonq filetypes konqhtml ebrowsing cookies proxy crypto useragent
+Icon=konqueror
+DocPath=konqueror/index.html
+Name=Configure Konqueror
