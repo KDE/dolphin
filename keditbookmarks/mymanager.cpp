@@ -31,9 +31,9 @@
 
 #include "mymanager.h"
 
-MyManager *MyManager::s_mgr = 0;
+CurrentMgr *MyManager::s_mgr = 0;
 
-void MyManager::createManager(QObject *top, QString filename) {
+void CurrentMgr::createManager(QObject *top, QString filename) {
    if (m_mgr) {
       QObject::disconnect(m_mgr, 0, 0, 0);
    }
@@ -47,13 +47,13 @@ void MyManager::createManager(QObject *top, QString filename) {
                     top,   SLOT( slotBookmarksChanged(const QString &, const QString &) ));
 }
 
-void MyManager::notifyManagers() {
+void CurrentMgr::notifyManagers() {
    QCString objId("KBookmarkManager-");
    objId += mgr()->path().utf8();
    DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->name()));
 }
 
-void MyManager::doExport(bool moz) {
+void CurrentMgr::doExport(bool moz) {
    QString path = 
           (moz)
         ? KNSBookmarkImporter::mozillaBookmarksFile(true)
@@ -66,7 +66,7 @@ void MyManager::doExport(bool moz) {
 
 // TODO - less than simplistic, but try to remove anyways
 
-QString MyManager::correctAddress(const QString &address) {
+QString CurrentMgr::correctAddress(const QString &address) {
    return mgr()->findByAddress(address, true).address();
 }
 

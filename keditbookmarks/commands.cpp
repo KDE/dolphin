@@ -35,7 +35,7 @@
 
 CmdGen* CmdGen::s_self = 0;
 
-static const KBookmark bookmarkAt(const QString & a) { return MyManager::self()->mgr()->findByAddress(a); }
+static const KBookmark bookmarkAt(const QString & a) { return CurrentMgr::self()->mgr()->findByAddress(a); }
 
 QString MoveCommand::name() const {
    return i18n("Move %1").arg(m_mytext);
@@ -136,7 +136,7 @@ void CreateCommand::execute() {
 
    } else if (m_group) {
       Q_ASSERT(!m_text.isEmpty());
-      bk = parentGroup.createNewFolder(MyManager::self()->mgr(), m_text, false);
+      bk = parentGroup.createNewFolder(CurrentMgr::self()->mgr(), m_text, false);
       bk.internalElement().setAttribute("folded", (m_open ? "no" : "yes"));
       if (!m_iconPath.isEmpty()) {
          bk.internalElement().setAttribute("icon", m_iconPath);
@@ -146,7 +146,7 @@ void CreateCommand::execute() {
       bk = m_originalBookmark;
 
    } else {
-      bk = parentGroup.addBookmark(MyManager::self()->mgr(), m_text, m_url, m_iconPath, false);
+      bk = parentGroup.addBookmark(CurrentMgr::self()->mgr(), m_text, m_url, m_iconPath, false);
    }
 
    // move to right position
@@ -375,7 +375,7 @@ void SortCommand::unexecute() {
 KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
    KMacroCommand *mcmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
 
-   KBookmarkGroup oldToolbar = MyManager::self()->mgr()->toolbar();
+   KBookmarkGroup oldToolbar = CurrentMgr::self()->mgr()->toolbar();
    if (!oldToolbar.isNull()) {
       QValueList<EditCommand::Edition> lst;
       lst.append(EditCommand::Edition("toolbar", "no"));

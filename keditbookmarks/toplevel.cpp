@@ -83,10 +83,10 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, QString address)
 }
 
 void KEBApp::construct() {
-   MyManager::self()->createManager(this, m_bookmarksFilename);
+   CurrentMgr::self()->createManager(this, m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
-   ListView::self()->fillWithGroup(MyManager::self()->mgr()->root());
+   ListView::self()->fillWithGroup(CurrentMgr::self()->mgr()->root());
 
    slotClipboardDataChanged();
 
@@ -211,7 +211,7 @@ void KEBApp::resetActions() {
       ->setChecked(m_saveOnClose);
 
    static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))
-      ->setChecked(MyManager::self()->showNSBookmarks());
+      ->setChecked(CurrentMgr::self()->showNSBookmarks());
 }
 
 void KEBApp::slotSaveOnClose() {
@@ -305,7 +305,7 @@ void KEBApp::setModifiedFlag(bool modified) {
    // - this means that when we have modifications
    //   changes are sent via dcop rather than via
    //   a reload - which would loose user changes
-   MyManager::self()->setUpdate(!m_modified); 
+   CurrentMgr::self()->setUpdate(!m_modified); 
 }
 
 void KEBApp::slotClipboardDataChanged() {
@@ -383,7 +383,7 @@ void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
       kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();
-      ListView::self()->fillWithGroup(MyManager::self->mgr()->root());
+      ListView::self()->fillWithGroup(CurrentMgr::self->mgr()->root());
       updateActions();
    }
 }
@@ -410,10 +410,10 @@ void KEBApp::slotNewToolbarConfig() {
 /* -------------------------- */
 
 bool KEBApp::save() {
-   if (!MyManager::self()->managerSave()) {
+   if (!CurrentMgr::self()->managerSave()) {
       return false;
    }
-   MyManager::self()->notifyManagers();
+   CurrentMgr::self()->notifyManagers();
    setModifiedFlag(false);
    this->docSaved(); // CmdHistory
    return true;
@@ -461,7 +461,7 @@ void KEBApp::slotSave() {
 void KEBApp::slotSaveAs() {
    QString saveFilename = KFileDialog::getSaveFileName(QString::null, "*.xml", this);
    if(!saveFilename.isEmpty()) {
-      MyManager::self()->saveAs(saveFilename);
+      CurrentMgr::self()->saveAs(saveFilename);
    }
 }
 

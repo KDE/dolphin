@@ -136,18 +136,18 @@ void ActionsImpl::slotImport() {
 }
 
 void ActionsImpl::slotExportNS() {
-   MyManager::self()->doExport(false);
+   CurrentMgr::self()->doExport(false);
 }
 
 void ActionsImpl::slotExportMoz() {
-   MyManager::self()->doExport(true);
+   CurrentMgr::self()->doExport(true);
 }
 
 /* -------------------------------------- */
 
 void ActionsImpl::slotShowNS() {
    bool shown = KEBApp::self()->nsShown();
-   MyManager::self()->mgr()->setShowNSBookmarks(shown);
+   CurrentMgr::self()->mgr()->setShowNSBookmarks(shown);
    KEBApp::self()->setModifiedFlag(true);
 }
 

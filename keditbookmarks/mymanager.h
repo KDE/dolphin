@@ -24,9 +24,9 @@
 class QObject;
 class QString;
 
-class MyManager {
+class CurrentMgr {
 public:
-   static MyManager* self() { if (!s_mgr) { s_mgr = new MyManager(); } return s_mgr; }
+   static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
    void createManager(QObject *top, QString filename);
    void doExport(bool moz);
    void notifyManagers();
@@ -38,11 +38,11 @@ public:
    QString correctAddress(const QString &address);
    KBookmarkManager* mgr() const { return m_mgr; }
 private:
-   MyManager() {
+   CurrentMgr() {
       m_mgr = 0;
    };
    KBookmarkManager *m_mgr;
-   static MyManager *s_mgr;
+   static CurrentMgr *s_mgr;
 };
 
 #endif

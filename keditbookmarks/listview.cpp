@@ -340,7 +340,7 @@ void ListView::updateListView() {
       }
    }
 
-   fillWithGroup(MyManager::self()->mgr()->root());
+   fillWithGroup(CurrentMgr::self()->mgr()->root());
 
    // re-select previously selected items
    KEBListViewItem *item = 0;
@@ -353,7 +353,7 @@ void ListView::updateListView() {
    // fallback, if no selected items
    if (!item) {
       QString addr = 
-         MyManager::self()->correctAddress(m_last_selection_address);
+         CurrentMgr::self()->correctAddress(m_last_selection_address);
       item = getItemAtAddress(addr);
       m_listView->setSelected(item, true);
    }
