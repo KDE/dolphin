@@ -7,7 +7,8 @@ kde_module_LTLIBRARIES = kcm_konq.la
 
 kcm_konq_la_SOURCES = behaviour.cpp desktop.cpp rootopts.cpp \
 		fontopts.cpp previews.cpp browser.cpp \
-		uiserver.stub main.cpp
+		uiserver.stub main.cpp desktopbehavior_impl.cpp \
+		desktopbehavior.ui
 
 kcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA) $(LIB_KUTILS)

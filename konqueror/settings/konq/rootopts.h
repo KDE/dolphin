@@ -27,60 +27,6 @@ class KListView;
 namespace KIO { class Job; }
 
 //-----------------------------------------------------------------------------
-// The "Desktop Icons Options" Tab contains :
-// Show Hidden Files on Desktop
-// Which menus for which mouse clicks on the desktop
-
-class KRootOptions : public KCModule
-{
-        Q_OBJECT
-public:
-        KRootOptions(KConfig *config, QWidget *parent = 0L, const char *name = 0L );
-        virtual void load();
-        virtual void save();
-        virtual void defaults();
-        virtual QString quickHelp() const;
-        friend class KRootOptPreviewItem;
-	friend class KRootOptDevicesItem;
-
-private slots:
-
-        void enableChanged();
-	void changed();
-	void comboBoxChanged();
-	void editButtonPressed();
-
-private:
-        KConfig *g_pConfig;
-
-        // Checkboxes
-        QCheckBox *iconsEnabledBox;
-        QCheckBox *showHiddenBox;
-        QCheckBox *menuBarBox;
-	QCheckBox *vrootBox;
-	QCheckBox *autoLineupIconsBox;
-	QCheckBox *toolTipBox;
-
-	QCheckBox *enableDevicesBox;
-	KListView *devicesListView;
-	void fillDevicesListView();
-	void saveDevicesListView();
-
-        KListView *previewListView;
-        // Combo for the menus
-        void fillMenuCombo( QComboBox * combo );
-        QComboBox *leftComboBox;
-        QComboBox *middleComboBox;
-        QComboBox *rightComboBox;
-        QPushButton *leftEditButton;
-        QPushButton *middleEditButton;
-        QPushButton *rightEditButton;
-
-        typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
-        bool m_wheelSwitchesWorkspace;
-};
-
-//-----------------------------------------------------------------------------
 // The "Path" Tab contains :
 // The paths for Desktop, Trash and Autostart
 

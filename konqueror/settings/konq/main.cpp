@@ -28,6 +28,7 @@
 #include "desktop.h"
 #include "previews.h"
 #include "browser.h"
+#include "desktopbehavior_impl.h"
 
 #include <kconfig.h>
 #include <kapplication.h>
@@ -74,7 +75,7 @@ extern "C"
   KCModule *create_dbehavior(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
-    return new KRootOptions(config, parent);
+    return new DesktopBehaviorModule(config, parent);
   }
 
   KCModule *create_dappearance(QWidget *parent, const char* /*name*/)
