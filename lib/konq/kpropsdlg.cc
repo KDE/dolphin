@@ -48,6 +48,7 @@
 #include <qstrlist.h>
 #include <qstringlist.h>
 #include <qpainter.h>
+#include <qlabel.h>
 
 #include <kdirwatch.h>
 #include <kdebug.h>
