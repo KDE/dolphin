@@ -60,11 +60,7 @@
 #include "kwritemain.h"
 #include "kwritemain.moc"
 
-
 #include "kwritedialogs.h"
-#include <qtimer.h>
-
-#include <stdlib.h> // exit
 
 // StatusBar field IDs
 #define ID_GEN 1
@@ -110,6 +106,11 @@ KWrite::KWrite (KTextEditor::Document *doc)
   // init with more usefull size, stolen from konq :)
   if ( !initialGeometrySet() && !kapp->config()->hasGroup("MainWindow Settings"))
       resize( 700, 480 );
+      
+  readConfig ();
+  init ();
+  
+  show ();
 }
 
 
@@ -140,17 +141,13 @@ void KWrite::init()
     m_paShowStatusBar->setChecked( !sb->isHidden() );
   else
     m_paShowStatusBar->setEnabled(false);
-
-  show();
 }
-
 
 void KWrite::loadURL(const KURL &url)
 {
   m_recentFiles->addURL( url );
   m_kateView->document()->openURL(url);
 }
-
 
 bool KWrite::queryClose()
 {
@@ -171,7 +168,7 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
   {
     KMessageBox::error(this, i18n("A KDE text editor component could not be found!\n"
                                   "Please check your KDE installation."));
-    exit(1);
+    kapp->exit(1);
   }
 
   m_kateView = doc->createView (this, 0L);
@@ -188,8 +185,8 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
 
 void KWrite::changeEditor()
 {
-	KWriteEditorChooser choose(this);
-	choose.exec();
+  KWriteEditorChooser choose(this);
+  choose.exec();
 }
 
 void KWrite::slotFlush ()
@@ -256,11 +253,7 @@ void KWrite::setupStatusBar()
 void KWrite::slotNew()
 {
   if (m_kateView->document()->isModified() || !m_kateView->document()->url().isEmpty())
-  {
-   KWrite*t = new KWrite();
-    t->readConfig();
-    t->init();
-  }
+    new KWrite();
   else
     m_kateView->document()->openURL("");
 }
@@ -303,8 +296,6 @@ void KWrite::slotOpen( const KURL& url )
   {
     KWrite *t = new KWrite();
     if (KTextEditor::encodingInterface(m_kateView->document())) KTextEditor::encodingInterface(m_kateView->document())->setEncoding(encoding);
-    t->readConfig();
-    t->init();
     t->loadURL(url);
   }
   else
@@ -639,12 +630,9 @@ extern "C" int kdemain(int argc, char **argv)
   }
   else
   {
-    KWrite *t;
-
     if ( args->count() == 0 )
     {
-        t = new KWrite;
-        t->readConfig();
+        KWrite *t = new KWrite;
 
         if( args->isSet( "stdin" ) )
         {
@@ -663,24 +651,25 @@ extern "C" int kdemain(int argc, char **argv)
           if( doc )
               doc->setText( text );
         }
-
-        t->init();
     }
     else
     {
-      for ( int i = 0; i < args->count(); ++i )
+      for ( uint z = 0; z < args->count(); z++ )
       {
-        t = new KWrite();
-
-        if (Kate::document (t->kateView()->document()))
-          Kate::Document::setOpenErrorDialogsActivated (false);
-
-        t->readConfig();
-        t->loadURL( args->url( i ) );
-        t->init();
-
-        if (Kate::document (t->kateView()->document()))
-          Kate::Document::setOpenErrorDialogsActivated (true);
+        KWrite *t = new KWrite();
+      
+        if (!KIO::NetAccess::mimetype( args->url(z), t ).startsWith(QString ("inode/directory")))
+        {
+          if (Kate::document (t->kateView()->document()))
+            Kate::Document::setOpenErrorDialogsActivated (false);
+  
+          t->loadURL( args->url( z ) );
+  
+          if (Kate::document (t->kateView()->document()))
+            Kate::Document::setOpenErrorDialogsActivated (true);
+        }
+        else
+          KMessageBox::sorry( t, i18n("The file '%1' could not be opened, it is not a normal file, it is a directory!").arg(args->url(z).url()) );
       }
     }
   }

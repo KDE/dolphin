@@ -38,13 +38,13 @@ class KWrite : public KParts::MainWindow
     KWrite(KTextEditor::Document * = 0L);
     ~KWrite();
 
-    void init(); //initialize caption, status and show
-
     void loadURL(const KURL &url);
 
     KTextEditor::View *kateView() const { return m_kateView; }
 
   private:
+    void init(); //initialize caption, status and show
+  
     bool queryClose();
 
     void setupEditWidget(KTextEditor::Document *);
@@ -87,10 +87,10 @@ class KWrite : public KParts::MainWindow
     //common config
     void readConfig(KConfig *);
     void writeConfig(KConfig *);
-    //config file
-    void readConfig();
 
   public slots:
+    //config file
+    void readConfig();
     void writeConfig();
 
   //session management
