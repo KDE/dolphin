@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Network
-Name[af]=Netwerk
+Name[af]=NETWERK
 Name[az]=Şəbəkə
 Name[bg]=Мрежа
 Name[br]=Rouedad
@@ -44,6 +44,8 @@ Name[sv]=Nätverk
 Name[ta]=Å¨ÄÂ¨ÁôÒ
 Name[tr]=Ağ
 Name[uk]=Мережа
+Name[vi]=Mạng 
+Name[wa]=Rantoele
 Name[zh_CN.GB2312]=网络
 Name[zh_TW.Big5]=網路
 Icon=network
