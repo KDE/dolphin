@@ -619,8 +619,18 @@ void KonqView::setCaption( const QString & caption )
 {
   if (caption.isEmpty()) return;
 
-  m_caption = caption;
-  if (!m_bPassiveMode) frame()->setTitle( caption , 0L );
+  QString adjustedCaption = caption;
+  // For local URLs we prefer to use only the directory name
+  if (url().isLocalFile())
+  {
+     // Is the caption a URL?  If so, is it local?  If so, only display the filename!
+     KURL url(caption);
+     if (url.isValid() && url.isLocalFile() && url.fileName() == this->url().fileName())
+        adjustedCaption = url.fileName();
+  }
+
+  m_caption = adjustedCaption;
+  if (!m_bPassiveMode) frame()->setTitle( adjustedCaption , 0L );
 }
 
 void KonqView::slotOpenURLNotify()

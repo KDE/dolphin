@@ -4111,19 +4111,9 @@ void KonqMainWindow::setCaption( const QString &caption )
   {
     kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
 
-    QString adjustedCaption = caption;
-    // For local URLs we prefer to use only the directory name
-    if (m_currentView->url().isLocalFile())
-    {
-       // Is the caption a URL?  If so, is it local?  If so, only display the filename!
-       KURL url(caption);
-       if (url.isValid() && url.isLocalFile())
-          adjustedCaption = url.fileName();
-    }
-
     // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
-    m_currentView->setCaption( adjustedCaption );
-    KParts::MainWindow::setCaption( adjustedCaption );
+    m_currentView->setCaption( caption );
+    KParts::MainWindow::setCaption( m_currentView->caption() );
   }
 }
 
