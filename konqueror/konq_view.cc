@@ -115,7 +115,7 @@ void KonqView::openURL( const KURL &url )
   KParts::URLArgs args;
   if ( ext )
     args = ext->urlArgs();
-  
+
   if ( m_bAborted && m_pPart && m_pPart->url() == url )
   {
     args.reload = true;
@@ -300,7 +300,7 @@ void KonqView::connectPart(  )
 
   connect( ext, SIGNAL( infoMessage( const QString & ) ),
 	   m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
-  
+
   connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
 	   this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
@@ -435,7 +435,7 @@ void KonqView::updateHistoryEntry()
   current->url = m_pPart->url();
   //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
   current->locationBarURL = m_sLocationBarURL;
-  current->title = m_pMainWindow->caption();
+  current->title = m_pMainWindow->currentTitle();
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->name();
 }
