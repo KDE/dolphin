@@ -104,7 +104,9 @@ public:
    *         to add the current page to the bookmarks.
    */
   virtual QString currentURL();
-  
+
+  void saveProperties( KConfig *config );
+  void readProperties( KConfig *config );  
 
 public slots:  // IDL
   // File menu

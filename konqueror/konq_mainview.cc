@@ -192,9 +192,6 @@ void KonqMainView::init()
   CORBA::WString_var item = Q2C( i18n("Konqueror :-)") );
   m_vStatusBar->insertItem( item, 1 );
 
-  // will KTM do it for us ?
-  //  m_vStatusBar->enable( m_Props->m_bShowStatusBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
-
   initGui();
 
   KonqPlugins::installKOMPlugins( this );
@@ -576,11 +573,6 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   if ( m_currentView )
     createViewToolBar( m_currentView );
 
-  /* will KTM do it for us ?
-  m_vToolBar->enable( m_Props->m_bShowToolBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
-  m_vToolBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_toolBarPos) );
-  */
-
   m_vLocationBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
 
   m_vLocationBar->setFullWidth( true );
@@ -606,11 +598,6 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vLocationBar->setComboAutoCompletion( TOOLBAR_URL_ID, true );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
-
-  /* will KTM do it for us ?
-  m_vLocationBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_locationBarPos) );
-  m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
-  */
 
   checkPrintingExtension();
 
@@ -1048,7 +1035,8 @@ void KonqMainView::clearRow( RowInfo *row )
 {
   QListIterator<KonqChildView> it( row->children );
   
-  for (; it.current(); ++it )
+//  for (; it.current(); ++it )
+  while ( it.current() )
     removeChildView( row, it.current() );
 }
 
@@ -1056,7 +1044,8 @@ void KonqMainView::clearMainView()
 {
   QListIterator<RowInfo> it( m_lstRows );
   
-  for (; it.current(); ++it )
+//  for (; it.current(); ++it )
+  while ( it.current() )
     clearRow( it.current() );
 }
 
@@ -1064,15 +1053,19 @@ void KonqMainView::saveViewProfile( KConfig &cfg )
 {
   QList<KonqChildView> viewList;
   
-  cfg.setGroup( "MainSplitter" );
-  cfg.writeEntry( "SplitterSizes", QProperty( m_pMainSplitter->sizes() ) );
+//  cfg.setGroup( "MainSplitter" );
+  cfg.writeEntry( "MainSplitterSizes", QProperty( m_pMainSplitter->sizes() ) );
+
+  cfg.writeEntry( "NumberOfRows", m_lstRows.count() );
  
   QListIterator<RowInfo> rowIt( m_lstRows );
   for ( int i = 0; rowIt.current(); ++rowIt, ++i )
   {
-    cfg.setGroup( QString::fromLatin1( "Row %1" ).arg( i ) );
-    
-    cfg.writeEntry( "SplitterSizes", QProperty( rowIt.current()->splitter->sizes() ) );
+//    cfg.setGroup( QString::fromLatin1( "Row %1" ).arg( i ) );
+
+    QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
+
+    cfg.writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QProperty( rowIt.current()->splitter->sizes() ) );
 
     QStringList strlst;
     QListIterator<KonqChildView> viewIt( rowIt.current()->children );
@@ -1082,20 +1075,22 @@ void KonqMainView::saveViewProfile( KConfig &cfg )
       viewList.append( viewIt.current() );
     }
     
-    cfg.writeEntry( "ChildViews", strlst );
+    cfg.writeEntry( QString::fromLatin1( "ChildViews" ).prepend( rowStr ), strlst );
   }
   
   QListIterator<KonqChildView> viewIt( viewList );
   for (int i = 0; viewIt.current(); ++viewIt, ++i )
   {
-    cfg.setGroup( QString::fromLatin1( "View %1" ).arg( i ) );
+//    cfg.setGroup( QString::fromLatin1( "View %1" ).arg( i ) );
+
+    QString viewStr = QString::fromLatin1( "View%1" ).arg( i );
     
-    cfg.writeEntry( "URL", viewIt.current()->url() );
-    cfg.writeEntry( "ServiceType", viewIt.current()->serviceTypes().first() );
+    cfg.writeEntry( QString::fromLatin1( "URL" ).prepend( viewStr ), viewIt.current()->url() );
+    cfg.writeEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ), viewIt.current()->serviceTypes().first() );
     
     //HACK
     if ( viewIt.current()->viewName() == "KonquerorKfmTreeView" )
-      cfg.writeEntry( "IsBuiltinTreeView", true );
+      cfg.writeEntry( QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr ), true );
   }
   
   cfg.sync();
@@ -1104,34 +1099,22 @@ void KonqMainView::saveViewProfile( KConfig &cfg )
 void KonqMainView::loadViewProfile( KConfig &cfg )
 {
   clearMainView();
-  
-  QStringList groupList = cfg.groupList();
-  
-  QStringList::ConstIterator sIt = groupList.begin();
-  QStringList::ConstIterator sEnd = groupList.end();
-  
-  QValueList<int> rowList;
-  
-  for (; sIt != sEnd; ++sIt )
-   if ( strcmp( (*sIt).left( 4 ).latin1(), "Row " ) == 0 )
-   {
-     QString rowNr = *sIt;
-     rowNr.remove( 0, 4 );
-     rowList.append( rowNr.toInt() );
-   };
 
-  cfg.setGroup( "MainSplitter" );
   QValueList<int> mainSplitterSizes = 
-    QProperty( cfg.readPropertyEntry( "SplitterSizes", QProperty::IntListType ) )
+    QProperty( cfg.readPropertyEntry( "MainSplitterSizes", QProperty::IntListType ) )
     .intListValue();
-
-  QValueList<int>::ConstIterator rIt = rowList.begin();
-  QValueList<int>::ConstIterator rEnd = rowList.end();
   
-  for (; rIt != rEnd; ++rIt )
+  int rowCount = cfg.readNumEntry( "NumberOfRows" );
+  
+  for ( int i = 0; i < rowCount; ++i )
   {
-    cfg.setGroup( QString::fromLatin1( "Row %1" ).arg( *rIt ) );
-    
+    QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
+
+    QValueList<int> rowSplitterSizes = 
+      QProperty( cfg.readPropertyEntry( 
+       QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QProperty::IntListType ) )
+      .intListValue();
+
     RowInfo *rowInfo = new RowInfo;
     
     QSplitter *rowSplitter = new QSplitter( Qt::Horizontal, m_pMainSplitter );
@@ -1139,26 +1122,23 @@ void KonqMainView::loadViewProfile( KConfig &cfg )
     rowSplitter->show();
     
     rowInfo->splitter = rowSplitter;
-    
-    QValueList<int> splitterSizes = 
-      QProperty( cfg.readPropertyEntry( "SplitterSizes", QProperty::IntListType ) )
-      .intListValue();
-    
-    QStringList childList = cfg.readListEntry( "ChildViews" );
-    
+
+    QStringList childList = cfg.readListEntry( 
+      QString::fromLatin1( "ChildViews" ).prepend( rowStr ) );
+
     QStringList::ConstIterator cIt = childList.begin();
     QStringList::ConstIterator cEnd = childList.end();
-    
-    for (; cIt != cEnd; ++cIt )
+    for (; cIt != cEnd; ++cIt  )
     {
-      cfg.setGroup( QString::fromLatin1( "View " ) + (*cIt ) );
-      
-      QString serviceType = cfg.readEntry( "ServiceType" );
-      QString url = cfg.readEntry( "URL" );
-      
+      QString viewStr = QString::fromLatin1( "View" ).append( *cIt );
+
+      QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( viewStr ) );
+      QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ) );
+
       //HACK
-      bool treeView = ( cfg.hasKey( "IsBuiltinTreeView" ) &&
-                        cfg.readBoolEntry( "IsBuiltinTreeView" ) &&
+      QString treeViewKey = QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr );
+      bool treeView = ( cfg.hasKey( treeViewKey ) &&
+                        cfg.readBoolEntry( treeViewKey, false ) &&
 			serviceType == "inode/directory" );
       
       Browser::View_var vView;
@@ -1180,16 +1160,19 @@ void KonqMainView::loadViewProfile( KConfig &cfg )
       
       MapViews::ConstIterator vIt = m_mapViews.find( vView->id() );
       vIt.data()->openURL( url );
+      
     }
 
-    rowInfo->splitter->setSizes( splitterSizes );
+    rowInfo->splitter->setSizes( rowSplitterSizes );
     
     m_lstRows.append( rowInfo );
-  }
+    
+  }  
 
   m_pMainSplitter->setSizes( mainSplitterSizes );  
   
   setActiveView( m_lstRows.first()->children.first()->id() );
+  
 }
 
 void KonqMainView::splitView ( Orientation orientation ) 
@@ -1784,6 +1767,7 @@ void KonqMainView::slotSaveViewProfile()
     }
     
     KConfig cfg( fileName );
+    cfg.setGroup( "Profile" );
     saveViewProfile( cfg );
     
     if ( !CORBA::is_nil( m_vMenuOptionsProfiles ) )
@@ -1799,6 +1783,7 @@ void KonqMainView::slotViewProfileActivated( CORBA::Long id )
   QString fileName = locate( "data", name );
   
   KConfig cfg( fileName, true );
+  cfg.setGroup( "Profile" );
   loadViewProfile( cfg );
 }
 
@@ -1995,6 +1980,16 @@ QString KonqMainView::currentTitle()
 QString KonqMainView::currentURL()
 {
   return m_currentView->url();
+}
+
+void KonqMainView::saveProperties( KConfig *config )
+{
+  saveViewProfile( *config );
+}
+
+void KonqMainView::readProperties( KConfig *config )
+{
+  loadViewProfile( *config );
 }
 
 #include "konq_mainview.moc"
