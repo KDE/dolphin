@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Exec=konqueror --preload
+Type=Application
+Name=Konqueror Preloading during KDE startup
+X-KDE-autostart-condition=konquerorrc:Reusing:PreloadOnStartup:false
+X-KDE-StartupNotify=false
+X-KDE-autostart-phase=2
