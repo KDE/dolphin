@@ -75,7 +75,8 @@ public:
 KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
-                              KNewMenu * newMenu )
+                              KNewMenu * newMenu,
+		  bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
@@ -398,19 +399,22 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 	insertedOffer = true;
       }
 
-      if ( insertedOffer )
+      if ( insertedOffer && showPropertiesAndFileType )
         addSeparator();
     }
 
-    bLastSepInserted = true;
+    if ( showPropertiesAndFileType )
+    {
+      bLastSepInserted = true;
 
-    //  or "File Type Properties" ?
-    act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
+      //  or "File Type Properties" ?
+      act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
 		       &m_ownActions, "editfiletype" );
-    addAction( act );
+      addAction( act );
+    }
   }
 
-  if ( KPropertiesDialog::canDisplay( m_lstItems ) )
+  if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
   {
     if ( !bLastSepInserted ) addSeparator();
 

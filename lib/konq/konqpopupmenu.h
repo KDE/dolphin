@@ -66,7 +66,7 @@ public:
   KonqPopupMenu( const KFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
-                 KNewMenu * newMenu );
+                 KNewMenu * newMenu, bool showPropertiesAndFileType = true );
   /**
    * Don't forget to destroy the object
    */
