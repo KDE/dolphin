@@ -142,7 +142,7 @@ searchHighlight::
     }
 */
 
-bool SearchItr::isApplicable(const KBookmark &bk) {
+bool SearchItr::isApplicable(const KBookmark &bk) const {
    return (!bk.isSeparator());
 }
 

@@ -50,13 +50,14 @@ public:
    SearchItr(QValueList<KBookmark> bks);
    ~SearchItr();
    
-   virtual BookmarkIteratorHolder* holder() { return SearchItrHolder::self(); }
+   virtual BookmarkIteratorHolder* holder() const { return SearchItrHolder::self(); }
    void setSearch(int options, const QString& pattern);
 
-private:
+protected:
    virtual void doAction();
-   virtual bool isApplicable(const KBookmark &bk);
+   virtual bool isApplicable(const KBookmark &bk) const;
 
+private:
    int m_options;
    QString m_text;
 

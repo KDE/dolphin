@@ -48,14 +48,16 @@ class FavIconsItr : public BookmarkIterator
 public:
    FavIconsItr(QValueList<KBookmark> bks);
    ~FavIconsItr();
-   virtual BookmarkIteratorHolder* holder() { return FavIconsItrHolder::self(); }
+   virtual BookmarkIteratorHolder* holder() const { return FavIconsItrHolder::self(); }
 
 public slots:
    void slotDone(bool succeeded);
 
-private:
+protected:
    virtual void doAction();
-   virtual bool isApplicable(const KBookmark &bk);
+   virtual bool isApplicable(const KBookmark &bk) const;
+
+private:
    FavIconUpdater *m_updater;
    bool m_done;
 };

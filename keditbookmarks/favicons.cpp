@@ -61,7 +61,7 @@ void FavIconsItr::slotDone(bool succeeded) {
    delayedEmitNextOne();
 }
 
-bool FavIconsItr::isApplicable(const KBookmark &bk) {
+bool FavIconsItr::isApplicable(const KBookmark &bk) const {
    return (!bk.isGroup() && !bk.isSeparator() 
        && (bk.url().protocol().startsWith("http")) );
 }

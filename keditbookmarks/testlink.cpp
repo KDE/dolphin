@@ -62,7 +62,7 @@ TestLinkItr::~TestLinkItr() {
    }
 }
 
-bool TestLinkItr::isApplicable(const KBookmark &bk) {
+bool TestLinkItr::isApplicable(const KBookmark &bk) const {
    return (!bk.isGroup() && !bk.isSeparator());
 }
 
@@ -138,17 +138,20 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
 }
 
 void TestLinkItr::paintCellHelper(QPainter *p, QColorGroup &cg, int style) {
-   if (style == 0) {
-      int h, s, v;
-      cg.background().hsv(&h,&s,&v);
-      cg.setColor(
-         QColorGroup::Text, 
-         (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray));
-
-   } else if (style == 2) {
-      QFont font = p->font();
-      font.setBold(true);
-      p->setFont(font);
+   switch (style) {
+      case KEBListViewItem::TempStyle: 
+      {
+         int h, s, v;
+         cg.background().hsv(&h,&s,&v);
+         QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
+         cg.setColor(QColorGroup::Text, color);
+      }
+      case KEBListViewItem::BoldStyle:
+      {
+         QFont font = p->font();
+         font.setBold(true);
+         p->setFont(font);
+      }
    }
 }
 
@@ -164,21 +167,21 @@ static QString mkTimeStr(int b) {
 
 /* -------------------------- */
 
-void TestLinkItrHolder::blah2(const QString &url, const QString &val) {
-   if (!val.isEmpty()) {
-      self()->m_modify[url] = val;
+void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue) {
+   if (!oldValue.isEmpty()) {
+      self()->m_modify[url] = oldValue;
    } else {
       self()->m_modify.remove(url);
    }
 }
 
-QString TestLinkItrHolder::getMod(const QString &url) {
+QString TestLinkItrHolder::getMod(const QString &url) /*const*/ {
    return self()->m_modify.contains(url) 
         ? self()->m_modify[url] 
         : QString::null;
 }
 
-QString TestLinkItrHolder::getOldMod(const QString &url) {
+QString TestLinkItrHolder::getOldMod(const QString &url) /*const*/ {
    return self()->m_oldModify.contains(url) 
         ? self()->m_oldModify[url] 
         : QString::null;
@@ -277,7 +280,7 @@ static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAcces
 
 /* -------------------------- */
 
-QString KEBListViewItem::nsGet() {
+const QString KEBListViewItem::nsGet() const {
    QString nCreate, nAccess, nModify;
    QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
    parseNsInfo(nsinfo, nCreate, nAccess, nModify);
@@ -307,34 +310,35 @@ void KEBListViewItem::nsPut(const QString &nm) {
 
    KEBApp::self()->setModifiedFlag(true);
    setText(KEBListView::StatusColumn, nm);
-   TestLinkItrHolder::setMod(m_bookmark.url().url(), nm);
+   TestLinkItrHolder::setMod(url(), nm);
 }
 
 void KEBListViewItem::modUpdate() {
    QString statusLine;
    // DESIGN - should return paint style?
-   statusLine = 
-      TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), 
-                                        m_paintstyle, nsGet());
+   statusLine = TestLinkItrHolder::calcPaintStyle(url(), m_paintstyle, nsGet());
    // ARGGGGGGGGGGGGGGGGHHHHHHHHHHHH!!!!!!!!!!!!
    if (statusLine != "Error") {
       setText(KEBListView::StatusColumn, statusLine);
    }
 }
 
+const QString KEBListViewItem::url() const {
+   return m_bookmark.url().url();
+}
+
 void KEBListViewItem::setTmpStatus(const QString &status) {
    kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
-   QString url = m_bookmark.url().url();
    m_paintstyle = 2;
+   m_oldStatus = TestLinkItrHolder::getMod(url());
    setText(KEBListView::StatusColumn, status);
-   m_oldStatus = TestLinkItrHolder::getMod(url);
-   TestLinkItrHolder::setMod(url, status);
+   TestLinkItrHolder::setMod(url(), status);
 }
 
 void KEBListViewItem::restoreStatus() {
    if (!m_oldStatus.isNull()) {
       kdDebug() << "KEBListViewItem::restoreStatus" << endl;
-      TestLinkItrHolder::blah2(m_bookmark.url().url(), m_oldStatus);
+      TestLinkItrHolder::resetToValue(url(), m_oldStatus);
       modUpdate();
    }
 }

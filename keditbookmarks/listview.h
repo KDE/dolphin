@@ -53,15 +53,21 @@ public:
    void setTmpStatus(const QString &);
    void restoreStatus();
 
-   virtual void setOpen(bool);
-   bool isEmptyFolder() const { return m_emptyFolder; }
-   const KBookmark& bookmark() { return m_bookmark; }
    void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
 
+   virtual void setOpen(bool);
+
+   bool isEmptyFolder() const { return m_emptyFolder; }
+   KBookmark bookmark() const { return m_bookmark; }
+   const QString url() const;
+
+   enum { TempStyle, BoldStyle };
+
 private:
-   QString nsGet();
+   const QString nsGet() const;
 
    KBookmark m_bookmark;
+
    int m_paintstyle;
    bool m_emptyFolder;
    QString m_oldStatus;

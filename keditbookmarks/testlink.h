@@ -32,9 +32,9 @@ public:
    static TestLinkItrHolder* self() { 
       if (!s_self) { s_self = new TestLinkItrHolder(); }; return s_self; 
    }
-   static void blah2(const QString &url, const QString &val);
-   static QString getMod(const QString &url);
-   static QString getOldMod(const QString &url);
+   static void resetToValue(const QString &url, const QString &val);
+   static QString getMod(const QString &url) /* const */;
+   static QString getOldMod(const QString &url) /* const */;
    static void setMod(const QString &url, const QString &val);
    static void setOldMod(const QString &url, const QString &val);
    static QString calcPaintStyle(const QString &, int&, const QString &);
@@ -56,7 +56,7 @@ public:
    ~TestLinkItr();
    static void paintCellHelper(QPainter *p, QColorGroup &cg, int style);
    
-   virtual BookmarkIteratorHolder* holder() { return TestLinkItrHolder::self(); }
+   virtual BookmarkIteratorHolder* holder() const { return TestLinkItrHolder::self(); }
 
 public slots:
    void slotJobResult(KIO::Job *job);
@@ -64,7 +64,7 @@ public slots:
 
 private:
    virtual void doAction();
-   virtual bool isApplicable(const KBookmark &bk);
+   virtual bool isApplicable(const KBookmark &bk) const;
 
    KIO::TransferJob *m_job;
    bool m_errSet;

@@ -32,7 +32,7 @@ class BookmarkIterator : public QObject
 public:
    BookmarkIterator(QValueList<KBookmark> bks);
    virtual ~BookmarkIterator();
-   virtual BookmarkIteratorHolder* holder() = 0;
+   virtual BookmarkIteratorHolder* holder() const = 0;
 
 public slots:
    void nextOne();
@@ -44,10 +44,11 @@ signals:
 
 protected:
    virtual void doAction() = 0;
-   virtual bool isApplicable(const KBookmark &bk) = 0;
+   virtual bool isApplicable(const KBookmark &bk) const = 0;
 
    KEBListViewItem* curItem();
 
+// private:
    KBookmark m_book;
    KEBListViewItem *m_cur_item;
    QValueList<KBookmark> m_bks;
@@ -64,6 +65,7 @@ protected:
    BookmarkIteratorHolder();
    virtual ~BookmarkIteratorHolder() {};
    virtual void doItrListChanged() = 0;
+// private:
    QPtrList<BookmarkIterator> m_itrs;
 };
 
