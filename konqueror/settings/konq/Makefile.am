@@ -31,6 +31,7 @@ install-data-local: uninstall.desktop
 	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/desktop.desktop
 	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/borders.desktop
 	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop/background.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/Desktop/filetrash.desktop
 
 uiserver_DIR = $(kde_includes)/kio
 
