@@ -153,7 +153,7 @@ QString LanBrowser::quickHelp() const
 		"<i>Always</i> means that you will always see the links for the "
 		"services, regardless of whether they are actually offered by the host. "
 		"<i>Never</i> means that you will never have the links to the services. "
-		"In both cases you won't contact the host, so nobody will ever regard "
+		"In both cases you will not contact the host, so nobody will ever regard "
 		"you as an attacker.<br><br>More information about <b>LISa</b> "
 		"can be found at <a href=\"http://lisa-home.sourceforge.net\">"
 		"the LISa Homepage</a> or contact Alexander Neundorf "
