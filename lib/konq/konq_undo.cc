@@ -35,6 +35,26 @@
 #include <kio/jobclasses.h>
 #include <kio/slaveinterface.h>
 
+/**
+ * checklist:
+ * copy dir -> overwrite -> works
+ * move dir -> overwrite -> works
+ * copy dir -> rename -> works
+ * move dir -> rename -> works
+ *
+ * copy dir -> works
+ * move dir -> works
+ * 
+ * copy files -> works
+ * move files -> works (TODO: optimize (change FileCopyJob to use the renamed arg for copyingDone)
+ * 
+ * copy files -> overwrite -> works
+ * move files -> overwrite -> works
+ *  
+ * copy files -> rename -> works
+ * move files -> rename -> works                                                                                               
+ */
+
 class KonqCommandRecorder::KonqCommandRecorderPrivate
 {
 public:
@@ -202,8 +222,8 @@ void KonqUndoManager::undo()
   {
     if ( (*it).m_directory && !(*it).m_renamed )
     {
-      d->m_dirStack.prepend( (*it).m_src );
-      d->m_dirCleanupStack.push( (*it).m_dst );
+      d->m_dirStack.push( (*it).m_src );
+      d->m_dirCleanupStack.prepend( (*it).m_dst );
       d->m_current.m_opStack.remove( it );
       it = d->m_current.m_opStack.begin();
       d->m_undoState = MAKINGDIRS;
@@ -217,7 +237,8 @@ void KonqUndoManager::undo()
     KURL::List::ConstIterator it = d->m_current.m_src.begin();
     KURL::List::ConstIterator end = d->m_current.m_src.end();
     for (; it != end; ++it )
-      d->m_dirStack.push( *it );
+      if ( !d->m_dirStack.contains( *it) )
+        d->m_dirStack.push( *it );
   }
 
   if ( d->m_current.m_type == KonqCommand::COPY )
@@ -306,10 +327,6 @@ void KonqUndoManager::undoStep()
 
 void KonqUndoManager::push( const KonqCommand &cmd )
 {
- kdDebug() << kapp->dcopClient()->appId()
-	   << " : KonqUndoManager::push! " << d->m_commands.count() + 1
-	   << " -- sync " << d->m_syncronized << endl;
-
   d->m_commands.push( cmd );
   emit undoAvailable( true );
   emit undoTextChanged( undoText() );
@@ -317,9 +334,6 @@ void KonqUndoManager::push( const KonqCommand &cmd )
 
 void KonqUndoManager::pop()
 {
-  kdDebug() << kapp->dcopClient()->appId()
-	    << " : KonqUndoManager::pop!"
-	    << " -- sync " << d->m_syncronized << endl;
   d->m_commands.pop();
   emit undoAvailable( undoAvailable() );
   emit undoTextChanged( undoText() );
