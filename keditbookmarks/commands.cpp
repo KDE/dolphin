@@ -86,6 +86,9 @@ void MoveCommand::unexecute()
 
 void CreateCommand::execute()
 {
+
+    kdDebug() << "CreateCommand::execute-ing " << this << endl;
+
     // Gather some info
     QString parentAddress = KBookmark::parentAddress( m_to );
     KBookmarkGroup parentGroup = KBookmarkManager::self()->findByAddress( parentAddress ).toGroup();
@@ -103,7 +106,7 @@ void CreateCommand::execute()
             if (m_group)
             {
                 Q_ASSERT( !m_text.isEmpty() );
-                bk = parentGroup.createNewFolder( m_text );
+                bk = parentGroup.createNewFolder( m_text, false );
 
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
                 bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
@@ -111,7 +114,7 @@ void CreateCommand::execute()
                     bk.internalElement().setAttribute( "icon",m_iconPath );
             }
             else
-                bk = parentGroup.addBookmark( m_text, m_url, m_iconPath);
+                bk = parentGroup.addBookmark( m_text, m_url, m_iconPath, false);
     else
         bk = m_originalBookmark;
 
@@ -328,7 +331,7 @@ void ImportCommand::execute()
     {
         // Find or create "Netscape Bookmarks" toplevel item
         // Hmm, let's just create it. The user will clean up if he imports twice.
-        netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder);
+        netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder,false);
         netscapeGroup.internalElement().setAttribute("icon", m_icon);
         m_group = netscapeGroup.address();
     } else
@@ -381,7 +384,7 @@ void ImportCommand::unexecute()
 
 void ImportCommand::newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo )
 {
-    KBookmark bk = mstack.top()->addBookmark( text, QString::fromUtf8(url) );
+    KBookmark bk = mstack.top()->addBookmark( text, QString::fromUtf8(url), QString::null, false );
     // Store additionnal info
     bk.internalElement().setAttribute("netscapeinfo",additionnalInfo);
 }
@@ -389,7 +392,7 @@ void ImportCommand::newBookmark( const QString & text, const QCString & url, con
 void ImportCommand::newFolder( const QString & text, bool open, const QString & additionnalInfo )
 {
     // We use a qvaluelist so that we keep pointers to valid objects in the stack
-    mlist.append( mstack.top()->createNewFolder( text ) );
+    mlist.append( mstack.top()->createNewFolder( text,false ) );
     mstack.push( &(mlist.last()) );
     // Store additionnal info
     QDomElement element = mlist.last().internalElement();

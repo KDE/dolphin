@@ -17,6 +17,7 @@
 */
 
 #include "toplevel.h"
+#include "kbookmarklistener.h"
 #include "commands.h"
 #include <kaction.h>
 #include <kbookmarkdrag.h>
@@ -314,7 +315,7 @@ QDragObject *KEBListView::dragObject()
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
-    : KMainWindow(), m_commandHistory( actionCollection() )
+    : KMainWindow(), DCOPObject("KBookmarkListener"), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
     // It will be available in KBookmarkManager::self() from now.
@@ -353,12 +354,17 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
              SLOT(slotSelectionChanged() ) );
     connect( kapp->clipboard(), SIGNAL(dataChanged()),
              SLOT(slotClipboardDataChanged() ) );
-    // If someone plays with konq's bookmarks while we're open, update.
+    // If someone plays with konq's bookmarks while we're open, update. (when applicable)
     connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
     // Update GUI after executing command
     connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
     connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
+
+    connectDCOPSignal(0, 0, "addBookmark_signal(QString,QString,QString,QString)",
+                            "addBookmark(QString,QString,QString,QString)", false);
+    connectDCOPSignal(0, 0, "createNewFolder_signal(QString,QString)",
+                            "createNewFolder(QString,QString)", false);
 
     s_topLevel = this;
     fillListView();
@@ -591,6 +597,33 @@ void KEBTopLevel::slotNewFolder()
     }
 }
 
+QString KEBTopLevel::correctAddress(QString address)
+{
+   return KBookmarkManager::self()->findByAddress(address,true).address();
+}
+
+void KEBTopLevel::createNewFolder(QString text, QString address) // DCOP call
+{
+   //kdWarning() << "createNewFolder - " << text << "," << address << endl;
+   if (!m_bModified) return; // see comment below
+   CreateCommand * cmd = new CreateCommand( i18n("Create Folder in Konqueror"), correctAddress(address), text, QString :: null, true );
+   m_commandHistory.addCommand( cmd );
+}
+
+void KEBTopLevel::addBookmark(QString url, QString text, QString address, QString icon) // DCOP call
+{
+   //kdWarning() << "addBookmark - " << url << "," << text << "," << address << endl;
+
+   /* this check is needed as otherwise we get duplicates as updates are
+    * enabled for a non-modified document... maybe updates should only come
+    * through to keditbookmarks to remove this hack ...  */
+
+   if (!m_bModified) return;
+
+   CreateCommand * cmd = new CreateCommand( i18n("Add Bookmark in Konqueror"), correctAddress(address), text, icon, KURL(url) );
+   m_commandHistory.addCommand( cmd );
+}
+
 void KEBTopLevel::slotNewBookmark()
 {
     if( !m_pListView->selectedItem() )
@@ -789,6 +822,7 @@ void KEBTopLevel::setModified( bool modified )
     m_bModified = modified;
     setCaption( i18n("Bookmark Editor"), m_bModified );
     actionCollection()->action("file_save")->setEnabled( m_bModified );
+    KBookmarkManager::self()->setUpdate( !m_bModified ); // only update when non-modified
 }
 
 void KEBTopLevel::slotDocumentRestored()

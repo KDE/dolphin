@@ -22,6 +22,7 @@
 #include <time.h>
 #include <kmainwindow.h>
 #include <kbookmark.h>
+#include <kbookmarklistener.h>
 #include <qlistview.h>
 #include <klistview.h>
 #include <kcommand.h>
@@ -74,10 +75,9 @@ protected:
     virtual QDragObject *dragObject();
 };
 
-
 typedef QMap<QString, QString> StringMap;
 
-class KEBTopLevel : public KMainWindow
+class KEBTopLevel : public KMainWindow, virtual public KBookmarkListener
 {
     Q_OBJECT
 public:
@@ -85,6 +85,9 @@ public:
 
     KEBTopLevel( const QString & bookmarksFile );
     virtual ~KEBTopLevel();
+
+    void addBookmark( QString url, QString text, QString address, QString icon );
+    void createNewFolder( QString text, QString address );
 
     bool save();
 
@@ -155,6 +158,7 @@ protected:
     void fillListView();
     void pasteData( const QString & cmdName, QMimeSource * data, const QString & insertionAddress );
     void itemMoved(QListViewItem * item, const QString & newAddress, bool copy);
+    QString correctAddress(QString address);
 
     bool m_bModified;
     bool m_bCanPaste;
