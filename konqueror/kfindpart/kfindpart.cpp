@@ -25,6 +25,9 @@
 #include <kinstance.h>
 #include <kdebug.h>
 
+#include <kglobal.h>
+#include <klocale.h>
+
 class KFindFactory : public KParts::Factory
 {
 public:
@@ -63,6 +66,7 @@ extern "C"
 {
     void *init_libkfindpart()
     {
+	KGlobal::locale()->insertCatalogue(QString::fromLatin1("kfindpart"));
         return new KFindFactory;
     }
 };
