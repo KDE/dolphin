@@ -114,13 +114,13 @@ bool KonqHistoryManager::loadHistory()
 	    m_history.append( entry );
 
 	    // insert the completion item weighted
- 	    m_pCompletion->addItem( entry->url.url(),
+ 	    m_pCompletion->addItem( entry->url.prettyURL(),
 				    entry->numberOfTimesVisited );
  	    m_pCompletion->addItem( entry->typedURL,
 				    entry->numberOfTimesVisited );
 
 	    // and fill our baseclass.
-	    KParts::HistoryProvider::insert( entry->url.url() );
+	    KParts::HistoryProvider::insert( entry->url.prettyURL() );
 	}
 	
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
@@ -168,10 +168,10 @@ void KonqHistoryManager::adjustSize()
     KonqHistoryEntry *entry = m_history.getFirst();
 
     while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
-	m_pCompletion->removeItem( entry->url.url() );
+	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
 
-	KParts::HistoryProvider::remove( entry->url.url() );
+	KParts::HistoryProvider::remove( entry->url.prettyURL() );
 
 	emit entryRemoved( m_history.getFirst() );
 	m_history.removeFirst(); // deletes the entry
@@ -195,17 +195,18 @@ void KonqHistoryManager::confirmPending( const KURL& url,
 }
 
 
-void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
+void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 				       const QString& typedURL,
 				       const QString& title )
 {
-    kdDebug(1203) << "## addToHistory: " << url.url() << "Typed URL: " << typedURL << ", Title: " << title << endl;
+    kdDebug(1203) << "## addToHistory: " << _url.prettyURL() << "Typed URL: " << typedURL << ", Title: " << title << endl;
 
-    if ( filterOut( url ) ) // we only want remote URLs
+    if ( filterOut( _url ) ) // we only want remote URLs
 	return;
-
+    KURL url( _url );
+    url.setPass( "" ); // No password in the history, especially not in the completion !
     KonqHistoryEntry entry;
-    QString u = url.url();
+    QString u = url.prettyURL();
     entry.url = url;
     if ( u != typedURL )
 	entry.typedURL = typedURL;
@@ -276,12 +277,12 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 
 void KonqHistoryManager::removePending( const KURL& url )
 {
-    // kdDebug(1203) << "## Removing pending... " << url.url() << endl;
+    // kdDebug(1203) << "## Removing pending... " << url.prettyURL() << endl;
 
     if ( url.isLocalFile() )
 	return;
 
-    QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( url.url() );
+    QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( url.prettyURL() );
     if ( it != m_pending.end() ) {
 	KonqHistoryEntry *oldEntry = it.data(); // the old entry, may be 0L
 	emitRemoveFromHistory( url ); // remove the current pending entry
@@ -356,7 +357,7 @@ void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 					     QCString saveId )
 {
-    //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.url() << endl;
+    //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
     KonqHistoryEntry *entry = findEntry( e.url );
 
@@ -366,7 +367,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 	entry->firstVisited = e.firstVisited;
 	entry->numberOfTimesVisited = 0; // will get set to 1 below
 	m_history.append( entry );
-	KParts::HistoryProvider::insert( entry->url.url() );
+	KParts::HistoryProvider::insert( entry->url.prettyURL() );
     }
 
     if ( !e.typedURL.isEmpty() )
@@ -376,7 +377,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     entry->numberOfTimesVisited += e.numberOfTimesVisited;
     entry->lastVisited = e.lastVisited;
 
-    m_pCompletion->addItem( entry->url.url() );
+    m_pCompletion->addItem( entry->url.prettyURL() );
     m_pCompletion->addItem( entry->typedURL );
 
     // bool pending = (e.numberOfTimesVisited != 0);
@@ -435,14 +436,14 @@ void KonqHistoryManager::notifyClear( QCString saveId )
 
 void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 {
-    kdDebug(1203) << "#### Broadcast: remove entry:: " << url.url() << endl;
+    kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
 
     KonqHistoryEntry *entry = m_history.findEntry( url );
     if ( entry ) { // entry is now the current item
-	m_pCompletion->removeItem( entry->url.url() );
+	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
 	
-	KParts::HistoryProvider::remove( entry->url.url() );
+	KParts::HistoryProvider::remove( entry->url.prettyURL() );
 	
 	m_history.take(); // does not delete
 	emit entryRemoved( entry );
@@ -462,10 +463,10 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
     while ( it != urls.end() ) {
 	KonqHistoryEntry *entry = m_history.findEntry( *it );
 	if ( entry ) { // entry is now the current item
-	    m_pCompletion->removeItem( entry->url.url() );
+	    m_pCompletion->removeItem( entry->url.prettyURL() );
 	    m_pCompletion->removeItem( entry->typedURL );
 	
-	    KParts::HistoryProvider::remove( entry->url.url() );
+	    KParts::HistoryProvider::remove( entry->url.prettyURL() );
 	
 	    m_history.take(); // does not delete
 	    emit entryRemoved( entry );
@@ -498,10 +499,10 @@ bool KonqHistoryManager::loadFallback()
 	entry = createFallbackEntry( *it );
 	if ( entry ) {
 	    m_history.append( entry );
-	    m_pCompletion->addItem( entry->url.url(),
+	    m_pCompletion->addItem( entry->url.prettyURL(),
 				    entry->numberOfTimesVisited );
 	
-	    KParts::HistoryProvider::insert( entry->url.url() );
+	    KParts::HistoryProvider::insert( entry->url.prettyURL() );
    	}
 	++it;
     }
@@ -553,7 +554,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
 {
     // small optimization (dict lookup) for items _not_ in our history
-    if ( !KParts::HistoryProvider::contains( url.url() ) )
+    if ( !KParts::HistoryProvider::contains( url.prettyURL() ) )
 	 return 0L;
 
     return m_history.findEntry( url );
