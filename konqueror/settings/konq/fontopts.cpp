@@ -47,7 +47,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QString wtstr;
     int row = 0;
 
-    int LASTLINE = m_bDesktop ? 9 : 8;
+    int LASTLINE = m_bDesktop ? 7 : 7; // this can be different :)
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
                                        KDialog::spacingHint());
@@ -114,6 +114,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     connect( m_pNormalText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotNormalTextColorChanged( const QColor & ) ) );
 
+    /*
     row++;
     label = new QLabel( i18n("Highlighted Text Color:"), this );
     lay->addWidget(label,row,0);
@@ -127,6 +128,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
     connect( m_pHighlightedText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotHighlightedTextColorChanged( const QColor & ) ) );
+    */
 
     row++;
 
@@ -149,18 +151,21 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
         row++;
     }
+    else
+    {
+        m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
+        lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
+        connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
 
-    m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
-    lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
-    connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
-
-    QWhatsThis::add( m_pWordWrap, i18n("Checking this option will wrap long filenames"
+        QWhatsThis::add( m_pWordWrap, i18n("Checking this option will wrap long filenames"
                                        " to multiple lines, rather than showing only the part of the filename"
                                        " that fits on a single line.<p>"
                                        " Hint: if you uncheck this option, you can still see the word-wrapped filename"
                                        " by pausing the mouse pointer over the icon.") );
 
-    row++;
+        row++;
+    }
+
     cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
     lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,Qt::AlignLeft);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
@@ -258,9 +263,10 @@ void KonqFontOptions::load()
     normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &normalTextColor );
     m_pNormalText->setColor( normalTextColor );
 
-    highlightedTextColor = KGlobalSettings::highlightedTextColor();
+    /* highlightedTextColor = KGlobalSettings::highlightedTextColor();
     highlightedTextColor = g_pConfig->readColorEntry( "HighlightedTextColor", &highlightedTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
+    */
 
     if ( m_bDesktop )
     {
@@ -269,8 +275,10 @@ void KonqFontOptions::load()
         m_pTextBackground->setEnabled(textBackgroundColor.isValid());
         m_pTextBackground->setColor( textBackgroundColor );
     }
-
-    m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
+    else
+    {
+        m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
+    }
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
 
     updateGUI();
@@ -283,16 +291,19 @@ void KonqFontOptions::defaults()
     m_stdFont = QFont(stdName, 12);
 
     normalTextColor = KGlobalSettings::textColor();
-    highlightedTextColor = KGlobalSettings::highlightedTextColor();
-
     m_pNormalText->setColor( normalTextColor );
-    m_pHighlightedText->setColor( highlightedTextColor );
+
+    //highlightedTextColor = KGlobalSettings::highlightedTextColor();
+    //m_pHighlightedText->setColor( highlightedTextColor );
     if ( m_bDesktop )
     {
         m_cbTextBackground->setChecked(false);
         m_pTextBackground->setEnabled(false);
     }
-    m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
+    else
+    {
+        m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
+    }
     cbUnderline->setChecked( true );
 
     updateGUI();
@@ -330,10 +341,11 @@ void KonqFontOptions::save()
     g_pConfig->writeEntry( "StandardFont", m_stdFont );
 
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
-    g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
+    //g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
     if ( m_bDesktop )
         g_pConfig->writeEntry( "ItemTextBackground", m_cbTextBackground->isChecked() ? textBackgroundColor : QColor());
-    g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
+    else
+        g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
 }
@@ -359,6 +371,7 @@ void KonqFontOptions::slotNormalTextColorChanged( const QColor &col )
     }
 }
 
+/*
 void KonqFontOptions::slotHighlightedTextColorChanged( const QColor &col )
 {
     if ( highlightedTextColor != col )
@@ -367,6 +380,7 @@ void KonqFontOptions::slotHighlightedTextColorChanged( const QColor &col )
         changed();
     }
 }
+*/
 
 void KonqFontOptions::slotTextBackgroundColorChanged( const QColor &col )
 {

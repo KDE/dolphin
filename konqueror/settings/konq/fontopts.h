@@ -62,7 +62,7 @@ public slots:
   void slotTextBackgroundClicked();
 
   void slotNormalTextColorChanged( const QColor &col );
-  void slotHighlightedTextColorChanged( const QColor &col );
+  //void slotHighlightedTextColorChanged( const QColor &col );
   void slotTextBackgroundColorChanged( const QColor &col );
 
 private slots:
@@ -92,11 +92,11 @@ private:
 
   KColorButton* m_pBg;
   KColorButton* m_pNormalText;
-  KColorButton* m_pHighlightedText;
+  //KColorButton* m_pHighlightedText;
   QCheckBox* m_cbTextBackground;
   KColorButton* m_pTextBackground;
   QColor normalTextColor;
-  QColor highlightedTextColor;
+  //QColor highlightedTextColor;
   QColor textBackgroundColor;
 
   QCheckBox* m_pWordWrap;
