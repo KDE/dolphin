@@ -427,9 +427,16 @@ void KonqDirPart::emitMouseOver( const KFileItem* item )
     emit m_extension->mouseOverInfo( item );
 }
 
-void KonqDirPart::slotIconSizeToggled( bool )
+void KonqDirPart::slotIconSizeToggled( bool toggleOn )
 {
     //kdDebug(1203) << "KonqDirPart::slotIconSizeToggled" << endl;
+
+    // This slot is called when an iconsize action is checked or by calling
+    // action->setChecked(false) (previously true). So we must filter out
+    // the 'untoggled' case to prevent odd results here (repaints/loops!)
+    if ( !toggleOn )
+        return;
+
     if ( m_paDefaultIcons->isChecked() )
         setIconSize(0);
     else if ( d->m_paEnormousIcons->isChecked() )
@@ -474,7 +481,7 @@ void KonqDirPart::slotDecIconSize()
     }
 }
 
-// Only updates the GUI (that's the one that is reimplemented by the views, too)
+// Only updates Actions, a GUI update is done in the views by reimplementing this
 void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
 {
     int realSize = (size==0) ? KGlobal::iconLoader()->currentSize( KIcon::Desktop ) : size;

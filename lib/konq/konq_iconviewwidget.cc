@@ -947,6 +947,14 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
         calculateGridX();
     }
     bool stopAll = !stopImagePreviewFor.isEmpty() && stopImagePreviewFor.first() == "*";
+
+    // Disable repaints that can be triggered by ivi->setIcon(). Since icons are
+    // resized in-place, if the icon size is increasing it can happens that the right
+    // or bottom icons exceed the size of the viewport.. here we prevent the repaint
+    // event that will be triggered in that case.
+    bool prevUpdatesState = viewport()->isUpdatesEnabled();
+    viewport()->setUpdatesEnabled( false );
+
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
@@ -963,6 +971,9 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
         else
             ivi->invalidateThumb( ivi->state(), true );
     }
+
+    // Restore viewport update to previous state
+    viewport()->setUpdatesEnabled( prevUpdatesState );
 
     if ( ( sizeChanged || previewSizeChanged || oldGridX != gridX() ||
          !stopImagePreviewFor.isEmpty() ) && autoArrange() )
