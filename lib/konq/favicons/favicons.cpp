@@ -271,6 +271,6 @@ extern "C" {
         KImageIO::registerFormats();
         return new FaviconsModule(obj);
     }
-};
+}
 
 // vim: ts=4 sw=4 et
