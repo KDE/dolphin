@@ -63,11 +63,11 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
         "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable Debu&gging" ), globalGB );
-  QWhatsThis::add( enableJavaScriptDebugCB, i18n("Enables the reporting of errors that occur when JavaScript "
-        "code is executed, and allows the use of the JavaScript debugger to trace through code execution. "
-        "Note that this has a small performance impact and is mainly only useful for developers.") );
-  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+//  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable Debu&gging" ), globalGB );
+//  QWhatsThis::add( enableJavaScriptDebugCB, i18n("Enables the reporting of errors that occur when JavaScript "
+//        "code is executed, and allows the use of the JavaScript debugger to trace through code execution. "
+//        "Note that this has a small performance impact and is mainly only useful for developers.") );
+//  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   // the domain-specific listview (copied and modified from Cookies configuration)
   QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Domain-specific" ), this );
@@ -187,7 +187,7 @@ void KJavaScriptOptions::load()
 
     // *** apply to GUI ***
     enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript",true));
-    enableJavaScriptDebugCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScriptDebug",false));
+//    enableJavaScriptDebugCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScriptDebug",false));
     js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
 
   // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
@@ -196,7 +196,7 @@ void KJavaScriptOptions::load()
 void KJavaScriptOptions::defaults()
 {
   enableJavaScriptGloballyCB->setChecked( true );
-  enableJavaScriptDebugCB->setChecked( false );
+//  enableJavaScriptDebugCB->setChecked( false );
   js_popup->setButton(0);
  // enableDebugOutputCB->setChecked( false );
 }
@@ -205,7 +205,7 @@ void KJavaScriptOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "EnableJavaScript", enableJavaScriptGloballyCB->isChecked() );
-    m_pConfig->writeEntry( "EnableJavaScriptDebug", enableJavaScriptDebugCB->isChecked() );
+//    m_pConfig->writeEntry( "EnableJavaScriptDebug", enableJavaScriptDebugCB->isChecked() );
 
     int js_policy = 0;
     if ( js_popup->selected() )
