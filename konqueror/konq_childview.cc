@@ -109,7 +109,7 @@ void KonqChildView::openURL( const KURL &url )
       m_bLockHistory = false;
 
   KParts::BrowserExtension *ext = browserExtension();
-  if ( m_bAborted && ext )
+  if ( m_bAborted && ext && !m_url.isMalformed() && m_url == url )
   {
     KParts::URLArgs args = ext->urlArgs();
     args.reload = true;
@@ -118,6 +118,7 @@ void KonqChildView::openURL( const KURL &url )
 
   m_bAborted = false;
 
+  m_url = url;  
   m_pView->openURL( url );
 
   sendOpenURLEvent( url );
@@ -452,6 +453,8 @@ void KonqChildView::go( int steps )
 
   setServiceTypeInExtension();
 
+  m_url = h.url;
+  
   if ( browserExtension() )
   {
     //kdDebug(1202) << "Restoring view from stream" << endl;
