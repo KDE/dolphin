@@ -1321,8 +1321,8 @@ void KonqMainView::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_paFullScreenStart = new KAction( i18n( "Experimental Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
-  m_paFullScreenStop = new KAction( i18n( "Stop Experimental Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
+  m_paFullScreenStart = new KAction( i18n( "Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
+  m_paFullScreenStop = new KAction( i18n( "Stop Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
 
   /*
   QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIconLoader::Small );
