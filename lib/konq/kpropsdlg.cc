@@ -1192,9 +1192,6 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
   patternEdit = new KLineEdit( this, "LineEdit_1" );
   commentEdit = new KLineEdit( this, "LineEdit_2" );
   mimeEdit = new KLineEdit( this, "LineEdit_3" );
-  iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
-  iconBox->setIconType("icon"); // Choose from app icons
-  appBox = new QComboBox( false, this, "ComboBox_2" );
 
   QBoxLayout * mainlayout = new QVBoxLayout(this, KDialog::spacingHint());
   QLabel* tmpQLabel;
@@ -1240,18 +1237,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
   vlayout = new QVBoxLayout(KDialog::spacingHint());
   hlayout->addLayout(vlayout, 1);
 
-  tmpQLabel = new QLabel( this, "Label_2" );
-  tmpQLabel->setText(  i18n("Default Application") );
-  tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
-  vlayout->addWidget(tmpQLabel, 1);
-
-  appBox->setFixedHeight( fontHeight );
-  vlayout->addWidget(appBox, 1);
-
-  iconBox->setFixedSize( 50, 50 );
-  hlayout->addWidget(iconBox, 0);
-
-  mainlayout->addSpacing(fontMetrics().height());
+  mainlayout->addStretch (10);
   mainlayout->activate();
 
   QFile f( _props->kurl().path() );
@@ -1262,7 +1248,6 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
   KSimpleConfig config( _props->kurl().path() );
   config.setDesktopGroup();
   QString patternStr = config.readEntry( "Patterns" );
-  QString appStr = config.readEntry( "DefaultApp" );
   QString iconStr = config.readEntry( "Icon" );
   QString commentStr = config.readEntry( "Comment" );
   m_sMimeStr = config.readEntry( "MimeType" );
@@ -1271,38 +1256,9 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     patternEdit->setText( patternStr );
   if ( !commentStr.isEmpty() )
     commentEdit->setText( commentStr );
-  if ( iconStr.isEmpty() )
-    iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
   if ( !m_sMimeStr.isEmpty() )
     mimeEdit->setText( m_sMimeStr );
 
-  iconBox->setIcon( iconStr );
-
-  // Get list of all applications
-  QStringList applist;
-  QString currApp;
-  appBox->insertItem( i18n("<none>") );
-  KService::List services = KService::allServices();
-  QValueListIterator<KService::Ptr> it = services.begin();
-  for ( ; it != services.end(); ++it )
-  {
-    currApp = (*it)->name();
-
-    // list every app only once
-    if ( applist.find( currApp ) == applist.end() ) {
-      appBox->insertItem( currApp );
-      applist.append( currApp );
-    }
-  }
-
-  // TODO: Torben: No default app any more here.
-  // Set the default app (DefaultApp=... is the kdelnk name)
-  // QStringList::Iterator it = applist.find( appStr );
-  // debug ("appStr = %s\n\n",appStr.ascii());
-  // if ( it == applist.end() )
-  // appBox->setCurrentItem( 0 );
-  // index = 0;
-  // appBox->setCurrentItem( index );
 }
 
 bool BindingPropsPage::supports( KFileItemList _items )
@@ -1340,7 +1296,6 @@ void BindingPropsPage::applyChanges()
   config.writeEntry( "Patterns", tmp );
   config.writeEntry( "Comment", commentEdit->text(), true, false, true );
   config.writeEntry( "MimeType", mimeEdit->text() );
-  config.writeEntry( "Icon", iconBox->icon() );
   config.sync();
 }
 
@@ -1392,23 +1347,23 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   if ( !IamRoot )
     fstype->setEnabled( false );
 
-  tmpQLabel = new QLabel( this, "Label_5" );
-  tmpQLabel->move( 10, 220 );
-  tmpQLabel->setText(  i18n("Mounted Icon") );
-  tmpQLabel->adjustSize();
+  //tmpQLabel = new QLabel( this, "Label_5" );
+  //tmpQLabel->move( 10, 220 );
+  //tmpQLabel->setText(  i18n("Mounted Icon") );
+  //tmpQLabel->adjustSize();
 
   tmpQLabel = new QLabel( this, "Label_6" );
-  tmpQLabel->move( 170, 220 );
+  tmpQLabel->move( 10 /*170*/, 220 );
   tmpQLabel->setText(  i18n("Unmounted Icon") );
   tmpQLabel->adjustSize();
 
-  mounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
-  mounted->setIconType("icon"); // Choose from app icons
-  mounted->setGeometry( 10, 250, 50, 50 );
+  //mounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
+  //mounted->setIconType("icon"); // Choose from app icons
+  //mounted->setGeometry( 10, 250, 50, 50 );
 
   unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
   unmounted->setIconType("icon"); // Choose from app icons
-  unmounted->setGeometry( 170, 250, 50, 50 );
+  unmounted->setGeometry( 10 /*170*/, 250, 50, 50 );
 
   QString path( _props->kurl().path() );
 
@@ -1423,7 +1378,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   mountPointStr = config.readEntry( "MountPoint" );
   readonlyStr = config.readEntry( "ReadOnly" );
   fstypeStr = config.readEntry( "FSType" );
-  mountedStr = config.readEntry( "Icon" );
+  // mountedStr = config.readEntry( "Icon" );
   unmountedStr = config.readEntry( "UnmountIcon" );
 
   if ( !deviceStr.isNull() )
@@ -1436,12 +1391,12 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     readonly->setChecked( false );
   else
     readonly->setChecked( true );
-  if ( mountedStr.isEmpty() )
-    mountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
+  //if ( mountedStr.isEmpty() )
+  //  mountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
   if ( unmountedStr.isEmpty() )
     unmountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
 
-  mounted->setIcon( mountedStr );
+  //mounted->setIcon( mountedStr );
   unmounted->setIcon( unmountedStr );
 }
 
@@ -1475,7 +1430,7 @@ void DevicePropsPage::applyChanges()
   config.writeEntry( "MountPoint", mountpoint->text() );
   config.writeEntry( "FSType", fstype->text() );
 
-  config.writeEntry( "Icon", mounted->icon() );
+  //config.writeEntry( "Icon", mounted->icon() );
   config.writeEntry( "UnmountIcon", unmounted->icon() );
 
   if ( readonly->isChecked() )

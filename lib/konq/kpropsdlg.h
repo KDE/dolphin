@@ -486,8 +486,6 @@ protected:
   QLineEdit *commentEdit;
   QLineEdit *patternEdit;
   QLineEdit *mimeEdit;
-  KIconLoaderButton *iconBox;
-  QComboBox *appBox;
   QString m_sMimeStr;
 
   QPixmap pixmap;
@@ -514,7 +512,7 @@ protected:
   QLineEdit* mountpoint;
   QCheckBox* readonly;
   QLineEdit* fstype;
-  KIconLoaderButton* mounted;
+  //KIconLoaderButton* mounted;
   KIconLoaderButton* unmounted;
 
   QPixmap pixmap;
@@ -522,7 +520,7 @@ protected:
 
   QString deviceStr;
   QString mountPointStr;
-  QString mountedStr;
+  //QString mountedStr;
   QString unmountedStr;
   QString readonlyStr;
   QString fstypeStr;
