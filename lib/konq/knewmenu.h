@@ -38,6 +38,10 @@ class KDirWatch;
  *
  * KNewMenu automatically updates the list of templates if templates are
  * added/updated/deleted.
+ *
+ * @author David Faure <faure@kde.org>
+ * Ideas and code for the new template handling mechanism ('link' desktop files)
+ * from Christoph Pickart <pickart@iam.uni-bonn.de>
  */
 class KNewMenu : public KActionMenu
 {
@@ -127,8 +131,10 @@ private:
      */
     static int s_templatesVersion;
 
-    // Set back to false each time new templates are found,
-    // and to true on the first call to parseFiles
+    /**
+     * Set back to false each time new templates are found,
+     * and to true on the first call to parseFiles
+     */
     static bool s_filesParsed;
 
     int menuItemsVersion;
