@@ -1,6 +1,4 @@
 /***************************************************************************
-  khtmlkttsd.cpp
-  -------------------
   Copyright:
   (C) 2002 by George Russell <george.russell@clara.net>
   (C) 2003-2004 by Olaf Schmidt <ojschmidt@kde.org>
