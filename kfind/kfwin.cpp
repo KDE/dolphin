@@ -112,7 +112,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   setShowSortIndicator( TRUE );
 
   addColumn(i18n("Name"));
-  addColumn(i18n("In Subdirectory"));
+  addColumn(i18n("In Subfolder"));
   addColumn(i18n("Size"));
   setColumnAlignment(2, AlignRight);
   addColumn(i18n("Modified"));
@@ -409,7 +409,7 @@ void KfindWindow::slotContextMenu(KListView *,QListViewItem *item,const QPoint&p
      m_menu->insertTitle(item->text(0));
      m_menu->insertItem(i18n("Copy"), this, SLOT(copySelection()));
      m_menu->insertItem(i18n("Delete"), this, SLOT(deleteFiles()));
-     m_menu->insertItem(i18n("Open Directory"), this, SLOT(openFolder()));
+     m_menu->insertItem(i18n("Open Folder"), this, SLOT(openFolder()));
      m_menu->insertItem(i18n("Open With..."), this, SLOT(slotOpenWith()));
      m_menu->insertItem(i18n("Open"), this, SLOT(openBinding()));
      m_menu->insertSeparator();

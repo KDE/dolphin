@@ -64,7 +64,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QToolTip::add( namedL, i18n("You can use wildcard matching and \";\" for separating multiple names") );
     dirBox  = new KComboBox(TRUE, pages[0], "combo2");
     QLabel * lookinL = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
-    subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
+    subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
     useLocateCb = new QCheckBox(i18n("Use files index"), pages[0]);
@@ -278,9 +278,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QLabel * textMetaKey = new QLabel(metainfokeyEdit, i18n("Search &metainfo sections:"), pages[2], "text");
 
     // Setup
-    typeBox->insertItem(i18n("All Files & Directories"));
+    typeBox->insertItem(i18n("All Files & Folders"));
     typeBox->insertItem(i18n("Files"));
-    typeBox->insertItem(i18n("Directories"));
+    typeBox->insertItem(i18n("Folders"));
     typeBox->insertItem(i18n("Symbolic Links"));
     typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
     typeBox->insertItem(i18n("Executable Files"));
