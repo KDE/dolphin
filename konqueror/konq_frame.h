@@ -256,7 +256,7 @@ protected:
 class KonqFrameContainer : public QSplitter, public KonqFrameBase
 {
   Q_OBJECT
-  friend KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
+  friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
 public:
   KonqFrameContainer( Orientation o,
                       QWidget* parent,
