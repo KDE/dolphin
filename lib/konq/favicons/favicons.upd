@@ -1,4 +1,4 @@
-# Move favicons from $KDEHOME/share/icons to $KDEHOME/share/cache
-Id=kde3
+# Move favicons from $KDEHOME/share/icons and $KDEHOME/share/cache to $KDEHOME/cache-$HOST
+Id=kde3_2
 File=dummy
 Script=move_favicons.sh,sh
