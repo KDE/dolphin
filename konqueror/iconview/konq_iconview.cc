@@ -640,6 +640,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
         }
         else
         {
+            if (!m_dirLister) return;
             // Right click on viewport
             KFileItem * item = m_dirLister->rootItem();
             bool delRootItem = false;
