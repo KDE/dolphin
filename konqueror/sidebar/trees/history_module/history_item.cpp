@@ -21,6 +21,8 @@
 #include <konq_faviconmgr.h>
 #include <qpainter.h>
 
+#include <assert.h>
+
 #include "history_item.h"
 #include "history_module.h"
 #include "history_settings.h"
@@ -48,6 +50,9 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
 {
     m_entry = entry;
 
+    if (!entry)
+        return;
+
     QString title( entry->title );
     if ( !title.stripWhiteSpace().isEmpty() &&
 	 title != entry->url.url() )
@@ -60,6 +65,7 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
     }
 
     KonqSidebarHistoryGroupItem *group = MYGROUP;
+    assert(group);
     QString path = entry->url.path();
     if ( group->hasFavIcon() && (path.isNull() || path == "/") )
 	setPixmap( 0, *(group->pixmap(0)) );
@@ -71,8 +77,7 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
 
 void KonqSidebarHistoryItem::itemSelected()
 {
-    tree()->enableActions( true, true, false,
-                                                false, false, false );
+    tree()->enableActions( true, true, false, false, false, false );
 }
 
 void KonqSidebarHistoryItem::rightButtonPressed()
