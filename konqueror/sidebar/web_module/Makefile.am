@@ -6,7 +6,7 @@ METASOURCES = AUTO
 
 konqsidebar_web_la_SOURCES = web_module.cpp
 konqsidebar_web_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
-konqsidebar_web_la_LIBADD = $(LIB_KPARTS) $(LIB_KHTML) -lkonqsidebarplugin ../../../libkonq/libkonq.la
+konqsidebar_web_la_LIBADD = $(LIB_KPARTS) $(LIB_KHTML) ../libkonqsidebarplugin.la ../../../libkonq/libkonq.la
 
 #plugindir=$(kde_datadir)/konqsidebartng/entries
 #plugin_DATA=websidebar.desktop
