@@ -1340,7 +1340,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
       {
         //debug(QString("'%1'").arg(line));
         QStringList lst = QStringList::split( ' ', line );
-        if ( lst.count() > 2 && lst[indexDevice] != "/proc" 
+        if ( lst.count() > 2 && lst[indexDevice] != "/proc"
             && lst[indexMountPoint] != "none" && lst[indexMountPoint] != "-" )
         {
           //debug(QString("******** '%1'  '%2'").arg(lst[indexDevice]).arg(lst[indexMountPoint]));
@@ -1503,7 +1503,7 @@ void DevicePropsPage::applyChanges()
 
   KSimpleConfig config( path );
   config.setDesktopGroup();
-  config.writeEntry( "Type", "FSDev" );
+  config.writeEntry( "Type", "FSDevice" );
 
   config.writeEntry( "Dev", device->currentText() );
   if ( IamRoot )
