@@ -53,7 +53,11 @@ void KonqImagePreviewJob::startImagePreview()
   // that we don't do arrangeItemsInGrid if there is no image at all
   // in the current dir.
   if ( m_items.isEmpty() )
+  {
+    kdDebug(1203) << "startImagePreview: emitting result" << endl;
+    emit result(this);
     delete this;
+  }
   else
     determineNextIcon();
 }
@@ -65,7 +69,8 @@ void KonqImagePreviewJob::determineNextIcon()
   {
     m_iconView->arrangeItemsInGrid();
     // Done
-    emit result(this); // unused
+    kdDebug(1203) << "determineNextIcon: emitting result" << endl;
+    emit result(this);
     delete this;
   }
   else

@@ -161,8 +161,10 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
             m_pActiveItem = 0L;
         item->setThumbnailPixmap( pixmap );
         if ( item->width() > gridX() )
+        {
           setGridX( item->width() );
-        // why not Y as well ?
+          arrangeItemsInGrid(); // Does nothing apparently... iconview too busy
+        }
     }
 }
 
@@ -237,13 +239,18 @@ void KonqIconViewWidget::startImagePreview( bool force )
 {
     stopImagePreview(); // just in case
     m_pImagePreviewJob = new KonqImagePreviewJob( this, force );
+    connect( m_pImagePreviewJob, SIGNAL( result( KIO::Job * ) ),
+             this, SIGNAL( imagePreviewFinished() ) );
     m_pImagePreviewJob->startImagePreview();
 }
 
 void KonqIconViewWidget::stopImagePreview()
 {
     if (!m_pImagePreviewJob.isNull())
+    {
         m_pImagePreviewJob->kill();
+        arrangeItemsInGrid();
+    }
 }
 
 KFileItemList KonqIconViewWidget::selectedFileItems()
