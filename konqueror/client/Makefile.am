@@ -22,3 +22,4 @@ KDesktopIface_stub.cpp: KDesktopIface.kidl
 kfmclient.cc: KonquerorIface_stub.cpp KDesktopIface_stub.cpp
 
 messages:
+	$(XGETTEXT) -C -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po ../../po/kfmclient.pot 
