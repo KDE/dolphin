@@ -83,7 +83,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                      "variable, e.g. <tt>HTTP_PROXY</tt>, "
                                      "used to store the address of the HTTP "
                                      "proxy server.<p>Alternatively, you can "
-                                     "click on the <tt>\"Auto Detect\"</tt> "
+                                     "click on the \"<b>Auto Detect</b>\" "
                                      "button to attempt automatic discovery "
                                      "of this variable.</qt>") );
   m_lbEnvHttp->setBuddy ( m_leEnvHttp );
@@ -101,7 +101,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                       "</tt>, used to store the address of "
                                       "the HTTPS proxy server.<p>"
                                       "Alternatively, you can click on the "
-                                      "<tt>\"Auto Detect\"</tt> button "
+                                      "\"<b>Auto Detect</b>\" button "
                                       "to attempt an automatic discovery of "
                                       "this variable.</qt>") );
   m_lbEnvHttps->setBuddy ( m_leEnvHttps );
@@ -118,7 +118,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                    "variable, e.g. <tt>FTP_PROXY</tt>, "
                                    "used to store the address of the FTP "
                                    "proxy server.<p>Alternatively, you can "
-                                   "click on the <tt>\"Auto Detect\"</tt> "
+                                   "click on the \"<b>Auto Detect</b>\" "
                                    "button to attempt an automatic discovery "
                                    "of this variable.</qt>") );
   m_lbEnvFtp->setBuddy ( m_leEnvFtp );
@@ -135,7 +135,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                    ", e.g. <tt>NO_PROXY</tt>, "
                                    "used to store the addresses of sites for which "
                                    "the proxy server should not be used. You can "
-                                   "click on the <tt>\"Auto Detect\"</tt> "
+                                   "click on the \"<b>Auto Detect</b>\" "
                                    "button to attempt an automatic discovery "
                                    "of this variable.</qt>") );
   m_lbEnvNoProxy->setBuddy ( m_leEnvNoProxy );
@@ -165,9 +165,9 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                     "proxy information.<p> This automatic "
                                     "lookup works by searching for the "
                                     "following common variable names:</p>"
-                                    "<p><u>For HTTP: </u>%1</p>"
-                                    "<p><u>For HTTPS: </u>%2</p>"
-                                    "<p><u>For FTP: </u>%3</p></qt>")
+                                    "<p><u>For HTTP:</u> %1</p>"
+                                    "<p><u>For HTTPS:</u> %2</p>"
+                                    "<p><u>For FTP:</u> %3</p></qt>")
                                     .arg(ENV_HTTP_PROXY)
                                     .arg(ENV_HTTPS_PROXY)
                                     .arg(ENV_FTP_PROXY));
