@@ -1060,9 +1060,9 @@ KInstance  *Sidebar_Widget::getInstance()
 void Sidebar_Widget::submitFormRequest(const char *action,
 					const QString& url,
 					const QByteArray& formData,
-					const QString& target,
+					const QString& /*target*/,
 					const QString& contentType,
-					const QString& boundary )
+					const QString& /*boundary*/ )
 {
 KParts::URLArgs args;
 
