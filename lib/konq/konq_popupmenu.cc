@@ -100,13 +100,13 @@ bool KonqPopupMenu::ProtocolInfo::trashIncluded() const
   return m_TrashIncluded;
 }
 
-KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
+KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                   bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( this, "KonqPopupMenu::m_ownActions" ),
-    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items)
+    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
   d = new KonqPopupMenuPrivate;
   assert( m_lstItems.count() >= 1 );
@@ -529,19 +529,19 @@ void KonqPopupMenu::slotPopupOpenWith()
 
 void KonqPopupMenu::slotPopupAddToBookmark()
 {
-  KBookmarkGroup root = KBookmarkManager::self()->root();
+  KBookmarkGroup root = m_pManager->root();
   if ( m_lstPopupURLs.count() == 1 ) {
     KURL url = m_lstPopupURLs.first();
     QString title = d->m_urlTitle.isEmpty() ? url.prettyURL() : d->m_urlTitle;
-    root.addBookmark( title, url.url() );
+    root.addBookmark( m_pManager, title, url.url() );
   }
   else
   {
     KURL::List::ConstIterator it = m_lstPopupURLs.begin();
     for ( ; it != m_lstPopupURLs.end(); it++ )
-      root.addBookmark( (*it).prettyURL(), (*it).url() );
+      root.addBookmark( m_pManager, (*it).prettyURL(), (*it).url() );
   }
-  KBookmarkManager::self()->emitChanged( root );
+  m_pManager->emitChanged( root );
 }
 
 void KonqPopupMenu::slotRunService()

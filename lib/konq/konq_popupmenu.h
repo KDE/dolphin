@@ -62,7 +62,8 @@ public:
    * The others items are automatically inserted.
    *
    */
-  KonqPopupMenu( const KFileItemList &items,
+  KonqPopupMenu( KBookmarkManager* manager,
+                 const KFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu, bool showPropertiesAndFileType = true );
@@ -137,6 +138,7 @@ private:
   QString attrName;
   ProtocolInfo m_info;
   QPtrList<KonqPopupMenuPlugin> m_pluginList;
+  KBookmarkManager* m_pManager;
 };
 
 class KonqPopupMenuPlugin : public QObject, public KonqXMLGUIClient {
