@@ -145,7 +145,7 @@ public slots:
    * function to update the bookmark menus. If the given URL is not of interest for
    * the bookmarks then nothing will happen.
    */
-  void slotNotify( const char* _url );
+  void slotNotify( const QString &_url );
   /**
    * For internal use only
    */

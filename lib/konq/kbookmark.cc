@@ -36,6 +36,7 @@
 #include <klocale.h>
 #include <kwm.h>
 #include <kmimemagic.h>
+#include <kdirwatch.h>
 #include <kdebug.h>
 #include <qmsgbox.h>
 
@@ -75,17 +76,17 @@ KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 
   scan( m_sPath );
 
-  // HACK
-  // connect( KIOServer::getKIOServer(), SIGNAL( notify( const char* ) ),
-  // this, SLOT( slotNotify( const char* ) ) );
+  connect( KDirWatch::self(), SIGNAL( dirty( const QString & ) ),
+           this, SLOT( slotNotify( const QString & ) ) );
 }
 
 KBookmarkManager::~KBookmarkManager()
 {
+  KDirWatch::self()->removeDir( m_sPath );
   delete m_Root;
 }
 
-void KBookmarkManager::slotNotify( const char *_url )
+void KBookmarkManager::slotNotify( const QString &_url )
 {
   if ( !m_bNotify )
     return;
