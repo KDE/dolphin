@@ -97,3 +97,12 @@ QMap<QCString,DCOPRef> KonqMainWindowIface::actionMap()
   return m_dcopActionProxy->actionMap();
 }
 
+QString KonqMainWindowIface::locationBarURL() const
+{
+    return m_pMainWindow->locationBarURL();
+}
+
+bool KonqMainWindowIface::fullScreenMode()
+{
+    return m_pMainWindow->fullScreenMode();
+}

@@ -100,6 +100,8 @@ k_dcop:
   void enablePopupMenu( bool b );
 
 
+    bool isPopupMenuEnabled() const;
+
     /*
      * Return length of history
      */

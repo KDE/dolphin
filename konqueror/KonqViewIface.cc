@@ -119,3 +119,7 @@ void KonqViewIface::goBack()
     m_pView->go(+1);
 }
 
+bool KonqViewIface::isPopupMenuEnabled() const
+{
+    return m_pView->isPopupMenuEnabled();
+}

@@ -60,6 +60,9 @@ k_dcop:
   QCStringList actions();
   QMap<QCString,DCOPRef> actionMap();
 
+    QString locationBarURL() const;
+    bool fullScreenMode();
+
 private:
 
   KonqMainWindow * m_pMainWindow;
