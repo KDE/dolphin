@@ -1765,7 +1765,7 @@ QStringList KonqMainWindow::configModules() const
 
 void KonqMainWindow::slotConfigureExtensions()
 {
-	KonqExtensionManager extensionManager(0L, "extensionmanager");
+	KonqExtensionManager extensionManager(0L, "extensionmanager", this);
 	extensionManager.exec();
 }
 

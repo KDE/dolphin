@@ -20,6 +20,7 @@
 #include <kdialogbase.h>
 
 class KonqExtensionManagerPrivate;
+class KonqMainWindow;
 
 /**
  * Extension Manager for Konqueror. See KPluginSelector in kdelibs for
@@ -33,7 +34,7 @@ class KonqExtensionManager : public KDialogBase
 	Q_OBJECT
 
 	public:
-		KonqExtensionManager(QWidget *parent, const char *name = 0L);
+		KonqExtensionManager(QWidget *parent, const char *name = 0L, KonqMainWindow *mainWindow = 0L);
 		~KonqExtensionManager();
 
 		void apply();

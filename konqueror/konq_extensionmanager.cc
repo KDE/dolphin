@@ -14,8 +14,6 @@
     *************************************************************************
 */
 
-#include "konq_extensionmanager.h"
-
 #include <qlayout.h>
 #include <qtimer.h>
 
@@ -23,20 +21,24 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kparts/componentfactory.h>
+#include <kparts/plugin.h>
 #include <kplugininfo.h>
 #include <kpluginselector.h>
 #include <ksettings/dispatcher.h>
+
+#include "konq_extensionmanager.h"
+#include "konq_mainwindow.h"
 
 class KonqExtensionManagerPrivate
 {
 	public:
 		KPluginSelector *pluginSelector;
-		KConfig *konqConfig;
+		KonqMainWindow *mainWindow;
 		KConfig *khtmlConfig;
 		bool isChanged;
 };
 
-KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name) :
+KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name, KonqMainWindow *mainWindow) :
   KDialogBase(Plain, i18n("Configure"), Help | Default | Cancel | Apply | Ok | User1,
               Ok, parent, name, false, true, KGuiItem(i18n("&Reset"), "undo"))
 {
@@ -56,15 +58,16 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name) :
 	connect(d->pluginSelector, SIGNAL(configCommitted(const QCString &)),
 	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const QCString &)));
 
-	d->konqConfig = new KConfig("konquerorrc");
+	d->mainWindow = mainWindow;
+
 	d->khtmlConfig = new KConfig("khtmlrc");
-	d->pluginSelector->addPlugins("konqueror", i18n("Extensions"), "Extensions", d->konqConfig);
+	d->pluginSelector->addPlugins("konqueror", i18n("Extensions"), "Extensions", KGlobal::config());
 	d->pluginSelector->addPlugins("khtml",     i18n("Tools"),      "Tools",      d->khtmlConfig);
+	//d->pluginSelector->addPlugins(KPluginInfo::fromServices(KTrader::self()->query("Browser/View")), i18n("Browser Plugins"), QString::null, KGlobal::config());
 }
 
 KonqExtensionManager::~KonqExtensionManager()
 {
-	delete d->konqConfig;
 	delete d->khtmlConfig;
 }
 
@@ -92,6 +95,18 @@ void KonqExtensionManager::apply()
 	{
 		d->pluginSelector->save();
 		setChanged(false);
+		if(d->mainWindow != 0L)
+		{
+			KParts::Plugin::loadPlugins(d->mainWindow, d->mainWindow, KGlobal::instance());
+			QPtrList<KParts::Plugin> plugins = KParts::Plugin::pluginObjects(d->mainWindow);
+			QPtrListIterator<KParts::Plugin> it(plugins);
+			KParts::Plugin *plugin;
+			while((plugin = it.current()) != 0)
+			{
+				++it;
+				d->mainWindow->factory()->addClient(plugin);
+			}
+		}
 	}
 }
 
