@@ -31,6 +31,7 @@
 #include "konqueror.h"
 #include "kfmpopup.h"
 #include "kfmguiprops.h"
+#include "kfmrun.h"
 
 #include <opPart.h>
 #include <opMainWindow.h>
@@ -96,7 +97,10 @@ public:
 
   virtual char *currentTitle() { return ""; }
   virtual char *currentURL() { return ""; }
-    
+
+  virtual void openDirectory( const char *url );
+  virtual void openHTML( const char *url );
+      
 public slots:  
   /////////////////////////
   // MenuBar
@@ -149,6 +153,17 @@ public slots:
   void slotStartAnimation();
   void slotStopAnimation();
 
+  void slotPopupNewView();
+  void slotPopupEmptyTrashBin();
+  void slotPopupCopy();
+  void slotPopupPaste();
+  void slotPopupTrash();
+  void slotPopupDelete();
+  void slotPopupOpenWith();
+  void slotPopupBookmarks();
+  void slotPopup( int id );
+  void slotPopupProperties();
+  
 protected:
   virtual void resizeEvent( QResizeEvent *e );
 
@@ -205,10 +220,6 @@ protected:
   map<OpenParts::Id,View*> m_mapViews;
   View *m_currentView;
 
-  Konqueror::View_var m_vKfmIconView;
-  Konqueror::View_var m_vHTMLView;
-  Konqueror::View_var m_vKfmTreeView;
-    
   /**
    * Set to true while the constructor is running.
    * @ref #initConfig needs to know about that.
@@ -228,7 +239,9 @@ protected:
   QStrList m_lstPopupURLs;
   map<int,KService*> m_mapPopup;
   map<int,KDELnkMimeType::Service> m_mapPopup2;
-    
+
+  KfmRun *m_pRun;
+      
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;
 };

@@ -49,8 +49,10 @@
 #include <kurlcompletion.h>
 #include <kpixmapcache.h>
 #include <kio_linedit_dlg.h>
+#include <kio_openwith.h>
 #include <kkeydialog.h>
 #include <kstdaccel.h>
+#include <kclipboard.h>
 
 #include <iostream>
 #include <assert.h>
@@ -102,6 +104,8 @@ KonqMainView::KonqMainView( QWidget *_parent = 0L ) : QWidget( _parent )
 
   m_vStatusBar = 0L;
 
+  m_pRun = 0L;
+  
   m_pAccel = new KAccel( this );
   m_pAccel->insertItem( i18n("Switch to left View"), "LeftView", CTRL+Key_1 );
   m_pAccel->insertItem( i18n("Switch to right View"), "RightView", CTRL+Key_2 );
@@ -194,25 +198,21 @@ void KonqMainView::cleanUp()
 
   delete m_pAccel;
 
-//  removeView( m_vKfmIconView->id() );
-//  removeView( m_vHTMLView->id() );
-//  removeView( m_vKfmTreeView->id() );
-
+  if ( m_pRun )
+    delete m_pRun;
+  
   map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); it++ )
       {
         it->second->m_vView->disconnectObject( this );
 	it->second->m_pFrame->detach();
+	it->second->m_vView = 0L;
         delete it->second->m_pFrame;
 	delete it->second->m_pPannerChildGM;
 	delete it->second;
       }	
 
   m_mapViews.clear();
-
-  m_vKfmIconView = 0L;
-  m_vKfmTreeView = 0L;
-  m_vHTMLView = 0L;
 
   if ( m_pMenuNew )
     delete m_pMenuNew;
@@ -450,8 +450,12 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
 bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
+  cerr << "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )" << endl;
+  
   setActiveView( child->id() );
 
+  cerr << "current view is a " << m_currentView->m_vView->viewName() << endl;
+  
   assert( m_currentView );
 
   if ( !CORBA::is_nil( m_vToolBar ) )
@@ -696,57 +700,12 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
     return;
   }
 
-  /////////// Now find which view type will handle this URL ////////////
-
- //TODO ... use KfmRun here (Simon)
-  //            ..... why ? What is it supposed to do ? (David.)
-  // Simon:
-  // well, where else should we "launch" apps?
-  // What I'm actually thinking of is a mechanism similar to the
-  // old way in KfmView::openURL. This is might be exactly the kind
-  // of filtering mechanisnm you're looking for, or?
-  // (and I thought of perhaps doing the filtering for plugged in views via the
-  // registry (kdelnk file), too -> let's discuss this on kfm-devel, ok? :-))
-
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( url.c_str() );
-  eventURL.reload = _reload;
-  eventURL.xOffset = 0;
-  eventURL.yOffset = 0;
-
-  QString sViewName = "KonquerorKfmIconView"; // default
-
-  // HACK -just testing- we'll need some filtering or registration instead
-  if ( strncmp( url.c_str(), "http:", 5 ) == 0 )
-    sViewName = "KonquerorHTMLView";
-
-  if (sViewName != m_currentView->m_vView->viewName())
-  {
-
-    Konqueror::View_var vView;
-    if (sViewName == "KonquerorHTMLView")
-//      vView = Konqueror::View::_duplicate( new KonqHTMLView );
-      vView = Konqueror::View::_duplicate( m_vHTMLView );
-    else
-//      vView = Konqueror::View::_duplicate( new KonqKfmIconView );
-      vView = Konqueror::View::_duplicate( m_vKfmIconView );
-
-    m_mapViews.erase( m_currentView->m_vView->id() );
-
-    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-    m_currentView->m_pFrame->attach( vView ); //detaches automatically the old part
-    m_currentView->m_pFrame->show();
-
-    m_mapViews[ vView->id() ] = m_currentView;
-  }
-
-  /////////// Now open the URL in the current view ////////////
-  if ( m_currentView && !CORBA::is_nil( m_currentView->m_vView ) )
-  {
-    debug("KonqMainView : emitting EventOpenURL %s to %s",url.c_str(), m_currentView->m_vView->viewName() );
-    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
-  }
-
+  //FIXME... this is far for being complete (Simon)
+  //(for example: obey the reload flag...)
+  
+  slotStop(); //hm....
+    
+  m_pRun = new KfmRun( this, url.c_str(), 0, false, false );
 }
 
 void KonqMainView::setStatusBarText( const char *_text )
@@ -1063,6 +1022,193 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   delete m_menuNew;
 }
 
+void KonqMainView::openDirectory( const char *url )
+{
+  m_pRun = 0L;
+  
+  if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorKfmIconView" ) != 0L )
+  {
+    Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+    
+    vView->setMainWindow( m_vMainWindow );
+    vView->setParent( this );
+    
+    m_mapViews.erase( m_currentView->m_vView->id() );
+    
+    m_currentView->m_vView->disconnectObject( this );
+    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+    m_currentView->m_pFrame->attach( vView );
+    m_currentView->m_pFrame->show();
+    
+  try
+  {
+    vView->connect("openURL", this, "openURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("started", this, "slotStartAnimation");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""started"" " << endl;
+  }
+  try
+  {
+    vView->connect("completed", this, "slotStopAnimation");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""completed"" " << endl;
+  }
+  try
+  {
+    vView->connect("setStatusBarText", this, "setStatusBarText");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
+  }
+  try
+  {
+    vView->connect("setLocationBarURL", this, "setLocationBarURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("createNewWindow", this, "createNewWindow");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
+  }
+  try
+  {
+    vView->connect("popupMenu", this, "popupMenu");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
+  }
+  try
+  {
+    vView->connect("addHistory", this, "addHistory");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""addHistory"" " << endl;
+  }
+    m_mapViews[ vView->id() ] = m_currentView;
+  }
+  
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+}
+
+void KonqMainView::openHTML( const char *url )
+{
+  m_pRun = 0L;
+  
+  if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorHTMLView" ) != 0L )
+  {
+    Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqHTMLView );
+
+    vView->setMainWindow( m_vMainWindow );
+    vView->setParent( this );
+    
+    m_mapViews.erase( m_currentView->m_vView->id() );
+
+    m_currentView->m_vView->disconnectObject( this );
+    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+    m_currentView->m_pFrame->attach( vView );
+    m_currentView->m_pFrame->show();
+
+  try
+  {
+    vView->connect("openURL", this, "openURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("started", this, "slotStartAnimation");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""started"" " << endl;
+  }
+  try
+  {
+    vView->connect("completed", this, "slotStopAnimation");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""completed"" " << endl;
+  }
+  try
+  {
+    vView->connect("setStatusBarText", this, "setStatusBarText");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
+  }
+  try
+  {
+    vView->connect("setLocationBarURL", this, "setLocationBarURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("createNewWindow", this, "createNewWindow");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
+  }
+  try
+  {
+    vView->connect("popupMenu", this, "popupMenu");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
+  }
+  try
+  {
+    vView->connect("addHistory", this, "addHistory");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""addHistory"" " << endl;
+  }
+        
+    m_mapViews[ vView->id() ] = m_currentView;
+  }
+
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+}
+
 void KonqMainView::slotSplitView()
 {
 /*
@@ -1267,6 +1413,12 @@ void KonqMainView::slotURLEntered()
 
 void KonqMainView::slotStop()
 {
+  if ( m_pRun )
+  {
+    delete m_pRun;
+    m_pRun = 0L;
+  }
+  
   m_currentView->m_vView->stop();
 }
 
@@ -1415,6 +1567,96 @@ void KonqMainView::slotStopAnimation()
   setStatusBarText( i18n("Document: Done") );
 }
 
+void KonqMainView::slotPopupNewView()
+{
+  assert( m_lstPopupURLs.count() == 1 );
+  KonqMainWindow *m_pShell = new KonqMainWindow( m_lstPopupURLs.getFirst() );
+  m_pShell->show();
+}
+
+void KonqMainView::slotPopupEmptyTrashBin()
+{
+  //TODO
+}
+
+void KonqMainView::slotPopupCopy()
+{
+  KClipboard::self()->setURLList( m_lstPopupURLs );
+}
+
+void KonqMainView::slotPopupPaste()
+{
+  assert( m_lstPopupURLs.count() == 1 );
+  pasteClipboard( m_lstPopupURLs.getFirst() );
+}
+
+void KonqMainView::slotPopupTrash()
+{
+  //TODO
+}
+
+void KonqMainView::slotPopupDelete()
+{
+  KIOJob *job = new KIOJob;
+  list<string> lst;
+  const char *s;
+  for ( s = m_lstPopupURLs.first(); s != 0L; s = m_lstPopupURLs.next() )
+    lst.push_back( s );
+  job->del( lst );
+}
+
+void KonqMainView::slotPopupOpenWith()
+{
+  OpenWithDlg l( i18n("Open With:"), "", this, true );
+  if ( l.exec() )
+  {
+    KService *service = l.service();
+    if ( service )
+    {
+      KfmRun::run( service, m_lstPopupURLs );
+      return;
+    }
+    else
+    {
+      QString exec = l.text();
+      exec += " %f";
+      KfmRun::runOldApplication( exec, m_lstPopupURLs, false );
+    }
+  }
+}
+
+void KonqMainView::slotPopupBookmarks()
+{
+  //TODO
+}
+
+void KonqMainView::slotPopup( int id )
+{
+  // Is it a usual service
+  map<int,KService*>::iterator it = m_mapPopup.find( id );
+  if ( it != m_mapPopup.end() )
+  {
+    KRun::run( it->second, m_lstPopupURLs );
+    return;
+  }
+  
+  // Is it a service specific to kdelnk files ?
+  map<int,KDELnkMimeType::Service>::iterator it2 = m_mapPopup2.find( id );
+  if ( it2 == m_mapPopup2.end() )
+    return;
+  
+  const char *u;
+  for( u = m_lstPopupURLs.first(); u != 0L; u = m_lstPopupURLs.next() )
+    KDELnkMimeType::executeService( u, it2->second );
+
+  return;
+}
+
+void KonqMainView::slotPopupProperties()
+{
+  //TODO
+}
+
 void KonqMainView::resizeEvent( QResizeEvent *e )
 {
   m_pPanner->setGeometry( 0, 0, width(), height() );
@@ -1490,35 +1732,24 @@ void KonqMainView::initPanner()
 
 void KonqMainView::initView()
 {
-  m_vKfmIconView = Konqueror::View::_duplicate( new KonqKfmIconView );
+  Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqKfmIconView );
 
-  insertView( m_vKfmIconView );
-  setActiveView( m_vKfmIconView->id() );
+  insertView( vView );
+  setActiveView( vView->id() );
 
-  //Simon: KonqHTMLView seems to work more or less -> commented out until
-  //       panner stuff works
-/*
-  m_vHTMLView = Konqueror::View::_duplicate( new KonqHTMLView );
+  vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
 
-  insertView( m_vHTMLView );
+  insertView( vView );
 
-  m_vHTMLView->show( false );
-*/
-
-  m_vKfmTreeView = Konqueror::View::_duplicate( new KonqKfmTreeView );
-
-  insertView( m_vKfmTreeView );
-
-  m_vKfmTreeView->show( true );
+  //temporary...
+  vView->show( true );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( QDir::homeDirPath().data() );
   eventURL.reload = (CORBA::Boolean)false;
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
 
-//  EMIT_EVENT( m_vHTMLView, Konqueror::eventOpenURL, eventURL );
-  EMIT_EVENT( m_vKfmTreeView, Konqueror::eventOpenURL, eventURL );
-//  EMIT_EVENT( m_vKfmIconView, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
 
   m_pPanner->setSeparator( 50 );
 

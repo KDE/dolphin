@@ -18,11 +18,11 @@
 */     
 
 #include "kfmrun.h"
-#include "kfmview.h"
+#include "konq_mainview.h"
 
 #include <string.h>
 
-KfmRun::KfmRun( KfmView* _view, const char *_url, mode_t _mode, bool _is_local_file, bool _auto_delete )
+KfmRun::KfmRun( KonqMainView* _view, const char *_url, mode_t _mode, bool _is_local_file, bool _auto_delete )
   : KRun( _url, _mode, _is_local_file, _auto_delete )
 {
   m_pView = _view;
@@ -30,8 +30,9 @@ KfmRun::KfmRun( KfmView* _view, const char *_url, mode_t _mode, bool _is_local_f
 
 KfmRun::~KfmRun()
 {
-  if ( m_pView )
-    m_pView->openNothing();
+// ? do we need this? (Simon)
+//  if ( m_pView )
+//    m_pView->openNothing();
 }
 
 void KfmRun::foundMimeType( const char *_type )

@@ -11,17 +11,17 @@ bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
 konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
-	kfmguiprops.cc kfmpaths.cc kfmpopup.cc kfmviewprops.cc \
+	kfmguiprops.cc kfmpaths.cc kfmpopup.cc kfmrun.cc kfmviewprops.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konqueror.cc \
 	konq_treeview.cc konq_partview.cc \
 	xview.cc
 
-# noinst_HEADERS = ... to be completed
+# noinst_HEADERS = ... to be completed  <= *.h? (Simon)
 
 METASOURCES = kbookmark.moc kbrowser.moc \
-	kfmpopup.moc \
+	kfmpopup.moc kfmrun.moc \
 	kiconcontainer.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
