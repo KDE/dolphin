@@ -37,12 +37,24 @@ CHECKS
 valgrind report:
 
 on startup:
-   ==20375== Conditional jump or move depends on uninitialised value(s)
-   ==20375==    at 0x40270754: KEBApp::setActionsEnabled(SelcAbilities) (actionsimpl.cpp:343)
-   ==20375==    by 0x4026CD4B: KEBApp::updateActions() (listview.h:166)
-   ==20375==    by 0x40265577: ListView::handleSelectionChanged(KEBListView*) (toplevel.h:106)
-   ==20375==    by 0x402666C9: KEBListView::slotSelectionChanged() (listview.h:166)
-   ==20375==
+   ==31246== Conditional jump or move depends on uninitialised value(s)
+   ==31246==    at 0x4026A4DF: KEBListViewItem::paintCell(QPainter*, QColorGroup const&, int, int, int) (listview.cpp:786)
+   ==31246==    by 0x40FD9CA7: QListView::drawContentsOffset(QPainter*, int, int, int, int, int, int) (qlistview.cpp:2905)
+   ==31246==    by 0x41013A5D: QScrollView::viewportPaintEvent(QPaintEvent*) (qscrollview.cpp:1702)
+   ==31246==    by 0x407E7051: KListView::viewportPaintEvent(QPaintEvent*) (klistview.cpp:1872)
+   ==31246==
+   ==31246== Conditional jump or move depends on uninitialised value(s)
+   ==31246==    at 0x4026A4E4: KEBListViewItem::paintCell(QPainter*, QColorGroup const&, int, int, int) (listview.cpp:786)
+   ==31246==    by 0x40FD9CA7: QListView::drawContentsOffset(QPainter*, int, int, int, int, int, int) (qlistview.cpp:2905)
+   ==31246==    by 0x41013A5D: QScrollView::viewportPaintEvent(QPaintEvent*) (qscrollview.cpp:1702)
+   ==31246==    by 0x407E7051: KListView::viewportPaintEvent(QPaintEvent*) (klistview.cpp:1872)
+   ==31246==
+   ==31246== Conditional jump or move depends on uninitialised value(s)
+   ==31246==    at 0x4026A4E8: KEBListViewItem::paintCell(QPainter*, QColorGroup const&, int, int, int) (listview.cpp:786)
+   ==31246==    by 0x40FD9CA7: QListView::drawContentsOffset(QPainter*, int, int, int, int, int, int) (qlistview.cpp:2905)
+   ==31246==    by 0x41013A5D: QScrollView::viewportPaintEvent(QPaintEvent*) (qscrollview.cpp:1702)
+   ==31246==    by 0x407E7051: KListView::viewportPaintEvent(QPaintEvent*) (klistview.cpp:1872)
+   ==31246==
 
 lots of crap when using file->open
 
