@@ -666,6 +666,10 @@ void DesktopPathConfig::save()
         // !!!
         kdDebug() << "desktopURL=" << desktopURL.url() << endl;
         kdDebug() << "trashURL=" << trashURL.url() << endl;
+        QString urlDesktop = urDesktop->url();
+        if ( urlDesktop.at(urlDesktop.length()-1)!='/')
+            urlDesktop+="/";
+
         if ( desktopURL.isParentOf( trashURL ) )
         {
             // The trash is on the desktop (no, I don't do this at home....)
@@ -673,9 +677,6 @@ void DesktopPathConfig::save()
             // Either the Trash field wasn't changed (-> need to update it)
             if ( newTrashURL.cmp( trashURL, true ) )
             {
-                QString urlDesktop = urDesktop->url();
-                if ( urlDesktop.at(urlDesktop.length()-1)!='/')
-                    urlDesktop+="/";
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
                 urTrash->setURL( urlDesktop + trashURL.fileName() );
                 kdDebug() << "The trash is moved with the desktop" << endl;
@@ -685,7 +686,7 @@ void DesktopPathConfig::save()
             else
             {
                 KURL futureTrashURL;
-                futureTrashURL.setPath( urDesktop->url() + trashURL.fileName() );
+                futureTrashURL.setPath( urlDesktop + trashURL.fileName() );
                 if ( newTrashURL.cmp( futureTrashURL, true ) )
                     trashMoved = true; // The trash moves with the desktop
                 else
@@ -701,7 +702,7 @@ void DesktopPathConfig::save()
             if ( newAutostartURL.cmp( autostartURL, true ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                urAutostart->setURL( urDesktop->url() + "Autostart/" );
+                urAutostart->setURL( urlDesktop + "Autostart/" );
                 kdDebug() << "Autostart is moved with the desktop" << endl;
                 autostartMoved = true;
             }
@@ -709,7 +710,7 @@ void DesktopPathConfig::save()
             else
             {
                 KURL futureAutostartURL;
-                futureAutostartURL.setPath( urDesktop->url() + "Autostart/" );
+                futureAutostartURL.setPath( urlDesktop + "Autostart/" );
                 if ( newAutostartURL.cmp( futureAutostartURL, true ) )
                     autostartMoved = true;
                 else
@@ -717,10 +718,10 @@ void DesktopPathConfig::save()
             }
         }
 
-        if ( moveDir( KGlobalSettings::desktopPath(), urDesktop->url(), i18n("Desktop") ) )
+        if ( moveDir( KGlobalSettings::desktopPath(), urlDesktop, i18n("Desktop") ) )
         {
 //            config->writeEntry( "Desktop", urDesktop->url());
-            config->writePathEntry( "Desktop", urDesktop->url(), true, true );
+            config->writePathEntry( "Desktop", urlDesktop, true, true );
             pathChanged = true;
         }
     }
