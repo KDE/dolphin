@@ -313,7 +313,7 @@ void UserAgentOptions::load()
       if (!userAgent.isEmpty());
       {
          QString comment = m_provider->aliasFor(userAgent);
-         (void) new QListViewItem( lv_siteUABindings, domain, userAgent, comment );
+         (void) new QListViewItem( lv_siteUABindings, domain.lower(), userAgent, comment );
       }
   }
 
