@@ -318,7 +318,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                             url.path(1) == KGlobalSettings::trashPath() &&
                             currentDir) ||
                           ( m_lstItems.count() == 1 && bTrashIncluded );
-    bool isIntoTrash = url.path(1).startsWith(KGlobalSettings::trashPath());
+    bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
     clear();
 
     //////////////////////////////////////////////////////////////////////////
