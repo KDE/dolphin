@@ -3290,6 +3290,8 @@ void KonqMainWindow::updateViewActions()
     m_paBreakOffTab->setEnabled( false );
     m_paActivateNextTab->setEnabled( false );
     m_paActivatePrevTab->setEnabled( false );
+    m_paMoveTabLeft->setEnabled( false );
+    m_paMoveTabRight->setEnabled( false );
   }
   else
   {
@@ -3303,6 +3305,8 @@ void KonqMainWindow::updateViewActions()
         m_paBreakOffTab->setEnabled( state );
         m_paActivateNextTab->setEnabled( state );
         m_paActivatePrevTab->setEnabled( state );
+        m_paMoveTabLeft->setEnabled( state );
+        m_paMoveTabRight->setEnabled( state );
     }
     else
     {
@@ -3310,6 +3314,9 @@ void KonqMainWindow::updateViewActions()
       m_paBreakOffTab->setEnabled( false );
       m_paActivateNextTab->setEnabled( false );
       m_paActivatePrevTab->setEnabled( false );
+      m_paMoveTabLeft->setEnabled( false );
+      m_paMoveTabRight->setEnabled( false );
+
     }
   }
 
@@ -4186,7 +4193,7 @@ void KonqMainWindow::slotOpenURL( const KURL& url )
 {
     openURL( 0L, url );
 }
- 
+
 void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
 {
     if (url.url().isEmpty() && name.isEmpty())
@@ -4200,7 +4207,7 @@ void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
         return;
     }
 
-    int rc = KMessageBox::questionYesNo(0L, 
+    int rc = KMessageBox::questionYesNo(0L,
               i18n("Add new web extension \"%1\" to your sidebar?")
                                 .arg(name.isEmpty() ? name : url.prettyURL()),
               i18n("Web Sidebar"));

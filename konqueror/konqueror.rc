@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="44">
+<gui name="Konqueror" version="45">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -95,6 +95,9 @@
   <Action name="duplicatecurrenttab"/>
   <Action name="breakoffcurrenttab"/>
   <Action name="removecurrenttab"/>
+  <Separator/>
+  <Action name="tab_move_left"/>
+  <Action name="tab_move_right"/>
   <Separator/>
   <ActionList name="toggleview" />
   <Separator/>
