@@ -41,5 +41,5 @@ include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	kbookmarkbar.h
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po $(podir)/libkonq.pot
+	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
 

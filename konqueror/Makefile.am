@@ -47,7 +47,7 @@ konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
 messages:
 	$(EXTRACTRC) *.rc */*.rc > partrc.cc
-	$(XGETTEXT) -C -kaliasLocal -ki18n -x $(includedir)/kde.pot \
+	$(XGETTEXT) -kaliasLocal \
   -o $(podir)/konqueror.pot *.h *.cc *view/*h *view/*cc partrc.cc
 	rm partrc.cc
 

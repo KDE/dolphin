@@ -12,5 +12,5 @@ KonquerorIface_DIR =  $(srcdir)/..
 KDesktopIface_DIR = $(top_srcdir)/kdesktop
 
 messages:
-	$(XGETTEXT) -C -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po $(podir)/kfmclient.pot 
+	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot 
 

@@ -17,7 +17,7 @@ libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 EXTRA_DIST = $(libkcm_konq_la_DATA)
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(libkcm_konq_la_SOURCES) && mv messages.po $(podir)/kcmkonq.pot
+	$(XGETTEXT) $(libkcm_konq_la_SOURCES) -o $(podir)/kcmkonq.pot
 
 
 check_PROGRAMS = test
