@@ -283,6 +283,7 @@ protected slots:
     void slotStartSoundPreview();
     void slotPreview(const KFileItem *, const QPixmap &);
     void slotPreviewResult();
+    void slotStartTooltip();
 
     void slotMovieUpdate( const QRect& rect );
     void slotMovieStatus( int status );
