@@ -17,7 +17,6 @@
 */
 
 #include "toplevel.h"
-#include "kbookmarklistener.h"
 #include "commands.h"
 #include <kaction.h>
 #include <kbookmarkdrag.h>

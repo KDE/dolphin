@@ -21,13 +21,9 @@
 
 #include "konq_run.h"
 #include "konq_view.h"
-#include <kfiledialog.h>
 #include <kuserprofile.h>
-#include <kio/job.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kstringhandler.h>
-#include <ktempfile.h>
 
 #include <assert.h>
 #include <iostream.h>

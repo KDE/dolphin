@@ -1,7 +1,7 @@
 #ifndef __konq_main_h
 #define __konq_main_h
 
-#include <kapp.h>
+#include <kapplication.h>
 
 // This is used to know if we are being closed by session management
 // or by the user. See KonqMainWindow::~KonqMainWindow.

@@ -20,7 +20,7 @@
 #ifndef __kfmclient_h
 #define __kfmclient_h
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <krun.h>
 
 class clientApp : public KApplication

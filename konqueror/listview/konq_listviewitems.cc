@@ -21,7 +21,6 @@
 #include <konq_settings.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kfileitem.h>
 #include <assert.h>
 #include <stdio.h>
 #include <qpainter.h>

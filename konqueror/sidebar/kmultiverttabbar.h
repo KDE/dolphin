@@ -3,11 +3,10 @@
 
 #include <qscrollview.h>
 #include <qvbox.h>
-#include <qlist.h>
 #include <qlayout.h>
 #include <qstring.h>
-#include <qpushbutton.h>
 #include <qptrlist.h>
+#include <qpushbutton.h>
 
 class QPixmap;
 class QPainter;

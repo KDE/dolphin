@@ -32,7 +32,6 @@
 
 #include <konq_faviconmgr.h>
 
-#include "history_dlg.h"
 #include "history_module.h"
 #include "history_settings.h"
 #include <kiconloader.h>

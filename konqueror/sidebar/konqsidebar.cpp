@@ -15,11 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #include "konqsidebar.h"
-#include "sidebar_widget.h"
 
-#include <kfiledialog.h>
 #include <kdebug.h>
-#include <qtimer.h>
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent, const char *name )

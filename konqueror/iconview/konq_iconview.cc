@@ -39,7 +39,6 @@
 #include <ktrader.h>
 #include <klocale.h>
 
-#include <qregexp.h>
 
 #include <config.h>
 

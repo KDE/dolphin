@@ -35,7 +35,6 @@
 #include "konq_view.h"
 #include <kiconloader.h>
 #include <kpopupmenu.h>
-#include <qtoolbutton.h> // HistoryEntry
 
 template class QPtrList<KonqHistoryEntry>;
 

@@ -33,7 +33,6 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qheader.h>
-#include <qregexp.h>
 
 #include <assert.h>
 #include <string.h>

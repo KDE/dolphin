@@ -23,16 +23,13 @@
 #include "sidebar_widget.moc"
 #include <limits.h>
 #include "konqsidebar.h"
-#include <ktoolbarbutton.h>
 #include <kicondialog.h>
 #include <qtimer.h>
 #include <kmessagebox.h>
 #include <klineeditdlg.h>
 #include <qdir.h>
-#include <qdockarea.h>
 #include <config.h>
 #include <qpopupmenu.h>
-#include <qsplitter.h>
 
 QString  Sidebar_Widget::PATH=QString("");
 

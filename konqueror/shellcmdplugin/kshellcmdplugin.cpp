@@ -20,7 +20,6 @@
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <konq_dirpart.h>
-#include <klocale.h>
 #include <kprocess.h>
 #include "kshellcmddialog.h"
 #include <kgenericfactory.h>

@@ -22,7 +22,6 @@
 #include <konq_operations.h>
 #include <konq_drag.h>
 #include <kdebug.h>
-#include <kfileitem.h>
 #include <kglobalsettings.h>
 #include <kuserprofile.h>
 #include <qapplication.h>
