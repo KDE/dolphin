@@ -190,7 +190,8 @@ void KonqMainView::init()
     m_vStatusBar = statusBarManager->registerClient( id() );
 
   CORBA::WString_var item = Q2C( i18n("Konqueror :-)") );
-  m_vStatusBar->insertItem( item, 1 );
+  if ( !CORBA::is_nil( m_vStatusBar ) )
+    m_vStatusBar->insertItem( item, 1 );
 
   initGui();
 
@@ -508,7 +509,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vToolBar->setFullWidth( true ); // was false (why?). Changed by David so
                                     // that alignItemRight works
-
+				    
   CORBA::WString_var toolTip;
   
   toolTip = Q2C( i18n("Up") );
@@ -1681,6 +1682,9 @@ void KonqMainView::slotShowMenubar()
 
 void KonqMainView::slotShowStatusbar()
 {
+  if ( CORBA::is_nil( m_vStatusBar ) )
+    return;
+
   m_vStatusBar->enable( OpenPartsUI::Toggle );
   m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, m_vStatusBar->isVisible() );
 }

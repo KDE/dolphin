@@ -287,27 +287,26 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 
   if ( url.isMalformed() )
   {
-    CORBA::WString_var wurl = Q2C( url.url() );
+    CORBA::WString_var wurl = Q2C( _url );
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
     return;
   }
 
-  QString decodedPath( url.path() );
-  QString decodedName( url.filename( true ) );
-	
-  struct stat buff;
-  stat( decodedPath, &buff );
-
-  struct stat lbuff;
-  lstat( decodedPath, &lbuff );
-  QString text;
-  QString text2;
-  text = decodedName.copy(); // copy to change it
-  text2 = text;
-  //text2.detach();
-	
   if ( url.isLocalFile() )
   {
+    QString decodedPath( url.path() );
+    QString decodedName( url.filename( true ) );
+	
+    struct stat buff;
+    stat( decodedPath, &buff );
+
+    struct stat lbuff;
+    lstat( decodedPath, &lbuff );
+    QString text;
+    QString text2;
+    text = decodedName.copy(); // copy to change it
+    text2 = text;
+
     if (S_ISLNK( lbuff.st_mode ) )
     {
       QString tmp;
