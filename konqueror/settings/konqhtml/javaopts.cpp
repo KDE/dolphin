@@ -123,7 +123,6 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                  pathHB );
     pathED = new  KURLRequester( pathHB );
     connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
-    pathED->fileDialog()->setMode(KFile::Directory);
     pathLA->setBuddy( pathED );
 
     QHBox* addArgHB = new QHBox( javartGB );
