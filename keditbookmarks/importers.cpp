@@ -45,30 +45,6 @@ QString ImportCommand::folder() const {
    return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString::null;
 }
 
-QString OperaImportCommand::visibleName() const {
-   return i18n("Opera");
-}
-
-QString IEImportCommand::visibleName() const {
-   return i18n("IE");
-}
-
-QString MozImportCommand::visibleName() const {
-   return i18n("Mozilla");
-}
-
-QString NSImportCommand::visibleName() const {
-   return i18n("Netscape");
-}
-
-QString GaleonImportCommand::visibleName() const {
-   return i18n("Galeon");
-}
-
-QString KDE2ImportCommand::visibleName() const {
-   return i18n("KDE");
-}
-
 void ImportCommand::execute() {
    KBookmarkGroup bkGroup;
 
@@ -321,7 +297,7 @@ ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) 
       return 0;
    }
 
-   importer->init3(mydirname, (ret == 2));
+   importer->import(mydirname, (ret == 2));
    return importer;
 }
 
