@@ -82,13 +82,13 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     " are doing!") );
 
   row++;
-  topLevelBox = new QCheckBox(i18n("Enable Desktop &Menubar"), this);
-  lay->addMultiCellWidget(topLevelBox, row, row, 0, 1);
-  connect(topLevelBox, SIGNAL(clicked()), this, SLOT(changed()));
-  QWhatsThis::add( topLevelBox, i18n("Check this option if you want a menubar"
-    " for the desktop, that appears on the top of the screen in the style"
-    " of Macintosh. This setting is independent of the global top-level"
-    " menu setting that applies to all KDE applications.") );
+  menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
+  lay->addMultiCellWidget(menuBarBox, row, row, 0, 1);
+  connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
+    " desktop popup menus to appear on the top of the screen in the style"
+    " of Macintosh.  This setting is independent of the global top-level"
+    " menu setting that applys to KDE applications.") );
 
   row++;
   QFrame * hLine2 = new QFrame(this);
@@ -223,17 +223,15 @@ void KRootOptions::load()
     VertAlignBox->setChecked(bVertAlign);
     //
     g_pConfig->setGroup( "Menubar" );
-    bool bTopLevel = g_pConfig->readBoolEntry("TopLevel", true);
-    topLevelBox->setChecked(bTopLevel);
+    bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", true);
+    menuBarBox->setChecked(bMenuBar);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
-    /*
-    s = g_pConfig->readEntry( "Left", "None" );
+    s = g_pConfig->readEntry( "Left", "" );
     for ( int c = 0 ; c < 4 ; c ++ )
-      if (s == s_choices[c])
-      { leftComboBox->setCurrentItem( c ); break; }
-    */
+	if (s == s_choices[c])
+	  { leftComboBox->setCurrentItem( c ); break; }
     s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
@@ -253,7 +251,7 @@ void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
-    topLevelBox->setChecked(true);
+    menuBarBox->setChecked(true);
     //leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
@@ -270,9 +268,9 @@ void KRootOptions::save()
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
     g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
     g_pConfig->setGroup( "Menubar" );
-    g_pConfig->writeEntry("TopLevel",topLevelBox->isChecked());
+    g_pConfig->writeEntry("ShowMenubar", menuBarBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
-    g_pConfig->writeEntry("Left", "" /* s_choices[ leftComboBox->currentItem() ]*/);
+    g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentItem() ] );
     g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
     g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
 

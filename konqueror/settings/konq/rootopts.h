@@ -50,7 +50,7 @@ private:
         // Checkboxes
         QCheckBox *showHiddenBox;
         QCheckBox *VertAlignBox;
-        QCheckBox *topLevelBox;
+        QCheckBox *menuBarBox;
 
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
