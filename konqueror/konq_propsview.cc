@@ -57,6 +57,23 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
 }
 
 KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
+unsigned long int KonqPropsView::s_ulRefCnt = 0;
+
+void KonqPropsView::incRef()
+{
+  s_ulRefCnt++; 
+} 
+
+void KonqPropsView::decRef()
+{
+  s_ulRefCnt--;
+  
+  if ( s_ulRefCnt == 0 && m_pDefaultProps )
+  {
+    delete m_pDefaultProps;
+    m_pDefaultProps = 0;
+  }
+} 
 
 // static
 KonqPropsView * KonqPropsView::defaultProps( KInstance *instance )

@@ -142,6 +142,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     setXMLFile( "konq_iconview.rc" );
 
+    KonqPropsView::incRef();
+    
     // Create a properties instance for this view
     // (copying the default values)
     m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqIconViewFactory::instance() ) );
@@ -329,6 +331,7 @@ KonqKfmIconView::~KonqKfmIconView()
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
+    KonqPropsView::decRef();
 }
 
 void KonqKfmIconView::slotImagePreview( bool toggle )

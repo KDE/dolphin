@@ -65,6 +65,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    m_bTopLevelComplete  = true;
 
+   KonqPropsView::incRef();
    // Create a properties instance for this view
    // (copying the default values)
    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqListViewFactory::instance() ) );
@@ -105,6 +106,8 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
   iterator it = begin();
   for( ; it != end(); ++it )
     it->prepareToDie();
+  
+  KonqPropsView::decRef();
 }
 
 void KonqBaseListViewWidget::stop()

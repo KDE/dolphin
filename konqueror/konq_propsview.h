@@ -47,6 +47,8 @@ class KonqPropsView
 
   // This is not a QObject because we need a copy constructor.
 public:
+  static void incRef();
+  static void decRef();
 
   /**
    * The static instance of KonqPropsView, holding the default values
@@ -122,6 +124,8 @@ private:
 
   /** There is no default constructor. Use the provided one or copy constructor */
   KonqPropsView();
+
+  static unsigned long s_ulRefCnt;
 };
 
 
