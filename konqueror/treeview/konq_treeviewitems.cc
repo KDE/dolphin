@@ -85,6 +85,8 @@ QString KonqTreeViewItem::text( int _column ) const
     return makeTypeString( atom );
   else if ( ( uds & KIO::UDS_TIME ) == KIO::UDS_TIME )
     return makeTimeString( atom );
+  else if ( uds & KIO::UDS_NAME )
+    return m_fileitem->text();
   else if ( uds & KIO::UDS_STRING )
     return atom.m_str;
   else if ( uds & KIO::UDS_LONG )
