@@ -44,6 +44,8 @@ class KNewMenu;
 class KService;
 class KonqPopupMenuPlugin;
 class KBookmarkManager;
+
+// TODO KDE4: change base class to KPopupMenu, see KAction::slotPopupActivated()
 /**
  * This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
