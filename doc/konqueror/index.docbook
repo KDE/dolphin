@@ -50,11 +50,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>02/01/2001</date>
-<releaseinfo>2.0.6</releaseinfo>
+<date>27/01/2001</date>
+<releaseinfo>2.1.0</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
-Document Viewer.</para></abstract>
+Document Viewer.</para>
+<para>This document describes &konqueror; version 2.1</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -66,32 +67,6 @@ Document Viewer.</para></abstract>
 </keywordset>
 
 </bookinfo>
-
-<chapter id="introduction">
-<title>Introduction</title>
-
-<para>&konqueror; is &kde;'s advanced File Manager, Web Browser and Document
-Viewer.</para>
-
-<para>This document describes &konqueror; version 1.9.8 (Using &kde; 2.1 post Beta
-1)</para>
-
-<sect1 id="konqueror-revhistory">
-<title>&konqueror; Revision History</title>
-
-<para>Changes from KDE 2.0 to KDE 2.1</para>
-<itemizedlist>
-<listitem><para>Improved name completion.</para></listitem>
-<listitem><para>In place renaming of files.</para></listitem>
-<listitem><para>Preview mode now supports <acronym>HTML</acronym> and text files
-as well as images.</para></listitem>
-<listitem><para>New bookmark editor.</para></listitem>
-<listitem><para>Improved window profile management.</para></listitem>
-<listitem><para>Many other small improvements.</para></listitem>
-</itemizedlist>
-
-</sect1>
-</chapter>
 
 <chapter id="basics">
 <title>&konqueror; Basics</title>
@@ -133,9 +108,10 @@ browser.</para></listitem>
 
 </itemizedlist>
 
-<para>&konqueror; is also started automatically when you &LMB; click on a
-desktop icon that represents a directory, such as the <guiicon>Trash</guiicon>
-icon, or a <acronym>URL</acronym>.</para>
+<para>&konqueror; is also started automatically when you 
+<mousebutton>left</mousebutton> click on a desktop icon that represents a 
+directory, such as the <guiicon>Trash</guiicon> icon, or a 
+<acronym>URL</acronym>.</para>
 
 <caution><para>If you are used to having to double-click to perform an action,
 then take care, because in common with the rest of &kde;, &konqueror; defaults
@@ -161,18 +137,19 @@ applications. <mousebutton>Right</mousebutton> click on the central portion to
 bring up the neat Titlebar menu.</para>
 
 <para>The <interface>Menubar</interface> is the strip containing the names of
-the drop-down menus, &LMB; click on a name to alternately show and hide that
-menu, or you can use <keycombo action="simul"><keycap>Alt</keycap><keycap>the
-underlined letter</keycap></keycombo> in the name as a hot key, for example
-<keycombo action="simul"><keycap>Alt</keycap><keycap>E</keycap></keycombo> to show the
-<guimenu>Edit</guimenu> menu. The various menus are described in the <link
+the drop-down menus, <mousebutton>left</mousebutton> click on a name to 
+alternately show and hide that menu, or you can use <keycombo 
+action="simul"><keycap>Alt</keycap><keycap>the underlined 
+letter</keycap></keycombo> in the name as a hot key, for example <keycombo 
+action="simul"><keycap>Alt</keycap><keycap>E</keycap></keycombo> to show the 
+<guimenu>Edit</guimenu> menu. The various menus are described in the <link 
 linkend="menubar">Menubar</link> section of this document.</para>
 
 <para><interface>The Toolbar</interface> contains icons for commonly used
 operations. Hover the mouse pointer over an icon to see a brief description of
-what that icon does, &LMB; click to activate the icon. Click the
-<mousebutton>Right </mousebutton> mouse button on a clear area of the Toolbar to
-change the appearance and position of the Toolbar.</para>
+what that icon does, <mousebutton>left</mousebutton> click to activate the icon. 
+Click the <mousebutton>right</mousebutton> mouse button on a clear area of the 
+Toolbar to change the appearance and position of the Toolbar.</para>
 
 <para><interface>The Locationbar</interface> shows the path to the directory,
 <acronym>URL</acronym> or file being viewed. You can type a path or
@@ -250,7 +227,7 @@ Most of the dialog boxes that &konqueror; brings up support the
 <title><mousebutton>Left</mousebutton> and <mousebutton>Middle</mousebutton>
 Mouse Button Actions</title>
 
-<para>If you &LMB; click on an item in &konqueror;'s window it will be
+<para>If you click the &LMB; on an item in &konqueror;'s window it will be
 <quote>activated</quote>. Thus</para>
 
 <itemizedlist>
@@ -277,8 +254,7 @@ it).</para>
 extension against against a list of known types. If that fails it tries to guess
 the type from the file contents. You can change the list of known file types and
 associated actions and add new types, see the section <link
-linkend="file-associations">File Types and
-Associations</link>.</para></listitem>
+linkend="file-associations">File Associations</link>.</para></listitem>
 
 </itemizedlist>
 
@@ -345,8 +321,8 @@ clicking on the name or icon of any file or directory not only
 <quote>selects</quote> that item but also brings up a menu allowing you to
 <guiicon>Cut</guiicon>, <guiicon>Copy</guiicon> or Remove the item in various
 ways, add it to your <guimenu>Bookmarks</guimenu>, open it with the program of
-your choice or preview it, or edit the file type or properties.</para></listitem>
-</varlistentry>
+your choice or preview it, rename it, or edit the file type or 
+properties.</para></listitem> </varlistentry>
 
 <varlistentry>
 <term>On the Status Bar</term>
@@ -438,7 +414,7 @@ Arrow</keysym></keycombo>.</para>
 action="simul"><keycap>Alt</keycap><keysym>Right
 Arrow</keysym></keycombo>.</para>
 
-<Tip><para>Holding the &LMB; mouse button pressed while the mouse pointer is
+<Tip><para>Holding the &LMB; pressed while the mouse pointer is
 over the Toolbar <guiicon>Up</guiicon>, <guiicon>Back</guiicon> or
 <guiicon>Forward</guiicon> buttons brings up a menu of recently visited
 locations.</para></Tip>
@@ -487,35 +463,36 @@ keys to select it then press <keycap>Enter</keycap>.</para></listitem>
 <term>Automatic</term>
 <listitem><para>As you type into the Locationbar window &konqueror; will
 automatically extend what you type by highlighting one possible
-completion. Continue typing until the file or directory name you want is fully
-shown then press <keycap>Enter</keycap>.</para></listitem>
-</varlistentry>
+completion or partial completion. Continue typing if that's not what you 
+wanted or press <keycombo 
+action="simul"><keycap>Ctrl</keycap><keycap>E</keycap></keycombo> to accept 
+the highlighted portion. When the file or directory name you want is fully shown 
+then press <keycap>Enter</keycap>.</para></listitem> </varlistentry>
 
 <varlistentry>
 <term>Semi-Automatic</term>
-<listitem><para>This is like the Automatic mode except that you have to use
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>E</keycap></keycombo> to get a
-highlighted extension. </para></listitem> 
-</varlistentry>
+<listitem><para>This is like the Automatic mode except that it 
+restricts itself to more sensible suggestions.</para></listitem> </varlistentry>
 
 </variablelist>
 </sect2>
 
-<sect2 id="dirtreevu">
-<title>The Directory Tree View</title>
+<sect2 id="sidebar">
+<title>The Sidebar</title>
 <mediaobject>
 <imageobject><imagedata format="PNG" fileref="dirtree.png"></imageobject>
 <textobject>
-<phrase>The Directory Tree View</phrase>  
+<phrase>With the Sidebar</phrase>  
 </textobject>
 </mediaobject>
 
-<para>If you want a better view of the directory structure, then the Menubar
-<menuchoice><guimenu>Window</guimenu><guimenuitem>Show Directory
-Tree</guimenuitem></menuchoice> option splits the window into two views as shown
-above.</para>
+<para>If you want a better view of the directory structure, or easy access 
+to your Bookmarks, History and Network, then the  
+<menuchoice><guimenu>Window</guimenu><guimenuitem>Show 
+Sidebar</guimenuitem></menuchoice> option splits the window into two views as 
+shown above.</para>
 
-<para>The left hand (Directory Tree) view contains five trees, labelled
+<para>The left, Sidebar, view contains five trees, labelled
 <guilabel> Bookmarks</guilabel>, <guilabel>History</guilabel>, <guilabel>Home
 Directory </guilabel>, <guilabel>Network</guilabel> and <guilabel>Root
 Directory</guilabel>.  The right hand view shows the selected directory or web
@@ -531,11 +508,10 @@ than one using icons.
 at the bottom right of each view. <mousebutton>Left</mousebutton> clicking on
 the box toggles an almost invisibly small icon on and off. Views showing this
 icon are linked so that a change of directory in one view makes the other view
-change to the new directory. In this way selecting any item in the
-Directory Tree view will automatically show its contents in the other view.</para>
+change to the new directory. In this way selecting any item in the Sidebar view 
+will automatically show its contents in the other view.</para>
 
-<para>To navigate through the items in the Directory Tree view using your
- mouse;</para>
+<para>To navigate through the items in the Sidebar using your mouse;</para>
 
 <itemizedlist>
 <listitem><para><mousebutton>Left</mousebutton> click on a
@@ -546,8 +522,8 @@ symbol.</para></listitem>
 icon to open it in the other window. </para></listitem>
 </itemizedlist>
 
-<para>Or, once you have selected an item in the Directory Tree view, you can
-navigate from the keyboard;</para>
+<para>Or, once you have selected an item in the Sidebar, you can navigate from 
+the keyboard;</para>
 
 <itemizedlist>
 <listitem><para>Use the <keysym>Up</keysym> and <keysym>Down Arrow</keysym> keys
@@ -560,15 +536,15 @@ sub-directory.</para></listitem>
 <keycap>Enter</keycap> will open it in the other view.</para></listitem>
 </itemizedlist>
 
-<para>The <guilabel>Bookmarks</guilabel> tree in the Directory Tree view
-contains your bookmarks, just as displayed by the Bookmarks menu.</para>
+<para>The <guilabel>Bookmarks</guilabel> tree in the Sidebar contains your 
+bookmarks, just as displayed by the Bookmarks menu.</para>
 
 <para>The <guilabel>History</guilabel> tree contains <acronym>URL</acronym>s for
 the most recently visited web sites.</para>
 
-<para>The <guilabel>Home Directory</guilabel> shown in the Directory Tree view
-is actually your personal home directory, which will have a path such as
-<filename class="directory">/home/pam2</filename> if your username is
+<para>The <guilabel>Home Directory</guilabel> shown in the Sidebar is actually 
+your personal home directory, which will have a path such as <filename 
+class="directory">/home/pam2</filename> if your username is 
 <quote>pam2</quote>.</para>
 
 <para>The <guilabel>Root Directory</guilabel> tree has the path <filename
@@ -587,11 +563,11 @@ you can reach over your network (if you are connected to one).</para>
 <title>Finding Files and Directories</title>
 
 <para>If you don't know or can't remember where a file or directory is within
-your system, then use the Toolbar <guiicon>Find File</guiicon> button or the
-Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Find
-File</guimenuitem></menuchoice> option.  This will embed the file finder
-application &kfind; into &konqueror;'s window. See the <quote>Finding Your Lost
-Files</quote> section of the &kde; User's manual for more details about &kfind;.
+your system, then use the Toolbar <guiicon>Find file</guiicon> button or the
+Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Find 
+file</guimenuitem></menuchoice> option.  This will embed the file finder 
+application &kfind; into &konqueror;'s window. See the <quote>Finding Your Lost 
+Files</quote> section of the &kde; User's manual for more details about &kfind;. 
 </para>
 
 <note><para>If the name of a file or directory begins with a period (dot), then
@@ -756,18 +732,18 @@ linkend="super-user">Super User Mode</link> for further details.</para></note>
 <para>&konqueror; also supports Drag and Drop copying and moving of files and
 directories.</para>
 
-<para>If you have set up &konqueror; to show the Directory Tree View as
-described in a previous section, then:</para>
+<para>If you have set up &konqueror; to show the Sidebar as described in a 
+previous section, then:</para>
 
 <procedure>
 <step><para>Make sure the two views are not linked (the small boxes at the
 bottom right of each view should be empty, &LMB; click on one of them if they
 not empty).</para></step>
-<step><para>Navigate through the Directory Tree View so that you can see the
+<step><para>Navigate through the Sidebar View so that you can see the
 directory you want to copy or move into.</para></step>
 <step><para>Set the main view to show the item you wish to copy or move. Position the
 mouse pointer over its name or icon then, holding the &LMB;
-pressed, <quote>drag</quote> it over to the Directory Tree view and position the
+pressed, <quote>drag</quote> it over to the Sidebar view and position the
 mouse pointer over the target directory. Release the button and you will be
 presented with a menu choice of <guimenuitem>Copy</guimenuitem> or
 <guimenuitem>Move</guimenuitem>.</para></step> 
@@ -1004,13 +980,15 @@ role="extension">.kil</literal>.</para></listitem>
 <sect1 id="newname">
 <title>Changing Name and Permissions</title>
 
-<para>The easiest way to change the name of a file or directory is to &RMB;
-click on it and select <guimenuitem>Rename</guimenuitem>.</para>
+<para>The easiest way to change the name of a file or directory is to 
+<mousebutton>right</mousebutton> click on it and select 
+<guimenuitem>Rename</guimenuitem>.</para>
 
-<para>Or, to change the name or permissions of a file or directory &RMB; click
-on its name or icon and select the <guimenuitem>Properties...</guimenuitem>
-item. Or, if you have <quote>selected</quote> the file or directory, then you
-can use the Menubar <menuchoice><guimenu>Edit</guimenu>
+<para>Or, to change the name or permissions of a file or directory 
+<mousebutton>right</mousebutton> click on its name or icon and select the 
+<guimenuitem>Properties...</guimenuitem> item. Or, if you have 
+<quote>selected</quote> the file or directory, then you can use the Menubar 
+<menuchoice><guimenu>Edit</guimenu> 
 <guimenuitem>Properties</guimenuitem></menuchoice> option.</para>
 
 <para>This will bring up the Properties dialog box which has two tabs:</para>
@@ -1102,7 +1080,7 @@ resources:</para>
 
 <orderedlist>
 
-<listitem><para>Check <guimenuitem>Show Directory Tree</guimenuitem> in the
+<listitem><para>Check <guimenuitem>Show Sidebar</guimenuitem> in the
 <guimenu>Window</guimenu> menu, then browse the
 <menuchoice><guimenuitem>Network</guimenuitem> <guimenuitem>Windows
 Shares</guimenuitem></menuchoice>" item.</para></listitem>
@@ -1116,32 +1094,7 @@ Shares</guimenuitem></menuchoice>" item.</para></listitem>
 a group of machines. Belonging to one Workgroup or another does not affect the
 rights system.</para></note>
 
-<mediaobject>
-<imageobject><imagedata format="PNG" fileref="samba.png"></imageobject>
-<textobject>
-<phrase>Browsing my mother's machine</phrase>
-</textobject>
-</mediaobject>
-
-<para>In the screenshot above, <systemitem
-class="systemname">Urizen</systemitem> is my own Linux box and <systemitem
-class="systemname">Luvah</systemitem> is my mother's &Windows;
-<acronym>PC</acronym>. Both belong to the <systemitem><!-- on move to 4.1 add
---> <!-- class="groupname" -->Farmer</systemitem> workgroup. On the <systemitem>
-<!-- on move to 4.1 add class="systemname" -->Luvah</systemitem> system, there
-are two shared folders:</para>
-
-<orderedlist>
-<listitem><para>FRANCOISE: This folder contains my mother's work files. It is
-shared as <emphasis>read only</emphasis>, that means that nobody can create,
-modify or delete files from a distant machine.</para></listitem>
-<listitem><para>PUBLIC: In this folder, shared as <emphasis>read &
-write</emphasis>, everyone on the local network is allowed to create or modify
-files. That folder is used to give files easily to <systemitem
-class="systemname">Luvah</systemitem>'s user.</para></listitem>
-</orderedlist>
-
-<note><para>&kde; itself does not provide a <application>SMB</application>
+<para>&kde; itself does not provide a <application>SMB</application>
 server.  If you want to share your own files with Windows users, you must
 install a <application>Samba</application> server. This requires Super-User
 rights and a few <quote>command line Linux</quote> operations.</para>
@@ -1149,7 +1102,7 @@ rights and a few <quote>command line Linux</quote> operations.</para>
 <para><application>Samba</application> may be provided with your Linux
 distribution, otherwise see <ulink
 url="http://www.samba.org">http://www.samba.org</ulink> for download and
-installation instructions.</para></note>
+installation instructions.</para>
 
 </sect1>
 
@@ -1158,15 +1111,21 @@ installation instructions.</para></note>
 <chapter id="browser">
 <title>&konqueror; the Web Browser</title>
 
+<note><para>When you start &konqueror as a browser for the first 
+time it should display an introduction to &konqueror's main features. If you 
+forgot to add this introduction to your Bookmarks you can always view it by 
+entering <userinput>about:konqueror</userinput> in the 
+Locationbar.</para></note>
+
+<sect1 id="conn-inet">
+<title>Connecting to the Internet</title>
+
 <mediaobject>
 <imageobject><imagedata format="PNG" fileref="konqorg.png"></imageobject>
 <textobject>
 <phrase>Browsing www.konqueror.org</phrase>
 </textobject>
 </mediaobject>
-
-<sect1 id="conn-inet">
-<title>Connecting to the Internet</title>
 
 <para>Once you are connected to the Internet you can use &konqueror; to browse
 the Web just as easily as you can use it to handle your local files. Just type a
@@ -1387,9 +1346,13 @@ bookmarks, or even other folders.</para>
 <listitem><para>If you are also using &Netscape;, then a &Netscape; Bookmarks
 folder will automatically be added to &konqueror;'s bookmark list so you can use
 your current &Netscape; bookmarks in &konqueror;.  </para></listitem>
-<listitem><para>The folder called <quote>Toobar</quote> contains items which are
-shown in the Bookmark Toolbar.</para></listitem> 
-</itemizedlist>
+<listitem><para>Items in you Bookmark Toolbar will usually appear in a folder 
+called <quote>Toolbar</quote> although this can be changed 
+with the <guilabel>Bookmark Editor</guilabel>.</para></listitem> 
+<listitem><para>To add a bookmark into a sub-folder rather than into the main 
+Bookmark list, select that folder from the <guimenu>Bookmarks</guimenu> menu and 
+use the <guimenuitem>Add Bookmark</guimenuitem> item in that 
+folder.</para></listitem></itemizedlist>
 
 <para>If you have a dual-boot &Linux;/&Windows; system, then
 <application>Internet Explorer</application>'s
@@ -1436,9 +1399,24 @@ selecting <guimenuitem>Rename</guimenuitem>.</para></listitem>
 <mousebutton>left</mousebutton> clicking twice on the
 <acronym>URL</acronym>.</para></listitem>
 
+<listitem><para>Change the folder used to hold the Bookmark Toolbar 
+items by selecting that folder then <mousebutton>left</mousebutton> click on the 
+<guimenuitem>Set As Toolbar Folder</guimenuitem> in the 
+<guimenu>Settings</guimenu> menu.</para></listitem> 
+
+<listitem><para>Convert to or from &Netscape; and 
+Mozilla bookmarks.</para></listitem> 
+
 </itemizedlist>
 
-</sect1>
+<note><para>If you can't get the Bookmark Toolbar to appear when 
+you check the <guimenuitem>Show Bookmark Toolbar</guimenuitem> box in 
+&konqueror;'s <guimenu>Settings</guimenu> menu then select a suitable folder in 
+the <guilabel>Bookmark Editor</guilabel> and <mousebutton>left</mousebutton> 
+click on the <guimenuitem>Set As Toolbar Folder</guimenuitem> in the 
+<guimenu>Settings</guimenu> menu.</para></note>
+
+</sect1> 
 </chapter>
 
 <chapter id="save-settings">
@@ -1472,20 +1450,22 @@ Toolbar are also saved as defaults.</para>
 <para>&konqueror;'s overall appearance when you start it up is determined by one
 of two profiles, depending on whether you start it as a File Manager or as a
 Browser. These control the window size, whether the window is split into two or
-more views, whether the Directory Tree or Terminal Emulator are shown, and the
+more views, whether the Sidebar or Terminal Emulator are shown, and the
 starting directory or <acronym>URL</acronym>.</para>
 
 <para>To change this start up behaviour, simply set &konqueror; to whatever you
-want then in the <guimenu>Window</guimenu> menu select <guimenuitem>Save View
+want, then in the <guimenu>Window</guimenu> menu select <guimenuitem>Save View
 Profile File Management</guimenuitem> or <guimenuitem>Save View Profile Web
-Browsing</guimenuitem> depending on which mode you are in.</para>
-    
-<para>You can also create extra start up profiles and save them with the
-<menuchoice><guimenu>Window </guimenu><guimenuitem>Configure View
-Profiles...</guimenuitem></menuchoice> option. You can then select them from the
-<menuchoice><guimenu>Window</guimenu><guimenuitem>Load View
-Profile</guimenuitem> </menuchoice> drop down menu.
-</para>
+Browsing</guimenuitem> depending on which mode you are in. If you want 
+&konqueror; to start up with an empty window enter 
+<userinput>about:blank</userinput> into the location bar before saving 
+the profile.</para>     
+
+<para>You can also create extra start up profiles and 
+save them with the <menuchoice><guimenu>Window </guimenu><guimenuitem>Configure 
+View Profiles...</guimenuitem></menuchoice> option. You can then select them 
+from the <menuchoice><guimenu>Window</guimenu><guimenuitem>Load View 
+Profile</guimenuitem> </menuchoice> drop down menu. </para>
     
 <note><para> You can create a desktop icon to start &konqueror with your new
 profile. First create a desktop icon by dragging the &konqueror; icon from the
@@ -1499,6 +1479,21 @@ Name</guilabel> in the <guilabel>Execute</guilabel> tab page to
 profile. Then in the <guilabel>General</guilabel> tab page change the name to
 something like <filename>MyNewProfile.desktop</filename> and pick a more
 suitable icon.</para></note>
+
+</chapter>
+
+<chapter id="man-info">
+<title>Viewing Man and Info Pages</title>
+<para>
+If you want to read &UNIX; Man pages &konqueror; makes it easy, for 
+example type <userinput>man:touch</userinput> or 
+<userinput>#touch</userinput> into the locationbar to see the page for 
+the touch command.</para> 
+
+<para>And it makes browsing through Info pages an almost pleasant experience. 
+<userinput>info:/dir</userinput> takes you to Info's top level directory 
+then it's just a matter of clicking on the right links to find the page 
+you want.</para> 
 
 </chapter>
 
@@ -1516,58 +1511,46 @@ wishes.</para>
 Toolbar, a Locationbar and possibly a Bookmark Toolbar.</para>
 
 <itemizedlist>
-<listitem><para>Maybe you don't need all these bars. To hide one of them, go in
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
-whateveryouwant</guimenuitem></menuchoice> and uncheck its box. To show a hidden
+<listitem><para>Maybe you don't need all these bars. To hide one of them, go 
+into the <guimenu>Settings</guimenu> menu and uncheck its box. To show a hidden
 bar, just check the box.</para></listitem> 
 <listitem><para>On the left hand end of each bar you can see some vertical
 lines. By &LMB; clicking on them, you <quote>flatten</quote> the bar, meaning
 that it is hidden but can be quickly restored by clicking on the now horizontal
 lines.</para></listitem>
-<listitem><para>You can also drag the bars and make them float by dragging these
-lines.</para></listitem>
-<listitem><para>If you &RMB; click on the Toolbar or the Bookmark Toolbar, you 
-will get a menu to configure this bar. You can choose the orientation, text
-position and icon size</para></listitem>
-</itemizedlist>
+<listitem><para>You can also drag a bar into a new position with these 
+lines.</para></listitem> 
 
-<para>Once you have arranged things to your liking,
-<menuchoice><guimenu>Settings</guimenu><guimenuitem> Save
-Options</guimenuitem></menuchoice> will make the new arrangement
-permanent.</para>
+<listitem><para>If you &RMB; click on the Toolbar or the Bookmark Toolbar, you 
+will get a menu to configure this bar. You can choose the orientation, text 
+position and icon size</para></listitem> </itemizedlist>
+
 
 <note><para>If you hide the Menubar, you won't be able to access the
 <guimenu>Settings</guimenu> menu! To restore it, &RMB; click on the view and
 check <guimenuitem>Show Menubar</guimenuitem>.</para></note>
 
-<para>The icons shown in the various bars can be changed by using the Menubar
-<menuchoice><guimenu>Settings</guimenu> <guimenuitem>Configure</guimenuitem>
-<guimenuitem>Toolbars</guimenuitem></menuchoice> option, which brings up the
-<guilabel>Configure Toolbars</guilabel> Dialog Box which lets you change the
+<para>The icons shown in the various bars can be changed by using the 
+<menuchoice><guimenu>Settings</guimenu> <guimenuitem>Configure 
+Toolbars...</guimenuitem></menuchoice> option, which brings up the 
+<guilabel>Configure Toolbars</guilabel> Dialog Box which lets you change the 
 icons in</para>
 
 <itemizedlist>
 <listitem><para>The <guilabel>Main Toolbar
-&lt;Konqueror&gt;</guilabel>. Actually this is the left hand part of the
-Toolbar, up to and including the <guibutton>Stop</guibutton>
-icon.</para></listitem>
+&lt;Konqueror&gt;</guilabel>.</para></listitem>
 
 <listitem><para>The <guilabel>locationToolBar
 &lt;Konqueror&gt;</guilabel>. There's not really much point in changing this.
 </para></listitem>
 
-<listitem><para>The <guilabel>bookmarkToolBar &lt;Konqueror&gt;</guilabel>. You
-can add an icon to the Bookmark Toolbar if you wish to, but ordinary bookmarks
-should be added with the <menuchoice><guimenu>Bookmarks</guimenu>
-<guimenuitem>Add Bookmark</guimenuitem></menuchoice> option.  </para></listitem>
-
-<listitem><para>The <guilabel>Main Toolbar (khtmlpart)</guilabel>. This normally
-contains the <guiicon>Increase</guiicon> and <guiicon>Decrease</guiicon> Font
-Sizes and <guiicon>Security</guiicon> icons that are only displayed when
-&konqueror is in Browser mode.  </para></listitem>
+<listitem><para>The <guilabel>Main Toolbar &lt;khtmlpart&gt;</guilabel>. This 
+normally contains the <guiicon>Increase</guiicon> and 
+<guiicon>Decrease</guiicon> Font Sizes and <guiicon>Security</guiicon> icons 
+that are only displayed when &konqueror is in Browser mode.  </para></listitem>
 </itemizedlist>
 
-<para>Note that you can rearrange the position of buttons in the Toolbar by
+<para>Note that you can rearrange the position of buttons in a Toolbar by
 clicking on the up and down arrow buttons.</para>
 
 </sect1>
@@ -1576,13 +1559,13 @@ clicking on the up and down arrow buttons.</para>
 <title>File Manager</title>
 
 <para>Choose
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure...</guisubmenu>
-<guimenuitem>File Manager</guimenuitem></menuchoice> or from the
-<guimenu>K</guimenu> menu select
-<menuchoice><guimenu>Preferences</guimenu><guimenu>File
-Browsing</guimenu><guimenuitem>File Manager</guimenuitem></menuchoice>.  This
-will bring up a dialog box with four tabbed pages;
-<guilabel>Appearance</guilabel>, <guilabel>Trash</guilabel>,
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu><guimenuitem>File Manager</guimenuitem></menuchoice> or 
+from the <guimenu>K</guimenu> menu select 
+<menuchoice><guimenu>Preferences</guimenu><guisubmenu>File 
+Browsing</guisubmenu><guimenuitem>File Manager</guimenuitem></menuchoice>.  This 
+will bring up a dialog box with four tabbed pages; 
+<guilabel>Appearance</guilabel>, <guilabel>Trash</guilabel>, 
 <guilabel>Behaviour</guilabel> and <guilabel>Other</guilabel>. </para>
 
 <sect2>
@@ -1684,7 +1667,7 @@ with a Targa image.</para>
 <procedure>
 
 <step><para>Open the <menuchoice><guimenu>Settings</guimenu>
-<guisubmenu>Configure</guisubmenu> <guimenuitem>File
+<guisubmenu>Configure Konqueror...</guisubmenu> <guimenuitem>File
 Associations</guimenuitem></menuchoice> dialog box.</para></step>
 <step><para>Click on the <guibutton>Add...</guibutton> button at the lower left,
 this will bring up a little dialog box..</para></step>
@@ -1755,16 +1738,18 @@ an application for quick viewing as the default application.  </para></step>
 <title>Konqueror Browser</title>
 
 <para>Choose
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure...</guisubmenu>
-<guimenuitem>Konqueror Browser</guimenuitem></menuchoice> or from the K menu
-select <menuchoice><guimenu>Preferences</guimenu><guimenu>Web
-Browsing</guimenu><guimenuitem>Konqueror Browser</guimenuitem></menuchoice>.
-This will bring up a dialog box with three tabbed pages;
-<guilabel>HTML</guilabel>, <guilabel>Appearance</guilabel>, and
-<guilabel>Java/JavaScript</guilabel>.</para>
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu> <guimenuitem>Konqueror 
+Browser</guimenuitem></menuchoice> or from the K menu select 
+<menuchoice><guimenu>Preferences</guimenu><guimenu>Web 
+Browsing</guimenu><guimenuitem>Konqueror Browser</guimenuitem></menuchoice>. 
+This will bring up a dialog box with five tabbed pages; 
+<guilabel>HTML</guilabel>, <guilabel>Appearance</guilabel>, 
+<guilabel>Java</guilabel>, <guilabel>JavaScript</guilabel> and 
+<guilabel>Plugins</guilabel>.</para>
 
 <sect2>
-<title><guilabel>HTML</guilabel></title>
+<title>HTML</title>
 
 <para>This tab page lets you decide whether &konqueror;'s cursor should change
 from a pointer to a hand when it is over a link in the page (advisable as
@@ -1777,7 +1762,7 @@ wish.</para>
 
 <sect2>
 
-<title><guilabel>Appearance</guilabel></title>
+<title>Appearance</title>
 
 <para>This page lets you set the font type, size, character set and default
 encoding to be used when browsing.</para>
@@ -1785,29 +1770,58 @@ encoding to be used when browsing.</para>
 </sect2>
 
 <sect2>
-<title><guilabel>Java/JavaScript</guilabel></title>
+<title>Java</title>
+
+<para>&Java; is not JavaScript but a full featured language.
+<acronym>HTML</acronym> pages using &Java; can cause &Java; programs,
+usually called <quote>applets</quote>, to be downloaded and run on your
+machine.</para>
+
+<para>The <guilabel>Java</guilabel> tab page lets you set &konqueror;'s
+global and domain-specific policies for &Java;.</para>
+
+<para>The <guilabel>Enable Java globally</guilabel> check box controls
+whether &konqueror; will generally accept or ignore Java applets, but this can 
+be modified by adding Domain-specific Accept or Reject policies. The full domain
+name must be entered here, for example to enable (or disable) Java for the
+site http://news.bbc.co.uk you have to enter
+<userinput>news.bbc.co.uk</userinput> in the Host/Domain field, just putting
+<userinput>bbc.co.uk</userinput> or <userinput>*.bbc.co.uk</userinput> will not
+work.</para>
+
+<para>To run &Java; applets, you need a Java Virtual Machine
+(<acronym>JVM</acronym>) installed on your machine and &konqueror; needs to know
+where it is. You can usually just enter <userinput>java</userinput> into the 
+<guilabel>Path to java executable</guilabel> text box, but if that doesn't work 
+or if you have several virtual machines installed and you want &konqueror; to 
+use a particular one then enter the full path to your &Java; installation, such as 
+<filename>/usr/java/bin</filename>.</para>
+
+<warning><para>As with any browser, enabling active content (Java or JavaScript)
+can weaken your system's security. It is recommended that the <guilabel>Use
+Security Manager</guilabel> option in the <guilabel>Java</guilabel> tab page is 
+selected if you are enabling &Java;. This requires that the &Java; installation 
+on your machine is Java2 compliant. </para></warning>
+
+<note><para>
+Visit <ulink url="http://www.konqueror.org">http://www.konqueror.org</ulink> for 
+up to date information about how well various &Java; <acronym>JVM</acronym>'s 
+work with &konqueror;. </para></note>
+
+</sect2>
+
+<sect2>
+<title>JavaScript</title>
 
 <para>Javascript is a small scripting language often used to add animation or
 other features to <acronym>HTML</acronym> pages. &konqueror; includes an
 ECMAScript compatible interpreter to handle scripting languages such as
 &Netscape;'s JavaScript and &Microsoft;'s JScript.</para>
-	
-<para>To control how &konqueror; deals with Javascript use the K menu
-<menuchoice><guisubmenu>Preferences</guisubmenu><guisubmenu>Web
-Browsing</guisubmenu><guimenuitem>Konqueror Browser</guimenuitem></menuchoice>
-or &konqueror;'s <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
-Konqueror...</guisubmenu><guimenuitem>Konqueror
-Browser</guimenuitem></menuchoice> option then select the
-<guilabel>JavaScript</guilabel> tab page.</para>
-	
+		
 <para>The <guilabel>Enable JavaScript globally</guilabel> check box controls
 whether &konqueror; will generally accept or ignore Javascript, but this can be
-modified by adding Domain-specific Accept or Reject policies. The full domain
-name must be entered here, for example to enable (or disable) Javascript for the
-site http://news.bbc.co.uk you have to enter
-<userinput>news.bbc.co.uk</userinput> in the Host/Domain field, just putting
-<userinput>bbc.co.uk</userinput> or <userinput>*.bbc.co.uk</userinput> will not
-work.</para>
+modified by adding Domain-specific Accept or Reject policies as for 
+&Java;.</para>
 
 <para>In the <guilabel>Miscellaneous JavaScript Settings</guilabel> area of the
 dialog box, the <guilabel>Disable "window.open()"</guilabel> option may be
@@ -1816,43 +1830,13 @@ to pop up advertisement banners, but be aware that certain sites require the
 window.open() function for proper operation. The <guilabel>Show debugger
 window</guilabel> option displays information and warnings from the JavaScript
 interpreter in a separate window.</para>
+</sect2>
 
-<para>&Java; is not JavaScript but a full featured language.
-<acronym>HTML</acronym> pages using &Java; can cause you machine to download and
-run &Java; programs, usually called <quote>applets</quote>, on your
-machine.</para>
-
-<para>The <guimenu>K</guimenu> menu
-<menuchoice><guisubmenu>Preferences</guisubmenu><guisubmenu>Web
-Browsing</guisubmenu><guimenuitem>Konqueror Browser</guimenuitem></menuchoice>
-or &konqueror;'s <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
-Konqueror...</guisubmenu><guimenuitem>Konqueror
-Browser</guimenuitem></menuchoice> options will take you to the KDE Control
-Module dialog box where you can select the &Java; tab page to set &konqueror;'s
-global and domain-specific policies for &Java; just as you can for
-JavaScript.</para>
-
-<para>To run &Java; applets, you need a Java Virtual Machine
-(<acronym>JVM</acronym>) installed on your machine and &konqueror; needs to know
-where it is. If the <guilabel>Automatically detect Java</guilabel> option is
-selected, &konqueror; will normally be able to find the <acronym>JVM</acronym>
-if the path to your &Java; installation is somewhere in your PATH environment
-variable. If &konqueror; can't find the <acronym>JVM</acronym> or if you have
-several virtual machines installed and you want &konqueror; to use a particular
-one then select <guilabel>Use user-specified Java</guilabel> and enter the full
-path to your &Java; installation, such as <filename>/usr/java/bin</filename>, in
-the <guilabel>Java Home or path to java</guilabel> text box.</para>
-
-<para>The <guilabel>Show Java Console</guilabel> option tells &konqueror; to
-open a console window that &Java; can use for text input-output. This feature is
-normally not needed but can be useful to help find problems with &Java;
-applets.</para>
-
-<warning><para>As with any browser, enabling active content (Java or JavaScript)
-can weaken your system's security. It is recommended that the <guilabel>Use
-Security Manager</guilabel> option in the &Java; tab page is selected if you are
-enabling &Java;. This requires that the &Java; installation on your machine is
-Java2 compliant. </para></warning>
+<sect2>
+<title>Plugins</title>
+<para>This tab page lets you globally enable or disable the excution of plugins. 
+For more information about plugins see the section <link 
+linkend="plugin">Netscape Plugins</link>. </para> 
 </sect2>
 
 </sect1>
@@ -1861,12 +1845,13 @@ Java2 compliant. </para></warning>
 <title>Enhanced Browsing</title>
 
 <para>Use the Menubar
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure...</guisubmenu>
-<guimenuitem>Enhanced Browsing</guimenuitem></menuchoice> or the K menu
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing</guisubmenu>
-<guimenuitem>Enhanced Browsing</guimenuitem></menuchoice> selection to bring up
-the <guilabel>KDE Control Module</guilabel> <guilabel>Enhanced
-Browsing</guilabel> dialog bux.</para>
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu> <guimenuitem>Enhanced 
+Browsing</guimenuitem></menuchoice> or the K menu 
+<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing</guisubmenu> 
+<guimenuitem>Enhanced Browsing</guimenuitem></menuchoice> selection to bring up 
+the <guilabel>KDE Control Module</guilabel> <guilabel>Enhanced 
+Browsing</guilabel> dialog box.</para>
 
 <para>If the <guilabel>Enable Internet Keywords</guilabel> box is checked you
 can simply type normal words and phrases such as linux into the Locationbar and
@@ -1888,26 +1873,29 @@ selection box to choose a particular search engine. For example you can type
 </sect1>
 
 <sect1 id="cookies">
-<title><guilabel>Cookies</guilabel></title>
+<title>Cookies</title>
 
 <para>Use the Menubar
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure...</guisubmenu>
-<guimenuitem>Cookies...</guimenuitem></menuchoice> or the K menu
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing</guisubmenu>
-<guimenuitem>Cookies</guimenuitem></menuchoice> selection to bring up a dialog
-box with two tabbed pages; <guilabel>Policy</guilabel> and
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu> <guimenuitem>Cookies...</guimenuitem></menuchoice> or 
+the K menu <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web 
+Browsing</guisubmenu> <guimenuitem>Cookies</guimenuitem></menuchoice> selection 
+to bring up a dialog box with two tabbed pages; <guilabel>Policy</guilabel> and
 <guilabel>Management</guilabel>.</para>
 
 <sect2>
-<title><guilabel>Policy</guilabel></title>
+<title>Policy</title>
 
 <para>This page allows you to decide whether &konqueror; will handle cookies at
 all, and whether it should ask you for confirmation before accepting
 them.</para>
+<para>You can also set domain specific cookie policies and even share 
+them with other people by using the <guibutton>Import</guibutton> and 
+<guibutton>Export</guibutton> options.</para> 
 </sect2>
 
 <sect2>
-<title><guilabel>Management</guilabel></title>
+<title>Management</title>
 
 <para>This tab page is interesting because it lets you see what
 cookies have been placed on your machine and allows you to delete
@@ -1921,9 +1909,11 @@ any or all of them.</para>
 <title>Proxy Configuration</title>
 
 <para>The <guilabel>Proxies</guilabel> dialog box is invoked with the Menubar
-<menuchoice><guimenu>Settings</guimenu> <guisubmenu>Configure</guisubmenu>
-<guimenuitem>Proxies...</guimenuitem></menuchoice> option, or with the K menu
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing
+<menuchoice><guimenu>Settings</guimenu> <guisubmenu>Configure 
+Konqueror...</guisubmenu> <guimenuitem>Proxies
+</guimenuitem></menuchoice> 
+option, or with the K menu 
+<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing 
 </guisubmenu><guimenuitem>Proxies</guimenuitem></menuchoice> choice.</para>
 
 <para>A <quote>proxy</quote> connection to the Internet is one that is made
@@ -1971,16 +1961,16 @@ you are short of disk space in your home directory. </para></note>
 <title>Cryptography</title>
 
 <para>Choosing the Menubar
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure...</guisubmenu>
-<guimenuitem>Crypto</guimenuitem></menuchoice> or the K menu
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Personalization
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu> <guimenuitem>Crypto</guimenuitem></menuchoice> or the 
+K menu <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Personalization
 </guisubmenu><guimenuitem>Crypto</guimenuitem></menuchoice> option brings up a
 dialog box that lets you choose which <acronym>SSL</acronym> options are to be
 used when browsing secure (https) sites. Use the Default settings unless you
 really know what you are doing.</para> </sect1>
 
 <sect1 id="configure-user-agent">
-<title><guilabel>User Agent</guilabel></title>
+<title>User Agent</title>
 
 <para>Some web sites tailor their <acronym>HTML</acronym> pages according to the
 browser you are using to view them. This is done to cope with differences
@@ -1991,9 +1981,9 @@ browsers. Unfortunately very few web sites recognise
 
 <para>To overcome this problem, you can control what &konqueror; reports as it's
 User Agent. Selecting
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure...</guisubmenu>
-<guimenuitem>User Agent</guimenuitem></menuchoice> or the K menu
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu> <guimenuitem>User Agent</guimenuitem></menuchoice> or 
+the K menu <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web
 Browsing</guisubmenu><guimenuitem>User Agent</guimenuitem></menuchoice> will
 bring up a dialog box allowing you to set the User Agent string for selected
 servers or domains.</para>
@@ -2032,7 +2022,7 @@ directory to make other applications aware of the new mime types.</para>
 </sect2>
 
 <sect2>
-<title><guilabel>Plugins</guilabel></title>
+<title>Plugins</title>
 
 <para>This page shows you the &Netscape; plugins that &kde; has found, and for
 each plugin it lists the <acronym>MIME</acronym> types and the filename suffixes
@@ -2140,6 +2130,15 @@ use with a web site that uses frames.</para></listitem>
 </menuchoice></term>
 <listitem><para><action>Print selected frame of a Web
 page.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu><accel>L</accel>ocation</guimenu>
+<guimenuitem>Open With Netscape</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open the web page you are 
+viewing in &konqueror; with Netscape as well.</action></para></listitem> 
 </varlistentry>
 
 <varlistentry>
@@ -2331,6 +2330,18 @@ folders.</action></para></listitem>
 </menuchoice></term>
 <listitem><para><action>Invert current selection.</action></para></listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul"><keycap>Ctrl</keycap><keycap>U</keycap></keycombo>
+</shortcut><guimenu><accel>E</accel>dit</guimenu>
+<guimenuitem>Select <accel>A</accel>ll</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Selects all text in a HTML 
+page or in a text page being previewed, you can then 
+<guimenuitem>Copy</guimenuitem> it and <guimenuitem>Paste</guimenuitem> it into 
+a text editor.</action></para></listitem> </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
@@ -2621,11 +2632,10 @@ applications.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu><accel>G</accel>o</guimenu>
-<guimenuitem>Directory Tree</guimenuitem>
+<guimenuitem>SideBar Configuration</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show the directory tree in separate 
-window.</action></para></listitem>
-</varlistentry>
+<listitem><para><action>Opens the directory holding details of your SideBar in a 
+separate window.</action></para></listitem> </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
@@ -2912,10 +2922,9 @@ window.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu><accel>W</accel>indow</guimenu>
-<guimenuitem>Show Directory Tree</guimenuitem>
+<guimenuitem>Show Sidebar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show the directory tree in a new pane in the current 
-window.</action></para></listitem>
+<listitem><para><action>Show the Sidebar.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -3093,7 +3102,7 @@ settings.</para></listitem>
 <filename class="directory">~/.kde/share/apps/kio_http/cache/</filename> 
 contains the browser cache.</para></listitem>
 
-<listitem><para>The Directory Tree View uses the files and subdirectories in
+<listitem><para>The Sidebar View uses the files and subdirectories in
 <filename
 class="directory">~/.kde/share/apps/konqueror/dirtree</filename></para></listitem>
 
@@ -3118,8 +3127,10 @@ create a new, empty, one next time you use it. But note that you can't use
 <qandaentry>
 <question><para>How do I enable, disable or clear the browser
 cache?</para></question> <answer>
-<para>With the Proxies dialog box, choose
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure</guisubmenu><guimenuitem>Proxies...</guimenuitem></menuchoice></para></answer>
+<para>For some reason this is done using the Proxies dialog box, choose
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
+Konqueror...</guisubmenu><guimenuitem>Proxies</guimenuitem></menuchoice></para>
+</answer>
 </qandaentry>
 
 <qandaentry>
@@ -3142,10 +3153,6 @@ itself. It won't start up until it can grab the audio device, in
 <para>&konqueror;. Program copyright 1999-2001, the &konqueror; developers:</para>
 
 <variablelist>
-<varlistentry>
-<term>Torben Weis <email>weis@kde.org</email></term>
-<listitem><para>kfm author</para></listitem>
-</varlistentry>
 
 <varlistentry>
 <term>David Faure <email>faure@kde.org</email></term>
@@ -3191,6 +3198,12 @@ engine)</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term>Peter Kelly <email>pmk@post.com</email></term>
+<listitem><para>developer (<acronym>HTML</acronym> rendering engine,
+JavaScript)</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term>Waldo Bastian <email>bastian@kde.org</email></term>
 <listitem><para>developer (<acronym>HTML</acronym> rendering engine, I/O
 lib)</para></listitem>
@@ -3227,12 +3240,6 @@ lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Peter Kelly <email>pmk@post.com</email></term>
-<listitem><para>developer (<acronym>HTML</acronym> rendering engine,
-JavaScript)</para></listitem>
-</varlistentry>
-
-<varlistentry>
 <term>Stefan Schimanski <email>1Stein@gmx.de</email></term>
 <listitem><para>developer (&Netscape; plugin support)</para></listitem>
 </varlistentry>
@@ -3241,6 +3248,32 @@ JavaScript)</para></listitem>
 <term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
 <listitem><para>developer (framework)</para></listitem>
 </varlistentry>
+
+<varlistentry>
+<term>George Staikos <email>staikos@kde.org</email></term>
+<listitem><para>developer (SSL support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Dawit Alemayehu <email>adawit@kde.org</email></term>
+<listitem><para>developer (I/O lib, Authentication support)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
+<listitem><para>developer (Framework)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Torsten Rahn <email>torsten@kde.org</email></term>
+<listitem><para>Graphics / icons</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Torben Weis <email>weis@kde.org</email></term>
+<listitem><para>kfm author</para></listitem>
+</varlistentry>
+
 </variablelist>
 
 <para>Documentation copyright 2000, 2001</para>
