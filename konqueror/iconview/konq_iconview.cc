@@ -105,13 +105,9 @@ public:
 KInstance *KonqIconViewFactory::s_instance = 0;
 KonqPropsView *KonqIconViewFactory::s_defaultViewProps = 0;
 
-extern "C"
-{
-    void *init_konq_iconview()
-    {
-        return new KonqIconViewFactory;
-    }
-}
+
+K_EXPORT_COMPONENT_FACTORY( konq_iconview, KonqIconViewFactory )
+
 
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
  : KonqDirPartBrowserExtension( iconView )

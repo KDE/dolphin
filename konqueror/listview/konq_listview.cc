@@ -90,13 +90,7 @@ KonqPropsView *KonqListViewFactory::defaultViewProps()
 KInstance *KonqListViewFactory::s_instance = 0;
 KonqPropsView *KonqListViewFactory::s_defaultViewProps = 0;
 
-extern "C"
-{
-  void *init_konq_listview()
-  {
-    return new KonqListViewFactory;
-  }
-}
+K_EXPORT_COMPONENT_FACTORY( konq_listview, KonqListViewFactory )
 
 ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
  : KonqDirPartBrowserExtension( listView )

@@ -15,13 +15,8 @@
 #include <assert.h>
 #include <qfile.h>
 
-extern "C"
-{
-    void *init_konq_aboutpage()
-    {
-        return new KonqAboutPageFactory;
-    }
-}
+
+K_EXPORT_COMPONENT_FACTORY( konq_aboutpage, KonqAboutPageFactory )
 
 KInstance *KonqAboutPageFactory::s_instance = 0;
 QString *KonqAboutPageFactory::s_intro_html = 0;

@@ -101,7 +101,7 @@ void KonqSidebar_Tree::rename()
 
 extern "C"
 {
-    void* create_konqsidebar_tree(KInstance *inst,QObject *par,QWidget *widp,QString &desktopname,const char *name)
+    KDE_EXPORT void*  create_konqsidebar_tree(KInstance *inst,QObject *par,QWidget *widp,QString &desktopname,const char *name)
     {
         return new KonqSidebar_Tree(inst,par,widp,desktopname,name);
     }
@@ -109,7 +109,7 @@ extern "C"
 
 extern "C"
 {
-   bool add_konqsidebar_tree(QString* fn, QString*, QMap<QString,QString> *map)
+   KDE_EXPORT bool add_konqsidebar_tree(QString* fn, QString*, QMap<QString,QString> *map)
    {
 	  KStandardDirs *dirs=KGlobal::dirs();
 	  QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);

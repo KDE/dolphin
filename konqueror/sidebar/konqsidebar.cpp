@@ -120,12 +120,6 @@ KInstance* KonqSidebarFactory::instance()
 	return s_instance;
 }
 
-extern "C"
-{
-	void* init_konq_sidebar()
-	{
-		return new KonqSidebarFactory;
-	}
-}
+K_EXPORT_COMPONENT_FACTORY( konq_sidebar, KonqSidebarFactory )
 
 #include "konqsidebar.moc"

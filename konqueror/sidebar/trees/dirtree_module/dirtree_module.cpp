@@ -616,7 +616,7 @@ void KonqSidebarDirTreeModule::followURL( const KURL & url )
 
 extern "C"
 {
-        KonqSidebarTreeModule *create_konq_sidebartree_dirtree(KonqSidebarTree* par,const bool showHidden)
+        KDE_EXPORT KonqSidebarTreeModule *create_konq_sidebartree_dirtree(KonqSidebarTree* par,const bool showHidden)
 	{
 		return new KonqSidebarDirTreeModule(par,showHidden);
 	}
