@@ -126,6 +126,8 @@ int KonqMainWindow::s_initialMemoryUsage = -1;
 time_t KonqMainWindow::s_startupTime;
 int KonqMainWindow::s_preloadUsageCount;
 
+KonqOpenURLRequest KonqOpenURLRequest::null;
+
 static int current_memory_usage();
 
 #include "konq_mainwindow_p.h"
@@ -462,7 +464,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
-                              const QString &_serviceType, KonqOpenURLRequest req,
+                              const QString &_serviceType, KonqOpenURLRequest& req,
                               bool trustedSource )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << _url.url() << "'  "
@@ -604,7 +606,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 }
 
-bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest req )
+bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest& req )
 {
   // TODO: Replace KURL() with referring URL. DF: done, please check.
   if ( !kapp->authorizeURLAction("open", childView ? childView->url() : KURL(), _url) )
