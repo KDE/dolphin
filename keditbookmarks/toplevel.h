@@ -106,6 +106,7 @@ public slots:
     void slotChangeIcon();
     void slotDelete();
     void slotNewFolder();
+    void slotNewBookmark();
     void slotInsertSeparator();
     void slotSort();
     void slotSetAsToolbar();

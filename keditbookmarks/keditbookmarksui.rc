@@ -9,6 +9,7 @@
  <Action name="exportNS"/>
  <Action name="exportMoz"/>
  <Separator/><!-- Creation -->
+ <Action name="newbookmark"/>
  <Action name="newfolder"/>
  <Action name="insertseparator"/>
  <Separator/>
@@ -43,6 +44,7 @@
  <Action name="edit_undo"/>
  <Action name="edit_redo"/>
  <Action name="delete"/>
+ <Action name="newbookmark"/>
  <Action name="newfolder"/>
 </ToolBar>
 
@@ -59,6 +61,7 @@
  <Action name="changeicon"/>
  <Action name="delete"/>
  <Separator/><!-- Creation -->
+ <Action name="newbookmark"/>
  <Action name="newfolder"/>
  <Action name="insertseparator"/>
  <Separator/><!-- Stuff for folders -->
@@ -81,6 +84,7 @@
  <Action name="changeurl"/>
  <Action name="changeicon"/>
  <Separator/><!-- Creation -->
+ <Action name="newbookmark"/>
  <Action name="newfolder"/>
  <Action name="insertseparator"/>
  <Separator/><!-- Dangerous actions :/ -->

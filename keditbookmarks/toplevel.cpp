@@ -172,8 +172,9 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
     (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
-    (void) new KAction( i18n( "Chan&ge Icon" ), "www", 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
+    (void) new KAction( i18n( "Chan&ge Icon" ), 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
     (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
+    (void) new KAction( i18n( "&Create New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
     (void) new KAction( i18n( "&Insert separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
     (void) new KAction( i18n( "&Sort alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
     (void) new KAction( i18n( "Set As &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
@@ -343,6 +344,17 @@ void KEBTopLevel::slotNewFolder()
         CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), bk.fullText(), true /*open*/ );
         m_commandHistory.addCommand( cmd );
     }
+}
+
+void KEBTopLevel::slotNewBookmark()
+{
+    if( !m_pListView->selectedItem() )
+    {
+        kdWarning() << "KEBTopLevel::slotNewBookmark no selected item !" << endl;
+        return;
+    }
+    CreateCommand * cmd = new CreateCommand( i18n("Create bookmark" ), insertionAddress(), QString::null, KURL() );
+    m_commandHistory.addCommand( cmd );
 }
 
 void KEBTopLevel::slotInsertSeparator()
