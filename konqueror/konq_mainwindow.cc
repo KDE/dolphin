@@ -33,7 +33,7 @@
 #include <konq_operations.h>
 #include <konqbookmarkmanager.h>
 
-
+#include <config.h>
 #include <pwd.h>
 // we define STRICT_ANSI to get rid of some warnings in glibc
 #ifndef __STRICT_ANSI__
@@ -47,7 +47,9 @@
 #endif
 #include <assert.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <klargefile.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <qclipboard.h>
 #include <qmetaobject.h>
@@ -398,6 +400,15 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
   }
   else // startup with argument
     setLocationBarURL( url.prettyURL() );
+
+  // Fast mode for local files: do the stat ourselves instead of letting KRun do it.
+  if ( url.isLocalFile() )
+  {
+    QCString _path( QFile::encodeName(url.path()));
+    KDE_struct_stat buff;
+    if ( KDE_stat( _path.data(), &buff ) != -1 )
+        serviceType = KMimeType::findByURL( url, buff.st_mode )->name();
+  }
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.protocol() == "about" )
@@ -3250,20 +3261,29 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 {
   KonqView * m_oldView = m_currentView;
 
-  // Make this view active temporarily, if not the current one (e.g. because it's passive)
-  m_currentView = childView( static_cast<KParts::ReadOnlyPart *>( sender()->parent() ) );
-
+  KonqView * currentView = childView( static_cast<KParts::ReadOnlyPart *>( sender()->parent() ) );
   // the page is currently loading something -> Don't enter a local event loop
   // by launching a popupmenu!
-  if ( m_currentView->run() != 0 )
+  if ( currentView->run() != 0 )
       return;
 
-  if ( m_oldView && m_oldView != m_currentView )
+  //kdDebug() << "KonqMainWindow::slotPopupMenu m_oldView=" << m_oldView << " new currentView=" << currentView << " passive:" << currentView->isPassiveMode() << endl;
+
+  if ( m_oldView != currentView )
   {
-    if ( m_oldView->browserExtension() )
-      disconnectExtension( m_oldView->browserExtension() );
-    if ( m_currentView->browserExtension() )
-      connectExtension( m_currentView->browserExtension() );
+      if ( currentView->isPassiveMode() )
+          // Make this view active only temporarily (because it's passive)
+          m_currentView = currentView;
+      else
+          m_pViewManager->setActivePart( currentView->part() );
+
+      if ( m_oldView )
+      {
+          if ( m_oldView->browserExtension() )
+              disconnectExtension( m_oldView->browserExtension() );
+          if ( m_currentView->browserExtension() )
+              connectExtension( m_currentView->browserExtension() );
+      }
   }
 
   kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
@@ -3357,9 +3377,13 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       disconnectExtension( m_currentView->browserExtension() );
     if ( m_oldView->browserExtension() )
       connectExtension( m_oldView->browserExtension() );
+    // Restore current view if current is passive
+    if ( currentView->isPassiveMode() ) {
+        //kdDebug() << "KonqMainWindow::slotPopupMenu restoring active view " << m_oldView << endl;
+        m_currentView = m_oldView;
+        m_oldView->part()->widget()->setFocus();
+    }
   }
-
-  m_currentView = m_oldView;
 }
 
 void KonqMainWindow::slotOpenEmbedded()
