@@ -261,14 +261,18 @@ void KonqUndoManager::undo()
     {
       d->m_dirStack.push( (*it).m_src );
       d->m_dirCleanupStack.prepend( (*it).m_dst );
-      d->m_current.m_opStack.remove( it );
-      it = d->m_current.m_opStack.begin();
+      it = d->m_current.m_opStack.remove( it );
       d->m_undoState = MAKINGDIRS;
     }
-    else if ( (*it).m_link && !d->m_fileCleanupStack.contains( (*it).m_dst ) )
+    else if ( (*it).m_link )
     {
-      d->m_fileCleanupStack.prepend( (*it).m_dst );
-      ++it;
+      if ( !d->m_fileCleanupStack.contains( (*it).m_dst ) )
+         d->m_fileCleanupStack.prepend( (*it).m_dst );
+
+      if ( d->m_current.m_type != KonqCommand::MOVE )
+          it = d->m_current.m_opStack.remove( it );
+      else
+          ++it;
     }
     else
       ++it;
