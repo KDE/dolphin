@@ -87,6 +87,8 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
       }
     }
 
+    new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
+    new KAction( i18n( "Background Image..." ), "background", 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
     m_paExecuteShellCommand = new KAction( i18n( "&Execute Shell Command" ),
         CTRL+Key_E, this, SLOT( slotExecuteShellCommand() ), actionCollection(), "executeshellcommand" );
