@@ -82,8 +82,7 @@ KonqChildView::~KonqChildView()
   kdebug(0,1202,"KonqChildView::~KonqChildView");
   detach();
   delete m_pKonqFrame;
-  if ( m_pRun )
-    delete (KonqRun *)m_pRun;
+  delete (KonqRun *)m_pRun;
 }
 
 void KonqChildView::attach( BrowserView *view )
@@ -340,17 +339,16 @@ void KonqChildView::run( const QString & url )
 {
   debug(" ********** KonqChildView::run ");
   m_pRun = new KonqRun( mainView(), this, url, 0, false, true );
-  // stop() will get called by KonqMainView::openView or completely destroyed
+  // stop() will get called by KonqMainView::openView or the KonqRun will
+  // be destroyed upon completion (autodelete)
 }
 
 void KonqChildView::stop()
 {
   m_pView->stop();
 
-  if ( m_pRun ) debug(" m_pRun is not NULL ");
-  else debug(" m_pRun is NULL ");
-//  if ( m_pRun ) delete (KonqRun *)m_pRun; // HACK !!!!!
-  m_pRun = 0L;
+  if ( m_pRun ) debug(" m_pRun is not NULL "); else debug(" m_pRun is NULL ");
+  //if ( m_pRun ) delete (KonqRun *)m_pRun; // should set m_pRun to 0L
 }
 
 void KonqChildView::reload()

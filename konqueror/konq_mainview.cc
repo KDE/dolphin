@@ -443,6 +443,21 @@ void KonqMainView::slotEditApplications()
     openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) );
 }
 
+void KonqMainView::slotSaveSettings()
+{
+  // Ouch this will need saveSettingsAsDefault in kbrowser.h   ...
+  // In the views it would call m_pProps->saveAsDefault()
+  KMessageBox::sorry( 0L, i18n( "Not implemented" ) );
+}
+
+void KonqMainView::slotSaveSettingsPerURL()
+{
+  // Ouch this will need saveSettings in kbrowser.h   ...
+  // In the views it would call m_pProps->save( KConfig * )
+  // with the .directory file open as the config file
+  KMessageBox::sorry( 0L, i18n( "Not implemented" ) );
+}
+
 void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
@@ -555,8 +570,9 @@ void KonqMainView::slotSetStatusBarText( const QString &text )
   m_statusBar->changeItem( text, STATUSBAR_MSG_ID );
 }
 
-bool KonqMainView::openView( const QString &serviceType, const QString &url, KonqChildView *childView )
+bool KonqMainView::openView( QString serviceType, QString url, KonqChildView *childView )
 {
+debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   QString indexFile;
 
   if ( !childView )

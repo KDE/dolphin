@@ -89,6 +89,8 @@ public slots:
   void slotEditMimeTypes();
   void slotEditApplications();
   
+  void slotSaveSettings();
+  void slotSaveSettingsPerURL();
   void slotConfigureFileManager();
   void slotConfigureNetwork();
   void slotConfigureKeys();
@@ -105,7 +107,7 @@ public:
 
   virtual void configure(); // implemented from KonqMainViewIface
 
-  bool openView( const QString &serviceType, const QString &_url, KonqChildView *childView );
+  bool openView( QString serviceType, QString _url, KonqChildView *childView );
 
   void setActiveView( BrowserView *view );
 

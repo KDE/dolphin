@@ -60,7 +60,6 @@ public:
    * Constructs a KonqPropsView instance from a config file.
    * Set the group before calling.
    * ("Settings" for global props, "ViewNNN" for local props)
-   * TODO : will have to be called for local properties
    */
   KonqPropsView( KConfig * config );
 
@@ -75,9 +74,16 @@ public:
   bool enterDir( const KURL & dir );
   
   /**
+   * Save those properties as default
+   * ("Options"/"Save settings")  ["as default" missing ?]
+   */
+  void saveAsDefault();
+
+  /**
    * Save to config file
    * Set the group before calling.
-   * ("Settings" for global props, "ViewNNN" for local props)
+   * ("Settings" for global props, "ViewNNN" for local props, 
+   * setDesktopGroup() for .directory files)
    */
   void saveProps( KConfig * config );
 

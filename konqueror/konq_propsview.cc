@@ -131,6 +131,13 @@ bool KonqPropsView::enterDir( const KURL & dir )
   return true;
 }
 
+void KonqPropsView::saveAsDefault()
+{
+  KConfig *config = KonqFactory::instance()->config();
+  KConfigGroupSaver cgs(config, "Settings");
+  saveProps( config );
+}
+
 void KonqPropsView::saveProps( KConfig * config )
 {
   QString entry;
