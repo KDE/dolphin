@@ -283,7 +283,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     }
 
     // 4 - Query for applications
-    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType, "Type == 'Application'" );
+    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType,
+      "Type == 'Application' and DesktopEntryPath != 'System/kfmclient.desktop'" );
 
     //// Ok, we have everything, now insert
 
@@ -292,18 +293,16 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     QString openWithText = i18n( "Open With" );
 
-    if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
+    if ( !offers.isEmpty() )
     {
-      // First block, app offers + user
+      // First block, app and preview offers
       addSeparator();
 
       id = 1;
 
-      bool insertedOffer = false;
-
       QDomElement menu = m_menuElement;
 
-      if ( offers.count() > 1 )
+      if ( offers.count() > 1 ) // submenu 'open with'
       {
         menu = m_doc.createElement( "menu" );
         m_menuElement.appendChild( menu );
@@ -315,15 +314,12 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
       KAction *openWithAct = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
 
-      if ( menu == m_menuElement )
+      if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
       {
+        openWithText += "...";
         addAction( openWithAct, menu );
-	addSeparator();
       }
 
-      addGroup( "preview" );
-
-      // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
       KTrader::OfferList::ConstIterator it = offers.begin();
       for( ; it != offers.end(); it++ )
       {
@@ -336,10 +332,31 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 	addAction( act, menu );
 	
 	m_mapPopup[ id++ ] = *it;
-
-        insertedOffer = true;
       }
 
+      if ( menu != m_menuElement ) // submenu
+      {
+	addSeparator( menu );
+        addAction( openWithAct, menu ); // Other...
+      }
+    }
+    else // no app offers -> Open With...
+    {
+      addSeparator();
+      openWithText += "..."; //Show "..." only when no application binding is found!!
+      act = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+      addAction( act );
+    }
+
+    addGroup( "preview" );
+
+    addSeparator();
+
+    bool insertedOffer = false;
+
+    // Second block, builtin + user
+    if ( !user.isEmpty() || !builtin.isEmpty() )
+    {
       QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
       for( ; it2 != user.end(); ++it2 )
       {
@@ -362,17 +379,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         }
       }
 
-      if ( menu != m_menuElement )
-      {
-	addSeparator( menu );
-        addAction( openWithAct, menu );
-      }
+      // One too much IMHO (David)
+      //if ( insertedOffer )
+      //  addSeparator();
 
-      // Second block, builtin
-      if ( insertedOffer )
-        addSeparator();
-
-      insertedOffer = false;
+      //insertedOffer = false;
 
       it2 = builtin.begin();
       for( ; it2 != builtin.end(); ++it2 )
@@ -388,7 +399,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 	  act->setIconSet( pix );
         }
 	
-	addAction( act, menu );
+	addAction( act, m_menuElement );
 	
         m_mapPopupServices[ id++ ] = *it2;
 	insertedOffer = true;
@@ -396,14 +407,6 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
       if ( insertedOffer )
         addSeparator();
-    }
-    else
-    {
-      addSeparator();
-      openWithText += "..."; //Show "..." only when no application binding is found!!
-      act = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-      addAction( act );
-      addSeparator();
     }
 
     bLastSepInserted = true;
