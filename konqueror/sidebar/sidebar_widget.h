@@ -35,8 +35,9 @@ class ButtonInfo: public QObject
 {
 	Q_OBJECT
 	public:
-	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib, QObject *parent):
-		QObject(parent),file(file_),dock(dock_),URL(url_),libName(lib)
+	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib, 
+		const QString &dispName_, const QString &iconName_,QObject *parent):
+		QObject(parent),file(file_),dock(dock_),URL(url_),libName(lib),displayName(dispName_),iconName(iconName_)
 		{copy=cut=paste=trash=del=shred=rename=false;}
 	~ButtonInfo(){;}
 
@@ -45,6 +46,8 @@ class ButtonInfo: public QObject
 	class KonqSidebarPlugin *module;
 	class QString URL;
 	class QString libName;
+	class QString displayName;
+	class QString iconName;
 	bool copy;
 	bool cut;
 	bool paste;
@@ -105,7 +108,7 @@ class Sidebar_Widget: public QWidget
 	void readConfig();
 	QHBoxLayout *myLayout;
 	class QStringList visibleViews;
-	class QPopupMenu *buttonPopup;
+	class KPopupMenu *buttonPopup;
 	class QPopupMenu *Menu;
 	int popupFor;
 	void initialCopy();

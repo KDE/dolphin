@@ -33,6 +33,7 @@
 #include <konq_events.h>
 #include <kfileitem.h>
 #include <kio/netaccess.h>
+#include <kpopupmenu.h>
 
 QString  Sidebar_Widget::PATH=QString("");
 
@@ -215,7 +216,8 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
         connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
-	buttonPopup=new QPopupMenu(this,"Sidebar_Widget::ButtonPopup");
+	buttonPopup=new KPopupMenu(this,"Sidebar_Widget::ButtonPopup");
+	buttonPopup->insertTitle(SmallIcon("unknown"),"",50);
 	buttonPopup->insertItem(SmallIconSet("www"),i18n("URL"),2);
 	buttonPopup->insertItem(SmallIconSet("image"),i18n("Icon"),1);
 	buttonPopup->insertSeparator();
@@ -359,7 +361,8 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		}
 		case 3:
 		{
-			if (KMessageBox::questionYesNo(this,i18n("Do you really want to delete this entry?"))==KMessageBox::Yes)
+			if (KMessageBox::questionYesNo(this,i18n("<qt>Do you really want to remove the <b>\"%1\"</b> tab?</qt>").
+				arg(Buttons.at(popupFor)->displayName))==KMessageBox::Yes)
 				{
 					QFile f(PATH+Buttons.at(popupFor)->file);
 					if (!f.remove()) qDebug("Error, file not deleted");
@@ -596,7 +599,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	if (pos==-1)
 	{
 	  	ButtonBar->insertTab(SmallIcon(icon), lastbtn,name);
-		/*int id=*/Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,this));
+		/*int id=*/Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,name,icon,this));
 		KMultiTabBarTab *tab=ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
@@ -622,9 +625,17 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 					if (bt==ButtonBar->getTab(i))
 						{popupFor=i; break;}
 				}
-				buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
+				
 				if (popupFor!=-1)
+				{
+					buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
+				        buttonPopup->changeTitle(50,SmallIcon(Buttons.at(popupFor)->iconName),
+						Buttons.at(popupFor)->displayName);
+       					buttonPopup->changeItem(2,i18n("Set URL"));
+        				buttonPopup->changeItem(1,i18n("Set Icon"));
+				        buttonPopup->changeItem(3,i18n("Remove"));
 					buttonPopup->exec(QCursor::pos());
+				}
 				return true;
 				
 			}
