@@ -30,17 +30,9 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0
 {
   KConfig* config;
   QString key;
-  //int i;
 
-  //killTimers();
-
-  //config = kapp->getConfig();
-  //config = getKApplication()->getConfig();
-  //QString global = kapp->kde_configdir() + "kwmrc";
-  //QString local = kapp->localconfigdir() + "kwmrc";
   config = new KConfig( kapp->kde_configdir() + "/kwmrc" , kapp->localconfigdir() + "/kwmrc" );
 
-  // this belongs in kapp....
   config->setGroup("WM");
 
   activeTitleBlend = config->readColorEntry( "activeBlend" , &(Qt::black) );
@@ -335,6 +327,9 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 void 
 KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
 {
+  /* code disabled by David. It mixes up colors, with QT 2.0.
+     Don't know why pm.gradientFill is not good enough, BTW. */
+#if 0
   if(vertShaded == false && QColor::numBitPlanes() >= 15) 
   {    
     int w = pm.width();
@@ -373,6 +368,7 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
 
     pm.convertFromImage(img);
   } else
+#endif
     pm.gradientFill(ca, cb, vertShaded);
 }
 
