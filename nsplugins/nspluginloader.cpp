@@ -380,6 +380,7 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
       return 0;
    }
 
+#if 0
    // get requested size
    unsigned int width = 0;
    unsigned int height = 0;
@@ -389,6 +390,7 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
       if (argn[i].lower() == "width") width = argv[i].toUInt();
       if (argn[i].lower() == "height") height = argv[i].toUInt();
    }
+#endif
 
    // lookup plugin for mime type
    QString plugin_name = lookup(mime);
