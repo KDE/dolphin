@@ -94,8 +94,8 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     m_title_le->setReadOnly(false);
     m_title_le->setText(bk.fullText());
 
-    m_url_le->setReadOnly(false);
-    m_url_le->setText(bk.url().url());
+    m_url_le->setReadOnly(bk.isGroup());
+    m_url_le->setText(bk.isGroup() ? QString::null : bk.url().url());
 
     m_comment_le->setReadOnly(false);
     m_comment_le->setText(
