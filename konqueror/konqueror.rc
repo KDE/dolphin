@@ -79,6 +79,7 @@
     <Action name="configureebrowsing"/>
     <Action name="configurecookies"/>
     <Action name="configureproxies"/>
+    <Action name="configurecrypto"/>
     <Separator/>
     <Action name="configurekeys"/>
     <Action name="configuretoolbars"/>

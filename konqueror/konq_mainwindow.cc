@@ -1044,6 +1044,16 @@ void KonqMainWindow::slotConfigureProxies()
   }
 }
 
+void KonqMainWindow::slotConfigureCrypto()
+{
+  if (fork() == 0) {
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+          "kcmshell", "crypto", 0);
+    kdWarning(1202) << "Error launching kcmshell crypto!" << endl;
+    exit(1);
+  }
+}
+
 void KonqMainWindow::slotConfigureKeys()
 {
   KKeyDialog::configureKeys(actionCollection(), xmlFile());
@@ -2216,6 +2226,7 @@ void KonqMainWindow::initActions()
   new KAction( i18n( "&Internet Keywords..." ), 0, this, SLOT( slotConfigureEBrowsing() ), actionCollection(), "configureebrowsing" );
   new KAction( i18n( "&Cookies..." ), 0, this, SLOT( slotConfigureCookies() ), actionCollection(), "configurecookies" );
   new KAction( i18n( "&Proxies..." ), 0, this, SLOT( slotConfigureProxies() ), actionCollection(), "configureproxies" );
+  new KAction( i18n( "Cr&yptography..." ), 0, this, SLOT( slotConfigureCrypto() ), actionCollection(), "configurecrypto" );
 
   new KAction( i18n( "&Key Bindings..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
   new KAction( i18n( "&Toolbars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );

@@ -243,6 +243,7 @@ public slots:
   void slotConfigureEBrowsing();
   void slotConfigureCookies();
   void slotConfigureProxies();
+  void slotConfigureCrypto();
   void slotConfigureKeys();
   void slotConfigureToolbars();
 
