@@ -188,8 +188,6 @@ signals:
 
 protected slots:
 
-    virtual void slotViewportScrolled(int);
-
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
 
     void slotItemRenamed(QIconViewItem *item, const QString &name);

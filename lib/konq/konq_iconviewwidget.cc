@@ -57,19 +57,17 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       m_bSetGridX( !kdesktop ), /* No line breaking on the desktop */
       m_splitter( 0L )
 {
-    QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
-                      this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
+    connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
+             this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
 
-    QObject::connect( this, SIGNAL( selectionChanged() ),
-                      this, SLOT( slotSelectionChanged() ) );
+    connect( this, SIGNAL( selectionChanged() ),
+             this, SLOT( slotSelectionChanged() ) );
 
-    QObject::connect(
-      horizontalScrollBar(),  SIGNAL(valueChanged(int)),
-      this,                   SLOT(slotViewportScrolled(int)));
+    connect( horizontalScrollBar(),  SIGNAL(valueChanged(int)),
+             this,                   SIGNAL(viewportAdjusted()));
 
-    QObject::connect(
-      verticalScrollBar(),  SIGNAL(valueChanged(int)),
-      this,                 SLOT(slotViewportScrolled(int)));
+    connect( verticalScrollBar(),  SIGNAL(valueChanged(int)),
+             this,                 SIGNAL(viewportAdjusted()));
 
     kapp->addKipcEventMask( KIPC::IconChanged );
     connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
@@ -285,6 +283,7 @@ void KonqIconViewWidget::startImagePreview( bool force )
 	QString pixmap = locate( "data", "konqueror/pics/thumbnailfont_7x4.png" );
 	if ( !pixmap.isEmpty() ) {
 	    // FIXME: make configurable...
+            // DF: What, the size ? You can determine it from m_size.
 	    m_splitter->setPixmap( QPixmap( pixmap ));
 	    m_splitter->setItemSize( QSize( 4, 7 ));
 	}
@@ -563,15 +562,10 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
   m_bSortDirsFirst = b;
 }
 
-void KonqIconViewWidget::slotViewportScrolled(int)
-{
-  emit(viewportAdjusted());
-}
-
 void KonqIconViewWidget::viewportResizeEvent(QResizeEvent * e)
 {
   KIconView::viewportResizeEvent(e);
-  emit(viewportAdjusted());
+  emit viewportAdjusted();
 }
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent *e )
