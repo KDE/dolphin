@@ -1923,7 +1923,7 @@ void KonqMainWindow::slotSaveViewProfile()
 
         m_pViewManager->saveViewProfile( m_pViewManager->currentProfile(),
                                          m_pViewManager->currentProfileText(),
-                                         true /* URLs */, true /* size */ );
+                                         false /* URLs */, true /* size */ );
 
     }
 }
