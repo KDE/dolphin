@@ -704,9 +704,7 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 
     if ( frameName == _blank )
     {
-      //slotCreateNewWindow( url, args );
-      // no sidebar (this is also for the always-new-window FM option)
-      KonqMisc::createSimpleWindow( url, args );
+      slotCreateNewWindow( url, args );
       return;
     }
 
@@ -723,14 +721,7 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 
         if ( !view || !mainWindow )
         {
-            // not easy knowing whether to use a profile or not.
-            // But at least when the frame name is set (e.g. for JS window.open
-            // or for the 'always open new window, but reuse if dir already open'
-            // filemanager setting, we want a simple window.
-           if ( args.frameName.isEmpty() )
-                slotCreateNewWindow( url, args );
-            else
-                KonqMisc::createSimpleWindow( url, args );
+          slotCreateNewWindow( url, args );
           return;
         }
 
@@ -854,7 +845,12 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       openURL( 0L, url, QString::null, req );
     }
     else
-      KonqMisc::createNewWindow( url, args );
+    {
+      // no sidebar (this is for both JS-opened pages with target=_blank
+      // and for the always-new-window FM option)
+      KonqMisc::createSimpleWindow( url, args );
+      //KonqMisc::createNewWindow( url, args );
+    }
 }
 
 // This is mostly for the JS window.open call
