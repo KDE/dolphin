@@ -33,7 +33,7 @@ class KProxyData
 {
 public:
   KProxyData();
-  KProxyData::KProxyData( const KProxyData &data );
+  KProxyData( const KProxyData &data );
   ~KProxyData();
 
   void reset ();
