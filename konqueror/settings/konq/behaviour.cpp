@@ -95,8 +95,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
                                     "small popup window with additional information about that file"));
 
-/*
     connect(cbShowTips, SIGNAL(toggled(bool)), SLOT(slotShowTips(bool)));
+/*
     //connect(cbShowTips, SIGNAL(toggled(bool)), sbToolTip, SLOT(setEnabled(bool)));
     //connect(cbShowTips, SIGNAL(toggled(bool)), fileTips, SLOT(setEnabled(bool)));
     fileTips->setBuddy(sbToolTip);
