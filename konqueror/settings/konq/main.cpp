@@ -25,6 +25,8 @@
 #include <unistd.h>
 
 
+#include <kapp.h>
+#include <dcopclient.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>

@@ -19,6 +19,8 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstddirs.h>
+#include <kapp.h>
+#include <dcopclient.h>
 #include <kglobal.h>
 #include <kconfig.h>
 #ifdef HAVE_UNISTD_H
@@ -155,17 +157,8 @@ void KRootOptions::save()
     delete config;
 
     // Tell kdesktop about the new config file
-    QString exeloc = locate("exe","kfmclient");
-    if ( exeloc.isEmpty() ) {
-      KMessageBox::error( 0L,
-                          i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
-      return;
-    }
-    if ( fork() == 0 )
-    {
-      execl(exeloc, "kfmclient", "configureDesktop", 0L);
-      warning("Error launching 'kfmclient configureDesktop' !");
-    }
+    QByteArray data;
+    kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
 }
 
 
