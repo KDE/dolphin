@@ -198,7 +198,7 @@ protected:
     void disconnectSignals();
     void connectSignals();
 
-    void initListView();
+    void initListView(bool firstTime = true);
 
     void resetActions();
     void createActions();

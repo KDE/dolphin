@@ -85,9 +85,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
 
 void KEBTopLevel::construct(bool firstTime) {
 
-    // TODO - actually use the firstTime param to 
-    //        help remove the slotLoad code duplication
-
     // Create the bookmark manager.
     s_pManager = KBookmarkManager::managerForFile( m_bookmarksFilename, false );
 
@@ -96,30 +93,36 @@ void KEBTopLevel::construct(bool firstTime) {
        m_dcopIface = new KBookmarkEditorIface();
     }
 
-    m_pListView = new KEBListView( this );
+    if (firstTime)
+       m_pListView = new KEBListView( this );
 
-    initListView();
+    initListView(firstTime);
     connectSignals();
 
     s_topLevel = this;
     fillListView();
 
-    setCentralWidget( m_pListView );
-    resize( m_pListView->sizeHint().width(), 400 );
+    if (firstTime) {
+       setCentralWidget( m_pListView );
+       resize( m_pListView->sizeHint().width(), 400 );
+       createActions();
+    }
 
-    createActions();
     resetActions();
 
     slotSelectionChanged();
     slotClipboardDataChanged();
 
-    createGUI();
+    if (firstTime)
+       createGUI();
 
     setAutoSaveSettings();
     setModified(false); // for a very nice caption
     m_commandHistory.documentSaved();
 
-    KGlobal::locale()->insertCatalogue("libkonq");
+    if (firstTime) {
+       KGlobal::locale()->insertCatalogue("libkonq");
+    }
 
 }
 
@@ -162,48 +165,16 @@ void KEBTopLevel::createActions() {
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 }
 
+// TODO - add a few default place to the file dialog somehow?, 
+//      - e.g kfile bookmarks +  normal bookmarks file dir
+
 void KEBTopLevel::slotLoad()
 {
-    // TODO - this is a hack, need to remove it! :)
     if (!queryClose()) return;
     QString bookmarksFile = KFileDialog::getOpenFileName( QString::null, "*.xml", this );
     m_bookmarksFilename = bookmarksFile;
     if (bookmarksFile == QString::null) return;
-
-    // add a few default place to the file dialog somehow?, e.g kfile bookmarks +  normal bookmarks file dir
-    KBookmarkManager::managerForFile( m_bookmarksFilename, false )->slotEditBookmarks();
-    close();
-
-    return;
-
-    // AK - for the moment this can only be a readonly!
-
-    m_pListView->clear();
-    disconnectSignals();
-
-    delete m_dcopIface;
-    delete s_pManager; // AK - currently crashes!
-
-    // recreate the bookmark manager.
-    s_pManager = KBookmarkManager::managerForFile( m_bookmarksFilename, false );
-    m_bReadOnly = true;
- 
-    if (!m_bReadOnly) {
-       // Create the DCOP interface object
-       m_dcopIface = new KBookmarkEditorIface();
-    }
-
-    initListView();
-    connectSignals();
-
-    fillListView();
-
-    resetActions();
-    slotSelectionChanged();
-
-    setAutoSaveSettings(); // TODO check if needed for firstTime
-    setModified(false);
-    m_commandHistory.documentSaved();
+    construct(false);
 }
 
 void KEBTopLevel::resetActions() 
@@ -245,30 +216,31 @@ void KEBTopLevel::resetActions()
 
 }
 
-void KEBTopLevel::initListView()
+void KEBTopLevel::initListView(bool firstTime)
 {
-    // Create the list view
-    m_pListView->setDragEnabled( true );
-    m_pListView->addColumn( i18n("Bookmark"), 300 );
-    m_pListView->addColumn( i18n("URL"), 300 );
-    m_pListView->addColumn( i18n("Status/Last Modified"), 300 );
+    if (firstTime) {
+       m_pListView->setDragEnabled( true );
+       m_pListView->addColumn( i18n("Bookmark"), 300 );
+       m_pListView->addColumn( i18n("URL"), 300 );
+       m_pListView->addColumn( i18n("Status/Last Modified"), 300 );
 #ifdef DEBUG_ADDRESSES
-    m_pListView->addColumn( i18n("Address"), 100 );
+       m_pListView->addColumn( i18n("Address"), 100 );
 #endif
 
-    m_pListView->setRootIsDecorated( true );
-    m_pListView->setRenameable( 0 );
-    m_pListView->setRenameable( 1 );
+       m_pListView->setRootIsDecorated( true );
+       m_pListView->setRenameable( 0 );
+       m_pListView->setRenameable( 1 );
+
+       m_pListView->setSelectionModeExt( KListView::Extended );
+       m_pListView->setDragEnabled( true );
+       m_pListView->setAllColumnsShowFocus( true );
+       m_pListView->setSorting(-1, false);
+    }
 
     m_pListView->setItemsRenameable( !m_bReadOnly );
     m_pListView->setItemsMovable( m_bReadOnly ); // We move items ourselves (for undo)
     m_pListView->setAcceptDrops( !m_bReadOnly );
     m_pListView->setDropVisualizer( !m_bReadOnly );
-
-    m_pListView->setSelectionModeExt( KListView::Extended );
-    m_pListView->setDragEnabled( true );
-    m_pListView->setAllColumnsShowFocus( true );
-    m_pListView->setSorting(-1, false);
 
 }
 
@@ -282,10 +254,6 @@ void KEBTopLevel::disconnectSignals() {
     kdWarning() << disconnect( m_dcopIface, 0, 0, 0 ) << endl;
 
     return;
-
-    // FIXME - UNUSED CODE!
-
-    // OLD not so evil way
 
     disconnect( m_pListView, SIGNAL( selectionChanged()), 0, 0 );
     disconnect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem *, const QPoint & )), 0, 0 );
