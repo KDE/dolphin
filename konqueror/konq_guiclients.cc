@@ -31,7 +31,7 @@
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,
-                                        bool currentDir )
+                                        bool dirsSelected )
 {
   m_mainWindow = mainWindow;
 
@@ -104,8 +104,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
   }
 
   KonqView *v = mainWindow->currentView();
-  if ( v && v->part() && v->part()->inherits( "KonqDirPart" ) &&
-      !currentDir )
+  if ( v && v->part() && v->part()->inherits( "KonqDirPart" ) && dirsSelected )
   {
       QDomElement separator = m_doc.createElement( "separator" );
       separator.setAttribute( "group", "find" );
