@@ -42,37 +42,36 @@ class KonqTreeViewWidget;
 class KonqPropsView
 {
   // A View can read/write the values directly.
-  //friend KonqKfmIconView;
-  //friend KonqTreeViewWidget;
 
   // This is not a QObject because we need a copy constructor.
 public:
-  /**
-   * The static instance of KonqPropsView, holding the default values
-   * from the config file
-   */
-  static KonqPropsView * defaultProps( KInstance *instance );
 
   /**
-   * To construct a new KonqPropsView instance with values taken
-   * from defaultProps, use the copy constructor.
-
-   * Constructs a KonqPropsView instance from a config file.
-   * Set the group before calling.
-   * ("Settings" for global props, "ViewNNN" for local props)
+   * Constructs a KonqPropsView instance from an instance config file.
+   * defaultProps is a "parent" object. If non null, then this instance
+   * is the one used by a view, and its value can differ from the default ones.
+   * The instance parameter should be the same for both...
    */
-  KonqPropsView( KConfig * config );
+  KonqPropsView( KInstance * instance, KonqPropsView * defaultProps /*= 0L*/ );
 
   /** Destructor */
   virtual ~KonqPropsView();
 
   /**
-   * Called when entering a directory
-   * Checks for a .directory, read it, and
-   * @return true if found it
+   * Is this the instance representing default properties ?
    */
-  bool enterDir( const KURL & dir, KonqPropsView *defaultProps );
+  bool isDefaultProperties() {
+      // No parent -> we are the default properties
+      return m_defaultProps == 0L;
+  }
 
+  /**
+   * Called when entering a directory
+   * Checks for a .directory, read it.
+   */
+  void enterDir( const KURL & dir );
+
+#if 0
   /**
    * Save in local .directory if possible
    */
@@ -91,35 +90,59 @@ public:
    * "URL properties" for .directory files)
    */
   void saveProps( KConfig * config );
+#endif
 
-  //////// The read-only access methods. Order is to be kept. /////
+  void setSaveViewPropertiesLocally( bool value );
 
-  bool isShowingDotFiles() { return m_bShowDot; }
-  bool isShowingImagePreview() { return m_bImagePreview; }
-  bool isHTMLAllowed() { return m_bHTMLAllowed; }
-  // Cache ?
+
+  void setShowingDotFiles( bool show );
+  bool isShowingDotFiles() const { return m_bShowDot; }
+
+  void setShowingImagePreview( bool show );
+  bool isShowingImagePreview() const { return m_bImagePreview; }
+
+  void setHTMLAllowed( bool allowed );
+  bool isHTMLAllowed() const { return m_bHTMLAllowed; }
+
   // TODO : window size
 
-  const QColor& bgColor() { return m_bgColor; }
-  const QPixmap& bgPixmap() { return m_bgPixmap; }
+  const QColor& bgColor() const { return m_bgColor; }
+  const QPixmap& bgPixmap() const { return m_bgPixmap; }
+  QColor m_bgColor;
+  QPixmap m_bgPixmap;
 
-//without the protected user made views can access this directly
-//without modifying konqy's sources
-//protected:
-
-  /** The static instance. */
-  //  static KonqPropsView * m_pDefaultProps;
+protected:
 
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
-  // bool m_bCache; ?
-  QColor m_bgColor;
-  QPixmap m_bgPixmap; // one per view or one per GUI ?
+
+protected:
+
+  QString dotDirectory;
+
+  KConfigBase * currentConfig();
+
+  QString currentGroup() {
+      return isDefaultProperties() ? "Settings" : "URL properties";
+  }
+
+  bool m_bSaveViewPropertiesLocally;
+  // Points to the current .directory file if we are in
+  // save-view-properties-locally mode, otherwise to the global config
+  // It is set to 0L to mark it as "needs to be constructed".
+  // This is to be used for SAVING only.
+  // Can be a KConfig or a KSimpleConfig
+  KConfigBase * m_currentConfig;
+
+  // If this is not a "default properties" instance (but one used by a view)
+  // then m_defaultProps points to the "default properties" instance
+  // Otherwise it's 0L.
+  KonqPropsView * m_defaultProps;
 
 private:
 
-  /** There is no default constructor. Use the provided one or copy constructor */
+  KonqPropsView( const KonqPropsView & );
   KonqPropsView();
 };
 

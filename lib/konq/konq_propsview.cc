@@ -31,6 +31,7 @@
 #include <qfile.h>
 #include <iostream>
 #include <kinstance.h>
+#include <assert.h>
 
 #include <ksimpleconfig.h>
 
@@ -56,38 +57,18 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
     return QPixmap();
 }
 
-//KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
-
-// static
-KonqPropsView * KonqPropsView::defaultProps( KInstance *instance )
+KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
+    : m_bSaveViewPropertiesLocally( false ), // will be overriden by setSave... anyway
+    // if this is the default properties instance, then keep config object for saving
+    m_currentConfig( defaultProps ? 0L : instance->config() ),
+    m_defaultProps( defaultProps )
 {
-//  if (!m_pDefaultProps)
-//  {
-    kdDebug(1203) << "Reading global config for konq_propsview" << endl;
-    KConfig *config = instance->config();
-    KConfigGroupSaver cgs(config, "Settings");
-    return new KonqPropsView( config );
-    //    m_pDefaultProps = new KonqPropsView(config);
-    //  }
-    //  return m_pDefaultProps;
-}
+  KConfig *config = instance->config();
+  KConfigGroupSaver cgs(config, "Settings");
 
-KonqPropsView::KonqPropsView( KConfig * config )
-{
-  QString entry = "LargeIcons"; // default
-/*  m_viewMode = KfmView::HOR_ICONS;
-  entry = config->readEntry("ViewMode", entry);
-  if (entry == "SmallIcons")
-    m_viewMode = KfmView::VERT_ICONS;
-  if (entry == "TreeView")
-    m_viewMode = KfmView::FINDER;
-  if (entry == "HTMLView")
-    m_viewMode = KfmView::HTML;
-*/
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
-  // m_bCache = false; // What is it ???
 
   // Default background color is the one from the settings, i.e. configured in kcmkonq
   m_bgColor = KonqFMSettings::settings()->bgColor();
@@ -96,6 +77,7 @@ KonqPropsView::KonqPropsView( KConfig * config )
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( pix.isEmpty() )
   {
+      // should probably use config instead...
     KConfig builtinviewConfig( "konqbuiltinviewrc", true, false );
     QString pix = builtinviewConfig.readEntry( "BackgroundPixmap", "" );
   }
@@ -110,15 +92,33 @@ KonqPropsView::KonqPropsView( KConfig * config )
   }
 }
 
+KConfigBase * KonqPropsView::currentConfig()
+{
+    if ( !m_currentConfig )
+    {
+        // 0L ? This has to be a non-default save-locally instance...
+        assert ( m_bSaveViewPropertiesLocally );
+
+        if (dotDirectory.isEmpty())
+            kdWarning(1203) << "Empty dotDirectory !" << endl;
+        m_currentConfig = new KSimpleConfig( dotDirectory );
+    }
+    return m_currentConfig;
+}
+
 KonqPropsView::~KonqPropsView()
 {
 }
 
-bool KonqPropsView::enterDir( const KURL & dir, KonqPropsView *defaultProps )
+void KonqPropsView::enterDir( const KURL & dir )
 {
+  // Can't do that with default properties
+  assert( !isDefaultProperties() );
   // Revert to default setting first
-//  m_bgPixmap = m_pDefaultProps->m_bgPixmap;
-  m_bgPixmap = defaultProps->m_bgPixmap; 
+  m_bShowDot = m_defaultProps->isShowingDotFiles();
+  m_bImagePreview = m_defaultProps->isShowingImagePreview();
+  m_bHTMLAllowed = m_defaultProps->isHTMLAllowed();
+  m_bgPixmap = m_defaultProps->m_bgPixmap;
   m_bgColor = KonqFMSettings::settings()->bgColor();
   // Check for .directory
   KURL u ( dir );
@@ -126,22 +126,31 @@ bool KonqPropsView::enterDir( const KURL & dir, KonqPropsView *defaultProps )
   if (u.isLocalFile() && QFile::exists( u.path() ))
   {
     //kdDebug(1203) << "Found .directory file" << endl;
-    KSimpleConfig config( u.path(), true);
-    config.setGroup("URL properties");
-    m_bgColor = config.readColorEntry( "BgColor", &m_bgColor );
-    QString pix = config.readEntry( "BgImage", "" );
+    dotDirectory = u.path();
+    KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
+    config->setGroup("URL properties");
+
+    m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
+    m_bImagePreview = config->readBoolEntry( "ImagePreview", m_bImagePreview );
+    m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
+
+    m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
+    QString pix = config->readEntry( "BgImage", "" );
     if ( !pix.isEmpty() )
     {
-      debug("BgImage is %s", debugString(pix));
-      QPixmap p = wallpaperPixmap( pix );
-      if ( !p.isNull() )
-        m_bgPixmap = p;
-      else debug("Wallpaper not found");
+        debug("BgImage is %s", debugString(pix));
+        QPixmap p = wallpaperPixmap( pix );
+        if ( !p.isNull() )
+            m_bgPixmap = p;
+        else debug("Wallpaper not found");
     }
+    delete config;
   }
-  return true;
+  m_currentConfig = 0L; // new dir, not current config for saving yet
 }
 
+#if 0
+// TO BE DELETED
 void KonqPropsView::saveAsDefault( KInstance *instance )
 {
   KConfig *config = instance->config();
@@ -149,6 +158,7 @@ void KonqPropsView::saveAsDefault( KInstance *instance )
   saveProps( config );
 }
 
+// TO BE DELETED
 void KonqPropsView::saveLocal( const KURL & dir )
 {
   KURL u ( dir );
@@ -166,24 +176,64 @@ void KonqPropsView::saveLocal( const KURL & dir )
   saveProps( & config );
 }
 
+// TO BE DELETED
 void KonqPropsView::saveProps( KConfig * config )
 {
-  QString entry;
-/*  switch ( m_viewMode )
-    {
-    case KfmView::HOR_ICONS: entry = "LargeIcons"; break;
-    case KfmView::FINDER: entry = "TreeView"; break;
-    case KfmView::VERT_ICONS: entry = "SmallIcons"; break;
-    case KfmView::HTML: entry = "HTMLView"; break;
-    default: assert( 0 ); break;
-    }
-  config->writeEntry( "ViewMode", entry);
-*/
-  config->writeEntry( "ShowDotFiles", m_bShowDot );
-  config->writeEntry( "ImagePreview", m_bImagePreview );
-  config->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
   config->writeEntry( "BgColor", m_bgColor );
   // TODO save FILENAME for the BgImage...
   config->sync();
 }
+#endif
 
+void KonqPropsView::setSaveViewPropertiesLocally( bool value )
+{
+    assert( !isDefaultProperties() );
+    kdDebug(1203) << "KonqPropsView::setSaveViewPropertiesLocally " << value << endl;
+
+    if ( m_bSaveViewPropertiesLocally )
+        delete m_currentConfig; // points to a KSimpleConfig
+
+    m_bSaveViewPropertiesLocally = value;
+    m_currentConfig = 0L; // mark as dirty
+}
+
+void KonqPropsView::setShowingDotFiles( bool show )
+{
+    kdDebug(1203) << "KonqPropsView::setShowingDotFiles " << show << endl;
+    m_bShowDot = show;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+    {
+        kdDebug(1203) << "Saving in default properties" << endl;
+        m_defaultProps->setShowingDotFiles( show );
+    }
+    else
+    {
+        kdDebug(1203) << "Saving in current config" << endl;
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "ShowDotFiles", m_bShowDot );
+    }
+}
+
+void KonqPropsView::setShowingImagePreview( bool show )
+{
+    m_bImagePreview = show;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+        m_defaultProps->setShowingImagePreview( show );
+    else
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "ImagePreview", m_bImagePreview );
+    }
+}
+
+void KonqPropsView::setHTMLAllowed( bool allowed )
+{
+    m_bHTMLAllowed = allowed;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+        m_defaultProps->setHTMLAllowed( allowed );
+    else
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
+    }
+}
