@@ -59,16 +59,10 @@
 #include <time.h>
 #include <unistd.h>
 
-static const char *mocs[] = {
-#include "libkonqlistview_la_moc_classes.h"
-0
-};
-
 KonqListViewFactory::KonqListViewFactory()
 {
   s_instance = 0;
   s_defaultViewProps = 0;
-  setMocClasses(mocs);
 }
 
 KonqListViewFactory::~KonqListViewFactory()

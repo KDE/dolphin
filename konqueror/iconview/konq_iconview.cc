@@ -62,11 +62,6 @@
 
 #include <config.h>
 
-static const char *mocs[] = {
-#include "libkonqiconview_la_moc_classes.h"
-0
-};
-
 template class QList<KFileIVI>;
 //template class QValueList<int>;
 
@@ -77,7 +72,6 @@ public:
    {
       s_defaultViewProps = 0;
       s_instance = 0;
-      setMocClasses(mocs);
    }
 
    virtual ~KonqIconViewFactory()
