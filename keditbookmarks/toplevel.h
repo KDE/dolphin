@@ -27,6 +27,7 @@ class KBookmarkManager;
 class KToggleAction;
 class KBookmarkEditorIface;
 class ImportCommand;
+class KLineEdit;
 
 struct SelcAbilities {
    bool itemSelected:1;
@@ -126,6 +127,7 @@ public slots:
    void slotSaveOnClose();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
+   void slotSearchTextChanged(const QString & url);
 
 protected slots:
    void slotClipboardDataChanged();
@@ -143,6 +145,7 @@ private:
    bool m_readOnly;
 
    CmdHistory *m_cmdHistory;
+   KLineEdit *m_iSearchLineEdit;
    KBookmarkEditorIface *m_dcopIface;
    QString m_bookmarksFilename;
    bool m_saveOnClose;

@@ -29,17 +29,18 @@
 #include <kstdaction.h>
 #include <kaction.h>
 #include <dcopclient.h>
+#include <dcopref.h>
 
 #include <kkeydialog.h>
 #include <kedittoolbar.h>
+#include <kmessagebox.h>
+#include <klineedit.h>
+#include <kfiledialog.h>
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 #include <kbookmarkexporter.h>
-#include <dcopref.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
 
 #include "listview.h"
 #include "actionsimpl.h"
@@ -166,13 +167,17 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    s_topLevel = this;
 
-   QSplitter *splitter = new QSplitter(this);
+   QSplitter *vsplitter = new QSplitter(this);
+   m_iSearchLineEdit = new KLineEdit(vsplitter);
+   vsplitter->setOrientation(QSplitter::Vertical);
+   vsplitter->setSizes(QValueList<int>() << 20 << 380);
 
+   QSplitter *splitter = new QSplitter(vsplitter);
    ListView::createListViews(splitter);
    ListView::self()->initListViews();
    ListView::self()->setInitialAddress(address);
 
-   setCentralWidget(splitter);
+   setCentralWidget(vsplitter);
    resize(ListView::self()->widget()->sizeHint().width()
          + 0 /* TODO - other split view */, 400);
 
@@ -192,11 +197,96 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    updateActions();
 }
 
+class KBookmarkTextMap : private KBookmarkGroupTraverser {
+public:
+   KBookmarkTextMap(KBookmarkManager *);
+   void update();
+   QValueList<KBookmark> find(const QString &text) const;
+private:
+   virtual void visit(const KBookmark &);
+   virtual void visitEnter(const KBookmarkGroup &);
+   virtual void visitLeave(const KBookmarkGroup &) { ; }
+private:
+   typedef QValueList<KBookmark> KBookmarkList;
+   QMap<QString, KBookmarkList> m_bk_map;
+   KBookmarkManager *m_manager;
+};
+
+static KBookmarkTextMap *s_bk_map = 0;
+
+KBookmarkTextMap::KBookmarkTextMap( KBookmarkManager *manager ) {
+   m_manager = manager;
+}
+
+void KBookmarkTextMap::update()
+{
+   m_bk_map.clear();
+   KBookmarkGroup root = m_manager->root();
+   traverse(root);
+}
+
+void KBookmarkTextMap::visit(const KBookmark &bk) {
+   if (!bk.isSeparator()) {
+      // todo - comment field
+      QString text = bk.url().url() + " " + bk.text();
+      m_bk_map[text].append(bk);
+   }
+}
+
+void KBookmarkTextMap::visitEnter(const KBookmarkGroup &grp) {
+   visit(grp);
+}
+
+QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
+{
+   QValueList<KBookmark> matches;
+   QValueList<QString> keys = m_bk_map.keys();
+   for (QValueList<QString>::iterator it = keys.begin();
+         it != keys.end(); ++it )
+   {
+      if ((*it).find(text,0,false) != -1) {
+         matches += m_bk_map[(*it)];
+      }
+   }
+   return matches;
+}
+
+static KBookmark s_last_search_result;
+
+void KEBApp::slotSearchTextChanged(const QString & text)
+{
+   if (!s_bk_map)
+      s_bk_map = new KBookmarkTextMap(CurrentMgr::self()->mgr());
+   s_bk_map->update(); // TODO - should make update only when dirty
+
+   QValueList<KBookmark> list = s_bk_map->find(text);
+   for ( QValueList<KBookmark>::iterator it = list.begin();
+         it != list.end(); ++it 
+   ) {
+      kdDebug() << (*it).address() << endl;
+      if (!s_last_search_result.isNull()) {
+         KEBListViewItem *item 
+            = ListView::self()->getItemAtAddress(s_last_search_result.address());
+         item->setSelected(false);
+         item->repaint();
+      }
+      KEBListViewItem *item 
+         = ListView::self()->getItemAtAddress((*it).address());
+      ListView::self()->setCurrent(item);
+      item->setSelected(true);
+      s_last_search_result = (*it);
+      break;
+   }
+}
+
 void KEBApp::construct() {
    CurrentMgr::self()->createManager(m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
    ListView::self()->updateListView();
+
+   connect(m_iSearchLineEdit, SIGNAL( textChanged(const QString &) ),
+                              SLOT( slotSearchTextChanged(const QString &) ));
 
    slotClipboardDataChanged();
 
