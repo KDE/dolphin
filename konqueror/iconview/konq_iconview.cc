@@ -196,7 +196,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
                                       actionCollection(), "show_dot" );
     m_paDotFiles->setStatusText( i18n( "Toggle displaying of hidden dot files" ) );
 	
-	m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder icons reflect contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
+	m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
                                       actionCollection(), "show_directory_overlays" );
 
     m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
