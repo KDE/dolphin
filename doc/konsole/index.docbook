@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN"
+ "dtd/kdex.dtd" [
 <!ENTITY kappname "&konsole;">
 <!ENTITY % English "INCLUDE">
 <!ENTITY % addindex "IGNORE">
@@ -48,10 +49,11 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-06-07</date>
+<date>2001-07-09</date>
 <releaseinfo>1.00.20</releaseinfo>
 
-<abstract><para>This document is the user handbook for the &konsole; application.</para>
+<abstract><para>This document is the user handbook for the &konsole;
+ application.</para>
 <para>&konsole; is an X terminal emulator for &kde; 2.0</para></abstract>
 
 <keywordset>
@@ -81,8 +83,10 @@ use multiple terminal shells in a single window.</para>
 <listitem><para><application>Midnight Commander</application> file manager
 sessions</para></listitem>  
 <listitem><para>Shell sessions</para></listitem>
-<listitem><para><systemitem class="username">Root</systemitem> console sessions</para></listitem>
-<listitem><para><systemitem class="username">Root</systemitem> <application>Midnight Commander</application> sessions</para></listitem>
+<listitem><para><systemitem class="username">Root</systemitem> console
+ sessions</para></listitem>
+<listitem><para><systemitem class="username">Root</systemitem>
+ <application>Midnight Commander</application> sessions</para></listitem>
 </itemizedlist>
 
 <para>These sessions can be renamed to help you keep track of all your shells,
@@ -260,7 +264,8 @@ console differs from a typical &UNIX; console.</para></note></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>File</guimenu><guimenuitem>Midnight
 Commander</guimenuitem></menuchoice></term>
-<listitem><para><action>Opens a new session</action> with the <application>Midnight
+<listitem><para><action>Opens a new session</action> with the
+ <application>Midnight
 Commander</application> graphical file browser</para></listitem>
 </varlistentry>
 <varlistentry>
@@ -302,7 +307,7 @@ care should be taken to avoid accidental damage.
 <para>
 <action>Opens a new session</action> with the <application>Midnight
 Commander</application> graphical file browser, as the <systemitem
-class="username">root</systemitem> user. 
+class="username">root</systemitem> user.
 </para>
 <para>
 After being prompted for the root password, the <prompt>#</prompt>
@@ -322,12 +327,13 @@ applications launched from them.</para></listitem>
 </variablelist>
 
 <para>
-You can also define a key shortcut to launch a new terminal shell. The
-files with a <literal role="extension">*.keytab</literal> extension in
-<filename
-class="directory">$<envar>KDEDIR</envar>/share/apps/konsole</filename>
-define keyboard shortcuts.
-</para>
+You can also open a new session with a key shortcut. By default, <keycombo
+action="simul"><keycap>Alt</keycap><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>
+is used. You can also define your own key shortcut to launch a new
+terminal session. The files with a <literal role="extension">*.keytab</literal>
+extension in <filename
+class="directory">$<envar>KDEDIR</envar>/share/apps/konsole</filename> define
+keyboard shortcuts. </para>
 
 <para>
 For instance, adding the definition: <userinput>key F12 + Shift :
@@ -401,7 +407,8 @@ session</action></para></listitem>
 <term><menuchoice><guimenu>Sessions</guimenu>
 <guimenuitem>Session icons...</guimenuitem></menuchoice></term>
 <listitem><para>At the bottom of the menu is a list of the available
-sessions. Selecting one makes that session active.</para><para>You can also use the <keycombo
+sessions. Selecting one makes that session active.</para><para>You can also use
+ the <keycombo
 action="simul"><keycap>Shift</keycap><keycap>Left</keycap></keycombo>/<keycombo
 action="simul"><keycap>Shift</keycap><keycap>Right</keycap></keycombo> keys to
 cycle through the available sessions.</para>
@@ -517,16 +524,20 @@ files to match your needs.</para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem>Word Separators</guimenuitem></menuchoice></term>
-<listitem><para><action>Specify characters that will be recognized as separators between
+<listitem><para><action>Specify characters that will be recognized as separators
+ between
 words</action></para>
-<para>This affects what text will be selected when you double-click on text. It is most
+<para>This affects what text will be selected when you double-click on text. It
+ is most
 important for non-Western text encodings.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>W</accel>arn for Open Sessions on Quit</guimenuitem></menuchoice></term>
-<listitem><para><action>When set, a warning appears when you try to close a &konsole; window with
+<guimenuitem><accel>W</accel>arn for Open Sessions on
+ Quit</guimenuitem></menuchoice></term>
+<listitem><para><action>When set, a warning appears when you try to close a
+ &konsole; window with
 multiple sessions.
 </action></para>
 </listitem>
@@ -599,7 +610,8 @@ the textured <quote>handle</quote> at the side of the bar. The bar contains a
 <guiicon>New</guiicon> opens a new <quote>Shell</quote> session.</para>
 
 <para>Clicking an existing session's icon makes that session active.</para>
-<para>When the toolbar is hidden, <keycombo action="simul"><keycap>Shift</keycap> <keycap>Left</keycap></keycombo> and
+<para>When the toolbar is hidden, <keycombo
+ action="simul"><keycap>Shift</keycap> <keycap>Left</keycap></keycombo> and
 <keycombo action="simul"><keycap>Shift</keycap>
 <keycap>Right</keycap></keycombo> can be used to move between sessions.</para>
 
@@ -645,7 +657,8 @@ the window</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--notoolbar</option></term>
-<listitem><para>Start &konsole; <action>without a toolbar</action></para></listitem>
+<listitem><para>Start &konsole; <action>without a
+ toolbar</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--vt_sz</option> <parameter>CCxLL</parameter></term>
@@ -663,7 +676,9 @@ lines</action></para></listitem>
 
 <informalexample>
 <screen>
-<prompt>bash$</prompt> <userinput><command>konsole</command> <option>--vt_sz</option> <parameter>90x25</parameter> <option>--nohist</option></userinput>
+<prompt>bash$</prompt> <userinput><command>konsole</command>
+ <option>--vt_sz</option> <parameter>90x25</parameter>
+ <option>--nohist</option></userinput>
 </screen>
 
 <para> starts a &konsole; window with 90 columns and 25 rows, with no
