@@ -72,7 +72,7 @@
 #include <kmessagebox.h>
 #include <knewmenu.h>
 #include <konq_defaults.h>
-#include <konq_history.h>
+#include <konq_historymgr.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
 #include <konq_main.h>

@@ -30,7 +30,7 @@
 #include "konq_viewmgr.h"
 #include <kio/job.h>
 
-#include <konq_history.h>
+#include <konq_historymgr.h>
 
 #include <assert.h>
 #include <kdebug.h>

@@ -63,7 +63,7 @@ HistoryWidget::HistoryWidget( QWidget *parent, const char *name )
     QVBoxLayout *l2 = new QVBoxLayout( m_buttons );
     connect( m_buttons, SIGNAL( clicked( int )), SLOT( slotClicked( int )));
     
-    // automatic assignment of ids [0..8] ... for the buttongroup
+    // automatic assignment of ids [0..7] ... for the buttongroup
     QButton *b;
     for ( int i = 0; i < 8; i++ ) {
 	b = new ArrowButton( m_buttons );
