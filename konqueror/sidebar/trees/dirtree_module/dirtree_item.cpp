@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2003 Waldo Bastian <bastian@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -39,7 +40,7 @@ KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTreeItem *parentItem,
 {
     if ( m_topLevelItem )
         MYMODULE->addSubDir( this );
-    init();
+    reset();
 }
 
 KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTree *parent, KonqSidebarTreeTopLevelItem *topLevelItem, KFileItem *fileItem )
@@ -47,15 +48,16 @@ KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTree *parent, KonqSid
 {
     if ( m_topLevelItem )
         MYMODULE->addSubDir( this );
-    init();
+    reset();
 }
 
 KonqSidebarDirTreeItem::~KonqSidebarDirTreeItem()
 {
 }
 
-void KonqSidebarDirTreeItem::init()
+void KonqSidebarDirTreeItem::reset()
 {
+    bool expandable = true;
     // For local dirs, find out if they have no children, to remove the "+"
     if ( m_fileItem->isDir() )
     {
@@ -75,10 +77,12 @@ void KonqSidebarDirTreeItem::init()
                 // as non-expandable if it's exactly 2 (one link from the parent dir,
                 // plus one from the '.' entry).
                 if ( buff.st_nlink == 2 )
-                    setExpandable( false );
+                    expandable = false;
             }
         }
     }
+    setExpandable( expandable );
+    id = m_fileItem->url().url(-1);
 }
 
 void KonqSidebarDirTreeItem::setOpen( bool open )

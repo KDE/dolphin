@@ -1,6 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
                  2000 Carsten Pfeiffer <pfeiffer@kde.org>
+                 2003 Waldo Bastian <bastian@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -155,14 +156,24 @@ KonqSidebarTree::~KonqSidebarTree()
     clearTree();
 }
 
+void KonqSidebarTree::itemDestructed( KonqSidebarTreeItem *item )
+{
+    stopAnimation(item);
+
+    if (item == m_currentBeforeDropItem)
+    {
+       m_currentBeforeDropItem = 0;
+    }
+}
+
 void KonqSidebarTree::clearTree()
 {
-//     for ( KonqSidebarTreeModule * module = m_lstModules.first() ; module ; module = m_lstModules.next() )
-//         module->clearAll();
-    m_lstModules.clear();
     m_topLevelItems.clear();
     m_mapCurrentOpeningFolders.clear();
+    m_currentBeforeDropItem = 0;
     clear();
+    m_lstModules.clear();
+
     if (m_dirtreeDir.type==VIRT_Folder)
     {
         setRootIsDecorated( true );
@@ -707,9 +718,10 @@ void KonqSidebarTree::stopAnimation( KonqSidebarTreeItem * item )
     {
         item->setPixmap( 0, it.data().originalPixmap );
         m_mapCurrentOpeningFolders.remove( item );
+
+        if (m_mapCurrentOpeningFolders.isEmpty())
+            m_animationTimer->stop();
     }
-    if (m_mapCurrentOpeningFolders.isEmpty())
-        m_animationTimer->stop();
 }
 
 KonqSidebarTreeItem * KonqSidebarTree::currentItem() const
@@ -720,8 +732,9 @@ KonqSidebarTreeItem * KonqSidebarTree::currentItem() const
 void KonqSidebarTree::slotOnItem( QListViewItem *item )
 {
     KonqSidebarTreeItem *i = static_cast<KonqSidebarTreeItem *>( item );
-    const KURL& url = i->externalURL();
 /*
+    const KURL& url = i->externalURL();
+
     if ( url.isLocalFile() )
 	emitStatusBarText( url.path() );
     else

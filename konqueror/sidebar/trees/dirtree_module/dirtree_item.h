@@ -57,10 +57,13 @@ public:
 
     virtual void itemSelected();
 
+    void reset();
+
     bool hasStandardIcon();
-    QStringList alias;
+
+    QString id;
+
 private:
-    void init();
     void delOperation( int method );
     KFileItem *m_fileItem;
 };

@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2003 Waldo Bastian <bastian@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -30,6 +31,13 @@ KonqSidebarTreeItem::KonqSidebarTreeItem( KonqSidebarTree *parent, KonqSidebarTr
     : QListViewItem( parent )
 {
     initItem( topLevelItem );
+}
+
+KonqSidebarTreeItem::~KonqSidebarTreeItem()
+{
+    KonqSidebarTree *t = tree();
+    if (t)
+       t->itemDestructed(this);
 }
 
 void KonqSidebarTreeItem::initItem( KonqSidebarTreeTopLevelItem *topLevelItem )

@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2003 Waldo Bastian <bastian@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -20,6 +21,7 @@
 #define konq_treeitem_h
 
 #include <qlistview.h>
+#include <qstringlist.h>
 #include <kurl.h>
 
 class QPainter;
@@ -43,7 +45,7 @@ public:
 
     void initItem( KonqSidebarTreeTopLevelItem *topLevelItem );
 
-    virtual ~KonqSidebarTreeItem() {}
+    virtual ~KonqSidebarTreeItem();
 
     // Whether the item accepts a drop consisting in those @p formats
     virtual bool acceptsDrops( const QStrList & ) { return false; }
@@ -98,6 +100,9 @@ public:
     KonqSidebarTree *tree() const;
 
     virtual QString key( int column, bool ) const { return text( column ).lower(); }
+    
+    // List of alternative names (URLs) this entry is known under
+    QStringList alias;
 protected:
     // Create an item at the toplevel - only for toplevel items -> protected
     KonqSidebarTreeItem( KonqSidebarTree *parent, KonqSidebarTreeTopLevelItem *topLevelItem );

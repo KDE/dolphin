@@ -98,6 +98,8 @@ public:
                         bool trash, bool del, bool shred,
                         bool rename = false );
 
+    void itemDestructed( KonqSidebarTreeItem *item );
+
 public slots:
     virtual void setContentsPos( int x, int y );
 

@@ -107,7 +107,7 @@ extern "C"
 
 extern "C"
 {
-   bool add_konqsidebar_tree(QString* fn, QString* param, QMap<QString,QString> *map)
+   bool add_konqsidebar_tree(QString* fn, QString*, QMap<QString,QString> *map)
    {
 	  KStandardDirs *dirs=KGlobal::dirs();
 	  QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);

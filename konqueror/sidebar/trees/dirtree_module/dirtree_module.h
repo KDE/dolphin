@@ -23,6 +23,7 @@
 #include <kfileitem.h>
 #include <qpixmap.h>
 #include <qdict.h>
+#include <qptrdict.h>
 
 class KDirLister;
 class KonqSidebarTree;
@@ -61,7 +62,12 @@ private:
     KURL::List selectedUrls();
 
     // URL -> item
+    // Each KonqSidebarDirTreeItem is indexed on item->id() and
+    // all item->alias'es
     QDict<KonqSidebarTreeItem> m_dictSubDirs;
+
+    // KFileItem -> item
+    QPtrDict<KonqSidebarTreeItem> m_ptrdictSubDirs;
 
     KDirLister * m_dirLister;
 
