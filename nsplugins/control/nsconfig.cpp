@@ -116,6 +116,11 @@ void NSPluginConfig::defaults()
 
     m_widget->scanAtStartup->setChecked( false );
 
+    m_widget->dirEdit->setText("");
+    m_widget->dirEdit->setEnabled( false );
+    m_widget->dirBrowse->setEnabled( false );
+    m_widget->dirRemove->setEnabled( false );
+
     dirLoad( config );
     pluginLoad( config );
 
