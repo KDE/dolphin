@@ -146,6 +146,7 @@ void KonqRun::scanFile()
   }
 
   KIO::TransferJob *job = KIO::get(m_strURL, false, false);
+  job->setWindow((KMainWindow *)m_pMainWindow);
   connect( job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotKonqScanFinished(KIO::Job *)));
   connect( job, SIGNAL( mimetype( KIO::Job *, const QString &)),
