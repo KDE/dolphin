@@ -36,16 +36,17 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_combo.cc	\
 	    konq_browseriface.cc \
 	    delayedinitializer.cc \
-	    konq_mainwindow.cc 
+	    konq_mainwindow.cc  \
+	    konq_extensionmanager.cc
 
 noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
 	konq_actions.h konq_browseriface.h konq_combo.h konq_factory.h \
 	konq_frame.h konq_tabs.h konq_guiclients.h konq_main.h konq_mainwindow.h \
 	konq_misc.h konq_openurlrequest.h konq_profiledlg.h konq_run.h \
-	konq_view.h konq_viewmgr.h version.h
+	konq_view.h konq_viewmgr.h konq_extensionmanager.h version.h
 
 konqueror_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIBMALLOC)
+konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIBMALLOC) $(LIB_KUTILS)
 
 # Hmm, this experiment of a static konq failed, don't trust it...
 # (but feel free to fix it :)

@@ -29,6 +29,7 @@
 #include "konq_tabs.h"
 #include "konq_events.h"
 #include "konq_actions.h"
+#include "konq_extensionmanager.h"
 #include "delayedinitializer.h"
 #include <konq_pixmapprovider.h>
 #include <konq_operations.h>
@@ -1760,6 +1761,12 @@ QStringList KonqMainWindow::configModules() const
           "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
 
   return args;
+}
+
+void KonqMainWindow::slotConfigureExtensions()
+{
+	KonqExtensionManager extensionManager(0L, "extensionmanager");
+	extensionManager.exec();
 }
 
 void KonqMainWindow::slotConfigure()
@@ -3504,6 +3511,7 @@ void KonqMainWindow::initActions()
   KStdAction::keyBindings( guiFactory(), SLOT( configureShortcuts() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
 
+  m_paConfigureExtensions = new KAction( i18n("Configure Extensions..."), "extensions", 0, this, SLOT( slotConfigureExtensions()), actionCollection(), "options_configure_extensions");
   m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), "spellcheck", 0,this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");
 
   // Window menu
@@ -3988,7 +3996,7 @@ void KonqMainWindow::enableAllActions( bool enable )
   for (; it != end; ++it )
   {
     KAction *act = *it;
-    if ( strncmp( act->name(), "options_configure", 9 ) /* do not touch the configureblah actions */
+    if ( !QString(act->name()).startsWith("options_configure") /* do not touch the configureblah actions */
          && ( !enable || !actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
       act->setEnabled( enable );
   }
@@ -4051,7 +4059,8 @@ void KonqMainWindow::disableActionsNoView()
     static const char* const s_enActions[] = { "new_window", "duplicate_window", "open_location",
                                          "toolbar_url_combo", "clear_location", "animated_logo",
                                          "konqintro", "go_most_often", "go_applications", "go_dirtree",
-                                         "go_trash", "go_templates", "go_autostart", "go_url", 0 };
+                                         "go_trash", "go_templates", "go_autostart", "go_url",
+                                         "options_configure_extensions", 0 };
     for ( int i = 0 ; s_enActions[i] ; ++i )
     {
         KAction * act = action(s_enActions[i]);

@@ -367,7 +367,8 @@ public slots:
 
   void slotConfigure();
   void slotConfigureToolbars();
-    void slotConfigureSpellChecking();
+  void slotConfigureExtensions();
+  void slotConfigureSpellChecking();
   void slotNewToolbarConfig();
 
   void slotUndoAvailable( bool avail );
@@ -624,6 +625,7 @@ private:
   KAction *m_paMoveTabLeft;
   KAction *m_paMoveTabRight;
 
+  KAction *m_paConfigureExtensions;
   KAction *m_paConfigureSpellChecking;
 
   KonqLogoAction *m_paAnimatedLogo;
