@@ -76,7 +76,7 @@ void KBookmarkImporter::scanIntern( QDomElement & parentElem, const QString & _p
                 // would notify about the change, so we'd need a flag, etc.
                 QDomElement groupElem = m_pDoc->createElement( "GROUP" );
                 parentElem.appendChild( groupElem );
-                QDomElement textElem = m_pDoc->createElement( "TEXT ");
+                QDomElement textElem = m_pDoc->createElement( "TEXT" );
                 groupElem.appendChild( textElem );
                 textElem.appendChild( m_pDoc->createTextNode( KIO::decodeFileName( ep->d_name ) ) );
                 if ( KIO::decodeFileName( ep->d_name ) == "Toolbar" )
@@ -127,7 +127,7 @@ void KBookmarkImporter::parseBookmark( QDomElement & parentElem, QCString _text,
     if (icon.right( 4 ) == ".xpm" ) // prevent warnings
         icon.truncate( icon.length() - 4 );
 
-    QString text = KIO::decodeFileName( _text );
+    QString text = KIO::decodeFileName( QString::fromLocal8Bit(_text) );
     if ( text.length() > 8 && text.right( 8 ) == ".desktop" )
         text.truncate( text.length() - 8 );
     if ( text.length() > 7 && text.right( 7 ) == ".kdelnk" )
