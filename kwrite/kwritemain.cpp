@@ -307,9 +307,23 @@ void TopLevel::newCaption()
   } else {
     //set caption
     if ( m_paShowPath->isChecked() )
-      setCaption(kateView->doc()->url().prettyURL(),kateView->doc()->isModified());
-    else
-      setCaption(kateView->doc()->url().fileName(),kateView->doc()->isModified());
+    {
+       //File name shouldn't be too long - Maciek
+       if (kateView->doc()->url().filename().length() > 200)
+         setCaption(kateView->doc()->url().prettyURL().left(197) + "...",kateView->doc()->isModified());
+       else
+         setCaption(kateView->doc()->url().prettyURL(),kateView->doc()->isModified());
+     }
+      else
+     {
+       //File name shouldn't be too long - Maciek
+       if (kateView->doc()->url().filename().length() > 200)
+         setCaption("..." + kateView->doc()->url().fileName().right(197),kateView->doc()->isModified());
+       else
+         setCaption(kateView->doc()->url().fileName(),kateView->doc()->isModified());
+
+    }
+
   }
 }
 
