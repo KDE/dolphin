@@ -3390,7 +3390,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
-  KAction *actNewTab = new KAction( i18n( "New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
+  KAction *actNewTab = new KAction( i18n( "Open in New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
   actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
 
   if ( _items.count() == 1 )

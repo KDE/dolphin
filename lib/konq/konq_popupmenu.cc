@@ -212,7 +212,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
   addMerge( "konqueror" );
 
-  KAction *actNewView = new KAction( i18n( "New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  KAction *actNewView = new KAction( i18n( "Open in New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
   actNewView->setStatusText( i18n( "Open the document in a new window" ) );
 
   if ( ( isCurrentTrash && currentDir ) ||
