@@ -1855,6 +1855,7 @@ void KonqMainWindow::slotClearLocationBar()
 {
   kdDebug(1202) << "slotClearLocationBar" << endl;
   m_combo->clearEdit();
+  m_combo->setFocus();
 }
 
 void KonqMainWindow::slotShowMenuBar()
