@@ -107,9 +107,9 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changed()));
     bg_default->setExclusive( true );
 
-    rb_gbPolicyAsk = new QRadioButton( i18n("Ask for confirmation before accepting cookies."), bg_default);
-    rb_gbPolicyAccept = new QRadioButton( i18n("Accept all cookies by default"), bg_default );
-    rb_gbPolicyReject = new QRadioButton( i18n("Reject all cookies by default"), bg_default );
+    rb_gbPolicyAsk = new QRadioButton( i18n("A&sk for confirmation before accepting cookies."), bg_default);
+    rb_gbPolicyAccept = new QRadioButton( i18n("A&ccept all cookies by default"), bg_default );
+    rb_gbPolicyReject = new QRadioButton( i18n("&Reject all cookies by default"), bg_default );
 
     // Create Group Box for specific settings
     gb_domainSpecific = new QGroupBox( i18n("Domain Specific"), this);
