@@ -25,27 +25,21 @@
 
 KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   : KDialogBase( Plain, QString::null,
-	User1 | User2 | User3 | Apply | Close | Help, User1,
+	User1 | User2 | Apply | Close | Help, Apply,
         parent, name, true, true,
-	KGuiItem(i18n("&Find"), "find"),
 	KGuiItem(i18n("Stop"), "stop"),
 	KStdGuiItem::saveAs())
 {
   QWidget::setCaption( i18n("Find Files" ) );
   setButtonBoxOrientation(Vertical);
 
-  enableButton(User1, true); // Enable "Search"
-  enableButton(User2, false); // Disable "Stop"
-  enableButton(User3, false); // Disable "Save..."
+  enableButton(Apply, true); // Enable "Find"
+  enableButton(User1, false); // Disable "Stop"
+  enableButton(User2, false); // Disable "Save As..."
 
   setEscapeButton(User2);
 
-  setButtonApply(KGuiItem(i18n("About")));
-  
-  // remove misleading default help
-  setButtonWhatsThis(Apply,QString::null);
-  setButtonTip(Apply,QString::null);
-  actionButton(Apply)->setIconSet(QIconSet());
+  setButtonApply(KGuiItem(i18n("&Find"), "find"));
 
   isResultReported = false;
 
@@ -70,17 +64,15 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   vBox->addWidget(win, 1);
   vBox->addWidget(mStatusBar, 0);
 
-  connect(this, SIGNAL(user1Clicked()),
+  connect(this, SIGNAL(applyClicked()),
 	  this, SLOT(startSearch()));
-  connect(this, SIGNAL(user2Clicked()),
+  connect(this, SIGNAL(user1Clicked()),
 	  this, SLOT(stopSearch()));
-  connect(this, SIGNAL(user3Clicked()),
+  connect(this, SIGNAL(user2Clicked()),
 	  win, SLOT(saveResults()));
 
   connect(win ,SIGNAL(resultSelected(bool)),
 	  this,SIGNAL(resultSelected(bool)));
-
-  connect(this, SIGNAL( applyClicked() ), this, SLOT(about()));
 
   query = new KQuery(frame);
   connect(query, SIGNAL(addFile(const KFileItem*,const QString&)),
@@ -123,9 +115,9 @@ void KfindDlg::startSearch()
   emit resultSelected(false);
   emit haveResults(false);
 
-  enableButton(User1, false); // Disable "Search"
-  enableButton(User2, true); // Enable "Stop"
-  enableButton(User3, false); // Disable "Save..."
+  enableButton(Apply, false); // Disable "Find"
+  enableButton(User1, true); // Enable "Stop"
+  enableButton(User2, false); // Disable "Save As..."
 
   if(dirwatch!=NULL)
     delete dirwatch;
@@ -141,7 +133,7 @@ void KfindDlg::startSearch()
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
       dirwatch->addDir(*it,true);
   }
-  
+
   win->beginSearch(query->url());
   tabWidget->beginSearch();
 
@@ -189,9 +181,9 @@ void KfindDlg::slotResult(int errorCode)
      setStatusMsg(i18n("Error."));
   };
 
-  enableButton(User1, true); // Enable "Search"
-  enableButton(User2, false); // Disable "Stop"
-  enableButton(User3, true); // Enable "Save..."
+  enableButton(Apply, true); // Enable "Find"
+  enableButton(User1, false); // Disable "Stop"
+  enableButton(User2, true); // Enable "Save As..."
 
   win->endSearch();
   tabWidget->endSearch();
@@ -255,7 +247,7 @@ void KfindDlg::slotNewItems( const QString& file )
   QStringList newfiles;
   QListViewItem *checkiter;
   QString checkiterwithpath;
-  
+
   if(file.find(query->url().path(+1))==0)
   {
     kdDebug()<<QString("Can be added, path OK")<<endl;
