@@ -17,18 +17,11 @@ METASOURCES  =  kfdird.moc kfwin.moc kfindtop.moc \
 noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h version.h
 
-EXTRA_DIST = kfind.xpm mini-kfind.xpm DESCRIPTION
+KDE_ICON = kfind
+
+EXTRA_DIST = DESCRIPTION
 
 SUBDIRS = pics
-
-kde_icon_DATA = kfind.xpm
-
-install-data-local:
-	$(mkinstalldirs) $(kde_minidir)
-	$(INSTALL_DATA) $(srcdir)/mini-kfind.xpm $(kde_minidir)/kfind.xpm
-
-uninstall-local:
-	rm -f $(kde_minidir)/kfind.xpm
 
 messages:
 	$(XGETTEXT) -C -ktranslate -ki18n -x $(includedir)/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
