@@ -1397,11 +1397,11 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 void KonqMainView::configure()
 {
   debug("KonqMainView::configure() !");
+  KonqSettings::reparseConfiguration();
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     (*it)->view()->configure();
-  KonqSettings::reparseConfiguration();
 }
 
 #include "konq_mainview.moc"
