@@ -3,13 +3,12 @@ Mini HOWTO create a "User-Agent" description file for KDE
 
 This mini HOWTO describes the procedure for creating a new user-agent 
 description file to extend the ones that come pre-packaged with KDE. 
-The purpose of a user agent description file is to fake/spoof sites 
-that refuse to render pages when the default user-agent identification 
-string is used.
+The purpose of a user agent description file is to fake or spoof sites 
+that refuse to render pages with the default KDE user-agent identification.
 
 In order to create new user-agent description files, simply follow the
 normal desktop file specifications set by the "DESKTOP ENTRY STANDARD"
-augmented with the following requirements and optional entries:
+augmented with the following requirements:
 
 REQUIREMENTS:
 =============
@@ -20,10 +19,10 @@ Name=UADescription (XXXX)
 Type=Service
 ServiceTypes=UserAgentStrings
 
-Though the (XXXX) value show above can be any text, it is a good idea 
+Though the (XXXX) value shown above can be any text, it is a good idea 
 to make it a short identification of the browser being emulated.  However,
 there is NO requirement on what the text should be.  It can even be left 
-out.  It is only meant to give people a quick idea which browser is being
+out. It is only meant to give people a quick idea which browser is being
 emulated by your desktop file.
 
 NEW PROPERTIES:
@@ -34,10 +33,10 @@ TYPE:         QString
 TRANSLATE:    NO
 DESCRIPTION:
 An abbreviation of the actual browser-brand and is used
-to group the entries whenever necessary.  Currently there are 5
+to group the entries whenever necessary. Currently there are 5
 approximations: IE, NN, MOZ, OP, MISC. These represent Internet
 Explorer, Netscape Navigator, Mozilla, Opera and Miscellaneous
-respectively.  NOTE: you can enter any value here as it is just
+respectively. NOTE: you can enter any value here as it is just
 a place holder that would be automatically replaced with the
 actual user-agent name (X-KDE-UA-NAME).
 
@@ -47,7 +46,7 @@ TYPE:         QString
 TRANSLATE:    NO
 DESCRIPTION:
 The full user-agent description that will be sent to the remote
-site.  It can contain the following keywords that would be replaced
+site. It can contain the following keywords that would be replaced
 with the appropriate value as defined by "uname":
 
 appSysName          the name of the operating system (ex: Linux).
