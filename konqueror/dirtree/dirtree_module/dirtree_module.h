@@ -44,7 +44,7 @@ public:
     // Called by KonqDirTreeItem
     void openSubFolder( KonqTreeItem *item );
     void addSubDir( KonqTreeItem *item );
-    void removeSubDir( KonqTreeItem *item );
+    void removeSubDir( KonqTreeItem *item, bool childrenonly = false );
 
 private slots:
     void slotNewItems( const KFileItemList & );

@@ -109,7 +109,7 @@ void KonqDirTreeModule::addSubDir( KonqTreeItem *item )
     m_dictSubDirs.insert( item->externalURL().url(-1), item );
 }
 
-void KonqDirTreeModule::removeSubDir( KonqTreeItem *item )
+void KonqDirTreeModule::removeSubDir( KonqTreeItem *item, bool childrenOnly )
 {
     kdDebug(1201) << this << " KonqDirTreeModule::removeSubDir item=" << item << endl;
     if ( item->firstChild() )
@@ -122,11 +122,14 @@ void KonqDirTreeModule::removeSubDir( KonqTreeItem *item )
             it = next;
         }
     }
-    
-    bool b = m_dictSubDirs.remove( item->externalURL().url(-1) );
-    if (!b)
-        kdWarning(1201) << this << " KonqDirTreeModule::removeSubDir item " << item
-                        << " not found. URL=" << item->externalURL().url(-1) << endl;
+
+    if ( !childrenOnly )
+    {
+        bool b = m_dictSubDirs.remove( item->externalURL().url(-1) );
+        if (!b)
+            kdWarning(1201) << this << " KonqDirTreeModule::removeSubDir item " << item
+                            << " not found. URL=" << item->externalURL().url(-1) << endl;
+    }
 }
 
 
@@ -226,22 +229,44 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
 void KonqDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 {
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
+    QListIterator<KFileItem> kit ( entries );
+    //kdDebug(1201) << "KonqDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << kit.current()->url().url() << endl;
     // We can't look in m_dictSubDirs since the URL might have been updated (after a renaming)
     // so we have to use the long and painful method.
-    QDictIterator<KonqTreeItem> it( m_dictSubDirs );
-    for ( ; it.current(); ++it )
+    for( ; kit.current(); ++kit )
     {
-        KonqTreeItem * item = it.current();
-        if ( !item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
+        QDictIterator<KonqTreeItem> it( m_dictSubDirs );
+        for ( ; it.current(); ++it )
         {
-            KonqDirTreeItem * dirTreeItem = static_cast<KonqDirTreeItem *>(item);
-            QListIterator<KFileItem> kit ( entries );
-            for( ; kit.current(); ++kit )
+            KonqTreeItem * item = it.current();
+            if ( !item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
             {
+                KonqDirTreeItem * dirTreeItem = static_cast<KonqDirTreeItem *>(item);
                 if ( dirTreeItem->fileItem() == kit.current() )
                 {
+                    //kdDebug(1201) << "KonqDirTreeModule::slotRefreshItems ** found match with new item " << kit.current()->url().url(-1) << endl;
+                    //kdDebug(1201) << "KonqDirTreeModule::slotRefreshItems ** it.currentKey()=" << it.currentKey() << endl;
+                    // Item renamed ?
+                    if ( it.currentKey() != kit.current()->url().url( -1 ) )
+                    {
+                        // We need to update the URL in m_dictSubDirs, and to get rid of the child items, so remove and add.
+                        // First remember toplevel and parent items
+                        KonqTreeTopLevelItem * topLevelItem = dirTreeItem->topLevelItem();
+                        KonqTreeItem * parentItem = static_cast<KonqTreeItem *>(dirTreeItem->parent());
+                        // Then remove + delete
+                        removeSubDir( dirTreeItem, true /*children only*/ );
+                        // Only in it.currentKey() we have the old URL. The fileitem has the new one.
+                        bool b = m_dictSubDirs.remove( it.currentKey() );
+                        if ( !b )
+                            kdWarning(1201) << "Couldn't remove URL " << it.currentKey() << " from dict" << endl;
+                        delete dirTreeItem;
+                        // And finally create a new item instead
+                        dirTreeItem = new KonqDirTreeItem( parentItem, topLevelItem, kit.current() );
+                    }
                     dirTreeItem->setPixmap( 0, kit.current()->pixmap( size ) );
                     dirTreeItem->setText( 0, KIO::decodeFileName( kit.current()->url().fileName() ) );
+                    // addSubDir automatically called by constructor
+                    break;
                 }
             }
         }
