@@ -95,6 +95,7 @@ LIBS="$ac_motif_save_LIBS"
 INCLUDES="$ac_motif_save_INCLUDES"
 CPPFLAGS="$ac_motif_save_CPPFLAGS"
 LDFLAGS="$ac_motif_save_LDFLAGS"
+test -z "$ac_cv_motif_includes" && ac_cv_motif_includes=none
 ])
 motif_includes="$ac_cv_motif_includes"
 fi
@@ -152,6 +153,7 @@ LIBS="$ac_motif_save_LIBS"
 INCLUDES="$ac_motif_save_INCLUDES"
 CPPFLAGS="$ac_motif_save_CPPFLAGS"
 LDFLAGS="$ac_motif_save_LDFLAGS"
+test -z "$ac_cv_motif_libraries" && ac_cv_motif_libraries=none 
 ])
 #
 motif_libraries="$ac_cv_motif_libraries"
