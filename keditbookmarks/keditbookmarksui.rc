@@ -86,10 +86,13 @@
 
 <ToolBar name="mainToolBar" noMerge="1" fullWidth="true"><text>Main Toolbar</text>
   <Action name="file_save"/>
+  <Separator/>
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
+  <Separator/>
   <Action name="newbookmark"/>
   <Action name="newfolder"/>
+  <Separator/>
   <Action name="delete" />
 </ToolBar>
 
