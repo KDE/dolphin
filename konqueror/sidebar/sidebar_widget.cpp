@@ -218,6 +218,8 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	Menu->insertItem(i18n("Show Tabs Left"),2);
 	Menu->insertItem(i18n("Show Configuration Button"),3);
 	Menu->insertSeparator();
+	Menu->insertItem(i18n("Save Opened Views"),this,SLOT(saveOpenViews()));
+	Menu->insertSeparator();
 	Menu->insertItem(SmallIconSet("remove"),i18n("Close Navigation Panel"),par,SLOT(deleteLater()));
         connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
@@ -257,6 +259,13 @@ void Sidebar_Widget::finishRollBack()
 void Sidebar_Widget::slotDeleted()
 {
 	deleting=true;
+}
+
+void Sidebar_Widget::saveOpenViews()
+{
+        KConfig conf("konqsidebartng.rc");
+        conf.writeEntry("OpenViews",visibleViews);
+        conf.sync();
 }
 
 void Sidebar_Widget::doLayout()
@@ -472,8 +481,7 @@ void Sidebar_Widget::readConfig()
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
 	doLayout();
-	if (m_initial) savedWidth=((QWidget*)(parent()))->width();
-
+	if (m_initial) savedWidth=conf.readNumEntry("SavedWidth",200);
 	bool tmpSomethingVisible=m_initial?false:somethingVisible;
 	somethingVisible=false;
 	for (uint i=0; i<Buttons.count();i++)
@@ -491,7 +499,7 @@ void Sidebar_Widget::readConfig()
 
 	if (m_initial)
 	{
-		somethingVisible=true;
+		somethingVisible=(visibleViews.count()==0);
 		collapseExpandSidebar();
 	}
 	else
@@ -569,16 +577,6 @@ void Sidebar_Widget::createButtons()
 //JW - TEST			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 		}
 	}
-
-	// we want to keep our size when the splitter is resized!
-	QWidget* qparent=static_cast<QWidget*>(parent());
-
-	QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
-	QValueList<int>::Iterator it = list.begin();
-	if (it!=list.end()) (*it)=qparent->width();
-	((QSplitter*)parent()->parent())->setSizes(list);
-
-	static_cast<QSplitter*>( qparent->parentWidget() )->setResizeMode( qparent, QSplitter::KeepSize );
 }
 
 bool Sidebar_Widget::openURL(const class KURL &url)
@@ -841,28 +839,27 @@ void Sidebar_Widget::showHidePage(int page)
 
 void Sidebar_Widget::collapseExpandSidebar()
 {
+	QGuardedPtr<QObject> p;
+	p=parent();
+	if (!p) return;
+	p=p->parent();
+	if (!p) return;
+	((QSplitter*)parent()->parent())->setResizeMode((QSplitter*)parent(), QSplitter::KeepSize);
+
 	if ((somethingVisible) && (visibleViews.count()==0))
 	{
-		QGuardedPtr<QObject> p;
-		p=parent();
-		if (!p) return;
-		p=p->parent();
-		if (!p) return;
-
     		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 		QValueList<int>::Iterator it = list.begin();
-		savedWidth=*it;
-		(*it)=ButtonBar->width();
+		if (!m_initial) savedWidth=*it;
+		if (it!=list.end()) (*it)=minimumSizeHint().width();
 		((QSplitter*)parent()->parent())->setSizes(list);
-
-		((QWidget*)parent())->setMaximumWidth(ButtonBar->width());
+		((QWidget*)parent())->setMaximumWidth(minimumSizeHint().width());
 		somethingVisible=false;
 	}
 	else
 	if ((!somethingVisible) && (visibleViews.count()!=0))
 	{
 		somethingVisible=true;
-
 		((QWidget*)parent())->setMaximumWidth(32767);
     		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 		QValueList<int>::Iterator it = list.begin();
@@ -1034,14 +1031,15 @@ Sidebar_Widget::~Sidebar_Widget()
 	conf.writeEntry("SingleWidgetMode",singleWidgetMode?"true":"false");
 	conf.writeEntry("ShowExtraButtons",showExtraButtons?"true":"false");
 	conf.writeEntry("ShowTabsLeft",showTabsRight?"false":"true");
-        conf.writeEntry("OpenViews", visibleViews);
+	if (somethingVisible && (visibleViews.count()!=0) && (width()>=minimumSizeHint().width())) 
+		savedWidth=width();
+	conf.writeEntry("SavedWidth",savedWidth);
 	conf.sync();
 	for (uint i=0;i<Buttons.count();i++)
 	{
 		if (Buttons.at(i)->dock!=0)
 			Buttons.at(i)->dock->undock();
 	}
-
 }
 
 void Sidebar_Widget::customEvent(QCustomEvent* ev)
@@ -1055,5 +1053,6 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		else
 		emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
   }
-
 }
+
+
