@@ -1110,12 +1110,17 @@ void KonqMainView::slotAbout()
 "Author: Torben Weis <weis@kde.org>\n"
 "Current maintainer: David Faure <faure@kde.org>\n\n"
 "Current team:\n"
-"David Faure <faure@kde.org>\n"
-"Simon Hausmann <hausmann@kde.org>\n"
-"Michael Reiher <michael.reiher@gmx.de>\n"
-"Matthias Welk <welk@fokus.gmd.de>\n"
-"Waldo Bastian <bastian@kde.org>, Lars Knoll <knoll@kde.org> (khtml library)\n"
-"Matt Koss <koss@napri.sk>, Alex Zepeda <garbanzo@hooked.net> (kio library/slaves)\n"
+"  David Faure <faure@kde.org>\n"
+"  Simon Hausmann <hausmann@kde.org>\n"
+"  Michael Reiher <michael.reiher@gmx.de>\n"
+"  Matthias Welk <welk@fokus.gmd.de>\n"
+"HTML rendering engine:\n"
+"  Lars Knoll <knoll@kde.org>\n"
+"  Antti Koivisto <koivisto@kde.org>\n"
+"  Waldo Bastian <bastian@kde.org>\n"
+"KIO library/slaves:\n"
+"  Matt Koss <koss@napri.sk>\n"
+"  Alex Zepeda <garbanzo@hooked.net>\n"
   ));
 }
 
