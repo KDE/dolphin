@@ -16,8 +16,7 @@
 #    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 #    Boston, MA 02111-1307, USA.
 
-# For Henrik Stormer :)
-KDE_CXXFLAGS = $(USE_RTTI) -DQT_NO_ASCII_CAST
+KDE_CXXFLAGS = $(USE_RTTI) 
 
 INCLUDES = -I$(top_srcdir)/kcontrol/input $(all_includes)
 
