@@ -1534,7 +1534,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   if ( ext )
   {
     connectExtension( ext );
-    createGUI( part );
   }
   else
   {
@@ -1557,8 +1556,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paCopyFiles->setEnabled( false );
     if ( m_paMoveFiles )
       m_paMoveFiles->setEnabled( false );
-    createGUI( 0L );
   }
+  createGUI( part );
 
   KActionCollection *coll = m_currentView->part()->actionCollection();
   if ( coll )
