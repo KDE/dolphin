@@ -70,6 +70,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     initConfig();
     // emit our signals
     slotSelectionChanged();
+    m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
 }
 
 void KonqIconViewWidget::initConfig()
@@ -111,6 +112,15 @@ void KonqIconViewWidget::refreshMimeTypes()
 	((KFileIVI*)it)->item()->refreshMimeType();
     setIcons( m_size );
 }
+
+void KonqIconViewWidget::setURL( const KURL &kurl )
+{
+  m_url = kurl;
+  if ( m_url.isLocalFile() )
+    m_dotDirectoryPath = m_url.path().append( ".directory" );
+  else
+    m_dotDirectoryPath = QString::null;
+} 
 
 void KonqIconViewWidget::setImagePreviewAllowed( bool b )
 {
@@ -300,6 +310,30 @@ void KonqIconViewWidget::viewportResizeEvent(QResizeEvent * e)
   emit(viewportAdjusted());
 }
 
+void KonqIconViewWidget::contentsDropEvent( QDropEvent *e )
+{
+  KIconView::contentsDropEvent( e );
+  emit dropped();
+}
 
+void KonqIconViewWidget::slotSaveIconPositions()
+{
+  if ( m_dotDirectoryPath.isEmpty() )
+    return;
+  KDesktopFile dotDirectory( m_dotDirectoryPath );
+  QIconViewItem *it = firstItem();
+  while ( it )
+  {
+    KFileIVI *ivi = static_cast<KFileIVI *>( it );
+    KonqFileItem *item = ivi->item();
+
+    dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().filename() ) );
+    dotDirectory.writeEntry( "X", it->x() );
+    dotDirectory.writeEntry( "Y", it->y() );
+
+    it = it->nextItem();
+  }
+  dotDirectory.sync();
+}
 
 #include "konqiconviewwidget.moc"

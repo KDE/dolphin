@@ -61,7 +61,7 @@ public:
 
     void setImagePreviewAllowed( bool b );
 
-    void setURL ( const KURL & kurl ) { m_url = kurl; }
+    void setURL ( const KURL & kurl );
     const KURL & url() { return m_url; }
     void setRootItem ( const KonqFileItem * item ) { m_rootItem = item; }
 
@@ -91,12 +91,15 @@ public slots:
      */
     virtual void slotSelectionChanged();
 
+    void slotSaveIconPositions();
+
 signals:
     /**
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)
      */
     void enableAction( const char * name, bool enabled );
     void viewportAdjusted();
+    void dropped();
 
 protected slots:
 
@@ -111,6 +114,7 @@ protected slots:
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
     virtual void viewportResizeEvent(QResizeEvent *);
+    virtual void contentsDropEvent( QDropEvent *e );
 
     KURL m_url;
     const KonqFileItem * m_rootItem;
@@ -124,6 +128,9 @@ protected:
     QColor iColor;
 
     bool m_bSortDirsFirst;
+
+    QString m_iconPositionGroupPrefix;
+    QString m_dotDirectoryPath;
 };
 
 #endif
