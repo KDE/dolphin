@@ -62,7 +62,7 @@ KonqFMSettings * KonqFMSettings::defaultIconSettings()
 void KonqFMSettings::reparseConfiguration()
 {
   KConfig *config = kapp->config();
-  for (int i = 0 ; i < MAXINSTANCE ; i++ )
+  for (int i = 0 ; i < MAXINSTANCE+1 ; i++ )
   {
     if (s_pSettings[i])
     {
