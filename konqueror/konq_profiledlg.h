@@ -46,6 +46,7 @@ public:
 protected slots:
   void slotSave();
   void slotDelete();
+  void slotRename();
   void slotTextChanged( const QString & );
 
 private:
@@ -58,6 +59,7 @@ private:
   QLineEdit *m_pProfileNameLineEdit;
 
   QPushButton *m_pDeleteProfileButton;
+  QPushButton *m_pRenameProfileButton;
   QPushButton *m_pSaveButton;
   QPushButton *m_pCloseButton;
   QCheckBox *m_cbSaveURLs;
