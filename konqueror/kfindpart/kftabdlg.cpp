@@ -38,7 +38,7 @@ class KSortedMimeTypeList : public QPtrList<KMimeType>
 {
 public:
   KSortedMimeTypeList() { };
-  int compareItems(QCollection::Item s1, QCollection::Item s2)
+  int compareItems(QPtrCollection::Item s1, QPtrCollection::Item s2)
   {
      KMimeType *item1 = (KMimeType *) s1;
      KMimeType *item2 = (KMimeType *) s2;
@@ -535,7 +535,7 @@ KDigitValidator::~KDigitValidator()
 
 QValidator::State KDigitValidator::validate( QString & input, int & ) const
 {
-  if (r->match(input) < 0) {
+  if (r->search(input) < 0) {
     // Beep on user if he enters non-digit
     QApplication::beep();
     return QValidator::Invalid;

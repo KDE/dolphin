@@ -19,7 +19,7 @@
 #include <qhbox.h>
 #include <qpushbutton.h>
 #include <kdockwidget.h>
-#include <qvector.h>
+#include <qptrvector.h>
 #include <kurl.h>
 #include <ktoolbar.h>
 #include <kparts/part.h>
@@ -50,8 +50,8 @@ class addBackEnd: public QObject
 		~addBackEnd(){;}
 	private:
 		QGuardedPtr<class QPopupMenu> menu;
-		QVector<QString> libNames;
-		QVector<QString> libParam;
+		QPtrVector<QString> libNames;
+		QPtrVector<QString> libParam;
 	protected slots:
 		void aboutToShowAddMenu();
 		void activatedAddMenu(int);
@@ -86,7 +86,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
   private:
 	class KDockArea *Area;
 	class KToolBar *ButtonBar;
-        QVector<ButtonInfo> Buttons;
+        QPtrVector<ButtonInfo> Buttons;
 	bool addButton(const QString &desktoppath,int pos=-1);
 	bool createView(ButtonInfo *data);
 	class KDockWidget *mainW;

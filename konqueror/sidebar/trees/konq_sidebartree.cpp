@@ -172,7 +172,7 @@ void KonqSidebarTree::followURL( const KURL &url )
     }
 
     kdDebug(1201) << "KonqDirTree::followURL: " << url.url() << endl;
-    QListIterator<KonqSidebarTreeTopLevelItem> topItem ( m_topLevelItems );
+    QPtrListIterator<KonqSidebarTreeTopLevelItem> topItem ( m_topLevelItems );
     for (; topItem.current(); ++topItem )
     {
         if ( topItem.current()->externalURL().isParentOf( url ) )

@@ -170,7 +170,7 @@ private:
     QString m_groupAddress;
 };
 
-#include <qstack.h>
+#include <qptrstack.h>
 #include <qobject.h>
 class ImportCommand : public QObject, public KCommand
 {
@@ -197,7 +197,7 @@ protected slots:
     void endMenu();
 
 private:
-    QStack<KBookmarkGroup> mstack;
+    QPtrStack<KBookmarkGroup> mstack;
     QValueList<KBookmarkGroup> mlist;
     QString m_fileName;
     QString m_folder;

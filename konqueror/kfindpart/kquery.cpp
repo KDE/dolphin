@@ -71,7 +71,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
       continue;
 
     if ( !m_regexp.isEmpty() &&
-	 m_regexp.match( file->url().fileName( true ) ) == -1 )
+	 m_regexp.search( file->url().fileName( true ) ) == -1 )
       continue;
 
     // make sure the files are in the correct range

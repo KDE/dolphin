@@ -61,7 +61,7 @@
 
 #include <config.h>
 
-template class QList<KFileIVI>;
+template class QPtrList<KFileIVI>;
 //template class QValueList<int>;
 
 class KonqIconViewFactory : public KParts::Factory
@@ -399,7 +399,7 @@ void KonqKfmIconView::slotSelect()
         QIconViewItem *it = m_pIconView->firstItem();
         while ( it )
         {
-            if ( re.match( it->text() ) != -1 )
+            if ( re.search( it->text() ) != -1 )
                 it->setSelected( true, true );
             it = it->nextItem();
         }
@@ -428,7 +428,7 @@ void KonqKfmIconView::slotUnselect()
         QIconViewItem *it = m_pIconView->firstItem();
         while ( it )
         {
-            if ( re.match( it->text() ) != -1 )
+            if ( re.search( it->text() ) != -1 )
                 it->setSelected( false, true );
             it = it->nextItem();
         }

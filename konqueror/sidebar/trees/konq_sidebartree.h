@@ -128,9 +128,9 @@ private:
 
     void loadModuleFactories();
 
-    QList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
+    QPtrList<KonqSidebarTreeTopLevelItem> m_topLevelItems;
 
-    QList<KonqSidebarTreeModule> m_lstModules;
+    QPtrList<KonqSidebarTreeModule> m_lstModules;
 
     KonqSidebar_Tree *m_part;
 

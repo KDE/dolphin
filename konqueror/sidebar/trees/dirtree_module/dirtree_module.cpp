@@ -223,7 +223,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     }
 
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
-    QListIterator<KFileItem> kit ( entries );
+    QPtrListIterator<KFileItem> kit ( entries );
     for( ; kit.current(); ++kit )
     {
         KonqFileItem * fileItem = static_cast<KonqFileItem *>(*kit);
@@ -242,7 +242,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
 void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 {
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
-    QListIterator<KFileItem> kit ( entries );
+    QPtrListIterator<KFileItem> kit ( entries );
     //kdDebug(1201) << "KonqSidebarDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << kit.current()->url().url() << endl;
     // We can't look in m_dictSubDirs since the URL might have been updated (after a renaming)
     // so we have to use the long and painful method.

@@ -175,7 +175,7 @@ protected:
   KToggleAction *m_paTextPreview;
   KToggleAction *m_paHTMLPreview;*/
   KActionMenu *m_pamPreview;
-  QList<KToggleAction> m_paPreviewPlugins;
+  QPtrList<KToggleAction> m_paPreviewPlugins;
   KActionMenu *m_pamSort;
 
   KAction *m_paSelect;

@@ -316,16 +316,16 @@ void KonqCombo::selectWord(QKeyEvent *e)
                 break;
 	} while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
 	if( e->state() & ShiftButton ) {
-            edit->cursorLeft(true, count-1);
+            edit->cursorForward(true, 1-count);
 	} else if(  e->key() == Key_Backspace ) {
-            edit->cursorLeft(false, count-1);
+            edit->cursorForward(false, 1-count);
             QString text = edit->text();
             int pos_to_right = edit->text().length() - pos_old;
             QString cut = text.left(edit->cursorPosition()) + text.right(pos_to_right);
             edit->setText(cut);
             edit->setCursorPosition(pos_old-count+1);
         } else {
-            edit->cursorLeft(false, count-1);
+            edit->cursorForward(false, 1-count);
         }
      } else if( e->key() == Key_Right || e->key() == Key_Delete ){
 	do {
@@ -335,9 +335,9 @@ void KonqCombo::selectWord(QKeyEvent *e)
                 break;
 	} while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
 	if( e->state() & ShiftButton ) {
-            edit->cursorRight(true, count+1);
+            edit->cursorForward(true, count+1);
 	} else if(  e->key() == Key_Delete ) {
-            edit->cursorLeft(false, count+1);
+            edit->cursorForward(false, -count-1);
             QString text = edit->text();
             int pos_to_right = text.length() - pos - 1;
 	    QString cut = text.left(pos_old) + 
@@ -345,7 +345,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             edit->setText(cut);
             edit->setCursorPosition(pos_old);
         } else {
-            edit->cursorRight(false, count+1);
+            edit->cursorForward(false, count+1);
         }
     }
 }
