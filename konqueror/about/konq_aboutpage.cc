@@ -144,7 +144,7 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Specifications") )
           .arg( i18n("Konqueror is designed to embrace and support Internet standards. "
 		     "The aim is to fully implement the officially sanctioned standards "
-		     "from organisations such as the W3 and OASIS, while also adding "
+		     "from organizations such as the W3 and OASIS, while also adding "
 		     "extra support for other common usability features that arise as "
 		     "de facto standards across the Internet. Along with this support, "
 		     "for such functions as favicons, Internet Keywords, and <A HREF=\"%1\">XBEL bookmarks</A>, "
