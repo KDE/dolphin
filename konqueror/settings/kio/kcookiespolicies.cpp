@@ -45,38 +45,46 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                  :KCModule(parent, "kcmkio")
 {
     QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
-                                        KDialog::spacingHint() );
+                                               KDialog::spacingHint() );
 
-    QHBoxLayout* hlay = new QHBoxLayout( mainLayout, KDialog::spacingHint() );
+    mainLayout->setAutoAdd (true);
 
     m_cbEnableCookies = new QCheckBox( i18n("Enable coo&kies"), this );
-    QWhatsThis::add( m_cbEnableCookies, i18n("This option turns on cookie support. Normally "
-                                            "you will want to have cookie support enabled and "
-                                            "customize it to suit your privacy needs.") );
-    hlay->addWidget( m_cbEnableCookies );
+    m_cbEnableCookies->setSizePolicy (m_cbEnableCookies->sizePolicy().verData(),
+                                      QSizePolicy::Minimum);
 
-    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
+    QWhatsThis::add( m_cbEnableCookies, i18n("Enable cookie support. Normally "
+                                            "you will want to have cookie support "
+                                            "enabled and customize it to suit your "
+                                            "privacy needs.<p>Please note that "
+                                            "disabling cookie support makes many "
+                                            "of web today's web sites unbrowsable.") );
+
 
     m_bgPreferences = new QVButtonGroup( this );
     m_cbRejectCrossDomainCookies = new QCheckBox ( i18n("Only accept cookies from "
                                                         "originating server"),
                                                    m_bgPreferences );
+    m_cbRejectCrossDomainCookies->setSizePolicy (m_cbRejectCrossDomainCookies->sizePolicy().verData(),
+                                                 QSizePolicy::Minimum);
     QWhatsThis::add( m_cbRejectCrossDomainCookies,
-                     i18n("Check this option to reject all cookies that "
-                          "originate from sites other than the one you "
-                          "requested. If you, for example, visit www.foobar.com "
-                          "while this option is checked, only cookies that come "
-                          "from www.foobar.com will be processed per your "
-                          "settings. All other cookies will automatically be "
-                          "rejected. This reduces the chances of site operators "
-                          "compiling a profile about your daily browsing habits.") );
+                     i18n("Reject the so called third-party cookies. These "
+                          "are cookies that originate from a site other than "
+                          "the one you are currently browsing. For example, if "
+                          "you visit www.foobar.com while this option is on, "
+                          "only cookies that originate from www.foobar.com "
+                          "will be processed per your settings. Cookies from "
+                          "any other site will be rejected. This reduces the "
+                          "chances of site operators compiling a profile about "
+                          "your daily browsing habits.") );
+
     m_bgPreferences->insert( m_cbRejectCrossDomainCookies );
 
     m_cbAutoAcceptSessionCookies = new QCheckBox ( i18n("Automatically accept "
                                                         "session cookies"),
                                                    m_bgPreferences );
+    m_cbAutoAcceptSessionCookies->setSizePolicy (m_cbAutoAcceptSessionCookies->sizePolicy().verData(),
+                                                 QSizePolicy::Minimum);
     QWhatsThis::add( m_cbAutoAcceptSessionCookies,
                      i18n("Check this option to automatically accept temporary "
                           "cookies meant to expire at the end of the current "
@@ -89,27 +97,30 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "specific cookie policies. However, doing so also "
                           "increases your privacy since all cookies will be "
                           "removed when the current session ends.") );
+
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
 
     m_cbIgnoreCookieExpirationDate = new QCheckBox ( i18n("Treat all cookies as "
                                                      "session cookies"),
                                                      m_bgPreferences );
+    m_cbIgnoreCookieExpirationDate->setSizePolicy (m_cbIgnoreCookieExpirationDate->sizePolicy().verData(),
+                                                   QSizePolicy::Minimum);
     QWhatsThis::add( m_cbIgnoreCookieExpirationDate,
-                     i18n("Check this option to treat all cookies as "
-                          "session cookies. Session cookies are small "
-                          "pieces of data that are temporarily stored "
-                          "in your computer's memory until you quit or "
-                          "close all applications (e.g. your browser) "
-                          "that use use them. Unlike regular cookies, "
-                          "session cookies are never stored on your "
-                          "hard drive or storage device."
+                     i18n("Treat all cookies as session cookies. Session "
+                          "cookies are small pieces of data that are temporarily "
+                          "stored in your computer's memory until you quit or "
+                          "close all applications (e.g. your browser) that "
+                          "use use them. Unlike regular cookies, session "
+                          "cookies are never stored on your hard drive or"
+                          "other storage medium."
                           "<P>NOTE: checking this option along with the "
                           "previous one will override your default as well "
                           "as site specific cookie policies. However, doing "
                           "so also increases your privacy since all cookies "
                           "will be removed when the current session ends.") );
+
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
-    mainLayout->addWidget( m_bgPreferences );
+
 
     m_bgDefault = new QVButtonGroup( i18n("Default Policy"), this );
     QWhatsThis::add( m_bgDefault,
@@ -125,18 +136,22 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
     m_bgDefault->setExclusive( true );
 
     m_rbPolicyAsk = new QRadioButton( i18n("A&sk for confirmation before "
-                                            "accepting cookies."), m_bgDefault );
+                                            "accepting cookies"), m_bgDefault );
+    m_rbPolicyAsk->setSizePolicy (m_rbPolicyAsk->sizePolicy().verData(),
+                                  QSizePolicy::Minimum);
     m_bgDefault->insert (m_rbPolicyAsk, KCookieAdvice::Ask);
 
     m_rbPolicyAccept = new QRadioButton( i18n("Accep&t all cookies by "
                                                "default"), m_bgDefault );
+    m_rbPolicyAccept->setSizePolicy (m_rbPolicyAccept->sizePolicy().verData(),
+                                     QSizePolicy::Minimum);
     m_bgDefault->insert (m_rbPolicyAccept, KCookieAdvice::Accept);
 
     m_rbPolicyReject = new QRadioButton( i18n("Re&ject all cookies by "
                                                "default"), m_bgDefault );
+    m_rbPolicyReject->setSizePolicy (m_rbPolicyReject->sizePolicy().verData(),
+                                     QSizePolicy::Minimum);
     m_bgDefault->insert (m_rbPolicyReject, KCookieAdvice::Reject);
-
-    mainLayout->addWidget( m_bgDefault );
 
     // Create Group Box for specific settings
     m_gbDomainSpecific = new QGroupBox( i18n("Domain Specific Policy"), this);
@@ -222,9 +237,6 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
 
     s_grid->addWidget( vbox, 1, 1 );
 
-    mainLayout->addWidget( m_gbDomainSpecific );
-    mainLayout->addSpacing( KDialog::spacingHint() );
-
     load();
 }
 
@@ -242,6 +254,12 @@ void KCookiesPolicies::cookiesEnabled( bool enable )
     m_bgDefault->setEnabled( enable );
     m_bgPreferences->setEnabled ( enable );
     m_gbDomainSpecific->setEnabled( enable );
+
+    if (enable)
+    {
+      ignoreCookieExpirationDate ( enable );
+      autoAcceptSessionCookies ( enable );
+    }
 }
 
 void KCookiesPolicies::ignoreCookieExpirationDate ( bool enable )
