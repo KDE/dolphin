@@ -664,13 +664,13 @@ void KonqMainView::slotConfigureNetwork()
 void KonqMainView::slotConfigureKeys()
 {
   //just testing Torben's widget :-) -- to be replaced by kdelibs config widget (Simon)
-  //QActionDialog *actionDia = new QActionDialog( actionCollection(), this, 0 );
+  //KActionDialog *actionDia = new KActionDialog( actionCollection(), this, 0 );
   //actionDia->show();
 }
 
 void KonqMainView::slotConfigureToolbars()
 {
-  QActionCollection collection;
+  KActionCollection collection;
   collection = *actionCollection() + *currentView()->actionCollection();
   KEditToolbar edit(&collection, xmlFile(), currentView()->xmlFile());
   if (edit.exec())
@@ -1578,7 +1578,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
   {
     kdDebug(1202) << s_actionnames[i] << endl;
-    QAction * act = actionCollection()->action( s_actionnames[i] );
+    KAction * act = actionCollection()->action( s_actionnames[i] );
     assert(act);
     QCString slotName = QCString(s_actionnames[i])+"()";
     bool enable = false;
@@ -1605,9 +1605,9 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 void KonqMainView::disconnectExtension( KParts::BrowserExtension *ext )
 {
   kdDebug(1202) << "Disconnecting extension" << endl;
-  QValueList<QAction *> actions = actionCollection()->actions();
-  QValueList<QAction *>::ConstIterator it = actions.begin();
-  QValueList<QAction *>::ConstIterator end = actions.end();
+  QValueList<KAction *> actions = actionCollection()->actions();
+  QValueList<KAction *>::ConstIterator it = actions.begin();
+  QValueList<KAction *>::ConstIterator end = actions.end();
   for (; it != end; ++it )
     (*it)->disconnect( ext );
   disconnect( ext, SIGNAL( enableAction( const char *, bool ) ),
@@ -1621,7 +1621,7 @@ void KonqMainView::slotEnableAction( const char * name, bool enabled )
   if ( hackName == "pastecopy" || hackName == "pastecut" )
     hackName = "paste";
 
-  QAction * act = actionCollection()->action( hackName.data() );
+  KAction * act = actionCollection()->action( hackName.data() );
   if (!act)
     kdWarning(1202) << "Unknown action " << hackName.data() << " - can't enable" << endl;
   else
@@ -1672,7 +1672,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
 
   //kdDebug(1202) << "KonqMainView::slotPopupMenu(...)" << endl;
 
-  QActionCollection popupMenuCollection;
+  KActionCollection popupMenuCollection;
   if ( !menuBar()->isVisible() )
     popupMenuCollection.insert( m_paShowMenuBar );
   popupMenuCollection.insert( m_paBack );
@@ -1792,7 +1792,7 @@ ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
   m_actions = 0L;
 }
 
-QAction *ViewModeGUIClient::action( const QDomElement &element )
+KAction *ViewModeGUIClient::action( const QDomElement &element )
 {
   if ( !m_actions )
     return 0L;
@@ -1810,7 +1810,7 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
   if ( m_actions )
     delete m_actions;
 
-  m_actions = new QActionCollection( this );
+  m_actions = new KActionCollection( this );
 
   QDomNode n = m_menuElement.firstChild();
   while ( !n.isNull() )

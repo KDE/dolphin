@@ -60,7 +60,7 @@ template class QList<KBookmarkMenu>;
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, QActionCollection * _collec, bool _root, bool _add )
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, KActionCollection * _collec, bool _root, bool _add )
   : m_bIsRoot(_root), m_bAddBookmark(_add), m_pOwner(_owner), m_parentMenu( _parentMenu ), m_actionCollection( _collec )
 {
   m_lstSubMenus.setAutoDelete( true );

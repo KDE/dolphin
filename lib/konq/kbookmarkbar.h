@@ -24,7 +24,7 @@
 class KToolBar;
 class KBookmark;
 class KBookmarkOwner;
-class QActionCollection;
+class KActionCollection;
 
 /**
  * This class provides a bookmark toolbar.  Using this class is nearly
@@ -40,10 +40,10 @@ public:
      *
      * @param _owner implementation of the KBookmarkOwner interface (callbacks)
      * @param _toolBar toolbar to fill
-     * @param _collec parent for the QActions
+     * @param _collec parent for the KActions
      */
 	KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                  QActionCollection *_collec, QObject *parent = 0L, const char *name = 0L);
+                  KActionCollection *_collec, QObject *parent = 0L, const char *name = 0L);
 	virtual ~KBookmarkBar();
 
 public slots:
@@ -55,7 +55,7 @@ protected:
 
     KBookmarkOwner    *m_pOwner;
     KToolBar          *m_toolBar;
-    QActionCollection *m_actionCollection;
+    KActionCollection *m_actionCollection;
 };
 
 #endif // KBOOKMARKBAR_H

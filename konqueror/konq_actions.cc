@@ -32,7 +32,7 @@
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
 			          QObject* parent, const char* name )
-    : QAction( text, accel, parent, name )
+    : KAction( text, accel, parent, name )
 {
   m_receiver = receiver;
   m_member = member;
@@ -434,7 +434,7 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 }
 
 KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
-: QAction( text, 0, parent, name )
+: KAction( text, 0, parent, name )
 {
 }
 

@@ -42,7 +42,7 @@ QStringList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 1; // one step ahead, to force filling the menu
 KDirWatch * KNewMenu::m_pDirWatch = 0L;
 
-KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) :
+KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ),
   menuItemsVersion( 0 )
 {
@@ -56,8 +56,8 @@ void KNewMenu::slotCheckUpToDate( )
     {
         // We need to clean up the action collection
         // We look for our actions using the group
-        QValueList<QAction*> actions = m_actionCollection->actions( "KNewMenu" );
-        for( QValueListIterator<QAction*> it = actions.begin(); it != actions.end(); ++it )
+        QValueList<KAction*> actions = m_actionCollection->actions( "KNewMenu" );
+        for( QValueListIterator<KAction*> it = actions.begin(); it != actions.end(); ++it )
             m_actionCollection->remove( *it );
 
         fillMenu();
@@ -98,8 +98,8 @@ void KNewMenu::fillMenu()
         // There might be a .desktop for that one already
         bool bSkip = false;
 
-        QValueList<QAction*> actions = m_actionCollection->actions();
-        QValueListIterator<QAction*> it = actions.begin();
+        QValueList<KAction*> actions = m_actionCollection->actions();
+        QValueListIterator<KAction*> it = actions.begin();
         for( ; it != actions.end(); ++it )
         {
           if ( (*it)->text() == name )

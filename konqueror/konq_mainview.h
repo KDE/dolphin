@@ -34,7 +34,7 @@
 #include <kxmlguiclient.h>
 #include <ktrader.h>
 
-class QAction;
+class KAction;
 class KAction;
 class KActionMenu;
 class KSelectAction;
@@ -369,7 +369,7 @@ class ViewModeGUIClient : public QObject, public KXMLGUIClient
 public:
   ViewModeGUIClient( KonqMainView *mainView );
 
-  virtual QAction *action( const QDomElement &element );
+  virtual KAction *action( const QDomElement &element );
   virtual QDomDocument document() const;
 
   void update( const KTrader::OfferList &services );
@@ -378,7 +378,7 @@ private:
   KonqMainView *m_mainView;
   QDomDocument m_doc;
   QDomElement m_menuElement;
-  QActionCollection *m_actions;
+  KActionCollection *m_actions;
 };
 
 #endif

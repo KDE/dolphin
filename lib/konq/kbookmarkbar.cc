@@ -32,8 +32,10 @@
 #include <kiconloader.h>
 #include <kurl.h>
 
+#include <qiconset.h>
+
 KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                            QActionCollection *_collec, QObject *parent, const char *name )
+                            KActionCollection *_collec, QObject *parent, const char *name )
     : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar), m_actionCollection(_collec)
 {
     // force the "icon to the left of the text" look

@@ -46,7 +46,7 @@ public:
     /**
      * Constructor
      */
-    KNewMenu( QActionCollection * _collec, const char *name=0L );
+    KNewMenu( KActionCollection * _collec, const char *name=0L );
     virtual ~KNewMenu() {}
 
     /**
@@ -94,7 +94,7 @@ private:
      */
     static QStringList * templatesList;
 
-    QActionCollection * m_actionCollection;
+    KActionCollection * m_actionCollection;
 
     /**
      * Is increased when templatesList has been updated and

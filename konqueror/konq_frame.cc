@@ -104,7 +104,7 @@ void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
 
 void KonqFrameStatusBar::splitFrameMenu()
 {
-   QActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection();
+   KActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection();
 
    QPopupMenu menu;
 

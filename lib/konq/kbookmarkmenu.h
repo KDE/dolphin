@@ -26,7 +26,7 @@
 class QString;
 class KBookmark;
 class KAction;
-class QActionCollection;
+class KActionCollection;
 class KBookmarkOwner;
 class QPopupMenu;
 
@@ -64,12 +64,12 @@ public:
    *
    * @param _owner implementation of the KBookmarkOwner interface (callbacks)
    * @param _parentMenu menu to be filled
-   * @param _collec parent for the QActions
+   * @param _collec parent for the KActions
    * @param _root true for the toplevel menu
    * @param _add true to show the "Add Bookmark" entry
    */
   KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
-                 QActionCollection * _collec,  bool _root, bool _add = true);
+                 KActionCollection * _collec,  bool _root, bool _add = true);
   ~KBookmarkMenu();
 
   /**
@@ -97,7 +97,7 @@ protected:
   KBookmarkOwner *m_pOwner;
   QPopupMenu * m_parentMenu;
   QList<KBookmarkMenu> m_lstSubMenus;
-  QActionCollection * m_actionCollection;
+  KActionCollection * m_actionCollection;
 };
 
 #endif

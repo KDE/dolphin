@@ -63,7 +63,7 @@ public:
    */
   KonqPopupMenu( const KonqFileItemList &items,
                  KURL viewURL,
-                 QActionCollection & actions,
+                 KActionCollection & actions,
                  KNewMenu * newMenu,
                  bool allowEmbeddingServices = false );
   /**
@@ -90,7 +90,7 @@ protected slots:
   void slotResult( KIO::Job * );
 
 protected:
-  QActionCollection & m_actions;
+  KActionCollection & m_actions;
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;
   QString m_sMimeType;

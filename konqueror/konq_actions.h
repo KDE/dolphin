@@ -23,13 +23,14 @@
 #include <qguardedptr.h>
 
 #include <kaction.h>
+#include <qlist.h>
 
 class KBookmarkOwner;
 class QComboBox;
 class HistoryEntry;
 class QLabel;
 
-class KonqComboAction : public QAction
+class KonqComboAction : public KAction
 {
   Q_OBJECT
 public:
@@ -133,7 +134,7 @@ private:
     QStringList iconList;
 };
 
-class KonqLabelAction : public QAction
+class KonqLabelAction : public KAction
 {
   Q_OBJECT
 public:
