@@ -16,7 +16,6 @@ KQuery::KQuery(QObject *parent, const char * name)
 
 KQuery::~KQuery()
 {
-  m_regexps.clear();
 }
 
 void KQuery::kill()
