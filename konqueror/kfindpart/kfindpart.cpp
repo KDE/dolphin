@@ -96,7 +96,7 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
 
 KFindPart::~KFindPart()
 {
-
+    emit findClosed();
 }
 
 bool KFindPart::openURL( const KURL &url )
@@ -161,7 +161,7 @@ void KFindPart::slotDestroyMe()
   m_kfindWidget->stopSearch();
   emit clear(); // this is necessary to clear the delayed-mimetypes items list
   m_lstFileItems.clear(); // clear our internal list
-  emit findClosed();
+  delete this;
 }
 
 #include "kfindpart.moc"
