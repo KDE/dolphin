@@ -535,16 +535,23 @@ void FilePropsPage::applyChanges()
             // We need to check that the destination doesn't exist
             QString path = properties->kurl().path();
             bOk = true;
-            if ( QFile::exists( path ) )
+            struct stat buff;
+            if ( ::stat( path, &buff ) != -1 )
             {
                 QString newDest;
                 KIO::RenameDlg_Result res = KIO::open_RenameDlg(
+                    i18n("File already exists"),
                     oldurl.decodedURL(),
                     path,
                     (KIO::RenameDlg_Mode) (KIO::M_OVERWRITE | KIO::M_SINGLE),
-                    true, // well we assume that src is newer
-                    newDest
-                    );
+                    newDest,
+                    (unsigned long)-1, //unknown (we would need to stat the template too)
+                    buff.st_size,
+                    (time_t)-1, //unknown
+                    buff.st_ctime,
+                    (time_t)-1, //unknown
+                    buff.st_mtime);
+
                 switch (res) {
                     case KIO::R_RENAME:
                         properties->updateUrl( newDest );
