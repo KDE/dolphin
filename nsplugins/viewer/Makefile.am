@@ -9,11 +9,11 @@ nspluginviewer_LDADD = $(all_libraries) $(MOTIF_LIBS) $(LIB_KDECORE) \
 	$(LIB_KIO) -lXt
 nspluginviewer_LDFLAGS = $(KDE_RPATH) -export-dynamic
 
-kflash.kss_SOURCES = NSPluginCallbackIface.stub NSPluginClassIface.skel \
+kflash_kss_SOURCES = NSPluginCallbackIface.stub NSPluginClassIface.skel \
 	nsplugin.cpp kflash.cpp kxt.cpp	
-kflash.kss_LDADD = $(all_libraries) $(MOTIF_LIBS) $(LIB_KDECORE) \
+kflash_kss_LDADD = $(all_libraries) $(MOTIF_LIBS) $(LIB_KDECORE) \
 	$(LIB_KIO) -lXt
-kflash.kss_LDFLAGS = $(KDE_RPATH) -export-dynamic
+kflash_kss_LDFLAGS = $(KDE_RPATH) -export-dynamic
 
 NSPluginCallbackIface.h:
 	-rm -f ./NSPluginCallbackIface.h
