@@ -2202,7 +2202,7 @@ void KonqMainWindow::initActions()
            this, SLOT( slotComboPlugged() ) );
 
   // Tackat asked me to force 16x16... (Werner)
-  (void)new KAction( i18n( "Clear location bar" ), BarIcon("eraser", 16),
+  (void)new KAction( i18n( "Clear location bar" ),BarIcon("locationbar_erase", 16),
                      0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
 
   // Bookmarks menu
