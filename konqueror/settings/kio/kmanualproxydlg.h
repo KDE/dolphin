@@ -22,7 +22,6 @@
 #ifndef KMANUAL_PROXY_DIALOG_H
 #define KMANUAL_PROXY_DIALOG_H
 
-#include <klineeditdlg.h>
 #include "kproxydlgbase.h"
 
 class QSpinBox;
