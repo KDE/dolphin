@@ -72,9 +72,12 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	private slots:
 		void urlClicked(const QString& url, KParts::URLArgs args);
+		void pageLoaded();
+		void loadFavicon();
 
 	private:
 		KHTMLSideBar *_htmlPart;
+		QString _url;
 };
 
 #endif

@@ -18,11 +18,13 @@
 
 #include "web_module.h"
 #include <qfileinfo.h>
+#include <qtimer.h>
 
 #include <klocale.h>
 #include <kdebug.h>
 #include <kstddirs.h>
 #include <kglobal.h>
+#include <konq_pixmapprovider.h>
 
 
 KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
@@ -30,13 +32,16 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 {
 	_htmlPart = new KHTMLSideBar;
 //	connect(_htmlPart, SIGNAL(setWindowCaption(const QString&)), this, SLOT());
-//	connect(_htmlPart, SIGNAL(completed()), this, SLOT());
+	connect(_htmlPart, SIGNAL(completed()), this, SLOT(pageLoaded()));
 	connect(_htmlPart, SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
 		       	this, SLOT(urlClicked(const QString&, KParts::URLArgs)));
 	KSimpleConfig ksc(desktopName);
 	ksc.setGroup("Desktop Entry");
 
-	_htmlPart->openURL(ksc.readEntry("URL"));
+	_url = ksc.readEntry("URL");
+	_htmlPart->openURL(_url);
+	// Must load this delayed
+	QTimer::singleShot(0, this, SLOT(loadFavicon()));
 }
 
 
@@ -61,8 +66,18 @@ void KonqSideBarWebModule::handleURL(const KURL &) {
 
 
 void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) {
-	kdDebug() << "Open URL: [" << url << "]" << endl;
 	emit openURLRequest(url, args);
+}
+
+
+void KonqSideBarWebModule::loadFavicon() {
+	QString icon = KonqPixmapProvider::iconForURL(_url);
+	if (!icon.isEmpty())
+		emit setIcon(icon);
+}
+
+
+void KonqSideBarWebModule::pageLoaded() {
 }
 
 
