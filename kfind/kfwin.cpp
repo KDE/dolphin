@@ -121,6 +121,10 @@ void KfindWindow::timerEvent(QTimerEvent *) {
   }
 }
 
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
+
 void KfindWindow::updateResults(const char *file )
   {
     kdebug(KDEBUG_INFO, 1902, "UPDATERESULTs\n");
