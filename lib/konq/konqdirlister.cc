@@ -68,9 +68,7 @@ void KonqDirLister::FilesRemoved( const KURL::List & fileList )
     if ( !kit.current() ) // we didn't find it
     {
       // maybe it's the dir we're listing ?
-      // Check for dir in d->lstDirs
-      // BCI: wait for KDirLister to change lstDirs() into m_lstDirs
-      KURL::List m_lstDirs = lstDirs(); // BCI
+      // Check for dir in m_lstDirs
       for ( KURL::List::ConstIterator dit = m_lstDirs.begin(); dit != m_lstDirs.end(); ++dit )
         if ( (*dit).cmp( (*it), true /* ignore trailing slash */ ) )
         {
