@@ -173,7 +173,7 @@ void KPluginOptions::save()
 QString KPluginOptions::quickHelp() const
 {
       return i18n("<h1>Konqueror Plugins</h1> The Konqueror web browser can use Netscape"
-        " plugins to show special content, just like the Navigator does. Please note that,"
+        " plugins to show special content, just like the Navigator does. Please note that"
         " the way you have to install Netscape plugins may depend on your distribution. A typical"
         " place to install them is, for example, '/opt/netscape/plugins'.");
 }
