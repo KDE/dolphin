@@ -200,7 +200,8 @@ bool ActionsImpl::queryClose() {
 
    switch (
       KMessageBox::warningYesNoCancel(
-         KEBApp::self(), i18n("The bookmarks have been modified.\nSave changes?"))
+         KEBApp::self(), i18n("The bookmarks have been modified.\nSave changes?"),
+         QString::null, KStdGuiItem::save(), KStdGuiItem::discard())
    ) {
       case KMessageBox::Yes:
          return save();
