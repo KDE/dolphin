@@ -386,7 +386,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
   KURL url( _url );
   QString serviceType( _serviceType );
-  if ( url.isMalformed() )
+  if ( url.url() == "about:blank" )
+  {
+    serviceType = "text/html";
+    url = KURL();
+  }
+  else if ( url.isMalformed() )
   {
       KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
       return;
