@@ -2960,7 +2960,7 @@ void KonqMainWindow::initActions()
 
   m_paHome->setWhatsThis( i18n( "Click this button to display your 'Home URL'<br><br>\n\n"
                                 "You can configure the location this button takes you to in the "
-                                "<b>KDE Control Center</b>, under <b>FileBrowsing</b> / <b>File Manager</b>" ) );
+                                "<b>KDE Control Center</b>, under <b>File Browsing</b>/<b>File Manager</b>" ) );
   m_paHome->setStatusText( i18n( "Enter your home directory" ) );
 
   m_paReload->setWhatsThis( i18n( "Reloads the currently displayed document<br><br>\n\n"

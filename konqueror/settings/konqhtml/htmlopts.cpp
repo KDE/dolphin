@@ -79,7 +79,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget( m_pAutoLoadImagesCheckBox, row, row, 0, 1 );
     row++;
 
-    m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading / redirecting"), this );
+    m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading/redirecting"), this );
     QWhatsThis::add( m_pAutoRedirectCheckBox,
     i18n( "Some web pages request an automatic reload or redirection after a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
     connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
