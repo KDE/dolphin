@@ -72,10 +72,12 @@ public slots:
    void slotDelayedPrint();
 
    static ActionsImpl* self() { if (!s_self) { s_self = new ActionsImpl(); }; return s_self; }
+
+public:
    ~ActionsImpl();
 
 private:
-   ActionsImpl() { ; }
+   ActionsImpl() { }
    static ActionsImpl *s_self;
 };
 
