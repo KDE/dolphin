@@ -105,6 +105,32 @@ void addBackEnd::doRollBack()
 	}
 }
 
+
+static QString findFileName(const QString* tmpl) {
+	QString myFile, filename;
+	KStandardDirs *dirs = KGlobal::dirs();
+	QString tmp = *tmpl;
+
+	dirs->saveLocation("data", "konqsidebartng/entries/", true);
+	tmp.prepend("/konqsidebartng/entries/");
+	filename = tmp.arg("");
+	myFile = locateLocal("data", filename);
+
+	if (QFile::exists(myFile)) {
+		for (ulong l = 0; l < ULONG_MAX; l++) {
+			filename = tmp.arg(l);
+			myFile = locateLocal("data", filename);
+			if (!QFile::exists(myFile)) {
+				break;
+			} else {
+				myFile = QString::null;
+			}
+		}
+	}
+
+return myFile;
+}
+
 void addBackEnd::activatedAddMenu(int id)
 {
 	kdDebug() << "activatedAddMenu: " << QString("%1").arg(id) << endl;
@@ -134,36 +160,9 @@ void addBackEnd::activatedAddMenu(int id)
 			QString *tmp = new QString("");
 			if (func(tmp,libParam.at(id),&map))
 			{
-				QString myFile, filename;
-				KStandardDirs *dirs = KGlobal::dirs();
-				bool found = false;
+				QString myFile = findFileName(tmp);
 
-				dirs->saveLocation("data","konqsidebartng/entries/",true);
-				tmp->prepend("/konqsidebartng/entries/");
-				filename = tmp->arg("");
-				kdDebug() << "filename part is " << filename
-					<< endl;
-				myFile = locateLocal("data",filename);
-
-				if (QFile::exists(myFile))
-				{
-					kdDebug() << "Searching for new possible entry" << endl;
-					for (ulong l = 0; l < ULONG_MAX; l++)
-					{
-						kdDebug() << myFile << endl;
-						filename = tmp->arg(l);
-						myFile = locateLocal("data", filename);
-						if (!QFile::exists(myFile))
-						{
-							found = true;
-							break;
-						}
-					}
-				} else {
-					found = true;
-				}
-
-				if (found)
+				if (!myFile.isEmpty())
 				{
 					KSimpleConfig scf(myFile,false);
 					scf.setGroup("Desktop Entry");
@@ -264,6 +263,23 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& name) {
 	kdDebug() << "Web sidebar entry to be added: " << url.url()
 		<< " [" << name << "]" << endl;
+
+	QString tmpl = "websidebarplugin%1.desktop";
+	QString myFile = findFileName(&tmpl);
+
+	if (!myFile.isEmpty()) {
+		KSimpleConfig scf(myFile, false);
+		scf.setGroup("Desktop Entry");
+		scf.writeEntry("Type", "Link");
+		scf.writeEntry("URL", url.url());
+		scf.writeEntry("Icon", "netscape");
+		scf.writeEntry("Name", i18n("Web SideBar Plugin"));
+		scf.writeEntry("Open", "true");
+		scf.writeEntry("X-KDE-KonqSidebarModule", "konqsidebar_web");
+		scf.sync();
+
+		createButtons(); // update
+	}
 }
 
 
