@@ -71,6 +71,7 @@ class KonqInfoListViewItem : public KonqBaseListViewItem
       KonqInfoListViewWidget* m_ILVWidget;
 
    private:
+      QValueVector<QVariant::Type> m_columnTypes;
       QValueVector<QVariant> m_columnValues;
 };
 

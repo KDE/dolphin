@@ -126,6 +126,7 @@ void KonqInfoListViewItem::gotMetaInfo()
     {
         KFileMetaInfoItem kfmii = info.item(*it);
 
+        m_columnTypes.append(kfmii.type());
         m_columnValues.append(kfmii.value());
 
         if (!kfmii.isValid())
@@ -151,11 +152,11 @@ int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending 
 
     QVariant value1 = m_columnValues[ col-1 ];
     QVariant value2 = i->m_columnValues[ col-1 ];
-    QVariant::Type type1 = value1.type();
-    QVariant::Type type2 = value2.type();
+    QVariant::Type type1 = m_columnTypes[ col-1 ];
+    QVariant::Type type2 = i->m_columnTypes[ col-1 ];
 
     if ( type1 != type2 )
-        return ascending ? ( type2 - type1 ) : ( type1 - type2 );
+        return ascending ? ( type1 - type2 ) : ( type2 - type1 );
 
 #define KONQ_CASE( x ) \
     case QVariant::x:\
