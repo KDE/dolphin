@@ -28,11 +28,14 @@
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
+#include <qtoolbutton.h>
 #include <qvbuttongroup.h>
 
+#include <kiconloader.h>
 #include <kidna.h>
 #include <kmessagebox.h>
 #include <klistview.h>
+#include <klistviewsearchline.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <dcopref.h>
@@ -48,6 +51,13 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
     QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, 0);
 
     dlg = new KCookiesPolicyDlgUI (this);
+    
+    dlg->tbClearSearchLine->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
+    dlg->kListViewSearchLine->setListView(dlg->lvDomainPolicy);
+    QValueList<int> columns;
+    columns.append(0);
+    dlg->kListViewSearchLine->setSearchColumns(columns);
+    
     mainLayout->addWidget(dlg);
     
     load();

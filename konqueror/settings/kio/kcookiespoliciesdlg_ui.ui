@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KCookiesPolicyDlgUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>390</width>
-            <height>491</height>
+            <width>444</width>
+            <height>552</height>
         </rect>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox">
+        <widget class="QCheckBox" row="0" column="0">
             <property name="name">
                 <cstring>cbEnableCookies</cstring>
             </property>
@@ -30,7 +30,7 @@ Please note that disabling cookie support might make many web sites unbrowsable.
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="1" column="0">
             <property name="name">
                 <cstring>bgPreferences</cstring>
             </property>
@@ -84,7 +84,7 @@ Treat all cookies as session cookies. Session cookies are small pieces of data t
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="2" column="0">
             <property name="name">
                 <cstring>bgDefault</cstring>
             </property>
@@ -114,7 +114,7 @@ Determines how cookies received from a remote machine will be handled:
                         <cstring>rbPolicyAsk</cstring>
                     </property>
                     <property name="text">
-                        <string>A&amp;sk for confirmation</string>
+                        <string>Ask &amp;for confirmation</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton">
@@ -135,7 +135,7 @@ Determines how cookies received from a remote machine will be handled:
                 </widget>
             </vbox>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="3" column="0">
             <property name="name">
                 <cstring>gbDomainSpecific</cstring>
             </property>
@@ -151,7 +151,24 @@ To add a new policy, simply click on the &lt;b&gt;Add...&lt;/b&gt; button and su
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget" row="0" column="1">
+                <spacer row="2" column="1">
+                    <property name="name">
+                        <cstring>spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>MinimumExpanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLayoutWidget" row="0" column="1" rowspan="2" colspan="1">
                     <property name="name">
                         <cstring>layout3</cstring>
                     </property>
@@ -193,7 +210,7 @@ To add a new policy, simply click on the &lt;b&gt;Add...&lt;/b&gt; button and su
                         </widget>
                     </vbox>
                 </widget>
-                <widget class="KListView" row="0" column="0" rowspan="2" colspan="1">
+                <widget class="KListView" row="1" column="0" rowspan="2" colspan="1">
                     <column>
                         <property name="text">
                             <string>Domain</string>
@@ -237,27 +254,66 @@ List of sites for which you have set a specific cookie policy. Specific policies
 &lt;/qt&gt;</string>
                     </property>
                 </widget>
-                <spacer row="1" column="1">
+                <widget class="QLayoutWidget" row="0" column="0">
                     <property name="name">
-                        <cstring>spacer1</cstring>
+                        <cstring>layout2</cstring>
                     </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
                     </property>
-                    <property name="sizeType">
-                        <enum>MinimumExpanding</enum>
+                        <widget class="QToolButton">
+                            <property name="name">
+                                <cstring>tbClearSearchLine</cstring>
                     </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>16</height>
-                        </size>
+                            <property name="cursor">
+                                <cursor>2</cursor>
                     </property>
-                </spacer>
+                            <property name="text">
+                                <string>...</string>
+                            </property>
+                            <property name="textLabel">
+                                <string>Clear Search</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Search:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kListViewSearchLine</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KListViewSearchLine">
+                            <property name="name">
+                                <cstring>kListViewSearchLine</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Search interactively for domains</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
             </grid>
         </widget>
-    </vbox>
+    </grid>
 </widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>tbClearSearchLine</sender>
+        <signal>clicked()</signal>
+        <receiver>kListViewSearchLine</receiver>
+        <slot>clear()</slot>
+    </connection>
+</connections>
 <includes>
     <include location="global" impldecl="in implementation">kdialog.h</include>
 </includes>
@@ -265,5 +321,6 @@ List of sites for which you have set a specific cookie policy. Specific policies
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
 <includehints>
     <includehint>klistview.h</includehint>
+    <includehint>klistviewsearchline.h</includehint>
 </includehints>
 </UI>
