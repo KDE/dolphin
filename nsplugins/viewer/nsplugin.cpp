@@ -914,7 +914,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
       if (!strcasecmp(_argn[i], "WIDTH")) width = atoi(_argv[i]);
       if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);
-      if (!strcasecmp(_argn[i], "PLUGINBASEURL")) baseURL = _argv[i];
+      if (!strcasecmp(_argn[i], "__KHTML__PLUGINBASEURL")) baseURL = _argv[i];
       kdDebug(1431) << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
    }
 

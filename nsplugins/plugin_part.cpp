@@ -177,9 +177,9 @@ bool PluginPart::openURL(const KURL &url)
             if (!name.isEmpty()) {
 
                 // hack to pass view mode from khtml
-                if ( name=="PLUGINEMBED" ) {
+                if ( name=="__KHTML__PLUGINEMBED" ) {
                     embed = true;
-                    kdDebug(1432) << "PLUGINEMBED found" << endl;
+                    kdDebug(1432) << "__KHTML__PLUGINEMBED found" << endl;
                 } else {
                     argn << name;
                     argv << value;
