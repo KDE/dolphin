@@ -39,9 +39,9 @@ namespace KIO { class Job; }
 class KonqIconViewWidget : public KIconView
 {
     Q_OBJECT
-    Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst );
-    Q_PROPERTY( QRect iconArea READ iconArea WRITE setIconArea );
-    Q_PROPERTY( int lineupMode READ lineupMode WRITE setLineupMode );
+    Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst )
+    Q_PROPERTY( QRect iconArea READ iconArea WRITE setIconArea )
+    Q_PROPERTY( int lineupMode READ lineupMode WRITE setLineupMode )
 
 public:
 
