@@ -132,6 +132,8 @@ ListView::Which ListView::whichChildrenSelected(KEBListViewItem *item) {
     QListViewItemIterator it((QListViewItem*)item);
     it++; // skip parent
     QListViewItem *last = 0;
+    if (endOfFolder == item)
+        return item->isSelected() ? AllChildren : NoChildren;
     for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
         KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
         if (VALID_ITEM(item)) {
@@ -151,10 +153,13 @@ void ListView::deselectAllButParent(KEBListViewItem *item) {
     QListViewItemIterator it((QListViewItem*)item);
     it++; // skip parent
     QListViewItem *last = 0;
+    if (endOfFolder == item)
+        return;
     for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
         KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
-        if (VALID_ITEM(item) && item->isSelected())
+        if (VALID_ITEM(item) && item->isSelected()) {
             item->listView()->setSelected(it.current(), false);
+        }
     }
     item->listView()->setSelected(item, true);
 }
@@ -188,8 +193,9 @@ void ListView::updateSelectedItems() {
     // deselect empty folders if there is a real selection
     for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
             it.current() != 0; ++it) {
-        if (!VALID_ITEM(it.current()))
+        if (!VALID_ITEM(it.current()) && it.current()->isSelected()) {
             m_listView->setSelected(it.current(), false); 
+        }
     }
 }
 
