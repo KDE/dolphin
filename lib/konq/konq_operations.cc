@@ -32,6 +32,7 @@
 #include <qdir.h>//first
 #include <assert.h>
 #include <kapplication.h>
+#include <kipc.h>
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kdesktopfile.h>
@@ -567,6 +568,15 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
         KonqOperations * op = new KonqOperations( parent );
         op->setOperation( job, MOVE, lst, newurl );
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
+        // if old trash then update config file and emit
+        if(oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::trashPath() ) {
+            kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
+            KConfig *globalConfig = KGlobal::config();
+            KConfigGroupSaver cgs( globalConfig, "Paths" );
+            globalConfig->writeEntry("Trash" , newurl.path(), true, true );
+            globalConfig->sync();
+            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
+        }
     }
 }
 
