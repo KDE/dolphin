@@ -21,6 +21,7 @@
 #include <qfile.h>
 
 #include <klocale.h>
+#include <kdialog.h>
 #include <kparts/componentfactory.h>
 
 #include "behaviour.h"
@@ -100,15 +101,24 @@ KBrowserOptions::KBrowserOptions(KConfig *config, QString group, QWidget *parent
   layout->addWidget(tab);
 
   appearance = new KonqFontOptions(config, group, false, tab, name);
+  appearance->layout()->setMargin( KDialog::marginHint() );
+
   behavior = new KBehaviourOptions(config, group, tab, name);
+  behavior->layout()->setMargin( KDialog::marginHint() );
+
   previews = new KPreviewOptions(tab, name);
+  previews->layout()->setMargin( KDialog::marginHint() );
+
   kuick = loadModule(tab, "kcmkuick");
 
   tab->addTab(appearance, i18n("&Appearance"));
   tab->addTab(behavior, i18n("&Behavior"));
   tab->addTab(previews, i18n("&Previews"));
   if (kuick)
+  {
+    kuick->layout()->setMargin( KDialog::marginHint() );
     tab->addTab(kuick, i18n("&Quick Copy && Move"));
+  }
 
   connect(appearance, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
   connect(behavior, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
