@@ -1369,12 +1369,22 @@ void KonqMainView::slotSaveLocalSettings()
 
 void KonqMainView::slotConfigureFileManager()
 {
-//TODO
+  if (fork() == 0) {
+    // execute 'kcmkfm' with file manager options pages
+    execl(kapp->kde_bindir()+"/kcmkfm","kcmkfm","font","color","misc",0);
+    warning("Error launching kcmkfm !");
+    exit(1);
+  }             
 }
 
 void KonqMainView::slotConfigureBrowser()
 {
-//TODO
+  if (fork() == 0) {
+    // execute 'kcmkfm' with browser options pages
+    execl(kapp->kde_bindir()+"/kcmkfm","kcmkfm","proxy","http","useragent","cookies",0);
+    warning("Error launching kcmkfm !");
+    exit(1);
+  }                          
 }
 
 void KonqMainView::slotConfigureKeys()
