@@ -20,7 +20,7 @@ INCLUDES = -I$(kde_includes)/arts $(all_includes)
 SUBDIRS = pics favicons
 
 lib_LTLIBRARIES = libkonq.la
-libkonq_la_LDFLAGS = $(all_libraries) -version-info 4:0 -no-undefined
+libkonq_la_LDFLAGS = $(all_libraries) -version-info 5:0:1 -no-undefined
 libkonq_la_LIBADD = $(LIB_KPARTS)
 
 libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
