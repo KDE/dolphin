@@ -64,6 +64,8 @@ libkonqsound_la_LIBADD = -lsoundserver_idl -lartskde
 
 noinst_HEADERS = konq_sound.h
 
+KDE_OPTIONS = nofinal
+
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
 

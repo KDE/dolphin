@@ -261,6 +261,9 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                     {
                         delete d->m_movie;
                         d->m_movie = new QMovie( movie ); // shallow copy, don't worry
+                       const QPixmap* pix = viewport()->backgroundPixmap();
+                       if (!(pix && !pix->isNull()))
+                           d->m_movie->setBackgroundColor( viewport()->backgroundColor() );
                         d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate(const QRect &) ) );
                         d->m_movie->connectStatus( this, SLOT( slotMovieStatus(int) ) );
                         d->movieFileName = d->pActiveItem->mouseOverAnimation();
@@ -397,7 +400,7 @@ void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
     if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() ) {
         d->pActiveItem->setPixmapDirect( d->m_movie->framePixmap(), false, false /*no redraw*/ );
 	QRect pixRect = d->pActiveItem->pixmapRect(false);
-	repaintContents( pixRect.x() + rect.x(), pixRect.y() + rect.y(), rect.width(), rect.height() );
+       repaintContents( pixRect.x() + rect.x(), pixRect.y() + rect.y(), rect.width(), rect.height(), false );
     }
 }
 
