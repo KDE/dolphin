@@ -28,7 +28,6 @@ extern "C"
 
 KInstance *KonqAboutPageFactory::s_instance = 0;
 QString *KonqAboutPageFactory::s_intro_html = 0;
-QString *KonqAboutPageFactory::s_aboutkonq_html = 0;
 QString *KonqAboutPageFactory::s_specs_html = 0;
 QString *KonqAboutPageFactory::s_tips_html = 0;
 
@@ -44,8 +43,6 @@ KonqAboutPageFactory::~KonqAboutPageFactory()
     s_instance = 0;
     delete s_intro_html;
     s_intro_html = 0;
-    delete s_aboutkonq_html;
-    s_aboutkonq_html = 0;
     delete s_specs_html;
     s_specs_html = 0;
     delete s_tips_html;
@@ -101,9 +98,8 @@ QString KonqAboutPageFactory::intro()
     QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
     QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
 
-//     return res; // testing
-
-    res = res.arg( i18n( "Please enter an internet address here." ) )
+    res = res.arg( i18n("Conquer your Desktop!") )
+          .arg( i18n("Please enter an internet address here.") )
           .arg( i18n( "Introduction" ) )
           .arg( i18n( "Tips" ) )
           .arg( i18n( "Specifications" ) )
@@ -128,90 +124,6 @@ QString KonqAboutPageFactory::intro()
 
 
     s_intro_html = new QString( res );
-
-    return res;
-}
-
-QString KonqAboutPageFactory::aboutKonq()
-{
-    if ( s_aboutkonq_html )
-        return *s_aboutkonq_html;
-
-    QString res;
-
-    QString path = locate( "data", "konqueror/about/aboutkonq.html" );
-
-    if ( path.isEmpty() )
-        return res; // ugh
-
-    QFile f( path );
-
-    if ( !f.open( IO_ReadOnly ) )
-        return res;
-
-    QByteArray data = f.readAll();
-
-    f.close();
-
-    data.resize( data.size() + 1 );
-    data[ data.size() - 1 ] = 0;
-
-    res = QString::fromLatin1( data.data() );
-
-    // otherwise all relative URLs are referenced as about:/...
-    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
-		       path.left( path.findRev( '/' )) +
-		       QString::fromLatin1("/\">\n");
-    res.prepend( basehref );
-
-
-    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
-    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
-
-    return res; // testing
-
-    res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
-          .arg( "" ) // TODO Konqueror-Logo
-          .arg( i18n( "Konqueror supports:" ) )
-          .arg( i18n( "Specifications" ) )
-          .arg( i18n( "Supported standards" ) )
-          .arg( i18n( "Additional requirements" ) )
-          .arg( i18n( "<a href=\"%1\">DOM</a> (Level 1, partially Level 2) based "
-                      "<a href=\"%2\">HTML 4.01</a>" ).arg("http://www.w3.org/DOM/").arg("http://www.w3.org/TR/html4/") )
-          .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"%1\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ).arg("http://www.w3.org/Style/CSS/") )
-          .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"%1\">ECMA-262</a> "
-                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5)" ).arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
-          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\"%1\">here</a>" ).arg(kcmshell_konqhtml) )
-          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"%1\\\">here</a>" ).arg(kcmshell_konqhtml) )
-          .arg( i18n( "Secure <a href=\"%1\">Java</a><sup>&reg;</sup> support" ).arg("http://java.sun.com") )
-	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)" ).arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
-	  .arg( i18n( "Enable Java (globally) <A HREF=\"%1\">here</A>" ).arg(kcmshell_konqhtml) )
-	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A><SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Audio<SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Video<SUP>TM</SUP> etc.)" ).arg("TODO").arg("http://www.real.com").arg("http://www.real.com") )
-	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"%1\">Open Motif</A> or <A HREF=\"%2\">LessTif</A>)" ).arg("http://www.openmotif.com").arg("http://www.lesstif.org") )
-	  .arg( i18n( "<A HREF=\"%1\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ).arg("http://www.netscape.com/eng/ssl3/") )
-	  .arg( i18n( "<A HREF=\"%1\">OpenSSL</A>" ).arg("http://www.openssl.org") )
-	  .arg( i18n( "Bidirectional 16bit unicode support" ) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Image formats:" ) )
- 	  .arg( "<LI>PNG</LI><LI>MNG</LI><LI>JPG</LI><LI>GIF</LI>" ) // TODO better than that
-	  .arg( i18n( "built-in" ) )
-	  .arg( i18n( "Transfer protocols:") )
-	  .arg( i18n( "HTTP 1.1 (including gzip/bzip2 compression)" ) )
-	  .arg( i18n( "FTP" ) )
-          .arg( i18n( "<a href=\"%1\">and many more</a>" ).arg(kcmshell_ioslaveinfo) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "<a href=\"%1\">XBEL bookmarks</a>" ).arg("http://pyxml.sourceforge.net/topics/xbel/") )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Favourite icon support" ) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Internet Keywords" ) )
-	  .arg( i18n( "built-in" ) )
-          ;
-
-
-    s_aboutkonq_html = new QString( res );
 
     return res;
 }
@@ -252,48 +164,58 @@ QString KonqAboutPageFactory::specs()
     QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
     QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
 
-    return res; // testing
-
-    res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
-          .arg( "" ) // TODO Konqueror-Logo
-          .arg( i18n( "Konqueror supports:" ) )
-          .arg( i18n( "Specifications" ) )
-          .arg( i18n( "Supported standards" ) )
-          .arg( i18n( "Additional requirements" ) )
-          .arg( i18n( "<a href=\"%1\">DOM</a> (Level 1, partially Level 2) based "
-                      "<a href=\"%2\">HTML 4.01</a>" ).arg("http://www.w3.org/DOM/").arg("http://www.w3.org/TR/html4/") )
-          .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"%1\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ).arg("http://www.w3.org/Style/CSS/") )
-          .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"%1\">ECMA-262</a> "
-                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5)" ).arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
-          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\"%1\">here</a>" ).arg(kcmshell_konqhtml) )
-          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"%1\\\">here</a>" ).arg(kcmshell_konqhtml) )
-          .arg( i18n( "Secure <a href=\"%1\">Java</a><sup>&reg;</sup> support" ).arg("http://java.sun.com") )
-	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)" ).arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
-	  .arg( i18n( "Enable Java (globally) <A HREF=\"%1\">here</A>" ).arg(kcmshell_konqhtml) )
-	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A><SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Audio<SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Video<SUP>TM</SUP> etc.)" ).arg("TODO").arg("http://www.real.com").arg("http://www.real.com") )
-	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"%1\">Open Motif</A> or <A HREF=\"%2\">LessTif</A>)" ).arg("http://www.openmotif.com").arg("http://www.lesstif.org") )
-	  .arg( i18n( "<A HREF=\"%1\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ).arg("http://www.netscape.com/eng/ssl3/") )
-	  .arg( i18n( "<A HREF=\"%1\">OpenSSL</A>" ).arg("http://www.openssl.org") )
-	  .arg( i18n( "Bidirectional 16bit unicode support" ) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Image formats:" ) )
- 	  .arg( "<LI>PNG</LI><LI>MNG</LI><LI>JPG</LI><LI>GIF</LI>" ) // TODO better than that
-	  .arg( i18n( "built-in" ) )
-	  .arg( i18n( "Transfer protocols:") )
-	  .arg( i18n( "HTTP 1.1 (including gzip/bzip2 compression)" ) )
-	  .arg( i18n( "FTP" ) )
-          .arg( i18n( "<a href=\"%1\">and many more</a>" ).arg(kcmshell_ioslaveinfo) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "<a href=\"%1\">XBEL bookmarks</a>" ).arg("http://pyxml.sourceforge.net/topics/xbel/") )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Favourite icon support" ) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Internet Keywords" ) )
-	  .arg( i18n( "built-in" ) )
+    res = res.arg( i18n("Conquer your Desktop!") )
+          .arg( i18n("Please enter an internet address here.") )
+          .arg( i18n("Introduction") )
+          .arg( i18n("Tips") )
+          .arg( i18n("Specifications") )
+          .arg( i18n("Specifications") )
+          .arg( i18n("Konqueror is designed to embrace and support Internet standards."
+		     "The aim is to fully implement the officially sanctioned standards "
+		     "from organisations such as the W3 and OASIS, while also adding "
+		     "extra support for other common usability features that arise as "
+		     "de facto standards across the internet. Along with this support, "
+		     "for such functions as favicons, Internet Keywords, and ") )
+          .arg( i18n("Konqueror also implements:") )
+          .arg( i18n("S P E C I F I C A T I O N S") )
+          .arg( i18n("Supported standards") )
+          .arg( i18n("Additional requirements*") )
+          .arg( i18n("(Level 1, partially Level 2) based ") )
+          .arg( i18n("built-in") )
+          .arg( i18n("(CSS 1, partially CSS 2)") )
+          .arg( i18n("built-in") )
+          .arg( i18n("Edition 3 (equals roughly Javascript 1.5)") )
+          .arg( i18n("Enable Javascript (globally)") )
+          .arg( i18n("here") )
+          .arg( i18n("support") )
+          .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (") )
+          .arg( i18n("Enable Java (globally) ") )
+          .arg( i18n("here") )
+          .arg( i18n("Netscape Communicator") )
+          .arg( i18n("plugins (for viewing ") )
+          .arg( i18n("Flash") )
+          .arg( i18n("Real") )
+          .arg( i18n("Audio, RealVideo etc.)") )
+          .arg( i18n("OSF/Motif") )
+          .arg( i18n("-compatible library (") )
+          .arg( i18n("Open Motif") )
+          .arg( i18n("or") )
+          .arg( i18n("LessTif") )
+          .arg( i18n("Secure Sockets Layer") )
+          .arg( i18n("(TLS/SSL v2/3) for secure communications up to 168bit") )
+          .arg( i18n("OpenSSL") )
+          .arg( i18n("Bidirectional 16bit unicode support") )
+          .arg( i18n("built-in") )
+          .arg( i18n("Image formats:") )
+          .arg( i18n("built-in") )
+          .arg( i18n("Transfer protocols:") )
+          .arg( i18n("HTTP 1.1 (including gzip/bzip2 compression)") )
+          .arg( i18n("FTP") )
+          .arg( i18n("built-in") )
+          .arg( i18n("Back") )
+          .arg( i18n("to the Introduction") )
+          //.arg( i18n("") )
           ;
-
 
     s_specs_html = new QString( res );
 
@@ -336,46 +258,40 @@ QString KonqAboutPageFactory::tips()
     QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
     QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
 
-    return res; // testing
-
-    res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
-          .arg( "" ) // TODO Konqueror-Logo
-          .arg( i18n( "Konqueror supports:" ) )
-          .arg( i18n( "Specifications" ) )
-          .arg( i18n( "Supported standards" ) )
-          .arg( i18n( "Additional requirements" ) )
-          .arg( i18n( "<a href=\"%1\">DOM</a> (Level 1, partially Level 2) based "
-                      "<a href=\"%2\">HTML 4.01</a>" ).arg("http://www.w3.org/DOM/").arg("http://www.w3.org/TR/html4/") )
-          .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"%1\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ).arg("http://www.w3.org/Style/CSS/") )
-          .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"%1\">ECMA-262</a> "
-                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5)" ).arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
-          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\"%1\">here</a>" ).arg(kcmshell_konqhtml) )
-          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"%1\\\">here</a>" ).arg(kcmshell_konqhtml) )
-          .arg( i18n( "Secure <a href=\"%1\">Java</a><sup>&reg;</sup> support" ).arg("http://java.sun.com") )
-	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)" ).arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
-	  .arg( i18n( "Enable Java (globally) <A HREF=\"%1\">here</A>" ).arg(kcmshell_konqhtml) )
-	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A><SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Audio<SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Video<SUP>TM</SUP> etc.)" ).arg("TODO").arg("http://www.real.com").arg("http://www.real.com") )
-	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"%1\">Open Motif</A> or <A HREF=\"%2\">LessTif</A>)" ).arg("http://www.openmotif.com").arg("http://www.lesstif.org") )
-	  .arg( i18n( "<A HREF=\"%1\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ).arg("http://www.netscape.com/eng/ssl3/") )
-	  .arg( i18n( "<A HREF=\"%1\">OpenSSL</A>" ).arg("http://www.openssl.org") )
-	  .arg( i18n( "Bidirectional 16bit unicode support" ) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Image formats:" ) )
- 	  .arg( "<LI>PNG</LI><LI>MNG</LI><LI>JPG</LI><LI>GIF</LI>" ) // TODO better than that
-	  .arg( i18n( "built-in" ) )
-	  .arg( i18n( "Transfer protocols:") )
-	  .arg( i18n( "HTTP 1.1 (including gzip/bzip2 compression)" ) )
-	  .arg( i18n( "FTP" ) )
-          .arg( i18n( "<a href=\"%1\">and many more</a>" ).arg(kcmshell_ioslaveinfo) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "<a href=\"%1\">XBEL bookmarks</a>" ).arg("http://pyxml.sourceforge.net/topics/xbel/") )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Favourite icon support" ) )
-	  .arg( i18n( "built-in" ) )
- 	  .arg( i18n( "Internet Keywords" ) )
-	  .arg( i18n( "built-in" ) )
+    res = res.arg( i18n("Conquer your Desktop!") )
+          .arg( i18n("Please enter an internet address here.") )
+	  .arg( i18n( "Introduction" ) )
+	  .arg( i18n( "Tips" ) )
+	  .arg( i18n( "Specifications" ) )
+	  .arg( i18n( "Tips" ) )
+	  .arg( i18n( "Use Internet-Keywords! By typing \"gg:KDE\" one can search the internet "
+		      "using google for the search phrase \"KDE\". There are a lot of "
+		      "internet-shortcuts predefined to make searching for software or looking "
+		      "up certain words in an encyclopedia a breeze. And you can even " ) )
+	  .arg( i18n( "create your own" ) )
+	  .arg( i18n( "internet-keywords!" ) )
+	  .arg( i18n( "Use the magnifier toolbar-buttons to increase the fontsize on your webpage." ) )
+	  .arg( i18n( "When you want to paste a new address into the URL-bar you might want to "
+		      "clear the current entry by pressing the white-crossed black arrow in the "
+		      "toolbar." ) )
+	  .arg( i18n( "You can also find the \"Fullscreen Mode\" in the Window-Menu. This Feature "
+		      "is very useful for \"talk\" sessions." ) )
+	  .arg( i18n( "Divide et impera (lat. \"Divide and Konquer\") -- by splitting a window "
+		      "into two Parts (e.g. Window -> Split View Left/Right) you can make konqueror "
+		      "appear the way you like. You can even Load some example view-profiles "
+		      "(e.g. Midnight-Commander), or create your own ones." ) )
+	  .arg( i18n( "Use the " ) )
+	  .arg( i18n( "user-agent" ) )
+	  .arg( i18n( "feature if the website you're visiting asks you to use a different browser "
+		      "(and don't forget to send a complaint to the webmaster!)" ) )
+	  .arg( i18n( "The History in your Sidebar makes sure that you will keep track of the "
+		      "pages you have visited recently." ) )
+	  .arg( i18n( "Use a caching proxy to speed up your internet-connection." ) )
+	  .arg( i18n( "Advanced users will appreciate the konsole which you can embed into "
+		      "konqueror (Window -> Show Terminal Emulator)." ) )
+	  .arg( i18n( "Thanks to DCOP you can have full control over Konqueror using a script." ) )
+	  .arg( i18n( "Continue" ) )
+	  //	  .arg( i18n( "" ) )
           ;
 
 
@@ -440,11 +356,6 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
     if ( url == QString::fromLatin1("intro.html") )
     {
 	serve( KonqAboutPageFactory::intro() );
-        return;
-    }
-    else if ( url == QString::fromLatin1("aboutkonq.html") )
-    {
-	serve( KonqAboutPageFactory::aboutKonq() );
         return;
     }
     else if ( url == QString::fromLatin1("specs.html") )
