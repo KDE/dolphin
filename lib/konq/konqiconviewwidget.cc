@@ -290,7 +290,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     if ( firstSelectedItem )
         lstItems.append( firstSelectedItem );
     emit enableAction( "properties", ( iCount == 1 ) &&
-                       PropertiesDialog::canDisplay( lstItems ) );
+                       KPropertiesDialog::canDisplay( lstItems ) );
     emit enableAction( "editMimeType", ( iCount == 1 ) );
 
     // TODO : if only one url, check that it's a dir

@@ -160,7 +160,7 @@ void ListViewBrowserExtension::updateActions()
   if ( firstSelectedItem )
       lstItems.append( firstSelectedItem );
   emit enableAction( "properties", ( selection.count() == 1 ) &&
-                     PropertiesDialog::canDisplay( lstItems ) );
+                     KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( selection.count() == 1 ) );
 }
 
@@ -219,7 +219,7 @@ void ListViewBrowserExtension::properties()
     QValueList<KonqBaseListViewItem*> selection;
     m_listView->listViewWidget()->selectedItems( selection );
     assert ( selection.count() == 1 );
-    (void) new PropertiesDialog( selection.first()->item() );
+    (void) new KPropertiesDialog( selection.first()->item() );
 }
 
 void ListViewBrowserExtension::editMimeType()

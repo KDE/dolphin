@@ -59,7 +59,7 @@ void KonqOperations::editMimeType( const QString & mimeType )
     }
   }
 
-  (void) new PropertiesDialog( mimeTypeFile  );
+  (void) new KPropertiesDialog( mimeTypeFile  );
 }
 
 void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )

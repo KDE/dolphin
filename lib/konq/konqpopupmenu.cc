@@ -413,7 +413,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     addAction( act );
   }
 
-  if ( PropertiesDialog::canDisplay( m_lstItems ) )
+  if ( KPropertiesDialog::canDisplay( m_lstItems ) )
   {
     if ( !bLastSepInserted ) addSeparator();
 
@@ -505,7 +505,7 @@ void KonqPopupMenu::slotPopupMimeType()
 
 void KonqPopupMenu::slotPopupProperties()
 {
-  (void) new PropertiesDialog( m_lstItems );
+  (void) new KPropertiesDialog( m_lstItems );
 }
 
 KAction *KonqPopupMenu::action( const QDomElement &element ) const

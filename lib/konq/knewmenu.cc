@@ -182,7 +182,7 @@ void KNewMenu::slotNewFile()
           KURL::List::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
-              (void) new PropertiesDialog( x, *it, sFile );
+              (void) new KPropertiesDialog( x, *it, sFile );
           }
           return; // done, exit.
       }

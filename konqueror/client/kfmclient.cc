@@ -169,7 +169,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 3 )
     {
-      PropertiesDialog * p = new PropertiesDialog( KCmdLineArgs::makeURL(argv[2]) );
+      KPropertiesDialog * p = new KPropertiesDialog( KCmdLineArgs::makeURL(argv[2]) );
       QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
       exec();
     }
