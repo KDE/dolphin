@@ -317,31 +317,6 @@ void KPluginOptions::scanDone()
     kapp->exit_loop();
 }
 
-
-extern "C"
-{
-    void init_nsplugin()
-    {
-        KConfig *config = new KConfig("kcmnspluginrc", true);
-        config->setGroup("Misc");
-        bool scan = config->readBoolEntry( "startkdeScan", false );
-        bool firstTime = config->readBoolEntry( "firstTime", true );
-        delete config;
-
-        if ( scan || firstTime )
-        {
-            system( "nspluginscan" );
-
-            config= new KConfig("kcmnspluginrc", false);
-            config->setGroup("Misc");
-            config->writeEntry( "firstTime", false );
-            config->sync();
-            delete config;
-        }
-    }
-}
-
-
 /***********************************************************************************/
 
 
