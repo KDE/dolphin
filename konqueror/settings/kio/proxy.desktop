@@ -32,11 +32,13 @@ Name[ro]=Proxy
 Name[ru]=Прокси
 Name[sk]=Proxy
 Name[sl]=Posredniki
+Name[sr]=Proxy serveri
 Name[sv]=Proxyservrar
 Name[ta]=À¢É¡Á¢¸û
 Name[tr]=Vekil sunucular
 Name[uk]=Проксі-сервери
 Name[zh_CN.GB2312]=代理服务器
+Name[zh_TW.Big5]=代理伺服器
 
 Comment=Configure any proxy servers you must use (usually needed if you are behind a firewall)
 Comment[ca]=Configureu els servidors de procuració que heu d'usar (és necessàri habitualment si esteu darrera d'un tallafoc)
@@ -72,9 +74,10 @@ Comment[ta]=­í§¸ ¯í¸û À¢É¡Á¢ §º¨ÅÂ¸ ÅÊÅ¨ÁôÒ¸¨Ç Å�
 Comment[tr]=Kullanmanız gereken vekil sunucuları buradan yapılandırınız
 Comment[uk]=Настройте проксі-сервери, що потрібні Вам для роботи (потрібні здебільшого, якщо Ви знаходитесь за firewall)
 Comment[zh_CN.GB2312]=配置你必须使用的代理服务 (通常当你在防火墙后面时需要)
+Comment[zh_TW.Big5]=設定任何你必須使用的代理伺服器(通常是你需要的□□如果你在防火牆之後)
 are behind a firewall)
 
-Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,Firewall
+Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,Firewall,Cache
 Keywords[ca]=Procuració,servidor de procuració,WWW,Internet,Navegació,HTTP,FTP,Xarxa,Tallafocs
 Keywords[cs]=Proxy,Proxy server,WWW,Internet,Prohlížení,HTTP,FTP,Síť,Firewall
 Keywords[da]=Proxy,Proxy server,www,Internet,Netsøgning,Http,Ftp,Netværk,brandmur
@@ -93,7 +96,7 @@ Keywords[is]=Sel,Vefsel,Vefurinn,Netið,Flakk,Vafra,Vafri,Eldveggur,Net
 Keywords[it]=Proxy,Proxy server,WWW,Internet,Navigazione,HTTP,FTP,Rete,Firewall
 Keywords[ja]=プロキシ,プロキシサーバ,WWW,インターネット, ブラウズ,HTTP,FTP,ネットワーク,ファイアウォール
 Keywords[lt]=Tarpinė stotis,Tarpinės stoties tarnybinė stotis,WWW,Internetas,Naršymas,HTTP,FTP,Tinklas,Pavaduojanti tarnybinė stotis
-Keywords[mk]=Proxy,Proxy server,WWW,Интернет,Разгледување,HTTP,FTP,Мрежа,Firewall
+Keywords[mk]=Proxy,Proxy server,WWW,Интернет,Разгледување,HTTP,FTP,Мрежа,Firewall,WWW,Internet,Browsing,Network
 Keywords[nl]=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Netwerk,proxy-server
 Keywords[no]=Proxy,Proksi,Proxy-tjener,Proksi-tjener,WWW,vVv,Internet,Internett,Nettlosing,HTTP,FTP,Nettverk,Brannmur
 Keywords[no_NY]=proxy,proxy-tenar,WWW,verdsveven,internett,surfing,HTTP,FTP,nettverk,brannmur

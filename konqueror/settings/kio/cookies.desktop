@@ -60,13 +60,15 @@ Comment[ro]=Configurează cookie-urile pentru navigatorul de web
 Comment[ru]=Здесь вы можете настроить Cookie
 Comment[sk]=Tu možete nastaviť konfiguráciu Cookies
 Comment[sl]=Tu lahko nastavite obnašanje piškotov
+Comment[sr]=Ovde možete podesiti 'cookies'
 Comment[sv]=Här kan du ändra dina kakinställningar
 Comment[ta]=­í§¸ ¯í¸û ÀÉ¢Â¡Ã ÅÊÅ¨ÁôÒ¸¨Ç ÅÊÅ¨Áì¸Ä¡õ
 Comment[tr]=Çerez (Cookie) yapılandırmasını buradan yapabilirsiniz
 Comment[uk]=Тут Ви можете настроїти параметри кук
 Comment[zh_CN.GB2312]=你可以配置 Cookie
+Comment[zh_TW.Big5]=你可在此設定 Cookie
 
-Keywords=Cookies,Browsing,Internet,WWW,Network
+Keywords=Cookies,Browsing,Internet,WWW,Network,Policy,Domains
 Keywords[ca]=Cookies,fullejar,Internet,WWW,Xarxa
 Keywords[cs]=Cookie,Prohlížení,Internet,WWW,Síť
 Keywords[da]=Infokager,Netsøgning,Internet,www,Netværk
@@ -85,7 +87,7 @@ Keywords[is]=Smákökur,Flakk,Flakkari,Vafr,Vafri,Vefurinn,Netið
 Keywords[it]=Cookie,Navigazione,Internet,WWW,Rete
 Keywords[ja]=クッキー,ブラウス,インターネット,WWW,ネットワー=E3=82=AF
 Keywords[lt]=Sausainėliai,Naršymas,Internetas,WWW,Tinklas
-Keywords[mk]=Колачиња,Разгледување,Интернет,WWW,мраААТ ТЕжа
+Keywords[mk]=Колачиња,Разгледување,Интернет,WWW,мрежа,Cookies,Browsing,Internet,WWW,Network
 Keywords[nl]=Cookies,Browsing,Internet,WWW,Netwerk
 Keywords[no]=Cookies,Nettlos,los,Internet,Internett,WWW,Nettverk,vev,verdensveven
 Keywords[no_NY]=cookies,informasjonskapslar,surfing,internett,WWW,verdsveven,nettverk
