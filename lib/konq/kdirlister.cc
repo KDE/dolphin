@@ -133,7 +133,7 @@ void KDirLister::slotCloseURL( int /*_id*/ )
 
 void KDirLister::slotListEntry( int /*_id*/, const UDSEntry& _entry )
 {
-  m_buffer.push_back( _entry );
+  m_buffer.append( _entry ); // Copies _entry, since m_buffer is a QValueList
   if ( !m_bufferTimer.isActive() )
     m_bufferTimer.start( 1000, true );
 }
@@ -152,16 +152,16 @@ void KDirLister::slotBufferTimeout()
     m_bIsLocalURL = KURL(m_sURL).isLocalFile();
   }
   
-  list<UDSEntry>::iterator it = m_buffer.begin();
-  for( ; it != m_buffer.end(); it++ )
+  QValueListIterator<UDSEntry> it = m_buffer.begin();
+  for( ; it != m_buffer.end(); ++it )
   {    
     QString name;
     
     // Find out about the name
-    UDSEntry::iterator it2 = it->begin();
-    for( ; it2 != it->end(); it2++ )
+    UDSEntry::iterator it2 = (*it).begin();
+    for( ; it2 != (*it).end(); it2++ )
       if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str.c_str();
+	name = it2->m_str;
   
     bool m_isShowingDotFiles = true; // TODO
     assert( !name.isEmpty() );
@@ -236,16 +236,16 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   for( ; kit.current(); ++kit )
     (*kit)->unmark();
     
-  list<UDSEntry>::iterator it = m_buffer.begin();
-  for( ; it != m_buffer.end(); it++ )
+  QValueListIterator<UDSEntry> it = m_buffer.begin();
+  for( ; it != m_buffer.end(); ++it )
   {    
     QString name;
     
     // Find out about the name
-    UDSEntry::iterator it2 = it->begin();
-    for( ; it2 != it->end(); it2++ )
+    UDSEntry::iterator it2 = (*it).begin();
+    for( ; it2 != (*it).end(); it2++ )
       if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str.c_str();
+	name = it2->m_str;
   
     assert( !name.isEmpty() );
 
@@ -256,7 +256,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     {
       if ( name == (*kit)->getText() )
       {  
-	((KFileItem*)*kit)->mark();
+	(*kit)->mark();
 	done = true;
       }
     }
@@ -306,7 +306,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 
 void KDirLister::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
 {
-  m_buffer.push_back( _entry );
+  m_buffer.append( _entry ); // Keep a copy of _entry
 }
 
 KFileItem* KDirLister::item( const QString& _url )

@@ -41,7 +41,7 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
     if ( it->m_uds == UDS_FILE_TYPE )
       m_mode = (mode_t)it->m_long;
     else if ( it->m_uds == UDS_NAME )
-      m_strText = it->m_str.c_str();
+      m_strText = it->m_str;
   }
   KFileItem::init(); // don't call derived methods !
 }
@@ -114,9 +114,9 @@ QString KFileItem::getStatusBarInfo() const
     else if ( it->m_uds == UDS_FILE_TYPE )
       mode = (mode_t)it->m_long;
     else if ( it->m_uds == UDS_LINK_DEST )
-      linkDest = it->m_str.c_str();
+      linkDest = it->m_str;
     else if ( it->m_uds == UDS_NAME )
-      text = it->m_str.c_str();
+      text = it->m_str;
   }
 
   QString text2 = text.copy();

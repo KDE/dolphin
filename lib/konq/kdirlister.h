@@ -82,12 +82,18 @@ public:
    */
   virtual void updateDirectory();
 
-  /** Find an item
+  /**
+   * Find an item
    * @param _url the item URL
    * @return the pointer to the KFileItem
    **/
   KFileItem* item( const QString& _url );
 
+  /**
+   * @return the list of file items currently displayed
+   */
+  QList<KFileItem> & items() { return m_lstFileItems; }
+  
 signals:
   /** Tell the view that we started to list _url */
   void started( const QString& _url );
@@ -135,7 +141,7 @@ protected:
   /** Used internally between starting-of-listing and first timeout */
   QString m_sWorkingURL;
 
-  list<UDSEntry> m_buffer;
+  QValueList<UDSEntry> m_buffer;
   QTimer m_bufferTimer;
 };
 

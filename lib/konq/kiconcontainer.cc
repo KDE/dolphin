@@ -349,6 +349,14 @@ void KIconContainer::setSelected( KIconContainerItem* _item, bool _selected )
   emit selectionChanged( _item );
 }
 
+void KIconContainer::selectedItems( QList<KIconContainerItem> & _list )
+{
+  iterator it = begin();
+  for( ; *it; ++it )
+    if ( (*it)->isSelected() )
+      _list.append( *it );
+}
+
 void KIconContainer::keyPressEvent( QKeyEvent *_ev )
 {
   switch( _ev->key() )

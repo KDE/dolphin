@@ -191,7 +191,7 @@ public:
   virtual bool isShowingDotFiles() const { return m_isShowingDotFiles; }
 
   /**
-   * A convenience function. Creates an item and inserts it into the container
+   * A convenience method. Creates an item and inserts it into the container
    */
   virtual void insert( const QPixmap& _pixmap, const QString& _txt, const QString& _name,
 		       int _x = -1, int _y = -1, bool _refresh = true );
@@ -249,8 +249,20 @@ public:
    */
   virtual void setCurrentItem( KIconContainerItem *_item );
   
+  /**
+   * Selects or unselects an item. Call this rather than _item->setSelected()
+   * because this one also repaints the item and emits selectionChanged
+   */
   virtual void setSelected( KIconContainerItem* _item, bool _selected );
+  /** 
+   * @return true if _item is selected, equivalent to _item->isSelected().
+   */
   virtual bool isSelected( KIconContainerItem* _item ) { return _item->isSelected(); }
+  /**
+   * @list is filled with the list of selected items
+   */
+  virtual void selectedItems( QList<KIconContainerItem> & _list );
+  
   /**
    * Selects all icons
    */
@@ -260,6 +272,9 @@ public:
    */
   virtual void unselectAll();
   
+  /**
+   * Recomputes the icon arrangement, losing all fixed positions
+   */
   virtual void rearrangeIcons();
 
 signals:
