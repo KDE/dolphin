@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN"
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
  "dtd/kdex.dtd" [
   <!ENTITY kappname "&konqueror;">
   <!ENTITY package "kdebase">
@@ -1065,7 +1065,7 @@ role="extension">.ksp</literal> extension.</para></listitem>
 
 <varlistentry>
 <term><guimenuitem>Illustration Document...</guimenuitem></term>
-<listitem><para>Creates a new <application>KOffice</application> &killustrator;
+<listitem><para>Creates a new <application>KOffice</application> &kontour;
 document. Name it with the extension <literal
 role="extension">.kil</literal>.</para></listitem>
 </varlistentry>
@@ -1359,8 +1359,7 @@ for you if you leave them out.</para></note>
 <para>When you access an &FTP; site it will usually need some form of username
 and password from you. To simplify things, most &FTP; sites that offer files
 for
-free downloading will accept the word <systemitem><!-- on move to 4.1 add -->
-<!-- class="username" -->anonymous</systemitem> as a username and your email
+free downloading will accept the word <systemitem class="username">anonymous</systemitem> as a username and your email
 address as a password, and to make your life even easier &konqueror; will
 automatically supply these without troubling you. </para>
 

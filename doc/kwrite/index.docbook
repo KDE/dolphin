@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" 
+"dtd/kdex.dtd" [
   <!ENTITY kappname "&kwrite;">  
   <!ENTITY package "kdebase">
   <!ENTITY % addindex "IGNORE"> 
@@ -110,7 +111,8 @@ have &kwrite; open (or create) that file immediately upon startup.  This
 option might look something like the following:</para>
 
 <informalexample><screen>
-<prompt>%</prompt> <userinput><command>kwrite</command> <option><replaceable>/home/myhome/docs/myfile.txt</replaceable></option></userinput>
+<prompt>%</prompt> <userinput><command>kwrite</command> 
+<option><replaceable>/home/myhome/docs/myfile.txt</replaceable></option></userinput>
 </screen>
 </informalexample>
 </sect2>
@@ -122,7 +124,8 @@ internet (if the user has an active connection at the time.)  An example of
 this might look like the following:</para>
 
 <informalexample><screen>
-<prompt>%</prompt> <userinput><command>kwrite</command> <option><replaceable>ftp://ftp.kde.org/pub/kde/Welcome.msg</replaceable></option></userinput>
+<prompt>%</prompt> <userinput><command>kwrite</command> 
+<option><replaceable>ftp://ftp.kde.org/pub/kde/Welcome.msg</replaceable></option></userinput>
 </screen>
 </informalexample>
 
@@ -135,31 +138,40 @@ this might look like the following:</para>
 
 <variablelist>
 <varlistentry>  
-<term><userinput><command>kwrite</command> <option>--help</option></userinput></term>  
+<term><userinput><command>kwrite</command> 
+<option>--help</option></userinput></term>  
 <listitem><para>This lists the most basic options available at the command  
 line.</para></listitem>  
 </varlistentry>  
 <varlistentry>  
-<term><userinput><command>kwrite</command> <option>--help-qt</option></userinput></term>
+<term><userinput><command>kwrite</command> 
+<option>--help-qt</option></userinput></term>
 <listitem><para>This lists the options available for changing the way  
 &kwrite; interacts with &Qt;.</para></listitem>  
 </varlistentry>  
 <varlistentry>  
-<term><userinput><command>kwrite</command> <option>--help-kde</option></userinput></term>
+<term><userinput><command>kwrite</command> 
+<option>--help-kde</option></userinput></term>
 <listitem><para>This lists the options available for changing the way  
 &kwrite; interacts with &kde;.</para></listitem>  
 </varlistentry>  
 <varlistentry>  
-<term><userinput><command>kwrite</command> <option>--help-all</option></userinput></term>
+<term><userinput><command>kwrite</command> 
+<option>--help-all</option></userinput></term>
 <listitem><para>This lists all of the command line options.</para></listitem>  
 </varlistentry>  
 <varlistentry>  
-<term><userinput><command>kwrite</command> <option>--author</option></userinput></term>
-<listitem><para>Lists &kwrite;'s authors in the terminal window</para></listitem>  
+<term><userinput><command>kwrite</command> 
+<option>--author</option></userinput></term>
+<listitem><para>Lists &kwrite;'s authors in the terminal 
+window</para></listitem>  
 </varlistentry>  
 <varlistentry>  
-<term><userinput><command>kwrite</command> <option>--version</option></userinput></term>
-<listitem><para>Lists version information for &Qt;, &kde;, and &kwrite;. Also available through <userinput><command>kwrite</command> <option>-V</option></userinput> </para></listitem>
+<term><userinput><command>kwrite</command> 
+<option>--version</option></userinput></term>
+<listitem><para>Lists version information for &Qt;, &kde;, and &kwrite;. Also 
+available through <userinput><command>kwrite</command> 
+<option>-V</option></userinput> </para></listitem>
 </varlistentry>  
 </variablelist>  
 </sect2>
@@ -169,6 +181,8 @@ line.</para></listitem>
 <title>Key Bindings</title>  
   
 <para>Many of the key bindings (shortcuts) are configurable by way of the <link  
+
+
 linkend="settings">Settings</link> menu.  By default &kwrite; honors the  
 following key bindings.</para>  
   
@@ -176,7 +190,8 @@ following key bindings.</para>
 <tgroup cols="2">  
 <tbody>  
   
-<row><entry><para><keycombo action="simul"><keycap>Insert</keycap></keycombo></para></entry>  
+<row><entry><para><keycombo 
+action="simul"><keycap>Insert</keycap></keycombo></para></entry>  
 <entry><para> Toggle between Insert and Overwrite mode. When in insert mode the
 editor will add any typed characters to the text while pushing along any data to
 the right of the text cursor. Overwrite mode causes the entry of each character
@@ -184,113 +199,141 @@ to eliminate the character immediately to the right of the text
 cursor.</para></entry>
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Left Arrow</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul"><keycap>Left 
+Arrow</keycap></keycombo></para></entry>  
 <entry><para>Move the cursor one character to the left </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Right Arrow</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul"><keycap>Right 
+Arrow</keycap></keycombo></para></entry>  
 <entry><para> Move the cursor one character to the right </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Up Arrow</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul"><keycap>Up 
+Arrow</keycap></keycombo></para></entry>  
 <entry><para> Move the cursor up one line  </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Down Arrow</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul"><keycap>Down 
+Arrow</keycap></keycombo></para></entry>  
 <entry><para> Move the cursor down one line </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Page Up</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul"><keycap>Page 
+Up</keycap></keycombo></para></entry>  
 <entry><para> Move the cursor up one page  </para></entry>  
 </row>
 <row>  
-<entry><para><keycombo action="simul"><keycap>Page Down</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul"><keycap>Page 
+Down</keycap></keycombo></para></entry>  
 <entry><para>Move the cursor down one page  </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Backspace</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul"><keycap>Backspace</keycap></keycombo></para></entry>  
 <entry><para> Delete the character to the left of the cursor </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Home</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul"><keycap>Home</keycap></keycombo></para></entry>  
 <entry><para> Move the cursor to the beginning of the line </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>End</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul"><keycap>End</keycap></keycombo></para></entry>  
 <entry><para> Move the cursor to the end of the line </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>Delete</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul"><keycap>Delete</keycap></keycombo></para></entry>  
 <entry><para>Delete the character to the right of the cursor (or any selected  
 text)</para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Shift;<keycap>Left Arrow</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul">&Shift;<keycap>Left 
+Arrow</keycap></keycombo></para></entry>  
 <entry><para> Mark text one character to the left </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Shift;<keycap>Right Arrow</keycap></keycombo></para></entry>  
+<entry><para><keycombo action="simul">&Shift;<keycap>Right 
+Arrow</keycap></keycombo></para></entry>  
 <entry><para> Mark text one character to the right </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>F1</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul"><keycap>F1</keycap></keycombo></para></entry>  
 <entry><para> Help</para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Shift;<keycap>F1</keycap></keycombo></para></entry>
+<entry><para><keycombo 
+action="simul">&Shift;<keycap>F1</keycap></keycombo></para></entry>
 <entry><para>What's this?</para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>F</keycap></keycombo></para></entry>  
 <entry><para><link linkend="find"> Find</link></para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul"><keycap>F3</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul"><keycap>F3</keycap></keycombo></para></entry>  
 <entry><para><link linkend="find-again"> Find again</link></para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>C</keycap></keycombo></para></entry>  
 <entry><para> Copy the marked text to the clipboard. </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>M</keycap></keycombo></para></entry>  
 <entry><para>Set a Bookmark</para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>N</keycap></keycombo></para></entry>  
 <entry><para> <link linkend="new">New</link> document</para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>P</keycap></keycombo></para></entry>  
 <entry><para><link linkend="print">Print</link> </para></entry>  
 </row>  
 <row>
-<entry><para><keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo></para></entry>
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>Q</keycap></keycombo></para></entry>
 <entry><para>Quit - close active copy of editor </para></entry>
 </row>
 <row>
-<entry><para><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></para></entry>
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>R</keycap></keycombo></para></entry>
 <entry><para><link linkend="replace"> Replace</link></para></entry>
 </row>
 <row>
-<entry><para><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></para></entry>
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>S</keycap></keycombo></para></entry>
 <entry><para>Invokes the <link
 linkend="save"><guilabel>Save</guilabel></link> command.</para></entry>
 </row>
 <row>
-<entry><para><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo></para></entry>
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>V</keycap></keycombo></para></entry>
 <entry><para> Paste the clipboard text into line edit. </para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo></para></entry>  
-<entry><para>Delete the marked text and copy it to the clipboard. </para></entry>
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>X</keycap></keycombo></para></entry>  
+<entry><para>Delete the marked text and copy it to the clipboard. 
+</para></entry>
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;<keycap>Z</keycap></keycombo></para></entry>  
 <entry><para><link linkend="undo">Undo</link></para></entry>  
 </row>  
 <row>  
-<entry><para><keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></para></entry>  
+<entry><para><keycombo 
+action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></para></entry>  
 <entry><para><link linkend="redo">Redo</link></para></entry>  
 </row>  
 </tbody>  
@@ -491,7 +534,8 @@ not be closed.
 <variablelist>  
 <varlistentry>
 <term id="undo"><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>  
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu>
 <guimenuitem>Undo</guimenuitem></menuchoice></term>
 <listitem>  
@@ -504,7 +548,8 @@ Undos</link> portion of this help file.</para>
   
 <varlistentry>  
 <term><anchor id="redo"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></shortcut>  
+<shortcut><keycombo 
+action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu><guimenuitem>Redo</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>This will reverse the most recent change (if any) made using Undo</para>  
@@ -513,9 +558,12 @@ Undos</link> portion of this help file.</para>
   
 <varlistentry>  
 <term><anchor id="undohistory"/><menuchoice>  
-<guimenu>Edit</guimenu><guimenuitem>Undo/Redo History</guimenuitem></menuchoice></term>  
+<guimenu>Edit</guimenu><guimenuitem>Undo/Redo 
+History</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>This will call a display box showing a list of the most recent actions on  
+
+
 the left and another list of actions which have been 'undone' on the right.  
 There are also three buttons at the right of the box labeled  
 <guibutton>Undo</guibutton>, <guibutton>Redo</guibutton>, and  
@@ -524,10 +572,18 @@ button will cause the action at the top of the Undo list to be reversed which
 will place that particular action at the top of the Redo list. Likewise,  
 clicking on the <guibutton>Redo</guibutton> button will reinstate the reversed  
 action and move it back to the top of the Undo list.  Clicking on an item below  
+
+
 the top item in either list will select all the items from the top down to that  
+
+
 point.  A subsequent click on the corresponding button will cause all the  
-selected actions to be undone or redone accordingly.  This would be particularly  
+selected actions to be undone or redone accordingly.  This would be particularly 
+
+ 
 useful when the user knows precisely the point to which she or he would like to  
+
+
 proceed - making it unnecessary to go through a series of single undo or redo  
 actions.</para>   
 </listitem>  
@@ -535,21 +591,28 @@ actions.</para>
   
 <varlistentry>  
 <term><anchor id="cut"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo></shortcut>  
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>X</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu><guimenuitem>Cut</guimenuitem></menuchoice></term>  
 <listitem>  
-<para>This command deletes the current selection and places it on the clipboard.  The  
-clipboard is a feature of KDE that works invisibly to provide a way to transfer data between  
+<para>This command deletes the current selection and places it on the clipboard. 
+
+ The  
+clipboard is a feature of KDE that works invisibly to provide a way to transfer 
+data between  
 applications.</para>  
 </listitem>  
 </varlistentry>  
   
 <varlistentry>  
 <term><anchor id="copy"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo></shortcut>  
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>C</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu><guimenuitem>Copy</guimenuitem></menuchoice></term>  
 <listitem>  
-<para>This copies the currently selected text to the clipboard so that it may be  
+<para>This copies the currently selected text to the clipboard so that it may be 
+
+ 
 pasted elsewhere.  The clipboard is a feature of KDE that works invisibly to  
 provide a way to transfer data between applications.</para>   
 </listitem>  
@@ -557,10 +620,13 @@ provide a way to transfer data between applications.</para>
   
 <varlistentry>  
 <term><anchor id="paste"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo></shortcut>  
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>V</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu><guimenuitem>Paste</guimenuitem></menuchoice></term>  
 <listitem>  
-<para>This will insert the contents of the clipboard at the cursor position. The  
+<para>This will insert the contents of the clipboard at the cursor position. The 
+
+ 
 clipboard is feature of KDE that works invisibly to provide a way to transfer  
 data between applications.</para>  
 </listitem>  
@@ -568,7 +634,8 @@ data between applications.</para>
   
 <varlistentry>  
 <term><anchor id="select-all"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo></shortcut>
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>A</keycap></keycombo></shortcut>
 <guimenu>Edit</guimenu><guimenuitem>Select All</guimenuitem></menuchoice></term>
 <listitem>  
 <para>This will select the entire document. This could be very useful for  
@@ -578,7 +645,8 @@ copying the entire file to another application.</para>
   
 <varlistentry>  
 <term><anchor id="invert-the-selection"/><menuchoice>  
-<guimenu>Edit</guimenu><guimenuitem>Invert Selection</guimenuitem></menuchoice></term>  
+<guimenu>Edit</guimenu><guimenuitem>Invert 
+Selection</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>This selects any unselected text while unselecting any selected text -  
 effectively reversing the current state of selection.</para>  
@@ -609,21 +677,32 @@ an analog manner.
         
 <varlistentry>  
 <term><anchor id="find"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo></shortcut>
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>F</keycap></keycombo></shortcut>
 <guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice></term>
 <listitem>  
 <para>This opens the find dialog which is used to specify the <guilabel>Text to  
-Find</guilabel> in the document. There is small text box for entering the search  
+
+
+Find</guilabel> in the document. There is small text box for entering the search 
+
+ 
 pattern which also doubles as a dropdown box. Clicking on the dropdown arrow at  
+
+
 the side of the box makes available other recent search patterns. Other  
 parameters are included to make the search more efficient. Selecting  
 <guilabel>Case Sensitive</guilabel> will limit finds to entries that match the  
 case (upper or lower) of each of the characters in the search  
-pattern. <guilabel>Find Backwards</guilabel> directs the search to proceed in an  
+pattern. <guilabel>Find Backwards</guilabel> directs the search to proceed in an 
+
+ 
 upwardly direction. The <guilabel>Selected Text</guilabel> option keeps the  
 search within currently selected text. Checking <guilabel>Whole Words
 Only</guilabel> prevents the search from stopping on words that contain the
 searched for pattern. The <guilabel>Search from Cursor</guilabel> option begins  
+
+
 the search from the current position of the cursor within the document rather  
 than from the beginning.</para>   
 </listitem>  
@@ -633,6 +712,8 @@ than from the beginning.</para>
 <term><anchor id="find-again"/><menuchoice>  
 <shortcut><keycombo action="simul"><keycap>F3</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu><guimenuitem>Find Next</guimenuitem></menuchoice></term>  
+
+
 <listitem>  
 <para>This repeats the last find operation, if any, without calling the find  
 dialog box.</para> </listitem>  
@@ -659,7 +740,8 @@ document.
 
 <varlistentry>  
 <term><anchor id="replace"/><menuchoice>  
-<shortcut><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></shortcut>  
+<shortcut><keycombo 
+action="simul">&Ctrl;<keycap>R</keycap></keycombo></shortcut>  
 <guimenu>Edit</guimenu><guimenuitem>Replace</guimenuitem></menuchoice></term>
 <listitem>  
 <para>This command opens the replace dialog box.  The replace dialog is  
