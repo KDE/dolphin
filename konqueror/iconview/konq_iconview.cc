@@ -525,6 +525,7 @@ void KonqKfmIconView::slotBackgroundColor()
   {
     m_pProps->m_bgColor = bgndColor;
     m_pProps->m_bgPixmap = QPixmap();
+    m_pProps->saveLocal( m_dirLister->url() );
     m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), FALSE );
   }
 }

@@ -72,6 +72,11 @@ public:
    * @return true if found it
    */
   bool enterDir( const KURL & dir );
+
+  /**
+   * Save in local .directory if possible
+   */
+  void saveLocal( const KURL & dir );
   
   /**
    * Save those properties as default
@@ -82,8 +87,8 @@ public:
   /**
    * Save to config file
    * Set the group before calling.
-   * ("Settings" for global props, "ViewNNN" for local props, 
-   * setDesktopGroup() for .directory files)
+   * ("Settings" for global props, "ViewNNN" for SM (TODO), 
+   * "URL properties" for .directory files)
    */
   void saveProps( KConfig * config );
 

@@ -24,8 +24,11 @@
 
 #include <kdebug.h>
 #include <kstddirs.h>
+#include <klocale.h>
 #include <kpixmap.h>
+#include <kmessagebox.h>
 #include <qpixmapcache.h>
+#include <unistd.h>
 #include <qfile.h>
 #include <iostream>
 
@@ -115,8 +118,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   {
     //kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
     KSimpleConfig config( u.path(), true);
-    config.setDesktopGroup();
-    // TODO add support for setting both of those in konqueror !
+    config.setGroup("URL properties");
     m_bgColor = config.readColorEntry( "BgColor", &m_bgColor );
     QString pix = config.readEntry( "BgImage", "" );
     if ( !pix.isEmpty() )
@@ -138,6 +140,23 @@ void KonqPropsView::saveAsDefault()
   saveProps( config );
 }
 
+void KonqPropsView::saveLocal( const KURL & dir )
+{
+  KURL u ( dir );
+  u.addPath(".directory");
+  if (!u.isLocalFile() || access (dir.path(), W_OK) != 0)
+  {
+    KMessageBox::sorry( 0L, i18n( QString("Can't write to %1").arg(dir.path()) ) );
+    // Well in theory we could write even to some FTP dir, but not with KSimpleConfig :)
+    return;
+  }
+
+  //kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
+  KSimpleConfig config( u.path());
+  config.setGroup("URL properties");
+  saveProps( & config );
+}
+
 void KonqPropsView::saveProps( KConfig * config )
 {
   QString entry;
@@ -154,6 +173,8 @@ void KonqPropsView::saveProps( KConfig * config )
   config->writeEntry( "ShowDotFiles", m_bShowDot );
   config->writeEntry( "ImagePreview", m_bImagePreview );
   config->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
+  config->writeEntry( "BgColor", m_bgColor );
+  // TODO save FILENAME for the BgImage...
   config->sync();
 }
 
