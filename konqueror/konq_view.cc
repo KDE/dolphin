@@ -106,7 +106,7 @@ void KonqView::show()
 
 void KonqView::openURL( const KURL &url, const QString & locationBarURL, const QString & nameFilter )
 {
-  kdDebug() << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
+  kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
 
   if ( !m_bLockHistory )
@@ -328,6 +328,7 @@ void KonqView::slotCompleted()
 
 void KonqView::slotCanceled( const QString & errorMsg )
 {
+  kdDebug(1202) << "KonqView::slotCanceled" << endl;
   // The errorMsg comes from the ReadOnlyPart's job.
   // It should probably be used in a KMessageBox
   // Let's use the statusbar for now
@@ -485,7 +486,7 @@ void KonqView::stop()
   m_bAborted = false;
   if ( m_bLoading )
   {
-    //kdDebug() << "m_pPart->closeURL()" << endl;
+    //kdDebug(1202) << "m_pPart->closeURL()" << endl;
     m_pPart->closeURL();
     m_bAborted = true;
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
@@ -515,6 +516,10 @@ void KonqView::reload()
     args.serviceType = m_serviceType;
     browserExtension()->setURLArgs( args );
   }
+
+  // Happens with default webbrowsing profile
+  if ( m_pPart->url().isEmpty() )
+      return;
 
   // Re-set the location bar URL (in case it was manually edited)
   setLocationBarURL( m_sLocationBarURL );
