@@ -384,7 +384,7 @@ void KWrite::newCaption()
 
 void KWrite::dragEnterEvent( QDragEnterEvent *event )
 {
-  event->accept(QUriDrag::canDecode(event));
+  event->accept(KURLDrag::canDecode(event));
 }
 
 
