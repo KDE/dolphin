@@ -193,12 +193,13 @@ void KfindWindow::saveResults()
 
   dlg->setCaption(i18n("Save Results As"));
 
-  KMimeType::List list;
+  QStringList list;
 
-  list.append(KMimeType::mimeType("text/plain"));
-  list.append(KMimeType::mimeType("text/html"));
+  list << "text/plain" << "text/html";
 
-  dlg->setFilterMimeType(i18n("Save as:"), list, KMimeType::mimeType("text/plain"));
+  dlg->setOperationMode(KFileDialog::Saving);
+  
+  dlg->setMimeFilter(list, QString("text/plain"));
 
   dlg->exec();
 
@@ -295,7 +296,7 @@ void KfindWindow::deleteFiles()
     KfFileLVI *item = (KfFileLVI *) selected.at(i);
     KFileItem file = item->fileitem;
 
-    KIO::NetAccess::del(file.url());
+    KIO::NetAccess::del(file.url(), this);
   }
   selected.setAutoDelete(true);
 }
