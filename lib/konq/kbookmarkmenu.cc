@@ -157,7 +157,7 @@ void KBookmarkMenu::fillBookmarkMenu()
 
   if ( m_bAddBookmark )
   {
-    KAction * paNewFolder = new KAction( i18n( "&New Folder " ),
+    KAction * paNewFolder = new KAction( i18n( "&New Folder..." ),
                                          "folder_new", //"folder",
                                               0,
                                               this,
