@@ -120,6 +120,7 @@ void KonqListViewItem::setDisabled( bool disabled )
 
 void KonqListViewItem::setActive( bool active )
 {
+    if ( !listView() ) return;
     //#### Optimize away repaint if possible, like the iconview does?
     KonqBaseListViewItem::setActive( active );
     int iconSize = static_cast<KonqBaseListViewWidget *>(listView())->iconSize();
