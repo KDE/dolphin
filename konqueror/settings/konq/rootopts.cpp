@@ -397,7 +397,6 @@ void KRootOptions::save()
     bool pathChanged = false;
     bool trashMoved = false;
     bool autostartMoved = false;
-    bool documentsMoved = false;
 
     KURL desktopURL;
     desktopURL.setPath( KGlobalSettings::desktopPath() );
