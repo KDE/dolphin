@@ -146,8 +146,8 @@ QString KonqAboutPageFactory::specs()
 		     "from organisations such as the W3 and OASIS, while also adding "
 		     "extra support for other common usability features that arise as "
 		     "de facto standards across the internet. Along with this support, "
-		     "for such functions as favicons, Internet Keywords, and ") )
-          .arg( i18n("Konqueror also implements:") )
+		     "for such functions as favicons, Internet Keywords, and <A HREF=\"%1\">XBEL bookmarks</A>, "
+                     "Konqueror also implements:").arg("http://pyxml.sourceforge.net/topics/xbel/") )
           .arg( i18n("S P E C I F I C A T I O N S") )
           .arg( i18n("Supported standards") )
           .arg( i18n("Additional requirements*") )
