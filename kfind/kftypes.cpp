@@ -14,6 +14,7 @@
 #include <qtextstream.h>
 
 #include "kftypes.h"
+#include <kglobal.h>
 #include <kstddirs.h>
 
 QList<KfFileType> *types; 
