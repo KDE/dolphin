@@ -8,10 +8,6 @@
 #ifndef __MISC_OPTIONS_H
 #define __MISC_OPTIONS_H
 
-#include <qstrlist.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
-
 #include <kcmodule.h>
 
 
@@ -19,12 +15,14 @@
 // The "Misc Options" Tab contains :
 
 // Preferred terminal             (David)
+// Network operations in a single window (David)
 // ... there is room for others :))
 
 
 #include <qstring.h>
-#include <kconfig.h>
-
+class KConfig;
+class QCheckBox;
+class QLineEdit;
 
 class KMiscOptions : public KCModule
 {
@@ -45,6 +43,7 @@ private:
 	QString groupname;
 
         QLineEdit *leTerminal;
+        QCheckBox *cbListProgress;
 };
 
 #endif

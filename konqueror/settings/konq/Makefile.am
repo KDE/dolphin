@@ -6,7 +6,8 @@ METASOURCES = AUTO
 lib_LTLIBRARIES = libkcm_konq.la
 
 libkcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp main.cpp \
-			miscopts.cpp trashopts.cpp fontopts.cpp
+		miscopts.cpp trashopts.cpp fontopts.cpp \
+		uiserver.stub
 
 libkcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI)
@@ -19,6 +20,8 @@ datadir = $(kde_appsdir)/Settings/Browsing/Files
 
 data2_DATA = desktop.desktop
 data2dir = $(kde_appsdir)/Settings/LookNFeel/Desktop
+
+uiserver_DIR = $(kde_includes)/kio
 
 EXTRA_DIST = $(libkcm_konq_la_DATA) $(data_DATA)
 

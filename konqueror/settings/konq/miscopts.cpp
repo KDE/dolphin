@@ -7,6 +7,9 @@
 
 #include <qlabel.h>
 #include <qgroupbox.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
+#include <qgroupbox.h>
 #include <qlayout.h>//CT - 12Nov1998
 #include <qwhatsthis.h>
 #include <kapp.h>
@@ -16,7 +19,9 @@
 #include <kdialog.h>
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
+#include <dcopclient.h>
 #include <kconfig.h>
+#include <uiserver_stub.h>
 
 
 //-----------------------------------------------------------------------------
@@ -61,6 +66,15 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( leTerminal, wtstr );
 
+    cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), this );
+    lay->addWidget( cbListProgress );
+    connect(cbListProgress, SIGNAL(clicked()), this, SLOT(changed()));
+
+    QWhatsThis::add( cbListProgress, i18n("Checking this option will group the"
+       " progress information for all network file transfers into a single window"
+       " with a list. When the option is not checked, all transfers appear in a"
+       " separate window.") );
+
     lay->addStretch(10);
     lay->activate();
 
@@ -73,15 +87,21 @@ void KMiscOptions::load()
     g_pConfig->setGroup( groupname );
     QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
 
+    KConfig config("uiserverrc");
+    config.setGroup( "UIServer" );
+
+    bool bShowList = config.readBoolEntry( "ShowList", false );
+
     // *** apply to GUI ***
 
     leTerminal->setText(sTerminal);
-
+    cbListProgress->setChecked( bShowList );
 }
 
 void KMiscOptions::defaults()
 {
     leTerminal->setText(DEFAULT_TERMINAL);
+    cbListProgress->setChecked( false );
 }
 
 void KMiscOptions::save()
@@ -89,6 +109,17 @@ void KMiscOptions::save()
     g_pConfig->setGroup( groupname );
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
     g_pConfig->sync();
+
+    KConfig config("uiserverrc");
+    config.setGroup( "UIServer" );
+    config.writeEntry( "ShowList", cbListProgress->isChecked() );
+    config.sync();
+    // Tell the running server
+    if ( kapp->dcopClient()->isApplicationRegistered( "kio_uiserver" ) )
+    {
+      UIServer_stub uiserver( "kio_uiserver", "UIServer" );
+      uiserver.setListMode( cbListProgress->isChecked() );
+    }
 }
 
 void KMiscOptions::changed()
