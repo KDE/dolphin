@@ -27,6 +27,7 @@
 #include <qstringlist.h>
 #include <sys/stat.h>
 
+#include <qlist.h>
 #include <kio_interface.h>
 #include <kurl.h>
 
@@ -87,6 +88,11 @@ public:
    * Named "getText" instead of "text" for the same reason as above.
    */
   QString getText() const { return m_strText; }
+
+  /**
+   * @return the mimetype of the file item
+   */
+  QString mimetype() const;
 
   /**
    * @return the UDS entry. Used by the tree view to access all details
@@ -172,5 +178,8 @@ private:
    */
   bool m_bMarked;
 };
+
+typedef QList<KFileItem> KFileItemList;
+typedef QListIterator<KFileItem> KFileItemListIterator;
 
 #endif

@@ -26,6 +26,7 @@
 #include <qmap.h>
 #include <qstringlist.h>
 
+#include <kfileitem.h>
 #include <kmimetypes.h> // for KDEDesktopMimeType
 
 class KNewMenu;
@@ -38,7 +39,7 @@ enum { KPOPUPMENU_BACK_ID, KPOPUPMENU_FORWARD_ID, KPOPUPMENU_UP_ID, KPOPUPMENU_S
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
- * No action need ot be taken, except testing the return code of exec() in konqueror,
+ * No action needs to be taken, except testing the return code of exec() in konqueror,
  * since it can tell that one of the actions defined in the enum above have 
  * been chosen.
  */
@@ -49,17 +50,14 @@ public:
 
   /**
    * Constructor
-   * @param urls the list of urls the popupmenu should be shown for
-   * @param mode mode of urls, if common, 0 otherwise (e.g. S_IFDIR for two dirs,
-   * but 0 for a dir and a file).
+   * @param items the list of file items the popupmenu should be shown for
    * @param viewURL the URL shown in the view, to test for RMB click on view background
    * @param canGoBack set to true if the view can go back
    * @param canGoForward set to true if the view can go forward
    * @param canGoUp set to true if the view can go up
    * @param isMenubarHidden if true, additionnal entry : "show Menu"
    */
-  KonqPopupMenu( QStringList urls,
-                 mode_t mode,
+  KonqPopupMenu( KFileItemList items,
                  QString viewURL,
                  bool canGoBack, 
                  bool canGoForward,
@@ -94,8 +92,8 @@ protected:
   OPMenu *m_popupMenu;
   KNewMenu *m_pMenuNew;
   QString m_sViewURL;
+  KFileItemList m_lstItems;
   QStringList m_lstPopupURLs;
-  mode_t m_popupMode;
   QMap<int,KService> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopup2;
 };

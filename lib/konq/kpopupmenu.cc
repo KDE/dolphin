@@ -44,15 +44,14 @@
 #include "knewmenu.h"
 #include "kpopupmenu.h"
 
-KonqPopupMenu::KonqPopupMenu( QStringList urls,
-                              mode_t mode,
-                              QString viewURL, 
-                              bool canGoBack, 
+KonqPopupMenu::KonqPopupMenu( KFileItemList items,
+                              QString viewURL,
+                              bool canGoBack,
                               bool canGoForward,
                               bool isMenubarHidden )
-  : m_pMenuNew(0L), m_sViewURL(viewURL), m_lstPopupURLs(urls), m_popupMode(mode)
+  : m_pMenuNew(0L), m_sViewURL(viewURL), m_lstItems(items)
 {
-  assert( m_lstPopupURLs.count() >= 1 );
+  assert( m_lstItems.count() >= 1 );
 
   m_popupMenu = new OPMenu;
   bool bHttp          = true;
@@ -64,26 +63,41 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   bool sDeleting      = true;
   bool sMoving        = true;
   bool hasUpURL       = false;
+  QString mime        = m_lstItems.first()->mimetype();
+  mode_t mode         = m_lstItems.first()->mode();
+  m_lstPopupURLs.clear();
   int id;
 
   KProtocolManager pManager = KProtocolManager::self();
   
   KURL url;
-  QStringList::ConstIterator it = m_lstPopupURLs.begin();
+  KFileItemListIterator it ( m_lstItems );
   // Check whether all URLs are correct
-  for ( ; it != m_lstPopupURLs.end(); it++ )
+  for ( ; it.current(); ++it )
   {
-    url = KURL( *it );
+    url = (*it)->url();
 
+    /* Let's assume KFileItem holds a valid URL !
     if ( url.isMalformed() )
     {
-//FIXME?
 //      emit error( ERR_MALFORMED_URL, s );
       return;
     }
-    QString protocol = url.protocol();
+    */
 
+    // Build the list of URLs
+    m_lstPopupURLs.append( url.url() );
+
+    QString protocol = url.protocol();
     if ( protocol != "http" ) bHttp = false; // not HTTP
+
+    // Determine if common mode among all URLs
+    if ( mode != (*it)->mode() )
+      mode = 0; // modes are different => reset to 0
+
+    // Determine if common mimetype among all URLs
+    if ( mime != (*it)->mimetype() )
+      mime = QString::null; // mimetypes are different => null
 
     // check if all urls are in the trash
     if ( isTrash )
@@ -119,9 +133,9 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     isCurrentTrash = true;
 
   //check if url is current directory
-  if ( m_lstPopupURLs.count() == 1 )
+  if ( m_lstItems.count() == 1 )
   {
-    KURL firstPopupURL = KURL(m_lstPopupURLs.first());
+    KURL firstPopupURL ( m_lstItems.first()->url() );
     firstPopupURL.cleanPath();
     kdebug(0, 1203, "View path is %s",url.path(1).ascii());
     kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
@@ -155,7 +169,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     id = m_popupMenu->insertItem( i18n( "Empty Trash Bin" ), 
 				  this, SLOT( slotPopupEmptyTrashBin() ) );
   } 
-  else if ( S_ISDIR( (mode_t)m_popupMode ) )
+  else if ( S_ISDIR( mode ) ) // all URLs are directories
   {
     //we don't want to use OpenParts here, because of "missing" interface 
     //methods for the popup menu (wouldn't make much sense imho) (Simon)    
@@ -212,32 +226,16 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
 
   if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
-  // Do all URLs have the same mimetype ?
-  url = KURL( m_lstPopupURLs.first() );
-
-  KMimeType* mime = KMimeType::findByURL( url, m_popupMode );
-  ASSERT( mime );
-  it = m_lstPopupURLs.begin();
-  for( ++it /* skip first */; it != m_lstPopupURLs.end(); ++it )
+  if ( !mime.isNull() ) // common mimetype among all URLs ?
   {
-    KURL u( *it );  
-    KMimeType* m = KMimeType::findByURL( u, m_popupMode );
-    if ( m != mime )
-      mime = 0L;
-  }
-  
-  if ( mime )
-  {
-
-    // KServiceTypeProfile::OfferList offers = KServiceTypeProfile::offers( mime->name() );
-
+    // Query the trader for offers associated to this mimetype
     KTrader* trader = KdedInstance::self()->ktrader();
        
-    KTrader::OfferList offers = trader->query( mime->name() );
+    KTrader::OfferList offers = trader->query( mime );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
-    if ( mime->name() == "application/x-desktop" ) // ???
+    if ( mime == "application/x-desktop" ) // .desktop file (???)
     {
       builtin = KDEDesktopMimeType::builtinServices( url );
       user = KDEDesktopMimeType::userDefinedServices( url );
@@ -285,7 +283,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     }
   }
   
-  if ( m_lstPopupURLs.count() == 1 && PropertiesDialog::canDisplay( m_lstPopupURLs.first() ) )
+  if ( PropertiesDialog::canDisplay( m_lstItems ) )
   {
     m_popupMenu->insertSeparator();
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
@@ -401,8 +399,7 @@ void KonqPopupMenu::slotPopup( int id )
 
 void KonqPopupMenu::slotPopupProperties()
 {
-  assert ( m_lstPopupURLs.count() == 1 );
-  (void) new PropertiesDialog( m_lstPopupURLs.first(), m_popupMode );
+  (void) new PropertiesDialog( m_lstItems );
 }
 
 #include "kpopupmenu.moc"

@@ -161,6 +161,11 @@ QString KFileItem::getStatusBarInfo() const
     return text;
 }
 
+QString KFileItem::mimetype() const
+{
+  return m_pMimeType->name();
+}
+
 void KFileItem::run()
 {
   (void) new KRun( m_url.url(), m_mode, m_bIsLocalURL );

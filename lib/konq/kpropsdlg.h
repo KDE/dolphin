@@ -33,22 +33,22 @@
 #include <qtabdialog.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
-#include <qlabel.h>
 #include <qlayout.h>
 #include <qstring.h>
-#include <qcheckbox.h>
-#include <qlineedit.h>
 #include <qlist.h>
 #include <qcombobox.h>
 #include <qgroupbox.h>
-#include <qpushbutton.h>
 #include <qlistbox.h>
 #include <qtooltip.h>
 
 #include <kurl.h>
-#include <kiconloaderdialog.h>
-#include <kiconloader.h>
 #include <klocale.h>
+#include <kfileitem.h>
+
+class QLineEdit;
+class QCheckBox;
+class QPushButton;
+class KIconLoaderButton;
 
 class PropsPage;
 
@@ -64,11 +64,27 @@ class PropertiesDialog : public QObject
   Q_OBJECT
 public:
   /**
-   * Bring up a Properties dialog. Only works for local files currently.
+   * @return whether there are any property pages available for the given url
+   */
+  static bool canDisplay( const QString &url, mode_t mode = (mode_t) -1);
+  /**
+   * @return whether there are any property pages available for the given file items
+   */
+  static bool canDisplay( KFileItemList _items );
+  
+  /**
+   * Bring up a Properties dialog. Normal constructor for file-manager-like applications.
+   * @param _items list of file items whose properties should be displayed
+   * NOTE : the current limitations of PropertiesDialog makes it use only
+   * the FIRST item in the list
+   */
+  PropertiesDialog( KFileItemList _items );
+  /**
+   * Bring up a Properties dialog. Convenience constructor for non-file-manager applications.
    * @param _url the URL whose properties should be displayed
    * @param _mode the mode, as returned by stat(). Don't set if unknown.
    */
-  PropertiesDialog( const QString& _url, mode_t _mode = (mode_t) -1);
+  PropertiesDialog( const QString& _url, mode_t _mode = (mode_t) -1 );
   ~PropertiesDialog();
   
   /**
@@ -80,6 +96,10 @@ public:
    */
   QString url() const { return m_url; }
   /**
+   * @return the mimetype
+   */
+  QString mimetype() const { return m_mimetype; }
+  /**
    * @return the mode of the URL.
    */
   mode_t mode() const { return m_mode; }
@@ -88,17 +108,6 @@ public:
    */
   QTabDialog* tabDialog() { return tab; }
   
-  /**
-   * Usually called from a PropsPage in order of emitting the signal.
-   */
-  void emitPropertiesChanged( const QString& _new_name );
-  
-  /**
-   * @return whether there are any property pages available for the given
-   *         url
-   */
-  static bool canDisplay( const QString &url, mode_t mode = (mode_t) -1);
-  
 public slots:
   /**
    * Called when the user presses 'Ok'.
@@ -106,24 +115,12 @@ public slots:
   void slotApply();      // Deletes the PropertiesDialog instance
   void slotCancel();     // Deletes the PropertiesDialog instance
   
-  signals:
-  /**
-   * TODO: docu obsolete!
-   * Notify about changes in properties and rnameings.
-   * For example the root widget needs to be informed about renameing. Otherwise
-   * it would consider the renamed icon a new icon and would move it to the upper left
-   * corner or something like that.
-   * In most cases you wont need this signal because KIOManager is informed about changes.
-   * This causes KFileWindow for example to reload its contents if necessary.
-   * If the name did not change, _name is 0L.
-   */
-  void propertiesChanged( const QString& _url, const QString& _new_name );
-  /** 
-   * Notify that we have finished with the properties (be it Apply or Cancel)
-   */
-  void propertiesClosed();
-  
 protected:
+
+  /**
+   * Common initialization for both constructors
+   */
+  void init();
   /**
    * Inserts all pages in the dialog.
    */
@@ -141,6 +138,10 @@ protected:
    * The mode of the file
    */
   mode_t m_mode;
+  /**
+   * The mimetype of the file
+   */
+  QString m_mimetype;
   /**
    * List of all pages inserted ( first one first )
    */

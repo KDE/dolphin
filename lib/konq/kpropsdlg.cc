@@ -41,12 +41,17 @@
 #include <qfile.h>
 #include <qdir.h>
 #include <qdict.h>
+#include <qlineedit.h>
+#include <qpushbutton.h>
+#include <qcheckbox.h>
 #include <qmessagebox.h>
 #include <qlist.h>
 #include <qstrlist.h>
 #include <qstringlist.h>
 #include <qpainter.h>
 
+#include <kiconloaderdialog.h>
+#include <kiconloader.h>
 #include <kurl.h>
 #include <klocale.h>
 #include <kglobal.h>
@@ -69,8 +74,25 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
         {S_IROTH, S_IWOTH, S_IXOTH, S_ISVTX}
     };
 
+PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
+  // TODO : handle all items
+  // Current HACK : only use the first item
+  m_url( _items.first()->url().url() ),
+  m_kurl( _items.first()->url().url() ),
+  m_mode( _items.first()->mode() ),
+  m_mimetype( _items.first()->mimetype() )
+{
+  init();
+}
+
 PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
-  QObject(), m_url(_url), m_kurl( _url ), m_mode(_mode)
+  m_url(_url), m_kurl( _url ), m_mode( _mode ),
+  m_mimetype( "unknown" )
+{
+  init();
+}
+
+void PropertiesDialog::init()
 {
     pageList.setAutoDelete( true );
     
@@ -113,11 +135,6 @@ PropertiesDialog::~PropertiesDialog()
     pageList.clear();    
 }
 
-void PropertiesDialog::emitPropertiesChanged( const QString& _new_name )
-{
-    emit propertiesChanged( m_url, _new_name );
-}
-
 bool PropertiesDialog::canDisplay( const QString &url, mode_t mode )
 {
   KURL u( url );
@@ -130,6 +147,12 @@ bool PropertiesDialog::canDisplay( const QString &url, mode_t mode )
          URLPropsPage::supports( u, mode ) ||
          DirPropsPage::supports( u, mode ) ||
          DevicePropsPage::supports( u, mode );
+}
+
+bool PropertiesDialog::canDisplay( KFileItemList _items )
+{
+  // HACK
+  return canDisplay( _items.first()->url().url(), _items.first()->mode() );
 }
 
 void PropertiesDialog::slotApply()
@@ -150,18 +173,14 @@ void PropertiesDialog::slotApply()
 	s.truncate( i + 1 );
     }
     
-    /* still needed ?
-    KIOServer::sendNotify( s );
-    */
-
     // make sure the desktop icon get's unselected
-    emit propertiesClosed();
+    //emit propertiesClosed();
     delete this;
 }
 
 void PropertiesDialog::slotCancel(){
    
-  emit propertiesClosed();
+  //emit propertiesClosed();
   delete this;
 }
 
@@ -348,6 +367,11 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	layout->addWidget(l, 0, AlignLeft);
     }
     
+    QString tempstr = i18n("Mimetype: %1").arg( properties->mimetype() );
+    l = new QLabel( tempstr, this );
+    l->setFixedSize(l->sizeHint());
+    layout->addWidget(l, 0, AlignLeft);
+
     char buffer[1024];
     struct tm *t = localtime( &lbuff.st_atime );
     sprintf( buffer, "%s: %02i:%02i %02i.%02i.%04i", 
@@ -405,9 +429,9 @@ void FilePropsPage::applyChanges()
 	if ( rename( path, s ) != 0 ) {
             QString tmp;
             tmp.sprintf(i18n("Could not rename the file or directory\n%s\n"), strerror(errno));
-            QMessageBox::warning( this, i18n( "KFM Error" ), tmp, i18n("OK"));
+            QMessageBox::warning( this, i18n( "Properties Dialog Error" ), tmp, i18n("OK"));
         }
-	properties->emitPropertiesChanged( n );
+	// properties->emitPropertiesChanged( n );
     }
 }
 
@@ -667,7 +691,7 @@ void FilePermissionsPropsPage::applyChanges()
 	    return;
 	}
 	if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
-	    QMessageBox::warning( 0, i18n( "KFM Error" ),
+	    QMessageBox::warning( 0, i18n( "Properties Dialog Error" ),
 				  i18n( "Could not change owner/group\nPerhaps access denied." ),
 				  i18n( "OK") );
     }    
@@ -675,7 +699,7 @@ void FilePermissionsPropsPage::applyChanges()
     if ( p != permissions )
     {
 	if ( chmod( path, p ) != 0 )
-	    QMessageBox::warning( 0, i18n( "KFM Error" ),
+	    QMessageBox::warning( 0, i18n( "Properties Dialog Error" ),
 				  i18n( "Could not change permissions\nPerhaps access denied." ),
 				  i18n( "OK") );
     }
@@ -950,7 +974,7 @@ void ExecPropsPage::applyChanges()
       {
 #endif
       
-	QMessageBox::warning( 0, i18n("KFM Error"),
+	QMessageBox::warning( 0, i18n("Properties Dialog Error"),
 			      i18n("Could not save properties\nPerhaps permissions denied"),
 			      i18n("OK") );
 	return;
@@ -1087,7 +1111,7 @@ void URLPropsPage::applyChanges()
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) )
     {
-	QMessageBox::warning( 0, i18n("KFM Error"), 
+	QMessageBox::warning( 0, i18n("Properties Dialog Error"), 
 			        i18n("Could not save properties\nPerhaps permissions denied"),
 				i18n("OK") );
 	return;
@@ -1202,7 +1226,7 @@ void DirPropsPage::applyChanges()
     QFile f( tmp );
     if ( !f.open( IO_ReadWrite ) )
     {
-      QMessageBox::warning( 0, i18n("KFM Error"), 
+      QMessageBox::warning( 0, i18n("Properties Dialog Error"), 
 			     i18n("Could not write to\n") + tmp,
 			     i18n("OK") );
 	return;
@@ -1248,9 +1272,6 @@ void DirPropsPage::applyChanges()
     if ( i == -1 )
 	return;
     tmp.truncate ( i + 1 );
-/*
-    KIOServer::sendNotify( tmp );
-*/
 }
 
 void DirPropsPage::showSettings( QString filename )
@@ -1346,9 +1367,6 @@ void DirPropsPage::resizeEvent ( QResizeEvent *)
 void DirPropsPage::slotApply()
 {
     applyChanges();
-/*
-    KIOServer::sendNotify( properties->getURL() );
-*/
 }
 
 void DirPropsPage::slotApplyGlobal()
@@ -1367,19 +1385,6 @@ void DirPropsPage::slotApplyGlobal()
     }
 
     config->sync();
-
-/*
-    // Notify all opened windows
-    QStrList strlist;
-    QList<KfmGui>& list = KfmGui::getWindowList();
-    KfmGui *win;
-    for ( win = list.first(); win != 0L; win = list.next() )
-	strlist.append( win->getURL() );
-    
-    char *s;
-    for ( s = strlist.first(); s != 0L; s = strlist.next() )
-	KIOServer::sendNotify( s );
-*/
 }
 
 /* ----------------------------------------------------
@@ -1701,7 +1706,7 @@ void ApplicationPropsPage::applyChanges()
 	//debug ("************Cannot save");
 #endif
 
-	QMessageBox::warning( 0, i18n("KFM Error"),
+	QMessageBox::warning( 0, i18n("Properties Dialog Error"),
 			        i18n("Could not save properties\nPerhaps permissions denied"),
 				i18n("OK") );
 	return;
@@ -2062,7 +2067,7 @@ void BindingPropsPage::applyChanges()
       if (err)
       {
 #endif
-	QMessageBox::warning( 0, i18n("KFM Error"),
+	QMessageBox::warning( 0, i18n("Properties Dialog Error"),
 			        i18n("Could not save properties\nPerhaps permissions denied"),
 				i18n("OK") );
 	return;
@@ -2239,7 +2244,7 @@ void DevicePropsPage::applyChanges()
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) )
     {
-	QMessageBox::warning( 0, i18n("KFM Error"), 
+	QMessageBox::warning( 0, i18n("Properties Dialog Error"), 
 			        i18n("Could not save properties\nPerhaps permissions denied"),
 				i18n("OK") );
 	return;
