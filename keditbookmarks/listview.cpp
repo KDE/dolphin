@@ -408,7 +408,7 @@ void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
               VALID_FIRST(selectedItems())
             ? selectedItems()->first()->bookmark().address()
             : currentItem->bookmark().address();
-    if (item && m_splitView && lv == m_folderListView) {
+    if (item && currentItem && m_splitView && lv == m_folderListView) {
         m_folderListView->setSelected(item, true);
         QString addr = currentItem->bookmark().address();
         if (addr != m_currentSelectedRootAddress) {
