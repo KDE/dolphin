@@ -17,7 +17,7 @@
 <firstname>Pamela</firstname>
 <surname>Roberts</surname>
 <affiliation>
-<address><email>pam.roberts@btinternet.com</email></address>
+<address><email>pamroberts@blueyonder.co.uk</email></address>
 </affiliation>
 </author>
 
@@ -43,12 +43,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-02-05</date>
-<releaseinfo>2.09.02</releaseinfo>
+<date>2002-04-08</date>
+<releaseinfo>3.00.00</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
  Universal Viewing Application.</para>
-<para>This document describes &konqueror; version 2.9.2</para></abstract>
+<para>This document describes &konqueror; version 3.0.0</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -889,11 +889,10 @@ names. For example;</para>
 <itemizedlist>
 <listitem><para> <userinput><filename>flag*.png</filename></userinput> will
 select all filenames starting with the letters <quote>flag</quote> and ending
-with <quote><filename>.png</filename></quote>.</para></listitem>
+with <quote><literal role="extension">.png</literal></quote>.</para></listitem>
 <listitem><para><userinput><filename>memo?.txt</filename></userinput> will
 select <filename>memo1.txt</filename> and <filename>memo9.txt</filename> but
-not
-<filename>memo99.txt</filename>.</para></listitem>
+not <filename>memo99.txt</filename>.</para></listitem>
 </itemizedlist>
 
 <para>When you have selected a range of files, you can narrow down the
@@ -958,7 +957,9 @@ open the file <filename>/home/pam/todo.txt</filename> in &kedit;. You can
 generally leave the <guilabel>Application</guilabel> page blank. </para>
 
 <para>To make the application icon appear on your desktop, create the link in
-your <filename class="directory">~/Desktop</filename> directory or get to the
+your <filename class="directory">~/Desktop</filename> directory (this may be 
+called something slightly different depending on how &kde; was installed on 
+your system) or get to the
 <guisubmenu>Create New...  </guisubmenu> sub menu by
 <mousebutton>right</mousebutton> clicking on a free area of the desktop.</para>
 
@@ -1093,7 +1094,7 @@ role="extension">.kil</literal>.</para></listitem>
 <listitem><para><guilabel>General</guilabel>, which gives you some
 information about the item and lets you change its name and, for a directory,
 the associated icon.</para></listitem>
-<listitem><para><guilabel>Permissions</guilabel>, which shows you the item"s
+<listitem><para><guilabel>Permissions</guilabel>, which shows you the item's
 ownership and access permissions and lets you change the
 permissions.</para></listitem>
 </itemizedlist>
@@ -1178,7 +1179,7 @@ a
 <itemizedlist>
 
 <listitem><para>If you use a dial-up modem connection, then you will be using
-&kppp; or a similar dialler program to make the connection.</para></listitem>
+&kppp; or a similar dialer program to make the connection.</para></listitem>
 
 <listitem><para>If your machine is connected to a local area network
 (<acronym>LAN</acronym>) that gives you a proxy connection to the Internet then
@@ -1240,7 +1241,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></ke
 or the Menubar <menuchoice><guimenu>Window</guimenu> <guimenuitem>Split View
 Left/Right</guimenuitem></menuchoice> option which will let you see different
 pages at the same time. This can be useful if you are looking through a
-complicated set of pages such as this document, but make sure the little link
+complicated set of <acronym>HTML</acronym> pages, but make sure the little link
 box at the bottom right hand corner is empty when you are doing
 this.</para></listitem>
 
@@ -1335,9 +1336,8 @@ Internet.</para>
 as if they were on your own system, download them onto your computer using
 &konqueror;'s normal <guimenuitem>Copy</guimenuitem> and
 <guimenuitem>Paste</guimenuitem> or Drag 'n Drop methods and, if allowed,
-upload
-files from your machine to the other computer's filesystem. To try it, type the
-<acronym>URL</acronym>.</para>
+upload files from your machine to the other computer's filesystem. To try it, 
+type the <acronym>URL</acronym></para>
 
 <screen>
 <userinput>ftp://ftp.kde.org/pub/kde</userinput>
@@ -1413,9 +1413,10 @@ other bookmarks.</para>
 
 <itemizedlist>
 <listitem><para>If you are also using &Netscape;, then a &Netscape; Bookmarks
-folder can be be added to &konqueror;'s bookmark list so you can use
+folder can be added to &konqueror;'s bookmark list so you can use
 your current &Netscape; bookmarks in &konqueror;.  </para></listitem>
-<listitem><para>Items in your Bookmark Toolbar will usually appear in a folder 
+<listitem><para>Items in your Bookmark Toolbar will usually appear in a 
+Bookmark folder 
 called <quote>Toolbar</quote> although this can be changed 
 with the <guilabel>Bookmark Editor</guilabel>.</para></listitem> 
 <listitem><para>To add a bookmark into a sub-folder rather than into the main 
@@ -1428,7 +1429,7 @@ folder.</para></listitem></itemizedlist>
 <application>Internet Explorer</application>'s
 <menuchoice><guimenu>File</guimenu><guisubmenu>Import and
 Export</guisubmenu><guimenuitem>Export Favorites</guimenuitem></menuchoice>
-option will create a <filename>.htm</filename> file containing links to your
+option will create a <literal role="extension">.htm</literal> file containing links to your
 <application>IE</application> favourites. From within &konqueror; you can then,
 as long as you have access to the <application>Windows</application> partition,
 find that file and add it to your bookmarks. In this way you can access all of
@@ -1782,7 +1783,7 @@ one is unlikely to affect the others.</para>
 instance of &konqueror; will exist in memory for all of the local browsing
 windows you have open, although separate instances will exist for each web
 browsing window. This means that a problem with any of the local browsing
-windows can all of them to close.</para>
+windows can cause all of them to close.</para>
 <para>The <guilabel>For web browsing only</guilabel> option is the opposite to
 <guilabel>For local browsing only</guilabel> so that local browsing windows
 are isolated from one another but a problem with a web browsing window may
@@ -1829,7 +1830,7 @@ file types and can be changed to suit your taste or to add a new file
 type.</para>
 
 <para>For example <mousebutton>Right</mousebutton> click on a text
-(<filename>.txt</filename>) file and select the <guimenuitem>Edit File
+(<literal role="extension">.txt</literal>) file and select the <guimenuitem>Edit File
 Type</guimenuitem> item. This will bring up a dialog box as shown
 below.</para>
 
@@ -1850,8 +1851,8 @@ add the extensions (<guilabel>Filename Patterns</guilabel>) for any other types
 of file that you want to be handled in the same way.</para>
 
 <note><para>&konqueror; is clever enough to recognise most plain text files and
-treat them as such even though they don't have the <filename>.txt</filename>
-extension.</para></note>
+treat them as such even though they don't have the <literal role="extension">
+.txt</literal> extension.</para></note>
 
 <para>The <guimenuitem>Embedding</guimenuitem> (which actually refers to the
 Preview) tab page controls what happens when you &LMB; click on a
@@ -1971,7 +1972,7 @@ images rather than text.</para>
 <para>If you select <guilabel>Right click goes back in history</guilabel> then
 a <mousebutton>right</mousebutton> click on a view will be interpreted as 
 <menuchoice><guimenu>Go</guimenu><guimenuitem>Back</guimenuitem></menuchoice>.
-In this case you can get the tranditional context menu by moving the mouse
+In this case you can get the traditional context menu by moving the mouse
 with the <mousebutton>right</mousebutton> held down.</para>
 
 <para>If the <guilabel>Automatically load images</guilabel> box is checked
@@ -2246,7 +2247,8 @@ User Agent configuration dialog.</para>
 
 <chapter id="commands">
 <title>Command Reference</title>
-
+<note><para>The shortcut key combinations shown in this chapter are the 
+default ones. They can of course be changed.</para></note>
 <sect1 id="menubar">
 <title>The Menubar</title>
 
@@ -2256,6 +2258,9 @@ User Agent configuration dialog.</para>
 <variablelist>
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>New Window</guimenuitem>
 </menuchoice></term>
@@ -2265,6 +2270,9 @@ window.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Duplicate Window</guimenuitem>
 </menuchoice></term>
@@ -2275,6 +2283,9 @@ one.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Open Location...</guimenuitem>
 </menuchoice></term>
@@ -2286,6 +2297,9 @@ box.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Send Link</guimenuitem>
 </menuchoice></term>
@@ -2317,12 +2331,15 @@ image file to your own computer.</para>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Save As...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Only applies if you are viewing a document or web page, uses
 the
-<guilabel>Save As</guilabel> dialog box to let you save a copy to your own
+<guilabel>Save As...</guilabel> dialog box to let you save a copy to your own
 computer.</para></listitem>
 </varlistentry>
 
@@ -2331,12 +2348,15 @@ computer.</para></listitem>
 <guimenu>Location</guimenu>
 <guimenuitem>Save Frame As...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Similar to <guimenuitem>Save As</guimenuitem> but for
+<listitem><para>Similar to <guimenuitem>Save As...</guimenuitem> but for
 use with a web site that uses frames.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Print...</guimenuitem>
 </menuchoice></term>
@@ -2363,6 +2383,9 @@ viewing in &konqueror; with Netscape as well.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
+</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Quit</guimenuitem>
 </menuchoice></term>
@@ -2384,6 +2407,9 @@ found by &RMB; clicking on a free area of a view.</para></note>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Undo</guimenuitem>
 </menuchoice></term>
@@ -2393,6 +2419,9 @@ action.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Cut</guimenuitem>
 </menuchoice></term>
@@ -2403,6 +2432,9 @@ from the original location to the new one.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Copy</guimenuitem>
 </menuchoice></term>
@@ -2412,6 +2444,9 @@ clipboard.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Paste</guimenuitem>
 </menuchoice></term>
@@ -2434,7 +2469,7 @@ open the <guimenuitem>Properties...</guimenuitem> dialog box.
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keycap>Del</keycap></shortcut>
+<shortcut><keysym>Delete</keysym></shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Move to Trash</guimenuitem>
 </menuchoice></term>
@@ -2445,7 +2480,7 @@ directory.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Shift</keycap><keycap>Del</keycap></keycombo>
+<keycombo action="simul">&Shift;<keysym>Delete</keysym></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Delete</guimenuitem>
@@ -2456,8 +2491,7 @@ directory.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>Del</keycap></keycombo>
+<keycombo action="simul">&Ctrl;&Shift;<keysym>Delete</keysym></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Shred</guimenuitem>
@@ -2485,8 +2519,6 @@ directory.</action></para></listitem>
 directory.</action></para></listitem>
 </varlistentry>
 
-
-
 <varlistentry>
 <term><menuchoice>
 <guimenu>Edit</guimenu>
@@ -2501,7 +2533,7 @@ New...</link>section for more details.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Edit</guimenu>
-<guimenuitem>Edit File Type..</guimenuitem>
+<guimenuitem>Edit File Type...</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Open</action> the <guilabel>Edit File Type</guilabel>
 dialog box</para></listitem>
@@ -2518,10 +2550,13 @@ dialog box</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keysym>+</keysym></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
-<guimenuitem>Select</guimenuitem>
+<guimenuitem>Select...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Together with the <guimenuitem>Unselect</guimenuitem>,
+<listitem><para>Together with the <guimenuitem>Unselect...</guimenuitem>,
 <guimenuitem>Unselect All</guimenuitem> and <guimenuitem>Invert</guimenuitem>
 Selection commands, this provides an easy and powerful way of selecting
 multiple
@@ -2536,14 +2571,20 @@ filename.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keysym>-</keysym></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
-<guimenuitem>Unselect</guimenuitem>
+<guimenuitem>Unselect...</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Unselect file or folder.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Unselect All</guimenuitem>
 </menuchoice></term>
@@ -2587,7 +2628,8 @@ page.</para></listitem>
 <term><menuchoice>
 <shortcut>
 <keycombo action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo>
-</shortcut><guimenu>Edit</guimenu>
+</shortcut>
+<guimenu>Edit</guimenu>
 <guimenuitem>Find in Frame</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Find a text string</action> in an
@@ -2602,7 +2644,6 @@ page.</para></listitem>
 <listitem><para><action>Go to a particular line number in a text
 page you are previewing.</action></para></listitem>
 </varlistentry>
-
 
 </variablelist>
 
@@ -2812,8 +2853,7 @@ shown in Tree, Detailed List and Text views.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Alt</keycap><keysym>Up
- Arrow</keysym></keycombo>
+<keycombo action="simul">&Alt;<keysym>Up Arrow</keysym></keycombo>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Up</guimenuitem>
 </menuchoice></term>
@@ -2824,8 +2864,7 @@ hierarchy.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Alt</keycap><keysym>Left
- Arrow</keysym></keycombo>
+<keycombo action="simul">&Alt;<keysym>Left Arrow</keysym></keycombo>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Back</guimenuitem>
 </menuchoice></term>
@@ -2836,8 +2875,7 @@ view.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Alt</keycap><keysym>Right
- Arrow</keysym></keycombo>
+<keycombo action="simul">&Alt;<keysym>Right Arrow</keysym></keycombo>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Forward</guimenuitem>
 </menuchoice></term>
@@ -2848,7 +2886,7 @@ back.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>Home</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>Home</keycap></keycombo>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Home URL</guimenuitem>
 </menuchoice></term>
@@ -2909,7 +2947,7 @@ in this manual for a fuller description of these menu items.
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>B</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo>
 </shortcut>
 <guimenu>Bookmarks</guimenu>
 <guimenuitem>Add Bookmark</guimenuitem>
@@ -2947,17 +2985,18 @@ dirctory.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo
- action="simul"><keycap>Alt</keycap><keycap>F2</keycap></keycombo></shortcut>
+<keycombo action="simul">&Alt;<keysym>F2</keysym></keycombo></shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Run Command...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Run a program</action> by entering its name in a simple
-dialog box.</para></listitem>
+<listitem><para><action>Run a program</action> by entering its name in a 
+simple dialog box.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo></shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Open Terminal...</guimenuitem>
 </menuchoice></term>
@@ -2990,6 +3029,8 @@ and Profiles</link>.</para></note>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo></shortcut>
 <guimenu>Settings</guimenu>
 <guimenuitem>Show Menubar</guimenuitem>
 </menuchoice></term>
@@ -3053,7 +3094,8 @@ Toolbar.</action></para></listitem> </varlistentry>
 see and change &konqueror;'s shortcut key bindings</action>, i.e. the
 associations between actions such as <guimenuitem>Copy</guimenuitem> and keys
 or combinations of keys such a <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>.</para>
+action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>. If you do 
+this take care not to duplicate an existing shortcut.</para>
 </listitem></varlistentry>
 
 <varlistentry>
@@ -3088,9 +3130,7 @@ and Profiles</link>.</para></note>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo
-
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo></shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>L</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
 <guimenuitem>Split View Left/Right</guimenuitem>
 </menuchoice></term>
@@ -3101,7 +3141,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></ke
 <term><menuchoice>
 <shortcut>
 <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>T</keycap></keycombo></shortcut>
+action="simul">&Ctrl;&Shift;<keycap>T</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
 <guimenuitem>Split View Top/Bottom</guimenuitem>
 </menuchoice></term>
@@ -3110,27 +3150,9 @@ action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>T</keycap></ke
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Window</guimenu>
-<guimenuitem>New View On Right</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Add a new view at the right</action> of &konqueror;'s
-window.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Window</guimenu>
-<guimenuitem>New View At Bottom</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Add a new view at the bottom</action> of &konqueror;'s
-window.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
 <shortcut>
 <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap></keycombo></shortcut>
+action="simul">&Ctrl;&Shift;<keycap>R</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
 <guimenuitem>Remove Active View</guimenuitem>
 </menuchoice></term>
@@ -3148,7 +3170,7 @@ window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><shortcut><keycap>F9</keycap></shortcut>
+<term><menuchoice><shortcut><keysym>F9</keysym></shortcut>
 <guimenu>Window</guimenu>
 <guimenuitem>Show Navigation Panel</guimenuitem>
 </menuchoice></term>
@@ -3194,6 +3216,8 @@ new one.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
 <guimenuitem>Fullscreen Mode</guimenuitem>
 </menuchoice></term>
@@ -3211,7 +3235,6 @@ new one.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keycap>F1</keycap></shortcut>
 <guimenu>Help</guimenu>
 <guimenuitem>&konqueror; Handbook</guimenuitem>
 </menuchoice></term>
@@ -3222,7 +3245,7 @@ new one.</action></para></listitem>
 <term><menuchoice>
 <shortcut>
 <keycombo
- action="simul"><keycap>Shift</keycap><keycap>F1</keycap></keycombo></shortcut>
+ action="simul">&Shift;<keysym>F1</keysym></keycombo></shortcut>
 <guimenu>Help</guimenu>
 <guimenuitem>What's This?</guimenuitem>
 </menuchoice></term>
@@ -3301,8 +3324,10 @@ helps.</para></answer>
 <qandaentry>
 <question><para>Where does &konqueror; keep all its configuration
 data?</para></question>
-<answer><para>Generally in the <filename>~/.kde</filename> directory. Don't
-alter these files unless you really know what you are doing.</para>
+<answer><para>Generally in the <filename>~/.kde</filename> directory (this may 
+be <filename>~/.kde3</filename> on your system, depending on how &kde; 3 
+was installed). Don't alter these files unless you really know what you are 
+doing.</para>
 
 <itemizedlist>
 
@@ -3479,7 +3504,7 @@ to applet support)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Stefan Schimanski <email>1Stein@gmx.de</email></term>
+<term>Stefan Schimanski <email>schimmi@kde.org</email></term>
 <listitem><para>developer (&Netscape; plugin support)</para></listitem>
 </varlistentry>
 
@@ -3526,7 +3551,7 @@ to applet support)</para></listitem>
 <listitem><para>Erwan Loisant
 <email>erwan@loisant.org</email></para></listitem>
 <listitem><para>Pamela Roberts
-<email>pam.roberts@btinternet.com</email></para></listitem>
+<email>pamroberts@blueyonder.co.uk</email></para></listitem>
 </itemizedlist>
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
