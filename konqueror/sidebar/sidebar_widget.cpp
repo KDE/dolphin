@@ -241,7 +241,9 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	QTimer::singleShot(0,this,SLOT(createButtons()));
 //	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
-	
+
+	// we want to keep our size when the splitter is resized!
+	static_cast<QSplitter*>( parent->parentWidget() )->setResizeMode( parent, QSplitter::KeepSize );
 }
 
 void Sidebar_Widget::finishRollBack()
@@ -385,7 +387,7 @@ void Sidebar_Widget::activatedMenu(int id)
 			singleWidgetMode = ! singleWidgetMode;
 			if ((singleWidgetMode) && (visibleViews.count()>1))
 				for (uint i=0; i<Buttons.count(); i++)
-					if (i!=latestViewed)
+					if ((int) i != latestViewed)
 					{
 						if (Buttons.at(i)->dock!=0)
 							if (Buttons.at(i)->dock->isVisibleTo(this)) showHidePage(i);
@@ -406,7 +408,7 @@ void Sidebar_Widget::activatedMenu(int id)
 	        			dummyMainW->setDockSite(KDockWidget::DockTop);
 				        dummyMainW->setEnableDocking(KDockWidget::DockNone);
 					dummyMainW->show();
-					if ((tmpLatestViewed>=0) && (tmpLatestViewed<Buttons.count()))
+					if ((tmpLatestViewed>=0) && (tmpLatestViewed < (int) Buttons.count()))
 					if (Buttons.at(tmpLatestViewed))
 					{
 						if (Buttons.at(tmpLatestViewed)->dock)
