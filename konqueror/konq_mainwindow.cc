@@ -3841,6 +3841,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   m_popupEmbeddingServices.clear();
   popupItems.clear();
 
+  delete actNewTab;
+  delete actNewTabFront;
+
   //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
   //<< ", m_currentView = " << m_currentView << endl;
 
