@@ -17,4 +17,4 @@ xdg_apps_DATA = kcmperformance.desktop
 kcmperformance_hidden_data_DATA = kcmkonqyperformance.desktop
 kcmperformance_hidden_datadir = $(kde_appsdir)/.hidden
 
-EXTRA_DIST = $(kcmperformance_data_DATA)
+EXTRA_DIST = $(xdg_apps_DATA)
