@@ -111,6 +111,13 @@ NSPluginInstance::~NSPluginInstance()
 }
 
 
+void NSPluginInstance::destroyPlugin()
+{
+  kDebugInfo("NSPluginInstance::destroyPlugin");
+  delete this;
+}
+
+
 int NSPluginInstance::setWindow(int remove)
 {
   if (remove)
@@ -252,7 +259,6 @@ NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
   : DCOPObject(dcopId), _libname(library), _constructed(false),  _initialized(false)
 {
   _handle = KLibLoader::self()->library(library);
-  _instances.setAutoDelete(TRUE);
 
   kDebugInfo("Library handle=%p", _handle);
 
@@ -372,8 +378,23 @@ DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn,
   QString src;
   for (unsigned int i=0; i<argc; i++)
     {
-      _argn[i] = strdup((const char*)argn[i].ascii());
-      _argv[i] = strdup((const char*)argv[i].ascii());
+      const char *n = (const char*)argn[i].ascii();
+      const char *v = (const char*)argv[i].ascii();
+
+      if (!n)
+      {
+        kDebugWarning("NSPluginClass::NewInstance - argn[%d]=NULL", i);
+        _argn[i] = 0L;
+      } else
+       	 _argn[i] = strdup(n);      	
+
+      if (!v)
+      {
+        kDebugWarning("NSPluginClass::NewInstance - argv[%d]=NULL", i);
+        _argv[i] = 0L;
+      } else
+          _argv[i] = strdup(v);
+      	
       kdDebug() << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
       if (!stricmp(_argn[i], "src")) src = argv[i];
     }
@@ -430,15 +451,7 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
   }
 
   NSPluginInstance *inst = new NSPluginInstance(npp, &_pluginFuncs, _handle, width, height);
-  _instances.insert(inst->winId(), inst);
   return inst;
-}
-
-
-void NSPluginClass::DestroyInstance(int winid)
-{
-  kDebugInfo("NSPluginClass::DestroyInstance( winid = %d )", winid);
-  _instances.remove(winid);
 }
 
 

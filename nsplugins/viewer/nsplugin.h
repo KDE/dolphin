@@ -124,7 +124,6 @@ public:
   // URL functions
   void URLNotify(const char *url, NPReason reason, void *notifyData);
 
-
   // signal emitters
   void emitStatus(const char *message) { emit status(message); };
 
@@ -139,6 +138,7 @@ public:
 
   void requestURL(const char *url) { if (callback) callback->requestURL(url); };
 
+  void destroyPlugin();
 
 signals:
 
@@ -181,7 +181,6 @@ public:
   void Shutdown();
 
   DCOPRef NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv);
-  void DestroyInstance(int winid);
 
   NSPluginInstance *New(const char *mimeType, uint16 mode=NP_EMBED, int16 argc=0,
   		        char *argn[]=0, char *argv[]=0, NPSavedData *saved=0);
@@ -200,7 +199,6 @@ private:
   NPNetscapeFuncs _nsFuncs;
 
   QList<NSPluginStream> _streams;
-  QIntDict<NSPluginInstance> _instances;
 };
 
 
