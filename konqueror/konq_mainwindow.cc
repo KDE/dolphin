@@ -679,37 +679,29 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   KURL url( _url );
 
-  //////////// Tar/zip files support
-  // The hack-ish and hardcoded way.
-  // Possible cleaner solution: 2 properties in the mimetype definition,
-  // e.g. X-Konq-Redirect-URL set to tar:%f/
-  //  and X-Konq-Redirect-Mimetype set to inode/directory
-
-  if ( url.isLocalFile())  // kio_tar/kio_zip only support local files
+  // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
+  // zip:/<path>/ when clicking on a zip file, etc.
+  // The name of the protocol to redirect to, is read from the mimetype's .desktop file
+  if ( url.isLocalFile() )
   {
-    if ( serviceType == QString::fromLatin1("application/x-tar")  ||
-         serviceType == QString::fromLatin1("application/x-tgz")  ||
-         serviceType == QString::fromLatin1("application/x-tbz") )
+    KServiceType::Ptr ptr = KServiceType::serviceType( serviceType );
+    if ( ptr ) 
     {
-      url.setProtocol( QString::fromLatin1("tar") );
-      url.setPath( url.path() + '/' );
-      serviceType = "inode/directory";
-      // kdDebug(1202) << "TAR FILE. Now trying with " << url.url() << endl;
-
-    }
-    else if (serviceType == QString::fromLatin1("application/x-webarchive") )
-    {
-      url.setProtocol( QString::fromLatin1("tar") );
-      url.setPath( url.path() + "/index.html");
-
-      serviceType = "text/html";
-    }
-    else if (serviceType == QString::fromLatin1("application/x-zip"))
-    {
-      url.setProtocol( QString::fromLatin1("zip") );
-      url.setPath( url.path() + '/' );
-
-      serviceType = "inode/directory";
+      const QString protocol = ptr->property("X-KDE-LocalProtocol").toString();
+      if ( !protocol.isEmpty() )
+      {
+        url.setProtocol( protocol );
+        if ( serviceType == "application/x-webarchive" )
+        {
+          url.setPath( url.path() + "/index.html" );
+          serviceType = "text/html";
+        }
+        else
+        {
+          url.setPath( url.path() + '/' );
+          serviceType = "inode/directory";
+        }
+      }
     }
   }
 
