@@ -520,6 +520,12 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    kdDebug(1431) << "pdata = " << _npp->pdata << endl;
    kdDebug(1431) << "ndata = " << _npp->ndata << endl;
 
+   if (width == 0)
+      width = 1600;
+
+   if (height == 0)
+      height = 1200;
+
    // create drawing area
    Arg args[5];
    Cardinal nargs=0;
@@ -1202,8 +1208,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
    char **_argn = new char*[argc];
    char **_argv = new char*[argc];
    QString src = url;
-   int width = 1600;
-   int height = 1200;
+   int width = 0;
+   int height = 0;
    QString baseURL = url;
 
    for (unsigned int i=0; i<argc; i++)
