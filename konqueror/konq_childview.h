@@ -294,7 +294,6 @@ protected:
   bool m_bLockHistory;
   QString m_name;
   bool m_bAborted;
-  KURL m_url;
 };
 
 #endif
