@@ -26,6 +26,8 @@
 
 #include "konq_sound.moc"
 
+using namespace std;
+
 class KonqSoundPlayerImpl : public KonqSoundPlayer
 {
 public:
