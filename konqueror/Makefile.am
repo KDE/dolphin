@@ -16,6 +16,8 @@ servicetype_DATA = konq_plugin.desktop
 
 METASOURCES = AUTO
 
+include_HEADERS = KonquerorIface.h KonqMainViewIface.h
+
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
 			  konq_frame.cc konq_propsview.cc konq_propsmainview.cc \
