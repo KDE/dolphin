@@ -15,7 +15,7 @@
 #include <qlayout.h> //CT
 #include <qwhatsthis.h>
 
-#include "defaults.h"
+#include <kprotocolmanager.h> // for default useragent string
 
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   KCModule( parent, name )
