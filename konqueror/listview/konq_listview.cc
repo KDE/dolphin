@@ -226,16 +226,11 @@ void ListViewBrowserExtension::setSaveViewPropertiesLocally(bool value)
 {
    m_listView->listViewWidget()->m_pProps->setSaveViewPropertiesLocally( value );
 }
-/*void ListViewBrowserExtension::saveLocalProperties()
-{
-  // TODO move this to KonqListView. Ugly.
-  m_listView->listViewWidget()->m_pProps->saveLocal( m_listView->url() );
-}*/
 
-/*void ListViewBrowserExtension::savePropertiesAsDefault()
+void ListViewBrowserExtension::setNameFilter( QString nameFilter )
 {
-  m_listView->listViewWidget()->m_pProps->saveAsDefault( KonqListViewFactory::instance() );
-}*/
+  m_listView->listViewWidget()->m_nameFilter = nameFilter;
+}
 
 void ListViewBrowserExtension::properties()
 {
@@ -319,6 +314,17 @@ bool KonqListView::closeURL()
 {
   m_pListView->stop();
   return true;
+}
+
+void KonqListView::saveState( QDataStream &stream )
+{
+  stream << listViewWidget()->m_nameFilter;
+}
+
+void KonqListView::restoreState( QDataStream &stream )
+{
+  // Warning: see comment in ListViewBrowserExtension::restoreState about order
+  stream >> listViewWidget()->m_nameFilter;
 }
 
 void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )

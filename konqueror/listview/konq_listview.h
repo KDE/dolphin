@@ -70,6 +70,9 @@ public:
   virtual bool closeURL();
   virtual bool openFile() { return true; }
 
+  void saveState( QDataStream &stream );
+  void restoreState( QDataStream &stream );
+
   KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 
   ListViewBrowserExtension *extension() const { return m_browser; }
@@ -150,6 +153,22 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
       virtual int xOffset();
       virtual int yOffset();
 
+      virtual void saveState( QDataStream &stream )
+        {
+          m_listView->saveState( stream );
+          KParts::BrowserExtension::saveState( stream );
+        }
+
+      virtual void restoreState( QDataStream &stream )
+        {
+          // Note: since restore state currently restores the name filter,
+          // which we need BEFORE opening the URL, we do that one first.
+          // If we add more stuff to restoreState, we may need to split it
+          // into two methods in fact.
+          m_listView->restoreState( stream );
+          KParts::BrowserExtension::restoreState( stream );
+        }
+
    protected slots:
       void updateActions();
 
@@ -168,8 +187,8 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
 
       void reparseConfiguration();
       void setSaveViewPropertiesLocally( bool value );
-//      void saveLocalProperties();
-//      void savePropertiesAsDefault();
+      void setNameFilter( QString nameFilter );
+      // void refreshMimeTypes is missing
 
       void properties();
       void editMimeType();

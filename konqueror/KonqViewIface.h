@@ -44,18 +44,18 @@ k_dcop:
    * Displays another URL, but without changing the view mode
    * (Make sure the part can display this URL)
    */
-  void openURL( QString url );
+  void openURL( QString url,
+                const QString & locationBarURL,
+                const QString & nameFilter );
 
   /**
    * Change the type of view (i.e. loads a new konqueror view)
    * @param serviceType the service type we want to show
    * @param serviceName allows to enforce a particular service to be chosen,
    *        @see KonqFactory.
-   * @param url the URL to open in the view. If not set, no URL is opened.
    */
   bool changeViewMode( const QString &serviceType,
-                       const QString &serviceName,
-                       const QString &url );
+                       const QString &serviceName );
 
   /**
    * Call this to prevent next openURL() call from changing history lists

@@ -250,8 +250,8 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     if ( m_mainWindow->currentView() )
     {
-        childView->setLocationBarURL( m_mainWindow->currentView()->url().prettyURL() ); // default one in case it doesn't set it
-        childView->openURL( m_mainWindow->currentView()->url() );
+        QString locBarURL = m_mainWindow->currentView()->url().prettyURL(); // default one in case it doesn't set it
+        childView->openURL( m_mainWindow->currentView()->url(), locBarURL );
     }
 
     // If not passive, set as active :)

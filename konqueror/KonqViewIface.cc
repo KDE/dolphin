@@ -33,17 +33,16 @@ KonqViewIface::~KonqViewIface()
 {
 }
 
-void KonqViewIface::openURL( QString url )
+void KonqViewIface::openURL( QString url, const QString & locationBarURL, const QString & nameFilter )
 {
   KURL u(url);
-  m_pView->openURL( u );
+  m_pView->openURL( u, locationBarURL, nameFilter );
 }
 
 bool KonqViewIface::changeViewMode( const QString &serviceType,
-                                    const QString &serviceName,
-                                    const QString &url )
+                                    const QString &serviceName )
 {
-  return m_pView->changeViewMode( serviceType, serviceName, url );
+  return m_pView->changeViewMode( serviceType, serviceName );
 }
 
 void KonqViewIface::lockHistory()

@@ -566,7 +566,7 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
   // over an area where an action should be triggered
   // no matter wether single or double click
   if ( isSingleClickArea( mapFromGlobal(QCursor::pos())))
- 
+
   {
     if ( m_pressedItem->isExpandable() )
       m_pressedItem->setOpen( !m_pressedItem->isOpen() );
@@ -771,6 +771,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // have changed.
    bool newProps = m_pProps->enterDir( url );
 
+   m_dirLister->setNameFilter( m_nameFilter );
    // Start the directory lister !
    m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
 

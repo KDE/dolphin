@@ -61,8 +61,8 @@ public:
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
-  //virtual void saveState( QDataStream &stream );
-  //virtual void restoreState( QDataStream &stream );
+  void saveState( QDataStream &stream );
+  void restoreState( QDataStream &stream );
 
   uint itemCount() const;
   uint dirSize() const;
@@ -209,6 +209,8 @@ protected:
 
   int m_iIconSize[3];
 
+  QString m_nameFilter;
+
   IconViewBrowserExtension *m_extension;
 
   // used by slotOpenURLRequest
@@ -234,14 +236,18 @@ public:
 
   virtual void saveState( QDataStream &stream )
     {
+      m_iconView->saveState( stream );
       KParts::BrowserExtension::saveState( stream );
-      //m_iconView->saveState( stream );
     }
 
   virtual void restoreState( QDataStream &stream )
     {
+      // Note: since restore state currently restores the name filter,
+      // which we need BEFORE opening the URL, we do that one first.
+      // If we add more stuff to restoreState, we may need to split it
+      // into two methods in fact.
+      m_iconView->restoreState( stream );
       KParts::BrowserExtension::restoreState( stream );
-      //m_iconView->restoreState( stream );
     }
 
 public slots:

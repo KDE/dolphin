@@ -60,29 +60,16 @@ KonqViewManager::~KonqViewManager()
 }
 
 KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
-                                            const KURL &url,
-                                            QString serviceType,
-                                            const QString &serviceName )
+                                       QString serviceType,
+                                       const QString &serviceName )
 {
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
-  QString locationBarURL;
   KonqFrame* viewFrame = 0L;
   if( m_pMainContainer )
-  {
     viewFrame = m_pMainWindow->currentView()->frame();
-    locationBarURL = m_pMainWindow->currentView()->locationBarURL();
-  }
 
   KonqView* childView = split( viewFrame, orientation, serviceType, serviceName );
-
-  if( childView )
-  {
-    childView->openURL( url );
-    if( !locationBarURL.isEmpty() )
-      childView->setLocationBarURL( locationBarURL );
-  }
-
   return childView;
 }
 
@@ -103,11 +90,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation )
   KonqView* childView = split( splitFrame, orientation );
 
   if( childView )
-  {
-    childView->openURL( url );
-    if( !locationBarURL.isEmpty() )
-      childView->setLocationBarURL( locationBarURL );
-  }
+    childView->openURL( url, locationBarURL );
 
   return childView;
 }
@@ -575,9 +558,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     if ( !url.isEmpty() )
     {
       kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
-      childView->openURL( url );
+      childView->openURL( url, url.prettyURL() );
     }
-    childView->setLocationBarURL( url.prettyURL() );
   }
   else if( name.find("Container") != -1 ) {
     kdDebug(1202) << "Item is Container" << endl;

@@ -75,8 +75,6 @@ iconview+listviews:
 - if we keep "background color for this directory" should we have "text color for
 this directory" too... ?
 
-- select files to be shown using shell globs (file:/home/dfaure/*.txt)
-
 - Undo functionality (in progress)
 
 - Link symbol (see post "Links" on kfm-devel)

@@ -89,24 +89,24 @@ public:
   /**
    * Displays another URL, but without changing the view mode (caller has to
    * ensure that the call makes sense)
+   * @param url the URL to open
+   * @param locationBarURL the URL to set in the location bar (see @ref setLocationBarURL)
+   * @param nameFilter e.g. *.cpp
    */
-  void openURL( const KURL &url );
+  void openURL( const KURL &url,
+                const QString & locationBarURL,
+                const QString &nameFilter = QString::null);
 
   /**
    * Change the type of view (i.e. loads a new konqueror view)
    * Contract: the caller should call stop() first,
-   * and setLocationBarURL + setTypedURL
    *
    * @param serviceType the service type we want to show
    * @param serviceName allows to enforce a particular service to be chosen,
    *        @see KonqFactory.
-   * @param url the URL to open in the view. If not set, no URL is opened.
-   * @param nameFilter e.g. *.cpp
    */
   bool changeViewMode( const QString &serviceType,
-                       const QString &serviceName = QString::null,
-                       const KURL &url = KURL(),
-                       const QString & nameFilter = QString::null);
+                       const QString &serviceName = QString::null );
 
   /**
    * Call this to prevent next openURL() call from changing history lists
@@ -290,10 +290,9 @@ protected slots:
 
 protected:
   /**
-   * Replace the current view with a new view, created by @p viewFactory
-   * and opens the given @p url in that view.
+   * Replace the current view with a new view, created by @p viewFactory.
    */
-  void switchView( KonqViewFactory &viewFactory, const KURL & url );
+  void switchView( KonqViewFactory &viewFactory );
 
   /**
    * Connects the internal part to the main window.

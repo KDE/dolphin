@@ -72,7 +72,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bAborted = false;
   m_bToggleView = false;
 
-  switchView( viewFactory, KURL() );
+  switchView( viewFactory );
 
   show();
 }
@@ -101,7 +101,7 @@ void KonqView::show()
     m_pKonqFrame->show();
 }
 
-void KonqView::openURL( const KURL &url )
+void KonqView::openURL( const KURL &url, const QString & locationBarURL, const QString & nameFilter )
 {
   setServiceTypeInExtension();
 
@@ -112,6 +112,9 @@ void KonqView::openURL( const KURL &url )
     createHistoryEntry();
   } else
       m_bLockHistory = false;
+
+  callExtensionStringMethod( "setNameFilter(QString)", nameFilter );
+  setLocationBarURL( locationBarURL );
 
   KParts::BrowserExtension *ext = browserExtension();
   KParts::URLArgs args;
@@ -136,7 +139,7 @@ void KonqView::openURL( const KURL &url )
   kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
-void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
+void KonqView::switchView( KonqViewFactory &viewFactory )
 {
   kdDebug(1202) << "KonqView::switchView" << endl;
   if ( m_pPart )
@@ -154,9 +157,6 @@ void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
   }
 
   connectPart();
-
-  if ( !url.isEmpty() )
-    openURL( url );
 
   // uncomment if you want to use metaviews (Simon)
   // initMetaView();
@@ -184,9 +184,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
 }
 
 bool KonqView::changeViewMode( const QString &serviceType,
-                               const QString &serviceName,
-                               const KURL &url,
-                               const QString &nameFilter)
+                               const QString &serviceName )
 {
   // Caller should call stop first.
   assert ( !m_bLoading );
@@ -219,7 +217,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     m_appServiceOffers = appServiceOffers;
     m_serviceType = serviceType;
 
-    switchView( viewFactory, url );
+    switchView( viewFactory );
 
     // Give focus to the new part. Note that we don't do it each time we
     // open a URL (becomes awful in view-follows-view mode), but we do
@@ -229,11 +227,6 @@ bool KonqView::changeViewMode( const QString &serviceType,
     kdDebug(1202) << "Giving focus to new part " << m_pPart->widget() << endl;
     m_pPart->widget()->setFocus();
 
-  }
-  else if ( !url.isEmpty() )
-  {
-    callExtensionStringMethod( "setNameFilter(QString)", nameFilter );
-    openURL( url );
   }
   return true;
 }
@@ -441,7 +434,7 @@ void KonqView::go( int steps )
   //kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
   setLocationBarURL( h.locationBarURL );
   m_sTypedURL = QString::null;
-  if ( ! changeViewMode( h.strServiceType, h.strServiceName, KURL() ) )
+  if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
   {
     kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
                     << " " << h.strServiceName << endl;
@@ -452,7 +445,7 @@ void KonqView::go( int steps )
 
   if ( browserExtension() )
   {
-    //kdDebug(1202) << "Restoring view from stream" << endl;
+    kdDebug(1202) << "Restoring view from stream" << endl;
     QDataStream stream( h.buffer, IO_ReadOnly );
 
     browserExtension()->restoreState( stream );

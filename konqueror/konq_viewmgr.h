@@ -57,12 +57,11 @@ public:
    * Splits the view, depending on orientation, either horizontally or
    * vertically. The first of the resulting views will contain the initial
    * view, the other will be a new one, constructed from the given
-   * Service Type and open the given URL.
+   * Service Type.
    * If no Service Type was provided it takes the one from the current view.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
   KonqView* splitView( Qt::Orientation orientation,
-                       const KURL &url,
                        QString serviceType = QString::null,
                        const QString & serviceName = QString::null );
 

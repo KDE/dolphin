@@ -172,7 +172,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
       virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
       virtual void viewportMouseDoubleClickEvent( QMouseEvent *_ev );
-      
+
       //virtual void keyPressEvent( QKeyEvent *_ev );
 
       /** Common method for slotCompleted and slotCanceled */
@@ -223,6 +223,7 @@ class KonqBaseListViewWidget : public KListView
       bool m_bTopLevelComplete;
 
       long int m_idShowDot;
+      QString m_nameFilter;
 
       bool m_filesSelected;
       bool m_showIcons;

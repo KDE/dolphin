@@ -173,7 +173,7 @@ void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
 void IconViewBrowserExtension::setNameFilter( QString nameFilter )
 {
   kdDebug() << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
-  m_iconView->m_dirLister->setNameFilter( nameFilter );
+  m_iconView->m_nameFilter = nameFilter;
 }
 
 
@@ -644,63 +644,18 @@ bool KonqKfmIconView::closeURL()
     return true;
 }
 
-/*
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
-    stream << (Q_INT32)m_pIconView->iconSize()
-	   << (Q_INT32)m_pIconView->itemTextPos();
-        //<< (Q_INT32)m_pProps->m_bImagePreview
-	//   << (Q_INT32)m_pProps->m_bShowDot
-	//   << (Q_INT32)m_pProps->m_bHTMLAllowed;
+  kdDebug() << "void KonqKfmIconView::saveState( QDataStream &stream )" << endl;
+  stream << m_nameFilter;
 }
-*/
 
-/*
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
-    Q_INT32 iIconSize, iTextPos; //, iImagePreview, iShowDot, iHTMLAllowed;
-
-    stream >> iIconSize >> iTextPos; // >> iImagePreview >> iShowDot >> iHTMLAllowed;
-
-    QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
-
-    if (iIconSize == m_iIconSize[0])
-    {
-	m_paSmallIcons->setChecked( true );
-        slotViewSmall( true );
-    }
-    else if (iIconSize == m_iIconSize[1])
-    {
-	m_paMediumIcons->setChecked( true );
-        slotViewMedium( true );
-    }
-    else if (iIconSize == m_iIconSize[2])
-    {
-	m_paLargeIcons->setChecked( true );
-        slotViewLarge( true );
-    }
-    else
-    {
-	m_paDefaultIcons->setChecked( true );
-        slotViewDefault( true );
-    }
-
-    if ( textPos == QIconView::Bottom )
-    {
-	m_paBottomText->setChecked( true );
-        slotTextBottom( true );
-    }
-    else
-    {
-	m_paRightText->setChecked( true );
-        slotTextRight( true );
-    }
-
-    //m_paImagePreview->setChecked( (bool) iImagePreview );
-    //slotImagePreview( (bool) iImagePreview );
-    //m_pProps->m_bShowDot = (bool) iShowDot;
+  // Warning: see comment in IconViewBrowserExtension::restoreState about order
+  kdDebug() << "void KonqKfmIconView::restoreState( QDataStream &stream )" << endl;
+  stream >> m_nameFilter;
 }
-*/
 
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
@@ -1113,6 +1068,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
     // newProps returns true the first time, and any time something might
     // have changed.
     bool newProps = m_pProps->enterDir( url );
+
+    m_dirLister->setNameFilter( m_nameFilter );
 
     // Start the directory lister !
     m_dirLister->openURL( url, m_pProps->isShowingDotFiles() );

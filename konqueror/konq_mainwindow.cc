@@ -427,13 +427,13 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
     }
   }
 
+  bool ok = true;
   if ( !childView )
   {
     // Create a new view
-    // TODO pass req.nameFilter somehow !
-    KonqView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
+    childView = m_pViewManager->splitView( Qt::Horizontal, serviceType, serviceName );
 
-    if ( !newView )
+    if ( !childView )
     {
       KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
       return true; // fake everything was ok, we don't want to propagate the error
@@ -441,23 +441,23 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
     enableAllActions( true );
 
-    newView->setTypedURL( req.typedURL );
-    newView->setLocationBarURL( originalURL );
+    childView->part()->widget()->setFocus();
 
-    newView->part()->widget()->setFocus();
-
-    newView->setViewName( m_initialFrameName );
+    childView->setViewName( m_initialFrameName );
     m_initialFrameName = QString::null;
-
-    return true;
   }
   else // We know the child view
   {
     //childView->stop(); done by openURL
-    childView->setLocationBarURL( originalURL );
-    childView->setTypedURL( req.typedURL );
-    return childView->changeViewMode( serviceType, serviceName, url, req.nameFilter );
+    ok = childView->changeViewMode( serviceType, serviceName );
   }
+
+  if (ok)
+  {
+    childView->setTypedURL( req.typedURL );
+    childView->openURL( url, originalURL, req.nameFilter );
+  }
+  return ok;
 }
 
 void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args )
@@ -696,8 +696,13 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 
   m_currentView->stop();
   m_currentView->lockHistory();
-  m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
-                                 m_currentView->url() );
+
+  // Save those, because changeViewMode will lose them
+  KURL url = m_currentView->url();
+  QString locationBarURL = m_currentView->locationBarURL();
+
+  m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
+  m_currentView->openURL( url, locationBarURL /*, nameFilter TODO */ );
 
   // Now save this setting, either locally or globally
   if ( m_bSaveViewPropertiesLocally )
@@ -1401,13 +1406,15 @@ void KonqMainWindow::slotFileNewAboutToShow()
 
 void KonqMainWindow::slotSplitViewHorizontal()
 {
-  m_pViewManager->splitView( Qt::Horizontal, m_currentView->url() );
+  KonqView * newView = m_pViewManager->splitView( Qt::Horizontal );
+  newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
   m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainWindow::slotSplitViewVertical()
 {
-  m_pViewManager->splitView( Qt::Vertical, m_currentView->url() );
+  KonqView * newView = m_pViewManager->splitView( Qt::Vertical );
+  newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
   m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
@@ -2296,9 +2303,9 @@ void KonqMainWindow::slotOpenEmbeddedDoIt()
   m_currentView->stop();
   m_currentView->setLocationBarURL(m_popupURL.url());
   m_currentView->setTypedURL(QString::null);
-  (void) m_currentView->changeViewMode( m_popupServiceType,
-					m_popupService,
-                                        m_popupURL );
+  if ( m_currentView->changeViewMode( m_popupServiceType,
+                                      m_popupService ) )
+       m_currentView->openURL( m_popupURL, m_popupURL.prettyURL() );
 }
 
 void KonqMainWindow::slotDatabaseChanged()
