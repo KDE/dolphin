@@ -38,6 +38,7 @@
 class KAction;
 class KActionMenu;
 class KBookmarkMenu;
+class KHistoryCombo;
 class KNewMenu;
 class KProgress;
 class KSelectAction;
@@ -397,7 +398,7 @@ private:
 
   bool m_bURLEnterLock;
 
-  QGuardedPtr<KComboBox> m_combo;
+  QGuardedPtr<KHistoryCombo> m_combo;
 
   ToggleViewGUIClient *m_toggleViewGUIClient;
 

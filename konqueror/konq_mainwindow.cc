@@ -218,18 +218,10 @@ KonqMainWindow::~KonqMainWindow()
 
   if ( m_combo )
   {
-
-    QStringList comboItems;
-
-    for ( int i = 0; i < m_combo->count(); i++ )
-      comboItems.append( m_combo->text( i ) );
-
-    while ( comboItems.count() > 10 )
-      comboItems.remove( comboItems.fromLast() );
-
     KConfig *config = KonqFactory::instance()->config();
     config->setGroup( "Settings" );
-    config->writeEntry( "ToolBarCombo", comboItems );
+    config->writeEntry( "Maximum of URLs in combo", m_combo->maxCount() );
+    config->writeEntry( "ToolBarCombo", m_combo->historyItems() );
     config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
     config->writeEntry( "CompletionItems", m_combo->completionObject()->items() );
     config->sync();
@@ -1014,16 +1006,17 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   }
 
   // Register this URL as a working one, in the completion object and the combo.
+  if ( !m_combo->contains( view->locationBarURL() ) )
+      // goes both into the combo and the completion object
+       m_combo->addToHistory( view->locationBarURL() );
+  else
+      // or just into the completion object (for proper weighting)
+      m_combo->completionObject()->addItem( view->locationBarURL() );
 
-  // TODO use KComboBox::contains() next wednesday
-  m_combo->insertItem( view->locationBarURL() );
 
   QString u = view->typedURL();
   if ( !u.isEmpty() && u != view->locationBarURL() )
     m_combo->completionObject()->addItem( u ); // short version
-
-  m_combo->completionObject()->addItem( view->locationBarURL() );
-
 }
 
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
@@ -1526,30 +1519,15 @@ void KonqMainWindow::slotComboPlugged()
 {
   m_combo = m_paURLCombo->combo();
 
+  m_combo->clearHistory();
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Settings" );
+  m_combo->setMaxCount( config->readNumEntry("Maximum of URLs in combo", 10 ));
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
   int mode = config->readNumEntry("CompletionMode", KGlobalSettings::completionMode());
   m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
   m_combo->completionObject()->setItems( config->readListEntry( "CompletionItems" ) );
-
-  while ( locationBarCombo.count() > 10 )
-    locationBarCombo.remove( locationBarCombo.fromLast() );
-
-/*
-  This leaves an empty item in the list box which is no longer
-  necessary using KComboBox.  As a side effect though the user
-  cannot drop down the list box originally if there was no text
-  entered in it.
-  if ( locationBarCombo.count() == 0 )
-    locationBarCombo << QString();
-*/
-
-  m_combo->clear();
-  m_combo->insertStringList( locationBarCombo );
-  m_combo->setEditText( "" );  // replacement the above commented code
-// m_combo->setCurrentItem( 0 ); // not necessary since we use "QComboBox::AtTop"
-
+  m_combo->setHistoryItems( locationBarCombo );
 }
 
 void KonqMainWindow::slotShowMenuBar()

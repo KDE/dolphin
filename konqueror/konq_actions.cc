@@ -50,14 +50,9 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   int id = KAction::getToolButtonID();
 
-  toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
-
-  KComboBox *comboBox = toolBar->getCombo( id );
-  KCompletion *compObj = comboBox->completionObject();
-  compObj->setOrder( KCompletion::Weighted );
-  // Update the KCompletion object as well...
-  // no, this is done in slotViewCompleted() (pfeiffer)
-  // connect( comboBox, SIGNAL( returnPressed( const QString& ) ), compObj, SLOT( addItem( const QString& ) ) );
+  KHistoryCombo *comboBox = new KHistoryCombo( toolBar, "history combo" );
+  toolBar->insertWidget( id, 70, comboBox, index );
+  connect( comboBox, SIGNAL( activated( const QString& )), m_receiver, m_member );
 
   addContainer( toolBar, id );
 
@@ -66,15 +61,12 @@ int KonqComboAction::plug( QWidget *w, int index )
   toolBar->setItemAutoSized( id, true );
   comboBox->setMaxCount( 10 );
 
-  // Insertion is done manually now
-  comboBox->setInsertionPolicy( QComboBox::NoInsertion );
-
   m_combo = comboBox;
 
   emit plugged();
 
   QWhatsThis::add( comboBox, whatsThis() );
-  
+
   return containerCount() - 1;
 }
 
@@ -123,7 +115,7 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
     connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
 
     bar->setDelayedPopup( id_, popupMenu(), true );
-    
+
     return containerCount() - 1;
   }
 
