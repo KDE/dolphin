@@ -121,8 +121,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     lay->addMultiCellWidget(cbShowPreviewsInTips, row, row, 0, 1, Qt::AlignLeft);
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
     
-    QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if, when moving the mouse over a file, you want the "
-                                    "popup window to contain a larger preview for the file"));
+    QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
+                          "popup window to contain a larger preview for the file, when moving the mouse over it."));
     // --
 
     row++;

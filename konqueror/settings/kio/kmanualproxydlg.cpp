@@ -394,7 +394,7 @@ bool KManualProxyDlg::validate()
                                "<b>http://192.168.20.1</b> or <b>http://proxy.foo."
                                "com</b>. All addresses that do not start with a "
                                "protocol (eg: http://) will be rejected as invalid "
-                               "proxy address.</qt>");
+                               "proxy addresses.</qt>");
 
         KMessageBox::detailedError( this, msg, details,
                                     i18n("Invalid Proxy Setup") );
