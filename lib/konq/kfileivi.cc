@@ -53,7 +53,7 @@ void KFileIVI::setDisabled( bool disabled )
     {
         m_bDisabled = disabled;
         m_state = m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState;
-        refreshIcon( true );
+        QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ), false, true );
     }
 }
 
