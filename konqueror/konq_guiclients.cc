@@ -314,7 +314,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
     QVariant vert = view->service()->property( "X-KDE-BrowserView-ToggableView-Orientation");
     bool vertical = vert.toString().lower() == "vertical";
     QVariant nohead = view->service()->property( "X-KDE-BrowserView-ToggableView-NoHeader");
-    bool noheader = nohead.toString().lower()=="true";
+    bool noheader = nohead.isValid() ? nohead.toBool() : false;
     // if it is a vertical toggle part, turn on the header.
     // this works even when konq loads the view from a profile.
     if ( vertical && (!noheader))
