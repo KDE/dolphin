@@ -543,6 +543,7 @@ void KonqKfmTreeView::viewportMousePressEvent( QMouseEvent *_ev )
       popupMenu( globalPos );
       return;
     }
+    else clearSelection();
   }    
 }
 
