@@ -75,3 +75,4 @@ Name[zh_TW]=尋找檔案
 Name[zu]=Thola Amafayela
 X-KDE-StartupNotify=true
 OnlyShowIn=KDE;
+Categories=Qt;KDE;Core;

@@ -143,4 +143,5 @@ GenericName[xx]=xxPersonal Filesxx
 GenericName[zh_CN]=个人文件
 GenericName[zh_TW]=個人檔案
 GenericName[zu]=Amafayela Omuntu siqu
+Categories=Qt;KDE;Core;
 OnlyShowIn=KDE;
