@@ -2815,9 +2815,8 @@ void KonqMainWindow::initActions()
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
 
-  // Tackat asked me to force 16x16... (Werner)
   (void)new KAction( i18n( "Clear location bar" ),
-                     BarIcon(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase", 16),
+                     QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
                      0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
 
   // Bookmarks menu
