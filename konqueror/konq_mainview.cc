@@ -494,8 +494,8 @@ void KonqMainView::slotViewModeToggle( bool toggle )
   if ( m_currentView->service()->name() == modeName )
     return;
 
-  m_currentView->changeViewMode( m_currentView->serviceType(), m_currentView->url(),
-                                 false, modeName );
+  m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
+                                 m_currentView->url(), false );
 }
 
 void KonqMainView::slotOpenWith()
@@ -815,7 +815,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       url = KURL( indexFile );
     }
 
-    if ( childView->changeViewMode( serviceType, url ) )
+    if ( childView->changeViewMode( serviceType, QString::null, url ) )
     {
       return true;
     }
@@ -1054,9 +1054,9 @@ void KonqMainView::slotSaveDefaultProfile()
 void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
 {
   QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
-  assert(obj);
-  /*if ( !obj )
-    return;*/
+  // assert(obj); Hmm, not all views have a browser extension !
+  if ( !obj )
+    return;
 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
@@ -1783,7 +1783,8 @@ void KonqMainView::slotOpenEmbedded( const QString & serviceType, const KURL & u
 
 void KonqMainView::slotOpenEmbeddedDoIt()
 {
-  (void) m_currentView->changeViewMode( m_embeddingData->serviceType, m_embeddingData->url, false, m_embeddingData->serviceName );
+  (void) m_currentView->changeViewMode( m_embeddingData->serviceType, m_embeddingData->serviceName,
+                                        m_embeddingData->url, false );
   delete m_embeddingData;
 }
 

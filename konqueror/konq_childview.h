@@ -92,8 +92,17 @@ public:
    */
   void switchView( KonqViewFactory &viewFactory );
 
-  bool changeViewMode( const QString &serviceType, const KURL &url = QString::null,
-                       bool useMiscURLData = true, const QString &serviceName = QString::null );
+  /**
+   * Change the type of view (i.e. loads a new konqueror view)
+   * @param serviceType the service type we want to show
+   * @param serviceName allows to enforce a particular service to be chosen,
+   *        @see KonqFactory.
+   * @param url the URL to open in the view. If not set, no URL is opened.
+   * @param useMiscURLData if true, passed to @ref openURL with @p url (if not empty)
+   */
+  bool changeViewMode( const QString &serviceType,
+                       const QString &serviceName = QString::null,
+                       const KURL &url = KURL(), bool useMiscURLData = true );
 
   /**
    * Call this to prevent next openURL() call from changing history lists

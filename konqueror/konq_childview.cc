@@ -106,7 +106,7 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
   }
   m_pView->openURL( url );
 
-  m_pMainView->setLocationBarURL( this, url.decodedURL() );
+  m_pMainView->setLocationBarURL( this, url.url() );
 
   sendOpenURLEvent( url );
 
@@ -151,14 +151,21 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType,
-                                    const KURL &url, bool useMiscURLData,
-				    const QString &serviceName )
+                                    const QString &serviceName,
+                                    const KURL &url, bool useMiscURLData )
 {
   if ( m_bViewStarted )
     stop();
 
-  if ( m_lstHistory.count() > 0 )
-    updateHistoryEntry();
+  // Since we only set URL to empty URL when calling this from go(), it
+  // means we are going back or forward in the history and we already shifted
+  // our position in the history -> don't update the history entry.
+  // Well, doing it with an empty URL doesn't make much sense anyway.
+  if ( !url.isEmpty() )
+  {
+    if ( m_lstHistory.count() > 0 )
+      updateHistoryEntry();
+  }
 
   if ( !m_service->serviceTypes().contains( serviceType ) ||
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
@@ -179,17 +186,20 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     switchView( viewFactory );
   }
 
-  openURL( url, useMiscURLData );
-
-  show();
-  // Give focus to the view
-  m_pView->widget()->setFocus();
-
-  // openURL is the one that changes the history
-  if ( m_pMainView->currentChildView() == this )
+  if ( !url.isEmpty() )
   {
-    kdDebug() << "updating toolbar actions" << endl;
-    m_pMainView->updateToolBarActions();
+    openURL( url, useMiscURLData );
+
+    show();
+    // Give focus to the view
+    m_pView->widget()->setFocus();
+
+    // openURL is the one that changes the history
+    if ( m_pMainView->currentChildView() == this )
+    {
+      kdDebug() << "updating toolbar actions" << endl;
+      m_pMainView->updateToolBarActions();
+    }
   }
   return true;
 }
@@ -341,6 +351,10 @@ void KonqChildView::updateHistoryEntry()
 
 void KonqChildView::go( int steps )
 {
+
+  if ( m_lstHistory.count() > 0 )
+    updateHistoryEntry();
+
   kdDebug(1202) << "go : " << steps << endl;
   int newPos = m_lstHistory.at() + steps;
   assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
@@ -352,25 +366,11 @@ void KonqChildView::go( int steps )
   assert( h == m_lstHistory.current() );
   kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
 
-  if ( m_bViewStarted )
-    stop();
-
-  if ( !m_service->serviceTypes().contains( h->strServiceType ) ||
-       h->strServiceName != m_service->name() )
+  if ( ! changeViewMode( h->strServiceType, h->strServiceName ) )
   {
-    KTrader::OfferList partServiceOffers, appServiceOffers;
-    KService::Ptr service;
-    KonqViewFactory viewFactory = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &partServiceOffers, &appServiceOffers );
-
-    if ( viewFactory.isNull() )
-     return;
-
-    m_service = service;
-    m_partServiceOffers = partServiceOffers;
-    m_appServiceOffers = appServiceOffers;
-    m_serviceType = h->strServiceType;
-
-    switchView( viewFactory );
+    kdWarning(1202) << "Couldn't change view mode to " << h->strServiceType
+                    << " " << h->strServiceName << endl;
+    return /*false*/;
   }
 
   if ( browserExtension() )
@@ -384,7 +384,7 @@ void KonqChildView::go( int steps )
 
   sendOpenURLEvent( h->url );
 
-  m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
+  m_pMainView->setLocationBarURL( this, h->url.url() );
 
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
