@@ -16,8 +16,11 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <kparts/browserextension.h>
+
 #include "konq_treeitem.h"
 #include "konq_tree.h"
+#include "konq_treepart.h"
 #include "konq_treetoplevelitem.h"
 
 KonqTreeItem::KonqTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem )
@@ -39,6 +42,11 @@ void KonqTreeItem::initItem( KonqTreeTopLevelItem *topLevelItem )
     m_bClickable = true;
 
     setExpandable( true );
+}
+
+void KonqTreeItem::middleButtonPressed()
+{
+    emit tree()->part()->extension()->createNewWindow( externalURL() );
 }
 
 KonqTreeModule * KonqTreeItem::module() const
