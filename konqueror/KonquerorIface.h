@@ -57,7 +57,7 @@ k_dcop:
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
-  ASYNC createBrowserWindowFromProfile( const QString &path );
+  void createBrowserWindowFromProfile( const QString &path );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -65,7 +65,7 @@ k_dcop:
    * @param path full path to the profile file
    * @param filename name of the profile file, if under the profiles dir
    */
-  ASYNC createBrowserWindowFromProfile( const QString &path, const QString &filename );
+  void createBrowserWindowFromProfile( const QString &path, const QString &filename );
 
   /**
    * Creates a window from a profile and a URL.
@@ -75,7 +75,7 @@ k_dcop:
    * @param filename name of the profile file, if under the profiles dir
    * @param url the URL to open
    */
-  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
+  void createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
 
   /**
    * Creates a window the fastest way : the caller has to provide
@@ -85,7 +85,7 @@ k_dcop:
    * @param url the URL to open
    * @param mimetype the mimetype that the URL we want to open has
    */
-  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
+  void createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
 
   /**
    * Called by kcontrol when the global configuration changes
