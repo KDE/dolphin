@@ -292,6 +292,8 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_dcopObject;
   m_dcopObject = 0L;
+  delete m_combo;
+  m_combo = 0L;
   delete m_psNextTab;
   m_psNextTab = 0L;
   delete m_psPrevTab;
