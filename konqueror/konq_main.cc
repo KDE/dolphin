@@ -125,7 +125,7 @@ int main( int argc, char **argv )
   aboutData.addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
   aboutData.addAuthor( "Waldo Bastian", I18N_NOOP("developer (HTML rendering engine, I/O lib)"), "bastian@kde.org" );
   aboutData.addAuthor( "Matt Koss", I18N_NOOP("developer (I/O lib)"), "koss@napri.sk" );
-  aboutData.addAuthor( "Alex Zepeda", I18N_NOOP("developer (I/O lib)"), "garbanzo@hooked.net" );
+  aboutData.addAuthor( "Alex Zepeda", I18N_NOOP("developer (I/O lib)"), "jazepeda@pacbell.net" );
   aboutData.addAuthor( "Stephan Kulow", I18N_NOOP("developer (I/O lib)"), "coolo@kde.org" );
 
   KCmdLineArgs::init( argc, argv, &aboutData );
