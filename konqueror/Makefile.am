@@ -30,9 +30,7 @@ konqueror_SOURCES =  browser.idl konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
 	konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
 	konqueror.idl
 
-include_HEADERS = browser.h
-
-noinst_HEADERS = kbrowser.h kfmrun.h \
+noinst_HEADERS = browser.h kbrowser.h kfmrun.h \
 	konq_baseview.h konq_childview.h konq_frame.h \
         konq_htmlview.h konq_iconview.h \
         konq_main.h konq_mainview.h konq_mainwindow.h \
