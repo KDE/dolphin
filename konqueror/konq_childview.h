@@ -52,7 +52,6 @@ public:
   /**
    * Create a child view
    * @param view the IDL View to be added in the child view
-   * @param builtinView the widget if the view is built-in, 0L otherwise
    * @param row the row (i.e. splitter) where to add the frame
    * @param newViewPosition only valid if Left or Right
    * @param parent the mainview, parent of this view
@@ -60,7 +59,6 @@ public:
    * @param mainWindow the KonqMainWindow hosting the view
    */
   KonqChildView( Konqueror::View_ptr view,
-                 QWidget * builtinView,
                  Row * row,
                  Konqueror::NewViewPosition newViewPosition,
                  OpenParts::Part_ptr parent,
@@ -78,7 +76,7 @@ public:
    * @param view the view to attach (instead of the current one, if any)
    * @param builtin if the view is a builtin one, the widget pointer
    */
-  void attach( Konqueror::View_ptr view, QWidget * builtinView );
+  void attach( Konqueror::View_ptr view );
   /** Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
@@ -105,14 +103,13 @@ public:
   /**
    * Replace the current view vith _vView
    */
-  void switchView( Konqueror::View_ptr _vView, QWidget * builtinView );
+  void switchView( Konqueror::View_ptr _vView );
 
   /**
    * Create a view
    * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
-   * @param builtinView will return the widget pointer if the view is a builtin one
    */
-  Konqueror::View_ptr createViewByName( const char *viewName, QWidget * & builtinView );
+  Konqueror::View_ptr createViewByName( const char *viewName );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists

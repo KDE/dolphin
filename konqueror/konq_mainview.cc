@@ -320,7 +320,7 @@ void KonqMainView::initView()
 {
   KonqKfmIconView * pView = new KonqKfmIconView ;
   kdebug(0, 1202, "pView is %p", pView);
-  insertViewInternal( pView, pView, Konqueror::left );
+  insertView( pView, Konqueror::left );
 
   MapViews::Iterator it = m_mapViews.find( pView->id() );
   it.data()->lockHistory(); // first URL won't go into history
@@ -635,8 +635,7 @@ bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
   return true;
 }
 
-void KonqMainView::insertViewInternal( Konqueror::View_ptr view,
-                                       QWidget * builtinView,
+void KonqMainView::insertView( Konqueror::View_ptr view,
                                        Konqueror::NewViewPosition newViewPosition )
 {
   Row * currentRow;
@@ -654,7 +653,7 @@ void KonqMainView::insertViewInternal( Konqueror::View_ptr view,
     newViewPosition = Konqueror::right;
   }
 
-  KonqChildView *v = new KonqChildView( view, builtinView, currentRow, newViewPosition,
+  KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
                                         this, this, m_vMainWindow );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
@@ -666,12 +665,6 @@ void KonqMainView::insertViewInternal( Konqueror::View_ptr view,
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
 }
                                        
-void KonqMainView::insertView( Konqueror::View_ptr view,
-                               Konqueror::NewViewPosition newViewPosition )
-{
-  insertViewInternal( view, 0L, newViewPosition );
-}
-
 void KonqMainView::setActiveView( OpenParts::Id id )
 {
   kdebug(0, 1202, "KonqMainView::setActiveView( %d )", id);
@@ -899,7 +892,7 @@ void KonqMainView::openPluginView( const char *url, Konqueror::View_ptr view )
   m_pRun = 0L;
   Konqueror::View_var vView = Konqueror::View::_duplicate( view );
 
-  m_currentView->switchView( vView, 0L );
+  m_currentView->switchView( vView );
   m_currentView->openURL( url );
 
   setUpEnabled( QString::null, m_currentId ); // HACK.
@@ -920,9 +913,8 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   QString url = m_currentView->url();
   QString viewName = m_currentView->viewName();
 
-  QWidget * builtinView;
-  Konqueror::View_var vView = m_currentView->createViewByName( viewName, builtinView );
-  insertViewInternal( vView, builtinView, newViewPosition );
+  Konqueror::View_var vView = m_currentView->createViewByName( viewName );
+  insertView( vView, newViewPosition );
   MapViews::Iterator it = m_mapViews.find( vView->id() );
   it.data()->openURL( url );
 }
@@ -1179,14 +1171,14 @@ void KonqMainView::slotBack()
 { 
   m_currentView->goBack();
 
-  if( m_currentView->canGoBack() )
+  if( !m_currentView->canGoBack() )
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
 }
 
 void KonqMainView::slotForward()
 {
   m_currentView->goForward();
-  if( m_currentView->canGoForward() )
+  if( !m_currentView->canGoForward() )
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
 }
 
