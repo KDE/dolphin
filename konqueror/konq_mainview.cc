@@ -702,11 +702,10 @@ void KonqMainView::slotRunFinished()
   }
 }
 
-void KonqMainView::slotSetStatusBarText( const QString &text )
+void KonqMainView::slotSetStatusBarText( const QString & )
 {
-  // Now view specific
-  //assert(m_statusBar);
-  //m_statusBar->changeItem( text, STATUSBAR_MSG_ID );
+   // Reimplemented to disable KParts::MainWindow default behaviour
+   // Does nothing here, see konq_frame.cc
 }
 
 bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildView *childView )
@@ -1381,7 +1380,7 @@ void KonqMainView::initActions()
 
   // Options menu
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savePropertiesAsDefault" );
-  m_paSaveLocalProperties = new KAction( i18n( "Save Settings for this &URL" ), 0, 0, 0, actionCollection(), "saveLocalProperties" );
+  m_paSaveLocalProperties = new KAction( i18n( "Save Settings for this &URL" ), 0, actionCollection(), "saveLocalProperties" );
 
   m_paConfigureFileManager = new KAction( i18n( "Configure File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
   m_paConfigureBrowser = new KAction( i18n( "Configure &Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
