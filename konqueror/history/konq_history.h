@@ -20,67 +20,38 @@
 #ifndef __konq_history_h__
 #define __konq_history_h__
 
-#include <qvbox.h>
-
-#include <kparts/browserextension.h>
 #include <kurl.h>
-#include <kglobalsettings.h>
-#include <konq_operations.h>
-#include <konq_fileitem.h>
-#include <konq_dirpart.h>
+#include <kparts/browserextension.h>
+#include <kparts/part.h>
 
 #include <klistview.h>
 
-class KonqHistoryBrowserExtension;
-class KonqHistory;
-class KonqHistoryPart;
+class HistoryWidget;
 
-class KonqHistoryPart : public KonqDirPart
+class KonqHistoryPart : public KParts::ReadOnlyPart
 {
   Q_OBJECT
-  friend class KonqHistory;
-  Q_PROPERTY( bool supportsUndo READ supportsUndo )
+
 public:
-  KonqHistoryPart( QWidget *parentWidget, QObject *parent, const char *name = 0L );
+  KonqHistoryPart( QWidget *parentWidget, QObject *parent, 
+		   const char *name = 0L );
   virtual ~KonqHistoryPart();
 
-  virtual bool openURL( const KURL & );
-  virtual bool closeURL();
   virtual bool openFile() { return true; }
-  bool supportsUndo() const { return false; }
-
-  void disableIcons(const KURL::List &) {};
 
 private:
-  KonqHistory *m_history;
+  HistoryWidget *m_history;
 };
 
-class HistoryWidget;
-class KonqHistoryWidget;
-
-class KonqHistory : public QVBox
+class KonqHistoryExtension : public KParts::BrowserExtension
 {
-  Q_OBJECT
+    Q_OBJECT
+
 public:
-  KonqHistory( KonqHistoryPart *parent, QWidget *parentWidget );
-  virtual ~KonqHistory();
-
-  void followURL( const KURL &url );
-
-private:
-    HistoryWidget *m_widget;
-
-};
-
-class KonqHistoryBrowserExtension : public KParts::BrowserExtension
-{
-  Q_OBJECT
-  friend class KonqHistory;
-public:
-  KonqHistoryBrowserExtension( KonqHistoryPart *parent, KonqHistory *history );
-
-private:
-  KonqHistory *m_history;
+    KonqHistoryExtension( KonqHistoryPart *parent )
+	: KParts::BrowserExtension( parent, "dummy history browserextension" )
+    {}
+    
 };
 
 #endif
