@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+Exec=blahfoo
+Comment=TextView
+MimeType=inode/directory
+Name=KonqTextView
+ServiceTypes=Browser/View
+X-KDE-Library=libkonqtextview
