@@ -743,15 +743,20 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   }
   else
   {
-    //we should find some central place for those actions.... Perhaps in kparts,
-    // as a string array? (Simon)
-    m_paCut->setEnabled( false );
-    m_paCopy->setEnabled( false );
-    m_paPaste->setEnabled( false );
-    m_paDelete->setEnabled( false );
-    m_paTrash->setEnabled( false );
-    m_paShred->setEnabled( false );
-    m_paPrint->setEnabled( false );
+    // Disable all browser-extension actions
+
+    ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
+    ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
+
+    for ( ; it != itEnd ; ++it )
+    {
+      QCString actionName = it.key();
+      if (actionName == "pastecut" || actionName == "pastecopy")
+        actionName = "paste";
+      KAction * act = actionCollection()->action( actionName );
+      assert(act);
+      act->setEnabled( false );
+    }
 
     createGUI( 0L );
   }
