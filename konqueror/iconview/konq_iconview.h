@@ -84,6 +84,7 @@ public slots:
   void slotUnselect();
   void slotSelectAll();
   void slotUnselectAll();
+  void slotInvertSelection();
 
   void slotSortByNameCaseSensitive( bool toggle );
   void slotSortByNameCaseInsensitive( bool toggle );
@@ -173,6 +174,7 @@ protected:
   KAction *m_paUnselect;
   KAction *m_paSelectAll;
   KAction *m_paUnselectAll;
+  KAction *m_paInvertSelection;
 
   long m_lDirSize;
   long m_lFileCount;

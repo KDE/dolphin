@@ -197,10 +197,11 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_pamSort->insert( aSortDescending );
 
-  m_paSelect = new KAction( i18n( "&Select" ), 0, this, SLOT( slotSelect() ), this );
-  m_paUnselect = new KAction( i18n( "&Unselect" ), 0, this, SLOT( slotUnselect() ), this );
+  m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), this );
+  m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), this );
   m_paSelectAll = new KAction( i18n( "Select &All" ), CTRL+Key_A, this, SLOT( slotSelectAll() ), this );
-  m_paUnselectAll = new KAction( i18n( "U&nselect All" ), 0, this, SLOT( slotUnselectAll() ), this );
+  m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), this );
+  m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), this );
 
   m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
   m_paNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
@@ -268,6 +269,7 @@ KonqKfmIconView::KonqKfmIconView()
   actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselectAll, BrowserView::MenuEdit ) );
+  actions()->append( BrowserView::ViewAction( m_paInvertSelection, BrowserView::MenuEdit ) );
 
   QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
                     this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
@@ -399,6 +401,11 @@ void KonqKfmIconView::slotSelectAll()
 void KonqKfmIconView::slotUnselectAll()
 {
   m_pIconView->selectAll( false );
+}
+
+void KonqKfmIconView::slotInvertSelection()
+{
+  m_pIconView->invertSelection( );
 }
 
 void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
