@@ -296,38 +296,6 @@ void KfindTabWidget::slotSizeBoxChanged(int index)
   sizeEdit->setEnabled((bool)(index != 0));
 }
 
-/*
-  Disable/enables the widget by disabling/enabling all pages
-  and all children on the current page
-*/
-void KfindTabWidget::setEnabled(bool enabled)
-{
-  QWidget *curPage = currentPage();
-  // We need to change all but not the current page.
-  // This will preserve current page to be current
-  for(int i=0; i<3; i++)
-    if(pages[i] != curPage)
-      setTabEnabled(pages[i], enabled);
-
-  // Disable the current one now
-  setTabEnabled(curPage, enabled);
-
-  // Diable all children but QGridLayout itself
-  const QObjectList *list = curPage->children();
-  QObjectListIt it( *list );
-  QObject * obj;
-  while ( (obj=it.current()) != 0 ) {
-    ++it;
-    if(!obj->isA("QGridLayout"))
-      ((QWidget*)obj)->setEnabled( enabled );
-  }
-
-  // If we enable the widget we want to restore
-  // disabled/enabled layout
-  if(enabled)
-    fixLayout();
-}
-
 void KfindTabWidget::setDefaults()
   {
     le[0] ->setText(date2String(QDate(1980,1,1)));

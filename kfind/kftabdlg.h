@@ -48,7 +48,6 @@ signals:
 protected:
 
 private:
-  void setEnabled(bool);
   bool isDateValid(); 
 
   QString date2String(QDate);

@@ -92,7 +92,6 @@ int main( int argc, char ** argv )
     app.setMainWidget(kfind);
     int ret =  app.exec();
 
-    delete kfind;
     return ret;
   };
  

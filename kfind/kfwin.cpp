@@ -201,6 +201,7 @@ void KfindWindow::selectAll()
     setSelected(item, TRUE);
     item = item->nextSibling();
   }
+  selectionChanged(TRUE);
 }
 
 void KfindWindow::unselectAll()
@@ -210,6 +211,7 @@ void KfindWindow::unselectAll()
     setSelected(item, FALSE);
     item = item->nextSibling();
   }
+  selectionChanged(FALSE);
 }
 
 void KfindWindow::saveResults()
