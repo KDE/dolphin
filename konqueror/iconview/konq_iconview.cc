@@ -78,7 +78,7 @@ public:
     static KInstance *instance()
     {
       if ( !s_instance )
-        s_instance = new KInstance( "konqueror" );
+        s_instance = new KInstance( "konqiconview" );
       return s_instance;
     }
 
