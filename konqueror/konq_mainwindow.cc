@@ -2426,7 +2426,7 @@ void KonqMainWindow::initActions()
 
   // Settings menu
 
-  m_paSaveViewProfile = new KAction( i18n( "Save View Profile %1" ).arg(QString::null), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
+  m_paSaveViewProfile = new KAction( i18n( "&Save View Profile" ), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
   m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved In &Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
@@ -2453,7 +2453,7 @@ void KonqMainWindow::initActions()
   m_paSplitWindowVer = new KAction( i18n( "New View At Bottom" ), "view_bottom", 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ), "remove_view", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
-  m_paSaveRemoveViewProfile = new KAction( i18n( "Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
+  m_paSaveRemoveViewProfile = new KAction( i18n( "&Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load &View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
@@ -2498,7 +2498,6 @@ void KonqMainWindow::initActions()
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, this, SLOT( slotShowBookmarkBar() ),actionCollection(), "showbookmarkbar" );
-  (void) KStdAction::saveOptions( this, SLOT( slotSaveOptions() ), actionCollection(), "options_save_options" );
 
   enableAllActions( false );
 
@@ -2673,8 +2672,10 @@ void KonqMainWindow::slotEnableAction( const char * name, bool enabled )
 
 void KonqMainWindow::currentProfileChanged()
 {
-    m_paSaveViewProfile->setEnabled( !m_pViewManager->currentProfile().isEmpty() );
-    m_paSaveViewProfile->setText( i18n("Save View Profile %1").arg(m_pViewManager->currentProfileText()) );
+    bool enabled = !m_pViewManager->currentProfile().isEmpty();
+    m_paSaveViewProfile->setEnabled( enabled );
+    m_paSaveViewProfile->setText( enabled ? i18n("&Save View Profile \"%1\"").arg(m_pViewManager->currentProfileText())
+                                          : i18n("&Save View Profile") );
 }
 
 void KonqMainWindow::enableAllActions( bool enable )
@@ -2746,19 +2747,20 @@ void KonqMainWindow::disableActionsNoView()
     // settings, etc.
     m_paHome->setEnabled( true );
     m_pamBookmarks->setEnabled( true );
-    action("new_window")->setEnabled( true );
-    action("duplicate_window")->setEnabled( true );
-    action("open_location")->setEnabled( true );
-    action("toolbar_url_combo")->setEnabled( true );
+    static const char* s_enActions[] = { "new_window", "duplicate_window", "open_location",
+                                         "toolbar_url_combo", "clear_location", "animated_logo", 0 };
+    for ( int i = 0 ; s_enActions[i] ; ++i )
+    {
+        KAction * act = action(s_enActions[i]);
+        if (act)
+            act->setEnabled( true );
+    }
     m_pamLoadViewProfile->setEnabled( true );
     m_combo->clear();
-    action("clear_location")->setEnabled( true );
-    action("animated_logo")->setEnabled( true );
     m_paShowMenuBar->setEnabled( true );
     m_paShowToolBar->setEnabled( true );
     m_paShowLocationBar->setEnabled( true );
     m_paShowBookmarkBar->setEnabled( true );
-    action("options_save_options")->setEnabled( true );
     updateLocalPropsActions();
 }
 

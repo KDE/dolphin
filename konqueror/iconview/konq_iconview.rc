@@ -34,4 +34,8 @@
   <Action name="bgimage"/>
  </Menu>
 </MenuBar>
+<ToolBar name="mainToolBar"><text>Main Toolbar</text>
+ <Action name="incIconSize" />
+ <Action name="decIconSize" />
+</ToolBar>
 </kpartgui>

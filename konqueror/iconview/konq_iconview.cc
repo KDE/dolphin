@@ -275,6 +275,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
     new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
+    m_paIncIconSize = new KAction( i18n( "Increase Icon Size" ), "viewmag+", 0, this, SLOT( slotIncIconSize() ), actionCollection(), "incIconSize" );
+    m_paDecIconSize = new KAction( i18n( "Decrease Icon Size" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
+
     //
 
     connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewDefault( bool ) ) );
@@ -305,15 +308,16 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Extract 3 icon sizes from the icon theme. Use 16,32,48 as default.
     int i;
-    m_iIconSize[0] = KIcon::SizeSmall; // 16
-    m_iIconSize[1] = KIcon::SizeMedium; // 32
-    m_iIconSize[2] = KIcon::SizeLarge; // 48
+    m_iIconSize[0] = 0; // Default value
+    m_iIconSize[1] = KIcon::SizeSmall; // 16
+    m_iIconSize[2] = KIcon::SizeMedium; // 32
+    m_iIconSize[3] = KIcon::SizeLarge; // 48
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
       QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
       QValueList<int>::Iterator it;
-      for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
+      for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<4); it++, i++)
       {
         m_iIconSize[i] = *it;
         //kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
@@ -528,62 +532,65 @@ void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
-    {
-        m_pProps->setIconSize( m_iIconSize[2] );
-        m_pIconView->setIcons( m_pProps->iconSize() );
-        if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview( true );
-    }
+        newIconSize(m_iIconSize[3]);
 }
 
 void KonqKfmIconView::slotViewMedium( bool b )
 {
     if ( b )
-    {
-        m_pProps->setIconSize( m_iIconSize[1] );
-        m_pIconView->setIcons( m_pProps->iconSize() );
-        if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview( true );
-    }
+        newIconSize(m_iIconSize[2]);
 }
 
 void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
-    {
-        m_pProps->setIconSize( m_iIconSize[0] );
-        m_pIconView->setIcons( m_pProps->iconSize() );
-        if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview( true );
-    }
+        newIconSize(m_iIconSize[1]);
 }
 
 void KonqKfmIconView::slotViewDefault( bool b)
 {
     if ( b )
-    {
-        m_pProps->setIconSize( 0 );
-        m_pIconView->setIcons( m_pProps->iconSize() );
-        if ( m_pProps->isShowingImagePreview() )
-          m_pIconView->startImagePreview( true );
-    }
+        newIconSize(0);
 }
 
-/*void KonqKfmIconView::slotTextBottom( bool b )
+void KonqKfmIconView::slotIncIconSize()
 {
-    if ( b ) {
-        m_pProps->setItemTextPos( QIconView::Bottom );
-        m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
-    }
+    int s = m_pProps->iconSize();
+    s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    int sizeIndex = 0;
+    for ( int idx=1; idx < 4 ; ++idx )
+        if (s == m_iIconSize[idx])
+            sizeIndex = idx;
+    ASSERT( sizeIndex != 0 && sizeIndex < 3 );
+    newIconSize( m_iIconSize[sizeIndex + 1] );
 }
 
-void KonqKfmIconView::slotTextRight( bool b )
+void KonqKfmIconView::slotDecIconSize()
 {
-    if ( b ) {
-        m_pProps->setItemTextPos( QIconView::Right );
-        m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
-    }
-}*/
+    int s = m_pProps->iconSize();
+    s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    int sizeIndex = 0;
+    for ( int idx=1; idx < 4 ; ++idx )
+        if (s == m_iIconSize[idx])
+            sizeIndex = idx;
+    ASSERT( sizeIndex > 1 );
+    newIconSize( m_iIconSize[sizeIndex - 1] );
+}
+
+void KonqKfmIconView::newIconSize( int size /*0=default, or 16,32,48....*/ )
+{
+    m_pProps->setIconSize( size );
+    m_pIconView->setIcons( size );
+    if ( m_pProps->isShowingImagePreview() )
+        m_pIconView->startImagePreview( true );
+    // Update the actions
+    m_paDecIconSize->setEnabled(size > m_iIconSize[1]);
+    m_paIncIconSize->setEnabled(size < m_iIconSize[3]);
+    m_paDefaultIcons->setChecked( size == 0 );
+    m_paLargeIcons->setChecked( size == m_iIconSize[3] );
+    m_paMediumIcons->setChecked( size == m_iIconSize[2] );
+    m_paSmallIcons->setChecked( size == m_iIconSize[1] );
+}
 
 bool KonqKfmIconView::closeURL()
 {
@@ -988,17 +995,7 @@ bool KonqKfmIconView::openURL( const KURL & url )
     // of the old view
     if ( newProps )
     {
-      int size = m_pProps->iconSize();
-      m_pIconView->setIcons( size );
-      m_paDefaultIcons->setChecked( size == 0 );
-      m_paLargeIcons->setChecked( size == m_iIconSize[2] );
-      m_paMediumIcons->setChecked( size == m_iIconSize[1] );
-      m_paSmallIcons->setChecked( size == m_iIconSize[0] );
-
-      /*QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
-        m_pIconView->setItemTextPos( textPos );
-        m_paBottomText->setChecked( textPos == QIconView::Bottom );
-        m_paRightText->setChecked( textPos == QIconView::Right );*/
+      newIconSize( m_pProps->iconSize() );
 
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
       m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );

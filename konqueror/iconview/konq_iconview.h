@@ -84,6 +84,8 @@ public slots:
   void slotSelectAll();
   void slotUnselectAll();
   void slotInvertSelection();
+  void slotIncIconSize();
+  void slotDecIconSize();
 
   void slotSortByNameCaseSensitive( bool toggle );
   void slotSortByNameCaseInsensitive( bool toggle );
@@ -139,6 +141,7 @@ protected:
 
   KFileIVI * findVisibleIcon();
   void determineIcon( KFileIVI * item );
+  void newIconSize( int size );
 
   void setupSorting( SortCriterion criterion );
 
@@ -196,6 +199,8 @@ protected:
   KAction *m_paSelectAll;
   KAction *m_paUnselectAll;
   KAction *m_paInvertSelection;
+  KAction *m_paIncIconSize;
+  KAction *m_paDecIconSize;
 
   KToggleAction *m_paSortDirsFirst;
 
@@ -203,7 +208,7 @@ protected:
   long m_lFileCount;
   long m_lDirCount;
 
-  int m_iIconSize[3];
+  int m_iIconSize[4];
 
   KonqIconViewWidget *m_pIconView;
 

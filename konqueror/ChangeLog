@@ -3,6 +3,7 @@
 	* konq_mainwindow.cc: Implemented auto-saving of toolbars (KMainWindow),
 	removed "Save Settings".
 	Fixed "clicking on directory in dirtree uses wrong view mode for dirs".
+	* konq_iconview.cc: Added +/- buttons for changing the icon size.
 
 2000-11-06  David Faure  <faure@kde.org>
 
