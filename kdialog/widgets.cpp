@@ -31,7 +31,7 @@
 #include <kapplication.h>
 
 #include <qlabel.h>
-#include <qtextedit.h>
+#include <ktextedit.h>
 #include <qvbox.h>
 #include <qfile.h>
 
@@ -84,12 +84,11 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
 int Widgets::textBox(QWidget *parent, int width, int height, const QString& title, const QString& file)
 {
 //  KTextBox dlg(parent, 0, TRUE, width, height, file);
-  KDialogBase dlg( parent, 0, true, QString::null, KDialogBase::Ok, KDialogBase::Ok );
-  dlg.setCaption(title);
-  kapp->setTopWidget( &dlg );
-  QTextEdit *edit = new QTextEdit( dlg.makeVBoxMainWidget() );
-  edit->setReadOnly(TRUE);
+  KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
 
+  kapp->setTopWidget( &dlg );
+  KTextEdit *edit = new KTextEdit( dlg.makeVBoxMainWidget() );
+  edit->setReadOnly(TRUE);
 
   QFile f(file);
   if (!f.open(IO_ReadOnly))
@@ -110,10 +109,42 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
       dlg.setInitialSize( QSize( width, height ) );
 
   handleXGeometry(&dlg);
+  dlg.setCaption(title);
   dlg.exec();
   return 0;
 }
 
+int Widgets::textInputBox(QWidget *parent, int width, int height, const QString& title, const QStringList& args, QCString &result)
+{
+//  KTextBox dlg(parent, 0, TRUE, width, height, file);
+  KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok, KDialogBase::Ok );
+
+  kapp->setTopWidget( &dlg );
+  QVBox* vbox = dlg.makeVBoxMainWidget();
+
+  if( args.count() > 0 )
+  {
+    QLabel *label = new QLabel(vbox);
+    label->setText(args[0]);
+  }
+
+  KTextEdit *edit = new KTextEdit( vbox );
+  edit->setReadOnly(FALSE);
+  edit->setTextFormat( Qt::PlainText );
+  edit->setFocus();
+
+  if( args.count() > 1 )
+    edit->setText( args[1] );
+
+  if ( width > 0 && height > 0 )
+    dlg.setInitialSize( QSize( width, height ) );
+
+  handleXGeometry(&dlg);
+  dlg.setCaption(title);
+  dlg.exec();
+  result = edit->text().local8Bit();
+  return 0;
+}
 
 bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, 
 		       const QString& defaultEntry, QString &result)

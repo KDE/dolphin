@@ -63,6 +63,7 @@ static KCmdLineOptions options[] =
     { "inputbox <text> <init>", I18N_NOOP("Input Box dialog"), 0 },
     { "password <text>", I18N_NOOP("Password dialog"), 0 },
     { "textbox <file> [width] [height]", I18N_NOOP("Text Box dialog"), 0 },
+    { "textinputbox <text> <init> [width] [height]", I18N_NOOP("Text Input Box dialog"), 0 },
     { "combobox <text> [tag item] [tag item] ...", I18N_NOOP("ComboBox dialog"), 0 },
     { "menu <text> [tag item] [tag item] ...", I18N_NOOP("Menu dialog"), 0 },
     { "checklist <text> [tag item status] ...", I18N_NOOP("Check List dialog"), 0 },
@@ -307,6 +308,31 @@ static int directCommand(KCmdLineArgs *args)
         }
 
         return Widgets::textBox(0, w, h, title, QString::fromLocal8Bit(args->getOption("textbox")));
+    }
+
+    // --textbox file [width] [height]
+    if (args->isSet("textinputbox"))
+    {
+      int w = 400;
+      int h = 200;
+
+      if (args->count() == 4) {
+	w = QString::fromLocal8Bit(args->arg(2)).toInt();
+	h = QString::fromLocal8Bit(args->arg(3)).toInt();
+      }
+
+      QStringList list;
+      list.append(QString::fromLocal8Bit(args->getOption("textinputbox")));
+
+      if (args->count() >= 1) {
+	for (int i = 0; i < args->count(); i++)
+	  list.append(QString::fromLocal8Bit(args->arg(i)));
+      }
+
+      QCString result;
+      int ret = Widgets::textInputBox(0, w, h, title, list, result);
+      cout << result.data() << endl;
+      return ret;
     }
 
     // --menu text [tag item] [tag item] ...
