@@ -92,7 +92,6 @@
 template class QList<QPixmap>;
 template class QList<KToggleAction>;
 
-QStringList *KonqMainWindow::s_plstAnimatedLogo = 0L;
 QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
 
@@ -118,12 +117,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_pCompletion = 0L;
 
   m_bViewModeToggled = false;
-
-  if ( !s_plstAnimatedLogo )
-  {
-    s_plstAnimatedLogo = new QStringList;
-    *s_plstAnimatedLogo += KGlobal::iconLoader()->loadAnimated( "kde", KIcon::MainToolbar );
-  }
 
   m_pViewManager = new KonqViewManager( this );
 
@@ -2258,7 +2251,7 @@ void KonqMainWindow::initActions()
   m_paDelete = new KAction( i18n( "&Delete" ), SHIFT+Key_Delete, actionCollection(), "del" );
   m_paShred = new KAction( i18n( "&Shred" ), CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
-  m_paAnimatedLogo = new KonqLogoAction( *s_plstAnimatedLogo, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
+  m_paAnimatedLogo = new KonqLogoAction( this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );

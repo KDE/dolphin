@@ -338,6 +338,12 @@ KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
   iconList = icons;
 }
 
+KonqLogoAction::KonqLogoAction( QObject* receiver, const char* slot,
+                                QObject* parent, const char* name )
+  : KAction( 0L, 0L, receiver, slot, parent, name )
+{
+}
+
 KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
   : KAction( parent, name )
 {
@@ -391,7 +397,7 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 
     int id_ = getToolButtonID();
 
-    bar->insertAnimatedWidget( id_, this, SIGNAL(activated()), iconList, index );
+    bar->insertAnimatedWidget( id_, this, SIGNAL(activated()), QString("kde"), index );
     bar->alignItemRight( id_ );
 
     addContainer( bar, id_ );

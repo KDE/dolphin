@@ -144,6 +144,8 @@ public:
 	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
     KonqLogoAction( const QStringList& icons, QObject* receiver,
                     const char* slot, QObject* parent, const char* name = 0 );
+    KonqLogoAction( QObject* receiver, const char* slot, QObject* parent,
+                    const char* name = 0 );
 
     KonqLogoAction( QObject* parent = 0, const char* name = 0 );
 
