@@ -1998,10 +1998,7 @@ void KonqMainWindow::slotPopupNewTab()
     if (mimeType == "application/octet-stream") mimeType = mimeComment = "";
     newView = m_pViewManager->addTab(mimeType, mimeComment);
     if (newView != 0L)
-    {
-      m_pViewManager->showTab( newView );
       newView->openURL( url, url.prettyURL() );
-    }
   }
 }
 
