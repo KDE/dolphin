@@ -607,8 +607,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   if ( !forcedURL.isEmpty())
   {
       KonqOpenURLRequest _req(req);
-      if (_req.typedURL.isEmpty())
-          _req.typedURL = forcedURL.url();
       m_pMainWindow->openURL( nextChildView /* can be 0 for an empty profile */,
                               forcedURL, _req.args.serviceType, _req, _req.args.trustedSource );
 
