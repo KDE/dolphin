@@ -247,9 +247,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_sViewModeForDirectory = config->readEntry( "ViewMode" );
   m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
 
-  m_ptaUseHTML->setChecked( m_bHTMLAllowed );  
+  m_ptaUseHTML->setChecked( m_bHTMLAllowed );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
-  
+
   KonqUndoManager::incRef();
 
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
@@ -4442,7 +4442,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
                   i18n("You have multiple tabs open in this window, "
                         "are you sure you wish to close it?"),
                   i18n("Confirmation"),
-                  KStdGuiItem::close(),
+                  KStdGuiItem::quit(),
                   KGuiItem(i18n( "Close Current Tab" ), "tab_remove"),
                   "MultipleTabConfirm"
               )
