@@ -296,7 +296,7 @@ void KonqMainView::openFilteredURL( KonqChildView */*_view*/, const QString &_ur
 void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
                             int yOffset, const QString &serviceType )
 {
-  debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
+  kDebugStringArea( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(_url) );
 
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
@@ -436,11 +436,6 @@ void KonqMainView::slotToolFind()
     proc << url.directory();
 
   proc.start(KShellProcess::DontCare);
-}
-
-void KonqMainView::slotPrint()
-{
-  callExtensionMethod( m_currentView, "print()" );
 }
 
 void KonqMainView::slotViewModeToggle( bool toggle )
@@ -614,12 +609,10 @@ void KonqMainView::slotEditDirTree()
 
 void KonqMainView::slotSaveSettings()
 {
-  callExtensionMethod( m_currentView, "savePropertiesAsDefault()" );
-}
-
-void KonqMainView::slotSaveSettingsPerURL()
-{
-  callExtensionMethod( m_currentView, "saveLocalProperties()" );
+  // "savePropertiesAsDefault()" is automatically called in the view
+  // But we also connected this slot here, in order to
+  // save here konqueror settings (show menubar, ...)
+  // (TODO)
 }
 
 void KonqMainView::slotConfigureFileManager()
@@ -684,7 +677,7 @@ void KonqMainView::slotStarted()
 
   QString url = view->url().url();
 
-  qDebug( "void KonqMainView::slotStarted() %s", url.ascii() );
+  kDebugInfo( 1202, "void KonqMainView::slotStarted() %s", url.ascii() );
 
   MapViews::ConstIterator it = m_mapViews.find( view );
 
@@ -765,7 +758,7 @@ void KonqMainView::slotSetStatusBarText( const QString &text )
 
 bool KonqMainView::openView( QString serviceType, QString url, KonqChildView *childView )
 {
-debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
+  kDebugInfo( 1202, " KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   QString indexFile;
 
   if ( !childView )
@@ -792,11 +785,11 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
     }
   else
   {
-    debug("%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url).latin1());
+    kDebugInfo( 1202, "%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url).latin1());
     // This is already called in ::openURL
     //    childView->stop();
   }
-  debug("%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url).latin1());
+  kDebugInfo( 1202, "%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url).latin1());
 
   KURL u( url );
   if ( ( serviceType == "inode/directory" ) &&
@@ -1001,11 +994,11 @@ void KonqMainView::slotMenuViewAboutToShow()
   if ( !m_bMenuViewDirty || !m_pamView->isEnabled() )
     return;
 
-  qDebug( "void KonqMainView::slotMenuViewAboutToShow()" );
+  kDebugInfo( 1202, "void KonqMainView::slotMenuViewAboutToShow()" );
 
   if ( !m_bViewModeLock )
   {
-    qDebug( "no lock!" );
+    kDebugInfo( 1202, "no lock!" );
     m_pamView->popupMenu()->clear(); //remove separators
     m_pamView->remove( m_ptaUseHTML );
     m_pamView->remove( m_ptaShowDirTree );
@@ -1225,7 +1218,7 @@ void KonqMainView::slotTrash()
 
 void KonqMainView::slotDelete()
 {
-  callExtensionMethod( m_currentView, "delete()" );
+  callExtensionMethod( m_currentView, "del()" );
 }
 
 void KonqMainView::slotSetLocationBarURL( const QString &url )
@@ -1477,7 +1470,7 @@ void KonqMainView::initActions()
   m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not stdAccel.find()!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
-  m_paPrint = KStdAction::print( this, SLOT( slotPrint() ), actionCollection(), "print" );
+  m_paPrint = KStdAction::print( 0L, 0, actionCollection(), "print" );
 
   // Edit menu
   m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit_menu" );
@@ -1529,8 +1522,8 @@ void KonqMainView::initActions()
   m_paDirTree = new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotEditDirTree() ), actionCollection(), "dirtree" );
 
   // Options menu
-  m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
-  m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
+  m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savePropertiesAsDefault" );
+  m_paSaveLocalProperties = new KAction( i18n( "Save Settings for this &URL" ), 0, 0, 0, actionCollection(), "saveLocalProperties" );
 
   m_paConfigureFileManager = new KAction( i18n( "Configure File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
   m_paConfigureBrowser = new KAction( i18n( "Configure &Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
@@ -1563,7 +1556,7 @@ void KonqMainView::initActions()
   m_paStop = new KAction( i18n( "&Stop" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
+  m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "del" );
 
   m_paCut->plug( m_pamEdit->popupMenu() );
   m_paCopy->plug( m_pamEdit->popupMenu() );
@@ -1756,16 +1749,42 @@ QString KonqMainView::findIndexFile( const QString &dir )
 
 void KonqMainView::connectExtension( BrowserExtension *ext )
 {
-  QStrList slotMethods = ext->metaObject()->slotNames();
+  kDebugInfo( 1202, "connectExtension" );
+  // "cut", "copy", "pastecut", "pastecopy", "del", "trash"
+  // "reparseConfiguration", "refreshMimeTypes"
+  // are not directly connected. The slots in this class are connected instead and
+  // call in turn the ones in the view...
 
-  if ( slotMethods.contains( "copy" ) )
-    ext->connect( m_paCopy, SIGNAL( activated() ), "copy" );
+  // The ones on the first line have an intermediate slot because we do some konqy stuff
+  // before calling the view
 
-  //add more
+  // And the ones on the second line don't even have a corresponding action - it's just
+  // a method that the view can have or not have.
+
+  // I wonder if defining them as slots make any sense then :-)
+  // ... and if this whole idea is not just a trick to get a list of methods dymanically :-)
+
+  // The ones we connect directly :
+  static const char * s_actionnames[] = { "print", "saveLocalProperties", "savePropertiesAsDefault" };
+  QStrList slotNames =  ext->metaObject()->slotNames();
+  // Loop over standard action names
+  for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
+  {
+    kDebugInfo( 1202, s_actionnames[i] );
+    if ( slotNames.contains( s_actionnames[i] ) )
+    {
+      // Find the corresponding action
+      QAction * act = actionCollection()->action( s_actionnames[i] );
+      assert(act);
+      ext->connect( act, SIGNAL( activated() ), s_actionnames[i] );
+      kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
+    }
+  }
 }
 
 void KonqMainView::disconnectExtension( BrowserExtension *ext )
 {
+  kDebugInfo( 1202, "Disconnecting extension" );
   QValueList<QAction *> actions = actionCollection()->actions();
   QValueList<QAction *>::ConstIterator it = actions.begin();
   QValueList<QAction *>::ConstIterator end = actions.end();
@@ -1793,7 +1812,7 @@ void KonqMainView::enableAllActions( bool enable )
 
 void KonqMainView::openBookmarkURL( const QString & url )
 {
-  kdebug(0, 1202, "%s", QString("KonqMainView::openBookmarkURL(%1)").arg(url).latin1() );
+  kDebugInfo(1202, "%s", QString("KonqMainView::openBookmarkURL(%1)").arg(url).latin1() );
   openURL( 0L, url );
 }
 
@@ -1824,7 +1843,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 
   m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
-  //kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
+  //kDebugInfo( 1202, "KonqMainView::slotPopupMenu(...)");
   QString url = m_currentView->url();
 
   QActionCollection popupMenuCollection;
@@ -1866,7 +1885,7 @@ void KonqMainView::slotDatabaseChanged()
 
 void KonqMainView::reparseConfiguration()
 {
-  debug("KonqMainView::reparseConfiguration() !");
+  kDebugInfo( 1202, "KonqMainView::reparseConfiguration() !");
   kapp->config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
   KonqHTMLSettings::reparseConfiguration();

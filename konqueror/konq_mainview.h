@@ -92,7 +92,6 @@ public slots:
   void slotOpenTerminal();
   void slotOpenLocation();
   void slotToolFind();
-  void slotPrint();
 
   // View menu
   void slotViewModeToggle( bool toggle );
@@ -113,7 +112,6 @@ public slots:
   void slotEditDirTree();
 
   void slotSaveSettings();
-  void slotSaveSettingsPerURL();
   void slotConfigureFileManager();
   void slotConfigureBrowser();
   void slotConfigureFileTypes();
@@ -275,7 +273,7 @@ private:
   KAction *m_paDirTree;
 
   KAction *m_paSaveSettings;
-  KAction *m_paSaveSettingsPerURL;
+  KAction *m_paSaveLocalProperties;
 
   KAction *m_paConfigureFileManager;
   KAction *m_paConfigureBrowser;

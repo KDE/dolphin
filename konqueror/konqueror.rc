@@ -18,7 +18,7 @@
   <Action name="copy"/>
   <Action name="paste"/>
   <Action name="trash"/>
-  <Action name="delete"/>
+  <Action name="del"/>
   <Separator/>
   <Merge/>
  </Menu>
@@ -51,8 +51,8 @@
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
   <Action name="showbookmarkbar"/>
-  <Action name="savesettings"/>
-  <Action name="savesettingsperurl"/>
+  <Action name="savePropertiesAsDefault"/>
+  <Action name="saveLocalProperties"/>
   <Separator/>
   <Action name="configurefilemanager"/>
   <Action name="configurebrowser"/>
