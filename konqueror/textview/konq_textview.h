@@ -51,10 +51,12 @@ public:
   
   virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 
-  virtual void cutSelection();
   virtual void copySelection();
-  virtual void pasteSelection( bool move = false );
-  virtual void moveSelection( const QString &destinationURL = QString::null );
+
+  // Forbidden since read-only
+  virtual void cutSelection(){}
+  virtual void pasteSelection( bool ){}
+  virtual void moveSelection( const QString & ){}
 
 private:
   KonqTextView *m_textView;  
