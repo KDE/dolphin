@@ -90,7 +90,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
   }
   else
   {
-      mainWindow = new KonqMainWindow( QString::null, false );
+      mainWindow = new KonqMainWindow( KURL(), false );
       //FIXME: obey args (like passing post-data (to KRun), etc.)
       KonqOpenURLRequest req;
       req.args = args;

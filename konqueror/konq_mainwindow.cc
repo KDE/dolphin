@@ -272,8 +272,11 @@ KonqMainWindow::~KonqMainWindow()
 
   KonqUndoManager::decRef();
 
-  if ( s_lstViews == 0 )
+  if ( s_lstViews == 0 ) {
       delete KonqPixmapProvider::self();
+      delete s_comboConfig;
+      s_comboConfig = 0L;
+  }
 
   //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
@@ -864,7 +867,7 @@ void KonqMainWindow::slotDuplicateWindow()
   config.setGroup( "View Profile" );
   m_pViewManager->saveViewProfile( config, true, true );
 
-  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
+  KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   if (mainWindow->currentView())
   {
@@ -993,10 +996,11 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 
 void KonqMainWindow::slotIconsChanged()
 {
-    if ( m_combo )
-	m_combo->updatePixmaps();
-//  const QPixmap &pix = KonqPixmapProvider::self()->pixmapFor( currentText );
-//  topLevelWidget()->setIcon( pix );
+    if ( !m_combo )
+	return;
+	
+    m_combo->updatePixmaps();
+    setIcon( KonqPixmapProvider::self()->pixmapFor( m_combo->currentText() ));
 }
 
 void KonqMainWindow::slotOpenWith()
@@ -1268,9 +1272,9 @@ void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply i
       plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
     if ( m_currentView && m_currentView->appServiceOffers().count() > 0 )
       plugActionList( "openwith", m_openWithActions );
- 
+
     plugViewModeActions();
- 
+
     applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
 }
 
@@ -1378,13 +1382,6 @@ void KonqMainWindow::slotSetStatusBarText( const QString & )
 void KonqMainWindow::slotViewCompleted( KonqView * view )
 {
   assert( view );
-
-  if (!m_combo) // happens if removed from .rc file :)
-    return;
-
-  QString currentText = m_combo->currentText();
-  const QPixmap &pix = KonqPixmapProvider::self()->pixmapFor( currentText );
-  topLevelWidget()->setIcon( pix );
 
   // Need to update the current working directory
   // of the completion object everytime the user
@@ -2407,6 +2404,8 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 
   if ( m_combo )
       m_combo->setURL( url );
+
+  setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
 }
 
 // called via DCOP from KonquerorIface
@@ -3414,6 +3413,12 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
   }
   KParts::MainWindow::closeEvent( e );
   //kdDebug(1202) << "KonqMainWindow::closeEvent end" << endl;
+}
+
+void KonqMainWindow::setIcon( const QPixmap& pix )
+{
+  KParts::MainWindow::setIcon( pix );
+  KWin::setIcons( winId(), pix, pix );
 }
 
 

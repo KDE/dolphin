@@ -282,6 +282,8 @@ public slots:
   // public for KonqViewManager
   void slotPartActivated( KParts::Part *part );
 
+  virtual void setIcon( const QPixmap& );
+
 protected slots:
   void slotViewCompleted( KonqView * view );
 
