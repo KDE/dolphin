@@ -1429,14 +1429,13 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     device->setEditText( deviceStr );
     // Set default options for this device (first matching entry)
     int index = 0;
-    debug(QString("looking for %1").arg(deviceStr));
+    //debug(QString("looking for %1").arg(deviceStr));
     for ( QStringList::Iterator it = m_devicelist.begin();
           it != m_devicelist.end(); ++it, ++index )
     {
-      qDebug( (*it).left( deviceStr.length() ) );
       if ( (*it).left( deviceStr.length() ) == deviceStr )
       {
-        qDebug( "found it %d", index );
+        //qDebug( "found it %d", index );
         slotActivated( index );
         break;
       }
