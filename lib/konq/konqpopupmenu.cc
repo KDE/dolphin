@@ -22,6 +22,7 @@
 #include <qapplication.h>
 #include <qdragobject.h>
 
+#include <krun.h>
 #include <kbookmark.h>
 #include <kdebug.h>
 #include <kio/job.h>
@@ -29,7 +30,6 @@
 #include <kopenwith.h>
 #include <kmessagebox.h>
 #include <kprotocolmanager.h>
-#include <krun.h>
 #include <kservice.h>
 #include <ktrader.h>
 #include <kurl.h>
@@ -95,7 +95,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   setFont(KGlobal::menuFont());
 
   attrName = QString::fromLatin1( "name" );
-  
+
   prepareXMLGUIStuff();
 
   KProtocolManager pManager = KProtocolManager::self();
@@ -316,8 +316,8 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 	  QCString nam;
 	  nam.setNum( id );
 	
-	  act = new KAction( i18n( "Preview in %1" ).arg( (*it)->name() ), 
-			     (*it)->pixmap( KIconLoader::Small ), 0, this, SLOT( slotRunService() ), 
+	  act = new KAction( i18n( "Preview in %1" ).arg( (*it)->name() ),
+			     (*it)->pixmap( KIconLoader::Small ), 0, this, SLOT( slotRunService() ),
 			     &m_ownActions, nam.prepend( "embeddservice_" ) );
 	  addAction( act );
 	
@@ -334,8 +334,8 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
         QCString nam;
 	nam.setNum( id );
 
-        act = new KAction( (*it)->name(), (*it)->pixmap( KIconLoader::Small ), 0, 
-			   this, SLOT( slotRunService() ), 
+        act = new KAction( (*it)->name(), (*it)->pixmap( KIconLoader::Small ), 0,
+			   this, SLOT( slotRunService() ),
 			   &m_ownActions, nam.prepend( "appservice_" ) );
 	addAction( act );
 	
@@ -395,7 +395,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
     bLastSepInserted = true;
 
     //  or "File Type Properties" ?
-    act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ), 
+    act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
 		       &m_ownActions, "editfiletype" );
     addAction( act );
   }
@@ -403,17 +403,17 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   if ( PropertiesDialog::canDisplay( m_lstItems ) )
   {
     if ( !bLastSepInserted ) addSeparator();
-    
-    act = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotPopupProperties() ), 
+
+    act = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotPopupProperties() ),
 		       &m_ownActions, "properties" );
     addAction( act );
   }
 
   if ( addTrailingSeparator )
     addSeparator();
-  
+
   addMerge( 0 );
-  
+
   m_factory->addClient( this );
 }
 
@@ -539,7 +539,7 @@ void KonqPopupMenu::slotPopupProperties()
 
 KAction *KonqPopupMenu::action( const QDomElement &element ) const
 {
-  QString name = element.attribute( attrName ); 
+  QString name = element.attribute( attrName );
 
   KAction *res = m_ownActions.action( name );
 
@@ -564,7 +564,7 @@ void KonqPopupMenu::addAction( KAction *act )
 
 void KonqPopupMenu::addAction( const char *name )
 {
-  static QString tagAction = QString::fromLatin1( "action" ); 
+  static QString tagAction = QString::fromLatin1( "action" );
   QDomElement e = m_doc.createElement( tagAction );
   m_menuElement.appendChild( e );
   e.setAttribute( attrName, name );
@@ -572,18 +572,18 @@ void KonqPopupMenu::addAction( const char *name )
 
 void KonqPopupMenu::addSeparator()
 {
-  static QString tagSeparator = QString::fromLatin1( "separator" ); 
+  static QString tagSeparator = QString::fromLatin1( "separator" );
   m_menuElement.appendChild( m_doc.createElement( tagSeparator ) );
 }
 
 void KonqPopupMenu::addMerge( const char *name )
 {
-  static QString tagMerge = QString::fromLatin1( "merge" ); 
+  static QString tagMerge = QString::fromLatin1( "merge" );
   QDomElement merge = m_doc.createElement( tagMerge );
   m_menuElement.appendChild( merge );
   if ( name )
     merge.setAttribute( attrName, name );
-} 
+}
 
 void KonqPopupMenu::prepareXMLGUIStuff()
 {
