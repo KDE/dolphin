@@ -34,9 +34,6 @@ class QSplitter;
 
 class KEBListViewItem : public QListViewItem
 {
-private:
-   void normalConstruct(const KBookmark &);
-
 public:
    KEBListViewItem(QListView *, const KBookmarkGroup &);
    KEBListViewItem(KEBListViewItem *, QListViewItem *);
@@ -67,6 +64,7 @@ public:
 
 private:
    const QString nsGet() const;
+   void normalConstruct(const KBookmark &);
 
    KBookmark m_bookmark;
    PaintStyle m_paintStyle;
