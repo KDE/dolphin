@@ -47,10 +47,10 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QLabel * label;
     int row = 0;
 
-    QGridLayout *lay = new QGridLayout(this,10,4, // rows, cols
+    QGridLayout *lay = new QGridLayout(this,12,4, // rows, cols
                                        KDialog::marginHint(),
                                        KDialog::spacingHint());     // border, space
-    lay->setRowStretch(7,10);
+    lay->setRowStretch(12,10);
     lay->setColStretch(1,1);
     lay->setColStretch(3,1);
 
