@@ -14,7 +14,7 @@ sources_DATA = FtpURL.desktop Program.desktop WWWURL.desktop \
 sourcesdir = $(kde_templatesdir)/.source
 
 install-data-local:
-	@if test ! -d $(sourcesdir)/emptydir; then \
-	  mkdir $(sourcesdir)/emptydir; \
+	@if test ! -d $(DESTDIR)/$(sourcesdir)/emptydir; then \
+	  mkdir $(DESTDIR)/$(sourcesdir)/emptydir; \
 	fi
 
