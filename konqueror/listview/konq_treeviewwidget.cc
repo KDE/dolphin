@@ -240,8 +240,8 @@ void KonqTreeViewWidget::openSubFolder(const KURL &_url, KonqListViewDir* _dir)
 
    /** Debug code **/
    //assert( m_iColumns != -1 && m_dirLister );
-   if ( m_dirLister->url().protocol() != _url.protocol() )
-      assert( 0 ); // not same protocol as parent dir -> abort
+   //if ( m_dirLister->url().protocol() != _url.protocol() )
+   //   assert( 0 ); // not same protocol as parent dir...
    /** End Debug code **/
 
    m_bSubFolderComplete = false;
