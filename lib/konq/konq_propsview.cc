@@ -18,8 +18,8 @@
 */
 
 #include "konq_propsview.h"
-#include <konqdefaults.h>
-#include <konqsettings.h>
+#include <konq_defaults.h>
+#include <konq_settings.h>
 
 #include <kdebug.h>
 #include <kstddirs.h>

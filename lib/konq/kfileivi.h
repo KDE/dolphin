@@ -24,7 +24,7 @@
 
 #include <qiconview.h>
 #include <kiconloader.h>
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 class KonqIconViewWidget;
 
 /**

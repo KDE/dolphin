@@ -17,8 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konqsettings.h"
-#include "konqdefaults.h"
+#include "konq_settings.h"
+#include "konq_defaults.h"
 #include "kglobalsettings.h"
 #include <kconfig.h>
 #include <kglobal.h>

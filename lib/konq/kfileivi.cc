@@ -18,10 +18,10 @@
 */
 
 #include "kfileivi.h"
-#include "konqfileitem.h"
-#include "konqdrag.h"
-#include "konqiconviewwidget.h"
-#include "konqoperations.h"
+#include "konq_fileitem.h"
+#include "konq_drag.h"
+#include "konq_iconviewwidget.h"
+#include "konq_operations.h"
 
 #include <kapp.h>
 #include <kipc.h>

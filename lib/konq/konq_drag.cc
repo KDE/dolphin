@@ -17,7 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konqdrag.h"
+#include "konq_drag.h"
 #include <kdebug.h>
 
 KonqIconDrag::KonqIconDrag( QWidget * dragSource, const char* name )
@@ -126,4 +126,4 @@ bool KonqDrag::decodeIsCutSelection( const QMimeSource *e )
   }
 }
 
-#include "konqdrag.moc"
+#include "konq_drag.moc"

@@ -44,8 +44,8 @@
 
 #include "kpropsdlg.h"
 #include "knewmenu.h"
-#include "konqpopupmenu.h"
-#include "konqoperations.h"
+#include "konq_popupmenu.h"
+#include "konq_operations.h"
 
 class KonqPopupMenuGUIBuilder : public KXMLGUIBuilder
 {
@@ -595,4 +595,4 @@ void KonqPopupMenu::prepareXMLGUIStuff()
   m_factory = new KXMLGUIFactory( m_builder );
 }
 
-#include "konqpopupmenu.moc"
+#include "konq_popupmenu.moc"

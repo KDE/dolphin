@@ -16,7 +16,7 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
-#include "konqiconviewwidget.h"
+#include "konq_iconviewwidget.h"
 #include "konq_undo.h"
 
 #include <qapplication.h>
@@ -33,13 +33,13 @@
 #include <kio/paste.h>
 #include <klocale.h>
 #include <kfileivi.h>
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 #include <kmessagebox.h>
-#include <konqdefaults.h>
-#include <konqsettings.h>
-#include <konqdrag.h>
-#include <konqoperations.h>
-#include <konqimagepreviewjob.h>
+#include <konq_defaults.h>
+#include <konq_settings.h>
+#include <konq_drag.h>
+#include <konq_operations.h>
+#include <konq_imagepreviewjob.h>
 #include <kglobalsettings.h>
 #include <kpropsdlg.h>
 #include <kipc.h>
@@ -1013,4 +1013,4 @@ void KonqIconViewWidget::backgroundPixmapChange( const QPixmap & )
     viewport()->update();
 }
 
-#include "konqiconviewwidget.moc"
+#include "konq_iconviewwidget.moc"

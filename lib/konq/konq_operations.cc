@@ -17,7 +17,7 @@
 */
 
 #include <qwidget.h>
-#include <konqoperations.h>
+#include <konq_operations.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -27,7 +27,7 @@
 
 #include <dcopclient.h>
 #include "konq_undo.h"
-#include "konqdefaults.h"
+#include "konq_defaults.h"
 
 // For doDrop
 #include <qdir.h>//first
@@ -39,8 +39,8 @@
 #include <kio/job.h>
 #include <kio/paste.h>
 #include <klocale.h>
-#include <konqdrag.h>
-#include <konqfileitem.h>
+#include <konq_drag.h>
+#include <konq_fileitem.h>
 #include <kprocess.h>
 #include <kstddirs.h>
 #include <qpopupmenu.h>
@@ -326,4 +326,4 @@ void KonqOperations::slotResult( KIO::Job * job )
     delete this;
 }
 
-#include <konqoperations.moc>
+#include <konq_operations.moc>

@@ -16,10 +16,10 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include "konqimagepreviewjob.h"
+#include "konq_imagepreviewjob.h"
 #include <kfileivi.h>
 #include <kiconloader.h>
-#include <konqiconviewwidget.h>
+#include <konq_iconviewwidget.h>
 #include <assert.h>
 #include <stdio.h> // for tmpnam
 #include <unistd.h> // for unlink
@@ -405,4 +405,4 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   determineNextIcon();
 }
 
-#include "konqimagepreviewjob.moc"
+#include "konq_imagepreviewjob.moc"

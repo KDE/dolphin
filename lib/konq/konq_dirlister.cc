@@ -17,8 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konqdirlister.h"
-#include "konqfileitem.h"
+#include "konq_dirlister.h"
+#include "konq_fileitem.h"
 #include <kdebug.h>
 
 KonqDirLister::KonqDirLister( bool _delayedMimeTypes )
@@ -37,4 +37,4 @@ KFileItem * KonqDirLister::createFileItem( const KIO::UDSEntry& entry,
     return new KonqFileItem( entry, url, determineMimeTypeOnDemand, true );
 }
 
-#include "konqdirlister.moc"
+#include "konq_dirlister.moc"

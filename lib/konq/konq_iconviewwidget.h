@@ -22,7 +22,7 @@
 #include <kiconloader.h>
 #include <kiconview.h>
 #include <kurl.h>
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 #include <qguardedptr.h>
 
 class KonqFMSettings;
@@ -49,7 +49,7 @@ public:
 
     /**
      * Constructor
-     * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
+     * @param settings An instance of KonqFMSettings, see static methods in konq_settings.h
      */
     KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0, bool kdesktop = FALSE );
     virtual ~KonqIconViewWidget();

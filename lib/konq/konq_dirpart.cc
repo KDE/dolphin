@@ -20,7 +20,7 @@
 #include "konq_dirpart.h"
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
-#include "konqsettings.h"
+#include "konq_settings.h"
 
 #include <kparts/browserextension.h>
 #include <kfileitem.h>
