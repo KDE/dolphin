@@ -147,13 +147,13 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
    // we are allowed to delete the whole content since the opening of
    // subdirs happens level per level.
 
+   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
+   Q_ASSERT( item );
+
    QDictIterator<KonqListViewDir> it( m_dictSubDirs );
    for ( ; it.current(); ++it )
       if ( _url.isParentOf( it.current()->url(0) ) )
          m_dictSubDirs.remove( _url.url(-1) );
-
-   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
-   Q_ASSERT( item );
 
    QListViewItemIterator qit( item );
    QPtrList<QListViewItem> *lst = new QPtrList<QListViewItem>;

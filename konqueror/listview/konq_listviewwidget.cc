@@ -80,6 +80,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_bUpdateContentsPosAfterListing(false)
 ,m_bAscending(true)
 ,m_itemFound(false)
+,m_restored(false)
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
