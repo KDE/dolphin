@@ -106,7 +106,7 @@ protected:
 
 
 int main(int argc, char** argv)
-{  
+{
   // trap X errors
   XSetErrorHandler(x_errhandler);                                           
 
@@ -122,21 +122,21 @@ int main(int argc, char** argv)
 
   QXtApplication app(XtDisplay(toplevel));
 
-
   // register DCOP service
   dcopClient = new DCOPClient;
   dcopClient->attach();
   dcopClient->registerAs(dcopId, false);
 
-  
   // create the DCOP object for the plugin class
   NSPluginClass *cls = new NSPluginClass(plugin, plugin);
 
+  /* sschimanski: uncomment this for testing
   QStringList _argn, _argv;
   _argn << "WIDTH" << "HEIGHT";
   _argv << "400" << "250";
+  cls->NewInstance("image/x-xpixmap", 1, _argn, _argv);
   NSPluginInstance *inst = cls->NewInstance("image/x-xpixmap", 1, _argn, _argv);
-
+  */
 
   app.exec();
 }

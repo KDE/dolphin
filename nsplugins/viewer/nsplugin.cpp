@@ -4,6 +4,7 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+		     Stefan Schimanski <1Stein@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,7 +29,7 @@
 
 #include <qdir.h>
 #include <qdict.h>
-
+#include <qtimer.h>
 
 #include "nsplugin.h"
 #include "nsplugin.moc"
@@ -38,6 +39,7 @@
 #include <kdebug.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
+#include <ktempfile.h>
 
 
 #include <X11/Intrinsic.h>
@@ -53,24 +55,13 @@
 extern Widget toplevel;
 
 
-NSPluginInstance::NSPluginInstance(NPP _privateData, KLibrary *handle, int width, int height)
+NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
   : _handle(handle), _width(width), _height(height)
 {
-  func_GetValue = 0;
-  func_SetValue = 0;
-  func_SetWindow = 0;
-  func_DestroyStream = 0;
-  func_NewStream = 0;
-  func_StreamAsFile = 0;
-  func_Write = 0;
-  func_WriteReady = 0; 
-  func_URLNotify = 0;
-  func_Destroy = 0;
-  func_HandleEvent = 0;
-
   _npp = (NPP) malloc(sizeof(NPP));
   *_npp = *_privateData;
   _npp->ndata = this;
+  memcpy(&_pluginFuncs, pluginFuncs, sizeof(_pluginFuncs));
 
   kDebugInfo("NSPluginInstance::NSPluginInstance");
   kDebugInfo("pdata = %p", _npp->pdata);
@@ -87,17 +78,13 @@ NSPluginInstance::NSPluginInstance(NPP _privateData, KLibrary *handle, int width
   XtMapWidget(_area);
 
   //  setWindow();
+  setWindow();
 } 
 
 
 NSPluginInstance::~NSPluginInstance()
 {
-  RESOLVE_VOID(Destroy);
-
-  NPError (*fp) (NPP, NPSavedData **); 
-  fp = (NPError (*)(NPP, NPSavedData **)) func_Destroy;
-
-  fp(_npp, 0);
+  _pluginFuncs.destroy(_npp, 0);
 
   ::free(_npp);
 
@@ -152,24 +139,15 @@ NPError NSPluginInstance::setWindow(bool remove)
 
 NPError NSPluginInstance::GetValue(NPPVariable variable, void *value)
 {
-  RESOLVE(GetValue);
-
-  NPError (*fp) (void *, NPPVariable, void *); 
-  fp = (NPError (*)(void *, NPPVariable, void *)) func_GetValue;
-  NPError error = fp(_npp, variable, value);
+	NPError error = _pluginFuncs.getvalue(_npp, variable, value);
 
   CHECK(GetValue,error);
 }
 
 
-NPError NSPluginInstance::SetValue(NPPVariable variable, void *value)
+NPError NSPluginInstance::SetValue(NPNVariable variable, void *value)
 {
-  RESOLVE(SetValue);
-
-  NPError (*fp) (void *, NPPVariable, void *); 
-  fp = (NPError (*)(void *, NPPVariable, void *)) func_SetValue;
-
-  NPError error = fp(_npp, variable, value);
+  NPError error = _pluginFuncs.setvalue(_npp, variable, value);
 
   CHECK(SetValue,error);
 }
@@ -177,12 +155,7 @@ NPError NSPluginInstance::SetValue(NPPVariable variable, void *value)
 
 NPError NSPluginInstance::SetWindow(NPWindow *window)
 {
-  RESOLVE(SetWindow);
-  
-  NPError (*fp) (void *, NPWindow *); 
-  fp = (NPError (*)(void *, NPWindow *)) func_SetWindow;
-
-  NPError error = fp(_npp, window);
+  NPError error = _pluginFuncs.setwindow(_npp, window);
 
   CHECK(SetWindow,error);
 }
@@ -190,12 +163,7 @@ NPError NSPluginInstance::SetWindow(NPWindow *window)
 
 NPError NSPluginInstance::DestroyStream(NPStream *stream, NPReason reason)
 {
-  RESOLVE(DestroyStream);
-
-  NPError (*fp) (NPP, NPStream*, NPReason); 
-  fp = (NPError (*)(NPP, NPStream*, NPReason)) func_DestroyStream;
-  
-  NPError error = fp(_npp, stream, reason);
+  NPError error = _pluginFuncs.destroystream(_npp, stream, reason);
 
   CHECK(DestroyStream,error);
 }
@@ -203,12 +171,7 @@ NPError NSPluginInstance::DestroyStream(NPStream *stream, NPReason reason)
 
 NPError NSPluginInstance::NewStream(const NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype)
 {
-  RESOLVE(NewStream);
-
-  NPError (*fp) (NPP, NPMIMEType, NPStream*, NPBool, uint16*);
-  fp = (NPError (*)(NPP, NPMIMEType, NPStream*, NPBool, uint16*)) func_NewStream;
-  
-  NPError error = fp(_npp, type, stream, seekable, stype);
+  NPError error = _pluginFuncs.newstream(_npp, type, stream, seekable, stype);
 
   CHECK(NewStream,error);
 }
@@ -216,57 +179,31 @@ NPError NSPluginInstance::NewStream(const NPMIMEType type, NPStream *stream, NPB
 
 void NSPluginInstance::StreamAsFile(NPStream *stream, const char *fname)
 {
-  RESOLVE_VOID(StreamAsFile);
-
-  NPError (*fp) (NPP, NPStream*, const char*);
-  fp = (NPError (*)(NPP, NPStream*, const char*)) func_StreamAsFile;
-
-  fp(_npp, stream, fname);
+  _pluginFuncs.asfile(_npp, stream, fname);
 }
 
 
 int32 NSPluginInstance::Write(NPStream *stream, int32 offset, int32 len, void *buf)
 {
-  RESOLVE_RETVAL(Write,0);
-
-  int32 (*fp) (NPP, NPStream*, int32, int32, void*);
-  fp = (int32 (*)(NPP, NPStream*, int32, int32, void*)) func_Write;
-  
-  return fp(_npp, stream, offset, len, buf);
+  return _pluginFuncs.write(_npp, stream, offset, len, buf);
 }
 
 
 int32 NSPluginInstance::WriteReady(NPStream *stream)
 {
-  RESOLVE_RETVAL(WriteReady,0);
-
-  int32 (*fp) (NPP, NPStream*);
-  fp = (int32 (*)(NPP, NPStream*)) func_WriteReady;
-  
-  return fp(_npp, stream);
+  return _pluginFuncs.writeready(_npp, stream);
 }
 
 
 void NSPluginInstance::URLNotify(const char *url, NPReason reason, void *notifyData)
 {
-  RESOLVE_VOID(URLNotify);
-
-  void (*fp) (NPP, const char*, NPReason, void*);
-  fp = (void (*)(NPP, const char*, NPReason, void*)) func_URLNotify;
-
-  fp(_npp, url, reason, notifyData);
+  _pluginFuncs.urlnotify(_npp, url, reason, notifyData);
 }
 
 
 NSPluginClass::NSPluginClass(const QString &library, const QCString dcopId)
-  : DCOPObject(dcopId), _libname(library)
+  : DCOPObject(dcopId), _libname(library), _constructed(false),  _initialized(false)
 {
-  func_Initialize = 0; 
-  func_GetMIMEDescription = 0; 
-  func_Shutdown = 0;
-  func_New = 0;
-  func_GetJavaClass = 0;
-
   _handle = KLibLoader::self()->library(library);
 
   kDebugInfo("Library handle=%p", _handle);
@@ -277,7 +214,33 @@ NSPluginClass::NSPluginClass(const QString &library, const QCString dcopId)
     return;
   }
 
+  _NP_GetMIMEDescription = (NP_GetMIMEDescriptionUPP *)_handle->symbol("NP_GetMIMEDescription");
+  _NP_Initialize = (NP_InitializeUPP *)_handle->symbol("NP_Initialize");
+  _NP_Shutdown = (NP_ShutdownUPP *)_handle->symbol("NP_Shutdown");
+
+  if (!_NP_GetMIMEDescription)
+  {
+  	kDebugInfo("Could not get symbol NP_GetMIMEDescription");
+    return;
+  } else
+	  	kDebugInfo("Resolved NP_GetMIMEDescription to %p", _NP_GetMIMEDescription);
+
+  if (!_NP_Initialize)
+  {
+  	kDebugInfo("Could not get symbol NP_Initialize");
+  	return;
+  } else
+  		kDebugInfo("Resolved NP_Initialize to %p", _NP_Initialize);
+
+  if (!_NP_Shutdown)
+  {
+  	kDebugInfo("Could not get symbol NP_Shutdown");
+  	return;
+  } else
+  		kDebugInfo("Resolved NP_Shutdown to %p", _NP_Shutdown);
+
   kDebugInfo("Plugin library %s loaded!", library.ascii());
+  _constructed = true;
 
   Initialize();
 }
@@ -286,35 +249,51 @@ NSPluginClass::NSPluginClass(const QString &library, const QCString dcopId)
 NSPluginClass::~NSPluginClass()
 {
   Shutdown();
-  KLibLoader::self()->unloadLibrary(_libname);
+  //KLibLoader::self()->unloadLibrary(_libname);
+  delete _handle;
 }
 
 
 
 int NSPluginClass::Initialize()
 {
-  //  RESOLVE(Initialize);
   kDebugInfo("NSPluginInstance::Initialize()"); 
                                               
-  if (!_handle)                               
+  if (!_constructed)
     return NPERR_GENERIC_ERROR;                             
                                               
-  if (!func_Initialize)                        
-    func_Initialize = _handle->symbol("NPP_Initialize");
-  else                                        
+  if (!_initialized)
     kDebugError("FUNC ALREADY INITIALIZED!");
-                                              
-  if (!func_Initialize)                        
-  {                                           
-    kDebugInfo("Failed: NPP_Initialize could not be resolved"); 
-    return NPERR_GENERIC_ERROR;                             
-  }                                           
-  kDebugInfo("Resolved NPP_Initialize to %p", func_Initialize);
 
-  NPError (*fp)();
-  fp = (NPError (*)()) func_Initialize;
+  memset(&_pluginFuncs, 0, sizeof(_pluginFuncs));
+  memset(&_nsFuncs, 0, sizeof(_nsFuncs));
+
+  _pluginFuncs.size = sizeof(_pluginFuncs);
+  _nsFuncs.size = sizeof(_nsFuncs);
+  _nsFuncs.version = (NP_VERSION_MAJOR << 8) + NP_VERSION_MINOR;
+  _nsFuncs.geturl = NPN_GetURL;
+	_nsFuncs.posturl = NPN_PostURL;
+	_nsFuncs.requestread = NPN_RequestRead;
+  _nsFuncs.newstream = NPN_NewStream;
+  _nsFuncs.write = NPN_Write;
+  _nsFuncs.destroystream = NPN_DestroyStream;
+  _nsFuncs.status = NPN_Status;
+  _nsFuncs.uagent = NPN_UserAgent;
+  _nsFuncs.memalloc = NPN_MemAlloc;
+  _nsFuncs.memfree = NPN_MemFree;
+  _nsFuncs.memflush = NPN_MemFlush;
+  _nsFuncs.reloadplugins = NPN_ReloadPlugins;
+  _nsFuncs.getJavaEnv = NPN_GetJavaEnv;
+  _nsFuncs.getJavaPeer = NPN_GetJavaPeer;
+  _nsFuncs.geturlnotify = NPN_GetURLNotify;
+  _nsFuncs.posturlnotify = NPN_PostURLNotify;
+  _nsFuncs.getvalue = NPN_GetValue;
+  _nsFuncs.setvalue = NPN_SetValue;
+  _nsFuncs.invalidaterect = NPN_InvalidateRect;
+  _nsFuncs.invalidateregion = NPN_InvalidateRegion;
+  _nsFuncs.forceredraw = NPN_ForceRedraw;
   
-  NPError error = fp();
+  NPError error = _NP_Initialize(&_nsFuncs, &_pluginFuncs);
 
   CHECK(Initialize,error);
 }
@@ -322,29 +301,21 @@ int NSPluginClass::Initialize()
 
 QString NSPluginClass::GetMIMEDescription()
 {
-  RESOLVE_RETVAL(GetMIMEDescription,0);
-
-  char *(*fp)();
-  fp = (char *(*)()) func_GetMIMEDescription;
-
-  return fp();
+	return _NP_GetMIMEDescription();
 }
 
 
 
 void NSPluginClass::Shutdown()
 {
-  RESOLVE_VOID(Shutdown);
-
-  void (*fp)();
-  fp = (void (*)()) func_Shutdown;
-
-  fp();
+	_NP_Shutdown();
 }
 
 
 int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv)
 {
+  QString src;
+
   // copy parameters over
   unsigned int argc = argn.count();
   char *_argn[argc], *_argv[argc];
@@ -353,6 +324,7 @@ int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QSt
       _argn[i] = strdup((const char*)argn[i].ascii());
       _argv[i] = strdup((const char*)argv[i].ascii());
       kdDebug() << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
+      if (!stricmp(_argn[i], "src")) src = argv[i];
     }
 
   // create the instance
@@ -361,10 +333,14 @@ int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QSt
   if (!inst)
     return 0;
 
-
-  NSPluginStream stream(inst);
-  stream.get("file:/build/kdelibs/khtml/nsplugins/caldera.xpm", "image/x-xpixmap");
-
+  if (!src.isEmpty())
+  {
+    kdDebug() << "Starting src stream" << endl;
+    NSPluginStream *s = new NSPluginStream( inst );
+    _streams.append( s );
+    s->get( src, mimeType );
+  } else
+      kdDebug() << "No src stream" << endl;
 
   return inst->winId();
 }
@@ -374,17 +350,11 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
 		           char *argn[], char *argv[], NPSavedData *saved)
 {
   int width=300, height=300;
-
-  RESOLVE_RETVAL(New,0);
-
   NPP_t _npp;
-   
-  NPError (*fp) (NPMIMEType, NPP, uint16, int16, char *[], char *[], NPSavedData *); 
-  fp = (NPError (*)(NPMIMEType, NPP, uint16, int16, char *[], char *[], NPSavedData *)) func_New;
 
   kdDebug() << "New(" << mimeType << "," << mode << "," << argc << endl;
 
-  for (unsigned int i=0; i<argc; i++)
+  for (int i=0; i<argc; i++)
     {      
       kdDebug() << argn[i] << "=" << argv[i] << endl;
 
@@ -394,13 +364,16 @@ NSPluginInstance *NSPluginClass::New(const char *mimeType, uint16 mode, int16 ar
 	height = atoi(argv[i]);
     }
 
-  NPError error = fp(mimeType, &_npp, mode, argc, argn, argv, saved);
+  char mime[256];
+  strcpy(mime, mimeType);
+
+  NPError error = _pluginFuncs.newp(mime, &_npp, mode, argc, argn, argv, saved);
   
   kDebugInfo("Result of NPP_New: %d", error);
 
   if (error == NPERR_NO_ERROR)
-    return new NSPluginInstance(&_npp, _handle, width, height);
-  
+    return new NSPluginInstance(&_npp, &_pluginFuncs, _handle, width, height);
+
   return 0;
 }
 
@@ -425,41 +398,45 @@ void NPN_MemFree(void *ptr)
   kDebugInfo("NPN_MemFree() at %p", ptr);
 
   ::free(ptr);
-} 
+}
+
+uint32 NPN_MemFlush(uint32 /*size*/)
+{
+	kDebugInfo("NPN_MemFlush()");
+	return 0;
+}
 
 
 // redraw
-void NPN_ForceRedraw(NPP instance)
+void NPN_ForceRedraw(NPP /*instance*/)
 {
   kDebugInfo("NPN_ForceRedraw() [unimplemented]");
 }
 
 
-#ifdef NP4
 // invalidate rect
-void NPN_InvalidateRect(NPP instance, NP_Rect *invalidRect)
+void NPN_InvalidateRect(NPP /*instance*/, NPRect */*invalidRect*/)
 {
   kDebugInfo("NPN_InvalidateRect() [unimplemented]");
 }
 
 
 // invalidate region
-void NPN_InvalidateRegion(NPP instance, NP_Region *invalidRegion)
+void NPN_InvalidateRegion(NPP /*instance*/, NPRegion /*invalidRegion*/)
 {
   kDebugInfo("NPN_InvalidateRegion() [unimplemented]");
 }
-#endif
 
 
 // get value
-NPError NPN_GetValue(NPP instance, NPNVariable variable, void *value)
+NPError NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
 {
   kDebugInfo("NPN_GetValue(), variable=%d", variable);
 
   switch (variable)
   {
   case NPNVxDisplay:
-    *((char **)value) = ":0";
+    *((struct _XDisplay**)value) = qt_xdisplay();
     return NPERR_NO_ERROR;
   case NPNVxtAppContext:
     value = XtDisplayToApplicationContext(qt_xdisplay());
@@ -502,10 +479,16 @@ NPError NPN_RequestRead(NPStream */*stream*/, NPByteRange */*rangeList*/)
 {
   kDebugInfo("NPN_RequestRead() [unimplemented]");
 
-
   return NPERR_GENERIC_ERROR;
 }
 
+NPError NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/,
+                      const char* /*target*/, NPStream** /*stream*/)
+{
+  kDebugInfo("NPN_NewStream() [unimplemented]");
+
+  return NPERR_GENERIC_ERROR;
+}
 
 int32 NPN_Write(NPP /*instance*/, NPStream */*stream*/, int32 /*len*/, void */*buf*/)
 {
@@ -514,6 +497,13 @@ int32 NPN_Write(NPP /*instance*/, NPStream */*stream*/, int32 /*len*/, void */*b
   return 0;
 }
 
+NPError     NPN_DestroyStream(NPP /*instance*/, NPStream* /*stream*/,
+						                  NPReason /*reason*/)
+{
+  kDebugInfo("NPN_DestroyStream() [unimplemented]");
+
+  return NPERR_GENERIC_ERROR;
+}
 
 // URL functions
 NPError NPN_GetURL(NPP /*instance*/, const char */*url*/, const char */*target*/)
@@ -524,7 +514,8 @@ NPError NPN_GetURL(NPP /*instance*/, const char */*url*/, const char */*target*/
 }
 
 
-NPError NPN_GetURLNotify(NPP instance, const char *url, const char *target)
+NPError NPN_GetURLNotify(NPP /*instance*/, const char */*url*/, const char */*target*/,
+												 void* /*notifyData*/)
 {
   kDebugInfo("NPN_GetURLNotify() [unimplemented]");
 
@@ -532,7 +523,8 @@ NPError NPN_GetURLNotify(NPP instance, const char *url, const char *target)
 }
 
 
-NPError NPN_PostURL(NPP instance, const char *url, const char *target, uint32 len, const char *buf, NPBool file)
+NPError NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*target*/,
+										uint32 /*len*/, const char */*buf*/, NPBool /*file*/)
 {
   kDebugInfo("NPN_PostURL() [unimplemented]");
 
@@ -540,7 +532,8 @@ NPError NPN_PostURL(NPP instance, const char *url, const char *target, uint32 le
 }
 
 
-NPError NPN_PostURLNotify(NPP instance, const char *url, const char *target, uint32 len, const char *buf, NPBool file, void *notifyData)
+NPError NPN_PostURLNotify(NPP /*instance*/, const char */*url*/, const char */*target*/,
+													uint32 /*len*/, const char */*buf*/, NPBool /*file*/, void */*notifyData*/)
 {
   kDebugInfo("NPN_PostURL() [unimplemented]");
 
@@ -564,7 +557,7 @@ void NPN_Status(NPP instance, const char *message)
 
 
 // inquire user agent
-const char *NPN_UserAgent(NPP instance)
+const char *NPN_UserAgent(NPP /*instance*/)
 {
   kDebugInfo("NPN_UserAgent()");
 
@@ -579,13 +572,18 @@ void NPN_Version(int *plugin_major, int *plugin_minor, int *browser_major, int *
   kDebugInfo("NPN_Version()");
 
   // FIXME: Use the sensible values
-  *browser_major = 0;
-  *browser_minor = 9;
+  *browser_major = NP_VERSION_MAJOR;
+  *browser_minor = NP_VERSION_MINOR;
 
   *plugin_major = NP_VERSION_MAJOR;
   *plugin_minor = NP_VERSION_MINOR;
 }
 
+
+void NPN_ReloadPlugins(NPBool /*reloadPages*/)
+{
+	kDebugInfo("NPN_ReloadPlugins() [unimplemented]");
+}
 
 // JAVA functions
 JRIEnv *NPN_GetJavaEnv()
@@ -595,7 +593,7 @@ JRIEnv *NPN_GetJavaEnv()
 }
 
 
-jref NPN_GetJavaPeer(NPP instance)
+jref NPN_GetJavaPeer(NPP /*instance*/)
 {
   kDebugInfo("NPN_GetJavaPeer() [unimplemented]");
 
@@ -603,9 +601,20 @@ jref NPN_GetJavaPeer(NPP instance)
 }
 
 
-NSPluginStream::NSPluginStream(NSPluginInstance *instance)
-  : QObject(), _instance(instance), _job(0), _stream(0)
+NPError NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value*/)
 {
+	kDebugInfo("NPN_SetValue() [unimplemented]");
+
+  return NPERR_GENERIC_ERROR;
+
+}
+
+
+NSPluginStream::NSPluginStream(NSPluginInstance *instance)
+  : QObject(), _instance(instance), _job(0), _stream(0), _pos(0), _queue(0), _queuePos(0)
+{
+  _resumeTimer = new QTimer( this );
+  connect(_resumeTimer, SIGNAL(timeout()), this, SLOT(resume()));
 }
 
 
@@ -618,6 +627,9 @@ NSPluginStream::~NSPluginStream()
       _instance->DestroyStream(_stream, NPRES_DONE);
       delete _stream;
     }
+
+  if (_resumeTimer)
+    delete _resumeTimer;
 }
 
 
@@ -640,6 +652,9 @@ void NSPluginStream::get(QString url, QString mimeType)
       delete _stream;
       _stream = 0;
     }
+
+  // reset current position
+  _pos = 0;
 
   // create new stream
   _stream = new NPStream;
@@ -671,7 +686,11 @@ void NSPluginStream::get(QString url, QString mimeType)
       return;
     }
 
-  // TODO: Implement NP_ASFILE!
+  if (_streamType == NP_ASFILE)
+  {
+       _tempFile = new KTempFile( ); // TODO: keep file extension of original file
+       _tempFile->setAutoDelete( TRUE );
+  }
 
   // start the kio job
   _job = KIO::get(url);
@@ -682,27 +701,92 @@ void NSPluginStream::get(QString url, QString mimeType)
 }
 
 
-void NSPluginStream::data(KIO::Job *job, const QByteArray &data)
+
+void NSPluginStream::data(KIO::Job */*job*/, const QByteArray &data)
 {
-  int32 avail, ready, sent, to_sent;
+  unsigned int pos = process( data, 0 );
+  if (pos<data.size())
+  {
+    _job->suspend();
+    _queue = &data;
+    _queuePos = pos;
+    _resumeTimer->start( 100, TRUE );
+  }
+}
 
-  avail = data.size();
-  sent = 0;
-  while (sent < avail)
+
+void NSPluginStream::resume()
+{
+  kDebugInfo("NSPluginStream::resume");
+  if (_queue)
+  {
+    kDebugInfo("queue found at pos %d, size %d", _queuePos, _queue->size());
+    int pos = process( *_queue, _queuePos );
+    _queuePos = pos;
+    if (_queuePos>=_queue->size())
     {
-      ready = _instance->WriteReady(_stream);
-      to_sent = QMIN(ready, (avail-sent));
+      _queue = 0;
+      _queuePos = 0;
+    }
+  }
 
-      kDebugInfo("Feeding stream to plugin: offset=%d, len=%d", sent, to_sent);
-      _instance->Write(_stream, sent, to_sent, data.data());
+  if (_queue)
+  {
+    _resumeTimer->start( 100, TRUE );
+  } else
+  {
+    kDebugInfo("resume job");
+    _job->resume();
+  }
+}
+
+
+unsigned int NSPluginStream::process( const QByteArray &data, int start )
+{
+  int32 max, sent, to_sent, len;
+  char *d = data.data()+start;
+
+  to_sent = data.size()-start;
+  while (to_sent>0)
+    {
+      max = _instance->WriteReady(_stream);
+      len = QMIN(max, to_sent);
+
+      kDebugInfo("-> Feeding stream to plugin: offset=%d, len=%d", _pos, len);
+      sent = _instance->Write(_stream, _pos, len, d);
+      kDebugInfo("<- Feeding stream: sent = %d", sent);
+
+      if (_tempFile)
+      {
+      	kDebugInfo("Write to temp file");
+      	fwrite(fstream, d, sent);
+      	//_tempFile->dataStream()->writeBytes( d, sent );
+      }
       
-      sent += to_sent;
+      to_sent -= sent;
+      _pos += sent;
+      d += sent;
+
+      if (sent==0)
+      {
+      	return data.size()-to_sent;
+      }
     }
 }
 
-void NSPluginStream::result(KIO::Job *job)
+void NSPluginStream::result(KIO::Job */*job*/)
 {
-  _instance->DestroyStream(_stream, NPRES_DONE);
+  kDebugInfo("NSPluginStream::result");
+
+  if (_tempFile)
+  {
+    _tempFile->close();
+    _instance->StreamAsFile(_stream, _tempFile->name().ascii());
+    _instance->DestroyStream(_stream, NPRES_DONE);
+    delete _tempFile;
+    _tempFile = 0;
+  } else
+      _instance->DestroyStream(_stream, NPRES_DONE);
   delete _stream;
   _stream = 0;
 }

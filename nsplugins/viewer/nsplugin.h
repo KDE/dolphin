@@ -39,14 +39,54 @@
 
 
 #define XP_UNIX
+#include <npupp.h>
 
-#include <npapi.h>
+typedef char* NP_GetMIMEDescriptionUPP(void);
+typedef NPError NP_InitializeUPP(NPNetscapeFuncs*, NPPluginFuncs*);
+typedef NPError NP_ShutdownUPP(void);
 
 
 #include <X11/Intrinsic.h>
 
 
 class KLibrary;
+
+
+class NSPluginStream : public QObject
+{
+  Q_OBJECT
+
+public:
+
+  NSPluginStream(class NSPluginInstance *instance);
+  ~NSPluginStream();
+
+  void get(QString url, QString mimeType);
+
+
+private slots:
+
+  void data(KIO::Job *job, const QByteArray &data);
+  void result(KIO::Job *job);
+
+  void resume();
+
+private:
+
+  unsigned int process( const QByteArray &data, int start );
+
+  class NSPluginInstance *_instance;
+  KIO::TransferJob *_job;
+  NPStream         *_stream;
+  uint16           _streamType;
+
+  class KTempFile  *_tempFile;
+
+  unsigned int	   _pos;
+  QTimer	   *_resumeTimer;
+  const QByteArray *_queue;
+  unsigned int	   _queuePos;
+};
 
 
 class NSPluginInstance : QObject
@@ -56,12 +96,13 @@ class NSPluginInstance : QObject
 public:
 
   // constructor, destructor
-  NSPluginInstance(NPP _privateData, KLibrary *handle, int width, int height);
+  NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs,
+		   KLibrary *handle, int width, int height);
   ~NSPluginInstance();
 
   // value handling
   NPError GetValue(NPPVariable variable, void *value);
-  NPError SetValue(NPPVariable variable, void *value);
+  NPError SetValue(NPNVariable variable, void *value);
 
   // window handling
   NPError SetWindow(NPWindow *window);
@@ -95,45 +136,14 @@ signals:
 
 
 private:
-  
-  void *func_GetValue, *func_SetValue, *func_SetWindow, 
-    *func_DestroyStream, *func_NewStream, *func_StreamAsFile,
-    *func_Write, *func_WriteReady, *func_URLNotify, *func_Destroy,
-    *func_HandleEvent;
-
   NPP      _npp;
   KLibrary *_handle;
+  NPPluginFuncs _pluginFuncs;
 
   Widget   _area;
 
   int _width, _height;
 
-};
-
-
-class NSPluginStream : public QObject
-{
-  Q_OBJECT
-
-public:
-
-  NSPluginStream(NSPluginInstance *instance);
-  ~NSPluginStream();
-
-  void get(QString url, QString mimeType);
-
-  
-private slots:
-
-  void data(KIO::Job *job, const QByteArray &data);
-  void result(KIO::Job *job);
-
-private:
-
-  NSPluginInstance *_instance; 
-  KIO::TransferJob *_job;
-  NPStream         *_stream;
-  uint16           _streamType;
 
 };
 
@@ -162,13 +172,18 @@ public:
   
 
 private:
-
   KLibrary *_handle;
   QString  _libname;
+  bool _constructed, _initialized;
 
-  void *func_Initialize, *func_GetMIMEDescription, *func_Shutdown,
-    *func_New, *func_GetJavaClass;
-    
+  NP_GetMIMEDescriptionUPP *_NP_GetMIMEDescription;
+  NP_InitializeUPP *_NP_Initialize;
+  NP_ShutdownUPP *_NP_Shutdown;
+
+  NPPluginFuncs _pluginFuncs;
+  NPNetscapeFuncs _nsFuncs;
+
+  QList<NSPluginStream> _streams;
 };
 
 
