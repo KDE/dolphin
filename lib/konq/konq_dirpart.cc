@@ -16,6 +16,7 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
+#include <qmap.h>
 
 #include "konq_dirpart.h"
 #include "konq_bgnddlg.h"
@@ -37,11 +38,18 @@
 #include <qclipboard.h>
 #include <assert.h>
 
+class KonqDirPart::KonqDirPartPrivate
+{
+public:
+    QMap<QString,QString> mimeFilterList;
+};
+
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
-  : KParts::ReadOnlyPart( parent, name ),
+            :KParts::ReadOnlyPart( parent, name ),
     m_pProps( 0L ),
     m_findPart( 0L )
 {
+    d = new KonqDirPartPrivate;
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
@@ -96,6 +104,28 @@ KonqDirPart::~KonqDirPart()
     {
         delete m_findPart;
     }
+    delete d;
+}
+
+void KonqDirPart::setMimeFilter( const QString& mime )
+{
+    QString u = url().url();
+    if ( !u.isEmpty() )
+    {
+        if ( mime.isEmpty() )
+            d->mimeFilterList.remove( u );
+        else
+            d->mimeFilterList[u] = mime;
+    }
+}
+
+QString KonqDirPart::mimeFilter() const
+{
+    QString u = url().url();
+    if ( d->mimeFilterList.contains( u ) )
+        return d->mimeFilterList[u];
+    else
+        return QString::null;
 }
 
 QScrollView * KonqDirPart::scrollWidget()
@@ -216,6 +246,8 @@ void KonqDirPart::newItems( const KFileItemList & entries )
     }
     if ( m_findPart )
         emitTotalCount();
+
+    emit itemsAdded( entries );
 }
 
 void KonqDirPart::deleteItem( KFileItem * fileItem )
@@ -228,6 +260,8 @@ void KonqDirPart::deleteItem( KFileItem * fileItem )
     }
     else
         m_lDirCount--;
+
+    emit itemRemoved( fileItem );
 }
 
 void KonqDirPart::emitTotalCount()

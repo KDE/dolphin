@@ -57,6 +57,29 @@ public:
     void setNameFilter( const QString & nameFilter ) { m_nameFilter = nameFilter; }
     QString nameFilter() const { return m_nameFilter; }
 
+    /**
+     * Sets per directory mime-type based filtering.
+     *
+     * This method causes only the items matching the mime-type given
+     * by @p filters to be displayed. You can supply multiple mime-types
+     * by separating them with a space, eg. "text/plain image/x-png".
+     * To clear all the filters set for the current url simply call this
+     * function with a null or empty argument.
+     *
+     * NOTE: the filter(s) specified here only apply to the current
+     * directory as returned by @ref #url().
+     *
+     * @param filter mime-type(s) to filter directory by.
+     */
+    void setMimeFilter( const QString& filters );
+
+    /**
+     * Completely clears the internally stored list of mime filters
+     * set by call to @ref #setMimeFilter.
+     */
+    QString mimeFilter() const;
+
+
     KonqPropsView * props() const { return m_pProps; }
 
     /**
@@ -130,6 +153,24 @@ signals:
      */
     void findClosed( KonqDirPart * );
 
+    /**
+     * Emitted as the part is updated with new items.
+     * Useful for informing plugins of changes in view.
+     */
+    void itemsAdded( const KFileItemList& );
+
+    /**
+     * Emitted as the part is updated with these items.
+     * Useful for informing plugins of changes in view.
+     */
+    void itemRemoved( const KFileItem* );
+
+    /**
+     * Emitted with the list of filtered-out items when
+     * a specific named or mime-based filter is set.
+     */
+    void itemsFilteredByMime( const KFileItemList& );
+
 public slots:
 
     /**
@@ -191,6 +232,10 @@ protected:
     uint m_lFileCount;
     uint m_lDirCount;
     //bool m_bMultipleItemsSelected;
+
+private:
+    class KonqDirPartPrivate;
+    KonqDirPartPrivate* d;
 };
 
 #endif
