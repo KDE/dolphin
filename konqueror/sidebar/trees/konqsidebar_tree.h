@@ -10,7 +10,7 @@
 #include <qcombobox.h>
 #include <qstringlist.h>
 #include <klocale.h>
-
+#include <qlineedit.h>
 class KonqSidebarTree;
 
 class KonqSidebar_Tree: public KonqSidebarPlugin
@@ -69,12 +69,20 @@ class KonqSidebarTreeSelectionDialog : public KDialogBase
 			cb->setEditable(true);
 			topLayout->addWidget( cb );
 			topLayout->addStretch(10);
+			enableButtonOK(!cb->lineEdit()->text().isEmpty());
+                        connect(cb->lineEdit(),SIGNAL(textChanged ( const QString & )),this,SLOT(slotTextChanged(const QString & )));
+
 		}
 		int  getValue()
 		{
 			return list_.findIndex(cb->currentText());
 		}		
 		~KonqSidebarTreeSelectionDialog(){;}
+        public slots:
+          void slotTextChanged(const QString &text )
+          {
+            enableButtonOK(!text.isEmpty());
+          }
 	private:
 		QComboBox *cb;
 		QStringList list_;
