@@ -228,6 +228,9 @@ void KonqMainView::cleanUp()
 
   delete m_pViewManager;
 
+  m_currentView = 0L;
+  m_currentId = 0;
+
   m_animatedLogoTimer.stop();
   s_lstWindows->removeRef( this );
 
@@ -263,6 +266,13 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     m_vMenuEdit->disconnect("aboutToShow", this, "slotMenuEditAboutToShow");
     m_vMenuView->disconnect("aboutToShow", this, "slotMenuViewAboutToShow");
     m_vMenuOptionsProfiles->disconnect( "activated", this, "slotViewProfileActivated" );
+
+    if ( m_currentView )
+    {
+      Browser::View_ptr view = m_currentView->view();
+      EMIT_EVENT( view, Browser::View::eventFillMenuEdit, 0L );
+      EMIT_EVENT( view, Browser::View::eventFillMenuView, 0L );
+    }
 
     if ( m_pMenuNew )
     {
@@ -365,7 +375,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Bookmarks") );
   menuBar->insertMenu( text, m_vMenuBookmarks, -1, -1 );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_vMenuBookmarks, this, true );
-
+  
   text = Q2C( i18n("&Options") );
   menuBar->insertMenu( text, m_vMenuOptions, -1, -1 );
 
@@ -443,6 +453,14 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
        m_vHistoryForwardPopupMenu = 0L;
      
        m_lstLocationBarCombo = locationBarCombo();
+     
+       if ( m_currentView )
+       {
+         Browser::View::EventFillToolBar ev;
+	 ev.create = (CORBA::Boolean)false;
+	 ev.toolBar = OpenPartsUI::ToolBar::_duplicate( m_vToolBar );
+	 EMIT_EVENT( m_currentView->view(), Browser::View::eventFillToolBar, ev );
+       }
      
        m_vToolBar = 0L;
        m_vLocationBar = 0L;
@@ -1511,6 +1529,19 @@ void KonqMainView::slotBookmarkSelected( CORBA::Long id )
     m_pBookmarkMenu->slotBookmarkSelected( id );
 }
 
+void KonqMainView::slotBookmarkHighlighted( CORBA::Long id )
+{
+  if ( m_pBookmarkMenu && !CORBA::is_nil( m_vStatusBar ) )
+  {
+    CORBA::WString_var wurl;
+    KBookmark *bm = KBookmarkManager::self()->findBookmark( (int)id );
+    if ( bm )
+      wurl = Q2C( bm->url() );
+
+    setStatusBarText( wurl );
+  }
+}
+
 void KonqMainView::slotEditBookmarks()
 {
   KBookmarkManager::self()->slotEditBookmarks();
@@ -1550,8 +1581,6 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
   if ( id == m_currentId )
     slotStopAnimation();
 
-  (*it)->makeHistory( false );
- 
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );

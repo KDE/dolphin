@@ -44,28 +44,6 @@ module Konqueror
   
   interface HTMLView : Browser::View, Browser::PrintingExtension
   {
-
-    struct HTMLDocumentRequest
-    {
-      wstring url;
-      boolean reload;
-      long xOffset;
-      long yOffset;
-      string postData;
-    };
-    typedef HTMLDocumentRequest EventRequestDocument;
-    const string eventRequestDocument = "Konqueror/HTMLView/DocumentRequest";
-    
-
-    struct HTMLPageLinkInfo
-    {
-      wstring url;
-      wstring name;
-    };
-    typedef sequence<HTMLPageLinkInfo> HTMLPageLinkInfoList;
-  
-    HTMLPageLinkInfoList pageLinkInfoList();
-  
     slot void saveDocument();
     slot void saveFrame();
     slot void saveBackground();
@@ -171,6 +149,7 @@ module Konqueror
     slot void slotHistoryForwardActivated( in long id );
   
     slot void slotBookmarkSelected( in long id );
+    slot void slotBookmarkHighlighted( in long id );
     slot void slotEditBookmarks();
 
     slot void slotURLStarted( in OpenParts::Id id, in string url );

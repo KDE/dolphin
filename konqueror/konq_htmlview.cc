@@ -56,16 +56,14 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 
   QWidget::setFocusPolicy( StrongFocus );
 
-//  initConfig();
-
   QObject::connect( this, SIGNAL( setTitle( QString ) ),
                     this, SLOT( slotSetTitle( QString ) ) );
   QObject::connect( this, SIGNAL( completed() ),
                     this, SLOT( slotCompleted() ) );
-//  QObject::connect( this, SIGNAL( started( const char * ) ),
-//                    this, SLOT( slotStarted( const char * ) ) );
-//  QObject::connect( this, SIGNAL( canceled() ),
-//                    this, SLOT( canceled() ) );
+  QObject::connect( this, SIGNAL( started( const QString & ) ),
+                    this, SLOT( slotStarted( const QString & ) ) );
+  QObject::connect( this, SIGNAL( canceled() ),
+                    this, SLOT( slotCanceled() ) );
 
   m_vViewMenu = 0L;
   
@@ -80,33 +78,6 @@ KonqHTMLView::~KonqHTMLView()
 {
 }
 
-void KonqHTMLView::initConfig()
-{
-  KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings(); // m_pView->settings();
-  KHTMLWidget* htmlWidget = getKHTMLWidget();
-
-  htmlWidget->setDefaultBGColor( settings->bgColor() );
-  htmlWidget->setDefaultTextColors( settings->textColor(),
-				    settings->linkColor(),
-				    settings->vLinkColor() );
-  htmlWidget->setStandardFont( settings->stdFontName() );
-  htmlWidget->setFixedFont( settings->fixedFontName() );
-
-  htmlWidget->setUnderlineLinks( settings->underlineLink() );
-
-  if ( settings->changeCursor() )
-    htmlWidget->setURLCursor( KCursor().handCursor() );
-  else
-    htmlWidget->setURLCursor( KCursor().arrowCursor() );
-}
-
-/*
-void KonqHTMLView::slotNewWindow( const char *_url )
-{
-  (void)new KRun( _url, 0, false );
-}
-*/
-
 bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
@@ -115,7 +86,6 @@ bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
   MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu_ptr, mappingFillMenuView );
   MAPPING( Browser::View::eventFillToolBar, Browser::View::EventFillToolBar, mappingFillToolBar );
   MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
-  MAPPING( Konqueror::HTMLView::eventRequestDocument, Konqueror::HTMLView::EventRequestDocument, mappingRequestDocument );
     
   END_EVENT_MAPPER;
   
@@ -130,8 +100,8 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
   m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
   enableImages( m_bAutoLoadImages );  
   
-  KonqHTMLView::openURL( QString( eventURL.url ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
+  KBrowser::openURL( QString( eventURL.url.in() ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
+
   checkViewMenu();
   return true;
 }
@@ -187,19 +157,11 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
   return true;
 }
 
-bool KonqHTMLView::mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest )
-{
-  kdebug( 0, 1202, "bool KonqHTMLView::mappingRequestDocument()");
-  KBrowser::openURL( C2Q( docRequest.url ), docRequest.reload, (int)docRequest.xOffset, (int)docRequest.yOffset, docRequest.postData );
-  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)C2Q( docRequest.url ).latin1(), 0 ) );
-  return true;
-}
-
-void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, int _button )
+void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global, int _button )
 {
   QString url = _url;
 
-  if ( !_url )
+  if ( _url.isEmpty() )
     if ( !KBrowser::m_strURL )
       return;
     else
@@ -234,14 +196,14 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
   QObject::connect( frame, SIGNAL( onURL( KHTMLView*, QString ) ), 
                     this, SLOT( slotShowURL( KHTMLView*, QString ) ) );
 
-  QObject::connect( frame, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
-                    this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
+  QObject::connect( frame, SIGNAL( mousePressed( const QString &, const QPoint&, int ) ),
+                    this, SLOT( slotMousePressed( const QString &, const QPoint&, int ) ) );
 		    
   QObject::connect( frame, SIGNAL( frameInserted( KBrowser * ) ),
                     this, SLOT( slotFrameInserted( KBrowser * ) ) );		    
 
-  QObject::connect( frame, SIGNAL( urlClicked( QString ) ),
-                    this, SLOT( slotURLClicked( QString ) ) );		    
+  QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
+                    this, SLOT( slotNewWindow( const QString & ) ) );
 
   KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
   KHTMLWidget* htmlWidget = frame->getKHTMLWidget();
@@ -264,11 +226,6 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
   frame->enableImages( m_bAutoLoadImages );
 }
 
-void KonqHTMLView::slotURLClicked( QString url )
-{
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url.latin1(), 0 ) );
-}
-
 void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 {
   if ( !_url )
@@ -287,7 +244,9 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 
   if ( url.isMalformed() )
   {
-    CORBA::WString_var wurl = Q2C( _url );
+    QString decodedURL = _url;
+    KURL::decode( decodedURL );
+    CORBA::WString_var wurl = Q2C( decodedURL );
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
     return;
   }
@@ -302,11 +261,10 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 
     struct stat lbuff;
     lstat( decodedPath, &lbuff );
-    QString text;
-    QString text2;
-    text = decodedName.copy(); // copy to change it
-    text2 = text;
-
+    
+    QString text = url.url();
+    QString text2 = text;
+    
     if (S_ISLNK( lbuff.st_mode ) )
     {
       QString tmp;
@@ -315,7 +273,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
       else
 	tmp = i18n("%1 (Link)").arg(com);
       char buff_two[1024];
-      text += "->";
+      text += " -> ";
       int n = readlink ( decodedPath, buff_two, 1022);
       if (n == -1)
       {
@@ -326,6 +284,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 	return;
       }
       buff_two[n] = 0;
+      
       text += buff_two;
       text += "  ";
       text += tmp;
@@ -344,7 +303,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
     }
     else if ( S_ISDIR( buff.st_mode ) )
     {
-      text += "/  ";
+      text += "  ";
       text += com;
     }
     else
@@ -357,7 +316,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
   }
   else
   {
-    CORBA::WString_var wurl = Q2C( url.url() );
+    CORBA::WString_var wurl = Q2C( url.decodedURL() );
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
   }    
 }
@@ -368,9 +327,9 @@ void KonqHTMLView::slotSetTitle( QString title )
   m_vMainWindow->setPartCaption( id(), ctitle );
 }
 
-void KonqHTMLView::slotStarted( const char *url )
+void KonqHTMLView::slotStarted( const QString &url )
 {
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url.ascii(), 0 ) );
 }
 
 void KonqHTMLView::slotCompleted()
@@ -381,7 +340,17 @@ void KonqHTMLView::slotCompleted()
 
 void KonqHTMLView::slotCanceled()
 {
-  SIGNAL_CALL1( "canceled", id() );
+  // we need this because the destructor of KBrowser calls slotStop, which
+  // against emits the canceled signal. However at this time the KOM stuff
+  // is already cleaned up and we can't deal with signal stuff anymore
+  // (Simon)
+  if ( !m_bIsClean )
+    SIGNAL_CALL1( "canceled", id() );
+}
+
+void KonqHTMLView::slotNewWindow( const QString &url )
+{
+  SIGNAL_CALL1( "createNewWindow", CORBA::Any::from_string( (char *)url.ascii(), 0 ) );
 }
 
 // #include "kfmicons.h"
@@ -435,16 +404,6 @@ CORBA::Long KonqHTMLView::yOffset()
 void KonqHTMLView::print()
 {
   KHTMLView::print();
-}
-
-Konqueror::HTMLView::HTMLPageLinkInfoList *KonqHTMLView::pageLinkInfoList()
-{
-  Konqueror::HTMLView::HTMLPageLinkInfoList *lst = new Konqueror::HTMLView::HTMLPageLinkInfoList;
-  
-  //TODO
-  lst->length( 0 );
-  
-  return lst;
 }
 
 void KonqHTMLView::saveDocument()
@@ -611,13 +570,15 @@ void KonqHTMLView::parseDoc()
 void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
 {
   kdebug( 0, 1202, "void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )");
-  Konqueror::HTMLView::HTMLDocumentRequest docRequest;
-  docRequest.url = Q2C( _url );
-  docRequest.reload = _reload;
-  docRequest.xOffset = (CORBA::Long)_xoffset;
-  docRequest.yOffset = (CORBA::Long)_yoffset;
-  docRequest.postData = CORBA::string_dup( _post_data );
-  EMIT_EVENT( this, Konqueror::HTMLView::eventRequestDocument, docRequest );
+  
+  Browser::URLRequest req;
+  req.url = CORBA::string_dup( _url.ascii() );
+  req.reload = (CORBA::Boolean)_reload;
+  req.xOffset = (CORBA::Long)_xoffset;
+  req.yOffset = (CORBA::Long)_yoffset;
+
+
+  SIGNAL_CALL1( "openURL", req );
 }
 
 void KonqHTMLView::checkViewMenu()

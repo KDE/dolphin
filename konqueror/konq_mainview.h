@@ -186,6 +186,7 @@ public slots:  // IDL
   virtual void slotHistoryForwardActivated( CORBA::Long id );
   
   virtual void slotBookmarkSelected( CORBA::Long id );
+  virtual void slotBookmarkHighlighted( CORBA::Long id );
   virtual void slotEditBookmarks();  
   
   virtual void slotURLStarted( OpenParts::Id id, const char *url );

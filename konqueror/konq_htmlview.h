@@ -60,7 +60,6 @@ public:
   virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
   virtual bool mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar );
-  virtual bool mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest );
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup( "KonquerorHTMLView" ); }
@@ -70,8 +69,6 @@ public:
   virtual CORBA::Long yOffset();
 
   virtual void print();
-  
-  virtual Konqueror::HTMLView::HTMLPageLinkInfoList *pageLinkInfoList();
   
   virtual void saveDocument();
   virtual void saveFrame();
@@ -90,20 +87,19 @@ public:
   virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
       
 public slots:
-  virtual void slotMousePressed( const char*, const QPoint&, int );
+  virtual void slotMousePressed( const QString &, const QPoint&, int );
   void slotFrameInserted( KBrowser *frame );
-  void slotURLClicked( QString url );
 
 protected slots:
   void slotShowURL( KHTMLView *view, QString _url );
   void slotSetTitle( QString title );
-  void slotStarted( const char *url );
+  void slotStarted( const QString &url );
   void slotCompleted();
   void slotCanceled();
   
+  void slotNewWindow( const QString &url );
+  
 protected:
-
-  virtual void initConfig();
 
   virtual KHTMLEmbededWidget* newEmbededWidget( QWidget* _parent, const char *_name,
 						const char *_src, const char *_type,
@@ -115,7 +111,7 @@ private:
   OpenPartsUI::Menu_var m_vViewMenu;
   KonqMainView *m_pMainView;
   bool m_bAutoLoadImages;
-  
+
   CORBA::Long m_idSaveDocument;
   CORBA::Long m_idSaveFrame;
   CORBA::Long m_idSaveBackground;

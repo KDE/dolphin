@@ -280,15 +280,6 @@ void KonqChildView::connectView(  )
 
 void KonqChildView::makeHistory( bool pushEntry )
 {
-  //HACK
-  if ( !m_bHistoryLock && m_pCurrentHistoryEntry && pushEntry &&
-       ( m_pCurrentHistoryEntry->strServiceType == "text/html" ) &&
-       m_vView->supportsInterface( "IDL:Konqueror/HTMLView:1.0" ) )
-  {
-    m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
-    m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
-  }
-
   if ( pushEntry )
   {
     if ( !m_bHistoryLock )

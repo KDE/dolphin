@@ -421,9 +421,9 @@ KonqFrame::attach( Browser::View_ptr view )
   {
     kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
     QWidget * localWidget = localView->widget();
-    m_pLayout->addWidget( localWidget );
     localWidget->reparent( this, 0, QPoint(0, 0) );
     localWidget->setGeometry( 0, 0, width(), height() );
+    m_pLayout->addWidget( localWidget );
     localWidget->show();
     m_pOPFrame = 0L;
   }
