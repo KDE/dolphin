@@ -16,4 +16,4 @@ konq_aboutpage_data_DATA = background.png bgtable.png lightning.png\
 	specs.html tips.html lines2.png kdelogo2.png more.png \
 	konq_rtl.css intro_rtl.html specs_rtl.html tips_rtl.html \
 	background_rtl.png bgtable_rtl.png konqueror_rtl.png plugins.html \
-	plugins_rtl.html
+	plugins_rtl.html more_rtl.png

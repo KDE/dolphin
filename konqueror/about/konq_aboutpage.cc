@@ -221,7 +221,7 @@ QString KonqAboutPageFactory::tips()
     QString openterm_icon_path = 
 	    iconloader->iconPath("openterm", KIcon::Small );
     QString locationbar_erase_rtl_icon_path = 
-	    iconloader->iconPath("locationbar_erase_rtl", KIcon::Small );
+	    iconloader->iconPath("clear_left", KIcon::Small );
     QString locationbar_erase_icon_path = 
 	    iconloader->iconPath("locationbar_erase", KIcon::Small );
     QString window_fullscreen_icon_path = 
