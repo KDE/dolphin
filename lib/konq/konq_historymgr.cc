@@ -303,7 +303,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 void KonqHistoryManager::insert( const QString& url )
 {
     KURL u = url;
-    if ( !filterOut( url ) ) { // remote URL
+    if ( !filterOut( url ) || u.protocol() == "about" ) { // remote URL
 	return;
     }
     // Local URL -> add to history
