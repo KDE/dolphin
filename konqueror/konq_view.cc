@@ -426,9 +426,6 @@ void KonqView::slotStarted( KIO::Job * job )
   //kdDebug(1202) << "KonqView::slotStarted"  << job << endl;
   setLoading( true );
 
-  if ( m_pMainWindow->currentView() == this )
-    m_pMainWindow->updateToolBarActions();
-
   if (job)
   {
       connect( job, SIGNAL( percent( KIO::Job *, unsigned long ) ), this, SLOT( slotPercent( KIO::Job *, unsigned long ) ) );
@@ -437,9 +434,13 @@ void KonqView::slotStarted( KIO::Job * job )
   }
 }
 
-void KonqView::setLoading( bool b )
+void KonqView::setLoading( bool loading, bool hasPending /*=false*/ )
 {
-    m_bLoading = b;
+    kdDebug(1202) << k_funcinfo << "loading=" << loading << " hasPending=" << hasPending << endl;
+    m_bLoading = loading;
+    if ( m_pMainWindow->currentView() == this )
+        m_pMainWindow->updateToolBarActions( hasPending );
+
 }
 
 void KonqView::slotPercent( KIO::Job *, unsigned long percent )
@@ -464,12 +465,8 @@ void KonqView::slotCompleted()
 
 void KonqView::slotCompleted( bool hasPending )
 {
-  kdDebug(1202) << "KonqView::slotCompleted" << endl;
-  setLoading( false );
+  kdDebug(1202) << "KonqView::slotCompleted hasPending=" << hasPending << endl;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-
-  if ( m_pMainWindow->currentView() == this )
-    m_pMainWindow->updateToolBarActions( hasPending );
 
   if ( ! m_bLockHistory )
   {
@@ -486,7 +483,7 @@ void KonqView::slotCompleted( bool hasPending )
 
       emit viewCompleted( this );
   }
-  m_bLoading = hasPending;
+  setLoading( false, hasPending );
 
   if (!m_bGotIconURL && !m_bAborted)
   {
