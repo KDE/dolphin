@@ -103,6 +103,8 @@ protected slots:
     /** connect each item to this */
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
+    void slotResult( KIO::Job * job );
+
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
 
