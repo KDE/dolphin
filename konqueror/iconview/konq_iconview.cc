@@ -997,6 +997,7 @@ void KonqKfmIconView::slotOnViewport()
 {
     KFileItemList lst = m_pIconView->selectedFileItems();
     emitCounts( lst, false );
+    emitMouseOver( 0 );
 }
 
 void KonqKfmIconView::setViewMode( const QString &mode )
