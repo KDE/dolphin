@@ -55,8 +55,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                                             "you will want to have cookie support "
                                             "enabled and customize it to suit your "
                                             "privacy needs.<p>Please note that "
-                                            "disabling cookie support makes many "
-                                            "of today's web sites unbrowsable.") );
+                                            "disabling cookie support might make "
+                                            "many web sites unbrowsable.") );
 
     QWhatsThis::add( dlg->cbRejectCrossDomainCookies,
                      i18n("Reject the so called third-party cookies. These "
@@ -158,20 +158,20 @@ void KCookiesPolicies::cookiesEnabled( bool enable )
 
 void KCookiesPolicies::ignoreCookieExpirationDate ( bool enable )
 {
-    bool isAutoAcceptChecked = dlg->cbAutoAcceptSessionCookies->isChecked();
-    enable = (enable && isAutoAcceptChecked);
+  bool isAutoAcceptChecked = dlg->cbAutoAcceptSessionCookies->isChecked();
+  enable = (enable && isAutoAcceptChecked);
 
-    dlg->bgDefault->setEnabled( !enable );
-    dlg->gbDomainSpecific->setEnabled( !enable );
+  dlg->bgDefault->setEnabled( !enable );
+  dlg->gbDomainSpecific->setEnabled( !enable );
 }
 
 void KCookiesPolicies::autoAcceptSessionCookies ( bool enable )
 {
-    bool isIgnoreExpirationChecked = dlg->cbIgnoreCookieExpirationDate->isChecked();
-    enable = (enable && isIgnoreExpirationChecked);
+  bool isIgnoreExpirationChecked = dlg->cbIgnoreCookieExpirationDate->isChecked();
+  enable = (enable && isIgnoreExpirationChecked);
 
-    dlg->bgDefault->setEnabled( !enable );
-    dlg->gbDomainSpecific->setEnabled( !enable );
+  dlg->bgDefault->setEnabled( !enable );
+  dlg->gbDomainSpecific->setEnabled( !enable );
 }
 
 void KCookiesPolicies::addNewPolicy(const QString& domain)
@@ -293,10 +293,10 @@ void KCookiesPolicies::deletePressed()
 
 void KCookiesPolicies::deleteAllPressed()
 {
-    m_pDomainPolicy.clear();
-    dlg->lvDomainPolicy->clear();
-    updateButtons();
-    changed( true );
+  m_pDomainPolicy.clear();
+  dlg->lvDomainPolicy->clear();
+  updateButtons();
+  changed( true );
 }
 
 void KCookiesPolicies::updateButtons()
@@ -310,20 +310,20 @@ void KCookiesPolicies::updateButtons()
 
 void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 {
-    dlg->lvDomainPolicy->clear();
+  dlg->lvDomainPolicy->clear();
 
-    QStringList::ConstIterator it = domainConfig.begin();
-    for (; it != domainConfig.end(); ++it)
-    {
-      QString domain;
-      KCookieAdvice::Value advice;
-      QListViewItem *index;
+  QStringList::ConstIterator it = domainConfig.begin();
+  for (; it != domainConfig.end(); ++it)
+  {
+    QString domain;
+    KCookieAdvice::Value advice;
+    QListViewItem *index;
 
-      splitDomainAdvice(*it, domain, advice);
-      index = new QListViewItem( dlg->lvDomainPolicy, KIDNA::toUnicode(domain),
-                                 i18n(KCookieAdvice::adviceToStr(advice)) );
-      m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
-    }
+    splitDomainAdvice(*it, domain, advice);
+    index = new QListViewItem( dlg->lvDomainPolicy, KIDNA::toUnicode(domain),
+                                i18n(KCookieAdvice::adviceToStr(advice)) );
+    m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
+  }
 }
 
 void KCookiesPolicies::selectionChanged ()

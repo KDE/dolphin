@@ -28,11 +28,11 @@ class KSaveIOConfigPrivate;
 class KSaveIOConfig
 {
 public:
-  
+
   /* Reload config file (kioslaverc) */
   static void reparseConfiguration();
-  
-  
+
+
   /** Timeout Settings */
   static void setReadTimeout( int );
 
@@ -42,7 +42,7 @@ public:
 
   static void setResponseTimeout( int );
 
-    
+
   /** Cache Settings */
   static void setMaxCacheAge( int );
 
@@ -52,7 +52,7 @@ public:
 
   static void setCacheControl( KIO::CacheControl );
 
-  
+
   /** Proxy Settings */
   static void setUseReverseProxy( bool );
 
@@ -66,31 +66,31 @@ public:
 
   static void setNoProxyFor( const QString& );
 
-  
+
   /** Miscelaneous Settings */
   static void setMarkPartial( bool );
 
   static void setMinimumKeepSize( int );
 
   static void setAutoResume( bool );
-  
-  static void setPersistentConnections( bool );  
-  
-  static void setPersistentProxyConnection( bool );  
 
-    
+  static void setPersistentConnections( bool );
+
+  static void setPersistentProxyConnection( bool );
+
+
   /** Update all running io-slaves */
   static void updateRunningIOSlaves (QWidget * parent = 0L);
 
   /** Update proxy scout */
   static void updateProxyScout( QWidget * parent = 0L );
-  
+
 protected:
   static KConfig* config ();
   static KConfig* http_config ();
   KSaveIOConfig ();
-  
-private:  
+
+private:
   static KSaveIOConfigPrivate* d;
 };
 #endif

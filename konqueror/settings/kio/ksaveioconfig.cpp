@@ -83,7 +83,7 @@ void KSaveIOConfig::setReadTimeout( int _timeout )
   KConfig* cfg = config ();
   cfg->setGroup( QString::null );
   cfg->writeEntry("ReadTimeout", QMAX(MIN_TIMEOUT_VALUE,_timeout));
-  cfg->sync();  
+  cfg->sync();
 }
 
 void KSaveIOConfig::setConnectTimeout( int _timeout )
@@ -197,7 +197,7 @@ void KSaveIOConfig::setNoProxyFor( const QString& _noproxy )
 }
 
 void KSaveIOConfig::setProxyFor( const QString& protocol,
-                                    const QString& _proxy )
+                                 const QString& _proxy )
 {
   KConfig* cfg = config ();
   cfg->setGroup( "Proxy Settings" );
