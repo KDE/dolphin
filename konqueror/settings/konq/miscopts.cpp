@@ -38,7 +38,7 @@ KMiscOptions::KMiscOptions( QWidget *parent, const char *name )
 
     hlay = new QHBoxLayout(10);
     lay->addLayout(hlay);
-    label = new QLabel(i18n("Editor"),this);
+    label = new QLabel(i18n("Editor used for viewing HTML source"),this);
     hlay->addWidget(label, 1);
         
     leEditor = new QLineEdit(this);
