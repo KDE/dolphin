@@ -31,6 +31,7 @@
 #include <qpushbutton.h>
 
 #include <kglobal.h>
+#include <kdebug.h>
 #include <kio/global.h>
 #include <kstddirs.h>
 #include <klocale.h>
@@ -155,13 +156,16 @@ void KonqProfileDlg::slotSave()
 
   KSimpleConfig cfg( fileName );
   cfg.setGroup( "Profile" );
-  cfg.writeEntry( "Name", m_pListBox->currentText() );
+  kdDebug() << "Writing Name=" << m_pListBox->currentText() << endl;
+  cfg.writeEntry( "Name", m_pProfileNameLineEdit->text() );
   m_pViewManager->saveViewProfile( cfg, m_cbSaveURLs->isChecked() );
   if ( m_cbSaveSize->isChecked() )
   {
     cfg.writeEntry( "Width", m_pViewManager->mainWindow()->width() );
     cfg.writeEntry( "Height", m_pViewManager->mainWindow()->height() );
   }
+  kdDebug() << "Last sync, name=" << cfg.readEntry("Name") << endl;
+  cfg.sync();
 
   accept();
 }

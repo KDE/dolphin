@@ -59,6 +59,7 @@ profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
 	$(mkinstalldirs) $(profiledir)
 	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing.desktop $(profiledir)/webbrowsing
+	$(INSTALL_DATA) $(srcdir)/profile_filemanagement.desktop $(profiledir)/filemanagement
 uninstall-local:
-	-rm -f $(profiledir)/webbrowsing
+	-rm -f $(profiledir)/webbrowsing $(profiledir)/filemanagement
 
