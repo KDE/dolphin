@@ -16,9 +16,6 @@
 #include <klocale.h>
 #include <kconfig.h>
 
-extern KConfig *g_pConfig;
-extern QString g_groupname;
-
 
 //-----------------------------------------------------------------------------
 

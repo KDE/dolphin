@@ -50,7 +50,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   
   tab = new QTabWidget(this);
 
-  QString groupName = "FM Settings";
+  QString groupName = "Icon Settings";
   behaviour = new KBehaviourOptions(config, groupName, this);
   tab->addTab(behaviour, i18n("&Behaviour"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
@@ -125,7 +125,6 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   font = new KonqFontOptions(config, "Icon Settings", this);
   tab->addTab(font, i18n("&Fonts"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
 }
 
 

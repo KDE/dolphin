@@ -32,9 +32,6 @@
 
 #include <konqdefaults.h> // include default values directly from libkonq
 
-extern KConfig *g_pConfig;
-extern QString g_groupname;
-
 
 //-----------------------------------------------------------------------------
 

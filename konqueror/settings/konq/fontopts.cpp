@@ -35,10 +35,6 @@
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
 
-extern KConfig *g_pConfig;
-extern QString g_groupname;
-
-
 //-----------------------------------------------------------------------------
 
 KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent, const char *name)
