@@ -284,7 +284,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     }
   }
   
-  if ( m_lstPopupURLs.count() == 1 )
+  if ( m_lstPopupURLs.count() == 1 && PropertiesDialog::canDisplay( m_lstPopupURLs.first() ) )
   {
     m_popupMenu->insertSeparator();
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );

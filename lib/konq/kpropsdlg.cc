@@ -118,6 +118,20 @@ void PropertiesDialog::emitPropertiesChanged( const QString& _new_name )
     emit propertiesChanged( m_url, _new_name );
 }
 
+bool PropertiesDialog::canDisplay( const QString &url, mode_t mode )
+{
+  KURL u( url );
+  
+  return FilePropsPage::supports( u, mode ) ||
+         FilePermissionsPropsPage::supports( u, mode ) ||
+         ExecPropsPage::supports( u, mode ) ||
+         ApplicationPropsPage::supports( u, mode ) ||
+         BindingPropsPage::supports( u, mode ) ||
+         URLPropsPage::supports( u, mode ) ||
+         DirPropsPage::supports( u, mode ) ||
+         DevicePropsPage::supports( u, mode );
+}
+
 void PropertiesDialog::slotApply()
 {
     PropsPage *page;

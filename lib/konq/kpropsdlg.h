@@ -93,6 +93,12 @@ public:
    */
   void emitPropertiesChanged( const QString& _new_name );
   
+  /**
+   * @return whether there are any property pages available for the given
+   *         url
+   */
+  static bool canDisplay( const QString &url, mode_t mode = (mode_t) -1);
+  
 public slots:
   /**
    * Called when the user presses 'Ok'.
