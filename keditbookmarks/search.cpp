@@ -83,7 +83,7 @@ QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
 
 Searcher* Searcher::s_self = 0;
 
-static int m_currentResult;
+static unsigned int m_currentResult;
 
 class Address
 {
