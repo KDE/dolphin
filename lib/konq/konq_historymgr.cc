@@ -103,7 +103,8 @@ bool KonqHistoryManager::loadHistory()
 
     QFile file( m_filename );
     if ( !file.open( IO_ReadOnly ) ) {
-	kdWarning() << "Can't open " << file.name() << endl;
+	if ( file.exists() )
+	    kdWarning() << "Can't open " << file.name() << endl;
 
 	// try to load the old completion history
 	bool ret = loadFallback();
@@ -520,7 +521,10 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 	// that's the only entries we know about...
 	entry->url = u;
 	entry->numberOfTimesVisited = weight;
+	// to make it not expire immediately...
+	entry->lastVisited = QDateTime::currentDateTime();
     }
+    
     return entry;
 }
 
