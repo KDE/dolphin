@@ -281,9 +281,10 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       // This is a directory. Always.
       mode_t mode = S_IFDIR;
 
-      KFileItem item( "viewURL" /*whatever*/, mode, bgUrl );
+      KFileItem *item = new KFileItem( "viewURL" /*whatever*/, mode, bgUrl );
       KFileItemList items;
-      items.append( &item );
+      items.setAutoDelete( true );
+      items.append( item );
       m_pMainView->popupMenu( _global, items );
     }
   }
