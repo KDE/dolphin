@@ -160,6 +160,7 @@ void TreeViewEditExtension::moveSelection( const QString &destinationURL )
 KonqTreeView::KonqTreeView()
 {
   EditExtension *extension = new TreeViewEditExtension( this );
+  (void)new TreeViewPropertiesExtension( this );
   m_pTreeView = new KonqTreeViewWidget( this );
   m_pTreeView->show();
 
