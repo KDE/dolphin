@@ -216,7 +216,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
                   KIO::link( lst, dest );
                   op->setOperation( 0L, LINK, lst, dest ); // triggers slotResult at once
                   break;
-                default : kdError(1203) << "Unknown action " << ev->action() << endl; delete op; return;
+                default : kdError(1203) << "Unknown action " << (int)ev->action() << endl; delete op; return;
             }
         } else
         {
