@@ -27,6 +27,7 @@
 #include <kglobal.h>
 #include <kcharsets.h>
 #include <kcombobox.h>
+#include <kdialog.h>
 
 #include "smbrodlg.h"
 #ifdef HAVE_CONFIG_H
@@ -37,22 +38,23 @@
 SMBRoOptions::SMBRoOptions(QWidget *parent)
   : KCModule(parent, "kcmkio")
 {
-   QGridLayout *layout = new QGridLayout(this,2,-1,10,10);
+   QGridLayout *layout = new QGridLayout(this,2,-1,KDialog::marginHint(),
+         KDialog::spacingHint());
    QLabel *label=new QLabel(i18n("This is the configuration for the samba client only, not the server."),this);
    layout->addMultiCellWidget(label,0,0,0,1);
 
-   m_userLe=new QLineEdit("",this);
+   m_userLe=new QLineEdit(this);
    label=new QLabel(m_userLe,i18n("Default user name:"),this);
    layout->addWidget(label,1,0);
    layout->addWidget(m_userLe,1,1);
 
-   m_passwordLe=new QLineEdit("",this);
+   m_passwordLe=new QLineEdit(this);
    m_passwordLe->setEchoMode(QLineEdit::Password);
    label=new QLabel(m_passwordLe,i18n("Default password:"),this);
    layout->addWidget(label,2,0);
    layout->addWidget(m_passwordLe,2,1);
 
-   m_workgroupLe=new QLineEdit("",this);
+   m_workgroupLe=new QLineEdit(this);
    label=new QLabel(m_workgroupLe,i18n("Workgroup:"),this);
    layout->addWidget(label,3,0);
    layout->addWidget(m_workgroupLe,3,1);
@@ -76,15 +78,8 @@ SMBRoOptions::SMBRoOptions(QWidget *parent)
    connect(m_workgroupLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
    connect( m_encodingList, SIGNAL( activated( const QString & ) ), this , SLOT( changed() ) );
 
-   layout->setRowStretch(0,0);
-   layout->setRowStretch(1,0);
-   layout->setRowStretch(2,0);
-   layout->setRowStretch(3,0);
-   layout->setRowStretch(4,0);
-   layout->setRowStretch( 5, 0 );
    layout->setRowStretch(6,1);
 
-   layout->activate();
    // finaly read the options
    load();
 }
