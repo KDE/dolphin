@@ -1500,15 +1500,16 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
     kDebugInfo( 1202, s_actionnames[i] );
     QAction * act = actionCollection()->action( s_actionnames[i] );
     assert(act);
+    QCString slotName = QCString(s_actionnames[i])+"()";
     // Does the extension have a slot with the name of this action ?
-    if ( slotNames.contains( s_actionnames[i] ) )
+    if ( slotNames.contains( slotName ) )
     {
       // Connect ? (see comment about most actions)
       if ( !strcmp( s_actionnames[i], "print" )
         || !strcmp( s_actionnames[i], "saveLocalProperties" )
         || !strcmp( s_actionnames[i], "savePropertiesAsDefault" ) )
       {
-        ext->connect( act, SIGNAL( activated() ), s_actionnames[i] );
+        ext->connect( act, SIGNAL( activated() ), ext, SLOT( slotName ) );
         kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
       }
     }
