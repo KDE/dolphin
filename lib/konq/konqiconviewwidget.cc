@@ -952,4 +952,9 @@ void KonqIconViewWidget::visualActivate(QIconViewItem * item)
     KIconEffect::visualActivate(viewport(), rect);
 }
 
+void KonqIconViewWidget::backgroundPixmapChange( const QPixmap & )
+{
+    viewport()->update();
+}
+
 #include "konqiconviewwidget.moc"

@@ -188,6 +188,7 @@ protected:
     virtual void contentsDropEvent( QDropEvent *e );
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
+    virtual void backgroundPixmapChange( const QPixmap & );
 
     KURL m_url;
     const KonqFileItem * m_rootItem;
