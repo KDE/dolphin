@@ -152,6 +152,7 @@ public:
     virtual void copySelection();
     virtual void pasteSelection();
     virtual KURL::List selectedUrls();
+    void paste( const KURL &url );
 
     bool sortDirectoriesFirst() const;
     void setSortDirectoriesFirst( bool b );
@@ -192,7 +193,7 @@ public:
      * Provided for KDesktop.
      */
     virtual void setWallpaper(const KURL&) { }
-    
+
     bool maySetWallpaper();
     void setMaySetWallpaper(bool b);
 

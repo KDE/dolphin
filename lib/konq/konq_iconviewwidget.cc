@@ -822,7 +822,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
 
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int size;
-    
+
     if ( group.readBoolEntry("BoostSize", true) ) {
         if (iconSize < 28)
             size = 48;
@@ -1070,7 +1070,12 @@ void KonqIconViewWidget::copySelection()
 
 void KonqIconViewWidget::pasteSelection()
 {
-    KonqOperations::doPaste( this, url() );
+    paste( url() );
+}
+
+void KonqIconViewWidget::paste( const KURL &url )
+{
+    KonqOperations::doPaste( this, url );
 }
 
 KURL::List KonqIconViewWidget::selectedUrls()

@@ -59,7 +59,7 @@ public:
    * (true in konqueror, false in kdesktop and others)
    *
    * The actions to pass in include :
-   * showmenubar, back, forward, up, cut, copy, paste, trash, rename, del, shred
+   * showmenubar, back, forward, up, cut, copy, paste, pasteto, trash, rename, del, shred
    * The others items are automatically inserted.
    *
    */

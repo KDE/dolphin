@@ -273,7 +273,10 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     }
 
     if ( S_ISDIR(mode) && sWriting ) {
-      addAction( "paste" );
+        if ( currentDir )
+            addAction( "paste" );
+        else
+            addAction( "pasteto" );
     }
 
     // The actions in this group are defined in PopupMenuGUIClient
