@@ -318,7 +318,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                             url.path(1) == KGlobalSettings::trashPath() &&
                             currentDir) ||
                           ( m_lstItems.count() == 1 && bTrashIncluded );
-
+    bool isIntoTrash = url.path(1).startsWith(KGlobalSettings::trashPath());
     clear();
 
     //////////////////////////////////////////////////////////////////////////
@@ -365,7 +365,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     }
     else
     {
-        if ( S_ISDIR(mode) && sWriting ) // A dir, and we can create things into it
+        if ( S_ISDIR(mode) && sWriting && !isIntoTrash ) // A dir, and we can create things into it
         {
             if ( currentDir && m_pMenuNew ) // Current dir -> add the "new" menu
             {
@@ -408,7 +408,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         addGroup( "tabhandling" );
         bool separatorAdded = false;
 
-        if ( !currentDir && sReading ) {
+        if ( !currentDir && sReading && !isIntoTrash) {
             addSeparator();
             separatorAdded = true;
             if ( sDeleting ) {
@@ -417,7 +417,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             addAction( "copy" );
         }
 
-        if ( S_ISDIR(mode) && sWriting ) {
+        if ( S_ISDIR(mode) && sWriting && !isIntoTrash) {
             if ( !separatorAdded )
                 addSeparator();
             if ( currentDir )
@@ -425,24 +425,28 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             else
                 addAction( "pasteto" );
         }
-
-        if (!currentDir)
+        if ( !isIntoTrash )
         {
-            if ( sReading || sWriting ) // only if we added an action above
-                addSeparator();
+            if (!currentDir )
+            {
+                if ( sReading || sWriting ) // only if we added an action above
+                    addSeparator();
 
-            if ( m_lstItems.count() == 1 && sWriting )
-                addAction("rename");
+                if ( m_lstItems.count() == 1 && sWriting )
+                    addAction("rename");
 
-            if ( sMoving )
-                addAction( "trash" );
+                if ( sMoving )
+                    addAction( "trash" );
 
-            if ( sDeleting ) {
-                addAction( "del" );
+                if ( sDeleting ) {
+                    addAction( "del" );
+                }
             }
         }
+        else
+            addSeparator();
     }
-    if ( !isCurrentTrash )
+    if ( !isCurrentTrash && !isIntoTrash )
     {
         act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (kapp->authorizeKAction("bookmarks"))
@@ -464,7 +468,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
     }
 
-    if ( !isCurrentTrash )
+    if ( !isCurrentTrash && !isIntoTrash)
     {
 
         // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
@@ -675,10 +679,10 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
     addSeparator();
 
-    if ( !isCurrentTrash )
+    if ( !isCurrentTrash && !isIntoTrash)
         addPlugins( ); // now it's time to add plugins
 
-    if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash)
+    if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash && !isIntoTrash)
     {
         act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
                            &m_ownActions, "editfiletype" );
@@ -696,7 +700,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
         m_menuElement.removeChild( m_menuElement.lastChild() );
 
-    if( bCanChangeSharing)
+    if( bCanChangeSharing && !isCurrentTrash && !isIntoTrash)
     {
         if(KFileShare::authorization()==KFileShare::Authorized)
         {
