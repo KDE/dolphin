@@ -403,7 +403,8 @@ DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn,
 
   // copy parameters over
   unsigned int argc = argn.count();
-  char *_argn[argc], *_argv[argc];
+  char **_argn = new char*[argc];
+  char **_argv = new char*[argc];
   QString src;
   for (unsigned int i=0; i<argc; i++)
     {
@@ -420,8 +421,11 @@ DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn,
   // create the instance
   NSPluginInstance *inst = New(mimeType.ascii(), mode, argc, _argn, _argv, 0);
   kdDebug() << "Instance: " << inst << endl;
-  if (!inst)
+  delete [] _argn;
+  delete [] _argv;
+  if (!inst) {
     return DCOPRef();
+  }
 
   if (!src.isEmpty())
   {
