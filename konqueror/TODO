@@ -1,5 +1,7 @@
 - I think kdesktop and konqueror should share more code (the QIconView-inherited class)
 
+  (Simon) What about kdesktop loading/linking libkonqiconview :-)
+
 - Handle MMB on icon (New View)
 
 - Nice ftp dialog for users who do not know how to put their
