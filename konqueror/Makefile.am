@@ -12,7 +12,8 @@ kdelnkdir = $(kde_servicesdir)
 kdelnk_DATA = konqueror.desktop
 
 servicetypedir = $(kde_servicetypesdir)
-servicetype_DATA = konq_plugin.desktop konq_metaview.desktop
+servicetype_DATA = konq_plugin.desktop
+# konq_metaview.desktop
 
 METASOURCES = AUTO
 
