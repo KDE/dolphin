@@ -116,8 +116,9 @@ QString KfDirDialog::selectedDir() const
 
     if (dirs->currentItem()!=-1)
         {
-          tmp.sprintf("%s/%s",d.path().ascii(),
-		 dirs->text((dirs->currentItem())).ascii());
+          tmp = QString("%1/%2")
+		 .arg(d.path())
+		 .arg(dirs->text((dirs->currentItem())));
           tmp= d.cleanDirPath(tmp); 
         }
       else
