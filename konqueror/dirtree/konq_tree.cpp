@@ -21,11 +21,14 @@
 #include <qheader.h>
 #include <qtimer.h>
 #include <kdebug.h>
+#include <kdirnotify_stub.h>
+#include <kglobalsettings.h>
+#include <kio/global.h>
+#include <kmimetype.h>
+#include <konq_operations.h>
+#include <kprotocolinfo.h>
 #include <kstddirs.h>
 #include <kurldrag.h>
-#include <kprotocolinfo.h>
-#include <kdirnotify_stub.h>
-#include <kmimetype.h>
 #include <assert.h>
 
 static const int autoOpenTimeout = 750;
@@ -235,14 +238,14 @@ void KonqTree::contentsDropEvent( QDropEvent *ev )
                 allDirNotify.FilesAdded( linkURL );
             }
         } else
-            kdError(1202) << "Dropped to a remote item !  " << url.prettyURL() << endl;
+            kdError(1202) << "No URL !?  " << endl;
     }
     else
     {
         if ( selection->isTopLevelItem() )
             KonqOperations::doDrop( 0L, selection->externalURL(), ev, this );
         else
-            selection->drop( ev, this );
+            selection->drop( ev );
     }
 }
 
@@ -278,7 +281,7 @@ void KonqTree::contentsMouseMoveEvent( QMouseEvent *e )
         return;
 
     // Start a drag
-    QDragObject * drag = static_cast<KonqTreeItem *>( item )->dragObject( viewport(), false );
+    QDragObject * drag = static_cast<KonqTreeItem *>( item )->module()->dragObject( viewport(), false );
     drag->drag();
 }
 
