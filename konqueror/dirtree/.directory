@@ -1,4 +1,11 @@
 [Desktop Entry]
 Name=FTP Servers
+Name[cs]=FTP servery
+Name[de]=FTP-Server
+Name[eo]=FTP-serviloj
+Name[fi]=FTP-palvelimet
+Name[hu]=FTP Kiszolgálók
+Name[no]=FTP-tjenere
+Name[sl]=Strežniki FTP
 Icon=ftp
 
