@@ -262,7 +262,7 @@ void KJavaOptions::toggleJavaControls()
 {
     bool isEnabled = true; //enableJavaGloballyCB->isChecked();
 
-    java_global_policies.setFeatureEnabled(isEnabled);
+    java_global_policies.setFeatureEnabled( enableJavaGloballyCB->isChecked() );
     javaConsoleCB->setEnabled( isEnabled );
     javaSecurityManagerCB->setEnabled( isEnabled );
     addArgED->setEnabled( isEnabled );
