@@ -3,7 +3,7 @@ Encoding=UTF-8
 Icon=launch
 Type=Application
 DocPath=kcontrol/kcmperformance/index.html
-Exec=kcmshell kcmkonqy_performance
+Exec=kcmshell kcmkonqyperformance
 NoDisplay=true
 
 X-KDE-ModuleType=Library
@@ -12,31 +12,40 @@ X-KDE-FactoryName=konqueror
 X-KDE-ParentApp=kcontrol
 
 Name=Performance
-Name[bg]=Производителност
+Name[bg]=Характеристика
 Name[da]=Ydelse
+Name[el]=Απόδοση
 Name[es]=Rendimiento
 Name[eu]=Performantzia
+Name[fa]=عملکرد
 Name[hu]=Teljesítmény
 Name[pt_BR]=Perfomance
+Name[sk]=Výkon
 Name[sl]=Zmogljivost
+Name[sr]=Performanse
 Name[sv]=Prestanda
+Name[th]=ประสิทธิภาพ
 Name[zh_CN]=性能
 
 Comment=Configure settings that can improve Konqueror performance
-Comment[bg]=Конфигуриране настройки за подобряване производителността на Konqueror 
+Comment[bg]=Конфигуриране на настройки за Konqueror подобряващи неговите характеристики
 Comment[da]=Indstil opsætning for at forbedre Konquerors ydelse
-Comment[eu]=Konqueroren performantzia hobetzeko ezarpenak konfiguratu
-Comment[hu]=A Konqueror böngésző teljesítményének hangolása
-Comment[pt_BR]=Configura configurações para aumento de performance do Konqueror 
-Comment[sl]=Nastavitev izbir za pohitritev Konquerorja
-Comment[sv]=Anpassa inställningar som förbättrar Konquerors prestanda
-Comment[zh_CN]=配置提高 Konqueror 性能的选项
+Comment[el]=Αλλάξτε ρυθμίσεις που μπορεί να βελτιώσουν την απόδοση του Konqueror
+Comment[es]=Configuraciones que pueden mejorar el rendimiento de Konqueror
+Comment[fa]=تنظیماتی که می‌توانند عملکرد کانکرر را بهبود بخشند تنظیم کنید
+Comment[hu]=A Konqueror böngésző teljesítményét befolyásoló paraméterek beállítása
+Comment[pt_BR]=Configura preferências para aumento de performance do Konqueror 
+Comment[sr]=Podešavanje postavki koje mogu da poboljšaju Konqueror-ove performanse
+Comment[sv]=Anpassa inställningar som kan förbättra Konquerors prestanda
+Comment[th]=ปรับแต่งตั้งค่าที่จะช่วยให้คอนเควอร์เรอร์มีประสิทธิภาพดีขึ้น
 
 Keywords=konqueror,reuse,preloading
 Keywords[da]=konqueror,genbrug,forudindlæsning
 Keywords[hu]=konqueror,ujrafelhasználás,előtöltés
 Keywords[pt_BR]=konqueror,reuso,pre-carregamento
 Keywords[sl]=konqueror,recikliranje,prednalaganje
+Keywords[sr]=konqueror,ponovo korišćenje,preučitavanje
 Keywords[sv]=konqueror,återanvändning,förladdning
+Keywords[th]=คอนเควอร์เรอร์,นำมาใช้ใหม่,เตรียมการโหลด
 Keywords[zh_CN]=konqueror,reuse,preloading,再利用,预加载
 
