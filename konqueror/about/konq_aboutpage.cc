@@ -90,7 +90,7 @@ QString KonqAboutPageFactory::intro()
 	return res;
 
     res = res.arg( i18n("Conquer your Desktop!") )
-          .arg( i18n("Please enter an internet address here.") )
+          .arg( i18n("Please enter a term or an address to be searched on the Internet.") )
           .arg( i18n( "Introduction" ) )
           .arg( i18n( "Tips" ) )
           .arg( i18n( "Specifications" ) )
@@ -130,7 +130,7 @@ QString KonqAboutPageFactory::specs()
 	return res;
 
     res = res.arg( i18n("Conquer your Desktop!") )
-          .arg( i18n("Please enter an internet address here.") )
+          .arg( i18n("Please enter a term or an address to be searched on the Internet.") )
           .arg( i18n("Introduction") )
           .arg( i18n("Tips") )
           .arg( i18n("Specifications") )
@@ -192,7 +192,7 @@ QString KonqAboutPageFactory::tips()
 	return res;
 
     res = res.arg( i18n("Conquer your Desktop!") )
-          .arg( i18n("Please enter an internet address here.") )
+          .arg( i18n("Please enter a term or an address to be searched on the Internet.") )
 	  .arg( i18n( "Introduction" ) )
 	  .arg( i18n( "Tips" ) )
 	  .arg( i18n( "Specifications" ) )
