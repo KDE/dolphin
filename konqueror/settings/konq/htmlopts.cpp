@@ -29,8 +29,8 @@
 
 //-----------------------------------------------------------------------------
 
-KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *groupName )
-    : KConfigWidget( parent, name ), m_sGroup( groupName )
+KFontOptions::KFontOptions( QWidget *parent, const char *name)
+    : KCModule( parent, name )
 {
     QLabel *label;
 
@@ -60,6 +60,7 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
     bgLay->setRowStretch(0,0);
     bgLay->setRowStretch(1,1);
     bg->setExclusive( TRUE );
+    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
 
     m_pSmall = new QRadioButton( i18n("Small"), bg );
     bgLay->addWidget(m_pSmall,1,0);
@@ -84,6 +85,8 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
     m_pStandard->insertStrList( &standardFonts );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT( slotStandardFont(const QString&) ) );
+    connect( m_pStandard, SIGNAL( activated(const QString&) ),
+             SLOT(changed() ) );
 
     label = new QLabel( i18n( "Fixed Font"), this );
     lay->addWidget(label,4,1);
@@ -96,6 +99,8 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
 
     connect( m_pFixed, SIGNAL( activated(const QString&) ),
              SLOT( slotFixedFont(const QString&) ) );
+    connect( m_pFixed, SIGNAL( activated(const QString&) ),
+             SLOT(changed() ) );
 
     // default charset Lars Knoll 17Nov98 (moved by David)
     label = new QLabel( i18n( "Default Charset"), this );
@@ -111,10 +116,12 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
 
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
              SLOT( slotCharset(const QString&) ) );
+    connect( m_pCharset, SIGNAL( activated(const QString& ) ),
+             SLOT(changed() ) );
 
     connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
-    loadSettings();
+    load();
 }
 
 void KFontOptions::getFontList( QStrList &list, const char *pattern )
@@ -181,10 +188,12 @@ void KFontOptions::slotCharset(const QString& n)
     charsetName = n;
 }
 
-void KFontOptions::loadSettings()
+void KFontOptions::load()
 {
-    g_pConfig->setGroup( m_sGroup );		
-    QString fs = g_pConfig->readEntry( "BaseFontSize" );
+  KConfig *config = new KConfig("konquerorrc");
+
+    config->setGroup("HTML Settings");
+    QString fs = config->readEntry( "BaseFontSize" );
     if ( !fs.isEmpty() )
     {
         fSize = fs.toInt();
@@ -196,16 +205,17 @@ void KFontOptions::loadSettings()
     else
         fSize = 3;
 
-    stdName = g_pConfig->readEntry( "StandardFont" );
-    fixedName = g_pConfig->readEntry( "FixedFont" );
-    charsetName = g_pConfig->readEntry( "DefaultCharset" );
+    stdName = config->readEntry( "StandardFont" );
+    fixedName = config->readEntry( "FixedFont" );
+    charsetName = config->readEntry( "DefaultCharset" );
 
     updateGUI();
+
+  delete config;
 }
 
-void KFontOptions::defaultSettings()
+void KFontOptions::defaults()
 {
-    g_pConfig->setGroup( m_sGroup );			
     fSize=4;
     stdName = KGlobal::generalFont().family();
     fixedName = KGlobal::fixedFont().family();
@@ -247,28 +257,34 @@ void KFontOptions::updateGUI()
     m_pLarge->setChecked( fSize == 5 );
 }
 
-void KFontOptions::saveSettings()
+void KFontOptions::save()
 {
-    g_pConfig->setGroup( m_sGroup );			
-    g_pConfig->writeEntry( "BaseFontSize", fSize );
-    g_pConfig->writeEntry( "StandardFont", stdName );
-    g_pConfig->writeEntry( "FixedFont", fixedName );
+  KConfig *config = new KConfig("konquerorrc");
+
+    config->setGroup( "HTML Settings" );			
+    config->writeEntry( "BaseFontSize", fSize );
+    config->writeEntry( "StandardFont", stdName );
+    config->writeEntry( "FixedFont", fixedName );
     // If the user chose "Use language charset", write an empty string
     if (charsetName == i18n("Use language charset"))
         charsetName = "";
-    g_pConfig->writeEntry( "DefaultCharset", charsetName );
-    g_pConfig->sync();
+    config->writeEntry( "DefaultCharset", charsetName );
+    config->sync();
+
+    delete config;
 }
 
-void KFontOptions::applySettings()
+
+void KFontOptions::changed()
 {
-    saveSettings();
+  emit KCModule::changed(true);
 }
+
 
 //-----------------------------------------------------------------------------
 
-KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *groupName)
-    : KConfigWidget( parent, name ), m_sGroup( groupName )
+KColorOptions::KColorOptions( QWidget *parent, const char *name)
+    : KCModule( parent, name )
 {
     QLabel *label;
 
@@ -313,6 +329,8 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *gro
     lay->addWidget(m_pBg,1,3);
     connect( m_pBg, SIGNAL( changed( const QColor & ) ),
              SLOT( slotBgColorChanged( const QColor & ) ) );
+    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
 
     label = new QLabel( i18n("Normal Text Color:"), this );
     lay->addWidget(label,3,1);
@@ -321,6 +339,8 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *gro
     lay->addWidget(m_pText,3,3);
     connect( m_pText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotTextColorChanged( const QColor & ) ) );
+    connect( m_pText, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
 
     label = new QLabel( i18n("URL Link Color:"), this );
     lay->addWidget(label,5,1);
@@ -329,6 +349,8 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *gro
     lay->addWidget(m_pLink,5,3);
     connect( m_pLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotLinkColorChanged( const QColor & ) ) );
+    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
 
     label = new QLabel( i18n("Followed Link Color:"), this );
     lay->addWidget(label,7,1);
@@ -337,6 +359,8 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *gro
     lay->addWidget(m_pVLink,7,3);
     connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotVLinkColorChanged( const QColor & ) ) );
+    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
 
     /*
     cursorbox = new QCheckBox(i18n("Change cursor over link."),
@@ -351,8 +375,9 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *gro
     forceDefaultsbox = new QCheckBox(i18n("Always use my colors"),
                                  this);
     lay->addMultiCellWidget(forceDefaultsbox,10,10,1,3);
+    connect(forceDefaultsbox, SIGNAL(clicked()), this, SLOT(changed()));
 
-    loadSettings();
+    load();
 }
 
 void KColorOptions::slotBgColorChanged( const QColor &col )
@@ -379,23 +404,27 @@ void KColorOptions::slotVLinkColorChanged( const QColor &col )
         vLinkColor = col;
 }
 
-void KColorOptions::loadSettings()
+void KColorOptions::load()
 {
-    g_pConfig->setGroup( m_sGroup );	
-    bgColor = g_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-    textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-    linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-    vLinkColor = g_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-    bool forceDefaults = g_pConfig->readBoolEntry("ForceDefaultColors", false);
+  KConfig *config = new KConfig("konquerorrc");
+
+    config->setGroup("HTML Settings");	
+    bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
+    textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
+    linkColor = config->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
+    vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
+    bool forceDefaults = config->readBoolEntry("ForceDefaultColors", false);
 
     m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
     m_pLink->setColor( linkColor );
     m_pVLink->setColor( vLinkColor );
     forceDefaultsbox->setChecked( forceDefaults );
+
+    delete config;
 }
 
-void KColorOptions::defaultSettings()
+void KColorOptions::defaults()
 {
     bgColor = HTML_DEFAULT_BG_COLOR;
     textColor = HTML_DEFAULT_TXT_COLOR;
@@ -409,25 +438,30 @@ void KColorOptions::defaultSettings()
     forceDefaultsbox->setChecked( false );
 }
 
-void KColorOptions::saveSettings()
+void KColorOptions::save()
 {
-    g_pConfig->setGroup( m_sGroup );			
-    g_pConfig->writeEntry( "BgColor", bgColor );
-    g_pConfig->writeEntry( "TextColor", textColor );
-    g_pConfig->writeEntry( "LinkColor", linkColor);
-    g_pConfig->writeEntry( "VLinkColor", vLinkColor );
-    g_pConfig->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
-    g_pConfig->sync();
+  KConfig *config = new KConfig("konquerorrc");
+
+    config->setGroup( "HTML Settings" );			
+    config->writeEntry( "BgColor", bgColor );
+    config->writeEntry( "TextColor", textColor );
+    config->writeEntry( "LinkColor", linkColor);
+    config->writeEntry( "VLinkColor", vLinkColor );
+    config->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
+    config->sync();
+
+    delete config;
 }
 
-void KColorOptions::applySettings()
+
+void KColorOptions::changed()
 {
-    saveSettings();
+  emit KCModule::changed(true);
 }
 
 
 KHtmlOptions::KHtmlOptions( QWidget *parent, const char *name )
-    : KConfigWidget( parent, name )
+    : KCModule( parent, name )
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 40 /* big border */, 20);
 
@@ -436,9 +470,11 @@ KHtmlOptions::KHtmlOptions( QWidget *parent, const char *name )
     // ### don't add JavaScript for KRASH.
 #warning remove this line after KRASH (Lars)
     cb_enableJavaScript->setEnabled(false);
-    
+    connect(cb_enableJavaScript, SIGNAL(clicked()), this, SLOT(changed()));
+
     cb_enableJava = new QCheckBox(i18n("Enable &Java"), this);
     lay->addWidget(cb_enableJava);
+    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(changed()));
 
     QHBoxLayout *hlay = new QHBoxLayout(10);
     lay->addLayout(hlay);
@@ -447,27 +483,31 @@ KHtmlOptions::KHtmlOptions( QWidget *parent, const char *name )
 
     le_JavaPath = new QLineEdit(this);
     hlay->addWidget(le_JavaPath, 5);
+    connect(le_JavaPath, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
      "Automatically load images\n"
      "(Otherwise, click the Images button to load when needed)" ), this );
+    connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
 
     lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
 
     lay->addStretch(10);
     lay->activate();
 
-    loadSettings();
+    load();
 }
 
-void KHtmlOptions::loadSettings()
+void KHtmlOptions::load()
 {
+  KConfig *config = new KConfig("konquerorrc");
+
     // *** load ***
-    g_pConfig->setGroup( "HTML Settings" );
-    bool bJavaScript = g_pConfig->readBoolEntry( "EnableJavaScript", false);
-    bool bJava = g_pConfig->readBoolEntry( "EnableJava", false);
-    QString sJDK = g_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
-    bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
+    config->setGroup( "HTML Settings" );
+    bool bJavaScript = config->readBoolEntry( "EnableJavaScript", false);
+    bool bJava = config->readBoolEntry( "EnableJava", false);
+    QString sJDK = config->readEntry( "JavaPath", "/usr/lib/jdk" );
+    bool bAutoLoadImages = config->readBoolEntry( "AutoLoadImages", true );
 
     // *** apply to GUI ***
 
@@ -475,9 +515,11 @@ void KHtmlOptions::loadSettings()
     cb_enableJava->setChecked(bJava);
     le_JavaPath->setText(sJDK);
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+
+    delete config;
 }
 
-void KHtmlOptions::defaultSettings()
+void KHtmlOptions::defaults()
 {
     cb_enableJavaScript->setChecked(false);
     cb_enableJava->setChecked(false);
@@ -485,19 +527,23 @@ void KHtmlOptions::defaultSettings()
     m_pAutoLoadImagesCheckBox->setChecked( false );
 }
 
-void KHtmlOptions::saveSettings()
+void KHtmlOptions::save()
 {
-    g_pConfig->setGroup( "HTML Settings" );
-    g_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
-    g_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
-    g_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
-    g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
-    g_pConfig->sync();
+  KConfig *config = new KConfig("konquerorrc");
+
+    config->setGroup( "HTML Settings" );
+    config->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
+    config->writeEntry( "EnableJava", cb_enableJava->isChecked());
+    config->writeEntry( "JavaPath", le_JavaPath->text());
+    config->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    config->sync();
+
+    delete config;
 }
 
-void KHtmlOptions::applySettings()
+void KHtmlOptions::changed()
 {
-    saveSettings();
+  emit KCModule::changed(true);
 }
 
 #include "htmlopts.moc"

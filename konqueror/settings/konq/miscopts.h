@@ -12,10 +12,8 @@
 #include <qcheckbox.h>
 #include <qlineedit.h>
 
-#include <kconfig.h>
-#include <kcontrol.h>
+#include <kcmodule.h>
 
-extern KConfig *g_pConfig;
 
 //-----------------------------------------------------------------------------
 // The "Misc Options" Tab contains :
@@ -27,15 +25,18 @@ extern KConfig *g_pConfig;
 // Big ToolBar                    (Simon)
 // ... there is room for others :))
 
-class KMiscOptions : public KConfigWidget
+class KMiscOptions : public KCModule
 {
         Q_OBJECT
 public:
         KMiscOptions( QWidget *parent = 0L, const char *name = 0L );
-        virtual void loadSettings();
-        virtual void saveSettings();
-        virtual void applySettings();
-        virtual void defaultSettings();
+        virtual void load();
+        virtual void save();
+        virtual void defaults();
+
+private slots:
+
+	void changed();
 
 private:
         QCheckBox *urlpropsbox;

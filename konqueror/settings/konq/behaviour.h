@@ -1,29 +1,34 @@
 #ifndef __BEHAVIOUR_H__
 #define __BEHAVIOUR_H__
 
-#include <kcontrol.h>
+
+#include <kcmodule.h>
+
 
 class QCheckBox;
 class QSlider;
-class KConfig;
-extern KConfig *g_pConfig;
+class QLabel;
+
 
 //-----------------------------------------------------------------------------
 
-class KBehaviourOptions : public KConfigWidget
+
+class KBehaviourOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KBehaviourOptions( QWidget *parent, const char *name );
+  KBehaviourOptions( QWidget *parent=0, const char *name=0);
 
-  virtual void loadSettings();
-  virtual void saveSettings();
-  virtual void applySettings();
-  virtual void defaultSettings();
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
+
 
 protected slots:
   
   virtual void slotClick();
+  void changed();
+ 
 
 private:
   QCheckBox *cbSingleClick;
@@ -32,7 +37,9 @@ private:
   QSlider *slAutoSelect;
   QCheckBox *cbCursor;
   QCheckBox *cbUnderline;
+
 };
+
 
 #endif		// __BEHAVIOUR_H__
 

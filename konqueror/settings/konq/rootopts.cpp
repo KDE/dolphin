@@ -57,22 +57,24 @@ KRootOptions::KRootOptions( QWidget *parent, const char *name )
 
   showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
   lay->addMultiCellWidget(showHiddenBox, row, row, 0, RO_COLS);
-  
+  connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
+
   row++;
   QFrame * hLine = new QFrame(this);
   hLine->setFrameStyle(QFrame::Sunken|QFrame::HLine);
   lay->addMultiCellWidget(hLine, row, row, 0, RO_COLS);
-
+  
   row++;
   tmpLabel = new QLabel( i18n("Clicks on the desktop"), this );
   lay->addMultiCellWidget( tmpLabel, row, row, 0, RO_COLS );
-
+  
   row++;
   tmpLabel = new QLabel( i18n("Left button"), this );
   lay->addWidget( tmpLabel, row, 0 );
   leftComboBox = new QComboBox( this );
   lay->addWidget( leftComboBox, row, 1 );
   fillMenuCombo( leftComboBox );
+  connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
 
   row++;
   tmpLabel = new QLabel( i18n("Middle button"), this );
@@ -80,13 +82,15 @@ KRootOptions::KRootOptions( QWidget *parent, const char *name )
   middleComboBox = new QComboBox( this );
   lay->addWidget( middleComboBox, row, 1 );
   fillMenuCombo( middleComboBox );
-
+  connect(middleComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  
   row++;
   tmpLabel = new QLabel( i18n("Right button"), this );
   lay->addWidget( tmpLabel, row, 0 );
   rightComboBox = new QComboBox( this );
   lay->addWidget( rightComboBox, row, 1 );
   fillMenuCombo( rightComboBox );
+  connect(rightComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
 
   row++;
   lay->addMultiCellWidget( new QWidget(this), row, row, 0, RO_COLS );
@@ -164,13 +168,11 @@ void KRootOptions::save()
     }
 }
 
-extern "C"
+
+void KRootOptions::changed()
 {
-  KCModule *create_icons(QWidget *parent, const char *name)
-  {
-    KGlobal::locale()->insertCatalogue("kcmkonq");
-    return new KRootOptions(parent, name);
-  };
+  emit KCModule::changed(true);
 }
+
 
 #include "rootopts.moc"

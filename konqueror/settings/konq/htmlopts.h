@@ -19,29 +19,33 @@
 #include <qradiobutton.h>
 #include <kcharsets.h>
 
-#include <kcontrol.h>
+#include <kcmodule.h>
 #include <kwm.h>
 
-extern KConfig *g_pConfig;
 
 //-----------------------------------------------------------------------------
 
-class KFontOptions : public KConfigWidget
+class KFontOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KFontOptions( QWidget *parent, const char *name, const char *groupName );
+  KFontOptions( QWidget *parent=0, const char *name=0);
 
-  virtual void loadSettings();
-  virtual void saveSettings();
-  virtual void applySettings();
-  virtual void defaultSettings();
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
 
 public slots:
   void slotFontSize( int );
   void slotStandardFont(const QString& n);
   void slotFixedFont(const QString& n);
   void slotCharset( const QString& n);
+
+
+private slots:
+
+  void changed();
+
 
 private:
   void getFontList( QStrList &list, const char *pattern );
@@ -64,27 +68,31 @@ private:
   QStrList fixedFonts;
   QStringList charsets;
 
-  QCString m_sGroup;
 };
 
 //-----------------------------------------------------------------------------
 
-class KColorOptions : public KConfigWidget
+class KColorOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KColorOptions( QWidget *parent, const char *name, const char *groupName );
+  KColorOptions( QWidget *parent=0, const char *name=0);
 
-  virtual void loadSettings();
-  virtual void saveSettings();
-  virtual void applySettings();
-  virtual void defaultSettings();
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
 
 protected slots:
   void slotBgColorChanged( const QColor &col );
   void slotTextColorChanged( const QColor &col );
   void slotLinkColorChanged( const QColor &col );
   void slotVLinkColorChanged( const QColor &col );
+
+
+private slots:
+
+  void changed();
+
 
 private:
   KColorButton* m_pBg;
@@ -97,19 +105,23 @@ private:
   QColor linkColor;
   QColor vLinkColor;
 
-  QCString m_sGroup;
 };
 
-class KHtmlOptions : public KConfigWidget
+class KHtmlOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KHtmlOptions( QWidget *parent, const char *name);
+  KHtmlOptions( QWidget *parent=0, const char *name=0);
 
-  virtual void loadSettings();
-  virtual void saveSettings();
-  virtual void applySettings();
-  virtual void defaultSettings();
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
+
+
+private slots:
+  
+  void changed();
+
 
 private:
     QLineEdit *le_JavaPath;

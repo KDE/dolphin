@@ -1,5 +1,6 @@
 // Behaviour options for konqueror
 
+
 #include <qcheckbox.h>
 #include <qslider.h>
 #include <qlabel.h>
@@ -9,10 +10,12 @@
 #include <klocale.h>
 #include <konqdefaults.h>
 
+
 #include "behaviour.h"
 
+
 KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
-    : KConfigWidget( parent, name )
+    : KCModule( parent, name )
 {
     QLabel * label;
     int row = 0;
@@ -34,10 +37,12 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
 
     cbSingleClick = new QCheckBox(i18n("&Single click to activate"), this);
     lay->addMultiCellWidget(cbSingleClick,row,row,0,N_COLS,Qt::AlignLeft);
+    connect(cbSingleClick, SIGNAL(clicked()), this, SLOT(changed()));
 
     row++;
     cbAutoSelect = new QCheckBox(i18n("&Auto select"), this);
     lay->addMultiCellWidget(cbAutoSelect,row,row,0,N_COLS,Qt::AlignLeft);
+    connect(cbAutoSelect, SIGNAL(clicked()), this, SLOT(changed()));
 
     //----------
     row++;
@@ -47,7 +52,8 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
     slAutoSelect->setTickInterval( 250 );
     slAutoSelect->setTracking( true );
     lay->addMultiCellWidget(slAutoSelect,row,row,1,N_COLS);
- 
+    connect(slAutoSelect, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+
     lDelay = new QLabel(slAutoSelect, i18n("De&lay:"), this);
     lDelay->adjustSize();
     lay->addWidget(lDelay,row,0);
@@ -63,24 +69,30 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
     row++;
     cbCursor = new QCheckBox(i18n("&Change cursor over link"), this);
     lay->addMultiCellWidget(cbCursor,row,row,0,N_COLS,Qt::AlignLeft);
+    connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 
     row++;
     cbUnderline = new QCheckBox(i18n("&Underline links"), this);
     lay->addMultiCellWidget(cbUnderline,row,row,0,N_COLS,Qt::AlignLeft);
+    connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     connect( cbSingleClick, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
     connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
-    loadSettings();
+
+    load();
 }
 
-void KBehaviourOptions::loadSettings()
+
+void KBehaviourOptions::load()
 {
-    g_pConfig->setGroup( "Behaviour" );	
-    bool singleClick = g_pConfig->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
-    int  autoSelect = g_pConfig->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
+    KConfig *config = new KConfig("konquerorrc");
+
+    config->setGroup( "Behaviour" );	
+    bool singleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+    int  autoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
     if ( autoSelect < 0 ) autoSelect = 0;
-    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
-    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
+    bool changeCursor = config->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
+    bool underlineLinks = config->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
 
     cbSingleClick->setChecked( singleClick );
     cbAutoSelect->setChecked( autoSelect > 0 );
@@ -89,9 +101,11 @@ void KBehaviourOptions::loadSettings()
     cbUnderline->setChecked( underlineLinks );
 
     slotClick();
+
+    delete config;
 }
 
-void KBehaviourOptions::defaultSettings()
+void KBehaviourOptions::defaults()
 {
     cbSingleClick->setChecked( true );
     cbAutoSelect->setChecked( false );
@@ -102,19 +116,18 @@ void KBehaviourOptions::defaultSettings()
     slotClick();
 }
 
-void KBehaviourOptions::saveSettings()
+void KBehaviourOptions::save()
 {
-    g_pConfig->setGroup( "Behaviour" );			
-    g_pConfig->writeEntry( "SingleClick", cbSingleClick->isChecked() );
-    g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
-    g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
-    g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
-    g_pConfig->sync();
-}
+    KConfig *config = new KConfig("konquerorrc");
 
-void KBehaviourOptions::applySettings()
-{
-    saveSettings();
+    config->setGroup( "Behaviour" );			
+    config->writeEntry( "SingleClick", cbSingleClick->isChecked() );
+    config->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
+    config->writeEntry( "ChangeCursor", cbCursor->isChecked() );
+    config->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+    config->sync();
+
+    delete config;
 }
 
 void KBehaviourOptions::slotClick()
@@ -126,5 +139,12 @@ void KBehaviourOptions::slotClick()
     slAutoSelect->setEnabled( bDelay );
     lDelay->setEnabled( bDelay );
 }
+
+
+void KBehaviourOptions::changed()
+{
+  emit KCModule::changed(true);
+}
+
 
 #include "behaviour.moc"

@@ -1,163 +1,98 @@
-// (c) Torben Weis 1998
-// (c) David Faure 1998
+/*
+ * main.cpp
+ *
+ * Copyright (c) 1999 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+ *
+ * Requires the Qt widget libraries, available at no cost at
+ * http://www.troll.no/
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
 
-#include <config.h>
-#include <stdio.h>
 
-#include <kcontrol.h>
+#include <unistd.h>
+
+
 #include <klocale.h>
+#include <kglobal.h>
 #include <kstddirs.h>
 #include <kmessagebox.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 
+
+#include "rootopts.h"
+#include "behaviour.h"
 #include "htmlopts.h"
 #include "khttpoptdlg.h"
 #include "miscopts.h"
-#include "behaviour.h"
 
-KConfig *g_pConfig = 0;
+#include "main.h"
 
-class KonqControlApplication: public KControlApplication
+
+KonqyModule::KonqyModule(QWidget *parent, const char *name)
+  : KCModule(parent, name)
 {
-public:
-  KonqControlApplication( int &argc, char **argv );
+  tab = new QTabWidget(this);
 
-  virtual void init();
-  virtual void apply();
-  virtual void defaultValues();
+  behaviour = new KBehaviourOptions(this);
+  tab->addTab(behaviour, i18n("&Behaviour"));
+  connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-private:
-  KFontOptions  *m_pFontOptions;
-  KColorOptions *m_pColorOptions;
-  KHtmlOptions *m_pHtmlOptions;
-  KHTTPOptions  *m_pHTTPOptions;
-  KMiscOptions  *m_pMiscOptions;
-  KBehaviourOptions *m_pBehaviourOptions;
-};
+  font = new KFontOptions(this);
+  tab->addTab(font, i18n("&Fonts"));
+  connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-KonqControlApplication::KonqControlApplication( int &argc, char **argv )
-: KControlApplication( argc, argv, "kcmkonq" )
-{
-  m_pBehaviourOptions  = 0L;
-  m_pFontOptions  = 0L;
-  m_pColorOptions = 0L;
-  m_pHtmlOptions = 0L;
-  m_pHTTPOptions  = 0L;
-  m_pMiscOptions  = 0L;
+  color = new KColorOptions(this);
+  tab->addTab(color, i18n("&Colors"));
+  connect(color, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  bool _desktop = argc > 1 && !strcmp(argv[1], "desktop");
-  g_pConfig = new KConfig( _desktop ? "kdesktoprc" : "konquerorrc", false, false );
+  html = new KHtmlOptions(this);
+  tab->addTab(html, i18n("&HTML"));
+  connect(html, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  if ( _desktop )
-      setTitle( i18n( "Desktop Icons Configuration" ) );
-  else
-      setTitle( i18n( "Konqueror Configuration" ) );
+  http = new KHTTPOptions(this);
+  tab->addTab(http, i18n("H&TTP"));
+  connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  if ( !runGUI() )
-    return;
+  misc = new KMiscOptions(this);
+  tab->addTab(misc, i18n("&Other"));
+  connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  QString groupname = "HTML Settings"; // default group
-
-  // Only do this if called explicitely with the "desktop" argument
-  /*
-  if ( ( !pages || pages->contains( "desktop" ) ) && ( argc > 1 ) )
-  {
-   addPage( m_pRootOptions = new KRootOptions( dialog, "desktop" ), i18n( "&Desktop Icons" ), "kdesktop-1.html" );
-   groupname = "Desktop Settings"; // group for kdesktop
-  }
-  */
-
-  if ( !pages || pages->contains( "behaviour" ) )
-    addPage( m_pBehaviourOptions = new KBehaviourOptions( dialog, "behaviour" ), i18n( "&Behaviour" ), "konq-1.html" );
-
-  if ( !pages || pages->contains( "font" ) )
-    addPage( m_pFontOptions = new KFontOptions( dialog, "font", groupname ), i18n( "&Font" ), "konq-2.html" );
-
-  if ( !pages || pages->contains( "color" ) )
-    addPage( m_pColorOptions = new KColorOptions( dialog, "color", groupname ), i18n( "&Color" ), "konq-3.html" );
-
-  // ### FIXME: get the ref to the help page right
-  if ( !pages || pages->contains( "html" ) )
-    addPage( m_pHtmlOptions = new KHtmlOptions( dialog, "html"), i18n( "&Html" ), "konq-3.html" );
-
-  if ( !pages || pages->contains( "http" ) )
-    addPage( m_pHTTPOptions = new KHTTPOptions( dialog, "http" ), i18n( "H&TTP" ), "konq-4.html" );
-
-  if ( !pages || pages->contains( "misc" ) )
-    addPage( m_pMiscOptions = new KMiscOptions( dialog, "misc" ), i18n( "&Other" ), "konq-5.html" );
-
-  if ( m_pFontOptions || m_pColorOptions || m_pHTTPOptions || m_pMiscOptions || m_pBehaviourOptions )
-     dialog->show();
-  else
-  {
-    fprintf(stderr, i18n("usage: %s [-init | {behavour,font,color,http,misc,root}]\n").ascii(), argv[0] );;
-    justInit = true;
-  }
 }
 
-void KonqControlApplication::init()
+
+void KonqyModule::load()
 {
-  if ( m_pBehaviourOptions )
-    m_pBehaviourOptions->loadSettings();
-
-  if ( m_pFontOptions )
-    m_pFontOptions->loadSettings();
-
-  if ( m_pColorOptions )
-    m_pColorOptions->loadSettings();
-
-  if ( m_pHtmlOptions )
-    m_pHtmlOptions->loadSettings();
-
-  if ( m_pHTTPOptions )
-    m_pHTTPOptions->loadSettings();
-
-  if ( m_pMiscOptions )
-    m_pMiscOptions->loadSettings();
+  behaviour->load();
+  font->load();
+  color->load();
+  html->load();
+  http->load();
+  misc->load();
 }
 
-void KonqControlApplication::defaultValues()
+
+void KonqyModule::save()
 {
-  if ( m_pBehaviourOptions )
-    m_pBehaviourOptions->defaultSettings();
+  behaviour->save();
+  font->save();
+  color->save();
+  html->save();
+  http->load();
+  misc->load();
 
-  if ( m_pFontOptions )
-    m_pFontOptions->defaultSettings();
-
-  if ( m_pColorOptions )
-    m_pColorOptions->defaultSettings();
-
-  if ( m_pHtmlOptions )
-    m_pHtmlOptions->defaultSettings();
-
-  if ( m_pHTTPOptions )
-    m_pHTTPOptions->defaultSettings();
-
-  if ( m_pMiscOptions )
-    m_pMiscOptions->defaultSettings();
-}
-
-void KonqControlApplication::apply()
-{
-  if ( m_pBehaviourOptions )
-    m_pBehaviourOptions->applySettings();
-
-  if ( m_pFontOptions )
-    m_pFontOptions->applySettings();
-
-  if ( m_pColorOptions )
-    m_pColorOptions->applySettings();
-
-  if ( m_pHtmlOptions )
-    m_pHtmlOptions->applySettings();
-
-  if ( m_pHTTPOptions )
-    m_pHTTPOptions->applySettings();
-
-  if ( m_pMiscOptions )
-    m_pMiscOptions->applySettings();
+#warning David: Shouldnt this do a DCOP call?
 
   QString exeloc = locate("exe","kfmclient");
   if ( exeloc.isEmpty() ) {
@@ -177,15 +112,45 @@ void KonqControlApplication::apply()
   }
 }
 
-int main(int argc, char **argv )
+
+void KonqyModule::defaults()
 {
-    KonqControlApplication app( argc, argv );
-
-
-  int ret = 0;
-  if ( app.runGUI() )
-    ret = app.exec();
-
-  delete g_pConfig;
-  return ret;
+  behaviour->defaults();
+  font->defaults();
+  color->defaults();
+  html->defaults();
+  http->load();
+  misc->load();
 }
+
+
+void KonqyModule::moduleChanged(bool state)
+{
+  emit changed(state);
+}
+
+
+void KonqyModule::resizeEvent(QResizeEvent *)
+{
+  tab->setGeometry(0,0,width(),height());
+}
+
+
+extern "C"
+{
+
+  KCModule *create_icons(QWidget *parent, const char *name) 
+  { 
+    KGlobal::locale()->insertCatalogue("kcmkonq");
+    return new KRootOptions(parent, name);
+  }
+
+  KCModule *create_konqueror(QWidget *parent, const char *name) 
+  { 
+    KGlobal::locale()->insertCatalogue("kcmkonq");
+    return new KonqyModule(parent, name);
+  }
+
+}
+
+

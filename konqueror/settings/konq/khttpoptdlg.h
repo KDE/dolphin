@@ -7,26 +7,22 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
  
-#include <kcontrol.h>
-class KConfig;
- 
-extern KConfig *g_pConfig;
+#include <kcmodule.h>
+
 
 /**
 *  Dialog for configuring HTTP Options like charset and language negotiation
 *  and assuming that file got from HTTP is HTML if no Content-Type is given
 */
-class KHTTPOptions : public KConfigWidget
+class KHTTPOptions : public KCModule
 {
 Q_OBJECT
   public:
     KHTTPOptions(QWidget *parent = 0L, const char *name = 0L);
-    ~KHTTPOptions();
 
-    virtual void loadSettings();
-    virtual void saveSettings();
-    virtual void applySettings();
-    virtual void defaultSettings();
+    virtual void load();
+    virtual void save();
+    virtual void defaults();
     
   private:
     // Acceptable languages "LANG" - locale selected languages
@@ -41,6 +37,11 @@ Q_OBJECT
     QCheckBox *cb_assumeHTML;
 
     QString defaultCharsets;
+
+private slots:
+
+  void changed();
+
 };
 
 #endif // __KHTTPOPTDLG_H

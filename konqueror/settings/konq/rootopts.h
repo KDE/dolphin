@@ -29,6 +29,11 @@ public:
         virtual void load();
         virtual void save();
         virtual void defaults();
+
+private slots:
+
+	void changed();
+
         
 private:
         void fillMenuCombo( QComboBox * combo );
