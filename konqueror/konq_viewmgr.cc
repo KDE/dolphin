@@ -1102,6 +1102,7 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
   }
 
   cfg.writeEntry( "FullScreen", m_pMainWindow->fullScreenMode());
+  cfg.writeEntry("XMLUIFile", m_pMainWindow->xmlFile());
   if ( saveWindowSize )
   {
     cfg.writeEntry( "Width", m_pMainWindow->width() );
