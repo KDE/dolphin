@@ -252,7 +252,7 @@ void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
 
 void KBrowser::slotError( int /*_id*/, int _err, const char *_text )
 {
-  kdebug(0,1202,"+++++++++++++ ERROR %s, %s ", _err, _text);
+  kdebug(0,1202,"+++++++++++++ ERROR %d, %s ", _err, _text);
   
   slotStop();
 
