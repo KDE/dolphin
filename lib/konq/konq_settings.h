@@ -94,6 +94,8 @@ public:
 
   int textPreviewIconTransparency() const { return m_iconTransparency; }
 
+  int caseSensitiveCompare( const QString& a, const QString& b ) const;
+
 private:
 
   static KonqFMSettings * s_pSettings;

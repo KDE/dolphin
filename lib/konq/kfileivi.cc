@@ -21,6 +21,7 @@
 #include "kivdirectoryoverlay.h"
 #include "konq_iconviewwidget.h"
 #include "konq_operations.h"
+#include "konq_settings.h"
 
 #include <qpainter.h>
 
@@ -339,7 +340,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
 {
     QColorGroup cg = updateColors(c);
     paintFontUpdate( p );
-		
+
     //*** TEMPORARY CODE - MUST BE MADE CONFIGURABLE FIRST - Martijn
     // SET UNDERLINE ON HOVER ONLY
     /*if ( ( ( KonqIconViewWidget* ) iconView() )->m_pActiveItem == this )
@@ -421,6 +422,15 @@ bool KFileIVI::isAnimated() const
 void KFileIVI::setAnimated( bool a )
 {
     d->m_animated = a;
+}
+
+int KFileIVI::compare( QIconViewItem *i ) const
+{
+    KonqIconViewWidget* view = static_cast<KonqIconViewWidget*>(iconView());
+    if ( view->caseInsensitiveSort() )
+        return key().localeAwareCompare( i->key() );
+    else
+        return view->m_pSettings->caseSensitiveCompare( key(), i->key() );
 }
 
 /* vim: set noet sw=4 ts=8 softtabstop=4: */

@@ -159,7 +159,7 @@ public:
      * blending methods depending on the configuration.
      */
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
-		
+
     virtual bool move( int x, int y );
 
     /**
@@ -191,6 +191,8 @@ public:
      */
     KIVDirectoryOverlay* setShowDirectoryOverlay( bool );
     bool showDirectoryOverlay( );
+
+    virtual int compare( QIconViewItem *i ) const;
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );

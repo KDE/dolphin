@@ -84,11 +84,11 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   d = new Private;
   d->previewsToShow = 0;
-  d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", false );
+  d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", true );
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
-  d->sortcriterion = config->readEntry( "SortingCriterion", "sort_nc" );
+  d->sortcriterion = config->readEntry( "SortingCriterion", "sort_nci" );
   d->dirsfirst = config->readBoolEntry( "SortDirsFirst", true );
   d->descending = config->readBoolEntry( "SortDescending", false );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
@@ -594,5 +594,4 @@ const QStringList& KonqPropsView::previewSettings()
 const QString& KonqPropsView::sortCriterion() const {
     return d->sortcriterion;
 }
-
 

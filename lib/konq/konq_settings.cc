@@ -35,6 +35,7 @@ struct KonqFMSettingsPrivate
 
     bool showPreviewsInFileTips;
     bool m_renameIconDirectly;
+    bool localeAwareCompareIsCaseSensitive;
 };
 
 //static
@@ -102,6 +103,9 @@ void KonqFMSettings::init( KConfig * config )
   m_numFileTips = config->readNumEntry("FileTipsItems", 6);
 
   m_embedMap = config->entryMap( "EmbedSettings" );
+
+  /// true if QString::localeAwareCompare is case sensitive (it usually isn't, when LC_COLLATE is set)
+  d->localeAwareCompareIsCaseSensitive = QString( "a" ).localeAwareCompare( "B" ) > 0; // see #40131
 }
 
 bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
@@ -144,4 +148,13 @@ bool KonqFMSettings::showPreviewsInFileTips() const
 bool KonqFMSettings::renameIconDirectly() const
 {
     return d->m_renameIconDirectly;
+}
+
+int KonqFMSettings::caseSensitiveCompare( const QString& a, const QString& b ) const
+{
+    if ( d->localeAwareCompareIsCaseSensitive ) {
+        return a.localeAwareCompare( b );
+    }
+    else // can't use localeAwareCompare, have to fallback to normal QString compare
+        return a.compare( b );
 }

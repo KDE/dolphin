@@ -125,7 +125,7 @@ private:
     KFileIVI*  m_ivi;
 };
 
-KFileTip::~KFileTip() 
+KFileTip::~KFileTip()
 {
    if ( m_previewJob ) {
         m_previewJob->kill();
@@ -344,6 +344,7 @@ struct KonqIconViewWidgetPrivate
         m_movieBlocked = 0;
         pFileTip = 0;
         pActivateDoubleClick = 0L;
+        bCaseInsensitive = true;
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
@@ -361,6 +362,7 @@ struct KonqIconViewWidgetPrivate
     bool bSoundPreviews;
     bool bSoundItemClicked;
     bool bAllowSetWallpaper;
+    bool bCaseInsensitive;
     int gridXspacing;
 
     QTimer* rearrangeIconsTimer;
@@ -2010,6 +2012,16 @@ void KonqIconViewWidget::setNewURL( const QString& url )
     else
         u = url;
     setURL( u );
+}
+
+void KonqIconViewWidget::setCaseInsensitiveSort( bool b )
+{
+    d->bCaseInsensitive = b;
+}
+
+bool KonqIconViewWidget::caseInsensitiveSort() const
+{
+    return d->bCaseInsensitive;
 }
 
 #include "konq_iconviewwidget.moc"

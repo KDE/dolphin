@@ -165,6 +165,9 @@ public:
     bool sortDirectoriesFirst() const;
     void setSortDirectoriesFirst( bool b );
 
+    void setCaseInsensitiveSort( bool b );
+    bool caseInsensitiveSort() const;
+
     /**
      * Cache of the dragged URLs over the icon view, used by KFileIVI
      */
