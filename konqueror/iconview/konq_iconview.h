@@ -20,11 +20,6 @@
 #define __konq_iconview_h__
 
 #include <kbrowser.h>
-#include <kiconloader.h>
-
-#include <qiconview.h>
-#include <qtimer.h>
-#include <qstrlist.h>
 
 class KonqKfmIconView;
 class KonqIconViewWidget;
@@ -35,6 +30,7 @@ class KonqSettings;
 class KFileIVI;
 class KAction;
 class QActionMenu;
+class QIconViewItem;
 
 class IconViewPropertiesExtension : public ViewPropertiesExtension
 {
@@ -123,8 +119,6 @@ public slots:
 protected slots:
   // slots connected to QIconView
   virtual void slotMousePressed( QIconViewItem *item );
-  virtual void slotDrop( QDropEvent *e );
-  void slotDropItem( KFileIVI *item, QDropEvent *e );
 
   void slotItemRightClicked( QIconViewItem *item );
   void slotViewportRightClicked();
@@ -143,8 +137,6 @@ protected slots:
   void slotTotalFiles( int, unsigned long files );
 
 protected:
-  /** Common to slotDrop and slotDropItem */
-  void dropStuff( QDropEvent *e, KFileIVI *item = 0L );
 
   void setupSorting( SortCriterion criterion );
 
@@ -175,8 +167,6 @@ protected:
 
   int m_iXOffset;
   int m_iYOffset;
-
-  KIconLoader::Size m_size;
 
   unsigned long m_ulTotalFiles;
 
@@ -209,27 +199,5 @@ protected:
   KonqIconViewWidget *m_pIconView;
 };
 
-class KonqIconViewWidget : public QIconView
-{
-public:
-  KonqIconViewWidget( KonqPropsView *props,
-             QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 )
-  : QIconView( parent, name, f ), m_pProps( props ) {}
-
-  virtual QDragObject *dragObject();
-
-  void initConfig();
-
-  void setSize( KIconLoader::Size size );
-
-protected:
-  virtual void drawBackground( QPainter *p, const QRect &r );
-
-  void initDragEnter( QDropEvent *e );
-
-  KonqPropsView * m_pProps;
-  /** Konqueror settings */
-  KonqSettings * m_pSettings;
-};
 
 #endif
