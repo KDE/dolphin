@@ -39,6 +39,8 @@
 #include <assert.h>
 #include <kpopupmenu.h>
 
+// #define DEBUG_VIEWMGR
+
 template class QPtrList<KonqView>;
 
 KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
@@ -91,7 +93,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
                                        const QString &serviceName,
                                        bool newOneFirst, bool forceAutoEmbed )
 {
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -188,7 +190,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   newContainer->setActiveChild( newView->frame() );
   setActivePart( newView->part(), false );
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType) done" << endl;
@@ -252,7 +254,7 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
 
   newContainer->setActiveChild( mainFrame );
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "KonqViewManager::splitWindow(default) done" << endl;
@@ -359,7 +361,7 @@ void KonqViewManager::revertDocContainer()
 
 KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode, bool openAfterCurrentPage  )
 {
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "------------- KonqViewManager::addTab starting -------------" << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -389,7 +391,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
 
   KonqView* childView = setupView( static_cast<KonqFrameTabs*>(m_pDocContainer), newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode, openAfterCurrentPage );
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "------------- KonqViewManager::addTab done -------------" << endl;
@@ -400,7 +402,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
 
 void KonqViewManager::duplicateTab( KonqFrameBase* tab )
 {
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "---------------- KonqViewManager::duplicateTab( " << tab << " ) --------------" << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -462,7 +464,7 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
 
   tabContainer->setCurrentPage( tabContainer->count() - 1 );
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "------------- KonqViewManager::duplicateTab done --------------" << endl;
@@ -471,7 +473,7 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
 
 void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 {
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "---------------- KonqViewManager::breakOffTab( " << tab << " ) --------------" << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -517,7 +519,7 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 
   mainWindow->show();
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
 
@@ -530,7 +532,7 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 
 void KonqViewManager::removeTab( KonqFrameBase* tab )
 {
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "---------------- KonqViewManager::removeTab( " << tab << " ) --------------" << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -587,7 +589,7 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
       revertDocContainer();
   }
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "------------- KonqViewManager::removeTab done --------------" << endl;
@@ -710,7 +712,7 @@ void KonqViewManager::showTab( KonqView *view )
 
 void KonqViewManager::removeView( KonqView *view )
 {
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "---------------- removeView --------------" << view << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -810,7 +812,7 @@ void KonqViewManager::removeView( KonqView *view )
   else
     kdDebug(1202) << "Unrecognized frame type, not removing." << endl;
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   printFullHierarchy( m_pMainWindow );
   m_pMainWindow->dumpViewList();
 
@@ -1216,7 +1218,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   m_pMainWindow->applyMainWindowSettings( &cfg, "Main Window Settings" );
   cfg.setGroup( savedGroup );
 
-#ifndef NDEBUG
+#ifdef DEBUG_VIEWMGR
   printFullHierarchy( m_pMainWindow );
 #endif
 
