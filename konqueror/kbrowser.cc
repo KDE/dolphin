@@ -147,7 +147,7 @@ void KBrowser::openURL( const char *_url )
   openURL( _url, false, 0, 0, 0L );
 }
 
-void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char* _post_data )
+void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char* /*_post_data*/ )
 {
   // Check URL
   if ( KURL::split( _url ).isEmpty() )
@@ -240,7 +240,7 @@ void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
     m_strWorkingURL = "";
     KURL::List lst = KURL::split( m_strURL );
     assert ( !lst.isEmpty() );
-    QString baseurl = lst.begin()->url();
+    QString baseurl = (*lst.begin()).url();
 
     m_bParsing = true;
     begin( baseurl, m_iNextXOffset, m_iNextYOffset );

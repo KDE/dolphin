@@ -176,7 +176,7 @@ void KonqPlugins::parseService( KService *service )
 	  s_dctViewServers.insert( *it2, l );
         }
 
-	kdebug(0, 1202, "registering view plugin for %s", it2->ascii() );
+	kdebug(0, 1202, "registering view plugin for %s", (*it2).ascii() );
         imrActivationEntry *e = new imrActivationEntry;
         e->serverName = serverName;
         e->repoID = repoID;
