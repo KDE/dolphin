@@ -12,3 +12,4 @@ Name=KonqDetailedListView
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=libkonqlistview
 X-KDE-BrowserView-Args=DetailedList
+X-KDE-BrowserView-Builtin=true

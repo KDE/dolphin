@@ -11,4 +11,5 @@ Name=KonqTextView
 ServiceTypes=Browser/View
 X-KDE-Library=libkonqlistview
 X-KDE-BrowserView-Args=TextView
+X-KDE-BrowserView-Builtin=true
 
