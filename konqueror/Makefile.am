@@ -17,20 +17,26 @@ EXTRA_DIST = $(data_DATA)
 bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
-konqueror_SOURCES =  kbrowser.cc \
-	konq_propsmainview.cc kfmrun.cc konq_propsview.cc \
-	kiconcontainer.cc \
+konqueror_SOURCES =  kbrowser.cc kfmrun.cc kiconcontainer.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \
-	konq_main.cc konq_mainview.cc konq_mainwindow.cc konq_plugins.cc \
-	konq_partview.cc konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
+	konq_main.cc konq_mainview.cc konq_mainwindow.cc \
+	konq_partview.cc konq_plugins.cc \
+	konq_propsmainview.cc konq_propsview.cc \
+	konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
 	konqueror.cc
 
-# noinst_HEADERS = ... to be completed
+noinst_HEADERS = kbrowser.h kfmrun.h kiconcontainer.h \
+	konq_baseview.h konq_childview.h konq_frame.h \
+        konq_htmlview.h konq_iconview.h konq_kfmview.h \
+        konq_main.h konq_mainview.h konq_mainwindow.h \
+        konq_partview.h konq_plugins.h \
+        konq_propsmainview.h konq_propsview.h \
+        konq_topwidget.h konq_treeview.h konq_txtview.h \
+        konqueror.h \
+	mousemode.h konq_defaults.h
 
-METASOURCES = kbrowser.moc \
-	kfmrun.moc \
-	kiconcontainer.moc \
+METASOURCES = kbrowser.moc kfmrun.moc kiconcontainer.moc \
 	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
@@ -59,3 +65,8 @@ konq_baseview.h: konqueror.h
 konq_main.h: konqueror.h
 konq_mainview.h: konqueror.h
 konq_mainwindow.h: konqueror.h
+
+# Because konqueror.cc is duplicated, the TAGS file is invalid
+# Solution : remove inclusion of client/TAGS
+etags: tags
+	mv TAGS TAGS_tmp && head -$$[`wc -l <TAGS_tmp`-2] TAGS_tmp > TAGS
