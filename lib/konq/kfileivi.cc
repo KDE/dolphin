@@ -26,7 +26,11 @@ KFileIVI::KFileIVI( QIconView *_iconview, KFileItem* _fileitem )
 {
   setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
   if ( m_fileitem->isLink() )
-    font().setItalic( true ); // FIXME
+  {
+    QFont newFont = font();
+    newFont.setItalic( true ); // FIXME
+    setFont( newFont );
+  }
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
