@@ -41,14 +41,41 @@ QString ImportCommand::name() const {
    return i18n("Import %1 Bookmarks").arg(visibleName());
 }
 
-QString ImportCommand::folder()const {
-   return m_folder ? (i18n("%1 Bookmarks").arg(visibleName())) : (QString::null);
+QString ImportCommand::folder() const {
+   return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString::null;
+}
+
+QString OperaImportCommand::visibleName() const {
+   return i18n("Opera");
+}
+
+QString IEImportCommand::visibleName() const {
+   return i18n("IE");
+}
+
+QString MozImportCommand::visibleName() const {
+   return i18n("Mozilla");
+}
+
+QString NSImportCommand::visibleName() const {
+   return i18n("Netscape");
+}
+
+QString GaleonImportCommand::visibleName() const {
+   return i18n("Galeon");
+}
+
+QString KDE2ImportCommand::visibleName() const {
+   return i18n("KDE");
 }
 
 void ImportCommand::execute() {
    KBookmarkGroup bkGroup;
 
-   if (folder().isEmpty()) {
+   if (!folder().isNull()) {
+      doCreateHoldingFolder(bkGroup);
+
+   } else {
       // import into the root, after cleaning it up
       bkGroup = BkManagerAccessor::mgr()->root();
       delete m_cleanUpCmd;
@@ -60,9 +87,6 @@ void ImportCommand::execute() {
 
       // import at the root
       m_group = "";
-
-   } else {
-      doCreateHoldingFolder(bkGroup);
    }
 
    doExecuteWrapper(bkGroup);
@@ -118,7 +142,6 @@ void ImportCommand::endFolder() {
 }
 
 void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
-   // TODO - why the hell isn't this called for XBEL???
    bkGroup = BkManagerAccessor::mgr()
       ->root().createNewFolder(BkManagerAccessor::mgr(), folder(), false);
    bkGroup.internalElement().setAttribute("icon", m_icon);
@@ -150,10 +173,6 @@ QString OperaImportCommand::requestFilename() const {
    return KOperaBookmarkImporter::operaBookmarksFile();
 }
 
-QString OperaImportCommand::visibleName() const {
-   return i18n("Opera");
-}
-
 void OperaImportCommand::doExecute() {
    KOperaBookmarkImporter importer(m_fileName);
    connectImporter(&importer);
@@ -162,10 +181,6 @@ void OperaImportCommand::doExecute() {
 
 QString IEImportCommand::requestFilename() const {
    return KIEBookmarkImporter::IEBookmarksDir();
-}
-
-QString IEImportCommand::visibleName() const {
-   return i18n("IE");
 }
 
 void IEImportCommand::doExecute() {
@@ -184,26 +199,14 @@ QString MozImportCommand::requestFilename() const {
    return KNSBookmarkImporter::mozillaBookmarksFile();
 }
 
-QString MozImportCommand::visibleName() const {
-   return i18n("Mozilla");
-}
-
 QString NSImportCommand::requestFilename() const {
    return KNSBookmarkImporter::netscapeBookmarksFile();
-}
-
-QString NSImportCommand::visibleName() const {
-   return i18n("Netscape");
 }
 
 QString GaleonImportCommand::requestFilename() const {
    return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.galeon",
                i18n("*.xbel|Galeon bookmark files (*.xbel)"));
-}
-
-QString GaleonImportCommand::visibleName() const {
-   return i18n("Galeon");
 }
 
 QString KDE2ImportCommand::requestFilename() const {
@@ -213,12 +216,9 @@ QString KDE2ImportCommand::requestFilename() const {
                i18n("*.xml|KDE bookmark files (*.xml)"));
 }
 
-QString KDE2ImportCommand::visibleName() const {
-   return i18n("KDE");
-}
-
 void XBELImportCommand::doCreateHoldingFolder(KBookmarkGroup &) {
-   ;
+   // rather than reuse the old group node we transform the 
+   // root xbel node into the group when doing an xbel import
 }
 
 void XBELImportCommand::doExecuteWrapper(const KBookmarkGroup) {
