@@ -35,7 +35,7 @@ uninstall-local:
 	rm -f $(kde_minidir)/kfind.xpm
 
 messages:
-	$(XGETTEXT) -C -ktranslate -ki18n -x ../../kdelibs/po/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
+	$(XGETTEXT) -C -ktranslate -ki18n -x $(includedir)/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
 
 kfdird.moc: kfdird.h
 	$(MOC) kfdird.h -o kfdird.moc
