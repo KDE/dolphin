@@ -165,10 +165,10 @@ void KFileTip::setFilter( bool enable )
 
     if ( enable ) {
         kapp->installEventFilter( this );
-        kapp->setGlobalMouseTracking( true );
+        QApplication::setGlobalMouseTracking( true );
     }
     else {
-        kapp->setGlobalMouseTracking( false );
+        QApplication::setGlobalMouseTracking( false );
         kapp->removeEventFilter( this );
     }
     m_filter = enable;
@@ -364,7 +364,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             d->pFileTip->setItem( d->pActiveItem );
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
-                kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
+                //kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
                 // Check if cached movie can be used
 #if 0 // Qt-mng bug, reusing the movie doesn't work currently.
                 if ( d->m_movie && d->movieFileName == d->pActiveItem->mouseOverAnimation() )
@@ -390,14 +390,14 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                     {
                         delete d->m_movie;
                         d->m_movie = new QMovie( movie ); // shallow copy, don't worry
-			// Fix alpha-channel - currently only if no background pixmap,
-			// the bg pixmap case requires to uncomment the code at qmovie.cpp:404
+                        // Fix alpha-channel - currently only if no background pixmap,
+                        // the bg pixmap case requires to uncomment the code at qmovie.cpp:404
                         const QPixmap* pm = backgroundPixmap();
                         bool hasPixmap = pm && !pm->isNull();
                         if ( !hasPixmap ) {
                             pm = viewport()->backgroundPixmap();
                             hasPixmap = pm && !pm->isNull();
-			}
+                        }
                         if (!hasPixmap && backgroundMode() != NoBackground)
                            d->m_movie->setBackgroundColor( viewport()->backgroundColor() );
                         d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate(const QRect &) ) );
@@ -538,9 +538,21 @@ void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
     Q_ASSERT( d->m_movie );
     // seems stopAnimation triggers one last update
     if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() ) {
-        d->pActiveItem->setPixmapDirect( d->m_movie->framePixmap(), false, false /*no redraw*/ );
-	QRect pixRect = d->pActiveItem->pixmapRect(false);
-       repaintContents( pixRect.x() + rect.x(), pixRect.y() + rect.y(), rect.width(), rect.height(), false );
+        const QPixmap &frame = d->m_movie->framePixmap();
+        // This can happen if the icon was scaled to the desired size, so KIconLoader
+        // will happily return a movie with different dimensions than the icon
+        if ( frame.width() != d->pActiveItem->iconSize() ||
+             frame.height() != d->pActiveItem->iconSize() ) {
+            d->pActiveItem->setAnimated( false );
+            d->m_movie->pause();
+            // No movie available, remember it
+            d->pActiveItem->setMouseOverAnimation( QString::null );
+            d->pActiveItem->setActive( true );
+            return;
+        }
+        d->pActiveItem->setPixmapDirect( frame, false, false /*no redraw*/ );
+        QRect pixRect = d->pActiveItem->pixmapRect(false);
+        repaintContents( pixRect.x() + rect.x(), pixRect.y() + rect.y(), rect.width(), rect.height(), false );
     }
 }
 
@@ -795,7 +807,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
     else if (iconSize < 60)
         size = 96;
     else
-	size = 128;
+        size = 128;
 #endif
         size = 60;
     else size = 90;
@@ -1624,4 +1636,4 @@ void KonqIconViewWidget::backgroundPixmapChange( const QPixmap & )
 
 #include "konq_iconviewwidget.moc"
 
-/* vim: set noet sw=4 ts=8 softtabstop=4: */
+/* vim: set et sw=4 ts=8 softtabstop=4: */
