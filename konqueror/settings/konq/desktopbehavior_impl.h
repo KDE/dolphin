@@ -64,9 +64,9 @@ class DesktopBehaviorModule : public KCModule
 
 public:
         DesktopBehaviorModule(KConfig *config, QWidget *parent = 0L, const char *name = 0L );
-        virtual void load() { m_behavior->load(); }
-        virtual void save() { m_behavior->save(); }
-        virtual void defaults() { m_behavior->defaults(); }
+        virtual void load() { m_behavior->load(); setChanged( false ); }
+        virtual void save() { m_behavior->save(); setChanged( false ); }
+        virtual void defaults() { m_behavior->defaults(); setChanged( true ); }
 
 private slots:
         void changed();
