@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 DocPath=kcontrol/kcmkio/kio-1.html
-Icon=konqueror
+Icon=proxy
 Exec=kcmshell Browsing/Web/proxy
 
 X-KDE-ModuleType=Library
