@@ -161,18 +161,20 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
 
 void Kfind::setExpanded(bool expand) {
 
+  // Changing size "hides" the file table (win) when we do not need it.
+  // If we really win->show()/hide() it, tabWidget is not stretched 
+  // when win is hided. (Bug in QT?)
+  
   if(expand) {
     setMinimumSize(tabWidget->sizeHint().width(), 
 		   2*tabWidget->sizeHint().height());
     setMaximumHeight(5000);
-    win->show();
   }
   else {
-    win->hide();
     setMinimumSize(tabWidget->sizeHint());
     setMaximumHeight(tabWidget->sizeHint().height());
   }
-
+  
   emit enableStatusBar(expand);
 }
 

@@ -222,7 +222,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
-    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 15, 0 );
+    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 15, 10 );
     grid2->addWidget( typeL, 0, 0 );
     grid2->addWidget( textL, 1, 0 );
     grid2->addWidget( sizeL, 2, 0 );
