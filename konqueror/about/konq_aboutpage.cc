@@ -262,12 +262,13 @@ bool KonqAboutPage::openFile()
 
 void KonqAboutPage::saveState( QDataStream &stream )
 {
-    browserExtension()->KParts::BrowserExtension::saveState( stream );
+    stream << m_htmlDoc;
 }
 
 void KonqAboutPage::restoreState( QDataStream &stream )
 {
-    browserExtension()->KParts::BrowserExtension::restoreState( stream );
+    stream >> m_htmlDoc;
+    serve( m_htmlDoc );
 }
 
 void KonqAboutPage::serve( const QString& html )
@@ -275,6 +276,7 @@ void KonqAboutPage::serve( const QString& html )
     begin( "about:konqueror" );
     write( html );
     end();
+    m_htmlDoc = html;
 }
 
 void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target )
@@ -291,16 +293,19 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 
     if ( url == QString::fromLatin1("intro.html") )
     {
+        emit browserExtension()->openURLNotify();
 	serve( KonqAboutPageFactory::intro() );
         return;
     }
     else if ( url == QString::fromLatin1("specs.html") )
     {
+        emit browserExtension()->openURLNotify();
 	serve( KonqAboutPageFactory::specs() );
         return;
     }
     else if ( url == QString::fromLatin1("tips.html") )
     {
+        emit browserExtension()->openURLNotify();
         serve( KonqAboutPageFactory::tips() );
         return;
     }

@@ -53,6 +53,7 @@ private:
 
     KHTMLPart *m_doc;
     //KonqMainWindow *m_mainWindow;
+    QString m_htmlDoc;
 };
 
 #endif
