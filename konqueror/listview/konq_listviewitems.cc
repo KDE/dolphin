@@ -118,6 +118,16 @@ void KonqListViewItem::setDisabled( bool disabled )
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
 
+void KonqListViewItem::setActive( bool active )
+{
+    //#### Optimize away repaint if possible, like the iconview does?
+    KonqBaseListViewItem::setActive( active );
+    int iconSize = static_cast<KonqBaseListViewWidget *>(listView())->iconSize();
+    iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
+    setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
+}
+
+
 QString KonqListViewItem::key( int _column, bool asc ) const
 {
    QString tmp=sortChar;
@@ -214,6 +224,7 @@ KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidg
 :KListViewItem(_listViewWidget)
 ,sortChar('1')
 ,m_bDisabled(false)
+,m_bActive(false)
 ,m_fileitem(_fileitem)
 {}
 

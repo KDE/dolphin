@@ -88,6 +88,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
+,m_activeItem(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -611,6 +612,15 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqOperations::doDrop( destItem /*may be 0L*/, u, ev, this );
 }
 
+void KonqBaseListViewWidget::takeItem( QListViewItem *item )
+{
+    if ( m_activeItem == static_cast<KonqBaseListViewItem *>(item) )
+        m_activeItem = 0L;
+
+    KListView::takeItem( item );
+}
+
+
 void KonqBaseListViewWidget::startDrag()
 {
    // Collect all selected items
@@ -658,9 +668,15 @@ void KonqBaseListViewWidget::startDrag()
 
 void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 {
+   
    KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
-   //TODO: Highlight on mouseover
-
+   if ( m_activeItem != 0 && m_activeItem != item )
+      m_activeItem->setActive( false );
+   
+   if (item)
+      item->setActive( true );
+   m_activeItem = item;   
+      
    // The .x() here is important, to avoid a Qt pseudo-bug... Basically,
    // don't call itemAt from here, it leads to bugs when deleting an item.
    if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ).x() ) )
@@ -669,7 +685,7 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
       m_pBrowserView->emitMouseOver( item->item() );
    }
    else
-       slotOnViewport();
+      reportSelectedItems();
 }
 
 void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
@@ -694,7 +710,19 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
    setFocus();
 }
 
+
+
 void KonqBaseListViewWidget::slotOnViewport()
+{
+   if (m_activeItem)
+   {
+      m_activeItem->setActive(false);
+      m_activeItem = 0;
+   }
+   reportSelectedItems();
+}
+
+void KonqBaseListViewWidget::reportSelectedItems()
 {
    KFileItemList lst = selectedFileItems();
    m_pBrowserView->emitCounts( lst, false );
@@ -925,7 +953,7 @@ void KonqBaseListViewWidget::setComplete()
    m_restored = false;
 
    // Show totals
-   slotOnViewport();
+   reportSelectedItems();
 
    if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
    {
@@ -968,6 +996,7 @@ void KonqBaseListViewWidget::slotClear()
 {
    kdDebug(1202) << k_funcinfo << endl;
 
+   m_activeItem = 0;
    m_pBrowserView->resetCount();
    m_pBrowserView->lstPendingMimeIconItems().clear();
 
@@ -1013,6 +1042,10 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
     if ( (*it).item() == _fileitem )
     {
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
+      
+      if ( m_activeItem == static_cast<KonqBaseListViewItem *>(&(*it)) )
+         m_activeItem = 0L;      
+      
       delete &(*it);
       // HACK HACK HACK: QListViewItem/KonqBaseListViewItem should
       // take care and the source looks like it does; till the

@@ -139,6 +139,8 @@ class KonqBaseListViewWidget : public KListView
       virtual void restoreState( QDataStream & );
 
       virtual void disableIcons( const KURL::List & lst );
+      
+      virtual void takeItem ( QListViewItem * i );
 
       KonqListView *m_pBrowserView;
       KonqFMSettings *m_pSettings;
@@ -196,6 +198,9 @@ class KonqBaseListViewWidget : public KListView
       //this is called in the constructor, so virtual would be nonsense
       void initConfig();
       //QStringList readProtocolConfig( const QString & protocol );
+      
+      //Notifies the browser view of the currently selected items
+      void reportSelectedItems();
 
       virtual void startDrag();
       virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
@@ -256,6 +261,7 @@ class KonqBaseListViewWidget : public KListView
 
       QString m_itemToGoTo;
       QTimer *m_backgroundTimer;
+      KonqBaseListViewItem *m_activeItem;
 };
 
 #endif

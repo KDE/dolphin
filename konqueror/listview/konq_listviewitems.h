@@ -45,14 +45,25 @@ class KonqBaseListViewItem : public KListViewItem
       void mimetypeFound();
       virtual void updateContents() = 0;
       virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
-      int state() const { return m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState; }
+      virtual void setActive  ( bool active   ) { m_bActive   = active;   }
+      
+      int state() const 
+      {
+         if (m_bDisabled)
+            return KIcon::DisabledState;
+         if (m_bActive)
+            return KIcon::ActiveState; 
+         return KIcon::DefaultState;
+      }
 
       /** For KonqMimeTypeResolver */
       QRect rect() const;
-
+      
    protected:
       QChar sortChar;
       bool m_bDisabled;
+      bool m_bActive; 
+      
       /** Pointer to the file item in KDirLister's list */
       KFileItem* m_fileitem;
       static const char* makeAccessString( const mode_t mode );
@@ -85,6 +96,7 @@ class KonqListViewItem : public KonqBaseListViewItem
                               int column, int width, int alignment );
       virtual void updateContents();
       virtual void setDisabled( bool disabled );
+      virtual void setActive  ( bool active   );
    protected:
       /** Parent tree view */
       KonqBaseListViewWidget* m_pListViewWidget;
