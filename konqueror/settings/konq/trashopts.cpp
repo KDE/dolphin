@@ -22,7 +22,7 @@
 //
 // (c) David Faure 2000
 
-#include <qbuttongroup.h>
+#include <qvbuttongroup.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
@@ -45,15 +45,8 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     lay->setRowStretch(1,1); // last row
 //    lay->setColStretch(1,1); // last col
 
-    QButtonGroup *bg = new QButtonGroup( i18n("Ask confirmation for:"), this );
-    bg->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)3, bg->sizePolicy().hasHeightForWidth()) );
-    bg->setColumnLayout(0, Qt::Vertical );
-    bg->layout()->setSpacing( 0 );
-    bg->layout()->setMargin( 0 );
-    QVBoxLayout *bgLay = new QVBoxLayout( bg->layout() );
-    bgLay->setAlignment( Qt::AlignTop );
-    bgLay->setSpacing( KDialog::spacingHint() );
-    bgLay->setMargin( KDialog::marginHint() );
+    QButtonGroup *bg = new QVButtonGroup( i18n("Ask confirmation for:"), this );
+    bg->layout()->setSpacing( KDialog::spacingHint() );
     QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
        " for a confirmation when you \"delete\" a file."
        " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
@@ -67,16 +60,11 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
     connect(bg, SIGNAL( clicked( int ) ), SLOT( slotDeleteBehaviourChanged( int ) ));
 
-//    bgLay->addSpacing(10);
-
     cbMoveToTrash = new QCheckBox( i18n("Move To Trash"), bg );
-    bgLay->addWidget(cbMoveToTrash);
 
     cbDelete = new QCheckBox( i18n("Delete"), bg );
-    bgLay->addWidget(cbDelete);
 
     cbShred = new QCheckBox( i18n("Shred"), bg );
-    bgLay->addWidget(cbShred);
 
     lay->addWidget(bg, 0, 0);
 
