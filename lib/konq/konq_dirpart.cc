@@ -27,7 +27,7 @@
 #include <kcolordlg.h>
 #include <kdebug.h>
 #include <kuserprofile.h>
-#include <konqdrag.h>
+#include <konq_drag.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
