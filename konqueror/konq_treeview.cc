@@ -130,7 +130,7 @@ KonqKfmTreeView::~KonqKfmTreeView()
 bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL( eventURL );
-  openURL( eventURL.url );
+  openURL( eventURL.url, (int)eventURL.xOffset, (int)eventURL.yOffset );
   return true;
 }
 
@@ -175,12 +175,22 @@ char *KonqKfmTreeView::url()
   return CORBA::string_dup( u.ascii() );
 }
 
+CORBA::Long KonqKfmTreeView::xOffset()
+{
+  return (CORBA::Long)contentsY();
+}
+
+CORBA::Long KonqKfmTreeView::yOffset()
+{
+  return (CORBA::Long)contentsX();
+}
+
 void KonqKfmTreeView::slotReloadTree()
 {
   QString u = m_strWorkingURL.c_str();
   if ( u.isEmpty() )
     u = m_strURL;
-  openURL( u.ascii() );
+  openURL( u.ascii(), contentsX(), contentsY() );
 }
 
 void KonqKfmTreeView::slotShowDot()
@@ -737,7 +747,7 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
   m_pMainView->popupMenu( _global, lstPopupURLs, mode );
 }
 
-void KonqKfmTreeView::openURL( const char *_url )
+void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
 {
   bool isNewProtocol = false;
 
@@ -806,6 +816,8 @@ void KonqKfmTreeView::openURL( const char *_url )
   m_strWorkingURL = _url;
   m_workingURL = url;
   m_bTopLevelComplete = false;
+  m_iXOffset = xOffset;
+  m_iYOffset = yOffset;
 
   KIOJob* job = new KIOJob;
   QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotListEntry( int, const UDSEntry& ) ) );
@@ -836,6 +848,7 @@ void KonqKfmTreeView::slotCloseURL( int /*_id*/ )
   m_bTopLevelComplete = true;
 
   SIGNAL_CALL1( "completed", id() );
+  setContentsPos( m_iXOffset, m_iYOffset );
 }
 
 void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )

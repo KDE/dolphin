@@ -77,6 +77,9 @@ bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   
   clear();
   
+  m_iXOffset = eventURL.xOffset;
+  m_iYOffset = eventURL.yOffset;
+  
   m_strURL = eventURL.url;
   job->get( eventURL.url, (bool)eventURL.reload );
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
@@ -111,6 +114,16 @@ bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
   return true;
 }
 
+CORBA::Long KonqTxtView::xOffset()
+{
+  return (CORBA::Long)QTableView::xOffset();
+}
+
+CORBA::Long KonqTxtView::yOffset()
+{
+  return (CORBA::Long)QTableView::yOffset();
+}
+
 void KonqTxtView::stop()
 {
   if ( m_jobId )
@@ -120,34 +133,6 @@ void KonqTxtView::stop()
       job->kill();
     m_jobId = 0;
   }
-}
-
-Konqueror::View::HistoryEntry *KonqTxtView::saveState()
-{
-  Konqueror::View::HistoryEntry *entry = new Konqueror::View::HistoryEntry;
-  
-  entry->url = CORBA::string_dup( m_strURL.ascii() );
-
-  CORBA::WString_var txt = Q2C( text() );
-  
-  entry->data <<= CORBA::Any::from_wstring( txt, 0 );
-  
-  return entry;
-}
-
-void KonqTxtView::restoreState( const Konqueror::View::HistoryEntry &history )
-{
-  m_strURL = history.url.in();
-  
-  CORBA::WChar *txt;
-  history.data >>= CORBA::Any::to_wstring( txt, 0 );
-  
-  QString s = C2Q( txt );
-  setText( s );
-  
-  SIGNAL_CALL2( "started", id(), history.url );
-  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char*)history.url.in(), 0 ) );
-  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqTxtView::slotSelectAll()
@@ -206,6 +191,8 @@ void KonqTxtView::slotFinished( int )
 {
   m_jobId = 0;
   SIGNAL_CALL1( "completed", id() );
+  setXOffset( m_iXOffset );
+  setYOffset( m_iYOffset );
 }
 
 void KonqTxtView::slotRedirection( int, const char *url )

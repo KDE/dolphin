@@ -39,11 +39,6 @@ module Konqueror
 
   interface View : OpenParts::Part
   {
-    struct HistoryEntry
-    {
-      string url;
-      any data;
-    };
     
     /*
      * A full featured Konqueror View has to map the eventOpenURL event (which 
@@ -60,15 +55,10 @@ module Konqueror
      */
      
     string url();
+    long xOffset();
+    long yOffset();
     
     void stop();
-
-    /*
-     * Note: Call saveState() only if the view signalled that it's finished
-     *       (signal "completed")
-     */
-    HistoryEntry saveState();
-    void restoreState( in HistoryEntry history );
     
     /*
      * returns a name for the view (for example just like "KMailFolderView" or
@@ -146,31 +136,6 @@ module Konqueror
     typedef sequence<HTMLPageLinkInfo> HTMLPageLinkInfoList;
   
     HTMLPageLinkInfoList pageLinkInfoList();
-  
-    struct SavedState
-    {
-      string frameName;
-      boolean isFrame;
-      long scrolling;
-      long frameBorder;
-      long marginWidth;
-      long marginHeight;
-      boolean allowResize;
-      boolean isFrameSet;
-      string url;
-      string title;
-      long xOffset;
-      long yOffset;
-      boolean hasFormsList;
-      StrList forms;
-      boolean hasFrameLayout;
-      string fl_rows;
-      string fl_cols;
-      long fl_frameBorder;
-      boolean fl_allowResize;
-      boolean hasFrames;
-      sequence<SavedState> frames;
-    };
   
     slot void saveDocument();
     slot void saveFrame();

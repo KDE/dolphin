@@ -65,11 +65,8 @@ public:
   virtual char *viewName() { return CORBA::string_dup( "KonquerorHTMLView" ); }
 
   virtual char *url();
-
-  virtual Konqueror::View::HistoryEntry *saveState();
-  virtual void restoreState( const Konqueror::View::HistoryEntry &history );
-  virtual Konqueror::HTMLView::SavedState savePage( SavedPage *page );
-  virtual SavedPage *restorePage( Konqueror::HTMLView::SavedState state );
+  virtual CORBA::Long xOffset();
+  virtual CORBA::Long yOffset();
 
   virtual void print();
   

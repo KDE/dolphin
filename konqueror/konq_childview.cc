@@ -76,6 +76,8 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
 
   m_lstServiceTypes = serviceTypes;
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
+  m_lstBack.setAutoDelete( true );
+  m_lstForward.setAutoDelete( true );
 }
 
 KonqChildView::~KonqChildView()
@@ -127,13 +129,13 @@ void KonqChildView::show()
     m_pKonqFrame->show();
 }
 
-void KonqChildView::openURL( QString url )
+void KonqChildView::openURL( QString url, int xOffset, int yOffset )
 {
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.data() );
   eventURL.reload = (CORBA::Boolean)false;
-  eventURL.xOffset = 0;
-  eventURL.yOffset = 0;
+  eventURL.xOffset = (CORBA::Long)xOffset;
+  eventURL.yOffset = (CORBA::Long)yOffset;
   EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
@@ -162,7 +164,9 @@ void KonqChildView::switchView( Konqueror::View_ptr _vView, const QStringList &s
   show(); // switchView is never called on startup. We can always show() the view.
 }
 
-bool KonqChildView::changeViewMode( const QString &serviceType, const QString &_url )
+bool KonqChildView::changeViewMode( const QString &serviceType, 
+                                    const QString &_url, 
+				    int xOffset, int yOffset )
 {
   QString url = _url;
   if ( url.isEmpty() )
@@ -171,7 +175,8 @@ bool KonqChildView::changeViewMode( const QString &serviceType, const QString &_
   //no need to change anything if we are able to display this servicetype
   if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() )
   {
-    openURL( url );
+    makeHistory( false );
+    openURL( url, xOffset, yOffset );
     return true;
   }
 
@@ -180,18 +185,22 @@ bool KonqChildView::changeViewMode( const QString &serviceType, const QString &_
   if ( !createView( serviceType, vView, serviceTypes, m_pMainView ) )
    return false;
   
+  makeHistory( false );
   OpenParts::Id oldId = m_vView->id();
   switchView( vView, serviceTypes );
   
   emit sigIdChanged( this, oldId, vView->id() );
   
-  openURL( url );
+  openURL( url, xOffset, yOffset );
   
   m_vMainWindow->setActivePart( vView->id() ); 
   return true;
 }
 
-void KonqChildView::changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &_url )
+void KonqChildView::changeView( Konqueror::View_ptr _vView, 
+                                const QStringList &serviceTypes, 
+				const QString &_url,
+				int xOffset, int yOffset )
 {
   QString url = _url;
   if ( url.isEmpty() )
@@ -202,7 +211,7 @@ void KonqChildView::changeView( Konqueror::View_ptr _vView, const QStringList &s
   
   emit sigIdChanged( this, oldId, _vView->id() );
   
-  openURL( url );
+  openURL( url, xOffset, yOffset );
   
   m_vMainWindow->setActivePart( _vView->id() );
 }
@@ -260,103 +269,74 @@ void KonqChildView::connectView(  )
 
 }
 
-void KonqChildView::makeHistory( bool bCompleted, QString url )
+void KonqChildView::makeHistory( bool pushEntry )
 {
-  InternalHistoryEntry h;
-
-  if ( !bCompleted )
+  //HACK
+  if ( !m_bHistoryLock && m_pCurrentHistoryEntry && pushEntry &&
+       ( m_pCurrentHistoryEntry->strServiceType == "text/html" ) &&
+       m_vView->supportsInterface( "IDL:Konqueror/HTMLView:1.0" ) )
   {
-    if ( !m_bHistoryLock && ( url != m_tmpInternalHistoryEntry.strURL ) ) // no lock
+    m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
+    m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
+  }
+
+  if ( pushEntry )
+  {
+    if ( !m_bHistoryLock )
     {
-      if ( m_bBack ) {
+      if ( m_bBack ) 
+      {
         m_bBack = false;
-        kdebug(0,1202,"pushing into forward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
-        m_lstForward.prepend( m_tmpInternalHistoryEntry );
-      } else if ( m_bForward ) {
-        m_bForward = false;
-        kdebug(0,1202,"pushing into backward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
-        m_lstBack.append( m_tmpInternalHistoryEntry );
-      } else {
+        kdebug(0,1202,"pushing into forward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+        m_lstForward.insert( 0, m_pCurrentHistoryEntry );
+      }
+      else if ( m_bForward ) 
+      {
+         m_bForward = false;
+         kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+         m_lstBack.append( m_pCurrentHistoryEntry );
+      } 
+      else 
+      {
         m_lstForward.clear();
-        kdebug(0,1202,"pushing into backward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
-        m_lstBack.append( m_tmpInternalHistoryEntry );
-      }	
+        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+        m_lstBack.append( m_pCurrentHistoryEntry );
+      }
     }
     else
       m_bHistoryLock = false;
+  }
   
-    h.bHasHistoryEntry = false;
-    h.strURL = url;
-    h.strServiceType = m_lstServiceTypes.first();
-    m_tmpInternalHistoryEntry = h;
-  }
-  else
-  {
-    h = m_tmpInternalHistoryEntry;
-      
-    h.bHasHistoryEntry = true;
-    Konqueror::View::HistoryEntry_var state = m_vView->saveState();
-    h.entry = state;
+  if ( pushEntry || !m_pCurrentHistoryEntry )
+    m_pCurrentHistoryEntry = new HistoryEntry;
 
-    m_tmpInternalHistoryEntry = h;
-  }
+  CORBA::String_var curl = m_vView->url();
+  m_pCurrentHistoryEntry->strURL = QString( curl.in() );
+  m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
+  m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
+  m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
 }
 
 void KonqChildView::goBack()
 {
   assert( m_lstBack.count() != 0 );
 
-  InternalHistoryEntry h = m_lstBack.last();
-  m_lstBack.remove(m_lstBack.fromLast());
+  HistoryEntry *h = m_lstBack.take( m_lstBack.count()-1 );
   m_bBack = true;
-  kdebug(0,1202,"restoring %s with stype %s", h.entry.url.in(), h.strServiceType.ascii());
 
-  if ( h.bHasHistoryEntry ) {
-    Konqueror::View_var vView;
-    QStringList serviceTypes;
-    createView( h.strServiceType, vView, serviceTypes, m_pMainView );
-    
-    OpenParts::Id oldId = m_vView->id();
-    switchView( vView, serviceTypes );
-
-    emit sigIdChanged( this, oldId, vView->id() );
-  
-    vView->restoreState( h.entry );
-    
-    m_vMainWindow->setActivePart( vView->id() );    
-  }    
-  else
-  {
-    kdebug(0,1202,"restoring %s",h.strURL.data());
-    changeViewMode( h.strServiceType, h.strURL );
-  }
+  changeViewMode( h->strServiceType, h->strURL, h->xOffset, h->yOffset );
+  delete h;
 }
 
 void KonqChildView::goForward()
 {
   assert( m_lstForward.count() != 0 );
 
-  InternalHistoryEntry h = m_lstForward.first();
-  m_lstForward.remove(m_lstForward.begin());
+  HistoryEntry *h = m_lstForward.take( 0 );
   m_bForward = true;
-  kdebug(0,1202,"restoring %s with stype %s", h.entry.url.in(), h.strServiceType.ascii());
 
-  if ( h.bHasHistoryEntry ) {
-    Konqueror::View_var vView;
-    QStringList serviceTypes;
-    createView( h.strServiceType, vView, serviceTypes, m_pMainView );
-
-    OpenParts::Id oldId = m_vView->id();
-    switchView( vView, serviceTypes );
-
-    emit sigIdChanged( this, oldId, vView->id() );
-  
-    vView->restoreState( h.entry );
-    
-    m_vMainWindow->setActivePart( vView->id() );    
-  }    
-  else
-    changeViewMode( h.strServiceType, h.strURL );
+  changeViewMode( h->strServiceType, h->strURL, h->xOffset, h->yOffset );
+  delete h;
 }
 
 QString KonqChildView::url()
@@ -380,29 +360,12 @@ void KonqChildView::reload()
   m_bBack = false;
   lockHistory();
   
-// TODO (trivial)
-// hm...perhaps I was wrong ;)
-// I'll do it now like this:
   Konqueror::EventOpenURL eventURL;
   eventURL.url = m_vView->url();
   eventURL.reload = (CORBA::Boolean)true;
-  eventURL.xOffset = 0;
-  eventURL.yOffset = 0;
+  eventURL.xOffset = m_vView->xOffset();
+  eventURL.yOffset = m_vView->yOffset();
   EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
-//but perhaps this would be better:
-//(1) remove the reload/xOffset/yOffset stuff out of the event structure
-//(2) add general methods like reload(), moveTo( xofs, yofs) to the view interface
-// What do you think, David?
-//(Simon)
-
-  // Hmm, if we need the current structure, we need to be able to _get_ the 
-  // xofs and yofs, in order to fill the above. Can we do that ? (David)
-  
-  // very true... We should fix this ASAP (the event structure as well as the
-  // history functionality, bound to it in somehow (--> for example when pressing
-  // the back button I want the previous view to be at the previous x/y offset
-  // Hm....
-  // (Simon)
 }
 
 bool KonqChildView::supportsServiceType( const QString &serviceType )

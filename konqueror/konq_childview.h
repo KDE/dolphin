@@ -82,7 +82,7 @@ public:
    * Displays another URL, but without changing the view mode (caller has to 
    * ensure that the call makes sense)
    */
-  void openURL( QString url );
+  void openURL( QString url, int xOffset = 0, int yOffset = 0 );
   /**
    * Builds or destroys view-specific part of the menus.
    */
@@ -93,9 +93,8 @@ public:
    */
   void switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes );
 
-  bool changeViewMode( const QString &serviceType, const QString &url = QString::null );
-  
-  void changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &url = QString::null );
+  bool changeViewMode( const QString &serviceType, const QString &url = QString::null, int xOffset = 0, int yOffset = 0 );  
+  void changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &url = QString::null, int xOffset = 0, int yOffset = 0 );
   
   /**
    * Create a view
@@ -110,10 +109,8 @@ public:
   
   /**
    * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
-   * @param bCompleted true if view has finished loading - hum.
-   * @param url the current url.
    */
-  void makeHistory( bool bCompleted, QString url );
+  void makeHistory( bool pushEntry );
     
   /**
    * @return true if view can go back
@@ -205,11 +202,11 @@ protected:
 
 ////////////////// protected members ///////////////
 
-  struct InternalHistoryEntry
+  struct HistoryEntry
   {
-    bool bHasHistoryEntry;
     QString strURL;
-    Konqueror::View::HistoryEntry entry;
+    int xOffset;
+    int yOffset;
     QString strServiceType;
   };
 
@@ -220,11 +217,11 @@ protected:
   bool m_bBack;
   bool m_bForward;
   
-  QValueList<InternalHistoryEntry> m_lstBack;
-  QValueList<InternalHistoryEntry> m_lstForward;
+  QList<HistoryEntry> m_lstBack;
+  QList<HistoryEntry> m_lstForward;
 
-  /** Used by makeHistory, to store an history entry between calls */
-  InternalHistoryEntry m_tmpInternalHistoryEntry;
+  HistoryEntry *m_pCurrentHistoryEntry;
+
   /** If true, next call to makeHistory won't change the history */
   bool m_bHistoryLock;
     

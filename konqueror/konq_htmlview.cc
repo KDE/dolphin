@@ -118,7 +118,7 @@ bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
-  KonqHTMLView::openURL( QString( eventURL.url ), (bool)eventURL.reload ); // implemented by kbrowser
+  KonqHTMLView::openURL( QString( eventURL.url ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
   checkViewMenu();
   return true;
@@ -391,149 +391,14 @@ char *KonqHTMLView::url()
   return CORBA::string_dup( u.ascii() );
 }
 
-Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
+CORBA::Long KonqHTMLView::xOffset()
 {
- kdebug(0,1202,"Konqueror::View::HistoryEntry *KonqHTMLView::saveState()");
-
-  Konqueror::View::HistoryEntry *entry = new Konqueror::View::HistoryEntry;
-  
-  entry->url = getKHTMLWidget()->getDocumentURL().url().ascii();
-  
-  SavedPage *p = saveYourself();
-  entry->data <<= savePage( p );
-  delete p;
-  return entry;
+  return (CORBA::Long)KBrowser::xOffset();
 }
 
-void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )
+CORBA::Long KonqHTMLView::yOffset()
 {
- kdebug(0,1202,"void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )");
-
-  Konqueror::HTMLView::SavedState state;
-  
-  entry.data >>= state;
-  
-  SavedPage *p = restorePage( state );
-    
-  //FIXME: It might be good to use an event here, because of possibly installed
-  //       event filters. Pppppperhaps: Store p somewhere else, set a bool flag,
-  //       emit an "tweaked" event and obey the flag inside the event handler.
-  //(Simon)
-  
-  restore( p );
-  delete p;
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)entry.url.in(), 0 ) );
-}
-
-Konqueror::HTMLView::SavedState KonqHTMLView::savePage( SavedPage *p )
-{
-  Konqueror::HTMLView::SavedState sp;
-  
-  sp.frameName = p->frameName;
-  sp.isFrame = p->isFrame;
-  sp.scrolling = p->scrolling;
-  sp.frameBorder = p->frameborder;
-  sp.marginWidth = p->marginwidth;
-  sp.marginHeight = p->marginheight;
-  sp.allowResize = p->allowresize;
-  sp.isFrameSet = p->isFrameSet;
-  sp.url = p->url;
-  sp.title= p->title;
-  sp.xOffset = p->xOffset;
-  sp.yOffset = p->yOffset;
-  
-  if ( p->forms && p->forms->count() > 0 )
-  {
-    sp.hasFormsList = true;
-    
-    sp.forms.length( p->forms->count() );
-    QStringList::Iterator it = p->forms->begin();   
-    int i = 0;
-    for (; it != p->forms->end(); ++it )
-      sp.forms[ i++ ] = *it;
-  }
-  else
-    sp.hasFormsList = false;
-  
-  if ( p->frameLayout )
-  {
-    sp.hasFrameLayout = true;
-    
-    sp.fl_rows = p->frameLayout->rows;
-    sp.fl_cols = p->frameLayout->cols;
-    sp.fl_frameBorder = p->frameLayout->frameBorder;
-    sp.fl_allowResize = p->frameLayout->allowResize;
-  }
-  else
-    sp.hasFrameLayout = false;    
-
-  if ( p->frames && p->frames->count() > 0 )
-  {
-    sp.hasFrames = true;  
-      
-    sp.frames.length( p->frames->count() );
-
-    QListIterator<SavedPage> it( *p->frames );
-    int i = 0;
-    for (; it.current(); ++it)
-      sp.frames[ i++ ] = savePage( it.current() );
-  }
-  else
-    sp.hasFrames = false;
-        
-  return sp;
-}
-
-SavedPage *KonqHTMLView::restorePage( Konqueror::HTMLView::SavedState state )
-{
-  SavedPage *p = new SavedPage;
-  
-  p->frameName = state.frameName.in();
-  p->isFrame = state.isFrame;
-  p->scrolling = state.scrolling;
-  p->frameborder = state.frameBorder;
-  p->marginwidth = state.marginWidth;
-  p->marginheight = state.marginHeight;
-  p->allowresize = state.allowResize;
-  p->isFrameSet = state.isFrameSet;
-  p->url = state.url.in();
-  p->title = state.title.in();
-  p->xOffset = state.xOffset;
-  p->yOffset = state.yOffset;
-  
-  if ( state.hasFormsList )
-  {
-    p->forms = new QStringList;
-    
-    for ( CORBA::ULong i = 0; i < state.forms.length(); i++ )
-      p->forms->append( state.forms[ i ].in() );
-  }
-  else
-    p->forms = 0L;
-  
-  if ( state.hasFrameLayout )
-  {
-    p->frameLayout = new FrameLayout;
-    
-    p->frameLayout->rows = state.fl_rows.in();
-    p->frameLayout->cols = state.fl_cols.in();
-    p->frameLayout->frameBorder = state.fl_frameBorder;
-    p->frameLayout->allowResize = state.fl_allowResize;
-  }
-  else
-    p->frameLayout = 0L;    
-    
-  if ( state.hasFrames )
-  {
-    p->frames = new QList<SavedPage>;
-    
-    for ( CORBA::ULong i = 0; i < state.frames.length(); i++ )
-      p->frames->append( restorePage( state.frames[ i ] ) );
-  }
-  else
-    p->frames = 0L;    
-    
-  return p;
+  return (CORBA::Long)KBrowser::yOffset();
 }
 
 void KonqHTMLView::print()

@@ -49,9 +49,6 @@ public:
    */
   virtual char *url();
 
-  virtual Konqueror::View::HistoryEntry *saveState();
-  virtual void restoreState( const Konqueror::View::HistoryEntry &history );
-
   /**
    * Ask the main view to open this URL, since it might not be suitable
    * for the current type of view. It might even be a file (KRun will be used)

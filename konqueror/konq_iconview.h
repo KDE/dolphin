@@ -75,8 +75,10 @@ public:
   virtual char *viewName() { return CORBA::string_dup("KonquerorKfmIconView"); }
   
   virtual char *url();
-      
-  virtual void openURL( const char* _url );
+  virtual CORBA::Long xOffset();
+  virtual CORBA::Long yOffset();
+
+  virtual void openURL( const char* _url, int xOffset, int yOffset );
   
   //virtual void updateDirectory();
 
@@ -126,6 +128,9 @@ protected:
 
   /** Set to true if the next slotUpdate needs to call setup() */
   bool bSetupNeeded;
+  
+  int m_iXOffset;
+  int m_iYOffset;
   
   KonqMainView *m_pMainView;
 };

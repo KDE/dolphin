@@ -39,12 +39,12 @@ public:
   virtual bool mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu );
   virtual bool mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu );
 
+  virtual CORBA::Long xOffset();
+  virtual CORBA::Long yOffset();
+
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup( "KonquerorTxtView" ); }
   
-  virtual Konqueror::View::HistoryEntry *saveState();
-  virtual void restoreState( const Konqueror::View::HistoryEntry &history );
-
   virtual void slotSelectAll();
 
   virtual void print();
@@ -61,6 +61,8 @@ protected:
 private:
   int m_jobId;
   KonqMainView *m_pMainView;
+  int m_iXOffset;
+  int m_iYOffset;
 };
 
 #endif

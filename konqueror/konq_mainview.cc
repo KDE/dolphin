@@ -679,7 +679,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   m_mapViews.insert( view->id(), v );
 
-  v->lockHistory(); // first URL won't go into history
+  v->lockHistory();
 
   if (isVisible()) v->show();
   
@@ -946,7 +946,10 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
       childView->changeViewMode( "text/html", indexFile );
     else
+    {
+      childView->makeHistory( false );
       childView->openURL( url );
+    }
       
     childView->setKfmRun( 0L );
     return true;
@@ -1520,7 +1523,8 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   if ( id == m_currentId )
     slotStartAnimation();
 
-  it.data()->makeHistory( false /* not completed */, url );
+  (*it)->makeHistory( true );
+  
   if ( id == m_currentId )
   {
     setUpEnabled( url, id );
@@ -1540,7 +1544,8 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
   if ( id == m_currentId )
     slotStopAnimation();
 
-  it.data()->makeHistory( true /* completed */, QString::null /* not used */);
+  (*it)->makeHistory( false );
+ 
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );

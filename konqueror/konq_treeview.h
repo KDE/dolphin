@@ -104,6 +104,8 @@ public:
   virtual char *viewName() { return CORBA::string_dup("KonquerorKfmTreeView"); }
   
   virtual char *url();
+  virtual CORBA::Long xOffset();
+  virtual CORBA::Long yOffset();
 
   virtual void slotReloadTree();
   virtual void slotShowDot();
@@ -156,7 +158,7 @@ public:
   virtual void setShowingDotFiles( bool _isShowingDotFiles );
   virtual bool isShowingDotFiles() { return m_isShowingDotFiles; }
 
-  virtual void openURL( const char* _url );
+  virtual void openURL( const char* _url, int xOffset, int yOffset );
 
   virtual void openSubFolder( const char *_url, KfmTreeViewDir* _dir );
 
@@ -268,6 +270,9 @@ protected:
   bool m_underlineLink;
   bool m_changeCursor;
   bool m_isShowingDotFiles;
+
+  int m_iXOffset;
+  int m_iYOffset;
   
   KonqMainView *m_pMainView;
 };

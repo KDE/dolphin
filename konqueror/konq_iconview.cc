@@ -96,7 +96,7 @@ KonqKfmIconView::~KonqKfmIconView()
 bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
-  openURL( eventURL.url );
+  openURL( eventURL.url, (int)eventURL.xOffset, (int)eventURL.yOffset );
   return true;
 }
 
@@ -211,6 +211,16 @@ char *KonqKfmIconView::url()
 {
   assert( m_dirLister );
   return CORBA::string_dup( m_dirLister->url().ascii() );
+}
+
+CORBA::Long KonqKfmIconView::xOffset()
+{
+  return (CORBA::Long)contentsX();
+}
+
+CORBA::Long KonqKfmIconView::yOffset()
+{
+  return (CORBA::Long)contentsY();
 }
 
 void KonqKfmIconView::initConfig()
@@ -396,6 +406,7 @@ void KonqKfmIconView::slotStarted( const QString & url )
 void KonqKfmIconView::slotCompleted()
 {
   SIGNAL_CALL1( "completed", id() );
+  setContentsPos( m_iXOffset, m_iYOffset );
 }
 
 void KonqKfmIconView::slotCanceled()
@@ -443,7 +454,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     }
 }
 
-void KonqKfmIconView::openURL( const char *_url )
+void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
 {
   if ( !m_dirLister )
   {
@@ -461,6 +472,9 @@ void KonqKfmIconView::openURL( const char *_url )
     QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ), 
                       this, SLOT( slotDeleteItem( KFileItem * ) ) );
   }
+
+  m_iXOffset = xOffset;
+  m_iYOffset = yOffset;
 
   // Start the directory lister !
   m_dirLister->openURL( KURL( _url ), m_pProps->m_bShowDot );

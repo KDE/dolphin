@@ -46,6 +46,9 @@ public:
   
   virtual void stop() {}
   
+  virtual CORBA::Long xOffset() { return (CORBA::Long)0; }
+  virtual CORBA::Long yOffset() { return (CORBA::Long)0; }
+  
   virtual char *viewName() { return CORBA::string_dup("KonquerorPartView"); }
   
 protected:
