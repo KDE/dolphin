@@ -54,7 +54,7 @@ class KWrite : public KParts::MainWindow
 
     KRecentFilesAction * m_recentFiles;
     KToggleAction * m_paShowPath;
-    KToggleAction * m_paShowToolBar;
+//    KToggleAction * m_paShowToolBar;
     KToggleAction * m_paShowStatusBar;
 
   public slots:
@@ -63,7 +63,7 @@ class KWrite : public KParts::MainWindow
     void slotOpen();
     void slotOpen( const KURL& url);
     void newView();
-    void toggleToolBar();
+//    void toggleToolBar();
     void toggleStatusBar();
     void editKeys();
     void editToolbars();

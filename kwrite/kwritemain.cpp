@@ -64,7 +64,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
     : kateView(0),
       m_recentFiles(0),
       m_paShowPath(0),
-      m_paShowToolBar(0),
+//      m_paShowToolBar(0),
       m_paShowStatusBar(0)
 {
   setMinimumSize(200,200);
@@ -102,9 +102,9 @@ KWrite::~KWrite()
 
 void KWrite::init()
 {
-  KToolBar *tb = toolBar("mainToolBar");
+/*  KToolBar *tb = toolBar("mainToolBar");
   if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
-    else m_paShowToolBar->setEnabled(false);
+    else m_paShowToolBar->setEnabled(false);*/
   KStatusBar *sb = statusBar();
   if (sb) m_paShowStatusBar->setChecked( !sb->isHidden() );
     else m_paShowStatusBar->setEnabled(false);
@@ -154,7 +154,7 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
 
   setCentralWidget(kateView);
   
-  KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" );
+  KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" )->setWhatsThis(i18n("Use this to close the current document"));
 }
 
 void KWrite::changeEditor()
@@ -170,31 +170,45 @@ void KWrite::slotFlush ()
 
 void KWrite::setupActions()
 {
+  KAction *a;
+
   // setup File menu
-  KStdAction::print(this, SLOT(printDlg()), actionCollection());
-  KStdAction::openNew( this, SLOT(slotNew()), actionCollection(), "file_new" );
-  KStdAction::open( this, SLOT( slotOpen() ), actionCollection(), "file_open" );
+  KStdAction::print(this, SLOT(printDlg()), actionCollection())->setWhatsThis(i18n("Use this command to print the current document"));
+  KStdAction::openNew( this, SLOT(slotNew()), actionCollection(), "file_new" )->setWhatsThis(i18n("Use this command to create a new document"));
+  KStdAction::open( this, SLOT( slotOpen() ), actionCollection(), "file_open" )->setWhatsThis(i18n("Use this command to open an existing document for editing"));
 //  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
 //                                        actionCollection());
 
   m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
-                                        actionCollection());
+                                         actionCollection());
+  m_recentFiles->setWhatsThis(i18n("This lists files you had recently opened and allows you to easily open them again"));
 
-
-  new KAction(i18n("New &View"), 0, this, SLOT(newView()),
+  a=new KAction(i18n("New &View"), 0, this, SLOT(newView()),
               actionCollection(), "file_newView");
-  new KAction(i18n("Choose Editor..."),0,this,SLOT(changeEditor()),
+  a->setWhatsThis(i18n("Create another view containing the current document"));
+
+  a=new KAction(i18n("Choose Editor..."),0,this,SLOT(changeEditor()),
 		actionCollection(),"settings_choose_editor");
-  KStdAction::quit(this, SLOT(close()), actionCollection());
+  a->setWhatsThis(i18n("Override the system wide setting for the default editing component"));
+
+  KStdAction::quit(this, SLOT(close()), actionCollection())->setWhatsThis(i18n("Close the current document view"));
 
 
   // setup Settings menu
-  m_paShowToolBar = KStdAction::showToolbar( this, SLOT( toggleToolBar() ), actionCollection(), "settings_show_toolbar" );
+  //m_paShowToolBar = KStdAction::showToolbar( this, SLOT( toggleToolBar() ), actionCollection(), "settings_show_toolbar" );
+  setStandardToolBarMenuEnabled(true);
+
   m_paShowStatusBar = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection(), "settings_show_statusbar");
+  m_paShowStatusBar->setWhatsThis(i18n("Use this command to show or hide the view's statusbar"));
+
   m_paShowPath = new KToggleAction(i18n("Sho&w Path"), 0, this, SLOT(newCaption()),
                     actionCollection(), "set_showPath");
-  KStdAction::keyBindings(this, SLOT(editKeys()), actionCollection());
-  KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection(), "set_configure_toolbars");
+  m_paShowPath->setWhatsThis(i18n("Show the complete document path in the window caption"));
+  a=KStdAction::keyBindings(this, SLOT(editKeys()), actionCollection());
+  a->setWhatsThis(i18n("Configure the application's keyboard shorcut assignments"));
+
+  a=KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection(), "set_configure_toolbars");
+  a->setWhatsThis(i18n("Configure which items should appear in the toolbar(s)"));
 }
 
 void KWrite::setupStatusBar()
@@ -267,13 +281,13 @@ void KWrite::newView()
   t->init();
 }
 
-void KWrite::toggleToolBar()
+/*void KWrite::toggleToolBar()
 {
   if( m_paShowToolBar->isChecked() )
     toolBar("mainToolBar")->show();
   else
     toolBar("mainToolBar")->hide();
-}
+}*/
 
 void KWrite::toggleStatusBar()
 {
