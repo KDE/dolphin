@@ -113,6 +113,14 @@ int main( int argc, char **argv )
   KonqBookmarkManager bm ( path );
   KonqFileManager fm;
 
+  // Launch the cookiejar if not already running
+  KConfig *kioConfig = new KConfig("kioslaverc", false, false);
+  if (kioConfig->readBoolEntry( "Cookies", true ))
+  {
+     system("kcookiejar");
+  }
+  delete kioConfig;
+
   if ( argc == 1 )
   {
     fm.openFileManagerWindow( 0L );
