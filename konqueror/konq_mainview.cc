@@ -79,6 +79,8 @@ bool KonqMainView::s_bMoveSelection = false;
 KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
  : View( part, parent, name ),  DCOPObject( "KonqMainViewIface" )
 {
+  setFocusPolicy( NoFocus ); // don't give the focus to this dummy QWidget
+
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_bViewModeLock = false;
