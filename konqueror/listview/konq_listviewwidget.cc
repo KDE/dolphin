@@ -294,7 +294,7 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
          };
          nextItem=nextItem->itemAbove();
       };
-      
+
       break;
     case Key_Minus:
        if ( item->isOpen() )
@@ -313,7 +313,7 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
    kdDebug(1202)<<"readProtocolConfig: -"<<protocol<<"-"<<endl;
-   
+
    KConfig * config = KGlobal::config();
    //kdDebug(1202) << "in readProtocolConfig: protocol: -" <<protocol<<"-"<< endl;
    if ( config->hasGroup( "ListView_" + protocol ) )
@@ -336,26 +336,22 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       lstColumns.append( "Link" );
    }
 
-   for (int i=0; i<confColumns.count(); i++)
+   for (unsigned int i=0; i<confColumns.count(); i++)
    {
       confColumns.at(i)->displayThisOne=FALSE;
-      confColumns.at(i)->toggleThisOne->blockSignals(TRUE);
       confColumns.at(i)->toggleThisOne->setChecked(FALSE);
       confColumns.at(i)->toggleThisOne->setEnabled(TRUE);
-      confColumns.at(i)->toggleThisOne->blockSignals(FALSE);
    };
    //check all columns in lstColumns
-   for (int i=0; i<lstColumns.count(); i++)
+   for (unsigned int i=0; i<lstColumns.count(); i++)
    {
       //search the column in confColumns
-      for (int j=0; j<confColumns.count(); j++)
+      for (unsigned int j=0; j<confColumns.count(); j++)
       {
          if (confColumns.at(j)->name==*lstColumns.at(i))
          {
             confColumns.at(j)->displayThisOne=TRUE;
-            confColumns.at(j)->toggleThisOne->blockSignals(TRUE);
             confColumns.at(j)->toggleThisOne->setChecked(TRUE);
-            confColumns.at(j)->toggleThisOne->blockSignals(FALSE);
             break;
          };
       };
@@ -365,7 +361,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
    for (int j=0; j<listingList.count(); j++)
       kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
-   
+
    for (int i=0; i<confColumns.count(); i++)
    {
       int k(0);
@@ -374,10 +370,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       if (*listingList.at(k)!=confColumns.at(i)->desktopFileName)
       {
          confColumns.at(i)->displayThisOne=FALSE;
-         confColumns.at(i)->toggleThisOne->blockSignals(TRUE);
          confColumns.at(i)->toggleThisOne->setEnabled(FALSE);
          confColumns.at(i)->toggleThisOne->setChecked(FALSE);
-         confColumns.at(i)->toggleThisOne->blockSignals(FALSE);
       };
    };
 };
@@ -888,7 +882,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    // The first time or new protocol ? So create the columns first
    kdDebug(1202) << "protocol in ::openURL: -" << url.protocol()<<"- url: -"<<url.path()<<"-"<<endl;
-   
+
    if (( columns() <1) || (strcmp( url.protocol(), m_url.protocol() ) != 0))
    {
       readProtocolConfig( url.protocol() );
