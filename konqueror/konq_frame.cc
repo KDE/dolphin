@@ -27,6 +27,7 @@
 
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 #include <kprogress.h>
 #include <klocale.h>
 
@@ -761,11 +762,11 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
 
   m_pPopupMenu = new QPopupMenu( 0L );
 
-  m_pPopupMenu->insertItem( "&New Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
-  m_pPopupMenu->insertItem( "&Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ) );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), "&New Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), "&Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ) );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( "&Close Tab", m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
-  m_pPopupMenu->insertItem( "&Detach Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), "&Close Tab", m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), "&Detach Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
 }
 
 void KonqTabBar::mousePressEvent(QMouseEvent *e)
