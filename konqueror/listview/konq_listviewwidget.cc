@@ -117,12 +117,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    connect( this, SIGNAL(currentChanged(QListViewItem*)),
             this, SLOT(slotCurrentChanged(QListViewItem*)));
-   connect( this, SIGNAL(onItem(QListViewItem*)),
-            this, SLOT(slotOnItem(QListViewItem*)));
    connect( this, SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),
             this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
-   connect( this, SIGNAL(onViewport()),
-            this, SLOT(slotOnViewport()));
    connect( this, SIGNAL(contextMenuRequested(QListViewItem*, const QPoint&, int)),
             this, SLOT(slotPopupMenu(QListViewItem*, const QPoint&, int)));
    connect( this, SIGNAL(selectionChanged()),
@@ -341,8 +337,8 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
    m_selected = new QPtrList<KonqBaseListViewItem>;
 
    QPoint vp = contentsToViewport( e->pos() );
-   KonqBaseListViewItem *item = isExecuteArea( vp ) ?
-         (KonqBaseListViewItem*)itemAt( vp ) : 0L;
+   KonqBaseListViewItem* item = isExecuteArea( vp ) ?
+         static_cast<KonqBaseListViewItem*>( itemAt( vp ) ) : 0L;
 
    if ( item )
       KListView::contentsMousePressEvent( e );
@@ -387,9 +383,37 @@ void KonqBaseListViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 {
    if ( m_rubber )
+   {
       slotAutoScroll();
-   else
-      KListView::contentsMouseMoveEvent( e );
+      return;
+   }
+
+   QPoint vp = contentsToViewport( e->pos() );
+   KonqBaseListViewItem* item = isExecuteArea( vp ) ?
+         static_cast<KonqBaseListViewItem*>( itemAt( vp ) ) : 0L;
+
+   if ( item != m_activeItem )
+   {
+      if ( m_activeItem != 0 )
+      {
+         m_activeItem->setActive( false );
+      }
+
+      m_activeItem = item;
+
+      if ( item )
+      {
+         item->setActive( true );
+         emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
+         m_pBrowserView->emitMouseOver( item->item() );
+      }
+      else
+      {
+         reportSelectedItems();
+      }
+   }
+
+   KListView::contentsMouseMoveEvent( e );
 }
 
 void KonqBaseListViewWidget::drawRubber()
@@ -649,27 +673,6 @@ void KonqBaseListViewWidget::startDrag()
    d->drag();
 }
 
-void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
-{
-   KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
-   if ( m_activeItem != 0 && m_activeItem != item )
-      m_activeItem->setActive( false );
-
-   if (item)
-      item->setActive( true );
-   m_activeItem = item;
-
-   // The .x() here is important, to avoid a Qt pseudo-bug... Basically,
-   // don't call itemAt from here, it leads to bugs when deleting an item.
-   if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ).x() ) )
-   {
-      emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
-      m_pBrowserView->emitMouseOver( item->item() );
-   }
-   else
-      reportSelectedItems();
-}
-
 void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
 {
    Q_ASSERT( col == 0 );
@@ -690,18 +693,6 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
 
    // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
    setFocus();
-}
-
-
-
-void KonqBaseListViewWidget::slotOnViewport()
-{
-   if (m_activeItem)
-   {
-      m_activeItem->setActive(false);
-      m_activeItem = 0;
-   }
-   reportSelectedItems();
 }
 
 void KonqBaseListViewWidget::reportSelectedItems()
