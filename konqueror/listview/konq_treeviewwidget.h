@@ -62,6 +62,7 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
 
       QStringList m_urlsToOpen;
       QList<KonqListViewDir> m_itemsToOpen;
+      int m_xOffset, m_yOffset;
 };
 
 #endif

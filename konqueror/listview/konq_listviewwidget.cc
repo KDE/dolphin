@@ -274,8 +274,8 @@ void KonqBaseListViewWidget::createColumns()
    }
    if (sortedByColumn=="FileName")
       setSorting(0,m_bAscending);
-   for (unsigned int i=0; i<NumberOfAtoms; i++)
-      kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
+   //for (unsigned int i=0; i<NumberOfAtoms; i++)
+   //  kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 }
 
 void KonqBaseListViewWidget::stop()
@@ -704,7 +704,7 @@ void KonqBaseListViewWidget::setComplete()
    // we don't want to go to the first item ! (David)
    if ( m_bUpdateContentsPosAfterListing )
    {
-      kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
+       //kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
       m_bUpdateContentsPosAfterListing = false;
 
       setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
@@ -716,7 +716,10 @@ void KonqBaseListViewWidget::setComplete()
           setCurrentItem(firstChild());
           //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
       }
-      ensureItemVisible(currentItem());
+      // this sucks a bit, for instance if you scroll with the wheel mouse, and the
+      // the active item was out of the view when you used back/forward.
+      // The x/y offset already restores the contents pos anyway.
+      //ensureItemVisible(currentItem());
    }
    // Show "cut" icons as such
    m_pBrowserView->slotClipboardDataChanged();

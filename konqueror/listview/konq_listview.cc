@@ -118,11 +118,13 @@ ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
 
 int ListViewBrowserExtension::xOffset()
 {
+  kdDebug() << "ListViewBrowserExtension::xOffset" << endl;
   return m_listView->listViewWidget()->contentsX();
 }
 
 int ListViewBrowserExtension::yOffset()
 {
+  kdDebug() << "ListViewBrowserExtension::yOffset" << endl;
   return m_listView->listViewWidget()->contentsY();
 }
 
