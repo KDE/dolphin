@@ -56,7 +56,7 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
 {
   fileInfo = new QFileInfo(file);
   
-  QString size = QString("%1").arg(fileInfo->size());
+  QString size = KGlobal::locale()->formatNumber(fileInfo->size(), 0);
 
   QString date;
   date = KGlobal::locale()->formatDate(fileInfo->lastModified().date(), true);
