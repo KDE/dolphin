@@ -28,7 +28,8 @@ class KQuery : public QObject
   void setPath(const KURL & url );
   void setFileType( int filetype );
   void setMimeType( const QString & mimetype );
-  void setContext( const QString & context, bool casesensitive, bool useRegexp );
+  void setContext( const QString & context, bool casesensitive, 
+    bool search_binary, bool useRegexp );
   void setUsername( QString username );
   void setGroupname( QString groupname );
 	void setMetaInfo(const QString &metainfo, const QString &metainfokey);
@@ -73,6 +74,7 @@ class KQuery : public QObject
   QString m_metainfo;
   QString m_metainfokey;
   bool m_casesensitive;
+  bool m_search_binary;
   bool m_regexpForContent;
   bool m_useLocate;
   char* bufferLocate;

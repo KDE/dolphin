@@ -103,6 +103,7 @@ private:
   QComboBox *sizeUnitBox;
   QSpinBox *sizeEdit;
   QCheckBox *caseContextCb;
+  QCheckBox *binaryContextCb;
   QCheckBox *regexpContentCb;
   QDialog *regExpDialog;
 

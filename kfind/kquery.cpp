@@ -227,10 +227,23 @@ void KQuery::processQuery( KFileItem* file)
     koffice_mimetypes.append("application/x-kspread");
     koffice_mimetypes.append("application/x-kpresenter");
 
+    // Files with these mime types can be ignored, even if
+    // findFormatByFileContent() in some cases may claim that
+    // these are text files:
+    QStringList ignore_mimetypes;
+    ignore_mimetypes.append("application/pdf");
+    ignore_mimetypes.append("application/postscript");
+
     // match contents...
     QString matchingLine;
     if (!m_context.isEmpty())
     {
+
+       if( !m_search_binary && ignore_mimetypes.findIndex(file->mimetype()) != -1 ) {
+         kdDebug() << "ignoring, mime type is in exclusion list: " << file->url() << endl;
+         return;
+       }
+
        bool found = false;
        bool isZippedOfficeDocument=false;
        int matchingLineNumber=0;
@@ -273,7 +286,15 @@ void KQuery::processQuery( KFileItem* file)
          } else {
            kdWarning() << "Cannot open supposed ZIP file " << file->url() << endl;
          }
+       } else if( !m_search_binary && !file->mimetype().startsWith("text/") &&
+           file->url().isLocalFile() ) {
+         KMimeType::Format f = KMimeType::findFormatByFileContent(file->url().path());
+         if ( !f.text ) {
+           kdDebug() << "ignoring, not a text file: " << file->url() << endl;
+           return;
+         }
        }
+
        if(!isZippedOfficeDocument) //any other file or non-compressed KWord
        {
          filename = file->url().path();
@@ -321,10 +342,12 @@ void KQuery::processQuery( KFileItem* file)
     emit addFile(file,matchingLine);
 }
 
-void KQuery::setContext(const QString & context, bool casesensitive, bool useRegexp)
+void KQuery::setContext(const QString & context, bool casesensitive, 
+  bool search_binary, bool useRegexp)
 {
   m_context = context;
   m_casesensitive = casesensitive;
+  m_search_binary = search_binary;
   m_regexpForContent=useRegexp;
   m_regexp.setWildcard(!m_regexpForContent);
   m_regexp.setCaseSensitive(casesensitive);
@@ -399,7 +422,7 @@ void KQuery::setPath(const KURL &url)
 
 void KQuery::setUseFileIndex(bool useLocate)
 {
-	m_useLocate=useLocate;
+  m_useLocate=useLocate;
 }
 
 void KQuery::slotreceivedSdterr(KProcess* ,char* str,int)

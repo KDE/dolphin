@@ -256,6 +256,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QWhatsThis::add(textL,containingtext);
 
     caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
+    binaryContextCb  =new QCheckBox(i18n("Include &binary files"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Regular e&xpression"), pages[2]);
 
     QPushButton* editRegExp = 0;
@@ -309,11 +310,12 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addMultiCellWidget( textEdit, 1, 1, 1, 3 );
     grid2->addWidget( regexpContentCb, 2, 2);
     grid2->addWidget( caseContextCb, 2, 1 );
+    grid2->addWidget( binaryContextCb, 3, 1);
 
-    grid2->addWidget( textMetaKey, 3, 0 );
-    grid2->addWidget( metainfokeyEdit, 3, 1 );
-    grid2->addWidget( textMetaInfo, 3, 2, AlignHCenter  );
-    grid2->addWidget( metainfoEdit, 3, 3 );
+    grid2->addWidget( textMetaKey, 4, 0 );
+    grid2->addWidget( metainfokeyEdit, 4, 1 );
+    grid2->addWidget( textMetaInfo, 4, 2, AlignHCenter  );
+    grid2->addWidget( metainfoEdit, 4, 3 );
 
     metainfokeyEdit->setText("*");
 
@@ -669,7 +671,8 @@ void KfindTabWidget::setQuery(KQuery *query)
   //Use locate to speed-up search ?
   query->setUseFileIndex(useLocateCb->isChecked());
 
-  query->setContext(textEdit->text(), caseContextCb->isChecked(), regexpContentCb->isChecked());
+  query->setContext(textEdit->text(), caseContextCb->isChecked(), 
+  	binaryContextCb->isChecked(), regexpContentCb->isChecked());
 }
 
 QString KfindTabWidget::date2String(const QDate & date) {
