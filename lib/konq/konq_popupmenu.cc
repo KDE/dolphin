@@ -21,6 +21,7 @@
 #include <qdir.h>
 
 #include <klocale.h>
+#include <kapplication.h>
 #include <kbookmarkmanager.h>
 #include <kdebug.h>
 #include <krun.h>
@@ -212,8 +213,11 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
   addMerge( "konqueror" );
 
-  KAction *actNewView = new KAction( i18n( "Open in New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
-  actNewView->setStatusText( i18n( "Open the document in a new window" ) );
+  bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
+  QString openStr = isKDesktop ? i18n( "Open" ) : i18n( "Open in New Window" );
+  KAction *actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  if ( !isKDesktop )
+    actNewView->setStatusText( i18n( "Open the document in a new window" ) );
 
   if ( ( isCurrentTrash && currentDir ) ||
        ( m_lstItems.count() == 1 && bTrashIncluded ) )
