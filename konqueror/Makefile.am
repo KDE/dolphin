@@ -26,7 +26,7 @@ libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 
 libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
 
-libkonqueror_la_LIBADD = -lkparts ../libkonq/libkonq.la $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
+libkonqueror_la_LIBADD = ../libkonq/libkonq.la -lkparts $(LIB_KDEUI)
 
 browser.moc.cc: $(kde_includes)/browser.h
 	$(MOC) $(kde_includes)/browser.h -o $(top_builddir)/konqueror/browser.moc.cc
@@ -39,12 +39,6 @@ konqueror_LDADD = libkonqueror.la
 
 messages:
 	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po ../po/konqueror.pot 
-	for subdir in $(SUBDIRS); do \
-	  if test ! "x$$subdir" = "x."; then \
-	    echo "Making messages in $$subdir"; \
-	    (cd $$subdir && $(MAKE) -f Makefile.am messages) || exit 1; \
-	  fi ;\
-	done
 
 check_PROGRAMS = linktest
 #using $(konqueror_SOURCES) below doesn't work (am_edit)
