@@ -21,7 +21,7 @@
 #ifndef KENVVAR_PROXY_DIALOG_H
 #define KENVVAR_PROXY_DIALOG_H
 
-#include <qstringlist.h>
+#include <qmap.h>
 
 #include "kproxydlgbase.h"
 
@@ -40,7 +40,7 @@ class KEnvVarProxyDlg : public KProxyDialogBase
 public:
     KEnvVarProxyDlg( QWidget* parent = 0, const char* name = 0 );
     ~KEnvVarProxyDlg();
-    
+
     virtual const KProxyData data() const;
     virtual void setProxyData( const KProxyData &data );
 
@@ -48,37 +48,37 @@ protected slots:
     virtual void slotOk();    
     
     void showValue( bool );
-    void sameProxy( bool );
-    void textChanged (const QString&);
-    
+
     void verifyPressed();
     void autoDetectPressed();
 
 protected:
     void init();
     bool validate();
-    
+    void setHighLight (bool highlight = false, QWidget* widget = 0);
+
 private:
     QLabel *m_lbEnvFtp;
     QLabel *m_lbEnvHttp;
     QLabel *m_lbEnvHttps;
-    
-    QCheckBox *m_cbEnvGopher;
-    QCheckBox *m_cbSameProxy;
-    
+    QLabel *m_lbEnvNoProxy;
+
     KLineEdit *m_leEnvFtp;
     KLineEdit *m_leEnvHttp;
     KLineEdit *m_leEnvHttps;
-    
+    KLineEdit *m_leEnvNoProxy;
+
     QPushButton *m_pbVerify;
     QPushButton *m_pbDetect;
     QPushButton *m_pbShowValue;
-    
+
     QGroupBox *m_gbHostnames;
-    KExceptionBox *m_gbExceptions;
-    
-    QString m_oldFtpText;
-    QString m_oldHttpsText;
-    QStringList m_lstEnvVars;
+
+    struct EnvVarPair {
+      QString name;
+      QString value;
+    };
+
+    QMap<QString, EnvVarPair> m_mapEnvVars;
 };
 #endif
