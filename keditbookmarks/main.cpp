@@ -34,6 +34,7 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char ** argv)
 {
+  KLocale::setMainCatalogue("konqueror");
   KAboutData aboutData( "keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.0",
                         I18N_NOOP("Konqueror Bookmarks Editor"),
                         KAboutData::License_GPL,

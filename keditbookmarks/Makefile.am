@@ -27,6 +27,3 @@ datadir = $(kde_appsdir)/Internet
 
 KDE_ICON = AUTO
 
-messages:
-        $(XGETTEXT) -kaliasLocal *.h *.cpp -o $(podir)/keditbookmarks.pot
-
