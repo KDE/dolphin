@@ -66,20 +66,19 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
    };
 
 KfindWindow::~KfindWindow()
-  {
-  };
-
-void KfindWindow::appendResult(const char *file) {
-  insertItem(file);
-}
+{}
 
 void KfindWindow::beginSearch() {
-  killTimers();
+  clear();
+
   startTimer(100);
+  
+  QString str = i18n("%1 file(s) found").arg(0);
+  emit statusChanged(str.ascii());
 }
 
-void KfindWindow::doneSearch() {
-  killTimers();
+void KfindWindow::endSearch() {
+  killTimers(); 
   
   QString str = i18n("%1 file(s) found").arg(count());
   emit statusChanged(str.ascii());
@@ -159,11 +158,6 @@ void KfindWindow::copySelection() {
   }
 }
 
-void KfindWindow::clearList()
-  { 
-    clear();
-  };
-
 void KfindWindow::changeItem(const char */*itemName*/)
   {
     debug("CXHANGE ITEM CALLED\n");
@@ -172,8 +166,6 @@ void KfindWindow::changeItem(const char */*itemName*/)
 
 void KfindWindow::selectAll() {
   setAutoUpdate(FALSE);
-  if(currentItem() == -1)
-    setCurrentItem(0);
   for(int i = 0; i < (int)count(); i++)
     setSelected(i, TRUE);
   setAutoUpdate(TRUE);
@@ -182,8 +174,6 @@ void KfindWindow::selectAll() {
 
 void KfindWindow::invertSelection() {
   setAutoUpdate(FALSE);
-  if(currentItem() == -1)
-    setCurrentItem(0);
   for(int i = 0; i < (int)count(); i++)
     setSelected(i, !isSelected(i));
   setAutoUpdate(TRUE);
@@ -192,8 +182,6 @@ void KfindWindow::invertSelection() {
 
 void KfindWindow::unselectAll() {
   setAutoUpdate(FALSE);
-  if(currentItem() == -1)
-    setCurrentItem(0);
   for(int i = 0; i < (int)count(); i++)
     setSelected(i, FALSE);
   setAutoUpdate(TRUE);
@@ -201,7 +189,7 @@ void KfindWindow::unselectAll() {
 }
 
 void KfindWindow::saveResults()
-  { 
+{ 
     uint items,item;
     FILE *results;
     QString filename;
@@ -458,6 +446,3 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
     warning(i18n("Error while creating child process!").ascii());
 };
 
-int KfindWindow::numItems() { 
-  return count(); 
-}

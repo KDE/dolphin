@@ -23,12 +23,7 @@ public:
   void updateResults(const char * );
 
   void beginSearch();
-  void appendResult(const char *);
-  int numItems();
-
-  void doneSearch();
-
-  void clearList();
+  void endSearch();
 
   void copySelection();
 

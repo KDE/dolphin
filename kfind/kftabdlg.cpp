@@ -64,8 +64,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 
     // Setup
     
-    nameBox->setInsertionPolicy (QComboBox::AtTop);
-    dirBox ->setInsertionPolicy (QComboBox::AtTop);
     subdirsCb->setChecked ( TRUE );
     
     // Layout
@@ -530,9 +528,13 @@ void  KfindTabWidget::getDirectory() {
     result = dirselector->selectedDir();
   delete dirselector;
   
-  if (!result.isNull()) {
-    //printf("Dir: %s\n",result.ascii());
-    dirBox->insertItem(result,0);
+  if(!result.isNull()) {
+    for(int i=0; i<dirBox->count(); i++)
+      if(result == dirBox->text(i)) {
+	dirBox->setCurrentItem(i);
+	return;
+      }
+    dirBox->insertItem(result, 0);
     dirBox->setCurrentItem(0);
   }
 }
@@ -638,8 +640,9 @@ static void save_pattern(QComboBox *obj, const QString new_item,
     return;
   
   // New item. Add it to the combo and save
-  obj->insertItem(new_item);
-  
+  obj->insertItem(new_item, 0);
+  obj->setCurrentItem(0);
+
   // QComboBox allows insertion of items more than specified by
   // maxCount() (QT bug?). This API call will truncate list if needed.
   obj->setMaxCount(15);

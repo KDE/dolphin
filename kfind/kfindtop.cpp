@@ -236,11 +236,13 @@ void KfindTop::toolBarInit()
 			  TRUE, i18n("Quit"));
   };
 
-void KfindTop::enableSaveResults(bool enable)
-  {
-    _fileMenu->setItemEnabled(saveSearchM,enable);
-    _toolBar->setItemEnabled(8,enable);
-  };
+void KfindTop::enableSaveResults(bool enable) {
+  _toolBar->setItemEnabled(8, enable);
+  _fileMenu->setItemEnabled(saveSearchM, enable);
+  _editMenu->setItemEnabled(editSelectAll, enable);
+  _editMenu->setItemEnabled(editUnselectAll, enable);
+  _editMenu->setItemEnabled(editInvertSelection, enable);
+}
 
 void KfindTop::enableMenuItems(bool enable)
   {
@@ -268,15 +270,12 @@ void KfindTop::enableSearchButton(bool enable)
 
 void KfindTop::enableStatusBar(bool enable) // rewriten (sven)
 {
-  if (enable) // we become full-free - win is hsown and set
-  {
-    KTMainWindow::enableStatusBar(KStatusBar::Show); // implicite update
-  }
-  else  // we become YFixed - win is hidden
-  {
+  if (enable)
+    KTMainWindow::enableStatusBar(KStatusBar::Show);
+  else
     KTMainWindow::enableStatusBar(KStatusBar::Hide); // updateRects: one
-  }
 }
+
 void KfindTop::statusChanged(const char *str)
   {
     _statusBar->changeItem((char *)str, 0);

@@ -39,17 +39,16 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
   : QWidget( parent, name )
 {
   // init IO buffer
-  iBuffer = 0;
-
-  QVBoxLayout *vBox = new QVBoxLayout(this);
-
-  //create tabwidget
+  iBuffer = new char[IBUFSIZE];
+  isResultReported = false;
+  
+  // create tabwidget
   tabWidget = new KfindTabWidget(this,"dialog",searchPath);
 
-  //prepare window for find results
+  // prepare window for find results
   win = new KfindWindow(this,"window");
-  win->hide();  //and hide it firstly    
-
+  
+  QVBoxLayout *vBox = new QVBoxLayout(this);
   vBox->addWidget(tabWidget);
   vBox->addWidget(win);
   vBox->activate();
@@ -78,91 +77,63 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	  win,SLOT(unselectAll()));
   connect(parentWidget(),SIGNAL(invertSelection()),
 	  win,SLOT(invertSelection()));
-  connect(&findProcess,SIGNAL(processExited(KProcess *)),
-	  this,SLOT(processResults()));
-  connect(&findProcess,SIGNAL(receivedStdout(KProcess *, char *, int)), 
-	  this, SLOT(handleStdout(KProcess *, char *, int))) ;
   
+  connect(&findProcess, SIGNAL(processExited(KProcess *)),
+	  this, SLOT(stopSearch()));
+  connect(&findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)), 
+	  this, SLOT(handleStdout(KProcess *, char *, int))) ;
 }
-
 
 Kfind::~Kfind() {
-  if(iBuffer)
-    delete [] iBuffer;
+  delete [] iBuffer;
 }
-
-
-void Kfind::copySelection() {
-  win->copySelection();
-}
-
 
 void Kfind::startSearch() {
-  // init buffer
-  if(iBuffer)
-    delete [] iBuffer;
-    
-  iBuffer = new char[IBUFSIZE];
-  iBuffer[0] = 0;
 
-  QString buffer,pom;
   // If this method returns NULL a error occured and 
   // the error message was presented to the user. We just exit.
-  buffer = tabWidget->createQuery();
-  if(buffer == NULL)
+  QString cmdline = tabWidget->createQuery();
+  if(cmdline == NULL)
     return;
-
+  
+  iBuffer[0] = 0;
+  isResultReported = false;
+  
   emit resultSelected(false);
-  win->clearList();
-  win->show();
   emit haveResults(false);
-    
+  emit enableSearchButton(false);
+  
   win->beginSearch();
   tabWidget->beginSearch();
 
-  if (!buffer.isNull())
-    {
-      enableSearchButton(false);
-
-      findProcess.clearArguments ();
-      QString cmdline = buffer;
-      findProcess.setExecutable(cmdline);
-	
-      findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
-    };
-};
-
-
-void Kfind::stopSearch() {
-  //    printf("Stoping Search\n");
-  tabWidget->endSearch();
-  win->doneSearch();
-    
-  enableSearchButton(true);
-
-  findProcess.kill();
+  setExpanded(true);
+  
+  findProcess.clearArguments ();
+  findProcess.setExecutable(cmdline);
+  findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
+void Kfind::stopSearch() {
+  emit enableSearchButton(true);
+
+  win->endSearch();
+  tabWidget->endSearch();
+
+  if(findProcess.isRunning())
+    findProcess.kill();
+}
 
 void Kfind::newSearch() {
-  // re-init buffer
-  if(iBuffer)
-    iBuffer[0] = 0;
 
-    //    printf("Prepare for New Search\n");
-  win->hide(); // !!!!!
-  win->clearList();
+  stopSearch();
 
   tabWidget->setDefaults();
 
   emit haveResults(false);
   emit resultSelected(false);
+
   setExpanded(false);
-
-  stopSearch();
-  tabWidget->endSearch();
 }
-
 
 void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
   // copy data to I/O buffer
@@ -176,32 +147,21 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
     *p = 0;
 
     // found one file, append it to listbox
-    win->appendResult(iBuffer);
-    if(win->numItems() == 1)
-      setExpanded(false);
+    win->insertItem(iBuffer);
+    if(!isResultReported) {
+      emit haveResults(true);
+      isResultReported = true;
+    }
     memmove(iBuffer, p+1, strlen(p + 1)+1);
   }
 }
 
-
-void Kfind::processResults() {
-  win->show();
-  win->doneSearch();
-  tabWidget->endSearch();
-    
-  emit haveResults(true);
-  setExpanded(true);
-
-  enableSearchButton(true);
-}
 void Kfind::setExpanded(bool expand) {
-  printf("Do it%d \n", expand);
 
   if(expand) {
     setMinimumSize(tabWidget->sizeHint().width(), 
 		   2*tabWidget->sizeHint().height());
     setMaximumHeight(5000);
-    //    win->clearList();
     win->show();
   }
   else {
@@ -213,4 +173,7 @@ void Kfind::setExpanded(bool expand) {
   emit enableStatusBar(expand);
 }
 
+void Kfind::copySelection() {
+  win->copySelection();
+}
 

@@ -19,7 +19,7 @@ class Kfind: public QWidget
 Q_OBJECT
 
 public:
-  Kfind( QWidget * parent = 0 ,const char * name = 0,const char*searchPath = 0);
+  Kfind( QWidget * parent = 0 ,const char * name = 0, const char*searchPath = 0);
   ~Kfind();
   void copySelection();
 
@@ -27,7 +27,6 @@ public slots:
   void startSearch();
   void stopSearch();
   void newSearch();
-  void processResults();
   void handleStdout(KProcess *proc, char *buffer, int buflen);
 
 signals:
@@ -52,6 +51,7 @@ private:
   KfindTabWidget *tabWidget;
   KfindWindow * win;
 
+  bool isResultReported;
   char *iBuffer;
   void setExpanded(bool);
 };
