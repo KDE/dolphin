@@ -124,6 +124,125 @@ void KonqSidebarDirTreeModule::addSubDir( KonqSidebarTreeItem *item )
        m_ptrdictSubDirs.insert(ditem->fileItem(), item);
 }
 
+// Remove <key, item> from dict, taking into account that there maybe
+// other items with the same key.
+static void remove(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSidebarTreeItem *item)
+{
+   QPtrList<KonqSidebarTreeItem> *otherItems = 0;
+   while(true) {
+      KonqSidebarTreeItem *takeItem = dict.take(key);
+      if (!takeItem || (takeItem == item))
+      {
+         if (!otherItems)
+            return;
+         
+         // Insert the otherItems back in
+         for(KonqSidebarTreeItem *otherItem; (otherItem = otherItems->take(0));)
+         {
+            dict.insert(key, otherItem);
+         }
+         return;
+      }
+      // Not the item we are looking for
+      if (!otherItems)
+         otherItems = new QPtrList<KonqSidebarTreeItem>();
+
+      otherItems->prepend(takeItem);
+   }
+}
+
+// Looks up key in dict and returns it in item, if there are multiple items
+// with the same key, additional items are returned in itemList which should
+// be deleted by the caller.
+static void lookupItems(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSidebarTreeItem *&item, QPtrList<KonqSidebarTreeItem> *&itemList)
+{
+   itemList = 0;
+   item = dict.take(key);
+   if (!item)
+       return;
+
+   while(true)
+   {    
+       KonqSidebarTreeItem *takeItem = dict.take(key);
+       if (!takeItem)
+       {
+           // 
+           // Insert itemList back in
+           if (itemList)
+           {
+               for(KonqSidebarTreeItem *otherItem = itemList->first(); otherItem; otherItem = itemList->next())
+                   dict.insert(key, otherItem);
+           }
+           dict.insert(key, item);
+           return;
+       }
+       if (!itemList)
+          itemList = new QPtrList<KonqSidebarTreeItem>();
+          
+       itemList->prepend(takeItem);
+   }
+}
+
+// Remove <key, item> from dict, taking into account that there maybe
+// other items with the same key.
+static void remove(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTreeItem *item)
+{
+   QPtrList<KonqSidebarTreeItem> *otherItems = 0;
+   while(true) {
+      KonqSidebarTreeItem *takeItem = dict.take(key);
+      if (!takeItem || (takeItem == item))
+      {
+         if (!otherItems)
+            return;
+         
+         // Insert the otherItems back in
+         for(KonqSidebarTreeItem *otherItem; (otherItem = otherItems->take(0));)
+         {
+            dict.insert(key, otherItem);
+         }
+         return;
+      }
+      // Not the item we are looking for
+      if (!otherItems)
+         otherItems = new QPtrList<KonqSidebarTreeItem>();
+
+      otherItems->prepend(takeItem);
+   }
+}
+
+// Looks up key in dict and returns it in item, if there are multiple items
+// with the same key, additional items are returned in itemList which should
+// be deleted by the caller.
+static void lookupItems(QPtrDict<KonqSidebarTreeItem> &dict, void *key, KonqSidebarTreeItem *&item, QPtrList<KonqSidebarTreeItem> *&itemList)
+{
+   itemList = 0;
+   item = dict.take(key);
+   if (!item)
+       return;
+   
+   while(true)
+   {    
+       KonqSidebarTreeItem *takeItem = dict.take(key);
+       if (!takeItem)
+       {
+           // 
+           // Insert itemList back in
+           if (itemList)
+           {
+               for(KonqSidebarTreeItem *otherItem = itemList->first(); otherItem; otherItem = itemList->next())
+                   dict.insert(key, otherItem);
+           }
+           dict.insert(key, item);
+           return;
+       }
+       if (!itemList)
+          itemList = new QPtrList<KonqSidebarTreeItem>();
+          
+       itemList->prepend(takeItem);
+   }
+}
+
+
 void KonqSidebarDirTreeModule::removeSubDir( KonqSidebarTreeItem *item, bool childrenOnly )
 {
     kdDebug(1201) << this << " KonqSidebarDirTreeModule::removeSubDir item=" << item << endl;
@@ -142,20 +261,16 @@ void KonqSidebarDirTreeModule::removeSubDir( KonqSidebarTreeItem *item, bool chi
     if ( !childrenOnly )
     {
         QString id = item->externalURL().url(-1);
-        bool b = m_dictSubDirs.remove( id );
+        remove(m_dictSubDirs, id, item);
 	while (!(item->alias.isEmpty()))
 	{
-	        b = b|m_dictSubDirs.remove( item->alias.front() );
-
+	        remove(m_dictSubDirs, item->alias.front(), item);
 		item->alias.pop_front();
 	}
-        if (!b)
-            kdWarning(1201) << this << " KonqSidebarDirTreeModule::removeSubDir item " << item
-                            << " not found. URL=" << id << endl;
 
 	KonqSidebarDirTreeItem *ditem = dynamic_cast<KonqSidebarDirTreeItem*>(item);
         if (ditem)
-           m_ptrdictSubDirs.remove(ditem->fileItem());
+           remove(m_ptrdictSubDirs, ditem->fileItem(), item);
     }
 }
 
@@ -200,8 +315,49 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
 void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
 {
     // This causes a reparsing, but gets rid of the trailing slash
-    KURL url( item->externalURL().url(-1) );
+    QString strUrl = item->externalURL().url(-1);
+    KURL url( strUrl );
 
+    QPtrList<KonqSidebarTreeItem> *itemList;
+    KonqSidebarTreeItem * openItem;
+    lookupItems(m_dictSubDirs, strUrl, openItem, itemList);
+
+    while(openItem)
+    {
+        if (openItem->childCount())
+            break;
+    
+        openItem = itemList ? itemList->take(0) : 0;
+    }
+    delete itemList;
+
+    if (openItem)
+    {
+       // We have this directory listed already, just copy the entries as we
+       // can't use the dirlister, it would invalidate the old entries
+       int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
+       KonqSidebarTreeItem * parentItem = item;
+       KonqSidebarDirTreeItem *oldItem = static_cast<KonqSidebarDirTreeItem *> (openItem->firstChild());
+       while(oldItem)
+       {
+          KFileItem * fileItem = oldItem->fileItem();
+          if (! fileItem->isDir() )
+          {
+              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+              continue;
+          }
+
+          KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
+          dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
+          dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
+
+          oldItem = static_cast<KonqSidebarDirTreeItem *> (oldItem->nextSibling());
+       }
+       m_pTree->stopAnimation( item );
+
+       return;
+    }
+        
     m_dirLister->setShowingDotFiles( showHidden());
 
     if (tree()->isOpeningFirstChild()) m_dirLister->setAutoErrorHandlingEnabled(false,0);
@@ -222,7 +378,11 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     dir.setFileName( "" );
     dir.setPass( QString::null );
     kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems dir=" << dir.url(-1) << endl;
-    KonqSidebarTreeItem * parentItem = m_dictSubDirs[ dir.url(-1) ];
+
+    QPtrList<KonqSidebarTreeItem> *parentItemList;
+    KonqSidebarTreeItem * parentItem;
+    lookupItems(m_dictSubDirs, dir.url(-1), parentItem, parentItemList);
+
     if( !parentItem )
     {
         KMessageBox::error( tree(), i18n("Can't find parent item %1 in the tree. Internal error.").arg( dir.url(-1) ) );
@@ -230,64 +390,73 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     }
 
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
-    QPtrListIterator<KFileItem> kit ( entries );
-    for( ; kit.current(); ++kit )
+    do 
     {
-        KFileItem * fileItem = *kit;
-        if (! fileItem->isDir() )
+        QPtrListIterator<KFileItem> kit ( entries );
+        for( ; kit.current(); ++kit )
         {
-            kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
-            return;
-        }
+            KFileItem * fileItem = *kit;
+            if (! fileItem->isDir() )
+            {
+                kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+                break;
+            }
 
-        KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
-        dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
-        dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
-    }
+            KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
+            dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
+            dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
+        }
+        
+    } while ((parentItem = parentItemList ? parentItemList->take(0) : 0));
+    delete parentItemList;
 }
 
 void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 {
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
+
     QPtrListIterator<KFileItem> kit ( entries );
-    //kdDebug(1201) << "KonqSidebarDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << kit.current()->url().url() << endl;
-    // We can't look in m_dictSubDirs since the URL might have been updated (after a renaming)
-    // so we have to use the long and painful method.
+    kdDebug(1201) << "KonqSidebarDirTreeModule::slotRefreshItems " << entries.count() << " entries. First: " << kit.current()->url().url() << endl;
     for( ; kit.current(); ++kit )
     {
         KFileItem *fileItem = kit.current();
-        KonqSidebarTreeItem * item = m_ptrdictSubDirs[fileItem];
-        
+
+        QPtrList<KonqSidebarTreeItem> *itemList;
+        KonqSidebarTreeItem * item;
+        lookupItems(m_ptrdictSubDirs, fileItem, item, itemList);
+
         if (!item)
         {
-           kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems can't find old entry for " << kit.current()->url().url(-1) << endl;
-           continue;
+            kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems can't find old entry for " << kit.current()->url().url(-1) << endl;
+            continue;
         }
-    
-        if ( item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
+
+        do 
         {
-           kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems entry for " << kit.current()->url().url(-1) << " matches against toplevel." << endl;
-           continue;
-        }
+            if ( item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
+            {
+                kdWarning(1201) << "KonqSidebarDirTreeModule::slotRefreshItems entry for " << kit.current()->url().url(-1) << " matches against toplevel." << endl;
+                break;
+            }
         
-        KonqSidebarDirTreeItem * dirTreeItem = static_cast<KonqSidebarDirTreeItem *>(item);
-        // Item renamed ?
-        if ( dirTreeItem->id != fileItem->url().url( -1 ) )
-        {
-           // We need to update the URL in m_dictSubDirs, and to get rid of the child items, so remove and add.
-           // Then remove + delete
-           removeSubDir( dirTreeItem, true /*children only*/ );
-           // Only in it.currentKey() we have the old URL. The fileitem has the new one.
-           bool b = m_dictSubDirs.remove( dirTreeItem->id );
-           if ( !b )
-              kdWarning(1201) << "Couldn't remove URL " << dirTreeItem->id << " from dict" << endl;
+            KonqSidebarDirTreeItem * dirTreeItem = static_cast<KonqSidebarDirTreeItem *>(item);
+            // Item renamed ?
+            if ( dirTreeItem->id != fileItem->url().url( -1 ) )
+            {
+                // We need to update the URL in m_dictSubDirs, and to get rid of the child items, so remove and add.
+                // Then remove + delete
+                removeSubDir( dirTreeItem, true /*children only*/ );
+                remove(m_dictSubDirs, dirTreeItem->id, dirTreeItem);
 
-           dirTreeItem->reset();
-           dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
-           dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
+                dirTreeItem->reset(); // Reset id
+                dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
+                dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
 
-           m_dictSubDirs.insert(dirTreeItem->id, item);
-        }
+                m_dictSubDirs.insert(dirTreeItem->id, item);
+            }
+
+        } while ((item = itemList ? itemList->take(0) : 0));
+        delete itemList;
     }
 }
 
@@ -297,24 +466,27 @@ void KonqSidebarDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 
     kdDebug(1201) << "KonqSidebarDirTreeModule::slotDeleteItem( " << fileItem->url().url(-1) << " )" << endl;
 
-    // All items are in m_dictSubDirs, so look it up fast
-    KonqSidebarTreeItem * item = m_ptrdictSubDirs[ fileItem ];
-    Q_ASSERT(item);
-    if (item)
+    // All items are in m_ptrdictSubDirs, so look it up fast
+    QPtrList<KonqSidebarTreeItem> *itemList;
+    KonqSidebarTreeItem * item;
+    lookupItems(m_ptrdictSubDirs, fileItem, item, itemList);
+    while(item)
     {
         removeSubDir( item );
         delete item;
+        
+        item = itemList ? itemList->take(0) : 0;
     }
+    delete itemList;
 }
 
 void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL & newUrl )
 {
     kdDebug(1201) << "******************************KonqSidebarDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
 
-//    KMessageBox::error( tree(), "REDIRECTION" );
-
-    KonqSidebarTreeItem * item = m_dictSubDirs[ oldUrl.url(-1) ];
-    Q_ASSERT( item );
+    QPtrList<KonqSidebarTreeItem> *itemList;
+    KonqSidebarTreeItem * item;
+    lookupItems(m_dictSubDirs, oldUrl.url(-1), item, itemList);
 
     if (!item)
     {
@@ -322,26 +494,38 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
         return;
     }
 
-    // We need to update the URL in m_dictSubDirs
-    m_dictSubDirs.insert( newUrl.url(-1), item );
-    item->alias<<newUrl.url(-1);
+    do 
+    {
+        // We need to update the URL in m_dictSubDirs
+        m_dictSubDirs.insert( newUrl.url(-1), item );
+        item->alias << newUrl.url(-1);
 
-    kdDebug(1201) << "Updating url to " << newUrl.url(-1) << endl;
+        kdDebug(1201) << "Updating url of " << item << " to " << newUrl.url(-1) << endl;
+        
+    } while ((item = itemList ? itemList->take(0) : 0));
+    delete itemList;
 }
 
 void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
 {
-    KonqSidebarTreeItem * item = m_dictSubDirs[ url.url(-1) ];
-
-    Q_ASSERT(item);
-
     kdDebug(1201) << "KonqSidebarDirTree::slotListingStopped " << url.url(-1) << endl;
 
-    if ( item && item->childCount() == 0 )
+    QPtrList<KonqSidebarTreeItem> *itemList;
+    KonqSidebarTreeItem * item;
+    lookupItems(m_dictSubDirs, url.url(-1), item, itemList);
+
+    while(item)
     {
-        item->setExpandable( false );
-        item->repaint();
+        if ( item->childCount() == 0 )
+        {
+            item->setExpandable( false );
+            item->repaint();
+        }
+        m_pTree->stopAnimation( item );
+        
+        item = itemList ? itemList->take(0) : 0;
     }
+    delete itemList;
 
     kdDebug(1201) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
     if ( !m_selectAfterOpening.isEmpty() && url.isParentOf( m_selectAfterOpening ) )
@@ -350,8 +534,6 @@ void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
         m_selectAfterOpening = KURL();
         followURL( theURL );
     }
-
-    m_pTree->stopAnimation( item );
 }
 
 void KonqSidebarDirTreeModule::followURL( const KURL & url )
