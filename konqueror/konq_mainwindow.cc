@@ -1502,7 +1502,8 @@ void KonqMainWindow::slotConfigureKeys()
 
 void KonqMainWindow::slotConfigureToolbars()
 {
-  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+  if ( autoSaveSettings() )
+    saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
   KEditToolbar dlg(factory());
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
   dlg.exec();
@@ -2713,8 +2714,11 @@ void KonqMainWindow::slotClearLocationBar()
 void KonqMainWindow::slotForceSaveMainWindowSettings()
 {
 //  kdDebug(1202)<<"slotForceSaveMainWindowSettings()"<<endl;
-  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-  KGlobal::config()->sync();
+  if ( autoSaveSettings() ) // don't do it on e.g. JS window.open windows with no toolbars!
+  {
+      saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+      KGlobal::config()->sync();
+  }
 }
 
 void KonqMainWindow::slotShowMenuBar()
