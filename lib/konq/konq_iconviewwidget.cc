@@ -813,15 +813,17 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
              stopAll ||
              mimeTypeMatch( ivi->item()->mimetype(), stopImagePreviewFor ) )
         {
-            ivi->setIcon( size, ivi->state(), true, true );
+            ivi->setIcon( size, ivi->state(), true, false );
         }
         else
-            ivi->invalidateThumb( ivi->state(), true );
+            ivi->invalidateThumb( ivi->state(), false );
     }
+    
     if ( autoArrange() && (oldGridX != gridX() || !stopImagePreviewFor.isEmpty()) )
-    {
-        arrangeItemsInGrid( true ); // take new grid into account
-    }
+        arrangeItemsInGrid( false ); // take new grid into account
+        
+    update(); //Repaint later..
+    
 }
 
 bool KonqIconViewWidget::mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const
