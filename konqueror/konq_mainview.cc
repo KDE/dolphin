@@ -1800,7 +1800,7 @@ void KonqMainView::reparseConfiguration()
   kdDebug(1202) << "KonqMainView::reparseConfiguration() !" << endl;
   kapp->config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
-  KonqHTMLSettings::reparseConfiguration();
+  //KonqHTMLSettings::reparseConfiguration();
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )

@@ -19,11 +19,13 @@ METASOURCES = AUTO
 include_HEADERS = KonquerorIface.h
 
 libkonqueror_la_SOURCES = \
-			  konq_propsview.cc konq_htmlsettings.cc \
+			  konq_propsview.cc \
 			  konq_events.cc \
 			  konq_bgnddlg.cc \
 		          konq_factory.cc
+
 #			  konq_metadata.cc
+#			  konq_htmlsettings.cc
 
 libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
 
@@ -53,21 +55,4 @@ dummy.cc:
 messages: rc.cpp
 	$(EXTRACTRC) */*.rc >> rc.cpp
 	$(XGETTEXT) -kaliasLocal -o $(podir)/konqueror.pot rc.cpp *.h *.cc *view/*h *view/*cc
-
-check_PROGRAMS = linktest
-#using $(konqueror_SOURCES) below doesn't work (am_edit)
-linktest_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
-                   konq_mainview.cc \
-                   konq_run.cc konq_childview.cc konq_viewmgr.cc \
-                   konq_misc.cc \
-                   konq_frame.cc \
-                   konq_actions.cc \
-                   konq_profiledlg.cc
-linktest_LDADD = $(lib_LTLIBRARIES) \
-	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
-	$(top_builddir)/konqueror/iconview/libkonqiconview.la \
-	$(top_builddir)/konqueror/listview/libkonqlistview.la \
-	$(top_builddir)/konqueror/dirtree/libkonqdirtree.la $(LIB_KDECORE)
-
-linktest_LDFLAGS = $(konqueror_LDFLAGS)
 
