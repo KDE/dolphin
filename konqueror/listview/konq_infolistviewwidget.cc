@@ -74,14 +74,16 @@ void KonqInfoListViewWidget::createFavoriteColumns()
           (mimeTypeInfo = KFileMetaInfoProvider::self()
                             ->mimeTypeInfo(m_favorite.mimetype->name())))
     {
-        m_columnKeys = mimeTypeInfo->preferredKeys();
+        QStringList preferredCols = mimeTypeInfo->preferredKeys();
+        m_columnKeys.clear(); //We create the columnKeys as we're creating
+        //the actual columns, to make sure they're synced
 
         // get the translations
         QStringList groups = mimeTypeInfo->preferredGroups();
         if (groups.isEmpty()) groups = mimeTypeInfo->supportedGroups();
 
-        QStringList::Iterator prefKey = m_columnKeys.begin();
-        for (; prefKey != m_columnKeys.end(); ++prefKey)
+        QStringList::Iterator prefKey = preferredCols.begin();
+        for (; prefKey != preferredCols.end(); ++prefKey)
         {
             QStringList::Iterator group = groups.begin();
             for (; group != groups.end(); ++group)
@@ -97,6 +99,7 @@ void KonqInfoListViewWidget::createFavoriteColumns()
                         const KFileMimeTypeInfo::ItemInfo* itemInfo =
                                     groupInfo->itemInfo(*key);
                         addColumn(itemInfo->translatedKey());
+                        m_columnKeys.append(*key);
                     }
                 }
             }
