@@ -5,6 +5,9 @@
 
 2000-10-22  David Faure  <faure@kde.org>
 
+	* dirtree/konq_dirtree.cc: Fixed support for devices in the directory 
+	tree. It currently requires MountPoint in the device desktop file.
+
 	* listview/konq_textviewwidget.cc: Only the Name column is now
 	selected, and used as a drop area - like in other listviews.
 	This requires the fix in KListView to work properly.
