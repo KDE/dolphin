@@ -450,10 +450,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
-  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
-  kdDebug(1202) << "req.followMode=" << req.followMode << endl;
-  kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
-  kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
+  //kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  //kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+  //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
+  //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
 
 
   bool bOthersFollowed = false;
@@ -1234,8 +1234,12 @@ void KonqMainWindow::slotShowHTML()
   else if ( !b && m_currentView->supportsServiceType( "text/html" ) )
   {
     KURL u( m_currentView->url() );
-    m_currentView->lockHistory();
-    openView( "inode/directory", m_currentView->url().directory(), m_currentView );
+    QString fileName = u.fileName().lower();
+    if ( KProtocolInfo::supportsListing( u ) && fileName.startsWith("index.htm") ) {
+        m_currentView->lockHistory();
+        u.setPath( u.directory() );
+        openView( "inode/directory", u, m_currentView );
+    }
   }
 
 }
