@@ -67,7 +67,11 @@ class KHTMLSideBar : public KHTMLPart
 				KParts::URLArgs args = KParts::URLArgs()) {
 			if (button == LeftButton &&
 				_target.lower() == "_content") {
-				emit openURLRequest( url, args );
+				emit openURLRequest(url, args);
+				return;
+			}
+			if (button == MidButton) {
+				emit openURLNewWindow(url, args);
 				return;
 			}
 			KHTMLPart::urlSelected(url,button,state,_target,args);
