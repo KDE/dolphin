@@ -1366,8 +1366,8 @@ void KonqIconViewWidget::slotSaveIconPositions()
 
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
     kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
-    dotDirectory.writeEntry( "X", it->x() );
-    dotDirectory.writeEntry( "Y", it->y() );
+    dotDirectory.writeEntry( QString( "X %1" ).arg( width() ), it->x() );
+    dotDirectory.writeEntry( QString( "Y %1" ).arg( height() ), it->y() );
     dotDirectory.writeEntry( "Exists", true );
 
     it = it->nextItem();
