@@ -41,6 +41,7 @@
 #include "konq_combo.h"
 
 class KAction;
+class KAccel;
 class KActionMenu;
 class KBookmarkMenu;
 class KHistoryCombo;
@@ -367,10 +368,10 @@ protected:
   virtual void closeEvent( QCloseEvent * );
 
   bool askForTarget(const QString& text, KURL& url);
-    
+
 private slots:
-  void slotRequesterClicked( KURLRequester * ); 
-    
+  void slotRequesterClicked( KURLRequester * );
+
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
@@ -522,6 +523,8 @@ private:
   static QList<KonqMainWindow> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
+
+    KAccel *m_accel;
 };
 
 #endif

@@ -129,6 +129,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paBookmarkBar = 0L;
   m_pURLCompletion = 0L;
   m_bFullScreen = false;
+  m_accel = new KAccel(this);
   m_goBuffer = 0;
 
   m_bViewModeToggled = false;
@@ -1814,7 +1815,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    layout->addWidget(label);
    QString initialUrl = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
    KURLRequester *urlReq=new KURLRequester(initialUrl, dlg);
-   connect( urlReq, SIGNAL( openFileDialog( KURLRequester * )), 
+   connect( urlReq, SIGNAL( openFileDialog( KURLRequester * )),
 	    SLOT( slotRequesterClicked( KURLRequester * )));
 
    layout->addWidget(urlReq);
@@ -2483,6 +2484,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
+
   m_paFindFiles = new KAction( i18n( "&Find file..." ), "filefind", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
@@ -2637,6 +2639,9 @@ void KonqMainWindow::initActions()
   m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes done in other linked views") );
 
+  QValueList<KAction*> actions = actionCollection()->actions();
+  for (QValueList<KAction*>::ConstIterator it = actions.begin(); it != actions.end(); it++)
+      (*it)->plugAccel(m_accel);
 }
 
 void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
