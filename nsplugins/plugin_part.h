@@ -108,6 +108,7 @@ private:
   NSPluginCallback *_callback;
   QStringList _args;
   class NSPluginLoader *_loader;
+  bool *_destructed;
 };
 
 
@@ -127,8 +128,8 @@ signals:
     virtual void partEvent( const unsigned long objid, const QString & event, const KParts::LiveConnectExtension::ArgList & args );
 
 private:
-    QString __nsplugin;
     PluginPart *_part;
+    QString *_retval;
 };
 
 

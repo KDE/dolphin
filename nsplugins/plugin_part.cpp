@@ -29,7 +29,7 @@ public:
 
 
 PluginLiveConnectExtension::PluginLiveConnectExtension(PluginPart* part) 
-: KParts::LiveConnectExtension(part), _part(part) {
+: KParts::LiveConnectExtension(part), _part(part), _retval(0L) {
 }
 
 PluginLiveConnectExtension::~PluginLiveConnectExtension() {
@@ -53,8 +53,8 @@ Q_UNUSED(value);
 
 bool PluginLiveConnectExtension::put( const unsigned long, const QString &field, const QString &value) {
     kdDebug(1432) << "PLUGIN:LiveConnect::put " << field << " " << value << endl;
-    if (field == "__nsplugin") {
-        __nsplugin = value;
+    if (_retval && field == "__nsplugin") {
+        *_retval = value;
         return true;
     } else if (field.lower() == "src") {
         _part->changeSrc(value);
@@ -71,8 +71,11 @@ QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
     jscode.sprintf("this.__nsplugin=eval(\"%s\")",  QString(script).replace('\\', "\\\\").replace('"', "\\\"").latin1());
     //kdDebug(1432) << "String is [" << jscode << "]" << endl;
     args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
+    QString nsplugin("Undefined");
+    _retval = &nsplugin;
     emit partEvent(0, "eval", args);
-    return __nsplugin;
+    _retval = 0L;
+    return nsplugin;
 }
 
 extern "C"
@@ -179,7 +182,8 @@ KAboutData *PluginFactory::aboutData()
 
 PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
                        const char *name, const QStringList &args)
-    : KParts::ReadOnlyPart(parent, name), _widget(0), _args(args)
+    : KParts::ReadOnlyPart(parent, name), _widget(0), _args(args),
+      _destructed(0L)
 {
     setInstance(PluginFactory::instance());
     kdDebug(1432) << "PluginPart::PluginPart" << endl;
@@ -217,6 +221,8 @@ PluginPart::~PluginPart()
 
     delete _callback;
     _loader->release();
+    if (_destructed)
+        *_destructed = true;;
 }
 
 
@@ -338,10 +344,17 @@ void PluginPart::evalJavaScript(int id, const QString & script)
 {
     kdDebug(1432) <<"evalJavascript: before widget check"<<endl;
     if (_widget) {
+        bool destructed = false;
+        _destructed = &destructed;
 	kdDebug(1432) <<"evalJavascript: there is a widget" <<endl;	
         QString rc = _liveconnect->evalJavaScript(script);
+        if (destructed)
+            return;
+        _destructed = 0L;
         kdDebug(1432) << "Liveconnect: script [" << script << "] evaluated to [" << rc << "]" << endl;
-        static_cast<NSPluginInstance*>((QWidget*)_widget)->javascriptResult(id, rc);
+        NSPluginInstance *ni = dynamic_cast<NSPluginInstance*>(_widget.operator->());
+        if (ni)
+            ni->javascriptResult(id, rc);
     }
 }
 
