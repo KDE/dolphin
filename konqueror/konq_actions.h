@@ -117,14 +117,20 @@ public:
 	            QObject* parent = 0, const char* name = 0 );
     KonqLogoAction( const QString& text, const QIconSet& pix, int accel,
 	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
+    KonqLogoAction( const QStringList& icons, QObject* receiver,
+                    const char* slot, QObject* parent, const char* name = 0 );
+
     KonqLogoAction( QObject* parent = 0, const char* name = 0 );
 
     virtual int plug( QWidget *widget, int index = -1 );
 
     virtual void setIconSet( const QIconSet& iconSet );
 
+    void start();
+    void stop();
+
 private:
-    QLabel *m_logoLabel;
+    QStringList iconList;
 };
 
 class KonqLabelAction : public QAction

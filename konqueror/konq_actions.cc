@@ -26,6 +26,7 @@
 #include <qcombobox.h>
 
 #include <ktoolbar.h>
+#include <kanimwidget.h>
 #include <kdebug.h>
 #include <konq_childview.h> // HistoryEntry
 
@@ -143,8 +144,9 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
     KToolBar *bar = (KToolBar *)widget;
 
     int id_ = KAction::getToolButtonID();
-    bar->insertButton( iconSet().pixmap(), id_, SIGNAL( clicked() ), this, SLOT( slotActivated() ),
-		       isEnabled(), plainText(), index );
+    bar->insertButton( iconName(), id_, SIGNAL( clicked() ), this,
+                       SLOT( slotActivated() ), isEnabled(), plainText(),
+                       index );
 
     addContainer( bar, id_ );
 
@@ -157,16 +159,16 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
   // Go menu
   if ( widget->inherits("QPopupMenu") && !m_goMenuDone )
   {
-        // Remember we did that already, so that when plugging this action into a QPopupMenu,
-        // we don't get the history !
-        m_goMenuDone = true;
+    // Remember we did that already, so that when plugging this
+    // action into a QPopupMenu, we don't get the history !
+    m_goMenuDone = true;
 	m_goMenu = (QPopupMenu*)widget;
-        // Forward signal (to main view)
-        connect( m_goMenu, SIGNAL( aboutToShow() ),
-                 this, SIGNAL( menuAboutToShow() ) );
-        connect( m_goMenu, SIGNAL( activated( int ) ),
-                 this, SLOT( slotActivated( int ) ) );
-        // Do not return, we also want the default behaviour (get the item in the menu)
+    // Forward signal (to main view)
+    connect( m_goMenu, SIGNAL( aboutToShow() ),
+             this, SIGNAL( menuAboutToShow() ) );
+    connect( m_goMenu, SIGNAL( activated( int ) ),
+             this, SLOT( slotActivated( int ) ) );
+    // Do not return, we also want the default behaviour (get the item in the menu)
   }
 
   return KAction::plug( widget, index );
@@ -325,32 +327,65 @@ QPopupMenu *KonqHistoryAction::popupMenu()
 KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent, const char* name )
   : KAction( text, accel, parent, name )
 {
-  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, int accel,
 	                       QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, accel, receiver, slot, parent, name )
 {
-  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
   : KAction( text, pix, accel, parent, name )
 {
-  m_logoLabel = 0L;
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
-  m_logoLabel = 0L;
+}
+
+KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
+                                const char* slot, QObject* parent,
+                                const char* name )
+  : KAction( 0L, 0L, receiver, slot, parent, name )
+{
+  iconList = icons;
 }
 
 KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
   : KAction( parent, name )
 {
-  m_logoLabel = 0L;
+}
+
+void KonqLogoAction::start()
+{
+  int len = containerCount();
+  for ( int i = 0; i < len; i++ )
+  {
+    QWidget *w = container( i );
+
+    if ( w->inherits( "KToolBar" ) )
+    {
+      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( menuId( i ) );
+      anim->start();
+    }
+  }
+}
+
+void KonqLogoAction::stop()
+{
+  int len = containerCount();
+  for ( int i = 0; i < len; i++ )
+  {
+    QWidget *w = container( i );
+
+    if ( w->inherits( "KToolBar" ) )
+    {
+      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( menuId( i ) );
+      anim->stop();
+    }
+  }
 }
 
 void KonqLogoAction::setIconSet( const QIconSet& iconSet )
@@ -360,18 +395,14 @@ void KonqLogoAction::setIconSet( const QIconSet& iconSet )
     int len = containerCount();
     for ( int i = 0; i < len; i++ )
   */
-  m_logoLabel->setPixmap(iconSet.pixmap());
+//  m_logoLabel->setPixmap(iconSet.pixmap());
   //Don't call parent method, it assumes a toolbar _button_ and we handle KToolBar ourself
   //KAction::setIconSet( iconSet );
 }
 
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
-  if (!m_logoLabel)
-    m_logoLabel = new QLabel(widget);
-  m_logoLabel->setPixmap(iconSet().pixmap());
-  m_logoLabel->adjustSize();
-
+/*
   if ( widget->inherits( "KTMainWindow" ) )
   {
     ((KTMainWindow*)widget)->setIndicatorWidget(m_logoLabel);
@@ -380,17 +411,15 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 
     return containerCount() - 1;
   }
-
+*/
   if ( widget->inherits( "KToolBar" ) )
   {
     KToolBar *bar = (KToolBar *)widget;
 
     int id_ = getToolButtonID();
 
-    bar->insertWidget( id_, m_logoLabel->width(), m_logoLabel, index );
-
+    bar->insertAnimatedWidget( id_, this, SIGNAL(activated()), iconList, index );
     bar->alignItemRight( id_ );
-    // Not a button anymore ! bar->setItemNoStyle( id_ );
 
     addContainer( bar, id_ );
 
