@@ -367,6 +367,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
   if ( url.url() == "about:blank" )
   {
     m_pViewManager->clear();
+    disableActionsNoView();
     return;
   }
 
