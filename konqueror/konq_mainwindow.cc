@@ -617,6 +617,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       originalURL = req.typedURL.isEmpty() ? QString::null : QString::fromLatin1("about:konqueror");
       // empty if from profile, about:konqueror if the user typed it (not req.typedURL, it could be "about:")
   }
+  else if ( url.url() == "about:blank" && req.typedURL.isEmpty() ) 
+  { 
+      originalURL = QString::null; 
+  }
 
   // Look for which view mode to use, if a directory - not if view locked
   if ( ( !childView || (!childView->isLockedViewMode()) )
