@@ -42,8 +42,6 @@
 #include <krun.h>
 #include <kstdaction.h>
 #include <kurl.h>
-#include <kparts/mainwindow.h>
-#include <kparts/partmanager.h>
 #include <kparts/factory.h>
 #include <kiconloader.h>
 #include <kapp.h>
