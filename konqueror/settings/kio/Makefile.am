@@ -16,7 +16,7 @@ libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
       fakeuaprovider.cpp uagentproviderdlg.cpp
 
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_kio_la_LIBADD = $(LIB_KSYCOCA)
+libkcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)
 
 messages:
 	$(XGETTEXT) $(libkcm_kio_la_SOURCES) -o $(podir)/kcmkio.pot

@@ -25,6 +25,7 @@
 #include <kiconloader.h>
 #include <kglobal.h>
 #include <dcopclient.h>
+#include <kurlrequester.h>
 #include <kio/http_slave_defaults.h>
 
 #include "kproxydlg.h"
@@ -67,6 +68,19 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   connect( cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
   connect( cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  cb_autoProxy = new QCheckBox( i18n("Proxy configuration Scr&ipt:"), this );
+  QWhatsThis::add( cb_autoProxy, i18n("If this option is enabled, Konqueror will use the"
+    " proxy server configuration script of which the URL is specified next to this"
+    " option. Ask your internet service provider or system administrator for the"
+    " correct URL to use.") );
+
+  connect( cb_autoProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
+  connect( cb_autoProxy, SIGNAL( clicked() ), SLOT( changed() ) );
+
+  url_autoProxy = new KURLRequester(this);
+
+  connect( url_autoProxy, SIGNAL( textChanged( const QString & ) ), SLOT( changed() ) );
 
   le_http_url = new QLineEdit(this);
   connect(le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
@@ -203,6 +217,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   layout->addWidget(cb_useProxy);
 
+  QHBoxLayout * autoProxyLayout = new QHBoxLayout(layout);
+  autoProxyLayout->addWidget(cb_autoProxy);
+  autoProxyLayout->addWidget(url_autoProxy);
+
   QGridLayout * proxyLayout = new QGridLayout(layout, 2, 5);
 
   proxyLayout->addWidget(lb_http_url, 0, 0);
@@ -257,7 +275,9 @@ void KProxyOptions::load()
   updateGUI ( KProtocolManager::proxyFor( "http" ),
               KProtocolManager::proxyFor( "ftp" ),
               KProtocolManager::useProxy(),
-              KProtocolManager::noProxyFor());
+              KProtocolManager::hasProxyConfigScript(),
+              KProtocolManager::noProxyFor(),
+              KProtocolManager::proxyConfigScript() );
 
   cb_useCache->setChecked(KProtocolManager::useCache());
   KIO::CacheControl cc = KProtocolManager::cacheControl();
@@ -295,7 +315,8 @@ void KProxyOptions::defaults() {
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
-                              bool bUseProxy, QString noProxyFor)
+                              bool bUseProxy, bool bAutoProxy,
+                              QString noProxyFor, QString autoProxy)
 {
   KURL url;
 
@@ -330,6 +351,8 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
   }
 
   cb_useProxy->setChecked(bUseProxy);
+  cb_autoProxy->setChecked(bAutoProxy);
+  url_autoProxy->setURL(autoProxy);
   setProxy();
 
   le_no_prx->setText( noProxyFor );
@@ -363,6 +386,10 @@ void KProxyOptions::save()
     KProtocolManager::setProxyFor( "ftp", url );
     KProtocolManager::setUseProxy( cb_useProxy->isChecked() );
     KProtocolManager::setNoProxyFor( le_no_prx->text() );
+    if ( cb_autoProxy->isChecked() )
+      KProtocolManager::setProxyConfigScript( url_autoProxy->url() );
+    else
+      KProtocolManager::setProxyConfigScript( QString::null );
 
     // Cache stuff.  TODO:needs to be separated from proxy post 2.0 (DA)
     KProtocolManager::setUseCache( cb_useCache->isChecked() );
@@ -400,14 +427,17 @@ void KProxyOptions::copyDown()
 void KProxyOptions::setProxy()
 {
   bool useProxy = cb_useProxy->isChecked();
+  bool autoProxy = cb_autoProxy->isChecked();
 
   // now set all input fields
-  le_http_url->setEnabled( useProxy );
-  sb_http_port->setEnabled( useProxy );
-  le_ftp_url->setEnabled( useProxy );
-  sb_ftp_port->setEnabled( useProxy );
-  le_no_prx->setEnabled( useProxy );
-  pb_down->setEnabled( useProxy );
+  cb_autoProxy->setEnabled( useProxy );
+  url_autoProxy->setEnabled( useProxy && autoProxy );
+  le_http_url->setEnabled( useProxy && !autoProxy );
+  sb_http_port->setEnabled( useProxy && !autoProxy );
+  le_ftp_url->setEnabled( useProxy && !autoProxy );
+  sb_ftp_port->setEnabled( useProxy && !autoProxy );
+  le_no_prx->setEnabled( useProxy && !autoProxy );
+  pb_down->setEnabled( useProxy && !autoProxy );
   cb_useProxy->setChecked( useProxy );
 }
 

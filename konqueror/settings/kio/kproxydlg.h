@@ -17,6 +17,7 @@ class QCheckBox;
 class QSpinBox;
 class QRadioButton;
 class QVButtonGroup;
+class KURLRequester;
 
 #include <kcmodule.h>
 
@@ -55,10 +56,15 @@ Q_OBJECT
     QLabel *lb_no_prx;
     QLineEdit *le_no_prx;
 
+    // auto proxy url
+    KURLRequester *url_autoProxy;
+
     // copy down button
     QPushButton *pb_down;
     // use proxy checker
     QCheckBox *cb_useProxy;
+    // auto proxy checker
+    QCheckBox *cb_autoProxy;
 
     /// ------------ Cache ----------
 
@@ -99,7 +105,7 @@ Q_OBJECT
     void changeCache();
     void clearCache();
     void updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
-                   QString noProxyFor);
+                   bool bAutoProxy, QString noProxyFor, QString autoProxy);
 };
 
 #endif // __KPROXYDLG_H
