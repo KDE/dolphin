@@ -746,13 +746,12 @@ bool KonqView::callExtensionMethod( const char *methodName )
   };
   return false;
 #else
-  QMetaObject *mo = obj->metaObject();
-  const QMetaData *mdata = mo->slot( mo->findSlot( methodName ) );
-  if ( !mdata )
+  int id = obj->metaObject()->findSlot( methodName );
+  if ( id == -1 )
     return false;
   QUObject o[ 1 ];
   
-  obj->qt_invoke( mdata->ptr, o ); 
+  obj->qt_invoke( id, o ); 
   return true;
 #endif
 }
@@ -774,15 +773,14 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
   };
   return false;
 #else
-  QMetaObject *mo = obj->metaObject();
-  const QMetaData *mdata = mo->slot( mo->findSlot( methodName ) );
-  if ( !mdata )
+  int id = obj->metaObject()->findSlot( methodName );
+  if ( id == -1 )
     return false;
   QUObject o[ 2 ];
 
   pQUType_bool->set( o + 1, value );
   
-  obj->qt_invoke( mdata->ptr, o ); 
+  obj->qt_invoke( id, o ); 
   return true;
 #endif
 }
@@ -806,15 +804,14 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
   };
   return false;
 #else
-  QMetaObject *mo = obj->metaObject();
-  const QMetaData *mdata = mo->slot( mo->findSlot( methodName ) );
-  if ( !mdata )
+  int id = obj->metaObject()->findSlot( methodName );
+  if ( id == -1 )
     return false;
   QUObject o[ 2 ];
 
   pQUType_QString->set( o + 1, value );
   
-  obj->qt_invoke( mdata->ptr, o ); 
+  obj->qt_invoke( id, o ); 
   return true;
 #endif
 }
