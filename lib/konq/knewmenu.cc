@@ -35,7 +35,8 @@
 #include <kio/global.h>
 #include <kio/job.h>
 
-#include "kpropsdlg.h"
+#include <kpropsdlg.h>
+#include <konq_dirwatcher_stub.h>
 #include "knewmenu.h"
 
 QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
@@ -311,6 +312,12 @@ void KNewMenu::slotResult( KIO::Job * job )
 {
     if (job->error())
         job->showErrorDialog();
+    else {
+        KURL destURL = static_cast<KIO::CopyJob*>(job)->destURL();
+        destURL.setPath( destURL.directory() );
+        KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
+        allDirWatchers.FilesAdded( destURL );
+    }
 }
 
 #include "knewmenu.moc"
