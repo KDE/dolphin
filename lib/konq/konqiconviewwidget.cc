@@ -82,7 +82,7 @@ void KonqIconViewWidget::initConfig()
 
   // Behaviour (single click/double click, autoselect, ...)
   bool bChangeCursor = m_pSettings->changeCursor();
-  setSingleClickConfiguration( new QFont(font), new QColor(normalTextColor), 
+  setSingleClickConfiguration( new QFont(font), new QColor(normalTextColor),
                                new QFont(font), new QColor(highlightedTextColor),
                     new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()),
                     m_pSettings->autoSelect() );
@@ -90,20 +90,27 @@ void KonqIconViewWidget::initConfig()
   setWordWrapIconText( m_pSettings->wordWrapText() );
 }
 
-void KonqIconViewWidget::setSize( KIconLoader::Size size )
+void KonqIconViewWidget::setIcons( KIconLoader::Size size )
 {
   m_size = size;
   for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-    ((KFileIVI*)it)->setSize( size, m_bImagePreviewAllowed );
+    ((KFileIVI*)it)->setIcon( size, m_bImagePreviewAllowed );
   }
   setViewMode( (size == KIconLoader::Small) ? QIconSet::Small : QIconSet::Large );
+}
+
+void KonqIconViewWidget::refreshMimeTypes()
+{
+  for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
+    ((KFileIVI*)it)->item()->refreshMimeType();
+  setIcons( m_size );
 }
 
 void KonqIconViewWidget::setImagePreviewAllowed( bool b )
 {
   m_bImagePreviewAllowed = b;
   for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-    ((KFileIVI*)it)->setSize( m_size, m_bImagePreviewAllowed );
+    ((KFileIVI*)it)->setIcon( m_size, m_bImagePreviewAllowed );
   }
 }
 
@@ -220,7 +227,7 @@ void link( QStringList srcUrls, KURL destDir )
     }
   }
 }
-            
+
 void KonqIconViewWidget::slotDrop( QDropEvent *e )
 {
   slotDropItem( 0L, e );
@@ -305,7 +312,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
     }
   }
 }
-            
+
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
   const QPixmap *pm = viewport()->backgroundPixmap();
@@ -313,10 +320,10 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
     p->fillRect(r, viewport()->backgroundColor());
     return;
   }
-  
+
   int ax = (r.x() % pm->width());
   int ay = (r.y() % pm->height());
-  p->drawTiledPixmap(r, *pm, QPoint(ax, ay)); 
+  p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
 }
 
 QDragObject * KonqIconViewWidget::dragObject()

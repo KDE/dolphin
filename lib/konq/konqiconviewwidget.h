@@ -29,7 +29,7 @@ class KonqFMSettings;
 class KFileIVI;
 
 /**
- * A file-aware icon view, implementing drag'n'drop, KDE icon sizes, 
+ * A file-aware icon view, implementing drag'n'drop, KDE icon sizes,
  * user settings, ...
  * Used by kdesktop and konq_iconview
  */
@@ -46,7 +46,16 @@ public:
 
   void initConfig();
 
-  void setSize( KIconLoader::Size size );
+  /**
+   * Sets the icons of all items, and stores the @p size
+   */
+  void setIcons( KIconLoader::Size size );
+
+  /**
+   * Called on databaseChanged
+   */
+  void refreshMimeTypes();
+
   KIconLoader::Size size() { return m_size; }
 
   void setImagePreviewAllowed( bool b );

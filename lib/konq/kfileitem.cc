@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1999 David Faure <faure@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 // $Id$
 
 #include <sys/time.h>
@@ -36,8 +36,8 @@
 #include <krun.h>
 
 KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
-  m_entry( _entry ), 
-  m_url( _url ), 
+  m_entry( _entry ),
+  m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
   m_fileMode( (mode_t)-1 ),
   m_permissions( (mode_t)-1 ),
@@ -88,7 +88,7 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
 
 KFileItem::KFileItem( mode_t _mode, const KURL& _url ) :
   m_entry(), // warning !
-  m_url( _url ), 
+  m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
   m_strText( decodeFileName( _url.filename() ) ),
   m_fileMode ( _mode ), // temporary
@@ -128,7 +128,7 @@ void KFileItem::init()
     if ( m_fileMode == (mode_t) -1 )
       m_fileMode = mode & S_IFMT; // extract file type
     if ( m_permissions == (mode_t) -1 )
-      m_permissions = mode & 0x1FF; // extract permissions 
+      m_permissions = mode & 0x1FF; // extract permissions
   }
 
   // determine the mimetype
@@ -142,6 +142,12 @@ void KFileItem::refresh()
   m_fileMode = (mode_t)-1;
   m_permissions = (mode_t)-1;
   init();
+}
+
+void KFileItem::refreshMimeType()
+{
+  m_pMimeType = 0L;
+  init(); // Will determine the mimetype
 }
 
 QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
@@ -168,10 +174,10 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
           bAvail = false;
       }
     }
-    
+
     if ( bAvail )
     {
-      if ( pix.load( xvpicPath ) ) 
+      if ( pix.load( xvpicPath ) )
         return pix;
     } else
     {
@@ -223,11 +229,11 @@ bool KFileItem::acceptsDrops() const
 
   if ( mimetype() == "application/x-desktop")
     return true;
-  
+
   // Executable, shell script ... ?
   if ( access( m_url.path(), X_OK ) == 0 )
     return true;
-  
+
   return false;
 }
 
@@ -292,7 +298,7 @@ QString KFileItem::linkDest() const
     int n = readlink( m_url.path( -1 ), buf, 1000 );
     if ( n != -1 )
     {
-      buf[ n ] = 0;  
+      buf[ n ] = 0;
       return QString( buf );
     }
   }
@@ -398,4 +404,4 @@ QString KFileItem::makeTimeString( time_t _time )
   dt.setTime_t(_time);
 
   return KGlobal::locale()->formatDateTime(dt);
-} 
+}

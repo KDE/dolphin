@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1999 David Faure <faure@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 // $Id$
 
 #ifndef __konq_fileitem_h__
@@ -59,8 +59,15 @@ public:
 
   /**
    * Re-read information (currently only permissions and mimetype)
+   * This is called when the _file_ changes
    */
   void refresh();
+
+  /**
+   * Re-read mimetype information
+   * This is called when the mimetype database changes
+   */
+  void refreshMimeType();
 
   /**
    * @return the url of the file
@@ -110,7 +117,7 @@ public:
   /**
    * Returns a pixmap representing the file
    * @param size KDE-size for the pixmap
-   * @param bImagePreviewAllowed if true, an image file will return a pixmap 
+   * @param bImagePreviewAllowed if true, an image file will return a pixmap
    * with the image, loaded from the xvpics dir (created if necessary)
    * @return the pixmap
    */
@@ -148,9 +155,9 @@ public:
   bool isMarked() const { return m_bMarked; }
   void mark() { m_bMarked = true; }
   void unmark() { m_bMarked = false; }
-  
+
   /**
-   * @return the string to be displayed in the statusbar when the mouse 
+   * @return the string to be displayed in the statusbar when the mouse
    *         is over this item
    */
   QString getStatusBarInfo() const;
@@ -187,14 +194,14 @@ public:
    * Convert a time information into a string
    */
   static QString makeTimeString( time_t _time );
-  
+
 protected:
   /**
    * Computes the text, mode, and mimetype from the UDSEntry
    * Called by constructor, but can be called again later
    */
   void init();
-  
+
   /**
    * We keep a copy of the UDSEntry since we need it for @ref #getStatusBarInfo
    */
@@ -229,7 +236,7 @@ protected:
   /**
    * Whether the file is a link
    */
-  bool m_bLink; 
+  bool m_bLink;
   /**
    * The mimetype of the file
    */
