@@ -37,7 +37,7 @@
 #include "socks.h"
 #include <kaboutdata.h>
 
-KSocksConfig::KSocksConfig(QWidget *parent, const char *, const QStringList &)
+KSocksConfig::KSocksConfig(QWidget *parent)
   : KCModule(parent, "kcmkio")
 {
 
@@ -269,14 +269,14 @@ QString KSocksConfig::quickHelp() const
 
 const KAboutData* KSocksConfig::aboutData() const
 {
- 
+
     KAboutData *about =
     new KAboutData(I18N_NOOP("kcmsocks"), I18N_NOOP("KDE SOCKS Control Module"),
                   0, 0, KAboutData::License_GPL,
                   I18N_NOOP("(c) 2001 George Staikos"));
- 
+
     about->addAuthor("George Staikos", 0, "staikos@kde.org");
- 
+
     return about;
 }
 

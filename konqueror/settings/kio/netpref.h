@@ -17,7 +17,7 @@ class KIOPreferences : public KCModule
     Q_OBJECT
 
 public:
-    KIOPreferences( QWidget* parent = 0, const char* name = 0 );
+    KIOPreferences( QWidget* parent = 0);
     ~KIOPreferences();
 
     void load();

@@ -43,8 +43,8 @@
 #include "fakeuaprovider.h"
 #include "uagentproviderdlg.h"
 
-UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
-                 :KCModule( parent, name )
+UserAgentOptions::UserAgentOptions( QWidget * parent )
+                 :KCModule( parent, "kcmkio" )
 {
   QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                              KDialog::spacingHint() );

@@ -43,7 +43,7 @@ class UserAgentOptions : public KCModule
   Q_OBJECT
 
 public:
-  UserAgentOptions ( QWidget * parent = 0L, const char * name = 0L) ;
+  UserAgentOptions ( QWidget * parent = 0) ;
   ~UserAgentOptions();
 
   virtual void load();

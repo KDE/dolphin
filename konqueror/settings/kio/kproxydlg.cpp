@@ -42,15 +42,15 @@
 #include "socks.h"
 #include "kproxydlg.h"
 
-KProxyOptions::KProxyOptions (QWidget* parent, const char* name)
-              :KCModule (parent, name)
+KProxyOptions::KProxyOptions (QWidget* parent )
+              :KCModule (parent, "kcmkio")
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   QTabWidget *tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  proxy  = new KProxyDialog(tab, "proxydlg");
-  socks = new KSocksConfig(tab, "socks_config");
+  proxy  = new KProxyDialog(tab);
+  socks = new KSocksConfig(tab);
 
   tab->addTab(proxy, i18n("&Proxy"));
   tab->addTab(socks, i18n("&SOCKS"));
@@ -97,7 +97,7 @@ QString KProxyOptions::quickHelp() const
 }
 
 
-KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
+KProxyDialog::KProxyDialog( QWidget* parent)
              :KCModule( parent, "kcmkio" )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this,
@@ -343,9 +343,9 @@ KProxyDialog::~KProxyDialog()
 void KProxyDialog::load()
 {
   m_data = new KProxyData;
-    
+
   KProtocolManager proto;
-  bool useProxy = proto.useProxy();  
+  bool useProxy = proto.useProxy();
   m_data->type = proto.proxyType();
   m_data->httpProxy = proto.proxyFor( "http" );
   m_data->httpsProxy = proto.proxyFor( "https" );
@@ -354,14 +354,14 @@ void KProxyDialog::load()
   m_data->useReverseProxy = proto.useReverseProxy();
   m_data->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
                                            proto.noProxyFor() );
-  
+
   m_cbUseProxy->setChecked( useProxy );
   m_gbConfigure->setEnabled( useProxy );
   m_gbAuth->setEnabled( useProxy );
-  
+
   if ( !m_data->scriptProxy.isEmpty() )
     m_location->lineEdit()->setText( m_data->scriptProxy );
-  
+
   switch ( m_data->type )
   {
     case KProtocolManager::WPADProxy:
@@ -379,7 +379,7 @@ void KProxyDialog::load()
     default:
       break;
   }
-  
+
   switch( proto.proxyAuthMode() )
   {
     case KProtocolManager::Prompt:

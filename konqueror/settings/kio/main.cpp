@@ -42,38 +42,37 @@ extern "C"
 
   KCModule *create_cookie(QWidget *parent, const char /**name*/)
   {
-    return new KCookiesMain(parent, "kcmkio");
+    return new KCookiesMain(parent);
   };
 
   KCModule *create_smb(QWidget *parent, const char /**name*/)
   {
-    return new SMBRoOptions(parent, "kcmkio");
-    //return new KSMBOptions(parent, name);
+    return new SMBRoOptions(parent);
   };
 
   KCModule *create_useragent(QWidget *parent, const char /**name*/)
   {
-    return new UserAgentOptions(parent, "kcmkio");
+    return new UserAgentOptions(parent);
   };
 
   KCModule *create_proxy(QWidget *parent, const char /**name*/)
   {
-    return new KProxyOptions(parent, "kcmkio");
+    return new KProxyOptions(parent);
   };
 
   KCModule *create_cache(QWidget *parent, const char /**name*/)
   {
-    return new KCacheConfigDialog( parent, "kcmkio" );
+    return new KCacheConfigDialog( parent );
   };
 
   KCModule *create_netpref(QWidget *parent, const char /**name*/)
   {
-    return new KIOPreferences(parent, "kcmkio");
+    return new KIOPreferences(parent);
   };
-  
+
   KCModule *create_lanbrowser(QWidget *parent, const char *)
   {
-    return new LanBrowser(parent, "kcmlanbrowser");
+    return new LanBrowser(parent);
   }
 
 }
@@ -101,11 +100,11 @@ static KCModule *load(QWidget *parent, const QString &libname, const QString &li
                     return module;
             }
         }
-    
+
 	// get the create_ function
 	QString factory("create_%1");
 	void *create = lib->symbol(QFile::encodeName(factory.arg(handle)));
-	
+
 	if (create)
 	    {
 		// create the module
@@ -125,7 +124,7 @@ static KCModule *loadModule(QWidget *parent, const QString &module)
     if (!service)
        return 0;
     QString library = service->library();
-    
+
     if (library.isEmpty())
        return 0;
 
@@ -141,8 +140,8 @@ static KCModule *loadModule(QWidget *parent, const QString &module)
 
 
 
-LanBrowser::LanBrowser(QWidget *parent, const char* name)
-:KCModule(parent,name)
+LanBrowser::LanBrowser(QWidget *parent)
+:KCModule(parent,"kcmkio")
 ,layout(this)
 ,tabs(this)
 {

@@ -32,7 +32,7 @@ class LanBrowser:public KCModule
 {
    Q_OBJECT
    public:
-      LanBrowser(QWidget *parent=0, const char * name=0);
+      LanBrowser(QWidget *parent=0);
       virtual ~LanBrowser() {};
       virtual void load();
       virtual void save();

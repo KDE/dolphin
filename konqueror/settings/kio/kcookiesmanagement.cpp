@@ -90,8 +90,8 @@ QString CookieListViewItem::text(int f) const
         return f == 0 ? mDomain : QString::null;
 }
 
-KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
-                   : KCModule(parent, name)
+KCookiesManagement::KCookiesManagement(QWidget *parent)
+                   : KCModule(parent, "kcmkio")
 {
   // Toplevel layout
   QVBoxLayout *layout = new QVBoxLayout( this, 2*KDialog::marginHint(),

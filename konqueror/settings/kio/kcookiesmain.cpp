@@ -44,13 +44,13 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     tab = new QTabWidget(this);
     layout->addWidget(tab);
 
-    policies = new KCookiesPolicies(this, "cookies_policies");
+    policies = new KCookiesPolicies(this);
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
 
     if(managerOK)
     {
-        management = new KCookiesManagement(this, "cookies_management");
+        management = new KCookiesManagement(this);
         tab->addTab(management, i18n("&Management"));
         connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
     }

@@ -17,7 +17,7 @@
 
 #define MAX_TIMEOUT_VALUE  3600
 
-KIOPreferences::KIOPreferences( QWidget* parent,  const char* )
+KIOPreferences::KIOPreferences( QWidget* parent )
                :KCModule( parent, "kcmkio" )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
@@ -35,21 +35,21 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* )
     connect(sb_socketRead, SIGNAL(valueChanged ( int )),
             this, SLOT(timeoutChanged(int)));
 
-    sb_proxyConnect = new KIntNumInput( sb_socketRead, 0, gb_Timeout, 
+    sb_proxyConnect = new KIntNumInput( sb_socketRead, 0, gb_Timeout,
             10, "sb_proxyConnect" );
     sb_proxyConnect->setSuffix( i18n( " sec" ) );
     sb_proxyConnect->setLabel( i18n( "Pro&xy connect:" ), AlignVCenter);
     connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),
             this, SLOT(timeoutChanged(int)));
 
-    sb_serverConnect = new KIntNumInput( sb_proxyConnect, 0, gb_Timeout, 
+    sb_serverConnect = new KIntNumInput( sb_proxyConnect, 0, gb_Timeout,
             10, "sb_serverConnect" );
     sb_serverConnect->setSuffix( i18n( " sec" ) );
     sb_serverConnect->setLabel( i18n("Server co&nnect:"), AlignVCenter);
     connect(sb_serverConnect, SIGNAL(valueChanged ( int )),
             this, SLOT(timeoutChanged(int)));
 
-    sb_serverResponse = new KIntNumInput( sb_serverConnect, 0, gb_Timeout, 
+    sb_serverResponse = new KIntNumInput( sb_serverConnect, 0, gb_Timeout,
             10, "sb_serverResponse" );
     sb_serverResponse->setSuffix( i18n( " sec" ) );
     sb_serverResponse->setLabel( i18n("Server &response:"), AlignVCenter);
@@ -109,10 +109,10 @@ void KIOPreferences::save()
   config.writeEntry( "DisablePassiveMode", !cb_ftpEnablePasv->isChecked() );
   config.writeEntry( "MarkPartial", cb_ftpMarkPartial->isChecked() );
   config.sync();
-  
+
   KSaveIOConfig::updateRunningIOSlaves (this);
-  
-  emit changed( false );  
+
+  emit changed( false );
 }
 
 void KIOPreferences::defaults()

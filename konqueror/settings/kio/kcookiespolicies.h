@@ -47,7 +47,7 @@ class KCookiesPolicies : public KCModule
     Q_OBJECT
 
 public:
-    KCookiesPolicies(QWidget *parent = 0L, const char *name = 0L);
+    KCookiesPolicies(QWidget *parent = 0);
     ~KCookiesPolicies();
 
     virtual void load();

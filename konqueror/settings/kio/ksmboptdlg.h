@@ -19,7 +19,7 @@ class KSMBOptions : public KCModule
 {
 Q_OBJECT
 public:
-	KSMBOptions(QWidget *parent = 0L, const char *name = 0L);
+	KSMBOptions(QWidget *parent = 0);
 	~KSMBOptions();
 
 	virtual void load();

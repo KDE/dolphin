@@ -34,7 +34,7 @@
 #endif
 
 
-SMBRoOptions::SMBRoOptions(QWidget *parent, const char *)
+SMBRoOptions::SMBRoOptions(QWidget *parent)
   : KCModule(parent, "kcmkio")
 {
    QGridLayout *layout = new QGridLayout(this,2,-1,10,10);

@@ -40,7 +40,7 @@ class KProxyOptions : public KCModule
   Q_OBJECT
 
 public:
-  KProxyOptions( QWidget* parent = 0, const char* name = 0 );
+  KProxyOptions( QWidget* parent = 0 );
   ~KProxyOptions();
 
   virtual void load();
@@ -59,7 +59,7 @@ class KProxyDialog : public KCModule
   Q_OBJECT
 
 public:
-  KProxyDialog( QWidget* parent = 0, const char* name = 0 );
+  KProxyDialog( QWidget* parent = 0 );
   ~KProxyDialog();
 
   virtual void load();

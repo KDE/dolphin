@@ -17,8 +17,8 @@
 #endif
 
 
-KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
-  : KCModule(parent, name)
+KSMBOptions::KSMBOptions(QWidget *parent, const char *)
+  : KCModule(parent, "kcmkio")
 {
     QGridLayout *topLayout = new QGridLayout(this,1,1,10,0,"smbOptTopLayout");
     labelInfo1 = new QLabel(i18n("Note: kio_smb is a SMB client only. The server, if any, cannot be configured from here."), this);
