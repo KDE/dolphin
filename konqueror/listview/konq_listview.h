@@ -174,18 +174,18 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
 
       virtual void saveState( QDataStream &stream )
         {
-          m_listView->saveState( stream );
+          m_listView->saveNameFilter( stream );
           KParts::BrowserExtension::saveState( stream );
+          m_listView->saveState( stream );
         }
 
       virtual void restoreState( QDataStream &stream )
         {
-          // Note: since restore state currently restores the name filter,
-          // which we need BEFORE opening the URL, we do that one first.
-          // If we add more stuff to restoreState, we may need to split it
-          // into two methods in fact.
-          m_listView->restoreState( stream );
+          // Note: since we need to restore the name filter,
+          // BEFORE opening the URL.
+          m_listView->restoreNameFilter( stream );
           KParts::BrowserExtension::restoreState( stream );
+          m_listView->restoreState( stream );
         }
 
    protected slots:

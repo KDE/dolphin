@@ -944,7 +944,7 @@ void KonqMainWindow::slotToolFind()
     m_paFindFiles->setEnabled(false);
 
     // lock the history in the current view - until slotFindClosed
-    m_currentView->lockHistory(); // do we still want that ?
+    //m_currentView->lockHistory(); // do we still want that ?
   }
   else
   {
@@ -979,7 +979,9 @@ void KonqMainWindow::slotToolFind()
 void KonqMainWindow::slotFindOpen( KonqDirPart * dirPart )
 {
     kdDebug(1202) << "KonqMainWindow::slotFindOpen " << dirPart << endl;
-
+    ASSERT( m_currentView );
+    ASSERT( m_currentView->part() == dirPart );
+    slotToolFind(); // lazy me
 }
 
 void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
@@ -990,7 +992,7 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     kdDebug(1202) << "dirView=" << dirView << endl;
     if ( dirView )
     {
-        dirView->lockHistory( false );
+        //dirView->lockHistory( false );
         if ( dirView == m_currentView )
             m_paFindFiles->setEnabled( true );
     }
@@ -2850,7 +2852,7 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
     kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
   {
-    kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
+    //kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
     act->setEnabled( enabled );
   }
 

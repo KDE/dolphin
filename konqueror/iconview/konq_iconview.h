@@ -201,18 +201,18 @@ public:
 
   virtual void saveState( QDataStream &stream )
     {
-      m_iconView->saveState( stream );
+      m_iconView->saveNameFilter( stream );
       KParts::BrowserExtension::saveState( stream );
+      m_iconView->saveState( stream );
     }
 
   virtual void restoreState( QDataStream &stream )
     {
-      // Note: since restore state currently restores the name filter,
-      // which we need BEFORE opening the URL, we do that one first.
-      // If we add more stuff to restoreState, we may need to split it
-      // into two methods in fact.
-      m_iconView->restoreState( stream );
+      // Note: since we need to restore the name filter,
+      // BEFORE opening the URL.
+      m_iconView->restoreNameFilter( stream );
       KParts::BrowserExtension::restoreState( stream );
+      m_iconView->restoreState( stream );
     }
 
 public slots:

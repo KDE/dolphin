@@ -319,6 +319,13 @@ void KonqView::connectPart(  )
   if ( urlDropHandling.type() == QVariant::Bool &&
        urlDropHandling.toBool() )
       m_pPart->widget()->installEventFilter( this );
+
+  // KonqDirPart signal
+  if ( m_pPart->inherits("KonqDirPart") )
+  {
+      connect( m_pPart, SIGNAL( findOpen( KonqDirPart * ) ),
+               m_pMainWindow, SLOT( slotFindOpen( KonqDirPart * ) ) );
+  }
 }
 
 void KonqView::slotEnableAction( const char * name, bool enabled )
