@@ -79,6 +79,7 @@
   <Action name="edit_redo"/>
   <Action name="newbookmark"/>
   <Action name="newfolder"/>
+  <Action name="delete" />
 </ToolBar>
 
 <Menu name="popup_folder">
