@@ -269,10 +269,14 @@ void KAppearanceOptions::load()
     fixedName = m_pConfig->readEntry( "FixedFont" );
     charsetName = m_pConfig->readEntry( "DefaultCharset" );
 
-    bgColor = m_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-    textColor = m_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-    linkColor = m_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-    vLinkColor = m_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
+    bgColor = KGlobalSettings::baseColor();
+    bgColor = m_pConfig->readColorEntry( "BgColor", &bgColor );
+    textColor = KGlobalSettings::textColor();
+    textColor = m_pConfig->readColorEntry( "TextColor", &textColor );
+    linkColor = KGlobalSettings::linkColor();
+    linkColor = m_pConfig->readColorEntry( "LinkColor", &linkColor );
+    vLinkColor = KGlobalSettings::visitedLinkColor();
+    vLinkColor = m_pConfig->readColorEntry( "VLinkColor", &vLinkColor);
     bool forceDefaults = m_pConfig->readBoolEntry("ForceDefaultColors", false);
 
     m_pBg->setColor( bgColor );
@@ -291,10 +295,10 @@ void KAppearanceOptions::defaults()
     fixedName = KGlobalSettings::fixedFont().family();
     charsetName = "";
 
-    bgColor = HTML_DEFAULT_BG_COLOR;
-    textColor = HTML_DEFAULT_TXT_COLOR;
-    linkColor = HTML_DEFAULT_LNK_COLOR;
-    vLinkColor = HTML_DEFAULT_VLNK_COLOR;
+    bgColor = KGlobalSettings::baseColor();
+    textColor = KGlobalSettings::textColor();
+    linkColor = KGlobalSettings::linkColor();
+    vLinkColor = KGlobalSettings::visitedLinkColor();
 
     m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
