@@ -37,16 +37,6 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
     setWidget(m_widget);
 }
 
-void KonqSidebar::doCloseMe()
-{
-	QTimer::singleShot(0,this,SLOT(closeMe()));
-}
-
-void KonqSidebar::closeMe()
-{
-  delete this;
-}
-
 KInstance *KonqSidebar::getInstance()
 {
 	kdDebug()<<"KonqSidebar::getInstance()"<<endl;

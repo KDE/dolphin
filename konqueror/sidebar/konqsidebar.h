@@ -96,11 +96,6 @@ protected:
 
 private:
      class Sidebar_Widget *m_widget;
-
-protected slots:
-	void closeMe();
-public slots:
-	void doCloseMe();
 };
 
 class KInstance;
