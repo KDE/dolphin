@@ -283,7 +283,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         cfg.setDesktopGroup();
 
         if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
-             cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
+             ( cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) ) ||
+               ( cfg.readEntry( "ServiceTypes" ) == "allfiles" ) )
         {
           KURL u;
           u.setPath( *dIt + *eIt );

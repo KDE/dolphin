@@ -1,0 +1,39 @@
+This file explains how to add an item in the popupmenu (for both
+konqueror and kdesktop), without using the file associations.
+
+Why
+===
+One reason for doing this is being able to associate
+some action with all files without this action becoming a default handler
+(called on left click).
+Another is that for text-based programs and tools (e.g. gzip) it's faster
+than defining a desktop file for the application, making it hidden, and
+associate it with the relevant file types.
+
+How
+===
+Create a file ~/.kde/share/apps/konqueror/servicemenus/something.desktop
+and write into it something like (without the comments) :
+
+[Desktop Entry]
+ServiceTypes=text/html,text/plain # use allfiles (alone) for all files
+                                  # and use inode/directory for dirs only
+Actions=gzip;mail                 # those are ';' separated, per the standard !
+
+[Desktop Action gzip]            # One "Desktop Action <name>" group per Action
+Name=GZip this file
+Name[fr]=...
+Icon=tgz
+Exec=gzip %f
+
+[Desktop Action mail]
+Name=Mail this file
+Name[fr]=...
+Icon=kmail
+Exec=kmail --there-is-no-such-option-yet %f
+
+
+See also the "desktop entry standard", which defines more formally the same
+concept of actions but for desktop files (e.g. eject on a device desktop file,
+etc.)
+
