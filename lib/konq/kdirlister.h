@@ -78,16 +78,9 @@ public:
 
   /**
    * @return the url used by this instance to list the files
-   * It might be different from the one we gave, if there was a redirection
-   * (TODO : redirections not implemented)
-   */
-  virtual QString url() const { return m_sURL; }
-
-  /**
-   * @return the url used by this instance to list the files
    * It might be different from the one we gave, if there was a redirection.
    */
-  virtual const KURL & kurl() const { return m_url; }
+  virtual const KURL & url() const { return m_url; }
 
   /**
    * Update the currently displayed directory
@@ -115,7 +108,7 @@ public:
    */
   QList<KFileItem> & items() { return m_lstFileItems; }
   /**
-   * @return the file item for kurl() itself (".")
+   * @return the file item for url() itself (".")
    */
   KFileItem * rootItem() { return m_rootFileItem; }
 
@@ -166,7 +159,6 @@ protected:
 
   /** The url that we used to list (can be different in case of redirect) */
   KURL m_url;
-  QString m_sURL;
 
   KIO::ListJob * m_job;
 
@@ -176,7 +168,7 @@ protected:
   KFileItem * m_rootFileItem;
 
   /**
-   * List of dirs handled by this instance. Same as m_sURL if only one dir
+   * List of dirs handled by this instance. Same as m_url if only one dir
    * But for a tree view, it contains all the dirs shown
    * (Used to unregister from kdirwatch)
    */
@@ -184,8 +176,6 @@ protected:
 
   bool m_isShowingDotFiles;
   bool m_bComplete;
-  /** Used internally between starting-of-listing and first timeout */
-  QString m_sWorkingURL;
 
   /** Keep entries found - used by slotUpdate* */
   QValueList<KIO::UDSEntry> m_buffer;

@@ -86,13 +86,13 @@ KFileItem::KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMi
   init( _determineMimeTypeOnDemand );
 }
 
-KFileItem::KFileItem( mode_t _mode, const KURL& _url, bool _determineMimeTypeOnDemand ) :
+KFileItem::KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand ) :
   m_entry(), // warning !
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
   m_strText( KIO::decodeFileName( _url.filename() ) ),
-  m_fileMode ( _mode ), // temporary
-  m_permissions( (mode_t) -1 ),
+  m_fileMode ( _mode ),
+  m_permissions( _permissions ),
   m_bLink( false ),
   m_bMarked( false )
 {
@@ -376,7 +376,10 @@ QString KFileItem::mimetype()
 KMimeType::Ptr KFileItem::determineMimeType()
 {
   if ( !m_pMimeType )
+  {
+    debug("finding for %s",m_url.url().ascii());
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
+  }
 
   return m_pMimeType;
 }

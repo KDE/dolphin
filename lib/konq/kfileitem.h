@@ -52,10 +52,15 @@ public:
    * @param _mode the file mode (according to stat())
    * Set to -1 if unknown. For local files, KFileItem will use stat().
    * @param _url the file url
+   * @param _mode the mode (S_IFDIR...)
+   * @param _permissions the access permissions
+   * If you set both the mode and the permissions, you save a ::stat() for local files
+   * Set to -1 if you don't know the mode or the permission.
+   *
    * @param _determineMimeTypeOnDemand specify if the mimetype of the given URL should be
    *        determined immediately or on demand
    */
-  KFileItem( mode_t _mode, const KURL& _url, bool _determineMimeTypeOnDemand = false );
+  KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand = false );
   /**
    * Destructor
    */

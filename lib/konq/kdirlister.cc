@@ -129,9 +129,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
 	   SLOT( slotResult( KIO::Job * ) ) );
 
-  m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
-
-  emit started( m_sURL );
+  emit started( m_url.url() );
   if ( !_keep )
   {
     emit clear();
@@ -173,8 +171,11 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
       continue;
     else if ( name == "." )
     {
-      KURL u( m_url );
-      m_rootFileItem = new KFileItem( *(*it), u, m_bDelayedMimeTypes );
+      if ( !m_rootFileItem ) // only if we didn't keep the previous dir
+      {
+        KURL u( m_url );
+        m_rootFileItem = new KFileItem( *(*it), u, m_bDelayedMimeTypes );
+      }
     }
     else if ( m_isShowingDotFiles || name[0] != '.' )
     {
@@ -225,20 +226,18 @@ void KDirLister::updateDirectory( const QString& _dir )
   m_bComplete = false;
   m_buffer.clear();
 
-  m_sURL = _dir;
-  KURL::encode(m_sURL);
-  m_url = KURL( m_sURL );
+  QString sURL = _dir;
+  KURL::encode(sURL);
+  m_url = KURL( sURL );
   m_job = KIO::listDir( m_url );
   connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
            SLOT( slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList&)));
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
 	   SLOT( slotUpdateResult( KIO::Job * ) ) );
 
-  m_sURL = m_url.url();
+  kDebugInfo( 1203, "update started in %s", debugString(m_url.url()));
 
-  kDebugInfo( 1203, "update started in %s", debugString(m_sURL));
-
-  emit started( m_sURL );
+  emit started( m_url.url() );
 }
 
 void KDirLister::slotUpdateResult( KIO::Job * job )
@@ -258,7 +257,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
   if ( pendingIt != m_lstPendingUpdates.end() )
     m_lstPendingUpdates.remove( pendingIt );
 
-  // Unmark all items whose path is m_sURL
+  // Unmark all items whose path is m_url
   QString sPath = m_url.path( 1 ); // with trailing slash
   QListIterator<KFileItem> kit ( m_lstFileItems );
   for( ; kit.current(); ++kit )
@@ -372,7 +371,6 @@ void KDirLister::setShowingDotFiles( bool _showDotFiles )
   if ( m_isShowingDotFiles != _showDotFiles )
   {
     m_isShowingDotFiles = _showDotFiles;
-    // updateDirectory( m_sURL ); // update only one directory
     for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
       updateDirectory( *it ); // update all directories
   }

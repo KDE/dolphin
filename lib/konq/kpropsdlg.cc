@@ -40,6 +40,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <errno.h>
+#include <assert.h>
 
 #include <qfile.h>
 #include <qdir.h>
@@ -91,14 +92,17 @@ PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
   m_singleUrl( _items.first()->url() ), m_items( _items ),
   m_bMustDestroyItems( false )
 {
+  assert( !_items.isEmpty() );
+  assert(!m_singleUrl.isEmpty());
   init();
 }
 
 PropertiesDialog::PropertiesDialog( const KURL& _url, mode_t _mode ) :
   m_singleUrl( _url ), m_bMustDestroyItems( true )
 {
+  assert(!_url.isEmpty());
   // Create a KFileItem from the information we have
-  m_items.append( new KFileItem( _mode, m_singleUrl ) );
+  m_items.append( new KFileItem( _mode, -1, m_singleUrl ) );
   init();
 }
 
@@ -107,8 +111,9 @@ PropertiesDialog::PropertiesDialog( const KURL& _tempUrl, const KURL& _currentDi
   : m_singleUrl( _tempUrl ), m_bMustDestroyItems( true ),
     m_defaultName( _defaultName ), m_currentDir( _currentDir )
 {
+  assert(!m_singleUrl.isEmpty());
   // Create the KFileItem for the _template_ file, in order to read from it.
-  m_items.append( new KFileItem( -1, m_singleUrl ) );
+  m_items.append( new KFileItem( -1, -1, m_singleUrl ) );
   init();
 }
 
@@ -236,6 +241,12 @@ void PropertiesDialog::insertPages()
   }
 }
 
+void PropertiesDialog::updateUrl( const KURL& _newUrl )
+{
+  m_singleUrl = _newUrl;
+  assert(!m_singleUrl.isEmpty());
+}
+
 void PropertiesDialog::rename( const QString& _name )
 {
   KURL newUrl;
@@ -354,7 +365,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   int curRow = 0;
 
   bool bDesktopFile = isDesktopFile(properties->item());
-  if (bDesktopFile || properties->item()->mimetype() == "inode/directory") {
+  if (bDesktopFile || S_ISDIR( properties->item()->mode())) {
 
     KIconLoaderButton *iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
     iconButton->setFixedSize(50, 50);
@@ -492,16 +503,16 @@ void FilePropsPage::applyChanges()
   KIO::Job * job = 0L;
   // Do we need to rename the file ?
   if ( oldName != n || m_bFromTemplate ) { // true for any from-template file
-    QString oldpath = properties->kurl().url(); // path(-1);
+    KURL oldurl = properties->kurl();
     // Tell properties. Warning, this changes the result of properties->kurl() !
     properties->rename( n );
 
     // Don't remove the template !!
     if ( !m_bFromTemplate ) {
-        job = KIO::move( oldpath, properties->kurl() );
+        job = KIO::move( oldurl, properties->kurl() );
         connect( job, SIGNAL( sigFinished( KIO::Job * ) ),
-                 SLOT( slotRenameFinished() ) );
-        kDebugInfo(1202,"oldpath = %s",oldpath.ascii());
+                 SLOT( slotRenameFinished( KIO::Job * ) ) );
+        kDebugInfo(1202,"oldpath = %s",oldurl.url().ascii());
         kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
     }
   }
@@ -509,12 +520,24 @@ void FilePropsPage::applyChanges()
   // If we launched a job, wait for it to finish
   // Otherwise, we can go on straight away
   if (!job)
-    slotRenameFinished();
+    slotRenameFinished( 0L );
 
 }
 
-void FilePropsPage::slotRenameFinished()
+void FilePropsPage::slotRenameFinished( KIO::Job * job )
 {
+  if (job && job->error())
+  {
+    /*KMessageBox::sorry(this,
+                     i18n("Could not rename file or directory to\n%1\n")
+                     .arg(properties->kurl().url()));*/
+    job->showErrorDialog();
+    return;
+  }
+
+  assert( properties->item() );
+  assert( !properties->item()->url().isEmpty() );
+
   // Save the file where we can -> usually in ~/.kde/...
   if (BindingPropsPage::supports(properties->items()) && !m_sRelativePath.isEmpty())
   {
@@ -532,7 +555,7 @@ void FilePropsPage::slotRenameFinished()
     KIconLoaderButton *iconButton = (KIconLoaderButton *) iconArea;
     QString path;
 
-    if (properties->item()->mimetype() == "inode/directory")
+    if (S_ISDIR(properties->item()->mode()))
     {
       path = properties->kurl().path(1) + ".directory";
       // don't call updateUrl because the other tabs (i.e. permissions)
@@ -541,6 +564,7 @@ void FilePropsPage::slotRenameFinished()
     else
       path = properties->kurl().path();
 
+    kDebugInfo(1202,"**%s**",path.ascii());
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) ) {
       KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to %1.").arg(path));
@@ -569,13 +593,6 @@ void FilePropsPage::slotRenameFinished()
   }
 }
 
-void FilePropsPage::slotRenameError( int, int, const char * )
-{
-  KMessageBox::sorry(this,
-                     i18n("Could not rename file or directory to\n%1\n")
-                     .arg(properties->kurl().url()));
-}
-
 FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   : PropsPage( _props )
 {
@@ -587,7 +604,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   bool isMyFile, isDir, isLink;
 
   isLink = properties->item()->isLink();
-  isDir = properties->item()->mimetype() == "inode/directory";
+  isDir = S_ISDIR(properties->item()->mode());
   permissions = properties->item()->permissions();
   strOwner = properties->item()->user();
   strGroup = properties->item()->group();

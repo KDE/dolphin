@@ -53,6 +53,8 @@ class QPushButton;
 class KIconLoaderButton;
 class PropsPage;
 
+namespace KIO { class Job; }
+
 /**
  * The main class.
  * This one is visible to the one who created the dialog.
@@ -157,7 +159,7 @@ public:
    * a global apps/mimelnk desktop file is being saved)
    * @param _name new URL
    */
-  void updateUrl( const KURL& _newUrl ) { m_singleUrl = _newUrl; }
+  void updateUrl( const KURL& _newUrl );
 
   /**
    * #see FilePropsPage::applyChanges
@@ -288,8 +290,7 @@ public:
   static bool supports( KFileItemList _items );
 
 protected slots:
-  void slotRenameFinished();
-  void slotRenameError( int, int, const char* );
+  void slotRenameFinished( KIO::Job * );
 
 protected:
   QWidget *iconArea;
