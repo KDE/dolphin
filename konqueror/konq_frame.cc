@@ -380,7 +380,6 @@ void KonqFrame::attachInternal()
 
    m_pLayout->addWidget( m_pStatusBar, 0 );
    m_pPart->widget()->show();
-   m_pStatusBar->show();
 
    m_pLayout->activate();
 
