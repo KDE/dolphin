@@ -320,7 +320,7 @@ void KonqPopupMenu::slotPopupCopy()
 void KonqPopupMenu::slotPopupPaste()
 {
   assert( m_lstPopupURLs.count() == 1 );
-  pasteClipboard( m_lstPopupURLs.getFirst() );
+  pasteClipboard( m_lstPopupURLs.first() );
 }
 
 void KonqPopupMenu::slotPopupTrash()
@@ -388,7 +388,7 @@ void KonqPopupMenu::slotPopup( int id )
 void KonqPopupMenu::slotPopupProperties()
 {
   assert ( m_lstPopupURLs.count() == 1 );
-  (void) new PropertiesDialog( m_lstPopupURLs.getFirst(), m_popupMode );
+  (void) new PropertiesDialog( m_lstPopupURLs.first(), m_popupMode );
 }
 
 #include "kpopupmenu.moc"
