@@ -119,12 +119,12 @@ public:
   /**
    * @return true if view can go back
    */
-  bool canGoBack() { return m_lstHistory.at() > 0; }
+  bool canGoBack()const { return m_lstHistory.at() > 0; }
 
   /**
    * @return true if view can go forward
    */
-  bool canGoForward() { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
+  bool canGoForward()const { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
 
   uint historyLength() { return m_lstHistory.count(); }
 

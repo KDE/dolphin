@@ -120,6 +120,8 @@ k_dcop:
      */
     void goBack();
 
+    bool canGoBack()const;
+    bool canGoForward()const;
 
 private:
 

@@ -106,3 +106,18 @@ bool KonqMainWindowIface::fullScreenMode()
 {
     return m_pMainWindow->fullScreenMode();
 }
+
+QString KonqMainWindowIface::currentTitle()const
+{
+    return m_pMainWindow->currentTitle();
+}
+
+QString KonqMainWindowIface::currentURL()const
+{
+    return m_pMainWindow->currentURL();
+}
+
+bool KonqMainWindowIface::isHTMLAllowed()const
+{
+    return m_pMainWindow->isHTMLAllowed();
+}

@@ -207,7 +207,7 @@ public:
   /**
    * @return the "link view" action, for checking/unchecking from KonqView
    */
-  KToggleAction * linkViewAction() { return m_paLinkView; }
+  KToggleAction * linkViewAction()const { return m_paLinkView; }
 
   void enableAction( const char * name, bool enabled );
 
@@ -269,13 +269,13 @@ public:
   void listViews( ChildViewList *viewList );
   QCString frameType();
 
-  KonqFrameBase* childFrame();
+  KonqFrameBase* childFrame()const;
 
   void setActiveChild( KonqFrameBase* activeChild );
 
   // KonqFrameContainerBase implementation END
 
-  KonqFrameBase* workingTab() { return m_pWorkingTab; }
+  KonqFrameBase* workingTab()const { return m_pWorkingTab; }
   void setWorkingTab( KonqFrameBase* tab ) { m_pWorkingTab = tab; }
 
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType );

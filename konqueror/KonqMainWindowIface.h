@@ -63,6 +63,11 @@ k_dcop:
     QString locationBarURL() const;
     bool fullScreenMode();
 
+    QString currentTitle()const;
+    QString currentURL()const;
+
+    bool isHTMLAllowed()const;
+
 private:
 
   KonqMainWindow * m_pMainWindow;

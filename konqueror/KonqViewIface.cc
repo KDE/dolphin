@@ -123,3 +123,13 @@ bool KonqViewIface::isPopupMenuEnabled() const
 {
     return m_pView->isPopupMenuEnabled();
 }
+
+bool KonqViewIface::canGoBack()const
+{
+    return m_pView->canGoBack();
+}
+
+bool KonqViewIface::canGoForward()const
+{
+    return m_pView->canGoForward();
+}
