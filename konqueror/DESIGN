@@ -69,3 +69,31 @@ Part:          |
                |
           openURL [emits started, progress info, completed]
               ...
+
+
+How history is implemented
+==========================
+
+From the konqueror side:
+
+* KonqView has a list of history items. Each item contains a URL,
+and a QByteArray for the view to store its stuff in the format that suits it best.
+It calls saveState() at various points of time (right after starting loading the URL,
+when the loading is completed, and right before loading another URL). Reason:
+among other things, many views store the x and y offset of their scrollview in there.
+It calls restoreState() when restoring a particular item out of the history list.
+
+From the khtml side:
+
+* Site with no frames: no problem, it just obeys to saveState/restoreState.
+
+* Site with frames:
+KHTMLPart saves the whole structure (all frames, and their URL) in the
+history buffer (saveState/restoreState).
+Every time a frame changes its URL, we want a new item in the history.
+But when this happens, since it's internal to khtml, konqueror wouldn't know
+about it. That's why there is the openURLNotify() signal in browser extension
+(see there for extensive docu about it).
+When khtml emits it, KonqView creates a new history entry and fills it
+(calling saveState).
+
