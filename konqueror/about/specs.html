@@ -35,7 +35,7 @@
 		<TD HEIGHT=20 class="menu">&nbsp; <A class="menu" HREF="tips.html">%1 <!--Tips--></A> &nbsp;</TD>
 		<TD HEIGHT=20 class="menu">|</TD>
 		<TD HEIGHT=20 class="menuactive">&nbsp; %1 <!--Specifications--> &nbsp;</TD>
-		<TD HEIGHT=20 class="menu">&nbsp</TD>
+		<TD HEIGHT=20 class="menu">&nbsp;</TD>
 	</TR>
 </TABLE>
 		</TD>
@@ -97,36 +97,39 @@ and -->
                 <TH>%1 <!--Additional requirements*--></TH>
         </TR>
         <TR BGCOLOR="#fff4c9">
-                <TD><A HREF="http://www.w3.org/DOM">DOM</A> %1<!--(Level 1, partially Level 2) based --><A HREF="http://www.w3.org/TR/html4/">HTML 4.01</A></TD>
+                <TD>%1 <!--DOM (Level 1, partially Level 2) based HTML 4.01</A>--></TD>
 		<TD WIDTH=2%>&nbsp;</TD>
                 <TD>%1 <!--built-in--></TD>
         </TR>
         <TR BGCOLOR="#FFFFFF">
-                <TD><A HREF="http://www.w3.org/Style/CSS/">Cascading Style Sheets</A> %1<!--(CSS 1, partially CSS 2)--></TD>
+                <TD>%1 <!--Cascading Style Sheets (CSS 1, partially CSS 2)--></TD>
 		<TD WIDTH=2%>&nbsp;</TD>
                 <TD>%1 <!--built-in--></TD>
         </TR>
         <TR BGCOLOR="#fff4c9">
-                <TD><A HREF="http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM">ECMA-262</A> %1<!--Edition 3 (equals roughly
-Javascript 1.5)--></TD>
+                <TD>%1 <!--ECMA-262 Edition 3 (equals roughly Javascript 1.5)--></TD>
 		<TD WIDTH=2%>&nbsp;</TD>
-                <TD>%1<!-- Enable Javascript (globally)--> <A HREF=""> %1<!--here--></A></TD>
+<NOSCRIPT>
+                <TD>%1 <!-- Javascript disabled [...] --></TD>
+</NOSCRIPT>
+<SCRIPT LANGUAGE="Javascript">
+                document.write("<TD>%1</TD>"); // Javascript enabled [...]
+</SCRIPT>
         </TR>
         <TR BGCOLOR="#FFFFFF">
-                <TD>Secure <A HREF="http://java.sun.com">Java</A><SUP>&reg;</SUP> %1<!--support--></TD>
+                <TD>%1 <!--Secure Java support--></TD>
 		<TD WIDTH=2%>&nbsp;</TD>
                 <TD>
                         <UL>
-                                <LI>%1<!--JDK 1.2.0 (Java 2) compatible VM (--><A HREF="http://www.blackdown.org">Blackdown</A>, <A HREF="">IBM</A>, <A HREF="http://www.kaffe.org">Kaffe</A> or <A HREF="http://java.sun.com">Sun</A>) </LI>
-                                <LI>%1<!--Enable Java (globally) --><A HREF="">%1<!--here--></A></LI>
+                                <LI>%1<!--JDK 1.2.0 (Java 2) compatible VM (Blackdown, IBM, Kaffe or Sun)--></LI>
+                                <LI>%1<!--Enable Java (globally) here--></LI>
                         </UL>
                 </TD>
         </TR>
         <TR BGCOLOR="#fff4c9">
-                <TD>%1<!-- Netscape Communicator--><SUP>&reg;</SUP> %1<!--plugins (for viewing --><A
-HREF="">%1<!--Flash--></A>, <A HREF="http://www.real.com">%1<!--Real--></A>%1<!--Audio, RealVideo etc.)--></TD>
+                <TD>%1<!-- Netscape Communicator plugins (for viewing Flash, RealAudio, RealVideo etc.)--></TD>
 		<TD WIDTH=2%>&nbsp;</TD>
-                <TD>%1<!--OSF/Motif--><SUP>&reg;</SUP>%1<!-- -compatible library (--><A HREF="http://www.openmotif.com">%1<!--Open Motif--></A> %1 <!--or--><A HREF="http://www.lesstif.org">%1<!--LessTif--></A>)</TD>
+                <TD>%1<!--OSF/Motif-compatible library (Open Motif or LessTif)--></TD>
         </TR>
         <TR BGCOLOR="#FFFFFF">
                 <TD><A HREF="http://www.netscape.com/eng/ssl3/">%1<!--Secure Sockets Layer--></A> %1<!--(TLS/SSL v2/3) for secure communications up to 168bit--></TD>
