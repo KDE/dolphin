@@ -311,6 +311,12 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         addSeparator();
       }
+      else
+      {
+        KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+        addAction( actNewDir );
+        addSeparator();
+      }
     }
 
     // hack for khtml pages/frames
