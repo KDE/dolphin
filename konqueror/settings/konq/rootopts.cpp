@@ -72,7 +72,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 13   // 1 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths and 1 label + last row
+#define RO_LASTROW 15   // 3 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths and 1 label + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -102,8 +102,9 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                       " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
                                       " arranged horizontally or vertically.") );
 
+  row++;
   showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
-  lay->addMultiCellWidget(showHiddenBox, row, row, 1, 1);
+  lay->addMultiCellWidget(showHiddenBox, row, row, 0, 0);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
                                        " in your desktop directory that begin with a period (.) will be shown."
@@ -115,8 +116,9 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
   
+  row++;
   menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
-  lay->addMultiCellWidget(menuBarBox, row, row, 2, RO_LASTCOL);
+  lay->addMultiCellWidget(menuBarBox, row, row, 0, 0);
   connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
                                     " desktop popup menus to appear on the top of the screen in the style"
@@ -125,16 +127,11 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   
   row++;
   lay->setRowStretch( row, 10 );
-  tmpLabel = new QLabel( i18n("&Show Previews for:"), this );
-  lay->addWidget( tmpLabel, row, 0 );
   previewListView = new QListView( this );
-  tmpLabel->setBuddy( previewListView );
-  previewListView->addColumn( i18n("File Type") );
-  lay->addMultiCellWidget( previewListView, row, row, 1, RO_LASTCOL );
-  QString tmpWhatsThis = i18n("Select for which types of files you want to"
-                              " enable preview images");
-  QWhatsThis::add( tmpLabel, tmpWhatsThis );
-  QWhatsThis::add( previewListView, tmpWhatsThis );
+  previewListView->addColumn( i18n("Show Previews for:") );
+  lay->addMultiCellWidget( previewListView, row - 3, row, 1, RO_LASTCOL );
+  QWhatsThis::add(previewListView, i18n("Select for which types of files you want to"
+                                        " enable preview images"));
     
   row++;
   QFrame * hLine2 = new QFrame(this);
