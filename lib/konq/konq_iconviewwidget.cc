@@ -565,10 +565,11 @@ void KonqIconViewWidget::viewportResizeEvent(QResizeEvent * e)
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 {
+  QIconViewItem *i = findItem( ev->pos() );
   // Short-circuit QIconView if Ctrl is pressed, so that it's possible
   // to drop a file into its own parent widget to copy it.
-  if ((ev->action() == QDropEvent::Copy || ev->action() == QDropEvent::Link)
-      && ev->source() && ev->source() == viewport())
+  if ( !i && (ev->action() == QDropEvent::Copy || ev->action() == QDropEvent::Link)
+          && ev->source() && ev->source() == viewport())
   {
     // First we need to call QIconView though, to clear the drag shape
     setItemsMovable(false); // hack ? call it what you want :-)
