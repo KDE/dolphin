@@ -883,7 +883,10 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    {
       if (currentItem()!=0)
       {
-         m_itemToGoTo=currentItem()->text(0);
+         if (itemRect(currentItem()).isValid())
+            m_itemToGoTo=currentItem()->text(0);
+         else
+            m_itemFound=true;            //HACK
          m_goToFirstItem = false;
       }
       else

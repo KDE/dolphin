@@ -181,16 +181,15 @@ void KonqTextViewWidget::setComplete()
       kdDebug() << "KonqTextViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
       m_bUpdateContentsPosAfterListing = false;
 
-      setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
-                      m_pBrowserView->extension()->urlArgs().yOffset );
-
       if ((m_goToFirstItem==true) || (m_itemFound==false))
       {
-          kdDebug() << "going to first item" << endl;
           setCurrentItem(firstChild());
+          ensureItemVisible(firstChild());
           selectCurrentItemAndEnableSelectedBySimpleMoveMode();
       }
-      ensureItemVisible(currentItem());
+      else
+         setContentsPos( m_xOffset, m_yOffset );
+
    }
    // Show "cut" icons as such
    m_pBrowserView->slotClipboardDataChanged();
