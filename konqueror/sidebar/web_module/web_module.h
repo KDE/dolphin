@@ -68,16 +68,18 @@ class KHTMLSideBar : public KHTMLPart
 				KParts::URLArgs args = KParts::URLArgs()) {
 			if (button == LeftButton &&
 				_target.lower() == "_content") {
-				emit openURLRequest(url, args);
+				emit openURLRequest(completeURL(url).url(),
+							args);
 				return;
 			}
 			if (button == MidButton) {
-				emit openURLNewWindow(url, args);
+				emit openURLNewWindow(completeURL(url).url(),
+							args);
 				return;
 			}
 				// A refresh
 			if (button == 0 && _target.lower() == "_self") {
-				openURL(url);
+				openURL(completeURL(url).url());
 				return;
 			}
 			KHTMLPart::urlSelected(url,button,state,_target,args);
@@ -85,11 +87,13 @@ class KHTMLSideBar : public KHTMLPart
 
 	protected slots:
 		void loadPage() {
-			emit openURLRequest(_lastUrl, KParts::URLArgs());
+			emit openURLRequest(completeURL(_lastUrl).url(),
+						KParts::URLArgs());
 		}
 
 		void loadNewWindow() {
-			emit openURLNewWindow(_lastUrl, KParts::URLArgs());
+			emit openURLNewWindow(completeURL(_lastUrl).url(),
+						KParts::URLArgs());
 		}
 
 		void showMenu(const QString& url, const QPoint& pos) {
