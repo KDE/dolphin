@@ -102,10 +102,12 @@ void KfindTop::menuInit()
   _mainMenu->insertItem( i18n("&Options"), _optionMenu);
   _mainMenu->insertSeparator();
 
-  QString tmp = i18n("KFind %1\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>")
-    .arg(KFIND_VERSION);
-  _helpMenu   = new KHelpMenu(this, tmp);
-  _mainMenu->insertItem( i18n("&Help"), _helpMenu->menu() );
+  QString aboutAuthor = i18n(""
+    "KFind %1\n"
+    "Frontend to find utility\n"
+    "Miroslav Flídr <flidr@kky.zcu.cz>\n\n"
+    "Special thanks to Stephan Kulow\n<coolo@kde.org>").arg(KFIND_VERSION);
+  _mainMenu->insertItem( i18n("&Help"), helpMenu(aboutAuthor) );
 
   _accel->connectItem(KAccel::Find, _kfind, SLOT(startSearch()));
   _accel->connectItem(KAccel::Open, this,   SIGNAL(open()));
@@ -239,8 +241,7 @@ void KfindTop::toolBarInit()
 
   icon = BarIcon("contents");
   _toolBar->insertButton( icon, 9, SIGNAL( clicked() ),
-			  _helpMenu, SLOT( appHelpActivated() ),
-			  TRUE, i18n("Help"));
+			  this, SLOT(appHelpActivated()) );
 }
 
 void KfindTop::nameSetFocus()
@@ -291,13 +292,13 @@ void KfindTop::statusChanged(const char *str)
 
 void KfindTop::keyBindings()
 {
-    KKeyDialog::configureKeys(_accel);
+    KKeyDialog::configureKeys(_accel, true, this );
 }
 
 void KfindTop::prefs()
 {
   if(_prefs == NULL)
-    _prefs = new KfOptions(this, 0L);
+    _prefs = new KfOptions( this, 0L, false );
   _prefs->show();
 }
 

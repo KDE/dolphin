@@ -21,14 +21,15 @@ class QDate;
 class QTabDialog;
 class QListBox;
 
-#include <qtabdialog.h>
+#include <kdialogbase.h>
+//#include <qtabdialog.h>
 
-class KfOptions: public QTabDialog
+class KfOptions: public KDialogBase
 {
   Q_OBJECT
  
 public:
-  KfOptions( QWidget *parent=0, const char *name=0 );
+  KfOptions( QWidget *parent=0, const char *name=0, bool modal=true );
   virtual ~KfOptions();
   
 private slots:
@@ -45,7 +46,9 @@ private slots:
 
 private:
   /// Inserts all pages in the dialog.
-  void insertPages();
+  //void insertPages();
+  void setupSavingPage( void );
+  void setupArchiversPage( void );
 
   // First page of tab preferences dialog
   QLabel *formatL, *fileL, *kfindfileL;

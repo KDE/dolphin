@@ -8,14 +8,13 @@
 #define KFDIRDLG_H
 
 #include <qdir.h>
-#include <qdialog.h>
+#include <kdialogbase.h>
 
 class QListBox;
 class QLineEdit;
 class QLabel;
-class QPushButton;
 
-class KfDirDialog : public QDialog
+class KfDirDialog : public KDialogBase
 {
     Q_OBJECT
 public:
@@ -45,9 +44,6 @@ private:
     QLineEdit  *path;
     QLabel     *dirL;
     QListBox   *dirs;
-
-    QPushButton *okB;
-    QPushButton *cancelB;
 
 private:        // Disabled copy constructor and operator=
     KfDirDialog( const KfDirDialog & );

@@ -4,13 +4,12 @@
  *
  **********************************************************************/
 
-#include <qlistbox.h>
-#include <qlineedit.h>
-#include <qstring.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
 #include <qapplication.h>
+#include <qlabel.h>
 #include <qlayout.h>
+#include <qlineedit.h>
+#include <qlistbox.h>
+#include <qstring.h>
 
 #include <kapp.h>
 #include <klocale.h>
@@ -18,6 +17,52 @@
 
 #include "kfdird.h"
 
+
+KfDirDialog::KfDirDialog( const QString& dirName,
+			  QWidget *parent, const char *name, bool modal )
+  : KDialogBase( parent, name, modal, i18n("Select directory"), Ok|Cancel, Ok )
+{
+  init();
+  if ( !dirName.isNull() )
+    d.setPath( dirName );
+  d.convertToAbs();
+  rereadDir();
+  setInitialSize( QSize(250, 300) );
+}
+
+
+
+void KfDirDialog::init( void )
+{
+  QWidget *page = new QWidget( this );
+  setMainWidget(page);
+  QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
+
+  pathL   = new QLabel( i18n("Current directory:"), page, "pathLabel" );
+  path    = new QLineEdit( page, "path" );
+  dirL    = new QLabel( i18n("Directories:"), page, "dirLabel" );
+  dirs    = new QListBox( page, "dirList" );
+  
+  topLayout->addWidget(pathL);
+  topLayout->addWidget(path);
+  topLayout->addSpacing( spacingHint() );
+  topLayout->addWidget(dirL);
+  topLayout->addWidget(dirs);
+
+  connect( dirs, SIGNAL(selected(int)),	 
+	   this, SLOT(dirSelected(int)) );
+  connect( path, SIGNAL(returnPressed()),
+	   this, SLOT(pathSelected()));
+  d.setMatchAllDirs( TRUE );
+  d.setSorting( d.sorting() | QDir::DirsFirst );  
+}
+
+
+
+
+
+
+#if 0
 KfDirDialog::KfDirDialog( const QString& dirName,
 			  QWidget *parent, const char *name, bool modal )
   : QDialog( parent, name, modal )
@@ -29,6 +74,8 @@ KfDirDialog::KfDirDialog( const QString& dirName,
   rereadDir();
   resize( 200, 300 );
 }
+
+
 
 void KfDirDialog::init()
 {
@@ -64,6 +111,8 @@ void KfDirDialog::init()
   d.setMatchAllDirs( TRUE );
   d.setSorting( d.sorting() | QDir::DirsFirst );
 }
+#endif
+
 
 KfDirDialog::~KfDirDialog()
 {}
