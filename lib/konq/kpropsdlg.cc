@@ -765,17 +765,17 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   l = new QLabel( i18n("User:"), gb );
   gl->addWidget (l, 1, 0);
 
-  /* GJ: Don't autocomplete more than 1000 users. This is a kind of random 
-   * value. Huge sites having 10.000+ user have a fair chance of using NIS, 
+  /* GJ: Don't autocomplete more than 1000 users. This is a kind of random
+   * value. Huge sites having 10.000+ user have a fair chance of using NIS,
    * (possibly) making this unacceptably slow.
    * OTOH, it is nice to offer this functionality for the standard user.
    */
   int i, maxEntries = 1000;
 
-   /* File owner: For root, offer a KLineEdit with autocompletion. 
+   /* File owner: For root, offer a KLineEdit with autocompletion.
     * For a user, who can never chown() a file, offer a QLabel.
     */
-  if (IamRoot && isLocal) 
+  if (IamRoot && isLocal)
   {
     usrEdit = new KLineEdit( gb );
     KCompletion *compl = usrEdit->completionObject();
@@ -788,8 +788,8 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 	  KGlobalSettings::CompletionNone);
     usrEdit->setText(strOwner);
     gl->addWidget(usrEdit, 1, 1);
-  } 
-  else 
+  }
+  else
   {
     l = new QLabel(strOwner, gb);
     gl->addWidget(l, 1, 1);
@@ -803,7 +803,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   if (user != 0L)
     strUser = user->pw_name;
 
-  if (IamRoot || isMyFile) 
+  if (IamRoot || isMyFile)
   {
     setgrent();
     for (i=0; ((ge = getgrent()) != 0L) && (i < maxEntries); i++)
@@ -846,13 +846,13 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   l = new QLabel( i18n("Group:"), gb );
   gl->addWidget (l, 2, 0);
 
-  /* Set group: if possible to change: 
+  /* Set group: if possible to change:
    * - Offer a KLineEdit for root, since he can change to any group.
    * - Offer a QComboBox for a normal user, since he can change to a fixed
    *   (small) set of groups only.
    * If not changable: offer a QLabel.
    */
-  if (IamRoot && isLocal) 
+  if (IamRoot && isLocal)
   {
     grpEdit = new KLineEdit(gb);
     KCompletion *compl = new KCompletion;
@@ -861,8 +861,8 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     grpEdit->setCompletionMode(KGlobalSettings::CompletionAuto);
     grpEdit->setText(strGroup);
     gl->addWidget(grpEdit, 2, 1);
-  } 
-  else if ((groupList.count() > 1) && isMyFile && isLocal) 
+  }
+  else if ((groupList.count() > 1) && isMyFile && isLocal)
   {
     grpCombo = new QComboBox(gb);
     grpCombo->insertStringList(groupList);
@@ -893,9 +893,6 @@ bool FilePermissionsPropsPage::supports( KonqFileItemList /*_items*/ )
 
 void FilePermissionsPropsPage::applyChanges()
 {
-  QString path = properties->kurl().path();
-  QString fname = properties->kurl().filename();
-
   mode_t p = 0L;
   for (int row = 0;row < 3; ++row)
     for (int col = 0; col < 4; ++col)
@@ -928,16 +925,17 @@ void FilePermissionsPropsPage::applyChanges()
       kDebugError(1202," ERROR: No group %s", group.latin1());
       return;
     }
+    QString path = properties->kurl().path();
     if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
       KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
   }
 
   kdDebug(1203) << "old permissions : " << permissions << endl;
   kdDebug(1203) << "new permissions : " << p << endl;
-  kdDebug(1203) << "path : " << path << endl;
+  kdDebug(1203) << "url : " << properties->kurl().url() << endl;
   if ( permissions != p )
   {
-    KIO::Job * job = KIO::chmod( path, p );
+    KIO::Job * job = KIO::chmod( properties->kurl(), p );
     connect( job, SIGNAL( result( KIO::Job * ) ),
              SLOT( slotChmodResult( KIO::Job * ) ) );
   }
