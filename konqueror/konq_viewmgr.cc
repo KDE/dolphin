@@ -249,8 +249,14 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
 
   if (m_pDocContainer == 0L)
   {
-    kdDebug(1202) << "This view profile does not support tabs." << endl;
-    return 0L;
+    if (m_pMainWindow && 
+        m_pMainWindow->currentView() && 
+        m_pMainWindow->currentView()->frame()) {
+       m_pDocContainer = m_pMainWindow->currentView()->frame();
+    } else {
+       kdDebug(1202) << "This view profile does not support tabs." << endl;
+       return 0L;
+    }
   }
 
   KService::Ptr service;
