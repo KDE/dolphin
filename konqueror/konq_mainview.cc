@@ -100,7 +100,8 @@ enum _ids {
     MOPTIONS_CONFIGUREBROWSER_ID,
     MOPTIONS_CONFIGUREKEYS_ID,
     
-    MHELP_HELP_ID // TODO : Corba-equivalent of kapp->getHelpMenu, in OPApplication
+    MHELP_CONTENTS_ID,
+    MHELP_ABOUT_ID
 };
 
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
@@ -361,6 +362,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     m_vMenuGo = 0L;
     m_vMenuBookmarks = 0L;
     m_vMenuOptions = 0L;
+    m_vMenuHelp = 0L;
 
     return true;
   }
@@ -470,6 +472,18 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("Configure &keys") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
 
+  text = Q2C( i18n( "&Help" ) );
+  CORBA::Long helpId = m_vMenuBar->insertMenu( text, m_vMenuHelp, -1, -1 );
+  m_vMenuBar->setHelpMenu( helpId );
+  
+  text = Q2C( i18n("&Contents" ) );
+  m_vMenuHelp->insertItem4( text, this, "slotHelpContents", 0, MHELP_CONTENTS_ID, -1 );
+
+  m_vMenuHelp->insertSeparator( -1 );
+  
+  text = Q2C( i18n("&About Konqueror" ) );
+  m_vMenuHelp->insertItem4( text, this, "slotHelpAbout", 0, MHELP_ABOUT_ID, -1 );
+
   // Ok, this is wrong. But I don't see where to do it properly
   // (i.e. checking for m_v*Bar->isVisible())
   // We might need a call from KonqMainWindow::readProperties ...
@@ -549,9 +563,9 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.xpm" ) );
-  toolTip = Q2C( i18n("Stop") );
-  m_vToolBar->insertButton2( pix, MHELP_HELP_ID, SIGNAL(clicked()),
-                             this, "slotHelp", true, toolTip, -1);
+  toolTip = Q2C( i18n("Help") );
+  m_vToolBar->insertButton2( pix, MHELP_CONTENTS_ID, SIGNAL(clicked()),
+                             this, "slotHelpContents", true, toolTip, -1);
 				
   m_vToolBar->insertSeparator( -1 );				
 
@@ -1333,13 +1347,25 @@ void KonqMainView::slotConfigureKeys()
   KKeyDialog::configureKeys( m_pAccel );
 }
 
-void KonqMainView::slotAboutApp()
+void KonqMainView::slotHelpContents()
 {
-  kapp->invokeHTMLHelp( "kfm3/about.html", "" );
+  kapp->invokeHTMLHelp( "konqueror/index.html", "" );
 }
 
-void KonqMainView::slotHelp()
+void KonqMainView::slotHelpAbout()
 {
+  QMessageBox::about( 0L, i18n( "About Konqueror" ), i18n(
+"Konqueror Version 0.1\n"
+"Author: Torben Weis <weis@kde.org>\n"
+"Current maintainer: David Faure <faure@kde.org>\n\n"
+"Current team:\n"
+"David Faure <faure@kde.org>\n"
+"Simon Hausmann <hausmann@kde.org>\n"
+"Michael Reiher <michael.reiher@gmx.de>\n"
+"Matthias Welk <welk@fokus.gmd.de>\n"
+"Waldo Bastian <bastian@kde.org> , Lars Knoll <knoll@mpi-hd.mpg.de> (khtml library)\n"
+"Matt Koss <koss@napri.sk> (kio library)\n"
+  ));
 }
 
 void KonqMainView::slotURLEntered()

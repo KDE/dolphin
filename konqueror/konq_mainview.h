@@ -155,8 +155,8 @@ public slots:  // IDL
   virtual void slotConfigureKeys();
 
   // Help menu
-  virtual void slotAboutApp();    
-  virtual void slotHelp();
+  virtual void slotHelpContents();    
+  virtual void slotHelpAbout();
 
   /////////////////////////
   // Location Bar
@@ -234,6 +234,7 @@ protected:
   OpenPartsUI::Menu_var m_vMenuGo;
   OpenPartsUI::Menu_var m_vMenuBookmarks;
   OpenPartsUI::Menu_var m_vMenuOptions;
+  OpenPartsUI::Menu_var m_vMenuHelp;
 
   OpenPartsUI::ToolBar_var m_vToolBar;
   OpenPartsUI::ToolBar_var m_vLocationBar;

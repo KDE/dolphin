@@ -281,8 +281,8 @@ module Konqueror
     slot void slotConfigureKeys();
 
     // Help menu
-    slot void slotAboutApp();    
-    slot void slotHelp();
+    slot void slotHelpContents();
+    slot void slotHelpAbout();
 
     slot void slotURLEntered();
 
