@@ -36,9 +36,9 @@
 #include <ksimpleconfig.h>
 #include <kpushbutton.h>
 
-QMap<QString,QString> KonqProfileDlg::readAllProfiles()
+KonqProfileMap KonqProfileDlg::readAllProfiles()
 {
-  QMap<QString,QString> mapProfiles;
+  KonqProfileMap mapProfiles;
 
   QStringList profiles = KGlobal::dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
   QStringList::ConstIterator pIt = profiles.begin();
@@ -99,8 +99,8 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   connect( m_pListView, SIGNAL( itemRenamed( QListViewItem * ) ),
             SLOT( slotItemRenamed( QListViewItem * ) ) );
 
-  QMap<QString,QString>::ConstIterator eIt = m_mapEntries.begin();
-  QMap<QString,QString>::ConstIterator eEnd = m_mapEntries.end();
+  KonqProfileMap::ConstIterator eIt = m_mapEntries.begin();
+  KonqProfileMap::ConstIterator eEnd = m_mapEntries.end();
   for (; eIt != eEnd; ++eIt )
   {
     QListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
@@ -181,7 +181,7 @@ void KonqProfileDlg::slotSave()
   // Reuse filename of existing item, if any
   if ( m_pListView->selectedItem() )
   {
-    QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
+    KonqProfileMap::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
     if ( it != m_mapEntries.end() )
     {
       QFileInfo info( it.data() );
@@ -200,7 +200,7 @@ void KonqProfileDlg::slotDelete()
 {
     if(!m_pListView->selectedItem())
         return;
-  QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
+  KonqProfileMap::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
 
   if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
   {
@@ -228,7 +228,7 @@ void KonqProfileDlg::slotItemRenamed( QListViewItem * item )
 
   if (!newName.isEmpty())
   {
-    QMap<QString, QString>::ConstIterator it = m_mapEntries.find( oldName );
+    KonqProfileMap::ConstIterator it = m_mapEntries.find( oldName );
 
     if ( it != m_mapEntries.end() )
     {

@@ -33,6 +33,8 @@ class QLineEdit;
 class KPushButton;
 class KListView;
 
+typedef QMap<QString, QString> KonqProfileMap;
+
 class KonqProfileItem : public QListViewItem
 {
 public:
@@ -53,7 +55,7 @@ public:
    * Find, read and return all available profiles
    * @return a map with < name, full path >
    */
-  static QMap<QString,QString> readAllProfiles();
+  static KonqProfileMap readAllProfiles();
 
 protected slots:
   void slotSave();
@@ -67,7 +69,7 @@ protected slots:
 private:
   KonqViewManager *m_pViewManager;
 
-  QMap<QString,QString> m_mapEntries;
+  KonqProfileMap m_mapEntries;
 
   QGridLayout *m_pGrid;
 
