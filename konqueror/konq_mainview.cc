@@ -1504,7 +1504,8 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
         || !strcmp( s_actionnames[i], "saveLocalProperties" )
         || !strcmp( s_actionnames[i], "savePropertiesAsDefault" ) )
       {
-        ext->connect( act, SIGNAL( activated() ), ext, SLOT( slotName ) );
+        // OUCH. Here we use the fact that qobjectdefs.h:#define SLOT(a) "1"#a
+        ext->connect( act, SIGNAL( activated() ), ext, QCString("1") + slotName );
         kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
       }
     }
