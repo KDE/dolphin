@@ -717,7 +717,7 @@ KAction *KonqPopupMenu::action( const QDomElement &element ) const
   if ( !res )
     res = m_actions.action( name );
 
-  if ( !res && strcmp( name, m_pMenuNew->name() ) == 0 )
+  if ( !res && m_pMenuNew && strcmp( name, m_pMenuNew->name() ) == 0 )
     return m_pMenuNew;
 
   return res;
