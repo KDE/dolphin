@@ -4,6 +4,8 @@
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <ksimpleconfig.h>
+#include <kinputdialog.h>
+
 #include <qclipboard.h>
 #include <qdragobject.h>
 
@@ -118,10 +120,12 @@ extern "C"
 		sc.setGroup("Desktop Entry");
 		names<<sc.readEntry("Name");
 	  }
-	KonqSidebarTreeSelectionDialog dlg(0,names);
-	if (dlg.exec()==QDialog::Accepted)
+
+	QString item = KInputDialog::getItem( i18n( "Select Type" ),
+		i18n( "Select type:" ), names );
+	if (!item.isEmpty())
 		{
-			int id=dlg.getValue();
+			int id=names.findIndex( item );
 			if (id==-1) return false;
 			KSimpleConfig ksc2(*list.at(id));
 			ksc2.setGroup("Desktop Entry");

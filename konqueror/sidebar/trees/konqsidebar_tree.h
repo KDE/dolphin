@@ -42,36 +42,4 @@ signals:
 			void enableAction( const char * name, bool enabled );
         };
 
-
-class KonqSidebarTreeSelectionDialog : public KDialogBase
-{
-	Q_OBJECT
-	public:
-	KonqSidebarTreeSelectionDialog(QWidget *parent,const QStringList &list):
-    		KDialogBase( parent, "konqsidebartreeselectiondialog", true,i18n("Select Type"), Ok|Cancel,
-			Ok, true ),list_(list)
-  		{
-    			QWidget *page = new QWidget( this );
- 			setMainWidget(page);
- 			QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
-			QLabel *label = new QLabel( i18n("Select type:"), page, "caption" );
-			topLayout->addWidget( label );
-			cb=new QComboBox(page);
-			cb->setMinimumWidth(fontMetrics().maxWidth()*20);
-			cb->insertStringList(list);
-			cb->setEditable(false);
-			topLayout->addWidget( cb );
-			topLayout->addStretch(10);
-
-		}
-		int  getValue()
-		{
-			return list_.findIndex(cb->currentText());
-		}
-		~KonqSidebarTreeSelectionDialog(){;}
-	private:
-		QComboBox *cb;
-		QStringList list_;
-};
-
 #endif
