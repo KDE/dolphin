@@ -35,7 +35,7 @@ static const char * s_sGroupName[] = { "Icon Settings", "Tree Settings" };
 
 KonqFMSettings * KonqFMSettings::getInstance( int nr )
 {
-  assert( nr > 0 && nr < 2 );
+  assert( nr >= 0 && nr <= 1 );
   if (!s_pSettings[nr])
   {
     KConfig *config = kapp->config();
