@@ -125,6 +125,13 @@ if test -z "$kde_mallinfo_type"; then
     KDE_MALLINFO_CHECK([<malloc.h>],malloc)
 fi
 
+AC_TRY_LINK_FUNC(mallinfo,
+    [],
+    [ AC_CHECK_LIB(malloc,mallinfo,
+	[ AC_SUBST(LIBMALLOC,"-lmalloc") ],
+	[ kde_mallinfo_type="" ])
+    ])
+    
 if test -n "$kde_mallinfo_type"; then
     KDE_MALLINFO_CHECK_FIELD(hblkhd)
     KDE_MALLINFO_CHECK_FIELD(uordblks)

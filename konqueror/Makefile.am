@@ -45,7 +45,7 @@ noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
 	konq_view.h konq_viewmgr.h version.h
 
 konqueror_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
-konqueror_la_LIBADD = ../libkonq/libkonq.la
+konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIBMALLOC)
 
 konqueror_SOURCES = dummy.cc
 konqueror_LDADD = konqueror.la
