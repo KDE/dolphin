@@ -49,7 +49,7 @@
 #define DEFAULT_AUTOSELECT -1
 #define DEFAULT_CHANGECURSOR false
 #define DEFAULT_UNDERLINELINKS true
-#define DEFAULT_WORDWRAPTEXT false // kfm-like, sorry Reggie :-)
+#define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
 
 // browser/tree window color defaults -- Bernd
 #define HTML_DEFAULT_BG_COLOR Qt::white

@@ -41,25 +41,28 @@
 #include <kmessagebox.h>
 #include <errno.h>
 
-KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
-  : QIconView( parent, name, f )
+KonqIconViewWidget::KonqIconViewWidget( KonqSettings *settings, QWidget * parent, const char * name, WFlags f )
+  : QIconView( parent, name, f ), m_pSettings( settings )
 {
   QObject::connect( this, SIGNAL( dropped( QDropEvent * ) ),
 	            this, SLOT( slotDrop( QDropEvent* ) ) );
 	
+  // hardcoded settings
   setSelectionMode( QIconView::Extended );
   setItemTextPos( QIconView::Bottom );
   setGridX( 70 );
   setAligning( true );
   setSorting( true, sortDirection() );
+  // configurable settings
+  initConfig();
 }
 
 void KonqIconViewWidget::initConfig()
 {
-  m_pSettings = KonqSettings::defaultFMSettings();
   // Color settings
   QColor textColor         = m_pSettings->textColor();
   QColor linkColor         = m_pSettings->linkColor();
+  setItemColor( textColor );
 
   /*
     // What does this do ? (David)
@@ -73,9 +76,6 @@ void KonqIconViewWidget::initConfig()
   QFont font( m_pSettings->stdFontName(), m_pSettings->fontSize() );
   font.setUnderline( m_pSettings->underlineLink() );
   setItemFont( font );
-
-  // Color settings
-  setItemColor( textColor );
 
   // Behaviour (single click/double click, autoselect, ...)
   bool bChangeCursor = m_pSettings->changeCursor();

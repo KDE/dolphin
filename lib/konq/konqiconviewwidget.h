@@ -37,7 +37,12 @@ class KonqIconViewWidget : public QIconView
 {
   Q_OBJECT
 public:
-  KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
+  /**
+   * Constructor
+   * @param settings An instance of KonqSettings, see static methods in konqsettings.h
+   */
+  KonqIconViewWidget( KonqSettings *settings, 
+                      QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
   virtual ~KonqIconViewWidget() {}
 
   void initConfig();
