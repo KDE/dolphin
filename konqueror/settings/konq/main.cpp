@@ -30,13 +30,11 @@
 #include "browser.h"
 
 #include <kconfig.h>
-#include <X11/Xlib.h>
+#include <kapplication.h>
 
 static QCString configname()
 {
-	int desktop=0;
-	if (qt_xdisplay())
-		desktop = DefaultScreen(qt_xdisplay());
+	int desktop = KApplication::desktop()->primaryScreen();
 	QCString name;
 	if (desktop == 0)
 		name = "kdesktoprc";
@@ -73,25 +71,25 @@ extern "C"
   }
 
 
-  KCModule *create_dbehavior(QWidget *parent, const char *name)
+  KCModule *create_dbehavior(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
     return new KRootOptions(config, parent);
   }
 
-  KCModule *create_dappearance(QWidget *parent, const char *name)
+  KCModule *create_dappearance(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
     return new KonqFontOptions(config, "FMSettings", true, parent);
   }
 
-  KCModule *create_dpath(QWidget *parent, const char *name)
+  KCModule *create_dpath(QWidget *parent, const char* /*name*/)
   {
-    KConfig *config = new KConfig(configname(), false, false);
+    //KConfig *config = new KConfig(configname(), false, false);
     return new DesktopPathConfig(parent);
   }
 
-  KCModule *create_ddesktop(QWidget *parent, const char *name)
+  KCModule *create_ddesktop(QWidget *parent, const char* /*name*/)
   {
     return new KDesktopConfig(parent, "VirtualDesktops");
   }

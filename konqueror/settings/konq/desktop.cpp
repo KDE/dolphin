@@ -21,12 +21,11 @@
 #include <qgroupbox.h>
 #include <qlayout.h>
 #include <qwhatsthis.h>
-#include <qslider.h>
 #include <qcheckbox.h>
+#include <qslider.h>
 
 #include <kapplication.h>
 #include <dcopclient.h>
-#include <kglobal.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <klineedit.h>

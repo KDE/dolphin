@@ -30,7 +30,6 @@
 
 #include <kprotocolinfo.h>
 #include <kdialog.h>
-#include <konq_defaults.h> // include default values directly from libkonq
 #include <klocale.h>
 #include <kglobal.h>
 #include <knuminput.h>

@@ -19,21 +19,13 @@
 // Behaviour options for konqueror
 
 #include <qcheckbox.h>
-#include <qgroupbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlineedit.h>
-#include <qspinbox.h>
-#include <qslider.h>
 #include <qwhatsthis.h>
 #include <qvbuttongroup.h>
 #include <qvgroupbox.h>
 #include <qvbox.h>
-#include <qradiobutton.h>
 #include <kconfig.h>
-#include <kdialog.h>
-#include <kglobal.h>
-#include <kiconloader.h>
 #include <klocale.h>
 #include <konq_defaults.h>
 #include <kstandarddirs.h>

@@ -20,7 +20,6 @@
 #define __desktop_h__
 
 #include <kcmodule.h>
-#include <qslider.h>
 
 class QSpinBox;
 class QLabel;

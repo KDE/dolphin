@@ -21,9 +21,7 @@
 #include <qfile.h>
 
 #include <klocale.h>
-#include <klibloader.h> 
 #include <kparts/componentfactory.h>
-#include <kservice.h>
 
 #include "behaviour.h"
 #include "fontopts.h"

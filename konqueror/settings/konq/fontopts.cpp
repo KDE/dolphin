@@ -19,19 +19,16 @@
 
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qlayout.h>//CT - 12Nov1998
+#include <qlayout.h>
 #include <qwhatsthis.h>
-#include <kglobalsettings.h>
 #include <kconfig.h>
 #include <kapplication.h>
 #include <dcopclient.h>
-#include <kprocess.h>
 #include <kdebug.h>
 #include <kcolorbutton.h>
 
 #include "fontopts.h"
 #include <assert.h>
-#include <X11/Xlib.h>
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
@@ -40,7 +37,7 @@
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char */*name*/)
+KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char* /*name*/)
     : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
 {
     QLabel *label;
@@ -307,10 +304,7 @@ void KonqFontOptions::save()
     kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 
     // Tell kdesktop about the new config file
-    int konq_screen_number = 0;
-    if (qt_xdisplay())
-       konq_screen_number = DefaultScreen(qt_xdisplay());
-
+    int konq_screen_number = KApplication::desktop()->primaryScreen();
     QCString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";

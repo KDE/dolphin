@@ -5,9 +5,9 @@ METASOURCES = AUTO
 
 kde_module_LTLIBRARIES = kcm_konq.la
 
-kcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp \
+kcm_konq_la_SOURCES = behaviour.cpp desktop.cpp rootopts.cpp \
 		fontopts.cpp previews.cpp browser.cpp \
-		desktop.cpp uiserver.stub main.cpp
+		uiserver.stub main.cpp
 
 kcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA)

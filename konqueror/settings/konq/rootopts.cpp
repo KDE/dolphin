@@ -16,31 +16,24 @@
 
 #include <qcheckbox.h>
 #include <qcombobox.h>
-#include <qdir.h>
-#include <qgrid.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qvgroupbox.h>
 #include <qwhatsthis.h>
-#include <qpushbutton.h>
 
 #include <kapplication.h>
-#include <kconfig.h>
 #include <kdebug.h>
-#include <kdialog.h>
 #include <kglobalsettings.h>
 #include <klistview.h>
 #include <klocale.h>
 #include <kipc.h>
 #include <kmessagebox.h>
 #include <ktrader.h>
-#include <kseparator.h>
 #include <kstandarddirs.h>
 #include <kurlrequester.h>
 #include <kmimetype.h>
 #include <kcustommenueditor.h>
 
-#include <X11/Xlib.h>
 #include <dcopclient.h>
 #include <kio/job.h>
 
@@ -48,7 +41,6 @@
 
 #include <konq_defaults.h> // include default values directly from libkonq
 
-#include <qglobal.h>
 
 //-----------------------------------------------------------------------------
 
@@ -359,7 +351,7 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Desktop Icons" );
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
-    bool bVertAlign = g_pConfig->readBoolEntry("VertAlign", DEFAULT_VERT_ALIGN);
+    //bool bVertAlign = g_pConfig->readBoolEntry("VertAlign", DEFAULT_VERT_ALIGN);
     KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
     previewListView->clear();
     QStringList previews = g_pConfig->readListEntry("Preview");
@@ -449,10 +441,7 @@ void KRootOptions::save()
        kapp->dcopClient()->attach();
     QByteArray data;
 
-    int konq_screen_number = 0;
-    if (qt_xdisplay())
-       konq_screen_number = DefaultScreen(qt_xdisplay());
-
+    int konq_screen_number = KApplication::desktop()->primaryScreen();
     QCString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
@@ -777,10 +766,7 @@ void DesktopPathConfig::save()
        kapp->dcopClient()->attach();
     QByteArray data;
 
-    int konq_screen_number = 0;
-    if (qt_xdisplay())
-       konq_screen_number = DefaultScreen(qt_xdisplay());
-
+    int konq_screen_number = KApplication::desktop()->primaryScreen();
     QCString appname;
     if (konq_screen_number == 0)
         appname = "kdesktop";
