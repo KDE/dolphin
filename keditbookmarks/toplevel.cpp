@@ -482,7 +482,7 @@ void KEBTopLevel::slotSelectionChanged()
 void KEBTopLevel::slotClipboardDataChanged()
 {
     kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
-    QMimeSource *data = QApplication::clipboard()->data();
+    QMimeSource *data = QApplication::clipboard()->data(QClipboard::Clipboard);
     m_bCanPaste = KBookmarkDrag::canDecode( data );
     slotSelectionChanged();
 }
@@ -797,13 +797,13 @@ void KEBTopLevel::slotCopy()
     Q_ASSERT( numSelected() != 0 );
     QValueList<KBookmark> bookmarks = getBookmarkSelection();
     KBookmarkDrag* data = KBookmarkDrag::newDrag( bookmarks, 0L /* not this ! */ );
-    QApplication::clipboard()->setData( data );
-    slotClipboardDataChanged(); // don't ask
+    QApplication::clipboard()->setData( data, QClipboard::Clipboard );
+    // slotClipboardDataChanged(); // don't ask
 }
 
 void KEBTopLevel::slotPaste()
 {
-    pasteData( i18n("Paste"), QApplication::clipboard()->data(), insertionAddress() );
+    pasteData( i18n("Paste"), QApplication::clipboard()->data(QClipboard::Clipboard), insertionAddress() );
 }
 
 void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const QString & insertionAddress )
