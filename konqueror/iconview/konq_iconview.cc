@@ -478,7 +478,7 @@ void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
   if ( event->activated() )
     m_pIconView->slotSelectionChanged();
-} 
+}
 
 void KonqKfmIconView::slotKofficeMode( bool b )
 {
@@ -769,6 +769,28 @@ void KonqKfmIconView::slotTotalFiles( int, unsigned long files )
     m_ulTotalFiles = files;
 }
 
+static QString displayString(int items, int files, long size, int dirs)
+{
+    QString text;
+    if (items == 1)
+	text = i18n("One Item");
+    else
+	text = i18n("%1 Items").arg(items);
+    text += " - ";
+    if (files == 1)
+	text += i18n("One File");
+    else
+	text += i18n("%1 Files").arg(files);
+    text += " ";
+    text += i18n("(%5 Total)").arg(KIOJob::convertSize( size ) );
+    text += " - ";
+    if (dirs == 1)
+	text += i18n("One Directory");
+    else
+	text += i18n("%1 Directories").arg(dirs);
+    return text;
+}
+
 void KonqKfmIconView::slotDisplayFileSelectionInfo()
 {
     long fileSizeSum = 0;
@@ -787,16 +809,12 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 	    fileCount++;
 	}
 
-    if ( lst.count() > 0 )
-        emit m_extension->setStatusBarText( i18n( "%1 %2 - %3 %4 (%5 Total) - %6 %7" )
-            .arg( lst.count() )
-            .arg( ( lst.count() == 1 ) ? i18n( "Item" ) : i18n( "Items" ) )
-            .arg( fileCount )
-            .arg( ( fileCount == 1 ) ? i18n( "File" ) : i18n( "Files" ) )
-            .arg( KIOJob::convertSize( fileSizeSum ) )
-            .arg( dirCount )
-            .arg( ( dirCount == 1 ) ? i18n( "Directory" ) : i18n( "Directories" ) ) );
-    else
+    if ( lst.count() > 0 ) {
+        emit m_extension->setStatusBarText( displayString(lst.count(),
+							  fileCount,
+							  fileSizeSum,
+							  dirCount));
+    } else
 	slotOnViewport();
 }
 
@@ -901,14 +919,11 @@ void KonqKfmIconView::slotOnViewport()
 	    return;
 	}
 
-    emit m_extension->setStatusBarText( i18n( "%1 %2 - %3 %4 (%5 Total) - %6 %7" )
-        .arg( m_pIconView->count() )
-        .arg( ( m_pIconView->count() == 1 ) ? i18n( "Item" ) : i18n( "Items" ) )
-        .arg( m_lFileCount )
-        .arg( ( m_lFileCount == 1 ) ? i18n( "File" ) : i18n( "Files" ) )
-        .arg( KIOJob::convertSize( m_lDirSize ) )
-        .arg( m_lDirCount )
-        .arg( ( m_lDirCount == 1 ) ? i18n( "Directory" ) : i18n( "Directories" ) ) );
+    emit m_extension->setStatusBarText(
+				       displayString(m_pIconView->count(),
+						     m_lFileCount,
+						     m_lDirSize,
+						     m_lDirCount));
 }
 
 void KonqKfmIconView::setupSortKeys()
