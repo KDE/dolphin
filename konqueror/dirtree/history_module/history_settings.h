@@ -53,6 +53,8 @@ public:
     QFont m_fontYoungerThan;
     QFont m_fontOlderThan;
 
+    QWidget *m_activeDialog;
+
 signals:
     void settingsChanged();
 
@@ -63,9 +65,7 @@ protected:
 k_dcop:
     void notifySettingsChanged( KonqHistorySettings settings, QCString id );
 
-private:
-    QWidget *m_activeDialog;
-
+private: // to make dcopidl happy :-/
 };
 
 QDataStream& operator<< (QDataStream& s, const KonqHistorySettings& e);

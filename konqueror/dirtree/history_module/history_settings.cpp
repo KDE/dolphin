@@ -16,7 +16,9 @@ KonqHistorySettings::KonqHistorySettings( QObject *parent, const char *name )
     m_fontOlderThan.setItalic( true ); // default
 }
 
-KonqHistorySettings::KonqHistorySettings() : QObject()
+KonqHistorySettings::KonqHistorySettings() :
+    QObject(), 
+    m_activeDialog( 0L )
 {
 }
 
@@ -59,7 +61,7 @@ void KonqHistorySettings::readSettings()
 						 false );
     m_columnLastVisited = config->readBoolEntry("Column LastVisited", false);
 
-    m_fontYoungerThan = config->readFontEntry( "Font youngerThan", 
+    m_fontYoungerThan = config->readFontEntry( "Font youngerThan",
 					       &m_fontYoungerThan );
     m_fontOlderThan   = config->readFontEntry( "Font olderThan",
 					       &m_fontOlderThan );
