@@ -45,6 +45,11 @@ public:
      */
     void save( KConfig *, const QString& key, const QStringList& items );
 
+    /**
+     * Forces the pixmap for @p url to be removed from the cache
+     */
+    void remove( const QString& url );
+
 private:
     QMap<QString,QString> iconMap;
 };

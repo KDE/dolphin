@@ -31,6 +31,7 @@
 #include <kio/job.h>
 
 #include <konq_historymgr.h>
+#include <konq_faviconmgr.h>
 
 #include <assert.h>
 #include <kdebug.h>
@@ -273,6 +274,9 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            this, SLOT( setLocationBarURL( const QString & ) ) );
 
+  connect( ext, SIGNAL( setIconURL( const KURL & ) ),
+           this, SLOT( setIconURL( const KURL & ) ) );
+
   connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
            m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
 
@@ -404,6 +408,11 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
     //kdDebug(1202) << "is current view " << this << endl;
     m_pMainWindow->setLocationBarURL( m_sLocationBarURL );
   }
+}
+
+void KonqView::setIconURL( const KURL & iconURL )
+{
+  KonqFavIconMgr::self()->setIconForURL(m_sLocationBarURL, iconURL);
 }
 
 void KonqView::slotOpenURLNotify()
@@ -625,6 +634,14 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
 
   // We also do here what we want to do after opening an URL, whether a new one
   // or one from the history (common stuff).
+
+  // Try to get /favicon.ico
+  if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
+  {
+      KURL iconURL( url );
+      iconURL.setPath( "/favicon.ico" );
+      KonqFavIconMgr::self()->setIconForURL(m_sLocationBarURL, iconURL, true);
+  }
 }
 
 void KonqView::setServiceTypeInExtension()

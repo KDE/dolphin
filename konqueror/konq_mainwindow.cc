@@ -21,6 +21,8 @@
 #include <qdir.h>
 
 #include <kparts/browserextension.h>
+#include <konq_faviconmgr.h>
+
 #include "konq_guiclients.h"
 #include "KonqMainWindowIface.h"
 #include "konq_mainwindow.h"
@@ -213,6 +215,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
            this, SLOT( slotUndoAvailable( bool ) ) );
+
+  connect( KonqFavIconMgr::self(), SIGNAL( iconChanged( const QString & ) ),
+           this, SLOT( slotIconChanged( const QString & ) ) );
 
   resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
@@ -957,6 +962,19 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     dirPart->setFindPart( 0 );
     if ( dirView == m_currentView )
         m_paFindFiles->setEnabled( true );
+}
+
+void KonqMainWindow::slotIconChanged( const QString & url )
+{
+    if ( !m_combo )
+        return;
+    KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
+    prov->remove( url );
+    // FIXME: there is a smarter way, no? (malte)
+    QString currentURL = m_combo->currentText();
+    m_combo->setPixmapProvider(0);
+    m_combo->setPixmapProvider(prov);
+    setLocationBarURL( currentURL );
 }
 
 void KonqMainWindow::slotOpenWith()

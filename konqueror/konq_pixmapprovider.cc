@@ -24,6 +24,7 @@
 #include <kmimetype.h>
 #include <kprotocolinfo.h>
 #include <kurl.h>
+#include <konq_faviconmgr.h>
 
 #include "konq_pixmapprovider.h"
 
@@ -34,9 +35,10 @@
 QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
 {
     QMapIterator<QString,QString> it = iconMap.find( url );
+    QString icon;
     if ( it != iconMap.end() ) {
-	QString icon = it.data();
-	if ( !icon.isEmpty() )
+        icon = it.data();
+        if ( !icon.isEmpty() )
 	    return KGlobal::iconLoader()->loadIcon(icon, KIcon::Desktop, size);
     }
 
@@ -46,10 +48,14 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     else
 	u = url;
 
-    KMimeType::Ptr mt = KMimeType::findByURL( u, 0, u.isLocalFile() );
-    QString icon = mt->icon( url, false );
-    if ( icon.isEmpty() || icon == QString::fromLatin1( "unknown" ) )
-	 icon = KProtocolInfo::icon( u.protocol() );
+    icon = KonqFavIconMgr::iconForURL(u.url());
+    if (icon.isEmpty())
+    {
+        KMimeType::Ptr mt = KMimeType::findByURL( u, 0, u.isLocalFile() );
+        icon = mt->icon( url, false );
+        if ( icon.isEmpty() || icon == QString::fromLatin1( "unknown" ) )
+            icon = KProtocolInfo::icon( u.protocol() );
+    }
     
     ASSERT( !icon.isEmpty() );
     
@@ -96,4 +102,9 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
 	++it;
     }
     kc->writeEntry( key, list );
+}
+
+void KonqPixmapProvider::remove( const QString& url )
+{
+    iconMap.remove(url);
 }

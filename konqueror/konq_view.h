@@ -277,6 +277,10 @@ public slots:
    * May be different from url e.g. if using "allowHTML".
    */
   void setLocationBarURL( const QString & locationBarURL );
+  /**
+   * get an icon for the URL from the BrowserExtension
+   */
+  void setIconURL( const KURL &iconURL );
 
 protected slots:
   // connected to the KROP's KIO::Job

@@ -327,6 +327,8 @@ protected slots:
 
   void slotFindClosed( KonqDirPart * dirPart );
 
+  void slotIconChanged( const QString & );
+
 protected:
   QString detectNameFilter( QString & url );
 
