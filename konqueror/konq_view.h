@@ -299,6 +299,8 @@ public slots:
    * get an icon for the URL from the BrowserExtension
    */
   void setIconURL( const KURL &iconURL );
+  
+  void setTabIcon( QString url );
 
   void setCaption( const QString & caption );
 

@@ -188,7 +188,7 @@ class KonqFrameBase
   virtual void setParentContainer(KonqFrameContainerBase* parent) { m_pParentContainer = parent; }
 
   virtual void setTitle( QString title , QWidget* sender) = 0;
-  virtual void setIconURL( const KURL & iconURL, QWidget* sender ) = 0;
+  virtual void setTabIcon( QString url, QWidget* sender ) = 0;
 
   virtual QWidget* widget() = 0;
 
@@ -269,7 +269,7 @@ public:
   virtual void printFrameInfo( QString spaces );
 
   virtual void setTitle( QString title, QWidget* sender );
-  virtual void setIconURL( const KURL & iconURL, QWidget* sender );
+  virtual void setTabIcon( QString url, QWidget* sender );
 
   virtual void reparentFrame(QWidget * parent,
                      const QPoint & p, bool showIt=FALSE );
@@ -308,6 +308,8 @@ protected:
   QGuardedPtr<KonqView> m_pView;
 
   QGuardedPtr<KParts::ReadOnlyPart> m_pPart;
+
+  KonqViewManager* m_pViewManager;
 
   KSeparator *m_separator;
   KonqFrameStatusBar* m_pStatusBar;
@@ -386,7 +388,7 @@ public:
   void swapChildren();
 
   virtual void setTitle( QString title, QWidget* sender );
-  virtual void setIconURL( const KURL & iconURL, QWidget* sender );
+  virtual void setTabIcon( QString url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
   virtual QCString frameType() { return QCString("Container"); }
@@ -450,10 +452,12 @@ public:
   QPtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
 
   virtual void setTitle( QString title, QWidget* sender );
-  virtual void setIconURL( const KURL & iconURL, QWidget* sender );
+  virtual void setTabIcon( QString url, QWidget* sender );
 
   virtual QWidget* widget() { return this; }
   virtual QCString frameType() { return QCString("Tabs"); }
+
+  void activateChild();
 
   /**
    * Call this after inserting a new frame into the splitter.

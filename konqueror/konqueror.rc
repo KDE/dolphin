@@ -135,8 +135,6 @@
   <Action name="splitviewh" />
   <Action name="removeview" /> 
   <Action name="newtab"/>
-  <Action name="duplicatecurrenttab"/>
-  <Action name="breakoffcurrenttab"/>
   <Action name="removecurrenttab"/>
 </ToolBar>
 <ToolBar fullWidth="true" name="locationToolBar" newline="true"><text>Location Toolbar</text>

@@ -945,7 +945,9 @@ void KonqMainWindow::slotDuplicateWindow()
   {
       mainWindow->copyHistory( childFrame() );
   }
+  mainWindow->activateChild();
   mainWindow->show();
+  mainWindow->viewManager()->printFullHierarchy( this );
 }
 
 void KonqMainWindow::slotSendURL()
@@ -1661,7 +1663,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
     //kdDebug(1202) << "slotPartActivated: setting location bar url to "
     //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
-    setLocationBarURL( m_currentView->locationBarURL() );
+    m_currentView->setLocationBarURL( m_currentView->locationBarURL() );
   }
   else
     m_bLockLocationBarURL = false;
@@ -1982,9 +1984,10 @@ void KonqMainWindow::slotPopupNewTab()
     mimeComment = (*it)->mimeComment();
     if (mimeType == "application/octet-stream") mimeType = mimeComment = "";
     newView = m_pViewManager->addTab(mimeType, mimeComment);
-    if (newView != 0L) newView->openURL( url, url.prettyURL() );
+    if (newView != 0L)
+      newView->openURL( url, url.prettyURL() );
   }
-
+  
   if (newView != 0L) {
     kdDebug(1202) << "slotPopupNewTab() setting part " << newView->part() << " active." << endl;
     m_pViewManager->setActivePart( newView->part(), true );
@@ -3441,7 +3444,10 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   delete konqyMenuClient;
   m_popupEmbeddingServices.clear();
 
-  if ( m_oldView && m_oldView != m_currentView )
+  kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView 
+                << ", m_currentView = " << m_currentView << endl;
+
+  if ( m_oldView && (m_oldView != currentView) && (currentView == m_currentView) )
   {
     if ( m_currentView->browserExtension() )
       disconnectExtension( m_currentView->browserExtension() );
@@ -4060,6 +4066,7 @@ void KonqMainWindow::dumpViewList()
 void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
 {
   m_pChildFrame = frame;
+  m_pActiveChild = frame;
   frame->setParentContainer(this);
   setCentralWidget( frame->widget() );
 }
@@ -4067,7 +4074,11 @@ void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
 /**
  * Call this before deleting one of our children.
  */
-void KonqMainWindow::removeChildFrame( KonqFrameBase * /*frame*/ ) { m_pChildFrame = 0L; }
+void KonqMainWindow::removeChildFrame( KonqFrameBase * /*frame*/ )
+{
+  m_pChildFrame = 0L;
+  m_pActiveChild = 0L;
+}
 
 void KonqMainWindow::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id, int depth ) { if( m_pChildFrame ) m_pChildFrame->saveConfig( config, prefix, saveURLs, docContainer, id, depth); }
 
@@ -4082,7 +4093,7 @@ KonqFrameContainerBase* KonqMainWindow::parentContainer() { return 0L; }
 void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { return; }
 
 void KonqMainWindow::setTitle( QString /*title*/ , QWidget* /*sender*/) { return; }
-void KonqMainWindow::setIconURL( const KURL & /*iconURL*/, QWidget* /*sender*/ ) { return; }
+void KonqMainWindow::setTabIcon( QString /*url*/, QWidget* /*sender*/ ) { return; }
 
 QWidget* KonqMainWindow::widget() { return this; }
 
@@ -4092,7 +4103,7 @@ QCString KonqMainWindow::frameType() { return QCString("MainWindow"); }
 
 KonqFrameBase* KonqMainWindow::childFrame() { return m_pChildFrame; }
 
-void KonqMainWindow::setActiveChild( KonqFrameBase* activeChild ) { m_pActiveChild = activeChild; }
+void KonqMainWindow::setActiveChild( KonqFrameBase* /*activeChild*/ ) { return; }
 
 // KonqFrameContainerBase implementation END
 

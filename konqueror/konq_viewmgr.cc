@@ -58,6 +58,7 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
   KTrader::OfferList partServiceOffers, appServiceOffers;
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true );
   KonqView* childView = setupView( m_pMainWindow, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, false );
+  setActivePart( childView->part() );
   m_pDocContainer = childView->frame();
   m_pDocContainer->widget()->show();
   return childView;
@@ -109,7 +110,6 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   printSizeInfo( splitFrame, parentContainer, "before split");
 #endif
 
-  splitFrame->widget()->setUpdatesEnabled( false );
   parentContainer->widget()->setUpdatesEnabled( false );
 
   //kdDebug(1202) << "Move out child" << endl;
@@ -120,9 +120,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   //kdDebug(1202) << "Create new Container" << endl;
   KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer->widget(), parentContainer );
   connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
-  newContainer->setOpaqueResize( true );  
-  newContainer->setUpdatesEnabled( false );
-  newContainer->show();
+  newContainer->setOpaqueResize( true );
 
   parentContainer->insertChildFrame( newContainer, index );
   if ( moveNewContainer ) {
@@ -131,7 +129,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   }
 
   //kdDebug(1202) << "Move in child" << endl;
-  splitFrame->widget()->reparent( newContainer, pos, true /*showIt*/ );
+  splitFrame->widget()->reparent( newContainer, pos );
   newContainer->insertChildFrame( splitFrame );
 
 #ifndef NDEBUG
@@ -155,22 +153,19 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   newSplitterSizes << 50 << 50;
   newContainer->setSizes( newSplitterSizes );
 
-  splitFrame->widget()->show();
-
   if (parentContainer->frameType()=="Container") {
     static_cast<KonqFrameContainer*>(parentContainer)->setSizes( splitterSizes );
-    newContainer->show();
   }
   else if (parentContainer->frameType()=="Tabs")
     static_cast<KonqFrameTabs*>(parentContainer)->showPage( newContainer );
-  else
-    newContainer->show();
 
-  splitFrame->widget()->setUpdatesEnabled( true );
-  newContainer->setUpdatesEnabled( true );
+  splitFrame->show();
+  newContainer->show();
+
+  newContainer->setActiveChild( splitFrame );
+  setActivePart( splitFrame->part(), true );
+
   parentContainer->widget()->setUpdatesEnabled( true );
-
-  slotActivePartChanged( activePart() );
 
   if (m_pDocContainer == splitFrame) m_pDocContainer = newContainer;
 
@@ -210,13 +205,11 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
   KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, m_pMainWindow, 0L);
   connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
   newContainer->setOpaqueResize( true );
-  newContainer->setUpdatesEnabled( false );
-  newContainer->show();
 
   m_pMainWindow->insertChildFrame( newContainer );
 
   newContainer->insertChildFrame( mainFrame );
-  mainFrame->widget()->reparent( newContainer, pos, true );
+  mainFrame->widget()->reparent( newContainer, pos );
 
   KonqView* childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, true );
 
@@ -225,13 +218,14 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
       static_cast<KonqFrameContainer*>(newContainer)->swapChildren();
   }
 
+  newContainer->show();
+
   mainFrame->widget()->setUpdatesEnabled( true );
-  newContainer->widget()->setUpdatesEnabled( true );
 
   if( childView )
     childView->openURL( url, locationBarURL );
 
-  slotActivePartChanged( activePart() );
+  newContainer->setActiveChild( mainFrame );
 
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -254,7 +248,6 @@ void KonqViewManager::convertDocContainer()
     splitterSizes = static_cast<KonqFrameContainer*>(parentContainer)->sizes();
   }
 
-  m_pDocContainer->widget()->setUpdatesEnabled( false );
   parentContainer->widget()->setUpdatesEnabled( false );
 
   //kdDebug(1202) << "Move out child" << endl;
@@ -265,22 +258,19 @@ void KonqViewManager::convertDocContainer()
   KonqFrameTabs* newContainer = new KonqFrameTabs( parentContainer->widget() , parentContainer, this);
   parentContainer->insertChildFrame( newContainer );
   connect( newContainer, SIGNAL(ctrlTabPressed()), m_pMainWindow, SLOT(slotCtrlTabPressed()) );
-  newContainer->setUpdatesEnabled( false );
-  newContainer->show();
 
-  m_pDocContainer->widget()->reparent( newContainer, pos, true );
+  m_pDocContainer->widget()->reparent( newContainer, pos );
   newContainer->insertChildFrame( m_pDocContainer );
 
   if ( moveNewContainer ) {
     static_cast<KonqFrameContainer*>(parentContainer)->moveToFirst( newContainer );
     static_cast<KonqFrameContainer*>(parentContainer)->swapChildren();
   }
-
   if (parentContainer->frameType()=="Container")
     static_cast<KonqFrameContainer*>(parentContainer)->setSizes( splitterSizes );
 
-  m_pDocContainer->widget()->setUpdatesEnabled( true );
-  newContainer->setUpdatesEnabled( true );
+  newContainer->show();
+
   parentContainer->widget()->setUpdatesEnabled( true );
 
   m_pDocContainer = newContainer;
@@ -308,7 +298,6 @@ void KonqViewManager::revertDocContainer()
   kdDebug(1202) << "otherFrame=" << otherFrame << endl;
   if (otherFrame == 0L ) return;
 
-  otherFrame->widget()->setUpdatesEnabled( false );
   parentContainer->widget()->setUpdatesEnabled( false );
 
   QPoint pos = otherFrame->widget()->pos();
@@ -319,21 +308,21 @@ void KonqViewManager::revertDocContainer()
 
   delete tabContainer;
 
-  otherFrame->reparentFrame( parentContainer->widget(), pos, true /*showIt*/ );
+  otherFrame->reparentFrame( parentContainer->widget(), pos );
   parentContainer->insertChildFrame( otherFrame );
 
   if ( moveNewContainer ) {
     static_cast<KonqFrameContainer*>(parentContainer)->moveToFirst( otherFrame->widget() );
     static_cast<KonqFrameContainer*>(parentContainer)->swapChildren();
   }
-
   if (parentContainer->frameType()=="Container")
     static_cast<KonqFrameContainer*>(parentContainer)->setSizes( splitterSizes );
 
-  otherFrame->widget()->setUpdatesEnabled( true );
+  otherFrame->widget()->show();
+
   parentContainer->widget()->setUpdatesEnabled( true );
 
-  otherFrame->widget()->show();
+  parentContainer->setActiveChild( otherFrame );
 
   m_pDocContainer = otherFrame;
 }
@@ -366,15 +355,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
 
   if (m_pDocContainer->frameType() != "Tabs") convertDocContainer();
 
-  m_pDocContainer->widget()->setUpdatesEnabled( false );
-
   KonqView* childView = setupView( static_cast<KonqFrameTabs*>(m_pDocContainer), newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
-
-  m_pDocContainer->widget()->setUpdatesEnabled( false );
-
-  static_cast<KonqFrameTabs*>(m_pDocContainer)->showPage( childView->frame() );
-
-  slotActivePartChanged( activePart() );
 
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -439,6 +420,8 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
   // so we do it once at the end :
   m_pMainWindow->viewCountChanged();
 
+  m_pMainWindow->activateChild();
+
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "------------- KonqViewManager::duplicateTab done --------------" << endl;
@@ -472,21 +455,24 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
   removeTab( currentFrame );
+  delete currentFrame;
 
   KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
   if (mainWindow == 0L) return;
-  
+
   mainWindow->viewManager()->loadViewProfile( config, "" );
-  
+
   mainWindow->viewManager()->setDocContainer( mainWindow->childFrame() );
 
   mainWindow->enableAllActions( true );
+  
+  mainWindow->activateChild();
 
   mainWindow->show();
 
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
-  
+
   mainWindow->dumpViewList();
   mainWindow->viewManager()->printFullHierarchy( mainWindow );
 
@@ -517,9 +503,6 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   currentFrame->listViews( &viewList );
 
-  currentFrame->widget()->setUpdatesEnabled( false );
-  tabContainer->setUpdatesEnabled( false );
-
   for ( it.toFirst(); it != 0L; ++it )
   {
     m_pMainWindow->removeChildView( it.current() );
@@ -528,12 +511,7 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   delete currentFrame;
 
-  if (tabContainer->count() == 1)
-    revertDocContainer();
-  else
-    tabContainer->setUpdatesEnabled( true );
-
-  slotActivePartChanged( activePart() );
+  if (tabContainer->count() == 1) revertDocContainer();
 
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
@@ -545,19 +523,6 @@ void KonqViewManager::removeView( KonqView *view )
   kdDebug(1202) << "---------------- removeView --------------" << view << endl;
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
-
-  if ( activePart() == view->part() )
-  {
-    KonqView *nextView = chooseNextView( view );
-    // Don't remove the last view
-    if ( nextView == 0L )
-      return;
-
-    // Ensure this is not the active view anymore
-    kdDebug(1202) << "Setting part " << nextView->part() << " as active" << endl;
-    if ( nextView->part() )
-      setActivePart( nextView->part(), true /*immediate */ );
-  }
 
   KonqFrame* frame = view->frame();
   KonqFrameContainerBase* parentContainer = frame->parentContainer();
@@ -594,9 +559,6 @@ void KonqViewManager::removeView( KonqView *view )
 
     if (m_pDocContainer == parentContainer) m_pDocContainer = otherFrame;
 
-    frame->setUpdatesEnabled( false );
-    otherFrame->widget()->setUpdatesEnabled( false );
-    parentContainer->widget()->setUpdatesEnabled( false );
     grandParentContainer->widget()->setUpdatesEnabled( false );
 
     //kdDebug(1202) << "--- Reparenting otherFrame to m_pMainWindow " << m_pMainWindow << endl;
@@ -625,18 +587,21 @@ void KonqViewManager::removeView( KonqView *view )
     grandParentContainer->insertChildFrame( otherFrame, index );
 
     if( moveOtherChild )
+    {
       static_cast<KonqFrameContainer*>(grandParentContainer)->moveToFirst( otherFrame->widget() );
+      static_cast<KonqFrameContainer*>(grandParentContainer)->swapChildren();
+    }
 
     if (grandParentContainer->frameType()=="Container")
       static_cast<KonqFrameContainer*>(grandParentContainer)->setSizes( splitterSizes );
 
-    if (otherFrame->activeChildView())
-      setActivePart( otherFrame->activeChildView()->part() );
-
-    otherFrame->widget()->setUpdatesEnabled( true );
-    grandParentContainer->widget()->setUpdatesEnabled( true );
+    otherFrame->activateChild();
 
     otherFrame->widget()->show();
+
+    grandParentContainer->widget()->setUpdatesEnabled( true );
+    
+    grandParentContainer->setActiveChild( otherFrame );
   }
   else if (parentContainer->frameType()=="Tabs") {
     kdDebug(1202) << "parentContainer " << parentContainer << " is a KonqFrameTabs" << endl;
@@ -647,8 +612,6 @@ void KonqViewManager::removeView( KonqView *view )
     kdDebug(1202) << "parentContainer is a KonqMainWindow.  This shouldn't be removeable, not removing." << endl;
   else
     kdDebug(1202) << "Unrecognized frame type, not removing." << endl;
-
-  slotActivePartChanged( activePart() );
 
   printFullHierarchy( m_pMainWindow );
   m_pMainWindow->dumpViewList();
@@ -964,7 +927,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
   // Set an active part first so that we open the URL in the current view
   // (to set the location bar correctly and asap)
-  KonqView *nextChildView = chooseNextView( 0L );
+  KonqView *nextChildView = 0L;
+  nextChildView = m_pMainWindow->activeChildView();
+  if (nextChildView == 0L) nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */);
 
   if ( !forcedURL.isEmpty())
@@ -1000,8 +965,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     cfg.setGroup( savedGroup );
   }
 
-  slotActivePartChanged( activePart() );
-
 #ifndef NDEBUG
   printFullHierarchy( m_pMainWindow );
 #endif
@@ -1012,6 +975,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
 {
     kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
+
+    if (part == activePart())
+    {
+      kdDebug(1202) << "WARNING: Part is already active!" << endl;
+      return;
+    }
+
     if (part && part->widget())
         part->widget()->setFocus();
 
@@ -1040,7 +1010,7 @@ void KonqViewManager::slotActivePartChanged ( KParts::Part *newPart )
       return;
     }
     if (view->frame()->parentContainer() == 0L) return;
-    view->frame()->parentContainer()->setActiveChild( view->frame() );
+    if (!m_bLoadingProfile) view->frame()->parentContainer()->setActiveChild( view->frame() );
     kdDebug(1202) << "KonqViewManager::slotActivePartChanged done" << endl;
 }
 
@@ -1223,6 +1193,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     QValueList<int> sizes =
         cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
 
+    int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), -1 );
+
     QStrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
     {
@@ -1235,7 +1207,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent->widget(), parent );
       connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
       parent->insertChildFrame( newContainer );
-      
+
       if (cfg.readBoolEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
         m_pDocContainer = newContainer;
 
@@ -1243,7 +1215,12 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
       loadItem( cfg, newContainer, childList.at(1), defaultURL, openURL );
 
       newContainer->setSizes( sizes );
-      
+
+      if (index == 1)
+        newContainer->setActiveChild( newContainer->secondChild() );
+      else if (index == 0)
+        newContainer->setActiveChild( newContainer->firstChild() );
+
       newContainer->show();
     }
   }
@@ -1256,11 +1233,21 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     parent->insertChildFrame( newContainer );
     m_pDocContainer = newContainer;
 
+    int index = cfg.readNumEntry( QString::fromLatin1( "activeChildIndex" ).prepend(prefix), 0 );
+
     QStringList childList = cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ) );
     for ( QStringList::Iterator it = childList.begin(); it != childList.end(); ++it )
     {
         loadItem( cfg, newContainer, *it, defaultURL, openURL );
+        KonqView* activeChildView = dynamic_cast<KonqFrameBase*>(newContainer->currentPage())->activeChildView();
+        if (activeChildView != 0L) {
+          activeChildView->setCaption( activeChildView->caption() );
+          activeChildView->setTabIcon( activeChildView->url().url() );
+        }
     }
+
+    newContainer->setActiveChild( dynamic_cast<KonqFrameBase*>(newContainer->page(index)) );
+    newContainer->setCurrentPage( index );
 
     newContainer->show();
   }

@@ -415,7 +415,7 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
   config->writeEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), childView()->isLinkedView() );
   config->writeEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), childView()->isToggleView() );
   config->writeEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), childView()->isLockedLocation() );
-  config->writeEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), statusbar()->isVisible() );
+  //config->writeEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), statusbar()->isVisible() );
   if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
 }
 
@@ -508,12 +508,14 @@ void KonqFrame::setView( KonqView* child )
 
 void KonqFrame::setTitle( QString title , QWidget* /*sender*/)
 {
+  kdDebug(1202) << "KonqFrame::setTitle( " << title << " )" << endl;
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrame::setIconURL( const KURL & iconURL, QWidget* /*sender*/ )
+void KonqFrame::setTabIcon( QString url, QWidget* /*sender*/ )
 {
-  if (m_pParentContainer) m_pParentContainer->setIconURL( iconURL, widget() );
+  kdDebug(1202) << "KonqFrame::setTabIcon( " << url << " )" << endl;
+  if (m_pParentContainer) m_pParentContainer->setTabIcon( url, this );
 }
 
 void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
@@ -562,9 +564,8 @@ void KonqFrame::slotRemoveView()
 
 void KonqFrame::activateChild()
 {
-  if ( !m_pPart ) return;
-  if ( m_pPart->manager() == 0L ) return;
-  m_pPart->manager()->setActivePart( m_pPart );
+  if (m_pView && !m_pView->isPassiveMode() )
+    m_pView->mainWindow()->viewManager()->setActivePart( part() );
 }
 
 //###################################################################
@@ -633,6 +634,9 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
 
   //write docContainer
   if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
+  
+  if (m_pSecondChild == m_pActiveChild) config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ), 1 );
+  else config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ), 0 );
 
   //write child configs
   if( firstChild() ) {
@@ -670,6 +674,7 @@ void KonqFrameContainer::printFrameInfo( QString spaces )
 {
 	kdDebug(1202) << spaces << "KonqFrameContainer " << this << " visble=" << QString("%1").arg(isVisible())
                       << " activeChild=" << m_pActiveChild << endl;
+        if (!m_pActiveChild) kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
 	KonqFrameBase* child = firstChild();
 	if (child != 0L) child->printFrameInfo(spaces + "  ");
 	else kdDebug(1202) << spaces << "  Null child" << endl;
@@ -690,14 +695,16 @@ void KonqFrameContainer::swapChildren()
   m_pSecondChild = firstCh;
 }
 
-void KonqFrameContainer::setTitle( QString title , QWidget* /*sender*/)
+void KonqFrameContainer::setTitle( QString title , QWidget* sender)
 {
-  if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
+  kdDebug(1202) << "KonqFrameContainer::setTitle( " << title << " , " << sender << " )" << endl;
+  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrameContainer::setIconURL( const KURL & iconURL, QWidget* /*sender*/ )
+void KonqFrameContainer::setTabIcon( QString url, QWidget* sender )
 {
-  if (m_pParentContainer) m_pParentContainer->setIconURL( iconURL, widget() );
+  kdDebug(1202) << "KonqFrameContainer::setTabIcon( " << url << " , " << sender << " )" << endl;
+  if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTabIcon( url, this );
 }
 
 void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int /*index*/  )
@@ -751,7 +758,7 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
 {
   m_pTabWidget = parent;
   m_pViewManager = viewManager;
-  
+
   m_pPopupMenu = new QPopupMenu( 0L );
 
   m_pPopupMenu->insertItem( "Add Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
@@ -820,6 +827,8 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
   }
 
   config->writeEntry( QString::fromLatin1( "Children" ).prepend( prefix ), strlst );
+
+  config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ), currentPageIndex() );
 }
 
 void KonqFrameTabs::copyHistory( KonqFrameBase *other )
@@ -839,6 +848,7 @@ void KonqFrameTabs::printFrameInfo( QString spaces )
 {
   kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visble=" << QString("%1").arg(isVisible())
                 << " activeChild=" << m_pActiveChild << endl;
+  if (!m_pActiveChild) kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
   KonqFrameBase* child;
   int childFrameCount = m_pChildFrameList->count();
   for (int i = 0 ; i < childFrameCount ; i++) {
@@ -855,19 +865,28 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
 
 void KonqFrameTabs::setTitle( QString title , QWidget* sender)
 {
-  kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " )" << endl;
+  kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
   if (newTitle.length() > 30) newTitle = newTitle.left(27) + "...";
   if (tabLabel( sender ) != newTitle)
     changeTab( sender , newTitle );
 }
 
-void KonqFrameTabs::setIconURL( const KURL & iconURL, QWidget* sender )
+void KonqFrameTabs::setTabIcon( QString url, QWidget* sender )
 {
-  kdDebug(1202) << "KonqFrameTabs::setIconURL( " << iconURL.url() << " )" << endl;
-  QIconSet iconSet = QIconSet( KonqPixmapProvider::self()->pixmapFor( iconURL.url() ) );
+  kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
+  QIconSet iconSet = QIconSet( KonqPixmapProvider::self()->pixmapFor( url ) );
   if (tabIconSet( sender ).pixmap().serialNumber() != iconSet.pixmap().serialNumber())
     setTabIconSet( sender, iconSet );
+}
+
+void KonqFrameTabs::activateChild()
+{
+  if (m_pActiveChild)
+  {
+    showPage( m_pActiveChild->widget() );
+    m_pActiveChild->activateChild();
+  }
 }
 
 void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
@@ -879,13 +898,15 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
     kdDebug(1202) << "Adding frame" << endl;
     insertTab(frame->widget(),"", index);
     frame->setParentContainer(this);
-    m_pChildFrameList->append(frame);
+    if (index == -1) m_pChildFrameList->append(frame);
+    else m_pChildFrameList->insert(index, frame);
+    m_pActiveChild = frame;
     showPage( frame->widget() );
     frame->activateChild();
     KonqView* activeChildView = frame->activeChildView();
     if (activeChildView != 0L) {
       activeChildView->setCaption( activeChildView->caption() );
-      activeChildView->setIconURL( activeChildView->url().url() );
+      activeChildView->setTabIcon( activeChildView->url().url() );
     }
   }
   else
@@ -909,7 +930,10 @@ void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 {
   KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>(newPage);
 
-  currentFrame->activateChild();
+  if (!m_pViewManager->isLoadingProfile()) {
+    m_pActiveChild = currentFrame;
+    currentFrame->activateChild();
+  }
 }
 
 #include "konq_frame.moc"

@@ -257,7 +257,7 @@ public:
   void setParentContainer(KonqFrameContainerBase* parent);
 
   void setTitle( QString title , QWidget* sender);
-  void setIconURL( const KURL & iconURL, QWidget* sender );
+  void setTabIcon( QString url, QWidget* sender );
   
   QWidget* widget();
 
@@ -266,12 +266,12 @@ public:
 
   KonqFrameBase* childFrame();
   
-  KonqFrameBase* workingTab() { return m_pWorkingTab; }
-  void setWorkingTab( KonqFrameBase* tab ) { m_pWorkingTab = tab; }
-
   void setActiveChild( KonqFrameBase* activeChild );
 
   // KonqFrameContainerBase implementation END
+  
+  KonqFrameBase* workingTab() { return m_pWorkingTab; }
+  void setWorkingTab( KonqFrameBase* tab ) { m_pWorkingTab = tab; }
 
 signals:
   void viewAdded( KonqView *view );

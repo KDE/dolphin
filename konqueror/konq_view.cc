@@ -468,19 +468,25 @@ void KonqView::slotSelectionInfo( const KFileItemList &items )
 
 void KonqView::setLocationBarURL( const QString & locationBarURL )
 {
-  //kdDebug(1202) << "KonqView::setLocationBarURL " << locationBarURL << " this=" << this << endl;
+  kdDebug(1202) << "KonqView::setLocationBarURL " << locationBarURL << " this=" << this << endl;
   m_sLocationBarURL = locationBarURL;
   if ( m_pMainWindow->currentView() == this )
   {
     //kdDebug(1202) << "is current view " << this << endl;
     m_pMainWindow->setLocationBarURL( m_sLocationBarURL );
   }
+  if (!m_bPassiveMode) setTabIcon( m_sLocationBarURL );
 }
 
 void KonqView::setIconURL( const KURL & iconURL )
 {
   KonqPixmapProvider::self()->setIconForURL( m_sLocationBarURL, iconURL );
   m_bGotIconURL = true;
+}
+
+void KonqView::setTabIcon( QString url )
+{
+  if (!m_bPassiveMode) frame()->setTabIcon( url, 0L );
 }
 
 void KonqView::setCaption( const QString & caption )
