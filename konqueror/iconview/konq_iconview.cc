@@ -390,6 +390,7 @@ void KonqKfmIconView::slotShowDot()
 {
     m_pProps->setShowingDotFiles( !m_pProps->isShowingDotFiles() );
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
+    m_dirLister->emitChanges();
     //we don't want the non-dot files to remain where they are
     m_bNeedAlign = true;
     slotCompleted();
