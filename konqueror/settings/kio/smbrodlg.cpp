@@ -19,6 +19,7 @@
 */
 
 #include <qlayout.h>
+#include <qlabel.h>
 #include <qwhatsthis.h>
 
 #include <kapp.h>
