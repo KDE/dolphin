@@ -62,7 +62,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
     subLayout->addRowSpacing(4,5);
     subLayout->setRowStretch(4,0);
 
-#if USE_SAMBA == 1
+#ifdef USE_SAMBA
     labelOtherOptions = new QLabel(i18n("Other options:"), groupNet);
     subLayout->addWidget(labelOtherOptions,3,0);
     labelConfFile = new QLabel(QString(""SMB_CONF_FILE), groupNet);
@@ -240,7 +240,7 @@ void KSMBOptions::load()
     g_pConfig->setGroup( "Browser Settings/SMB" );
     tmp = g_pConfig->readEntry( "Browse server" );
     editBrowseServer->setText( tmp );
-#if USE_SAMBA != 1
+#ifndef USE_SAMBA
     tmp = g_pConfig->readEntry( "Broadcast address" );
     editBroadcast->setText( tmp );
     tmp = g_pConfig->readEntry( "WINS address" );
@@ -261,7 +261,7 @@ void KSMBOptions::load()
         // unscramble
         QString scrambled = g_pConfig->readEntry( key );
         password = "";
-        for (int i=0; i<scrambled.length()/3; i++) {
+        for (uint i=0; i<scrambled.length()/3; i++) {
             QChar qc1 = scrambled[i*3];
             QChar qc2 = scrambled[i*3+1];
             QChar qc3 = scrambled[i*3+2];
@@ -300,7 +300,7 @@ void KSMBOptions::save()
 
     g_pConfig->setGroup( "Browser Settings/SMB" );
     g_pConfig->writeEntry( "Browse server", editBrowseServer->text());
-#if USE_SAMBA != 1
+#ifndef USE_SAMBA
     g_pConfig->writeEntry( "Broadcast address", editBroadcast->text());
     g_pConfig->writeEntry( "WINS address", editWINS->text());
 #endif
@@ -316,7 +316,7 @@ void KSMBOptions::save()
         key.sprintf("password%d",index);
         // Weak code, but least it makes the string unreadable
         QString scrambled;
-        for (int i=0; i<it->password.length(); i++) {
+        for (uint i=0; i<it->password.length(); i++) {
             QChar c = it->password[i];
             unsigned int num = (c.unicode() ^ 173) + 17;
             unsigned int a1 = (num & 0xFC00) >> 10;
@@ -338,7 +338,7 @@ void KSMBOptions::save()
 void KSMBOptions::defaults()
 {
     editBrowseServer->setText( "" );
-#if USE_SAMBA != 1
+#ifndef USE_SAMBA
     editBroadcast->setText( "" );
     editWINS->setText( "" );
 #endif
@@ -408,14 +408,14 @@ void KSMBOptions::addClicked()
     if (item) {
         // seek the entry in the list box using 'old' values
         // must do a case sensitive search => findItem does no good
-        for (int i=0; i<bindingsLB->count(); i++) {
+        for (uint i=0; i<bindingsLB->count(); i++) {
             if (bindingsLB->item(i)->text() == oldText) {
                 bindingsLB->removeItem(i);
                 break;
             }
         }
         int pos = bindingsLB->count();
-        for (int i=0; i<bindingsLB->count(); i++) {
+        for (uint i=0; i<bindingsLB->count(); i++) {
             if (bindingsLB->item(i)->text() > item->text) {
                 pos = i;
                 break;
@@ -427,7 +427,7 @@ void KSMBOptions::addClicked()
     } else {
         item = new Item(server,share,login,password);
         int pos = bindingsLB->count();
-        for (int i=0; i<bindingsLB->count(); i++) {
+        for (uint i=0; i<bindingsLB->count(); i++) {
             if (bindingsLB->item(i)->text() > item->text) {
                 pos = i;
                 break;
