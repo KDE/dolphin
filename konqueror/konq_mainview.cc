@@ -811,8 +811,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   if ( newView->passiveMode() )
   {
-    if ( newView->browserExtension() )
-      connectExtension( newView->browserExtension() );
+    // Passive view. Don't connect anything, don't change m_currentView
+    // Another view will become the current view very soon
     return;
   }
 
@@ -1708,6 +1708,7 @@ QString KonqMainView::findIndexFile( const QString &dir )
 
 void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 {
+  //kdDebug(1202) << "Connecting extension " << ext << endl;
   typedef QValueList<QCString> QCStringList;
   static QCStringList * s_dontConnect = 0L;
   // The actions in s_dontConnect are not directly connected to the BrowserExtension.
@@ -1755,7 +1756,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 
 void KonqMainView::disconnectExtension( KParts::BrowserExtension *ext )
 {
-  //kdDebug(1202) << "Disconnecting extension" << endl;
+  //kdDebug(1202) << "Disconnecting extension " << ext << endl;
   QValueList<KAction *> actions = actionCollection()->actions();
   QValueList<KAction *>::ConstIterator it = actions.begin();
   QValueList<KAction *>::ConstIterator end = actions.end();
@@ -1844,7 +1845,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
 
   m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
-  //kdDebug(1202) << "KonqMainView::slotPopupMenu(...)" << endl;
+  kdDebug(1202) << "KonqMainView::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->view()->className() << endl;
 
   KActionCollection popupMenuCollection;
   popupMenuCollection.insert( m_paBack );
