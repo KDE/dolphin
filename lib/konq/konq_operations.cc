@@ -51,13 +51,14 @@
 #include <X11/Xlib.h>
 
 KonqOperations::KonqOperations( QWidget *parent )
-    : QObject( parent, "KonqOperations" ), m_info(0L)
+    : QObject( parent, "KonqOperations" ), m_info(0L), m_pasteInfo(0L)
 {
 }
 
 KonqOperations::~KonqOperations()
 {
     delete m_info;
+    delete m_pasteInfo;
 }
 
 void KonqOperations::editMimeType( const QString & mimeType )
@@ -415,10 +416,23 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
             else
                 data = ev->data( formats.first() );
 
-            KIO::pasteData( dest, data );
+            // Delay the call to asyncDrop so that the event filters can return. See #38688.
+            KonqOperations * op = new KonqOperations(parent);
+            KIOPasteInfo * pi = new KIOPasteInfo;
+            pi->data = data;
+            pi->destURL = dest;
+            op->setPasteInfo( pi );
+            QTimer::singleShot( 0, op, SLOT( slotKIOPaste() ) );
         }
         ev->acceptAction();
     }
+}
+
+void KonqOperations::slotKIOPaste()
+{
+    assert(m_pasteInfo); // setPasteInfo should have been called before
+    KIO::pasteData( m_pasteInfo->destURL, m_pasteInfo->data );
+    delete m_pasteInfo;
 }
 
 void KonqOperations::asyncDrop( const KFileItem * destItem )

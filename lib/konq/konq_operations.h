@@ -114,11 +114,19 @@ protected:
     // internal, for doDrop
     void setDropInfo( DropInfo * info ) { m_info = info; }
 
+    struct KIOPasteInfo
+    {
+        QByteArray data;
+        KURL destURL;
+    };
+    void setPasteInfo( KIOPasteInfo * info ) { m_pasteInfo = info; }
+
 protected slots:
 
     void slotResult( KIO::Job * job );
     void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );
+    void slotKIOPaste();
 
 private:
     int m_method;
@@ -126,6 +134,7 @@ private:
     KURL m_destURL;
     // for doDrop
     DropInfo * m_info;
+    KIOPasteInfo * m_pasteInfo;
 };
 
 #endif
