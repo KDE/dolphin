@@ -424,35 +424,20 @@ QString KonqMainWindow::detectNameFilter( QString & url )
     return nameFilter;
 }
 
-void KonqMainWindow::openFilteredURL( const QString & _url, const KonqOpenURLRequest & _req)
+void KonqMainWindow::openFilteredURL( const QString & url, KonqOpenURLRequest & req )
 {
-    QString url = _url;
-    QString nameFilter = detectNameFilter( url );
-
     // Filter URL to build a correct one
     if (m_currentDir.isEmpty() && m_currentView)
        m_currentDir = m_currentView->url().path(1);
 
     KURL filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
-    kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
+    kdDebug(1202) << "url " << url << " filtered into " << filteredURL.prettyURL() << endl;
 
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
 
-    if ( !nameFilter.isEmpty() )
-    {
-        if (!KProtocolInfo::supportsListing(filteredURL))
-        {
-            // Protocol doesn't support listing. Ouch. Revert to full URL, no name-filtering.
-            url = _url;
-            nameFilter = QString::null;
-            filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
-        }
-    }
     m_currentDir = QString::null;
 
-    KonqOpenURLRequest req( _req  );
-    req.nameFilter = nameFilter;
     openURL( 0L, filteredURL, QString::null, req );
 
     // #4070: Give focus to view after URL was entered manually
@@ -495,6 +480,17 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   {
       KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
       return;
+  }
+
+  if ( KProtocolInfo::supportsListing(url) )
+  {
+    QString urlStr = url.url();
+    QString nameFilter = detectNameFilter( urlStr );
+    if ( !nameFilter.isEmpty() )
+    {
+      req.nameFilter = nameFilter;
+      url.setFileName( QString::null );
+    }
   }
 
   KonqView *view = _view;
@@ -4146,6 +4142,8 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
           const QString text = ext->actionText( it.key() );
           if ( !text.isEmpty() )
               act->setText( text );
+          // TODO how to re-set the original action text, when switching to a part that didn't call setAction?
+          // Can't test with Paste...
       } else
           act->setEnabled(false);
 

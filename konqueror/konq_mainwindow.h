@@ -108,7 +108,7 @@ public:
   /**
    * Filters the URL and calls the main openURL method.
    */
-  void openFilteredURL( const QString & _url, const KonqOpenURLRequest& _req);
+  void openFilteredURL( const QString & _url, KonqOpenURLRequest& _req);
 
   /**
    * Filters the URL and calls the main openURL method.
