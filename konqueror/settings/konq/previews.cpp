@@ -137,6 +137,7 @@ void KPreviewOptions::defaults()
     }
     m_maxSize->setValue( DEFAULT_MAXSIZE / (1024*1024) );
     m_boostSize->setChecked( false );
+    m_useFileThumbnails->setChecked( true );
 }
 
 void KPreviewOptions::save()
