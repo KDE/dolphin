@@ -185,6 +185,7 @@ void KfindWindow::saveResults()
 
   KFileDialog *dlg = new KFileDialog(QString::null, QString::null, this,
 	"filedialog", true);
+  dlg->setOperationMode (KFileDialog::Saving);
 
   dlg->setCaption(i18n("Save Results As"));
 
