@@ -598,6 +598,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     //////////////////////////////////////////////////////
 
     PopupServices s;
+    KURL urlForServiceMenu( m_lstItems.first()->url() );
 
     // 1 - Look for builtin and user-defined services
     if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
@@ -609,6 +610,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         cfg.setDesktopGroup();
         const QString priority = cfg.readEntry("X-KDE-Priority");
         const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+        if ( cfg.readEntry("Type") == "Link" ) {
+           urlForServiceMenu = cfg.readEntry("URL");
+           // TODO: Do we want to make all the actions apply on the target
+           // of the .desktop file instead of the .desktop file itself?
+        }
         ServiceList* list = s.selectList( priority, submenuName );
         (*list) = KDEDesktopMimeType::userDefinedServices( path, cfg, url.isLocalFile() );
     }
@@ -666,8 +672,15 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 if ( cfg.hasKey( "X-KDE-Protocol" ) )
                 {
                     const QString protocol = cfg.readEntry( "X-KDE-Protocol" );
-                    if ( protocol != m_sViewURL.protocol() )
+                    if ( protocol != urlForServiceMenu.protocol() )
                         continue;
+                }
+                else if ( urlForServiceMenu.protocol() == "trash" )
+                {
+                    // Require servicemenus for the trash to ask for protocol=trash explicitely.
+                    // Trashed files aren't supposed to be available for actions.
+                    // One might want a servicemenu for trash.desktop itself though.
+                    continue;
                 }
 
                 if ( cfg.hasKey( "X-KDE-Require" ) )
@@ -745,18 +758,18 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         if (kapp->authorizeKAction("openwith"))
         {
-	    QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
-	    QString subConstraint = " and '%1' in ServiceTypes";
+            QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
+            QString subConstraint = " and '%1' in ServiceTypes";
 
-	    QStringList::ConstIterator it = mimeTypeList.begin();
-	    QStringList::ConstIterator end = mimeTypeList.end();
-	    Q_ASSERT( it != end );
-	    QString first = *it;
-	    ++it;
-	    while ( it != end ) {
-		constraint += subConstraint.arg( *it );
-		++it;
-	    }
+            QStringList::ConstIterator it = mimeTypeList.begin();
+            QStringList::ConstIterator end = mimeTypeList.end();
+            Q_ASSERT( it != end );
+            QString first = *it;
+            ++it;
+            while ( it != end ) {
+                constraint += subConstraint.arg( *it );
+                ++it;
+            }
 
             offers = KTrader::self()->query( first, constraint );
         }
