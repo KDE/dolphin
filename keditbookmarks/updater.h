@@ -51,6 +51,7 @@ class FavIconUpdater : public KonqFavIconMgr
 
 public:   
     FavIconUpdater(QObject *parent, const char *name);
+    ~FavIconUpdater();
     void downloadIcon(const KBookmark &bk);
     void downloadIconActual(const KBookmark &bk);
 
