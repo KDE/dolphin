@@ -790,23 +790,13 @@ void KonqViewManager::removePart( KParts::Part * part )
   {
       kdDebug(1202) << "Found a child view" << endl;
       view->partDeleted(); // tell the child view that the part auto-deletes itself
-      if (m_pMainWindow->viewCount() == 1)
+      if (m_pMainWindow->mainViewsCount() == 1)
       {
         kdDebug(1202) << "Deleting last view -> closing the window" << endl;
         clear();
         kdDebug(1202) << "Closing m_pMainWindow " << m_pMainWindow << endl;
         m_pMainWindow->close(); // will delete it
         return;
-      } else if (m_pMainWindow->viewCount() == 2) {
-        // If the remaining view is a sidebar, exit
-        if (m_pMainWindow->sidebarVisible()) {
-          kdDebug(1202) << "Deleting last views -> closing the window" << endl;
-          clear();
-          kdDebug(1202) << "Closing m_pMainWindow " << m_pMainWindow << endl;
-          m_pMainWindow->close();
-          return;
-        }
-        removeView( view );
       } else { // normal case
         removeView( view );
       }
