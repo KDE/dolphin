@@ -82,7 +82,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
   m_bgPixmapFile = config->readEntry( "BgImage" );
-  kdDebug() << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
+  //kdDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
 
   // colorsConfig is either the local file (.directory) or the application global file
   // (we want the same colors for all types of view)
@@ -94,7 +94,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
       m_textColor = KGlobal::config()->readColorEntry( "TextColor", &m_textColor );
       m_bgColor = KGlobal::config()->readColorEntry( "BgColor", &m_bgColor );
       m_bgPixmapFile = KGlobal::config()->readEntry( "BgImage", m_bgPixmapFile );
-      kdDebug() << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
+      //kdDebug(1203) << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
   }
 
   KGlobal::dirs()->addResourceType("tiles",
@@ -132,7 +132,7 @@ KonqPropsView::~KonqPropsView()
 
 bool KonqPropsView::enterDir( const KURL & dir )
 {
-    kdDebug(1203) << "enterDir " << dir.prettyURL() << endl;
+  //kdDebug(1203) << "enterDir " << dir.prettyURL() << endl;
   // Can't do that with default properties
   assert( !isDefaultProperties() );
 
@@ -157,7 +157,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
   if (dotDirExists)
   {
-    kdDebug(1203) << "Found .directory file" << endl;
+    //kdDebug(1203) << "Found .directory file" << endl;
     KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
     config->setGroup("URL properties");
 
@@ -169,14 +169,14 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
-    kdDebug() << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
+    //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
     delete config;
   }
   //if there is or was a .directory then the settings probably have changed
   bool configChanged=(m_dotDirExists|| dotDirExists);
   m_dotDirExists = dotDirExists;
   m_currentConfig = 0L; // new dir, not current config for saving yet
-  kdDebug() << "KonqPropsView::enterDir returning " << configChanged << endl;
+  //kdDebug(1203) << "KonqPropsView::enterDir returning " << configChanged << endl;
   return configChanged;
 }
 
@@ -325,7 +325,7 @@ void KonqPropsView::setBgPixmapFile( const QString & file )
 
 QPixmap KonqPropsView::loadPixmap() const
 {
-    kdDebug() << "KonqPropsView::loadPixmap " << m_bgPixmapFile << endl;
+    //kdDebug(1203) << "KonqPropsView::loadPixmap " << m_bgPixmapFile << endl;
     QPixmap bgPixmap;
     if ( !m_bgPixmapFile.isEmpty() )
         bgPixmap = wallpaperPixmap( m_bgPixmapFile );
@@ -334,7 +334,7 @@ QPixmap KonqPropsView::loadPixmap() const
 
 void KonqPropsView::applyColors(QWidget * widget) const
 {
-    kdDebug() << "KonqPropsView::applyColors " << (void*)this << endl;
+    //kdDebug(1203) << "KonqPropsView::applyColors " << (void*)this << endl;
     QColorGroup a = widget->palette().active();
     QColorGroup d = widget->palette().disabled(); // is this one ever used ?
     QColorGroup i = widget->palette().inactive(); // is this one ever used ?
