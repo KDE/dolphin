@@ -93,7 +93,7 @@
 template class QList<QPixmap>;
 template class QList<KToggleAction>;
 
-QList<QPixmap> *KonqMainView::s_plstAnimatedLogo = 0L;
+QStringList *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
 
 KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const char *name )
@@ -106,22 +106,17 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   KonqFactory::instanceRef();
 
   if ( !s_plstAnimatedLogo )
-    s_plstAnimatedLogo = new QList<QPixmap>;
+    s_plstAnimatedLogo = new QStringList;
 
   if ( s_plstAnimatedLogo->count() == 0 )
   {
-    s_plstAnimatedLogo->setAutoDelete( true );
-    for ( int i = 1; i < 9; i++ )
+    for ( int i = 1; i <= 9; i++ )
     {
       QString n;
       n.sprintf( "kde%i", i );
-      s_plstAnimatedLogo->append( new QPixmap( BarIcon( n, KonqFactory::instance() ) ) );
+      s_plstAnimatedLogo->append( n );
     }
   }
-
-  m_animatedLogoCounter = 0;
-  connect( &m_animatedLogoTimer, SIGNAL( timeout() ),
-           this, SLOT( slotAnimatedLogoTimeout() ) );
 
   m_pViewManager = new KonqViewManager( this );
 
@@ -205,7 +200,6 @@ KonqMainView::~KonqMainView()
     config->sync();
   }
 
-  m_animatedLogoTimer.stop();
   delete m_pViewManager;
 
   if ( m_pBookmarkMenu )
@@ -940,15 +934,6 @@ void KonqMainView::customEvent( QCustomEvent *event )
   }
 }
 
-void KonqMainView::slotAnimatedLogoTimeout()
-{
-  m_animatedLogoCounter++;
-  if ( m_animatedLogoCounter == s_plstAnimatedLogo->count() )
-    m_animatedLogoCounter = 0;
-
-  m_paAnimatedLogo->setIconSet( QIconSet( *( s_plstAnimatedLogo->at( m_animatedLogoCounter ) ) ) );
-}
-
 void KonqMainView::slotURLEntered( const QString &text )
 {
   if ( m_bURLEnterLock )
@@ -1316,16 +1301,13 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
 
 void KonqMainView::startAnimation()
 {
-  m_animatedLogoCounter = 0;
-  m_animatedLogoTimer.start( 50 );
+  ((KonqLogoAction*)m_paAnimatedLogo)->start();
   m_paStop->setEnabled( true );
 }
 
 void KonqMainView::stopAnimation()
 {
-  m_animatedLogoTimer.stop();
-  m_paAnimatedLogo->setIconSet( QIconSet( *( s_plstAnimatedLogo->at( 0 ) ) ) );
-
+  ((KonqLogoAction*)m_paAnimatedLogo)->stop();
   m_paStop->setEnabled( false );
 }
 
@@ -1462,7 +1444,7 @@ void KonqMainView::initActions()
   m_paDelete = new KAction( i18n( "&Delete" ), deleteAction==2 ? deleteKey : 0, this, SLOT( slotDelete() ), actionCollection(), "del" );
   m_paShred = new KAction( i18n( "&Shred" ), deleteAction==3 ? deleteKey : 0, this, SLOT( slotShred() ), actionCollection(), "shred" );
 
-  m_paAnimatedLogo = new KonqLogoAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
+  m_paAnimatedLogo = new KonqLogoAction( *s_plstAnimatedLogo, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
 

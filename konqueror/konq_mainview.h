@@ -180,8 +180,6 @@ protected slots:
   void slotPartActivated( KParts::Part *part );
   void slotEnableAction( const char * name, bool enabled );
 
-  void slotAnimatedLogoTimeout();
-
   void slotURLEntered( const QString &text );
 
   void slotFileNewAboutToShow();
@@ -349,9 +347,6 @@ private:
 
   QGuardedPtr<KProgress> m_progressBar;
 
-  QTimer m_animatedLogoTimer;
-  unsigned int m_animatedLogoCounter;
-
   bool m_bURLEnterLock;
 
   KonqChildView *m_oldView;
@@ -360,7 +355,7 @@ private:
 
   ViewModeGUIClient *m_viewModeGUIClient;
 
-  static QList<QPixmap> *s_plstAnimatedLogo;
+  static QStringList *s_plstAnimatedLogo;
 
   static bool s_bMoveSelection;
 };
