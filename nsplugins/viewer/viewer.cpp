@@ -5,22 +5,22 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <mhk@caldera.de>
   		     Stefan Schimanski <1Stein@gmx.de>
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/                                                                            
+
+*/
 
 
 #include "nsplugin.h"
@@ -30,7 +30,6 @@
 #include <kapp.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
-#include <qxt.h>
 #include <klocale.h>
 #include <qintdict.h>
 #include <qsocketnotifier.h>
@@ -49,17 +48,17 @@
  * in case the plugin does some invalid X operation.
  *
  */
-static int x_errhandler(Display *dpy, XErrorEvent *error) 
+static int x_errhandler(Display *dpy, XErrorEvent *error)
 {
-  char errstr[256];   
-  XGetErrorText(dpy, error->error_code, errstr, 256);   
+  char errstr[256];
+  XGetErrorText(dpy, error->error_code, errstr, 256);
   kDebugInfo("Detected X Error: %s", errstr);
-  return 1; 
+  return 1;
 }
 
 
 /*
- * As the plugin viewer needs to be a motif application, I give in to 
+ * As the plugin viewer needs to be a motif application, I give in to
  * the "old style" and keep lot's of global vars. :-)
  */
 
