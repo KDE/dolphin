@@ -30,6 +30,9 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     gb_Timeout->setColumnLayout(0, Qt::Vertical );
     gb_Timeout->layout()->setSpacing( 0 );
     gb_Timeout->layout()->setMargin( 0 );
+    QWhatsThis::add( gb_Timeout, i18n( "Here you can set timeout values. "
+				       "You might want to tweak them if "
+				       "your connection is very slow." ) );
 
     QGridLayout* gb_TimeoutLayout = new QGridLayout( gb_Timeout->layout() );
     gb_TimeoutLayout->setAlignment( Qt::AlignTop );
@@ -57,19 +60,19 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     vbox->setMargin( 0 );
 
     QLabel* lbl_socket = new QLabel( gb_Timeout, "lbl_socket" );
-    lbl_socket->setText( i18n( "Soc&ket Read" ) );
+    lbl_socket->setText( i18n( "Soc&ket Read:" ) );
     vbox->addWidget( lbl_socket );
 
     QLabel* lbl_proxy = new QLabel( gb_Timeout, "lbl_proxy" );
-    lbl_proxy->setText( i18n( "Pro&xy Connect" ) );
+    lbl_proxy->setText( i18n( "Pro&xy Connect:" ) );
     vbox->addWidget( lbl_proxy );
 
     QLabel* lbl_serverConnect = new QLabel( gb_Timeout, "lbl_serverConnect" );
-    lbl_serverConnect->setText( i18n( "Server Co&nnect" ) );
+    lbl_serverConnect->setText( i18n( "Server Co&nnect:" ) );
     vbox->addWidget( lbl_serverConnect );
 
     QLabel* lbl_serverResponse = new QLabel( gb_Timeout, "lbl_serverResponse" );
-    lbl_serverResponse->setText( i18n( "Server &Response" ) );
+    lbl_serverResponse->setText( i18n( "Server &Response:" ) );
     vbox->addWidget( lbl_serverResponse );
 
     gb_TimeoutLayout->addLayout( vbox, 0, 0 );
@@ -110,6 +113,9 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
 
     gb_TimeoutLayout->addLayout( vbox, 0, 2 );
     KIOPreferencesLayout->addWidget( gb_Timeout );
+
+    spacer = new QSpacerItem( 1, 100, QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding ); 
+    KIOPreferencesLayout->addItem( spacer );
 
     lbl_socket->setBuddy( sb_socketRead );
     lbl_proxy->setBuddy( sb_proxyConnect );
@@ -173,7 +179,11 @@ void KIOPreferences::defaults()
 
 QString KIOPreferences::quickHelp() const
 {
-  return i18n("<h1>Preferences</h1>" );
+  return i18n("<h1>Network Preferences</h1>Here you can define"
+	      " the behaviour of KDE Programms when using internet"
+	      " and network connections. If you expirience timeouts"
+	      " and problems or sit behind a modem, you might want"
+	      " to adjust these values." );
 }
 
 #include "netpref.moc"
