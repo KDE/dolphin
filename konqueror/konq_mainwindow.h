@@ -181,8 +181,6 @@ public:
 
   void enableAction( const char * name, bool enabled );
 
-  void enableUnlockAll();
-
   /**
    * The default settings "allow HTML" - the one used when creating a new view
    * Might not match the current view !
@@ -238,7 +236,7 @@ public slots:
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
   void slotLockView();
-  void slotUnlockViews();
+  void slotUnlockView();
   void slotLinkView();
   void slotReload();
   void slotStop();
@@ -414,7 +412,7 @@ private:
   KActionMenu *m_pamLoadViewProfile;
 
   KAction *m_paLockView;
-  KAction *m_paUnlockAll;
+  KAction *m_paUnlockView;
   KToggleAction *m_paLinkView;
   KAction *m_paReload;
   KAction *m_paUndo;

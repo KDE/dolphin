@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="29">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="30">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -34,7 +34,7 @@
   <ActionList name="viewmode" />
   <Action name="usehtml"/>
   <Action name="lock"/>
-  <Action name="unlockall"/>
+  <Action name="unlock"/>
   <Action name="link"/>
   <Separator/>
   <Action name="reload"/>

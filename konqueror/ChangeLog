@@ -1,3 +1,10 @@
+2001-01-14  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc etc.: Lock to current location doesn't make the
+	view passive anymore. This allows to e.g. change the view mode.
+
+	* konq_frame.cc: Added Lock / Unlock to view statusbar's popupmenu.
+
 2001-01-13  David Faure  <faure@kde.org>
 
 	* konq_dirpart.cc etc.: Always paste to current directory, even

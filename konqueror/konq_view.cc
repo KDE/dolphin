@@ -646,9 +646,7 @@ void KonqView::setLinkedView( bool mode )
 
 void KonqView::setLockedLocation( bool b )
 {
-    if (b)
-        m_pMainWindow->enableUnlockAll();
-    m_bLockedLocation = b;
+  m_bLockedLocation = b;
 }
 
 void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )

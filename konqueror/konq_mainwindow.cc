@@ -942,9 +942,6 @@ void KonqMainWindow::slotToolFind()
 
     // Don't allow to do this twice for this view :-)
     m_paFindFiles->setEnabled(false);
-
-    // lock the history in the current view - until slotFindClosed
-    //m_currentView->lockHistory(); // do we still want that ?
   }
   else
   {
@@ -990,12 +987,8 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     KonqView * dirView = m_mapViews.find( dirPart ).data();
     ASSERT(dirView);
     kdDebug(1202) << "dirView=" << dirView << endl;
-    if ( dirView )
-    {
-        //dirView->lockHistory( false );
-        if ( dirView == m_currentView )
-            m_paFindFiles->setEnabled( true );
-    }
+    if ( dirView && dirView == m_currentView )
+        m_paFindFiles->setEnabled( true );
 }
 
 void KonqMainWindow::slotIconsChanged()
@@ -1182,35 +1175,20 @@ void KonqMainWindow::slotShowHTML()
 
 }
 
-void KonqMainWindow::slotUnlockViews()
+void KonqMainWindow::slotUnlockView()
 {
-  MapViews::ConstIterator it = m_mapViews.begin();
-  MapViews::ConstIterator end = m_mapViews.end();
-  for (; it != end; ++it )
-  {
-    if ( (*it)->isLockedLocation() )
-    {
-      (*it)->setLockedLocation( false );
-      (*it)->setPassiveMode( false );
-    }
-  }
-
-  viewsChanged();
+  ASSERT(m_currentView->isLockedLocation());
+  m_currentView->setLockedLocation( false );
+  m_paLockView->setEnabled( true );
+  m_paUnlockView->setEnabled( false );
 }
 
 void KonqMainWindow::slotLockView()
 {
-  // Can't access this action in passive mode anyway
-  assert(!m_currentView->isPassiveMode());
-  // Those two feature are one for the user: passive mode and locked location
-  // (Only the dirtree uses one and not the other)
+  ASSERT(!m_currentView->isLockedLocation());
   m_currentView->setLockedLocation( true );
-  m_currentView->setPassiveMode( true ); // do this one last !
-}
-
-void KonqMainWindow::enableUnlockAll()
-{
-  m_paUnlockAll->setEnabled( true );
+  m_paLockView->setEnabled( false );
+  m_paUnlockView->setEnabled( true );
 }
 
 void KonqMainWindow::slotStop()
@@ -1632,17 +1610,8 @@ void KonqMainWindow::viewsChanged()
   // This is called when the number of views changes OR when
   // the type of some view changes.
 
-  bool locked = false;
-  MapViews::Iterator it = m_mapViews.begin();
-  MapViews::Iterator end = m_mapViews.end();
-  // at least one view locked to location -> Unlock all views
-  for (  ; it != end  ; ++it )
-    if ( it.data()->isLockedLocation() )
-    {
-      locked = true;
-      break;
-    }
-  m_paUnlockAll->setEnabled( locked );
+  // Nothing here anymore, but don't cleanup, some might come back later.
+
   updateViewActions(); // undo, lock, link and other view-dependent actions
 }
 
@@ -2558,7 +2527,7 @@ void KonqMainWindow::initActions()
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_paLockView = new KAction( i18n( "Lock to current location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
-  m_paUnlockAll = new KAction( i18n( "Unlock all views"), 0, this, SLOT( slotUnlockViews() ), actionCollection(), "unlockall" );
+  m_paUnlockView = new KAction( i18n( "Unlock view"), 0, this, SLOT( slotUnlockView() ), actionCollection(), "unlock" );
   m_paLinkView = new KToggleAction( i18n( "Link view"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
@@ -2702,7 +2671,7 @@ void KonqMainWindow::initActions()
 
   m_ptaUseHTML->setStatusText( i18n("Open index.html when entering a directory, if present") );
   m_paLockView->setStatusText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
-  m_paUnlockAll->setStatusText( i18n("Removes locking for all views. Unlock a single view is not possible since it can't be activated.") );
+  m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes done in other linked views") );
 
 }
@@ -2731,8 +2700,11 @@ void KonqMainWindow::updateViewActions()
   slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
 
   // Can lock a view only if there is a next view
-  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
+  //m_paLockView->setEnabled( m_pViewManager->chooseNextView(m_currentView) != 0L && );
   //kdDebug(1202) << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
+
+  m_paLockView->setEnabled( m_currentView && !m_currentView->isLockedLocation() );
+  m_paUnlockView->setEnabled( m_currentView && m_currentView->isLockedLocation() );
 
   // Can remove view if we'll still have a main view after that
   m_paRemoveView->setEnabled( mainViewsCount() > 1 ||
@@ -2900,9 +2872,6 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
 
-      // assume false, but viewsChanged will set it correctly if necessary
-      m_paUnlockAll->setEnabled( false );
-
       // Load profile submenu
       m_pViewManager->profileListDirty( false );
 
@@ -2932,7 +2901,8 @@ void KonqMainWindow::disableActionsNoView()
     m_paForward->setEnabled( false );
     m_ptaUseHTML->setEnabled( false );
     m_pMenuNew->setEnabled( false );
-    m_paUnlockAll->setEnabled( false );
+    m_paLockView->setEnabled( false );
+    m_paUnlockView->setEnabled( false );
     m_paSplitWindowVer->setEnabled( false );
     m_paSplitWindowHor->setEnabled( false );
     m_paSplitViewVer->setEnabled( false );
@@ -2958,7 +2928,7 @@ void KonqMainWindow::disableActionsNoView()
             act->setEnabled( true );
     }
     m_pamLoadViewProfile->setEnabled( true );
-    m_combo->clear();
+    m_combo->clearEdit();
     m_paShowMenuBar->setEnabled( true );
     m_paShowToolBar->setEnabled( true );
     m_paShowLocationBar->setEnabled( true );
