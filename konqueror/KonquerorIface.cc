@@ -49,7 +49,7 @@ ASYNC KonquerorIface::openBrowserWindow( const QString &url )
 ASYNC KonquerorIface::openBrowserWindowASN( const QString &url, const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return openBrowserWindow( url );
+    openBrowserWindow( url );
 }
 
 ASYNC KonquerorIface::createNewWindow( const QString &url )
@@ -63,7 +63,7 @@ ASYNC KonquerorIface::createNewWindow( const QString &url )
 ASYNC KonquerorIface::createNewWindowASN( const QString &url, const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createNewWindow( url );
+    createNewWindow( url );
 }
 
 ASYNC KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
@@ -80,7 +80,7 @@ ASYNC KonquerorIface::createNewWindowASN( const QString &url, const QString &mim
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createNewWindow( url, mimetype );
+    createNewWindow( url, mimetype );
 }
 
 ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString &path )
@@ -96,7 +96,7 @@ ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 ASYNC KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfile( path );
+    createBrowserWindowFromProfile( path );
 }
 
 ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
@@ -113,7 +113,7 @@ ASYNC KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, co
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfile( path, filename );
+    createBrowserWindowFromProfile( path, filename );
 }
 
 ASYNC KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
@@ -128,7 +128,7 @@ ASYNC KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & p
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfileAndURL( path, filename, url );
+    createBrowserWindowFromProfileAndURL( path, filename, url );
 }
 
 ASYNC KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
@@ -145,7 +145,7 @@ ASYNC KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString & p
     const QCString& startup_id )
 {
     kapp->setStartupId( startup_id );
-    return createBrowserWindowFromProfileAndURL( path, filename, url, mimetype );
+    createBrowserWindowFromProfileAndURL( path, filename, url, mimetype );
 }
 
 
