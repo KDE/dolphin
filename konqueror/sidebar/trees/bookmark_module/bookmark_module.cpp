@@ -34,6 +34,7 @@
 #include "bookmark_module.h"
 #include "bookmark_item.h"
 #include <konqbookmarkmanager.h>
+#include <kdebug.h>
 
 KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTree )
     : QObject( 0L ), KonqSidebarTreeModule( parentTree ),
@@ -235,7 +236,8 @@ void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, QListVie
     if (after) {
         parentGroup = afterBookmark.parentGroup();
     } else if (parent) {
-        KonqSidebarBookmarkItem *p = dynamic_cast<KonqSidebarBookmarkItem*>(parent);
+        if(KonqSidebarBookmarkItem *p = dynamic_cast<KonqSidebarBookmarkItem*>(parent))
+        {
         if (!p)
             return;
         KBookmark bm = p->bookmark();
@@ -243,6 +245,11 @@ void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, QListVie
             parentGroup = bm.toGroup();
         else
             return;
+        }
+        else if(parent == m_topLevelItem)
+        {
+            parentGroup = KonqBookmarkManager::self()->root();
+        }
     } else {
         // it's most probably the root...
         parentGroup = KonqBookmarkManager::self()->root();
