@@ -68,8 +68,8 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
                 uris.append(KURL((*it).latin1(), 106).prettyURL()); // 106 is mib enum for utf8 codec
             QCString s = uris.join( "\n" ).local8Bit();
-            a.resize( s.length() + 1 ); // trailing zero
-            memcpy( a.data(), s.data(), s.length() + 1 );
+            a.resize( s.length()); // no trailing zero in clipboard text
+            memcpy( a.data(), s.data(), s.length());
         }
     }
     else if ( mimetype.lower() == "text/plain;charset=iso-8859-1")
@@ -82,8 +82,8 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
                uris.append(KURL(*it, 106).url(0, 4)); // 106 is mib enum for utf8 codec; 4 for latin1
 
             QCString s = uris.join( "\n" ).latin1();
-            a.resize( s.length() + 1 ); // trailing zero
-            memcpy( a.data(), s.data(), s.length() + 1 );
+            a.resize( s.length());
+            memcpy( a.data(), s.data(), s.length());
         }
     }
     else if ( mimetype.lower() == "text/plain;charset=utf-8")
@@ -94,8 +94,8 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
                 uris.append(KURL(*it, 106).prettyURL()); // 106 is mib enum for utf8 codec
             QCString s = uris.join( "\n" ).utf8();
-            a.resize( s.length() + 1 ); // trailing zero
-            memcpy( a.data(), s.data(), s.length() + 1 );
+            a.resize( s.length());
+            memcpy( a.data(), s.data(), s.length());
         }
     }
     return a;
