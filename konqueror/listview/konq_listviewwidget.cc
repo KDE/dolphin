@@ -895,6 +895,7 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
     emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
+    m_url= url;
 }
 
 void KonqBaseListViewWidget::slotCloseView()
