@@ -23,7 +23,8 @@ libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0
 libkonq_la_LIBADD = -lkded $(LIB_KFILE) -lkpartsui -lkparts
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc kpopupmenu.cc \
-	kpropsdlg.cc kdirlister.cc kfileitem.cc kiconcontainer.cc kicondrag.cc
+	kpropsdlg.cc \
+	kdirlister.cc kfileitem.cc kiconcontainer.cc kicondrag.cc kfileici.cc
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \
 	kpropsdlg.moc \
@@ -31,7 +32,7 @@ METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h kpopupmenu.h \
 	kpropsdlg.h \
-	kdirlister.h kfileitem.h kiconcontainer.h kicondrag.h
+	kdirlister.h kfileitem.h kiconcontainer.h kicondrag.h kfileici.h
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/libkonq.pot

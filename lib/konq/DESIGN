@@ -16,13 +16,17 @@ kbookmarkmenu.* : openparts-based bookmark menu
 kpopupmenu.*    : popupmenu for URLs
 knewmenu.*      : implements the 'new' menu (file templates)
 
-2) icons
-kfileicon.*     : icon representing a file - basic component of a filemanager
+2) files
+kfileitem.*     : item representing a file and all the information associated
+kdirlister.*    : directory lister (handles kiojob and the kfileitems for you)
+
+3) icons
 kiconcontainer.*: widget handling icons. This should go in kdeui if only I could
                   find a maintainer for it. I'm not skilled enough to do it.
+kfileici.*      : icon representing a file (inherits KIconContainerItem and 
+                  uses KFileItem for holding file information)
 kicondrag.*     : used together with kiconcontainer to move icons with the mouse
-TODO : an iconcontainer that is aware of files and how to list / update them
 
-3) dialog boxes
+4) dialog boxes
 kpropsdlg.*     : the properties dialog box (for any URL)
 

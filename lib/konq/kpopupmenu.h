@@ -28,6 +28,7 @@
 
 #include <kmimetypes.h> // for KDEDesktopMimeType
 
+class KNewMenu;
 class KService;
 class OPMenu;
 
