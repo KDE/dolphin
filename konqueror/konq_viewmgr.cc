@@ -1585,6 +1585,22 @@ void KonqViewManager::slotProfileListAboutToShow()
   m_bProfileListDirty = false;
 }
 
+void KonqViewManager::setLoading( KonqView *view, bool loading ) {
+  if ( m_pDocContainer->frameType() == "Tabs" ) {
+    QColor color;
+    if ( loading )
+      color = QColor( "red" );
+    else
+    {
+      if ( m_pMainWindow->currentView() != view )
+        color = QColor( "blue" );
+      else
+        color = QColor( "black" );
+    }
+    static_cast<KonqFrameTabs*>( docContainer())->setTabColor( view->frame(), color );
+  }
+}
+
 ///////////////// Debug stuff ////////////////
 
 #ifndef NDEBUG

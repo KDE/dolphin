@@ -265,6 +265,8 @@ public:
   void printFullHierarchy( KonqFrameContainerBase * container );
 #endif
 
+  void setLoading( KonqView *view, bool loading );
+
 protected slots:
   void emitActivePartChanged();
 
