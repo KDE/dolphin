@@ -513,7 +513,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
   if ( /*m_pMainWindow->viewCount() == 0 &&*/ !forcedURL.isEmpty())
   {
       KonqView *firstChildView = chooseNextView( 0L );
-      m_pMainWindow->openURL( firstChildView /* can be 0 for an empty profile */, forcedURL );
+      KonqOpenURLRequest req( forcedURL.url() );
+      m_pMainWindow->openURL( firstChildView /* can be 0 for an empty profile */,
+                              forcedURL, QString::null, req );
+
       // TODO choose a linked view if any (instead of just the first one),
       // then open the same URL in any non-linked one
   }

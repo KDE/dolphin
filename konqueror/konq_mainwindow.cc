@@ -397,7 +397,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
   }
   else // no known serviceType, use KonqRun
   {
-      kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
+      kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
       if ( view )
         view->setRun( run );
@@ -1192,6 +1192,7 @@ void KonqMainWindow::slotRunFinished()
     {
       stopAnimation();
       // Revert to working URL - unless the URL was typed manually
+      kdDebug(1202) << " typed URL = " << run->typedURL() << endl;
       if ( run->typedURL().isEmpty() ) // not typed
         childView->setLocationBarURL( childView->history().current()->locationBarURL );
     }

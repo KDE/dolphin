@@ -175,7 +175,10 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     (*serviceImpl) = service;
 
   if ( !factory )
+  {
+    kdDebug(1202) << "KonqFactory::createView : no factory" << endl;
     return KonqViewFactory();
+  }
 
   QStringList args;
 
