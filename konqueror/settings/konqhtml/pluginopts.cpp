@@ -102,7 +102,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     QWhatsThis::add( domainSpecific->listView(), wtstr );
     QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
                                           "the plugin policies. These policies will be merged "
-                                          "with the exisiting ones. Duplicate entries are ignored.") );
+                                          "with the existing ones. Duplicate entries are ignored.") );
     QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the plugin policy to a zipped "
                                           "file. The file, named <b>plugin_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );

@@ -643,7 +643,7 @@ QString KCookiesPolicies::quickHelp() const
               " the 'apply to' tab and choose accept or simply specify the name"
               " of the site in the <i> Domain Specific Policy </i> tab and set"
               " it to accept. This enables you to receive cookies from trusted"
-              " web sites without being asked everytime KDE receives a cookie."
+              " web sites without being asked every time KDE receives a cookie."
              );
 }
 

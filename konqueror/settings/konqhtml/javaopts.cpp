@@ -127,7 +127,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 #if 0
     QWhatsThis::add( domainSpecific->importButton(), i18n("Click this button to choose the file that contains "
                                           "the Java policies. These policies will be merged "
-                                          "with the exisiting ones. Duplicate entries are ignored.") );
+                                          "with the existing ones. Duplicate entries are ignored.") );
     QWhatsThis::add( domainSpecific->exportButton(), i18n("Click this button to save the Java policy to a zipped "
                                           "file. The file, named <b>java_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
