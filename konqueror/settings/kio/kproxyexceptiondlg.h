@@ -26,7 +26,7 @@
 #include <qgroupbox.h>
 #include <qstringlist.h>
 
-#include <kdialogbase.h>
+#include <klineeditdlg.h>
 
 class KLineEdit;
 class KListView;
@@ -69,23 +69,13 @@ private:
     KListView* m_lvExceptions;
 };
 
-class KProxyExceptionDlg : public KDialogBase
+class KProxyExceptionDlg : public KLineEditDlg
 {
   Q_OBJECT
 
 public:
-    KProxyExceptionDlg( QWidget* parent = 0, const char* name = 0, 
-                        bool modal = true, const QString &caption = QString::null,
-                        const QString &msg = QString::null );
+    KProxyExceptionDlg( QWidget* parent = 0, const QString &msg = QString::null,
+                        const QString &value = QString::null, const QString &caption = QString::null );
     ~KProxyExceptionDlg();
-
-    QString exception() const;
-    void setException( const QString& );
-
-protected slots:
-    void slotTextChanged( const QString& );
-
-private:
-    KLineEdit* m_leExceptions;
 };
 #endif

@@ -32,31 +32,13 @@
 
 #include "kproxyexceptiondlg.h"
 
-KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name,
-                                        bool modal, const QString &caption,
-                                        const QString &msg)
-                   :KDialogBase( parent, name, modal, caption, Ok|Cancel )
+KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent, const QString &msg,
+                                        const QString &value, const QString &caption)
+                   :KLineEditDlg( msg, value, parent )
 {
-    QWidget *page = new QWidget( this );
-    setMainWidget (page);
+    setCaption( caption );
 
-    QVBoxLayout* mainLayout = new QVBoxLayout( page, KDialog::marginHint(),
-                                               KDialog::spacingHint() );
-
-    QLabel* label = new QLabel(msg, page, "lb_excpetions" );
-    label->setSizePolicy( QSizePolicy( QSizePolicy::Preferred,
-                                       QSizePolicy::Fixed,
-                                       label->sizePolicy().hasHeightForWidth() ) );
-    label->setAlignment( (QLabel::WordBreak | QLabel::AlignTop |
-                          QLabel::AlignLeft) );
-    mainLayout->addWidget( label );
-
-    m_leExceptions = new KLineEdit( page, "m_leExceptions" );
-    m_leExceptions->setMinimumWidth( m_leExceptions->fontMetrics().width('W') * 20 );
-    m_leExceptions->setSizePolicy( QSizePolicy( QSizePolicy::Preferred,
-                                               QSizePolicy::Fixed,
-                                               m_leExceptions->sizePolicy().hasHeightForWidth() ) );
-    QWhatsThis::add( m_leExceptions, i18n("<qt>Enter the site name(s) that "
+    QWhatsThis::add( edit,         i18n("<qt>Enter the site name(s) that "
                                          "should be exempted from using the "
                                          "proxy server(s) specified above.<p>"
                                          "Note that the reverse is true if "
@@ -66,34 +48,12 @@ KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name,
                                          "server will only be used for "
                                          "addresses that match one of the "
                                          "items in this list.") );
-    mainLayout->addWidget( m_leExceptions );
-    QSpacerItem* spacer = new QSpacerItem( 16, 16, QSizePolicy::Minimum,
-                                           QSizePolicy::Fixed );
-    mainLayout->addItem( spacer );
-
-    m_leExceptions->setFocus();
-    connect( m_leExceptions, SIGNAL( textChanged( const QString& ) ),
-             SLOT( slotTextChanged( const QString& ) ) );
 }
 
 KProxyExceptionDlg::~KProxyExceptionDlg()
 {
 }
 
-void KProxyExceptionDlg::slotTextChanged( const QString& )
-{
-}
-
-QString KProxyExceptionDlg::exception() const
-{
-    return m_leExceptions->text();
-}
-
-void KProxyExceptionDlg::setException( const QString& text )
-{
-    if ( !text.isEmpty() )
-        m_leExceptions->setText( text );
-}
 
 
 KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
@@ -223,13 +183,11 @@ void KExceptionBox::newPressed()
     else
         msg = i18n("Enter the address or URL that should be excluded from using "
                    "the above proxy server:");
-                   
-    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this, "proxyexception", 
-                                                      true, QString::null, msg );
-    dlg->setCaption( i18n("New Exception") );
-    if ( dlg->exec() == QDialog::Accepted )
+
+    KProxyExceptionDlg dlg ( this, msg, QString::null, i18n("New Exception") );
+    if ( dlg.exec() )
     {
-        QString exception = dlg->exception();
+        QString exception = dlg.text();
         if ( !handleDuplicate( exception ) )
         {
             QListViewItem* index = new QListViewItem( m_lvExceptions,
@@ -237,14 +195,13 @@ void KExceptionBox::newPressed()
             m_lvExceptions->setCurrentItem( index );
         }
     }
-    delete dlg;
 }
 
 void KExceptionBox::changePressed()
 {
     QString msg;
-    
-    // Specify the appropriate message...    
+
+    // Specify the appropriate message...
     if ( m_cbReverseproxy->isChecked() )
         msg = i18n("Enter the address or URL for which the above proxy server "
                    "should be used: ");
@@ -252,14 +209,11 @@ void KExceptionBox::changePressed()
         msg = i18n("Enter the address or URL that should be excluded from using "
                    "the above proxy server:");
                    
-    KProxyExceptionDlg* dlg = new KProxyExceptionDlg( this, "proxyexception", 
-                                                      true, QString::null, msg );
-    dlg->setCaption( i18n("Change Exception") );
     QString currentItem = m_lvExceptions->currentItem()->text(0);
-    dlg->setException( currentItem );
-    if ( dlg->exec() == QDialog::Accepted )
+    KProxyExceptionDlg dlg( this, msg, currentItem, i18n("Change Exception") );
+    if ( dlg.exec() )
     {
-        QString exception = dlg->exception();
+        QString exception = dlg.text();
         if ( !handleDuplicate( exception ) )
         {
             QListViewItem* index = m_lvExceptions->currentItem();
@@ -267,7 +221,6 @@ void KExceptionBox::changePressed()
             m_lvExceptions->setCurrentItem( index );
         }
     }
-    delete dlg;
 }
 
 void KExceptionBox::deletePressed()
