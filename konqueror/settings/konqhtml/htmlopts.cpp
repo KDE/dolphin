@@ -32,7 +32,7 @@
 #include <qlabel.h>
 #include <kcolorbutton.h>
 #include <kcharsets.h>
-
+#include <qspinbox.h>
 
 #include <X11/Xlib.h>
 
@@ -42,6 +42,7 @@
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
 #include <khtml_settings.h>
+#include <khtmldefaults.h>
 
 //-----------------------------------------------------------------------------
 
@@ -50,7 +51,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 {
     QString wtstr;
 
-    QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 5);
+    QGridLayout *lay = new QGridLayout(this, 1 ,1 , 9, 5);
     int r = 0;
     int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
@@ -58,7 +59,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 					 i18n("Font Size"), this );
     lay->addMultiCellWidget(bg, r, r, E, W);
 
-    QWhatsThis::add( bg, i18n("This is the relative font size konqueror uses to display web sites.") );
+    QWhatsThis::add( bg, i18n("This is the relative font size Konqueror uses to display web sites.") );
 
     bg->setExclusive( TRUE );
     connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
@@ -66,6 +67,15 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     m_pSmall = new QRadioButton( i18n("Small"), bg );
     m_pMedium = new QRadioButton( i18n("Medium"), bg );
     m_pLarge = new QRadioButton( i18n("Large"), bg );
+
+	QLabel* minSizeLA = new QLabel( i18n( "Minimum Font Size" ), this );
+	lay->addWidget( minSizeLA, ++r, E );
+	
+	minSizeSB = new QSpinBox( this );
+	connect( minSizeSB, SIGNAL( valueChanged( int ) ),
+			 this, SLOT( slotMinimumFontSize( int ) ) );
+	lay->addWidget( minSizeSB, r, r, M );
+	QWhatsThis::add( minSizeSB, i18n( "Konqueror will never display text smaller than this size,<br> no matter the web site settings" ) );
 
     QLabel* label = new QLabel( i18n("Standard Font"), this );
     lay->addWidget( label , ++r, E);
@@ -102,87 +112,97 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     connect( m_pFixed, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
 
-    // default charset Lars Knoll 17Nov98 (moved by David)
-    label = new QLabel( i18n( "Default Charset"), this );
+	label = new QLabel( i18n( "SerifFont" ), this );
+	lay->addWidget( label, ++r, E );
+
+	m_pSerif = new QComboBox( false, this );
+	lay->addMultiCellWidget( m_pSerif, r, r, M, W );
+    getFontList( serifFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+    m_pSerif->insertStrList( &serifFonts );
+
+	wtstr= i18n( "This is the font used to display text that is marked up as serif." );
+	QWhatsThis::add( label, wtstr );
+	QWhatsThis::add( m_pSerif, wtstr );
+
+	connect( m_pSerif, SIGNAL( activated( const QString& ) ),
+			 SLOT( slotSerifFont( const QString& ) ) );
+	connect( m_pFixed, SIGNAL( activated( const QString& ) ),
+			 SLOT( changed() ) );
+
+	label = new QLabel( i18n( "SansSerifFont" ), this );
+	lay->addWidget( label, ++r, E );
+
+	m_pSansSerif = new QComboBox( false, this );
+	lay->addMultiCellWidget( m_pSansSerif, r, r, M, W );
+    getFontList( sansSerifFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+    m_pSansSerif->insertStrList( &sansSerifFonts );
+
+	wtstr= i18n( "This is the font used to display text that is marked up as sans-serif." );
+	QWhatsThis::add( label, wtstr );
+	QWhatsThis::add( m_pSansSerif, wtstr );
+
+	connect( m_pSansSerif, SIGNAL( activated( const QString& ) ),
+			 SLOT( slotCursiveFont( const QString& ) ) );
+	connect( m_pFixed, SIGNAL( activated( const QString& ) ),
+			 SLOT( changed() ) );
+	
+	label = new QLabel( i18n( "CursiveFont" ), this );
+	lay->addWidget( label, ++r, E );
+
+	m_pCursive = new QComboBox( false, this );
+	lay->addMultiCellWidget( m_pCursive, r, r, M, W );
+    getFontList( cursiveFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+    m_pCursive->insertStrList( &cursiveFonts );
+
+	wtstr= i18n( "This is the font used to display text that is marked up as italic." );
+	QWhatsThis::add( label, wtstr );
+	QWhatsThis::add( m_pCursive, wtstr );
+
+	connect( m_pCursive, SIGNAL( activated( const QString& ) ),
+			 SLOT( slotCursiveFont( const QString& ) ) );
+	connect( m_pCursive, SIGNAL( activated( const QString& ) ),
+			 SLOT( changed() ) );
+
+	label = new QLabel( i18n( "FantasyFont" ), this );
+	lay->addWidget( label, ++r, E );
+
+	m_pFantasy = new QComboBox( false, this );
+	lay->addMultiCellWidget( m_pFantasy, r, r, M, W );
+    getFontList( fantasyFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+    m_pFantasy->insertStrList( &fantasyFonts );
+
+	wtstr= i18n( "This is the font used to display text that is marked up as a fantasy font." );
+	QWhatsThis::add( label, wtstr );
+	QWhatsThis::add( m_pFantasy, wtstr );
+
+	connect( m_pSerif, SIGNAL( activated( const QString& ) ),
+			 SLOT( slotFantasyFont( const QString& ) ) );
+	connect( m_pFixed, SIGNAL( activated( const QString& ) ),
+			 SLOT( changed() ) );
+
+
+    label = new QLabel( i18n( "Default Encoding"), this );
     lay->addWidget( label, ++r, E);
 
-    m_pCharset = new QComboBox( false, this );
-    charsets = KGlobal::charsets()->availableCharsetNames();
-    charsets.prepend(i18n("Use language charset"));
-    m_pCharset->insertStringList( charsets );
-    lay->addMultiCellWidget(m_pCharset,r, r, M, W);
+    m_pEncoding = new QComboBox( false, this );
+    encodings = KGlobal::charsets()->availableEncodingNames();
+    encodings.prepend(i18n("Use language encoding"));
+    m_pEncoding->insertStringList( encodings );
+    lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
 
-    wtstr = i18n("Select the default charset to be used. Normally, you'll be fine with 'Use language charset' "
+    wtstr = i18n("Select the default encoding to be used. Normally, you'll be fine with 'Use language encoding' "
        "and should not have to change this.");
     QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pCharset, wtstr );
+    QWhatsThis::add( m_pEncoding, wtstr );
 
-    connect( m_pCharset, SIGNAL( activated(const QString& ) ),
-             SLOT( slotCharset(const QString&) ) );
-    connect( m_pCharset, SIGNAL( activated(const QString& ) ),
+    connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
+             SLOT( slotEncoding(const QString&) ) );
+    connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
              SLOT(changed() ) );
 
     connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
-    label = new QLabel( i18n("Normal Text Color:"), this );
-    lay->addWidget( label, ++r, E);
-
-    m_pText = new KColorButton( textColor, this );
-    lay->addWidget(m_pText, r, M);
-
-    wtstr = i18n("This is the default text color for web pages. Note that if 'Always use my colors' "
-       "is not selected, this value can be overridden by a differing web page.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pText, wtstr );
-
-    connect( m_pText, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotTextColorChanged( const QColor & ) ) );
-    connect( m_pText, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    label = new QLabel( i18n("URL Link Color:"), this );
-    lay->addWidget( label, ++r, E);
-
-    m_pLink = new KColorButton( linkColor, this );
-    lay->addWidget(m_pLink, r, M);
-
-    wtstr = i18n("This is the default color used to display links. Note that if 'Always use my colors' "
-       "is not selected, this value can be overridden by a differing web page.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pLink, wtstr );
-
-    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotLinkColorChanged( const QColor & ) ) );
-    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    label = new QLabel( i18n("Followed Link Color:"), this );
-    lay->addWidget( label, ++r, E);
-
-    m_pVLink = new KColorButton( vLinkColor, this );
-    lay->addWidget(m_pVLink, r, M);
-
-    wtstr = i18n("This is the color used to display links that you've already visited, i.e. are cached. "
-       "Note that if 'Always use my colors' is not selected, this value can be overridden by a differing "
-       "web page.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pVLink, wtstr );
-
-    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotVLinkColorChanged( const QColor & ) ) );
-    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    forceDefaultsbox = new QCheckBox(i18n("Always use my colors"), this);
-    r++; lay->addMultiCellWidget(forceDefaultsbox, r, r, E, W);
-
-    QWhatsThis::add( forceDefaultsbox, i18n("If this is selected, konqueror will always "
-       "use your default colors to display a web page, even if different colors are specified "
-       "in its HTML description.") );
-
-    connect(forceDefaultsbox, SIGNAL(clicked()), this, SLOT(changed()));
-
-    r++; lay->setRowStretch(r, 10);
+    r++; lay->setRowStretch(r, 8);
     load();
 }
 
@@ -231,77 +251,90 @@ void KAppearanceOptions::addFont( QStrList &list, const char *xfont )
 
 void KAppearanceOptions::slotFontSize( int i )
 {
-    fSize = i+3;
+    fSize = i;
 }
+
+
+void KAppearanceOptions::slotMinimumFontSize( int i )
+{
+  fMinSize = i;
+}
+
 
 void KAppearanceOptions::slotStandardFont(const QString& n )
 {
     stdName = n;
 }
 
+
 void KAppearanceOptions::slotFixedFont(const QString& n )
 {
     fixedName = n;
 }
 
-void KAppearanceOptions::slotCharset(const QString& n)
+
+void KAppearanceOptions::slotSerifFont( const QString& n )
 {
-    charsetName = n;
+  serifName = n;
+}
+
+
+void KAppearanceOptions::slotSansSerifFont( const QString& n )
+{
+  sansSerifName = n;
+}
+
+
+void KAppearanceOptions::slotCursiveFont( const QString& n )
+{
+  cursiveName = n;
+}
+
+
+void KAppearanceOptions::slotFantasyFont( const QString& n )
+{
+  fantasyName = n;
+}
+
+
+void KAppearanceOptions::slotEncoding(const QString& n)
+{
+    encodingName = n;
 }
 
 void KAppearanceOptions::load()
 {
+  defaults();
+
     m_pConfig->setGroup(m_groupname);
-    QString fs = m_pConfig->readEntry( "BaseFontSize" );
-    if ( !fs.isEmpty() )
-    {
-        fSize = fs.toInt();
-        if ( fSize < 3 )
-            fSize = 3;
-        else if ( fSize > 5 )
-            fSize = 5;
-    }
-    else
-        fSize = 3;
+    fSize = m_pConfig->readNumEntry( "BaseFontSize", fSize );
+	fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", fMinSize );
 
-    stdName = m_pConfig->readEntry( "StandardFont" );
-    fixedName = m_pConfig->readEntry( "FixedFont" );
-    charsetName = m_pConfig->readEntry( "DefaultCharset" );
-
-    textColor = KGlobalSettings::textColor();
-    textColor = m_pConfig->readColorEntry( "TextColor", &textColor );
-    linkColor = KGlobalSettings::linkColor();
-    linkColor = m_pConfig->readColorEntry( "LinkColor", &linkColor );
-    vLinkColor = KGlobalSettings::visitedLinkColor();
-    vLinkColor = m_pConfig->readColorEntry( "VLinkColor", &vLinkColor);
-    bool forceDefaults = m_pConfig->readBoolEntry("ForceDefaultColors", false);
-
-    m_pText->setColor( textColor );
-    m_pLink->setColor( linkColor );
-    m_pVLink->setColor( vLinkColor );
-    forceDefaultsbox->setChecked( forceDefaults );
+    stdName = m_pConfig->readEntry( "StandardFont", stdName );
+    fixedName = m_pConfig->readEntry( "FixedFont", fixedName );
+	serifName = m_pConfig->readEntry( "SerifFont", serifName );
+	sansSerifName = m_pConfig->readEntry( "SansSerifFont", sansSerifName );
+	cursiveName = m_pConfig->readEntry( "CursiveFont", serifName );
+	fantasyName = m_pConfig->readEntry( "FantasyFont", serifName );
+    encodingName = m_pConfig->readEntry( "DefaultEncoding", encodingName );
 
     updateGUI();
 }
 
 void KAppearanceOptions::defaults()
 {
-    fSize=4;
-    stdName = KGlobalSettings::generalFont().family();
-    fixedName = KGlobalSettings::fixedFont().family();
-    charsetName = "";
+  fSize=1; // medium
+  fMinSize = HTML_DEFAULT_MIN_FONT_SIZE;
+  stdName = KGlobalSettings::generalFont().family();
+  fixedName = KGlobalSettings::fixedFont().family();
+  serifName = HTML_DEFAULT_VIEW_SERIF_FONT;
+  sansSerifName = HTML_DEFAULT_VIEW_SANSSERIF_FONT;
+  cursiveName = HTML_DEFAULT_VIEW_CURSIVE_FONT;
+  fantasyName = HTML_DEFAULT_VIEW_FANTASY_FONT;
 
-    bgColor = KGlobalSettings::baseColor();
-    textColor = KGlobalSettings::textColor();
-    linkColor = KGlobalSettings::linkColor();
-    vLinkColor = KGlobalSettings::visitedLinkColor();
+  encodingName = "";
 
-    m_pText->setColor( textColor );
-    m_pLink->setColor( linkColor );
-    m_pVLink->setColor( vLinkColor );
-    forceDefaultsbox->setChecked( false );
-
-    updateGUI();
+  updateGUI();
 }
 
 void KAppearanceOptions::updateGUI()
@@ -310,6 +343,14 @@ void KAppearanceOptions::updateGUI()
         stdName = KGlobalSettings::generalFont().family();
     if ( fixedName.isEmpty() )
         fixedName = KGlobalSettings::fixedFont().family();
+	if( serifName.isEmpty() )
+	  serifName = HTML_DEFAULT_VIEW_SERIF_FONT;
+	if( sansSerifName.isEmpty() )
+	  sansSerifName = HTML_DEFAULT_VIEW_SANSSERIF_FONT;
+	if( cursiveName.isEmpty() )
+	  cursiveName = HTML_DEFAULT_VIEW_CURSIVE_FONT;
+	if( fantasyName.isEmpty() )
+	  fantasyName = HTML_DEFAULT_VIEW_FANTASY_FONT;
 
     QStrListIterator sit( standardFonts );
     int i;
@@ -326,31 +367,62 @@ void KAppearanceOptions::updateGUI()
             m_pFixed->setCurrentItem( i );
     }
 
-    for ( QStringList::Iterator cit = charsets.begin(); cit != charsets.end(); ++cit )
+    QStrListIterator seit( serifFonts );
+    for ( i = 0; seit.current(); ++seit, i++ )
     {
-        if ( charsetName == *cit )
-            m_pCharset->setCurrentItem( i );
+        if ( serifName == seit.current() )
+            m_pSerif->setCurrentItem( i );
     }
 
-    m_pSmall->setChecked( fSize == 3 );
-    m_pMedium->setChecked( fSize == 4 );
-    m_pLarge->setChecked( fSize == 5 );
+    QStrListIterator ssit( sansSerifFonts );
+    for ( i = 0; ssit.current(); ++ssit, i++ )
+    {
+        if ( sansSerifName == ssit.current() )
+            m_pSansSerif->setCurrentItem( i );
+    }
+
+    QStrListIterator cit( cursiveFonts );
+    for ( i = 0; cit.current(); ++cit, i++ )
+    {
+        if ( cursiveName == cit.current() )
+            m_pCursive->setCurrentItem( i );
+    }
+
+    QStrListIterator fait( fantasyFonts );
+    for ( i = 0; fait.current(); ++fait, i++ )
+    {
+        if ( fantasyName == fait.current() )
+            m_pFantasy->setCurrentItem( i );
+    }
+
+    for ( QStringList::Iterator cit = encodings.begin(); cit != encodings.end(); ++cit )
+    {
+        if ( encodingName == *cit )
+            m_pEncoding->setCurrentItem( i );
+    }
+
+    m_pSmall->setChecked( fSize == 0 );
+    m_pMedium->setChecked( fSize == 1 );
+    m_pLarge->setChecked( fSize == 2 );
+
+	minSizeSB->setValue( fMinSize );
 }
 
 void KAppearanceOptions::save()
 {
     m_pConfig->setGroup(m_groupname);			
-    m_pConfig->writeEntry( "BaseFontSize", fSize );
+    m_pConfig->writeEntry( "FontSize", fSize );
+	m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
     m_pConfig->writeEntry( "StandardFont", stdName );
     m_pConfig->writeEntry( "FixedFont", fixedName );
-    // If the user chose "Use language charset", write an empty string
-    if (charsetName == i18n("Use language charset"))
-        charsetName = "";
-    m_pConfig->writeEntry( "DefaultCharset", charsetName );
-    m_pConfig->writeEntry( "TextColor", textColor );
-    m_pConfig->writeEntry( "LinkColor", linkColor);
-    m_pConfig->writeEntry( "VLinkColor", vLinkColor );
-    m_pConfig->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
+	m_pConfig->writeEntry( "SerifFont", serifName );
+	m_pConfig->writeEntry( "SansSerifFont", sansSerifName );
+	m_pConfig->writeEntry( "CursiveFont", cursiveName );
+	m_pConfig->writeEntry( "FantasyFont", fantasyName );
+    // If the user chose "Use language encoding", write an empty string
+    if (encodingName == i18n("Use language encoding"))
+        encodingName = "";
+    m_pConfig->writeEntry( "DefaultEncoding", encodingName );
     m_pConfig->sync();
 }
 
@@ -358,24 +430,6 @@ void KAppearanceOptions::save()
 void KAppearanceOptions::changed()
 {
   emit KCModule::changed(true);
-}
-
-void KAppearanceOptions::slotTextColorChanged( const QColor &col )
-{
-    if ( textColor != col )
-        textColor = col;
-}
-
-void KAppearanceOptions::slotLinkColorChanged( const QColor &col )
-{
-    if ( linkColor != col )
-        linkColor = col;
-}
-
-void KAppearanceOptions::slotVLinkColorChanged( const QColor &col )
-{
-    if ( vLinkColor != col )
-        vLinkColor = col;
 }
 
 

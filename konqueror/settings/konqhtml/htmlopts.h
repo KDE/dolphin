@@ -20,6 +20,7 @@ class QComboBox;
 class QLineEdit;
 class QListViewItem;
 class QRadioButton;
+class QSpinBox;
 
 //-----------------------------------------------------------------------------
 
@@ -35,18 +36,18 @@ public:
 
 public slots:
   void slotFontSize( int );
+  void slotMinimumFontSize( int ); 
   void slotStandardFont(const QString& n);
   void slotFixedFont(const QString& n);
-  void slotCharset( const QString& n);
-  void slotTextColorChanged( const QColor &col );
-  void slotLinkColorChanged( const QColor &col );
-  void slotVLinkColorChanged( const QColor &col );
+  void slotSerifFont( const QString& n );
+  void slotSansSerifFont( const QString& n );
+  void slotCursiveFont( const QString& n );
+  void slotFantasyFont( const QString& n );
+  void slotEncoding( const QString& n);
 
 
 private slots:
-
   void changed();
-
 
 private:
   void getFontList( QStrList &list, const char *pattern );
@@ -61,27 +62,31 @@ private:
   QRadioButton* m_pSmall;
   QRadioButton* m_pMedium;
   QRadioButton* m_pLarge;
+  QSpinBox* minSizeSB;
   QComboBox* m_pFixed;
   QComboBox* m_pStandard;
-  QComboBox* m_pCharset;
+  QComboBox* m_pSerif;
+  QComboBox* m_pSansSerif;
+  QComboBox* m_pCursive;
+  QComboBox* m_pFantasy;
+  QComboBox* m_pEncoding;
 
   int fSize;
+  int fMinSize;
   QString stdName;
   QString fixedName;
-  QString charsetName;
+  QString serifName;
+  QString sansSerifName;
+  QString cursiveName;
+  QString fantasyName;
+  QString encodingName;
   QStrList standardFonts;
   QStrList fixedFonts;
-  QStringList charsets;
-
-  KColorButton* m_pText;
-  KColorButton* m_pLink;
-  KColorButton* m_pVLink;
-  QCheckBox *forceDefaultsbox;
-  QColor bgColor;
-  QColor textColor;
-  QColor linkColor;
-  QColor vLinkColor;
-
+  QStrList serifFonts;
+  QStrList sansSerifFonts;
+  QStrList cursiveFonts;
+  QStrList fantasyFonts;
+  QStringList encodings;
 };
 
 
