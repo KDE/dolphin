@@ -74,7 +74,7 @@ bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotFinished( int ) ) );
   QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ), this, SLOT( slotRedirection( int, const char * ) ) );
   QObject::connect( job, SIGNAL( sigData( int, const char *, int ) ), this, SLOT( slotData( int, const char *, int ) ) );
-  QObject::connect( job, SIGNAL( sigFinished( int, int, const char * ) ), this, SLOT( slotError( int, int, const char * ) ) );
+  QObject::connect( job, SIGNAL( sigError( int, int, const char * ) ), this, SLOT( slotError( int, int, const char * ) ) );
   
   m_jobId = job->id();
   
