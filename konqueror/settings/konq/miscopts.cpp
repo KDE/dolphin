@@ -45,8 +45,8 @@ KMiscOptions::KMiscOptions( QWidget *parent, const char *name )
     hlay->addWidget(leEditor, 5);
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
-     "Automatically load images\n""
-     (Otherwise, click the Images button to load when needed)" ), this );
+     "Automatically load images\n"
+     "(Otherwise, click the Images button to load when needed)" ), this );
      
     lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
 
