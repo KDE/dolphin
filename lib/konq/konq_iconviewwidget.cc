@@ -115,7 +115,7 @@ private:
     int        m_num;
     bool       m_on;
     bool       m_preview;
-    QPixmap    m_corners[4];
+    QPixmap    m_corners[5];
     int        m_corner;
     bool       m_filter;
     KonqIconViewWidget*       m_view;
@@ -181,17 +181,20 @@ void KFileTip::reposition()
     // 1: upperright
     // 2: lowerleft
     // 3: lowerright
+    // 4: none
     m_corner = 0;
     // should the tooltip be shown to the left or to the right of the ivi ?
     QRect desk = KGlobalSettings::desktopGeometry(rect.center());
     if (rect.center().x() + width() > desk.right())
     {
         // to the left
-        if (pos.x() - width() < 0)
+        if (pos.x() - width() < 0) {
             pos.setX(0);
-        else
+            m_corner = 4;
+        } else {
             pos.setX( pos.x() - width() );
-        m_corner = 1;
+            m_corner = 1;
+        }
     }
     // should the tooltip be shown above or below the ivi ?
     if (rect.bottom() + height() > desk.bottom())
@@ -228,7 +231,7 @@ void KFileTip::drawContents( QPainter *p )
         "arrow_bottomright"
     };
 
-    if ( m_corners[m_corner].isNull() )
+    if ( m_corners[m_corner].isNull() && m_corner < 4 ) // 4 is empty, so don't draw anything
         m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
 
     QPixmap &pix = m_corners[m_corner];
