@@ -2,6 +2,7 @@
 Icon=pipe
 Name=Services
 Name[af]=Dienste
+Name[ar]=الخدمات
 Name[az]=Xidmətlər
 Name[be]=Сэрвісы
 Name[bg]=Услуги
@@ -47,6 +48,7 @@ Name[sl]=Storitve
 Name[sr]=Сервиси
 Name[sv]=Tjänster
 Name[ta]=சேவைகள்
+Name[tg]=Хидматҳо
 Name[th]=บริการ
 Name[tr]=Servisler
 Name[uk]=Служби
