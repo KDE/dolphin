@@ -395,7 +395,7 @@ void NSPluginInstance::destroy()
         XtDestroyWidget(_form);
         XtDestroyWidget(_toplevel);
 
-        ::free(_npp);
+        ::free(_npp);   // matched with malloc() in newInstance
 
         _destroyed = true;
     }
@@ -932,7 +932,10 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
    char mime[256];
    strncpy(mime, mimeType.ascii(), 255);
    mime[255] = 0;
-   NPP npp = new NPP_t;
+   NPP npp = (NPP)malloc(sizeof(NPP_t));   // I think we should be using 
+                                           // malloc here, just to be safe,
+                                           // since the nsplugin plays with
+                                           // this thing
    npp->ndata = NULL;
 
    // Create plugin instance object
@@ -953,8 +956,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
    if ( error!=NPERR_NO_ERROR)
    {
       delete inst;
-      delete npp;
-      kdDebug(1431) << "<- PlluginClass::NewInstance = 0" << endl;
+      //delete npp;    double delete!
+      kdDebug(1431) << "<- PluginClass::NewInstance = 0" << endl;
       return DCOPRef();
    }
 
