@@ -1,6 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Simon Hausmann <hausmann@kde.org>
    Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
+   Copyright (C) 2000-2004 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -389,6 +390,9 @@ void KonqMainWindow::initBookmarkBar()
   connect( m_paBookmarkBar,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
+  connect( m_paBookmarkBar,	   
+	   SIGNAL( openBookmark(const QString &, bool) ),
+	   this, SLOT( slotOpenBookmarkURL(const QString &, bool) ));
 
   // hide if empty
   if (bar->count() == 0 )
@@ -3715,6 +3719,9 @@ void KonqMainWindow::initActions()
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
+  connect( m_pBookmarkMenu,
+	   SIGNAL( openBookmark(const QString &, bool) ),
+	   this, SLOT( slotOpenBookmarkURL(const QString &, bool) ));
 
   KAction *addBookmark = actionCollection()->action("add_bookmark");
   if (addBookmark)
@@ -3816,6 +3823,12 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
     pm->insertItem( SmallIcon("window_new"), i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
     pm->insertItem( SmallIcon("tab_new"), i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
   }
+}
+
+void KonqMainWindow::slotOpenBookmarkURL( const QString & url, bool inNewTab)
+{
+  kdDebug(1202) << "KonqMainWindow::slotOpenBookmarkURL(" << url << ", " << inNewTab << ")" << endl;
+  openFilteredURL( url, inNewTab );
 }
 
 void KonqMainWindow::slotMoveTabLeft()
@@ -4192,8 +4205,7 @@ void KonqMainWindow::disableActionsNoView()
 
 void KonqExtendedBookmarkOwner::openBookmarkURL( const QString & url )
 {
-  kdDebug(1202) << (QString("KonqMainWindow::openBookmarkURL(%1)").arg(url)) << endl;
-  m_pKonqMainWindow->openFilteredURL( url );
+  // Do nothing, we catch the signal
 }
 
 void KonqMainWindow::setCaption( const QString &caption )

@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Simon Hausmann <hausmann@kde.org>
+   Copyright (C) 2000-2004 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -94,7 +95,7 @@ class KonqMainWindow : public KParts::MainWindow, public KonqFrameContainerBase
   Q_PROPERTY( QString currentTitle READ currentTitle )
   Q_PROPERTY( QString currentURL READ currentURL )
   Q_PROPERTY( bool isHTMLAllowed READ isHTMLAllowed )
-  Q_PROPERTY( QString currentProfile READ currentProfile  )
+  Q_PROPERTY( QString currentProfile READ currentProfile )
 public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
 
@@ -314,7 +315,9 @@ signals:
 public slots:
   void slotCtrlTabPressed();
 
+  // for KBookmarkMenu and KBookmarkBar
   void slotFillContextMenu( const KBookmark &, QPopupMenu * );
+  void slotOpenBookmarkURL( const QString & url, bool inNewTab );
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
@@ -585,7 +588,7 @@ private:
   KAction *m_paProperties;
 
   KAction *m_paPrint;
-
+  
   KActionMenu *m_pamBookmarks;
 
   KToolBarPopupAction *m_paUp;
