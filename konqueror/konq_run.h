@@ -54,7 +54,14 @@ protected:
    * finish the job.
    */
   virtual void foundMimeType( const QString & _type );
+  
+  virtual void scanFile();
 
+protected slots:
+  void slotKonqScanFinished(KIO::Job *job);
+  void slotKonqMimetype(KIO::Job *job, const QString &type);
+
+protected:
   KonqMainWindow* m_pMainWindow;
   KonqView* m_pView;
   bool m_bFoundMimeType;

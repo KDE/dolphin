@@ -21,6 +21,8 @@
 
 #include "konq_run.h"
 #include "konq_mainwindow.h"
+#include "kprotocolmanager.h"
+#include "kio/job.h"
 
 #include <assert.h>
 #include <iostream.h>
@@ -54,9 +56,66 @@ void KonqRun::foundMimeType( const QString & _type )
     m_timer.start( 0, true );
     return;
   }
+  KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
   kdDebug(1202) << "Nothing special to do here" << endl;
 
   KRun::foundMimeType( _type );
 }
+
+void KonqRun::scanFile()
+{
+  // WABA: We directly do a get for http. 
+  // There is no compelling reason not to do use this with other protocols
+  // as well, but only http has been tested so far.
+  if (m_strURL.protocol() != "http")
+  {
+     KRun::scanFile();
+     return;
+  }
+
+  // Let's check for well-known extensions
+  // Not when there is a query in the URL, in any case.
+  if ( m_strURL.query().isEmpty() )
+  {
+    KMimeType::Ptr mime = KMimeType::findByURL( m_strURL );
+    assert( mime != 0L );
+    if ( mime->name() != "application/octet-stream" || m_bIsLocalFile )
+    {
+      // Found something - can we trust it ? (see mimetypeFastMode)
+      if ( KProtocolManager::self().mimetypeFastMode( m_strURL.protocol(), mime->name() ) )
+      {
+        kdDebug(1202) << "Scanfile: MIME TYPE is " << debugString(mime->name()) << endl;
+        foundMimeType( mime->name() );
+        return;
+      }
+    }
+  }
+
+  KIO::TransferJob *job = KIO::get(m_strURL, false, false);
+  connect( job, SIGNAL( result( KIO::Job *)),
+           this, SLOT( slotKonqScanFinished(KIO::Job *)));
+  connect( job, SIGNAL( mimetype( KIO::Job *, const QString &)),
+           this, SLOT( slotKonqMimetype(KIO::Job *, const QString &)));
+  m_job = job;  
+}
+
+void KonqRun::slotKonqScanFinished(KIO::Job *job)
+{
+  kdDebug(1202) << "slotKonqScanFinished" << endl;
+  KRun::slotScanFinished(job);  
+}
+
+void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
+{
+  kdDebug(1202) << "slotKonqMimetype" << endl;
+
+  KIO::SimpleJob *job = (KIO::SimpleJob *) m_job;
+   
+  job->putOnHold();
+  m_job = 0;
+
+  foundMimeType( type );
+}
+
 
 #include "konq_run.moc"
