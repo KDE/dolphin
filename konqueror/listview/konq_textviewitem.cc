@@ -193,14 +193,14 @@ void KonqTextViewItem::updateContents()
 
 void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
-   if (!m_pTextView->props()->bgPixmap().isNull())
-      _painter->drawTiledPixmap( 0, 0, _width, height(),m_pTextView->props()->bgPixmap(),0, 0 );
    QColorGroup cg( _cg );
    cg.setColor(QColorGroup::Text, m_pTextView->colors[type]);
    cg.setColor(QColorGroup::HighlightedText, m_pTextView->highlight[type]);
    cg.setColor(QColorGroup::Highlight, Qt::darkGray);
 
-   //         cg.setColor( QColorGroup::Base, Qt::color0 );
+   // Don't set a brush, the background is drawn in drawContentsOffset
+   cg.setBrush( QColorGroup::Base, NoBrush );
+
    QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 };
 

@@ -149,17 +149,8 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
-  if (!m_pListViewWidget->props()->bgPixmap().isNull())
-  {
-     _painter->drawTiledPixmap( 0, 0, _width, height(),
-                                m_pListViewWidget->props()->bgPixmap(),
-                                0, 0 ); // ?
-  }
-
-  // Now prevent QListViewItem::paintCell from drawing a white background
-  // I hope color0 is transparent :-)) (Reggie)
-  // Sorry, to me it looks more like black (alex)
-  //cg.setColor( QColorGroup::Base, QColor(qRgba(0, 0, 0, 0)));
+  // Don't set a brush, the background is drawn in drawContentsOffset
+  cg.setBrush( QColorGroup::Base, NoBrush );
 
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }

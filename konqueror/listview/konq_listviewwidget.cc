@@ -821,7 +821,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       }
       m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
 
-      m_pBrowserView->m_pProps->applyColors( this );
+      m_pBrowserView->m_pProps->applyColors( viewport() );
    }
 
    return true;
@@ -967,10 +967,12 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
   if ( !_painter )
     return;
 
-  if ( !m_bgPixmap.isNull() )
+  kdDebug() << "KonqBaseListViewWidget::drawContentsOffset" << endl;
+
+  if ( !props()->bgPixmap().isNull() )
   {
-    int pw = m_bgPixmap.width();
-    int ph = m_bgPixmap.height();
+    int pw = props()->bgPixmap().width();
+    int ph = props()->bgPixmap().height();
 
     int xOrigin = (_clipx/pw)*pw - _offsetx;
     int yOrigin = (_clipy/ph)*ph - _offsety;
@@ -981,12 +983,37 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
     for ( int yp = yOrigin; yp - yOrigin < _cliph + ry; yp += ph )
     {
       for ( int xp = xOrigin; xp - xOrigin < _clipw + rx; xp += pw )
-        _painter->drawPixmap( xp, yp, m_bgPixmap );
+        _painter->drawPixmap( xp, yp, props()->bgPixmap() );
     }
   }
 
   QListView::drawContentsOffset( _painter, _offsetx, _offsety,
                                  _clipx, _clipy, _clipw, _cliph );
 }
+
+// Hopefully one day QListView will have a virtual drawBackground, like QIconView...
+// When that day comes, rename this to drawBackground and get rid of drawContentsOffset
+void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
+{
+    kdDebug() << "KonqBaseListViewWidget::paintEmptyArea" << endl;
+    const QPixmap *pm = backgroundPixmap();
+    bool hasPixmap = pm && !pm->isNull();
+    if ( !hasPixmap ) {
+        pm = viewport()->backgroundPixmap();
+        hasPixmap = pm && !pm->isNull();
+    }
+
+    if (!hasPixmap && backgroundMode() != NoBackground) {
+        p->fillRect(r, backgroundColor());
+        return;
+    }
+
+    if (hasPixmap) {
+        int ax = (r.x() + contentsX()/* + leftMargin()*/) % pm->width();
+        int ay = (r.y() + contentsY()/* + topMargin()*/) % pm->height();
+        p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+    }
+}
+
 
 #include "konq_listviewwidget.moc"

@@ -109,18 +109,17 @@ class KonqBaseListViewWidget : public KListView
       virtual bool showIcons() { return m_showIcons; }
 
 //      bool underlineLink()            {return m_bUnderlineLink;}
-//      bool singleClick()              {return m_bSingleClick;}
 
       void setItemFont( const QFont &f ) { m_itemFont = f; }
       QFont itemFont() const { return m_itemFont; }
       void setItemColor( const QColor &c ) { m_itemColor = c; }
       QColor itemColor() const { return m_itemColor; }
-    //void setColor( const QColor &c ) { m_color = c; }
-    // QColor color() const { return m_color; }
       int iconSize() const {return props()->iconSize(); }
 
-    virtual void saveState( QDataStream & ) {}
-    virtual void restoreState( QDataStream & ) {}
+      virtual void paintEmptyArea( QPainter *p, const QRect &r );
+
+      virtual void saveState( QDataStream & ) {}
+      virtual void restoreState( QDataStream & ) {}
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
@@ -212,16 +211,12 @@ class KonqBaseListViewWidget : public KListView
     //QPoint m_pressedPos;
     //KonqBaseListViewItem* m_pressedItem;
 
-      QPixmap m_bgPixmap;
       QFont m_itemFont;
       QColor m_itemColor;
-      QColor m_color;
 
       KonqFMSettings* m_pSettings;
 
       bool m_bTopLevelComplete;
-
-      long int m_idShowDot;
 
       bool m_filesSelected;
       bool m_showIcons;
