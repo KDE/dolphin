@@ -73,13 +73,12 @@ ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) 
          i18n("%1 Import").arg(importer->visibleName()), 
          i18n("As New Folder"), i18n("Replace"));
 
-   int ret = (answer == KMessageBox::Cancel) ? 0 : ((answer == KMessageBox::Yes) ? 2 : 1);
-   if (ret == 0) {
+   if (answer == KMessageBox::Cancel) {
       delete importer;
       return 0;
    }
 
-   importer->import(mydirname, (ret == 2));
+   importer->import(mydirname, answer == KMessageBox::Yes);
    return importer;
 }
 
@@ -127,6 +126,20 @@ void ImportCommand::unexecute() {
    }
 }
 
+void ImportCommand::connectImporter(const QObject *importer) {
+   const QObject *builder = this;
+   connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ),
+           builder,  SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
+   connect(importer, SIGNAL( newFolder(const QString &, bool, const QString &) ),
+           builder,  SLOT( newFolder(const QString &, bool, const QString &) ));
+   connect(importer, SIGNAL( newSeparator() ),
+           builder,  SLOT( newSeparator() ) );
+   connect(importer, SIGNAL( endFolder() ),
+           builder,  SLOT( endFolder() ) );
+}
+
+//////////////////////////////
+
 void ImportCommand::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
    KBookmark bk = m_stack.top()->addBookmark(
                                     CurrentMgr::self()->mgr(),
@@ -155,6 +168,10 @@ void ImportCommand::endFolder() {
    m_stack.pop();
 }
 
+
+//////////////////////////////
+
+
 void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
    bkGroup = CurrentMgr::self()->mgr()
       ->root().createNewFolder(CurrentMgr::self()->mgr(), folder(), false);
@@ -168,17 +185,6 @@ void ImportCommand::doExecuteWrapper(const KBookmarkGroup bkGroup) {
    doExecute();
    m_list.clear();
    m_stack.clear();
-}
-
-void ImportCommand::connectImporter(const QObject *importer) {
-   connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ),
-                     SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
-   connect(importer, SIGNAL( newFolder(const QString &, bool, const QString &) ),
-                     SLOT( newFolder(const QString &, bool, const QString &) ));
-   connect(importer, SIGNAL( newSeparator() ),
-                     SLOT( newSeparator() ) );
-   connect(importer, SIGNAL( endFolder() ),
-                     SLOT( endFolder() ) );
 }
 
 /* -------------------------------------- */
