@@ -53,16 +53,13 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       virtual void slotDeleteItem( KFileItem *_fileTtem );
 
    protected:
-      KonqListViewDir * findDir( const QString &_url );
+      KonqListViewDir *findDir( const QString &_url );
       void removeSubDir( const KURL & _url );
-      /** Common method for slotCompleted and slotCanceled */
-      virtual void setComplete();
 
       // URL -> item (for directories only)
       QDict<KonqListViewDir> m_dictSubDirs;
 
-      QStringList m_urlsToOpen;
-      QPtrList<KonqListViewDir> m_itemsToOpen;
+      QStringList m_urlsToOpen, m_urlsToReload;
 };
 
 #endif

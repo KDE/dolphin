@@ -30,7 +30,7 @@
 KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
 :KonqListViewItem( _parent, _fileitem )
 {
-  setExpandable (TRUE);
+  setExpandable( true );
   m_bComplete = false;
   _parent->addSubDir( this );
 }
@@ -38,7 +38,7 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _filei
 KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KFileItem* _fileitem )
 :KonqListViewItem(_treeview,_parent,_fileitem)
 {
-  setExpandable( TRUE );
+  setExpandable( true );
   m_bComplete = false;
   _treeview->addSubDir( this );
 }

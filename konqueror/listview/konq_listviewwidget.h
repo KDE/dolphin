@@ -243,9 +243,6 @@ class KonqBaseListViewWidget : public KListView
       bool m_itemFound:1;
       bool m_restored:1;
 
-//to be removed
-bool m_goToFirstItem;
-
       int m_filenameColumn;
 
       KURL m_url;

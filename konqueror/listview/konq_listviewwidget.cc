@@ -904,7 +904,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
 void KonqBaseListViewWidget::setComplete()
 {
-   kdDebug(1202) << k_funcinfo << "Update Contents Pos: " 
+   kdDebug(1202) << k_funcinfo << "Update Contents Pos: "
                  << m_bUpdateContentsPosAfterListing << endl;
 
    m_bTopLevelComplete = true;
@@ -1052,7 +1052,7 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
    {
       readProtocolConfig( url.protocol() );
       createColumns();
-   };
+   }
    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
    m_pBrowserView->m_url=url;
    m_url = url;
