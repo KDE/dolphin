@@ -293,9 +293,9 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    // this is the best font i could think of to use.
    QFont f = KGlobalSettings::generalFont();
 
-   // do I have to worry about negative font sizes? (bc of the -2)
-   f.setPixelSize(f.pixelSize() - 2);
-   f.setBold(true);
+   // do I have to worry about negative font sizes? (bc of the -1)
+   f.setPixelSize(f.pixelSize() - 1);
+
 
 
    m_pLayout = new QHBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
@@ -311,8 +311,11 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    m_pCloseButton->setMaximumHeight(edge);
    m_pCloseButton->setMaximumWidth(edge);
 
-   m_pCloseButton->setFont(f);
+   f.setBold(false);
    m_pHeaderLabel->setFont(f);
+   f.setBold(true);
+   m_pCloseButton->setFont(f);
+
 
    m_pLayout->addWidget( m_pHeaderLabel );
    m_pLayout->addWidget( m_pCloseButton );
