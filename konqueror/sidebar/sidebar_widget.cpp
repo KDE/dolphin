@@ -152,6 +152,8 @@ void addBackEnd::activatedAddMenu(int id)
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name)
 	:QWidget(parent,name),KonqSidebar_PluginInterface()
 {
+	deleting=false;
+	connect(this,SIGNAL(destroyed()),this,SLOT(slotDeleted()));
 	noUpdate=false;
 	myLayout=0;
 	activeModule=0;
@@ -210,6 +212,11 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 //	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
 	
+}
+
+void Sidebar_Widget::slotDeleted()
+{
+	deleting=true;
 }
 
 void Sidebar_Widget::doLayout()
@@ -731,6 +738,12 @@ void Sidebar_Widget::collapseExpandSidebar()
 {
 	if ((somethingVisible) && (visibleViews.count()==0))
 	{
+		QGuardedPtr<QObject> p;
+		p=parent();
+		if (!p) return;
+		p=p->parent();
+		if (!p) return;
+
     		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 		QValueList<int>::Iterator it = list.begin();
 		savedWidth=*it;
@@ -755,6 +768,7 @@ void Sidebar_Widget::collapseExpandSidebar()
 
 void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
 {
+//	if (deleting) return;
 	kdDebug()<<" Sidebar_Widget::dockWidgetHasUndocked(KDockWidget*)"<<endl;
 	for (unsigned int i=0;i<Buttons.count();i++)
 	{

@@ -116,6 +116,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	KDockWidget *dummyMainW;
 	bool doEnableActions();
 	bool noUpdate;
+	bool deleting;
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	friend class ButtonInfo;
@@ -128,6 +129,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	void buttonPopupActivate(int);
   	void dockWidgetHasUndocked(KDockWidget*);  
 	void aboutToShowConfigMenu();
+	void slotDeleted();
   signals:
 		void started(KIO::Job *);
                 void completed();
