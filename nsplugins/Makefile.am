@@ -18,6 +18,12 @@ nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries) -export-dynamic
 nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
 
+kde_module_LTLIBRARIES = kcm_nsplugins.la
+
+kcm_nsplugins_la_SOURCES = kcm_nsplugins.cpp
+kcm_nsplugins_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
+kcm_nsplugins_la_LIBADD = $(LIB_KDECORE)
+
 xdg_apps_DATA = khtml_plugins.desktop
 
 messages:
