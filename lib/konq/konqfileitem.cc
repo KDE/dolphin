@@ -46,79 +46,163 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
     return DesktopIcon( "unknown", _size );
   }
 
+
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
   {
-    QString xvpicPath = m_url.directory() +
-                  // Append .xvpics if not already in an .xvpics dir
-                  ((KURL(m_url.directory()).filename(true) != ".xvpics") ? "/.xvpics/" : "/");
-    xvpicPath += m_url.filename();
-    QPixmap pix;
+      // Check if pixie thumbnail of any size is there first
+      struct stat buff;
+      bool bAvail = false;
+      QString thumbPath;
+      QPixmap pix;
 
-    // Is the xv pic available ?
-    struct stat buff;
-    bool bAvail = false;
-    if ( stat( xvpicPath.local8Bit(), &buff ) == 0 )
-    { // Yes
-      bAvail = true;
-      // Get the time of the xv pic
-      time_t t1 = buff.st_mtime;
-      // Get time of the orig file
-      if ( lstat( m_url.path().local8Bit(), &buff ) == 0 )
-      {
-        time_t t2 = buff.st_mtime;
-        // Is it outdated ?
-        if ( t1 < t2 )
-          bAvail = false;
+      thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+      bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+      if(!bAvail){
+          thumbPath = m_url.directory() + "/.mospics/med/" + m_url.filename();
+          bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
       }
-    }
+      if(!bAvail){
+          thumbPath = m_url.directory() + "/.mospics/small/" + m_url.filename();
+          bAvail = stat(thumbPath.local8Bit(), &buff) == 0;
+      }
+      if(bAvail){
+          time_t t1 = buff.st_mtime;
+          // Get time of the orig file
+          if ( lstat( m_url.path().local8Bit(), &buff ) == 0 ){
+              time_t t2 = buff.st_mtime;
+              // Is it outdated ?
+              if ( t1 < t2 )
+                  bAvail = false;
+          }
+          if(bAvail){
+              if (pix.load(thumbPath)){
+                  int w = pix.width(), h = pix.height();
+                  if(pix.width() > _size || pix.height() > _size){
+                      if(pix.width() > pix.height()){
+                          float percent = (((float)_size)/pix.width());
+                          h = (int)(pix.height()*percent);
+                          w = _size;
+                      }
+                      else{
+                          float percent = (((float)_size)/pix.height());
+                          w = (int)(pix.width()*percent);
+                          h = _size;
+                      }
+                      QImage img = pix.convertToImage().smoothScale( w, h );
+                      pix.convertFromImage( img );
+                  }
+                  return pix;
+              }
+              else
+                  bAvail = false;
+          }
+      }
 
-    if ( bAvail )
-    {
-      if ( pix.load( xvpicPath ) )
-        return pix;
-    } else
-    {
-      // No xv pic, or too old -> load the orig image and create the XV pic
-      if ( pix.load( m_url.path() ) )
-      {
-        bool bCanSave = true;
-        // Create .xvpics/ if it doesn't exist
-        QDir xvDir( m_url.directory() );
-        if ( !xvDir.exists(".xvpics") )
-        {
-          bCanSave = xvDir.mkdir(".xvpics");
-        }
-        // Save XV file
-        int w, h;
-        if ( pix.width() > pix.height() )
-        {
-          w = QMIN( pix.width(), 80 ); // TODO make configurable for tackat :-)
-          h = (int)( (float)pix.height() * ( (float)w / (float)pix.width() ) );
-        }
-        else
-        {
-          h = QMIN( pix.height(), 60 ); // TODO make configurable for tackat :-)
-          w = (int)( (float)pix.width() * ( (float)h / (float)pix.height() ) );
-        }
-        if (bCanSave)
-        {
-          QImageIO iio;
-          iio.setImage( pix.convertToImage().smoothScale( w, h ) );
-          iio.setFileName( xvpicPath );
-          iio.setFormat( "XV" );
-          bCanSave = iio.write();
-          // Load it
-          if ( pix.load( xvpicPath ) ) return pix;
-        }
-        if (!bCanSave) // not "else", write may have failed !
-        {
-          // Ok, this is ugly and slow. Anybody knows of a better solution ?
-          QImage img = pix.convertToImage().smoothScale( w, h );
-          pix.convertFromImage( img );
-          return pix;
-        }
+      // check to see if there is an existing Xv thumbnail
+
+      thumbPath = m_url.directory() +
+          ((KURL(m_url.directory()).filename(true) != ".xvpics") ? "/.xvpics/" : "/");
+      thumbPath += m_url.filename();
+
+      // Is the xv pic available ?
+      if ( stat( thumbPath.local8Bit(), &buff ) == 0 )
+      { // Yes
+          bAvail = true;
+          // Get the time of the xv pic
+          time_t t1 = buff.st_mtime;
+          // Get time of the orig file
+          if ( lstat( m_url.path().local8Bit(), &buff ) == 0 )
+          {
+              time_t t2 = buff.st_mtime;
+              // Is it outdated ?
+              if ( t1 < t2 )
+                  bAvail = false;
+          }
       }
-    }
+
+      if ( bAvail )
+      {
+          if (pix.load( thumbPath ))
+              return pix;
+      }
+      else{
+          // No xv pic, or too old -> load the orig image and create Pixie pic
+          thumbPath = m_url.directory() + "/.mospics/large/" + m_url.filename();
+          if (pix.load(m_url.path()))
+          {
+              bool bCanSave = true;
+              // Create .mospics/large if it doesn't exist
+              QDir mosDir(m_url.directory());
+              if (!mosDir.exists(".mospics"))
+              {
+                  bCanSave = mosDir.mkdir(".mospics");
+              }
+              if (!mosDir.exists(".mospics/large"))
+              {
+                  bCanSave = mosDir.mkdir(".mospics/large");
+              }
+
+              if (bCanSave)
+              {
+                  // Save large PNG file
+                  int w = pix.width(), h = pix.height();
+                  // scale to pixie size
+                  if(pix.width() > 90 || pix.height() > 90){
+                      if(pix.width() > pix.height()){
+                          float percent = (((float)90)/pix.width());
+                          h = (int)(pix.height()*percent);
+                          w = 90;
+                      }
+                      else{
+                          float percent = (((float)90)/pix.height());
+                          w = (int)(pix.width()*percent);
+                          h = 90;
+                      }
+                  }
+                  // write
+                  QImageIO iio;
+                  iio.setImage( pix.convertToImage().smoothScale( w, h ) );
+                  iio.setFileName( thumbPath );
+                  iio.setFormat("PNG");
+                  bCanSave = iio.write();
+                  // scale again to screen size if needed
+                  w = pix.width(), h = pix.height();
+                  if(pix.width() > _size || pix.height() > _size){
+                      if(pix.width() > pix.height()){
+                          float percent = (((float)_size)/pix.width());
+                          h = (int)(pix.height()*percent);
+                          w = _size;
+                      }
+                      else{
+                          float percent = (((float)_size)/pix.height());
+                          w = (int)(pix.width()*percent);
+                          h = _size;
+                      }
+                      QImage img = pix.convertToImage().smoothScale( w, h );
+                      pix.convertFromImage( img );
+                  }
+                  return pix;
+              }
+              else{
+                  int w = pix.width(), h = pix.height();
+                  if(pix.width() > _size || pix.height() > _size){
+                      if(pix.width() > pix.height()){
+                          float percent = (((float)_size)/pix.width());
+                          h = (int)(pix.height()*percent);
+                          w = _size;
+                      }
+                      else{
+                          float percent = (((float)_size)/pix.height());
+                          w = (int)(pix.width()*percent);
+                          h = _size;
+                      }
+                  }
+                  QImage img = pix.convertToImage().smoothScale( w, h );
+                  pix.convertFromImage( img );
+                  return pix;
+              }
+          }
+      }
   }
 
   QPixmap p = m_pMimeType->pixmap( m_url, _size );
