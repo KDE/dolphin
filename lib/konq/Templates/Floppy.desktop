@@ -1,6 +1,37 @@
 [Desktop Action Format]
 Exec=kfloppy
 Name=Format
+Name[af]=Formaat
+Name[bg]=Формат
+Name[cs]=Formát
+Name[el]=Μορφοποίηση
+Name[eo]=Formato
+Name[es]=Formato
+Name[et]=Vorming
+Name[eu]=Formatoa
+Name[fa]=قالب بندی
+Name[fi]=Formatoi
+Name[he]=אתחל
+Name[hu]=Formázás
+Name[it]=Formato
+Name[ja]=フォーマット
+Name[lt]=Formatas
+Name[nl]=Formatteren
+Name[nso]=Thlolego
+Name[pt]=Formatar
+Name[pt_BR]=Formato
+Name[ru]=Формат
+Name[sk]=Formát
+Name[sl]=Oblika
+Name[ss]=Sakhiwo
+Name[ta]=ÅÊÅõ
+Name[tr]=Biçim
+Name[uk]=Формат
+Name[ven]=Tshivhumbeo
+Name[xh]=Ifomati
+Name[zh_CN]=格式
+Name[zh_TW]=格式化
+Name[zu]=Isakhiwo
 
 [Desktop Entry]
 Actions=Format
