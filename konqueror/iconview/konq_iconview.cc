@@ -283,17 +283,17 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
 
-    actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
+    actions()->append( BrowserView::ViewAction( new KActionSeparator( this ), BrowserView::MenuView ) );
 
     actions()->append( BrowserView::ViewAction( paBackgroundColor, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( paBackgroundImage, BrowserView::MenuView ) );
 
-    actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
+    actions()->append( BrowserView::ViewAction( new KActionSeparator( this ), BrowserView::MenuView ) );
 
     actions()->append( BrowserView::ViewAction( m_paBottomText, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( m_paRightText, BrowserView::MenuView ) );
 
-    actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
+    actions()->append( BrowserView::ViewAction( new KActionSeparator( this ), BrowserView::MenuView ) );
 
     actions()->append( BrowserView::ViewAction( m_paLargeIcons, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( m_paMediumIcons, BrowserView::MenuView ) );
