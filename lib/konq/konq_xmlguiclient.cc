@@ -21,15 +21,26 @@
 #include "kapplication.h"
 
 #include "konq_xmlguiclient.h"
+#include <kdebug.h>
+
+class KonqXMLGUIClient::Private
+{
+public:
+    Private() : attrName( "name" ), separatorPending( false ), hasAction( false ) {}
+    QString attrName;
+    bool separatorPending;
+    bool hasAction;
+};
 
 KonqXMLGUIClient::KonqXMLGUIClient( ) : KXMLGUIClient( )
 {
-  attrName = QString::fromLatin1( "name" );
+  d = new Private;
   prepareXMLGUIStuff( );
 }
+
 KonqXMLGUIClient::KonqXMLGUIClient( KXMLGUIClient *parent ) : KXMLGUIClient(parent )
 {
-  attrName = QString::fromLatin1( "name" );
+  d = new Private;
   prepareXMLGUIStuff( );
 }
 
@@ -39,11 +50,11 @@ void KonqXMLGUIClient::prepareXMLGUIStuff()
 
   QDomElement root = m_doc.createElement( "kpartgui" );
   m_doc.appendChild( root );
-  root.setAttribute( attrName, "popupmenu" );
+  root.setAttribute( d->attrName, "popupmenu" );
 
   m_menuElement = m_doc.createElement( "Menu" );
   root.appendChild( m_menuElement );
-  m_menuElement.setAttribute( attrName, "popupmenu" );
+  m_menuElement.setAttribute( d->attrName, "popupmenu" );
 
   /*m_builder = new KonqPopupMenuGUIBuilder( this );
   m_factory = new KXMLGUIFactory( m_builder ); */
@@ -52,9 +63,11 @@ void KonqXMLGUIClient::prepareXMLGUIStuff()
 QDomElement KonqXMLGUIClient::DomElement( ) const {
   return m_menuElement;
 }
+
 QDomDocument KonqXMLGUIClient::domDocument( ) const {
   return m_doc;
 }
+
 void KonqXMLGUIClient::addAction( KAction *act, const QDomElement &menu )
 {
   addAction( act->name(), menu );
@@ -62,45 +75,80 @@ void KonqXMLGUIClient::addAction( KAction *act, const QDomElement &menu )
 
 void KonqXMLGUIClient::addAction( const char *name, const QDomElement &menu )
 {
-  static QString tagAction = QString::fromLatin1( "action" );
+  static const QString& tagAction = KGlobal::staticQString( "action" );
 
   if (!kapp->authorizeKAction(name))
      return;
 
+  handlePendingSeparator();
   QDomElement parent = menu;
-  if ( parent.isNull() )
+  if ( parent.isNull() ) {
     parent = m_menuElement;
+  }
 
   QDomElement e = m_doc.createElement( tagAction );
   parent.appendChild( e );
-  e.setAttribute( attrName, name );
+  e.setAttribute( d->attrName, name );
+  d->hasAction = true;
 }
 
 void KonqXMLGUIClient::addSeparator( const QDomElement &menu )
 {
-  static QString tagSeparator = QString::fromLatin1( "separator" );
+  static const QString& tagSeparator = KGlobal::staticQString( "separator" );
 
   QDomElement parent = menu;
-  if ( parent.isNull() )
+  if ( parent.isNull() ) {
     parent = m_menuElement;
+  }
 
   parent.appendChild( m_doc.createElement( tagSeparator ) );
+
+  d->separatorPending = false;
 }
+
+//void KonqXMLGUIClient::addWeakSeparator()
+//{
+//  static const QString& tagWeakSeparator = KGlobal::staticQString( "weakSeparator" );
+//  m_menuElement.appendChild( m_doc.createElement( tagWeakSeparator ) );
+//}
 
 void KonqXMLGUIClient::addMerge( const QString &name )
 {
+  // can't call handlePendingSeparator. Merge could be empty
+  // (testcase: RMB in embedded katepart)
   QDomElement merge = m_doc.createElement( "merge" );
   m_menuElement.appendChild( merge );
   if ( !name.isEmpty() )
-    merge.setAttribute( attrName, name );
+    merge.setAttribute( d->attrName, name );
 }
 
 void KonqXMLGUIClient::addGroup( const QString &grp )
 {
+  handlePendingSeparator();
   QDomElement group = m_doc.createElement( "definegroup" );
   m_menuElement.appendChild( group );
-  group.setAttribute( "name", grp );
+  group.setAttribute( d->attrName, grp );
 }
 
 KonqXMLGUIClient::~KonqXMLGUIClient( ){
+  delete d;
 }
+
+void KonqXMLGUIClient::handlePendingSeparator()
+{
+  if ( d->separatorPending ) {
+    addSeparator();
+  }
+}
+
+void KonqXMLGUIClient::addPendingSeparator()
+{
+  d->separatorPending = true;
+}
+
+bool KonqXMLGUIClient::hasAction() const
+{
+  return d->hasAction;
+}
+
+

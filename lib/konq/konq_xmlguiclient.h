@@ -25,9 +25,10 @@
 #include <kaction.h>
 #include <kxmlguiclient.h>
 #include <qstringlist.h>
-/** This class implements common methods to manipulate the DOMDocument of KXMLGUIClient
-	*
-	*/
+/**
+ * This class implements common methods to manipulate the DOMDocument of KXMLGUIClient
+ *
+ */
 class KonqXMLGUIClient : public KXMLGUIClient
 {
 public:
@@ -39,20 +40,29 @@ public:
    */
   QDomDocument domDocument( ) const;
 
-  QDomElement DomElement( ) const;
+  QDomElement DomElement( ) const; // KDE4: s/D/d/
 
 protected:
   void addAction( KAction *action, const QDomElement &menu = QDomElement() );
   void addAction( const char *name, const QDomElement &menu = QDomElement() );
   void addSeparator( const QDomElement &menu = QDomElement() );
+  /// only add a separator if an action is added afterwards
+  void addPendingSeparator();
   void addGroup( const QString &grp );
   void addMerge( const QString &name );
 
+  // @return true if addAction was called at least once
+  bool hasAction() const;
   void prepareXMLGUIStuff();
-  QDomDocument m_doc;
-  QDomElement m_menuElement;
-	QString attrName;
 
+// KDE4: make private
+  QDomElement m_menuElement;
+  QDomDocument m_doc;
+
+private:
+  void handlePendingSeparator();
+  class Private;
+  Private *d;
 };
 #endif
 

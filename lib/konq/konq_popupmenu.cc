@@ -45,6 +45,23 @@
 #include "konq_operations.h"
 #include <dcopclient.h>
 
+/*
+ Test cases:
+  iconview background
+  iconview file (with and without servicemenus)
+  iconview directory
+  sidebar directory tree
+  khtml background
+  khtml link
+  khtml image (www.kde.org RMB on K logo)
+  khtmlimage (same as above, then choose View image, then RMB)
+  selected text in khtml
+  embedded katepart
+  kdesktop folder
+  trash folder
+  application
+ Then the same after uninstalling kdeaddons/konq-plugins (kuick and arkplugin in particular)
+*/
 
 class KonqPopupMenuGUIBuilder : public KXMLGUIBuilder
 {
@@ -720,13 +737,14 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         m_mapPopup.clear();
         m_mapPopupServices.clear();
-        if ( !devicesFile)
+        if ( !devicesFile )
         {
+            if ( hasAction() )
+                addSeparator();
+
             if ( !offers.isEmpty() )
             {
                 // First block, app and preview offers
-                addSeparator();
-
                 id = 1;
 
                 QDomElement menu = m_menuElement;
@@ -770,7 +788,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             }
             else // no app offers -> Open With...
             {
-                addSeparator();
                 act = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
                 addAction( act );
             }
@@ -817,7 +834,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     if (userItemCount > 0)
     {
-        addSeparator();
+        addPendingSeparator();
     }
 
     if ( !isCurrentTrash && !isIntoTrash && !devicesFile && sReading)
@@ -845,8 +862,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         }
     }
 
-
     addMerge( 0 );
+    //kdDebug() << k_funcinfo << domDocument().toString() << endl;
 
     m_factory->addClient( this );
 }
@@ -1017,6 +1034,7 @@ void KonqPopupMenu::addPlugins( ){
         addGroup( "plugins" );
         // travers the offerlist
         for(; iterator != end; ++iterator, ++pluginCount ){
+                //kdDebug() << (*iterator)->library() << endl;
                 KonqPopupMenuPlugin *plugin =
                         KParts::ComponentFactory::
                         createInstanceFromLibrary<KonqPopupMenuPlugin>( (*iterator)->library().local8Bit(),
@@ -1032,17 +1050,21 @@ void KonqPopupMenu::addPlugins( ){
         }
 
         addMerge( "plugins" );
-        addSeparator();
+        addPendingSeparator();
 }
+
 KURL KonqPopupMenu::url( ) const {
   return m_sViewURL;
 }
+
 KFileItemList KonqPopupMenu::fileItemList( ) const {
   return m_lstItems;
 }
+
 KURL::List KonqPopupMenu::popupURLList( ) const {
   return m_lstPopupURLs;
 }
+
 /**
         Plugin
 */
