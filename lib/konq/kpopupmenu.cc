@@ -438,7 +438,7 @@ void KonqPopupMenu::slotPopupDelete()
 
 void KonqPopupMenu::slotPopupOpenWith()
 {
-  OpenWithDlg l( m_lstPopupURLs, i18n("Open With:"), "", (QWidget*)0L);
+  KOpenWithDlg l( m_lstPopupURLs, i18n("Open With:"), "", (QWidget*)0L);
   if ( l.exec() )
   {
     KService::Ptr service = l.service();
