@@ -21,6 +21,7 @@ static KCmdLineOptions options[] =
 
 int main( int argc, char ** argv )
 {
+  KLocale::setMainCatalogue("kfindpart");
   KAboutData aboutData( "kfind", I18N_NOOP("KFind"),
 			VERSION, description, KAboutData::License_GPL,
 			I18N_NOOP("(c) 1998-2001, The KDE Developers"));
