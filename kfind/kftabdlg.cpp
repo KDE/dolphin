@@ -286,7 +286,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     typeBox->insertItem(i18n("Files"));
     typeBox->insertItem(i18n("Folders"));
     typeBox->insertItem(i18n("Symbolic Links"));
-    typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
+    typeBox->insertItem(i18n("Special Files (Sockets, Device Files, ...)"));
     typeBox->insertItem(i18n("Executable Files"));
     typeBox->insertItem(i18n("SUID Executable Files"));
     typeBox->insertItem(i18n("All Images"));
