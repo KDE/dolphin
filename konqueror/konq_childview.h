@@ -23,6 +23,7 @@
 #define __konq_childview_h__ "$Id$"
 
 #include "konq_mainview.h"
+#include "konq_viewmgr.h"
 
 #include <qlist.h>
 #include <qstring.h>
@@ -193,8 +194,8 @@ public:
   int xOffset() const { return m_iXOffset; }
   int yOffset() const { return m_iYOffset; }
 
-  void setRowInfo( KonqMainView::RowInfo *rowInfo ) { m_pRow = rowInfo; }
-  KonqMainView::RowInfo *rowInfo() const { return m_pRow; }
+  void setRowInfo( KonqViewManager::RowInfo *rowInfo ) { m_pRow = rowInfo; }
+  KonqViewManager::RowInfo *rowInfo() const { return m_pRow; }
 
   static bool createView( const QString &serviceType, 
                           Browser::View_var &view, 
@@ -248,7 +249,7 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
   KonqFrame* m_pKonqFrame;
-  KonqMainView::RowInfo *m_pRow;
+  KonqViewManager::RowInfo *m_pRow;
 };
 
 #endif

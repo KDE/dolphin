@@ -41,6 +41,7 @@ class KfmRun;
 class KonqChildView;
 class KonqFrame;
 class QSplitter;
+class KonqViewManager;
 
 class KonqMainView : public QWidget,
                      virtual public OPPartIf,
@@ -84,8 +85,10 @@ public:
   
   bool openView( const QString &serviceType, const QString &url, KonqChildView *childView );
 
-  //HACK
-  KonqChildView *childView( OpenParts::Id id );  
+  KonqChildView *childView( OpenParts::Id id );
+  KonqChildView *currentChildView() { return m_currentView; }
+  void insertChildView( KonqChildView *view );
+  void removeChildView( OpenParts::Id id );
 
   ////////////////////
   /// Overloaded functions of KBookmarkOwner
@@ -211,27 +214,6 @@ private:
 
   void checkPrintingExtension();
 
-  struct RowInfo
-  {
-    QList<KonqChildView> children;
-    QSplitter *splitter;
-  };
-
-  QList<RowInfo> m_lstRows;
-
-  KonqChildView *chooseNextView( RowInfo *row, KonqChildView *view );
-
-  void removeChildView( OpenParts::Id id );
-
-  void removeChildView( RowInfo *row, KonqChildView *view );
-
-  void clearRow( RowInfo *row );
-
-  void clearMainView();
-
-  void saveViewProfile( KConfig &cfg );
-  void loadViewProfile( KConfig &cfg );
-
   /**
    * Splits the view, depending on orientation, either horizontally or 
    * vertically. The first of the resulting views will contain the initial 
@@ -239,20 +221,6 @@ private:
    */
   void splitView( Orientation orientation );
 
-  /**
-   * Does the same as the above, except that the second view will be the one 
-   * provided by newView
-   */
-  void splitView( Orientation orientation,
-		  Browser::View_ptr newView,
-		  const QStringList &newViewServiceTypes );
-
-  /**
-   * Mainly creates the the backend structure(KonqChildView) for a view and
-   * connects it
-   */
-  void setupView( RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes );
- 
   /**
    * Enable menu item and related toolbar button if present
    * This will allow configurable toolbar buttons later
@@ -314,9 +282,6 @@ private:
 
   //////// View storage //////////////
 
-  /* The main QSplitter, which initially holds the main icon view */
-  QSplitter* m_pMainSplitter;
-
   /* Storage of View * instances : mapped by Id */
   typedef QMap<OpenParts::Id,KonqChildView *> MapViews;
   MapViews m_mapViews;
@@ -325,7 +290,7 @@ private:
   OpenParts::Id m_currentId;
 
   ////////////////////
-    
+
   /**
    * The menu "New" in the "File" menu.
    * Since the items of this menu are not connected themselves
@@ -355,6 +320,8 @@ private:
 
   bool m_bEditMenuDirty;
   bool m_bViewMenuDirty;
+
+  KonqViewManager *m_pViewManager;
 
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;
