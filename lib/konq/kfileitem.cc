@@ -382,7 +382,17 @@ QString KFileItem::text() const
     if (m_bIsLocalURL && m_pMimeType->name() == "application/x-desktop")
     {
         KDesktopFile desktop(m_url.path(), true);
-        return desktop.readName();
+        QString desktop_name(desktop.readName());
+        if (desktop_name.isNull() || desktop_name.isEmpty())
+        {
+            desktop_name = m_strText;
+            if ((desktop_name.right(8) == ".desktop") ||
+                (desktop_name.right(7) == ".kdelnk"))
+            {
+                desktop_name.truncate(desktop_name.findRev('.'));
+            }
+        }
+        return desktop_name;
     }
     else
         return m_strText;
