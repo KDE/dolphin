@@ -23,7 +23,7 @@ int main( int argc, char ** argv )
 {
   KAboutData aboutData( "kfind", I18N_NOOP("KFind"),
 			VERSION, description, KAboutData::License_GPL,
-			"(c) 1998-2001, The KDE Developers");
+			I18N_NOOP("(c) 1998-2001, The KDE Developers"));
 
   aboutData.addAuthor("Mark W. Webb", I18N_NOOP("Current Maintainer"), "markwebb@adelphia.net");
   aboutData.addAuthor("Eric Coquelle", I18N_NOOP("Developer & Current Maintainer"), "coquelle@caramail.com");
