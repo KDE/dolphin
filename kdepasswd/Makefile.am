@@ -14,8 +14,8 @@ desktopdir = $(kde_appsdir)/Settingsmenu
 desktop_DATA = kdepasswd.desktop
 
 install-data-local: uninstall.desktop
-	$(mkinstalldirs) $(kde_appsdir)/Utilities
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Utilities/kdepasswd.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Utilities
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Utilities/kdepasswd.desktop
 
 ## Messages
 messages:
