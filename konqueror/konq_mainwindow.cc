@@ -2418,10 +2418,6 @@ void KonqMainWindow::slotToggleFullScreen()
 void KonqMainWindow::setLocationBarURL( const QString &url )
 {
   kdDebug(1202) << "KonqMainWindow::setLocationBarURL : url = " << url << endl;
-  ASSERT( !url.isEmpty());
-  static const QString & aboutkonq = KGlobal::staticQString("about:konqueror");
-  if ( url == aboutkonq )
-    return;
 
   // FIXME, change the current pixmap of the combo, using
   // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
