@@ -178,6 +178,8 @@ public:
 
   void enableAction( const char * name, bool enabled );
 
+  void enableUnlockAll();
+
   /**
    * The default settings "allow HTML" - the one used when creating a new view
    * Might not match the current view !

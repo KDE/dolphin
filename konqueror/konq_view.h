@@ -216,7 +216,7 @@ public:
 
   // True if "locked to current location" (and their view mode, in fact)
   bool isLockedLocation() const { return m_bLockedLocation; }
-  void setLockedLocation( bool b ) { m_bLockedLocation = b; }
+  void setLockedLocation( bool b );
 
   // True if can't be made active (e.g. dirtree).
   bool isPassiveMode() const { return m_bPassiveMode; }

@@ -957,11 +957,14 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 {
     kdDebug(1202) << "KonqMainWindow::slotFindClosed " << dirPart << endl;
     KonqView * dirView = m_mapViews.find( dirPart ).data();
-    assert(dirView);
-    dirView->lockHistory( false );
+    ASSERT(dirView);
+    if ( dirView )
+    {
+        dirView->lockHistory( false );
+        if ( dirView == m_currentView )
+            m_paFindFiles->setEnabled( true );
+    }
     dirPart->setFindPart( 0 );
-    if ( dirView == m_currentView )
-        m_paFindFiles->setEnabled( true );
 }
 
 void KonqMainWindow::slotIconChanged( const QString & url )
@@ -1162,7 +1165,6 @@ void KonqMainWindow::slotUnlockViews()
     }
   }
 
-  m_paUnlockAll->setEnabled( false );
   viewsChanged();
 }
 
@@ -1174,7 +1176,10 @@ void KonqMainWindow::slotLockView()
   // (Only the dirtree uses one and not the other)
   m_currentView->setLockedLocation( true );
   m_currentView->setPassiveMode( true ); // do this one last !
-  // ###### TODO: also do this when a profile locks a view...
+}
+
+void KonqMainWindow::enableUnlockAll()
+{
   m_paUnlockAll->setEnabled( true );
 }
 
@@ -1618,6 +1623,17 @@ void KonqMainWindow::viewsChanged()
     m_paMoveFiles = 0L;
   }
 
+  bool locked = false;
+  MapViews::Iterator it = m_mapViews.begin();
+  MapViews::Iterator end = m_mapViews.end();
+  // at least one view locked to location -> Unlock all views
+  for (  ; it != end  ; ++it )
+      if ( it.data()->isLockedLocation() )
+      {
+          locked = true;
+          break;
+      }
+  m_paUnlockAll->setEnabled( locked );
   updateViewActions(); // undo, lock and link
 }
 
@@ -2778,6 +2794,7 @@ void KonqMainWindow::currentProfileChanged()
 
 void KonqMainWindow::enableAllActions( bool enable )
 {
+  kdDebug(1202) << "KonqMainWindow::enableAllActions " << enable << endl;
   KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
@@ -2796,7 +2813,8 @@ void KonqMainWindow::enableAllActions( bool enable )
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
-      // no locked views either
+
+      // assume false, but viewsChanged will set it correctly if necessary
       m_paUnlockAll->setEnabled( false );
 
       // Load profile submenu
