@@ -78,7 +78,7 @@ private:
     KExceptionBox *m_gbExceptions;
     
     QString m_oldFtpText;
-    QString m_oldHttpsText;  
+    QString m_oldHttpsText;
     QStringList m_lstEnvVars;
 };
 #endif
