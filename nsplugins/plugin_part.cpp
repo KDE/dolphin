@@ -66,10 +66,10 @@ PluginFactory::~PluginFactory()
 
 
 QObject *PluginFactory::create(QObject *parent, const char *name, const char*,
-			       const QStringList& )
+			       const QStringList& args)
 {
   kDebugInfo("PluginFactory::create");
-  QObject *obj = new PluginPart((QWidget*)parent, name);
+  QObject *obj = new PluginPart((QWidget*)parent, name, args);
   emit objectCreated(obj);
   return obj;
 }
@@ -91,13 +91,13 @@ NSPluginLoader *PluginPart::s_loader = 0L;
 int PluginPart::s_loaderRef = 0;
 
 
-PluginPart::PluginPart(QWidget *parent, const char *name)
-  : KParts::ReadOnlyPart(parent, name), widget(0), callback(0)
+PluginPart::PluginPart(QWidget *parent, const char *name,  const QStringList &args)
+  : KParts::ReadOnlyPart(parent, name), _widget(0), _callback(0), _args(args)
 {
   setInstance(PluginFactory::instance());
   kDebugInfo("PluginPart");
 
-  m_extension = new PluginBrowserExtension(this);
+  _extension = new PluginBrowserExtension(this);
 
   // create loader
   if (!s_loader)
@@ -105,11 +105,11 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
   s_loaderRef++;
 
   // create a canvas to insert our widget
-  canvas = new PluginCanvasWidget(parent);
-  canvas->setFocusPolicy(QWidget::ClickFocus);
-  canvas->setBackgroundMode(QWidget::NoBackground);
-  setWidget(canvas);
-  QObject::connect(canvas, SIGNAL(resized(int,int)), this, SLOT(pluginResized(int,int)));
+  _canvas = new PluginCanvasWidget(parent);
+  _canvas->setFocusPolicy(QWidget::ClickFocus);
+  _canvas->setBackgroundMode(QWidget::NoBackground);
+  setWidget(_canvas);
+  QObject::connect(_canvas, SIGNAL(resized(int,int)), this, SLOT(pluginResized(int,int)));
 }
 
 
@@ -131,34 +131,65 @@ bool PluginPart::openURL(const KURL &url)
 {
   kDebugInfo("PluginPart::openURL");
 
-  delete widget;
+  delete _widget;
 
-  QStringList _argn, _argv;
-  _argn << "SRC" << "TYPE";
-  _argv << url.url() << m_extension->urlArgs().serviceType;
-  widget =  s_loader->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
+  // handle arguments
+  QStringList argn, argv;
 
-  if (widget)
+  for ( QStringList::Iterator it = _args.begin(); it != _args.end(); )
+  {
+    int equalPos = (*it).find("=");
+    if (equalPos>0)
     {
-      widget->resize(canvas->width(), canvas->height());
-      widget->show();
+      QString name = (*it).left(equalPos-1);
+      QString value = (*it).right((*it).length()-equalPos-1);
+      if (value.at(0)=='\"') value = value.right(value.length()-1);
+      if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
+
+      if (!name.isEmpty())
+      {
+      	argn << name;
+      	argv << value;
+      }
+    }
+  }
+
+  if (!url.url().isEmpty())
+  {
+    argn << "SRC";
+    argv << url.url();
+  }
+
+  if (!_extension->urlArgs().serviceType.isEmpty())
+  {
+    argn << "TYPE";
+    argv << _extension->urlArgs().serviceType;
+  }
+
+  // create plugin widget
+  _widget =  s_loader->NewInstance(_canvas, url.url(), _extension->urlArgs().serviceType, 1, argn, argv);
+  if (_widget)
+    {
+      _widget->resize(_canvas->width(), _canvas->height());
+      _widget->show();
     }
 
-  delete callback;
-  callback = new NSPluginCallback(this);
-  widget->setCallback(kapp->dcopClient()->appId(), callback->objId());
+  // create plugin callback
+  delete _callback;
+  _callback = new NSPluginCallback(this);
+  _widget->setCallback(kapp->dcopClient()->appId(), _callback->objId());
 
-  return widget != 0;
+  return _widget != 0;
 }
 
 
 bool PluginPart::closeURL()
 {
   kDebugInfo("PluginPart::closeURL");
-  delete widget;
-  delete callback;
-  widget = 0;
-  callback = 0;
+  delete _widget;
+  delete _callback;
+  _widget = 0;
+  _callback = 0;
 
   return true;
 }
@@ -166,14 +197,14 @@ bool PluginPart::closeURL()
 
 void PluginPart::requestURL(QCString url)
 {
-  emit m_extension->openURLRequest( KURL( QString::fromLatin1( url ) ) );
+  emit _extension->openURLRequest( KURL( QString::fromLatin1( url ) ) );
 }
 
 
 void PluginPart::pluginResized(int w, int h)
 {
-  if (widget)
-    widget->resize(w,h);
+  if (_widget)
+    _widget->resize(w,h);
 
   kdDebug() << "PluginPart::pluginResized()" << endl;
 }

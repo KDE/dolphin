@@ -81,7 +81,7 @@ class PluginPart: public KParts::ReadOnlyPart
     
 public:
 
-  PluginPart(QWidget *parent, const char *name);
+  PluginPart(QWidget *parent, const char *name, const QStringList &args = QStringList());
   virtual ~PluginPart();
 
   void requestURL(QCString url);
@@ -101,10 +101,11 @@ protected slots:
 
 private:
 
-  NSPluginInstance *widget;
-  PluginCanvasWidget *canvas;
-  PluginBrowserExtension *m_extension;
-  NSPluginCallback *callback;
+  NSPluginInstance *_widget;
+  PluginCanvasWidget *_canvas;
+  PluginBrowserExtension *_extension;
+  NSPluginCallback *_callback;
+  QStringList _args;
   static class NSPluginLoader *s_loader;
   static int s_loaderRef;
 };
