@@ -9,7 +9,7 @@ X-KDE-SubstituteUID=true
 Name=File Manager - Super User Mode
 Name[af]=Lêer Bestuurder - Super Gebruiker Modus
 Name[be]=Мэнэджэр файлаў - рэжым адміністратара
-Name[bg]=Менаджър на файлове - root-привилегии
+Name[bg]=Мениджър на файлове - root-привилегии
 Name[bs]=Upravitelj datotekama (Samo za administratora)
 Name[ca]=Gestor de fitxers (mode superusuari)
 Name[cs]=Správce souborů - superuživatelský režim
@@ -28,6 +28,7 @@ Name[hr]=Upravitelj datotekama ( Samo za administratora )
 Name[hu]=Fájlkezelő (rendszergazdai mód)
 Name[it]=File manager - modalità super utente
 Name[ja]=ファイルマネージャー - スーパーユーザモード
+Name[lo]=ຕົວຈັດການແຟ້ມ - ໂຫມດຜູ້ດູແລລະບົບ
 Name[lt]=Bylų tvarkyklė – super vartotojo režimas
 Name[lv]=Failu Pārvaldnieks - Super Lietotāja Režīms
 Name[mt]=Manager tal-Fajls (mod Super User)
@@ -55,4 +56,4 @@ Name[zh_TW]=檔案總管 - 超級使用者模式
 Name[zu]=Imenenja yamafayela - Indlela Yomsebenzisi Omkhulu
 
 
-Categories=Qt;KDE;System
+Categories=Qt;KDE;System;X-KDE-More
