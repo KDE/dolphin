@@ -13,21 +13,13 @@
 <title>The &kfind; Handbook</title>
 
 <authorgroup>
-<author>
-<firstname>Dirk</firstname>
-<surname>Doerflinger</surname>
-<affiliation>
-<address><email>ddoerflinger@web.de</email></address>
-</affiliation>
-</author>
-
+<author>&Dirk.Doerflinger; &Dirk.Doerflinger.mail;</author>
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
-
 </authorgroup>
 
 <copyright>
 <year>2001</year>
-<holder>Dirk Doerflinger</holder>
+<holder>&Dirk.Doerflinger;</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
@@ -283,9 +275,9 @@ Program copyright:
 </itemizedlist>
 
 <para>
-Documentation copyright 2001 Dirk Doerflinger
-<email>ddoerflinger@web.de</email>
-</para>
+Documentation copyright 2001 &Dirk.Doerflinger;
+&Dirk.Doerflinger.mail;</para> 
+
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 &underFDL;               <!-- FDL: do not remove -->

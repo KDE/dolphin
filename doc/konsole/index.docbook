@@ -12,13 +12,7 @@
 <bookinfo>
 <title>The &konsole; Handbook</title>
 <authorgroup>
-<author>
-<firstname>Jonathan</firstname>
-<surname>Singer</surname>
-<affiliation>
-<address><email>jsinger@leeta.net</email></address>
-</affiliation>
-</author>
+<author>&Jonathan.Singer; &Jonathan.Singer.mail;</author>
 
 <othercredit role="developer">
 <firstname>Stephan</firstname>
@@ -46,7 +40,7 @@
 
 <copyright>
 <year>2000</year><year>2001</year><year>2002</year>
-<holder>Jonathan Singer</holder>
+<holder>&Jonathan.Singer;</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
@@ -1076,19 +1070,16 @@ history</para>
 <chapter id="credits">
 <title>Credits and Copyright</title>
 
-<para>&konsole; is maintained by Stephan Binner
-<email>Stephan.Binner@gmx.de</email></para>
+<para>&konsole; is maintained by &Stephan.Binner; &Stephan.Binner.mail;</para>
 
-<para>The application &konsole; <trademark class="copyright">copyright
-1997-2002 Lars Doelle</trademark>
-<email>lars.doelle@on-line.de</email></para>
+<para>The application &konsole; Copyright &copy; 1997-2002
+&Lars.Doelle; &Lars.Doelle.mail;</para>
 
-<para>This document was written by Jonathan Singer
-<email>jsinger@leeta.net</email></para>
+<para>This document was written by &Jonathan.Singer;
+&Jonathan.Singer.mail;</para>
 
-<para>Converted to DocBook <acronym>SGML</acronym> by Michael McBride
-<email>mmcbride@ematic.com</email> and Lauri Watts
-<email>lauri@kde.org</email></para>
+<para>Originally converted to DocBook <acronym>SGML</acronym> by
+&Mike.McBride; and &Lauri.Watts;</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 

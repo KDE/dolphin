@@ -12,25 +12,16 @@
 <bookinfo>  
 <title>The &kwrite; Handbook</title>  
 <authorgroup>  
-<author>  
-<firstname>Thad</firstname><surname>McGinnis</surname>  
-<affiliation><address><email>ctmcginnis@compuserve.com</email></address>
-</affiliation>
-</author>
+<author>&Thad.McGinnis; &Thad.McGinnis.mail;</author>
 
 <othercredit role="developer">
-<firstname>Christoph</firstname>
-<surname>Cullmann</surname>
-<affiliation>
-<address><email>cullmann@kde.org</email></address>
-</affiliation>
-<contrib>Core Developer and Maintainer</contrib>
+&Christoph.Cullmann; &Christoph.Cullmann.mail;
+<!-- <contrib>Core Developer and Maintainer</contrib> -->
 </othercredit>
 
 <othercredit role="reviewer">
-<firstname>Lauri</firstname><surname>Watts</surname>
-<contrib>Reviewer</contrib>
-<affiliation><address><email>lauri@kde.org</email></address></affiliation>
+&Lauri.Watts; &Lauri.Watts.mail;
+<!-- <contrib>Reviewer</contrib> -->
 </othercredit>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -39,7 +30,7 @@
 
 <copyright>
 <year>2000</year><year>2001</year>
-<holder>Thad McGinnis</holder>
+<holder>&Thad.McGinnis;</holder>
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
@@ -1749,7 +1740,7 @@ Based on the original &kwrite;, which was Copyright 2000 by Jochen Wilhelmy
 
 <itemizedlist>
 <listitem>
-<para>Christoph Cullmann <email>cullmann@kde.org</email></para>
+<para>&Christoph.Cullmann; &Christoph.Cullmann.mail;</para>
 </listitem>
 
 <listitem>
@@ -1761,7 +1752,7 @@ Based on the original &kwrite;, which was Copyright 2000 by Jochen Wilhelmy
 </listitem>
 
 <listitem>
-<para>Anders Lund <email>anders@alweb.dk</email></para>
+<para>&Anders.Lund; &Anders.Lund.mail;</para>
 </listitem>
 
 <listitem>
@@ -1769,7 +1760,7 @@ Based on the original &kwrite;, which was Copyright 2000 by Jochen Wilhelmy
 </listitem>
 
 <listitem>
-<para>Joseph Wenninger <email>jowenn@bigfoot.com</email></para>
+<para>&Joseph.Wenninger; &Joseph.Wenninger.mail;</para>
 </listitem>
 
 <listitem>
@@ -1777,15 +1768,15 @@ Based on the original &kwrite;, which was Copyright 2000 by Jochen Wilhelmy
 </listitem>
 
 <listitem>
-<para>Michael Koch <email>koch@kde.org</email></para>
+<para>&Michael.Koch; &Michael.Koch.mail;</para>
 </listitem>
 
 <listitem>
-<para>Christian Gebauer <email>gebauer@bigfoot.com</email></para>
+<para>&Christian.Gebauer; &Christian.Gebauer.mail;</para>
 </listitem>
 
 <listitem>
-<para>Simon Hausmann <email>hausmann@kde.org</email></para>
+<para>&Simon.Hausmann; &Simon.Hausmann.mail;</para>
 </listitem>
 
 <listitem>
@@ -1797,23 +1788,21 @@ Based on the original &kwrite;, which was Copyright 2000 by Jochen Wilhelmy
 </listitem>
 
 <listitem>
-<para>John Firebaugh <email>jfire@uclink.berkeley.edu</email></para>
+<para>&John.Firebaugh; &John.Firebaugh.mail;</para>
 </listitem>
 </itemizedlist>
      
 <para>
-Original documentation by Thad McGinnis
-<email>ctmcginnis@compuserve.com</email>
+Original documentation by &Thad.McGinnis; &Thad.McGinnis.mail;
 </para>
 
 <para>
 This version of the &kwrite; Handbook is based on the original by
-Cristian Tibirna <email>tibirna@kde.org</email>
+&Cristian.Tibirna; &Cristian.Tibirna.mail;
 </para>
 
 <para>
-Converted to docbook/proofreading by Lauri Watts
-<email>lauri@kde.org</email> 
+Converted to docbook/proofreading by &Lauri.Watts; &Lauri.Watts.mail;
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
@@ -1822,14 +1811,6 @@ Converted to docbook/proofreading by Lauri Watts
 &underGPL;
 </chapter> 
 
-<appendix id="installation">
-<title>Installation</title>
-
-&install.intro.documentation;
-&install.compile.documentation;
-
-</appendix>  
-  
 &documentation.index;   
 </book>  
 <!--  
