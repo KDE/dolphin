@@ -55,7 +55,6 @@ class KonqFrame;
 class KBookmarkMenu;
 class ViewModeGUIClient;
 class OpenWithGUIClient;
-class EmbedData;
 
 namespace KParts {
  class BrowserExtension;
@@ -198,8 +197,7 @@ protected slots:
 
   void slotSaveDefaultProfile();
 
-  // Connected to KonqPopupMenu
-  void slotOpenEmbedded( const QString & serviceType, const KURL & url, const QString & serviceName );
+  void slotOpenEmbedded();
   void slotOpenEmbeddedDoIt();
 
   // Connected to KSycoca
@@ -338,8 +336,6 @@ private:
   KonqFrameContainer *m_tempContainer;
   QWidget::FocusPolicy m_tempFocusPolicy;
 
-  EmbedData * m_embeddingData;
-
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 
   MapViews m_mapViews;
@@ -364,6 +360,11 @@ private:
 
   ViewModeGUIClient *m_viewModeGUIClient;
   OpenWithGUIClient *m_openWithGUIClient;
+
+  KTrader::OfferList m_popupEmbeddingServices;
+  QString m_popupService;
+  QString m_popupServiceType;
+  KURL m_popupURL;
 
   static QStringList *s_plstAnimatedLogo;
 
@@ -405,13 +406,17 @@ private:
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:
-  PopupMenuGUIClient( KonqMainView *mainView );
+  PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices );
   virtual ~PopupMenuGUIClient();
 
-  virtual KActionCollection *actionCollection() const;
+  virtual KAction *action( const QDomElement &element ) const;
 
 private:
+  void addEmbeddingService( QDomElement &menu, int idx, const QString &name, const KService::Ptr &service );
+
   KonqMainView *m_mainView;
+
+  QDomDocument m_doc;
 };
 
 #endif
