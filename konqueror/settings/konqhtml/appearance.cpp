@@ -48,7 +48,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
                                     "this size,<br>overriding any other settings" ) );
 
   m_MedSize = new KIntNumInput( m_minSize, fSize, gb );
-  m_MedSize->setLabel( i18n( "Medium font size:" ) );
+  m_MedSize->setLabel( i18n( "&Medium font size:" ) );
   m_MedSize->setRange( 4, 28 );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotFontSize( int ) ) );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
@@ -160,7 +160,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "Font size adjustment for this encoding:" ), this );
+  label = new QLabel( i18n( "Font &size adjustment for this encoding:" ), this );
   lay->addWidget( label, ++r, M );
 
   m_pFontSizeAdjust = new QSpinBox( -5, 5, 1, this );
