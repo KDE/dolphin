@@ -56,6 +56,9 @@ public:
   virtual void openURLRequest( const char *_url );
 
 protected:
+
+  void setCaptionFromURL( const QString &_url );
+
   QString m_strURL;
 };
 

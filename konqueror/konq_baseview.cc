@@ -17,8 +17,12 @@
  
 */ 
 
+#include <qdir.h>
+
 #include "konq_baseview.h"
 #include <kdebug.h>
+
+#include <opUIUtils.h>
 
 KonqBaseView::KonqBaseView()
 {
@@ -104,4 +108,31 @@ void KonqBaseView::openURLRequest( const char *_url )
   urlRequest.xOffset = 0;
   urlRequest.yOffset = 0;
   SIGNAL_CALL2( "openURL", id(), urlRequest );
+}
+
+void KonqBaseView::setCaptionFromURL( const QString &_url )
+{
+  QString url = _url;
+
+  if ( url.left( 6 ) == "file:/" )
+  {
+    if ( url.left( 7 ) == "file://" )
+      url.remove( 0, 6 );
+    else
+      url.remove( 0, 5 );
+  }    
+
+  int l = QDir::homeDirPath().length();
+
+  if ( url.length() >= l &&
+       url.left( l ) == QDir::homeDirPath() )
+  {
+    url.remove( 0, l );
+    url.prepend( "~" );
+  }
+
+  url.append( " - Konqueror" );
+  
+  CORBA::WString_var wCaption = Q2C( url );
+  m_vMainWindow->setPartCaption( id(), wCaption );
 }

@@ -102,14 +102,8 @@ bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
   job->get( eventURL.url, (bool)eventURL.reload );
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
   
-  QString caption = m_strURL;
-  
-  if ( m_pMainView ) //builtin view?
-    caption.prepend( "Konqueror: " );
-    
-  CORBA::WString_var wcaption = Q2C( caption );
-  m_vMainWindow->setPartCaption( id(), wcaption );
-  
+  setCaptionFromURL( m_strURL );
+
   return true;
 }
 
