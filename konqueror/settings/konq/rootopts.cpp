@@ -58,10 +58,11 @@ KRootOptions::KRootOptions( QWidget *parent, const char *name )
 
 void KRootOptions::load()
 {
-    KConfig *config = KGlobal::config();
+    KConfig *config = new KConfig( "kdesktoprc" );
     config->setGroup( "Desktop Icons" );
     bool bShowHidden = config->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
+    delete config;
 }
 
 void KRootOptions::defaults()
@@ -71,11 +72,12 @@ void KRootOptions::defaults()
 
 void KRootOptions::save()
 {
-    KConfig *config = KGlobal::config();
+    KConfig *config = new KConfig("kdesktoprc");
     config->setGroup( "Desktop Icons" );
     config->writeEntry("ShowHidden", showHiddenBox->isChecked());
 
     config->sync();
+    delete config;
 
     QString exeloc = locate("exe","kfmclient");
     if ( exeloc.isEmpty() ) {
