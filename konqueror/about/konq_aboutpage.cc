@@ -95,7 +95,7 @@ QString KonqAboutPageFactory::intro()
           .arg( i18n( "Tips" ) )
           .arg( i18n( "Specifications" ) )
           .arg( i18n( "Introduction" ) )
-          .arg( i18n( "Welcome to Konqueror." ) )
+          .arg( i18n( "Welcome to Konqueror 2.1." ) )
           .arg( i18n( "With Konqueror you have your filesystem at your command, browsing "
 		      "local or networked drives with equal ease. Thanks to the component "
 		      "technology used throughout KDE 2, Konqueror is also a full featured, "
