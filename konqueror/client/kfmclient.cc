@@ -241,7 +241,7 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
         return "";
     QCString appObj;
     QByteArray data;
-    if( !kapp->dcopClient()->findObject( "konqueror*", "KonquerorIface",
+    if( KApplication::dcopClient()->findObject( "konqueror*", "KonquerorIface",
              "processCanBeReused()", data, ret, appObj, false, 3000 ) )
         return "";
     return ret;
@@ -388,7 +388,11 @@ bool clientApp::doIt()
   if ( command == "openURL" )
   {
     KInstance inst(appName);
-    KApplication::dcopClient()->attach();
+    if( !KApplication::dcopClient()->attach())
+    {
+	KApplication::startKdeinit();
+	KApplication::dcopClient()->attach();
+    }
     checkArgumentCount(argc, 1, 3);
     if ( argc == 1 )
     {
@@ -408,7 +412,11 @@ bool clientApp::doIt()
   else if ( command == "openProfile" )
   {
     KInstance inst(appName);
-    KApplication::dcopClient()->attach();
+    if( !KApplication::dcopClient()->attach())
+    {
+	KApplication::startKdeinit();
+	KApplication::dcopClient()->attach();
+    }
     checkArgumentCount(argc, 2, 3);
     QString url;
     if ( argc == 3 )
