@@ -1,4 +1,4 @@
-KFind
+kfind
 =====
 
 Kfind is a frontend for the utility `find' inspired by the find
@@ -12,14 +12,15 @@ the directory containing this file or execute default binding.
 Compilation 
 ----------- 
 
-KFind is now part of kdebase, and therefore you must install the kdelibs module
-before you attempt to compile kfind. It may be necessary to set the environment
-variables QTDIR and KDEDIR.  See ../INSTALL for more information.
+KFind is now part of kdebase, so please direct any compilation or
+installation questions to ../README and ../INSTALL. It may be necessary to
+set the environment variables QTDIR and KDEDIR. 
 
 BUGS
 ----
-Probably many :-(( So if you find then it would be helpful
-to send me a message.
+
+If you find what you believe to be a bug, then it would be helpful to send
+me a message.
 
 THANKS 
 ------ 
@@ -34,4 +35,3 @@ appreciate any suggestions and comments.
 
         Miroslav Flídr
         <flidr@kky.zcu.cz>
-
