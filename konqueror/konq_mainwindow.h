@@ -419,18 +419,7 @@ protected slots:
 
   void slotActivateNextTab();
   void slotActivatePrevTab();
-  void slotActivateTab1() { activateTab(0); }
-  void slotActivateTab2() { activateTab(1); }
-  void slotActivateTab3() { activateTab(2); }
-  void slotActivateTab4() { activateTab(3); }
-  void slotActivateTab5() { activateTab(4); }
-  void slotActivateTab6() { activateTab(5); }
-  void slotActivateTab7() { activateTab(6); }
-  void slotActivateTab8() { activateTab(7); }
-  void slotActivateTab9() { activateTab(8); }
-  void slotActivateTab10() { activateTab(9); }
-  void slotActivateTab11() { activateTab(10); }
-  void slotActivateTab12() { activateTab(11); }
+  void slotActivateTab();
 
   void slotDumpDebugInfo();
 
@@ -515,8 +504,6 @@ protected:
   virtual bool queryExit();
 
   bool askForTarget(const QString& text, KURL& url);
-
-  void activateTab(int position);
 
 private slots:
   void slotRequesterClicked( KURLRequester * );
