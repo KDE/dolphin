@@ -3236,6 +3236,11 @@ JavaScript)</para></listitem>
 <term>Stefan Schimanski <email>1Stein@gmx.de</email></term>
 <listitem><para>developer (&Netscape; plugin support)</para></listitem>
 </varlistentry>
+
+<varlistentry>
+<term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
+<listitem><para>developer (framework)</para></listitem>
+</varlistentry>
 </variablelist>
 
 <para>Documentation copyright 2000, 2001</para>
