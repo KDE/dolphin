@@ -28,7 +28,6 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
-#include <klistview.h>
 #include <krun.h>
 #include <kiconloader.h>
 #include <kicondialog.h>
@@ -85,28 +84,28 @@ void KEBListViewItem::setOpen( bool open )
     QListViewItem::setOpen( open );
 }
 
-class KEBListView : public KListView
+void KEBListView::rename( QListViewItem *_item, int c )
 {
-public:
-    KEBListView( QWidget * parent ) : KListView( parent ) {}
-    virtual ~KEBListView() {}
+    KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
+    if ( !(item->bookmark().isGroup() && c == 1) && !item->bookmark().isSeparator() )
+   	    KListView::rename( _item, c );
+}
 
-    virtual bool acceptDrag(QDropEvent * e) const
-    {
-        return e->source() == viewport() || KBookmarkDrag::canDecode( e );
-    }
+bool KEBListView::acceptDrag(QDropEvent * e) const
+{
+    return e->source() == viewport() || KBookmarkDrag::canDecode( e );
+}
 
-    virtual QDragObject *dragObject() const
-    {
-        if (!currentItem())
-            return 0;
+QDragObject *KEBListView::dragObject() const
+{
+    if (!currentItem())
+        return 0;
 
-        KBookmark bk = KEBTopLevel::self()->selectedBookmark();
-        KBookmarkDrag * drag = KBookmarkDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
-        drag->setPixmap( SmallIcon(bk.icon()) );
-        return drag;
-    }
-};
+    KBookmark bk = KEBTopLevel::self()->selectedBookmark();
+    KBookmarkDrag * drag = KBookmarkDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
+    drag->setPixmap( SmallIcon(bk.icon()) );
+    return drag;
+}
 
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
@@ -139,8 +138,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     setCentralWidget( m_pListView );
     resize( m_pListView->sizeHint().width(), 400 );
 
-    connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-             SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
+//    connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
+//             SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
     connect( m_pListView, SIGNAL(dropped (QDropEvent* , QListViewItem* , QListViewItem* )),
              SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
     connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
@@ -171,6 +170,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) KStdAction::paste( this, SLOT( slotPaste() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
+    (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
     (void) new KAction( i18n( "Chan&ge Icon" ), "www", 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
     (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
     (void) new KAction( i18n( "&Insert separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
@@ -204,7 +204,9 @@ KEBTopLevel::~KEBTopLevel()
 void KEBTopLevel::slotSelectionChanged()
 {
     QListViewItem * item = m_pListView->selectedItem();
-    kdDebug() << "KEBTopLevel::slotSelectionChanged " << item << endl;
+    if (item) {
+        kdDebug() << "KEBTopLevel::slotSelectionChanged " << (static_cast<KEBListViewItem *>(item))->bookmark().address() << endl;
+    }
     bool itemSelected = (item != 0L);
     bool group = false;
     bool root = false;
@@ -223,6 +225,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("edit_copy")->setEnabled(itemSelected && !root);
     coll->action("edit_paste")->setEnabled(itemSelected && !root && m_bCanPaste);
     coll->action("rename")->setEnabled(itemSelected && !separator && !root);
+    coll->action("changeurl")->setEnabled(itemSelected && !group && !separator && !root);
     coll->action("delete")->setEnabled(itemSelected && !root);
     coll->action("newfolder")->setEnabled(itemSelected);
     coll->action("changeicon")->setEnabled(itemSelected);
@@ -297,7 +300,14 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
 void KEBTopLevel::slotRename()
 {
     ASSERT( m_pListView->selectedItem() );
+    kdDebug() << "KEBTopLevel::slotRename(), Item: " << (static_cast<KEBListViewItem *>(m_pListView->selectedItem()))->bookmark().address() << endl;
     m_pListView->rename( m_pListView->selectedItem(), 0 );
+}
+
+void KEBTopLevel::slotChangeURL()
+{
+    ASSERT( m_pListView->selectedItem() );
+    m_pListView->rename( m_pListView->selectedItem(), 1 );
 }
 
 void KEBTopLevel::slotDelete()
@@ -497,6 +507,13 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     ASSERT(item);
     KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
     KBookmark bk = kebItem->bookmark();
+
+    kdDebug() << endl;
+    kdDebug() << "KEBTopLevel::slotItemRenamed(), Item == Group: " << bk.isGroup() << endl;
+    kdDebug() << "KEBTopLevel::slotItemRenamed(), Item's address: " << bk.address() << endl;
+    kdDebug() << "KEBTopLevel::slotItemRenamed(), Itemtext: " << bk.fullText() << ", new text: " << newText << endl;
+    kdDebug() << endl;
+
     switch (column) {
         case 0:
             if ( bk.fullText() != newText )
@@ -632,8 +649,8 @@ void KEBTopLevel::update()
     QListViewItem * item = m_pListView->selectedItem();
     if (item)
     {
-        kdDebug() << "KEBTopLevel::update item=" << item << endl;
         QString address = static_cast<KEBListViewItem*>(item)->bookmark().address();
+        kdDebug() << "KEBTopLevel::update item=" << address << endl;
         fillListView();
         KEBListViewItem * newItem = findByAddress( address );
         ASSERT(newItem);

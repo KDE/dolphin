@@ -19,6 +19,7 @@
 <Menu name="edit"><text>&amp;Edit</text>
  <!-- The undo/redo/cut/copy/paste stuff goes here (ui_standards.rc) -->
  <Action name="rename"/>
+ <Action name="changeurl"/>
  <Action name="changeicon"/>
  <Action name="delete"/>
  <Separator/><!-- Stuff for folders -->
@@ -54,6 +55,7 @@
  <Action name="edit_paste"/>
  <Separator/>
  <Action name="rename"/>
+ <Action name="changeurl"/>
  <Action name="changeicon"/>
  <Action name="delete"/>
  <Separator/><!-- Creation -->
@@ -73,6 +75,7 @@
  <Action name="edit_paste"/>
  <Separator/>
  <Action name="rename"/>
+ <Action name="changeurl"/>
  <Action name="changeicon"/>
  <Action name="delete"/>
  <Separator/><!-- Creation -->

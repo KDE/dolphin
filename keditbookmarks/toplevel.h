@@ -22,10 +22,10 @@
 #include <kmainwindow.h>
 #include <kbookmark.h>
 #include <qlistview.h>
+#include <klistview.h>
 #include <kcommand.h>
 
 class KToggleAction;
-class KListView;
 
 class KEBListViewItem : public QListViewItem
 {
@@ -45,6 +45,21 @@ public:
 private:
     void init( const KBookmark & bk );
     KBookmark m_bookmark;
+};
+
+class KEBListView : public KListView
+{
+    Q_OBJECT
+public:
+    KEBListView( QWidget * parent ) : KListView( parent ) {}
+    virtual ~KEBListView() {}
+
+public slots:
+    virtual void rename( QListViewItem *item, int c );
+
+protected:
+    virtual bool acceptDrag( QDropEvent * e ) const;
+    virtual QDragObject *dragObject() const;
 };
 
 class KEBTopLevel : public KMainWindow
@@ -86,6 +101,7 @@ public slots:
     void slotCopy();
     void slotPaste();
     void slotRename();
+    void slotChangeURL();
     void slotChangeIcon();
     void slotDelete();
     void slotNewFolder();
