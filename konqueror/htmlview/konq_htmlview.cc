@@ -51,14 +51,14 @@ class KonqHTMLViewFactory : public KLibFactory
 {
 public:
   KonqHTMLViewFactory() {}
-  
+
   virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {
     QObject *obj = new KonqHTMLView;
     emit objectCreated( obj );
     return obj;
   }
-  
+
 };
 
 extern "C"
@@ -97,7 +97,7 @@ KonqHTMLView::KonqHTMLView()
 
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
-  
+
   actions()->append( BrowserView::ViewAction( m_paViewDocument, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paViewFrame, BrowserView::MenuView ) );
 
@@ -129,7 +129,7 @@ void KonqHTMLView::openURL( const QString &url, bool reload,
                         this, SLOT( slotDocumentRedirection( int, const char * ) ) );
     }
   }
-  
+
   updateActions();
 }
 
@@ -205,7 +205,7 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
   return true;
 }
 */
-void KonqHTMLView::slotMousePressed( const QString &_url, 
+void KonqHTMLView::slotMousePressed( const QString &_url,
 				     const QPoint &, int _button )
 {
   QString url = _url;
@@ -555,7 +555,7 @@ void KonqHTMLView::viewFrameSource()
   KHTMLWidget *w = m_pBrowser->getSelectedFrame();
   if ( w )
     openTxtView( w->url() );
-*/    
+*/
 }
 
 void KonqHTMLView::slotLoadImages()
@@ -583,7 +583,7 @@ void KonqHTMLView::openTxtView( const QString &url )
   {
     if ( obj->inherits( "KonqFrame" ) )
       break;
-      
+
     obj = obj->parent();
   }
 
@@ -643,9 +643,8 @@ void KonqHTMLView::moveSelection( const QCString & )
 
 void KonqHTMLView::updateActions()
 {
-#warning FIXME: Lars, please implement KHTMLWidget::isFrameSet() :-)
-//  m_paViewFrame->setEnabled( m_pBrowser->isFrameSet() );
-  
+  m_paViewFrame->setEnabled( m_pBrowser->isFrameSet() );
+
 /*
   if ( !CORBA::is_nil( m_vViewMenu ) )
   {
