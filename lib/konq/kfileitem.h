@@ -47,6 +47,7 @@ public:
    * Create an item representing a file, from all the necessary info for it
    * @param _text the text showed for the file
    * @param _mode the file mode (according to stat())
+   * Set to -1 if unknown. For local files, KFileItem will use stat().
    * @param _url the file url
    */
   KFileItem( QString _text, mode_t _mode, KURL& _url );
@@ -68,6 +69,19 @@ public:
    * a link. If yes, then we have to draw the label with an italic font.
    */
   bool isLink() const { return m_bLink; }
+  /**
+   * @return the link destination if isLink() == true
+   */
+  QString linkDest() const;
+  /**
+   * @return the size of the file, if known
+   */
+  long size() const;
+  /**
+   * @param which UDS_MODIFICATION_TIME, UDS_ACCESS_TIME or even UDS_CREATION_TIME
+   * @return the time asked for, in string format
+   */
+  QString time( int which ) const;
   /**
    * @return true if the file is a local file
    */
@@ -135,6 +149,11 @@ public:
    */
   static QString decodeFileName( const QString & _str );
 
+  /**
+   * Convert a time information from a USDAtom into a string
+   */
+  static const char* makeTimeString( const UDSAtom &_atom );
+  
 protected:
   /**
    * Computes the text, mode, and mimetype from the UDSEntry

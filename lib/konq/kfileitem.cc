@@ -22,6 +22,7 @@
 
 #include <assert.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 #include "kfileitem.h"
 
@@ -67,7 +68,27 @@ KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
   m_bMarked( false )
 {
   KFileItem::init(); // don't call derived methods !
-}  
+  // determine mode if unknown
+  if ( m_mode == (mode_t) -1 )
+  {
+    if ( m_url.isLocalFile() )
+    {
+      /* directories may not have a slash at the end if
+       * we want to stat() them; it requires that we
+       * change into it .. which may not be allowed
+       * stat("/is/unaccessible")  -> rwx------
+       * stat("/is/unaccessible/") -> EPERM            H.Z.
+       * This is the reason for the -1
+       */
+      struct stat buf;
+      stat( m_url.path( -1 ), &buf );
+      m_mode = buf.st_mode;
+    }
+    else
+      m_mode = 0;
+  }
+
+}
 
 void KFileItem::init()
 {
@@ -109,18 +130,9 @@ QString KFileItem::getStatusBarInfo() const
 {
   QString comment = m_pMimeType->comment( m_url, false );
   QString text = m_strText;
-  QString linkDest;
-
-  long size   = 0;
-
   // Extract from the UDSEntry the additionnal info we didn't get previously
-  UDSEntry::ConstIterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ ) {
-    if ( (*it).m_uds == UDS_SIZE )
-      size = (*it).m_long;
-    else if ( (*it).m_uds == UDS_LINK_DEST )
-      linkDest = (*it).m_str;
-  }
+  QString myLinkDest = linkDest();
+  long mySize = size();
 
   QString text2 = text.copy();
 
@@ -132,17 +144,17 @@ QString KFileItem::getStatusBarInfo() const
       else
         tmp = i18n("%1 (Link)").arg(comment);
       text += "->";
-      text += linkDest;
+      text += myLinkDest;
       text += "  ";
       text += tmp;
   }
   else if ( S_ISREG( m_mode ) )
   {
-      if (size < 1024)
-        text = QString("%1 (%2 %3)").arg(text2).arg((long) size).arg(i18n("bytes"));
+      if (mySize < 1024)
+        text = QString("%1 (%2 %3)").arg(text2).arg((long) mySize).arg(i18n("bytes"));
       else
       {
-	float d = (float) size/1024.0;
+	float d = (float) mySize/1024.0;
         text = QString("%1 (%2 K)").arg(text2).arg(d, 0, 'f', 2); // was %.2f
       }
       text += "  ";
@@ -159,6 +171,38 @@ QString KFileItem::getStatusBarInfo() const
       text += comment;
     }	
     return text;
+}
+
+QString KFileItem::linkDest() const
+{
+  QString linkDest = QString::null;
+  // Extract it from the UDSEntry
+  UDSEntry::ConstIterator it = m_entry.begin();
+  for( ; it != m_entry.end(); it++ )
+    if ( (*it).m_uds == UDS_LINK_DEST )
+      linkDest = (*it).m_str;
+  return linkDest;
+}
+
+long KFileItem::size() const
+{
+  long size = 0L;
+  // Extract it from the UDSEntry
+  UDSEntry::ConstIterator it = m_entry.begin();
+  for( ; it != m_entry.end(); it++ )
+    if ( (*it).m_uds == UDS_SIZE )
+      size = (*it).m_long;
+  return size;
+}
+
+QString KFileItem::time( int which ) const
+{
+  // Extract it from the UDSEntry
+  UDSEntry::ConstIterator it = m_entry.begin();
+  for( ; it != m_entry.end(); it++ )
+    if ( (*it).m_uds == UDS_MODIFICATION_TIME )
+      return makeTimeString( (*it) );
+  return QString::null;
 }
 
 QString KFileItem::mimetype() const
@@ -203,3 +247,15 @@ QString KFileItem::decodeFileName( const QString & _str )
       str.replace( i, 3, "/");
   return str;
 }
+
+const char* KFileItem::makeTimeString( const UDSAtom &_atom )
+{
+  static char buffer[ 100 ];
+ 
+  time_t t = (time_t)_atom.m_long;
+  struct tm* t2 = localtime( &t );
+ 
+  strftime( buffer, 100, "%c", t2 );
+ 
+  return buffer;
+} 

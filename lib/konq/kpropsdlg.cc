@@ -36,7 +36,6 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <errno.h>
-#include <kconfig.h>
 
 #include <qfile.h>
 #include <qdir.h>
@@ -50,6 +49,7 @@
 #include <qstringlist.h>
 #include <qpainter.h>
 
+#include <kdesktopfile.h>
 #include <kiconloaderdialog.h>
 #include <kiconloader.h>
 #include <kurl.h>
@@ -77,165 +77,128 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
 PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
   // TODO : handle all items
   // Current HACK : only use the first item
-  m_url( _items.first()->url().url() ),
-  m_kurl( _items.first()->url().url() ),
-  m_mode( _items.first()->mode() ),
-  m_mimetype( _items.first()->mimetype() )
+  m_item( _items.first() ), m_items( _items ), m_bMustDestroyItem( false )
 {
   init();
 }
 
 PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
-  m_url(_url), m_kurl( _url ), m_mode( _mode ),
-  m_mimetype( "unknown" )
+  m_bMustDestroyItem( true )
 {
+  // Create a KFileItem from the information we have
+  KURL u( _url );
+  m_item = new KFileItem( "unknown", _mode, u );
+  m_items.append( m_item );
   init();
 }
 
 void PropertiesDialog::init()
 {
-    pageList.setAutoDelete( true );
+  pageList.setAutoDelete( true );
     
-    if ( m_kurl.isMalformed() )
-	delete this;
+  tab = new QTabDialog( 0L, 0L );
 
-    if ( m_mode == (mode_t) -1 )
-    {
-      if ( m_kurl.isLocalFile() )
-      {
-          struct stat buf;
-          stat( m_kurl.path(), &buf );
-          m_mode = buf.st_mode;
-      }
-      else
-	m_mode = 0;
-    }
+  // Matthias: let the dialog look like a modal dialog
+  XSetTransientForHint(qt_xdisplay(), tab->winId(), tab->winId());
 
-    tab = new QTabDialog( 0L, 0L );
+  tab->setGeometry( tab->x(), tab->y(), 400, 400 );
 
-    // Matthias: let the dialog look like a modal dialog
-    XSetTransientForHint(qt_xdisplay(), tab->winId(), tab->winId());
+  insertPages();
 
-    tab->setGeometry( tab->x(), tab->y(), 400, 400 );
+  tab->setOKButton(i18n("OK")); 
+  tab->setCancelButton(i18n("Cancel"));
 
-    insertPages();
-
-    tab->setOKButton(i18n("OK")); 
-    tab->setCancelButton(i18n("Cancel"));
-
-    connect( tab, SIGNAL( applyButtonPressed() ), this, SLOT( slotApply() ) );
-    connect( tab, SIGNAL( cancelButtonPressed() ), this, SLOT( slotCancel() ) );
+  connect( tab, SIGNAL( applyButtonPressed() ), this, SLOT( slotApply() ) );
+  connect( tab, SIGNAL( cancelButtonPressed() ), this, SLOT( slotCancel() ) );
     
-    tab->show();
+  tab->show();
 }
 
 
 PropertiesDialog::~PropertiesDialog()
 {
-    pageList.clear();    
-}
-
-bool PropertiesDialog::canDisplay( const QString &url, mode_t mode )
-{
-  KURL u( url );
-  
-  return FilePropsPage::supports( u, mode ) ||
-         FilePermissionsPropsPage::supports( u, mode ) ||
-         ExecPropsPage::supports( u, mode ) ||
-         ApplicationPropsPage::supports( u, mode ) ||
-         BindingPropsPage::supports( u, mode ) ||
-         URLPropsPage::supports( u, mode ) ||
-         DirPropsPage::supports( u, mode ) ||
-         DevicePropsPage::supports( u, mode );
+  pageList.clear();    
+  if ( m_bMustDestroyItem ) delete m_item;
 }
 
 bool PropertiesDialog::canDisplay( KFileItemList _items )
 {
-  // HACK
-  return canDisplay( _items.first()->url().url(), _items.first()->mode() );
+  return FilePropsPage::supports( _items ) ||
+         FilePermissionsPropsPage::supports( _items ) ||
+         ExecPropsPage::supports( _items ) ||
+         ApplicationPropsPage::supports( _items ) ||
+         BindingPropsPage::supports( _items ) ||
+         URLPropsPage::supports( _items ) ||
+         DirPropsPage::supports( _items ) ||
+         DevicePropsPage::supports( _items );
 }
 
 void PropertiesDialog::slotApply()
 {
-    PropsPage *page;
-    for ( page = pageList.last(); page != 0L; page = pageList.prev() )
-	page->applyChanges();
+  PropsPage *page;
+  for ( page = pageList.last(); page != 0L; page = pageList.prev() )
+    page->applyChanges();
 
-    QString s = m_url;
-
-    // Strip the filename
-    if ( !S_ISDIR( m_mode ) )
-    {
-	int i = s.findRev( "/" );
-	// Should never happen
-	if ( i == -1 )
-	return;
-	s.truncate( i + 1 );
-    }
-    
-    // make sure the desktop icon get's unselected
-    //emit propertiesClosed();
-    delete this;
+  delete this;
 }
 
-void PropertiesDialog::slotCancel(){
-   
-  //emit propertiesClosed();
+void PropertiesDialog::slotCancel()
+{
   delete this;
 }
 
 void PropertiesDialog::insertPages()
 { 
-    if ( FilePropsPage::supports( m_kurl, m_mode ) )
+    if ( FilePropsPage::supports( m_items ) )
     {
 	PropsPage *p = new FilePropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( FilePermissionsPropsPage::supports( m_kurl, m_mode ) )
+    if ( FilePermissionsPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new FilePermissionsPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( ExecPropsPage::supports( m_kurl, m_mode ) )
+    if ( ExecPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new ExecPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( ApplicationPropsPage::supports( m_kurl, m_mode ) )
+    if ( ApplicationPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new ApplicationPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( BindingPropsPage::supports( m_kurl, m_mode ) )
+    if ( BindingPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new BindingPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( URLPropsPage::supports( m_kurl, m_mode ) )
+    if ( URLPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new URLPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( DirPropsPage::supports( m_kurl, m_mode ) )
+    if ( DirPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new DirPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
 
-    if ( DevicePropsPage::supports( m_kurl, m_mode ) )
+    if ( DevicePropsPage::supports( m_items ) )
     {
 	PropsPage *p = new DevicePropsPage( this );
 	tab->addTab( p, p->tabName() );
@@ -250,12 +213,32 @@ PropsPage::PropsPage( PropertiesDialog *_props ) : QWidget( _props->tabDialog(),
     fontHeight = 2*fontMetrics().height();
 }
 
+bool PropsPage::isDesktopFile( KFileItem * _item )
+{
+  // only local files
+  if ( !_item->url().isLocalFile() )
+    return false;
+
+  // only regular files
+  if ( !S_ISREG( _item->mode() ) )
+    return false;
+
+  QString t( _item->url().path() );
+
+  // only if readable
+  FILE *f = fopen( t, "r" );
+  if ( f == 0L )
+    return false;
+
+  // return true if desktop file
+  return ( _item->mimetype() == "application/x-desktop" );
+}
+
 FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-    QString path = properties->kurl().path();
-
     // Extract the directories name without path
-    QString filename;
+    QString filename = properties->kurl().filename();
+    /*
     QString tmp2 = properties->kurl().path();
     if ( tmp2.at(tmp2.length() - 1) == '/' )
 	tmp2.truncate( tmp2.length() - 1 );
@@ -265,32 +248,18 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	filename = tmp2.mid( i + 1, tmp2.length() );
     else
 	filename = '/';
+    */
+    
+    // Make it human-readable (%2F => '/', ...)
     filename = KFileItem::decodeFileName( filename );
 
-    QString tmp = path;
-    if ( tmp.at(tmp.length() - 1) != '/' )
-      tmp += '/';
+    QString tmp = properties->kurl().path( 1 );
     bool isTrash = false;
     // is it the trash bin ?
-    if ( strcmp( properties->kurl().protocol(), "file" ) == 0L &&
-	 tmp == UserPaths::trashPath())
+    if ( properties->kurl().isLocalFile() && tmp == UserPaths::trashPath())
       isTrash = true;
     
-    /* directories may not have a slash at the end if
-     * we want to stat() them; it requires that we
-     * change into it .. which may not be allowed
-     * stat("/is/unaccessible")  -> rwx------
-     * stat("/is/unaccessible/") -> EPERM            H.Z.
-     */
-    if ( path.length() > 1 && path.at(path.length() - 1) == '/' )
-	path.truncate( path.length() - 1);
-
-    struct stat buff;
-    stat( path.ascii(), &buff );
-
-    struct stat lbuff;
-    lstat( path.ascii(), &lbuff );
-
+    QString path = properties->kurl().path();
     QLabel *l;
  
     layout = new QBoxLayout(this, QBoxLayout::TopToBottom, SEPARATION); 
@@ -329,64 +298,74 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
     }
-    else if ( S_ISDIR( buff.st_mode ) )
+    else if ( S_ISDIR( properties->item()->mode() ) )
     {
 	l = new QLabel( i18n("Is a Directory"), this );
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
     }
-    if ( S_ISLNK( lbuff.st_mode ) )
+    if ( properties->item()->isLink() )
     {
 	l = new QLabel( i18n( "Points to" ), this );
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
     
         QLabel *lname = new QLabel( this );
-        lname->setText( path );
         lname->setMinimumSize(200, fontHeight);
         lname->setMaximumSize(QLayout::unlimited, fontHeight);
         lname->setLineWidth(1);
         lname->setFrameStyle(QFrame::Box | QFrame::Raised);
         layout->addWidget(lname, 0, AlignLeft);
 
-	char buffer[1024];
-	int n = readlink( path.ascii(), buffer, 1022 );
-	if ( n > 0 )
-	{
+        QString linkDest = properties->item()->linkDest();
+        if ( linkDest.isNull() && properties->kurl().isLocalFile() )
+        {
+          char buffer[1024];
+          int n = readlink( path.ascii(), buffer, 1022 );
+          if ( n > 0 )
+          {
 	    buffer[ n ] = 0;
-	    lname->setText( buffer );
-	}
+	    linkDest = buffer;
+          }
+        }
+        lname->setText( linkDest );
     }
-    else if ( S_ISREG( buff.st_mode ) )
+    else if ( S_ISREG( properties->item()->mode() ) )
     {
-        QString tempstr;
-	int size = buff.st_size;
-	tempstr = i18n("Size: %1").arg( size );
+        QString tempstr = i18n("Size: %1").arg( properties->item()->size() );
 	l = new QLabel( tempstr, this );
 	l->setFixedSize(l->sizeHint());
 	layout->addWidget(l, 0, AlignLeft);
     }
     
-    QString tempstr = i18n("Mimetype: %1").arg( properties->mimetype() );
+    QString tempstr = i18n("Mimetype: %1").arg( properties->item()->mimetype() );
     l = new QLabel( tempstr, this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
 
+    /*
     char buffer[1024];
     struct tm *t = localtime( &lbuff.st_atime );
     sprintf( buffer, "%s: %02i:%02i %02i.%02i.%04i", 
 	     (const char*)i18n("Last Access"),
 	     t->tm_hour,t->tm_min,
 	     t->tm_mday,t->tm_mon + 1,t->tm_year + 1900 );             
+    */
+    QString buffer = i18n("Last Access: %1").arg(
+      properties->item()->time( UDS_ACCESS_TIME ) );
     l = new QLabel( buffer, this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
 
+    /*
     t = localtime( &lbuff.st_mtime );
     sprintf( buffer, "%s: %02i:%02i %02i.%02i.%04i", 
 	     (const char*)i18n("Last Modified"),
 	     t->tm_hour,t->tm_min,
 	     t->tm_mday,t->tm_mon + 1,t->tm_year + 1900 );          
+    */
+    buffer = i18n("Last Modified: %1").arg(
+      properties->item()->time( UDS_MODIFICATION_TIME ) );
     l = new QLabel( buffer, this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
@@ -395,10 +374,9 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     layout->activate();
 }
 
-bool FilePropsPage::supports( const KURL& _kurl, mode_t  )
+bool FilePropsPage::supports( KFileItemList _items )
 {
-  // Only local files for now - to be extended
-  return _kurl.isLocalFile();
+  return true; /* was _kurl.isLocalFile(); */
 }
 
 void FilePropsPage::applyChanges()
@@ -651,9 +629,11 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     box->activate();
 }
 
-bool FilePermissionsPropsPage::supports( const KURL& _kurl, mode_t )
+bool FilePermissionsPropsPage::supports( KFileItemList _items )
 {
-  return _kurl.isLocalFile();
+  // TODO : return true for any URL and implement read-only permissions
+  // for non local files
+  return _items.first()->url().isLocalFile();
 }
 
 void FilePermissionsPropsPage::applyChanges()
@@ -864,44 +844,15 @@ void ExecPropsPage::enableCheckedEdit()
 }
 
 
-bool ExecPropsPage::supports( const KURL& _kurl, mode_t )
+bool ExecPropsPage::supports( KFileItemList _items )
 {
-    if (!_kurl.isLocalFile())
-        return false;
-
-    QString t( _kurl.path() );
-
-    struct stat buff;
-    stat( t, &buff );
-
-    struct stat lbuff;
-    lstat( t, &lbuff );
-
-    if ( !S_ISREG( buff.st_mode ) || S_ISDIR( lbuff.st_mode ) )
-	return false;
-
-    FILE *f = fopen( t, "r" );
-    if ( f == 0L )
-      return false;
-
-    char buffer[ 101 ];
-    int n = fread( buffer, 1, 100, f );
-    fclose( f );
-    if ( n <= 0 )
-      return false;
-//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-//      return false;
-
-    KConfig config( t );
-    config.setDesktopGroup();
-
-    QString type = config.readEntry( "Type" );
-    if ( type.isNull() )
-	return false;
-    if ( type != "Application" )
-	return false;
-    
-    return true;
+  KFileItem * item = _items.first();
+  // check if desktop file
+  if ( !PropsPage::isDesktopFile( item ) )
+    return false;
+  // open file and check type
+  KDesktopFile config( item->url().path(), true /* readonly */ );
+  return config.hasApplicationType();
 }
 
 void ExecPropsPage::applyChanges()
@@ -1044,7 +995,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     KConfig config( path );
     config.setDesktopGroup();
-    URLStr = config.readEntry(  "URL" );
+   URLStr = config.readEntry(  "URL" );
     iconStr = config.readEntry( "Icon" );
 
     if ( !URLStr.isNull() )
@@ -1059,49 +1010,16 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
 }
 
-bool URLPropsPage::supports( const KURL& _kurl, mode_t  )
+bool URLPropsPage::supports( KFileItemList _items )
 {
-/*
-    KURL u( _kurl->url() );
-    KURL u2( u.nestedURL() );
-    
-    if ( strcmp( u2.protocol(), "file" ) != 0 )
-	return false;
-*/
-    if (!_kurl.isLocalFile())
-        return false;
+  KFileItem * item = _items.first();
+  // check if desktop file
+  if ( !PropsPage::isDesktopFile( item ) )
+    return false;
 
-    QString path = _kurl.path();
-
-    struct stat buff;
-    stat( path, &buff );
-
-    struct stat lbuff;
-    lstat( path, &lbuff );
-
-    if ( !S_ISREG( buff.st_mode ) || S_ISDIR( lbuff.st_mode ) )
-	return false;
-
-    FILE *f = fopen( path, "r" );
-    if ( f == 0L )
-      return false;
-
-//    char buffer[ 101 ];
-//    int n = fread( buffer, 1, 100, f );
-    fclose( f );
-//    if ( n <= 0 )
-//      return false;
-//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-//      return false;
-
-    KConfig config( path );
-    config.setDesktopGroup();
-
-    QString URL = config.readEntry( "URL" );
-    if ( URL.isNull() )
-	return false;
-    
-    return true;    
+  // open file and check type
+  KDesktopFile config( item->url().path(), true /* readonly */ );
+  return config.hasURLType();
 }
 
 void URLPropsPage::applyChanges()
@@ -1169,7 +1087,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     if ( iconStr.isEmpty() )
     {
-	QString str( KMimeType::findByURL( properties->kurl(), properties->mode(), true )->KServiceType::icon() );
+	QString str( KMimeType::findByURL( properties->kurl(), properties->item()->mode(), true )->KServiceType::icon() );
 	KURL u( str );
 	iconStr = u.filename();
     }
@@ -1193,26 +1111,20 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     connect( wallBox, SIGNAL( activated( int ) ), this, SLOT( slotWallPaperChanged( int ) ) );
 }
 
-bool DirPropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool DirPropsPage::supports( KFileItemList _items )
 {
-    if (!_kurl.isLocalFile())
-        return false;
+  KFileItem * item = _items.first();
 
-    if ( !S_ISDIR( _mode ) )
-      return false;
+  if ( !S_ISDIR( item->mode() ) )
+    return false;
 
-    // Is it the trash bin ?
-    QString path = _kurl.path();
+  // Is it the trash bin ?
+  QString path = item->url().path( 1 ); // adds trailing slash
     
-    QString tmp = path;
-    
-    if ( tmp.at( tmp.length() - 1) != '/' )
-	tmp += '/';
-    if ( strcmp( _kurl.protocol(), "file" ) == 0L &&
-	 tmp == UserPaths::trashPath()) 
-        return false;
+  if ( item->url().isLocalFile() && path == UserPaths::trashPath() )
+    return false;
 
-    return true;    
+  return true;
 }
 
 void DirPropsPage::applyChanges()
@@ -1247,7 +1159,7 @@ void DirPropsPage::applyChanges()
 
     // Get the default image
     QString str( KMimeType::findByURL( properties->kurl(),
-				       properties->mode(), true )->KServiceType::icon() );
+				       properties->item()->mode(), true )->KServiceType::icon() );
     KURL u( str );
     QString str2 = u.filename();
     QString sIcon;
@@ -1527,44 +1439,10 @@ void ApplicationPropsPage::addMimeType( const char * name )
         availableExtensionsList->inSort( name );
 }
 
-bool ApplicationPropsPage::supports( const KURL& _kurl, mode_t  )
+bool ApplicationPropsPage::supports( KFileItemList _items )
 {
-    if (!_kurl.isLocalFile())
-        return false;
-
-    QString path = _kurl.path();
-
-    struct stat buff;
-    stat( path, &buff );
-
-    struct stat lbuff;
-    lstat( path, &lbuff );
-
-    if ( !S_ISREG( buff.st_mode ) || S_ISDIR( lbuff.st_mode ) )
-	return false;
-
-    FILE *f = fopen( path, "r" );
-    if ( f == 0L )
-      return false;
-
-//    char buffer[ 101 ];
-//    int n = fread( buffer, 1, 100, f );
-    fclose( f );
-//    if ( n <= 0 )
-//      return false;
-//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-//      return false;
-
-    KConfig config( path );
-    config.setDesktopGroup();
-
-    QString type = config.readEntry( "Type" );
-    if ( type.isNull() )
-	return false;
-    if ( type != "Application" )
-	return false;
-    
-    return true;
+  // same constraints as ExecPropsPage : desktop file with Type = Application
+  return ExecPropsPage::supports( _items );
 }
 
 void ApplicationPropsPage::applyChanges()
@@ -1894,44 +1772,16 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     // appBox->setCurrentItem( index );
 }
 
-bool BindingPropsPage::supports( const KURL& _kurl, mode_t )
+bool BindingPropsPage::supports( KFileItemList _items )
 {
-    if (!_kurl.isLocalFile())
-        return false;
+  KFileItem * item = _items.first();
+  // check if desktop file
+  if ( !PropsPage::isDesktopFile( item ) )
+    return false;
 
-    QString path = _kurl.path();
-
-    struct stat buff;
-    stat( path, &buff );
-
-    struct stat lbuff;
-    lstat( path, &lbuff );
-
-    if ( !S_ISREG( buff.st_mode ) || S_ISDIR( lbuff.st_mode ) )
-	return false;
-
-    FILE *f = fopen( path, "r" );
-    if ( f == 0L )
-      return false;
-
-//    char buffer[ 101 ];
-//    int n = fread( buffer, 1, 100, f );
-    fclose( f );
-//    if ( n <= 0 )
-//      return false;
-//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-//      return false;
-
-    KConfig config( path );
-    config.setDesktopGroup();
-
-    QString type = config.readEntry( "Type" );
-    if ( type.isNull() )
-	return false;
-    if ( type != "MimeType" )
-	return false;
-    
-    return true;
+  // open file and check type
+  KDesktopFile config( item->url().path(), true /* readonly */ );
+  return config.hasMimeTypeType();
 }
 
 void BindingPropsPage::applyChanges()
@@ -2204,38 +2054,15 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     unmounted->setIcon( unmountedStr ); 
 }
 
-bool DevicePropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool DevicePropsPage::supports( KFileItemList _items )
 {
-    if (!_kurl.isLocalFile())
-        return false;
-
-    QString path = _kurl.path();
-
-    if ( !S_ISREG( _mode ) || S_ISDIR( _mode ) )
-	return false;
-
-    FILE *f = fopen( path, "r" );
-    if ( f == 0L )
-      return false;
-
-//    char buffer[ 101 ];
-//    int n = fread( buffer, 1, 100, f );
-    fclose( f );
-//    if ( n <= 0 )
-//      return false;
-//    if ( strncmp( buffer, "# KDE Config File", strlen( "# KDE Config File" ) ) != 0L )
-//      return false;
-
-    KConfig config( path );
-    config.setDesktopGroup();
-
-    QString type = config.readEntry( "Type" );
-    if ( type.isNull() )
-	return false;
-    if ( type != "FSDevice" )
-	return false;
-    
-    return true;
+  KFileItem * item = _items.first();
+  // check if desktop file
+  if ( !PropsPage::isDesktopFile( item ) )
+    return false;
+  // open file and check type
+  KDesktopFile config( item->url().path(), true /* readonly */ );
+  return config.hasDeviceType();
 }
 
 void DevicePropsPage::applyChanges()

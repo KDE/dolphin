@@ -63,10 +63,7 @@ class PropertiesDialog : public QObject
 {
   Q_OBJECT
 public:
-  /**
-   * @return whether there are any property pages available for the given url
-   */
-  static bool canDisplay( const QString &url, mode_t mode = (mode_t) -1);
+
   /**
    * @return whether there are any property pages available for the given file items
    */
@@ -90,19 +87,11 @@ public:
   /**
    * @return a parsed URL.
    */
-  const KURL& kurl() const { return m_kurl; }
+  const KURL& kurl() const { return m_item->url(); }
   /**
-   * @return the URL in text form.
+   * @return the file item for which the dialog is shown
    */
-  QString url() const { return m_url; }
-  /**
-   * @return the mimetype
-   */
-  QString mimetype() const { return m_mimetype; }
-  /**
-   * @return the mode of the URL.
-   */
-  mode_t mode() const { return m_mode; }
+  KFileItem * item() const { return m_item; }
   /**
    * @return a pointer to the dialog
    */
@@ -127,21 +116,12 @@ protected:
   void insertPages();
 
   /**
-   * The URL of the file
+   * The KFileItem used for the props dialog (current limitation)
+   * TODO : handle a list of items here
    */
-  QString m_url;
-  /**
-   * The parsed URL
-   */
-  KURL m_kurl;
-  /**
-   * The mode of the file
-   */
-  mode_t m_mode;
-  /**
-   * The mimetype of the file
-   */
-  QString m_mimetype;
+  KFileItem * m_item;
+  KFileItemList m_items;
+  bool m_bMustDestroyItem;
   /**
    * List of all pages inserted ( first one first )
    */
@@ -177,6 +157,12 @@ public:
    */
   virtual void applyChanges() { }
     
+  /**
+   * Convenience method for most ::supports methods
+   * @return true if the file is a local, regular, readable, desktop file
+   */
+  static bool isDesktopFile( KFileItem * _item );
+
 protected:
   /**
    * Pointer to the dialog
@@ -211,9 +197,9 @@ public:
   virtual void applyChanges();
     
   /**
-   * Tests whether the file specified by _kurl needs a 'General' page.
+   * Tests whether the files specified by _items need a 'General' page.
    */
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
     
 protected:
   QLineEdit *name;
@@ -244,9 +230,9 @@ public:
   virtual void applyChanges();
 
   /**
-   * Tests whether the file specified by _kurl needs a 'Permissions' page.
+   * Tests whether the file specified by _items needs a 'Permissions' page.
    */
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
     
 protected:
   QCheckBox *permBox[3][4];
@@ -291,7 +277,7 @@ public:
   virtual QString tabName() const { return i18n("E&xecute"); }
   virtual void applyChanges();
 
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
 
 public slots:
   void slotBrowseExec();
@@ -336,7 +322,7 @@ public:
   virtual QString tabName() const { return i18n("U&RL"); }
   virtual void applyChanges();
 
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
 
 protected:
   QLineEdit *URLEdit;
@@ -362,7 +348,7 @@ public:
   virtual QString tabName() const { return i18n("&Dir"); }
   virtual void applyChanges();
   
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
 
 public slots:
   void slotWallPaperChanged( int );
@@ -410,7 +396,7 @@ public:
   virtual QString tabName() const { return i18n("&Application"); }
   virtual void applyChanges();
 
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
 
 public slots:
   void slotDelExtension();
@@ -453,7 +439,7 @@ public:
   virtual QString tabName() const { return i18n("&Binding"); }
   virtual void applyChanges();
 
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
 
 protected:
     
@@ -477,7 +463,7 @@ public:
   virtual QString tabName() const { return i18n("De&vice"); }
   virtual void applyChanges();
   
-  static bool supports( const KURL& _kurl, mode_t _mode );
+  static bool supports( KFileItemList _items );
     
 protected:
   QLineEdit* device;
