@@ -32,14 +32,6 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
-    cbCursor = new QCheckBox(i18n("&Change cursor over links"), this);
-    lay->addWidget(cbCursor);
-
-    QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "
-       "(usually to a hand) if it is moved over a hyperlink.") );
-
-    connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
-
     QVButtonGroup *bg = new QVButtonGroup( i18n("Un&derline Links"), this );
     bg->setExclusive( TRUE );
     connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
@@ -49,6 +41,14 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     m_pUnderlineRadio[Always] = new QRadioButton( i18n("&Always"), bg );
     m_pUnderlineRadio[Never] = new QRadioButton( i18n("&Never"), bg );
     m_pUnderlineRadio[Hover] = new QRadioButton( i18n("&Hover"), bg );
+
+    cbCursor = new QCheckBox(i18n("&Change cursor over links"), this);
+    lay->addWidget(cbCursor);
+
+    QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "
+       "(usually to a hand) if it is moved over a hyperlink.") );
+
+    connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
      "A&utomatically load images\n"
