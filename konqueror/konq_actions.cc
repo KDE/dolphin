@@ -90,64 +90,8 @@ void KonqComboAction::unplug( QWidget *w )
 
 /////////////////
 
-KonqHistoryAction::KonqHistoryAction( const QString& text, const QString& icon, int accel, QObject* parent, const char* name )
-  : KAction( text, icon, accel, parent, name )
-{
-  m_popup = 0;
-}
-
-KonqHistoryAction::~KonqHistoryAction()
-{
-  if ( m_popup )
-    delete m_popup;
-}
-
-int KonqHistoryAction::plug( QWidget *widget, int index )
-{
-
-  if ( widget->inherits( "KToolBar" ) )
-  {
-    KToolBar *bar = (KToolBar *)widget;
-
-    int id_ = KAction::getToolButtonID();
-    bar->insertButton( icon(), id_, SIGNAL( clicked() ), this,
-                       SLOT( slotActivated() ), isEnabled(), plainText(),
-                       index );
-
-    addContainer( bar, id_ );
-
-    connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
-
-    bar->setDelayedPopup( id_, popupMenu(), true );
-
-    return containerCount() - 1;
-  }
-
-  return KAction::plug( widget, index );
-}
-
-void KonqHistoryAction::unplug( QWidget *widget )
-{
-  if ( widget->inherits( "KToolBar" ) )
-  {
-    KToolBar *bar = (KToolBar *)widget;
-
-    int idx = findContainer( bar );
-
-    if ( idx != -1 )
-    {
-      bar->removeItem( menuId( idx ) );
-      removeContainer( idx );
-    }
-
-    return;
-  }
-
-  KAction::unplug( widget );
-}
-
 //static - used by KonqHistoryAction and KonqBidiHistoryAction
-void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
+void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
                                           QPopupMenu * popup,
                                           bool onlyBack,
                                           bool onlyForward,
@@ -183,51 +127,6 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
       if ( !onlyForward ) --it; else ++it;
   }
   //kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
-}
-
-void KonqHistoryAction::setEnabled( bool b )
-{
-  // Is this still necessary ? Looks very standard...
-
-  int len = containerCount();
-
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KToolBar" ) )
-      ((KToolBar *)w)->setItemEnabled( menuId( i ), b );
-
-  }
-
-  KAction::setEnabled( b );
-}
-
-void KonqHistoryAction::setIconSet( const QIconSet& iconSet )
-{
-  // Is this still necessary ? Looks very standard...
-
-  int len = containerCount();
-
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KToolBar" ) )
-      ((KToolBar *)w)->setButtonPixmap( menuId( i ), iconSet.pixmap() );
-
-  }
-
-  KAction::setIconSet( iconSet );
-}
-
-QPopupMenu *KonqHistoryAction::popupMenu()
-{
-  if ( m_popup )
-    return m_popup;
-
-  m_popup = new QPopupMenu();
-  return m_popup;
 }
 
 ///////////////////////////////
@@ -292,7 +191,7 @@ void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
     }
     assert( m_startPos >= 0 && (uint)m_startPos < history.count() );
     m_currentPos = history.at(); // for slotActivated
-    KonqHistoryAction::fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
+    KonqBidiHistoryAction::fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
 }
 
 void KonqBidiHistoryAction::slotActivated( int id )

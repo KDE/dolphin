@@ -53,47 +53,6 @@ private:
 };
 
 /**
- * This is a one-direction history action (such as : the list up, back or forward)
- */
-class KonqHistoryAction : public KAction
-{
-  Q_OBJECT
-public:
-    /**
-     * Only constructor - because we need an icon, since this action only makes
-     * sense in a toolbar (as well as menubar)
-     */
-    KonqHistoryAction( const QString& text, const QString& icon, int accel = 0,
-	     QObject* parent = 0, const char* name = 0 );
-
-    virtual ~KonqHistoryAction();
-
-    virtual int plug( QWidget *widget, int index = -1 );
-    virtual void unplug( QWidget *widget );
-
-    // Used by KonqHistoryAction and KonqBidiHistoryAction
-    static void fillHistoryPopup( const QList<HistoryEntry> &history,
-                           QPopupMenu * popup,
-                           bool onlyBack = false,
-                           bool onlyForward = false,
-                           bool checkCurrentItem = false,
-                           uint startPos = 0 );
-
-    virtual void setEnabled( bool b );
-
-    virtual void setIconSet( const QIconSet& iconSet );
-
-    QPopupMenu *popupMenu();
-
-signals:
-    // -1 for one step back, 0 for don't move, +1 for one step forward, etc.
-    void activated( int );
-
-private:
-    QPopupMenu *m_popup; // hack
-};
-
-/**
  * Plug this action into a menu to get a bidirectional history
  * (both back and forward, including current location)
  */
@@ -113,6 +72,14 @@ public:
     //virtual void unplug( QWidget *widget );
 
     void fillGoMenu( const QList<HistoryEntry> &history );
+
+    // Used by KonqHistoryAction and KonqBidiHistoryAction
+    static void fillHistoryPopup( const QList<HistoryEntry> &history,
+                           QPopupMenu * popup,
+                           bool onlyBack = false,
+                           bool onlyForward = false,
+                           bool checkCurrentItem = false,
+                           uint startPos = 0 );
 
 protected slots:
     void slotActivated( int );

@@ -1865,7 +1865,7 @@ void KonqMainWindow::slotBackAboutToShow()
 {
   m_paBack->popupMenu()->clear();
   if ( m_currentView )
-      KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paBack->popupMenu(), true, false );
+      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_paBack->popupMenu(), true, false );
 }
 
 void KonqMainWindow::slotBack()
@@ -1882,7 +1882,7 @@ void KonqMainWindow::slotForwardAboutToShow()
 {
   m_paForward->popupMenu()->clear();
   if ( m_currentView )
-      KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paForward->popupMenu(), false, true );
+      KonqBidiHistoryAction::fillHistoryPopup( m_currentView->history(), m_paForward->popupMenu(), false, true );
 }
 
 void KonqMainWindow::slotForward()
@@ -2364,24 +2364,15 @@ void KonqMainWindow::initActions()
   m_paLinkView = new KToggleAction( i18n( "Link view"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
-  m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", ALT+Key_Up, actionCollection(), "up" );
-
-  connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
+  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", ALT+Key_Up, this, SLOT( slotUp() ), actionCollection(), "up" );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
-  m_paBack = new KonqHistoryAction( i18n( "&Back" ), "back", ALT+Key_Left, actionCollection(), "back" );
-
-
-  connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
-  // toolbar button
+  m_paBack = new KToolBarPopupAction( i18n( "&Back" ), "back", ALT+Key_Left, this, SLOT( slotBack() ), actionCollection(), "back" );
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KonqHistoryAction( i18n( "&Forward" ), "forward", ALT+Key_Right, actionCollection(), "forward" );
-
-
-  connect( m_paForward, SIGNAL( activated() ), this, SLOT( slotForward() ) );
+  m_paForward = new KToolBarPopupAction( i18n( "&Forward" ), "forward", ALT+Key_Right, this, SLOT( slotForward() ), actionCollection(), "forward" );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
@@ -2676,7 +2667,7 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paUnlockAll->setEnabled( false );
 
       // Load profile submenu
-      m_pViewManager->profileListDirty();
+      m_pViewManager->profileListDirty( false );
 
       currentProfileChanged();
 

@@ -53,7 +53,7 @@ class KonqComboAction;
 class KonqFrame;
 class KonqFrameBase;
 class KonqFrameContainer;
-class KonqHistoryAction;
+class KToolBarPopupAction;
 class KonqLogoAction;
 class KonqPart;
 class KonqViewManager;
@@ -385,9 +385,9 @@ private:
 
   KActionMenu *m_pamBookmarks;
 
-  KonqHistoryAction *m_paUp;
-  KonqHistoryAction *m_paBack;
-  KonqHistoryAction *m_paForward;
+  KToolBarPopupAction *m_paUp;
+  KToolBarPopupAction *m_paBack;
+  KToolBarPopupAction *m_paForward;
   KAction *m_paHome;
 
   KonqBidiHistoryAction *m_paHistory;
