@@ -33,11 +33,10 @@
 #include <qobject.h>
 #include <qwidget.h>
 #include <qxembed.h>
-#include "knspluginembed.h"
 
 #include "NSPluginClassIface_stub.h"
 
-#define EMBEDCLASS KNSPluginEmbed
+#define EMBEDCLASS QXEmbed
 
 class KProcess;
 

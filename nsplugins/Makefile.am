@@ -8,8 +8,7 @@ NSPluginClassIface_DIR = $(srcdir)/viewer
 lib_LTLIBRARIES = libnsplugin.la
 libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp		\
 			NSPluginClassIface.stub				\
-			NSPluginCallbackIface.skel knspluginembed.cpp	\
-			kqeventutil.cpp kxeventutil.cpp
+			NSPluginCallbackIface.skel
 
 libnsplugin_la_LDFLAGS = $(all_libraries) -version-info 1:1:0 -module -no-undefined
 libnsplugin_la_LIBADD  = -lkparts
