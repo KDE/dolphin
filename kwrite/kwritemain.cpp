@@ -564,7 +564,8 @@ int main(int argc, char **argv)
   aboutData.addAuthor("Glen Parker",I18N_NOOP("KWrite Undo History, Kspell integration"), "glenebob@nwlink.com");
   aboutData.addAuthor("Scott Manson",I18N_NOOP("KWrite XML Syntax highlighting support"), "sdmanson@alltel.net");
   aboutData.addAuthor ("John Firebaugh",I18N_NOOP("Patches and more"), "jfirebaugh@kde.org");
-  
+  aboutData.addAuthor("Hamish Rodda",I18N_NOOP("Patches and more"), "meddie@yoyo.its.monash.edu.au");
+
   aboutData.addCredit ("Matteo Merli",I18N_NOOP("Highlighting for RPM Spec-Files, Perl, Diff and more"), "merlim@libero.it");
   aboutData.addCredit ("Rocky Scaletta",I18N_NOOP("Highlighting for VHDL"), "rocky@purdue.edu");
   aboutData.addCredit ("Yury Lebedev",I18N_NOOP("Highlighting for SQL"),"");
