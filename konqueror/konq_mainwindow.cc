@@ -477,26 +477,38 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
-  //kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
-  //kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+  kdDebug(1202) << " childView->isFollowActive()=" << childView->isFollowActive() << endl;
   //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
   //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
   //kdDebug(1202) << "req.newTab= " << req.newTab << endl;
   //kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
 
   bool bOthersFollowed = false;
-  // If linked view and if we are not already following another view (and if we are not reloading)
-  if ( childView && childView->isLinkedView() && !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile() )
-    bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView ,MakeLinkedViewsFollow);
-  else
-  if (childView && childView->isFollowActive() && !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile())
-	makeViewsFollow(_url,req.args,serviceType,childView,MakeActiveViewFollow);
-
-  if (childView && !req.followMode && !req.args.reload)
-      makeViewsFollow(_url,req.args,serviceType,childView,MakeFollowActiveFollow);
-
-  if ( childView && childView->isLockedLocation() && !req.args.reload /* allow to reload a locked view*/ )
-    return bOthersFollowed;
+  if ( childView )
+  {
+    // If we're not already following another view (and if we are not reloading)
+    if ( !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile() )
+    {
+      // When clicking a 'follow active' view (e.g. childView is the sidebar),
+      // open the URL in the active view
+      // (it won't do anything itself, since it's locked to its location)
+      if ( childView->isFollowActive() && childView != m_currentView )
+      {
+        abortLoading();
+        setLocationBarURL( _url.prettyURL() );
+        KonqOpenURLRequest newreq;
+        newreq.followMode = true;
+        newreq.args = req.args;
+        bOthersFollowed = openView( serviceType, _url, m_currentView, newreq );
+      }
+      // "link views" feature, and "sidebar follows active view" feature
+      bOthersFollowed = makeViewsFollow(_url, req.args, serviceType, childView) || bOthersFollowed;
+    }
+    if ( childView->isLockedLocation() && !req.args.reload /* allow to reload a locked view*/ )
+      return bOthersFollowed;
+  }
 
   QString indexFile;
 
@@ -620,7 +632,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
         // since this window has no view yet - we don't want to keep an empty mainwindow.
         // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
         childView = m_pViewManager->Initialize( serviceType, serviceName );
-      
+
         enableAllActions( true );
 
         m_pViewManager->setActivePart( childView->part() );
@@ -740,29 +752,14 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   openURL( childView, url, args.serviceType, req, args.trustedSource );
 }
 
-// Linked-views feature
+// Linked-views feature, plus "sidebar follows URL opened in the active view" feature
 bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &args,
-                                      const QString & serviceType, KonqView * senderView , MakeViewsFollowMode followType)
+                                      const QString & serviceType, KonqView * senderView )
 {
+  if ( !senderView->isLinkedView() && senderView != m_currentView )
+      return false; // none of those features apply -> return
+
   bool res = false;
-
-  if ((followType==MakeFollowActiveFollow) && ( senderView !=m_currentView)) return false;
-
-  if (followType==MakeActiveViewFollow)
-  {
-	if  (senderView == m_currentView) return false;
-	else
-	{
-          abortLoading();
-          setLocationBarURL( url.prettyURL() );
-	  KonqOpenURLRequest req;
-	  req.followMode = true;
-	  req.args = args;
-	  return  openView( serviceType, url, m_currentView, req );
-	}
-  }
-
-
   kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
@@ -777,9 +774,8 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
 
   for ( KonqView * view = listViews.first() ; view ; view = listViews.next() )
   {
-    // Views that should follow this URL as views that are linked
-    // (we are here only if the view opening a URL initially is linked)
-    if ( (view != senderView) && view->isLinkedView() && (senderView->isLinkedView()))
+    // Views that should follow this URL as both views are linked
+    if ( (view != senderView) && view->isLinkedView() && senderView->isLinkedView())
     {
       kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
 
@@ -795,7 +791,8 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       res = openView( serviceType, url, view, req ) || res;
     }
     else
-	if ((view!=senderView) && (view->isFollowActive()))
+        // Make the sidebar follow the URLs opened in the active view
+	if ((view!=senderView) && view->isFollowActive() && senderView == m_currentView)
 	{
 	    res=openView(serviceType,url,view,req) || res;
 	}
@@ -825,7 +822,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       req.newTab = true;
       req.newTabInFront = true;
       req.args = args;
-      openURL( 0L, url, QString::null, req );    
+      openURL( 0L, url, QString::null, req );
     }
     else
       KonqMisc::createNewWindow( url, args );
@@ -2020,14 +2017,14 @@ void KonqMainWindow::slotPopupNewTab()
 void KonqMainWindow::popupNewTab(bool infront)
 {
   kdDebug(1202) << "KonqMainWindow::popupNewTab()" << endl;
-  
+
   KFileItemListIterator it ( popupItems );
   KonqOpenURLRequest req;
   req.newTab = true;
   req.newTabInFront = infront;
   for ( ; it.current(); ++it )
   {
-    openURL( 0L, (*it)->url(), QString::null, req );    
+    openURL( 0L, (*it)->url(), QString::null, req );
   }
 }
 
@@ -2289,12 +2286,7 @@ void KonqMainWindow::slotGoHistoryDelayed()
   int steps = m_goBuffer;
   m_goBuffer = 0;
   m_currentView->go( steps );
-  if ( m_currentView->isLinkedView() )
-      // make other views follow
-      /*bOthersFollowed = */makeViewsFollow( m_currentView->url(), KParts::URLArgs(),
-                                             m_currentView->serviceType(), m_currentView, MakeLinkedViewsFollow );
-  makeViewsFollow(m_currentView->url(), KParts::URLArgs(),m_currentView->serviceType(),m_currentView,MakeFollowActiveFollow);
-
+  makeViewsFollow(m_currentView->url(), KParts::URLArgs(),m_currentView->serviceType(),m_currentView);
 }
 
 void KonqMainWindow::slotBackAboutToShow()
