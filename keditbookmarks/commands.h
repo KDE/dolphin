@@ -19,6 +19,8 @@
 #ifndef __commands_h
 #define __commands_h
 
+#include <kio/job.h>
+
 #include <kcommand.h>
 #include <kbookmark.h>
 
@@ -227,36 +229,35 @@ private:
 
 class KEBListViewItem;
 
-#include <kio/job.h>
 class TestLink: public QObject
 {
-    Q_OBJECT
-public:
+   Q_OBJECT
 
-  TestLink(KBookmark  bk);
-  ~TestLink();
+public:
+   TestLink(KBookmark bk);
+   ~TestLink();
 
 public slots:
-  void Url(KBookmark  bk);
-  void finished(KIO::Job *j);
-  void read(KIO::Job *j, const QByteArray &a);
+   void Url(KBookmark bk);
+   void finished(KIO::Job *j);
+   void read(KIO::Job *j, const QByteArray &a);
 
 signals:
-  void deleteSelf(TestLink *);
+   void deleteSelf(TestLink *);
 
 private:
-  void setStatus(KEBListViewItem *p, QString err);
-  void setTmpStatus(KEBListViewItem *p, QString status);
-  void setMod(KEBListViewItem *p, QString mod);
-  bool doNext(KEBListViewItem *p);
+   void setStatus(KEBListViewItem *p, QString err);
+   void setTmpStatus(KEBListViewItem *p, QString status);
+   void setMod(KEBListViewItem *p, QString mod);
+   bool doNext(KEBListViewItem *p);
 
-  KIO::TransferJob *job;
-  KBookmark book;
-  bool jobActive;
-  QString url;
-  int depth;
-  bool errSet;
-  QString oldStatus;
+   KIO::TransferJob *m_job;
+   KBookmark m_book;
+   // bool jobActive;
+   QString m_url;
+   int m_depth;
+   bool m_errSet;
+   QString m_oldStatus;
 };
 
 #endif

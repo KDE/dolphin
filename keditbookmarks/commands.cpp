@@ -542,43 +542,43 @@ void ImportCommand::endFolder()
 // TestLink
 ////////////////////////////////////////////////////////////////////////////
 
-TestLink::TestLink(KBookmark  bk) : book(bk)
+TestLink::TestLink(KBookmark bk) : m_book(bk)
 {
    connect( this, SIGNAL( deleteSelf(TestLink *)),
             KEBTopLevel::self(), SLOT(slotCancelTest(TestLink *)));
-   depth = 0;
+   m_depth = 0;
    Url(bk);
 }
 
 TestLink::~TestLink()
 {
-   if (job) {
+   if (m_job) {
       kdDebug() << "JOB kill\n";
-      KEBListViewItem *p = KEBTopLevel::self()->findByAddress(book.address());
-      p->restoreStatus(oldStatus);
-      job->disconnect();
-      job->kill(false);
+      KEBListViewItem *p = KEBTopLevel::self()->findByAddress(m_book.address());
+      p->restoreStatus(m_oldStatus);
+      m_job->disconnect();
+      m_job->kill(false);
    }
 }
 
-void TestLink::Url(KBookmark  bk)
+void TestLink::Url(KBookmark bk)
 {
-   book = bk;
-   url = bk.url().url();
-   kdDebug() << "TestLink::Url " << url << " : " << book.address() << "\n";
+   m_book = bk;
+   m_url = bk.url().url();
+   kdDebug() << "TestLink::Url " << m_url << " : " << m_book.address() << "\n";
 
-   KEBListViewItem *p = KEBTopLevel::self()->findByAddress(book.address());
+   KEBListViewItem *p = KEBTopLevel::self()->findByAddress(m_book.address());
 
    if (p->firstChild()) {
       doNext(p);
 
    } else {
-      job = KIO::get(bk.url(), true, false);
-      connect(job, SIGNAL( result( KIO::Job *)),
+      m_job = KIO::get(bk.url(), true, false);
+      connect(m_job, SIGNAL( result( KIO::Job *)),
               this, SLOT( finished(KIO::Job *)));
-      connect(job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
+      connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
               this, SLOT( read(KIO::Job *, const QByteArray &)));
-      job->addMetaData("errorPage", "true");
+      m_job->addMetaData("errorPage", "true");
 
       setTmpStatus(p, i18n("Checking..."));
    }
@@ -589,7 +589,7 @@ void TestLink::setStatus(KEBListViewItem *p, QString status) {
 }
 
 void TestLink::setTmpStatus(KEBListViewItem *p, QString status) {
-   p->setTmpStatus(status, oldStatus);
+   p->setTmpStatus(status, m_oldStatus);
 }
 
 void TestLink::setMod(KEBListViewItem *p, QString mod) {
@@ -601,10 +601,10 @@ void TestLink::setMod(KEBListViewItem *p, QString mod) {
 
 void TestLink::read(KIO::Job *j, const QByteArray &a)
 {
-   KEBListViewItem *p = KEBTopLevel::self()->findByAddress(book.address());
+   KEBListViewItem *p = KEBTopLevel::self()->findByAddress(m_book.address());
    KIO::TransferJob *jb = (KIO::TransferJob *)j;
 
-   errSet = false;
+   m_errSet = false;
    QString arrStr = a;
 
    if (jb->isErrorPage()) {
@@ -619,7 +619,7 @@ void TestLink::read(KIO::Job *j, const QByteArray &a)
                t = t.left(fn);
             }
             setStatus(p, t);
-            errSet = true;
+            m_errSet = true;
             break;
          }
       }
@@ -636,8 +636,8 @@ void TestLink::read(KIO::Job *j, const QByteArray &a)
 
 void TestLink::finished(KIO::Job *j)
 {
-   job = 0;
-   KEBListViewItem *p = KEBTopLevel::self()->findByAddress( book.address());
+   m_job = 0;
+   KEBListViewItem *p = KEBTopLevel::self()->findByAddress( m_book.address());
    KIO::TransferJob *jb = (KIO::TransferJob *)j;
    QString mod = jb->queryMetaData("modified");
 
@@ -653,7 +653,7 @@ void TestLink::finished(KIO::Job *j)
          // kdDebug() << "MODE=" << mod <<"\n";
          setMod(p, mod);
 
-      } else if (!errSet) {
+      } else if (!m_errSet) {
          //	kdDebug() << "Me==\n";
          setMod(p, "0");
       }
@@ -662,7 +662,7 @@ void TestLink::finished(KIO::Job *j)
       // kdDebug() << "MOD=" << mod <<"\n";
       setMod(p, mod);
 
-   } else if (!errSet) {
+   } else if (!m_errSet) {
       // kdDebug() << "M=\n";
       setMod(p, "0");
    }
@@ -681,29 +681,29 @@ bool TestLink::doNext(KEBListViewItem *p)
    KEBListViewItem  *q;
 
    if (p->firstChild()) {
-      depth++;
+      m_depth++;
       q = (KEBListViewItem  *)p->firstChild();
       // partial CODE DUP
       KBookmark bk = q->bookmark();
-      //    kdDebug() << "FC=" << depth << "\n";
+      //    kdDebug() << "FC=" << m_depth << "\n";
       Url(bk);
       notFinished = true;
 
    } else if (p->nextSibling()) {
       // CODE DUP
-      if (depth > 0) {
+      if (m_depth > 0) {
          q = (KEBListViewItem  *)p->nextSibling();
          KBookmark bk = q->bookmark();
-         // kdDebug() << "NextD="<< depth << "\n";
+         // kdDebug() << "NextD="<< m_depth << "\n";
          Url(bk);
          notFinished = true;
       }
 
    } else {
       while(true) {
-         depth--;
+         m_depth--;
          // CODE DUP
-         if (depth > 0) {
+         if (m_depth > 0) {
             if (p->parent()->nextSibling()) {
                q = (KEBListViewItem  *)p->parent()->nextSibling();
                KBookmark bk = q->bookmark();
