@@ -188,7 +188,7 @@ void KNewMenu::fillMenu()
             {
                 if ( (*it)->text() == (*templ).text )
                 {
-                    kdDebug(1203) << "skipping " << (*templ).filePath << endl;
+                    kdDebug(1203) << "KNewMenu: skipping " << (*templ).filePath << endl;
                     bSkip = true;
                 }
             }
@@ -219,7 +219,7 @@ void KNewMenu::slotFillTemplates()
         QStringList dirs = m_actionCollection->instance()->dirs()->resourceDirs("templates");
         for ( QStringList::Iterator it = dirs.begin() ; it != dirs.end() ; ++it )
         {
-            kdDebug(1203) << "Templates resource dir: " << *it << endl;
+            //kdDebug(1203) << "Templates resource dir: " << *it << endl;
             s_pDirWatch->addDir( *it );
         }
         connect ( s_pDirWatch, SIGNAL( dirty( const QString & ) ),
@@ -238,7 +238,7 @@ void KNewMenu::slotFillTemplates()
     QStringList files = m_actionCollection->instance()->dirs()->findAllResources("templates");
     for ( QStringList::Iterator it = files.begin() ; it != files.end() ; ++it )
     {
-        kdDebug(1203) << *it << endl;
+        //kdDebug(1203) << *it << endl;
         if ( (*it)[0] != '.' )
         {
             Entry e;
@@ -274,7 +274,7 @@ void KNewMenu::slotNewFile()
     if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
     {
         KDesktopFile df( entry.templatePath );
-        kdDebug(1203) <<  df.readType() << endl;
+        //kdDebug(1203) <<  df.readType() << endl;
         if ( df.readType() == "Link" )
         {
             m_isURLDesktopFile = true;
