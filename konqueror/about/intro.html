@@ -33,22 +33,16 @@
 
   <!-- the bar -->
   <div id="bar">
-    <div id="barT"><div id="barTL"/><div id="barTR"/></div>
-    <div id="barL">
-      <div id="barR">
-        <div id="barCenter" class="bar_text">
-          %1<br />
-          <!-- Konqueror is your file manager, web browser and universal document viewer. -->
-          <ul>
-            <li><a href="launch.html">%1</a><!--launch--></li>
-            <li><a class="selected">%1<!-- introduction --></a></li>
-            <li><a href="tips.html">%1<!--tips--></a></li>
-            <li><a href="specs.html">%1<!-- specs --></a></li>
-          </ul>
-        </div>
-      </div>
+    <div id="barCenter" class="bar_text">
+        %1<br />
+        <!-- Konqueror is your file manager, web browser and universal document viewer. -->
+        <ul>
+        <li><a href="launch.html">%1</a><!--launch--></li>
+        <li><a class="selected">%1<!-- introduction --></a></li>
+        <li><a href="tips.html">%1<!--tips--></a></li>
+        <li><a href="specs.html">%1<!-- specs --></a></li>
+        </ul>
     </div>
-    <div id="barB"><div id="barBL"/><div id="barBR"/></div>
   </div>
 
   <!-- the main text box -->
@@ -57,35 +51,24 @@
     <div id="boxL">
       <div id="boxR">
         <div id="boxCenter">
-        <h2 style="margin-top: 0px;">%1</h2>
 
-        <!--Welcome to Konqueror-->
-
-          <p>%1</p><!--
-        With Konqueror you have your filesystem at your command, browsing local or
-        networked drives with equal ease.
-        Thanks to the component technology used throughout KDE, Konqueror is also
-        a full featured, easy to use,
-        and comfortable Web Browser, which you can use to explore the internet.
+          %1<!--
+        With Konqueror you have ...
         -->
 
-          <p>%1
-          <!-- Simply enter the internet address (e.g. http://www.kde.org)
-              of the webpage you want and press enter. Or choose one of the entries 
-              in your bookmark-menu.-->
-           %1
-          <!--If you want to go back to the previous webpage, press 
-               the button ("back") in the toolbar.-->
-           %1<!--To go back to the home-directory of your local
-               filesystem press ("Home").-->
-           %1
-          <!--For more detailed documentation on Konqueror click here --></p>
+          <p>%1</p>
+          <!-- Simply enter the internet address ...-->
+           <p>%1
+          <!--If you want to go back to ...-->
+           %1<!--To go back to the home-directory...-->
+           %1</p>
+          <p><!--For more detailed documentation on Konqueror click here --></p>
 
-          <p><img width="32" height="32" border="0" src=
-          "lightning.png" align="left" alt="" /> %1
+          <p><table><tr><td valign=middle><img width="32" height="32" border="0" src=
+          "lightning.png" align="left" alt="" /></td><td valign=top>%1</td></tr></table>
           <!--Tuning tip...--></p>
 
-          <p style="margin-bottom: 0px">%1&nbsp;<a href="tips.html">%1
+          <p id="nextlink"><a href="tips.html">%1&nbsp;%1
           <!-- Continue --></a></p>
         </div>
       </div>

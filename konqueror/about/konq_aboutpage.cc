@@ -93,6 +93,7 @@ QString KonqAboutPageFactory::launch()
     return res;
 
   KIconLoader *iconloader = KGlobal::iconLoader();
+  int iconSize = iconloader->currentSize(KIcon::Desktop);
   QString home_icon_path = iconloader->iconPath("kfm_home", KIcon::Desktop );
   QString storage_icon_path = iconloader->iconPath("system", KIcon::Desktop );
   QString remote_icon_path = iconloader->iconPath("network", KIcon::Desktop );
@@ -108,27 +109,39 @@ QString KonqAboutPageFactory::launch()
       .arg( i18n( "Konqueror" ) )
       .arg( i18n("Conquer your Desktop!") )
       .arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
-      .arg( i18n( "Launch" ) )
+      .arg( i18n( "Starting Points" ) )
       .arg( i18n( "Introduction" ) )
       .arg( i18n( "Tips" ) )
       .arg( i18n( "Specifications" ) )
-      .arg( i18n( "Welcome to Konqueror %1." ).arg( KGlobal::instance()->aboutData()->version() ) )
       .arg( home_folder )
       .arg( home_icon_path )
+      .arg(iconSize).arg(iconSize)
       .arg( home_folder )
       .arg( i18n( "Home Folder" ) )
+      .arg( i18n( "Your personal files" ) )
       .arg( storage_icon_path )
+      .arg(iconSize).arg(iconSize)
       .arg( i18n( "Storage Media" ) )
+      .arg( i18n( "Disks and removable media" ) )
       .arg( remote_icon_path )
-      .arg( i18n( "Remote Folders" ) )
+      .arg(iconSize).arg(iconSize)
+      .arg( i18n( "Network Folders" ) )
+      .arg( i18n( "Shared files and folders" ) )
       .arg( wastebin_icon_path )
+      .arg(iconSize).arg(iconSize)
       .arg( i18n( "Trash" ) )
+      .arg( i18n( "Browse and restore the trash" ) )
       .arg( applications_icon_path )
+      .arg(iconSize).arg(iconSize)
       .arg( i18n( "Applications" ) )
+      .arg( i18n( "Installed programs" ) )
       .arg( settings_icon_path )
+      .arg(iconSize).arg(iconSize)
       .arg( i18n( "Settings" ) )
-      .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
-      .arg( i18n( "Introduction to Konqueror" ) )
+      .arg( i18n( "Desktop configuration" ) )
+      .arg( continue_icon_path )
+      .arg( KIcon::SizeSmall ).arg( KIcon::SizeSmall )
+      .arg( i18n( "Next: An Introduction to Konqueror" ) )
       ;
   i18n("Search the Web");//i18n for possible future use
 
@@ -155,26 +168,26 @@ QString KonqAboutPageFactory::intro()
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
-	.arg( i18n("Conquer your Desktop!") )
-	.arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
-	.arg( i18n( "Launch" ) )
+	.arg( i18n( "Conquer your Desktop!") )
+	.arg( i18n( "Konqueror is your file manager, web browser and universal document viewer.") )
+	.arg( i18n( "Starting Points" ) )
 	.arg( i18n( "Introduction" ) )
           .arg( i18n( "Tips" ) )
           .arg( i18n( "Specifications" ) )
-          .arg( i18n( "Welcome to Konqueror %1." ).arg( KGlobal::instance()->aboutData()->version() ) )
-          .arg( i18n( "With Konqueror you have your filesystem at your command, browsing "
-		      "local or networked drives with equal ease. Thanks to the component "
-		      "technology used throughout KDE, Konqueror is also a full featured, "
-		      "easy to use and comfortable Web Browser, which you can use to explore "
-		      "the Internet." ) )
-          .arg( i18n( "Simply enter the Internet address (e.g. <a href=\"http://www.kde.org\">http://www.kde.org</A>) "
-                      "of the web page you want and press Enter, or choose one of the "
-		      "entries in your Bookmarks menu.") )
-          .arg( i18n( "If you want to go back to the previous "
-		      "web page, press the button <img width='16' height='16' src=\"%1\"> &nbsp;"
-                      "(\"Back\") in the toolbar.").arg( back_icon_path ) )
-          .arg( i18n( "To go back to the home directory of your local filesystem press "
-                      "<img width='16' height='16' src=\"%1\"> &nbsp; (\"Home\"). " ).arg(gohome_icon_path) )
+          .arg( i18n( "Konqueror makes working with and managing your files easy. You can browse "
+                      "both local and networked folders while enjoying advanced features "
+                      "such as the powerful sidebar and file previews."
+		      ) )
+          .arg( i18n( "Konqueror is also a full featured and easy to use web browser which you "
+                      "can  use to explore the Internet. "
+                      "Enter the address (e.g. <a href=\"http://www.kde.org\">http://www.kde.org</A>) "
+                      "of a web page you would like to visit in the location bar and press Enter, "
+                      "or choose an entry from the Bookmarks menu.") )
+          .arg( i18n( "To return to the previous "
+		      "location, press the back button  <img width='16' height='16' src=\"%1\"> "
+                      "in the toolbar. ").arg( back_icon_path ) )
+          .arg( i18n( "To quickly go to your Home folder press the "
+                      " home button <img width='16' height='16' src=\"%1\">." ).arg(gohome_icon_path) )
           .arg( i18n( "For more detailed documentation on Konqueror click <a href=\"%1\">here</a>." )
                       .arg("exec:/khelpcenter") )
           .arg( i18n( "<em>Tuning Tip:</em> If you want the Konqueror web browser to start faster,"
@@ -182,7 +195,7 @@ QString KonqAboutPageFactory::intro()
 			" by choosing the Help -> Konqueror Introduction menu option, and then pressing "
 			"Settings -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
 	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
-	  .arg( i18n( "Continue" ) )
+	  .arg( i18n( "Next: Tips &amp; Tricks" ) )
 	;
 
 
@@ -260,7 +273,7 @@ QString KonqAboutPageFactory::specs()
 	  .arg( i18n("Popup"))
 	  .arg( i18n("(Short-) Automatic"))
 	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
-	  .arg( i18n("<a href=\"%1\">Back to the Launch Page</a>").arg("launch.html") )
+	  .arg( i18n("<a href=\"%1\">Return to Starting Points</a>").arg("launch.html") )
 
           ;
 
@@ -279,69 +292,69 @@ QString KonqAboutPageFactory::tips()
 	return res;
 
     KIconLoader *iconloader = KGlobal::iconLoader();
-    QString viewmag_icon_path = 
+    QString viewmag_icon_path =
 	    iconloader->iconPath("viewmag", KIcon::Small );
-    QString history_icon_path = 
+    QString history_icon_path =
 	    iconloader->iconPath("history", KIcon::Small );
-    QString openterm_icon_path = 
+    QString openterm_icon_path =
 	    iconloader->iconPath("openterm", KIcon::Small );
-    QString locationbar_erase_rtl_icon_path = 
+    QString locationbar_erase_rtl_icon_path =
 	    iconloader->iconPath("clear_left", KIcon::Small );
-    QString locationbar_erase_icon_path = 
+    QString locationbar_erase_icon_path =
 	    iconloader->iconPath("locationbar_erase", KIcon::Small );
-    QString window_fullscreen_icon_path = 
+    QString window_fullscreen_icon_path =
 	    iconloader->iconPath("window_fullscreen", KIcon::Small );
-    QString view_left_right_icon_path = 
+    QString view_left_right_icon_path =
 	    iconloader->iconPath("view_left_right", KIcon::Small );
     QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
- 
+
     res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
 	.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
-	.arg( i18n( "Launch" ) )
+	.arg( i18n( "Starting Points" ) )
 	.arg( i18n( "Introduction" ) )
 	.arg( i18n( "Tips" ) )
 	.arg( i18n( "Specifications" ) )
-	  .arg( i18n( "Tips" ) )
+	.arg( i18n( "Tips &amp; Tricks" ) )
 	  .arg( i18n( "Use Internet-Keywords and Web-Shortcuts: by typing \"gg: KDE\" one can search the Internet, "
 		      "using Google, for the search phrase \"KDE\". There are a lot of "
 		      "Web-Shortcuts predefined to make searching for software or looking "
 		      "up certain words in an encyclopedia a breeze. You can even "
                       "<a href=\"%1\">create your own</a> Web-Shortcuts." ).arg("exec:/kcmshell ebrowsing") )
-	  .arg( i18n( "Use the magnifier button <img width='16' height='16' src=\"%1\"> &nbsp; in the"
+	  .arg( i18n( "Use the magnifier button <img width='16' height='16' src=\"%1\"> in the"
 		      " toolbar to increase the font size on your web page.").arg(viewmag_icon_path) )
 	  .arg( i18n( "When you want to paste a new address into the Location toolbar you might want to "
-		      "clear the current entry by pressing the black arrow with the white cross &nbsp;"
-		      "<img width='16' height='16' src=\"%1\"> &nbsp; in the toolbar.")
+		      "clear the current entry by pressing the black arrow with the white cross "
+		      "<img width='16' height='16' src=\"%1\"> in the toolbar.")
               .arg(QApplication::reverseLayout() ? locationbar_erase_rtl_icon_path : locationbar_erase_icon_path))
 	  .arg( i18n( "To create a link on your desktop pointing to the current page, "
 		      "simply drag the \"Location\" label that is to the left of the Location toolbar, drop it on to "
 		      "the desktop, and choose \"Link\"." ) )
-	  .arg( i18n( "You can also find <img width='16' height='16' src=\"%1\"> &nbsp; \"Full-Screen Mode\" "
+	  .arg( i18n( "You can also find <img width='16' height='16' src=\"%1\"> \"Full-Screen Mode\" "
 		      "in the Settings menu. This feature is very useful for \"Talk\" "
 		      "sessions.").arg(window_fullscreen_icon_path) )
 	  .arg( i18n( "Divide et impera (lat. \"Divide and conquer\") - by splitting a window "
-		      "into two parts (e.g. Window -> <img width='16' height='16' src=\"%1\"> &nbsp; Split View "
+		      "into two parts (e.g. Window -> <img width='16' height='16' src=\"%1\"> Split View "
 		      "Left/Right) you can make Konqueror appear the way you like. You"
 		      " can even load some example view-profiles (e.g. Midnight Commander)"
 		      ", or create your own ones." ).arg(view_left_right_icon_path))
 	  .arg( i18n( "Use the <a href=\"%1\">user-agent</a> feature if the website you are visiting "
                       "asks you to use a different browser "
 		      "(and do not forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
-	  .arg( i18n( "The <img width='16' height='16' src=\"%1\"> &nbsp; History in your SideBar ensures "
+	  .arg( i18n( "The <img width='16' height='16' src=\"%1\"> History in your SideBar ensures "
 		      "that you can keep track of the pages you have visited recently.").arg(history_icon_path) )
 	  .arg( i18n( "Use a caching <a href=\"%1\">proxy</a> to speed up your"
 		      " Internet connection.").arg("exec:/kcmshell proxy") )
 	  .arg( i18n( "Advanced users will appreciate the Konsole which you can embed into "
-		      "Konqueror (Window -> <img width='16' height='16' SRC=\"%1\"> &nbsp; Show "
+		      "Konqueror (Window -> <img width='16' height='16' SRC=\"%1\"> Show "
  		      "Terminal Emulator).").arg(openterm_icon_path))
 	  .arg( i18n( "Thanks to <a href=\"%1\">DCOP</a> you can have full control over Konqueror using a script."
 ).arg("exec:/kdcop") )
 	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
-	  .arg( i18n( "Continue" ) )
+	  .arg( i18n( "Next: Specifications" ) )
           ;
 
 

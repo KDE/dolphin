@@ -33,22 +33,16 @@
 
   <!-- the bar -->
   <div id="bar">
-    <div id="barT"><div id="barTL"/><div id="barTR"/></div>
-    <div id="barL">
-      <div id="barR">
-        <div id="barCenter" class="bar_text">
-          %1<br />
-          <!-- Konqueror is your file manager, web browser and universal document viewer. -->
-          <ul>
-	    <li><a href="launch.html">%1</a><!--launch--></li>
-            <li><a href="intro.html">%1<!-- intro --></a></li>
-            <li><a href="tips.html">%1<!--tips--></a></li>
-            <li><a class="selected">%1<!-- specs --></a></li>
-          </ul>
-        </div>
-      </div>
+    <div id="barCenter" class="bar_text">
+        %1<br />
+        <!-- Konqueror is your file manager, web browser and universal document viewer. -->
+        <ul>
+        <li><a href="launch.html">%1</a><!--launch--></li>
+        <li><a href="intro.html">%1<!-- intro --></a></li>
+        <li><a href="tips.html">%1<!--tips--></a></li>
+        <li><a class="selected">%1<!-- specs --></a></li>
+        </ul>
     </div>
-    <div id="barB"><div id="barBL"/><div id="barBR"/></div>
   </div>
 
   <!-- the main text box -->
@@ -58,14 +52,14 @@
       <div id="boxR">
         <div id="boxCenter">
 	<h2 style="margin-top: 0px;">%1<h2><!-- Specifications -->
-	    <p>%1 <!-- Konqueror is designed to embrace and support Internet standards.  
+	    <p>%1 <!-- Konqueror is designed to embrace and support Internet standards.
 		       The aim is to fully implement the officially sanctioned standards from
 		       organisations such as the W3 and OASIS, while also adding extra support for other
 		       common usability features that arise as de facto standards across the internet.
-		       Along with this support, for such functions as favicons, Internet Keywords, 
+		       Along with this support, for such functions as favicons, Internet Keywords,
 		       and XBEL bookmarks, Konqueror also implements: -->
 	  </p>
-	
+
 	<table bgcolor="#ffffff" border="1" cellspacing="0" cellpadding="1"
 	       width="100%">
 	  <tr align="left" valign="middle" bgcolor="#505050" height="6">
@@ -82,60 +76,58 @@
 		  <th width="58%">%1 <!--Additional requirements*--></th>
 		</tr>
 		<tr bgcolor="#fff4c9">
-		  <td>%1 <!--DOM (Level 1, partially Level 2) based HTML 4.01</A>--></td>
-		<td>&nbsp;</td>
-		<td>%1 <!--built-in--></td>
+		  <td valign="top">%1 <!--DOM (Level 1, partially Level 2) based HTML 4.01</A>--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">%1 <!--built-in--></td>
 	      </tr>
 	      <tr bgcolor="#ffffff">
-		<td>%1 <!--Cascading Style Sheets (CSS 1, partially CSS 2)--></td>
-		<td>&nbsp;</td>
-		<td>%1 <!--built-in--></td>
+		<td valign="top">%1 <!--Cascading Style Sheets (CSS 1, partially CSS 2)--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">%1 <!--built-in--></td>
 	      </tr>
 	      <tr bgcolor="#fff4c9">
-		<td>%1 <!--ECMA-262 Edition 3 (equals roughly Javascript 1.5)--></td>
-		<td>&nbsp;</td>
+		<td valign="top">%1 <!--ECMA-262 Edition 3 (equals roughly Javascript 1.5)--></td>
+		<td valign="top">&nbsp;</td>
 		<noscript>
-		  <td>%1 <!-- Javascript disabled [...] --></td>
+		  <td valign="top">%1 <!-- Javascript disabled [...] --></td>
 		</noscript>
 		<script language="Javascript">
 		  document.write("<td>%1</td>"); // Javascript enabled [...]
 		</script>
 	      </tr>
 	      <tr bgcolor="#ffffff">
-		<td>%1 <!--Secure Java support--></td>
-		<td>&nbsp;</td>
-		<td>
-		  <ul>
-		    <li>%1<!--JDK 1.2.0 (Java 2) compatible VM (Blackdown, IBM or Sun)--></li>
-		    <li>%1<!--Enable Java (globally) here--></li>
-		  </ul>
+		<td valign="top">%1 <!--Secure Java support--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">
+		  %1<!--JDK 1.2.0 (Java 2) compatible VM (Blackdown, IBM or Sun)--><br>
+		  %1<!--Enable Java (globally) here-->
 		</td>
 	      </tr>
 	      <tr bgcolor="#fff4c9">
-		<td>%1<!-- Netscape Communicator plugins (for viewing Flash, RealAudio, RealVideo etc.)--></td>
-		<td>&nbsp;</td>
-		<td>%1<!-- built-in--></t#d>
+		<td valign="top">%1<!-- Netscape Communicator plugins (for viewing Flash, RealAudio, RealVideo etc.)--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">%1<!-- built-in--></t#d>
 	      </tr>
 	      <tr bgcolor="#ffffff">
-		<td><a href="http://www.netscape.com/eng/ssl3/">%1<!--Secure Sockets Layer--></a> %1<!--(TLS/SSL v2/3) for secure communications up to 168bit--></td>
-		<td>&nbsp;</td>
-		<td><a href="http://www.openssl.org">%1<!--OpenSSL--></a></td>
+		<td valign="top"><a href="http://www.netscape.com/eng/ssl3/">%1<!--Secure Sockets Layer--></a> %1<!--(TLS/SSL v2/3) for secure communications up to 168bit--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top"><a href="http://www.openssl.org">%1<!--OpenSSL--></a></td>
 	      </tr>
 	      <tr bgcolor="#fff4c9">
-		<td>%1<!--Bidirectional 16bit unicode support--></td>
-		<td>&nbsp;</td>
-		<td>%1<!--built-in--></td>
+		<td valign="top">%1<!--Bidirectional 16bit unicode support--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">%1<!--built-in--></td>
 	      </tr>
 	      <tr bgcolor="#ffffff">
-		<td>%1<!--AutoCompletion for forms--></td>
-		<td>&nbsp;</td>
-		<td>%1<!--built-in--></a></td>
+		<td valign="top">%1<!--AutoCompletion for forms--></td>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">%1<!--built-in--></a></td>
 	    </tr>
 	  </table>
 	</td>
       </td>
     </table>
-
+    <p/>
       <table bgcolor="#ffffff" border="1" cellspacing="0" cellpadding="1"
 	     width="100%">
 	<tr align="left" valign="middle" bgcolor="#505050" height="6">
@@ -151,53 +143,49 @@
 		<th width="2%">&nbsp;</th>
 		<th width="58%">%1 <!--Additional requirements*--></th>
 	      </tr>
-	      
+
 	      <tr bgcolor="#ffffff">
-		<td>
+		<td valign="top">
 		  %1<!--Image formats:-->
 		</td>
-		<td>&nbsp;</td>
-		<td>
-		  <ul>
-		    <li>PNG</li>
-		    <li>MNG</li>
-		    <li>JPG</li>
-		    <li>GIF</li>
-		  </ul>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">
+		  PNG<br>
+		  MNG<br>
+		  JPG<br>
+		  GIF
 		</td>
 	      </tr>
 	      <tr bgcolor="#fff4c9">
-		<td> %1<!--Transfer protocols:-->
+		<td valign="top"> %1<!--Transfer protocols:-->
 		</td>
-		<td>&nbsp;</td>
-		<td>
-		  <ul>
-		    <li>%1<!--HTTP 1.1 (including gzip/bzip2 compression)--></li>
-		    <li>%1<!--FTP--></li>
-		    <li>%1<!--and many more...--></li>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">
+		  %1<!--HTTP 1.1 (including gzip/bzip2 compression)--><br>
+		  %1<!--FTP--><br>
+		  %1<!--and many more...--></li>
 		  </ul>
 		</td>
 	      </tr>
 	      <tr bgcolor="#ffffff">
-		<td>
+		<td valign="top">
 		  %1<!--URL Completion:-->
 		</td>
-		<td>&nbsp;</td>
-		<td>
-		  <ul>
-		    <li>%1<!-- Manual --></li>
-		    <li>%1<!-- Popup --></li>
-		    <li>%1<!-- (Short-) Automatic --></li></ul>
+		<td valign="top">&nbsp;</td>
+		<td valign="top">
+		  %1<!-- Manual --><br>
+		  %1<!-- Popup --><br>
+		  %1<!-- (Short-) Automatic --></li></ul>
 		</td>
 	      </tr>
 	    </table>
-	
+
 	  </td>
 	</tr>
       </table>
-      
-      <p style="margin-bottom: 0px">
-	%1&nbsp;<a href="intro.html">%1<!-- Back to the Introduction --></a>  
+
+      <p id="nextlink">
+	<a href="intro.html">%1&nbsp;%1<!-- Back to the Introduction --></a>
        </p>
         </div>
       </div>

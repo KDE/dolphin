@@ -59,8 +59,9 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
 
 #bar {
   width: 100%;
-  background-color: #6785ac;
+  background-color: #7693BA;
   border-bottom: 1px solid black;
+  padding-bottom: 3px;
 }
 
 #barT {
@@ -126,7 +127,7 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
 }
 
 #barCenter li:not(:first-child):before { /* Aren't css3 selectors great? */
-  content: " | ";
+  content: " · ";
 }
 
 #barR {
@@ -170,20 +171,20 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
 
 #boxT {
   width: 100%;
-  height: 35px;
+  height: 22px;
   background-image: url(box-top-middle.png);
 }
 
 #boxTL {
-  width: 20px;
-  height: 35px;
+  width: 25px;
+  height: 22px;
   float: left;
   background-image: url(box-top-left.png);
 }
 
 #boxTR {
-  width: 20px;
-  height: 35px;
+  width: 25px;
+  height: 22px;
   float: right;
   background-image: url(box-top-right.png);
 }
@@ -228,6 +229,17 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
   height: 22px;
   float: right;
   background-image: url(box-bottom-right.png);
+}
+
+#subtext {
+    font-size: 10pt;
+    font-style: italic;
+}
+
+#nextlink {
+    margin-bottom: 0px;
+    text-align: right;
+    font-size: 10pt;
 }
 
 /*

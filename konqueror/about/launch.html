@@ -33,22 +33,16 @@
 
   <!-- the bar -->
   <div id="bar">
-    <div id="barT"><div id="barTL"/><div id="barTR"/></div>
-    <div id="barL">
-      <div id="barR">
-        <div id="barCenter" class="bar_text">
-          %1<br />
-          <!-- Konqueror is your file manager, web browser and universal document viewer. -->
-          <ul>
-            <li><a class="selected">%1<!--launch--></a></li>
-            <li><a href="intro.html">%1<!-- intro --></a></li>
-            <li><a href="tips.html">%1</a><!--tips--></li>
-            <li><a href="specs.html">%1<!-- specs --></a></li>
-          </ul>
-        </div>
-      </div>
+    <div id="barCenter" class="bar_text">
+        %1<br />
+        <!-- Konqueror is your file manager, web browser and universal document viewer. -->
+        <ul>
+        <li><a class="selected">%1<!--launch--></a></li>
+        <li><a href="intro.html">%1<!-- intro --></a></li>
+        <li><a href="tips.html">%1</a><!--tips--></li>
+        <li><a href="specs.html">%1<!-- specs --></a></li>
+        </ul>
     </div>
-    <div id="barB"><div id="barBL"/><div id="barBR"/></div>
   </div>
 
   <!-- the main text box -->
@@ -57,42 +51,53 @@
     <div id="boxL">
       <div id="boxR">
         <div id="boxCenter">
-        <h2 style="margin-top: 0px;">%1</h2>
-	
+
 	<table border="0" align="center">
 	  <tr>
-	    <td>
-	      <a href="%1"><img src="%1" width="32" height="32" /> 
-		<a href="%1">%1</a>
-	      </td>
-	      <td>
-		<a href="media:/"><img src="%1" width="32" height="32" /> 
-		  <a href="media:/">%1</a>
+	      <td valign="bottom">
+		<a href="%1"><img src="%1" height="%1" width="%1" /></a>
+		</td>
+	      <td valign="bottom">
+		  <a href="%1">%1</a><br><span id="subtext"><nobr>%1</span>
+		</td>
+	      <td valign="bottom">
+		<a href="media:/"><img src="%1" height="%1" width="%1" /></a>
+		</td>
+	      <td valign="bottom">
+		  <a href="media:/">%1</a><br><span id="subtext"><nobr>%1</span>
 		</td>
 	      </tr>
 	      <tr>
 		<td>
-		  <a href="remote:/"><img src="%1" width="32" height="32" /> 
-		    <a href="remote:/">%1</a>
+		  <a href="remote:/"><img src="%1" height="%1" width="%1" /></a>
+		</td>
+	      <td valign="bottom">
+		  <a href="remote:/">%1</a><br><span id="subtext"><nobr>%1</span>
 		  </td>
-		  <td>
-		    <a href="trash:/"><img src="%1" width="32" height="32" /> 
-		      <a href="trash:/">%1</a>
-		    </td>
-		  </tr>
+		<td>
+		    <a href="trash:/"><img src="%1" height="%1" width="%1" /></a>
+		</td>
+	      <td valign="bottom">
+		    <a href="trash:/">%1</a><br><span id="subtext"><nobr>%1</span>
+		  </td>
+		</tr>
 		  <tr>
 		    <td>
-		      <a href="applications:/"><img src="%1" width="32" height="32" /> 
-			<a href="applications:/">%1</a>
+		      <a href="applications:/"><img src="%1" height="%1" width="%1" /></a>
+		</td>
+	      <td valign="bottom">
+		       <a href="applications:/">%1</a><br><span id="subtext"><nobr>%1</span>
 		      </td>
 		      <td>
-			<a href="settings:/"><img src="%1" width="32" height="32" /> 
-			  <a href="settings:/">%1</a>
+			<a href="settings:/"><img src="%1" height="%1" width="%1" /></a>
+		</td>
+	      <td valign="bottom">
+			<a href="settings:/">%1</a><br><span id="subtext"><nobr>%1</span>
 			</td>
 		      </tr>
 		    </table>
-		    
-		    <p style="margin-bottom: 0px">%1&nbsp;<a href="intro.html">%1
+
+		    <p  id="nextlink"><a href="intro.html"><img src="%1" width="%1" height="%1">&nbsp;%1
 			<!-- Continue --></a></p>
 
         </div>
