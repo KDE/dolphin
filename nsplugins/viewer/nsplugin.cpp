@@ -802,6 +802,7 @@ void NPN_ReloadPlugins(NPBool /*reloadPages*/)
 // JAVA functions
 JRIEnv *NPN_GetJavaEnv()
 {
+   kdDebug() << "NPN_GetJavaEnv() [unimplemented]" << endl;
    // FIXME: Allow use of JAVA
    return 0;
 }
