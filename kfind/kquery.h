@@ -29,6 +29,7 @@ class KQuery : public QObject
   void setContext( const QString & context, bool casesensitive, bool useRegexp );
   void setUsername( QString username );
   void setGroupname( QString groupname );
+	void setMetaInfo(const QString &metainfo, const QString &metainfokey);
 
   void start();
   void kill();
@@ -42,7 +43,6 @@ class KQuery : public QObject
 
  signals:
   void addFile(const KFileItem *filename, const QString& matchingLine);
-  //void addFile(const KFileItem *filename);
   void result(int);
 
  private:
@@ -58,6 +58,8 @@ class KQuery : public QObject
   QString m_context;
   QString m_username;
   QString m_groupname;
+  QString m_metainfo;
+  QString m_metainfokey;
 
   bool m_casesensitive;
   bool m_regexpForContent;

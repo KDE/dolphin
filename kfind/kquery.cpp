@@ -3,6 +3,8 @@
 #include <qfile.h>
 
 #include <kfileitem.h>
+#include <kfilemetainfo.h>
+
 #include "kquery.moc"
 
 KQuery::KQuery(QObject *parent, const char * name)
@@ -178,11 +180,50 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 //            kapp->processEvents();
 	  }
 
+    // match datas in metainfo...
+    if (!m_metainfo.isEmpty())
+      {
+	bool found = false;
+	matchingLineNumber=0;
+
+	QString filename = file->url().path();
+	if(filename.startsWith("/dev/"))
+	  continue;
+
+	KFileMetaInfo metadatas(filename);
+	KFileMetaInfoItem metaitem;
+	QStringList metakeys;
+	QString strmetakeycontent;
+
+	if(m_metainfokey.isEmpty())
+  {
+     metakeys=metadatas.supportedKeys();
+    for ( QStringList::Iterator it = metakeys.begin(); it != metakeys.end(); ++it ) {
+        metaitem=metadatas.item(*it);
+        strmetakeycontent=metaitem.string();
+        if(strmetakeycontent.find(m_metainfo)!=-1)
+        {
+          found=true;
+          break;
+        }
+    }
+   }
+   else
+   {
+      metaitem=metadatas.item(m_metainfokey);
+      strmetakeycontent=metaitem.string();
+      if(strmetakeycontent.find(m_metainfo)!=-1)
+      {
+        found=true;
+        break;
+      }
+   }
+	}
+
 	if (!found)
 	  continue;
       }
     emit addFile(file,matchingLine);
-    //emit addFile(file);//Tested OK
   }
   delete file;
 }
@@ -198,7 +239,11 @@ void KQuery::setContext(const QString & context, bool casesensitive, bool useReg
      m_regexp.setPattern(m_context);
 }
 
-
+void KQuery::setMetaInfo(const QString &metainfo, const QString &metainfokey)
+{
+  m_metainfo=metainfo;
+  m_metainfokey=metainfokey;
+}
 
 void KQuery::setMimeType(const QString &mimetype)
 {
