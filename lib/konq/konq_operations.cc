@@ -49,6 +49,7 @@
 #include <kio/jobclasses.h>
 #include <kio/paste.h>
 #include <kio/netaccess.h>
+#include <kio/renamedlg.h>
 #include <konq_drag.h>
 #include <konq_iconviewwidget.h>
 #include <kprotocolinfo.h>
@@ -748,21 +749,8 @@ void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
 {
     bool ok;
     QString name = i18n( "New Folder" );
-    if (baseURL.isLocalFile())
-    {
-       QString base = name;
-       int n = 2;
-       while(true)
-       {
-          KURL url=baseURL;
-          url.addPath( name );
-
-          if (access(QFile::encodeName(url.path()), F_OK) == -1)
-             break;
-
-          name = base + QString("_%1").arg(n++);
-       }
-    }
+    if ( baseURL.isLocalFile() && QFileInfo( baseURL.path(+1) + name ).exists() )
+        name = KIO::RenameDlg::suggestName( baseURL, i18n( "New Folder" ) );
 
     name = KInputDialog::getText ( i18n( "New Folder" ),
         i18n( "Enter folder name:" ), name, &ok, parent );
