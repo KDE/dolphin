@@ -36,7 +36,8 @@
 #include <kregistry.h>
 #include <kregfactories.h>
 #include <kservices.h>
-#include <kded_utils.h>
+#include <kded_instance.h>
+#include <knaming.h>
 #include <kactivator.h>
 #include <ktrader.h>
 
@@ -360,23 +361,18 @@ void clientApp::getKonqy()
 
 void clientApp::getKDesky()
 {
-  KTrader::OfferList offers = trader->query( "DesktopManager", "'IDL:KDesktopIf:1.0#KDesktopIf' in RepoIds" );
+  // Get naming service
+  KNaming *naming = kded->knaming();
 
-  if ( offers.count() != 1 )
-  {
-    printf("%i\n", offers.count());
-    printf( "Error: Can't find KDesktop service" );fflush(stdout);
-    return;
-  }
-
-  CORBA::Object_var obj = activator->activateService( offers.getFirst()->name(), "IDL:KDesktopIf:1.0", "KDesktopIf" );
-
+  // Lookup KDesktopIf object
+  CORBA::Object_var obj = naming->lookup( "IDL:KDesktopIf:1.0" );
   if ( CORBA::is_nil( obj ) )
   {
     printf( "Error: Can't connect to KDesktop" );fflush(stdout);
     return;
   }
 
+  // Try to cast the object
   m_vKDesky = KDesktopIf::_narrow( obj );
 
   if ( CORBA::is_nil( m_vKDesky ) )
