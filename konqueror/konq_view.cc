@@ -1204,4 +1204,18 @@ KParts::StatusBarExtension * KonqView::statusBarExtension() const
     return KParts::StatusBarExtension::childObject( m_pPart );
 }
 
+bool KonqView::supportsServiceType( const QString &serviceType ) const
+{
+    QStringList lst = serviceTypes();
+    for( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
+        if ( *it == serviceType )
+            return true;
+        // Maybe we should keep around a list of KServiceType::Ptr?
+        KMimeType::Ptr mime = KMimeType::mimeType( *it );
+        if ( mime && mime->is( serviceType ) ) // respect inheritance
+            return true;
+    }
+    return false;
+}
+
 #include "konq_view.moc"

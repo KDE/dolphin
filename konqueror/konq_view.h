@@ -210,8 +210,7 @@ public:
    */
   QStringList serviceTypes() const { return m_service->serviceTypes(); }
 
-  bool supportsServiceType( const QString &serviceType ) const
-        { return serviceTypes().contains( serviceType ); }
+  bool supportsServiceType( const QString &serviceType ) const;
 
   // True if "Use index.html" is set (->the view doesn't necessarily show HTML!)
   bool allowHTML() const { return m_bAllowHTML; }

@@ -603,14 +603,9 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
-  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
-  kdDebug(1202) << "req.args.frameName= " << req.args.frameName << endl;
-  kdDebug(1202) << "req.followMode=" << req.followMode << endl;
-  kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
-  kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
-  kdDebug(1202) << "req.newTab= " << req.newTab << endl;
-  kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
-  kdDebug(1202) << "req.openAfterCurrentPage= " << req.openAfterCurrentPage << endl;
+#ifndef NDEBUG
+  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << " req:" << req.debug() << endl;
+#endif
   bool bOthersFollowed = false;
 
   if (currentURL().startsWith("http")) {
