@@ -543,12 +543,13 @@ QString KfindTabDialog::date2String(QDate date)
 QDate KfindTabDialog::string2Date(QString str)
 {   
     int year,month,day;
+    QDate tmpD;
         
     sscanf(str,"%2d/%2d/%4d",&day,&month,&year);
     if (QDate::isValid(year,month,day))
         return QDate(year,month,day);
       else
-        return QDate::QDate();   
+        return (tmpD);   
 }
 
 void  KfindTabDialog::getDirectory()
