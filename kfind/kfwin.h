@@ -7,9 +7,10 @@
 #ifndef KFWIN_H
 #define KFWIN_H
 
-#include <qlistview.h> 
+#include <qlistview.h>
 
 class KfArchiver;
+class QPixmap;
 class QFileInfo;
 
 class KfFileLVI : public QListViewItem
@@ -17,18 +18,22 @@ class KfFileLVI : public QListViewItem
  public:
   KfFileLVI(QListView* lv, QString file);
   ~KfFileLVI();
-  
+
   QString key(int column, bool) const;
-  
+
   QFileInfo *fileInfo;
+  
+ private:
+  static QPixmap *folderPixmap, *lockedFolderPixmap;
+  static QPixmap *filePixmap, *lockedFilePixmap;
 };
 
 class KfindWindow: public   QListView
 {
-  Q_OBJECT  
+  Q_OBJECT
 public:
   KfindWindow( QWidget * parent = 0, const char * name = 0 );
-  
+
   void beginSearch();
   void endSearch();
 

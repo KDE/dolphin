@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <qobjectlist.h>        
+#include <qobjectlist.h>
 #include <qapplication.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
@@ -25,12 +25,12 @@
 #include <qlist.h>
 #include <qsize.h>
 #include <qvalidator.h>
-       
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <kconfig.h>
 
-#include "kfdird.h"      
+#include "kfdird.h"
 #include "kftypes.h"
 #include "kftabdlg.h"
 
@@ -42,19 +42,19 @@ static QString quote(const QString);
 
 extern QList<KfFileType> *types;
 
-KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name, 
+KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 			       const char *searchPath)
   : QTabWidget( parent, name )
 {
     _searchPath = searchPath;
-    
+
     // This validator will be used for all numeric edit fields
     KDigitValidator *digitV = new KDigitValidator(this);
 
     // ************ Page One ************
 
     pages[0] = new QWidget( this, "page1" );
-    
+
     nameBox    = new KfComboBox(pages[0], "combo1");
     namedL     = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
     dirBox     = new KfComboBox(pages[0], "combo2");
@@ -63,11 +63,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     browseB    = new QPushButton(i18n("&Browse ..."), pages[0]);
 
     // Setup
-    
+
     subdirsCb->setChecked ( TRUE );
-    
+
     // Layout
-    
+
     QGridLayout *grid = new QGridLayout( pages[0], 3, 3, 15, 10 );
     grid->addWidget( namedL, 0, 0 );
     grid->addMultiCellWidget( nameBox, 0, 0, 1, 2 );
@@ -77,18 +77,18 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid->addWidget( subdirsCb, 2, 1);
     grid->setColStretch(1,1);
     grid->activate();
-    
+
     // Signals
 
     connect( browseB, SIGNAL(clicked()),
-             this, SLOT(getDirectory()) );   
+             this, SLOT(getDirectory()) );
     connect( nameBox, SIGNAL(returnPressed()),
     	     parent, SLOT(startSearch()) );
     connect( dirBox, SIGNAL(returnPressed()),
     	     parent, SLOT(startSearch()) );
-    
+
     addTab( pages[0], i18n(" Name& Location ") );
-    
+
     // ************ Page Two
 
     pages[1] = new QWidget( this, "page2" );
@@ -108,17 +108,17 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     le[2]  = new QLineEdit(pages[1], "lineEdit3" );
     le[3]  = new QLineEdit(pages[1], "lineEdit4" );
 
-    // Setup 
-    
+    // Setup
+
     le[0] ->setText(date2String(QDate(1980,1,1)));
     le[1] ->setText(date2String(QDate::currentDate()));
-    
+
     le[2] ->setText("1");
     le[2] ->setValidator(digitV);
-    
+
     le[3] ->setText("1");
     le[3] ->setValidator(digitV);
-    
+
     rb1[0]->setChecked (TRUE);
 
     bg[0]->insert( rb1[0] );
@@ -132,16 +132,16 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     le[1]->setMaxLength(10);
     le[2]->setMaxLength(3);
     le[3]->setMaxLength(3);
-  
-    // Layout 
-    
+
+    // Layout
+
     int tmp = le[0]->fontMetrics().width(" 00/00/0000 ");
     le[0]->setMinimumSize(tmp, le[0]->sizeHint().height());
     le[1]->setMinimumSize(tmp, le[1]->sizeHint().height());
     tmp = le[2]->fontMetrics().width(" 000 ");
     le[2]->setMinimumSize(tmp, le[2]->sizeHint().height());
     le[3]->setMinimumSize(tmp, le[3]->sizeHint().height());
-    
+
     QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6, 10, 4 );
     grid1->addMultiCellWidget(rb1[0], 0, 0, 0, 6 );
     grid1->addMultiCellWidget(rb1[1], 1, 1, 0, 6 );
@@ -158,7 +158,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid1->addWidget(dayL, 4, 5 );
     grid1->setColStretch(6, 1);
     grid1->activate();
-    
+
     // Connect
 
     connect( bg[0],  SIGNAL(clicked(int)),
@@ -168,11 +168,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     for(int i=0; i<4; i++)
       connect( le[i],  SIGNAL(returnPressed()),
 	       parent, SLOT(startSearch()) );
-    
+
     addTab( pages[1], i18n(" Date Modified ") );
 
     // ************ Page Three
-    
+
     pages[2] = new QWidget( this, "page3" );
 
     typeBox =new QComboBox(FALSE, pages[2], "typeBox");
@@ -184,8 +184,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     sizeEdit=new QLineEdit(pages[2], "sizeEdit" );
     kbL     =new QLabel(i18n("KB"), pages[2], "kb");
     caseCb  =new QCheckBox(i18n("Case S&ensitive"), pages[2]);
-    
-    // Setup 
+
+    // Setup
 
     KfFileType *typ;
 
@@ -202,7 +202,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 	typeBox->insertItem(typ->getComment(""));
       else
 	typeBox->insertItem(typ->getName());
-    
+
     sizeBox ->insertItem( i18n("(none)") );
     sizeBox ->insertItem( i18n("At Least") );
     sizeBox ->insertItem( i18n("At Most") );
@@ -210,7 +210,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     sizeEdit->setText("1");
     sizeEdit->setMaxLength(5);
     sizeEdit->setValidator(digitV);
-    
+
     // Connect
     connect( textEdit,  SIGNAL(returnPressed()),
     	     parent, SLOT(startSearch()) );
@@ -218,11 +218,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     	     parent, SLOT(startSearch()) );
     connect( sizeBox, SIGNAL(highlighted(int)),
 	     this, SLOT(slotSizeBoxChanged(int)));
-    
+
     // Layout
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
-    
+
     QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 15, 10 );
     grid2->addWidget( typeL, 0, 0 );
     grid2->addWidget( textL, 1, 0 );
@@ -237,8 +237,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid2->setColStretch(6,1);
     grid2->activate();
 
-    addTab( pages[2], i18n(" Advanced ") );  
-    
+    addTab( pages[2], i18n(" Advanced ") );
+
     fixLayout();
     loadHistory();
 }
@@ -250,13 +250,13 @@ KfindTabWidget::~KfindTabWidget()
   delete pages[2];
 }
 
-void KfindTabWidget::saveHistory() 
+void KfindTabWidget::saveHistory()
 {
   save_pattern(nameBox, nameBox->currentText(), "History", "Patterns");
   save_pattern(dirBox, dirBox->currentText(), "History", "Directories");
 }
 
-void KfindTabWidget::loadHistory() 
+void KfindTabWidget::loadHistory()
 {
   // Load pattern history
   KConfig *conf = kapp->getConfig();
@@ -266,10 +266,10 @@ void KfindTabWidget::loadHistory()
     nameBox->insertStrList(&sl);
   else
     nameBox->insertItem("*");
-  
+
   if(conf->readListEntry("Directories", sl, ',')) {
     dirBox->insertStrList(&sl);
-    // If the _searchPath already exists in the list we do not 
+    // If the _searchPath already exists in the list we do not
     // want to add it again
     int indx = sl.find(_searchPath);
     if(indx == -1)
@@ -291,27 +291,27 @@ void KfindTabWidget::loadHistory()
   }
 }
 
-void KfindTabWidget::slotSizeBoxChanged(int index) 
+void KfindTabWidget::slotSizeBoxChanged(int index)
 {
   sizeEdit->setEnabled((bool)(index != 0));
 }
 
 /*
-  Disable/enables the widget by disabling/enabling all pages 
+  Disable/enables the widget by disabling/enabling all pages
   and all children on the current page
 */
-void KfindTabWidget::setEnabled(bool enabled) 
+void KfindTabWidget::setEnabled(bool enabled)
 {
   QWidget *curPage = currentPage();
   // We need to change all but not the current page.
   // This will preserve current page to be current
-  for(int i=0; i<3; i++) 
+  for(int i=0; i<3; i++)
     if(pages[i] != curPage)
       setTabEnabled(pages[i], enabled);
-  
+
   // Disable the current one now
   setTabEnabled(curPage, enabled);
-  
+
   // Diable all children but QGridLayout itself
   const QObjectList *list = curPage->children();
   QObjectListIt it( *list );
@@ -321,8 +321,8 @@ void KfindTabWidget::setEnabled(bool enabled)
     if(!obj->isA("QGridLayout"))
       ((QWidget*)obj)->setEnabled( enabled );
   }
-  
-  // If we enable the widget we want to restore 
+
+  // If we enable the widget we want to restore
   // disabled/enabled layout
   if(enabled)
     fixLayout();
@@ -341,7 +341,7 @@ void KfindTabWidget::setDefaults()
   }
 
 /*
-  Checks if dates are correct and popups a error box 
+  Checks if dates are correct and popups a error box
   if they are not.
 */
 bool KfindTabWidget::isDateValid()
@@ -350,19 +350,19 @@ bool KfindTabWidget::isDateValid()
        rb2[0]->isChecked()))
     // "Between dates" check box is not checked, nothing to check
     return TRUE;
-  
-  // If we can not parse either of the dates or 
+
+  // If we can not parse either of the dates or
   // "from" date is bigger than "to" date return FALSE.
   QDate hi1, hi2;
   if ( string2Date(le[0]->text(), &hi1).isNull() ||
-       string2Date(le[1]->text(), &hi2).isNull() || 
+       string2Date(le[1]->text(), &hi2).isNull() ||
        hi1 > hi2) {
     QMessageBox mb(this,"message box");
     mb.setText( i18n("The date is not valid!!"));
     mb.show();
     return FALSE;
   }
-  
+
   return TRUE;
 }
 
@@ -370,10 +370,10 @@ QString KfindTabWidget::createQuery() {
   // If some of the dates are invalid, return NULL
   if(!isDateValid())
     return NULL;
-  
+
   QString str, pom, type = "", name="";
   int month;
-  
+
   // Add the directory we make search in
   str = "find ";
   str += quote(dirBox->currentText());
@@ -385,63 +385,63 @@ QString KfindTabWidget::createQuery() {
   case 0: // all files
     type = "";
     break;
-    
+
   case 1: // files
     type = " -type f";
     break;
-    
+
   case 2: // folders
     type = " -type d";
     break;
-    
+
   case 3: // symlink
     type = " -type l";
     break;
-    
+
   case 4: // special file
     type += " -type p -or -type s -or -type b or -type c";
     break;
-    
+
   case 5: // executables
     type = " -perm +111 -type f";
     break;
-    
+
   case 6: // suid binaries
     type = " -perm +6000 -type f";
     break;
-    
-  default: 
+
+  default:
     KfFileType *typ = types->first();
     int i;
     QString pattern;
-    
+
     for (i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
       typ = types->next();
-    
+
     // If a string in the name box doesn't contain neither '*' nor '.'
     // we use it as a prefix for custom file types. Otherwise it is ignored.
-    // The idea is to make search for files with given extensiona 
+    // The idea is to make search for files with given extensiona
     // and the prefix.
     QString prefix = nameBox->text(nameBox->currentItem());
     if(!(prefix.find('*') < 0 && prefix.find('.') < 0))
       prefix = "";
-    
+
     QStrList& pats = typ->getPattern();
-    for (pattern = pats.first(), i=0; 
-	 pattern != 0L; 
+    for (pattern = pats.first(), i=0;
+	 pattern != 0L;
 	 pattern = pats.next(), i++) {
       if (i == 0)
 	name += " -name ";
       else
 	name += " -o -name ";
-      
+
       name += prefix + pattern;
     }
     // If we have more then one predicate we need "(" ... ")"
     if(i > 0)
       name = "\"(\"" + name + "\")\"";
   }
-  
+
   // If name is empty after the switch no special type was provided.
   // We fill it with content of name box.
   if(name.isEmpty()) {
@@ -451,12 +451,12 @@ QString KfindTabWidget::createQuery() {
       name = nameBox->currentText();
     name = " -name " + quote(name);
   }
-   
+
   str += name + type;
-  
+
   if (!subdirsCb->isChecked())
     str.append(" -maxdepth 1 ");
-  
+
   if (rb1[1]->isChecked()) { // Modified
     if (rb2[0]->isChecked()) { // Between dates
       QDate q1, q2;
@@ -479,48 +479,48 @@ QString KfindTabWidget::createQuery() {
     type = (sizeBox->currentItem() == 1) ? "+" : "-";
     str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
   }
-  
+
   if(!textEdit->text().isEmpty()) {
     str += " | xargs egrep -l ";
     if(!caseCb->isChecked())
       str += " -i ";
     str += quote(textEdit->text());
   }
-  
-  kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());    
-  
-  return(str);
-}        
 
- 
+  kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());
+
+  return(str);
+}
+
+
 QString KfindTabWidget::date2String(QDate date) {
   QString str;
-  
+
   str.sprintf("%.2d/%.2d/%4d",date.day(),date.month(),date.year());
   return(str);
 }
 
-QDate &KfindTabWidget::string2Date(QString str, QDate *qd) {   
+QDate &KfindTabWidget::string2Date(QString str, QDate *qd) {
   int year,month,day;
-  
+
   // If we can not scan exactly 3 integers do not try to parse
   if(sscanf(str.ascii(),"%2d/%2d/%4d",&day,&month,&year) == 3)
     qd->setYMD(year, month, day);
 
-  return *qd; 
+  return *qd;
 }
 
 void  KfindTabWidget::getDirectory() {
   QString result;
-  
+
   dirselector = new KfDirDialog(dirBox->text(dirBox->currentItem()),
 				this,"dirselector",TRUE);
   CHECK_PTR(dirselector);
-  
+
   if ( dirselector->exec() == QDialog::Accepted )
     result = dirselector->selectedDir();
   delete dirselector;
-  
+
   if(!result.isNull()) {
     for(int i=0; i<dirBox->count(); i++)
       if(result == dirBox->text(i)) {
@@ -532,44 +532,44 @@ void  KfindTabWidget::getDirectory() {
   }
 }
 
-void KfindTabWidget::beginSearch() 
+void KfindTabWidget::beginSearch()
 {
   saveHistory();
   setEnabled( FALSE );
 }
 
-void KfindTabWidget::endSearch() 
+void KfindTabWidget::endSearch()
 {
   setEnabled( TRUE );
 }
 
 /*
-  Disables/enables all edit fields depending on their 
+  Disables/enables all edit fields depending on their
   respective check buttons.
 */
-void KfindTabWidget::fixLayout() 
+void KfindTabWidget::fixLayout()
 {
   int i;
-  // If "All files" is checked - disable all edits 
+  // If "All files" is checked - disable all edits
   // and second radio group on page two
-  
-  if(rb1[0]->isChecked())  { 
+
+  if(rb1[0]->isChecked())  {
     for(i=0; i<4; i++)
       le[i]->setEnabled(FALSE);
-    
+
     for(i=0; i<3; i++)
       rb2[i]->setEnabled(FALSE);
   }
   else {
     for(i=0; i<3; i++)
       rb2[i]->setEnabled(TRUE);
-    
+
     le[0]->setEnabled(rb2[0]->isChecked());
     le[1]->setEnabled(rb2[0]->isChecked());
     le[2]->setEnabled(rb2[1]->isChecked());
     le[3]->setEnabled(rb2[2]->isChecked());
   }
-  
+
   // Size box on page three
   sizeEdit->setEnabled(sizeBox->currentItem() != 0);
 }
@@ -585,7 +585,7 @@ KDigitValidator::KDigitValidator( QWidget * parent, const char *name )
 
 KDigitValidator::~KDigitValidator()
 {}
- 
+
 QValidator::State KDigitValidator::validate( QString & input, int & ) const
 {
   if (r->match(input) < 0) {
@@ -598,7 +598,7 @@ QValidator::State KDigitValidator::validate( QString & input, int & ) const
 }
 
 /**
-   Special editable ComboBox. Invokes search if return key is pressed 
+   Special editable ComboBox. Invokes search if return key is pressed
    and _does not_ save newly typed item in its list.
 **/
 KfComboBox::KfComboBox(QWidget * parent, const char *name)
@@ -610,7 +610,7 @@ KfComboBox::~KfComboBox()
 
 void KfComboBox::keyPressEvent(QKeyEvent *e)
 {
-  if(e->key() == Key_Return)
+  if(e->key() == Key_Return || e->key() == Key_Enter)
     emit returnPressed();
   else
     QComboBox::keyPressEvent(e);
@@ -620,18 +620,18 @@ void KfComboBox::keyPressEvent(QKeyEvent *e)
 //             Static utility functions	
 //*******************************************************
 static void save_pattern(QComboBox *obj, const QString new_item,
-			 const char *group, const char *entry) 
-{ 
+			 const char *group, const char *entry)
+{
   int i;
   for(i=0; i<obj->count(); i++)
     if(new_item == obj->text(i))
       break;
-  
+
   // If we could not finish the loop item already exists
   // Nothing to save
   if(i < obj->count())
     return;
-  
+
   // New item. Add it to the combo and save
   obj->insertItem(new_item, 0);
   obj->setCurrentItem(0);
@@ -643,7 +643,7 @@ static void save_pattern(QComboBox *obj, const QString new_item,
   QStrList sl;
   for(i=0; i<obj->count(); i++)
     sl.append(obj->text(i).ascii());
-  
+
   KConfig *conf = kapp->getConfig();
   conf->setGroup(group);
   conf->writeEntry(entry, sl, ',');

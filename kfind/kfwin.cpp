@@ -8,21 +8,22 @@
 #include <stdio.h>
 #include <pwd.h>
 #include <grp.h>
-#include <sys/types.h>  
+#include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
-#include <sys/stat.h>     
-#include <time.h>    
+#include <sys/stat.h>
+#include <time.h>
 
 #include <qapplication.h>
 #include <qstrlist.h>
 #include <qfiledefs.h>
-#include <qfiledialog.h> 
-#include <qfileinfo.h> 
+#include <qfiledialog.h>
+#include <qfileinfo.h>
 #include <qmessagebox.h>
 #include <qdir.h>
 #include <qclipboard.h>
 #include <qevent.h>
+#include <qpixmap.h>
 
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -31,6 +32,7 @@
 #include <krun.h>
 #include <kprocess.h>
 #include <kpropsdlg.h>
+#include <kstddirs.h>
 
 //#include <knewmenu.h>
 //#include <kpopupmenu.h>
@@ -39,7 +41,7 @@
 #include "kfarch.h"
 #include "kfsave.h"
 
-extern KfSaveOptions *saving; 
+extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
 // see comment near use of this variable
@@ -56,14 +58,20 @@ static QString perm[4] = {
 #define WO 2
 #define NA 3
 
-KfFileLVI::KfFileLVI(QListView* lv, QString file) 
-  : QListViewItem(lv) 
+// initialize static icons
+QPixmap *KfFileLVI::folderPixmap       = 0L;
+QPixmap *KfFileLVI::lockedFolderPixmap = 0L;
+QPixmap *KfFileLVI::filePixmap         = 0L;
+QPixmap *KfFileLVI::lockedFilePixmap   = 0L;
+
+KfFileLVI::KfFileLVI(QListView* lv, QString file)
+  : QListViewItem(lv)
 {
   fileInfo = new QFileInfo(file);
-  
+
   QString size = QString("%1").arg(fileInfo->size());
-  
-  // This code is copyed from QT qfiledialog.cpp
+
+  // This code is copied from QT qfiledialog.cpp
   QDateTime epoch;
   epoch.setTime_t( 0 );
   char date[256];
@@ -74,19 +82,49 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   if ( t2 && strftime( date, 255, egcsWorkaround, t2 ) <= 0 )
     strcpy(date, "????");
   //
-  
+
   int perm_index;
   if(fileInfo->isReadable())
     perm_index = fileInfo->isWritable() ? RW : RO;
   else
     perm_index = fileInfo->isWritable() ? WO : NA;
-  
+
   // Fill the item with data
   setText(0, fileInfo->fileName());
   setText(1, fileInfo->dir().path());
   setText(2, size);
   setText(3, date);
   setText(4, perm[perm_index]);
+  
+  
+  // load the icons (same as in KFileInfoContents)
+  // maybe we should use the concrete icon associated with the mimetype
+  // in the future, but for now, this must suffice
+  if (!folderPixmap) // don't use IconLoader to always get the same icon
+    folderPixmap = new QPixmap(locate("mini", "folder.xpm"));
+  
+  if (!lockedFolderPixmap)
+    lockedFolderPixmap = new QPixmap(locate("mini", "lockedfolder.xpm"));
+
+  if (!filePixmap)
+    filePixmap = new QPixmap(locate("mini", "unknown.xpm"));
+
+  if (!lockedFilePixmap)
+    lockedFilePixmap = new QPixmap(locate("mini", "locked.xpm"));
+  
+  int column = 0; // place the icons in leftmost column
+  if (fileInfo->isDir()) {
+    if (fileInfo->isReadable())
+      setPixmap(column, *folderPixmap);
+    else
+      setPixmap(column, *lockedFolderPixmap);
+  }
+  else {
+    if (fileInfo->isReadable())
+      setPixmap(column, *filePixmap);
+    else
+      setPixmap(column, *lockedFilePixmap);
+  }
 }
 
 KfFileLVI::~KfFileLVI() {
@@ -99,13 +137,13 @@ QString KfFileLVI::key(int column, bool) const
   if(column == 3) {
     QDateTime epoch( QDate( 1980, 1, 1 ) );
     return QString().sprintf("%08d", epoch.secsTo(fileInfo->lastModified()));
-  } 
-  
+  }
+
   return text(column);
 }
 
 KfindWindow::KfindWindow( QWidget *parent, const char *name )
-  : QListView( parent, name )          
+  : QListView( parent, name )
 {
   //    topLevelWidget()->installEventFilter(lbx);
   setMultiSelection(TRUE);
@@ -125,23 +163,23 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
     setColumnWidthMode(i, Manual);
 
   resetColumns(TRUE);
-  
+
   /* TODO
      connect(this, SIGNAL(rightButtonPressed(QListViewItem *, const QPoint &, int)),
      this, SLOT(rightButtonPressed(QListViewItem *, const QPoint &, int)));
   */
-  
+
   connect(this, SIGNAL(doubleClicked(QListViewItem *)),
 	  this, SLOT(openBinding()));
 }
 
-void KfindWindow::beginSearch() 
+void KfindWindow::beginSearch()
 {
-  haveSelection = false;  
+  haveSelection = false;
   clear();
 }
 
-void KfindWindow::endSearch() 
+void KfindWindow::endSearch()
 {
 }
 
@@ -150,7 +188,7 @@ void KfindWindow::insertItem(QString file) {
 }
 
 // copy to clipboard aka X11 selection
-void KfindWindow::copySelection() 
+void KfindWindow::copySelection()
 {
   QString s;
   QListViewItem *item = firstChild();
@@ -161,7 +199,7 @@ void KfindWindow::copySelection()
     }
     item = item->nextSibling();
   }
-  
+
   if(s.length() > 0) {
     QClipboard *cb = kapp->clipboard();
     cb->clear();
@@ -169,7 +207,7 @@ void KfindWindow::copySelection()
   }
 }
 
-void KfindWindow::selectAll() 
+void KfindWindow::selectAll()
 {
   QListViewItem *item = firstChild();
   while(item != NULL) {
@@ -178,7 +216,7 @@ void KfindWindow::selectAll()
   }
 }
 
-void KfindWindow::unselectAll() 
+void KfindWindow::unselectAll()
 {
   QListViewItem *item = firstChild();
   while(item != NULL) {
@@ -188,20 +226,20 @@ void KfindWindow::unselectAll()
 }
 
 void KfindWindow::saveResults()
-{ 
+{
   QListViewItem *item;
   FILE *results;
   QString filename;
-  
+
   if ( saving->getSaveStandard() ) {
     filename = getenv("HOME");
     filename += "/.kfind-results.html";
   }
   else
     filename = saving->getSaveFile();
-  
+
   results=fopen(filename.ascii(),"w");
-  
+
   if (results == 0L)
     QMessageBox::warning(parentWidget(),i18n("Error"),
 			 i18n("It wasn't possible to save results!"),
@@ -215,8 +253,8 @@ void KfindWindow::saveResults()
 	      i18n("KFind Results File").ascii());
       fprintf(results,"<BODY><H1>%s</H1>\n",
 	      i18n("KFind Results File").ascii());
-      fprintf(results,"<DL><p>\n"); 
-      
+      fprintf(results,"<DL><p>\n");
+
       item = firstChild();
       while(item != NULL) {
 	QString path=((KfFileLVI*)item)->fileInfo->absFilePath();
@@ -235,7 +273,7 @@ void KfindWindow::saveResults()
       }
     }	
 
-    fclose(results); 
+    fclose(results);
     QMessageBox::information(parentWidget(),
 			     i18n("Information"),
 			     i18n("Results were saved to file\n")+
@@ -246,7 +284,7 @@ void KfindWindow::saveResults()
 
 // This function is called when selection is changed (both selected/deselected)
 // It notifies the parent about selection status and enables/disables menubar
-void KfindWindow::selectionChanged(bool selectionMade) 
+void KfindWindow::selectionChanged(bool selectionMade)
 {
   if(selectionMade) {
     if(!haveSelection) {
@@ -263,8 +301,8 @@ void KfindWindow::selectionChanged(bool selectionMade)
 	break;
       item = item->nextSibling();
     }
-    
-    // Item equal to NULL means we do not have any selection 
+
+    // Item equal to NULL means we do not have any selection
     if(item == NULL) {
       haveSelection = false;
       emit resultSelected(false);
@@ -273,7 +311,7 @@ void KfindWindow::selectionChanged(bool selectionMade)
 }
 
 // Currently disabled
-void KfindWindow::rightButtonPressed(QListViewItem */*ci*/, 
+void KfindWindow::rightButtonPressed(QListViewItem */*ci*/,
 				     const QPoint &/*pos*/, int) {
   /*
   QStringList urls;
@@ -286,7 +324,7 @@ void KfindWindow::rightButtonPressed(QListViewItem */*ci*/,
   }
   KonqPopupMenu popup(urls,
 		      0,
-		      "file:" + ((KfFileLVI*)ci)->fileInfo->absFilePath(), 
+		      "file:" + ((KfFileLVI*)ci)->fileInfo->absFilePath(),
 		      FALSE,
 		      FALSE,
 		      FALSE);
@@ -301,7 +339,7 @@ void KfindWindow::deleteFiles()
                 .arg(text(currentItem()));
     if (!QMessageBox::information(parentWidget(),
 				  i18n("Delete File - Find Files"),
-				  tmp, i18n("&Yes"), i18n("&No"), 0, 
+				  tmp, i18n("&Yes"), i18n("&No"), 0,
 				  1))
       {
         QFileInfo *file = new QFileInfo(text(currentItem()));
@@ -310,13 +348,13 @@ void KfindWindow::deleteFiles()
               if (remove(file->filePath().ascii())==-1)
                   switch(errno)
                     {
-    	              case EACCES: 
+    	              case EACCES:
 			QMessageBox::warning(parentWidget(),
 					   i18n("Error - Find Files"),
 					   i18n("You have no permission\n to delete this file"),
 					   i18n("&Ok"));
                                    break;
-                      default: 
+                      default:
 			QMessageBox::warning(parentWidget(),
 					     i18n("Error - Find Files"),
 					     i18n("It isn't possible to delete\nselected file"),
@@ -388,7 +426,7 @@ void KfindWindow::openFolder()
   (void) new KRun(tmp);
 }
 
-void KfindWindow::openBinding() 
+void KfindWindow::openBinding()
 {
   QString tmp= "file:";
   QFileInfo *fileInfo = ((KfFileLVI*)currentItem())->fileInfo;
@@ -410,7 +448,7 @@ void KfindWindow::addToArchive()
 
   int pos1 = filename.findRev(".");
   int pos2 = filename.findRev(".",pos1-1);
-  
+
   QString pattern1 = filename.right(filename.length()-pos1);
   QString pattern2 = "*"+filename.mid(pos2,pos1-pos2)+pattern1;
 
@@ -422,7 +460,7 @@ void KfindWindow::addToArchive()
     else
       QMessageBox::warning(parentWidget(),i18n("Error"),
 			   i18n("Couldn't recognize archive type!"),
-			   i18n("OK")); 
+			   i18n("OK"));
 }
 
 void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
@@ -431,7 +469,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
   QString buffer,pom;
   KProcess archProcess;
   int pos;
-      
+
   if ( archiv.exists() )
     buffer = arch->getOnUpdate();
   else
@@ -441,7 +479,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
 
   pos = buffer.find(" ");
   pom = buffer.left(pos);
-  if (pos==-1) 
+  if (pos==-1)
     pos = buffer.length();
   buffer = buffer.remove(0,pos+1);
 
@@ -457,26 +495,26 @@ void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
 	  QFileInfo *fileInfo = ((KfFileLVI*)currentItem())->fileInfo;
 	  pom = fileInfo->dirPath(TRUE)+'/';
 	}
-      
+
       if ( pom=="%a" )
 	pom = archname;
-      
+
       if ( pom=="%f" )
 	pom = ((KfFileLVI*)currentItem())->fileInfo->absFilePath();;
-      
+
       if ( pom=="%n" )
 	{
 	  QFileInfo *fileInfo = ((KfFileLVI*)currentItem())->fileInfo;
 	  pom = fileInfo->fileName();
 	}
-      
+
       archProcess << pom;
-      
-      if (pos==-1) 
+
+      if (pos==-1)
 	pos = buffer.length();
       buffer = buffer.remove(0,pos+1);
     }
-  
+
   if ( !archProcess.start(KProcess::DontCare) )
     warning(i18n("Error while creating child process!").ascii());
 }
@@ -492,31 +530,31 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 // The following to functions are an attemp to implement MS-like selection
 // (Control/Shift style). Not very elegant.
 
-void KfindWindow::contentsMousePressEvent(QMouseEvent *e) 
+void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 {
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
   if(item == NULL) { // Just in case. Should not happen
     QListView::contentsMousePressEvent(e);
     return;
   }
-  
-  // We want to execute QListView::contentsMousePressEvent(e), but 
+
+  // We want to execute QListView::contentsMousePressEvent(e), but
   // we do not want it to change selection and current item.
   // To do it we store current item and make the item we click on unselectable.
   // We restore all this after the contentsMousePressEvent() call
-  QListViewItem *anchor;
-  if(e->state() & ShiftButton) 
+  QListViewItem *anchor = 0L;
+  if(e->state() & ShiftButton)
     anchor = currentItem();
   item->setSelectable(FALSE);
-  
+
   QListView::contentsMousePressEvent(e);
-  
+
   item->setSelectable(TRUE);
-  if(e->state() & ShiftButton) 
+  if(e->state() & ShiftButton)
     setCurrentItem(anchor);
-  
+
   // No analize what we got and make our selections
-  
+
   // No modifiers
   if(!(e->state() & ControlButton) &&
      !(e->state() & ShiftButton)) {
@@ -525,7 +563,7 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
     selectionChanged(TRUE);
     return;
   }
-  
+
   // Control
   if(e->state() & ControlButton) {
     setSelected(item, !isSelected(item));
@@ -557,29 +595,29 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
   }
 }
 
-void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e) 
+void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e)
 {
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
   if(item == NULL) { // Just in case. Should not happen
     QListView::contentsMouseReleaseEvent(e);
     return;
   }
-  
+
   // See comment for the contentsMousePressEvent() function.
   // We just want to disable any selection/current item changes.
-  QListViewItem *anchor;
-  if(e->state() & ShiftButton) 
+  QListViewItem *anchor = 0L;
+  if(e->state() & ShiftButton)
     anchor = currentItem();
   item->setSelectable(FALSE);
-  
+
   QListView::contentsMouseReleaseEvent(e);
-  
+
   item->setSelectable(TRUE);
-  if(e->state() & ShiftButton) 
+  if(e->state() & ShiftButton)
     setCurrentItem(anchor);
 }
 
-void KfindWindow::resetColumns(bool init) 
+void KfindWindow::resetColumns(bool init)
 {
   if(init) {
     QFontMetrics fm = fontMetrics();
@@ -587,13 +625,13 @@ void KfindWindow::resetColumns(bool init)
     setColumnWidth(3, QMAX(fm.width(columnText(3)), fm.width("00/00/00 00:00:00")) + 15);
     setColumnWidth(4, QMAX(fm.width(columnText(4)), fm.width(perm[RO])) + 15);
   }
-  
-  int free_space = visibleWidth() - 
+
+  int free_space = visibleWidth() -
     columnWidth(2) - columnWidth(3) - columnWidth(4);
-  
-  int name_w = (int)(free_space*0.3); // 30% 
+
+  int name_w = (int)(free_space*0.3); // 30%
   int dir_w = free_space - name_w;    // 70%
-  
+
   setColumnWidth(0, name_w);
   setColumnWidth(1, dir_w);
 }
