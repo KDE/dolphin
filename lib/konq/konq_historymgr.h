@@ -104,6 +104,14 @@ public:
     void emitRemoveFromHistory( const KURL& url );
 
     /**
+     * Removes the history entries for the given list of @p urls. Tells all
+     * other Konqueror instances via DCOP to do the same.
+     *
+     * The history is saved after receiving the DCOP call.
+     */
+    void emitRemoveFromHistory( const KURL::List& urls );
+    
+    /**
      * @returns the current maximum number of history entries.
      */
     Q_UINT32 maxCount() const { return m_maxCount; }
@@ -257,6 +265,12 @@ protected:
      */
     virtual void notifyRemove( KURL url, QCString saveId );
 
+    /**
+     * Notifes about a list of urls that has to be removed from the history.
+     * The instance where saveId == objId() has to save the history.
+     */
+    virtual void notifyRemove( KURL::List urls, QCString saveId );
+    
     /**
      * Does the work for @ref addPending() and @ref confirmPending().
      *

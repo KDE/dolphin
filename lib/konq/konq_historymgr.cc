@@ -312,6 +312,15 @@ void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 			      "notifyRemove(KURL, QCString)", data );
 }
 
+void KonqHistoryManager::emitRemoveFromHistory( const KURL::List& urls )
+{
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << urls << objId();
+    kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
+			      "notifyRemove(KURL::List, QCString)", data );
+}
+
 void KonqHistoryManager::emitClear()
 {
     QByteArray data;
@@ -428,6 +437,30 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 	if ( saveId == objId() )
 	    saveHistory();
     }
+}
+
+void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
+{
+    kdDebug(1203) << "#### Broadcast: removing list!" << endl;
+
+    bool doSave = false;
+    KURL::List::Iterator it = urls.begin();
+    while ( it != urls.end() ) {
+	KonqHistoryEntry *entry = m_history.findEntry( *it );
+	if ( entry ) { // entry is now the current item
+	    m_pCompletion->removeItem( entry->url.url() );
+	    m_pCompletion->removeItem( entry->typedURL );
+	    m_history.take(); // does not delete
+	    emit entryRemoved( entry );
+	    delete entry;
+	    doSave = true;
+	}
+	
+	++it;
+    }
+
+    if ( saveId == objId() && doSave )
+	saveHistory();
 }
 
 

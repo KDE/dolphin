@@ -66,6 +66,7 @@ k_dcop:
     virtual void notifyMaxAge( Q_UINT32 days, QCString saveId ) = 0;
     virtual void notifyClear( QCString saveId ) = 0;
     virtual void notifyRemove( KURL url, QCString saveId ) = 0;
+    virtual void notifyRemove( KURL::List url, QCString saveId ) = 0;
 
 };
 
