@@ -28,8 +28,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kbookmarkexporter.cc kbookmarkmanager.cc kbookmarkmanager.skel \
    kbookmarkdrag.cc kbookmarklistener.stub kbookmarklistener.signals \
    konq_xmlguiclient.cc\
-   kfileivi.cc konq_iconviewwidget.cc konq_imagepreviewjob.cc \
-   konq_settings.cc konq_drag.cc  \
+   kfileivi.cc konq_iconviewwidget.cc konq_settings.cc konq_drag.cc  \
    konq_operations.cc \
    konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
    konq_undo.cc konq_undo.skel \
@@ -51,7 +50,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h kbookmarklistener.h \
     kbookmark.h kbookmarkmenu.h kbookmarkbar.h kbookmarkimporter.h \
     kbookmarkexporter.h kbookmarkmanager.h kbookmarkdrag.h kbookmarklistener_signals.h kbookmarklistener_stub.h \
     konq_mimetyperesolver.h \
-    kfileivi.h konq_drag.h konq_iconviewwidget.h konq_imagepreviewjob.h \
+    kfileivi.h konq_drag.h konq_iconviewwidget.h \
     konq_defaults.h konq_settings.h \
     konq_operations.h \
     konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
