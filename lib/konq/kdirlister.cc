@@ -170,6 +170,10 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
       name = (*it).m_str;
 
   assert( !name.isEmpty() );
+  // Skip . and .. for now (TODO : store info for '.', like permissions)
+  if ( name == "." || name == ".." )
+    return;
+
   if ( m_isShowingDotFiles || name[0] != '.' ) {
     KURL u( m_url );
     u.addPath( name );
