@@ -55,7 +55,6 @@ private:
         void fillMenuCombo( QComboBox * combo );
 
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
-        bool m_wheelSwitchesWorkspace;
 };
 
 class DesktopBehaviorModule : public KCModule

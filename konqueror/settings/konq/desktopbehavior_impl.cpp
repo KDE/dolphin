@@ -313,8 +313,6 @@ void DesktopBehavior::load()
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; }
 
-    m_wheelSwitchesWorkspace = g_pConfig->readBoolEntry("WheelSwitchesWorkspace", false);
-
     comboBoxChanged();
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
     fillDevicesListView();
@@ -381,7 +379,6 @@ void DesktopBehavior::save()
     g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentItem() ] );
     g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
     g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
-    g_pConfig->writeEntry("WheelSwitchesWorkspace", m_wheelSwitchesWorkspace);
 
     g_pConfig->setGroup( "General" );
     g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
