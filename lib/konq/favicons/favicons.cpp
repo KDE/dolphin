@@ -112,7 +112,7 @@ bool FaviconsModule::isIconOld(const QString &icon)
     if (stat(QFile::encodeName(icon), &st) != 0)
         return true; // Trigger a new download on error
 
-    return (time(0) - st.st_mtime) > 1209600; // arbitrary value (two weeks)
+    return (time(0) - st.st_mtime) > 604800; // arbitrary value (one week)
 }
 
 void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
