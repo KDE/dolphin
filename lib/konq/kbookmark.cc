@@ -35,6 +35,7 @@
 #include <kapp.h>
 #include <klocale.h>
 #include <kwm.h>
+#include <kmimemagic.h>
 #include <qmsgbox.h>
 
 #include "kmimetypes.h"
@@ -157,58 +158,36 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   {
     if ( strcmp( ep->d_name, "." ) != 0 && strcmp( ep->d_name, ".." ) != 0 )
     {
-      // QString name = ep->d_name;	
-
-// TODO : use KMimeMagic here !!!
-
       QString file = _path;
       file += "/";
       file += ep->d_name;
-      struct stat buff;
-      stat( file.data(), &buff );
 
-      if ( S_ISDIR( buff.st_mode ) )
+      KMimeMagicResult * res = KMimeMagic::self()->findFileType( file );
+
+      if ( res->mimeType() == "inode/directory" )
       {
-	KBookmark* bm = new KBookmark( this, _bm, KBookmark::decode( ep->d_name ) );
-	scanIntern( bm, file );
+        KBookmark* bm = new KBookmark( this, _bm, KBookmark::decode( ep->d_name ) );
+        scanIntern( bm, file );
       }
-      else if ( S_ISREG( buff.st_mode ) )
+      else if ( res->mimeType() == "application/x-desktop" )
       {
-	// Is it really a kde config file ?
-	bool ok = true;
-	
-	FILE *f;
-	f = fopen( file, "rb" );
-	if ( f == 0L )
-	  ok = false;
-	else
-	{
-	  char buff[ 100 ];
-	  buff[ 0 ] = 0;
-	  fgets( buff, 100, f );
-	  fclose( f );
-	
-	  if ( strncmp( buff, "# KDE Config File", 17 ) != 0L )
-	    ok = false;
-	}
-	
-	if ( ok )
-	{
-	  KSimpleConfig cfg( file, true );
-	  cfg.setDesktopGroup();
-	  QString type = cfg.readEntry( "Type" );	
-	  // Is it really a bookmark file ?
-	  if ( type == "Link" )
-	    (void) new KBookmark( this, _bm, ep->d_name, cfg, QString::null /* desktop group */ );
-	} else {
-	// maybe its an IE Favourite..
-	  KSimpleConfig cfg( file, true );
-	  cfg.setGroup("InternetShortCut");
-	  QString url = cfg.readEntry("URL");
-	  if (!url.isEmpty() )
-	    (void) new KBookmark( this, _bm, ep->d_name, cfg, "InternetShortCut" );
-	}
+        KSimpleConfig cfg( file, true );
+        cfg.setDesktopGroup();
+        QString type = cfg.readEntry( "Type" );	
+        // Is it really a bookmark file ?
+        if ( type == "Link" )
+          (void) new KBookmark( this, _bm, ep->d_name, cfg, QString::null /* desktop group */ );
       }
+      else if ( res->mimeType() == "text/plain")
+      {
+        // maybe its an IE Favourite..
+        KSimpleConfig cfg( file, true );
+        cfg.setGroup("InternetShortCut");
+        QString url = cfg.readEntry("URL");
+        if (!url.isEmpty() )
+          (void) new KBookmark( this, _bm, ep->d_name, cfg, "InternetShortCut" );
+      } else kdebug(KDEBUG_WARN, 1203, "Invalid bookmark : found mimetype='%s' for file='%s'!",
+                    res->mimeType().ascii(), file.ascii());
     }
   }
 

@@ -99,9 +99,9 @@ void KBookmarkMenu::slotBookmarksChanged()
   // Converting the same pixmap via UIUtils for each item is VERY long.
   // We could add a method to opMenu* that would take a pixmap file name and
   // use KPixmapCache instead.  Just my 2 euros (David).
-  kdebug(0, 1202, "fillBookmarkMenu : starting (this can be VERY long - see comment in kbookmarkmenu.cc, line %d)",__LINE__);
+  kdebug(0, 1203, "fillBookmarkMenu : starting (this can be VERY long - see comment in kbookmarkmenu.cc, line %d)",__LINE__);
   fillBookmarkMenu( KBookmarkManager::self()->root() );
-  kdebug(0, 1202, "fillBookmarkMenu : done");
+  kdebug(0, 1203, "fillBookmarkMenu : done");
 }
 
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )

@@ -96,8 +96,8 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   {
     KURL firstPopupURL = KURL(m_lstPopupURLs.getFirst());
     firstPopupURL.cleanPath();
-    kdebug(0, 1202, "View path is %s",url.path(1).data());
-    kdebug(0, 1202, "First popup path is %s",firstPopupURL.path(1).data());
+    kdebug(0, 1203, "View path is %s",url.path(1).data());
+    kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).data());
     if ( firstPopupURL.protocol() == url.protocol()
          && url.path(1) == firstPopupURL.path(1) )
     {

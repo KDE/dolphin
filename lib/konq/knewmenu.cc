@@ -169,7 +169,7 @@ void KNewMenu::slotNewFile( int _id )
       sFile = *(templatesList->at( m_vMenu->indexOf( _id ) ));
     else
       sFile = *(templatesList->at( m_pMenu->indexOf( _id ) ));
-    kdebug(0, 1202, "sFile = %s",sFile.data());
+    kdebug(0, 1203, "sFile = %s",sFile.data());
       
     QString sName ( sFile );
     QString text, value;
@@ -177,7 +177,7 @@ void KNewMenu::slotNewFile( int _id )
     if ( sName != "Folder" ) {
       QString x = UserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
-          kdebug(KDEBUG_WARN, 1202, "%s doesn't exist", x.data());
+          kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.data());
           QMessageBox::critical( 0L, i18n( "Error" ), i18n(
               "Source file doesn't exist anymore ! \n"
               "Use \"Rescan Bindings\" in View menu to update the menu"));
