@@ -878,7 +878,7 @@ void KonqMainWindow::slotSendURL()
 {
   kapp->invokeMailer("mailto:?body=" + KURL::encode_string(m_currentView->url().url()));
 }
- 
+
 void KonqMainWindow::slotSendFile()
 {
   kapp->invokeMailer("mailto:?attach=" + m_currentView->url().url());
@@ -2061,7 +2061,7 @@ void KonqMainWindow::slotComboPlugged()
   // We do want completion of user names, right?
   //m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
 
-  connect( m_combo,SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
+  connect( m_combo, SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
 	   SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
@@ -2213,6 +2213,15 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         return KParts::MainWindow::eventFilter( obj, ev );
       }
       m_bLocationBarConnected = true;
+
+      // Workaround for Qt issue: usually, QLineEdit reacts on Ctrl-D,
+      // but the duplicate_window action also has Ctrl-D as accel and
+      // prevents the lineedit from getting this event. IMHO the accel
+      // should be disabled in favor of the focus-widget.
+      KAction *duplicate = actionCollection()->action("duplicate_window");
+      if ( duplicate->accel() == CTRL+Key_D )
+          duplicate->setEnabled( false );
+
       if (slotNames.contains("cut()"))
         disconnect( m_paCut, SIGNAL( activated() ), ext, SLOT( cut() ) );
       if (slotNames.contains("copy()"))
@@ -2255,6 +2264,14 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         return KParts::MainWindow::eventFilter( obj, ev );
       }
       m_bLocationBarConnected = false;
+
+      // see above in FocusIn for explanation
+      // we use new_window as reference, as it's always in the same state
+      // as duplicate_window
+      KAction *duplicate = actionCollection()->action("duplicate_window");
+      if ( duplicate->accel() == CTRL+Key_D )
+          duplicate->setEnabled( actionCollection()->action("new_window")->isEnabled() );
+
       if (slotNames.contains("cut()"))
         connect( m_paCut, SIGNAL( activated() ), ext, SLOT( cut() ) );
       if (slotNames.contains("copy()"))

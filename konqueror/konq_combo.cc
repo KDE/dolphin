@@ -19,6 +19,7 @@
 
 #include <kapp.h>
 #include <kconfig.h>
+#include <kcompletionbox.h>
 #include <kdebug.h>
 #include <kicontheme.h>
 #include <konq_pixmapprovider.h>
@@ -48,6 +49,10 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     loadItems();
 
     connect( this, SIGNAL( returnPressed()), SLOT( slotReturnPressed() ));
+    connect( completionBox(), SIGNAL( activated(const QString&)), 
+             this, SLOT( slotReturnPressed() ));
+    connect( completionBox(), SIGNAL( highlighted( const QString& )),
+             this, SLOT( setEditText( const QString& )));
     connect( this, SIGNAL( cleared() ), SLOT( slotCleared() ));
 
     if ( !kapp->dcopClient()->isAttached() )
@@ -269,7 +274,7 @@ void KonqCombo::removeURL( const QString& url )
 void KonqCombo::mousePressEvent( QMouseEvent *e )
 {
     m_dragStart = QPoint(); // null QPoint
-    
+
     if ( e->button() == LeftButton && pixmap( currentItem()) ) {
         // check if the pixmap was clicked
         int x = e->pos().x();
@@ -278,7 +283,7 @@ void KonqCombo::mousePressEvent( QMouseEvent *e )
             return; // don't call KComboBox::mousePressEvent!
         }
     }
-    
+
     KComboBox::mousePressEvent( e );
 }
 
@@ -287,10 +292,10 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
     KComboBox::mouseMoveEvent( e );
     if ( m_dragStart.isNull() || currentText().isEmpty() )
         return;
-    
+
     if ( e->state() & LeftButton &&
          (e->pos() - m_dragStart).manhattanLength() >
-         KGlobalSettings::dndEventDelay() ) 
+         KGlobalSettings::dndEventDelay() )
     {
         KURL url = currentText();
         if ( !url.isMalformed() )
