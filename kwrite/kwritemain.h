@@ -59,10 +59,15 @@ class TopLevel : public KParts::MainWindow
     KToggleAction * m_paShowToolBar;
     KToggleAction * m_paShowStatusBar;
 
+  private:
+	KURL delayedURL;
+
   public slots:
     void slotNew();
     void slotOpen();
-    void slotOpen( const KURL& url );
+    void slotOpen( const KURL& url);
+    void slotOpen_delayed1( const KURL& url );
+    void slotOpen_delayed2();
     void newView();
     void toggleToolBar();
     void toggleStatusBar();

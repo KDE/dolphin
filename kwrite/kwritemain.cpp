@@ -44,6 +44,8 @@
 #include "katefiledialog.h"
 #include <klibloader.h>
 
+#include <qtimer.h>
+
 // StatusBar field IDs
 #define ID_LINE_COLUMN 1
 #define ID_INS_OVR 2
@@ -145,8 +147,12 @@ void TopLevel::setupActions()
   KStdAction::print(this, SLOT(printDlg()), actionCollection());
   KStdAction::openNew( this, SLOT(slotNew()), actionCollection(), "file_new" );
   KStdAction::open( this, SLOT( slotOpen() ), actionCollection(), "file_open" );
-  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
+//  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
+//                                        actionCollection());
+
+  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen_delayed1(const KURL&)),
                                         actionCollection());
+
 
   new KAction(i18n("New &View"), 0, this, SLOT(newView()),
               actionCollection(), "file_newView");
@@ -184,6 +190,17 @@ void TopLevel::slotNew()
   }
   else
     kateView->flush();
+}
+
+void TopLevel::slotOpen_delayed1(const KURL& url)
+{
+	delayedURL=url;
+	QTimer::singleShot(0,this,SLOT(slotOpen_delayed2()));
+}
+
+void TopLevel::slotOpen_delayed2()
+{
+	slotOpen(delayedURL);
 }
 
 void TopLevel::slotOpen()
