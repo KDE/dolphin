@@ -41,7 +41,6 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-#include <kbookmarkexporter.h>
 #include <kbookmarkimporter.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>

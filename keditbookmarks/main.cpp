@@ -29,10 +29,10 @@
 #include <kmessagebox.h>
 
 #include <kbookmarkmanager.h>
-#include <kbookmarkexporter.h>
+
+#include "kebbookmarkexporter.h"
 
 #include "core.h"
-
 #include "toplevel.h"
 
 static KCmdLineOptions options[] = {
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
          KCmdLineArgs::usage("You may only choose one of the --export options.");
       }
       QString path = QString::fromLocal8Bit(args->getOption(mozFlag ? "exportmoz" : "exportns"));
-      KNSBookmarkExporter exporter(mgr, path);
+      KEBNSBookmarkExporter exporter(mgr, path);
       exporter.write(mozFlag);
       return 0;
    }

@@ -40,12 +40,13 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-#include <kbookmarkexporter.h>
 #include <kbookmarkimporter.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
 
 #include <klineeditdlg.h>
+
+#include "kebbookmarkexporter.h"
 
 #include "toplevel.h"
 #include "commands.h"
@@ -80,7 +81,7 @@ void MyManager::notifyManagers() {
 
 void MyManager::doExport(const QString &path, bool moz) {
    if (!path.isEmpty()) {
-      KNSBookmarkExporter exporter(mgr(), path);
+      KEBNSBookmarkExporter exporter(mgr(), path);
       exporter.write(moz);
    }
 }

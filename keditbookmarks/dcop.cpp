@@ -39,13 +39,6 @@
 #include <kicondialog.h>
 #include <kiconloader.h>
 
-#include <kbookmarkdrag.h>
-#include <kbookmarkmanager.h>
-#include <kbookmarkexporter.h>
-#include <kbookmarkimporter.h>
-#include <kbookmarkimporter_ie.h>
-#include <kbookmarkimporter_opera.h>
-
 #include <klineeditdlg.h>
 
 #include "toplevel.h"

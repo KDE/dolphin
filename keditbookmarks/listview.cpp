@@ -41,7 +41,6 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-#include <kbookmarkexporter.h>
 
 #include "toplevel.h"
 #include "commands.h"
