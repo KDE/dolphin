@@ -40,6 +40,8 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
             this, SLOT( slotCompleted( const KURL & ) ) );
    connect( m_dirLister, SIGNAL( clear( const KURL & ) ),
             this, SLOT( slotClear( const KURL & ) ) );
+   connect( m_dirLister, SIGNAL( redirection( const KURL &, const KURL & ) ),
+            this, SLOT( slotRedirection( const KURL &, const KURL & ) ) );
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
@@ -142,35 +144,55 @@ void KonqTreeViewWidget::slotClear()
 
 void KonqTreeViewWidget::slotClear( const KURL & _url )
 {
-   kdDebug(1202) << "#################### MY ONE!!!" << k_funcinfo << endl;
+   kdDebug(1202) << k_funcinfo << _url.url() << endl;
 
-   // we are allowed to delete the whole content since the opening of
+   // normally this means we have to empty _only_ the directory _url but
+   // we are allowed to delete the subdirs as well since the opening of
    // subdirs happens level per level.
 
    QListViewItem *item = m_dictSubDirs[_url.url(-1)];
-   Q_ASSERT( item );
-
-   QDictIterator<KonqListViewDir> it( m_dictSubDirs );
-   for ( ; it.current(); ++it )
-      if ( _url.isParentOf( it.current()->url(0) ) )
-         m_dictSubDirs.remove( _url.url(-1) );
-
-   QListViewItemIterator qit( item );
-   QPtrList<QListViewItem> *lst = new QPtrList<QListViewItem>;
-   lst->setAutoDelete( true );
-
-   for ( ; qit.current(); ++qit )
+   if ( item )
    {
-      // delete the item from the counts for the statusbar
-//      KFileItem* item = static_cast<KonqListViewItem*>(qit.current())->item();
-//      treeView->m_pBrowserView->deleteItem( item );
-      lst->append( qit.current() );
+      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+      for ( ; it.current(); ++it )
+      {
+         if ( !_url.cmp( it.current()->item()->url(), true )
+              && _url.isParentOf( it.current()->item()->url() ) )
+         {
+            setSelected( it.current(), false );
+            m_pBrowserView->deleteItem( it.current()->item() );
+            
+            QListViewItem* child = it.current()->firstChild();
+            while ( child )
+            {
+               // unselect the items in the closed folder
+               setSelected( child, false );
+               // delete the item from the counts for the statusbar
+               KFileItem* tmp = static_cast<KonqListViewItem*>(child)->item();
+               kdDebug(1202) << tmp->url().prettyURL() << endl;
+               m_pBrowserView->deleteItem( tmp );
+               child = child->nextSibling();
+            }
+            
+            m_dictSubDirs.remove( it.currentKey() );
+            m_urlsToOpen.remove( it.currentKey() );
+            m_urlsToReload.remove( it.currentKey() );
+         }
+      }
    }
-
-   delete lst;
 
    m_urlsToOpen.remove( _url.url(-1) );
    m_urlsToReload.remove( _url.url(-1) );
+}
+
+void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl )
+{
+   kdDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
+
+   KonqListViewDir *dir = m_dictSubDirs.take( oldUrl.url(-1) );
+   Q_ASSERT( dir );
+   m_dictSubDirs.insert( newUrl.url(-1), dir );
+   // TODO: do we need to rename the fileitem in dir as well?
 }
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )

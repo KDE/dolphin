@@ -47,6 +47,7 @@ protected slots:
    virtual void slotCompleted( const KURL & );
    virtual void slotClear();
    virtual void slotClear( const KURL & );
+   virtual void slotRedirection( const KURL &, const KURL & );
    virtual void slotNewItems( const KFileItemList & );
    virtual void slotDeleteItem( KFileItem *_fileTtem );
 
