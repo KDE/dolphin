@@ -134,17 +134,14 @@ bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
     return (!n.isNull());
 }
 
-KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url )
+KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, const QString & icon )
 {
     kdDebug(1203) << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
     QDomDocument doc = element.ownerDocument();
     QDomElement elem = doc.createElement( "bookmark" );
     element.appendChild( elem );
     elem.setAttribute( "href", url.url( 0, QFont::Unicode ) ); // write utf8 URL
-    QString icon = KonqFavIconMgr::iconForURL( url.url() );
-    if ( icon.isEmpty() )
-        icon = KMimeType::iconForURL( url );
-    elem.setAttribute( "icon", icon );
+    elem.setAttribute( "icon", icon.isEmpty() ? KMimeType::iconForURL( url ) : icon );
 
     QDomElement textElem = doc.createElement( "title" );
     elem.appendChild( textElem );
@@ -269,12 +266,12 @@ QString KBookmark::address() const
     }
 }
 
-KBookmark KBookmark::standaloneBookmark( const QString & text, const KURL & url )
+KBookmark KBookmark::standaloneBookmark( const QString & text, const KURL & url, const QString & icon )
 {
     QDomDocument doc("xbel");
     QDomElement elem = doc.createElement("xbel");
     doc.appendChild( elem );
     KBookmarkGroup grp( elem );
-    grp.addBookmark( text, url );
+    grp.addBookmark( text, url, icon );
     return grp.first();
 }

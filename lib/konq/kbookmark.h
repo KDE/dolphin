@@ -30,7 +30,7 @@ class KBookmark
 public:
     KBookmark( QDomElement elem ) : element(elem) {}
 
-    static KBookmark standaloneBookmark( const QString & text, const KURL & url );
+    static KBookmark standaloneBookmark( const QString & text, const KURL & url, const QString & icon = QString::null );
 
     /**
      * Whether the bookmark is a group or a normal bookmark
@@ -198,7 +198,7 @@ public:
      * Don't forget to use KBookmarkManager::self()->emitChanged( parentBookmark );
      * if this bookmark was added interactively.
      */
-    KBookmark addBookmark( const QString & text, const KURL & url );
+    KBookmark addBookmark( const QString & text, const KURL & url, const QString & icon = QString::null );
 
     /**
      * Moves @p item after @p after (which should be a child of ours).
