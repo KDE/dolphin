@@ -60,9 +60,9 @@ public:
     void parseNSBookmarks();
 
     // Usual place for NS bookmarks
-    static QString netscapeBookmarksFile();
+    static QString netscapeBookmarksFile( bool forSaving=false );
     // Usual place for Mozilla bookmarks
-    static QString mozillaBookmarksFile();
+    static QString mozillaBookmarksFile( bool forSaving=false );
 
 signals:
 

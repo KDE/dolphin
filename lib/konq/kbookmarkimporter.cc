@@ -18,8 +18,10 @@
 
 #include "kbookmarkimporter.h"
 #include <kstddirs.h>
+#include <kfiledialog.h>
 #include <kglobal.h>
 #include <kstringhandler.h>
+#include <klocale.h>
 #include <kmimetype.h>
 #include <kdebug.h>
 #include <qdir.h>
@@ -212,14 +214,20 @@ void KNSBookmarkImporter::parseNSBookmarks()
     }
 }
 
-QString KNSBookmarkImporter::netscapeBookmarksFile()
+QString KNSBookmarkImporter::netscapeBookmarksFile( bool )
 {
     return QDir::homeDirPath() + "/.netscape/bookmarks.html";
 }
 
-QString KNSBookmarkImporter::mozillaBookmarksFile()
+QString KNSBookmarkImporter::mozillaBookmarksFile( bool forSaving )
 {
-    return QDir::homeDirPath() + "/.mozilla/default/bookmarks.html";
+    //return QDir::homeDirPath() + "/.mozilla/default/bookmarks.html";
+    if ( forSaving )
+        return KFileDialog::getSaveFileName( QDir::homeDirPath() + "/.mozilla",
+                                             i18n("*.html|HTML files (*.html)") );
+    else
+        return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.mozilla",
+                                             i18n("*.html|HTML files (*.html)") );
 }
 
 #include "kbookmarkimporter.moc"
