@@ -477,7 +477,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                                   false,
                                   openAfterCurrentPage);
     if (view) {
-      view->frame()->setTitle( _url.host() , 0L);
+      view->setCaption( _url.host() );
 
       if ( req.newTabInFront )
         m_pViewManager->showTab( view );
