@@ -54,6 +54,7 @@
 #include <kwm.h>
 #include <kstringhandler.h>
 #include <kstdaction.h>
+#include <kpopupmenu.h>
 
 template class QList<KBookmarkMenu>;
 

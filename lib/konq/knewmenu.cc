@@ -30,6 +30,7 @@
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
 #include <kurl.h>
+#include <kpopupmenu.h>
 
 #include <kio/global.h>
 #include <kio/job.h>

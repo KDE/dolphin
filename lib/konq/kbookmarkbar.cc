@@ -31,6 +31,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kurl.h>
+#include <kpopupmenu.h>
 
 #include <qiconset.h>
 
