@@ -12,3 +12,8 @@ nspluginviewer_LDFLAGS = $(KDE_RPATH) -export-dynamic
 NSPluginCallbackIface.h:
 	-rm -f ./NSPluginCallbackIface.h
 	-ln -s $(srcdir)/../NSPluginCallbackIface.h .
+
+viewer.cpp: NSPluginCallbackIface_stub.h
+nsplugin.cpp: NSPluginCallbackIface_stub.h
+
+
