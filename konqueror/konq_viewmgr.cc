@@ -336,6 +336,8 @@ void KonqViewManager::revertDocContainer()
   parentContainer->widget()->setUpdatesEnabled( true );
 
   parentContainer->setActiveChild( otherFrame );
+  
+  parentContainer->activateChild();
 
   m_pDocContainer = otherFrame;
 }
