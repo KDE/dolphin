@@ -39,12 +39,14 @@ extern QList<KfArchiver> *archivers;
 // see comment near use of this variable
 static const char * egcsWorkaround = "%x  %X";
 
+#define I18N_NOOP(x) x
+
 // Permission strings
-static QString perm[4] = {
-  QString(i18n( "Read-write" )),
-  QString(i18n( "Read-only" )),
-  QString(i18n( "Write-only" )),
-  QString(i18n( "Inaccessible" )) };
+static const char* perm[4] = {
+  I18N_NOOP( "Read-write" ),
+  I18N_NOOP( "Read-only" ),
+  I18N_NOOP( "Write-only" ),
+  I18N_NOOP( "Inaccessible" ) };
 #define RW 0
 #define RO 1
 #define WO 2
@@ -86,7 +88,7 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   setText(1, fileInfo->dir().path() + "/");
   setText(2, size);
   setText(3, date);
-  setText(4, perm[perm_index]);
+  setText(4, i18n(perm[perm_index]));
 
 
   // load the icons (same as in KFileInfoContents)
@@ -616,7 +618,7 @@ void KfindWindow::resetColumns(bool init)
     QFontMetrics fm = fontMetrics();
     setColumnWidth(2, QMAX(fm.width(columnText(2)), fm.width("0000000")) + 15);
     setColumnWidth(3, QMAX(fm.width(columnText(3)), fm.width("00/00/00 00:00:00")) + 15);
-    setColumnWidth(4, QMAX(fm.width(columnText(4)), fm.width(perm[RO])) + 15);
+    setColumnWidth(4, QMAX(fm.width(columnText(4)), fm.width(i18n(perm[RO]))) + 15);
   }
 
   int free_space = visibleWidth() -
