@@ -185,6 +185,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     else
     {
         // MMB on background, try opening clipboard URL
+        QApplication::clipboard()->setSelectionMode( true );
         QMimeSource *data = QApplication::clipboard()->data();
         if ( data->provides("text/plain") )
         {
