@@ -292,7 +292,7 @@ void testLocalInstallation()
     QString cmd;
     cmd.sprintf("cp %s/kfm/Desktop/Templates/* %s",
                 kapp->kde_datadir().data(),
-                KfmPaths::templatesPath() );
+                KfmPaths::templatesPath().data() );
     system( cmd.data() );
     KWM::sendKWMCommand("krootwm:refreshNew");
   }

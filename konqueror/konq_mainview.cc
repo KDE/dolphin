@@ -31,7 +31,7 @@
 #include "konq_partview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
-#include "propsdlg.h"
+#include "kio_propsdlg.h"
 
 #include <opUIUtils.h>
 #include <opMenu.h>
@@ -1793,7 +1793,7 @@ void KonqMainView::slotPopup( int id )
 void KonqMainView::slotPopupProperties()
 {
   if ( m_lstPopupURLs.count() == 1 )
-    (void) new Properties( m_lstPopupURLs.getFirst(), m_popupMode );
+    (void) new PropertiesDialog( m_lstPopupURLs.getFirst(), m_popupMode );
   // else ERROR
 }
 

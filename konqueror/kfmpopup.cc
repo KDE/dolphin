@@ -130,7 +130,7 @@ void KNewMenu::fillTemplates()
     const QFileInfoList *list = d.entryInfoList();
     if ( list == 0L )
         warning(i18n("ERROR: Template does not exist '%s'"),
-		KfmPaths::templatesPath());
+		KfmPaths::templatesPath().data());
     else
     {
 	QFileInfoListIterator it( *list );      // create list iterator
