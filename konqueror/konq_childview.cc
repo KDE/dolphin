@@ -101,7 +101,7 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
   if ( useMiscURLData && browserExtension() )
   {
     KParts::URLArgs args(false, m_iXOffset, m_iYOffset);
-    browserExtension()->setURLArgs( args );    
+    browserExtension()->setURLArgs( args );
   }
   m_pView->openURL( url );
 
@@ -185,8 +185,8 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
-  connect( ext, SIGNAL( createNewWindow( const KURL &, KParts::URLArgs & ) ),
-           m_pMainView, SLOT( slotCreateNewWindow( const KURL &, KParts::URLArgs & ) ) );
+  connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
+           m_pMainView, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( loadingProgress( int ) ),
            this, SLOT( slotLoadingProgress( int ) ) );
@@ -428,7 +428,7 @@ void KonqChildView::reload()
   if ( browserExtension() )
   {
     KParts::URLArgs args(true, browserExtension()->xOffset(), browserExtension()->yOffset());
-    browserExtension()->setURLArgs( args );    
+    browserExtension()->setURLArgs( args );
   }
 
   //  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
