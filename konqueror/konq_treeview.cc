@@ -119,7 +119,9 @@ KonqKfmTreeView::~KonqKfmTreeView()
 
 bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
+  KonqBaseView::mappingOpenURL( eventURL );
   openURL( eventURL.url );
+  return true;
 }
 
 void KonqKfmTreeView::stop()

@@ -715,15 +715,6 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
 
   if (sViewName != m_currentView->m_vView->viewName())
   {
-// Simon:
-// Well, IMHO: do not really remove the view but instead:
-// 1) only replace the view variable
-// 2) attach it to the opFrame (the old one will be detached automatically)
-// I hope you don't mind me doing this change. We can still revert it, ok?
-
-//    Konqueror::View_var old_vView = Konqueror::View::_duplicate( m_currentView->m_vView );
-//    removeView( old_vView->id() );
-    // CORBA::release(old_vView); ? what to we do with the old view ? (David)
     
     Konqueror::View_var vView;
     if (sViewName == "KonquerorHTMLView")
@@ -740,13 +731,6 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
     m_currentView->m_pFrame->show();
       
     m_mapViews[ vView->id() ] = m_currentView;
-    
-//    insertView( vView );
-//    setActiveView( vView->id() );
-//
-//  Simon: emit twice?
-//    debug("KonqMainView : emitting EventOpenURL %s to new view",url.c_str());
-//    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
   }
 
   /////////// Now open the URL in the current view ////////////
@@ -1060,10 +1044,7 @@ void KonqMainView::slotHome()
   QString tmp( QDir::homeDirPath().data() );
 //  m_currentView->m_pView->openURL( tmp );
   tmp.prepend( "file:" );
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( tmp.data() );
-  eventURL.reload = (CORBA::Boolean)false;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+  openURL(tmp,(CORBA::Boolean)false); // might need a view-mode change...
 }
 
 void KonqMainView::slotBack()

@@ -303,7 +303,7 @@ void KonqKfmIconView::openURL( const char *_url )
     return;
   }
     
-  // TODO: Check wether the URL is really a directory
+  // TODO: Check whether the URL is really a directory
 
   // Stop running jobs
   if ( m_jobId )
