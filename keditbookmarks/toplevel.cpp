@@ -392,7 +392,7 @@ QValueList<KBookmark> KEBTopLevel::selectedBookmarksExpanded() const
             for(QListViewItemIterator it2(it.current()); it2.current(); it2++) {
                if (!static_cast<KEBListViewItem *>(it2.current())->m_emptyFolder) {
                   const KBookmark bk = ITEM_TO_BK(it2.current());
-                  if (!addresses.contains(bk.address())) {
+                  if (!addresses.contains(bk.address())&& !bk.isGroup()) {
                      bookmarks.append(bk);
                      addresses.append(bk.address());
                   }
@@ -403,7 +403,8 @@ QValueList<KBookmark> KEBTopLevel::selectedBookmarksExpanded() const
                }
             }
          } else {
-            if (!addresses.contains(ITEM_TO_BK(it.current()).address())) {
+             const KBookmark bk = ITEM_TO_BK(it.current());
+             if (!addresses.contains(bk.address())&&!bk.isGroup()) {
                bookmarks.append(ITEM_TO_BK(it.current()));
                addresses.append(ITEM_TO_BK(it.current()).address());
             }
