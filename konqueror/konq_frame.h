@@ -76,7 +76,7 @@ signals:
   void passiveModeChange( bool mode );
 
 protected: 
-  enum KPixmapEffect::GradientType mapShade( KonqFrameHeaderLook look);
+  KPixmapEffect::GradientType mapShade( KonqFrameHeaderLook look);
 
   virtual void paintEvent( QPaintEvent* );
   virtual void mousePressEvent( QMouseEvent* );
