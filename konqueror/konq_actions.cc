@@ -127,6 +127,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history
   {
       QString text = it.current()->title;
       text = KStringHandler::csqueeze(text, 50); //CT: squeeze
+      text.replace( QRegExp( "&" ), "&&" );
       if ( checkCurrentItem && it.current() == current )
       {
           int id = popup->insertItem( text ); // no pixmap if checked

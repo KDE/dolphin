@@ -1,3 +1,12 @@
+2001-01-16  Simon Hausmann  <simon@kde.org>
+
+	* konq_actions.cc (fillHistoryPopup),
+	  libkonq/kbookmarkmenu.cc (fillBookmarkMenu): When a Website has
+	"&" in the Title, make sure to transform it into "&&" before
+	inserting it into a QPopupMenu (for history or for bookmarks) , to
+	avoid QPopupMenu interpreting it as accelerator.
+
+
 2001-01-15  David Faure  <faure@kde.org>
 
 	* konq_aboutpage.cc, konq_mainwindow.cc: Support for "about:konqueror".
