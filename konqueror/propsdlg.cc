@@ -1521,7 +1521,7 @@ ApplicationPropsPage::ApplicationPropsPage( Properties *_props ) : PropsPage( _p
     addMimeType( "allfiles" );
 
     QDictIterator<KMimeType> it ( * KMimeType::allTypes() );
-    while ( it.current() )
+    for ( ; it.current(); ++it )
         addMimeType ( it.currentKey() );
 }
 
@@ -1892,7 +1892,7 @@ BindingPropsPage::BindingPropsPage( Properties *_props ) : PropsPage( _props )
     appBox->insertItem( i18n("<none>") );
     kdelnklist.append( "" ); // empty item
     QListIterator<KService> it ( * KService::allServices() );
-    while ( it.current() )
+    for ( ; it.current(); ++it )
     {
 	currApp = it.current()->name();
 
