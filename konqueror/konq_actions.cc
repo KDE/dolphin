@@ -22,9 +22,12 @@
 #include <assert.h>
 
 #include <qlabel.h>
+#include <qapplication.h>
+#include <qdragobject.h>
 #include <qpopupmenu.h>
 #include <qwhatsthis.h>
 
+#include <kurldrag.h>
 #include <ktoolbar.h>
 #include <kcombobox.h>
 #include <kanimwidget.h>
@@ -313,6 +316,46 @@ int KonqLogoAction::plug( QWidget *widget, int index )
   return containerId;
 }
 
+///////////
+
+
+class KonqDraggableLabel : public QLabel
+{
+public:
+    KonqDraggableLabel( KonqMainWindow * mw, const QString & text, QWidget * parent = 0, const char * name = 0 )
+        : QLabel( text, parent, name ), m_mw(mw)
+    { validDrag = false; }
+protected:
+    void mousePressEvent( QMouseEvent * ev )
+    {
+        validDrag = true;
+        startDragPos = ev->pos();
+    }
+    void mouseMoveEvent( QMouseEvent * ev )
+    {
+        if ((startDragPos - ev->pos()).manhattanLength() > QApplication::startDragDistance())
+        {
+            validDrag = false;
+            if ( m_mw->currentView() )
+            {
+                KURL::List lst;
+                lst.append( m_mw->currentView()->url() );
+                QDragObject * drag = KURLDrag::newDrag( lst, m_mw );
+                drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
+                (void) drag->drag();
+            }
+        }
+    }
+    void mouseReleaseEvent( QMouseEvent * )
+    {
+        validDrag = false;
+    }
+private:
+    QPoint startDragPos;
+    bool validDrag;
+    KonqMainWindow * m_mw;
+};
+
 KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
 : KAction( text, 0, parent, name )
 {
@@ -328,7 +371,7 @@ int KonqLabelAction::plug( QWidget *widget, int index )
 
     int id = KAction::getToolButtonID();
 
-    QLabel *label = new QLabel( plainText(), widget );
+    QLabel * label = new KonqDraggableLabel( static_cast<KonqMainWindow *>(tb->mainWindow()), plainText(), widget );
     label->adjustSize();
     tb->insertWidget( id, label->width(), label, index );
 
