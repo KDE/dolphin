@@ -805,7 +805,8 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 
 void KonqBaseListViewWidget::slotCloseView()
 {
-  delete m_pBrowserView;
+    kdDebug() << "KonqBaseListViewWidget::slotCloseView" << endl;
+    //delete m_pBrowserView;
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()

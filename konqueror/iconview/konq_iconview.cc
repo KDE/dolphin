@@ -796,8 +796,8 @@ void KonqKfmIconView::slotRedirection( const KURL & url )
 
 void KonqKfmIconView::slotCloseView()
 {
-    kdDebug() << "KonqKfmIconView::slotCloseView, deleting icon view" << endl;
-    delete this;
+    kdDebug() << "KonqKfmIconView::slotCloseView" << endl;
+    //delete this; // we need better support for this first
 }
 
 void KonqKfmIconView::slotDisplayFileSelectionInfo()
