@@ -157,11 +157,11 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         row++;
     }
 
-    cbUnderline = new QCheckBox(i18n("&Underline file names"), this);
+    cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
     lay->addMultiCellWidget(cbUnderline,row,row,0,LASTCOLUMN,hAlign);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbUnderline, i18n("Checking this option will result in file names"
+    QWhatsThis::add( cbUnderline, i18n("Checking this option will result in filenames"
                                        " being underlined, so that they look like links on a web page. Note:"
                                        " to complete the analogy, make sure that single click activation is"
                                        " enabled in the mouse control module.") );

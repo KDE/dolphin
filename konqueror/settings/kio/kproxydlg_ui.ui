@@ -354,7 +354,7 @@ Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROX
                                 <bool>false</bool>
                             </property>
                             <property name="text">
-                                <string>User name:</string>
+                                <string>Username:</string>
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Login name.</string>

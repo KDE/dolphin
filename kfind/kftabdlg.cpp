@@ -85,10 +85,10 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     dirBox->setInsertionPolicy(QComboBox::AtTop);
 
     const QString nameWhatsThis
-      = i18n("<qt>Enter the file name you are looking for. <br>"
+      = i18n("<qt>Enter the filename you are looking for. <br>"
 	     "Alternatives may be separated by a semicolon \";\".<br>"
 	     "<br>"
-	     "The file name may contain the following special characters:"
+	     "The filename may contain the following special characters:"
 	     "<ul>"
 	     "<li><b>?</b> matches any single character</li>"
 	     "<li><b>*</b> matches zero or more of any characters</li>"
