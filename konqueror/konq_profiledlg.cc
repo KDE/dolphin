@@ -198,6 +198,8 @@ void KonqProfileDlg::slotDelete()
     m_pListView->removeItem( m_pListView->selectedItem() );
     m_mapEntries.remove( it );
   }
+  m_pDeleteProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
+  m_pRenameProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
 }
 
 void KonqProfileDlg::slotRename()
