@@ -315,7 +315,6 @@ struct KonqIconViewWidgetPrivate
         m_movie = 0L;
         m_movieBlocked = 0;
         pFileTip = 0;
-        renamedIcon = 0;
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
@@ -344,7 +343,6 @@ struct KonqIconViewWidgetPrivate
     KIO::PreviewJob *pPreviewJob;
     KFileTip* pFileTip;
     QStringList previewSettings;
-    KFileIVI *renamedIcon;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -414,19 +412,21 @@ void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )
 void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
 {
     kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
-    KFileItem * fileItem = static_cast<KFileIVI *>(item)->item();
-    d->renamedIcon=static_cast<KFileIVI *>(item);
-    KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFinished(bool)));
-}
+    KFileIVI *viewItem = static_cast<KFileIVI *>(item);
+    KFileItem *fileItem = viewItem->item();
+    
+    // The correct behavior is to show the old name until the rename has successfully
+    // completed. Unfortunately, KIconView forces us to allow the text to be changed
+    // before we try the rename, so set it back to the pre-rename state.
+    viewItem->setText( fileItem->text() );
 
-void KonqIconViewWidget::renamingFinished(bool success)
-{
-    kdDebug(1203) << "KonqIconViewWidget::renamingFinished" << endl;
-   if ((d->renamedIcon!=0) && (!success))
-      d->renamedIcon->setText(d->renamedIcon->item()->text());
-   d->renamedIcon=0;
+    // Don't do anything if the user renamed to a blank name.
+    if( !name.isEmpty() )
+    {
+        // Actually attempt the rename. If it succeeds, KDirLister will update the name.
+        KonqOperations::rename( this, fileItem->url(), name );
+    }
 }
-
 
 void KonqIconViewWidget::slotIconChanged( int group )
 {

@@ -294,12 +294,9 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
     {
         if ( m_fileitem->acceptsDrops() ) // Directory, executables, ...
             return true;
-        KURL::List uris;
-        if ( iconView()->inherits( "KonqIconViewWidget" ) )
-            // Use cache if we can
-            uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
-        else
-            KURLDrag::decode( mime, uris );
+        
+        // Use cache
+        KURL::List uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
 
         // Check if we want to drop something on itself
         // (Nothing will happen, but it's a convenient way to move icons)

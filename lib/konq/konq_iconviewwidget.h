@@ -251,8 +251,6 @@ protected slots:
     void slotMovieStatus( int status );
     void slotReenableAnimation();
 
-    void renamingFinished(bool success);
-
 protected:
     virtual QDragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
