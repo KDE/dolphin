@@ -26,14 +26,10 @@
 
 #include <kcmodule.h>
 
-class QCheckBox;
-class QPushButton;
-class QRadioButton;
-class QButtonGroup;
 class QTabWidget;
 
 class KProxyData;
-class KURLRequester;
+class KProxyDialogUI;
 
 class KProxyOptions : public KCModule
 {
@@ -68,37 +64,14 @@ public:
   QString quickHelp() const;
 
 protected slots:
-  void autoDiscoverChecked();
-  void autoScriptChecked( bool );
-  void manualChecked();
-  void envVarChecked();
-  void promptChecked();
-  void autoChecked();
+  void slotChanged();
+  void slotUseProxyChanged();
 
-  void useProxyChecked( bool );
-  void autoScriptChanged( const QString& );
   void setupManProxy();
   void setupEnvProxy();
 
 private:
-  QCheckBox* m_cbUseProxy;
-
-  QRadioButton* m_rbAutoDiscover;
-  QRadioButton* m_rbAutoScript;
-  QRadioButton* m_rbAutoLogin;
-  QRadioButton* m_rbEnvVar;
-  
-  QRadioButton* m_rbManual;
-  QRadioButton* m_rbPrompt;
-
-  QPushButton* m_pbEnvSetup;
-  QPushButton* m_pbManSetup;
-
-  QButtonGroup* m_gbAuth;
-  QButtonGroup* m_gbConfigure;
-
-  KURLRequester* m_location;
-
+  KProxyDialogUI* dlg;
   KProxyData* m_data;
 };
 

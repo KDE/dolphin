@@ -1,0 +1,255 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>KProxyDialogUI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>widget2</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>368</width>
+            <height>343</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>unnamed</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>cbUseProxy</cstring>
+            </property>
+            <property name="text">
+                <string>Use &amp;proxy</string>
+            </property>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>gbConfigure</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="title">
+                <string>Configuration</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbAutoDiscover</cstring>
+                    </property>
+                    <property name="text">
+                        <string>A&amp;utomatically detected script file</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbAutoScript</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Specified &amp;script file</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout3</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Fixed</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>30</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>lbLocation</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Location:</string>
+                            </property>
+                        </widget>
+                        <widget class="KURLRequester">
+                            <property name="name">
+                                <cstring>location</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout1</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>rbEnvVar</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>3</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Preset environment &amp;variables</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbEnvSetup</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Setup...</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>rbManual</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>3</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Manually specified settings</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbManSetup</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Setup...</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>gbAuth</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="title">
+                <string>Authorization</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbPrompt</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Prompt as &amp;needed</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbAutoLogin</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use automatic lo&amp;gin</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>Spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>rbAutoScript</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>location</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>
