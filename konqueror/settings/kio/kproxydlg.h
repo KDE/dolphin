@@ -46,7 +46,6 @@ struct ProxyData
 {
     bool changed;
     bool envBased;
-    bool useProxy;
     bool useReverseProxy;
 
     QString httpProxy;
@@ -74,7 +73,6 @@ private:
     void init() {
         changed = false;
         envBased = false;
-        useProxy = false;
         useReverseProxy = false;
     }
 };
@@ -261,18 +259,17 @@ public:
     QString quickHelp() const;
 
 protected slots:
-    void autoDiscoverChecked( bool );
+    void autoDiscoverChecked();
     void autoScriptChecked( bool );
-    void manualChecked( bool );
-    void envVarChecked( bool );
-    void promptChecked( bool );
-    void autoChecked( bool );
+    void manualChecked();
+    void envVarChecked();
+    void promptChecked();
+    void autoChecked();
 
     void useProxyChecked( bool );
     void autoScriptChanged( const QString& );
     void setupManProxy();
     void setupEnvProxy();
-    void changed( bool );
 
 private:
     QCheckBox* cb_useProxy;
@@ -289,11 +286,6 @@ private:
     QButtonGroup* gb_auth;
     QRadioButton* rb_prompt;
     QRadioButton* rb_autoLogin;
-
-    short int m_btnId;
-
-    bool useProxy;
-    bool m_bSettingChanged;
 
     ProxyData* d;
 };

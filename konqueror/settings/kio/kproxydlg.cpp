@@ -488,18 +488,18 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
              SLOT( useProxyChecked(bool) ) );
 
     connect( rb_autoDiscover, SIGNAL( toggled(bool) ),
-             SLOT( autoDiscoverChecked( bool ) ) );
+             SLOT( autoDiscoverChecked() ) );
     connect( rb_autoScript, SIGNAL( toggled(bool) ),
              SLOT( autoScriptChecked( bool ) ) );
     /*connect( rb_manual, SIGNAL( toggled(bool) ),
-             SLOT( manualChecked( bool ) ) ); */
+             SLOT( manualChecked() ) ); */
     /*connect( rb_envVar, SIGNAL( toggled(bool) ),
-             SLOT( envVarChecked( bool ) ) ); */
+             SLOT( envVarChecked() ) ); */
 
     connect( rb_prompt, SIGNAL( toggled(bool) ),
-             SLOT( promptChecked( bool ) ) );
+             SLOT( promptChecked() ) );
     connect( rb_autoLogin, SIGNAL( toggled(bool) ),
-             SLOT( autoChecked( bool ) ) );
+             SLOT( autoChecked() ) );
 
     connect( ur_location, SIGNAL( textChanged(const QString&) ),
              SLOT( autoScriptChanged(const QString&) ) );
@@ -508,8 +508,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     connect( pb_manSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
 
     d = new ProxyData;
-    m_btnId = -1;
-    m_bSettingChanged = false;
 
     load();
 }
@@ -522,7 +520,7 @@ KProxyDialog::~KProxyDialog()
 void KProxyDialog::load()
 {
     // Read stored settings
-    useProxy = d->useProxy = KProtocolManager::useProxy();
+    bool useProxy = KProtocolManager::useProxy();
     d->useReverseProxy = KProtocolManager::useReverseProxy();
     d->httpProxy = KProtocolManager::proxyFor( "http" );
     d->secureProxy = KProtocolManager::proxyFor( "https" );
@@ -542,20 +540,16 @@ void KProxyDialog::load()
     {
         case KProtocolManager::WPADProxy:
           rb_autoDiscover->setChecked( true );
-          m_btnId = 0;
           break;
         case KProtocolManager::PACProxy:
           rb_autoScript->setChecked( true );
-          m_btnId = 1;
           break;
         case KProtocolManager::ManualProxy:
           rb_manual->setChecked( true );
-          m_btnId = 2;
           break;
         case KProtocolManager::EnvVarProxy:
           rb_envVar->setChecked( true );
           d->envBased = true;
-          m_btnId = 3;
           break;
         default:
           break;
@@ -565,11 +559,9 @@ void KProxyDialog::load()
     {
         case KProtocolManager::Prompt:
             rb_prompt->setChecked( true );
-            m_btnId = 4;
             break;
         case KProtocolManager::Automatic:
             rb_autoLogin->setChecked( true );
-            m_btnId = 5;
         default:
             break;
     }
@@ -577,12 +569,6 @@ void KProxyDialog::load()
 
 void KProxyDialog::save()
 {
-    if ( !m_bSettingChanged )
-    {
-        m_bSettingChanged = false;
-        return;   // Do not waste my time!
-    }
-
     if ( cb_useProxy->isChecked() )
     {
         if ( rb_autoDiscover->isChecked() )
@@ -648,7 +634,7 @@ void KProxyDialog::save()
     }
     else
     {
-        d->reset();
+//        d->reset();
         KSaveIOConfig::setProxyType( KProtocolManager::NoProxy );
         // KSaveIOConfig::setProxyAuthMode( KProtocolManager::Prompt );
     }
@@ -675,13 +661,16 @@ void KProxyDialog::save()
     QDataStream stream3( data, IO_WriteOnly );
     stream3 << QString("ftp");
     kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+
+    KProtocolManager::reparseConfiguration();
+    emit changed( false );
 }
 
 void KProxyDialog::defaults()
 {
     d->reset();
     cb_useProxy->setChecked( false );
-    changed( true );
+    emit changed( true );
 }
 
 QString KProxyDialog::quickHelp() const
@@ -712,8 +701,7 @@ void KProxyDialog::setupManProxy()
             d->noProxyFor = data.noProxyFor;
             d->changed = data.changed;
             d->envBased = data.envBased;
-            changed( true );
-            m_bSettingChanged = true;
+            emit changed( true );
         }
     }
     delete dlg;
@@ -738,99 +726,57 @@ void KProxyDialog::setupEnvProxy()
             d->noProxyFor = data.noProxyFor;
             d->changed = data.changed;
             d->envBased = data.envBased;
-            changed( true );
-            m_bSettingChanged = true;
+            emit changed( true );
         }
     }
     delete dlg;
 }
 
-void KProxyDialog::autoDiscoverChecked( bool on )
+void KProxyDialog::autoDiscoverChecked()
 {
-    if ( m_btnId != 0 )
-    {
-        m_btnId = 0;
-        if ( on )
-        {
-            changed( on );
-            m_bSettingChanged = on;
-        }
-    }
+    emit changed( true );
 }
 
 void KProxyDialog::autoScriptChecked( bool on )
 {
-    if ( m_btnId != 1 )
-    {
-        m_btnId = 1;
-        if ( on )
-        {
-            changed( on );
-            m_bSettingChanged = on;
-        }
-    }
+    emit changed( true );
     ur_location->setEnabled( on );
 }
 
-void KProxyDialog::manualChecked( bool on )
+void KProxyDialog::manualChecked()
 {
-    if ( m_btnId != 2 )
-    {
-        m_btnId = 2;
-        m_bSettingChanged = on;
-        if ( d )
-          d->changed = false;
-    }
+    emit changed( true );
+    if ( d )
+        d->changed = false;
 }
 
-void KProxyDialog::envVarChecked( bool on )
+void KProxyDialog::envVarChecked()
 {
-    if ( m_btnId != 3 )
-    {
-        m_btnId = 3;
-        m_bSettingChanged = on;
-        if ( d )
-          d->changed = false;
-    }
+    emit changed( true );
+    if ( d )
+        d->changed = false;
 }
 
-void KProxyDialog::promptChecked( bool on )
+void KProxyDialog::promptChecked()
 {
-    if ( m_btnId != 4 )
-    {
-        m_btnId = 4;
-        if ( on )
-            changed( on );
-    }
+    emit changed( true );
 }
 
-void KProxyDialog::autoChecked( bool on )
+void KProxyDialog::autoChecked()
 {
-    if ( m_btnId != 5 )
-    {
-        m_btnId = 5;
-        if ( on )
-            changed( on );
-    }
+    emit changed( true );
 }
 
 void KProxyDialog::useProxyChecked( bool on )
 {
-    if ( useProxy != on )
-    {
-        gb_configure->setEnabled( on );
-        gb_auth->setEnabled( on );
-        useProxy = on;
-        changed( true );
-    }
+    gb_configure->setEnabled( on );
+    gb_auth->setEnabled( on );
+    
+    emit changed( true );
 }
 
 void KProxyDialog::autoScriptChanged( const QString& )
 {
-    changed( true );
+    emit changed( true );
 }
 
-void KProxyDialog::changed( bool flag )
-{
-    emit KCModule::changed( flag );
-}
