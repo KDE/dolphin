@@ -271,7 +271,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
              // We're going to be part of the format string after the first arg(), so we need to escape %n's
              // However, arg() doesn't actually support using %% as a literal % or anything useful like that
              // This should take care of the problem
-             filename.replace(QRegExp("%"), "%<i></i>");
+             filename.replace("%", "%<i></i>");
 
              result = KMessageBox::warningContinueCancel( 0,
              	i18n( "<p>Do you really want to delete <b>%1</b> from <b>%2</b>?</p>" ).arg( filename ).arg( directory ),
