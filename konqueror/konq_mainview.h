@@ -121,6 +121,7 @@ public slots:
   void slotConfigureFileTypes();
   void slotConfigureNetwork();
   void slotConfigureKeys();
+  void slotConfigureToolbars();
 
   void slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
@@ -279,6 +280,7 @@ private:
   KAction *m_paConfigureFileTypes;
   KAction *m_paConfigureNetwork;
   KAction *m_paConfigureKeys;
+  KAction *m_paConfigureToolbars;
 
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;

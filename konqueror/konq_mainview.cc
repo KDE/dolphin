@@ -81,6 +81,7 @@
 #include <kparts/part.h>
 #include <kmenubar.h>
 #include <kuserpaths.h>
+#include <kedittoolbar.h>
 
 #include "version.h"
 
@@ -658,6 +659,17 @@ void KonqMainView::slotConfigureKeys()
   //just testing Torben's widget :-) -- to be replaced by kdelibs config widget (Simon)
   //QActionDialog *actionDia = new QActionDialog( actionCollection(), this, 0 );
   //actionDia->show();
+}
+
+void KonqMainView::slotConfigureToolbars()
+{
+  QActionCollection collection;
+  collection = *actionCollection() + *currentView()->actionCollection();
+  KEditToolbar edit(&collection, xmlFile(), currentView()->xmlFile());
+  if (edit.exec())
+  {
+    // don't know how to recreate GUI
+  }
 }
 
 void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
@@ -1401,6 +1413,8 @@ void KonqMainView::initActions()
   m_paConfigureFileTypes = new KAction( i18n( "Configure File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
   m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
   m_paConfigureKeys = new KAction( i18n( "Configure &Keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
+
+  m_paConfigureToolbars = new KAction( i18n( "Configure Tool&bars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
 
   m_paSplitViewHor = new KAction( i18n( "Split View &Horizontally" ), CTRL+SHIFT+Key_H, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Vertically" ), CTRL+SHIFT+Key_V, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
