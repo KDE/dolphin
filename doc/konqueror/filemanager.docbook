@@ -5,8 +5,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup> 
 
-<date>2003-10-28</date>
-<releaseinfo>3.2</releaseinfo>
+<date>2005-04-01</date>
+<releaseinfo>3.4</releaseinfo>
 </chapterinfo>
 
 <title>&konqueror; the File Manager</title>
@@ -822,6 +822,23 @@ your system, and a wrong command can easily do irrevocable damage.</para>
 seriously increases your vulnerability to malicious hacking.</para></warning>
 
 </sect2>
+</sect1>
+
+<sect1 id="file-associations">
+<title>Configuring File Associations</title>
+
+<!-- TODO: The content should probably be here too, but this'll do for -->
+<!-- now. -->
+<para>&kde; provides many applications which can open many different
+types of file. Most of the time, the defaults will work with no
+problems, but &konqueror; provides a powerful system to allow you to
+change the applications used to open each file type. For more details,
+choose the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
+Konqueror...</guimenuitem></menuchoice> menu item, select
+<guilabel>File Associations</guilabel> in the configuration dialog,
+and click on <guibutton>Help</guibutton>.</para>
+
 </sect1>
 
 
