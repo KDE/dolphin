@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="48">
+<gui name="Konqueror" version="49">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -79,9 +79,9 @@
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>
   <Separator/>
+  <Action name="loadviewprofile"/>
   <Action name="saveviewprofile"/>
   <Action name="saveremoveviewprofile"/>
-  <Action name="loadviewprofile"/>
   <Separator/>
   <Action name="options_configure_keybinding"/>
   <Action name="options_configure_toolbars"/>
