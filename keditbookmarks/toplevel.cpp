@@ -438,7 +438,7 @@ void KEBApp::createActions() {
                       this, SLOT( slotFilteredToolbar() ), actionCollection(), 
                       "settings_filteredtoolbar");
    (void) new KToggleAction(
-                      i18n("&Split View"), 0,
+                      i18n("Split View (Very Experimental!)"), 0,
                       this, SLOT( slotSplitView() ), actionCollection(), "settings_splitview");
    (void) new KToggleAction(
                       i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
