@@ -40,6 +40,7 @@
 #include <qcheckbox.h>
 #include <kcolorbtn.h>
 #include <qradiobutton.h>
+#include <qfont.h>
 #include <kconfig.h>
 #include <kcmodule.h>
 #include <kwm.h>
@@ -86,6 +87,7 @@ private:
 
   int fSize;
   QString stdName;
+  QFont m_stdFont;
   QStrList standardFonts;
 
   KColorButton* m_pBg;

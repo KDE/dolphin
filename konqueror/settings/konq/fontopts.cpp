@@ -231,7 +231,15 @@ void KonqFontOptions::load()
     else
         fSize = 3;
 
-    stdName = g_pConfig->readEntry( "StandardFont" );
+    m_stdFont = g_pConfig->readFontEntry( "StandardFont" );
+    stdName = m_stdFont.family();
+    fSize = 0;
+    if (m_stdFont.pointSizeFloat() == 10.0) 
+       fSize = 3;
+    else if (m_stdFont.pointSizeFloat() == 12.0)
+       fSize = 4;
+    else if (m_stdFont.pointSizeFloat() == 14.0)
+       fSize = 5;
 
     bgColor = g_pConfig->readColorEntry( "BgColor", &FM_DEFAULT_BG_COLOR );
     normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
@@ -251,6 +259,7 @@ void KonqFontOptions::defaults()
 {
     fSize=4;
     stdName = KGlobal::generalFont().family();
+    m_stdFont = QFont(stdName, 12);
     bgColor = FM_DEFAULT_BG_COLOR;
 
     normalTextColor = FM_DEFAULT_TXT_COLOR;
@@ -286,8 +295,16 @@ void KonqFontOptions::updateGUI()
 void KonqFontOptions::save()
 {
     g_pConfig->setGroup(groupname);			
-    g_pConfig->writeEntry( "BaseFontSize", fSize );
-    g_pConfig->writeEntry( "StandardFont", stdName );
+    if ( fSize == 3 )
+       m_stdFont.setPointSize(10);
+    else if ( fSize == 4 )
+       m_stdFont.setPointSize(12);
+    else if ( fSize == 5 )
+       m_stdFont.setPointSize(14);
+
+    m_stdFont.setFamily( stdName );    
+    g_pConfig->writeEntry( "StandardFont", m_stdFont );
+
     g_pConfig->writeEntry( "BgColor", bgColor );
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
     g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
