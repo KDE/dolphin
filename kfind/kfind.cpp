@@ -67,7 +67,7 @@ Kfind::Kfind(QWidget *parent, const char *name)
   connect( mSearch, SIGNAL(clicked()), this, SLOT( startSearch() ) );
   mStop = new QPushButton( i18n("Stop"), mButtonBox );
   connect( mStop, SIGNAL(clicked()), this, SLOT( stopSearch() ) );
-  mSave = new QPushButton( i18n("Save..."), mButtonBox );
+  mSave = new QPushButton( i18n("Save As..."), mButtonBox );
   connect( mSave, SIGNAL(clicked()), this, SLOT( saveResults() ) );
 
   QPushButton * mClose = new QPushButton( i18n("&Close"), mButtonBox );
