@@ -297,14 +297,6 @@ void KonqChildView::connectView(  )
   {
     kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""createNewWindow"" ");
   }
-  try
-  {
-    m_vView->connect("popupMenu", m_pMainView, "popupMenu");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""popupMenu"" ");
-  }
 
 }
 

@@ -1203,7 +1203,7 @@ void KonqMainView::slotLargeIcons()
 
   if ( m_currentView->viewName() != "KonquerorKfmIconView" )
   {
-    v = Konqueror::View::_duplicate( new KonqKfmIconView );
+    v = Konqueror::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
     m_currentView->changeView( v, serviceTypes );
@@ -1221,7 +1221,7 @@ void KonqMainView::slotSmallIcons()
   
   if ( m_currentView->viewName() != "KonquerorKfmIconView" )
   {
-    v = Konqueror::View::_duplicate( new KonqKfmIconView );
+    v = Konqueror::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
     m_currentView->changeView( v, serviceTypes );
