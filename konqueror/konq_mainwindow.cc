@@ -2161,7 +2161,7 @@ void KonqMainWindow::slotComboPlugged()
            SLOT( slotMatch(const QString&) ));
 
   m_combo->lineEdit()->installEventFilter(this);
-  
+
   static bool bookmarkCompletionInitialized = false;
   if ( !bookmarkCompletionInitialized )
   {
@@ -3256,12 +3256,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paShred );
 
   if ( _items.count() == 1 )
-      /*
-    // Can't use X-KDE-BrowserView-HideFromMenus directly in the query because '-' is a substraction !!!
-    m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
-                                                  "('Browser/View' in ServiceTypes) or "
-                                                  "('KParts/ReadOnlyPart' in ServiceTypes)" );
-                                                  */
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
                                                        "KParts/ReadOnlyPart",
                                                        QString::null,
@@ -3282,27 +3276,32 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // (This is a bit of a hack for the directory tree....)
   KURL viewURL = m_currentView->isToggleView() ? KURL() : m_currentView->url();
 
-  //bool currentDir = false;
+  bool openedForViewURL = false;
   bool dirsSelected = false;
 
   if ( _items.count() == 1 )
   {
-      //KURL firstURL = _items.getFirst()->url();
-      //firstURL.cleanPath();
-      //currentDir = firstURL.cmp( viewURL, true );
+      if ( !viewURL.isEmpty() )
+      {
+          KURL firstURL = _items.getFirst()->url();
+          //firstURL.cleanPath();
+          openedForViewURL = firstURL.cmp( viewURL, true );
+      }
       dirsSelected = S_ISDIR( _items.getFirst()->mode() );
   }
 
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
                                                                 dirsSelected );
 
-  kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
+  //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
   KonqPopupMenu pPopupMenu ( _items,
                              viewURL,
                              popupMenuCollection,
                              m_pMenuNew,
                              showPropsAndFileType );
+  if ( openedForViewURL && !viewURL.isLocalFile() )
+      pPopupMenu.setURLTitle( m_currentView->caption() );
 
   connectActionCollection( pPopupMenu.actionCollection() );
 
