@@ -450,8 +450,8 @@ files to match your needs.</para></listitem>
 <term><menuchoice><guimenu>Options</guimenu>
 <guimenuitem><accel>W</accel>arn for Open Sessions on
 Quit</guimenuitem></menuchoice></term>
-<listitem><para><action>When set, a warning appears when you try to close a
-&konsole; window with multiple sessions.</action></para>
+<listitem><para>When set, a warning appears when you try to close a
+&konsole; window with multiple sessions.</para>
 </listitem>
 </varlistentry>
 
