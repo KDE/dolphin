@@ -1815,7 +1815,7 @@ void KonqMainWindow::slotCopyFiles()
 {
   kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
   assert( viewCount() == 2 );
-  QString msg=i18n("Copy selected files from %1 to %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
+  QString msg=i18n("Copy selected files from \n %1 \n to \n %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
   if ( KMessageBox::questionYesNo( 0, msg ) != KMessageBox::Yes )
      return;
 
@@ -1830,7 +1830,7 @@ void KonqMainWindow::slotMoveFiles()
 {
   kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
   assert( viewCount() == 2 );
-  QString msg=i18n("Move selected files from %1 to %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
+  QString msg=i18n("Move selected files from \n %1 \n to \n %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
   if ( KMessageBox::questionYesNo( 0, msg ) != KMessageBox::Yes )
      return;
 
