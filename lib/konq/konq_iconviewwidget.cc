@@ -367,6 +367,7 @@ struct KonqIconViewWidgetPrivate
     bool firstClick;
     QPoint mousePos;
     int mouseState;
+    bool releaseMouseEvent;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -397,6 +398,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
 
     d->pFileTip = new KFileTip(this);
     d->firstClick = false;
+    d->releaseMouseEvent = false;
     calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
@@ -1347,8 +1349,17 @@ void KonqIconViewWidget::doubleClickTimeout()
 {
     d->renameItem= true;
     mousePressChangeValue();
-    QMouseEvent e( QEvent::MouseButtonPress,d->mousePos , 1, d->mouseState);
-    contentsMouseReleaseEvent( &e );
+    if ( d->releaseMouseEvent )
+    {
+        QMouseEvent e( QEvent::MouseButtonPress,d->mousePos , 1, d->mouseState);
+        contentsMouseReleaseEvent( &e );
+    }
+    else // we don't want to rename it, bug move item. => we don't release mouse.
+    {
+        QMouseEvent e( QEvent::MouseMove,d->mousePos , 1, d->mouseState);
+        KIconView::contentsMousePressEvent( &e );
+    }
+    d->releaseMouseEvent = false;
     d->renameItem= false;
 }
 
@@ -1371,6 +1382,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
         d->mousePos = e->pos();
         d->mouseState = e->state();
         QTimer::singleShot(QApplication::doubleClickInterval(),this,SLOT(doubleClickTimeout()));
+        d->releaseMouseEvent = false;
         return;
     }
     else
@@ -1382,6 +1394,7 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 
 void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 {
+    d->releaseMouseEvent = true;
     QIconViewItem* item = findItem( e->pos() );
     if ( d->renameItem && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item && item->textRect( false ).contains(e->pos()))
     {
