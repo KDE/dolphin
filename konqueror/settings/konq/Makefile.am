@@ -19,12 +19,11 @@ data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
 datadir = $(kde_appsdir)/Settings/FileBrowsing
 
 
-datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop desktop.desktop desktoppath.desktop
+datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop desktop.desktop desktop.desktop
 datadeskdir = $(kde_appsdir)/Settings/Desktop
 
-
-#data2_DATA = desktop.desktop virtualdesktops.desktop
-#data2dir = $(kde_appsdir)/Settings/LookNFeel
+data2_DATA = desktoppath.desktop
+data2dir = $(kde_appsdir)/Settings/Personalization
 
 install-data-local: uninstall.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/Desktop
