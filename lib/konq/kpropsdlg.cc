@@ -403,6 +403,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     KLineEdit *lined = new KLineEdit(this);
     lined->setText(filename);
     nameArea = lined;
+    lined->setFocus();
   }
 
   grid->addWidget(nameArea, curRow++, 2);
