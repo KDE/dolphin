@@ -58,6 +58,7 @@ struct KonqIconViewWidgetPrivate
 {
     KFileIVI *pActiveItem;
     bool bSoundPreviews;
+    bool updateAfterPreview;
     KFileIVI *pSoundItem;
     bool bSoundItemClicked;
     KonqSoundPlayer *pSoundPlayer;
@@ -105,6 +106,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     d->pSoundPlayer = 0;
     d->pSoundTimer = 0;
     d->pPreviewJob = 0;
+    d->updateAfterPreview = false;
     m_bMousePressed = false;
     m_LineupMode = LineupBoth;
     // emit our signals
@@ -120,12 +122,13 @@ KonqIconViewWidget::~KonqIconViewWidget()
     delete d;
 }
 
-void KonqIconViewWidget::focusOutEvent( QFocusEvent * /* ev */ )
+void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )
 {
     // We can't possibly have the mouse pressed and still lose focus.
     // Well, we can, but when we regain focus we should assume the mouse is
     // not down anymore or the slotOnItem code will break with highlighting!
     m_bMousePressed = false;
+    KIconView::focusOutEvent( ev );
 }
 
 void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
@@ -245,15 +248,24 @@ void KonqIconViewWidget::slotStartSoundPreview()
 void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
 {
     for (QIconViewItem *it = firstItem(); it; it = it->nextItem())
+    {
         if (static_cast<KFileIVI *>(it)->item() == item)
+        {
             static_cast<KFileIVI *>(it)->setThumbnailPixmap(pix);
+            d->updateAfterPreview = true;
+        }
+}
 }
 
 void KonqIconViewWidget::slotPreviewResult()
 {
     d->pPreviewJob = 0;
-    if (autoArrange())
+    if (autoArrange() && d->updateAfterPreview ) {
         arrangeItemsInGrid();
+        d->updateAfterPreview = false;
+}
+
+    emit imagePreviewFinished();
 }
 
 void KonqIconViewWidget::clear()
@@ -404,6 +416,19 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
         if ( force || !static_cast<KFileIVI *>( it )->isThumbnail() )
             items.append( static_cast<KFileIVI *>( it )->item() );
 
+    bool onlyAudio = true;
+    for ( QStringList::ConstIterator it = previewSettings.begin(); it != previewSettings.end(); ++it ) {
+        if ( (*it).startsWith( "audio/" ) )
+            d->bSoundPreviews = true;
+        else
+            onlyAudio = false;
+    }
+
+    if ( items.isEmpty() || onlyAudio ) {
+        emit imagePreviewFinished();
+        return; // don't start the preview job if not really necessary
+    }
+
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int size;
     if (iconSize < 28)
@@ -418,8 +443,6 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
         true /* save */, &previewSettings );
     connect( d->pPreviewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
              this, SLOT( slotPreview( const KFileItem *, const QPixmap & ) ) );
-    connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
-             this, SIGNAL( imagePreviewFinished() ) );
     connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SLOT( slotPreviewResult() ) );
     if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
