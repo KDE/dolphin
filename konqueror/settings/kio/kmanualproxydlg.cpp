@@ -155,8 +155,17 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
     {
       // "no_proxy" is a keyword used by the environment variable
       // based configuration. We ignore it here as it is not applicable...
-      if ((*it).lower() != "no_proxy")
-        (void) new QListViewItem( dlg->lvExceptions, (*it) );
+      if ((*it).lower() != "no_proxy" && !(*it).isEmpty())
+      {
+        // Validate the NOPROXYFOR entries and ignore them if they are 
+        // not valid or legitimate URLs.
+        QStringList filters;
+        filters << "kshorturifilter" << "localdomainfilter";
+        KURL url = *it;
+        if ((url.isValid() || KURIFilter::self()->filterURI(url, filters)) &&
+            !url.host().isEmpty())
+          (void) new QListViewItem( dlg->lvExceptions, url.host() );
+      }
     }
 
     dlg->cbReverseProxy->setChecked( data.useReverseProxy );
@@ -391,27 +400,30 @@ bool KManualProxyDlg::handleDuplicate( const QString& site )
 
 void KManualProxyDlg::newPressed()
 {
-    QString msg;
+  QString msg;
 
-    // Specify the appropriate message...
-    if ( dlg->cbReverseProxy->isChecked() )
-        msg = i18n("Enter the address or URL for which the above proxy server "
-                   "should be used:");
-    else
-        msg = i18n("Enter the address or URL that should be excluded from using "
-                   "the above proxy server:");
+  // Specify the appropriate message...
+  if ( dlg->cbReverseProxy->isChecked() )
+      msg = i18n("Enter the address or URL for which the above proxy server "
+                  "should be used:");
+  else
+      msg = i18n("Enter the address or URL that should be excluded from using "
+                  "the above proxy server:");
 
-    QString result = KInputDialog::getText (i18n("New Exception"), msg);
-    
-    if ( !result.isNull() )
+  KURL result = KInputDialog::getText (i18n("New Exception"), msg);
+  
+  QStringList filters;
+  filters << "kshorturifilter" << "localdomainfilter";
+  
+  if ( result.isValid() || KURIFilter::self()->filterURI(result, filters) )
+  {
+    QString exception = result.host();
+    if ( !handleDuplicate( exception ) )
     {
-        if ( !handleDuplicate( result ) )
-        {
-            QListViewItem* index = new QListViewItem( dlg->lvExceptions,
-                                                      result );
-            dlg->lvExceptions->setCurrentItem( index );
-        }
+      QListViewItem* index = new QListViewItem( dlg->lvExceptions, exception );
+      dlg->lvExceptions->setCurrentItem( index );
     }
+  }
 }
 
 void KManualProxyDlg::changePressed()
