@@ -514,9 +514,11 @@ QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
    // selection helper
    QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
    for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-      if (it.current()->isSelected()) {
-         if ( !it.current()->parent() || !it.current()->parent()->isSelected() ) 
-            items->append(it.current());
+      if ( it.current()->isSelected()
+        && it.current()->parent()
+        && !it.current()->parent()->isSelected()
+      ) {
+         items->append(it.current());
       }
    }
    return items;
@@ -527,11 +529,12 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
    // selection helper
    QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if (it.current()->isSelected()) {
-         if ( !it.current()->parent() || !it.current()->parent()->isSelected() ) {
-            KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(it.current());
-            bookmarks->append(&kebItem->bookmark());
-         }
+      if ( it.current()->isSelected()
+        && it.current()->parent()
+        && !it.current()->parent()->isSelected()
+      ) {
+         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(it.current());
+         bookmarks->append(&kebItem->bookmark());
       }
    }
    return bookmarks;
@@ -1095,8 +1098,6 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
 }
 void KEBTopLevel::itemMoved(QPtrList<QListViewItem> *_items, const QString & newAddress, bool copy)
 {
-    // AK - why _items in place of items ?
-
     KMacroCommand * mcmd = new KMacroCommand( copy ? i18n("Copy Items") : i18n("Move Items") );
 
     QString destAddress = newAddress;
@@ -1258,6 +1259,7 @@ void KEBTopLevel::slotCommandExecuted()
     kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
     KEBTopLevel::self()->setModified();
     KEBTopLevel::self()->update();     // Update GUI
+    slotSelectionChanged();
 }
 
 
