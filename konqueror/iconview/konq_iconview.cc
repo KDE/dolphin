@@ -674,11 +674,21 @@ void KonqKfmIconView::newIconSize( int size )
     if ( effSize == oldEffSize )
         return;
 
+    // Stop a possible preview job taking care of disabling updates
+    // or else the view will be repainted immediately
+    if ( m_pProps->isShowingPreview() )
+    {
+        m_pIconView->setUpdatesEnabled( false );
+        m_pIconView->stopImagePreview();
+        m_pIconView->setUpdatesEnabled( true );
+    }
+
+    // Set icons size, arrage items in grid and repaint the whole view
     m_pIconView->setIcons( size );
+
+    // If previews are enabled start a new job
     if ( m_pProps->isShowingPreview() )
         m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
-    // arrangeItemsInGrid already done in KonqIconViewWidget::setIcons
-    //m_pIconView->arrangeItemsInGrid();
 }
 
 bool KonqKfmIconView::doCloseURL()
