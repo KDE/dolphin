@@ -71,6 +71,7 @@ KonqKfmTreeView::KonqKfmTreeView()
 
   setRootIsDecorated( true );
   setTreeStepSize( 20 );
+  setSorting( 1 );
 
   initConfig();
 
