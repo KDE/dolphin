@@ -1,7 +1,8 @@
 [Desktop Entry]
-UnmountIcon=unknown.png
 MountPoint=
 Dev=
 ReadOnly=0
 FSType=Default
 Type=FSDevice
+Icon=
+UnmountIcon=

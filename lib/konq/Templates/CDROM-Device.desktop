@@ -1,0 +1,12 @@
+[Desktop Entry]
+MountPoint=
+Dev=
+ReadOnly=0
+FSType=Default
+Type=FSDevice
+Icon=cdrom_mount
+UnmountIcon=cdrom_unmount
+Actions=Eject
+[Desktop Action Eject]
+Name=Eject
+Exec=eject %v
