@@ -609,9 +609,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
                                 this, "slotURLEntered", true, toolTip, 70, -1,
 				OpenPartsUI::AfterCurrent );
 
+  m_vLocationBar->setComboAutoCompletion( TOOLBAR_URL_ID, true );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
-
-  //TODO: support completion in opToolBar->insertLined....
 
   /* will KTM do it for us ?
   m_vLocationBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_locationBarPos) );
