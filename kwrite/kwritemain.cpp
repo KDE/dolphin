@@ -24,7 +24,8 @@
 #include <ktexteditor/viewcursorinterface.h>
 #include <ktexteditor/printinterface.h>
 #include <ktexteditor/encodinginterface.h>
-
+#include <ktexteditor/editorchooser.h>
+	
 #include <dcopclient.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
@@ -49,7 +50,7 @@
 #include "kwritemain.moc"
 
 #include "katefiledialog.h"
-
+#include "kwritedialogs.h"
 #include <qtimer.h>
 
 // StatusBar field IDs
@@ -65,7 +66,8 @@ KWrite::KWrite (KTextEditor::Document *doc)
      resize(640,400); 
 
   if (!doc) {
-    doc = KTextEditor::createDocument ("katepart", this, "KTextEditor::Document");//libqeditorpart"); //katepart");
+	doc=KTextEditor::EditorChooser::createDocument(this,"KTextEditor::Document");
+//    doc = KTextEditor::createDocument ("katepart", this, "KTextEditor::Document");//libqeditorpart"); //katepart");
     docList.append(doc);
   }
   setupEditWidget(doc);
@@ -141,6 +143,12 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
   KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" );
 }
 
+void KWrite::changeEditor()
+{
+	KWriteEditorChooser choose(this);
+	choose.exec();
+}
+
 void KWrite::slotFlush ()
 {
    kateView->document()->closeURL();
@@ -161,6 +169,8 @@ void KWrite::setupActions()
 
   new KAction(i18n("New &View"), 0, this, SLOT(newView()),
               actionCollection(), "file_newView");
+  new KAction(i18n("Choose Editor..."),0,this,SLOT(changeEditor()),
+		actionCollection(),"settings_choose_editor");
   KStdAction::quit(this, SLOT(close()), actionCollection());
 
 

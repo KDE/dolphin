@@ -67,6 +67,7 @@ class KWrite : public KParts::MainWindow
     void toggleStatusBar();
     void editKeys();
     void editToolbars();
+    void changeEditor();
 
   public slots:
     void printNow();
