@@ -80,10 +80,10 @@ void KIVDirectoryOverlay::slotCompleted()
 
     // Look through the histogram for the most popular mimetype
     QDictIterator<int> currentIcon( (*m_popularIcons) );
-    int best = 0;
+    unsigned int best = 0;
 
     for ( ; currentIcon.current(); ++currentIcon ) {
-        int currentCount = (*currentIcon.current());
+        unsigned int currentCount = (*currentIcon.current());
         if ( best < currentCount ) {
             best = currentCount;
             m_bestIcon = currentIcon.currentKey();
