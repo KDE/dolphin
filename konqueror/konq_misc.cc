@@ -97,23 +97,22 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
   return mainWindow;
 }
 
-
-QString KonqMisc::konqFilteredURL( QWidget * parent, const QString &_url )
+QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const QString& _path )
 {
   KURIFilterData data = _url;
-  KURIFilter::self()->filterURI( data );
-  if( data.hasBeenFiltered() )
+
+  if( !_path.isEmpty() )
+    data.setAbsolutePath(_path);
+
+  if( KURIFilter::self()->filterURI( data ) )
   {
-    KURIFilterData::URITypes type = data.uriType();
-    /*
-    if( type == KURIFilterData::UNKNOWN )
+    if( data.uriType() == KURIFilterData::ERROR )
     {
-      KMessageBox::sorry( parent, i18n( "The url \"%1\" is of unknown type" ).arg( _url ) );
-      return QString::null;  // should never happen unless the search filter is unavailable.
-    }
-    else */ if( type == KURIFilterData::ERROR )
-    {
-      KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
+      // HACK: To get around message freeze!!  The if
+      // statement should be removed after 2.0 freeze
+      // is lifted...
+      if( !data.errorMsg().isEmpty() )
+	 KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
       return QString::null;
     }
     else

@@ -77,12 +77,15 @@ public:
                                                             const QString &filename,
                                                             const KURL &url = KURL(),
                                                             const KParts::URLArgs &args = KParts::URLArgs());
-
     /**
      * Applies the URI filters to @p url.
+     *
      * @p parent is used in case of a message box.
+     * @p _url to be filtered.
+     * @p _path the absolute path to append to the url before filtering it.
      */
-    static QString konqFilteredURL( QWidget * parent, const QString &url );
+    static QString konqFilteredURL( QWidget* /*parent*/, const QString& /*_url*/, const QString& _path = QString::null );
+
 };
 
 #endif
