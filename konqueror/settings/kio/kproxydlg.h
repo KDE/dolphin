@@ -63,12 +63,15 @@ public:
   virtual void defaults();
   QString quickHelp() const;
 
-protected slots:
+private slots:
   void slotChanged();
   void slotUseProxyChanged();
 
   void setupManProxy();
   void setupEnvProxy();
+
+private:
+  void showInvalidMessage( const QString& _msg = QString::null );
 
 private:
   KProxyDialogUI* dlg;

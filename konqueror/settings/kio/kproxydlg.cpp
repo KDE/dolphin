@@ -219,12 +219,11 @@ void KProxyDialog::save()
 
       if ( !u.isValid() )
       {
-        QString msg = i18n("<qt>The address of the automatic proxy "
-                           "configuration script is invalid: please "
-                           "correct this problem before proceeding; "
-                           "otherwise, the changes you have made will be "
-                           "ignored.</qt>");
-        KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+        showInvalidMessage( i18n("The address of the automatic proxy "
+                                 "configuration script is invalid. Please "
+                                 "correct this problem before proceeding. "
+                                 "Otherwise, your changes you will be "
+                                 "ignored.") );
         return;
       }
       else
@@ -249,13 +248,7 @@ void KProxyDialog::save()
 
         if (!validProxy)
         {
-          QString msg = i18n("<qt>Proxy information was not setup "
-                             "properly: please click on the <em>"
-                             "Setup...</em> button to correct this "
-                             "problem before proceeding; otherwise "
-                             "the changes you have made will be ignored."
-                             "</qt>");
-          KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+          showInvalidMessage();
           return;
         }
 
@@ -268,13 +261,7 @@ void KProxyDialog::save()
     {
       if ( _data->type != KProtocolManager::EnvVarProxy )
       {
-        QString msg = i18n("<qt>Proxy information was not setup "
-                           "properly: please click on the <em>"
-                           "Setup...</em> button to correct this "
-                           "problem before proceeding; otherwise "
-                           "the changes you have made will be ignored."
-                           "</qt>");
-        KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
+        showInvalidMessage();        
         return;
       }
 
@@ -313,15 +300,6 @@ void KProxyDialog::defaults()
   dlg->location->lineEdit()->clear();
   dlg->cbPersConn->setChecked( false );
   emit changed( true );
-}
-
-QString KProxyDialog::quickHelp() const
-{
-  return i18n( "<h1>Proxy</h1><p>This module lets you configure your proxy "
-               "settings.</p><p>A proxy is a program on another computer "
-               "that receives requests from your machine to access "
-               "a certain web page (or other Internet resources), "
-               "retrieves the page and sends it back to you.</p>" );
 }
 
 void KProxyDialog::setupManProxy()
@@ -371,6 +349,35 @@ void KProxyDialog::slotUseProxyChanged()
   dlg->gbAuth->setEnabled(useProxy);
   dlg->gbOptions->setEnabled(useProxy);
   emit changed( true );
+}
+
+QString KProxyDialog::quickHelp() const
+{
+  return i18n( "<h1>Proxy</h1>"
+               "<p>A proxy server is an intermediate program that sits between "
+               "your machine and the Internet and provides services such as "
+               "web page caching and/or filtering."
+               "<p>Caching proxy servers give you faster access to sites you have "
+               "already visited by locally storing or caching the content of those "
+               "pages. Filtering proxy servers on the other hand provide the "
+               "abiltiy to block out requests for ads, spam or anything else you "
+               "want block."
+               "<p><u>Note:</u>Some proxy servers provide both services." );
+}
+
+void KProxyDialog::showInvalidMessage( const QString& _msg )
+{
+  QString msg;
+  
+  if( !_msg.isEmpty() )
+    msg = _msg;
+  else
+    msg = i18n( "<qt>The proxy settings you specified are invalid."
+                "<p>Please click on the <em>Setup...</em> "
+                "button and correct the problem before proceeding ; "
+                "otherwise your changes will be ignored.</qt>" );
+  
+  KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
 }
 
 #include "kproxydlg.moc"
