@@ -54,13 +54,29 @@ class KonqPopupMenu : public QPopupMenu, public KonqXMLGUIClient
 public:
 
   /**
+   * @deprecated, lacks parentWidget pointer
+   */
+  KonqPopupMenu( KBookmarkManager* manager,
+                 const KFileItemList &items,
+                 KURL viewURL,
+                 KActionCollection & actions,
+                 KNewMenu * newMenu,
+                 bool showPropertiesAndFileType = true ) KDE_DEPRECATED;
+
+  KonqPopupMenu( KBookmarkManager* manager,
+                 const KFileItemList &items,
+                 KURL viewURL,
+                 KActionCollection & actions,
+                 KNewMenu * newMenu,
+		 QWidget * parentWidget,
+		 bool showPropertiesAndFileType = true );
+
+  /**
    * Constructor
    * @param items the list of file items the popupmenu should be shown for
    * @param viewURL the URL shown in the view, to test for RMB click on view background
    * @param actions list of actions the caller wants to see in the menu
    * @param newMenu "New" menu, shared with the File menu, in konqueror
-   * @param allowEmbeddingServices whether to allow services to be embedded
-   * (true in konqueror, false in kdesktop and others)
    *
    * The actions to pass in include :
    * showmenubar, back, forward, up, cut, copy, paste, pasteto, trash, rename, del
@@ -71,24 +87,10 @@ public:
                  const KFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
-                 KNewMenu * newMenu, bool showPropertiesAndFileType = true );
-
-  KonqPopupMenu( KBookmarkManager* manager,
-                 const KFileItemList &items,
-                 KURL viewURL,
-                 KActionCollection & actions,
-                 KNewMenu * newMenu,
-		 QWidget * parentWidget,
-		 bool showPropertiesAndFileType = true );
-
-  KonqPopupMenu( KBookmarkManager* manager,
-                 const KFileItemList &items,
-                 KURL viewURL,
-                 KActionCollection & actions,
                  KNewMenu * newMenu,
                  QWidget * parentWidget,
-                 bool showPropertiesAndFileType = true,
-				 KParts::BrowserExtension::PopupFlags f = KParts::BrowserExtension::DefaultPopupItems);
+                 bool showPropertiesAndFileType,
+                 KParts::BrowserExtension::PopupFlags f = KParts::BrowserExtension::DefaultPopupItems);
 
   /**
    * Don't forget to destroy the object
