@@ -213,9 +213,6 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   m_info.m_Moving = sMoving;
   m_info.m_TrashIncluded = bTrashIncluded;
 
-  bool isCurrentTrash = ( url.isLocalFile() &&
-                          url.path(1) == KGlobalSettings::trashPath() );
-
   //check if url is current directory
   if ( m_lstItems.count() == 1 )
   {
@@ -226,22 +223,32 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     currentDir = firstPopupURL.cmp( url, true /* ignore_trailing */ );
   }
 
+  bool isCurrentTrash = ( url.isLocalFile() &&
+                          url.path(1) == KGlobalSettings::trashPath() && 
+                          currentDir) ||
+		       ( m_lstItems.count() == 1 && bTrashIncluded );
+
   clear();
 
   //////////////////////////////////////////////////////////////////////////
 
   KAction * act;
 
-  addMerge( "konqueror" );
+  if (!isCurrentTrash)
+     addMerge( "konqueror" );
 
   bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
   QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
   KAction *actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
   if ( !isKDesktop )
-    actNewView->setStatusText( i18n( "Open the document in a new window" ) );
+  {
+    if (isCurrentTrash)
+      actNewView->setStatusText( i18n( "Open the Trash in a new window" ) );
+    else 
+      actNewView->setStatusText( i18n( "Open the document in a new window" ) );
+  }
 
-  if ( ( isCurrentTrash && currentDir ) ||
-       ( m_lstItems.count() == 1 && bTrashIncluded ) )
+  if ( isCurrentTrash )
   {
     addAction( actNewView );
     addGroup( "tabhandling" );
@@ -249,6 +256,14 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
     act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
     addAction( act );
+    if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
+    {
+      act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
+                         &m_ownActions, "properties" );
+      addAction( act );
+    }
+    m_factory->addClient( this );
+    return;
   }
   else
   {
