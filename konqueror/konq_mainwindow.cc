@@ -115,6 +115,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bLocationBarConnected = false;
   m_bLockLocationBarURL = false;
   m_paBookmarkBar = 0L;
+  m_pCompletion = 0L;
 
   m_bViewModeToggled = false;
 
@@ -236,6 +237,7 @@ KonqMainWindow::~KonqMainWindow()
   createShellGUI( false );
 
   delete m_pBookmarkMenu;
+  delete m_pCompletion;
 
   m_viewModeActions.clear();
 
