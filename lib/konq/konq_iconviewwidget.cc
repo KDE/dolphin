@@ -1502,8 +1502,7 @@ QIconViewItem *QIVItemBin::right()
  * can be no races.
  */
 
-//#define MIN3(a,b,c) ((a) < QMIN((b),(c)) ? (a) : ((b) < QMIN((a),(c)) ? (b) : (c)))
-#define MIN3(a,b,c) (QMIN((a),(QMIN((b),(c)))))
+#define MIN3(a,b,c) (kMin((a),(kMin((b),(c)))))
 
 void KonqIconViewWidget::lineupIcons()
 {
