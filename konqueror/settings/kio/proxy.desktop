@@ -10,7 +10,7 @@ X-KDE-Library=kio
 X-KDE-FactoryName=proxy
 X-KDE-ParentApp=kcontrol
 
-Name=Proxy & Socks
+Name=Proxy
 Name[af]=volmag
 Name[ar]=البروكسي
 Name[az]=Vəkil Verici
