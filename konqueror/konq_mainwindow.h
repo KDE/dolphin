@@ -401,6 +401,7 @@ protected slots:
   void slotBreakOffTabPopup();
   void slotBreakOffTabPopupDelayed();
 
+  void slotPopupNewWindow();
   void slotPopupNewTab();
   void slotPopupNewTabAtFront();
   void slotPopupPasteTo();

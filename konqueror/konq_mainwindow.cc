@@ -2245,6 +2245,26 @@ void KonqMainWindow::slotBreakOffTabPopupDelayed()
   updateViewActions();
 }
 
+void KonqMainWindow::slotPopupNewWindow()
+{
+    kdDebug(1202) << "KonqMainWindow::popupNewWindow()" << endl;
+
+    KParts::URLArgs args;
+    if (currentURL().startsWith("http")) {
+        KURL tmp = currentURL();
+        tmp.setRef(QString::null);
+        tmp.setUser(QString::null);
+        tmp.setPass(QString::null);
+        args.metaData()["referrer"] = tmp.url();
+    }
+
+    KFileItemListIterator it ( popupItems );
+    for ( ; it.current(); ++it )
+    {
+        KonqMisc::createNewWindow( (*it)->url(), args );
+    }
+}
+
 void KonqMainWindow::slotPopupNewTabAtFront()
 {
     KConfig *config = KGlobal::config();
@@ -3788,6 +3808,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
+  KAction *actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), actionCollection(), "newview" );
+  actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
+  popupMenuCollection.insert( actNewWindow );
   KAction *actNewTab = new KAction( i18n( "Open in &Background Tab" ), "tab_new_bg", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
   actNewTab->setStatusText( i18n( "Open the document in a new background tab" ) );
   KAction *actNewTabFront = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTabAtFront() ), actionCollection(), "openintabfront" );
@@ -3868,6 +3891,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   delete actNewTab;
   delete actNewTabFront;
+  delete actNewWindow;
 
   //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
   //<< ", m_currentView = " << m_currentView << endl;
