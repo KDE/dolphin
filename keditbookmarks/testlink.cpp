@@ -53,8 +53,6 @@ TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
    m_job = 0;
 }
 
-// TODO - use m_done!!!
-
 TestLinkItr::~TestLinkItr() {
    if (m_job) {
       kdDebug() << "JOB kill\n";
@@ -69,6 +67,7 @@ bool TestLinkItr::isApplicable(const KBookmark &bk) {
 }
 
 void TestLinkItr::doAction() {
+   m_errSet = false;
    m_job = KIO::get(m_book.url(), true, false);
    connect(m_job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotJobResult(KIO::Job *)));
@@ -78,21 +77,11 @@ void TestLinkItr::doAction() {
    curItem()->setTmpStatus(i18n("Checking..."));
 }
 
-void TestLinkItr::setItemMod(KEBListViewItem *item, const QString &modDate) {
-   time_t modt = KRFCDate::parseDate(modDate);
-   QString ms;
-   ms.setNum(modt);
-   item->nsPut(ms);
-}
-
 void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
    KIO::TransferJob *transfer = (KIO::TransferJob *)job;
 
-   m_errSet = false;
-   QString arrStr = data;
-
    if (transfer->isErrorPage()) {
-      QStringList lines = QStringList::split('\n',arrStr);
+      QStringList lines = QStringList::split('\n', data);
       for (QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
          int open_pos = (*it).find("<title>", 0, false);
          if (open_pos >= 0) {
@@ -112,7 +101,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
    } else {
       QString modDate = transfer->queryMetaData("modified");
       if (!modDate.isEmpty()) {
-         setItemMod(curItem(), modDate);
+         curItem()->nsPut(QString::number(KRFCDate::parseDate(modDate)));
       }
    }
 
@@ -138,9 +127,9 @@ void TestLinkItr::slotJobResult(KIO::Job *job) {
    
    if (chkErr) {
       if (!modDate.isEmpty()) {
-         setItemMod(curItem(), modDate);
+         curItem()->nsPut(QString::number(KRFCDate::parseDate(modDate)));
       } else if (!m_errSet) {
-         setItemMod(curItem(), "0");
+         curItem()->nsPut(QString::number(KRFCDate::parseDate("0")));
       }
    }
 

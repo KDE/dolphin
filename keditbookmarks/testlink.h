@@ -63,8 +63,6 @@ public slots:
    void slotJobData(KIO::Job *job, const QByteArray &data);
 
 private:
-   void setItemMod(class KEBListViewItem *item, const QString &modDate);
-
    virtual void doAction();
    virtual bool isApplicable(const KBookmark &bk);
 
