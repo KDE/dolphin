@@ -335,37 +335,14 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
 void KonqBaseListViewWidget::initConfig()
 {
    m_pSettings = KonqFMSettings::settings();
-   // TODO highlightedTextColor
-
-   QColorGroup a = palette().active();
-   QColorGroup d = palette().disabled();
-   QColorGroup i = palette().inactive();
-
-   m_bgPixmap         = m_pProps->bgPixmap();
-   if ( m_bgPixmap.isNull() )
-   {
-     a.setColor( QColorGroup::Base, m_pProps->bgColor(this) );
-     d.setColor( QColorGroup::Base, m_pProps->bgColor(this) );
-     i.setColor( QColorGroup::Base, m_pProps->bgColor(this) );
-   }
-   else
-      viewport()->setBackgroundPixmap( m_bgPixmap );
 
    QFont stdFont( m_pSettings->standardFont() );
    setFont( stdFont );
-   a.setColor( QColorGroup::Text, Qt::darkGray );
-   d.setColor( QColorGroup::Text, Qt::darkGray );
-   i.setColor( QColorGroup::Text, Qt::darkGray );
-
-   //setColor( Qt::darkGray );
-
    //TODO: create config GUI
    QFont itemFont( m_pSettings->standardFont() );
    itemFont.setUnderline( m_pSettings->underlineLink() );
    setItemFont( itemFont );
    setItemColor( m_pSettings->normalTextColor() );
-
-   setPalette( QPalette( a, d, i ) );
 }
 
 void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
@@ -752,8 +729,18 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_url=url;
 
-   //settings changed ?
-   if (m_pProps->enterDir( url ))
+   // Check for new properties in the new dir
+   // newProps returns true the first time, and any time something might
+   // have changed.
+   bool newProps = m_pProps->enterDir( url );
+
+   // Start the directory lister !
+   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
+
+   // Apply properties and reflect them on the actions
+   // do it after starting the dir lister to avoid changing the properties
+   // of the old view
+   if ( newProps )
    {
       switch (m_pProps->iconSize())
       {
@@ -768,14 +755,12 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
          break;
       default:
          break;
-      };
-   };
-   // TODO: setChecked on the actions, depending on isShowing...
+      }
+      m_pBrowserView->m_paShowDot->setChecked( m_pProps->isShowingDotFiles() );
 
-   // Start the directory lister !
-   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
+      m_pProps->applyColors( viewport() );
+   }
 
-   //  setCaptionFromURL( m_sURL );
    return true;
 }
 

@@ -409,8 +409,10 @@ void KonqListView::slotIconSizeToggled( bool)
 
 void KonqListView::slotShowDot()
 {
-   m_pListView->m_dirLister->setShowingDotFiles( m_paShowDot->isChecked() );
+   m_pListView->m_pProps->setShowingDotFiles( m_paShowDot->isChecked() );
+   m_pListView->m_dirLister->setShowingDotFiles( m_pListView->m_pProps->isShowingDotFiles() );
 }
+
 void KonqListView::slotColumnToggled()
 {
    kdDebug(1202) << "::slotColumnToggled\n" << endl;
