@@ -348,6 +348,7 @@ protected slots:
   void slotEnableAction( const char * name, bool enabled );
   void slotMoveTopLevelWidget( int x, int y );
   void slotResizeTopLevelWidget( int w, int h );
+  void slotRequestFocus(KParts::ReadOnlyPart*);
 
 private:
   void enableBackRightClick( bool b );

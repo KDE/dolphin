@@ -416,6 +416,9 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( resizeTopLevelWidget( int, int ) ),
                this, SLOT( slotResizeTopLevelWidget( int, int ) ) );
 
+      connect( ext, SIGNAL( requestFocus(KParts::ReadOnlyPart *) ),
+               this, SLOT( slotRequestFocus(KParts::ReadOnlyPart *) ) );
+
       if (service()->desktopEntryName() != "konq_sidebartng") {
           connect( ext, SIGNAL( infoMessage( const QString & ) ),
                m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
@@ -501,6 +504,11 @@ void KonqView::slotStarted( KIO::Job * job )
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( infoMessage( KIO::Job *, const QString & ) ), this, SLOT( slotInfoMessage( KIO::Job *, const QString & ) ) );
   }
+}
+
+void KonqView::slotRequestFocus( KParts::ReadOnlyPart * )
+{
+  m_pMainWindow->viewManager()->showTab(this);
 }
 
 void KonqView::setLoading( bool loading, bool hasPending /*= false*/)
