@@ -323,7 +323,9 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 
 void KonqHTMLView::slotSetTitle( QString title )
 {
-  CORBA::WString_var ctitle = Q2C( title );
+  QString decodedTitle = title;
+  KURL::decode( decodedTitle );
+  CORBA::WString_var ctitle = Q2C( decodedTitle );
   m_vMainWindow->setPartCaption( id(), ctitle );
 }
 
