@@ -72,6 +72,7 @@ void CreateCommand::execute() {
       }
 
    } else if (!m_originalBookmark.isNull()) {
+      // umm.. moveItem needs bk to be a child already!
       bk = m_originalBookmark;
 
    } else {
