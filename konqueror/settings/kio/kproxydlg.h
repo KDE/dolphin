@@ -30,6 +30,7 @@ class QCheckBox;
 class QPushButton;
 class QRadioButton;
 class QButtonGroup;
+class QTabWidget;
 
 class KProxyData;
 class KURLRequester;
@@ -45,9 +46,12 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
+  virtual QString quickHelp() const;
+  
 private:
   KCModule *proxy;
   KCModule *socks;
+  QTabWidget *m_tab;
 };
 
 class KProxyDialog : public KCModule

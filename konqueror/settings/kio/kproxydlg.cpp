@@ -42,7 +42,7 @@
 #include "socks.h"
 #include "kproxydlg.h"
 
-KProxyOptions::KProxyOptions( QWidget* parent = 0, const char* /*name*/ )
+KProxyOptions::KProxyOptions( QWidget* parent, const char* /*name*/ )
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   QTabWidget *tab = new QTabWidget(this);
@@ -56,6 +56,10 @@ KProxyOptions::KProxyOptions( QWidget* parent = 0, const char* /*name*/ )
   
   connect(proxy, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
   connect(socks, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
+
+  connect(tab, SIGNAL(currentChanged(QWidget *)), 
+          this, SIGNAL(quickHelpChanged()));
+  m_tab = tab;
 }
 
 KProxyOptions::~KProxyOptions()
@@ -79,6 +83,18 @@ void KProxyOptions::defaults()
   proxy->defaults();
   socks->defaults();
 }
+
+QString KProxyOptions::quickHelp() const
+{
+  QWidget *w = m_tab->currentPage();
+  if (w->inherits("KCModule"))
+  {
+     KCModule *m = static_cast<KCModule *>(w);
+     return m->quickHelp();
+  }
+  return QString::null;
+}
+
 
 KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
              :KCModule( parent, name )
@@ -504,11 +520,11 @@ void KProxyDialog::defaults()
 
 QString KProxyDialog::quickHelp() const
 {
-  return i18n( "This module lets you configure your proxy and cache "
-               "settings. A proxy is a program on another computer "
+  return i18n( "<h1>Proxy</h1><p>This module lets you configure your proxy "
+               "settings.</p><p>A proxy is a program on another computer "
                "that receives requests from your machine to access "
                "a certain web page (or other Internet resources), "
-               "retrieves the page and sends it back to you." );
+               "retrieves the page and sends it back to you.</p>" );
 }
 
 void KProxyDialog::setupManProxy()
