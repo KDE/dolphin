@@ -46,61 +46,151 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 
-void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
-    m_title_le->setText(bk.text());
-    m_url_le->setText(bk.url().url());
+// SHUFFLE all these functions around, the order is just plain stupid
 
-    m_comment_le->setText(
-            NodeEditCommand::getNodeText(bk, QStringList() << "desc"));
-    m_moddate_le->setText(
-            NodeEditCommand::getNodeText(bk, QStringList() << "info"
-                                                           << "metadata"
-                                                           << "time_added" ));
-    m_credate_le->setText(
-            NodeEditCommand::getNodeText(bk, QStringList() << "info" 
-                                                           << "metadata"
-                                                           << "time_added" ));
+// rename to something else
+static QString blah(QString in)
+{
+    int secs;
+    bool ok;
+    secs = in.toInt(&ok);
+    if (!ok)
+        return QString::null;
+    QDateTime td;
+    td.setTime_t(secs);
+    return td.toString("dd.MM.yyyy - hh:mm");
 }
 
-BookmarkInfoWidget::BookmarkInfoWidget(
-        QWidget * parent, const char * name
-) : QWidget (parent, name) {
+void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
+
+    m_bk = bk;
+
+    if (m_bk.isNull()) {
+        // all read only and blank
+
+        m_title_le->setReadOnly(true);
+        m_title_le->setText(QString::null);
+
+        m_url_le->setReadOnly(true);
+        m_url_le->setText(QString::null);
+
+        m_comment_le->setReadOnly(true);
+        m_comment_le->setText(QString::null);
+
+        m_visitdate_le->setReadOnly(true);
+        m_visitdate_le->setText(QString::null);
+
+        m_credate_le->setReadOnly(true);
+        m_credate_le->setText(QString::null);
+
+        m_visitcount_le->setReadOnly(true);
+        m_visitcount_le->setText(QString::null);
+
+        return;
+    }
+
+    // read/write fields
+
+    m_title_le->setReadOnly(false);
+    m_title_le->setText(bk.fullText());
+
+    m_url_le->setReadOnly(false);
+    m_url_le->setText(bk.url().url());
+
+    m_comment_le->setReadOnly(false);
+    m_comment_le->setText(
+            NodeEditCommand::getNodeText(bk, QStringList() << "desc"));
+
+    // readonly fields
+
+    QString visitDate = 
+        blah( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
+                                                             << "time_visited" ));
+    m_visitdate_le->setReadOnly(true);
+    m_visitdate_le->setText(visitDate);
+
+    QString creationDate = 
+        blah( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
+                                                             << "time_added" ));
+    m_credate_le->setReadOnly(true);
+    m_credate_le->setText(creationDate);
+
+    // TODO - get the actual field name from the spec if it exists, else copy galeon
+    m_visitcount_le->setReadOnly(true);
+    m_visitcount_le->setText(
+            NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
+                                                           << "visit_count" ));
+}
+
+void BookmarkInfoWidget::slotTextChangedTitle(const QString &str) {
+    if (m_bk.isNull() || str == m_bk.fullText() )
+        return;
+    NodeEditCommand::setNodeText(m_bk, QStringList() << "title", str);
+    emit updateListViewItem();
+}
+
+void BookmarkInfoWidget::slotTextChangedURL(const QString &str) {
+    if (m_bk.isNull() || str == m_bk.url().url() )
+        return;
+    m_bk.internalElement().setAttribute("href", KURL(str).url(0, 106));
+    emit updateListViewItem();
+}
+
+void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
+    if (m_bk.isNull() || str == NodeEditCommand::getNodeText(m_bk, QStringList() << "desc") )
+        return;
+    NodeEditCommand::setNodeText(m_bk, QStringList() << "desc", str);
+    emit updateListViewItem();
+}
+
+BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name) 
+    : QWidget(parent, name), m_connected(false) {
+
     QBoxLayout *vbox = new QVBoxLayout(this);
-    QGridLayout *grid = new QGridLayout(vbox, 3, 4);
+    QGridLayout *grid = new QGridLayout(vbox, 3, 4, 4);
 
     m_title_le = new KLineEdit(this);
-    m_title_le->setReadOnly(true);
     grid->addWidget(m_title_le, 0, 1);
     grid->addWidget(
             new QLabel(m_title_le, i18n("Name:"), this), 
             0, 0);
+    connect(m_title_le, SIGNAL( textChanged(const QString &) ), 
+                        SLOT( slotTextChangedTitle(const QString &) ));
 
     m_url_le = new KLineEdit(this);
-    m_url_le->setReadOnly(true);
     grid->addWidget(m_url_le, 1, 1);
     grid->addWidget(
             new QLabel(m_url_le, i18n("Location:"), this), 
             1, 0);
+    connect(m_url_le, SIGNAL( textChanged(const QString &) ), 
+                      SLOT( slotTextChangedURL(const QString &) ));
 
     m_comment_le = new KLineEdit(this);
-    m_comment_le->setReadOnly(true);
     grid->addWidget(m_comment_le, 2, 1);
     grid->addWidget(
             new QLabel(m_comment_le, i18n("Comment:"), this), 
             2, 0);
+    connect(m_comment_le, SIGNAL( textChanged(const QString &) ), 
+                          SLOT( slotTextChangedComment(const QString &) ));
 
-    m_moddate_le = new KLineEdit(this);
-    m_moddate_le->setReadOnly(true);
-    grid->addWidget(m_moddate_le, 0, 3);
+    m_visitdate_le = new KLineEdit(this);
+    grid->addWidget(m_visitdate_le, 0, 3);
     grid->addWidget(
-            new QLabel(m_moddate_le, i18n("First viewed:"), this), 
+            new QLabel(m_visitdate_le, i18n("First viewed:"), this), 
             0, 2 );
 
     m_credate_le = new KLineEdit(this);
-    m_credate_le->setReadOnly(true);
     grid->addWidget(m_credate_le, 1, 3);
     grid->addWidget(
             new QLabel(m_credate_le, i18n("Viewed last:"), this), 
             1, 2);
+
+    m_visitcount_le = new KLineEdit(this);
+    grid->addWidget(m_visitcount_le, 2, 3);
+    grid->addWidget(
+            new QLabel(m_visitcount_le, i18n("Times visited:"), this), 
+            2, 2);
 }
+
+#include "bookmarkinfo.moc"
 

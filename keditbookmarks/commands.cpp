@@ -188,16 +188,17 @@ QString NodeEditCommand::getNodeText(KBookmark bk, const QStringList &nodehier) 
          : subnode.firstChild().toText().data();
 }
 
-void NodeEditCommand::execute() {
-    // DUPLICATED HEAVILY FROM KIO/BOOKMARKS
-    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
-    Q_ASSERT(!bk.isNull());
-
-    QDomNode subnode = bk.internalElement().namedItem(m_nodename);
-    if (subnode.isNull()) {
-        subnode = 
-            bk.internalElement().ownerDocument().createElement(m_nodename);
-        bk.internalElement().appendChild(subnode);
+QString NodeEditCommand::setNodeText(KBookmark bk, const QStringList &nodehier,
+                                     const QString newValue) {
+    QDomNode subnode = bk.internalElement();
+    for (QStringList::ConstIterator it = nodehier.begin(); 
+            it != nodehier.end(); ++it)
+    {
+        subnode = subnode.namedItem((*it));
+        if (subnode.isNull()) {
+            subnode = bk.internalElement().ownerDocument().createElement((*it));
+            bk.internalElement().appendChild(subnode);
+        }
     }
 
     if (subnode.firstChild().isNull()) {
@@ -207,8 +208,16 @@ void NodeEditCommand::execute() {
 
     QDomText domtext = subnode.firstChild().toText();
 
-    m_oldText = domtext.data();
-    domtext.setData(m_newText);
+    QString oldText = domtext.data();
+    domtext.setData(newValue);
+    return oldText;
+}
+
+void NodeEditCommand::execute() {
+    // DUPLICATED HEAVILY FROM KIO/BOOKMARKS
+    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
+    Q_ASSERT(!bk.isNull());
+    m_oldText = setNodeText(bk, QStringList() << m_nodename, m_newText);
 }
 
 void NodeEditCommand::unexecute() {
@@ -236,7 +245,7 @@ void DeleteCommand::execute() {
         while (!n.isNull()) {
             QDomElement e = n.toElement();
             if (!e.isNull()) {
-                kdDebug() << e.tagName() << endl;
+                // kdDebug() << e.tagName() << endl;
             }
             QDomNode next = n.nextSibling();
             groupRoot.removeChild(n);

@@ -124,6 +124,8 @@ public:
    virtual void unexecute();
    virtual QString name() const;
    static QString getNodeText(KBookmark bk, const QStringList &nodehier);
+   static QString setNodeText(KBookmark bk, const QStringList &nodehier, 
+                              QString newValue);
 private:
    QString m_address;
    QString m_newText;

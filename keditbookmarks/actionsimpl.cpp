@@ -368,7 +368,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
             it != toEnable.end(); ++it )
     {
         coll->action((*it).ascii())->setEnabled(true);
-        //kdDebug() << (*it) << endl;
+        // kdDebug() << (*it) << endl;
     }
 }
 
@@ -435,8 +435,8 @@ void ActionsImpl::slotInsertSeparator() {
 }
 
 void ActionsImpl::slotImport() { 
-    kdDebug() << "ActionsImpl::slotImport() where sender()->name() == " 
-              << sender()->name() << endl;
+    // kdDebug() << "ActionsImpl::slotImport() where sender()->name() == " 
+    //           << sender()->name() << endl;
     ImportCommand* import 
         = ImportCommand::performImport(sender()->name()+6, KEBApp::self());
     if (!import)
@@ -494,6 +494,7 @@ void ActionsImpl::slotDelayedPrint() {
     Q_ASSERT(s_part);
     DCOPRef(s_appId, s_objId).send("print", false); 
     // delete s_part;  -- dies horribly atm
+    // TODO - is this a leak?
     s_part = 0;
 }
 
@@ -503,6 +504,8 @@ void ActionsImpl::slotShowNS() {
     bool shown = KEBApp::self()->nsShown();
     CurrentMgr::self()->mgr()->setShowNSBookmarks(shown);
     KEBApp::self()->setModifiedFlag(true);
+    // TODO - need to force a save here
+    CurrentMgr::self()->reloadConfig();
 }
 
 void ActionsImpl::slotCancelFavIconUpdates() {

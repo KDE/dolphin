@@ -56,7 +56,7 @@ TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
 
 TestLinkItr::~TestLinkItr() {
     if (m_job) {
-        kdDebug() << "JOB kill\n";
+        // kdDebug() << "JOB kill\n";
         curItem()->restoreStatus();
         m_job->disconnect();
         m_job->kill(false);
@@ -312,13 +312,13 @@ void KEBListViewItem::modUpdate() {
 
 // KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::setOldStatus(const QString &oldStatus) {
-    kdDebug() << "KEBListViewItem::setOldStatus" << endl;
+    // kdDebug() << "KEBListViewItem::setOldStatus" << endl;
     m_oldStatus = oldStatus;
 }
 
 // KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::setTmpStatus(const QString &status) {
-    kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
+    // kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
     m_paintStyle = KEBListViewItem::BoldStyle;
     setText(KEBListView::StatusColumn, status);
 }
@@ -326,7 +326,7 @@ void KEBListViewItem::setTmpStatus(const QString &status) {
 // KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::restoreStatus() {
     if (!m_oldStatus.isNull()) {
-        kdDebug() << "KEBListViewItem::restoreStatus" << endl;
+        // kdDebug() << "KEBListViewItem::restoreStatus" << endl;
         TestLinkItrHolder::self()->resetToValue(m_bookmark.url().url(), m_oldStatus);
         modUpdate();
     }

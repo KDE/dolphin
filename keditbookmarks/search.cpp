@@ -160,6 +160,8 @@ void Searcher::slotSearchNext()
 
 void Searcher::slotSearchTextChanged(const QString & text)
 {
+    if (text.isEmpty() || text == i18n("Click here and type to search..."))
+        return;
     if (!m_bktextmap)
         m_bktextmap = new KBookmarkTextMap(CurrentMgr::self()->mgr());
     m_bktextmap->update(); // FIXME - make this public and use it!!!

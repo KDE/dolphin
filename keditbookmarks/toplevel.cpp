@@ -148,10 +148,12 @@ void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
 }
 
 void CurrentMgr::notifyManagers() {
-    QCString objId("KBookmarkManager-");
-    objId += mgr()->path().utf8();
-    DCOPRef("*", objId).send("notifyCompleteChange", 
-                             QString::fromLatin1(kapp->dcopClient()->appId()));
+    KBookmarkGroup grp = mgr()->root();
+    mgr()->emitChanged(grp);
+}
+
+void CurrentMgr::reloadConfig() {
+    mgr()->emitConfigChanged();
 }
 
 QString CurrentMgr::correctAddress(const QString &address) const {
@@ -175,7 +177,7 @@ KEBApp::KEBApp(
     int h = 20;
 
     QSplitter *vsplitter = new QSplitter(this);
-    m_iSearchLineEdit = new MagicKLineEdit(i18n("Type here to search..."), 
+    m_iSearchLineEdit = new MagicKLineEdit(i18n("Click here and type to search..."), 
                                            vsplitter);
     m_iSearchLineEdit->setMinimumHeight(h);
     m_iSearchLineEdit->setMaximumHeight(h);
@@ -277,7 +279,7 @@ void KEBApp::readConfig() {
         KConfig config("kbookmarkrc", false, false);
         config.setGroup("Bookmarks");
         m_advancedAddBookmark 
-            = config.readBoolEntry("AdvancedAddBookmark", false);
+            = config.readBoolEntry("AdvancedAddBookmarkDialog", true);
         m_filteredToolbar = config.readBoolEntry("FilteredToolbar", false);
     }
 
@@ -294,12 +296,8 @@ static void writeConfigBool(
     KConfig config(rcfile, false, false);
     config.setGroup(group);
     config.writeEntry(entry, flag);
-}
-
-// temporary only
-static void sorryRelogin(QWidget *p) {
-    KMessageBox::sorry(p, "<qt>In order to see the affect of this setting<br>"
-                          "modification you will need to relogin.</qt>");
+    config.sync();
+    CurrentMgr::self()->reloadConfig();
 }
 
 void KEBApp::slotAdvancedAddBookmark() {
@@ -307,8 +305,7 @@ void KEBApp::slotAdvancedAddBookmark() {
     m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")
                                 ->isChecked();
     writeConfigBool("kbookmarkrc", "Bookmarks", 
-                    "AdvancedAddBookmark", m_advancedAddBookmark);
-    sorryRelogin(this);
+                    "AdvancedAddBookmarkDialog", m_advancedAddBookmark);
 }
 
 void KEBApp::slotFilteredToolbar() {
@@ -316,15 +313,18 @@ void KEBApp::slotFilteredToolbar() {
         getToggleAction("settings_filteredtoolbar")->isChecked();
     writeConfigBool("kbookmarkrc", "Bookmarks", 
                     "FilteredToolbar", m_filteredToolbar);
-    sorryRelogin(this);
+    // KMessageBox::sorry(p, "<qt>After enabling this option right click actions "
+    //                       "on the bookmark toolbar will be disabled<br></qt>");
 }
 
 void KEBApp::slotSplitView() {
     Q_ASSERT( 0 );
+#if 0
     m_splitView = getToggleAction("settings_splitview")->isChecked();
     writeConfigBool("keditbookmarksrc", "General", 
                     "Split View", m_splitView);
     sorryRelogin(this);
+#endif
 }
 
 void KEBApp::slotSaveOnClose() {

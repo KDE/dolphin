@@ -130,7 +130,7 @@ ListView::Which ListView::whichChildrenSelected(KEBListViewItem *item) {
     QListViewItem *endOfFolder
         = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
     QListViewItemIterator it((QListViewItem*)item);
-    it++;
+    it++; // skip parent
     QListViewItem *last = 0;
     for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
         KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
@@ -149,14 +149,14 @@ void ListView::deselectAllButParent(KEBListViewItem *item) {
     QListViewItem *endOfFolder
         = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
     QListViewItemIterator it((QListViewItem*)item);
-    it++;
+    it++; // skip parent
     QListViewItem *last = 0;
     for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
         KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
         if (VALID_ITEM(item) && item->isSelected())
-            it.current()->setSelected(false);
+            item->listView()->setSelected(it.current(), false);
     }
-    item->setSelected(true);
+    item->listView()->setSelected(item, true);
 }
 
 void ListView::updateSelectedItems() {
@@ -165,9 +165,10 @@ void ListView::updateSelectedItems() {
     // adjust the current selection
     QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
     for ( ; it.current() != 0; ++it) {
-        if ( !( VALID_ITEM(it.current())
-             && it.current()->isSelected() ))
+        if ( !VALID_ITEM(it.current())
+          || !it.current()->isSelected() )
             continue;
+        // needed - FIXME - why?
         selected = true;
         // don't bother looking into it if its not a folder
         if (it.current()->childCount() == 0)
@@ -178,7 +179,7 @@ void ListView::updateSelectedItems() {
             deselectAllButParent(it.current());
         } else if (which == SomeChildren) { 
             // don't select outer folder
-            it.current()->setSelected(false);
+            m_listView->setSelected(it.current(), false);
         }
     }
     if (!selected)
@@ -187,8 +188,8 @@ void ListView::updateSelectedItems() {
     // deselect empty folders if there is a real selection
     for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
             it.current() != 0; ++it) {
-        if (!VALID_ITEM(it.current())) {
-            it.current()->setSelected(false); }
+        if (!VALID_ITEM(it.current()))
+            m_listView->setSelected(it.current(), false); 
     }
 }
 
@@ -342,7 +343,7 @@ void ListView::updateListView() {
             s_selected_addresses << it.current()->bookmark().address();
     int lastCurrentY = m_listView->contentsY();
     updateTree();
-    if (selectedItems()->isEmpty())
+    if (selectedItems()->isEmpty() && m_listView->currentItem())
         m_listView->setSelected(m_listView->currentItem(), true);
     m_listView->ensureVisible(0, lastCurrentY, 0, 0);
     m_listView->ensureVisible(0, lastCurrentY + m_listView->visibleHeight(), 0, 0);
@@ -358,7 +359,8 @@ void ListView::updateTree(bool updateSplitView) {
     if (m_splitView && updateSplitView)
         fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
     s_listview_is_dirty = true;
-    setCurrent(s_lazySettingCurrentItem);
+    if (s_lazySettingCurrentItem)
+        setCurrent(s_lazySettingCurrentItem);
     s_lazySettingCurrentItem = 0;
 }
 
@@ -375,8 +377,6 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
     }
     if (m_splitView && !lv->isFolderList())
         lastItem = new KEBListViewItem(lv, lastItem, group);
-    s_lazySettingCurrentItem = 0;
-    QString correctedCurrentAddr = CurrentMgr::self()->correctAddress(m_last_selection_address);
     for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
         KEBListViewItem *item = 0;
         if (bk.isGroup()) {
@@ -405,13 +405,15 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
         }
         if (s_selected_addresses.contains(bk.address()))
             lv->setSelected(item, true);
+	    // TODO this is far too exact, we need to do partial + best match system
+        QString correctedCurrentAddr = CurrentMgr::self()->correctAddress(m_last_selection_address);
         if (bk.address() == correctedCurrentAddr)
             s_lazySettingCurrentItem = item;
     }
 }
 
 void ListView::handleMoved(KEBListView *) {
-    kdDebug() << "ListView::handleMoved()" << endl;  
+    // kdDebug() << "ListView::handleMoved()" << endl;  
     /* TODO - neil's wishlist item - unfortunately handleMoved is not called sometimes...
      * KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
      * ListView::self()->selectedItems());
@@ -425,7 +427,9 @@ void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
 
     KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
 
-    if (VALID_FIRST(selectedItems()))
+    // note, for some reason just doing count() > 0 means that the
+    // selectedItems list seems to follow the old current. *realy wierd*
+    if (selectedItems()->count() > 1 && VALID_FIRST(selectedItems()))
         m_last_selection_address = selectedItems()->first()->bookmark().address();
     else if (VALID_ITEM(currentItem))
         m_last_selection_address = currentItem->bookmark().address();
@@ -444,8 +448,34 @@ void ListView::handleSelectionChanged(KEBListView *) {
     s_listview_is_dirty = true;
     updateSelectedItems();
     KEBApp::self()->updateActions();
-    if (VALID_FIRST(selectedItems()))
-        KEBApp::self()->bkInfo()->showBookmark(selectedItems()->first()->bookmark());
+    if (selectedItems()->count() != 1
+      || !VALID_FIRST(selectedItems())
+    ) {
+        KEBApp::self()->bkInfo()->showBookmark(KBookmark());
+        return;
+    }
+    if (!KEBApp::self()->bkInfo()->connected()) {
+        connect(KEBApp::self()->bkInfo(), SIGNAL( updateListViewItem() ),
+                                          SLOT( slotBkInfoUpdateListViewItem() ));
+        KEBApp::self()->bkInfo()->setConnected(true);
+    }
+    KEBApp::self()->bkInfo()->showBookmark(selectedItems()->first()->bookmark());
+}
+
+void ListView::slotBkInfoUpdateListViewItem() {
+    // its not possible that the selection changed inbetween as 
+    // handleSelectionChanged is the one that sets up bkInfo() 
+    // to emit this signal, otoh. maybe this can cause various
+    // differing responses.
+    // kdDebug() << "slotBkInfoUpdateListViewItem()" << endl;
+    KEBApp::self()->setModifiedFlag(true);
+    KEBListViewItem *i = selectedItems()->first();
+    Q_ASSERT(i);
+    KBookmark bk = i->bookmark();
+    i->setText(KEBListView::NameColumn, bk.fullText());
+    i->setText(KEBListView::UrlColumn, bk.url().url());
+    QString commentStr = NodeEditCommand::getNodeText(bk, QStringList() << "desc");
+    i->setText(KEBListView::CommentColumn, commentStr);
 }
 
 void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
@@ -794,12 +824,36 @@ void KEBListViewItem::setOpen(bool open) {
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, int w, int a) {
     QColorGroup cg(ocg);
 
+    bool parentSelected = false;
+    KEBListViewItem *allTheWayToTheRoot = this;
+    while (allTheWayToTheRoot 
+            = static_cast<KEBListViewItem *>(allTheWayToTheRoot->parent()), 
+           allTheWayToTheRoot) {
+        if (allTheWayToTheRoot->isSelected() 
+	 && allTheWayToTheRoot != listView()->firstChild() )
+            parentSelected  = true;
+    };
+
+    if (parentSelected && ListView::self()->selectedItems()->count() != 1) {
+        int base_h, base_s, base_v;
+        cg.background().hsv(&base_h, &base_s, &base_v);
+
+        int hilite_h, hilite_s, hilite_v;
+        cg.highlight().hsv(&hilite_h, &hilite_s, &hilite_v);
+
+        QColor col(hilite_h,
+                   (hilite_s + base_s + base_s ) / 3,  
+                   (hilite_v + base_v + base_v ) / 3,  
+                   QColor::Hsv);
+        cg.setColor(QColorGroup::Base, col);
+    }
+
     if (col == KEBListView::StatusColumn) {
         switch (m_paintStyle) {
             case KEBListViewItem::TempStyle: 
                 {
                     int h, s, v;
-                    cg.background().hsv(&h,&s,&v);
+                    cg.background().hsv(&h, &s, &v);
                     QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
                     cg.setColor(QColorGroup::Text, color);
                     break;

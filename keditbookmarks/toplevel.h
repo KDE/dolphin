@@ -91,6 +91,8 @@ public:
     void doExport(ExportType type, const QString & path = QString::null);
     void setUpdate(bool update);
 
+    void reloadConfig();
+
 protected slots:
     void slotBookmarksChanged(const QString &, const QString &);
 

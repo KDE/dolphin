@@ -71,7 +71,6 @@ public slots:
    // ugly hack really...
    void slotDelayedPrint();
 
-public:
    static ActionsImpl* self() { if (!s_self) { s_self = new ActionsImpl(); }; return s_self; }
    ~ActionsImpl();
 

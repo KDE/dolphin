@@ -28,12 +28,26 @@
 class KLineEdit;
 
 class BookmarkInfoWidget : public QWidget {
+    Q_OBJECT
 public:
-   BookmarkInfoWidget(QWidget * = 0, const char * = 0);
-   void showBookmark(const KBookmark &bk);
+    BookmarkInfoWidget(QWidget * = 0, const char * = 0);
+    void showBookmark(const KBookmark &bk);
+    void saveBookmark(const KBookmark &bk);
+    bool connected() { return m_connected; };
+    void setConnected(bool b) { m_connected = b; };
+public slots:
+    void slotTextChangedURL(const QString &);
+    void slotTextChangedTitle(const QString &);
+    void slotTextChangedComment(const QString &);
+signals:
+    void updateListViewItem();
 private:
-   KLineEdit *m_title_le, *m_url_le, *m_comment_le, *m_moddate_le, *m_credate_le;
-   KBookmark m_bk;
+    KLineEdit *m_title_le, *m_url_le, 
+              *m_comment_le, 
+              *m_visitdate_le, *m_credate_le,
+              *m_visitcount_le;
+    KBookmark m_bk;
+    bool m_connected;
 };
 
 #endif

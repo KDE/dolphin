@@ -55,7 +55,7 @@ FavIconsItr::~FavIconsItr() {
 }
 
 void FavIconsItr::slotDone(bool succeeded) {
-    kdDebug() << "FavIconsItr::slotDone()" << endl;
+    // kdDebug() << "FavIconsItr::slotDone()" << endl;
     m_done = true;
     curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
     delayedEmitNextOne();
@@ -66,7 +66,7 @@ bool FavIconsItr::isApplicable(const KBookmark &bk) const {
 }
 
 void FavIconsItr::doAction() {
-    kdDebug() << "FavIconsItr::doAction()" << endl;
+    // kdDebug() << "FavIconsItr::doAction()" << endl;
     m_done = false;
     curItem()->setTmpStatus(i18n("Updating favicon..."));
     if (!m_updater) {

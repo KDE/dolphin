@@ -37,12 +37,10 @@
 FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
     : KonqFavIconMgr(parent, name) {
     m_part = 0;
-    m_browserIface = 0;
-    m_webGrabber = 0;
 }
 
 void FavIconUpdater::slotCompleted() {
-    kdDebug() << "FavIconUpdater::slotCompleted" << endl;
+    // kdDebug() << "FavIconUpdater::slotCompleted" << endl;
     // kdDebug() << "emit done(true)" << endl;
     emit done(true);
 }
@@ -67,7 +65,7 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
 }
 
 FavIconUpdater::~FavIconUpdater() {
-    kdDebug() << "~FavIconUpdater" << endl;
+    // kdDebug() << "~FavIconUpdater" << endl;
     delete m_browserIface;
     delete m_webGrabber;
     delete m_part;
@@ -112,7 +110,7 @@ void FavIconUpdater::setIconURL(const KURL &iconURL) {
 }
 
 void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconName) {
-    kdDebug() << "FavIconUpdater::notifyChange()" << endl;
+    // kdDebug() << "FavIconUpdater::notifyChange()" << endl;
 
     Q_UNUSED(isHost);
     // kdDebug() << isHost << endl;
@@ -128,7 +126,7 @@ void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconNa
 FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url)
     : m_part(part), m_url(url) {
 
-    kdDebug() << "FavIconWebGrabber::FavIconWebGrabber starting KIO::get()" << endl;
+    // kdDebug() << "FavIconWebGrabber::FavIconWebGrabber starting KIO::get()" << endl;
 
     // the use of KIO rather than directly using KHTML is to allow silently abort on error
 
@@ -153,7 +151,7 @@ void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString & /*type*/) {
 
 void FavIconWebGrabber::slotFinished(KIO::Job *job) {
     if (job->error()) {
-        kdDebug() << "FavIconWebGrabber::slotFinished() " << job->errorString() << endl;
+        // kdDebug() << "FavIconWebGrabber::slotFinished() " << job->errorString() << endl;
     }
 }
 

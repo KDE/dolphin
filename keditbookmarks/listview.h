@@ -177,6 +177,9 @@ public:
 
    ~ListView();
 
+public slots:
+   void slotBkInfoUpdateListViewItem();
+
 private:
    void updateTree(bool updateSplitView = true);
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
