@@ -2055,6 +2055,7 @@ void KonqMainWindow::stopAnimation()
 void KonqMainWindow::setUpEnabled( const KURL &url )
 {
   //kdDebug(1202) << "KonqMainWindow::setUpEnabled(" << url.url() << ")" << endl;
+  //kdDebug(1202) << "hasPath=" << url.hasPath() << endl;
   bool bHasUpURL = false;
 
   if ( url.hasPath() )
@@ -2400,6 +2401,7 @@ void KonqMainWindow::enableAllActions( bool enable )
   // So the code below is where actions that should initially be disabled are disabled.
   if (enable)
   {
+      setUpEnabled( m_currentView ? m_currentView->url() : KURL() );
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );

@@ -784,7 +784,7 @@ void KonqViewManager::printFullHierarchy( KonqFrameContainer * container, int id
                           << static_cast<KonqFrame *>(child)->part()->widget()->className() << endl;
     }
     else
-        kdDebug(1202) << "Null container ?!?!" << endl;
+        kdDebug(1202) << "Null container" << endl;
 }
 
 #include "konq_viewmgr.moc"
