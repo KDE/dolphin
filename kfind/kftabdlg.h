@@ -8,8 +8,6 @@
 #define KFTABDLG_H
 
 #include <qtabwidget.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
 #include <qvalidator.h> // for KDigitValidator
 
 #include <kurl.h>
@@ -26,6 +24,8 @@ class QString;
 class QDate;
 class QRegExp;
 class QDialog;
+class QComboBox;
+class QSpinBox;
 
 class KfDirDialog;
 

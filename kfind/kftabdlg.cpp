@@ -11,6 +11,8 @@
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qtooltip.h>
+#include <qcombobox.h>
+#include <qspinbox.h>
 
 #include <kcombobox.h>
 #include <klineedit.h>
