@@ -58,6 +58,7 @@ int KonqComboAction::plug( QWidget *w, int index )
   KToolBar *toolBar = (KToolBar *)w;
 
   int id = KAction::getToolButtonID();
+  //kdDebug() << "KonqComboAction::plug id=" << id << endl;
 
   KonqCombo *comboBox = new KonqCombo( toolBar, "history combo" );
   toolBar->insertWidget( id, 70, comboBox, index );
@@ -86,10 +87,12 @@ void KonqComboAction::unplug( QWidget *w )
   KToolBar *toolBar = (KToolBar *)w;
 
   int idx = findContainer( w );
+  //kdDebug() << "KonqComboAction::unplug idx=" << idx << " menuId=" << menuId(idx) << endl;
 
   toolBar->removeItem( menuId( idx ) );
 
   removeContainer( idx );
+  m_combo = 0L;
 }
 
 /////////////////
@@ -125,7 +128,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history
           int id = popup->insertItem( text ); // no pixmap if checked
           popup->setItemChecked( id, true );
       } else
-          popup->insertItem( KonqPixmapProvider::self()->pixmapFor( 
+          popup->insertItem( KonqPixmapProvider::self()->pixmapFor(
 					    it.current()->url.url() ), text );
       if ( ++i > 10 )
           break;
@@ -391,6 +394,7 @@ void KonqLabelAction::unplug( QWidget *widget )
       removeContainer( idx );
     }
 
+    m_label = 0;
     return;
   }
 }
