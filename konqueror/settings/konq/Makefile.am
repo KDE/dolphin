@@ -26,12 +26,5 @@ uiserver_DIR = $(kde_includes)/kio
 EXTRA_DIST = $(libkcm_konq_la_DATA) $(data_DATA)
 
 messages:
-	$(XGETTEXT) $(libkcm_konq_la_SOURCES) -o $(podir)/kcmkonq.pot
+	$(XGETTEXT) *.cpp -o $(podir)/kcmkonq.pot
 
-
-check_PROGRAMS = test
-test_SOURCES = $(libkcm_konq_la_SOURCES) test.cpp
-test.cpp:
-	echo "int main() {};" > test.cpp
-test_LDFLAGS  = $(all_libraries) -module -avoid-version
-test_LDADD = -lkdeui
