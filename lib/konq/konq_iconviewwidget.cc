@@ -768,7 +768,7 @@ void KonqIconViewWidget::takeItem( QIconViewItem *item )
     KIconView::takeItem( item );
 }
 
-#if 0
+// Currently unused - remove in KDE 4.0
 void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap )
 {
     if ( item )
@@ -787,7 +787,6 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
         }
     }
 }
-#endif
 
 bool KonqIconViewWidget::initConfig( bool bInit )
 {

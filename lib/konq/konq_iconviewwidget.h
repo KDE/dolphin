@@ -138,7 +138,8 @@ public:
     void startImagePreview( const QStringList &ignored, bool force );
     void stopImagePreview();
     bool isPreviewRunning() const;
-    //void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
+    // unused
+    void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
     void disableSoundPreviews();
 
     void setURL ( const KURL & kurl );
