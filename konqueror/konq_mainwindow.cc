@@ -2955,45 +2955,57 @@ void KonqMainWindow::initActions()
   enableAllActions( false );
 
   // help stuff
+  m_paUp->setWhatsThis( i18n( "Enter the parent directory<p>"
+                              "For instance, if the current location is file:/home/%1 clicking this "
+                              "button will take you to file:/home" ).arg( getlogin() ) );
+  m_paUp->setStatusText( i18n( "Enter the parent directory" ) );
 
-  m_paBack->setWhatsThis( i18n( "Click this button to display the previous document<br><br>\n\n"
-                                "You can also select the <b>Back</b> command from the Go menu." ) );
-  m_paBack->setStatusText( i18n( "Display the previous document" ) );
+  m_paBack->setWhatsThis( i18n( "Move backwards one step in the browsing history<p>" ) );
+  m_paBack->setStatusText( i18n( "Move backwards one step in the browsing history" ) );
 
-  m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
-                                   "You can also select the <b>Forward</b> command from the Go menu." ) );
+  m_paForward->setWhatsThis( i18n( "Move forward one step in the browsing history<p>" ) );
+  m_paForward->setStatusText( i18n( "Move forward one step in the browsing history" ) );
 
-  m_paHome->setWhatsThis( i18n( "Click this button to display your 'Home URL'<br><br>\n\n"
+  m_paHome->setWhatsThis( i18n( "Navigate to your 'Home URL'<p>"
                                 "You can configure the location this button takes you to in the "
-                                "<b>KDE Control Center</b>, under <b>File Browsing</b>/<b>File Manager</b>" ) );
-  m_paHome->setStatusText( i18n( "Enter your home directory" ) );
+                                "<b>KDE Control Center</b>, under <b>File Manager</b>/<b>Behavior</b>" ) );
+  m_paHome->setStatusText( i18n( "Navigate to your 'Home URL'" ) );
 
-  m_paReload->setWhatsThis( i18n( "Reloads the currently displayed document<br><br>\n\n"
-                                  "You can also select the <b>Reload</b> command from the View menu." ) );
-  m_paReload->setStatusText( i18n( "Reload the current document" ) );
+  m_paReload->setWhatsThis( i18n( "Reload the currently displayed document<p>"
+                                  "This may, for example, be needed to refresh webpages that have been "
+                                  "modified since they were loaded, in order to make the changes visible" ) );
+  m_paReload->setStatusText( i18n( "Reload the currently displayed document" ) );
 
-  m_paCut->setWhatsThis( i18n( "Click this button to cut the currently selected text or items and move it "
-                               "to the system clipboard<br><br>\n\n"
-                               "You can also select the <b>Cut</b> command from the Edit menu." ) );
-  m_paCut->setStatusText( i18n( "Moves the selected text/item(s) to the clipboard" ) );
+  m_paStop->setWhatsThis( i18n( "Stop loading the document<p>"
+                                "All network transfers will be stopped and Konqueror will display the content"
+                                "that has been received so far" ) );
+  m_paStop->setStatusText( i18n( "Stop loading the document" ) );
 
-  m_paCopy->setWhatsThis( i18n( "Click this button to copy the currently selected text or items to the "
-                                "system clipboard<br><br>\n\n"
-                                "You can also select the <b>Copy</b> command from the Edit menu." ) );
-  m_paCopy->setStatusText( i18n( "Copies the selected text/item(s) to the clipboard" ) );
+  m_paCut->setWhatsThis( i18n( "Cut the currently selected text or items and move it "
+                               "to the system clipboard<p> "
+                               "This makes it available to the <b>Paste</b> command in Konqueror "
+                               "and other KDE applications" ) );
+  m_paCut->setStatusText( i18n( "Move the selected text/item(s) to the clipboard" ) );
 
-  m_paPaste->setWhatsThis( i18n( "Click this button to paste the previously cut or copied clipboard "
-                                 "contents<br><br>\n\n"
-                                 "You can also select the <b>Paste</b> command from the Edit menu." ) );
-  m_paPaste->setStatusText( i18n( "Pastes the clipboard contents" ) );
+  m_paCopy->setWhatsThis( i18n( "Copy the currently selected text or items to the "
+                                "system clipboard<p>"
+                                "This makes it available to the <b>Paste</b> command in Konqueror "
+                                "and other KDE applications" ) );
+  m_paCopy->setStatusText( i18n( "Copy the selected text/item(s) to the clipboard" ) );
 
-  m_paPrint->setWhatsThis( i18n( "Click this button to print the currently displayed document<br><br>\n\n"
-                                 "You can also select the <b>Print</b> command from the Location menu." ) );
+  m_paPaste->setWhatsThis( i18n( "Paste the previously cut or copied clipboard "
+                                 "contents<p>"
+                                 "This also works for text copied or cut from other KDE applications" ) );
+  m_paPaste->setStatusText( i18n( "Paste the clipboard contents" ) );
+
+  m_paPrint->setWhatsThis( i18n( "Print the currently displayed document<p>"
+                                 "You will be presented with a dialog where you can set various "
+                                 "options such as the number of copies to print and which printer "
+                                 "to use.<p>"
+                                 "This dialog also provides access to special KDE printing "
+                                 "services such as creating a PDF file from the current document" ) );
   m_paPrint->setStatusText( i18n( "Print the current document" ) );
 
-  m_paStop->setWhatsThis( i18n( "Click this button to abort loading the document<br><br>\n\n"
-                                "You can also select the <b>Stop</b> command from the View menu." ) );
-  m_paStop->setStatusText( i18n( "Stop loading the document" ) );
 
 
   // Please proof-read those (David)
