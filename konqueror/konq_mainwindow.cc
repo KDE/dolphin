@@ -471,6 +471,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool 
     req.newTabInFront = true;
     req.tempFile = tempFile;
 
+    req.openAfterCurrentPage = false;
     openURL( 0L, filteredURL, QString::null, req );
 
     // #4070: Give focus to view after URL was entered manually
@@ -515,13 +516,10 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
   else if ( !view && req.newTab ) {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
     view = m_pViewManager->addTab(QString::null,
                                   QString::null,
                                   false,
-                                  openAfterCurrentPage);
+                                  req.openAfterCurrentPage);
     if (view) {
       view->setCaption( _url.host() );
       view->setLocationBarURL( _url );
@@ -965,6 +963,10 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 
     childView->stop();
     req.forceAutoEmbed = true;
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+
+    req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false ) ;
     openView( serviceType, url, childView, req );
     return;
   }
@@ -1078,6 +1080,8 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       KonqOpenURLRequest req;
       req.newTab = true;
       req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
+      
+      req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
       if (KApplication::keyboardMouseState() & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
       req.args = args;
@@ -2485,13 +2489,10 @@ void KonqMainWindow::slotSplitViewVertical()
 
 void KonqMainWindow::slotAddTab()
 {
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
   KonqView* newView = m_pViewManager->addTab(QString::null,
                                              QString::null,
                                              false,
-                                             openAfterCurrentPage);
+                                             false);
   if (newView == 0L) return;
   openURL( newView, KURL("about:blank"),QString::null);
   m_pViewManager->showTab( newView );
@@ -2587,6 +2588,18 @@ void KonqMainWindow::slotPopupNewTab()
       newTabsInFront = !newTabsInFront;
 
     popupNewTab(newTabsInFront, openAfterCurrentPage);
+}
+
+void KonqMainWindow::slotPopupNewTabRight()
+{
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
+
+    if (KApplication::keyboardModifiers() & KApplication::ShiftModifier)
+      newTabsInFront = !newTabsInFront;
+
+    popupNewTab(newTabsInFront, false);
 }
 
 void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
@@ -3822,13 +3835,13 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
     QValueList<KURL>::Iterator it = list.begin();
     for (; it != list.end(); ++it )
       popupItems.append( new KFileItem( (*it), QString::null, KFileItem::Unknown) );
-    pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTab() ) );
+    pm->insertItem( SmallIcon("tab_new"), i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTabRight() ) );
   }
   else
   {
     popupItems.append( new KFileItem( bk.url(), QString::null, KFileItem::Unknown) );
     pm->insertItem( SmallIcon("window_new"), i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
-    pm->insertItem( SmallIcon("tab_new"), i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
+    pm->insertItem( SmallIcon("tab_new"), i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTabRight() ) );
   }
 }
 
