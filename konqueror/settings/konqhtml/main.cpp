@@ -75,7 +75,7 @@ extern "C"
 
 
 KJSParts::KJSParts(KConfig *config, QWidget *parent, const char *name)
-	: KCModule(parent, name)
+	: KCModule(parent, name), mConfig(config)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
@@ -83,11 +83,11 @@ KJSParts::KJSParts(KConfig *config, QWidget *parent, const char *name)
 
   java = new KJavaOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( java, i18n( "&Java" ) );
-  connect( java, SIGNAL( changed( bool ) ), SLOT( changed( bool ) ) );
+  connect( java, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
 
   javascript = new KJavaScriptOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( javascript, i18n( "Java&Script" ) );
-  connect( javascript, SIGNAL( changed( bool ) ), SLOT( changed( bool ) ) );
+  connect( javascript, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
 }
 
 KJSParts::~KJSParts()
