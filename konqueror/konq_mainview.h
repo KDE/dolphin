@@ -31,7 +31,7 @@
 #include <kbookmark.h>
 #include <dcopobject.h>
 #include <kxmlgui.h>
-#include <kxmlguibase.h>
+#include <kxmlguiclient.h>
 #include <ktrader.h>
 
 class QAction;
