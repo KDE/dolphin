@@ -40,6 +40,7 @@
 #include <knaming.h>
 #include <kactivator.h>
 #include <ktrader.h>
+#include <openparts.h>
 
 #include "kfmclient.h"
 
@@ -117,7 +118,15 @@ bool clientApp::openFileManagerWindow(const char* _url)
 
   if (ok)
   {
-    OpenParts::MainWindow_var m_vMainWindow = m_vKonqy->createBrowserWindow( _url );
+    CORBA::Request_var req = m_vKonqy->_request( "createBrowserWindow" );
+    
+    req->add_in_arg( "url" ) <<= CORBA::Any::from_string( (char *)_url, 0 );
+    
+    req->result()->value()->type( OpenParts::_tc_MainWindow );
+    
+    req->invoke();
+    
+//    OpenParts::MainWindow_var m_vMainWindow = m_vKonqy->createBrowserWindow( _url );
   }
   
   return ok;
@@ -351,21 +360,14 @@ bool clientApp::getKonqy()
     return false;
   }
 
-  CORBA::Object_var obj = activator->activateService( "Konqueror", "IDL:Browser/BrowserFactory:1.0", "Konqueror" );
+  m_vKonqy = activator->activateService( "Konqueror", "IDL:Browser/BrowserFactory:1.0", "Konqueror" );
 
-  if ( CORBA::is_nil( obj ) )
+  if ( CORBA::is_nil( m_vKonqy ) )
   {
       fprintf( stderr, "Error: Can't connect to Konqueror\n" );
       return false;
   }
 
-  m_vKonqy = Browser::BrowserFactory::_narrow( obj );
-
-  if ( CORBA::is_nil( m_vKonqy ) )
-  {
-    fprintf( stderr, "Error: Can't connect to Konqueror\n" );
-    return false;
-  }
   return true;
 }
 

@@ -12,7 +12,7 @@ DISTCLEANFILES = browser.cc browser.h kdesktop.cc kdesktop.h
 
 bin_PROGRAMS = kfmclient
 
-kfmclient_SOURCES = browser.idl kdesktop.idl kfmclient.cc
+kfmclient_SOURCES = kdesktop.idl kfmclient.cc
 noinst_HEADERS = kfmclient.h
 
 browser_IDLDIR = $(idldir)
