@@ -458,7 +458,25 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     }
     if ( !isCurrentTrash && !isIntoTrash )
     {
-        act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
+        QString caption;
+        if (currentDir)
+        {
+           bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
+           if (httpPage)
+              caption = i18n("&Bookmark This Page");
+           else
+              caption = i18n("&Bookmark This Location");
+        }
+        else if (S_ISDIR(mode))
+           caption = i18n("&Bookmark This Directory");
+        else if (showPropertiesAndFileType)
+           caption = i18n("&Bookmark This File");
+        else
+           caption = i18n("&Bookmark This Link");
+        
+        act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
+        if (m_lstItems.count() > 1)
+            act->setEnabled(false);
         if (kapp->authorizeKAction("bookmarks"))
             addAction( act );
     }
