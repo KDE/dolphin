@@ -1957,7 +1957,6 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
   if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) && m_currentView )
   {
     kdDebug() << "KonqMainWindow::eventFilter " << obj << endl;
-    ASSERT( obj == m_combo->lineEdit() );
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == QFocusEvent::Popup )
@@ -1966,6 +1965,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       return KParts::MainWindow::eventFilter( obj, ev );
     }
 
+    ASSERT( obj == m_combo->lineEdit() );
     KParts::BrowserExtension * ext = m_currentView->browserExtension();
     QStrList slotNames;
     if (ext)
