@@ -86,7 +86,6 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   connect(query, SIGNAL(addFile(const KFileItem*,const QString&)),
 	  SLOT(addFile(const KFileItem*,const QString&)));
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
-  aboutWin = new KAboutApplication(this, "about", true);
 
   dirwatch=NULL;
 }
@@ -227,8 +226,8 @@ void KfindDlg::copySelection()
 
 void  KfindDlg::about ()
 {
-  aboutWin->show(this);
-  //delete aboutWin;
+  KAboutApplication dlg(this, "about", true);
+  dlg.show();
 }
 
 void KfindDlg::slotDeleteItem(const QString& file)

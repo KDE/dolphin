@@ -19,7 +19,6 @@ class KFileItem;
 class KfindTabWidget;
 class KfindWindow;
 class KStatusBar;
-class KAboutApplication;
 
 class KfindDlg: public KDialogBase
 {
@@ -57,7 +56,6 @@ signals:
 private:
   KfindTabWidget *tabWidget;
   KfindWindow * win;
-  KAboutApplication * aboutWin;
 
   bool isResultReported;
   KQuery *query;
