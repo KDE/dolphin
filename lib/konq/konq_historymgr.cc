@@ -21,6 +21,7 @@
 
 
 #include <dcopclient.h>
+#include <dcopref.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -338,7 +339,7 @@ void KonqHistoryManager::insert( const QString& url )
 
 void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 {
-    DCopRef("konqueror*", "KonqHistoryManager")
+    DCOPRef("konqueror*", "KonqHistoryManager")
       .send("notifyHistoryEntry", entry, objId());
 }
 
@@ -376,31 +377,31 @@ void KonqHistoryManager::clearPending()
 
 void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 {
-    DCopRef("konqueror*", "KonqHistoryManager")
+    DCOPRef("konqueror*", "KonqHistoryManager")
       .send("notifyRemove", url, objId());
 }
 
 void KonqHistoryManager::emitRemoveFromHistory( const KURL::List& urls )
 {
-    DCopRef("konqueror*", "KonqHistoryManager")
+    DCOPRef("konqueror*", "KonqHistoryManager")
       .send("notifyRemove", urls, objId());
 }
 
 void KonqHistoryManager::emitClear()
 {
-    DCopRef("konqueror*", "KonqHistoryManager")
+    DCOPRef("konqueror*", "KonqHistoryManager")
       .send("notifyClear", objId());
 }
 
 void KonqHistoryManager::emitSetMaxCount( Q_UINT32 count )
 {
-    DCopRef("konqueror*", "KonqHistoryManager")
+    DCOPRef("konqueror*", "KonqHistoryManager")
       .send("notifyMaxCount", count, objId());
 }
 
 void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 {
-    DCopRef("konqueror*", "KonqHistoryManager")
+    DCOPRef("konqueror*", "KonqHistoryManager")
       .send("notifyMaxAge", days, objId());
 }
 
