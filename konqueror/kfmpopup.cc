@@ -265,6 +265,7 @@ void KNewMenu::slotCopyFinished( int id )
   // Now open the properties dialog on the file, as it was a kdelnk
   // TODO
   //(void) new Properties( m_sDest.find( id )->data() );
+  m_sDest.remove( id );
 }
 
 #include "kfmpopup.moc"

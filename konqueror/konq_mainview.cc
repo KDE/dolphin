@@ -597,10 +597,6 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   if ( !CORBA::is_nil( m_vLocationBar ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
   
-  // HACK (how to make the difference between KonqBaseView children and other (plugins))
-  //if ( strncmp( m_currentView->m_vView->viewName(), "Konqueror", 9 ) == 0 )
-  //  m_pBookmarkMenu->changeOwner( (KonqBaseView *) (m_currentView->m_vView) );
-
   EventViewMenu.create = true;
   EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
 }
@@ -2018,6 +2014,25 @@ void KonqMainView::initView()
 
   EMIT_EVENT( vView1, Konqueror::eventOpenURL, eventURL );
   EMIT_EVENT( vView2, Konqueror::eventOpenURL, eventURL );
+}
+
+void KonqMainView::openBookmarkURL( const char *url )
+{
+  openURL( url, false );
+}
+ 
+QString KonqMainView::currentTitle()
+{
+  CORBA::String_var t = m_vMainWindow->partCaption( m_currentId );
+  QString title = t.in();
+  return title;
+}
+ 
+QString KonqMainView::currentURL()
+{
+  CORBA::String_var u = m_currentView->m_vView->url();
+  QString url = u.in();
+  return url;
 }
 
 #include "konq_mainview.moc"

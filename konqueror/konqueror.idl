@@ -84,7 +84,7 @@ module Konqueror
      * "KonquerorHTMLView")
      */
     string viewName();
-        
+
     /*
      * The two below defined events can be mapped by a view to provide view
      * specific GUI elements.
@@ -219,8 +219,6 @@ module Konqueror
     slot void createNewWindow( in string url );
     slot void popupMenu( in View::MenuPopupRequest popup );
 
-    string currentURL();
-        
     slot void slotSplitView();
     slot void slotRowAbove();
     slot void slotRowBelow();

@@ -49,6 +49,7 @@ konqueror.h: $(srcdir)/konqueror.idl
 	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
 kfmrun.cc: konqueror.h
+kbookmarkmenu.cc: konqueror.h
 konq_baseview.cc: konqueror.h
 konq_baseview.h: konqueror.h
 konq_main.h: konqueror.h

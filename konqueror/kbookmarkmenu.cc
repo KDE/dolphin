@@ -38,6 +38,7 @@
 
 #include "kmimetypes.h"
 #include "kpixmapcache.h"
+#include "konqueror.h" // for KBookmarkOwner
 
 #include <opUIUtils.h>
 
@@ -128,13 +129,14 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 
 void KBookmarkMenu::slotBookmarkSelected( int _id )
 {
+  if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
+  
   KBookmark *bm = KBookmarkManager::self()->findBookmark( _id );
 
   if ( bm )
   {
     if ( bm->type() == KBookmark::Folder )
     {
-      assert( m_pOwner );
       QString title = m_pOwner->currentTitle();
       QString url = m_pOwner->currentURL();
       (void)new KBookmark( KBookmarkManager::self(), bm, title, url );
@@ -151,7 +153,6 @@ void KBookmarkMenu::slotBookmarkSelected( int _id )
       return;
     }
 	
-    assert( m_pOwner );
     m_pOwner->openBookmarkURL( bm->url() );
   }
 }

@@ -32,6 +32,7 @@
 #include "kfmguiprops.h"
 #include "kfmrun.h"
 #include "konq_frame.h"
+#include "kbookmarkmenu.h"
 
 #include <opPart.h>
 #include <opMainWindow.h>
@@ -58,7 +59,8 @@ class KURLCompletion;
 
 class KonqMainView : public QWidget,
                      virtual public OPPartIf,
-		     virtual public Konqueror::MainView_skel
+		     virtual public Konqueror::MainView_skel,
+                     virtual public KBookmarkOwner
 {
   Q_OBJECT
 public:
@@ -95,11 +97,28 @@ public:
   virtual void createNewWindow( const char *url );
   virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
 
-  virtual char *currentURL() { return ""; }
-
   void openDirectory( const char *url );
   void openHTML( const char *url );
   void openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view );
+  
+  ////////////////////
+  /// Overloaded functions of KBookmarkOwner
+  ////////////////////
+  /**
+   * This function is called if the user selectes a bookmark. 
+   */
+  virtual void openBookmarkURL( const char *_url );
+  /**
+   * @return the title of the current page. This is called if the user wants
+   *         to add the current page to the bookmarks.
+   */
+  virtual QString currentTitle();
+  /**
+   * @return the URL of the current page. This is called if the user wants
+   *         to add the current page to the bookmarks.
+   */
+  virtual QString currentURL();
+  
 
 public slots:  
   /////////////////////////
