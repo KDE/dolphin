@@ -314,6 +314,17 @@ KBookmark KEBTopLevel::selectedBookmark() const
    return (selectedBookmarks().first());
 }
 
+// AK - TODO
+// this all needs to be rethought
+// pruning should be a layer of processing
+// done after the selectedItems call, the
+// selected items should be cached based
+// on use of slotSelectionChanged, 
+// 
+// simple motivation for this:
+// currently you can't ctrl-v paste onto
+// a empty folder item!!!
+
 // if ( (parent is selected) or (has no parent) )
 #define IS_REAL(it)                                                                       \
                (                                                                          \
