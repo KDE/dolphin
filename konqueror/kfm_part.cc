@@ -135,12 +135,6 @@ void KfmPart::setUpURL( const char *_url )
   // TODO
 }
   
-KfmView::ViewMode KfmPart::viewMode()
-{
-  // TODO
-  return KfmView::HOR_ICONS;
-}
-
 void KfmPart::addHistory( const char *_url, int _xoffset, int _yoffset )
 {
   // TODO
@@ -149,66 +143,6 @@ void KfmPart::addHistory( const char *_url, int _xoffset, int _yoffset )
 void KfmPart::createGUI( const char *_url )
 {
   // TODO
-}
-
-const QColor& KfmPart::bgColor()
-{
-  return white;
-}
-
-const QColor& KfmPart::textColor()
-{
-  return black;
-}
-
-const QColor& KfmPart::linkColor()
-{
-  return blue;
-}
-
-const QColor& KfmPart::vLinkColor()
-{
-  return red;
-}
-  
-const char* KfmPart::stdFontName()
-{
-  return "helvetica";
-}
-
-const char* KfmPart::fixedFontName()
-{
-  return "courier";
-}
-
-int KfmPart::fontSize()
-{
-  return 12;
-}
-
-const QPixmap& KfmPart::bgPixmap()
-{
-  return QPixmap();
-}
-  
-bool KfmPart::isShowingDotFiles()
-{
-  return true;
-}
-
-KfmAbstractGui::MouseMode KfmPart::mouseMode()
-{
-  return SingleClick;
-}
-
-bool KfmPart::underlineLink()
-{
-  return true;
-}
-
-bool KfmPart::changeCursor()
-{
-  return true;
 }
 
 bool KfmPart::hasUpURL()

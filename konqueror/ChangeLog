@@ -1,0 +1,5 @@
+1999-02-09  David Faure  <faure@kde.org>
+
+	* kfmguiprops.* : New design of the properties storage for a KfmGui.
+	Now stored in KfmGuiProps, see explanations in the header file
+

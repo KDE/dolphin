@@ -18,6 +18,7 @@
 */     
 
 #include "kfmview.h"
+#include "kfmgui.h"
 #include "kpixmapcache.h"
 #include "kservices.h"
 #include "kfm_abstract_gui.h"
@@ -115,7 +116,7 @@ KfmView::~KfmView()
 
 void KfmView::initConfig()
 {
-  setViewMode( m_pGui->viewMode(), false );
+  setViewMode( m_pGui->props()->viewMode(), false );
 }
 
 void KfmView::setFocus()
@@ -274,8 +275,8 @@ void KfmView::openDirectory( const char *_url )
     }
   }
   
-  if ( m_viewMode == HTML && m_pGui->viewMode() != HTML )
-    setViewMode( m_pGui->viewMode(), false );
+  if ( m_viewMode == HTML && m_pGui->props()->viewMode() != HTML )
+    setViewMode( m_pGui->props()->viewMode(), false );
   
   if ( m_viewMode == FINDER )
     m_pFinder->openURL( _url );
@@ -812,7 +813,7 @@ void KfmView::setHTMLAllowed( bool _allow )
     // selected in the "view" menu. In this case we would have to
     // drop the HTML view due to the changed policy.
     ////////////
-    if ( m_viewMode == gui()->viewMode() )
+    if ( m_viewMode == gui()->props()->viewMode() )
       return;
     // Ok, we can conclude now that we display HTML
     assert( m_viewMode == KfmView::HTML );

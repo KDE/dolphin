@@ -20,6 +20,7 @@
 #include "kfmicons.h"
 #include "kfmview.h"
 #include "kfmgui.h"
+#include "kfmguiprops.h"
 
 #include <assert.h>
 #include <string.h>
@@ -86,28 +87,28 @@ KfmIconView::~KfmIconView()
 void KfmIconView::initConfig()
 {
   QPalette p          = viewport()->palette();
-  KfmAbstractGui *gui = m_pView->gui();
+  KfmGuiProps *props  = m_pView->gui()->props();
 
-  m_bgColor           = gui->bgColor();
-  m_textColor         = gui->textColor();
-  m_linkColor         = gui->linkColor();
-  m_vLinkColor        = gui->vLinkColor();
-  m_stdFontName       = gui->stdFontName();
-  m_fixedFontName     = gui->fixedFontName();
-  m_fontSize          = gui->fontSize();
+  m_bgColor           = props->bgColor();
+  m_textColor         = props->textColor();
+  m_linkColor         = props->linkColor();
+  m_vLinkColor        = props->vLinkColor();
+  m_stdFontName       = props->stdFontName();
+  m_fixedFontName     = props->fixedFontName();
+  m_fontSize          = props->fontSize();
 
-  m_bgPixmap          = gui->bgPixmap();
+  m_bgPixmap          = props->bgPixmap();
 
   if ( m_bgPixmap.isNull() )
     viewport()->setBackgroundMode( PaletteBackground );
   else
     viewport()->setBackgroundMode( NoBackground );
 
-  m_mouseMode = gui->mouseMode();
+  m_mouseMode = props->mouseMode();
 
-  m_underlineLink = gui->underlineLink();
-  m_changeCursor = gui->changeCursor();
-  m_isShowingDotFiles = gui->isShowingDotFiles();
+  m_underlineLink = props->underlineLink();
+  m_changeCursor = props->changeCursor();
+  m_isShowingDotFiles = props->isShowingDotFiles();
 
   QColorGroup c = p.normal();
   QColorGroup n( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),

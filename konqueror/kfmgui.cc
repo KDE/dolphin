@@ -20,6 +20,7 @@
 #include <qdir.h>
 
 #include "kfmgui.h"
+#include "kfmguiprops.h"
 #include "kfmpaths.h"
 #include "kfmview.h"
 #include "kbookmark.h"
@@ -77,25 +78,6 @@ KfmGui::KfmGui( const char *_url ) : KTopLevelWidget()
   s_lstWindows->setAutoDelete( false );
   s_lstWindows->append( this );
   
-  m_bShowStatusBar = true;
-  m_bShowToolBar = true;
-  m_bShowLocationBar = true;
-  m_bShowMenuBar = true;
-  m_toolBarPos = KToolBar::Top;
-  m_locationBarPos = KToolBar::Top;
-  m_menuBarPos = KMenuBar::Top;
-  m_statusBarPos = KStatusBar::Top;
-
-  m_bShowDot2 = true;
-  m_bImagePreview2 = false;
-  m_bShowDot = true;
-  m_bImagePreview = false;
-
-  m_bDirTree = false;
-  m_bSplitView = false;
-  // m_bHTMLView = true;
-
-  m_pView2 = 0;
   m_pPannerChild0GM = 0L;
   m_pPannerChild1GM = 0L;
   
@@ -110,7 +92,7 @@ KfmGui::KfmGui( const char *_url ) : KTopLevelWidget()
   m_pView->setFocus();
   m_pView->openURL( _url );
   m_currentView = m_pView;
-  m_currentViewMode = m_viewMode;
+  m_currentViewMode = m_Props->viewMode();
 }
 
 KfmGui::~KfmGui()
@@ -129,128 +111,25 @@ KfmGui::~KfmGui()
 
 void KfmGui::initConfig()
 {
-  KConfig *config = kapp->getConfig();
-  
-  config->setGroup( "Settings" );
-    
-  int kfmgui_width = config->readNumEntry("WindowWidth",  KFMGUI_WIDTH);
-  int kfmgui_height = config->readNumEntry("WindowHeight",KFMGUI_HEIGHT);
-
-  QString entry;
-
-  entry = "LargeIcons"; // default
-  m_viewMode = KfmView::HOR_ICONS;
-  entry = config->readEntry("ViewMode", entry);
-  if (entry == "TreeView")
-    m_viewMode = KfmView::FINDER;
-  if (entry == "SmallIcons")
-    m_viewMode = KfmView::VERT_ICONS;
-  if (entry == "HTMLView")
-    m_viewMode = KfmView::HTML;
-  m_viewMode2 = m_viewMode;
-  
-  m_bShowDot2 = m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
-  m_bImagePreview2 = m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
-  m_bDirTree = config->readBoolEntry( "DirTree", false );
-
-  entry = config->readEntry("Toolbar", "top");
-  m_bShowToolBar = true;
-  if ( entry == "top" )
-    m_toolBarPos = KToolBar::Top;
-  else if ( entry == "left" )
-    m_toolBarPos = KToolBar::Left;
-  else if ( entry == "right" )
-    m_toolBarPos = KToolBar::Right;    
-  else if ( entry == "bottom" )
-    m_toolBarPos = KToolBar::Bottom;    
-  else if ( entry == "floating" )
-    m_toolBarPos = KToolBar::Floating;    
-  else
-    m_bShowToolBar = false;
-
-  entry = config->readEntry("LocationBar", "top");
-  m_bShowLocationBar = true;
-  if ( entry == "top" )
-    m_locationBarPos = KToolBar::Top;
-  else if ( entry == "bottom" )
-    m_locationBarPos = KToolBar::Bottom;    
-  else if ( entry == "floating" )
-    m_locationBarPos = KToolBar::Floating;    
-  else
-    m_bShowLocationBar = false;
-
-  entry = config->readEntry("Menubar", "top");
-  m_bShowMenuBar = true;
-  if ( entry == "top" )
-    m_menuBarPos = KMenuBar::Top;
-  else if ( entry == "bottom" )
-    m_menuBarPos = KMenuBar::Bottom;    
-  else if ( entry == "floating" )
-    m_menuBarPos = KMenuBar::Floating;    
-  else
-    m_bShowMenuBar = false;
-
-  entry = config->readEntry("Statusbar", "top");
-  m_bShowStatusBar = true;
-  if ( entry == "top" )
-    m_statusBarPos = KStatusBar::Top;
-  else if ( entry == "bottom" )
-    m_statusBarPos = KStatusBar::Bottom;    
-  else if ( entry == "floating" )
-    m_statusBarPos = KStatusBar::Floating;    
-  else
-    m_bShowStatusBar = false;
-
-  config->setGroup( "KFM HTML Defaults" );
-
-  m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
-  if ( m_iFontSize < 8 )
-    m_iFontSize = 8;
-  else if ( m_iFontSize > 24 )
-    m_iFontSize = 24;
-
-  m_strStdFontName = config->readEntry( "StandardFont" );
-  if ( m_strStdFontName.isEmpty() )
-    m_strStdFontName = DEFAULT_VIEW_FONT;
-
-  m_strFixedFontName = config->readEntry( "FixedFont" );
-  if ( m_strFixedFontName.isEmpty() )
-    m_strFixedFontName = DEFAULT_VIEW_FIXED_FONT;
-
-  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", true );
-
-  m_bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-  m_textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-  m_linkColor = config->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-  m_vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-
-  entry = config->readEntry( "MouseMode" , "SingleClick");
-  if ( entry == "SingleClick" )
-    m_mouseMode = SingleClick;
-  else
-    m_mouseMode = DoubleClick;
-
-  m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
-
-  entry = "";
-  QString pix = config->readEntry( "BackgroundPixmap", entry );
-  if ( !pix.isEmpty() )
+  // Read application config file if not already done
+  if (!KfmGuiProps::defaultProps)
   {
-    QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
-    if ( p )
-    {
-      cerr << "Got background" << endl;
-      m_bgPixmap = *p;
-    }
+    KConfig *config = kapp->getConfig();
+    config->setGroup( "Settings" );
+    KfmGuiProps::defaultProps = new KfmGuiProps(config);
   }
+  
+  // For the moment, no local properties
+  // Copy the default properties
+  m_Props = new KfmGuiProps( *KfmGuiProps::defaultProps );
   
   if ( !m_bInit )
   {
-    m_pView->setViewMode( m_viewMode );
-    m_pView2->setViewMode( m_viewMode2 );
+    m_pView->setViewMode( m_Props->viewMode() );
+    m_pView2->setViewMode( m_Props->viewMode2() );
   }
   else
-    this->resize(kfmgui_width,kfmgui_height);
+    this->resize(m_Props->width(),m_Props->height());
 }
 
 void KfmGui::initGui()
@@ -261,12 +140,12 @@ void KfmGui::initGui()
   initStatusBar();
   initToolBar();
 
-  if ( m_bDirTree )
+  if ( m_Props->isShowingDirTree() )
   {    
     /* gl = new QGridLayout( pannerChild0, 1, 1 );
        gl->addWidget( treeView, 0, 0 ); */
   }
-  else if ( m_bSplitView )
+  else if ( m_Props->isSplitView() )
   {
     m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
     m_pPannerChild0GM->addWidget( m_pView2, 0, 0 );
@@ -282,9 +161,9 @@ void KfmGui::initGui()
 
 void KfmGui::initPanner()
 {
-  if ( m_bDirTree )
+  if ( m_Props->isShowingDirTree() )
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 30 );
-  else if ( m_bSplitView )
+  else if ( m_Props->isSplitView() )
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 50 );
   else
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 0 );
@@ -387,10 +266,10 @@ void KfmGui::initMenu()
   m_pViewMenu->insertItem( klocale->translate("&Reload Document"),
 			   this, SLOT(slotReload()) );
     
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 0 ), m_bDirTree );
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 1 ), m_bSplitView );
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 3 ), m_bShowDot );
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 4 ), m_bImagePreview );
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 0 ), m_Props->isShowingDirTree() );
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 1 ), m_Props->isSplitView() );
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 3 ), m_Props->isShowingDotFiles() );
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 4 ), m_Props->isShowingImagePreview() );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 3 ), m_bHTMLView );
   switch( m_pView->viewMode() )
     {
@@ -671,9 +550,9 @@ void KfmGui::slotURLEntered()
 
 void KfmGui::slotSplitView()
 {
-  if ( m_bSplitView )
+  if ( m_Props->m_bSplitView )
   {
-    m_bSplitView = false;
+    m_Props->m_bSplitView = false;
     m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 1 ), false );
 
     m_pPanner->setSeparator( 0 );
@@ -687,27 +566,27 @@ void KfmGui::slotSplitView()
     
     m_pView->setFocus();
     m_currentView = m_pView;
-    m_currentViewMode = m_viewMode;
+    m_currentViewMode = m_Props->m_viewMode;
 
     return;
   }
   
-  if ( m_bDirTree )
+  if ( m_Props->m_bDirTree )
   {
     m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 0 ), false );
     // TODO: Delete dir tree
   }
   
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 1 ), true );
-  m_bSplitView = true;
+  m_Props->m_bSplitView = true;
   
   QString url = m_pView->currentURL();
-  m_viewMode = m_pView->viewMode();
+  m_Props->m_viewMode = m_pView->viewMode();
   m_pView->clearFocus();
   
   m_pView2 = new KfmView( this, m_pPannerChild0 );
-  m_viewMode2 = m_viewMode;
-  m_pView2->setViewMode( m_viewMode2, false );
+  m_Props->m_viewMode2 = m_Props->m_viewMode;
+  m_pView2->setViewMode( m_Props->m_viewMode2, false );
   m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
   m_pPannerChild0GM->addWidget( m_pView2, 0, 0 );
   m_pView2->show();
@@ -734,7 +613,7 @@ void KfmGui::slotSplitView()
   m_pView2->openURL( url );
   m_pView2->setFocus();
   m_currentView = m_pView2;
-  m_currentViewMode = m_viewMode2;
+  m_currentViewMode = m_Props->m_viewMode2;
 }
 
 void KfmGui::slotLargeIcons()
@@ -784,71 +663,15 @@ void KfmGui::slotSaveGeometry()
 {
   KConfig *config = kapp->getConfig();
   config->setGroup( "Settings" );
-    
-  config->writeEntry( "WindowWidth", this->width() );
-  config->writeEntry( "WindowHeight", this->height() );
-  config->writeEntry( "DirTree", m_bDirTree );
-  config->writeEntry( "SplitView", m_bSplitView );
 
-  QString entry;
-  switch ( m_pView->viewMode() )
-    {
-    case KfmView::FINDER:
-      entry = "TreeView";
-      break;
-    case KfmView::VERT_ICONS:
-      entry = "SmallIcons";
-      break;
-    case KfmView::HOR_ICONS:
-      entry = "LargeIcons";
-      break;
-    default:
-      assert( 0 );
-      break;
-    }
-  config->writeEntry( "ViewMode", entry);
-
-  config->writeEntry( "ShowDotFiles", m_bShowDot );
-  config->writeEntry( "ImagePreview", m_bImagePreview );
-  config->writeEntry( "AllowHTML", m_pView->isHTMLAllowed() );
-  
-  if ( !m_bShowToolBar )
-      config->writeEntry( "Toolbar", "hide" );
-  else if ( m_pToolbar->barPos() == KToolBar::Top )
-      config->writeEntry( "Toolbar", "top" );
-  else if ( m_pToolbar->barPos() == KToolBar::Bottom )
-      config->writeEntry( "Toolbar", "bottom" );
-  else if ( m_pToolbar->barPos() == KToolBar::Left )
-      config->writeEntry( "Toolbar", "left" );
-  else if ( m_pToolbar->barPos() == KToolBar::Right )
-      config->writeEntry( "Toolbar", "right" );
-  else if ( m_pToolbar->barPos() == KToolBar::Floating )
-      config->writeEntry( "Toolbar", "floating" );
-
-  if ( !m_bShowLocationBar )
-      config->writeEntry( "LocationBar", "hide" );
-  else if ( m_pLocationBar->barPos() == KToolBar::Top )
-      config->writeEntry( "LocationBar", "top" );
-  else if ( m_pLocationBar->barPos() == KToolBar::Bottom )
-      config->writeEntry( "LocationBar", "bottom" );
-  else if ( m_pLocationBar->barPos() == KToolBar::Floating )
-      config->writeEntry( "LocationBar", "floating" );
-
-  if ( !m_bShowStatusBar )
-      config->writeEntry( "Statusbar", "hide" );
-  else
-      config->writeEntry( "Statusbar", "bottom" );
-
-  if ( !m_bShowMenuBar )
-      config->writeEntry( "Menubar", "hide" );
-  else if ( m_pMenu->menuBarPos() == KMenuBar::Top )
-      config->writeEntry( "Menubar", "top" );
-  else if ( m_pMenu->menuBarPos() == KMenuBar::Bottom )
-      config->writeEntry( "Menubar", "bottom" );
-  else if ( m_pMenu->menuBarPos() == KMenuBar::Floating )
-      config->writeEntry( "Menubar", "floating" );
-  
-  config->sync();
+  // Update the values in m_Props, if necessary :
+  m_Props->m_width = this->width();
+  m_Props->m_height = this->height();
+  m_Props->m_toolBarPos = m_pToolbar->barPos();
+  // m_Props->m_statusBarPos = m_pStatusBar->barPos(); doesn't exist. Hum.
+  m_Props->m_menuBarPos = m_pMenu->menuBarPos();
+  m_Props->m_locationBarPos = m_pLocationBar->barPos();
+  m_Props->saveProps(config);  
 }
 
 void KfmGui::slotAnimatedLogoTimeout()
@@ -1096,12 +919,12 @@ void KfmGui::slotGotFocus( KfmView* _view )
     if ( m_pView2 )
       m_pView2->clearFocus();
 
-    m_viewMode = m_pView->viewMode();
+    m_Props->m_viewMode = m_pView->viewMode();
     m_pView->setFocus();
     m_currentView = m_pView;
-    m_currentViewMode = m_viewMode;
+    m_currentViewMode = m_Props->m_viewMode;
 
-    setViewModeMenu( m_viewMode );
+    setViewModeMenu( m_currentViewMode );
     setLocationBarURL( m_pView->currentURL() );
   }
   else if ( m_pView2 == _view )
@@ -1109,12 +932,12 @@ void KfmGui::slotGotFocus( KfmView* _view )
     if ( m_pView )
       m_pView->clearFocus();
 
-    m_viewMode2 = m_pView2->viewMode();
+    m_Props->m_viewMode2 = m_pView2->viewMode();
     m_pView2->setFocus();
     m_currentView = m_pView2;
-    m_currentViewMode = m_viewMode2;
+    m_currentViewMode = m_Props->m_viewMode2;
 
-    setViewModeMenu( m_viewMode2 );
+    setViewModeMenu( m_currentViewMode );
     setLocationBarURL( m_pView2->currentURL() );
   }
 }

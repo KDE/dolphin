@@ -53,30 +53,11 @@ public:
   /////////////////////////
   // Overloaded functions from @ref KfmAbstractGUI
   /////////////////////////  
-  const QColor& bgColor();
-  const QColor& textColor();
-  const QColor& linkColor();
-  const QColor& vLinkColor();
-  
-  const char* stdFontName();
-  const char* fixedFontName();
-  int fontSize();
-
-  const QPixmap& bgPixmap();
-  
-  MouseMode mouseMode();
-
-  bool underlineLink();
-  bool changeCursor();
-
-  bool isShowingDotFiles();
 
   void setStatusBarText( const char *_text );
   void setLocationBarURL( const char *_url );
   void setUpURL( const char *_url );
   
-  KfmView::ViewMode viewMode();
-
   void addHistory( const char *_url, int _xoffset, int _yoffset );
 
   void createGUI( const char *_url );

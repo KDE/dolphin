@@ -30,6 +30,7 @@
 #include "kfmview.h"
 #include "kfmpopup.h"
 #include "kfm_abstract_gui.h"
+#include "kfmguiprops.h"
 
 #include <qpixmap.h>
 #include <qlist.h>
@@ -54,29 +55,11 @@ public:
   /////////////////////////
   // Overloaded functions from @ref KfmAbstractGUI
   /////////////////////////  
-  const QColor& bgColor() { return m_bgColor; }
-  const QColor& textColor() { return m_textColor; }
-  const QColor& linkColor() { return m_linkColor; }
-  const QColor& vLinkColor() { return m_vLinkColor; }
-  
-  const char* stdFontName() { return m_strStdFontName; }
-  const char* fixedFontName() { return m_strFixedFontName; }
-  int fontSize() { return m_iFontSize; }
-
-  const QPixmap& bgPixmap() { return m_bgPixmap; }
-  
-  MouseMode mouseMode() { return m_mouseMode; }
-
-  bool underlineLink() { return m_underlineLink; }
-  bool changeCursor() { return m_bChangeCursor; }
-  bool isShowingDotFiles() { return m_bShowDot; }
 
   void setStatusBarText( const char *_text );
   void setLocationBarURL( const char *_url );
   void setUpURL( const char *_url );
   
-  KfmView::ViewMode viewMode() { return m_viewMode; }
-
   void addHistory( const char *_url, int _xoffset, int _yoffset );
 
   void createGUI( const char *_url );
@@ -183,33 +166,7 @@ protected:
   KfmView* m_pView;
   KfmView* m_pView2;
   KfmView* m_currentView;
-  KfmView::ViewMode m_viewMode;
-  KfmView::ViewMode m_viewMode2;
   KfmView::ViewMode m_currentViewMode;
-  
-  MouseMode m_mouseMode;
-  bool m_bShowDot;
-  bool m_bShowDot2;
-  bool m_bImagePreview;
-  bool m_bImagePreview2;
-
-  bool m_bDirTree;
-  bool m_bSplitView;
-  // bool m_bHTMLView;
-  bool m_bCache;
-  bool m_bChangeCursor;
-  bool m_underlineLink;
-
-  QString m_strStdFontName;
-  QString m_strFixedFontName;
-  int m_iFontSize;
-  
-  QColor m_bgColor;
-  QColor m_textColor;
-  QColor m_linkColor;
-  QColor m_vLinkColor;
-
-  QPixmap m_bgPixmap;
   
   /**
    * Set to true while the constructor is running.
