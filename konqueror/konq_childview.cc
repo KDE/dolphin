@@ -101,9 +101,9 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 {
-  if ( m_lstHistory.count() > 0 ) 
+  if ( m_lstHistory.count() > 0 )
     updateHistoryEntry();
-  
+
   if ( useMiscURLData && browserExtension() )
   {
     KParts::URLArgs args(false, m_iXOffset, m_iYOffset);
@@ -219,6 +219,12 @@ void KonqChildView::connectView(  )
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
 	   m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
+  
+  connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KonqFileItemList & ) ),
+           m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KonqFileItemList & ) ) );
+
+  connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
+	   m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );

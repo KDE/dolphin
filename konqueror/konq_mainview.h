@@ -91,6 +91,8 @@ public slots:
 
   void slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items );
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KonqFileItemList &_items );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
 
   void openURL( const KURL &url, bool reload, int xOffset, int yOffset, const QString &serviceType );
 
@@ -370,7 +372,6 @@ private:
 
 class ViewModeGUIClient : public QObject, public KXMLGUIClient
 {
-  Q_OBJECT
 public:
   ViewModeGUIClient( KonqMainView *mainView );
 
@@ -388,7 +389,6 @@ private:
 
 class OpenWithGUIClient : public QObject, public KXMLGUIClient
 {
-  Q_OBJECT
 public:
   OpenWithGUIClient( KonqMainView *mainView );
 
@@ -402,6 +402,18 @@ private:
   QDomDocument m_doc;
   QDomElement m_menuElement;
   KActionCollection *m_actions;
+};
+
+class PopupMenuGUIClient : public KXMLGUIClient
+{
+public:
+  PopupMenuGUIClient( KonqMainView *mainView );
+  virtual ~PopupMenuGUIClient();
+
+  virtual KActionCollection *actionCollection() const;
+
+private:
+  KonqMainView *m_mainView;
 };
 
 #endif

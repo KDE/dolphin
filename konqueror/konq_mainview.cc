@@ -1708,13 +1708,23 @@ QString KonqMainView::currentURL()
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
 {
+  slotPopupMenu( 0L, _global, url, _mimeType, _mode ); 
+}
+
+void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
+{
   KonqFileItem item( url, _mimeType, _mode );
   KonqFileItemList items;
   items.append( &item );
-  slotPopupMenu( _global, items ); //BE CAREFUL WITH sender() !
+  slotPopupMenu( client, _global, items ); //BE CAREFUL WITH sender() !
 }
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items )
+{
+  slotPopupMenu( 0L, _global, _items ); 
+}
+
+void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KonqFileItemList &_items )
 {
   m_oldView = m_currentView;
 
@@ -1723,8 +1733,8 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
   //kdDebug(1202) << "KonqMainView::slotPopupMenu(...)" << endl;
 
   KActionCollection popupMenuCollection;
-  if ( !menuBar()->isVisible() )
-    popupMenuCollection.insert( m_paShowMenuBar );
+  //  if ( !menuBar()->isVisible() )
+  //    popupMenuCollection.insert( m_paShowMenuBar );
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );
@@ -1736,18 +1746,29 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
   popupMenuCollection.insert( m_paDelete );
   popupMenuCollection.insert( m_paShred );
 
-  if ( m_bFullScreen )
-    popupMenuCollection.insert( m_paFullScreenStop );
+  //  if ( m_bFullScreen )
+  //    popupMenuCollection.insert( m_paFullScreenStop );
 
+  PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this );
+  
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
                              m_pMenuNew,
-                             true /*allow embedding*/);
+                             true /*allow embedding*/,
+			     ( client != 0 ) ? true : false );
   connect( &pPopupMenu, SIGNAL( openEmbedded( const QString &, const KURL &, const QString & ) ),
            this, SLOT( slotOpenEmbedded( const QString &, const KURL &, const QString & ) ) );
+  
+  pPopupMenu.factory()->addClient( konqyMenuClient );
+
+  if ( client )
+    pPopupMenu.factory()->addClient( client );
+  
   pPopupMenu.exec( _global );
 
+  delete konqyMenuClient;
+  
   m_currentView = m_oldView;
 }
 
@@ -1959,5 +1980,48 @@ void OpenWithGUIClient::update( const KTrader::OfferList &services )
 
   m_menuElement.appendChild( m_doc.createElement( "Separator" ) );
 }
+
+PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView )
+{
+  QDomDocument doc( "kpartgui" );
+  QDomElement root = doc.createElement( "kpartgui" );
+  root.setAttribute( "name", "konqueror" );
+  doc.appendChild( root );
+  
+  QDomElement menu = doc.createElement( "Menu" );
+  root.appendChild( menu );
+  menu.setAttribute( "name", "popupmenu" );
+  
+  if ( !mainView->menuBar()->isVisible() )
+  {
+    QDomElement showMenuBarElement = doc.createElement( "action" );
+    showMenuBarElement.setAttribute( "name", "showmenubar" );
+    menu.appendChild( showMenuBarElement );
+    
+    menu.appendChild( doc.createElement( "separator" ) );
+  }
+  
+  if ( mainView->fullScreenMode() )
+  {
+    QDomElement stopFullScreenElement = doc.createElement( "action" );
+    stopFullScreenElement.setAttribute( "name", "fullscreenstop" );
+    menu.appendChild( stopFullScreenElement );
+    
+    menu.appendChild( doc.createElement( "separator" ) );
+  }
+  
+  setDocument( doc );
+
+  m_mainView = mainView;
+} 
+
+PopupMenuGUIClient::~PopupMenuGUIClient()
+{
+} 
+
+KActionCollection *PopupMenuGUIClient::actionCollection() const
+{
+  return m_mainView->actionCollection(); 
+} 
 
 #include "konq_mainview.moc"
