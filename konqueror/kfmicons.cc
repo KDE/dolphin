@@ -353,28 +353,30 @@ void KfmIconView::slotBufferTimeout()
 	name = it2->m_str;
   
     assert( !name.empty() );
+    if ( m_isShowingDotFiles || name[0]!='.' )
+    {
 
-    cerr << "Processing " << name << endl;
+      cerr << "Processing " << name << endl;
     
     // The first entry in the toplevel ?
-    if ( !m_strWorkingURL.empty() )
-    {
-      clear();
+      if ( !m_strWorkingURL.empty() )
+      {
+        clear();
       
-      m_strURL = m_strWorkingURL;
-      m_strWorkingURL = "";
-      m_url = m_strURL;
-      K2URL u( m_url );
-      m_bIsLocalURL = u.isLocalFile();
-    }
+        m_strURL = m_strWorkingURL;
+        m_strWorkingURL = "";
+        m_url = m_strURL;
+        K2URL u( m_url );
+        m_bIsLocalURL = u.isLocalFile();
+      }
     
-    K2URL u( m_url );
-    u.addPath( name.c_str() );
-    KfmIconViewItem* item = new KfmIconViewItem( this, *it, u, name.c_str() );
-    insert( item, -1, -1, false );
+      K2URL u( m_url );
+      u.addPath( name.c_str() );
+      KfmIconViewItem* item = new KfmIconViewItem( this, *it, u, name.c_str() );
+      insert( item, -1, -1, false );
 
-    cerr << "Ended " << name << endl;
-
+      cerr << "Ended " << name << endl;
+    }
   }
 
   cerr << "Doing setup" << endl;
@@ -471,12 +473,16 @@ void KfmIconView::slotUpdateFinished( int /*_id*/ )
     
     if ( !done )
     {
-      K2URL u( m_url );
-      u.addPath( name.c_str() );
-      KfmIconViewItem* item = new KfmIconViewItem( this, *it, u, name.c_str() );
-      item->mark();
-      insert( item );
-      cerr << "Inserting " << name << endl;
+      debug("slotUpdateFinished : %s",name.c_str());
+      if ( m_isShowingDotFiles || name[0]!='.' )
+      {
+        K2URL u( m_url );
+        u.addPath( name.c_str() );
+        KfmIconViewItem* item = new KfmIconViewItem( this, *it, u, name.c_str() );
+        item->mark();
+        insert( item );
+        cerr << "Inserting " << name << endl;
+      }
     }
   }
 
