@@ -53,7 +53,7 @@ int KonqComboAction::plug( QWidget *w, int index )
   QLabel *label = new QLabel( plainText(), w );
   label->adjustSize();
   toolBar->insertWidget( get_toolbutton_id(), label->width(), label, index );
-  
+
   QComboBox *comboBox = toolBar->getCombo( id );
 
   addContainer( toolBar, id );
@@ -250,5 +250,41 @@ void KonqBookmarkBar::unplug( QWidget *w )
 
   removeContainer( idx );
 }
+
+KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent, const char* name )
+  : KAction( text, accel, parent, name )
+{
+}
+
+KonqLogoAction::KonqLogoAction( const QString& text, int accel,
+	                       QObject* receiver, const char* slot, QObject* parent, const char* name )
+  : KAction( text, accel, receiver, slot, parent, name )
+{
+}
+
+KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
+  : KAction( text, pix, accel, parent, name )
+{
+}
+
+KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
+  : KAction( text, pix, accel, receiver, slot, parent, name )
+{
+}
+
+KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
+  : KAction( parent, name )
+{
+}
+
+int KonqLogoAction::plug( QWidget *widget, int index )
+{
+  int containerId = KAction::plug( widget, index ); 
+  
+  if ( widget->inherits( "KToolBar" ) )
+    ((KToolBar *)widget)->alignItemRight( menuId( containerId ) );
+  
+  return containerId;
+} 
 
 #include "konq_actions.moc"

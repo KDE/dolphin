@@ -93,4 +93,20 @@ private:
     KBookmarkBar *m_bookmarkBar;
 };
 
+class KonqLogoAction : public KAction
+{
+  Q_OBJECT
+public:
+    KonqLogoAction( const QString& text, int accel = 0, QObject* parent = 0, const char* name = 0 );
+    KonqLogoAction( const QString& text, int accel,
+	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
+    KonqLogoAction( const QString& text, const QIconSet& pix, int accel = 0,
+	            QObject* parent = 0, const char* name = 0 );
+    KonqLogoAction( const QString& text, const QIconSet& pix, int accel,
+	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
+    KonqLogoAction( QObject* parent = 0, const char* name = 0 );
+
+    virtual int plug( QWidget *widget, int index = -1 );
+};
+
 #endif

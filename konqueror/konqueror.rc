@@ -95,6 +95,8 @@
  <Separator/>
  <Action name="stop"/>
  <Separator/>
+ <Merge/>
+ <Separator/>
  <Action name="animated_logo"/>
 </ToolBar>
 <ToolBar fullWidth="true" name="locationToolBar">
