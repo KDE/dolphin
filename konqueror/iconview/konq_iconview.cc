@@ -300,6 +300,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Create the directory lister
     m_dirLister = new KDirLister( true );
+    m_dirLister->setMainWindow(m_pIconView->topLevelWidget());
 
     connect( m_dirLister, SIGNAL( started( const KURL & ) ),
              this, SLOT( slotStarted() ) );
