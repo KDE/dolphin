@@ -26,6 +26,7 @@ libkonq_la_LIBADD = $(LIB_KPARTS)
 libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kbookmarkmenu.cc kbookmark.cc kbookmarkbar.cc kbookmarkimporter.cc \
    kbookmarkexporter.cc kbookmarkmanager.cc kbookmarkmanager.skel \
+   kbookmarkdrag.cc \
    konq_dirlister.cc \
    kfileivi.cc konq_iconviewwidget.cc konq_imagepreviewjob.cc \
    konq_settings.cc konq_drag.cc  \
