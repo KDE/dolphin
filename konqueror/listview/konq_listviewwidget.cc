@@ -834,6 +834,14 @@ KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()
     return *this;
   }
   m_p = (KonqBaseListViewItem*)m_p->parent();
+
+  while ( m_p )
+  {
+      if ( m_p->nextSibling() )
+          break;
+      m_p = (KonqBaseListViewItem*)m_p->parent();
+  }
+
   if ( m_p )
     m_p = (KonqBaseListViewItem*)m_p->nextSibling();
 
@@ -857,6 +865,14 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
       return it;
    }
    m_p = (KonqBaseListViewItem*)m_p->parent();
+
+   while ( m_p )
+   {
+       if ( m_p->nextSibling() )
+           break;
+       m_p = (KonqBaseListViewItem*)m_p->parent();
+   }
+
    if (m_p)
       m_p = (KonqBaseListViewItem*)m_p->nextSibling();
    return it;
