@@ -86,7 +86,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 #endif
 
   setTabReorderingEnabled( true );
-  connect( this, SIGNAL( movedTab( const int, const int ) ), SLOT( slotMovedTab( const int, const int ) ) );
+  connect( this, SIGNAL( movedTab( int, int ) ), SLOT( slotMovedTab( int, int ) ) );
 }
 
 KonqFrameTabs::~KonqFrameTabs()
@@ -244,7 +244,7 @@ void KonqFrameTabs::moveTabRight(int index)
   moveTab( index, index+1 );
 }
 
-void KonqFrameTabs::slotMovedTab(const int from, const int to)
+void KonqFrameTabs::slotMovedTab(int from, int to)
 {
   KonqFrameBase* currentFrame = m_pChildFrameList->at( from );
   kdDebug()<<" currentFrame: "<<currentFrame<<" index: "<<from<<endl;
