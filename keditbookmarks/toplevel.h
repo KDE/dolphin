@@ -95,6 +95,7 @@ protected slots:
     void slotSelectionChanged();
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
     void slotBookmarksChanged();
+    void slotCommandExecuted();
 
 protected:
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
@@ -110,3 +111,4 @@ protected:
 };
 
 #endif
+

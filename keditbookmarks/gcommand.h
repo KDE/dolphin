@@ -43,7 +43,6 @@ protected:
 public:
     virtual ~GCommand() {}
 
-    // Note: Check for object!=0L !!!
     virtual void execute() = 0;
     virtual void unexecute() = 0;
 
@@ -54,6 +53,28 @@ private:
     QString m_name;
 };
 
+/**
+ * A Macro Command is a command that holds several sub-commands.
+ * It will appear as one to the user, in the command history,
+ * but it can use the implementation of multiple commands internally.
+ */
+class KMacroCommand : public KCommand
+{
+public:
+    KMacroCommand( const QString & name );
+    virtual ~KMacroCommand() {}
+
+    /**
+     * Appends a command to this macro command.
+     * The ownership is transfered to the macro command.
+     */
+    void addCommand(GCommand *command);
+
+    virtual void execute();
+    virtual void unexecute();
+protected:
+    QList<GCommand> m_commands;
+};
 
 /**
  * The command history stores a (user) configurable amount of
@@ -74,11 +95,11 @@ public:
      */
     GCommandHistory(KActionCollection *actionCollection);
 
-    ~GCommandHistory();
+    virtual ~GCommandHistory();
 
     void clear();
 
-    void addCommand(GCommand *command);
+    void addCommand(GCommand *command, bool execute=true);
 
     const int &undoLimit() { return m_undoLimit; }
     void setUndoLimit(const int &limit);
@@ -86,12 +107,19 @@ public:
     void setRedoLimit(const int &limit);
 
 public slots:
-    void undo();
-    void redo();
+    virtual void undo();
+    virtual void redo();
+
+signals:
+    /**
+     * This is called every time a command is executed
+     * (whether by addCommand, undo or redo).
+     * You can use this to update the GUI, for instance.
+     */
+    void commandExecuted();
 
 private:
     void clipCommands();  // ensures that the limits are kept
-    void helpRedo();
 
     QList<GCommand> m_commands;
     GCommand *m_present;

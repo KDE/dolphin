@@ -151,6 +151,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     // If someone plays with konq's bookmarks while we're open, update.
     connect( KBookmarkManager::self(), SIGNAL(changed(const QString &) ),
              SLOT( slotBookmarksChanged() ) );
+    // Update GUI after executing command
+    connect (&m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
 
     fillListView();
 
@@ -160,6 +162,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     act->setEnabled( QFile::exists( KBookmarkImporter::netscapeBookmarksFile() ) );
     act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "file_importMoz" );
     act->setEnabled( QFile::exists( KBookmarkImporter::mozillaBookmarksFile() ) );
+    // TODO export to NS and Moz
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "edit_delete" );
@@ -269,43 +272,33 @@ void KEBTopLevel::slotDelete()
     }
 
     DeleteCommand * cmd = new DeleteCommand( i18n("Delete item"), bk.address() );
-    cmd->execute();
     m_commandHistory.addCommand( cmd );
-    setModified();
 }
 
 void KEBTopLevel::slotNewFolder()
 {
     CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), QString::null );
-    cmd->execute();
     m_commandHistory.addCommand( cmd );
-    setModified();
 }
 
 void KEBTopLevel::slotInsertSeparator()
 {
     CreateCommand * cmd = new CreateCommand( i18n("Insert separator"), insertionAddress() );
-    cmd->execute();
     m_commandHistory.addCommand( cmd );
-    setModified();
 }
 
 void KEBTopLevel::slotImportNS()
 {
     ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KBookmarkImporter::netscapeBookmarksFile(),
                                              i18n("Netscape Bookmarks"), "netscape");
-    cmd->execute();
     m_commandHistory.addCommand( cmd );
-    setModified();
 }
 
 void KEBTopLevel::slotImportMoz()
 {
     ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), KBookmarkImporter::mozillaBookmarksFile(),
                                              i18n("Mozilla Bookmarks"), "mozilla");
-    cmd->execute();
     m_commandHistory.addCommand( cmd );
-    setModified();
 }
 
 void KEBTopLevel::slotSort()
@@ -315,17 +308,27 @@ void KEBTopLevel::slotSort()
 
 void KEBTopLevel::slotSetAsToolbar()
 {
-    // TODO EditCommand
+    KMacroCommand * cmd = new KMacroCommand("Set as Bookmark Toolbar");
+
     KBookmarkGroup oldToolbar = KBookmarkManager::self()->toolbar();
     if (!oldToolbar.isNull())
-        oldToolbar.internalElement().removeAttribute( "TOOLBAR" );
+    {
+        QValueList<EditCommand::Edition> lst;
+        lst.append(EditCommand::Edition( "TOOLBAR", "0" ));
+        lst.append(EditCommand::Edition( "ICON", "" ));
+        EditCommand * cmd1 = new EditCommand("", oldToolbar.address(), lst);
+        cmd->addCommand(cmd1);
+    }
+
     KBookmark bk = selectedBookmark();
     ASSERT( bk.isGroup() );
-    bk.internalElement().setAttribute( "TOOLBAR", "1" );
-    // This doesn't appear in the GUI currently, so nothing to update...
-    // ### How to show this in the GUI ?
-    // Netscape has a special icon for it.
-    setModified();
+    QValueList<EditCommand::Edition> lst;
+    lst.append(EditCommand::Edition( "TOOLBAR", "1" ));
+    lst.append(EditCommand::Edition( "ICON", "bookmark_toolbar" ));
+    EditCommand * cmd2 = new EditCommand("", bk.address(), lst);
+    cmd->addCommand(cmd2);
+
+    m_commandHistory.addCommand( cmd );
 }
 
 void KEBTopLevel::slotOpenLink()
@@ -366,7 +369,6 @@ KBookmark KEBTopLevel::selectedBookmark() const
 
 void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText, int column)
 {
-    // TODO EditCommand
     ASSERT(item);
     KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
     KBookmark bk = kebItem->bookmark();
@@ -374,21 +376,16 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
         case 0:
             if ( bk.fullText() != newText )
             {
-                if (bk.isGroup())
-                {
-                    // QDom is very nice. All in one line :)
-                    bk.internalElement().elementsByTagName("TEXT").item(0).firstChild().toText().setData( newText );
-                }
-                else
-                    bk.internalElement().firstChild().toText().setData( newText );
-                setModified();
+                RenameCommand * cmd = new RenameCommand( i18n("Renaming"), bk.address(), newText );
+                m_commandHistory.addCommand( cmd );
             }
             break;
         case 1:
             if ( bk.url() != newText )
             {
-                bk.internalElement().setAttribute("URL", newText);
-                setModified();
+                EditCommand * cmd = new EditCommand( i18n("URL change"), bk.address(),
+                                                     EditCommand::Edition("URL", newText) );
+                m_commandHistory.addCommand( cmd );
             }
             break;
         default:
@@ -437,10 +434,7 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * /*_afterFirst*
     MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
                                          item->bookmark().address(),
                                          newAddress );
-    cmd->execute();
     m_commandHistory.addCommand( cmd );
-
-    setModified(); // should be done by the command ? not sure.
 }
 
 void KEBTopLevel::slotSelectionChanged()
@@ -571,5 +565,12 @@ bool KEBTopLevel::queryClose()
     return true;
 }
 
+///////////////////
+
+void KEBTopLevel::slotCommandExecuted()
+{
+    KEBTopLevel::self()->setModified();
+    KEBTopLevel::self()->update();     // Update GUI
+}
 
 #include "toplevel.moc"

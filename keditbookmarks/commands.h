@@ -21,8 +21,6 @@
 
 #include <gcommand.h>
 
-// TODO MacroCommand
-
 class MoveCommand : public KCommand
 {
 public:
@@ -90,6 +88,71 @@ private:
     QString m_from;
     KCommand * m_cmd;
 };
+
+class EditCommand : public KCommand
+{
+public:
+
+    struct Edition {
+        Edition() {} // For QValueList
+        Edition(const QString & a, const QString & v) : attr(a), value(v) {}
+        QString attr;
+        QString value;
+    };
+
+    /**
+     * This command changes the value of one attribute of the bookmark @p address
+     */
+    EditCommand( const QString & name, const QString & address,
+                 Edition edition ) :
+        KCommand(name), m_address(address)
+    {
+        m_editions.append(edition);
+    }
+
+    /**
+     * This command changes the value of several attributes of the bookmark @p address
+     */
+    EditCommand( const QString & name, const QString & address,
+                 const QValueList<Edition> & editions ) :
+        KCommand(name), m_address(address), m_editions(editions)
+    {}
+    virtual ~EditCommand() {}
+    virtual void execute();
+    virtual void unexecute();
+private:
+    QString m_address;
+    QValueList<Edition> m_editions;
+    QValueList<Edition> m_reverseEditions;
+};
+
+class RenameCommand : public KCommand
+{
+public:
+    RenameCommand( const QString & name, const QString & address, const QString & newText )
+        : KCommand(name), m_address(address), m_newText(newText) {}
+    virtual ~RenameCommand() {}
+    virtual void execute();
+    virtual void unexecute();
+private:
+    QString m_address;
+    QString m_newText;
+    QString m_oldText;
+};
+
+/*class SetAsToolbarCommand : public KMacroCommand
+{
+public:
+    SetAsToolbarCommand( const QString & name, const QString & from, const QString & to )
+        : KCommand(name), m_from(from), m_to(to)
+    {}
+    virtual ~SetAsToolbarCommand() {}
+    virtual void execute();
+    virtual void unexecute();
+private:
+    QString m_from;
+    QString m_to;
+};*/
 
 #include <qstack.h>
 #include <qobject.h>

@@ -69,11 +69,6 @@ void MoveCommand::execute()
         m_from = KBookmark::nextAddress( oldPreviousSibling.address() );
     m_to = bk.address();
     kdDebug() << "MoveCommand::execute : new addresses from=" << m_from << " to=" << m_to << endl;
-
-    //kdDebug() << "AFTER:" << KBookmarkManager::self()->internalDocument().toCString() << endl;
-
-    // Update GUI
-    KEBTopLevel::self()->update();
 }
 
 void MoveCommand::unexecute()
@@ -114,9 +109,6 @@ void CreateCommand::execute()
     // Open the parent (useful if it was empty)
     parentGroup.internalElement().setAttribute( "OPEN", 1 );
     ASSERT( bk.address() == m_to );
-
-    // Update GUI
-    KEBTopLevel::self()->update();
 }
 
 void CreateCommand::unexecute()
@@ -137,8 +129,6 @@ void CreateCommand::unexecute()
     }
 
     bk.parentGroup().deleteBookmark( bk );
-
-    KEBTopLevel::self()->update();
 }
 
 void DeleteCommand::execute()
@@ -162,6 +152,54 @@ void DeleteCommand::unexecute()
     m_cmd->execute();
 }
 
+void EditCommand::execute()
+{
+    KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
+    ASSERT( !bk.isNull() );
+    m_reverseEditions.clear();
+    QValueList<Edition>::Iterator it = m_editions.begin();
+    for ( ; it != m_editions.end() ; ++it )
+    {
+        // backup current value
+        m_reverseEditions.append( Edition((*it).attr, bk.internalElement().attribute((*it).attr)) );
+        // set new value
+        bk.internalElement().setAttribute( (*it).attr, (*it).value );
+    }
+}
+
+void EditCommand::unexecute()
+{
+    // Let's not duplicate code.
+    EditCommand cmd( "dummy", m_address, m_reverseEditions );
+    cmd.execute();
+    // Get the editions back from it, in case they changed (hmm, shouldn't happen)
+    m_editions = cmd.m_reverseEditions;
+}
+
+void RenameCommand::execute()
+{
+    KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
+    ASSERT( !bk.isNull() );
+
+    QDomText domtext;
+    if (bk.isGroup())
+        domtext = bk.internalElement().elementsByTagName("TEXT").item(0).firstChild().toText();
+    else
+        domtext = bk.internalElement().firstChild().toText();
+
+    m_oldText = domtext.data();
+    domtext.setData( m_newText );
+}
+
+void RenameCommand::unexecute()
+{
+    // Let's not duplicate code.
+    RenameCommand cmd( "dummy", m_address, m_oldText );
+    cmd.execute();
+    // Get the old text back from it, in case they changed (hmm, shouldn't happen)
+    m_newText = cmd.m_oldText;
+}
+
 void ImportCommand::execute()
 {
     // Find or create "Netscape Bookmarks" toplevel item
@@ -180,8 +218,6 @@ void ImportCommand::execute()
     connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
     connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
     importer.parseNSBookmarks();
-    // Update GUI
-    KEBTopLevel::self()->update();
     // Save memory
     mlist.clear();
     mstack.clear();
@@ -192,8 +228,6 @@ void ImportCommand::unexecute()
     // Just delete the whole imported group
     CreateCommand cmd("dummy", m_group, "dummy");
     cmd.unexecute();
-    // Update GUI
-    KEBTopLevel::self()->update();
 }
 
 void ImportCommand::newBookmark( const QString & text, const QCString & url )

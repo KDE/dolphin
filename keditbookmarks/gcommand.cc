@@ -23,6 +23,33 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+KMacroCommand::KMacroCommand( const QString & name ) : KCommand(name)
+{
+    m_commands.setAutoDelete(true);
+}
+
+void KMacroCommand::addCommand(GCommand *command)
+{
+    m_commands.append(command);
+}
+
+void KMacroCommand::execute()
+{
+    QListIterator<GCommand> it(m_commands);
+    for ( ; it.current() ; ++it )
+        it.current()->execute();
+}
+
+void KMacroCommand::unexecute()
+{
+    QListIterator<GCommand> it(m_commands);
+    it.toLast();
+    for ( ; it.current() ; --it )
+        it.current()->unexecute();
+}
+
+
+////////////
 
 GCommandHistory::GCommandHistory(KActionCollection * actionCollection) :
     m_present(0L), m_undoLimit(50), m_redoLimit(30), m_first(false)
@@ -45,7 +72,7 @@ void GCommandHistory::clear() {
     m_present = 0L;
 }
 
-void GCommandHistory::addCommand(GCommand *command) {
+void GCommandHistory::addCommand(GCommand *command, bool execute) {
 
     if(command==0L)
         return;
@@ -85,6 +112,11 @@ void GCommandHistory::addCommand(GCommand *command) {
         m_redo->setText(i18n("No Redo Possible"));
         m_first=true;
     }
+    if ( execute )
+    {
+        command->execute();
+        emit commandExecuted();
+    }
 }
 
 void GCommandHistory::undo() {
@@ -102,6 +134,7 @@ void GCommandHistory::undo() {
         m_undo->setText(i18n("No Undo Possible"));
         m_first=true;
     }
+    emit commandExecuted();
 }
 
 void GCommandHistory::redo() {
@@ -109,18 +142,29 @@ void GCommandHistory::redo() {
     if(m_first) {
         m_present->execute();
         m_first=false;
-        m_undo->setEnabled(true);
-        m_undo->setText(i18n("Und&o: %1").arg(m_present->name()));
         m_commands.first();
-        helpRedo();
     }
     else if(m_commands.findRef(m_present)!=-1 && m_commands.next()!=0) {
         m_present=m_commands.current();
         m_present->execute();
-        m_undo->setEnabled(true);
-        m_undo->setText(i18n("Und&o: %1").arg(m_present->name()));
-        helpRedo();
     }
+
+    m_undo->setEnabled(true);
+    m_undo->setText(i18n("Und&o: %1").arg(m_present->name()));
+
+    if(m_commands.next()!=0) {
+        GCommand *tmp=m_commands.current();
+        m_redo->setEnabled(true);
+        m_redo->setText(i18n("Re&do: %1").arg(tmp->name()));
+    }
+    else {
+        if(m_redo->isEnabled()) {
+            m_redo->setEnabled(false);
+            m_redo->setText(i18n("No Redo Possible"));
+        }
+    }
+
+    emit commandExecuted();
 }
 
 void GCommandHistory::setUndoLimit(const int &limit) {
@@ -155,21 +199,6 @@ void GCommandHistory::clipCommands() {
     if((index+m_redoLimit)<count) {
         for(int i=0; i<(count-(index+m_redoLimit)); ++i)
             m_commands.removeLast();
-    }
-}
-
-void GCommandHistory::helpRedo() {
-
-    if(m_commands.next()!=0) {
-        GCommand *tmp=m_commands.current();
-        m_redo->setEnabled(true);
-        m_redo->setText(i18n("Re&do: %1").arg(tmp->name()));
-    }
-    else {
-        if(m_redo->isEnabled()) {
-            m_redo->setEnabled(false);
-            m_redo->setText(i18n("No Redo Possible"));
-        }
     }
 }
 
