@@ -9,7 +9,6 @@ kbookmarklistener_DIR = $(top_srcdir)/libkonq
 
 keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la
 keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
-keditbookmarks_la_METASOURCES = AUTO
 
 bin_PROGRAMS = keditbookmarks
 
