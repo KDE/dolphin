@@ -9,7 +9,6 @@ NPNetscapeFuncs gNetscapeFuncs;	/* Netscape Function table */
 NPNetscapeFuncs gExtNetscapeFuncs;	/* table that is passed to the plugin*/
 NPPluginFuncs gPluginFuncs;
 
-
 typedef char* NP_GetMIMEDescription_t(void);
 typedef NPError NP_Initialize_t(NPNetscapeFuncs*, NPPluginFuncs*);
 typedef NPError NP_Shutdown_t(void);
@@ -526,7 +525,7 @@ NPError NP_GetValue(void *future, NPPVariable variable, void *value)
 	if ( !gLib ) return NPERR_GENERIC_ERROR;
 	DEB(ef, "-> NP_GetValue( %x, %d, %x )\n", future, variable, value );
 
-  err = gNP_GetValue( future, variable, value );
+	err = gNP_GetValue( future, variable, value );
 	DEB(ef, "<- NP_GetValue = %d\n", err );
 	return err;
 }
@@ -558,28 +557,28 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 	memcpy(&gExtNetscapeFuncs, nsTable, sizeof(gExtNetscapeFuncs));
 		
 	gExtNetscapeFuncs.geturl = MyNPN_GetURL;
-  gExtNetscapeFuncs.posturl = MyNPN_PostURL;
-  gExtNetscapeFuncs.requestread = MyNPN_RequestRead;
-  gExtNetscapeFuncs.newstream = MyNPN_NewStream;
-  gExtNetscapeFuncs.write = MyNPN_Write;
-  gExtNetscapeFuncs.destroystream = MyNPN_DestroyStream;
-  gExtNetscapeFuncs.status = MyNPN_Status;
-  gExtNetscapeFuncs.uagent = MyNPN_UserAgent;
-  /*gExtNetscapeFuncs.memalloc = MyNPN_MemAlloc;
-  gExtNetscapeFuncs.memfree = MyNPN_MemFree;
-  gExtNetscapeFuncs.memflush = MyNPN_MemFlush;*/
-  gExtNetscapeFuncs.reloadplugins = MyNPN_ReloadPlugins;
-  gExtNetscapeFuncs.getJavaEnv = MyNPN_GetJavaEnv;
-  gExtNetscapeFuncs.getJavaPeer = MyNPN_GetJavaPeer;
-  gExtNetscapeFuncs.geturlnotify = MyNPN_GetURLNotify;
-  gExtNetscapeFuncs.posturlnotify = MyNPN_PostURLNotify;
-  gExtNetscapeFuncs.getvalue = MyNPN_GetValue;
-  gExtNetscapeFuncs.setvalue = MyNPN_SetValue;
-  gExtNetscapeFuncs.invalidaterect = MyNPN_InvalidateRect;
-  gExtNetscapeFuncs.invalidateregion = MyNPN_InvalidateRegion;
-  gExtNetscapeFuncs.forceredraw = MyNPN_ForceRedraw;	
+	gExtNetscapeFuncs.posturl = MyNPN_PostURL;
+	gExtNetscapeFuncs.requestread = MyNPN_RequestRead;
+	gExtNetscapeFuncs.newstream = MyNPN_NewStream;
+	gExtNetscapeFuncs.write = MyNPN_Write;
+	gExtNetscapeFuncs.destroystream = MyNPN_DestroyStream;
+	gExtNetscapeFuncs.status = MyNPN_Status;
+  	gExtNetscapeFuncs.uagent = MyNPN_UserAgent;
+	/*gExtNetscapeFuncs.memalloc = MyNPN_MemAlloc;
+	gExtNetscapeFuncs.memfree = MyNPN_MemFree;
+	gExtNetscapeFuncs.memflush = MyNPN_MemFlush;*/
+	gExtNetscapeFuncs.reloadplugins = MyNPN_ReloadPlugins;
+	gExtNetscapeFuncs.getJavaEnv = MyNPN_GetJavaEnv;
+	gExtNetscapeFuncs.getJavaPeer = MyNPN_GetJavaPeer;
+	gExtNetscapeFuncs.geturlnotify = MyNPN_GetURLNotify;
+	gExtNetscapeFuncs.posturlnotify = MyNPN_PostURLNotify;
+	gExtNetscapeFuncs.getvalue = MyNPN_GetValue;
+	gExtNetscapeFuncs.setvalue = MyNPN_SetValue;
+	gExtNetscapeFuncs.invalidaterect = MyNPN_InvalidateRect;
+	gExtNetscapeFuncs.invalidateregion = MyNPN_InvalidateRegion;
+	gExtNetscapeFuncs.forceredraw = MyNPN_ForceRedraw;	
 	
-  gPluginFuncs.size = sizeof( gPluginFuncs );
+	gPluginFuncs.size = sizeof( gPluginFuncs );
 
 	err = gNP_Initialize( &gExtNetscapeFuncs, &gPluginFuncs );
 	
@@ -594,14 +593,14 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 		pluginFuncs->newstream = MyNPP_NewStream;
 		pluginFuncs->destroystream = MyNPP_DestroyStream;
 		pluginFuncs->asfile = MyNPP_StreamAsFile;
-    pluginFuncs->writeready = MyNPP_WriteReady;
-    pluginFuncs->write = MyNPP_Write;
-    pluginFuncs->print = MyNPP_Print;
-    pluginFuncs->event = MyNPP_HandleEvent;
-    pluginFuncs->urlnotify = MyNPP_URLNotify;
-    pluginFuncs->javaClass = 0; //MyNPP_GetJavaClass;
-    pluginFuncs->getvalue = (NPP_GetValueUPP)MyNPP_GetValue;
-    pluginFuncs->setvalue = (NPP_SetValueUPP)MyNPP_SetValue;
+		pluginFuncs->writeready = MyNPP_WriteReady;
+		pluginFuncs->write = MyNPP_Write;
+		pluginFuncs->print = MyNPP_Print;
+		pluginFuncs->event = MyNPP_HandleEvent;
+		pluginFuncs->urlnotify = MyNPP_URLNotify;
+		pluginFuncs->javaClass = 0; //MyNPP_GetJavaClass;
+		pluginFuncs->getvalue = (NPP_GetValueUPP)MyNPP_GetValue;
+		pluginFuncs->setvalue = (NPP_SetValueUPP)MyNPP_SetValue;
 	
 		DEB(ef, "pluginFuncs->size = %d\n", pluginFuncs->size);
 		DEB(ef, "pluginFuncs->version = 0x%x\n", pluginFuncs->version);
