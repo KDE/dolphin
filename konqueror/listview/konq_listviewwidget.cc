@@ -92,6 +92,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
+   m_dirLister->setMainWindow(topLevelWidget());
+
    m_bTopLevelComplete  = true;
 
    //Adjust KListView behaviour
