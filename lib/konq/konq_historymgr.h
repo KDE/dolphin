@@ -68,13 +68,18 @@ protected:
  *
  * It keeps the history in sync with one KCompletion object
  */
-class KonqHistoryManager : public KParts::HistoryProvider, 
+class KonqHistoryManager : public KParts::HistoryProvider,
 			   public KonqHistoryComm
 {
     Q_OBJECT
 
 public:
-    static KonqHistoryManager *self();
+    static KonqHistoryManager *kself() {
+	return static_cast<KonqHistoryManager*>( KParts::HistoryProvider::self() ); 
+    }
+
+    KonqHistoryManager( QObject *parent, const char *name );
+    ~KonqHistoryManager();
 
     /**
      * Sets a new maximum size of history and truncates the current history
@@ -215,9 +220,6 @@ signals:
     void cleared();
 
 protected:
-    KonqHistoryManager( QObject *parent, const char *name );
-    ~KonqHistoryManager();
-
     /**
      * Resizes the history list to contain less or equal than m_maxCount
      * entries. The first (oldest) entries are removed.
@@ -302,8 +304,6 @@ private:
      */
     bool loadFallback();
     KonqHistoryEntry * createFallbackEntry( const QString& ) const;
-
-    static KonqHistoryManager *s_self;
 
     QString m_filename;
     KonqHistoryList m_history;

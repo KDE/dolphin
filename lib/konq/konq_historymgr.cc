@@ -31,21 +31,14 @@
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
 
-KonqHistoryManager * KonqHistoryManager::s_self = 0L;
 template class QMap<QString,KonqHistoryEntry*>;
-
-KonqHistoryManager * KonqHistoryManager::self()
-{
-    if ( !s_self )
-	s_self = new KonqHistoryManager( kapp, "KonqHistoryManager" );
-
-    return s_self;
-}
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
       KonqHistoryComm( "KonqHistoryManager" )
 {
+    qDebug("******************* KONQ HISTORY MANAGER ********************");
+    
     // defaults
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
