@@ -1,7 +1,7 @@
 ## Makefile.am of kdebase/konqueror/plugins/searcher
 
 INCLUDES  =  -I$(top_srcdir)/kcontrol/ebrowsing/kurifilter -I$(top_srcdir)/konqueror -I$(top_srcdir)/lib/kparts $(all_includes)
-LDFLAGS   = $(KDE_RPATH) $(all_libraries)
+LDFLAGS   = $(all_libraries)
 LDADD = $(top_builddir)/kcontrol/ebrowsing/kurifilter/libkurifilter.la -lkdeui
 
 lib_LTLIBRARIES = libkonqsearcher.la
