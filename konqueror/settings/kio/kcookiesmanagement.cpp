@@ -448,8 +448,9 @@ void KCookiesManagement::deleteCookie()
 void KCookiesManagement::deleteAllCookies()
 {
   m_bDeleteAll = true;
-  reset();  
-  
+  save();
+  reset();
+
   emit changed( true );
 }
 
