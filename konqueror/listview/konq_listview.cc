@@ -37,8 +37,6 @@
 #include <konqdirlister.h>
 #include <konqdrag.h>
 #include <konqfileitem.h>
-#include <kparts/mainwindow.h>
-#include <kparts/partmanager.h>
 #include <kpropsdlg.h>
 #include <kprotocolmanager.h>
 #include <kstdaction.h>
