@@ -28,6 +28,7 @@
 #include <kdebug.h>
 #include <kinstance.h>
 #include <kstddirs.h>
+#include <kuserprofile.h>
 
 #include <assert.h>
 
@@ -66,7 +67,8 @@ KonqFactory::~KonqFactory()
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
                                          const QString &serviceName,
 				         KService::Ptr *serviceImpl,
-				         KTrader::OfferList *serviceOffers )
+				         KTrader::OfferList *partServiceOffers,
+					 KTrader::OfferList *appServiceOffers )
 {
   kdDebug(1202) << QString("trying to create view for \"%1\"").arg(serviceType) << endl;
 
@@ -79,10 +81,36 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       return KonqViewFactory();
   }
 
-  // Ok, we embed. Query the trader
-  static QString browserViewConstraint = QString::fromLatin1( "('Browser/View' in ServiceTypes) or ('KParts/ReadOnlyPart' in ServiceTypes)" );
+  KTrader::OfferList offers = KTrader::self()->query( serviceType );
 
-  KTrader::OfferList offers = KTrader::self()->query( serviceType, browserViewConstraint );
+  if ( appServiceOffers )
+  {
+    *appServiceOffers = offers;
+    KTrader::OfferList::Iterator it = appServiceOffers->begin();
+    while ( it != appServiceOffers->end() )
+    {
+      if ( (*it)->type() != "Application" )
+      {
+        appServiceOffers->remove( it );
+	it = appServiceOffers->begin();
+	continue;
+      }
+      ++it;
+    }
+  }
+
+  KTrader::OfferList::Iterator it = offers.begin();
+  while ( it != offers.end() )
+  {
+    QStringList serviceTypes = (*it)->serviceTypes();
+    if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
+    {
+      offers.remove( it );
+      it = offers.begin();
+      continue;
+    }
+    ++it;
+  }
 
   KService::Ptr service;
   KLibFactory *factory = 0L;
@@ -129,8 +157,8 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     offers.remove( offers.begin() );
   }
 
-  if ( serviceOffers )
-    (*serviceOffers) = offers;
+  if ( partServiceOffers )
+    (*partServiceOffers) = offers;
 
   if ( serviceImpl )
     (*serviceImpl) = service;

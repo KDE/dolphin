@@ -53,6 +53,7 @@ class KonqFrameContainer;
 class KonqFrame;
 class KBookmarkMenu;
 class ViewModeGUIClient;
+class OpenWithGUIClient;
 class EmbedData;
 
 namespace KParts {
@@ -210,6 +211,8 @@ protected slots:
   void slotShred();
   void slotPrint();
 
+  void slotOpenWith();
+
   void slotSetLocationBarURL( const QString &url );
 
   void slotAbout();
@@ -357,6 +360,7 @@ private:
   QGuardedPtr<QComboBox> m_combo;
 
   ViewModeGUIClient *m_viewModeGUIClient;
+  OpenWithGUIClient *m_openWithGUIClient;
 
   static QStringList *s_plstAnimatedLogo;
 
@@ -368,6 +372,24 @@ class ViewModeGUIClient : public QObject, public KXMLGUIClient
   Q_OBJECT
 public:
   ViewModeGUIClient( KonqMainView *mainView );
+
+  virtual KAction *action( const QDomElement &element );
+  virtual QDomDocument document() const;
+
+  void update( const KTrader::OfferList &services );
+
+private:
+  KonqMainView *m_mainView;
+  QDomDocument m_doc;
+  QDomElement m_menuElement;
+  KActionCollection *m_actions;
+};
+
+class OpenWithGUIClient : public QObject, public KXMLGUIClient
+{
+  Q_OBJECT
+public:
+  OpenWithGUIClient( KonqMainView *mainView );
 
   virtual KAction *action( const QDomElement &element );
   virtual QDomDocument document() const;

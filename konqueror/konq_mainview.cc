@@ -125,6 +125,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
   m_viewModeGUIClient = new ViewModeGUIClient( this );
+  m_openWithGUIClient = new OpenWithGUIClient( this );
 
   initActions();
   initPlugins();
@@ -497,6 +498,24 @@ void KonqMainView::slotViewModeToggle( bool toggle )
                                  false, modeName );
 }
 
+void KonqMainView::slotOpenWith()
+{
+  KURL::List lst;
+  lst.append( m_currentView->view()->url() );
+
+  QString serviceName = sender()->name();
+
+  KTrader::OfferList offers = m_currentView->appServiceOffers();
+  KTrader::OfferList::ConstIterator it = offers.begin();
+  KTrader::OfferList::ConstIterator end = offers.end();
+  for (; it != end; ++it )
+    if ( (*it)->name() == serviceName )
+    {
+      KRun::run( **it, lst );
+      return;
+    }
+}
+
 void KonqMainView::slotShowHTML()
 {
   bool b = !m_currentView->allowHTML();
@@ -842,9 +861,13 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   }
 
   guiFactory()->removeClient( m_viewModeGUIClient );
-  m_viewModeGUIClient->update( m_currentView->serviceOffers() );
-  if ( m_currentView->serviceOffers().count() > 1 )
+  guiFactory()->removeClient( m_openWithGUIClient );
+  m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
+  m_openWithGUIClient->update( m_currentView->appServiceOffers() );
+  if ( m_currentView->partServiceOffers().count() > 1 )
     guiFactory()->addClient( m_viewModeGUIClient );
+  if ( m_currentView->appServiceOffers().count() > 0 )
+    guiFactory()->addClient( m_openWithGUIClient );
 
   m_currentView->frame()->statusbar()->repaint();
 
@@ -1845,6 +1868,70 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
     connect( action, SIGNAL( toggled( bool ) ),
 	     m_mainView, SLOT( slotViewModeToggle( bool ) ) );
   }
+}
+
+static const char *openWithGUI = ""
+"<!DOCTYPE kpartgui>"
+"<kpartgui name=\"openwith\">"
+"<MenuBar>"
+" <Menu name=\"edit\">"
+" </Menu>"
+"</MenuBar>"
+"</kpartgui>";
+
+OpenWithGUIClient::OpenWithGUIClient( KonqMainView *mainView )
+ : QObject( mainView )
+{
+  m_mainView = mainView;
+  m_doc.setContent( QString::fromLatin1( openWithGUI ) );
+  m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
+  m_actions = 0L;
+}
+
+KAction *OpenWithGUIClient::action( const QDomElement &element )
+{
+  if ( !m_actions )
+    return 0L;
+
+  return m_actions->action( element.attribute( "name" ) );
+}
+
+QDomDocument OpenWithGUIClient::document() const
+{
+  return m_doc;
+}
+
+void OpenWithGUIClient::update( const KTrader::OfferList &services )
+{
+  static QString openWithText = i18n( "Open With" ).append( ' ' );
+  if ( m_actions )
+    delete m_actions;
+
+  m_actions = new KActionCollection( this );
+
+  QDomNode n = m_menuElement.firstChild();
+  while ( !n.isNull() )
+  {
+    m_menuElement.removeChild( n );
+    n = m_menuElement.firstChild();
+  }
+
+  KTrader::OfferList::ConstIterator it = services.begin();
+  KTrader::OfferList::ConstIterator end = services.end();
+  for (; it != end; ++it )
+  {
+    KAction *action = new KAction( (*it)->comment().prepend( openWithText ), 0, m_actions, (*it)->name() );
+    action->setIcon( (*it)->icon() );
+
+    QDomElement e = m_doc.createElement( "Action" );
+    m_menuElement.appendChild( e );
+    e.setAttribute( "name", (*it)->name() );
+
+    connect( action, SIGNAL( activated() ),
+	     m_mainView, SLOT( slotOpenWith() ) );
+  }
+
+  m_menuElement.appendChild( m_doc.createElement( "Separator" ) );
 }
 
 #include "konq_mainview.moc"

@@ -69,7 +69,8 @@ public:
 		 KonqFrame* viewFrame,
 		 KonqMainView * mainView,
 		 const KService::Ptr &service,
-		 const KTrader::OfferList &serviceOffers,
+		 const KTrader::OfferList &partServiceOffers,
+		 const KTrader::OfferList &appServiceOffers,
 		 const QString &serviceType );
 
   ~KonqChildView();
@@ -199,7 +200,8 @@ public:
 
   KService::Ptr service() { return m_service; }
 
-  KTrader::OfferList serviceOffers() { return m_serviceOffers; }
+  KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }
+  KTrader::OfferList appServiceOffers() { return m_appServiceOffers; }
 
   KonqMainView *mainView() const { return m_pMainView; }
 
@@ -272,7 +274,8 @@ protected:
   int m_iProgress;
   bool m_bPassiveMode;
   bool m_bProgressSignals;
-  KTrader::OfferList m_serviceOffers;
+  KTrader::OfferList m_partServiceOffers;
+  KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
   QGuardedPtr<KParts::ReadOnlyPart> m_metaView;

@@ -112,9 +112,9 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
   kdDebug(1202) << "KonqViewManager::split" << endl;
 
   KService::Ptr service;
-  KTrader::OfferList serviceOffers;
+  KTrader::OfferList partServiceOffers, appServiceOffers;
 
-  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, serviceOffers );
+  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers );
 
   if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view
@@ -158,7 +158,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
     debug("Create new Child");
-    KonqChildView *childView = setupView( newContainer, newViewFactory, service, serviceOffers, serviceType );
+    KonqChildView *childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     view = childView->view();
 
@@ -177,7 +177,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
-    KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, serviceOffers, serviceType );
+    KonqChildView *childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     if ( m_dummyWidget )
       delete (QWidget *)m_dummyWidget;
@@ -316,9 +316,9 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
 
     KService::Ptr service;
-    KTrader::OfferList serviceOffers;
+    KTrader::OfferList partServiceOffers, appServiceOffers;
 
-    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
+    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
     if ( viewFactory.isNull() )
     {
       warning("Profile Loading Error: View creation failed" );
@@ -326,7 +326,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     }
 
     kdDebug(1202) << "Creating View Stuff" << endl;
-    KonqChildView *childView = setupView( parent, viewFactory, service, serviceOffers, serviceType );
+    KonqChildView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     childView->setPassiveMode( passiveMode );
 
@@ -462,7 +462,8 @@ void KonqViewManager::slotProfileDlg()
 KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 					  const QString &serviceName,
 					  KService::Ptr &service,
-					  KTrader::OfferList &serviceOffers )
+					  KTrader::OfferList &partServiceOffers,
+					  KTrader::OfferList &appServiceOffers )
 {
   kdDebug(1202) << "KonqViewManager::createView" << endl;
   KonqViewFactory viewFactory;
@@ -472,12 +473,12 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
     KonqChildView *cv = m_pMainView->currentChildView();
 
     viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->name(),
-				           &service, &serviceOffers );
+				           &service, &partServiceOffers, &appServiceOffers );
   }
   else {
     //create view with the given servicetype
     viewFactory = KonqFactory::createView( serviceType, serviceName,
-		       	                   &service, &serviceOffers );
+		       	                   &service, &partServiceOffers, &appServiceOffers );
   }
 
   return viewFactory;
@@ -486,7 +487,8 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
                                            KonqViewFactory &viewFactory,
 				           const KService::Ptr &service,
-				           const KTrader::OfferList &serviceOffers,
+				           const KTrader::OfferList &partServiceOffers,
+					   const KTrader::OfferList &appServiceOffers,
 					   const QString &serviceType )
 {
   kdDebug(1202) << "KonqViewManager::setupView" << endl;
@@ -500,7 +502,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   kdDebug(1202) << "Creating KonqChildView" << endl;
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
-					m_pMainView, service, serviceOffers, sType );
+					m_pMainView, service, partServiceOffers, appServiceOffers, sType );
   kdDebug(1202) << "KonqChildView created" << endl;
 
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),

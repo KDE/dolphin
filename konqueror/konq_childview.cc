@@ -40,7 +40,8 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
 			      const KService::Ptr &service,
-			      const KTrader::OfferList &serviceOffers,
+			      const KTrader::OfferList &partServiceOffers,
+			      const KTrader::OfferList &appServiceOffers,
 			      const QString &serviceType
                               )
 {
@@ -54,7 +55,8 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_pView = 0L;
 
   m_service = service;
-  m_serviceOffers = serviceOffers;
+  m_partServiceOffers = partServiceOffers;
+  m_appServiceOffers = appServiceOffers;
   m_serviceType = serviceType;
 
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
@@ -161,15 +163,16 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
   {
 
-    KTrader::OfferList serviceOffers;
+    KTrader::OfferList partServiceOffers, appServiceOffers;
     KService::Ptr service = 0L;
-    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
+    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
 
     if ( viewFactory.isNull() )
       return false;
 
     m_service = service;
-    m_serviceOffers = serviceOffers;
+    m_partServiceOffers = partServiceOffers;
+    m_appServiceOffers = appServiceOffers;
     m_serviceType = serviceType;
 
     switchView( viewFactory );
@@ -370,15 +373,16 @@ void KonqChildView::go( int steps )
   if ( !m_service->serviceTypes().contains( h->strServiceType ) ||
        h->strServiceName != m_service->name() )
   {
-    KTrader::OfferList serviceOffers;
+    KTrader::OfferList partServiceOffers, appServiceOffers;
     KService::Ptr service;
-    KonqViewFactory viewFactory = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &serviceOffers );
+    KonqViewFactory viewFactory = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &partServiceOffers, &appServiceOffers );
 
     if ( viewFactory.isNull() )
      return;
 
     m_service = service;
-    m_serviceOffers = serviceOffers;
+    m_partServiceOffers = partServiceOffers;
+    m_appServiceOffers = appServiceOffers;
     m_serviceType = h->strServiceType;
 
     switchView( viewFactory );

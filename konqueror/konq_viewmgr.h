@@ -124,7 +124,8 @@ private:
   KonqViewFactory createView( const QString &serviceType,
                               const QString &serviceName,
 			      KService::Ptr &service,
-			      KTrader::OfferList &serviceOffers );
+			      KTrader::OfferList &partServiceOffers,
+			      KTrader::OfferList &appServiceOffers );
 
   /**
    * Mainly creates the the backend structure(KonqChildView) for a view and
@@ -133,7 +134,8 @@ private:
   KonqChildView *setupView( KonqFrameContainer *parentContainer,
                             KonqViewFactory &viewFactory,
 		            const KService::Ptr &service,
-		            const KTrader::OfferList &serviceOffers,
+		            const KTrader::OfferList &partServiceOffers,
+			    const KTrader::OfferList &appServiceOffers,
 			    const QString &serviceType );
 
 public:

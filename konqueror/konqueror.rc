@@ -21,6 +21,7 @@
   <Action name="del"/>
   <Action name="shred"/>
   <Separator/>
+  <Merge name="openwith"/>
   <Merge/>
  </Menu>
  <Menu name="view"><text>&amp;View</text>
