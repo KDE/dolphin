@@ -229,6 +229,8 @@ private:
       void *notify;
   };
 
+  NPWindow _win;
+  NPSetWindowCallbackStruct _win_info;
   QPtrQueue<Request> _waitingRequests;
 };
 

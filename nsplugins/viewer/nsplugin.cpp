@@ -372,14 +372,18 @@ void NSPluginInstance::destroy()
 
         kdDebug(1431) << "destroy plugin" << endl;
         NPSavedData *saved = 0;
-#if 0
-// Disabled for 2.2 release since it causes nsplugin to crash when
-// used with Qt linked with libGL.  This will create some sort of
-// memory leak.. but better a leak in some cases than a constantly
-// crashing nspluginviewer
+
+        // As of 7/31/01, nsplugin crashes when used with Qt
+        // linked with libGL if the destroy function is called.
+        // A patch on that date hacked out the following call.
+        // On 11/17/01, Jeremy White has reenabled this destroy
+        // in a an attempt to better understand why this crash
+        // occurs so that the real problem can be found and solved.
+        // It's possible that a flaw in the SetWindow call
+        // caused the crash and it is now fixed.
         if ( _pluginFuncs.destroy )
             _pluginFuncs.destroy( _npp, &saved );
-#endif
+
         if (saved && saved->len && saved->buf)
           g_NPN_MemFree(saved->buf);
         if (saved)
@@ -511,36 +515,31 @@ int NSPluginInstance::setWindow(int remove)
 
    kdDebug(1431) << "-> NSPluginInstance::setWindow" << endl;
 
-   NPWindow win;
-   NPSetWindowCallbackStruct win_info;
-
-   win.x = 0;
-   win.y = 0;
-   win.height = _height;
-   win.width = _width;
-   win.type = NPWindowTypeWindow;
+   _win.x = 0;
+   _win.y = 0;
+   _win.height = _height;
+   _win.width = _width;
+   _win.type = NPWindowTypeWindow;
 
    // Well, the docu says sometimes, this is only used on the
    // MAC, but sometimes it says it's always. Who knows...
-   NPRect clip;
-   clip.top = 0;
-   clip.left = 0;
-   clip.bottom = _height;
-   clip.right = _width;
-   win.clipRect = clip;
+   _win.clipRect.top = 0;
+   _win.clipRect.left = 0;
+   _win.clipRect.bottom = _height;
+   _win.clipRect.right = _width;
 
-   win.window = (void*) XtWindow(_area);
-   kdDebug(1431) << "Window ID = " << win.window << endl;
+   _win.window = (void*) XtWindow(_area);
+   kdDebug(1431) << "Window ID = " << _win.window << endl;
 
-   win_info.type = NP_SETWINDOW;
-   win_info.display = XtDisplay( _area );
-   win_info.visual = DefaultVisualOfScreen( XtScreen(_area) );
-   win_info.colormap = DefaultColormapOfScreen( XtScreen(_area) );
-   win_info.depth = DefaultDepthOfScreen( XtScreen(_area) );
+   _win_info.type = NP_SETWINDOW;
+   _win_info.display = XtDisplay( _area );
+   _win_info.visual = DefaultVisualOfScreen( XtScreen(_area) );
+   _win_info.colormap = DefaultColormapOfScreen( XtScreen(_area) );
+   _win_info.depth = DefaultDepthOfScreen( XtScreen(_area) );
 
-   win.ws_info = &win_info;
+   _win.ws_info = &_win_info;
 
-   NPError error = NPSetWindow( &win );
+   NPError error = NPSetWindow( &_win );
 
    kdDebug(1431) << "<- NSPluginInstance::setWindow = " << error << endl;
    return error;
