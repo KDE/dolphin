@@ -91,7 +91,7 @@ void KCMUserAccount::slotChangePassword()
 	if ( !bin )
 	{
 		kdDebug() << "kcm_useraccount: kdepasswd was not found." << endl;
-		KMessageBox::sorry ( this, i18n( "A program error occured, the internal "
+		KMessageBox::sorry ( this, i18n( "A program error occurred: the internal "
 			"program 'kdepasswd' could not be found. You will "
 			"not be able to change your password."));
 
@@ -206,7 +206,7 @@ void KCMUserAccount::save()
 
 			else 
 			{
-				KMessageBox::sorry( this, i18n("An error occured and your password has "
+				KMessageBox::sorry( this, i18n("An error occurred and your password has "
 							"probably not been changed. The error "
 							"message was:\n%1").arg(proc->error()));
 				kdDebug() << "ChfnProcess->exec() failed. Error code: " << ret 
