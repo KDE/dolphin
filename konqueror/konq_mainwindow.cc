@@ -983,6 +983,7 @@ void KonqMainWindow::slotOpenLocation()
 
 void KonqMainWindow::slotToolFind()
 {
+  kdDebug() << "KonqMainWindow::slotToolFind sender:" << sender()->className() << endl;
   if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
   {
     KonqDirPart * dirPart = static_cast<KonqDirPart *>(m_currentView->part());
@@ -1008,7 +1009,7 @@ void KonqMainWindow::slotToolFind()
     // Don't allow to do this twice for this view :-)
     m_paFindFiles->setEnabled(false);
   }
-  else
+  else if ( sender()->inherits( "KAction" ) ) // don't go there if called by the singleShot below
   {
       KURL url;
       if ( m_currentView && m_currentView->url().isLocalFile() )
@@ -2662,8 +2663,8 @@ void KonqMainWindow::setUpEnabled( const KURL &url )
   //kdDebug(1202) << "hasPath=" << url.hasPath() << endl;
   bool bHasUpURL = false;
 
-  if ( url.hasPath() )
-    bHasUpURL = ( url.hasPath() && url.path() != "/" && url.path()[0]=='/' );
+  bHasUpURL = ( ( url.hasPath() && url.path() != "/" && ( url.path()[0]=='/' ) )
+                || !url.query().isEmpty() /*e.g. lists.kde.org*/ );
   if ( !bHasUpURL )
     bHasUpURL = url.hasSubURL();
 
@@ -2904,7 +2905,7 @@ void KonqMainWindow::updateViewActions()
 
   m_paLinkView->setChecked( m_currentView && m_currentView->isLinkedView() );
 
-  if ( m_currentView && m_currentView->part() && 
+  if ( m_currentView && m_currentView->part() &&
        m_currentView->part()->inherits("KonqDirPart") )
   {
     KonqDirPart * dirPart = static_cast<KonqDirPart *>(m_currentView->part());
