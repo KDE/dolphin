@@ -114,6 +114,15 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
 
+    // -----
+    
+    row++;
+    cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), this );
+    lay->addMultiCellWidget(cbShowPreviewsInTips, row, row, 0, 1, Qt::AlignLeft);
+    connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
+    
+    QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if, when moving the mouse over a file, you want the "
+                                    "popup window to contain a larger preview for the file"));
     // --
 
     row++;
@@ -180,6 +189,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 void KBehaviourOptions::slotShowTips(bool b)
 {
     sbToolTip->setEnabled( b );
+    cbShowPreviewsInTips->setEnabled( b );
     fileTips->setEnabled( b );
 }
 
@@ -196,8 +206,12 @@ void KBehaviourOptions::load()
     cbShowTips->setChecked( stips );
     slotShowTips( stips );
 
+    bool showPreviewsIntips = g_pConfig->readBoolEntry( "ShowPreviewsInFileTips", true );
+    cbShowPreviewsInTips->setChecked( showPreviewsIntips );
+    
     if (!stips) sbToolTip->setEnabled( false );
-
+    if (!stips) cbShowPreviewsInTips->setEnabled( false );
+        
     sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
 
     QString val = kfmclientConfig->readEntry( QString::fromLatin1("StartNewKonqueror"),
@@ -233,6 +247,9 @@ void KBehaviourOptions::defaults()
     cbShowTips->setChecked( true );
     sbToolTip->setEnabled( true );
     sbToolTip->setValue( 6 );
+    
+    cbShowPreviewsInTips->setChecked( true );
+    cbShowPreviewsInTips->setEnabled( true );
 }
 
 void KBehaviourOptions::save()
@@ -243,6 +260,7 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "HomeURL", homeURL->text().isEmpty()? "~" : homeURL->text() );
 
     g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
+    g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
     g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
     QString val = QString::fromLatin1("Web only");

@@ -47,7 +47,6 @@ protected slots:
   void changed();
   void updateWinPixmap(bool);
   void slotShowTips(bool);
-
 private:
 
   KConfig *g_pConfig;
@@ -70,6 +69,7 @@ private:
   QLabel *fileTips;
   QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;
+  QCheckBox *cbShowPreviewsInTips;
 };
 
 #endif		// __BEHAVIOUR_H__

@@ -76,9 +76,10 @@ public:
         hide();
     }
 
-    void setOptions( bool on, int num)
+    void setOptions( bool on, bool preview, int num)
     {
         m_num = num;
+        m_preview = preview;
         m_on = on;
     }
 
@@ -103,6 +104,7 @@ private:
     QLabel*    m_textLabel;
     int        m_num;
     bool       m_on;
+    bool       m_preview;
     QPixmap    m_corners[4];
     int        m_corner;
     bool       m_filter;
@@ -128,20 +130,22 @@ void KFileTip::setItem( KFileIVI *ivi )
     if ( !text.isEmpty() ) {
         hide();
         m_textLabel -> setText( text );
-        m_iconLabel -> setPixmap(*(ivi->pixmap()));
-
+        
         killTimers();
         setFilter( true );
 
-        KFileItemList oneItem;
-        oneItem.append( ivi->item() );
-
-        m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, &(m_view->previewSettings()));
-        connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
-                m_view, SLOT( slotToolTipPreview( const KFileItem *, const QPixmap & ) ) );
-        connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
-                m_view, SLOT( slotToolTipPreviewResult() ) );            
-             
+        if (m_preview) {
+            m_iconLabel -> setPixmap(*(ivi->pixmap()));
+            KFileItemList oneItem;
+            oneItem.append( ivi->item() );
+        
+            m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, &(m_view->previewSettings()));
+            connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
+                    m_view, SLOT( slotToolTipPreview( const KFileItem *, const QPixmap & ) ) );
+            connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
+                    m_view, SLOT( slotToolTipPreviewResult() ) ); 
+        }           
+          
         startTimer( 700 );
     }
     else {
@@ -750,7 +754,8 @@ void KonqIconViewWidget::initConfig( bool bInit )
     }
 
 
-    d->pFileTip->setOptions(m_pSettings->showFileTips() && showToolTips(),
+    d->pFileTip->setOptions(m_pSettings->showFileTips() && QToolTip::isGloballyEnabled(),
+                            m_pSettings->showPreviewsInFileTips(),
                             m_pSettings->numFileTips());
 
     // Font settings

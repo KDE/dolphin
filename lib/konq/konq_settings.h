@@ -49,7 +49,7 @@ protected:
   KonqFMSettings( KConfig * config );
 
   /** Destructor. Don't delete any instance by yourself. */
-  virtual ~KonqFMSettings() {};
+  virtual ~KonqFMSettings();
 
 public:
 
@@ -80,6 +80,7 @@ public:
   const QString & homeURL() const { return m_homeURL; }
   
   bool showFileTips() const {return m_showFileTips; }
+  bool showPreviewsInFileTips() const;
   int numFileTips() const {return m_numFileTips; }
 
   // Font settings
@@ -121,8 +122,7 @@ private:
   /** Called by constructor and reparseConfiguration */
   void init( KConfig * config );
 
-  class KonqFMSettingsPrivate;
-  KonqFMSettingsPrivate * d;
+  struct KonqFMSettingsPrivate * d;
 
   // There is no default constructor. Use the provided ones.
   KonqFMSettings();

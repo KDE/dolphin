@@ -26,6 +26,15 @@
 #include <kdebug.h>
 #include <assert.h>
 
+struct KonqFMSettingsPrivate
+{
+    KonqFMSettingsPrivate() {
+        showPreviewsInFileTips = true;
+    }
+    
+    bool showPreviewsInFileTips;
+};
+
 //static
 KonqFMSettings * KonqFMSettings::s_pSettings = 0L;
 
@@ -54,7 +63,13 @@ void KonqFMSettings::reparseConfiguration()
 
 KonqFMSettings::KonqFMSettings( KConfig * config )
 {
+  d = new KonqFMSettingsPrivate;
   init( config );
+}
+
+KonqFMSettings::~KonqFMSettings()
+{
+  delete d;
 }
 
 void KonqFMSettings::init( KConfig * config )
@@ -80,6 +95,7 @@ void KonqFMSettings::init( KConfig * config )
   m_homeURL = config->readEntry("HomeURL", "~");
   
   m_showFileTips = config->readBoolEntry("ShowFileTips", true);
+  d->showPreviewsInFileTips = config->readBoolEntry("ShowPreviewsInFileTips", true);
   m_numFileTips = config->readNumEntry("FileTipsItems", 6);
 
   m_embedMap = config->entryMap( "EmbedSettings" );
@@ -114,4 +130,9 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
         return (serviceTypeGroup!="application"); // embedding is true by default except for application/*
     kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QString::fromLatin1("true");
+}
+
+bool KonqFMSettings::showPreviewsInFileTips() const 
+{
+    return d->showPreviewsInFileTips;
 }
