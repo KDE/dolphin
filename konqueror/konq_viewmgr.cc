@@ -519,18 +519,25 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
   printFullHierarchy( m_pMainWindow );
 #endif
 
-  if (m_pDocContainer == 0L) return;
-  if (m_pDocContainer->frameType() != "Tabs") return;
+  if (m_pDocContainer == 0L)
+    return;
+  if (m_pDocContainer->frameType() != "Tabs")
+    return;
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
   KonqFrameBase* currentFrame;
-  if ( tab == 0L )
-    currentFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
-  else
+  if ( tab != 0L ) {
     currentFrame = tab;
+  } else {
+    currentFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
+    if (!currentFrame) {
+      return;
+    }
+  }
 
-  if (currentFrame->widget() == tabContainer->currentPage()) setActivePart( 0L, true );
+  if (currentFrame->widget() == tabContainer->currentPage())
+    setActivePart( 0L, true );
 
   tabContainer->removeChildFrame(currentFrame);
 
@@ -541,14 +548,16 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   for ( it.toFirst(); it != 0L; ++it )
   {
-    if (it.current()==m_pMainWindow->currentView()) setActivePart( 0L, true );
+    if (it.current() == m_pMainWindow->currentView())
+      setActivePart( 0L, true );
     m_pMainWindow->removeChildView( it.current() );
     delete it.current();
   }
 
   delete currentFrame;
 
-  if (tabContainer->count() == 1) revertDocContainer();
+  if (tabContainer->count() == 1)
+    revertDocContainer();
 
 #ifndef NDEBUG
   m_pMainWindow->dumpViewList();
