@@ -803,3 +803,7 @@ KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( KDirLister *list
 
   return TopLevelItem();
 }
+
+// DO NOT REMOVE THIS INCLUDE!!!
+#include "konq_dirtree.moc"
+
