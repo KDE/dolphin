@@ -206,15 +206,6 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 
 int main(int argc, char** argv)
 {
-   {
-      KConfig cfg("kcmnspluginrc", true);
-      cfg.setGroup("Misc");
-      int v = KCLAMP(cfg.readNumEntry("Nice Level", 0), 0, 19);
-      if (v > 0) {
-         nice(v);
-      }
-   }
-
     // nspluginviewer is a helper app, it shouldn't do session management at all
    setenv( "SESSION_MANAGER", "", 1 );
 
@@ -250,6 +241,15 @@ int main(int argc, char** argv)
    kdDebug(1430) << "4 - create KApplication" << endl;
    KApplication app( argc,  argv, "nspluginviewer" );
 #endif
+
+   {
+      KConfig cfg("kcmnspluginrc", true);
+      cfg.setGroup("Misc");
+      int v = KCLAMP(cfg.readNumEntry("Nice Level", 0), 0, 19);
+      if (v > 0) {
+         nice(v);
+      }
+   }
 
    // initialize the dcop client
    kdDebug(1430) << "5 - app.dcopClient" << endl;
