@@ -147,12 +147,12 @@ public:
   void removeChildView( KonqChildView *childView );
   KonqChildView *childView( KParts::ReadOnlyPart *view );
 
-  int viewCount() { return m_mapViews.count(); }
+  int viewCount() const { return m_mapViews.count(); }
   QValueList<KParts::ReadOnlyPart *> viewList();
 
   QMap<KParts::ReadOnlyPart *, KonqChildView *> viewMap() const { return m_mapViews; }
 
-  KonqChildView *currentChildView() { return m_currentView; }
+  KonqChildView *currentChildView() const { return m_currentView; }
   KParts::ReadOnlyPart *currentView();
 
   virtual void customEvent( QCustomEvent *event );
@@ -162,7 +162,7 @@ public:
 
   /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
-  virtual QString currentTitle() { return m_title; }
+  virtual QString currentTitle() const { return m_title; }
   virtual QString currentURL();
 
   /**
@@ -177,7 +177,7 @@ public:
   void updateStatusBar() {} // to remove if we confirm we don't want that anymore
   void updateToolBarActions();
 
-  bool fullScreenMode() { return m_bFullScreen; }
+  bool fullScreenMode() const { return m_bFullScreen; }
 
 protected slots:
   void slotPartActivated( KParts::Part *part );

@@ -75,14 +75,23 @@ KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
 {
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
+  QString locationBarURL;
   KonqFrame* viewFrame = 0L;
   if( m_pMainContainer )
+  {
     viewFrame = m_pMainView->currentChildView()->frame();
+    locationBarURL = m_pMainView->currentChildView()->locationBarURL();
+  }
 
   KParts::ReadOnlyPart* view = split( viewFrame, orientation, serviceType );
 
   if( view )
-    m_pMainView->childView( view )->openURL( url );
+  {
+    KonqChildView * cv = m_pMainView->childView( view );
+    cv->openURL( url );
+    if( !locationBarURL.isEmpty() )
+      cv->setLocationBarURL( locationBarURL );
+  }
 
   return view;
 }
@@ -93,14 +102,23 @@ KParts::ReadOnlyPart* KonqViewManager::splitWindow( Qt::Orientation orientation 
 
   KURL url = m_pMainView->currentChildView()->url();
 
+  QString locationBarURL;
   KonqFrameBase* splitFrame = 0L;
   if( m_pMainContainer )
+  {
     splitFrame = m_pMainContainer->firstChild();
+    locationBarURL = m_pMainView->currentChildView()->locationBarURL();
+  }
 
   KParts::ReadOnlyPart* view = split( splitFrame, orientation );
 
   if( view )
-    m_pMainView->childView( view )->openURL( url );
+  {
+    KonqChildView * cv = m_pMainView->childView( view );
+    cv->openURL( url );
+    if( !locationBarURL.isEmpty() )
+      cv->setLocationBarURL( locationBarURL );
+  }
 
   return view;
 }
@@ -346,6 +364,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     checkBox->setChecked( passiveMode );
 
     childView->openURL( KURL( url ) );
+    childView->setLocationBarURL( url );
   }
   else if( name.find("Container") != -1 ) {
     kdDebug(1202) << "Item is Container" << endl;
