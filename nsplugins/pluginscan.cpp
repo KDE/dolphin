@@ -213,7 +213,8 @@ int tryCheck(int write_fd, const QString &absFile)
 {
     KLibrary *_handle = KLibLoader::self()->library( QFile::encodeName(absFile) );
     if (!_handle) {
-        kdDebug(1433) << " - open failed, skipping " << endl;
+        kdDebug(1433) << " - open failed with message " << 
+		         KLibLoader::self()->lastErrorMessage() << ", skipping " << endl;
         return 1;
     }
 
