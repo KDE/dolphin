@@ -31,6 +31,7 @@
 
 #include <assert.h>
 #include <kdebug.h>
+#include <kcursor.h>
 #include <kurldrag.h>
 #include <qscrollview.h>
 
@@ -348,7 +349,8 @@ void KonqView::slotEnableAction( const char * name, bool enabled )
 void KonqView::slotStarted( KIO::Job * job )
 {
   //kdDebug(1202) << "KonqView::slotStarted"  << job << endl;
-  m_bLoading = true;
+  setLoading( true );
+  frame()->unsetCursor();
 
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->updateToolBarActions();
@@ -359,6 +361,18 @@ void KonqView::slotStarted( KIO::Job * job )
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( infoMessage( KIO::Job *, const QString & ) ), this, SLOT( slotInfoMessage( KIO::Job *, const QString & ) ) );
   }
+}
+
+void KonqView::setLoading( bool b )
+{
+    if( b )
+    {
+        if( !m_bLoading )
+            frame()->setCursor( KCursor::workingCursor());
+    }
+    else
+        frame()->unsetCursor();
+    m_bLoading = b;
 }
 
 void KonqView::slotPercent( KIO::Job *, unsigned long percent )
@@ -384,7 +398,7 @@ void KonqView::slotCompleted()
 void KonqView::slotCompleted( bool hasPending )
 {
   kdDebug(1202) << "KonqView::slotCompleted" << endl;
-  m_bLoading = false;
+  setLoading( false );
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
   if ( m_pMainWindow->currentView() == this )
@@ -621,7 +635,7 @@ void KonqView::stop()
     m_pPart->closeURL();
     m_bAborted = true;
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-    m_bLoading = false;
+    setLoading( false );
   }
   if ( m_pRun )
   {

@@ -211,7 +211,7 @@ public:
 
   // True if currently loading
   bool isLoading() const { return m_bLoading; }
-  void setLoading( bool b ) { m_bLoading = b; }
+  void setLoading( bool b );
 
   // True if "locked to current location" (and their view mode, in fact)
   bool isLockedLocation() const { return m_bLockedLocation; }
