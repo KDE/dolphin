@@ -80,10 +80,9 @@ namespace KParts {
  struct URLArgs;
 };
 
+class KonqExtendedBookmarkOwner;
 
-class KonqMainWindow : public KParts::MainWindow,
-		       virtual public KBookmarkOwner,
-		       public KonqFrameContainerBase
+class KonqMainWindow : public KParts::MainWindow, public KonqFrameContainerBase
 {
   Q_OBJECT
   Q_PROPERTY( int viewCount READ viewCount )
@@ -182,11 +181,6 @@ public:
    * Reimplemented for internal reasons. The API is not affected.
    */
   virtual void show();
-
-  /// Overloaded functions of KBookmarkOwner
-  virtual void openBookmarkURL( const QString & _url );
-  virtual QString currentTitle() const;
-  virtual QString currentURL() const;
 
   /**
    * Change URL displayed in the location bar
@@ -296,6 +290,9 @@ public:
   static bool isPreloaded() { return s_preloaded; }
   static void setPreloadedWindow( KonqMainWindow* );
   static KonqMainWindow* preloadedWindow() { return s_preloadedWindow; }
+
+  QString currentTitle() const;
+  QString currentURL() const;
 
 signals:
   void viewAdded( KonqView *view );
@@ -650,6 +647,7 @@ private:
   QGuardedPtr<KonqView> m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
+  KonqExtendedBookmarkOwner *m_pBookmarksOwner;
   KActionCollection* m_bookmarksActionCollection;
   KActionCollection* m_bookmarkBarActionCollection;
 

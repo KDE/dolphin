@@ -123,6 +123,13 @@ int KonqMainWindow::s_preloadUsageCount;
 
 static int current_memory_usage();
 
+#include "konq_mainwindow_p.h"
+
+KonqExtendedBookmarkOwner::KonqExtendedBookmarkOwner(KonqMainWindow *w)
+{
+   m_pKonqMainWindow = w;
+}
+
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
@@ -165,6 +172,12 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paMoveFiles = 0L;
   m_paNewDir = 0L;
   m_bookmarkBarActionCollection = 0L;
+  KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
+  m_pBookmarksOwner = extOwner;
+  connect( extOwner, 
+           SIGNAL( signalFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ),
+           extOwner,
+           SLOT( slotFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ) );
 
   KConfig *config = KGlobal::config();
 
@@ -352,7 +365,7 @@ void KonqMainWindow::initBookmarkBar()
   if (!bar) return;
   if (m_paBookmarkBar) return;
 
-  m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), this, bar, m_bookmarkBarActionCollection, this );
+  m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), m_pBookmarksOwner, bar, m_bookmarkBarActionCollection, this );
   connect( m_paBookmarkBar,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
@@ -3266,7 +3279,7 @@ void KonqMainWindow::initActions()
   m_bookmarksActionCollection->setHighlightingEnabled( true );
   connectActionCollection( m_bookmarksActionCollection );
 
-  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
+  m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), m_pBookmarksOwner, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
@@ -3680,10 +3693,10 @@ void KonqMainWindow::disableActionsNoView()
     updateLocalPropsActions();
 }
 
-void KonqMainWindow::openBookmarkURL( const QString & url )
+void KonqExtendedBookmarkOwner::openBookmarkURL( const QString & url )
 {
   kdDebug(1202) << (QString("KonqMainWindow::openBookmarkURL(%1)").arg(url)) << endl;
-  openFilteredURL( url );
+  m_pKonqMainWindow->openFilteredURL( url );
 }
 
 void KonqMainWindow::setCaption( const QString &caption )
@@ -3713,6 +3726,11 @@ void KonqMainWindow::show()
   KParts::MainWindow::show();
 }
 
+QString KonqExtendedBookmarkOwner::currentURL() const 
+{
+   return m_pKonqMainWindow->currentURL();
+}
+
 QString KonqMainWindow::currentURL() const
 {
   if ( !m_currentView )
@@ -3729,6 +3747,33 @@ QString KonqMainWindow::currentURL() const
       }
   }
   return url;
+}
+
+void KonqExtendedBookmarkOwner::slotFillBookmarksList( KExtendedBookmarkOwner::QStringPairList & list )
+{
+  KonqFrameBase *docContainer = m_pKonqMainWindow->viewManager()->docContainer();
+  if (docContainer == 0L) return;
+  if (docContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
+
+  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  QPtrListIterator<KonqFrameBase> it( frameList );
+
+  for ( it.toFirst(); it != 0L; ++it )
+  {
+    if ( !it.current()->activeChildView() )
+      continue;
+    if( it.current()->activeChildView()->locationBarURL().isEmpty() )
+      continue;
+    list << qMakePair( it.current()->activeChildView()->caption(),
+                       it.current()->activeChildView()->url().url() );
+  }
+}
+
+QString KonqExtendedBookmarkOwner::currentTitle() const 
+{
+   return m_pKonqMainWindow->currentTitle();
 }
 
 QString KonqMainWindow::currentTitle() const
@@ -4840,6 +4885,7 @@ static int current_memory_usage()
 }
 
 #include "konq_mainwindow.moc"
+#include "konq_mainwindow_p.moc"
 
 /* vim: et sw=4 ts=4
  */
