@@ -66,7 +66,7 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
       // Someone could press reload while the listing is still in progess
       // -> move the items that are not opened yet to m_urlsToReload.
       // We don't need to check for doubled items since remove() removes
-      // all occurances.
+      // all occurrences.
       m_urlsToReload += m_urlsToOpen;
       m_urlsToOpen.clear();
    }

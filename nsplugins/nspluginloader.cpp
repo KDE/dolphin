@@ -178,7 +178,7 @@ void NSPluginLoader::scanPlugins()
           QStringList::Iterator suffix;
           for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix) {
 
-              // strip whitspaces and any preceeding '.'
+              // strip whitspaces and any preceding '.'
               QString stripped = (*suffix).stripWhiteSpace();
 
               unsigned p=0;

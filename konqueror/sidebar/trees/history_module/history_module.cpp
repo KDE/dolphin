@@ -180,7 +180,7 @@ void KonqSidebarHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
 	item->update( entry );
 
     // QListView scrolls when calling sort(), so we have to hack around that
-    // (we don't want no scrolling everytime an entry is added)
+    // (we don't want no scrolling every time an entry is added)
     KonqSidebarTree *t = tree();
     t->lockScrolling( true );
     group->sort();

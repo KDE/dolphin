@@ -1753,7 +1753,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   assert( view );
 
   // Need to update the current working directory
-  // of the completion object everytime the user
+  // of the completion object every time the user
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {

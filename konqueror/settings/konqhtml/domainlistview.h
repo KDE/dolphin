@@ -176,7 +176,7 @@ protected:
    * @param trigger triggered by which button
    * @param pDlg reference to policy dialog
    * @param copy policies object this dialog is used for changing. Derived
-   *	classes can savely cast the @p copy object to the same type they
+   *	classes can safely cast the @p copy object to the same type they
    *	returned in their createPolicies implementation.
    */
   virtual void setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,

@@ -148,7 +148,7 @@ protected:
 
   /**
    * Set to true while the dirlister is running, _if_ we asked it
-   * explicitely (openURL). If it is auto-updating, this is not set to true.
+   * explicitly (openURL). If it is auto-updating, this is not set to true.
    */
   bool m_bLoading:1;
 

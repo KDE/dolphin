@@ -195,7 +195,7 @@ private:
  * It is suitable for the global policy settings as well as for the
  * domain-specific settings.
  *
- * The difference between global and domain-specific is the existance of
+ * The difference between global and domain-specific is the existence of
  * a special inheritance option in the latter case. That way domain-specific
  * policies can inherit their value from the global policies.
  *
