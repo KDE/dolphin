@@ -40,6 +40,7 @@
 #include <klocale.h>
 #include <kivdirectoryoverlay.h>
 #include <kmessagebox.h>
+#include <kstaticdeleter.h>
 
 #include <qregexp.h>
 #include <qdatetime.h>
@@ -337,6 +338,16 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              this, SLOT( slotMouseButtonClicked(int, QIconViewItem*, const QPoint&)) );
     connect( m_pIconView, SIGNAL( contextMenuRequested(QIconViewItem*, const QPoint&)),
              this, SLOT( slotContextMenuRequested(QIconViewItem*, const QPoint&)) );
+
+    // Signals needed to implement the spring loading folders behavior
+    connect( m_pIconView, SIGNAL( held( QIconViewItem * ) ),
+             this, SLOT( slotDragHeld( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( dragEntered() ),
+             this, SLOT( slotDragEntered() ) );
+    connect( m_pIconView, SIGNAL( dragLeft() ),
+             this, SLOT( slotDragLeft() ) );
+    connect( m_pIconView, SIGNAL( dragFinished() ),
+             this, SLOT( slotDragFinished() ) );
 
     // Create the directory lister
     m_dirLister = new KDirLister( true );
@@ -702,6 +713,43 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         KMessageBox::information(0L, i18n("You must take the file out of the trash before being able to use it."));
     }
 }
+
+void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
+{
+    kdDebug() << "KonqKfmIconView::slotDragHeld()" << endl;
+
+    if ( !item )
+        return;
+
+    KFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
+
+    SpringLoadingManager::self().springLoadTrigger(this, fileItem, item);
+}
+
+void KonqKfmIconView::slotDragEntered()
+{
+    kdDebug() << "KonqKfmIconView::slotDragEntered()" << endl;
+
+    if ( SpringLoadingManager::exists() )
+        SpringLoadingManager::self().dragEntered(this);
+}
+
+void KonqKfmIconView::slotDragLeft()
+{
+    kdDebug() << "KonqKfmIconView::slotDragLeft()" << endl;
+
+    if ( SpringLoadingManager::exists() )
+        SpringLoadingManager::self().dragLeft(this);
+}
+
+void KonqKfmIconView::slotDragFinished()
+{
+    kdDebug() << "KonqKfmIconView::slotDragFinished()" << endl;
+
+    if ( SpringLoadingManager::exists() )
+        SpringLoadingManager::self().dragFinished(this);
+}
+
 
 void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoint& _global)
 {
@@ -1286,5 +1334,151 @@ void KonqKfmIconView::disableIcons( const KURL::List & lst )
 {
     m_pIconView->disableIcons( lst );
 }
+
+
+SpringLoadingManager *SpringLoadingManager::s_self = 0L;
+static KStaticDeleter<SpringLoadingManager> s_springManagerDeleter;
+
+SpringLoadingManager::SpringLoadingManager()
+    : m_startPart(0L), m_lastPart(0L)
+{
+    connect( &m_endTimer, SIGNAL( timeout() ),
+             this, SLOT( finished() ) );
+
+}
+
+SpringLoadingManager &SpringLoadingManager::self()
+{
+    if ( !s_self )
+    {
+        s_springManagerDeleter.setObject(s_self, new SpringLoadingManager());
+    }
+
+    return *s_self;
+}
+
+bool SpringLoadingManager::exists()
+{
+    return s_self!=0L;
+}
+
+
+void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
+                                             KFileItem *file,
+                                             QIconViewItem *item)
+{
+    if ( !file || !file->isDir() )
+        return;
+
+    // We start a new spring loading chain
+    if ( m_startPart==0L )
+    {
+        m_startURL = view->url();
+        m_startPart = view;
+        m_lastPart = m_startPart;
+    }
+
+    // Only the last part of the chain is allowed to trigger a spring load
+    // event (if a spring loading chain is in progress)
+    if ( view!=m_lastPart )
+        return;
+
+
+    item->setSelected( false, true );
+    view->iconViewWidget()->visualActivate(item);
+
+    KURL url = file->url();
+
+    KParts::URLArgs args;
+    file->determineMimeType();
+    if ( file->isMimeTypeKnown() )
+        args.serviceType = file->mimetype();
+    args.trustedSource = true;
+
+    if ( KonqFMSettings::settings()->alwaysNewWin() )
+    {
+        KParts::WindowArgs wargs;
+        KParts::ReadOnlyPart *new_part;
+        emit view->extension()->createNewWindow( url, args, wargs, new_part );
+
+        // The user wants one window by folder, then we keep a pointer
+        // on the created window for later use.
+        m_partsList.append(new_part);
+
+        // Only the new created part is allowed to trigger a new sping
+        // loading request
+        m_lastPart = new_part;
+    }
+    else
+    {
+        // Open the folder URL, we don't want to modify the browser
+        // history, hence the use of openURL and setLocationBarURL
+        view->openURL(url);
+        emit view->extension()->setLocationBarURL( url.prettyURL() );
+    }
+}
+
+void SpringLoadingManager::dragLeft(KonqKfmIconView */*view*/)
+{
+    // We leave a view maybe the user tries to cancel the current spring loading
+    if ( !m_startURL.isEmpty() )
+    {
+        m_endTimer.start(1000, true);
+    }
+}
+
+void SpringLoadingManager::dragEntered(KonqKfmIconView *view)
+{
+    // We enter a view involved in the spring loading chain
+    if ( !m_startURL.isEmpty()
+    &&   ( m_startPart==view || m_partsList.containsRef(view) ) )
+    {
+        m_endTimer.stop();
+    }
+}
+
+void SpringLoadingManager::dragFinished(KonqKfmIconView */*view*/)
+{
+    if ( !m_startURL.isEmpty() )
+    {
+        finished();
+    }
+}
+
+
+void SpringLoadingManager::finished()
+{
+    kdDebug() << "SpringLoadManager::finished()" << endl;
+
+    KURL url = m_startURL;
+    m_startURL = KURL();
+
+    KParts::ReadOnlyPart *part = m_startPart;
+    m_startPart = 0L;
+    m_lastPart = 0L;
+
+    KonqKfmIconView *view = static_cast<KonqKfmIconView*>(part);
+    view->openURL(url);
+    emit view->extension()->setLocationBarURL( url.prettyURL() );
+
+
+    // We close all the opened windows during the spring loading
+
+    QPtrListIterator<KParts::ReadOnlyPart> it( m_partsList );
+
+    while ( (part = it.current()) != 0 )
+    {
+        ++it;
+        part->widget()->topLevelWidget()->close(false);
+    }
+
+    m_partsList.clear();
+
+    deleteLater();
+    s_self = 0L;
+    s_springManagerDeleter.setObject(s_self, static_cast<SpringLoadingManager*>(0L));
+}
+
+
 
 #include "konq_iconview.moc"

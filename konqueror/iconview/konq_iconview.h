@@ -25,6 +25,7 @@
 #include <konq_dirpart.h>
 #include <kmimetyperesolver.h>
 #include <qptrdict.h>
+#include <qptrlist.h>
 #include <kfileivi.h>
 
 class KonqPropsView;
@@ -99,6 +100,12 @@ protected slots:
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
   void slotSelectionChanged();
+
+  // Slot used for spring loading folders
+  void slotDragHeld( QIconViewItem *item );
+  void slotDragEntered();
+  void slotDragLeft();
+  void slotDragFinished();
 
   // slots connected to the directory lister - or to the kfind interface
   // They are reimplemented from KonqDirPart.
@@ -248,5 +255,39 @@ private:
   KonqKfmIconView *m_iconView;
   bool m_bSaveViewPropertiesLocally;
 };
+
+class SpringLoadingManager : public QObject
+{
+    Q_OBJECT
+private:
+    SpringLoadingManager();
+    static SpringLoadingManager *s_self;
+public:
+    static SpringLoadingManager &self();
+    static bool exists();
+
+    void springLoadTrigger(KonqKfmIconView *view, KFileItem *file,
+                           QIconViewItem *item);
+
+    void dragLeft(KonqKfmIconView *view);
+    void dragEntered(KonqKfmIconView *view);
+    void dragFinished(KonqKfmIconView *view);
+
+private slots:
+    void finished();
+
+private:
+    KURL m_startURL;
+    KParts::ReadOnlyPart *m_startPart;
+
+    // Timer allowing to know the user wants to abort the spring loading
+    // and go back to his start url (closing the opened window if needed)
+    QTimer m_endTimer;
+
+    // Only useful when the user settings force one window by folder
+    KParts::ReadOnlyPart *m_lastPart; // Last opened part in the chain
+    QPtrList<KParts::ReadOnlyPart> m_partsList; // All opened parts in the chain
+};
+
 
 #endif
