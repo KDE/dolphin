@@ -70,21 +70,11 @@
   <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>
+  <Separator/> 
+  <Action name="configurekeys"/>
+  <Action name="configuretoolbars"/>
   <Separator/>
-  <Menu name="configure" icon="configure"><text>&amp;Configure</text>
-    <Action name="configurefilemanager"/>
-    <Action name="configurefiletypes"/>
-    <Separator/>
-    <Action name="configurebrowser"/>
-    <Action name="configureebrowsing"/>
-    <Action name="configurecookies"/>
-    <Action name="configureproxies"/>
-    <Action name="configurecrypto"/>
-    <Action name="configureuseragent"/>
-    <Separator/>
-    <Action name="configurekeys"/>
-    <Action name="configuretoolbars"/>
-  </Menu>
+  <Action name="configure"/>
  </Menu>
  <Menu name="window" append="settings_merge"><text>&amp;Window</text>
   <Action name="splitviewh"/>

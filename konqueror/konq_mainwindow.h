@@ -246,14 +246,7 @@ public slots:
   void slotGoTemplates();
   void slotGoAutostart();
 
-  void slotConfigureFileManager();
-  void slotConfigureFileTypes();
-  void slotConfigureBrowser();
-  void slotConfigureEBrowsing();
-  void slotConfigureCookies();
-  void slotConfigureProxies();
-  void slotConfigureCrypto();
-  void slotConfigureUserAgent();
+  void slotConfigure();
   void slotConfigureKeys();
   void slotConfigureToolbars();
 

@@ -1156,44 +1156,9 @@ void KonqMainWindow::slotGoAutostart()
   KonqMisc::createSimpleWindow( KGlobalSettings::autostartPath() );
 }
 
-void KonqMainWindow::slotConfigureFileManager()
+void KonqMainWindow::slotConfigure()
 {
-  KRun::runCommand( "kcmshell kcmkonq", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureFileTypes()
-{
-  KRun::runCommand( "kcmshell filetypes", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureBrowser()
-{
-  KRun::runCommand( "kcmshell konqhtml", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureEBrowsing()
-{
-  KRun::runCommand( "kcmshell ebrowsing", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureCookies()
-{
-  KRun::runCommand( "kcmshell cookies", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureProxies()
-{
-  KRun::runCommand( "kcmshell proxy", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureCrypto()
-{
-  KRun::runCommand( "kcmshell crypto", "kcmshell", "" );
-}
-
-void KonqMainWindow::slotConfigureUserAgent()
-{
-  KRun::runCommand( "kcmshell useragent", "kcmshell", "" );
+  KRun::runCommand( "kcmshell kcmkonq filetypes konqhtml ebrowsing cookies proxy crypto useragent", "kcmshell", "" );
 }
 
 void KonqMainWindow::slotConfigureKeys()
@@ -2481,17 +2446,7 @@ void KonqMainWindow::initActions()
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
-  // Configure submenu
-
-  new KAction( i18n( "File &Manager..." ), "kfm", 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  new KAction( i18n( "File &Associations..." ), "filetypes", 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
-
-  new KAction( i18n( "&Browser..." ), "konqueror", 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
-  new KAction( i18n( "&Internet Keywords..." ), "enhanced_browsing", 0, this, SLOT( slotConfigureEBrowsing() ), actionCollection(), "configureebrowsing" );
-  new KAction( i18n( "&Cookies..." ), "cookie", 0, this, SLOT( slotConfigureCookies() ), actionCollection(), "configurecookies" );
-  new KAction( i18n( "&Proxies..." ), "proxy", 0, this, SLOT( slotConfigureProxies() ), actionCollection(), "configureproxies" );
-  new KAction( i18n( "Cr&yptography..." ), "lock", 0, this, SLOT( slotConfigureCrypto() ), actionCollection(), "configurecrypto" );
-  new KAction( i18n( "&User Agent..." ), "agent", 0, this, SLOT( slotConfigureUserAgent() ), actionCollection(), "configureuseragent" );
+  new KAction( i18n( "&Configure..." ), "configure", 0, this, SLOT( slotConfigure() ), actionCollection(), "configure" );
 
   new KAction( i18n( "&Key Bindings..." ), "key_bindings", 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
   new KAction( i18n( "&Toolbars..." ), "style", 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
