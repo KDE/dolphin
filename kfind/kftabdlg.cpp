@@ -33,7 +33,7 @@
 #include "kftabdlg.h"
 
 #include <klocale.h>
-#define trans KLocale::klocale()
+#define trans klocale
 
 extern QList<KfFileType> *types;
 

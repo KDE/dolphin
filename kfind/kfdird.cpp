@@ -15,8 +15,8 @@
 
 #include "kfdird.h"
 
+#include <kapp.h>
 #include <klocale.h>
-#define klocale KLocale::klocale()
 
 KfDirDialog::KfDirDialog( QWidget *parent, const char *name, bool modal )
     : QDialog( parent, name, modal )

@@ -23,7 +23,7 @@
 #include "kfind.h"
 #include "kfindtop.h"
 #include <klocale.h>
-#define trans KLocale::klocale()
+#define trans klocale
 
 #include "version.h" 
 

@@ -42,7 +42,7 @@ extern QList<KfFileType> *types;
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
-#define trans KLocale::klocale()
+#define trans klocale
 
 KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog( parent, name) 
   {

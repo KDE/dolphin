@@ -23,7 +23,9 @@ int main( int argc, char ** argv )
 //      default_font.setRawMode( TRUE );
 //      QApplication::setFont(default_font );
      
-    (void)signal(SIGCHLD, SIG_DFL);
+
+// Kalle Dalheimer, 31.08.97: no longer needed, now handled by KProcess
+//    (void)signal(SIGCHLD, SIG_DFL);
 
      //Scan for saving options in kfind resource file
      saving = new KfSaveOptions();
