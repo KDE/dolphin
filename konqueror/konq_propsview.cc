@@ -112,7 +112,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 {
   // Revert to default setting first
   m_bgPixmap = m_pDefaultProps->m_bgPixmap;
-  m_bgColor = m_pDefaultProps->m_bgColor;
+  m_bgColor = KonqFMSettings::settings()->bgColor();
   // Check for .directory
   KURL u ( dir );
   u.addPath(".directory");

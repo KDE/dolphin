@@ -270,7 +270,6 @@ private:
   KonqHistoryAction *m_paUp;
   KonqHistoryAction *m_paBack;
   KonqHistoryAction *m_paForward;
-  KAction *m_paHome;
 
   KAction *m_paSaveSettings;
   KAction *m_paSaveLocalProperties;
