@@ -26,6 +26,7 @@
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
+#include <qtooltip.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 #include <qvbuttongroup.h>
@@ -49,12 +50,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                              KDialog::spacingHint() );
 
-  QHBoxLayout* hlay = new QHBoxLayout;
-  hlay->setSpacing( KDialog::spacingHint() );
-  hlay->setMargin( 0 );
+  //mainLayout->setAutoAdd (true);
 
   // Send User-agent info ?
   cb_sendUAString = new QCheckBox( i18n("Send browser &identification"), this );
+  cb_sendUAString->setSizePolicy (cb_sendUAString->sizePolicy().verData(),
+                                  QSizePolicy::Minimum);
   QString wtstr = i18n("<qt>If unchecked, no identification information about "
                        "your browser will be sent to sites you visit while "
                        "browsing."
@@ -66,114 +67,79 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
                        "remote sites as shown below in <b>bold</b>.</qt>");
   QWhatsThis::add( cb_sendUAString, wtstr );
 
-  hlay->addWidget( cb_sendUAString );
-
-  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
-                                         QSizePolicy::Minimum );
-  hlay->addItem( spacer );
-  mainLayout->addLayout( hlay );
+  mainLayout->addWidget (cb_sendUAString);
 
   // Default User-agent customization.
   bg_default = new QButtonGroup( i18n("Customize Default Identification"), this );
-  // vlay->setStretchFactor( bg_default, 0 );
-  QGridLayout *bg_grid = new QGridLayout( bg_default, 7, 2,
+  QGridLayout *bg_grid = new QGridLayout( bg_default, 7, 1,
                                           KDialog::marginHint(),
                                           KDialog::spacingHint() );
   bg_grid->addRowSpacing(0, fontMetrics().lineSpacing());
-  bg_grid->setColStretch(0, 0);
-  bg_grid->setColStretch(1, 2);
-  bg_grid->addColSpacing(0, 3*KDialog::spacingHint() );
   wtstr = i18n("Check any one of the following boxes to modify the level of "
                "information that should be included in the default browser "
                "identification shown above in <b>bold</b>.");
   QWhatsThis::add( bg_default, wtstr );
+
   lb_default = new KLineEdit( bg_default );
   lb_default->setReadOnly( true );
   lb_default->setFrameShape( QFrame::Box );
   lb_default->setFrameShadow( QFrame::Raised );
   lb_default->setLineWidth( 0 );
   lb_default->setMidLineWidth( 0 );
+
   QFont f = lb_default->font();
   f.setBold( true );
   lb_default->setFont( f );
-  bg_grid->addMultiCellWidget (lb_default, 1, 1, 0, 1);
+
+  bg_grid->addWidget( lb_default, 1, 0 );
+  bg_grid->addRowSpacing( 1, fontMetrics().lineSpacing() );
+
   wtstr = i18n("This is the default identification sent to remote sites "
                "during browsing. You can modify it using the checkboxes "
                "below.");
   QWhatsThis::add( lb_default, wtstr );
 
   // Operating system ...
-  hlay = new QHBoxLayout;
-  hlay->setSpacing( KDialog::spacingHint() );
-  hlay->setMargin( 0 );
-
   cb_showOS = new QCheckBox( i18n("Add operating s&ystem name"), bg_default);
+  cb_showOS->setSizePolicy (cb_showOS->sizePolicy().verData(), QSizePolicy::Minimum);
   wtstr = i18n("Check this box to add your <code>operating system name</code> "
                "to the default identification string.");
   QWhatsThis::add( cb_showOS, wtstr );
-  hlay->addWidget( cb_showOS );
-  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-  hlay->addItem( spacer );
-  bg_grid->addMultiCellLayout( hlay, 2, 2, 0, 1 );
+  bg_grid->addWidget( cb_showOS, 2, 0 );
 
   // Operating system version...
-  hlay = new QHBoxLayout;
-  hlay->setSpacing( KDialog::spacingHint() );
-  hlay->setMargin( 0 );
-
   cb_showOSV = new QCheckBox( i18n("Add operating system &version"), bg_default );
+  cb_showOSV->setSizePolicy (cb_showOSV->sizePolicy().verData(), QSizePolicy::Minimum);
   cb_showOSV->setEnabled( false );
+
   wtstr = i18n("Check this box to add your <code>operating system version "
                "number</code> to the default identification string.");
   QWhatsThis::add( cb_showOSV, wtstr );
-  hlay->addWidget( cb_showOSV );
-  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-  hlay->addItem( spacer );
-  bg_grid->addLayout( hlay, 3, 1 );
+  bg_grid->addWidget( cb_showOSV, 3, 0 );
 
   // Platform name...
-  hlay = new QHBoxLayout;
-  hlay->setSpacing( KDialog::spacingHint() );
-  hlay->setMargin( 0 );
-
   cb_showPlatform = new QCheckBox( i18n("Add &platform name"), bg_default );
-
+  cb_showPlatform->setSizePolicy (cb_showPlatform->sizePolicy().verData(), QSizePolicy::Minimum);
   wtstr = i18n("Check this box to add your <code>platform</code> to the default "
                "identification string.");
   QWhatsThis::add( cb_showPlatform, wtstr );
-  hlay->addWidget( cb_showPlatform );
-  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-  hlay->addItem( spacer );
-  bg_grid->addMultiCellLayout( hlay, 4, 4, 0, 1 );
+  bg_grid->addWidget( cb_showPlatform, 4, 0 );
 
   // Processor type...
-  hlay = new QHBoxLayout;
-  hlay->setSpacing( KDialog::spacingHint() );
-  hlay->setMargin( 0 );
-
   cb_showMachine = new QCheckBox( i18n("Add &machine (processor) type"), bg_default );
+  cb_showMachine->setSizePolicy (cb_showMachine->sizePolicy().verData(), QSizePolicy::Minimum);
   wtstr = i18n("Check this box to add your <code>machine or processor type"
                "</code> to the default identification string.");
   QWhatsThis::add( cb_showMachine, wtstr );
-  hlay->addWidget( cb_showMachine );
-  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-  hlay->addItem( spacer );
-  bg_grid->addMultiCellLayout( hlay, 5, 5, 0, 1 );
+  bg_grid->addWidget( cb_showMachine, 5, 0 );
 
   // Language Setting...
-  hlay = new QHBoxLayout;
-  hlay->setSpacing( KDialog::spacingHint() );
-  hlay->setMargin( 0 );
-
   cb_showLanguage = new QCheckBox( i18n("Add yo&ur language setting"), bg_default );
+  cb_showLanguage->setSizePolicy (cb_showLanguage->sizePolicy().verData(), QSizePolicy::Minimum);
   wtstr = i18n("Check this box to add your language settings to the default "
                "identification string.");
   QWhatsThis::add( cb_showLanguage, wtstr );
-  hlay->addWidget( cb_showLanguage );
-  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-  hlay->addItem( spacer );
-  bg_grid->addMultiCellLayout( hlay, 6, 6, 0, 1 );
-
+  bg_grid->addWidget( cb_showLanguage, 6, 0 );
 
   mainLayout->addWidget( bg_default );
 
@@ -221,7 +187,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   vbox->setSpacing( KDialog::spacingHint() );
   pb_add = new QPushButton( i18n("&New..."), vbox );
   QWhatsThis::add( pb_add, i18n("Add browser identification for a specific site.") );
-  
+
   pb_change = new QPushButton( i18n("Chan&ge..."), vbox );
   pb_change->setEnabled( false );
   QWhatsThis::add( pb_change, i18n("Change the selected identifier.") );
@@ -238,7 +204,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   pb_import = new QPushButton( i18n("Import..."), vbox );
   pb_import->hide();
   QWhatsThis::add( pb_import, i18n("Import pre-packaged site/domain specific identifiers") );
-  
+
   pb_export = new QPushButton( i18n("Export..."), vbox );
   pb_export->hide();
   QWhatsThis::add( pb_export, i18n("Export pre-packaged site/domain specific identifiers" ) );
@@ -268,10 +234,10 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   connect( cb_sendUAString, SIGNAL(toggled(bool)),
            SLOT(changeSendUAString(bool)) );
   connect( cb_sendUAString, SIGNAL(clicked()), SLOT(changeSendUAString()) );
-  
-  connect(bg_default, SIGNAL(clicked(int)), 
+
+  connect(bg_default, SIGNAL(clicked(int)),
            SLOT(changeDefaultUAModifiers(int)));
-  
+
   connect( lv_siteUABindings, SIGNAL(selectionChanged()),
            SLOT(selectionChanged()) );
   connect( lv_siteUABindings, SIGNAL(doubleClicked (QListViewItem *)),
@@ -281,9 +247,9 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
 
   connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
   connect( pb_change, SIGNAL( clicked() ), SLOT( changePressed() ) );
-  connect( pb_delete, SIGNAL( clicked() ), SLOT( deletePressed() ) );  
+  connect( pb_delete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
   connect( pb_deleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
-   
+
   load();
 }
 
@@ -322,7 +288,7 @@ void UserAgentOptions::load()
   bool b = m_config->readBoolEntry("SendUserAgent", true);
   cb_sendUAString->setChecked( b );
   m_ua_keys = m_config->readEntry("UserAgentKeys", DEFAULT_USER_AGENT_KEYS).lower();
-  lb_default->setText( KProtocolManager::defaultUserAgent( m_ua_keys ) );
+  lb_default->setSqueezedText( KProtocolManager::defaultUserAgent( m_ua_keys ) );
   cb_showOS->setChecked( m_ua_keys.contains('o') );
   cb_showOSV->setChecked( m_ua_keys.contains('v') );
   cb_showOSV->setEnabled( m_ua_keys.contains('o') );
@@ -347,7 +313,7 @@ void UserAgentOptions::defaults()
 {
   lv_siteUABindings->clear();
   m_ua_keys = DEFAULT_USER_AGENT_KEYS;
-  lb_default->setText( KProtocolManager::defaultUserAgent(m_ua_keys) );
+  lb_default->setSqueezedText( KProtocolManager::defaultUserAgent(m_ua_keys) );
   cb_showOS->setChecked( m_ua_keys.contains('o') );
   cb_showOSV->setChecked( m_ua_keys.contains('v') );
   cb_showOSV->setEnabled( m_ua_keys.contains('o') );
@@ -575,7 +541,7 @@ void UserAgentOptions::changeDefaultUAModifiers( int )
   QString modVal = KProtocolManager::defaultUserAgent( m_ua_keys );
   if ( lb_default->text() != modVal )
   {
-    lb_default->setText(modVal);
+    lb_default->setSqueezedText(modVal);
     changed( true );
   }
 }

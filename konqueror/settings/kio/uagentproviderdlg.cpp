@@ -78,6 +78,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   label = new QLabel( i18n("Use the following &identity:"), vbox );
   m_cbIdentity = new KComboBox( false, vbox );
   m_cbIdentity->setInsertionPolicy( QComboBox::AtBottom );
+  m_cbIdentity->setFixedWidth( m_cbIdentity->fontMetrics().width('W') * 20 );
   label->setBuddy( m_cbIdentity );
   m_cbIdentity->setMinimumWidth( m_cbIdentity->fontMetrics().width('W') * 30 );
   connect ( m_cbIdentity, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)) );
