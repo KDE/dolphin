@@ -192,10 +192,7 @@ void KonqDirTreeModule::openSubFolder( KonqTreeItem *item )
     else if ( ! m_lstPendingOpenings.contains( item ) )
         m_lstPendingOpenings.append( item );
 
-    if ( item->isTopLevelItem() ) // No animation for toplevel items (breaks the icon)
-        return;
-
-    //startAnimation( item, "kde" );
+    m_pTree->startAnimation( item );
 }
 
 void KonqDirTreeModule::listDirectory( KonqTreeItem *item )
@@ -251,18 +248,6 @@ void KonqDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 
     kdDebug(1201) << "KonqDirTreeModule::slotDeleteItem( " << fileItem->url().url(-1) << " )" << endl;
 
-    /* No, thanks the slow method isn't what we want ;)
-    QListViewItemIterator it( m_item );
-    for (; it.current(); ++it )
-    {
-        if ( static_cast<KonqDirTreeItem *>( it.current() )->fileItem() == fileItem )
-        {
-            //      kdDebug(1201) << "removing " << item->url().url() << endl;
-            delete it.current();
-            return;
-        }
-    }*/
-
     // All items are in m_dictSubDirs, so look it up fast
     KonqTreeItem * item = m_dictSubDirs[ fileItem->url().url(-1) ];
     ASSERT(item);
@@ -316,39 +301,8 @@ void KonqDirTreeModule::slotListingStopped()
         /// ### TODO followURL( m_selectAfterOpening );
         m_selectAfterOpening = KURL();
     }
-#if 0
-    QMap<KURL, QListViewItem *>::Iterator oIt = m_mapCurrentOpeningFolders.find( url );
-    if ( oIt != m_mapCurrentOpeningFolders.end() )
-    {
-        oIt.data()->setPixmap( 0, m_folderPixmap );
 
-        m_mapCurrentOpeningFolders.remove( oIt );
-
-        if ( m_mapCurrentOpeningFolders.count() == 0 )
-            m_animationTimer->stop();
-    }// else kdDebug(1201) << url.prettyURL() << "not found in m_mapCurrentOpeningFolders" << endl;
-#endif
+    m_pTree->stopAnimation( item );
 }
-
-/*
-KonqTreeItem * KonqDirTreeModule::findDir( const KURL &_url )
-{
-    // Heavily copied from KonqTreeViewWidget
-    QString url = _url.url(-1);
-    if ( m_lasttvd && urlcmp( m_lasttvd->url(-1), url, true, true ) )
-        return m_lasttvd;
-
-    QDictIterator<KonqTreeItem> it( m_dictSubDirs );
-    for( ; it.current(); ++it )
-    {
-        kdDebug(1201) << it.current()->externalURL().url(-1) << endl;
-        if ( urlcmp( it.current()->externalURL().url(-1), url, true, true ) )
-        {
-            m_lasttvd = it.current();
-            return it.current();
-        }
-    }
-    return 0L;
-}*/
 
 #include "dirtree_module.moc"

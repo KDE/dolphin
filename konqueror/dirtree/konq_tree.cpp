@@ -55,9 +55,7 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
 
     m_part = parent;
 
-    m_animationCounter = 1;
     m_animationTimer = new QTimer( this );
-
     connect( m_animationTimer, SIGNAL( timeout() ),
              this, SLOT( slotAnimation() ) );
 
@@ -101,9 +99,7 @@ void KonqTree::clearTree()
     for ( KonqTreeModule * module = m_lstModules.first() ; module ; module = m_lstModules.next() )
         module->clearAll();
     m_topLevelItems.clear();
-#if 0
     m_mapCurrentOpeningFolders.clear();
-#endif
     clear();
     setRootIsDecorated( true );
 }
@@ -298,22 +294,6 @@ void KonqTree::slotMouseButtonPressed(int _button, QListViewItem* _item, const Q
         }
 }
 
-void KonqTree::slotAnimation()
-{
-#if 0
-    QPixmap gearPixmap = SmallIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqTreeFactory::instance() );
-
-    MapCurrentOpeningFolders::ConstIterator it = m_mapCurrentOpeningFolders.begin();
-    MapCurrentOpeningFolders::ConstIterator end = m_mapCurrentOpeningFolders.end();
-    for (; it != end; ++it )
-        it.key()->setPixmap( 0, gearPixmap );
-
-    m_animationCounter++;
-    if ( m_animationCounter == 7 )
-        m_animationCounter = 1;
-#endif
-}
-
 void KonqTree::slotAutoOpenFolder()
 {
     m_autoOpenTimer->stop();
@@ -505,7 +485,7 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     else { // defaulting to Directory module
 	module = new KonqDirTreeModule( this );
     }
-	
+
     /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...
 #warning TODO
 
@@ -528,16 +508,40 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
 }
 
-void KonqTree::startAnimation( KonqTreeItem * item, const char * iconBaseName )
+void KonqTree::slotAnimation()
 {
-    // TODO
+    MapCurrentOpeningFolders::Iterator it = m_mapCurrentOpeningFolders.begin();
+    MapCurrentOpeningFolders::Iterator end = m_mapCurrentOpeningFolders.end();
+    for (; it != end; ++it )
+    {
+        uint & iconNumber = it.data().iconNumber;
+        QString icon = QString::fromLatin1( it.data().iconBaseName ).append( QString::number( iconNumber ) );
+        it.key()->setPixmap( 0, SmallIcon( icon, KonqTreeFactory::instance() ) );
+
+        iconNumber++;
+        if ( iconNumber > it.data().iconCount )
+            iconNumber = 1;
+    }
+}
+
+
+void KonqTree::startAnimation( KonqTreeItem * item, const char * iconBaseName, uint iconCount )
+{
+    m_mapCurrentOpeningFolders.insert( item, AnimationInfo( iconBaseName, iconCount, *item->pixmap(0) ) );
     if ( !m_animationTimer->isActive() )
         m_animationTimer->start( 50 );
 }
 
 void KonqTree::stopAnimation( KonqTreeItem * item )
 {
-
+    MapCurrentOpeningFolders::Iterator it = m_mapCurrentOpeningFolders.find(item);
+    if ( it != m_mapCurrentOpeningFolders.end() )
+    {
+        item->setPixmap( 0, it.data().originalPixmap );
+        m_mapCurrentOpeningFolders.remove( item );
+    }
+    if (m_mapCurrentOpeningFolders.isEmpty())
+        m_animationTimer->stop();
 }
 
 #include "konq_tree.moc"

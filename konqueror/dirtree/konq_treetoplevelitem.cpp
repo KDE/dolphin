@@ -120,7 +120,7 @@ QDragObject * KonqTreeTopLevelItem::dragObject( QWidget * parent, bool move )
 
 void KonqTreeTopLevelItem::middleButtonPressed()
 {
-    emit tree()->part()->extension()->openURLRequest( externalURL() );
+    emit tree()->part()->extension()->createNewWindow( externalURL() );
 }
 
 void KonqTreeTopLevelItem::rightButtonPressed()

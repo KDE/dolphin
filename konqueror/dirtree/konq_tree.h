@@ -49,7 +49,7 @@ public:
      */
     KonqTreeModule * currentModule() const;
 
-    void startAnimation( KonqTreeItem * item, const char * iconBaseName );
+    void startAnimation( KonqTreeItem * item, const char * iconBaseName = "kde", uint iconCount = 6 );
     void stopAnimation( KonqTreeItem * item );
 
     // Reimplemented from KDirNotify
@@ -93,14 +93,20 @@ private:
 
     KonqTreePart *m_part;
 
-#if 0
-    typedef QMap<KonqTreeItem *, QString> MapCurrentOpeningFolders;
+    struct AnimationInfo
+    {
+        AnimationInfo( const char * _iconBaseName, uint _iconCount, const QPixmap & _originalPixmap )
+            : iconBaseName(_iconBaseName), iconCount(_iconCount), iconNumber(1), originalPixmap(_originalPixmap) {}
+        AnimationInfo() : iconCount(0) {}
+        QCString iconBaseName;
+        uint iconCount;
+        uint iconNumber;
+        QPixmap originalPixmap;
+    };
+    typedef QMap<KonqTreeItem *, AnimationInfo> MapCurrentOpeningFolders;
     MapCurrentOpeningFolders m_mapCurrentOpeningFolders;
-#endif
 
     QTimer *m_animationTimer;
-
-    int m_animationCounter;
 
     QPoint m_dragPos;
     bool m_bDrag;
