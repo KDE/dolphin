@@ -43,6 +43,8 @@
 #include "kwritemain.h"
 #include "kwritemain.moc"
 
+#include "../part/katefiledialog.h"
+
 // StatusBar field IDs
 #define ID_LINE_COLUMN 1
 #define ID_INS_OVR 2
@@ -188,7 +190,14 @@ void TopLevel::slotNew()
 
 void TopLevel::slotOpen()
 {
-  slotOpen( KFileDialog::getOpenURL(QString::null, QString::null, this, i18n ("Open File")) );
+  KateFileDialog *dialog = new KateFileDialog (QString::null,kateView->doc()->encoding(), this, i18n ("Open File"));
+	KateFileDialogData *data = dialog->exec ();
+
+	if (data == 0L)
+	  return;
+
+	encoding = data->encoding;
+  slotOpen( data->url );
 }
 
 void TopLevel::slotOpen( const KURL& url )
@@ -198,12 +207,16 @@ void TopLevel::slotOpen( const KURL& url )
   if (kateView->doc()->isModified() || !kateView->doc()->url().isEmpty())
   {
     TopLevel *t = new TopLevel();
+		t->kateView->doc()->setEncoding(encoding);
     t->readConfig();
     t->init();
     t->loadURL(url);
   }
   else
+	{
+	  kateView->doc()->setEncoding(encoding);
     loadURL(url);
+  }
 }
 
 void TopLevel::newView()

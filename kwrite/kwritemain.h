@@ -106,6 +106,9 @@ class TopLevel : public KParts::MainWindow
     virtual void readProperties(KConfig *);
     virtual void saveProperties(KConfig *);
     virtual void saveGlobalProperties(KConfig *);
+		
+	private:
+	  QString encoding;
 };
 
 #endif
