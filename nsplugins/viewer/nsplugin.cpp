@@ -810,6 +810,7 @@ static void resizeWidgetTree(Window w, int width, int height) {
          XResizeWindow(qt_xdisplay(), children[i], width, height);
          resizeWidgetTree(children[i], width, height);
       }
+      XFree(children);
    }
 
 }
