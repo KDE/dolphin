@@ -484,6 +484,9 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
+  int width = m_pMainWindow->width();
+  int height = m_pMainWindow->height();
+
   KonqFrameBase* currentFrame;
   if ( tab == 0L )
     currentFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
@@ -514,6 +517,8 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
   mainWindow->viewManager()->setDocContainer( mainWindow->childFrame() );
 
   mainWindow->enableAllActions( true );
+
+  mainWindow->resize( width, height );
 
   mainWindow->activateChild();
 
