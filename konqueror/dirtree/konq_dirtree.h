@@ -2,7 +2,7 @@
 #ifndef __konq_dirtree_h__
 #define __konq_dirtree_h__
 
-#include <kbrowser.h>
+#include <kparts/browserextension.h>
 #include <kurl.h>
 #include <kuserpaths.h>
 

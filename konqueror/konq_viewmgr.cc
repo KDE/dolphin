@@ -17,7 +17,7 @@
 
 */
 
-#include <kbrowser.h>
+#include <kparts/browserextension.h>
 #include "konq_viewmgr.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"

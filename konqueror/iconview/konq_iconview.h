@@ -19,7 +19,7 @@
 #ifndef __konq_iconview_h__
 #define __konq_iconview_h__
 
-#include <kbrowser.h>
+#include <kparts/browserextension.h>
 #include <konqiconviewwidget.h>
 
 class KonqPropsView;

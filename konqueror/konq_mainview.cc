@@ -19,7 +19,7 @@
 
 #include <qdir.h>
 
-#include <kbrowser.h>
+#include <kparts/browserextension.h>
 #include "konq_htmlsettings.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
@@ -789,8 +789,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   }
   else
   {
-    //we should find some central place for those actions.... Perhaps move kbrowser.h to libkparts and provide the
-    //string array in kbrowser.cc? (Simon)
+    //we should find some central place for those actions.... Perhaps in kparts,
+    // as a string array? (Simon)
     m_paCut->setEnabled( false );
     m_paCopy->setEnabled( false );
     m_paPaste->setEnabled( false );
