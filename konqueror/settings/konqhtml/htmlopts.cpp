@@ -307,7 +307,7 @@ void KAppearanceOptions::load()
   defaults();
 
     m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "BaseFontSize", fSize );
+    fSize = m_pConfig->readNumEntry( "FontSize", fSize );
 	fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", fMinSize );
 
     stdName = m_pConfig->readEntry( "StandardFont", stdName );
@@ -433,7 +433,7 @@ void KAppearanceOptions::changed()
 }
 
 
-KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent, 
+KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent,
 										const char *name ) :
   KCModule( parent, name ), m_pConfig( config ), m_groupname( group )
 {
@@ -447,9 +447,9 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
         "that can be contained in HTML pages. Be aware that Java support "
         "is not yet finished. Note that, as with any browser, enabling active contents can be a security problem.") );
   connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  connect( enableJavaGloballyCB, SIGNAL( clicked() ), 
+  connect( enableJavaGloballyCB, SIGNAL( clicked() ),
 		   this, SLOT( toggleJavaControls() ) );
-  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Enable Java&Script globally" ), 
+  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Enable Java&Script globally" ),
 											  globalGB );
   QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
         "(as known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
@@ -473,19 +473,19 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 					   "the right to modify it.");
   QWhatsThis::add( domainSpecificLV, wtstr );
   QWhatsThis::add( domainSpecificGB, wtstr );
-  
+
   QVBox* domainSpecificVB = new QVBox( domainSpecificHB );
   domainSpecificVB->setSpacing( 10 );
   QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificVB );
   QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a domain-"
 									 "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
-  
+
   QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificVB );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
 										"domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-  
+
   QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificVB );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
 										"domain selected in the list box.") );
@@ -497,15 +497,15 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 										"with the exisiting ones.  Duplicate enteries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
-  
+
   QPushButton* exportDomainPB = new QPushButton( i18n("Export..."), domainSpecificVB );
   QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
 										"file.  The file, named <b>javascript_policy.tgz</b>, will be "
 										"saved to a location of your choice." ) );
-  
+
   connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
   exportDomainPB->setEnabled( false );
-  
+
   QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific JavaScript policies for any particular "
 										  "domain. To add a new policy, simply click the <i>Add...</i> "
 										  "button and supply the necessary information requested by the "
@@ -554,14 +554,14 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   pathHB->setSpacing( 10 );
   QLabel* pathLA = new QLabel( i18n( "&Path to JDK" ), pathHB );
   pathED = new QLineEdit( pathHB );
-  connect( pathED, SIGNAL( textChanged( const QString& ) ), 
+  connect( pathED, SIGNAL( textChanged( const QString& ) ),
 		   this, SLOT( changed() ) );
   pathLA->setBuddy( pathED );
   QHBox* addArgHB = new QHBox( javartGB );
   addArgHB->setSpacing( 10 );
   QLabel* addArgLA = new QLabel( i18n( "Additional Java A&rguments" ), addArgHB  );
   addArgED = new QLineEdit( javartGB );
-  connect( addArgED, SIGNAL( textChanged( const QString& ) ), 
+  connect( addArgED, SIGNAL( textChanged( const QString& ) ),
 		   this, SLOT( changed() ) );
   addArgLA->setBuddy( addArgED );
   wtstr = i18n("If 'Use user-specified Java' is selected, you'll need to enter the path to "
@@ -755,7 +755,7 @@ void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
       QCString javaAdvStr = KHTMLSettings::adviceToStr(javaAdvice);
 	  QCString javaScriptAdvStr = KHTMLSettings::adviceToStr(javaScriptAdvice);
       QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain, i18n(javaAdvStr), 
+        new QListViewItem( domainSpecificLV, domain, i18n(javaAdvStr),
 						   i18n( javaScriptAdvStr ) );
       javaDomainPolicy[index] = javaAdvStr;
       javaScriptDomainPolicy[index] = javaScriptAdvStr;
