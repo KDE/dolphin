@@ -268,7 +268,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
         {
             keybstate |= ControlMask | ShiftMask;
             action = QDropEvent::Link;
-            kdDebug() << "KonqOperations::doDrop Bookmark -> emulating Link" << endl;
+            kdDebug(1203) << "KonqOperations::doDrop Bookmark -> emulating Link" << endl;
         }
 
         KonqOperations * op = new KonqOperations(parent);
@@ -318,7 +318,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     assert(m_info); // setDropInfo should have been called before asyncDrop
     KURL dest = destItem->url();
     KURL::List lst = m_info->lst;
-    //kdDebug() << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
+    //kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
     // Check what the destination is
     if ( S_ISDIR(destItem->mode()) )
     {
@@ -394,7 +394,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
                 return;
             case QDropEvent::Link :
-                kdDebug() << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
+                kdDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
                 job = KIO::link( lst, dest );
                 setOperation( 0L, LINK, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
@@ -426,7 +426,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
         {
             // Should be a local executable
             // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
-            kdDebug() << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
+            kdDebug(1203) << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
             ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
             // Launch executable for each of the files
             KURL::List::Iterator it = lst.begin();
@@ -446,7 +446,7 @@ void KonqOperations::rename( QWidget * parent, const KFileItem * item, const QSt
 {
     KURL oldurl = item->url();
     QString newPath = oldurl.directory(false,true) + name;
-    kdDebug() << "KonqOperations::rename newPath=" << newPath << endl;
+    kdDebug(1203) << "KonqOperations::rename newPath=" << newPath << endl;
     KURL newurl(oldurl);
     newurl.setPath(newPath);
     if ( oldurl != newurl )

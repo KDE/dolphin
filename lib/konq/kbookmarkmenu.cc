@@ -77,7 +77,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
   m_bNSBookmark = m_parentAddress.isNull();
   if ( !m_bNSBookmark ) // not for the netscape bookmark
   {
-    kdDebug() << "KBookmarkMenu::KBookmarkMenu " << this << " address : " << m_parentAddress << endl;
+    kdDebug(1203) << "KBookmarkMenu::KBookmarkMenu " << this << " address : " << m_parentAddress << endl;
 
     connect( _parentMenu, SIGNAL( aboutToShow() ),
              SLOT( slotAboutToShow() ) );
@@ -118,7 +118,7 @@ void KBookmarkMenu::slotBookmarksChanged( const QString & groupAddress )
 
   if ( groupAddress == m_parentAddress )
   {
-    kdDebug() << "KBookmarkMenu::slotBookmarksChanged -> setting m_bDirty on " << groupAddress << endl;
+    kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged -> setting m_bDirty on " << groupAddress << endl;
     m_bDirty = true;
   }
   else

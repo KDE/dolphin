@@ -144,7 +144,7 @@ void KBookmarkImporter::parseBookmark( QDomElement & parentElem, QCString _text,
     QDomElement textElem = m_pDoc->createElement( "title" );
     elem.appendChild( textElem );
     textElem.appendChild( m_pDoc->createTextNode( text ) );
-    kdDebug() << "KBookmarkImporter::parseBookmark text=" << text << endl;
+    kdDebug(1203) << "KBookmarkImporter::parseBookmark text=" << text << endl;
 }
 
 ////

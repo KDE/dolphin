@@ -51,14 +51,14 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "Create &New" ), "filenew", _collec, name ), m_actionCollection( _collec ),
   menuItemsVersion( 0 )
 {
-    kdDebug() << "KNewMenu::KNewMenu " << this << endl;
+    kdDebug(1203) << "KNewMenu::KNewMenu " << this << endl;
   // Don't fill the menu yet
   // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
 }
 
 KNewMenu::~KNewMenu()
 {
-    kdDebug() << "KNewMenu::~KNewMenu " << this << endl;
+    kdDebug(1203) << "KNewMenu::~KNewMenu " << this << endl;
 }
 
 void KNewMenu::slotCheckUpToDate( )

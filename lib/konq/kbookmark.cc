@@ -134,7 +134,7 @@ bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
 
 KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url )
 {
-    kdDebug() << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
+    kdDebug(1203) << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
     QDomDocument doc = element.ownerDocument();
     QDomElement elem = doc.createElement( "bookmark" );
     element.appendChild( elem );
@@ -265,7 +265,7 @@ QString KBookmark::address() const
     }
 }
 
-static KBookmark KBookmark::standaloneBookmark( const QString & text, const KURL & url )
+KBookmark KBookmark::standaloneBookmark( const QString & text, const KURL & url )
 {
     QDomDocument doc("xbel");
     QDomElement elem = doc.createElement("xbel");

@@ -76,7 +76,7 @@ KBookmarkManager::~KBookmarkManager()
 
 void KBookmarkManager::parse()
 {
-    kdDebug() << "KBookmarkManager::parse " << m_bookmarksFile << endl;
+    kdDebug(1203) << "KBookmarkManager::parse " << m_bookmarksFile << endl;
     QFile file( m_bookmarksFile );
     if ( !file.open( IO_ReadOnly ) )
     {
@@ -158,7 +158,7 @@ void KBookmarkManager::convertToXBEL( QDomElement & group )
                     titleElem.appendChild( e.ownerDocument().createTextNode( text ) );
                 }
                 else
-                    kdDebug() << "Unknown tag " << e.tagName() << endl;
+                    kdWarning(1203) << "Unknown tag " << e.tagName() << endl;
         n = n.nextSibling();
     }
 }
@@ -177,14 +177,14 @@ void KBookmarkManager::importDesktopFiles()
     KBookmarkImporter importer( &m_doc );
     QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
     importer.import( path );
-    //kdDebug() << m_doc.toCString() << endl;
+    //kdDebug(1203) << m_doc.toCString() << endl;
 
     save();
 }
 
 bool KBookmarkManager::save()
 {
-    kdDebug() << "KBookmarkManager::save " << m_bookmarksFile << endl;
+    kdDebug(1203) << "KBookmarkManager::save " << m_bookmarksFile << endl;
     KSaveFile file( m_bookmarksFile );
 
     if ( file.status() != 0 )
@@ -214,14 +214,14 @@ KBookmarkGroup KBookmarkManager::toolbar()
 
 KBookmark KBookmarkManager::findByAddress( const QString & address )
 {
-    //kdDebug() << "KBookmarkManager::findByAddress " << address << endl;
+    //kdDebug(1203) << "KBookmarkManager::findByAddress " << address << endl;
     KBookmark result = root();
     // The address is something like /5/10/2
     QStringList addresses = QStringList::split('/',address);
     for ( QStringList::Iterator it = addresses.begin() ; it != addresses.end() ; ++it )
     {
         uint number = (*it).toUInt();
-        //kdDebug() << "KBookmarkManager::findByAddress " << number << endl;
+        //kdDebug(1203) << "KBookmarkManager::findByAddress " << number << endl;
         ASSERT(result.isGroup());
         KBookmarkGroup group = result.toGroup();
         KBookmark bk = group.first();
@@ -240,7 +240,7 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
     save();
 
     // Tell the other processes too
-    kdDebug() << "KBookmarkManager::emitChanged : broadcasting change " << group.address() << endl;
+    kdDebug(1203) << "KBookmarkManager::emitChanged : broadcasting change " << group.address() << endl;
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
     stream << group.address();
@@ -252,7 +252,7 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
 
 void KBookmarkManager::notifyCompleteChange()
 {
-    kdDebug() << "KBookmarkManager::notifyCompleteChange" << endl;
+    kdDebug(1203) << "KBookmarkManager::notifyCompleteChange" << endl;
     // The bk editor tells us we should reload everything
     // Reparse
     parse();
@@ -270,7 +270,7 @@ void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
     // Of course, if we are the emitter this is a bit stupid....
     parse();
 
-    kdDebug() << "KBookmarkManager::notifyChanged " << groupAddress << endl;
+    kdDebug(1203) << "KBookmarkManager::notifyChanged " << groupAddress << endl;
     //KBookmarkGroup group = findByAddress( groupAddress ).toGroup();
     //ASSERT(!group.isNull());
     emit changed( groupAddress );

@@ -73,7 +73,7 @@ void KonqFMSettings::init( KConfig * config )
   m_iconTransparency = config->readNumEntry( "TextpreviewIconOpacity", DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY );
   if ( m_iconTransparency < 0 || m_iconTransparency > 255 )
       m_iconTransparency = DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY;
-  
+
   // Behaviour
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
@@ -103,12 +103,12 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     }
     // 2 - in the configuration for the group if nothing was found in the mimetype
     QString serviceTypeGroup = serviceType.left(serviceType.find("/"));
-    kdDebug() << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
+    kdDebug(1203) << "KonqFMSettings::shouldEmbed : serviceTypeGroup=" << serviceTypeGroup << endl;
     if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser")
         return true; //always embed mimetype inode/* and Browser/*
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
         return true; // default is true
-    kdDebug() << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
+    kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QString::fromLatin1("true");
 }

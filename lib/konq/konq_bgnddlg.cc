@@ -31,7 +31,7 @@
 #include "konq_bgnddlg.h"
 
 
-KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile, 
+KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile,
 				KInstance *instance )
   : KDialogBase( Plain,
 		 i18n("Select background image"),
@@ -46,7 +46,7 @@ KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile,
 {
     KGlobal::dirs()->addResourceType("tiles",
                                      KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
-    kdDebug() << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
+    kdDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
     QFrame *page = plainPage();
     QLayout *layout = new QVBoxLayout( page );
     layout->setAutoAdd( true );
@@ -87,7 +87,7 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile,
 
     showSettings( pixmapFile );
 
-    connect( m_wallBox, SIGNAL( activated( int ) ), 
+    connect( m_wallBox, SIGNAL( activated( int ) ),
 	     this, SLOT( slotWallPaperChanged( int ) ) );
 
     setMinimumSize( QSize( 400, 300 ) );

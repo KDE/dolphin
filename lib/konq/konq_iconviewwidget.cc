@@ -99,7 +99,7 @@ KonqIconViewWidget::~KonqIconViewWidget()
 
 void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
 {
-    kdDebug() << "KonqIconViewWidget::slotItemRenamed" << endl;
+    kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
     KFileItem * fileItem = static_cast<KFileIVI *>(item)->item();
     KonqOperations::rename( this, fileItem, name );
 }
@@ -354,7 +354,7 @@ QDragObject * KonqIconViewWidget::dragObject()
 
 KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
-    //kdDebug() << "KonqIconViewWidget::konqDragObject" << endl;
+    //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
     // Position of the mouse in the view
@@ -367,7 +367,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         if ( it->isSelected() ) {
           QString itemURL = (static_cast<KFileIVI *>(it))->item()->url().url(0, QFont::Unicode);
-          kdDebug() << "itemURL=" << itemURL << endl;
+          kdDebug(1203) << "itemURL=" << itemURL << endl;
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
@@ -588,7 +588,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
-  //kdDebug() << "KonqIconViewWidget::contentsMousePressEvent" << endl;
+  //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_mousePos = QCursor::pos();
   m_bMousePressed = true;
   KIconView::contentsMousePressEvent( e );
@@ -613,7 +613,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
     KonqFileItem *item = ivi->item();
 
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().fileName() ) );
-    //kdDebug() << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
+    //kdDebug(1203) << "KonqIconViewWidget::slotSaveIconPositions " << item->url().fileName() << " " << it->x() << " " << it->y() << endl;
     dotDirectory.writeEntry( "X", it->x() );
     dotDirectory.writeEntry( "Y", it->y() );
     dotDirectory.writeEntry( "Exists", true );

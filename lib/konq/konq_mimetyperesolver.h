@@ -95,7 +95,7 @@ private:
 template<class IconItem, class Parent>
 inline void KonqMimeTypeResolver<IconItem, Parent>::slotProcessMimeIcons()
 {
-    //kdDebug(1202) << "KonqMimeTypeResolver::slotProcessMimeIcons() "
+    //kdDebug(1203) << "KonqMimeTypeResolver::slotProcessMimeIcons() "
     //              << m_lstPendingMimeIconItems.count() << endl;
     IconItem * item = 0L;
     int nextDelay = 0;
