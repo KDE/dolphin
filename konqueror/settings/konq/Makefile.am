@@ -27,15 +27,6 @@ data2dir = $(kde_appsdir)/Settings/System
 data3_DATA = filebrowser.desktop
 data3dir = $(kde_appsdir)/Settings/Components
 
-install-data-local: uninstall.desktop
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/virtualdesktops.desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/desktop.desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/borders.desktop
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/Desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/Desktop/filetrash.desktop
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/Desktop/desktopappearance.desktop
-
 uiserver_DIR = $(kde_includes)/kio
 
 EXTRA_DIST = $(kcm_konq_la_DATA) $(data_DATA)
