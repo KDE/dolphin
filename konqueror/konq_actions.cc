@@ -243,6 +243,10 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
              this, SIGNAL( menuAboutToShow() ) );
     connect( m_goMenu, SIGNAL( activated( int ) ),
              this, SLOT( slotActivated( int ) ) );
+    kdDebug(1202) << "m_goMenu->count()=" << m_goMenu->count() << endl;
+    // Store how many items the menu already contains.
+    // This means, the KonqBidiHistoryAction has to be plugged LAST in a menu !
+    m_firstIndex = m_goMenu->count();
     return m_goMenu->count() /* hmmm, what should this be ? */;
   }
   return KAction::plug( widget, index );
@@ -251,12 +255,8 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
 void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
 {
     kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
-    // Tricky. The first time, the menu doesn't contain history
-    // (but contains the other actions) -> store count at that point
-    if ( m_firstIndex == 0 )
-    {
+    if ( m_firstIndex == 0 ) // should never happen since done in plug
         m_firstIndex = m_goMenu->count();
-    }
     else
     { // Clean up old history (from the end, to avoid shifts)
         for ( uint i = m_goMenu->count()-1 ; i >= m_firstIndex; i-- )

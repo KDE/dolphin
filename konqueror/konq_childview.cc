@@ -323,7 +323,7 @@ void KonqChildView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
 
 void KonqChildView::slotCompleted()
 {
-  //kdDebug() << "KonqChildView::slotCompleted" << endl;
+  //kdDebug(1202) << "KonqChildView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
@@ -332,7 +332,7 @@ void KonqChildView::slotCompleted()
 
   if ( m_pMainView->currentChildView() == this )
   {
-    //kdDebug() << "updating toolbar actions" << endl;
+    //kdDebug(1202) << "updating toolbar actions" << endl;
     m_pMainView->updateToolBarActions();
   }
 }
@@ -375,7 +375,7 @@ void KonqChildView::createHistoryEntry()
     HistoryEntry * current = m_lstHistory.current();
     if (current)
     {
-      //kdDebug(1202) << "Truncating history" << endl;
+        //kdDebug(1202) << "Truncating history" << endl;
         m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
         for ( ; m_lstHistory.current() != current ; )
         {
@@ -387,6 +387,8 @@ void KonqChildView::createHistoryEntry()
     // Append a new entry
     //kdDebug(1202) << "Append a new entry" << endl;
     m_lstHistory.append( new HistoryEntry ); // made current
+    //kdDebug(1202) << "at=" << m_lstHistory.at() << " count=" << m_lstHistory.count() << endl;
+    assert( m_lstHistory.at() == (int) m_lstHistory.count() - 1 );
 }
 
 void KonqChildView::updateHistoryEntry()
@@ -397,7 +399,7 @@ void KonqChildView::updateHistoryEntry()
   assert( current ); // let's see if this happens
   if ( current == 0L) // empty history
   {
-    kdDebug(1202) << "Creating item because history is empty !" << endl;
+    kdWarning(1202) << "Creating item because history is empty !" << endl;
     current = new HistoryEntry;
     m_lstHistory.append( current );
   }
@@ -422,8 +424,11 @@ void KonqChildView::go( int steps )
   if ( m_lstHistory.count() > 0 )
     updateHistoryEntry();
 
-  //kdDebug(1202) << "go : " << steps << endl;
   int newPos = m_lstHistory.at() + steps;
+  kdDebug(1202) << "go : steps=" << steps
+                << " newPos=" << newPos
+                << " m_lstHistory.count()=" << m_lstHistory.count()
+                << endl;
   assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
   // Yay, we can move there without a loop !
   HistoryEntry *currentHistoryEntry = m_lstHistory.at( newPos ); // sets current item
@@ -547,7 +552,7 @@ void KonqChildView::sendOpenURLEvent( const KURL &url )
 
 void KonqChildView::initMetaView()
 {
-  kdDebug() << "initMetaView" << endl;
+  kdDebug(1202) << "initMetaView" << endl;
 
   static QString constr = QString::fromLatin1( "'Konqueror/MetaView' in ServiceTypes" );
 
@@ -556,7 +561,7 @@ void KonqChildView::initMetaView()
   if ( metaViewOffers.count() == 0 )
     return;
 
-  kdDebug() << "got offers!" << endl;
+  kdDebug(1202) << "got offers!" << endl;
 
   KService::Ptr service = *metaViewOffers.begin();
 
