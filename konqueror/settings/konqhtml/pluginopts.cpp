@@ -421,6 +421,7 @@ void KPluginOptions::dirNew()
 {
     m_widget->dirList->insertItem( QString::null, 0 );
     m_widget->dirList->setCurrentItem( 0 );
+    dirSelect( m_widget->dirList->selectedItem() );
     m_widget->dirEdit->setURL(QString::null);
     m_widget->dirEdit->setFocus();
     change();
