@@ -79,6 +79,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bAllowHTML = m_pMainWindow->isHTMLAllowed();
   m_lstHistory.setAutoDelete( true );
   m_bLoading = false;
+  m_bPendingRedirection = false;
   m_bPassiveMode = passiveMode;
   m_bLockedLocation = false;
   m_bLinkedView = false;
