@@ -335,6 +335,7 @@ void KonqIconViewWidget::slotOnViewport()
     if ( d->doAnimations && d->m_movie && d->pActiveItem->isAnimated() )
     {
         d->pActiveItem->setAnimated( false );
+#if 0
         // Aborting before the end of the animation ?
         if (d->m_movie->running()) {
             d->m_movie->pause();
@@ -342,6 +343,7 @@ void KonqIconViewWidget::slotOnViewport()
             kdDebug(1203) << "on viewport, blocking" << endl;
             QTimer::singleShot(300, this, SLOT(slotReenableAnimation()));
         }
+#endif
         d->pActiveItem->refreshIcon( true );
         Q_ASSERT( d->pActiveItem->state() == KIcon::DefaultState );
         //delete d->m_movie;
