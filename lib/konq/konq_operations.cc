@@ -306,7 +306,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
 {
     assert(m_info); // setDropInfo should have been called before asyncDrop
     KURL dest = destItem->url();
-    KURL::List & lst = m_info->lst;
+    KURL::List lst = m_info->lst;
     kdDebug() << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
     // Check what the destination is
     if ( S_ISDIR(destItem->mode()) )
@@ -361,6 +361,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
                 return;
             case QDropEvent::Link :
+                kdDebug() << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
                 job = KIO::link( lst, dest );
                 setOperation( 0L, LINK, lst, dest );
                 (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
