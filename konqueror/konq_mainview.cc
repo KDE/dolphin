@@ -945,6 +945,7 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
   
   if ( view )
   {
+    setLocationBarURL( view->id(), url );
     view->setKfmRun( run );
     view->setMiscURLData( reload, xOffset, yOffset );
   }
