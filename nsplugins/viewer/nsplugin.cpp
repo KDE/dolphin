@@ -90,7 +90,7 @@ void g_NPN_ForceRedraw(NPP /*instance*/)
 
 
 // invalidate rect
-void g_NPN_InvalidateRect(NPP /*instance*/, NPRect */*invalidRect*/)
+void g_NPN_InvalidateRect(NPP /*instance*/, NPRect* /*invalidRect*/)
 {
    kdDebug(1431) << "g_NPN_InvalidateRect() [unimplemented]" << endl;
 }
@@ -145,7 +145,7 @@ NPError g_NPN_DestroyStream(NPP instance, NPStream* stream,
 }
 
 
-NPError g_NPN_RequestRead(NPStream */*stream*/, NPByteRange */*rangeList*/)
+NPError g_NPN_RequestRead(NPStream* /*stream*/, NPByteRange* /*rangeList*/)
 {
    kdDebug(1431) << "g_NPN_RequestRead() [unimplemented]" << endl;
 
@@ -160,7 +160,7 @@ NPError g_NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/,
    return NPERR_GENERIC_ERROR;
 }
 
-int32 g_NPN_Write(NPP /*instance*/, NPStream */*stream*/, int32 /*len*/, void */*buf*/)
+int32 g_NPN_Write(NPP /*instance*/, NPStream* /*stream*/, int32 /*len*/, void* /*buf*/)
 {
    kdDebug(1431) << "g_NPN_Write() [unimplemented]" << endl;
 
@@ -194,8 +194,8 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
 }
 
 
-NPError g_NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*target*/,
-                    uint32 /*len*/, const char */*buf*/, NPBool /*file*/)
+NPError g_NPN_PostURL(NPP /*instance*/, const char* /*url*/, const char* /*target*/,
+                    uint32 /*len*/, const char* /*buf*/, NPBool /*file*/)
 {
    kdDebug(1431) << "g_NPN_PostURL() [unimplemented]" << endl;
 
@@ -203,8 +203,8 @@ NPError g_NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*targe
 }
 
 
-NPError g_NPN_PostURLNotify(NPP /*instance*/, const char */*url*/, const char */*target*/,
-                          uint32 /*len*/, const char */*buf*/, NPBool /*file*/, void */*notifyData*/)
+NPError g_NPN_PostURLNotify(NPP /*instance*/, const char* /*url*/, const char* /*target*/,
+                          uint32 /*len*/, const char* /*buf*/, NPBool /*file*/, void* /*notifyData*/)
 {
    kdDebug(1431) << "g_NPN_PostURL() [unimplemented]" << endl;
 
@@ -272,7 +272,7 @@ jref g_NPN_GetJavaPeer(NPP /*instance*/)
 }
 
 
-NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value*/)
+NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void* /*value*/)
 {
    kdDebug(1431) << "g_NPN_SetValue() [unimplemented]" << endl;
 
@@ -499,7 +499,7 @@ void NSPluginInstance::emitStatus(const QString &message)
 }
 
 
-void NSPluginInstance::streamFinished( NSPluginStreamBase */*strm*/ )
+void NSPluginInstance::streamFinished( NSPluginStreamBase* /*strm*/ )
 {
    kdDebug(1431) << "-> NSPluginInstance::streamFinished" << endl;
    emitStatus( QString::null );
