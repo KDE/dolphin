@@ -17,7 +17,7 @@
 
 #include <kkeydialog.h> // for ksplitlist
 #include <kcmodule.h>
-#include <kconfig.h>
+
 
 class DCOPClient;
 

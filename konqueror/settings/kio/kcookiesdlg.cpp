@@ -13,6 +13,7 @@
 #include <kmessagebox.h>
 #include <kprocess.h>
 #include <kdebug.h>
+#include <ksimpleconfig.h>
 #include <dcopclient.h>
 
 #include "kcookiesdlg.h"
@@ -370,7 +371,7 @@ void KCookiesOptions::updateDomainList()
 
 void KCookiesOptions::load()
 {
-  KConfig *g_pConfig = new KConfig("kcookiejarrc", false, false);
+  KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
 
   QString tmp;
   // Backwards compatiable reading of domain specific settings
@@ -393,17 +394,21 @@ void KCookiesOptions::load()
   updateDomainList();
   changeCookiesEnabled();
 
+  // Remove the old group - R.I.P
+  if( g_pConfig->hasGroup( "Browser Settings/HTTP" ) )
+     g_pConfig->deleteGroup( "Browser Settings/HTTP" );
+
   delete g_pConfig;
 }
 
 void KCookiesOptions::save()
 {
-  KConfig *g_pConfig = new KConfig("kcookiejarrc", false, false);
-  // Create a dcop client object to communicate with the cookiejar
-  // if it is alive :)
+  KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
+  // Create a dcop client object to communicate with the
+  // cookiejar if it is alive :)
   DCOPClient *m_dcopClient = new DCOPClient();
-
   const char *advice;
+
   g_pConfig->setGroup( "Cookie Policy" );
   g_pConfig->writeEntry( "Cookies", cb_enableCookies->isChecked() );
 
@@ -423,9 +428,7 @@ void KCookiesOptions::save()
   if( m_dcopClient->attach() )
   {
      if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy", QString::null ) )
-     {
-	kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
-     }
+		kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
   }
   else
      kdDebug(7103) << "Can't connect with the DCOP server." << endl;
