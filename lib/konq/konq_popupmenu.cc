@@ -333,7 +333,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
     KAction *actNewView = 0L;
 
-    if (showPropertiesAndFileType && isKDesktop && 
+    if (showPropertiesAndFileType && isKDesktop &&
         !kapp->authorize("editable_desktop_icons"))
     {
         showPropertiesAndFileType = false;
@@ -405,7 +405,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             addAction( "back" );
             addAction( "forward" );
             if (httpPage)
-                addGroup( "reload" ); // only show when viewing html
+                addAction( "reload" ); // only show when viewing html
             addSeparator();
         }
 
