@@ -614,7 +614,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
     if (d->bSoundPreviews && d->pSoundPlayer &&
         d->pSoundPlayer->mimeTypes().contains(
             item->item()->mimetype())
-        && KGlobalSettings::showFilePreview(item->item()->url()))
+        && KGlobalSettings::showFilePreview(item->item()->url())
+        && topLevelWidget() == kapp->activeWindow())
     {
         d->pSoundItem = item;
         d->bSoundItemClicked = false;
@@ -999,6 +1000,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
         return;
     }
 
+        kdDebug() << "\nd->pSoundPlayer = true\n\n";
     if ((d->bSoundPreviews = d->previewSettings.contains( "audio/" )) &&
         !d->pSoundPlayer)
     {
