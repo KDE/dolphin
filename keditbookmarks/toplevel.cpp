@@ -49,6 +49,8 @@
 
 #include "toplevel.h"
 
+#include "bookmarkinfo.h"
+
 CmdHistory* CmdHistory::s_self = 0;
 
 CmdHistory::CmdHistory(KActionCollection *collection) : m_commandHistory(collection) {
@@ -172,17 +174,21 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    QSplitter *vsplitter = new QSplitter(this);
    m_iSearchLineEdit = new KLineEdit(vsplitter);
-   vsplitter->setOrientation(QSplitter::Vertical);
-   vsplitter->setSizes(QValueList<int>() << 20 << 380);
+   m_iSearchLineEdit->setMinimumHeight(20);
+   m_iSearchLineEdit->setMaximumHeight(20);
 
    QSplitter *splitter = new QSplitter(vsplitter);
    ListView::createListViews(splitter);
    ListView::self()->initListViews();
    ListView::self()->setInitialAddress(address);
 
+   BookmarkInfoWidget *bkinfo = new BookmarkInfoWidget(vsplitter);
+   vsplitter->setOrientation(QSplitter::Vertical);
+   vsplitter->setSizes(QValueList<int>() << bkinfo->sizeHint().height() << 380 << bkinfo->sizeHint().height() );
+
    setCentralWidget(vsplitter);
    resize(ListView::self()->widget()->sizeHint().width()
-         + 0 /* TODO - other split view */, 400);
+         + 0 /* TODO - other split view */, 500);
 
    createActions();
    createGUI();

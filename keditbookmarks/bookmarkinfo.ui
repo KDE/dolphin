@@ -1,8 +1,8 @@
 <!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>Form1</class>
+<class>BookmarkInfoWidget</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>Form1</cstring>
+        <cstring>BookmarkInfoWidget</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -11,6 +11,20 @@
             <width>600</width>
             <height>480</height>
         </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>1</hsizetype>
+            <vsizetype>1</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
     </property>
     <property name="caption">
         <string>Form1</string>
@@ -21,8 +35,8 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>10</x>
-                <y>10</y>
+                <x>0</x>
+                <y>0</y>
                 <width>302</width>
                 <height>89</height>
             </rect>
