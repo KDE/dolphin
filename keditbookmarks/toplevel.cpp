@@ -233,7 +233,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("changeurl")->setEnabled(itemSelected && !group && !separator && !root);
     coll->action("delete")->setEnabled(itemSelected && !root);
     coll->action("newfolder")->setEnabled(itemSelected);
-    coll->action("changeicon")->setEnabled(itemSelected);
+    coll->action("changeicon")->setEnabled(itemSelected && !root && !separator);
     coll->action("insertseparator")->setEnabled(itemSelected);
     coll->action("newbookmark")->setEnabled(itemSelected);
     coll->action("sort")->setEnabled(group);
