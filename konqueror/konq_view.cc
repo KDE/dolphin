@@ -665,6 +665,7 @@ void KonqView::go( int steps )
       kdDebug(1202) << "KonqView::go(0)" << endl;
 #endif
       // [David] and you're right. And they expect that it reloads, apparently.
+      // [George] I'm going to make nspluginviewer rely on this too. :-)
       m_pMainWindow->slotReload();
       return;
   }
