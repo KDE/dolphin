@@ -306,7 +306,7 @@ void KonqAboutPage::serve( const QString& html )
     m_htmlDoc = html;
 }
 
-void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target )
+void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target, KParts::URLArgs _args )
 {
     KURL u( url );
     if ( u.protocol() == "exec" )
@@ -339,11 +339,11 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 
     else if ( url == QString::fromLatin1("config:/disable_overview") )
     {
-	if ( KMessageBox::questionYesNo( widget(), 
+	if ( KMessageBox::questionYesNo( widget(),
 					 i18n("Do you want to disable showing\n"
 					      "the Introduction in the webbrowsing profile?"),
 					 i18n("Faster startup?") )
-	     == KMessageBox::Yes ) 
+	     == KMessageBox::Yes )
 	{
 	    QString profile = locateLocal("data", "konqueror/profiles/webbrowsing");
 	    KSaveFile file( profile );
@@ -356,8 +356,8 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 	}
 	return;
     }
-    
-    KHTMLPart::urlSelected( url, button, state, target );
+
+    KHTMLPart::urlSelected( url, button, state, target, _args );
 }
 
 #include "konq_aboutpage.moc"

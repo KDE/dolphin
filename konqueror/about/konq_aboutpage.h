@@ -25,7 +25,7 @@ public:
 
 private:
     static QString loadFile( const QString& file );
-    
+
     static KInstance *s_instance;
     static QString *s_intro_html, *s_specs_html, *s_tips_html;
 };
@@ -47,7 +47,7 @@ public:
     virtual void restoreState( QDataStream &stream );
 
 protected:
-    virtual void urlSelected( const QString &url, int button, int state, const QString &target );
+    virtual void urlSelected( const QString &url, int button, int state, const QString &target, KParts::URLArgs args = KParts::URLArgs() );
 
 private:
     void serve( const QString& );
