@@ -482,7 +482,6 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 void KonqView::setIconURL( const KURL & iconURL )
 {
   KonqPixmapProvider::self()->setIconForURL( m_sLocationBarURL, iconURL );
-  if (!m_bPassiveMode) frame()->setIconURL( iconURL, 0L );
   m_bGotIconURL = true;
 }
 

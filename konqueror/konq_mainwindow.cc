@@ -2662,7 +2662,6 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 
   if ( !url.isEmpty() ) {
       setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
-      //if (m_currentView) m_currentView->setIconURL( url );
   }
 }
 
@@ -3798,8 +3797,6 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 
   if ( !url.isEmpty() )
     big = KonqPixmapProvider::self()->pixmapFor( url, KIcon::SizeMedium );
-
-  if (m_currentView) m_currentView->setIconURL( KURL(url) );
 
   KWin::setIcons( winId(), big, pix );
 }
