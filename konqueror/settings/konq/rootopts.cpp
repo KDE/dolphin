@@ -84,7 +84,11 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
+#ifndef HAVE_MNTENT_H
 #define RO_LASTROW 15   // 4 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
+#else
+#define RO_LASTROW 16 // one more for dynamic services
+#endif
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
