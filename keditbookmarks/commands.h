@@ -19,7 +19,7 @@
 #ifndef __commands_h
 #define __commands_h
 
-#include <gcommand.h>
+#include <kcommand.h>
 #include <kbookmark.h>
 
 class MoveCommand : public KCommand

@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 Werner Trobin <trobin@kde.org>
+   Copyright (C) 2000 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -17,7 +18,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "gcommand.h"
+#include "kcommand.h"
 #include <kaction.h>
 #include <kstdaction.h>
 #include <kdebug.h>
@@ -28,21 +29,21 @@ KMacroCommand::KMacroCommand( const QString & name ) : KCommand(name)
     m_commands.setAutoDelete(true);
 }
 
-void KMacroCommand::addCommand(GCommand *command)
+void KMacroCommand::addCommand(KCommand *command)
 {
     m_commands.append(command);
 }
 
 void KMacroCommand::execute()
 {
-    QListIterator<GCommand> it(m_commands);
+    QListIterator<KCommand> it(m_commands);
     for ( ; it.current() ; ++it )
         it.current()->execute();
 }
 
 void KMacroCommand::unexecute()
 {
-    QListIterator<GCommand> it(m_commands);
+    QListIterator<KCommand> it(m_commands);
     it.toLast();
     for ( ; it.current() ; --it )
         it.current()->unexecute();
@@ -51,7 +52,7 @@ void KMacroCommand::unexecute()
 
 ////////////
 
-GCommandHistory::GCommandHistory(KActionCollection * actionCollection) :
+KCommandHistory::KCommandHistory(KActionCollection * actionCollection) :
     m_present(0L), m_undoLimit(50), m_redoLimit(30), m_first(false)
 {
     m_undo = KStdAction::undo( this, SLOT( undo() ), actionCollection );
@@ -61,10 +62,10 @@ GCommandHistory::GCommandHistory(KActionCollection * actionCollection) :
     clear();
 }
 
-GCommandHistory::~GCommandHistory() {
+KCommandHistory::~KCommandHistory() {
 }
 
-void GCommandHistory::clear() {
+void KCommandHistory::clear() {
     m_undo->setEnabled(false);
     m_undo->setText(i18n("No Undo Possible"));
     m_redo->setEnabled(false);
@@ -72,7 +73,7 @@ void GCommandHistory::clear() {
     m_present = 0L;
 }
 
-void GCommandHistory::addCommand(GCommand *command, bool execute) {
+void KCommandHistory::addCommand(KCommand *command, bool execute) {
 
     if(command==0L)
         return;
@@ -89,7 +90,7 @@ void GCommandHistory::addCommand(GCommand *command, bool execute) {
         m_undo->setText(i18n("Und&o: %1").arg(m_present->name()));
         /* can't happen anymore
         if(m_commands.next()!=0) {
-            GCommand *tmp=m_commands.current();
+            KCommand *tmp=m_commands.current();
             m_redo->setEnabled(true);
             m_redo->setText(i18n("Re&do: %1").arg(tmp->name()));
         }
@@ -119,7 +120,7 @@ void GCommandHistory::addCommand(GCommand *command, bool execute) {
     }
 }
 
-void GCommandHistory::undo() {
+void KCommandHistory::undo() {
 
     m_present->unexecute();
     m_redo->setEnabled(true);
@@ -137,7 +138,7 @@ void GCommandHistory::undo() {
     emit commandExecuted();
 }
 
-void GCommandHistory::redo() {
+void KCommandHistory::redo() {
 
     if(m_first) {
         m_present->execute();
@@ -153,7 +154,7 @@ void GCommandHistory::redo() {
     m_undo->setText(i18n("Und&o: %1").arg(m_present->name()));
 
     if(m_commands.next()!=0) {
-        GCommand *tmp=m_commands.current();
+        KCommand *tmp=m_commands.current();
         m_redo->setEnabled(true);
         m_redo->setText(i18n("Re&do: %1").arg(tmp->name()));
     }
@@ -167,7 +168,7 @@ void GCommandHistory::redo() {
     emit commandExecuted();
 }
 
-void GCommandHistory::setUndoLimit(const int &limit) {
+void KCommandHistory::setUndoLimit(const int &limit) {
 
     if(limit>0 && limit!=m_undoLimit) {
         m_undoLimit=limit;
@@ -175,7 +176,7 @@ void GCommandHistory::setUndoLimit(const int &limit) {
     }
 }
 
-void GCommandHistory::setRedoLimit(const int &limit) {
+void KCommandHistory::setRedoLimit(const int &limit) {
 
     if(limit>0 && limit!=m_redoLimit) {
         m_redoLimit=limit;
@@ -183,7 +184,7 @@ void GCommandHistory::setRedoLimit(const int &limit) {
     }
 }
 
-void GCommandHistory::clipCommands() {
+void KCommandHistory::clipCommands() {
 
     int count=m_commands.count();
     if(count<m_undoLimit && count<m_redoLimit)
@@ -202,4 +203,4 @@ void GCommandHistory::clipCommands() {
     }
 }
 
-#include "gcommand.moc"
+#include "kcommand.moc"

@@ -22,7 +22,7 @@
 #include <kmainwindow.h>
 #include <kbookmark.h>
 #include <qlistview.h>
-#include <gcommand.h>
+#include <kcommand.h>
 
 class KToggleAction;
 class KListView;
