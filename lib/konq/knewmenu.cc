@@ -167,7 +167,7 @@ void KNewMenu::slotNewFile()
     m_sDest.setAutoDelete(true);
 
     QString sFile = *(templatesList->at( id - 1 ));
-    //kdebug(0, 1203, QString("sFile = %1").arg(sFile));
+    //kDebugInfo( 1203, QString("sFile = %1").arg(sFile));
 
     QString sName ( sFile );
     QString text, value;
@@ -175,7 +175,7 @@ void KNewMenu::slotNewFile()
     if ( sName != "Folder" ) {
       QString x = KUserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
-          kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.ascii());
+          kDebugWarning( 1203, "%s doesn't exist", x.ascii());
           KMessageBox::sorry( 0L, i18n("Source file doesn't exist anymore !"));
           return;
       }
@@ -210,9 +210,10 @@ void KNewMenu::slotNewFile()
             for ( ; it != popupFiles.end(); ++it )
 	    {
      	      KIOJob * job = new KIOJob;
-	      KURL url( *it );
-	      url.addPath( name );
-	      job->mkdir( url.url(), -1 );
+	      //KURL url( *it );
+              QString url = KURL(*it).path(1) + KFileItem::encodeFileName(name);
+              kDebugString( url );
+	      job->mkdir( url, -1 );
             }
 	}
 	else

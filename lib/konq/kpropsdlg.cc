@@ -338,7 +338,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     if ( m_sRelativePath.isEmpty() )
     {
       if (BindingPropsPage::supports(properties->items()))
-        kdebug(KDEBUG_WARN,1202,"Warning : editing a mimetype file out of the mimetype dirs!");
+        kDebugWarning(1202,"Warning : editing a mimetype file out of the mimetype dirs!");
       // for Application desktop files, no problem : we can editing a .desktop file anywhere...
     } else
       while ( m_sRelativePath.left( 1 ).at(0) == '/' ) m_sRelativePath.remove( 0, 1 );
@@ -504,8 +504,8 @@ void FilePropsPage::applyChanges()
                SLOT( slotRenameFinished() ) );
       connect( job, SIGNAL( sigError( int, int, const char* ) ),
                SLOT( slotRenameError( int, int, const char* ) ) );
-      kdebug(KDEBUG_INFO,1202,"oldpath = %s",oldpath.ascii());
-      kdebug(KDEBUG_INFO,1202,"newpath = %s",properties->kurl().url().ascii());
+      kDebugInfo(1202,"oldpath = %s",oldpath.ascii());
+      kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
       job->move( oldpath.ascii(), properties->kurl().url().ascii() );
     }
   }
@@ -807,11 +807,11 @@ void FilePermissionsPropsPage::applyChanges()
       g = 0L;
 
     if ( pw == 0L ) {
-      kdebug(KDEBUG_ERROR,1202," ERROR: No user %s",(const char*)owner->text());
+      kDebugError(1202," ERROR: No user %s",(const char*)owner->text());
       return;
     }
     if ( g == 0L ) {
-      kdebug(KDEBUG_ERROR,1202," ERROR: No group %s",
+      kDebugError(1202," ERROR: No group %s",
              (const char*)grp->text(grp->currentItem()) ); // should never happen
       return;
     }

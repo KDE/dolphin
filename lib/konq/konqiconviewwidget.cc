@@ -125,7 +125,7 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 // TODO : move this to libkonq or libkio
 void link( QStringList srcUrls, KURL destDir )
 {
-    kdebug( KDEBUG_INFO, 1202, "%s", QString("destDir = %1").arg(destDir.url()).ascii() );
+    kDebugInfo( 1202, "%s", QString("destDir = %1").arg(destDir.url()).ascii() );
     bool overwriteExistingFiles = false;
     if ( destDir.isMalformed() )
     {
@@ -150,7 +150,7 @@ void link( QStringList srcUrls, KURL destDir )
 
 	// The destination URL is the destination dir + the filename
 	KURL destUrl( destDir.url(1) + srcUrl.filename() );
-	kdebug( KDEBUG_INFO, 1202, "%s", QString("destUrl = %1").arg(destUrl.url()).ascii() );
+	kDebugInfo( 1202, "%s", QString("destUrl = %1").arg(destUrl.url()).ascii() );
 
 	// Do we link a file on the local disk?
 	if ( srcUrl.isLocalFile() )
@@ -281,7 +281,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
     {
 	if( lst.count() == 0 )
 	{
-	    kdebug(KDEBUG_WARN,1202,"Oooops, no data ....");
+	    kDebugWarning(1202,"Oooops, no data ....");
 	    return;
 	}
 	KIOJob* job = new KIOJob;
@@ -296,7 +296,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    ev->acceptAction(TRUE); ev->accept(); break;
 	case QDropEvent::Link : link( lst, dest );
 	    ev->acceptAction(TRUE); ev->accept(); break;
-	default : kdebug( KDEBUG_ERROR, 1202, "Unknown action %d", ev->action() ); return;
+	default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
 	}
     }
     else if ( formats.count() >= 1 )
@@ -305,7 +305,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    pasteData( m_url /*m_dirLister->url()*/, ev->data( formats.first() ) );
 	else
 	{
-	    kdebug(0,1202,"Pasting to %s", item->item()->url().url().ascii() /* item's url */);
+	    kDebugInfo(1202,"Pasting to %s", item->item()->url().url().ascii() /* item's url */);
 	    pasteData( item->item()->url().url()/* item's url */, ev->data( formats.first() ) );
 	}
     }

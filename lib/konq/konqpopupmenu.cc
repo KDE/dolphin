@@ -128,8 +128,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   {
     KURL firstPopupURL ( m_lstItems.first()->url() );
     firstPopupURL.cleanPath();
-    //kdebug(0, 1203, "View path is %s",url.path(1).ascii());
-    //kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
+    //kDebugInfo( 1203, "View path is %s",url.path(1).ascii());
+    //kDebugInfo( 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
     if ( firstPopupURL.protocol() == url.protocol()
          && url.path(1) == firstPopupURL.path(1) )
     {

@@ -59,7 +59,7 @@ KDirLister::~KDirLister()
 
 void KDirLister::slotFileDirty( const QString& _file )
 {
-  kdebug( KDEBUG_INFO, 1203, "KDirLister::slotFileDirty( %s )", _file.ascii() );
+  kDebugInfo( 1203, "KDirLister::slotFileDirty( %s )", _file.ascii() );
   KFileItem * item = find( _file );
   if ( item ) {
     emit deleteItem( item );
@@ -72,7 +72,7 @@ void KDirLister::slotFileDirty( const QString& _file )
 void KDirLister::slotDirectoryDirty( const QString& _dir )
 {
   // _dir does not contain a trailing slash
-  kdebug( KDEBUG_INFO, 1203, "KDirLister::slotDirectoryDirty( %s )", _dir.ascii() );
+  kDebugInfo( 1203, "KDirLister::slotDirectoryDirty( %s )", _dir.ascii() );
   // Check for _dir in m_lstDirs (which contains decoded paths)
   for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
     if ( _dir == (*it) )
@@ -111,7 +111,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   // Automatic updating of directories ?
   if ( _url.isLocalFile() )
   {
-    //kdebug(0, 1203, "adding %s", _url.path().ascii() );
+    //kDebugInfo( 1203, "adding %s", _url.path().ascii() );
     kdirwatch->addDir( _url.path() );
     if ( !_keep ) // already done if keep == true
     {
@@ -190,7 +190,7 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
   {
     KURL u( m_url );
     u.addPath( name );
-    //kdebug(0,1203,"Adding %s", u.url().ascii());
+    //kDebugInfo(1203,"Adding %s", u.url().ascii());
     KFileItem* item = new KFileItem( _entry, u, m_bDelayedMimeTypes );
 
     if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
@@ -216,7 +216,7 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
 
 void KDirLister::updateDirectory( const QString& _dir )
 {
-  kdebug( KDEBUG_INFO, 1203, "KDirLister::updateDirectory( %s )", _dir.ascii() );
+  kDebugInfo( 1203, "KDirLister::updateDirectory( %s )", _dir.ascii() );
   if ( !m_bComplete )
   {
     m_lstPendingUpdates.append( _dir );
@@ -246,7 +246,7 @@ void KDirLister::updateDirectory( const QString& _dir )
 
   m_jobId = job->id();
   job->listDir( m_sURL );
-  kdebug(KDEBUG_INFO, 1203, "update started in %s", m_sURL.data());
+  kDebugInfo( 1203, "update started in %s", m_sURL.data());
 
   emit started( m_sURL );
 }
@@ -274,7 +274,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   {
     if ( (*kit)->url().directory( false /* keep trailing slash */, false ) == sPath )
     {
-      //kdebug( KDEBUG_INFO, 1203, "slotUpdateFinished : unmarking %s", (*kit)->url().url().ascii() );
+      //kDebugInfo( 1203, "slotUpdateFinished : unmarking %s", (*kit)->url().url().ascii() );
       (*kit)->unmark();
     } else
       (*kit)->mark(); // keep the other items
@@ -301,7 +301,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       // Form the complete url
       KURL u( m_url );
       u.addPath( name );
-      //kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
+      //kDebugInfo( 1203, "slotUpdateFinished : found %s",name.ascii() );
 
       // Find this icon
       bool done = false;
@@ -310,7 +310,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       {
         if ( u == (*kit)->url() )
         {
-          //kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
+          //kDebugInfo( 1203, "slotUpdateFinished : keeping %s",name.ascii() );
           (*kit)->mark();
           done = true;
         }
@@ -318,7 +318,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 
       if ( !done )
       {
-        //kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
+        //kDebugInfo( 1203,"slotUpdateFinished : inserting %s", name.ascii());
         KFileItem* item = new KFileItem( *it, u, m_bDelayedMimeTypes );
 	
 	if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
@@ -341,7 +341,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   {
     if ( !(*kit)->isMarked() )
     {
-      //kdebug(0,1203,"Removing %s", (*kit)->text().ascii());
+      //kDebugInfo(1203,"Removing %s", (*kit)->text().ascii());
       lst.append( *kit );
     }
   }
@@ -398,7 +398,7 @@ void KDirLister::forgetDirs()
   for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it ) {
     if ( KURL( *it ).isLocalFile() )
     {
-      kdebug(0, 1203, "forgetting about %s", (*it).ascii() );
+      kDebugInfo( 1203, "forgetting about %s", (*it).ascii() );
       kdirwatch->removeDir( *it );
     }
   }
