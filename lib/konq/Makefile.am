@@ -50,7 +50,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
     konq_pixmapprovider.h \
-    konq_faviconmgr.h konq_xmlguiclient.h
+    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h
 
 kde_module_LTLIBRARIES = konq_sound.la
 konq_sound_la_SOURCES = konq_sound.cpp
