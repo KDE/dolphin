@@ -1084,11 +1084,11 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {
   kdDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
 
-  m_pBrowserView->deleteItem( _fileitem );
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )
     {
+      m_pBrowserView->deleteItem( _fileitem );
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
 
       delete &(*it);
@@ -1099,6 +1099,9 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       return;
     }
 
+  // This is needed for the case the root of the current view is deleted.
+  // I supposed slotUpdateBackground has to be called as well after an item
+  // was removed from a listview and was just forgotten previously (Brade).
   if ( !viewport()->isUpdatesEnabled() )
   {
     viewport()->setUpdatesEnabled( true );
