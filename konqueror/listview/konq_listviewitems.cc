@@ -120,7 +120,9 @@ void KonqListViewItem::updateContents()
 void KonqListViewItem::setDisabled( bool disabled )
 {
     KonqBaseListViewItem::setDisabled( disabled );
-    setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), state() ) );
+    int iconSize = m_pListViewWidget->iconSize();
+    iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
+    setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
 
 QString KonqListViewItem::key( int _column, bool asc ) const

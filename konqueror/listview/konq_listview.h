@@ -84,7 +84,7 @@ public:
 
   // See KonqMimeTypeResolver
   void mimeTypeDeterminationFinished() {}
-  int iconSize() { return m_pListView->iconSize(); }
+  //int iconSize() { return m_pListView->iconSize(); }
   void determineIcon( KonqBaseListViewItem * item );
 
   QList<KonqBaseListViewItem> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
@@ -134,6 +134,7 @@ private:
   KAction *m_paInvertSelection;
 
   KToggleAction *m_paCaseInsensitive;
+  KToggleAction *m_paDefaultIcons;
   KToggleAction *m_paLargeIcons;
   KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;

@@ -439,7 +439,8 @@ void KonqListView::slotInvertSelection()
 
 void KonqListView::slotIconSizeToggled( bool)
 {
-   if (m_paLargeIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeLarge);
+   if ( m_paDefaultIcons->isChecked() ) m_pProps->setIconSize(0);
+   else if (m_paLargeIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeLarge);
    else if (m_paMediumIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeMedium);
    else m_pProps->setIconSize(KIcon::SizeSmall);
    m_pListView->updateListContents();
@@ -602,6 +603,7 @@ void KonqListView::setupActions()
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
   m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
+  m_paDefaultIcons = new KRadioAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
   m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
   m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
   m_paSmallIcons = new KRadioAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
@@ -612,6 +614,7 @@ void KonqListView::setupActions()
   /*KAction * m_paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
   /*KAction * m_paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
+  m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
   m_paLargeIcons->setExclusiveGroup( "ViewMode" );
   m_paMediumIcons->setExclusiveGroup( "ViewMode" );
   m_paSmallIcons->setExclusiveGroup( "ViewMode" );
@@ -620,6 +623,7 @@ void KonqListView::setupActions()
   m_paMediumIcons->setChecked( false );
   m_paSmallIcons->setChecked( true );
 
+  connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
   connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
   connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
   connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
