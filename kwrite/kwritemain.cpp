@@ -411,14 +411,14 @@ void KWrite::restore(KConfig *config, int n)
 void KWrite::readProperties(KConfig *config)
 {
   readConfig(config);
-  KTextEditor::sessionConfigInterface(kateView->document())->readSessionConfig(config);
+  KTextEditor::sessionConfigInterface(kateView)->readSessionConfig(config);
 }
 
 void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
   config->writeEntry("DocumentNumber",docList.find(kateView->document()) + 1);
-  KTextEditor::sessionConfigInterface(kateView->document())->writeSessionConfig(config);
+  KTextEditor::sessionConfigInterface(kateView)->writeSessionConfig(config);
 }
 
 void KWrite::saveGlobalProperties(KConfig *config) //save documents
