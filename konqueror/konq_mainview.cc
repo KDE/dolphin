@@ -587,7 +587,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   QObject::connect( v, SIGNAL(sigSetUpEnabled( QString, OpenParts::Id )),
                     this, SLOT(slotSetUpEnabled( QString, OpenParts::Id )) );
 
-  m_mapViews[ view->id() ] = v;
+  m_mapViews.insert( view->id(), v );
 
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
 }
@@ -667,7 +667,7 @@ void KonqMainView::removeView( OpenParts::Id id )
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
 {
   m_mapViews.remove( oldId );
-  m_mapViews[ newId ] = childView;
+  m_mapViews.insert( newId, childView );
   if ( oldId == m_currentId)
     m_currentId = newId;
 }
