@@ -122,7 +122,7 @@
  <Action name="animated_logo"/>
 </ToolBar>
 <ToolBar hidden="true" name="extraToolBar" newline="false" index="1"><text>Extra Toolbar</text>
-  <Action name="konq_dirtree" />
+  <Action name="konq_sidebartng" />
   <Action name="findfile" />
   <Action name="splitviewv" />
   <Action name="splitviewh" />
