@@ -82,13 +82,12 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 
 void KonqTreeViewWidget::setComplete()
 {
-   KonqBaseListViewWidget::setComplete();
-
    if ( m_itemsToOpen.count() > 0 )
    {
       KonqListViewDir *dir = m_itemsToOpen.take( 0 );
       dir->setOpen( true );
-   }
+   } else
+      KonqBaseListViewWidget::setComplete();
 
    slotOnViewport();
 }
@@ -103,6 +102,13 @@ void KonqTreeViewWidget::slotCompleted( const KURL & _url )
         dir->setComplete( true );
     else
         kdWarning() << "KonqTreeViewWidget::slotCompleted : dir " << _url.url(-1) << " not found in dict!" << endl;
+
+    if ( !viewport()->isUpdatesEnabled() )
+    {
+        viewport()->setUpdatesEnabled( true );
+        setUpdatesEnabled( true );
+        triggerUpdate();
+    }
 }
 
 void KonqTreeViewWidget::slotClear()
@@ -184,6 +190,13 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             m_itemsToOpen.append( dirItem );
             m_urlsToOpen.remove( u );
         }
+    }
+
+    if ( !viewport()->isUpdatesEnabled() )
+    {
+        viewport()->setUpdatesEnabled( true );
+        setUpdatesEnabled( true );
+        triggerUpdate();
     }
 
     // counts for the statusbar
