@@ -540,7 +540,16 @@ void KonqPropsView::applyColors(QWidget * widget) const
     if ( m_bgPixmapFile.isEmpty() )
         widget->setPaletteBackgroundColor( bgColor( widget ) );
     else
-        widget->setPaletteBackgroundPixmap( loadPixmap() );
+    {
+        QPixmap pix = loadPixmap();
+        // don't set an null pixmap, as this leads to
+        // undefined results with regards to the background of widgets
+        // that have the iconview as a parent and on the iconview itself
+        // e.g. the rename textedit widget when renaming a QIconViewItem
+        // Qt-issue: N64698
+        if ( ! pix.isNull() )
+            widget->setPaletteBackgroundPixmap( pix );
+    }
 
     if ( m_textColor.isValid() )
         widget->setPaletteForegroundColor( m_textColor );
