@@ -57,14 +57,20 @@ ListView::ListView() {
    ;
 }
 
+#define SPLIT false
+
 void ListView::createListViews(QWidget *parent) {
-   self()->m_listView2 = new KEBListView(parent);
+   if (SPLIT) {
+      self()->m_listView2 = new KEBListView(parent);
+   }
    self()->m_listView = new KEBListView(parent);
 }
 
 void ListView::initListViews() {
    self()->m_listView->init();
-   self()->m_listView2->init();
+   if (SPLIT) {
+      self()->m_listView2->init();
+   }
 }
 
 void KEBListView::init() {
@@ -88,7 +94,9 @@ void KEBListView::init() {
 
 void ListView::updateListViewSetup(bool readonly) {
    self()->m_listView->readonlyFlagInit(readonly);
-   self()->m_listView2->readonlyFlagInit(readonly);
+   if (SPLIT) {
+      self()->m_listView2->readonlyFlagInit(readonly);
+   }
 }
 
 void KEBListView::readonlyFlagInit(bool readonly) {
@@ -109,7 +117,9 @@ void ListView::setInitialAddress(QString address) {
 
 void ListView::connectSignals() {
    connectSignals(m_listView);
-   // connectSignals(m_listView2);
+   if (SPLIT) {
+      // connectSignals(m_listView2);
+   }
 }
 
 void ListView::connectSignals(KEBListView *listview) {
@@ -389,8 +399,12 @@ void ListView::updateListView() {
 }
 
 void ListView::fillWithGroup() {
-   fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root(), false);
-   fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root(), true);
+   if (SPLIT) {
+      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root(), false);
+      fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root(), true);
+   } else {
+      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root(), false);
+   }
 }
 
 /* MOVE */
@@ -407,19 +421,22 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
+         if (!(groupsonly && SPLIT)) {
+            continue;
+         }
          KBookmarkGroup grp = bk.toGroup();
          item = new KEBListViewItem(parentItem, lastItem, grp);
          fillWithGroup(listview, grp, groupsonly, item);
          if (grp.isOpen()) {
             item->QListViewItem::setOpen(true);
          }
-         if (grp.first().isNull()) {
+         if (!SPLIT && grp.first().isNull()) {
             // empty folder
             new KEBListViewItem(item, item); 
          }
          lastItem = item;
 
-      } else if (!groupsonly) {
+      } else if (!(groupsonly && SPLIT)) {
          item = lastItem ? new KEBListViewItem(parentItem, lastItem, bk)
                          : new KEBListViewItem(parentItem, bk);
          lastItem = item;
