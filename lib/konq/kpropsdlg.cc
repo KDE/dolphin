@@ -154,7 +154,6 @@ bool PropertiesDialog::canDisplay( KFileItemList _items )
          ApplicationPropsPage::supports( _items ) ||
          BindingPropsPage::supports( _items ) ||
          URLPropsPage::supports( _items ) ||
-         DirPropsPage::supports( _items ) ||
          DevicePropsPage::supports( _items );
 }
 
@@ -228,13 +227,6 @@ void PropertiesDialog::insertPages()
     if ( URLPropsPage::supports( m_items ) )
     {
 	PropsPage *p = new URLPropsPage( this );
-	tab->addTab( p, p->tabName() );
-	pageList.append( p );
-    }
-
-    if ( DirPropsPage::supports( m_items ) )
-    {
-	PropsPage *p = new DirPropsPage( this );
 	tab->addTab( p, p->tabName() );
 	pageList.append( p );
     }
@@ -337,30 +329,38 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   vbl->addLayout(grid);
   int curRow = 0;
 
-  iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
-  iconButton->setFixedSize(50, 50);
-  iconButton->setIconType("icon"); // chose from application icons
-  grid->addWidget(iconButton, curRow, 0, AlignLeft);
+  if (isDesktopFile(properties->item()) || 
+      properties->item()->mimetype() == "inode/directory") {
 
-  QString iconStr;
-  //  if (isDesktopFile(properties->item())) {
-  //    KDesktopFile dfile(path, true);
-  //    iconStr = dfile.readIcon();
-  //  }
-  //  if (iconStr.isNull()) {
-    iconButton->setEnabled(false);
+    KIconLoaderButton *iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
+    iconButton->setFixedSize(50, 50);
+    iconButton->setIconType("icon");
+    QString iconStr;
     iconStr = KPixmapCache::pixmapFileForURL(properties->kurl().path(),
 					     properties->item()->mode(),
 					     properties->kurl().isLocalFile());
-      //  }
-  iconButton->setIcon(iconStr);
-    
-  name = new KLineEdit(this);
-  name->setText(filename);
-  // Don't rename trash or root.
-  if (isTrash || filename == "/")
-    name->setEnabled(false);
-  grid->addWidget(name, curRow++, 2);
+    iconButton->setIcon(iconStr);
+    iconArea = iconButton;
+  } else {
+    QLabel *iconLabel = new QLabel(this);
+    iconLabel->setFixedSize(50, 50);
+    iconLabel->setPixmap(*(KPixmapCache::pixmapForURL(properties->kurl(),
+						      properties->item()->mode(),
+						      properties->kurl().isLocalFile())));
+    iconArea = iconLabel;
+  }
+  grid->addWidget(iconArea, curRow, 0, AlignLeft);
+  
+  if (isTrash || filename == "/") {
+    QLabel *lab = new QLabel(filename, this);
+    nameArea = lab;
+  } else {
+    KLineEdit *lined = new KLineEdit(this);
+    lined->setText(filename);
+    nameArea = lined;
+  }
+  
+  grid->addWidget(nameArea, curRow++, 2);
   oldName = filename;
 
   QLabel *l = new QLabel(this);
@@ -450,66 +450,96 @@ bool FilePropsPage::supports( KFileItemList /*_items*/ )
 
 void FilePropsPage::applyChanges()
 {
-    QString oldpath = properties->kurl().path();
-    QString fname = properties->kurl().filename();
-    QString n = KFileItem::encodeFileName( name->text() );
-
-    // Do we need to rename the file ?
-    if ( oldName != n || m_bFromTemplate ) // true for any from-template file
-    {
-        // Tell properties. Warning, this changes the result of properties->kurl() !
-        properties->rename( n );
-
-        // Don't remove the template !!
-        if ( !m_bFromTemplate )
-        {
-          if ( oldpath.at(oldpath.length() - 1) == '/')
-            // It's a directory, so strip the trailing slash (in case it's a symlink)
-            oldpath.truncate( oldpath.length() - 1);
-          if ( rename( oldpath, properties->kurl().path() ) != 0 ) {
-            QString tmp;
-            tmp.sprintf(i18n("Could not rename the file or directory\n%s\n"), strerror(errno));
-            KMessageBox::sorry( this, tmp);
-          }
-        }
+  QString oldpath = properties->kurl().path(-1);
+  QString fname = properties->kurl().filename();
+  QString n;
+  if (nameArea->isA("QLabel"))
+    n = KFileItem::encodeFileName(((QLabel *) nameArea)->text());
+  else
+    n = KFileItem::encodeFileName(((QLineEdit *) nameArea)->text());
+  
+  // Do we need to rename the file ?
+  if ( oldName != n || m_bFromTemplate ) { // true for any from-template file
+    // Tell properties. Warning, this changes the result of properties->kurl() !
+    properties->rename( n );
+    
+    // Don't remove the template !!
+    if ( !m_bFromTemplate ) {
+      if ( rename( oldpath, properties->kurl().path() ) != 0 )
+	KMessageBox::sorry(this, 
+			   i18n("Could not rename file or directory\n%s\n"));
     }
+  }
+
+  // handle icon changes
+  if (!iconArea->isA("QLabel")) {
+    KIconLoaderButton *iconButton = (KIconLoaderButton *) iconArea;
+    QString tmp;
+    if (properties->item()->mimetype() == "inode/directory")
+      tmp = properties->kurl().path(1) + ".directory";
+    else
+      tmp = properties->kurl().path();
+    
+    QFile f( tmp );
+    if ( !f.open( IO_ReadWrite ) ) {
+      KMessageBox::error( 0, i18n("Could not write to\n") + tmp);
+      return;
+    }
+    f.close();
+    
+    KDesktopFile cfg( tmp );
+    // Get the default image
+    QString str = KMimeType::findByURL( properties->kurl(),
+					properties->item()->mode(), 
+					true )->KServiceType::icon();
+    // Is it another one than the default ?
+    QString sIcon;
+    if ( str != iconButton->icon() )
+      sIcon = iconButton->icon();
+    // (otherwise write empty value)
+    cfg.writeEntry( "Icon", sIcon );
+    cfg.writeEntry( "MiniIcon", sIcon );
+  }
 }
 
 FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
-: PropsPage( _props )
+  : PropsPage( _props )
 {
-    QString path = properties->kurl().path();
+    QString path = properties->kurl().path(-1);
     QString fname = properties->kurl().filename();
-
-    /* remove appended '/' .. see comment in FilePropsPage */
-    if ( path.length() > 1 && path.at( path.length() - 1 ) == '/' )
-	path.truncate( path.length() - 1 );
-
-    struct stat buff;
-    lstat( path.ascii(), &buff ); // display uid/gid of the link, if it's a link
-    struct passwd * user = getpwuid( buff.st_uid );
-    struct group * ge = getgrgid( buff.st_gid );
-
+    bool isLocal = properties->kurl().isLocalFile();
+    
     bool IamRoot = (geteuid() == 0);
-    bool IsMyFile  = (geteuid() == buff.st_uid);
-    bool IsDir =  S_ISDIR (buff.st_mode);
-    bool IsLink =  S_ISLNK( buff.st_mode );
+    bool isMyFile, isDir, isLink;
 
-    permissions = buff.st_mode & ( S_IRWXU | S_IRWXG | S_IRWXO |
-				   S_ISUID | S_ISGID | S_ISVTX );
-    strOwner = "";
-    strGroup = "";
-    if ( user != 0L )
-    {
+    isLink = properties->item()->isLink();
+    isDir = properties->item()->mimetype() == "inode/directory";
+    permissions = properties->item()->mode();
+    strOwner = properties->item()->user();
+    strGroup = properties->item()->group();
+
+    struct passwd *user;
+    struct group *ge;
+    if (isLocal) {
+      struct stat buff;
+      lstat( path.ascii(), &buff ); // display uid/gid of the link, if it's a link
+      user = getpwuid( buff.st_uid );
+      ge = getgrgid( buff.st_gid );
+      
+      isMyFile = (geteuid() == buff.st_uid);
+      if ( user != 0L ) 
 	strOwner = user->pw_name;
-    }
-    if ( ge != 0L )
-    {
+
+      
+      if ( ge != 0L ) {
 	strGroup = ge->gr_name;
 	if (strGroup.isEmpty())
-	    strGroup.sprintf("%d",ge->gr_gid);
-    } else
+	  strGroup.sprintf("%d",ge->gr_gid);
+      } else
 	strGroup.sprintf("%d",buff.st_gid);
+    } else {
+      isMyFile = false; // we have to assume remote files aren't ours.
+    }
 
     QBoxLayout *box = new QVBoxLayout( this, KDialog::spacingHint() );
 
@@ -523,72 +553,60 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 
     gl = new QGridLayout (gb, 4, 6, 15);
 
-    if (IsDir)
-	    l = new QLabel( i18n("Show\nEntries"), gb );
+    if (isDir)
+      l = new QLabel( i18n("Show\nEntries"), gb );
     else
-	    l = new QLabel( i18n("Read"), gb );
-    l->setMinimumSize( l->sizeHint() );
+      l = new QLabel( i18n("Read"), gb );
     gl->addWidget (l, 0, 1);
 
-    if (IsDir)
+    if (isDir)
 	    l = new QLabel( i18n("Write\nEntries"), gb );
     else
 	    l = new QLabel( i18n("Write"), gb );
-    l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 0, 2);
 
-    if (IsDir)
-	    l = new QLabel( i18n("Change\nInto"), gb );
+    if (isDir)
+	    l = new QLabel( i18n("Enter"), gb );
     else
 	    l = new QLabel( i18n("Exec"), gb );
-    l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 0, 3);
 
     l = new QLabel( i18n("Special"), gb );
-    l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 0, 4);
 
     l = new QLabel( i18n("User"), gb );
-    l->setMinimumSize( l->sizeHint() );
-    l->setEnabled (IamRoot || IsMyFile);
+    l->setEnabled (IamRoot || isMyFile);
     gl->addWidget (l, 1, 0);
 
     l = new QLabel( i18n("Group"), gb );
-    l->setMinimumSize( l->sizeHint() );
-    l->setEnabled (IamRoot || IsMyFile);
     gl->addWidget (l, 2, 0);
 
     l = new QLabel( i18n("Others"), gb );
-    l->setMinimumSize( l->sizeHint() );
-    l->setEnabled (IamRoot || IsMyFile);
     gl->addWidget (l, 3, 0);
 
     /* Draw Checkboxes */
     for (int row = 0; row < 3 ; ++row) {
-	    for (int col = 0; col < 4; ++col) {
-	            QCheckBox *cb;
-		    QString desc;
-
-		    /* some boxes need further description .. */
-		    switch (fperm[row][col]) {
-		    case S_ISUID : desc = i18n("Set UID"); break;
-		    case S_ISGID : desc = i18n("Set GID"); break;
-		    case S_ISVTX : desc = i18n("Sticky"); break;
-		    default      : desc = "";
-		    }
-		
-		    cb = new QCheckBox (desc, gb);
-		    cb->setChecked ((buff.st_mode & fperm[row][col])
-				    == fperm[row][col]);
-		    cb->setEnabled ((IsMyFile || IamRoot) && (!IsLink));
-		    cb->setMinimumSize (cb->sizeHint());
-		    permBox[row][col] = cb;
-		    gl->addWidget (permBox[row][col], row+1, col+1);
-	    }
+      for (int col = 0; col < 4; ++col) {
+	QCheckBox *cb;
+	QString desc;
+	
+	/* some boxes need further description .. */
+	switch (fperm[row][col]) {
+	case S_ISUID : desc = i18n("Set UID"); break;
+	case S_ISGID : desc = i18n("Set GID"); break;
+	case S_ISVTX : desc = i18n("Sticky"); break;
+	default      : desc = "";
+	}
+	
+	cb = new QCheckBox (desc, gb);
+	cb->setChecked ((permissions & fperm[row][col])
+			== fperm[row][col]);
+	cb->setEnabled ((isMyFile || IamRoot) && (!isLink));
+	permBox[row][col] = cb;
+	gl->addWidget (permBox[row][col], row+1, col+1);
+      }
     }
     gl->setColStretch(5, 10);
-    gl->activate();
-    gb->adjustSize();
 
     /**** Group: Ownership ****/
     gb = new QGroupBox ( i18n("Ownership"), this );
@@ -598,24 +616,22 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 
     /*** Set Owner ***/
     l = new QLabel( i18n("Owner"), gb );
-    l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 1, 0);
 
     /* maybe this should be a combo-box, but this isn't handy
      * if there are 2000 Users (tiny scrollbar!)
      * anyone developing a combo-box with incremental search .. ?
      */
-    owner = new QLineEdit( gb );
-    owner->setMinimumSize( owner->sizeHint().width(), fontHeight );
+    owner = new KLineEdit( gb );
     gl->addWidget (owner, 1, 1);
     owner->setText( strOwner );
-    owner->setEnabled ( IamRoot ); // we can just change the user if we're root
+    owner->setEnabled ( IamRoot && isLocal ); // we can just change the user if we're root
 
     /*** Set Group ***/
     /* get possible groups .. */
     QStrList *groupList = new QStrList (true);
 
-    if (IsMyFile || IamRoot) {  // build list just if we have to
+    if (isMyFile || IamRoot) {  // build list just if we have to
       setgrent();
       while ((ge = getgrent()) != 0L) {
 	if (IamRoot)
@@ -653,11 +669,10 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 	groupList->inSort (strGroup);
 
     l = new QLabel( i18n("Group"), gb );
-    l->setMinimumSize( l->sizeHint() );
     gl->addWidget (l, 2, 0);
 
     if (groupList->count() > 1 &&
-	(IamRoot || IsMyFile)) {
+	(IamRoot || isMyFile)) {
       /* Combo-Box .. if there is anything to change */
       if (groupList->count() <= 10)
 	/* Motif-Style looks _much_ nicer for few items */
@@ -667,14 +682,12 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 
       grp->insertStrList ( groupList );
       grp->setCurrentItem (groupList->find ( strGroup ));
-      grp->setMinimumSize( grp->sizeHint().width(), fontHeight );
       gl->addWidget (grp, 2, 1);
-      grp->setEnabled (IamRoot || IsMyFile);
+      grp->setEnabled (IamRoot || isMyFile);
     }
     else {
       // no choice; just present the group in a disabled edit-field
-      QLineEdit *e = new QLineEdit ( gb );
-      e->setMinimumSize (e->sizeHint().width(), fontHeight);
+      QLineEdit *e = new KLineEdit ( gb );
       e->setText ( strGroup );
       e->setEnabled (false);
       gl->addWidget (e, 2, 1);
@@ -684,145 +697,109 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     delete groupList;
 
     gl->setColStretch(2, 10);
-    gl->activate();
-    gb->adjustSize();
 
     box->addStretch (10);
-    box->activate();
 }
 
-bool FilePermissionsPropsPage::supports( KFileItemList _items )
+bool FilePermissionsPropsPage::supports( KFileItemList /*_items*/ )
 {
-  // TODO : return true for any URL and implement read-only permissions
-  // for non local files
-  return _items.first()->url().isLocalFile();
+  return true;
 }
 
 void FilePermissionsPropsPage::applyChanges()
 {
-    QString path = properties->kurl().path();
-    QString fname = properties->kurl().filename();
-
-    mode_t p = 0L;
-    for (int row = 0;row < 3; ++row)
-        for (int col = 0; col < 4; ++col)
-	    if (permBox[row][col]->isChecked())
-	        p |= fperm[row][col];
-
-    // First update group / owner
-    // (permissions have to set after, in case of suid and sgid)
-    if ( owner->text() != strOwner ||
-	 (grp && grp->text(grp->currentItem()) != strGroup ))
-    {
-	struct passwd* pw = getpwnam( owner->text() );
-	struct group* g;
-	if (grp)
-	    g = getgrnam( grp->text(grp->currentItem()) );
-	else
-	    g = 0L;
-	
-	if ( pw == 0L )
-	{
-	    warning(i18n(" ERROR: No user %s"),(const char*)owner->text() );
-	    return;
-	}
-	if ( g == 0L )
-	{
-	    warning(i18n(" ERROR: No group %s"),
-		    (const char*)grp->text(grp->currentItem()) ); // should never happen
-	    return;
-	}
-	if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
-	    KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
+  QString path = properties->kurl().path();
+  QString fname = properties->kurl().filename();
+  
+  mode_t p = 0L;
+  for (int row = 0;row < 3; ++row)
+    for (int col = 0; col < 4; ++col)
+      if (permBox[row][col]->isChecked())
+	p |= fperm[row][col];
+  
+  // First update group / owner
+  // (permissions have to set after, in case of suid and sgid)
+  if ( owner->text() != strOwner ||
+       (grp && grp->text(grp->currentItem()) != strGroup )) {
+    struct passwd* pw = getpwnam( owner->text() );
+    struct group* g;
+    if (grp)
+      g = getgrnam( grp->text(grp->currentItem()) );
+    else
+      g = 0L;
+    
+    if ( pw == 0L ) {
+      warning(i18n(" ERROR: No user %s"),(const char*)owner->text() );
+      return;
     }
-
-    if ( p != permissions )
-    {
-	if ( chmod( path, p ) != 0 )
-	    KMessageBox::sorry( 0, i18n( "Could not change permissions\nPerhaps access denied." ));
+    if ( g == 0L ) {
+      warning(i18n(" ERROR: No group %s"),
+	      (const char*)grp->text(grp->currentItem()) ); // should never happen
+      return;
     }
-
+    if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
+      KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
+  }
+  
+  if ( p != permissions ) {
+    qDebug("old permissions: %d, new permissions: %d",permissions,p);
+    if ( chmod( path, p ) != 0 )
+      KMessageBox::sorry( 0, i18n( "Could not change permissions.\nYou most likely do not have access to write to this file or directory." ));
+  }
 }
 
-ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
+ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) 
+  : PropsPage( _props )
 {
     QVBoxLayout * mainlayout = new QVBoxLayout(this, KDialog::spacingHint());
 
     // Now the widgets in the top layout
 
-    QLabel* tmpQLabel;
-    tmpQLabel = new QLabel( this, "Label_1" );
-    tmpQLabel->setText( i18n("Execute") );
-    tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
-    mainlayout->addWidget(tmpQLabel, 1);
+    QLabel* l;
+    l = new QLabel( this, "Label_1" );
+    l->setText( i18n("Program Name:") );
+    mainlayout->addWidget(l, 1);
 
     QHBoxLayout * hlayout;
     hlayout = new QHBoxLayout(KDialog::spacingHint());
-    mainlayout->addLayout(hlayout, 1);
+    mainlayout->addLayout(hlayout);
 
-    execEdit = new QLineEdit( this, "LineEdit_1" );
-    execEdit->setText( "" );
-    execEdit->setMaxLength( 256 );
-    execEdit->setFixedHeight(fontHeight);
-    execEdit->setMinimumSize( execEdit->sizeHint() );
-    hlayout->addWidget(execEdit, 0);
+    execEdit = new KLineEdit( this, "LineEdit_1" );
+    hlayout->addWidget(execEdit, 1);
 
     execBrowse = new QPushButton( this, "Button_1" );
     execBrowse->setText( i18n("&Browse...") );
-    execBrowse->setFixedSize(execBrowse->sizeHint());
-    hlayout->addWidget(execBrowse, 0);
+    hlayout->addWidget(execBrowse);
 
-    hlayout = new QHBoxLayout(KDialog::spacingHint());
-    mainlayout->addLayout(hlayout, 2); // double stretch, because two items
-
-    /* instead, a label */
-    hlayout->addStretch(1);
-
-    // and the icon button, on the right of this vertical layout
-    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
-    iconBox->setFixedSize( 50, 50 );
-    iconBox->setIconType("icon"); // Choose from app icons
-    hlayout->addWidget(iconBox, 0, AlignCenter);
+    hlayout->addSpacing(KDialog::spacingHint());
 
     // The groupbox about swallowing
-
     QGroupBox* tmpQGroupBox;
-    tmpQGroupBox = new QGroupBox( i18n("Swallowing on panel"), this, "GroupBox_1" );
-    tmpQGroupBox->setFrameStyle( 49 );
-    mainlayout->addWidget(tmpQGroupBox, 3); // 3 vertical items -> stretch = 3
+    tmpQGroupBox = new QGroupBox( i18n("Panel Imbedding"), this, "GroupBox_1" );
+    tmpQGroupBox->setFrameStyle(49);
+    mainlayout->addWidget(tmpQGroupBox, 2); // 2 vertical items
 
     QVBoxLayout * grouplayout;
     grouplayout = new QVBoxLayout(tmpQGroupBox, KDialog::spacingHint());
-
     grouplayout->addSpacing( fontMetrics().height() );
 
-    hlayout = new QHBoxLayout(KDialog::spacingHint());
-    grouplayout->addLayout(hlayout, 0);
+    QGridLayout *grid = new QGridLayout(KDialog::spacingHint(), 0, 2);
+    grid->setColStretch(1, 1);
+    grouplayout->addLayout(grid);
 
-    tmpQLabel = new QLabel( tmpQGroupBox, "Label_6" );
-    tmpQLabel->setText( i18n("Execute") );
-    tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
-    hlayout->addWidget(tmpQLabel, 0);
+    l = new QLabel( tmpQGroupBox, "Label_6" );
+    l->setText( i18n("Execute on click:") );
+    grid->addWidget(l, 0, 0);
 
-    swallowExecEdit = new QLineEdit( tmpQGroupBox, "LineEdit_3" );
-    swallowExecEdit->setText( "" );
-    swallowExecEdit->setFixedHeight(fontHeight);
-    swallowExecEdit->setMinimumSize( swallowExecEdit->sizeHint() );
-    hlayout->addWidget(swallowExecEdit, 1);
+    swallowExecEdit = new KLineEdit( tmpQGroupBox, "LineEdit_3" );
+    grid->addWidget(swallowExecEdit, 0, 1);
 
-    hlayout = new QHBoxLayout(KDialog::spacingHint());
-    grouplayout->addLayout(hlayout, 0);
+    l = new QLabel( tmpQGroupBox, "Label_7" );
+    l->setText( i18n("Window Title:") );
+    grid->addWidget(l, 1, 0);
 
-    tmpQLabel = new QLabel( tmpQGroupBox, "Label_7" );
-    tmpQLabel->setText( i18n("Window Title") );
-    tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
-    hlayout->addWidget(tmpQLabel, 0);
-
-    swallowTitleEdit = new QLineEdit( tmpQGroupBox, "LineEdit_4" );
-    swallowTitleEdit->setText( "" );
-    swallowTitleEdit->setFixedHeight(fontHeight);
-    swallowTitleEdit->setMinimumSize( swallowTitleEdit->sizeHint() );
-    hlayout->addWidget(swallowTitleEdit, 1);
+    swallowTitleEdit = new KLineEdit( tmpQGroupBox, "LineEdit_4" );
+    grid->addWidget(swallowTitleEdit, 1, 1);
 
     // The groupbox about run in terminal
 
@@ -835,27 +812,22 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     terminalCheck = new QCheckBox( tmpQGroupBox, "RadioButton_3" );
     terminalCheck->setText( i18n("Run in terminal") );
-    terminalCheck->setMinimumSize( terminalCheck->sizeHint() );
     grouplayout->addWidget(terminalCheck, 0);
 
     hlayout = new QHBoxLayout(KDialog::spacingHint());
     grouplayout->addLayout(hlayout, 1);
 
-    tmpQLabel = new QLabel( tmpQGroupBox, "Label_5" );
-    tmpQLabel->setText( i18n("Terminal Options") );
-    tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
-    hlayout->addWidget(tmpQLabel, 0);
+    l = new QLabel( tmpQGroupBox, "Label_5" );
+    l->setText( i18n("Terminal Options") );
+    hlayout->addWidget(l, 0);
 
-    terminalEdit = new QLineEdit( tmpQGroupBox, "LineEdit_5" );
-    terminalEdit->setText( "" );
-    terminalEdit->setFixedHeight(fontHeight);
-    terminalEdit->setMinimumSize( terminalEdit->sizeHint() );
+    terminalEdit = new KLineEdit( tmpQGroupBox, "LineEdit_5" );
     hlayout->addWidget(terminalEdit, 1);
 
-    mainlayout->activate();
+    mainlayout->addStretch(2);
 
-    //
 
+    // now populate the page
     QString path = _props->kurl().path();
     QFile f( path );
     if ( !f.open( IO_ReadOnly ) )
@@ -878,11 +850,10 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
     kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
 
-    KConfig config( path );
+    KSimpleConfig config( path );
     config.setDollarExpansion( false );
     config.setDesktopGroup();
     execStr = config.readEntry( "Exec" );
-    iconStr = config.readEntry( "Icon" );
     swallowExecStr = config.readEntry( "SwallowExec" );
     swallowTitleStr = config.readEntry( "SwallowTitle");
     termStr = config.readEntry( "Terminal" );
@@ -902,11 +873,6 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
         terminalCheck->setChecked( termStr == "1" );
     enableCheckedEdit();
 
-    if ( iconStr.isNull() )
-        iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
-
-    iconBox->setIcon( iconStr );
-
     connect( execBrowse, SIGNAL( clicked() ), this, SLOT( slotBrowseExec() ) );
     connect( terminalCheck, SIGNAL( clicked() ), this,  SLOT( enableCheckedEdit() ) );
 
@@ -921,16 +887,12 @@ void ExecPropsPage::enableCheckedEdit()
 
 bool ExecPropsPage::supports( KFileItemList _items )
 {
-    qDebug("1");
   KFileItem * item = _items.first();
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
-  qDebug("2");
   // open file and check type
   KDesktopFile config( item->url().path(), true /* readonly */ );
-  if (config.hasApplicationType())
-      qDebug("3");
   return config.hasApplicationType();
 }
 
@@ -942,82 +904,61 @@ void ExecPropsPage::applyChanges()
     
     QFile f( path );
 
-    if ( !f.open( IO_ReadWrite ) )
-    {
-	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
-	return;
+    if ( !f.open( IO_ReadWrite ) ) {
+      KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to this file or directory."));
+      return;
     }
-
     f.close();
 
-    KConfig config( path );
+    KSimpleConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "Application");
     config.writeEntry( "Exec", execEdit->text() );
-    config.writeEntry( "Icon", iconBox->icon() );
     config.writeEntry( "SwallowExec", swallowExecEdit->text() );
     config.writeEntry( "SwallowTitle", swallowTitleEdit->text() );
     config.writeEntry( "Terminal", terminalCheck->isChecked() ? "1" : "0" );
     config.writeEntry( "TerminalOptions", terminalEdit->text() );
-
-    config.sync();
 }
 
 
 void ExecPropsPage::slotBrowseExec()
 {
-    QString f = KFileDialog::getOpenFileName( QString::null, QString::null, this );
-    if ( f.isNull() )
-	return;
-
-    execEdit->setText( f );
+  QString f = KFileDialog::getOpenFileName( QString::null,
+					    QString::null, this );
+  if ( f.isNull() )
+    return;
+  
+  execEdit->setText( f );
 }
 
-URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
+URLPropsPage::URLPropsPage( PropertiesDialog *_props ) 
+  : PropsPage( _props )
 {
-    QVBoxLayout * layout = new QVBoxLayout(this, KDialog::spacingHint());
-    URLEdit = new QLineEdit( this, "LineEdit_1" );
-    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
-    iconBox->setIconType("icon"); // Choose from app icons
+  QVBoxLayout * layout = new QVBoxLayout(this, KDialog::spacingHint());
 
-    QLabel* tmpQLabel;
-    tmpQLabel = new QLabel( this, "Label_1" );
-    tmpQLabel->setText( i18n("URL") );
-    tmpQLabel->adjustSize();
-    tmpQLabel->setFixedHeight( fontHeight );
-    layout->addWidget(tmpQLabel);
+  QLabel *l;
+  l = new QLabel( this, "Label_1" );
+  l->setText( i18n("URL:") );
+  layout->addWidget(l);
 
-    URLEdit->setText( "" );
-    URLEdit->setMaxLength( 256 );
-    URLEdit->setMinimumSize( URLEdit->sizeHint() );
-    URLEdit->setFixedHeight( fontHeight );
-    layout->addWidget(URLEdit);
+  URLEdit = new KLineEdit( this, "LineEdit_1" );
+  layout->addWidget(URLEdit);
 
-    iconBox->setFixedSize( 50, 50 );
-    layout->addWidget(iconBox, 0, AlignLeft);
+  QString path = properties->kurl().path();
 
-    QString path = _props->kurl().path();
+  QFile f( path );
+  if ( !f.open( IO_ReadOnly ) )
+    return;
+  f.close();
 
-    QFile f( path );
-    if ( !f.open( IO_ReadOnly ) )
-	return;
-    f.close();
+  KSimpleConfig config( path );
+  config.setDesktopGroup();
+  URLStr = config.readEntry(  "URL" );
 
-    KConfig config( path );
-    config.setDesktopGroup();
-    URLStr = config.readEntry(  "URL" );
-    iconStr = config.readEntry( "Icon" );
+  if ( !URLStr.isNull() )
+    URLEdit->setText( URLStr );
 
-    if ( !URLStr.isNull() )
-	URLEdit->setText( URLStr );
-    if ( iconStr.isNull() )
-        iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
-
-    iconBox->setIcon( iconStr );
-
-    layout->addStretch (10);
-    layout->activate();
-
+  layout->addStretch (1);
 }
 
 bool URLPropsPage::supports( KFileItemList _items )
@@ -1034,250 +975,19 @@ bool URLPropsPage::supports( KFileItemList _items )
 
 void URLPropsPage::applyChanges()
 {
-    QString path = properties->kurl().path();
+  QString path = properties->kurl().path();
+  
+  QFile f( path );
+  if ( !f.open( IO_ReadWrite ) ) {
+    KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to this file or directory."));
+    return;
+  }
+  f.close();
 
-    QFile f( path );
-    if ( !f.open( IO_ReadWrite ) )
-    {
-	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
-	return;
-    }
-    f.close();
-
-    KConfig config( path );
-    config.setDesktopGroup();
-    config.writeEntry( "Type", "URL");
-    config.writeEntry( "URL", URLEdit->text() );
-    config.writeEntry( "Icon", iconBox->icon() );
-    config.writeEntry( "MiniIcon", iconBox->icon() );
-    config.sync();
-}
-
-DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
-{
-    // This is strange, but if we try to use a layout in this page, it centers
-    // the other pages of the dialog (!?). Ok, no layout ! DF.
-
-    // See resize event for widgets placement
-    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
-    iconBox->setIconType("icon"); // Choose from app icons
-
-    QLabel* tmpQLabel = new QLabel( this, "Label_1" );
-    tmpQLabel->setText( i18n("Background") );
-    tmpQLabel->move( 90, 10 );
-    tmpQLabel->adjustSize();
-
-    wallBox = new QComboBox( false, this, "ComboBox_1" );
-
-    applyButton = new QPushButton( i18n("Apply wallpaper") , this );
-    applyButton->adjustSize();
-    connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
-
-    globalButton = new QPushButton( i18n("Apply  wallpaper globally"), this );
-    globalButton->adjustSize();
-    connect( globalButton, SIGNAL( clicked() ), this, SLOT( slotApplyGlobal() ) );
-
-    QString tmp = _props->kurl().path();
-
-    if ( tmp.at(tmp.length() - 1) != '/' )
-	tmp += "/.directory";
-    else
-	tmp += ".directory";
-
-    QFile f( tmp );
-    if ( f.open( IO_ReadOnly ) )
-    {
-	f.close();
-
-	KConfig config( tmp );
-	config.setDesktopGroup();
-	wallStr = config.readEntry( "BgImage" );
-	iconStr = config.readEntry( "Icon" );
-    }
-
-    if ( iconStr.isEmpty() )
-	iconStr = KMimeType::findByURL( properties->kurl(), properties->item()->mode(), true )->KServiceType::icon();
-
-    iconBox->setIcon( iconStr );
-
-    QStringList list = KGlobal::dirs()->findAllResources("wallpaper");
-    wallBox->insertItem(  i18n("(Default)"), 0 );
-
-    for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
-        wallBox->insertItem( ( (*it).at(0)=='/' ) ?        // if absolute path
-                             KURL( *it ).filename() :    // then only filename
-                             *it );
-
-    showSettings( wallStr );
-
-    wallBox->adjustSize();
-
-    browseButton = new QPushButton( i18n("&Browse..."), this );
-    browseButton->adjustSize();
-    connect( browseButton, SIGNAL( clicked() ), SLOT( slotBrowse() ) );
-
-    wallWidget = new QWidget( this );
-    loadWallPaper();
-
-    connect( wallBox, SIGNAL( activated( int ) ), this, SLOT( slotWallPaperChanged( int ) ) );
-}
-
-bool DirPropsPage::supports( KFileItemList _items )
-{
-  KFileItem * item = _items.first();
-
-  if ( !S_ISDIR( item->mode() ) )
-    return false;
-
-  // Is it the trash bin ?
-  QString path = item->url().path( 1 ); // adds trailing slash
-
-  if ( item->url().isLocalFile() && path == KUserPaths::trashPath() )
-    return false;
-
-  return true;
-}
-
-void DirPropsPage::applyChanges()
-{
-    QString tmp = properties->kurl().path();
-    if ( tmp.at( tmp.length() - 1 ) != '/' )
-	tmp += "/.directory";
-    else
-	tmp += ".directory";
-
-    QFile f( tmp );
-    if ( !f.open( IO_ReadWrite ) )
-    {
-      KMessageBox::error( 0, i18n("Could not write to\n") + tmp);
-	return;
-    }
-    f.close();
-
-    KConfig config( tmp );
-    config.setDesktopGroup();
-
-    int i = wallBox->currentItem();
-    if ( i != -1 )
-    {
-	if ( strcmp( wallBox->text( i ),  i18n("(Default)") ) == 0 )
-	    config.writeEntry( "BgImage", "" );
-	else
-	    config.writeEntry( "BgImage", wallBox->text( i ) );
-    }
-
-    // Get the default image
-    QString str = KMimeType::findByURL( properties->kurl(),
-                                        properties->item()->mode(), true )->KServiceType::icon();
-    QString sIcon;
-    // Is it another one than the default ?
-    if ( str != iconBox->icon() )
-        sIcon = iconBox->icon();
-    // (otherwise write empty value)
-    config.writeEntry( "Icon", sIcon );
-    config.writeEntry( "MiniIcon", sIcon );
-
-    config.sync();
-}
-
-void DirPropsPage::showSettings( QString filename )
-{
-  wallBox->setCurrentItem( 0 );
-  for ( int i = 1; i < wallBox->count(); i++ )
-    {
-      if ( filename == wallBox->text( i ) )
-        {
-          wallBox->setCurrentItem( i );
-          return;
-        }
-    }
-
-  if ( !filename.isEmpty() )
-    {
-      wallBox->insertItem( filename );
-      wallBox->setCurrentItem( wallBox->count()-1 );
-    }
-}
-
-void DirPropsPage::slotBrowse( )
-{
-    QString filename = KFileDialog::getOpenFileName( 0 );
-    showSettings( filename );
-    wallBox->adjustSize();
-    loadWallPaper();
-}
-
-void DirPropsPage::slotWallPaperChanged( int )
-{
-    loadWallPaper();
-}
-
-void DirPropsPage::loadWallPaper()
-{
-    int i = wallBox->currentItem();
-    if ( i == -1 )
-        wallPixmap.resize(0,0);
-    else
-    {
-        QString text = wallBox->text( i );
-        if ( text == i18n( "(Default)" ) )
-            wallPixmap.resize(0,0);
-        else
-        {
-            QString file = locate("wallpaper", text);
-            if ( file != wallFile )
-            {
-                // debugT("Loading WallPaper '%s'\n",file.ascii());
-                wallFile = file;
-                wallPixmap.load( file );
-            }
-
-            if ( wallPixmap.isNull() )
-                warning("Could not load wallpaper %s\n",file.ascii());
-        }
-    }
-    wallWidget->setBackgroundPixmap( wallPixmap );
-}
-
-void DirPropsPage::resizeEvent ( QResizeEvent *)
-{
-    iconBox->setGeometry( 10, 20, 50, 50 );
-    wallBox->move( 90, 10 + fontHeight );
-    browseButton->move( 90, wallBox->y()+wallBox->height()+KDialog::spacingHint() ); // under wallBox
-
-    imageX = 10;
-    imageY = browseButton->y()+browseButton->height()+KDialog::spacingHint(); // under the browse button
-    imageW = width() - imageX - KDialog::spacingHint();
-    imageH = height() - imageY - applyButton->height() - KDialog::spacingHint()*2;
-
-    wallWidget->setGeometry( imageX, imageY, imageW, imageH );
-    applyButton->move( 10, imageY+imageH+KDialog::spacingHint() );
-    globalButton->move( applyButton->x() + applyButton->width() + KDialog::spacingHint(), applyButton->y() );
-}
-
-void DirPropsPage::slotApply()
-{
-    applyChanges();
-}
-
-void DirPropsPage::slotApplyGlobal()
-{
-    // Write the image setting to konqueror's configuration
-    KConfig *config = new KConfig( "konquerorrc", false, false );
-
-    config->setGroup( "HTML Settings" ); // TODO : FM Settings when done in kcmkonq
-
-    int i = wallBox->currentItem();
-    if ( i != -1 )
-    {
-	if ( strcmp( wallBox->text( i ),  i18n("(None)") ) == 0 )
-	    config->writeEntry( "BgImage", "" );
-	else
-	    config->writeEntry( "BgImage", wallBox->text( i ) );
-    }
-
-    config->sync();
-    delete config;
+  KSimpleConfig config( path );
+  config.setDesktopGroup();
+  config.writeEntry( "Type", "URL");
+  config.writeEntry( "URL", URLEdit->text() );
 }
 
 /* ----------------------------------------------------
@@ -1286,148 +996,118 @@ void DirPropsPage::slotApplyGlobal()
  *
  * -------------------------------------------------- */
 
-ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
+ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) 
+  : PropsPage( _props )
 {
-    layout = new QBoxLayout(this, QBoxLayout::TopToBottom, KDialog::spacingHint());
-    binaryPatternEdit = new QLineEdit( this, "LineEdit_1" );
-    commentEdit = new QLineEdit( this, "LineEdit_2" );
-    nameEdit = new QLineEdit( this, "LineEdit_3" );
+  QVBoxLayout *toplayout = new QVBoxLayout(this, KDialog::spacingHint());
 
-    extensionsList = new QListBox( this );
-    availableExtensionsList = new QListBox( this );
-    addExtensionButton = new QPushButton( "<-", this );
-    delExtensionButton = new QPushButton( "->", this );
+  availableExtensionsList = new QListBox( this );
+  addExtensionButton = new QPushButton( "<<", this );
+  delExtensionButton = new QPushButton( ">>", this );
+  
+  QLabel *l;
 
-    binaryPatternEdit->raise();
-    binaryPatternEdit->setMinimumSize(210, fontHeight);
-    binaryPatternEdit->setMaximumSize(QLayout::unlimited, fontHeight);
-    binaryPatternEdit->setText( "" );
-    binaryPatternEdit->setMaxLength( 512 );
+  QGridLayout *grid = new QGridLayout(2, 2);
+  grid->setColStretch(1, 1);
+  toplayout->addLayout(grid);
 
-    QLabel* tmpQLabel;
-    tmpQLabel = new QLabel( this, "Label_1" );
-    tmpQLabel->setText(  i18n("Binary Pattern (netscape;Netscape;)") );
-    tmpQLabel->setFixedSize(tmpQLabel->sizeHint());
-    layout->addWidget(tmpQLabel, 0, AlignLeft);
+  l = new QLabel(i18n("Name:"),  this, "Label_4" );
+  grid->addWidget(l, 0, 0);
 
-    layout->addWidget(binaryPatternEdit, 0, AlignLeft);
+  nameEdit = new KLineEdit( this, "LineEdit_3" );
+  grid->addWidget(nameEdit, 0, 1);
 
-    tmpQLabel = new QLabel( this, "Label_3" );
-    tmpQLabel->setText(  i18n("Comment") );
-    tmpQLabel->setFixedSize(tmpQLabel->sizeHint());
-    layout->addWidget(tmpQLabel, 0, AlignLeft);
+  l = new QLabel(i18n("Comment:"),  this, "Label_3" );
+  grid->addWidget(l, 1, 0);
 
-    commentEdit->raise();
-    commentEdit->setMinimumSize(210, fontHeight);
-    commentEdit->setMaximumSize(QLayout::unlimited, fontHeight);
-    commentEdit->setMaxLength( 256 );
-    layout->addWidget(commentEdit, 0, AlignLeft);
+  commentEdit = new KLineEdit( this, "LineEdit_2" );
+  grid->addWidget(commentEdit, 1, 1);
 
-    tmpQLabel = new QLabel( this, "Label_4" );
-    tmpQLabel->setText(  i18n("Name ( in your language )") );
-    tmpQLabel->setFixedSize(tmpQLabel->sizeHint());
-    layout->addWidget(tmpQLabel, 0, AlignLeft);
+  l = new QLabel(i18n("File types:"), this);
+  toplayout->addWidget(l, 0, AlignLeft);
 
-    nameEdit->raise();
-    nameEdit->setMaxLength( 256 );
-    nameEdit->setMinimumSize(210, fontHeight);
-    nameEdit->setMaximumSize(QLayout::unlimited, fontHeight);
-    layout->addWidget(nameEdit, 0, AlignLeft);
+  grid = new QGridLayout(4, 3);
+  grid->setColStretch(0, 1);
+  grid->setColStretch(2, 1);
+  toplayout->addLayout(grid, 2);
 
-    layoutH = new QBoxLayout(QBoxLayout::LeftToRight);
-    layout->addLayout(layoutH, 10);
+  extensionsList = new QListBox( this );
+  grid->addMultiCellWidget(extensionsList, 0, 3, 0, 0);
 
-    layoutH->addWidget(extensionsList, 10);
+  grid->addWidget(addExtensionButton, 1, 1);
+  connect( addExtensionButton, SIGNAL( pressed() ),
+	   this, SLOT( slotAddExtension() ) );
+  grid->addWidget(delExtensionButton, 2, 1);
+  connect( delExtensionButton, SIGNAL( pressed() ),
+	   this, SLOT( slotDelExtension() ) );
+  grid->addMultiCellWidget(availableExtensionsList, 0, 3, 2, 2);
 
-    layoutV = new QBoxLayout(QBoxLayout::TopToBottom);
-    layoutH->addLayout(layoutV, 0);
-    layoutV->addStretch(3);
-    addExtensionButton->setFixedSize(40, 40);
-    layoutV->addWidget(addExtensionButton, 0);
-    layoutV->addStretch(3);
-    connect( addExtensionButton, SIGNAL( pressed() ),
-	     this, SLOT( slotAddExtension() ) );
-    delExtensionButton->setFixedSize(40, 40);
-    layoutV->addWidget(delExtensionButton, 0);
-    layoutV->addStretch(3);
-    connect( delExtensionButton, SIGNAL( pressed() ),
-	     this, SLOT( slotDelExtension() ) );
-    layoutH->addWidget(availableExtensionsList, 10);
+  QString path = properties->kurl().path() ;
+  QFile f( path );
+  if ( !f.open( IO_ReadOnly ) )
+    return;
+  f.close();
 
-    layout->activate();
+  m_sRelativePath = "";
+  // now let's make it relative
+  QStringList appsdirs = KGlobal::dirs()->resourceDirs("apps");
+  QStringList::ConstIterator it = appsdirs.begin();
+  for ( ; it != appsdirs.end() && m_sRelativePath.isEmpty(); ++it ) {
+    // might need canonicalPath() ...
+    if ( path.find( *it ) == 0 ) // path is appsdirs + relativePath
+      m_sRelativePath = path.mid( (*it).length() ); // skip appsdirs
+  }
+  if ( m_sRelativePath.isEmpty() )
+    kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps dir !!!").arg( path ) );
 
-    QString path = _props->kurl().path() ;
-    //KURL::decodeURL( path );	
-    QFile f( path );
-    if ( !f.open( IO_ReadOnly ) )
-	return;
-    f.close();
+  while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
+  kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
+  
+  KSimpleConfig config( path );
+  config.setDesktopGroup();
+  commentStr = config.readEntry( "Comment" );
+  extensions = config.readListEntry( "MimeType" );
+  nameStr = config.readEntry( "Name" );
+  // Use the file name if no name is specified
+  if ( nameStr.isEmpty() ) {
+    nameStr = _props->kurl().filename();
+    if ( nameStr.right(8) == ".desktop" )
+      nameStr.truncate( nameStr.length() - 8 );
+    if ( nameStr.right(7) == ".kdelnk" )
+      nameStr.truncate( nameStr.length() - 7 );
+    //KURL::decodeURL( nameStr );
+  }
 
-    m_sRelativePath = "";
-    // now let's make it relative
-    QStringList appsdirs = KGlobal::dirs()->resourceDirs("apps");
-    QStringList::ConstIterator it = appsdirs.begin();
-    for ( ; it != appsdirs.end() && m_sRelativePath.isEmpty(); ++it )
-    {
-      // might need canonicalPath() ...
-      if ( path.find( *it ) == 0 ) // path is appsdirs + relativePath
-        m_sRelativePath = path.mid( (*it).length() ); // skip appsdirs
-    }
-    if ( m_sRelativePath.isEmpty() )
-      kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps dir !!!").arg( path ) );
+  if ( !commentStr.isNull() )
+    commentEdit->setText( commentStr );
+  if ( !nameStr.isNull() )
+    nameEdit->setText( nameStr );
+  QStringList::Iterator sit = extensions.begin();
+  for( ; sit != extensions.end(); ++sit )
+    extensionsList->inSort( *sit );
 
-    while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
-    kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
-
-    KConfig config( path );
-    config.setDesktopGroup();
-    commentStr = config.readEntry( "Comment" );
-    binaryPatternStr = config.readEntry( "BinaryPattern" );
-    extensions = config.readListEntry( "MimeType" );
-    nameStr = config.readEntry( "Name" );
-    // Use the file name if no name is specified
-    if ( nameStr.isEmpty() )
-    {
-	nameStr = _props->kurl().filename();
-	if ( nameStr.right(8) == ".desktop" )
-	    nameStr.truncate( nameStr.length() - 8 );
-	if ( nameStr.right(7) == ".kdelnk" )
-	    nameStr.truncate( nameStr.length() - 7 );
-	//KURL::decodeURL( nameStr );
-    }
-
-    if ( !commentStr.isNull() )
-	commentEdit->setText( commentStr );
-    if ( !nameStr.isNull() )
-	nameEdit->setText( nameStr );
-    if ( !binaryPatternStr.isNull() )
-	binaryPatternEdit->setText( binaryPatternStr );
-    QStringList::Iterator sit = extensions.begin();
-    for( ; sit != extensions.end(); ++sit )
-	extensionsList->inSort( *sit );
-
-    addMimeType( "all" );
-    addMimeType( "alldirs" );
-    addMimeType( "allfiles" );
-
-    KMimeType::List mimeTypes = KMimeType::allMimeTypes();
-    QValueListIterator<KMimeType::Ptr> it2 = mimeTypes.begin();
-    for ( ; it2 != mimeTypes.end(); ++it2 )
-        addMimeType ( (*it2)->name() );
+  addMimeType( "all" );
+  addMimeType( "alldirs" );
+  addMimeType( "allfiles" );
+  
+  KMimeType::List mimeTypes = KMimeType::allMimeTypes();
+  QValueListIterator<KMimeType::Ptr> it2 = mimeTypes.begin();
+  for ( ; it2 != mimeTypes.end(); ++it2 )
+    addMimeType ( (*it2)->name() );
 }
 
 void ApplicationPropsPage::addMimeType( const char * name )
 {
-    // Add a mimetype to the list of available mime types if not in the extensionsList
-
-    bool insert = true;
-	
-    for ( uint i = 0; i < extensionsList->count(); i++ )
-        if ( strcmp( name, extensionsList->text( i ) ) == 0 )
-            insert = false;
-	
-    if ( insert )
-        availableExtensionsList->inSort( name );
+  // Add a mimetype to the list of available mime types if not in the extensionsList
+  
+  bool insert = true;
+  
+  for ( uint i = 0; i < extensionsList->count(); i++ )
+    if ( strcmp( name, extensionsList->text( i ) ) == 0 )
+      insert = false;
+  
+  if ( insert )
+    availableExtensionsList->inSort( name );
 }
 
 bool ApplicationPropsPage::supports( KFileItemList _items )
@@ -1438,61 +1118,54 @@ bool ApplicationPropsPage::supports( KFileItemList _items )
 
 void ApplicationPropsPage::applyChanges()
 {
-    // Save the file where we can -> usually in ~/.kde/...
-    QString path = locateLocal( "apps", m_sRelativePath );
-    properties->updateUrl( KURL( path ) );
+  // Save the file where we can -> usually in ~/.kde/...
+  QString path = locateLocal( "apps", m_sRelativePath );
+  properties->updateUrl( KURL( path ) );
+  
+  QFile f( path );
+  
+  if ( !f.open( IO_ReadWrite ) ) {
+    KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to this file or directory."));
+    return;
+  }
+  f.close();
 
-    QFile f( path );
-
-    if ( !f.open( IO_ReadWrite ) )
-    {
-	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
-	return;
-    }
-
-    f.close();
-    KSimpleConfig config( path );
-    config.setDesktopGroup();
-    config.writeEntry( "Type", "Application");
-    config.writeEntry( "Comment", commentEdit->text(), true, false, true );
-
-    QString tmp = binaryPatternEdit->text();
-    if ( tmp.length() > 0 )
-	if ( tmp.at(tmp.length() - 1) != ';' )
-	    tmp += ';';
-    config.writeEntry( "BinaryPattern", tmp );
-
-    extensions.clear();
-    for ( uint i = 0; i < extensionsList->count(); i++ )
-	extensions.append( extensionsList->text( i ) );
-
-    config.writeEntry( "MimeType", extensions );
-    config.writeEntry( "Name", nameEdit->text(), true, false, true );
-
-    config.sync();
-    f.close();
+  KSimpleConfig config( path );
+  config.setDesktopGroup();
+  config.writeEntry( "Type", "Application");
+  config.writeEntry( "Comment", commentEdit->text(), true, false, true );
+  
+  extensions.clear();
+  for ( uint i = 0; i < extensionsList->count(); i++ )
+    extensions.append( extensionsList->text( i ) );
+  
+  config.writeEntry( "MimeType", extensions );
+  config.writeEntry( "Name", nameEdit->text(), true, false, true );
+  
+  config.sync();
+  f.close();
 }
 
 void ApplicationPropsPage::slotAddExtension()
 {
-    int pos = availableExtensionsList->currentItem();
-
-    if ( pos == -1 )
-	return;
-
-    extensionsList->inSort( availableExtensionsList->text( pos ) );
-    availableExtensionsList->removeItem( pos );
+  int pos = availableExtensionsList->currentItem();
+  
+  if ( pos == -1 )
+    return;
+  
+  extensionsList->inSort( availableExtensionsList->text( pos ) );
+  availableExtensionsList->removeItem( pos );
 }
 
 void ApplicationPropsPage::slotDelExtension()
 {
-    int pos = extensionsList->currentItem();
-
-    if ( pos == -1 )
-	return;
-
-    availableExtensionsList->inSort( extensionsList->text( pos ) );
-    extensionsList->removeItem( pos );
+  int pos = extensionsList->currentItem();
+  
+  if ( pos == -1 )
+    return;
+  
+  availableExtensionsList->inSort( extensionsList->text( pos ) );
+  extensionsList->removeItem( pos );
 }
 
 /* ----------------------------------------------------
@@ -1503,9 +1176,9 @@ void ApplicationPropsPage::slotDelExtension()
 
 BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-    patternEdit = new QLineEdit( this, "LineEdit_1" );
-    commentEdit = new QLineEdit( this, "LineEdit_2" );
-    mimeEdit = new QLineEdit( this, "LineEdit_3" );
+    patternEdit = new KLineEdit( this, "LineEdit_1" );
+    commentEdit = new KLineEdit( this, "LineEdit_2" );
+    mimeEdit = new KLineEdit( this, "LineEdit_3" );
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
     iconBox->setIconType("icon"); // Choose from app icons
     appBox = new QComboBox( false, this, "ComboBox_2" );
@@ -1573,7 +1246,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
 	return;
     f.close();
 
-    KConfig config( _props->kurl().path() );
+    KSimpleConfig config( _props->kurl().path() );
     config.setDesktopGroup();
     QString patternStr = config.readEntry( "Patterns" );
     QString appStr = config.readEntry( "DefaultApp" );
@@ -1645,7 +1318,7 @@ void BindingPropsPage::applyChanges()
     }
     f.close();
 
-    KConfig config( path );
+    KSimpleConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "MimeType" );
 
@@ -1679,7 +1352,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->setText(  i18n("Device ( /dev/fd0 )") );
     tmpQLabel->adjustSize();
 
-    device = new QLineEdit( this, "LineEdit_1" );
+    device = new KLineEdit( this, "LineEdit_1" );
     device->setGeometry( 10, 40, 180, 30 );
     device->setText( "" );
 
@@ -1688,7 +1361,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->setText(  i18n("Mount Point ( /floppy )") );
     tmpQLabel->adjustSize();
 
-    mountpoint = new QLineEdit( this, "LineEdit_2" );
+    mountpoint = new KLineEdit( this, "LineEdit_2" );
     mountpoint->setGeometry( 10, 110, 180, 30 );
     mountpoint->setText( "" );
     if ( !IamRoot )
@@ -1705,7 +1378,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->setText(  i18n("Filesystems ( iso9660,msdos,minix,default )") );
     tmpQLabel->adjustSize();
 
-    fstype = new QLineEdit( this, "LineEdit_3" );
+    fstype = new KLineEdit( this, "LineEdit_3" );
     fstype->setGeometry( 10, 180, 280, 30 );
     fstype->setText( "" );
     if ( !IamRoot )
@@ -1736,7 +1409,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 	return;
     f.close();
 
-    KConfig config( path );
+    KSimpleConfig config( path );
     config.setDesktopGroup();
     deviceStr = config.readEntry( "Dev" );
     mountPointStr = config.readEntry( "MountPoint" );
@@ -1786,7 +1459,7 @@ void DevicePropsPage::applyChanges()
     }
     f.close();
 
-    KConfig config( path );
+    KSimpleConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "FSDev" );
 

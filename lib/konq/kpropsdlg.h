@@ -49,8 +49,8 @@
 class QLineEdit;
 class QCheckBox;
 class QPushButton;
-class KIconLoaderButton;
 
+class KIconLoaderButton;
 class PropsPage;
 
 /**
@@ -286,8 +286,8 @@ public:
   static bool supports( KFileItemList _items );
 
 protected:
-  KIconLoaderButton *iconButton;
-  QLineEdit *name;
+  QWidget *iconArea;
+  QWidget *nameArea;
 
   bool m_bFromTemplate;
 
@@ -373,7 +373,6 @@ private slots:
 protected:
 
     QLineEdit *execEdit;
-    KIconLoaderButton *iconBox;
     QCheckBox *terminalCheck;
     QLineEdit *terminalEdit;
     QLineEdit *swallowExecEdit;
@@ -382,7 +381,6 @@ protected:
     QString m_sRelativePath;
 
     QString execStr;
-    QString iconStr;
     QString swallowExecStr;
     QString swallowTitleStr;
     QString termStr;
@@ -422,51 +420,6 @@ protected:
 };
 
 /**
- * Properties page for directories
- */
-class DirPropsPage : public PropsPage
-{
-  Q_OBJECT
-public:
-  /**
-   * Constructor
-   */
-  DirPropsPage( PropertiesDialog *_props );
-  ~DirPropsPage() {};
-
-  virtual QString tabName() const { return i18n("&Dir"); }
-  virtual void applyChanges();
-
-  static bool supports( KFileItemList _items );
-
-public slots:
-  void slotWallPaperChanged( int );
-  void slotBrowse();
-  void slotApply();
-  void slotApplyGlobal();
-
-protected:
-  void showSettings(QString filename);
-  void loadWallPaper();
-  virtual void resizeEvent ( QResizeEvent *);
-
-  QPushButton *applyButton;
-  QPushButton *globalButton;
-  QPushButton *browseButton;
-
-  KIconLoaderButton *iconBox;
-  QComboBox *wallBox;
-
-  QString wallStr;
-  QString iconStr;
-
-  QWidget * wallWidget;
-  QPixmap wallPixmap;
-  QString wallFile;
-  int imageX, imageW, imageH, imageY;
-};
-
-/**
  * Used to edit the files containing
  * [Desktop Entry]
  * Type=Application
@@ -495,7 +448,6 @@ protected:
 
   void addMimeType( const char * name );
 
-  QLineEdit *binaryPatternEdit;
   QLineEdit *commentEdit;
   QLineEdit *nameEdit;
   QListBox  *extensionsList;
@@ -503,11 +455,8 @@ protected:
   QPushButton *addExtensionButton;
   QPushButton *delExtensionButton;
 
-  QBoxLayout *layout, *layoutH, *layoutV;
-
   QString nameStr;
   QStringList extensions;
-  QString binaryPatternStr;
   QString commentStr;
   QString m_sRelativePath;
 };

@@ -64,6 +64,17 @@ public:
    * @return the mode of the file, as returned by stat()
    */
   mode_t mode() const { return m_mode; }
+
+  /**
+   * @return the owner of the file.
+   */
+  QString user() const { return m_user; }
+
+  /**
+   * @return the group of the file.
+   */
+  QString group() const { return m_group; }
+
   /**
    * @return true if this icons represents a link in the UNIX sense of
    * a link. If yes, then we have to draw the label with an italic font.
@@ -198,6 +209,12 @@ protected:
    * The mode (as given by stat()) for the file - or the link-dest for a link
    */
   mode_t m_mode;
+
+  /**
+   * the user and group assigned to the file.
+   */
+  QString m_user, m_group;
+
   /**
    * Whether the file is a link
    */

@@ -45,8 +45,12 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   m_strText = QString::null;
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
-    if ( (*it).m_uds == UDS_FILE_TYPE )
+    if ( (*it).m_uds == UDS_ACCESS )
       m_mode = (mode_t)((*it).m_long);
+    else if ( (*it).m_uds == UDS_USER)
+      m_user = ((*it).m_str);
+    else if ( (*it).m_uds == UDS_GROUP)
+      m_group = ((*it).m_str);
     else if ( (*it).m_uds == UDS_NAME )
       m_strText = decodeFileName( (*it).m_str );
     else if ( (*it).m_uds == UDS_URL )
