@@ -37,6 +37,7 @@ public:
         virtual void load();
         virtual void save();
         virtual void defaults();
+        virtual QString quickhelp();
 
 private slots:
 

@@ -30,6 +30,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
+#include <qwhatsthis.h>
 #include <assert.h>
 
 #include "rootopts.h"
@@ -59,11 +60,26 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   VertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
   lay->addMultiCellWidget(VertAlignBox, row, row, 0, 1);
   connect(VertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( VertAlignBox, i18n("Check this option if you want the icons"
+    " on the desktop to be aligned vertically (in columns). If you leave this"
+    " option unchecked, desktop icons are aligned horizontally.<p>"
+    " Note that you can drag icons wherever you want to on the desktop. When"
+    " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
+    " arranged horizontally or vertically.") );
 
   row++;
   showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
   lay->addMultiCellWidget(showHiddenBox, row, row, 0, 1);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
+    " in your desktop directory that begin with a period (.) will be shown."
+    " Usually, such files contain configuration information, and remain"
+    " hidden from view.<p>"
+    " For example, files which are named \".directory\" are plain text files"
+    " which contain information for Konqueror, such as the icon to use in"
+    " displaying a directory, the order in which files should be sorted, etc."
+    " You should not change or delete these files unless you know what you"
+    " are doing!") );
 
   row++;
   QFrame * hLine2 = new QFrame(this);
@@ -92,6 +108,21 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->addWidget( middleComboBox, row, 1 );
   fillMenuCombo( middleComboBox );
   connect(middleComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  QWhatsThis::add( middleComboBox, i18n("You can choose what happens when"
+    " you click the middle button of your pointing device on the desktop:"
+    " <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
+    " <li><em>Window list menu:</em> a menu showing all windows on all"
+    " virtual desktops pops up. You can click on the desktop name to switch"
+    " to that desktop, or on a window name to shift focus to that window,"
+    " switching desktops if necessary, and restoring the window if it is"
+    " hidden. Hidden or minimized windows are represented with their names"
+    " in parentheses.</li>"
+    " <li><em>Desktop menu:</em> a context menu for the desktop pops up."
+    " Among other things, this menu has options for configuring the display,"
+    " locking the screen, and logging out of KDE.</li>"
+    " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
+    " useful for quickly accessing applications if you like to keep the"
+    " panel (also known as \"Kicker\") hidden from view.</li></ul>") );
 
   row++;
   tmpLabel = new QLabel( i18n("Right button"), this );
@@ -100,6 +131,21 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->addWidget( rightComboBox, row, 1 );
   fillMenuCombo( rightComboBox );
   connect(rightComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  QWhatsThis::add( rightComboBox, i18n("You can choose what happens when"
+    " you click the right button of your pointing device on the desktop:"
+    " <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
+    " <li><em>Window list menu:</em> a menu showing all windows on all"
+    " virtual desktops pops up. You can click on the desktop name to switch"
+    " to that desktop, or on a window name to shift focus to that window,"
+    " switching desktops if necessary, and restoring the window if it is"
+    " hidden. Hidden or minimized windows are represented with their names"
+    " in parentheses.</li>"
+    " <li><em>Desktop menu:</em> a context menu for the desktop pops up."
+    " Among other things, this menu has options for configuring the display,"
+    " locking the screen, and logging out of KDE.</li>"
+    " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
+    " useful for quickly accessing applications if you like to keep the"
+    " panel (also known as \"Kicker\") hidden from view.</li></ul>") );
 
   // Desktop Paths
 
@@ -114,6 +160,10 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   leDesktop = new QLineEdit(this);
   lay->addMultiCellWidget(leDesktop, row, row, 1, RO_LASTCOL);
   connect(leDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  QWhatsThis::add( leDesktop, i18n("This directory contains all the files"
+    " which you see on your desktop. You can change the location of this"
+    " directory if you want to, and the contents will move automatically"
+    " to the new location as well.") );
 
   row++;
   tmpLabel = new QLabel(i18n("Trash path:"), this);
@@ -121,6 +171,10 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   leTrash = new QLineEdit(this);
   lay->addMultiCellWidget(leTrash, row, row, 1, RO_LASTCOL);
   connect(leTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  QWhatsThis::add( leTrash, i18n("This directory contains deleted files (until"
+    " you empty the trashcan). You can change the location of this"
+    " directory if you want to, and the contents will move automatically"
+    " to the new location as well.") );
 
   row++;
   tmpLabel = new QLabel(i18n("Autostart path:"), this);
@@ -128,9 +182,15 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   leAutostart = new QLineEdit(this);
   lay->addMultiCellWidget(leAutostart, row, row, 1, RO_LASTCOL);
   connect(leAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  QWhatsThis::add( leAutostart, i18n("This directory contains applications or"
+    " links to applications (shortcuts) that you want to have started"
+    " automatically whenever KDE starts. You can change the location of this"
+    " directory if you want to, and the contents will move automatically"
+    " to the new location as well.") );
 
   row++;
-  tmpLabel = new QLabel(i18n("Note that changing a path automatically moves the contents of the directory,\nmoving it manually is not needed"), this);
+  tmpLabel = new QLabel(i18n("Note that changing a path automatically moves"
+     " the contents of the directory.\nMoving them manually is not necessary."), this);
   lay->addMultiCellWidget(tmpLabel, row, row, 0, RO_LASTCOL);
 
   // -- Bottom --
@@ -265,6 +325,17 @@ void KRootOptions::slotResult( KIO::Job * job )
 void KRootOptions::changed()
 {
   emit KCModule::changed(true);
+}
+
+
+QString KRootOptions::quickHelp()
+{
+  return i18n("<h1>Root window options</h1> The \"root window\" is just another"
+    " name for the desktop. This module allows you to choose various options"
+    " for your desktop, including the way in which icons are arranged, the"
+    " location of your desktop directory, and the pop-up menus associated"
+    " with clicks of the middle and right mouse buttons on the desktop."
+    " Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
 }
 
 
