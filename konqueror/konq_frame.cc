@@ -765,7 +765,7 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
   m_pPopupMenu->insertItem( "&Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ) );
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( "&Close Tab", m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
-  m_pPopupMenu->insertItem( "&Break Off Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
+  m_pPopupMenu->insertItem( "&Detach Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
 }
 
 void KonqTabBar::mouseReleaseEvent(QMouseEvent *e)
