@@ -31,11 +31,13 @@
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
 
+#include <zlib.h>
+
 template class QMap<QString,KonqHistoryEntry*>;
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
-      KonqHistoryComm( "KonqHistoryManager" )
+              KonqHistoryComm( "KonqHistoryManager" )
 {
     // defaults
     KConfig *config = KGlobal::config();
@@ -85,31 +87,55 @@ bool KonqHistoryManager::loadHistory()
 	emit loadingFinished();
 	return ret;
     }
-	
-    QDataStream stream( &file );
 
-    if ( !stream.atEnd() ) {
+    QDataStream fileStream( &file );
+    QByteArray data; // only used for version == 2
+    // we construct the stream object now but fill in the data later.
+    // thanks to QBA's explicit sharing this works :)
+    QDataStream crcStream( data, IO_ReadOnly );
+
+    if ( !fileStream.atEnd() ) {
 	Q_UINT32 version;
-	stream >> version;
-	if ( s_historyVersion != version ) { // simple version check for now
+        fileStream >> version;
+
+        QDataStream *stream = &fileStream;
+
+        bool crcChecked = false;
+        bool crcOk = false;
+
+        if ( version == 2 ) {
+            Q_UINT32 crc;
+
+            crcChecked = true;
+
+            fileStream >> crc >> data;
+
+            crcOk = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() ) == crc;
+
+            stream = &crcStream; // pick up the right stream
+        }
+        else if ( version == 1 ) // fake, as we still support v1
+            version = 2;
+
+        if ( s_historyVersion != version || ( crcChecked && !crcOk ) ) {
 	    kdWarning() << "The history version doesn't match, aborting loading" << endl;
 	    file.close();
 	    emit loadingFinished();
 	    return false;
 	}
-	
+
 	// it doesn't make sense to save to save maxAge and maxCount  in the
 	// binary file, this would make backups impossible (they would clear
 	// themselves on startup, because all entries expire).
 	Q_UINT32 dummy;
-	stream >> dummy;
-	stream >> dummy;
+        *stream >> dummy;
+        *stream >> dummy;
 
-	while ( !stream.atEnd() ) {
+        while ( !stream->atEnd() ) {
 	    KonqHistoryEntry *entry = new KonqHistoryEntry;
 	    CHECK_PTR( entry );
-	    stream >> *entry;
-	
+            *stream >> *entry;
+
 	    // kdDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;
 	    m_history.append( entry );
 
@@ -122,9 +148,9 @@ bool KonqHistoryManager::loadHistory()
 	    // and fill our baseclass.
 	    KParts::HistoryProvider::insert( entry->url.url() );
 	}
-	
+
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
-	
+
 	m_history.sort();
 	adjustSize();
     }
@@ -146,17 +172,25 @@ bool KonqHistoryManager::saveHistory()
 	return false;
     }
 
-    QDataStream *stream = file.dataStream();
-    *stream << s_historyVersion;
-    *stream << m_maxCount;   // not saved in history anymore, just a dummy here
-    *stream << m_maxAgeDays; // not saved in history anymore, just a dummy here
+    QDataStream *fileStream = file.dataStream();
+    *fileStream << s_historyVersion;
+
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+
+    stream << m_maxCount;   // not saved in history anymore, just a dummy here
+    stream << m_maxAgeDays; // not saved in history anymore, just a dummy here
 
     QListIterator<KonqHistoryEntry> it( m_history );
     KonqHistoryEntry *entry;
     while ( (entry = it.current()) ) {
-	*stream << *entry;
+        stream << *entry;
 	++it;
     }
+
+    Q_UINT32 crc = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() );
+    *fileStream << crc << data;
+
     file.close();
 
     return true;
@@ -175,7 +209,7 @@ void KonqHistoryManager::adjustSize()
 
 	emit entryRemoved( m_history.getFirst() );
 	m_history.removeFirst(); // deletes the entry
-	
+
 	entry = m_history.getFirst();
     }
 }
@@ -225,7 +259,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 	if ( it != m_pending.end() ) {
 	    delete it.data();
 	    m_pending.remove( it );
-	
+
 	    // we make a pending entry official, so we just have to update
 	    // and not increment the counter. No need to care about
 	    // firstVisited, as this is not taken into account on update.
@@ -239,7 +273,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 	// If there is no entry for the url yet, we just store the url.
 	KonqHistoryEntry *oldEntry = findEntry( url );
 	m_pending.insert( u, oldEntry ?
-			             new KonqHistoryEntry( *oldEntry ) : 0L );
+                          new KonqHistoryEntry( *oldEntry ) : 0L );
     }
 
     // notify all konqueror instances about the entry
@@ -289,7 +323,7 @@ void KonqHistoryManager::removePending( const KURL& url )
 
 	if ( oldEntry ) // we had an entry before, now use that instead
 	    emitAddToHistory( *oldEntry );
-	
+
 	delete oldEntry;
 	m_pending.remove( it );
     }
@@ -442,13 +476,13 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
     if ( entry ) { // entry is now the current item
 	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
-	
+
 	KParts::HistoryProvider::remove( entry->url.url() );
-	
+
 	m_history.take(); // does not delete
 	emit entryRemoved( entry );
 	delete entry;
-	
+
 	if ( saveId == objId() )
 	    saveHistory();
     }
@@ -465,15 +499,15 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	if ( entry ) { // entry is now the current item
 	    m_pCompletion->removeItem( entry->url.prettyURL() );
 	    m_pCompletion->removeItem( entry->typedURL );
-	
+
 	    KParts::HistoryProvider::remove( entry->url.url() );
-	
+
 	    m_history.take(); // does not delete
 	    emit entryRemoved( entry );
 	    delete entry;
 	    doSave = true;
 	}
-	
+
 	++it;
     }
 
@@ -501,7 +535,7 @@ bool KonqHistoryManager::loadFallback()
 	    m_history.append( entry );
 	    m_pCompletion->addItem( entry->url.prettyURL(),
 				    entry->numberOfTimesVisited );
-	
+
 	    KParts::HistoryProvider::insert( entry->url.url() );
    	}
 	++it;
@@ -555,7 +589,7 @@ KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
 {
     // small optimization (dict lookup) for items _not_ in our history
     if ( !KParts::HistoryProvider::contains( url.url() ) )
-	 return 0L;
+        return 0L;
 
     return m_history.findEntry( url );
 }

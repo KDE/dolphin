@@ -336,7 +336,7 @@ private:
 
     KCompletion *m_pCompletion; // the completion object we sync with
 
-    static const Q_UINT32 s_historyVersion = 1;
+    static const Q_UINT32 s_historyVersion = 2;
 };
 
 
