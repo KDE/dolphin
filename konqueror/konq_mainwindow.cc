@@ -3934,7 +3934,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( actPaste );
 
   if ( _items.count() == 1 ) {
-      QString currentServiceName = m_currentView->service()->desktopEntryName();
+      QString currentServiceName = currentView->service()->desktopEntryName();
 
       // List of services for the "Preview In" submenu.
       m_popupEmbeddingServices = KTrader::self()->query(
@@ -3962,9 +3962,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   // Don't set the view URL for a toggle view.
   // (This is a bit of a hack for the directory tree....)
-  // ## should use the new m_currentView->isHierarchicalView() instead?
+  // ## should use the new currentView->isHierarchicalView() instead?
   // Would this be correct for the konqlistview tree view?
-  KURL viewURL = m_currentView->isToggleView() ? KURL() : m_currentView->url();
+  KURL viewURL = currentView->isToggleView() ? KURL() : currentView->url();
 
   bool openedForViewURL = false;
   bool dirsSelected = false;
@@ -3998,7 +3998,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
   }
 
-  if (m_currentView->isHierarchicalView())
+  if (currentView->isHierarchicalView())
     itemFlags |= KParts::BrowserExtension::ShowCreateDirectory;
 
   KonqPopupMenu::KonqPopupFlags kpf = 0;
@@ -4014,12 +4014,12 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       m_pMenuNew,
       // This parent ensures that if the part destroys itself (e.g. KHTML redirection),
       // it will close the popupmenu
-      m_currentView->part()->widget(),
+      currentView->part()->widget(),
       kpf,
       itemFlags );
 
   if ( openedForViewURL && !viewURL.isLocalFile() )
-      pPopupMenu->setURLTitle( m_currentView->caption() );
+      pPopupMenu->setURLTitle( currentView->caption() );
 
   // We will need these if we call the newTab slot
   popupItems = _items;
