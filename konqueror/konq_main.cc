@@ -31,6 +31,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kapp.h>
+#include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <dcopclient.h>
@@ -73,8 +74,8 @@ void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
 
 void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename )
 {
-  qDebug( "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " );
-  qDebug( "%s", filename.ascii() );
+  kDebugInfo( 1202, "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " );
+  kDebugInfo( 1202, "%s", filename.ascii() );
   /*
   KonqShell *shell = new KonqShell;
 
@@ -104,7 +105,7 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
 
 void KonquerorIfaceImpl::setMoveSelection( int move )
 {
-  qDebug( "setMoveSelection: %i", move );
+  kDebugInfo( 1202, "setMoveSelection: %i", move );
   KonqMainView::setMoveSelection( (bool)move );
 }
 

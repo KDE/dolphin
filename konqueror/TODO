@@ -29,6 +29,8 @@ standard, for "the device in the Type=FSDevice .desktop file"...
 
 - select files to be shown using shell globs (file:/home/dfaure/*.txt)
 
+- open-with dlg : browse button [and save as applnk if checkbox "remember"]
+
 - Better handling of multiple selections (eg. try selecting
   several images then invoking kview - you get loads of kview 
   processes rather than just one).  => KRun
