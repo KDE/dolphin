@@ -33,6 +33,7 @@
 #include <kstdaction.h>
 #include <kprotocolinfo.h>
 #include <klineedit.h>
+#include <kmimetype.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -163,10 +164,17 @@ void ListViewBrowserExtension::rename()
   // Enhanced rename: Don't highlight the file extension.
   KLineEdit* le = m_listView->listViewWidget()->renameLineEdit();
   if ( le ) {
-     QString txt = le->text();
-     int firstDot = txt.find('.');
-     if( firstDot > 0 )
-        le->setSelection(0, firstDot);
+     const QString txt = le->text();
+     QString pattern;
+     KMimeType::diagnoseFileName( txt, pattern );
+     if (!pattern.isEmpty() && pattern.at(0)=='*' && pattern.find('*',1)==-1)
+         le->setSelection(0, txt.length()-pattern.stripWhiteSpace().length()+1);
+     else
+     {
+         int lastDot = txt.findRev('.');
+         if (lastDot > 0)
+             le->setSelection(0, lastDot);
+     }
   }
 }
 
