@@ -16,7 +16,7 @@
 #    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 #    Boston, MA 02111-1307, USA.
 
-INCLUDES = $(all_includes) -I$(kde_includes)/arts
+INCLUDES = -I$(kde_includes)/arts $(all_includes)
 SUBDIRS = pics favicons
 
 lib_LTLIBRARIES = libkonq.la

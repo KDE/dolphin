@@ -1,4 +1,4 @@
-INCLUDES = $(all_includes) -I$(top_srcdir)/libltdl -I..
+INCLUDES = -I$(top_srcdir)/libltdl -I.. $(all_includes)
 METASOURCES = AUTO
 noinst_HEADERS = testnsplugin.h
 
