@@ -19,16 +19,11 @@
 #ifndef __konq_imagepreviewjob_h__
 #define __konq_imagepreviewjob_h__
 
-#include <qdict.h>
-#include <qqueue.h>
-
 #include <kio/job.h>
 
 class QImage;
-class KPixmapSplitter;
 class KFileIVI;
 class KonqIconViewWidget;
-class KHTMLPart;
 
 /**
  * A job that determines the thumbnails for the images in the current directory
@@ -50,8 +45,7 @@ public:
      * transparent (invisible), while 255 means it is completely opaque.
      */
     KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force,
-			 int transparency = 55, KPixmapSplitter *splitter = 0L,
-			 const bool * previewSettings = 0L );
+			 int transparency = 55, const bool * previewSettings = 0L );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
@@ -64,21 +58,20 @@ protected:
     void determineThumbnailURL();
     bool statResultThumbnail( KIO::StatJob * );
     void createThumbnail( QString );
-    const QImage& getIcon( const QString& mimeType );
 
 protected slots:
     virtual void slotResult( KIO::Job *job );
 
 private slots:
-    void slotHTMLCompleted();
-    void slotHTMLTimeout();
+    void slotThumbData(KIO::Job *, const QByteArray &);
 
 private:
     void saveThumbnail(const QImage &img);
     
 private:
     enum { STATE_STATORIG, STATE_STATTHUMB, STATE_STATXV, STATE_GETTHUMB, // if the thumbnail exists
-           STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_GETORIG, STATE_PUTTHUMB // if we create it
+           STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_GETORIG, STATE_PUTTHUMB, // if we create it
+           STATE_CREATETHUMB // thumbnail:/ slave 
     } m_state;
 
     // Our todo list :)
@@ -105,17 +98,11 @@ private:
     // Over that, it's too much
     unsigned long m_maximumSize;
 
-    // for the text-preview
-    KPixmapSplitter *m_splitter;
-    // cache for transparent icons
-    QDict<QImage> m_iconDict;
     // the transparency of the blended mimetype icon
     // {0..255}, shifted into the upper 8 bits
     int m_transparency;
-    // HTML Previews
-    KHTMLPart *m_html;
+    // Render HTML? (as text otherwise)
     bool m_renderHTML;
-    QTimer *m_htmlTimeout;
 };
 
 #endif

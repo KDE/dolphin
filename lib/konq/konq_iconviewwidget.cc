@@ -40,7 +40,6 @@
 #include <konq_operations.h>
 #include <konq_imagepreviewjob.h>
 #include <kglobalsettings.h>
-#include <kpixmapsplitter.h>
 #include <kstddirs.h>
 #include <kpropsdlg.h>
 #include <kipc.h>
@@ -54,8 +53,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     : KIconView( parent, name, f ),
       m_rootItem( 0L ), m_size( 0 ) /* default is DesktopIcon size */,
       m_bDesktop( kdesktop ),
-      m_bSetGridX( !kdesktop ), /* No line breaking on the desktop */
-      m_splitter( 0L )
+      m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
 {
     connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
              this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
@@ -97,7 +95,6 @@ KonqIconViewWidget::~KonqIconViewWidget()
 {
     stopImagePreview();
     KonqUndoManager::decRef();
-    delete m_splitter;
 }
 
 void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
@@ -279,19 +276,8 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
 void KonqIconViewWidget::startImagePreview( const bool * previewSettings, bool force )
 {
     stopImagePreview(); // just in case
-    if ( !m_splitter ) {
-	m_splitter = new KPixmapSplitter;
-	QString pixmap = locate( "data", "konqueror/pics/thumbnailfont_7x4.png" );
-	if ( !pixmap.isEmpty() ) {
-	    // FIXME: make configurable...
-            // DF: What, the size ? You can determine it from m_size.
-	    // CP: no, I meant the font-pixmap and the glyph-size
-	    m_splitter->setPixmap( QPixmap( pixmap ));
-	    m_splitter->setItemSize( QSize( 4, 7 ));
-	}
-    }
 
-    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_pSettings->textPreviewIconTransparency(), m_splitter, previewSettings );
+    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_pSettings->textPreviewIconTransparency(), previewSettings );
     connect( m_pImagePreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SIGNAL( imagePreviewFinished() ) );
     m_pImagePreviewJob->startImagePreview();

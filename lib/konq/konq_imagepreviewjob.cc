@@ -21,17 +21,11 @@
 
 #include <qfile.h>
 #include <qimage.h>
-#include <qtimer.h>
 
 #include <kfileivi.h>
-#include <kiconloader.h>
-#include <kimageeffect.h>
 #include <konq_iconviewwidget.h>
 #include <konq_propsview.h>
-#include <kpixmapsplitter.h>
 #include <kapp.h>
-#include <khtml_part.h>
-#include <khtmlview.h>
 #include <assert.h>
 #include <stdio.h> // for tmpnam
 #include <unistd.h> // for unlink
@@ -42,17 +36,12 @@
  */
 KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
 					  bool force, int transparency,
-					  KPixmapSplitter *splitter,
 					  const bool * previewSettings )
-  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView ),
-    m_html(0),
-    m_htmlTimeout(0)
+  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
   m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
-  m_splitter = splitter;
   m_bDirsCreated = true; // if no images, no need for dirs
-  m_iconDict.setAutoDelete( true );
   // shift into the upper 8 bits, so we can use it as alpha-channel in QImage
   m_transparency = (transparency << 24) | 0x00ffffff;
 
@@ -71,7 +60,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
             m_bDirsCreated = false; // We'll need dirs
         else
         {
-            bText = m_splitter && mimeType.startsWith( "text/") && (!previewSettings || previewSettings[KonqPropsView::TEXTPREVIEW]);
+            bText = mimeType.startsWith( "text/") && (!previewSettings || previewSettings[KonqPropsView::TEXTPREVIEW]);
             if ((bHTML = mimeType == "text/html" && m_renderHTML))
                 m_bDirsCreated = false;
         }
@@ -88,7 +77,6 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
 KonqImagePreviewJob::~KonqImagePreviewJob()
 {
   kdDebug(1203) << "KonqImagePreviewJob::~KonqImagePreviewJob()" << endl;
-  delete m_html;
 }
 
 void KonqImagePreviewJob::startImagePreview()
@@ -327,6 +315,12 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       determineNextIcon();
       return;
     }
+    case STATE_CREATETHUMB:
+    {
+      kdDebug() << "KonqImagePreviewJob: got slotResult in STATE_CREATETHUMB" << endl;
+      determineNextIcon();
+      return;
+    }
   }
 }
 
@@ -412,260 +406,31 @@ bool KonqImagePreviewJob::statResultThumbnail( KIO::StatJob * job )
 
 void KonqImagePreviewJob::createThumbnail( QString pixPath )
 {
-  QPixmap pix;
-  QImage img;
-  kdDebug(1203) << "KonqImagePreviewJob::createThumbnail loading " << pixPath << endl;
-
-  bool ok = false;
-  bool saveImage = m_bCanSave;
-
-  // create HTML-preview
-  if ( m_renderHTML && m_currentItem->item()->mimetype() == "text/html") {
-      if (!m_html)
-      {
-          m_html = new KHTMLPart;
-          connect(m_html, SIGNAL(completed()), SLOT(slotHTMLCompleted()));
-          m_html->enableJScript(false);
-          m_html->enableJava(false);
-      }
-      if (!m_htmlTimeout)
-      {
-          m_htmlTimeout = new QTimer(this);
-          connect(m_htmlTimeout, SIGNAL(timeout()), SLOT(slotHTMLTimeout()));
-      }
-      m_html->openURL(pixPath);
-      m_htmlTimeout->start(5000, true); // FIXME: Make this configurable
-      return; // determineNextIcon() called by slotHTMLCompleted()
-  }
-  // create text-preview
-  else if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
-      bool blendIcon = KGlobal::iconLoader()->alphaBlending();
-      saveImage = false; // generating them on the fly is slightly faster
-      const int bytesToRead = 1024; // FIXME, make configurable
-      QFile file( pixPath );
-      if ( file.open( IO_ReadOnly )) {
-	  char data[bytesToRead+1];
-	  int read = file.readBlock( data, bytesToRead );
-	  if ( read > 0 ) {
-	      ok = true;
-	      data[read] = '\0';
-	      QString text = QString::fromLocal8Bit( data );
-	      // kdDebug(1203) << "Textpreview-data: " << text << endl;
-	      // FIXME: maybe strip whitespace and read more?
-
-	      QRect rect;
-
-	      // example: width: 60, height: 64
-	      float ratio = 15.0 / 16.0; // so we get a page-like size
-	      int width = (int) (ratio * (float) m_extent);
-	      pix.resize( width, m_extent );
-	      pix.fill( QColor( 245, 245, 245 ) ); // light-grey background
-
-	      QSize chSize = m_splitter->itemSize(); // the size of one char
-	      int xOffset = chSize.width();
-	      int yOffset = chSize.height();
-
-	      // one pixel for the rectangle, the rest. whitespace
-	      int xborder = 1 + width/16;    // minimum x-border
-	      int yborder = 1 + m_extent/16; // minimum y-border
-
-	      // calculate a better border so that the text is centered
-	      int canvasWidth = width - 2*xborder;
-	      int canvasHeight = m_extent -  2*yborder;
-	      int numCharsPerLine = (int) (canvasWidth / chSize.width());
-	      int numLines = (int) (canvasHeight / chSize.height());
-
-	      int rest = width - (numCharsPerLine * chSize.width());
-	      xborder = QMAX( xborder, rest/2); // center horizontally
-	      rest = m_extent - (numLines * chSize.height());
-	      yborder = QMAX( yborder, rest/2); // center vertically
-	      // end centering
-
-	      int x = xborder, y = yborder; // where to paint the characters
-	      int posNewLine  = width - (chSize.width() + xborder);
-	      int posLastLine = m_extent - (chSize.height() + yborder);
-	      bool newLine = false;
-	      ASSERT( posNewLine > 0 );
-	      const QPixmap *fontPixmap = &(m_splitter->pixmap());
-
-	      for ( uint i = 0; i < text.length(); i++ ) {
-		  if ( x > posNewLine || newLine ) { // start a new line?
-		      x = xborder;
-		      y += yOffset;
-
-		      if ( y > posLastLine ) // more text than space
-			  break;
-
-		      // after starting a new line, we also jump to the next
-		      // physical newline in the file if we don't come from one
-		      if ( !newLine ) {
-			  int pos = text.find( '\n', i );
-			  if ( pos > (int) i )
-			      i = pos +1;
-		      }
-
-		      newLine = false;
-		  }
-
-		  // check for newlines in the text (unix,dos)
-		  QChar ch = text.at( i );
-		  if ( ch == '\n' ) {
-		      newLine = true;
-		      continue;
-		  }
-		  else if ( ch == '\r' && text.at(i+1) == '\n' ) {
-		      newLine = true;
-		      i++; // skip the next character (\n) as well
-		      continue;
-		  }
-
-
-		  rect = m_splitter->coordinates( ch );
-		  if ( !rect.isEmpty() ) {
-		      bitBlt( &pix, QPoint(x,y), fontPixmap, rect, CopyROP );
-		  }
-
-		  x += xOffset; // next character
-	      }
-
-	      // paint a black rectangle around the "page"
-	      QPainter p;
-	      p.begin( &pix );
-	      p.setPen( QColor( 88, 88, 88 ));
-	      p.drawRect( 0, 0, pix.width(), pix.height() );
-	      p.end();
-
-	
-	      // blending the mimetype icon in
-	      if ( blendIcon ) {
-		  img = pix.convertToImage();
-		  QImage icon = getIcon( m_currentItem->item()->mimetype() );
-	
-		  // reusing x and y variables
-		  x = pix.width() - icon.width() - xOffset;
-		  x = QMAX( x, 0 );
-		  y = pix.height() - icon.height() - yOffset;
-		  y = QMAX( y, 0 );
-		  KImageEffect::blendOnLower( x, y, icon, img );
-		  pix.convertFromImage( img );
-	      }
-	
-  	      if ( saveImage && !blendIcon )
-  		  img = pix.convertToImage();
-	  }
-	  file.close();
-      }
-  }
-
-  // create image preview
-  else if ( pix.load( pixPath ) )
-  {
-    ok = true;
-    int w = pix.width(), h = pix.height();
-    kdDebug(1203) << "w=" << w << " h=" << h << " m_extent=" << m_extent << endl;
-    // scale to pixie size
-    if(w > m_extent || h > m_extent){
-        if(w > h){
-            h = (int)( (double)( h * m_extent ) / w );
-            if ( h == 0 ) h = 1;
-            w = m_extent;
-            ASSERT( h <= m_extent );
-        }
-        else{
-            kdDebug(1203) << "Setting h to m_extent" << endl;
-            w = (int)( (double)( w * m_extent ) / h );
-            if ( w == 0 ) w = 1;
-            h = m_extent;
-            ASSERT( w <= m_extent );
-        }
-        kdDebug(1203) << "smoothScale to " << w << "x" << h << endl;
-        img = pix.convertToImage().smoothScale( w, h );
-        if ( img.width() != w || img.height() != h )
-        {
-            // Resizing failed. Aborting.
-            kdWarning() << "Resizing of " << pixPath << " failed. Aborting. " << endl;
-            determineNextIcon();
-            return;
-        }
-        pix.convertFromImage( img );
-    }
-    else if (m_bCanSave)
-        img = pix.convertToImage();
-  }
-
-
-  if ( ok ) {
-    // Set the thumbnail
-    m_iconView->setThumbnailPixmap( m_currentItem, pix );
-
-    if ( saveImage )
-        saveThumbnail(img);
-  }
-  determineNextIcon();
+    m_state = STATE_CREATETHUMB;
+    KURL thumbURL;
+    thumbURL.setProtocol("thumbnail");
+    thumbURL.setPath(pixPath);
+    KIO::TransferJob *job = KIO::get(thumbURL, false, false);
+    connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)), SLOT(slotThumbData(KIO::Job *, const QByteArray &)));
+    job->addMetaData("mimeType", m_currentItem->item()->mimetype());
+    job->addMetaData("iconSize", QString().setNum(m_iconView->iconSize() ?
+        m_iconView->iconSize() : KGlobal::iconLoader()->currentSize(KIcon::Desktop)));
+    job->addMetaData("extent", QString().setNum(m_extent));
+    job->addMetaData("transparency", QString().setNum(m_transparency));
+    // FIXME: This needs to be generalized once the thumbnail creator
+    // is pluginified (malte)
+    job->addMetaData("renderHTML", m_renderHTML ? "true" : "false");
+    addSubjob(job);
 }
 
-const QImage& KonqImagePreviewJob::getIcon( const QString& mimeType )
+void KonqImagePreviewJob::slotThumbData(KIO::Job *job, const QByteArray &data)
 {
-    QImage* icon = m_iconDict.find( mimeType );
-    if ( !icon ) { // generate it!
-	icon = new QImage( m_currentItem->item()->determineMimeType()->pixmap( KIcon::Desktop, m_iconView->iconSize() ).convertToImage() );
-	icon->setAlphaBuffer( true );
-
-	int w = icon->width();
-	int h = icon->height();
-	for ( int y = 0; y < h; y++ ) {
-	    QRgb *line = (QRgb *) icon->scanLine( y );
-	    for ( int x = 0; x < w; x++ )
-		line[x] &= m_transparency; // transparency
-	}
-	
-	m_iconDict.insert( mimeType, icon );
-    }
-
-    return *icon;
-}
-
-void KonqImagePreviewJob::slotHTMLCompleted()
-{
-    QPixmap pix;
-    // render the HTML page on a bigger pixmap and use smoothScale,
-    // looks better than directly scaling with the QPainter (malte)
-    pix.resize(600, 640);
-    // light-grey background, in case loadind the page failed
-    pix.fill( QColor( 245, 245, 245 ) ); 
-   
-    float ratio = 15.0 / 16.0; // so we get a page-like size
-    int width = (int) (ratio * (float) m_extent);
-    int borderX = pix.width() / width,
-        borderY = pix.height() / m_extent;
-    QRect rc(borderX, borderY, pix.width() - borderX * 2, pix.height() - borderY * 2);
-
-    QPainter p;
-    p.begin(&pix);
-    m_html->paint(&p, rc);
-    p.end();
-    
-    pix.convertFromImage(pix.convertToImage().smoothScale(width, m_extent));
-    
-    p.begin(&pix);
-    p.setPen( QColor( 88, 88, 88 )); // dark-grey Border
-    p.drawRect( 0, 0, pix.width(), pix.height() );
-    p.end();
-    
+    kdDebug() << "KonqImagePreviewJob::slotThumbData" << endl;
+    QPixmap pix(data);
+    bool save = static_cast<KIO::TransferJob *>(job)->queryMetaData("save") == "true";
     m_iconView->setThumbnailPixmap(m_currentItem, pix);
-    if (m_bCanSave)
+    if (save && m_bCanSave)
         saveThumbnail(pix.convertToImage());
-        
-    determineNextIcon();
-}
-
-void KonqImagePreviewJob::slotHTMLTimeout()
-{
-    m_html->closeURL();
-    // Create the thumbnail anyway, the timeout could have been caused
-    // by a meta refresh tag or a single image that took too long,
-    // but the rest of the page is intact
-    slotHTMLCompleted();
 }
 
 void KonqImagePreviewJob::saveThumbnail(const QImage &img)
