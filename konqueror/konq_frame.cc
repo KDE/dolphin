@@ -52,18 +52,28 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
 
   key = config->readEntry("TitlebarLook");
   if( key == "shadedHorizontal")
-    frameHeaderLook = HShaded;
+    frameHeaderLook = HORIZ;
   else if( key == "shadedVertical")
-    frameHeaderLook = VShaded;
+    frameHeaderLook = VERT;
   else if( key == "shadedDiagonal")
-    frameHeaderLook = DShaded;
+    frameHeaderLook = DIAG;
+  else if( key == "shadedCrossDiagonal")
+    frameHeaderLook = CROSSDIAG;
+  else if( key == "shadedRectangle")
+    frameHeaderLook = RECT;
+  else if( key == "shadedElliptic")
+    frameHeaderLook = ELLIP;
+  else if( key == "shadedPyramid")
+    frameHeaderLook = PYRAM;
+  else if( key == "shadedPipeCross")
+    frameHeaderLook = PIPE;
   else if( key == "plain")
     frameHeaderLook = Plain;
   else if( key == "pixmap")
     frameHeaderLook = XPixmap;
   else{
     config->writeEntry("TitlebarLook", "shadedHorizontal");
-    frameHeaderLook = HShaded;
+    frameHeaderLook = HORIZ;
   }
   /*key = config->readEntry("TitleAlignment");
   if (key == "left")
@@ -124,14 +134,19 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   setFixedHeight( DEFAULT_HEADER_HEIGHT );
 }
 
-enum KPixmap::GradientMode 
+enum KPixmapEffect::GradientType 
 KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
 {
   switch (look)
     {
-    case HShaded: return KPixmap::Horizontal;
-    case VShaded: return KPixmap::Vertical;
-    case DShaded: return KPixmap::Diagonal;
+    case HORIZ: return KPixmapEffect::HorizontalGradient;
+    case VERT: return KPixmapEffect::VerticalGradient;
+    case DIAG: return KPixmapEffect::DiagonalGradient;
+    case CROSSDIAG: return KPixmapEffect::CrossDiagonalGradient;
+    case PYRAM: return KPixmapEffect::PyramidGradient;
+    case RECT: return KPixmapEffect::RectangleGradient;
+    case PIPE: return KPixmapEffect::PipeCrossGradient;
+    case ELLIP: return KPixmapEffect::EllipticGradient;
     }
 }
 
@@ -151,7 +166,9 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   //QPixmap* buffer = 0;
   KonqFrameHeaderLook look = frameHeaderLook;
 
-  if ( look == HShaded || look == VShaded || look == DShaded ){
+  if ( look == HORIZ || look == VERT || look == DIAG ||
+       look == PIPE  || look == RECT || 
+       look == CROSSDIAG || look == ELLIP){
     // the new horizontal (and vertical) shading code
     /*if (colors_have_changed){
       aShadepm.resize(0,0);
@@ -217,26 +234,24 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     for (int x = r.x(); x < r.x() + r.width(); x+=pm->width())
       p.drawPixmap(x, r.y(), *pm);
   }
-  else if ( look == HShaded || look == VShaded || look == DShaded ){
+  else if ( look == HORIZ || look == VERT || look == DIAG ||
+	    look == PIPE  || look == RECT || 
+	    look == CROSSDIAG || look == ELLIP){
     // the new horizontal shading code
     QPixmap* pm = 0;
     if (hasFocus){
       if (activeShadePm.size() != r.size()){
 	activeShadePm.resize(r.width(), r.height());
-	//gradientFill( activeShadePm, kapp->activeTitleColor(), 
-	//	      frameHeaderBlendActive, look == VShaded );
-	activeShadePm.gradientFill(kapp->activeTitleColor(), 
-				   frameHeaderBlendActive, mapShade(look));
+	KPixmapEffect::gradient(activeShadePm, kapp->activeTitleColor(),
+				frameHeaderBlendActive, mapShade(look));
       }
       pm = &activeShadePm;
     }
     else {
       if (inactiveShadePm.size() != r.size()){
 	inactiveShadePm.resize(r.width(), r.height());
-	//gradientFill( inactiveShadePm, kapp->inactiveTitleColor(), 
-	//	      frameHeaderBlendInactive, look == VShaded );
-	inactiveShadePm.gradientFill(kapp->inactiveTitleColor(), 
-				     frameHeaderBlendInactive, mapShade(look));
+	KPixmapEffect::gradient(inactiveShadePm, kapp->inactiveTitleColor(), 
+				frameHeaderBlendInactive, mapShade(look));
       }
       pm = &inactiveShadePm;
     }

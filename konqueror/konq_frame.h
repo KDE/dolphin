@@ -23,6 +23,7 @@
 #include <qwidget.h>
 
 #include <kpixmap.h>
+#include <kpixmapeffect.h>
 #include "openparts.h"
 
 #include "konqueror.h"
@@ -33,7 +34,8 @@ class OPFrame;
 class QSplitter;
 class KonqFrame;
 
-enum KonqFrameHeaderLook{ Plain, HShaded, VShaded, DShaded, XPixmap };
+enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
+			  RECT, PIPE, ELLIP, XPixmap };
 
 /**
  * The KonqFrameHeader indicates wether a view is active or not. It uses the 
@@ -54,7 +56,7 @@ signals:
   void headerClicked();
 
 protected: 
-  enum KPixmap::GradientMode mapShade( KonqFrameHeaderLook look);
+  enum KPixmapEffect::GradientType mapShade( KonqFrameHeaderLook look);
 
   virtual void paintEvent( QPaintEvent* );
   virtual void mousePressEvent( QMouseEvent* );
