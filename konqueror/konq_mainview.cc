@@ -513,7 +513,7 @@ void KonqMainView::slotForward()
 
 void KonqMainView::slotHome()
 {
-  openURL( 0L, "~" );
+  openURL( 0L, KonqFMSettings::defaultIconSettings()->homeURL() );
 }
 
 void KonqMainView::slotShowCache()
