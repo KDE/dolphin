@@ -302,7 +302,7 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
 bool KonqListView::doOpenURL( const KURL &url )
 {
   KURL u( url );
-  const QString prettyURL = url.prettyURL( 0, KURL::StripFileProtocol );
+  const QString prettyURL = url.pathOrURL();
   emit setWindowCaption( prettyURL );
   return m_pListView->openURL( url );
 }

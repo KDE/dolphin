@@ -401,7 +401,7 @@ void KonqView::connectPart(  )
 
       connect( ext, SIGNAL( setPageSecurity( int ) ),
                this, SLOT( setPageSecurity( int ) ) );
-      
+
       connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
                m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
 
@@ -617,7 +617,7 @@ void KonqView::slotMouseOverInfo( const KFileItem *item )
 
 void KonqView::setLocationBarURL( const KURL& locationBarURL )
 {
-    setLocationBarURL( locationBarURL.prettyURL(0, KURL::StripFileProtocol) );
+  setLocationBarURL( locationBarURL.pathOrURL() );
 }
 
 void KonqView::setLocationBarURL( const QString & locationBarURL )
@@ -643,7 +643,7 @@ void KonqView::setIconURL( const KURL & iconURL )
 void KonqView::setPageSecurity( int pageSecurity )
 {
   m_pageSecurity = (KonqMainWindow::PageSecurity)pageSecurity;
-  
+
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->setPageSecurity( m_pageSecurity );
 }

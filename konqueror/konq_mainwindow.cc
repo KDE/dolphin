@@ -714,7 +714,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // to still display the original URL (so that 'up' uses that URL,
   // and since that's what the user entered).
   // changeViewMode will take care of setting and storing that url.
-  QString originalURL = url.prettyURL(0, KURL::StripFileProtocol);
+  QString originalURL = url.pathOrURL();
   if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
   {
     if (originalURL.right(1) != "/")
@@ -2855,8 +2855,8 @@ void KonqMainWindow::slotRemoveLocalProperties()
 bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 {
    const KURL initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
-   QString label = text.arg( m_currentView->url().prettyURL( 0, KURL::StripFileProtocol ) );
-   KURLRequesterDlg dlg(initialUrl.prettyURL( 0, KURL::StripFileProtocol ), label, this, "urlrequester", true);
+   QString label = text.arg( m_currentView->url().pathOrURL() );
+   KURLRequesterDlg dlg(initialUrl.pathOrURL(), label, this, "urlrequester", true);
    dlg.setCaption(i18n("Enter Target"));
    dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
    if (dlg.exec())
@@ -2971,7 +2971,7 @@ void KonqMainWindow::slotUpAboutToShow()
   while ( u.hasPath() )
   {
     popup->insertItem( KonqPixmapProvider::self()->pixmapFor( u.url() ),
-                       u.prettyURL( 0, KURL::StripFileProtocol ) );
+                       u.pathOrURL() );
 
     if ( u.path() == "/" )
       break;
@@ -3563,7 +3563,7 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
 
 void KonqMainWindow::setLocationBarURL( const KURL &url )
 {
-    setLocationBarURL( url.prettyURL( 0, KURL::StripFileProtocol ) );
+    setLocationBarURL( url.pathOrURL() );
 }
 
 void KonqMainWindow::setLocationBarURL( const QString &url )
@@ -4729,7 +4729,7 @@ void KonqMainWindow::slotOpenEmbeddedDoIt()
   m_currentView->setTypedURL(QString::null);
   if ( m_currentView->changeViewMode( m_popupServiceType,
                                       m_popupService ) )
-      m_currentView->openURL( m_popupURL, m_popupURL.prettyURL(0, KURL::StripFileProtocol) );
+      m_currentView->openURL( m_popupURL, m_popupURL.pathOrURL() );
 }
 
 void KonqMainWindow::slotDatabaseChanged()
