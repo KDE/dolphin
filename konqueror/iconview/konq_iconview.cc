@@ -822,6 +822,9 @@ void KonqKfmIconView::slotCompleted()
     m_bNeedEmitCompleted = true;
 
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
+
+    // Disable cut icons if any
+    m_pIconView->slotClipboardDataChanged();
 }
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
