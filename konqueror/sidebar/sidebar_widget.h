@@ -95,7 +95,7 @@ class Sidebar_Widget: public QWidget
 	bool createView(ButtonInfo *data);
 	//class KDockWidget *mainW;
 	int latestViewed;
-	class KonqSidebarPlugin *loadModule(QWidget *par,const QString &desktopName,QString lib_name,ButtonInfo *bi);
+	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo *bi);
 	KURL storedUrl;
 	bool stored_url;
 	KParts::ReadOnlyPart *partParent;

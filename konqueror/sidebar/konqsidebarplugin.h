@@ -34,7 +34,7 @@ class KonqSidebarPlugin : public QObject
 {
 	Q_OBJECT
 	public:
-		KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget *widgetParent,const QString &desktopName_, const char* name=0);
+		KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget *widgetParent,QString &desktopName_, const char* name=0);
 		~KonqSidebarPlugin();
 		virtual QWidget *getWidget()=0;
 		virtual void *provides(const QString &)=0;

@@ -679,7 +679,7 @@ void Sidebar_Widget::mousePressEvent(QMouseEvent *ev)
 		Menu->exec(QCursor::pos());
 }
 
-KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,const QString &desktopName,QString lib_name,ButtonInfo* bi)
+KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo* bi)
 	{
 
  				KLibLoader *loader = KLibLoader::self();
