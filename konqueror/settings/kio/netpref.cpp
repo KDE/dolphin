@@ -97,12 +97,12 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     vlay_secondColumnSpinBox->setMargin( 0 );
 
     sb_serverConnect = new QSpinBox( gb_Timeout, "sb_serverConnect" );
-    sb_serverConnect->setSuffix( i18n( "    secs" ) );
+    sb_serverConnect->setSuffix( i18n( "    sec" ) );
     vlay_secondColumnSpinBox->addWidget( sb_serverConnect );
     connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
 
     sb_serverResponse = new QSpinBox( gb_Timeout, "sb_serverResponse" );
-    sb_serverResponse->setSuffix( i18n( "    secs" ) );
+    sb_serverResponse->setSuffix( i18n( "    sec" ) );
     vlay_secondColumnSpinBox->addWidget( sb_serverResponse );
     connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     grid_secondColumn->addLayout( vlay_secondColumnSpinBox, 0, 2 );
