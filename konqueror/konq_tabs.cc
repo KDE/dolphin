@@ -187,7 +187,7 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
       iw = tab->iconSet()->pixmap( QIconSet::Small, QIconSet::Normal ).width() + 4;
     x += ( tabBar()->style().sizeFromContents( QStyle::CT_TabBarTab, this,
                    QSize( QMAX( lw + hframe + iw, QApplication::globalStrut().width() ), 0 ),
-                   QStyleOption( tab ) ) ).width() - overlap;
+                   QStyleOption( tab ) ) ).width();
   }
   return x;
 }
@@ -197,13 +197,15 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   removeTabToolTip( sender );
 
-  uint maxTabBarWidth = width();
+  uint lcw=0, rcw=0;
 #if QT_VERSION >= 0x030200
-  if ( cornerWidget( TopLeft ) )
-    maxTabBarWidth -= cornerWidget( TopLeft )->width();
-  if ( cornerWidget( TopRight ) )
-    maxTabBarWidth -= cornerWidget( TopRight )->width();
+  uint tabBarHeight = tabBar()->sizeHint().height();
+  if ( cornerWidget( TopLeft ) && cornerWidget( TopLeft )->isVisible() )
+    lcw = QMAX( cornerWidget( TopLeft )->width(), tabBarHeight );
+  if ( cornerWidget( TopRight ) && cornerWidget( TopRight )->isVisible() )
+    rcw = QMAX( cornerWidget( TopRight )->width(), tabBarHeight );
 #endif
+  uint maxTabBarWidth = width() - lcw - rcw;
   // kdDebug(1202) << "maxTabBarWidth=" << maxTabBarWidth << endl;
 
   uint newMaxLength=30;
