@@ -2888,7 +2888,8 @@ void KonqMainWindow::updateViewActions()
 
   m_paLinkView->setChecked( m_currentView && m_currentView->isLinkedView() );
 
-  if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
+  if ( m_currentView && m_currentView->part() && 
+       m_currentView->part()->inherits("KonqDirPart") )
   {
     KonqDirPart * dirPart = static_cast<KonqDirPart *>(m_currentView->part());
     m_paFindFiles->setEnabled( dirPart->findPart() == 0 );
