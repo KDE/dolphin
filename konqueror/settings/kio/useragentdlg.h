@@ -52,13 +52,15 @@ public:
   QString quickHelp() const;
 
 private slots:
-  void addPressed();
-  void deletePressed();
-  void deleteAllPressed();
-  void changePressed();
-  void importPressed();
-  void exportPressed();
   void updateButtons();
+  void selectionChanged();
+
+  void deleteAllPressed();
+  void deletePressed();
+  void changePressed();
+  void addPressed();
+  void changed();
+  
   void changeSendUAString();
   void changeDefaultUAModifiers( int );
 
@@ -97,9 +99,13 @@ private:
 
   // Useragent modifiers...
   QString m_ua_keys;
+
   // Fake user-agent modifiers...
   FakeUASProvider* m_provider;
-  
+
+  //
+  int d_itemsSelected;
+
   KConfig *m_config;
 };
 
