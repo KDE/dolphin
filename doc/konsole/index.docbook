@@ -278,8 +278,8 @@ shell</action></para></listitem>
 </term>
 <listitem>
 <para>
-<action>Opens a new session with a terminal shell, as the <systemitem
-class="username">root</systemitem> user.</action>
+<action>Opens a new session with a terminal shell</action>, as the 
+<systemitem class="username">root</systemitem> user.
 </para>
 
 <para>
@@ -300,9 +300,9 @@ care should be taken to avoid accidental damage.
 </term>
 <listitem>
 <para>
-<action>Opens a new session with the <application>Midnight
+<action>Opens a new session</action> with the <application>Midnight
 Commander</application> graphical file browser, as the <systemitem
-class="username">root</systemitem> user. </action>
+class="username">root</systemitem> user. 
 </para>
 <para>
 After being prompted for the root password, the <prompt>#</prompt>
@@ -654,8 +654,8 @@ lines</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>-e</option> <parameter>command</parameter></term>
-<listitem><para><action>Execute <parameter>command</parameter> instead of
-shell</action></para></listitem>
+<listitem><para><action>Execute</action> 
+<parameter>command</parameter> instead of shell.</para></listitem>
 </varlistentry>
 </variablelist>
 
