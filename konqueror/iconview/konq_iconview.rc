@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqIconView" version="11">
+<kpartgui name="KonqIconView" version="12">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
    <Menu name="selection"><text>Selection</text>
