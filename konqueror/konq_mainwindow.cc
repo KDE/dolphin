@@ -3541,8 +3541,11 @@ void KonqMainWindow::slotOpenURL( const KURL& url )
 
 void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
 {
+    const QString& http = KGlobal::staticQString( "http" );
+    const QString& ftp = KGlobal::staticQString( "ftp" );
+    
     if ( !group.isNull() ) {
-        for ( KBookmark bm = group.first(); 
+        for ( KBookmark bm = group.first();
               !bm.isNull(); bm = group.next(bm) ) {
             if ( bm.isGroup() )
                 bookmarksIntoCompletion( bm.toGroup() );
@@ -3550,11 +3553,17 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
             else {
                 KURL url = bm.url();
                 if ( url.isValid() ) {
-                    s_pCompletion->addItem( url.prettyURL() );
+                    QString u = url.prettyURL();
+                    s_pCompletion->addItem( u );
                     if ( url.isLocalFile() )
                         s_pCompletion->addItem( url.path() );
-                    else
-                        s_pCompletion->addItem( url.host() + url.path() );
+                    else {
+                        if ( url.protocol() == http )
+                            s_pCompletion->addItem( u.mid( 7 ));
+                        else if ( url.protocol() == ftp &&
+                                  url.host().startsWith( ftp ) )
+                            s_pCompletion->addItem( u.mid( 6 ) );
+                    }
                 }
             }
         }
