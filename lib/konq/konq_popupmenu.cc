@@ -564,7 +564,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         {
             QDir dir( *dIt );
 
-            QStringList entries = dir.entryList( QDir::Files );
+            QStringList entries = dir.entryList( "*.desktop", QDir::Files );
             QStringList::ConstIterator eIt = entries.begin();
             QStringList::ConstIterator eEnd = entries.end();
 
