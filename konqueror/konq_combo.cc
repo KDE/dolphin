@@ -502,18 +502,22 @@ void KonqCombo::setConfig( KConfig *kc )
 void KonqCombo::paintEvent( QPaintEvent *pe )
 {
     QComboBox::paintEvent( pe );
-    
+
+    QLineEdit *edit = lineEdit();
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
+        edit->setPaletteBackgroundColor( QColor(245, 246, 190) );
         QPainter p( this );
         QRect re = style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField );
         re = QStyle::visualRect(re, this);
         p.setClipRect( re );
 
         QPixmap pix = SmallIcon( m_pageSecurity==KonqMainWindow::Encrypted ? "encrypted" : "halfencrypted" );
-        p.fillRect( re.x(), re.y(), pix.width() + 4, re.height(), QBrush("yellow") );
+        p.fillRect( re.x(), re.y(), pix.width() + 4, re.height(), QBrush( QColor(245, 246, 190) ));
         p.drawPixmap( re.x() + 2, re.y() + ( re.height() - pix.height() ) / 2, pix );
         p.setClipping( FALSE );
     }
+    else
+        edit->unsetPalette();
 }
 
 void KonqCombo::setPageSecurity( int pageSecurity )
