@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="35">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="36">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -136,5 +136,9 @@
 </ToolBar>
 <ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"><text>Bookmark Toolbar</text>
 </ToolBar>
+<ActionProperties>
+  <Action accel="F9" name="konq_dirtree" />
+</ActionProperties>
+
 </kpartgui>
 
