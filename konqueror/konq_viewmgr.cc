@@ -306,16 +306,22 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     QStrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
+    {
       warning("Profile Loading Error: Less than two children in %s", name.data());
+      // fallback to defaults
+      loadItem( cfg, parent, "InitialView" );
+    }
+    else
+    {
+      KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
+      newContainer->setOpaqueResize();
+      newContainer->show();
 
-    KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
-    newContainer->setOpaqueResize();
-    newContainer->show();
-
-    loadItem( cfg, newContainer, childList.at(0) );
-    loadItem( cfg, newContainer, childList.at(1) );
-
-    newContainer->setSizes( sizes );
+      loadItem( cfg, newContainer, childList.at(0) );
+      loadItem( cfg, newContainer, childList.at(1) );
+      
+      newContainer->setSizes( sizes );
+    }
   }  
   else
     warning("Profile Loading Error: Unknown item %s", name.data());
