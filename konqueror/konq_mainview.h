@@ -227,6 +227,7 @@ protected slots:
   void slotRemoveView();
 
   void slotSaveViewPropertiesLocally();
+  void slotRemoveLocalProperties();
 
   void slotOpenEmbedded();
   void slotOpenEmbeddedDoIt();
@@ -312,6 +313,7 @@ private:
   KonqBidiHistoryAction *m_paHistory;
 
   KToggleAction *m_paSaveViewPropertiesLocally;
+  KAction *m_paRemoveLocalProperties;
 
   KAction *m_paConfigureFileManager;
   KAction *m_paConfigureBrowser;

@@ -524,7 +524,7 @@ void KonqMainView::slotViewModeToggle( bool toggle )
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
-          KSimpleConfig config( u.path() );
+          KSimpleConfig config( u.path() ); // if we have no write access, just drop it
           config.setGroup( "URL properties" );
           config.writeEntry( "ViewMode", modeName );
           config.sync();
@@ -553,7 +553,7 @@ void KonqMainView::slotShowHTML()
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
-          KSimpleConfig config( u.path() );
+          KSimpleConfig config( u.path() ); // No checks for access
           config.setGroup( "URL properties" );
           config.writeEntry( "HTMLAllowed", b );
           config.sync();
@@ -790,6 +790,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   QString originalURL = url.url();
 
   QString serviceName; // default: none provided
+  m_paRemoveLocalProperties->setEnabled( false ); // default: no local props
 
   if ( serviceType == "inode/directory" )
   {
@@ -801,12 +802,15 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       KURL urlDotDir( url );
       urlDotDir.addPath(".directory");
       bool HTMLAllowed = m_bHTMLAllowed;
-      if ( QFile::exists( urlDotDir.path() ) )
+      QFile f( urlDotDir.path() );
+      if ( f.open(IO_ReadOnly) )
       {
+          f.close();
           KSimpleConfig config( urlDotDir.path() );
           config.setGroup( "URL properties" );
           HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
           serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
+          m_paRemoveLocalProperties->setEnabled( true );
       }
       if ( HTMLAllowed &&
            ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
@@ -1173,6 +1177,31 @@ void KonqMainView::slotSaveViewPropertiesLocally()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     callExtensionBoolMethod( (*it), "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
+}
+
+void KonqMainView::slotRemoveLocalProperties()
+{
+  assert( m_currentView );
+  KURL u ( m_currentView->url() );
+  u.addPath(".directory");
+  if ( u.isLocalFile() )
+  {
+      QFile f( u.path() );
+      if ( f.open(IO_ReadWrite) )
+      {
+          f.close();
+          KSimpleConfig config( u.path() );
+          config.deleteGroup( "URL properties" ); // Bye bye
+          config.sync();
+          // TODO: Notify the view...
+          // Or the hard way: (and hoping it doesn't cache the values!)
+          slotReload();
+      } else
+      {
+         ASSERT( QFile::exists(u.path()) ); // The action shouldn't be enabled, otherwise.
+         KMessageBox::sorry( this, i18n("No permissions to write to %1").arg(u.path()) );
+      }
+  }
 }
 
 /*
@@ -1607,6 +1636,8 @@ void KonqMainView::initActions()
 
   // Settings menu
   m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Sa&ve View Properties In Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
+   // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
+  m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
   m_paConfigureFileManager = new KAction( i18n( "File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
   m_paConfigureBrowser = new KAction( i18n( "&Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
