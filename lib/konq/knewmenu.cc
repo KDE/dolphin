@@ -258,6 +258,8 @@ void KNewMenu::slotNewFile()
     int id = QString( sender()->name() + 7 ).toInt(); // skip "newmenu"
     if (id == 0) return;
 
+    emit activated(); // for KDIconView::slotNewMenuActivated()
+
     Entry entry = *(s_templatesList->at( id - 1 ));
     //kdDebug(1203) << QString("sFile = %1").arg(sFile) << endl;
 
