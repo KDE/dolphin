@@ -81,7 +81,24 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 
 	setButtons( KCModule::Ok|KCModule::Apply);
 	load();
+	
+	KAboutData *about = new KAboutData(I18N_NOOP("kcm_useraccount"), 
+		I18N_NOOP("Password & User Information"), 0, 0,
+		KAboutData::License_GPL,
+		I18N_NOOP("(C) 2002, Braden MacDonald, "
+			"(C) 2004 Ravikiran Rajagopal"));
 
+	about->addAuthor("Ravikiran Rajagopal", I18N_NOOP("Maintainer"), "ravi@kde.org");
+	about->addAuthor("Michael H\303\244ckel", "haeckel@kde.org" );
+
+	about->addAuthor("Braden MacDonald", I18N_NOOP("Face editor"), "bradenm_k@shaw.ca");
+	about->addAuthor("Geert Jansen", I18N_NOOP("Password changer"), "jansen@kde.org", 
+			"http://www.stack.nl/~geertj/");
+	about->addAuthor("Daniel Molkentin");
+	about->addAuthor("Alex Zepeda");
+	about->addAuthor("Hans Karlsson", I18N_NOOP("Icons"), "karlsson.h@home.se");
+	about->addAuthor("Hermann Thomas", I18N_NOOP("Icons"), "h.thomas@gmx.de");
+	setAboutData(about);
 }
 
 void KCMUserAccount::slotChangePassword()
@@ -230,30 +247,6 @@ void KCMUserAccount::save()
 
 
 }
-
-const KAboutData* KCMUserAccount::aboutData() const
-{
-	KAboutData* about = new KAboutData(I18N_NOOP("kcm_useraccount"), 
-		I18N_NOOP("Password & User Information"), 0, 0,
-		KAboutData::License_GPL,
-		I18N_NOOP("(C) 2002, Braden MacDonald, "
-			"(C) 2004 Ravikiran Rajagopal"));
-
-	about->addAuthor("Ravikiran Rajagopal", I18N_NOOP("Maintainer"), "ravi@kde.org");
-	about->addAuthor("Michael H\303\244ckel", "haeckel@kde.org" );
-
-	about->addAuthor("Braden MacDonald", I18N_NOOP("Face editor"), "bradenm_k@shaw.ca");
-	about->addAuthor("Geert Jansen", I18N_NOOP("Password changer"), "jansen@kde.org", 
-			"http://www.stack.nl/~geertj/");
-	about->addAuthor("Daniel Molkentin");
-	about->addAuthor("Alex Zepeda");
-	about->addAuthor("Hans Karlsson", I18N_NOOP("Icons"), "karlsson.h@home.se");
-	about->addAuthor("Hermann Thomas", I18N_NOOP("Icons"), "h.thomas@gmx.de");
-
-	return about;
-
-}
-
 
 void KCMUserAccount::changeFace(const QPixmap &pix)
 {

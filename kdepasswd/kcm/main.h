@@ -53,7 +53,6 @@ public:
 	void load();
 
 	void save();
-	const KAboutData* aboutData() const;
 
 	/**
 	 * For the face button
