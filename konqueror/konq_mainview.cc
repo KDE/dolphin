@@ -32,6 +32,7 @@
 #include "konq_actions.h"
 
 #include <pwd.h>
+#include <netdb.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -152,7 +153,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
 {
   QString url = _url.stripWhiteSpace();
 
-  // Root directory?
+  // Absolute path?
   if ( url[0] == '/' )
   {
     KURL::encode( url );
@@ -203,20 +204,22 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
     tmp += url;
     url = tmp;
   }
+  else if ( gethostbyname( url.ascii() ) != 0 )
+  {
+    QString tmp = "http://";
+    KURL::encode( url );
+    tmp += url;
+    tmp += "/";
+    url = tmp;
+  }
 
   return url;
 }
 
 void KonqMainView::openFilteredURL( KonqChildView *_view, const QString &_url )
 {
-  QString url = konqFilteredURL( _url );
-
-  if ( url == _url ) {
-    KonqURLEnterEvent ev( url );
-    QApplication::sendEvent( this, &ev );
-  } else if ( url != QString::null ) {
-    openURL( _view, url );
-  }
+  KonqURLEnterEvent ev( konqFilteredURL( _url ) );
+  QApplication::sendEvent( this, &ev );
 }
 
 void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
@@ -756,12 +759,12 @@ void KonqMainView::customEvent( QCustomEvent *event )
   {
     QString url = ((KonqURLEnterEvent *)event)->url();
 
-    openURL( 0L, url );
-
     m_paURLCombo->blockSignals( true );
     m_paURLCombo->setCurrentItem( 0 );
     m_paURLCombo->QSelectAction::changeItem( 0, url );
     m_paURLCombo->blockSignals( false );
+
+    openURL( 0L, url );
 
     return;
   }
