@@ -88,59 +88,29 @@ KonqChildView::~KonqChildView()
   delete m_pWidget;
 }
 
-// temporary helper
-OPPartIf *findPart( OpenParts::Window w )
-{
-  list<OPPartIf*>::iterator it = OPPartIf::begin();
-  for (; it != OPPartIf::end(); ++it )
-    if ( (*it)->window() == w )
-      return *it;
-  return 0L;
-} 
-
 void KonqChildView::attach( Konqueror::View_ptr view )
 {
-  // Is this view implemented in our process ?
-  OPPartIf *builtinPart = findPart ( view->window() );
-  m_bBuiltin = (builtinPart != 0L);
-  
   m_pHeader->setPart( view );
   m_vView = Konqueror::View::_duplicate( view );
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( m_vParent );
   connectView( );
   if (m_pFrame) delete m_pFrame;
-  m_pFrame = 0L;
 
-  if ( m_bBuiltin )
-  {
-    QWidget * builtinWidget = builtinPart->widget();
-    kdebug(0, 1202, "KonqChildView::attach, reparenting builtinWidget=%p", builtinWidget );
-    builtinWidget->reparent( m_pWidget, 0, QPoint(0, 0) );
-    kdebug(0, 1202, "reparent ok, now addwidget()");
-    m_pLayout->addWidget( builtinWidget );
-  }
-  else 
-  {
-    kdebug(0, 1202, "********** KonqChildView::attach, NOT builtin *******");
-    m_pFrame = new OPFrame( m_pWidget );
-    m_pLayout->addWidget( m_pFrame );
-    m_pFrame->attach( view );
-  }
+  m_pFrame = new OPFrame( m_pWidget );
+  m_pLayout->addWidget( m_pFrame );
+  m_pFrame->attach( view );
+
   KonqPlugins::installKOMPlugins( view );
   m_pLayout->activate();
-  kdebug(0, 1202, "m_pFrame is %p", m_pFrame);
 }
 
 void KonqChildView::detach()
 {
-  if ( !m_bBuiltin )
-  {
-    m_pFrame->hide();
-    m_pFrame->detach();
-    delete m_pFrame;
-    m_pFrame = 0L;
-  }
+  m_pFrame->hide();
+  m_pFrame->detach();
+  delete m_pFrame;
+  m_pFrame = 0L;
   m_vView->disconnectObject( m_vParent );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );

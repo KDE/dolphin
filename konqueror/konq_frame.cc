@@ -325,6 +325,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     delete buffer;
   }*/ 
   p.end();
+  kdebug(0, 1202, "paintEvent done !");
 
 }
 

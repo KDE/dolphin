@@ -58,19 +58,14 @@
 #include <kclipboard.h>
 #include <kconfig.h>
 #include <kio_cache.h>
-#include <kio_openwith.h>
 #include <kio_paste.h>
 #include <kkeydialog.h>
 #include <klineeditdlg.h>
 #include <kpixmapcache.h>
 #include <kprocess.h>
-#include <kprotocolmanager.h>
 #include <kpropsdlg.h>
-#include <kservices.h>
 #include <kstdaccel.h>
-#include <kuserprofile.h>
 #include <kwm.h>
-#include <userpaths.h>
 
 #include <assert.h>
 
