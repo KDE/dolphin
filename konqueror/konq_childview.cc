@@ -101,8 +101,8 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 {
   OPPartIf* localView = 0L;
   // Local or remote ? (Simon's trick ;)
-  list<OPPartIf*>::iterator it = OPPartIf::begin();
-  for (; it != OPPartIf::end(); ++it )
+  QListIterator<OPPartIf> it = OPPartIf::partIterator();
+  for (; it.current(); ++it )
     if ( (*it)->window() == view->window() )
       localView = *it;
 
