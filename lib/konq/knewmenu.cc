@@ -36,6 +36,7 @@
 //#include <konq_dirwatcher_stub.h>
 #include "konq_undo.h"
 #include "knewmenu.h"
+#include <utime.h>
 
 QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
 int KNewMenu::s_templatesVersion = 0;
@@ -354,18 +355,25 @@ void KNewMenu::slotResult( KIO::Job * job )
     if (job->error())
         job->showErrorDialog();
     else
-      if ( m_isURLDesktopFile )
-      {
+    {
         KURL destURL = static_cast<KIO::CopyJob*>(job)->destURL();
         if ( destURL.isLocalFile() )
         {
-          //kdDebug(1203) << destURL.path() << endl;
-          KDesktopFile df( destURL.path() );
-          df.writeEntry( "Icon", KProtocolInfo::icon( KURL(m_destURL).protocol() ) );
-          df.writeEntry( "URL", m_destURL );
-          df.sync();
+            if ( m_isURLDesktopFile )
+            {
+                //kdDebug(1203) << destURL.path() << endl;
+                KDesktopFile df( destURL.path() );
+                df.writeEntry( "Icon", KProtocolInfo::icon( KURL(m_destURL).protocol() ) );
+                df.writeEntry( "URL", m_destURL );
+                df.sync();
+            }
+            else
+            {
+                // Normal (local) file. Need to "touch" it, kio_file copied the mtime.
+                (void) ::utime( QFile::encodeName( destURL.path() ), 0 );
+            }
         }
-      }
+    }
 }
 
 #include "knewmenu.moc"
