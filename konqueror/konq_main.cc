@@ -338,9 +338,7 @@ int main( int argc, char **argv )
   signal(SIGPIPE,sig_pipe_handler);
 
   KIOCache::initStatic();
-  // KMimeType::initStatic();
-  // KService::initStatic();
-  // KServiceTypeProfile::initStatic();
+
   KonqFileManager fm;
 
   testLocalInstallation();
@@ -361,7 +359,6 @@ int main( int argc, char **argv )
   registry.load( );
 
   KMimeType::check();
-  KMimeMagic::initStatic();
 
   KonqPlugins::init();
   
