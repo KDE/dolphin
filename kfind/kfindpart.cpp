@@ -164,6 +164,8 @@ void KFindPart::slotDestroyMe()
 
 void KFindPart::saveState( QDataStream& stream )
 {
+  KonqDirPart::saveState(stream); 
+
   m_kfindWidget->saveState( &stream );
   //Now we'll save the search result
   KFileItem *fileitem=m_lstFileItems.first();
@@ -177,15 +179,15 @@ void KFindPart::saveState( QDataStream& stream )
 
 void KFindPart::restoreState( QDataStream& stream )
 {
+  KonqDirPart::restoreState(stream); 
   int nbitems;
-  int i;
   KURL itemUrl;
 
   m_kfindWidget->restoreState( &stream );
 
   stream >> nbitems;
   slotStarted();
-  for(i=0;i<nbitems;i++)
+  for(int i=0;i<nbitems;i++)
   {
     stream >> itemUrl;
     addFile(new KFileItem(itemUrl,"",0),"");
