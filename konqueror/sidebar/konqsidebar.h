@@ -77,7 +77,7 @@ public:
      * Default constructor
      */
     KonqSidebar(QWidget *parentWidget, const char *widgetName,
-                    QObject *parent, const char *name);
+                    QObject *parent, const char *name,bool universalMode);
 
     /**
      * Destructor
@@ -88,6 +88,7 @@ public:
     KonqSidebarBrowserExtension* extension() const
        { return m_extension; }
     KInstance *getInstance();
+    bool universalMode() {return m_universalMode;}
 protected:
     /**
      * This must be implemented by each part
@@ -99,6 +100,7 @@ protected:
 
 private:
      class Sidebar_Widget *m_widget;
+     bool m_universalMode;
 };
 
 class KInstance;

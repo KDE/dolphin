@@ -21,14 +21,14 @@
 #include <qapplication.h>
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
-                                  QObject *parent, const char *name )
+                                  QObject *parent, const char *name, bool universalMode )
     : KParts::ReadOnlyPart(parent, name)
 {
     // we need an instance
     setInstance( KonqSidebarFactory::instance() );
     m_extension=0;
     // this should be your custom internal widget
-    m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
+    m_widget = new Sidebar_Widget( parentWidget,this, widgetName ,universalMode);
     m_extension = new KonqSidebarBrowserExtension( this, m_widget,"KonqSidebar::BrowserExtension" );
     connect(m_widget,SIGNAL(started(KIO::Job *)),
 		this, SIGNAL(started(KIO::Job*)));
@@ -92,10 +92,10 @@ KonqSidebarFactory::~KonqSidebarFactory()
 
 KParts::Part* KonqSidebarFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
                                                         QObject *parent, const char *name,
-                                                        const char * /*classname*/, const QStringList &/*args*/ )
+                                                        const char * /*classname*/, const QStringList &args )
 {
     // Create an instance of our Part
-    KonqSidebar* obj = new KonqSidebar( parentWidget, widgetName, parent, name );
+    KonqSidebar* obj = new KonqSidebar( parentWidget, widgetName, parent, name, args.contains("universal") );
 
     // See if we are to be read-write or not
 //    if (QCString(classname) == "KParts::ReadOnlyPart")

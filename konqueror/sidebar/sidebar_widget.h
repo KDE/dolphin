@@ -72,7 +72,7 @@ class addBackEnd: public QObject
 {
 	Q_OBJECT
 public:
-	addBackEnd(QObject *parent,class QPopupMenu *addmenu, const char *name=0);
+	addBackEnd(QObject *parent,class QPopupMenu *addmenu, bool univeral,const char *name=0);
 	~addBackEnd(){;}
 protected slots:
 	void aboutToShowAddMenu();
@@ -84,6 +84,7 @@ private:
 	QGuardedPtr<class QPopupMenu> menu;
 	QPtrVector<QString> libNames;
 	QPtrVector<QString> libParam;
+	bool m_universal;
 	void doRollBack();
 };
 
@@ -94,7 +95,7 @@ public:
 	friend class ButtonInfo;
 public:
 	Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par,
-						const char * name);
+						const char * name,bool universalMode);
 	~Sidebar_Widget();
 	bool openURL(const class KURL &url);
 	void stdAction(const char *handlestd);
@@ -164,7 +165,7 @@ private:
 	void connectModule(QObject *mod);
 	void collapseExpandSidebar();
 	bool doEnableActions();
-
+	bool m_universalMode;
 private:
 	KParts::ReadOnlyPart *m_partParent;
 	KDockArea *m_area;

@@ -4,6 +4,11 @@ dataEntry_DATA = home.desktop root.desktop history.desktop bookmarks.desktop \
                  services.desktop remote.desktop
 dataEntrydir = $(kde_datadir)/konqsidebartng/entries
 
+dataKickerEntries_DATA = home.desktop root.desktop history.desktop bookmarks.desktop \
+                 services.desktop remote.desktop
+dataKickerEntriesdir = $(kde_datadir)/konqsidebartng/kicker_entries
+
+
 dataAdd_DATA = virtualfolderadd.desktop 
 dataAdddir = $(kde_datadir)/konqsidebartng/add
 
