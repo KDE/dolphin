@@ -313,7 +313,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
   {
     QString description = i18n( "Show %1" ).arg( (*cIt)->comment() );
     QString name = (*cIt)->name();
-    kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
+    //kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, 0, actionCollection(), name.latin1() );
 
     // HACK
@@ -368,7 +368,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
         kdWarning(1202) << "No split frame !" << endl;
       else
       {
-        kdDebug(1202) << "Swapping" << endl;
+        //kdDebug(1202) << "Swapping" << endl;
         newContainer->moveToLast( splitFrame->widget() );
         newContainer->swapChildren();
       }
