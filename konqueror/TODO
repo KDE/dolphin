@@ -3,7 +3,14 @@
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL.
 
-- Sorting by date, ...
+- Sorting by date, by extension...
+
+- listviews : arrow to show order of sorting (as in kfind, I was told)
+
+- textview: dragging from there and dropping in another view crashes, I'm told.
+
+- if we keep "background color for this directory" we should have "text color for
+this directory" too...
 
 - Add support (in kpropsdlg probably) for user defined actions in .desktop
 files, like :
@@ -26,8 +33,6 @@ warning.)
   up :-)
 
 - select files to be shown using shell globs (file:/home/dfaure/*.txt)
-
-- open-with dlg : browse button [and save as applnk if checkbox "remember"]
 
 - Better handling of multiple selections (eg. try selecting
   several images then invoking kview - you get loads of kview 
@@ -70,8 +75,8 @@ would rock no ?
 
 - Integrate kdf and kdu ...
 
-- Add URL support to KDirWatch (faked of course, manually signalled,
-  but so that doing anything over FTP refreshes the view)...
+- Add DCOP call to notify new file / deleted file for non-local urls
+(where KDirWatch can't do anything) - waiting for DCOP broadcasts to objects.
 
 - More key bindings
 

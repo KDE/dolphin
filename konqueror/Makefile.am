@@ -21,7 +21,7 @@ include_HEADERS = KonquerorIface.h
 bin_PROGRAMS = konqueror
 
 konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
-		    konq_mainview.cc \
+		    konq_mainview.cc konq_guiclients.cc \
 		    konq_run.cc konq_childview.cc konq_viewmgr.cc \
                     konq_misc.cc \
 		    konq_frame.cc \
@@ -44,7 +44,7 @@ messages: rc.cpp
 	$(EXTRACTRC) */*.rc >> rc.cpp
 	$(XGETTEXT) -kaliasLocal -o $(podir)/konqueror.pot rc.cpp *.h *.cc *view/*h *view/*cc
 
-data_DATA = konquerorsu.desktop kfmclient.desktop Arrange.desktop 
+data_DATA = konquerorsu.desktop kfmclient.desktop Arrange.desktop
 datadir = $(kde_appsdir)/System
 
 data2_DATA = Home.desktop Trash.desktop

@@ -35,7 +35,6 @@
 #include <ktrader.h>
 
 class KAction;
-class KAction;
 class KActionMenu;
 class KSelectAction;
 class KToggleAction;
@@ -56,6 +55,7 @@ class KBookmarkMenu;
 class ViewModeGUIClient;
 class OpenWithGUIClient;
 class ToggleViewGUIClient;
+class FullScreenGUIClient;
 
 namespace KParts {
  class BrowserExtension;
@@ -374,6 +374,7 @@ private:
   ViewModeGUIClient *m_viewModeGUIClient;
   OpenWithGUIClient *m_openWithGUIClient;
   ToggleViewGUIClient *m_toggleViewGUIClient;
+  FullScreenGUIClient *m_fullScreenGUIClient;
 
   KTrader::OfferList m_popupEmbeddingServices;
   QString m_popupService;
@@ -390,74 +391,6 @@ private:
 
   typedef QMap<QCString,QCString> ActionSlotMap;
   static ActionSlotMap *s_actionSlotMap;
-};
-
-class ViewModeGUIClient : public QObject, public KXMLGUIClient
-{
-public:
-  ViewModeGUIClient( KonqMainView *mainView );
-
-  virtual KAction *action( const QDomElement &element ) const;
-
-  void update( const KTrader::OfferList &services );
-
-private:
-  KonqMainView *m_mainView;
-  QDomDocument m_doc;
-  QDomElement m_menuElement;
-  KActionCollection *m_actions;
-};
-
-class OpenWithGUIClient : public QObject, public KXMLGUIClient
-{
-public:
-  OpenWithGUIClient( KonqMainView *mainView );
-
-  virtual KAction *action( const QDomElement &element ) const;
-
-  void update( const KTrader::OfferList &services );
-
-private:
-  KonqMainView *m_mainView;
-  QDomDocument m_doc;
-  QDomElement m_menuElement;
-  KActionCollection *m_actions;
-};
-
-class PopupMenuGUIClient : public KXMLGUIClient
-{
-public:
-  PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices );
-  virtual ~PopupMenuGUIClient();
-
-  virtual KAction *action( const QDomElement &element ) const;
-
-private:
-  void addEmbeddingService( QDomElement &menu, int idx, const QString &name, const KService::Ptr &service );
-
-  KonqMainView *m_mainView;
-
-  QDomDocument m_doc;
-};
-
-class ToggleViewGUIClient : public QObject, public KXMLGUIClient
-{
-  Q_OBJECT
-public:
-  ToggleViewGUIClient( KonqMainView *mainView );
-  virtual ~ToggleViewGUIClient();
-
-  bool empty() const { return m_empty; }
-
-private slots:
-  void slotToggleView( bool toggle );
-  void slotViewAdded( KonqChildView *view );
-  void slotViewRemoved( KonqChildView *view );
-private:
-  KonqMainView *m_mainView;
-  QDomDocument m_doc;
-  bool m_empty;
-  QMap<QString,bool> m_mapOrientation;
 };
 
 #endif

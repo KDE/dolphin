@@ -62,13 +62,6 @@ KonqViewManager::~KonqViewManager()
   if (m_pMainContainer) delete m_pMainContainer;
 }
 
-KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation )
-{
-  kdDebug(1202) << "KonqViewManager::splitView(default)" << endl;
-
-  return splitView( orientation, m_pMainView->currentChildView()->url() );
-}
-
 KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
 						   const KURL &url,
 						   QString serviceType )
@@ -255,7 +248,7 @@ void KonqViewManager::removeView( KonqChildView *view )
   delete view;
 
   //triggering QObject::childEvent manually
-  grandParentContainer->removeChild( parentContainer ); // (crashes! David)
+  grandParentContainer->removeChild( parentContainer ); // ????? (David)
   //kdDebug(1202) << "Deleting parentContainer " << parentContainer << endl;
   delete parentContainer;
 
@@ -570,6 +563,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
 
+  kdDebug(1202) << "(insertChildView) main view is " << m_pMainView <<  endl;
   m_pMainView->insertChildView( v );
 
   newViewFrame->show();
