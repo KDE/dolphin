@@ -131,7 +131,8 @@ void IconViewBrowserExtension::reparseConfiguration()
     KonqFMSettings::reparseConfiguration();
     // m_pProps is a problem here (what is local, what is global ?)
     // but settings is easy :
-    m_iconView->iconViewWidget()->initConfig( false );
+    if ( m_iconView->iconViewWidget()->initConfig( false ) )
+        m_iconView->iconViewWidget()->arrangeItemsInGrid(); // called if the font changed.
 }
 
 void IconViewBrowserExtension::properties()
@@ -392,7 +393,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
         for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
             m_paPreviewPlugins.current()->setEnabled( toggle );
     }
-    else 
+    else
     {
         m_pProps->setShowingPreview( name, toggle );
         m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
@@ -420,7 +421,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
         {
             m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
         }
-    }   
+    }
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -628,20 +629,23 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         }
         // ### Add error message if the latter case, after msg freeze.
     }
+
+    KParts::URLArgs args;
+    fileItem->determineMimeType();
+    if ( fileItem->isMimeTypeKnown() )
+        args.serviceType = fileItem->mimetype();
+    args.trustedSource = true;
+    KURL url = fileItem->url();
+    if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
+        url = KURL( url, fileItem->linkDest() );
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
-        fileItem->run();
-    } else {
-        KParts::URLArgs args;
-        fileItem->determineMimeType();
-        if ( fileItem->isMimeTypeKnown() )
-            args.serviceType = fileItem->mimetype();
-        args.trustedSource = true;
-        KURL url = fileItem->url();
-        if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
-            url = KURL( url, fileItem->linkDest() );
-        kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
-        emit m_extension->openURLRequest( url, args );
+        // This means both: open new window, and reuse existing window for that dir
+        // if there is already one
+        args.frameName = url.prettyURL(-1);
+        kdDebug() << k_funcinfo << " args.frameName=" << args.frameName << endl;
     }
+    kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
+    emit m_extension->openURLRequest( url, args );
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
@@ -823,7 +827,7 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
 		{
             m_paOutstandingOverlays.append(overlay);
             connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
-        
+
             if (m_paOutstandingOverlays.count() == 1) {
                 m_paOutstandingOverlays.first() -> start();
             }
@@ -834,7 +838,7 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
 void KonqKfmIconView::slotDirectoryOverlayFinished()
 {
     m_paOutstandingOverlays.removeFirst();
-    
+
     if (m_paOutstandingOverlays.count() > 0) {
         m_paOutstandingOverlays.first() -> start();
     }
@@ -946,7 +950,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     // newProps returns true the first time, and any time something might
     // have changed.
     bool newProps = m_pProps->enterDir( url );
-        
+
     m_dirLister->setNameFilter( m_nameFilter );
 
     m_dirLister->setMimeFilter( mimeFilter() );
@@ -984,9 +988,9 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
           m_paPreviewPlugins.current()->setChecked( m_pProps->isShowingPreview( m_paPreviewPlugins.current()->name() ) );
           m_paPreviewPlugins.current()->setEnabled( m_pProps->isShowingPreview() );
       }
-      
+
       m_pIconView->setPreviewSettings(m_pProps->previewSettings());
-          
+
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.
       m_pProps->applyColors( m_pIconView->viewport() );
