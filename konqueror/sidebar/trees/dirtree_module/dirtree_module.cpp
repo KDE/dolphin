@@ -144,6 +144,7 @@ static void remove(QDict<KonqSidebarTreeItem> &dict, const QString &key, KonqSid
          {
             dict.insert(key, otherItem);
          }
+         delete otherItems;
          return;
       }
       // Not the item we are looking for
@@ -287,9 +288,9 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
     {
         m_dirLister = new KDirLister( true );
         //m_dirLister->setDirOnlyMode( true );
-	QStringList mimetypes;
-	mimetypes<<QString("inode/directory");
-	m_dirLister->setMimeFilter(mimetypes);
+//	QStringList mimetypes;
+//	mimetypes<<QString("inode/directory");
+//	m_dirLister->setMimeFilter(mimetypes);
 
         connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
                  this, SLOT( slotNewItems( const KFileItemList & ) ) );
@@ -350,20 +351,12 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
           KFileItem * fileItem = oldItem->fileItem();
           if (! fileItem->isDir() )
           {
-	      KMimeType::Ptr ptr=fileItem->determineMimeType();
-
-
-		kdDebug()<<"isLocalFile:"<< fileItem->url().isLocalFile()<<endl;
-		kdDebug()<<"ptr==0:"<<(ptr==0)<<endl;
-		if (ptr!=0) {
-			kdDebug()<<"is inode/directory:"<<ptr->is("inode/directory")<<endl;
-			kdDebug()<<"Local protocol:"<<ptr->property("X-KDE-LocalProtocol")<<endl;
-		}
+	      KMimeType::Ptr ptr;
 		
-	      if ( fileItem->url().isLocalFile() && ((ptr!=0) &&  ((ptr->is("inode/directory")) && (!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
+	      if ( fileItem->url().isLocalFile() && (((ptr=fileItem->determineMimeType())!=0) &&  ((!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
 		kdDebug()<<"Something not really a directory"<<endl;
 	      } else {
-	              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+//	              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
         	      continue;
 	      }
           }
@@ -422,20 +415,12 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
 
           if (! fileItem->isDir() )
           {
-	      KMimeType::Ptr ptr=fileItem->determineMimeType();
-
-
-		kdDebug()<<"isLocalFile:"<< fileItem->url().isLocalFile()<<endl;
-		kdDebug()<<"ptr==0:"<<(ptr==0)<<endl;
-		if (ptr!=0) {
-			kdDebug()<<"is inode/directory:"<<ptr->is("inode/directory")<<endl;
-			kdDebug()<<"Local protocol:"<<ptr->property("X-KDE-LocalProtocol")<<endl;
-		}
+	      KMimeType::Ptr ptr;
 		
-	      if ( fileItem->url().isLocalFile() && ((ptr!=0) &&  ((ptr->is("inode/directory")) && (!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
+	      if ( fileItem->url().isLocalFile() && (( (ptr=fileItem->determineMimeType())!=0) &&  ((!ptr->property("X-KDE-LocalProtocol").toString().isEmpty()) ))) {
 		kdDebug()<<"Something really a directory"<<endl;
 	      } else {
-	              kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+	              //kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
         	      continue;
 	      }
           }

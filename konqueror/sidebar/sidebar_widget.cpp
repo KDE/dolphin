@@ -970,7 +970,7 @@ void Sidebar_Widget::showHidePage(int page)
 			m_latestViewed=page;
 		}
 	} else {
-		if ((!info->dock->isVisible()) && (m_buttonBar->isTabRaised(page))) {
+		if ((!info->dock->isVisibleTo(this)) && (m_buttonBar->isTabRaised(page))) {
 			//SingleWidgetMode
 			if (m_singleWidgetMode) {
 				if (m_latestViewed != -1) {
