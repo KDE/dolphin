@@ -87,10 +87,6 @@
 
 #include "version.h"
 
-#define STATUSBAR_LOAD_ID 1
-#define STATUSBAR_SPEED_ID 2
-#define STATUSBAR_MSG_ID 3
-
 template class QList<QPixmap>;
 template class QList<KToggleAction>;
 
