@@ -908,6 +908,9 @@ void KonqKfmIconView::slotCompleted()
 
     m_bUpdateContentsPosAfterListing = false;
 
+    if ( !m_pIconView->firstItem() )
+	resetCount();
+    
     slotOnViewport();
 
     // slotRenderingFinished will do it
