@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Application
 DocPath=kcontrol/file-manager.html
-Icon=kfm
+Icon=desktop
 Exec=kcmshell desktopappearance
 
 X-KDE-ModuleType=Library
@@ -10,6 +10,29 @@ X-KDE-Library=konq
 X-KDE-FactoryName=dappearance
 
 Name=Appearance
+Name[af]=voorkoms
+Name[be]=Знешні выгляд
+Name[bs]=Izgled
+Name[cs]=Vzhled
+Name[da]=Udseende
+Name[es]=Aspecto
+Name[fi]=Ulkonäkö
+Name[he]=מראה
+Name[pt_BR]=Aparência
+Name[sv]=Utseende
 
 Comment=Here, you can configure the appearance of the desktop
+Comment[af]=hier, jy kan konfigureer die voorkoms van die werkskerm
+Comment[bs]=Ovdje možete podesiti izgled radne površine
+Comment[cs]=Zde je možné nastavit vzhled pracovní plochy
+Comment[da]=Her kan du indstille skrivebordets udseende
+Comment[es]=Configuración del aspecto del escritorio
+Comment[fi]=Tässä voit asettaa työpöydän ulkonäköä
+Comment[pt_BR]=Você pode configurar aqui a aparência da área de trabalho
+Comment[sv]=Anpassa panelens utseende
 Keywords=konqueror,filemanager,desktop,fonts,colors,colours,color,colour
+Keywords[da]=konqueror,filhåndtering,skrivebord,skrifttyper,farver,farve
+Keywords[es]=konqueror,administrador de archivos,escritorio,fuentes,colores,color
+Keywords[fi]=konqueror,tiedostonhallinta,työpöytä,kirjasimet,värit,väri
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,área de trabalho,fontes,cores,cores,cor,cor
+Keywords[sv]=konqueror,filhanterare,skrivbort,teckensnitt,färger,färg

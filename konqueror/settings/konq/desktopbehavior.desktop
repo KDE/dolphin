@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Application
 DocPath=kcontrol/file-manager.html
-Icon=kfm
+Icon=desktop
 Exec=kcmshell desktopbehavior
 
 X-KDE-ModuleType=Library
@@ -10,6 +10,29 @@ X-KDE-Library=konq
 X-KDE-FactoryName=dbehavior
 
 Name=Behavior
+Name[af]=gedrag
+Name[be]=Паводзіны
+Name[bs]=Ponašanje
+Name[cs]=Chování
+Name[da]=Opførsel
+Name[en_GB]=Behaviour
+Name[es]=Comportamiento
+Name[fi]=Käytös
+Name[he]=תפקוד
+Name[pt_BR]=Comportamento
+Name[sv]=Beteende
 
 Comment=You can configure how the desktop behaves here
+Comment[af]=jy kan konfigureer hoe die werkskerm gedrag hier
+Comment[bs]=Ovdje možete podesiti ponašanje radne površine
+Comment[da]=Her kan du indstille skrivebordets opførsel
+Comment[es]=Configuración del modo de comportamiento del escritorio
+Comment[fi]=Voit asettaa tässä työpöydän käytöstä
+Comment[pt_BR]=Você pode configurar aqui como o ambiente de trabalho se comporta
+Comment[sv]=Anpassa hur skrivbordet beter sig
 Keywords=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,
+Keywords[da]=konqueror,filhåndtering,kfm,tip,filtip,separat vindue,flere vinduer,opførsel,hukommelsesforbrug,Hjemme-URL,
+Keywords[es]=konqueror,administrador de archivos,kfm,sugerencias,ventana separada, extender ventanas,comportamiento,uso de memoria, URl de inicio,
+Keywords[fi]=konqueror,tiedostonhallinta,kfm,vinkit,tiedostovinkit,erillinen ikkuna,käytös,muistinkäyttö,Koti-URL
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,kfm,dicas,arquivos de dicas,janelas separadas,janelas unidas,comportamento,comportamento,uso de memória,URL local,
+Keywords[sv]=konqueror,filhanterare,kfm,tips,filtips,särskilt fönster,visa fönster,beteende,minnesanvändning,hemadress
