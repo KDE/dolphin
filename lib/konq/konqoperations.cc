@@ -64,6 +64,12 @@ void KonqOperations::editMimeType( const QString & mimeType )
 
 void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )
 {
+  kdDebug(1203) << "KonqOperations::del " << parent->className() << endl;
+  if ( selectedURLs.isEmpty() )
+  {
+    kdWarning(1203) << "Empty URL list !" << endl;
+    return;
+  }
   KonqOperations * op = new KonqOperations( parent );
   op->_del( method, selectedURLs );
 }
@@ -86,15 +92,14 @@ void KonqOperations::emptyTrash()
   it = files.begin();
   for (; it != files.end(); ++it )
     urls.append( *it );
-  
+
   if ( urls.count() > 0 )
     op->_del( DEL, urls );
 }
 
 void KonqOperations::_del( int method, const KURL::List & selectedURLs )
 {
-  if ( ( !m_bSkipConfirmation && askDeleteConfirmation( selectedURLs ) )
-       || m_bSkipConfirmation )
+  if ( m_bSkipConfirmation || askDeleteConfirmation( selectedURLs ) )
   {
     switch( method )
     {
