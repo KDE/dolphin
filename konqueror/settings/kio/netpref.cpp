@@ -155,7 +155,7 @@ QString KIOPreferences::quickHelp() const
   return i18n("<h1>Network Preferences</h1>Here you can define"
               " the behavior of KDE programs when using Internet"
               " and network connections. If you experience timeouts"
-              " or use a modem to connect to the internet, you might"
+              " or use a modem to connect to the Internet, you might"
               " want to adjust these settings." );
 }
 
