@@ -38,7 +38,6 @@
 #include <qcombobox.h>
 #include <qstrlist.h>
 #include <qcheckbox.h>
-#include <kconfig.h>
 #include <kcolorbtn.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
