@@ -61,7 +61,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
 void KonqTextViewItem::updateContents()
 {
    QString tmp;
-   long int size=m_fileitem->size();
+   KIO::filesize_t size=m_fileitem->size();
    mode_t m=m_fileitem->mode();
    if (m_fileitem->isLink())
    {
