@@ -130,7 +130,9 @@ void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
   else
     m_pView->openURL( url );
 
-  m_pMainView->setLocationBarURL( this, url );
+  QString decodedURL = url;
+  KURL::decode( decodedURL );
+  m_pMainView->setLocationBarURL( this, decodedURL );
 }
 
 void KonqChildView::switchView( BrowserView *pView )
