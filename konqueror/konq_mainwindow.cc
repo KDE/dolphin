@@ -231,6 +231,14 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     m_toggleViewGUIClient = 0;
   }
 
+  // Those menus are created by konqueror.rc so their address will never change
+  QPopupMenu *popup = static_cast<QPopupMenu*>(factory()->container("edit",this));
+  if (popup)
+    KAcceleratorManager::manage(popup);
+  popup = static_cast<QPopupMenu*>(factory()->container("tools",this));
+  if (popup)
+    KAcceleratorManager::manage(popup);
+
   KConfigGroupSaver cgs(config,"MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
@@ -1921,9 +1929,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paMoveFiles->setEnabled( false );
   }
   createGUI( part );
-  QPopupMenu *popup = static_cast<QPopupMenu*>(factory()->container("edit",this));
-  if (popup)
-	KAcceleratorManager::manage(popup);
 
   KActionCollection *coll = m_currentView->part()->actionCollection();
   if ( coll )
