@@ -1098,7 +1098,10 @@ bool KonqView::prepareReload( KParts::URLArgs& args )
     // Repost form data if this URL is the result of a POST HTML form.
     if ( m_doPost )
     {
-        if ( KMessageBox::warningContinueCancel( 0, i18n( "Repost form data?" ),
+        if ( KMessageBox::warningContinueCancel( 0, i18n(
+				"The page you are trying to view is the result of a posted formular. "
+				"If you resend the data, any action the form carried out (such as search or online purchase) will be repeated. "
+				"To resend the data, click OK. Otherwise click Cancel."),
                                                  i18n( "Security Warning" ) ) == KMessageBox::Continue )
         {
             args.setDoPost( true );
