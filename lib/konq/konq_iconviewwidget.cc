@@ -44,6 +44,7 @@
 #include <kiconeffect.h>
 #include <kurldrag.h>
 #include <kstandarddirs.h>
+#include <kprotocolinfo.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -1114,8 +1115,9 @@ void KonqIconViewWidget::disableIcons( const KURL::List & lst )
 
 void KonqIconViewWidget::slotSelectionChanged()
 {
-    // This code is very related to TreeViewBrowserExtension::updateActions
-    bool cutcopy, del;
+    // This code is very related to ListViewBrowserExtension::updateActions
+    int canCopy = 0;
+    int canDel = 0;
     bool bInTrash = false;
     int iCount = 0;
     KFileItem * firstSelectedItem = 0L;
@@ -1125,20 +1127,24 @@ void KonqIconViewWidget::slotSelectionChanged()
         if ( it->isSelected() )
         {
             iCount++;
+            canCopy++;
+
             if ( ! firstSelectedItem )
                 firstSelectedItem = (static_cast<KFileIVI *>( it ))->item();
 
-            if ( (static_cast<KFileIVI *>( it ))->item()->url().directory(false) == KGlobalSettings::trashPath() )
+            KURL url = ( static_cast<KFileIVI *>( it ) )->item()->url();
+            if ( url.directory(false) == KGlobalSettings::trashPath() )
                 bInTrash = true;
+            if ( KProtocolInfo::supportsDeleting( url ) )
+                canDel++;
         }
     }
-    cutcopy = del = ( iCount > 0 );
 
-    emit enableAction( "cut", cutcopy );
-    emit enableAction( "copy", cutcopy );
-    emit enableAction( "trash", del && !bInTrash && m_url.isLocalFile() );
-    emit enableAction( "del", del );
-    emit enableAction( "shred", del );
+    emit enableAction( "cut", canDel > 0 );
+    emit enableAction( "copy", canCopy > 0 );
+    emit enableAction( "trash", canDel > 0 && !bInTrash && m_url.isLocalFile() );
+    emit enableAction( "del", canDel > 0 );
+    emit enableAction( "shred", canDel > 0 );
 
     KFileItemList lstItems;
     if ( firstSelectedItem )
