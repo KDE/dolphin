@@ -23,15 +23,15 @@ libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0
 libkonq_la_LIBADD = -lkded $(LIB_KFILE) -lkpartsui -lkparts
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc kpopupmenu.cc \
-	kpropsdlg.cc konq_progressproxy.cc \
+	kpropsdlg.cc \
 	kdirlister.cc kfileitem.cc kiconcontainer.cc kicondrag.cc kfileici.cc
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \
-	kpropsdlg.moc konq_progressproxy.moc \
+	kpropsdlg.moc \
 	kdirlister.moc kiconcontainer.moc kicondrag.moc
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h kpopupmenu.h \
-	kpropsdlg.h konq_progressproxy.h \
+	kpropsdlg.h \
 	kdirlister.h kfileitem.h kiconcontainer.h kicondrag.h kfileici.h
 
 messages:
