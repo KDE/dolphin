@@ -748,11 +748,7 @@ void KonqKfmIconView::determineIcon( KFileIVI * item )
 
   (void) item->item()->determineMimeType();
 
-  QPixmap newIcon = item->item()->pixmap( iconSize(),
-                                          item->state() );
-
-  if ( oldSerial != newIcon.serialNumber() )
-      item->setPixmap( newIcon );
+  item->setIcon( iconSize(), item->state(), true, true );
 }
 
 void KonqKfmIconView::mimeTypeDeterminationFinished()
