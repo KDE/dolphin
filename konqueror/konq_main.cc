@@ -113,21 +113,6 @@ int main( int argc, char **argv )
   KonqFileManager fm;
   KFileOpenWithHandler fowh;
 
-  // Launch the cookiejar if not already running
-  KConfig *kioConfig = new KConfig("kioslaverc", false, false);
-  if (kioConfig->readBoolEntry( "Cookies", true ))
-  {
-     QCString dcopService;
-     QString error;
-     if (KApplication::startServiceByDesktopName("kcookiejar", QString::null,
-		dcopService, error ))
-     {
-        // Error starting kcookiejar.
-        kdDebug(1202) << "Error starting KCookiejar: " << error << "\n" << endl;
-     }
-  }
-  delete kioConfig;
-
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
   if ( kapp->isRestored() )
