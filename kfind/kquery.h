@@ -87,7 +87,7 @@ class KQuery : public QObject
   QStringList locateList;
   KProcess *processLocate;
   QPtrList<QRegExp> m_regexps;// regexps for file name
-  QValueList<bool> m_regexpsContainsGlobs;
+//  QValueList<bool> m_regexpsContainsGlobs;  // what should this be good for ? Alex
   KIO::ListJob *job;
   bool m_insideCheckEntries;
   QPtrQueue<KFileItem> m_fileItems;

@@ -417,13 +417,13 @@ void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
   QRegExp *regExp;
   QRegExp sep(";");
   QStringList strList=QStringList::split( sep, regexp, false);
-  QRegExp globChars ("[\\*\\?\\[\\]]", TRUE,  FALSE);
+//  QRegExp globChars ("[\\*\\?\\[\\]]", TRUE,  FALSE);
 
   m_regexps.clear();
-  m_regexpsContainsGlobs.clear();
-  for ( QStringList::Iterator it = strList.begin(); it != strList.end(); ++it ) {
+//  m_regexpsContainsGlobs.clear();
+  for ( QStringList::ConstIterator it = strList.begin(); it != strList.end(); ++it ) {
     regExp = new QRegExp((*it),caseSensitive,true);
-    m_regexpsContainsGlobs.append(regExp->pattern().contains(globChars));
+//    m_regexpsContainsGlobs.append(regExp->pattern().contains(globChars));
     m_regexps.append(regExp);
   }
 }
