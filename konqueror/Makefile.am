@@ -31,9 +31,7 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_frame.cc \
 	    konq_actions.cc \
 	    konq_profiledlg.cc \
-	    konq_factory.cc \
-	    kdcoppropertyproxy.cc \
-	    kdcopactionproxy.cc
+	    konq_factory.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = ../libkonq/libkonq.la
