@@ -32,6 +32,7 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
   le_domain = new QLineEdit(this);
   l->setBuddy( le_domain );
   grid->addWidget(le_domain, 0, 1);
+  connect( le_domain,SIGNAL(textChanged ( const QString & )),this,SLOT(slotTextChanged( const QString &)));
 
   QWhatsThis::add(le_domain, i18n("Enter the name of a host (like www.kde.org) "
                                   "or a domain, starting with a dot (like .kde.org or .org)") );
@@ -76,18 +77,25 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
   topl->addWidget(bbox);
 
   bbox->addStretch(1);
-  QPushButton *okButton = bbox->addButton(i18n("&OK"));
+  okButton = bbox->addButton(i18n("&OK"));
   okButton->setDefault(true);
   connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
+
 
   QPushButton *cancelButton = bbox->addButton(i18n("&Cancel"));
   connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 
   le_domain->setFocus();
+  okButton->setEnabled( !le_domain->text().isEmpty());
 }
 
 PolicyDialog::FeatureEnabledPolicy PolicyDialog::featureEnabledPolicy() const {
     return (FeatureEnabledPolicy)cb_feature_policy->currentItem();
+}
+
+void PolicyDialog::slotTextChanged( const QString &text)
+{
+    okButton->setEnabled( !text.isEmpty());
 }
 
 void PolicyDialog::setDisableEdit( bool state, const QString& text )

@@ -6,7 +6,7 @@
 #define _POLICYDLG_H
 
 #include <kdialog.h>
-                        
+
 #include <qlineedit.h>
 #include <qstringlist.h>
 
@@ -14,6 +14,7 @@ class QLabel;
 class QComboBox;
 class QString;
 class QVBoxLayout;
+class QPushButton;
 
 class Policies;
 
@@ -112,6 +113,7 @@ public:
 protected slots:
 
     virtual void accept();
+    void slotTextChanged( const QString &text);
 
 private:
     Policies *policies;
@@ -122,6 +124,7 @@ private:
     QComboBox *cb_feature_policy;
     QWidget *panel;
     QStringList policy_values;
+    QPushButton *okButton;
 };
 
 #endif
