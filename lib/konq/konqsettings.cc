@@ -80,13 +80,16 @@ void KonqFMSettings::init( KConfig * config )
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
   m_embedOther = config->readBoolEntry( "EmbedOther", true );
 
-  m_bVisualActivate = config->readBoolEntry("VisualActivate", true);
+  m_bVisualActivate =
+    config->readBoolEntry("VisualActivate", DEFAULT_VISUAL_ACTIVATE);
 
   m_visualActivateSpeed =
-    config->readUnsignedNumEntry("VisualActivateSpeed", 80);
+    config->readUnsignedNumEntry(
+      "VisualActivateSpeed", DEFAULT_VISUAL_ACTIVATE_SPEED);
 
   m_visualActivateCount =
-    config->readUnsignedNumEntry("VisualActivateCount", 8);
+    config->readUnsignedNumEntry(
+      "VisualActivateCount", DEFAULT_VISUAL_ACTIVATE_COUNT);
 }
 
 bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const

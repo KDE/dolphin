@@ -84,3 +84,7 @@
 // Default action on delete :
 // 1 = move to trash, 2 = simple delete, 3 = shred
 #define DEFAULT_DELETEACTION 1
+
+#define DEFAULT_VISUAL_ACTIVATE true
+#define DEFAULT_VISUAL_ACTIVATE_SPEED 80
+#define DEFAULT_VISUAL_ACTIVATE_COUNT 8
