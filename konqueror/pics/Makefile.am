@@ -1,3 +1,3 @@
 KDE_ICON = AUTO
 
-SUBDIRS = tiles indicators
+SUBDIRS = tiles indicators actions
