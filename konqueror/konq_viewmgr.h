@@ -102,6 +102,8 @@ public:
                    const QString &serviceName = QString::null,
                    bool passiveMode = false);
 
+
+
   /**
    * Duplicates the specified tab, or else the current one if none is specified
    */
@@ -142,6 +144,10 @@ public:
    *
    */
   void activatePrevTab();
+
+    void moveTabLeft();
+    void moveTabRight();
+
 
   /**
    * Brings the tab specified by @p view to the front of the stack

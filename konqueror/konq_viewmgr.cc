@@ -336,11 +336,12 @@ void KonqViewManager::revertDocContainer()
   parentContainer->widget()->setUpdatesEnabled( true );
 
   parentContainer->setActiveChild( otherFrame );
-  
+
   parentContainer->activateChild();
 
   m_pDocContainer = otherFrame;
 }
+
 
 KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode)
 {
@@ -579,6 +580,30 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
 
 }
 
+void KonqViewManager::moveTabLeft()
+{
+    if (m_pDocContainer == 0L) return;
+    if (m_pDocContainer->frameType() != "Tabs") return;
+    KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+    if( tabContainer->count() == 1 ) return;
+
+    int iTab = tabContainer->currentPageIndex();
+    kdDebug()<<" tabContainer->currentPageIndex(); :"<<iTab<<endl;
+    tabContainer->moveTabLeft(iTab);
+}
+
+void KonqViewManager::moveTabRight()
+{
+    if (m_pDocContainer == 0L) return;
+    if (m_pDocContainer->frameType() != "Tabs") return;
+    KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+    if( tabContainer->count() == 1 ) return;
+
+    int iTab = tabContainer->currentPageIndex();
+    kdDebug()<<" tabContainer->currentPageIndex(); :"<<iTab<<endl;
+    tabContainer->moveTabRight(iTab);
+}
+
 void KonqViewManager::activateNextTab()
 {
   if (m_pDocContainer == 0L) return;
@@ -586,7 +611,7 @@ void KonqViewManager::activateNextTab()
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
   if( tabContainer->count() == 1 ) return;
-  
+
   int iTab = tabContainer->currentPageIndex();
 
   iTab++;
@@ -604,7 +629,7 @@ void KonqViewManager::activatePrevTab()
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
   if( tabContainer->count() == 1 ) return;
-  
+
   int iTab = tabContainer->currentPageIndex();
 
   iTab--;

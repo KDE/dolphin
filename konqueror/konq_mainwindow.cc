@@ -106,7 +106,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
   setPreloadedFlag( false );
-  
+
   if ( !s_lstViews )
     s_lstViews = new QPtrList<KonqMainWindow>;
 
@@ -2971,6 +2971,10 @@ void KonqMainWindow::initActions()
 
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", CTRL+Key_BracketRight, this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", CTRL+Key_BracketLeft, this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
+
+  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
+  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
+
 #ifndef NDEBUG
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
 #endif
@@ -3094,6 +3098,18 @@ void KonqMainWindow::initActions()
   m_paLockView->setStatusText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
   m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes made in other linked views.") );
+}
+
+void KonqMainWindow::slotMoveTabLeft()
+{
+    kdDebug()<<" KonqMainWindow::slotMoveTabLeft() \n";
+    m_pViewManager->moveTabLeft();
+}
+
+void KonqMainWindow::slotMoveTabRight()
+{
+    kdDebug()<<" KonqMainWindow::slotMoveTabRight() \n";
+    m_pViewManager->moveTabRight();
 }
 
 void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)

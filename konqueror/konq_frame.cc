@@ -956,4 +956,31 @@ void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
   }
 }
 
+void KonqFrameTabs::moveTabLeft(int index)
+{
+    if ( index == 0 )
+        return;
+    KonqFrameBase* currentFrame = m_pChildFrameList->at(index );
+    kdDebug()<<" currentFrame :"<<currentFrame<<" index :"<<index<<endl;
+    removePage(currentFrame->widget());
+    m_pChildFrameList->remove(currentFrame);
+
+    insertChildFrame( currentFrame, index-1 );
+    setCurrentPage( index-1 );
+}
+
+void KonqFrameTabs::moveTabRight(int index)
+{
+    if ( index == count()-1 )
+        return;
+    KonqFrameBase* currentFrame = m_pChildFrameList->at(index );
+    kdDebug()<<" currentFrame :"<<currentFrame<<" index :"<<index<<endl;
+    removePage(currentFrame->widget());
+    m_pChildFrameList->remove(currentFrame);
+
+    insertChildFrame( currentFrame, index+1 );
+    setCurrentPage( index+1 );
+}
+
+
 #include "konq_frame.moc"
