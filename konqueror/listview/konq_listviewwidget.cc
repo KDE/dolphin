@@ -75,7 +75,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_pBrowserView(parent)
 ,m_dirLister(new KonqDirLister( true /*m_showIcons==FALSE*/))
 ,m_dragOverItem(0L)
-,m_showIcons(TRUE)
+,m_showIcons(true)
 ,m_bCaseInsensitive(true)
 ,m_bAscending(TRUE)
 ,m_itemFound(false)
@@ -88,7 +88,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    m_bTopLevelComplete  = true;
 
    //Adjust KListView behaviour
-   setMultiSelection(TRUE);
+   setMultiSelection(true);
    setSelectionModeExt( Konqueror );
    setDragEnabled(true);
    setItemsMovable(false);
@@ -141,7 +141,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
             m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
 
-   viewport()->setAcceptDrops( true );
    viewport()->setMouseTracking( true );
    viewport()->setFocusPolicy( QWidget::WheelFocus );
    setFocusPolicy( QWidget::WheelFocus );
@@ -149,7 +148,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    //looks better with the statusbar
    setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-   setShowSortIndicator(TRUE);
+   setShowSortIndicator(true);
 
    //confColumns.setAutoDelete(TRUE);
 }
@@ -167,7 +166,7 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
 void KonqBaseListViewWidget::focusInEvent( QFocusEvent *fe )
 {
    KListView::focusInEvent(fe);
-};
+}
 
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
@@ -279,19 +278,19 @@ void KonqBaseListViewWidget::createColumns()
 
 void KonqBaseListViewWidget::stop()
 {
-    m_dirLister->stop();
+   m_dirLister->stop();
 }
 
 const KURL & KonqBaseListViewWidget::url()
 {
-  return m_url;
+   return m_url;
 }
 
 void KonqBaseListViewWidget::updateSelectedFilesInfo()
 {
-    // Display statusbar info, and emit selectionInfo
-    KFileItemList lst = selectedFileItems();
-    m_pBrowserView->emitCounts( lst, true );
+   // Display statusbar info, and emit selectionInfo
+   KFileItemList lst = selectedFileItems();
+   m_pBrowserView->emitCounts( lst, true );
 }
 
 void KonqBaseListViewWidget::initConfig()
@@ -672,7 +671,10 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // Start the directory lister !
    m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 
-   m_bUpdateContentsPosAfterListing = true;
+   if ( m_pBrowserView->extension()->urlArgs().reload )
+      m_bUpdateContentsPosAfterListing = false;
+   else
+      m_bUpdateContentsPosAfterListing = true;
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
