@@ -121,8 +121,9 @@ void KonqRun::foundMimeType( const QString & _type )
   KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
   kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
 
-  // ??????????????? (David)
-  m_bFault = true; // make Konqueror believe that there was an error, in order to stop the spinning wheel...
+  // make Konqueror believe that there was an error, in order to stop the spinning wheel...
+  // (we are starting another app, so the current view should stop loading).
+  m_bFault = true;
 
   KRun::foundMimeType( mimeType );
 }
@@ -169,6 +170,7 @@ void KonqRun::scanFile()
   if (m_req.typedURL.isEmpty())
       // ###this does not work for some strange reason:
       // job->addMetaData("Referer", m_req.args.metaData()["referrer"]);
+      // The reason is : it's referrer, not Referer ! (David)
       job->addMetaData( m_req.args.metaData());
   job->setWindow((KMainWindow *)m_pMainWindow);
   connect( job, SIGNAL( result( KIO::Job *)),
