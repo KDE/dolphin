@@ -159,7 +159,7 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
     QPixmap big;
 
     // favicon? => blend the favicon in the large
-    if ( url.startsWith( "http:/" ) && icon.startsWith("favicons/") ) {
+    if ( url.startsWith( "http:/" ) && icon.contains("/favicons/") ) {
 	QPixmap small = SmallIcon( icon, size );
 	big = KGlobal::iconLoader()->loadIcon( KProtocolInfo::icon("http"),
 					       KIcon::Panel, size );
