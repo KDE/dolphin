@@ -157,6 +157,12 @@ public:
 
     virtual KFileItemList selectedFileItems() { return KFileItemList(); }
 
+    /**
+     * Re-implemented for internal reasons.  API is unaffected.  All inheriting
+     * classes should re-implement @ref doCloseURL() instead instead of this one.
+     */
+    bool closeURL ();
+
 signals:
 
     /**
@@ -202,8 +208,15 @@ signals:
 public slots:
 
     /**
-     * This is called either by the part's close button, or by the dir part
-     * itself, if entering a directory. It deletes the find part !
+     * Re-implemented for internal reasons.  API is unaffected.  All inheriting
+     * classes should re-implement @ref doOpenURL() instead instead of this one.
+     */
+     bool openURL (const KURL&);
+
+    /**
+     * This is called either by the part's close button, or by the
+     * dir part itself, if entering a directory. It deletes the find
+     * part.
      */
     void slotFindClosed();
 
@@ -244,17 +257,16 @@ public slots:
 
 protected:
     /**
-     * Call this at the beginning of openURL
+     * Invoked from openURL to enable childern classes to
+     * handle open URL requests.
      */
-    void beforeOpenURL();
+    virtual bool doOpenURL( const KURL& ) = 0;
+    virtual bool doCloseURL () = 0;
+
+protected:
 
     QString m_nameFilter;
 
-    KParts::BrowserExtension * m_extension;
-
-    /**
-     * View properties
-     */
     KonqPropsView * m_pProps;
 
     KAction *m_paIncIconSize;
@@ -266,6 +278,7 @@ protected:
     KToggleAction *m_paSmallIcons;
 
     KParts::ReadOnlyPart * m_findPart;
+    KParts::BrowserExtension * m_extension;
 
     int m_iIconSize[5];
 

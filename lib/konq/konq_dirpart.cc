@@ -452,18 +452,26 @@ void KonqDirPart::setIconSize( int size )
     newIconSize( size );
 }
 
-void KonqDirPart::beforeOpenURL()
+bool KonqDirPart::closeURL()
+{
+    // Tell all the childern objects to clean themselves up for dinner :)
+    return doCloseURL();
+}
+
+bool KonqDirPart::openURL(const KURL& url)
 {
     if ( m_findPart )
     {
-        kdDebug(1203) << "KonqDirPart::beforeOpenURL -> emit findClosed " << this << endl;
+        kdDebug(1203) << "KonqDirPart::openURL -> emit findClosed " << this << endl;
         delete m_findPart;
         m_findPart = 0L;
         emit findClosed( this );
     }
     
-    kdDebug(1203) << "KonqDirPart::beforeOpenURL: url= " << url().url() << endl;
+    m_url = url;
     emit aboutToOpenURL ();
+
+    return doOpenURL(url);
 }
 
 void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
