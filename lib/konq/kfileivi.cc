@@ -21,9 +21,9 @@
 #include "kfileitem.h"
 
 KFileIVI::KFileIVI( QIconView *_iconview, KFileItem* _fileitem )
-  : QIconViewItem( _iconview, _fileitem->getText(), 
+  : QIconViewItem( _iconview, _fileitem->text(), 
   // HACK : As Reggie says, we need to build a full QIconSet
-                   QIconSet( _fileitem->getPixmap( KIconLoader::Medium ), QIconSet::Large ) ),
+                   QIconSet( _fileitem->pixmap( KIconLoader::Medium ), QIconSet::Large ) ),
     m_fileitem( _fileitem )
 {
   setDropEnabled( m_fileitem->mimetype() == "inode/directory" );

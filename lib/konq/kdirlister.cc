@@ -306,7 +306,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   {
     if ( !(*kit)->isMarked() )
     {
-      kdebug(0,1203,"Removing %s", (*kit)->getText().ascii());
+      kdebug(0,1203,"Removing %s", (*kit)->text().ascii());
       lst.append( *kit );
     }
   }

@@ -101,19 +101,13 @@ public:
   bool isLocalFile() const { return m_bIsLocalURL; }
   /**
    * @return a pixmap representing the file
-   * Don't cache it, don't delete it. It's handled by KPixmapCache !
-   *
-   * The method is named getPixmap because it actually determines the pixmap
-   * each time.
-   * getPixmap() should only be called it might have changed
    */
-  QPixmap getPixmap( KIconLoader::Size _size ) const;
+  QPixmap pixmap( KIconLoader::Size _size ) const;
   /**
    * @return the text of the file item
    * It's not exactly the filename since some decoding happens ('%2F'->'/')
-   * Named "getText" instead of "text" for the same reason as above.
    */
-  QString getText() const { return m_strText; }
+  QString text() const { return m_strText; }
 
   /**
    * @return the mimetype of the file item

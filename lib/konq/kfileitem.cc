@@ -111,7 +111,7 @@ void KFileItem::init()
   assert (m_pMimeType);
 }
 
-QPixmap KFileItem::getPixmap( KIconLoader::Size _size ) const
+QPixmap KFileItem::pixmap( KIconLoader::Size _size ) const
 {
   QPixmap p = m_pMimeType->pixmap( m_url, _size );
   if (p.isNull())
