@@ -335,7 +335,7 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(), true /* stopImagePreview */);
+        m_pIconView->setIcons( m_pIconView->iconSize(), "image/" /* make those normal again */);
     }
     else
     {
@@ -349,7 +349,7 @@ void KonqKfmIconView::slotTextPreview( bool toggle )
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(), true /* stopImagePreview */);
+        m_pIconView->setIcons( m_pIconView->iconSize(),  "text/" /* make those normal again */);
     }
     else
     {
