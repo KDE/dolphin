@@ -118,7 +118,7 @@ void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
   SocketNot *socknot = (SocketNot *)client_data;
   QApplication::sendEvent( socknot->obj, &event );
 
-  kDebugInfo("<- dcopReadCallback");
+  kDebugInfo("<- socketCallback");
 }
 
 
