@@ -480,36 +480,23 @@ void KonqFrameContainer::swapChildren()
   m_pSecondChild = firstCh;
 }
 
-// Ok, here it goes. When we receive the event for a KonqFrame[Container] that has been
-// deleted - it's from the QObject destructor, so isA won't work. The class name is "QObject" !
-// This is why childEvent only catches child insertion, and there is a manual removeChildFrame.
-void KonqFrameContainer::childEvent( QChildEvent * ce )
+void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame )
 {
-  //kdDebug(1202) << "KonqFrameContainer::childEvent this" << this << endl;
+  kdDebug(1202) << "KonqFrameContainer " << this << ": insertChildFrame " << frame << endl;
 
-  if( ce->type() == QEvent::ChildInserted )
+  if (frame)
   {
-    KonqFrameBase* castChild = 0L;
-    if( ce->child()->isA("KonqFrame") )
-      castChild = static_cast< KonqFrame* >(ce->child());
-    else if( ce->child()->isA("KonqFrameContainer") )
-      castChild = static_cast< KonqFrameContainer* >(ce->child());
+      if( !m_pFirstChild )
+          m_pFirstChild = frame;
 
-    if (castChild)
-    {
-        kdDebug(1202) << "KonqFrameContainer " << this << ": child " << castChild << " inserted" << endl;
-        if( !m_pFirstChild )
-            m_pFirstChild = castChild;
+      else if( !m_pSecondChild )
+          m_pSecondChild = frame;
 
-        else if( !m_pSecondChild )
-            m_pSecondChild = castChild;
-
-        else
-            kdWarning(1202) << this << " already has two children..."
-                            << m_pFirstChild << " and " << m_pSecondChild << endl;
-    }
-  }
-  QSplitter::childEvent( ce );
+      else
+        kdWarning(1202) << this << " already has two children..."
+                          << m_pFirstChild << " and " << m_pSecondChild << endl;
+  } else
+    kdWarning(1202) << "KonqFrameContainer " << this << ": insertChildFrame(0L) !" << endl;
 }
 
 void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )

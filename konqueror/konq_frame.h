@@ -265,8 +265,11 @@ public:
   virtual QString frameType() { return QString("Container"); }
 
   /**
+   * Call this after inserting a new frame into the splitter.
+   */
+  void insertChildFrame( KonqFrameBase * frame );
+  /**
    * Call this before deleting one of our children.
-   * This is because childEvent can't do a proper job
    */
   void removeChildFrame( KonqFrameBase * frame );
 
@@ -278,8 +281,6 @@ public:
   int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }
 
 protected:
-  void childEvent( QChildEvent * ce );
-
   KonqFrameBase* m_pFirstChild;
   KonqFrameBase* m_pSecondChild;
 };

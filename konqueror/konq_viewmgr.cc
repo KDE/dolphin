@@ -140,6 +140,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
     newContainer->setOpaqueResize( true );
     newContainer->show();
 
+    parentContainer->insertChildFrame( newContainer );
     if( moveNewContainer )
       parentContainer->moveToFirst( newContainer );
 
@@ -234,6 +235,7 @@ void KonqViewManager::removeView( KonqView *view )
   delete parentContainer;
 
   otherFrame->reparentFrame( grandParentContainer, pos, true/*showIt*/ );
+  grandParentContainer->insertChildFrame( otherFrame );
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
@@ -398,6 +400,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   //kdDebug(1202) << "KonqViewManager::setupView creating KonqFrame with parent=" << parentContainer << endl;
   KonqFrame* newViewFrame = new KonqFrame( parentContainer, "KonqFrame" );
+  parentContainer->insertChildFrame( newViewFrame );
 
   kdDebug(1202) << "Creating KonqView" << endl;
   KonqView *v = new KonqView( viewFactory, newViewFrame,
@@ -640,6 +643,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     else
     {
       KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
+      parent->insertChildFrame( newContainer );
       newContainer->setOpaqueResize();
       newContainer->show();
 
