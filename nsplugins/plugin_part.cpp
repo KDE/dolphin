@@ -1,4 +1,6 @@
 #include "plugin_part.h"
+#include "plugin_part.moc"
+
 
 #include <kinstance.h>
 #include <klocale.h>

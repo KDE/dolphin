@@ -19,10 +19,10 @@ NSPluginClassIface.h:
 
 
 lib_LTLIBRARIES = libplugin.la
-libplugin_la_SOURCES = main.cpp plugin_part.cpp
+libplugin_la_SOURCES = plugin_part.cpp
 
-libplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libplugin_la_LIBADD  = $(LIB_KFILE) -lkparts
+libplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
+libplugin_la_LIBADD  = -lkparts
 
 kdelnkdir = $(kde_servicesdir)
 kdelnk_DATA = plugin.desktop
