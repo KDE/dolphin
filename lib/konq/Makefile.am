@@ -35,7 +35,7 @@ kdirnotify_DIR = $(kde_includes)
 
 uiserver_DIR = $(kde_includes)/kio
 
-directory_DATA = directory.bookmarkbar
+directory_DATA = directory_bookmarkbar.desktop
 directorydir   = $(kde_datadir)/kbookmark
 
 METASOURCES = AUTO
