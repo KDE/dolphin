@@ -58,7 +58,7 @@ public:
 
   // "Cut" icons : disable those whose URL is in lst, enable the rest //added for konqdirpart
   virtual void disableIcons( const KURL::List & lst ){};
-  virtual const KFileItem * currentItem(){};
+  virtual const KFileItem * currentItem(){return 0;};
 
 signals:
     // Konqueror connects directly to those signals
