@@ -135,6 +135,12 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget( m_pAutoLoadImagesCheckBox, row, row, 0, 1 );
     row++;
 
+    m_pUnfinishedImageFrameCheckBox = new QCheckBox( i18n( "Dra&w frame around not completely loaded images"), this );
+    QWhatsThis::add( m_pUnfinishedImageFrameCheckBox, i18n( "If this box is checked, Konqueror will draw a frame as placeholder around not yet fully loaded images that are embedded in a web page.<br>Especially if you have a slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
+    connect(m_pUnfinishedImageFrameCheckBox, SIGNAL(clicked()), SLOT(slotChanged()));
+    lay->addMultiCellWidget( m_pUnfinishedImageFrameCheckBox, row, row, 0, 1 );
+    row++;
+
     m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading/redirecting"), this );
     QWhatsThis::add( m_pAutoRedirectCheckBox,
     i18n( "Some web pages request an automatic reload or redirection after a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
@@ -214,6 +220,7 @@ void KMiscHTMLOptions::load()
     bool underlineLinks = READ_BOOL("UnderlineLinks", DEFAULT_UNDERLINELINKS);
     bool hoverLinks = READ_BOOL("HoverLinks", true);
     bool bAutoLoadImages = READ_BOOL( "AutoLoadImages", true );
+    bool bUnfinishedImageFrame = READ_BOOL( "UnfinishedImageFrame", false );
     QString strAnimations = READ_ENTRY( "ShowAnimations" ).lower();
 
     bool bAutoRedirect = m_pConfig->readBoolEntry( "AutoDelayedActions", true );
@@ -221,6 +228,7 @@ void KMiscHTMLOptions::load()
     // *** apply to GUI ***
     m_cbCursor->setChecked( changeCursor );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+    m_pUnfinishedImageFrameCheckBox->setChecked( bUnfinishedImageFrame );
     m_pAutoRedirectCheckBox->setChecked( bAutoRedirect );
     m_pOpenMiddleClick->setChecked( bOpenMiddleClick );
     m_pBackRightClick->setChecked( bBackRightClick );
@@ -278,6 +286,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->setGroup( "HTML Settings" );
     m_pConfig->writeEntry( "ChangeCursor", m_cbCursor->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    m_pConfig->writeEntry( "UnfinishedImageFrame", m_pUnfinishedImageFrameCheckBox->isChecked() );
     m_pConfig->writeEntry( "AutoDelayedActions", m_pAutoRedirectCheckBox->isChecked() );
     switch(m_pUnderlineCombo->currentItem())
     {

@@ -52,6 +52,7 @@ private:
     QComboBox* m_pAnimationsCombo;
     QCheckBox* m_cbCursor;
     QCheckBox* m_pAutoLoadImagesCheckBox;
+    QCheckBox* m_pUnfinishedImageFrameCheckBox;
     QCheckBox* m_pAutoRedirectCheckBox;
     QCheckBox* m_pOpenMiddleClick;
     QCheckBox* m_pBackRightClick;
