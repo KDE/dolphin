@@ -108,6 +108,17 @@ protected:
 
   QPixmap loadPixmap() const;
 
+  // Current config object for _saving_
+  KConfigBase * currentConfig();
+
+  // Current config object for _saving_ settings related to colors
+  KConfigBase * currentColorConfig();
+
+  QString currentGroup() const {
+      return isDefaultProperties() ? "Settings" : "URL properties";
+  }
+
+private:
   // The actual properties
 
   int m_iIconSize;
@@ -120,16 +131,6 @@ protected:
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;
-
-  // Current config object for _saving_
-  KConfigBase * currentConfig();
-
-  // Current config object for _saving_ settings related to colors
-  KConfigBase * currentColorConfig();
-
-  QString currentGroup() const {
-      return isDefaultProperties() ? "Settings" : "URL properties";
-  }
 
   bool m_bSaveViewPropertiesLocally;
 

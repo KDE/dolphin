@@ -97,6 +97,9 @@ private:
     typedef QMap<KIO::Job *, Download> DownloadMap; // make dcopidl happy
     DownloadMap m_downloads;
 
+    class KonqFavIconMgrPrivate;
+    KonqFavIconMgrPrivate * d;
+
     static KSimpleConfig *s_favicons;
 };
 

@@ -46,5 +46,7 @@ public:
 protected:
     KBookmark m_bookmark;
     QDomDocument m_doc;
+    class KBookmarkDragPrivate;
+    KBookmarkDragPrivate * d;
 };
 #endif

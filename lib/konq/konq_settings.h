@@ -114,6 +114,9 @@ private:
   /** Called by constructor and reparseConfiguration */
   void init( KConfig * config );
 
+  class KonqFMSettingsPrivate;
+  KonqFMSettingsPrivate * d;
+
   // There is no default constructor. Use the provided ones.
   KonqFMSettings();
   // No copy constructor either. What for ?

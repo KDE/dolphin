@@ -141,6 +141,7 @@ public:
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
+private:
     int m_size, m_state;
     bool m_bDisabled;
     bool m_bThumbnail;

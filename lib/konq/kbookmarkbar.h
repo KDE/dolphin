@@ -61,6 +61,7 @@ public slots:
 protected:
     void fillBookmarkBar( KBookmarkGroup & parent );
 
+private:
     KBookmarkOwner    *m_pOwner;
     QGuardedPtr<KToolBar> m_toolBar;
     KActionCollection *m_actionCollection;

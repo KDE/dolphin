@@ -98,6 +98,7 @@ protected:
   KActionCollection &m_actions;
   KActionCollection m_ownActions;
 
+private:
   KAction *m_paNewView;
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;

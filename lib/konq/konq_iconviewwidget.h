@@ -223,6 +223,7 @@ protected:
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
     virtual void backgroundPixmapChange( const QPixmap & );
 
+private:
     KURL m_url;
     const KonqFileItem * m_rootItem;
 
