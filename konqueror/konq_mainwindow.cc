@@ -3854,9 +3854,9 @@ static void hp_checkCommonPrefixes( KCompletionMatches& matches, const QString& 
         "https://",
         "www.",
         "ftp://",
-        // http://www. is done in the 'prepend http://' part below
-        // https://www. is done in the 'prepend https://' part below
-        // ftp://ftp. is done in the 'prepend ftp://' part below
+        "http://www.",
+        "https://www.",
+        "ftp://ftp.",
         "file:///",
         "file:/",
         NULL };
@@ -3885,17 +3885,20 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
     bool checkDuplicates = false;
     if ( !s.startsWith( ftp ) ) {
         matches += s_pCompletion->allWeightedMatches( ftp + s );
-        hp_removeCommonPrefix( matches, ftpftp );
+	if( QString( "ftp." ).startsWith( s ))
+            hp_removeCommonPrefix( matches, ftpftp );
         checkDuplicates = true;
     }
     if ( !s.startsWith( https ) ) {
         matches += s_pCompletion->allWeightedMatches( https + s );
-        hp_removeCommonPrefix( matches, wwws );
+	if( QString( "www." ).startsWith( s ))
+            hp_removeCommonPrefix( matches, wwws );
         checkDuplicates = true;
     }
-    if ( !s.startsWith( http ) ) {
+    if ( !s.startsWith( http )) {
         matches += s_pCompletion->allWeightedMatches( http + s );
-        hp_removeCommonPrefix( matches, www );
+	if( QString( "www." ).startsWith( s ))
+            hp_removeCommonPrefix( matches, www );
         checkDuplicates = true;
     }
     if ( !s.startsWith( www ) ) {
