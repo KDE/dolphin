@@ -429,6 +429,16 @@ void KProxyOptions::slotEnableButtons()
   ui->pb_editHost->setEnabled(true);
 }
 
+
+void KProxyOptions::updateButtons()
+{
+  bool hasSelectedItems = ui->klv_no_prx->childCount() > 0;
+  bool itemSelected = (hasSelectedItems && ui->klv_no_prx->selectedItem()!=0);
+  ui->pb_rmHost->setEnabled( itemSelected );
+  ui->pb_editHost->setEnabled( itemSelected );
+}
+
+
 void KProxyOptions::slotAddHost()
 {
  KAddHostDlg *dlg = new KAddHostDlg(this);
@@ -441,6 +451,7 @@ void KProxyOptions::slotRemoveHost()
   if(ui->klv_no_prx->selectedItem()) {
     ui->klv_no_prx->takeItem(ui->klv_no_prx->selectedItem());
     emit changed();
+    updateButtons();
   }
 }
 
@@ -457,6 +468,7 @@ void KProxyOptions::slotEditHost()
 void KProxyOptions::slotAddToList(QString host)
 {
   ui->klv_no_prx->insertItem(new QListViewItem(ui->klv_no_prx, host));
+  updateButtons();
   emit changed();
 }
 

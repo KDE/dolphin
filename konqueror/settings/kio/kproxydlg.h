@@ -119,6 +119,7 @@ Q_OBJECT
     void setProxy();
     void setCache();
     void readOptions();
+    void updateButtons();
 
   private slots:
 
