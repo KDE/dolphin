@@ -562,10 +562,11 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( pathED, SIGNAL( textChanged( const QString& ) ),
 		   this, SLOT( changed() ) );
   pathLA->setBuddy( pathED );
+
   QHBox* addArgHB = new QHBox( javartGB );
   addArgHB->setSpacing( 10 );
   QLabel* addArgLA = new QLabel( i18n( "Additional Java A&rguments" ), addArgHB  );
-  addArgED = new QLineEdit( javartGB );
+  addArgED = new QLineEdit( addArgHB );
   connect( addArgED, SIGNAL( textChanged( const QString& ) ),
 		   this, SLOT( changed() ) );
   addArgLA->setBuddy( addArgED );
