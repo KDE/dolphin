@@ -26,6 +26,7 @@
 #include <qmsgbox.h> 
 #include <qlistbox.h> 
 #include <qstrlist.h>
+#include <kfiledialog.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -189,7 +190,7 @@ void KfOptions::selectFile()
         case 0: filter =  QString("*.html");break;
         case 1: filter =  QString("");
       }
-    QString s( QFileDialog::getOpenFileName(path,filter) );
+    QString s( KFileDialog::getOpenFileName(path,filter) );
     if ( s.isNull() )
       return;
     fileE->setText(s);

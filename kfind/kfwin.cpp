@@ -32,6 +32,7 @@
 #include <qmsgbox.h>
 #include <qdir.h>
 #include <qclipbrd.h>
+#include <kfiledialog.h>
 
 #include <kfm.h>
 #include <kfmclient_ipc.h>
@@ -416,7 +417,7 @@ void KfindWindow::addToArchive()
   QString path = QDir::home().absPath();
   KfArchiver *arch;
 
-  QString filename( QFileDialog::getOpenFileName(path) );
+  QString filename( KFileDialog::getOpenFileName(path) );
   if ( filename.isNull() )
     return;
 
