@@ -33,7 +33,7 @@
 #include <qobject.h>
 #include <qwidget.h>
 #include <qxembed.h>
-#include "javaembed.h"
+#include "knspluginembed.h"
 
 #include "NSPluginClassIface_stub.h"
 

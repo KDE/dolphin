@@ -14,7 +14,7 @@ NSPluginClassIface.h:
 
 lib_LTLIBRARIES = libnsplugin.la
 libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub \
-			NSPluginCallbackIface.skel javaembed.cpp
+			NSPluginCallbackIface.skel knspluginembed.cpp
 libnsplugin_la_LDFLAGS = $(all_libraries) -version-info 1:1:0 -module -no-undefined
 libnsplugin_la_LIBADD  = -lkparts
 

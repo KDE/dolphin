@@ -19,7 +19,7 @@
     Boston, MA 02111-1307, USA.
 *****************************************************************************/
 
-#include "javaembed.h"
+#include "knspluginembed.h"
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -594,4 +594,4 @@ QSize KNSPluginEmbed::minimumSizeHint() const
 }
 
 // for KDE
-#include "javaembed.moc"
+#include "knspluginembed.moc"
