@@ -13,7 +13,7 @@ kde_module_LTLIBRARIES = libkcm_kio.la
 
 libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
 			main.cpp smbrodlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp \
-      fakeuaprovider.cpp uagentproviderdlg.cpp
+      fakeuaprovider.cpp uagentproviderdlg.cpp kproxydlgui.ui
 
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)

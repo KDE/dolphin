@@ -1,7 +1,8 @@
 // File kproxydlg.cpp by Lars Hoss <Lars.Hoss@munich.netsurf.de>
 // Port to KControl by David Faure <faure@kde.org>
+// designer dialog and usage by Daniel Molkentin <molkentin@kde.org>
 
-#include <qlayout.h> //CT
+#include <qlayout.h>
 #include <qwhatsthis.h>
 
 #include <qdialog.h>
@@ -13,6 +14,7 @@
 #include <qspinbox.h>
 #include <qradiobutton.h>
 #include <qvbuttongroup.h>
+#include <qmultilineedit.h>
 
 #include <kapp.h>
 #include <kmessagebox.h>
@@ -28,6 +30,8 @@
 #include <kurlrequester.h>
 #include <kio/http_slave_defaults.h>
 
+#include <kproxydlgui.h>
+
 #include "kproxydlg.h"
 
 // PROXY AND PORT SETTINGS
@@ -38,6 +42,7 @@
 // MAX_CACHE_AGE needs a proper "age" input widget.
 #undef MAX_CACHE_AGE
 
+/*
 class KMySpinBox : public QSpinBox
 {
 public:
@@ -56,205 +61,52 @@ public:
       return QSpinBox::value();
    }
 };
+*/
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-  cb_useProxy = new QCheckBox( i18n("Use &Proxy"), this );
-  QWhatsThis::add( cb_useProxy, i18n("If this option is enabled, Konqueror will use the"
-    " proxy servers provided below for HTTP and FTP connections.  Ask your internet service"
-    " provider if you don't know if you do have access to proxy servers.<p>Using proxy servers"
-    " is optional but can give you faster access to data on the internet.") );
 
-  connect( cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
-  connect( cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
+ QVBoxLayout *layout = new QVBoxLayout(this);
 
-  cb_autoProxy = new QCheckBox( i18n("Proxy configuration Scr&ipt:"), this );
-  QWhatsThis::add( cb_autoProxy, i18n("If this option is enabled, Konqueror will use the"
-    " proxy server configuration script of which the URL is specified next to this"
-    " option. Ask your internet service provider or system administrator for the"
-    " correct URL to use.") );
+  ui = new KProxyDlgUI(this);
+  layout->addWidget(ui);
 
-  connect( cb_autoProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
-  connect( cb_autoProxy, SIGNAL( clicked() ), SLOT( changed() ) );
-
-  url_autoProxy = new KURLRequester(this);
-
-  connect( url_autoProxy, SIGNAL( textChanged( const QString & ) ), SLOT( changed() ) );
-
-  le_http_url = new QLineEdit(this);
-  connect(le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
-  lb_http_url = new QLabel( le_http_url, i18n("&HTTP Proxy:"), this);
-  lb_http_url->setAlignment(AlignVCenter);
-
-  sb_http_port = new KMySpinBox(1, 1000000, 1, this);
-  connect(sb_http_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect(sb_http_port->editor(), SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-
-  QLabel * sep = new QLabel(this);
-  sep->setFrameStyle(QFrame::HLine|QFrame::Sunken);
-
-  lb_http_port = new QLabel(sb_http_port, i18n("P&ort:"), this);
-  lb_http_port->setAlignment(AlignVCenter);
-
-  QString wtstr = i18n("If you want access to an HTTP proxy server, enter its address here.");
-  QWhatsThis::add( lb_http_url, wtstr );
-  QWhatsThis::add( le_http_url, wtstr );
-  wtstr = i18n("If you want access to an HTTP proxy server, enter its port number here. Your system administrator or ISP should be able to provide with the correct value, but 8000 and 8080 are good guesses. " );
-  QWhatsThis::add( lb_http_port, wtstr );
-  QWhatsThis::add( sb_http_port, wtstr );
-
-  le_ftp_url = new QLineEdit(this);
-  connect(le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
-  lb_ftp_url = new QLabel(le_ftp_url, i18n("&FTP Proxy:"), this);
-  lb_ftp_url->setAlignment(AlignVCenter);
-
-  sb_ftp_port = new KMySpinBox(1, 1000000, 1, this);
-  connect(sb_ftp_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-  connect(sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
-  lb_ftp_port = new QLabel(sb_ftp_port, i18n("Po&rt:"), this);
-  lb_ftp_port->setAlignment(AlignVCenter);
-
-
-  wtstr = i18n("If you want access to an FTP proxy server, enter its address here.");
-  QWhatsThis::add( lb_ftp_url, wtstr );
-  QWhatsThis::add( le_ftp_url, wtstr );
-  wtstr = i18n("If you want access to an FTP proxy server, enter its port number here. Your system administrator or ISP should be able to provide you with the correct value for this." );
-  QWhatsThis::add( lb_ftp_port, wtstr );
-  QWhatsThis::add( sb_ftp_port, wtstr );
-
-  le_no_prx = new QLineEdit(this);
-  connect(le_no_prx, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
-  lb_no_prx = new QLabel(le_no_prx, i18n("&No Proxy for:"), this);
-  lb_no_prx->setAlignment(AlignVCenter);
-
-  wtstr = i18n("Here you can provide a list of comma or space separated hosts or domains that will be directly accessed without"
-    " asking a proxy first. Usually, this will be hosts on your local network.");
-  QWhatsThis::add( le_no_prx, wtstr );
-  QWhatsThis::add( lb_no_prx, wtstr );
-
-  // buddies
-  lb_http_url->setBuddy( le_http_url );
-  lb_http_port->setBuddy( sb_http_port );
-  lb_ftp_url->setBuddy( le_ftp_url );
-  lb_ftp_port->setBuddy( sb_ftp_port );
-  lb_no_prx->setBuddy( le_no_prx );
-
-  cb_useCache = new QCheckBox( i18n("Use &Cache"), this );
-  QWhatsThis::add( cb_useCache, i18n( "If this box is checked, Konqueror will use its cache to display recently loaded web pages again. It is advisable to use the cache, as it makes switching back and forth between web pages a lot faster. The disadvantage is that it takes up disk space." ) );
-  connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
-
-  bg_cacheControl = new QVButtonGroup(i18n("Cache Control Options"),this);
-
-  rb_verify = new QRadioButton( i18n("Keep Cache in Sync"), this);
-  QWhatsThis::add(rb_verify, i18n("Enable this to ask Web servers whether a cached page is still valid. If this is disabled, a cached copy of remote files will be used whenever possible. You can still use the reload button to synchronize the cache with the remote host."));
-  connect( rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( rb_verify, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
-  rb_cacheIfPossible = new QRadioButton( i18n("use Cache if Possible"), this);
-  QWhatsThis::add(rb_cacheIfPossible, i18n("Enable this to always lookup the cache before connecting to the internet."));
-  connect( rb_cacheIfPossible, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( rb_cacheIfPossible, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
-  rb_offlineMode = new QRadioButton( i18n("Offline Browsing mode"), this);
-  QWhatsThis::add(rb_offlineMode, i18n("Enable this to prevent http requests by KDE applications by default."));
-  connect( rb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( rb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
-  bg_cacheControl->insert(rb_verify);
-  bg_cacheControl->insert(rb_cacheIfPossible);
-  bg_cacheControl->insert(rb_offlineMode);
-  bg_cacheControl->hide();
-
-  sb_max_cache_size = new KMySpinBox(100, 2000000, 100, this);
-  sb_max_cache_size -> setSuffix(i18n(" KB"));
+  connect( ui->cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
+  connect( ui->cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( ui->cb_autoProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
+  connect( ui->cb_autoProxy, SIGNAL( clicked() ), SLOT( changed() ) );
+  connect( ui->url_autoProxy, SIGNAL( textChanged( const QString & ) ), SLOT( changed() ) );
+  connect( ui->le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+  connect( ui->sb_http_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+ // connect( ui->sb_http_port->editor(), SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  connect( ui->le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+  connect( ui->sb_ftp_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+ // connect( ui->sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+  connect( ui->mle_no_prx, SIGNAL(textChanged()), this, SLOT(changed()));
+  connect( ui->cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( ui->cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( ui->rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( ui->rb_verify, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( ui->rb_cacheIfPossible, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( ui->rb_cacheIfPossible, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( ui->rb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( ui->rb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
+/*
   connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
   connect(sb_max_cache_size->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
-  lb_max_cache_size = new QLabel(sb_max_cache_size, i18n("Average Cache &Size:"), this);
-  lb_max_cache_size->setAlignment(AlignVCenter);
-  wtstr = i18n( "This is the average size in KB that the cache will take on your hard disk. Once in a while the oldest pages will be deleted from the cache to reduce it to this size." );
-  QWhatsThis::add( sb_max_cache_size, wtstr );
-  QWhatsThis::add( lb_max_cache_size, wtstr );
-
-#ifdef MAX_CACHE_AGE
-  sb_max_cache_age = new KMySpinBox(this);
   connect(sb_max_cache_age, SIGNAL(valueChanged(int)), this, SLOT(changed()));
   connect(sb_max_cache_age->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+*/
 
-  lb_max_cache_age = new QLabel( sb_max_cache_age, XXXi18n("Maximum Cache &Age:"), this);
-  lb_max_cache_age->setAlignment(AlignVCenter);
-  wtstr = XXXi18n( "Pages that are older than the time entered here will be deleted from the cache automatically."
-                   "This feature is not yet implemented." );
-  QWhatsThis::add( lb_max_cache_age, wtstr );
-  QWhatsThis::add( sb_max_cache_age, wtstr );
-#endif
 
-  pb_down = new QPushButton( this );
-  pb_down->setPixmap( BarIcon("down", KIcon::SizeSmall) );
-  pb_down->setFixedSize(20,20);
-  QWhatsThis::add( pb_down, i18n("Click this button to copy the values for the HTTP proxy"
-    " server to the fields for the FTP proxy server, if you have one proxy for both protocols.") );
+  ui->pb_down->setPixmap( BarIcon("down", KIcon::SizeSmall) );
+  ui->pb_down->setFixedSize(20,20);
 
-  connect( pb_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
-  connect( pb_down, SIGNAL( clicked() ), SLOT( changed() ) );
+  connect( ui->pb_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
+  connect( ui->pb_down, SIGNAL( clicked() ), SLOT( changed() ) );
 
-  pb_clearCache = new QPushButton( i18n("Clear Cache"), this );
-  QWhatsThis::add( pb_clearCache, i18n("Click this button to completely clear the HTTP cache."
-    " This can be sometimes useful to check if a wrong copy of a website has been cached,"
-    " or to quickly free some disk space.") );
-
-  connect( pb_clearCache, SIGNAL( clicked() ), SLOT( clearCache() ) );
-
-  QVBoxLayout * layout =
-    new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
-
-  layout->addWidget(cb_useProxy);
-
-  QHBoxLayout * autoProxyLayout = new QHBoxLayout(layout);
-  autoProxyLayout->addWidget(cb_autoProxy);
-  autoProxyLayout->addWidget(url_autoProxy);
-
-  QGridLayout * proxyLayout = new QGridLayout(layout, 2, 5);
-
-  proxyLayout->addWidget(lb_http_url, 0, 0);
-  proxyLayout->addWidget(le_http_url, 0, 1);
-  proxyLayout->addWidget(lb_http_port, 0, 2);
-  proxyLayout->addWidget(sb_http_port, 0, 3);
-  proxyLayout->addWidget(pb_down, 0, 4);
-
-  proxyLayout->addWidget(lb_ftp_url, 1, 0);
-  proxyLayout->addWidget(le_ftp_url, 1, 1);
-  proxyLayout->addWidget(lb_ftp_port, 1, 2);
-  proxyLayout->addWidget(sb_ftp_port, 1, 3);
-
-  QHBoxLayout * l = new QHBoxLayout(layout);
-  l->addWidget(lb_no_prx);
-  l->addWidget(le_no_prx);
-
-  layout->addWidget(sep);
-
-  QVBoxLayout * l1 = new QVBoxLayout(layout);
-  l1->addWidget(cb_useCache);
-  l1->addWidget(rb_verify);
-  l1->addWidget(rb_cacheIfPossible);
-  l1->addWidget(rb_offlineMode);
-
-  QHBoxLayout * l2 = new QHBoxLayout(layout);
-  l2->addWidget(lb_max_cache_size);
-  l2->addWidget(sb_max_cache_size);
-
-  QHBoxLayout * l3 = new QHBoxLayout(layout);
-  l3->addWidget(pb_clearCache);
-  l3->addStretch(100);
-
-  layout->addStretch(1);
+  connect( ui->pb_clearCache, SIGNAL( clicked() ), SLOT( clearCache() ) );
 
   // finally read the options
   load();
@@ -279,39 +131,33 @@ void KProxyOptions::load()
               KProtocolManager::noProxyFor(),
               KProtocolManager::proxyConfigScript() );
 
-  cb_useCache->setChecked(KProtocolManager::useCache());
+  ui->cb_useCache->setChecked(KProtocolManager::useCache());
   KIO::CacheControl cc = KProtocolManager::cacheControl();
   if (cc==KIO::CC_Verify)
-      rb_verify->setChecked(true);
+      ui->rb_verify->setChecked(true);
   else if (cc==KIO::CC_CacheOnly)
-      rb_offlineMode->setChecked(true);
+      ui->rb_offlineMode->setChecked(true);
   else if (cc==KIO::CC_Cache)
-      rb_cacheIfPossible->setChecked(true);
+      ui->rb_cacheIfPossible->setChecked(true);
 
-  sb_max_cache_size->setValue(KProtocolManager::maxCacheSize());
-#ifdef MAX_CACHE_AGE
-  sb_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
-#endif
+  ui->sb_max_cache_size->setValue(KProtocolManager::maxCacheSize());
 
   setProxy();
   setCache();
 }
 
 void KProxyOptions::defaults() {
-  cb_useProxy->setChecked(false);
-  le_http_url->setText("");
-  sb_http_port->setValue(3128);
-  le_ftp_url->setText("");
-  sb_ftp_port->setValue(3128);
-  le_no_prx->setText("");
+  ui->cb_useProxy->setChecked(false);
+  ui->le_http_url->setText("");
+  ui->sb_http_port->setValue(3128);
+  ui->le_ftp_url->setText("");
+  ui->sb_ftp_port->setValue(3128);
+  ui->mle_no_prx->setText("");
   setProxy();
-  cb_useCache->setChecked(true);
+  ui->cb_useCache->setChecked(true);
   setCache();
-  rb_verify->setChecked(true);
-  sb_max_cache_size->setValue(DEFAULT_MAX_CACHE_SIZE);
-#ifdef MAX_CACHE_AGE
-  sb_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
-#endif
+  ui->rb_verify->setChecked(true);
+  ui->sb_max_cache_size->setValue(DEFAULT_MAX_CACHE_SIZE);
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
@@ -323,56 +169,56 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
   if( !httpProxy.isEmpty() )
   {
     url = httpProxy;
-    le_http_url->setText( url.host() );
+    ui->le_http_url->setText( url.host() );
     uint port_num = url.port();
     if( port_num == 0 )
       port_num = DEFAULT_PROXY_PORT;
-    sb_http_port->setValue(port_num);
+    ui->sb_http_port->setValue(port_num);
   }
   else
   {
-    le_http_url->setText( QString::null );
-    sb_http_port->setValue(DEFAULT_PROXY_PORT);
+    ui->le_http_url->setText( QString::null );
+    ui->sb_http_port->setValue(DEFAULT_PROXY_PORT);
   }
 
   if( !ftpProxy.isEmpty() )
   {
     url = ftpProxy;
-    le_ftp_url->setText( url.host() );
+    ui->le_ftp_url->setText( url.host() );
     uint port_num = url.port();
     if( port_num == 0 )
       port_num = DEFAULT_PROXY_PORT;
-    sb_ftp_port->setValue(port_num);
+    ui->sb_ftp_port->setValue(port_num);
   }
   else
   {
-    le_ftp_url->setText( QString::null );
-    sb_ftp_port->setValue(DEFAULT_PROXY_PORT);
+    ui->le_ftp_url->setText( QString::null );
+    ui->sb_ftp_port->setValue(DEFAULT_PROXY_PORT);
   }
 
-  cb_useProxy->setChecked(bUseProxy);
-  cb_autoProxy->setChecked(bAutoProxy);
-  url_autoProxy->setURL(autoProxy);
+  ui->cb_useProxy->setChecked(bUseProxy);
+  ui->cb_autoProxy->setChecked(bAutoProxy);
+  ui->url_autoProxy->setURL(autoProxy);
   setProxy();
 
-  le_no_prx->setText( noProxyFor );
+  ui->mle_no_prx->setText( noProxyFor );
 
 }
 
 void KProxyOptions::save()
 {
-    QString url = le_http_url->text();
+    QString url = ui->le_http_url->text();
     if( !url.isEmpty() )
     {
       if ( url.left( 7 ) != "http://" )
         url.prepend( "http://" );
 
       url += ":";
-      url += QString::number(sb_http_port->value());
+      url += QString::number(ui->sb_http_port->value());
     }
     KProtocolManager::setProxyFor( "http", url );
 
-    url = le_ftp_url->text();
+    url = ui->le_ftp_url->text();
     if( !url.isEmpty() )
     {
       if ( url.left( 6 ) == "ftp://" )
@@ -381,27 +227,27 @@ void KProxyOptions::save()
         url.prepend( "http://" );
 
       url += ":";
-      url += QString::number(sb_ftp_port->value());
+      url += QString::number(ui->sb_ftp_port->value());
     }
     KProtocolManager::setProxyFor( "ftp", url );
-    KProtocolManager::setUseProxy( cb_useProxy->isChecked() );
-    KProtocolManager::setNoProxyFor( le_no_prx->text() );
-    if ( cb_autoProxy->isChecked() )
-      KProtocolManager::setProxyConfigScript( url_autoProxy->url() );
+    KProtocolManager::setUseProxy( ui->cb_useProxy->isChecked() );
+    KProtocolManager::setNoProxyFor( ui->mle_no_prx->text() );
+    if ( ui->cb_autoProxy->isChecked() )
+      KProtocolManager::setProxyConfigScript( ui->url_autoProxy->url() );
     else
       KProtocolManager::setProxyConfigScript( QString::null );
 
     // Cache stuff.  TODO:needs to be separated from proxy post 2.0 (DA)
-    KProtocolManager::setUseCache( cb_useCache->isChecked() );
-    KProtocolManager::setMaxCacheSize(sb_max_cache_size->value());
+    KProtocolManager::setUseCache( ui->cb_useCache->isChecked() );
+    KProtocolManager::setMaxCacheSize(ui->sb_max_cache_size->value());
 
-    if (!cb_useCache->isChecked())
+    if (!ui->cb_useCache->isChecked())
 	KProtocolManager::setCacheControl(KIO::CC_Reload);
-    else if (rb_verify->isChecked())
+    else if (ui->rb_verify->isChecked())
 	KProtocolManager::setCacheControl(KIO::CC_Verify);
-    else if (rb_offlineMode->isChecked())
+    else if (ui->rb_offlineMode->isChecked())
 	KProtocolManager::setCacheControl(KIO::CC_CacheOnly);
-    else if (rb_cacheIfPossible->isChecked())
+    else if (ui->rb_cacheIfPossible->isChecked())
 	KProtocolManager::setCacheControl(KIO::CC_Cache);
 
     // Update everyone...
@@ -420,41 +266,38 @@ void KProxyOptions::save()
 
 void KProxyOptions::copyDown()
 {
-  le_ftp_url->setText( le_http_url->text() );
-  sb_ftp_port->setValue(sb_http_port->value());
+  ui->le_ftp_url->setText( ui->le_http_url->text() );
+  ui->sb_ftp_port->setValue(ui->sb_http_port->value());
 }
 
 void KProxyOptions::setProxy()
 {
-  bool useProxy = cb_useProxy->isChecked();
-  bool autoProxy = cb_autoProxy->isChecked();
+  bool useProxy = ui->cb_useProxy->isChecked();
+  bool autoProxy = ui->cb_autoProxy->isChecked();
 
   // now set all input fields
-  cb_autoProxy->setEnabled( useProxy );
-  url_autoProxy->setEnabled( useProxy && autoProxy );
-  le_http_url->setEnabled( useProxy && !autoProxy );
-  sb_http_port->setEnabled( useProxy && !autoProxy );
-  le_ftp_url->setEnabled( useProxy && !autoProxy );
-  sb_ftp_port->setEnabled( useProxy && !autoProxy );
-  le_no_prx->setEnabled( useProxy && !autoProxy );
-  pb_down->setEnabled( useProxy && !autoProxy );
-  cb_useProxy->setChecked( useProxy );
+  ui->cb_autoProxy->setEnabled( useProxy );
+  ui->url_autoProxy->setEnabled( useProxy && autoProxy );
+  ui->le_http_url->setEnabled( useProxy && !autoProxy );
+  ui->sb_http_port->setEnabled( useProxy && !autoProxy );
+  ui->le_ftp_url->setEnabled( useProxy && !autoProxy );
+  ui->sb_ftp_port->setEnabled( useProxy && !autoProxy );
+  ui->mle_no_prx->setEnabled( useProxy && !autoProxy );
+  ui->pb_down->setEnabled( useProxy && !autoProxy );
+  ui->cb_useProxy->setChecked( useProxy );
 }
 
 void KProxyOptions::setCache()
 {
-  bool useCache = cb_useCache->isChecked();
+  bool useCache = ui->cb_useCache->isChecked();
 
   // now set all input fields
-  sb_max_cache_size->setEnabled( useCache );
-#ifdef MAX_CACHE_AGE
-  sb_max_cache_age->setEnabled( useCache );
-#endif
+  ui->sb_max_cache_size->setEnabled( useCache );
   //pb_down->setEnabled( useCache );
-  cb_useCache->setChecked( useCache );
-  rb_verify->setEnabled(useCache);
-  rb_cacheIfPossible->setEnabled(useCache);
-  rb_offlineMode->setEnabled(useCache);
+  ui->cb_useCache->setChecked( useCache );
+  ui->rb_verify->setEnabled(useCache);
+  ui->rb_cacheIfPossible->setEnabled(useCache);
+  ui->rb_offlineMode->setEnabled(useCache);
 }
 
 void KProxyOptions::changeProxy()
