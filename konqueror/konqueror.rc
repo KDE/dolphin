@@ -20,7 +20,7 @@
   <Action name="trash"/>
   <Action name="del"/>
   <Action name="shred"/>
-  <Separator/>
+  <WeakSeparator/>
   <Merge name="openwith"/>
   <Merge/>
  </Menu>
@@ -33,7 +33,7 @@
   <Action name="stop" />
   <Separator/>
   <Merge name="viewmode"/>
-  <Separator/>
+  <WeakSeparator/>
   <Merge/>
  </Menu>
  <Menu name="go"><text>&amp;Go</text>
