@@ -51,9 +51,17 @@ public:
 
   /**
    * Called when user opens the directory (inherited from QListViewItem).
-   * Checks whether its contents is known (@see #setComplete).
+   * Just calls @ref #open().
    */
   virtual void setOpen( bool _open );
+
+  /**
+   * Called by setOpen, called when opening the directoy via restoreState and called
+   * when the user presses "Reload".
+   * Checks whether its contents are known (@see #setComplete) or whether
+   * to reload the directory.
+   */
+  void open( bool _open, bool _reload );
 
   /**
    * Set to true when contents are completely known (one sublevel only).

@@ -29,37 +29,41 @@ class KonqListView;
 
 class KonqTreeViewWidget : public KonqBaseListViewWidget
 {
-    //friend class KonqListViewDir;
-    Q_OBJECT
-   public:
-      KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget );
-      virtual ~KonqTreeViewWidget();
+   friend class KonqListViewDir;
 
-      virtual bool openURL( const KURL &url );
+   Q_OBJECT
+public:
+   KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget );
+   virtual ~KonqTreeViewWidget();
 
-      virtual void saveState( QDataStream &stream );
-      virtual void restoreState( QDataStream &stream );
+   virtual bool openURL( const KURL &url );
 
-      // Called by KonqListViewDir
-      void addSubDir( KonqListViewDir* _dir );
-      void openSubFolder( KonqListViewDir* _dir );
-      void stopListingSubFolder( KonqListViewDir* _dir );
+   virtual void saveState( QDataStream &stream );
+   virtual void restoreState( QDataStream &stream );
 
-   protected slots:
-      // slots connected to the directory lister
-      virtual void slotCompleted( const KURL & );
-      virtual void slotClear();
-      virtual void slotNewItems( const KFileItemList & );
-      virtual void slotDeleteItem( KFileItem *_fileTtem );
+protected slots:
+   // slots connected to the directory lister
+   virtual void slotCompleted();
+   virtual void slotCompleted( const KURL & );
+   virtual void slotClear();
+   virtual void slotClear( const KURL & );
+   virtual void slotNewItems( const KFileItemList & );
+   virtual void slotDeleteItem( KFileItem *_fileTtem );
 
-   protected:
-      KonqListViewDir *findDir( const QString &_url );
-      void removeSubDir( const KURL & _url );
+protected:
+   KonqListViewDir *findDir( const QString &_url );
 
-      // URL -> item (for directories only)
-      QDict<KonqListViewDir> m_dictSubDirs;
+   // Called by KonqListViewDir
+   void addSubDir( KonqListViewDir* _dir );
+   void removeSubDir( const KURL & _url );
 
-      QStringList m_urlsToOpen, m_urlsToReload;
+   void openSubFolder( KonqListViewDir* _dir, bool _reload );
+   void stopListingSubFolder( KonqListViewDir* _dir );
+
+   // URL -> item (for directories only)
+   QDict<KonqListViewDir> m_dictSubDirs;
+
+   QStringList m_urlsToOpen, m_urlsToReload;
 };
 
 #endif

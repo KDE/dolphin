@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+                 2001, 2002 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -49,16 +50,22 @@ KonqListViewDir::~KonqListViewDir()
 
 void KonqListViewDir::setOpen( bool _open )
 {
-  if ( _open != isOpen() )
+  open( _open, false );
+}
+
+void KonqListViewDir::open( bool _open, bool _reload )
+{
+  if ( _open != isOpen() || _reload )
   {
     KonqTreeViewWidget* treeView = static_cast<KonqTreeViewWidget *>(listView());
 
     if ( _open )
     {
-      if ( !m_bComplete ) // complete it before opening
-        treeView->openSubFolder( this );
+      if ( !m_bComplete || _reload ) // complete it before opening
+        treeView->openSubFolder( this, _reload );
       else
       {
+        // we need to add the items to the counts for the statusbar
         KFileItemList lst;
         lst.setAutoDelete( false );
 
@@ -69,7 +76,7 @@ void KonqListViewDir::setOpen( bool _open )
           it = it->nextSibling();
         }
 
-        // add the items to the counts for the statusbar
+        // tell the view about the new items to count
         treeView->m_pBrowserView->newItems( lst );
       }
     }

@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+                 2001, 2002 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -37,6 +38,8 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 
    connect( m_dirLister, SIGNAL( completed( const KURL & ) ),
             this, SLOT( slotCompleted( const KURL & ) ) );
+   connect( m_dirLister, SIGNAL( clear( const KURL & ) ),
+            this, SLOT( slotClear( const KURL & ) ) );
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
@@ -51,17 +54,19 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
 
 bool KonqTreeViewWidget::openURL( const KURL &url )
 {
-//   m_urlsToOpen.clear();
-//   m_urlsToReload.clear();
-
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
-      Q_ASSERT( m_urlsToOpen.isEmpty() );
-
       QDictIterator<KonqListViewDir> it( m_dictSubDirs );
       for (; it.current(); ++it )
          if ( it.current()->isOpen() )
             m_urlsToReload.append( it.current()->url( -1 ) );
+
+      // Someone could press reload while the listing is still in progess
+      // -> move the items that are not opened yet to m_urlsToReload.
+      // We don't need to check for doubled items since remove() removes
+      // all occurances.
+      m_urlsToReload += m_urlsToOpen;
+      m_urlsToOpen.clear();
    }
 
    return KonqBaseListViewWidget::openURL( url );
@@ -96,10 +101,21 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
    m_dictSubDirs.remove( _url.url(-1) );
 }
 
+void KonqTreeViewWidget::slotCompleted()
+{
+   // This is necessary because after reloading it could happen that a
+   // previously opened subdirectory was deleted and this would still
+   // be queued for opening.
+   m_urlsToReload.clear();
+   m_urlsToOpen.clear();
+
+   KonqBaseListViewWidget::slotCompleted();
+}
+
 void KonqTreeViewWidget::slotCompleted( const KURL & _url )
 {
     // do nothing if the view itself is finished
-    if ( m_url.cmp( _url, true ) ) // ignore trailing slash
+    if ( m_url.cmp( _url, true ) )
         return;
 
     KonqListViewDir *dir = m_dictSubDirs[ _url.url(-1) ];
@@ -122,6 +138,39 @@ void KonqTreeViewWidget::slotClear()
 
    m_dictSubDirs.clear();
    KonqBaseListViewWidget::slotClear();
+}
+
+void KonqTreeViewWidget::slotClear( const KURL & _url )
+{
+   kdDebug(1202) << "#################### MY ONE!!!" << k_funcinfo << endl;
+
+   // we are allowed to delete the whole content since the opening of
+   // subdirs happens level per level.
+
+   QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+   for ( ; it.current(); ++it )
+      if ( _url.isParentOf( it.current()->url(0) ) )
+         m_dictSubDirs.remove( _url.url(-1) );
+
+   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
+   Q_ASSERT( item );
+
+   QListViewItemIterator qit( item );
+   QPtrList<QListViewItem> *lst = new QPtrList<QListViewItem>;
+   lst->setAutoDelete( true );
+
+   for ( ; qit.current(); ++qit )
+   {
+      // delete the item from the counts for the statusbar
+//      KFileItem* item = static_cast<KonqListViewItem*>(qit.current())->item();
+//      treeView->m_pBrowserView->deleteItem( item );
+      lst->append( qit.current() );
+   }
+
+   delete lst;
+
+   m_urlsToOpen.remove( _url.url(-1) );
+   m_urlsToReload.remove( _url.url(-1) );
 }
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
@@ -175,10 +224,10 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
         if ( dirItem )
         {
             QString u = (*kit)->url().url( 0 );
-            if ( m_urlsToOpen.remove( u ) )           // Still TODO!!
-                dirItem->setOpen( true );
+            if ( m_urlsToOpen.remove( u ) )
+                dirItem->open( true, false );
             else if ( m_urlsToReload.remove( u ) )
-                dirItem->setOpen( true );
+                dirItem->open( true, true );
         }
     }
 
@@ -206,9 +255,9 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
     KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }
 
-void KonqTreeViewWidget::openSubFolder( KonqListViewDir* _dir )
+void KonqTreeViewWidget::openSubFolder( KonqListViewDir* _dir, bool _reload )
 {
-   m_dirLister->openURL( _dir->item()->url(), true /* keep existing data */ );
+   m_dirLister->openURL( _dir->item()->url(), true /* keep existing data */, _reload );
    slotUpdateBackground();
 }
 
