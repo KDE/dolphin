@@ -39,7 +39,6 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qclipboard.h>
-#include <qmessagebox.h>
 
 #include <kaction.h>
 #include <kdebug.h>
@@ -980,6 +979,7 @@ void KonqMainView::slotCut()
   QDataStream stream( data, IO_WriteOnly );
   stream << (int)true;
   kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(int)", data );
+  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "setMoveSelection(int)", data );
   s_bMoveSelection = true;
 }
 
@@ -993,6 +993,7 @@ void KonqMainView::slotCopy()
   QDataStream stream( data, IO_WriteOnly );
   stream << (int)false;
   kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(int)", data );
+  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "setMoveSelection(int)", data );
   s_bMoveSelection = false;
 }
 
@@ -1007,15 +1008,13 @@ void KonqMainView::slotTrash()
 {
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
   if ( obj )
-    ((EditExtension *)obj)->moveSelection( KUserPaths::trashPath().utf8() );
+    ((EditExtension *)obj)->moveSelection( KUserPaths::trashPath() );
 }
 
 void KonqMainView::slotDelete()
 {
-
-  if ( QMessageBox::warning( (QWidget *)0L, i18n( "Confirmation required" ),
-                             i18n( "Do you really want to delete the file(s) ?" ),
-			     i18n( "Yes" ), i18n( "No" ) ) != 0 )
+  if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
+       == KMessageBox::No) 
     return;
 
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
