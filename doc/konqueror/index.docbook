@@ -9,7 +9,7 @@
 <book lang="&language;"> 
 
 <bookinfo>
-<title>The &konqueror Handbook</title>
+<title>The &konqueror; Handbook</title>
 
 <authorgroup>
 
@@ -79,7 +79,7 @@ by pressing both buttons at the same time.  </para></important>
 <sect1 id="konq-start">
 <title>Starting &konqueror;</title>
 
-<para>Being a combined File Manager and Browser, &konqueror will automatically
+<para>Being a combined File Manager and Browser, &konqueror; will automatically
 switch between the two modes as needed when it is running, but it is convenient
 to be able to choose which mode is to be used when you start it up.</para>
 
@@ -88,8 +88,8 @@ to be able to choose which mode is to be used when you start it up.</para>
 or desktop, then &LMB; click on it to open &konqueror; as a file
 manager.</para></listitem>
 
-<listitem><para>Or &LMB click on <guiicon>world</guiicon> shaped icon on the
-panel or desktop to open &konqueror in browser mode.</para></listitem>
+<listitem><para>Or &LMB; click on <guiicon>world</guiicon> shaped icon on the
+panel or desktop to open &konqueror; in browser mode.</para></listitem>
 
 <listitem><para>From the <guimenu>K</guimenu> menu, select
 <menuchoice><guisubmenu>System</guisubmenu><guimenuitem>
@@ -755,7 +755,7 @@ drop between them.</para>
 <mediaobject>
 <imageobject><imagedata format="PNG" fileref="dragdrop.png"></imageobject>
 <textobject>
-<phrase>Split Views for Drag & Drop</phrase>
+<phrase>Split Views for Drag &amp; Drop</phrase>
 </textobject>
 </mediaobject>
 
@@ -1061,8 +1061,8 @@ make in the normal file manager view.</para>
 <chapter id="browser">
 <title>&konqueror; the Web Browser</title>
 
-<note><para>When you start &konqueror as a browser for the first 
-time it should display an introduction to &konqueror's main features. If you 
+<note><para>When you start &konqueror; as a browser for the first 
+time it should display an introduction to &konqueror;'s main features. If you 
 forgot to add this introduction to your Bookmarks you can always view it by 
 entering <userinput>about:konqueror</userinput> in the 
 Locationbar.</para></note>
@@ -1370,12 +1370,12 @@ click on the <guimenuitem>Set As Toolbar Folder</guimenuitem> in the
 </chapter>
 
 <chapter id="save-settings">
-<title>Saving Settings & Profiles</title>
+<title>Saving Settings &amp; Profiles</title>
 
 <para>Your current <guimenu>View</guimenu> menu settings (such as the
 <Guimenuitem> View Mode</guimenuitem>, <guimenuitem>Use index.html</guimenuitem>
 and <guimenuitem>Show Hidden Files</guimenuitem> items) are automatically saved
-by &konqueror as the default options.</para>
+by &konqueror; as the default options.</para>
 
 <para>But you can also specify different <guimenu>View</guimenu> menu settings
 for any individual directory. To do this check the <guimenuitem>View Properties
@@ -1417,7 +1417,7 @@ View Profiles...</guimenuitem></menuchoice> option. You can then select them
 from the <menuchoice><guimenu>Window</guimenu><guimenuitem>Load View 
 Profile</guimenuitem> </menuchoice> drop down menu. </para>
     
-<note><para> You can create a desktop icon to start &konqueror with your new
+<note><para> You can create a desktop icon to start &konqueror; with your new
 profile. First create a desktop icon by dragging the &konqueror; icon from the
 <guimenu>K</guimenu> menu onto the desktop and selecting <guimenuitem>Copy
 Here</guimenuitem>.  Then &RMB; click on the new icon, select
@@ -1497,7 +1497,7 @@ icons in</para>
 <listitem><para>The <guilabel>Main Toolbar &lt;khtmlpart&gt;</guilabel>. This 
 normally contains the <guiicon>Increase</guiicon> and 
 <guiicon>Decrease</guiicon> Font Sizes and <guiicon>Security</guiicon> icons 
-that are only displayed when &konqueror is in Browser mode.  </para></listitem>
+that are only displayed when &konqueror; is in Browser mode.  </para></listitem>
 </itemizedlist>
 
 <para>Note that you can rearrange the position of buttons in a Toolbar by
@@ -1607,7 +1607,7 @@ application.</para>
 
 <para>For example, the Targa image type doesn't exist in &konqueror;. If you
 have such a file on your disk, it will have a question mark as an icon. If you
-&LMB click on it, &konqueror; will ask you which application you want to
+&LMB; click on it, &konqueror; will ask you which application you want to
 use. You could just type in the name of a suitable application each time you
 select a Targa file, but the best approach is to tell &konqueror; what to do
 with a Targa image.</para>
@@ -3067,7 +3067,7 @@ directories.</para></answer>
 <question><para>How do I clear out the history file (it's getting rather
 large)?</para></question>
 <answer><para>The only way at the moment is to delete the
-<filename>~/.kde/share/config/konq_history</filename> file, &konqueror will
+<filename>~/.kde/share/config/konq_history</filename> file, &konqueror; will
 create a new, empty, one next time you use it. But note that you can't use
 &konqueror; to delete this file; you have to open a text terminal and do
 <userinput><command>rm</command>

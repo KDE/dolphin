@@ -9,7 +9,7 @@
 <book lang="&language;">
 
 <bookinfo>
-<title>The &konsole Handbook</title>
+<title>The &konsole; Handbook</title>
 <authorgroup>
 <author>
 <firstname>Jonathan</firstname>
@@ -49,8 +49,8 @@
 <date>19/02/2001</date>
 <releaseinfo>1.00.10</releaseinfo>
 
-<abstract><para>This document is the user handbook for the &konsole application.</para>
-<para>&konsole is an X terminal emulator for &kde; 2.0</para></abstract>
+<abstract><para>This document is the user handbook for the &konsole; application.</para>
+<para>&konsole; is an X terminal emulator for &kde; 2.0</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -73,7 +73,7 @@ multiple sessions in a single window (a less cluttered desktop). </para>
 <para>Its advanced features include a simple configuration and the ability to
 use multiple terminal shells in a single window.</para>
 
-<para>Using &konsole, a user can open:</para>
+<para>Using &konsole;, a user can open:</para>
 <itemizedlist>	
 <listitem><para>Linux console sessions</para></listitem>
 <listitem><para><application>Midnight Commander</application> file manager
@@ -230,7 +230,7 @@ button brings up the <guimenu>File</guimenu> menu, while <keycombo
 <sect1 id="menubar">
 <title>Menu Bar</title>
 
-<para>The menubar is at the top of the &konsole window. It can be hidden and
+<para>The menubar is at the top of the &konsole; window. It can be hidden and
 restored by toggling <guimenuitem>Show Menubar</guimenuitem> in the
 <guimenu>Options</guimenu> menu. When the menubar is hidden, <guimenuitem>Show
 Menubar</guimenuitem> can be reached by <mousebutton>right</mousebutton>
@@ -650,7 +650,7 @@ Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 <appendix id="installation">
 <title>Installation</title>
 
-<para>&konsole is part of the &kde; 2.0 base packages.  It will automatically be
+<para>&konsole; is part of the &kde; 2.0 base packages.  It will automatically be
 installed with your &kde; installation, and requires &kde; 2.0 to function.</para>
 <para>For more information, you should visit the &kde; website at <ulink
 url="http://www.kde.org/">http://www.kde.org/</ulink></para>
