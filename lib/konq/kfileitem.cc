@@ -64,7 +64,7 @@ KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
   m_bIsLocalURL( _url.isLocalFile() ),
   m_strText( _text ),
   m_mode( _mode ),
-  m_bLink( false /* TODO : pass as argument */ ),
+  m_bLink( false ),
   m_bMarked( false )
 {
   KFileItem::init(); // don't call derived methods !
@@ -83,11 +83,19 @@ KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
       struct stat buf;
       stat( m_url.path( -1 ), &buf );
       m_mode = buf.st_mode;
+
+      if ( S_ISLNK( m_mode ) )
+      {
+        m_bLink = true;
+        lstat( m_url.path( -1 ), &buf );
+        m_mode = buf.st_mode;
+      }
     }
     else
       m_mode = 0;
   }
 
+  m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL, true /* fast mode */ );
 }
 
 void KFileItem::init()
