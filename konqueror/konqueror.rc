@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="47">
+<gui name="Konqueror" version="48">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -75,6 +75,8 @@
   <Action name="options_show_menubar"/>
   <Merge name="StandardToolBarMenuHandler" />
   <Separator/>
+  <Action name="fullscreen"/>
+  <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>
   <Separator/>
@@ -101,8 +103,6 @@
   <Action name="tab_move_right"/>
   <Separator/>
   <ActionList name="toggleview" />
-  <Separator/>
-  <Action name="fullscreen"/>
  </Menu>
  <Menu name="help" append="about_merge"><text>&amp;Help</text>
   <Action name="konqintro"/>

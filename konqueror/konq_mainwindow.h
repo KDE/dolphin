@@ -629,7 +629,7 @@ private:
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;
 
-  KAction *m_ptaFullScreen;
+  KToggleAction *m_ptaFullScreen;
 
   uint m_bLocationBarConnected:1;
   uint m_bURLEnterLock:1;

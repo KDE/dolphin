@@ -2934,8 +2934,7 @@ void KonqMainWindow::slotToggleFullScreen()
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
 
-    m_ptaFullScreen->setText( i18n( "Exit Full-Screen Mode" ) );
-    m_ptaFullScreen->setIcon( "window_nofullscreen" );
+    m_ptaFullScreen->setChecked(true);
   }
   else
   {
@@ -2953,8 +2952,7 @@ void KonqMainWindow::slotToggleFullScreen()
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
 
-    m_ptaFullScreen->setText( i18n( "Full-Screen Mode" ) );
-    m_ptaFullScreen->setIcon( "window_fullscreen" );
+    m_ptaFullScreen->setChecked(false);
   }
 }
 
@@ -3153,7 +3151,7 @@ void KonqMainWindow::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = new KAction( i18n( "&Full-Screen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
+  m_ptaFullScreen = KStdAction::fullScreen( this, SLOT( slotToggleFullScreen() ), actionCollection() );
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
