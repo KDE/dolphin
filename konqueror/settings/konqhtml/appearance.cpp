@@ -10,7 +10,7 @@
 #include <X11/Xlib.h>
 #include <kfontcombo.h>
 #include <knuminput.h>
-
+#include <kdialog.h>
 
 #include <klocale.h>
 #include <khtmldefaults.h>
@@ -27,7 +27,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 {
   QString wtstr;
 
-  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 4);
+  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 0, KDialog::spacingHint());
   int r = 0;
   int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 

@@ -52,7 +52,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
       m_groupname( group ),
       global_policies(config,group,true)
 {
-    QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
+    QVBoxLayout* toplevel = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
     /***************************************************************************
      ********************* Global Settings *************************************
@@ -77,9 +77,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
 
     domainSpecificDlg = new KDialogBase(KDialogBase::Swallow,
     			i18n("Domain-Specific Policies"),KDialogBase::Close,
-			KDialogBase::Close,this,"domainSpecificDlg",
-			true,true);
-    domainSpecificDlg->setEscapeButton(KDialogBase::Close);
+			KDialogBase::Close,this,"domainSpecificDlg", true);
 
     domainSpecific = new PluginDomainListView(config,group,domainSpecificDlg);
     domainSpecific->setMinimumSize(320,200);

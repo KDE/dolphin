@@ -40,8 +40,8 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   this->layout()->setMargin(0);
   QGridLayout* thisLayout = new QGridLayout(this->layout());
   thisLayout->setAlignment(Qt::AlignTop);
-  thisLayout->setSpacing(6);
-  thisLayout->setMargin(11);
+  thisLayout->setSpacing(KDialog::spacingHint());
+  thisLayout->setMargin(KDialog::marginHint());
 
   domainSpecificLV = new KListView(this);
   domainSpecificLV->addColumn(i18n("Host/Domain"));

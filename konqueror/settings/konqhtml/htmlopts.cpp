@@ -33,7 +33,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     : KCModule( parent, "kcmkonqhtml" ), m_pConfig(config), m_groupname(group)
 {
     int row = 0;
-    QGridLayout *lay = new QGridLayout(this, 10, 2, KDialog::marginHint(), KDialog::spacingHint());
+    QGridLayout *lay = new QGridLayout(this, 10, 2, 0, KDialog::spacingHint());
 
      // Form completion
 
