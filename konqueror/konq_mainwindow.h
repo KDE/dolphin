@@ -175,6 +175,8 @@ public:
    */
   KToggleAction * linkViewAction() { return m_paLinkView; }
 
+  void enableAction( const char * name, bool enabled );
+
   /**
    * The default settings "allow HTML" - the one used when creating a new view
    * Might not match the current view !
@@ -265,7 +267,6 @@ public slots:
 
 protected slots:
   void slotViewCompleted( KonqView * view );
-  void slotEnableAction( const char * name, bool enabled );
 
   void slotURLEntered( const QString &text );
 
@@ -366,7 +367,7 @@ private:
    */
   QString findIndexFile( const QString &directory );
 
-  void connectExtension( KParts::BrowserExtension *ext );
+  void connectExtension( KonqView * view, KParts::BrowserExtension *ext );
   void disconnectExtension( KParts::BrowserExtension *ext );
 
   void plugViewModeActions();
@@ -490,11 +491,13 @@ private:
 
   static QList<KonqMainWindow> *s_lstViews;
 
-  typedef QMap<QCString,QCString> ActionSlotMap;
-  static ActionSlotMap *s_actionSlotMap;
-
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
+public: // public for KonqView
+  typedef QMap<QCString,QCString> ActionSlotMap;
+  static ActionSlotMap *s_actionSlotMap;
+  typedef QMap<QCString,int> ActionNumberMap;
+  static ActionNumberMap *s_actionNumberMap;
 };
 
 #endif

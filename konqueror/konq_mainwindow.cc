@@ -99,6 +99,7 @@ template class QList<KToggleAction>;
 
 QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
+KonqMainWindow::ActionNumberMap *KonqMainWindow::s_actionNumberMap = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
@@ -110,7 +111,17 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   s_lstViews->append( this );
 
   if ( !s_actionSlotMap )
+  {
       s_actionSlotMap = new ActionSlotMap( KParts::BrowserExtension::actionSlotMap() );
+      s_actionNumberMap = new ActionNumberMap;
+      ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
+      ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
+      for ( int i=0 ; it != itEnd ; ++it, ++i )
+      {
+          kdDebug(1202) << " action " << it.key() << " number " << i << endl;
+          s_actionNumberMap->insert( it.key(), i );
+      }
+  }
 
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
@@ -1400,7 +1411,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   if ( ext )
   {
     //kdDebug() << "Connecting extension for view " << newView << endl;
-    connectExtension( ext );
+    connectExtension( m_currentView, ext );
     createGUI( part );
   }
   else
@@ -2182,7 +2193,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
 void KonqMainWindow::slotClipboardDataChanged()
 {
-  //kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
+  kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
   QMimeSource *data = QApplication::clipboard()->data();
   m_paPaste->setEnabled( data->provides( "text/plain" ) );
   bool hasSelection = m_combo->lineEdit()->hasMarkedText();
@@ -2625,13 +2636,13 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
   return QString::null;
 }
 
-void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
+void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension *ext )
 {
   kdDebug(1202) << "Connecting extension " << ext << endl;
   ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
   ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
 
-  QStrList slotNames =  ext->metaObject()->slotNames();
+  QStrList slotNames = ext->metaObject()->slotNames();
 
   for ( ; it != itEnd ; ++it )
   {
@@ -2639,19 +2650,19 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
     //kdDebug(1202) << it.key() << endl;
     if ( act )
     {
-      bool enable = false;
       // Does the extension have a slot with the name of this action ?
       if ( slotNames.contains( it.key()+"()" ) )
       {
         connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
-        enable = true;
-      }
-      act->setEnabled( enable );
+        int actionNumber = (*s_actionNumberMap)[ it.key() ];
+        act->setEnabled( view->actionStatus()[ actionNumber ] );
+        kdDebug() << "KonqMainWindow::connectExtension connecting to " << it.key() << " (" << actionNumber << ") and setting it to " << act->isEnabled() << endl;
+      } else
+          act->setEnabled(false);
+
     } else kdError(1202) << "Error in BrowserExtension::actionSlotMap(), unknown action : " << it.key() << endl;
   }
 
-  connect( ext, SIGNAL( enableAction( const char *, bool ) ),
-           this, SLOT( slotEnableAction( const char *, bool ) ) );
 }
 
 void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
@@ -2672,17 +2683,18 @@ void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
         act->disconnect( ext );
     }
   }
-  disconnect( ext, SIGNAL( enableAction( const char *, bool ) ),
-           this, SLOT( slotEnableAction( const char *, bool ) ) );
 }
 
-void KonqMainWindow::slotEnableAction( const char * name, bool enabled )
+void KonqMainWindow::enableAction( const char * name, bool enabled )
 {
   KAction * act = actionCollection()->action( name );
   if (!act)
     kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
+  {
+    kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
     act->setEnabled( enabled );
+  }
 
   // Update "copy files" and "move files" accordingly
   if (m_paCopyFiles && !strcmp( name, "copy" ))
@@ -2854,7 +2866,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     if ( m_oldView->browserExtension() )
       disconnectExtension( m_oldView->browserExtension() );
     if ( m_currentView->browserExtension() )
-      connectExtension( m_currentView->browserExtension() );
+      connectExtension( m_currentView, m_currentView->browserExtension() );
   }
 
   kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
@@ -2932,7 +2944,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     if ( m_currentView->browserExtension() )
       disconnectExtension( m_currentView->browserExtension() );
     if ( m_oldView->browserExtension() )
-      connectExtension( m_oldView->browserExtension() );
+      connectExtension( m_oldView, m_oldView->browserExtension() );
   }
 
   m_currentView = m_oldView;

@@ -312,6 +312,22 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( openURLNotify() ),
            this, SLOT( slotOpenURLNotify() ) );
 
+  connect( ext, SIGNAL( enableAction( const char *, bool ) ),
+           this, SLOT( slotEnableAction( const char *, bool ) ) );
+
+  // Set the initial status of the actions depending on whether
+  // they're supported or not
+  KonqMainWindow::ActionSlotMap::ConstIterator it = KonqMainWindow::s_actionSlotMap->begin();
+  KonqMainWindow::ActionSlotMap::ConstIterator itEnd = KonqMainWindow::s_actionSlotMap->end();
+  QStrList slotNames =  ext->metaObject()->slotNames();
+
+  for ( int i=0 ; it != itEnd ; ++it, ++i )
+  {
+      // Does the extension have a slot with the name of this action ?
+      m_actionStatus.setBit( i, slotNames.contains( it.key()+"()" ) );
+  }
+  kdDebug(1202) << "KonqView::connectPart m_actionStatus initially set to " << QString::number(m_actionStatus.val,2) << endl;
+
   callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
 
   QVariant urlDropHandling;
@@ -328,6 +344,20 @@ void KonqView::connectPart(  )
   if ( urlDropHandling.type() == QVariant::Bool &&
        urlDropHandling.toBool() )
       m_pPart->widget()->installEventFilter( this );
+}
+
+void KonqView::slotEnableAction( const char * name, bool enabled )
+{
+  kdDebug(1202) << "KonqView::slotEnableAction " << name << " " << enabled << endl;
+  KonqMainWindow::ActionNumberMap::ConstIterator it = KonqMainWindow::s_actionNumberMap->find( name );
+  if ( it != KonqMainWindow::s_actionNumberMap->end() )
+  {
+      m_actionStatus.setBit( it.data(), enabled );
+      kdDebug() << "KonqView::slotEnableAction setting bit " << it.data() << " to " << enabled << endl;
+      if ( m_pMainWindow->currentView() == this )
+          m_pMainWindow->enableAction( name, enabled );
+  } else
+      kdWarning(1202) << "KonqView::slotEnableAction unknown action " << name << endl;
 }
 
 void KonqView::slotStarted( KIO::Job * job )

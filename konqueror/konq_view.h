@@ -240,7 +240,7 @@ public:
   void setToggleView( bool b ) { m_bToggleView = b; }
   bool isToggleView() const { return m_bToggleView; }
 
-    void setService( const KService::Ptr &s ) { m_service = s; }
+  void setService( const KService::Ptr &s ) { m_service = s; }
   KService::Ptr service() { return m_service; }
 
   KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }
@@ -259,6 +259,20 @@ public:
   QStringList frameNames() const;
 
   KonqViewIface * dcopObject();
+
+  // Status of the actions for this view
+  class KBitArray
+  {
+  public:
+      int val;
+      KBitArray() { val = 0; }
+      bool operator [](int index) { return (val & (1 << index)) ? true : false; }
+      void setBit(int index, bool value) {
+          if (value) val = val | (1 << index);
+          else val = val & ~(1 << index);
+      }
+  };
+  KBitArray & actionStatus() { return m_actionStatus; }
 
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
@@ -298,6 +312,7 @@ protected slots:
    */
   void slotSelectionInfo( const KFileItemList &items );
   void slotOpenURLNotify();
+  void slotEnableAction( const char * name, bool enabled );
 
 protected:
   /**
@@ -360,6 +375,7 @@ protected:
   QString m_serviceType;
   QString m_name;
   KonqViewIface * m_dcopObject;
+  KBitArray m_actionStatus;
 };
 
 #endif
