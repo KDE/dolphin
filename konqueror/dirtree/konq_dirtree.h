@@ -21,6 +21,7 @@
 #define __konq_dirtree_h__
 
 #include <kparts/browserextension.h>
+#include <kdirnotify.h>
 #include <kurl.h>
 #include <kglobalsettings.h>
 #include <konqoperations.h>
@@ -36,7 +37,6 @@ class KonqDirTree;
 class KonqDrag;
 class QTimer;
 class KonqDirTreePart;
-class KDirWatch;
 
 class KonqDirTreePart : public KParts::ReadOnlyPart
 {
@@ -83,7 +83,7 @@ private:
   bool m_bListable;
 };
 
-class KonqDirTree : public KListView
+class KonqDirTree : public KListView, public KDirNotify
 {
   Q_OBJECT
 public:
@@ -96,6 +96,10 @@ public:
   void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
 
   void followURL( const KURL &url );
+
+  // Reimplemented from KDirNotify
+  void FilesAdded( const KURL & dir );
+  void FilesRemoved( const KURL::List & urls );
 
 protected:
   virtual void contentsDragEnterEvent( QDragEnterEvent *e );
@@ -121,7 +125,7 @@ private slots:
 
   void slotAutoOpenFolder();
 
-  void slotScanDir( const QString & dir );
+  void rescanConfiguration();
 
 private:
   void clear();
@@ -160,8 +164,6 @@ private:
 
   QTimer *m_animationTimer;
 
-  KDirWatch * m_pDirWatch;
-
   int m_animationCounter;
 
   QPoint m_dragPos;
@@ -176,6 +178,9 @@ private:
   QListViewItem *m_lastItem;
 
   KURL m_selectAfterOpening;
+
+  // The base URL for our configuration directory
+  KURL m_dirtreeDir;
 };
 
 class KonqDirTreeBrowserExtension : public KParts::BrowserExtension

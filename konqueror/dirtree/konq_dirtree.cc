@@ -31,7 +31,7 @@
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <konqdirlister.h>
-#include <kdirwatch.h>
+#include <kdirnotify.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
 #include <kinstance.h>
@@ -304,18 +304,15 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   m_lastItem = 0L;
 
   QString dirtreeDir = KonqDirTreeFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" );
-  m_pDirWatch = new KDirWatch();
-  m_pDirWatch->addDir( dirtreeDir );
-  slotScanDir( dirtreeDir );
+  m_dirtreeDir.setPath( dirtreeDir );
 
-  connect( m_pDirWatch, SIGNAL( dirty( const QString & ) ),
-           this, SLOT( slotScanDir( const QString & ) ) );
+  // Initial parsing
+  rescanConfiguration();
 }
 
 KonqDirTree::~KonqDirTree()
 {
   clear();
-  delete m_pDirWatch;
 }
 
 void KonqDirTree::clear()
@@ -329,6 +326,13 @@ void KonqDirTree::clear()
     delete (*it).m_mapSubDirs;
     delete (*it).m_lstPendingURLs;
   }
+  QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.begin();
+  for (; groupItem != m_groupItems.end(); ++groupItem )
+    delete groupItem.key();
+  m_topLevelItems.clear();
+  m_groupItems.clear();
+  m_mapCurrentOpeningFolders.clear();
+  m_unselectableItems.clear();
 }
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
@@ -610,10 +614,6 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
   if ( !item )
     return;
 
-  QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.find( item );
-  if ( groupItem != m_groupItems.end() )
-    return;
-
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
 
@@ -727,21 +727,36 @@ void KonqDirTree::slotAutoOpenFolder()
   m_dropItem->repaint();
 }
 
-void KonqDirTree::slotScanDir( const QString & dir )
+void KonqDirTree::rescanConfiguration()
 {
-  kdDebug(1202) << "KonqDirTree::slotScanDir " << dir << endl;
-  clear();
+  kdDebug() << "KonqDirTree::rescanConfiguration()" << endl;
   m_autoOpenTimer->stop();
-  m_topLevelItems.clear();
-  m_groupItems.clear();
-  m_mapCurrentOpeningFolders.clear();
-  m_unselectableItems.clear();
+  clear();
   m_unselectableItems.append( m_root );
-  QString path( dir );
-  if ( path.right(1) != "/" ) // first call has the /, but KDirWatch doesn't emit it
-      path += "/";
-  scanDir( m_root, path, true);
+  scanDir( m_root, m_dirtreeDir.path(), true);
   m_root->setOpen( true );
+}
+
+void KonqDirTree::FilesAdded( const KURL & dir )
+{
+  kdDebug(1202) << "KonqDirTree::FilesAdded " << dir.url() << endl;
+  if ( m_dirtreeDir.isParentOf( dir ) )
+    // We use a timer in case of DCOP re-entrance..
+    QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
+}
+
+void KonqDirTree::FilesRemoved( const KURL::List & urls )
+{
+  kdDebug() << "KonqDirTree::FilesRemoved" << endl;
+  for ( KURL::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
+  {
+    if ( m_dirtreeDir.isParentOf( *it ) )
+    {
+      QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
+      kdDebug() << "KonqDirTree::FilesRemoved done" << endl;
+      return;
+    }
+  }
 }
 
 void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRoot )
@@ -751,6 +766,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
   if ( !dir.isReadable() )
     return;
 
+  kdDebug(1202) << "scanDir " << path << endl;
   QStringList entries = dir.entryList( QDir::Files );
 
   if ( isRoot && entries.count() == 0 )
@@ -805,10 +821,11 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 
   kdDebug(1202) << "Scanning " << path << endl;
 
-  QString dotDirectoryFile = QString(  path ).append( "/.directory" );
+  QString dotDirectoryFile = QString( path ).append( "/.directory" );
 
   if ( QFile::exists( dotDirectoryFile ) )
   {
+    kdDebug(1202) << "Reading the .directory" << endl;
     KSimpleConfig cfg( dotDirectoryFile, true );
     cfg.setDesktopGroup();
     name = cfg.readEntry( "Name", name );
@@ -821,7 +838,6 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 
   KonqFileItem *fileItem = new KonqFileItem( -1, -1, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
-  //  QListViewItem *item = new QListViewItem( parent );
   item->setText( 0, name );
   item->setPixmap( 0, SmallIcon( icon ) );
   item->setListable( false );
@@ -829,13 +845,15 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 
   //  m_unselectableItems.append( item );
 
-  QString groupPath = QString( path ).append( "/" );
-
-  m_groupItems.insert( item, groupPath );
+  kdDebug(1202) << "Inserting group " << name << "   " << path << endl;;
+  m_groupItems.insert( item, path );
 
   item->setOpen( open );
 
-  scanDir( item, groupPath );
+  scanDir( item, path );
+
+  if ( item->childCount() == 0 )
+    item->setExpandable( false );
 }
 
 void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filename )
