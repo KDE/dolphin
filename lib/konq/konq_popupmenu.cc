@@ -600,7 +600,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     QString mimeGroup = m_sMimeType.left(m_sMimeType.find('/'));
 
                     // check for exact matches or a typeglob'd mimetype if we have a mimetype
-                    for (QStringList::iterator it = types.begin(); it != types.end(); ++it)
+                    for (QStringList::iterator it = types.begin(); 
+                         it != types.end() && !ok; 
+                         ++it)
                     {
                         // we could cram the following three if statements into
                         // one gigantic boolean statement but that would be a
