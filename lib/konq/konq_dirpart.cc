@@ -132,7 +132,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     // to open a window :-)
     KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
     if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
-    if ( offer && offer->desktopEntryName() == "kfmclient" )
+    if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
     {
         KParts::URLArgs args;
         args.serviceType = fileItem->mimetype();
