@@ -23,7 +23,6 @@
 #include <qfile.h>
 #include <qgroupbox.h>
 #include <qimage.h>
-#include <qdragobject.h>
 
 #include <kapplication.h>
 #include <kglobal.h>
@@ -36,6 +35,7 @@
 #include <kmessagebox.h>
 #include <kimageio.h>
 #include <kconfig.h>
+#include <kurldrag.h>
 
 #include "userinfo.h"
 #include "chfnproc.h"
@@ -163,7 +163,7 @@ bool KUserInfoConfig::eventFilter(QObject *, QEvent *e)
   if (e->type() == QEvent::DragEnter)
   {
     QDragEnterEvent *ee = (QDragEnterEvent *) e;
-    ee->accept( QUriDrag::canDecode(ee) );
+    ee->accept( KURLDrag::canDecode(ee) );
     return true;
   }
 
@@ -178,11 +178,11 @@ bool KUserInfoConfig::eventFilter(QObject *, QEvent *e)
 
 KURL *decodeImgDrop(QDropEvent *e, QWidget *wdg)
 {
-  QStringList uris;
+  KURL::List uris;
 
-  if (QUriDrag::decodeToUnicodeUris(e, uris) && (uris.count() > 0))
+  if (KURLDrag::decode(e, uris) && (uris.count() > 0))
   {
-    KURL *url = new KURL(*uris.begin());
+    KURL *url = new KURL(uris.first());
 
     KImageIO::registerFormats();
     if( KImageIO::canRead(KImageIO::type(url->fileName())) )
@@ -207,6 +207,7 @@ void KUserInfoConfig::faceButtonDropEvent(QDropEvent *e)
     KMessageBox::sorry( this, i18n("Your administrator has disallowed changing your face.") );
     return;
   }
+
   KURL *url = decodeImgDrop(e, this);
   if (url)
   {
