@@ -28,6 +28,8 @@
 
 #include "version.h" 
 
+// Adapted to new KTW by sven
+
 KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
@@ -35,7 +37,7 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     _mainMenu = new KMenuBar(this, "_mainMenu");
     _mainMenu->show();
     setMenu(_mainMenu);
-    _mainMenu->enableMoving(false);
+    //_mainMenu->enableMoving(false);
 
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
@@ -78,12 +80,12 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     	    this,SLOT(enableStatusBar(bool)));
 
     int width=(440>_toolBar->width())?440:_toolBar->width();
-    int height=_mainMenu->height()+_toolBar->height()+(_kfind->sizeHint()).height()+10;
-    //the window never should be smaller
-    setMinimumSize(width,height);
-    setMaximumSize(9999,height);
+    int height=/*_mainMenu->height()+_toolBar->height()+*/(_kfind->sizeHint()).height()+10;
+    //the main widget  never should be smaller
+    _kfind->setMinimumSize(width,height);
+    _kfind->setMaximumSize(9999,height);
 
-    resize(width,height);
+    //resize(width,height);
    };    
 
 KfindTop::~KfindTop()
