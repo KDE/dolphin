@@ -28,6 +28,28 @@
 #include <qfile.h>
 #include <iostream>
 
+QPixmap wallpaperPixmap( const char *_wallpaper )
+{
+    QString key = "wallpapers/";
+    key += _wallpaper;
+    
+    QPixmap *pix = QPixmapCache::find( key );
+    if ( pix )
+	return *pix;
+    
+    QString file = locate("wallpaper", _wallpaper);
+    
+    QPixmap p1;
+    p1.load( file );
+    if ( !p1.isNull() )
+	{
+	    QPixmapCache::insert( key, p1 );
+	    return *QPixmapCache::find( key );
+	}
+    
+    return QPixmap();
+}
+
 KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
 
 // static
@@ -67,7 +89,7 @@ KonqPropsView::KonqPropsView( KConfig * config )
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( !pix.isEmpty() )
   {
-    QPixmap p = KPixmapCache::wallpaperPixmap( pix );
+    QPixmap p = wallpaperPixmap( pix );
     if ( !p.isNull() )
     {
       kdebug(0,1202,"Got background");
@@ -96,7 +118,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     if ( !pix.isEmpty() )
     {
       debug("BgImage is %s", pix.data());
-      QPixmap p = KPixmapCache::wallpaperPixmap( pix );
+      QPixmap p = wallpaperPixmap( pix );
       if ( !p.isNull() )
         m_bgPixmap = p;
       else debug("Wallpaper not found");
