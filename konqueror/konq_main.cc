@@ -17,8 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <iostream.h>
-
 #include "konq_main.h"
 #include "konq_misc.h"
 #include "konq_factory.h"
