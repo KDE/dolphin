@@ -25,6 +25,7 @@
 #include "konq_treeitem.h"
 
 class QDropEvent;
+class QPainter;
 class KonqHistorySettings;
 
 class KonqHistoryItem : public KonqTreeItem
@@ -57,7 +58,10 @@ public:
     virtual QString key( int column, bool ascending ) const;
 
     static void setSettings( KonqHistorySettings *s ) { s_settings = s; }
-    
+
+    virtual void paintCell( QPainter *, const QColorGroup & cg, int column, 
+			    int width, int alignment );
+
 private:
     const KonqHistoryEntry *m_entry;
     static KonqHistorySettings *s_settings;
@@ -86,16 +90,16 @@ public:
     void itemUpdated( KonqHistoryItem *item );
 
     bool hasFavIcon() const { return m_hasFavIcon; }
-
     void setFavIcon( const QPixmap& pix );
 
-    // we don't support the following
-    bool acceptsDrops( const QStrList& ) { return false; }
-    virtual void drop( QDropEvent * ) {}
     virtual QDragObject * dragObject( QWidget *, bool );
-    virtual KURL externalURL() const { return KURL(); }
     virtual void itemSelected();
 
+    // we don't support the following of KonqTreeItem
+    bool acceptsDrops( const QStrList& ) { return false; }
+    virtual void drop( QDropEvent * ) {}
+    virtual KURL externalURL() const { return KURL(); }
+    
 private:
     bool m_hasFavIcon;
     const KURL m_url;

@@ -105,12 +105,16 @@ public:
 
 public slots:
     void applySettings();
+    void slotGetFontNewer();
+    void slotGetFontOlder();
 
 private slots:
     void slotNewerChanged( int );
     void slotOlderChanged( int );
 
 private:
+    QFont m_fontNewer;
+    QFont m_fontOlder;
     KonqHistorySettings *m_settings;
 };
 

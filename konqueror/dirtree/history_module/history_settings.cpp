@@ -13,6 +13,7 @@ KonqHistorySettings::KonqHistorySettings( QObject *parent, const char *name )
       DCOPObject( "KonqHistorySettings" ),
       m_activeDialog( 0L )
 {
+    m_fontOlderThan.setItalic( true ); // default
 }
 
 KonqHistorySettings::KonqHistorySettings() : QObject()
@@ -42,7 +43,7 @@ void KonqHistorySettings::readSettings()
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
 
-    m_valueYoungerThan = config->readNumEntry("Value youngerThan", 2 );
+    m_valueYoungerThan = config->readNumEntry("Value youngerThan", 1 );
     m_valueOlderThan = config->readNumEntry("Value olderThan", 2 );
 
     QString minutes = QString::fromLatin1("minutes");
@@ -58,8 +59,10 @@ void KonqHistorySettings::readSettings()
 						 false );
     m_columnLastVisited = config->readBoolEntry("Column LastVisited", false);
 
-    m_fontYoungerThan = config->readFontEntry( "Font youngerThan" );
-    m_fontOlderThan   = config->readFontEntry( "Font olderThan" );
+    m_fontYoungerThan = config->readFontEntry( "Font youngerThan", 
+					       &m_fontYoungerThan );
+    m_fontOlderThan   = config->readFontEntry( "Font olderThan",
+					       &m_fontOlderThan );
 }
 
 void KonqHistorySettings::applySettings()

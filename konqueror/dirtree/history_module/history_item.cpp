@@ -113,6 +113,32 @@ QString KonqHistoryItem::toolTipText() const
     return m_entry->url.url();
 }
 
+void KonqHistoryItem::paintCell( QPainter *p, const QColorGroup & cg, 
+				 int column, int width, int alignment )
+{
+    QDateTime dt;
+    QDateTime current = QDateTime::currentDateTime();
+
+    if ( s_settings->m_metricYoungerThan == KonqHistorySettings::DAYS )
+	dt = current.addDays( - s_settings->m_valueYoungerThan );
+    else
+	dt = current.addSecs( - (s_settings->m_valueYoungerThan * 60) );
+    
+    if ( m_entry->lastVisited > dt )
+	p->setFont( s_settings->m_fontYoungerThan );
+
+    else {
+	if ( s_settings->m_metricOlderThan == KonqHistorySettings::DAYS )
+	    dt = current.addDays( - s_settings->m_valueOlderThan );
+	else
+	    dt = current.addSecs( - (s_settings->m_valueOlderThan * 60) );
+	
+	if ( m_entry->lastVisited < dt )
+	    p->setFont( s_settings->m_fontOlderThan );
+    }
+    
+    KonqTreeItem::paintCell( p, cg, column, width, alignment );
+}
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////

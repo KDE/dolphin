@@ -30,6 +30,7 @@
 #include <kapp.h>
 #include <kconfig.h>
 #include <kdialogbase.h>
+#include <kfontdialog.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
 #include <kstaticdeleter.h>
@@ -257,6 +258,12 @@ void KonqHistoryModule::slotRemoveEntry()
 
 void KonqHistoryModule::slotPreferences()
 {
+    if ( m_dlg ) {
+	m_dlg->show();
+	m_dlg->raise();
+	return;
+    }
+    
     m_dlg = new KDialogBase( KDialogBase::Plain, i18n("History settings"),
 			     KDialogBase::Ok | KDialogBase::Cancel,
 			     KDialogBase::Ok, 
@@ -367,8 +374,15 @@ KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
 	     SLOT( slotNewerChanged( int )));
     connect( spinOlder, SIGNAL( valueChanged( int )), 
 	     SLOT( slotOlderChanged( int )));
+
+    connect( btnFontNewer, SIGNAL( clicked() ), SLOT( slotGetFontNewer() ));
+    connect( btnFontOlder, SIGNAL( clicked() ), SLOT( slotGetFontOlder() ));
     
     initFromSettings();
+}
+
+KonqHistoryDialog::~KonqHistoryDialog()
+{
 }
 
 void KonqHistoryDialog::initFromSettings()
@@ -389,6 +403,9 @@ void KonqHistoryDialog::initFromSettings()
     cbTimesVisited->setChecked( m_settings->m_columnTimesVisited );
     cbFirstVisited->setChecked( m_settings->m_columnFirstVisited );
     cbLastVisited->setChecked( m_settings->m_columnLastVisited );
+ 
+    m_fontNewer = m_settings->m_fontYoungerThan;
+    m_fontOlder = m_settings->m_fontOlderThan;
     
     // enable/disable widgets
     spinExpire->setEnabled( cbExpire->isChecked() );
@@ -416,11 +433,10 @@ void KonqHistoryDialog::applySettings()
     m_settings->m_columnFirstVisited = cbFirstVisited->isChecked();
     m_settings->m_columnLastVisited  = cbLastVisited->isChecked();
     
+    m_settings->m_fontYoungerThan = m_fontNewer;
+    m_settings->m_fontOlderThan   = m_fontOlder;
+    
     m_settings->applySettings();
-}
-
-KonqHistoryDialog::~KonqHistoryDialog()
-{
 }
 
 // change hour to days, minute to minutes and the other way round, 
@@ -473,6 +489,16 @@ void KonqHistoryDialog::slotOlderChanged( int value )
 				    KonqHistorySettings::MINUTES );
     }
     }
+}
+
+void KonqHistoryDialog::slotGetFontNewer()
+{
+    (void) KFontDialog::getFont( m_fontNewer, false, this );
+}
+
+void KonqHistoryDialog::slotGetFontOlder()
+{
+    (void) KFontDialog::getFont( m_fontOlder, false, this );
 }
 
 #include "history_module.moc"
