@@ -1,3 +1,6 @@
+- Use the same action for Fullscreen mode and Stop fullscreen mode, and
+change text & icon to switch from one to the other. Benefit : unique shortcut.
+
 - When word wrap is false, Reggie suggested adding a tooltip with the fullname
 
 - Nice ftp dialog for users who do not know how to put their
