@@ -29,14 +29,22 @@
 
 #include <kapplication.h>
 #include <dcopclient.h>
+#include <ktrader.h>
 
 KHTMLPluginKTTSD::KHTMLPluginKTTSD( QObject* parent, const char* name )
     : Plugin( parent, name )
 {
-    (void) new KAction( "&Speak Text",
-                        "kttsd", 0,
-                        this, SLOT(slotReadOut()),
-                        actionCollection(), "tools_kttsd" );
+    // If KTTSD is not installed, hide action.
+    KTrader::OfferList offers = KTrader::self()->query("DCOP/Text-to-Speech", "Name == 'KTTSD'");
+    if (offers.count() > 0)
+    {
+        (void) new KAction( "&Speak Text",
+            "kttsd", 0,
+            this, SLOT(slotReadOut()),
+            actionCollection(), "tools_kttsd" );
+    }
+    else
+        kdDebug() << "KHTMLPLuginKTTSD::KHTMLPluginKTTSD: KTrader did not find KTTSD." << endl;
 }
 
 KHTMLPluginKTTSD::~KHTMLPluginKTTSD()
@@ -62,6 +70,7 @@ void KHTMLPluginKTTSD::slotReadOut()
           query = part->htmlDocument().body().innerText().string();
 
         DCOPClient *client = kapp->dcopClient();
+
         // If KTTSD not running, start it.
         if (!client->isApplicationRegistered("kttsd"))
         {
