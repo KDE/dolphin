@@ -91,6 +91,8 @@ class KonqUndoManager : public QObject, public DCOPObject
   K_DCOP
   friend class KonqUndoJob;
 public:
+  enum UndoState { MAKINGDIRS, MOVINGFILES, REMOVINGDIRS, REMOVINGFILES };
+
   KonqUndoManager();
   virtual ~KonqUndoManager();
 
@@ -135,8 +137,6 @@ private:
   void broadcastUnlock();
 
   bool initializeFromKDesky();
-
-  enum UndoState { MAKINGDIRS, MOVINGFILES, REMOVINGDIRS, REMOVINGFILES };
 
   class KonqUndoManagerPrivate;
   KonqUndoManagerPrivate *d;
