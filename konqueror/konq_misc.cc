@@ -67,7 +67,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
   abortFullScreenMode();
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
-  QString profileName = (!(KProtocolInfo::supportsListing(url.protocol())) ||
+  QString profileName = (!(KProtocolInfo::supportsListing(url)) ||
                         url.path().right(5) == ".html" ||
 			url.path().right(4) == ".htm" )
           ? "webbrowsing" : "filemanagement";
