@@ -188,7 +188,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                */
   QWhatsThis::add( gb_siteSpecific, wtstr );
   m_config = new KConfig("kio_httprc", false, false);
-  m_provider = new FakeUASProvider();
   load();
 }
 
@@ -230,7 +229,7 @@ void UserAgentOptions::load()
   cb_showMachine->setChecked( m_ua_keys.contains('m') );
   cb_showLanguage->setChecked( m_ua_keys.contains('l') );
   changeSendUAString();
-  m_provider = 0L;
+  m_provider = new FakeUASProvider();
 }
 
 void UserAgentOptions::updateButtons()
@@ -296,7 +295,7 @@ void UserAgentOptions::save()
   {
      // Remove entries from local file.
      KSimpleConfig cfg("kio_httprc");
-     for ( QStringList::Iterator it = deleteList.begin(); 
+     for ( QStringList::Iterator it = deleteList.begin();
            it != deleteList.end(); ++it )
      {
         cfg.setGroup(*it);
@@ -304,10 +303,10 @@ void UserAgentOptions::save()
         cfg.deleteGroup(*it, false); // Delete if empty.
      }
      cfg.sync();
-  
+
      m_config->reparseConfiguration();
      // Check everything is gone, reset to blank otherwise.
-     for ( QStringList::Iterator it = deleteList.begin(); 
+     for ( QStringList::Iterator it = deleteList.begin();
            it != deleteList.end(); ++it )
      {
         m_config->setGroup(*it);
@@ -452,7 +451,7 @@ QString UserAgentOptions::quickHelp() const
                "identification by adding a site or domain specific entry."
                "<P><u>NOTE:</u> To obtain specific help on a particular section "
                "of the dialog box, simply click on the little <b>?</b> button on "
-               "the top right corner of this window, then click on that section "
+               "the top right corner of this window, then click on the section "
                "for which you are seeking help." );
 }
 
