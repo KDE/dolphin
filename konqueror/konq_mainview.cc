@@ -571,6 +571,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vLocationBar->setComboAutoCompletion( TOOLBAR_URL_ID, true );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
 
+  m_vLocationBar->setComboMaxCount( TOOLBAR_URL_ID, 10 );
+
   setLocationBarCombo( m_lstLocationBarCombo );
 
   checkPrintingExtension();
@@ -583,27 +585,60 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
   kdebug(0, 1202, "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )");
   setActiveView( child->id() );
+
+  setItemEnabled( m_vMenuView, MVIEW_SPLITHORIZONTALLY_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_SPLITVERTICALLY_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, ( m_mapViews.count() > 1 ) );
+
+  setItemEnabled( m_vMenuView, MVIEW_SHOWDOT_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_SHOWHTML_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_LARGEICONS_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_SMALLICONS_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_TREEVIEW_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_RELOAD_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_STOP_ID, true );
+  
   return true;
 }
 
 bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
 {
   kdebug(0, 1202, "bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )");
+  
+  KonqChildView *oldView = m_currentView;
+  
+  m_currentView = 0L;
+  m_currentId = 0;
+  
   // removing view-specific menu entries (view will probably be destroyed !)
-  if (m_currentView)
+  if ( oldView )
   {
-    clearViewGUIElements( m_currentView );
+    clearViewGUIElements( oldView );
     
-    m_currentView->repaint();
+    m_bViewMenuDirty = true;
+    m_bEditMenuDirty = true;
+    
+    createViewMenu();
+    createEditMenu();
+    
+    oldView->repaint();
   }
 
   // no more active view (even temporarily)
   setUpEnabled( "/", 0 );
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
-
-  m_currentView = 0L;
-  m_currentId = 0;
+  setItemEnabled( m_vMenuView, MVIEW_SPLITHORIZONTALLY_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_SPLITVERTICALLY_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, false );
+  
+  setItemEnabled( m_vMenuView, MVIEW_SHOWDOT_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_SHOWHTML_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_LARGEICONS_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_SMALLICONS_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_TREEVIEW_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_RELOAD_ID, false );
+  setItemEnabled( m_vMenuView, MVIEW_STOP_ID, false );
 
   return true;
 }
@@ -1325,10 +1360,8 @@ void KonqMainView::slotReloadPlugins()
 
 void KonqMainView::slotSaveViewProfile()
 {
-  OpenParts::Id id = m_currentId;
-
   KLineEditDlg *dlg = new KLineEditDlg( i18n( "Enter Name for Profile" ),
-                                       QString::null, this, false );
+                                        QString::null, this, false );
   
   dlg->setFocusPolicy( QWidget::StrongFocus );
   
@@ -1351,8 +1384,6 @@ void KonqMainView::slotSaveViewProfile()
     if ( !CORBA::is_nil( m_vMenuOptionsProfiles ) )
       fillProfileMenu();
   }
-  
-  m_vMainWindow->setActivePart( id );
 }
 
 void KonqMainView::slotViewProfileActivated( CORBA::Long id )
