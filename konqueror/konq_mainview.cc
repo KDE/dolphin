@@ -143,7 +143,8 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   createGUI( 0L );
 
   if ( !m_toggleViewGUIClient->empty() )
-    guiFactory()->addClient( m_toggleViewGUIClient );
+  //    guiFactory()->addClient( m_toggleViewGUIClient );
+    plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
   else
   {
     delete m_toggleViewGUIClient;
@@ -762,7 +763,8 @@ void KonqMainView::applyMainWindowSettings()
   for ( ; togIt != togEnd ; ++togIt )
   {
     // Find the action by name
-    KAction * act = m_toggleViewGUIClient->actionCollection()->action( (*togIt).latin1() );
+  //    KAction * act = m_toggleViewGUIClient->actionCollection()->action( (*togIt).latin1() );
+    KAction *act = m_toggleViewGUIClient->action( *togIt );
     if ( act )
       act->activate();
     else
@@ -906,7 +908,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   // View-dependent GUI
 
   guiFactory()->removeClient( m_viewModeGUIClient );
-  guiFactory()->removeClient( m_openWithGUIClient );
+  //  guiFactory()->removeClient( m_openWithGUIClient );
+  unplugActionList( "openwith" );
   m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
   m_openWithGUIClient->update( m_currentView->appServiceOffers() );
 
@@ -919,7 +922,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
       guiFactory()->addClient( m_viewModeGUIClient );
 
   if ( m_currentView->appServiceOffers().count() > 0 )
-    guiFactory()->addClient( m_openWithGUIClient );
+    plugActionList( "openwith", m_openWithGUIClient->actions() );
+  //    guiFactory()->addClient( m_openWithGUIClient );
 
   m_currentView->frame()->statusbar()->repaint();
 

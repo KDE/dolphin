@@ -16,7 +16,8 @@
   <Action name="del"/>
   <Action name="shred"/>
   <WeakSeparator/>
-  <Merge name="openwith"/>
+  <ActionList name="openwith" />
+  <Separator />
   <Merge/>
  </Menu>
  <Menu name="view"><text>&amp;View</text> <!--Here is what applies to the active view-->
@@ -60,7 +61,7 @@
   <Action name="showlocationbar"/>
   <Action name="showbookmarkbar"/>
   <Separator/>
-  <Merge name="toggleview" />
+  <ActionList name="toggleview" />
   <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>

@@ -45,20 +45,18 @@ private:
   KActionCollection *m_actions;
 };
 
-class OpenWithGUIClient : public QObject, public KXMLGUIClient
+class OpenWithGUIClient : public QObject
 {
 public:
   OpenWithGUIClient( KonqMainView *mainView );
 
-  virtual KAction *action( const QDomElement &element ) const;
-
   void update( const KTrader::OfferList &services );
+
+  QList<KAction> actions() const { return m_actions; }
 
 private:
   KonqMainView *m_mainView;
-  QDomDocument m_doc;
-  QDomElement m_menuElement;
-  KActionCollection *m_actions;
+  QList<KAction> m_actions;
 };
 
 class PopupMenuGUIClient : public KXMLGUIClient
@@ -77,7 +75,7 @@ private:
   QDomDocument m_doc;
 };
 
-class ToggleViewGUIClient : public QObject, public KXMLGUIClient
+class ToggleViewGUIClient : public QObject
 {
   Q_OBJECT
 public:
@@ -86,13 +84,16 @@ public:
 
   bool empty() const { return m_empty; }
 
+  QList<KAction> actions() const;
+  KAction *action( const QString &name ) { return m_actions[ name ]; }
+
 private slots:
   void slotToggleView( bool toggle );
   void slotViewAdded( KonqChildView *view );
   void slotViewRemoved( KonqChildView *view );
 private:
   KonqMainView *m_mainView;
-  QDomDocument m_doc;
+  QDict<KAction> m_actions;
   bool m_empty;
   QMap<QString,bool> m_mapOrientation;
 };

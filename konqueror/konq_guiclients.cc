@@ -103,64 +103,31 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
   }
 }
 
-static const char *openWithGUI = ""
-"<!DOCTYPE kpartgui>"
-"<kpartgui name=\"openwith\">"
-"<MenuBar>"
-" <Menu name=\"edit\">"
-" </Menu>"
-"</MenuBar>"
-"</kpartgui>";
-
 OpenWithGUIClient::OpenWithGUIClient( KonqMainView *mainView )
  : QObject( mainView )
 {
   m_mainView = mainView;
-  m_doc.setContent( QString::fromLatin1( openWithGUI ) );
-  m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
-  m_actions = 0L;
-  setDocument( m_doc );
-}
-
-KAction *OpenWithGUIClient::action( const QDomElement &element ) const
-{
-  if ( !m_actions )
-    return 0L;
-
-  return m_actions->action( element.attribute( "name" ) );
+  m_actions.setAutoDelete( true );
 }
 
 void OpenWithGUIClient::update( const KTrader::OfferList &services )
 {
   static QString openWithText = i18n( "Open With" ).append( ' ' );
-  if ( m_actions )
-    delete m_actions;
 
-  m_actions = new KActionCollection( this );
-
-  QDomNode n = m_menuElement.firstChild();
-  while ( !n.isNull() )
-  {
-    m_menuElement.removeChild( n );
-    n = m_menuElement.firstChild();
-  }
+  m_actions.clear();
 
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KAction *action = new KAction( (*it)->comment().prepend( openWithText ), 0, m_actions, (*it)->name() );
+    KAction *action = new KAction( (*it)->comment().prepend( openWithText ), 0, 0, (*it)->name().latin1() );
     action->setIcon( (*it)->icon() );
-
-    QDomElement e = m_doc.createElement( "Action" );
-    m_menuElement.appendChild( e );
-    e.setAttribute( "name", (*it)->name() );
 
     connect( action, SIGNAL( activated() ),
 	     m_mainView, SLOT( slotOpenWith() ) );
-  }
 
-  m_menuElement.appendChild( m_doc.createElement( "Separator" ) );
+    m_actions.append( action );
+  }
 }
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices )
@@ -268,22 +235,11 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
 		     m_mainView, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
 
-static const char *toggleViewGUI = ""
-"<!DOCTYPE toggleviewxml>"
-"<toggleviewxml name=\"toggleview\">"
-"<MenuBar>"
-" <Menu name=\"settings\">"
-" </Menu>"
-"</MenuBar>"
-"</toggleviewxml>";
-
 ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
 : QObject( mainView )
 {
   m_mainView = mainView;
-  m_doc.setContent( QString::fromLatin1( toggleViewGUI ) );
-  QDomElement menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
-  setDocument( m_doc );
+  m_actions.setAutoDelete( true );
 
   KTrader::OfferList offers = KTrader::self()->query( "Browser/View" );
   KTrader::OfferList::Iterator it = offers.begin();
@@ -314,7 +270,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
     QString description = i18n( "Show %1" ).arg( (*cIt)->comment() );
     QString name = (*cIt)->name();
     //kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
-    KToggleAction *action = new KToggleAction( description, 0, actionCollection(), name.latin1() );
+    KToggleAction *action = new KToggleAction( description, 0, 0, name.latin1() );
 
     // HACK
     if ( (*cIt)->icon() != "unknown" )
@@ -323,9 +279,8 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
     connect( action, SIGNAL( toggled( bool ) ),
 	     this, SLOT( slotToggleView( bool ) ) );
 
-    QDomElement e = m_doc.createElement( "Action" );
-    menuElement.appendChild( e );
-    e.setAttribute( "name", name );
+    m_actions.insert( name, action );
+
     QVariant orientation = (*cIt)->property( "X-KDE-BrowserView-ToggableView-Orientation" );
     bool horizontal = orientation.toString().lower() == "horizontal";
     m_mapOrientation.insert( name, horizontal );
@@ -339,6 +294,17 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
 
 ToggleViewGUIClient::~ToggleViewGUIClient()
 {
+}
+
+QList<KAction> ToggleViewGUIClient::actions() const
+{
+  QList<KAction> res;
+
+  QDictIterator<KAction> it( m_actions );
+  for (; it.current(); ++it )
+    res.append( it.current() );
+
+  return res;
 }
 
 void ToggleViewGUIClient::slotToggleView( bool toggle )
@@ -429,7 +395,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
 {
   QString name = view->service()->name();
 
-  KAction *action = actionCollection()->action( name );
+  KAction *action = m_actions[ name ];
 
   if ( action )
     static_cast<KToggleAction *>( action )->setChecked( true );
@@ -439,7 +405,7 @@ void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
 {
   QString name = view->service()->name();
 
-  KAction *action = actionCollection()->action( name );
+  KAction *action = m_actions[ name ];
 
   if ( action )
     static_cast<KToggleAction *>( action )->setChecked( false );
