@@ -75,7 +75,9 @@ QString KonqAboutPageFactory::loadFile( const QString& file )
     QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
 		       file.left( file.findRev( '/' )) +
 		       QString::fromLatin1("/\">\n");
-    res.prepend( basehref );
+    QRegExp reg("^\\s*<HTML>\\s*<HEAD>");
+    reg.setCaseSensitive(FALSE);
+    res.replace(reg, "<HTML>\n<HEAD>\n\t" + basehref);
     return res;
 }
 
