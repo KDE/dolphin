@@ -63,7 +63,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     m_pMaxFormCompletionItems = new KIntNumInput( bgForm );
     m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
-    m_pMaxFormCompletionItems->setRange( 1, 100 );
+    m_pMaxFormCompletionItems->setRange( 0, 100 );
     QWhatsThis::add( m_pMaxFormCompletionItems,
         i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
     connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(slotChanged()));
