@@ -12,6 +12,6 @@ libkonqlistview_la_LIBADD = $(top_builddir)/konqueror/libkonqueror.la
 servicedir = $(kde_servicesdir)
 service_DATA = konq_treeview.desktop konq_detailedlistview.desktop konq_textview.desktop
 
-rcdir = $(kde_datadir)/konqueror
+rcdir = $(kde_datadir)/konqlistview
 rc_DATA = konq_treeview.rc konq_detailedlistview.rc konq_textview.rc
 
