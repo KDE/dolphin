@@ -2,9 +2,6 @@ multi selection deletion then shift down selects roots
 clicking in the increm. search text field selects the root item in the list view
 tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
 --
-56165 
-KEditBookmarks ignores charset of the bookmarks.xml file 
-
 49470 
 fails to open bookmarks 
 
