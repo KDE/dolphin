@@ -268,7 +268,7 @@ int clientApp::doIt( int argc, char **argv )
       return 1;
     }
     QByteArray data;
-    kapp->dcopClient()->send( "*", "KonqMainViewIface", "configure()", data );
+    kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
   }
   else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
   {
