@@ -23,6 +23,6 @@ Name[sl]=Tip MIME
 Name[sv]=MIME-typ
 MimeType=
 DefaultApp=
-Icon=unknown.xpm
+Icon=unknown.png
 Type=MimeType
 Patterns=

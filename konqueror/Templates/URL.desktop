@@ -1,5 +1,26 @@
 [Desktop Entry]
 Name=Internet Address (URL)
+Name[ca]=Adreça Internet (URL)
+Name[cs]=Internetová adresa (URL)
+Name[da]=Internet adresse (URL)
+Name[de]=Internetadresse (URL)
+Name[eo]=Interreta adreso
+Name[es]=Dirección de Internet (URL)
+Name[fi]=Internet -osoite (URL)
+Name[fr]=Adresse Internet (URL)
+Name[hr]=Internet adresa (URL)
+Name[hu]=Internet Cím (URL)
+Name[is]=Netslóğ (URL)
+Name[it]=Indirizzo Internet (URL)
+Name[ja]=¥¤¥ó¥¿¡¼¥Í¥Ã¥È¥¢¥É¥ì¥¹ (URL)
+Name[no]=Internettadresse (URL)
+Name[pt]=URL
+Name[pt_BR]=Endereço Internet (URL)
+Name[ro]=Adresã internet (URL)
+Name[ru]=õÎÉ×ÅÒÓÁÌØÎÏÅ ÍÅÓÔÏĞÏÌÏÖÅÎÉÅ ÒÅÓÕÒÓÁ (URL)
+Name[sk]=Internetovská adresa (URL)
+Name[sl]=Internetni naslov (URL)
+Name[sv]=Internetadress (URL)
 URL=
-Icon=unknown.xpm
+Icon=unknown.png
 Type=Link
