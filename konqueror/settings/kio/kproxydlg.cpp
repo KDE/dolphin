@@ -47,17 +47,17 @@ KProxyOptions::KProxyOptions( QWidget* parent, const char* /*name*/ )
   QVBoxLayout *layout = new QVBoxLayout(this);
   QTabWidget *tab = new QTabWidget(this);
   layout->addWidget(tab);
-      
-  proxy  = new KProxyDialog(tab);
-  socks = new KSocksConfig(tab);
+
+  proxy  = new KProxyDialog(tab, "proxydlg");
+  socks = new KSocksConfig(tab, "socks_config");
 
   tab->addTab(proxy, i18n("&Proxy"));
   tab->addTab(socks, i18n("&SOCKS"));
-  
+
   connect(proxy, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
   connect(socks, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
 
-  connect(tab, SIGNAL(currentChanged(QWidget *)), 
+  connect(tab, SIGNAL(currentChanged(QWidget *)),
           this, SIGNAL(quickHelpChanged()));
   m_tab = tab;
 }
@@ -236,7 +236,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                              QSizePolicy::Fixed,
                                              m_pbEnvSetup->sizePolicy().hasHeightForWidth()) );
     gridlay->addWidget( m_pbEnvSetup, 0, 1 );
-    
+
     m_rbManual = new QRadioButton( i18n("&Manually specified settings"),
                                   m_gbConfigure, "m_rbManual" );
     QWhatsThis::add( m_rbManual, i18n("<qt>Select this option and click on "
@@ -252,7 +252,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                              QSizePolicy::Fixed,
                                              m_pbManSetup->sizePolicy().hasHeightForWidth()) );
     gridlay->addWidget( m_pbManSetup, 1, 1 );
-    
+
     vlay->addLayout( gridlay );
     mainLayout->addWidget( m_gbConfigure );
 
@@ -432,10 +432,10 @@ void KProxyDialog::save()
         KURL u = m_data->httpProxy;
         bool validProxy = (u.isValid() && u.port() != 0);
         u= m_data->httpsProxy;
-        validProxy |= (u.isValid() && u.port() != 0);       
+        validProxy |= (u.isValid() && u.port() != 0);
         u= m_data->ftpProxy;
-        validProxy |= (u.isValid() && u.port() != 0);        
-          
+        validProxy |= (u.isValid() && u.port() != 0);
+
         if (!validProxy)
         {
           QString msg = i18n("<qt>Proxy information was not setup "
@@ -447,7 +447,7 @@ void KProxyDialog::save()
           KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
           return;
         }
-        
+
         m_data->type = KProtocolManager::ManualProxy;
       }
 
@@ -491,7 +491,7 @@ void KProxyDialog::save()
 
 
   KSaveIOConfig::updateRunningIOSlaves (this);
-     
+
   emit changed( false );
 }
 
@@ -537,7 +537,7 @@ void KProxyDialog::setupEnvProxy()
   dlg->setProxyData( *m_data );
 
   if ( dlg->exec() == QDialog::Accepted )
-  {    
+  {
     *m_data = dlg->data();
     emit changed( true );
   }
