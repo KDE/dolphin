@@ -108,6 +108,10 @@ protected slots:
 protected:  
   virtual void initConfig();
 
+  /** Overloaded from OPPartIf */
+  void setFocus( bool mode );
+
+  /** */
   void setupSortMenu();
 
   /** The directory lister for this URL */
@@ -135,7 +139,7 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
   
-  /** Proxies for each CORBA slot that has to be invoked from a Qt signql */
+  /** Proxies for each CORBA slot that has to be invoked from a Qt signal */
   Qt2CORBAProxy * m_proxySelectAll;
   
   long int m_idShowDotFiles;

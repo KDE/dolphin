@@ -145,6 +145,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pAccel->insertItem( i18n("History Forward"), "Forward", ALT+Key_Right );
   m_pAccel->insertItem( i18n("Stop Loading"), "Stop", Key_Escape );
   
+  // Some accelerators not connected here, but in the child views
   m_pAccel->insertItem( i18n("Select"), "Select", 0 );
   m_pAccel->insertItem( i18n("Select All"), "SelectAll", CTRL+Key_A );
   m_pAccel->insertItem( i18n("Unselect"), "Unselect", 0 );
@@ -165,11 +166,6 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pAccel->connectItem( "Back", this, SLOT( slotBack() ) );
   m_pAccel->connectItem( "Forward", this, SLOT( slotForward() ) );
   m_pAccel->connectItem( "Stop", this, SLOT( slotStop2() ) );
-
-  m_pAccel->connectItem( "Select", this, SLOT( slotUp() ) );
-  m_pAccel->connectItem( "SelectAll", this, SLOT( slotUp() ) );
-  m_pAccel->connectItem( "Unselect", this, SLOT( slotUp() ) );
-  m_pAccel->connectItem( "UnselectAll", this, SLOT( slotUp() ) );
 
   m_pAccel->connectItem( "Select View 1", this, SLOT( slotSelectView1() ) );
   m_pAccel->connectItem( "Select View 2", this, SLOT( slotSelectView2() ) );

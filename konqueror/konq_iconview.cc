@@ -161,20 +161,31 @@ bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr edit
     editMenu->insertItem4( text, this, "slotSelectAll" , 0, -1, -1 );
     text = i18n("U&nselect All");
     editMenu->insertItem4( text, this, "slotUnselectAll" , 0, -1, -1 );
-    
-    m_proxySelectAll = new Qt2CORBAProxy( this, "slotSelectAll" );
-    m_pMainView->accel()->connectItem( "SelectAll", m_proxySelectAll, SLOT( callback() ) );
-  }
-  else // cleanup
-  {
-    if ( m_proxySelectAll ) {
-      m_pMainView->accel()->disconnectItem( "SelectAll", m_proxySelectAll, SLOT( callback() ) );
-      delete m_proxySelectAll;
-      m_proxySelectAll = 0L;
-    }
   }
   
   return true;
+}
+
+void KonqKfmIconView::setFocus( bool mode )
+{
+  if ( m_bFocus != mode )
+  {
+    if ( mode ) // We just got the focus
+    {
+      m_proxySelectAll = new Qt2CORBAProxy( this, "slotSelectAll" );
+      m_pMainView->accel()->connectItem( "SelectAll", m_proxySelectAll, SLOT( callback() ) );
+    }
+    else // Losing the focus
+    {
+      if ( m_proxySelectAll ) {
+        m_pMainView->accel()->disconnectItem( "SelectAll", m_proxySelectAll, SLOT( callback() ) );
+        delete m_proxySelectAll;
+        m_proxySelectAll = 0L;
+      }
+    }
+  }
+  
+  OPPartIf::setFocus( mode );
 }
 
 void KonqKfmIconView::slotShowDot()
