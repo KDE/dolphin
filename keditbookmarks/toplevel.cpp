@@ -71,6 +71,7 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
     : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp)
 {
     setPixmap(0, SmallIcon( gp.icon() ) );
+    setExpandable(true);
 #ifdef DEBUG_ADDRESSES
     setText(2, gp.address());
 #endif
@@ -106,7 +107,12 @@ protected:
             QListViewItem * i = selectedItem();
             ASSERT(i);
             if (i != afterme)
-                emit moved(i, 0 /* unused */, afterme);
+            {
+                // Note the abuse of the 2nd argument ! Instead of "old after",
+                // I'm using it for passing the "new parent". Well, KListView
+                // should really pass both (KDE 3.0).
+                emit moved(i, parent, afterme);
+            }
         }
     }
 };
@@ -394,7 +400,7 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     }
 }
 
-void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * /*_afterFirst*/, QListViewItem *_afterNow)
+void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * _newParent, QListViewItem *_afterNow)
 {
     // The whole moving-items thing is screwed up in KListView
     // Try moving something as the first item of a group -> will be inserted as
@@ -405,14 +411,15 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * /*_afterFirst*
 
     kdDebug() << "KEBTopLevel::slotMoved _item=" << _item << " _afterNow=" << _afterNow << endl;
     KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
+    KEBListViewItem * newParent = static_cast<KEBListViewItem *>(_newParent);
     KEBListViewItem * afterNow = static_cast<KEBListViewItem *>(_afterNow);
-    if (!afterNow) // Not allowed to drop something before the root item !
+    if (!_newParent) // Not allowed to drop something before the root item !
     {
         return;
     }
 
-    KBookmarkGroup newParent = afterNow->bookmark().parentGroup();
     QString newAddress;
+#if 0
     if (newParent.isNull())
     {
         // newParent can be null, if afterNow is the root item. In this case, set as first child
@@ -425,10 +432,14 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * /*_afterFirst*
         newAddress="/0";
     }
     else
-    {
+#endif
+
+    if ( afterNow )
         // We move as the next child of afterNow
         newAddress = KBookmark::nextAddress( afterNow->bookmark().address() );
-    }
+    else
+        // We move as first child of newParent
+        newAddress = newParent->bookmark().address() + "/0";
 
     kdDebug() << "KEBTopLevel::slotMoved moving " << item->bookmark().address() << " to " << newAddress << endl;
     MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),

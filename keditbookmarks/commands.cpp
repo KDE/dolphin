@@ -46,7 +46,7 @@ void MoveCommand::execute()
 
     if ( posInNewParent == 0 ) // First child
     {
-        newParentBk.internalElement().insertBefore( bk.internalElement(), QDomNode() );
+        newParentBk.toGroup().moveItem( bk, QDomElement() );
     }
     else
     {
