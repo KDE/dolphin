@@ -205,32 +205,23 @@ void testDir( const char *_name, bool showMsg = FALSE )
     closedir( dp );
 }
  
-void copyDirectoryFile(const char *filename, const QString& dir)
+void copyDirectoryFile(const char *filename, const QString& dir, bool force)
 {
-  if (!QFile::exists(dir + "/.directory")) {
+  if (force || !QFile::exists(dir + "/.directory")) {
     QString cmd;
-    cmd.sprintf( "cp %s/kfm/%s %s/.directory", kapp->kde_datadir().data(),
+    cmd.sprintf( "cp %s/konqueror/%s %s/.directory", kapp->kde_datadir().data(),
                  filename, dir.data() );
     system( cmd.data() );
   }
 }
 
-/*
- * @return true if we must copy Templates, i.e. if this is the first time 
- * konqy is run for the current release and if the user agrees.
- * or if there are simply no Templates installed at all
+/**
+ * @return true if this is the first time 
+ * konqy is run for the current release
+ * WARNING : call only once !!! (second call will always return false !)
  */
-bool checkTemplates()
+bool isNewRelease()
 {
-    // Test for existing Templates
-    bool bTemplates = true;
- 
-    DIR* dp = opendir( UserPaths::templatesPath() );
-    if ( dp == NULL )
-        bTemplates = false;
-    else
-      closedir( dp );
- 
     bool bNewRelease = false;
  
     KConfig* config = kapp->getConfig();
@@ -253,6 +244,24 @@ bool checkTemplates()
       config->sync();
     }
 
+    return bNewRelease;
+}
+
+/*
+ * @return true if we must copy Templates, i.e. if new release and if the user agrees.
+ * or if there are simply no Templates installed at all
+ */
+bool checkTemplates( bool bNewRelease )
+{
+    // Test for existing Templates
+    bool bTemplates = true;
+ 
+    DIR* dp = opendir( UserPaths::templatesPath() );
+    if ( dp == NULL )
+        bTemplates = false;
+    else
+      closedir( dp );
+ 
     if( bNewRelease && bTemplates )
     {
       int btn = QMessageBox::information( 0,
@@ -281,21 +290,26 @@ void testLocalInstallation()
   UserPaths::testLocalDir( "/share/applnk" );
   UserPaths::testLocalDir( "/share/mimelnk" );
 
-  bool copyTemplates = checkTemplates();
+  bool newRelease = isNewRelease();
+  bool copyTemplates = checkTemplates(newRelease);
 
   testDir( UserPaths::desktopPath(), TRUE );
-  copyDirectoryFile("directory.desktop", UserPaths::desktopPath());
+  copyDirectoryFile("directory.desktop", UserPaths::desktopPath(), false);
   testDir( UserPaths::trashPath() );
-  copyDirectoryFile("directory.trash", UserPaths::trashPath());
+  // TODO : This is tricky. Just before we ship the first version of KDE 2,
+  // the last argument of the call below should become 'newRelease'.
+  // But as long as kapp.h isn't updated, I want the trash icon
+  // information to be copied to the trash .directory file. David.
+  copyDirectoryFile("directory.trash", UserPaths::trashPath(), true);
   testDir( UserPaths::templatesPath() );
-  copyDirectoryFile("directory.templates", UserPaths::templatesPath());
+  copyDirectoryFile("directory.templates", UserPaths::templatesPath(), copyTemplates);
   testDir( UserPaths::autostartPath() );
-  copyDirectoryFile("directory.autostart", UserPaths::autostartPath());
+  copyDirectoryFile("directory.autostart", UserPaths::autostartPath(), false);
 
   if (copyTemplates)
   {
     QString cmd;
-    cmd.sprintf("cp %s/kfm/Desktop/Templates/* %s",
+    cmd.sprintf("cp %s/konqueror/Templates/* %s",
                 kapp->kde_datadir().data(),
                 UserPaths::templatesPath().data() );
     system( cmd.data() );

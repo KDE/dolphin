@@ -5,7 +5,7 @@ LDADD = -lkparts $(LIB_KFILE) $(LIB_KHTML) -lkonq
 SUBDIRS = client pics Templates
 
 data_DATA = directory.trash directory.autostart directory.templates directory.desktop
-datadir = $(kde_datadir)/kfm
+datadir = $(kde_datadir)/konqueror
 
 EXTRA_DIST = $(data_DATA)
 
