@@ -35,7 +35,7 @@ class KonqOperations : public QObject
     Q_OBJECT
 protected:
     KonqOperations( QWidget * parent );
-    virtual ~KonqOperations() {}
+    virtual ~KonqOperations();
 
 public:
     /**
@@ -43,7 +43,7 @@ public:
      */
     static void editMimeType( const QString & mimeType );
 
-    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH };
+    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH, STAT };
     /**
      * @param method should be TRASH, DEL or SHRED
      */
@@ -51,10 +51,13 @@ public:
     /**
      * Drop
      * @param destItem destination KonqFileItem for the drop (background or item)
+     * @param destURL destination URL for the drop.
      * @param ev the drop event
      * @param parent parent widget (for error dialog box if any)
+     *
+     * If destItem is 0L, doDrop will stat the URL to determine it.
      */
-    static void doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent );
+    static void doDrop( const KonqFileItem * destItem, const KURL & destURL, QDropEvent * ev, QWidget * parent );
 
     /**
      * Paste the clipboard contents
@@ -63,22 +66,48 @@ public:
 
     static void emptyTrash();
 
+    /**
+     * Get info about a given URL, and when that's done (it's asynchronous!),
+     * call a given slot with the KFileItem * as argument.
+     * The KFileItem will be deleted by statURL after calling the slot. Make a copy
+     * if you need one !
+     */
+    static void statURL( const KURL & url, const QObject *receiver, const char *member );
+
+signals:
+    void statFinished( const KFileItem * item );
+
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
     bool askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation );
     void _del( int method, const KURL::List & selectedURLs, int confirmation );
+    void _statURL( const KURL & url, const QObject *receiver, const char *member );
 
     // internal, for COPY/MOVE/LINK
     void setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest );
 
+    struct DropInfo
+    {
+        DropInfo( uint k, KURL::List & l, int x, int y ) :
+            keybstate(k), lst(l), mousePos(x,y) {}
+        uint keybstate;
+        KURL::List lst;
+        QPoint mousePos;
+    };
+    // internal, for doDrop
+    void setDropInfo( DropInfo * info ) { m_info = info; }
+
 protected slots:
 
     void slotResult( KIO::Job * job );
+    void asyncDrop( const KFileItem * item );
 
 private:
     int m_method;
     KURL::List m_srcURLs;
     KURL m_destURL;
+    // for doDrop
+    DropInfo * m_info;
 };
 
 #endif

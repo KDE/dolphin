@@ -58,8 +58,13 @@
 #include <X11/Xlib.h>
 
 KonqOperations::KonqOperations( QWidget *parent )
-: QObject( parent, "KonqOperations" )
+    : QObject( parent, "KonqOperations" ), m_info(0L)
 {
+}
+
+KonqOperations::~KonqOperations()
+{
+    delete m_info;
 }
 
 void KonqOperations::editMimeType( const QString & mimeType )
@@ -222,9 +227,8 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 }
 
 //static
-void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent )
+void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
 {
-    KURL dest = destItem->url();
     kdDebug(1203) << "dest : " << dest.url() << endl;
     KURL::List lst;
     if ( KURLDrag::decode( ev, lst ) ) // Are they urls ?
@@ -249,109 +253,24 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
             }
         }
 
-        // Check what the destination is
-        if ( S_ISDIR(destItem->mode()) )
+        // Check the state of the modifiers key at the time of the drop
+        Window root;
+        Window child;
+        int root_x, root_y, win_x, win_y;
+        uint keybstate;
+        XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
+                       &root_x, &root_y, &win_x, &win_y, &keybstate );
+
+        KonqOperations * op = new KonqOperations(parent);
+        op->setDropInfo( new DropInfo( keybstate, lst, win_x, win_y ) );
+
+        // Ok, now we need destItem.
+        if ( destItem )
+            op->asyncDrop( destItem ); // we have it already
+        else
         {
-            // Check the state of the modifiers key at the time of the drop
-            Window root;
-            Window child;
-            int root_x, root_y, win_x, win_y;
-            uint keybstate;
-            XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
-                           &root_x, &root_y, &win_x, &win_y, &keybstate );
-
-            if ( dest.path( 1 ) == KGlobalSettings::trashPath() )
-                ev->setAction( QDropEvent::Move );
-            else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
-            {
-                KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent);
-                bool bSetWallpaper = false;
-                if (iconView && iconView->isDesktop() && 
-                    (lst.count() == 1) &&
-                    (!KImageIO::type(lst.first().path()).isEmpty()))
-                {
-                   bSetWallpaper = true;
-                }
-
-                // Nor control nor shift are pressed => show popup menu
-                QPopupMenu popup;
-                popup.insertItem( i18n( "&Copy Here" ), 1 );
-                popup.insertItem( i18n( "&Move Here" ), 2 );
-                popup.insertItem( i18n( "&Link Here" ), 3 );
-                if (bSetWallpaper)
-                   popup.insertItem( i18n( "Set as &Wallpaper"), 4 );
-
-                int result = popup.exec( QPoint( win_x, win_y ) );
-                switch (result) {
-                    case 1 : ev->setAction( QDropEvent::Copy ); break;
-                    case 2 : ev->setAction( QDropEvent::Move ); break;
-                    case 3 : ev->setAction( QDropEvent::Link ); break;
-                    case 4 : 
-                    {
-                      if (iconView) iconView->setWallpaper(lst.first());
-                      return;
-                    }
-                    default : return;
-                }
-            }
-
-            KonqOperations * op = new KonqOperations( parent );
-            KIO::Job * job = 0;
-            switch ( ev->action() ) {
-                case QDropEvent::Move :
-                  job = KIO::move( lst, dest );
-                  op->setOperation( job, MOVE, lst, dest );
-                  (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
-                  break;
-                case QDropEvent::Copy :
-                  job = KIO::copy( lst, dest );
-                  op->setOperation( job, COPY, lst, dest );
-                  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
-                  break;
-                case QDropEvent::Link :
-                  job = KIO::link( lst, dest );
-                  op->setOperation( 0L, LINK, lst, dest );
-                  (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
-                  break;
-                default : kdError(1203) << "Unknown action " << (int)ev->action() << endl; delete op; return;
-            }
-        } else
-        {
-            // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
-            assert( dest.isLocalFile() );
-            if ( destItem->mimetype() == "application/x-desktop")
-            {
-                // Local .desktop file. What type ?
-                KDesktopFile desktopFile( dest.path() );
-                if ( desktopFile.hasApplicationType() )
-                {
-                    QString error;
-                    QStringList stringList;
-                    KURL::List::Iterator it = lst.begin();
-                    for ( ; it != lst.end() ; it++ )
-                    {
-                        stringList.append((*it).url());
-                    }
-                    if ( KApplication::startServiceByDesktopPath( dest.path(), stringList, &error ) > 0 )
-                        KMessageBox::error( 0L, error );
-                }
-                // else, well: mimetype, link, .directory, device. Can't really drop anything on those.
-            } else
-            {
-                // Should be a local executable
-                // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
-                kdDebug() << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
-                ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
-                // Launch executable for each of the files
-                KURL::List::Iterator it = lst.begin();
-                for ( ; it != lst.end() ; it++ )
-                {
-                    KProcess proc;
-                    proc << dest.path() << (*it).path(); // assume local files
-                    kdDebug(1203) << "starting " << dest.path() << " " << (*it).path() << endl;
-                    proc.start( KProcess::DontCare );
-                }
-            }
+            // we need to stat to get it
+            op->_statURL( dest, op, SLOT( asyncDrop( const KFileItem * ) ) );
         }
 
         ev->acceptAction(TRUE);
@@ -384,6 +303,112 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
     }
 }
 
+void KonqOperations::asyncDrop( const KFileItem * destItem )
+{
+    assert(m_info); // setDropInfo should have been called before asyncDrop
+    KURL dest = destItem->url();
+    KURL::List & lst = m_info->lst;
+    kdDebug() << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
+    // Check what the destination is
+    if ( S_ISDIR(destItem->mode()) )
+    {
+        QDropEvent::Action action = QDropEvent::Copy;
+        if ( dest.path( 1 ) == KGlobalSettings::trashPath() )
+            action = QDropEvent::Move;
+        else if ( ((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0) )
+        {
+            KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
+            bool bSetWallpaper = false;
+            if (iconView && iconView->isDesktop() &&
+                (lst.count() == 1) &&
+                (!KImageIO::type(lst.first().path()).isEmpty()))
+            {
+                bSetWallpaper = true;
+            }
+
+            // Nor control nor shift are pressed => show popup menu
+            QPopupMenu popup;
+            popup.insertItem( i18n( "&Copy Here" ), 1 );
+            popup.insertItem( i18n( "&Move Here" ), 2 );
+            popup.insertItem( i18n( "&Link Here" ), 3 );
+            if (bSetWallpaper)
+                popup.insertItem( i18n( "Set as &Wallpaper"), 4 );
+
+            int result = popup.exec( m_info->mousePos );
+            switch (result) {
+                case 1 : action = QDropEvent::Copy; break;
+                case 2 : action = QDropEvent::Move; break;
+                case 3 : action = QDropEvent::Link; break;
+                case 4 :
+                {
+                    if (iconView) iconView->setWallpaper(lst.first());
+                    delete this;
+                    return;
+                }
+                default : return;
+            }
+        }
+
+        KIO::Job * job = 0;
+        switch ( action ) {
+            case QDropEvent::Move :
+                job = KIO::move( lst, dest );
+                setOperation( job, MOVE, lst, dest );
+                (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
+                return; // we still have stuff to do -> don't delete ourselves
+            case QDropEvent::Copy :
+                job = KIO::copy( lst, dest );
+                setOperation( job, COPY, lst, dest );
+                (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
+                return;
+            case QDropEvent::Link :
+                job = KIO::link( lst, dest );
+                setOperation( 0L, LINK, lst, dest );
+                (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
+                return;
+            default : kdError(1203) << "Unknown action " << (int)action << endl;
+        }
+    } else
+    {
+        // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
+        assert( dest.isLocalFile() );
+        if ( destItem->mimetype() == "application/x-desktop")
+        {
+            // Local .desktop file. What type ?
+            KDesktopFile desktopFile( dest.path() );
+            if ( desktopFile.hasApplicationType() )
+            {
+                QString error;
+                QStringList stringList;
+                KURL::List::Iterator it = lst.begin();
+                for ( ; it != lst.end() ; it++ )
+                {
+                    stringList.append((*it).url());
+                }
+                if ( KApplication::startServiceByDesktopPath( dest.path(), stringList, &error ) > 0 )
+                    KMessageBox::error( 0L, error );
+            }
+            // else, well: mimetype, link, .directory, device. Can't really drop anything on those.
+        } else
+        {
+            // Should be a local executable
+            // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
+            kdDebug() << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
+            ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
+            // Launch executable for each of the files
+            KURL::List::Iterator it = lst.begin();
+            for ( ; it != lst.end() ; it++ )
+            {
+                KProcess proc;
+                proc << dest.path() << (*it).path(); // assume local files
+                kdDebug(1203) << "starting " << dest.path() << " " << (*it).path() << endl;
+                proc.start( KProcess::DontCare );
+            }
+        }
+    }
+    delete this;
+}
+
 void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest )
 {
   m_method = method;
@@ -394,6 +419,21 @@ void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List 
              SLOT( slotResult( KIO::Job * ) ) );
   else // for link
     slotResult( 0L );
+}
+
+void KonqOperations::statURL( const KURL & url, const QObject *receiver, const char *member )
+{
+    KonqOperations * op = new KonqOperations( 0L );
+    op->_statURL( url, receiver, member );
+}
+
+void KonqOperations::_statURL( const KURL & url, const QObject *receiver, const char *member )
+{
+    m_method = STAT;
+    connect( this, SIGNAL( statFinished( const KFileItem * ) ), receiver, member );
+    KIO::StatJob * job = KIO::stat( url /*, false?*/ );
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
 }
 
 void KonqOperations::slotResult( KIO::Job * job )
@@ -419,6 +459,13 @@ void KonqOperations::slotResult( KIO::Job * job )
         lst.append(trash);
         KDirNotify_stub allDirNotify("*", "KDirNotify*");
         allDirNotify.FilesChanged( lst );
+    }
+    if ( m_method == STAT && job && !job->error())
+    {
+        KIO::StatJob * statJob = static_cast<KIO::StatJob*>(job);
+        KFileItem * item = new KFileItem( statJob->statResult(), statJob->url() );
+        emit statFinished( item );
+        delete item;
     }
     delete this;
 }

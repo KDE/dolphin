@@ -111,7 +111,7 @@ void KFileIVI::setKey( const QString &key )
 
 void KFileIVI::dropped( QDropEvent *e, const QValueList<QIconDragItem> & )
 {
-  KonqOperations::doDrop( item(), e, iconView() );
+  KonqOperations::doDrop( item(), item()->url(), e, iconView() );
 }
 
 void KFileIVI::returnPressed()
