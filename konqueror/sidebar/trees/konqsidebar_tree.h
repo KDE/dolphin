@@ -55,7 +55,7 @@ class KonqSidebarTreeSelectionDialog : public KDialogBase
 	Q_OBJECT
 	public:
 	KonqSidebarTreeSelectionDialog(QWidget *parent,const QStringList &list):
-    		KDialogBase( parent, "konqsidebartreeselectiondialog", true,i18n("Select type"), Ok|Cancel, 
+    		KDialogBase( parent, "konqsidebartreeselectiondialog", true,i18n("Select Type"), Ok|Cancel, 
 			Ok, true ),list_(list)
   		{
     			QWidget *page = new QWidget( this );
