@@ -302,8 +302,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
     connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
              this, SLOT( slotRedirection( const KURL & ) ) );
-    connect( m_dirLister, SIGNAL( closeView() ),
-             this, SLOT( slotCloseView() ) );
     connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
              SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
     connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
@@ -760,12 +758,6 @@ void KonqKfmIconView::slotRedirection( const KURL & url )
 {
     emit m_extension->setLocationBarURL( url.prettyURL() );
     m_url = url;
-}
-
-void KonqKfmIconView::slotCloseView()
-{
-    kdDebug() << "KonqKfmIconView::slotCloseView" << endl;
-    //delete this; // we need better support for this first
 }
 
 void KonqKfmIconView::slotSelectionChanged()

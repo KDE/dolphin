@@ -108,7 +108,6 @@ protected slots:
   virtual void slotRefreshItems( const KFileItemList& );
   virtual void slotClear();
   virtual void slotRedirection( const KURL & );
-  void slotCloseView();
 
   /**
    * This is the 'real' finished slot, where we emit the completed() signal
