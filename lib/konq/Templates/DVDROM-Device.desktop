@@ -2,7 +2,7 @@
 Encoding=UTF-8
 MountPoint=
 Dev=
-ReadOnly=0
+ReadOnly=false
 Type=FSDevice
 Icon=dvd_mount
 UnmountIcon=dvd_unmount
@@ -31,6 +31,7 @@ Name[eu]=Kanporatu
 Name[fa]=اخراج
 Name[fi]=Poista
 Name[fr]=Éjecter
+Name[ga]=Díchuir
 Name[gl]=Expulsar
 Name[he]=הוצא
 Name[hi]=बाहर

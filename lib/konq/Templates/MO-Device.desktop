@@ -2,7 +2,7 @@
 Encoding=UTF-8
 MountPoint=
 Dev=
-ReadOnly=0
+ReadOnly=false
 Type=FSDevice
 Icon=mo_mount
 UnmountIcon=mo_unmount
