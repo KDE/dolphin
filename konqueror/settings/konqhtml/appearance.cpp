@@ -315,9 +315,20 @@ void KAppearanceOptions::load()
 
 void KAppearanceOptions::defaults()
 {
-  fSize=1; // medium
+  fSize = 1; // medium
   fMinSize = HTML_DEFAULT_MIN_FONT_SIZE;
   encodingName = "";
+  defaultFonts.clear();
+  defaultFonts.append( KGlobalSettings::generalFont().family() );
+  defaultFonts.append( KGlobalSettings::fixedFont().family() );
+  defaultFonts.append( HTML_DEFAULT_VIEW_SERIF_FONT );
+  defaultFonts.append( HTML_DEFAULT_VIEW_SANSSERIF_FONT );
+  defaultFonts.append( HTML_DEFAULT_VIEW_CURSIVE_FONT );
+  defaultFonts.append( HTML_DEFAULT_VIEW_FANTASY_FONT );
+  defaultFonts.append( QString("0") ); // default font size adjustment
+  for ( QStringList::Iterator it = chSets.begin(); it != chSets.end(); ++it ) {
+      fontsForCharset.insert( *it, defaultFonts );
+  }
 
   updateGUI();
 }
