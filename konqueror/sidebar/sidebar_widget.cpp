@@ -169,6 +169,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	Area->setMinimumWidth(0);
 	mainW->setDockSite(KDockWidget::DockTop);
 	mainW->setEnableDocking(KDockWidget::DockNone);
+//	mainW->hide();
 	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
 	QDockArea *qda=new QDockArea(Vertical,QDockArea::Normal,this,"SidebardockArea");
    	ButtonBar=new Sidebar_ButtonBar(qda);
