@@ -43,6 +43,7 @@
 #include <private/qucomextra_p.h>
 #endif
 
+//#define DEBUG_HISTORY
 
 template class QPtrList<HistoryEntry>;
 
@@ -110,6 +111,9 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   if ( ext )
     args = ext->urlArgs();
 
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "m_bLockedLocation=" << m_bLockedLocation << " args.lockHistory()=" << args.lockHistory() << endl;
+#endif
   if ( args.lockHistory() )
     lockHistory();
 
@@ -141,7 +145,9 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   // add pending history entry
   KonqHistoryManager::kself()->addPending( url, locationBarURL, QString::null);
 
-  //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
+#endif
 }
 
 void KonqView::switchView( KonqViewFactory &viewFactory )
@@ -469,6 +475,9 @@ void KonqView::setIconURL( const KURL & iconURL )
 
 void KonqView::slotOpenURLNotify()
 {
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "KonqView::slotOpenURLNotify" << endl;
+#endif
   updateHistoryEntry(true);
   createHistoryEntry();
   if ( m_pMainWindow->currentView() == this )
@@ -481,7 +490,9 @@ void KonqView::createHistoryEntry()
     HistoryEntry * current = m_lstHistory.current();
     if (current)
     {
-        //kdDebug(1202) << "Truncating history" << endl;
+#ifdef DEBUG_HISTORY
+        kdDebug(1202) << "Truncating history" << endl;
+#endif
         m_lstHistory.at( m_lstHistory.count() - 1 ); // go to last one
         for ( ; m_lstHistory.current() != current ; )
         {
@@ -496,9 +507,13 @@ void KonqView::createHistoryEntry()
         // Now current is the current again.
     }
     // Append a new entry
-    //kdDebug(1202) << "Append a new entry" << endl;
+#ifdef DEBUG_HISTORY
+    kdDebug(1202) << "Append a new entry" << endl;
+#endif
     m_lstHistory.append( new HistoryEntry ); // made current
-    //kdDebug(1202) << "at=" << m_lstHistory.at() << " count=" << m_lstHistory.count() << endl;
+#ifdef DEBUG_HISTORY
+    kdDebug(1202) << "at=" << m_lstHistory.at() << " count=" << m_lstHistory.count() << endl;
+#endif
     assert( m_lstHistory.at() == (int) m_lstHistory.count() - 1 );
 }
 
@@ -517,15 +532,21 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
     browserExtension()->saveState( stream );
   }
 
-  //kdDebug(1202) << "Saving part URL : " << m_pPart->url().url() << " in history position " << m_lstHistory.at() << endl;
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "Saving part URL : " << m_pPart->url().url() << " in history position " << m_lstHistory.at() << endl;
+#endif
   current->url = m_pPart->url();
 
   if (saveLocationBarURL)
   {
-    //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << m_lstHistory.at() << endl;
+#ifdef DEBUG_HISTORY
+    kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << m_lstHistory.at() << endl;
+#endif
     current->locationBarURL = m_sLocationBarURL;
   }
-  //kdDebug(1202) << "Saving title : " << m_caption << " in history position " << m_lstHistory.at() << endl;
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "Saving title : " << m_caption << " in history position " << m_lstHistory.at() << endl;
+#endif
   current->title = m_caption;
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->desktopEntryName();
@@ -553,10 +574,12 @@ void KonqView::go( int steps )
   stop();
 
   int newPos = m_lstHistory.at() + steps;
-  /*kdDebug(1202) << "go : steps=" << steps
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "go : steps=" << steps
                 << " newPos=" << newPos
                 << " m_lstHistory.count()=" << m_lstHistory.count()
-                << endl; */
+                << endl;
+#endif
   if( newPos < 0 || (uint)newPos >= m_lstHistory.count() )
     return;
 
@@ -566,12 +589,16 @@ void KonqView::go( int steps )
   assert( currentHistoryEntry );
   assert( newPos == m_lstHistory.at() ); // check we moved (i.e. if I understood the docu)
   assert( currentHistoryEntry == m_lstHistory.current() );
-  //kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
+#endif
 
   HistoryEntry h( *currentHistoryEntry ); // make a copy of the current history entry, as the data
                                           // the pointer points to will change with the following calls
 
-  //kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
+#endif
   setLocationBarURL( h.locationBarURL );
   m_sTypedURL = QString::null;
   if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
@@ -600,7 +627,9 @@ void KonqView::go( int steps )
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->updateToolBarActions();
 
-  //kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
+#ifdef DEBUG_HISTORY
+  kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
+#endif
 }
 
 void KonqView::copyHistory( KonqView *other )
