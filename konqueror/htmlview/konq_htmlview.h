@@ -63,7 +63,7 @@ public:
 signals:
   // ok, this is a bit dirty. Our widget emits signals with the exact same signature as the
   // BrowserExtension ones, so that they get connected directly.
-   void openURLRequest( const QString &url, bool reload, int xOffset, int yOffset, const QString &serviceType = QString::null );
+   void openURLRequest( const KURL &url, bool reload, int xOffset, int yOffset, const QString &serviceType = QString::null );
    // already in parent void onURL( const QString & url );
    // already in parent void createNewWindow( const QString &url );
    void popupMenu( const QPoint &_global, const KFileItemList &_items );

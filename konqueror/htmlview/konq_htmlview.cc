@@ -96,16 +96,15 @@ void KonqHTMLWidget::openURL( const KURL &url, bool reload, int xOffset, int yOf
 //warning remove this hack after krash (lars)
 //no idea why openURL should emit openURLRequest - this loops ! (David)
 
-/*
     if(post_data)
     {
-*/
       // IMO KHTMLWidget should take a KURL as argument (David)
-	KHTMLWidget::openURL(url.url(), reload, xOffset, yOffset, post_data);
+  	KHTMLWidget::openURL(url.url(), reload, xOffset, yOffset, post_data);
 	return;
- //   }
+    }
 
 /// Loop! (David)  emit openURLRequest( url.url(), reload, xOffset, yOffset );
+  emit openURLRequest( url, reload, xOffset, yOffset );
 }
 
 
@@ -137,8 +136,8 @@ KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
                     //this, SIGNAL( canceled() ) );
 
   // pass signals from the widget directly to the extension
-  connect( m_pWidget, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
-           m_extension, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ) );
+  connect( m_pWidget, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ),
+           m_extension, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ) );
   connect( m_pWidget, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_extension, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ) );
   connect( m_pWidget, SIGNAL( newWindow( const QString & ) ),
@@ -164,7 +163,8 @@ KonqHTMLView::~KonqHTMLView()
 bool KonqHTMLView::openURL( const KURL &url )
 {
   m_url = url;
-  m_pWidget->openURL( url /*,reload, xOffset, yOffset*/ );
+  // don't call our reimplementation as it emits openURLRequest! (Simon)
+  m_pWidget->KHTMLWidget::openURL( url.url() /*,reload, xOffset, yOffset*/ );
 
   if ( m_pWidget->jobId() )
   {
