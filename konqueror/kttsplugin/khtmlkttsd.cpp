@@ -90,13 +90,13 @@ void KHTMLPluginKTTSD::slotReadOut()
         QByteArray  replyData;
         QDataStream arg(data, IO_WriteOnly);
         arg << query << "";
-        if ( !client->call("kttsd", "kspeech", "setText(QString,QString)",
+        if ( !client->call("kttsd", "KSpeech", "setText(QString,QString)",
                            data, replyType, replyData, true) )
            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
                                     i18n( "The DCOP call setText failed." ));
         QDataStream arg2(data2, IO_WriteOnly);
         arg2 << 0;
-        if ( !client->call("kttsd", "kspeech", "startText(uint)",
+        if ( !client->call("kttsd", "KSpeech", "startText(uint)",
                            data2, replyType, replyData, true) )
            QMessageBox::warning( 0, i18n( "DCOP Call Failed" ),
                                     i18n( "The DCOP call startText failed." ));
