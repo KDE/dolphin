@@ -31,9 +31,10 @@
 #include <qdict.h>
 #include <qtimer.h>
 
+#include "kxt.h"
 #include "nsplugin.h"
 #include "nsplugin.moc"
-
+#include "resolve.h"
 
 #include <klibloader.h>
 #include <kdebug.h>
@@ -41,18 +42,8 @@
 #include <kio/netaccess.h>
 #include <ktempfile.h>
 
-
 #include <X11/Intrinsic.h>
-
-
-#include "resolve.h"
-
-
 #include <Xm/DrawingA.h>
-
-
-// the topmost widget
-extern Widget toplevel;
 
 
 NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
@@ -72,7 +63,7 @@ NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs,
   Cardinal nargs=0;
   XtSetArg(args[nargs], XmNwidth, width); nargs++;
   XtSetArg(args[nargs], XmNheight, height); nargs++;
-  _area = XtCreateWidget("area", xmDrawingAreaWidgetClass, toplevel, args, nargs);
+  _area = XtCreateWidget("area", xmDrawingAreaWidgetClass, KXtApplication::toplevel, args, nargs);
 
   XtRealizeWidget(_area);
   XtMapWidget(_area);
@@ -110,6 +101,7 @@ NPError NSPluginInstance::setWindow(bool remove)
   win->y = 0;
   win->height = _height;
   win->width = _width;
+  win->type = NPWindowTypeWindow;
 
   // Well, the docu says sometimes, this is only used on the
   // MAC, but sometimes it says it's always. Who knows...
@@ -139,7 +131,7 @@ NPError NSPluginInstance::setWindow(bool remove)
 
 NPError NSPluginInstance::GetValue(NPPVariable variable, void *value)
 {
-	NPError error = _pluginFuncs.getvalue(_npp, variable, value);
+  NPError error = _pluginFuncs.getvalue(_npp, variable, value);
 
   CHECK(GetValue,error);
 }
@@ -262,7 +254,7 @@ int NSPluginClass::Initialize()
   if (!_constructed)
     return NPERR_GENERIC_ERROR;                             
                                               
-  if (!_initialized)
+  if (_initialized)
     kDebugError("FUNC ALREADY INITIALIZED!");
 
   memset(&_pluginFuncs, 0, sizeof(_pluginFuncs));
@@ -294,6 +286,9 @@ int NSPluginClass::Initialize()
   _nsFuncs.forceredraw = NPN_ForceRedraw;
   
   NPError error = _NP_Initialize(&_nsFuncs, &_pluginFuncs);
+
+  if (error==NPERR_NO_ERROR)
+    _initialized = true;
 
   CHECK(Initialize,error);
 }
@@ -603,15 +598,14 @@ jref NPN_GetJavaPeer(NPP /*instance*/)
 
 NPError NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value*/)
 {
-	kDebugInfo("NPN_SetValue() [unimplemented]");
+  kDebugInfo("NPN_SetValue() [unimplemented]");
 
   return NPERR_GENERIC_ERROR;
-
 }
 
 
 NSPluginStream::NSPluginStream(NSPluginInstance *instance)
-  : QObject(), _instance(instance), _job(0), _stream(0), _pos(0), _queue(0), _queuePos(0)
+  : QObject(), _instance(instance), _job(0), _stream(0), _tempFile(0L), _pos(0), _queue(0), _queuePos(0)
 {
   _resumeTimer = new QTimer( this );
   connect(_resumeTimer, SIGNAL(timeout()), this, SLOT(resume()));
@@ -628,8 +622,9 @@ NSPluginStream::~NSPluginStream()
       delete _stream;
     }
 
-  if (_resumeTimer)
-    delete _resumeTimer;
+  if (_tempFile) delete _tempFile;
+  if (_resumeTimer) delete _resumeTimer;
+  if (_queue) delete _queue;
 }
 
 
@@ -666,6 +661,9 @@ void NSPluginStream::get(QString url, QString mimeType)
   _instance->NewStream((char*)mimeType.ascii(), _stream, false, &_streamType);
   kDebugInfo("NewStream stype=%d", _streamType);
 
+  // prepare data transfer
+  _tempFile = 0L;
+
   if (_streamType == NP_ASFILEONLY)
     {
       // do an synchronous download
@@ -684,31 +682,37 @@ void NSPluginStream::get(QString url, QString mimeType)
 	  KIO::NetAccess::removeTempFile( tmpFile );
 	}    
       return;
-    }
-
-  if (_streamType == NP_ASFILE)
-  {
+    } else if (_streamType == NP_ASFILE)
+    {
        _tempFile = new KTempFile( ); // TODO: keep file extension of original file
        _tempFile->setAutoDelete( TRUE );
-  }
+    } else
+    {
+       kDebugWarning("Unknown stream type %d requested, trying NP_NORMAL", _streamType);
+       _streamType = NP_NORMAL;
+    }
 
   // start the kio job
+  kDebugInfo("-> KIO::get( %s )", url.ascii());
   _job = KIO::get(url);
   connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
 	  this, SLOT(data(KIO::Job *, const QByteArray &)));
   connect(_job, SIGNAL(result(KIO::Job *)),
 	  this, SLOT(result(KIO::Job *)));
+  kDebugInfo("<- KIO::get");
 }
 
 
 
 void NSPluginStream::data(KIO::Job */*job*/, const QByteArray &data)
 {
+  kDebugInfo("NSPluginStream::data");
   unsigned int pos = process( data, 0 );
   if (pos<data.size())
   {
     _job->suspend();
-    _queue = &data;
+
+    _queue = new QByteArray( data );
     _queuePos = pos;
     _resumeTimer->start( 100, TRUE );
   }
@@ -725,6 +729,7 @@ void NSPluginStream::resume()
     _queuePos = pos;
     if (_queuePos>=_queue->size())
     {
+      delete _queue;
       _queue = 0;
       _queuePos = 0;
     }
@@ -759,19 +764,20 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
       if (_tempFile)
       {
       	kDebugInfo("Write to temp file");
-      	fwrite(fstream, d, sent);
-      	//_tempFile->dataStream()->writeBytes( d, sent );
+      	//fwrite(fstream, d, sent);
+      	_tempFile->dataStream()->writeBytes( d, sent );
       }
       
       to_sent -= sent;
       _pos += sent;
       d += sent;
 
-      if (sent==0)
-      {
-      	return data.size()-to_sent;
-      }
+
+      if (sent==0) // interrupt the stream for a few ms
+        break;
     }
+
+  return data.size()-to_sent;
 }
 
 void NSPluginStream::result(KIO::Job */*job*/)

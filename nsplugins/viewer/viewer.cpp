@@ -28,6 +28,7 @@
 #include <dcopclient.h>
 #include <qxt.h>
 
+#include "kxt.h"
 #include "nsplugin.h"
 
 #include <X11/Intrinsic.h>
@@ -55,9 +56,6 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  * As the plugin viewer needs to be a motif application, I give in to 
  * the "old style" and keep lot's of global vars. :-)
  */
-
-XtAppContext appcon;          // The Xt application context
-Widget toplevel;              // The toplevel Xt widget;
 
 QCString dcopId;              // id for dcop
 QCString plugin;              // name of the plugin
@@ -110,17 +108,9 @@ int main(int argc, char** argv)
   // trap X errors
   XSetErrorHandler(x_errhandler);                                           
 
-
-  // Create a toplevel widget
-  XtToolkitInitialize();
-  appcon = XtCreateApplicationContext();
-  //  XtDisplayInitialize(appcon, qt_xdisplay(), "nspluginviewer", 0, 0, 0, &argc, argv);
-  toplevel = XtAppInitialize(&appcon, "nspluginviewer", 0, 0, &argc, argv, 0, 0, 0);
-  XtRealizeWidget(toplevel);
-
+  // Create application
   parseCommandLine(argc, argv);
-
-  QXtApplication app(XtDisplay(toplevel));
+  KXtApplication app(argc, argv, "nspluginviewer");
 
   // register DCOP service
   dcopClient = new DCOPClient;
@@ -130,13 +120,17 @@ int main(int argc, char** argv)
   // create the DCOP object for the plugin class
   NSPluginClass *cls = new NSPluginClass(plugin, plugin);
 
-  /* sschimanski: uncomment this for testing
+  // Testing code
+  QString src = "file:/home/sschimanski/autsch.swf";
+  QString mime = "application/x-shockwave-flash";
+
+  //QString src = "file:/home/sschimanski/hund.avi";
+  //QString mime = "video/avi";
+
   QStringList _argn, _argv;
-  _argn << "WIDTH" << "HEIGHT";
-  _argv << "400" << "250";
-  cls->NewInstance("image/x-xpixmap", 1, _argn, _argv);
-  NSPluginInstance *inst = cls->NewInstance("image/x-xpixmap", 1, _argn, _argv);
-  */
+  _argn << "WIDTH" << "HEIGHT" << "SRC" << "MIME";
+  _argv << "400" << "250" << src << mime;
+  cls->NewInstance(mime, 1, _argn, _argv);
 
   app.exec();
 }
