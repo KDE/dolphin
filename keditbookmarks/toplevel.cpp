@@ -281,19 +281,19 @@ BookmarkInfoWidget::BookmarkInfoWidget(QWidget * parent, const char * name)
 
 class MagicKLineEdit : public KLineEdit {
 public:
-   MagicKLineEdit(QWidget * parent = 0, const char * name = 0);
+   MagicKLineEdit(const QString &text, QWidget *parent, const char *name = 0);
    void focusOutEvent(QFocusEvent *ev);
    void mousePressEvent(QMouseEvent *ev);
    void focusInEvent(QFocusEvent *ev);
-   void setGrayedText(QString grayedText) { m_grayedText = grayedText; }
+   void setGrayedText(const QString& text) { m_grayedText = text; }
    QString grayedText() const { return m_grayedText; }
 private:
    QString m_grayedText;
 };
 
-MagicKLineEdit::MagicKLineEdit(QWidget * parent, const char * name)
-   : KLineEdit (parent, name) {
-   setText(m_grayedText);
+MagicKLineEdit::MagicKLineEdit(
+   const QString &text, QWidget *parent, const char *name
+) : KLineEdit(text, parent, name) {
    setPaletteForegroundColor(gray);
 }
 
@@ -328,10 +328,9 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    int h = 20;
 
    QSplitter *vsplitter = new QSplitter(this);
-   m_iSearchLineEdit = new MagicKLineEdit(vsplitter);
+   m_iSearchLineEdit = new MagicKLineEdit(i18n("Type here to search..."), vsplitter);
    m_iSearchLineEdit->setMinimumHeight(h);
    m_iSearchLineEdit->setMaximumHeight(h);
-   m_iSearchLineEdit->setGrayedText(i18n("Type here to search..."));
 
    readConfig();
 
@@ -358,6 +357,12 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    connect(kapp->clipboard(), SIGNAL( dataChanged() ),      SLOT( slotClipboardDataChanged() ));
 
+   connect(m_iSearchLineEdit, SIGNAL( textChanged(const QString &) ),
+           Searcher::self(),  SLOT( slotSearchTextChanged(const QString &) ));
+
+   connect(m_iSearchLineEdit, SIGNAL( returnPressed() ),
+           Searcher::self(),  SLOT( slotSearchNext() ));
+
    ListView::self()->connectSignals();
 
    KGlobal::locale()->insertCatalogue("libkonq");
@@ -372,12 +377,7 @@ void KEBApp::construct() {
 
    ListView::self()->updateListViewSetup(m_readOnly);
    ListView::self()->updateListView();
-
-   connect(m_iSearchLineEdit, SIGNAL( textChanged(const QString &) ),
-           Searcher::self(),  SLOT( slotSearchTextChanged(const QString &) ));
-
-   connect(m_iSearchLineEdit, SIGNAL( returnPressed() ),
-           Searcher::self(),  SLOT( slotSearchNext() ));
+   ListView::self()->widget()->setFocus();
 
    slotClipboardDataChanged();
 
