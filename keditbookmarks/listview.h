@@ -159,9 +159,6 @@ public:
    void setCurrent(KEBListViewItem *item);
    void renameNextCell(bool dir);
 
-   KEBListViewItem* findOpenParent(KEBListViewItem *item) const;
-   void openParents(KEBListViewItem *item);
-
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
@@ -188,7 +185,6 @@ private:
    ListView();
    enum Which { NoChildren, SomeChildren, AllChildren };
    static Which whichChildrenSelected(KEBListViewItem *item);
-   static void deselectParents(KEBListViewItem *item);
    static void deselectAllButParent(KEBListViewItem *item);
 
    KEBListView *m_listView;

@@ -120,39 +120,6 @@ QPtrList<KEBListViewItem>* ListView::selectedItems() const {
     return s_selected_items_cache;
 }
 
-KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) const {
-    QListViewItem *c = item;
-    while(true) {
-        if (c = c->parent(), !c) {
-            return 0;
-        } else if (c->isOpen()) {
-            return static_cast<KEBListViewItem*>(c);
-        }
-    }
-}
-
-void ListView::openParents(KEBListViewItem *item) {
-    QListViewItem *c = item;
-    while(true) {
-        if (c = c->parent(), c) {
-            c->setOpen(true);
-        } else {
-            break;
-        }
-    }
-}
-
-void ListView::deselectParents(KEBListViewItem *item) {
-    QListViewItem *c = item;
-    while(true) {
-        if (c = c->parent(), c) {
-            c->setSelected(false);
-        } else {
-            break;
-        }
-    }
-}
-
 ListView::Which ListView::whichChildrenSelected(KEBListViewItem *item) {
     bool some = false;
     bool all = true;
@@ -210,10 +177,10 @@ void ListView::updateSelectedItems() {
             it.current()->setSelected(false);
         }
     }
-
-    // deselect empty folders if there is a real selection
     if (!selected)
         return;
+
+    // deselect empty folders if there is a real selection
     for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
             it.current() != 0; ++it) {
         if (it.current()->isEmptyFolderPadder()) {
