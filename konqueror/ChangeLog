@@ -1,5 +1,7 @@
 2000-11-17  David Faure  <faure@kde.org>
 
+	* konq_profiledlg.cc: Made checkbox states persistent (saved to config)
+
 	* konq_run.cc: Check that when we call KRun from KonqRun, it's not going
 	to launch another konqueror.
 	* konq_guiclients.cc: Build toggle-view actions in the actioncollection 

@@ -93,13 +93,13 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   m_pListBox->setMinimumSize( m_pListBox->sizeHint() );
 
+  KGlobal::config()->setGroup("Settings");
   m_cbSaveURLs = new QCheckBox( i18n("Save URLs in profile"), this );
-  m_cbSaveURLs->setChecked( true ); // not saving URLs is tricky, because it means
-  // that one shouldn't apply the profile if the current URL can't be opened into it...
+  m_cbSaveURLs->setChecked( KGlobal::config()->readBoolEntry("SaveURLInProfile",true) );
   m_pGrid->addMultiCellWidget( m_cbSaveURLs, 7, 7, 0, N_BUTTONS-1 );
 
   m_cbSaveSize = new QCheckBox( i18n("Save window size in profile"), this );
-  m_cbSaveSize->setChecked( false );
+  m_cbSaveSize->setChecked( KGlobal::config()->readBoolEntry("SaveWindowSizeInProfile",false) );
   m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, N_BUTTONS-1 );
 
   m_pSaveButton = new QPushButton( i18n( "Save" ), this );
@@ -143,6 +143,10 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
 KonqProfileDlg::~KonqProfileDlg()
 {
+  KConfig * config = KGlobal::config();
+  config->setGroup("Settings");
+  config->writeEntry("SaveURLInProfile", m_cbSaveURLs->isChecked());
+  config->writeEntry("SaveWindowSizeInProfile", m_cbSaveSize->isChecked());
 }
 
 void KonqProfileDlg::slotSave()
