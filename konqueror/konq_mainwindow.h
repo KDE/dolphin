@@ -313,6 +313,7 @@ protected slots:
   void slotURLEntered( const QString &text );
 
   void slotFileNewAboutToShow();
+  void slotLocationLabelActivated();
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
@@ -406,7 +407,7 @@ private slots:
    * emulating a enter key press event.
    */
   void goURL();
-  
+
   void bookmarksIntoCompletion();
 
 private:

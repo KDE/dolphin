@@ -123,7 +123,8 @@ class KonqLabelAction : public KAction
 {
   Q_OBJECT
 public:
-  KonqLabelAction( const QString &text, QObject *parent = 0, const char *name = 0 );
+  KonqLabelAction( const QString &text, int accel,
+	            QObject* receiver, const char* slot, QObject *parent = 0, const char *name = 0 );
 
   virtual int plug( QWidget *widget, int index = -1 );
   virtual void unplug( QWidget *widget );

@@ -388,8 +388,9 @@ private:
     KonqMainWindow * m_mw;
 };
 
-KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
-    : KAction( text, 0, parent, name ), m_label( 0L )
+KonqLabelAction::KonqLabelAction( const QString &text, int accel,
+	            QObject* receiver, const char* slot, QObject *parent, const char *name )
+    : KAction( text, accel, receiver, slot, parent, name ), m_label( 0L )
 {
 }
 
