@@ -321,6 +321,9 @@ void KBookmarkMenu::openNSBookmarks()
   QFile f(QDir::homeDirPath() + "/.netscape/bookmarks.html");
   QStack<KBookmarkMenu> mstack;
   mstack.push(this);
+  QRegExp amp("&amp;");
+  QRegExp lt("&lt;");
+  QRegExp gt("&gt;");
 
   if(f.open(IO_ReadOnly)) {
 
@@ -340,6 +343,7 @@ void KBookmarkMenu::openNSBookmarks()
         name = name.left(name.findRev('<'));
         if ( name.right(4) == "</A>" )
            name = name.left( name.length() - 4 );
+        name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
 
         KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
@@ -351,6 +355,7 @@ void KBookmarkMenu::openNSBookmarks()
       else if(t.left(7) == "<DT><H3") {
         QCString name = t.mid(t.find('>', 7)+1);
         name = name.left(name.findRev('<'));
+        name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
 
         KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString(name)), "folder",
                                                     m_actionCollection, 0L );
