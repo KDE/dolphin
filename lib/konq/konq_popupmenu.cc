@@ -214,7 +214,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   addMerge( "konqueror" );
 
   bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
-  QString openStr = isKDesktop ? i18n( "Open" ) : i18n( "Open in New Window" );
+  QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
   KAction *actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
   if ( !isKDesktop )
     actNewView->setStatusText( i18n( "Open the document in a new window" ) );
@@ -226,7 +226,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     addGroup( "tabhandling" );
     addSeparator();
 
-    act = new KAction( i18n( "Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
+    act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
     addAction( act );
   }
   else
@@ -308,7 +308,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     }
   }
 
-  act = new KAction( i18n( "Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
+  act = new KAction( i18n( "A&dd to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
   addAction( act );
 
   //////////////////////////////////////////////////////
@@ -381,12 +381,12 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
         m_menuElement.appendChild( menu );
         QDomElement text = m_doc.createElement( "text" );
         menu.appendChild( text );
-        text.appendChild( m_doc.createTextNode( i18n("Open With") ) );
+        text.appendChild( m_doc.createTextNode( i18n("O&pen With") ) );
       }
 
       if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
       {
-        KAction *openWithAct = new KAction( i18n( "Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+        KAction *openWithAct = new KAction( i18n( "O&pen With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu );
       }
 
@@ -407,14 +407,14 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       if ( menu != m_menuElement ) // submenu
       {
         addSeparator( menu );
-        KAction *openWithAct = new KAction( i18n( "Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+        KAction *openWithAct = new KAction( i18n( "&Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu ); // Other...
       }
   }
   else // no app offers -> Open With...
   {
       addSeparator();
-      act = new KAction( i18n( "Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+      act = new KAction( i18n( "O&pen With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
       addAction( act );
   }
 
@@ -476,14 +476,14 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
   if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType )
   {
-      act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
+      act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
                        &m_ownActions, "editfiletype" );
       addAction( act );
   }
 
   if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
   {
-      act = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotPopupProperties() ),
+      act = new KAction( i18n( "&Properties..." ), 0, this, SLOT( slotPopupProperties() ),
                          &m_ownActions, "properties" );
       addAction( act );
   }
