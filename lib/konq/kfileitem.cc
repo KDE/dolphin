@@ -288,11 +288,11 @@ QString KFileItem::getStatusBarInfo()
   else if ( S_ISREG( m_fileMode ) )
   {
       if (mySize < 1024)
-        text = QString("%1 (%2 %3)").arg(text2).arg((long) mySize).arg(i18n("bytes"));
+        text = i18n("%1 (%2 bytes)").arg(text2).arg((long) mySize));
       else
       {
 	float d = (float) mySize/1024.0;
-        text = QString("%1 (%2 K)").arg(text2).arg(d, 0, 'f', 2); // was %.2f
+        text = i18n("%1 (%2 KB)").arg(text2).arg(KGlobal::locale()->formatNumber(d, 2));
       }
       text += "  ";
       text += comment;
