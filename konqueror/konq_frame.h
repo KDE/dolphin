@@ -130,7 +130,7 @@ typedef QList<KonqView> ChildViewList;
 class KonqFrameBase
 {
  public:
-  virtual void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 ) = 0;
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 ) = 0;
 
   virtual void reparentFrame( QWidget* parent,
                               const QPoint & p, bool showIt=FALSE ) = 0;
@@ -187,15 +187,15 @@ public:
   bool isActivePart();
 
   void setView( KonqView* child );
-  void listViews( ChildViewList *viewList );
+  virtual void listViews( ChildViewList *viewList );
 
-  void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 );
 
-  void reparentFrame(QWidget * parent,
+  virtual void reparentFrame(QWidget * parent,
                      const QPoint & p, bool showIt=FALSE );
 
-  KonqFrameContainer* parentContainer();
-  QWidget* widget() { return this; }
+  virtual KonqFrameContainer* parentContainer();
+  virtual QWidget* widget() { return this; }
   virtual QString frameType() { return QString("View"); }
 
   QVBoxLayout *layout() { return m_pLayout; }
@@ -250,9 +250,9 @@ public:
 		      const char * name = 0);
   virtual ~KonqFrameContainer();
 
-  void listViews( ChildViewList *viewList );
+  virtual void listViews( ChildViewList *viewList );
 
-  void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 );
 
   KonqFrameBase* firstChild() { return m_pFirstChild; }
   KonqFrameBase* secondChild() { return m_pSecondChild; }
@@ -260,7 +260,7 @@ public:
 
   void swapChildren();
 
-  KonqFrameContainer* parentContainer();
+  virtual KonqFrameContainer* parentContainer();
   virtual QWidget* widget() { return this; }
   virtual QString frameType() { return QString("Container"); }
 
@@ -271,8 +271,8 @@ public:
   void removeChildFrame( KonqFrameBase * frame );
 
   //inherited
-  void reparentFrame(QWidget * parent,
-                     const QPoint & p, bool showIt=FALSE );
+  virtual void reparentFrame(QWidget * parent,
+                             const QPoint & p, bool showIt=FALSE );
 
   //make this one public
   int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }

@@ -26,6 +26,7 @@
 class KonqViewManager;
 class QListBox;
 class QGridLayout;
+class QCheckBox;
 class QLineEdit;
 class QPushButton;
 
@@ -53,6 +54,7 @@ private:
   QPushButton *m_pDeleteProfileButton;
   QPushButton *m_pSaveButton;
   QPushButton *m_pCloseButton;
+  QCheckBox *m_cbSaveURLs;
 
   QListBox *m_pListBox;
 };

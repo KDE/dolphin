@@ -21,6 +21,7 @@
 #include "konq_viewmgr.h"
 #include "konq_factory.h"
 
+#include <qcheckbox.h>
 #include <qdir.h>
 #include <qlayout.h>
 #include <qlistbox.h>
@@ -55,7 +56,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
         m_mapEntries.insert( KIO::decodeFileName( eIt.current()->baseName() ), eIt.current()->absFilePath() );
   }
 
-  m_pGrid = new QGridLayout( this, 8, 3, KDialog::marginHint(), KDialog::spacingHint() );
+  m_pGrid = new QGridLayout( this, 9, 3, KDialog::marginHint(), KDialog::spacingHint() );
 
   m_pGrid->addMultiCellWidget( new QLabel( i18n( "Enter Profile Name :" ), this ), 0, 0, 0, 2 );
 
@@ -75,19 +76,24 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   m_pListBox->setMinimumSize( m_pListBox->sizeHint() );
 
+  m_cbSaveURLs = new QCheckBox( i18n("Save URLs in profile"), this );
+  m_cbSaveURLs->setChecked( true ); // not saving URLs is tricky, because it means
+  // that one shouldn't apply the profile if the current URL can't be opened into it...
+  m_pGrid->addMultiCellWidget( m_cbSaveURLs, 7, 7, 0, 2 );
+
   m_pSaveButton = new QPushButton( i18n( "Save" ), this );
   m_pSaveButton->setEnabled( false );
   m_pSaveButton->setDefault( true );
 
-  m_pGrid->addWidget( m_pSaveButton, 7, 0 );
+  m_pGrid->addWidget( m_pSaveButton, 8, 0 );
 
   m_pDeleteProfileButton = new QPushButton( i18n( "Delete Selected Profile" ), this );
 
-  m_pGrid->addWidget( m_pDeleteProfileButton, 7, 1 );
+  m_pGrid->addWidget( m_pDeleteProfileButton, 8, 1 );
 
   m_pCloseButton = new QPushButton( i18n( "Close" ), this );
 
-  m_pGrid->addWidget( m_pCloseButton, 7, 2 );
+  m_pGrid->addWidget( m_pCloseButton, 8, 2 );
 
   connect( m_pListBox, SIGNAL( selected( const QString & ) ),
            m_pProfileNameLineEdit, SLOT( setText( const QString & ) ) );
@@ -127,7 +133,7 @@ void KonqProfileDlg::slotSave()
 
   KSimpleConfig cfg( fileName );
   cfg.setGroup( "Profile" );
-  m_pViewManager->saveViewProfile( cfg );
+  m_pViewManager->saveViewProfile( cfg, m_cbSaveURLs->isChecked() );
 
   accept();
 }

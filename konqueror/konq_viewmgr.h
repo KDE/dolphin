@@ -90,12 +90,14 @@ public:
   void removeView( KonqView *view );
 
   /**
-   * Loads a view layout from a config file. Removes all views before loading.
+   * Saves the current view layout to a config file.
+   * @param cfg the config file
+   * @param saveURLs whether to save the URLs in the profile or not
    */
-  void saveViewProfile( KConfig &cfg );
+  void saveViewProfile( KConfig &cfg, bool saveURLs );
 
   /**
-   * Saves the current view layout to a config file.
+   * Loads a view layout from a config file. Removes all views before loading.
    * @param cfg the config file
    */
   void loadViewProfile( KConfig &cfg );

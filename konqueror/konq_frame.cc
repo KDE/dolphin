@@ -295,9 +295,10 @@ void KonqFrame::listViews( ChildViewList *viewList )
   viewList->append( childView() );
 }
 
-void KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
+void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int /*id*/, int /*depth*/ )
 {
-  config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url().url() );
+  config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ),
+                      saveURLs ? childView()->url().url() : QString::null );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
   config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
@@ -466,7 +467,7 @@ void KonqFrameContainer::listViews( ChildViewList *viewList )
       m_pSecondChild->listViews( viewList );
 }
 
-void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, int depth )
+void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id, int depth )
 {
   int idSecond = id + (int)pow( 2, depth );
 
@@ -495,13 +496,13 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int
   if( firstChild() ) {
     QString newPrefix = firstChild()->frameType() + QString("%1").arg(idSecond - 1);
     newPrefix.append( '_' );
-    firstChild()->saveConfig( config, newPrefix, id, depth + 1 );
+    firstChild()->saveConfig( config, newPrefix, saveURLs, id, depth + 1 );
   }
 
   if( secondChild() ) {
     QString newPrefix = secondChild()->frameType() + QString("%1").arg( idSecond );
     newPrefix.append( '_' );
-    secondChild()->saveConfig( config, newPrefix, idSecond, depth + 1 );
+    secondChild()->saveConfig( config, newPrefix, saveURLs, idSecond, depth + 1 );
   }
 }
 

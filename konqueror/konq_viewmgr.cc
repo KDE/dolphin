@@ -330,7 +330,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
   // the view should always be in the list, shouldn't it?
   // maybe use assert( it != end )?
    if ( it == end ) {
-       kdWarning() << "View " << view << " is not in list !" << endl;
+     kdWarning() << "View " << view << " is not in list !" << endl;
      it = mapViews.begin();
      if ( it == end )
        return 0L; // wow, that certainly caught all possibilities!
@@ -342,7 +342,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
     if ( ++it == end ) // move to next
       it = mapViews.begin(); // rewind on end
  	
-    if ( it == startIt )
+    if ( it == startIt && view )
       break; // no next view found
 
     KonqView *nextView = it.data();
@@ -414,14 +414,14 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
 ///////////////// Profile stuff ////////////////
 
-void KonqViewManager::saveViewProfile( KConfig &cfg /* , bool saveURLs */ )
+void KonqViewManager::saveViewProfile( KConfig &cfg, bool saveURLs )
 {
   kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
   if( m_pMainContainer && m_pMainContainer->firstChild() ) {
     cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
     QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
     prefix.append( '_' );
-    m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, 0, 1 );
+    m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, saveURLs, 0, 1 );
   }
 
   cfg.sync();
@@ -432,8 +432,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )
     defaultURL = m_pMainWindow->currentView()->url();
-  else
-    defaultURL.setPath( QDir::homeDirPath() );
 
   clear();
 
@@ -455,6 +453,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   KonqView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L );
+  //if ( nextChildView )
+  //  nextChildView->part()->widget()->setFocus();
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
   printFullHierarchy( m_pMainContainer );
@@ -502,9 +502,16 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     KURL url = KURL( cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ) ) );
     if ( url.isEmpty() )
       url = defaultURL;
+    if ( url.url() == "empty:/" ) // hacky, but we don't want to open $HOME in khtml...
+      url = KURL();
+
     //if ( url == "file:$HOME" ) // HACK
     //  url = QDir::homeDirPath().prepend( "file:" );
-    childView->openURL( url );
+    if ( !url.isEmpty() )
+    {
+      kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
+      childView->openURL( url );
+    }
     childView->setLocationBarURL( url.prettyURL() );
   }
   else if( name.find("Container") != -1 ) {

@@ -2146,7 +2146,7 @@ void KonqMainWindow::reparseConfiguration()
 
 void KonqMainWindow::saveProperties( KConfig *config )
 {
-  m_pViewManager->saveViewProfile( *config );
+  m_pViewManager->saveViewProfile( *config, true /* save URLs */ );
 }
 
 void KonqMainWindow::readProperties( KConfig *config )
