@@ -477,6 +477,8 @@ void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
     connect( m_findPart, SIGNAL( findClosed() ),
              this, SLOT( slotFindClosed() ) );
 
+    emit findOpened( this );
+
     // set the initial URL in the find part
     m_findPart->openURL( url() );
 }

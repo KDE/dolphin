@@ -145,7 +145,7 @@ public:
 
     virtual const KFileItem * currentItem() = 0; // { return 0L; }
 
-    virtual KFileItemList selectedFileItems() {KFileItemList lst; return lst;};
+    virtual KFileItemList selectedFileItems() { return KFileItemList(); }
 
 signals:
     /**
@@ -153,6 +153,11 @@ signals:
      * This happens when restoring from history
      */
     void findOpen( KonqDirPart * );
+    /**
+     * We emit this _after_ a find part has been created for us.
+     * This also happens initially.
+     */
+    void findOpened( KonqDirPart * );
 
     /**
      * We emit this to ask konq to close the find part
