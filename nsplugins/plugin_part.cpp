@@ -209,7 +209,7 @@ bool PluginPart::openURL(const KURL &url)
     } else {
         QLabel *label = new QLabel( i18n("Unable to load Netscape plugin for ") +
                                     url.url(), _canvas );
-        label->setAlignment( AlignCenter );
+        label->setAlignment( AlignCenter | WordBreak );
         label->resize( _canvas->width(), _canvas->height() );
         label->show();
         _widget = label;
