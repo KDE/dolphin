@@ -127,11 +127,12 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   //             & in destructor & in the importer
   if (KonqMainWindow::s_crashlog_file) {
      QString part_url = m_pPart ? ( m_pPart->url().url() ) : QString::null;
-     if (part_url == QString::null)
-        part_url = QString("");
+     QString url_url = url.url();
+     if (part_url == QString::null) part_url = QString("");
+     if (url_url == QString::null) url_url = QString("");
      QCString lines = ( QString("closed(%1):%2\nopened(%3):%4\n")
                            .arg(m_randID,0,16).arg(part_url)
-                           .arg(m_randID,0,16).arg(url.url()) ).utf8();
+                           .arg(m_randID,0,16).arg(url_url) ).utf8();
      KonqMainWindow::s_crashlog_file->writeBlock(lines,lines.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
