@@ -30,6 +30,8 @@
 #define DEFAULT_MAX_PORT_VALUE      65536
 #define DEFAULT_PROXY_PORT          8080
 
+// MAX_CACHE_AGE needs a proper "age" input widget.
+#undef MAX_CACHE_AGE
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
@@ -167,17 +169,19 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   QWhatsThis::add( le_max_cache_size, wtstr );
   QWhatsThis::add( lb_max_cache_size, wtstr );
 
+#ifdef MAX_CACHE_AGE
   le_max_cache_age = new QLineEdit(this);
   lay->addWidget(le_max_cache_age,ROW_MAXCACHEAGE,2);
   le_max_cache_age->setValidator( new KIntValidator( le_max_cache_age ) );
   connect(le_max_cache_age, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_max_cache_age = new QLabel( le_max_cache_age, i18n("Maximum Cache &Age:"), this);
+  lb_max_cache_age = new QLabel( le_max_cache_age, XXXi18n("Maximum Cache &Age:"), this);
   lb_max_cache_age->setAlignment(AlignVCenter);
   lay->addWidget(lb_max_cache_age,ROW_MAXCACHEAGE,1);
-  wtstr = i18n( "Pages that are older than the time entered here will be deleted from the cache automatically. This feature is not yet implemented." );
+  wtstr = XXXi18n( "Pages that are older than the time entered here will be deleted from the cache automatically. This feature is not yet implemented." );
   QWhatsThis::add( lb_max_cache_age, wtstr );
   QWhatsThis::add( le_max_cache_age, wtstr );
+#endif
 
   QString path;
   cp_down = new QPushButton( this );
@@ -235,7 +239,9 @@ void KProxyOptions::load()
 
   cb_useCache->setChecked(KProtocolManager::useCache());
   le_max_cache_size->setText( QString::number( KProtocolManager::maxCacheSize() ) );
+#ifdef MAX_CACHE_AGE
   le_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
+#endif
 
   setProxy();
   setCache();
@@ -353,7 +359,9 @@ void KProxyOptions::setCache()
 
   // now set all input fields
   le_max_cache_size->setEnabled( useCache );
+#ifdef MAX_CACHE_AGE
   le_max_cache_age->setEnabled( useCache );
+#endif
   cb_useCache->setChecked( useCache );
 }
 
