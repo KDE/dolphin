@@ -30,8 +30,8 @@
 #include "kfwin.h"
 #include "kfind.h"
 
-// this should be enough to hold at least two fully
-// qualified pathnames.
+// this should be enough to hold at least two fully 
+// qualified pathnames. 
 #define IBUFSIZE 16384
 
 Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
@@ -40,13 +40,13 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
   // init IO buffer
   iBuffer = new char[IBUFSIZE];
   isResultReported = false;
-
+  
   // create tabwidget
   tabWidget = new KfindTabWidget(this,"dialog",searchPath);
 
   // prepare window for find results
   win = new KfindWindow(this,"window");
-
+  
   QVBoxLayout *vBox = new QVBoxLayout(this);
   vBox->addWidget(tabWidget);
   vBox->addWidget(win);
@@ -72,10 +72,10 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	  win,SLOT(selectAll()));
   connect(parentWidget(),SIGNAL(unselectAll()),
 	  win,SLOT(unselectAll()));
-
+  
   connect(&findProcess, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(stopSearch()));
-  connect(&findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)),
+  connect(&findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)), 
 	  this, SLOT(handleStdout(KProcess *, char *, int))) ;
 }
 
@@ -85,15 +85,15 @@ Kfind::~Kfind() {
 
 void Kfind::startSearch() {
 
-  // If this method returns NULL a error occured and
+  // If this method returns NULL a error occured and 
   // the error message was presented to the user. We just exit.
   QString cmdline = tabWidget->createQuery();
   if(cmdline == NULL)
     return;
-
+  
   iBuffer[0] = 0;
   isResultReported = false;
-
+  
   // Reset count
   QString str = i18n("%1 file(s) found").arg(0);
   emit statusChanged(str.ascii());
@@ -101,12 +101,12 @@ void Kfind::startSearch() {
   emit resultSelected(false);
   emit haveResults(false);
   emit enableSearchButton(false);
-
+  
   win->beginSearch();
   tabWidget->beginSearch();
 
   setExpanded(true);
-
+  
   findProcess.clearArguments ();
   findProcess.setExecutable(cmdline);
   findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
@@ -139,7 +139,7 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
   int len = strlen(iBuffer);
   memcpy(iBuffer + len, buffer, buflen);
   iBuffer[len + buflen] = 0;
-
+  
   // split buffer: too expensive, improve
   char *p;
   while(( p = strchr(iBuffer, '\n')) != 0) {
@@ -153,7 +153,7 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
     }
     memmove(iBuffer, p+1, strlen(p + 1)+1);
   }
-
+  
   // Update count
   QString str = i18n("%1 file(s) found").arg(win->childCount());
   emit statusChanged(str.ascii());
@@ -162,16 +162,15 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
 void Kfind::setExpanded(bool expand) {
 
   if(expand) {
-//     setMinimumSize(tabWidget->sizeHint().width(),
-// 		   2*tabWidget->sizeHint().height());
-//     setMaximumHeight(5000);
+    setMinimumSize(tabWidget->sizeHint().width(), 
+		   2*tabWidget->sizeHint().height());
+    setMaximumHeight(5000);
     win->show();
   }
   else {
     win->hide();
-//     setMinimumSize(tabWidget->sizeHint());
-    resize ( width(), sizeHint().height() );
-//     setMaximumHeight(tabWidget->sizeHint().height());
+    setMinimumSize(tabWidget->sizeHint());
+    setMaximumHeight(tabWidget->sizeHint().height());
   }
 
   emit enableStatusBar(expand);
