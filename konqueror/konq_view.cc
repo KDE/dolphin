@@ -100,7 +100,7 @@ KonqView::~KonqView()
     delete m_pPart;
   }
 
-  delete (KonqRun *)m_pRun;
+  setRun( 0L );
   kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
 }
 
@@ -682,7 +682,11 @@ KURL KonqView::upURL() const
 void KonqView::setRun( KonqRun * run )
 {
   if ( m_pRun )
-    delete m_pRun;
+  {
+    // Tell the KonqRun to abort, but don't delete it ourselves.
+    // It could be showing a message box right now. It will delete itself anyway.
+    m_pRun->abort();
+  }
   m_pRun = run;
 }
 
@@ -710,7 +714,7 @@ void KonqView::stop()
     if ( history().current() && m_pRun->typedURL().isEmpty() ) // not typed
       setLocationBarURL( history().current()->locationBarURL );
 
-    delete static_cast<KonqRun *>(m_pRun); // should set m_pRun to 0L
+    setRun( 0L );
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
   }
   if ( !m_bLockHistory && m_lstHistory.count() > 0 )
