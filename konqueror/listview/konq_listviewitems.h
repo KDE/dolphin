@@ -73,11 +73,11 @@ class KonqListViewItem : public KonqBaseListViewItem
       KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem );
       /**
        * Create an item representing a file, inside a directory
-       * @param _treeview the parent tree view
+       * @param _treeview the parent tree view  - now unused
        * @param _parent the parent widget, a directory item in the tree view
        * @param _fileitem the file item created by KonqDirLister
        */
-      KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem *_parent, KonqFileItem* _fileitem );
+      KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem *_parent, KonqFileItem* _fileitem );
 
       virtual ~KonqListViewItem() { }
 

@@ -43,7 +43,6 @@ template class QDict<KonqListViewDir>;
 KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget)
 : KonqBaseListViewWidget(parent,parentWidget)
 ,m_pWorkingDir(0L)
-,m_lasttvd(0L)
 ,m_bSubFolderComplete(TRUE)
 {
    kdDebug(1202) << "+KonqTreeViewWidget" << endl;
@@ -54,8 +53,10 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
 {
-   // Remove all items - for dirs, this calls removeSubDir
+   // Remove all items
    clear();
+   // Clear dict
+   m_dictSubDirs.clear();
    kdDebug(1202) << "-KonqTreeViewWidget" << endl;
 }
 
@@ -63,10 +64,10 @@ void KonqTreeViewWidget::saveState( QDataStream &stream )
 {
     QStringList openDirList;
 
-    QDictIterator<KonqListViewDir> it( m_mapSubDirs );
+    QDictIterator<KonqListViewDir> it( m_dictSubDirs );
     for (; it.current(); ++it )
         if ( it.current()->isOpen() )
-            openDirList.append( it.current()->url( 0 ) );
+            openDirList.append( it.current()->url( -1 ) );
 
     stream << openDirList;
 }
@@ -78,13 +79,12 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
 
 void KonqTreeViewWidget::addSubDir(const KURL & _url, KonqListViewDir* _dir)
 {
-   m_mapSubDirs.insert( _url.url(), _dir );
+   m_dictSubDirs.insert( _url.url(-1), _dir );
 }
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
-   m_lasttvd = 0L; // drop cache, to avoid segfaults
-   m_mapSubDirs.remove( _url.url() );
+   m_dictSubDirs.remove( _url.url(-1) );
 }
 
 void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
@@ -129,77 +129,76 @@ void KonqTreeViewWidget::slotClear()
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   QListIterator<KFileItem> kit ( entries );
-   for( ; kit.current(); ++kit )
-   {
-      bool isdir = S_ISDIR( (*kit)->mode() );
+    // Find parent item - it's the same for all the items
+    QListIterator<KFileItem> kit ( entries );
+    KURL dir ( (*kit)->url() );
+    dir.setFileName( "" );
+    //kdDebug(1202) << "dir = " << dir.url() << endl;
+    KonqListViewDir * parentDir = 0L;
+    if( !m_url.cmp( dir, true ) ) // ignore trailing slash
+    {
+        parentDir = m_dictSubDirs[ dir.url(-1) ];
+        kdDebug(1202) << "found in the dict: " << parentDir << endl;
+    }
 
-      KURL dir ( (*kit)->url() );
-      dir.setFileName( "" );
-      //kdDebug(1202) << "dir = " << dir.url() << endl;
-      KonqListViewDir * parentDir = 0L;
-      if( !m_url.cmp( dir, true ) ) // ignore trailing slash
-      {
-         parentDir = findDir ( dir.url( 0 ) );
-         kdDebug(1202) << "findDir returned " << parentDir << endl;
-      }
+    for( ; kit.current(); ++kit )
+    {
+        KonqListViewDir *dirItem = 0;
+        KonqListViewItem *fileItem = 0;
 
-      KonqListViewDir *dirItem = 0;
-      KonqListViewItem *fileItem = 0;
+        if ( parentDir )
+        { // adding under a directory item
+            if ( (*kit)->isDir() )
+                dirItem = new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
+            else
+                fileItem = new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
+        }
+        else
+        { // adding on the toplevel
+            if ( (*kit)->isDir() )
+                dirItem = new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
+            else
+                fileItem = new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
+        }
 
-      if ( parentDir )
-      { // adding under a directory item
-         if ( isdir )
-            dirItem = new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
-         else
-            fileItem = new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
-      }
-      else
-      { // adding on the toplevel
-         if ( isdir )
-            dirItem = new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
-         else
-            fileItem = new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
-      }
-
-      if (m_goToFirstItem==false)
-         if (m_itemFound==false)
-         {
-            if (fileItem)
+        if (m_goToFirstItem==false)
+            if (m_itemFound==false)
             {
-               if (fileItem->text(0)==m_itemToGoTo)
-               {
-                  setCurrentItem(fileItem);
-                  m_itemFound=true;
-               };
-            }
-            else if (dirItem)
-            {
-               if (dirItem->text(0)==m_itemToGoTo)
-               {
-                  setCurrentItem(dirItem);
-                  m_itemFound=true;
-               };
+                if (fileItem)
+                {
+                    if (fileItem->text(0)==m_itemToGoTo)
+                    {
+                        setCurrentItem(fileItem);
+                        m_itemFound=true;
+                    };
+                }
+                else if (dirItem)
+                {
+                    if (dirItem->text(0)==m_itemToGoTo)
+                    {
+                        setCurrentItem(dirItem);
+                        m_itemFound=true;
+                    };
+                };
+                if (m_itemFound)
+                {
+                    ensureItemVisible(currentItem());
+                    emit selectionChanged();
+                    selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+                };
             };
-            if (m_itemFound)
-            {
-               ensureItemVisible(currentItem());
-               emit selectionChanged();
-               selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-            };
-         };
 
-      if (fileItem)
-          m_pBrowserView->lstPendingMimeIconItems().append( fileItem );
+        if ( fileItem && !(*kit)->isMimeTypeKnown() )
+            m_pBrowserView->lstPendingMimeIconItems().append( fileItem );
 
-      QString u = (*kit)->url().url( 0 );
+        QString u = (*kit)->url().url( 0 );
 
-      if ( dirItem && m_urlsToOpen.contains( u ) )
-      {
-          m_itemsToOpen.append( dirItem );
-          m_urlsToOpen.remove( u );
-      }
-   }
+        if ( dirItem && m_urlsToOpen.contains( u ) )
+        {
+            m_itemsToOpen.append( dirItem );
+            m_urlsToOpen.remove( u );
+        }
+    }
 }
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
@@ -214,6 +213,9 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
             m_itemsToOpen.removeRef( it.current() );
             break;
         }
+
+    // Check if this item is in m_dictSubDirs, and if yes, then remove it
+    removeSubDir( _fileItem->url().url(-1) );
 
     KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }
@@ -242,24 +244,6 @@ void KonqTreeViewWidget::openSubFolder(const KURL &_url, KonqListViewDir* _dir)
    m_bSubFolderComplete = false;
    m_pWorkingDir = _dir;
    m_dirLister->openURL( _url, props()->isShowingDotFiles(), true /* keep existing data */ );
-}
-
-KonqListViewDir * KonqTreeViewWidget::findDir( const QString &_url )
-{
-   if ( m_lasttvd && urlcmp( m_lasttvd->url(0), _url, true, true ) )
-      return m_lasttvd;
-
-   QDictIterator<KonqListViewDir> it( m_mapSubDirs );
-   for( ; it.current(); ++it )
-   {
-      kdDebug(1202) << it.current()->url(0) << endl;
-      if ( urlcmp( it.current()->url(0), _url, true, true ) )
-      {
-         m_lasttvd = it.current();
-         return it.current();
-      }
-   }
-   return 0L;
 }
 
 #include "konq_treeviewwidget.moc"

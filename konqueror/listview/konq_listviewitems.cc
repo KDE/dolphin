@@ -34,7 +34,7 @@
  * KonqListViewItem
  *
  **************************************************************/
-KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KonqFileItem* _fileitem )
+KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem * _parent, KonqFileItem* _fileitem )
 :KonqBaseListViewItem( _parent,_fileitem )
 {
    updateContents();

@@ -30,14 +30,18 @@ class KonqListView;
 
 class KonqTreeViewWidget : public KonqBaseListViewWidget
 {
-   friend class KonqListViewDir;
-   Q_OBJECT
+    //friend class KonqListViewDir;
+    Q_OBJECT
    public:
       KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget);
       virtual ~KonqTreeViewWidget();
 
-    virtual void saveState( QDataStream &stream );
-    virtual void restoreState( QDataStream &stream );
+      virtual void saveState( QDataStream &stream );
+      virtual void restoreState( QDataStream &stream );
+
+      // Called by KonqTreeViewDir
+      void addSubDir( const KURL & _url, KonqListViewDir* _dir );
+      void openSubFolder(const KURL &_url, KonqListViewDir* _dir);
 
    protected slots:
       // from QListView
@@ -50,9 +54,7 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
 
    protected:
       KonqListViewDir * findDir( const QString &_url );
-      void openSubFolder(const KURL &_url, KonqListViewDir* _dir);
-      virtual void addSubDir( const KURL & _url, KonqListViewDir* _dir );
-      virtual void removeSubDir( const KURL & _url );
+      void removeSubDir( const KURL & _url );
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
 
@@ -61,12 +63,11 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
        * and all files found will be created under this directory item.
        */
       KonqListViewDir* m_pWorkingDir;
-      // Cache, for findDir
-      KonqListViewDir* m_lasttvd;
 
       bool m_bSubFolderComplete;
 
-      QDict<KonqListViewDir> m_mapSubDirs;
+      // URL -> item (for directories only)
+      QDict<KonqListViewDir> m_dictSubDirs;
 
       QStringList m_urlsToOpen;
       QList<KonqListViewDir> m_itemsToOpen;
