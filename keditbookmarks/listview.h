@@ -145,7 +145,6 @@ public:
    KEBListViewItem* firstSelected();
 
    // bookmark helpers
-   const KBookmark qitemToBookmark(QListViewItem *item);
    QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items);
 
    // bookmark stuff

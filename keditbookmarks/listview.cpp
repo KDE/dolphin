@@ -110,10 +110,6 @@ QPtrList<KEBListViewItem>* ListView::itemList() {
    return items;
 }
 
-const KBookmark ListView::qitemToBookmark(QListViewItem *item) {
-   return static_cast<KEBListViewItem *>(item)->bookmark();
-}
-
 QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*items); it.current() != 0; ++it) {
@@ -221,7 +217,7 @@ QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if ((it.current()->childCount() == 0) && !IS_EF(it.current())) {
-         bookmarks.append(qitemToBookmark(it.current()));
+         bookmarks.append(it.current()->bookmark());
       }
    }
    return bookmarks;
@@ -235,7 +231,7 @@ void ListView::updateLastAddress() {
       }
    }
    if (lastItem) {
-      m_last_selection_address = qitemToBookmark(lastItem).address();
+      m_last_selection_address = lastItem->bookmark().address();
    }
 }
 
@@ -249,7 +245,7 @@ QString ListView::userAddress() {
       return "/0";
 
    } else {
-      KBookmark current = qitemToBookmark(selectedItems()->first());
+      KBookmark current = selectedItems()->first()->bookmark();
       return (current.isGroup()) 
            ? (current.address() + "/0")
            : KBookmark::nextAddress(current.address());
@@ -297,7 +293,7 @@ SelcAbilities ListView::getSelectionAbilities() {
    static SelcAbilities sa = { false, false, false, false, false, false, false, false };
 
    if (item) {
-      KBookmark nbk = qitemToBookmark(item);
+      KBookmark nbk = item->bookmark();
       sa.itemSelected   = true;
       sa.group          = nbk.isGroup();
       sa.separator      = nbk.isSeparator();
@@ -412,12 +408,13 @@ void ListView::slotSelectionChanged() {
    updateSelectedItems();
 }
 
-void ListView::slotContextMenu(KListView *, QListViewItem *item, const QPoint &p) {
+void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &p) {
+   KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if (!item) {
       return;
    }
    // TODO
-   const char *type = (qitemToBookmark(item).isGroup() ? "popup_folder" : "popup_bookmark");
+   const char *type = (item->bookmark().isGroup() ? "popup_folder" : "popup_bookmark");
    QWidget* popup = KEBTopLevel::self()->popupMenuFactory(type);
    if (popup) {
       static_cast<QPopupMenu*>(popup)->popup(p);
@@ -436,7 +433,7 @@ void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column
 
 void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int column) {
    Q_ASSERT(item);
-   KBookmark bk = qitemToBookmark(item);
+   KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
    KCommand *cmd = 0;
    switch (column) {
       case COL_NAME:
