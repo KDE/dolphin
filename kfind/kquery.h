@@ -41,8 +41,6 @@ class KQuery : public QObject
  private:
   /* Check if file meets the find's requirements*/
   inline void processQuery(KFileItem*);
-  /* Delete kfind's temp dir */
-  void removeTempDir(QDir dir);
 
  protected slots:
   /* List of files found using KIO */
@@ -85,7 +83,6 @@ class KQuery : public QObject
   QValueList<bool> m_regexpsContainsGlobs;
   KIO::ListJob *job;
   QRegExp* metaKeyRx;
-  QString tmpdir;
 };
 
 #endif
