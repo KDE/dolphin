@@ -44,6 +44,7 @@
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kwm.h>
+#include <krun.h>
 
 #include <kmimetype.h>
 
@@ -54,8 +55,8 @@
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, QActionCollection * _collec, bool _root )
-  : m_bIsRoot(_root), m_pOwner(_owner), m_parentMenu( _parentMenu ), m_actionCollection( _collec )
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, QActionCollection * _collec, bool _root, bool _add )
+  : m_bIsRoot(_root), m_bAddBookmark(_add), m_pOwner(_owner), m_parentMenu( _parentMenu ), m_actionCollection( _collec )
 {
   m_lstSubMenus.setAutoDelete( true );
 
@@ -86,6 +87,9 @@ void KBookmarkMenu::slotBookmarksChanged()
   {
     KAction * m_paEditBookmarks = new KAction( i18n( "&Edit Bookmarks..." ), 0, KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" ); 
     m_paEditBookmarks->plug( m_parentMenu );
+
+    if ( !m_bAddBookmark )
+      m_parentMenu->insertSeparator();
   }    
 
   KGlobal::iconLoader()->setIconType( "icon" );
@@ -95,13 +99,18 @@ void KBookmarkMenu::slotBookmarksChanged()
 
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 {
-  // create the first item, add bookmark, with the parent's ID (as a name)
-  KAction * m_paAddBookmarks = new KAction( i18n( "&Add Bookmark" ), CTRL+Key_B,
-                                            this, SLOT( slotBookmarkSelected() ),
-                                            m_actionCollection, QString("bookmark%1").arg(parent->id()) );
-  m_paAddBookmarks->plug( m_parentMenu );
-
-  m_parentMenu->insertSeparator();
+  if ( m_bAddBookmark )
+  {
+    // create the first item, add bookmark, with the parent's ID (as a name)
+    KAction * m_paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
+                                              CTRL+Key_B,
+                                              this,
+                                              SLOT( slotBookmarkSelected() ),
+                                              m_actionCollection,
+                                              QString("bookmark%1").arg(parent->id()) );
+    m_paAddBookmarks->plug( m_parentMenu );
+    m_parentMenu->insertSeparator();
+  }
 
   for ( KBookmark * bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
@@ -121,7 +130,8 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(), 
-                                                  m_actionCollection, false );
+                                                  m_actionCollection, false,
+                                                  m_bAddBookmark );
       m_lstSubMenus.append( subMenu );
       subMenu->fillBookmarkMenu( bm );
     }
@@ -159,6 +169,11 @@ void KBookmarkMenu::slotBookmarkSelected()
   }
   else
     debug("Bookmark not found !");
+}
+
+void KBookmarkOwner::openBookmarkURL( const QString & url )
+{
+  (void) new KRun( url );
 }
 
 #include "kbookmarkmenu.moc"

@@ -25,12 +25,23 @@
 #include <qpixmap.h>
 
 #include <ksimpleconfig.h>
+#include <kglobal.h>
+#include <kstddirs.h>
 
 class KBookmarkManager;
 class KBookmark;
 
 /**
- * Internal Class
+ * This class is an abstraction of a "real" bookmark.  It has
+ * knowledge of properties like its name (possibly squeezed for size)
+ * and URL and pixmap and type.. etc.  It also contains a pointer to
+ * other bookmarks.
+ *
+ * For the most part, though, you should never use this class
+ * directly.  KBookmarkManager is responsible for managing the
+ * bookmarks.  Use that instead.
+ *
+ * @internal
  */
 class KBookmark
 {
@@ -40,9 +51,11 @@ public:
   enum { URL, Folder };
 
   /**
-   * Creates a real bookmark ( type = Folder ) and saves the bookmark on the disk.
+   * Given a name and a URL, this will create a Folder bookmark.  It
+   * will further save this to disk!
    */
-  KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text, QString _url );
+  KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text,
+             QString _url );
   
   /**
    * Text shown for the bookmark
@@ -55,6 +68,11 @@ public:
   QString pixmapFile();
   QPixmap pixmap();
   
+  /**
+   * Append a new bookmark to the list.  Note that if the type is a
+   * Folder, it will add the bookmark to the top of the list rather
+   * then appending it to the bottom
+   */
   void append( KBookmark *_bm ) { (_bm->type() == Folder) ? m_lstChildren.prepend( _bm) : m_lstChildren.append( _bm ); }
   
   QList<KBookmark> *children() { return &m_lstChildren; }
@@ -91,9 +109,21 @@ protected:
 };
 
 /**
- * This class holds the data structures for the bookmarks.
- * You must create one instance of this class on startup.
- * In addition you have to overload @ref editBookmarks.
+ * This class holds the data structures for the bookmarks and does
+ * most of the work behind the scenes.  You may not have to do
+ * anything with this class directly if you will accept certain
+ * defaults.
+ *
+ * Specifically, the bookmark classes will use two defaults with this
+ * class:
+ *
+ * 1) The bookmark path is <kde_path>/share/apps/kfm/bookmarks
+ * 2) @ref editBookmarks will use the default bookmark editor to edit
+ *    the bookmarks
+ *
+ * If you need to modify either behavior, you must derive your own
+ * class from this one and specify your own path and overload
+ * @ref editBookmarks
  */
 class KBookmarkManager : public QObject
 {
@@ -102,21 +132,57 @@ class KBookmarkManager : public QObject
   Q_OBJECT
 public:
   /**
-   * Creates a bookmark manager with a path to the bookmarks
-   * (e.g. kapp->localkdedir()+"/share/apps/kfm/bookmarks")
-   * or something more KDE2 compliant :)
+   * Creates a bookmark manager with a path to the bookmarks.  By
+   * default, it will use the KDE standard dirs to find and create the
+   * correct location.  If you are using your own app-specific
+   * bookmarks directory, you must instantiate this class with your
+   * own path <em>before</em> KBookmarkManager::self() is every
+   * called.
    */
-  KBookmarkManager( QString _path );
+  KBookmarkManager( QString _path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true) );
+
+  /**
+   * Destructor
+   */
   virtual ~KBookmarkManager();
 
   /**
-   * For internal use only
+   * This static function will return an instance of the
+   * KBookmarkManager.  If you do not instantiate this class either
+   * natively or in a derived class, then it will return an object
+   * with the default behaviors.  If you wish to use different
+   * behaviors, you <em>must</em> derive your own class and
+   * instantiate it before this method is ever called.
+   *
+   * @return a pointer to an instance of the KBookmarkManager.
+   */
+  static KBookmarkManager* self();
+
+  /**
+   * Called if the user wants to edit the bookmarks.  It will use the
+   * default bookmarks editor unless you overload it.
+   */
+  virtual void editBookmarks( const char *_url );
+
+  /**
+   * This will return the path that this manager is using to search
+   * for bookmarks.  It is mostly used internally -- if you think you
+   * need to use it, you are probably using KBookmarkManager wrong.
+   *
+   * @return the path containing the bookmarks
    */
   QString path() { return m_sPath; }
+
   /**
-   * For internal use only
+   * This will return the root bookmark.  It is used to iterate
+   * through the bookmarks manually.  It is mostly used internally --
+   * if you think you need to use it, you are probably using
+   * KBookmarkManager wrong.
+   *
+   * @return the root (top-level) bookmark
    */
   KBookmark* root() { return m_Root; }
+
   /**
    * @internal
    * Used by KBookmarkManager when a bookmark is selected
@@ -124,22 +190,12 @@ public:
   KBookmark* findBookmark( int _id ) { return m_Root->findBookmark( _id ); }
 
   /**
+   * @internal
    * For internal use only
    */
   void emitChanged();
 
-  /**
-   * Called if the user wants to edit the bookmarks. You must somehow open a filemanager
-   * and display the given URL.
-   */
-  virtual void editBookmarks( const char *_url ) = 0L;
   
-  /**
-   * @return a pointer to the instance of the KBookmarkManager. Make sure that
-   *         an instance of this class or a derived one exists before you call this
-   *         function. It won't return 0L in this case, but it will raise an error.
-   */
-  static KBookmarkManager* self();
   
 signals:
   /**

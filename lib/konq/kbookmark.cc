@@ -39,6 +39,7 @@
 #include <kdirwatch.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <krun.h>
 
 #include <kmimetype.h>
 #include "kfileitem.h"
@@ -58,6 +59,12 @@ KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
 
 KBookmarkManager* KBookmarkManager::self()
 {
+  if ( !s_pSelf )
+  {
+    QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
+    s_pSelf = new KBookmarkManager( path );
+  }
+
   assert ( s_pSelf );
 
   return s_pSelf;
@@ -66,6 +73,8 @@ KBookmarkManager* KBookmarkManager::self()
 KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 {
   m_Root = new KBookmark( this, 0L, QString::null );
+  if ( s_pSelf )
+    delete s_pSelf;
   s_pSelf = this;
 
   m_lstParsedDirs.setAutoDelete( true );
@@ -194,6 +203,11 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   }
 
   closedir( dp );
+}
+
+void KBookmarkManager::editBookmarks( const char *_url )
+{
+  KFileManager::getFileManager()->openFileManagerWindow( _url );
 }
 
 void KBookmarkManager::slotEditBookmarks()
