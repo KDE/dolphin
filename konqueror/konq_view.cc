@@ -611,6 +611,8 @@ void KonqView::setTabIcon( const  QString &url )
 
 void KonqView::setCaption( const QString & caption )
 {
+  if (caption.isEmpty()) return;
+
   m_caption = caption;
   if (!m_bPassiveMode) frame()->setTitle( caption , 0L );
 }
