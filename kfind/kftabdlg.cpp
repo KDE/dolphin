@@ -248,6 +248,15 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     textEdit=new KLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2], "text");
 
+    const QString containingtext
+      = i18n("<qt>If specified, only files that contain this text"
+	      " are found. Note that not all file types from the list"
+		  " above are supported. Please refer to the documentation"
+		  " for a list of supported file types."
+	      "</qt>");
+    QWhatsThis::add(textEdit,containingtext);
+    QWhatsThis::add(textL,containingtext);
+
     caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Regular e&xpression"), pages[2]);
 
