@@ -46,6 +46,8 @@ void TestLinkItrHolder::doItrListChanged() {
    KEBApp::self()->setCancelTestsEnabled(m_itrs.count() > 0);
 }
 
+/* -------------------------- */
+
 TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks) {
 
@@ -162,6 +164,8 @@ void TestLinkItr::paintCellHelper(QPainter *p, QColorGroup &cg, int style) {
    }
 }
 
+/* -------------------------- */
+
 static QString mkTimeStr(int b) {
    QDateTime dt;
    dt.setTime_t(b);
@@ -169,6 +173,8 @@ static QString mkTimeStr(int b) {
         ? KGlobal::locale()->formatDate(dt.date(), false)
         : KGlobal::locale()->formatDateTime(dt, false);
 }
+
+/* -------------------------- */
 
 void TestLinkItrHolder::blah2(QString url, QString val) {
    if (!val.isEmpty()) {
@@ -197,6 +203,8 @@ void TestLinkItrHolder::setMod(QString url, QString val) {
 void TestLinkItrHolder::setOldMod(QString url, QString val) {
    self()->m_oldModify[url] = val;
 }
+
+/* -------------------------- */
 
 QString TestLinkItrHolder::calcPaintStyle(QString url, int &paintstyle, QString nsinfo) {
    bool newModValid = false;
@@ -261,6 +269,8 @@ QString TestLinkItrHolder::calcPaintStyle(QString url, int &paintstyle, QString 
    return statusStr;
 }
 
+/* -------------------------- */
+
 static void parseNsInfo(QString nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
    QStringList sl = QStringList::split(' ', nsinfo);
 
@@ -277,12 +287,16 @@ static void parseNsInfo(QString nsinfo, QString &nCreate, QString &nAccess, QStr
    }
 }
 
+/* -------------------------- */
+
 QString KEBListViewItem::nsGet() {
    QString nCreate, nAccess, nModify;
    QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
    parseNsInfo(nsinfo, nCreate, nAccess, nModify);
    return nModify;
 }
+
+/* -------------------------- */
 
 static QString updateNsInfoMod(QString _nsinfo, QString nm) {
    QString nCreate, nAccess, nModify;
@@ -310,6 +324,7 @@ void KEBListViewItem::nsPut(QString nm) {
 
 void KEBListViewItem::modUpdate() {
    QString statusLine;
+   // DESIGN - should return paint style?
    statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintstyle, nsGet());
    setText(KEBListView::StatusColumn, statusLine);
 }

@@ -74,6 +74,8 @@ void BookmarkIterator::nextOne() {
    }
 }
 
+/* ---------------------------**** */
+
 BookmarkIteratorHolder::BookmarkIteratorHolder() {
    m_itrs.setAutoDelete(true);
 }

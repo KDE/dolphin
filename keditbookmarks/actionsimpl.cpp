@@ -69,9 +69,7 @@ void ActionsImpl::slotCollapseAll() {
 
 ActionsImpl* ActionsImpl::s_self = 0;
 
-/* ------------------------------------------------------------- */
-//                             CLIPBOARD
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotCut() {
    slotCopy();
@@ -96,9 +94,7 @@ void ActionsImpl::slotPaste() {
    KEBApp::self()->didCommand(mcmd);
 }
 
-/* ------------------------------------------------------------- */
-//                             POS_ACTION
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotNewFolder() {
    // TODO - move this into a sanely named gui class in kio/bookmarks?
@@ -147,9 +143,7 @@ void ActionsImpl::slotExportMoz() {
    MyManager::self()->doExport(true);
 }
 
-/* ------------------------------------------------------------- */
-//                            NULL_ACTION
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotShowNS() {
    bool shown = KEBApp::self()->nsShown();
@@ -177,9 +171,7 @@ void ActionsImpl::slotUpdateAllFavIcons() {
    FavIconsItrHolder::self()->insertItr(new FavIconsItr(ListView::self()->allBookmarks()));
 }
 
-/* ------------------------------------------------------------- */
-//                             ITR_ACTION
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotTestSelection() {
    TestLinkItrHolder::self()->insertItr(new TestLinkItr(ListView::self()->selectedBookmarksExpanded()));
@@ -200,9 +192,7 @@ void ActionsImpl::slotSearch() {
    SearchItrHolder::self()->insertItr(itr);
 }
 
-/* ------------------------------------------------------------- */
-//                            GROUP_ACTION
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotSort() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
@@ -211,9 +201,7 @@ void ActionsImpl::slotSort() {
    KEBApp::self()->addCommand(cmd);
 }
 
-/* ------------------------------------------------------------- */
-//                           SELC_ACTION
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotDelete() {
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Delete Items"), ListView::self()->selectedItems());
@@ -231,9 +219,7 @@ void ActionsImpl::slotOpenLink() {
    }
 }
 
-/* ------------------------------------------------------------- */
-//                          ITEM_ACTION
-/* ------------------------------------------------------------- */
+/* -------------------------------------- */
 
 void ActionsImpl::slotRename() {
    ListView::self()->rename(KEBListView::NameColumn);

@@ -43,7 +43,7 @@ void FavIconsItrHolder::doItrListChanged() {
    KEBApp::self()->setCancelFavIconUpdatesEnabled(m_itrs.count() > 0);
 }
 
-/* ---------------------------------------------------------------------------------- */
+/* -------------------------- */
 
 FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks) {
@@ -83,7 +83,7 @@ void FavIconsItr::doBlah() {
    // TODO - a single shot timeout?
 }
 
-/* ---------------------------------------------------------------------------------- */
+/* -------------------------- */
 
 FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
    : KonqFavIconMgr(parent, name) {
@@ -166,14 +166,14 @@ void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconNa
    KEBApp::self()->emitSlotCommandExecuted();
 }
 
-/* ---------------------------------------------------------------------------------- */
-
-// NB the whole point of all this (KIO rather than KHTML directly???) is to abort silently on error
+/* -------------------------- */
 
 FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url)
   : m_part(part), m_url(url) {
 
    kdDebug() << "FavIconWebGrabber::FavIconWebGrabber starting KIO::get()" << endl;
+
+   // the use of KIO rather than directly using KHTML is to allow silently abort on error
 
    KIO::Job *job = KIO::get(m_url, false, false);
    connect(job, SIGNAL( result( KIO::Job *)),

@@ -103,9 +103,7 @@ KEBApp::~KEBApp() {
    delete m_dcopIface;
 }
 
-/* ------------------------------------------------------------- */
-//                             GUICORE
-/* ------------------------------------------------------------- */
+/* -------------------------- */
 
 void KEBApp::createActions() {
 
@@ -318,9 +316,7 @@ void KEBApp::slotClipboardDataChanged() {
    }
 }
 
-/* ------------------------------------------------------------- */
-//                      COMMAND HISTORY ACCESSORS
-/* ------------------------------------------------------------- */
+/* -------------------------- */
 
 void KEBApp::didCommand(KCommand *cmd) {
    if (cmd) {
@@ -347,7 +343,7 @@ void KEBApp::emitSlotCommandExecuted() {
    emit slotCommandExecuted();
 }
 
-/* ------------------------------------------------------------- */
+/* -------------------------- */
 
 // DESIGN - poinless drivel
 
@@ -356,9 +352,7 @@ void KEBApp::setAllOpen(bool open) {
    setModifiedFlag(true);
 }
 
-/* ------------------------------------------------------------- */
-//                        GUI_CALLBACK
-/* ------------------------------------------------------------- */
+/* -------------------------- */
 
 // LATER - move
 void KEBApp::slotCommandExecuted() {
@@ -394,9 +388,7 @@ void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
    }
 }
 
-/* ------------------------------------------------------------- */
-// GUI - STANDARD
-/* ------------------------------------------------------------- */
+/* -------------------------- */
 
 void KEBApp::slotConfigureKeyBindings() {
    KKeyDialog::configure(actionCollection());
@@ -415,9 +407,7 @@ void KEBApp::slotNewToolbarConfig() {
    applyMainWindowSettings(KGlobal::config(), "MainWindow");
 }
 
-/* ------------------------------------------------------------- */
-// DOCUMENT
-/* ------------------------------------------------------------- */
+/* -------------------------- */
 
 bool KEBApp::save() {
    if (!MyManager::self()->managerSave()) {

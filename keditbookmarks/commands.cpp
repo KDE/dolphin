@@ -33,6 +33,8 @@
 
 #include "commands.h"
 
+CmdGen* CmdGen::s_self = 0;
+
 #define BK_AT(a) BkManagerAccessor::mgr()->findByAddress(a)
 
 QString MoveCommand::name() const {
@@ -100,6 +102,8 @@ void MoveCommand::unexecute() {
    m_from = undoCmd.m_to;
    m_to = undoCmd.m_from;
 }
+
+/* -------------------------------------- */
 
 QString CreateCommand::name() const {
    if (m_separator) {
@@ -193,6 +197,8 @@ void CreateCommand::unexecute() {
    bk.parentGroup().deleteBookmark(bk);
 }
 
+/* -------------------------------------- */
+
 void DeleteCommand::execute() {
    // kdDebug() << "DeleteCommand::execute " << m_from << endl;
 
@@ -238,6 +244,8 @@ KMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
    return cmd;
 }
 
+/* -------------------------------------- */
+
 QString EditCommand::name() const {
    return i18n("%1 Change").arg(m_mytext);
 }
@@ -265,6 +273,8 @@ void EditCommand::unexecute() {
    // get the editions back from it, in case they changed (hmm, shouldn't happen - TODO CHECK!)
    m_editions = cmd.m_reverseEditions;
 }
+
+/* -------------------------------------- */
 
 QString RenameCommand::name() const {
    return i18n("Renaming"); 
@@ -297,29 +307,26 @@ void RenameCommand::unexecute() {
    m_newText = cmd.m_oldText;
 }
 
+/* -------------------------------------- */
+
 class SortItem {
 public:
    SortItem(const KBookmark & bk) : m_bk(bk) { ; } 
 
    bool operator == (const SortItem & s) { 
-      return (m_bk.internalElement() == s.m_bk.internalElement()); 
-   }
+      return (m_bk.internalElement() == s.m_bk.internalElement()); }
 
    bool isNull() const { 
-      return m_bk.isNull(); 
-   }
+      return m_bk.isNull(); }
 
    SortItem previousSibling() const { 
-      return m_bk.parentGroup().previous(m_bk); 
-   }
+      return m_bk.parentGroup().previous(m_bk); }
 
    SortItem nextSibling() const { 
-      return m_bk.parentGroup().next(m_bk); 
-   }
+      return m_bk.parentGroup().next(m_bk); }
 
    const KBookmark& bookmark() const { 
-      return m_bk; 
-   }
+      return m_bk; }
 
 private:
    KBookmark m_bk;
@@ -331,6 +338,8 @@ public:
       return (item.bookmark().isGroup() ? "a" : "b") + item.bookmark().fullText().lower(); 
    }
 };
+
+/* -------------------------------------- */
 
 void SortCommand::execute() {
    if (m_commands.isEmpty()) {
@@ -361,7 +370,7 @@ void SortCommand::unexecute() {
    KMacroCommand::unexecute();
 }
 
-CmdGen* CmdGen::s_self = 0;
+/* -------------------------------------- */
 
 KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
    KMacroCommand *mcmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
@@ -447,3 +456,5 @@ KMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, const QStrin
 
    return mcmd;
 }
+
+#undef BK_AT

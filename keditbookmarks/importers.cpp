@@ -45,6 +45,44 @@ QString ImportCommand::folder() const {
    return m_folder ? i18n("%1 Bookmarks").arg(visibleName()) : QString::null;
 }
 
+ImportCommand* ImportCommand::importerFactory(const QCString &type) {
+   if (type == "Galeon") return new GaleonImportCommand();
+   else if (type == "IE") return new IEImportCommand();
+   else if (type == "KDE2") return new KDE2ImportCommand();
+   else if (type == "Opera") return new OperaImportCommand();
+   else if (type == "Moz") return new MozImportCommand();
+   else if (type == "NS") return new NSImportCommand();
+   else {
+      kdError() << "ImportCommand::importerFactory() - invalid type (" << type << ")!" << endl;
+      return 0;
+   }
+}
+
+ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) {
+   ImportCommand *importer = ImportCommand::importerFactory(type);
+
+   QString mydirname = importer->requestFilename();
+   if (mydirname.isEmpty()) {
+      delete importer;
+      return 0;
+   }
+
+   int answer = 
+      KMessageBox::questionYesNoCancel(
+         top, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+         i18n("%1 Import").arg(importer->visibleName()), 
+         i18n("As New Folder"), i18n("Replace"));
+
+   int ret = (answer == KMessageBox::Cancel) ? 0 : ((answer == KMessageBox::Yes) ? 2 : 1);
+   if (ret == 0) {
+      delete importer;
+      return 0;
+   }
+
+   importer->import(mydirname, (ret == 2));
+   return importer;
+}
+
 void ImportCommand::execute() {
    KBookmarkGroup bkGroup;
 
@@ -143,7 +181,7 @@ void ImportCommand::connectImporter(const QObject *importer) {
                      SLOT( endFolder() ) );
 }
 
-// importer subclasses
+/* -------------------------------------- */
 
 QString OperaImportCommand::requestFilename() const {
    return KOperaBookmarkImporter::operaBookmarksFile();
@@ -155,6 +193,8 @@ void OperaImportCommand::doExecute() {
    importer.parseOperaBookmarks();
 }
 
+/* -------------------------------------- */
+
 QString IEImportCommand::requestFilename() const {
    return KIEBookmarkImporter::IEBookmarksDir();
 }
@@ -165,32 +205,27 @@ void IEImportCommand::doExecute() {
    importer.parseIEBookmarks();
 }
 
+/* -------------------------------------- */
+
 void HTMLImportCommand::doExecute() {
    KNSBookmarkImporter importer(m_fileName);
    connectImporter(&importer);
    importer.parseNSBookmarks(m_utf8);
 }
 
+/* -------------------------------------- */
+
 QString MozImportCommand::requestFilename() const {
    return KNSBookmarkImporter::mozillaBookmarksFile();
 }
+
+/* -------------------------------------- */
 
 QString NSImportCommand::requestFilename() const {
    return KNSBookmarkImporter::netscapeBookmarksFile();
 }
 
-QString GaleonImportCommand::requestFilename() const {
-   return KFileDialog::getOpenFileName(
-               QDir::homeDirPath() + "/.galeon",
-               i18n("*.xbel|Galeon bookmark files (*.xbel)"));
-}
-
-QString KDE2ImportCommand::requestFilename() const {
-   // locateLocal on the bookmarks file and get dir?
-   return KFileDialog::getOpenFileName(
-               QDir::homeDirPath() + "/.kde",
-               i18n("*.xml|KDE bookmark files (*.xml)"));
-}
+/* -------------------------------------- */
 
 void XBELImportCommand::doCreateHoldingFolder(KBookmarkGroup &) {
    // rather than reuse the old group node we transform the 
@@ -263,42 +298,21 @@ void XBELImportCommand::doExecute() {
    }
 }
 
-ImportCommand* ImportCommand::importerFactory(const QCString &type) {
-   if (type == "Galeon") return new GaleonImportCommand();
-   else if (type == "IE") return new IEImportCommand();
-   else if (type == "KDE2") return new KDE2ImportCommand();
-   else if (type == "Opera") return new OperaImportCommand();
-   else if (type == "Moz") return new MozImportCommand();
-   else if (type == "NS") return new NSImportCommand();
-   else {
-      kdError() << "ImportCommand::importerFactory() - invalid type (" << type << ")!" << endl;
-      return 0;
-   }
+/* -------------------------------------- */
+
+QString GaleonImportCommand::requestFilename() const {
+   return KFileDialog::getOpenFileName(
+               QDir::homeDirPath() + "/.galeon",
+               i18n("*.xbel|Galeon bookmark files (*.xbel)"));
 }
 
-ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) {
-   ImportCommand *importer = ImportCommand::importerFactory(type);
+/* -------------------------------------- */
 
-   QString mydirname = importer->requestFilename();
-   if (mydirname.isEmpty()) {
-      delete importer;
-      return 0;
-   }
-
-   int answer = 
-      KMessageBox::questionYesNoCancel(
-         top, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-         i18n("%1 Import").arg(importer->visibleName()), 
-         i18n("As New Folder"), i18n("Replace"));
-
-   int ret = (answer == KMessageBox::Cancel) ? 0 : ((answer == KMessageBox::Yes) ? 2 : 1);
-   if (ret == 0) {
-      delete importer;
-      return 0;
-   }
-
-   importer->import(mydirname, (ret == 2));
-   return importer;
+QString KDE2ImportCommand::requestFilename() const {
+   // locateLocal on the bookmarks file and get dir?
+   return KFileDialog::getOpenFileName(
+               QDir::homeDirPath() + "/.kde",
+               i18n("*.xml|KDE bookmark files (*.xml)"));
 }
 
 #include "importers.moc"

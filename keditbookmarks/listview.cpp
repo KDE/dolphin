@@ -457,6 +457,8 @@ void ListView::clearSelection() {
    m_listView->clearSelection();
 }
 
+/* -------------------------------------- */
+
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if ( (item != firstChild()) 
@@ -483,6 +485,8 @@ QDragObject *KEBListView::dragObject() {
       return drag;
    }
 }
+
+/* -------------------------------------- */
 
 void KEBListViewItem::setOpen(bool open) {
    m_bookmark.internalElement().setAttribute("folded", open ? "no" : "yes");

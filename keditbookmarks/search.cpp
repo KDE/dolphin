@@ -40,6 +40,21 @@ void SearchItrHolder::doItrListChanged() {
    KEBApp::self()->setCancelSearchEnabled(m_itrs.count() > 0);
 }
 
+void SearchItrHolder::nextOne() {
+   ListView::self()->setCurrent(m_foundlist.next());
+}
+
+void SearchItrHolder::addFind(KEBListViewItem *item) {
+   bool wasEmpty = m_foundlist.isEmpty();
+   if (wasEmpty) {
+      m_foundlist.first();
+      ListView::self()->setCurrent(item);
+   };
+   m_foundlist.append(item);
+}
+
+/* -------------------------------------- */
+
 SearchItr::SearchItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks), m_showstatuscounter(0), m_statusitem(0)  {
    ListView::self()->clearSelection();
@@ -53,19 +68,6 @@ SearchItr::~SearchItr() {
 
 bool SearchItr::isBlahable(const KBookmark &bk) {
    return (!bk.isSeparator());
-}
-
-void SearchItrHolder::addFind(KEBListViewItem *item) {
-   bool wasEmpty = m_foundlist.isEmpty();
-   if (wasEmpty) {
-      m_foundlist.first();
-      ListView::self()->setCurrent(item);
-   };
-   m_foundlist.append(item);
-}
-
-void SearchItrHolder::nextOne() {
-   ListView::self()->setCurrent(m_foundlist.next());
 }
 
 void SearchItr::doBlah() {
