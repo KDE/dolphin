@@ -252,38 +252,6 @@ void KNewMenu::slotFillTemplates()
             s_templatesList->append( e );
         }
     }
-
-    // Honour SortOrder
-        QStringList order =
-        KDesktopFile(rp + QString::fromUtf8(".directory")).sortOrder();
-
-    if (order.isEmpty())
-        return lsort;
-
-    // Iterate through the sort spec list. If we find an entry that matches one
-    // in the original list, take it out of the original list and add it to the
-    // sorted list. Finally, add all entries that are still in the original list
-    // to the end of the sorted list.
-
-    List sorted;
-    List orig = lsort;
-
-    for (QStringList::ConstIterator it(order.begin()); it != order.end(); ++it)
-        for (List::Iterator sit(orig.begin()); sit != orig.end(); ++sit)
-            {
-                if (*it == (*sit)->entryPath().mid((*sit)->entryPath().findRev('/') + 1))
-                    {
-                        sorted.append(*sit);
-                        orig.remove(sit);
-                        break;
-                    }
-            }
-
-    for (List::Iterator sit(orig.begin()); sit != orig.end(); ++sit)
-        sorted.append(*sit);
-
-    return sorted;
-
 }
 
 void KNewMenu::slotNewFile()
