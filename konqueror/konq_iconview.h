@@ -89,7 +89,6 @@ protected slots:
   virtual void slotMousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );
   virtual void slotDoubleClicked( KIconContainerItem* _item, const QPoint& _global, int _button );
   virtual void slotReturnPressed( KIconContainerItem* _item, const QPoint& _global );
-  virtual void slotDragStart( const QPoint& _hotspot, QList<KIconContainerItem>& _selected, QPixmap _pixmap );
   virtual void slotDrop( QDropEvent*, KIconContainerItem*, QStrList& _formats );
   
   virtual void slotUpdateError( int _id, int _errid, const char *_errortext );

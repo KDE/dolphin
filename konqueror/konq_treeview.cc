@@ -572,10 +572,10 @@ void KonqKfmTreeView::mouseMoveEvent( QMouseEvent *_mouse )
     {
       KfmTreeViewItem* item = (KfmTreeViewItem*)itemAt( _mouse->pos() );
 
-      if ( m_overItem != item->name() )
+      if ( m_overItem != item->url() )
       {
 	slotOnItem( item );
-	m_overItem = item->name();
+	m_overItem = item->url();
 
 	if ( m_mouseMode == SingleClick && m_changeCursor )
 	  setCursor( m_handCursor );
@@ -1155,7 +1155,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
         item = firstChild();
       while( item )
       {
-        if ( name == ((KfmTreeViewItem*)item)->name().ascii() )
+        if ( name == ((KfmTreeViewItem*)item)->getText().ascii() )
         {
           ((KfmTreeViewItem*)item)->mark();
           done = true;
@@ -1203,7 +1203,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
   {
     if ( !((KfmTreeViewItem*)item)->isMarked() )
     {
-      kdebug(0,1202,"Removing %s", ((KfmTreeViewItem*)item)->name().data());
+      kdebug(0,1202,"Removing %s", ((KfmTreeViewItem*)item)->getText().data());
       lst.append( item );
     }
     item = item->nextSibling();

@@ -69,8 +69,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 	   this, SLOT( slotDoubleClicked( KIconContainerItem*, const QPoint&, int ) ) );
   QObject::connect( this, SIGNAL( returnPressed( KIconContainerItem*, const QPoint& ) ),
 	   this, SLOT( slotReturnPressed( KIconContainerItem*, const QPoint& ) ) );
-  QObject::connect( this, SIGNAL( dragStart( const QPoint&, QList<KIconContainerItem>&, QPixmap ) ),
-	   this, SLOT( slotDragStart( const QPoint&, QList<KIconContainerItem>&, QPixmap ) ) );
   QObject::connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStrList& ) ),
 	   this, SLOT( slotDrop( QDropEvent*, KIconContainerItem*, QStrList& ) ) );
   QObject::connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
@@ -391,22 +389,6 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
   }
 }
 
-void KonqKfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContainerItem>& , QPixmap _pixmap )
-{
-  list<KonqKfmIconViewItem*> icons;
-  selectedItems( icons );
-
-  QStrList urls;
-
-  list<KonqKfmIconViewItem*>::iterator icit = icons.begin();
-  for( ; icit != icons.end(); ++icit )
-    urls.append( (*icit)->url() );
-
-  QUrlDrag *d = new QUrlDrag( urls, viewport() );
-  d->setPixmap( _pixmap, _hotspot );
-  d->drag();
-}
-
 void KonqKfmIconView::openURL( const char *_url )
 {
   KURL url( _url );
@@ -680,9 +662,14 @@ KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _e
 void KonqKfmIconViewItem::init()
 {
   // Done out of the constructor since it uses fields filled by KFileIcon constructor
-  setText(m_name);
-  QPixmap *p = getPixmap(); // determine the pixmap (KFileIcon)
-  if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
+
+  // Set the item text (the one displayed) from the text computed by KFileIcon
+  setText( getText() );
+  // Set the item name from the url hold by KFileIcon
+  setName( url() );
+  // Determine the item pixmap from one determined by KFileIcon
+  QPixmap *p = getPixmap();
+  if (p) setPixmap( *p );
 }
 
 void KonqKfmIconViewItem::refresh()
