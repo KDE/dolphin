@@ -19,9 +19,9 @@
 
 #include "kfmbrowser.h"
 #include "kfmgui.h"
-#include "kfmguiprops.h"
 #include "krun.h"
 #include "kfmview.h"
+#include "kfmviewprops.h"
 #include "kmimetypes.h"
 
 #include <sys/stat.h>
@@ -54,19 +54,19 @@ KfmBrowser::~KfmBrowser()
 
 void KfmBrowser::initConfig()
 {
-  KfmGuiProps *props = m_pView->gui()->props();
+  KfmViewSettings *settings = m_pView->settings();
   KHTMLWidget* htmlWidget = getKHTMLWidget();
 
-  htmlWidget->setDefaultBGColor( props->bgColor() );
-  htmlWidget->setDefaultTextColors( props->textColor(), 
-				    props->linkColor(),
-				    props->vLinkColor() );
-  htmlWidget->setStandardFont( props->stdFontName() );
-  htmlWidget->setFixedFont( props->fixedFontName() );
+  htmlWidget->setDefaultBGColor( settings->bgColor() );
+  htmlWidget->setDefaultTextColors( settings->textColor(), 
+				    settings->linkColor(),
+				    settings->vLinkColor() );
+  htmlWidget->setStandardFont( settings->stdFontName() );
+  htmlWidget->setFixedFont( settings->fixedFontName() );
 
-  htmlWidget->setUnderlineLinks( props->underlineLink() );
+  htmlWidget->setUnderlineLinks( settings->underlineLink() );
 
-  if ( props->changeCursor() )
+  if ( settings->changeCursor() )
     htmlWidget->setURLCursor( KCursor().handCursor() );
   else
     htmlWidget->setURLCursor( KCursor().arrowCursor() );

@@ -20,6 +20,7 @@
 #include "kfmfinder.h"
 #include "kfmview.h"
 #include "kfmguiprops.h"
+#include "kfmviewprops.h"
 
 #include <kio_manager.h>
 #include <kio_job.h>
@@ -118,15 +119,16 @@ KfmFinder::~KfmFinder()
 void KfmFinder::initConfig()
 {
   QPalette p          = viewport()->palette();
-  KfmGuiProps *props  = m_pView->gui()->props();
+  KfmViewSettings *settings  = m_pView->settings();
+  KfmViewProps *props = m_pView->props();
 
-  m_bgColor           = props->bgColor();
-  m_textColor         = props->textColor();
-  m_linkColor         = props->linkColor();
-  m_vLinkColor        = props->vLinkColor();
-  m_stdFontName       = props->stdFontName();
-  m_fixedFontName     = props->fixedFontName();
-  m_fontSize          = props->fontSize();
+  m_bgColor           = settings->bgColor();
+  m_textColor         = settings->textColor();
+  m_linkColor         = settings->linkColor();
+  m_vLinkColor        = settings->vLinkColor();
+  m_stdFontName       = settings->stdFontName();
+  m_fixedFontName     = settings->fixedFontName();
+  m_fontSize          = settings->fontSize();
 
 //   m_bgPixmap          = props->bgPixmap();
 
@@ -135,10 +137,10 @@ void KfmFinder::initConfig()
 //   else
 //     viewport()->setBackgroundMode( NoBackground );
 
-  m_mouseMode         = props->mouseMode();
+  m_mouseMode         = settings->mouseMode();
 
-  m_underlineLink     = props->underlineLink();
-  m_changeCursor      = props->changeCursor();
+  m_underlineLink     = settings->underlineLink();
+  m_changeCursor      = settings->changeCursor();
   m_isShowingDotFiles = props->isShowingDotFiles();
 
   QColorGroup c = p.normal();

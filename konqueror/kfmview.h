@@ -47,6 +47,8 @@ class KfmGui;
 class KfmBrowser;
 class KfmRun;
 class KfmAbstractGui;
+class KfmViewProps;
+class KfmViewSettings;
 
 class KfmView : public QWidgetStack, public KBookmarkOwner
 {
@@ -61,6 +63,9 @@ public:
 
   KfmAbstractGui* gui() { return m_pGui; }
 
+  KfmViewProps * props() { return m_Props; }
+  KfmViewSettings * settings();
+
   /**
    * Shows a different view. Keep in mind that this is not everytime the user selected view.
    * The user may have selected "Tree View" as default view, but for HTML we will still
@@ -71,7 +76,7 @@ public:
    *                  at the same time. In these cases you may want to set this flag to false.
    */
   virtual void setViewMode( ViewMode _mode, bool _open_url = true );
-  virtual ViewMode viewMode() { return m_viewMode; }
+  virtual ViewMode viewMode() { return m_viewMode; };
   
   virtual void openURL( const char *_url, mode_t _mode = 0, bool _is_local_file = false,
 			int _xoffset = 0, int _yoffset = 0 );
@@ -191,6 +196,7 @@ protected:
   KNewMenu* m_menuNew;
 
   bool m_hasFocus;
+  KfmViewProps * m_Props;
 };
 
 #endif

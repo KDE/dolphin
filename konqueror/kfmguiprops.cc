@@ -23,40 +23,11 @@
 
 KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
 
-KfmGuiProps::KfmGuiProps( KConfig * config )
+KfmGuiProps::KfmGuiProps( const KConfig * config )
 {
-  QString entry = "LargeIcons"; // default
-  m_leftViewMode = KfmView::HOR_ICONS;
-  entry = config->readEntry("LeftViewMode", entry);
-  if (entry == "TreeView")
-    m_leftViewMode = KfmView::FINDER;
-  if (entry == "SmallIcons")
-    m_leftViewMode = KfmView::VERT_ICONS;
-  if (entry == "HTMLView")
-    m_leftViewMode = KfmView::HTML;
-
-  m_rightViewMode = KfmView::HOR_ICONS;
-  entry = config->readEntry("RightViewMode", entry);
-  if (entry == "TreeView")
-    m_rightViewMode = KfmView::FINDER;
-  if (entry == "SmallIcons")
-    m_rightViewMode = KfmView::VERT_ICONS;
-  if (entry == "HTMLView")
-    m_rightViewMode = KfmView::HTML;
-  
-  m_currentViewMode = m_rightViewMode;
-
-  m_bLeftShowDot = config->readBoolEntry( "LeftShowDotFiles", false );
-  m_bRightShowDot = config->readBoolEntry( "RightShowDotFiles", false );
-  m_bCurrentShowDot = m_bRightShowDot;
-
-  m_bLeftImagePreview = config->readBoolEntry( "LeftImagePreview", false );
-  m_bRightImagePreview = config->readBoolEntry( "RightImagePreview", false );
-  m_bCurrentImagePreview = m_bRightImagePreview;
-
-  m_bDirTree = config->readBoolEntry( "DirTree", false );
+  QString entry;
+  // m_bDirTree = config->readBoolEntry( "DirTree", false ); ??
   m_bSplitView = config->readBoolEntry( "SplitView", false );
-  m_bCache = false; // What is it ???
 
   entry = config->readEntry("Toolbar", "top");
   m_bShowToolBar = true;
@@ -120,39 +91,6 @@ KfmGuiProps::KfmGuiProps( KConfig * config )
       m_bgPixmap = *p;
     }
   }
-
-  /////////// Other group, don't move beyond this limit ! ///////////
-
-  config->setGroup( "KFM HTML Defaults" );
-
-  m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
-  if ( m_iFontSize < 8 )
-    m_iFontSize = 8;
-  else if ( m_iFontSize > 24 )
-    m_iFontSize = 24;
-
-  m_strStdFontName = config->readEntry( "StandardFont" );
-  if ( m_strStdFontName.isEmpty() )
-    m_strStdFontName = DEFAULT_VIEW_FONT;
-
-  m_strFixedFontName = config->readEntry( "FixedFont" );
-  if ( m_strFixedFontName.isEmpty() )
-    m_strFixedFontName = DEFAULT_VIEW_FIXED_FONT;
-
-  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", true );
-
-  entry = config->readEntry( "MouseMode" , "SingleClick");
-  if ( entry == "SingleClick" )
-    m_mouseMode = KfmAbstractGui::SingleClick;
-  else
-    m_mouseMode = KfmAbstractGui::DoubleClick;
-
-  m_bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-  m_textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-  m_linkColor = config->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-  m_vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-
-  m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
 }
 
 KfmGuiProps::~KfmGuiProps()
@@ -161,50 +99,8 @@ KfmGuiProps::~KfmGuiProps()
 
 void KfmGuiProps::saveProps( KConfig * config )
 {
-  config->writeEntry( "DirTree", m_bDirTree );
+  // config->writeEntry( "DirTree", m_bDirTree );
   config->writeEntry( "SplitView", m_bSplitView );
-
-  QString entry;
-  switch ( m_leftViewMode )
-    {
-    case KfmView::FINDER:
-      entry = "TreeView";
-      break;
-    case KfmView::VERT_ICONS:
-      entry = "SmallIcons";
-      break;
-    case KfmView::HOR_ICONS:
-      entry = "LargeIcons";
-      break;
-    default:
-      assert( 0 );
-      break;
-    }
-  config->writeEntry( "LeftViewMode", entry);
-
-  switch ( m_rightViewMode )
-    {
-    case KfmView::FINDER:
-      entry = "TreeView";
-      break;
-    case KfmView::VERT_ICONS:
-      entry = "SmallIcons";
-      break;
-    case KfmView::HOR_ICONS:
-      entry = "LargeIcons";
-      break;
-    default:
-      assert( 0 );
-      break;
-    }
-  config->writeEntry( "RightViewMode", entry);
-
-  config->writeEntry( "RightShowDotFiles", m_bRightShowDot );
-  config->writeEntry( "LeftShowDotFiles", m_bLeftShowDot );
-
-  config->writeEntry( "RightImagePreview", m_bRightImagePreview );
-  config->writeEntry( "LeftImagePreview", m_bLeftImagePreview );
-  //  config->writeEntry( "AllowHTML", m_pView->isHTMLAllowed() ); FIXME
   
   if ( !m_bShowToolBar )
       config->writeEntry( "Toolbar", "hide" );
@@ -245,6 +141,8 @@ void KfmGuiProps::saveProps( KConfig * config )
 
   config->writeEntry( "WindowWidth", m_width );
   config->writeEntry( "WindowHeight", m_height );
-  
+
+  // FIXME pixmap missing
+
   config->sync();
 }

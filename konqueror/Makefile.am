@@ -13,20 +13,20 @@ konqueror_SOURCES = kfm_main.cc kfm_mainwindow.cc kfm.cc \
 		    kbrowser.cc kfmbrowser.cc kfmpaths.cc \
 		    kfmfinder.cc kfmrun.cc xview.cc \
 		    kfmgui.cc kfmview.cc kfmpopup.cc \
-		    kfmguiprops.cc
+		    kfmguiprops.cc kfmviewprops.cc
 
 noinst_HEADERS = kfm_main.h kfm_mainwindow.h kfm.h \
 		 kbookmark.h kfmicons.h kiconcontainer.h \
 		 kbrowser.h kfmbrowser.h kfmpaths.h \
 		 kfmfinder.h kfmrun.h xview.h \
 		 kfmgui.h kfmview.h kfm_abstract_gui.h \
-		 kfmpopup.h kfmguiprops.h
+		 kfmpopup.h kfmguiprops.h kfmviewprops.h
 
 SRCMETA = kfm_main.moc kfm_mainwindow.moc \
 	  kbookmark.moc kbrowser.moc kfmbrowser.moc \
 	  kfmfinder.moc kfmgui.moc kfmicons.moc \
 	  kfmrun.moc kfmview.moc kiconcontainer.moc \
-	  kfmpopup.moc kfmguiprops.moc
+	  kfmpopup.moc
 
 kdelnk_DATA = konqueror_part.kdelnk
 kdelnkdir = $(kde_datadir)/../partlnk

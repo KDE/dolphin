@@ -18,6 +18,7 @@
 */     
 
 #include "kfmview.h"
+#include "kfmviewprops.h"
 #include "kfmgui.h"
 #include "kpixmapcache.h"
 #include "kservices.h"
@@ -50,12 +51,11 @@ KfmView::KfmView( KfmAbstractGui *_gui, QWidget *_parent ) : QWidgetStack( _pare
 {
   m_pGui         = _gui;
   m_pRun         = 0L;
+
   
   setFocusPolicy( StrongFocus );
   
-  // m_viewMode = FINDER;
-  // m_viewMode = HOR_ICONS;
-  m_viewMode     = NOMODE;
+  m_oldViewMode = NOMODE;
   m_bHTMLAllowed = true;
   m_hasFocus     = false;
   m_popupMenu    = new QPopupMenu();
@@ -63,6 +63,8 @@ KfmView::KfmView( KfmAbstractGui *_gui, QWidget *_parent ) : QWidgetStack( _pare
 
   setFrameStyle( QFrame::Panel | QFrame::Sunken );
   //  setLineWidth( 2 );
+
+  initConfig(); // props has to be ready now - it's read by kfmfinder and others.
 
   m_pFinder = new KfmFinder( this );
   addWidget( m_pFinder , FINDER);
@@ -104,7 +106,8 @@ KfmView::KfmView( KfmAbstractGui *_gui, QWidget *_parent ) : QWidgetStack( _pare
 
   //  connect( m_pGui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
-  initConfig();
+  setViewMode( m_viewMode, false );
+
 }
 
 KfmView::~KfmView()
@@ -128,9 +131,43 @@ KfmView::~KfmView()
     delete m_popupMenu;
 }
 
+KfmViewSettings * KfmView::settings()
+{
+  if (m_viewMode == HTML)
+    return KfmViewSettings::m_pDefaultHTMLSettings;
+  else
+    return KfmViewSettings::m_pDefaultFMSettings;
+}
+
 void KfmView::initConfig()
 {
-  setViewMode( m_pGui->props()->viewMode(), false );
+  // Read application config file if not already done
+  if (!KfmViewProps::m_pDefaultProps)
+  {
+    debug("Reading global config for kfmviewprops");
+    KConfig *config = kapp->getConfig();
+    config->setGroup( "Settings" );
+    KfmViewProps::m_pDefaultProps = new KfmViewProps(config);
+  }
+
+  // Read application config file if not already done
+  if (!KfmViewSettings::m_pDefaultFMSettings)
+  {
+    debug("Reading global config for kfmviewsettings");
+    KConfig *config = kapp->getConfig();
+    config->setGroup( "KFM HTML Defaults" );
+    KfmViewSettings::m_pDefaultHTMLSettings = new KfmViewSettings(config);
+    KfmViewSettings::m_pDefaultFMSettings =
+      KfmViewSettings::m_pDefaultHTMLSettings; // quick hack
+  }
+  
+  // For the moment, no local properties
+  // Copy the default properties
+  m_Props = new KfmViewProps( *KfmViewProps::m_pDefaultProps );
+
+  m_viewMode = m_Props->m_viewMode; // cache a copy, will make things simpler
+
+  // TODO : when saving configuration,   m_Props->m_viewMode = m_viewMode;
 }
 
 void KfmView::fetchFocus()
@@ -273,8 +310,9 @@ void KfmView::openDirectory( const char *_url )
     }
   }
   
-  if ( m_viewMode == HTML && m_pGui->props()->viewMode() != HTML )
-    setViewMode( m_pGui->props()->viewMode(), false );
+// ?
+//  if ( m_viewMode == HTML && m_Props->viewMode() != HTML )
+//    setViewMode( m_Props->viewMode(), false );
   
   if ( m_viewMode == FINDER )
     m_pFinder->openURL( _url );
@@ -811,7 +849,7 @@ void KfmView::setHTMLAllowed( bool _allow )
     // selected in the "view" menu. In this case we would have to
     // drop the HTML view due to the changed policy.
     ////////////
-    if ( m_viewMode == gui()->props()->viewMode() )
+    if ( m_viewMode == m_Props->viewMode() ) // probably wrong...
       return;
     // Ok, we can conclude now that we display HTML
     assert( m_viewMode == KfmView::HTML );

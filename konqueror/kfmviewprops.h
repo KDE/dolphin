@@ -22,10 +22,11 @@
 
 #include "kfm_abstract_gui.h"
 #include "kfmview.h"
-#include "kconfig.h"
 
 #include <qcolor.h>
 #include <qpixmap.h>
+
+#include <kconfig.h>
 
 class KfmViewSettings; // see below
 
@@ -67,7 +68,7 @@ public:
 
   //////// The read-only access methods. Order is to be kept. /////
 
-  KfmView::ViewMode viewMode() { return m_ViewMode; }
+  KfmView::ViewMode viewMode() { return m_viewMode; }
   bool isShowingDotFiles() { return m_bShowDot; }
   bool isShowingImagePreview() { return m_bImagePreview; }
   // HTMLView ?
@@ -81,7 +82,7 @@ protected:
   // The static instance. Only KfmView can change its value.
   static KfmViewProps * m_pDefaultProps;
 
-  KfmView::ViewMode m_ViewMode;
+  KfmView::ViewMode m_viewMode;
   bool m_bShowDot;
   bool m_bImagePreview;
   // bool m_bHTMLView; ?
@@ -139,8 +140,8 @@ public:
 
   bool underlineLink() { return m_underlineLink; }
 
-  // No friend for this class :( ... values are only changed by constructor
-  // (user has to use kcmkfm)
+  friend class KfmView; // should be used only for setting the two static instances,
+  // not for changing other member values.
   
 protected:
   static KfmViewSettings * m_pDefaultFMSettings;

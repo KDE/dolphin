@@ -101,7 +101,7 @@ KfmMainWindowIf* KfmMainWindow::kfmInterface()
 
 void KfmMainWindow::createFileMenu( OPMenuBar* _menubar )
 {
-  // Do we loose control over the menubar ?
+  // Do we lose control over the menubar ?
   if ( _menubar == 0L )
   {
     m_pFileMenu = 0L;
@@ -123,7 +123,7 @@ void KfmMainWindow::createFileMenu( OPMenuBar* _menubar )
 
 void KfmMainWindow::createHelpMenu( OPMenuBar* _menubar )
 {
-  // Do we loose control over the menubar ?
+  // Do we lose control over the menubar ?
   if ( _menubar == 0L )
   {
     m_pHelpMenu = 0L;

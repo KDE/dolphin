@@ -38,7 +38,7 @@
 // and to have another instance of this class in each KfmGui, storing the
 // current values of the window.
 //
-// If necessary, the local values can be read from a local kdelnk file.
+// The local values can be read from a kdelnk file, if any (.directory, bookmark, ...).
 
 class KfmGuiProps
 {
@@ -57,7 +57,7 @@ public:
   // ("Settings" for global props, "URL properties" in local props)
   // TODO : will have to be called on slotConfigure
   // TODO : will have to be called for local properties
-  KfmGuiProps( KConfig * config );
+  KfmGuiProps( const KConfig * config );
 
   // Destructor
   virtual ~KfmGuiProps();
@@ -69,80 +69,24 @@ public:
 
   //////// The read-only access methods. Order is to be kept. See below. /////
 
-  //// First group : "Settings" for global props, "URL properties" in local props
-
-  //needed because view´s don´t knothing about left/right
-  KfmView::ViewMode viewMode() { return m_currentViewMode; }
-
-  KfmView::ViewMode leftViewMode() { return m_leftViewMode; }  
-  KfmView::ViewMode rightViewMode() { return m_rightViewMode; }
-
-  //needed because view´s don´t knothing about left/right
-  bool isShowingDotFiles() { return m_bCurrentShowDot; }
-
-  bool isLeftShowingDotFiles() { return m_bLeftShowDot; }
-  bool isRightShowingDotFiles() { return m_bRightShowDot; }
-
-  //needed because view´s don´t knothing about left/right
-  bool isShowingImagePreview() { return m_bCurrentImagePreview; }
-  bool isLeftShowingImagePreview() { return m_bLeftImagePreview; }
-  bool isRightShowingImagePreview() { return m_bRightImagePreview; }
-
-  bool isShowingDirTree() { return m_bDirTree; }
+  // bool isShowingDirTree() { return m_bDirTree; } ?
   bool isSplitView() { return m_bSplitView; }
-
-  // HTMLView ?
-  // Cache ?
   
   // No *bar access methods (all done from KfmGui)
   // No width/height access methods either.
 
-  const QPixmap& bgPixmap() { return m_bgPixmap; }  
+  const QPixmap& bgPixmap() { return m_bgPixmap; } // one per view or one per GUI ?
 
-  //////////// Other group (KFM HTML Defaults)
-  
-  const char* stdFontName() { return m_strStdFontName; }
-  const char* fixedFontName() { return m_strFixedFontName; }
-  int fontSize() { return m_iFontSize; }
-
-  bool changeCursor() { return m_bChangeCursor; }
-  KfmAbstractGui::MouseMode mouseMode() { return m_mouseMode; }
-
-  const QColor& bgColor() { return m_bgColor; }
-  const QColor& textColor() { return m_textColor; }
-  const QColor& linkColor() { return m_linkColor; }
-  const QColor& vLinkColor() { return m_vLinkColor; }
-
-  bool underlineLink() { return m_underlineLink; }
-  
   // A KfmGui can read/write the values directly.
   friend class KfmGui;
-  friend class KfmPart;
   
 protected:
 
   // The static instance. Only KfmGui can change its value.
   static KfmGuiProps * m_pDefaultProps;
-  
-  // The members. Same order as the retrieval methods above. Keep order !
-  
-  KfmView::ViewMode m_currentViewMode;
-  KfmView::ViewMode m_leftViewMode;
-  KfmView::ViewMode m_rightViewMode;
 
-  bool m_bCurrentShowDot;
-  bool m_bLeftShowDot;
-  bool m_bRightShowDot;
-
-  bool m_bCurrentImagePreview;
-  bool m_bLeftImagePreview;
-  bool m_bRightImagePreview;
-
-  bool m_bDirTree;
+  // bool m_bDirTree; ?
   bool m_bSplitView;
-
-  // bool m_bHTMLView;
-  bool m_bCache; // ?
 
   bool m_bShowToolBar;
   KToolBar::BarPosition m_toolBarPos;
@@ -156,24 +100,12 @@ protected:
   int m_width;
   int m_height;
 
-  QPixmap m_bgPixmap;
+  QPixmap m_bgPixmap; // one per view or one per GUI ?
 
-  /// Other group (KFM HTML Defaults)
-  QString m_strStdFontName;
-  QString m_strFixedFontName;
-  int m_iFontSize;  
-  
-  bool m_bChangeCursor;
-  KfmAbstractGui::MouseMode m_mouseMode;
-  QColor m_bgColor;
-  QColor m_textColor;
-  QColor m_linkColor;
-  QColor m_vLinkColor;
-  bool m_underlineLink;
 private:
+
   // There is no default constructor. Use the provided one or copy constructor
   KfmGuiProps::KfmGuiProps();
-
 };
 
 #endif

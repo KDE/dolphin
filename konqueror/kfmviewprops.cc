@@ -25,14 +25,14 @@ KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
 KfmViewProps::KfmViewProps( const KConfig * config )
 {
   QString entry = "LargeIcons"; // default
-  m_ViewMode = KfmView::HOR_ICONS;
+  m_viewMode = KfmView::HOR_ICONS;
   entry = config->readEntry("ViewMode", entry);
   if (entry == "SmallIcons")
-    m_ViewMode = KfmView::VERT_ICONS;
+    m_viewMode = KfmView::VERT_ICONS;
   if (entry == "TreeView")
-    m_ViewMode = KfmView::FINDER;
+    m_viewMode = KfmView::FINDER;
   if (entry == "HTMLView")
-    m_ViewMode = KfmView::HTML;
+    m_viewMode = KfmView::HTML;
 
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
@@ -46,7 +46,7 @@ KfmViewProps::~KfmViewProps()
 void KfmViewProps::saveProps( KConfig * config )
 {
   QString entry;
-  switch ( m_ViewMode )
+  switch ( m_viewMode )
     {
     case KfmView::HOR_ICONS: entry = "LargeIcons"; break;
     case KfmView::FINDER: entry = "TreeView"; break;
@@ -63,8 +63,8 @@ void KfmViewProps::saveProps( KConfig * config )
 
 //////////////////// KfmViewSettings ///////////////////////////////
 
-KfmViewSettings * KfmViewSettings::m_pDefaultFMSettings;
-KfmViewSettings * KfmViewSettings::m_pDefaultHTMLSettings;
+KfmViewSettings * KfmViewSettings::m_pDefaultFMSettings = 0L;
+KfmViewSettings * KfmViewSettings::m_pDefaultHTMLSettings = 0L;
 
 KfmViewSettings::KfmViewSettings( const KConfig * config )
 {

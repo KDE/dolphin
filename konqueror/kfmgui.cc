@@ -23,6 +23,7 @@
 #include "kfmguiprops.h"
 #include "kfmpaths.h"
 #include "kfmview.h"
+#include "kfmviewprops.h"
 #include "kbookmark.h"
 #include "kfm_defaults.h"
 #include "kfm_mainwindow.h"
@@ -146,13 +147,13 @@ void KfmGui::init()
 
   m_bInit = false;
 
-  m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
+  //m_rightView.m_pView->setViewMode(  m_Props->rightViewMode() ); will do it by itself
   m_rightView.m_pView->fetchFocus();
   m_rightView.m_pView->openURL( m_strTmpURL.data() );
 
   if ( m_Props->isSplitView() )
   {
-    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
+    //    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
     m_leftView.m_pView->openURL( m_strTmpURL.data() );
   }
 
@@ -268,12 +269,14 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuView->insertItem( i18n("Rel&oad Tree"), this, "slotReloadTree" , 0 );
   m_vMenuView->insertItem( i18n("&Reload Document"), this, "slotReload" , 0 );
  
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), m_Props->isShowingDirTree() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), m_Props->isSplitView() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 3 ), m_Props->isShowingDotFiles() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 4 ), m_Props->isShowingImagePreview() );
+  KfmViewProps * vProps = m_currentView.m_pView->props();
 
-  setViewModeMenu( m_Props->viewMode() );
+//  m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), m_currentView->props()->isShowingDirTree() );
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), m_Props->isSplitView() );
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 3 ), vProps->isShowingDotFiles() );
+  m_vMenuView->setItemChecked( m_vMenuView->idAt( 4 ), vProps->isShowingImagePreview() );
+
+  setViewModeMenu( vProps->viewMode() );
 
   m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), m_currentView.m_pView->isHTMLAllowed() );
 
@@ -400,8 +403,9 @@ void KfmGui::initConfig()
 
   if ( !m_bInit )
   {
-    m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
-    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
+    // views will set their mode by themselves - to be checked
+    //    m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
+    //    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
   }
   else
     this->resize(m_Props->m_width,m_Props->m_height);
@@ -433,12 +437,12 @@ void KfmGui::initGui()
   m_animatedLogoCounter = 0;
   QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );  
   
-  if ( m_Props->isShowingDirTree() )
+/*  if ( m_Props->isShowingDirTree() )
   {    
-    /* gl = new QGridLayout( pannerChild0, 1, 1 );
-       gl->addWidget( treeView, 0, 0 ); */
+     gl = new QGridLayout( pannerChild0, 1, 1 );
+       gl->addWidget( treeView, 0, 0 );
   }
-  else if ( m_Props->isSplitView() )
+  else*/ if ( m_Props->isSplitView() )
   {
     m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
     m_pPannerChild0GM->addWidget( m_leftView.m_pView, 0, 0 );
@@ -454,9 +458,9 @@ void KfmGui::initGui()
 
 void KfmGui::initPanner()
 {
-  if ( m_Props->isShowingDirTree() )
+/*  if ( m_Props->isShowingDirTree() )
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 30 );
-  else if ( m_Props->isSplitView() )
+  else */ if ( m_Props->isSplitView() )
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 50 );
   else
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 0 );
@@ -881,13 +885,13 @@ void KfmGui::slotSplitView()
     return;
   }
   
-  if ( m_Props->m_bDirTree )
+/*if ( m_Props->m_bDirTree )
   {
     if ( !CORBA::is_nil( m_vMenuView ) )
       m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), false );
     // TODO: Delete dir tree
   }
-
+*/
   if ( !CORBA::is_nil( m_vMenuView ) )  
     m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), true );
     
@@ -899,7 +903,7 @@ void KfmGui::slotSplitView()
   m_rightView.m_pView->clearFocus();
   
   m_leftView.m_pView = new KfmView( this, m_pPannerChild0 );
-  m_leftView.m_pView->setViewMode( m_Props->leftViewMode(), false );
+//  m_leftView.m_pView->setViewMode( m_Props->leftViewMode(), false ); automatic
 
   m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
   m_pPannerChild0GM->addWidget( m_leftView.m_pView, 0, 0 );
@@ -939,8 +943,7 @@ void KfmGui::slotLargeIcons()
   }
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_Props->m_currentViewMode =  KfmView::HOR_ICONS;
-  m_currentView.m_pView->setViewMode( m_Props->viewMode() );
+  m_currentView.m_pView->setViewMode( KfmView::HOR_ICONS );
 }
 
 void KfmGui::slotSmallIcons()
@@ -954,8 +957,7 @@ void KfmGui::slotSmallIcons()
       
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_Props->m_currentViewMode = KfmView::VERT_ICONS;
-  m_currentView.m_pView->setViewMode( m_Props->viewMode() );
+  m_currentView.m_pView->setViewMode( KfmView::VERT_ICONS );
 }
 
 void KfmGui::slotTreeView()
@@ -969,8 +971,7 @@ void KfmGui::slotTreeView()
   
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_Props->m_currentViewMode = KfmView::FINDER;
-  m_currentView.m_pView->setViewMode( m_Props->viewMode() );
+  m_currentView.m_pView->setViewMode( KfmView::FINDER );
 }
 
 void KfmGui::slotHTMLView()
@@ -1296,7 +1297,7 @@ void KfmGui::slotGotFocus( KfmView* _view )
     m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, hasForwardHistory() );
   }    
 
-  setViewModeMenu( m_Props->viewMode() );
+  setViewModeMenu( m_currentView.m_pView->props()->viewMode() );
   setLocationBarURL( m_currentView.m_pView->currentURL() );
 }
 
@@ -1326,21 +1327,21 @@ void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
   }
 }
 
-void KfmGui::fillCurrentView( View _view )
+void KfmGui::fillCurrentView( View _view ) // probably not needed anymore
 {
   m_currentView = _view;
 
   if ( _view.m_pView == m_leftView.m_pView )
   {
-    m_Props->m_currentViewMode = m_Props->leftViewMode();
+/*    m_Props->m_currentViewMode = m_Props->leftViewMode();
     m_Props->m_bCurrentShowDot = m_Props->isLeftShowingDotFiles();
-    m_Props->m_bCurrentImagePreview = m_Props->isLeftShowingImagePreview();
+    m_Props->m_bCurrentImagePreview = m_Props->isLeftShowingImagePreview(); */
   }
   else if ( _view.m_pView == m_rightView.m_pView )
   {
-    m_Props->m_currentViewMode = m_Props->rightViewMode();
+/*    m_Props->m_currentViewMode = m_Props->rightViewMode();
     m_Props->m_bCurrentShowDot = m_Props->isRightShowingDotFiles();
-    m_Props->m_bCurrentImagePreview = m_Props->isRightShowingImagePreview();
+    m_Props->m_bCurrentImagePreview = m_Props->isRightShowingImagePreview(); */
   }
 }
 
@@ -1349,16 +1350,16 @@ void KfmGui::saveCurrentView( View _view )
   if ( _view.m_pView == m_leftView.m_pView )
   {
     m_leftView = m_currentView;
-    m_Props->m_leftViewMode = m_Props->viewMode();
+/*    m_Props->m_leftViewMode = m_Props->viewMode();
     m_Props->m_bLeftShowDot = m_Props->isShowingDotFiles();
-    m_Props->m_bLeftImagePreview = m_Props->isShowingImagePreview();
+    m_Props->m_bLeftImagePreview = m_Props->isShowingImagePreview(); */
   }
   else if ( _view.m_pView == m_rightView.m_pView )
   {
     m_rightView = m_currentView;
-    m_Props->m_rightViewMode = m_Props->viewMode();
+/*    m_Props->m_rightViewMode = m_Props->viewMode();
     m_Props->m_bRightShowDot = m_Props->isShowingDotFiles();
-    m_Props->m_bRightImagePreview = m_Props->isShowingImagePreview();
+    m_Props->m_bRightImagePreview = m_Props->isShowingImagePreview(); */
   }
 }
 
