@@ -52,7 +52,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
     labelBrowseServer->setBuddy( editBrowseServer );
     subLayout->addWidget(editBrowseServer,1,2);
     connect(editBrowseServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-    QString wtstr = i18n( "Here you can specify the server that provides browsing informations like the list of servers." );
+    QString wtstr = i18n( "Here you can specify the server that provides browsing information, such as the list of servers." );
     QWhatsThis::add( labelBrowseServer, wtstr );
     QWhatsThis::add( editBrowseServer, wtstr );
 
@@ -205,7 +205,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
     topLayout->addWidget(groupPassword, 6, 0);
     radioPolicyAdd = new QRadioButton( i18n("Add &new bindings"), groupPassword );
     connect(radioPolicyAdd, SIGNAL(clicked()), this, SLOT(changed()));
-    QWhatsThis::add( radioPolicyAdd, i18n( "If a password needs to be entered while browsing, a new entry in the above list is created if you select this option." ) );
+    QWhatsThis::add( radioPolicyAdd, i18n( "Select this option if you want a new entry in the above list to be created when a password is requested while browsing." ) );
 
     radioPolicyNoStore = new QRadioButton( i18n("Don't s&tore new bindings"), groupPassword );
     connect(radioPolicyNoStore, SIGNAL(clicked()), this, SLOT(changed()));
@@ -508,14 +508,14 @@ QString KSMBOptions::quickHelp() const
         "the options are read from when using Samba. In any case, the "
         "broadcast address (interfaces in smb.conf) must be set up if it "
         "is guessed incorrectly or you have multiple cards. A WINS server "
-        "usually improves performances, and reduce the network load a lot.<p>"
+        "usually improves performance, and greatly reduces the network load.<p>"
         "The bindings are used to assign a default user for a given server, "
         "possibly with the corresponding password, or for accessing specific "
-        "shares. If you choose so, new bindings will be created for logins and "
+        "shares. If you choose, new bindings will be created for logins and "
         "shares accessed during browsing. You can edit all of them from here. "
         "Passwords will be stored locally, and scrambled so as to render them "
-        "unreadable for a human eye. For security reasons, you may want not to "
-        "do that. Entries with passwords are clearly indicated as such.<p>");
+        "unreadable to the human eye. For security reasons you may wish not "
+        "to do that, as entries with passwords are clearly indicated as such.<p>");
 }
 
 #include "ksmboptdlg.moc"

@@ -75,7 +75,7 @@
                         </property>
                         <property>
                             <name>whatsThis</name>
-                            <string>If this option is enabled, Konqueror will use the proxy servers provided below for HTTP and FTP connections.  Ask your internet service provider if you don't know if you do have access to proxy servers.&lt;p&gt;Using proxy servers  is optional but can give you faster access to data on the internet.</string>
+                            <string>If this option is enabled, Konqueror will use the proxy servers provided below for HTTP and FTP connections.  Ask your Internet service provider if you don't know if you have access to proxy servers.&lt;p&gt;Using proxy servers is optional, but can give you faster access to data on the Internet.</string>
                         </property>
                     </widget>
                     <widget>
@@ -94,7 +94,7 @@
                         </property>
                         <property>
                             <name>whatsThis</name>
-                            <string>If you want access to an HTTP proxy server, enter its port number here. Your system administrator or ISP should be able to provide with the correct value, but 3128, 8000 and 8080 are good guesses.</string>
+                            <string>If you want access to an HTTP proxy server, enter its port number here. Your system administrator or ISP should be able to provide you with the correct value, but 3128, 8000 and 8080 are good guesses.</string>
                         </property>
                         <grid>
                             <property stdset="1">
@@ -359,7 +359,7 @@
                                         </property>
                                         <property>
                                             <name>whatsThis</name>
-                                            <string>Here you can see a list of all hosts which konqueror will contact without using a proxy. To add, remove or edit an entry, select it and press the according button on the right.</string>
+                                            <string>Here you can see a list of all hosts which Konqueror will contact without using a proxy. To add, remove or edit an entry, select it and press the relevant button on the right.</string>
                                         </property>
                                     </widget>
                                 </grid>
@@ -405,7 +405,7 @@
                                 </property>
                                 <property>
                                     <name>whatsThis</name>
-                                    <string>Check this box if you got an URL for Proxy autoconfiguration from your System Administrator or ISP.</string>
+                                    <string>Check this box if you have obtained a URL for Proxy autoconfiguration from your System Administrator or ISP.</string>
                                 </property>
                             </widget>
                             <widget>
@@ -453,7 +453,7 @@
                                         </property>
                                         <property>
                                             <name>whatsThis</name>
-                                            <string>You can add the URL to the auto configuration script here. It must by provided your system administrator or ISP.</string>
+                                            <string>You can add the URL to the auto configuration script here. It must by provided by your system administrator or ISP.</string>
                                         </property>
                                     </widget>
                                 </hbox>
@@ -514,7 +514,7 @@
                         </property>
                         <property>
                             <name>whatsThis</name>
-                            <string>Click here if you want konqueror to build up a cache. This can be especially useful if you are using a modem.</string>
+                            <string>Click here if you want Konqueror to build up a cache. This can be especially useful if you are using a modem.</string>
                         </property>
                     </widget>
                     <widget>
@@ -567,7 +567,7 @@
                                 </property>
                                 <property>
                                     <name>whatsThis</name>
-                                    <string>Enable this to always lookup the cache before connecting to the internet.</string>
+                                    <string>Enable this to always lookup the cache before connecting to the Internet.</string>
                                 </property>
                             </widget>
                             <widget>
@@ -582,7 +582,7 @@
                                 </property>
                                 <property>
                                     <name>whatsThis</name>
-                                    <string>Enable this to prevent http requests by KDE applications by default.</string>
+                                    <string>Enable this to prevent HTTP requests by KDE applications by default.</string>
                                 </property>
                             </widget>
                         </hbox>
