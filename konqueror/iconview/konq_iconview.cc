@@ -781,10 +781,26 @@ void KonqKfmIconView::slotCanceled( const KURL& url )
         emit canceled( QString::null );
         m_bLoading = false;
     }
+
+    // See slotCompleted(). If a listing gets canceled, it doesn't emit
+    // the completed() signal, so handle that case.
+    if ( !m_pIconView->viewport()->isUpdatesEnabled() )
+    {
+        m_pIconView->viewport()->setUpdatesEnabled( true );
+        m_pIconView->viewport()->repaint();
+    }
 }
 
 void KonqKfmIconView::slotCompleted()
 {
+    // If updates to the viewport are still blocked (so slotNewItems() has
+    // not been called), a viewport repaint is forced.
+    if ( !m_pIconView->viewport()->isUpdatesEnabled() )
+    {
+        m_pIconView->viewport()->setUpdatesEnabled( true );
+        m_pIconView->viewport()->repaint();
+    }
+
     // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
     m_pIconView->setRootItem( m_dirLister->rootItem() );
 
@@ -866,6 +882,10 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     }
     // After filtering out updates-on-insertions we can re-enable updates
     m_pIconView->setUpdatesEnabled( true );
+    // Locking the viewport has filtered out blanking and now, since we
+    // have some items to draw, we can restore updating.
+    if ( !m_pIconView->viewport()->isUpdatesEnabled() )
+        m_pIconView->viewport()->setUpdatesEnabled( true );
     KonqDirPart::newItems( entries );
 }
 
@@ -991,8 +1011,14 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
 void KonqKfmIconView::slotClear()
 {
     resetCount();
-    m_pIconView->clear();
 
+    // We're now going to update the view with new contents. To avoid
+    // meaningless paint operations we disable updating the viewport from now
+    // to the time we'll receive some new data (or in slotComplete in case of
+    // no new data).
+    m_pIconView->viewport()->setUpdatesEnabled( false );
+
+    m_pIconView->clear();
     // If directory properties are changed, apply pending changes
     // changes are: view background or color, iconsize, enabled previews
     if ( m_bDirPropertiesChanged )
