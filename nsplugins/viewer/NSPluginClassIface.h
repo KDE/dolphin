@@ -36,7 +36,7 @@ class NSPluginViewerIface : virtual public DCOPObject
   K_DCOP
 
 k_dcop:
-  virtual ASYNC shutdown() = 0;
+  virtual void shutdown() = 0;
   virtual DCOPRef newClass(QString plugin) = 0;
 };
 
@@ -61,7 +61,7 @@ class NSPluginInstanceIface : virtual public DCOPObject
 
 k_dcop:
 
-  virtual ASYNC shutdown() = 0;
+  virtual void shutdown() = 0;
 
   virtual int winId() = 0;
 
