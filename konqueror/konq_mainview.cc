@@ -471,9 +471,6 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 {
   Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
 
-  m_vView->setMainWindow( m_vMainWindow );
-  m_vView->setParent( this );
-
   View *v = new View;
   Row * currentRow;
   if (m_currentView)
@@ -504,63 +501,6 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   v->m_pFrame->show();
   v->row = currentRow;
   m_vView->show( true );
-
-  try
-  {
-    m_vView->connect("openURL", this, "openURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("started", this, "slotURLStarted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""started"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("completed", this, "slotURLCompleted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""completed"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("setStatusBarText", this, "setStatusBarText");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("setLocationBarURL", this, "setLocationBarURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("createNewWindow", this, "createNewWindow");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
-  }
-  try
-  {
-    m_vView->connect("popupMenu", this, "popupMenu");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
-  }
 
   createViewMenu();
 }
@@ -637,13 +577,11 @@ void KonqMainView::removeView( OpenParts::Id id )
     delete it->second->m_pFrame;
     m_mapViews.erase( it );
   }
-  //createViewMenu();
 }
 
 void KonqMainView::changeViewMode( const char *viewName )
 {
   CORBA::String_var vn = m_currentView->m_vView->viewName();
-  
   cerr << "current view is a " << vn.in() << endl;
   
   // check the current view name against the asked one
@@ -652,6 +590,7 @@ void KonqMainView::changeViewMode( const char *viewName )
   else
   {
     Konqueror::View_var vView = createViewByName( viewName );
+    connectView( vView );
 
     m_mapViews.erase( m_currentView->m_vView->id() );
     
@@ -704,65 +643,7 @@ Konqueror::View_ptr KonqMainView::createViewByName( const char *viewName )
     vView = Konqueror::View::_duplicate( factory->create() );
   }
     
-  vView->setMainWindow( m_vMainWindow );
-  vView->setParent( this );
-
-  try
-  {
-    vView->connect("openURL", this, "openURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("started", this, "slotURLStarted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""started"" " << endl;
-  }
-  try
-  {
-    vView->connect("completed", this, "slotURLCompleted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""completed"" " << endl;
-  }
-  try
-  {
-    vView->connect("setStatusBarText", this, "setStatusBarText");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
-  }
-  try
-  {
-    vView->connect("setLocationBarURL", this, "setLocationBarURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("createNewWindow", this, "createNewWindow");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
-  }
-  try
-  {
-    vView->connect("popupMenu", this, "popupMenu");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
-  }
+  connectView( vView );
 
   return Konqueror::View::_duplicate( vView );
 }
@@ -1253,7 +1134,33 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
     m_dctServiceTypes.remove( viewName );
 
   m_dctServiceTypes.insert( viewName, new QString( serviceType ) );
+
+  m_mapViews.erase( m_currentView->m_vView->id() );
+
+  connectView( vView );
   
+  m_currentView->m_vView->disconnectObject( this );
+  m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+  m_currentView->m_pFrame->attach( vView );
+  m_currentView->m_pFrame->show();
+  m_currentId = vView->id();
+  
+  m_mapViews[ vView->id() ] = m_currentView;
+        
+  setUpURL( 0 );
+  
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+}
+
+void KonqMainView::connectView( Konqueror::View_ptr view )
+{
+  Konqueror::View_var vView = Konqueror::View::_duplicate( view );
+
   vView->setMainWindow( m_vMainWindow );
   vView->setParent( this );
 
@@ -1314,26 +1221,6 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
     cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
   }
 
-  m_mapViews.erase( m_currentView->m_vView->id() );
-  
-  m_currentView->m_vView->disconnectObject( this );
-  m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-  m_currentView->m_pFrame->attach( vView );
-  m_currentView->m_pFrame->show();
-  m_currentId = vView->id();
-  
-  m_mapViews[ vView->id() ] = m_currentView;
-        
-  // createViewMenu();
-
-  setUpURL( 0 );
-  
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( url );
-  eventURL.reload = (CORBA::Boolean)false;
-  eventURL.xOffset = 0;
-  eventURL.yOffset = 0;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
 
@@ -1344,7 +1231,8 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   CORBA::String_var viewName = m_currentView->m_vView->viewName();
 
   Konqueror::View_var vView = createViewByName( viewName.in() );
-  insertView ( vView, newViewPosition );
+  connectView( vView );
+  insertView( vView, newViewPosition );
   
   Konqueror::EventOpenURL eventURL;
   eventURL.url = url;
@@ -1995,6 +1883,8 @@ void KonqMainView::initView()
 {
   Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
   Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
+  connectView( vView1 );
+  connectView( vView2 );
   insertView( vView1, Konqueror::left );
   insertView( vView2, Konqueror::right );
 

@@ -200,6 +200,8 @@ protected:
   Konqueror::View_ptr createViewByName( const char *viewName );
   /* Create a new view from the current view (same URL, same view type) */
   void splitView ( Konqueror::NewViewPosition newViewPosition );
+  /* Connects a view to the mainview. Do this after creating it and before inserting it */
+  void connectView( Konqueror::View_ptr view );
 
   struct View;
   
