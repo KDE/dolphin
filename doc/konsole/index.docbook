@@ -1,10 +1,8 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
- <!ENTITY kappname "&konsole;">
- <!ENTITY % English "INCLUDE">
- <!ENTITY % addindex "IGNORE">
- 
- 
+<!ENTITY kappname "&konsole;">
+<!ENTITY % English "INCLUDE">
+<!ENTITY % addindex "IGNORE">
 ]>
 
 <book lang="&language;">
@@ -19,7 +17,7 @@
 <address><email>jsinger@leeta.net</email></address>
 </affiliation>
 </author>
-
+      
 <othercredit role="developer">
 <firstname>Chris</firstname>
 <surname>Machemer</surname>
@@ -50,8 +48,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-03-15</date>
-<releaseinfo>1.00.10</releaseinfo>
+<date>2001-06-07</date>
+<releaseinfo>1.00.20</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole; application.</para>
 <para>&konsole; is an X terminal emulator for &kde; 2.0</para></abstract>
@@ -63,7 +61,7 @@
 <keyword>command</keyword>
 <keyword>line</keyword>
 </keywordset>
-    
+
 </bookinfo>
 
 <chapter id="introduction">
@@ -79,18 +77,19 @@ use multiple terminal shells in a single window.</para>
 
 <para>Using &konsole;, a user can open:</para>
 <itemizedlist>	
-<listitem><para>Linux console sessions</para></listitem>
+<listitem><para>&Linux; console sessions</para></listitem>
 <listitem><para><application>Midnight Commander</application> file manager
 sessions</para></listitem>  
 <listitem><para>Shell sessions</para></listitem>
-<listitem><para>Root console sessions</para></listitem>
+<listitem><para><systemitem class="username">Root</systemitem> console sessions</para></listitem>
+<listitem><para><systemitem class="username">Root</systemitem> <application>Midnight Commander</application> sessions</para></listitem>
 </itemizedlist>
-    
+
 <para>These sessions can be renamed to help you keep track of all your shells,
 or signaled (<errorcode>STOP</errorcode>, <errorcode>CONT</errorcode>,
 <errorcode>HUP</errorcode>, <errorcode>INT</errorcode>,
 <errorcode>TERM</errorcode>, <errorcode>KILL</errorcode>).</para>
-    
+
 <para>For more control over &konsole;, a user can:</para>
 <itemizedlist>
 <listitem><para>hide/show the menubar, toolbar and/or frame</para></listitem>
@@ -99,10 +98,10 @@ key mapping</para></listitem>
 <listitem><para>change location of the scrollbar or hide the
 scrollbar</para></listitem>
 </itemizedlist>
-		       
+
 <para>All chosen settings can be made the default for forthcoming sessions by
 saving them. </para>
-    
+
 <sect1 id="history">
 <title>History</title>
 
@@ -133,14 +132,14 @@ the window. Simply type at the prompt.</para>
 
 <screenshot>
 <screeninfo>&konsole; Screen</screeninfo>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="konsole.png" format="PNG"/>
-          </imageobject>
-          <textobject>
-            <phrase>&konsole; Screen</phrase>
-          </textobject>
-        </mediaobject>
+<mediaobject>
+<imageobject>
+<imagedata fileref="konsole.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>&konsole; Screen</phrase>
+</textobject>
+</mediaobject>
 </screenshot>
 
 </sect1>
@@ -197,10 +196,10 @@ clipboard visible by holding the marked area reversed. The marked area reverts
 back to normal as soon as either the contents of the clipboard is changed, the
 text within the marked area is altered or the <mousebutton>left</mousebutton>
 mouse button is clicked.</para>
-	    
+
 <para>To mark text on a mouse-aware application the <keycap>Shift</keycap> key
 has to be pressed when clicking.</para>
-	    
+
 </listitem>
 </varlistentry>
 
@@ -219,13 +218,17 @@ mouse.</para></note>
 </varlistentry>
 
 <varlistentry>
-<term><mousebutton>Right</mousebutton></term> 
-<listitem><para>The <mousebutton>right</mousebutton> button brings up the
-<guimenu>Settings</guimenu> menu. The <keycombo action="simul"><keycap>Ctrl</keycap> <mousebutton>right</mousebutton></keycombo>
-button brings up the <guimenu>File</guimenu> menu, while <keycombo
-								   action="simul"><keycap>Shift</keycap>
+<term><mousebutton>Right</mousebutton></term>
+<listitem>
+<para>
+The <mousebutton>right</mousebutton> button brings up the
+<guimenu>Settings</guimenu> menu. The <keycombo action="simul">&Ctrl;
 <mousebutton>right</mousebutton></keycombo> button brings up the
-<guimenu>Sessions</guimenu> menu.</para></listitem>
+<guimenu>File</guimenu> menu, while <keycombo action="simul">&Shift;
+<mousebutton>right</mousebutton></keycombo> button brings up the
+<guimenu>Sessions</guimenu> menu.
+</para>
+</listitem>
 </varlistentry>
 </variablelist>
 
@@ -249,9 +252,9 @@ clicking in the window.</para>
 Console</guimenuitem></menuchoice></term>
 <listitem><para><action> Opens a new session emulating a text-only Linux
 system.</action></para>
-<note><para>See the file <filename>README.linux.console</filename> in the &konsole;
-source package for detailed information on how the Linux console differs from a typical Unix
-console.</para></note></listitem>
+<note><para>See the file <filename>README.linux.console</filename> in
+the &konsole; source package for detailed information on how the &Linux;
+console differs from a typical &UNIX; console.</para></note></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -269,14 +272,45 @@ shell</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>File</guimenu><guimenuitem>Root
-Console</guimenuitem></menuchoice></term>
-<listitem><para><action>Opens a new session with a terminal shell, as the root
-user. </action></para><para>After being prompted for the root password, the
-<prompt>#</prompt> prompt appears, indicating that the user is working with root
-privileges. This is frequently necessary for installing new software and other
-system maintenance, but care should be taken to avoid accidental
-damage.</para></listitem>
+<term>
+<menuchoice><guimenu>File</guimenu>
+<guimenuitem>Root Console</guimenuitem></menuchoice>
+</term>
+<listitem>
+<para>
+<action>Opens a new session with a terminal shell, as the <systemitem
+class="username">root</systemitem> user.</action>
+</para>
+
+<para>
+After being prompted for the <systemitem
+class="username">root</systemitem> password, the <prompt>#</prompt>
+prompt appears, indicating that the user is working with <systemitem
+class="username">root</systemitem> privileges. This is frequently
+necessary for installing new software and other system maintenance, but
+care should be taken to avoid accidental damage.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice><guimenu>File</guimenu>
+<guimenuitem>Root Midnight Commander</guimenuitem></menuchoice>
+</term>
+<listitem>
+<para>
+<action>Opens a new session with the <application>Midnight
+Commander</application> graphical file browser, as the <systemitem
+class="username">root</systemitem> user. </action>
+</para>
+<para>
+After being prompted for the root password, the <prompt>#</prompt>
+prompt appears under the browser window, indicating that the user is
+working with root privileges. Again, this is frequently necessary but
+care should be taken to avoid accidental damage.
+</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -286,6 +320,25 @@ damage.</para></listitem>
 applications launched from them.</para></listitem>
 </varlistentry>
 </variablelist>
+
+<para>
+You can also define a key shortcut to launch a new terminal shell. The
+files with a <literal role="extension">*.keytab</literal> extension in
+<filename
+class="directory">$<envar>KDEDIR</envar>/share/apps/konsole</filename>
+define keyboard shortcuts.
+</para>
+
+<para>
+For instance, adding the definition: <userinput>key F12 + Shift :
+newSession</userinput> to the active keytab files causes a new shell to
+be launched upon hitting <keycombo
+action="simul">&Shift;<keycap>F12</keycap></keycombo>.  Use the
+<menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Keyboard</guimenuitem></menuchoice> menu command to choose
+a keytab file. The file <filename>README.KeyTab</filename> contains more
+information on defining shortcuts.
+</para>
 
 </sect2>
 
@@ -371,7 +424,6 @@ Session...</guimenuitem></menuchoice></term>
 session</action></para></listitem>
 </varlistentry>
 
-
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
 <accel>M</accel>enubar</guimenuitem></menuchoice></term>
@@ -417,9 +469,10 @@ rows)</action></para></listitem>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Fonts</guisubmenu></menuchoice></term>
 <listitem><para><action>Sets font and font size</action></para>
-<para>Select the <guimenuitem>Custom</guimenuitem> option to use any combination
-of font, size and style. The <filename>README.fonts</filename> file in the &konsole;
-source package gives tips on which fonts will work well.</para></listitem>
+<para>Select the <guimenuitem>Custom</guimenuitem> option to use any
+combination of font, size and style. The
+<filename>README.fonts</filename> file in the &konsole; source package
+gives tips on which fonts will work well.</para></listitem> 
 </varlistentry>
 
 <varlistentry>
@@ -427,8 +480,14 @@ source package gives tips on which fonts will work well.</para></listitem>
 <guimenuitem><accel>S</accel>chema</guimenuitem></menuchoice></term>
 <listitem><para><action>Sets colors of text and background</action></para>
 <para>The list of these schemata is taken from
-<filename>$KDEDIR/share/apps/konsole/*.schema</filename>. Add to or modify these files
-to match your needs.</para></listitem>
+<filename>$KDEDIR/share/apps/konsole/*.schema</filename>. The file
+<filename>$KDEDIR/share/apps/konsole/README.Schema</filename> 
+describes the schema format in more detail. Add to or modify these
+files to match your needs.  You can also create custom schema from the 
+&kcontrolcenter; module <menuchoice><guisubmenu>System</guisubmenu> 
+<guimenuitem>Konsole</guimenuitem></menuchoice>.
+</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -449,7 +508,9 @@ of the window</action></para></listitem>
 <guimenuitem><accel>K</accel>eyboard</guimenuitem></menuchoice></term>
 <listitem><para><action>Chooses desired keymapping</action></para>
 <para>The list of these keymappings is taken from
-<filename>$KDEDIR/share/apps/konsole/*.keytab</filename>. Add to or modify these
+<filename>$KDEDIR/share/apps/konsole/*.keytab</filename>. The file 
+<filename>$KDEDIR/share/apps/konsole/README.KeyTab</filename>
+describes the keytab format in more detail. Add to or modify these
 files to match your needs.</para></listitem>
 </varlistentry>
 
@@ -587,13 +648,13 @@ the window</action></para></listitem>
 <listitem><para>Start &konsole; <action>without a toolbar</action></para></listitem>
 </varlistentry>
 <varlistentry>
-<term><option>--vt_sz <replaceable>CCxLL</replaceable></option></term>
+<term><option>--vt_sz</option> <parameter>CCxLL</parameter></term>
 <listitem><para><action>Start a terminal window of CC Columns and LL
 lines</action></para></listitem>
 </varlistentry>
 <varlistentry>
-<term><option> -e <replaceable>&lt;command&gt;</replaceable></option></term>
-<listitem><para><action>Execute &lt;command&gt; instead of
+<term><option>-e</option> <parameter>command</parameter></term>
+<listitem><para><action>Execute <parameter>command</parameter> instead of
 shell</action></para></listitem>
 </varlistentry>
 </variablelist>
@@ -602,10 +663,11 @@ shell</action></para></listitem>
 
 <informalexample>
 <screen>
-<prompt>bash$</prompt> <userinput><command>konsole</command> <replaceable>--vt_sz 90x25 --nohist</replaceable></userinput>
+<prompt>bash$</prompt> <userinput><command>konsole</command> <option>--vt_sz</option> <parameter>90x25</parameter> <option>--nohist</option></userinput>
 </screen>
 
-<para> starts a &konsole; window with 90 columns and 25 rows, with no history</para>
+<para> starts a &konsole; window with 90 columns and 25 rows, with no
+history</para>
 </informalexample>
 
 <para>&konsole; also accepts generic &Qt; and KDE options:</para>
@@ -644,12 +706,12 @@ shell</action></para></listitem>
 <chapter id="credits">
 <title>Credits and Copyright</title>
 
-
 <para>&konsole; is maintained by Chris Machemer
 <email>machey@ptd.net</email></para>
 
-<para>The application &konsole; <trademark class="copyright">copyright 1997-2000
-Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
+<para>The application &konsole; <trademark class="copyright">copyright
+1997-2000 Lars Doelle</trademark>
+<email>lars.doelle@on-line.de</email></para>
 
 <para>This document was written by Jonathan Singer
 <email>jsinger@genome.wi.mit.edu</email></para>
@@ -662,18 +724,18 @@ Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 &underGPL;
 </chapter>
 
-
 <appendix id="installation">
 <title>Installation</title>
 
-<para>&konsole; is part of the &kde; 2.0 base packages.  It will automatically be
-installed with your &kde; installation, and requires &kde; 2.0 to function.</para>
-<para>For more information, you should visit the &kde; website at <ulink
+<para>&konsole; is part of the &kde; 2.0 base packages.  It will
+automatically be installed with your &kde; installation, and requires
+&kde; 2.0 to function.</para> <para>For more information, you should
+visit the &kde; website at <ulink
 url="http://www.kde.org/">http://www.kde.org/</ulink></para>
 
-<para>To obtain &konsole; separately, download the kdebase package, and compile
-and install it as indicated in the package's main directory.  New versions of
-kdebase can be obtained at <ulink
+<para>To obtain &konsole; separately, download the kdebase package, and
+compile and install it as indicated in the package's main directory.
+New versions of kdebase can be obtained at <ulink
 url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
 
 <para>To build &konsole;:</para>
@@ -686,20 +748,19 @@ url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
 <prompt>#</prompt>  <userinput><command>make</command> <option>install</option></userinput>
 </screen>
 
-<para>Information on building &konsole; on platforms other than Linux is available
-in the <filename>README.ports</filename> file in the &konsole; source package. It provides a
-list of experts for certain platforms (Tru64, Solaris, OpenBSD) and requests volunteers
-from other Unix platforms.</para>
+<para>Information on building &konsole; on platforms other than &Linux;
+is available in the <filename>README.ports</filename> file in the
+&konsole; source package. It provides a list of experts for certain
+platforms (Tru64, Solaris, OpenBSD) and requests volunteers from other
+&UNIX; platforms.</para>
 
 </appendix>
 
-  
 &documentation.index; 
 
 </book>
 
 <!--
-
 Local Variables:
 mode: sgml
 sgml-omittag: nil
