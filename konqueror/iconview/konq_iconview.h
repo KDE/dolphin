@@ -76,9 +76,7 @@ public:
   int iconSize() { return m_pIconView->iconSize(); }
 
 public slots:
-  void slotImagePreview( bool toggle );
-  void slotTextPreview( bool toggle );
-  void slotHTMLPreview( bool toggle );
+  void slotPreview( bool toggle );
   void slotShowDot();
   void slotSelect();
   void slotUnselect();
@@ -165,9 +163,11 @@ protected:
   SortCriterion m_eSortCriterion;
 
   KToggleAction *m_paDotFiles;
-  KToggleAction *m_paImagePreview;
+/*  KToggleAction *m_paImagePreview;
   KToggleAction *m_paTextPreview;
-  KToggleAction *m_paHTMLPreview;
+  KToggleAction *m_paHTMLPreview;*/
+  KActionMenu *m_pamPreview;
+  QList<KToggleAction> m_paPreviewPlugins;
   KActionMenu *m_pamSort;
 
   KAction *m_paSelect;

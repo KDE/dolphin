@@ -46,6 +46,7 @@
 #include <kparts/factory.h>
 #include <kiconloader.h>
 #include <kapp.h>
+#include <ktrader.h>
 
 #include <qmessagebox.h>
 #include <qfile.h>
@@ -213,13 +214,15 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bInit = true;
 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
-    m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, actionCollection(), "image_preview" );
-    m_paTextPreview = new KToggleAction( i18n( "&Text Preview" ), 0, actionCollection(), "text_preview" );
-    m_paHTMLPreview = new KToggleAction( i18n( "HTML &Preview" ), 0, actionCollection(), "html_preview" );
-
-    connect( m_paImagePreview, SIGNAL( toggled( bool ) ), this, SLOT( slotImagePreview( bool ) ) );
-    connect( m_paTextPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotTextPreview( bool ) ) );
-    connect( m_paHTMLPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotHTMLPreview( bool ) ) );
+    m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
+    KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
+    for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
+    {
+        KToggleAction *preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().latin1() );
+        connect( preview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
+        m_pamPreview->insert( preview );
+        m_paPreviewPlugins.append( preview );
+    }
 
     //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
 
@@ -329,41 +332,13 @@ const KFileItem * KonqKfmIconView::currentItem()
     return m_pIconView->currentItem() ? static_cast<KFileIVI *>(m_pIconView->currentItem())->item() : 0L;
 }
 
-void KonqKfmIconView::slotImagePreview( bool toggle )
+void KonqKfmIconView::slotPreview( bool toggle )
 {
-    m_pProps->setShowingPreview( KonqPropsView::IMAGEPREVIEW, toggle );
+    m_pProps->setShowingPreview( sender()->name(), toggle );
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(), "image/" /* make those normal again */);
-    }
-    else
-    {
-        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
-    }
-}
-
-void KonqKfmIconView::slotTextPreview( bool toggle )
-{
-    m_pProps->setShowingPreview( KonqPropsView::TEXTPREVIEW, toggle );
-    if ( !toggle )
-    {
-        m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(),  "text/" /* make those normal again */);
-    }
-    else
-    {
-        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
-    }
-}
-
-void KonqKfmIconView::slotHTMLPreview( bool toggle )
-{
-    m_pProps->setShowingPreview( KonqPropsView::HTMLPREVIEW, toggle );
-    if ( !toggle )
-    {
-        m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(),  "text/html" /* make those normal again */);
+        m_pIconView->setIcons( m_pIconView->iconSize(), 0 /*FIXME (malte)*/);
     }
     else
     {
@@ -844,9 +819,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
       newIconSize( m_pProps->iconSize() );
 
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
-      m_paImagePreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::IMAGEPREVIEW) );
-      m_paTextPreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::TEXTPREVIEW) );
-      m_paHTMLPreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::HTMLPREVIEW) );
+      for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
+          m_paPreviewPlugins.current()->setChecked( m_pProps->isShowingPreview( m_paPreviewPlugins.current()->name() ) );
 
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.
