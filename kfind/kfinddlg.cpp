@@ -126,6 +126,18 @@ void KfindDlg::startSearch()
   connect(dirwatch, SIGNAL(deleted(const QString&)), this, SLOT(slotDeleteItem(const QString&)));
   dirwatch->addDir(query->url().path(),true);
 
+#if 0
+  // waba: Watching for updates is disabled for now because even with FAM it causes too
+  // much problems. See BR68220, BR77854, BR77846, BR79512 and BR85802
+  // There are 3 problems:
+  // 1) addDir() keeps looping on recursive symlinks
+  // 2) addDir() scans all subdirectories, so it basically does the same as the process that
+  // is started by KQuery but in-process, undoing the advantages of using a seperate find process
+  // A solution could be to let KQuery emit all the directories it has searched in.
+  // Either way, putting dirwatchers on a whole file system is probably just too much.
+  // 3) FAM has a tendency to deadlock with so many files (See BR77854) This has hopefully
+  // been fixed in KDirWatch, but that has not yet been confirmed.
+
   //Getting a list of all subdirs
   if(tabWidget->isSearchRecursive() && (dirwatch->internalMethod() == KDirWatch::FAM))
   {
@@ -133,6 +145,7 @@ void KfindDlg::startSearch()
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
       dirwatch->addDir(*it,true);
   }
+#endif
 
   win->beginSearch(query->url());
   tabWidget->beginSearch();
