@@ -69,6 +69,7 @@
 #include <kwm.h>
 
 #include <assert.h>
+#include <pwd.h>
 
 enum _ids {
 /////  toolbar gear and lineedit /////
@@ -758,7 +759,7 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
     index = url.find( "/" );
     if ( index != -1 )
     {
-      user = url.mid( 1, index );
+      user = url.mid( 1, index-1 );
       path = url.mid( index+1 );
     }
     else
@@ -767,10 +768,19 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
     if ( user.isEmpty() )
       user = QDir::homeDirPath();
     else
-      //HACK, is this ok????????????
-      user.prepend( "/home/" );
-      
-    KURL u( user + path );
+    {
+      struct passwd *pwe = getpwnam( user.latin1() );
+      if ( !pwe )
+      {
+	QMessageBox::warning( this, i18n( "Konqueror: Error" ),
+	                      i18n( "User %1 doesn't exist" ).arg( user ),
+			      i18n( "&OK" ) );
+	return;
+      }
+      user = QString::fromLatin1( pwe->pw_dir );
+    }
+    
+    KURL u( user + '/' + path );
     url = u.url();
   }
   else if ( strncmp( url, "www.", 4 ) == 0 )
