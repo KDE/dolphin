@@ -492,8 +492,9 @@ void KonqIconViewWidget::readAnimatedIconsConfig()
     d->gridXspacing = cfgGroup.readNumEntry( "GridXSpacing", 50);
 }
 
-void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
+void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
 {
+    KFileIVI* item = static_cast<KFileIVI *>( _item );
     // Reset icon of previous item
     if( d->pActiveItem != 0L && d->pActiveItem != item )
     {
@@ -511,7 +512,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     }
 
     // Stop sound
-    if (d->pSoundPlayer != 0 && static_cast<KFileIVI *>(item) != d->pSoundItem)
+    if (d->pSoundPlayer != 0 && item != d->pSoundItem)
     {
         d->pSoundPlayer->stop();
 
@@ -524,7 +525,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     {
         if( item != d->pActiveItem )
         {
-            d->pActiveItem = static_cast<KFileIVI *>(item);
+            d->pActiveItem = item;
             if ( topLevelWidget() == kapp->activeWindow() )
                 d->pFileTip->setItem( d->pActiveItem );
 
@@ -606,9 +607,10 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     // ## shouldn't this be disabled during rectangular selection too ?
     if (d->bSoundPreviews && d->pSoundPlayer &&
         d->pSoundPlayer->mimeTypes().contains(
-            static_cast<KFileIVI *>(item)->item()->mimetype()))
+            item->item()->mimetype())
+        && KGlobalSettings::showFilePreview(item->item()->url()))
     {
-        d->pSoundItem = static_cast<KFileIVI *>(item);
+        d->pSoundItem = item;
         d->bSoundItemClicked = false;
         if (!d->pSoundTimer)
         {
