@@ -103,12 +103,12 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             m_pViewManager->mainWindow()->action("breakoffcurrenttab")->shortcut(),
                             BREAKOFF_ID );
   m_pPopupMenu->insertSeparator();
-  m_closeOtherTabsId =
-    m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ),
-                              i18n("&Close Tab"),
-                              m_pViewManager->mainWindow(),
-                              SLOT( slotRemoveTabPopup() ),
-                              m_pViewManager->mainWindow()->action("removecurrenttab")->shortcut() );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ),
+                            i18n("&Close Tab"),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotRemoveTabPopup() ),
+                            m_pViewManager->mainWindow()->action("removecurrenttab")->shortcut(),
+                            CLOSETAB_ID );
   connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & ) ),
            SLOT(slotContextMenu( QWidget *, const QPoint & ) ) );
 
@@ -489,12 +489,12 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
         i++;
     }
     m_pSubPopupMenuTab->insertSeparator();
-    m_pSubPopupMenuTab->insertItem( SmallIcon( "tab_remove" ),
-                                    i18n( "Close &Other Tabs" ),
-                                    m_pViewManager->mainWindow(),
-                                    SLOT( slotRemoveOtherTabsPopup() ),
-                                    m_pViewManager->mainWindow()->action("removeothertabs")->shortcut(),
-                                    m_closeOtherTabsId );
+    m_closeOtherTabsId =
+      m_pSubPopupMenuTab->insertItem( SmallIcon( "tab_remove" ),
+				      i18n( "Close &Other Tabs" ),
+				      m_pViewManager->mainWindow(),
+				      SLOT( slotRemoveOtherTabsPopup() ),
+				      m_pViewManager->mainWindow()->action("removeothertabs")->shortcut() );
 }
 
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
