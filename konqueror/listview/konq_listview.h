@@ -17,33 +17,33 @@
    Boston, MA 02111-1307, USA.
 */
 
-#ifndef __konq_treeview_h__
-#define __konq_treeview_h__
+#ifndef __konq_listview_h__
+#define __konq_listview_h__
 
 #include <kparts/browserextension.h>
 #include <kuserpaths.h>
 #include <konqoperations.h>
-#include <konq_treeviewwidget.h>
+#include <konq_listviewwidget.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 
 class KToggleAction;
-class TreeViewBrowserExtension;
+class ListViewBrowserExtension;
 
 /**
  * The part for the tree view. It does quite nothing, just the
  * konqueror interface. Most of the functionality is in the
- * widget, KonqTreeViewWidget.
+ * widget, KonqListViewWidget.
  */
-class KonqTreeView : public KParts::ReadOnlyPart
+class KonqListView : public KParts::ReadOnlyPart
 {
-  friend class KonqTreeViewWidget;
+  friend class KonqListViewWidget;
   Q_OBJECT
 public:
-  KonqTreeView( QWidget *parentWidget, QObject *parent, const char *name );
-  virtual ~KonqTreeView();
+  KonqListView( QWidget *parentWidget, QObject *parent, const char *name );
+  virtual ~KonqListView();
 
   virtual bool openURL( const KURL &url );
 
@@ -51,9 +51,9 @@ public:
 
   virtual bool openFile() { return true; }
 
-  KonqTreeViewWidget *treeViewWidget() const { return m_pTreeView; }
+  KonqListViewWidget *listViewWidget() const { return m_pListView; }
 
-  TreeViewBrowserExtension *extension() const { return m_browser; }
+  ListViewBrowserExtension *extension() const { return m_browser; }
 
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
@@ -63,18 +63,18 @@ protected slots:
   void slotShowDot();
 
 private:
-  KonqTreeViewWidget *m_pTreeView;
+  KonqListViewWidget *m_pListView;
   KToggleAction *m_paShowDot;
-  TreeViewBrowserExtension *m_browser;
+  ListViewBrowserExtension *m_browser;
 };
 
-class TreeViewBrowserExtension : public KParts::BrowserExtension
+class ListViewBrowserExtension : public KParts::BrowserExtension
 {
   Q_OBJECT
-  friend class KonqTreeView;
-  friend class KonqTreeViewWidget;
+  friend class KonqListView;
+  friend class KonqListViewWidget;
 public:
-  TreeViewBrowserExtension( KonqTreeView *treeView );
+  ListViewBrowserExtension( KonqListView *listView );
 
   virtual int xOffset();
   virtual int yOffset();
@@ -87,11 +87,11 @@ protected slots:
   void pastecut() { pasteSelection( true ); }
   void pastecopy() { pasteSelection( false ); }
   void trash() { KonqOperations::del(KonqOperations::TRASH,
-                                     m_treeView->treeViewWidget()->selectedUrls()); }
+                                     m_listView->listViewWidget()->selectedUrls()); }
   void del() { KonqOperations::del(KonqOperations::DEL,
-                                   m_treeView->treeViewWidget()->selectedUrls()); }
+                                   m_listView->listViewWidget()->selectedUrls()); }
   void shred() { KonqOperations::del(KonqOperations::SHRED,
-                                     m_treeView->treeViewWidget()->selectedUrls()); }
+                                     m_listView->listViewWidget()->selectedUrls()); }
 
   void reparseConfiguration();
   void saveLocalProperties();
@@ -100,7 +100,7 @@ protected slots:
 private:
   void pasteSelection( bool move );
 
-  KonqTreeView *m_treeView;
+  KonqListView *m_listView;
 };
 
 #endif

@@ -18,8 +18,8 @@
 */
 
 #include "konq_propsview.h"
-#include "konq_treeviewitems.h"
-#include "konq_treeviewwidget.h"
+#include "konq_listviewitems.h"
+#include "konq_listviewwidget.h"
 #include <konqfileitem.h>
 #include <kio/job.h>
 #include <kio/global.h>
@@ -29,25 +29,25 @@
 
 /**************************************************************
  *
- * KonqTreeViewItem
+ * KonqListViewItem
  *
  **************************************************************/
 
-KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir * _parent, KonqFileItem* _fileitem )
+KonqListViewItem::KonqListViewItem( KonqListViewWidget *_listViewWidget, KonqListViewDir * _parent, KonqFileItem* _fileitem )
   : QListViewItem( _parent ), m_fileitem( _fileitem )
 {
-  m_pTreeViewWidget = _treeViewWidget;
+  m_pListViewWidget = _listViewWidget;
   init();
 }
 
-KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqFileItem* _fileitem )
-  : QListViewItem( _treeViewWidget ), m_fileitem( _fileitem )
+KonqListViewItem::KonqListViewItem( KonqListViewWidget *_listViewWidget, KonqFileItem* _fileitem )
+  : QListViewItem( _listViewWidget ), m_fileitem( _fileitem )
 {
-  m_pTreeViewWidget = _treeViewWidget;
+  m_pListViewWidget = _listViewWidget;
   init();
 }
 
-void KonqTreeViewItem::init()
+void KonqListViewItem::init()
 {
   setPixmap( 0, m_fileitem->pixmap( KIconLoader::Small, false /*no image preview*/ ) );
   // Set the text of each column
@@ -55,7 +55,7 @@ void KonqTreeViewItem::init()
   KIO::UDSEntry::ConstIterator it = entry.begin();
   for( ; it != entry.end(); it++ ) {
     const KIO::UDSAtom & atom = (*it);
-    int * pColumn = m_pTreeViewWidget->columnForAtom( atom.m_uds );
+    int * pColumn = m_pListViewWidget->columnForAtom( atom.m_uds );
     if ( pColumn )
     {
       // We want to put that atom in the column *pColumn
@@ -90,7 +90,7 @@ void KonqTreeViewItem::init()
   }
 }
 
-QString KonqTreeViewItem::key( int _column, bool ) const
+QString KonqListViewItem::key( int _column, bool ) const
 {
   // TODO return a judicious key for dates
 
@@ -112,7 +112,7 @@ QString KonqTreeViewItem::key( int _column, bool ) const
 }
 
 /*
-QString KonqTreeViewItem::text( int _column ) const
+QString KonqListViewItem::text( int _column ) const
 {
   if ( _column >= (int)m_fileitem->entry().count() )
     return "";
@@ -141,12 +141,12 @@ QString KonqTreeViewItem::text( int _column ) const
 }
 */
 
-QString KonqTreeViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
+QString KonqListViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
 {
   return KGlobal::locale()->formatNumber( _atom.m_long, 0);
 }
 
-QString KonqTreeViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
+QString KonqListViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
 {
   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
 
@@ -154,7 +154,7 @@ QString KonqTreeViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
     KGlobal::locale()->formatTime(dt.time());
 }
 
-QString KonqTreeViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
+QString KonqListViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
 {
   mode_t mode = (mode_t) _atom.m_long;
 
@@ -167,7 +167,7 @@ QString KonqTreeViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
     return i18n( "File" );
 }
 
-QString KonqTreeViewItem::makeAccessString( const KIO::UDSAtom &_atom ) const
+QString KonqListViewItem::makeAccessString( const KIO::UDSAtom &_atom ) const
 {
   static char buffer[ 12 ];
 
@@ -216,11 +216,11 @@ QString KonqTreeViewItem::makeAccessString( const KIO::UDSAtom &_atom ) const
   return QString::fromLatin1(buffer);
 }
 
-void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
+void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
   // Underline link ?
-  if ( m_pTreeViewWidget->m_bSingleClick &&
-       m_pTreeViewWidget->m_bUnderlineLink && _column == 0)
+  if ( m_pListViewWidget->m_bSingleClick &&
+       m_pListViewWidget->m_bUnderlineLink && _column == 0)
   {
     QFont f = _painter->font();
     f.setUnderline( true );
@@ -228,10 +228,10 @@ void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   }
   // TODO text color
 
-  if (!m_pTreeViewWidget->props()->bgPixmap().isNull())
+  if (!m_pListViewWidget->props()->bgPixmap().isNull())
   {
     _painter->drawTiledPixmap( 0, 0, _width, height(),
-                               m_pTreeViewWidget->props()->bgPixmap(),
+                               m_pListViewWidget->props()->bgPixmap(),
                                0, 0 ); // ?
   }
 
@@ -245,47 +245,47 @@ void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
 /**************************************************************
  *
- * KonqTreeViewDir
+ * KonqListViewDir
  *
  **************************************************************/
 
-KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem )
-  : KonqTreeViewItem( _parent, _fileitem )
+KonqListViewDir::KonqListViewDir( KonqListViewWidget *_parent, KonqFileItem* _fileitem )
+  : KonqListViewItem( _parent, _fileitem )
 {
-  m_pTreeViewWidget->addSubDir( _fileitem->url(), this );
+  m_pListViewWidget->addSubDir( _fileitem->url(), this );
 
   m_bComplete = false;
 }
 
-KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KonqFileItem* _fileitem )
-  : KonqTreeViewItem( _treeview, _parent, _fileitem )
+KonqListViewDir::KonqListViewDir( KonqListViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem )
+  : KonqListViewItem( _treeview, _parent, _fileitem )
 {
-  m_pTreeViewWidget->addSubDir( _fileitem->url(), this );
+  m_pListViewWidget->addSubDir( _fileitem->url(), this );
 
   m_bComplete = false;
 }
 
-KonqTreeViewDir::~KonqTreeViewDir()
+KonqListViewDir::~KonqListViewDir()
 {
-  if ( m_pTreeViewWidget )
-    m_pTreeViewWidget->removeSubDir( m_fileitem->url() );
+  if ( m_pListViewWidget )
+    m_pListViewWidget->removeSubDir( m_fileitem->url() );
 }
 
-void KonqTreeViewDir::setup()
+void KonqListViewDir::setup()
 {
   setExpandable( true );
   QListViewItem::setup();
 }
 
-void KonqTreeViewDir::setOpen( bool _open )
+void KonqListViewDir::setOpen( bool _open )
 {
   if ( _open && !m_bComplete ) // complete it before opening
-    m_pTreeViewWidget->openSubFolder( m_fileitem->url(), this );
+    m_pListViewWidget->openSubFolder( m_fileitem->url(), this );
 
   QListViewItem::setOpen( _open );
 }
 
-QString KonqTreeViewDir::url( int _trailing )
+QString KonqListViewDir::url( int _trailing )
 {
   return m_fileitem->url().url( _trailing );
 }

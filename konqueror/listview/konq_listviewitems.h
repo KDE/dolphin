@@ -17,23 +17,23 @@
    Boston, MA 02111-1307, USA.
 */
 
-#ifndef __konq_treeviewitems_h__
-#define __konq_treeviewitems_h__
+#ifndef __konq_listviewitems_h__
+#define __konq_listviewitems_h__
 
 #include <qlistview.h>
 #include <qstring.h>
 #include <kio/global.h>
 
-class KonqTreeViewWidget;
+class KonqListViewWidget;
 class KMimeType;
 class KonqFileItem;
-class KonqTreeViewDir;
+class KonqListViewDir;
 class QPainter;
 
 /**
  * One item in the tree
  */
-class KonqTreeViewItem : public QListViewItem
+class KonqListViewItem : public QListViewItem
 {
 public:
   /**
@@ -41,15 +41,15 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqFileItem* _fileitem );
+  KonqListViewItem( KonqListViewWidget *_listViewWidget, KonqFileItem* _fileitem );
   /**
    * Create an item representing a file, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir *_parent, KonqFileItem* _fileitem );
-  virtual ~KonqTreeViewItem() { }
+  KonqListViewItem( KonqListViewWidget *_listViewWidget, KonqListViewDir *_parent, KonqFileItem* _fileitem );
+  virtual ~KonqListViewItem() { }
 
   /** @return the file item held by this instance */
   KonqFileItem * item() { return m_fileitem; }
@@ -59,7 +59,7 @@ public:
 
   /** Call this before destroying the tree view (decreases reference count
    * on the view) */
-  virtual void prepareToDie() { m_pTreeViewWidget = 0L; }
+  virtual void prepareToDie() { m_pListViewWidget = 0L; }
   virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                           int column, int width, int alignment );
 
@@ -75,13 +75,13 @@ protected:
   KonqFileItem* m_fileitem;
 
   /** Parent tree view */
-  KonqTreeViewWidget* m_pTreeViewWidget;
+  KonqListViewWidget* m_pListViewWidget;
 };
 
 /**
  * An item specialized for directories
  */
-class KonqTreeViewDir : public KonqTreeViewItem
+class KonqListViewDir : public KonqListViewItem
 {
 public:
   /**
@@ -89,15 +89,15 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem );
+  KonqListViewDir( KonqListViewWidget *_parent, KonqFileItem* _fileitem );
   /**
    * Create an item representing a directory, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KonqFileItem* _fileitem );
-  virtual ~KonqTreeViewDir();
+  KonqListViewDir( KonqListViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem );
+  virtual ~KonqListViewDir();
 
   /**
    * Called when user opens the directory (inherited from QListViewItem).

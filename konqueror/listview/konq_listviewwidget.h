@@ -16,8 +16,8 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
-#ifndef __konq_treeviewwidget_h__
-#define __konq_treeviewwidget_h__
+#ifndef __konq_listviewwidget_h__
+#define __konq_listviewwidget_h__
 
 #include <qcursor.h>
 #include <qpixmap.h>
@@ -31,70 +31,70 @@
 namespace KIO { class Job; }
 class QCursor;
 class KDirLister;
-class KonqTreeViewItem;
-class KonqTreeViewDir;
-class KonqTreeView;
+class KonqListViewItem;
+class KonqListViewDir;
+class KonqListView;
 class KonqPropsView;
 class KonqFMSettings;
-class TreeViewPropertiesExtension;
+class ListViewPropertiesExtension;
 
 /**
  * The tree view widget (based on KListView).
  * Most of the functionality is here.
  */
-class KonqTreeViewWidget : public KListView
+class KonqListViewWidget : public KListView
 {
-  friend KonqTreeViewItem;
-  friend KonqTreeViewDir;
-  friend KonqTreeView;
-  friend class TreeViewBrowserExtension;
+  friend KonqListViewItem;
+  friend KonqListViewDir;
+  friend KonqListView;
+  friend class ListViewBrowserExtension;
 
   Q_OBJECT
 public:
-  KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWidget );
-  ~KonqTreeViewWidget();
+  KonqListViewWidget( KonqListView *parent, QWidget *parentWidget );
+  ~KonqListViewWidget();
 
   void stop();
   const KURL & url();
 
-  enum KonqTreeViewMode { ListMode, TreeMode };
+  enum KonqListViewMode { ListMode, TreeMode };
 
   struct iterator
   {
-    KonqTreeViewItem* m_p;
+    KonqListViewItem* m_p;
 
     iterator() : m_p( 0L ) { }
-    iterator( KonqTreeViewItem* _b ) : m_p( _b ) { }
+    iterator( KonqListViewItem* _b ) : m_p( _b ) { }
     iterator( const iterator& _it ) : m_p( _it.m_p ) { }
 
-    KonqTreeViewItem& operator*() { return *m_p; }
-    KonqTreeViewItem* operator->() { return m_p; }
+    KonqListViewItem& operator*() { return *m_p; }
+    KonqListViewItem* operator->() { return m_p; }
     bool operator==( const iterator& _it ) { return ( m_p == _it.m_p ); }
     bool operator!=( const iterator& _it ) { return ( m_p != _it.m_p ); }
     iterator& operator++();
     iterator operator++(int);
   };
 
-  iterator begin() { iterator it( (KonqTreeViewItem*)firstChild() ); return it; }
+  iterator begin() { iterator it( (KonqListViewItem*)firstChild() ); return it; }
   iterator end() { iterator it; return it; }
 
   virtual bool openURL( const KURL &url );
 
-  virtual void openSubFolder( const KURL &_url, KonqTreeViewDir* _dir );
+  virtual void openSubFolder( const KURL &_url, KonqListViewDir* _dir );
 
   /**
-   * Used by KonqTreeViewItem, to know how to sort the file details
-   * The KonqTreeViewWidget holds the configuration for it, which is why
+   * Used by KonqListViewItem, to know how to sort the file details
+   * The KonqListViewWidget holds the configuration for it, which is why
    * it provides this method.
    * @returns a pointer to the column number, or 0L if the atom shouldn't be displayed
    */
   int * columnForAtom( int atom ) { return m_dctColumnForAtom[ atom ]; }
 
-  void selectedItems( QValueList<KonqTreeViewItem*>& _list );
+  void selectedItems( QValueList<KonqListViewItem*>& _list );
   KURL::List selectedUrls();
 
-  /** @return the KonqTreeViewDir which handles the directory _url */
-  virtual KonqTreeViewDir * findDir ( const QString & _url );
+  /** @return the KonqListViewDir which handles the directory _url */
+  virtual KonqListViewDir * findDir ( const QString & _url );
 
   /**
    * @return the Properties instance for this view. Used by the items.
@@ -141,7 +141,7 @@ protected:
   virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
   virtual void keyPressEvent( QKeyEvent *_ev );
 
-  virtual void addSubDir( const KURL & _url, KonqTreeViewDir* _dir );
+  virtual void addSubDir( const KURL & _url, KonqListViewDir* _dir );
   virtual void removeSubDir( const KURL & _url );
   /** Common method for slotCompleted and slotCanceled */
   virtual void setComplete();
@@ -171,9 +171,9 @@ protected:
    * Otherwise, m_pWorkingDir points to the directory item we are listing,
    * and all files found will be created under this directory item.
    */
-  KonqTreeViewDir* m_pWorkingDir;
+  KonqListViewDir* m_pWorkingDir;
   // Cache, for findDir
-  KonqTreeViewDir* m_lasttvd;
+  KonqListViewDir* m_lasttvd;
 
   /**
    * In which column should go each UDS atom
@@ -187,15 +187,15 @@ protected:
 
   int m_iColumns;
 
-  QDict<KonqTreeViewDir> m_mapSubDirs;
+  QDict<KonqListViewDir> m_mapSubDirs;
 
-  KonqTreeViewItem* m_dragOverItem;
-  KonqTreeViewItem* m_overItem;
+  KonqListViewItem* m_dragOverItem;
+  KonqListViewItem* m_overItem;
   QStringList m_lstDropFormats;
 
   bool m_pressed;
   QPoint m_pressedPos;
-  KonqTreeViewItem* m_pressedItem;
+  KonqListViewItem* m_pressedItem;
 
   QCursor m_stdCursor;
   QCursor m_handCursor;
@@ -208,13 +208,13 @@ protected:
 
   long int m_idShowDot;
 
-  KonqTreeViewMode m_mode;
+  KonqListViewMode m_mode;
   bool m_showIcons;
   bool m_checkMimeTypes;  
 
   KURL m_url;
 
-  KonqTreeView *m_pBrowserView;
+  KonqListView *m_pBrowserView;
 
 };
 

@@ -17,9 +17,9 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_treeview.h"
-#include "konq_treeviewitems.h"
-#include "konq_treeviewwidget.h"
+#include "konq_listview.h"
+#include "konq_listviewitems.h"
+#include "konq_listviewwidget.h"
 
 #include <qdragobject.h>
 #include <qheader.h>
@@ -42,12 +42,12 @@
 
 #include <assert.h>
 
-template class QDict<KonqTreeViewDir>;
+template class QDict<KonqListViewDir>;
 
-KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWidget )
+KonqListViewWidget::KonqListViewWidget( KonqListView *parent, QWidget *parentWidget )
 : KListView( parentWidget )
 {
-  kDebugInfo( 1202, "+KonqTreeViewWidget");
+  kDebugInfo( 1202, "+KonqListViewWidget");
 
   setMultiSelection( true );
 
@@ -109,9 +109,9 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWid
 
 }
 
-KonqTreeViewWidget::~KonqTreeViewWidget()
+KonqListViewWidget::~KonqListViewWidget()
 {
-  kDebugInfo( 1202, "-KonqTreeViewWidget");
+  kDebugInfo( 1202, "-KonqListViewWidget");
 
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
@@ -122,23 +122,23 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
 
 }
 
-void KonqTreeViewWidget::stop()
+void KonqListViewWidget::stop()
 {
   m_dirLister->stop();
 }
 
-const KURL & KonqTreeViewWidget::url()
+const KURL & KonqListViewWidget::url()
 {
   return m_url;
 }
 
-QStringList KonqTreeViewWidget::readProtocolConfig( const QString & protocol )
+QStringList KonqListViewWidget::readProtocolConfig( const QString & protocol )
 {
   KConfig * config = KGlobal::config();
-  if ( config->hasGroup( "TreeView_" + protocol ) )
-    config->setGroup( "TreeView_" + protocol );
+  if ( config->hasGroup( "ListView_" + protocol ) )
+    config->setGroup( "ListView_" + protocol );
   else
-    config->setGroup( "TreeView_default" );
+    config->setGroup( "ListView_default" );
 
   QStringList lstColumns = config->readListEntry( "Columns" );
   if (lstColumns.isEmpty())
@@ -193,7 +193,7 @@ QStringList KonqTreeViewWidget::readProtocolConfig( const QString & protocol )
   return lstColumns;
 }
 
-void KonqTreeViewWidget::initConfig()
+void KonqListViewWidget::initConfig()
 {
   QColor bgColor           = m_pSettings->bgColor();
   // TODO QColor textColor         = m_pSettings->normalTextColor();
@@ -220,9 +220,9 @@ void KonqTreeViewWidget::initConfig()
   m_bChangeCursor      = m_pSettings->changeCursor();
 }
 
-void KonqTreeViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
+void KonqListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
-  KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( _ev->pos() );
+  KonqListViewItem *item = (KonqListViewItem*)itemAt( _ev->pos() );
   if ( !item )
   {
     if ( m_dragOverItem )
@@ -251,7 +251,7 @@ void KonqTreeViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
   return;
 }
 
-void KonqTreeViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
+void KonqListViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
 {
   m_dragOverItem = 0L;
 
@@ -268,7 +268,7 @@ void KonqTreeViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
   _ev->accept();
 }
 
-void KonqTreeViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
+void KonqListViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
 {
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
@@ -279,20 +279,20 @@ void KonqTreeViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
   /** End DEBUG CODE */
 }
 
-void KonqTreeViewWidget::viewportDropEvent( QDropEvent *ev  )
+void KonqListViewWidget::viewportDropEvent( QDropEvent *ev  )
 {
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
   m_dragOverItem = 0L;
 
-  KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( ev->pos() );
+  KonqListViewItem *item = (KonqListViewItem*)itemAt( ev->pos() );
 
   KonqFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
   assert( destItem );
   KonqOperations::doDrop( destItem, ev, this );
 }
 
-void KonqTreeViewWidget::addSubDir( const KURL & _url, KonqTreeViewDir* _dir )
+void KonqListViewWidget::addSubDir( const KURL & _url, KonqListViewDir* _dir )
 {
   m_mapSubDirs.insert( _url.url(), _dir );
 
@@ -300,7 +300,7 @@ void KonqTreeViewWidget::addSubDir( const KURL & _url, KonqTreeViewDir* _dir )
     kdirwatch->addDir( _url.path(0) );
 }
 
-void KonqTreeViewWidget::removeSubDir( const KURL & _url )
+void KonqListViewWidget::removeSubDir( const KURL & _url )
 {
   m_lasttvd = 0L; // drop cache, to avoid segfaults
   m_mapSubDirs.remove( _url.url() );
@@ -309,7 +309,7 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
     kdirwatch->removeDir( _url.path(0) );
 }
 
-void KonqTreeViewWidget::keyPressEvent( QKeyEvent *_ev )
+void KonqListViewWidget::keyPressEvent( QKeyEvent *_ev )
 {
   // We are only interested in the escape key here
   if ( _ev->key() != Key_Escape )
@@ -318,7 +318,7 @@ void KonqTreeViewWidget::keyPressEvent( QKeyEvent *_ev )
     return;
   }
 
-  KonqTreeViewItem* item = (KonqTreeViewItem*)currentItem();
+  KonqListViewItem* item = (KonqListViewItem*)currentItem();
 
   if ( !item->isSelected() )
   {
@@ -335,7 +335,7 @@ void KonqTreeViewWidget::keyPressEvent( QKeyEvent *_ev )
   popupMenu( p );
 }
 
-void KonqTreeViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
+void KonqListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
 {
 
   QPoint globalPos = mapToGlobal( _ev->pos() );
@@ -343,7 +343,7 @@ void KonqTreeViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
 
   if ( m_bSingleClick )
   {
-    KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( _ev->pos() );
+    KonqListViewItem *item = (KonqListViewItem*)itemAt( _ev->pos() );
     if ( item )
     {
       if ( m_overItem )
@@ -389,7 +389,7 @@ void KonqTreeViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
   }
 }
 
-void KonqTreeViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
+void KonqListViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 {
   if ( !m_pressed )
     return;
@@ -409,7 +409,7 @@ void KonqTreeViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
   m_pressedItem = 0L;
 }
 
-void KonqTreeViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
+void KonqListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 {
   KListView::viewportMouseMoveEvent( _mouse );
 
@@ -462,7 +462,7 @@ void KonqTreeViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
   }
 }
 
-bool KonqTreeViewWidget::isSingleClickArea( const QPoint& _point )
+bool KonqListViewWidget::isSingleClickArea( const QPoint& _point )
 {
   if ( itemAt( _point ) )
   {
@@ -480,9 +480,9 @@ bool KonqTreeViewWidget::isSingleClickArea( const QPoint& _point )
   return false;
 }
 
-void KonqTreeViewWidget::slotOnItem( QListViewItem* _item)
+void KonqListViewWidget::slotOnItem( QListViewItem* _item)
 {
-  KonqTreeViewItem* item = (KonqTreeViewItem*)_item;
+  KonqListViewItem* item = (KonqListViewItem*)_item;
 
   QString s;
 
@@ -495,13 +495,13 @@ void KonqTreeViewWidget::slotOnItem( QListViewItem* _item)
   emit m_pBrowserView->setStatusBarText( s );
 }
 
-void KonqTreeViewWidget::slotOnViewport()
+void KonqListViewWidget::slotOnViewport()
 {
   m_overItem = 0L;
   //TODO: Display summary in ListMode in statusbar, like iconview does
 }
 
-void KonqTreeViewWidget::selectedItems( QValueList<KonqTreeViewItem*>& _list )
+void KonqListViewWidget::selectedItems( QValueList<KonqListViewItem*>& _list )
 {
   iterator it = begin();
   for( ; it != end(); it++ )
@@ -509,7 +509,7 @@ void KonqTreeViewWidget::selectedItems( QValueList<KonqTreeViewItem*>& _list )
       _list.append( &*it );
 }
 
-KURL::List KonqTreeViewWidget::selectedUrls()
+KURL::List KonqListViewWidget::selectedUrls()
 {
   KURL::List list;
   iterator it = begin();
@@ -519,12 +519,12 @@ KURL::List KonqTreeViewWidget::selectedUrls()
   return list;
 }
 
-void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
+void KonqListViewWidget::slotReturnPressed( QListViewItem *_item )
 {
   if ( !_item )
     return;
 
-  KonqFileItem *item = ((KonqTreeViewItem*)_item)->item();
+  KonqFileItem *item = ((KonqListViewItem*)_item)->item();
   mode_t mode = item->mode();
 
   //execute only if item is a file (or a symlink to a file)
@@ -536,7 +536,7 @@ void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
   }
 }
 
-void KonqTreeViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )
+void KonqListViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )
 {
   if ( _item && !_item->isSelected() )
   {
@@ -556,13 +556,13 @@ void KonqTreeViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPo
   popupMenu( _global );
 }
 
-void KonqTreeViewWidget::popupMenu( const QPoint& _global )
+void KonqListViewWidget::popupMenu( const QPoint& _global )
 {
   KonqFileItemList lstItems;
 
-  QValueList<KonqTreeViewItem*> items;
+  QValueList<KonqListViewItem*> items;
   selectedItems( items );
-  QValueList<KonqTreeViewItem*>::Iterator it = items.begin();
+  QValueList<KonqListViewItem*>::Iterator it = items.begin();
   for( ; it != items.end(); ++it )
     lstItems.append( (*it)->item() );
 
@@ -575,7 +575,7 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
   emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
 }
 
-bool KonqTreeViewWidget::openURL( const KURL &url )
+bool KonqListViewWidget::openURL( const KURL &url )
 {
   bool isNewProtocol = false;
 
@@ -637,13 +637,13 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
   }
 
   // Start the directory lister !
-  m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
+  m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
 
 //  setCaptionFromURL( m_url );
   return true;
 }
 
-void KonqTreeViewWidget::setComplete()
+void KonqListViewWidget::setComplete()
 {
   if ( m_pWorkingDir )
   {
@@ -658,13 +658,13 @@ void KonqTreeViewWidget::setComplete()
   }
 }
 
-void KonqTreeViewWidget::slotStarted( const QString & /*url*/ )
+void KonqListViewWidget::slotStarted( const QString & /*url*/ )
 {
   if ( !m_bTopLevelComplete )
     emit m_pBrowserView->started( 0 );
 }
 
-void KonqTreeViewWidget::slotCompleted()
+void KonqListViewWidget::slotCompleted()
 {
   bool complete = m_bTopLevelComplete; 
   setComplete();
@@ -672,20 +672,20 @@ void KonqTreeViewWidget::slotCompleted()
     emit m_pBrowserView->completed();
 }
 
-void KonqTreeViewWidget::slotCanceled()
+void KonqListViewWidget::slotCanceled()
 {
   setComplete();
   emit m_pBrowserView->canceled( QString::null );
 }
 
-void KonqTreeViewWidget::slotClear()
+void KonqListViewWidget::slotClear()
 {
-  kDebugInfo( 1202, "KonqTreeViewWidget::slotClear()");
+  kDebugInfo( 1202, "KonqListViewWidget::slotClear()");
   if ( !m_pWorkingDir )
     clear();
 }
 
-void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
+void KonqListViewWidget::slotNewItems( const KonqFileItemList & entries )
 {
   QListIterator<KonqFileItem> kit ( entries );
   for( ; kit.current(); ++kit )
@@ -695,7 +695,7 @@ void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
     KURL dir ( (*kit)->url() );
     dir.setFileName( "" );
     //kDebugInfo( 1202, "dir = %s", dir.url().ascii());
-    KonqTreeViewDir * parentDir = 0L;
+    KonqListViewDir * parentDir = 0L;
     if( !m_url.cmp( dir, true ) ) // ignore trailing slash
       {
         parentDir = findDir ( dir.url( 0 ) );
@@ -706,31 +706,31 @@ void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
 
     case ListMode: 
       if ( isdir )
-	new KonqTreeViewDir( this, (*kit) );
+	new KonqListViewDir( this, (*kit) );
       else
-	new KonqTreeViewItem( this, (*kit) );
+	new KonqListViewItem( this, (*kit) );
       break;
 
     case TreeMode: 
       if ( parentDir ) { // adding under a directory item
 	if ( isdir )
-	  new KonqTreeViewDir( this, parentDir, (*kit) );
+	  new KonqListViewDir( this, parentDir, (*kit) );
 	else
-	  new KonqTreeViewItem( this, parentDir, (*kit) );
+	  new KonqListViewItem( this, parentDir, (*kit) );
       } else { // adding on the toplevel
 	if ( isdir )
-	  new KonqTreeViewDir( this, (*kit) );
+	  new KonqListViewDir( this, (*kit) );
 	else
-	  new KonqTreeViewItem( this, (*kit) );
+	  new KonqListViewItem( this, (*kit) );
       }
       break;
 
-    default: kDebugInfo( 1202,"Unknown TreeView Mode!!!");
+    default: kDebugInfo( 1202,"Unknown ListView Mode!!!");
     }
   }
 }
 
-void KonqTreeViewWidget::slotDeleteItem( KonqFileItem * _fileitem )
+void KonqListViewWidget::slotDeleteItem( KonqFileItem * _fileitem )
 {
   kDebugInfo(1202,"removing %s from tree!", _fileitem->url().url().ascii() );
   iterator it = begin();
@@ -742,7 +742,7 @@ void KonqTreeViewWidget::slotDeleteItem( KonqFileItem * _fileitem )
     }
 }
 
-void KonqTreeViewWidget::openSubFolder( const KURL &_url, KonqTreeViewDir* _dir )
+void KonqListViewWidget::openSubFolder( const KURL &_url, KonqListViewDir* _dir )
 {
   if ( !m_bTopLevelComplete )
   {
@@ -772,55 +772,55 @@ void KonqTreeViewWidget::openSubFolder( const KURL &_url, KonqTreeViewDir* _dir 
 
   m_bSubFolderComplete = false;
   m_pWorkingDir = _dir;
-  m_dirLister->openURL( _url, m_pProps->m_bShowDot, true /* keep existing data */ );
+  m_dirLister->openURL( _url, m_pProps->isShowingDotFiles(), true /* keep existing data */ );
 }
 
-KonqTreeViewWidget::iterator& KonqTreeViewWidget::iterator::operator++()
+KonqListViewWidget::iterator& KonqListViewWidget::iterator::operator++()
 {
   if ( !m_p ) return *this;
-  KonqTreeViewItem *i = (KonqTreeViewItem*)m_p->firstChild();
+  KonqListViewItem *i = (KonqListViewItem*)m_p->firstChild();
   if ( i )
   {
     m_p = i;
     return *this;
   }
-  i = (KonqTreeViewItem*)m_p->nextSibling();
+  i = (KonqListViewItem*)m_p->nextSibling();
   if ( i )
   {
     m_p = i;
     return *this;
   }
-  m_p = (KonqTreeViewItem*)m_p->parent();
+  m_p = (KonqListViewItem*)m_p->parent();
   if ( m_p )
-    m_p = (KonqTreeViewItem*)m_p->nextSibling();
+    m_p = (KonqListViewItem*)m_p->nextSibling();
 
   return *this;
 }
 
-KonqTreeViewWidget::iterator KonqTreeViewWidget::iterator::operator++(int)
+KonqListViewWidget::iterator KonqListViewWidget::iterator::operator++(int)
 {
-  KonqTreeViewWidget::iterator it = *this;
+  KonqListViewWidget::iterator it = *this;
   if ( !m_p ) return it;
-  KonqTreeViewItem *i = (KonqTreeViewItem*)m_p->firstChild();
+  KonqListViewItem *i = (KonqListViewItem*)m_p->firstChild();
   if ( i )
   {
     m_p = i;
     return it;
   }
-  i = (KonqTreeViewItem*)m_p->nextSibling();
+  i = (KonqListViewItem*)m_p->nextSibling();
   if ( i )
   {
     m_p = i;
     return it;
   }
-  m_p = (KonqTreeViewItem*)m_p->parent();
+  m_p = (KonqListViewItem*)m_p->parent();
   if ( m_p )
-    m_p = (KonqTreeViewItem*)m_p->nextSibling();
+    m_p = (KonqListViewItem*)m_p->nextSibling();
 
   return it;
 }
 
-void KonqTreeViewWidget::drawContentsOffset( QPainter* _painter, int _offsetx, int _offsety,
+void KonqListViewWidget::drawContentsOffset( QPainter* _painter, int _offsetx, int _offsety,
 				    int _clipx, int _clipy, int _clipw, int _cliph )
 {
   if ( !_painter )
@@ -848,19 +848,19 @@ void KonqTreeViewWidget::drawContentsOffset( QPainter* _painter, int _offsetx, i
 				 _clipx, _clipy, _clipw, _cliph );
 }
 
-void KonqTreeViewWidget::focusInEvent( QFocusEvent* _event )
+void KonqListViewWidget::focusInEvent( QFocusEvent* _event )
 {
 //  emit gotFocus();
 
   QListView::focusInEvent( _event );
 }
 
-KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
+KonqListViewDir * KonqListViewWidget::findDir( const QString &_url )
 {
   if ( m_lasttvd && urlcmp( m_lasttvd->url(0), _url, true, true ) )
     return m_lasttvd;
 
-  QDictIterator<KonqTreeViewDir> it( m_mapSubDirs );
+  QDictIterator<KonqListViewDir> it( m_mapSubDirs );
   for( ; it.current(); ++it )
   {
     debug( it.current()->url(0) );
@@ -873,11 +873,11 @@ KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
   return 0L;
 }
 
-void KonqTreeViewWidget::slotResult( KIO::Job * job )
+void KonqListViewWidget::slotResult( KIO::Job * job )
 {
     if (job->error())
         job->showErrorDialog();
 }
 
 
-#include "konq_treeviewwidget.moc"
+#include "konq_listviewwidget.moc"

@@ -17,9 +17,9 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_treeview.h"
-#include "konq_treeviewitems.h"
-#include "konq_treeviewwidget.h"
+#include "konq_listview.h"
+#include "konq_listviewitems.h"
+#include "konq_listviewwidget.h"
 #include "konq_factory.h"
 
 #include <kcursor.h>
@@ -48,21 +48,21 @@
 #include <klocale.h>
 #include <klibloader.h>
 
-class KonqTreeViewFactory : public KParts::Factory
+class KonqListViewFactory : public KParts::Factory
 {
 public:
-  KonqTreeViewFactory()
+  KonqListViewFactory()
   {
     KonqFactory::instanceRef();
   }
-  virtual ~KonqTreeViewFactory()
+  virtual ~KonqListViewFactory()
   {
     KonqFactory::instanceUnref();
   }
 
   virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
   {
-    KParts::Part *obj = new KonqTreeView( parentWidget, parent, name );
+    KParts::Part *obj = new KonqListView( parentWidget, parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -73,36 +73,36 @@ extern "C"
 {
   void *init_libkonqtreeview()
   {
-    return new KonqTreeViewFactory;
+    return new KonqListViewFactory;
   }
 };
 
-TreeViewBrowserExtension::TreeViewBrowserExtension( KonqTreeView *treeView )
- : KParts::BrowserExtension( treeView )
+ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
+ : KParts::BrowserExtension( listView )
 {
-  m_treeView = treeView;
+  m_listView = listView;
 }
 
-int TreeViewBrowserExtension::xOffset()
+int ListViewBrowserExtension::xOffset()
 {
-  return m_treeView->treeViewWidget()->contentsX();
+  return m_listView->listViewWidget()->contentsX();
 }
 
-int TreeViewBrowserExtension::yOffset()
+int ListViewBrowserExtension::yOffset()
 {
-  return m_treeView->treeViewWidget()->contentsY();
+  return m_listView->listViewWidget()->contentsY();
 }
 
-void TreeViewBrowserExtension::updateActions()
+void ListViewBrowserExtension::updateActions()
 {
   // This code is very related to KonqIconViewWidget::slotSelectionChanged
 
-  QValueList<KonqTreeViewItem*> selection;
-  m_treeView->treeViewWidget()->selectedItems( selection );
+  QValueList<KonqListViewItem*> selection;
+  m_listView->listViewWidget()->selectedItems( selection );
 
   bool cutcopy, del;
   bool bInTrash = false;
-  QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KonqListViewItem*>::ConstIterator it = selection.begin();
   for (; it != selection.end(); ++it )
   {
     if ( (*it)->item()->url().directory(false) == KUserPaths::trashPath() )
@@ -125,22 +125,22 @@ void TreeViewBrowserExtension::updateActions()
   emit enableAction( "pastecopy", paste );
 }
 
-void TreeViewBrowserExtension::cut()
+void ListViewBrowserExtension::cut()
 {
   //TODO: grey out item
   copy();
 }
 
-void TreeViewBrowserExtension::copy()
+void ListViewBrowserExtension::copy()
 {
-  QValueList<KonqTreeViewItem*> selection;
+  QValueList<KonqListViewItem*> selection;
 
-  m_treeView->treeViewWidget()->selectedItems( selection );
+  m_listView->listViewWidget()->selectedItems( selection );
 
   QStringList lstURLs;
 
-  QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
+  QValueList<KonqListViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KonqListViewItem*>::ConstIterator end = selection.end();
   for (; it != end; ++it )
     lstURLs.append( (*it)->item()->url().url() );
 
@@ -149,55 +149,55 @@ void TreeViewBrowserExtension::copy()
   QApplication::clipboard()->setData( urlData );
 }
 
-void TreeViewBrowserExtension::pasteSelection( bool move )
+void ListViewBrowserExtension::pasteSelection( bool move )
 {
-  QValueList<KonqTreeViewItem*> selection;
-  m_treeView->treeViewWidget()->selectedItems( selection );
+  QValueList<KonqListViewItem*> selection;
+  m_listView->listViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
   KIO::pasteClipboard( selection.first()->item()->url(), move );
 }
 
-void TreeViewBrowserExtension::reparseConfiguration()
+void ListViewBrowserExtension::reparseConfiguration()
 {
   // m_pProps is a problem here (what is local, what is global ?)
   // but settings is easy :
-  m_treeView->treeViewWidget()->initConfig();
+  m_listView->listViewWidget()->initConfig();
 }
 
-void TreeViewBrowserExtension::saveLocalProperties()
+void ListViewBrowserExtension::saveLocalProperties()
 {
-  // TODO move this to KonqTreeView. Ugly.
-  m_treeView->treeViewWidget()->m_pProps->saveLocal( m_treeView->url() );
+  // TODO move this to KonqListView. Ugly.
+  m_listView->listViewWidget()->m_pProps->saveLocal( m_listView->url() );
 }
 
-void TreeViewBrowserExtension::savePropertiesAsDefault()
+void ListViewBrowserExtension::savePropertiesAsDefault()
 {
-  m_treeView->treeViewWidget()->m_pProps->saveAsDefault();
+  m_listView->listViewWidget()->m_pProps->saveAsDefault();
 }
 
-KonqTreeView::KonqTreeView( QWidget *parentWidget, QObject *parent, const char *name )
+KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name )
  : KParts::ReadOnlyPart( parent, name )
 {
   setInstance( KonqFactory::instance() );
   setXMLFile( "konq_treeview.rc" );
 
-  m_browser = new TreeViewBrowserExtension( this );
+  m_browser = new ListViewBrowserExtension( this );
 
-  m_pTreeView = new KonqTreeViewWidget( this, parentWidget );
+  m_pListView = new KonqListViewWidget( this, parentWidget );
 
-  setWidget( m_pTreeView );
+  setWidget( m_pListView );
 
   m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
 
-  QObject::connect( m_pTreeView, SIGNAL( selectionChanged() ),
+  QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
                     m_browser, SLOT( updateActions() ) );
 }
 
-KonqTreeView::~KonqTreeView()
+KonqListView::~KonqListView()
 {
 }
 
-bool KonqTreeView::openURL( const KURL &url )
+bool KonqListView::openURL( const KURL &url )
 {
   m_url = url;
 
@@ -205,32 +205,32 @@ bool KonqTreeView::openURL( const KURL &url )
 
   emit setWindowCaption( u.decodedURL() );
 
-  return m_pTreeView->openURL( url );
+  return m_pListView->openURL( url );
 }
 
-bool KonqTreeView::closeURL()
+bool KonqListView::closeURL()
 {
-  m_pTreeView->stop();
+  m_pListView->stop();
   return true;
 }
 
-void KonqTreeView::guiActivateEvent( KParts::GUIActivateEvent *event )
+void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
   KParts::ReadOnlyPart::guiActivateEvent( event );
   if ( event->activated() )
     m_browser->updateActions();
 }
 
-void KonqTreeView::slotReloadTree()
+void KonqListView::slotReloadTree()
 {
-//  m_pTreeView->openURL( url(), m_pTreeView->contentsX(), m_pTreeView->contentsY() );
+//  m_pListView->openURL( url(), m_pListView->contentsX(), m_pListView->contentsY() );
 }
 
-void KonqTreeView::slotShowDot()
+void KonqListView::slotShowDot()
 {
-  m_pTreeView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
+  m_pListView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
 }
 
-#include "konq_treeview.moc"
+#include "konq_listview.moc"
 
 
