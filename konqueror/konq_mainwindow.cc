@@ -177,6 +177,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   createGUI( 0L );
 
+  connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
+
   if ( !m_toggleViewGUIClient->empty() )
     plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
   else
@@ -2933,8 +2935,6 @@ void KonqMainWindow::initActions()
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-
-  connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
