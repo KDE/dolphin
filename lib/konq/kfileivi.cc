@@ -66,18 +66,15 @@ void KFileIVI::returnPressed()
     m_fileitem->run();
 }
 
-void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg )
+void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg, const QFont &font )
 {
+    QFont f( font );
     QColorGroup c( cg );
     if ( iconView()->inherits( "KonqIconViewWidget" ) )
 	c.setColor( QColorGroup::Text, ( (KonqIconViewWidget*)iconView() )->itemColor() );
-    QFont f( p->font() );
     if ( m_fileitem->isLink() )
-    {
-        f.setItalic( TRUE );
-        p->setFont( f );
-    }
-    QIconViewItem::paintItem( p, c );
+	f.setItalic( TRUE );
+    QIconViewItem::paintItem( p, c, f );
 }
 
 #include "kfileivi.moc"
