@@ -37,41 +37,56 @@
 static const int autoOpenTimeout = 750;
 
 
+getModule KonqSidebarTree::getPluginFactory(QString name)
+{
+  if (!pluginFactories.contains(name))
+  {
+    KLibLoader *loader = KLibLoader::self();
+    QString libName    = pluginInfo[name];
+    KLibrary *lib      = loader->library(QFile::encodeName(libName));
+    if (lib)
+    {
+      // get the create_ function
+      QString factory = "create_" + libName;
+      void *create    = lib->symbol(QFile::encodeName(factory));
+      if (create)
+      {
+        getModule func = (getModule)create;
+        pluginFactories.insert(name, func);
+        kdDebug()<<"Added a module"<<endl;
+      }
+      else
+      {
+        kdWarning()<<"No create function found in"<<libName<<endl;
+      }
+    }
+    else
+      kdWarning() << "Module " << libName << " can't be loaded!" << endl;
+  }
+  
+  return pluginFactories[name];
+}
+    
 void KonqSidebarTree::loadModuleFactories()
 {
-  plugins.clear();
+  pluginFactories.clear();
+  pluginInfo.clear();
   KStandardDirs *dirs=KGlobal::dirs();
   QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);
-  KLibLoader *loader = KLibLoader::self();
-
+  
+  
   for (QStringList::ConstIterator it=list.begin();it!=list.end();++it)
-        {
-				KSimpleConfig ksc(*it);
-				ksc.setGroup("Desktop Entry");
-				QString name=ksc.readEntry("X-KDE-TreeModule","");
-				QString libname=ksc.readEntry("X-KDE-TreeModule-Lib","");
-				if ((name.isEmpty()) || (libname.isEmpty()))
-					{kdWarning()<<"Bad Configuration file for a dirtree module "<<*it<<endl; continue;}
+  {
+    KSimpleConfig ksc(*it);
+    ksc.setGroup("Desktop Entry");
+    QString name    = ksc.readEntry("X-KDE-TreeModule","");
+    QString libName = ksc.readEntry("X-KDE-TreeModule-Lib","");
+    if ((name.isEmpty()) || (libName.isEmpty()))
+        {kdWarning()<<"Bad Configuration file for a dirtree module "<<*it<<endl; continue;}
 
-                                // try to load the library
-                                QString lib_name=libname;
-                                KLibrary *lib = loader->library(QFile::encodeName(lib_name));
-                                if (lib)
-                                {
-                                        // get the create_ function
-                                        QString factory="create_"+libname;
-                                        void *create = lib->symbol(QFile::encodeName(factory));
-                                         if (create)
-                                                {
-							getModule func=(getModule)create;
-							plugins.insert(name,func);
-							kdDebug()<<"Added a module"<<endl;
-                                                }
-					 else {kdWarning()<<"No create function found in"<<lib_name<<endl;}
-                                }
-                                else
-                                        kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
-	}
+    //Register the library info.
+    pluginInfo[name] = libName;
+  }
 }
 
 
@@ -653,7 +668,7 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
 
     getModule func;
-    func=plugins[moduleName];
+    func = getPluginFactory(moduleName);
     if (func!=0)
 	{
 		kdDebug(1201)<<"showHidden: "<<showHidden<<endl;

@@ -176,7 +176,10 @@ private:
     KonqSidebarTreeToolTip m_toolTip;
     bool m_scrollingLocked;
 
-    QMap<QString,getModule> plugins;
+    getModule getPluginFactory(QString name);
+    
+    QMap<QString, QString>   pluginInfo;
+    QMap<QString, getModule> pluginFactories;
 
     private:
     bool m_bOpeningFirstChild;
