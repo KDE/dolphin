@@ -42,7 +42,8 @@
 #include "socks.h"
 #include "kproxydlg.h"
 
-KProxyOptions::KProxyOptions( QWidget* parent, const char* /*name*/ )
+KProxyOptions::KProxyOptions (QWidget* parent, const char* name)
+              :KCModule (parent, name)
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
   QTabWidget *tab = new QTabWidget(this);
@@ -341,12 +342,10 @@ KProxyDialog::~KProxyDialog()
 
 void KProxyDialog::load()
 {
-  bool useProxy;
-  KProtocolManager proto;
-
   m_data = new KProxyData;
-
-  useProxy = proto.useProxy();
+    
+  KProtocolManager proto;
+  bool useProxy = proto.useProxy();  
   m_data->type = proto.proxyType();
   m_data->httpProxy = proto.proxyFor( "http" );
   m_data->httpsProxy = proto.proxyFor( "https" );
@@ -354,15 +353,15 @@ void KProxyDialog::load()
   m_data->scriptProxy = proto.proxyConfigScript();
   m_data->useReverseProxy = proto.useReverseProxy();
   m_data->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
-                                      proto.noProxyFor() );
-
+                                           proto.noProxyFor() );
+  
   m_cbUseProxy->setChecked( useProxy );
   m_gbConfigure->setEnabled( useProxy );
   m_gbAuth->setEnabled( useProxy );
-
+  
   if ( !m_data->scriptProxy.isEmpty() )
     m_location->lineEdit()->setText( m_data->scriptProxy );
-
+  
   switch ( m_data->type )
   {
     case KProtocolManager::WPADProxy:
@@ -380,7 +379,7 @@ void KProxyDialog::load()
     default:
       break;
   }
-
+  
   switch( proto.proxyAuthMode() )
   {
     case KProtocolManager::Prompt:

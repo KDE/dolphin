@@ -175,8 +175,9 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   vlay->addWidget( m_pbDetect );
   
   m_pbShowValue = new QPushButton( i18n("Show &Values"), m_gbHostnames,
-                                    "m_pbDetect" );
+                                   "m_pbDetect" );
   m_pbShowValue->setToggleButton ( true );
+  m_pbShowValue->setMinimumSize (m_pbShowValue->size ());
   
   QWhatsThis::add( m_pbShowValue, i18n("<qt>Click on this button to see "
                                    "the actual values associated with the "
@@ -215,72 +216,56 @@ void KEnvVarProxyDlg::init()
 {
   m_bHasValidData = false;
   
-  connect( m_pbShowValue, SIGNAL( toggled(bool) ), SLOT( showValue(bool) ) );                                                                             
-  connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );                                                                             
+  connect( m_pbShowValue, SIGNAL( toggled(bool) ), SLOT( showValue(bool) ) );
+  connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
   
   connect( m_pbVerify, SIGNAL( clicked() ), SLOT( verifyPressed() ) );
   connect( m_pbDetect, SIGNAL( clicked() ), SLOT( autoDetectPressed() ) );
-  connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );  
+  connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
+  connect( m_leEnvHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
 }
 
 void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
 {
-  if ( data.type == KProtocolManager::EnvVarProxy )
+  KURL u;
+  QString envVar;
+
+  // If this is a non-URL check...
+  u = data.httpProxy;
+  if (!u.isValid())
   {
-    m_leEnvHttp->setText( data.httpProxy );
-    m_leEnvHttps->setText( data.httpsProxy );
-    m_leEnvFtp->setText( data.ftpProxy );    
-   
-    bool useSameProxy = (data.httpProxy == data.httpsProxy &&
-                         data.httpProxy == data.ftpProxy);
-    
-    m_cbSameProxy->setChecked ( useSameProxy );
-        
-    if ( useSameProxy )
-      sameProxy ( true );
+    envVar = QString::fromLocal8Bit( getenv(data.httpProxy.local8Bit()) );
+    if ( !envVar.isEmpty() )
+      m_leEnvHttp->setText( data.httpProxy );
   }
-  else if ( data.type == KProtocolManager::NoProxy )
+
+  bool useSameProxy = (data.httpProxy == data.httpsProxy &&
+                      data.httpProxy == data.ftpProxy);
+
+  m_cbSameProxy->setChecked ( useSameProxy );
+
+  if (useSameProxy)
   {
-    KURL u;
-    QString envVar;
-       
-    // If this is a non-URL check...
-    u = data.httpProxy;
-    if ( !u.isValid() )
+    m_leEnvHttps->setText ( m_leEnvHttp->text () );
+    m_leEnvFtp->setText ( m_leEnvHttp->text () );
+    sameProxy ( true );
+  }
+  else
+  {
+    u = data.httpsProxy;      
+    if (!u.isValid())
     {
-      envVar = QString::fromLocal8Bit( getenv(data.httpProxy.local8Bit()) );
+      envVar = QString::fromLocal8Bit( getenv(data.httpsProxy.local8Bit()) );
       if ( !envVar.isEmpty() )
-        m_leEnvHttp->setText( data.httpProxy );
+        m_leEnvHttps->setText( data.httpsProxy );
     }
-    
-    bool useSameProxy = (data.httpProxy == data.httpsProxy &&
-                         data.httpProxy == data.ftpProxy);
-    
-    m_cbSameProxy->setChecked ( useSameProxy );
-        
-    if (useSameProxy)
+
+    u = data.ftpProxy;
+    if (!u.isValid())
     {
-      m_leEnvHttps->setText ( m_leEnvHttp->text () );
-      m_leEnvFtp->setText ( m_leEnvHttp->text () );
-      sameProxy ( true );
-    }
-    else
-    {
-      u = data.httpsProxy;      
-      if ( !u.isValid() )
-      {
-        envVar = QString::fromLocal8Bit( getenv(data.httpsProxy.local8Bit()) );
-        if ( !envVar.isEmpty() )
-          m_leEnvHttps->setText( data.httpsProxy );
-      }
-      
-      u = data.ftpProxy;
-      if ( !u.isValid() )
-      {
-        envVar = QString::fromLocal8Bit( getenv(data.ftpProxy.local8Bit()) );
-        if ( !envVar.isEmpty() )
-          m_leEnvFtp->setText( data.ftpProxy );
-      }
+      envVar = QString::fromLocal8Bit( getenv(data.ftpProxy.local8Bit()) );
+      if ( !envVar.isEmpty() )
+        m_leEnvFtp->setText( data.ftpProxy );
     }
   }
   
@@ -427,7 +412,7 @@ void KEnvVarProxyDlg::showValue( bool enable )
     
     m_lstEnvVars.clear();
     txt = m_leEnvHttp->text();
-    m_pbShowValue->setText ( i18n ("Hide &Values  ") );
+    m_pbShowValue->setText ( i18n ("Hide &Values") );
         
     if (!txt.isEmpty())
     {
@@ -455,7 +440,7 @@ void KEnvVarProxyDlg::showValue( bool enable )
   else
   {
     int count = m_lstEnvVars.count ();
-    m_pbShowValue->setText ( i18n ("Show &values") );
+    m_pbShowValue->setText ( i18n ("Show &Values") );
     
     if ( count > 0 )
       m_leEnvHttp->setText( m_lstEnvVars[0] );
@@ -464,6 +449,15 @@ void KEnvVarProxyDlg::showValue( bool enable )
     if ( count > 2 )    
       m_leEnvFtp->setText( m_lstEnvVars[2] );
   }
+}
+
+void KEnvVarProxyDlg::textChanged(const QString& text)
+{
+    if (!m_cbSameProxy->isChecked())
+        return;
+        
+    m_leEnvFtp->setText (text);
+    m_leEnvHttps->setText (text);
 }
 
 void KEnvVarProxyDlg::sameProxy( bool enable )

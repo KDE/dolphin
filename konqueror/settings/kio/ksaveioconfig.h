@@ -23,10 +23,16 @@
 #include <kprotocolmanager.h>
 
 class QWidget;
+class KSaveIOConfigPrivate;
 
 class KSaveIOConfig
 {
 public:
+  
+  /* Reload config file (kioslaverc) */
+  static void reparseConfiguration();
+  
+  
   /** Timeout Settings */
   static void setReadTimeout( int );
 
@@ -48,8 +54,6 @@ public:
 
   
   /** Proxy Settings */
-  static void setUseProxy( bool );
-
   static void setUseReverseProxy( bool );
 
   static void setProxyType( KProtocolManager::ProxyType );
@@ -77,5 +81,12 @@ public:
     
   /** Update all running io-slaves */
   static void updateRunningIOSlaves (QWidget * parent = 0L);
+  
+protected:
+  static KConfig* config ();
+  KSaveIOConfig ();
+  
+private:  
+  static KSaveIOConfigPrivate* d;
 };
 #endif

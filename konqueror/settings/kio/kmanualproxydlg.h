@@ -51,7 +51,9 @@ protected slots:
   virtual void slotOk();
 
   void copyDown();
-  void sameProxy( bool );    
+  void sameProxy( bool );
+  void textChanged (const QString&);
+  void valueChanged (int value);
 
 private:
   QSpinBox* m_sbFtp;

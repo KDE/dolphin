@@ -210,82 +210,82 @@ void KManualProxyDlg::init()
 
     connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
     connect( m_pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
+    connect( m_leHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
+    connect( m_sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );
 }
 
 void KManualProxyDlg::setProxyData( const KProxyData &data )
 {
-    if ( data.type == KProtocolManager::NoProxy ||
-         data.type == KProtocolManager::ManualProxy )
-    {
-        KURL u;
-
-        int port;
-        QString host;
-        
-        // Set the HTTP proxy
-        u = data.httpProxy;
-        if ( u.isValid() );
-        {
-            port = u.port();
-            if ( port < 1 )
-                port = DEFAULT_PROXY_PORT;
-            u.setPort( 0 );
-            host = u.url();
-            m_leHttp->setText( host );
-            m_sbHttp->setValue( port );
-        }
-        
-        bool useSameProxy = (data.httpProxy == data.httpsProxy &&
-                             data.httpProxy == data.ftpProxy);
+    KURL u;
     
-        m_cbSameProxy->setChecked ( useSameProxy );
-        
-        
-        if ( useSameProxy )
-        {
-          m_leHttps->setText ( host );
-          m_leFtp->setText ( host );
-          m_sbHttps->setValue( port );
-          m_sbFtp->setValue( port );
-          sameProxy ( true );
-        }
-        else
-        {
-            // Set the HTTPS proxy
-            u = data.httpsProxy;
-            if ( u.isValid() )
-            {
-                port = u.port();
-                if ( port < 1 )
-                    port = DEFAULT_PROXY_PORT;
+    QString host;
+    int port = DEFAULT_PROXY_PORT;
+
+    // Set the HTTP proxy
+    u = data.httpProxy;    
+    if (!u.isValid())
+        m_sbHttp->setValue(port);
+    else
+    {
+        int p = u.port();
+        if ( p > 0 )
+            port = p;
             
-                u.setPort( 0 );
-                m_leHttps->setText( u.url() );
-                m_sbHttps->setValue( port );
-            }
-          
-            // Set the FTP proxy...
-            u = data.ftpProxy;
-            if ( u.isValid() )
-            {
-                port = u.port();
-                if ( port < 1 )
-                    port = DEFAULT_PROXY_PORT;
-                u.setPort( 0 );
-                m_leFtp->setText( u.url() );
-                m_sbFtp->setValue( port );
-            }
-        }
-        
-        m_gbExceptions->fillExceptions( data.noProxyFor );
-        m_gbExceptions->setCheckReverseProxy( data.useReverseProxy );
+        u.setPort( 0 );
+        host = u.url();
+        m_leHttp->setText( host );
+        m_sbHttp->setValue( port );
+    }
+
+    bool useSameProxy = (data.httpProxy == data.httpsProxy &&
+                        data.httpProxy == data.ftpProxy);
+    
+    m_cbSameProxy->setChecked ( useSameProxy );
+
+
+    if ( useSameProxy )
+    {
+      m_leHttps->setText ( host );
+      m_leFtp->setText ( host );
+      m_sbHttps->setValue( port );
+      m_sbFtp->setValue( port );
+      sameProxy ( true );
     }
     else
     {
-       m_sbFtp->setValue( DEFAULT_PROXY_PORT );    
-       m_sbHttp->setValue( DEFAULT_PROXY_PORT );
-       m_sbHttps->setValue( DEFAULT_PROXY_PORT );
+      // Set the HTTPS proxy
+      u = data.httpsProxy;
+      if (!u.isValid())
+          m_sbHttps->setValue( DEFAULT_PROXY_PORT );
+      else
+      {
+          int p = u.port();
+          if ( p > 0 )
+              port = p;      
+          
+          u.setPort( 0 );
+          m_leHttps->setText( u.url() );
+          m_sbHttps->setValue( port );
+      }
+
+      // Set the FTP proxy...
+      u = data.ftpProxy;
+      if (u.isValid())
+          m_sbFtp->setValue( DEFAULT_PROXY_PORT );
+      else
+      {
+          int p = u.port();
+          if ( p > 0 )
+              port = p;      
+          
+          u.setPort( 0 );
+          m_leFtp->setText( u.url() );
+          m_sbFtp->setValue( port );
+      }
     }
+    
+    m_gbExceptions->fillExceptions( data.noProxyFor );
+    m_gbExceptions->setCheckReverseProxy( data.useReverseProxy );
 }
 
 const KProxyData KManualProxyDlg::data() const
@@ -401,6 +401,24 @@ bool KManualProxyDlg::validate()
     }
 
     return m_bHasValidData;
+}
+
+void KManualProxyDlg::textChanged(const QString& text)
+{
+    if (!m_cbSameProxy->isChecked())
+        return;
+        
+    m_leFtp->setText (text);
+    m_leHttps->setText (text);
+}
+
+void KManualProxyDlg::valueChanged(int value)
+{
+    if (!m_cbSameProxy->isChecked())
+        return;
+        
+    m_sbFtp->setValue (value);
+    m_sbHttps->setValue (value);
 }
 
 void KManualProxyDlg::copyDown()

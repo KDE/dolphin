@@ -49,7 +49,8 @@ protected slots:
     
     void showValue( bool );
     void sameProxy( bool );
-
+    void textChanged (const QString&);
+    
     void verifyPressed();
     void autoDetectPressed();
 
@@ -64,18 +65,18 @@ private:
     
     QCheckBox *m_cbEnvGopher;
     QCheckBox *m_cbSameProxy;
-
+    
+    KLineEdit *m_leEnvFtp;
     KLineEdit *m_leEnvHttp;
     KLineEdit *m_leEnvHttps;
-    KLineEdit *m_leEnvFtp;
-
+    
     QPushButton *m_pbVerify;
     QPushButton *m_pbDetect;
     QPushButton *m_pbShowValue;
-
+    
     QGroupBox *m_gbHostnames;
     KExceptionBox *m_gbExceptions;
-
+    
     QStringList m_lstEnvVars;
 };
 #endif
