@@ -382,16 +382,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
   KURL url( _url );
   QString serviceType( _serviceType );
-  if ( url.url() == "about:blank" )
-  {
-    //breaks webcvs. We need about:blank to keep the KHTMLPart that was created by window.open
-    //m_pViewManager->clear();
-    //disableActionsNoView();
-    //return;
-    serviceType = "text/html";
-    url = KURL();
-  }
-  else if ( url.isMalformed() )
+  if ( url.isMalformed() )
   {
       KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
       return;
@@ -436,7 +427,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
-  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.protocol() == "about" )
+  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.url() == "about:konqueror" )
   {
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
@@ -1454,13 +1445,9 @@ void KonqMainWindow::slotConfigureKeys()
 void KonqMainWindow::slotConfigureToolbars()
 {
   saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-  QString savedURL = m_combo->currentText();
   KEditToolbar dlg(factory());
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
-  if ( dlg.exec() )
-  {
-    m_combo->setTemporary(savedURL);
-  }
+  dlg.exec();
 }
 
 void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply is clicked
