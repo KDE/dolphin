@@ -55,6 +55,8 @@ public:
   KonqMainView( KonqPart *part, QWidget *parent = 0, const char *name = 0 );
   ~KonqMainView();
 
+  void openFilteredURL( KonqChildView *_view, const QString &_url );
+
   void openURL( KonqChildView *_view, const QString &_url, bool reload = false, 
                 int xOffset = 0, int yOffset = 0 );
 
@@ -195,6 +197,8 @@ private:
   void unPlugViewGUI( BrowserView *view );
 
   void updateStatusBar();
+
+  QString konqFilteredURL( const QString &url );
 
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory

@@ -75,7 +75,7 @@ bool KonqFileManager::openFileManagerWindow( const QString & _url )
   shell->show();
 
   if ( !_url.isEmpty() )
-    ((KonqMainView *)shell->rootView())->openURL( 0L, url );
+    ((KonqMainView *)shell->rootView())->openFilteredURL( 0L, url );
 
   return true; // why would it fail ? :)
 }

@@ -139,13 +139,8 @@ KonqMainView::~KonqMainView()
     delete m_pBookmarkMenu;
 }
 
-void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
-                            int yOffset )
+QString KonqMainView::konqFilteredURL( const QString &_url )
 {
-  debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
-
-  /////////// First, modify the URL if necessary (adding protocol, ...) //////
-
   QString url = _url;
 
   // Root directory?
@@ -177,7 +172,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       if ( !pwe )
       {
 	KMessageBox::sorry( this, i18n( "User %1 doesn't exist" ).arg( user ));
-	return;
+	return QString::null;
       }
       user = QString::fromLatin1( pwe->pw_dir );
     }
@@ -199,6 +194,30 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     tmp += url;
     url = tmp;
   }
+
+  return url;
+}
+
+void KonqMainView::openFilteredURL( KonqChildView *_view, const QString &_url )
+{
+  QString url = konqFilteredURL( _url );
+
+  if ( url == _url ) {
+    KonqURLEnterEvent ev( url );
+    QApplication::sendEvent( this, &ev );
+  } else if ( url != QString::null ) {
+    openURL( _view, url );
+  }
+}
+
+void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
+                            int yOffset )
+{
+  debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
+
+  /////////// First, modify the URL if necessary (adding protocol, ...) //////
+
+  QString url = konqFilteredURL(_url);
 
   KURL u( url );
   if ( u.isMalformed() )
@@ -291,8 +310,7 @@ void KonqMainView::slotOpenLocation()
     if ( u.isEmpty() )
       return;
 
-    KonqURLEnterEvent ev( u );
-    QApplication::sendEvent( this, &ev );
+    openFilteredURL( 0L, u );
   }
 }
 
@@ -718,8 +736,11 @@ void KonqMainView::customEvent( QCustomEvent *event )
 
     openURL( 0L, url );
 
+    m_paURLCombo->blockSignals( true );
     m_paURLCombo->setCurrentItem( 0 );
     m_paURLCombo->QSelectAction::changeItem( 0, url );
+    m_paURLCombo->blockSignals( false );
+
     return;
   }
 }
@@ -746,10 +767,7 @@ void KonqMainView::slotURLEntered( const QString &text )
   m_bURLEnterLock = true;
 
   m_paURLCombo->blockSignals( true );
-
-  KonqURLEnterEvent ev( text );
-  QApplication::sendEvent( this, &ev );
-
+  openFilteredURL( 0L, text );
   m_paURLCombo->blockSignals( false );
 
   m_bURLEnterLock = false;
