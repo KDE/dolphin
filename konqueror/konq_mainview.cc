@@ -1396,7 +1396,10 @@ void KonqMainView::slotStop()
       m_pProgressBar->reset();
       
     if ( !CORBA::is_nil( m_vStatusBar ) )
+    {
       m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
+      m_vStatusBar->changeItem( 0L, STATUSBAR_MSG_ID );
+    }      
   }    
 }
 
