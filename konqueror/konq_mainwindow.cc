@@ -1017,6 +1017,8 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       KonqOpenURLRequest req;
       req.newTab = true;
       req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
+      if (KApplication::keyboardModifiers() & KApplication::ShiftModifier)
+        req.newTabInFront = !req.newTabInFront;
       req.args = args;
       openURL( 0L, url, QString::null, req );
     }
