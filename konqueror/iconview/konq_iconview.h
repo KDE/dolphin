@@ -31,6 +31,7 @@ class KFileIVI;
 class KAction;
 class QActionMenu;
 class QIconViewItem;
+class IconEditExtension; // defined in libkonq/konqiconviewwidget.h
 
 class IconViewPropertiesExtension : public ViewPropertiesExtension
 {
@@ -44,24 +45,6 @@ public:
 
 private:
   KonqKfmIconView *m_iconView;  
-};
-
-class IconEditExtension : public EditExtension
-{
-  friend class KonqKfmIconView;
-  Q_OBJECT
-public:
-  IconEditExtension( KonqKfmIconView *iconView );
-
-  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
-
-  virtual void cutSelection();
-  virtual void copySelection();
-  virtual void pasteSelection( bool move = false );
-  virtual void moveSelection( const QString &destinationURL = QString::null );
-
-private:
-  KonqKfmIconView *m_iconView;
 };
 
 /**

@@ -38,7 +38,6 @@
 #include <kfileitem.h>
 #include <kio_error.h>
 #include <kio_job.h>
-#include <kio_paste.h>
 #include <klibloader.h>
 #include <klineeditdlg.h>
 #include <kmimetype.h>
@@ -51,8 +50,6 @@
 #include <qkeycode.h>
 #include <qpalette.h>
 #include <klocale.h>
-#include <qapplication.h>
-#include <qclipboard.h>
 #include <qregexp.h>
 
 class KonqIconViewFactory : public KLibFactory
@@ -138,66 +135,6 @@ void IconViewPropertiesExtension::savePropertiesAsDefault()
   m_iconView->m_pProps->saveAsDefault();
 }
 
-
-IconEditExtension::IconEditExtension( KonqKfmIconView *iconView )
- : EditExtension( iconView, "IconEditExtension" )
-{
-  m_iconView = iconView;
-}
-
-void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
-{
-  bool bItemSelected = false;
-
-  for ( QIconViewItem *it = m_iconView->iconViewWidget()->firstItem(); it; it = it->nextItem() )
-    if ( it->isSelected() )
-    {
-      bItemSelected = true;
-      break;
-    }
-
-  cut = move = copy = bItemSelected;
-
-  bool bKIOClipboard = !isClipboardEmpty();
-
-  QMimeSource *data = QApplication::clipboard()->data();
-
-  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
-}
-
-void IconEditExtension::cutSelection()
-{
-  //TODO: grey out items
-  copySelection();
-}
-
-void IconEditExtension::copySelection()
-{
-  QDragObject * obj = m_iconView->iconViewWidget()->dragObject();
-  QApplication::clipboard()->setData( obj );
-}
-
-void IconEditExtension::pasteSelection( bool move )
-{
-  pasteClipboard( m_iconView->url(), move );
-}
-
-void IconEditExtension::moveSelection( const QString &destinationURL )
-{
-  QStringList lstURLs;
-
-  for ( QIconViewItem *it = m_iconView->iconViewWidget()->firstItem(); it; it = it->nextItem() )
-    if ( it->isSelected() )
-      lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
-
-  KIOJob *job = new KIOJob;
-
-  if ( !destinationURL.isEmpty() )
-    job->move( lstURLs, destinationURL );
-  else
-    job->del( lstURLs );
-}
-
 KonqKfmIconView::KonqKfmIconView()
 {
   kdebug(0, 1202, "+KonqKfmIconView");
@@ -208,7 +145,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_pIconView = new KonqIconViewWidget( this, "qiconview" );
 
-  m_extension = new IconEditExtension( this );
+  m_extension = new IconEditExtension( m_pIconView );
 
   (void)new IconViewPropertiesExtension( this );
 
@@ -333,9 +270,6 @@ KonqKfmIconView::KonqKfmIconView()
   QObject::connect( m_pIconView, SIGNAL( onViewport() ),
                     this, SLOT( slotOnViewport() ) );
 		
-  QObject::connect( m_pIconView, SIGNAL( selectionChanged() ),
-                    m_extension, SIGNAL( selectionChanged() ) );
-
   QObject::connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
                     this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
   QObject::connect( m_pIconView, SIGNAL( viewportRightPressed() ),
@@ -391,7 +325,8 @@ void KonqKfmIconView::slotSelect()
       it = it->nextItem();
     }
 
-    emit m_extension->selectionChanged();
+    // Why this ? Doesn't QIconView emit it on setSelected ?
+    // emit m_extension->selectionChanged();
   }
 }
 
@@ -414,7 +349,8 @@ void KonqKfmIconView::slotUnselect()
       it = it->nextItem();
     }
 
-    emit m_extension->selectionChanged();
+    // Why this ? Doesn't QIconView emit it on setSelected ?
+    //emit m_extension->selectionChanged();
   }
 }
 
