@@ -31,21 +31,23 @@ ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QS
 void ProgressDialog::setTotalSteps( int totalSteps )
 {
     progressBar()->setTotalSteps( totalSteps );
-    showCancelButton( false );
+    if ( progress()>=totalSteps )
+      showCancelButton( false );
 }
 
-int ProgressDialog::totalSteps()
+int ProgressDialog::totalSteps() const
 {
     return progressBar()->totalSteps();
 }
     
-void ProgressDialog::setProgress( int value )
+void ProgressDialog::setProgress( int progress )
 {
-    progressBar()->setProgress( value );
-    showCancelButton( false );
+    progressBar()->setProgress( progress );
+    if (progress>=totalSteps() )
+      showCancelButton( false );
 }      
       
-int ProgressDialog::progress()
+int ProgressDialog::progress() const
 {
     return progressBar()->progress();
 }
@@ -53,6 +55,27 @@ int ProgressDialog::progress()
 void ProgressDialog::setLabel(const QString& label)
 {
     KProgressDialog::setLabel( label );
+}
+
+void ProgressDialog::showCancelButton( bool show )
+{
+    setAllowCancel( false );
+    KProgressDialog::showCancelButton( show );
+}
+
+bool ProgressDialog::wasCancelled() const
+{
+    return KProgressDialog::wasCancelled();
+}   
+
+void ProgressDialog::setAutoClose( bool close )
+{
+    KProgressDialog::setAutoClose( close );
+}      
+      
+bool ProgressDialog::autoClose() const
+{
+    return KProgressDialog::autoClose();
 }
 
 void ProgressDialog::close()

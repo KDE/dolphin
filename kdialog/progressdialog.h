@@ -30,13 +30,19 @@ class ProgressDialog : public KProgressDialog, virtual public ProgressDialogIfac
       ProgressDialog(QWidget* parent = 0, const QString& caption = QString::null, const QString& text = QString::null, int totalSteps = 100);
       
       void setTotalSteps( int );
-      int totalSteps();
+      int totalSteps() const;
     
       void setProgress( int );
-      int progress();
+      int progress() const;
       
       void setLabel(const QString&);
-      
+    
+      void showCancelButton(bool show);
+      bool wasCancelled() const;
+
+      void setAutoClose( bool );
+      bool autoClose() const;
+                  
       void close();
 };
 
