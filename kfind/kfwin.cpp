@@ -279,7 +279,7 @@ void KfindWindow::selectionHasChanged()
 void KfindWindow::deleteFiles()
 {
   QString tmp = i18n("Do you really want to delete the selected file?",
-                     "Do you really want to delete the selected files?",selectedItems().count());
+                     "Do you really want to delete the %n selected files?",selectedItems().count());
   if (KMessageBox::questionYesNo(parentWidget(), tmp) == KMessageBox::No)
     return;
 

@@ -74,9 +74,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     nameBox->setInsertionPolicy(QComboBox::AtTop);
     dirBox->setInsertionPolicy(QComboBox::AtTop);
 
-    const QString nameWhatsThis 
+    const QString nameWhatsThis
       = i18n("<qt>Enter the filename you are looking for. <br>"
-	     "Alternatives may be separated by a semicolon \";\".<br>" 
+	     "Alternatives may be separated by a semicolon \";\".<br>"
 	     "<br>"
 	     "The filename may contain the following special characters:"
 	     "<ul>"
@@ -159,9 +159,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeBox ->insertItem( i18n("At Most") );
     sizeBox ->insertItem( i18n("Equal To") );
 
-    sizeUnitBox ->insertItem( "Bytes" );
-    sizeUnitBox ->insertItem( "Kb" );
-    sizeUnitBox ->insertItem( "Mb" );
+    sizeUnitBox ->insertItem( i18n("Bytes") );
+    sizeUnitBox ->insertItem( i18n("KB") );
+    sizeUnitBox ->insertItem( i18n("MB") );
     sizeUnitBox ->setCurrentItem(1);
 
     sizeEdit->setButtonSymbols(QSpinBox::PlusMinus);
@@ -294,7 +294,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       // The editor was available, so lets use it.
       grid2->addWidget( editRegExp, 2, 3 );
     }
-    
+
     addTab( pages[0], i18n("Name/&Location") );
     addTab( pages[2], i18n("C&ontents") );
     addTab( pages[1], i18n("&Properties") );
