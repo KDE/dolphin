@@ -18,13 +18,13 @@
 
 #include "bookmark_module.h"
 #include "bookmark_item.h"
-#include <kbookmarkmanager.h>
+#include <konqbookmarkmanager.h>
 
 KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTree )
     : QObject( 0L ), KonqSidebarTreeModule( parentTree ),
       m_topLevelItem( 0L )
 {
-    connect( KBookmarkManager::self(), SIGNAL(changed(const QString &, const QString &) ),
+    connect( KonqBookmarkManager::self(), SIGNAL(changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &) ) );
 }
 
@@ -41,7 +41,7 @@ void KonqSidebarBookmarkModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * i
 void KonqSidebarBookmarkModule::slotBookmarksChanged( const QString & groupAddress )
 {
     // update the right part of the tree
-    KBookmarkGroup group = KBookmarkManager::self()->findByAddress( groupAddress ).toGroup();
+    KBookmarkGroup group = KonqBookmarkManager::self()->findByAddress( groupAddress ).toGroup();
     KonqSidebarBookmarkItem * item = findByAddress( groupAddress );
     Q_ASSERT(!group.isNull());
     Q_ASSERT(item);
@@ -60,7 +60,7 @@ void KonqSidebarBookmarkModule::slotBookmarksChanged( const QString & groupAddre
 
 void KonqSidebarBookmarkModule::fillListView()
 {
-    KBookmarkGroup root = KBookmarkManager::self()->root();
+    KBookmarkGroup root = KonqBookmarkManager::self()->root();
     fillGroup( m_topLevelItem, root );
 }
 

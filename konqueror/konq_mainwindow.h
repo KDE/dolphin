@@ -576,9 +576,6 @@ private:
 
   static QPtrList<KonqMainWindow> *s_lstViews;
     
-  static KBookmarkManager *bookmarkManager();
-  static KBookmarkManager *s_bookmarkManager;
-
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
   bool m_urlCompletionStarted;
