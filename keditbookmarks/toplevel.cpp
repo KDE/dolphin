@@ -87,7 +87,7 @@ void KEBListViewItem::setOpen( bool open )
 void KEBListView::rename( QListViewItem *_item, int c )
 {
     KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
-    if ( !(item->bookmark().isGroup() && c == 1) && !item->bookmark().isSeparator() )
+    if ( !(item->bookmark().isGroup() && c == 1) && !item->bookmark().isSeparator() && ( firstChild() != item) )
    	    KListView::rename( _item, c );
 }
 
@@ -535,7 +535,7 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     KBookmark bk = kebItem->bookmark();
     switch (column) {
         case 0:
-            if ( bk.fullText() != newText )
+            if ( (bk.fullText() != newText) )
             {
                 RenameCommand * cmd = new RenameCommand( i18n("Renaming"), bk.address(), newText );
                 m_commandHistory.addCommand( cmd );
