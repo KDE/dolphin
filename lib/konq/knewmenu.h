@@ -89,10 +89,33 @@ private:
     void fillMenu();
 
     /**
+     * Opens the desktop files and completes the Entry list
+     * Input: the entry list. Output: the entry list ;-)
+     */
+    void parseFiles();
+
+    /**
+     * For entryType
+     * LINKTOTEMPLATE: a desktop file that points to a file or dir to copy
+     * TEMPLATE: a real file to copy as is (the KDE-1.x solution)
+     * SEPARATOR: to put a separator in the menu
+     * 0 means: not parsed, i.e. we don't know
+     */
+    enum { LINKTOTEMPLATE = 1, TEMPLATE, SEPARATOR };
+
+    typedef struct {
+        QString text;
+        QString filePath; // empty for SEPARATOR
+        QString templatePath; // same as filePath for TEMPLATE
+        int entryType;
+    } Entry;
+    // NOTE: only filePath is known before we call parseFiles
+
+    /**
      * List of all template files. It is important that they are in
      * the same order as the 'New' menu.
      */
-    static QStringList * templatesList;
+    static QValueList<Entry> * s_templatesList;
 
     KActionCollection * m_actionCollection;
 
@@ -101,7 +124,11 @@ private:
      * menu needs to be re-filled. Menus have their own version and compare it
      * to templatesVersion before showing up
      */
-    static int templatesVersion;
+    static int s_templatesVersion;
+
+    // Set back to false each time new templates are found,
+    // and to true on the first call to parseFiles
+    static bool s_filesParsed;
 
     int menuItemsVersion;
 
@@ -111,7 +138,7 @@ private:
      */
     KURL::List popupFiles;
 
-    static KDirWatch * m_pDirWatch;
+    static KDirWatch * s_pDirWatch;
 };
 
 #endif

@@ -22,25 +22,25 @@
 
 #include <kaction.h>
 #include <kapp.h>
-#include <kurl.h>
-#include <kdebug.h>
-#include <ksimpleconfig.h>
-#include <klineeditdlg.h>
-#include <kmessagebox.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
+#include <klineeditdlg.h>
+#include <kmessagebox.h>
+#include <ksimpleconfig.h>
+#include <kstddirs.h>
+#include <kurl.h>
 
 #include <kio/global.h>
 #include <kio/job.h>
-#include <kglobalsettings.h>
 
 #include "kpropsdlg.h"
 #include "knewmenu.h"
 
-QStringList * KNewMenu::templatesList = 0L;
-int KNewMenu::templatesVersion = 1; // one step ahead, to force filling the menu
-KDirWatch * KNewMenu::m_pDirWatch = 0L;
+QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
+int KNewMenu::s_templatesVersion = 1; // one step ahead, to force filling the menu
+bool KNewMenu::s_filesParsed = false;
+KDirWatch * KNewMenu::s_pDirWatch = 0L;
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "&New" ), "filenew", _collec, name ), m_actionCollection( _collec ),
@@ -52,7 +52,7 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
 
 void KNewMenu::slotCheckUpToDate( )
 {
-    if (menuItemsVersion < templatesVersion)
+    if (menuItemsVersion < s_templatesVersion)
     {
         // We need to clean up the action collection
         // We look for our actions using the group
@@ -60,102 +60,177 @@ void KNewMenu::slotCheckUpToDate( )
         for( QValueListIterator<KAction*> it = actions.begin(); it != actions.end(); ++it )
             m_actionCollection->remove( *it );
 
+        if (!s_templatesList) { // No templates list up to now
+            s_templatesList = new QValueList<Entry>();
+            slotFillTemplates();
+            parseFiles();
+        }
+
+        // This might have been already done for other popupmenus,
+        // that's the point in s_filesParsed.
+        if ( !s_filesParsed )
+            parseFiles();
+
         fillMenu();
-        menuItemsVersion = templatesVersion;
+
+        menuItemsVersion = s_templatesVersion;
+    }
+}
+
+void KNewMenu::parseFiles()
+{
+    kdDebug(1203) << "KNewMenu::parseFiles()" << endl;
+    s_filesParsed = true;
+    QValueList<Entry>::Iterator templ = s_templatesList->begin();
+    for ( /*++templ*/; templ != s_templatesList->end(); ++templ)
+    {
+        QString iconname;
+        QString filePath = (*templ).filePath;
+        if ( !filePath.isEmpty() )
+        {
+            QString text;
+            QString templatePath;
+            // If a desktop file, then read the name from it.
+            // Otherwise (or if no name in it?) use file name
+            if ( KDesktopFile::isDesktopFile( filePath ) ) {
+                KSimpleConfig config( filePath, true );
+                config.setDesktopGroup();
+                text = config.readEntry("Name");
+                QString type = config.readEntry( "Type" );
+                if ( type == "Link" )
+                {
+                    templatePath = config.readEntry("URL");
+                    if ( templatePath[0] != '/' )
+                    {
+                        if ( templatePath.left(6) == "file:/" )
+                            templatePath = templatePath.right( templatePath.length() - 6 );
+                        else
+                        {
+                            // A relative path, then (that's the default in the files we ship)
+                            QString linkDir = filePath.left( filePath.findRev( '/' ) + 1 /*keep / */ );
+                            kdDebug(1203) << "linkDir=" << linkDir << endl;
+                            templatePath = linkDir + templatePath;
+                        }
+                    }
+                }
+                if ( templatePath.isEmpty() )
+                {
+                    // No dest, this is an old-style template
+                    (*templ).entryType = TEMPLATE;
+                    (*templ).templatePath = (*templ).filePath; // we'll copy the file
+                } else {
+                    (*templ).entryType = LINKTOTEMPLATE;
+                    (*templ).templatePath = templatePath;
+                }
+
+            }
+            if (text.isEmpty())
+            {
+                text = KURL(filePath).filename();
+                if ( text.right(8) == ".desktop" )
+                    text.truncate( text.length() - 8 );
+                else if ( text.right(7) == ".kdelnk" )
+                    text.truncate( text.length() - 7 );
+            }
+            (*templ).text = text;
+            kdDebug(1203) << "Updating entry with text=" << text
+                          << " entryType=" << (*templ).entryType
+                          << " templatePath=" << (*templ).templatePath << endl;
+        }
+        else {
+            (*templ).entryType = SEPARATOR;
+        }
     }
 }
 
 void KNewMenu::fillMenu()
 {
-    if (!templatesList) { // No templates list up to now
-        templatesList = new QStringList();
-        slotFillTemplates();
-        menuItemsVersion = templatesVersion;
-    }
-
+    kdDebug(1203) << "KNewMenu::fillMenu()" << endl;
     popupMenu()->clear();
-    KAction * act = new KAction( i18n( "Folder" ), 0, this, SLOT( slotNewFile() ),
-                                 m_actionCollection, QString("newmenu1") );
+    //KAction * act = new KAction( i18n( "Folder" ), 0, this, SLOT( slotNewFile() ),
+    //                              m_actionCollection, QString("newmenu1") );
 
-    act->setGroup( "KNewMenu" );
-    act->plug( popupMenu() );
+    //act->setGroup( "KNewMenu" );
+    //act->plug( popupMenu() );
 
-    int i = 2;
-    QStringList::Iterator templ = templatesList->begin(); // skip 'Folder'
-    for ( ++templ; templ != templatesList->end(); ++templ, ++i)
+    int i = 1; // was 2 when there was Folder
+    QValueList<Entry>::Iterator templ = s_templatesList->begin();
+    for ( ; templ != s_templatesList->end(); ++templ, ++i)
     {
-        KSimpleConfig config(KGlobalSettings::templatesPath() + *templ, true);
-        config.setDesktopGroup();
-        QString name = *templ;
-        if ( name.right(8) == ".desktop" )
-            name.truncate( name.length() - 8 );
-        if ( name.right(7) == ".kdelnk" )
+        if ( (*templ).entryType != SEPARATOR )
         {
-            name.truncate( name.length() - 7 );
-        }
-        name = config.readEntry("Name", name );
+            // There might be a .desktop for that one already, if it's a kdelnk
+            // This assumes we read .desktop files before .kdelnk files ...
 
-        // There might be a .desktop for that one already
-        bool bSkip = false;
+            // In fact, we skip any second item that has the same text as another one.
+            // Duplicates in a menu look bad in any case.
 
-        QValueList<KAction*> actions = m_actionCollection->actions();
-        QValueListIterator<KAction*> it = actions.begin();
-        for( ; it != actions.end(); ++it )
-        {
-          if ( (*it)->text() == name )
-          {
-            //kdDebug(1203) << "skipping " << (*templ) << endl;
-            bSkip = true;
-          }
-        }
+            bool bSkip = false;
 
-        if ( !bSkip )
-        {
-          KAction * act = new KAction( name, 0, this, SLOT( slotNewFile() ),
-                                       m_actionCollection, QString("newmenu%1").arg( i ) );
-          act->setGroup( "KNewMenu" );
-          act->plug( popupMenu() );
+            QValueList<KAction*> actions = m_actionCollection->actions();
+            QValueListIterator<KAction*> it = actions.begin();
+            for( ; it != actions.end() && !bSkip; ++it )
+            {
+                if ( (*it)->text() == (*templ).text )
+                {
+                    kdDebug(1203) << "skipping " << (*templ).filePath << endl;
+                    bSkip = true;
+                }
+            }
+
+            if ( !bSkip )
+            {
+                KAction * act = new KAction( (*templ).text, 0, this, SLOT( slotNewFile() ),
+                                             m_actionCollection, QString("newmenu%1").arg( i ) );
+                act->setGroup( "KNewMenu" );
+                act->plug( popupMenu() );
+            }
+        } else { // Separate system from personal templates
+            ASSERT( (*templ).entryType != 0 );
+
+            KActionSeparator * act = new KActionSeparator();
+            act->plug( popupMenu() );
         }
     }
 }
 
 void KNewMenu::slotFillTemplates()
 {
+    kdDebug(1203) << "KNewMenu::slotFillTemplates()" << endl;
     // Ensure any changes in the templates dir will call this
-    if ( ! m_pDirWatch )
+    if ( ! s_pDirWatch )
     {
-        m_pDirWatch = new KDirWatch( 5000 ); // 5 seconds
-        m_pDirWatch->addDir( KGlobalSettings::templatesPath() );
-        connect ( m_pDirWatch, SIGNAL( dirty( const QString & ) ),
+        s_pDirWatch = new KDirWatch( 5000 ); // 5 seconds
+        QStringList dirs = m_actionCollection->instance()->dirs()->resourceDirs("templates");
+        for ( QStringList::Iterator it = dirs.begin() ; it != dirs.end() ; ++it )
+        {
+            kdDebug(1203) << "Templates resource dir: " << *it << endl;
+            s_pDirWatch->addDir( *it );
+        }
+        connect ( s_pDirWatch, SIGNAL( dirty( const QString & ) ),
                   this, SLOT ( slotFillTemplates() ) );
-        connect ( m_pDirWatch, SIGNAL( fileDirty( const QString & ) ),
+        connect ( s_pDirWatch, SIGNAL( fileDirty( const QString & ) ),
                   this, SLOT ( slotFillTemplates() ) );
+        // Ok, this doesn't cope with new dirs in KDEDIRS, but that's another story
     }
-    templatesVersion++;
+    s_templatesVersion++;
+    s_filesParsed = false;
 
-    templatesList->clear();
-    templatesList->append( "Folder" );
+    s_templatesList->clear();
+    //s_templatesList->append( "Folder" );
 
-    QDir d( KGlobalSettings::templatesPath() );
-    const QFileInfoList *list = d.entryInfoList();
-    if ( list == 0L )
-        KMessageBox::error( 0L, i18n("ERROR: Template does not exist '%1'").arg(
-		KGlobalSettings::templatesPath()));
-    else
+    // Look into "templates" dirs. No filter, not recursive, suppress duplicate filenames
+    QStringList files = m_actionCollection->instance()->dirs()->findAllResources("templates"); //, QString::null, false, true);
+    for ( QStringList::Iterator it = files.begin() ; it != files.end() ; ++it )
     {
-	QFileInfoListIterator it( *list );      // create list iterator
-	QFileInfo *fi;                          // pointer for traversing
-
-	while ( ( fi = it.current() ) != 0L )
-	{
-	    if ( strcmp( fi->fileName(), "." ) != 0 &&
-		 strcmp( fi->fileName(), ".." ) != 0 &&
-                 !fi->isDir() && fi->isReadable())
-	    {
-		templatesList->append( fi->fileName() );
-	    }
-	    ++it;                               // goto next list element
-	}
+        kdDebug(1203) << *it << endl;
+        if ( (*it)[0] != '.' )
+        {
+            Entry e;
+            e.filePath = *it;
+            e.entryType = 0; // not parsed yet
+            s_templatesList->append( e );
+        }
     }
 }
 
@@ -164,38 +239,32 @@ void KNewMenu::slotNewFile()
     int id = QString( sender()->name() + 7 ).toInt(); // skip "newmenu"
     if (id == 0) return;
 
-    QString sFile = *(templatesList->at( id - 1 ));
+    Entry entry = *(s_templatesList->at( id - 1 ));
     //kdDebug(1203) << QString("sFile = %1").arg(sFile) << endl;
 
-    QString sName ( sFile );
-    QString text, value;
-
-    if ( sName != "Folder" ) {
-      QString x = KGlobalSettings::templatesPath() + sFile;
-      if (!QFile::exists(x)) {
-          kdWarning(1203) << x << " doesn't exist" << endl;
-          KMessageBox::sorry( 0L, i18n("Source file doesn't exist anymore !"));
+    //if ( sName != "Folder" ) {
+    if ( !QFile::exists( entry.templatePath ) ) {
+          kdWarning(1203) << entry.templatePath << " doesn't exist" << endl;
+          KMessageBox::sorry( 0L, i18n("The templates file %1 doesn't exist !").arg(entry.templatePath));
           return;
-      }
-      if ( KDesktopFile::isDesktopFile( x ) )
-      {
+    }
+    QString defaultName = KURL( entry.templatePath ).filename();
+    if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
+    {
           KURL::List::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
-              (void) new KPropertiesDialog( x, *it, sFile );
+              kdDebug(1203) << "first arg=" << entry.templatePath << endl;
+              kdDebug(1203) << "second arg=" << (*it).url() << endl;
+              kdDebug(1203) << "third arg=" << defaultName << endl;
+              (void) new KPropertiesDialog( entry.templatePath, *it, defaultName );
           }
           return; // done, exit.
-      }
-
-      // Not a desktop file, nor a folder.
-      text = i18n("New ") + sName + ":";
-      value = sFile;
-    } else {
-      value = "";
-      text = i18n("Enter name for new folder:");
     }
 
-    KLineEditDlg l( text, value, 0L );
+    // The template is not a desktop file
+
+    KLineEditDlg l( i18n("New %1:").arg(entry.text), defaultName, 0L );
     if ( l.exec() )
     {
 	QString name = l.text();
@@ -203,6 +272,7 @@ void KNewMenu::slotNewFile()
 	    return;
 
         KURL::List::Iterator it = popupFiles.begin();
+        /*
 	if ( sFile =="Folder" )
 	{
             for ( ; it != popupFiles.end(); ++it )
@@ -216,17 +286,19 @@ void KNewMenu::slotNewFile()
 	}
 	else
 	{
-	    QString src = KGlobalSettings::templatesPath() + sFile;
+        */
+            QString src = entry.templatePath; // KGlobalSettings::templatesPath() + sFile;
             for ( ; it != popupFiles.end(); ++it )
             {
 		KURL dest( *it );
-		dest.addPath( name );
+		// shouldn't be necessary... KIO does it.
+                // dest.addPath( name );
 
                 KIO::Job * job = KIO::copy( src, dest );
                 connect( job, SIGNAL( result( KIO::Job * ) ),
                          SLOT( slotResult( KIO::Job * ) ) );
             }
-	}
+        //}
     }
 }
 
