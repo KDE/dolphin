@@ -307,6 +307,7 @@ protected:
 		 			const QPoint &pt );
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
+    virtual void contentsDragMoveEvent( QDragMoveEvent *e );
     virtual void contentsDropEvent( QDropEvent *e );
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
