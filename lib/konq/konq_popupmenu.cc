@@ -225,495 +225,495 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
 
 void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 {
-  assert( m_lstItems.count() >= 1 );
+    assert( m_lstItems.count() >= 1 );
 
-  m_ownActions.setWidget( this );
+    m_ownActions.setWidget( this );
 
-  bool currentDir     = false;
-  bool sReading       = true;
-  bool sWriting       = true;
-  bool sDeleting      = true;
-  bool sMoving        = true;
-  m_sMimeType         = m_lstItems.first()->mimetype();
-  mode_t mode         = m_lstItems.first()->mode();
-  bool isDirectory    = m_sMimeType == "inode/directory";
-  bool bTrashIncluded = false;
-  bool bCanChangeSharing = false;
-  m_lstPopupURLs.clear();
-  int id = 0;
-  if( isDirectory && m_lstItems.first()->isLocalFile())
-    bCanChangeSharing=true;
-  setFont(KGlobalSettings::menuFont());
-  m_pluginList.setAutoDelete( true );
-  m_ownActions.setHighlightingEnabled( true );
+    bool currentDir     = false;
+    bool sReading       = true;
+    bool sWriting       = true;
+    bool sDeleting      = true;
+    bool sMoving        = true;
+    m_sMimeType         = m_lstItems.first()->mimetype();
+    mode_t mode         = m_lstItems.first()->mode();
+    bool isDirectory    = m_sMimeType == "inode/directory";
+    bool bTrashIncluded = false;
+    bool bCanChangeSharing = false;
+    m_lstPopupURLs.clear();
+    int id = 0;
+    if( isDirectory && m_lstItems.first()->isLocalFile())
+        bCanChangeSharing=true;
+    setFont(KGlobalSettings::menuFont());
+    m_pluginList.setAutoDelete( true );
+    m_ownActions.setHighlightingEnabled( true );
 
-  attrName = QString::fromLatin1( "name" );
+    attrName = QString::fromLatin1( "name" );
 
-  prepareXMLGUIStuff();
-  m_builder = new KonqPopupMenuGUIBuilder( this );
-  m_factory = new KXMLGUIFactory( m_builder );
+    prepareXMLGUIStuff();
+    m_builder = new KonqPopupMenuGUIBuilder( this );
+    m_factory = new KXMLGUIFactory( m_builder );
 
-  KURL url;
-  KFileItemListIterator it ( m_lstItems );
-  // Check whether all URLs are correct
-  for ( ; it.current(); ++it )
-  {
-    url = (*it)->url();
-
-    // Build the list of URLs
-    m_lstPopupURLs.append( url );
-
-    // Determine if common mode among all URLs
-    if ( mode != (*it)->mode() )
-      mode = 0; // modes are different => reset to 0
-
-    // Determine if common mimetype among all URLs
-    if ( m_sMimeType != (*it)->mimetype() )
-      m_sMimeType = QString::null; // mimetypes are different => null
-
-    if ( !bTrashIncluded &&
-         (*it)->url().isLocalFile() &&
-         (*it)->url().path( 1 ) == KGlobalSettings::trashPath() )
-        bTrashIncluded = true;
-
-    if ( sReading )
-      sReading = KProtocolInfo::supportsReading( url );
-
-    if ( sWriting )
-      sWriting = KProtocolInfo::supportsWriting( url );
-
-    if ( sDeleting )
-      sDeleting = KProtocolInfo::supportsDeleting( url );
-
-    if ( sMoving )
-      sMoving = KProtocolInfo::supportsMoving( url );
-  }
-  // Be on the safe side when including the trash
-  if ( bTrashIncluded )
-  {
-      sMoving = false;
-      sDeleting = false;
-  }
-  //check if current url is trash
-  url = m_sViewURL;
-  url.cleanPath();
-
-  m_info.m_Reading = sReading;
-  m_info.m_Writing = sWriting;
-  m_info.m_Deleting = sDeleting;
-  m_info.m_Moving = sMoving;
-  m_info.m_TrashIncluded = bTrashIncluded;
-
-  //check if url is current directory
-  if ( m_lstItems.count() == 1 )
-  {
-    KURL firstPopupURL ( m_lstItems.first()->url() );
-    firstPopupURL.cleanPath();
-    //kdDebug(1203) << "View path is " << url.url() << endl;
-    //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
-    currentDir = firstPopupURL.cmp( url, true /* ignore_trailing */ );
-  }
-
-  bool isCurrentTrash = ( url.isLocalFile() &&
-                          url.path(1) == KGlobalSettings::trashPath() &&
-                          currentDir) ||
-		       ( m_lstItems.count() == 1 && bTrashIncluded );
-
-  clear();
-
-  //////////////////////////////////////////////////////////////////////////
-
-  KAction * act;
-
-  if (!isCurrentTrash)
-     addMerge( "konqueror" );
-
-  bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
-  QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
-  KAction *actNewView = 0L;
-
-  if (!m_actions.action("newview"))
-  {
-    actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
-  }
-
-  if ( actNewView && !isKDesktop )
-  {
-    if (isCurrentTrash)
-      actNewView->setStatusText( i18n( "Open the trash in a new window" ) );
-    else
-      actNewView->setStatusText( i18n( "Open the document in a new window" ) );
-  }
-
-  if ( isCurrentTrash )
-  {
-    if (actNewView)
-      addAction( actNewView );
-    addGroup( "tabhandling" );
-    addSeparator();
-
-    act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
-    addAction( act );
-    if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
+    KURL url;
+    KFileItemListIterator it ( m_lstItems );
+    // Check whether all URLs are correct
+    for ( ; it.current(); ++it )
     {
-      act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
-                         &m_ownActions, "properties" );
-      addAction( act );
-    }
-    m_factory->addClient( this );
-    return;
-  }
-  else
-  {
-    if ( S_ISDIR(mode) && sWriting ) // A dir, and we can create things into it
-    {
-      if ( currentDir && m_pMenuNew ) // Current dir -> add the "new" menu
-      {
-        // As requested by KNewMenu :
-        m_pMenuNew->slotCheckUpToDate();
-        m_pMenuNew->setPopupFiles( m_lstPopupURLs );
+        url = (*it)->url();
 
-        addAction( m_pMenuNew );
+        // Build the list of URLs
+        m_lstPopupURLs.append( url );
 
-        addSeparator();
-      }
-      else
-      {
-        if ( d->m_hierarchicalDirectoryView)
-        {
-          KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
-          addAction( actNewDir );
-          addSeparator();
-        }
-      }
-    }
+        // Determine if common mode among all URLs
+        if ( mode != (*it)->mode() )
+            mode = 0; // modes are different => reset to 0
 
-    // hack for khtml pages/frames
-    bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
+        // Determine if common mimetype among all URLs
+        if ( m_sMimeType != (*it)->mimetype() )
+            m_sMimeType = QString::null; // mimetypes are different => null
 
-    if ( currentDir || httpPage ) // rmb on background or html frame
-    {
-      if (currentDir)
-          addAction( "up" ); // don't show when viewing html
-      addAction( "back" );
-      addAction( "forward" );
-      if (httpPage)
-          addGroup( "reload" ); // only show when viewing html
-      addSeparator();
-    }
+        if ( !bTrashIncluded &&
+             (*it)->url().isLocalFile() &&
+             (*it)->url().path( 1 ) == KGlobalSettings::trashPath() )
+            bTrashIncluded = true;
 
-    // "open in new window" always available
-    if (actNewView)
-      addAction( actNewView );
-    addGroup( "tabhandling" );
-    bool separatorAdded = false;
+        if ( sReading )
+            sReading = KProtocolInfo::supportsReading( url );
 
-    if ( !currentDir && sReading ) {
-        addSeparator();
-        separatorAdded = true;
-      if ( sDeleting ) {
-        addAction( "cut" );
-      }
-      addAction( "copy" );
-    }
+        if ( sWriting )
+            sWriting = KProtocolInfo::supportsWriting( url );
 
-    if ( S_ISDIR(mode) && sWriting ) {
-        if ( !separatorAdded )
-            addSeparator();
-        if ( currentDir )
-            addAction( "paste" );
-        else
-            addAction( "pasteto" );
-    }
-
-    if (!currentDir)
-    {
-        if ( sReading || sWriting ) // only if we added an action above
-            addSeparator();
-
-        if ( m_lstItems.count() == 1 && sWriting )
-            addAction("rename");
+        if ( sDeleting )
+            sDeleting = KProtocolInfo::supportsDeleting( url );
 
         if ( sMoving )
-            addAction( "trash" );
-
-        if ( sDeleting ) {
-            addAction( "del" );
-        }
+            sMoving = KProtocolInfo::supportsMoving( url );
     }
-  }
-  if ( !isCurrentTrash )
-  {
-      act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
-      if (kapp->authorizeKAction("bookmarks"))
-          addAction( act );
-  }
-
-  //////////////////////////////////////////////////////
-
-  ServiceList builtin;
-  ServiceList user;
-  QMap<QString, ServiceList> userSubmenus;
-
-  bool isSingleLocal = (m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile());
-  // 1 - Look for builtin and user-defined services
-  if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
-  {
-      // get builtin services, like mount/unmount
-      builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
-      user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
-  }
-
-  if ( !isCurrentTrash )
-  {
-
-  // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
-
-  // first check the .directory if this is a directory
-  if (isDirectory && isSingleLocal)
-  {
-    QString dotDirectoryFile = m_lstItems.first()->url().path(1).append(".directory");
-    KSimpleConfig cfg( dotDirectoryFile, true );
-    cfg.setDesktopGroup();
-
-    if (KIOSKAuthorizedAction(cfg))
+    // Be on the safe side when including the trash
+    if ( bTrashIncluded )
     {
-        QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
-        if (submenuName.isEmpty())
-        {
-            user += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
-        }
+        sMoving = false;
+        sDeleting = false;
+    }
+    //check if current url is trash
+    url = m_sViewURL;
+    url.cleanPath();
+
+    m_info.m_Reading = sReading;
+    m_info.m_Writing = sWriting;
+    m_info.m_Deleting = sDeleting;
+    m_info.m_Moving = sMoving;
+    m_info.m_TrashIncluded = bTrashIncluded;
+
+    //check if url is current directory
+    if ( m_lstItems.count() == 1 )
+    {
+        KURL firstPopupURL ( m_lstItems.first()->url() );
+        firstPopupURL.cleanPath();
+        //kdDebug(1203) << "View path is " << url.url() << endl;
+        //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
+        currentDir = firstPopupURL.cmp( url, true /* ignore_trailing */ );
+    }
+
+    bool isCurrentTrash = ( url.isLocalFile() &&
+                            url.path(1) == KGlobalSettings::trashPath() &&
+                            currentDir) ||
+                          ( m_lstItems.count() == 1 && bTrashIncluded );
+
+    clear();
+
+    //////////////////////////////////////////////////////////////////////////
+
+    KAction * act;
+
+    if (!isCurrentTrash)
+        addMerge( "konqueror" );
+
+    bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
+    QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
+    KAction *actNewView = 0L;
+
+    if (!m_actions.action("newview"))
+    {
+        actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+    }
+
+    if ( actNewView && !isKDesktop )
+    {
+        if (isCurrentTrash)
+            actNewView->setStatusText( i18n( "Open the trash in a new window" ) );
         else
+            actNewView->setStatusText( i18n( "Open the document in a new window" ) );
+    }
+
+    if ( isCurrentTrash )
+    {
+        if (actNewView)
+            addAction( actNewView );
+        addGroup( "tabhandling" );
+        addSeparator();
+
+        act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
+        addAction( act );
+        if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
         {
-            userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
+            act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
+                               &m_ownActions, "properties" );
+            addAction( act );
+        }
+        m_factory->addClient( this );
+        return;
+    }
+    else
+    {
+        if ( S_ISDIR(mode) && sWriting ) // A dir, and we can create things into it
+        {
+            if ( currentDir && m_pMenuNew ) // Current dir -> add the "new" menu
+            {
+                // As requested by KNewMenu :
+                m_pMenuNew->slotCheckUpToDate();
+                m_pMenuNew->setPopupFiles( m_lstPopupURLs );
+
+                addAction( m_pMenuNew );
+
+                addSeparator();
+            }
+            else
+            {
+                if ( d->m_hierarchicalDirectoryView)
+                {
+                    KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+                    addAction( actNewDir );
+                    addSeparator();
+                }
+            }
+        }
+
+        // hack for khtml pages/frames
+        bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
+
+        if ( currentDir || httpPage ) // rmb on background or html frame
+        {
+            if (currentDir)
+                addAction( "up" ); // don't show when viewing html
+            addAction( "back" );
+            addAction( "forward" );
+            if (httpPage)
+                addGroup( "reload" ); // only show when viewing html
+            addSeparator();
+        }
+
+        // "open in new window" always available
+        if (actNewView)
+            addAction( actNewView );
+        addGroup( "tabhandling" );
+        bool separatorAdded = false;
+
+        if ( !currentDir && sReading ) {
+            addSeparator();
+            separatorAdded = true;
+            if ( sDeleting ) {
+                addAction( "cut" );
+            }
+            addAction( "copy" );
+        }
+
+        if ( S_ISDIR(mode) && sWriting ) {
+            if ( !separatorAdded )
+                addSeparator();
+            if ( currentDir )
+                addAction( "paste" );
+            else
+                addAction( "pasteto" );
+        }
+
+        if (!currentDir)
+        {
+            if ( sReading || sWriting ) // only if we added an action above
+                addSeparator();
+
+            if ( m_lstItems.count() == 1 && sWriting )
+                addAction("rename");
+
+            if ( sMoving )
+                addAction( "trash" );
+
+            if ( sDeleting ) {
+                addAction( "del" );
+            }
         }
     }
-  }
+    if ( !isCurrentTrash )
+    {
+        act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
+        if (kapp->authorizeKAction("bookmarks"))
+            addAction( act );
+    }
 
-  QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
-  QStringList::ConstIterator dIt = dirs.begin();
-  QStringList::ConstIterator dEnd = dirs.end();
+    //////////////////////////////////////////////////////
 
-  for (; dIt != dEnd; ++dIt )
-  {
-      QDir dir( *dIt );
+    ServiceList builtin;
+    ServiceList user;
+    QMap<QString, ServiceList> userSubmenus;
 
-      QStringList entries = dir.entryList( QDir::Files );
-      QStringList::ConstIterator eIt = entries.begin();
-      QStringList::ConstIterator eEnd = entries.end();
+    bool isSingleLocal = (m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile());
+    // 1 - Look for builtin and user-defined services
+    if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
+    {
+        // get builtin services, like mount/unmount
+        builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
+        user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
+    }
 
-      for (; eIt != eEnd; ++eIt )
-      {
-          KSimpleConfig cfg( *dIt + *eIt, true );
-          cfg.setDesktopGroup();
+    if ( !isCurrentTrash )
+    {
 
-          if (!KIOSKAuthorizedAction(cfg))
-          {
-              continue;
-          }
+        // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
 
-          if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
-          {
-              QStringList types = cfg.readListEntry( "ServiceTypes" );
-              bool ok = false;
-              QString mimeGroup = m_sMimeType.left(m_sMimeType.find('/'));
-
-              // check for exact matches or a typeglob'd mimetype if we have a mimetype
-              for (QStringList::iterator it = types.begin(); it != types.end(); ++it)
-              {
-                  // we could cram the following three if statements into
-                  // one gigantic boolean statement but that would be a
-                  // hororr show for readability
-
-                  // first check if we have an all mimetype
-                  if (*it == "all/all" ||
-                      *it == "allfiles" /*compat with KDE up to 3.0.3*/)
-                  {
-                      ok = true;
-                      break;
-                  }
-
-                  // next, do we match all files?
-                  if (*it == "all/allfiles" &&
-                      !isDirectory) // ## or inherits from it
-                  {
-                      ok = true;
-                      break;
-                  }
-
-                  // if we have a mimetype, see if we have an exact or type
-                  // globbed match
-                  if (!m_sMimeType.isNull() &&
-                      (*it == m_sMimeType ||
-                      ((*it).right(1) == "*" &&
-                      (*it).left((*it).find('/')) == mimeGroup)))
-                  {
-                      ok = true;
-                      break;
-                  }
-              }
-
-              if ( ok )
-              {
-                  // we use the categories .desktop entry to define submenus
-                  // if none is defined, we just pop it in the main menu
-                  QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
-                  if (submenuName.isEmpty())
-                  {
-                    user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
-                  }
-                  else
-                  {
-                    userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
-                  }
-              }
-          }
-      }
-  }
-  }
-  KTrader::OfferList offers;
-
-  if (kapp->authorizeKAction("openwith"))
-  {
-      // if check m_sMimeType.isNull (no commom mime type) set it to all/all
-      // 3 - Query for applications
-      offers = KTrader::self()->query( m_sMimeType.isNull( ) ? QString::fromLatin1( "all/all" ) : m_sMimeType ,
-   "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
-  }
-
-  //// Ok, we have everything, now insert
-
-  m_mapPopup.clear();
-  m_mapPopupServices.clear();
-
-  if ( !offers.isEmpty() )
-  {
-      // First block, app and preview offers
-      addSeparator();
-
-      id = 1;
-
-      QDomElement menu = m_menuElement;
-
-      if ( offers.count() > 1 ) // submenu 'open with'
-      {
-        menu = m_doc.createElement( "menu" );
-        menu.setAttribute( "name", "openwith submenu" );
-        m_menuElement.appendChild( menu );
-        QDomElement text = m_doc.createElement( "text" );
-        menu.appendChild( text );
-        text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
-      }
-
-      if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
-      {
-        KAction *openWithAct = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-        addAction( openWithAct, menu );
-      }
-
-      KTrader::OfferList::ConstIterator it = offers.begin();
-      for( ; it != offers.end(); it++ )
-      {
-        QCString nam;
-        nam.setNum( id );
-
-        act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
-                           this, SLOT( slotRunService() ),
-                           &m_ownActions, nam.prepend( "appservice_" ) );
-        addAction( act, menu );
-
-        m_mapPopup[ id++ ] = *it;
-      }
-
-      if ( menu != m_menuElement ) // submenu
-      {
-        addSeparator( menu );
-        KAction *openWithAct = new KAction( i18n( "&Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-        addAction( openWithAct, menu ); // Other...
-      }
-  }
-  else // no app offers -> Open With...
-  {
-      addSeparator();
-      act = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-      addAction( act );
-  }
-
-  addGroup( "preview" );
-
-  // Second block, builtin + user
-  if ( !user.isEmpty() || !userSubmenus.empty() || !builtin.isEmpty() )
-  {
-      QDomElement actionMenu = m_doc.createElement( "menu" );
-      actionMenu.setAttribute( "name", "actions submenu" );
-      m_menuElement.appendChild( actionMenu );
-      QDomElement text = m_doc.createElement( "text" );
-      actionMenu.appendChild( text );
-      text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
-
-      QMap<QString, ServiceList>::Iterator it;
-      for (it = userSubmenus.begin(); it != userSubmenus.end(); ++it)
-      {
-        if (it.data().isEmpty())
+        // first check the .directory if this is a directory
+        if (isDirectory && isSingleLocal)
         {
-          //avoid empty sub-menus
-          continue;
+            QString dotDirectoryFile = m_lstItems.first()->url().path(1).append(".directory");
+            KSimpleConfig cfg( dotDirectoryFile, true );
+            cfg.setDesktopGroup();
+
+            if (KIOSKAuthorizedAction(cfg))
+            {
+                QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                if (submenuName.isEmpty())
+                {
+                    user += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
+                }
+                else
+                {
+                    userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
+                }
+            }
         }
 
-        QDomElement actionSubmenu = m_doc.createElement( "menu" );
-        actionSubmenu.setAttribute( "name", "actions " + it.key() );
-        actionMenu.appendChild( actionSubmenu );
-        QDomElement subtext = m_doc.createElement( "text" );
-        actionSubmenu.appendChild( subtext );
-        subtext.appendChild( m_doc.createTextNode( it.key() ) );
-        insertServices(it.data(), actionSubmenu, false);
-      }
+        QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
+        QStringList::ConstIterator dIt = dirs.begin();
+        QStringList::ConstIterator dEnd = dirs.end();
 
-      insertServices(user, actionMenu, false);
-      insertServices(builtin, actionMenu, true);
-  }
+        for (; dIt != dEnd; ++dIt )
+        {
+            QDir dir( *dIt );
 
-  addSeparator();
+            QStringList entries = dir.entryList( QDir::Files );
+            QStringList::ConstIterator eIt = entries.begin();
+            QStringList::ConstIterator eEnd = entries.end();
 
-  if ( !isCurrentTrash )
-      addPlugins( ); // now it's time to add plugins
+            for (; eIt != eEnd; ++eIt )
+            {
+                KSimpleConfig cfg( *dIt + *eIt, true );
+                cfg.setDesktopGroup();
 
-  if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash)
-  {
-      act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
-                       &m_ownActions, "editfiletype" );
-      addAction( act );
-  }
+                if (!KIOSKAuthorizedAction(cfg))
+                {
+                    continue;
+                }
 
-  if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
-  {
-      act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
-                         &m_ownActions, "properties" );
-      addAction( act );
-  }
+                if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
+                {
+                    QStringList types = cfg.readListEntry( "ServiceTypes" );
+                    bool ok = false;
+                    QString mimeGroup = m_sMimeType.left(m_sMimeType.find('/'));
 
-  while ( !m_menuElement.lastChild().isNull() &&
+                    // check for exact matches or a typeglob'd mimetype if we have a mimetype
+                    for (QStringList::iterator it = types.begin(); it != types.end(); ++it)
+                    {
+                        // we could cram the following three if statements into
+                        // one gigantic boolean statement but that would be a
+                        // hororr show for readability
+
+                        // first check if we have an all mimetype
+                        if (*it == "all/all" ||
+                            *it == "allfiles" /*compat with KDE up to 3.0.3*/)
+                        {
+                            ok = true;
+                            break;
+                        }
+
+                        // next, do we match all files?
+                        if (*it == "all/allfiles" &&
+                            !isDirectory) // ## or inherits from it
+                        {
+                            ok = true;
+                            break;
+                        }
+
+                        // if we have a mimetype, see if we have an exact or type
+                        // globbed match
+                        if (!m_sMimeType.isNull() &&
+                            (*it == m_sMimeType ||
+                             ((*it).right(1) == "*" &&
+                              (*it).left((*it).find('/')) == mimeGroup)))
+                        {
+                            ok = true;
+                            break;
+                        }
+                    }
+
+                    if ( ok )
+                    {
+                        // we use the categories .desktop entry to define submenus
+                        // if none is defined, we just pop it in the main menu
+                        QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                        if (submenuName.isEmpty())
+                        {
+                            user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                        }
+                        else
+                        {
+                            userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                        }
+                    }
+                }
+            }
+        }
+
+        KTrader::OfferList offers;
+
+        if (kapp->authorizeKAction("openwith"))
+        {
+            // if check m_sMimeType.isNull (no commom mime type) set it to all/all
+            // 3 - Query for applications
+            offers = KTrader::self()->query( m_sMimeType.isNull( ) ? QString::fromLatin1( "all/all" ) : m_sMimeType ,
+                                             "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
+        }
+
+        //// Ok, we have everything, now insert
+
+        m_mapPopup.clear();
+        m_mapPopupServices.clear();
+
+        if ( !offers.isEmpty() )
+        {
+            // First block, app and preview offers
+            addSeparator();
+
+            id = 1;
+
+            QDomElement menu = m_menuElement;
+
+            if ( offers.count() > 1 ) // submenu 'open with'
+            {
+                menu = m_doc.createElement( "menu" );
+                menu.setAttribute( "name", "openwith submenu" );
+                m_menuElement.appendChild( menu );
+                QDomElement text = m_doc.createElement( "text" );
+                menu.appendChild( text );
+                text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
+            }
+
+            if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
+            {
+                KAction *openWithAct = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                addAction( openWithAct, menu );
+            }
+
+            KTrader::OfferList::ConstIterator it = offers.begin();
+            for( ; it != offers.end(); it++ )
+            {
+                QCString nam;
+                nam.setNum( id );
+
+                act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
+                                   this, SLOT( slotRunService() ),
+                                   &m_ownActions, nam.prepend( "appservice_" ) );
+                addAction( act, menu );
+
+                m_mapPopup[ id++ ] = *it;
+            }
+
+            if ( menu != m_menuElement ) // submenu
+            {
+                addSeparator( menu );
+                KAction *openWithAct = new KAction( i18n( "&Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                addAction( openWithAct, menu ); // Other...
+            }
+        }
+        else // no app offers -> Open With...
+        {
+            addSeparator();
+            act = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+            addAction( act );
+        }
+
+        addGroup( "preview" );
+    }
+    // Second block, builtin + user
+    if ( !user.isEmpty() || !userSubmenus.empty() || !builtin.isEmpty() )
+    {
+        QDomElement actionMenu = m_doc.createElement( "menu" );
+        actionMenu.setAttribute( "name", "actions submenu" );
+        m_menuElement.appendChild( actionMenu );
+        QDomElement text = m_doc.createElement( "text" );
+        actionMenu.appendChild( text );
+        text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
+
+        QMap<QString, ServiceList>::Iterator it;
+        for (it = userSubmenus.begin(); it != userSubmenus.end(); ++it)
+        {
+            if (it.data().isEmpty())
+            {
+                //avoid empty sub-menus
+                continue;
+            }
+
+            QDomElement actionSubmenu = m_doc.createElement( "menu" );
+            actionSubmenu.setAttribute( "name", "actions " + it.key() );
+            actionMenu.appendChild( actionSubmenu );
+            QDomElement subtext = m_doc.createElement( "text" );
+            actionSubmenu.appendChild( subtext );
+            subtext.appendChild( m_doc.createTextNode( it.key() ) );
+            insertServices(it.data(), actionSubmenu, false);
+        }
+
+        insertServices(user, actionMenu, false);
+        insertServices(builtin, actionMenu, true);
+    }
+
+    addSeparator();
+
+    if ( !isCurrentTrash )
+        addPlugins( ); // now it's time to add plugins
+
+    if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash)
+    {
+        act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
+                           &m_ownActions, "editfiletype" );
+        addAction( act );
+    }
+
+    if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
+    {
+        act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
+                           &m_ownActions, "properties" );
+        addAction( act );
+    }
+
+    while ( !m_menuElement.lastChild().isNull() &&
             m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
-    m_menuElement.removeChild( m_menuElement.lastChild() );
+        m_menuElement.removeChild( m_menuElement.lastChild() );
 
-  if( bCanChangeSharing)
-  {
-   if(KFileShare::authorization()==KFileShare::Authorized)
-   {
-       addSeparator();
-       QString label;
-       label=i18n("Share");
+    if( bCanChangeSharing)
+    {
+        if(KFileShare::authorization()==KFileShare::Authorized)
+        {
+            addSeparator();
+            QString label;
+            label=i18n("Share");
 
-       act = new KAction( label, 0, this, SLOT( slotOpenShareFileDialog() ),
-                  &m_ownActions, "sharefile" );
-       addAction( act );
-   }
-  }
+            act = new KAction( label, 0, this, SLOT( slotOpenShareFileDialog() ),
+                               &m_ownActions, "sharefile" );
+            addAction( act );
+        }
+    }
 
 
-  addMerge( 0 );
+    addMerge( 0 );
 
-  m_factory->addClient( this );
+    m_factory->addClient( this );
 }
 
 void KonqPopupMenu::slotOpenShareFileDialog()
