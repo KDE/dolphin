@@ -19,6 +19,12 @@
 #include <qdragobject.h>
 #include <qvbox.h>
 
+#include <ktexteditor/configinterface.h>
+#include <ktexteditor/viewconfiginterface.h>
+#include <ktexteditor/viewcursorinterface.h>
+#include <ktexteditor/printinterface.h>
+#include <ktexteditor/encodinginterface.h>
+
 #include <dcopclient.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
@@ -33,6 +39,7 @@
 #include <kurl.h>
 #include <kconfig.h>
 #include <kcmdlineargs.h>
+#include <kmessagebox.h>
 #include <kkeydialog.h>
 #include <kedittoolbar.h>
 #include <kparts/event.h>
@@ -53,9 +60,104 @@
 #define ID_MODIFIED 4
 #define ID_GENERAL 5
 
-QPtrList<Kate::Document> docList; //documents
+enum saveResult { SAVE_OK, SAVE_CANCEL, SAVE_RETRY, SAVE_ERROR };
 
-TopLevel::TopLevel (Kate::Document *doc)
+int checkOverwrite( KURL u, KTextEditor::View *view )
+{
+  int query = KMessageBox::Yes;
+
+  if( u.isLocalFile() )
+  {
+    QFileInfo info;
+    QString name( u.path() );
+    info.setFile( name );
+    if( info.exists() )
+      query = KMessageBox::warningYesNoCancel( view,
+        i18n( "A Document with this Name already exists.\nDo you want to overwrite it?" ) );
+  }
+  return query;
+}
+
+saveResult saveAs(KTextEditor::View *view) {
+  int query;
+  KateFileDialog *dialog;
+  KateFileDialogData data;
+
+  do {
+    query = KMessageBox::Yes;
+
+    dialog = new KateFileDialog (view->document()->url().url(),static_cast<KTextEditor::EncodingInterface*>(view->document()->qt_cast("KTextEditor::EncodingInterface"))->encoding(), view, i18n ("Save File"), KateFileDialog::saveDialog);
+    data = dialog->exec ();
+    delete dialog;
+    if (data.url.isEmpty())
+      return SAVE_CANCEL;
+    query = checkOverwrite( data.url, view );
+  }
+  while ((query != KMessageBox::Cancel) && (query != KMessageBox::Yes));
+
+  if( query == KMessageBox::Cancel )
+    return SAVE_CANCEL;
+
+  static_cast<KTextEditor::EncodingInterface*>(view->document()->qt_cast("KTextEditor::EncodingInterface"))->setEncoding (data.encoding);
+  if( !view->document()->saveAs(data.url) ) {
+    KMessageBox::sorry(view,
+      i18n("The file could not be saved. Please check if you have write permission."));
+    return SAVE_ERROR;
+  }
+
+  return SAVE_OK;
+}
+
+saveResult save(KTextEditor::View *view) {
+  int query = KMessageBox::Yes;
+  if (view->document()->isModified()) {
+    if (!view->document()->url().fileName().isEmpty() && view->document()->isReadWrite()) {
+      // If document is new but has a name, check if saving it would
+      // overwrite a file that has been created since the new doc
+      // was created:
+      if( query == KMessageBox::Yes )
+      {
+         if( !view->document()->saveAs(view->document()->url()) ) {
+       KMessageBox::sorry(view,
+        i18n("The file could not be saved. Please check if you have write permission."));
+      return SAVE_ERROR;
+  }
+      }
+      else  // Do not overwrite already existing document:
+        return saveAs(view);
+    } // New, unnamed document:
+    else
+      return saveAs(view);
+  }
+  return SAVE_OK;
+}
+
+bool canDiscard(KTextEditor::View *view) {
+  int query;
+
+  if (view->document()->isModified()) {
+    query = KMessageBox::warningYesNoCancel(view,
+      i18n("The current Document has been modified.\nWould you like to save it?"));
+    switch (query) {
+      case KMessageBox::Yes: //yes
+        if (save(view) == SAVE_CANCEL) return false;
+        if (view->document()->isModified()) {
+            query = KMessageBox::warningContinueCancel(view,
+               i18n("Could not save the document.\nDiscard it and continue?"),
+           QString::null, i18n("&Discard"));
+          if (query == KMessageBox::Cancel) return false;
+        }
+        break;
+      case KMessageBox::Cancel: //cancel
+        return false;
+    }
+  }
+  return true;
+}
+
+QPtrList<KTextEditor::Document> docList; //documents
+
+KWrite::KWrite (KTextEditor::Document *doc)
 {
   setMinimumSize(200,200);
   
@@ -66,7 +168,7 @@ TopLevel::TopLevel (Kate::Document *doc)
 
   if (!doc) {
     KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
-    doc = (Kate::Document *)tmpDoc; //new doc with default path
+    doc = (KTextEditor::Document *)tmpDoc; //new doc with default path
     docList.append(doc);
   }
   setupEditWidget(doc);
@@ -86,13 +188,13 @@ TopLevel::TopLevel (Kate::Document *doc)
 }
 
 
-TopLevel::~TopLevel()
+KWrite::~KWrite()
 {
-  if (kateView->isLastView()) docList.remove((Kate::Document*)kateView->getDoc());
+  if (kateView->document()->views().count() == 1) docList.remove((KTextEditor::Document*)kateView->document());
 }
 
 
-void TopLevel::init()
+void KWrite::init()
 {
   KToolBar *tb = toolBar("mainToolBar");
   if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
@@ -108,21 +210,21 @@ void TopLevel::init()
 }
 
 
-void TopLevel::loadURL(const KURL &url)
+void KWrite::loadURL(const KURL &url)
 {
   m_recentFiles->addURL( url );
-  kateView->getDoc()->openURL(url);
+  kateView->document()->openURL(url);
 }
 
 
-bool TopLevel::queryClose()
+bool KWrite::queryClose()
 {
-  if (!kateView->isLastView()) return true;
-  return kateView->canDiscard();
+  if (!(kateView->document()->views().count() == 1)) return true;
+  return canDiscard(kateView);
 }
 
 
-bool TopLevel::queryExit()
+bool KWrite::queryExit()
 {
   writeConfig();
   kapp->config()->sync();
@@ -131,22 +233,27 @@ bool TopLevel::queryExit()
 }
 
 
-void TopLevel::setupEditWidget(Kate::Document *doc)
+void KWrite::setupEditWidget(KTextEditor::Document *doc)
 {
-  kateView = (Kate::View *)doc->createView (this, 0L);
+  kateView = (KTextEditor::View *)doc->createView (this, 0L);
 
   connect(kateView,SIGNAL(cursorPositionChanged()),this,SLOT(newCurPos()));
   connect(kateView,SIGNAL(newStatus()),this,SLOT(newStatus()));
-  connect(kateView->getDoc(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
+  connect(kateView->document(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
   connect(kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
 
   setCentralWidget(kateView);
   
-  KStdAction::close( kateView, SLOT(flush()), actionCollection(), "file_close" );
+  KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" );
 }
 
+void KWrite::slotFlush ()
+{
+   if (canDiscard (kateView))
+     kateView->document()->closeURL();
+}
 
-void TopLevel::setupActions()
+void KWrite::setupActions()
 {
   // setup File menu
   KStdAction::print(this, SLOT(printDlg()), actionCollection());
@@ -155,7 +262,7 @@ void TopLevel::setupActions()
 //  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
 //                                        actionCollection());
 
-  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen_delayed1(const KURL&)),
+  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
                                         actionCollection());
 
 
@@ -173,7 +280,7 @@ void TopLevel::setupActions()
   KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection(), "set_configure_toolbars");
 }
 
-void TopLevel::setupStatusBar()
+void KWrite::setupStatusBar()
 {
   KStatusBar *statusbar;
   statusbar = statusBar();
@@ -185,32 +292,21 @@ void TopLevel::setupStatusBar()
   statusbar->setItemAlignment( ID_GENERAL, AlignLeft );
 }
 
-void TopLevel::slotNew()
+void KWrite::slotNew()
 {
-  if (kateView->getDoc()->isModified() || !kateView->getDoc()->url().isEmpty())
+  if (kateView->document()->isModified() || !kateView->document()->url().isEmpty())
   {
-   TopLevel*t = new TopLevel();
+   KWrite*t = new KWrite();
     t->readConfig();
     t->init();
   }
   else
-    kateView->flush();
+    kateView->document()->openURL("");
 }
 
-void TopLevel::slotOpen_delayed1(const KURL& url)
+void KWrite::slotOpen()
 {
-	delayedURL=url;
-	QTimer::singleShot(0,this,SLOT(slotOpen_delayed2()));
-}
-
-void TopLevel::slotOpen_delayed2()
-{
-	slotOpen(delayedURL);
-}
-
-void TopLevel::slotOpen()
-{
-  KateFileDialog *dialog = new KateFileDialog (QString::null,kateView->getDoc()->encoding(), this, i18n ("Open File"));
+  KateFileDialog *dialog = new KateFileDialog (QString::null,static_cast<KTextEditor::EncodingInterface*>(kateView->document()->qt_cast("KTextEditor::EncodingInterface"))->encoding(), this, i18n ("Open File"));
 	KateFileDialogData data = dialog->exec ();
 	delete dialog;
 
@@ -221,33 +317,33 @@ void TopLevel::slotOpen()
   }
 }
 
-void TopLevel::slotOpen( const KURL& url )
+void KWrite::slotOpen( const KURL& url )
 {
   if (url.isEmpty()) return;
 
-  if (kateView->getDoc()->isModified() || !kateView->getDoc()->url().isEmpty())
+  if (kateView->document()->isModified() || !kateView->document()->url().isEmpty())
   {
-    TopLevel *t = new TopLevel();
-		t->kateView->getDoc()->setEncoding(encoding);
+    KWrite *t = new KWrite();
+		static_cast<KTextEditor::EncodingInterface*>(kateView->document()->qt_cast("KTextEditor::EncodingInterface"))->setEncoding(encoding);
     t->readConfig();
     t->init();
     t->loadURL(url);
   }
   else
 	{
-	  kateView->getDoc()->setEncoding(encoding);
+	  static_cast<KTextEditor::EncodingInterface*>(kateView->document()->qt_cast("KTextEditor::EncodingInterface"))->setEncoding(encoding);
     loadURL(url);
   }
 }
 
-void TopLevel::newView()
+void KWrite::newView()
 {
-  TopLevel *t = new TopLevel((Kate::Document *)kateView->getDoc());
+  KWrite *t = new KWrite((KTextEditor::Document *)kateView->document());
   t->readConfig();
   t->init();
 }
 
-void TopLevel::toggleToolBar()
+void KWrite::toggleToolBar()
 {
   if( m_paShowToolBar->isChecked() )
     toolBar("mainToolBar")->show();
@@ -255,7 +351,7 @@ void TopLevel::toggleToolBar()
     toolBar("mainToolBar")->hide();
 }
 
-void TopLevel::toggleStatusBar()
+void KWrite::toggleStatusBar()
 {
   if( m_paShowStatusBar->isChecked() )
     statusBar()->show();
@@ -263,7 +359,7 @@ void TopLevel::toggleStatusBar()
     statusBar()->hide();
 }
 
-void TopLevel::editKeys()
+void KWrite::editKeys()
 {
   KKeyDialog dlg;
   dlg.insert(actionCollection());
@@ -272,7 +368,7 @@ void TopLevel::editKeys()
   dlg.configure();
 }
 
-void TopLevel::editToolbars()
+void KWrite::editToolbars()
 {
   KEditToolbar *dlg = new KEditToolbar(guiFactory());
 
@@ -290,86 +386,86 @@ void TopLevel::editToolbars()
   delete dlg;
 }
 
-void TopLevel::printNow()
+void KWrite::printNow()
 {
-  kateView->getDoc()->print ();
+  static_cast<KTextEditor::PrintInterface*>(kateView->document()->qt_cast("KTextEditor::PrintInterface"))->print ();
 }
 
-void TopLevel::printDlg()
+void KWrite::printDlg()
 {
-  kateView->getDoc()->printDialog ();
+  static_cast<KTextEditor::PrintInterface*>(kateView->document()->qt_cast("KTextEditor::PrintInterface"))->printDialog ();
 }
 
-void TopLevel::newCurPos()
+void KWrite::newCurPos()
 {
   statusBar()->changeItem(i18n(" Line: %1 Col: %2 ")
-    .arg(KGlobal::locale()->formatNumber(kateView->cursorLine()+1, 0))
-    .arg(KGlobal::locale()->formatNumber(kateView->cursorColumn(), 0)),
+    .arg(KGlobal::locale()->formatNumber(static_cast<KTextEditor::ViewCursorInterface*>(kateView->qt_cast("KTextEditor::ViewCursorInterface"))->cursorLine()+1, 0))
+    .arg(KGlobal::locale()->formatNumber(static_cast<KTextEditor::ViewCursorInterface*>(kateView->qt_cast("KTextEditor::ViewCursorInterface"))->cursorColumn(), 0)),
     ID_LINE_COLUMN);
 }
 
-void TopLevel::newStatus()
+void KWrite::newStatus()
 {
   newCaption();
 
-  bool readOnly = !kateView->getDoc()->isReadWrite();
-  uint config = kateView->getDoc()->configFlags();
-  bool block=kateView->getDoc()->blockSelectionMode();
+  bool readOnly = !kateView->document()->isReadWrite();
+ // uint config = kateView->document()->configFlags();
+//  bool block=kateView->document()->blockSelectionMode();
 
   if (readOnly)
     statusBar()->changeItem(i18n(" R/O "),ID_INS_OVR);
-  else
-    statusBar()->changeItem(config & Kate::Document::cfOvr ? i18n(" OVR ") : i18n(" INS "),ID_INS_OVR);
+ // else
+  //  statusBar()->changeItem(config & KTextEditor::Document::cfOvr ? i18n(" OVR ") : i18n(" INS "),ID_INS_OVR);
 
-  statusBar()->changeItem(kateView->getDoc()->isModified() ? " * " : "",ID_MODIFIED);
-  statusBar()->changeItem(block ? i18n("BLK") : i18n(" NORM "),ID_SEL_NORM_BLOCK);
+  statusBar()->changeItem(kateView->document()->isModified() ? " * " : "",ID_MODIFIED);
+ // statusBar()->changeItem(block ? i18n("BLK") : i18n(" NORM "),ID_SEL_NORM_BLOCK);
 }
 
-void TopLevel::newCaption()
+void KWrite::newCaption()
 {
-  if (kateView->getDoc()->url().isEmpty()) {
-    setCaption(i18n("Untitled"),kateView->getDoc()->isModified());
+  if (kateView->document()->url().isEmpty()) {
+    setCaption(i18n("Untitled"),kateView->document()->isModified());
   } else {
     //set caption
     if ( m_paShowPath->isChecked() )
     {
        //File name shouldn't be too long - Maciek
-       if (kateView->getDoc()->url().filename().length() > 200)
-         setCaption(kateView->getDoc()->url().prettyURL().left(197) + "...",kateView->getDoc()->isModified());
+       if (kateView->document()->url().filename().length() > 200)
+         setCaption(kateView->document()->url().prettyURL().left(197) + "...",kateView->document()->isModified());
        else
-         setCaption(kateView->getDoc()->url().prettyURL(),kateView->getDoc()->isModified());
+         setCaption(kateView->document()->url().prettyURL(),kateView->document()->isModified());
      }
       else
      {
        //File name shouldn't be too long - Maciek
-       if (kateView->getDoc()->url().filename().length() > 200)
-         setCaption("..." + kateView->getDoc()->url().fileName().right(197),kateView->getDoc()->isModified());
+       if (kateView->document()->url().filename().length() > 200)
+         setCaption("..." + kateView->document()->url().fileName().right(197),kateView->document()->isModified());
        else
-         setCaption(kateView->getDoc()->url().fileName(),kateView->getDoc()->isModified());
+         setCaption(kateView->document()->url().fileName(),kateView->document()->isModified());
 
     }
 
   }
 }
 
-void TopLevel::dragEnterEvent( QDragEnterEvent *event )
+void KWrite::dragEnterEvent( QDragEnterEvent *event )
 {
   event->accept(QUriDrag::canDecode(event));
 }
 
 
-void TopLevel::dropEvent( QDropEvent *event )
+void KWrite::dropEvent( QDropEvent *event )
 {
   slotDropEvent(event);
 }
 
 
-void TopLevel::slotDropEvent( QDropEvent *event )
+void KWrite::slotDropEvent( QDropEvent *event )
 {
   QStrList  urls;
 
   if (QUriDrag::decode(event, urls)) {
-    kdDebug(13000) << "TopLevel:Handling QUriDrag..." << endl;
+    kdDebug(13000) << "KWrite:Handling QUriDrag..." << endl;
 		QPtrListIterator<char> it(urls);
 		for( ; it.current(); ++it ) {
       slotOpen( (*it) );
@@ -377,7 +473,7 @@ void TopLevel::slotDropEvent( QDropEvent *event )
   }
 }
 
-void TopLevel::slotEnableActions( bool enable )
+void KWrite::slotEnableActions( bool enable )
 {
     QValueList<KAction *> actions = actionCollection()->actions();
     QValueList<KAction *>::ConstIterator it = actions.begin();
@@ -393,14 +489,14 @@ void TopLevel::slotEnableActions( bool enable )
 }
 
 //common config
-void TopLevel::readConfig(KConfig *config)
+void KWrite::readConfig(KConfig *config)
 {
   m_paShowPath->setChecked( config->readBoolEntry("ShowPath") );
   m_recentFiles->loadEntries(config, "Recent Files");
 }
 
 
-void TopLevel::writeConfig(KConfig *config)
+void KWrite::writeConfig(KConfig *config)
 {
   config->writeEntry("ShowPath",m_paShowPath->isChecked());
   m_recentFiles->saveEntries(config, "Recent Files");
@@ -408,7 +504,7 @@ void TopLevel::writeConfig(KConfig *config)
 
 
 //config file
-void TopLevel::readConfig() {
+void KWrite::readConfig() {
   KConfig *config;
 
   config = kapp->config();
@@ -416,11 +512,11 @@ void TopLevel::readConfig() {
   config->setGroup("General Options");
   readConfig(config);
 
-  kateView->getDoc()->readConfig();
+  static_cast<KTextEditor::ConfigInterface*>(kateView->document()->qt_cast("KTextEditor::ConfigInterface"))->readConfig();
 }
 
 
-void TopLevel::writeConfig()
+void KWrite::writeConfig()
 {
   KConfig *config;
 
@@ -429,37 +525,37 @@ void TopLevel::writeConfig()
   config->setGroup("General Options");
   writeConfig(config);
 
-  kateView->getDoc()->writeConfig();
+  static_cast<KTextEditor::ConfigInterface*>(kateView->document()->qt_cast("KTextEditor::ConfigInterface"))->writeConfig();
 }
 
 // session management
-void TopLevel::restore(KConfig *config, int n)
+void KWrite::restore(KConfig *config, int n)
 {
-  if (kateView->isLastView() && !kateView->getDoc()->url().isEmpty()) { //in this case first view
-    loadURL(kateView->getDoc()->url());
+  if ((kateView->document()->views().count() == 1) && !kateView->document()->url().isEmpty()) { //in this case first view
+    loadURL(kateView->document()->url());
   }
   readPropertiesInternal(config, n);
   init();
 }
 
-void TopLevel::readProperties(KConfig *config)
+void KWrite::readProperties(KConfig *config)
 {
   readConfig(config);
-  kateView->readSessionConfig(config);
+  static_cast<KTextEditor::ViewConfigInterface*>(kateView->qt_cast("KTextEditor::ViewConfigInterface"))->readSessionConfig(config);
 }
 
-void TopLevel::saveProperties(KConfig *config)
+void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
-  config->writeEntry("DocumentNumber",docList.find((Kate::Document *)kateView->getDoc()) + 1);
-  kateView->writeSessionConfig(config);
+  config->writeEntry("DocumentNumber",docList.find((KTextEditor::Document *)kateView->document()) + 1);
+  static_cast<KTextEditor::ViewConfigInterface*>(kateView->qt_cast("KTextEditor::ViewConfigInterface"))->writeSessionConfig(config);
 }
 
-void TopLevel::saveGlobalProperties(KConfig *config) //save documents
+void KWrite::saveGlobalProperties(KConfig *config) //save documents
 {
   uint z;
   QString buf;
-  Kate::Document *doc;
+  KTextEditor::Document *doc;
 
   config->setGroup("Number");
   config->writeEntry("NumberOfDocuments",docList.count());
@@ -467,8 +563,8 @@ void TopLevel::saveGlobalProperties(KConfig *config) //save documents
   for (z = 1; z <= docList.count(); z++) {
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
-     doc = (Kate::Document *) docList.at(z - 1);
-     doc->writeSessionConfig(config);
+     doc = (KTextEditor::Document *) docList.at(z - 1);
+     static_cast<KTextEditor::ConfigInterface*>(doc->qt_cast("KTextEditor::ConfigInterface"))->writeSessionConfig(config);
   }
 }
 
@@ -478,8 +574,8 @@ void restore()
   KConfig *config;
   int docs, windows, z;
   QString buf;
-  Kate::Document *doc;
-  TopLevel *t;
+  KTextEditor::Document *doc;
+  KWrite *t;
   KLibFactory *factory = KLibLoader::self()->factory( "libkatepart" );
 
   config = kapp->sessionConfig();
@@ -493,15 +589,15 @@ void restore()
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
      KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
-     doc = (Kate::Document *)tmpDoc; //new doc with default path
-     doc->readSessionConfig(config);
+     doc = (KTextEditor::Document *)tmpDoc; //new doc with default path
+     static_cast<KTextEditor::ConfigInterface*>(doc->qt_cast("KTextEditor::ConfigInterface"))->readSessionConfig(config);
      docList.append(doc);
   }
 
   for (z = 1; z <= windows; z++) {
     buf = QString("%1").arg(z);
     config->setGroup(buf);
-    t = new TopLevel(docList.at(config->readNumEntry("DocumentNumber") - 1));
+    t = new KWrite(docList.at(config->readNumEntry("DocumentNumber") - 1));
     t->restore(config,z);
   }
 }
@@ -573,11 +669,11 @@ int main(int argc, char **argv)
   if (kapp->isRestored()) {
     restore();
   } else {
-    TopLevel *t;
+    KWrite *t;
 
     if ( args->count() == 0 )
     {
-        t = new TopLevel;
+        t = new KWrite;
         t->readConfig();
         t->init();
     }
@@ -585,7 +681,7 @@ int main(int argc, char **argv)
     {
         for ( int i = 0; i < args->count(); ++i )
         {
-            t = new TopLevel();
+            t = new KWrite();
             t->readConfig();
             t->loadURL( args->url( i ) );
             t->init();

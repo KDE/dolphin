@@ -19,21 +19,21 @@
 #define __KWRITE_MAIN_H__
 
 #include <kparts/mainwindow.h>
-#include <kate/view.h>
-#include <kate/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/document.h>
 
 class KAction;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
 
-class TopLevel : public KParts::MainWindow
+class KWrite : public KParts::MainWindow
 {
   Q_OBJECT
 
   public:
-    TopLevel(Kate::Document * = 0L);
-    ~TopLevel();
+    KWrite(KTextEditor::Document * = 0L);
+    ~KWrite();
 
     void init(); //initialize caption, status and show
 
@@ -45,14 +45,14 @@ class TopLevel : public KParts::MainWindow
     virtual bool queryClose();
     virtual bool queryExit();
 
-    void setupEditWidget(Kate::Document *);
+    void setupEditWidget(KTextEditor::Document *);
     void setupActions();
     void setupStatusBar();
 
     virtual void dragEnterEvent( QDragEnterEvent * );
     virtual void dropEvent( QDropEvent * );
 
-    Kate::View *kateView;
+    KTextEditor::View *kateView;
 
     KRecentFilesAction * m_recentFiles;
     KToggleAction * m_paShowPath;
@@ -64,10 +64,9 @@ class TopLevel : public KParts::MainWindow
 
   public slots:
     void slotNew();
+    void slotFlush ();
     void slotOpen();
     void slotOpen( const KURL& url);
-    void slotOpen_delayed1( const KURL& url );
-    void slotOpen_delayed2();
     void newView();
     void toggleToolBar();
     void toggleStatusBar();
