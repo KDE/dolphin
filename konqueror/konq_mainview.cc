@@ -204,6 +204,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
     tmp += url;
     url = tmp;
   }
+/*
   else if ( gethostbyname( url.ascii() ) != 0 )
   {
     QString tmp = "http://";
@@ -212,6 +213,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
     tmp += "/";
     url = tmp;
   }
+*/
 
   return url;
 }
