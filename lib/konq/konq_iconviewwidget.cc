@@ -673,7 +673,7 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
         KFileIVI* current = static_cast<KFileIVI *>(it);
         if (current->item() == item)
         {
-            bool needsUpdate = ( current->width() < pix.width() || current->height() < pix.height() );
+            bool needsUpdate = ( !current->pixmap() || current->pixmap()->width() < pix.width() || current->pixmap()->height() < pix.height() );
             if(item->overlays() & KIcon::HiddenOverlay)
             {
                 QPixmap p(pix);
