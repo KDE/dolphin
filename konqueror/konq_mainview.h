@@ -28,7 +28,7 @@
 #include <kfileitem.h>
 
 #include <view.h>
-#include <kbookmarkmenu.h>
+#include <kbookmark.h>
 #include <dcopobject.h>
 
 class QAction;
@@ -47,6 +47,7 @@ class KonqComboAction;
 class KonqHistoryAction;
 struct HistoryEntry;
 class KonqFrameBase;
+class KBookmarkMenu;
 
 class KonqMainView : public View,
                      virtual public KBookmarkOwner,

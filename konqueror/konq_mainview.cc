@@ -70,6 +70,7 @@
 #include <dcopclient.h>
 #include <klibloader.h>
 #include <part.h>
+#include <kbookmarkmenu.h>
 
 #include <kbugreport.h>
 #include "version.h"
