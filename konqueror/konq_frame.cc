@@ -261,8 +261,8 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
    bool hasFocus = m_pParentKonqFrame->isActivePart();
    QPalette pal = palette();
 
-   QColor bg = kapp->palette().active().background();
-   pal.setColor( QColorGroup::Background,
+   QBrush bg = kapp->palette().active().brush ( QColorGroup::Background );
+   pal.setBrush( QColorGroup::Background,
                  m_showLed ? ( hasFocus ? kapp->palette().active().midlight()
                                : kapp->palette().active().mid() ) // active/inactive
                  : bg ); // only one view
