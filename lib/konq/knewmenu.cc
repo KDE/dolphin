@@ -34,7 +34,6 @@
 #include <kio/job.h>
 
 #include <kpropertiesdialog.h>
-//#include <konq_dirwatcher_stub.h>
 #include "konq_undo.h"
 #include "knewmenu.h"
 #include <utime.h>
@@ -62,6 +61,7 @@ public:
     KActionMenu *m_menuDev;
     KActionMenu *m_menuNew;
     KActionMenu *m_template;
+    // Ouch - this could use a QMap to be more extensible
     KActionMenu *m_kword;
     KActionMenu *m_kspread;
     KActionMenu *m_kpresenter;
@@ -75,8 +75,8 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   menuItemsVersion( 0 )
 {
     //kdDebug(1203) << "KNewMenu::KNewMenu " << this << endl;
-  // Don't fill the menu yet
-  // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
+    // Don't fill the menu yet
+    // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
     d = new KNewMenuPrivate;
     d->m_actionCollection = _collec;
     makeMenus();
@@ -343,14 +343,14 @@ bool KNewMenu::makeKOffice( const QString tmp, const QString exec, QPopupMenu *p
 {
     bool m_return = false;;
 
-    // We whant to have the templates from the homedirectory, too
+    // We want to have the templates from the home directory, too
     QStringList templates = KGlobal::dirs()->findDirs( "data", tmp );
     for ( QStringList::Iterator it = templates.begin() ; it != templates.end() ; ++it )
     {
 	//kdDebug(1203) << "Templates resource dir: " << *it << endl;
 	QDir dir( *it );
 
-	// Find all category's of templates
+	// Find all categories of templates
 	QStringList dirs = dir.entryList( QDir::Dirs );
 	for ( QStringList::Iterator dirsit = dirs.begin() ; dirsit != dirs.end() ; ++dirsit )
 	{
@@ -493,7 +493,7 @@ void KNewMenu::slotNewFile()
     	    else
                 return;
     	}
-    	else
+    	else // any other desktop file (Device, App, etc.)
     	{
     	    KURL::List::Iterator it = popupFiles.begin();
     	    for ( ; it != popupFiles.end(); ++it )
@@ -501,7 +501,9 @@ void KNewMenu::slotNewFile()
                 //kdDebug(1203) << "first arg=" << entry.templatePath << endl;
                 //kdDebug(1203) << "second arg=" << (*it).url() << endl;
                 //kdDebug(1203) << "third arg=" << entry.text << endl;
-                (void) new KPropertiesDialog( entry.templatePath, *it, entry.text, d->m_parentWidget );
+                QString text = entry.text;
+                text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
+                (void) new KPropertiesDialog( entry.templatePath, *it, text, d->m_parentWidget );
     	    }
     	    return; // done, exit.
     	}

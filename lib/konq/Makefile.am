@@ -34,8 +34,6 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kivdirectoryoverlay.cc \
    konq_faviconmgr.cc konq_faviconmgr.skel
 
-kdirnotify_DIR = $(kde_includes)
-
 directory_DATA = directory_bookmarkbar.desktop 
 directorydir   = $(kde_datadir)/kbookmark
 
