@@ -26,7 +26,6 @@
   <Separator/>
   <Action name="show_dot"/>
   <Menu name="listview_show"><text>Show details...</text>
-   <Action name="show_dot" />
    <Action name="show_size"/>
    <Action name="show_type"/>
    <Action name="show_mimetype"/>

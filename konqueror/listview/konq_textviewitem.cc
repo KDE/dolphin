@@ -48,7 +48,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
                return tmp;
             }
             else break;
-               
+
          };
       };
    };
@@ -147,7 +147,7 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
             break;
          case KIO::UDS_FILE_TYPE:
-            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            setText(tmpColumn->displayInColumn,m_fileitem->mimeComment());
             break;
          case KIO::UDS_MIME_TYPE:
             setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
@@ -193,7 +193,7 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
    cg.setColor(QColorGroup::Text, m_pTextView->colors[type]);
    cg.setColor(QColorGroup::HighlightedText, m_pTextView->highlight[type]);
    cg.setColor(QColorGroup::Highlight, Qt::darkGray);
-   
+
    //         cg.setColor( QColorGroup::Base, Qt::color0 );
    QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 };

@@ -128,7 +128,6 @@ protected slots:
   KToggleAction *m_paShowDot;
   KToggleAction *m_paShowTime;
   KToggleAction *m_paShowType;
-  KToggleAction *m_paShowMimeType;
   KToggleAction *m_paShowAccessTime;
   KToggleAction *m_paShowCreateTime;
   KToggleAction *m_paShowLinkDest;
@@ -137,6 +136,7 @@ protected slots:
   KToggleAction *m_paShowGroup;
   KToggleAction *m_paShowPermissions;
   KToggleAction *m_paShowURL;
+  KToggleAction *m_paShowMimeType;
 
 //  KToggleAction *m_paCheckMimeTypes;
 };

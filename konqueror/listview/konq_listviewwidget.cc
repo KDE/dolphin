@@ -48,7 +48,7 @@ ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int co
    ,udsId(kioUds)
    ,displayThisOne(enabled)
    ,toggleThisOne(someAction)
-{};
+{}
 
 
 
@@ -142,7 +142,7 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
       p = mapToGlobal( p );
       popupMenu( p );
       return;
-   };
+   }
    switch (_ev->key())
    {
    case Key_Escape:
@@ -183,7 +183,7 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
       {
          emit selectionChanged();
          updateSelectedFilesInfo();
-      };
+      }
       break;
    case Key_Up:
       //move to the prev. item and toggle selection of this one
@@ -197,7 +197,7 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
       {
          emit selectionChanged();
          updateSelectedFilesInfo();
-      };
+      }
       break;
    case Key_End:
       //move to the last item and toggle selection of all items inbetween
@@ -212,14 +212,14 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
             nextItem->repaint();
             ensureItemVisible(nextItem);
             setCurrentItem(nextItem);
-         };
+         }
          nextItem=nextItem->itemBelow();
-      };
+      }
       if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
       {
          emit selectionChanged();
          updateSelectedFilesInfo();
-      };
+      }
       break;
    case Key_Home:
       //move to the last item and toggle selection of all items inbetween
@@ -234,14 +234,14 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
             nextItem->repaint();
             ensureItemVisible(nextItem);
             setCurrentItem(nextItem);
-         };
+         }
          nextItem=nextItem->itemAbove();
-      };
+      }
       if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
       {
          emit selectionChanged();
          updateSelectedFilesInfo();
-      };
+      }
 
       break;
    case Key_Next:
@@ -264,11 +264,11 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
             {
                emit selectionChanged();
                updateSelectedFilesInfo();
-            };
+            }
             return;
-         };
+         }
          nextItem=nextItem->itemBelow();
-      };
+      }
       break;
    case Key_Prior:
       items=visibleHeight()/item->height();
@@ -288,11 +288,11 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
             {
                emit selectionChanged();
                updateSelectedFilesInfo();
-            };
+            }
             return;
-         };
+         }
          nextItem=nextItem->itemAbove();
-      };
+      }
 
       break;
     case Key_Minus:
@@ -306,8 +306,8 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
    default:
       KListView::keyPressEvent( _ev );
       break;
-   };
-};
+   }
+}
 
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
@@ -338,7 +338,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       confColumns.at(i)->displayInColumn=-1;
       confColumns.at(i)->toggleThisOne->setChecked(FALSE);
       confColumns.at(i)->toggleThisOne->setEnabled(TRUE);
-   };
+   }
    int currentColumn(m_filenameColumn+1);
    //check all columns in lstColumns
    for (unsigned int i=0; i<lstColumns.count(); i++)
@@ -353,14 +353,17 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
             confColumns.at(j)->toggleThisOne->setChecked(TRUE);
             currentColumn++;
             break;
-         };
-      };
-   };
+         }
+      }
+   }
    KProtocolManager *protocolManager=&KProtocolManager::self();
    QStringList listingList=protocolManager->listing(protocol);
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
    for (unsigned int j=0; j<listingList.count(); j++)
       kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
+
+   // Even if this is not given by the protocol, we can determine it.
+   listingList.append( "MimeType" );
 
    for (unsigned int i=0; i<confColumns.count(); i++)
    {
@@ -375,9 +378,9 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
          confColumns.at(i)->displayThisOne=FALSE;
          confColumns.at(i)->toggleThisOne->setEnabled(FALSE);
          confColumns.at(i)->toggleThisOne->setChecked(FALSE);
-      };
-   };
-};
+      }
+   }
+}
 
 void KonqBaseListViewWidget::stop()
 {
@@ -409,7 +412,7 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
             fileCount++;
          }
       }
-   };
+   }
    if (m_filesSelected)
    {
       int items(fileCount+dirCount);
@@ -429,10 +432,10 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
          m_selectedFilesStatusText+= i18n("One Directory");
       else
          m_selectedFilesStatusText+= i18n("%1 Directories").arg(dirCount);
-   };
+   }
    emit m_pBrowserView->setStatusBarText(m_selectedFilesStatusText);
    //cerr<<"KonqTextViewWidget::updateSelectedFilesInfo"<<endl;
-};
+}
 
 /*QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
@@ -687,7 +690,7 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
             hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
             hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
             d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
-         };
+         }
          d->drag();
       }
    }
@@ -763,17 +766,17 @@ KURL::List KonqBaseListViewWidget::selectedUrls()
 void KonqBaseListViewWidget::emitCompleted()
 {
    emit m_pBrowserView->completed();
-};
+}
 
 void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args)
 {
    emit m_pBrowserView->extension()->openURLRequest(url,args);
-};
+}
 
 void KonqBaseListViewWidget::emitStarted( KIO::Job * job)
 {
    emit m_pBrowserView->started( job );
-};
+}
 
 void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 {
@@ -853,15 +856,15 @@ void KonqBaseListViewWidget::createColumns()
          if (confColumns.at(i)->udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
          i=-1;
          currentColumn++;
-      };
-   };
-};
+      }
+   }
+}
 
 void KonqBaseListViewWidget::updateListContents()
 {
    for (KonqBaseListViewWidget::iterator it = begin(); it != end(); it++ )
       it->updateContents();
-};
+}
 
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
@@ -893,7 +896,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    {
       readProtocolConfig( url.protocol() );
       createColumns();
-   };
+   }
    m_bTopLevelComplete = false;
 
    m_url=url;

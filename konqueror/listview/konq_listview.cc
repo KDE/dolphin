@@ -110,7 +110,7 @@ extern "C"
   {
     return new KonqListViewFactory;
   }
-};
+}
 
 ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
  : KParts::BrowserExtension( listView )
@@ -212,7 +212,7 @@ void ListViewBrowserExtension::reparseConfiguration()
 void ListViewBrowserExtension::setSaveViewPropertiesLocally(bool value)
 {
    m_listView->listViewWidget()->m_pProps->setSaveViewPropertiesLocally( value );
-};
+}
 /*void ListViewBrowserExtension::saveLocalProperties()
 {
   // TODO move this to KonqListView. Ugly.
@@ -264,13 +264,13 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
      kdDebug(1202) << "Creating KonqDetailedListViewWidget\n" << endl;
      setXMLFile( "konq_detailedlistview.rc" );
      m_pListView = new KonqBaseListViewWidget( this, parentWidget);
-  };
+  }
   setWidget( m_pListView );
 
   setupActions();
 
-   m_pListView->confColumns.append(new ColumnInfo(I18N_NOOP("Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType));
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("MimeType"),"MimeType",KIO::UDS_MIME_TYPE,-1,FALSE,m_paShowMimeType));
+  // Note: File Type is in fact the mimetype comment. We use UDS_FILE_TYPE but that's not what we show in fact :/
+   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("File Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType));
    m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Size"),"Size",KIO::UDS_SIZE,-1,FALSE,m_paShowSize) );
    m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Modified"),"Date",KIO::UDS_MODIFICATION_TIME,-1,FALSE,m_paShowTime) );
    m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Accessed"),"AccessDate",KIO::UDS_ACCESS_TIME,-1,FALSE,m_paShowAccessTime) );
@@ -280,6 +280,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Group"),"Group",KIO::UDS_GROUP,-1,FALSE,m_paShowGroup) );
    m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Link"),"Link",KIO::UDS_LINK_DEST,-1,FALSE,m_paShowLinkDest) );
    m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("URL"),"URL",KIO::UDS_URL,-1,FALSE,m_paShowURL));
+   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("MimeType"),"MimeType",KIO::UDS_MIME_TYPE,-1,FALSE,m_paShowMimeType));
 
    QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
                     m_browser, SLOT( updateActions() ) );
@@ -424,7 +425,7 @@ void KonqListView::slotColumnToggled()
             if ((m_pListView->confColumns.at(j)->displayInColumn>maxColumn) && (m_pListView->confColumns.at(j)->displayThisOne))
                maxColumn=m_pListView->confColumns.at(j)->displayInColumn;
          m_pListView->confColumns.at(i)->displayInColumn=maxColumn+1;
-      };
+      }
       //this column has been disabled, the columns after it slide one column
       if ((!m_pListView->confColumns.at(i)->displayThisOne) && (m_pListView->confColumns.at(i)->displayInColumn!=-1))
       {
@@ -432,8 +433,8 @@ void KonqListView::slotColumnToggled()
             if (m_pListView->confColumns.at(j)->displayInColumn>m_pListView->confColumns.at(i)->displayInColumn)
                m_pListView->confColumns.at(j)->displayInColumn--;
          m_pListView->confColumns.at(i)->displayInColumn=-1;
-      };
-   };
+      }
+   }
 
    //create the new list contents
    m_pListView->createColumns();
@@ -454,11 +455,11 @@ void KonqListView::slotColumnToggled()
           kdDebug(1202)<<" adding"<<endl;
           currentColumn++;
           i=-1;
-      };
-   };
+      }
+   }
    config->writeEntry("Columns",lstColumns);
    config->sync();
-};
+}
 
 void KonqListView::headerDragged(int sec, int from, int to)
 {
@@ -466,7 +467,7 @@ void KonqListView::headerDragged(int sec, int from, int to)
    //at this point the columns aren't moved yet, so I let the listview
    //rearrange the stuff and use a single shot timer
    QTimer::singleShot(200,this,SLOT(slotSaveAfterHeaderDrag()));
-};
+}
 
 void KonqListView::slotSaveAfterHeaderDrag()
 {
@@ -484,7 +485,7 @@ void KonqListView::slotSaveAfterHeaderDrag()
          int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns.at(j)->displayInColumn);
          if ((tmp>oldCurrentColumn) && (tmp<currentColumn))
             currentColumn=tmp;
-      };
+      }
       kdDebug(1202)<<"currentColumn: "<<currentColumn<<endl;
       //everything done
       if (currentColumn==1000) break;
@@ -495,14 +496,14 @@ void KonqListView::slotSaveAfterHeaderDrag()
          {
             oldCurrentColumn=currentColumn;
             lstColumns.append(m_pListView->confColumns.at(j)->name);
-            kdDebug(1202)<<"appendig: "<<m_pListView->confColumns.at(j)->name<<endl;
-         };
-      };
+            kdDebug(1202)<<"appending: "<<m_pListView->confColumns.at(j)->name<<endl;
+         }
+      }
 
-   };
+   }
    config->writeEntry("Columns",lstColumns);
    config->sync();
-};
+}
 
 
 void KonqListView::slotBackgroundColor()
@@ -537,7 +538,6 @@ void KonqListView::setupActions()
 {
    m_paShowTime=new KToggleAction(i18n("Show &Modification Time"), 0,this, SLOT(slotColumnToggled()), actionCollection(), "show_time" );
    m_paShowType=new KToggleAction(i18n("Show &File Type"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_type" );
-   m_paShowMimeType=new KToggleAction(i18n("Show &File MimeType"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_mimetype" );
    m_paShowAccessTime=new KToggleAction(i18n("Show &Access Time"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_access_time" );
    m_paShowCreateTime=new KToggleAction(i18n("Show &Creation Time"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_creation_time" );
    m_paShowLinkDest=new KToggleAction(i18n("Show &Link Destination"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_link_dest" );
@@ -546,6 +546,7 @@ void KonqListView::setupActions()
    m_paShowGroup=new KToggleAction(i18n("Show Group"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_group" );
    m_paShowPermissions=new KToggleAction(i18n("Show permissions"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_permissions" );
    m_paShowURL=new KToggleAction(i18n("Show URL"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_url" );
+   m_paShowMimeType=new KToggleAction(i18n("Show MimeType"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_mimetype" );
 
    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
   m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );

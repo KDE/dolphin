@@ -83,10 +83,6 @@ class KonqListViewItem : public KonqBaseListViewItem
    protected:
       void init();
 
-      QString makeNumericString( const KIO::UDSAtom &_atom ) const;
-      QString makeTimeString( const KIO::UDSAtom &_atom ) const;
-      QString makeTypeString( const KIO::UDSAtom &_atom ) const;
-
       /** Parent tree view */
       KonqBaseListViewWidget* m_pListViewWidget;
 };

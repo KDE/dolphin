@@ -124,12 +124,12 @@ void KonqTextViewWidget::createColumns()
          else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
             addColumn(i18n(tmpName),fontMetrics().width("_a_quite_long_filename_"));
          else if (tmpColumn->udsId==KIO::UDS_FILE_TYPE)
-            addColumn(i18n(tmpName),fontMetrics().width("a_file_type_"));
+            addColumn(i18n(tmpName),fontMetrics().width("a_comment_for_mimetype_"));
          else if (tmpColumn->udsId==KIO::UDS_MIME_TYPE)
             addColumn(i18n(tmpName),fontMetrics().width("a_long_mimetype"));
          else if (tmpColumn->udsId==KIO::UDS_URL)
             addColumn(i18n(tmpName),fontMetrics().width("_a_long_lonq_long_url_"));
-            
+
          i=-1;
          currentColumn++;
       };

@@ -56,8 +56,6 @@ void KonqListViewItem::init()
    if (S_ISDIR(m_fileitem->mode()))
       sortChar='0';
 
-   QString tmp;
-   long int size=m_fileitem->size();
    setText(0,m_fileitem->text());
    //now we have the first column, so let's do the rest
 
@@ -78,7 +76,7 @@ void KonqListViewItem::init()
             setText(tmpColumn->displayInColumn,m_fileitem->group());
             break;
          case KIO::UDS_FILE_TYPE:
-            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            setText(tmpColumn->displayInColumn,m_fileitem->mimeComment());
             break;
          case KIO::UDS_MIME_TYPE:
             setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
@@ -90,9 +88,7 @@ void KonqListViewItem::init()
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
             break;
          case KIO::UDS_SIZE:
-            /*tmp.sprintf("%9d",size);
-            setText(tmpColumn->displayInColumn,tmp);*/
-            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( size, 0));
+            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(), 0 ));
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
@@ -100,18 +96,11 @@ void KonqListViewItem::init()
          case KIO::UDS_MODIFICATION_TIME:
          case KIO::UDS_ACCESS_TIME:
          case KIO::UDS_CREATION_TIME:
-            for( KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin(); it != m_fileitem->entry().end(); it++ )
             {
-               if ((*it).m_uds==(unsigned int)tmpColumn->udsId)
-               {
-                  QDateTime dt;
-                  dt.setTime_t((time_t) (*it).m_long);
-                  //setText(3,dt.toString());
-                  setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time()));
-                  break;
-               };
-
-            };
+               QDateTime dt;
+               dt.setTime_t( m_fileitem->time( tmpColumn->udsId ) );
+               setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time()));
+            }
             break;
          default:
             break;
@@ -143,36 +132,11 @@ QString KonqListViewItem::key( int _column, bool asc) const
             }
             else break;
 
-         };
-      };
-   };
+         }
+      }
+   }
    tmp+=text(_column);
    return tmp;
-}
-
-QString KonqListViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
-{
-  return KGlobal::locale()->formatNumber( _atom.m_long, 0);
-}
-
-QString KonqListViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
-{
-   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
-   return KGlobal::locale()->formatDate(dt.date(), true) + " " +
-      KGlobal::locale()->formatTime(dt.time());
-}
-
-QString KonqListViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
-{
-   mode_t mode = (mode_t) _atom.m_long;
-
-   if ( S_ISLNK( mode ) )
-      return i18n( "Link" );
-   else if ( S_ISDIR( mode ) )
-      return i18n( "Directory" );
-   // TODO check for devices here, too
-   else
-      return i18n( "File" );
 }
 
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
