@@ -437,7 +437,7 @@ void ImportCommand::xbelExecute()
 
        // clear attributes
        QStringList tags;
-       for (int i = 0; i < subDoc.attributes().count(); i++)
+       for (uint i = 0; i < subDoc.attributes().count(); i++)
           tags << subDoc.attributes().item(i).toAttr().name();
        for ( QStringList::Iterator it = tags.begin(); it != tags.end(); ++it )
           subDoc.attributes().removeNamedItem( (*it) );
@@ -579,8 +579,42 @@ void TestLink::Url(KBookmark  bk)
   }
 }
 
+#include <kcharsets.h>
+
+QString expandEntities(const QString &_str) {
+  int len;
+  QString newStr = "";
+  QString str = _str;
+
+  while (!str.isEmpty()) {
+    // kdDebug() << "in: " << str << endl;
+    QChar ch = QChar::null;
+    if (str.at(0) == '&') {
+      str.remove(0, 1);
+      ch = KCharsets::fromEntity(str, len);
+      if (!ch.isNull()) {
+         // include the ';' in the deletion
+         len++;
+      } else {
+         newStr.append('&');
+         len = 0;
+      }
+    } else {
+      ch = str.at(0);
+      len = 1;
+    }
+    newStr.append(ch);
+    if (len > 0) {
+       str.remove(0, len);
+    }
+    // kdDebug() << "out: " << newStr << endl;
+  }
+
+  return newStr;
+}
+
 void TestLink::setStatus(KEBListViewItem *p, QString status) {
-  p->nsPut(status);
+  p->nsPut(expandEntities(status));
 }
 
 void TestLink::setTmpStatus(KEBListViewItem *p, QString status) {
