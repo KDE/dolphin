@@ -58,6 +58,7 @@
 #include <kapp.h>
 #include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
+#include <kcombobox.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kglobalsettings.h>
