@@ -67,7 +67,7 @@ public:
   NSPluginStream( class NSPluginInstance *instance );
   ~NSPluginStream();
 
-  void get(QString url, QString mimeType);
+  void get(QString url, QString mimeType, void *notifyData);
 
 private slots:
 
@@ -84,6 +84,8 @@ private:
   KIO::TransferJob *_job;
   NPStream         *_stream;
   uint16           _streamType;
+  void             *_notifyData;
+  QString          _url;
 
   class KTempFile  *_tempFile;
 
@@ -134,9 +136,8 @@ public:
   int setWindow(int remove=0);
   void resizePlugin(int w, int h);
 
-  void setCallback(QCString app, QCString obj);
-  void requestURL(QCString url, QCString target)
-     { if (_callback) _callback->requestURL(url, target); };
+  void setCallback( QCString app, QCString obj );
+  void requestURL( QCString url, QCString target, void *notify );
 
   void destroyStream( NSPluginStream *strm );
 
@@ -166,6 +167,7 @@ private:
   NPPluginFuncs _pluginFuncs;
 
   Widget _area, _form, _toplevel;
+  QString _src;
   int _width, _height;
 };
 

@@ -96,6 +96,7 @@ KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widg
 KInstance *PluginFactory::instance()
 {
   kdDebug() << "PluginFactory::instance" << endl;
+
   if ( !s_instance )
       s_instance = new KInstance( aboutData() );
   return s_instance;
@@ -161,7 +162,7 @@ bool PluginPart::openURL(const KURL &url)
       int equalPos = (*it).find("=");
       if (equalPos>0)
       {
-	 QString name = (*it).left(equalPos-1).upper();
+	 QString name = (*it).left(equalPos).upper();
 	 QString value = (*it).right((*it).length()-equalPos-1);
 	 if (value.at(0)=='\"') value = value.right(value.length()-1);
 	 if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
