@@ -922,6 +922,8 @@ void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *i, const QPoint &poin
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
 {
+   m_fileTip->setItem( 0 );
+
    KFileItemList lstItems;
    KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
 
