@@ -3919,11 +3919,21 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
-  if ( _items.count() == 1 )
-    m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
-                                                       "KParts/ReadOnlyPart",
-                                                       QString::null,
-                                                       QString::null );
+  if ( _items.count() == 1 ) {
+      QString currentServiceName = m_currentView->service()->desktopEntryName();
+
+      // List of services for the "Preview In" submenu.
+      m_popupEmbeddingServices = KTrader::self()->query(
+          _items.getFirst()->mimetype(),
+          "KParts/ReadOnlyPart",
+          // Obey "HideFromMenus". It defaults to false so we want "absent or true"
+          // (wow, testing for 'true' if absent doesn't work, so order matters)
+          "(not exist [X-KDE-BrowserView-HideFromMenus] or not [X-KDE-BrowserView-HideFromMenus]) "
+          "and DesktopEntryName != '"+currentServiceName+"' "
+          // I had an old local dirtree.desktop without lib, no need for invalid entries
+          "and exist [Library]",
+          QString::null );
+  }
 
   if ( _items.count() > 0 )
   {
@@ -4424,7 +4434,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
         {
           switch (
               KMessageBox::warningYesNoCancel(
-                  this, 
+                  this,
                   i18n("You have multiple tabs open in this window, "
                         "are you sure you wish to close it?"),
                   i18n("Confirmation"),

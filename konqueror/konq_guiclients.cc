@@ -59,21 +59,15 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
         menu.appendChild( m_doc.createElement( "separator" ) );
     }
 
-    QString currentServiceName = mainWindow->currentView()->service()->desktopEntryName();
-
     if ( !isIntoTrash )
     {
         KTrader::OfferList::ConstIterator it = embeddingServices.begin();
         KTrader::OfferList::ConstIterator end = embeddingServices.end();
 
-        QVariant builtin;
         if ( embeddingServices.count() == 1 )
         {
             KService::Ptr service = *embeddingServices.begin();
-            builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
-            if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-                 service->desktopEntryName() != currentServiceName )
-                addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
+            addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
         }
         else if ( embeddingServices.count() > 1 )
         {
@@ -88,15 +82,10 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
 
             bool inserted = false;
 
-            for (; it != end; ++it )
+            for (; it != end; ++it, ++idx )
             {
-                builtin = (*it)->property( "X-KDE-BrowserView-HideFromMenus" );
-                if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-                     (*it)->desktopEntryName() != currentServiceName )
-                {
-                    addEmbeddingService( subMenu, idx++, (*it)->name(), *it );
-                    inserted = true;
-                }
+                addEmbeddingService( subMenu, idx, (*it)->name(), *it );
+                inserted = true;
             }
 
             if ( !inserted ) // oops, if empty then remove the menu :-]
@@ -112,7 +101,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
     openInTabElement.setAttribute( "name", "openintab" );
     openInTabElement.setAttribute( "group", "tabhandling" );
     menu.appendChild( openInTabElement );
-    
+
     QDomElement separatorElement = m_doc.createElement( "separator" );
     separatorElement.setAttribute( "group", "tabhandling" );
     menu.appendChild( separatorElement );
