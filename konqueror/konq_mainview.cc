@@ -1394,9 +1394,9 @@ void KonqMainView::initActions()
 
   m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), stdAccel.openNew(), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
-  QPixmap execpix = KGlobal::iconLoader()->loadApplicationIcon( "exec", KIconLoader::Small );
+  QPixmap execpix = KGlobal::iconLoader()->loadIcon( "exec", KIconLoader::Small );
   m_paRun = new KAction( i18n( "&Run..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
-  QPixmap terminalpix = KGlobal::iconLoader()->loadApplicationIcon( "terminal", KIconLoader::Small );
+  QPixmap terminalpix = KGlobal::iconLoader()->loadIcon( "terminal", KIconLoader::Small );
   m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), terminalpix, CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not stdAccel.find()!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
@@ -1475,7 +1475,7 @@ void KonqMainView::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  QPixmap konqpix = KGlobal::iconLoader()->loadApplicationIcon( "konqueror", KIconLoader::Small );
+  QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIconLoader::Small );
   m_paAbout = new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
   m_paReportBug = new KAction( i18n( "&Report bug..." ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotReportBug() ), actionCollection(), "reportbug" );
 

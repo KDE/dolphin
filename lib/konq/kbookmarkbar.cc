@@ -73,7 +73,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
     KBookmark *bm;
     for (bm = parent->first(); bm; bm = parent->next())
     {
-        QPixmap pix(KGlobal::iconLoader()->loadApplicationIcon(
+        QPixmap pix(KGlobal::iconLoader()->loadIcon(
                         bm->pixmapFile(), KIconLoader::Small));
 
         if (bm->type() == KBookmark::URL)

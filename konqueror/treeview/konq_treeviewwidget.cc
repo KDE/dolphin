@@ -390,7 +390,7 @@ void KonqTreeViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
     QPixmap pixmap2;
     if ( urls.count() > 1 )
     {
-      pixmap2 = KGlobal::iconLoader()->loadApplicationIcon( "kmultiple", KIconLoader::Medium );
+      pixmap2 = KGlobal::iconLoader()->loadIcon( "kmultiple", KIconLoader::Medium );
       if ( pixmap2.isNull() )
 	warning("KDesktop: Could not find kmultiple pixmap\n");
     }

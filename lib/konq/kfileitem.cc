@@ -156,9 +156,9 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
   if ( !m_pMimeType )
   {
     if ( S_ISDIR( m_fileMode ) )
-     return KGlobal::iconLoader()->loadApplicationIcon( "folder", _size );
+     return KGlobal::iconLoader()->loadIcon( "folder", _size );
 
-    return KGlobal::iconLoader()->loadApplicationIcon( "mimetypes/unknown", _size );
+    return KGlobal::iconLoader()->loadIcon( "mimetypes/unknown", _size );
   }
 
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )

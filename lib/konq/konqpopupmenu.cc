@@ -335,7 +335,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     {
       if ( !(*it2).m_strIcon.isEmpty() )
       {
-        QPixmap pix = KGlobal::iconLoader()->loadApplicationIcon( (*it2).m_strIcon, KIconLoader::Small );
+        QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
 	id = insertItem( pix, (*it2).m_strName );
       }
       else
@@ -351,7 +351,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     {
       if ( !(*it2).m_strIcon.isEmpty() )
       {
-        QPixmap pix = KGlobal::iconLoader()->loadApplicationIcon( (*it2).m_strIcon, KIconLoader::Small );
+        QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
 	id = insertItem( pix, (*it2).m_strName );
       }
       else
