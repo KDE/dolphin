@@ -3,6 +3,7 @@
 
 #include <qlayout.h> //CT
 
+#include <kdialog.h>
 #include <klocale.h>
 #include <kapp.h>
 #include <kurl.h>
@@ -26,12 +27,14 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
 
-  QGridLayout *lay = new QGridLayout(this,11,8,10,5);
-  lay->addRowSpacing(4,20);
-  lay->addRowSpacing(6,20);
-  lay->addColSpacing(0,10);
-  lay->addColSpacing(3,10);
-  lay->addColSpacing(7,10);
+  QGridLayout *lay = new QGridLayout(this,11,8,
+				     KDialog::marginHint(),
+				     KDialog::spacingHint());
+  lay->addRowSpacing(4,KDialog::spacingHint()*2);
+
+  lay->addColSpacing(0,KDialog::spacingHint());
+  lay->addColSpacing(3,KDialog::spacingHint());
+  lay->addColSpacing(7,KDialog::spacingHint());
 
   lay->setRowStretch(0,1);
   lay->setRowStretch(1,0); // USEPROXY
@@ -72,6 +75,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   le_http_port->setGeometry(280, 110, 55, 30);
   lay->addWidget(le_http_port,ROW_HTTP,5);
   connect(le_http_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
+  QLabel *label = new QLabel(this);
+  label->setFrameStyle(QFrame::HLine|QFrame::Sunken);
+  lay->addMultiCellWidget(label, 6, 6, 0, 6);
 
   lb_http_port = new QLabel( le_http_port, i18n("Port:"), this);
   lb_http_port->setAlignment(AlignVCenter);

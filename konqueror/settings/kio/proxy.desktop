@@ -25,9 +25,10 @@ Name[no_NY]='Proxy'
 Name[ro]=Proxy
 Name[sl]=Posredniki
 Name[sv]=Mellanservrar
-Name[ta]=À¢É¡Á¢¸û
+Name[ta]=பினாமிகள
 
-Comment=You can configure your proxy server configuration here
+Comment=Configure any proxy servers you must use (usually needed if you
+are behind a firewall)
 Comment[ca]=Aquí podeu configurar el vostre servidor de procuració
 Comment[cs]=Zde je možné provést nastavení vašeho proxy serveru
 Comment[de]=Hier können Sie Einstellungen zum Proxy-Server vornehmen
@@ -42,17 +43,20 @@ Comment[no]=Her kan du konfigurere din proxy-tjenerkonfigurasjon
 Comment[no_NY]=Du kan setja opp 'proxy'-innstillingane dine her
 Comment[pt]=Configuração das propriedades dos "proxies"
 Comment[ro]=Configurează <proxy> pentru navigatorul de web
-Comment[sl]=Tu lahko nastavite va� posredovalni stre�nik
+Comment[sl]=Tu lahko nastavite vaš posredovalni strežnik
+Comment[sr]=Ovde mo�ete podesiti proxy
 Comment[sv]=Här kan du ändra dina proxyinställningar
-Comment[ta]=­í§¸ ¯í¸û À¢É¡Á¢ §º¨ÅÂ¸ ÅÊÅ¨ÁôÒ¸¨Ç ÅÊÅ¨Áì¸Ä¡õ
+Comment[ta]=இஙேக உஙகள பினாமி ேசைவயக வடவைமபபகைள வடவைமககலாம
 
-Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network
+Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,Firewall
 Keywords[ca]=Procuració,servidor de procuració,WWW,Internet,Navegació,HTTP,FTP,Xarxa
 Keywords[de]=proxy,proxy server,www,internet,browsen,http,ftp,netz
+Keywords[fi]=Proxy,Proxy-palvelin,WWW,Internet,Selailu,HTTP,FTP,Verkko
+Keywords[he]=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,תשר,FTP,HTTP,השילג,טנרטניא,WWW,יסקורפ תרש,יסקורפ
 Keywords[hu]=proxy,proxy kiszolgáló,WWW,internet,böngészés,HTTP,FTP,hálózat
 Keywords[no]=Proxy,Proksi,Proxy-tjener,Proksi-tjener,WWW,vev,Internet,InternettNettlosing,HTTP,FTP,Nettverk
 Keywords[no_NY]=proxy,proxy-tenar,WWW,Internett,surfing,HTTP,FTP,nettverk
 Keywords[pt]=proxy,servidor proxy,WWW,internet,navegação,HTTP,FTP,rede
 Keywords[ro]=proxy,server proxy,WWW,Internet,navigare,HTTP,FTP,reţea
-Keywords[sl]=nadomestnik,proxy,nadomestni stre�nik,WWW,splet,internet,brkljanje,HTTP,FTP,omre�je
+Keywords[sl]=nadomestnik,proxy,nadomestni strežnik,WWW,splet,internet,brkljanje,HTTP,FTP,omrežje
 
