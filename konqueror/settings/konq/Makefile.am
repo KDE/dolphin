@@ -21,6 +21,13 @@ datadir = $(kde_appsdir)/Settings/FileBrowsing
 data2_DATA = desktop.desktop virtualdesktops.desktop
 data2dir = $(kde_appsdir)/Settings/LookNFeel
 
+install-data-local: uninstall.desktop
+	$(mkinstalldirs) $(kde_appsdir)/Settings/LookNFeel/Desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Settings/LookNFeel/Desktop/virtualdesktops.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Settings/LookNFeel/Desktop/desktop.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Settings/LookNFeel/Desktop/borders.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Settings/LookNFeel/Desktop/background.desktop
+
 uiserver_DIR = $(kde_includes)/kio
 
 EXTRA_DIST = $(libkcm_konq_la_DATA) $(data_DATA)
