@@ -77,9 +77,9 @@
  </ToolBar>
  <ToolBar newline="true" noMerge="1" name="locationToolBar" fullWidth="true" >
   <text>Location Toolbar</text>
-  <Action name="up" />
   <Action name="back" />
   <Action name="forward" />
+  <Action name="up" />
   <Action name="home" />
   <Action name="reload" />
   <Action name="stop" />

@@ -111,9 +111,9 @@
  <Merge/>
 </MenuBar>
 <ToolBar fullWidth="true" name="mainToolBar" newline="true"><text>Main Toolbar</text>
- <Action name="up"/>
  <Action name="back"/>
  <Action name="forward"/>
+ <Action name="up"/>
  <Action name="home"/>
  <Separator/>
  <Action name="reload"/>
