@@ -35,7 +35,7 @@
 #include <konqoperations.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprotocolmanager.h>
+#include <kprotocolinfo.h>
 #include <konqsettings.h>
 
 #include <stdlib.h>
@@ -176,8 +176,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       }
    }
    //check what the protocol provides
-   KProtocolManager *protocolManager=&KProtocolManager::self();
-   QStringList listingList=protocolManager->listing(protocol);
+   QStringList listingList=KProtocolInfo::listing(protocol);
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
    for (unsigned int j=0; j<listingList.count(); j++)
       kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;

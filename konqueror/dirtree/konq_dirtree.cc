@@ -44,7 +44,7 @@
 #include <konqoperations.h>
 #include <konqsettings.h>
 #include <kparts/factory.h>
-#include <kprotocolmanager.h>
+#include <kprotocolinfo.h>
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
 
@@ -907,7 +907,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 
   KonqDirLister *dirLister = 0;
 
-  bool bListable = KProtocolManager::self().supportsListing( kurl.protocol() );
+  bool bListable = KProtocolInfo::supportsListing( kurl.protocol() );
 
   if ( bListable )
   {
