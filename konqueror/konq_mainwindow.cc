@@ -1355,28 +1355,6 @@ void KonqMainWindow::slotToolFind()
       QTimer::singleShot( 1, mw, SLOT(slotToolFind()));
       m_paFindFiles->setChecked(false);
   }
-
-  /* Old version
-  KProcess proc;
-  proc.setUseShell(true);
-  proc << "kfind";
-
-  if ( m_currentView ) // play safe
-  {
-    KURL url;
-    url = m_currentView->url();
-
-    if( url.isLocalFile() )
-    {
-      if ( m_currentView->serviceType() == "inode/directory" )
-        proc << url.path();
-      else
-        proc << url.directory();
-    }
-  }
-
-  proc.start(KProcess::DontCare);
-  */
 }
 
 void KonqMainWindow::slotFindOpen( KonqDirPart * dirPart )
@@ -1395,6 +1373,7 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     kdDebug(1202) << "dirView=" << dirView << endl;
     if ( dirView && dirView == m_currentView )
         m_paFindFiles->setEnabled( true );
+    m_paFindFiles->setChecked(false);
 }
 
 void KonqMainWindow::slotIconsChanged()
