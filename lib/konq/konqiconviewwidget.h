@@ -97,7 +97,7 @@ signals:
 
 protected slots:
 
-    virtual void slotDrop( QDropEvent *e );
+    virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
     /** connect each item to this */
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
@@ -106,7 +106,7 @@ protected slots:
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
 
-    void initDragEnter( QDropEvent *e );
+    //void initDragEnter( QDropEvent *e );
 
     KURL m_url;
 

@@ -26,22 +26,16 @@
 
 #include <kurl.h>
 
+/*
 class KonqDragItem : public QIconDragItem
 {
 public:
-    KonqDragItem();
-    KonqDragItem( const QRect &ir, const QRect &tr, const QString &u );
-    ~KonqDragItem();
-	
-    QString url() const;
-    void setURL( const QString &u );
+    KonqDragItem() : QIconDragItem() {}
+    ~KonqDragItem() {}
 
-protected:
-    void makeKey();
-
-    QString url_;
-
+    QString url;
 };
+*/
 
 /*****************************************************************************
  *
@@ -54,19 +48,21 @@ class KonqDrag : public QIconDrag
     Q_OBJECT
 
 public:
-    typedef QValueList<KonqDragItem> KonqList;
+    //typedef QValueList<KonqDragItem> KonqList;
 
     KonqDrag( QWidget * dragSource, const char* name = 0 );
-    ~KonqDrag();
+    virtual ~KonqDrag() {}
 
     const char* format( int i ) const;
     QByteArray encodedData( const char* mime ) const;
 
-    void append( const KonqDragItem &icon_ );
+    void append( const QIconDragItem &item, const QRect &pr,
+                             const QRect &tr, const QString &url );
 
     static bool canDecode( QMimeSource* e );
 
-    static bool decode( QMimeSource *e, QValueList<KonqDragItem> &list_ );
+    //static bool decode( QMimeSource *e, QValueList<KonqDragItem> &lst );
+
     static bool decode( QMimeSource *e, QStringList &uris );
 
     /**
@@ -80,8 +76,8 @@ public:
     static void doDrop( const KURL & dest, QDropEvent * ev, QObject * receiver );
 
 protected:
-    KonqList icons;
-
+    //KonqList icons;
+    QStringList urls;
 };
 
 #endif

@@ -42,8 +42,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     : KIconView( parent, name, f ),
       m_bImagePreviewAllowed( false )
 {
-    QObject::connect( this, SIGNAL( dropped( QDropEvent * ) ),
-		      this, SLOT( slotDrop( QDropEvent* ) ) );
+    QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
+		      this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
 	
     QObject::connect( this, SIGNAL( selectionChanged() ),
                       this, SLOT( slotSelectionChanged() ) );
@@ -125,7 +125,7 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 }
 
 
-void KonqIconViewWidget::slotDrop( QDropEvent *ev )
+void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDragItem> & )
 {
     // Drop on background
     KonqDrag::doDrop( m_url, ev, this );
@@ -162,38 +162,20 @@ QDragObject * KonqIconViewWidget::dragObject()
 			     currentItem()->pixmapRect().height() / 2 ) );
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
 	if ( it->isSelected() ) {
-	    drag->append( KonqDragItem( QRect( it->pixmapRect( FALSE ).x() - orig.x(),
-					       it->pixmapRect( FALSE ).y() - orig.y(),
-					       it->pixmapRect().width(), it->pixmapRect().height() ),
-					QRect( it->textRect( FALSE ).x() - orig.x(),
-					       it->textRect( FALSE ).y() - orig.y(),	
-					       it->textRect().width(), it->textRect().height() ),
-					((KFileIVI *)it)->item()->url().url() ) );
+          QString itemURL = ((KFileIVI *)it)->item()->url().url();
+          QIconDragItem id;
+          id.setData( QCString(itemURL) );
+          drag->append( id,
+                        QRect( it->pixmapRect( FALSE ).x() - orig.x(),
+                               it->pixmapRect( FALSE ).y() - orig.y(),
+                               it->pixmapRect().width(), it->pixmapRect().height() ),
+                        QRect( it->textRect( FALSE ).x() - orig.x(),
+                               it->textRect( FALSE ).y() - orig.y(),	
+                               it->textRect().width(), it->textRect().height() ),
+                        itemURL );
 	}
     }
     return drag;
-}
-
-
-void KonqIconViewWidget::initDragEnter( QDropEvent *e )
-{
-    if ( KonqDrag::canDecode( e ) ) {	
-	QValueList<KonqDragItem> lst;
-	KonqDrag::decode( e, lst );
-	if ( lst.count() != 0 ) {
-	    setDragObjectIsKnown( e );
-	} else {
-	    QStringList l;
-	    KonqDrag::decode( e, l );
-	    setNumDragItems( l.count() );
-	}
-    } else if ( QUriDrag::canDecode( e ) ) {
-	QStringList l;
-	QUriDrag::decodeLocalFiles( e, l );
-	setNumDragItems( l.count() );
-    } else {
-	QIconView::initDragEnter( e );
-    }
 }
 
 void KonqIconViewWidget::setItemFont( const QFont &f )

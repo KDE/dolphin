@@ -29,47 +29,8 @@
 #include <kuserpaths.h>
 #include <X11/Xlib.h>
 
-KonqDragItem::KonqDragItem()
-    : QIconDragItem()
-{
-    makeKey();
-}
-
-KonqDragItem::KonqDragItem( const QRect &ir, const QRect &tr, const QString &u )
-    : QIconDragItem( ir, tr ), url_( u )
-{
-    makeKey();
-}
-
-KonqDragItem::~KonqDragItem()
-{
-}
-
-QString KonqDragItem::url() const
-{
-    return url_;
-}
-
-void KonqDragItem::setURL( const QString &u )
-{
-    url_ = u;
-}
-
-void KonqDragItem::makeKey()
-{	
-    QString k( "%1 %2 %3 %4 %5 %6 %7 %8 %9");
-    k = k.arg( pixmapRect().x() ).arg( pixmapRect().y() ).arg( pixmapRect().width() ).
-	arg( pixmapRect().height() ).arg( textRect().x() ).arg( textRect().y() ).
-	arg( textRect().width() ).arg( textRect().height() ).arg( url_ );
-    key_ = k;
-}
-
 KonqDrag::KonqDrag( QWidget * dragSource, const char* name )
     : QIconDrag( dragSource, name )
-{
-}
-
-KonqDrag::~KonqDrag()
 {
 }
 
@@ -78,71 +39,67 @@ const char* KonqDrag::format( int i ) const
     if ( i == 0 )
 	return "application/x-qiconlist";
     else if ( i == 1 )
-	return "text/uri-iconlist";
-    else if ( i == 2 )
 	return "text/uri-list";
+//    else if ( i == 2 )
+//	return "text/uri-iconlist";
     else return 0;
-}
-
-void KonqDrag::append( const KonqDragItem &icon_ )
-{
-    icons.append( icon_ );
-    QIconDrag::icons.append( icon_ );
 }
 
 QByteArray KonqDrag::encodedData( const char* mime ) const
 {
     QByteArray a;
-    if ( QString( mime ) == "application/x-qiconlist" )
+    if ( QCString( mime ) == "application/x-qiconlist" )
 	a = QIconDrag::encodedData( mime );
-    else if ( QString( mime ) == "text/uri-iconlist" ) {
-	int c = 0;
-	KonqList::ConstIterator it = icons.begin();
-	for ( ; it != icons.end(); ++it ) {
-	    QString k( "%1 %2 %3 %4 %5 %6 %7 %8 %9" );
-	    k = k.arg( (*it).pixmapRect().x() ).arg( (*it).pixmapRect().y() ).arg( (*it).pixmapRect().width() ).
-		arg( (*it).pixmapRect().height() ).arg( (*it).textRect().x() ).arg( (*it).textRect().y() ).
-		arg( (*it).textRect().width() ).arg( (*it).textRect().height() ).arg( (*it).url() );
-	    int l = k.length();
-	    a.resize(c + l + 1 );
-	    memcpy( a.data() + c , k.latin1(), l );
-	    a[ c + l ] = 0;
-	    c += l + 1;
-	}
-	a.resize( c - 1 );
-    } else if ( QString( mime ) == "text/uri-list" ) {
-	int c = 0;
-	KonqList::ConstIterator it = icons.begin();
-	for ( ; it != icons.end(); ++it ) {
-	    QString k( "%1" );
-	    k = k.arg( (*it).url() );
-	    int l = k.length();
-	    a.resize(c + l + 2 );
-	    memcpy( a.data() + c , k.latin1(), l );
-	    memcpy(a.data() + c + l, "\r\n" ,2);
-	    c += l + 2;
-	}
-	a.resize( c - 1 );
-    }
+#if 0
+    else if ( QCString( mime ) == "text/uri-iconlist" )
+    {
+      // Encode all the icon positions - reusing rules !
+      QByteArray parentArray = QIconDrag::encodedData( mime );
+      // Encode all urls
+      QString s = urls.join( "\r\n" );
 
+      // Append both - QIconDrag uses $@@$, let's use $@@@$ :-)
+      QString complete( "%1$@@@$%2" );
+      complete.arg( QString(parentArray) ).arg( s );
+
+      a.resize( complete.length() );
+      memcpy( a.data(), complete.latin1(), complete.length() );
+    }
+#endif
+    else if ( QCString( mime ) == "text/uri-list" ) {
+        QString s = urls.join( "\r\n" );
+        a.resize( s.length() );
+        memcpy( a.data(), s.latin1(), s.length() );
+    }
     return a;
 }
 
 bool KonqDrag::canDecode( QMimeSource* e )
 {
-    return e->provides( "text/uri-iconlist" ) ||
-	e->provides( "text/uri-list" );
+    return  e->provides( "application/x-qiconlist" ) ||
+      // e->provides( "text/uri-iconlist" ) ||
+      e->provides( "text/uri-list" );
 }
 
-bool KonqDrag::decode( QMimeSource* e, QValueList<KonqDragItem> &list_ )
+#if 0
+bool KonqDrag::decode( QMimeSource* e, QValueList<KonqDragItem> &lst )
 {
     QByteArray ba = e->encodedData( "text/uri-iconlist" );
     if ( ba.size() ) {
-	list_.clear();
+	lst.clear();
 	uint c = 0;
-	
-	char* d = ba.data();
-	
+	QString s = ba.data();
+        QStringList l = QStringList::split( "$@@@$", s );
+        // We should have two items
+        if ( l.count() != 2 )
+        {
+          kDebugError("Data has %d toplevel items instead of 2, KonqDrag can't decode !", l.count());
+          return false;
+        }
+
+        if (!QIconDrag
+        QStringList urllist = QStringList::split( l.last(), "\r\n" );
+
 	while ( c < ba.size() ) {
 	    uint f = c;
 	    while ( c < ba.size() && d[ c ] )
@@ -157,44 +114,6 @@ bool KonqDrag::decode( QMimeSource* e, QValueList<KonqDragItem> &list_ )
 	    }
 
 	    KonqDragItem icon;
-	    QRect ir, tr;
-	
-	    ir.setX( atoi( s.latin1() ) );
-	    int pos = s.find( ' ' );
-	    if ( pos == -1 )
-		return FALSE;
-	    ir.setY( atoi( s.latin1() + pos + 1 ) );
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    ir.setWidth( atoi( s.latin1() + pos + 1 ) );
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    ir.setHeight( atoi( s.latin1() + pos + 1 ) );
-
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    tr.setX( atoi( s.latin1() + pos + 1 ) );
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    tr.setY( atoi( s.latin1() + pos + 1 ) );
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    tr.setWidth( atoi( s.latin1() + pos + 1 ) );
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    tr.setHeight( atoi( s.latin1() + pos + 1 ) );
-
-	    pos = s.find( ' ', pos + 1 );
-	    if ( pos == -1 )
-		return FALSE;
-	    icon.setPixmapRect( ir );
-	    icon.setTextRect( tr );
 	    icon.setURL( s.latin1() + pos + 1 );
 	    list_.append( icon );
 	}
@@ -203,6 +122,7 @@ bool KonqDrag::decode( QMimeSource* e, QValueList<KonqDragItem> &list_ )
 
     return FALSE;
 }
+#endif
 
 bool KonqDrag::decode( QMimeSource *e, QStringList &uris )
 {
@@ -226,6 +146,13 @@ bool KonqDrag::decode( QMimeSource *e, QStringList &uris )
 	return TRUE;
     }
     return FALSE;
+}
+
+void KonqDrag::append( const QIconDragItem &item, const QRect &pr,
+                             const QRect &tr, const QString &url )
+{
+    QIconDrag::append( item, pr, tr );
+    urls.append(url);
 }
 
 /////////////////

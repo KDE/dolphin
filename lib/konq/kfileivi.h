@@ -32,7 +32,7 @@ class KFileItem;
  * All the information about the file is contained in the KFileItem
  * pointer.
  */
-class KFileIVI : public QIconViewItem
+class KFileIVI : public QObject, public QIconViewItem
 {
     Q_OBJECT
 public:
@@ -63,13 +63,13 @@ public:
     virtual void setIcon( KIconLoader::Size size, bool bImagePreviewAllowed );
 
     virtual void setKey( const QString &key );
-    virtual void paintItem( QPainter *p, const QColorGroup &cg, const QFont &font );
+    virtual void paintItem( QPainter *p, const QColorGroup &cg );
 
 signals:
     void dropMe( KFileIVI *item, QDropEvent *e );
 
 protected:
-    virtual void dropped( QDropEvent *e );
+    virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
     /** Pointer to the file item in KDirLister's list */
     KFileItem* m_fileitem;

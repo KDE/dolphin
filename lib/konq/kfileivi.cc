@@ -26,7 +26,6 @@ KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size 
 		     fileitem->pixmap( size, bImagePreviewAllowed ) ),
       m_fileitem( fileitem )
 {
-//  setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 }
 
@@ -47,7 +46,6 @@ void KFileIVI::setKey( const QString &key )
 {
     QString theKey = key;
 
-    //  if ( m_fileitem->mimetype() == "inode/directory" )
     if ( S_ISDIR( m_fileitem->mode() ) )
 	theKey.prepend( '0' );
     else
@@ -56,7 +54,7 @@ void KFileIVI::setKey( const QString &key )
     QIconViewItem::setKey( theKey );
 }
 
-void KFileIVI::dropped( QDropEvent *e )
+void KFileIVI::dropped( QDropEvent *e, const QValueList<QIconDragItem> & )
 {
     emit dropMe( this, e );
 }
@@ -66,15 +64,18 @@ void KFileIVI::returnPressed()
     m_fileitem->run();
 }
 
-void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg, const QFont &font )
+void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg )
 {
-    QFont f( font );
     QColorGroup c( cg );
     if ( iconView()->inherits( "KonqIconViewWidget" ) )
 	c.setColor( QColorGroup::Text, ( (KonqIconViewWidget*)iconView() )->itemColor() );
     if ( m_fileitem->isLink() )
-	f.setItalic( TRUE );
-    QIconViewItem::paintItem( p, c, f );
+    {
+        QFont f( p->font() );
+        f.setItalic( TRUE );
+        p->setFont( f );
+    }
+    QIconViewItem::paintItem( p, c );
 }
 
 #include "kfileivi.moc"
