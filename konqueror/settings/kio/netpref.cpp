@@ -19,7 +19,7 @@
 KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
                :KCModule( parent, name )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, 1.9*KDialog::marginHint(),
+    QVBoxLayout* mainLayout = new QVBoxLayout( this, 2*KDialog::marginHint(),
                                                KDialog::spacingHint() );
     gb_Timeout = new QGroupBox( i18n("Timeout Values"), this, "gb_Timeout" );
     gb_Timeout->setColumnLayout(0, Qt::Vertical );
@@ -36,7 +36,7 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
 
     QGridLayout* grid_topLevel = new QGridLayout;
     grid_topLevel->setSpacing( KDialog::spacingHint() );
-    grid_topLevel->setMargin( 1.9*KDialog::marginHint() );
+    grid_topLevel->setMargin( 2*KDialog::marginHint() );
 
     QGridLayout* grid_firstColumn = new QGridLayout;
     grid_firstColumn->setSpacing( KDialog::spacingHint() );

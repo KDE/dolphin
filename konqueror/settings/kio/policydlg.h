@@ -27,35 +27,68 @@
 
 class QPushButton;
 
-class PolicyDialog : public KDialog
+class KCookieAdvice
 {
-    Q_OBJECT
-
 public:
-    PolicyDialog( const QString& caption, QWidget *parent = 0, const char *name = 0 );
-    ~PolicyDialog() {};
+  enum Value {Dunno=0, Accept, Reject, Ask};
 
-    /*
-    * @return 1 for "Accept", 2 for "Reject" and 3 for "Ask"
-    */
-    int policyAdvice() const { return m_cbPolicy->currentItem() + 1; }
-    QString domain() const { return m_leDomain->text(); }
+  static const char * KCookieAdvice::adviceToStr (const int& advice)
+  {
+    switch (advice)
+    {
+      case KCookieAdvice::Accept:
+        return I18N_NOOP("Accept");
+      case KCookieAdvice::Reject:
+        return I18N_NOOP("Reject");
+      case KCookieAdvice::Ask:
+        return I18N_NOOP("Ask");
+      default:
+        return I18N_NOOP("Dunno");
+    }
+  }
 
-    void setEnableHostEdit( bool, const QString& hname = QString::null );
-    void setDefaultPolicy( int /*value*/ );
+  static KCookieAdvice::Value strToAdvice (const QString& advice)
+  {
+    if (advice.isEmpty())
+      return KCookieAdvice::Dunno;
 
-protected slots:
-    void slotTextChanged( const QString& );
+    if (advice.find (QString::fromLatin1("accept"), 0, false) == 0)
+      return KCookieAdvice::Accept;
+    else if (advice.find (QString::fromLatin1("reject"), 0, false) == 0)
+      return KCookieAdvice::Reject;
+    else if (advice.find (QString::fromLatin1("ask"), 0, false) == 0)
+      return KCookieAdvice::Ask;
 
-protected:
-    virtual void keyPressEvent( QKeyEvent* );
-
-private:
-    KLineEdit*  m_leDomain;
-    KComboBox*       m_cbPolicy;
-
-    QPushButton*     m_btnOK;
-    QPushButton*     m_btnCancel;
+    return KCookieAdvice::Dunno;
+  }
 };
 
+class KCookiePolicyDlg : public KDialog
+{
+  Q_OBJECT
+
+public:
+  KCookiePolicyDlg (const QString& caption, QWidget *parent = 0,
+                    const char *name = 0);
+  ~KCookiePolicyDlg (){};
+
+  int advice() const;
+  QString domain() const { return m_leDomain->text(); }
+
+  void setEnableHostEdit( bool, const QString& host = QString::null );
+  void setPolicy (int policy);
+
+protected slots:
+  void slotTextChanged( const QString& );
+
+protected:
+  virtual void keyPressEvent( QKeyEvent* );
+
+private:
+  KLineEdit* m_leDomain;
+  KComboBox* m_cbPolicy;
+
+  QPushButton* m_btnOK;
+  QPushButton* m_btnCancel;
+};
 #endif

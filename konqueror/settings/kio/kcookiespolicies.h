@@ -29,6 +29,8 @@
 #include <qmap.h>
 #include <kcmodule.h>
 
+#include "policydlg.h"
+
 class QGroupBox;
 class QCheckBox;
 class QPushButton;
@@ -55,6 +57,7 @@ public:
 
 protected slots:
     void changeCookiesEnabled();
+    void selectionChanged();
     void updateButtons();
 
     void deleteAllPressed();
@@ -66,6 +69,10 @@ protected slots:
 private:
     void updateDomainList(const QStringList& list);
     bool handleDuplicate( const QString& domain, int );
+    void splitDomainAdvice (const QString& configStr, QString &domain,
+                            KCookieAdvice::Value &advice);
+
+    int d_itemsSelected;
 
     // Global Policy Cookies enabled
     QGroupBox*    gb_global;
