@@ -530,9 +530,10 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 
    // create drawing area
    Arg args[7];
-   Cardinal nargs=0;
+   Cardinal nargs = 0;
    XtSetArg(args[nargs], XtNwidth, width); nargs++;
    XtSetArg(args[nargs], XtNheight, height); nargs++;
+   XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
 
    String n, c;
    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
@@ -551,7 +552,6 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtSetArg(args[nargs], XtNvisual, QPaintDevice::x11AppVisual()); nargs++;
    XtSetArg(args[nargs], XtNdepth, QPaintDevice::x11AppDepth()); nargs++;
    XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
-   XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
    XtSetValues(_form, args, nargs);
    XSync(qt_xdisplay(), false);
 
