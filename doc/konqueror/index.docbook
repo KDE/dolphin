@@ -176,7 +176,7 @@ to show which is the <quote>active</quote>
 view. <mousebutton>Right</mousebutton> clicking on the Status Bar brings up the
 Status Bar <mousebutton>Right </mousebutton> Mouse Button Menu.</para>
 
-<Note><para>Don't worry if your &konqueror; doesn't look exactly like this
+<note><para>Don't worry if your &konqueror; doesn't look exactly like this
 screenshot, it is highly configurable and there is no <quote>standard</quote>
 way of setting it up. In particular:</para>
 
@@ -192,7 +192,7 @@ drag these bars around. </para></listitem>
 </itemizedlist>
 
 <para>For more details of how to change &konqueror;'s appearance, see the <link
-linkend="config">Configuring &konqueror;</link> section</para></Note>
+linkend="config">Configuring &konqueror;</link> section</para></note>
 
 </sect1>
 
@@ -414,10 +414,10 @@ Arrow</keysym></keycombo>.</para>
 action="simul"><keycap>Alt</keycap><keysym>Right
 Arrow</keysym></keycombo>.</para>
 
-<Tip><para>Holding the &LMB; pressed while the mouse pointer is
+<tip><para>Holding the &LMB; pressed while the mouse pointer is
 over the Toolbar <guiicon>Up</guiicon>, <guiicon>Back</guiicon> or
 <guiicon>Forward</guiicon> buttons brings up a menu of recently visited
-locations.</para></Tip>
+locations.</para></tip>
 
 <sect2 id="path-complete">
 <title>Auto Path Completion</title> 
