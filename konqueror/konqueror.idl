@@ -206,6 +206,7 @@ module Konqueror
 
   interface TxtView : View
   {
+    slot void slotSelectAll();
   };
 
   interface MainView : OpenParts::Part

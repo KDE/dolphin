@@ -10,36 +10,10 @@
 #include <kio_cache.h>
 #include <kio_error.h>
 #include <kurl.h>
+#include <klocale.h>
+#include <opUIUtils.h>
 
 #include <mico/util.h>
-
-CORBA::WChar *Q2C( const QString &s )
-{
-  const QChar *u = s.unicode();
-  CORBA::WChar *res = CORBA::wstring_alloc( s.length() );
-  CORBA::WChar *tmp = res;
-
-  for ( uint i = 0; i < s.length(); i++ )
-    *(tmp++) = (u++)->unicode();
-
-  *tmp = 0;
-      
-  return res;
-}
-
-QString C2Q( const CORBA::WChar *s )
-{
-  size_t i, len = xwcslen( s );
-  QChar *q = new QChar[ len ];
-  QChar *tmp = q;
-  
-  for ( i = 0; i < len; i++ )
-    *(tmp++) = QChar( (ushort) *(s++) );
-  
-  QString res( q, len );
-  delete [] q;
-  return res;
-}
 
 KonqTxtView::KonqTxtView()
 {
@@ -93,9 +67,25 @@ bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu /*viewMenu
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu /*editMenu*/ )
+bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
 {
-  //TODO : selectall
+//HACK
+#define MEDIT_BASE_ID 1523
+#define MEDIT_SELECTALL_ID MEDIT_BASE_ID+1
+
+  if ( !CORBA::is_nil( editMenu.menu ) )
+  {
+    if ( editMenu.create )
+    {
+      CORBA::WString_var txt = Q2C( i18n( "Select &All" ) );
+      editMenu.menu->insertItem4( txt, this, "slotSelectAll", 0, MEDIT_SELECTALL_ID, -1 );
+    }
+    else
+    {
+      editMenu.menu->removeItem( MEDIT_SELECTALL_ID );
+    }
+  }
+
   return true;
 }
 
@@ -136,6 +126,11 @@ void KonqTxtView::restoreState( const Konqueror::View::HistoryEntry &history )
   SIGNAL_CALL2( "started", id(), history.url );
   SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char*)history.url.in(), 0 ) );
   SIGNAL_CALL1( "completed", id() );
+}
+
+void KonqTxtView::slotSelectAll()
+{
+  QMultiLineEdit::selectAll();
 }
 
 void KonqTxtView::slotFinished( int )

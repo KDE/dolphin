@@ -43,6 +43,8 @@ public:
   virtual Konqueror::View::HistoryEntry *saveState();
   virtual void restoreState( const Konqueror::View::HistoryEntry &history );
 
+  virtual void slotSelectAll();
+
 protected slots:
   void slotFinished( int );
   void slotRedirection( int, const char * );
