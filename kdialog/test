@@ -26,19 +26,23 @@ else
 fi
 
 echo "text box:"
-./kdialog --title "This is a text box" --textbox widgets.h 400 300
+./kdialog --miniicon "about_kde" --title "This is a text box" --textbox widgets.h 400 300
 
 echo "menu:"
-./kdialog --title "This is a menu" --menu "Choose one of these" a English b German c French d Spanish
+./kdialog --miniicon "about_kde"  --title "This is a menu" --menu "Choose one of these" a English b German c French d Spanish
 
 echo "checklist:"
-./kdialog --title "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
+./kdialog --miniicon "about_kde" --title "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
 
 echo "radiolist:"
-./kdialog --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
+./kdialog --miniicon "about_kde" --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
 
 echo "combobox:"
-./kdialog --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
+./kdialog --miniicon "about_kde" --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
 
 echo "passivepopup:"
 ./kdialog --title "This is a passive popup" --passivepopup "It will disappear in about 10 seconds" 10
+
+echo "password:"
+./kdialog --title "This is a password dialog" --icon "desktop" --miniicon "about_kde" --password "Enter the password:"
+

@@ -27,6 +27,7 @@
 #include <kpassdlg.h>
 #include <kcombobox.h>
 #include <kdebug.h>
+#include <kapplication.h>
 
 #include <qlabel.h>
 #include <qtextedit.h>
@@ -46,6 +47,7 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
 {
   KPasswordDialog dlg( KPasswordDialog::Password, false, 0, parent );
 
+  kapp->setTopWidget( &dlg );
   dlg.setCaption(title);
   dlg.setPrompt(text);
   bool retcode = (dlg.exec() == QDialog::Accepted);
@@ -59,6 +61,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
 //  KTextBox dlg(parent, 0, TRUE, width, height, file);
   KDialogBase dlg( parent, 0, true, QString::null, KDialogBase::Ok, KDialogBase::Ok );
   dlg.setCaption(title);
+  kapp->setTopWidget( &dlg );
   QTextEdit *edit = new QTextEdit( dlg.makeVBoxMainWidget() );
   edit->setReadOnly(TRUE);
 
@@ -85,11 +88,13 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   return 0;
 }
 
+
 bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result)
 {
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok|KDialogBase::Cancel,
                    KDialogBase::Ok );
 
+  kapp->setTopWidget( &dlg );
   QVBox* vbox = dlg.makeVBoxMainWidget();
 
   QLabel label (vbox);
@@ -110,6 +115,7 @@ bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text
   KListBoxDialog box(text,parent);
 
   box.setCaption(title);
+  kapp->setTopWidget( &box );
 
   for (unsigned int i = 0; i+1<args.count(); i += 2) {
     box.insertItem(args[i+1]);
@@ -134,6 +140,7 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
   QListBox &table = box.getTable();
 
   box.setCaption(title);
+  kapp->setTopWidget( &box );
 
   for (unsigned int i=0; i+2<args.count(); i += 3) {
     tags.append(args[i]);
@@ -175,6 +182,7 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
   QListBox &table = box.getTable();
 
   box.setCaption(title);
+  kapp->setTopWidget( &box );
 
   for (unsigned int i=0; i+2<args.count(); i += 3) {
     tags.append(args[i]);
