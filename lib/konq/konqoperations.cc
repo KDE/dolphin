@@ -26,6 +26,7 @@
 
 #include <dcopclient.h>
 #include <konq_dirwatcher_stub.h>
+#include "konq_undo.h"
 
 // For doDrop
 #include <qpopupmenu.h>
@@ -113,6 +114,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs )
     {
       case TRASH:
         job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
+	(void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, KGlobalSettings::trashPath(), job );
         break;
       case DEL:
         job = KIO::del( selectedURLs );
@@ -220,19 +222,22 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
             }
 
             KonqOperations * op = new KonqOperations( parent );
-            KIO::Job * job;
+            KIO::Job * job = 0;
             switch ( ev->action() ) {
                 case QDropEvent::Move :
                   job = KIO::move( lst, dest );
                   op->setOperation( job, MOVE, lst, dest );
+		  (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
                   break;
                 case QDropEvent::Copy :
                   job = KIO::copy( lst, dest );
                   op->setOperation( job, COPY, lst, dest );
+		  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
                   break;
                 case QDropEvent::Link :
                   KIO::link( lst, dest );
                   op->setOperation( 0L, LINK, lst, dest ); // triggers slotResult at once
+		  //		  (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
                   break;
                 default : kdError(1203) << "Unknown action " << (int)ev->action() << endl; delete op; return;
             }

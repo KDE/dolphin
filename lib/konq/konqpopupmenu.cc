@@ -210,6 +210,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if ( sReading ) {
       if ( sDeleting ) {
+        addAction( "undo" );
         addAction( "cut" );
       }
       addAction( "copy" );

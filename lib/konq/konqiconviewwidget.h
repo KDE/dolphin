@@ -50,7 +50,7 @@ public:
      * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
      */
     KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
-    virtual ~KonqIconViewWidget() {}
+    virtual ~KonqIconViewWidget();
 
     void initConfig();
 

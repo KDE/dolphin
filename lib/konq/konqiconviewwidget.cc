@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 #include "konqiconviewwidget.h"
+#include "konq_undo.h"
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -91,6 +92,12 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     // emit our signals
     slotSelectionChanged();
     m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
+    KonqUndoManager::incRef();
+}
+
+KonqIconViewWidget::~KonqIconViewWidget()
+{
+    KonqUndoManager::decRef();
 }
 
 void KonqIconViewWidget::slotIconChanged( int group )
@@ -434,12 +441,20 @@ void KonqIconViewWidget::pasteSelection()
       kdDebug(1203) << "move (from clipboard data) = " << move << endl;
     }
 
+    KIO::Job *undoJob = 0;
+
     KURL::List lst = selectedUrls();
     assert ( lst.count() <= 1 );
+    KURL pasteURL;
     if ( lst.count() == 1 )
-	KIO::pasteClipboard( lst.first(), move );
+      pasteURL = lst.first();
     else
-	KIO::pasteClipboard( url(), move );
+      pasteURL = url();
+
+    undoJob = KIO::pasteClipboard( pasteURL, move );
+
+    if ( undoJob )
+      (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), pasteURL, undoJob );
 }
 
 KURL::List KonqIconViewWidget::selectedUrls()
