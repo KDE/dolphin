@@ -11,9 +11,13 @@ kde_servicetypes_DATA = konqaboutpage.desktop
 METASOURCES = AUTO
 
 konq_aboutpage_datadir = $(kde_datadir)/konqueror/about
-konq_aboutpage_data_DATA = background.png bgtable.png lightning.png\
-	intro.html konq.css konqueror.png lines.png pointers.gif shadow1.png \
-	specs.html tips.html lines2.png kdelogo2.png more.png \
-	konq_rtl.css intro_rtl.html specs_rtl.html tips_rtl.html \
-	background_rtl.png bgtable_rtl.png konqueror_rtl.png plugins.html \
-	plugins_rtl.html more_rtl.png
+konq_aboutpage_data_DATA = \
+	bar-bottom-left.png    bar-top-right.png      box-centre-konqueror.png  more.png \
+	bar-bottom-middle.png  bottom-left.png        box-middle-left.png       top-left.png \
+	bar-bottom-right.png   bottom-middle.png      box-middle-right.png      top-middle.png \
+	bar-middle-left.png    bottom-right.png       box-top-left.png          top-right-konqueror.png \
+	bar-middle-right.png   box-bottom-left.png    box-top-middle.png \
+	bar-top-left.png       box-bottom-middle.png  box-top-right.png \
+	bar-top-middle.png     box-bottom-right.png   lightning.png \
+	intro.html specs.html tips.html plugins.html \
+	intro_rtl.html specs_rtl.html tips_rtl.html plugins_rtl.html
