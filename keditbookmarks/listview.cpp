@@ -49,6 +49,7 @@
 
 // #define DEBUG_ADDRESSES
 
+#undef typ
 #define typ m_listView
 
 ListView* ListView::s_self = 0;
@@ -218,7 +219,7 @@ void ListView::deselectParents(KEBListViewItem *item) {
 }
 
 void ListView::updateSelectedItems() {
-   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); 
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
         it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
          deselectParents(it.current());
@@ -228,7 +229,7 @@ void ListView::updateSelectedItems() {
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
-   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if (!it.current()->isSelected() 
        || it.current()->isEmptyFolder()
        || it.current() == typ->rootItem()) {
@@ -529,7 +530,7 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
 // used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
    // TODO - check which listview has focus
-   typ->rename(firstSelected(), column);
+   m_listView->rename(firstSelected(), column);
 }
 
 void ListView::clearSelection() {
