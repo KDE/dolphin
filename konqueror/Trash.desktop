@@ -1,0 +1,42 @@
+[Desktop Entry]
+Type=Application
+Exec=kfmclient openURL %u trash:/
+Icon=trash
+Terminal=0
+
+Name=Trashcan
+Name[ca]=Paperera
+Name[cs]=Koš
+Name[de]=Papierkorb
+Name[eo]=Rubujo
+Name[fi]=Roskakori
+Name[fr]=Corbeille
+Name[hu]=Kuka
+Name[it]=Cestino
+Name[ja]=ごみ箱
+Name[no]=Papirkurv
+Name[no_NY]=Papirkorg
+Name[pt]=Lixo
+Name[ro]=Coş de gunoi
+Name[sl]=Koš
+Name[sv]=Papperskorg
+Name[ta]=Ìô¨À¦¾¡ðÊ
+
+Comment=This folder contains files to be deleted
+Comment[ca]=Aquesta carpeta conté els fitxers que s'esborraran
+Comment[cs]=Tento adresář obsahuje soubory určené ke smazání.
+Comment[de]=Enthält Dateien, die gelöscht werden sollen
+Comment[eo]=Tiu ĉi dosierujo enhavas la foĵetendajn dosierojn
+Comment[fi]=Tässä kansiossa ovat tiedostot jotka tullaan tuhoamaan
+Comment[fr]=Ce dossier contient les fichiers à détruire
+Comment[hu]=Ez a könyvtár tartalmazza a törlendő fájlokat.
+Comment[it]=Questa cartella contiene i file che devono essere cancellati
+Comment[ja]=このフォルダは削除するファイルを保持しています
+Comment[no]=Inneholder data som er slettet
+Comment[no_NY]=Denne mappa inneheld filer som skal slettast
+Comment[pt]=Esta pasta contém ficheiros que já não necessita
+Comment[ro]=Conţine fişierele care au fost şterse
+Comment[sl]=Imenik vsebuje datoteke, označene za brisanje
+Comment[sv]=Den här katalogen innehåller filer som skall tas bort
+Comment[ta]=­ó¾ «¨¼Å¢ø ¿£ì¸ôÀ¼§ÅñÊÂ §¸¡ôÒ¸û ¯ûÇÉ
+

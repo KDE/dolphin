@@ -1,0 +1,42 @@
+[Desktop Entry]
+Type=Application
+Exec=kfmclient openURL %u file:$HOME
+Icon=kfm_home
+Terminal=0
+
+Name=Home Directory
+Name[ca]=Directori inici
+Name[cs]=Domovský adresář
+Name[de]=Persönliches Verzeichnis
+Name[eo]=Hejmdosierujo
+Name[fi]=Kotihakemisto
+Name[fr]=Répertoire utilisateur
+Name[hu]=Saját könyvtár
+Name[it]=Directory home
+Name[ja]=ホームディレクトリ
+Name[no]=Hjemmekatalog
+Name[no_NY]=Heimekatalog
+Name[pt]=A Minha Área
+Name[ro]=Director personal
+Name[sl]=Domači imenik
+Name[sv]=Hemkatalogen
+Name[ta]=¦¾¡¼ì¸ «¨¼×
+
+Comment=This folder contains all your personal files
+Comment[ca]=Aquest directori conté els seus fitxers personals
+Comment[cs]=Tento adresář obsahuje vaše osobní soubory
+Comment[de]=Dieses Verzeichnis enthält Ihre persönlichen Dateien.
+Comment[eo]=Tiu ĉi dosierujo enhavas ĉiujn personajn dosierojn viajn.
+Comment[fi]=Tässä kansiossa ovat kaikki henkilökohtaiset tiedostosi
+Comment[fr]=Ce répertoire contient tous vos fichiers personnels
+Comment[hu]=Ez a könyvtár tartalmazza a személyes fájljaidat.
+Comment[it]=Questa cartella contiene tutti i tuoi file personali
+Comment[ja]=このフォルダはあなたの全ての個人的なファイルを含みます
+Comment[no]=Denne katalogen inneholder alle dine personlige filer
+Comment[no_NY]=Denne mappa inneheld alle dine personlege filer
+Comment[pt]=Esta pasta contém todos os seus ficheiros pessoais
+Comment[ro]=Directorul personal al utilizatorului
+Comment[sl]=V tem imeniku so shranjene vse vaše osebne datoteke
+Comment[sv]=Den här katalogen innehåller alla dina personliga filer
+Comment[ta]=­ó¾ «¨¼Å¢ø ¯í¸û ¦º¡ó¾ §¸¡ôÒì¸û ­ÕìÌõ
+
