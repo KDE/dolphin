@@ -140,9 +140,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     lay->addWidget( cbShowDeleteCommand );
     connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbShowDeleteCommand, i18n("Uncheck this if you do not want 'Delete' menu commands to be displayed "
+    QWhatsThis::add( cbShowDeleteCommand, i18n("Check this if you want 'Delete' menu commands to be displayed "
                                                 "on the desktop and in the file manager's menus and context menus. "
-						"You can still delete files when hidden by holding the Shift key "
+						"You can always delete files by holding the Shift key "
 						"while calling 'Move to Trash'."));
 
     QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation For"), this );
@@ -196,7 +196,7 @@ void KBehaviourOptions::load()
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
 
     cbRenameDirectlyIcon->setChecked( g_pConfig->readBoolEntry("RenameIconDirectly",  DEFAULT_RENAMEICONDIRECTLY ) );
-    cbShowDeleteCommand->setChecked( g_pConfig->readBoolEntry("ShowDeleteCommand", true) );
+    cbShowDeleteCommand->setChecked( g_pConfig->readBoolEntry("ShowDeleteCommand", false) );
 
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
@@ -234,7 +234,7 @@ void KBehaviourOptions::defaults()
     cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
     cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
     cbDelete->setEnabled( true );
-    cbShowDeleteCommand->setChecked( true );
+    cbShowDeleteCommand->setChecked( false );
 }
 
 void KBehaviourOptions::save()

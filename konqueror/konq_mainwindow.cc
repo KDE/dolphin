@@ -3681,7 +3681,7 @@ void KonqMainWindow::initActions()
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "FMSettings" );
-  if ( config->readBoolEntry( "ShowDeleteCommand", true ) )
+  if ( config->readBoolEntry( "ShowDeleteCommand", false ) )
     m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
 
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
@@ -4598,7 +4598,7 @@ void KonqMainWindow::reparseConfiguration()
 
   // Update display of "Delete" command if necessary
   config->setGroup( "FMSettings" );  // cgs' destructor will reset
-  if ( config->readBoolEntry( "ShowDeleteCommand", true ) )
+  if ( config->readBoolEntry( "ShowDeleteCommand", false ) )
   {
     if ( !m_paDelete )
     {
