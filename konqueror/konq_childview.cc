@@ -66,6 +66,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   
   attach( view );
   m_vView->show( true );
+  m_sLastViewName = viewName();
 }
 
 KonqChildView::~KonqChildView()

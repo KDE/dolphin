@@ -25,11 +25,6 @@ void KonqPlugins::init()
 
 bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter )
 {
-#warning "KonqPlugins::isPluginServiceType totally disabled because of KIO API"
-#if 1
- return false;
-#else
-  list<KService::Offer> lstOffers;
   bool b1, b2, b3;
 
   b1 = ( s_dctViewServers[ serviceType ] != 0L );
@@ -48,19 +43,14 @@ bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, 
   if ( b1 || b2 || b3 )
     return true;
   
-  KService::findServiceByServiceType( serviceType, lstOffers );
-  
-  if ( lstOffers.size() == 0 )
-    return false;
-
   bool res = false;
 
-  list<KService::Offer>::iterator it = lstOffers.begin();
-  for (; it != lstOffers.end(); ++it )
+  QListIterator<KService> it( *KService::allServices() );
+  for ( ; it.current(); ++it )
   {
-    if ( it->m_pService->file() )
+    if ( it.current()->hasServiceType( serviceType ) && it.current()->file() )
     {
-      parseService( it->m_pService->file(), serviceType, &b1, &b2, &b3 );
+      parseService( it.current()->file(), serviceType, &b1, &b2, &b3 );
 
       if ( b1 )
       {
@@ -88,7 +78,6 @@ bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, 
   }
 
   return res;    
-#endif
 }
 
 CORBA::Object_ptr KonqPlugins::lookupServer( const QString serviceType, ServerType sType )
