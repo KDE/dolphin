@@ -645,7 +645,7 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
   KConfig *config = KGlobal::config();
   config->setGroup( "HTML Settings" );
 
-  if ( config->readBoolEntry( "EnableFavicon" ) == true )
+  if ( config->readBoolEntry( "EnableFavicon", true ) == true )
   {
     // Try to get /favicon.ico
     if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )

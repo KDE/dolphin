@@ -87,7 +87,7 @@ QString KonqFavIconMgr::iconForURL(const QString &url)
 
 
     // Don't pass an icon if favicon support is disabled
-    if ( config->readBoolEntry( "EnableFavicon" ) == false )
+    if ( config->readBoolEntry( "EnableFavicon", true ) == false )
     {
         return QString::null;
     }
