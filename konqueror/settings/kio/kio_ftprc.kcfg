@@ -5,12 +5,12 @@
  
    <entry name="DisablePassiveMode" type="Bool">
      <label>Disable Passive FTP</label>
-     <whatsthis>When FTP connections are passive, the client connect to the server instead of the opposite, firewalls does not block. Although, old FTP server may not support Passive FTP</whatsthis>
+     <whatsthis>When FTP connections are passive the client connect to the server, instead of the other way round, so firewalls do not block the connection; old FTP servers may not support Passive FTP though.</whatsthis>
      <default>false</default>
 
    <entry name="MarkPartial" type="Bool">
      <label>Mark partially uploaded files</label>
-     <whatsthis>While a file is being uploaded its extension is "*.part". When fully uploaded it is renamed to its real name</whatsthis>
+     <whatsthis>While a file is being uploaded its extension is "*.part". When fully uploaded it is renamed to its real name.</whatsthis>
      <default>true</default>
    </entry>
 
