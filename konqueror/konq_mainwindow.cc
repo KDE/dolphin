@@ -409,8 +409,10 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
             // Remote URL: save or open ?
 	    bool open = url.isLocalFile();
-	    if ( !open) {
+	    if ( !open ) {
 		KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
+		if ( res == KParts::BrowserRun::Save )
+                    KParts::BrowserRun::simpleSave( url, QString::null );
 		open = ( res == KParts::BrowserRun::Open );
 	    }
             if ( open )
@@ -1008,10 +1010,16 @@ void KonqMainWindow::slotToolFind()
   }
   else
   {
+      KURL url;
+      if ( m_currentView && m_currentView->url().isLocalFile() )
+          url = m_currentView->locationBarURL();
+      else
+          url.setPath( QDir::homeDirPath() );
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
           locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
-          "filemanagement" );
-      mw->slotToolFind();
+          "filemanagement", url, KParts::URLArgs(), true /* forbid "use html"*/ );
+      // Delay it after the openURL call (hacky!)
+      QTimer::singleShot( 1, mw, SLOT(slotToolFind()));
   }
 
   /* Old version
@@ -1233,6 +1241,14 @@ void KonqMainWindow::slotShowHTML()
     openView( "inode/directory", m_currentView->url().directory(), m_currentView );
   }
 
+}
+
+void KonqMainWindow::setShowHTML( bool b )
+{
+    m_bHTMLAllowed = b;
+    if ( m_currentView )
+        m_currentView->setAllowHTML( b );
+    m_ptaUseHTML->setChecked( b );
 }
 
 void KonqMainWindow::slotUnlockView()

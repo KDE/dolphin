@@ -225,6 +225,8 @@ public:
   static void comboAction( int action, const QString& url,
 			   const QCString& objId );
 
+  void setShowHTML( bool );
+
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
