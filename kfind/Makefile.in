@@ -1,5 +1,5 @@
 ###################################
-VERSION = 0.3
+KFIND_VERSION = 0.3
 
 INSTALL = @INSTALL@ -m 0755 
 INSTALL_DIR = @INSTALL@ -d -m 0755 
@@ -14,7 +14,7 @@ DOCSDIR = $(prefix)/doc/HTML/
 INCLDIR	= @all_includes@ -I..
 
 
-CXXFLAGS= @CXXFLAGS@ -DVERSION=\"$(VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H -I../kfm/libkfm
+CXXFLAGS= @CXXFLAGS@ -DKFIND_VERSION=\"$(KFIND_VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H -I../kfm/libkfm
 LDFLAGS	= @LDFLAGS@ @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ -L../kfm/libkfm
 CXX 	= @CXX@
 MOC 	= @MOC@
@@ -35,7 +35,7 @@ HEADERS	  =  kfarch.h kfdird.h kfmenu.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h
 DISTFILES =  $(SOURCES) $(HEADERS) $(TARGET) Makefile README LICENCE\
              .kde.html kfind.xpm kfind.kdelnk kfind.html ktabctl.patch kfindrc
-DISTDIR   =  kfind-$(VERSION)
+DISTDIR   =  kfind-$(KFIND_VERSION)
 
 ####### Implicit rules
 

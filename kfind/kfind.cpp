@@ -37,7 +37,7 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
     setMinimumSize(440,220);             //the window never should be smaller
     setMaximumSize(9999,220);
 
-    setCaption(QString("KFind ")+VERSION);
+    setCaption(QString("KFind ")+KFIND_VERSION);
 
     //initialize menu
     menu = new KfindMenu(this,"menu");
@@ -228,7 +228,7 @@ void Kfind::aboutFind()
     QString tmp;
 
     tmp.sprintf("KFind %s\nFrontend to find utility
-                     \nMiroslav Flídr <flidr@kky.zcu.cz>",VERSION);
+                     \nMiroslav Flídr <flidr@kky.zcu.cz>",KFIND_VERSION);
 
     KMsgBox::message(this,"about box",tmp,KMsgBox::INFORMATION, "OK"); 
   };
