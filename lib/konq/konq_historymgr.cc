@@ -476,6 +476,7 @@ bool KonqHistoryManager::loadFallback()
 
     m_history.sort();
     adjustSize();
+    saveHistory();
 
     return true;
 }
