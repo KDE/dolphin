@@ -60,10 +60,10 @@ to the clipboard.
 
 <item>Keyboard
 <p>
-The Shift-PageUp and Shift-PageDown keys are used to scroll through
-the history buffer. All other keystrokes are passed on to the 
-application run within the emulation. Note that their might be
-some dead keys.
+The Shift-PageUp, Shift-PageDown, Shift-Up and Shift-Down keys are
+used to scroll through the history buffer. All other keystrokes are
+passed on to the application run within the emulation. Note that their
+might be some dead keys.
 
 <item>Mouse
 <p>
