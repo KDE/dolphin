@@ -102,7 +102,7 @@ void KBookmarkMenu::slotBookmarksChanged()
   {
     KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
-    m_paEditBookmarks->setShortText( i18n( "Edit your bookmark collection in a separate window" ) );
+    m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
     m_actions.append( m_paEditBookmarks );
 
     if ( !m_bAddBookmark )
@@ -125,7 +125,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               m_actionCollection,
                                               QCString().sprintf("bookmark%d", parent->id()) );
 
-    paAddBookmarks->setShortText( i18n( "Add a bookmark for the current document" ) );
+    paAddBookmarks->setStatusText( i18n( "Add a bookmark for the current document" ) );
 
     paAddBookmarks->plug( m_parentMenu );
     m_actions.append( paAddBookmarks );
@@ -138,7 +138,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               m_actionCollection,
                                               QCString().sprintf("newfolder%d", parent->id()) );
 
-    paNewFolder->setShortText( i18n( "Create a new bookmark folder in this menu" ) );
+    paNewFolder->setStatusText( i18n( "Create a new bookmark folder in this menu" ) );
 
     paNewFolder->plug( m_parentMenu );
     m_actions.append( paNewFolder );
@@ -170,7 +170,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, QCString().sprintf("bookmark%d", bm->id()) );
 
-      action->setShortText( bm->url() );
+      action->setStatusText( bm->url() );
 
       action->plug( m_parentMenu );
       m_actions.append( action );
@@ -344,7 +344,7 @@ void KBookmarkMenu::openNSBookmarks()
         KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
                                         m_actionCollection, actionName.data());
-	action->setShortText( link );
+	action->setStatusText( link );
         action->plug( mstack.top()->m_parentMenu );
 	mstack.top()->m_actions.append( action );
       }
