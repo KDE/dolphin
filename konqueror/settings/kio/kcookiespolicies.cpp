@@ -22,6 +22,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+#include <qheader.h>
 #include <qvbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
@@ -51,7 +52,9 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
     QVBoxLayout *mainLayout = new QVBoxLayout(this, 0, 0);
 
     dlg = new KCookiesPolicyDlgUI (this);
-    
+    dlg->lvDomainPolicy->header()->setStretchEnabled(true, 0);
+    dlg->lvDomainPolicy->setColumnWidthMode(0, KListView::Manual);
+    dlg->lvDomainPolicy->setColumnWidthMode(1, KListView::Maximum);
     dlg->tbClearSearchLine->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
     dlg->kListViewSearchLine->setListView(dlg->lvDomainPolicy);
     QValueList<int> columns;
