@@ -3197,9 +3197,9 @@ void KonqMainWindow::initActions()
   // Settings menu
 
   m_paSaveViewProfile = new KAction( i18n( "&Save View Profile..." ), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
-  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved in &Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
+  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved in &Folder" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
-  m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
+  m_paRemoveLocalProperties = new KAction( i18n( "Remove Folder Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
   KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
 
@@ -3302,10 +3302,10 @@ void KonqMainWindow::initActions()
   enableAllActions( false );
 
   // help stuff
-  m_paUp->setWhatsThis( i18n( "Enter the parent directory<p>"
+  m_paUp->setWhatsThis( i18n( "Enter the parent folder<p>"
                               "For instance, if the current location is file:/home/%1 clicking this "
                               "button will take you to file:/home." ).arg( getlogin() ) );
-  m_paUp->setStatusText( i18n( "Enter the parent directory" ) );
+  m_paUp->setStatusText( i18n( "Enter the parent folder" ) );
 
   m_paBack->setWhatsThis( i18n( "Move backwards one step in the browsing history<p>" ) );
   m_paBack->setStatusText( i18n( "Move backwards one step in the browsing history" ) );
@@ -3357,10 +3357,10 @@ void KonqMainWindow::initActions()
 
   // Please proof-read those (David)
 
-  m_ptaUseHTML->setStatusText( i18n("If present, open index.html when entering a directory.") );
-  m_paLockView->setStatusText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
+  m_ptaUseHTML->setStatusText( i18n("If present, open index.html when entering a folder.") );
+  m_paLockView->setStatusText( i18n("A locked view can't change folders. Use in combination with 'link view' to explore many files from one folder") );
   m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
-  m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes made in other linked views.") );
+  m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
 }
 
 void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )

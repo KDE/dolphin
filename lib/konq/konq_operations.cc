@@ -807,7 +807,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
 void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
 {
     bool ok;
-    QString name = i18n( "Directory" );
+    QString name = i18n( "Folder" );
     if (baseURL.isLocalFile())
     {
        QString base = name;
