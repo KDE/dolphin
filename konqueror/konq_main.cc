@@ -36,6 +36,8 @@
 #include <kimageio.h>
 #include <kopenwith.h>
 
+#include <qwidgetlist.h>
+
 static KCmdLineOptions options[] =
 {
   { "silent", I18N_NOOP("Start without a default window."), 0 },
@@ -127,6 +129,19 @@ int main( int argc, char **argv )
   args->clear();
 
   app.exec();
+
+ //// Temporary code, waiting for Qt to do this properly
+
+  // Delete all toplevel widgets that have WDestructiveClose, so that we don't have
+  // any parts loaded when KLibLoader::cleanUp is called.
+  QWidgetList *list = QApplication::topLevelWidgets();
+  QWidgetListIt it(*list);
+  QWidget * w;
+  while( (w=it.current()) != 0 ) {
+     ++it;
+     if ( w->testWFlags( Qt::WDestructiveClose ) )
+          delete w;
+  }  
 
   return 0;
 }
