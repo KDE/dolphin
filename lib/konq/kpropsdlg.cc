@@ -375,7 +375,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
 
     KIconLoaderButton *iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
     iconButton->setFixedSize(50, 50);
-    iconButton->setIconType("icon");
+    iconButton->setIconType("apps");
     // This works for everything except Device icons on unmounted devices
     // So we have to really open .desktop files
     QString iconStr = KMimeType::findByURL( properties->kurl(),
@@ -1615,7 +1615,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 
   unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
   unmounted->setFixedSize(50, 50);
-  unmounted->setIconType("icon"); // Choose from app icons
+  iconButton->setIconType("devices");
   layout->addWidget(unmounted, 5, 0);
 
   label = new QLabel( i18n("Unmounted Icon"),  this );
