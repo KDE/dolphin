@@ -17,14 +17,16 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <konq_mainview.h>
-#include <konq_childview.h>
-#include <konq_frame.h>
-#include <konq_viewmgr.h>
-#include <konq_guiclients.h>
 #include <kaction.h>
+#include <kconfig.h>
 #include <klocale.h>
 #include <kmenubar.h>
+#include <konq_childview.h>
+#include <konq_factory.h>
+#include <konq_frame.h>
+#include <konq_guiclients.h>
+#include <konq_mainview.h>
+#include <konq_viewmgr.h>
 
 static const char *viewModeGUI = ""
 "<!DOCTYPE viewmodexml>"
@@ -394,6 +396,19 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
         // takes care of choosing the new active view
         viewManager->removeView( it.current() );
   }
+
+  // The current approach is : save this setting as soon as it is changed
+  // (This obeys to "no 'Save settings' menu item approach in the Style Guide")
+  // I'm on the safe side, this way: whoever doesn't agree has to discuss
+  // with the style guide authors, not with me ;-)     (David)
+  KConfig *config = KonqFactory::instance()->config();
+  KConfigGroupSaver cgs( config, "MainView Settings" );
+  QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
+  if (toggle)
+      toggableViewsShown.append(serviceName);
+  else
+      toggableViewsShown.remove(serviceName);
+  config->writeEntry( "ToggableViewsShown", toggableViewsShown );
 }
 
 void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )

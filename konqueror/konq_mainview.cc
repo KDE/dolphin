@@ -160,10 +160,15 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
     bar->hide();
   }
 
+  bool bSilent = true;
   if ( !initialURL.isEmpty() )
+  {
     openFilteredURL( 0L, initialURL.url() );
+    bSilent = false; // we opened a URL
+  }
   else if ( openInitialURL )
   {
+    /*
     KConfig *config = KonqFactory::instance()->config();
 
     if ( config->hasGroup( "Default View Profile" ) )
@@ -173,7 +178,29 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
       m_pViewManager->loadViewProfile( *config );
     }
     else
-      openURL( 0L, KURL( QDir::homeDirPath().prepend( "file:" ) ) );
+    */
+    openURL( 0L, KURL( QDir::homeDirPath().prepend( "file:" ) ) );
+    bSilent = false; // we opened a URL
+  }
+
+  if ( !bSilent )
+  {
+      // Apply main-window properties
+      KConfig *config = KonqFactory::instance()->config();
+      KConfigGroupSaver cgs( config, "MainView Settings" );
+      QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
+      QStringList::ConstIterator togIt = toggableViewsShown.begin();
+      QStringList::ConstIterator togEnd = toggableViewsShown.end();
+      for ( ; togIt != togEnd ; ++togIt )
+      {
+          // Find the action by name
+          KAction * act = m_viewModeGUIClient->actionCollection()->action( *togIt );
+          if ( act )
+              ;// TODO in KAction ! act->activate();
+          else
+              kdWarning(1202) << "Unknown toggable view in ToggableViewsShown " << *togIt << endl;
+      }
+
   }
 
   resize( 700, 480 );
@@ -1501,20 +1528,21 @@ void KonqMainView::initActions()
 
   m_paConfigureToolbars = new KAction( i18n( "Configure Tool&bars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
 
-  m_paSplitViewHor = new KAction( i18n( "Split View &Horizontally" ), CTRL+SHIFT+Key_H, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
-  m_paSplitViewVer = new KAction( i18n( "Split View &Vertically" ), CTRL+SHIFT+Key_V, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paSplitWindowHor = new KAction( i18n( "Split Window Horizontally" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
-  m_paSplitWindowVer = new KAction( i18n( "Split Window Vertically" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
-  m_paRemoveView = new KAction( i18n( "Remove Active View" ), CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
+  m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
+  m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
+  m_paSplitWindowHor = new KAction( i18n( "Split Window Left/Right" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
+  m_paSplitWindowVer = new KAction( i18n( "Split Window Top/Bottom" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
+  m_paRemoveView = new KAction( i18n( "&Remove Active View" ), CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
-  m_paSaveDefaultProfile = new KAction( i18n( "Save Current Profile As Default" ), 0, this, SLOT( slotSaveDefaultProfile() ), actionCollection(), "savedefaultprofile" );
+  // makes no sense since konqueror isn't launched directly (but through kfmclient)
+  // m_paSaveDefaultProfile = new KAction( i18n( "Save Current Profile As Default" ), 0, this, SLOT( slotSaveDefaultProfile() ), actionCollection(), "savedefaultprofile" );
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "Save/Remove View Profile" ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = new KToggleAction( i18n( "Fullscreen Mode" ), "window_fullscreen", 0, actionCollection(), "fullscreen" );
+  m_ptaFullScreen = new KToggleAction( i18n( "Fullscreen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, actionCollection(), "fullscreen" );
 
   m_ptaFullScreen->setChecked( false );
 
@@ -1575,17 +1603,17 @@ void KonqMainView::initActions()
   connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
 
   enableAllActions( false );
-  
+
   actionCollection()->setHighlightingEnabled( true );
   connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
 	   this, SLOT( slotActionHighlighted( KAction * ) ) );
-  
+
   // help stuff
-  
+
   m_paBack->setWhatsThis( i18n( "Click this button to display the previous document<br><br>\n\n"
 				"You can also select the <b>Back Command</b> from the Go menu." ) );
   m_paBack->setShortText( i18n( "Display the previous document" ) );
-  
+
   m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
 				   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
 	
@@ -1597,30 +1625,30 @@ void KonqMainView::initActions()
   m_paReload->setWhatsThis( i18n( "Reloads the currently displayed document<br><br>\n\n"
 				  "You can also select the <b>Reload Command</b> from the View menu." ) );
   m_paReload->setShortText( i18n( "Reload the current document" ) );
-			    
+			
   m_paCut->setWhatsThis( i18n( "Click this button to cut the currently selected text or items and move it "
                                "to the system clipboard<br><br>\n\n"
 			       "You can also select the <b>Cut Command</b> from the Edit menu." ) );
   m_paCut->setShortText( i18n( "Moves the selected text/item(s) to the clipboard" ) );
-  
+
   m_paCopy->setWhatsThis( i18n( "Click this button to copy the currently selected text or items to the "
 				"system clipboard<br><br>\n\n"
 				"You can also select the <b>Copy Command</b> from the Edit menu." ) );
   m_paCopy->setShortText( i18n( "Copies the selected text/item(s) to the clipboard" ) );
-  
+
   m_paPaste->setWhatsThis( i18n( "Click this button to paste the previously cutted or copied clipboard "
                                  "content<br><br>\n\n"
 				 "You can also select the <b>Paste Command</b> from the Edit menu." ) );
   m_paPaste->setShortText( i18n( "Pastes the clipboard content" ) );
-  
+
   m_paPrint->setWhatsThis( i18n( "Click this button to print the currently displayed document<br><br>\n\n"
 				 "You can also select the <b>Print Command</b> from the View menu." ) );
   m_paPrint->setShortText( i18n( "Print the current document" ) );
-  
+
   m_paStop->setWhatsThis( i18n( "Click this button to abort loading the document<br><br>\n\n"
 				"You can also select the <b>Stop Command</b> from the View menu." ) );
   m_paStop->setShortText( i18n( "Stop loading the document" ) );
-  
+
 }
 
 void KonqMainView::initPlugins()
@@ -1715,32 +1743,6 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
     act->setEnabled( enable );
   }
 
-  /*
-  // Loop over standard action names
-  for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
-  {
-    //kdDebug(1202) << s_actionnames[i] << endl;
-    KAction * act = actionCollection()->action( s_actionnames[i] );
-    assert(act);
-    QCString slotName = QCString(s_actionnames[i])+"()";
-    bool enable = false;
-    // Does the extension have a slot with the name of this action ?
-    if ( slotNames.contains( slotName ) )
-    {
-      // Connect ? (see comment about most actions)
-      if ( !strcmp( s_actionnames[i], "print" )
-        || !strcmp( s_actionnames[i], "saveLocalProperties" )
-        || !strcmp( s_actionnames[i], "savePropertiesAsDefault" ) )
-      {
-        // OUCH. Here we use the fact that qobjectdefs.h:#define SLOT(a) "1"#a
-        ext->connect( act, SIGNAL( activated() ), ext, QCString("1") + slotName );
-        //kdDebug(1202) << "Connecting to " << s_actionnames[i] << endl;
-        enable = true;
-      }
-    }
-    act->setEnabled( enable );
-  }
-  */
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
            this, SLOT( slotEnableAction( const char *, bool ) ) );
 }
@@ -1760,13 +1762,13 @@ void KonqMainView::disconnectExtension( KParts::BrowserExtension *ext )
 void KonqMainView::slotEnableAction( const char * name, bool enabled )
 {
   // Hmm, we have one action for paste, not two...
-  QCString hackName( name );
-  if ( hackName == "pastecopy" || hackName == "pastecut" )
-    hackName = "paste";
+  QCString actionName( name );
+  if ( actionName == "pastecopy" || actionName == "pastecut" )
+    actionName = "paste";
 
-  KAction * act = actionCollection()->action( hackName.data() );
+  KAction * act = actionCollection()->action( actionName.data() );
   if (!act)
-    kdWarning(1202) << "Unknown action " << hackName.data() << " - can't enable" << endl;
+    kdWarning(1202) << "Unknown action " << actionName.data() << " - can't enable" << endl;
   else
     act->setEnabled( enabled );
 }
@@ -1952,15 +1954,15 @@ void KonqMainView::slotActionHighlighted( KAction *action )
 {
   if ( !m_currentView )
     return;
-  
+
   KonqFrameStatusBar *statusBar = m_currentView->frame()->statusbar();
-  
+
   if ( !statusBar )
     return;
-  
+
   QString text = action->shortText();
   if ( !text.isEmpty() )
     statusBar->slotDisplayStatusText( text );
-} 
+}
 
 #include "konq_mainview.moc"
