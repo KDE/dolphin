@@ -4,7 +4,7 @@ METASOURCES = AUTO
 
 lib_LTLIBRARIES = keditbookmarks.la
 
-keditbookmarks_la_SOURCES = kebbookmarkexporter.cpp core.cpp main.cpp listview.cpp toplevel.cpp actionsimpl.cpp commands.cpp importers.cpp mymanager.cpp dcop.skel dcop.cpp bookmarkiterator.cpp testlink.cpp favicons.cpp search.cpp
+keditbookmarks_la_SOURCES = kebbookmarkexporter.cpp main.cpp listview.cpp toplevel.cpp actionsimpl.cpp commands.cpp importers.cpp mymanager.cpp dcop.skel dcop.cpp bookmarkiterator.cpp testlink.cpp favicons.cpp search.cpp
 kbookmarklistener_DIR = $(top_srcdir)/libkonq
 
 keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la

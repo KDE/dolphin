@@ -32,6 +32,8 @@
 
 #define COL_NAME 0
 #define COL_URL  1
+#define COL_STAT 2
+#define COL_ADDR 3
 
 class KEBListView : public KListView
 {

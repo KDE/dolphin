@@ -51,7 +51,6 @@
 #include "toplevel.h"
 #include "commands.h"
 #include "importers.h"
-#include "core.h"
 #include "favicons.h"
 #include "testlink.h"
 #include "search.h"
@@ -87,11 +86,15 @@ void ActionsImpl::slotCopy() {
    Q_ASSERT(listview->selectedItems()->count() != 0);
    QValueList<KBookmark> bookmarks = listview->itemsToBookmarks(listview->selectedItems());
    KBookmarkDrag* data = KBookmarkDrag::newDrag(bookmarks, 0 /* not this ! */);
-   KEBClipboard::set(data);
+   kapp->clipboard()->setData(data, QClipboard::Clipboard);
 }
 
 void ActionsImpl::slotPaste() {
-   KMacroCommand *mcmd = CmdGen::self()->insertMimeSource(i18n("Paste"), KEBClipboard::get(), listview->userAddress());
+   KMacroCommand *mcmd = 
+      CmdGen::self()->insertMimeSource(
+           i18n("Paste"), 
+           kapp->clipboard()->data(QClipboard::Clipboard), 
+           listview->userAddress());
    top->didCommand(mcmd);
 }
 

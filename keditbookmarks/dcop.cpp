@@ -44,7 +44,6 @@
 #include "toplevel.h"
 #include "commands.h"
 #include "importers.h"
-#include "core.h"
 #include "favicons.h"
 #include "testlink.h"
 #include "listview.h"

@@ -23,11 +23,6 @@
 #include <kmainwindow.h>
 #include <kcommand.h>
 
-// #define DEBUG_ADDRESSES
-
-#define COL_ADDR 3
-#define COL_STAT 2
-
 struct SelcAbilities {
    bool itemSelected:1;
    bool group:1;

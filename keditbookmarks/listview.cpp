@@ -49,7 +49,7 @@
 #include "testlink.h"
 #include "mymanager.h"
 
-#define IS_EF(it) (static_cast<KEBListViewItem *>(it)->isEmptyFolder())
+// #define DEBUG_ADDRESSES
 
 ListView* ListView::s_self = 0;
 
@@ -182,6 +182,8 @@ KBookmark ListView::selectedBookmark() {
    return firstSelected()->bookmark();
 }
 
+#define IS_EF(it) (static_cast<KEBListViewItem *>(it)->isEmptyFolder())
+
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
    QStringList addresses;
@@ -222,6 +224,18 @@ QValueList<KBookmark> ListView::allBookmarks() {
       }
    }
    return bookmarks;
+}
+
+void ListView::updateLastAddress() {
+   KEBListViewItem *lastItem = 0;
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+      if ((it.current()->isSelected()) && !IS_EF(it.current())) {
+         lastItem = it.current();
+      }
+   }
+   if (lastItem) {
+      m_last_selection_address = qitemToBookmark(lastItem).address();
+   }
 }
 
 // DESIGN - make + "/0" a kbookmark:: thing?
@@ -273,18 +287,6 @@ void ListView::setOpen(bool open) {
       if (it.current()->parent()) {
          (static_cast<KEBListViewItem*>(it.current()))->setOpen(open);
       }
-   }
-}
-
-void ListView::updateLastAddress() {
-   KEBListViewItem *lastItem = 0;
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
-      if ((it.current()->isSelected()) && !IS_EF(it.current())) {
-         lastItem = it.current();
-      }
-   }
-   if (lastItem) {
-      m_last_selection_address = qitemToBookmark(lastItem).address();
    }
 }
 

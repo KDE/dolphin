@@ -38,8 +38,6 @@
 #include "actionsimpl.h"
 #include "dcop.h"
 #include "mymanager.h"
-// DESIGN - inline clipboard stuff?
-#include "core.h"
 #include <qclipboard.h>
 
 #include "toplevel.h"
@@ -189,6 +187,18 @@ void KEBTopLevel::createActions() {
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
 
+static void disableDynamicActions(QValueList<KAction *> actions) {
+   QValueList<KAction *>::Iterator it = actions.begin();
+   QValueList<KAction *>::Iterator end = actions.end();
+   for (; it != end; ++it) {
+      KAction *act = *it;
+      if ((strncmp(act->name(), "options_configure", strlen("options_configure")) != 0)
+       && (strncmp(act->name(), "help_", strlen("help_")) != 0)) {
+         act->setEnabled(false);
+      }
+   }
+}
+
 void KEBTopLevel::resetActions() {
    // DESIGN - try to remove usage of this
    disableDynamicActions(actionCollection()->actions());
@@ -304,7 +314,7 @@ void KEBTopLevel::setModifiedFlag(bool modified) {
 void KEBTopLevel::slotClipboardDataChanged() {
    kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
    if (!m_readOnly) {
-      m_canPaste = KBookmarkDrag::canDecode(KEBClipboard::get());
+      m_canPaste = KBookmarkDrag::canDecode(kapp->clipboard()->data(QClipboard::Clipboard));
       ListView::self()->emitSlotSelectionChanged();
    }
 }

@@ -40,21 +40,14 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-#include <kbookmarkimporter.h>
-#include <kbookmarkimporter_ie.h>
-#include <kbookmarkimporter_opera.h>
 
 #include <klineeditdlg.h>
 
 #include "kebbookmarkexporter.h"
 
 #include "toplevel.h"
-#include "commands.h"
 #include "importers.h"
-#include "core.h"
-#include "favicons.h"
-#include "testlink.h"
-#include "listview.h"
+
 #include "mymanager.h"
 
 MyManager *MyManager::s_mgr = 0;

@@ -18,6 +18,7 @@
 */
 
 #include <dcopclient.h>
+#include <dcopref.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
@@ -27,12 +28,12 @@
 #include <kuniqueapplication.h>
 
 #include <kmessagebox.h>
+#include <kwin.h>
 
 #include <kbookmarkmanager.h>
 
 #include "kebbookmarkexporter.h"
 
-#include "core.h"
 #include "toplevel.h"
 
 static KCmdLineOptions options[] = {
@@ -42,6 +43,31 @@ static KCmdLineOptions options[] = {
    {"+[file]", I18N_NOOP("File to edit"), 0},
    KCmdLineLastOption
 };
+
+static void continueInWindow(QString _wname) {
+   DCOPClient* dcop = kapp->dcopClient();
+   QCString wname = _wname.latin1();
+   int id = -1;
+
+   QCStringList apps = dcop->registeredApplications();
+   for (QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it) {
+      QCString &clientId = *it;
+
+      if (qstrncmp(clientId, wname, wname.length()) != 0) {
+         continue;
+      }
+
+      DCOPRef client(clientId.data(), wname + "-mainwindow#1");
+      DCOPReply result = client.call("getWinID()");
+
+      if (result.isValid()) {
+         id = (int)result;
+         break;
+      }
+   }
+
+   KWin::setActiveWindow(id);
+}
 
 static int askUser(KApplication &app, QString filename, bool &readonly) {
    QCString requestedName("keditbookmarks");
