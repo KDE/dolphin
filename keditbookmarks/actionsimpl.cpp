@@ -476,7 +476,7 @@ void ActionsImpl::slotPrint() {
     HTMLExporter exporter;
     KTempFile tmpf(locateLocal("tmp", "print_bookmarks"), ".html");
     QTextStream *tstream = tmpf.textStream();
-    tstream->setEncoding(QTextStream::UnicodeUTF8);
+    tstream->setEncoding(QTextStream::Unicode);
     (*tstream) << exporter.toString(CurrentMgr::self()->mgr()->root());
     tmpf.close();
 
