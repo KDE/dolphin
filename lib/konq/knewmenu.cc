@@ -61,14 +61,6 @@ public:
     QWidget *m_parentWidget;
     KActionMenu *m_menuDev;
     KActionMenu *m_menuNew;
-//    KActionMenu *m_template;
-    // Ouch - this could use a QMap to be more extensible
-//    KActionMenu *m_kword;
-//    KActionMenu *m_kspread;
-//    KActionMenu *m_kpresenter;
-//    KActionMenu *m_kivio;
-//    KActionMenu *m_kugar;
-//    KActionMenu *m_kugardesigner;
 };
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
@@ -103,13 +95,6 @@ void KNewMenu::makeMenus()
 {
     d->m_menuDev = new KActionMenu( i18n( "Device" ), "filenew", d->m_actionCollection, "devnew" );
     d->m_menuNew = new KActionMenu( i18n( "File" ), "filenew", d->m_actionCollection, "devnew" );
-//    d->m_template = new KActionMenu( i18n( "From Template" ), "filenew" );
-//    d->m_kword = new KActionMenu( i18n( "KWord" ), "kword" );
-//    d->m_kspread = new KActionMenu( i18n( "KSpread" ), "kspread" );
-//    d->m_kpresenter = new KActionMenu( i18n( "KPresenter" ), "kpresenter" );
-//    d->m_kivio = new KActionMenu( i18n( "Kivio" ), "kivio" );
-//    d->m_kugar = new KActionMenu( i18n( "Kugar" ), "kugar" );
-//    d->m_kugardesigner = new KActionMenu( i18n( "Kugar Designer" ), "kugar" );
 }
 
 void KNewMenu::slotCheckUpToDate( )
@@ -220,13 +205,6 @@ void KNewMenu::fillMenu()
     popupMenu()->clear();
     d->m_menuDev->popupMenu()->clear();
     d->m_menuNew->popupMenu()->clear();
-//    d->m_template->popupMenu()->clear();
-//    d->m_kword->popupMenu()->clear();
-//    d->m_kspread->popupMenu()->clear();
-//    d->m_kpresenter->popupMenu()->clear();
-//    d->m_kivio->popupMenu()->clear();
-//    d->m_kugar->popupMenu()->clear();
-//    d->m_kugardesigner->popupMenu()->clear();
 
     int i = 1; // was 2 when there was Folder
     QValueList<Entry>::Iterator templ = s_templatesList->begin();
@@ -260,7 +238,7 @@ void KNewMenu::fillMenu()
                     // The best way to identify the "Create Directory" was the template
                 if((*templ).templatePath.right( 8 ) == "emptydir")
                 {
-                    KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
+                    KAction * act = new KAction( (*templ).text, (*templ).icon, Key_F10, this, SLOT( slotNewDir() ),
                                      d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
             	    act->plug( popupMenu() );
@@ -298,101 +276,10 @@ void KNewMenu::fillMenu()
             act->plug( popupMenu() );
         }
     }
-    /////////////////////////////////////////////////////////////////////////////////////////
-    /// Adding the from template part!
-//    bool tmpexist = false;
-//    if(makeKOffice("kword/templates", "kword --template ", d->m_kword->popupMenu()))
-//    {
-//        d->m_kword->plug( d->m_template->popupMenu() );
-//	tmpexist = true;
-//    }
-//    if(makeKOffice("kspread/templates", "kspread --template ", d->m_kspread->popupMenu()))
-//    {
-//	d->m_kspread->plug( d->m_template->popupMenu() );
-//	tmpexist = true;
-//    }
-//    if(makeKOffice("kpresenter/templates", "kpresenter --template ", d->m_kpresenter->popupMenu()))
-//    {
-//	d->m_kpresenter->plug( d->m_template->popupMenu() );
-//	tmpexist = true;
-//    }
-//    if(makeKOffice("kivio/templates", "kivio --template ", d->m_kivio->popupMenu()))
-//    {
-//	d->m_kivio->plug( d->m_template->popupMenu() );
-//	tmpexist = true;
-//    }
-    // At the moment the program was not updatet to the new template layout, so it display no template!  :(
-    // hope this will work later
-//    if(makeKOffice("kugar/templates", "kugar --template ", d->m_kugar->popupMenu()))
-//    {
-//	d->m_kugar->plug( d->m_template->popupMenu() );
-//	tmpexist = true;
-//    }
-//    if(makeKOffice("kudesigner/templates", "kudesigner --template ", d->m_kugardesigner->popupMenu()))
-//    {
-//	d->m_kugardesigner->plug( d->m_template->popupMenu() );
-//	tmpexist = true;
-//    }
 
     d->m_menuNew->plug( popupMenu() );
     d->m_menuDev->plug( popupMenu() );
-//    if(tmpexist)
-//        d->m_template->plug( popupMenu() );
 }
-
-/*bool KNewMenu::makeKOffice( const QString tmp, const QString exec, QPopupMenu *popup )
-{
-    bool m_return = false;;
-
-    // We want to have the templates from the home directory, too
-    QStringList templates = KGlobal::dirs()->findDirs( "data", tmp );
-    for ( QStringList::Iterator it = templates.begin() ; it != templates.end() ; ++it )
-    {
-	//kdDebug(1203) << "Templates resource dir: " << *it << endl;
-	QDir dir( *it );
-
-	// Find all categories of templates
-	QStringList dirs = dir.entryList( QDir::Dirs );
-	for ( QStringList::Iterator dirsit = dirs.begin() ; dirsit != dirs.end() ; ++dirsit )
-	{
-	    if(*dirsit == "." || *dirsit == "..")
-		continue;
-
-	    //kdDebug(1203) << "Template dirs: " << *it+*dirsit << endl;
-	    QDir file( *it+*dirsit );
-	    // Read all templates
-	    QString group = *dirsit;
-	    if( file.exists( ".directory" ) )
-	    {
-		KSimpleConfig config(file.absPath()+"/.directory" );
-		config.setDesktopGroup();
-		group = config.readEntry( "Name" );
-	    }
-	    QStringList files = file.entryList( QDir::Files | QDir::Readable, QDir::Name );
-	    for ( QStringList::Iterator filesit = files.begin() ; filesit != files.end() ; ++filesit )
-	    {
-		if( KDesktopFile::isDesktopFile(file.absPath()+"/"+*filesit) )
-		{
-    		    KSimpleConfig config(file.absPath()+"/"+*filesit);
-		    config.setDesktopGroup();
-		    if( config.readEntry( "Type" ) == "Link" )
-		    {
-			QString text = config.readEntry( "Name" );
-			QString icon = file.absPath()+"/"+config.readEntry( "Icon" );
-			//kdDebug(1203) << "Template Files: " << text << " | " << icon << " | " << file.absPath()+"/"+*filesit << endl;
-            		KAction * act = new KAction( group + " - " + text, icon, 0, this, SLOT( slotNewFile() ),
-                    			    d->m_actionCollection, QString(exec+*dirsit+"/"+*filesit).ascii() );
-            		act->setGroup( "KNewMenu" );
-    			act->plug( popup );
-			m_return = true;
-		    }
-		}
-	    }
-	}
-    }
-
-    return m_return;
-}*/
 
 void KNewMenu::slotFillTemplates()
 {
@@ -639,7 +526,6 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     m_urlRequester->setMode( KFile::File | KFile::Directory );
 
     m_urlRequester->setMinimumWidth( m_urlRequester->sizeHint().width() * 3 );
-
     connect( m_urlRequester->lineEdit(), SIGNAL(textChanged(const QString&)),
              SLOT(slotURLTextChanged(const QString&)) );
     label->setBuddy(m_urlRequester);  // please "scheck" style
