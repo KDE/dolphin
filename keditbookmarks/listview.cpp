@@ -567,6 +567,7 @@ void KEBListView::loadColumnSetting()
     header()->resizeSection(KEBListView::NameColumn, config.readNumEntry("Name", 300));
     header()->resizeSection(KEBListView::UrlColumn, config.readNumEntry("URL", 300));
     header()->resizeSection(KEBListView::CommentColumn, config.readNumEntry("Comment", 300));
+    header()->resizeSection(KEBListView::StatusColumn, config.readNumEntry("Status", 300));
 #ifdef DEBUG_ADDRESSES
     header()->resizeSection(KEBListView::AddressColumn, config.readNumEntry("Address", 300));
 #endif
@@ -581,6 +582,7 @@ void KEBListView::saveColumnSetting ()
         config.writeEntry("Name", header()->sectionSize(KEBListView::NameColumn));
         config.writeEntry("URL", header()->sectionSize(KEBListView::UrlColumn));
         config.writeEntry("Comment", header()->sectionSize(KEBListView::CommentColumn));
+        config.writeEntry("Status", header()->sectionSize(KEBListView::StatusColumn));
 #ifdef DEBUG_ADDRESSES
         config.writeEntry("Address", header()->sectionSize(KEBListView::AddressColumn));
 #endif
@@ -598,6 +600,7 @@ void KEBListView::init() {
         addColumn(i18n("Bookmark"), 0); // KEBListView::NameColumn
         addColumn(i18n("URL"), 0);
         addColumn(i18n("Comment"), 0);
+        addColumn(i18n("Status"), 0);
 #ifdef DEBUG_ADDRESSES
         addColumn(i18n("Address"), 0);
 #endif

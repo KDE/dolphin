@@ -47,10 +47,13 @@ void BookmarkIterator::slotCancelTest(BookmarkIterator *test) {
 }
 
 KEBListViewItem* BookmarkIterator::curItem() const {
+    if (!m_bk.hasParent())
+        return 0;
     return ListView::self()->getItemAtAddress(m_bk.address());
 }
 
 const KBookmark BookmarkIterator::curBk() const {
+    assert(m_bk.hasParent());
     return m_bk;
 }
 
@@ -74,9 +77,8 @@ void BookmarkIterator::nextOne() {
 
     m_bklist.remove(head);
 
-    if (!viable) {
-        emit nextOne();
-    }
+    if (!viable)
+        delayedEmitNextOne();
 }
 
 /* --------------------------- */

@@ -218,6 +218,8 @@ KEBApp::KEBApp(
 
     KGlobal::locale()->insertCatalogue("libkonq");
 
+    m_canPaste = false;
+
     construct();
 
     updateActions();

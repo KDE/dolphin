@@ -49,9 +49,9 @@ FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
 }
 
 FavIconsItr::~FavIconsItr() {
-    delete m_updater;
     if (curItem())
         curItem()->restoreStatus();
+    delete m_updater;
 }
 
 void FavIconsItr::slotDone(bool succeeded) {
@@ -62,8 +62,7 @@ void FavIconsItr::slotDone(bool succeeded) {
 }
 
 bool FavIconsItr::isApplicable(const KBookmark &bk) const {
-    return (!bk.isGroup() && !bk.isSeparator() 
-            && (bk.url().protocol().startsWith("http")) );
+    return (!bk.isGroup() && !bk.isSeparator());
 }
 
 void FavIconsItr::doAction() {
@@ -75,8 +74,13 @@ void FavIconsItr::doAction() {
         connect(m_updater, SIGNAL( done(bool) ),
                 this,      SLOT( slotDone(bool) ) );
     }
-    m_updater->downloadIcon(curBk());
-    // TODO - a single shot timeout?
+    if (curBk().url().protocol().startsWith("http")) {
+        m_updater->downloadIcon(curBk());
+    } else {
+        m_done = true;
+        curItem()->setTmpStatus(i18n("Local file"));
+        delayedEmitNextOne();
+    }
 }
 
 #include "favicons.moc"
