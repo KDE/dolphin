@@ -34,6 +34,7 @@
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
 #include <kfontdialog.h>
+#include <kfontcombo.h>
 
 //-----------------------------------------------------------------------------
 
@@ -55,7 +56,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     label = new QLabel( i18n("Standard Font"), this );
     lay->addWidget(label,row,0);
 
-    m_pStandard = new QComboBox( false, this );
+    KFontChooser::getFontList(standardFonts, false);
+    m_pStandard = new KFontCombo( standardFonts, this );
     lay->addMultiCellWidget(m_pStandard,row,row,1,1);
 
     wtstr = i18n("This is the font used to display text in Konqueror windows.");
@@ -63,13 +65,10 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QWhatsThis::add( m_pStandard, wtstr );
 
     row++;
-    KFontChooser::getFontList(standardFonts, false);
-    m_pStandard->insertStringList( standardFonts );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT( slotStandardFont(const QString&) ) );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
-
 
     label = new QLabel( i18n("Font Size"), this );
     lay->addWidget(label,row,0);
@@ -261,11 +260,12 @@ void KonqFontOptions::updateGUI()
     if ( stdName.isEmpty() )
         stdName = KGlobalSettings::generalFont().family();
 
+    QString lowerName = stdName.lower();
     QStringList::Iterator sit = standardFonts.begin();
     int i;
     for ( i = 0; sit != standardFonts.end(); ++sit, i++ )
     {
-        if ( stdName == (*sit) )
+        if ( lowerName == (*sit).lower() )
             m_pStandard->setCurrentItem( i );
     }
     m_pSize->setValue( fSize );
