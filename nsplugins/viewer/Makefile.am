@@ -1,4 +1,4 @@
-INCLUDES = $(MOTIF_CFLAGS) -I$(top_srcdir)/nsplugins $(all_includes)
+INCLUDES = $(MOTIF_CFLAGS) -I$(top_srcdir)/nsplugins -I$(top_builddir)/nsplugins $(all_includes)
 METASOURCES = AUTO
 
 bin_PROGRAMS = nspluginviewer 
