@@ -314,8 +314,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
       QValueList<int>::Iterator it;
       for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
       {
-	m_iIconSize[i] = *it;
-	//kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
+        m_iIconSize[i] = *it;
+        //kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
       }
     }
 
@@ -796,6 +796,8 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
         }
     }
   }
+  // In case we replace a big icon with a small one, need to repaint.
+  m_pIconView->updateContents();
 }
 
 void KonqKfmIconView::slotClear()
