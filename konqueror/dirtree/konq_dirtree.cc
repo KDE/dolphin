@@ -41,6 +41,7 @@
 #include <klibloader.h>
 #include <klocale.h>
 #include <kurldrag.h>
+#include <kuserprofile.h>
 #include <konq_drag.h>
 #include <konq_fileitem.h>
 #include <konq_operations.h>
@@ -204,11 +205,11 @@ KURL::List KonqDirTreeBrowserExtension::selectedUrls()
 }
 
 KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name )
- : KonqDirPart( parent, name )
+ : KParts::ReadOnlyPart( parent, name )
 {
   m_pTree = new KonqDirTree( this, parentWidget );
 
-  setBrowserExtension( new KonqDirTreeBrowserExtension( this, m_pTree ) );
+  m_extension = new KonqDirTreeBrowserExtension( this, m_pTree );
 
   // Create a properties instance for this view
   m_pProps = new KonqPropsView( KonqDirTreeFactory::instance(), KonqDirTreeFactory::defaultViewProps() );
@@ -238,6 +239,23 @@ bool KonqDirTreePart::closeURL()
 {
   // Nothing to do
   return true;
+}
+
+// Duplicated from KonqDirPart :(
+void KonqDirTreePart::mmbClicked( KFileItem * fileItem )
+{
+    // Optimisation to avoid KRun to call kfmclient that then tells us
+    // to open a window :-)
+    KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
+    if (offer) kdDebug() << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+    if ( offer && offer->desktopEntryName() == "kfmclient" )
+    {
+        KParts::URLArgs args;
+        args.serviceType = fileItem->mimetype();
+        emit m_extension->createNewWindow( fileItem->url(), args );
+    }
+    else
+        fileItem->run();
 }
 
 KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, KonqDirTreeItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item )

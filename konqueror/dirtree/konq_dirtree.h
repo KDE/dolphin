@@ -39,7 +39,7 @@ class KonqDrag;
 class QTimer;
 class KonqDirTreePart;
 
-class KonqDirTreePart : public KonqDirPart
+class KonqDirTreePart : public KParts::ReadOnlyPart
 {
   Q_OBJECT
   friend class KonqDirTree;
@@ -57,7 +57,13 @@ public:
 
   bool supportsUndo() const { return true; }
 
+  void mmbClicked( KFileItem * fileItem );
+
+  KParts::BrowserExtension * extension()
+    { return m_extension; }
 private:
+  KonqPropsView * m_pProps;
+  KParts::BrowserExtension *  m_extension;
   KonqDirTree *m_pTree;
 };
 
