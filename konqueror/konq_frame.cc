@@ -133,8 +133,10 @@ void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
       emit clicked();
       update();
    }
-   if (event->button()==RightButton)
-      splitFrameMenu();
+
+   //Blocks menu of custom status bar entries
+   //if (event->button()==RightButton)
+   //   splitFrameMenu();
 }
 
 void KonqFrameStatusBar::splitFrameMenu()
