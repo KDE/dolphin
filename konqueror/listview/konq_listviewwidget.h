@@ -27,12 +27,12 @@
 #include <konq_fileitem.h>
 #include <klistview.h>
 #include <kparts/browserextension.h>
-
 #include <konq_propsview.h>
+#include "konq_listviewitems.h"
+
 namespace KIO { class Job; }
 class QCursor;
 class KonqDirLister;
-class KonqBaseListViewItem;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
 class KToggleAction;
@@ -122,6 +122,9 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void disableIcons( const KURL::List & lst );
 
+   signals:
+      void viewportAdjusted();
+
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
       virtual void updateSelectedFilesInfo();
@@ -139,7 +142,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( _item ); }
 
       // slots connected to the directory lister
-      virtual void slotStarted( const QString & );
+      virtual void slotStarted();
       virtual void slotCompleted();
       virtual void slotCanceled();
       virtual void slotClear();
@@ -171,15 +174,12 @@ class KonqBaseListViewWidget : public KListView
       virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
       virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
       virtual void viewportDropEvent( QDropEvent *_ev );
+      virtual void viewportResizeEvent(QResizeEvent * e);
 
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
 
       virtual void popupMenu( const QPoint& _global );
-
-      virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety,
-                                   int _clipx, int _clipy,
-                                   int _clipw, int _cliph );
 
       //this one is called only by KListView, and this is friend anyways (Alex)
       //KonqDirLister *dirLister() const { return m_dirLister; }
@@ -191,6 +191,7 @@ class KonqBaseListViewWidget : public KListView
       // IMO there is really no need for an advanced data structure
       //we have a fixed number of members,
       //it consumes less memory and access should be faster (Alex)
+      // This might not be the case for ever... we should introduce custom fields in kio (David)
       ColumnInfo confColumns[NumberOfAtoms];
       //maybe I can do some speedup...
       //ColumnInfo* orderOfColumns[NumberOfAtoms];

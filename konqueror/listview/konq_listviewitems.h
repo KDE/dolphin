@@ -24,11 +24,12 @@
 #include <qstring.h>
 #include <kio/global.h>
 #include <klocale.h>
-#include "konq_listviewwidget.h"
+#include <kicontheme.h>
+#include <konqfileitem.h>
+//#include "konq_listviewwidget.h"
 
 class KonqBaseListViewWidget;
 class KMimeType;
-class KonqFileItem;
 class KonqListViewDir;
 class QPainter;
 class KonqBaseListViewItem;
@@ -41,9 +42,14 @@ class KonqBaseListViewItem : public QListViewItem
       KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem);
       virtual ~KonqBaseListViewItem() {}
       /** @return the file item held by this instance */
-      KonqFileItem * item() {return m_fileitem;}
-      virtual void updateContents() {}
+      KonqFileItem * item() { return m_fileitem; }
+      void mimetypeFound();
+      virtual void updateContents() = 0;
       virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
+      int state() const { return m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState; }
+
+      /** For KonqMimeTypeResolver */
+      QRect rect() const;
 
    protected:
       QChar sortChar;
@@ -54,7 +60,7 @@ class KonqBaseListViewItem : public QListViewItem
 };
 
 /**
- * One item in the tree
+ * One item in the detailed list or in the tree (not text)
  */
 class KonqListViewItem : public KonqBaseListViewItem
 {
@@ -72,34 +78,17 @@ class KonqListViewItem : public KonqBaseListViewItem
        * @param _fileitem the file item created by KonqDirLister
        */
       KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem *_parent, KonqFileItem* _fileitem );
-      //KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewDir *_parent, KonqFileItem* _fileitem );
+
       virtual ~KonqListViewItem() { }
 
       virtual QString key( int _column, bool ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
-      virtual void updateContents() {init();}
+      virtual void updateContents();
       virtual void setDisabled( bool disabled );
    protected:
-      void init();
-
       /** Parent tree view */
       KonqBaseListViewWidget* m_pListViewWidget;
 };
-
-inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
-:QListViewItem(_listViewWidget)
-,sortChar('1')
-,m_bDisabled(false)
-,m_fileitem(_fileitem)
-{}
-
-inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
-:QListViewItem(_parent)
-,sortChar('1')
-,m_bDisabled(false)
-,m_fileitem(_fileitem)
-{}
-
 
 #endif

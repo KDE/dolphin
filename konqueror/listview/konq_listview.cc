@@ -254,23 +254,31 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
    if (mode=="TextView")
    {
-      kdDebug(1202) << "Creating KonqTextViewWidget\n" << endl;
+      kdDebug(1202) << "Creating KonqTextViewWidget" << endl;
       setXMLFile( "konq_textview.rc" );
       m_pListView=new KonqTextViewWidget(this, parentWidget);
    }
    else if (mode=="MixedTree")
    {
-      kdDebug(1202) << "Creating KonqTreeViewWidget\n" << endl;
+      kdDebug(1202) << "Creating KonqTreeViewWidget" << endl;
       setXMLFile( "konq_treeview.rc" );
       m_pListView=new KonqTreeViewWidget(this,parentWidget);
    }
    else
    {
-      kdDebug(1202) << "Creating KonqDetailedListViewWidget\n" << endl;
+      kdDebug(1202) << "Creating KonqDetailedListViewWidget" << endl;
       setXMLFile( "konq_detailedlistview.rc" );
       m_pListView = new KonqBaseListViewWidget( this, parentWidget);
    }
    setWidget( m_pListView );
+
+   QTimer * timer = new QTimer( this );
+   connect( timer, SIGNAL( timeout() ), this, SLOT( slotProcessMimeIcons() ) );
+   m_mimeTypeResolver = new KonqMimeTypeResolver<KonqBaseListViewItem,KonqListView>(this,timer);
+   // When our viewport is adjusted (resized or scrolled) we need
+   // to get the mime types for any newly visible icons. (Rikkus)
+   connect( m_pListView, SIGNAL( viewportAdjusted() ),
+            SLOT( slotViewportAdjusted() ) );
 
    setupActions();
 
@@ -288,13 +296,14 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    m_pListView->confColumns[10].setData(I18N_NOOP("File Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType);
 
    QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
-                    m_extension, SLOT( updateActions() ) );
+                     m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
    connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
 }
 
 KonqListView::~KonqListView()
 {
+  delete m_mimeTypeResolver;
   delete m_pProps;
 }
 
@@ -312,7 +321,28 @@ bool KonqListView::openURL( const KURL &url )
 bool KonqListView::closeURL()
 {
   m_pListView->stop();
+  m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
   return true;
+}
+
+void KonqListView::listingComplete()
+{
+  m_mimeTypeResolver->start( /*10*/ 0 );
+}
+
+void KonqListView::determineIcon( KonqBaseListViewItem * item )
+{
+  //int oldSerial = item->pixmap(0)->serialNumber();
+
+  (void) item->item()->determineMimeType();
+
+  //QPixmap newIcon = item->item()->pixmap( m_parent->iconSize(),
+  //                                        item->state() );
+  //if ( oldSerial != newIcon.serialNumber() )
+  //  item->setPixmap( 0, newIcon );
+
+  // We also have columns to update, not only the icon
+  item->updateContents();
 }
 
 void KonqListView::saveState( QDataStream &stream )
@@ -403,7 +433,6 @@ void KonqListView::slotUnselectAll()
 void KonqListView::slotInvertSelection()
 {
     m_pListView->invertSelection();
-    //m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
     emit m_pListView->selectionChanged();
     m_pListView->viewport()->update();
 }

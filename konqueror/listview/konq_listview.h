@@ -25,6 +25,7 @@
 #include <konq_operations.h>
 #include <kparts/factory.h>
 #include <konq_dirpart.h>
+#include <konq_mimetyperesolver.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
@@ -81,6 +82,14 @@ public:
   // "Cut" icons : disable those whose URL is in lst, enable the others
   virtual void disableIcons( const KURL::List & lst );
 
+  // See KonqMimeTypeResolver
+  void mimeTypeDeterminationFinished() {}
+  int iconSize() { return m_pListView->iconSize(); }
+  void determineIcon( KonqBaseListViewItem * item );
+
+  QList<KonqBaseListViewItem> & lstPendingMimeIconItems() { return m_mimeTypeResolver->m_lstPendingMimeIconItems; }
+  void listingComplete();
+
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
   void setupActions();
@@ -104,15 +113,19 @@ protected slots:
   //columns by dragging them
   //at this moment the columns haven't changed their order yet, so
   //it starts a singleshottimer, after which the columns changed their order
-  //and then slotDaveAfterHeaderDrag is called
+  //and then slotSaveAfterHeaderDrag is called
   void headerDragged(int sec, int from, int to);
   //saves the new order of the columns
   void slotSaveAfterHeaderDrag();
   void slotHeaderClicked(int sec);
 
+  void slotViewportAdjusted() { m_mimeTypeResolver->slotViewportAdjusted(); }
+  void slotProcessMimeIcons() { m_mimeTypeResolver->slotProcessMimeIcons(); }
+
 private:
 
   KonqBaseListViewWidget *m_pListView;
+  KonqMimeTypeResolver<KonqBaseListViewItem,KonqListView> *m_mimeTypeResolver;
 
   KAction *m_paSelect;
   KAction *m_paUnselect;

@@ -38,25 +38,30 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, Kon
 :KonqBaseListViewItem( _parent,_fileitem )
 {
    m_pListViewWidget = _listViewWidget;
-   init();
+   updateContents();
 }
 
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem )
 :KonqBaseListViewItem(_listViewWidget,_fileitem)
 {
    m_pListViewWidget = _listViewWidget;
-   init();
+   updateContents();
 }
 
-void KonqListViewItem::init()
+void KonqListViewItem::updateContents()
 {
    // Set the pixmap
    setDisabled( m_bDisabled );
 
    // Set the text of each column
 
+   QString defaultType;
    if (S_ISDIR(m_fileitem->mode()))
+   {
       sortChar='0';
+      defaultType=i18n("Directory");
+   } else
+       defaultType=i18n("File");
 
    setText(0,m_fileitem->text());
    //now we have the first column, so let's do the rest
@@ -75,10 +80,12 @@ void KonqListViewItem::init()
             setText(tmpColumn->displayInColumn,m_fileitem->group());
             break;
          case KIO::UDS_FILE_TYPE:
-            setText(tmpColumn->displayInColumn,m_fileitem->mimeComment());
+            setText(tmpColumn->displayInColumn,
+                    m_fileitem->isMimeTypeKnown() ? m_fileitem->mimeComment() : defaultType);
             break;
          case KIO::UDS_MIME_TYPE:
-            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            setText(tmpColumn->displayInColumn,
+                    m_fileitem->isMimeTypeKnown() ? m_fileitem->mimetype() : defaultType);
             break;
          case KIO::UDS_URL:
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
@@ -113,8 +120,7 @@ void KonqListViewItem::init()
 void KonqListViewItem::setDisabled( bool disabled )
 {
     KonqBaseListViewItem::setDisabled( disabled );
-    int state = disabled ? KIcon::DisabledState : KIcon::DefaultState;
-    setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), state ) );
+    setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), state() ) );
 }
 
 QString KonqListViewItem::key( int _column, bool asc) const
@@ -158,8 +164,16 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
-  // Don't set a brush, the background is drawn in drawContentsOffset
+  // Don't set a brush, we draw the background ourselves
   cg.setBrush( QColorGroup::Base, NoBrush );
+
+  // Gosh this is ugly. We need to paint the background, but for this we need
+  // to translate the painter back to the viewport coordinates.
+  QPoint offset = listView()->itemRect(this).topLeft();
+  _painter->translate( -offset.x(), -offset.y() );
+  static_cast<KonqBaseListViewWidget *>(listView())->paintEmptyArea( _painter,
+                                                                     QRect( offset.x(), offset.y(), _width, height() ) );
+  _painter->translate( offset.x(), offset.y() );
 
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
@@ -210,3 +224,47 @@ const char* KonqBaseListViewItem::makeAccessString( mode_t mode)
 
    return buffer;
 }
+
+
+KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
+:QListViewItem(_listViewWidget)
+,sortChar('1')
+,m_bDisabled(false)
+,m_fileitem(_fileitem)
+{}
+
+KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
+:QListViewItem(_parent)
+,sortChar('1')
+,m_bDisabled(false)
+,m_fileitem(_fileitem)
+{}
+
+QRect KonqBaseListViewItem::rect() const
+{
+    QRect r = listView()->itemRect(this);
+    return QRect( listView()->viewportToContents( r.topLeft() ), QSize( r.width(), r.height() ) );
+}
+
+void KonqBaseListViewItem::mimetypeFound()
+{
+    // Update icon
+    setDisabled( m_bDisabled );
+    uint done = 0;
+    KonqBaseListViewWidget * lv = static_cast<KonqBaseListViewWidget*>(listView());
+    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms && done < 2; i++)
+    {
+        ColumnInfo *tmpColumn=&lv->columnConfigInfo()[i];
+        if (lv->columnConfigInfo()[i].udsId==KIO::UDS_FILE_TYPE && tmpColumn->displayThisOne)
+        {
+            setText(tmpColumn->displayInColumn, m_fileitem->mimeComment());
+            done++;
+        }
+        if (lv->columnConfigInfo()[i].udsId==KIO::UDS_MIME_TYPE && tmpColumn->displayThisOne)
+        {
+            setText(tmpColumn->displayInColumn, m_fileitem->mimetype());
+            done++;
+        }
+    }
+}
+

@@ -132,7 +132,7 @@ void KonqTreeViewWidget::slotClear()
 {
    kdDebug(1202) << "KonqTreeViewWidget::slotClear()" << endl;
    if ( !m_pWorkingDir )
-      clear();
+      KonqBaseListViewWidget::slotClear();
 }
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
@@ -153,21 +153,25 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
       }
 
       KonqListViewDir *dirItem = 0;
+      KonqListViewItem *fileItem = 0;
 
       if ( parentDir )
       { // adding under a directory item
          if ( isdir )
             dirItem = new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
          else
-            new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
+            fileItem = new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
       }
       else
       { // adding on the toplevel
          if ( isdir )
             dirItem = new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
          else
-            new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
+            fileItem = new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
       }
+
+      if (fileItem)
+          m_pBrowserView->lstPendingMimeIconItems().append( fileItem );
 
       QString u = (*kit)->url().url( 0 );
 
@@ -187,6 +191,7 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
     for (; it.current(); ++it )
         if ( it.current()->url( 0 ) == url )
         {
+            m_pBrowserView->lstPendingMimeIconItems().remove( it.current() );
             m_itemsToOpen.removeRef( it.current() );
             break;
         }
