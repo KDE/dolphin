@@ -82,7 +82,9 @@ bool changeBookmarkIcon(KBookmarkGroup group,
 
 void convertFavIcons()
 {
-    QFile file(locate("data", "konqueror/favicon_map"));
+    QString path = locate("data", "konqueror/favicon_map");
+    if ( path.isEmpty() ) return;
+    QFile file(path);
     if (file.open(IO_ReadOnly))
     {
         QDataStream str(&file);
