@@ -125,6 +125,7 @@ public slots:
    void slotSave();
    void slotSaveAs();
    void slotSaveOnClose();
+   void slotAdvancedAddBookmark();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
 
@@ -134,6 +135,7 @@ protected slots:
 
 private:
    void construct();
+   void readConfig();
    void resetActions();
    void createActions();
 
@@ -148,6 +150,7 @@ private:
    KBookmarkEditorIface *m_dcopIface;
    QString m_bookmarksFilename;
    bool m_saveOnClose;
+   bool m_advancedAddBookmark;
 
    static KEBApp *s_topLevel;
 };

@@ -166,7 +166,6 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    m_bookmarksFilename = bookmarksFile;
    m_readOnly = readonly;
-   m_saveOnClose = true;
    m_cmdHistory = new CmdHistory(actionCollection());
 
    s_topLevel = this;
@@ -212,6 +211,7 @@ void KEBApp::construct() {
 
    slotClipboardDataChanged();
 
+   readConfig();
    resetActions();
    updateActions();
 
@@ -242,7 +242,10 @@ void KEBApp::createActions() {
    (void) new KToggleAction(
                       i18n("&Auto-Save on Program Close"), 0,
                       this, SLOT( slotSaveOnClose() ), actionCollection(), "settings_saveonclose");
-
+   (void) new KToggleAction(
+                      i18n("Advanced Add Bookmark in Konqueror"), 0,
+                      this, SLOT( slotAdvancedAddBookmark() ), actionCollection(), 
+                      "settings_advancedaddbookmark");
    (void) new KToggleAction(
                       i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
                       actn, SLOT( slotShowNS() ), actionCollection(), "settings_showNS");
@@ -316,12 +319,32 @@ void KEBApp::resetActions() {
    }
 
    getToggleAction("settings_saveonclose")->setChecked(m_saveOnClose);
-   getToggleAction("settings_showNS")
-      ->setChecked(CurrentMgr::self()->showNSBookmarks());
+   getToggleAction("settings_advancedaddbookmark")->setChecked(m_advancedAddBookmark);
+   getToggleAction("settings_showNS")->setChecked(CurrentMgr::self()->showNSBookmarks());
+}
+
+void KEBApp::readConfig() {
+   KConfig config("kbookmarkrc", false, false);
+   config.setGroup("Bookmarks");
+   m_advancedAddBookmark = config.readBoolEntry("AdvancedAddBookmark", false);
+
+   KConfig appconfig("keditbookmarksrc", false, false);
+   appconfig.setGroup("General");
+   m_saveOnClose = appconfig.readBoolEntry("Save On Close", false);
+}
+
+void KEBApp::slotAdvancedAddBookmark() {
+   m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
+   KConfig config("kbookmarkrc", false, false);
+   config.setGroup("Bookmarks");
+   config.writeEntry("AdvancedAddBookmark", m_advancedAddBookmark);
 }
 
 void KEBApp::slotSaveOnClose() {
    m_saveOnClose = getToggleAction("settings_saveonclose")->isChecked();
+   KConfig appconfig("keditbookmarksrc", false, false);
+   appconfig.setGroup("General");
+   appconfig.writeEntry("Save On Close", m_saveOnClose);
 }
 
 bool KEBApp::nsShown() {
