@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=blahfoo
 Name=Icon View
 Name[af]=Ikoon Besigtig
 Name[az]=Timsal Görünüşü
@@ -46,7 +45,7 @@ Name[ro]=Vizualizare iconică
 Name[ru]=В виде пиктограмм
 Name[sk]=Prehliadač ikon
 Name[sl]=Ikoniziran pogled
-Name[sr]=Prikaz sa ikonicama
+Name[sr]=Приказ са иконама
 Name[sv]=Ikonvy
 Name[ta]=ÌÚõÀ¼ì ¸¡ðº¢
 Name[th]=แบบไอคอน
@@ -56,6 +55,7 @@ Name[ven]=Mbonalelo ya aikhono
 Name[vi]=Xem icon 
 Name[wa]=Vey en imådjetes
 Name[xh]=Imboniselo Yophawu lomfanekiso
+Name[xx]=xxIcon Viewxx
 Name[zh_CN]=图标视图
 Name[zh_TW]=圖示瀏覽
 Name[zu]=Umbukiso wophawu lwesithombe

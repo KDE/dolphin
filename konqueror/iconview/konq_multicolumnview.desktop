@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=blahfoo
 Name=MultiColumn View
 Name[af]=Multi-kolom Besigtig
 Name[az]=Çoxlu Sütun Görünüşü
@@ -45,7 +44,7 @@ Name[ro]=Vizualizare multicoloană
 Name[ru]=В несколько колонок
 Name[sk]=Multi-stĺpcový pohľad
 Name[sl]=Večstolpčni pogled
-Name[sr]=Prikaz sa više kolona
+Name[sr]=Приказ са више колона
 Name[sv]=Flerkolumnsvy
 Name[ta]=Àø¿¢Ãü ¸¡ðº¢
 Name[th]=แบบหลายคอลัมน์
@@ -53,7 +52,9 @@ Name[tr]=Çoklu Sütun Görünümü
 Name[uk]=Вигляд стовпчиками
 Name[ven]=Mbonalelo ya kholomu dzo fhambananho
 Name[vi]=Xem kiểu nhiều cột(multicolumn) 
+Name[wa]=Vey e colones
 Name[xh]=Imboniselo Enemihlathi emininzie
+Name[xx]=xxMultiColumn Viewxx
 Name[zh_CN]=多列视图
 Name[zh_TW]=多列瀏覽
 Name[zu]=Umbukiso onamakholumu amaningi
