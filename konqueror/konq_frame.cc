@@ -37,404 +37,115 @@
 
 #include <assert.h>
 
-#define DEFAULT_HEADER_HEIGHT 11
+//these both have white background
+//#include "anchor.xpm"
+//#include "white.xpm"
+#include "green.xpm"
+//these both have very bright grey background
+#include "lightgrey.xpm"
+#include "anchor_grey.xpm"
 
-static QBitmap *checkBmp = NULL;
+#define DEFAULT_HEADER_HEIGHT 13
+
+#include <iostream.h>
 
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
-static unsigned char check_bits[] = {
-  0x11, 0x0a, 0x04, 0x0a, 0x11, };
+   QPainter p(this);
 
-    if(!checkBmp){
-        checkBmp = new QBitmap(5, 5, check_bits, true);
-        checkBmp->setMask(*checkBmp);
-    }
-    QPainter p(this);
-    QRect r = rect();
-
-    bool active = isOn() || isDown();
-    QApplication::style().drawBevelButton(&p, r.x(), r.y(), r.width(),
-                                          r.height(), colorGroup(), active);
-    if(active){
-        p.setPen(colorGroup().text());
-        p.drawPixmap((width()-checkBmp->width())/2,
-                     (height()-checkBmp->height())/2,
-                     *checkBmp);
-    }
+   if (isOn() || isDown())
+      p.drawPixmap(0,0,QPixmap(anchor_grey_xpm));
+   else
+      p.drawPixmap(0,0,QPixmap(lightgrey_xpm));
 }
-
 
 KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
-                                : QWidget( _parent, _name ),
-				  m_pParentKonqFrame( _parent )
+:QWidget( _parent, _name )
+,m_pParentKonqFrame( _parent )
+,statusLabel(this)
+,m_yOffset(0)
 {
-  QString key;
+   m_pPassiveModeCheckBox = new KonqCheckBox( this );
+   m_pPassiveModeCheckBox->show();
+   statusLabel.show();
+   statusLabel.installEventFilter(this);
 
-  //killTimers();
+   int h=fontMetrics().height()+2;
+   if (h<DEFAULT_HEADER_HEIGHT ) h=DEFAULT_HEADER_HEIGHT;
+   setFixedHeight(h);
+   m_yOffset=(h-13)/2;
 
-  KConfig* config = new KConfig( "kwmrc", true);
+   m_pPassiveModeCheckBox->setGeometry(20,m_yOffset,13,13);
+   statusLabel.setGeometry(40,0,50,h);
 
-  config->setGroup("WM");
-
-  frameHeaderBlendActive = config->readColorEntry( "activeBlend" , &(Qt::black) );
-  frameHeaderBlendInactive = config->readColorEntry( "inactiveBlend" ,
-						     &palette().normal().background() );
-
-  config->setGroup( "General" );
-
-  key = config->readEntry("TitlebarLook");
-  if( key == "shadedHorizontal")
-    frameHeaderLook = HORIZ;
-  else if( key == "shadedVertical")
-    frameHeaderLook = VERT;
-  else if( key == "shadedDiagonal")
-    frameHeaderLook = DIAG;
-  else if( key == "shadedCrossDiagonal")
-    frameHeaderLook = CROSSDIAG;
-  else if( key == "shadedRectangle")
-    frameHeaderLook = RECT;
-  else if( key == "shadedElliptic")
-    frameHeaderLook = ELLIP;
-  else if( key == "shadedPyramid")
-    frameHeaderLook = PYRAM;
-  else if( key == "shadedPipeCross")
-    frameHeaderLook = PIPE;
-  else if( key == "plain")
-    frameHeaderLook = Plain;
-  else if( key == "pixmap")
-    frameHeaderLook = XPixmap;
-  else{
-    config->writeEntry("TitlebarLook", "shadedHorizontal");
-    frameHeaderLook = HORIZ;
-  }
-  /*key = config->readEntry("TitleAlignment");
-  if (key == "left")
-    options.alignTitle = AT_LEFT;
-  else if (key == "middle")
-    options.alignTitle = AT_MIDDLE;
-  else if (key == "right")
-    options.alignTitle = AT_RIGHT;
-  else {
-    config->writeEntry("TitleAlignment", "left");
-    options.alignTitle = AT_LEFT;
-  }
-
-  //CT 02Dec1998 - optional pixmap under the title text
-  key = config->readEntry("PixmapUnderTitleText");
-  if (key == "no")
-    options.PixmapUnderTitleText = false;
-  else if (key == "yes")
-    options.PixmapUnderTitleText = true;
-  else {
-    config->writeEntry("PixmapUnderTitleText","yes");
-    options.PixmapUnderTitleText = true;
-  }
-  //CT
-
-  */
-
-  frameHeaderActive = new QPixmap;
-  frameHeaderInactive = new QPixmap;
-
-  if ( frameHeaderLook == XPixmap ) {
-    KIconLoader iconLoader("kwm");
-
-    *(frameHeaderActive) = iconLoader.reloadIcon("activetitlebar");
-    *(frameHeaderInactive) = iconLoader.reloadIcon("inactivetitlebar");
-
-    if (frameHeaderInactive->size() == QSize(0,0))
-      *frameHeaderInactive = *frameHeaderActive;
-
-    if (frameHeaderActive->size() == QSize(0,0))
-      frameHeaderLook = Plain;
-  }
-  /*
-  if (config->hasKey("TitleAnimation")){
-    options.TitleAnimation = config->readNumEntry("TitleAnimation");
-    if (options.TitleAnimation < 0)
-      options.TitleAnimation = 0;
-  }
-  else{
-    options.TitleAnimation = 50;
-    config->writeEntry("TitleAnimation", options.TitleAnimation);
-  }
-
-  if (options.TitleAnimation)
-      startTimer(options.TitleAnimation);
-  */
-
-  m_pPassiveModeCheckBox = new KonqCheckBox( this );
-
-  setFixedHeight( DEFAULT_HEADER_HEIGHT );
-
-  connect( m_pPassiveModeCheckBox, SIGNAL( toggled( bool ) ),
-           this, SIGNAL( passiveModeChange( bool ) ) );
+   connect(m_pPassiveModeCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(passiveModeChange(bool)));
 }
 
-enum KPixmapEffect::GradientType
-KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
+void KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 {
-  switch (look)
-    {
-    case HORIZ: return KPixmapEffect::HorizontalGradient;
-    case VERT: return KPixmapEffect::VerticalGradient;
-    case DIAG: return KPixmapEffect::DiagonalGradient;
-    case CROSSDIAG: return KPixmapEffect::CrossDiagonalGradient;
-    case PYRAM: return KPixmapEffect::PyramidGradient;
-    case RECT: return KPixmapEffect::RectangleGradient;
-    case PIPE: return KPixmapEffect::PipeCrossGradient;
-    case ELLIP: return KPixmapEffect::EllipticGradient;
-    default:
-      return KPixmapEffect::HorizontalGradient; // keep compiler happy
-    }
-
+   QWidget::mousePressEvent( event );
+   if ( !m_pParentKonqFrame->childView()->passiveMode() )
+   {
+      emit headerClicked();
+      update();
+   }
 }
 
-void
-KonqFrameHeader::paintEvent( QPaintEvent* )
+bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
 {
-//  kDebugInfo( 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
-  if (!isVisible())
-  {
-//    kDebugInfo( 1202, "paintEvent aborted : not visible !");
-    return;
-  }
+   if (e->type()==QEvent::MouseButtonPress)
+   {
+      emit headerClicked();
+      update();
+      return TRUE;
+   };
+   return FALSE;
+};
 
-  bool hasFocus = m_pParentKonqFrame->isActivePart();
-
-  if ( m_pParentKonqFrame->childView()->passiveMode() )
-    hasFocus = false;
-
-  QRect r = rect();
-  //bool double_buffering = false;
-  //QPixmap* buffer = 0;
-  KonqFrameHeaderLook look = frameHeaderLook;
-
-  if ( look == HORIZ || look == VERT || look == DIAG ||
-       look == PIPE  || look == RECT ||
-       look == CROSSDIAG || look == ELLIP){
-    // the new horizontal (and vertical) shading code
-    /*if (colors_have_changed){
-      aShadepm.resize(0,0);
-      iaShadepm.resize(0,0);
-      }*/
-
-    // the user selected shading. Do a plain titlebar anyway if the
-    // shading would be senseless (higher performance and less memory
-    // consumption)
-    if ( hasFocus ){
-      if ( kapp->activeTitleColor() ==  frameHeaderBlendActive)
-        look = Plain;
-    }
-    else {
-      if ( kapp->inactiveTitleColor() ==  frameHeaderBlendInactive)
-        look = Plain;
-    }
-  }
-  QPainter p;
-
-  /*  if (only_label && animate){
-    double_buffering = ( look == HShaded ||
-                         look == VShaded ||
-                         look == D_SAHDED ||
-                         look == XPixmap);
-    if(titlestring_delay) {
-      titlestring_delay--;
-      return;
-    }
-    else
-      titlestring_offset += titlestring_offset_delta;
-    if (!double_buffering){
-      if (titlestring_offset_delta > 0)
-	bitBlt(this,
-	       r.x()+titlestring_offset_delta, r.y(),
-	       this,
-	       r.x(), r.y(),
-	       r.width()-titlestring_offset_delta, r.height());
-      else
-	bitBlt(this,
-	       r.x(), r.y(),
-	       this,
-	       r.x()-titlestring_offset_delta, r.y(),
-	       r.width()+titlestring_offset_delta, r.height());
-    }
-  }*/
-
-  //if (!double_buffering)
-    p.begin( this );
-  /*else {
-    // enable double buffering to avoid flickering with horizontal shading
-    buffer = new QPixmap(r.width(), r.height());
-    p.begin(buffer);
-    r.setRect(0,0,r.width(),r.height());
-  }*/
-
-  QPixmap *pm;
-  p.setClipRect(r);
-  p.setClipping(true);
-
-  if ( look == XPixmap){
-    pm = hasFocus ? frameHeaderActive : frameHeaderInactive;
-    for (int x = r.x(); x < r.x() + r.width(); x+=pm->width())
-      p.drawPixmap(x, r.y(), *pm);
-  }
-  else if ( look == HORIZ || look == VERT || look == DIAG ||
-	    look == PIPE  || look == RECT ||
-	    look == CROSSDIAG || look == ELLIP){
-    // the new horizontal shading code
-    QPixmap* pm = 0;
-    if (hasFocus){
-      if (activeShadePm.size() != r.size()){
-	activeShadePm.resize(r.width(), r.height());
-	KPixmapEffect::gradient(activeShadePm, kapp->activeTitleColor(),
-				frameHeaderBlendActive, mapShade(look));
-      }
-      pm = &activeShadePm;
-    }
-    else {
-      if (inactiveShadePm.size() != r.size()){
-	inactiveShadePm.resize(r.width(), r.height());
-	KPixmapEffect::gradient(inactiveShadePm, kapp->inactiveTitleColor(),
-				frameHeaderBlendInactive, mapShade(look));
-      }
-      pm = &inactiveShadePm;
-    }
-
-    p.drawPixmap( r.x(), r.y(), *pm );
-  }
-  else { // TitlebarLook == TITLEBAR_PLAIN
-    p.setBackgroundColor( hasFocus ? kapp->activeTitleColor()
-			           : kapp->inactiveTitleColor());
-    /*if (only_label && !double_buffering && animate){
-       p.eraseRect(QRect(r.x(), r.y(), TITLE_ANIMATION_STEP+1, r.height()));
-       p.eraseRect(QRect(r.x()+r.width()-TITLE_ANIMATION_STEP-1, r.y(),
- 			TITLE_ANIMATION_STEP+1, r.height()));
-    }
-    else {*/
-      p.eraseRect(r);
-    //}
-  }
-  p.setClipping(false);
-
-/*
-//  p.setPen(is_active ? kapp->activeTextColor() : app->inactiveTextColor());
-
-  p.setFont(myapp->tFont);
-  //CT
-
-  titlestring_too_large = (p.fontMetrics().width(QString(" ")+label+" ")>r.width());
-  if (titlestring_offset_delta > 0){
-    if (!titlestring_delay){
-      if (titlestring_offset > 0
-      && titlestring_offset > r.width() - p.fontMetrics().width(QString(" ")+label+" ")){
-        // delay animation before reversing direction
-        titlestring_delay = TITLE_ANIMATION_DELAY;
-        titlestring_offset_delta *= -1;
-      }
-    }
-  }
-  else {
-    if(!titlestring_delay){
-      if (titlestring_offset < 0
-      && titlestring_offset + p.fontMetrics().width(QString(" ")+label+" ") < r.width()){
-        if(titlestring_offset_delta != 0)
-          // delay animation before reversing direction
-          titlestring_delay = TITLE_ANIMATION_DELAY;
-        titlestring_offset_delta *= -1;
-      }
-    }
-  }*/
-
-  //p.setClipRect(r);
-  //p.setClipping(True);
-
-  //CT 04Nov1998 - align the title in the bar
-  /*int aln = 0;
-  int need = p.fontMetrics().width(QString(" ")+label+" ");
-  if (options.alignTitle == AT_LEFT || r.width() < need) aln = 0;
-  else if (options.alignTitle == AT_MIDDLE )
-    aln = r.width()/2 - need/2;
-  else if (options.alignTitle == AT_RIGHT)
-    aln = r.width() - need;
-  //CT see next lines. Replaced two 0 by `aln`. Moved next two lines here
-  //  from above.
-
-  if (!titlestring_too_large)
-    titlestring_offset = aln;
-
-  //CT 02Dec1998 - optional noPixmap behind text,
-  //     suggested by Nils Meier <nmeier@vossnet.de>
-  if (!options.PixmapUnderTitleText && look == XPixmap ) {
-    // NM 02Dec1998 - Clear bg behind text
-    p.setBackgroundColor(is_active ? myapp->activeTitleColor() :
-			 myapp->inactiveTitleColor());
-    p.eraseRect(
-		r.x()+(options.TitleAnimation?titlestring_offset:aln),
-		r.y()+(r.height()-p.fontMetrics().height())/2,
-		need,
-		p.fontMetrics().height());
-  }
-  //CT
-
-  //CT 02Dec1998 - vertical text centering,
-  //     thanks to Nils Meier <nmeier@vossnet.de>
-  p.drawText(r.x()+
-	     (options.TitleAnimation?titlestring_offset:aln),
-
-	     r.y()+
-	     (r.height()-p.fontMetrics().height())/2+
-	     p.fontMetrics().ascent(),
-
-	     QString(" ")+label+" ");
-
-  p.setClipping(False);
-  p.end();
-  if (double_buffering){
-    bitBlt(this,
-	   title_rect.x(), title_rect.y(),
-	   buffer,
-	   0,0,
-	   buffer->width(), buffer->height());
-    delete buffer;
-  }*/
-  p.end();
-//  kDebugInfo( 1202, "paintEvent done !");
-
-}
-
-void
-KonqFrameHeader::mousePressEvent( QMouseEvent* event )
+void KonqFrameHeader::slotDisplayStatusText(const QString& text)
 {
-  QWidget::mousePressEvent( event );
-  if ( !m_pParentKonqFrame->childView()->passiveMode() )
-  {
-    emit headerClicked();
-    update();
-  }
-}
+   cerr<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
+   statusLabel.resize(fontMetrics().width(text),13);
+   statusLabel.setText(text);
+};
 
-void KonqFrameHeader::resizeEvent( QResizeEvent * )
+void KonqFrameHeader::slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne)
 {
-  m_pPassiveModeCheckBox->setGeometry( 0, 0, m_pPassiveModeCheckBox->sizeHint().width(), height() );
-}
+   if (newOne!=0)
+      connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
+};
+
+void KonqFrameHeader::paintEvent(QPaintEvent* e)
+{
+   if (!isVisible()) return;
+   QWidget::paintEvent(e);
+   bool hasFocus = m_pParentKonqFrame->isActivePart();
+   if ( m_pParentKonqFrame->childView()->passiveMode() )
+      hasFocus = false;
+   QPainter p(this);
+   if (hasFocus)
+      p.drawPixmap(4,m_yOffset,QPixmap(green_xpm));
+   else
+   {
+      p.drawPixmap(4,m_yOffset,QPixmap(lightgrey_xpm));
+   };
+};
 
 //###################################################################
 
 KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
-                    : QWidget( _parentContainer, _name)
+:QWidget(_parentContainer,_name)
 {
-  m_pLayout = 0L;
-  m_pChildView = 0L;
+   m_pLayout = 0L;
+   m_pChildView = 0L;
 
-  // add the frame header to the layout
-  m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
-  QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
-  connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
+   // add the frame header to the layout
+   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
+   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
+   connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
-KParts::ReadOnlyPart *
-KonqFrame::view( void )
+KParts::ReadOnlyPart * KonqFrame::view( void )
 {
   return m_pView;
 }
@@ -444,14 +155,12 @@ bool KonqFrame::isActivePart()
   return ( (KParts::ReadOnlyPart *)m_pView == m_pChildView->mainView()->currentView() );
 }
 
-void
-KonqFrame::listViews( ChildViewList *viewList )
+void KonqFrame::listViews( ChildViewList *viewList )
 {
   viewList->append( childView() );
 }
 
-void
-KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
+void KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
 {
   config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url().url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
@@ -461,57 +170,66 @@ KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /
 
 KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
-  if (m_pLayout) delete m_pLayout;
+   if (m_pLayout) delete m_pLayout;
 
-  KonqViewFactory factory( viewFactory );
+   KonqViewFactory factory( viewFactory );
 
-  m_pLayout = new QVBoxLayout( this );
-  m_pLayout->addWidget( m_pHeader );
+   m_pLayout = new QVBoxLayout( this );
 
-  m_pView = factory.create( this, 0L );
+   m_pView = factory.create( this, 0L );
 
-  assert( m_pView->widget() );
+   assert( m_pView->widget() );
 
-  m_pLayout->addWidget( m_pView->widget() );
-  m_pView->widget()->show();
-  m_pHeader->show();
-  m_pLayout->activate();
+   m_pLayout->addWidget( m_pView->widget() );
+   m_pLayout->addWidget( m_pHeader );
+   m_pView->widget()->show();
+   m_pHeader->show();
+   m_pLayout->activate();
 
-  return m_pView;
+   connect(m_pView,SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
+
+   return m_pView;
 }
 
-KonqFrameContainer*
-KonqFrame::parentContainer()
+void KonqFrame::setChildView( KonqChildView* child )
 {
-  if( parentWidget()->isA("KonqFrameContainer") )
-    return (KonqFrameContainer*)parentWidget();
-  else
-    return 0L;
+   m_pChildView = child;
+   if (m_pChildView!=0)
+   {
+      connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),m_pHeader,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
+      //connect(m_pChildView->view(),SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
+   };
+};
+
+KonqFrameContainer* KonqFrame::parentContainer()
+{
+   if( parentWidget()->isA("KonqFrameContainer") )
+      return (KonqFrameContainer*)parentWidget();
+   else
+      return 0L;
 }
 
-void
-KonqFrame::reparent( QWidget* parent, WFlags f,
+void KonqFrame::reparent( QWidget* parent, WFlags f,
 		     const QPoint & p, bool showIt )
 {
-  QWidget::reparent( parent, f, p, showIt );
+   QWidget::reparent( parent, f, p, showIt );
 }
 
-void
-KonqFrame::slotHeaderClicked()
+void KonqFrame::slotHeaderClicked()
 {
   if ( m_pView != m_pChildView->mainView()->viewManager()->activePart() )
-    m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
+     m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
 }
 
 void KonqFrame::slotPassiveModeChange( bool mode )
 {
-  m_pChildView->setPassiveMode( mode );
+   m_pChildView->setPassiveMode( mode );
 }
 
 void
 KonqFrame::paintEvent( QPaintEvent* )
 {
-  m_pHeader->repaint();
+   m_pHeader->repaint();
 }
 
 //###################################################################
@@ -525,18 +243,16 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
   m_pSecondChild = 0L;
 }
 
-void
-KonqFrameContainer::listViews( ChildViewList *viewList )
+void KonqFrameContainer::listViews( ChildViewList *viewList )
 {
-  if( firstChild() )
-    firstChild()->listViews( viewList );
+   if( firstChild() )
+      firstChild()->listViews( viewList );
 
-  if( secondChild() )
-    secondChild()->listViews( viewList );
+   if( secondChild() )
+      secondChild()->listViews( viewList );
 }
 
-void
-KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, int depth )
+void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, int depth )
 {
   int idSecond = id + (int)pow( 2, depth );
 
@@ -575,19 +291,16 @@ KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, 
   }
 }
 
-KonqFrameBase*
-KonqFrameContainer::otherChild( KonqFrameBase* child )
+KonqFrameBase* KonqFrameContainer::otherChild( KonqFrameBase* child )
 {
-  if( firstChild() == child )
-    return secondChild();
-  else if( secondChild() == child )
-    return firstChild();
-  else
-    return 0L;
+   if( firstChild() == child )
+      return secondChild();
+   else if( secondChild() == child )
+      return firstChild();
+   return 0L;
 }
 
-KonqFrameContainer*
-KonqFrameContainer::parentContainer()
+KonqFrameContainer* KonqFrameContainer::parentContainer()
 {
   if( parentWidget()->isA("KonqFrameContainer") )
     return (KonqFrameContainer*)parentWidget();
@@ -595,46 +308,51 @@ KonqFrameContainer::parentContainer()
     return 0L;
 }
 
-void
-KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt )
+void KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt )
 {
   QWidget::reparent( parent, f, p, showIt );
 }
 
-void
-KonqFrameContainer::childEvent( QChildEvent * ce )
+void KonqFrameContainer::childEvent( QChildEvent * ce )
 {
-  KonqFrameBase* castChild = 0L;
+   KonqFrameBase* castChild = 0L;
 
-  if( ce->child()->isA("KonqFrame") )
-    castChild = ( KonqFrame* )ce->child();
-  else if( ce->child()->isA("KonqFrameContainer") )
-    castChild = ( KonqFrameContainer* )ce->child();
+   if( ce->child()->isA("KonqFrame") )
+      castChild = ( KonqFrame* )ce->child();
+   else if( ce->child()->isA("KonqFrameContainer") )
+      castChild = ( KonqFrameContainer* )ce->child();
 
-  if( ce->type() == QEvent::ChildInserted ) {
+   if( ce->type() == QEvent::ChildInserted )
+   {
 
-    if( castChild )
-      if( !firstChild() ) {
-	setFirstChild( castChild );
+      if( castChild )
+         if( !firstChild() )
+         {
+            setFirstChild( castChild );
+         }
+         else if( !secondChild() )
+         {
+            setSecondChild( castChild );
+         }
+
+   }
+   else if( ce->type() == QEvent::ChildRemoved )
+   {
+
+      if( castChild )
+      {
+         if( firstChild() == ( KonqFrameBase* )castChild )
+         {
+            setFirstChild( 0L );
+         }
+         else if( secondChild() == ( KonqFrameBase* )castChild )
+         {
+            setSecondChild( 0L );
+         }
       }
-      else if( !secondChild() ) {
-	setSecondChild( castChild );
-      }
+   }
 
-  }
-  else if( ce->type() == QEvent::ChildRemoved ) {
-
-    if( castChild ) {
-      if( firstChild() == ( KonqFrameBase* )castChild ) {
-	setFirstChild( 0L );
-      }
-      else if( secondChild() == ( KonqFrameBase* )castChild ) {
-	setSecondChild( 0L );
-      }
-    }
-  }
-
-  QSplitter::childEvent( ce );
+   QSplitter::childEvent( ce );
 }
 
 #include "konq_frame.moc"

@@ -26,9 +26,12 @@
 #include <qwidget.h>
 #include <qsplitter.h>
 #include <qcheckbox.h>
+#include <qlabel.h>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
+
+#include <kstatusbar.h>
 
 class BrowserView;
 class QPixmap;
@@ -69,40 +72,30 @@ class KonqFrameHeader : public QWidget
 {
   Q_OBJECT
 
-public:
-  KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
-  ~KonqFrameHeader() {}
+   public:
+      KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
+      ~KonqFrameHeader() {}
+      QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
 
-  QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
+   signals:
+      /**
+       * This signal is emitted when the user clicked the header.
+       */
+      void headerClicked();
 
-signals:
-  /**
-   * This signal is emmitted when the user clicked the header.
-   */
-  void headerClicked();
+      void passiveModeChange( bool mode );
+   public slots:
+      void slotDisplayStatusText(const QString& text);
+      void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
 
-  void passiveModeChange( bool mode );
-
-protected:
-  KPixmapEffect::GradientType mapShade( KonqFrameHeaderLook look);
-
-  virtual void paintEvent( QPaintEvent* );
-  virtual void mousePressEvent( QMouseEvent* );
-  virtual void resizeEvent( QResizeEvent * );
-
-  KonqFrame* m_pParentKonqFrame;
-
-  KonqFrameHeaderLook frameHeaderLook;
-  //int titleAnimation;
-  //bool framedActiveTitle;
-  //bool pixmapUnderTitleText;
-  QPixmap* frameHeaderActive;
-  QPixmap* frameHeaderInactive;
-  KPixmap activeShadePm;
-  KPixmap inactiveShadePm;
-  QColor frameHeaderBlendActive;
-  QColor frameHeaderBlendInactive;
-  QCheckBox *m_pPassiveModeCheckBox;
+   protected:
+      virtual bool eventFilter(QObject*,QEvent *);
+      virtual void mousePressEvent( QMouseEvent* );
+      virtual void paintEvent(QPaintEvent *e);
+      KonqFrame* m_pParentKonqFrame;
+      QCheckBox *m_pPassiveModeCheckBox;
+      QLabel statusLabel;
+      int m_yOffset;
 };
 
 typedef QList<KonqChildView> ChildViewList;
@@ -161,7 +154,7 @@ public:
   bool isActivePart();
 
   KonqChildView* childView() { return m_pChildView; }
-  void setChildView( KonqChildView* child ) { m_pChildView = child; }
+  void setChildView( KonqChildView* child );
   void listViews( ChildViewList *viewList );
 
   void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
