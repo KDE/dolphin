@@ -96,13 +96,12 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     hlay->setSpacing( KDialog::spacingHint() );
     hlay->setMargin( 0 );
 
-    rb_cacheIfPossible = new QRadioButton( i18n("Use cache if &possible"),
+    rb_cacheIfPossible = new QRadioButton( i18n("Use cache whenever &possible"),
                                            gb_Cache_policy,
                                            "rb_cacheIfPossible" );
     
-    QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always lookup "
-                                              "the cache before connecting "
-                                              "to the Internet. You can still "
+    QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always use documents from "
+                                              "the cache when available. You can still "
                                      "use the reload button to synchronize the "
                                      "cache with the remote host.") );
     hlay->addWidget( rb_cacheIfPossible );
@@ -204,6 +203,8 @@ void KCacheConfigDialog::load()
 
     if (cc==KIO::CC_Verify)
         rb_verify->setChecked( true );
+    else if (cc==KIO::CC_Refresh)
+        rb_verify->setChecked( true );
     else if (cc==KIO::CC_CacheOnly)
         rb_offlineMode->setChecked(true);
     else if (cc==KIO::CC_Cache)
@@ -226,7 +227,7 @@ void KCacheConfigDialog::save()
     if ( !cb_useCache->isChecked() )
         KSaveIOConfig::setCacheControl(KIO::CC_Reload);
     else if ( rb_verify->isChecked() )
-        KSaveIOConfig::setCacheControl(KIO::CC_Verify);
+        KSaveIOConfig::setCacheControl(KIO::CC_Refresh);
     else if ( rb_offlineMode->isChecked() )
         KSaveIOConfig::setCacheControl(KIO::CC_CacheOnly);
     else if ( rb_cacheIfPossible->isChecked() )
