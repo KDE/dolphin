@@ -499,14 +499,11 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
     //checkBox->setChecked( passiveMode );
 
-    KURL url = KURL( cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ) ) );
-    if ( url.isEmpty() )
-      url = defaultURL;
-    if ( url.url() == "empty:/" ) // hacky, but we don't want to open $HOME in khtml...
-      url = KURL();
+    QString key = QString::fromLatin1( "URL" ).prepend( prefix );
+    KURL url( defaultURL );
+    if ( cfg.hasKey( key ) ) // if it has it, we load it, even if empty
+      url = KURL( cfg.readEntry( key ) );
 
-    //if ( url == "file:$HOME" ) // HACK
-    //  url = QDir::homeDirPath().prepend( "file:" );
     if ( !url.isEmpty() )
     {
       kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;

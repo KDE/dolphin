@@ -297,8 +297,9 @@ void KonqFrame::listViews( ChildViewList *viewList )
 
 void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int /*id*/, int /*depth*/ )
 {
-  config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ),
-                      saveURLs ? childView()->url().url() : QString::null );
+  if (saveURLs)
+    config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ),
+                        childView()->url().url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
   config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );

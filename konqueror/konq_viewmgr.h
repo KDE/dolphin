@@ -91,6 +91,7 @@ public:
 
   /**
    * Saves the current view layout to a config file.
+   * Remove config file before saving, especially if saveURLs is false.
    * @param cfg the config file
    * @param saveURLs whether to save the URLs in the profile or not
    */

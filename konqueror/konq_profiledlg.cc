@@ -127,7 +127,7 @@ void KonqProfileDlg::slotSave()
   QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
   QString fileName = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
                                           name, KonqFactory::instance() );
-					
+
   if ( QFile::exists( fileName ) )
     QFile::remove( fileName );
 
