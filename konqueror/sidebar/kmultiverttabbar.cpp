@@ -109,9 +109,9 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 
 			paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
 
-			paint->setPen(colorGroup().light());
-			paint->drawLine(19,21,21,21);
-			paint->drawLine(21,19,21,21);
+//			paint->setPen(colorGroup().light());
+//			paint->drawLine(19,21,21,21);
+//			paint->drawLine(21,19,21,21);
 
 
 			paint->setPen(colorGroup().shadow());
