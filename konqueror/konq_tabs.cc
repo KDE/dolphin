@@ -103,7 +103,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             RELOAD_ALL_ID );
   m_pPopupMenu->insertSeparator();
   m_pSubPopupMenuTab = new QPopupMenu( this );
-  m_pPopupMenu->insertItem( i18n("Switch to Tab:" ), m_pSubPopupMenuTab );
+  m_pPopupMenu->insertItem( i18n("Switch to Tab" ), m_pSubPopupMenuTab );
   connect( m_pSubPopupMenuTab, SIGNAL( activated ( int ) ),
            this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
   m_pPopupMenu->insertSeparator();
