@@ -20,6 +20,8 @@
 #define __konq_operations_h__
 
 #include <kurl.h>
+#include <libkonq_export.h>
+
 #include <qobject.h>
 #include <qevent.h>
 
@@ -32,7 +34,7 @@ class KonqMainWindow;
  * Implements file operations (move,del,trash,shred,paste,copy,move,link...)
  * for konqueror and kdesktop whatever the view mode is (icon, tree, ...)
  */
-class KonqOperations : public QObject
+class LIBKONQ_EXPORT KonqOperations : public QObject
 {
     Q_OBJECT
 protected:

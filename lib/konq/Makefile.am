@@ -45,7 +45,7 @@ METASOURCES = AUTO
 include_HEADERS = konq_popupmenu.h knewmenu.h \
     kfileivi.h konq_drag.h konq_iconviewwidget.h \
     konq_defaults.h konq_settings.h \
-    konq_operations.h \
+    konq_operations.h libkonq_export.h \
     konq_dirpart.h konq_propsview.h konq_events.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
     konq_pixmapprovider.h \
