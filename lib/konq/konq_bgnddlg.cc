@@ -21,7 +21,10 @@
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
+#include <qhbox.h>
+#include <qlabel.h>
 
+#include <kcolorbutton.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -33,10 +36,10 @@
 #include "konq_bgnddlg.h"
 
 
-KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile,
-				KInstance *instance )
+KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile, KInstance *instance,
+                                QColor &theColor, const QColor& defaultColor )
   : KDialogBase( Plain,
-		 i18n("Select Background Image"),
+		 i18n("Configure Background Settings"),
                  Ok|Cancel,
                  Ok,
 		 0L, // no parent,
@@ -50,9 +53,51 @@ KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile,
                                      KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
     kdDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
     QFrame *page = plainPage();
-    QLayout *layout = new QVBoxLayout( page );
+    QLayout *layout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
     layout->setAutoAdd( true );
+    
+    QHBox *hbox =  new QHBox(page);
+    QLabel *label = new QLabel(i18n("What shall define the background:")+" ", hbox);
+    combobox = new QComboBox(false, hbox);
+    combobox->insertItem(i18n("Color"));
+    combobox->insertItem(i18n("Image"));
+
+    colorbox =  new QHBox(page);
+    new QLabel(i18n("Background color:"), colorbox);
+    colorbutton = new KColorButton(theColor, defaultColor, colorbox);
+    
     m_propsPage = new KBgndDialogPage( page, pixmapFile, instance, "tiles" );
+    
+    if (pixmapFile.isEmpty()) {
+      combobox->setCurrentItem(0);
+      m_propsPage->setEnabled(false);
+    } 
+    else {
+      combobox->setCurrentItem(1);
+      colorbox->setEnabled(false);
+    }
+    
+    connect(combobox, SIGNAL(activated(int)), this, SLOT(comboboxChange()));    
+}
+
+void KonqBgndDialog::comboboxChange()
+{
+    if (combobox->currentItem()) {
+      colorbox->setEnabled(false);
+      m_propsPage->setEnabled(true);
+    }
+    else {   
+      colorbox->setEnabled(true);
+      m_propsPage->setEnabled(false);
+    }
+}
+
+QColor KonqBgndDialog::color()
+{
+     if (combobox->currentItem())
+       return QColor();
+     else
+       return colorbutton->color();
 }
 
 KonqBgndDialog::~KonqBgndDialog()
@@ -64,7 +109,7 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile,
   : QGroupBox( parent, "KBgndDialogPage" ),
     m_resource( resource )
 {
-    setTitle( i18n("Background") );
+    setTitle( i18n("Background Image") );
     m_instance = instance;
 
     m_wallBox = new QComboBox( false, this, "ComboBox_1" );

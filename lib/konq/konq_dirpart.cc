@@ -24,7 +24,6 @@
 
 #include <kaction.h>
 #include <kdatastream.h>
-#include <kcolordialog.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -102,16 +101,10 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
       }
     }
 
-    KAction *a = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ),
-                              actionCollection(), "bgcolor" );
+    KAction *a = new KAction( i18n( "Background Settings..." ), "background", 0, this, SLOT( slotBackgroundSettings() ),
+                              actionCollection(), "bgsettings" );
 
-    a->setStatusText( i18n( "Allows choosing of a background color for this view" ) );
-
-    a = new KAction( i18n( "Background Image..." ), "background", 0,
-                     this, SLOT( slotBackgroundImage() ),
-                     actionCollection(), "bgimage" );
-
-    a->setStatusText( i18n( "Allows choosing a background image for this view" ) );
+    a->setStatusText( i18n( "Allows choosing of a background settings for this view" ) );
 }
 
 KonqDirPart::~KonqDirPart()
@@ -144,28 +137,23 @@ QScrollView * KonqDirPart::scrollWidget()
     return static_cast<QScrollView *>(widget());
 }
 
-void KonqDirPart::slotBackgroundColor()
+void KonqDirPart::slotBackgroundSettings()
 {
     QColor bgndColor = m_pProps->bgColor( widget() );
     QColor defaultColor = KGlobalSettings::baseColor();
-    if ( KColorDialog::getColor( bgndColor,defaultColor ) == KColorDialog::Accepted )
-    {
-        if ( bgndColor.isValid() )
-            m_pProps->setBgColor( bgndColor );
-        else
-            m_pProps->setBgColor( defaultColor );
-        m_pProps->setBgPixmapFile( "" );
-        m_pProps->applyColors( scrollWidget()->viewport() );
-        scrollWidget()->viewport()->repaint();
-    }
-}
-
-void KonqDirPart::slotBackgroundImage()
-{
-    KonqBgndDialog dlg( m_pProps->bgPixmapFile(), instance() );
+    KonqBgndDialog dlg( m_pProps->bgPixmapFile(), instance(), bgndColor, defaultColor );
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
+        if ( dlg.color().isValid() )
+        {
+            m_pProps->setBgColor( dlg.color() );
+        m_pProps->setBgPixmapFile( "" );
+    }
+        else
+    {
+            m_pProps->setBgColor( defaultColor );
         m_pProps->setBgPixmapFile( dlg.pixmapFile() );
+        }
         m_pProps->applyColors( scrollWidget()->viewport() );
         scrollWidget()->viewport()->repaint();
     }

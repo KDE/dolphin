@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqInfoListView" version="8">
+<kpartgui name="KonqInfoListView" version="9">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
    <Menu name="selection"><text>Selection</text>
@@ -39,8 +39,7 @@
    <Action name="show_link_dest"/>
   </Menu>
   <Separator/>
-  <Action name="bgcolor"/>
-  <Action name="bgimage"/>
+  <Action name="bgsettings"/>
  </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Info Listview Toolbar</text>

@@ -29,6 +29,7 @@
 
 class QComboBox;
 class QPushButton;
+class KColorButton;
 
 /**
  * Reuseable widget that is the core of the background-image dialog.
@@ -82,15 +83,21 @@ public:
   /**
    * Constructor
    */
-  KonqBgndDialog( const QString & pixmapFile, KInstance *instance );
+  KonqBgndDialog( const QString & pixmapFile, KInstance *instance, QColor &theColor, const QColor& defaultColor );
   ~KonqBgndDialog();
 
+  QColor  color();
   QPixmap pixmap() { return m_propsPage->pixmap(); }
   QString pixmapFile() { return m_propsPage->pixmapFile(); }
 
+public slots:
+  void comboboxChange();
+  
 private:
   KBgndDialogPage * m_propsPage;
+  QComboBox *combobox;
+  QHBox *colorbox;
+  KColorButton *colorbutton;
 };
 
 #endif
-

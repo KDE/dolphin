@@ -240,9 +240,7 @@ public slots:
      */
     void slotStopAnimationSearching();
 
-    void slotBackgroundColor();
-
-    void slotBackgroundImage();
+    void slotBackgroundSettings();
 
     /**
      * Called when the clipboard's data changes, to update the 'cut' icons
