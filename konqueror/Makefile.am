@@ -10,7 +10,10 @@ datadir = $(kde_datadir)/konqueror
 service_DATA = konqueror.desktop
 servicedir = $(kde_servicesdir)
 
-EXTRA_DIST = $(data_DATA) $(service_DATA)
+servicetype_DATA = komplugin.desktop
+servicetypedir = $(kde_servicetypesdir)
+
+EXTRA_DIST = $(data_DATA) $(service_DATA) $(servicetype_DATA)
 
 ####### Files
 

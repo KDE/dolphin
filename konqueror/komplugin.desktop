@@ -1,0 +1,8 @@
+[Desktop Entry]
+X-KDE-ServiceType=KOMPlugin
+
+[PropertyDef::RequiredInterfaces]
+Type=QStringList
+
+[PropertyDef::SupportedInterfaces]
+Type=QStringList
