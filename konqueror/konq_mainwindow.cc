@@ -96,6 +96,7 @@
 #include <kprocess.h>
 #include <kio/scheduler.h>
 #include <kaccelmanager.h>
+#include <netwm.h>
 
 #ifdef KDE_MALLINFO_STDLIB
 #include <stdlib.h>
@@ -1100,12 +1101,44 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
         // ### this doesn't seem to work :-(
         mainWindow->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
 
+// Trying to show the window initially behind the current window is a bit tricky,
+// as this involves the window manager, which may see things differently.
+// Many WMs raise and activate new windows, which means without WM support this won't work very
+// well. If the WM has support for _NET_WM_USER_TIME, it will be just set to 0 (=don't focus on show),
+// and the WM should take care of it itself.
+    bool wm_usertime_support = false;
+    extern Time qt_x_last_input_time;
+    Time saved_last_input_time = qt_x_last_input_time;
+    if ( windowArgs.lowerWindow )
+    {
+        NETRootInfo wm_info( qt_xdisplay(), NET::Supported );
+        wm_usertime_support = wm_info.isSupported( NET::WM2UserTime );
+        if( wm_usertime_support )
+        {
+        // *sigh*, and I thought nobody would need QWidget::dontFocusOnShow().
+        // Avoid Qt's support for user time by setting it to 0, and
+        // set the property ourselves.
+            qt_x_last_input_time = 0;
+            KWin::setUserTime( mainWindow->winId(), 0 );
+        }
+        // Put below the current window before showing, in case that actually works with the WM.
+        // First do complete lower(), then stackUnder(), because the latter may not work with many WMs.
+        mainWindow->lower();
+        mainWindow->stackUnder( this );
+    }
+
     mainWindow->show();
 
     if ( windowArgs.lowerWindow )
     {
-        mainWindow->lower();
-        setFocus();
+        qt_x_last_input_time = saved_last_input_time;
+        if( !wm_usertime_support )
+        { // No WM support. Let's try ugly tricks.
+            mainWindow->lower();
+            mainWindow->stackUnder( this );
+            if( this->isActiveWindow())
+                this->setActiveWindow();
+        }
     }
 
     if ( windowArgs.fullscreen )
