@@ -127,6 +127,7 @@ private:
 void KFileTip::setItem( KFileIVI *ivi )
 {
     if (!m_on) return;
+    if (m_ivi == ivi) return;
 
     if ( m_previewJob ) {
         m_previewJob->kill();
@@ -487,6 +488,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             d->pActiveItem->setActive( false );
         }
         d->pActiveItem = 0L;
+        d->pFileTip->setItem( 0L );
     }
 
     // Stop sound
@@ -506,6 +508,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             d->pActiveItem = static_cast<KFileIVI *>(item);
             if ( topLevelWidget() == kapp->activeWindow() )
                 d->pFileTip->setItem( d->pActiveItem );
+
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
                 //kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
@@ -578,6 +581,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
         // All features disabled during mouse clicking, e.g. rectangular
         // selection
         d->pActiveItem = 0L;
+        d->pFileTip->setItem( 0L );
     }
 
     // ## shouldn't this be disabled during rectangular selection too ?
@@ -744,6 +748,7 @@ void KonqIconViewWidget::slotReenableAnimation()
 
 void KonqIconViewWidget::clear()
 {
+    d->pFileTip->setItem( 0L );
     stopImagePreview(); // Just in case
     KIconView::clear();
     d->pActiveItem = 0L;
@@ -752,7 +757,10 @@ void KonqIconViewWidget::clear()
 void KonqIconViewWidget::takeItem( QIconViewItem *item )
 {
     if ( d->pActiveItem == static_cast<KFileIVI *>(item) )
+    {
+        d->pFileTip->setItem( 0L );
         d->pActiveItem = 0L;
+    }
 
     if ( d->pPreviewJob )
       d->pPreviewJob->removeItem( static_cast<KFileIVI *>(item)->item() );
@@ -765,7 +773,10 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
     if ( item )
     {
         if ( d->pActiveItem == item )
+        {
+            d->pFileTip->setItem( 0L );
             d->pActiveItem = 0L;
+        }
         item->setThumbnailPixmap( pixmap );
         if ( m_bSetGridX &&  item->width() > gridX() )
         {
