@@ -50,11 +50,14 @@ QMap<QString,QString> KonqProfileDlg::readAllProfiles()
     QFileInfo info( *pIt );
     QString profileName = KIO::decodeFileName( info.baseName() );
     KSimpleConfig cfg( *pIt, true );
-    cfg.setGroup( "Profile" );
-    if ( cfg.hasKey( "Name" ) )
-      profileName = cfg.readEntry( "Name" );
+    if ( cfg.hasGroup( "Profile" ) )
+    {
+      cfg.setGroup( "Profile" );
+      if ( cfg.hasKey( "Name" ) )
+        profileName = cfg.readEntry( "Name" );
 
-    mapProfiles.insert( profileName, *pIt );
+      mapProfiles.insert( profileName, *pIt );
+    }
   }
 
   return mapProfiles;
