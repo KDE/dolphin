@@ -305,15 +305,8 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */) )
     {
-        // We know the servicetype, let's try its preferred service
-        KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType);
-        KURL::List lst;
-        lst.append(url);
-        //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
-        if ( !offer || !KRun::run( *offer, lst ) )
-        {
-          (void)new KRun( url );
-        }
+       // No -> launch KRun (i.e. preferred app)
+       (void)new KRun( url );
     }
   }
   else // no known serviceType, use KonqRun
