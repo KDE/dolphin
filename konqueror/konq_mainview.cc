@@ -418,7 +418,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vToolBar->insertButton2( pix, TOOLBAR_STOP_ID, SIGNAL(clicked()),
                              this, "slotStop", false, i18n("Stop"), -1);
 
-  pix = OPUIUtils::convertPixmap( ICON( kapp->kde_datadir() + "/kfm/pics/kde1.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.xpm" ) );
   m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
                              this, "slotNewWindow", true, "", -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
@@ -1463,16 +1463,8 @@ void KonqMainView::initGui()
     for ( int i = 1; i < 9; i++ )
     {
       QString n;
-      n.sprintf( "/kfm/pics/kde%i.xpm", i );
-      QPixmap p;
-      p.load( kapp->kde_datadir() + n );
-      if ( p.isNull() )
-      {
-        QString e;
-	e.sprintf(i18n("Could not load icon\n%s"), n.data() );
-	QMessageBox::warning( this, i18n("KFM Error"), e.data(), i18n("OK") );
-      }
-      s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( p ) );
+      n.sprintf( "kde%i.xpm", i );
+      s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( ICON(n) ) );
     }
   }			
 
