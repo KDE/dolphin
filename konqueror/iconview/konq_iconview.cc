@@ -184,6 +184,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
+    m_pIconView->initConfig();
 
     // When our viewport is adjusted (resized or scrolled) we need
     // to get the mime types for any newly visible icons. (Rikkus)
