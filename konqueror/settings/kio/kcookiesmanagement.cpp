@@ -122,7 +122,7 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
   btn_delete->setEnabled(false);
   vlay->addWidget(btn_delete);
 
-  btn_deleteAll = new QPushButton(i18n("D&elete all"), bbox);
+  btn_deleteAll = new QPushButton(i18n("D&elete All"), bbox);
   btn_deleteAll->setEnabled(false);
   vlay->addWidget(btn_deleteAll);
 
