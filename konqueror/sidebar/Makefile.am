@@ -3,7 +3,7 @@
 #SUBDIRS = . sidebar_classic trees
 
 #SUBDIRS = .
-SUBDIRS = . trees
+SUBDIRS = . trees web_module
 
 # set the include path for X, qt and KDE
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kate/lib $(all_includes)
