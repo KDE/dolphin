@@ -46,6 +46,7 @@
 #include <klibloader.h>
 
 #include <qmsgbox.h>
+#include <qfile.h>
 #include <qkeycode.h>
 #include <qpalette.h>
 #include <qdragobject.h>
@@ -926,8 +927,14 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
   m_iYOffset = yOffset;
   m_bLoading = true;
 
+  KURL u( _url );
+  if ( m_pProps->enterDir( u ) )
+  {
+    // nothing to do yet
+  }
+  
   // Start the directory lister !
-  m_dirLister->openURL( KURL( _url ), m_pProps->m_bShowDot );
+  m_dirLister->openURL( u, m_pProps->m_bShowDot );
   // Note : we don't store the url. KDirLister does it for us.
 
   KIOJob *job = KIOJob::find( m_dirLister->jobId() );
@@ -1014,7 +1021,7 @@ void KonqIconViewWidget::initConfig()
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
   if ( m_pProps->bgPixmap().isNull() )
-    p->fillRect( r, QBrush( m_pSettings->bgColor() ) );
+    p->fillRect( r, QBrush( m_pProps->bgColor() ) );
   else
     p->drawTiledPixmap( r, m_pProps->bgPixmap() );
 }
