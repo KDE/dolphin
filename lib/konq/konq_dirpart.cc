@@ -20,6 +20,7 @@
 #include "konq_dirpart.h"
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
+#include "konq_settings.h"
 
 #include <kaction.h>
 #include <kdatastream.h>
@@ -27,6 +28,7 @@
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <konq_drag.h>
 #include <kparts/browserextension.h>
 #include <kurldrag.h>
@@ -34,6 +36,7 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qfile.h>
 #include <assert.h>
 
 class KonqDirPart::KonqDirPartPrivate
@@ -160,6 +163,43 @@ void KonqDirPart::slotBackgroundImage()
         m_pProps->applyColors( scrollWidget()->viewport() );
         scrollWidget()->viewport()->repaint();
     }
+}
+
+void KonqDirPart::lmbClicked( KFileItem * fileItem )
+{
+    KURL url = fileItem->url();
+    if ( !fileItem->isReadable() )
+    {
+        // No permissions or local file that doesn't exist - need to find out which
+        if ( ( !fileItem->isLocalFile() ) || QFile::exists( url.path() ) )
+        {
+            KMessageBox::error( widget(), i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(url.prettyURL()) );
+            return;
+        }
+        KMessageBox::error( widget(), i18n("<p><b>%1</b> doesn't seem to exist anymore</p>").arg(url.prettyURL()) );
+        return;
+    }
+
+    KParts::URLArgs args;
+    fileItem->determineMimeType();
+    if ( fileItem->isMimeTypeKnown() )
+        args.serviceType = fileItem->mimetype();
+    args.trustedSource = true;
+
+    if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
+        url = KURL( url, fileItem->linkDest() );
+
+    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
+        args.frameName = "_blank"; // open new window
+        // We tried the other option, passing the path as framename so that
+        // an existing window for that dir is reused (like MSWindows does when
+        // the similar option is activated and the sidebar is hidden (!)).
+        // But this requires some work, including changing the framename
+        // when navigating, etc. Not very much requested yet, in addition.
+    }
+
+    kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
+    emit m_extension->openURLRequest( url, args );
 }
 
 void KonqDirPart::mmbClicked( KFileItem * fileItem )
@@ -472,7 +512,7 @@ bool KonqDirPart::openURL(const KURL& url)
         m_findPart = 0L;
         emit findClosed( this );
     }
-    
+
     m_url = url;
     emit aboutToOpenURL ();
 

@@ -35,7 +35,7 @@ class KonqDirPart: public KParts::ReadOnlyPart
   Q_OBJECT
 public:
     KonqDirPart( QObject *parent, const char *name );
-    
+
     virtual ~KonqDirPart();
 
     /**
@@ -57,6 +57,13 @@ public:
 
     virtual void restoreState( QDataStream &stream );
 
+    /** Called when LMB'ing an item in a directory view.
+     * @param fileItem must be set
+     * @param widget is only set as parent pointer for dialog boxes */
+    void lmbClicked( KFileItem * fileItem );
+
+    /** Called when MMB'ing an item in a directory view.
+     * @param fileItem if 0 it means we MMB'ed the background. */
     void mmbClicked( KFileItem * fileItem );
 
     void setNameFilter( const QString & nameFilter ) { m_nameFilter = nameFilter; }
