@@ -123,11 +123,11 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
-  m_viewModeGUIClient = new ViewModeGUIClient( this );
-
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
   
   m_openWithActions.setAutoDelete( true );
+  m_viewModeActions.setAutoDelete( true );
+  m_viewModeMenu = 0;
 
   initActions();
   initPlugins();
@@ -144,7 +144,6 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   createGUI( 0L );
 
   if ( !m_toggleViewGUIClient->empty() )
-  //    guiFactory()->addClient( m_toggleViewGUIClient );
     plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
   else
   {
@@ -916,11 +915,9 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   // View-dependent GUI
 
-  //  guiFactory()->removeClient( m_viewModeGUIClient );
-  //  guiFactory()->removeClient( m_openWithGUIClient );
   unplugActionList( "viewmode" );
   unplugActionList( "openwith" );
-  m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
+  updateViewModeActions( m_currentView->partServiceOffers() );
   updateOpenWithActions( m_currentView->appServiceOffers() );
 
   KService::Ptr service = currentChildView()->service();
@@ -928,13 +925,15 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   if ( !prop.isValid() || !prop.toBool() ) // No view mode for toggable views
   // (The other way would be to enforce a better servicetype for them, than Browser/View)
 
-    if ( m_currentView->partServiceOffers().count() > 1 )
-      plugActionList( "viewmode", m_viewModeGUIClient->actions() );
-    //      guiFactory()->addClient( m_viewModeGUIClient );
+    if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
+    {
+      QList<KAction> lst;
+      lst.append( m_viewModeMenu );
+      plugActionList( "viewmode", lst );
+    }
 
   if ( m_currentView->appServiceOffers().count() > 0 )
     plugActionList( "openwith", m_openWithActions );
-  //    guiFactory()->addClient( m_openWithGUIClient );
 
   m_currentView->frame()->statusbar()->repaint();
 
@@ -2109,6 +2108,47 @@ void KonqMainView::updateOpenWithActions( const KTrader::OfferList &services )
 	     this, SLOT( slotOpenWith() ) );
 
     m_openWithActions.append( action );
+  }
+} 
+
+void KonqMainView::updateViewModeActions( const KTrader::OfferList &services )
+{
+  if ( m_viewModeMenu )
+  {
+    QListIterator<KAction> it( m_viewModeActions );
+    for (; it.current(); ++it )
+      it.current()->unplug( m_viewModeMenu->popupMenu() );
+    delete m_viewModeMenu;
+  }
+
+  m_viewModeMenu = 0;
+  m_viewModeActions.clear();
+
+  if ( services.count() <= 1 )
+    return;
+
+  m_viewModeMenu = new KActionMenu( i18n( "View Mode..." ), this );
+
+  KTrader::OfferList::ConstIterator it = services.begin();
+  KTrader::OfferList::ConstIterator end = services.end();
+  for (; it != end; ++it )
+  {
+      QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
+      if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
+      {
+          KRadioAction *action = new KRadioAction( (*it)->comment(), 0, 0, (*it)->name() );
+
+          if ( (*it)->name() == m_currentView->service()->name() )
+              action->setChecked( true );
+
+          action->setExclusiveGroup( "KonqMainView_ViewModes" );
+
+          connect( action, SIGNAL( toggled( bool ) ),
+                   this, SLOT( slotViewModeToggle( bool ) ) );
+	
+	  m_viewModeActions.append( action );
+	  action->plug( m_viewModeMenu->popupMenu() );
+      }
   }
 } 
 

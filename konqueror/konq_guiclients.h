@@ -29,21 +29,6 @@ class KActionCollection;
 class KonqMainView;
 class KonqChildView;
 
-class ViewModeGUIClient : public QObject
-{
-public:
-  ViewModeGUIClient( KonqMainView *mainView );
-
-  void update( const KTrader::OfferList &services );
-
-  QList<KAction> actions() const;
-
-private:
-  KonqMainView *m_mainView;
-  QList<KAction> m_actions;
-  KActionMenu *m_menu;
-};
-
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:

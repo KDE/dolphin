@@ -29,63 +29,6 @@
 #include <konq_mainview.h>
 #include <konq_viewmgr.h>
 
-ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
- : QObject( mainView )
-{
-  m_mainView = mainView;
-  m_actions.setAutoDelete( true );
-  m_menu = 0;
-}
-
-QList<KAction> ViewModeGUIClient::actions() const
-{
-  QList<KAction> res;
-  if ( m_menu )
-    res.append( m_menu );
-  return res;
-}
-
-void ViewModeGUIClient::update( const KTrader::OfferList &services )
-{
-  if ( m_menu )
-  {
-    QListIterator<KAction> it( m_actions );
-    for (; it.current(); ++it )
-      it.current()->unplug( m_menu->popupMenu() );
-    delete m_menu;
-  }
-
-  m_menu = 0;
-  m_actions.clear();
-
-  if ( services.count() <= 1 )
-    return;
-
-  m_menu = new KActionMenu( i18n( "View Mode..." ), this );
-
-  KTrader::OfferList::ConstIterator it = services.begin();
-  KTrader::OfferList::ConstIterator end = services.end();
-  for (; it != end; ++it )
-  {
-      QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
-      if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
-      {
-          KRadioAction *action = new KRadioAction( (*it)->comment(), 0, 0, (*it)->name() );
-
-          if ( (*it)->name() == m_mainView->currentChildView()->service()->name() )
-              action->setChecked( true );
-
-          action->setExclusiveGroup( "KonqMainView_ViewModes" );
-
-          connect( action, SIGNAL( toggled( bool ) ),
-                   m_mainView, SLOT( slotViewModeToggle( bool ) ) );
-	
-	  m_actions.append( action );
-	  action->plug( m_menu->popupMenu() );
-      }
-  }
-}
-
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices )
 {
   m_mainView = mainView;
