@@ -373,6 +373,8 @@ void KBookmark::append( KBookmark *_bm )
   if ( _bm->type() == Folder && BookmarkFoldersFirst)  
       lstChildren.prepend( _bm) : m_lstChildren.append( _bm );
   */
+  /* David : Yeah, what about appending the item nonetheless ? */
+  m_lstChildren.append( _bm );
 }
 
 void KBookmark::clear()
