@@ -778,15 +778,18 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
 void KonqMainWindow::slotNewWindow()
 {
-  // ### Maybe use profile from current window, if set ?
-  if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
-    KonqMisc::createBrowserWindowFromProfile(
-      locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),
-      QString::fromLatin1("webbrowsing") );
-  else
-    KonqMisc::createBrowserWindowFromProfile(
-      locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
-      QString::fromLatin1("filemanagement") );
+  // Use profile from current window, if set
+  QString profile = m_pViewManager->currentProfile();
+  if ( profile.isEmpty() )
+  {
+    if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
+       profile = QString::fromLatin1("webbrowsing");
+    else
+       profile = QString::fromLatin1("filemanagement");
+  }
+  KonqMisc::createBrowserWindowFromProfile(
+    locate( "data", QString::fromLatin1("konqueror/profiles/")+profile ),
+    profile );
 }
 
 void KonqMainWindow::slotDuplicateWindow()

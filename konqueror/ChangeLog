@@ -1,3 +1,7 @@
+2000-11-30  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc: Use current profile in "New Window" to fix #16283.
+
 2000-11-28  David Faure  <faure@kde.org>
 
 	* konq_actions.cc: Accel (Alt+O in English) to give focus to location bar,
