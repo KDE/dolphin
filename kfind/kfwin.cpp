@@ -85,7 +85,7 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   // load the icons (same as in KFileInfoContents)
   // maybe we should use the concrete icon associated with the mimetype
   // in the future, but for now, this must suffice
-  
+
   KIconLoader::Size s = KIconLoader::Small;
   KIconLoader *loader = KGlobal::iconLoader();
   if (!folderPixmap) // don't use IconLoader to always get the same icon
@@ -135,6 +135,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
 {
   //    topLevelWidget()->installEventFilter(lbx);
   setMultiSelection(TRUE);
+  setSelectionMode( QListView::Extended );
 
   addColumn(i18n("Name"));
   addColumn(i18n("In directory"));
@@ -154,6 +155,8 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
 
   connect(this, SIGNAL(doubleClicked(QListViewItem *)),
 	  this, SLOT(openBinding()));
+  connect( this, SIGNAL(selectionChanged()),
+	   this, SLOT( selectionHasChanged() ));
 }
 
 void KfindWindow::beginSearch()
@@ -197,7 +200,7 @@ void KfindWindow::selectAll()
     setSelected(item, TRUE);
     item = item->nextSibling();
   }
-  selectionChanged(TRUE);
+  selectionHasChanged();
 }
 
 void KfindWindow::unselectAll()
@@ -207,7 +210,7 @@ void KfindWindow::unselectAll()
     setSelected(item, FALSE);
     item = item->nextSibling();
   }
-  selectionChanged(FALSE);
+  selectionHasChanged();
 }
 
 void KfindWindow::saveResults()
@@ -265,30 +268,23 @@ void KfindWindow::saveResults()
 
 // This function is called when selection is changed (both selected/deselected)
 // It notifies the parent about selection status and enables/disables menubar
-void KfindWindow::selectionChanged(bool selectionMade)
+void KfindWindow::selectionHasChanged()
 {
-  if(selectionMade) {
-    if(!haveSelection) {
-      haveSelection = true;
-      emit resultSelected(true);
-    }
-  }
-  else {
-    // If user made deselection we want to check if any items left selected.
-    // If no items are selected disable menubar.
-    QListViewItem *item = firstChild();
-    while(item != NULL) {
-      if(isSelected(item))
-	break;
-      item = item->nextSibling();
-    }
+  emit resultSelected(true);
 
-    // Item equal to NULL means we do not have any selection
-    if(item == NULL) {
-      haveSelection = false;
-      emit resultSelected(false);
+  QListViewItem *item = firstChild();
+  while(item != 0L) {
+    if(isSelected(item)) {
+      emit resultSelected( true );
+      haveSelection = true;
+      return;
     }
+      
+    item = item->nextSibling();
   }
+  
+  haveSelection = false;
+  emit resultSelected(false);
 }
 
 void KfindWindow::deleteFiles()
@@ -472,11 +468,14 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 
 void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 {
+  QListView::contentsMousePressEvent(e);
+  return;
+  
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
   if(item == NULL) { // someone clicked where no listview item is (below items)
     QListView::contentsMousePressEvent(e);
     clearSelection();
-    selectionChanged( false );
+    //    selectionChanged( false );
     return;
   }
 
@@ -506,7 +505,7 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
     if ( !itemWasSelected ) { // otherwise dragging wouldn't work
       clearSelection();
       setSelected(item, TRUE);
-      selectionChanged(TRUE);
+      //      selectionChanged(TRUE);
     }
     return;
   }
@@ -514,7 +513,7 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
   // Control
   if(e->state() & ControlButton) {
     setSelected(item, !isSelected(item));
-    selectionChanged(isSelected(item));
+    //    selectionChanged(isSelected(item));
     return;
   }
 
@@ -544,6 +543,9 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 
 void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e)
 {
+  QListView::contentsMouseReleaseEvent(e);
+  return;
+  
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
   if(item == NULL) { // someone clicked where no listview item is (below items)
     QListView::contentsMouseReleaseEvent(e);

@@ -51,6 +51,7 @@ private slots:
   void saveResults();
   void addToArchive();
   void openBinding();
+  void selectionHasChanged();
 
 protected:
   virtual void resizeEvent(QResizeEvent *e);
@@ -67,9 +68,9 @@ private:
   bool haveSelection;
   void execAddToArchive(KfArchiver *arch, QString filename);
   void resetColumns(bool init);
-  void selectionChanged(bool selectionMade);
 
   QList<KfFileLVI> mySelectedItems;
+
 };
 
 #endif

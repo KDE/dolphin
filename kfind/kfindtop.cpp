@@ -99,11 +99,11 @@ void KfindTop::menuInit()
   _helpMenu   = new QPopupMenu;
 
   _accel->connectItem(KAccel::Find, _kfind, SLOT(startSearch()));
-  _accel->connectItem(KAccel::Open, this,   SLOT(open()));
-  _accel->connectItem(KAccel::Save, this,   SLOT(saveResults()));
-  _accel->connectItem(KAccel::Undo, this,   SLOT(undo()));
+  _accel->connectItem(KAccel::Open, this,   SIGNAL(open()));
+  _accel->connectItem(KAccel::Save, this,   SIGNAL(saveResults()));
+  _accel->connectItem(KAccel::Undo, this,   SIGNAL(undo()));
   _accel->connectItem(KAccel::Copy, this,   SLOT(copySelection()));
-  _accel->connectItem(KAccel::Cut,  this,   SLOT(cut()));
+  _accel->connectItem(KAccel::Cut,  this,   SIGNAL(cut()));
   _accel->connectItem(KAccel::Quit, kapp,   SLOT(quit()));
   _accel->insertItem(i18n("Stop Search"), "search", Key_Escape);
   _accel->insertItem(i18n("Delete"),      "delete", Key_Delete);
