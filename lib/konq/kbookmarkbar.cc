@@ -116,6 +116,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
         {
             KActionMenu *action;
             action = new KActionMenu(bm->text(), pix, this);
+            action->setDelayed(false);
 
             KBookmarkMenu *menu;
             menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
