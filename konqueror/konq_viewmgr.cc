@@ -1066,6 +1066,7 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
     m_pMainWindow->saveConfig( &cfg, prefix, saveURLs, m_pDocContainer, 0, 1);
   }
 
+  cfg.writeEntry( "FullScreen", m_pMainWindow->fullScreenMode());
   if ( saveWindowSize )
   {
     cfg.writeEntry( "Width", m_pMainWindow->width() );
@@ -1181,11 +1182,24 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   // Window size
   if ( !m_pMainWindow->initialGeometrySet() )
   {
-     QSize size = readConfigSize( cfg, m_pMainWindow );
-     if ( size.isValid() )
-         m_pMainWindow->resize( size );
-     else if( resetWindow )
-         m_pMainWindow->resize( 700, 480 ); // size from KonqMainWindow ctor
+     if (cfg.readBoolEntry( "FullScreen" ))
+     {
+         // Full screen on
+         if (!m_pMainWindow->fullScreenMode())
+             m_pMainWindow->slotToggleFullScreen();
+     }
+     else
+     {
+         // Full screen off
+         if (m_pMainWindow->fullScreenMode())
+             m_pMainWindow->slotToggleFullScreen();
+                               
+         QSize size = readConfigSize( cfg, m_pMainWindow );
+         if ( size.isValid() )
+             m_pMainWindow->resize( size );
+         else if( resetWindow )
+             m_pMainWindow->resize( 700, 480 ); // size from KonqMainWindow ctor
+     }
   }
 
   if( resetWindow )
