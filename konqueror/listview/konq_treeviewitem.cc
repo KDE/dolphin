@@ -60,7 +60,8 @@ void KonqListViewDir::setOpen( bool _open )
 {
   KonqTreeViewWidget* treeView = static_cast<KonqTreeViewWidget *>(listView());
 
-  if ( _open ) {
+  if ( _open )
+  {
     if ( !m_bComplete ) // complete it before opening
       treeView->openSubFolder( m_fileitem->url(), this );
     else
@@ -78,6 +79,7 @@ void KonqListViewDir::setOpen( bool _open )
       // add the items to the counts for the statusbar
       treeView->m_pBrowserView->newItems( lst );
     }
+    QListViewItem::setOpen( _open );
   }
   else if ( m_bComplete )  // only close if it is completed
   {
@@ -91,9 +93,9 @@ void KonqListViewDir::setOpen( bool _open )
       treeView->m_pBrowserView->deleteItem( item );
       it = it->nextSibling();
     }
+    QListViewItem::setOpen( _open );
   }
 
-  QListViewItem::setOpen( _open );
   treeView->slotOnViewport();
 }
 
