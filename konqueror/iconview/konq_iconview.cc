@@ -47,12 +47,13 @@
 #include <kiconloader.h>
 #include <kapp.h>
 #include <ktrader.h>
+#include <klocale.h>
 
 #include <qmessagebox.h>
+#include <qclipboard.h>
 #include <qfile.h>
 #include <qkeycode.h>
 #include <qpalette.h>
-#include <klocale.h>
 #include <qregexp.h>
 #include <qvaluelist.h>
 #include <qpainter.h>
@@ -572,8 +573,8 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 
 void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, const QPoint& )
 {
-    if( _item && _button == MidButton )
-        mmbClicked( static_cast<KFileIVI*>(_item)->item() );
+    if( _button == MidButton )
+        mmbClicked( _item ? static_cast<KFileIVI*>(_item)->item() : 0L );
 }
 
 void KonqKfmIconView::slotStarted()
@@ -677,6 +678,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     }
 }
 
+// see also KDesktop::slotRefreshItems
 void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
 {
     KFileItemListIterator rit(entries);
