@@ -1588,16 +1588,17 @@ void KonqViewManager::slotProfileListAboutToShow()
 void KonqViewManager::setLoading( KonqView *view, bool loading ) {
   if ( m_pDocContainer->frameType() == "Tabs" ) {
     QColor color;
+    KonqFrameTabs* konqframetabs = static_cast<KonqFrameTabs*>( docContainer() );
     if ( loading )
       color = KGlobalSettings::inactiveTitleColor();
     else
     {
-      if ( m_pMainWindow->currentView() != view )
+      if ( konqframetabs->currentPage() != view->frame() )
         color = KGlobalSettings::linkColor();
       else
         color = KGlobalSettings::textColor();
     }
-    static_cast<KonqFrameTabs*>( docContainer())->setTabColor( view->frame(), color );
+    konqframetabs->setTabColor( view->frame(), color );
   }
 }
 
