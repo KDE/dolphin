@@ -156,6 +156,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	:QWidget(parent,name),KonqSidebar_PluginInterface()
 {
 	myLayout=0;
+	activeModule=0;
         kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
         PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
 	Buttons.resize(0);
@@ -766,7 +767,7 @@ void Sidebar_Widget::enableAction( const char * name, bool enabled )
 bool  Sidebar_Widget::doEnableActions()
 {
 	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
-	if (activeModule==0)
+	if (!activeModule)
 	{
 		kdDebug()<<"Couldn't set active module, aborting"<<endl;
 		return false;

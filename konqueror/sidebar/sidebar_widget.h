@@ -27,7 +27,7 @@
 #include "konqsidebarplugin.h"
 #include <qlayout.h>
 #include "kmultiverttabbar.h"
-
+#include <qguardedptr.h>
 
 class KDockWidget;
 
@@ -117,7 +117,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	friend class ButtonInfo;
-	ButtonInfo *activeModule;
+	QGuardedPtr<ButtonInfo>activeModule;
   protected slots:
 	void showHidePage(int value);
 	void updateDock();
