@@ -130,8 +130,8 @@ void KWrite::loadURL(const KURL &url)
 
 bool KWrite::queryClose()
 {
-  if (!(kateView->document()->views().count() == 1)) return true;
-  return kateView->document()->closeURL();
+  return kateView->document()->views().count() != 1
+      || kateView->document()->queryClose();
 }
 
 
