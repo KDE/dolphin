@@ -22,8 +22,11 @@
 #include <qobject.h>
 #include <konqsidebarplugin.h>
 #include <khtml_part.h>
+#include <kpopupmenu.h>
+#include <klocale.h>
 
 
+// A wrapper for KHTMLPart to make it behave the way we want it to.
 class KHTMLSideBar : public KHTMLPart
 {
 	Q_OBJECT
@@ -33,11 +36,30 @@ class KHTMLSideBar : public KHTMLPart
 			setMetaRefreshEnabled(true);
 			setJavaEnabled(false);
 			setPluginsEnabled(false);
+
+			_linkMenu = new KPopupMenu(widget(),
+						"link context menu");
+			_linkMenu->insertItem(i18n("&Load Page"),
+					this, SLOT(loadPage()));
+			_linkMenu->insertItem(i18n("&Load in new window"),
+					this, SLOT(loadNewWindow()));
+
+			_menu = new KPopupMenu(widget(), "context menu");
+			_menu->insertItem(i18n("&Reload"),
+					this, SIGNAL(reload()));
+
+			connect(this,
+				SIGNAL(popupMenu(const QString&,const QPoint&)),
+				this,
+				SLOT(showMenu(const QString&, const QPoint&)));
+
 		}
 		virtual ~KHTMLSideBar() {}
 
 	signals:
 		void openURLRequest(const QString& url, KParts::URLArgs args);
+		void openURLNewWindow(const QString& url, KParts::URLArgs args);
+		void reload();
 
 	protected:
 		virtual void urlSelected( const QString &url, int button,
@@ -50,7 +72,30 @@ class KHTMLSideBar : public KHTMLPart
 			}
 			KHTMLPart::urlSelected(url,button,state,_target,args);
 		}
+
+	protected slots:
+		void loadPage() {
+			emit openURLRequest(_lastUrl, KParts::URLArgs());
+		}
+
+		void loadNewWindow() {
+			emit openURLNewWindow(_lastUrl, KParts::URLArgs());
+		}
+
+		void showMenu(const QString& url, const QPoint& pos) {
+			if (url.isEmpty()) {
+				_menu->popup(pos);
+			} else {
+				_lastUrl = url;
+				_linkMenu->popup(pos);
+			}
+		}
+
+	private:
+		KPopupMenu *_menu, *_linkMenu;
+		QString _lastUrl;
 };
+
 
 
 class KonqSideBarWebModule : public KonqSidebarPlugin
@@ -67,14 +112,17 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	signals:
 		void openURLRequest(const KURL &url, const KParts::URLArgs &args);
+		void createNewWindow(const KURL &url, const KParts::URLArgs &args);
 	protected:
 		virtual void handleURL(const KURL &url);
 
 	private slots:
 		void urlClicked(const QString& url, KParts::URLArgs args);
+		void urlNewWindow(const QString& url, KParts::URLArgs args);
 		void pageLoaded();
 		void loadFavicon();
 		void setTitle(const QString&);
+		void reload();
 
 	private:
 		KHTMLSideBar *_htmlPart;

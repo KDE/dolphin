@@ -31,11 +31,20 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 	: KonqSidebarPlugin(instance, parent, widgetParent, desktopName, name)
 {
 	_htmlPart = new KHTMLSideBar;
+	connect(_htmlPart, SIGNAL(reload()), this, SLOT(reload()));
 	connect(_htmlPart, SIGNAL(completed()), this, SLOT(pageLoaded()));
-	connect(_htmlPart, SIGNAL(setWindowCaption(const QString&)),
-		this, SLOT(setTitle(const QString&)));
-	connect(_htmlPart, SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
-		       	this, SLOT(urlClicked(const QString&, KParts::URLArgs)));
+	connect(_htmlPart,
+		SIGNAL(setWindowCaption(const QString&)),
+		this,
+		SLOT(setTitle(const QString&)));
+	connect(_htmlPart,
+		SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
+		this,
+		SLOT(urlClicked(const QString&, KParts::URLArgs)));
+	connect(_htmlPart,
+		SIGNAL(openURLNewWindow(const QString&, KParts::URLArgs)),
+		this,
+		SLOT(urlNewWindow(const QString&, KParts::URLArgs)));
 
 	_desktopName = desktopName;
 
@@ -69,6 +78,11 @@ void KonqSideBarWebModule::handleURL(const KURL &) {
 }
 
 
+void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args) {
+	emit createNewWindow(url, args);
+}
+
+
 void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) {
 	emit openURLRequest(url, args);
 }
@@ -85,6 +99,11 @@ void KonqSideBarWebModule::loadFavicon() {
 			ksc.writeEntry("Icon", icon);
 		}
 	}
+}
+
+
+void KonqSideBarWebModule::reload() {
+	_htmlPart->openURL(_url);
 }
 
 

@@ -1,6 +1,5 @@
 - Forms don't work.  I don't know if they will for a long time since we can't
   really filter them with KHTML.
 - Allow setting the useragent (only do this in a clean fashion!!)
-- "Reload" button/menu entry.
 
 
