@@ -46,6 +46,7 @@
 #include "htmlopts.h"
 
 #include "main.h"
+#include <kaboutdata.h>
 #include "main.moc"
 
 

@@ -12,6 +12,7 @@
 #include <kmessagebox.h>
 
 #include "policydlg.h"
+#include <qpushbutton.h>
 
 PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const char *name )
              :KDialog(parent, name, true)
