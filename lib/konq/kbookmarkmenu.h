@@ -29,6 +29,7 @@ class KAction;
 class KActionCollection;
 class KBookmarkOwner;
 class QPopupMenu;
+namespace KIO { class Job; }
 
 /**
  * This class provides a bookmark menu.  It is typically used in
@@ -80,11 +81,12 @@ public:
    */
   void fillBookmarkMenu( KBookmark *_parent );
 
-public slots:
+protected slots:
   void slotBookmarksChanged();
   void slotBookmarkSelected();
   void slotNSBookmarkSelected();
   void slotNSLoad();
+  void slotResult( KIO::Job * );
 
 protected:
   /**

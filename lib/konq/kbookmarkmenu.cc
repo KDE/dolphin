@@ -43,7 +43,9 @@
 #include <kbookmark.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <kio/job.h>
 #include <kglobal.h>
+#include <klineeditdlg.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kurl.h>
@@ -87,11 +89,6 @@ void KBookmarkMenu::slotBookmarksChanged()
 {
   m_lstSubMenus.clear();
 
-  if ( !m_bIsRoot )
-  {
-    //  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
-  }
-
   QListIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
     it.current()->unplug( m_parentMenu );
@@ -118,18 +115,32 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   if ( m_bAddBookmark )
   {
     // create the first item, add bookmark, with the parent's ID (as a name)
-    KAction * m_paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
+    KAction * paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
                                               "bookmark_add",
-                                              m_bIsRoot ? KStdAccel::AddBookmark : 0,
+                                              m_bIsRoot ? KStdAccel::addBookmark() : 0,
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
                                               QString("bookmark%1").arg(parent->id()) );
 
-    m_paAddBookmarks->setShortText( i18n( "Add a bookmark for the current document" ) );
+    paAddBookmarks->setShortText( i18n( "Add a bookmark for the current document" ) );
 
-    m_paAddBookmarks->plug( m_parentMenu );
-    m_actions.append( m_paAddBookmarks );
+    paAddBookmarks->plug( m_parentMenu );
+    m_actions.append( paAddBookmarks );
+
+    KAction * paNewFolder = new KAction( i18n( "&New Folder " ),
+                                              "filenew", //"folder",
+                                              m_bIsRoot ? KStdAccel::openNew() : 0,
+                                              this,
+                                              SLOT( slotBookmarkSelected() ),
+                                              m_actionCollection,
+                                              QString("newfolder%1").arg(parent->id()) );
+
+    paNewFolder->setShortText( i18n( "Create a new bookmark folder in this menu" ) );
+
+    paNewFolder->plug( m_parentMenu );
+    m_actions.append( paNewFolder );
+
     m_parentMenu->insertSeparator();
   } //CT hmmm! Why was this beforehand *under* the Netscape Bookmark mechanism?
 
@@ -152,8 +163,6 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     if ( bm->type() == KBookmark::URL )
     {
       // create a normal URL item, with ID as a name
-      //QPixmap pix = KGlobal::iconLoader()->loadIcon(bm->pixmapFile(),
-      //                                                         KIcon::Small);
       KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, QString("bookmark%1").arg(bm->id()) );
@@ -197,40 +206,72 @@ void KBookmarkMenu::slotBookmarkSelected()
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
   kdDebug(1203) << sender()->name() << endl;
 
-  int id = QString( sender()->name() + 8 ).toInt(); // skip "bookmark"
-  KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
-
-  if ( bm )
+  if (QCString(sender()->name()).left(9) == "newfolder" )
   {
-    if ( bm->type() == KBookmark::Folder ) // "Add bookmark"
+    int id = QString( sender()->name() + 9 ).toInt(); // skip "newfolder"
+    KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
+    if ( bm )
     {
-      QString url = m_pOwner->currentURL();
-      if (url.isEmpty())
+      KLineEditDlg l( i18n("New Folder:"), "", 0L );
+      if ( l.exec() )
       {
-          KMessageBox::error( 0L, i18n("Can't add bookmark with empty url"));
-          return;
+        KURL url;
+        url.setPath( bm->file() + "/" + KIO::encodeFileName(l.text()) );
+        KIO::Job * job = KIO::mkdir( url );
+        connect( job, SIGNAL( result( KIO::Job * ) ),
+                 SLOT( slotResult( KIO::Job * ) ) );
       }
-      QString title = m_pOwner->currentTitle();
-      if (title.isEmpty())
-        title = url;
-      (void)new KBookmark( KBookmarkManager::self(), bm, title, url );
-      return;
     }
-
-    KURL u( bm->url() );
-    if ( u.isMalformed() || u.isEmpty() )
-    {
-      QString tmp = i18n("Malformed URL\n%1").arg(bm->url());
-      KMessageBox::error( 0L, tmp);
-      return;
-    }
-	
-    m_pOwner->openBookmarkURL( bm->url() );
+    else
+      kdError(1203) << "Bookmark " << id << " not found !" << endl;
   }
   else
-    kdError(1203) << "Bookmark not found !" << endl;
+  {
+    int id = QString( sender()->name() + 8 ).toInt(); // skip "bookmark"
+    KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
+
+    if ( bm )
+    {
+      if ( bm->type() == KBookmark::Folder ) // "Add bookmark"
+      {
+        QString url = m_pOwner->currentURL();
+        if (url.isEmpty())
+        {
+          KMessageBox::error( 0L, i18n("Can't add bookmark with empty url"));
+          return;
+        }
+        QString title = m_pOwner->currentTitle();
+        if (title.isEmpty())
+          title = url;
+        (void)new KBookmark( KBookmarkManager::self(), bm, title, url );
+        // TODO: DCOP broadcast to notify about this new bookmark
+        return;
+      }
+
+      KURL u( bm->url() );
+      if ( u.isMalformed() || u.isEmpty() )
+      {
+        QString tmp = i18n("Malformed URL\n%1").arg(bm->url());
+        KMessageBox::error( 0L, tmp);
+        return;
+      }
+	
+      m_pOwner->openBookmarkURL( bm->url() );
+    }
+    else
+      kdError(1203) << "Bookmark not found !" << endl;
+  }
 }
 
+void KBookmarkMenu::slotResult( KIO::Job * job )
+{
+  if (job->error())
+    job->showErrorDialog();
+  // TODO: DCOP broadcast to notify about this new folder
+
+  // HACK - waiting for the above
+  KBookmarkManager::self()->slotNotify( KBookmarkManager::self()->path() );
+}
 
 // -----------------------------------------------------------------------------
 
