@@ -47,7 +47,7 @@
 
 </authorgroup>
 
-<date>15/09/2000</date>
+<date>08/10/2000</date>
 <releaseinfo>1.00.00</releaseinfo>
 <abstract>
 <para>This handbook describes KWrite Version 1.0.0</para><para>&kwrite; is a text editor for KDE 2.0</para>
@@ -787,7 +787,7 @@ rectangular area of text anywhere in the document.</para>
 
 <varlistentry>
 <term><anchor id="set-highlight"><menuchoice>
-<guimenu>Tools</guimenu><guimenuitem>Set Highlighting</guimenuitem></menuchoice></term>
+<guimenu>Settings</guimenu><guimenuitem>Set Highlighting</guimenuitem></menuchoice></term>
 <listitem>
 <para>This allows the user to choose the style of color highlighting which the
 editor uses to display the text The styles are selected by programming
