@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include <qfile.h>
 #include <qfileinfo.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>
@@ -36,14 +35,12 @@ void KQuery::kill()
 void KQuery::start()
 {
   QString directory;
-  KProcess proc;
+  QDir dir;
   
   directory.sprintf("kfindtmp.%d/", getpid());
   tmpdir = locateLocal("tmp", directory );
 
-  proc.clearArguments();
-  proc  << "mkdir" << tmpdir;
-  proc.start(KProcess::Block);
+  dir.mkdir(tmpdir);
 
   if(m_useLocate) //use "locate" instead of the internal search method
   {
@@ -71,7 +68,7 @@ void KQuery::slotResult( KIO::Job * _job )
 {
   if (job != _job) return;
   job = 0;
-  removeTempDir();
+  removeTempDir(QDir(tmpdir));
   emit result(_job->error());
 }
 
@@ -79,7 +76,7 @@ void KQuery::slotCanceled( KIO::Job * _job )
 {
   if (job != _job) return;
   job = 0;
-  removeTempDir();
+  removeTempDir(QDir(tmpdir));
   emit result(KIO::ERR_USER_CANCELED);
 }
 
@@ -425,13 +422,24 @@ void KQuery::slotendProcessLocate(KProcess*)
   emit result(0);
 }
 
-void KQuery::removeTempDir()
+void KQuery::removeTempDir(QDir dir)
 {
-  KProcess proc;
-
-  proc.clearArguments();
-  proc  << "rm" << "-Rf" << tmpdir;
-  proc.start(KProcess::Block);
+  QStringList filelist;
+  QDir subdir;
+  
+  filelist=dir.entryList("*");
+  for ( QStringList::Iterator it = filelist.begin(); it != filelist.end(); ++it ) {
+    if((*it==".")||(*it==".."))
+      continue;
+    if(!dir.remove(*it))
+    {
+      //It's a sub-directory
+      subdir.setPath(dir.path()+"/"+*it);
+      if(subdir.exists())
+        removeTempDir(subdir);
+    }
+  }
+  dir.rmdir(dir.path());
 }
   
 #include "kquery.moc"

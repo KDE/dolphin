@@ -5,6 +5,7 @@
 
 #include <qobject.h>
 #include <qregexp.h>
+#include <qdir.h>
 
 #include <kio/job.h>
 #include <kurl.h>
@@ -41,7 +42,7 @@ class KQuery : public QObject
   /* Check if file meets the find's requirements*/
   inline void processQuery(KFileItem*);
   /* Delete kfind's temp dir */
-  void removeTempDir();
+  void removeTempDir(QDir dir);
 
  protected slots:
   /* List of files found using KIO */
