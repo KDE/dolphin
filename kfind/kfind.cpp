@@ -77,7 +77,7 @@ Kfind::Kfind(QWidget *parent, const char *name)
   mSave = new KPushButton( KStdGuiItem::saveAs(), mButtonBox );
   connect( mSave, SIGNAL(clicked()), this, SLOT( saveResults() ) );
 
-  KPushButton * mClose = new KPushButton( KGuiItem(i18n("&Close"),"fileclose"), mButtonBox );
+  KPushButton * mClose = new KPushButton( KStdGuiItem::close(), mButtonBox );
   connect( mClose, SIGNAL(clicked()), this, SIGNAL( destroyMe() ) );
 
   // react to search requests from widget

@@ -577,7 +577,7 @@ PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
   QBoxLayout *hl = new QHBoxLayout(this,0,6);
   hl->addStretch(10);
 
-  QPushButton *closePB = new QPushButton(i18n("&Close"),this);
+  QPushButton *closePB = new KPushButton(KStdGuiItem::close(),this);
   connect(closePB,SIGNAL(clicked()),SLOT(slotClose()));
   hl->addWidget(closePB);
   thisLayout->addLayout(hl);
