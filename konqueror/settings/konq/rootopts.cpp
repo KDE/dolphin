@@ -107,7 +107,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->addMultiCellWidget(menuBarBox, row, row, 0, 0);
   connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
-                                    " desktop popup menus to appear on the top of the screen in the style"
+                                    " desktop popup menus to appear at the top of the screen in the style"
                                     " of Macintosh. This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
   row++;
