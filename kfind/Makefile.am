@@ -1,9 +1,9 @@
 
-INCLUDES= $(all_includes) -I$(top_builddir)/libkonq/
+INCLUDES= $(all_includes) -I$(top_srcdir)/libkonq/
 
 bin_PROGRAMS = kfind
-LDFLAGS = -L$(top_builddir)/libkonq $(all_libraries) $(KDE_RPATH)
-LDADD = $(LIB_KFILE) -lkonq
+LDFLAGS = $(all_libraries) $(KDE_RPATH)
+LDADD = $(LIB_KFILE) $(top_builddir)/libkonq/libkonq.la
 
 ####### Files
 
