@@ -278,8 +278,6 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_config = new KConfig("konqsidebartng.rc");
 	connect(&m_configTimer, SIGNAL(timeout()),
 		this, SLOT(saveConfig()));
-	connect(&m_resizeTimer, SIGNAL(timeout()),
-		this, SLOT(delayedResize()));
         readConfig();
 	m_somethingVisible = !m_openViews.isEmpty();
 	doLayout();
@@ -1207,19 +1205,19 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
 	if (m_somethingVisible)
 	{
 		int newWidth = width();
-		if (m_savedWidth != newWidth)
+                QSplitter *split = splitter();
+		if (split && (m_savedWidth != newWidth))
 		{
-			m_resizeTimer.start(0, true);
+			QValueList<int> sizes = split->sizes();
+			if ((sizes.count() >= 2) && (sizes[1]))
+			{
+				m_savedWidth = newWidth;
+				updateGeometry();
+				m_configTimer.start(400, true);
+			}
 		}
 	}
 	QWidget::resizeEvent(ev);
-}
-
-void Sidebar_Widget::delayedResize()
-{
-	m_savedWidth = width();
-	updateGeometry();
-	m_configTimer.start(400, true);
 }
 
 QSplitter *Sidebar_Widget::splitter() const
