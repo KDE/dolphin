@@ -158,6 +158,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   bg_cacheControl->hide();
 
   sb_max_cache_size = new KMySpinBox(100, 2000000, 100, this);
+  sb_max_cache_size -> setSuffix(i18n(" KB"));
   connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
   connect(sb_max_cache_size->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
