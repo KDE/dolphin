@@ -21,7 +21,9 @@
 #include "appearance.moc"
 
 KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : QWidget( parent, name ), m_pConfig(config), m_groupname(group)
+    : QWidget( parent, name ), m_pConfig(config), m_groupname(group),
+      fSize( 10 ), fMinSize( HTML_DEFAULT_MIN_FONT_SIZE )
+
 {
   QString wtstr;
 
