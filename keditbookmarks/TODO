@@ -1,15 +1,15 @@
+toolbar is not updating on save in editor
+editor does not have undo after save
+deleting folders from the quick actions menu is b0rked
+
 (#1)
-67787 : Bookmark toolbar shows wrong folder contents 
-   - kawil's feature is majorly b0rked, it acts on the wrong element it seems...
-
-(#2)
-67921 : sort alphabetically is always disabled in konqueror's boo... 
-   - need to fix for 3.2, this one sucks
-
-(#3)
 68161 : Favicons are lost on upgrade 
    - nothing to do with bookmarks, but, no idea where to put it,
      so, whatever, i'll handle it anyways...
+     
+   - problem: .kde/share/cache/favicons moved to .kde/`hostname`-cache/favicons
+
+   - fix: either 1) a symlink, 2) upgrade path
 
 67635 : Bookmarks toolbar edits don't take effect until restart 
    - completely unable to confirm, and can't recall fixing this in the past.. umm..
