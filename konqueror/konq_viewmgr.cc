@@ -338,7 +338,7 @@ void KonqViewManager::clear()
 
 KonqView *KonqViewManager::chooseNextView( KonqView *view )
 {
-  kdDebug(1202) << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
+  //kdDebug(1202) << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
   KonqMainWindow::MapViews mapViews = m_pMainWindow->viewMap();
 
   KonqMainWindow::MapViews::Iterator it = mapViews.begin();
@@ -358,10 +358,10 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
 
   KonqMainWindow::MapViews::Iterator startIt = it;
 
-  kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
+  //kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
   while ( true )
   {
-    kdDebug() << "*KonqViewManager::chooseNextView going next" << endl;
+    //kdDebug() << "*KonqViewManager::chooseNextView going next" << endl;
     if ( ++it == end ) // move to next
       it = mapViews.begin(); // rewind on end
 
@@ -371,10 +371,10 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
     KonqView *nextView = it.data();
     if ( nextView && !nextView->isPassiveMode() )
       return nextView;
-    kdDebug() << "KonqViewManager::chooseNextView nextView=" << nextView << " passive=" << nextView->isPassiveMode() << endl;
+    //kdDebug() << "KonqViewManager::chooseNextView nextView=" << nextView << " passive=" << nextView->isPassiveMode() << endl;
   }
 
-  kdDebug(1202) << "KonqViewManager::chooseNextView: returning 0L" << endl;
+  //kdDebug(1202) << "KonqViewManager::chooseNextView: returning 0L" << endl;
   return 0L; // no next view found
 }
 
