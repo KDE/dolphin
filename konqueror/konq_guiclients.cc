@@ -71,7 +71,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
     KService::Ptr service = *embeddingServices.begin();
     builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
     if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-	 service->name() != currentServiceName )
+         service->name() != currentServiceName )
       addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
   }
   else if ( embeddingServices.count() > 1 )
@@ -93,7 +93,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
        (*it)->name() != currentServiceName )
       {
         addEmbeddingService( subMenu, idx++, (*it)->name(), *it );
-	inserted = true;
+        inserted = true;
       }
     }
 
@@ -131,7 +131,7 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
   action.setAttribute( "group", "preview" );
 
   (void)new KAction( name, service->pixmap( KIcon::Small ), 0,
-		     m_mainWindow, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
+                     m_mainWindow, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
 
 ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
@@ -148,7 +148,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
     QVariant orientation = (*it)->property( "X-KDE-BrowserView-ToggableView-Orientation" );
 
     if ( !prop.isValid() || !prop.toBool() ||
-	 !orientation.isValid() || orientation.toString().isEmpty() )
+         !orientation.isValid() || orientation.toString().isEmpty() )
     {
       offers.remove( it );
       it = offers.begin();
@@ -176,7 +176,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
       action->setIcon( (*cIt)->icon() );
 
     connect( action, SIGNAL( toggled( bool ) ),
-	     this, SLOT( slotToggleView( bool ) ) );
+             this, SLOT( slotToggleView( bool ) ) );
 
     m_actions.insert( name, action );
 
@@ -186,9 +186,9 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
   }
 
   connect( m_mainWindow, SIGNAL( viewAdded( KonqView * ) ),
-	   this, SLOT( slotViewAdded( KonqView * ) ) );
+           this, SLOT( slotViewAdded( KonqView * ) ) );
   connect( m_mainWindow, SIGNAL( viewRemoved( KonqView * ) ),
-	   this, SLOT( slotViewRemoved( KonqView * ) ) );
+           this, SLOT( slotViewRemoved( KonqView * ) ) );
 }
 
 ToggleViewGUIClient::~ToggleViewGUIClient()
@@ -256,8 +256,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     // If not passive, set as active :)
     if (!childView->isPassiveMode())
-      //viewManager->setActivePart( view );
-      childView->part()->widget()->setFocus();
+      viewManager->setActivePart( childView->part() );
 
     childView->setToggleView( true );
 

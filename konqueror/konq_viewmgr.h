@@ -151,6 +151,8 @@ public:
    */
   virtual void setActivePart( KParts::Part *part, QWidget *widget = 0L );
 
+  void setActivePart( KParts::Part *part, bool immediate );
+
 protected slots:
   void emitActivePartChanged();
 
@@ -174,9 +176,9 @@ private:
    */
   KonqViewFactory createView( const QString &serviceType,
                               const QString &serviceName,
-			      KService::Ptr &service,
-			      KTrader::OfferList &partServiceOffers,
-			      KTrader::OfferList &appServiceOffers );
+                              KService::Ptr &service,
+                              KTrader::OfferList &partServiceOffers,
+                              KTrader::OfferList &appServiceOffers );
 
   /**
    * Mainly creates the backend structure(KonqView) for a view and
@@ -192,8 +194,8 @@ private:
 
   //just for debugging
   void printSizeInfo( KonqFrameBase* frame,
-		      KonqFrameContainer* parent,
-		      const char* msg );
+                      KonqFrameContainer* parent,
+                      const char* msg );
   void printFullHierarchy( KonqFrameContainer * container, int ident = 0 );
 
   KonqMainWindow *m_pMainWindow;

@@ -466,7 +466,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
       enableAllActions( true );
 
-      childView->part()->widget()->setFocus();
+      m_pViewManager->setActivePart( childView->part() );
 
       childView->setViewName( m_initialFrameName );
       m_initialFrameName = QString::null;
@@ -1018,16 +1018,9 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
   // hence the m_bLockLocationBarURL hack.
   m_bLockLocationBarURL = true;
 
-  // Do not activate the part right here, because that would call the inheritted
-  // KonqViewManager::setActivePart method, which would launch the singleshot timer
-  // to activate the part after a certain delay. This breaks in this place, as
-  // slotPartChanged is call in KonqView::switchView, which deletes the old part
-  // right after the emission of the sigPartChanged signal. Thus, when createGUI
-  // is called at the timer timeout the part is already deleted. Thus we cannot
-  // remove it's GUI -> *boom* :-) (Simon)
   m_pViewManager->replacePart( oldPart, newPart, false );
-  m_pViewManager->KParts::PartManager::setActivePart( newPart );
-  slotPartActivated( newPart );
+  // Set active immediately
+  m_pViewManager->setActivePart( newPart, true );
 
   viewsChanged();
 }
@@ -1304,13 +1297,10 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   }
   m_mapViews.remove( it );
 
-  if ( childView == m_currentView )
-  {
-    m_currentView = 0L;
-    m_pViewManager->setActivePart( 0L );
-  }
   viewCountChanged();
   emit viewRemoved( childView );
+
+  // KonqViewManager takes care of m_currentView
 }
 
 void KonqMainWindow::viewCountChanged()
@@ -1763,7 +1753,9 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
     }
 
     KParts::BrowserExtension * ext = m_currentView->browserExtension();
-    QStrList slotNames =  ext->metaObject()->slotNames();
+    QStrList slotNames;
+    if (ext)
+      ext->metaObject()->slotNames();
     if (ev->type()==QEvent::FocusIn)
     {
       //kdDebug(1202) << "ComboBox got the focus..." << endl;

@@ -35,7 +35,7 @@
 #include "konq_view.h" // HistoryEntry
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
-			          QObject* parent, const char* name )
+                                  QObject* parent, const char* name )
     : KAction( text, accel, parent, name )
 {
   m_receiver = receiver;
@@ -154,7 +154,7 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
 {
   assert ( popup ); // kill me if this 0... :/
 
-  kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
+  //kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
   HistoryEntry * current = history.current();
   QListIterator<HistoryEntry> it( history );
   if (onlyBack || onlyForward)
@@ -175,12 +175,12 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
           popup->setItemChecked( id, true );
       } else
           popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->
-		pixmap( KIcon::Small ), text );
+                pixmap( KIcon::Small ), text );
       if ( ++i > 10 )
           break;
       if ( !onlyForward ) --it; else ++it;
   }
-  kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
+  //kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
 }
 
 void KonqHistoryAction::setEnabled( bool b )
@@ -262,7 +262,7 @@ void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
     if (history.isEmpty())
         return; // nothing to do
 
-    kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
+    //kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
     if ( m_firstIndex == 0 ) // should never happen since done in plug
         m_firstIndex = m_goMenu->count();
     else
@@ -315,7 +315,7 @@ KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent,
 }
 
 KonqLogoAction::KonqLogoAction( const QString& text, int accel,
-	                       QObject* receiver, const char* slot, QObject* parent, const char* name )
+                               QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, accel, receiver, slot, parent, name )
 {
 }

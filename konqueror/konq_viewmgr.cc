@@ -192,16 +192,17 @@ void KonqViewManager::removeView( KonqView *view )
     // Don't remove the last view
     if ( nextView == 0L )
       return;
+
     // Ensure this is not the active view anymore
-    //kdDebug(1202) << "Setting part " << nextView->part() << " as active" << endl;
+    kdDebug(1202) << "Setting part " << nextView->part() << " as active" << endl;
     if ( nextView->part() )
-      nextView->part()->widget()->setFocus(); // Will set the part as active
+      setActivePart( nextView->part(), true /*immediate */ );
   }
 
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
   KonqFrameContainer* grandParentContainer = parentContainer->parentContainer();
-  //kdDebug(1202) << "view=" << view << " parentContainer=" << parentContainer
-  //              << " grandParentContainer=" << grandParentContainer << endl;
+  kdDebug(1202) << "view=" << view << " parentContainer=" << parentContainer
+                << " grandParentContainer=" << grandParentContainer << endl;
   bool moveOtherChild = (grandParentContainer->idAfter( parentContainer ) != 0);
 
   KonqFrameBase* otherFrame = parentContainer->otherChild( view->frame() );
@@ -337,9 +338,9 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
        return 0L; // wow, that certainly caught all possibilities!
    }
 
+  // kdDebug() << "*KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
   while ( true )
   {
-
     if ( ++it == end ) // move to next
       it = mapViews.begin(); // rewind on end
 
@@ -351,6 +352,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
       return nextView;
   }
 
+  kdDebug() << "*KonqViewManager::chooseNextView: returning 0L" << endl;
   return 0L; // no next view found
 }
 
@@ -464,9 +466,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
 
   KonqView *nextChildView = chooseNextView( 0L );
-  setActivePart( nextChildView ? nextChildView->part() : 0L );
-  //if ( nextChildView )
-  //  nextChildView->part()->widget()->setFocus();
+  setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */ );
 
   // Window size
 
@@ -513,14 +513,27 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   printFullHierarchy( m_pMainContainer );
 }
 
+void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
+{
+    //kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
+    if (part && part->widget())
+        part->widget()->setFocus();
+
+    PartManager::setActivePart( part );
+
+    if (!immediate)
+        // We use a 0s single shot timer so that when clicking on a part,
+        // we process the mouse event before rebuilding the GUI.
+        // Otherwise, when e.g. dragging icons, the mouse pointer can already
+        // be very far from where it was...
+        QTimer::singleShot( 0, this, SLOT( emitActivePartChanged() ) );
+    else
+        emitActivePartChanged();
+}
+
 void KonqViewManager::setActivePart( KParts::Part *part, QWidget * )
 {
-    PartManager::setActivePart( part );
-    // We use a 0s single shot timer so that when clicking on a part,
-    // we process the mouse event before rebuilding the GUI.
-    // Otherwise, when e.g. dragging icons, the mouse pointer can already
-    // be very far from where it was...
-    QTimer::singleShot( 0, this, SLOT( emitActivePartChanged() ) );
+    setActivePart( part, false );
 }
 
 void KonqViewManager::emitActivePartChanged()
@@ -726,19 +739,27 @@ void KonqViewManager::printFullHierarchy( KonqFrameContainer * container, int id
         kdDebug(1202) << spaces << "Container " << container << endl;
         KonqFrameBase * child = container->firstChild();
         if ( !child )
-            kdDebug(1202) << spaces << "  Null child ! " << endl;
+            kdDebug(1202) << spaces << "  Null child" << endl;
         else if ( child->widget()->isA("KonqFrameContainer") )
             printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
         else
-            kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing a "
+            kdDebug(1202) << spaces << "  " << "KonqFrame containing view "
+                          << static_cast<KonqFrame *>(child)->childView()
+                          << " part "
+                          << static_cast<KonqFrame *>(child)->part()
+                          << " whose widget is a "
                           << static_cast<KonqFrame *>(child)->part()->widget()->className() << endl;
         child = container->secondChild();
         if ( !child )
-            kdDebug(1202) << spaces << "  Null child ! " << endl;
+            kdDebug(1202) << spaces << "  Null child" << endl;
         else if ( child->widget()->isA("KonqFrameContainer") )
             printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
         else
-            kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing a "
+            kdDebug(1202) << spaces << "  " << "KonqFrame containing view "
+                          << static_cast<KonqFrame *>(child)->childView()
+                          << " part "
+                          << static_cast<KonqFrame *>(child)->part()
+                          << " whose widget is a "
                           << static_cast<KonqFrame *>(child)->part()->widget()->className() << endl;
     }
     else

@@ -140,7 +140,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
 
   updateHistoryEntry(false /* don't save location bar URL yet */);
 
-  kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
+  //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
 void KonqView::switchView( KonqViewFactory &viewFactory )
@@ -228,8 +228,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     // each time we change the view mode.
     // We don't do it in switchView either because it's called from the constructor too,
     // where the location bar url isn't set yet.
-    kdDebug(1202) << "Giving focus to new part " << m_pPart->widget() << endl;
-    m_pPart->widget()->setFocus();
+    kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
     m_pMainWindow->viewManager()->setActivePart( m_pPart );
   }
   return true;
@@ -257,13 +256,13 @@ void KonqView::connectPart(  )
            m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
-	   m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
+           m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
   connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ),
            m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
-	   m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
+           m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            this, SLOT( setLocationBarURL( const QString & ) ) );
@@ -278,13 +277,13 @@ void KonqView::connectPart(  )
            m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
   connect( ext, SIGNAL( infoMessage( const QString & ) ),
-	   m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
+           m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
 
   connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
-	   this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
+           this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( openURLNotify() ),
-	   this, SLOT( slotOpenURLNotify() ) );
+           this, SLOT( slotOpenURLNotify() ) );
 }
 
 void KonqView::slotStarted( KIO::Job * job )
@@ -533,7 +532,10 @@ void KonqView::setPassiveMode( bool mode )
   m_bPassiveMode = mode;
 
   if ( mode && m_pMainWindow->viewCount() > 1 && m_pMainWindow->currentView() == this )
-    m_pMainWindow->viewManager()->chooseNextView( this )->part()->widget()->setFocus(); // switch active part
+  {
+   KParts::Part * part = m_pMainWindow->viewManager()->chooseNextView( this )->part(); // switch active part
+   m_pMainWindow->viewManager()->setActivePart( part );
+  }
 
   // Update statusbar stuff
   m_pMainWindow->viewManager()->viewCountChanged();

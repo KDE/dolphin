@@ -952,10 +952,10 @@ void KonqKfmIconView::determineIcon( KFileIVI * item )
 
 void KonqKfmIconView::slotRenderingFinished()
 {
-  kdDebug(1202) << "KonqKfmIconView::slotImagePreviewFinished()" << endl;
+  //kdDebug(1202) << "KonqKfmIconView::slotRenderingFinished()" << endl;
   if ( m_bNeedEmitCompleted )
   {
-    kdDebug(1202) << "KonqKfmIconView completed() after image preview" << endl;
+    //kdDebug(1202) << "KonqKfmIconView completed() after rendering" << endl;
     emit completed();
     m_bNeedEmitCompleted = false;
     m_pIconView->setCurrentItem( m_pIconView->firstItem() ); // workaround for qiconview bug, says reggie ;-)

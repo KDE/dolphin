@@ -390,7 +390,7 @@ void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 void KonqFrame::slotStatusBarClicked()
 {
   if ( !isActivePart() )
-    part()->widget()->setFocus(); // Will change the active part
+    m_pView->mainWindow()->viewManager()->setActivePart( part() );
 }
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
