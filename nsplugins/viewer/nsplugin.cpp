@@ -920,8 +920,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
       _argn[i] = strdup(n);
       _argv[i] = strdup(v);
 
-      if (!strcasecmp(_argn[i], "WIDTH")) width = atoi(_argv[i]);
-      if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);
+      if (!strcasecmp(_argn[i], "WIDTH")) width = argv[i].toInt();
+      if (!strcasecmp(_argn[i], "HEIGHT")) height = argv[i].toInt();
       if (!strcasecmp(_argn[i], "__KHTML__PLUGINBASEURL")) baseURL = _argv[i];
       kdDebug(1431) << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
    }
