@@ -8,7 +8,7 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -120,7 +120,7 @@ extern "C"
 {
     void *init_libkonqiconview()
     {
-	return new KonqIconViewFactory;
+        return new KonqIconViewFactory;
     }
 };
 
@@ -290,13 +290,13 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
     connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
              this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
-		
+
     connect( m_pIconView, SIGNAL( onItem( QIconViewItem * ) ),
              this, SLOT( slotOnItem( QIconViewItem * ) ) );
-		
+
     connect( m_pIconView, SIGNAL( onViewport() ),
              this, SLOT( slotOnViewport() ) );
-		
+
     connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
              this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
     connect( m_pIconView, SIGNAL( rightButtonPressed( QIconViewItem *, const QPoint &) ),
@@ -312,8 +312,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     QValueList<int>::Iterator it;
     for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
     {
-	m_iIconSize[i] = *it;
-	//kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
+        m_iIconSize[i] = *it;
+        //kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
     }
 
     // Now we may react to configuration changes
@@ -335,7 +335,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_lDirCount = 0;
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
-	     this, SLOT( slotDisplayFileSelectionInfo() ) );
+             this, SLOT( slotDisplayFileSelectionInfo() ) );
 
     // Respect kcmkonq's configuration for word-wrap icon text.
     // If we want something else, we have to adapt the configuration or remove it...
@@ -384,26 +384,26 @@ void KonqKfmIconView::slotSelect()
     KLineEditDlg l( i18n("Select files:"), "", m_pIconView );
     if ( l.exec() )
     {
-	QString pattern = l.text();
-	if ( pattern.isEmpty() )
-	    return;
+        QString pattern = l.text();
+        if ( pattern.isEmpty() )
+            return;
 
-	QRegExp re( pattern, true, true );
+        QRegExp re( pattern, true, true );
 
-	m_pIconView->blockSignals( true );
+        m_pIconView->blockSignals( true );
 
-	QIconViewItem *it = m_pIconView->firstItem();
-	while ( it )
-	{
-	    if ( re.match( it->text() ) != -1 )
-		it->setSelected( true, true );
-	    it = it->nextItem();
-	}
+        QIconViewItem *it = m_pIconView->firstItem();
+        while ( it )
+        {
+            if ( re.match( it->text() ) != -1 )
+                it->setSelected( true, true );
+            it = it->nextItem();
+        }
 
-	m_pIconView->blockSignals( false );
+        m_pIconView->blockSignals( false );
 
         // do this once, not for each item
-	m_pIconView->slotSelectionChanged();
+        m_pIconView->slotSelectionChanged();
         slotDisplayFileSelectionInfo();
     }
 }
@@ -413,26 +413,26 @@ void KonqKfmIconView::slotUnselect()
     KLineEditDlg l( i18n("Unselect files:"), "", m_pIconView );
     if ( l.exec() )
     {
-	QString pattern = l.text();
-	if ( pattern.isEmpty() )
-	    return;
+        QString pattern = l.text();
+        if ( pattern.isEmpty() )
+            return;
 
-	QRegExp re( pattern, true, true );
+        QRegExp re( pattern, true, true );
 
-	m_pIconView->blockSignals( true );
+        m_pIconView->blockSignals( true );
 
-	QIconViewItem *it = m_pIconView->firstItem();
-	while ( it )
-	{
-	    if ( re.match( it->text() ) != -1 )
-		it->setSelected( false, true );
-	    it = it->nextItem();
-	}
+        QIconViewItem *it = m_pIconView->firstItem();
+        while ( it )
+        {
+            if ( re.match( it->text() ) != -1 )
+                it->setSelected( false, true );
+            it = it->nextItem();
+        }
 
-	m_pIconView->blockSignals( false );
+        m_pIconView->blockSignals( false );
 
         // do this once, not for each item
-	m_pIconView->slotSelectionChanged();
+        m_pIconView->slotSelectionChanged();
         slotDisplayFileSelectionInfo();
     }
 }
@@ -455,7 +455,7 @@ void KonqKfmIconView::slotInvertSelection()
 void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
 {
     if ( !toggle )
-	return;
+        return;
 
     setupSorting( NameCaseSensitive );
 }
@@ -463,7 +463,7 @@ void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
 void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
 {
     if ( !toggle )
-	return;
+        return;
 
     setupSorting( NameCaseInsensitive );
 }
@@ -471,7 +471,7 @@ void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
 void KonqKfmIconView::slotSortBySize( bool toggle )
 {
     if ( !toggle )
-	return;
+        return;
 
     setupSorting( Size );
 }
@@ -480,9 +480,9 @@ void KonqKfmIconView::slotSortByType( bool toggle )
 {
   if ( !toggle )
     return;
-  
+
   setupSorting( Type );
-} 
+}
 
 void KonqKfmIconView::setupSorting( SortCriterion criterion )
 {
@@ -496,9 +496,9 @@ void KonqKfmIconView::setupSorting( SortCriterion criterion )
 void KonqKfmIconView::slotSortDescending()
 {
     if ( m_pIconView->sortDirection() )
-	m_pIconView->setSorting( true, false );
+        m_pIconView->setSorting( true, false );
     else
-	m_pIconView->setSorting( true, true );
+        m_pIconView->setSorting( true, true );
 
     setupSortKeys(); // keys have to change, for directories
 
@@ -525,8 +525,8 @@ void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
     {
-	m_pProps->setIconSize( m_iIconSize[2] );
-	m_pIconView->setIcons( m_pProps->iconSize() );
+        m_pProps->setIconSize( m_iIconSize[2] );
+        m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview( true );
     }
@@ -536,8 +536,8 @@ void KonqKfmIconView::slotViewMedium( bool b )
 {
     if ( b )
     {
-	m_pProps->setIconSize( m_iIconSize[1] );
-	m_pIconView->setIcons( m_pProps->iconSize() );
+        m_pProps->setIconSize( m_iIconSize[1] );
+        m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview( true );
     }
@@ -547,8 +547,8 @@ void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
     {
-	m_pProps->setIconSize( m_iIconSize[0] );
-	m_pIconView->setIcons( m_pProps->iconSize() );
+        m_pProps->setIconSize( m_iIconSize[0] );
+        m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview( true );
     }
@@ -558,26 +558,26 @@ void KonqKfmIconView::slotViewDefault( bool b)
 {
     if ( b )
     {
-	m_pProps->setIconSize( 0 );
-	m_pIconView->setIcons( m_pProps->iconSize() );
+        m_pProps->setIconSize( 0 );
+        m_pIconView->setIcons( m_pProps->iconSize() );
         if ( m_pProps->isShowingImagePreview() )
           m_pIconView->startImagePreview( true );
     }
 }
-	
+
 /*void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {
         m_pProps->setItemTextPos( QIconView::Bottom );
-	m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
+        m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
     }
 }
 
 void KonqKfmIconView::slotTextRight( bool b )
 {
     if ( b ) {
-	m_pProps->setItemTextPos( QIconView::Right );
-	m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
+        m_pProps->setItemTextPos( QIconView::Right );
+        m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
     }
 }*/
 
@@ -592,16 +592,16 @@ bool KonqKfmIconView::closeURL()
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
     if ( !item )
-	return;
+        return;
 
     item->setSelected( false, true );
     m_pIconView->visualActivate(item);
 
     KonqFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
-	return;
+        return;
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
-	fileItem->run();
+        fileItem->run();
     } else {
         // We want to emit openURLRequest, but not right now, because
         // the iconview is going to emit other signals.
@@ -630,12 +630,12 @@ void KonqKfmIconView::slotOpenURLRequest()
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
 {
     if(_item) {
-	switch(_button) {
-	case RightButton:
+        switch(_button) {
+        case RightButton:
             (static_cast<KFileIVI*>(_item))->setSelected( true, true /* don't touch other items */ );
-	    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
-	    break;
-	case MidButton:
+            emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
+            break;
+        case MidButton:
             // New window
             mmbClicked( static_cast<KFileIVI*>(_item)->item() );
             break;
@@ -646,7 +646,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
 {
     if ( i )
-	return;
+        return;
     KFileItem * item = m_dirLister->rootItem();
     if ( ! item )
     {
@@ -675,7 +675,7 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
 {
     m_pIconView->selectAll( false );
     if ( m_bLoading )
-	emit started( m_dirLister->job() );
+        emit started( m_dirLister->job() );
     // An update may come in while we are still processing icons...
     // So don't clear the list.
     //m_lstPendingMimeIconItems.clear();
@@ -686,7 +686,7 @@ void KonqKfmIconView::slotCanceled()
     if ( m_bLoading )
     {
         emit canceled( QString::null );
-	m_bLoading = false;
+        m_bLoading = false;
     }
 }
 
@@ -709,7 +709,7 @@ void KonqKfmIconView::slotCompleted()
 
     // Disable cut icons if any
     m_pIconView->slotClipboardDataChanged();
-    
+
 }
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
@@ -721,15 +721,15 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
-	m_lDirSize += _fileitem->size();
-	m_lFileCount++;
+        m_lDirSize += _fileitem->size();
+        m_lFileCount++;
     }
     else
-	m_lDirCount++;
+        m_lDirCount++;
 
     //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-				   m_pIconView->iconSize() );
+                                   m_pIconView->iconSize() );
     item->setRenameEnabled( false );
 
     QString key;
@@ -753,26 +753,26 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
-	m_lDirSize -= _fileitem->size();
-	m_lFileCount--;
+        m_lDirSize -= _fileitem->size();
+        m_lFileCount--;
     }
     else
-	m_lDirCount--;
+        m_lDirCount--;
 
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     QIconViewItem *it = m_pIconView->firstItem();
     while ( it )
     {
-	if ( ((KFileIVI*)it)->item() == _fileitem ) // compare the pointers
-	{
-       	    m_pIconView->takeItem( it );
+        if ( ((KFileIVI*)it)->item() == _fileitem ) // compare the pointers
+        {
+            m_pIconView->takeItem( it );
             m_lstPendingMimeIconItems.remove((KFileIVI*)it);
             // This doesn't delete the item, but we don't really care.
             // slotClear() will do it anyway - and it seems this avoids crashes
-	    break;
-	}
-	it = it->nextItem();
+            break;
+        }
+        it = it->nextItem();
     }
 }
 
@@ -814,21 +814,21 @@ static QString displayString(int items, int files, long size, int dirs)
 {
     QString text;
     if (items == 1)
-	text = i18n("One Item");
+        text = i18n("One Item");
     else
-	text = i18n("%1 Items").arg(items);
+        text = i18n("%1 Items").arg(items);
     text += " - ";
     if (files == 1)
-	text += i18n("One File");
+        text += i18n("One File");
     else
-	text += i18n("%1 Files").arg(files);
+        text += i18n("%1 Files").arg(files);
     text += " ";
     text += i18n("(%1 Total)").arg(KIO::convertSize( size ) );
     text += " - ";
     if (dirs == 1)
-	text += i18n("One Directory");
+        text += i18n("One Directory");
     else
-	text += i18n("%1 Directories").arg(dirs);
+        text += i18n("%1 Directories").arg(dirs);
     return text;
 }
 
@@ -842,21 +842,21 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
     KFileItemListIterator it( lst );
 
     for (; it.current(); ++it )
-	if ( S_ISDIR( it.current()->mode() ) )
-	    dirCount++;
-	else
-	{
-	    fileSizeSum += it.current()->size();
-	    fileCount++;
-	}
+        if ( S_ISDIR( it.current()->mode() ) )
+            dirCount++;
+        else
+        {
+            fileSizeSum += it.current()->size();
+            fileCount++;
+        }
 
     if ( lst.count() > 0 ) {
         emit setStatusBarText( displayString(lst.count(),
-					     fileCount,
-					     fileSizeSum,
-					     dirCount));
+                                             fileCount,
+                                             fileSizeSum,
+                                             dirCount));
     } else
-	slotOnViewport();
+        slotOnViewport();
 
     emit m_extension->selectionInfo( lst );
 }
@@ -969,23 +969,23 @@ bool KonqKfmIconView::openURL( const KURL & url )
 {
     if ( !m_dirLister )
     {
-	// Create the directory lister
-	m_dirLister = new KonqDirLister( true );
+        // Create the directory lister
+        m_dirLister = new KonqDirLister( true );
 
-	QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
-			  this, SLOT( slotStarted( const QString & ) ) );
-	QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-	QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-	QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
-			  this, SLOT( slotNewItems( const KFileItemList& ) ) );
-	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
-	QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
-			  this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
-	QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+        QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
+                          this, SLOT( slotStarted( const QString & ) ) );
+        QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+        QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+        QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+        QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
+                          this, SLOT( slotNewItems( const KFileItemList& ) ) );
+        QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                          this, SLOT( slotDeleteItem( KFileItem * ) ) );
+        QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
+                          this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
+        QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
                           this, SLOT( slotRedirection( const KURL & ) ) );
-	QObject::connect( m_dirLister, SIGNAL( closeView() ),
+        QObject::connect( m_dirLister, SIGNAL( closeView() ),
                           this, SLOT( slotCloseView() ) );
     }
 
@@ -1052,11 +1052,11 @@ void KonqKfmIconView::slotOnViewport()
 {
     QIconViewItem *it = m_pIconView->firstItem();
     for (; it; it = it->nextItem() )
-	if ( it->isSelected() )
-	{
-	    slotDisplayFileSelectionInfo();
-	    return;
-	}
+        if ( it->isSelected() )
+        {
+            slotDisplayFileSelectionInfo();
+            return;
+        }
 
     emit setStatusBarText(
       displayString(m_pIconView->count(),
@@ -1088,7 +1088,10 @@ uint KonqKfmIconView::fileCount() const
 void KonqKfmIconView::setViewMode( const QString &mode )
 {
     m_pIconView->setUpdatesEnabled( false );
-    //kdDebug(1202) << "setViewMode " << mode << endl;
+
+    bool ww = m_pIconView->wordWrapIconText();
+    // workaround for QIconView problem
+    m_pIconView->setWordWrapIconText( false );
     m_mode = mode;
     if (mode=="MultiColumnView")
     {
@@ -1105,6 +1108,7 @@ void KonqKfmIconView::setViewMode( const QString &mode )
 
     m_pIconView->setUpdatesEnabled( true );
     m_pIconView->calculateGridX();
+    m_pIconView->setWordWrapIconText( ww );
 }
 
 void KonqKfmIconView::setupSortKeys()
@@ -1113,21 +1117,21 @@ void KonqKfmIconView::setupSortKeys()
     switch ( m_eSortCriterion )
     {
     case NameCaseSensitive:
-	for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-	    it->setKey( it->text() );
-	break;
+        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+            it->setKey( it->text() );
+        break;
     case NameCaseInsensitive:
-	for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-	    it->setKey( it->text().lower() );
-	break;
+        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+            it->setKey( it->text().lower() );
+        break;
     case Size:
-	for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-	    it->setKey( makeSizeKey( (KFileIVI *)it ) );
-	break;
+        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+            it->setKey( makeSizeKey( (KFileIVI *)it ) );
+        break;
      case Type:
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-	    it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() );
-	break;
+            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() );
+        break;
     }
 }
 
