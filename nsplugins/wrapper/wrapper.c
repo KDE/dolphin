@@ -270,16 +270,18 @@ void MyNPP_URLNotify(NPP instance, const char* url,
 	DEB(ef, "<- NPP_URLNotify\n");	
 }
 
-/*static
+#if 0
+static
 jref MyNPP_GetJavaClass(void)
 {
   jref ret;
 	DEB(ef, "-> NPP_GetJavaClass( )\n" );	
 	
-//	ret = gPluginFuncs.javaClass( );		
+/*	ret = gPluginFuncs.javaClass( );*/
 	DEB(ef, "<- NPP_GetJavaClass = %d\n", ret);
 	return ret;
-} */
+}
+#endif
 
 static
 NPError MyNPP_GetValue(void *instance, NPPVariable variable, void *value)
@@ -614,7 +616,7 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 	err = gNP_Initialize( &gExtNetscapeFuncs, &gPluginFuncs );
 	
 	if (!err) {	
-		//memcpy(&pluginFuncs, gPluginFuncs, sizeof(gPluginFuncs));		
+		/*memcpy(&pluginFuncs, gPluginFuncs, sizeof(gPluginFuncs));*/
 				
 		/*pluginFuncs->initialize = MyNPP_Initialize;
 		pluginFuncs->shutdown = MyNPP_Shutdown;*/
@@ -629,7 +631,7 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 		pluginFuncs->print = MyNPP_Print;
 		pluginFuncs->event = MyNPP_HandleEvent;
 		pluginFuncs->urlnotify = MyNPP_URLNotify;
-		pluginFuncs->javaClass = 0; //MyNPP_GetJavaClass;
+		pluginFuncs->javaClass = 0; /* MyNPP_GetJavaClass; */
 		pluginFuncs->getvalue = (NPP_GetValueUPP)MyNPP_GetValue;
 		pluginFuncs->setvalue = (NPP_SetValueUPP)MyNPP_SetValue;
 	
