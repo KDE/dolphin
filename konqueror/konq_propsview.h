@@ -41,8 +41,8 @@ class KonqTreeViewWidget;
 class KonqPropsView
 {
   // A View can read/write the values directly.
-  friend KonqKfmIconView;
-  friend KonqTreeViewWidget;
+  //friend KonqKfmIconView;
+  //friend KonqTreeViewWidget;
 
   // This is not a QObject because we need a copy constructor.
 public:
@@ -103,7 +103,9 @@ public:
   const QColor& bgColor() { return m_bgColor; }
   const QPixmap& bgPixmap() { return m_bgPixmap; }
   
-protected:
+//without the protected user made views can access this directly
+//without modifying konqy's sources
+//protected:
 
   /** The static instance. */
   static KonqPropsView * m_pDefaultProps;

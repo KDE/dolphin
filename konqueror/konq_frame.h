@@ -31,8 +31,6 @@
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
 
-#include <kstatusbar.h>
-
 class BrowserView;
 class QPixmap;
 class QVBoxLayout;
@@ -48,18 +46,15 @@ namespace KParts
   class ReadOnlyPart;
 };
 
-enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
-			  RECT, PIPE, ELLIP, XPixmap };
-
-/**
- * Because checkboxes cannot be any size, I did a custom checkbox based
- * on QStyle::drawBevelButton for Konq frames (mosfet).
+/** A CheckBox with a special paintEvent(). It looks like the
+ unchecked radiobutton in b2k style if unchecked and contains a little
+ anchor if checked.
  */
 class KonqCheckBox : public QCheckBox
 {
 public:
     KonqCheckBox(QWidget *parent=0, const char *name=0)
-        : QCheckBox(parent, name){;}
+        : QCheckBox(parent, name){}
 protected:
     void paintEvent(QPaintEvent *ev);
 };
@@ -67,28 +62,27 @@ protected:
 
 
 /**
- * The KonqFrameHeader indicates wether a view is active or not. It uses the
- * same colors and shading a KWM does.
+ * The KonqFrameStatusBar indicates wether a view is active or not.
  */
-class KonqFrameHeader : public QWidget
+class KonqFrameStatusBar : public QWidget
 {
   Q_OBJECT
 
    public:
-      KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
-      ~KonqFrameHeader() {}
+      KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
+      ~KonqFrameStatusBar() {}
       QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
 
    signals:
       /**
-       * This signal is emitted when the user clicked the header.
+       * This signal is emitted when the user clicked the bar.
        */
-      void headerClicked();
+      void clicked();
 
       void passiveModeChange( bool mode );
-   public slots:
-      void slotDisplayStatusText(const QString& text);
       void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
+   protected slots:
+      void slotDisplayStatusText(const QString& text);
 
    protected:
       virtual bool eventFilter(QObject*,QEvent *);
@@ -129,10 +123,10 @@ class KonqFrameBase
 /**
  * The KonqFrame is the actual container for the views. It takes care of the
  * widget handling i.e. it attaches/detaches the view widget and activates
- * them on click at the header.
+ * them on click at the statusbar.
  *
  * KonqFrame makes the difference between built-in views and remote ones.
- * We create a layout in it (with the FrameHeader as top item in the layout)
+ * We create a layout in it (with the KonqFrameStatusBar as top item in the layout)
  * For builtin views we have the view as direct child widget of the layout
  * For remote views we have an OPFrame, having the view attached, as child
  * widget of the layout
@@ -177,14 +171,14 @@ public:
 
   QVBoxLayout *layout() { return m_pLayout; }
 
-  KonqFrameHeader *header() const { return m_pHeader; }
+  KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
 
 public slots:
 
   /**
-   * Is called when the frame header has been clicked
+   * Is called when the frame statusbar has been clicked
    */
-  void slotHeaderClicked();
+  void slotStatusBarClicked();
 
   void slotPassiveModeChange( bool mode );
 
@@ -196,7 +190,7 @@ protected:
 
   QGuardedPtr<KParts::ReadOnlyPart> m_pView;
 
-  KonqFrameHeader* m_pHeader;
+  KonqFrameStatusBar* m_pStatusBar;
 };
 
 /**

@@ -32,6 +32,7 @@
 #include <klocale.h>
 
 #include <kparts/browserextension.h>
+#include <kparts/event.h>
 #include "konq_frame.h"
 #include "konq_childview.h"
 #include "konq_viewmgr.h"
@@ -49,7 +50,7 @@
 
 #define DEFAULT_HEADER_HEIGHT 13
 
-#include <iostream.h>
+//#include <iostream.h>
 
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
@@ -61,7 +62,7 @@ void KonqCheckBox::paintEvent(QPaintEvent *)
       p.drawPixmap(0,0,QPixmap(lightgrey_xpm));
 }
 
-KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
+KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 :QWidget( _parent, _name )
 ,m_pParentKonqFrame( _parent )
 ,statusLabel(this)
@@ -83,19 +84,19 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    connect(m_pPassiveModeCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(passiveModeChange(bool)));
 }
 
-void KonqFrameHeader::mousePressEvent( QMouseEvent* event )
+void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
 {
    QWidget::mousePressEvent( event );
    if ( !m_pParentKonqFrame->childView()->passiveMode() )
    {
-      emit headerClicked();
+      emit clicked();
       update();
    }
    if (event->button()==RightButton)
       splitFrameMenu();
 }
 
-void KonqFrameHeader::splitFrameMenu()
+void KonqFrameStatusBar::splitFrameMenu()
 {
    QActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection();
 
@@ -110,7 +111,7 @@ void KonqFrameHeader::splitFrameMenu()
    menu.exec(QCursor::pos());
 }
 
-bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
+bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
 {
    if (e->type()==QEvent::MouseButtonPress)
    {
@@ -123,21 +124,21 @@ bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
    return FALSE;
 };
 
-void KonqFrameHeader::slotDisplayStatusText(const QString& text)
+void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
    //kdDebug()<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
    statusLabel.resize(fontMetrics().width(text),13);
    statusLabel.setText(text);
 };
 
-void KonqFrameHeader::slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne)
+void KonqFrameStatusBar::slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
 {
    if (newOne!=0)
       connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
    slotDisplayStatusText( QString::null );
 };
 
-void KonqFrameHeader::paintEvent(QPaintEvent* e)
+void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
    if (!isVisible()) return;
    QWidget::paintEvent(e);
@@ -161,10 +162,10 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    m_pLayout = 0L;
    m_pChildView = 0L;
 
-   // add the frame header to the layout
-   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
-   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
-   connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
+   // add the frame statusbar to the layout
+   m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
+   QObject::connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
+   connect( m_pStatusBar, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
 KonqFrame::~KonqFrame()
@@ -205,8 +206,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 
    attachInternal();
 
-   connect(m_pView,SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
-
+   m_pStatusBar->slotConnectToNewView(0,m_pView);
    return m_pView;
 }
 
@@ -218,12 +218,12 @@ void KonqFrame::attachInternal()
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
    m_pLayout->addWidget( m_pView->widget() );
-   m_pLayout->addWidget( m_pHeader );
+   m_pLayout->addWidget( m_pStatusBarr );
    m_pView->widget()->show();
-   if ( m_pChildView->mainView()->fullSreenMode() )
+   if ( m_pChildView->mainView()->fullScreenMode() )
      m_pChildView->mainView()->attachToolbars( this );
    else
-     m_pHeader->show();
+     m_pStatusBar->show();
    m_pLayout->activate();
 }
 
@@ -232,7 +232,7 @@ void KonqFrame::setChildView( KonqChildView* child )
    m_pChildView = child;
    if (m_pChildView!=0)
    {
-      connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),m_pHeader,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
+      connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),m_pStatusBar,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
       //connect(m_pChildView->view(),SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
    };
 };
@@ -251,7 +251,7 @@ void KonqFrame::reparent( QWidget* parent, WFlags f,
    QWidget::reparent( parent, f, p, showIt );
 }
 
-void KonqFrame::slotHeaderClicked()
+void KonqFrame::slotStatusBarClicked()
 {
   if ( m_pView != m_pChildView->mainView()->viewManager()->activePart() )
      m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
@@ -265,7 +265,7 @@ void KonqFrame::slotPassiveModeChange( bool mode )
 void
 KonqFrame::paintEvent( QPaintEvent* )
 {
-   m_pHeader->repaint();
+   m_pStatusBar->repaint();
 }
 
 //###################################################################

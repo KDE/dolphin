@@ -457,9 +457,9 @@ void KonqChildView::setPassiveMode( bool mode )
 
   if (current != 0L) {
     if ( m_pMainView->viewManager()->chooseNextView( current ) == 0L ) {
-      current->frame()->header()->passiveModeCheckBox()->hide();
+      current->frame()->statusbar()->passiveModeCheckBox()->hide();
     } else {
-      current->frame()->header()->passiveModeCheckBox()->show();
+      current->frame()->statusbar()->passiveModeCheckBox()->show();
     }
   }
 }

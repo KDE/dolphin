@@ -541,7 +541,7 @@ void KonqMainView::slotToggleDirTree( bool toggle )
     KonqChildView *cv = childView( view );
 
     cv->setPassiveMode( true );
-    cv->frame()->header()->passiveModeCheckBox()->setChecked( true );
+    cv->frame()->statusbar()->passiveModeCheckBox()->setChecked( true );
   }
   else
   {
@@ -828,10 +828,10 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   if ( m_currentView->serviceOffers().count() > 1 )
     guiFactory()->addClient( m_viewModeGUIClient );
 
-  m_currentView->frame()->header()->repaint();
+  m_currentView->frame()->statusbar()->repaint();
 
   if ( oldView )
-    oldView->frame()->header()->repaint();
+    oldView->frame()->statusbar()->repaint();
 
   if ( m_combo )
     m_combo->setEditText( m_currentView->locationBarURL() );
@@ -991,7 +991,7 @@ void KonqMainView::slotRemoveView()
   m_pViewManager->removeView( prevView );
 
   if ( m_pViewManager->chooseNextView((KonqChildView *)m_currentView) == 0L )
-    m_currentView->frame()->header()->passiveModeCheckBox()->hide();
+    m_currentView->frame()->statusbar()->passiveModeCheckBox()->hide();
 }
 
 void KonqMainView::slotSaveDefaultProfile()
@@ -1245,7 +1245,7 @@ void KonqMainView::slotFullScreenStart()
   KonqFrame *widget = m_currentView->frame();
   m_tempContainer = widget->parentContainer();
   m_tempFocusPolicy = widget->focusPolicy();
-  widget->header()->hide();
+  widget->statusbar()->hide();
   widget->recreate( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup, QPoint( 0, 0 ), true );
   widget->resize( QApplication::desktop()->width(), QApplication::desktop()->height() );
 
@@ -1282,7 +1282,7 @@ void KonqMainView::slotFullScreenStop()
   KonqFrame *widget = m_currentView->frame();
   widget->close( false );
   widget->recreate( m_tempContainer, 0, QPoint( 0, 0 ), true);
-  widget->header()->show();
+  widget->statusbar()->show();
   widget->setFocusPolicy( m_tempFocusPolicy );
   m_bFullScreen = false;
 
@@ -1358,13 +1358,13 @@ void KonqMainView::initActions()
   connect( m_ptaShowDirTree, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleDirTree( bool ) ) );
 
   // Go menu
-  m_paUp = new KonqHistoryAction( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), ALT+Key_Up, actionCollection(), "up" );
+  m_paUp = new KonqHistoryAction( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), CTRL+Key_Up, actionCollection(), "up" );
 
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
-  m_paBack = new KonqHistoryAction( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::instance() ) ), ALT+Key_Left, actionCollection(), "back" );
+  m_paBack = new KonqHistoryAction( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::instance() ) ), CTRL+Key_Left, actionCollection(), "back" );
 
   m_paBack->setEnabled( false );
 
@@ -1376,7 +1376,7 @@ void KonqMainView::initActions()
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KonqHistoryAction( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::instance() ) ), ALT+Key_Right, actionCollection(), "forward" );
+  m_paForward = new KonqHistoryAction( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::instance() ) ), CTRL+Key_Right, actionCollection(), "forward" );
 
   m_paForward->setEnabled( false );
 
