@@ -360,7 +360,7 @@ void KonqPropsView::applyColors(QWidget * widget) const
     }
     else
     {
-        widget->setBackgroundPixmap( loadPixmap() );
+        widget->setPaletteBackgroundPixmap( loadPixmap() );
     }
 
     if ( m_textColor.isValid() )
