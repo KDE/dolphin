@@ -343,31 +343,74 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
+    
+    QGroupBox *javaScript = new QGroupBox(i18n("Java Script"), this);
+    cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), javaScript);
+    
+    QVBoxLayout *vbox = new QVBoxLayout(javaScript, 5, 5);
+    vbox->addSpacing(10);    
+    vbox->addWidget(cb_enableJavaScript);
+    
+    lay->addWidget(javaScript);
 
-    cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), this);
-    lay->addWidget(cb_enableJavaScript);
     connect(cb_enableJavaScript, SIGNAL(clicked()), this, SLOT(changed()));
-
-    cb_enableJava = new QCheckBox(i18n("Enable &Java"), this);
-    lay->addWidget(cb_enableJava);
-    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(changed()));
-    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(toggleJavaPath()));
-
+    
+    lay->setSpacing(10);
+    
+    QGroupBox *java = new QGroupBox(i18n("Java"), this);
+    cb_enableJava = new QCheckBox(i18n("Enable &Java"), java);
+    cb_showJavaConsole = new QCheckBox(i18n("Show Java Console"), java);
+    lb_JavaArgs = new QLabel(i18n("Additional Java arguments"), java);
+    le_JavaArgs = new QLineEdit(java); 
+    QButtonGroup *bg = new QButtonGroup();
+    rb_autoDetect = new QRadioButton( i18n("Automatically detect Java"), java );
+    rb_userDetect = new QRadioButton( i18n("Use user-specified Java"), java );
+    bg->insert(rb_autoDetect);
+    bg->insert(rb_userDetect);
+    
+    bg->setExclusive( TRUE );
+    
+    lb_JavaPath = new QLabel(i18n("Path to JDK"),java);
+    le_JavaPath = new QLineEdit(java);
+    
+    QVBoxLayout *vbox2 = new QVBoxLayout(java, 5, 5);
+    vbox2->addSpacing(10);  
+    vbox2->addWidget(cb_enableJava);
+    vbox2->addWidget(cb_showJavaConsole);
+  
+    QHBoxLayout *hlay3 = new QHBoxLayout(10);
+    hlay3->addWidget(rb_autoDetect);
+    hlay3->addWidget(rb_userDetect);
+    vbox2->addLayout(hlay3);
+    
     QHBoxLayout *hlay = new QHBoxLayout(10);
-    lay->addLayout(hlay);
-    lb_JavaPath = new QLabel(i18n("Path to JDK"),this);
     hlay->addWidget(lb_JavaPath, 1);
-
-    le_JavaPath = new QLineEdit(this);
     hlay->addWidget(le_JavaPath, 5);
-    connect(le_JavaPath, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+    
+    vbox2->addLayout(hlay);
+    
+    QHBoxLayout *hlay2 = new QHBoxLayout(10);
+    hlay2->addWidget(lb_JavaArgs, 1);
+    hlay2->addWidget(le_JavaArgs, 5);
+    
+    vbox2->addLayout(hlay2);
+    
+    lay->addWidget(java);
 
+    // Change
+    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
+    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(cb_showJavaConsole, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(le_JavaPath, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+    connect(le_JavaArgs, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+    
+    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(toggleJavaControls()));
+    connect(bg, SIGNAL(clicked(int)), this, SLOT(toggleJavaControls()));
+   
     lay->addStretch(10);
     lay->activate();
-
+    
     load();
-
-    toggleJavaPath();
 }
 
 void KAdvancedOptions::load()
@@ -376,20 +419,38 @@ void KAdvancedOptions::load()
     g_pConfig->setGroup(groupname);
     bool bJavaScript = g_pConfig->readBoolEntry( "EnableJavaScript", false);
     bool bJava = g_pConfig->readBoolEntry( "EnableJava", false);
+    bool bJavaConsole = g_pConfig->readBoolEntry( "ShowJavaConsole", false);
+    bool bJavaAutoDetect = g_pConfig->readBoolEntry( "JavaAutoDetect", true);
+    QString sJDKArgs = g_pConfig->readEntry( "JavaArgs", "" );
     QString sJDK = g_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
 
     // *** apply to GUI ***
 
     cb_enableJavaScript->setChecked(bJavaScript);
     cb_enableJava->setChecked(bJava);
+    cb_showJavaConsole->setChecked(bJavaConsole);
+    
+    if(bJavaAutoDetect)
+      rb_autoDetect->setChecked(true);
+    else
+      rb_userDetect->setChecked(true);
+    
+    le_JavaArgs->setText(sJDKArgs);
     le_JavaPath->setText(sJDK);
+
+    toggleJavaControls();
 }
 
 void KAdvancedOptions::defaults()
 {
     cb_enableJavaScript->setChecked(false);
     cb_enableJava->setChecked(false);
+    cb_showJavaConsole->setChecked(false);
+    rb_autoDetect->setChecked(true);
     le_JavaPath->setText("/usr/lib/jdk");
+    le_JavaArgs->setText("");
+
+    toggleJavaControls();
 }
 
 void KAdvancedOptions::save()
@@ -397,6 +458,9 @@ void KAdvancedOptions::save()
     g_pConfig->setGroup(groupname);
     g_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
     g_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
+    g_pConfig->writeEntry( "ShowJavaConsole", cb_showJavaConsole->isChecked());
+    g_pConfig->writeEntry( "JavaAutoDetect", rb_autoDetect->isChecked());
+    g_pConfig->writeEntry( "JavaArgs", le_JavaArgs->text());
     g_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
     g_pConfig->sync();
 }
@@ -406,10 +470,16 @@ void KAdvancedOptions::changed()
   emit KCModule::changed(true);
 }
 
-void KAdvancedOptions::toggleJavaPath()
+void KAdvancedOptions::toggleJavaControls()
 {
-  lb_JavaPath->setEnabled(cb_enableJava->isChecked());
-  le_JavaPath->setEnabled(cb_enableJava->isChecked());
+  bool isEnabled = cb_enableJava->isChecked();
+  cb_showJavaConsole->setEnabled(isEnabled);
+  lb_JavaArgs->setEnabled(isEnabled);
+  le_JavaArgs->setEnabled(isEnabled);
+  rb_autoDetect->setEnabled(isEnabled);
+  rb_userDetect->setEnabled(isEnabled);
+  lb_JavaPath->setEnabled(isEnabled && rb_userDetect->isChecked());
+  le_JavaPath->setEnabled(isEnabled && rb_userDetect->isChecked());
 }
 
 #include "htmlopts.moc"

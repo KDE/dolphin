@@ -103,7 +103,7 @@ public:
 
 private slots:
   
-  void toggleJavaPath();
+  void toggleJavaControls();
   void changed();
 
 
@@ -114,8 +114,14 @@ private:
 
   QLabel    *lb_JavaPath;
   QLineEdit *le_JavaPath;
+  QLabel    *lb_JavaArgs;
+  QLineEdit *le_JavaArgs;
+  QCheckBox *cb_showJavaConsole;
   QCheckBox *cb_enableJava;
   QCheckBox *cb_enableJavaScript;
+  QRadioButton *rb_autoDetect;
+  QRadioButton *rb_userDetect;
+  
   
 };
 
