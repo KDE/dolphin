@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/konq-browsing.html
+DocPath=kcontrol/khtml/index.html
 Icon=fonts
 Exec=kcmshell khtml_appearance
 
@@ -70,12 +70,15 @@ Comment[cs]=Zde můžete nastavit písma programu Konqueror
 Comment[da]=Indstil netsøgeren Konquerors skrifttyper
 Comment[es]=Configuración de las fuentes del navegador web Konqueror
 Comment[fi]=Aseta Konqueror www-selaimen kirjasimia
+Comment[ja]=ここでKonquerorウェブブラウザのフォントの設定をします
 Comment[pt_BR]=Configure as fontes do Navegador Web Konqueror
 Comment[sv]=Anpassa webbläsaren Konquerors teckensnitt
 Keywords=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets,encoding
 Keywords[da]=konqueror,kfm,netsøger,HTML,net,www,skrifttyper,tegnsæt,indkodning
 Keywords[es]=konqueror,kfm,navegador,html,web,www,fuentes,mapas de caracteres,codificación
 Keywords[fi]=konqueror,kfm,selain,html,web,www,kirjasimet,merkistöt,koodaus
+Keywords[ja]=konqueror,kfm,ブラウザ,html,web,www,フォント,文字セット,エンコーディング
 Keywords[pt_BR]=konqueror,kfm,navegador,html,web,WWW,fontes,conjuntos de caracteres,codificação
 Keywords[sv]=konqueror,kfm,webbläsare,html,webb,www,teckensnitt,färger,java,javaskript,länkar,bilder,kodning,teckenuppsättningar
+Keywords[tr]=konqueror,kfm,tarayıcı,html,web,www,yazı tipleri,kodlama
 

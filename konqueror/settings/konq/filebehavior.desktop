@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell filebehavior
 
@@ -10,6 +10,35 @@ X-KDE-Library=konq
 X-KDE-FactoryName=behavior
 
 Name=Behavior
+Name[af]=gedrag
+Name[be]=Паводзіны
+Name[bs]=Ponašanje
+Name[cs]=Chování
+Name[da]=Opførsel
+Name[en_GB]=Behaviour
+Name[es]=Comportamiento
+Name[fi]=Käytös
+Name[he]=תפקוד
+Name[hu]=Ablakbeállítások
+Name[ja]=動作
+Name[pt_BR]=Comportamento
+Name[sv]=Beteende
+Name[tr]=Davranış
 
 Comment=You can configure how Konqueror behaves as a file manager here
+Comment[af]=jy kan konfigureer hoe konqueror gedrag as 'n lêer bestuurder hier
+Comment[bs]=Ovdje možete podesiti kako se Konqueror ponaša kao upravitelj datotekama
+Comment[da]=Her kan du indstille hvordan Konqueror opfører sig som filhåndtering
+Comment[es]= Configuración del aspecto de Konqueror como administrador de archivos
+Comment[fi]=Voit asettaa Konqueror tiedostoselaimen käytöstä tässä
+Comment[ja]=ここでKonquerorがファイルマネージャとしてどのように動作するかを設定をします
+Comment[pt_BR]=Você pode configurar aqui como  o Konqueror se comporta como gerenciador de arquivos
+Comment[sv]=Anpassa hur Konqueror beter sig som filhanterare
 Keywords=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,
+Keywords[da]=konqueror,filhåndtering,kfm,tip,filtip,separat vindue,flere vinduer,opførsel,hukommelsesforbrug,Hjemme-URL,
+Keywords[es]=konqueror,administrador de archivos,kfm,sugerencias,ventana separada, extender ventanas,comportamiento,uso de memoria, URl de inicio,
+Keywords[fi]=konqueror,tiedostonhallinta,kfm,vinkit,tiedostovinkit,erillinen ikkuna,käytös,muistinkäyttö,Koti-URL
+Keywords[ja]=konqueror,ファイルマネージャ,kfm,チップ,ファイルチップ,ウィンドウ分離,spawn windows,振舞い,動作,メモリ使用量,ホーム URL,
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,kfm,dicas,arquivos de dicas,janelas separadas,janelas unidas,comportamento,comportamento,uso de memória,URL local,
+Keywords[sv]=konqueror,filhanterare,kfm,tips,filtips,särskilt fönster,visa fönster,beteende,minnesanvändning,hemadress
+Keywords[tr]=konqueror,dosya yöneticisi,kfm,ipuçları,dosya,pencere,davranış,bellek kullanımı,başlangıç

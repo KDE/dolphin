@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell fileappearance
 
@@ -10,6 +10,33 @@ X-KDE-Library=konq
 X-KDE-FactoryName=appearance
 
 Name=Appearance
+Name[af]=voorkoms
+Name[be]=Знешні выгляд
+Name[bs]=Izgled
+Name[cs]=Vzhled
+Name[da]=Udseende
+Name[es]=Aspecto
+Name[fi]=Ulkonäkö
+Name[he]=מראה
+Name[hu]=Megjelenés
+Name[ja]=外観
+Name[pt_BR]=Aparência
+Name[sv]=Utseende
+Name[tr]=Görünüm
 
 Comment=You can configure how Konqueror looks as a file manager here
+Comment[af]=jy kan konfigureer hoe konqueror kyk as 'n lêer bestuurder hier
+Comment[bs]=Ovdje možete podesiti kako izgleda Konqueror kao upravitelj datotekama
+Comment[da]=Her kan du indstille hvordan Konqueror ser ud som filhåndtering
+Comment[es]=Configuración del aspecto de Konqueror como administrador de archivos
+Comment[fi]=Voit asettaa Konqueror tiedostoselaimen ulkonäköä tässä
+Comment[ja]=ここでKonquerorがファイルマネージャとしてどのような外観を持つか設定をします
+Comment[pt_BR]=Você pode configurar aqui como o Konqueror ficará como gerenciador de arquivos
+Comment[sv]=Anpassa hur Konqueror ser ut som filhanterare
 Keywords=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour
+Keywords[da]=konqueror,filhåndtering,ordombrydning,ombrydning,understreg,vis,filstørrelse,byte,skrifttype,farve
+Keywords[es]=konqueror,administrador de archivos, ajuste de línea,subrayar,mostrar,tamaño de archivo,bytes,fuente,color
+Keywords[fi]=konqueror,tiedostonhallinta,sanankatkaisu,alleviivaus,tiedostokoko,tavuja, kirjasin,väri
+Keywords[ja]=konqueror,ファイルマネージャ,ワードラップ,単語,下線,ディスプレイ,ファイルサイズ,バイト,フォント,色
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,quebra de linha, sublinhado, display,tamanho de arquivo,bytes,fonte,cor,cor
+Keywords[sv]=konqueror,filhanterare,radbrytning,understreck,visa,filstorlek,byte,teckensnitt,färg

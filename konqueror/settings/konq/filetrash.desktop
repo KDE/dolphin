@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell filetrash
 
@@ -61,6 +61,19 @@ Name[zh_TW]=垃圾桶
 Name[zu]=Udoti
 
 Comment=You can configure how the KDE Trash behaves here
+Comment[af]=jy kan konfigureer hoe die kde gemors gedrag hier
+Comment[bs]=Ovdje možete podesiti kako se ponaša KDE Smeće
+Comment[cs]=Zde je možné nastavit chování koše
+Comment[es]=Configuración del comportamiento de la papelera de KDE
+Comment[fi]=Voit asettaa tässä KDE:n roskakorin käytöstä
+Comment[ja]=ここでKDEのごみ箱の動作の設定をします
 Comment[pt_BR]=Você pode configurar aqui como a Lata de Lixo se comporta
+Comment[sv]=Anpassa hur KDE:s papperskorg beter sig
+Comment[tr]=Çöp kutusunu buradan yapılandırabilirsiniz
 Keywords=konqueror,filemanager,trash,move to trash,shred,delete,recycle bin,bit bucket
+Keywords[da]=konqueror,filhåndtering,affald,flyt til affald,makulér,slet, genbrugskurv,bitspand
+Keywords[es]=konqueror,administrador de archivos,papelear,mover a la papelera,triturar,borrar,eliminar,suprimir,reciclar,papelera de bits
+Keywords[fi]=konqoeror,tiedostonhallinta,roskakori,siirrä roskakoriin,silppua,tuhoa,kierrätä
+Keywords[ja]=konqueror,ファイルマネージャ,ごみ,ごみ箱へ移動,シュレッダー,削除,recycle bin,bit bucket
 Keywords[pt_BR]=konqueror,gerenciador de arquivos,lixo, mover para o lixo,apagar, reciclar,remover
+Keywords[sv]=konqueror,filhanterare,papperskorg,flytta till papperskorg,förstör,ta bort

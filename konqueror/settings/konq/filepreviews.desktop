@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell filepreviews
 
@@ -10,6 +10,37 @@ X-KDE-Library=konq
 X-KDE-FactoryName=previews
 
 Name=Previews
+Name[af]=voorskoue
+Name[be]=Прагляды
+Name[bs]=Pregledi
+Name[cs]=Náhledy
+Name[da]=Forhåndsvisninger
+Name[es]=Previsualizaciones
+Name[fi]=Esikatselu
+Name[he]=תצוגות מקדימות
+Name[hu]=Előnézetek
+Name[ja]=プレビュー
+Name[pt_BR]=Previsões
+Name[sv]=Förhandsgranskningar
+Name[tr]=Önizlemeler
 
 Comment=You can configure how Konqueror Previews work here
+Comment[af]=jy kan konfigureer hoe konqueror voorskoue werk hier
+Comment[bs]=Ovdje možete podesiti kako rade Pregledi u Konqueroru
+Comment[da]=Her kan du indstille hvordan forhåndsvisninger i Konqueror fungerer
+Comment[es]=Configuración de la previsualización en Konqueror
+Comment[fi]=Voit asettaa Konquerorin esikatselua tässä
+Comment[hu]=Itt lehet beállítani a Konqueror előnézeteit
+Comment[ja]=ここでKonquerorのプレビューの動作を設定します
+Comment[pt_BR]=Você pode configurar aqui como o Konqueror funciona com o modo de Previsões
+Comment[sv]=Anpassa hur Konquerors förhandsgranskning fungerar
+Comment[tr]=Konqueror önizlemelerini buradan yapılandırabilirsiniz
 Keywords=konqueror,filemanager,previews,file previews,maximum size
+Keywords[af]=konqueror,filemanager,previews,file previews,maximum grootte
+Keywords[da]=konqueror,filhåndtering,forhåndsvisninger,filforhåndsvisninger,maksimal størrelse
+Keywords[es]=konqueror,administrador de archivos,previsualizaciones,previsualizaciones de archivos, tamaño máximo
+Keywords[fi]=konqueror,tiedostonhallinta,eikatselu,tiedoston esikatselu,maksimikoko
+Keywords[ja]=konqueror,ファイルマネージャ,プレビュー,ファイルプレビュー,最大サイズ
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,visualização,previsões de arquivos,tamanho máximo
+Keywords[sv]=konqueror,filhanterare,förhandsgranskning,maximal storlek
+Keywords[tr]=konqueror,dosya yöneticisi,önizlemeler,azami boyut

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/konq-browsing.html
+DocPath=kcontrol/khtml/index.html
 Icon=konqueror
 Exec=kcmshell khtml_plugins
 
@@ -10,5 +10,32 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_plugins
 
 Name=Plugins
+Name[af]=inprop modules
+Name[be]=Дапаўненьні
+Name[bs]=Dodaci
+Name[cs]=Moduly
+Name[da]=Indstik
+Name[fi]=Sovelmat
+Name[he]=תוספים
+Name[hu]=Bővítőmodulok
+Name[ja]=プラグイン
+Name[sv]=Insticksprogram
+Name[tr]=Eklentiler
 Comment=Configure the plugins loaded in Konqueror
+Comment[af]=konfigureer die inprop modules gelaai in konqueror
+Comment[bs]=Podesite dodatke koji su učitani u Konqueror
+Comment[da]=Indstil de indstik der er indlæst i Konqueror
+Comment[es]=Configura los plugins cargados en Konqueror
+Comment[fi]=Aseta Konqueroriin ladattavia sovelmia
+Comment[he]=שי� וי הגדרות התוספים ה� טע� ים ב-Konqueror
+Comment[ja]=Konquerorで読み込まれているプラグインの設定をします
+Comment[pt_BR]=Configure os plug-ins carregados no Konqueror
+Comment[sv]=Anpassa insticksprogrammen som laddas i Konqueror
 Keywords=konqueror,kfm,browser,html,web,www,fonts,plugins
+Keywords[da]=konqueror,kfm,netsøger,html,net,www,skrifttyper,indstik
+Keywords[es]=konqueror,kfm,navegador,html,web,www,fuentes,plugins
+Keywords[fi]=konqueror,kfm,selain,html,web,www,kirjasimet,sovelmat
+Keywords[hu]=Konqueror,kfm,böngésző,HTML,web,WWW,betűtípusok,bővítőmodulok
+Keywords[ja]=konqueror,kfm,ブラウザ,html,ウェブ,www,フォント,プラグイン
+Keywords[pt_BR]=konqueror,kfm,navegador,html,web,www,fontes,plugins
+Keywords[sv]=konqueror,kfm,webbläsare,html,webb,www,teckensnitt,insticksprogram

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=kfm
 Exec=kcmshell desktoppath
 
@@ -10,6 +10,34 @@ X-KDE-Library=konq
 X-KDE-FactoryName=dpath
 
 Name=Paths
+Name[af]=paths
+Name[be]=Шляхі
+Name[bs]=Putevi
+Name[cs]=Cesty
+Name[da]=Stier
+Name[es]=Rutas
+Name[fi]=Polut
+Name[he]=נתיבים
+Name[hu]=Elérési utak
+Name[ja]=パス
+Name[pt_BR]=Caminhos
+Name[sv]=Sökvägar
+Name[tr]=Yollar
 
 Comment=You can configure what directories desktop icons have here
+Comment[af]=jy kan konfigureer wat gidse werkskerm ikoone het hier
+Comment[bs]=Ovdje možete podesiti direktorije za ikone na desktopu
+Comment[da]=Her kan du indstille hvilke mapper skrivebordsikoner har
+Comment[es]=Configuración de qué iconos de escritorio de directorio tener. 
+Comment[fi]=Voit asettaa työpöydän kuvakkeiden polkuja
+Comment[ja]=ここでデスクトップアイコンがあるディレクトリの設定をします
+Comment[pt_BR]=Você pode configurar aqui quais diretórios terão ícones no ambiente de trabalho
+Comment[sv]=Anpassa vilka kataloger som har skrivbordsikoner
 Keywords=konqueror,filemanager,paths,desktop,trash,directories,autostart
+Keywords[da]=konqueror,filhåndtering,stier,skrivebord,affald,mapper,autostart
+Keywords[es]=konqueror,administrador de archivos,rutas,escritorio,papelera,directorios,autoinicio
+Keywords[fi]=konqueror,tiedostonhallinta,polut,työpöytä,roskakori,hakemistot,automaattikäynnistys
+Keywords[hu]=Konqueror,fájlkezelő,elérési utak,szemétkosár,könyvtárak,automatikus indítás
+Keywords[ja]=konqueror,ファイルマネージャ,パス,デスクトップ,ゴミ,ディレクトリ,自動起動
+Keywords[pt_BR]=konqueror,gerenciador de arquivos,caminhos,ambiente de trabalho,lixo,diretórios,auto-início
+Keywords[sv]=konqueror,filhanterare,sökvägar,skrivbord,papperskorg,kataloger,automatisk start
