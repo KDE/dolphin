@@ -341,7 +341,10 @@ makes that session active.</para>
 </varlistentry>
 <varlistentry>
 <term><menuchoice><guimenu>Options</guimenu><guimenuitem>Schema</guimenuitem></menuchoice></term>
-<listitem><para><action>Sets colors of text and background</action></para></listitem>
+<listitem><para><action>Sets colors of text and background</action></para>
+<para>The list of these schemata is taken from <filename>$KDEDIR/apps/konsole/*.schema</filename>.
+      Add to or modify these files to match your needs.</para>
+</listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice><guimenu>Options</guimenu><guimenuitem>History</guimenuitem></menuchoice></term>
@@ -353,7 +356,10 @@ makes that session active.</para>
 </varlistentry>
 <varlistentry>
 <term><menuchoice><guimenu>Options</guimenu><guimenuitem>Keyboard</guimenuitem></menuchoice></term>
-<listitem><para><action>Chooses desired keymapping</action></para></listitem>
+<listitem><para><action>Chooses desired keymapping</action></para>
+<para>The list of these keymappings is taken from <filename>$KDEDIR/apps/konsole/*.keymap</filename>.
+      Add to or modify these files to match your needs.</para>
+</listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice><guimenu>Options</guimenu><guimenuitem>Save Options</guimenuitem></menuchoice></term>
@@ -489,7 +495,7 @@ Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 <email>vampyr@atconnex.net</email></para>
 
 <para>This program is licensed under the terms of the <ulink
-url="common/gpl-licence.html">GNU General Public License</ulink>.  The
+url="common/gpl-licence.html">GNU General Public License Version 2</ulink>.  The
 documentation is licensed under the terms of the <ulink
 url="common/fdl-licence.html">GNU Free Documentation License.</ulink></para>
 </chapter>
