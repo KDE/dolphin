@@ -1,6 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-                 2001, 2002 Michael Brade <brade@kde.org>
+                 2001, 2002, 2004 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -48,7 +48,7 @@ ColumnInfo::ColumnInfo()
    ,name()
    ,desktopFileName()
    ,udsId(0)
-   ,displayThisOne(FALSE)
+   ,displayThisOne(false)
    ,toggleThisOne(0)
 {}
 
@@ -76,24 +76,24 @@ void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUd
 
 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
-    :KListView(parentWidget)
-,sortedByColumn(0)
-,m_pBrowserView(parent)
-,m_dirLister(new KDirLister( true /*m_showIcons==FALSE*/))
-,m_dragOverItem(0)
-,m_activeItem(0)
-,m_selected(0)
-,m_scrollTimer(0)
-,m_rubber(0)
-,m_showIcons(true)
-,m_bCaseInsensitive(true)
-,m_bUpdateContentsPosAfterListing(false)
-,m_bAscending(true)
-,m_itemFound(false)
-,m_restored(false)
-,m_filenameColumn(0)
-,m_itemToGoTo("")
-,m_backgroundTimer(0)
+   : KListView(parentWidget)
+   ,sortedByColumn(0)
+   ,m_pBrowserView(parent)
+   ,m_dirLister(new KDirLister( true /*m_showIcons==false*/))
+   ,m_dragOverItem(0)
+   ,m_activeItem(0)
+   ,m_selected(0)
+   ,m_scrollTimer(0)
+   ,m_rubber(0)
+   ,m_showIcons(true)
+   ,m_bCaseInsensitive(true)
+   ,m_bUpdateContentsPosAfterListing(false)
+   ,m_bAscending(true)
+   ,m_itemFound(false)
+   ,m_restored(false)
+   ,m_filenameColumn(0)
+   ,m_itemToGoTo("")
+   ,m_backgroundTimer(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -166,7 +166,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    //looks better with the statusbar
    setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-   setShowSortIndicator(true);
+   setShowSortIndicator( true );
 }
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
@@ -182,23 +182,24 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
 
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
-   KConfig * config = KGlobal::config();
+   KConfig *config = KGlobal::config();
    if ( config->hasGroup( "ListView_" + protocol ) )
       config->setGroup( "ListView_" + protocol );
    else
       config->setGroup( "ListView_default" );
 
-   sortedByColumn=config->readEntry("SortBy","FileName");
-   m_bAscending=config->readBoolEntry("SortOrder",TRUE);
+   sortedByColumn = config->readEntry( "SortBy", "FileName" );
+   m_bAscending = config->readBoolEntry( "SortOrder", true );
 
    // width of filename column
-   m_filenameColumnWidth=config->readNumEntry("FileNameColumnWidth",
-      25*fontMetrics().width( "m" ) );
+   m_filenameColumnWidth = config->readNumEntry( 
+         "FileNameColumnWidth", 25 * fontMetrics().width( "m" ) 
+   );
 
    bool defaultColumns = false;
    QStringList lstColumns = config->readListEntry( "Columns" );
    QValueList<int> lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
-   if (lstColumns.isEmpty())
+   if ( lstColumns.isEmpty() )
    {
       // Default column selection
       defaultColumns = true;
@@ -231,78 +232,79 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
            QString column = (*extraFieldsIt).name;
            lstColumns << column;
            QString type = (*extraFieldsIt).type; // ## TODO use when sorting
-           confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, FALSE, 0);
+           confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, false, 0);
        }
    }
 
    //disable everything
-   for (unsigned int i=0; i<NumberOfAtoms; i++)
+   for ( unsigned int i = 0; i < NumberOfAtoms; i++ )
    {
-      confColumns[i].displayThisOne=FALSE;
-      confColumns[i].displayInColumn=-1;
+      confColumns[i].displayThisOne = false;
+      confColumns[i].displayInColumn = -1;
       if ( confColumns[i].toggleThisOne )
       {
-          confColumns[i].toggleThisOne->setChecked(FALSE);
-          confColumns[i].toggleThisOne->setEnabled(TRUE);
+          confColumns[i].toggleThisOne->setChecked( false );
+          confColumns[i].toggleThisOne->setEnabled( true );
       }
    }
-   int currentColumn = m_filenameColumn+1;
+   int currentColumn = m_filenameColumn + 1;
    //check all columns in lstColumns
-   for (unsigned int i=0; i<lstColumns.count(); i++)
+   for ( unsigned int i = 0; i < lstColumns.count(); i++ )
    {
       //search the column in confColumns
-      for (unsigned int j=0; j<NumberOfAtoms; j++)
+      for ( unsigned int j = 0; j < NumberOfAtoms; j++ )
       {
-         if (confColumns[j].name==*lstColumns.at(i))
+         if ( confColumns[j].name == *lstColumns.at(i) )
          {
-            confColumns[j].displayThisOne=TRUE;
-            confColumns[j].displayInColumn=currentColumn;
+            confColumns[j].displayThisOne = true;
+            confColumns[j].displayInColumn = currentColumn;
             if ( confColumns[j].toggleThisOne )
-                confColumns[j].toggleThisOne->setChecked(TRUE);
+               confColumns[j].toggleThisOne->setChecked( true );
             currentColumn++;
 
-            if (i < lstColumnWidths.count())
-                confColumns[j].width = *lstColumnWidths.at(i);
-            else {
-                // Default Column widths
-                ColumnInfo *tmpColumn = &confColumns[j];
-                QString str;
+            if ( i < lstColumnWidths.count() )
+               confColumns[j].width = *lstColumnWidths.at(i);
+            else 
+            {
+               // Default Column widths
+               ColumnInfo *tmpColumn = &confColumns[j];
+               QString str;
 
-                if (tmpColumn->udsId==KIO::UDS_SIZE)
-                    str = KGlobal::locale()->formatNumber(888888888, 0) + "  ";
-                else if (tmpColumn->udsId==KIO::UDS_ACCESS)
-                    str = "--Permissions--";
-                else if (tmpColumn->udsId==KIO::UDS_USER)
-                    str = "a_long_username";
-                else if (tmpColumn->udsId==KIO::UDS_GROUP)
-                    str = "a_groupname";
-                else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
-                    str = "a_quite_long_filename_for_link_dest";
-                else if (tmpColumn->udsId==KIO::UDS_FILE_TYPE)
-                    str = "a_long_comment_for_mimetype";
-                else if (tmpColumn->udsId==KIO::UDS_MIME_TYPE)
-                    str = "_a_long_/_mimetype_";
-                else if (tmpColumn->udsId==KIO::UDS_URL)
-                    str = "a_long_lonq_long_very_long_url";
-                else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
-                         || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
-                         || (tmpColumn->udsId==KIO::UDS_CREATION_TIME))
-                {
-                    QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
-                    str = KGlobal::locale()->formatDate(dt.date(),TRUE) +
-                          KGlobal::locale()->formatTime(dt.time()) + "----";
-                }
-                else
-                    str = "it_is_the_default_width";
+               if ( tmpColumn->udsId == KIO::UDS_SIZE )
+                  str = KGlobal::locale()->formatNumber( 888888888, 0 ) + "  ";
+               else if ( tmpColumn->udsId == KIO::UDS_ACCESS )
+                  str = "--Permissions--";
+               else if ( tmpColumn->udsId == KIO::UDS_USER )
+                  str = "a_long_username";
+               else if ( tmpColumn->udsId == KIO::UDS_GROUP )
+                  str = "a_groupname";
+               else if ( tmpColumn->udsId == KIO::UDS_LINK_DEST )
+                  str = "a_quite_long_filename_for_link_dest";
+               else if ( tmpColumn->udsId == KIO::UDS_FILE_TYPE )
+                  str = "a_long_comment_for_mimetype";
+               else if ( tmpColumn->udsId == KIO::UDS_MIME_TYPE )
+                  str = "_a_long_/_mimetype_";
+               else if ( tmpColumn->udsId == KIO::UDS_URL )
+                  str = "a_long_lonq_long_very_long_url";
+               else if ( (tmpColumn->udsId == KIO::UDS_MODIFICATION_TIME)
+                         || (tmpColumn->udsId == KIO::UDS_ACCESS_TIME)
+                         || (tmpColumn->udsId == KIO::UDS_CREATION_TIME) )
+               {
+                  QDateTime dt( QDate( 2000, 10, 10 ), QTime( 20, 20, 20 ) );
+                  str = KGlobal::locale()->formatDate( dt.date(), true ) +
+                        KGlobal::locale()->formatTime( dt.time() ) + "----";
+               }
+               else
+                  str = "it_is_the_default_width";
 
-                confColumns[j].width = fontMetrics().width(str);
+               confColumns[j].width = fontMetrics().width(str);
             }
             break;
          }
       }
    }
    //check what the protocol provides
-   QStringList listingList=KProtocolInfo::listing(protocol);
+   QStringList listingList = KProtocolInfo::listing( protocol );
    kdDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
 
    // Even if this is not given by the protocol, we can determine it.
@@ -310,21 +312,26 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    // using the mimetype comment, which for most users is a nicer alternative
    // than the raw mimetype name.
    listingList.append( "MimeType" );
-   for (unsigned int i=0; i<NumberOfAtoms; i++)
+   for ( unsigned int i = 0; i < NumberOfAtoms; i++ )
    {
-      if ((confColumns[i].udsId==KIO::UDS_URL) || (confColumns[i].udsId==KIO::UDS_MIME_TYPE))
+      if ( confColumns[i].udsId == KIO::UDS_URL || 
+           confColumns[i].udsId == KIO::UDS_MIME_TYPE )
+      {
          continue;
-      QStringList::Iterator listIt = listingList.find(confColumns[i].desktopFileName);
+      }
+
+      QStringList::Iterator listIt = listingList.find( confColumns[i].desktopFileName );
       if ( listIt == listingList.end() ) // not found -> hide
       {
          //move all columns behind one to the front
-         for (unsigned int l=0; l<NumberOfAtoms; l++)
-            if (confColumns[i].displayInColumn>confColumns[i].displayInColumn)
+         for ( unsigned int l = 0; l < NumberOfAtoms; l++ )
+            if ( confColumns[i].displayInColumn > confColumns[i].displayInColumn )
                confColumns[i].displayInColumn--;
+
          //disable this column
-         confColumns[i].displayThisOne=FALSE;
-         confColumns[i].toggleThisOne->setEnabled(FALSE);
-         confColumns[i].toggleThisOne->setChecked(FALSE);
+         confColumns[i].displayThisOne = false;
+         confColumns[i].toggleThisOne->setEnabled( false );
+         confColumns[i].toggleThisOne->setChecked( false );
       }
    }
 }
@@ -332,31 +339,31 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 void KonqBaseListViewWidget::createColumns()
 {
    //this column is always required, so add it
-   if (columns()<1)
+   if ( columns() < 1 )
        addColumn( i18n("Name"), m_filenameColumnWidth );
-   setSorting(0,TRUE);
+   setSorting( 0, true );
 
    //remove all columns that will be re-added
    for ( int i=columns()-1; i>m_filenameColumn; i--)
         removeColumn(i);
 
    //now add the checked columns
-   int currentColumn = m_filenameColumn+1;
-   for (int i=0; i<(int)NumberOfAtoms; i++)
+   int currentColumn = m_filenameColumn + 1;
+   for ( int i = 0; i < (int)NumberOfAtoms; i++ )
    {
-      if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
+      if ( confColumns[i].displayThisOne && (confColumns[i].displayInColumn == currentColumn) )
       {
-         addColumn(i18n(confColumns[i].name.utf8() ), confColumns[i].width);
-         if (sortedByColumn == confColumns[i].desktopFileName)
-            setSorting(currentColumn,m_bAscending);
-         if (confColumns[i].udsId==KIO::UDS_SIZE)
-             setColumnAlignment(currentColumn,AlignRight);
-         i=-1;
+         addColumn( i18n(confColumns[i].name.utf8()), confColumns[i].width );
+         if ( sortedByColumn == confColumns[i].desktopFileName )
+            setSorting( currentColumn, m_bAscending );
+         if ( confColumns[i].udsId == KIO::UDS_SIZE )
+             setColumnAlignment( currentColumn, AlignRight );
+         i = -1;
          currentColumn++;
       }
    }
-   if (sortedByColumn=="FileName")
-      setSorting(0,m_bAscending);
+   if ( sortedByColumn == "FileName" )
+      setSorting( 0, m_bAscending );
 }
 
 void KonqBaseListViewWidget::stop()
@@ -462,9 +469,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
    if ( item != m_activeItem )
    {
       if ( m_activeItem != 0 )
-      {
          m_activeItem->setActive( false );
-      }
 
       m_activeItem = item;
 
@@ -475,9 +480,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          m_pBrowserView->emitMouseOver( item->item() );
       }
       else
-      {
          reportSelectedItems();
-      }
    }
 
    KListView::contentsMouseMoveEvent( e );
@@ -643,8 +646,8 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
       _ev->acceptAction();
       if ( m_dragOverItem != item )
       {
-	setSelected( item, true );
-	m_dragOverItem = item;
+         setSelected( item, true );
+         m_dragOverItem = item;
       }
    }
    else
@@ -711,18 +714,15 @@ void KonqBaseListViewWidget::startDrag()
    }
 
    KURLDrag *d = new KURLDrag( urls, viewport() );
-   if ( !pixmap2.isNull())
-   {
+   if ( !pixmap2.isNull() )
       d->setPixmap( pixmap2 );
-   }
-   else if (!pixmap0Invalid)
-   {
+   else if ( !pixmap0Invalid )
       d->setPixmap( *m_pressedItem->pixmap( 0 ) );
-   }
+
    d->drag();
 }
 
-void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
+void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString &name, int col )
 {
    Q_ASSERT( col == 0 );
    Q_ASSERT( item != 0 );
@@ -751,11 +751,12 @@ void KonqBaseListViewWidget::reportSelectedItems()
    m_pBrowserView->emitMouseOver( 0 );
 }
 
-void KonqBaseListViewWidget::slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint& pos, int)
+void KonqBaseListViewWidget::slotMouseButtonClicked( int _button, 
+      QListViewItem *_item, const QPoint& pos, int )
 {
    if ( _button == MidButton )
    {
-      if(_item && isExecuteArea( viewport()->mapFromGlobal(pos) ) )
+      if ( _item && isExecuteArea( viewport()->mapFromGlobal(pos) ) )
          m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
       else // MMB on background
          m_pBrowserView->mmbClicked( 0L );
@@ -764,21 +765,19 @@ void KonqBaseListViewWidget::slotMouseButtonClicked(int _button, QListViewItem* 
 
 void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
 {
-  if ( !item )
+   if ( !item )
       return;
-  // isExecuteArea() checks whether the mouse pointer is
-  // over an area where an action should be triggered
-  // (i.e. the Name column, including pixmap and "+")
-  if ( isExecuteArea( viewport()->mapFromGlobal(QCursor::pos())) )
-  {
-    slotReturnPressed( item );
-  }
+   // isExecuteArea() checks whether the mouse pointer is
+   // over an area where an action should be triggered
+   // (i.e. the Name column, including pixmap and "+")
+   if ( isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ) ) )
+      slotReturnPressed( item );
 }
 
-void KonqBaseListViewWidget::selectedItems( QPtrList<KonqBaseListViewItem>* _list )
+void KonqBaseListViewWidget::selectedItems( QPtrList<KonqBaseListViewItem> *_list )
 {
    iterator it = begin();
-   for( ; it != end(); it++ )
+   for ( ; it != end(); it++ )
       if ( it->isSelected() )
          _list->append( &*it );
 }
@@ -787,7 +786,7 @@ KFileItemList KonqBaseListViewWidget::selectedFileItems()
 {
    KFileItemList list;
    iterator it = begin();
-   for( ; it != end(); it++ )
+   for ( ; it != end(); it++ )
       if ( it->isSelected() )
          list.append( it->item() );
    return list;
@@ -797,7 +796,7 @@ KURL::List KonqBaseListViewWidget::selectedUrls()
 {
    KURL::List list;
    iterator it = begin();
-   for( ; it != end(); it++ )
+   for ( ; it != end(); it++ )
       if ( it->isSelected() )
          list.append( it->item()->url() );
    return list;
@@ -812,7 +811,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 {
    if ( !_item )
       return;
-   KFileItem *fileItem = static_cast<KonqBaseListViewItem*>(_item)->item();
+   KFileItem *fileItem = static_cast<KonqBaseListViewItem *>(_item)->item();
    if ( !fileItem )
       return;
 
@@ -820,19 +819,15 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    url.cleanPath();
    bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
    if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
-   {
-       m_pBrowserView->lmbClicked( fileItem );
-   }
+      m_pBrowserView->lmbClicked( fileItem );
    else
-   {
-       KMessageBox::information(0L, i18n("You must take the file out of the trash before being able to use it."));
-    }
+      KMessageBox::information( 0L, i18n("You must take the file out of the trash before being able to use it.") );
 }
 
-void KonqBaseListViewWidget::slotPopupMenu(QListViewItem*, const QPoint &point, int )
+void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *, const QPoint &point, int )
 {
-   kdDebug() << "KonqBaseListViewWidget::slotPopupMenu" << endl;
-   popupMenu( point,false );
+   kdDebug(1202) << "KonqBaseListViewWidget::slotPopupMenu" << endl;
+   popupMenu( point, false );
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
@@ -851,7 +846,7 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
           lstItems.append( item->item() );
    }
 
-   KFileItem * rootItem = 0L;
+   KFileItem *rootItem = 0L;
    bool deleteRootItem = false;
    if ( lstItems.count() == 0 ) // emit popup for background
    {
@@ -888,7 +883,7 @@ void KonqBaseListViewWidget::updateListContents()
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
    kdDebug(1202) << k_funcinfo << "protocol: " << url.protocol()
-                               <<" url: " << url.path() << endl;
+                               << " url: " << url.path() << endl;
 
    // The first time or new protocol? So create the columns first.
    if ( columns() < 1 || url.protocol() != m_url.protocol() )
@@ -1114,6 +1109,8 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 
 void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 {
+   //kdDebug(1202) << k_funcinfo << endl;
+
    QPtrListIterator<KFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
    {
@@ -1131,42 +1128,42 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
    kdDebug(1202) << k_funcinfo << endl;
 
-   if (( columns() <1) || ( url.protocol() != m_url.protocol() ))
+   if ( (columns() < 1) || (url.protocol() != m_url.protocol()) )
    {
       readProtocolConfig( url.protocol() );
       createColumns();
    }
    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
-   m_pBrowserView->m_url=url;
+   m_pBrowserView->m_url = url;
    m_url = url;
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()
 {
    if ( !m_p ) return *this;
-   KonqBaseListViewItem *i = (KonqBaseListViewItem*)m_p->firstChild();
+   KonqBaseListViewItem *i = (KonqBaseListViewItem *)m_p->firstChild();
    if ( i )
    {
       m_p = i;
       return *this;
    }
-   i = (KonqBaseListViewItem*)m_p->nextSibling();
+   i = (KonqBaseListViewItem *)m_p->nextSibling();
    if ( i )
    {
       m_p = i;
       return *this;
    }
-   m_p = (KonqBaseListViewItem*)m_p->parent();
+   m_p = (KonqBaseListViewItem *)m_p->parent();
 
    while ( m_p )
    {
       if ( m_p->nextSibling() )
          break;
-      m_p = (KonqBaseListViewItem*)m_p->parent();
+      m_p = (KonqBaseListViewItem *)m_p->parent();
    }
 
    if ( m_p )
-      m_p = (KonqBaseListViewItem*)m_p->nextSibling();
+      m_p = (KonqBaseListViewItem *)m_p->nextSibling();
 
    return *this;
 }
@@ -1175,29 +1172,29 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 {
    KonqBaseListViewWidget::iterator it = *this;
    if ( !m_p ) return it;
-   KonqBaseListViewItem *i = (KonqBaseListViewItem*)m_p->firstChild();
-   if (i)
+   KonqBaseListViewItem *i = (KonqBaseListViewItem *)m_p->firstChild();
+   if ( i )
    {
       m_p = i;
       return it;
    }
-   i = (KonqBaseListViewItem*)m_p->nextSibling();
-   if (i)
+   i = (KonqBaseListViewItem *)m_p->nextSibling();
+   if ( i )
    {
       m_p = i;
       return it;
    }
-   m_p = (KonqBaseListViewItem*)m_p->parent();
+   m_p = (KonqBaseListViewItem *)m_p->parent();
 
    while ( m_p )
    {
       if ( m_p->nextSibling() )
          break;
-      m_p = (KonqBaseListViewItem*)m_p->parent();
+      m_p = (KonqBaseListViewItem *)m_p->parent();
    }
 
-   if (m_p)
-      m_p = (KonqBaseListViewItem*)m_p->nextSibling();
+   if ( m_p )
+      m_p = (KonqBaseListViewItem *)m_p->nextSibling();
    return it;
 }
 
