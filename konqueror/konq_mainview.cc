@@ -931,6 +931,32 @@ KonqChildView *KonqMainView::childView( OpenParts::Id id )
     return 0L;
 }
 
+KonqChildView *KonqMainView::chooseNextView( RowInfo *row, KonqChildView *view )
+{
+  int idx = row->children.findRef( view );
+  
+  assert( idx != -1 );
+  
+  if ( idx < row->children.count() - 1 )
+    return row->children.at( idx + 1 );
+  else if ( idx > 0 )
+    return row->children.at( idx - 1 );
+    
+  idx = m_lstRows.findRef( row );
+  if ( idx < m_lstRows.count() - 1 )
+  {
+    RowInfo *nextRow = m_lstRows.at( idx + 1 );
+    return chooseNextView( nextRow, nextRow->children.first() );
+  }
+  else if ( idx > 0 )
+  {
+    RowInfo *prevRow = m_lstRows.at( idx - 1 );
+    return chooseNextView( prevRow, prevRow->children.first() );
+  }
+  
+  return 0L;
+}
+
 void KonqMainView::removeChildView( OpenParts::Id id )
 {
   MapViews::ConstIterator it = m_mapViews.find( id );
@@ -942,11 +968,15 @@ void KonqMainView::removeChildView( RowInfo *row, KonqChildView *view )
 {
   if ( view == m_currentView )
   {
-    // give focus to mainwindow. Shouldn't we pick up another view
-    // instead ? 
-    m_vMainWindow->setActivePart( this->id() );
-    m_currentView = 0L;
-    m_currentId = 0;
+//    KonqChildView *nextView = chooseNextView( row, view );
+//    if ( nextView )
+//      setActiveView( nextView->id() );
+//    else
+    { //shouldn't be reached ;-)
+      m_vMainWindow->setActivePart( id() );
+      m_currentView = 0L;
+      m_currentId = 0;
+    }
   }
 
   bool deleteParentSplitter = false;
@@ -1016,6 +1046,10 @@ void KonqMainView::saveViewProfile( KConfig &cfg )
     
     cfg.writeEntry( "URL", viewIt.current()->url() );
     cfg.writeEntry( "ServiceType", viewIt.current()->serviceTypes().first() );
+    
+    //HACK
+    if ( viewIt.current()->viewName() == "KonquerorKfmTreeView" )
+      cfg.writeEntry( "IsBuiltinTreeView", true );
   }
   
   cfg.sync();
@@ -1076,11 +1110,25 @@ void KonqMainView::loadViewProfile( KConfig &cfg )
       QString serviceType = cfg.readEntry( "ServiceType" );
       QString url = cfg.readEntry( "URL" );
       
+      //HACK
+      bool treeView = ( cfg.hasKey( "IsBuiltinTreeView" ) &&
+                        cfg.readBoolEntry( "IsBuiltinTreeView" ) &&
+			serviceType == "inode/directory" );
+      
       Browser::View_var vView;
       QStringList serviceTypes;
       
-      //Simon TODO: error handling
-      KonqChildView::createView( serviceType, vView, serviceTypes, this );
+      if ( treeView )
+      {
+        //HACK
+        vView = Browser::View::_duplicate( new KonqKfmTreeView( this ) );
+	serviceTypes.append( "inode/directory" );
+      }
+      else
+      {
+        //Simon TODO: error handling
+        KonqChildView::createView( serviceType, vView, serviceTypes, this );
+      }
       
       setupView( rowInfo, vView, serviceTypes );
       
@@ -1094,6 +1142,8 @@ void KonqMainView::loadViewProfile( KConfig &cfg )
   }
 
   m_pMainSplitter->setSizes( mainSplitterSizes );  
+  
+  setActiveView( m_lstRows.first()->children.first()->id() );
 }
 
 void KonqMainView::splitView ( Orientation orientation ) 

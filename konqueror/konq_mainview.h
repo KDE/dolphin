@@ -206,6 +206,8 @@ private:
 
   QList<RowInfo> m_lstRows;
 
+  KonqChildView *chooseNextView( RowInfo *row, KonqChildView *view );
+
   void removeChildView( OpenParts::Id id );
 
   void removeChildView( RowInfo *row, KonqChildView *view );
