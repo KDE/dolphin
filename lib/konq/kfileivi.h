@@ -147,6 +147,11 @@ protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
 private:
+    /** You are not supposed to call this on a KFileIVI, from the outside,
+     * it bypasses the icons cache */
+    virtual void setPixmap ( const QPixmap & icon ) { KIconViewItem::setPixmap( icon ); }
+    virtual void setPixmap ( const QPixmap & icon, bool recalc, bool redraw = TRUE )
+        { KIconViewItem::setPixmap( icon, recalc, redraw ); }
     int m_size, m_state;
     bool m_bDisabled;
     bool m_bThumbnail;
