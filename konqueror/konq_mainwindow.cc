@@ -120,6 +120,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_pURLCompletion = 0L;
   m_bFullScreen = false;
   m_qComboHack = false;
+  m_goBuffer = 0;
 
   m_bViewModeToggled = false;
 
@@ -1862,7 +1863,20 @@ void KonqMainWindow::slotGoMenuAboutToShow()
 }
 
 void KonqMainWindow::slotGoHistoryActivated( int steps )
+{ 
+  if (!m_goBuffer)
+  {
+    // Only start 1 timer.
+    m_goBuffer = steps;
+    QTimer::singleShot( 0, this, SLOT(slotGoHistoryDelayed()));
+  }
+}
+
+void KonqMainWindow::slotGoHistoryDelayed()
 {
+  if (!m_goBuffer) return;
+  int steps = m_goBuffer;
+  m_goBuffer = 0;
   m_currentView->go( steps );
 }
 
@@ -1875,12 +1889,12 @@ void KonqMainWindow::slotBackAboutToShow()
 
 void KonqMainWindow::slotBack()
 {
-  m_currentView->go( -1 );
+  slotGoHistoryActivated(-1);
 }
 
 void KonqMainWindow::slotBackActivated( int id )
 {
-  m_currentView->go( -(m_paBack->popupMenu()->indexOf( id ) + 1) );
+  slotGoHistoryActivated( -(m_paBack->popupMenu()->indexOf( id ) + 1) );
 }
 
 void KonqMainWindow::slotForwardAboutToShow()
@@ -1892,12 +1906,12 @@ void KonqMainWindow::slotForwardAboutToShow()
 
 void KonqMainWindow::slotForward()
 {
-  m_currentView->go( 1 );
+  slotGoHistoryActivated( 1 );
 }
 
 void KonqMainWindow::slotForwardActivated( int id )
 {
-  m_currentView->go( m_paForward->popupMenu()->indexOf( id ) + 1 );
+  slotGoHistoryActivated( m_paForward->popupMenu()->indexOf( id ) + 1 );
 }
 
 void KonqMainWindow::slotComboPlugged()

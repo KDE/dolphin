@@ -304,6 +304,7 @@ protected slots:
   void slotUpActivated( int id );
   void slotBackActivated( int id );
   void slotForwardActivated( int id );
+  void slotGoHistoryDelayed();
 
   void slotComboPlugged();
   void slotCompletionModeChanged( KGlobalSettings::Completion );
@@ -447,6 +448,8 @@ private:
   uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
   uint m_bLockLocationBarURL:1;
+
+  int m_goBuffer;
 
   MapViews m_mapViews;
 
