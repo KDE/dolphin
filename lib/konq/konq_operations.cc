@@ -47,6 +47,7 @@
 #include <kio/job.h>
 #include <kio/jobclasses.h>
 #include <kio/paste.h>
+#include <kio/netaccess.h>
 #include <konq_drag.h>
 #include <konq_iconviewwidget.h>
 #include <kprotocolinfo.h>
@@ -84,56 +85,16 @@ void KonqOperations::del( QWidget * parent, int method, const KURL::List & selec
     kdWarning(1203) << "Empty URL list !" << endl;
     return;
   }
-  // We have to check the trash itself isn't part of the selected
-  // URLs.
-  bool bTrashIncluded = false;
-  KURL::List::ConstIterator it = selectedURLs.begin();
-  for ( ; it != selectedURLs.end() && !bTrashIncluded; ++it )
-      if ( (*it).isLocalFile() && (*it).path(1) == KGlobalSettings::trashPath() )
-          bTrashIncluded = true;
-  int confirmation = DEFAULT_CONFIRMATION;
-  if ( bTrashIncluded )
-  {
-      switch ( method ) {
-          case TRASH:
-              KMessageBox::sorry(0, i18n("You cannot trash the trash bin."));
-              return;
-          case DEL:
-          case SHRED:
-              confirmation = FORCE_CONFIRMATION;
-              break;
-      }
-  }
+
   KonqOperations * op = new KonqOperations( parent );
+  int confirmation = DEFAULT_CONFIRMATION;
   op->_del( method, selectedURLs, confirmation );
 }
 
 void KonqOperations::emptyTrash()
 {
   KonqOperations *op = new KonqOperations( 0L );
-
-  QDir trashDir( KGlobalSettings::trashPath() );
-  QStringList files = trashDir.entryList( QDir::All | QDir::Hidden | QDir::System );
-  files.remove(QString("."));
-  files.remove(QString(".."));
-  files.remove(QString(".directory"));
-
-  QStringList::Iterator it(files.begin());
-  for (; it != files.end(); ++it )
-    (*it).prepend( KGlobalSettings::trashPath() );
-
-  KURL::List urls;
-  it = files.begin();
-  for (; it != files.end(); ++it )
-  {
-    KURL u;
-    u.setPath( *it );
-    urls.append( u );
-  }
-
-  if ( urls.count() > 0 )
-    op->_del( EMPTYTRASH, urls, SKIP_CONFIRMATION );
-
+  op->_del( EMPTYTRASH, KURL("trash:/"), SKIP_CONFIRMATION );
 }
 
 void KonqOperations::mkdir( QWidget *parent, const KURL & url )
@@ -224,18 +185,19 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
     {
       case TRASH:
       {
-        // Make sure the trash exists. Usually the case, but not when starting
-        // konq standalone.
-        QString trashPath = KGlobalSettings::trashPath();
-        if ( !QFile::exists( trashPath ) )
-            KStandardDirs::makeDir( QFile::encodeName( trashPath ) );
-        KURL u;
-        u.setPath( trashPath );
-        job = KIO::move( selectedURLs, u );
-        (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, u, job );
+        job = KIO::trash( selectedURLs );
+        (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, "trash:/", job );
          break;
       }
       case EMPTYTRASH:
+      {
+        // Same as in ktrash --empty
+        QByteArray packedArgs;
+        QDataStream stream( packedArgs, IO_WriteOnly );
+        stream << (int)1;
+        job = KIO::special( "trash:/", packedArgs );
+        break;
+      }
       case DEL:
         job = KIO::del( selectedURLs );
         break;
@@ -532,21 +494,21 @@ void KonqOperations::doFileCopy()
     assert(m_info); // setDropInfo - and asyncDrop - should have been called before asyncDrop
     KURL::List lst = m_info->lst;
     QDropEvent::Action action = m_info->action;
-    QString newTrashPath;
     bool isDesktopFile = false;
     bool itemIsOnDesktop = false;
-    KURL::List mlst;
+    bool allItemsAreFromTrash = true;
+    KURL::List mlst; // list of items that can be moved
     for (KURL::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
     {
         bool local = (*it).isLocalFile();
-        if ( local && ((*it).path(1) == KGlobalSettings::trashPath()))
-            newTrashPath=m_destURL.path()+(*it).path().right((*it).path().length()-(*it).directory().length());
         if ( KProtocolInfo::supportsDeleting( *it ) && (!local || QFileInfo((*it).directory()).isWritable() ))
             mlst.append(*it);
         if ( local && KDesktopFile::isDesktopFile((*it).path()))
             isDesktopFile = true;
         if ( local && (*it).path().startsWith(KGlobalSettings::desktopPath()))
             itemIsOnDesktop = true;
+        if ( local || (*it).protocol() != "trash" )
+            allItemsAreFromTrash = false;
     }
 
     bool linkOnly = false;
@@ -556,7 +518,7 @@ void KonqOperations::doFileCopy()
        linkOnly = true;
     }
 
-    if ( !mlst.isEmpty() && m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
+    if ( !mlst.isEmpty() && m_destURL.protocol() == "trash" )
     {
         if ( itemIsOnDesktop && !kapp->authorize("editable_desktop_icons") )
         {
@@ -572,9 +534,14 @@ void KonqOperations::doFileCopy()
             return;
         }
     }
+    else if ( allItemsAreFromTrash || m_destURL.protocol() == "trash" ) {
+        // No point in asking copy/move/link when using dnd from or to the trash.
+        action = QDropEvent::Move;
+    }
     else if ( (((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0)) ||
               linkOnly )
     {
+        // Neither control nor shift are pressed => show popup menu
         KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
         bool bSetWallpaper = false;
         if (iconView && iconView->maySetWallpaper() &&
@@ -598,8 +565,6 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
-        //bool sTrash = url.path(1) == KGlobalSettings::trashPath();
-        // Nor control nor shift are pressed => show popup menu
 
         QPopupMenu popup;
         if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
@@ -636,17 +601,6 @@ void KonqOperations::doFileCopy()
         job = KIO::move( lst, m_destURL );
         job->setMetaData( m_info->metaData );
         setOperation( job, MOVE, lst, m_destURL );
-        if ( !newTrashPath.isEmpty() )
-        {
-
-            kdDebug(1203) << "Update trash path" <<newTrashPath<< endl;
-            KConfig *globalConfig = KGlobal::config();
-            KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writePathEntry("Trash" , newTrashPath, true, true );
-            globalConfig->sync();
-            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
-        }
-
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, m_destURL, job );
         return; // we still have stuff to do -> don't delete ourselves
     case QDropEvent::Copy :
@@ -679,35 +633,16 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
     KonqOperations * op = new KonqOperations( parent );
     op->setOperation( job, MOVE, lst, newurl );
     (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
-    // if old trash then update config file and emit
-    if(oldurl.isLocalFile() )
+    // if moving the desktop then update config file and emit
+    if ( oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::desktopPath() )
     {
-        if (  oldurl.path(1) == KGlobalSettings::trashPath() ) {
-            kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
-            KConfig *globalConfig = KGlobal::config();
-            KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writePathEntry("Trash" , newurl.path(), true, true );
-            globalConfig->sync();
-            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
-        }
-        // if old trash then update config file and emit
-        if(oldurl.path(1) == KGlobalSettings::desktopPath() )
-        {
-            kdDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
-            KConfig *globalConfig = KGlobal::config();
-            KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writePathEntry("Desktop" , newurl.path(), true, true );
-            if ( KGlobalSettings::trashPath().startsWith(oldurl.path(1) ))
-            {
-                QString newTrashPath = newurl.path()+KGlobalSettings::trashPath().right(KGlobalSettings::trashPath().length()-KURL(KGlobalSettings::trashPath()).directory().length());
-
-                globalConfig->writePathEntry("Trash" , newTrashPath, true, true );
-            }
-            globalConfig->sync();
-            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
-        }
+        kdDebug(1203) << "That rename was the Desktop path, updating config files" << endl;
+        KConfig *globalConfig = KGlobal::config();
+        KConfigGroupSaver cgs( globalConfig, "Paths" );
+        globalConfig->writePathEntry("Desktop" , newurl.path(), true, true );
+        globalConfig->sync();
+        KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }
-
 }
 
 void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & /*src*/, const KURL & dest )
@@ -774,26 +709,10 @@ void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
-
-    // Update trash bin icon if trashing files or emptying trash
-    bool bUpdateTrash = m_method == TRASH || m_method == EMPTYTRASH;
-    // ... or if creating a new file in the trash
-    if ( m_method == MOVE || m_method == COPY || m_method == LINK )
-    {
-        KURL trash;
-        trash.setPath( KGlobalSettings::trashPath() );
-        if ( m_destURL.equals( trash, true /*ignore trailing slash*/ ) )
-            bUpdateTrash = true;
-    }
-    if (bUpdateTrash)
-    {
-        // Update trash bin icon
-        KURL trash;
-        trash.setPath( KGlobalSettings::trashPath() );
-        KURL::List lst;
-        lst.append(trash);
+    if ( m_method == EMPTYTRASH ) {
+        // Update konq windows opened on trash:/
         KDirNotify_stub allDirNotify("*", "KDirNotify*");
-        allDirNotify.FilesChanged( lst );
+        allDirNotify.FilesAdded( "trash:/" ); // yeah, files were removed, but we don't know which ones...
     }
     delete this;
 }

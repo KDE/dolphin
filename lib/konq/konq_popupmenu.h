@@ -155,7 +155,7 @@ public:
   KURL::List popupURLList( ) const;
   ProtocolInfo protocolInfo() const;
 
-public slots:
+public slots: // why public?
   void slotPopupNewDir();
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();

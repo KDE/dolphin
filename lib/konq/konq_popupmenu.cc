@@ -58,8 +58,10 @@
   selected text in khtml
   embedded katepart
   kdesktop folder
-  trash folder
-  application
+  trash link on desktop
+  iconview on trash:/
+  trashed file or directory
+  application .desktop file
  Then the same after uninstalling kdeaddons/konq-plugins (kuick and arkplugin in particular)
 */
 
@@ -374,8 +376,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         }
 
         if ( !bTrashIncluded &&
-             (*it)->url().isLocalFile() &&
-             (*it)->url().path( 1 ) == KGlobalSettings::trashPath() )
+             (*it)->url().protocol() == "trash" &&
+             (*it)->url().path().length() <= 1 )
             bTrashIncluded = true;
 
         if ( sReading )
@@ -418,11 +420,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
     }
 
-    bool isCurrentTrash = ( url.isLocalFile() &&
-                            url.path(1) == KGlobalSettings::trashPath() &&
-                            currentDir) ||
+    bool isCurrentTrash = ( url.protocol() == "trash" &&
+                            url.path().length() <= 1 ) ||
                           ( m_lstItems.count() == 1 && bTrashIncluded );
-    bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+    bool isIntoTrash = url.protocol() == "trash";
     clear();
 
     //////////////////////////////////////////////////////////////////////////
@@ -608,7 +609,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         (*list) = KDEDesktopMimeType::userDefinedServices( path, cfg, url.isLocalFile() );
     }
 
-    if ( !isCurrentTrash && !isIntoTrash && sReading)
+    if ( !isCurrentTrash && !isIntoTrash && sReading )
     {
 
         // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
