@@ -187,6 +187,86 @@ Arrow</keycap>.</para>
 
 </sect1>
 
+<sect1 id="sessions">
+<title>Sessions</title>
+<para>
+If you often have to log into remote machines, or always run a similar set of
+terminal applications, you can use &konsole;'s <quote>Session</quote> feature
+along with &kde;'s session management to automate a lot of this for you.
+
+Let's take the following example:
+
+You often have open an <application>ssh</application> session to the machine
+<replaceable>administration</replaceable> ready for generic administration
+tasks.
+
+You may have noticed the <guibutton>New</guibutton> button on &konsole;'s tab
+bar contains a menu if you click and hold on it, and you can choose new session
+types here. We are going to add new entries to this menu.
+
+<orderedlist>
+<listitem><para>Click on the menu entry <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konsole</guimenuitem>
+</menuchoice></para></listitem>
+<listitem><para>Choose the <guilabel>Session</guilabel> tab.</para>
+</listitem> 
+
+<listitem><para>Fill in the first entry with a name.  This is the
+name that will show in the menu, and will be the default label instead
+of <guilabel>Shell</guilabel> when you start a session of this type.
+</para></listitem>  
+
+<listitem><para>Enter a command just as you normally would if you opened a new
+shell and were going to issue that command.  For our first example above, you
+might type <userinput><command>ssh</command> <replaceable>administration</replaceable></userinput>.</para></listitem>
+
+<listitem><para>On the lower part of the panel, configure this
+session's appearance.  You can have a different font, colour scheme,
+and $<envar>TERM</envar> type for each session.</para></listitem>
+
+<listitem><para>Press the <guibutton>Save
+Session...</guibutton> button.  A dialog will ask you to confirm the filename.
+</para></listitem>
+
+<listitem><para>
+Press <guibutton>OK</guibutton>.
+</para></listitem>
+
+</orderedlist>
+</para>
+<para>
+You should now be able to press and hold the <guibutton>New</guibutton> button
+on the tab bar, and select your new session type from the list.  A new shell
+session will open within the &konsole; window, with the result of your executed
+command.  In our example, you will be at an <application>ssh</application>
+passphrase prompt, and when you provide your passphrase, you will be logged
+into the remote machine.  
+<footnote id="use-ssh-agent"><para>You can avoid this step also, by using
+ssh-agent, but that is a topic for another goodie.</para></footnote>
+
+Perhaps you want to remotely tail your <acronym>http</acronym> error logs on a
+webserver, you could use a commandline something like
+<userinput><command>ssh</command> <option>-f</option>
+<replaceable>webserver</replaceable> <command>tail</command>
+<option>-f</option>
+<filename><replaceable>/var/log/httpd-error.log</replaceable></filename></userinput>.
+</para>
+<para>
+You can use this to execute local commands as well.  Try creating a
+session where the command is <userinput><command>tail</command> <option>-f</option> <filename><replaceable>/var/log/messages</replaceable></filename></userinput>. <!--or 'screen
+<someone who uses screen please supply some sensible command switches here, say -->
+<!--to attach to an irc session>'. -->  In this case, exiting the
+running application will close the shell session as well.
+</para>
+<para>
+One really nice use of this feature is if you find you always have the
+same set of open sessions, &kde; can open them all for you automatically
+when you start a new &kde; session.  Simply have them open as you like
+when you exit &kde;, and they will be saved with your &kde; session, and
+restored just like any other application when you restart &kde;.
+</para>
+
+</sect1>
+
 <sect1 id="mousebuttons">
 
 <title>Mouse Buttons</title>
