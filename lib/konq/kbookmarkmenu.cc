@@ -123,7 +123,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
-                                              QString("bookmark%1").arg(parent->id()) );
+                                              QCString().sprintf("bookmark%d", parent->id()) );
 
     paAddBookmarks->setShortText( i18n( "Add a bookmark for the current document" ) );
 
@@ -136,7 +136,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
-                                              QString("newfolder%1").arg(parent->id()) );
+                                              QCString().sprintf("newfolder%d", parent->id()) );
 
     paNewFolder->setShortText( i18n( "Create a new bookmark folder in this menu" ) );
 
@@ -168,7 +168,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       // create a normal URL item, with ID as a name
       KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
-                                      m_actionCollection, QString("bookmark%1").arg(bm->id()) );
+                                      m_actionCollection, QCString().sprintf("bookmark%d", bm->id()) );
 
       action->setShortText( bm->url() );
 
@@ -342,7 +342,7 @@ void KBookmarkMenu::openNSBookmarks()
 
         KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
-                                        m_actionCollection, QString("bookmark%1").arg(link) );
+                                        m_actionCollection, QCString().sprintf("bookmark%d", link).data() );
 	action->setShortText( link );
         action->plug( mstack.top()->m_parentMenu );
 	mstack.top()->m_actions.append( action );

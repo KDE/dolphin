@@ -509,7 +509,7 @@ void KonqPopupMenu::slotPopupProperties()
 
 KAction *KonqPopupMenu::action( const QDomElement &element ) const
 {
-  QString name = element.attribute( attrName );
+  QCString name = element.attribute( attrName ).ascii();
 
   KAction *res = m_ownActions.action( name );
 

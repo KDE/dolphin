@@ -17,6 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qfile.h>
+
 #include "konq_view.h"
 #include "KonqViewIface.h"
 #include "konq_factory.h"
@@ -556,7 +558,7 @@ void KonqView::initMetaView()
 
   KService::Ptr service = *metaViewOffers.begin();
 
-  KLibFactory *libFactory = KLibLoader::self()->factory( service->library() );
+  KLibFactory *libFactory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
 
   if ( !libFactory )
     return;

@@ -17,7 +17,7 @@
 #    Boston, MA 02111-1307, USA.
 
 # For Henrik Stormer :)
-KDE_CXXFLAGS = $(USE_RTTI)
+KDE_CXXFLAGS = $(USE_RTTI) -DQT_NO_ASCII_CAST
 
 INCLUDES = -I$(top_srcdir)/kcontrol/input $(all_includes)
 

@@ -33,7 +33,9 @@
 #include <kuserprofile.h>
 #include <kaboutdata.h>
 #include <klocale.h>
+
 #include <qwidget.h>
+#include <qfile.h>
 
 #include <assert.h>
 
@@ -155,7 +157,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   if ( service )
   {
     kdDebug(1202) << "Trying to open lib for requested service " << service->name() << endl;
-    factory = KLibLoader::self()->factory( service->library() );
+    factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
   }
 
   it = offers.begin();
@@ -169,7 +171,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     {
       kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;
       // Try loading factory
-      factory = KLibLoader::self()->factory( service->library() );
+      factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
       // If this works, we exit the loop.
     } else
       kdDebug(1202) << "Not allowed as default " << service->name() << endl;

@@ -1,4 +1,6 @@
 
+AM_CPPFLAGS = -DQT_NO_ASCII_CAST
+
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
 
 SUBDIRS = . kfmexec client iconview dirtree listview pics

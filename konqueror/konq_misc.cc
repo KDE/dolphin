@@ -72,7 +72,7 @@ QString konqFilteredURL( QWidget * parent, const QString &_url )
     }
     else if( type == KURIFilterData::ERROR )
     {
-      KMessageBox::sorry( parent, i18n( data.errorMsg() ) );
+      KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
       return QString::null;
     }
     else

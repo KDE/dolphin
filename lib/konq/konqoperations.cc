@@ -263,7 +263,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
             {
                 // Should be a local executable
                 // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
-                assert ( access( dest.path(), X_OK ) == 0 );
+                assert ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
                 // Launch executable for each of the files
                 KURL::List::Iterator it = lst.begin();
                 for ( ; it != lst.end() ; it++ )
@@ -281,7 +281,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
     }
     else
     {
-        QStringList formats;
+        QStrList formats;
 
         for ( int i = 0; ev->format( i ); i++ )
             if ( *( ev->format( i ) ) )

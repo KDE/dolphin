@@ -1,4 +1,6 @@
 
+AM_CPPFLAGS = -DQT_NO_ASCII_CAST
+
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
 lib_LTLIBRARIES = libkonqdirmetaview.la

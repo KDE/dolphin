@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+#include <qfile.h>
+
 #include <kapp.h>
 #include <kstddirs.h>
 #include <kdebug.h>
@@ -67,7 +69,7 @@ KFMExec::KFMExec()
 
     expectedCounter = 0;
     command = args->arg(0);
-    kdDebug() << command.ascii() << endl;
+    kdDebug() << command << endl;
 
     for ( int i = 1; i < args->count(); i++ )
     {
@@ -80,7 +82,7 @@ KFMExec::KFMExec()
 	    if ( !files.isEmpty() )
 		files += " ";
 	    files += "\"";
-	    files += tmp.local8Bit();
+	    files += tmp;
 	    files += "\"";
 	}
 	// It is an URL
@@ -157,13 +159,13 @@ void KFMExec::slotRunApp()
     for ( ; it != fileList.end() ; ++it )
     {
 	struct stat buff;
-	stat( *it, &buff );
+	stat( QFile::encodeName(*it), &buff );
 	times[i++] = buff.st_mtime;
     }
 
     kdDebug() << "EXEC '" << command << "'" << endl;
 
-    system( command );
+    system( QFile::encodeName(command) );
 
     kdDebug() << "EXEC done" << endl;
 
@@ -176,7 +178,7 @@ void KFMExec::slotRunApp()
 	struct stat buff;
         QString src = *it;
         KURL dest = *urlIt;
-	if ( stat( src, &buff ) == 0 && times[i++] != buff.st_mtime )
+	if ( stat( QFile::encodeName(src), &buff ) == 0 && times[i++] != buff.st_mtime )
 	{
 	    if ( KMessageBox::questionYesNo( 0L, i18n( "The file\n%1\nhas been modified.\nDo you want to save it?" ).arg(src) )
                       == KMessageBox::Yes )

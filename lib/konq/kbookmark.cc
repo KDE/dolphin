@@ -135,7 +135,7 @@ void KBookmarkManager::slotNotify( const QString &_url )
   if ( p2.isEmpty() )
     p2 = m_sPath;
 
-  if ( qstrncmp( p1, p2, p2.length() ) == 0 )
+  if ( p1.left(p2.length()) == p2 )
   {
     scan( m_sPath );
   }
@@ -188,7 +188,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
 
   DIR *dp;
   struct dirent *ep;
-  dp = opendir( _path );
+  dp = opendir( QFile::encodeName(_path) );
   if ( dp == 0L )
     return;
 
@@ -217,7 +217,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
         QString type = cfg.readEntry( "Type" );	
         // Is it really a bookmark file ?
         if ( type == "Link" )
-          (void) new KBookmark( this, _bm, ep->d_name, cfg, QString::null /* desktop group */ );
+          (void) new KBookmark( this, _bm, ep->d_name, cfg, 0 /* desktop group */ );
          else
            kdWarning(1203) << "  Not a link ? Type=" << type << endl;
       }
@@ -301,7 +301,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   m_type = Folder;
   m_text = _text;
 
-  const char *dir = _bm->path();
+  QString dir = _bm->path();
   if ( _parent )
     dir = _parent->file();
   m_file = dir;
@@ -349,7 +349,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     stat( path.data(), &buff );
     icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url.path(), true );
   }
-  else if ( strcmp( url.protocol(), "ftp" ) == 0 )
+  else if ( url.protocol() == "ftp" )
     icon = "ftp";
   else
     icon = "www";
@@ -367,7 +367,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   m_file += ".desktop"; // We need the extension, otherwise saving a URL will
   // create a file named ".html", which will give us a wrong mimetype.
 
-  FILE *f = fopen( m_file, "w" );
+  FILE *f = fopen( QFile::encodeName(m_file), "w" );
   if ( f == 0L )
   {
     KMessageBox::sorry( 0, i18n("Could not write bookmark" ) );

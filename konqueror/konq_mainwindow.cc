@@ -860,7 +860,8 @@ void KonqMainWindow::slotGoAutostart()
 void KonqMainWindow::slotConfigureFileManager()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "kcmkonq", 0);
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+	  "kcmshell", "kcmkonq", 0);
     warning("Error launching kcmshell kcmkonq!");
     exit(1);
   }
@@ -869,7 +870,8 @@ void KonqMainWindow::slotConfigureFileManager()
 void KonqMainWindow::slotConfigureFileTypes()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "filetypes", 0);
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+	  "kcmshell", "filetypes", 0);
     warning("Error launching kcmshell filetypes !");
     exit(1);
   }
@@ -878,7 +880,8 @@ void KonqMainWindow::slotConfigureFileTypes()
 void KonqMainWindow::slotConfigureBrowser()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "konqhtml", 0);
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+	  "kcmshell", "konqhtml", 0);
     warning("Error launching kcmshell konqhtml!");
     exit(1);
   }
@@ -887,7 +890,8 @@ void KonqMainWindow::slotConfigureBrowser()
 void KonqMainWindow::slotConfigureEBrowsing()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "ebrowsing", 0);
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+	  "kcmshell", "ebrowsing", 0);
     warning("Error launching kcmshell ebrowsing!");
     exit(1);
   }
@@ -896,7 +900,8 @@ void KonqMainWindow::slotConfigureEBrowsing()
 void KonqMainWindow::slotConfigureCookies()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "cookies", 0);
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+	  "kcmshell", "cookies", 0);
     warning("Error launching kcmshell cookies!");
     exit(1);
   }
@@ -905,7 +910,8 @@ void KonqMainWindow::slotConfigureCookies()
 void KonqMainWindow::slotConfigureProxies()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "proxy", 0);
+    execl(QFile::encodeName(locate("exe", "kcmshell")),
+	  "kcmshell", "proxy", 0);
     warning("Error launching kcmshell proxy!");
     exit(1);
   }
@@ -2424,9 +2430,9 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
 	  QString icon = (*it)->icon();
           if ( icon != QString::fromLatin1( "unknown" ) )
   	    // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-	    action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->name() );
+	    action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->name().ascii() );
 	  else
-            action = new KRadioAction( (*it)->comment(), 0, this, (*it)->name() );
+            action = new KRadioAction( (*it)->comment(), 0, this, (*it)->name().ascii() );
 
           if ( (*it)->name() == m_currentView->service()->name() )
               action->setChecked( true );

@@ -479,7 +479,7 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
          iterator it = begin();
          for( ; it != end(); it++ )
             if ( it->isSelected() )
-               urls.append( it->item()->url().url() );
+               urls.append( it->item()->url().url().ascii() );
 
          // Multiple URLs ?
          QPixmap pixmap2;
@@ -713,7 +713,7 @@ void KonqBaseListViewWidget::createColumns()
    {
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
-         addColumn(i18n(confColumns[i].name ));
+         addColumn(i18n(confColumns[i].name.utf8() ));
          if (sortedByColumn==confColumns[i].desktopFileName)
             setSorting(currentColumn,ascending);
          if (confColumns[i].udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
@@ -757,7 +757,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // The first time or new protocol ? So create the columns first
    kdDebug(1202) << "protocol in ::openURL: -" << url.protocol()<<"- url: -"<<url.path()<<"-"<<endl;
 
-   if (( columns() <1) || (strcmp( url.protocol(), m_url.protocol() ) != 0))
+   if (( columns() <1) || ( url.protocol() != m_url.protocol() ))
    {
       readProtocolConfig( url.protocol() );
       createColumns();

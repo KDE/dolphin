@@ -106,7 +106,7 @@ void KonqTextViewWidget::createColumns()
          if (sortedByColumn==confColumns[i].desktopFileName)
             setSorting(currentColumn,ascending);
          ColumnInfo *tmpColumn=&confColumns[i];
-         QString tmpName=tmpColumn->name;
+         QCString tmpName=tmpColumn->name.utf8();
          if (tmpColumn->udsId==KIO::UDS_SIZE)
          {
             addColumn(i18n(tmpName),fontMetrics().width("000000000"));

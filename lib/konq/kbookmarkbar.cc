@@ -83,7 +83,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
             action = new KAction(bm->text(), QIconSet(pix), 0,
                                  this, SLOT(slotBookmarkSelected()),
                                  m_actionCollection,
-                                 QString("bookmark%1").arg(bm->id()));
+                                 QCString().sprintf("bookmark%d", bm->id()));
             action->plug(m_toolBar);
         }
         else
@@ -104,7 +104,7 @@ void KBookmarkBar::slotBookmarkSelected()
 {
     if (!m_pOwner) return; // this view doesn't handle bookmarks...
 
-    int id = QString(sender()->name() + 8).toInt(); // skip "bookmark"
+    int id = QCString(sender()->name() + 8).toInt(); // skip "bookmark"
     KBookmark *bm = KBookmarkManager::self()->findBookmark(id);
 
     if (bm)
