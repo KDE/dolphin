@@ -303,9 +303,8 @@ void KonqViewManager::removePart( KParts::Part * part )
         kdDebug(1202) << "Deleting last view -> closing the window" << endl;
         setActivePart( 0L, true );
         m_pMainWindow->removeChildView( view );
-        delete view->frame();
-        // This deletes the widgets inside, including the part's widget, so tell the child view
-        view->partDeleted();
+        kdDebug(1202) << "Deleting frame " << view << endl;
+        delete view->frame(); // This deletes the widgets inside, including the part's widget
         kdDebug(1202) << "Deleting view " << view << endl;
         delete view;
         kdDebug(1202) << "Deleting m_pMainContainer " << m_pMainContainer << endl;
