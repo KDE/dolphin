@@ -77,7 +77,7 @@
 #include <konq_dirpart.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
-#include <konq_main.h>
+#include "konq_main.h"
 #include <konq_undo.h>
 #include <kprotocolinfo.h>
 #include <kstdaccel.h>

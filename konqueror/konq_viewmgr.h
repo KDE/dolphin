@@ -18,7 +18,7 @@
 */
 
 #ifndef __konq_viewmgr_h__
-#define __konq_viewmgr_h__ "$Id$"
+#define __konq_viewmgr_h__
 
 #include "konq_factory.h"
 
@@ -30,7 +30,7 @@
 #include <ktrader.h>
 
 #include <kparts/partmanager.h>
-#include <konq_openurlrequest.h>
+#include "konq_openurlrequest.h"
 
 class QString;
 class QStringList;
