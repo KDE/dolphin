@@ -75,7 +75,17 @@ void KonqRun::foundMimeType( const QString & _type )
   // Grab the args back from BrowserRun
   m_req.args = m_args;
 
-  m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
+  bool tryEmbed = true;
+  // One case where we shouldn't try to embed, is when the server asks us to save
+  // ####### only if content-disposition doesn't say inline
+#if 0
+  if ( !m_suggestedFilename.isEmpty() )
+     tryEmbed = false;
+#endif
+
+  if ( tryEmbed )
+      m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
+
   if ( m_bFinished ) {
     m_pMainWindow = 0L;
     m_timer.start( 0, true );
@@ -112,7 +122,6 @@ void KonqRun::foundMimeType( const QString & _type )
   KRun::foundMimeType( mimeType );
 }
 
-// Override BrowserRun's default behaviour on error messages
 void KonqRun::handleError( KIO::Job *job )
 {
   kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
@@ -123,37 +132,7 @@ void KonqRun::handleError( KIO::Job *job )
      m_timer.start( 0, true );
      return;
   }
-
-  if (job->error() == KIO::ERR_NO_CONTENT)
-  {
-     KParts::BrowserRun::handleError(job);
-     return;
-  }
-
-  /**
-   * To display this error in KHTMLPart instead of inside a dialog box,
-   * we tell konq that the mimetype is text/html, and we redirect to
-   * an error:/ URL that sends the info to khtml.
-   *
-   * The format of the error:/ URL is error:/?query#url,
-   * where two variables are passed in the query:
-   * error = int kio error code, errText = QString error text from kio
-   * The sub-url is the URL that we were trying to open.
-   */
-  QString errorText = job->errorText();
-  errorText.replace( '#', "%23" ); // a # in the error string would really muck things up...
-  KURL newURL(QString("error:/?error=%1&errText=%2")
-	      .arg( job->error() ).arg( errorText ), HINT_UTF8 );
-
-  m_strURL.setPass( QString::null ); // don't put the password in the error URL
-
-  KURL::List lst;
-  lst << newURL << m_strURL;
-  m_strURL = KURL::join( lst );
-  //kdDebug(1202) << "KonqRun::handleError m_strURL=" << m_strURL.prettyURL() << endl;
-
-  m_job = 0;
-  foundMimeType( "text/html" );
+  KParts::BrowserRun::handleError( job );
 }
 
 void KonqRun::init()
