@@ -36,6 +36,11 @@
 #include <kconfig.h>
 #include <kdesktopfile.h>
 
+#include "sdk/npupp.h"
+
+
+KConfig *infoConfig = 0;
+
 
 bool isPluginMimeType( QString fname )
 {
@@ -134,6 +139,23 @@ void generateMimeType( QString mime, QString extensions, QString description )
 }
 
 
+void registerPlugin( const QString &name, const QString &description,
+                     const QString &file, const QString &mimeInfo )
+{
+    // global stuff
+    infoConfig->setGroup( QString::null );
+    int num = infoConfig->readNumEntry( "number", 0 );
+    infoConfig->writeEntry( "number", num+1 );
+
+    // create plugin info
+    infoConfig->setGroup( QString::number(num) );
+    infoConfig->writeEntry( "name", name );
+    infoConfig->writeEntry( "description", description );
+    infoConfig->writeEntry( "file", file );
+    infoConfig->writeEntry( "mime", mimeInfo );
+}
+
+
 void scanDirectory( QString dir, QStringList &mimeInfoList,
                     QTextStream &cache )
 {
@@ -166,6 +188,31 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         if (!_handle) {
             kdDebug(1433) << " - open failed, skipping " << endl;
             continue;
+        }
+
+        // ask for name and description
+        QString name = "Unnamed plugin";
+        QString description;
+
+        NPError (*func_GetValue)(void *, NPPVariable, void *) =
+            (NPError(*)(void *, NPPVariable, void *))
+            _handle->symbol("NP_GetValue");
+        if ( func_GetValue ) {
+
+            // get name
+            char *buf = 0;
+            NPError err = func_GetValue( 0, NPPVpluginNameString,
+                                         (void*)&buf );
+            if ( err==NPERR_NO_ERROR )
+                name = QString::fromLatin1( buf );
+            kdDebug() << "name = " << name << endl;
+
+            // get name
+            NPError nperr = func_GetValue( 0, NPPVpluginDescriptionString,
+                                         (void*)&buf );
+            if ( nperr==NPERR_NO_ERROR )
+                description = QString::fromLatin1( buf );
+            kdDebug() << "description = " << description << endl;
         }
 
         // get mime description function pointer
@@ -215,6 +262,9 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
                 mimeInfoList.append( *type );
         }
 
+        // register plugin for javascript
+        registerPlugin( name, description, files[i], mimeInfo );
+
         // unload plugin lib
         kdDebug(1433) << " - unloading  plugin" << endl;
         KLibLoader::self()->unloadLibrary( absFile.latin1() );
@@ -237,12 +287,10 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 }
 
 
-int main( int argc, char *argv[] )
+QStringList getSearchPaths()
 {
-    KApplication app(argc, argv, "pluginscan");
+    QStringList searchPaths;
 
-    // set up the paths used to look for plugins
-    QStringList searchPaths, mimeInfoList;
     KConfig *config = new KConfig("kcmnspluginrc", false);
     config->setGroup("Misc");
 
@@ -269,6 +317,54 @@ int main( int argc, char *argv[] )
     for (it = envs.begin(); it != envs.end(); ++it)
         searchPaths.append(*it);
 
+    return searchPaths;
+}
+
+
+void writeServicesFile( QStringList mimeTypes )
+{
+    QString fname = KGlobal::dirs()->saveLocation("services", "")
+                    + "/nsplugin.desktop";
+    kdDebug(1433) << "Creating services file " << fname << endl;
+
+    QFile f(fname);
+    if ( f.open(IO_WriteOnly) ) {
+
+        QTextStream ts(&f);
+
+        ts << "[Desktop Entry]" << endl;
+        ts << "Name=Netscape plugin viewer" << endl;
+        ts << "Type=Service" << endl;
+        ts << "Icon=netscape" << endl;
+        ts << "Comment=Netscape plugin viewer" << endl;
+        ts << "X-KDE-Library=libnsplugin" << endl;
+        ts << "InitialPreference=0" << endl;
+        ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
+
+        if (mimeTypes.count() > 0) {
+            ts << "MimeType=";
+            for ( QStringList::Iterator it=mimeTypes.begin();
+                  it != mimeTypes.end(); ++it)
+                ts << *it << ";";
+            ts << endl;
+        }
+
+        f.close();
+    } else
+        kdDebug(1433) << "Failed to open file " << fname << endl;
+}
+
+
+int main( int argc, char *argv[] )
+{
+    KApplication app(argc, argv, "pluginscan");
+
+    // set up the paths used to look for plugins
+    QStringList searchPaths = getSearchPaths();
+    QStringList mimeInfoList;
+
+    infoConfig = new KConfig( KGlobal::dirs()->saveLocation("data", "nsplugins")+"/pluginsinfo" );
+
     // open the cache file for the mime information
     QString cacheName = KGlobal::dirs()->saveLocation("data", "nsplugins")+"/cache";
     kdDebug(1433) << "Creating MIME cache file " << cacheName << endl;
@@ -279,7 +375,8 @@ int main( int argc, char *argv[] )
 
     // read in the plugins mime information
     kdDebug(1433) << "Scanning directories" << endl;
-    for (it = searchPaths.begin(); it != searchPaths.end(); ++it)
+    for ( QStringList::Iterator it = searchPaths.begin();
+          it != searchPaths.end(); ++it)
         scanDirectory( *it, mimeInfoList, cache );
 
     // delete old mime types
@@ -316,37 +413,13 @@ int main( int argc, char *argv[] )
         }
     }
 
-    // write plugin lib service file
-    QString fname = KGlobal::dirs()->saveLocation("services", "")
-                    + "/nsplugin.desktop";
-    kdDebug(1433) << "Creating services file " << fname << endl;
-
-    QFile f(fname);
-    if ( f.open(IO_WriteOnly) ) {
-
-        QTextStream ts(&f);
-
-        ts << "[Desktop Entry]" << endl;
-        ts << "Name=Netscape plugin viewer" << endl;
-        ts << "Type=Service" << endl;
-        ts << "Icon=netscape" << endl;
-        ts << "Comment=Netscape plugin viewer" << endl;
-        ts << "X-KDE-Library=libnsplugin" << endl;
-        ts << "InitialPreference=0" << endl;
-        ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
-
-        if (mimeTypes.count() > 0) {
-            ts << "MimeType=";
-            for ( QStringList::Iterator it=mimeTypes.begin();
-                  it != mimeTypes.end(); ++it)
-                ts << *it << ";";
-            ts << endl;
-        }
-
-        f.close();
-    } else
-        kdDebug(1433) << "Failed to open file " << fname << endl;
-
+    // close files
     kdDebug(1433) << "Closing cache file" << endl;
     cachef.close();
+
+    infoConfig->sync();
+    delete infoConfig;
+
+    // write plugin lib service file
+    writeServicesFile( mimeTypes );
 }
