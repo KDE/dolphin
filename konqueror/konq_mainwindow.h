@@ -329,7 +329,7 @@ protected slots:
   void slotMakeCompletion( const QString& );
   void slotRotation( KCompletionBase::KeyBindingType );
   void slotMatch( const QString& );
-  
+
   void slotComboCut();
   void slotComboCopy();
   void slotComboPaste();
@@ -343,6 +343,8 @@ protected slots:
   void slotShowLocationBar();
   void slotShowBookmarkBar();
 
+  void slotOpenURL( const KURL& );
+    
   void slotActionStatusText( const QString &text );
   void slotClearStatusText();
 

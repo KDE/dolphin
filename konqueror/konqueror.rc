@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="32">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="33">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -53,6 +53,7 @@
   <Action name="go_trash"/>
   <Action name="go_templates"/>
   <Action name="go_autostart"/>
+  <Action name="go_most_often"/>
   <Separator/>
   <Action name="history"/>
  </Menu>

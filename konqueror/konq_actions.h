@@ -21,6 +21,7 @@
 #define __konq_actions_h__ "$Id$"
 
 #include <qguardedptr.h>
+#include <konq_historymgr.h>
 
 #include <kaction.h>
 #include <qlist.h>
@@ -151,6 +152,45 @@ private slots:
 private:
     bool m_popupActivated;
     QPopupMenu *m_menu;
+};
+
+class MostOftenList : public KonqBaseHistoryList
+{
+protected:
+    /**
+     * Ensures that the items are sorted by numberOfTimesVisited
+     */
+    virtual int compareItems( QCollection::Item, QCollection::Item );
+};
+
+class KonqMostOftenURLSAction : public KActionMenu
+{
+    Q_OBJECT
+
+public:
+    KonqMostOftenURLSAction( const QString& text, QObject *parent,
+			     const char *name );
+    virtual ~KonqMostOftenURLSAction();
+
+signals:
+    void activated( const KURL& );
+
+private slots:
+    void slotHistoryCleared();
+    void slotEntryAdded( const KonqHistoryEntry *entry );
+    void slotEntryRemoved( const KonqHistoryEntry *entry );
+
+    void slotFillMenu();
+    void slotClearMenu();
+
+    void slotActivated( int );
+
+private:
+    void parseHistory();
+
+    static MostOftenList *s_mostEntries;
+    static uint s_maxEntries;
+    static bool s_bLocked;
 };
 
 #endif

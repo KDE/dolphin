@@ -146,17 +146,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paCopyFiles = 0L;
   m_paMoveFiles = 0L;
 
-  initActions();
-
-  setInstance( KGlobal::instance() );
-
-  connect( KSycoca::self(), SIGNAL( databaseChanged() ),
-           this, SLOT( slotDatabaseChanged() ) );
-
-  connect( kapp, SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
-
-  setXMLFile( "konqueror.rc" );
-
   KConfig *config = KGlobal::config();
 
   // init history-manager, load history, get completion object
@@ -171,6 +160,17 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 				     KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
+
+  initActions();
+
+  setInstance( KGlobal::instance() );
+
+  connect( KSycoca::self(), SIGNAL( databaseChanged() ),
+           this, SLOT( slotDatabaseChanged() ) );
+
+  connect( kapp, SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
+
+  setXMLFile( "konqueror.rc" );
 
   KonqPixmapProvider *prov = KonqPixmapProvider::self();
   if ( !s_comboConfig ) {
@@ -2098,12 +2098,12 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
         QStringList items = s_pCompletion->allMatches();
         m_combo->setCompletedItems( items );
       }
-      else if ( !completion.isNull() ) 
+      else if ( !completion.isNull() )
         m_combo->setCompletedText( completion );
     }
     else
     {
-      // To be continued in slotMatch()... 
+      // To be continued in slotMatch()...
       if( !m_pURLCompletion->dir().isEmpty() )
         m_currentDir = m_pURLCompletion->dir();
     }
@@ -2113,9 +2113,9 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 
 void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 {
-  // Tell slotMatch() to do nothing 
+  // Tell slotMatch() to do nothing
   m_urlCompletionStarted = false;
-  
+
   bool prev = (type == KCompletionBase::PrevCompletionMatch);
   if ( prev || type == KCompletionBase::NextCompletionMatch ) {
     QString completion = prev ? m_pURLCompletion->previousMatch() :
@@ -2569,6 +2569,9 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
   (void) new KAction( i18n( "Templates" ), 0, this, SLOT( slotGoTemplates() ), actionCollection(), "go_templates" );
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
+  KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most often visited"), actionCollection(), "go_most_often" );
+  connect( mostOften, SIGNAL( activated( const KURL& )),
+	   SLOT( slotOpenURL( const KURL& )));
 
   // Settings menu
 
@@ -2630,6 +2633,7 @@ void KonqMainWindow::initActions()
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
+
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
   m_bookmarksActionCollection = new KActionCollection;
@@ -2640,7 +2644,7 @@ void KonqMainWindow::initActions()
            this, SLOT( slotClearStatusText() ) );
 
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
-
+  
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowExtraToolBar = new KToggleAction( i18n( "Show &Extra Toolbar" ), 0, this, SLOT( slotShowExtraToolBar() ), actionCollection(), "showextratoolbar" );
@@ -2648,7 +2652,7 @@ void KonqMainWindow::initActions()
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, this, SLOT( slotShowBookmarkBar() ),actionCollection(), "showbookmarkbar" );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
-  
+
   enableAllActions( false );
 
   // help stuff
@@ -3469,6 +3473,11 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 void KonqMainWindow::slotIntro()
 {
   openURL( 0L, KURL("about:konqueror") );
+}
+
+void KonqMainWindow::slotOpenURL( const KURL& url )
+{
+    openURL( 0L, url );
 }
 
 #include "konq_mainwindow.moc"
