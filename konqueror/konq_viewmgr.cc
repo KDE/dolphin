@@ -33,6 +33,7 @@
 #include <qfileinfo.h>
 #include <qapplication.h>
 
+#include <kaccelgen.h>
 #include <kaction.h>
 #include <kconfig.h>
 #include <kstddirs.h>
@@ -779,12 +780,18 @@ void KonqViewManager::profileListDirty( bool broadcast )
 void KonqViewManager::slotProfileActivated( int id )
 {
 
-  QMap<QString, QString>::ConstIterator nameIt = m_mapProfileNames.find( m_pamProfiles->popupMenu()->text( id ) );
-  if ( nameIt == m_mapProfileNames.end() )
-    return;
+  QMap<QString, QString>::ConstIterator iter = m_mapProfileNames.begin();
+  QMap<QString, QString>::ConstIterator end = m_mapProfileNames.end();
 
-  KURL u; u.setPath( *nameIt );
-  loadViewProfile( *nameIt, u.fileName() );
+  for(int i=0; iter != end; ++iter, ++i) {
+    if( i == id ) {
+      KURL u;
+      u.setPath( *iter );
+      loadViewProfile( *iter, u.fileName() );
+      break;
+    }
+  }
+
 }
 
 void KonqViewManager::slotProfileListAboutToShow()
@@ -793,15 +800,22 @@ void KonqViewManager::slotProfileListAboutToShow()
     return;
 
   QPopupMenu *popup = m_pamProfiles->popupMenu();
-
   popup->clear();
 
+  // Fetch profiles
   m_mapProfileNames = KonqProfileDlg::readAllProfiles();
 
-  QMap<QString,QString>::ConstIterator eIt = m_mapProfileNames.begin();
-  QMap<QString,QString>::ConstIterator eEnd = m_mapProfileNames.end();
-  for (; eIt != eEnd; ++eIt )
-    popup->insertItem( eIt.key() );
+  // Generate accelerators
+  QStringList accel_strings;
+  KAccelGen::generateFromKeys(m_mapProfileNames, accel_strings);
+
+  // Store menu items
+  QValueListIterator<QString> iter = accel_strings.begin();
+  for( int id = 0;
+       iter != accel_strings.end();
+       ++iter, ++id ) {
+      popup->insertItem( *iter, id );
+  }
 
   m_bProfileListDirty = false;
 }

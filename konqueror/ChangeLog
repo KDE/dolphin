@@ -1,4 +1,11 @@
+2000-11-16  David Faure  <faure@kde.org>
+
+	* konq_viewmgr.cc: Patch by Keunwoo Lee <klee@cs.washington.edu> to
+	implement dynamic accels for the profile submenu.
+
 2000-11-15  David Faure  <faure@kde.org>
+
+	* konq_drag.cc: Export URLs as text/plain as well.
 
 	* konq_mainwindow.cc: Implemented auto-saving of toolbars (KMainWindow),
 	removed "Save Settings".
