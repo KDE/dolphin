@@ -45,7 +45,7 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     lay->setRowStretch(1,1); // last row
 //    lay->setColStretch(1,1); // last col
 
-    QButtonGroup *bg = new QVButtonGroup( i18n("Ask confirmation for:"), this );
+    QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation for"), this );
     bg->layout()->setSpacing( KDialog::spacingHint() );
     QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
        " for a confirmation when you \"delete\" a file."
