@@ -271,17 +271,33 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & m
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
 
-	// check if user wants to use external browser
-	KConfig config( QString::fromLatin1("kfmclientrc"));
-	config.setGroup( QString::fromLatin1("Settings"));
-	QString strBrowser = config.readPathEntry("ExternalBrowser");
-	if (!strBrowser.isEmpty())
-	{
-		KProcess proc;
-		proc << strBrowser << url.url();
-		proc.start( KProcess::DontCare );
-		return true;
-	}
+    // check if user wants to use external browser
+    KConfig config( QString::fromLatin1("kfmclientrc"));
+    config.setGroup( QString::fromLatin1("Settings"));
+    QString strBrowser = config.readPathEntry("ExternalBrowser");
+    if (!strBrowser.isEmpty())
+    {
+        KProcess proc;
+        proc << strBrowser << url.url();
+        proc.start( KProcess::DontCare );
+        return true;
+    }
+
+    if (url.protocol().startsWith(QString::fromLatin1("http")))
+    {
+        config.setGroup("General");
+        if (!config.readEntry("BrowserApplication").isEmpty())
+        {
+            clientApp app;
+            KStartupInfo::appStarted();
+            
+            KRun * run = new KRun( url );
+            QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
+            QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
+            app.exec();
+            return m_ok;
+        }
+    }
 
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "FMSettings" );
