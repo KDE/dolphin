@@ -114,6 +114,9 @@ public:
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
+  // Central widget of the mainwindow, never 0L
+  QWidget *mainWidget() const;
+
   virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, int &id );
   virtual void removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id );
 

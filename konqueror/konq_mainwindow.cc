@@ -50,6 +50,7 @@
 
 #include <qclipboard.h>
 #include <qmetaobject.h>
+#include <qvbox.h>
 #include <qlayout.h>
 
 #include <dcopclient.h>
@@ -116,7 +117,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_bViewModeToggled = false;
 
-  m_pViewManager = new KonqViewManager( this );
+  QWidget* widget = new QVBox( this, "main widget" );
+  setCentralWidget( widget );
+  m_pViewManager = new KonqViewManager( this, widget );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
 
@@ -1600,6 +1603,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
 void KonqMainWindow::insertChildView( KonqView *childView )
 {
+    kdDebug() << "KonqMainWindow::insertChildView " << childView << endl;
   m_mapViews.insert( childView->part(), childView );
 
   connect( childView, SIGNAL( viewCompleted( KonqView * ) ),
@@ -2265,7 +2269,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
   if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) &&
        m_combo && m_combo->lineEdit() == obj )
   {
-    kdDebug(1202) << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
+    //kdDebug(1202) << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == QFocusEvent::Popup)
@@ -2391,7 +2395,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
 void KonqMainWindow::slotClipboardDataChanged()
 {
-  kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
+  //kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
   QMimeSource *data = QApplication::clipboard()->data();
   m_paPaste->setEnabled( data->provides( "text/plain" ) );
   slotCheckComboSelection();
@@ -3719,7 +3723,7 @@ void KonqMainWindow::disconnectActionCollection( KActionCollection *coll )
 
 //
 // the smart popup completion code , <l.lunak@kde.org>
-// 
+//
 
 // prepend http://www. or http:// if there's no protocol in 's'
 // used only when there are no completion matches
@@ -3803,7 +3807,7 @@ static void hp_checkCommonPrefixes( KCompletionMatches& matches, const QString& 
     static const char* const prefixes[] = {
         "http://",
         "https://",
-        "www.", 
+        "www.",
         "ftp://",
         // http://www. is done in the 'prepend http://' part below
         // https://www. is done in the 'prepend https://' part below
@@ -3870,5 +3874,5 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
         }
     return items;
 }
- 
+
 #include "konq_mainwindow.moc"

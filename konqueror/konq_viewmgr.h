@@ -51,7 +51,7 @@ class KonqViewManager : public KParts::PartManager
 {
   Q_OBJECT
 public:
-  KonqViewManager( KonqMainWindow *mainWindow );
+  KonqViewManager( KonqMainWindow *mainWindow, QWidget *parentWidget );
   ~KonqViewManager();
 
   /**
@@ -174,6 +174,7 @@ public:
 
   void profileListDirty( bool broadcast = true );
 
+  // Can be 0L (initially)
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
 
   KonqMainWindow *mainWindow() const { return m_pMainWindow; }
@@ -254,7 +255,7 @@ private:
   void printFullHierarchy( KonqFrameContainer * container, int ident = 0 );
 
   KonqMainWindow *m_pMainWindow;
-
+  QWidget *m_pParentWidget;
   KonqFrameContainer *m_pMainContainer;
 
   QGuardedPtr<KActionMenu> m_pamProfiles;
