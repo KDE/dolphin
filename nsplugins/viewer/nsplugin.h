@@ -117,7 +117,7 @@ public:
 
 protected slots:
   void data(KIO::Job *job, const QByteArray &data);
-  void totalSize(KIO::Job *job, unsigned long size);
+  void totalSize(KIO::Job *job, KIO::filesize_t size);
   void mimetype(KIO::Job * job, const QString &mimeType);
   void result(KIO::Job *job);
   void resume();

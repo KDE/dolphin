@@ -1274,8 +1274,8 @@ bool NSPluginStream::get( QString url, QString mimeType, void *notify )
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
-        connect(_job, SIGNAL(totalSize(KIO::Job *, unsigned long )),
-                SLOT(totalSize(KIO::Job *, unsigned long)));
+        connect(_job, SIGNAL(totalSize(KIO::Job *, KIO::filesize_t )),
+                SLOT(totalSize(KIO::Job *, KIO::filesize_t)));
         connect(_job, SIGNAL(mimetype(KIO::Job *, const QString &)),
                 SLOT(mimetype(KIO::Job *, const QString &)));
     }
@@ -1294,9 +1294,9 @@ void NSPluginStream::data(KIO::Job * job, const QByteArray &data)
     }
 }
 
-void NSPluginStream::totalSize(KIO::Job * job, unsigned long size)
+void NSPluginStream::totalSize(KIO::Job * job, KIO::filesize_t size)
 {
-    kdDebug(1431) << "NSPluginStream::totalSize - job=" << (void*)job << " size=" << size << endl;
+    kdDebug(1431) << "NSPluginStream::totalSize - job=" << (void*)job << " size=" << KIO::number(size) << endl;
     _stream->end = size;
 }
 
