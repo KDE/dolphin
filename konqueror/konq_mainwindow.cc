@@ -1013,9 +1013,17 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if ( !m_combo->contains( view->locationBarURL() ) )
       // goes both into the combo and the completion object
        m_combo->addToHistory( view->locationBarURL() );
-  else
+  else {
       // or just into the completion object (for proper weighting)
       m_combo->completionObject()->addItem( view->locationBarURL() );
+
+      // it's already in the combo, so we better make it the current item
+      for ( int i = 0; i < m_combo->count(); i++ ) {
+          if ( m_combo->text( i ) == view->locationBarURL() ) {
+              m_combo->setCurrentItem( i );
+          }
+      }
+  }
 
 
   QString u = view->typedURL();
