@@ -22,6 +22,7 @@
 #include <konqdefaults.h>
 
 #include <kdebug.h>
+#include <qpixmap.h>
 #include <kpixmapcache.h>
 #include <iostream>
 
@@ -57,14 +58,15 @@ KonqPropsView::KonqPropsView( KConfig * config )
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
   // m_bCache = false; // What is it ???
 
+  m_bgPixmap = 0L;
   QString pix = config->readEntry( "BackgroundPixmap", "" );
   if ( !pix.isEmpty() )
   {
     QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
     if ( p )
     {
-     kdebug(0,1202,"Got background");
-      m_bgPixmap = *p;
+      kdebug(0,1202,"Got background");
+      m_bgPixmap = * p;
     }
   }
 }

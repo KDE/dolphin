@@ -24,24 +24,22 @@
 
 #include <kconfig.h>
 
-class KonqBaseView;
 class KonqKfmIconView;
 class KonqTreeViewWidget;
 
-// The class KonqPropsView holds the properties for a KonqBaseView
+// The class KonqPropsView holds the properties for a Konqueror View
 //
-// Separating them from the KonqBaseView class allows to store the default
+// Separating them from the view class allows to store the default
 // values (the one read from konquerorrc) in a static instance of this class
-// and to have another instance of this class in each KonqBaseView, storing the
+// and to have another instance of this class in each view, storing the
 // current values of the view.
 //
 // The local values can be read from a desktop entry, if any (.directory, bookmark, ...).
 
 class KonqPropsView
 {
-  // A BaseView can read/write the values directly.
-  friend KonqBaseView;
-  friend KonqKfmIconView; // seems it doesn't inherit "friendliness" !
+  // A View can read/write the values directly.
+  friend KonqKfmIconView;
   friend KonqTreeViewWidget;
 
   // This is not a Q__OBJECT because we need a copy constructor.
@@ -70,7 +68,6 @@ public:
 
   //////// The read-only access methods. Order is to be kept. /////
 
-//  KonqBaseView::ViewMode viewMode() { return m_viewMode; }
   bool isShowingDotFiles() { return m_bShowDot; }
   bool isShowingImagePreview() { return m_bImagePreview; }
   bool isHTMLAllowed() { return m_bHTMLAllowed; }
@@ -79,10 +76,9 @@ public:
   
 protected:
 
-  // The static instance. Only KonqBaseView can change its value.
+  // The static instance.
   static KonqPropsView * m_pDefaultProps;
 
-//  KonqBaseView::ViewMode m_viewMode;
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;

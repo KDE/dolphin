@@ -26,7 +26,7 @@
 #include <qstrlist.h>
 
 class KonqKfmIconView;
-class KIconView;
+class KonqIconViewWidget;
 class KonqPropsView;
 class KDirLister;
 class KFileItem;
@@ -126,7 +126,7 @@ public:
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
 
-  KIconView *iconView() const { return m_pIconView; }
+  KonqIconViewWidget *iconView() const { return m_pIconView; }
 
 /*
   virtual void can( bool &copy, bool &paste, bool &move );
@@ -136,7 +136,7 @@ public:
   virtual void moveSelection( const QCString &destinationURL );
 */
 public slots:
-  //TODO: move to BrowserIconView
+  //TODO: move to BrowserIconView (Simon) What's that ? (David) :)
   void slotShowDot();
   void slotSelect();
   void slotUnselect();
@@ -182,8 +182,6 @@ protected:
   /** Common to slotDrop and slotDropItem */
   void dropStuff( QDropEvent *e, KFileIVI *item = 0L );
 
-  virtual void initConfig();
-
   void setupSorting( SortCriterion criterion );
 
   virtual void resizeEvent( QResizeEvent * );
@@ -200,9 +198,6 @@ protected:
 
   /** View properties */
   KonqPropsView * m_pProps;
-
-  /** Konqueror settings */
-  KonqSettings * m_pSettings;
 
   /**
    * Set to true while the constructor is running.
@@ -236,20 +231,28 @@ protected:
 
   IconEditExtension *m_extension;
 
-  KIconView *m_pIconView;
+  KonqIconViewWidget *m_pIconView;
 };
 
-class KIconView : public QIconView
+class KonqIconViewWidget : public QIconView
 {
 public:
-  KIconView( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 )
-  : QIconView( parent, name, f ) {}
+  KonqIconViewWidget( KonqPropsView *props, 
+             QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 )
+  : QIconView( parent, name, f ), m_pProps( props ) {}
 
   virtual QDragObject *dragObject();
 
-protected:
-    void initDrag( QDropEvent *e );
+  void initConfig();
 
+protected:
+  virtual void drawBackground( QPainter *p, const QRect &r );
+
+  void initDrag( QDropEvent *e );
+
+  KonqPropsView * m_pProps;
+  /** Konqueror settings */
+  KonqSettings * m_pSettings;
 };
 
 #endif

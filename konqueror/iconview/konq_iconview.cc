@@ -362,7 +362,11 @@ KonqKfmIconView::KonqKfmIconView()
 {
   kdebug(0, 1202, "+KonqKfmIconView");
 
-  m_pIconView = new KIconView( this, "qiconview" );
+  // Create a properties instance for this view
+  // (copying the default values)
+  m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
+
+  m_pIconView = new KonqIconViewWidget( m_pProps, this, "qiconview" );
 
   m_extension = new IconEditExtension( this );
 
@@ -373,10 +377,6 @@ KonqKfmIconView::KonqKfmIconView()
   m_vSortMenu = 0L;
   m_proxySelectAll = 0L;
 */
-  // Create a properties instance for this view
-  // (copying the default values)
-  m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
-  m_pSettings = KonqSettings::defaultFMSettings();
 
   // Dont repaint on configuration changes during construction
   m_bInit = true;
@@ -408,8 +408,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_paKOfficeMode->setChecked( false );
   m_paKOfficeMode->setEnabled( false );
   
-  KToggleAction *aBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this, SLOT( slotTextBottom() ), this );
-  KToggleAction *aRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this, SLOT( slotTextRight() ), this );
+  KToggleAction *aBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this );
+  KToggleAction *aRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this );
 
   aBottomText->setExclusiveGroup( "TextPos" );
   aRightText->setExclusiveGroup( "TextPos" );
@@ -440,7 +440,7 @@ KonqKfmIconView::KonqKfmIconView()
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselectAll, BrowserView::MenuEdit ) );
 
-  initConfig();
+  m_pIconView->initConfig();
 
   QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
                     this, SLOT( slotMousePressed( QIconViewItem * ) ) );
@@ -786,56 +786,6 @@ void KonqKfmIconView::dropStuff( QDropEvent *ev, KFileIVI *item )
   }
 }
 
-void KonqKfmIconView::initConfig()
-{
-  // Color settings
-//  QColor bgColor           = m_pSettings->bgColor();
-  QColor textColor         = m_pSettings->textColor();
-  QColor linkColor         = m_pSettings->linkColor();
-  // unused  QColor vLinkColor        = m_pSettings->vLinkColor();
-
-  // Font settings
-  QString stdFontName      = m_pSettings->stdFontName();
-  QString fixedFontName    = m_pSettings->fixedFontName();
-  int fontSize             = m_pSettings->fontSize();
-
-  /*
-  //  m_bgPixmap          = props->bgPixmap(); // !!
-
-  if ( m_bgPixmap.isNull() )
-    viewport()->setBackgroundMode( PaletteBackground );
-  else
-    viewport()->setBackgroundMode( NoBackground );
-  */
-
-  // bool bUnderlineLink = m_pSettings->underlineLink();
-
-#warning "Reggie: Commented out some palette changes which screwed up the colors. What sense has this code?"
-//   QPalette p    = palette();
-//   QColorGroup c = p.normal();
-//   QColorGroup n( textColor, bgColor, c.light(), c.dark(), c.mid(),
-// 		 textColor, bgColor );
-//   p.setNormal( n );
-//   c = p.active();
-//   QColorGroup a( textColor, bgColor, c.light(), c.dark(), c.mid(),
-// 		 textColor, bgColor );
-//   p.setActive( a );
-//   c = p.disabled();
-//   QColorGroup d( textColor, bgColor, c.light(), c.dark(), c.mid(),
-// 		 textColor, bgColor );
-//   p.setDisabled( d );
-//   setPalette( p );
-
-  QFont font( stdFontName, fontSize );
-  setFont( font );
-
-  // Behaviour
-  bool bChangeCursor = m_pSettings->changeCursor();
-  m_pIconView->setSingleClickConfiguration( new QFont(font), new QColor(textColor), new QFont(font), new QColor(linkColor),
-                    new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()),
-                    m_pSettings->autoSelect() );
-  m_pIconView->setUseSingleClickMode( m_pSettings->singleClick() );
-}
 
 void KonqKfmIconView::slotMousePressed( QIconViewItem *item )
 {
@@ -1103,7 +1053,47 @@ QString KonqKfmIconView::makeSizeKey( KFileIVI *item )
   return QString::number( item->item()->size() ).rightJustify( 20, '0' );
 }
 
-QDragObject * KIconView::dragObject()
+///////
+
+void KonqIconViewWidget::initConfig()
+{
+  m_pSettings = KonqSettings::defaultFMSettings();
+  // Color settings
+  QColor textColor         = m_pSettings->textColor();
+  QColor linkColor         = m_pSettings->linkColor();
+
+  /*
+    // Does this make sense ? (David)
+  if ( m_bgPixmap.isNull() )
+    viewport()->setBackgroundMode( PaletteBackground );
+  else
+    viewport()->setBackgroundMode( NoBackground );
+  */
+
+  // Font settings
+  QFont font( m_pSettings->stdFontName(), m_pSettings->fontSize() );
+  font.setUnderline( m_pSettings->underlineLink() );
+  setItemFont( font );
+
+  // Color settings
+  setItemColor( textColor );
+
+  // Behaviour (single click/double click, autoselect, ...)
+  bool bChangeCursor = m_pSettings->changeCursor();
+  setSingleClickConfiguration( new QFont(font), new QColor(textColor), new QFont(font), new QColor(linkColor),
+                    new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()),
+                    m_pSettings->autoSelect() );
+  setUseSingleClickMode( m_pSettings->singleClick() );
+}
+void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
+{
+  if ( m_pProps->bgPixmap().isNull() )
+    p->fillRect( r, QBrush( m_pSettings->bgColor() ) );
+  else
+    p->drawTiledPixmap( r, m_pProps->bgPixmap() );
+}
+
+QDragObject * KonqIconViewWidget::dragObject()
 {
     if ( !currentItem() )
 	return 0;
@@ -1128,7 +1118,7 @@ QDragObject * KIconView::dragObject()
 }
 
 
-void KIconView::initDrag( QDropEvent *e )
+void KonqIconViewWidget::initDrag( QDropEvent *e )
 {
     if ( KonqDrag::canDecode( e ) ) {	
 	QValueList<KonqDragItem> lst;
