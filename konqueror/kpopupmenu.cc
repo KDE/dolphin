@@ -1,5 +1,6 @@
 #include <opMenu.h>
 
+#include <kbookmark.h>
 #include <kio_job.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
@@ -287,9 +288,6 @@ void KonqPopupMenu::slotPopupNewView()
   QStringList::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
     (void) new KRun(*it);
-  /* KonqMainWindow *m_pShell = new KonqMainWindow( m_lstPopupURLs.getFirst() );
-    m_pShell->show();
-  */
 }
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()
@@ -346,7 +344,10 @@ void KonqPopupMenu::slotPopupOpenWith()
 
 void KonqPopupMenu::slotPopupAddToBookmark()
 {
-  //TODO
+  KBookmark *root = KBookmarkManager::self()->root();
+  QStringList::ConstIterator it = m_lstPopupURLs.begin();
+  for ( ; it != m_lstPopupURLs.end(); it++ )
+    (void)new KBookmark( KBookmarkManager::self(), root, *it, *it );
 }
 
 void KonqPopupMenu::slotPopup( int id )
