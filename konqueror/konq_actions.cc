@@ -52,9 +52,11 @@ int KonqComboAction::plug( QWidget *w, int index )
   toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
 
   KComboBox *comboBox = toolBar->getCombo( id );
-  KCompletion *comp = comboBox->completionObject();
-  // Update the KCompletion object as well...
-  connect( comboBox, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
+  KCompletion *compObj = comboBox->completionObject();
+  compObj->setOrder( KCompletion::Weighted );
+  // Update the KCompletion object as well... 
+  // no, this is done in slotViewCompleted() (pfeiffer)
+  // connect( comboBox, SIGNAL( returnPressed( const QString& ) ), compObj, SLOT( addItem( const QString& ) ) );
 
   addContainer( toolBar, id );
 
