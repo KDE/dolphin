@@ -67,20 +67,16 @@ module Konqueror
     string viewName();
         
     /*
-     * The two below defined events should be mapped by a view to provide view
-     * specific GUI elements. Please note that if the view is embedded in 
-     * Konquerors MainView there will be additional menu entries created by
-     * the main view for the two provides menus. In contrary to this a view's 
-     * toolbar will always be separate (or hidden if the view does not 
-     * implement an own toolbar) .
-     * (Konqueror's views for example do not have their own additional toolbars,
-     *  but a KMail view for example might have one :-)
+     * The two below defined events can be mapped by a view to provide view
+     * specific GUI elements.
+     * note: If the menu/toolbar provided in the event strcture is nil this
+     * means that the gui element (menu/toolbar) is meant to be cleared and
+     * you should free all references to any related menus/toolbars.
      */
 
-    struct EventCreateViewMenuBar
+    struct EventCreateViewMenu
     {
-      OpenPartsUI::Menu menuEdit;
-      OpenPartsUI::Menu menuView;
+      OpenPartsUI::Menu menu;
     };
 
     struct EventCreateViewToolBar
@@ -88,7 +84,7 @@ module Konqueror
       OpenPartsUI::ToolBar toolBar;
     };
   
-    const string eventCreateViewMenuBar = "Konqueror/GUI/createViewMenuBar";
+    const string eventCreateViewMenu = "Konqueror/GUI/createViewMenu";
     const string eventCreateViewToolBar = "Konqueror/GUI/createViewToolBar";
   };
 
@@ -130,6 +126,9 @@ module Konqueror
 //    IconViewItemList selectedItems();
     
 //    void updateDirectory();
+
+    slot void slotLargeIcons();
+    slot void slotSmallIcons();
   };
 
   interface KfmTreeViewItem : KfmIconTreeViewItem
@@ -143,12 +142,15 @@ module Konqueror
   
   interface HTMLView : View
   {
+    slot void testIgnore();
   };
   
   interface PartView : View
   {
     void setPart( in OpenParts::Part part );
     OpenParts::Part part();
+    
+    slot void detachPart();
   };
 
   enum NewViewPosition { above, below, left, right };
@@ -211,7 +213,12 @@ module Konqueror
   {
     MainView mainView();
   };
-  
+
+  interface ViewFactory
+  {
+    View create();
+  };
+    
   interface Application : OpenParts::Application
   {
     MainView createMainView();

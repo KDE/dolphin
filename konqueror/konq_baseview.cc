@@ -3,6 +3,8 @@
 
 KonqBaseView::KonqBaseView()
 {
+  ADD_INTERFACE( "IDL:Konqueror/View:1.0" );
+
   SIGNAL_IMPL( "openURL" );
   SIGNAL_IMPL( "started" );
   SIGNAL_IMPL( "completed" );
@@ -40,7 +42,7 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
   
-  MAPPING( Konqueror::View::eventCreateViewMenuBar, Konqueror::View::EventCreateViewMenuBar, mappingCreateViewMenuBar );
+  MAPPING( Konqueror::View::eventCreateViewMenu, Konqueror::View::EventCreateViewMenu, mappingCreateViewMenu );
   MAPPING( Konqueror::View::eventCreateViewToolBar, Konqueror::View::EventCreateViewToolBar, mappingCreateViewToolBar );
   MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
     
@@ -49,7 +51,7 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
   return false;
 }
 
-bool KonqBaseView::mappingCreateViewMenuBar( Konqueror::View::EventCreateViewMenuBar viewMenuStruct )
+bool KonqBaseView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
 {
   return false;
 }

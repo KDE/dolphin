@@ -16,7 +16,11 @@ public:
 
   virtual void init();  
   virtual void cleanUp();
-  
+
+  virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
+
+  virtual void detachPart();
+      
   virtual void setPart( OpenParts::Part_ptr part );
   virtual OpenParts::Part_ptr part();
   
@@ -25,6 +29,8 @@ public:
   virtual char *viewName() { return "KonquerorPartView"; }
   
 protected:
+  void resizeEvent( QResizeEvent * );
+
   OpenParts::Part_var m_vPart;
   OPFrame *m_pFrame;  
 };		     

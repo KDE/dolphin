@@ -46,6 +46,8 @@
 
 KonqKfmTreeView::KonqKfmTreeView()
 {
+  ADD_INTERFACE( "IDL:Konqueror/KfmTreeView:1.0" );
+
   setWidget( this );
   QWidget::show();
 

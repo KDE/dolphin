@@ -82,6 +82,10 @@ public:
   virtual ~KonqKfmIconView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
+  virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
+
+  virtual void slotLargeIcons();
+  virtual void slotSmallIcons();
 
   virtual void stop();
   virtual char *viewName() { return "KonquerorKfmIconView"; }

@@ -98,9 +98,9 @@ public:
   virtual char *currentTitle() { return ""; }
   virtual char *currentURL() { return ""; }
 
-  virtual void openDirectory( const char *url );
-  virtual void openHTML( const char *url );
-      
+  void openDirectory( const char *url );
+  void openHTML( const char *url );
+
 public slots:  
   /////////////////////////
   // MenuBar
@@ -179,6 +179,9 @@ protected:
 
   void splitView ( Konqueror::NewViewPosition newViewPosition );
 
+  void createViewMenu();
+  void setupViewMenus();
+  
   ///////// protected members //////////////
 
   struct History

@@ -55,18 +55,22 @@ public:
   virtual ~KonqHTMLView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
+  virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
 
   virtual void stop();
   virtual char *viewName() { return "KonquerorHTMLView"; }
 
   virtual char *url();
   virtual char *title();
-  
+
+  virtual void testIgnore();
+    
 public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
 
 protected slots:
   void slotOnURL( const char *_url );
+  void slotSetTitle( const char *title );
   
 protected:
 

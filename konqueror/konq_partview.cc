@@ -3,6 +3,10 @@
 
 KonqPartView::KonqPartView()
 {
+  ADD_INTERFACE( "IDL:Konqueror/PartView:1.0" );
+
+  setWidget( this );
+  
   m_vPart = 0L;
   m_pFrame = 0L;
 }
@@ -34,6 +38,26 @@ void KonqPartView::cleanUp()
   KonqBaseView::cleanUp();    
 }
 
+bool KonqPartView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+{
+  OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+  
+  if ( !CORBA::is_nil( menu ) )
+  {
+    menu->insertItem( i18n("Detach part"), this, "detachPart", 0 );
+  }
+}
+
+void KonqPartView::detachPart()
+{
+  if ( m_pFrame )
+  {
+    m_pFrame->detach();
+    m_pFrame->hide();
+    m_vPart = 0L;
+  }    
+}
+
 void KonqPartView::setPart( OpenParts::Part_ptr part )
 {
   m_vPart = OpenParts::Part::_duplicate( part );
@@ -44,6 +68,12 @@ void KonqPartView::setPart( OpenParts::Part_ptr part )
 OpenParts::Part_ptr KonqPartView::part()
 {
   return OpenParts::Part::_duplicate( m_vPart );
+}
+
+void KonqPartView::resizeEvent( QResizeEvent * )
+{
+  if ( m_pFrame )
+    m_pFrame->setGeometry( 0, 0, width(), height() );
 }
 
 #include "konq_partview.moc"

@@ -30,6 +30,7 @@
 #include <qstring.h>
 #include <string.h>
 #include <qstrlist.h>
+#include <qdir.h>
 
 #include <kcursor.h>
 #include <khtml.h>
@@ -41,6 +42,8 @@
 KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_parent_browser )
   : KBrowser( _parent, _name, _parent_browser )
 {
+  ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
+
   setWidget( this );
 
   QWidget::show();
@@ -53,7 +56,8 @@ KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_pare
 
   QObject::connect( this, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
-
+  QObject::connect( this, SIGNAL( setTitle( const char* ) ),
+                    this, SLOT( slotSetTitle( const char * ) ) );
 }
 
 KonqHTMLView::~KonqHTMLView()
@@ -115,6 +119,8 @@ KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
   QObject::connect( m_pBrowser, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
   QObject::connect( m_pBrowser, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
 	   this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
+  QObject::connect( m_pBrowser, SIGNAL( setTitle( const char* ) ),
+                    this, SLOT( slotSetTitle( const char * ) ) );
 	
   return m_pBrowser;
 }
@@ -124,6 +130,18 @@ bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url, (bool)eventURL.reload ); // implemented by kbrowser
 
+  return true;
+}
+
+bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+{
+  OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+  
+  if ( !CORBA::is_nil( menu ) )
+  {
+    menu->insertItem( "testtesttest", this, "testIgnore", 0 );
+  }
+  
   return true;
 }
 
@@ -257,6 +275,11 @@ void KonqHTMLView::slotOnURL( const char *_url )
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().c_str(), 0 ) );
 }
 
+void KonqHTMLView::slotSetTitle( const char *title )
+{
+  m_vMainWindow->setPartCaption( id(), title );
+}
+
 bool KonqHTMLView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
 {
 //  emit gotFocus();
@@ -299,7 +322,39 @@ char *KonqHTMLView::url()
 
 char *KonqHTMLView::title()
 {
-  return CORBA::string_dup( "TODOOOOOOOOOOO" );
+  return m_vMainWindow->partCaption( id() );
+}
+
+#include "konq_partview.h"
+#include "konq_mainview.h"
+
+void KonqHTMLView::testIgnore()
+{
+  if ( !CORBA::is_nil( m_vParent ) )
+  {
+    if ( m_vParent->supportsInterface( "IDL:Konqueror/MainView:1.0" ) )
+    {
+      Konqueror::MainView_var mainView = Konqueror::MainView::_narrow( m_vParent->getInterface( "IDL:Konqueror/MainView:1.0" ) );
+
+      Konqueror::PartView_var partView = Konqueror::PartView::_duplicate( new KonqPartView );
+    
+      mainView->insertView( partView, Konqueror::right );  
+
+      Konqueror::MainView_var mainView2 = Konqueror::MainView::_duplicate( new KonqMainView );
+
+      mainView2->setMainWindow( m_vMainWindow );      
+
+      partView->setPart( mainView2 );
+      
+      Konqueror::EventOpenURL eventURL;
+      
+      QString home = "file:";
+      home += QDir::homeDirPath();
+      eventURL.url = CORBA::string_dup( home.ascii() );
+      eventURL.reload = (CORBA::Boolean)true;
+      EMIT_EVENT( mainView2, Konqueror::eventOpenURL, eventURL );
+    }
+  }
 }
 
 /**********************************************

@@ -42,6 +42,8 @@
 
 KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 {
+  ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
+  
   m_bInit = true;
 
   setWidget( this );
@@ -91,6 +93,29 @@ bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url );
   return true;
+}
+
+bool KonqKfmIconView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
+{
+  OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+  
+  if ( !CORBA::is_nil( menu ) )
+  {
+    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
+    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
+  }
+  
+  return true;
+}
+
+void KonqKfmIconView::slotLargeIcons()
+{
+  setDisplayMode( KIconContainer::Horizontal );
+}
+
+void KonqKfmIconView::slotSmallIcons()
+{
+  setDisplayMode( KIconContainer::Vertical );
 }
 
 void KonqKfmIconView::stop()
@@ -347,6 +372,7 @@ void KonqKfmIconView::openURL( const char *_url )
 
 //  emit started( m_strWorkingURL.c_str() );
   SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
+  m_vMainWindow->setPartCaption( id(), m_strWorkingURL.c_str() );
 }
 
 void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext )
