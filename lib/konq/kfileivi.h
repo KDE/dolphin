@@ -21,6 +21,7 @@
 #define __kfileivi_h__ $Id$
 
 #include <qiconview.h>
+#include <kiconloader.h>
 
 class KFileItem;
 
@@ -37,10 +38,11 @@ class KFileIVI : public QIconViewItem
 public:
   /**
    * Create an icon, within a qlistview, representing a file
-   * @param _parent the parent widget
-   * @param _fileitem the file item created by KDirLister
+   * @param parent the parent widget
+   * @param fileitem the file item created by KDirLister
+   * @param size the icon size
    */
-  KFileIVI( QIconView *_iconview, KFileItem* _fileitem );
+  KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size );
   virtual ~KFileIVI() { }
 
   /**
@@ -55,6 +57,9 @@ public:
   /** @return true if dropping on this file is allowed
    * Overloads QIconView::acceptDrop() */
   virtual bool acceptDrop( const QMimeSource *mime ) const;
+
+  /** Change icon size */
+  virtual void setSize( KIconLoader::Size size );
 
   virtual void setKey( const QString &key );
 

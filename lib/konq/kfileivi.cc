@@ -20,11 +20,11 @@
 #include "kfileivi.h"
 #include "kfileitem.h"
 
-KFileIVI::KFileIVI( QIconView *_iconview, KFileItem* _fileitem )
-  : QIconViewItem( _iconview, _fileitem->text(), 
-  // HACK : As Reggie says, we need to build a full QIconSet
-                   QIconSet( _fileitem->pixmap( KIconLoader::Medium ), QIconSet::Large ) ),
-    m_fileitem( _fileitem )
+KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size )
+  : QIconViewItem( iconview, fileitem->text(), 
+                   // We can't use the two QIconSet sizes here ... because we have three :)
+                   QIconSet( fileitem->pixmap( size ), QIconSet::Automatic ) ),
+    m_fileitem( fileitem )
 {
   setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
   if ( m_fileitem->isLink() )
@@ -33,6 +33,11 @@ KFileIVI::KFileIVI( QIconView *_iconview, KFileItem* _fileitem )
     newFont.setItalic( true ); // FIXME
     setFont( newFont );
   }
+}
+
+void KFileIVI::setSize( KIconLoader::Size size )
+{
+  setIcon( QIconSet( m_fileitem->pixmap( size ) ) );
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
