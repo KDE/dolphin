@@ -57,6 +57,7 @@ public:
     virtual void itemSelected();
 
 private:
+    void init();
     void delOperation( int method );
     KonqFileItem *m_fileItem;
 

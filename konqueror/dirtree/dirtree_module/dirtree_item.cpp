@@ -29,6 +29,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <kio/paste.h>
+#include <qfile.h>
 
 #define MYMODULE static_cast<KonqDirTreeModule*>(module())
 
@@ -37,6 +38,7 @@ KonqDirTreeItem::KonqDirTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem
 {
     if ( m_topLevelItem )
         MYMODULE->addSubDir( this );
+    init();
 }
 
 KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
@@ -44,10 +46,31 @@ KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLev
 {
     if ( m_topLevelItem )
         MYMODULE->addSubDir( this );
+    init();
 }
 
 KonqDirTreeItem::~KonqDirTreeItem()
 {
+}
+
+void KonqDirTreeItem::init()
+{
+    // For local dirs, find out if they have no children, to remove the "+"
+    if ( m_fileItem->isDir() )
+    {
+        KURL url = m_fileItem->url();
+        if ( url.isLocalFile() )
+        {
+            QCString path( QFile::encodeName(url.path()));
+            struct stat buff;
+            if ( ::stat( path.data(), &buff ) != -1 )
+            {
+                //kdDebug() << "KonqDirTreeItem::init " << path << " : " << buff.st_nlink << endl;
+                if ( buff.st_nlink <= 2 )
+                    setExpandable( false );
+            }
+        }
+    }
 }
 
 void KonqDirTreeItem::setOpen( bool open )
