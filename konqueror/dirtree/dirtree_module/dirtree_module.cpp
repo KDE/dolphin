@@ -111,7 +111,22 @@ void KonqDirTreeModule::addSubDir( KonqTreeItem *item )
 
 void KonqDirTreeModule::removeSubDir( KonqTreeItem *item )
 {
-    m_dictSubDirs.remove( item->externalURL().url(-1) );
+    kdDebug(1201) << this << " KonqDirTreeModule::removeSubDir item=" << item << endl;
+    if ( item->firstChild() )
+    {
+        KonqTreeItem * it = static_cast<KonqTreeItem *>(item->firstChild());
+        KonqTreeItem * next = 0L;
+        while ( it ) {
+            next = static_cast<KonqTreeItem *>(it->nextSibling());
+            removeSubDir( it );
+            it = next;
+        }
+    }
+    
+    bool b = m_dictSubDirs.remove( item->externalURL().url(-1) );
+    if (!b)
+        kdWarning(1201) << this << " KonqDirTreeModule::removeSubDir item " << item
+                        << " not found. URL=" << item->externalURL().url(-1) << endl;
 }
 
 
