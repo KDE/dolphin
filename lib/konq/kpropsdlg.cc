@@ -824,7 +824,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
 
   // The groupbox about swallowing
   QGroupBox* tmpQGroupBox;
-  tmpQGroupBox = new QGroupBox( i18n("Panel Imbedding"), this, "GroupBox_1" );
+  tmpQGroupBox = new QGroupBox( i18n("Panel Embedding"), this, "GroupBox_1" );
   tmpQGroupBox->setFrameStyle(49);
   mainlayout->addWidget(tmpQGroupBox, 2); // 2 vertical items
 
