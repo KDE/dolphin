@@ -147,7 +147,7 @@ void KEBTopLevel::createActions() {
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
     (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
     (void) new KAction( i18n( "Chan&ge Icon..." ), 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
-    (void) new KAction( i18n( "Update Favicon" ), 0, this, SLOT( slotUpdateFavicon() ), actionCollection(), "updatefavicon" );
+    // (void) new KAction( i18n( "Update Favicon" ), 0, this, SLOT( slotUpdateFavicon() ), actionCollection(), "updatefavicon" );
     (void) new KAction( i18n( "&Create New Folder..." ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
     (void) new KAction( i18n( "&Create New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
     (void) new KAction( i18n( "&Insert Separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
@@ -459,7 +459,7 @@ void KEBTopLevel::slotSelectionChanged()
         coll->action("changeurl")      ->setEnabled(singleSelect && !group && !separator && !root);
         coll->action("delete")         ->setEnabled(itemSelected && !root); // AK - root should work
         coll->action("newfolder")      ->setEnabled(!multiSelect);
-        coll->action("updatefavicon")  ->setEnabled(singleSelect && !root && !separator);
+        // coll->action("updatefavicon")  ->setEnabled(singleSelect && !root && !separator);
         coll->action("changeicon")     ->setEnabled(singleSelect && !root && !separator);
         coll->action("insertseparator")->setEnabled(singleSelect);
         coll->action("newbookmark")    ->setEnabled(!multiSelect);
