@@ -868,7 +868,10 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     KFileIVI * ivi = m_itemDict[ _fileitem ];
-    Q_ASSERT(ivi);
+    // It can be that we know nothing about this item, e.g. because it's filtered out
+    // (by default: dot files). KDirLister still tells us about it when it's modified, since
+    // it doesn't know if we showed it before, and maybe its mimetype changed so we
+    // might have to hide it now.
     if (ivi)
     {
         m_pIconView->takeItem( ivi );
