@@ -99,7 +99,6 @@ void Kfind::setURL( const KURL &url )
 
 void Kfind::startSearch()
 {
-printf("\nIn Kfind::startSearch\n");  
   tabWidget->setQuery(query);
   emit started();
 
