@@ -1075,7 +1075,10 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     // and in the part :-)
     m_url = _url;
 
-    m_pProps->enterDir( _url );
+    if ( m_pProps->enterDir( _url ) )
+    {
+      m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
+    }
 
     // Start the directory lister !
     m_dirLister->openURL( url(), m_pProps->isShowingDotFiles() );
