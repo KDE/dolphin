@@ -46,6 +46,8 @@ KBookmarkManager* KBookmarkManager::self()
 KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportDesktopFiles )
     : DCOPObject("KBookmarkManager"), m_docIsLoaded(false), m_doc("xbel")
 {
+    m_toolbarDoc.clear();
+
     if ( s_pSelf )
         delete s_pSelf;
     s_pSelf = this;
@@ -83,7 +85,7 @@ const QDomDocument &KBookmarkManager::internalDocument() const
     if(!m_docIsLoaded)
     {
         parse();
-        m_toolbarDoc = QDomDocument();
+        m_toolbarDoc.clear();
     }
     return m_doc;
 }
@@ -251,9 +253,11 @@ KBookmarkGroup KBookmarkManager::root() const
 
 KBookmarkGroup KBookmarkManager::toolbar()
 {
+    kdDebug(1203) << "KBookmarkManager::toolbar begin" << endl;
     // Only try to read from a toolbar cache if the full document isn't loaded
     if(!m_docIsLoaded)
     {
+        kdDebug(1203) << "KBookmarkManager::toolbar trying cache" << endl;
         const QString cacheFilename = m_bookmarksFile + QString::fromLatin1(".tbcache");
         QFileInfo bmInfo(m_bookmarksFile);
         QFileInfo cacheInfo(cacheFilename);
@@ -261,17 +265,21 @@ KBookmarkGroup KBookmarkManager::toolbar()
             QFile::exists(cacheFilename) &&
             bmInfo.lastModified() < cacheInfo.lastModified())
         {
-            QFile file( m_bookmarksFile );
+            kdDebug(1203) << "KBookmarkManager::toolbar reading file" << endl;
+            QFile file( cacheFilename );
 
             if ( file.open( IO_ReadOnly ) )
             {
                 m_toolbarDoc = QDomDocument("cache");
                 m_toolbarDoc.setContent( &file );
+                kdDebug(1203) << "KBookmarkManager::toolbar opened" << endl;
             }
         }
         if (!m_toolbarDoc.isNull())
         {
-            return KBookmarkGroup(m_toolbarDoc.documentElement());
+            kdDebug(1203) << "KBookmarkManager::toolbar returning element" << endl;
+            QDomElement elem = m_toolbarDoc.firstChild().toElement();
+            return KBookmarkGroup(elem);
         }
     }
 
