@@ -137,7 +137,7 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   m_pView = m_pKonqFrame->attach( viewFactory );
 
   // uncomment if you want to use metaviews (Simon)
-  //  initMetaView();
+  // initMetaView();
 
   if ( oldView )
   {

@@ -19,6 +19,7 @@ public:
 
   virtual bool metaData( const KURL &url, const QString &serviceType, const QString &key, QString &val );
 
+  virtual void saveMetaData( const KURL &url, const QString &serviceType, const QString &key, const QString &val );
 private:
   KonqMetaDataProviderPrivate *d;
 };

@@ -3,6 +3,7 @@
 
 #include <qdom.h>
 #include <qfile.h>
+#include <qtextstream.h>
 
 #include <kinstance.h>
 #include <kglobal.h>
@@ -51,9 +52,9 @@ bool KonqMetaDataProvider::openDir( const KURL &url )
 
   d->m_metaDataURL = url;
   d->m_metaDataURL.addPath( d->m_metaDataSuffix );
-  
+
   d->m_url = url;
-  
+
   if ( !QFile::exists( d->m_metaDataURL.path() ) )
     return false;
 
@@ -72,23 +73,23 @@ bool KonqMetaDataProvider::metaData( const KURL &url, const QString &serviceType
   if ( url != d->m_url && serviceType == "inode/directory" )
   {
     KonqMetaDataProvider *subProvider = new KonqMetaDataProvider( d->m_instance, this, "submetaprov" );
-    
+
     if ( !subProvider->openDir( url ) )
     {
       delete subProvider;
       return false;
     }
-    
+
     if ( !subProvider->metaData( url, QString::null, key, val ) )
     {
       delete subProvider;
       return false;
     }
-    
+
     delete subProvider;
     return true;
   }
- 
+
   if ( !d->m_docLoaded )
     return false;
 
@@ -99,7 +100,7 @@ bool KonqMetaDataProvider::metaData( const KURL &url, const QString &serviceType
     val = root.namedItem( key ).toElement().text();
     return true;
   }
-  
+
   QDomElement child = root.firstChild().toElement();
   for (; !child.isNull(); child = child.nextSibling().toElement() )
   {
@@ -119,3 +120,93 @@ bool KonqMetaDataProvider::metaData( const KURL &url, const QString &serviceType
 
   return false;
 }
+
+void KonqMetaDataProvider::saveMetaData( const KURL &url, const QString &serviceType, const QString &key, const QString &val )
+{
+  if ( url != d->m_url && serviceType == "inode/directory" )
+  {
+    KonqMetaDataProvider *subProvider = new KonqMetaDataProvider( d->m_instance, this, "submetaprov" );
+    
+    subProvider->openDir( url );
+    subProvider->saveMetaData( url, QString::null, key, val );
+    
+    delete subProvider;
+    return;
+  }
+  
+  if ( !d->m_docLoaded )
+  {
+    d->m_doc = QDomDocument( "kdemetadata" );
+    d->m_doc.appendChild( d->m_doc.createElement( "kdemetadata" ) );
+    d->m_docLoaded = true;
+  }
+  
+  QDomElement root = d->m_doc.documentElement();
+  
+  if ( url == d->m_url )
+  {
+    QDomElement newElement = d->m_doc.createElement( key );
+  
+    QDomElement e = root.namedItem( key ).toElement();
+    if ( !e.isNull() )
+      root.replaceChild( newElement, e );
+    else
+      root.appendChild( newElement );
+    
+    //HACK
+    newElement.appendChild( d->m_doc.createCDATASection( val ) );
+  }
+  else
+  {
+    bool foundItem = false;
+    
+    QDomElement child = root.firstChild().toElement();
+    for (; !child.isNull(); child = child.nextSibling().toElement() )
+    {
+      if ( child.tagName() != "item" )
+        continue;
+
+      QDomElement urlElement = child.namedItem( "url" ).toElement();
+      if ( urlElement.isNull() )
+        continue;
+ 
+      if ( url == urlElement.text() )
+      {
+        QDomElement newElement = d->m_doc.createElement( key );
+	
+	QDomElement e = child.namedItem( key ).toElement();
+	if ( !e.isNull() )
+	  child.replaceChild( newElement, e );
+	else
+	  child.appendChild( newElement );
+
+	//HACK
+	newElement.appendChild( d->m_doc.createCDATASection( val ) );
+	foundItem = true;
+        break;
+      }
+    }
+    
+    if ( !foundItem )
+    {
+      QDomElement newChild = d->m_doc.createElement( "item" );
+      root.appendChild( newChild );
+      QDomElement urlElement = d->m_doc.createElement( "url" );
+      newChild.appendChild( urlElement );
+      urlElement.appendChild( d->m_doc.createTextNode( url.url() ) );
+      QDomElement newKey = d->m_doc.createElement( key );
+      newChild.appendChild( newKey );
+      //HACK
+      newKey.appendChild( d->m_doc.createCDATASection( val ) );
+    }
+  }
+    
+  QFile f( d->m_metaDataURL.path() );
+  if ( !f.open( IO_WriteOnly ) )
+    return;
+    
+  QTextStream str( &f );
+  str << d->m_doc;
+  f.close();
+}
+

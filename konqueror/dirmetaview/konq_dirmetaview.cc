@@ -10,6 +10,7 @@
 #include <qlayout.h>
 #include <qimage.h>
 #include <qfile.h>
+#include <qtimer.h>
 
 #include <konq_factory.h>
 
@@ -54,10 +55,39 @@ KParts::Part *DirDetailViewFactory::createPart( QWidget *parentWidget, const cha
   return part;
 }
 
-DetailWidget::DetailWidget( QWidget *parent, const char *name )
-: QWidget( parent, name )
+AnnotationEdit::AnnotationEdit( DetailWidget *parent, const char *name )
+: QMultiLineEdit( parent, name )
+{
+  m_parent = parent; 
+}
+
+AnnotationEdit::~AnnotationEdit()
+{
+}
+
+void AnnotationEdit::focusOutEvent( QFocusEvent *e )
+{
+  QMultiLineEdit::focusOutEvent( e ); 
+  m_parent->editDone();
+} 
+
+void AnnotationEdit::keyPressEvent( QKeyEvent *e )
+{
+  if ( e->key() == Key_Escape )
+  {
+    m_parent->editDone();
+    return;
+  }
+
+  QMultiLineEdit::keyPressEvent( e ); 
+} 
+
+DetailWidget::DetailWidget( DirDetailView *parent, QWidget *parentWidget, const char *name )
+: QWidget( parentWidget, name )
 {
 //  m_bg = KonqFactory::instance()->iconLoader()->loadIcon( "/home/simon/tt2.png" );
+// m_bg = KonqFactory::instance()->iconLoader()->loadIcon( "/home/simon/tron_seamless.png" ); 
+  m_parent = parent; 
 }
 
 DetailWidget::~DetailWidget()
@@ -103,6 +133,30 @@ void DetailWidget::paintEvent( QPaintEvent * )
 
   painter.end();
   bitBlt( this, 0, 0, &buffer );
+  
+  m_editRect = r;
+}
+
+void DetailWidget::mouseReleaseEvent( QMouseEvent *e )
+{
+  if ( !m_editRect.contains( e->pos() ) )
+    return;
+  
+  editDone();
+  m_edit = new AnnotationEdit( this, "annotedit" );
+  m_edit->setGeometry( m_editRect );
+  m_edit->show();
+  m_edit->setText( m_text );
+  m_edit->setFocus();
+}
+
+void DetailWidget::editDone()
+{
+  if ( m_edit )
+  {
+    m_parent->saveAnnotation( m_edit->text() );
+    delete (AnnotationEdit *)m_edit;
+  }
 }
 
 DirDetailView::DirDetailView( DirDetailViewFactory *factory, QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name )
@@ -117,21 +171,26 @@ DirDetailView::DirDetailView( DirDetailViewFactory *factory, QWidget *parentWidg
   setInstance( KonqFactory::instance(), false );
   //  setXMLFile( "konq_dirdetailview.rc" );
 
-  m_widget = new DetailWidget( parentWidget, widgetName );
+  m_widget = new DetailWidget( this, parentWidget, widgetName );
   setWidget( m_widget );
 
   m_widget->setFixedHeight( 67 ); // ### hack
   
   m_metaDataProvider = new KonqMetaDataProvider( KonqFactory::instance(), this, "metaprov" );
+  
+  forceUpdate = false;
 }
 
 DirDetailView::~DirDetailView()
 {
+  m_widget->editDone(); 
 }
 
 bool DirDetailView::openURL( const KURL &url )
 {
   m_metaDataProvider->openDir( url );
+  m_currentFileItemSelection.clear();
+  m_currentSelection.clear();
  
   bool res = openURL( url, KonqFileItemList() );
   m_url = url;
@@ -142,9 +201,11 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
 {
 //  kdDebug() <<  "DirDetailView::openURL( " << url.url() << " ) " << endl;
 
+  m_widget->editDone(); 
+ 
   bool update = false;
 
-  if ( ( selection.count() == 0 && ( m_currentSelection.count() != 0 || m_url != url ) ) ||
+  if ( ( selection.count() == 0 && ( m_currentSelection.count() != 0 || m_url != url || forceUpdate ) ) ||
        ( selection.count() > 1 ) )
   {
     QPixmap pix = m_factory->dirMimeType()->pixmap( url, KIconLoader::Large );
@@ -160,8 +221,10 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
 
     m_currentSelection.clear();
     update = true;
+    m_currentURL = url;
+    m_currentServiceType = "inode/directory";
   }
-  else if ( selection.count() == 1 && ( m_currentSelection.count() != 1 || selection.first()->url() != m_currentSelection.first() ) )
+  else if ( selection.count() == 1 && ( m_currentSelection.count() != 1 || selection.first()->url() != m_currentSelection.first() || forceUpdate ) )
   {
     KonqFileItem *item = selection.first();
 
@@ -172,15 +235,19 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
     if ( m_metaDataProvider->metaData( item->url(), item->mimetype(), "annotation", annotation ) && !annotation.isEmpty() )
       m_widget->setText( annotation );
     else
-      m_widget->setText( url.decodedURL() );
+      m_widget->setText( item->url().decodedURL() );
 
     m_currentSelection.clear();
     m_currentSelection.append( item->url() );
     update = true;
+    m_currentURL = item->url();
+    m_currentServiceType = item->mimetype();
   }
 
   if ( update )
     m_widget->update();
+
+  forceUpdate = false;
 
   return true;
 }
@@ -195,9 +262,22 @@ bool DirDetailView::eventFilter( QObject *, QEvent *event )
   if ( static_cast<QObject *>( ev->part() ) != parent() )
     return false;
 
+  m_currentFileItemSelection = ev->selection();
   openURL( m_url, ev->selection() );
 
   return false;
 }
+
+void DirDetailView::saveAnnotation( const QString &text )
+{
+  m_metaDataProvider->saveMetaData( m_currentURL, m_currentServiceType, "annotation", text );
+  QTimer::singleShot( 0, this, SLOT( slotUpdate() ) );
+} 
+
+void DirDetailView::slotUpdate()
+{
+  forceUpdate = true; 
+  openURL( m_url, m_currentFileItemSelection ); 
+} 
 
 #include "konq_dirmetaview.moc"
