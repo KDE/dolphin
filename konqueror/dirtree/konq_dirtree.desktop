@@ -1,19 +1,22 @@
 [Desktop Entry]
 Type=Service
-Icon=view_tree
+Icon=view_sidetree
 Name=Sidebar
 Name[cs]=Postranní lišta
 Name[da]=Sidebjælke
 Name[de]=Seitenleiste
 Name[eo]=Flanklistelo
+Name[es]=Barra lateral
 Name[et]=Külgriba
 Name[fi]=Sivupalkki
 Name[he]=ידדצ לגרס
 Name[hu]=Oldalpanel
 Name[ja]=サイドバー
+Name[nl]=Zijbalk
 Name[no_NY]=Sidestolpe
 Name[pt_BR]=Barra Lateral
 Name[ro]=Bară laterală
+Name[sk]=Bočný panel
 Name[sv]=Sidrad
 Name[uk]=Бокова панель
 MimeType=inode/directory
