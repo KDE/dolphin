@@ -57,6 +57,8 @@ public:
 class KonqBookmarkManager : public KBookmarkManager
 {
 public:
+  KonqBookmarkManager( QString path ) : KBookmarkManager ( path ) {}
+  ~KonqBookmarkManager() {}
   virtual void editBookmarks( const char *_url );
 };
 

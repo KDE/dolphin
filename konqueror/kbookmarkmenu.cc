@@ -48,7 +48,7 @@
  ********************************************************************/
 
 KBookmarkMenu::KBookmarkMenu( OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root )
-  : m_pOwner(0L), m_bIsRoot(_root)
+  : m_bIsRoot(_root), m_pOwner(0L)
 {
   m_lstSubMenus.setAutoDelete( true );
 

@@ -346,7 +346,7 @@ int main( int argc, char **argv )
 
   kimgioRegister();
 
-  KonqBookmarkManager bm;
+  KonqBookmarkManager bm ( kapp->localkdedir() + "/share/apps/kfm/bookmarks" );
 
   app.exec();
 
