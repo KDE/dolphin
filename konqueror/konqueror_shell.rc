@@ -1,22 +1,22 @@
 <!DOCTYPE QConfig ><QConfig>
 <MenuBar>
- <Menu name="File"><text>&File</text>
+ <Menu name="File"><text>&amp;File</text>
   <Part/>
   <Action name="konqueror_shell_close"/>
 <!--  <Action name="konqueror_shell_quit"/> -->
  </Menu>
  <Part/>
- <Menu name="Options"><text>&Options</text>
+ <Menu name="Options"><text>&amp;Options</text>
   <Action name="showmenubar"/>
   <Action name="showstatusbar"/>
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
   <Part/>
  </Menu>
- <Menu name="Window"><text>&Window</text>
+ <Menu name="Window"><text>&amp;Window</text>
   <Part/>
  </Menu>
- <Menu name="Help"><text>&Help</text>
+ <Menu name="Help"><text>&amp;Help</text>
   <Part/>
   <Action name="konqueror_shell_aboutkde"/>
  </Menu>
@@ -24,4 +24,3 @@
 <ToolBars>
 </ToolBars>
 </QConfig>
-

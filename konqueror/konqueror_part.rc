@@ -13,7 +13,7 @@
  </Menu>
  <Action name="edit_menu"/>
  <Action name="view_menu"/>
- <Menu name="Go"><text>&Go</text>
+ <Menu name="Go"><text>&amp;Go</text>
   <Action name="up"/>
   <Action name="back"/>
   <Action name="forward"/>
@@ -25,7 +25,7 @@
   <Action name="applications"/>
  </Menu>
  <Action name="bookmarks_menu"/>
- <Menu name="Options"><text>&Options</text>
+ <Menu name="Options"><text>&amp;Options</text>
   <Action name="savesettings"/>
   <Action name="savesettingsperurl"/>
   <Separator/>
@@ -34,7 +34,7 @@
   <Action name="configurefiletypes"/>
   <Action name="configurenetwork"/>
  </Menu>
- <Menu name="Window"><text>&Window</text>
+ <Menu name="Window"><text>&amp;Window</text>
   <Action name="splitviewh"/>
   <Action name="splitviewv"/>
   <Action name="splitwindowh"/>
