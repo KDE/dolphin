@@ -25,10 +25,6 @@
 class KActionCollection;
 class KAction;
 
-class KActionInterface
-{
-};
-
 class KDCOPActionProxy : public DCOPObjectProxy
 {
 public:
