@@ -168,6 +168,7 @@ KBookmarkGroup KBookmarkManager::toolbar()
 
 KBookmark KBookmarkManager::findByAddress( const QString & address )
 {
+    //kdDebug() << "KBookmarkManager::findByAddress " << address << endl;
     KBookmark result = root();
     // The address is something like /5/10/2
     QStringList addresses = QStringList::split('/',address);
@@ -183,7 +184,8 @@ KBookmark KBookmarkManager::findByAddress( const QString & address )
         ASSERT(!bk.isNull());
         result = bk;
     }
-    ASSERT(!result.isNull());
+    if (result.isNull())
+        kdWarning() << "KBookmarkManager::findByAddress: couldn't find item " << address << endl;
     return result;
 }
 

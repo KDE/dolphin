@@ -117,6 +117,11 @@ public:
      */
     static KBookmarkManager* self();
 
+    /**
+     * @internal
+     */
+    const QDomDocument & internalDocument() const { return m_doc; }
+
 public slots:
     void slotEditBookmarks();
 

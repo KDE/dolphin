@@ -291,6 +291,7 @@ void KBookmarkMenu::slotAddBookmark()
   } while ( !ch.isNull() );
 
   parentBookmark.addBookmark( uniqueTitle, url );
+  KBookmarkManager::self()->emitChanged( parentBookmark );
 }
 
 void KBookmarkMenu::slotNewFolder()
@@ -298,7 +299,9 @@ void KBookmarkMenu::slotNewFolder()
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
   ASSERT(!parentBookmark.isNull());
-  parentBookmark.createNewFolder();
+  KBookmarkGroup group = parentBookmark.createNewFolder();
+  KBookmarkGroup parentGroup = group.parentGroup();
+  KBookmarkManager::self()->emitChanged( parentGroup );
 }
 
 void KBookmarkMenu::slotBookmarkSelected()

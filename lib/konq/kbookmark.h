@@ -97,6 +97,33 @@ public:
      */
     QDomElement internalElement() const { return element; }
 
+    // Utility functions (internal)
+    /**
+     * @return address of parent
+     */
+    static QString parentAddress( const QString & address )
+    { return address.left( address.findRev('/') ); }
+    /**
+     * @return position in parent (e.g. /4/5/2 -> 2)
+     */
+    static uint positionInParent( const QString & address )
+    { return address.mid( address.findRev('/') + 1 ).toInt(); }
+    /**
+     * @return address of previous sibling (e.g. /4/5/2 -> /4/5/1)
+     * Returns QString::null for a first child
+     */
+    static QString previousAddress( const QString & address )
+    {
+        uint pp = positionInParent(address);
+        return pp>0 ? parentAddress(address) + '/' + QString::number(pp-1) : QString::null;
+    }
+    /**
+     * @return address of next sibling (e.g. /4/5/2 -> /4/5/3)
+     * This doesn't check whether it actually exists
+     */
+    static QString nextAddress( const QString & address )
+    { return parentAddress(address) + '/' + QString::number(positionInParent(address)+1); }
+
 protected:
     QDomElement element;
     // Note: you can't add new member variables here.
@@ -127,7 +154,7 @@ public:
      * Return the next sibling of a child bookmark of this group
      * @param current has to be one of our child bookmarks.
      */
-    KBookmark next( KBookmark & current ) const;
+    KBookmark next( const KBookmark & current ) const;
 
     /**
      * Create a new bookmark folder, as the last child of this group
@@ -135,13 +162,20 @@ public:
      */
     KBookmarkGroup createNewFolder( const QString & text = QString::null );
     /**
-     * Create a new bookmark separator, as the last child of this group
+     * Create a new bookmark separator
      */
     KBookmark createNewSeparator();
     /**
      * Create a new bookmark, as the last child of this group
      */
-    void addBookmark( const QString & text, const QString & url );
+    KBookmark addBookmark( const QString & text, const QString & url );
+
+    /**
+     * Moves @p item after @p after (which should be a child of ours).
+     * If item is null, @p item is moved as the first child.
+     */
+    bool moveItem( const KBookmark & item, const KBookmark & after );
+
     /**
      * Delete a bookmark - it has to be one of our children !
      */

@@ -17,8 +17,6 @@
 */
 
 #include "kbookmark.h"
-#include "kbookmarkmanager.h"
-#include "kbookmarkimporter.h"
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kmimetype.h>
@@ -26,7 +24,6 @@
 #include <kstddirs.h>
 #include <kstringhandler.h>
 #include <kurl.h>
-#include <qdom.h>
 #include <klineeditdlg.h>
 #include <qtextstream.h>
 #include <klocale.h>
@@ -53,14 +50,13 @@ KBookmark KBookmarkGroup::first() const
     return KBookmark(firstChild);
 }
 
-KBookmark KBookmarkGroup::next( KBookmark & current ) const
+KBookmark KBookmarkGroup::next( const KBookmark & current ) const
 {
     return KBookmark(current.element.nextSibling().toElement());
 }
 
 KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
 {
-    kdDebug() << "KBookmarkGroup::createNewFolder " << groupAddress() <<  endl;
     QString txt( text );
     if ( text.isEmpty() )
     {
@@ -79,7 +75,6 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
     QDomElement textElem = doc.createElement( "TEXT" );
     groupElem.appendChild( textElem );
     textElem.appendChild( doc.createTextNode( txt ) );
-    KBookmarkManager::self()->emitChanged( *this );
     return KBookmarkGroup(groupElem);
 }
 
@@ -89,12 +84,27 @@ KBookmark KBookmarkGroup::createNewSeparator()
     QDomDocument doc = element.ownerDocument();
     ASSERT(!doc.isNull());
     QDomElement groupElem = doc.createElement( "SEPARATOR" );
-    element.appendChild( groupElem );
-    KBookmarkManager::self()->emitChanged( *this );
     return KBookmark(groupElem);
 }
 
-void KBookmarkGroup::addBookmark( const QString & text, const QString & url )
+bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
+{
+    QDomNode n;
+    if ( !after.isNull() )
+        n = element.insertAfter( item.element, after.element );
+    else // the dom is quite strange. I need insertBefore to set a first child.
+    {
+        // in addition to that, we have this hidden TEXT child
+        QDomElement firstChild = element.firstChild().toElement();
+        if ( firstChild.tagName() == "TEXT" )
+            n = element.insertAfter( item.element, firstChild );
+        else // well, this is not supposed to happen
+            n = element.insertBefore( item.element, QDomElement() );
+    }
+    return (!n.isNull());
+}
+
+KBookmark KBookmarkGroup::addBookmark( const QString & text, const QString & url )
 {
     kdDebug() << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
     QDomDocument doc = element.ownerDocument();
@@ -104,7 +114,7 @@ void KBookmarkGroup::addBookmark( const QString & text, const QString & url )
     QString icon = KMimeType::iconForURL( KURL(url) );
     elem.setAttribute( "ICON", icon );
     elem.appendChild( doc.createTextNode( text ) );
-    KBookmarkManager::self()->emitChanged( *this );
+    return KBookmark(elem);
 }
 
 void KBookmarkGroup::deleteBookmark( KBookmark bk )
@@ -205,15 +215,14 @@ KBookmarkGroup KBookmark::toGroup() const
 QString KBookmark::address() const
 {
     if ( element.tagName() == "BOOKMARKS" )
-        return "/";
+        return QString::null;
     else
     {
         // Use keditbookmarks's DEBUG_ADDRESSES flag to debug this code :)
         QDomElement parent = element.parentNode().toElement();
-        assert(!parent.isNull());
+        ASSERT(!parent.isNull());
         KBookmarkGroup group( parent );
         QString parentAddress = group.address();
-        if ( parentAddress == "/" ) parentAddress = QString::null; // we'll append a slash below
         uint counter = 0;
         // Implementation note: we don't use QDomNode's childNode list because we
         // would have to skip "TEXT", which KBookmarkGroup already does for us.
