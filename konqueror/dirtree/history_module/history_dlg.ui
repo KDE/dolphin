@@ -132,7 +132,7 @@
                                     </property>
                                     <property stdset="1">
                                         <name>text</name>
-                                        <string>Maxmimum &amp;number of URLs</string>
+                                        <string>Maximum &amp;number of URLs</string>
                                     </property>
                                     <property>
                                         <name>buddy</name>
