@@ -142,6 +142,48 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
   }
 }
 
+void KonqViewManager::splitWindow( Qt::Orientation orientation )
+{
+  if ( !m_pMainContainer )
+  {
+    splitView( orientation );
+    return;
+  }
+
+  KonqFrameContainer *oldMainContainer = m_pMainContainer;
+
+  KonqChildView* currentChildView = m_pMainView->currentChildView();
+  QString url = currentChildView->url();
+  const QString serviceType = currentChildView->serviceType();
+
+  BrowserView *pView;
+  QStringList serviceTypes;
+  
+  QString serviceName = currentChildView->service()->name();
+  
+  KService::Ptr service;
+  KTrader::OfferList serviceOffers;
+  
+  if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
+    return; //do not split the window at all if we can't clone the current view
+
+  m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
+  m_pMainContainer->setOpaqueResize();
+  m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
+
+  oldMainContainer->reparent( m_pMainContainer, 0, QPoint( 0, 0 ), true );
+
+  setupView( m_pMainContainer, pView, service, serviceOffers );
+
+  QValueList<int> sizes;
+  sizes << 100 << 100;
+  m_pMainContainer->setSizes( sizes );
+
+  m_pMainContainer->show();
+
+  m_pMainView->childView( pView )->openURL( url );
+}
+
 void KonqViewManager::removeView( KonqChildView *view )
 {
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();

@@ -868,12 +868,12 @@ void KonqMainView::slotSplitViewVertical()
 
 void KonqMainView::slotSplitWindowHorizontal()
 {
-  //TODO
+  m_pViewManager->splitWindow( Qt::Horizontal );
 }
 
 void KonqMainView::slotSplitWindowVertical()
 {
-  //TODO
+  m_pViewManager->splitWindow( Qt::Vertical );
 }
 
 void KonqMainView::slotRemoveView()

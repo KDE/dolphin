@@ -59,6 +59,8 @@ public:
 		  const KService::Ptr &service,
 		  const KTrader::OfferList &serviceOffers );
 
+  void splitWindow( Qt::Orientation orientation );
+
   /**
    * Guess!:-)
    */

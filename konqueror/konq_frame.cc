@@ -634,9 +634,10 @@ KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool 
 void 
 KonqFrameContainer::childEvent( QChildEvent * ce )
 {
-//   kdebug(0, 1202, "firstChild %ld", firstChild());	
-//   kdebug(0, 1202, "secondChild %ld", secondChild());	
-//   kdebug(0, 1202, "event %ld", ce->child());	
+   kdebug( 0, 1202, "this = %ld -- className() == %s", this, className() );
+   kdebug(0, 1202, "firstChild %ld", firstChild());	
+   kdebug(0, 1202, "secondChild %ld", secondChild());	
+   kdebug(0, 1202, "event %ld", ce->child());	
 
   KonqFrameBase* castChild = 0L;
     
