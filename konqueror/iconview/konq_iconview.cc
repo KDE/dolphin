@@ -971,6 +971,11 @@ void KonqKfmIconView::slotSelectionChanged()
     // Display statusbar info, and emit selectionInfo
     KFileItemList lst = m_pIconView->selectedFileItems();
     emitCounts( lst, true );
+
+    bool itemSelected = lst.count()>0;
+    m_paUnselect->setEnabled( itemSelected );
+    m_paUnselectAll->setEnabled( itemSelected );
+    m_paInvertSelection->setEnabled( itemSelected );
 }
 
 void KonqKfmIconView::determineIcon( KFileIVI * item )

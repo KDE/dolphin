@@ -252,6 +252,9 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
    connect( m_pListView, SIGNAL( selectionChanged() ),
             m_extension, SLOT( updateActions() ) );
+   connect( m_pListView, SIGNAL( selectionChanged() ),
+            this, SLOT( slotSelectionChanged() ) );
+
    connect( m_pListView, SIGNAL( currentChanged(QListViewItem*) ),
             m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
@@ -596,6 +599,14 @@ void KonqListView::setupActions()
   m_paCaseInsensitive = new KToggleAction(i18n("Case Insensitive Sort"), 0, this, SLOT(slotCaseInsensitive()),actionCollection(), "sort_caseinsensitive" );
 
   newIconSize( KIcon::SizeSmall /* default size */ );
+}
+
+void KonqListView::slotSelectionChanged()
+{
+  bool itemSelected = selectedFileItems().count()>0;
+  m_paUnselect->setEnabled( itemSelected );
+  m_paUnselectAll->setEnabled( itemSelected );
+  m_paInvertSelection->setEnabled( itemSelected );
 }
 
 #include "konq_listview.moc"

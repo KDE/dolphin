@@ -106,6 +106,7 @@ protected slots:
   void slotUnselectAll();
   void slotInvertSelection();
   void slotCaseInsensitive();
+  void slotSelectionChanged();
 
   void slotShowDot();
   //this is called if a item in the submenu is toggled
