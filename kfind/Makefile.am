@@ -27,9 +27,9 @@ SUBDIRS = pics
 
 install-data-local:
 	$(mkinstalldirs) $(ICONSDIR)
-	$(INSTALL_DATA) kfind.xpm $(ICONSDIR)
+	$(INSTALL_DATA) $(srcdir)/kfind.xpm $(ICONSDIR)
 	$(mkinstalldirs) $(kde_minidir)
-	$(INSTALL_DATA) mini-kfind.xpm $(kde_minidir)/kfind.xpm
+	$(INSTALL_DATA) $(srcdir)/mini-kfind.xpm $(kde_minidir)/kfind.xpm
 
 uninstall-local:
 	rm -f $(ICONSDIR)/$(TARGET).xpm
@@ -39,22 +39,22 @@ messages:
 	$(XGETTEXT) -C -ktranslate -ki18n -x $(includedir)/kde.pot $(kfind_SOURCES) && mv messages.po ../po/kfind.pot
 
 kfdird.moc: kfdird.h
-	$(MOC) kfdird.h -o kfdird.moc
+	$(MOC) $(srcdir)/kfdird.h -o kfdird.moc
 
 kfwin.moc: kfwin.h
-	$(MOC) kfwin.h -o kfwin.moc
+	$(MOC) $(srcdir)/kfwin.h -o kfwin.moc
 
 kfindtop.moc: kfindtop.h
-	$(MOC) kfindtop.h -o kfindtop.moc
+	$(MOC) $(srcdir)/kfindtop.h -o kfindtop.moc
 
 kftabdlg.moc: kftabdlg.h
-	$(MOC) kftabdlg.h -o kftabdlg.moc
+	$(MOC) $(srcdir)/kftabdlg.h -o kftabdlg.moc
 
 kfoptions.moc: kfoptions.h
-	$(MOC) kfoptions.h -o kfoptions.moc
+	$(MOC) $(srcdir)/kfoptions.h -o kfoptions.moc
 
 kfind.moc: kfind.h
-	$(MOC) kfind.h -o kfind.moc
+	$(MOC) $(srcdir)/kfind.h -o kfind.moc
 
 moc.cpp: $(BUILT_SOURCES)
 
