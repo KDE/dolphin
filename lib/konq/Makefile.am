@@ -27,7 +27,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kbookmarkmenu.cc kbookmark.cc kbookmarkbar.cc kbookmarkimporter.cc \
    kbookmarkexporter.cc kbookmarkmanager.cc kbookmarkmanager.skel \
    kbookmarkdrag.cc \
-   konq_dirlister.cc \
+   konq_dirlister.cc konq_xmlguiclient.cc\
    kfileivi.cc konq_iconviewwidget.cc konq_imagepreviewjob.cc \
    konq_settings.cc konq_drag.cc  \
    konq_operations.cc \
@@ -39,8 +39,11 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
 
 kdirnotify_DIR = $(kde_includes)
 
-directory_DATA = directory_bookmarkbar.desktop
+directory_DATA = directory_bookmarkbar.desktop 
 directorydir   = $(kde_datadir)/kbookmark
+
+servicetype_DATA = konqpopupmenuplugin.desktop
+servicetypedir = $(kde_servicetypesdir)
 
 METASOURCES = AUTO
 
@@ -54,7 +57,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
     konq_pixmapprovider.h \
-    konq_faviconmgr.h
+    konq_faviconmgr.h konq_xmlguiclient.h
 
 kde_module_LTLIBRARIES = libkonqsound.la
 libkonqsound_la_SOURCES = konq_sound.cpp

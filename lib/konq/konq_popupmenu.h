@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+   Copyright (C) 2001 Holger Freyther <freyther@yahoo.com>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -25,22 +26,24 @@
 #include <qpopupmenu.h>
 #include <qmap.h>
 #include <kaction.h>
-#include <kxmlguiclient.h>
+
 #include <qstringlist.h>
 
 #include <kfileitem.h>
 #include <kmimetype.h> // for KDEDesktopMimeType
 
+#include "konq_xmlguiclient.h"
+
 class KNewMenu;
 class KService;
-
+class KonqPopupMenuPlugin;
 /**
  * This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
  */
-class KonqPopupMenu : public QPopupMenu, public KXMLGUIClient
+class KonqPopupMenu : public QPopupMenu, public KonqXMLGUIClient
 {
   Q_OBJECT
 public:
@@ -73,13 +76,12 @@ public:
    */
   virtual KAction *action( const QDomElement &element ) const;
 
-  /**
-   * Reimplemented for internal purpose
-   */
-  virtual QDomDocument domDocument() const;
 
   virtual KActionCollection *actionCollection() const;
-
+  QString mimeType( );
+  KURL url( ) const;
+  KFileItemList fileItemList() const;
+  KURL::List popupURLList( ) const;
 public slots:
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
@@ -89,18 +91,13 @@ public slots:
   void slotPopupMimeType();
   void slotPopupProperties();
 
-protected:
-  void prepareXMLGUIStuff();
-  void addAction( KAction *action, const QDomElement &menu = QDomElement() );
-  void addAction( const char *name, const QDomElement &menu = QDomElement() );
-  void addSeparator( const QDomElement &menu = QDomElement() );
-  void addMerge( const char *name );
-  void addGroup( const QString &grp );
 
+protected:
   KActionCollection &m_actions;
   KActionCollection m_ownActions;
 
 private:
+  void addPlugins( );
   KAction *m_paNewView;
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;
@@ -110,11 +107,25 @@ private:
   QMap<int,KService::Ptr> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopupServices;
   bool m_bHandleEditOperations;
-  QDomDocument m_doc;
-  QDomElement m_menuElement;
   KXMLGUIFactory *m_factory;
   KXMLGUIBuilder *m_builder;
   QString attrName;
+  QPtrList<KonqPopupMenuPlugin> m_pluginList;
+};
+
+class KonqPopupMenuPlugin : public QObject, public KonqXMLGUIClient {
+	Q_OBJECT
+public:
+	/**
+	* Constructor
+	* If you want to insert a dynamic item or menu to konqpopupmenu
+	* this class is the right choice.
+	* Create a KAction and use _popup->addAction(new KAction );
+	* If you want to create a submenu use _popup->addGroup( );
+	*/
+	KonqPopupMenuPlugin( KonqPopupMenu *_popup ); // this should also be the parent
+	virtual ~KonqPopupMenuPlugin ( );
 };
 
 #endif
+

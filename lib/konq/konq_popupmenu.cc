@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+   Copyright (C) 2001 Holger Freyther <freyther@yahoo.com>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -30,6 +31,7 @@
 #include <kstandarddirs.h>
 #include <kxmlguifactory.h>
 #include <kxmlguibuilder.h>
+#include <klibloader.h>
 
 #include <assert.h>
 
@@ -85,12 +87,14 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   int id = 0;
 
   setFont(KGlobalSettings::menuFont());
-
+	m_pluginList.setAutoDelete( true );
   m_ownActions.setHighlightingEnabled( true );
 
   attrName = QString::fromLatin1( "name" );
 
   prepareXMLGUIStuff();
+  m_builder = new KonqPopupMenuGUIBuilder( this );
+  m_factory = new KXMLGUIFactory( m_builder );
 
   KURL url;
   KFileItemListIterator it ( m_lstItems );
@@ -414,6 +418,9 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       if ( insertedOffer )
         addSeparator();
   }
+  addGroup( "plugins" );	
+  addPlugins( ); // now it's time to add plugins
+  addMerge( "plugins" );
 
   if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType )
   {
@@ -440,6 +447,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
 KonqPopupMenu::~KonqPopupMenu()
 {
+  m_pluginList.clear( );
   delete m_factory;
   delete m_builder;
 }
@@ -531,77 +539,74 @@ KAction *KonqPopupMenu::action( const QDomElement &element ) const
 
   return res;
 }
-
-QDomDocument KonqPopupMenu::domDocument() const
-{
-  return m_doc;
-}
-
 KActionCollection *KonqPopupMenu::actionCollection() const
 {
   return const_cast<KActionCollection *>( &m_ownActions );
 }
 
-void KonqPopupMenu::addAction( KAction *act, const QDomElement &menu )
-{
-  addAction( act->name(), menu );
+QString KonqPopupMenu::mimeType( ){
+    return m_sMimeType;
 }
+void KonqPopupMenu::addPlugins( ){
+// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
+//search for a plugin with the right protocol
+	KTrader::OfferList plugin_offers = KTrader::self()->query(m_sMimeType, "'KonqPopupMenu/Plugin' in ServiceTypes");
+	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
+	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
+	// travers the offerlist
+	for(; iterator != end; ++iterator ){
+		QString libName = (*iterator)->library( );
+		if( libName.isEmpty( ) ) // if there is no lib go to the next offer
 
-void KonqPopupMenu::addAction( const char *name, const QDomElement &menu )
-{
-  static QString tagAction = QString::fromLatin1( "action" );
+			continue;
+		KLibrary *lib = KLibLoader::self()->library( libName.local8Bit() );
+		if ( !lib )
+			continue;
+		KLibFactory *factory = lib->factory( );
+		if (!factory ) {
+			delete lib;
+			continue;
+		}
+		QObject *obj = factory->create( this, (*iterator)->name().latin1(), "KonqPopupMenuPlugin" );
+		if ( !obj ) {
+			delete lib;
+			//delete factory; // makes sense but Simon didn't do it? so what?
+			continue;
+		}
+		if ( !obj->inherits("KonqPopupMenuPlugin") ){
+			delete obj;
+			continue;
+			//delete lib; // is this necessary?
+			//delete factory; // is this necessary?
+		}
+		KonqPopupMenuPlugin *plugin = static_cast<KonqPopupMenuPlugin *>( obj );
+		if ( !plugin ){
+		    delete obj;
+		    continue;
+		}
+		//connect(this, SIGNAL(XMLGUIFinished() ), plugin, SLOT(slotXMLGUIFinished() ) );
+		m_pluginList.append( plugin );
+    insertChildClient( plugin );
+    addMerge( 0 );
+	}
 
-  QDomElement parent = menu;
-  if ( parent.isNull() )
-    parent = m_menuElement;
-
-  QDomElement e = m_doc.createElement( tagAction );
-  parent.appendChild( e );
-  e.setAttribute( attrName, name );
 }
-
-void KonqPopupMenu::addSeparator( const QDomElement &menu )
-{
-  static QString tagSeparator = QString::fromLatin1( "separator" );
-
-  QDomElement parent = menu;
-  if ( parent.isNull() )
-    parent = m_menuElement;
-
-  parent.appendChild( m_doc.createElement( tagSeparator ) );
+KURL KonqPopupMenu::url( ) const {
+  return m_sViewURL;
 }
-
-void KonqPopupMenu::addMerge( const char *name )
-{
-  static QString tagMerge = QString::fromLatin1( "merge" );
-  QDomElement merge = m_doc.createElement( tagMerge );
-  m_menuElement.appendChild( merge );
-  if ( name )
-    merge.setAttribute( attrName, name );
+KFileItemList KonqPopupMenu::fileItemList( ) const {
+  return m_lstItems;
 }
-
-void KonqPopupMenu::addGroup( const QString &grp )
-{
-  QDomElement group = m_doc.createElement( "definegroup" );
-  m_menuElement.appendChild( group );
-  group.setAttribute( "name", grp );
+KURL::List KonqPopupMenu::popupURLList( ) const {
+  return m_lstPopupURLs;
 }
+/**
+	Plugin
+*/
 
-void KonqPopupMenu::prepareXMLGUIStuff()
-{
-  m_doc = QDomDocument( "kpartgui" );
-
-  QDomElement root = m_doc.createElement( "kpartgui" );
-  m_doc.appendChild( root );
-  root.setAttribute( attrName, "popupmenu" );
-
-  m_menuElement = m_doc.createElement( "Menu" );
-  root.appendChild( m_menuElement );
-  m_menuElement.setAttribute( attrName, "popupmenu" );
-
-  m_builder = new KonqPopupMenuGUIBuilder( this );
-  m_factory = new KXMLGUIFactory( m_builder );
+KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *_popup ){
 }
+KonqPopupMenuPlugin::~KonqPopupMenuPlugin( ){
 
-
+}
 #include "konq_popupmenu.moc"

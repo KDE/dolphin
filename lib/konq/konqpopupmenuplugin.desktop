@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=KonqPopupMenu/Plugin
+Comment=Plugin for the Konquer PopupMenu

@@ -14,6 +14,7 @@ kbookmark.*     : general purpose bookmark class
 kbookmarkmenu.* : bookmark menu
 kbookmarkbar.*  : bookmark bar
 konq_popupmenu.*: popupmenu for URLs
+konq_xmlguiclient.* : general purpose xmlgui manipulating class
 knewmenu.*      : implements the 'new' menu (file templates)
 
 2) files
@@ -44,3 +45,5 @@ konq_bgnddlg.*   : background chosing dialog
 6) other
 konq_events.*    : events sent by konqueror, for use by the views [& metaviews]
 
+7) plugin interface
+konq_popupmenu.h : class KonqPopupMenuPlugin
