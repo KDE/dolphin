@@ -26,6 +26,7 @@
 
 class KonqFMSettings;
 class KFileIVI;
+class KonqIconDrag;
 namespace KIO { class Job; }
 
 /**
@@ -100,9 +101,6 @@ public:
     void setURL ( const KURL & kurl );
     const KURL & url() { return m_url; }
     void setRootItem ( const KonqFileItem * item ) { m_rootItem = item; }
-
-    /** Made public for konq_iconview (copy) */
-    virtual QDragObject *dragObject();
 
     /**
      * Get list of selected KFileItems
@@ -180,6 +178,9 @@ protected slots:
     void slotOnViewport();
 
 protected:
+
+    virtual QDragObject *dragObject();
+    KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
 
     virtual void drawBackground( QPainter *p, const QRect &r );
     virtual void viewportResizeEvent(QResizeEvent *);

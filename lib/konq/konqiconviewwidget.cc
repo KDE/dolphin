@@ -242,7 +242,12 @@ QDragObject * KonqIconViewWidget::dragObject()
     if ( !currentItem() )
 	return 0;
 
-    KonqIconDrag *drag = new KonqIconDrag( viewport() );
+    return konqDragObject( viewport() );
+}
+
+KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
+{
+    KonqIconDrag * drag = new KonqIconDrag( dragSource );
     // Position of the mouse in the view
     QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
     // Position of the item clicked in the view
@@ -383,7 +388,7 @@ void KonqIconViewWidget::slotSelectionChanged()
 void KonqIconViewWidget::cutSelection()
 {
     kdDebug() << " -- KonqIconViewWidget::cutSelection() -- " << endl;
-    KonqIconDrag * obj = static_cast<KonqIconDrag*>(dragObject());
+    KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
     obj->setMoveSelection( true );
     QApplication::clipboard()->setData( obj );
 }
@@ -391,7 +396,7 @@ void KonqIconViewWidget::cutSelection()
 void KonqIconViewWidget::copySelection()
 {
     kdDebug() << " -- KonqIconViewWidget::copySelection() -- " << endl;
-    QDragObject * obj = dragObject();
+    KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
     QApplication::clipboard()->setData( obj );
 }
 
