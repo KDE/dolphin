@@ -31,7 +31,7 @@
 #include <unistd.h>
 
 #include "kbookmarkmenu.h"
-#include "konq_dirwatcher_stub.h"
+#include "kdirnotify_stub.h"
 
 #include <qdir.h>
 #include <qfile.h>
@@ -279,9 +279,9 @@ void KBookmarkMenu::slotBookmarkSelected()
         // DCOP broadcast to notify about this new bookmark
         KURL uChanged;
         uChanged.setPath( bm->file() );
-        KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
-        allDirWatchers.FilesAdded( uChanged );
-        //kdDebug(1203) << "KonqDirWatcher notified for " << uChanged.url() << endl;
+        KDirNotify_stub allDirNotify("*", "KDirNotify*");
+        allDirNotify.FilesAdded( uChanged );
+        kdDebug(1203) << "KDirNotify notified for " << uChanged.url() << endl;
         return;
       }
 
@@ -305,14 +305,13 @@ void KBookmarkMenu::slotResult( KIO::Job * job )
   if (job->error())
     job->showErrorDialog();
 
+  /*
+    Done by KIO::mkdir now
   KURL uChanged;
   uChanged.setPath( static_cast<KIO::SimpleJob *>(job)->url().directory() );
-
-  // DCOP broadcast to notify about this new folder
   KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
   allDirWatchers.FilesAdded( uChanged );
-
-  // HACK KBookmarkManager::self()->slotNotify( KBookmarkManager::self()->path() );
+  */
 }
 
 // -----------------------------------------------------------------------------

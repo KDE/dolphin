@@ -25,7 +25,7 @@
 #include <kpropsdlg.h>
 
 #include <dcopclient.h>
-#include <konq_dirwatcher_stub.h>
+//#include <kdirnotify_stub.h>
 #include "konq_undo.h"
 
 // For doDrop
@@ -308,31 +308,34 @@ void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
+    /*
+        All done by KIO::Job now
     else
     {
-      kdDebug() << "KonqOperations::slotResult : notifying the KonqDirListers" << endl;
-      KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
+      kdDebug() << "KonqOperations::slotResult : notifying using KDirNotify" << endl;
+      KDirNotify_stub allDirNotify("*", "KDirNotify*");
       switch (m_method) {
         case TRASH:
             // Notify the listers showing the trash that new files are there
-            allDirWatchers.FilesAdded( KGlobalSettings::trashPath() );
+            allDirNotify.FilesAdded( KGlobalSettings::trashPath() );
             // fall through
         case SHRED:
         case DEL:
             // Notify about the deletions
-            allDirWatchers.FilesRemoved( m_srcURLs );
+            allDirNotify.FilesRemoved( m_srcURLs );
             break;
         case MOVE:
-            allDirWatchers.FilesRemoved( m_srcURLs );
+            allDirNotify.FilesRemoved( m_srcURLs );
             // fall through
         case COPY:
         case LINK:
-            allDirWatchers.FilesAdded( m_destURL );
+            allDirNotify.FilesAdded( m_destURL );
             break;
         default:
             ASSERT(0);
       }
     }
+    */
     delete this;
 }
 

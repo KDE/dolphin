@@ -29,7 +29,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 
-#include "konq_dirwatcher.h"
+#include <kdirnotify.h>
 
 class KBookmarkManager;
 class KBookmark;
@@ -165,7 +165,7 @@ protected:
  * class from this one and specify your own path and overload
  * @ref editBookmarks
  */
-class KBookmarkManager : public QObject, public KonqDirWatcher
+class KBookmarkManager : public QObject, public KDirNotify
 {
   friend KBookmark;
 
@@ -256,7 +256,7 @@ public:
    * This function is automatically called via DCOP when a bookmark manager notices
    * a change, in order to update all other bookmark managers that display the same
    * bookmarks.
-   * Reimplemented from KonqDirWatcher.
+   * Reimplemented from KDirNotify.
    */
   virtual void FilesAdded( const KURL & directory );
 
@@ -264,7 +264,7 @@ public:
    * This function is automatically called via DCOP when a bookmark manager notices
    * a change, in order to update all other bookmark managers that display the same
    * bookmarks.
-   * Reimplemented from KonqDirWatcher.
+   * Reimplemented from KDirNotify.
    */
   virtual void FilesRemoved( const KURL::List & fileList );
 
