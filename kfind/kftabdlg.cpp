@@ -36,6 +36,7 @@
 #include "kftypes.h"
 #include "kftabdlg.h"
 
+#include <kdebug.h>
 #include <klocale.h>
 
 #define FIND_PROGRAM "find"
@@ -681,7 +682,7 @@ QString KfindTabDialog::createQuery()
       str += "\"";
     }
 
-    printf("QUERY=%s\n", str.data());    
+    kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.data());    
 
     return(str);
   };        

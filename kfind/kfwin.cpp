@@ -34,6 +34,7 @@
 #include <qclipbrd.h>
 #include <kfiledialog.h>
 
+#include <kdebug.h>
 #include <kfm.h>
 #include <kfmclient_ipc.h>
 #include <kprocess.h>
@@ -122,7 +123,7 @@ void KfindWindow::timerEvent(QTimerEvent *) {
 
 void KfindWindow::updateResults(const char *file )
   {
-    printf("UPDATERESULTs\n");
+    kdebug(KDEBUG_INFO, 1902, "UPDATERESULTs\n");
     
     char str[PATH_MAX];
     int count;
