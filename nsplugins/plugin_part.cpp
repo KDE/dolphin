@@ -60,12 +60,10 @@ PluginFactory::~PluginFactory()
 {
   kDebugInfo("~PluginFactory");
 
-  if (s_loader)
-    delete s_loader;
+  delete s_loader;
+  delete s_instance;
 
-  if (s_instance)
-    delete s_instance;
-
+  s_loader = 0;
   s_instance = 0;
 }
 
@@ -129,7 +127,7 @@ bool PluginPart::openURL(const KURL &url)
 {
   kDebugInfo("PluginPart::openURL");
 
-  if (widget) delete widget;
+  delete widget;
 
   QStringList _argn, _argv;
   _argn << "SRC" << "TYPE";
@@ -142,7 +140,7 @@ bool PluginPart::openURL(const KURL &url)
       widget->show();
     }
 
-  if (callback) delete callback;
+  delete callback;
   callback = new NSPluginCallback(this);
   widget->setCallback(kapp->dcopClient()->appId(), callback->objId());
 
@@ -153,8 +151,8 @@ bool PluginPart::openURL(const KURL &url)
 bool PluginPart::closeURL()
 {
   kDebugInfo("PluginPart::closeURL");
-  if (widget) delete widget;
-  if (callback) delete callback;
+  delete widget;
+  delete callback;
   widget = 0;
   callback = 0;
 
