@@ -88,12 +88,21 @@ private:
 k_dcop:
   virtual ASYNC push( const KonqCommand &cmd );
   virtual ASYNC pop();
+  virtual ASYNC lock();
+  virtual ASYNC unlock();
 
   virtual KonqCommand::Stack get() const;
 
+private slots:
+  void slotResult( KIO::Job *job );
+
 private:
+  void undoStep();
+
   void broadcastPush( const KonqCommand &cmd );
   void broadcastPop();
+  void broadcastLock();
+  void broadcastUnlock();
 
   bool initializeFromKDesky();
 
