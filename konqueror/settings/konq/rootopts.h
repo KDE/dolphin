@@ -53,6 +53,7 @@ private:
         QCheckBox *showHiddenBox;
         QCheckBox *VertAlignBox;
         QCheckBox *menuBarBox;
+	QCheckBox *vrootBox;
         QListView *previewListView;
 
         // Combo for the menus

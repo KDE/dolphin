@@ -76,7 +76,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 14   // 3 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
+#define RO_LASTROW 15   // 4 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -130,10 +130,19 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                     " menu setting that applies to KDE applications.") );
 
   row++;
+  vrootBox = new QCheckBox(i18n("Support Programs in Desktop Window"), this);
+  lay->addMultiCellWidget(vrootBox, row, row, 0, 0);
+  connect(vrootBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( vrootBox, i18n("Check this option if you want to"
+                                    " run X11 programs that draw into the desktop such as xsnow, xpenguin or"
+                                    " xmountain. If you have problems with applications like netscape that check"
+                                    " the root window for running instances, disable this option.") );
+
+  row++;
   lay->setRowStretch( row, 10 );
   previewListView = new QListView( this );
   previewListView->addColumn( i18n("Show Previews for:") );
-  lay->addMultiCellWidget( previewListView, row - 3, row, 1, RO_LASTCOL );
+  lay->addMultiCellWidget( previewListView, row - 4, row, 1, RO_LASTCOL );
   QWhatsThis::add(previewListView, i18n("Select for which types of files you want to"
                                         " enable preview images"));
 
@@ -327,6 +336,8 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
     menuBarBox->setChecked(bMenuBar);
+    g_pConfig->setGroup( "General" );
+    vrootBox->setChecked( g_pConfig->readBoolEntry( "SetVRoot", false ) );
     //
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
@@ -357,6 +368,7 @@ void KRootOptions::defaults()
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<KRootOptPreviewItem *>(item)->setOn(false);
     menuBarBox->setChecked(false);
+    vrootBox->setChecked( false );
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
@@ -387,6 +399,8 @@ void KRootOptions::save()
     g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
     g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
 
+    g_pConfig->setGroup( "General" );
+    g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cgs( config, "Paths" );
 
