@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="57">
+<gui name="Konqueror" version="58">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
-	<Action name="newtab"/>
+  <Action name="newtab"/>
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
   <Separator/>
@@ -47,9 +47,9 @@
   <Merge/>
  </Menu>
  <Menu name="go"><text>&amp;Go</text>
-  <Action name="up"/>
   <Action name="back"/>
   <Action name="forward"/>
+  <Action name="up"/>
   <Action name="home"/>
   <Separator/>
   <Action name="go_applications"/>
