@@ -51,10 +51,12 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
                    i18n("This is the relative font size Konqueror uses "
                         "to display web sites.") );
 
+  QStringList emptyList;
+
   QLabel* label = new QLabel( i18n("S&tandard Font"), this );
   lay->addWidget( label , ++r, E+1);
 
-  m_pFonts[0] = new KFontCombo( this );
+  m_pFonts[0] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[0] );
   lay->addMultiCellWidget(m_pFonts[0], r, r, M, W);
@@ -71,7 +73,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "&Fixed Font"), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFonts[1] = new KFontCombo( this );
+  m_pFonts[1] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[1] );
   lay->addMultiCellWidget(m_pFonts[1], r, r, M, W);
@@ -88,7 +90,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "S&erif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFonts[2] = new KFontCombo( this );
+  m_pFonts[2] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[2] );
   lay->addMultiCellWidget( m_pFonts[2], r, r, M, W );
@@ -105,7 +107,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "S&ans Serif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFonts[3] = new KFontCombo( this );
+  m_pFonts[3] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[3] );
   lay->addMultiCellWidget( m_pFonts[3], r, r, M, W );
@@ -122,7 +124,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "&Cursive Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFonts[4] = new KFontCombo( this );
+  m_pFonts[4] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[4] );
   lay->addMultiCellWidget( m_pFonts[4], r, r, M, W );
@@ -139,7 +141,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "Fantas&y Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFonts[5] = new KFontCombo( this );
+  m_pFonts[5] = new KFontCombo( emptyList, this );
 
   label->setBuddy( m_pFonts[5] );
   lay->addMultiCellWidget( m_pFonts[5], r, r, M, W );
