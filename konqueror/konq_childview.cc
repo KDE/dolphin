@@ -65,6 +65,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_bLoading = false;
   m_bPassiveMode = false;
   m_bLinkedView = false;
+  m_bAborted = false;
 
   switchView( viewFactory );
 
@@ -106,6 +107,16 @@ void KonqChildView::openURL( const KURL &url )
     createHistoryEntry();
   } else
       m_bLockHistory = false;
+
+  KParts::BrowserExtension *ext = browserExtension();
+  if ( m_bAborted && ext )
+  {
+    KParts::URLArgs args = ext->urlArgs();
+    args.reload = true;
+    ext->setURLArgs( args );
+  }
+
+  m_bAborted = false;
 
   m_pView->openURL( url );
 
@@ -338,6 +349,7 @@ void KonqChildView::slotCanceled( const QString & )
 #warning TODO obey errMsg
 #endif
   slotCompleted();
+  m_bAborted = true;
 }
 
 void KonqChildView::slotSelectionInfo( const KFileItemList &items )
@@ -474,9 +486,11 @@ void KonqChildView::setRun( KonqRun * run )
 
 void KonqChildView::stop()
 {
+  m_bAborted = false;
   if ( m_bLoading )
   {
     m_pView->closeURL();
+    m_bAborted = true;
   }
   else if ( m_pRun )
     delete static_cast<KonqRun *>(m_pRun); // should set m_pRun to 0L

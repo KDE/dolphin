@@ -293,6 +293,7 @@ protected:
   QGuardedPtr<KParts::ReadOnlyPart> m_metaView;
   bool m_bLockHistory;
   QString m_name;
+  bool m_bAborted;
 };
 
 #endif
