@@ -1255,8 +1255,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   }
 
   if( resetWindow )
-  {
-     m_pMainWindow->applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+  { // force default settings for the GUI
+     m_pMainWindow->applyMainWindowSettings( KGlobal::config(), "KonqMainWindow", true );
   }
 
   // Apply menu/toolbar settings saved in profile. Read from a separate group
