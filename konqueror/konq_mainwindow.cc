@@ -190,16 +190,16 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
   KToolBar *tb = toolBarByName("mainToolBar");
   if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
-    // else tb->setEnabled(false);
+    else m_paShowToolBar->setEnabled(false);
   tb = toolBarByName("extraToolBar");
   if (tb) m_paShowExtraToolBar->setChecked( !tb->isHidden() );
-    // else tb->setEnabled(false);
+    else m_paShowExtraToolBar->setEnabled(false);
   tb = toolBarByName("locationToolBar");
   if (tb) m_paShowLocationBar->setChecked( !tb->isHidden() );
-    // else tb->setEnabled(false);
+    else m_paShowLocationBar->setEnabled(false);
   tb = toolBarByName("bookmarkToolBar");
   if (tb) m_paShowBookmarkBar->setChecked( !tb->isHidden() );
-    // else tb->setEnabled(false);
+    else m_paShowBookmarkBar->setEnabled(false);
   updateBookmarkBar(); // hide if empty
 
   KConfigGroupSaver cgs(config,"MainView Settings");
