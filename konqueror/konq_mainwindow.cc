@@ -304,7 +304,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
                               const QString &serviceType, const KonqOpenURLRequest & req )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
-                << "serviceType='" << serviceType << "'\n";
+                << "serviceType='" << serviceType << "' view=" << _view << endl;
 
   if ( url.isMalformed() )
   {
@@ -334,6 +334,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
       // Don't change location bar if not current view
     }
   }
+  else // startup with argument
+    setLocationBarURL( url.prettyURL() );
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( !serviceType.isEmpty() && serviceType != "application/octet-stream" )
@@ -1666,6 +1668,7 @@ void KonqMainWindow::slotComboPlugged()
 
 void KonqMainWindow::slotClearLocationBar()
 {
+  kdDebug(1202) << "slotClearLocationBar" << endl;
   m_combo->clearEdit();
 }
 
@@ -1810,6 +1813,7 @@ void KonqMainWindow::slotFullScreenStop()
 void KonqMainWindow::setLocationBarURL( const QString &url )
 {
   kdDebug(1202) << "KonqMainWindow::setLocationBarURL : url = " << url << endl;
+  ASSERT( !url.isEmpty());
   if ( m_combo )
     m_combo->setEditText( url );
 }
@@ -1828,7 +1832,7 @@ void KonqMainWindow::stopAnimation()
 
 void KonqMainWindow::setUpEnabled( const KURL &url )
 {
-  //kdDebug() << "KonqMainWindow::setUpEnabled(" << url.url() << ")" << endl;
+  //kdDebug(1202) << "KonqMainWindow::setUpEnabled(" << url.url() << ")" << endl;
   bool bHasUpURL = false;
 
   if ( url.hasPath() )
