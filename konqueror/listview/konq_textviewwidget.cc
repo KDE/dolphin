@@ -141,22 +141,19 @@ void KonqTextViewWidget::createColumns()
 
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   for( QPtrListIterator<KFileItem> kit (entries); kit.current(); ++kit )
+   //kdDebug(1202) << k_funcinfo << entries.count() << endl;
+
+   for ( QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
-      KonqTextViewItem *tmp=new KonqTextViewItem( this, *kit );
-      if (m_goToFirstItem==false)
-         if (m_itemFound==false)
-            if (tmp->text(0)==m_itemToGoTo)
-            {
-               setCurrentItem(tmp);
-               ensureItemVisible(tmp);
-               emit selectionChanged();
-               activateAutomaticSelection();
-               m_itemFound=true;
-            };
-   };
+      KonqTextViewItem *tmp = new KonqTextViewItem( this, *kit );
+      if ( !m_itemFound && tmp->text(0) == m_itemToGoTo )
+      {
+         setCurrentItem( tmp );
+         m_itemFound = true;
+      }
+   }
+
    m_pBrowserView->newItems( entries );
-   //kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
 
    if ( !viewport()->isUpdatesEnabled() )
    {
@@ -169,6 +166,9 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 
 void KonqTextViewWidget::setComplete()
 {
+   kdDebug(1202) << k_funcinfo << "Update Contents Pos: "
+                 << m_bUpdateContentsPosAfterListing << endl;
+
    m_bTopLevelComplete = true;
 
    // Alex: this flag is set when we are just finishing a voluntary listing,
@@ -177,19 +177,26 @@ void KonqTextViewWidget::setComplete()
    // we don't want to go to the first item ! (David)
    if ( m_bUpdateContentsPosAfterListing )
    {
-      kdDebug() << "KonqTextViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
       m_bUpdateContentsPosAfterListing = false;
 
-      if ((m_goToFirstItem==true) || (m_itemFound==false))
+      if ( !m_itemFound )
+         setCurrentItem( firstChild() );
+
+      if ( !m_restored && !m_pBrowserView->extension()->urlArgs().reload )
       {
-          setCurrentItem(firstChild());
-          ensureItemVisible(firstChild());
-          activateAutomaticSelection();
+         ensureItemVisible( currentItem() );
+         activateAutomaticSelection();
       }
       else
-         setContentsPos( m_xOffset, m_yOffset );
+         setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+                         m_pBrowserView->extension()->urlArgs().yOffset );
 
+      emit selectionChanged();
    }
+
+   m_itemToGoTo = "";
+   m_restored = false;
+
    // Show "cut" icons as such
    m_pBrowserView->slotClipboardDataChanged();
    // Show totals
