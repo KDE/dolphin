@@ -345,7 +345,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
 
     if ( !d->m_overlay.isNull() ) {
         QRect rect = pixmapRect(true);
-        p->drawPixmap(x() + rect.x() , y() + m_size / 2, d->m_overlay);
+        p->drawPixmap(x() + rect.x() , y() + m_size - d->m_overlay.height(), d->m_overlay);
     }
 }
 
