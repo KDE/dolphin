@@ -433,7 +433,7 @@ void KfindTabWidget::setQuery(KQuery *query)
   query->setFileType(typeBox->currentItem());
 
   int id = typeBox->currentItem()-7;
-  if ((id >= 0) && (id < m_types.count()))
+  if ((id >= 0) && (id < (int) m_types.count()))
   {
      query->setMimeType( m_types[id]->name() );
   }
