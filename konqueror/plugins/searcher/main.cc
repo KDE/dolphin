@@ -116,6 +116,7 @@ KonqSearcherFactory::KonqSearcherFactory(QObject *parent, const char *name) : KL
 }
 
 KonqSearcherFactory::~KonqSearcherFactory() {
+    delete s_instance;
 }
 
 QObject *KonqSearcherFactory::create( QObject *parent, const char *, const char*, const QStringList & )
