@@ -374,18 +374,18 @@ void KonqMostOftenURLSAction::init()
 
     KonqHistoryManager *mgr = KonqHistoryManager::kself();
     setEnabled( !mgr->entries().isEmpty() && s_maxEntries > 0 );
-
-    connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
-             SLOT( slotEntryAdded( const KonqHistoryEntry * )));
-    connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
-             SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
-    connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
 }
 
 void KonqMostOftenURLSAction::parseHistory() // only ever called once
 {
     KonqHistoryManager *mgr = KonqHistoryManager::kself();
     KonqHistoryIterator it( mgr->entries() );
+
+    connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
+             SLOT( slotEntryAdded( const KonqHistoryEntry * )));
+    connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
+             SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
+    connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
 
     s_mostEntries = new MostOftenList; // exit() will clean this up for now
     for ( uint i = 0; it.current() && i < s_maxEntries; i++ ) {
