@@ -65,8 +65,7 @@ public:
   KonqPopupMenu( const KonqFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
-                 KNewMenu * newMenu,
-                 bool allowEmbeddingServices = false );
+                 KNewMenu * newMenu );
   /**
    * Don't forget to destroy the object
    */
@@ -81,12 +80,6 @@ public:
    * Reimplemented for internal purpose
    */
   virtual QDomDocument document() const;
-
-signals:
-  /**
-   * Emitted when an embedding service is chosen - only of interest for konqueror
-   */
-  void openEmbedded( const QString & serviceType, const KURL & url, const QString & serviceName );
 
 public slots:
   void slotPopupNewView();
@@ -117,7 +110,6 @@ protected:
   KonqFileItemList m_lstItems;
   KURL::List m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
-  QMap<int,KService::Ptr> m_mapPopupEmbedding;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopupServices;
   bool m_bHandleEditOperations;
   QDomDocument m_doc;

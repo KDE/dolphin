@@ -74,8 +74,7 @@ public:
 KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
-                              KNewMenu * newMenu,
-                              bool allowEmbeddingServices )
+                              KNewMenu * newMenu )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
@@ -240,15 +239,6 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   {
     // Query the trader for offers associated to this mimetype
 
-    // 1 - Query for services that could embed it
-    KTrader::OfferList embeddingOffers;
-    if ( m_lstItems.count() == 1 && allowEmbeddingServices )
-    { // Only if one item was selected
-      // Can't use X-KDE-BrowserView-Builtin directly in the query because '-' is a substraction !!!
-        embeddingOffers = KTrader::self()->query( m_sMimeType,
-        "('Browser/View' in ServiceTypes) or ('KParts/ReadOnlyPart' in ServiceTypes)" );
-    }
-
     // 2 - Look for builtin and user-defined services
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
@@ -296,38 +286,22 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 
     m_mapPopup.clear();
     m_mapPopupServices.clear();
-    m_mapPopupEmbedding.clear();
 
-    if ( !embeddingOffers.isEmpty() || !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
+    if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
     {
-      // First block, embedding offers + app offers + user
+      // First block, app offers + user
       addSeparator();
 
+      QDomElement group = m_doc.createElement( "definegroup" );
+      m_menuElement.appendChild( group );
+      group.setAttribute( "name", "preview" );
+      
       id = 1;
 
       bool insertedOffer = false;
-      KTrader::OfferList::Iterator it = embeddingOffers.begin();
-      for( ; it != embeddingOffers.end(); it++ )
-      {
-        QVariant builtin = (*it)->property( "X-KDE-BrowserView-Builtin" );
-        if (!builtin.isValid() || !builtin.toBool()) // Either not specified or false
-        {
-	  QCString nam;
-	  nam.setNum( id );
-	
-	  act = new KAction( i18n( "Preview in %1" ).arg( (*it)->name() ),
-			     (*it)->pixmap( KIconLoader::Small ), 0, this, SLOT( slotRunService() ),
-			     &m_ownActions, nam.prepend( "embeddservice_" ) );
-	  addAction( act );
-	
-	  m_mapPopupEmbedding[ id++ ] = *it;
-	
-          insertedOffer = true;
-        }
-      }
 
       // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
-      it = offers.begin();
+      KTrader::OfferList::ConstIterator it = offers.begin();
       for( ; it != offers.end(); it++ )
       {
         QCString nam;
@@ -488,14 +462,6 @@ void KonqPopupMenu::slotRunService()
   if ( it != m_mapPopup.end() )
   {
     KRun::run( **it, m_lstPopupURLs );
-    return;
-  }
-
-  // Is it an embedding service ?
-  QMap<int,KService::Ptr>::Iterator itEmbed = m_mapPopupEmbedding.find( id );
-  if ( itEmbed != m_mapPopupEmbedding.end() )
-  {
-    emit openEmbedded( m_sMimeType, m_lstPopupURLs.first(), (*itEmbed)->name() );
     return;
   }
 
