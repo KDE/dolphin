@@ -301,7 +301,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
 
   m_id = g_id++;
   m_pManager = _bm;
-  m_lstChildren.setAutoDelete( true );
+  m_bookmarkMap.setAutoDelete( true );
 
   m_text = KIO::decodeFileName( _text );
   if ( m_text.length() > 8 && m_text.right( 8 ) == ".desktop" )
@@ -325,7 +325,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
 {
   m_id = g_id++;
   m_pManager = _bm;
-  m_lstChildren.setAutoDelete( true );
+  m_bookmarkMap.setAutoDelete( true );
   m_type = Folder;
   m_text = _text;
 
@@ -389,7 +389,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 
   m_id = g_id++;
   m_pManager = _bm;
-  m_lstChildren.setAutoDelete( true );
+  m_bookmarkMap.setAutoDelete( true );
   m_text = _text;
   m_url = url.url();
   m_type = URL;
@@ -447,7 +447,6 @@ KBookmark *KBookmark::next()
 
 void KBookmark::append( const QString& _name, KBookmark *_bm )
 {
-  m_lstChildren.append( _bm );
   m_bookmarkMap.insert( _name, _bm );
   if ( !m_sortOrder.contains( _name ) )
     m_sortOrder.append( _name );
@@ -455,15 +454,14 @@ void KBookmark::append( const QString& _name, KBookmark *_bm )
 
 void KBookmark::clear()
 {
-  //kdDebug(1203) << "KBookmark::clear" << endl;
-  KBookmark *bm;
+  kdDebug(1203) << "KBookmark::clear" << endl;
 
-  for ( bm = children()->first(); bm != 0L; bm = children()->next() )
+  QDictIterator<KBookmark> it ( m_bookmarkMap );
+  for ( ; it.current() ; ++it )
   {
-    bm->clear();
+    it.current()->clear();
   }
 
-  m_lstChildren.clear();
   m_bookmarkMap.clear();
 }
 
@@ -474,8 +472,11 @@ KBookmark* KBookmark::findBookmark( int _id )
 
   KBookmark *bm;
 
-  for ( bm = children()->first(); bm != 0L; bm = children()->next() )
+  QDictIterator<KBookmark> it ( m_bookmarkMap );
+  for ( ; it.current() ; ++it )
   {
+    bm = it.current();
+
     if ( bm->id() == _id )
       return bm;
 

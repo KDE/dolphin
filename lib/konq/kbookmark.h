@@ -79,6 +79,7 @@ public:
   /**
    * Path to the local desktop file that defines this bookmark.
    * For submenus, this is the path to the directory.
+   * For an HTML bookmark, this is empty.
    */
   QString file() const { return m_file; }
   /**
@@ -100,7 +101,7 @@ public:
    * Don't iterate on this anymore.  Use @ref first and @ref next
    * instead
    */
-  QList<KBookmark> *children() { return &m_lstChildren; }
+    //QList<KBookmark> *children() { return &m_lstChildren; }
 
   KBookmark* findBookmark( int _id );
 
@@ -140,8 +141,6 @@ protected:
 
   int m_type;
   int m_id;
-
-  QList<KBookmark> m_lstChildren;
 
   KBookmarkManager *m_pManager;
 
