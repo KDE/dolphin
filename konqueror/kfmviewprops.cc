@@ -19,6 +19,7 @@
 
 #include "kfmviewprops.h"
 #include "kfm_defaults.h"
+#include <kpixmapcache.h>
 
 KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
 
@@ -37,6 +38,16 @@ KfmViewProps::KfmViewProps( const KConfig * config )
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
   // m_bCache = false; // What is it ???
+  QString pix = config->readEntry( "BackgroundPixmap", "" );
+  if ( !pix.isEmpty() )
+  {
+    QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
+    if ( p )
+    {
+      cerr << "Got background" << endl;
+      m_bgPixmap = *p;
+    }
+  }
 }
 
 KfmViewProps::~KfmViewProps()

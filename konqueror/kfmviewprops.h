@@ -73,7 +73,8 @@ public:
   bool isShowingImagePreview() { return m_bImagePreview; }
   // HTMLView ?
   // Cache ?
-
+  const QPixmap& bgPixmap() { return m_bgPixmap; }
+  
   // A KfmView can read/write the values directly.
   friend class KfmView;
 
@@ -87,6 +88,7 @@ protected:
   bool m_bImagePreview;
   // bool m_bHTMLView; ?
   // bool m_bCache; ?
+  QPixmap m_bgPixmap; // one per view or one per GUI ?
 
 private:
 

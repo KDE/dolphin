@@ -19,7 +19,6 @@
 
 #include "kfmguiprops.h"
 #include "kfm_defaults.h"
-#include <kpixmapcache.h>
 
 KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
 
@@ -80,17 +79,6 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
   m_width = config->readNumEntry("WindowWidth",  KFMGUI_WIDTH);
   m_height = config->readNumEntry("WindowHeight",KFMGUI_HEIGHT);
 
-  entry = "";
-  QString pix = config->readEntry( "BackgroundPixmap", entry );
-  if ( !pix.isEmpty() )
-  {
-    QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
-    if ( p )
-    {
-      cerr << "Got background" << endl;
-      m_bgPixmap = *p;
-    }
-  }
 }
 
 KfmGuiProps::~KfmGuiProps()

@@ -28,9 +28,6 @@
 #include <kmenubar.h>
 #include <kstatusbar.h>
 
-#include <qcolor.h>
-#include <qpixmap.h>
-
 // This class holds the properties for a KfmGui (i.e. a window).
 //
 // Separating them from the KfmGui class allows to store the default
@@ -75,8 +72,6 @@ public:
   // No *bar access methods (all done from KfmGui)
   // No width/height access methods either.
 
-  const QPixmap& bgPixmap() { return m_bgPixmap; } // one per view or one per GUI ?
-
   // A KfmGui can read/write the values directly.
   friend class KfmGui;
   
@@ -99,8 +94,6 @@ protected:
 
   int m_width;
   int m_height;
-
-  QPixmap m_bgPixmap; // one per view or one per GUI ?
 
 private:
 

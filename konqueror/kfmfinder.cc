@@ -19,7 +19,6 @@
 
 #include "kfmfinder.h"
 #include "kfmview.h"
-#include "kfmguiprops.h"
 #include "kfmviewprops.h"
 
 #include <kio_manager.h>

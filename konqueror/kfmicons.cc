@@ -21,7 +21,6 @@
 #include "kfmview.h"
 #include "kfmviewprops.h"
 #include "kfmgui.h"
-#include "kfmguiprops.h"
 
 #include <assert.h>
 #include <string.h>
@@ -99,7 +98,7 @@ void KfmIconView::initConfig()
   m_fixedFontName     = settings->fixedFontName();
   m_fontSize          = settings->fontSize();
 
-  m_bgPixmap          = m_pView->gui()->props()->bgPixmap(); // !!
+  m_bgPixmap          = props->bgPixmap(); // !!
 
   if ( m_bgPixmap.isNull() )
     viewport()->setBackgroundMode( PaletteBackground );
