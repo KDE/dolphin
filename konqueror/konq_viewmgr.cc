@@ -31,6 +31,7 @@
 #include <qevent.h>
 #include <qapplication.h>
 #include <qfileinfo.h>
+#include <qapplication.h>
 
 #include <kaction.h>
 #include <kconfig.h>
@@ -465,8 +466,43 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   //  nextChildView->part()->widget()->setFocus();
 
   // Window size
-  int width = cfg.readNumEntry( "Width", -1 );
-  int height = cfg.readNumEntry( "Height", -1 );
+  
+  bool ok;
+  
+  QString widthStr = cfg.readEntry( "Width" );
+  QString heightStr = cfg.readEntry( "Height" );
+
+  int width = -1;
+  int height = -1;
+  
+  if ( widthStr.contains( '%' ) == 1 )
+  {
+    widthStr.truncate( widthStr.length() - 1 );
+    int relativeWidth = widthStr.toInt( &ok );
+    if ( ok )
+      width = relativeWidth * QApplication::desktop()->width() / 100; 
+  }
+  else
+  {
+    width = widthStr.toInt( &ok );
+    if ( !ok )
+      width = -1;
+  }
+
+  if ( heightStr.contains( '%' ) == 1 )
+  {
+    heightStr.truncate( heightStr.length() - 1 );
+    int relativeHeight = heightStr.toInt( &ok );
+    if ( ok )
+      height = relativeHeight * QApplication::desktop()->height() / 100; 
+  }
+  else
+  {
+    height = heightStr.toInt( &ok );
+    if ( !ok )
+      height = -1;
+  }
+
   if ( width > -1 && height > -1 )
     m_pMainWindow->resize( width, height );
 
