@@ -64,7 +64,7 @@
   <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Separator/>
-  <Menu name="configure"><text>&amp;Configure</text>
+  <Menu name="configure" icon="configure"><text>&amp;Configure</text>
     <Action name="configurefilemanager"/>
     <Action name="configurebrowser"/>
     <Action name="configurefiletypes"/>
