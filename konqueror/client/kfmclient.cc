@@ -116,7 +116,7 @@ int main( int argc, char **argv )
 
     printf(i18n("*** Examples:\n"
                 "  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
-                "             // Mounts the CDROM\n\n").local8Bit());
+                "             // Mounts the CD-ROM\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/home/weis/data/test.html\n"
                 "             // Opens the file with default binding\n\n").local8Bit());
     printf(i18n("  kfmclient exec file:/home/weis/data/test.html Netscape\n"
