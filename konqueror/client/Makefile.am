@@ -20,3 +20,5 @@ KDesktopIface.kidl: $(top_srcdir)/kdesktop/KDesktopIface.h
 KDesktopIface_stub.cpp: KDesktopIface.kidl
 
 kfmclient.cc: KonquerorIface_stub.cpp KDesktopIface_stub.cpp
+
+messages:

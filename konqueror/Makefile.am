@@ -61,3 +61,11 @@ konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 konqueror_LDADD = libkonqueror.la
 
+messages:
+	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po ../po/konqueror.pot 
+	for subdir in $(SUBDIRS); do \
+	  if test ! "x$$subdir" = "x."; then \
+	    echo "Making messages in $$subdir"; \
+	    (cd $$subdir && $(MAKE) -f Makefile.am messages) || exit 1; \
+	  fi ;\
+	done

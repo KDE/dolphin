@@ -4,3 +4,4 @@ KDE_ICON = konqueror kmultiple
 
 #EXTRA_DIST = $(data_DATA) 
 
+messages:
