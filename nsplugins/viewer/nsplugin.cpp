@@ -52,7 +52,7 @@
 #include <klocale.h>
 #include <kprocess.h>
 #include <kprotocolmanager.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <ktempfile.h>
 #include <kurl.h>
 
