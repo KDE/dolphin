@@ -337,7 +337,6 @@ int main( int argc, char **argv )
   signal(SIGTERM,sig_term_handler);
   signal(SIGPIPE,sig_pipe_handler);
 
-  KfmPaths::initStatic();
   KIOCache::initStatic();
   // KMimeType::initStatic();
   // KService::initStatic();
