@@ -34,7 +34,7 @@ PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const c
                                   "or a domain, starting with a dot (like .kde.org or .org)") );
 
 
-  l_javapolicy = new QLabel(i18n("Java policy:"), this);
+  l_javapolicy = new QLabel(i18n("&Java policy:"), this);
   grid->addWidget(l_javapolicy, 1, 0);
 
   cb_javapolicy = new QComboBox(this);
@@ -64,11 +64,11 @@ PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const c
   topl->addWidget(bbox);
 
   bbox->addStretch(1);
-  QPushButton *okButton = bbox->addButton(i18n("OK"));
+  QPushButton *okButton = bbox->addButton(i18n("&OK"));
   okButton->setDefault(true);
   connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
 
-  QPushButton *cancelButton = bbox->addButton(i18n("Cancel"));
+  QPushButton *cancelButton = bbox->addButton(i18n("&Cancel"));
   connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 
   //now hide the parts not being used
