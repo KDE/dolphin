@@ -444,7 +444,8 @@ void Sidebar_Widget::activatedMenu(int id)
 			else
 			{
 				KMessageBox::information(this,
-				i18n("If you want to reenable the \"Configuration\" button, you can do this from the right mouse button popup menu everywhere within the navigation panel tabs"),QString::null,"sidebar_remove_configure_button");
+				i18n("You have hidden the navigation panel configuration button. To make it visible again, click the right mouse button on any of the navigation panel buttons and select \"Show Configuration Button\"."));
+
 
 				ButtonBar->removeButton(-1);
 //JW -TEST				ButtonBar->removeButton(-2);
