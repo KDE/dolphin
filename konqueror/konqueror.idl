@@ -19,6 +19,14 @@ module Konqueror
     long yOffset /* = 0 */ ;
   };
     
+  struct Transfer
+  {
+    string source;
+    string destination;
+  };
+  typedef Transfer EventNewTransfer;
+  const string eventNewTransfer = "Konqueror/NewTransfer";
+
   /*
    * This event is mapped by Konqueror's implementation of the MainView
    * interface as well as by all the views.
