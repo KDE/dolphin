@@ -563,11 +563,7 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
   m_mapViews.erase( oldId );
   m_mapViews[ newId ] = childView;
   if ( oldId == m_currentId)
-  {
     m_currentId = newId;
-    createViewMenu(); // erase old view-specific entries
-    childView->emitEventViewMenu( m_vMenuView, true ); // add the new ones
-  }
 }
 
 void KonqMainView::openURL( const Konqueror::URLRequest &url )
