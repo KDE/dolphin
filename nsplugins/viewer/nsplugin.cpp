@@ -434,13 +434,18 @@ void NSPluginInstance::destroy()
 void NSPluginInstance::shutdown()
 {
     NSPluginClass *cls =  static_cast<NSPluginClass*>(parent());
-    destroy();
+    //destroy();
     cls->destroyInstance( this );
 }
 
 
 void NSPluginInstance::timer()
 {
+    if (!_visible) {
+         _timer->start( 100, true );
+         return;
+    }
+
     _streams.clear();
 
     // start queued requests
