@@ -99,52 +99,31 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     }
   }
 
-  KTrader::OfferList offers = KTrader::self()->query( serviceType );
+  // We need to get those in any case
+  KTrader::OfferList offers;
 
-  if ( appServiceOffers )
-  {
-    *appServiceOffers = offers;
-    KTrader::OfferList::Iterator it = appServiceOffers->begin();
-    while ( it != appServiceOffers->end() )
-    {
-      //kdDebug(1202) << (*it)->desktopEntryName() << endl;
-      // Remove pure services (no app), and also remove ourselves... :-}
-      if ( (*it)->type() != "Application"
-           || (*it)->desktopEntryName() == "kfmclient" )
-      {
-        it = appServiceOffers->remove( it );
-        // it points to the next one now
-      }
-      else
-        ++it;
-    }
-  }
+  // Query the trader
+  getOffers( serviceType, &offers, appServiceOffers );
+
+  if ( partServiceOffers )
+     (*partServiceOffers) = offers;
 
   KService::Ptr service = 0L;
-  KTrader::OfferList::Iterator it = offers.begin();
-  // Remove irrelevant entries (non parts) and while we're at it, check for serviceName
-  while ( it != offers.end() )
+
+  // Look for this service
+  if ( !serviceName.isEmpty() )
   {
-    QStringList serviceTypes = (*it)->serviceTypes();
-    if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
-    {
-      //kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
-      it = offers.remove( it );
-      // it points to the next one now
-      continue;
-    }
-    if ( !service && !serviceName.isEmpty() )
-    {
-      if ( (*it)->desktopEntryName() == serviceName )
+      KTrader::OfferList::Iterator it = offers.begin();
+      // Remove irrelevant entries (non parts)
+      for ( ; it != offers.end() && !service ; ++it )
       {
-        kdDebug(1202) << "Found requested service " << serviceName << endl;
-        service = *it;
+          if ( (*it)->desktopEntryName() == serviceName )
+          {
+              kdDebug(1202) << "Found requested service " << serviceName << endl;
+              service = *it;
+          }
       }
-    }
-    ++it;
   }
-  if ( partServiceOffers )
-    (*partServiceOffers) = offers;
 
   KLibFactory *factory = 0L;
 
@@ -154,7 +133,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
   }
 
-  it = offers.begin();
+  KTrader::OfferList::Iterator it = offers.begin();
   for ( ; !factory && it != offers.end() ; ++it )
   {
     service = (*it);
@@ -193,6 +172,51 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   return KonqViewFactory( factory, args, service->serviceTypes().contains( "Browser/View" ) );
 }
 
+void KonqFactory::getOffers( const QString & serviceType,
+                             KTrader::OfferList *partServiceOffers,
+                             KTrader::OfferList *appServiceOffers )
+{
+    KTrader::OfferList offers = KTrader::self()->query( serviceType );
+
+    if ( appServiceOffers )
+    {
+        *appServiceOffers = offers;
+        KTrader::OfferList::Iterator it = appServiceOffers->begin();
+        while ( it != appServiceOffers->end() )
+        {
+            //kdDebug(1202) << (*it)->desktopEntryName() << endl;
+            // Remove pure services (no app), and also remove ourselves... :-}
+            if ( (*it)->type() != "Application"
+                 || (*it)->desktopEntryName() == "kfmclient" )
+            {
+                it = appServiceOffers->remove( it );
+                // it points to the next one now
+            }
+            else
+                ++it;
+        }
+    }
+
+    KTrader::OfferList::Iterator it = offers.begin();
+    // Remove irrelevant entries (non parts)
+    while ( it != offers.end() )
+    {
+        QStringList serviceTypes = (*it)->serviceTypes();
+        if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
+        {
+            //kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
+            it = offers.remove( it );
+            // it points to the next one now
+            continue;
+        }
+        ++it;
+    }
+
+    if ( partServiceOffers )
+        (*partServiceOffers) = offers;
+}
+
+
 const KAboutData *KonqFactory::aboutData()
 {
   if (!s_aboutData)
@@ -223,3 +247,4 @@ const KAboutData *KonqFactory::aboutData()
   }
   return s_aboutData;
 }
+

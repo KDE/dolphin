@@ -63,7 +63,11 @@ public:
 				     KService::Ptr *serviceImpl = 0,
 				     KTrader::OfferList *partServiceOffers = 0,
 				     KTrader::OfferList *appServiceOffers = 0);
-				
+
+  static void getOffers( const QString & serviceType,
+                         KTrader::OfferList *partServiceOffers = 0,
+                         KTrader::OfferList *appServiceOffers = 0);
+
   static const KAboutData* aboutData();
 
 private:

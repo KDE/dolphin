@@ -147,7 +147,7 @@ void KonqProfileDlg::slotSave()
   QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
 
   // Reuse filename of existing item, if any
-  if ( m_pListBox->currentItem() != -1 )
+  if ( m_pListBox->currentItem() != -1 && m_pListBox->isSelected(m_pListBox->currentItem()) )
   {
     QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->currentText() );
     if ( it != m_mapEntries.end() )
@@ -157,6 +157,7 @@ void KonqProfileDlg::slotSave()
     }
   }
 
+  kdDebug(1202) << "Saving as " << name << endl;
   m_pViewManager->saveViewProfile( name, m_pProfileNameLineEdit->text(),
                                    m_cbSaveURLs->isChecked(), m_cbSaveSize->isChecked() );
 

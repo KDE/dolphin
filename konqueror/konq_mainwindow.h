@@ -163,6 +163,8 @@ public:
   void disableActionsNoView();
 
   void updateToolBarActions();
+  void updateOpenWithActions();
+  void updateViewModeActions();
 
   bool fullScreenMode() const { return m_bFullScreen; }
 
@@ -368,8 +370,6 @@ private:
   void connectExtension( KParts::BrowserExtension *ext );
   void disconnectExtension( KParts::BrowserExtension *ext );
 
-  void updateOpenWithActions( const KTrader::OfferList &services );
-  void updateViewModeActions( const KTrader::OfferList &services );
   void plugViewModeActions();
   void unplugViewModeActions();
 
@@ -490,7 +490,7 @@ private:
 
   typedef QMap<QCString,QCString> ActionSlotMap;
   static ActionSlotMap *s_actionSlotMap;
-    
+
 };
 
 #endif

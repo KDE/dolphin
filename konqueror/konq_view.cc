@@ -231,6 +231,15 @@ bool KonqView::changeViewMode( const QString &serviceType,
     kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
     m_pMainWindow->viewManager()->setActivePart( m_pPart );
   }
+  else
+  {
+      m_serviceType = serviceType;
+      kdDebug() << "KonqView::changeViewMode service type set to " << m_serviceType << endl;
+      // Re-query the trader
+      KonqFactory::getOffers( m_serviceType, &m_partServiceOffers, &m_appServiceOffers );
+      if ( m_pMainWindow->currentView() == this )
+          m_pMainWindow->updateViewModeActions();
+  }
   return true;
 }
 

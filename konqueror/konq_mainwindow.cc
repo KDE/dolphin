@@ -1389,23 +1389,12 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   // View-dependent GUI
 
-  unplugActionList( "openwith" );
-  updateOpenWithActions( m_currentView->appServiceOffers() );
-  if ( m_currentView->appServiceOffers().count() > 0 )
-    plugActionList( "openwith", m_openWithActions );
+  updateOpenWithActions();
 
   if ( !m_bViewModeToggled ) // if we just toggled the view mode via the view mode actions, then
                              // we don't need to do all the time-taking stuff below (Simon)
   {
-    unplugViewModeActions();
-    updateViewModeActions( m_currentView->partServiceOffers() );
-
-    KService::Ptr service = m_currentView->service();
-    QVariant prop = service->property( "X-KDE-BrowserView-Toggable" );
-    if ( !prop.isValid() || !prop.toBool() ) // No view mode for toggable views
-    // (The other way would be to enforce a better servicetype for them, than Browser/View)
-      if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
-        plugViewModeActions();
+    updateViewModeActions();
 
     m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
   }
@@ -1863,7 +1852,7 @@ void KonqMainWindow::slotGoMenuAboutToShow()
 }
 
 void KonqMainWindow::slotGoHistoryActivated( int steps )
-{ 
+{
   if (!m_goBuffer)
   {
     // Only start 1 timer.
@@ -2004,13 +1993,13 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 
 bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {
-  if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) && 
+  if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) &&
        m_combo && m_combo->lineEdit() == obj )
   {
     kdDebug() << "KonqMainWindow::eventFilter " << obj << " " << obj->className() << " " << obj->name() << endl;
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
-    if (focusEv->reason() == QFocusEvent::Popup || !m_combo || obj != m_combo->lineEdit())
+    if (focusEv->reason() == QFocusEvent::Popup)
     {
       return KParts::MainWindow::eventFilter( obj, ev );
     }
@@ -2933,10 +2922,13 @@ void KonqMainWindow::slotClearStatusText()
   statusBar->slotClear();
 }
 
-void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
+void KonqMainWindow::updateOpenWithActions()
 {
+  unplugActionList( "openwith" );
+
   m_openWithActions.clear();
 
+  const KTrader::OfferList & services = m_currentView->appServiceOffers();
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
@@ -2949,10 +2941,13 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
 
     m_openWithActions.append( action );
   }
+  if ( services.count() > 0 )
+    plugActionList( "openwith", m_openWithActions );
 }
 
-void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
+void KonqMainWindow::updateViewModeActions()
 {
+  unplugViewModeActions();
   if ( m_viewModeMenu )
   {
     QListIterator<KAction> it( m_viewModeActions );
@@ -2963,6 +2958,8 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
 
   m_viewModeMenu = 0;
   m_viewModeActions.clear();
+
+  const KTrader::OfferList &services =  m_currentView->partServiceOffers();
 
   if ( services.count() <= 1 )
     return;
@@ -2981,9 +2978,9 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
           QString icon = (*it)->icon();
           if ( icon != QString::fromLatin1( "unknown" ) )
             // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-            action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->desktopEntryName().ascii() );
+            action = new KRadioAction( (*it)->name(), icon, 0, this, (*it)->desktopEntryName().ascii() );
           else
-            action = new KRadioAction( (*it)->comment(), 0, this, (*it)->desktopEntryName().ascii() );
+            action = new KRadioAction( (*it)->name(), 0, this, (*it)->desktopEntryName().ascii() );
 
           if ( (*it)->desktopEntryName() == m_currentView->service()->desktopEntryName() )
               action->setChecked( true );
@@ -2997,6 +2994,11 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
           action->plug( m_viewModeMenu->popupMenu() );
       }
   }
+
+  if ( !m_currentView->isToggleView() ) // No view mode for toggable views
+      // (The other way would be to enforce a better servicetype for them, than Browser/View)
+      if ( /* already tested: services.count() > 1 && */ m_viewModeMenu )
+          plugViewModeActions();
 }
 
 void KonqMainWindow::plugViewModeActions()
