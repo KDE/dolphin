@@ -231,7 +231,7 @@ void NSPluginConfig::dirInit()
              SIGNAL(currentChanged(QListBoxItem*)),
              SLOT(dirSelect(QListBoxItem*)) );
 
-    // XXX disable to avoid new strings
+    // XXX disabled to avoid new strings
     m_widget->useArtsdsp->hide();
 }
 
@@ -260,7 +260,7 @@ void NSPluginConfig::dirLoad( KConfig *config )
     m_widget->dirList->insertStringList( paths );
 
     // setup other widgets
-    bool useArtsdsp = config->readBoolEntry( "useArtsdsp", false );
+    bool useArtsdsp = config->readBoolEntry( "useArtsdsp", true );
     m_widget->useArtsdsp->setChecked( useArtsdsp );
 }
 

@@ -94,7 +94,7 @@ NSPluginLoader::NSPluginLoader()
   // load configuration
   KConfig cfg("kcmnspluginrc", false);
   cfg.setGroup("Misc");
-  _useArtsdsp = cfg.readBoolEntry( "useArtsdsp", false );
+  _useArtsdsp = cfg.readBoolEntry( "useArtsdsp", true );
 }
 
 
@@ -234,6 +234,7 @@ bool NSPluginLoader::loadViewer()
 
    // find the external artsdsp process
    if( _useArtsdsp ) {
+       kdDebug() << "trying to use artsdsp" << endl;
        QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
        if (!artsdsp)
        {
@@ -243,7 +244,8 @@ bool NSPluginLoader::loadViewer()
            kdDebug() << artsdsp << endl;
            *_process << artsdsp;
        }
-   }
+   } else
+       kdDebug() << "don't using artsdsp" << endl;
 
    *_process << viewer;
 
