@@ -115,7 +115,13 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
     if ( d->m_overlayName.isNull() )
         d->m_overlay = QPixmap();
     else {
-        d->m_overlay = DesktopIcon(d->m_overlayName, pixmapRect().height());
+        int halfSize;
+        if (m_size == 0) {
+            halfSize = IconSize(KIcon::Desktop) / 2;
+        } else {
+            halfSize = m_size / 2;
+        }
+        d->m_overlay = DesktopIcon(d->m_overlayName, halfSize);
     }
       
     setPixmapDirect(m_fileitem->pixmap( m_size, m_state ) , recalc, redraw );
