@@ -25,28 +25,49 @@
 #include <kpixmapcache.h>
 #include <klocale.h>
 
-KFileIcon::KFileIcon( UDSEntry& _entry, KURL& _url ) :
+KFileIcon::KFileIcon( UDSEntry& _entry, KURL& _url, bool _mini ) :
   m_entry( _entry ), 
   m_url( _url ), 
+  m_bMini( _mini ),
   m_bMarked( false ),
   m_bIsLocalURL( _url.isLocalFile() )
 {
-  init();
+  KFileIcon::init(); // don't call derived methods !
 }
 
 void KFileIcon::init()
 {
-  mode_t mode = 0;
+  m_mode = 0;
+  m_name = QString::null;
   UDSEntry::iterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
+  {
     if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
+      m_mode = (mode_t)it->m_long;
+    else if ( it->m_uds == UDS_NAME )
+      m_name = it->m_str.c_str();
+  }
 
-  m_pMimeType = KMimeType::findByURL( m_url, mode, m_bIsLocalURL );
+  assert(!m_name.isNull());
+
+  m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL );
   assert (m_pMimeType);
 }
 
-bool KFileIcon::acceptsDrops( QStrList& /* _formats */ )
+QPixmap* KFileIcon::getPixmap() const
+{
+  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, m_bMini );
+  if (!p)
+    warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType().ascii());
+  return p;
+}
+
+inline bool KFileIcon::isLink() const
+{
+  return S_ISLNK( m_mode );
+}
+
+bool KFileIcon::acceptsDrops( QStringList& /* _formats */ ) const
 {
   if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
     return true;
@@ -64,7 +85,7 @@ bool KFileIcon::acceptsDrops( QStrList& /* _formats */ )
   return false;
 }
 
-QString KFileIcon::getStatusBarInfo()
+QString KFileIcon::getStatusBarInfo() const
 {
   QString comment = m_pMimeType->comment( m_url, false );
   QString text;
@@ -73,7 +94,7 @@ QString KFileIcon::getStatusBarInfo()
   long size   = 0;
   mode_t mode = 0;
 
-  UDSEntry::iterator it = m_entry.begin();
+  UDSEntry::const_iterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
   {
     if ( it->m_uds == UDS_SIZE )

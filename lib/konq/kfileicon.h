@@ -20,48 +20,96 @@
 #define __konq_fileicon_h__
 
 /*
- * A "file icon container" is a specialised icon container, 
- * based on KIconContainer, and adding functionalities for files
- * (mimetype, icon, listing (TODO), refreshing (TODO), ...)
+ * A KFileIcon is a generic class to handle files represented by icons.
+ * It includes functionalities such as mimetype, icon, ...
+ *
+ * TODO : a KFileIconLister (?) to handle listing & refreshing
+ * Currently, it's duplicated by kdesktop, konq_iconview and konq_treeview
  */
 
-#include <qstrlist.h>
+#include <qstringlist.h>
+#include <sys/stat.h>
 
 #include <kio_interface.h>
 #include <kurl.h>
 
 class KMimeType;
+class QPixmap;
 
 class KFileIcon
 {
 public:
-  KFileIcon( UDSEntry& _entry, KURL& _url );
+  /**
+   * Create an icon representing a file
+   * @param _entry the KIO entry used to get the file, contains info about it
+   * @param _url the file url
+   * @param _mini whether a mini icon should be used
+   */
+  KFileIcon( UDSEntry& _entry, KURL& _url, bool _mini );
+  /**
+   * Destructor
+   */
   virtual ~KFileIcon() { }
 
-  virtual QString url() { return m_url.url(); }
+  /**
+   * @return the url of the file
+   */
+  virtual QString url() const { return m_url.url(); }
+  /**
+   * @return the name of the file icon (i.e. the filename)
+   */
+  virtual QString name() const { return m_name; }
+  /**
+   * @return the mode of the file
+   */
+  virtual mode_t mode() const { return m_mode; }
+  /**
+   * @return true if the file is a link
+   */
+  virtual bool isLink() const;
+  /**
+   * @return the mimetype of the file
+   */
+  virtual KMimeType* mimeType() const { return m_pMimeType; }
+  /**
+   * @return a pixmap representing the file
+   * Don't cache it, don't delete it. It's handled by KPixmapCache !
+   *
+   * The method is named getPixmap because it actually determines the pixmap
+   * each time. For a KIconContainerItem derived class, use getPixmap
+   * then setPixmap to store the pixmap in the item, then pixmap() to get it later
+   * getPixmap() should only be called it might have changed (e.g. m_bMini changed)
+   */
+  virtual QPixmap* getPixmap() const;
 
-  virtual bool isMarked() { return m_bMarked; }
+  // TODO : probably setMini is needed
+
+  // Used when updating a directory - marked == seen when refreshing
+  virtual bool isMarked() const { return m_bMarked; }
   virtual void mark() { m_bMarked = true; }
   virtual void unmark() { m_bMarked = false; }
   
-  virtual UDSEntry udsEntry() { return m_entry; }
-
-  /*
+  /**
    * @return the string to be displayed in the statusbar when the mouse 
    *         is over this item
    */
-  virtual QString getStatusBarInfo();
+  virtual QString getStatusBarInfo() const;
 
-  virtual bool acceptsDrops( QStrList& /* _formats */ );
-
-  virtual KMimeType* mimeType() { return m_pMimeType; }
+  virtual bool acceptsDrops( QStringList& /* _formats */ ) const;
 
 protected:
+  /**
+   * Computes the name, mode, and mimetype from the UDSEntry
+   * Called by constructor, but can be called again later
+   */
   void init();
   
   UDSEntry m_entry;
   KURL m_url;
+  bool m_bMini;
+  mode_t m_mode;
 
+  QString m_name;
   KMimeType* m_pMimeType;
 
   bool m_bMarked;
