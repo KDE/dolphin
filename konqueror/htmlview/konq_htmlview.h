@@ -116,6 +116,7 @@ public:
     { m_iXOffset = x; m_iYOffset = y; }
 
 protected slots:
+  void slotStarted( const QString & );
   void slotCompleted();
   void slotCanceled();
   void slotShowURL( const QString & _url );

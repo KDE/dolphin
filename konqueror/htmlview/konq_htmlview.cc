@@ -128,7 +128,7 @@ KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
                     //this, SIGNAL( completed() ) );
                     this, SLOT( slotCompleted() ) );
   QObject::connect( m_pWidget, SIGNAL( started( const QString & ) ),
-                    this, SIGNAL( started() ) );
+                    this, SLOT( slotStarted( const QString & ) ) );
   QObject::connect( m_pWidget, SIGNAL( completed() ),
                     this, SLOT( updateActions() ) );
   QObject::connect( m_pWidget, SIGNAL( canceled() ),
@@ -187,6 +187,12 @@ void KonqHTMLView::slotCanceled()
 {
   // a method only because of that errMsg arg... Hmm...
   emit canceled( QString::null );
+}
+
+void KonqHTMLView::slotStarted( const QString & )
+{
+  // and a method only because of that jobid arg...
+  emit started( 0 );
 }
 
 void KonqHTMLView::slotCompleted()
