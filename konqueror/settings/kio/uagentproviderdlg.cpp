@@ -80,21 +80,16 @@ UAProviderDlg::~UAProviderDlg()
 {
 }
 
-void UAProviderDlg::init( bool updateInfo )
+void UAProviderDlg::init()
 {
-  if ( !updateInfo )
-  {
-      connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
-      connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
+  connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
+  connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
   
-      connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
+  connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
                 SLOT(slotTextChanged( const QString&)) );
   
-      connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
+  connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
                 SLOT(slotActivated(const QString&)) );
-  
-      connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
-  }
   
   dlg->cbAlias->clear();
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
@@ -117,14 +112,6 @@ void UAProviderDlg::slotActivated( const QString& text )
 void UAProviderDlg::slotTextChanged( const QString& text )
 {
   dlg->pbOk->setEnabled( (!text.isEmpty() && !dlg->cbAlias->currentText().isEmpty()) );
-}
-
-void UAProviderDlg::updateInfo()
-{
-  QString citem = dlg->cbAlias->currentText();
-  m_provider->setListDirty(true);
-  init(true);
-  setIdentity(citem);
 }
 
 void UAProviderDlg::setSiteName( const QString& text )

@@ -57,10 +57,9 @@ public:
 protected slots:
   void slotActivated( const QString& );
   void slotTextChanged( const QString& );
-  void updateInfo();
 
 protected:
-  void init(bool updateInfo = false);
+  void init();
 
 private:
   FakeUASProvider* m_provider;

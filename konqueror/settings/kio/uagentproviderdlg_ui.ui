@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>UAProviderDlgUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>298</width>
-            <height>229</height>
+            <height>240</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -20,11 +20,14 @@
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <vbox>
+    <property name="caption">
+        <string>UAProviderDlgUI</string>
+    </property>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel">
+        <widget class="QLabel" row="0" column="0">
             <property name="name">
                 <cstring>lbSite</cstring>
             </property>
@@ -41,7 +44,7 @@ Enter the site or domain name where a fake browser identification should be used
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="KLineEdit">
+        <widget class="KLineEdit" row="1" column="0">
             <property name="name">
                 <cstring>leSite</cstring>
             </property>
@@ -52,7 +55,7 @@ Enter the site or domain name where a fake browser identification should be used
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QLabel">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>lbAlias</cstring>
             </property>
@@ -68,7 +71,7 @@ Select the browser identification to use whenever contacting the site you specif
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="KComboBox">
+        <widget class="KComboBox" row="3" column="0">
             <property name="name">
                 <cstring>cbAlias</cstring>
             </property>
@@ -78,7 +81,7 @@ Select the browser identification to use whenever contacting the site you specif
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QLabel">
+        <widget class="QLabel" row="4" column="0">
             <property name="name">
                 <cstring>lbIdentity</cstring>
             </property>
@@ -94,7 +97,7 @@ The actual browser identification text that will be sent to the remote machine.
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="KLineEdit">
+        <widget class="KLineEdit" row="5" column="0">
             <property name="name">
                 <cstring>leIdentity</cstring>
             </property>
@@ -107,7 +110,7 @@ The actual browser identification text that will be sent to the remote machine.
 &lt;/qt&gt;</string>
             </property>
         </widget>
-        <spacer>
+        <spacer row="6" column="0">
             <property name="name">
                 <cstring>spacer3</cstring>
             </property>
@@ -124,7 +127,56 @@ The actual browser identification text that will be sent to the remote machine.
                 </size>
             </property>
         </spacer>
-        <widget class="Line">
+        <widget class="QLayoutWidget" row="8" column="0">
+            <property name="name">
+                <cstring>layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>MinimumExpanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>29</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>pbOk</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>pbCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="Line" row="7" column="0">
             <property name="name">
                 <cstring>line1</cstring>
             </property>
@@ -146,67 +198,7 @@ The actual browser identification text that will be sent to the remote machine.
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout3</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>MinimumExpanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>16</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>pbUpdateList</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Update &amp;List</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;qt&gt;
-Refresh the browser identification list.&lt;p&gt;
-&lt;u&gt;NOTE:&lt;/u&gt;There is usually no need to press this button unless a new description file was added while this configuration box is displayed.
-&lt;/qt&gt;</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>pbOk</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;OK</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>pbCancel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Cancel</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-    </vbox>
+    </grid>
 </widget>
 <includes>
     <include location="global" impldecl="in implementation">kdialog.h</include>
