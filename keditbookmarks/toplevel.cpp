@@ -211,6 +211,8 @@ void KEBTopLevel::resetActions()
        actionCollection()->action("importKDE")->setEnabled(true);
        actionCollection()->action("importOpera")->setEnabled(true);
        actionCollection()->action("importIE")->setEnabled(true);
+       // TODO for 3.2 - this feels wrong, someone should be allowed to import
+       //                from anywhere but get this one by default...
        bool nsExists = QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() );
        actionCollection()->action("importNS")->setEnabled(nsExists);
        actionCollection()->action("importMoz")->setEnabled(true);
@@ -248,33 +250,10 @@ void KEBTopLevel::initListView(bool firstTime)
 }
 
 void KEBTopLevel::disconnectSignals() {
-
-    kdWarning() << disconnect( m_pListView, 0, 0, 0 ) << endl;
-    kdWarning() << disconnect( s_pManager, 0, 0, 0 ) << endl;
-    kdWarning() << disconnect( &m_commandHistory, 0, 0, 0 ) << endl;
-    kdWarning() << disconnect( m_dcopIface, 0, 0, 0 ) << endl;
-
-    return;
-
-    // AK - TODO remove the old code after verifying the above
-
-    disconnect( m_pListView, SIGNAL( selectionChanged()), 0, 0 );
-    disconnect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem *, const QPoint & )), 0, 0 );
-
-    disconnect( s_pManager, SIGNAL( changed(const QString &, const QString &) ), 0, 0 );
-
-    if (!m_bReadOnly) {
-
-        disconnect( m_pListView, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ), 0, 0 );
-        disconnect( m_pListView, SIGNAL( dropped(QDropEvent* , QListViewItem* , QListViewItem* ) ), 0, 0 );
-        disconnect( m_pListView, SIGNAL( dataChanged() ), 0, 0 );
-
-        disconnect( &m_commandHistory, SIGNAL( commandExecuted() ), 0, 0 );
-        disconnect( &m_commandHistory, SIGNAL( documentRestored() ), 0, 0 );
-
-        disconnect( m_dcopIface, SIGNAL( addedBookmark(QString,QString,QString,QString) ), 0, 0 );
-        disconnect( m_dcopIface, SIGNAL( createdNewFolder(QString,QString) ), 0, 0 );
-    }
+    kdWarning() << "disconnectSignals() returned " << disconnect( m_pListView,       0, 0, 0 ) << endl;
+    kdWarning() << "disconnectSignals() returned " << disconnect( s_pManager,        0, 0, 0 ) << endl;
+    kdWarning() << "disconnectSignals() returned " << disconnect( &m_commandHistory, 0, 0, 0 ) << endl;
+    kdWarning() << "disconnectSignals() returned " << disconnect( m_dcopIface,       0, 0, 0 ) << endl;
 }
 
 void KEBTopLevel::connectSignals() {
@@ -284,7 +263,6 @@ void KEBTopLevel::connectSignals() {
     connect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem*, const QPoint & ) ),
              SLOT( slotContextMenu( KListView *, QListViewItem *, const QPoint & ) ) );
 
-    // AK - TODO - test that this works
     // If someone plays with konq's bookmarks while we're open, update. (when applicable)
     connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
@@ -410,7 +388,7 @@ QValueList<KBookmark> KEBTopLevel::getBookmarkSelection()
 
 void KEBTopLevel::updateSelection()
 {
-    // AK - TODO - optimisation, make a selectedItems "cache"
+    // AK - possible optimisation, make a selectedItems "cache"
     QListViewItem *lastItem = NULL;
     for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
        if ( IS_REAL(it) ) {
@@ -419,8 +397,6 @@ void KEBTopLevel::updateSelection()
     }
     if (lastItem) {
        m_last_selection_address = ITEM_TO_BK(lastItem).address();
-    } else {
-       // AK - do something?
     }
 }
 
@@ -596,7 +572,7 @@ void KEBTopLevel::slotDelete()
 
 void KEBTopLevel::slotNewFolder()
 {
-    // AK - TODO FIXME TODO
+    // AK - TODO for 3.2
     // EVIL HACK
     // We need to ask for the folder name before creating the command, in case of "Cancel".
     // But in message-freeze time, impossible to add i18n()s. So... we have to call the existing code :
@@ -614,7 +590,7 @@ void KEBTopLevel::slotNewFolder()
 
 QString KEBTopLevel::correctAddress(QString address)
 {
-   // AK - TODO - move to kbookmark ?
+   // AK - TODO for 3.2 - move to kbookmark ?
    return s_pManager->findByAddress(address,true).address();
 }
 
@@ -672,7 +648,6 @@ void KEBTopLevel::slotInsertSeparator()
 
 void KEBTopLevel::selectImport(ImportCommand *cmd)
 {
-    // TODO  - usability study - is select needed when replacing ???
     KEBListViewItem *item = findByAddress(cmd->groupAddress());
     if (item) {
        m_pListView->setCurrentItem( item );
@@ -680,10 +655,7 @@ void KEBTopLevel::selectImport(ImportCommand *cmd)
     }
 }
 
-// TODO for 3.1 - clean up this mess:
-//              - make just doImport("Galeon", "galeon"), +
-//              - obsolete the stupid type param somehow...
-//              - obsolete the filename thing too
+// TODO for 3.2 - move the following two functinos into new kbookmarkimporter files in libkonq
 
 QString kdeBookmarksFile() {
    // locateLocal on the bookmarks file and get dir?
@@ -732,17 +704,16 @@ void KEBTopLevel::doImport
 // (imp, imp_bks, bks), dirname, icon, bool, type
 #define BK_STRS(a) i18n(##a" Import"), i18n("Import "##a" Bookmarks"), i18n(##a" Bookmarks")
 
+// TODO - maybe requests for ie + galeon icons should be made?, just a "windows" icon would do for ie
+
 void KEBTopLevel::slotImportIE()
-{ doImport( BK_STRS("IE"), KIEBookmarkImporter::IEBookmarksDir(), "ie", false, BK_IE); }
-// TODO - no such icon!
+{ doImport( BK_STRS("IE"), KIEBookmarkImporter::IEBookmarksDir(), "", false, BK_IE); }
 
 void KEBTopLevel::slotImportGaleon()
-{ doImport( BK_STRS("Galeon"), galeonBookmarksFile(), "galeon", false, BK_XBEL); }
-// TODO - no such icon!
+{ doImport( BK_STRS("Galeon"), galeonBookmarksFile(), "", false, BK_XBEL); }
 
 void KEBTopLevel::slotImportKDE()
-{ doImport( BK_STRS("KDE"), kdeBookmarksFile(), "bookmark_folder", false, BK_XBEL); }
-// TODO - find a good icon! default bk folder icon???
+{ doImport( BK_STRS("KDE"), kdeBookmarksFile(), "", false, BK_XBEL); }
 
 void KEBTopLevel::slotImportOpera()
 { doImport( BK_STRS("Opera"), KOperaBookmarkImporter::operaBookmarksFile(), "opera", false, BK_OPERA); }
@@ -762,8 +733,6 @@ void KEBTopLevel::slotImportNS()
    // "automated" and intrusive and unlike the menu the
    // bookmarks don't get automatically updated...
 }
-
-// TODO - sort out this mess
 
 void KEBTopLevel::slotExportNS()
 {
@@ -798,7 +767,10 @@ void KEBTopLevel::slotCopy()
     QValueList<KBookmark> bookmarks = getBookmarkSelection();
     KBookmarkDrag* data = KBookmarkDrag::newDrag( bookmarks, 0L /* not this ! */ );
     QApplication::clipboard()->setData( data, QClipboard::Clipboard );
-    // slotClipboardDataChanged(); // don't ask
+
+    // slotClipboardDataChanged(); 
+    // dfaure: don't ask 
+    // ak: umm.. okay - but i'm commenting out for 3.1 :)
 }
 
 void KEBTopLevel::slotPaste()
@@ -1296,7 +1268,7 @@ void KEBTopLevel::update()
         for ( ; it.current() != 0; ++it ) {
             KEBListViewItem* item = static_cast<KEBListViewItem*>(it.current());
             QString address = ITEM_TO_BK(item).address();
-            // AK - hacky, FIXME
+            // AK - hacky, FIXME - find a sweeter solution than a returned string
             if ( address != "ERROR" )
                 addressList << address;
         }
