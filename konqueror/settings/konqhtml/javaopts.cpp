@@ -49,7 +49,7 @@
 
 KJavaOptions::KJavaOptions( KConfig* config, QString group,
                             QWidget *parent, const char *name )
-    : QWidget( parent, name ),
+    : KCModule( parent, name ),
       m_pConfig( config ),
       m_groupname( group )
 {
@@ -61,7 +61,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
     enableJavaGloballyCB = new QCheckBox( i18n( "Enable Ja&va globally" ), globalGB );
-    connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+    connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( toggleJavaControls() ) );
 
 
@@ -124,13 +124,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QHBox* hbox = new QHBox( javartGB );
     javaConsoleCB = new QCheckBox( i18n( "Sho&w Java console" ), hbox );
-    connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
+    connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), hbox );
-    connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
+    connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), javartGB );
-    connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
+    connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
     QHBox* secondsHB = new QHBox( javartGB );
@@ -138,21 +138,21 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     serverTimeoutSB->setRange( 0, 1000, 5 );
     serverTimeoutSB->setLabel( i18n("App&let server timeout:"), AlignLeft );
     serverTimeoutSB->setSuffix(i18n(" sec"));
-    connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(changed()));
+    connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(slotChanged()));
 
     QHBox* pathHB = new QHBox( javartGB );
     pathHB->setSpacing( 10 );
     QLabel* pathLA = new QLabel( i18n( "&Path to Java executable, or 'java':" ),
                                  pathHB );
     pathED = new  KURLRequester( pathHB );
-    connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
+    connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(slotChanged()) );
     pathLA->setBuddy( pathED );
 
     QHBox* addArgHB = new QHBox( javartGB );
     addArgHB->setSpacing( 10 );
     QLabel* addArgLA = new QLabel( i18n( "Additional Java a&rguments:" ), addArgHB  );
     addArgED = new QLineEdit( addArgHB );
-    connect( addArgED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
+    connect( addArgED, SIGNAL(textChanged( const QString& )), this, SLOT(slotChanged()) );
     addArgLA->setBuddy( addArgED );
 
     /***************************************************************************
@@ -302,7 +302,7 @@ void KJavaOptions::save()
     m_pConfig->sync();
 }
 
-void KJavaOptions::changed()
+void KJavaOptions::slotChanged()
 {
     emit changed(true);
 }
@@ -337,7 +337,7 @@ void KJavaOptions::addPressed()
                                                   advice );
         javaDomainPolicy.insert( index, int_advice );
         domainSpecificLV->setCurrentItem( index );
-        changed();
+        slotChanged();
     }
 }
 
@@ -362,7 +362,7 @@ void KJavaOptions::changePressed()
         index->setText( 0, pDlg.domain() );
         index->setText( 1, i18n(KHTMLSettings::adviceToStr(
             (KHTMLSettings::KJavaScriptAdvice)javaDomainPolicy[index])) );
-        changed();
+        slotChanged();
     }
 }
 
@@ -377,7 +377,7 @@ void KJavaOptions::deletePressed()
 
     javaDomainPolicy.remove(index);
     delete index;
-    changed();
+    slotChanged();
 }
 
 void KJavaOptions::importPressed()

@@ -9,7 +9,7 @@
 
 
 KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-  : QWidget( parent, name ), m_pConfig(config), m_groupname(group)
+  : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
   QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
@@ -18,7 +18,7 @@ KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, cons
   le_languages = new QLineEdit(this);
   lay->addWidget( le_languages );
   connect(le_languages, SIGNAL(textChanged(const QString&)),
-	  this, SLOT(changed()));
+	  this, SLOT(slotChanged()));
 
   lay->addSpacing(10);
   lay->addWidget( new QLabel(i18n("Accept character sets:"), this) );
@@ -26,7 +26,7 @@ KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, cons
   le_charsets = new QLineEdit(this);
   lay->addWidget( le_charsets );
   connect(le_charsets, SIGNAL(textChanged(const QString&)),
-	  this, SLOT(changed()));
+	  this, SLOT(slotChanged()));
 
   lay->addStretch(10);
 
@@ -63,7 +63,7 @@ void KHTTPOptions::defaults()
 }
 
 
-void KHTTPOptions::changed()
+void KHTTPOptions::slotChanged()
 {
   emit changed(true);
 }

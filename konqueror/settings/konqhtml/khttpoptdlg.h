@@ -2,13 +2,12 @@
 #ifndef __KHTTPOPTDLG_H
 #define __KHTTPOPTDLG_H
 
-
-#include <qwidget.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qstring.h>
 
+#include <kcmodule.h>
 #include <kconfig.h>
 
 
@@ -16,7 +15,7 @@
 *  Dialog for configuring HTTP Options like charset and language negotiation
 *  and assuming that file got from HTTP is HTML if no Content-Type is given
 */
-class KHTTPOptions : public QWidget
+class KHTTPOptions : public KCModule
 {
 Q_OBJECT
   public:
@@ -25,9 +24,6 @@ Q_OBJECT
     virtual void load();
     virtual void save();
     virtual void defaults();
-
-signals:
-    void changed( bool state );
 
   private:
 
@@ -45,8 +41,7 @@ signals:
     QString defaultCharsets;
 
 private slots:
-
-  void changed();
+    void slotChanged();
 
 };
 

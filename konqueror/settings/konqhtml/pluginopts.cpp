@@ -63,7 +63,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "Enable plugins globally" ), globalGB );
-    connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+    connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
     /***************************************************************************
      ********************** WhatsThis? items ***********************************
@@ -178,7 +178,7 @@ QString KPluginOptions::quickHelp() const
         " place to install them is, for example, '/opt/netscape/plugins'.");
 }
 
-void KPluginOptions::changed()
+void KPluginOptions::slotChanged()
 {
     emit changed(true);
 }

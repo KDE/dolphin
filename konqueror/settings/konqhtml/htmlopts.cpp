@@ -41,14 +41,14 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ), bgForm);
     QWhatsThis::add( m_pFormCompletionCheckBox, i18n( "If this box is checked, Konqueror will remember"
                                                         " the data you enter in web forms and suggest it in similar fields for all forms." ) );
-    connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pMaxFormCompletionItems = new KIntNumInput( bgForm );
     m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
     m_pMaxFormCompletionItems->setRange( 1, 100 );
     QWhatsThis::add( m_pMaxFormCompletionItems,
         i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
-    connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(changed()));
+    connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(slotChanged()));
 
     lay->addMultiCellWidget( bgForm, row, row, 0, 1 );
     row++;
@@ -63,27 +63,27 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "
        "(usually to a hand) if it is moved over a hyperlink.") );
 
-    connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(cbCursor, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), this );
     QWhatsThis::add( m_pShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
                           "such as choosing a link or a folder with the middle mouse button.") );
     lay->addMultiCellWidget( m_pShowMMBInTabs, row, row, 0, 1);
     row++;
-    connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pNewTabsInFront = new QCheckBox( i18n( "Au&tomatically activate new opened tabs" ), this );
     QWhatsThis::add( m_pNewTabsInFront, i18n("This will open a new tab in front otherwise as background tab.") );
     lay->addMultiCellWidget( m_pNewTabsInFront, row, row, 0, 1);
     row++;
-    connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), this );
     QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
                           "a window when it has multiple tabs opened in it.") );
     lay->addMultiCellWidget( m_pTabConfirm, row, row, 0, 1);
     row++;
-    connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
@@ -91,18 +91,18 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
       "To access the context menu, press the right mouse button and move." ) );
     lay->addMultiCellWidget( m_pBackRightClick, row, row, 0, 1);
     row++;
-    connect(m_pBackRightClick, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pBackRightClick, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( "A&utomatically load images"), this );
     QWhatsThis::add( m_pAutoLoadImagesCheckBox, i18n( "If this box is checked, Konqueror will automatically load any images that are embedded in a web page. Otherwise, it will display placeholders for the images, and you can then manually load the images by clicking on the image button.<br>Unless you have a very slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
-    connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(slotChanged()));
     lay->addMultiCellWidget( m_pAutoLoadImagesCheckBox, row, row, 0, 1 );
     row++;
 
     m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading/redirecting"), this );
     QWhatsThis::add( m_pAutoRedirectCheckBox,
     i18n( "Some web pages request an automatic reload or redirection after a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
-    connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), this, SLOT(slotChanged()));
     lay->addMultiCellWidget( m_pAutoRedirectCheckBox, row, row, 0, 1 );
     row++;
 
@@ -129,7 +129,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 	    "</ul><br><i>Note: The site's CSS definitions can override this value</i>");
     QWhatsThis::add( label, whatsThis);
     QWhatsThis::add( m_pUnderlineCombo, whatsThis);
-    connect(m_pUnderlineCombo, SIGNAL(activated(int)), this, SLOT(changed()));
+    connect(m_pUnderlineCombo, SIGNAL(activated(int)), this, SLOT(slotChanged()));
 
 
 
@@ -148,7 +148,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 	    "<li><b>Show only once</b>: Show all animations completely but do not repeat them.</li>");
     QWhatsThis::add( label, whatsThis);
     QWhatsThis::add( m_pAnimationsCombo, whatsThis);
-    connect(m_pAnimationsCombo, SIGNAL(activated(int)), this, SLOT(changed()));
+    connect(m_pAnimationsCombo, SIGNAL(activated(int)), this, SLOT(slotChanged()));
 
     lay->setRowStretch(row, 1);
 
@@ -286,7 +286,7 @@ void KMiscHTMLOptions::save()
 }
 
 
-void KMiscHTMLOptions::changed()
+void KMiscHTMLOptions::slotChanged()
 {
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
     emit changed(true);

@@ -41,10 +41,8 @@ public:
     virtual void save();
     virtual void defaults();
 
-signals:
-    void changed( bool state );
 private slots:
-    void changed();
+    void slotChanged();
 
 private:
     KConfig* m_pConfig;

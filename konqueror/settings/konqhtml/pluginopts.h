@@ -35,11 +35,8 @@ public:
     virtual void defaults();
     QString quickHelp() const;
 
-signals:
-    void changed( bool state );
-
 private slots:
-    void changed();
+    void slotChanged();
 
 private:
 

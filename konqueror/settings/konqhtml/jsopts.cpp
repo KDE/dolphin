@@ -49,7 +49,7 @@
 
 KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent,
 										const char *name ) :
-  QWidget( parent, name ), m_pConfig( config ), m_groupname( group )
+  KCModule( parent, name ), m_pConfig( config ), m_groupname( group )
 {
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
@@ -61,13 +61,13 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
         "(also known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
         "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
-  connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
 //  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable debu&gging" ), globalGB );
 //  QWhatsThis::add( enableJavaScriptDebugCB, i18n("Enables the reporting of errors that occur when JavaScript "
 //        "code is executed, and allows the use of the JavaScript debugger to trace through code execution. "
 //        "Note that this has a small performance impact and is mainly only useful for developers.") );
-//  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+//  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
   // the domain-specific listview (copied and modified from Cookies configuration)
   QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Do&main-Specific" ), this );
@@ -171,7 +171,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                   "also break certain sites that require <i>"
                                   "window.open()</i> for proper operation. Use "
                                   "this feature carefully!") );
-  connect( js_popup, SIGNAL( clicked( int ) ), this, SLOT( changed() ) );
+  connect( js_popup, SIGNAL( clicked( int ) ), this, SLOT( slotChanged() ) );
 
 /*
   kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
@@ -181,7 +181,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( enableDebugOutputCB, i18n("Show a window with informations and warnings issued by the JavaScript interpreter. "
                                              "This is extremely useful for both debugging your own html pages and tracing down "
                                              "problems with Konquerors JavaScript support.") );
-  connect( enableDebugOutputCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( enableDebugOutputCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 */
 
   // Finally do the loading
@@ -245,7 +245,7 @@ void KJavaScriptOptions::save()
     m_pConfig->sync();
 }
 
-void KJavaScriptOptions::changed()
+void KJavaScriptOptions::slotChanged()
 {
   emit changed(true);
 }
@@ -263,7 +263,7 @@ void KJavaScriptOptions::addPressed()
                                                                               pDlg.javaScriptPolicyAdvice() ) );
         javaScriptDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice());
         domainSpecificLV->setCurrentItem( index );
-        changed();
+        slotChanged();
     }
 }
 
@@ -288,7 +288,7 @@ void KJavaScriptOptions::changePressed()
         index->setText(0, pDlg.domain() );
         index->setText(1, i18n(KHTMLSettings::adviceToStr(
                 (KHTMLSettings::KJavaScriptAdvice)javaScriptDomainPolicy[index])));
-        changed();
+        slotChanged();
     }
 }
 
@@ -302,7 +302,7 @@ void KJavaScriptOptions::deletePressed()
     }
     javaScriptDomainPolicy.remove(index);
     delete index;
-    changed();
+    slotChanged();
 }
 
 void KJavaScriptOptions::importPressed()

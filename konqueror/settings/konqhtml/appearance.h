@@ -31,9 +31,6 @@ public:
   virtual void save();
   virtual void defaults();
 
-signals:
-  void changed( bool state );
-
 public slots:
   void slotFontSize( int );
   void slotMinimumFontSize( int );
@@ -47,7 +44,7 @@ public slots:
   void slotFontSizeAdjust( int value );
 
 private slots:
-  void changed();
+  void slotChanged();
 
 private:
   void updateGUI();
