@@ -23,6 +23,7 @@
 #include <kdebug.h>
 #include <klistview.h>
 #include <klocale.h>
+#include "kinsertionsort.h"
 
 void MoveCommand::execute()
 {
@@ -40,7 +41,7 @@ void MoveCommand::execute()
     // Look for m_to in the QDom tree (as parent address and position in parent)
     int posInNewParent = KBookmark::positionInParent( m_to );
     QString parentAddress = KBookmark::parentAddress( m_to );
-    kdDebug() << "MoveCommand::execute parentAddress=" << parentAddress << " posInNewParent=" << posInNewParent << endl;
+    //kdDebug() << "MoveCommand::execute parentAddress=" << parentAddress << " posInNewParent=" << posInNewParent << endl;
     KBookmark newParentBk = KBookmarkManager::self()->findByAddress( parentAddress );
     ASSERT( !newParentBk.isNull() );
 
@@ -229,6 +230,67 @@ void RenameCommand::unexecute()
     // Get the old text back from it, in case they changed (hmm, shouldn't happen)
     m_newText = cmd.m_oldText;
 }
+
+/////////////
+
+class SortItem
+{
+public:
+    SortItem( const KBookmark & bk ) : m_bk(bk) {}
+    bool operator == (const SortItem & s) { return m_bk.internalElement() == s.m_bk.internalElement(); }
+    bool isNull() const { return m_bk.isNull(); }
+    SortItem previousSibling() const { return m_bk.parentGroup().previous(m_bk); }
+    SortItem nextSibling() const { return m_bk.parentGroup().next(m_bk); }
+    const KBookmark & bookmark() const { return m_bk; }
+private:
+    KBookmark m_bk;
+};
+
+class SortByName
+{
+public:
+    static QString key( const SortItem &item )
+    { return item.bookmark().fullText().lower(); }
+};
+
+void SortCommand::execute()
+{
+    if ( m_commands.isEmpty() )
+    {
+        KBookmarkGroup grp = KBookmarkManager::self()->findByAddress( m_groupAddress ).toGroup();
+        ASSERT( !grp.isNull() );
+        SortItem firstChild( grp.first() );
+        // This will call moveAfter, which will add the subcommands for moving the items
+        kInsertionSort<SortItem, SortByName, QString, SortCommand> ( firstChild, *this );
+    } else
+        // We've been here before
+        KMacroCommand::execute();
+}
+
+void SortCommand::moveAfter( const SortItem & moveMe, const SortItem & afterMe )
+{
+    /*
+    kdDebug() << "SortCommand::moveAfter moveMe=" << moveMe.bookmark().address() << " " << moveMe.bookmark().fullText() << endl;
+    if (!afterMe.isNull())
+        kdDebug() << "                       afterMe=" << afterMe.bookmark().address() << " " << afterMe.bookmark().fullText() << endl;
+    else
+        kdDebug() << "                       afterMe=<null>" << endl;
+    */
+    QString destAddress = afterMe.isNull() ?
+                          KBookmark::parentAddress( moveMe.bookmark().address() ) + "/0" : // move as first child
+                          KBookmark::nextAddress(afterMe.bookmark().address()); // move after "afterMe"
+    MoveCommand * cmd = new MoveCommand( QString::null, moveMe.bookmark().address(), destAddress );
+    cmd->execute(); // do it now, the rest of the algorithm relies on it !
+    addCommand( cmd );
+}
+
+void SortCommand::unexecute()
+{
+    KMacroCommand::unexecute();
+}
+
+
+/////////////
 
 void ImportCommand::execute()
 {

@@ -196,7 +196,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
 
-    actionCollection()->action("edit_sort")->setEnabled(false); // not implemented
     actionCollection()->action("edit_testlink")->setEnabled(false); // not implemented
 
     slotSelectionChanged();
@@ -348,7 +347,11 @@ void KEBTopLevel::slotExportMoz()
 
 void KEBTopLevel::slotSort()
 {
-
+    KBookmark bk = selectedBookmark();
+    ASSERT(!bk.isNull());
+    ASSERT(bk.isGroup());
+    SortCommand * cmd = new SortCommand("Sort alphabetically", bk.address());
+    m_commandHistory.addCommand( cmd );
 }
 
 void KEBTopLevel::slotSetAsToolbar()
@@ -503,7 +506,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("edit_newfolder")->setEnabled(itemSelected);
     coll->action("edit_changeicon")->setEnabled(itemSelected);
     coll->action("edit_insertseparator")->setEnabled(itemSelected);
-    //coll->action("edit_sort")->setEnabled(group); // not implemented
+    coll->action("edit_sort")->setEnabled(group);
     coll->action("edit_setastoolbar")->setEnabled(group);
     coll->action("edit_openlink")->setEnabled(itemSelected && !group && !separator);
     //coll->action("edit_testlink")->setEnabled(itemSelected && !group && !separator); // not implemented

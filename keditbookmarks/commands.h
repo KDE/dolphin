@@ -145,6 +145,22 @@ private:
     QString m_oldText;
 };
 
+class SortItem;
+
+class SortCommand : public KMacroCommand
+{
+public:
+    SortCommand( const QString & name, const QString &groupAddress /*TODO criteria.. enum ?*/ )
+        : KMacroCommand( name ), m_groupAddress( groupAddress ) {}
+    virtual ~SortCommand() {}
+    virtual void execute();
+    virtual void unexecute();
+    // internal
+    void moveAfter( const SortItem & moveMe, const SortItem & afterMe );
+private:
+    QString m_groupAddress;
+};
+
 #include <qstack.h>
 #include <qobject.h>
 class ImportCommand : public QObject, public KCommand
