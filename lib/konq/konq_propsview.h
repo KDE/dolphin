@@ -140,7 +140,6 @@ private:
   QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;
-  QString m_sortcriterion;
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;

@@ -66,6 +66,7 @@ struct KonqPropsView::Private
    QStringList* previewsToShow;
    bool previewsEnabled:1;
    bool caseInsensitiveSort:1;
+   QString sortcriterion;
 };
 
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
@@ -85,7 +86,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
-  m_sortcriterion=config->readEntry( "SortingCriterion" , "sort_nc" );
+  d->sortcriterion=config->readEntry( "SortingCriterion" , "sort_nc" );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
 
@@ -181,7 +182,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   {
     m_iIconSize = m_defaultProps->iconSize();
     m_iItemTextPos = m_defaultProps->itemTextPos();
-    m_sortcriterion = m_defaultProps->getSortCriterion();
+    d->sortcriterion = m_defaultProps->getSortCriterion();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     d->caseInsensitiveSort=m_defaultProps->isCaseInsensitiveSort();
     m_dontPreview = m_defaultProps->m_dontPreview;
@@ -198,7 +199,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
     m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
-    m_sortcriterion=config->readEntry( "SortingCriterion" , m_sortcriterion );
+    d->sortcriterion=config->readEntry( "SortingCriterion" , d->sortcriterion );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     d->caseInsensitiveSort=config->readBoolEntry("CaseInsensitiveSort",d->caseInsensitiveSort);
     m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
@@ -282,13 +283,13 @@ void KonqPropsView::setItemTextPos( int pos )
 
 void KonqPropsView::setSortCriterion( const QString &criterion )
 {
-    m_sortcriterion = criterion;
+    d->sortcriterion = criterion;
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
         m_defaultProps->setSortCriterion( criterion );
     else if (currentConfig())
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "SortingCriterion", m_sortcriterion );
+        currentConfig()->writeEntry( "SortingCriterion", d->sortcriterion );
         currentConfig()->sync();
     }
 }
