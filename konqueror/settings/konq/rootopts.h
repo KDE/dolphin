@@ -51,6 +51,8 @@ private:
         QCheckBox *showHiddenBox;
         QCheckBox *VertAlignBox;
         QCheckBox *menuBarBox;
+        QCheckBox *imagePreviewBox;
+        QCheckBox *textPreviewBox;
 
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );

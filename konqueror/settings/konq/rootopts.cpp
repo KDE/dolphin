@@ -33,7 +33,7 @@
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qwhatsthis.h>
-#include <qtl.h>                                                                                  
+#include <qtl.h>
 #include <assert.h>
 
 #include "rootopts.h"
@@ -70,7 +70,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
   VertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
-  lay->addMultiCellWidget(VertAlignBox, row, row, 0, 1);
+  lay->addMultiCellWidget(VertAlignBox, row, row, 0, 0);
   connect(VertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( VertAlignBox, i18n("Check this option if you want the icons"
                                       " on the desktop to be aligned vertically (in columns). If you leave this"
@@ -79,9 +79,15 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                       " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
                                       " arranged horizontally or vertically.") );
 
+  imagePreviewBox = new QCheckBox( i18n( "Image Preview" ), this );
+  lay->addMultiCellWidget( imagePreviewBox, row, row, 1, 2 );
+  connect( imagePreviewBox, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  QWhatsThis::add( imagePreviewBox, i18n( "Check this option if you want to enable the"
+                                          " image preview for image files on the desktop" ) );
+
   row++;
   showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
-  lay->addMultiCellWidget(showHiddenBox, row, row, 0, 1);
+  lay->addMultiCellWidget(showHiddenBox, row, row, 0, 0);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
                                        " in your desktop directory that begin with a period (.) will be shown."
@@ -92,6 +98,12 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                        " displaying a directory, the order in which files should be sorted, etc."
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
+
+  textPreviewBox = new QCheckBox( i18n( "Text Preview" ), this );
+  lay->addMultiCellWidget( textPreviewBox, row, row, 1, 2 );
+  connect( textPreviewBox, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  QWhatsThis::add( textPreviewBox, i18n( "Check this option if you want to enable the"
+                                         " text preview for text files on the desktop" ) );
 
   row++;
   menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
@@ -277,6 +289,10 @@ void KRootOptions::load()
     showHiddenBox->setChecked(bShowHidden);
     bool bVertAlign = g_pConfig->readNumEntry("VertAlign", DEFAULT_VERT_ALIGN);
     VertAlignBox->setChecked(bVertAlign);
+    bool bImagePreview = g_pConfig->readNumEntry( "ImagePreview", DEFAULT_DESKTOP_IMAGEPREVIEW );
+    imagePreviewBox->setChecked( bImagePreview );
+    bool bTextPreview = g_pConfig->readNumEntry( "TextPreview", DEFAULT_DESKTOP_TEXTPREVIEW );
+    textPreviewBox->setChecked( bTextPreview );
     //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
@@ -307,6 +323,8 @@ void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
+    imagePreviewBox->setChecked( DEFAULT_DESKTOP_IMAGEPREVIEW );
+    textPreviewBox->setChecked( DEFAULT_DESKTOP_TEXTPREVIEW );
     menuBarBox->setChecked(true);
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
@@ -323,6 +341,8 @@ void KRootOptions::save()
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
     g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
+    g_pConfig->writeEntry("ImagePreview", imagePreviewBox->isChecked() );
+    g_pConfig->writeEntry("TextPreview", textPreviewBox->isChecked() );
     g_pConfig->setGroup( "Menubar" );
     g_pConfig->writeEntry("ShowMenubar", menuBarBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -374,7 +394,7 @@ void KRootOptions::save()
                 trashMoved = true;
             }
             // or it has been changed (->need to move it from here, unless moving the desktop does it)
-            else 
+            else
             {
                 KURL futureTrashURL;
                 futureTrashURL.setPath( leDesktop->text() + trashURL.fileName() );
