@@ -166,6 +166,11 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
 
   KIO::SimpleJob *job = (KIO::SimpleJob *) m_job;
 
+  // Update our URL in case of a redirection
+  //kdDebug() << "old URL=" << m_strURL.url() << endl;
+  //kdDebug() << "new URL=" << job->url().url() << endl;
+  m_strURL = job->url();
+
   // type is a reference on TranfserJob::m_mimetype. This
   // reference is DEAD after the putOnHold() call (which kills
   // the TransferJob) , therefore type points to already
