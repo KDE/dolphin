@@ -1,2 +1,4 @@
 - Use the favicon for the icon of the tab
 - Set the <title> as the tab name
+- Fix statusbar (perhaps block it entirely in the inherited part)
+
