@@ -413,7 +413,7 @@ void KonqListView::slotShowDot()
 }
 void KonqListView::slotColumnToggled()
 {
-   kDebugInfo(1202,"::slotColumnToggled\n");
+   kdDebug(1202) << "::slotColumnToggled\n" << endl;
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
       m_pListView->confColumns[i].displayThisOne=m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled();
