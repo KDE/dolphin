@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="Konqueror" version="41">
+<kpartgui name="Konqueror" version="42">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -71,7 +71,7 @@
   <Merge/>
  </Menu>
  <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-  <Action name="showmenubar"/>
+  <Action name="options_show_menubar"/>
   <Merge name="StandardToolBarMenuHandler" />
   <Separator/>
   <Action name="saveViewPropertiesLocally"/>
@@ -83,7 +83,7 @@
   <Separator/> 
   <Action name="options_configure_keybinding"/>
   <Action name="options_configure_toolbars"/>
-  <Action name="configure"/>
+  <Action name="options_configure"/>
  </Menu>
  <Menu name="window" append="settings_merge"><text>&amp;Window</text>
   <Action name="splitviewh"/>

@@ -2866,8 +2866,7 @@ void KonqMainWindow::initActions()
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
-  KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection(), "configure");
-  //  new KAction( i18n( "&Configure..." ), "configure", 0, this, SLOT( slotConfigure() ), actionCollection(), "configure" );
+  KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
 
   KStdAction::keyBindings( this, SLOT( slotConfigureKeys() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
@@ -2935,7 +2934,7 @@ void KonqMainWindow::initActions()
 
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
-  m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
+  m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection() );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
@@ -3224,7 +3223,7 @@ void KonqMainWindow::enableAllActions( bool enable )
   for (; it != end; ++it )
   {
     KAction *act = *it;
-    if ( strncmp( act->name(), "configure", 9 ) /* do not touch the configureblah actions */
+    if ( strncmp( act->name(), "options_configure", 9 ) /* do not touch the configureblah actions */
          && ( !enable || !actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
       act->setEnabled( enable );
   }

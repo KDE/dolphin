@@ -29,6 +29,7 @@
 #include <konq_pixmapprovider.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
+#include <kapplication.h>
 
 #include "konq_view.h"
 
@@ -88,6 +89,9 @@ KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, QObject* pa
 
 int KonqBidiHistoryAction::plug( QWidget *widget, int index )
 {
+  if (kapp && !kapp->authorizeKAction(name()))
+    return -1;
+
   // Go menu
   if ( widget->inherits("QPopupMenu") )
   {
@@ -237,6 +241,9 @@ void KonqLogoAction::updateIcon(int id)
 
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
+  if (kapp && !kapp->authorizeKAction(name()))
+    return -1;
+
 /*
   if ( widget->inherits( "KMainWindow" ) )
   {
@@ -293,7 +300,7 @@ int KonqViewModeAction::plug( QWidget *widget, int index )
 {
     int res = KRadioAction::plug( widget, index );
 
-    if ( widget->inherits( "KToolBar" ) )
+    if ( widget->inherits( "KToolBar" ) && (res != -1) )
     {
         KToolBar *toolBar = static_cast<KToolBar *>( widget );
 

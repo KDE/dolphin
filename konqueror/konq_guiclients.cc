@@ -44,7 +44,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
   if ( !mainWindow->menuBar()->isVisible() )
   {
     QDomElement showMenuBarElement = m_doc.createElement( "action" );
-    showMenuBarElement.setAttribute( "name", "showmenubar" );
+    showMenuBarElement.setAttribute( "name", "options_show_menubar" );
     menu.appendChild( showMenuBarElement );
 
     menu.appendChild( m_doc.createElement( "separator" ) );
