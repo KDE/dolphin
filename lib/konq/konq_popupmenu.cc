@@ -511,25 +511,25 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
 void KonqPopupMenu::slotOpenShareFileDialog()
 {
-  //kdDebug()<<"KonqPopupMenu::slotOpenShareFileDialog()\n";
-  // It may be that the kfileitem was created by hand
-  // (see KonqKfmIconView::slotMouseButtonPressed)
-  // In that case, we can get more precise info in the properties
-  // (like permissions) if we stat the URL.
-  if ( m_lstItems.count() == 1 )
+    //kdDebug()<<"KonqPopupMenu::slotOpenShareFileDialog()\n";
+    // It may be that the kfileitem was created by hand
+    // (see KonqKfmIconView::slotMouseButtonPressed)
+    // In that case, we can get more precise info in the properties
+    // (like permissions) if we stat the URL.
+    if ( m_lstItems.count() == 1 )
     {
-      KFileItem * item = m_lstItems.first();
-      if (item->entry().count() == 0) // this item wasn't listed by a slave
+        KFileItem * item = m_lstItems.first();
+        if (item->entry().count() == 0) // this item wasn't listed by a slave
         {
-     // KPropertiesDialog will use stat to get more info on the file
-     KPropertiesDialog*dlg= new KPropertiesDialog( item->url() );
-     dlg->showFileSharingPage();
+            // KPropertiesDialog will use stat to get more info on the file
+            KPropertiesDialog*dlg= new KPropertiesDialog( item->url() );
+            dlg->showFileSharingPage();
 
-     return;
+            return;
         }
     }
-  KPropertiesDialog*dlg=new KPropertiesDialog( m_lstItems );
-  dlg->showFileSharingPage();
+    KPropertiesDialog*dlg=new KPropertiesDialog( m_lstItems );
+    dlg->showFileSharingPage();
 }
 
 KonqPopupMenu::~KonqPopupMenu()
