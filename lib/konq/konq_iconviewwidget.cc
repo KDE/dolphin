@@ -181,7 +181,7 @@ void KFileTip::reposition()
     // 1: upperright
     // 2: lowerleft
     // 3: lowerright
-    // 4: none
+    // 4+: none
     m_corner = 0;
     // should the tooltip be shown to the left or to the right of the ivi ?
     QRect desk = KGlobalSettings::desktopGeometry(rect.center());
@@ -231,7 +231,7 @@ void KFileTip::drawContents( QPainter *p )
         "arrow_bottomright"
     };
 
-    if (m_corner == 4) {  // 4 is empty, so don't draw anything
+    if (m_corner >= 4) {  // 4 is empty, so don't draw anything
         QFrame::drawContents( p );
         return;
     }
