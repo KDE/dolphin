@@ -71,6 +71,7 @@
 #include <khelpmenu.h>
 #include <kparts/part.h>
 #include <kmenubar.h>
+#include <kuserpaths.h>
 
 #include "version.h"
 
@@ -563,42 +564,24 @@ void KonqMainView::slotHome()
   openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::defaultIconSettings()->homeURL() ) ) );
 }
 
-void KonqMainView::slotShowCache()
+void KonqMainView::slotGoMimeTypes()
 {
-    KMessageBox::error(0, i18n("Not implemented"));
-    /*
-  QString file = KIOCache::storeIndex();
-  if ( file.isEmpty() )
-  {
-    KMessageBox::sorry( 0L, i18n( "Could not write index file" ));
-    return;
-  }
-
-  QString f = file;
-  KURL::encode( f );
-  f.prepend( "file:" );
-  openURL( (KonqChildView *)m_currentView, KURL( f ) );
-  */
+  openURL( m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("mime") ) );
 }
 
-void KonqMainView::slotShowHistory()
+void KonqMainView::slotGoApplications()
 {
-  // TODO
+  openURL( m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("apps") ) );
 }
 
-void KonqMainView::slotEditMimeTypes()
-{
-  openURL( (KonqChildView *)m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("mime").prepend( "file:" ) ) );
-}
-
-void KonqMainView::slotEditApplications()
-{
-  openURL( (KonqChildView *)m_currentView, KURL( KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) ) );
-}
-
-void KonqMainView::slotEditDirTree()
+void KonqMainView::slotGoDirTree()
 {
   KonqFileManager::getFileManager()->openFileManagerWindow( locateLocal( "data", "konqueror/dirtree/" ) );
+}
+
+void KonqMainView::slotGoTrash()
+{
+  KonqFileManager::getFileManager()->openFileManagerWindow( KUserPaths::trashPath() );
 }
 
 void KonqMainView::slotSaveSettings()
@@ -1320,11 +1303,11 @@ void KonqMainView::initActions()
 
   m_paHome = KStdAction::home( this, SLOT( slotHome() ), actionCollection(), "home" );
 
-  //m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
-  //m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
-  m_paMimeTypes = new KAction( i18n( "File &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
-  m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
-  m_paDirTree = new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotEditDirTree() ), actionCollection(), "dirtree" );
+  (void) new KAction( i18n( "File &Types" ), 0, this, SLOT( slotGoMimeTypes() ), actionCollection(), "go_mimetypes" );
+  (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
+  (void) new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
+  (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
+  // Perhaps we should add Templates and Autostart as well ?
 
   // Options menu
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savePropertiesAsDefault" );
@@ -1490,9 +1473,6 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
   // And the ones on the second line don't even have a corresponding action - it's just
   // a method that the view can have or not have.
 
-  // I wonder if defining them as slots make any sense then :-)
-  // ... and if this whole idea is not just a trick to get a list of methods dymanically :-)
-
   static const char * s_actionnames[] = {
     "cut", "copy", "paste", "del", "trash", "shred",
       "print", "saveLocalProperties", "savePropertiesAsDefault" };
@@ -1504,6 +1484,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
     QAction * act = actionCollection()->action( s_actionnames[i] );
     assert(act);
     QCString slotName = QCString(s_actionnames[i])+"()";
+    bool enable = false;
     // Does the extension have a slot with the name of this action ?
     if ( slotNames.contains( slotName ) )
     {
@@ -1515,9 +1496,10 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
         // OUCH. Here we use the fact that qobjectdefs.h:#define SLOT(a) "1"#a
         ext->connect( act, SIGNAL( activated() ), ext, QCString("1") + slotName );
         kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
+        enable = true;
       }
     }
-    act->setEnabled( false );
+    act->setEnabled( enable );
   }
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
            this, SLOT( slotEnableAction( const char *, bool ) ) );

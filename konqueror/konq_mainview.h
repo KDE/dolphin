@@ -105,11 +105,10 @@ public slots:
   void slotBack();
   void slotForward();
   void slotHome();
-  void slotShowCache();
-  void slotShowHistory();
-  void slotEditMimeTypes();
-  void slotEditApplications();
-  void slotEditDirTree();
+  void slotGoMimeTypes();
+  void slotGoApplications();
+  void slotGoDirTree();
+  void slotGoTrash();
 
   void slotSaveSettings();
   void slotConfigureFileManager();
@@ -255,12 +254,6 @@ private:
   KonqHistoryAction *m_paBack;
   KonqHistoryAction *m_paForward;
   KAction *m_paHome;
-
-  KAction *m_paCache;
-  KAction *m_paHistory;
-  KAction *m_paMimeTypes;
-  KAction *m_paApplications;
-  KAction *m_paDirTree;
 
   KAction *m_paSaveSettings;
   KAction *m_paSaveLocalProperties;

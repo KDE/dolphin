@@ -40,11 +40,10 @@
   <Action name="forward"/>
   <Action name="home"/>
   <Separator/>
-  <Action name="cache"/>
-  <Action name="history"/>
-  <Action name="mimetypes"/>
-  <Action name="applications"/>
-  <Action name="dirtree"/>
+  <Action name="go_mimetypes"/>
+  <Action name="go_applications"/>
+  <Action name="go_dirtree"/>
+  <Action name="go_trash"/>
  </Menu>
  <Action name="bookmarks"/>
  <Menu name="options"><text>&amp;Options</text>
@@ -53,6 +52,7 @@
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
   <Action name="showbookmarkbar"/>
+  <Separator/>
   <Action name="savePropertiesAsDefault"/>
   <Action name="saveLocalProperties"/>
   <Separator/>
