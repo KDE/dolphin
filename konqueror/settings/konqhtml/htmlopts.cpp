@@ -13,7 +13,6 @@
 #include <qcheckbox.h>
 #include <qcolor.h>
 #include <qcombobox.h>
-#include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
@@ -353,11 +352,12 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     cb_enableJava = new QCheckBox(i18n("Enable &Java"), this);
     lay->addWidget(cb_enableJava);
     connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(toggleJavaPath()));
 
     QHBoxLayout *hlay = new QHBoxLayout(10);
     lay->addLayout(hlay);
-    QLabel * label = new QLabel(i18n("Path to JDK"),this);
-    hlay->addWidget(label, 1);
+    lb_JavaPath = new QLabel(i18n("Path to JDK"),this);
+    hlay->addWidget(lb_JavaPath, 1);
 
     le_JavaPath = new QLineEdit(this);
     hlay->addWidget(le_JavaPath, 5);
@@ -367,6 +367,8 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     lay->activate();
 
     load();
+
+    toggleJavaPath();
 }
 
 void KAdvancedOptions::load()
@@ -403,6 +405,12 @@ void KAdvancedOptions::save()
 void KAdvancedOptions::changed()
 {
   emit KCModule::changed(true);
+}
+
+void KAdvancedOptions::toggleJavaPath()
+{
+  lb_JavaPath->setEnabled(cb_enableJava->isChecked());
+  le_JavaPath->setEnabled(cb_enableJava->isChecked());
 }
 
 #include "htmlopts.moc"

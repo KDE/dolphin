@@ -14,6 +14,7 @@
 #include <qcombobox.h>
 #include <qstrlist.h>
 #include <qcheckbox.h>
+#include <qlabel.h>
 #include <kconfig.h>
 #include <kcolorbtn.h>
 #include <qradiobutton.h>
@@ -102,6 +103,7 @@ public:
 
 private slots:
   
+  void toggleJavaPath();
   void changed();
 
 
@@ -110,10 +112,11 @@ private:
   KConfig *g_pConfig;
   QString groupname;
 
-    QLineEdit *le_JavaPath;
-    QCheckBox *cb_enableJava;
-    QCheckBox *cb_enableJavaScript;
-
+  QLabel    *lb_JavaPath;
+  QLineEdit *le_JavaPath;
+  QCheckBox *cb_enableJava;
+  QCheckBox *cb_enableJavaScript;
+  
 };
 
 #endif		// __HTML_OPTIONS_H__
