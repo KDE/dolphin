@@ -298,6 +298,8 @@ private:
 
   void updateOpenWithActions( const KTrader::OfferList &services );
   void updateViewModeActions( const KTrader::OfferList &services );
+  void plugViewModeActions();
+  void unplugViewModeActions();
 
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;

@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="1">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="2">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -125,6 +125,7 @@
  <Action name="stop"/>
  <Separator/>
  <Merge/>
+ <ActionList name="viewmode_toolbar" />
  <ActionList name="fullscreen" />
  <Separator/>
  <Action name="animated_logo"/>

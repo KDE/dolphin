@@ -979,7 +979,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   // View-dependent GUI
 
-  unplugActionList( "viewmode" );
+  setUpdatesEnabled( false );
+  unplugViewModeActions();
   unplugActionList( "openwith" );
   updateViewModeActions( m_currentView->partServiceOffers() );
   updateOpenWithActions( m_currentView->appServiceOffers() );
@@ -990,15 +991,13 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   // (The other way would be to enforce a better servicetype for them, than Browser/View)
 
     if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
-    {
-      QList<KAction> lst;
-      lst.append( m_viewModeMenu );
-      plugActionList( "viewmode", lst );
-    }
+      plugViewModeActions();
 
   if ( m_currentView->appServiceOffers().count() > 0 )
     plugActionList( "openwith", m_openWithActions );
 
+  setUpdatesEnabled( true );
+  
   m_currentView->frame()->statusbar()->repaint();
 
   if ( oldView )
@@ -2216,7 +2215,7 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
     QString comment = (*it)->comment();
     if ( comment.isEmpty() )
       comment = (*it)->name();
-    
+
     KAction *action = new KAction( comment.prepend( openWithText ), 0, 0, (*it)->name().latin1() );
     action->setIcon( (*it)->icon() );
 
@@ -2252,7 +2251,13 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
       QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
       if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
       {
-          KRadioAction *action = new KRadioAction( (*it)->comment(), 0, 0, (*it)->name() );
+          KRadioAction *action;
+	  
+	  QString icon = (*it)->icon();
+          if ( icon != QString::fromLatin1( "unknown" ) )
+	    action = new KRadioAction( (*it)->comment(), icon, 0, 0, (*it)->name() );
+	  else
+            action = new KRadioAction( (*it)->comment(), 0, 0, (*it)->name() );
 
           if ( (*it)->name() == m_currentView->service()->name() )
               action->setChecked( true );
@@ -2267,6 +2272,20 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
       }
   }
 }
+
+void KonqMainWindow::plugViewModeActions()
+{
+  QList<KAction> lst;
+  lst.append( m_viewModeMenu );
+  plugActionList( "viewmode", lst );
+  plugActionList( "viewmode_toolbar", m_viewModeActions );  
+}
+
+void KonqMainWindow::unplugViewModeActions()
+{
+  unplugActionList( "viewmode" ); 
+  unplugActionList( "viewmode_toolbar" );
+} 
 
 KonqMainWindowIface* KonqMainWindow::dcopObject()
 {
