@@ -535,7 +535,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                         if (*it == "all/all" ||
                             *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                         {
-                            if ( (excludeTypes.count()==0) || !excludeTypes.contains( m_sMimeType))
+                            if ( (excludeTypes.isEmpty()) || !excludeTypes.contains( m_sMimeType))
                             {
                                 ok = true;
                                 break;
@@ -546,7 +546,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                         if (*it == "all/allfiles" &&
                             !isDirectory) // ## or inherits from it
                         {
-                            if ( (excludeTypes.count()==0) || !excludeTypes.contains( m_sMimeType))
+                            if ( (excludeTypes.isEmpty()) || !excludeTypes.contains( m_sMimeType))
                             {
                                 ok = true;
                                 break;
@@ -560,7 +560,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                              ((*it).right(1) == "*" &&
                               (*it).left((*it).find('/')) == mimeGroup)))
                         {
-                            if ( (excludeTypes.count()==0) || !excludeTypes.contains( m_sMimeType))
+                            if ( (excludeTypes.isEmpty()) || !excludeTypes.contains( m_sMimeType))
                             {
                                 ok = true;
                                 break;
