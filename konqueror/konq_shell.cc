@@ -39,15 +39,20 @@ KonqShell::KonqShell()
   m_paShellQuit = new KAction( i18n( "Quit" ), accel.quit(), this, SLOT( slotQuit() ), actionCollection(), "konqueror_shell_quit" );
   m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
 
-  m_paShowMenuBar = new KToggleAction( i18n( "Show &Menubar" ), 0, this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-  m_paShowStatusBar = new KToggleAction( i18n( "Show &Statusbar" ), 0, this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
-  m_paShowToolBar = new KToggleAction( i18n( "Show &Toolbar" ), 0, this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
-  m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
+  m_paShowMenuBar = new KToggleAction( i18n( "Show &Menubar" ), 0, actionCollection(), "showmenubar" );
+  m_paShowStatusBar = new KToggleAction( i18n( "Show &Statusbar" ), 0, actionCollection(), "showstatusbar" );
+  m_paShowToolBar = new KToggleAction( i18n( "Show &Toolbar" ), 0, actionCollection(), "showtoolbar" );
+  m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
 
   m_paShowMenuBar->setChecked( true );
   m_paShowStatusBar->setChecked( true );
   m_paShowToolBar->setChecked( true );
   m_paShowLocationBar->setChecked( true );
+
+  connect( m_paShowMenuBar, SIGNAL( activated() ), this, SLOT( slotShowMenuBar() ) );
+  connect( m_paShowStatusBar, SIGNAL( activated() ), this, SLOT( slotShowStatusBar() ) );
+  connect( m_paShowToolBar, SIGNAL( activated() ), this, SLOT( slotShowToolBar() ) );
+  connect( m_paShowLocationBar, SIGNAL( activated() ), this, SLOT( slotShowLocationBar() ) );
 
 }
 
