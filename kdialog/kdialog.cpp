@@ -39,6 +39,7 @@
 #include <qdialog.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <kfiledialog.h>
 
 static KCmdLineOptions options[] =
 {
@@ -56,6 +57,9 @@ static KCmdLineOptions options[] =
     { "menu <text> [tag item] [tag item] ...", I18N_NOOP("Menu dialog"), 0 },
     { "checklist <text> [tag item status] ...", I18N_NOOP("Check List dialog"), 0 },
     { "radiolist <text> [tag item status] ...", I18N_NOOP("Radio List dialog"), 0 },
+    { "getopenfilename [startDir] [filter]", I18N_NOOP("File dialog to open an existing file"), 0 },
+    { "getsavefilename [startDir] [filter]", I18N_NOOP("File dialog to save a file"), 0 },
+    { "getexistingdirectory [startDir]", I18N_NOOP("File dialog to select an existing directory"), 0 },
 
     // TODO gauge stuff, reading values from stdin
 
@@ -233,6 +237,56 @@ int directCommand(KCmdLineArgs *args)
             exit( retcode ? 0 : 1 );
         }
         return -1;
+    }
+
+    // getopenfilename [startDir] [filter]
+    if (args->isSet("getopenfilename")) {
+        QString startDir;
+        QString filter;
+        if (args->count() >= 1) {
+            startDir = QString::fromLocal8Bit(args->arg(0));
+            if (args->count() >= 2)  {
+                filter = QString::fromLocal8Bit(args->arg(1));
+            }
+        }
+        QString result = KFileDialog::getOpenFileName( startDir, filter, 0, title );
+        if (!result.isEmpty())  {
+            cout << result.local8Bit().data() << endl;
+            return 0;
+        }
+        return 1; // cancelled
+    }
+
+    // getsavefilename [startDir] [filter]
+    if (args->isSet("getsavefilename")) {
+        QString startDir;
+        QString filter;
+        if (args->count() >= 1) {
+            startDir = QString::fromLocal8Bit(args->arg(0));
+            if (args->count() >= 2)  {
+                filter = QString::fromLocal8Bit(args->arg(1));
+            }
+        }
+        QString result = KFileDialog::getSaveFileName( startDir, filter, 0, title );
+        if (!result.isEmpty())  {
+            cout << result.local8Bit().data() << endl;
+            return 0;
+        }
+        return 1; // cancelled
+    }
+
+    // getexistingdirectory [startDir]
+    if (args->isSet("getexistingdirectory")) {
+        QString startDir;
+        if (args->count() >= 1) {
+            startDir = QString::fromLocal8Bit(args->arg(0));
+        }
+        QString result = KFileDialog::getExistingDirectory( startDir, 0, title );
+        if (!result.isEmpty())  {
+            cout << result.local8Bit().data() << endl;
+            return 0;
+        }
+        return 1; // cancelled
     }
 
     KCmdLineArgs::usage();

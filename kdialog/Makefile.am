@@ -4,7 +4,7 @@ INCLUDES = $(all_includes)
 bin_PROGRAMS = kdialog
 
 kdialog_SOURCES = kdialog.cpp widgets.cpp klistboxdialog.cpp
-kdialog_LDADD = $(LIB_KDEUI)
+kdialog_LDADD = $(LIB_KIO)
 kdialog_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 METASOURCES = AUTO
