@@ -418,9 +418,19 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
 {
   KListView::contentsMousePressEvent( e );
-  if ( e->button() == LeftButton ) {
-      m_dragPos = e->pos();
-      m_bDrag = true;
+  
+  QPoint p( contentsToViewport( e->pos() ) );
+  QListViewItem *i = itemAt( p );
+  
+  if ( e->button() == LeftButton && i ) {
+      // if the user clicked into the root decoration of the item, don't try to start a drag!
+      if ( p.x() > header()->cellPos( header()->mapToActual( 0 ) ) +
+	   treeStepSize() * ( i->depth() + ( rootIsDecorated() ? 1 : 0) ) + itemMargin() ||
+	   p.x() < header()->cellPos( header()->mapToActual( 0 ) ) )
+      {
+        m_dragPos = e->pos();
+        m_bDrag = true;
+      }
   }
 }
 
