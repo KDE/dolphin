@@ -7,14 +7,14 @@ lib_LTLIBRARIES = keditbookmarks.la
 keditbookmarks_la_SOURCES = main.cpp items.cpp toplevel.cpp favicons.cpp toplevel.skel commands.cpp
 kbookmarklistener_DIR = $(top_srcdir)/libkonq
 
-keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la
+keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la $(LIB_KHTML)
 keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
 
 bin_PROGRAMS = keditbookmarks
 
 keditbookmarks_SOURCES = dummy.cpp
 keditbookmarks_LDADD = keditbookmarks.la
-keditbookmarks_LDFLAGS = $(all_libraries) $(LIB_KHTML) $(KDE_RPATH)
+keditbookmarks_LDFLAGS = $(all_libraries)
 
 dummy.cpp:
 	echo > dummy.cpp
