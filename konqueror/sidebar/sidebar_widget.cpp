@@ -378,7 +378,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		}
 		case 3:
 		{
-			if (KMessageBox::questionYesNo(this,i18n("<qt>Do you really want to remove the <b>\"%1\"</b> tab?</qt>").
+			if (KMessageBox::questionYesNo(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").
 				arg(Buttons.at(popupFor)->displayName))==KMessageBox::Yes)
 				{
 					QFile f(PATH+Buttons.at(popupFor)->file);
