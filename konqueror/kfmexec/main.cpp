@@ -186,7 +186,10 @@ void KFMExec::slotRunApp()
             {
                 kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
                 // Do it the synchronous way.
-                KIO::NetAccess::upload( src, dest );
+                if ( !KIO::NetAccess::upload( src, dest ) )
+                {
+                        KMessageBox::error( 0L, KIO::NetAccess::lastErrorString() );
+                }
             }
         }
         else
