@@ -113,7 +113,8 @@ KonqIconViewWidget::~KonqIconViewWidget()
 {
     stopImagePreview();
     KonqUndoManager::decRef();
-    delete d->pSoundPlayer;
+    if (d->pSoundPlayer)
+        delete d->pSoundPlayer;
     delete d;
 }
 
@@ -140,6 +141,17 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     // Reset icon of previous item
     if (d->pActiveItem != 0L)
         d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+
+    // Stop sound
+    if (d->pSoundPlayer != 0 && static_cast<KFileIVI *>(item) != d->pSoundItem)
+    {
+	delete d->pSoundPlayer;
+	d->pSoundPlayer = 0;
+	
+	d->pSoundItem = 0;
+	if (d->pSoundTimer && d->pSoundTimer->isActive())
+    	    d->pSoundTimer->stop();
+    }
 
     if ( !m_bMousePressed &&
          !static_cast<KFileIVI *>(item)->isThumbnail() &&
@@ -181,10 +193,6 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 
 void KonqIconViewWidget::slotOnViewport()
 {
-    if (d->pActiveItem == 0L)
-        return;
-    d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
-    d->pActiveItem = 0L;
     if (d->pSoundPlayer)
     {
       delete d->pSoundPlayer;
@@ -193,6 +201,11 @@ void KonqIconViewWidget::slotOnViewport()
     d->pSoundItem = 0;
     if (d->pSoundTimer && d->pSoundTimer->isActive())
       d->pSoundTimer->stop();
+
+    if (d->pActiveItem == 0L)
+        return;
+    d->pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+    d->pActiveItem = 0L;
 }
 
 void KonqIconViewWidget::slotStartSoundPreview()

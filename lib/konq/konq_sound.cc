@@ -28,10 +28,13 @@ KonqSoundFactory::KonqSoundFactory(QObject *parent, const char *name)
 {
 	m_soundServer = Arts::Reference("global:Arts_SoundServerV2");
 	m_factory = new KPlayObjectFactory(m_soundServer);
+	m_playobject = 0;
 }
 
 KonqSoundFactory::~KonqSoundFactory()
 {
+	if (m_playobject != 0)
+	    delete m_playobject;
 	delete m_factory;
 }
 
@@ -42,15 +45,15 @@ QObject *KonqSoundFactory::createObject(QObject *, const char *,
 	{
 		if (m_soundServer.isNull())
 			return 0;
-		KPlayObject *obj = m_factory->createPlayObject(args[0], true);
-		if (obj)
+		m_playobject = m_factory->createPlayObject(args[0], true);
+		if (m_playobject)
 		{
-			if (obj->object().isNull())
-				delete obj;
+			if (m_playobject->object().isNull())
+				delete m_playobject;
 			else
 			{
-				obj->play();
-				return obj;
+				m_playobject->play();
+				return m_playobject;
 			}
 		}
 	}
