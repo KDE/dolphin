@@ -2042,6 +2042,9 @@ bool KonqIconViewWidget::caseInsensitiveSort() const
 
 bool KonqIconViewWidget::canPreview( KFileItem* item )
 {
+    if ( !KGlobalSettings::showFilePreview( url() ) )
+        return false;
+
     if ( d->pPreviewMimeTypes == 0L )
         updatePreviewMimeTypes();
 
