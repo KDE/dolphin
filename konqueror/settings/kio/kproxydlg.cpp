@@ -127,7 +127,7 @@ KProxyDialog::KProxyDialog( QWidget* parent)
                                            "file to be automatically detected and "
                                            "downloaded.<p>This option only differs "
                                            "from the next choice in that it "
-                                           "<i>does not</i> require you to suplly "
+                                           "<i>does not</i> require you to supply "
                                            "the location of the configuration script "
                                            "file. Instead it will be automatically "
                                            "downloaded using the <b>Web Access "

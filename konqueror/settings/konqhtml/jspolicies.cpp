@@ -190,7 +190,7 @@ JSPoliciesFrame::JSPoliciesFrame(JSPolicies *policies, const QString &title,
   wtstr = i18n("If you disable this, Konqueror will stop "
                "interpreting the <i>window.open()</i> "
                "JavaScript command. This is useful if you "
-               "regulary visit sites that make extensive use "
+               "regularly visit sites that make extensive use "
                "of this command to pop up ad banners.<br>"
                "<br><b>Note:</b> Disabling this option might "
                "also break certain sites that require <i>"

@@ -100,7 +100,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   // Update button
   wtstr = i18n( "Updates the browser identification list shown above."
                 "<p>\n<u>NOTE:</u> There is no need to press this button "
-                "unless a new browser-identfication description "
+                "unless a new browser-identification description "
                 "file was added after this configuration box was already "
                 "displayed!" );
   setButtonWhatsThis( User1, wtstr );

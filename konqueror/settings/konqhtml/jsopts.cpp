@@ -71,7 +71,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "on the <i>Delete</i> button will remove the selected policy causing the default "
                                           "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                           "button allows you to easily share your policies with other people by allowing "
-                                          "you to save and retrive them from a zipped file.") );
+                                          "you to save and retrieve them from a zipped file.") );
 
   QString wtstr = i18n("This box contains the domains and hosts you have set "
                        "a specific JavaScript policy for. This policy will be used "

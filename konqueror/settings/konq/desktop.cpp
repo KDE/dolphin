@@ -197,7 +197,7 @@ void KDesktopConfig::defaults()
 
 QString KDesktopConfig::quickHelp() const
 {
-  return i18n("<h1>Multiple Desktops</h1>In this module, you can configure how many virtual desktops you want and how these should be labelled.");
+  return i18n("<h1>Multiple Desktops</h1>In this module, you can configure how many virtual desktops you want and how these should be labeled.");
 }
 
 void KDesktopConfig::slotValueChanged(int n)

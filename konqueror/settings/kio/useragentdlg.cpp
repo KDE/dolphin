@@ -60,7 +60,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
                        "browsing."
                        "<P><u>NOTE:</u> Many sites rely on this information to "
                        "display pages properly, hence, it is highly recommended "
-                       "that you do not totaly disable this feature but rather "
+                       "that you do not totally disable this feature but rather "
                        "customize it."
                        "<P>Only minimal identification information is sent to "
                        "remote sites as shown below in <b>bold</b>.</qt>");

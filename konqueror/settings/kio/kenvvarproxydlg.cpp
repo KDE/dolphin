@@ -82,7 +82,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                          QSizePolicy::Fixed,
                                          m_leEnvHttp->sizePolicy().hasHeightForWidth()) );
   QWhatsThis::add( m_leEnvHttp, i18n("<qt>Enter the name of the environment "
-                                     "variable, eg. <tt>HTTP_PROXY</tt>, "
+                                     "variable, e.g. <tt>HTTP_PROXY</tt>, "
                                      "used to store the address of the HTTP "
                                      "proxy server.<p>Alternatively, you can "
                                      "click on the <tt>\"Auto Detect\"</tt> "
@@ -99,7 +99,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                           QSizePolicy::Fixed,
                                           m_leEnvHttps->sizePolicy().hasHeightForWidth()) );
   QWhatsThis::add( m_leEnvHttps, i18n("<qt>Enter the name of the environment "
-                                      "variable, eg. <tt>HTTPS_PROXY"
+                                      "variable, e.g. <tt>HTTPS_PROXY"
                                       "</tt>, used to store the address of "
                                       "the HTTPS proxy server.<p>"
                                       "Alternatively, you can click on the "
@@ -117,7 +117,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                         QSizePolicy::Fixed,
                                         m_leEnvFtp->sizePolicy().hasHeightForWidth()) );
   QWhatsThis::add( m_leEnvFtp, i18n("<qt>Enter the name of the environment "
-                                   "variable, eg. <tt>FTP_PROXY</tt>, "
+                                   "variable, e.g. <tt>FTP_PROXY</tt>, "
                                    "used to store the address of the FTP "
                                    "proxy server.<p>Alternatively, you can "
                                    "click on the <tt>\"Auto Detect\"</tt> "
