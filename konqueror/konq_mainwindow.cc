@@ -1053,6 +1053,8 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
                   << " args.serviceType=" << args.serviceType
                   << " args.frameName=" << args.frameName << endl;
 
+    part = 0; // Make sure to be initialized in case of failure...
+
     KonqMainWindow *mainWindow = 0L;
     if ( !args.frameName.isEmpty() && args.frameName.lower() != "_blank" )
     {
