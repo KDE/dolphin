@@ -37,13 +37,6 @@
 
 #include "importers.h"
 
-int ImportCommand::doImport(QWidget *parent, QString imp) {
-   int answer = KMessageBox::questionYesNoCancel(
-                   parent, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                   i18n("%1 Import").arg(imp), i18n("As New Folder"), i18n("Replace"));
-   return (answer == KMessageBox::Cancel) ? 0 : ((answer == KMessageBox::Yes) ? 2 : 1);
-}
-
 QString ImportCommand::name() const {
    return i18n("Import %1 Bookmarks").arg(visibleName());
 }
@@ -315,7 +308,14 @@ ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) 
       delete importer;
       return 0;
    }
-   int ret = ImportCommand::doImport(top, importer->visibleName());
+
+   int answer = 
+      KMessageBox::questionYesNoCancel(
+         top, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+         i18n("%1 Import").arg(importer->visibleName()), 
+         i18n("As New Folder"), i18n("Replace"));
+
+   int ret = (answer == KMessageBox::Cancel) ? 0 : ((answer == KMessageBox::Yes) ? 2 : 1);
    if (ret == 0) {
       delete importer;
       return 0;

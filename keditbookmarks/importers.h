@@ -57,27 +57,11 @@ public:
                     m_icon(QString::null), m_cleanUpCmd(0L), m_utf8(false)
    { ; }
 
-   /**
-    * @param fileName HTML file to import
-    * @param folder name of the folder to create. Empty for no creation (root()).
-    * @param icon icon for the new folder, if @p folder isn't empty
-    * @param utf8 true if the HTML is in utf-8 encoding
-    */
-   void init(const QString &fileName, bool folder, const QString &icon, bool utf8)
-   {
-      m_fileName = fileName;
-      m_folder = folder;
-      m_icon = icon;
-      m_utf8 = utf8;
-   }
-
    virtual void init3(const QString &fileName, bool folder) = 0;
 
    virtual QString name() const;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
-
-   static int doImport(QWidget*, QString);
 
    static ImportCommand* performImport(const QCString &, QWidget *);
    static ImportCommand* importerFactory(const QCString &);
@@ -98,6 +82,20 @@ protected slots:
    void endFolder();
 
 protected:
+   /**
+    * @param fileName HTML file to import
+    * @param folder name of the folder to create. Empty for no creation (root()).
+    * @param icon icon for the new folder, if @p folder isn't empty
+    * @param utf8 true if the HTML is in utf-8 encoding
+    */
+   void init(const QString &fileName, bool folder, const QString &icon, bool utf8)
+   {
+      m_fileName = fileName;
+      m_folder = folder;
+      m_icon = icon;
+      m_utf8 = utf8;
+   }
+
    void connectImporter(const QObject *importer);
 
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
@@ -120,12 +118,13 @@ class XBELImportCommand : public ImportCommand
 {
 public:
    XBELImportCommand() : ImportCommand() { ; }
-   void init2(const QString &fileName, bool folder, const QString &icon) {
-      init(fileName, folder, icon, false);
-   }
    virtual void init3(const QString &fileName, bool folder) = 0;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
+protected:
+   void init2(const QString &fileName, bool folder, const QString &icon) {
+      init(fileName, folder, icon, false);
+   }
 private:
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
    virtual void doExecuteWrapper(const KBookmarkGroup bkGroup);
@@ -161,12 +160,13 @@ class HTMLImportCommand : public ImportCommand
 {
 public:
    HTMLImportCommand() : ImportCommand() { ; }
-   void init2(const QString &fileName, bool folder, const QString &icon, bool utf8) {
-      init(fileName, folder, icon, utf8);
-   }
    virtual void init3(const QString &fileName, bool folder) = 0;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
+protected:
+   void init2(const QString &fileName, bool folder, const QString &icon, bool utf8) {
+      init(fileName, folder, icon, utf8);
+   }
 private:
    virtual void doExecute();
 };
