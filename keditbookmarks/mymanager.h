@@ -25,7 +25,6 @@ class QObject;
 class QString;
 
 class MyManager {
-   friend class BkManagerAccessor;
 public:
    static MyManager* self() { if (!s_mgr) { s_mgr = new MyManager(); } return s_mgr; }
    void createManager(QObject *top, QString filename);
@@ -37,7 +36,6 @@ public:
    QString path() { return mgr()->path(); }
    bool showNSBookmarks() { return mgr()->showNSBookmarks(); }
    QString correctAddress(const QString &address);
-protected:
    KBookmarkManager* mgr() const { return m_mgr; }
 private:
    MyManager() {
@@ -45,11 +43,6 @@ private:
    };
    KBookmarkManager *m_mgr;
    static MyManager *s_mgr;
-};
-
-class BkManagerAccessor {
-public:
-   static KBookmarkManager* mgr() { return MyManager::self()->mgr(); }
 };
 
 #endif

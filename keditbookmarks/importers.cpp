@@ -91,7 +91,7 @@ void ImportCommand::execute() {
 
    } else {
       // import into the root, after cleaning it up
-      bkGroup = BkManagerAccessor::mgr()->root();
+      bkGroup = MyManager::self()->mgr()->root();
       delete m_cleanUpCmd;
       m_cleanUpCmd = DeleteCommand::deleteAll( bkGroup );
 
@@ -114,7 +114,7 @@ void ImportCommand::unexecute() {
 
    } else {
       // we imported at the root -> delete everything
-      KBookmarkGroup root = BkManagerAccessor::mgr()->root();
+      KBookmarkGroup root = MyManager::self()->mgr()->root();
       KCommand *cmd = DeleteCommand::deleteAll(root);
 
       // unselect current item, it doesn't exist anymore
@@ -129,7 +129,7 @@ void ImportCommand::unexecute() {
 
 void ImportCommand::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
    KBookmark bk = m_stack.top()->addBookmark(
-                                    BkManagerAccessor::mgr(),
+                                    MyManager::self()->mgr(),
                                     text, QString::fromUtf8(url),
                                     QString::null, false);
    // store additionnal info
@@ -138,7 +138,7 @@ void ImportCommand::newBookmark(const QString &text, const QCString &url, const 
 
 void ImportCommand::newFolder( const QString & text, bool open, const QString & additionnalInfo ) {
    // we use a qvaluelist so that we keep pointers to valid objects in the stack
-   m_list.append(m_stack.top()->createNewFolder(BkManagerAccessor::mgr(), text, false));
+   m_list.append(m_stack.top()->createNewFolder(MyManager::self()->mgr(), text, false));
    m_stack.push(&(m_list.last()));
 
    // store additionnal info
@@ -156,8 +156,8 @@ void ImportCommand::endFolder() {
 }
 
 void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
-   bkGroup = BkManagerAccessor::mgr()
-      ->root().createNewFolder(BkManagerAccessor::mgr(), folder(), false);
+   bkGroup = MyManager::self()->mgr()
+      ->root().createNewFolder(MyManager::self()->mgr(), folder(), false);
    bkGroup.internalElement().setAttribute("icon", m_icon);
    m_group = bkGroup.address();
 }
@@ -241,7 +241,7 @@ void XBELImportCommand::doExecute() {
    //        that adds unneeded data to the dom, FIXME!
    KBookmarkManager *pManager;
    pManager = KBookmarkManager::managerForFile(m_fileName, false);
-   QDomDocument doc = BkManagerAccessor::mgr()->internalDocument();
+   QDomDocument doc = MyManager::self()->mgr()->internalDocument();
 
    // get the xbel
    QDomNode subDoc = pManager->internalDocument().namedItem("xbel").cloneNode();
@@ -272,11 +272,11 @@ void XBELImportCommand::doExecute() {
    QDomNode node = doc.importNode(subDoc, true);
 
    if (!folder().isEmpty()) {
-      BkManagerAccessor::mgr()->root().internalElement().appendChild(node);
+      MyManager::self()->mgr()->root().internalElement().appendChild(node);
       m_group = KBookmarkGroup(node.toElement()).address();
 
    } else {
-      QDomElement root = BkManagerAccessor::mgr()->root().internalElement();
+      QDomElement root = MyManager::self()->mgr()->root().internalElement();
 
       QValueList<QDomElement> childList;
 

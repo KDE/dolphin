@@ -340,7 +340,7 @@ void ListView::updateListView() {
       }
    }
 
-   fillWithGroup(BkManagerAccessor::mgr()->root());
+   fillWithGroup(MyManager::self()->mgr()->root());
 
    // re-select previously selected items
    KEBListViewItem *item = 0;

@@ -147,7 +147,7 @@ void ActionsImpl::slotExportMoz() {
 
 void ActionsImpl::slotShowNS() {
    bool shown = KEBApp::self()->nsShown();
-   BkManagerAccessor::mgr()->setShowNSBookmarks(shown);
+   MyManager::self()->mgr()->setShowNSBookmarks(shown);
    KEBApp::self()->setModifiedFlag(true);
 }
 
