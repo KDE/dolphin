@@ -158,7 +158,7 @@ void KBookmarkMenu::addAddBookmark()
   // create "add bookmark", with the parent's ID (as a name)
   KAction * paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
                                           "bookmark_add",
-                                          m_bIsRoot ? KStdAccel::addBookmark() : 0,
+                                          m_bIsRoot ? KStdAccel::addBookmark() : KShortcut(),
                                           this,
                                           SLOT( slotAddBookmark() ),
                                           m_actionCollection );
