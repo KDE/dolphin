@@ -68,7 +68,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 
     // Layout
 
-    QGridLayout *grid = new QGridLayout( pages[0], 3, 3, 15, 10 );
+    QGridLayout *grid = new QGridLayout( pages[0], 3, 3, 15, 0  );
     grid->addWidget( namedL, 0, 0 );
     grid->addMultiCellWidget( nameBox, 0, 0, 1, 2 );
     grid->addWidget( lookinL, 1, 0 );
@@ -76,7 +76,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid->addWidget( browseB, 1, 2);
     grid->addWidget( subdirsCb, 2, 1);
     grid->setColStretch(1,1);
-    grid->activate();
 
     // Signals
 
@@ -136,16 +135,14 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     // Layout
 
     int tmp = le[0]->fontMetrics().width(" 00/00/0000 ");
-    le[0]->setMinimumSize(tmp, le[0]->sizeHint().height());
-    le[1]->setMinimumSize(tmp, le[1]->sizeHint().height());
+    le[0]->setMinimumWidth(tmp );
     tmp = le[2]->fontMetrics().width(" 000 ");
-    le[2]->setMinimumSize(tmp, le[2]->sizeHint().height());
-    le[3]->setMinimumSize(tmp, le[3]->sizeHint().height());
+    le[2]->setMinimumWidth(tmp );
+    le[3]->setMinimumWidth(tmp );
 
-    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6, 10, 4 );
+    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6, 10, 0 );
     grid1->addMultiCellWidget(rb1[0], 0, 0, 0, 6 );
     grid1->addMultiCellWidget(rb1[1], 1, 1, 0, 6 );
-    grid1->addColSpacing(0, 15);
     grid1->addWidget(rb2[0], 2, 1 );
     grid1->addWidget(le[0], 2, 2 );
     grid1->addWidget(andL, 2, 3 );
@@ -157,10 +154,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid1->addWidget(le[3], 4, 4 );
     grid1->addWidget(dayL, 4, 5 );
     grid1->setColStretch(6, 1);
-    grid1->activate();
 
     // Connect
-
     connect( bg[0],  SIGNAL(clicked(int)),
              this,   SLOT(fixLayout()) );
     connect( bg[1],  SIGNAL(clicked(int)),
@@ -221,9 +216,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 
     // Layout
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
-    sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
+    sizeEdit->setMinimumWidth( tmp );
 
-    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 15, 10 );
+    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 15, 0 );
     grid2->addWidget( typeL, 0, 0 );
     grid2->addWidget( textL, 1, 0 );
     grid2->addWidget( sizeL, 2, 0 );
@@ -235,7 +230,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid2->addColSpacing(4, 5);
     grid2->addWidget( caseCb, 2, 5 );
     grid2->setColStretch(6,1);
-    grid2->activate();
 
     addTab( pages[2], i18n(" Advanced ") );
 

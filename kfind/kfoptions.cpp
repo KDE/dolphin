@@ -19,11 +19,11 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
-#include <qfiledialog.h> 
+#include <qfiledialog.h>
 #include <qdir.h>
-#include <qregexp.h> 
-#include <qdatetime.h> 
-#include <qlistbox.h> 
+#include <qregexp.h>
+#include <qdatetime.h>
+#include <qlistbox.h>
 #include <qstrlist.h>
 #include <kfiledialog.h>
 
@@ -41,7 +41,7 @@ extern QList<KfFileType> *types;
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
-KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, name) 
+KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, name)
   {
     resize(400,330);
     insertPages();
@@ -49,12 +49,9 @@ KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, na
     setOKButton( i18n("OK"));
     setCancelButton( i18n("Cancel"));
     setCaption(i18n("Preferences"));
-    
-    this->setMinimumSize(400,330);
-    this->setMaximumSize(400,330);
- 
+
     connect(this,SIGNAL(applyButtonPressed()),this,SLOT(applyChanges()));
- 
+
   };
 
 KfOptions::~KfOptions()
@@ -65,7 +62,7 @@ KfOptions::~KfOptions()
 
 void KfOptions::insertPages()
   {
-    setFocusPolicy(QWidget::StrongFocus);    
+    setFocusPolicy(QWidget::StrongFocus);
 
     // First page of tab preferences dialog
     pages[0]= new QWidget(this,"page1");
@@ -100,7 +97,7 @@ void KfOptions::insertPages()
     selectfileB->setFixedSize(selectfileB->sizeHint());
     browseB    ->setFixedSize(browseB    ->sizeHint());
     fileE      ->setFixedSize(344-(10+10+fileL->width()+browseB->width()),25);
-    
+
     kfindfileB ->move(10,20);
     selectfileB->move(10,50);
     kfindfileL ->move(30,20);
@@ -169,7 +166,7 @@ void KfOptions::insertPages()
     createE     ->move(tmpP,15);
     addE        ->move(tmpP,createL->y()+30);
     paternsLBox2->move(tmpP,addL->y()+30);
- 
+
      fillArchiverLBox();
      fillArchiverDetail(0);
 
@@ -204,11 +201,11 @@ void KfOptions::setFileSelecting()
 
 void KfOptions::initFileSelecting()
 {
-  if (saving->getSaveStandard()) 
+  if (saving->getSaveStandard())
     kfindfileB ->setChecked ( TRUE );
   else
     selectfileB->setChecked ( TRUE );
-    
+
   fileE->setText(saving->getSaveFile());
   if ( saving->getSaveFormat() == "HTML" )
     formatBox->setCurrentItem(0);
@@ -221,7 +218,7 @@ void KfOptions::initFileSelecting()
 void KfOptions::fillArchiverLBox()
 {
   KfArchiver *arch;
-  
+
   for ( arch = archivers->first(); arch != 0L; arch = archivers->next() )
     if (arch->getArComment()!="")
       archiversLBox->insertItem(arch->getArComment());
@@ -233,15 +230,15 @@ void KfOptions::fillArchiverDetail(int archiversLBoxItem)
 {
   KfArchiver *arch;
   QString comment(archiversLBox->text(archiversLBoxItem));
-  
+
   arch = archivers->first();
   for (int i=0; i<archiversLBoxItem; i++ )
     arch = archivers->next();
 
-  if (arch!=0L) 
+  if (arch!=0L)
     {
-      createE->setText(arch->getOnCreate()); 
-      addE   ->setText(arch->getOnUpdate()); 
+      createE->setText(arch->getOnCreate());
+      addE   ->setText(arch->getOnUpdate());
 
       QStrList& pats = arch->getArPattern();
       paternsLBox2->clear();
@@ -255,7 +252,7 @@ void KfOptions::applyChanges()
     //    printf("Make all changes!\n");
     KConfig *config = KApplication::kApplication()->config();
     config->setGroup( "Saving" );
-  
+
     saving->setSaveFile( fileE->text() );
     saving->setSaveFormat( formatBox->text(formatBox->currentItem()) );
 
