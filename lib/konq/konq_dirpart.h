@@ -231,13 +231,14 @@ protected:
     KAction *m_paIncIconSize;
     KAction *m_paDecIconSize;
     KToggleAction *m_paDefaultIcons;
+    KToggleAction *m_paHugeIcons;
     KToggleAction *m_paLargeIcons;
     KToggleAction *m_paMediumIcons;
     KToggleAction *m_paSmallIcons;
 
     KParts::ReadOnlyPart * m_findPart;
 
-    int m_iIconSize[4];
+    int m_iIconSize[5];
 
     long long m_lDirSize;
     uint m_lFileCount;
