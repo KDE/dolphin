@@ -235,6 +235,8 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_pBookmarkMenu;
 
+  delete m_pMenuNew;
+
   m_viewModeActions.clear();
 
   KonqUndoManager::decRef();
@@ -2520,7 +2522,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              m_currentView->url(),
                              popupMenuCollection,
                              m_pMenuNew,
-                 showPropsAndFileType );
+                             showPropsAndFileType );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
 
