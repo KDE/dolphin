@@ -622,20 +622,13 @@ void KonqBaseListViewWidget::takeItem( QListViewItem *item )
 
 void KonqBaseListViewWidget::startDrag()
 {
-   // Collect all selected items
-   KURL::List urls;
-   iterator it = begin();
-   for( ; it != end(); it++ )
-      if ( it->isSelected() )
-         urls.append( it->item()->url() );
-
+   KURL::List urls = selectedUrls();
    // Multiple URLs ?
 
    QListViewItem * m_pressedItem = currentItem();
 
    QPixmap pixmap2;
-   bool pixmap0Invalid(m_pressedItem->pixmap(0)==0);
-   if (!pixmap0Invalid) if (m_pressedItem->pixmap(0)->isNull()) pixmap0Invalid=TRUE;
+   bool pixmap0Invalid = !m_pressedItem->pixmap(0) || m_pressedItem->pixmap(0)->isNull();
 
    if (( urls.count() > 1 ) || (pixmap0Invalid))
    {
