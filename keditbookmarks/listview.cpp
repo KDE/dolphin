@@ -399,7 +399,9 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
    if (!item) {
       return;
    }
-   const char *type = (item->bookmark().isGroup() ? "popup_folder" : "popup_bookmark");
+   const char *type = 
+      (item == getFirstChild()) || (item->bookmark().isGroup()) 
+    ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
       static_cast<QPopupMenu*>(popup)->popup(p);
