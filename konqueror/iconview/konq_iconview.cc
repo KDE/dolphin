@@ -1098,15 +1098,13 @@ void KonqKfmIconView::setViewMode( const QString &mode )
     m_mode = mode;
     if (mode=="MultiColumnView")
     {
-       m_pIconView->setGridX( m_pIconView->gridX() + 50 ); // see KonqIconViewWidget::calculateGridX
-       m_pIconView->setArrangement(QIconView::TopToBottom);
-       m_pIconView->setItemTextPos(QIconView::Right);
+        m_pIconView->setItemTextPos(QIconView::Right);
+        m_pIconView->setArrangement(QIconView::TopToBottom);
     }
     else
     {
-       m_pIconView->setGridX( m_pIconView->gridX() - 50 ); // see KonqIconViewWidget::calculateGridX
-       m_pIconView->setArrangement(QIconView::LeftToRight);
-       m_pIconView->setItemTextPos(QIconView::Bottom);
+        m_pIconView->setItemTextPos(QIconView::Bottom);
+        m_pIconView->setArrangement(QIconView::LeftToRight);
     }
 
     m_pIconView->setUpdatesEnabled( true );
