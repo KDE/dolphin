@@ -536,7 +536,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
         serviceType = KMimeType::findByURL( url, buff.st_mode )->name();
   }
 
-  kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
+  kdDebug(1202) << "trying openView for " << url << " (serviceType " << serviceType << ")" << endl;
   if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.url() == "about:konqueror" || url.url() == "about:plugins")
   {
     // Built-in view ?
@@ -800,6 +800,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
           bool forceAutoEmbed = req.forceAutoEmbed;
           if ( !req.typedURL.isEmpty() ) // the user _typed_ the URL, he wants it in Konq.
               forceAutoEmbed = true;
+          if ( url.protocol() == "about" )
+              forceAutoEmbed = true;
           // Related to KonqFactory::createView
           if ( !forceAutoEmbed && !KonqFMSettings::settings()->shouldEmbed( serviceType ) )
           {
@@ -810,8 +812,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
           // If the protocol doesn't support writing (e.g. HTTP) then we might want to save instead of just embedding.
           // So (if embedding would succeed, hence the checks above) we ask the user
           // Otherwise the user will get asked 'open or save' in openURL anyway.
-          if ( ok && !forceAutoEmbed && !KProtocolInfo::supportsWriting( url )
-               && url.protocol() != "about" ) {
+          if ( ok && !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) ) {
               QString suggestedFilename;
 
               KonqRun* run = childView->run();
