@@ -246,7 +246,7 @@ KonqMainWindow::~KonqMainWindow()
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow done" << endl;
 }
 
-QWidget *KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id )
+QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id )
 {
   static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
   static QString tagToolBar = QString::fromLatin1( "ToolBar" );
@@ -1171,7 +1171,7 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   emit viewRemoved( childView );
 }
 
-KonqView *KonqMainWindow::childView( KParts::ReadOnlyPart *view )
+KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
 {
   MapViews::ConstIterator it = m_mapViews.find( view );
   if ( it != m_mapViews.end() )
@@ -1180,7 +1180,7 @@ KonqView *KonqMainWindow::childView( KParts::ReadOnlyPart *view )
     return 0L;
 }
 
-KonqView *KonqMainWindow::childView( const QString &name, KParts::BrowserHostExtension **hostExtension )
+KonqView * KonqMainWindow::childView( const QString &name, KParts::BrowserHostExtension **hostExtension )
 {
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
@@ -1205,7 +1205,7 @@ KonqView *KonqMainWindow::childView( const QString &name, KParts::BrowserHostExt
   return 0;
 }
 
-KonqView *KonqMainWindow::findChildView( const QString &name, KonqMainWindow **mainWindow, KParts::BrowserHostExtension **hostExtension )
+KonqView * KonqMainWindow::findChildView( const QString &name, KonqMainWindow **mainWindow, KParts::BrowserHostExtension **hostExtension )
 {
   if ( !s_lstViews )
     return 0;
@@ -1237,7 +1237,7 @@ int KonqMainWindow::activeViewsCount() const
   return res;
 }
 
-KParts::ReadOnlyPart *KonqMainWindow::currentPart()
+KParts::ReadOnlyPart * KonqMainWindow::currentPart()
 {
   /// ### This is currently unused. Check in the final version (!) if still unused.
   if ( m_currentView )
