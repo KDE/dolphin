@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=kcmshell filetypes khtml_appearance khtml_java_js khtml_fonts ebrowsing kcmhistory cookies cache proxy kcmcss crypto useragent nsplugin
+Exec=kcmshell filetypes khtml_appearance khtml_java_js khtml_fonts ebrowsing kcmhistory cookies cache proxy kcmcss crypto useragent khtml_plugins
 Icon=konqueror
 DocPath=konqueror/index.html
 Name=Configure Konqueror
