@@ -259,16 +259,21 @@ static int directCommand(KCmdLineArgs *args)
     // --passivepopup
     if (args->isSet("passivepopup"))
       {
+        int duration = 0;
+        if (args->count() > 0)
+            duration = 1000 * QString::fromLocal8Bit(args->arg(0)).toInt();
+        if (duration == 0)
+            duration = 10000;
 	KPassivePopup *popup = KPassivePopup::message( title,
 						       QString::fromLocal8Bit( args->getOption("passivepopup") ),
 						       0, // icon
 						       0UL, // parent
 						       0, // name
-						       1000 * QString::fromLocal8Bit(args->arg(0)).toInt() );
+						       duration );
 	QTimer *timer = new QTimer();
 	QObject::connect( timer, SIGNAL( timeout() ), kapp, SLOT( quit() ) );
 	QObject::connect( popup, SIGNAL( clicked() ), kapp, SLOT( quit() ) );
-	timer->start( 1000 * QString::fromLocal8Bit(args->arg(0)).toInt(), TRUE );
+	timer->start( duration, TRUE );
 	kapp->exec();
 	return 0;
       }
