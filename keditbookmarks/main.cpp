@@ -103,8 +103,8 @@ int main(int argc, char **argv) {
                         I18N_NOOP("Konqueror Bookmarks Editor"),
                         KAboutData::License_GPL,
                         I18N_NOOP("(c) 2000 - 2003, KDE developers") );
-   aboutData.addAuthor("David Faure", 0, "faure@kde.org");
-   aboutData.addAuthor("Alexander Kellett", 0, "lypanov@kde.org");
+   aboutData.addAuthor("David Faure", I18N_NOOP("Initial author"), "faure@kde.org");
+   aboutData.addAuthor("Alexander Kellett", I18N_NOOP("Maintainer"), "lypanov@kde.org");
 
    KCmdLineArgs::init(argc, argv, &aboutData);
    KApplication::addCmdLineOptions();
