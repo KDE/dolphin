@@ -725,13 +725,14 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
       enableAllActions( true ); // can't we rely on setActiveView to do the right thing ? (David)
 
-      m_pViewManager->setActivePart( view );
 
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
 
       view->widget()->setFocus();
+      // Triggered by setFocus anyway...
+      //m_pViewManager->setActivePart( view );
 
       this->childView( view )->setLocationBarURL( url.url() );
 
@@ -810,8 +811,15 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   guiFactory()->removeClient( m_openWithGUIClient );
   m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
   m_openWithGUIClient->update( m_currentView->appServiceOffers() );
-  if ( m_currentView->partServiceOffers().count() > 1 )
-    guiFactory()->addClient( m_viewModeGUIClient );
+
+  KService::Ptr service = currentChildView()->service();
+  QVariant prop = service->property( "X-KDE-BrowserView-Toggable" );
+  if ( !prop.isValid() || !prop.toBool() ) // No view mode for toggable views
+  // (The other way would be to enforce a better servicetype for them, than Browser/View)
+
+    if ( m_currentView->partServiceOffers().count() > 1 )
+      guiFactory()->addClient( m_viewModeGUIClient );
+
   if ( m_currentView->appServiceOffers().count() > 0 )
     guiFactory()->addClient( m_openWithGUIClient );
 
@@ -2067,6 +2075,12 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     KonqChildView *cv = m_mainView->childView( view );
     cv->setLocationBarURL(  m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
     cv->openURL( m_mainView->currentChildView()->url() );
+
+    // If not passive, set as active :)
+    if (!cv->passiveMode())
+      //viewManager->setActivePart( view );
+      view->widget()->setFocus();
+
   }
   else
   {

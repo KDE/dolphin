@@ -30,7 +30,7 @@
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
-  <Separator/>
+  <WeakSeparator/>
   <Merge name="viewmode"/>
   <WeakSeparator/>
   <Merge/>
