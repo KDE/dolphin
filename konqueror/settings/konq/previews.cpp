@@ -43,7 +43,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
 {
     QVBoxLayout *lay = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
 
-    lay->addWidget( new QLabel( i18n("Allow previews on protocols:"), this ) );
+    lay->addWidget( new QLabel( i18n("Allow previews and \"Folder Icons Reflect Contents\" on protocols:"), this ) );
 
     QHBoxLayout *hbox = new QHBoxLayout(); // hbox to avoid a very wide scrollview
     lay->addLayout( hbox );
