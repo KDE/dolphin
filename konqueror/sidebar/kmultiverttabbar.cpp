@@ -14,8 +14,7 @@ KMultiVertTabBarInternal::KMultiVertTabBarInternal(QWidget *parent):QScrollView(
 		setFixedWidth(24);
 		addChild(box);
 		setFrameStyle(NoFrame);
-		setPalette(parent->palette());		
-		viewport()->setPalette(parent->palette());		
+		viewport()->setBackgroundMode(Qt::PaletteBackground);
 	}
 
 
@@ -73,13 +72,14 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
  	QPixmap pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
 	if (!isOn())
 	{
+		paint->fillRect(0,0,23,22,QBrush(colorGroup().background()));
 		paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
-		paint->setPen(colorGroup().dark());
+		paint->setPen(colorGroup().shadow());
 		paint->drawLine(0,23,23,23);
 	}
 	else
 	{
-		paint->setPen(colorGroup().dark());
+		paint->setPen(colorGroup().shadow());
 		paint->drawLine(0,23,23,23);
 		paint->drawLine(0,22,23,22);
 		paint->drawLine(23,0,23,23);
