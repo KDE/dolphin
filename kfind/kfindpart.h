@@ -28,6 +28,7 @@
 #include <konq_dirpart.h>
 
 class KQuery;
+class KAboutData;
 //added
 class KonqPropsView;
 class KonqDirLister;
@@ -45,8 +46,11 @@ class KFindPart : public KonqDirPart//KParts::ReadOnlyPart
     Q_OBJECT
     Q_PROPERTY( bool showsResult READ showsResult )
 public:
-    KFindPart( QWidget * parentWidget, QObject *parent, const char *name, const QString& mode );
+    KFindPart( QWidget * parentWidget, const char *widgetName, 
+	       QObject *parent, const char *name, const QStringList & /*args*/ );
     virtual ~KFindPart();
+
+    static KAboutData *createAboutData();
 
     virtual bool openURL( const KURL &url );
     virtual bool openFile() { return false; }

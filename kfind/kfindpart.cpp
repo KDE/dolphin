@@ -21,57 +21,21 @@
 #include "kfindpart.h"
 #include "kquery.h"
 
-#include <kparts/factory.h>
+#include <kparts/genericfactory.h>
 #include <kdebug.h>
+#include <klocale.h>
 
 #include <qdir.h>
 #include <kinstance.h>
 
 class KonqDirPart;
 
-class KFindFactory : public KParts::Factory
-{
-public:
-    KFindFactory()
-    {
-        s_instance = 0;
-    }
+typedef KParts::GenericFactory<KFindPart> KFindFactory;
+K_EXPORT_COMPONENT_FACTORY( libkfindpart, KFindFactory );
 
-    virtual ~KFindFactory()
-    {
-        delete s_instance;
-        s_instance = 0;
-    }
-
-    virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *,
-                                            QObject *parent, const char *name, const char*,
-                                            const QStringList &args )
-    {
-        return new KFindPart( parentWidget, parent, name,args.first() );
-    }
-
-    static KInstance *instance()
-    {
-        if ( !s_instance )
-            s_instance = new KInstance( "kfindpart" );
-        return s_instance;
-    }
-
-private:
-    static KInstance *s_instance;
-};
-
-KInstance *KFindFactory::s_instance = 0;
-
-extern "C"
-{
-    void *init_libkfindpart()
-    {
-        return new KFindFactory;
-    }
-};
-
-KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name , const QString& mode)
+KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName, 
+	              QObject *parent, const char *name ,
+		      const QStringList & /*args*/ )
     : KonqDirPart (parent, name )/*KParts::ReadOnlyPart*/
 {
     setInstance( KFindFactory::instance() );
@@ -79,7 +43,7 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
     setBrowserExtension( new KFindPartBrowserExtension(this) );
 
     kdDebug() << "KFindPart::KFindPart " << this << endl;
-    m_kfindWidget = new Kfind( parentWidget, name );
+    m_kfindWidget = new Kfind( parentWidget, widgetName );
     m_kfindWidget->setMaximumHeight(m_kfindWidget->minimumSizeHint().height());
     const KFileItem *item = ((KonqDirPart*)parent)->currentItem();
     kdDebug() << "Kfind: currentItem:  " << ( item ? item->url().path().local8Bit() : QString("null") ) << endl;
@@ -109,6 +73,11 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
 
 KFindPart::~KFindPart()
 {
+}
+
+KAboutData *KFindPart::createAboutData()
+{
+    return new KAboutData( "kfindpart", I18N_NOOP( "Find Component" ), "1.0" );
 }
 
 bool KFindPart::openURL( const KURL &url )
