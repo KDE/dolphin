@@ -180,6 +180,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paShowBookmarkBar->setChecked( !toolBarByName("bookmarkToolBar")->isHidden() );
   updateBookmarkBar(); // hide if empty
 
+  KConfig * config = KGlobal::config();
   KConfigGroupSaver cgs(config,"MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
@@ -1538,9 +1539,7 @@ void KonqMainWindow::viewsChanged()
     m_paMoveFiles = 0L;
   }
 
-  // done in slotPartActivated now
-  // Can lock a view only if there is a next view
-  //m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
+  updateViewActions(); // undo, lock and link
 }
 
 KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
