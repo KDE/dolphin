@@ -64,7 +64,7 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
     return QPixmap();
 }
 
-static const char * previewKey[KonqPropsView::LASTPREVIEW+1] = { "ImagePreview", "TextPreview" };
+static const char * previewKey[KonqPropsView::LASTPREVIEW+1] = { "ImagePreview", "TextPreview", "HTMLPreview" };
 
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
     : m_bSaveViewPropertiesLocally( false ), // will be overriden by setSave... anyway
@@ -81,6 +81,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bPreview[IMAGEPREVIEW] = config->readBoolEntry( "ImagePreview", false );
   m_bPreview[TEXTPREVIEW] = config->readBoolEntry( "TextPreview", false );
+  m_bPreview[HTMLPREVIEW] = config->readBoolEntry( "HTMLPreview", false );
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
@@ -154,6 +155,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     m_bPreview[IMAGEPREVIEW] = m_defaultProps->isShowingPreview(IMAGEPREVIEW);
     m_bPreview[TEXTPREVIEW] = m_defaultProps->isShowingPreview(TEXTPREVIEW);
+    m_bPreview[HTMLPREVIEW] = m_defaultProps->isShowingPreview(HTMLPREVIEW);
     m_textColor = m_defaultProps->m_textColor;
     m_bgColor = m_defaultProps->m_bgColor;
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
@@ -170,6 +172,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     m_bPreview[IMAGEPREVIEW] = config->readBoolEntry( "ImagePreview", m_bPreview[IMAGEPREVIEW] );
     m_bPreview[TEXTPREVIEW] = config->readBoolEntry( "TextPreview", m_bPreview[TEXTPREVIEW] );
+    m_bPreview[HTMLPREVIEW] = config->readBoolEntry( "HTMLPreview", m_bPreview[HTMLPREVIEW] );
 
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );

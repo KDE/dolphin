@@ -21,7 +21,7 @@ SUBDIRS = pics
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0 -no-undefined
-libkonq_la_LIBADD = $(LIB_KPARTS)
+libkonq_la_LIBADD = $(LIB_KPARTS) $(LIB_KHTML)
 
 libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kbookmarkmenu.cc kbookmark.cc kbookmarkbar.cc kbookmarkimporter.cc \

@@ -88,11 +88,11 @@ public:
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
-  typedef enum { IMAGEPREVIEW, TEXTPREVIEW } Preview;
-  static const int LASTPREVIEW = TEXTPREVIEW;
+  typedef enum { IMAGEPREVIEW, TEXTPREVIEW, HTMLPREVIEW } Preview;
+  static const int LASTPREVIEW = HTMLPREVIEW;
   void setShowingPreview( Preview preview, bool show );
   bool isShowingPreview( Preview preview ) const { return m_bPreview[preview]; }
-  bool isShowingPreview() const { return m_bPreview[IMAGEPREVIEW] || m_bPreview[TEXTPREVIEW]; }
+  bool isShowingPreview() const { return m_bPreview[IMAGEPREVIEW] || m_bPreview[TEXTPREVIEW] || m_bPreview[HTMLPREVIEW]; }
   const bool * previewSettings() const { return m_bPreview; }
 
   void setBgColor( const QColor & color );

@@ -21,6 +21,7 @@
 
 #include <qfile.h>
 #include <qimage.h>
+#include <qtimer.h>
 
 #include <kfileivi.h>
 #include <kiconloader.h>
@@ -28,6 +29,9 @@
 #include <konq_iconviewwidget.h>
 #include <konq_propsview.h>
 #include <kpixmapsplitter.h>
+#include <kapp.h>
+#include <khtml_part.h>
+#include <khtmlview.h>
 #include <assert.h>
 #include <stdio.h> // for tmpnam
 #include <unistd.h> // for unlink
@@ -40,7 +44,9 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
 					  bool force, int transparency,
 					  KPixmapSplitter *splitter,
 					  const bool * previewSettings )
-  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
+  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView ),
+    m_html(0),
+    m_htmlTimeout(0)
 {
   m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
@@ -50,7 +56,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
   // shift into the upper 8 bits, so we can use it as alpha-channel in QImage
   m_transparency = (transparency << 24) | 0x00ffffff;
 
-
+  m_renderHTML = !previewSettings || previewSettings[KonqPropsView::HTMLPREVIEW];
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
@@ -59,14 +65,16 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
     {
         QString mimeType = ivi->item()->mimetype();
         bool bText = false;
+        bool bHTML = false;
         bool bImage = mimeType.startsWith( "image/" ) && (!previewSettings || previewSettings[KonqPropsView::IMAGEPREVIEW]);
         if ( bImage )
             m_bDirsCreated = false; // We'll need dirs
         else
         {
             bText = m_splitter && mimeType.startsWith( "text/") && (!previewSettings || previewSettings[KonqPropsView::TEXTPREVIEW]);
+            bHTML = mimeType == "text/html" && m_renderHTML;
         }
-        if ( bImage || bText )
+        if ( bImage || bText || bHTML)
             m_items.append( ivi );
     }
   }
@@ -79,6 +87,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
 KonqImagePreviewJob::~KonqImagePreviewJob()
 {
   kdDebug(1203) << "KonqImagePreviewJob::~KonqImagePreviewJob()" << endl;
+  delete m_html;
 }
 
 void KonqImagePreviewJob::startImagePreview()
@@ -409,8 +418,26 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   bool ok = false;
   bool saveImage = m_bCanSave;
 
+  // create HTML-preview
+  if ( m_renderHTML && m_currentItem->item()->mimetype() == "text/html") {
+      if (!m_html)
+      {
+          m_html = new KHTMLPart;
+          connect(m_html, SIGNAL(completed()), SLOT(slotHTMLCompleted()));
+          m_html->enableJScript(false);
+          m_html->enableJava(false);
+      }
+      if (!m_htmlTimeout)
+      {
+          m_htmlTimeout = new QTimer(this);
+          connect(m_htmlTimeout, SIGNAL(timeout()), SLOT(slotHTMLTimeout()));
+      }
+      m_html->openURL(pixPath);
+      m_htmlTimeout->start(5000, true); // FIXME: Make this configurable
+      return; // determineNextIcon() called by slotHTMLCompleted()
+  }
   // create text-preview
-  if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
+  else if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
       bool blendIcon = KGlobal::iconLoader()->alphaBlending();
       saveImage = false; // generating them on the fly is slightly faster
       const int bytesToRead = 1024; // FIXME, make configurable
@@ -571,26 +598,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
     m_iconView->setThumbnailPixmap( m_currentItem, pix );
 
     if ( saveImage )
-    {
-      QString tmpFile;
-      if ( m_thumbURL.isLocalFile() )
-        tmpFile = m_thumbURL.path();
-      else
-        tmpFile = tmpnam(0);
-      QImageIO iio;
-      iio.setImage(img);
-      iio.setFileName( tmpFile );
-      iio.setFormat("PNG");
-      if ( iio.write() )
-        if ( !m_thumbURL.isLocalFile() )
-        {
-          m_state = STATE_PUTTHUMB;
-          KIO::Job * job = KIO::file_copy( tmpFile, m_thumbURL, -1, true /* overwrite */, false, false /* No GUI */ );
-          kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy thumb " << tmpFile << " to " << m_thumbURL.url() << endl;
-          addSubjob(job);
-          return;
-        }
-    }
+        saveThumbnail(img);
   }
   determineNextIcon();
 }
@@ -616,5 +624,69 @@ const QImage& KonqImagePreviewJob::getIcon( const QString& mimeType )
     return *icon;
 }
 
+void KonqImagePreviewJob::slotHTMLCompleted()
+{
+    QPixmap pix;
+    // render the HTML page on a bigger pixmap and use smoothScale,
+    // looks better than directly scaling with the QPainter (malte)
+    pix.resize(600, 640);
+    // light-grey background, in case loadind the page failed
+    pix.fill( QColor( 245, 245, 245 ) ); 
+   
+    float ratio = 15.0 / 16.0; // so we get a page-like size
+    int width = (int) (ratio * (float) m_extent);
+    int borderX = pix.width() / width,
+        borderY = pix.height() / m_extent;
+    QRect rc(borderX, borderY, pix.width() - borderX * 2, pix.height() - borderY * 2);
+
+    QPainter p;
+    p.begin(&pix);
+    m_html->paint(&p, rc);
+    p.end();
+    
+    pix.convertFromImage(pix.convertToImage().smoothScale(width, m_extent));
+    
+    p.begin(&pix);
+    p.setPen( QColor( 88, 88, 88 )); // dark-grey Border
+    p.drawRect( 0, 0, pix.width(), pix.height() );
+    p.end();
+    
+    m_iconView->setThumbnailPixmap(m_currentItem, pix);
+    if (m_bCanSave)
+        saveThumbnail(pix.convertToImage());
+        
+    determineNextIcon();
+}
+
+void KonqImagePreviewJob::slotHTMLTimeout()
+{
+    m_html->closeURL();
+    // Create the thumbnail anyway, the timeout could have been caused
+    // by a meta refresh tag or a single image that took too long,
+    // but the rest of the page is intact
+    slotHTMLCompleted();
+}
+
+void KonqImagePreviewJob::saveThumbnail(const QImage &img)
+{
+    QString tmpFile;
+    if ( m_thumbURL.isLocalFile() )
+        tmpFile = m_thumbURL.path();
+    else
+        tmpFile = tmpnam(0);
+    QImageIO iio;
+    iio.setImage(img);
+    iio.setFileName( tmpFile );
+    iio.setFormat("PNG");
+    if ( iio.write() )
+        if ( !m_thumbURL.isLocalFile() )
+        {
+            m_state = STATE_PUTTHUMB;
+            KIO::Job * job = KIO::file_copy( tmpFile, m_thumbURL, -1, true /* overwrite */, false, false /* No GUI */ );
+            kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy thumb " << tmpFile << " to " << m_thumbURL.url() << endl;
+            addSubjob(job);
+            return;
+        }
+}
 
 #include "konq_imagepreviewjob.moc"
