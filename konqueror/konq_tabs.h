@@ -23,8 +23,7 @@
 
 #include "konq_frame.h"
 
-#include <qtabwidget.h>
-#include <qtabbar.h>
+#include <ktabwidget.h>
 
 class QPixmap;
 class QPopupMenu;
@@ -41,23 +40,7 @@ class KSeparator;
 class KProgress;
 class KAction;
 
-class KonqTabBar : public QTabBar
-{
-  Q_OBJECT
-
-public:
-  KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name = 0);
-  ~KonqTabBar();
-protected:
-  void mousePressEvent(QMouseEvent *e);
-
-private:
-  KonqFrameTabs* m_pTabWidget;
-  KonqViewManager* m_pViewManager;
-  QPopupMenu* m_pPopupMenu;
-};
-
-class KonqFrameTabs : public QTabWidget, public KonqFrameContainerBase
+class KonqFrameTabs : public KTabWidget, public KonqFrameContainerBase
 {
   Q_OBJECT
   friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
@@ -110,8 +93,13 @@ signals:
 protected:
   QPtrList<KonqFrameBase>* m_pChildFrameList;
 
+private slots:
+  void slotContextMenu( QWidget*, const QPoint& );
+  void slotCloseRequest( QWidget* );
+
 private:
   KonqViewManager* m_pViewManager;
+  QPopupMenu* m_pPopupMenu;
 };
 
 #endif

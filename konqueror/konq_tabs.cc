@@ -36,16 +36,20 @@
 
 //###################################################################
 
-// I'd like to thank the good people at QTella for the inspiration for KonqTabBar
-
-KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name)
-  : QTabBar(parent, name)
+KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
+  : KTabWidget(parent, name)
 {
-  m_pTabWidget = parent;
+  //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
+
+  m_pParentContainer = parentContainer;
+  m_pChildFrameList = new QPtrList<KonqFrameBase>;
+  m_pChildFrameList->setAutoDelete(false);
+  m_pActiveChild = 0L;
   m_pViewManager = viewManager;
 
-  m_pPopupMenu = new QPopupMenu( this );
+  connect( this, SIGNAL( currentChanged ( QWidget * ) ), this, SLOT( slotCurrentChanged( QWidget* ) ) );
 
+  m_pPopupMenu = new QPopupMenu( this );
   m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), i18n("&New Tab"), m_pViewManager->mainWindow(), SLOT( slotAddTab() ), QKeySequence("Ctrl+Shift+N") );
   m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), i18n("&Duplicate Tab"), m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ), QKeySequence("Ctrl+Shift+D") );
   m_pPopupMenu->insertSeparator();
@@ -56,45 +60,12 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
   m_pPopupMenu->insertItem( SmallIcon( "reload_all_tab" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ));
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ) );
-}
+  connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & )), SLOT(slotContextMenu( QWidget *, const QPoint & )));
 
-KonqTabBar::~KonqTabBar()
-{
-}
-
-void KonqTabBar::mousePressEvent(QMouseEvent *e)
-{
-  //kdDebug(1202) << "KonqTabBar::mousePressEvent begin" << endl;
-
-  if (e->button() == RightButton)
-    {
-      QTab *tab = selectTab( e->pos() );
-      if ( tab == 0L ) return;
-      QWidget* page = m_pTabWidget->page( indexOf( tab->identifier() ) );
-      if (page == 0L) return;
-      m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(page) );
-      m_pPopupMenu->exec( mapToGlobal( e->pos() ) );
-    }
-
-  QTabBar::mousePressEvent( e );
-
-  //kdDebug(1202) << "KonqTabBar::mousePressEvent end" << endl;
-}
-
-KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
-  : QTabWidget(parent, name)
-{
-  //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
-
-  m_pParentContainer = parentContainer;
-  m_pChildFrameList = new QPtrList<KonqFrameBase>;
-  m_pChildFrameList->setAutoDelete(false);
-  m_pActiveChild = 0L;
-  m_pViewManager = viewManager;
-
-  setTabBar( new KonqTabBar( m_pViewManager, this ) );
-
-  connect( this, SIGNAL( currentChanged ( QWidget * ) ), this, SLOT( slotCurrentChanged( QWidget* ) ) );
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", true ) );
+  connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
 }
 
 KonqFrameTabs::~KonqFrameTabs()
@@ -264,5 +235,16 @@ void KonqFrameTabs::moveTabRight(int index)
   setCurrentPage( index+1 );
 }
 
+void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
+{
+  m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+  m_pPopupMenu->exec( p );
+}
+
+void KonqFrameTabs::slotCloseRequest( QWidget *w )
+{
+  m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+  m_pViewManager->removeTab();
+}
 
 #include "konq_tabs.moc"
