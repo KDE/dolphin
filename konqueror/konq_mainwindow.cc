@@ -928,7 +928,7 @@ void KonqMainWindow::slotToolFind()
         KMessageBox::error( this, i18n("Can't create the find part, check your installation.") );
         return;
     }
-kdDebug()<<QString("\nslotToolFind: %1\n").arg((dirPart->currentItem()->url()).path());
+
     KParts::ReadOnlyPart * findPart = factory.create( m_currentView->frame(), "findPartWidget", dirPart, "findPart" );
     dirPart->setFindPart( findPart );
 
