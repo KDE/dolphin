@@ -4943,6 +4943,8 @@ void KonqMainWindow::resetWindow()
     XChangeProperty(qt_xdisplay(), winId(), atom2, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&now, 1);
 #endif
+// Qt remembers the iconic state if the window was withdrawn while on another virtual desktop
+    clearWState( WState_Minimized ); 
     ignoreInitialGeometry();
     kapp->setTopWidget( this ); // set again the default window icon
 }
