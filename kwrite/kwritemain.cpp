@@ -138,19 +138,16 @@ void KWrite::loadURL(const KURL &url)
 
 bool KWrite::queryClose()
 {
-  return m_kateView->document()->views().count() != 1
-      || m_kateView->document()->queryClose();
+  if (m_kateView->document()->queryClose())
+  {
+    writeConfig();
+    kapp->config()->sync();
+
+    return true;
+  }
+
+  return false;
 }
-
-
-bool KWrite::queryExit()
-{
-  writeConfig();
-  kapp->config()->sync();
-
-  return true;
-}
-
 
 void KWrite::setupEditWidget(KTextEditor::Document *doc)
 {

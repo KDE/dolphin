@@ -45,15 +45,14 @@ class KWrite : public KParts::MainWindow
     KTextEditor::View *kateView() const { return m_kateView; }
 
   private:
-    virtual bool queryClose();
-    virtual bool queryExit();
+    bool queryClose();
 
     void setupEditWidget(KTextEditor::Document *);
     void setupActions();
     void setupStatusBar();
 
-    virtual void dragEnterEvent( QDragEnterEvent * );
-    virtual void dropEvent( QDropEvent * );
+    void dragEnterEvent( QDragEnterEvent * );
+    void dropEvent( QDropEvent * );
 
     KTextEditor::View * m_kateView;
     KRecentFilesAction * m_recentFiles;
@@ -100,9 +99,9 @@ class KWrite : public KParts::MainWindow
     static void restore();
 
   private:
-    virtual void readProperties(KConfig *);
-    virtual void saveProperties(KConfig *);
-    virtual void saveGlobalProperties(KConfig *);
+    void readProperties(KConfig *);
+    void saveProperties(KConfig *);
+    void saveGlobalProperties(KConfig *);
 
   private:
     QString encoding;
