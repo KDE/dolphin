@@ -44,7 +44,7 @@ class KonqHTMLModule : public KCModule
 
 public:
 
-  KonqHTMLModule(QWidget *parent, const char *name);
+  KonqHTMLModule(QWidget *parent, const char *name, const QStringList &);
   virtual ~KonqHTMLModule();
 
   void load();

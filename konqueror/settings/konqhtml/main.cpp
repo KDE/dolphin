@@ -30,6 +30,7 @@
 #include <dcopclient.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <kgenericfactory.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
 
@@ -44,8 +45,10 @@
 #include <kaboutdata.h>
 #include "main.moc"
 
+typedef KGenericFactory<KonqHTMLModule, QWidget> KonqHTMLFactory;
+K_EXPORT_COMPONENT_FACTORY( libkcm_konqhtml, KonqHTMLFactory );
 
-KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
+KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name, const QStringList &)
   : KCModule(parent, name)
 {
   m_globalConfig = new KConfig("khtmlrc", false, false);
@@ -167,7 +170,7 @@ void KonqHTMLModule::moduleChanged(bool state)
 {
   emit changed(state);
 }
-
+/*
 extern "C"
 {
 
@@ -178,5 +181,5 @@ extern "C"
   }
 
 }
-
+*/
 
