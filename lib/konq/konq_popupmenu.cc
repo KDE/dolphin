@@ -358,6 +358,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     KURL url;
     KFileItemListIterator it ( m_lstItems );
+    QStringList mimeTypeList;
     // Check whether all URLs are correct
     for ( ; it.current(); ++it )
     {
@@ -378,6 +379,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             if ( mimeGroup != (*it)->mimetype().left((*it)->mimetype().find('/')))
                 mimeGroup = QString::null; // mimetype groups are different as well!
         }
+
+        if ( mimeTypeList.findIndex( (*it)->mimetype() ) == -1 )
+            mimeTypeList << (*it)->mimetype();
 
         if ( isLocal && !url.isLocalFile() )
             isLocal = false;
@@ -733,10 +737,20 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         if (kapp->authorizeKAction("openwith"))
         {
-            // if check m_sMimeType.isNull (no commom mime type) set it to all/all
-            // 3 - Query for applications
-            offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType ,
-                                             "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
+	    QString constraint = "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'";
+	    QString subConstraint = " and '%1' in ServiceTypes";
+
+	    QStringList::ConstIterator it = mimeTypeList.begin();
+	    QStringList::ConstIterator end = mimeTypeList.end();
+	    Q_ASSERT( it != end );
+	    QString first = *it;
+	    ++it;
+	    while ( it != end ) {
+		constraint += subConstraint.arg( *it );
+		++it;
+	    }
+
+            offers = KTrader::self()->query( first, constraint );
         }
 
         //// Ok, we have everything, now insert
