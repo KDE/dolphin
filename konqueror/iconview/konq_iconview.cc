@@ -988,8 +988,6 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
         return;
     }
 
-    KonqDirPart::deleteItem( _fileitem );
-
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
     // we need to find out the iconcontainer item containing the fileitem
     KFileIVI * ivi = m_itemDict[ _fileitem ];
@@ -999,6 +997,8 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     // might have to hide it now.
     if (ivi)
     {
+        KonqDirPart::deleteItem( _fileitem );
+
         m_pIconView->takeItem( ivi );
         m_mimeTypeResolver->m_lstPendingMimeIconItems.remove( ivi );
         m_itemDict.remove( _fileitem );
