@@ -35,8 +35,10 @@
 #include <kio/netaccess.h>
 #include <kpopupmenu.h>
 #include <kprocess.h>
-
+#include <qhbox.h>
+#include <qpushbutton.h>
 #include <qwhatsthis.h>
+#include <qlayout.h>
 
 QString  Sidebar_Widget::PATH=QString("");
 
@@ -531,7 +533,7 @@ void Sidebar_Widget::createButtons()
 			{
 				if (Buttons.at(i)->dock!=0)
 				{
-					noUpdate=true;					
+					noUpdate=true;
 					if (Buttons.at(i)->dock->isVisibleTo(this)) showHidePage(i);
 					if (Buttons.at(i)->module!=0) delete Buttons.at(i)->module;
 					delete Buttons.at(i)->dock;
@@ -557,7 +559,7 @@ void Sidebar_Widget::createButtons()
 //	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
 //  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();
-	
+
 	if(showExtraButtons)
 	{
 		if (!ButtonBar->getButton(-1))
@@ -567,15 +569,15 @@ void Sidebar_Widget::createButtons()
 //JW - TEST			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 		}
 	}
-	
+
 	// we want to keep our size when the splitter is resized!
 	QWidget* qparent=static_cast<QWidget*>(parent());
-	
+
 	QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 	QValueList<int>::Iterator it = list.begin();
 	if (it!=list.end()) (*it)=qparent->width();
 	((QSplitter*)parent()->parent())->setSizes(list);
-	
+
 	static_cast<QSplitter*>( qparent->parentWidget() )->setResizeMode( qparent, QSplitter::KeepSize );
 }
 
@@ -655,7 +657,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 					if (bt==ButtonBar->getTab(i))
 						{popupFor=i; break;}
 				}
-				
+
 				if (popupFor!=-1)
 				{
 					buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
@@ -667,7 +669,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 					buttonPopup->exec(QCursor::pos());
 				}
 				return true;
-				
+
 			}
 	}
 	return false;
@@ -1048,7 +1050,7 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
   else if (KonqFileMouseOverEvent::test(ev))
   {
-		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) 
+		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item()))
 			emit fileMouseOver(KFileItem(KURL(),QString::null,KFileItem::Unknown));
 		else
 		emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());

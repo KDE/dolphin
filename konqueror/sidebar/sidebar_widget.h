@@ -16,8 +16,6 @@
  ***************************************************************************/
 #ifndef _SIDEBAR_WIDGET_
 #define _SIDEBAR_WIDGET_
-#include <qhbox.h>
-#include <qpushbutton.h>
 #include <kdockwidget.h>
 #include <qptrvector.h>
 #include <kurl.h>
@@ -25,17 +23,17 @@
 #include <kparts/part.h>
 #include <qstring.h>
 #include "konqsidebarplugin.h"
-#include <qlayout.h>
 #include <kmultitabbar.h>
 #include <qguardedptr.h>
 
 class KDockWidget;
+class QHBoxLayout;
 
 class ButtonInfo: public QObject
 {
 	Q_OBJECT
 	public:
-	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib, 
+	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib,
 		const QString &dispName_, const QString &iconName_,QObject *parent):
 		QObject(parent),file(file_),dock(dock_),URL(url_),libName(lib),displayName(dispName_),iconName(iconName_)
 		{copy=cut=paste=trash=del=shred=rename=false;}
@@ -71,7 +69,7 @@ class addBackEnd: public QObject
 		void doRollBack();
 	protected slots:
 		void aboutToShowAddMenu();
-		void activatedAddMenu(int);		
+		void activatedAddMenu(int);
 	signals:
 		void updateNeeded();
 		void initialCopyNeeded();
@@ -133,7 +131,7 @@ class Sidebar_Widget: public QWidget
 	void finishRollBack();
 	void activatedMenu(int id);
 	void buttonPopupActivate(int);
-  	void dockWidgetHasUndocked(KDockWidget*);  
+  	void dockWidgetHasUndocked(KDockWidget*);
 	void aboutToShowConfigMenu();
 	void slotDeleted();
   signals:
@@ -147,7 +145,7 @@ class Sidebar_Widget: public QWidget
 //        virtual void showError(QString &);      for later extension
 //        virtual void showMessage(QString &);    for later extension
 	/* end of interface implementation */
-	
+
 
  /* The following public slots are wrappers for browserextension fields */
  public slots:
