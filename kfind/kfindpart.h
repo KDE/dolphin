@@ -50,7 +50,8 @@ public:
 
     static KAboutData *createAboutData();
 
-    virtual bool openURL( const KURL &url );
+    virtual bool doOpenURL( const KURL &url );
+    virtual bool doCloseURL() { return true; }
     virtual bool openFile() { return false; }
 
     bool showsResult() const { return m_bShowsResult; }

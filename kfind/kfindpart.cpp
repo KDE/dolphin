@@ -80,7 +80,7 @@ KAboutData *KFindPart::createAboutData()
     return new KAboutData( "kfindpart", I18N_NOOP( "Find Component" ), "1.0" );
 }
 
-bool KFindPart::openURL( const KURL &url )
+bool KFindPart::doOpenURL( const KURL &url )
 {
     m_kfindWidget->setURL( url );
     return true;
