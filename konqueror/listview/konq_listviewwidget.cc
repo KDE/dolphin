@@ -106,7 +106,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect(this,SIGNAL(executed(QListViewItem* )),this,SLOT(slotExecuted(QListViewItem*)));
    connect(this,SIGNAL(currentChanged(QListViewItem*)),this,SLOT(slotCurrentChanged(QListViewItem*)));
    connect(this,SIGNAL(onItem(QListViewItem*)),this,SLOT(slotOnItem(QListViewItem*)));
-   connect(this,SIGNAL(itemRename(QListViewItem*, const QString &, int)),this,SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
+   connect(this,SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),this,SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
    connect(this,SIGNAL(onViewport()),this,SLOT(slotOnViewport()));
    connect(this,SIGNAL(menuShortCutPressed (KListView* , QListViewItem* )),this,SLOT(slotPopupMenu(KListView*,QListViewItem*)));
    connect(this,SIGNAL(selectionChanged()),this,SLOT(updateSelectedFilesInfo()));
