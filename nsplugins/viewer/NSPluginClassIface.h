@@ -35,9 +35,9 @@ class NSPluginClassIface : virtual public DCOPObject
 k_dcop:
 
   virtual int NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv) = 0;
+  virtual void DestroyInstance(int winid) = 0;
 
   virtual QString GetMIMEDescription() = 0;
-
 };
 
 
