@@ -92,7 +92,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 }
 
 //static
-void KonqOperations::doDrop( const KFileItem * destItem, QDropEvent * ev, QObject * receiver )
+void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QObject * receiver )
 {
     KURL dest = destItem->url();
     QStringList lst;
@@ -150,7 +150,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, QDropEvent * ev, QObjec
                      receiver, SLOT( slotResult( KIO::Job * ) ) );
         } else
         {
-            // (If this fails, there is a bug in KFileItem::acceptsDrops)
+            // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
             assert( dest.isLocalFile() );
             if ( destItem->mimetype() == "application/x-desktop")
             {
@@ -169,7 +169,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, QDropEvent * ev, QObjec
             } else
             {
                 // Should be a local executable
-                // (If this fails, there is a bug in KFileItem::acceptsDrops)
+                // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
                 assert ( access( dest.path(), X_OK ) == 0 );
                 // Launch executable for each of the files
                 QStringList::Iterator it = lst.begin();

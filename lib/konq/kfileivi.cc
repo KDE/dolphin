@@ -22,7 +22,7 @@
 #include "konqdrag.h"
 #include "konqiconviewwidget.h"
 
-KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed )
+KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed )
     : QIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, bImagePreviewAllowed ) ),
       m_fileitem( fileitem )

@@ -115,14 +115,14 @@ void KonqIconViewWidget::setImagePreviewAllowed( bool b )
     }
 }
 
-KFileItemList KonqIconViewWidget::selectedFileItems()
+KonqFileItemList KonqIconViewWidget::selectedFileItems()
 {
-    KFileItemList lstItems;
+    KonqFileItemList lstItems;
 
     QIconViewItem *it = firstItem();
     for (; it; it = it->nextItem() )
 	if ( it->isSelected() ) {
-	    KFileItem *fItem = ((KFileIVI *)it)->item();
+	    KonqFileItem *fItem = ((KFileIVI *)it)->item();
 	    lstItems.append( fItem );
 	}
     return lstItems;

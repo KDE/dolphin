@@ -71,7 +71,7 @@ public:
   /**
    * @return whether there are any property pages available for the given file items
    */
-  static bool canDisplay( KFileItemList _items );
+  static bool canDisplay( KonqFileItemList _items );
 
   /**
    * Bring up a Properties dialog. Normal constructor for
@@ -82,7 +82,7 @@ public:
    * makes it use only the FIRST item in the list
    *
    */
-  PropertiesDialog( KFileItemList _items );
+  PropertiesDialog( KonqFileItemList _items );
   /**
    * Bring up a Properties dialog. Convenience constructor for
    * non-file-manager applications.
@@ -132,9 +132,9 @@ public:
    * @return the file item for which the dialog is shown
    * HACK : returns the first item of the list
    */
-  KFileItem *item() { return m_items.first(); }
+  KonqFileItem *item() { return m_items.first(); }
 
-  KFileItemList items() const { return m_items; }
+  KonqFileItemList items() const { return m_items; }
 
   /**
    * @return a pointer to the dialog
@@ -202,7 +202,7 @@ protected:
   /**
    * List of items this props dialog is shown for
    */
-  KFileItemList m_items;
+  KonqFileItemList m_items;
   bool m_bMustDestroyItems;
 
   /** For templates */
@@ -250,7 +250,7 @@ public:
    * Convenience method for most ::supports methods
    * @return true if the file is a local, regular, readable, desktop file
    */
-  static bool isDesktopFile( KFileItem * _item );
+  static bool isDesktopFile( KonqFileItem * _item );
 
 protected:
   /**
@@ -288,7 +288,7 @@ public:
   /**
    * Tests whether the files specified by _items need a 'General' page.
    */
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 protected slots:
   void slotRenameFinished( KIO::Job * );
@@ -326,7 +326,7 @@ public:
   /**
    * Tests whether the file specified by _items needs a 'Permissions' page.
    */
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 protected slots:
 
@@ -375,7 +375,7 @@ public:
   virtual QString tabName() const { return i18n("E&xecute"); }
   virtual void applyChanges();
 
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 public slots:
   void slotBrowseExec();
@@ -423,7 +423,7 @@ public:
   virtual QString tabName() const { return i18n("U&RL"); }
   virtual void applyChanges();
 
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 protected:
   QLineEdit *URLEdit;
@@ -455,7 +455,7 @@ public:
   virtual QString tabName() const { return i18n("&Application"); }
   virtual void applyChanges();
 
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 public slots:
   void slotDelExtension();
@@ -494,7 +494,7 @@ public:
   virtual QString tabName() const { return i18n("A&ssociation"); }
   virtual void applyChanges();
 
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 protected:
 
@@ -520,7 +520,7 @@ public:
   virtual QString tabName() const { return i18n("De&vice"); }
   virtual void applyChanges();
 
-  static bool supports( KFileItemList _items );
+  static bool supports( KonqFileItemList _items );
 
 protected slots:
   void slotActivated( int );

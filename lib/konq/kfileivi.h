@@ -23,13 +23,13 @@
 #include <qiconview.h>
 #include <kiconloader.h>
 
-class KFileItem;
+class KonqFileItem;
 
 /**
  * KFileIVI (short form of "K - File - IconViewItem")
  * is, as expected, an improved QIconViewItem, because
  * it represents a file.
- * All the information about the file is contained in the KFileItem
+ * All the information about the file is contained in the KonqFileItem
  * pointer.
  */
 class KFileIVI : public QObject, public QIconViewItem
@@ -41,9 +41,9 @@ public:
      * @param parent the parent widget
      * @param fileitem the file item created by KDirLister
      * @param size the icon size
-     * @param bImagePreviewAllowed whether image preview is allowed, see KFileItem
+     * @param bImagePreviewAllowed whether image preview is allowed, see KonqFileItem
      */
-    KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed );
+    KFileIVI( QIconView *iconview, KonqFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed );
     virtual ~KFileIVI() { }
 
     /**
@@ -53,7 +53,7 @@ public:
     virtual void returnPressed();
 
     /** @return the file item held by this instance */
-    KFileItem * item() { return m_fileitem; }
+    KonqFileItem * item() { return m_fileitem; }
 
     /** @return true if dropping on this file is allowed
      * Overloads QIconView::acceptDrop() */
@@ -72,7 +72,7 @@ protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
     /** Pointer to the file item in KDirLister's list */
-    KFileItem* m_fileitem;
+    KonqFileItem* m_fileitem;
 };
 
 #endif

@@ -23,7 +23,7 @@
 #include <qobject.h>
 
 namespace KIO { class Job; }
-class KFileItem;
+class KonqFileItem;
 
 /**
  * Implements file operations (move,del,trash,shred,paste...)
@@ -41,12 +41,12 @@ public:
     static void del( int method, const KURL::List & selectedURLs );
     /**
      * Drop
-     * @param destItem destination KFileItem for the drop (background or item)
+     * @param destItem destination KonqFileItem for the drop (background or item)
      * @param ev the drop event
      * @param receiver an object that has to have a slotResult( KIO::Job* ) method
      * All views should have that for other jobs they use anyway. Let's re-use !
      */
-    static void doDrop( const KFileItem * destItem, QDropEvent * ev, QObject * receiver );
+    static void doDrop( const KonqFileItem * destItem, QDropEvent * ev, QObject * receiver );
 
 protected:
     bool askDeleteConfirmation( const KURL::List & selectedURLs );

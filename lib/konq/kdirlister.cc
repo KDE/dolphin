@@ -57,12 +57,12 @@ KDirLister::~KDirLister()
 void KDirLister::slotFileDirty( const QString& _file )
 {
   kDebugInfo( 1203, "KDirLister::slotFileDirty( %s )", _file.ascii() );
-  KFileItem * item = find( _file );
+  KonqFileItem * item = find( _file );
   if ( item ) {
     emit deleteItem( item );
     // We need to refresh the item, because i.e. the permissions can have changed.
     item->refresh();
-    KFileItemList lst;
+    KonqFileItemList lst;
     lst.append( item );
     emit newItems( lst );
   }
@@ -154,7 +154,7 @@ void KDirLister::slotResult( KIO::Job * job )
 
 void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
 {
-  KFileItemList lstNewItems;
+  KonqFileItemList lstNewItems;
   KIO::UDSEntryListIterator it(entries);
   for (; it.current(); ++it) {
     QString name;
@@ -174,7 +174,7 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
       if ( !m_rootFileItem ) // only if we didn't keep the previous dir
       {
         KURL u( m_url );
-        m_rootFileItem = new KFileItem( *(*it), u, m_bDelayedMimeTypes );
+        m_rootFileItem = new KonqFileItem( *(*it), u, m_bDelayedMimeTypes );
       }
     }
     else if ( m_isShowingDotFiles || name[0] != '.' )
@@ -182,7 +182,7 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
       KURL u( m_url );
       u.addPath( name );
       //kDebugInfo(1203,"Adding %s", u.url().ascii());
-      KFileItem* item = new KFileItem( *(*it), u, m_bDelayedMimeTypes );
+      KonqFileItem* item = new KonqFileItem( *(*it), u, m_bDelayedMimeTypes );
 
       if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
       {
@@ -252,14 +252,14 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
     return;
   }
 
-  KFileItemList lstNewItems;
+  KonqFileItemList lstNewItems;
   QStringList::Iterator pendingIt = m_lstPendingUpdates.find( m_url.path( 0 ) );
   if ( pendingIt != m_lstPendingUpdates.end() )
     m_lstPendingUpdates.remove( pendingIt );
 
   // Unmark all items whose path is m_url
   QString sPath = m_url.path( 1 ); // with trailing slash
-  QListIterator<KFileItem> kit ( m_lstFileItems );
+  QListIterator<KonqFileItem> kit ( m_lstFileItems );
   for( ; kit.current(); ++kit )
   {
     if ( (*kit)->url().directory( false /* keep trailing slash */, false ) == sPath )
@@ -295,7 +295,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
 
       // Find this icon
       bool done = false;
-      QListIterator<KFileItem> kit ( m_lstFileItems );
+      QListIterator<KonqFileItem> kit ( m_lstFileItems );
       for( ; kit.current() && !done; ++kit )
       {
         if ( u == (*kit)->url() )
@@ -309,7 +309,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
       if ( !done )
       {
         //kDebugInfo( 1203,"slotUpdateFinished : inserting %s", name.ascii());
-        KFileItem* item = new KFileItem( *it, u, m_bDelayedMimeTypes );
+        KonqFileItem* item = new KonqFileItem( *it, u, m_bDelayedMimeTypes );
 	
 	if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
 	{
@@ -325,7 +325,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
   }
 
   // Find all unmarked items and delete them
-  QList<KFileItem> lst;
+  QList<KonqFileItem> lst;
   kit.toFirst();
   for( ; kit.current(); ++kit )
   {
@@ -338,7 +338,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
 
   emit newItems( lstNewItems );
 
-  KFileItem* kci;
+  KonqFileItem* kci;
   for( kci = lst.first(); kci != 0L; kci = lst.next() )
   {
     emit deleteItem( kci );
@@ -376,9 +376,9 @@ void KDirLister::setShowingDotFiles( bool _showDotFiles )
   }
 }
 
-KFileItem* KDirLister::find( const QString& _url )
+KonqFileItem* KDirLister::find( const QString& _url )
 {
-  QListIterator<KFileItem> it = m_lstFileItems;
+  QListIterator<KonqFileItem> it = m_lstFileItems;
   for( ; it.current(); ++it )
   {
     if ( (*it)->url() == _url )

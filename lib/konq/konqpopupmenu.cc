@@ -44,7 +44,7 @@
 #include "knewmenu.h"
 #include "konqpopupmenu.h"
 
-KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
+KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
                               KURL viewURL,
                               QActionCollection & actions,
                               KNewMenu * newMenu )
@@ -70,7 +70,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   KProtocolManager pManager = KProtocolManager::self();
 
   KURL url;
-  KFileItemListIterator it ( m_lstItems );
+  KonqFileItemListIterator it ( m_lstItems );
   // Check whether all URLs are correct
   for ( ; it.current(); ++it )
   {

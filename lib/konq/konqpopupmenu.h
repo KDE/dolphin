@@ -59,7 +59,7 @@ public:
    * The others items are automatically inserted.
    *
    */
-  KonqPopupMenu( const KFileItemList &items,
+  KonqPopupMenu( const KonqFileItemList &items,
                  KURL viewURL,
                  QActionCollection & actions,
                  KNewMenu * newMenu );
@@ -85,7 +85,7 @@ protected:
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;
   QString m_sMimeType;
-  KFileItemList m_lstItems;
+  KonqFileItemList m_lstItems;
   KURL::List m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopup2;

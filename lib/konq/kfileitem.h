@@ -22,7 +22,7 @@
 #define __konq_fileitem_h__
 
 /*
- * A KFileItem is a generic class to handle files listed by KDirLister.
+ * A KonqFileItem is a generic class to handle files listed by KDirLister.
  * It includes functionalities such as mimetype, icon, text, mode, link, ...
  */
 
@@ -36,7 +36,7 @@
 
 class QPixmap;
 
-class KFileItem
+class KonqFileItem
 {
 public:
   /**
@@ -46,11 +46,11 @@ public:
    * @param _determineMimeTypeOnDemand specify if the mimetype of the given URL should be
    *        determined immediately or on demand
    */
-  KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand = false );
+  KonqFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand = false );
   /**
    * Create an item representing a file, from all the necessary info for it
    * @param _mode the file mode (according to stat())
-   * Set to -1 if unknown. For local files, KFileItem will use stat().
+   * Set to -1 if unknown. For local files, KonqFileItem will use stat().
    * @param _url the file url
    * @param _mode the mode (S_IFDIR...)
    * @param _permissions the access permissions
@@ -60,14 +60,14 @@ public:
    * @param _determineMimeTypeOnDemand specify if the mimetype of the given URL should be
    *        determined immediately or on demand
    */
-  KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand = false );
+  KonqFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand = false );
 
-  KFileItem( const KURL &url, const QString &mimeType, mode_t mode );
+  KonqFileItem( const KURL &url, const QString &mimeType, mode_t mode );
 
   /**
    * Destructor
    */
-  ~KFileItem() { }
+  ~KonqFileItem() { }
 
   /**
    * Re-read information (currently only permissions and mimetype)
@@ -255,13 +255,13 @@ private:
 };
 
 /**
- * List of KFileItems
+ * List of KonqFileItems
  */
-typedef QList<KFileItem> KFileItemList;
+typedef QList<KonqFileItem> KonqFileItemList;
 
 /**
- * Iterator for KFileItemList
+ * Iterator for KonqFileItemList
  */
-typedef QListIterator<KFileItem> KFileItemListIterator;
+typedef QListIterator<KonqFileItem> KonqFileItemListIterator;
 
 #endif

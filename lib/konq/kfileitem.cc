@@ -36,7 +36,7 @@
 #include <kmimetype.h>
 #include <krun.h>
 
-KFileItem::KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand ) :
+KonqFileItem::KonqFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand ) :
   m_entry( _entry ),
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -87,7 +87,7 @@ KFileItem::KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMi
   init( _determineMimeTypeOnDemand );
 }
 
-KFileItem::KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand ) :
+KonqFileItem::KonqFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand ) :
   m_entry(), // warning !
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -100,7 +100,7 @@ KFileItem::KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool 
   init( _determineMimeTypeOnDemand );
 }
 
-KFileItem::KFileItem( const KURL &url, const QString &mimeType, mode_t mode )
+KonqFileItem::KonqFileItem( const KURL &url, const QString &mimeType, mode_t mode )
 :  m_url( url ),
   m_bIsLocalURL( url.isLocalFile() ),
   m_strText( KIO::decodeFileName( url.filename() ) ),
@@ -113,7 +113,7 @@ KFileItem::KFileItem( const KURL &url, const QString &mimeType, mode_t mode )
   init( false ); 
 } 
 
-void KFileItem::init( bool _determineMimeTypeOnDemand )
+void KonqFileItem::init( bool _determineMimeTypeOnDemand )
 {
   // determine mode and/or permissions if unknown
   if ( m_fileMode == (mode_t) -1 || m_permissions == (mode_t) -1 )
@@ -152,20 +152,20 @@ void KFileItem::init( bool _determineMimeTypeOnDemand )
   //  assert (m_pMimeType);
 }
 
-void KFileItem::refresh()
+void KonqFileItem::refresh()
 {
   m_fileMode = (mode_t)-1;
   m_permissions = (mode_t)-1;
   init( false );
 }
 
-void KFileItem::refreshMimeType()
+void KonqFileItem::refreshMimeType()
 {
   m_pMimeType = 0L;
   init( false ); // Will determine the mimetype
 }
 
-QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
+QPixmap KonqFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
 {
   if ( !m_pMimeType )
   {
@@ -256,7 +256,7 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
   return p;
 }
 
-bool KFileItem::acceptsDrops()
+bool KonqFileItem::acceptsDrops()
 {
   // Any directory : yes
   if ( S_ISDIR( mode() ) )
@@ -276,7 +276,7 @@ bool KFileItem::acceptsDrops()
   return false;
 }
 
-QString KFileItem::getStatusBarInfo()
+QString KonqFileItem::getStatusBarInfo()
 {
   QString comment = determineMimeType()->comment( m_url, false );
   QString text = m_strText;
@@ -323,7 +323,7 @@ QString KFileItem::getStatusBarInfo()
     return text;
 }
 
-QString KFileItem::linkDest() const
+QString KonqFileItem::linkDest() const
 {
   // Extract it from the KIO::UDSEntry
   KIO::UDSEntry::ConstIterator it = m_entry.begin();
@@ -344,7 +344,7 @@ QString KFileItem::linkDest() const
   return QString::null;
 }
 
-long KFileItem::size() const
+long KonqFileItem::size() const
 {
   // Extract it from the KIO::UDSEntry
   KIO::UDSEntry::ConstIterator it = m_entry.begin();
@@ -361,7 +361,7 @@ long KFileItem::size() const
   return 0L;
 }
 
-QString KFileItem::time( unsigned int which ) const
+QString KonqFileItem::time( unsigned int which ) const
 {
   // Extract it from the KIO::UDSEntry
   KIO::UDSEntry::ConstIterator it = m_entry.begin();
@@ -381,24 +381,24 @@ QString KFileItem::time( unsigned int which ) const
   return QString::null;
 }
 
-QString KFileItem::mimetype() const
+QString KonqFileItem::mimetype() const
 {
-  KFileItem * that = const_cast<KFileItem *>(this);
+  KonqFileItem * that = const_cast<KonqFileItem *>(this);
   return that->determineMimeType()->name();
 }
 
-KMimeType::Ptr KFileItem::determineMimeType()
+KMimeType::Ptr KonqFileItem::determineMimeType()
 {
   if ( !m_pMimeType )
   {
-    kdDebug(1203) << "finding mimetype for " << m_url.url() << endl;
+    //kdDebug(1203) << "finding mimetype for " << m_url.url() << endl;
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
   }
 
   return m_pMimeType;
 }
 
-QString KFileItem::mimeComment()
+QString KonqFileItem::mimeComment()
 {
  KMimeType::Ptr mType = determineMimeType();
  QString comment = mType->comment( m_url, false );
@@ -408,17 +408,17 @@ QString KFileItem::mimeComment()
     return mType->name();
 }
 
-QString KFileItem::iconName()
+QString KonqFileItem::iconName()
 {
   return determineMimeType()->icon(m_url, false);
 }
 
-void KFileItem::run()
+void KonqFileItem::run()
 {
   (void) new KRun( m_url.url(), m_fileMode, m_bIsLocalURL );
 }
 
-QString KFileItem::makeTimeString( time_t _time )
+QString KonqFileItem::makeTimeString( time_t _time )
 {
   QDateTime dt;
   dt.setTime_t(_time);

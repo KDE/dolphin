@@ -36,7 +36,7 @@ namespace KIO { class Job; class ListJob; }
  * view or kdesktop) to create/destroy its items when asked.
  *
  * This class is independent from the graphical representation of the dir
- * (icon container, tree view, ...) and it stores the items (as KFileItems).
+ * (icon container, tree view, ...) and it stores the items (as KonqFileItems).
  *
  * Typical usage :
  * Create an instance,
@@ -99,18 +99,18 @@ public:
   /**
    * Find an item
    * @param _url the item URL
-   * @return the pointer to the KFileItem
+   * @return the pointer to the KonqFileItem
    **/
-  KFileItem* find( const QString& _url );
+  KonqFileItem* find( const QString& _url );
 
   /**
    * @return the list of file items currently displayed
    */
-  QList<KFileItem> & items() { return m_lstFileItems; }
+  QList<KonqFileItem> & items() { return m_lstFileItems; }
   /**
    * @return the file item for url() itself (".")
    */
-  KFileItem * rootItem() { return m_rootFileItem; }
+  KonqFileItem * rootItem() { return m_rootFileItem; }
 
   KIO::ListJob * job() { return m_job; }
 
@@ -138,9 +138,9 @@ signals:
   /** Clear all items */
   void clear();
   /** Signal new items */
-  void newItems( const KFileItemList & items );
+  void newItems( const KonqFileItemList & items );
   /** Signal a item to remove */
-  void deleteItem( KFileItem * _fileItem );
+  void deleteItem( KonqFileItem * _fileItem );
 
 protected slots:
   // internal slots used by the directory lister (connected to the job)
@@ -163,9 +163,9 @@ protected:
   KIO::ListJob * m_job;
 
   /** The internal storage of file items */
-  QList<KFileItem> m_lstFileItems;
+  QList<KonqFileItem> m_lstFileItems;
   /** File Item for m_url itself (".") */
-  KFileItem * m_rootFileItem;
+  KonqFileItem * m_rootFileItem;
 
   /**
    * List of dirs handled by this instance. Same as m_url if only one dir
