@@ -19,13 +19,13 @@
 */
 
 #include <qcombobox.h>
-#include <qlayout.h>
 #include <qpushbutton.h>
+#include <qlayout.h>
 
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 #include <kimagefilepreview.h>
 #include <krecentdocument.h>

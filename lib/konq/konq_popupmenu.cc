@@ -18,27 +18,16 @@
 */
 
 #include <qdir.h>
-#include <qclipboard.h>
-#include <qapplication.h>
-#include <qdragobject.h>
 
 #include <klocale.h>
-#include <krun.h>
-#include <kbookmark.h>
 #include <kbookmarkmanager.h>
 #include <kdebug.h>
-#include <kio/job.h>
-#include <kio/paste.h>
 #include <kopenwith.h>
-#include <kmessagebox.h>
 #include <kprotocolinfo.h>
-#include <kservice.h>
 #include <ktrader.h>
-#include <kurl.h>
-#include <kuserprofile.h>
+#include <kiconloader.h>
 #include <kglobalsettings.h>
-#include <kglobal.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kxmlgui.h>
 #include <kxmlguibuilder.h>
 

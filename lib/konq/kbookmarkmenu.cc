@@ -32,28 +32,16 @@
 
 #include "kbookmarkmenu.h"
 #include "kbookmarkimporter.h"
-#include "kdirnotify_stub.h"
 
-#include <qdir.h>
 #include <qfile.h>
-#include <qstring.h>
-#include <qpopupmenu.h>
 #include <qregexp.h>
 
 #include <kaction.h>
-#include <kapp.h>
-#include <kbookmark.h>
 #include <kdebug.h>
-#include <kiconloader.h>
-#include <kio/job.h>
-#include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kurl.h>
-#include <kmimetype.h>
 #include <kstdaction.h>
 #include <kpopupmenu.h>
-#include <kstdaccel.h>
 
 template class QPtrList<KBookmarkMenu>;
 

@@ -18,14 +18,12 @@
 */
 
 #include <qbitmap.h>
-#include <qstringlist.h>
 
-#include <kapp.h>
-#include <kconfig.h>
+#include <kapplication.h>
 #include <kiconloader.h>
+#include <kglobal.h>
 #include <kmimetype.h>
 #include <kprotocolinfo.h>
-#include <kurl.h>
 
 #include "konq_pixmapprovider.h"
 

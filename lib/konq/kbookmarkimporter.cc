@@ -17,16 +17,11 @@
 */
 
 #include "kbookmarkimporter.h"
-#include <kstddirs.h>
 #include <kfiledialog.h>
-#include <kglobal.h>
 #include <kstringhandler.h>
 #include <klocale.h>
-#include <kmimetype.h>
 #include <kdebug.h>
-#include <qdir.h>
 #include <qtextcodec.h>
-#include <kio/global.h>
 
 #include <sys/types.h>
 #include <stddef.h>

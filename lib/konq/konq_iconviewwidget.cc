@@ -20,36 +20,23 @@
 #include "konq_undo.h"
 #include "konq_sound.h"
 
-#include <qapplication.h>
 #include <qclipboard.h>
-#include <qfile.h>
-#include <qdragobject.h>
-#include <qptrlist.h>
-#include <qregion.h>
 #include <qtimer.h>
 #include <qpainter.h>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kcursor.h>
 #include <kdebug.h>
-#include <kio/job.h>
 #include <kio/previewjob.h>
-#include <klocale.h>
 #include <kfileivi.h>
-#include <konq_fileitem.h>
-#include <kmessagebox.h>
-#include <konq_defaults.h>
 #include <konq_settings.h>
 #include <konq_drag.h>
 #include <konq_operations.h>
-#include <konq_imagepreviewjob.h>
 #include <kglobalsettings.h>
-#include <kstddirs.h>
 #include <kpropsdlg.h>
 #include <kipc.h>
 #include <kiconeffect.h>
 #include <kurldrag.h>
-#include <klibloader.h>
 
 #include <assert.h>
 #include <unistd.h>

@@ -32,20 +32,16 @@ static struct timeval startTime;
 #include <sys/shm.h>
 
 #include <qdir.h>
-#include <qfile.h>
-#include <qimage.h>
 #include <qregexp.h>
 
 #include <kdatastream.h> // Do not remove, needed for correct bool serialization
+#include <kdebug.h>
 #include <kfileivi.h>
 #include <konq_iconviewwidget.h>
-#include <konq_propsview.h>
-#include <kapp.h>
 #include <ktempfile.h>
 #include <ktrader.h>
 #include <kmdcodec.h>
-#include <kglobal.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 /**
  * A job that determines the thumbnails for the images in the current directory

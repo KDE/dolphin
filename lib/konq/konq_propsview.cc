@@ -18,14 +18,10 @@
 */
 
 #include "konq_propsview.h"
-#include <konq_defaults.h>
-#include <konq_settings.h>
 
 #include <kdebug.h>
-#include <kstddirs.h>
-#include <klocale.h>
+#include <kstandarddirs.h>
 #include <kpixmap.h>
-#include <kmessagebox.h>
 #include <qpixmapcache.h>
 #include <qiconview.h>
 #include <unistd.h>

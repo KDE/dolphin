@@ -19,17 +19,14 @@
 
 #include "konq_historymgr.h"
 
-#include <qcstring.h>
 
 #include <dcopclient.h>
 
-#include <kapp.h>
-#include <kcompletion.h>
-#include <kconfig.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <ksavefile.h>
 #include <ksimpleconfig.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 #include <zlib.h>
 

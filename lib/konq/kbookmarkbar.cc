@@ -20,21 +20,13 @@
 #include <kbookmarkbar.h>
 
 #include <kaction.h>
-#include <kbookmarkmanager.h>
 #include <kbookmarkmenu.h>
 
 #include <ktoolbar.h>
-#include <ktoolbarbutton.h>
-#include <kmessagebox.h>
 
-#include <kglobal.h>
 #include <kconfig.h>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kurl.h>
 #include <kpopupmenu.h>
 
-#include <qiconset.h>
 
 KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
                             KActionCollection *,

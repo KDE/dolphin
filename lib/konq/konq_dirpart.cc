@@ -16,18 +16,17 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
-#include <qmap.h>
 
 #include "konq_dirpart.h"
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
-#include "konq_settings.h"
 
 #include <kaction.h>
 #include <kdatastream.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
-#include <kfileitem.h>
+#include <kiconloader.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <konq_drag.h>
 #include <kparts/browserextension.h>

@@ -21,7 +21,6 @@
 #include <kartsdispatcher.h>
 #include <kdebug.h>
 #include <kplayobjectfactory.h>
-#include <kurl.h>
 #include <soundserver.h>
 
 #include "konq_sound.moc"

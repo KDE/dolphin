@@ -18,14 +18,10 @@
 
 #include "kbookmark.h"
 #include <kdebug.h>
-#include <kglobal.h>
 #include <kmimetype.h>
-#include <krun.h>
-#include <kstddirs.h>
 #include <kstringhandler.h>
-#include <kurl.h>
 #include <klineeditdlg.h>
-#include <qtextstream.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <assert.h>
 

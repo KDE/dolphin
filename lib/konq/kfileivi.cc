@@ -21,21 +21,15 @@
 // of Qt include a way to access QIconView::mask() and QIconView::tmpText
 #define private public
 #define protected public
-#include <qiconview.h>
 #undef private
 #undef protected
 #include "kfileivi.h"
-#include "konq_fileitem.h"
-#include "konq_drag.h"
 #include "konq_iconviewwidget.h"
 #include "konq_operations.h"
 
 #include <qpainter.h>
 
-#include <kapp.h>
-#include <kipc.h>
 #include <kurldrag.h>
-#include <kimageeffect.h>
 #include <kstaticdeleter.h>
 #include <kiconeffect.h>
 

@@ -18,23 +18,18 @@
 */
 
 #include <qdir.h>
-#include <qpopupmenu.h>
 
-#include <kaction.h>
-#include <kapp.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
+#include <kinstance.h>
 #include <klineeditdlg.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <ksimpleconfig.h>
-#include <kstddirs.h>
-#include <kurl.h>
+#include <kstandarddirs.h>
 #include <kprotocolinfo.h>
 #include <kpopupmenu.h>
 
-#include <kio/global.h>
 #include <kio/job.h>
 
 #include <kpropsdlg.h>

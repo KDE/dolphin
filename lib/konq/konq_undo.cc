@@ -23,17 +23,15 @@
 
 #include <assert.h>
 
-#include <qdatastream.h>
 
 #include <dcopclient.h>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdatastream.h>
 #include <kdebug.h>
 #include <klocale.h>
 
 #include <kio/job.h>
-#include <kio/jobclasses.h>
 
 /**
  * checklist:

@@ -16,16 +16,12 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <qwidget.h>
 #include <qclipboard.h>
 #include <konq_operations.h>
-#include <kconfig.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <krun.h>
 
-#include <kdirwatch.h>
-#include <kpropsdlg.h>
 #include <kdirnotify_stub.h>
 
 #include <dcopclient.h>
@@ -35,7 +31,7 @@
 // For doDrop
 #include <qdir.h>//first
 #include <assert.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kurldrag.h>
@@ -44,14 +40,11 @@
 #include <kio/job.h>
 #include <kio/paste.h>
 #include <konq_drag.h>
-#include <konq_fileitem.h>
 #include <konq_iconviewwidget.h>
 #include <kprotocolinfo.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
-#include <kstddirs.h>
 #include <qpopupmenu.h>
-#include <qtextstream.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
 

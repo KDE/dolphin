@@ -19,19 +19,15 @@
 #include "kbookmarkmanager.h"
 #include "kbookmarkimporter.h"
 #include <kdebug.h>
-#include <kglobal.h>
-#include <kmimetype.h>
 #include <krun.h>
-#include <kstddirs.h>
-#include <kurl.h>
-#include <qfile.h>
+#include <kstandarddirs.h>
 #include <ksavefile.h>
-#include <qtextstream.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
 #include <klocale.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <dcopclient.h>
+#include <qfile.h>
 
 KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
 

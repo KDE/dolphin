@@ -23,15 +23,13 @@
 #include <qbuffer.h>
 #include <qfile.h>
 #include <qimage.h>
-#include <qmap.h>
 #include <qtimer.h>
 
 #include <kdatastream.h> // DO NOT REMOVE, otherwise bool marshalling breaks
-#include <kglobal.h>
 #include <kicontheme.h>
 #include <kimageio.h>
 #include <ksimpleconfig.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kio/job.h>
 
 #include "favicons.moc"
