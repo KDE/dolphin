@@ -46,7 +46,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
   : QTabWidget( parent, name ), regExpDialog(0)
 {
     // This validator will be used for all numeric edit fields
-    KDigitValidator *digitV = new KDigitValidator(this);
+    //KDigitValidator *digitV = new KDigitValidator(this);
 
     // ************ Page One ************
 
@@ -71,9 +71,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     nameBox->setInsertionPolicy(QComboBox::AtTop);
     dirBox->setInsertionPolicy(QComboBox::AtTop);
 
-    const QString nameWhatsThis 
+    const QString nameWhatsThis
       = i18n("<qt>Enter the filename you are looking for. <br>"
-	     "Alternatives may be separated by a semicolon \";\".<br>" 
+	     "Alternatives may be separated by a semicolon \";\".<br>"
 	     "<br>"
 	     "The filename may contain the following special characters:"
 	     "<ul>"
@@ -256,7 +256,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       // The editor was available, so lets use it.
       grid2->addWidget( editRegExp, 2, 3 );
     }
-    
+
     addTab( pages[2], i18n(" Advanced ") );
 
     fixLayout();
