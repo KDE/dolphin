@@ -173,13 +173,16 @@ extern "C" int kdemain( int argc, char **argv )
 */
 static bool startNewKonqueror( QString url, QString mimetype, const QString& profile )
 {
-    if( url.isEmpty() && !profile.isEmpty())
+    if( url.isEmpty())
     {
+        if( profile.isEmpty())
+            return true;
 	QString profilepath = locate( "data", QString::fromLatin1("konqueror/profiles/") + profile );
 	if( profilepath.isEmpty())
 	    return true;
 	KConfig cfg( profilepath, true );
 	cfg.setDollarExpansion( true );
+        cfg.setGroup( "Profile" );
 	QMap< QString, QString > entries = cfg.entryMap( QString::fromLatin1( "Profile" ));
 	QRegExp urlregexp( QString::fromLatin1( "^View[0-9]*_URL$" ));
 	QStringList urls;
@@ -187,8 +190,10 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 	     it != entries.end();
 	     ++it )
 	{
-	    if( urlregexp.search( it.key()) >= 0 && !(*it).isEmpty())
-		urls << *it;
+            // don't read value from map, dollar expansion is needed
+            QString value = cfg.readEntry( it.key());
+	    if( urlregexp.search( it.key()) >= 0 && !value.isEmpty())
+		urls << value;
 	}
 	if( urls.count() != 1 )
 	    return true;
