@@ -78,11 +78,13 @@ public:
    * @param add true to show the "Add Bookmark" and "New Folder" entries
    * @param parentBookmark the address of the group containing the items
    * that we want to show. @see KBookmark::address.
-   * Empty parentAddress denotes a NS-bookmark menu.
+   * Be careful :
+   * A _null_ parentAddress denotes a NS-bookmark menu.
+   * An _empty_ parentAddress denotes the toplevel bookmark menu
    */
   KBookmarkMenu( KBookmarkOwner * owner, QPopupMenu * parentMenu,
                  KActionCollection * collec, bool root, bool add = true,
-                 const QString & parentAddress = "/" );
+                 const QString & parentAddress = "" );
 
   ~KBookmarkMenu();
 

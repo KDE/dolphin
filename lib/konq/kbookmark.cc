@@ -215,7 +215,7 @@ KBookmarkGroup KBookmark::toGroup() const
 QString KBookmark::address() const
 {
     if ( element.tagName() == "BOOKMARKS" )
-        return QString::null;
+        return ""; // not QString::null !
     else
     {
         // Use keditbookmarks's DEBUG_ADDRESSES flag to debug this code :)

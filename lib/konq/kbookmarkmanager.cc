@@ -211,7 +211,7 @@ void KBookmarkManager::notifyCompleteChange()
     // Reparse
     parse();
     // Tell our GUI
-    emit changed( "/" );
+    emit changed( "" );
     // Also tell specifically about the toolbar
     KBookmarkGroup tbGroup = toolbar();
     if (!tbGroup.isNull())

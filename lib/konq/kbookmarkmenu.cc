@@ -72,7 +72,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
   m_lstSubMenus.setAutoDelete( true );
   m_actions.setAutoDelete( true );
 
-  m_bNSBookmark = m_parentAddress.isEmpty();
+  m_bNSBookmark = m_parentAddress.isNull();
   if ( !m_bNSBookmark ) // not for the netscape bookmark
   {
     kdDebug() << "KBookmarkMenu::KBookmarkMenu " << this << " address : " << m_parentAddress << endl;
