@@ -10,6 +10,7 @@
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
+#include <qwhatsthis.h>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -69,6 +70,28 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     nameBox->setInsertionPolicy(QComboBox::AtTop);
     dirBox->setInsertionPolicy(QComboBox::AtTop);
+
+    const QString nameWhatsThis 
+      = i18n("<qt>Enter the filename you are looking for. <br>"
+	     "Alternatives may be separated by a semicolon \";\".<br>" 
+	     "<br>"
+	     "The filename may contain the following special characters:"
+	     "<ul>"
+	     "<li><b>?</b> matches any single character</li>"
+	     "<li><b>*</b> matches zero or more of any characters</li>"
+	     "<li><b>[...]</b> matches any of the characters in braces</li>"
+	     "</ul>"
+	     "<br>"
+	     "Example searches:"
+	     "<ul>"
+	     "<li><b>*.kwd;*.txt</b> finds all files ending with .kwd or .txt</li>"
+	     "<li><b>go[dt]</b> finds god and got</li>"
+	     "<li><b>Hel?o</b> finds all files that start with \"Hel\" and end with \"o\", "
+	     "having one character in between</li>"
+	     "<li><b>My Document.kwd</b> finds a file of exactly that name</li>"
+	     "</ul></qt>");
+    QWhatsThis::add(nameBox,nameWhatsThis);
+    QWhatsThis::add(namedL,nameWhatsThis);
 
     // Layout
 
