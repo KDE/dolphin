@@ -167,7 +167,10 @@ public:
   virtual QString currentTitle() { return m_title; }
   virtual QString currentURL();
 
-  void setLocationBarURL( KonqChildView *childView, const QString &url );
+  /**
+   * Change URL displayed in the location bar
+   */
+  void setLocationBarURL( const QString &url );
 
   void enableAllActions( bool enable );
 
@@ -209,8 +212,6 @@ protected slots:
   void slotPrint();
 
   void slotOpenWith();
-
-  void slotSetLocationBarURL( const QString &url );
 
   void slotAbout();
 

@@ -34,7 +34,7 @@ public:
    * Create a KonqRun instance, associated to the main view and an
    * optionnal child view.
    */
-  KonqRun( KonqMainView* view, KonqChildView *childView,
+  KonqRun( KonqMainView* mainView, KonqChildView *childView,
            const KURL &url, mode_t _mode = 0,
            bool _is_local_file = false, bool _auto_delete = true );
 
@@ -55,7 +55,7 @@ protected:
    */
   virtual void foundMimeType( const QString & _type );
 
-  KonqMainView* m_pView;
+  KonqMainView* m_pMainView;
   KonqChildView* m_pChildView;
   bool m_bFoundMimeType;
 };

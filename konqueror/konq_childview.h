@@ -42,6 +42,7 @@ class KonqFrame;
 struct HistoryEntry
 {
   KURL url;
+  QString locationBarURL; // can be different from url when showing a index.html
   QByteArray buffer;
   QString strServiceType;
   QString strServiceName;
@@ -98,10 +99,13 @@ public:
    * @param serviceName allows to enforce a particular service to be chosen,
    *        @see KonqFactory.
    * @param url the URL to open in the view. If not set, no URL is opened.
+   * @param locationBarURL the url we want to display in the location bar
+   *    May be different from @p url e.g. if using "allowHTML".
    */
   bool changeViewMode( const QString &serviceType,
                        const QString &serviceName = QString::null,
-                       const KURL &url = KURL() );
+                       const KURL &url = KURL(),
+                       const QString &locationBarURL = QString::null );
 
   /**
    * Call this to prevent next openURL() call from changing history lists
@@ -141,7 +145,7 @@ public:
   void reload();
 
   /**
-   * Get view's URL - slow method, avoid using it if possible
+   * Retrieve view's URL
    */
   KURL url();
 
@@ -164,14 +168,12 @@ public:
    */
   KonqFrame* frame() { return m_pKonqFrame; }
 
-  /**
-   * Set location bar URL (called by MainView, when View signals it)
-   */
-  void setLocationBarURL( const QString locationBarURL ) { m_sLocationBarURL = locationBarURL; }
-
   void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
   bool allowHTML() const { return m_bAllowHTML; }
 
+  /**
+   * Returns the servicetype this view is currently displaying
+   */
   QString serviceType() { return m_serviceType; }
 
   /**
@@ -207,6 +209,13 @@ signals:
    */
   void sigViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
+public slots:
+  /**
+   * Store location-bar URL in the child view
+   * and updates the main view if this view is the current one
+   */
+  void setLocationBarURL( const QString & locationBarURL );
+
 protected slots:
   // connected to the KROP's KIO::Job
   void slotStarted( KIO::Job * job );
@@ -222,11 +231,10 @@ protected slots:
 
 protected:
   /**
-   * Connects the internal View to the mainview. Do this after creating it and before inserting it
+   * Connects the internal View to the mainview.
+   * Do this after creating it and before inserting it.
    */
   void connectView();
-
-////////////////// protected members ///////////////
 
   /**
    * Updates the current entry in the history.
@@ -235,20 +243,17 @@ protected:
 
   void sendOpenURLEvent( const KURL &url );
 
+////////////////// protected members ///////////////
+
   KParts::ReadOnlyPart *m_pView;
 
   QString m_sLocationBarURL;
 
   /**
    * The full history (back + current + forward)
+   * The current position in the history is m_lstHistory.current()
    */
   QList<HistoryEntry> m_lstHistory;
-
-  /**
-   * A pointer to the current position in the history
-   ... is now m_lstHistory.current()
-   */
-  //QList<HistoryEntry>::Iterator m_currentHistoryEntry;
 
   KonqMainView *m_pMainView;
   bool m_bAllowHTML;

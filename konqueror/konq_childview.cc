@@ -97,7 +97,7 @@ void KonqChildView::openURL( const KURL &url )
 {
   m_pView->openURL( url );
 
-  m_pMainView->setLocationBarURL( this, url.url() );
+  // Shouldn't be necessary (David) setLocationBarURL( url.url() );
 
   sendOpenURLEvent( url );
 
@@ -111,6 +111,7 @@ void KonqChildView::openURL( const KURL &url )
       createHistoryEntry();
   } else
   {
+      kdDebug(1202) << " HISTORY LOCKED. Just updating " << endl;
       m_bLockHistory = false;
       // History was locked, just update the current record with the new URL
       updateHistoryEntry();
@@ -151,7 +152,8 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
 
 bool KonqChildView::changeViewMode( const QString &serviceType,
                                     const QString &serviceName,
-                                    const KURL &url )
+                                    const KURL &url,
+                                    const QString &locationBarURL)
 {
   if ( m_bViewStarted )
   {
@@ -161,12 +163,16 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   // Since we only set URL to empty URL when calling this from go(), it
   // means we are going back or forward in the history and we already shifted
   // our position in the history -> don't update the history entry.
-  // Well, doing it with an empty URL doesn't make much sense anyway.
   if ( !url.isEmpty() )
   {
     if ( m_lstHistory.count() > 0 )
       updateHistoryEntry();
   }
+
+  // Ok, now we can show (and store) the new location bar URL
+  // (If we do that later, slotPartActivated will display the wrong one,
+  //  and if we do that earlier, it messes up the history entry ;-)
+  setLocationBarURL( locationBarURL );
 
   if ( !m_service->serviceTypes().contains( serviceType ) ||
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
@@ -177,7 +183,11 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
 
     if ( viewFactory.isNull() )
+    {
+      // Revert location bar's URL to the working one
+      setLocationBarURL( history().current()->locationBarURL );
       return false;
+    }
 
     m_service = service;
     m_partServiceOffers = partServiceOffers;
@@ -236,7 +246,7 @@ void KonqChildView::connectView(  )
 	   m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
-           m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
+           this, SLOT( setLocationBarURL( const QString & ) ) );
 
   connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
            m_pMainView, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
@@ -305,6 +315,17 @@ void KonqChildView::slotCanceled( const QString & )
   slotCompleted();
 }
 
+void KonqChildView::setLocationBarURL( const QString & locationBarURL )
+{
+  kdDebug(1202) << "KonqChildView::setLocationBarURL " << locationBarURL << endl;
+  m_sLocationBarURL = locationBarURL;
+  if ( m_pMainView->currentChildView() == this )
+  {
+    kdDebug(1202) << "is current view" << endl;
+    m_pMainView->setLocationBarURL( m_sLocationBarURL );
+  }
+}
+
 void KonqChildView::createHistoryEntry()
 {
     // First, remove any forward history
@@ -346,6 +367,8 @@ void KonqChildView::updateHistoryEntry()
   }
 
   current->url = m_pView->url();
+  kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
+  current->locationBarURL = m_sLocationBarURL;
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->name();
 }
@@ -385,7 +408,8 @@ void KonqChildView::go( int steps )
 
   sendOpenURLEvent( h->url );
 
-  m_pMainView->setLocationBarURL( this, h->url.url() );
+  kdDebug(1202) << "Restoring location bar URL from history : " << h->locationBarURL << endl;
+  setLocationBarURL( h->locationBarURL );
 
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
@@ -416,7 +440,7 @@ void KonqChildView::stop()
     m_bViewStarted = false;
   }
   else if ( m_pRun )
-    delete (KonqRun *)m_pRun; // should set m_pRun to 0L
+    delete static_cast<KonqRun *>(m_pRun); // should set m_pRun to 0L
 
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );

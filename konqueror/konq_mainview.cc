@@ -20,7 +20,6 @@
 #include <qdir.h>
 
 #include <kparts/browserextension.h>
-#include "konq_htmlsettings.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_run.h"
@@ -325,23 +324,21 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
 
   KonqChildView *view = _view;
   if ( !view || view->passiveMode() )
-    view = (KonqChildView *)m_currentView;
+    view = m_currentView;
 
   if ( view )
   {
-    if ( view == (KonqChildView *)m_currentView )
+    if ( view == m_currentView )
       //will do all the stuff below plus GUI stuff
       slotStop();
     else
       view->stop();
+  }
 
-    setLocationBarURL( view, url.decodedURL() );
-  }
-  else
-  {
-    if ( m_combo )
-      m_combo->setEditText( url.decodedURL() );
-  }
+  // Show it for now in the location bar, but we'll need to store it in the view
+  // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
+  kdDebug(1202) << "** setLocationBarURL : url = " << url.url() << endl;
+  setLocationBarURL( url.url() );
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( !serviceType.isEmpty() )
@@ -399,7 +396,7 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
     QString serviceType = args.serviceType;
     if ( serviceType.isEmpty() )
       serviceType = view->serviceType();
-    
+
     openView( serviceType, url, view );
     return;
   }
@@ -518,13 +515,13 @@ void KonqMainView::slotShowHTML()
   if ( b && m_currentView->supportsServiceType( "inode/directory" ) )
   {
     m_currentView->lockHistory();
-    openURL( 0L, m_currentView->url() );
+    openView( "inode/directory", m_currentView->url(), m_currentView );
   }
   else if ( !b && m_currentView->supportsServiceType( "text/html" ) )
   {
     KURL u( m_currentView->url() );
     m_currentView->lockHistory();
-    openURL( 0L, u.directory() );
+    openView( "inode/directory", m_currentView->url().directory(), m_currentView );
   }
 }
 
@@ -743,6 +740,8 @@ void KonqMainView::slotRunFinished()
     }
   }
 
+  // No error but no mimetype either... we just drop it.
+
   if ( !childView )
     return;
 
@@ -751,7 +750,8 @@ void KonqMainView::slotRunFinished()
   if ( childView == m_currentView )
   {
     stopAnimation();
-    setLocationBarURL( childView, childView->view()->url().url() );
+    // Revert to working URL
+    childView->setLocationBarURL( childView->history().current()->locationBarURL );
   }
 }
 
@@ -766,10 +766,11 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   kdDebug(1202) << " KonqMainView::openView " << serviceType << " " << _url.url() << endl;
   QString indexFile;
 
-  KURL url = _url;
+  KURL url( _url );
 
   if ( !childView )
     {
+      // Create a new view
       KParts::ReadOnlyPart* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
 
       if ( !view )
@@ -788,13 +789,19 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
       view->widget()->setFocus();
 
+      this->childView( view )->setLocationBarURL( url.url() );
+
       return true;
     }
   else // We know the child view
   {
     kdDebug(1202) << "KonqMainView::openView : url = " << url.url() << endl;
-    // This is already called in ::openURL
-    //    childView->stop();
+
+    // In case we open an index.html or .kde.html, we want the location bar
+    // to still display the original URL (so that 'up' uses that URL,
+    // and since that's what the user entered).
+    // changeViewMode will take care of setting and storing that url.
+    QString originalURL = url.url();
 
     if ( ( serviceType == "inode/directory" ) &&
          ( childView->allowHTML() ) &&
@@ -806,20 +813,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       url = KURL( indexFile );
     }
 
-    if ( childView->changeViewMode( serviceType, QString::null, url ) )
-    {
-      return true;
-    }
-
-    // Didn't work, abort
-    childView->setLoading( false );
-    if ( childView == m_currentView )
-    {
-      stopAnimation();
-      setLocationBarURL( childView, childView->view()->url().url() );
-    }
-
-    return false;
+    return childView->changeViewMode( serviceType, QString::null, url, originalURL );
   }
 }
 
@@ -882,6 +876,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   if ( oldView )
     oldView->frame()->statusbar()->repaint();
 
+  kdDebug(300) << "slotPartActivated: setting location bar url to "
+               << m_currentView->locationBarURL() << endl;
   if ( m_combo )
     m_combo->setEditText( m_currentView->locationBarURL() );
 
@@ -1106,12 +1102,6 @@ void KonqMainView::slotShred()
   callExtensionMethod( m_currentView, "shred()" );
 }
 
-void KonqMainView::slotSetLocationBarURL( const QString &url )
-{
-  KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
-  setLocationBarURL( childView( view ), url );
-}
-
 void KonqMainView::slotPrint()
 {
   // Call print on the child object
@@ -1147,7 +1137,9 @@ void KonqMainView::slotUpAboutToShow()
 
   uint i = 0;
 
-  KURL u( m_currentView->view()->url() );
+  // Use the location bar URL, because in case we display a index.html
+  // we want to go up from the dir, not from the index.html
+  KURL u( m_currentView->locationBarURL() );
   u = u.upURL();
   while ( u.hasPath() )
   {
@@ -1165,13 +1157,13 @@ void KonqMainView::slotUpAboutToShow()
 
 void KonqMainView::slotUp()
 {
-  kdDebug(1202) << "slotUp. Start URL is " << m_currentView->url().url() << endl;
-  openURL( (KonqChildView *)m_currentView, m_currentView->url().upURL() );
+  kdDebug(1202) << "slotUp. Start URL is " << m_currentView->locationBarURL() << endl;
+  openURL( (KonqChildView *)m_currentView, KURL(m_currentView->locationBarURL()).upURL() );
 }
 
 void KonqMainView::slotUpActivated( int id )
 {
-  KURL u( m_currentView->url() );
+  KURL u( m_currentView->locationBarURL() );
   kdDebug(1202) << "slotUpActivated. Start URL is " << u.url() << endl;
   for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
       u = u.upURL();
@@ -1358,13 +1350,11 @@ void KonqMainView::slotFullScreenStop()
   toolbar2->show();
 }
 
-void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &url )
+void KonqMainView::setLocationBarURL( const QString &url )
 {
-  childView->setLocationBarURL( url );
-
-  if ( childView == (KonqChildView *)m_currentView && m_combo )
+  kdDebug(1202) << "KonqMainView::setLocationBarURL : url = " << url << endl;
+  if ( m_combo )
     m_combo->setEditText( url );
-
 }
 
 void KonqMainView::startAnimation()
@@ -1590,7 +1580,7 @@ QString KonqMainView::findIndexFile( const QString &dir )
 
 void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 {
-  kdDebug(1202) << "connectExtension" << endl;
+  //kdDebug(1202) << "connectExtension" << endl;
   // "cut", "copy", "pastecut", "pastecopy", "del", "trash", "shred"
   // "reparseConfiguration", "refreshMimeTypes"
   // are not directly connected. The slots in this class are connected instead and
@@ -1609,7 +1599,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
   // Loop over standard action names
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
   {
-    kdDebug(1202) << s_actionnames[i] << endl;
+    //kdDebug(1202) << s_actionnames[i] << endl;
     KAction * act = actionCollection()->action( s_actionnames[i] );
     assert(act);
     QCString slotName = QCString(s_actionnames[i])+"()";
@@ -1624,7 +1614,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
       {
         // OUCH. Here we use the fact that qobjectdefs.h:#define SLOT(a) "1"#a
         ext->connect( act, SIGNAL( activated() ), ext, QCString("1") + slotName );
-        kdDebug(1202) << "Connecting to " << s_actionnames[i] << endl;
+        //kdDebug(1202) << "Connecting to " << s_actionnames[i] << endl;
         enable = true;
       }
     }

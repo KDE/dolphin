@@ -268,7 +268,7 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
   uint i = 0;
   while ( it.current() )
   {
-      QString text = it.current()->url.decodedURL(); // perhaps the caption would look even better ?
+      QString text = it.current()->locationBarURL; // perhaps the caption would look even better ?
       text = KBookmark::stringSqueeze(text, 40); //CT squeeze, but not as much as in bookmarks (now we display URLs)
       if ( checkCurrentItem && it.current() == current )
       {

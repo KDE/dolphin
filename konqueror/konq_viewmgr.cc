@@ -521,8 +521,6 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   m_pMainView->insertChildView( v );
 
-  // v->lockHistory(); // Not necessary anymore I think (David)
-
   newViewFrame->show();
 
   addPart( v->view(), false );

@@ -25,11 +25,11 @@
 #include <assert.h>
 #include <iostream.h>
 
-KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const KURL & _url, mode_t _mode, bool _is_local_file, bool _auto_delete )
+KonqRun::KonqRun( KonqMainView* mainView, KonqChildView *_childView, const KURL & _url, mode_t _mode, bool _is_local_file, bool _auto_delete )
   : KRun( _url, _mode, _is_local_file, _auto_delete )
 {
-  m_pView = _view;
-  assert( m_pView );
+  m_pMainView = mainView;
+  assert( m_pMainView );
   m_pChildView = _childView;
   m_bFoundMimeType = false;
 }
@@ -45,11 +45,11 @@ void KonqRun::foundMimeType( const QString & _type )
 
   m_bFoundMimeType = true;
 
-  assert( m_pView );
+  assert( m_pMainView );
 
-  if ( m_pView->openView( _type, m_strURL, m_pChildView ) )
+  if ( m_pMainView->openView( _type, m_strURL, m_pChildView ) )
   {
-    m_pView = 0L;
+    m_pMainView = 0L;
     m_bFinished = true;
     m_timer.start( 0, true );
     return;
