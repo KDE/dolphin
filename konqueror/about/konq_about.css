@@ -94,6 +94,19 @@ body {margin: 0px; padding: 0px; background-color: #7ea0cb;}
   color: white;
 }
 
+#barCenter ul {
+  margin: 0;
+  padding: 0;
+}
+
+#barCenter li {
+  display: inline;
+}
+
+#barCenter li:not(:first-child):before { /* Aren't css3 selectors great? */
+  content: " | ";
+}
+
 #barR {
   background-image: url(bar-middle-right.png);
   background-repeat: repeat-y;
