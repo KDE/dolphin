@@ -45,14 +45,14 @@ public:
   int doIt( int argc, char **argv );
 
   /** Implements KFileManager interface */
-  void openFileManagerWindow(const char* _url);
+  virtual bool openFileManagerWindow(const char* _url);
 
 protected:
 
   void initRegistry();
 
-  void getKonqy();
-  void getKDesky();
+  bool getKonqy();
+  bool getKDesky();
 
   KdedInstance *kded;
   KTrader *trader;

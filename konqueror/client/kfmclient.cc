@@ -109,12 +109,18 @@ int main( int argc, char **argv )
   return a.doIt( argc, argv );
 }
 
-void clientApp::openFileManagerWindow(const char* _url)
+bool clientApp::openFileManagerWindow(const char* _url)
 {
-  getKonqy();
+  bool ok = getKonqy();
 
-  /* Konqueror::MainWindow_var m_vMainWindow = */
-     (void) m_vKonqy->createMainWindow( _url );
+  if (ok)
+  {
+    // TODO : probably a catch block is necessary here
+    /* Konqueror::MainWindow_var m_vMainWindow = */
+    (void) m_vKonqy->createMainWindow( _url );
+  }
+  
+  return ok;
 }
 
 void clientApp::initRegistry()
@@ -135,7 +141,7 @@ int clientApp::doIt( int argc, char **argv )
 {
   if ( argc < 2 )
   {
-    printf( "Syntax Error: Too few arguments\n" );
+    fprintf( stderr, "Syntax Error: Too few arguments\n" );
     return 1;
   }
     
@@ -143,7 +149,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc != 2 )
     {
-      printf( "Syntax Error: Too many arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
     //	kfm.refreshDesktop();
@@ -153,17 +159,19 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc != 2 )
     {
-      printf( "Syntax Error: Too many arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
-    getKDesky();
-    m_vKDesky->rearrangeIcons( (CORBA::Boolean) false /* don't ask */ );
+    bool ok = getKDesky();
+    if (ok) 
+      m_vKDesky->rearrangeIcons( (CORBA::Boolean) false /* don't ask */ );
+    return ok;
   }
   else if ( strcmp( argv[1], "configure" ) == 0 )
   {
     if ( argc != 2 )
     {
-      printf( "Syntax Error: Too many arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
     //	kfm.configure();
@@ -172,15 +180,15 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 2 )
     {
-      openFileManagerWindow( QDir::homeDirPath() );
+      return openFileManagerWindow( QDir::homeDirPath() );
     }
     else if ( argc == 3 )
     {
-      openFileManagerWindow( argv[2] );
+      return openFileManagerWindow( argv[2] );
     }
     else
     {
-      printf( "Syntax Error: Too many arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
   }
@@ -188,7 +196,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 2 )
     {
-      openFileManagerWindow( QDir::homeDirPath() );
+      return openFileManagerWindow( QDir::homeDirPath() );
     }
     else if ( argc == 3 )
     {
@@ -197,7 +205,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      printf( "Syntax Error: Too many arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
   }
@@ -212,7 +220,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      printf( "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
       return 1;
     }
   }
@@ -237,7 +245,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      printf( "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
       return 1;
     }
   }
@@ -245,7 +253,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc <= 3 )
     {
-      printf( "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
       return 1;
     }
     QString src = "";
@@ -264,7 +272,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc <= 3 )
     {
-      printf( "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
       return 1;
     }
     QString src = "";
@@ -283,7 +291,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc <=2 )
     {
-      printf( "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
       return 1;
     }
 
@@ -302,7 +310,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      openFileManagerWindow( argv[2] );
+      return openFileManagerWindow( argv[2] );
     }
   }
   else if ( strcmp( argv[1], "selectDesktopIcons" ) == 0 )
@@ -314,52 +322,55 @@ int clientApp::doIt( int argc, char **argv )
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
       // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */
-      getKDesky();
-      m_vKDesky->selectIconsInRect( x, y, w, h /* , bAdd TODO */ );
+      bool ok = getKDesky();
+      if (ok)
+        m_vKDesky->selectIconsInRect( x, y, w, h /* , bAdd TODO */ );
+      return ok;
     }
     else
     {
-      printf( "Syntax Error: Too many/few arguments\n" );
+      fprintf( stderr, "Syntax Error: Too many/few arguments\n" );
       return 1;
     }
   }
   else
   {
-    printf("Syntax Error: Unknown command '%s'\n",argv[1] );
+    fprintf( stderr, "Syntax Error: Unknown command '%s'\n",argv[1] );
     return 1;
   }
   return 0;
 }
 
-void clientApp::getKonqy()
+bool clientApp::getKonqy()
 {
   KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
 
   if ( offers.count() != 1 )
   {
-    printf("%i\n", offers.count());
-    printf( "Error: Can't find Konqueror service" );fflush(stdout);
-    return;
+    printf("Found %i offers\n", offers.count());
+    fprintf( stderr, "Error: Can't find Konqueror service\n" );
+    return false;
   }
 
   CORBA::Object_var obj = activator->activateService( offers.getFirst()->name(), "IDL:Konqueror/Application:1.0", "App" );
 
   if ( CORBA::is_nil( obj ) )
   {
-    printf( "Error: Can't connect to Konqueror" );fflush(stdout);
-    return;
+    fprintf( stderr, "Error: Can't connect to Konqueror\n" );
+    return false;
   }
 
   m_vKonqy = Konqueror::Application::_narrow( obj );
 
   if ( CORBA::is_nil( m_vKonqy ) )
   {
-    printf( "Error: Can't connect to Konqueror" );fflush(stdout);
-    return;
+    fprintf( stderr, "Error: Can't connect to Konqueror\n" );
+    return false;
   }
+  return true;
 }
 
-void clientApp::getKDesky()
+bool clientApp::getKDesky()
 {
   // Get naming service
   KNaming *naming = kded->knaming();
@@ -368,8 +379,8 @@ void clientApp::getKDesky()
   CORBA::Object_var obj = naming->resolve( "IDL:KDesktopIf:1.0" );
   if ( CORBA::is_nil( obj ) )
   {
-    printf( "Error: Can't connect to KDesktop" );fflush(stdout);
-    return;
+    fprintf( stderr, "Error: Can't connect to KDesktop\n" );
+    return false;
   }
 
   // Try to cast the object
@@ -377,7 +388,8 @@ void clientApp::getKDesky()
 
   if ( CORBA::is_nil( m_vKDesky ) )
   {
-    printf( "Error: Can't connect to KDesktop" );fflush(stdout);
-    return;
+    fprintf( stderr, "Error: Can't connect to KDesktop\n" );
+    return false;
   }
+  return true;
 }
