@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
+   Copyright (C) 2000,2001 Carsten Pfeiffer <pfeiffer@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -204,7 +204,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
     if ( u != typedURL )
 	entry.typedURL = typedURL;
 
-    // we only get keep the title if we are confirming an entry. Otherwise,
+    // we only keep the title if we are confirming an entry. Otherwise,
     // we might get bogus titles from the previous url (actually it's just
     // konqueror's window caption).
     if ( !pending && u != title )
@@ -213,7 +213,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
     entry.lastVisited = entry.firstVisited;
 
     if ( !pending ) { // remove from pending if available.
-	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( url.url());
+	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find(url.url());
 	if ( it != m_pending.end() ) {
 	    delete it.data();
 	    m_pending.remove( it );
@@ -225,7 +225,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
 	}
     }
 
-    if ( pending ) {
+    else {
 	// We add a copy of the current history entry of the url to the
 	// pending list, so that we can restore it if the user canceled.
 	// If there is no entry for the url yet, we just store the url.
@@ -252,7 +252,7 @@ void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 
 void KonqHistoryManager::removePending( const KURL& url )
 {
-    kdDebug(1203) << "## Removing pending... " << url.url() << endl;
+    // kdDebug(1203) << "## Removing pending... " << url.url() << endl;
 
     if ( url.isLocalFile() )
 	return;
@@ -332,7 +332,7 @@ void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 					     QCString saveId )
 {
-    kdDebug(1203) << "## Got new entry from Broadcast: " << e.url.url() << endl;
+    //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.url() << endl;
 
     KonqHistoryEntry *entry = m_history.findEntry( e.url );
     if ( !entry ) { // create a new history entry
@@ -399,9 +399,7 @@ void KonqHistoryManager::notifyClear( QCString saveId )
     if ( saveId == objId() ) // we are the sender of the broadcast
 	saveHistory();
 
-    KParts::HistoryProvider::clear();
-
-    emit cleared();
+    KParts::HistoryProvider::clear(); // also emits the cleared() signal
 }
 
 void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )

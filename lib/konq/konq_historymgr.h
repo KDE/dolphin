@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
+   Copyright (C) 2000,2001 Carsten Pfeiffer <pfeiffer@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -75,7 +75,7 @@ class KonqHistoryManager : public KParts::HistoryProvider,
 
 public:
     static KonqHistoryManager *kself() {
-	return static_cast<KonqHistoryManager*>( KParts::HistoryProvider::self() ); 
+	return static_cast<KonqHistoryManager*>( KParts::HistoryProvider::self() );
     }
 
     KonqHistoryManager( QObject *parent, const char *name );
@@ -213,11 +213,6 @@ signals:
      * that signal.
      */
     void entryRemoved( const KonqHistoryEntry *entry );
-
-    /**
-     * Emitted after the history was cleared.
-     */
-    void cleared();
 
 protected:
     /**
