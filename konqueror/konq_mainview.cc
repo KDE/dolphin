@@ -1490,23 +1490,29 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
   // I wonder if defining them as slots make any sense then :-)
   // ... and if this whole idea is not just a trick to get a list of methods dymanically :-)
 
-  // The ones we connect directly :
-  static const char * s_actionnames[] = { "print", "saveLocalProperties", "savePropertiesAsDefault" };
+  static const char * s_actionnames[] = {
+    "cut", "copy", "paste", "del", "trash", "shred",
+      "print", "saveLocalProperties", "savePropertiesAsDefault" };
   QStrList slotNames =  ext->metaObject()->slotNames();
   // Loop over standard action names
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
   {
     kDebugInfo( 1202, s_actionnames[i] );
     QAction * act = actionCollection()->action( s_actionnames[i] );
+    assert(act);
+    // Does the extension have a slot with the name of this action ?
     if ( slotNames.contains( s_actionnames[i] ) )
     {
-      // Find the corresponding action
-      assert(act);
-      ext->connect( act, SIGNAL( activated() ), s_actionnames[i] );
-      kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
+      // Connect ? (see comment about most actions)
+      if ( !strcmp( s_actionnames[i], "print" )
+        || !strcmp( s_actionnames[i], "saveLocalProperties" )
+        || !strcmp( s_actionnames[i], "savePropertiesAsDefault" ) )
+      {
+        ext->connect( act, SIGNAL( activated() ), s_actionnames[i] );
+        kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
+      }
     }
-    if ( act )
-      act->setEnabled( false );
+    act->setEnabled( false );
   }
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
            this, SLOT( slotEnableAction( const char *, bool ) ) );
@@ -1543,7 +1549,7 @@ void KonqMainView::enableAllActions( bool enable )
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
-  
+
   actionCollection()->action( "konqueror_shell_close" )->setEnabled( true );
 }
 
