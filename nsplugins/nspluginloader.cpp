@@ -59,6 +59,31 @@ public:
 NSPluginLoader *NSPluginLoader::_instance = 0;
 
 
+class PluginWidget : public QXEmbed
+{
+public:
+  PluginWidget( PluginPrivateData *data, int winid, QWidget * parent=0, const char * name=0, WFlags f=0 );
+  virtual ~PluginWidget();
+
+private:
+  PluginPrivateData *_data;
+  int _winid;
+};
+
+
+PluginWidget::PluginWidget( PluginPrivateData *data, int winid,
+			    QWidget * parent, const char * name, WFlags f )
+  : QXEmbed( parent, name, f ), _data(data), _winid(winid)
+{
+}
+
+
+PluginWidget::~PluginWidget()
+{
+  _data->stub->DestroyInstance(_winid);
+}
+
+
 NSPluginLoader::NSPluginLoader()
   : QObject(), _mapping(7, false)
 {
@@ -73,6 +98,7 @@ NSPluginLoader::NSPluginLoader()
 
 NSPluginLoader::~NSPluginLoader()
 {
+  kDebugInfo("~NSPluginLoader");
   QDictIterator<PluginPrivateData> dit(_private);
   while (dit.current())
     {
@@ -252,7 +278,7 @@ void NSPluginLoader::unloadPlugin(const QString &plugin)
 
       if (data->running)
 	{
-	  data->running = false;
+	  data->running = false;		
 	  delete data->process;
 	}
 
@@ -329,7 +355,6 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
       return 0;
     }
 
-  // load the plugin
   if (!loadPlugin(plugin))
     {
       kdDebug() << "Could not load plugin" << endl;
@@ -345,7 +370,7 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
   if (winid)
     {
       kdDebug() << "Window id = " << winid << endl;
-      QXEmbed *win = new QXEmbed(parent);
+      QXEmbed *win = new PluginWidget(data, winid, parent);
 
       if (width) win->setFixedSize(width, win->height());
       if (height) win->setFixedSize(win->width(), height);
