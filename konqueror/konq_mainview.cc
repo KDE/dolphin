@@ -189,6 +189,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
   m_ptaUseHTML->setChecked( m_bHTMLAllowed );
+  m_sViewModeForDirectory = config->readEntry( "ViewMode" );
 
   resize( 700, 480 );
   kdDebug(1202) << "KonqMainView::KonqMainView done" << endl;
@@ -485,6 +486,24 @@ void KonqMainView::slotToolFind()
   proc.start(KShellProcess::DontCare);
 }
 
+void KonqMainView::slotOpenWith()
+{
+  KURL::List lst;
+  lst.append( m_currentView->view()->url() );
+
+  QString serviceName = sender()->name();
+
+  KTrader::OfferList offers = m_currentView->appServiceOffers();
+  KTrader::OfferList::ConstIterator it = offers.begin();
+  KTrader::OfferList::ConstIterator end = offers.end();
+  for (; it != end; ++it )
+    if ( (*it)->name() == serviceName )
+    {
+      KRun::run( **it, lst );
+      return;
+    }
+}
+
 void KonqMainView::slotViewModeToggle( bool toggle )
 {
   if ( !toggle )
@@ -516,25 +535,8 @@ void KonqMainView::slotViewModeToggle( bool toggle )
       KConfigGroupSaver cgs( config, "MainView Settings" );
       config->writeEntry( "ViewMode", modeName );
       config->sync();
+      m_sViewModeForDirectory = modeName;
   }
-}
-
-void KonqMainView::slotOpenWith()
-{
-  KURL::List lst;
-  lst.append( m_currentView->view()->url() );
-
-  QString serviceName = sender()->name();
-
-  KTrader::OfferList offers = m_currentView->appServiceOffers();
-  KTrader::OfferList::ConstIterator it = offers.begin();
-  KTrader::OfferList::ConstIterator end = offers.end();
-  for (; it != end; ++it )
-    if ( (*it)->name() == serviceName )
-    {
-      KRun::run( **it, lst );
-      return;
-    }
 }
 
 void KonqMainView::slotShowHTML()
@@ -787,10 +789,13 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   // changeViewMode will take care of setting and storing that url.
   QString originalURL = url.url();
 
-  if ( ( serviceType == "inode/directory" ) &&
-       ( url.isLocalFile() ) &&
-       ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
+  QString serviceName; // default: none provided
+
+  if ( serviceType == "inode/directory" )
   {
+    serviceName = m_sViewModeForDirectory;
+    if ( url.isLocalFile() ) // local, we can do better (.directory)
+    {
       // Ok, there is an index.html. But does the user want to see it ?
       // Read it in the .directory file, default to m_bHTMLAllowed
       KURL urlDotDir( url );
@@ -801,29 +806,24 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
           KSimpleConfig config( urlDotDir.path() );
           config.setGroup( "URL properties" );
           HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
+          serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
       }
-      if ( HTMLAllowed )
+      if ( HTMLAllowed &&
+           ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
       {
           serviceType = "text/html";
           KURL::encode( indexFile );
           url = KURL( indexFile );
+          serviceName = QString::null; // cancel what we just set, this is not a dir finally
       }
+
       // Reflect this setting in the menu
       m_ptaUseHTML->setChecked( HTMLAllowed );
+    }
   }
 
   if ( !childView )
     {
-      QString serviceName;
-      // Special case for directories : apply viewmode setting
-      if ( serviceType == "inode/directory" )
-      {
-          // TODO honour .directory
-          KConfig * config = KonqFactory::instance()->config();
-          KConfigGroupSaver cgs( config, "MainView Settings" );
-          serviceName = config->readEntry( "ViewMode" );
-      }
-
       // Create a new view
       KonqChildView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
 
@@ -845,7 +845,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
     }
   else // We know the child view
   {
-    return childView->changeViewMode( serviceType, QString::null, url, originalURL );
+    return childView->changeViewMode( serviceType, serviceName, url, originalURL );
   }
 }
 

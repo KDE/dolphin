@@ -396,6 +396,7 @@ private:
   // Global settings
   bool m_bSaveViewPropertiesLocally;
   bool m_bHTMLAllowed;
+  QString m_sViewModeForDirectory; // is actually the name of the service
 
   static QStringList *s_plstAnimatedLogo;
 
