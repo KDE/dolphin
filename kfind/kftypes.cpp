@@ -96,7 +96,6 @@ void KfFileType::init()
   types = new QList<KfFileType>;
 
   // Read the filetypes
-  //  QString path = getenv( "KDEDIR" );
   QString path = KApplication::kdedir();
   path += "/mimetypes";
   initFileTypes( path.data() );
