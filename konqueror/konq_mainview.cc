@@ -677,7 +677,7 @@ void KonqMainView::slotConfigureEBrowsing()
 {
   if (fork() == 0) {
     execl(locate("exe", "kcmshell"), "kcmshell", "ebrowsing", 0);
-    warning("Error launching kcmshell konqhtml!");
+    warning("Error launching kcmshell ebrowsing!");
     exit(1);
   }
 }
@@ -686,7 +686,7 @@ void KonqMainView::slotConfigureCookies()
 {
   if (fork() == 0) {
     execl(locate("exe", "kcmshell"), "kcmshell", "cookies", 0);
-    warning("Error launching kcmshell konqhtml!");
+    warning("Error launching kcmshell cookies!");
     exit(1);
   }
 }
@@ -695,7 +695,7 @@ void KonqMainView::slotConfigureProxies()
 {
   if (fork() == 0) {
     execl(locate("exe", "kcmshell"), "kcmshell", "proxy", 0);
-    warning("Error launching kcmshell konqhtml!");
+    warning("Error launching kcmshell proxy!");
     exit(1);
   }
 }
@@ -736,9 +736,11 @@ void KonqMainView::slotViewChanged( KonqChildView *childView, KParts::ReadOnlyPa
 
 void KonqMainView::slotRunFinished()
 {
+  //kdDebug(1202) << "KonqMainView::slotRunFinished()" << endl;
   const KonqRun *run = static_cast<const KonqRun *>( sender() );
 
-  if ( run->foundMimeType() )
+  // Check if we found a mimetype _and_ we got no error (example: cancel in openwith dialog)
+  if ( run->foundMimeType() && !run->hasError() )
   {
 
     // We do this here and not in the constructor, because
@@ -755,30 +757,25 @@ void KonqMainView::slotRunFinished()
 
   KonqChildView *childView = run->childView();
 
-  if ( run->hasError() )
+  if ( !childView )
   {
-    kdWarning(1202) << " Couldn't run ... what do we do ? " << endl;
-    if ( !childView ) // Nothing to show ??
+    if ( run->hasError() ) // Nothing to show ??
     {
       close(); // This window is useless
       KMessageBox::sorry(0L, i18n("Could not display the requested URL, closing the window"));
       // or should we go back $HOME ?
-      return;
     }
-  }
-
-  // No error but no mimetype either... we just drop it.
-
-  if ( !childView )
-    return;
-
-  childView->setLoading( false );
-
-  if ( childView == m_currentView )
+    // else : no error but no mimetype either... we just drop it.
+  } else
   {
-    stopAnimation();
-    // Revert to working URL
-    childView->setLocationBarURL( childView->history().current()->locationBarURL );
+    childView->setLoading( false );
+
+    if ( childView == m_currentView )
+    {
+      stopAnimation();
+      // Revert to working URL
+      childView->setLocationBarURL( childView->history().current()->locationBarURL );
+    }
   }
 }
 
@@ -1678,7 +1675,7 @@ void KonqMainView::initActions()
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
-  // Configure submenu 
+  // Configure submenu
 
   new KAction( i18n( "File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
   new KAction( i18n( "File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
