@@ -843,7 +843,10 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     mainWindow->show();
 
     if ( windowArgs.lowerWindow )
+    {
         mainWindow->lower();
+		setFocus();
+    }
 
     if ( windowArgs.fullscreen )
         mainWindow->action( "fullscreen" )->activate();
