@@ -37,6 +37,7 @@ public slots:
   void statusChanged(const char *);
   void enableSearchButton(bool);
   void enableStatusBar(bool enable);
+  void resizeOnFloating();
 
 signals:
   //File Menu
@@ -58,7 +59,7 @@ signals:
   void keys();
 
 protected:
-  void resizeEvent( QResizeEvent * );
+//  void resizeEvent( QResizeEvent * );
 
 private:
   KMenuBar       *_mainMenu;

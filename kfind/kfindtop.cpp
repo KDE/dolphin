@@ -4,6 +4,7 @@
  *
  ***********************************************************************/
 
+#include <stdio.h>
 #include <kapp.h>
 #include <kiconloader.h>
 #include "ktopwidget.h"
@@ -34,11 +35,6 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
 
-    _mainMenu = new KMenuBar(this, "_mainMenu");
-    _mainMenu->show();
-    setMenu(_mainMenu);
-    //_mainMenu->enableMoving(false);
-
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
     _toolBar->show();
@@ -48,8 +44,16 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     setView( _kfind, FALSE );
     _kfind->show();
 
-    toolBarInit();
     menuInit();
+    toolBarInit();
+
+    setMenu(_mainMenu);
+    _mainMenu->show();
+
+    //_mainMenu->enableMoving(false);
+
+
+
 
     _statusBar = new KStatusBar( this, "_statusBar");
     _statusBar->insertItem("0 file(s) found", 0);
@@ -78,14 +82,19 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
 	    this,SLOT(enableSearchButton(bool)));
     connect(_kfind ,SIGNAL(enableStatusBar(bool)),
     	    this,SLOT(enableStatusBar(bool)));
+    connect(_mainMenu ,SIGNAL(moved(menuPosition)),
+           this,SLOT(resizeOnFloating()));
+    connect(_toolBar ,SIGNAL(moved(BarPosition)),
+           this,SLOT(resizeOnFloating()));
 
     int width=(440>_toolBar->width())?440:_toolBar->width();
-    int height=/*_mainMenu->height()+_toolBar->height()+*/(_kfind->sizeHint()).height()+10;
+    int height=(_kfind->sizeHint()).height()+10;
     //the main widget  never should be smaller
-    _kfind->setMinimumSize(width,height);
-    _kfind->setMaximumSize(9999,height);
+    //_kfind->setMinimumSize(width,height);
+    setMinimumSize(width,height+_toolBar->height()+_mainMenu->height());
+    //setMaximumSize(9999,height+_toolBar->height()+_mainMenu->height());
 
-    //resize(width,height);
+    resize(width,height+_toolBar->height()+_mainMenu->height());
    };    
 
 KfindTop::~KfindTop()
@@ -94,11 +103,6 @@ KfindTop::~KfindTop()
     delete _editMenu;
     delete _optionMenu;
     delete _helpMenu;
-  };
-
-void KfindTop::resizeEvent( QResizeEvent *e )
-  {
-    KTopLevelWidget::resizeEvent(e);
   };
 
 void KfindTop::help()
@@ -110,7 +114,7 @@ void KfindTop::about()
   {
     QString tmp;
     
-    tmp.sprintf(trans->translate("KFind %s\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>"),
+    tmp.sprintf(trans->translate("KFind %s\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>"),
 		KFIND_VERSION);
 
     KMsgBox::message(this,"about box",tmp,KMsgBox::INFORMATION, "OK");
@@ -122,13 +126,6 @@ void KfindTop::menuInit()
     _editMenu   = new QPopupMenu;
     _optionMenu = new QPopupMenu;
     _helpMenu   = new QPopupMenu;        
-
-    _mainMenu->insertItem( trans->translate("&File"), _fileMenu);
-    _mainMenu->insertItem( trans->translate("&Edit"), _editMenu);
-    _mainMenu->insertItem( trans->translate("&Options"), _optionMenu);
-    _mainMenu->insertSeparator();
-    _mainMenu->insertItem( trans->translate("&Help"), _helpMenu );
-
 
     openWithM  = _fileMenu->insertItem(trans->translate("Open"),
 				       this,SIGNAL(open()), CTRL+Key_O );
@@ -147,7 +144,7 @@ void KfindTop::menuInit()
 				       this,SIGNAL(saveResults()),CTRL+Key_S);
     _fileMenu             ->insertSeparator();
     quitM      = _fileMenu->insertItem(trans->translate("Quit"),qApp,
-				       SLOT(quit()),ALT+Key_Q);
+                                      SLOT(quit()),CTRL+Key_Q);
 
     for(int i=openWithM;i>quitM;i--)
        _fileMenu->setItemEnabled(i,FALSE);  
@@ -178,9 +175,16 @@ void KfindTop::menuInit()
     //_optionMenu->insertItem("Configure key bindings",this,SIGNAL(keys()));
 
     _helpMenu->insertItem(trans->translate("Kfind help"),
-			  this, SLOT(help()),ALT+Key_H );
+                         this, SLOT(help()));
     _helpMenu->insertSeparator();
     _helpMenu->insertItem(trans->translate("About"), this, SLOT( about() ) );  
+
+    _mainMenu = new KMenuBar(this, "_mainMenu");
+    _mainMenu->insertItem( trans->translate("&File"), _fileMenu);
+    _mainMenu->insertItem( trans->translate("&Edit"), _editMenu);
+    _mainMenu->insertItem( trans->translate("&Options"), _optionMenu);
+    _mainMenu->insertSeparator();
+    _mainMenu->insertItem( trans->translate("&Help"), _helpMenu );
   };
 
 void KfindTop::toolBarInit()
@@ -270,19 +274,27 @@ void KfindTop::enableSearchButton(bool enable)
 
 void KfindTop::enableStatusBar(bool enable)
   {
-    int height=_mainMenu->height()+_toolBar->height()+(_kfind->sizeHint()).height()+10;
-    if ( enable )
-      {
-	setMaximumSize(9999,9999);
-	resize(width(),height+_statusBar->height()+200);
-	_statusBar->enable(KStatusBar::Show);
-      }
-    else
-      {
-	_statusBar->enable(KStatusBar::Hide);
-	setMaximumSize(9999,height);
-	resize(width(),height);
-      };
+     int _height=(_kfind->sizeHint()).height()+10;  
+     // int height to _height cause I need height()
+     if ( enable )
+       {
+         _statusBar->enable(KStatusBar::Show);  // but show toolbars first
+        _kfind->setMaximumSize(9999,9999);
+         setMaximumSize(9999,9999);
+         //_kfind->resize(width(),_height);
+        resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
+        //resizeOnFloating();   
+        updateRects();
+       }
+     else
+       {
+         _statusBar->enable(KStatusBar::Hide);
+        _kfind->setMaximumSize(9999,_height);
+        setMaximumSize(9999,_height+_toolBar->height()+_mainMenu->height());
+        _kfind->resize(width(),_height);
+        resizeOnFloating();
+        updateRects(); // back to y-fixed
+       };                                      
   };
 
 void KfindTop::statusChanged(const char *str)
@@ -292,8 +304,21 @@ void KfindTop::statusChanged(const char *str)
 
 void KfindTop::prefs()
   {
-    //    KfOptions *prefs = new KfOptions(0L,0L);
     KfOptions *prefs = new KfOptions(0L,0L);
 
     prefs->show();
+  };
+
+void KfindTop::resizeOnFloating()
+  {
+    int _height=(_kfind->sizeHint()).height()+10;
+    if (_mainMenu->menuBarPos()!=KMenuBar::Floating)
+      _height+=_mainMenu->height();
+    if (_toolBar->barPos()!=KToolBar::Floating)
+      _height+=_toolBar->height();
+    if (_statusBar->isVisible())
+      _height+=_statusBar->height();
+     
+    setMinimumSize(width(),_height);
+    resize(width(),_height);
   };

@@ -69,16 +69,15 @@ void Kfind::resizeEvent( QResizeEvent *e)
 
     tabDialog->setGeometry(5,5,
 			   width()-10,(tabDialog->sizeHint()).height());
-    //printf("------------------------------\n");
-    //printf("Win height1 = %d\n",win->height());
-    //printf("Kfind height1 = %d\n",height());
-    //printf("tabDialog height1 = %d\n",(tabDialog->sizeHint()).height());
-
+//     printf("------------------------------\n");
+//     printf("Win height1 = %d\n",win->height());
+//     printf("Kfind height1 = %d\n",height());
+//     printf("tabDialog height1 = %d\n",(tabDialog->sizeHint()).height());
+//     printf("Winsize = %d\n",winsize);
     win->setGeometry(0,5+(tabDialog->sizeHint()).height()+5,width(),
-    		     height()-tabDialog->height()-10);
-
-    //printf("Win height2 = %d\n",win->height());
-    //printf("------------------------------\n");
+                    height()-(tabDialog->sizeHint()).height()-10);
+//     printf("Win height2 = %d\n",win->height());
+//     printf("------------------------------\n");
   };
     
 void Kfind::startSearch()
@@ -87,8 +86,8 @@ void Kfind::startSearch()
     int pos;
     buffer = tabDialog->createQuery();
 
-    //if ( winsize==1)
-    //  winsize=300;
+    if ( winsize==1)
+      winsize=200;
     emit haveResults(false);
     emit resultSelected(false);
     win->clearList();
@@ -103,9 +102,8 @@ void Kfind::startSearch()
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
 
-	buffer.append(pom.sprintf(" -fprint %s",outFile.data()));
+       buffer.append(pom.sprintf(" -fprint %s ",outFile.data()));
         buffer=buffer.simplifyWhiteSpace();
-
 	while( !buffer.isEmpty() )
 	  {
 	    pos = buffer.find(" ");
@@ -136,7 +134,7 @@ void Kfind::newSearch()
     //    printf("Prepare for New Search\n");
     win->hide();
     win->clearList();
-    //    winsize=1;
+    winsize=1;
 
     tabDialog->setDefaults();
 
@@ -162,6 +160,6 @@ void Kfind::processResults()
 
 QSize Kfind::sizeHint()
   {
-    return (tabDialog->sizeHint());//+QSize(0,winsize-1));
+    return (tabDialog->sizeHint()+QSize(0,winsize-1));
   };
 

@@ -475,8 +475,9 @@ QString KfindTabDialog::createQuery()
           }
         else
           {
-            str += " -name ";
+            str += " ( -name ";
             str += nameBox->text(nameBox->currentItem());
+           str += " )";
           };
 
         if (!subdirsCb->isChecked())
