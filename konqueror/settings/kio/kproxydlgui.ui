@@ -81,100 +81,6 @@
                         <class>QGroupBox</class>
                         <property stdset="1">
                             <name>name</name>
-                            <cstring>gb_auto_proxy</cstring>
-                        </property>
-                        <property stdset="1">
-                            <name>enabled</name>
-                            <bool>false</bool>
-                        </property>
-                        <property stdset="1">
-                            <name>title</name>
-                            <string>Auto Configuration</string>
-                        </property>
-                        <property>
-                            <name>whatsThis</name>
-                            <string>Some companies or ISPs provide scripts to simplify the usage of proxies. You can configure this here.</string>
-                        </property>
-                        <vbox>
-                            <property stdset="1">
-                                <name>margin</name>
-                                <number>11</number>
-                            </property>
-                            <property stdset="1">
-                                <name>spacing</name>
-                                <number>6</number>
-                            </property>
-                            <widget>
-                                <class>QCheckBox</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>cb_autoProxy</cstring>
-                                </property>
-                                <property stdset="1">
-                                    <name>text</name>
-                                    <string>Auto Configure Proxy</string>
-                                </property>
-                                <property>
-                                    <name>whatsThis</name>
-                                    <string>Check this box if you got an URL for Proxy autoconfiguration from your System Administrator or ISP.</string>
-                                </property>
-                            </widget>
-                            <widget>
-                                <class>QLayoutWidget</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>Layout20</cstring>
-                                </property>
-                                <hbox>
-                                    <property stdset="1">
-                                        <name>margin</name>
-                                        <number>0</number>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>spacing</name>
-                                        <number>6</number>
-                                    </property>
-                                    <widget>
-                                        <class>QLabel</class>
-                                        <property stdset="1">
-                                            <name>name</name>
-                                            <cstring>lb_autoProxy</cstring>
-                                        </property>
-                                        <property stdset="1">
-                                            <name>sizePolicy</name>
-                                            <sizepolicy>
-                                                <hsizetype>4</hsizetype>
-                                                <vsizetype>5</vsizetype>
-                                            </sizepolicy>
-                                        </property>
-                                        <property stdset="1">
-                                            <name>text</name>
-                                            <string>Configuration script &amp;URL:</string>
-                                        </property>
-                                        <property>
-                                            <name>buddy</name>
-                                            <cstring>url_autoProxy</cstring>
-                                        </property>
-                                    </widget>
-                                    <widget>
-                                        <class>KURLRequester</class>
-                                        <property stdset="1">
-                                            <name>name</name>
-                                            <cstring>url_autoProxy</cstring>
-                                        </property>
-                                        <property>
-                                            <name>whatsThis</name>
-                                            <string>You can add the URL to the auto configuration script here. It must by provided your system administrator or ISP.</string>
-                                        </property>
-                                    </widget>
-                                </hbox>
-                            </widget>
-                        </vbox>
-                    </widget>
-                    <widget>
-                        <class>QGroupBox</class>
-                        <property stdset="1">
-                            <name>name</name>
                             <cstring>gb_proxy_policy</cstring>
                         </property>
                         <property stdset="1">
@@ -372,6 +278,105 @@
                             <name>title</name>
                             <string>Limit Proxy usage</string>
                         </property>
+                        <widget>
+                            <class>QLayoutWidget</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>Layout15</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>geometry</name>
+                                <rect>
+                                    <x>11</x>
+                                    <y>38</y>
+                                    <width>429</width>
+                                    <height>90</height>
+                                </rect>
+                            </property>
+                            <hbox>
+                                <property stdset="1">
+                                    <name>margin</name>
+                                    <number>0</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>spacing</name>
+                                    <number>6</number>
+                                </property>
+                                <widget>
+                                    <class>QMultiLineEdit</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>mle_no_prx</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>enabled</name>
+                                        <bool>false</bool>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>sizePolicy</name>
+                                        <sizepolicy>
+                                            <hsizetype>7</hsizetype>
+                                            <vsizetype>4</vsizetype>
+                                        </sizepolicy>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>wordWrap</name>
+                                        <enum>WidgetWidth</enum>
+                                    </property>
+                                    <property>
+                                        <name>whatsThis</name>
+                                        <string>Here you can provide a list of comma or space separated hosts or domains that will be directly accessed without asking a proxy first. Usually, this will be hosts on your local network.&lt;br&gt;&lt;br&gt;&lt;strong&gt;Examples: &lt;/strong&gt;&lt;i&gt;myhost.mydomain.net, 192.168.0.1, localhost&lt;/i&gt;</string>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        <widget>
+                            <class>QLabel</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>lb_no_prx</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>enabled</name>
+                                <bool>false</bool>
+                            </property>
+                            <property stdset="1">
+                                <name>geometry</name>
+                                <rect>
+                                    <x>11</x>
+                                    <y>18</y>
+                                    <width>429</width>
+                                    <height>16</height>
+                                </rect>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>&amp;No Proxy for:</string>
+                            </property>
+                            <property>
+                                <name>buddy</name>
+                                <cstring>mle_no_prx</cstring>
+                            </property>
+                        </widget>
+                    </widget>
+                    <widget>
+                        <class>QGroupBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>gb_auto_proxy</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>enabled</name>
+                            <bool>false</bool>
+                        </property>
+                        <property stdset="1">
+                            <name>title</name>
+                            <string>Auto Configuration</string>
+                        </property>
+                        <property>
+                            <name>whatsThis</name>
+                            <string>Some companies or ISPs provide scripts to simplify the usage of proxies. You can configure this here.</string>
+                        </property>
                         <vbox>
                             <property stdset="1">
                                 <name>margin</name>
@@ -382,29 +387,25 @@
                                 <number>6</number>
                             </property>
                             <widget>
-                                <class>QLabel</class>
+                                <class>QCheckBox</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>lb_no_prx</cstring>
-                                </property>
-                                <property stdset="1">
-                                    <name>enabled</name>
-                                    <bool>false</bool>
+                                    <cstring>cb_autoProxy</cstring>
                                 </property>
                                 <property stdset="1">
                                     <name>text</name>
-                                    <string>&amp;No Proxy for:</string>
+                                    <string>Auto Configure Proxy</string>
                                 </property>
                                 <property>
-                                    <name>buddy</name>
-                                    <cstring>mle_no_prx</cstring>
+                                    <name>whatsThis</name>
+                                    <string>Check this box if you got an URL for Proxy autoconfiguration from your System Administrator or ISP.</string>
                                 </property>
                             </widget>
                             <widget>
                                 <class>QLayoutWidget</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>Layout15</cstring>
+                                    <cstring>Layout20</cstring>
                                 </property>
                                 <hbox>
                                     <property stdset="1">
@@ -416,29 +417,36 @@
                                         <number>6</number>
                                     </property>
                                     <widget>
-                                        <class>QMultiLineEdit</class>
+                                        <class>QLabel</class>
                                         <property stdset="1">
                                             <name>name</name>
-                                            <cstring>mle_no_prx</cstring>
-                                        </property>
-                                        <property stdset="1">
-                                            <name>enabled</name>
-                                            <bool>false</bool>
+                                            <cstring>lb_autoProxy</cstring>
                                         </property>
                                         <property stdset="1">
                                             <name>sizePolicy</name>
                                             <sizepolicy>
-                                                <hsizetype>7</hsizetype>
-                                                <vsizetype>4</vsizetype>
+                                                <hsizetype>4</hsizetype>
+                                                <vsizetype>5</vsizetype>
                                             </sizepolicy>
                                         </property>
                                         <property stdset="1">
-                                            <name>wordWrap</name>
-                                            <enum>WidgetWidth</enum>
+                                            <name>text</name>
+                                            <string>Configuration script &amp;URL:</string>
+                                        </property>
+                                        <property>
+                                            <name>buddy</name>
+                                            <cstring>url_autoProxy</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget>
+                                        <class>KURLRequester</class>
+                                        <property stdset="1">
+                                            <name>name</name>
+                                            <cstring>url_autoProxy</cstring>
                                         </property>
                                         <property>
                                             <name>whatsThis</name>
-                                            <string>Here you can provide a list of comma or space separated hosts or domains that will be directly accessed without asking a proxy first. Usually, this will be hosts on your local network.&lt;br&gt;&lt;br&gt;&lt;strong&gt;Examples: &lt;/strong&gt;&lt;i&gt;myhost.mydomain.net, 192.168.0.1, localhost&lt;/i&gt;</string>
+                                            <string>You can add the URL to the auto configuration script here. It must by provided your system administrator or ISP.</string>
                                         </property>
                                     </widget>
                                 </hbox>
