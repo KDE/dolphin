@@ -296,10 +296,8 @@ void KfindWindow::highlighted()
 
 void KfindWindow::deleteFiles()
   {
-    QString tmp;
-
-    tmp.sprintf(i18n("Do you really want to delete file:\n%s"),
-                lbx->text(lbx->currentItem()).ascii());
+    QString tmp = i18n("Do you really want to delete file:\n%1")
+                .arg(lbx->text(lbx->currentItem()));
     if(KMsgBox::yesNo(parentWidget(),i18n("Delete File"),
                       tmp, KMsgBox::QUESTION | KMsgBox::DB_SECOND) == 1)
       {
@@ -388,9 +386,9 @@ void KfindWindow::openFolder()
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
-        tmp.sprintf("file:%s",fileInfo->filePath().ascii());
+        tmp = "file:" + fileInfo->filePath();
       else
-	tmp.sprintf("file:%s",(fileInfo->dirPath()).ascii());
+        tmp = "file:" + fileInfo->dirPath();
 
 
     kfm->openURL(tmp.data());
@@ -474,7 +472,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
       if ( pom=="%d" )
 	{
 	  QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
-	  pom.sprintf("%s/",(fileInfo->dirPath(TRUE)).data());
+	  pom = fileInfo->dirPath(TRUE)+"/";
 	};
 
       if ( pom=="%a" )

@@ -175,9 +175,8 @@ void KfindTop::menuInit()
 			    this,SLOT(prefs()));
     //_optionMenu->insertItem("Configure key bindings",this,SIGNAL(keys()));
 
-    QString tmp;
-    tmp.sprintf(i18n("KFind %s\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>"),
-                KFIND_VERSION);
+    QString tmp = i18n("KFind %1\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>")
+                .arg(KFIND_VERSION);
     _helpMenu=kapp->getHelpMenu( true, tmp );    
 
     _mainMenu = new KMenuBar(this, "_mainMenu");
