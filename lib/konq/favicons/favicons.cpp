@@ -39,7 +39,7 @@
 struct FaviconsModulePrivate
 {
     virtual ~FaviconsModulePrivate() { delete config; }
-    
+
     struct DownloadInfo
     {
         QString hostOrURL;
@@ -137,8 +137,7 @@ void FaviconsModule::downloadHostIcon(const KURL &url)
     if (!(iconFile.isEmpty() || isIconOld(iconFile)))
         return;
 
-    KURL iconURL(url);
-    iconURL.setEncodedPathAndQuery("/favicon.ico");
+    KURL iconURL(url, "/favicon.ico");
     startDownload(url.host(), true, iconURL);
 }
 
