@@ -46,9 +46,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
                 || (cInfo->udsId==KIO::UDS_ACCESS_TIME)
                 || (cInfo->udsId==KIO::UDS_CREATION_TIME))
             {
-               QString tmpDate;
-               tmpDate.sprintf("%ld",m_fileitem->time(cInfo->udsId));
-               tmp+=tmpDate;
+               tmp += QString::number( m_fileitem->time(cInfo->udsId) ).rightJustify( 14, '0' );
                return tmp;
             }
             else if (cInfo->udsId==KIO::UDS_SIZE)
