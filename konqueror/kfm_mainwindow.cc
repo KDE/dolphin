@@ -28,6 +28,7 @@
 
 #include <opMenuBarManager.h>
 #include <opToolBarManager.h>
+#include <opStatusBarManager.h>
 
 enum ids { TOOLBAR_OPEN, TOOLBAR_SAVE, TOOLBAR_PRINT, TOOLBAR_RELOAD };
 
@@ -43,6 +44,8 @@ KfmMainWindow::KfmMainWindow()
   
   // create the toolbar manager to handle the toolbars of the embedded parts
   (void)toolBarManager();
+  
+  (void)statusBarManager();
 
   // build a toolbar and insert some buttons
   opToolBar()->insertButton(Icon("fileopen.xpm"),TOOLBAR_OPEN, SIGNAL( clicked() ),
@@ -64,6 +67,7 @@ KfmMainWindow::KfmMainWindow()
 
   menuBarManager()->create( m_pPart->id() );
   toolBarManager()->create( m_pPart->id() );
+  statusBarManager()->create( m_pPart->id() );
 }
 
 KfmMainWindow::~KfmMainWindow()

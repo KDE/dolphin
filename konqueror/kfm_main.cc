@@ -57,6 +57,7 @@ void sig_term_handler( int signum );
 void sig_pipe_handler( int signum );
 
 bool g_bWithGUI = true;
+bool g_bWithKfmShell = false;
 
 /**********************************************
  *
@@ -115,6 +116,11 @@ void KfmApp::start()
     KfmGui *m = new KfmGui( home.data() );
     m->show();
   }
+  else if ( g_bWithKfmShell )
+  {
+    KfmMainWindow *m_pShell = new KfmMainWindow;
+    m_pShell->show();
+  }
 }
 
 
@@ -149,6 +155,13 @@ int main( int argc, char **argv )
     i++;
     g_bWithGUI = false;
   }
+  
+  for ( int j = 1; j < argc; j++ )  
+    if ( strcmp( argv[j], "--opshell" ) == 0 )
+      {
+        g_bWithKfmShell = true;
+	g_bWithGUI = false;
+      }
 
   signal(SIGCHLD,sig_handler);
   signal(SIGTERM,sig_term_handler);
