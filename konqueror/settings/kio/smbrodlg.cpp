@@ -20,9 +20,13 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
+#include <qtextcodec.h>
 
 #include <klocale.h>
 #include <kconfig.h>
+#include <kglobal.h>
+#include <kcharsets.h>
+#include <kcombobox.h>
 
 #include "smbrodlg.h"
 #ifdef HAVE_CONFIG_H
@@ -56,19 +60,29 @@ SMBRoOptions::SMBRoOptions(QWidget *parent, const char *name)
    m_showHiddenShares=new QCheckBox(i18n("Show hidden shares"),this);
    layout->addMultiCellWidget(m_showHiddenShares,4,4,0,1);
 
-   layout->addWidget(new QWidget(this),5,0);
+   m_encodingList = new KComboBox( false, this );
+   QStringList _strList = KGlobal::charsets()->availableEncodingNames();
+   m_encodingList->insertStringList( _strList );
+
+   label = new QLabel( m_encodingList, i18n( "MS Windows's Encoding" ), this );
+   layout->addWidget( label, 5, 0 );
+   layout->addWidget( m_encodingList, 5, 1 );
+
+   layout->addWidget(new QWidget(this),6,0);
 
    connect(m_showHiddenShares, SIGNAL(toggled(bool)), this, SLOT(changed()));
    connect(m_userLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
    connect(m_passwordLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
    connect(m_workgroupLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+   connect( m_encodingList, SIGNAL( activated( const QString & ) ), this , SLOT( changed() ) );
 
    layout->setRowStretch(0,0);
    layout->setRowStretch(1,0);
    layout->setRowStretch(2,0);
    layout->setRowStretch(3,0);
    layout->setRowStretch(4,0);
-   layout->setRowStretch(5,1);
+   layout->setRowStretch( 5, 0 );
+   layout->setRowStretch(6,1);
 
    layout->activate();
    // finaly read the options
@@ -88,6 +102,10 @@ void SMBRoOptions::load()
    m_userLe->setText(cfg->readEntry("User",""));
    m_workgroupLe->setText(cfg->readEntry("Workgroup",""));
    m_showHiddenShares->setChecked(cfg->readBoolEntry("ShowHiddenShares",false));
+
+   QStringList _strList = KGlobal::charsets()->availableEncodingNames();
+   QString m_encoding = QTextCodec::codecForLocale()->name();
+   m_encodingList->setCurrentItem( _strList.findIndex( cfg->readEntry( "Encoding", m_encoding.lower() ) ) );
 
    // unscramble
    QString scrambled = cfg->readEntry( "Password","" );
@@ -116,6 +134,7 @@ void SMBRoOptions::save()
    cfg->writeEntry( "User", m_userLe->text());
    cfg->writeEntry( "Workgroup", m_workgroupLe->text());
    cfg->writeEntry( "ShowHiddenShares", m_showHiddenShares->isChecked());
+   cfg->writeEntry( "Encoding", m_encodingList->currentText() );
 
    //taken from Nicola Brodu's smb ioslave
    //it's not really secure, but at

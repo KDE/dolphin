@@ -19,7 +19,7 @@
 */
 
 #ifndef __SMBRODLG_H
-#define __SMBRODLG_H 
+#define __SMBRODLG_H
 
 #include <qwidget.h>
 #include <qlineedit.h>
@@ -27,6 +27,7 @@
 
 #include <kcmodule.h>
 
+class KComboBox;
 
 class SMBRoOptions : public KCModule
 {
@@ -48,6 +49,7 @@ class SMBRoOptions : public KCModule
       QLineEdit *m_passwordLe;
       QLineEdit *m_workgroupLe;
       QCheckBox *m_showHiddenShares;
+      KComboBox *m_encodingList;
 };
 
 #endif
