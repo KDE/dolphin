@@ -328,7 +328,7 @@ void KfOptions::fillArchiverDetail(int archiversLBoxItem)
 
 void KfOptions::applyChanges()
   {
-    printf("Make all changes!\n");
+    //    printf("Make all changes!\n");
     KConfig *config = KApplication::getKApplication()->getConfig();
     config->setGroup( "Saving" );
   
@@ -348,3 +348,4 @@ void KfOptions::applyChanges()
 	config->writeEntry( "Format", QString( saving->getSaveFormat() ) );
       };
   };
+

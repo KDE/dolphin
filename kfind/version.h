@@ -1,1 +1,1 @@
-#define KFIND_VERSION "0.31"
+#define KFIND_VERSION "0.3.2"

@@ -31,7 +31,7 @@ public:
   void clearList();
 
 private slots:
-  void highlighted(int);
+  void highlighted();
   void deleteFiles();
   void fileProperties();
   void openFolder();
@@ -44,11 +44,11 @@ protected:
   void resizeEvent( QResizeEvent * );
 
 signals:
-  void resultSelected(const char *);
+  void resultSelected(bool);
+  void statusChanged(const char *);
 
 private:
   QListBox * lbx;
-  QLabel *label;
   void execAddToArchive(KfArchiver *arch,QString filename);
 };
 

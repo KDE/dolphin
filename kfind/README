@@ -1,45 +1,37 @@
-Alpha Version 0.3
-
 KFind
 =====
 
-Kfind is frontend for utility find inspired by find utility from NT. 
+Kfind is a frontend for the utility `find' inspired by the find
+utility from NT.
 
-At this time it is fully functional. All in kfind available options
+At this time it is fully functional. All options available in kfind
 are working. You can save the results, delete, change properties of
-found files/dirs, store them to archive and ask kfm for opening dir
-containing this file or execute default binding.
+found files/directories, store them to an archive and ask kfm to open
+the directory containing this file or execute default binding.
 
-From previous version kfind uses libkdeui so widgets kmgsbox and ktabctl
+From version 0.2.9 kfind uses libkdeui so the widgets kmgsbox and ktabctl
 were removed from kfind distribution.
 
 Compilation 
 ----------- 
 
-It is necessary to set the QTDIR and KDEDIR enviroment variables.
+It is necessary to set the environment variables QTDIR and KDEDIR.
 Then you have to install libkde(>=0.7) and kfm(>=0.5.8)!!! (unless you
-installed them already). It is also necessary to patch ktabctl widget
-in libkde (otherwise there could be sometimes problems by resizing!).
-Appropriate patch is available in file ktabctl.patch.  Finally you can
-simply do ./configure, make and make install. Copy
-$KDEDIR/lib/kfind/config/kfindrc to file ~/.kfindrc (this will enable
-you to store files to tar archives).
-
-[Maintainer's note: the aforementioned patch has been included in
-kdelibs-0.8, so you do not need it any longer. -kalle] 
+installed them already). Then you can simply do ./configure, make and
+make install. 
 
 TODO
 ----
 
  o enable changing filetypes and archivers details in preferences dialog
- o write better widget for viewing results which would enable multiple
+ o write a better widget for viewing results which would enable multiple
    selection
  o and more ...
 
 BUGS
 ----
 Probably many :-(( So if you find then it would be helpful
-to send me message.
+to send me a message.
 
 THANKS 
 ------ 
@@ -52,11 +44,14 @@ KTabCtl and KMsgBox widgets which are used in Kfind and Torben Weis
 I hope you will find this program somehow useful and I would
 appreciate any suggestions and comments.
 
-	Miroslav Flídr
+        Miroslav Flídr
         <flidr@kky.zcu.cz>
 
 CHANGES
 -------
+ver. 0.3.1:
+ o new documentation contributed by Mark Roberts
+
 ver. 0.3:
  o entry Open in File menu or doubleclick on file executes default binding
  o removed bug causing segfaults
@@ -74,10 +69,10 @@ ver. 0.2.8:
    some more filetypes)
  o it is possible to store files in archives
  o preferences dialog added
-	- it is possible to determine filename for results saving
-	- it is possible to browse available filetypes details
-	- it is possible to browse available archivers details
-	(in next version you will be able to change the details)
+        - it is possible to determine filename for results saving
+        - it is possible to browse available filetypes details
+        - it is possible to browse available archivers details
+        (in next version you will be able to change the details)
  o calls kfm for properties dialog 
  o menu entry "remove" removed (kfm properties dialog does the job)
  o removed some bugs
@@ -102,6 +97,3 @@ ver. 0.2:
    blocked anymore during searching 
 
 ver. 0.1: first official release
-
-
-

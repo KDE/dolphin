@@ -56,6 +56,7 @@ void KfFileType::initFileTypes( const char* _path )
 
                 // Get a ';' separated list of all pattern
                 QString pats = config.readEntry( "Patterns" );
+
                 QString icon = config.readEntry( "Icon" );
                 QString defapp = config.readEntry( "DefaultApp" );
                 QString comment = config.readEntry( "Comment" );
@@ -95,7 +96,9 @@ void KfFileType::init()
   types = new QList<KfFileType>;
 
   // Read the filetypes
-  QString path = kapp->kdedir() + QString("/filetypes");
+  //  QString path = getenv( "KDEDIR" );
+  QString path = KApplication::kdedir();
+  path += "/mimetypes";
   initFileTypes( path.data() );
 };
 

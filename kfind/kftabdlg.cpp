@@ -3,8 +3,6 @@
  *  kftabdlg.cpp
  *
  **********************************************************************/
-
-
 #include <string.h>
 
 #include <qapp.h>
@@ -22,31 +20,24 @@
 #include <qlined.h>
 #include <qchkbox.h>
 #include <qpushbt.h>
-#include <qfiledlg.h> 
+#include <qfiledlg.h>
 #include <qdir.h>
-#include <qregexp.h> 
-#include <qdatetm.h> 
-#include <qmsgbox.h> 
+#include <qregexp.h>
+#include <qdatetm.h>
+#include <qmsgbox.h>
 #include <qlist.h>
-
+#include <qsize.h>
+       
+#include "kfdird.h"      
 #include "kftypes.h"
-#include "kfdird.h"
 #include "kftabdlg.h"
 
 extern QList<KfFileType> *types;
 
-KfindTabDialog::KfindTabDialog( QWidget * parent , const char * name, 
-				const char *searchPath = 0  )
+KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath = 0 )
     : KTabCtl( parent, name )
-  { 
-    //    qApp->installEventFilter( this );  
-    init(searchPath);
-
-    resize(320,180);
-};
-
-void KfindTabDialog::init(const char *searchPath = 0 )
   {
+
     //Page One of KfTAbDialog
     pages[0] = new QWidget( this, "page1" );
 
@@ -66,13 +57,9 @@ void KfindTabDialog::init(const char *searchPath = 0 )
     dirBox ->insertItem( "/etc" );
     dirBox ->insertItem( "/var" );
     dirBox ->insertItem( "/mnt" );
-    
+
     subdirsCb->setText( "Include &subfolders" );
 
-    #ifdef WINCOMBO
-       nameBox->setStyle(WindowsStyle);
-       dirBox ->setStyle(WindowsStyle);
-    #endif
 
     if ((nameBox->style())==WindowsStyle)
       {
@@ -83,7 +70,7 @@ void KfindTabDialog::init(const char *searchPath = 0 )
       {
         namedL   ->setFixedSize(60,30);
         lookinL  ->setFixedSize(60,30);
-      };
+      };                                        
 
     subdirsCb->setFixedSize(subdirsCb->sizeHint());
     browseB  ->setFixedSize(browseB->sizeHint());
@@ -97,10 +84,10 @@ void KfindTabDialog::init(const char *searchPath = 0 )
     browseB ->setEnabled(TRUE);
 
     connect( browseB,  SIGNAL(clicked()),
-             this, SLOT(getDirectory()) );
+             this, SLOT(getDirectory()) );   
 
     addTab( pages[0], " Name&Location " );
-
+                                                      
     //Page Two of KfTAbDialog
     pages[1] = new QWidget( this, "page2" );
 
@@ -149,6 +136,7 @@ void KfindTabDialog::init(const char *searchPath = 0 )
     le[2]->setMaxLength(3);
     le[3]->setMaxLength(3);
 
+  
     le[0]->setEnabled(modifiedFiles = FALSE);
     le[1]->setEnabled(betweenDates  = FALSE);
     le[2]->setEnabled(prevMonth     = FALSE);
@@ -168,7 +156,7 @@ void KfindTabDialog::init(const char *searchPath = 0 )
     connect( le[2],  SIGNAL(returnPressed()),
              this,  SLOT(isCheckedValid()) );
     connect( le[3],  SIGNAL(returnPressed()),
-             this,  SLOT(isCheckedValid()) );
+             this,  SLOT(isCheckedValid()) );      
 
     addTab( pages[1], " Date Modified " );
 
@@ -184,10 +172,6 @@ void KfindTabDialog::init(const char *searchPath = 0 )
     sizeEdit = new QLineEdit(                 pages[2], "sizeEdit" );
     kbL      = new QLabel("KB"               ,pages[2],"kb");
 
-    #ifdef WINCOMBO
-      typeBox->setStyle(WindowsStyle);
-      sizeBox->setStyle(WindowsStyle);
-    #endif
 
     typeL->setAlignment(namedL->alignment()|ShowPrefix);
     textL->setAlignment(namedL->alignment()|ShowPrefix);
@@ -204,24 +188,24 @@ void KfindTabDialog::init(const char *searchPath = 0 )
     textEdit ->setEnabled(FALSE);
     sizeEdit ->setEnabled(TRUE);
 
-    KfFileType *typ;
+     KfFileType *typ;
 
-    typeBox->insertItem("All Files and Folders");    
-    for ( typ = types->first(); typ != 0L; typ = types->next() )
-      if (typ->getComment("")!="")
- 	typeBox->insertItem(typ->getComment(""));
-      else
- 	typeBox->insertItem(typ->getName());
- 
-    sizeBox ->insertItem( "(none)" );      
-    sizeBox ->insertItem( "At Least" );      
+     typeBox->insertItem("All Files and Folders");
+     for ( typ = types->first(); typ != 0L; typ = types->next() )
+       if (typ->getComment("")!="")
+         typeBox->insertItem(typ->getComment(""));
+       else
+         typeBox->insertItem(typ->getName());
+
+    sizeBox ->insertItem( "(none)" );
+    sizeBox ->insertItem( "At Least" );
     sizeBox ->insertItem( "At Most" );
     sizeEdit->setText("1");
 
     connect( sizeEdit,  SIGNAL(returnPressed()),
-             this    ,  SLOT(checkSize()) );
+             this    ,  SLOT(checkSize()) );      
 
-    addTab( pages[2], " Advanced " );
+    addTab( pages[2], " Advanced " );  
   };
 
 void KfindTabDialog::resizeEvent( QResizeEvent *ev )
@@ -229,10 +213,10 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     int w = width();
     int   wTmp;
     QRect rTmp;
-   
-    KTabCtl::resizeEvent(ev);  
 
-    //Page One of KfTAbDialog 
+    KTabCtl::resizeEvent(ev);
+
+    //Page One of KfTAbDialog
     namedL ->move(10,20);
 
     if ((nameBox->style())==WindowsStyle)
@@ -246,7 +230,7 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
         nameBox->setGeometry(wTmp,namedL->y(),w-20-wTmp,25);
       else
         nameBox->setGeometry(wTmp,namedL->y(),w-20-wTmp,30);
-  
+
     rTmp = browseB->geometry();
     wTmp = nameBox->x()+nameBox->width()-rTmp.width();
     browseB ->move(wTmp,lookinL->y());
@@ -255,7 +239,7 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     dirBox->setGeometry(wTmp,lookinL->y(),browseB->x()-15-wTmp,25);
 
     subdirsCb ->move(10+lookinL->width(),lookinL->y()+35);
-    
+
     //Page Two of KfTAbDialog
     rb1[0]->move( 5, 5);
     rb1[1]->move( 5, 30);
@@ -264,13 +248,14 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     rb2[2]->move( 25, 105);
 
     le[0]->setGeometry( 100, 60, 80, 20 );
-    le[1]->setGeometry( 220, 60, 80, 20 );                
+    le[1]->setGeometry( 220, 60, 80, 20 );
     le[2]->setGeometry( 60+rb2[1]->width(), 85, 40, 20 );
     le[3]->setGeometry( 60+rb2[2]->width(), 110, 40, 20 );
 
-    andL->move(190,55);                
+    andL->move(190,55);
     monthL->move(25+rb2[1]->width()+10+80,80);
-    dayL->move(25+rb2[2]->width()+10+80,105);                
+    dayL->move(25+rb2[2]->width()+10+80,105);
+                                                  
 
      //Page Tree of KfTAbDialog
     typeL->move(10,20);
@@ -284,6 +269,25 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     kbL     ->move(10+sizeEdit->x()+sizeEdit->width(),sizeL->y());
   };
 
+
+QSize KfindTabDialog::sizeHint()
+  {
+    QSize size(320,180);
+
+    return (size);   
+  };
+
+void KfindTabDialog::setDefaults()
+  {
+    le[0] ->setText(date2String(QDate(1980,1,1)));
+    le[1] ->setText(date2String(QDate::currentDate()));
+    le[2] ->setText("1");
+    le[3] ->setText("1");
+
+    typeBox ->setCurrentItem(0);
+    sizeBox ->setCurrentItem(0);
+    sizeEdit->setText("1");
+  };
 
 void KfindTabDialog::enableEdit(int i)
   {
@@ -300,7 +304,7 @@ void KfindTabDialog::enableEdit(int i)
     if (i==0)
         {
           le[i]  ->setEnabled(TRUE);
-	  le[i+1]->setEnabled(TRUE);
+          le[i+1]->setEnabled(TRUE);
           betweenDates = TRUE;
         }
       else
@@ -356,13 +360,13 @@ void KfindTabDialog::isCheckedValid()
 
         if ( string2Date(le[1]->text()).isNull() )
           rightDates=FALSE;
-              
+
         if (rightDates)
           if (string2Date(le[0]->text())>string2Date(le[1]->text()))
              rightDates  = FALSE;
 
         if (!rightDates)
-	    {
+            {
               QMessageBox mb(this,"message box");
               mb.setText( "The date is not valid!!");
               mb.show();
@@ -380,8 +384,7 @@ void KfindTabDialog::isCheckedValid()
             mb.show();
             enableSearch = FALSE;
           };
-      };
-
+      };               
     if (prevDay == TRUE)
       {
         match = r.match(le[3]->text(), 0,&len);
@@ -420,55 +423,55 @@ QString KfindTabDialog::createQuery()
     enableSearch = TRUE;
     isCheckedValid();
     checkSize();
-    
+
     if (enableSearch)
       {
         str = dirBox->text(dirBox->currentItem());
 
-	nameBox->insertItem( nameBox->currentText(),0 );
+        nameBox->insertItem( nameBox->currentText(),0 );
 
-	if ( (typeBox->currentItem())!=0 )
-	  {
-	    KfFileType *typ;
+        if ( (typeBox->currentItem())!=0 )
+          {
+             KfFileType *typ;
 
-  	    typ = types->first();
-	    for (int i=1; i<typeBox->currentItem(); i++ )
-	      typ = types->next();
-	    //	    printf("Take filetype: %s\n",typ->getComment("").data());
+             typ = types->first();
+             for (int i=1; i<typeBox->currentItem(); i++ )
+               typ = types->next();
+             //      printf("Take filetype: %s\n",typ->getComment("").data());
 
-	    QStrList& pats = typ->getPattern();
-	    bool firstpattern = FALSE;
-	    str += " ( ";
-	    for (QString pattern=pats.first(); pattern!=0L; pattern=pats.next() )
-	      {
-		if (!firstpattern)
-		  {
-		    str += " -name ";
-		    firstpattern=TRUE;
-		  }
-		else
-		  str += " -o -name ";
-		 
-		if ( pattern.find("*",0)==0 )
-		  {
-		    str += nameBox->text(nameBox->currentItem());
-		    str += pattern.data();
-		  }
-		else
-		  {
-		    str += pattern.data();
-		    str += nameBox->text(nameBox->currentItem());
-		  };
-	      };
-	    str += " )";
-	    
-	    //	    printf("Query : %s\n",str.data());
-	  }
-	else
-	  {
-	    str += " -name ";
-	    str += nameBox->text(nameBox->currentItem());
-	  };
+             QStrList& pats = typ->getPattern();
+             bool firstpattern = FALSE;
+             str += " ( ";
+             for (QString pattern=pats.first(); pattern!=0L; pattern=pats.next() )
+               {
+                 if (!firstpattern)
+                   {
+                     str += " -name ";
+                     firstpattern=TRUE;
+                   }
+                 else
+                   str += " -o -name ";
+
+                 if ( pattern.find("*",0)==0 )
+                   {
+                     str += nameBox->text(nameBox->currentItem());
+                     str += pattern.data();
+                   }
+                 else
+                   {
+                     str += pattern.data();
+                     str += nameBox->text(nameBox->currentItem());
+                   };
+               };                                             
+             str += " )";
+
+             //      printf("Query : %s\n",str.data());
+          }
+        else
+          {
+            str += " -name ";
+            str += nameBox->text(nameBox->currentItem());
+          };
 
         if (!subdirsCb->isChecked())
             str.append(" -maxdepth 1 ");
@@ -499,15 +502,16 @@ QString KfindTabDialog::createQuery()
               {
                 case 1: {type="+";break;}
                 case 2: {type="-";break;}
-	        default: type=" ";
+                default: type=" ";
               };
             str.append(pom.sprintf(" -size  %s%sk ",type,sizeEdit->text()));
           };
       };
 
     return(str);
-  };
+  };        
 
+ 
 QString KfindTabDialog::date2String(QDate date)
   {
     QString str;
@@ -525,11 +529,11 @@ QDate KfindTabDialog::string2Date(QString str)
         return(QDate(year,month,day));
       else
         return(QDate::QDate());
-  };
+  };        
 
 void  KfindTabDialog::getDirectory()
   {
-    QString result; 
+    QString result;
 
     dirselector = new KfDirDialog(dirBox->text(dirBox->currentItem()),
                                   this,"dirselector",TRUE);
@@ -547,7 +551,4 @@ void  KfindTabDialog::getDirectory()
         dirBox->setCurrentItem(0);
       };
   };
-
-
-
 

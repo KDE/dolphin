@@ -24,49 +24,13 @@
 
 #include <kmsgbox.h>
 
-#include "kfmenu.h"
 #include "kftabdlg.h"
 #include "kfwin.h"
-#include "kfoptions.h"
 #include "kfind.h"
-
-#include "version.h"
 
 Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
     : QWidget( parent, name )
   {
-    setMinimumSize(440,220);             //the window never should be smaller
-    setMaximumSize(9999,220);
-
-    setCaption(QString("KFind ")+KFIND_VERSION);
-
-    //initialize menu
-    menu = new KfindMenu(this,"menu");
-    menu->setGeometry(0,0,width(),menu->height());
-
-    connect(this,SIGNAL(haveResults(bool)),
-            menu,SLOT(enableSaveResults(bool)));
-    connect(menu,SIGNAL(about()),
-            this,SLOT(aboutFind()));
-
-    //create tree bottons      
-    bt[0] = new QPushButton("F&ind Now"  ,this,"find");
-    bt[1] = new QPushButton("Sto&p"      ,this,"stop");
-    bt[2] = new QPushButton("Ne&w Search",this,"new_search");
-
-    bt[0]->setFixedSize(bt[2]->sizeHint());
-    bt[1]->setFixedSize(bt[2]->sizeHint());
-    bt[1]->setEnabled(false);
-    bt[2]->setFixedSize(bt[2]->sizeHint());
-
-    //connect button to slots
-    connect( bt[0],  SIGNAL(clicked()),
-             this, SLOT(startSearch()) );
-    connect( bt[1],  SIGNAL(clicked()),
-             this, SLOT(stopSearch()) );
-    connect( bt[2],  SIGNAL(clicked()),
-             this, SLOT(newSearch()) );
-
     //create tabdialog
     tabDialog = new KfindTabDialog(this,"dialog",searchPath);
 
@@ -74,39 +38,41 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
     win = new KfindWindow(this,"window");
     win->hide();  //and hide it firstly    
 
-    connect(win ,SIGNAL(resultSelected(const char *)),
-            this,SLOT(resultSelected(const char *)));
-    connect(this,SIGNAL(resultSelected(bool)),
-            menu,SLOT(enableMenuItems(bool)));
-    connect(menu,SIGNAL(deleteFile()),
-            win,SLOT(deleteFiles()));
-    connect(menu,SIGNAL(properties()),
-            win,SLOT(fileProperties()));
-    connect(menu,SIGNAL(openFolder()),
-            win,SLOT(openFolder()));
-    connect(menu,SIGNAL(saveResults()),
-            win,SLOT(saveResults()));
-    connect(menu,SIGNAL(addToArchive()),
-            win,SLOT(addToArchive()));
-    connect(menu,SIGNAL(open()),
-            win,SLOT(openBinding()));
+    connect(win ,SIGNAL(resultSelected(bool)),
+	    this,SIGNAL(resultSelected(bool)));
+    connect(win ,SIGNAL(statusChanged(const char *)),
+	    this,SIGNAL(statusChanged(const char *)));
+    connect(this,SIGNAL(deleteFile()),
+	    win,SLOT(deleteFiles()));
+    connect(this,SIGNAL(properties()),
+	    win,SLOT(fileProperties()));
+    connect(this,SIGNAL(openFolder()),
+	    win,SLOT(openFolder()));
+    connect(this,SIGNAL(saveResults()),
+	    win,SLOT(saveResults()));
+    connect(this,SIGNAL(addToArchive()),
+	    win,SLOT(addToArchive()));
+    connect(this,SIGNAL(open()),
+	    win,SLOT(openBinding()));
 
-    connect(menu,SIGNAL(prefs()),
-            this,SLOT(prefs()));
-
-    //    emit haveResults(FALSE);
-    resize(440,220);
+    emit haveResults(false);
+    resize(tabDialog->sizeHint()+QSize(0,5));
   };
 
-void Kfind::resizeEvent( QResizeEvent * )
+void Kfind::resizeEvent( QResizeEvent *e)
   {
-    menu->setGeometry(0,0,width(),menu->height());
-    tabDialog->setGeometry(10,menu->height()+5,
-                           width()-25-bt[0]->width(),210-menu->height());
-    bt[0]->move(20+tabDialog->width(),tabDialog->y()+20);
-    bt[1]->move(20+tabDialog->width(),bt[0]->y()+5+bt[0]->height());
-    bt[2]->move(20+tabDialog->width(),bt[1]->y()+5+bt[1]->height());
-    win->setGeometry(0,220,width(),height()-win->y());
+    QWidget::resizeEvent(e);
+
+    tabDialog->setGeometry(5,5,
+			   width()-10,(tabDialog->sizeHint()).height());
+    //printf("------------------------------\n");
+    //printf("Win height1 = %d\n",win->height());
+    //printf("Kfind height1 = %d\n",height());
+    //printf("tabDialog height1 = %d\n",(tabDialog->sizeHint()).height());
+    win->setGeometry(0,5+(tabDialog->sizeHint()).height()+5,width(),
+    		     height()-tabDialog->height()-10);
+    //printf("Win height2 = %d\n",win->height());
+    //printf("------------------------------\n");
   };
 
 void Kfind::timerEvent( QTimerEvent * )
@@ -121,16 +87,15 @@ void Kfind::timerEvent( QTimerEvent * )
           {
             win->updateResults( outFile.data() );
             win->show();
+
             emit haveResults(true);
-            if (height()==220)
-	      resize(width(),height()+150);
-	  };
+	    emit enableStatusBar(true);
+ 	  };
 
         unlink( outFile.data() );
     
-        bt[1]->setEnabled(false);
-        bt[0]->setEnabled(true);
-      }
+	enableSearchButton(true);
+      };
    };
     
 void Kfind::startSearch()
@@ -141,17 +106,16 @@ void Kfind::startSearch()
     int fromPos,toPos,i;
 
     //    printf("Starting Search\n");
-    setMaximumSize(9999,9999);
 
     buffer = tabDialog->createQuery();
 
     emit haveResults(false);
     emit resultSelected(false);
+    win->clearList();
 
     if (!buffer.isNull())
       {
-        bt[0]->setEnabled(false);
-        bt[1]->setEnabled(true);
+	enableSearchButton(false);
 
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
@@ -198,8 +162,7 @@ void Kfind::stopSearch()
   {
     //    printf("Stoping Search\n");
     
-    bt[1]->setEnabled(false);
-    bt[0]->setEnabled(true);
+    enableSearchButton(true);
 
     kill(childPID,9);
   };
@@ -209,8 +172,10 @@ void Kfind::newSearch()
     //    printf("Prepare for New Search\n");
     win->hide();
     win->clearList();
-    resize(width(),220);
-    setMaximumSize(9999,220);
+
+    tabDialog->setDefaults();
+
+    emit enableStatusBar(false);
 
     doProcess=false;
     emit haveResults(false);
@@ -219,30 +184,8 @@ void Kfind::newSearch()
     stopSearch();
  };
 
-void Kfind::resultSelected(const char * str)
+QSize Kfind::sizeHint()
   {
-    emit resultSelected(true);
+    return (tabDialog->sizeHint());
   };
 
-void Kfind::aboutFind()
-  {
-    QString tmp;
-
-    tmp.sprintf("KFind %s\nFrontend to find utility
-                     \nMiroslav Flídr <flidr@kky.zcu.cz>",KFIND_VERSION);
-
-    KMsgBox::message(this,"about box",tmp,KMsgBox::INFORMATION, "OK"); 
-  };
-
-void Kfind::message(const char *str)
-  {
-    KMsgBox::message(this, "about box",str,KMsgBox::INFORMATION, "Oops"); 
-  };   
-
-void Kfind::prefs()
-  {
-    //    KfOptions *prefs = new KfOptions(0L,0L);
-    KfOptions *prefs = new KfOptions(0L,0L);
-
-    prefs->show();
-  };

@@ -35,6 +35,21 @@ void KfArchiver::initArchivers()
   config->setGroup( "Archiver Types" );
 
   QString arch = config->readEntry( "Archivers" );
+
+  //Create Tar Archive Entry when no entry found in rc file
+  if ( arch.isNull() | (arch=="") )
+    {
+      arch="tar;";
+      config->setGroup( "Archiver Types" );
+      config->writeEntry( "Archivers", arch.data() );
+
+      config->setGroup( "tar" );
+      config->writeEntry( "Comment", "Tar" );
+      config->writeEntry( "ExecOnCreate", "tar cf %a -C %d %n" );
+      config->writeEntry( "ExecOnUpdate", "tar uf %a -C %d %n" );
+      config->writeEntry( "Pattern", "*.tar;" );
+    };
+
   int pos = 0;
   int old_pos = 0;
   QStrList names; // Temporally stores names of archives
@@ -77,7 +92,7 @@ void KfArchiver::initArchivers()
 	      old_pos = pos;
 	    };
 	  archivers->append(ar);
-	};
+	};	
     };
   
 };
@@ -97,4 +112,5 @@ KfArchiver* KfArchiver::findByPattern( const char *_pattern )
   
   return 0L;
 };
+
 

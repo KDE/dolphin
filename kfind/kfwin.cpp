@@ -31,6 +31,8 @@
 #include <qfileinf.h> 
 
 #include <kfm.h>
+#include <kfmclient_ipc.h>
+
 #include <kmsgbox.h>
 #include "kfwin.h"
 //#include "kftypes.h"
@@ -45,24 +47,16 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
     : QWidget( parent, name )          
   {
     lbx = new QListBox(this,"list_box" );
-    lbx->setGeometry(0,0,width(),height()-27);
-    
-    label = new QLabel(this,"label");
-    label->setFrameStyle( QFrame::Panel | QFrame::Sunken );
-    label->setLineWidth( 2 );
-    label->setGeometry(0,lbx->height()+2,width(),25);
 
     connect(lbx , SIGNAL(highlighted(int)),
-            this, SLOT(highlighted(int)) );
+            this, SLOT(highlighted()) );
     connect(lbx , SIGNAL(selected(int)),
             this, SLOT( openBinding()) );
-   
    };
 
 void KfindWindow::resizeEvent( QResizeEvent * )
   {
-    lbx  ->setGeometry(0,0,width(),height()-27);
-    label->setGeometry(0,lbx->height()+2,width(),25);
+    lbx->setGeometry(0,0,width(),height());    
   };
 
 void KfindWindow::updateResults(const char *file )
@@ -98,7 +92,8 @@ void KfindWindow::updateResults(const char *file )
 
     lbx->insertStrList(strl,-1);
     sprintf(str,"%d file(s) found",count);
-    label->setText(str);
+    emit statusChanged(str);
+
     fclose(f);    
     delete filename;
     delete strl;
@@ -172,9 +167,9 @@ void KfindWindow::saveResults()
       };
   };
 
-void KfindWindow::highlighted(int index)
+void KfindWindow::highlighted()
   {
-    emit resultSelected(lbx->text(index));
+    emit resultSelected(true);
   };
 
 void KfindWindow::deleteFiles()
@@ -208,11 +203,11 @@ void KfindWindow::deleteFiles()
                     }
                 else
                   {
-                   KFM *PropertiesD= new KFM();
+                   KFM *kfm= new KFM();
                   /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
                                                     lbx->currentItem()));
 		  */ 
-                   PropertiesD->refreshDirectory(lbx->text(lbx->currentItem()));
+                   kfm->refreshDirectory(lbx->text(lbx->currentItem()));
                    lbx->removeItem(lbx->currentItem());
  		  };
             }
@@ -241,11 +236,11 @@ void KfindWindow::deleteFiles()
                    }
                  else
                   {
-		    KFM *PropertiesD= new KFM();
+		    KFM *kfm= new KFM();
 		    /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
 					      lbx->currentItem()));
 		  */ 
-		    PropertiesD->refreshDirectory(lbx->text(lbx->currentItem()));
+		    kfm->refreshDirectory(lbx->text(lbx->currentItem()));
 		    lbx->removeItem(lbx->currentItem());
                   };
             };
@@ -256,50 +251,53 @@ void KfindWindow::deleteFiles()
 
 void KfindWindow::fileProperties()
   {
-    KFM *PropertiesD= new KFM();
+    QString tmp= "file:";
+    KFM *kfm= new KFM();
 
-    // QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
-
-    PropertiesD->openProperties(lbx->text(lbx->currentItem()));
+    QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+    if (fileInfo->isDir())
+      {
+	tmp.append(fileInfo->filePath());
+	kfm->openProperties(tmp.data());
+      }
+    else
+      {
+	tmp.append(lbx->text(lbx->currentItem()));
+	kfm->openProperties(tmp.data());
+      };
   };
 
 void KfindWindow::openFolder()
   {
     QString tmp;
-    KFM *PropertiesD= new KFM();
+    KFM *kfm= new KFM();
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
         tmp.sprintf("file:%s",fileInfo->filePath());
       else
-        tmp.sprintf("file:%s",(fileInfo->dirPath()).data());
+	tmp.sprintf("file:%s",(fileInfo->dirPath()).data());
 
 
-    PropertiesD->openURL(tmp.data());
-    
-//     int childPID=fork();
-//     if (childPID==0)
-//       {
-// 	execlp("kfmclient","kfmclient","openURL",tmp.data(),0L);
-//         printf("Error by creating child process!\n");
-//         exit(1); 
-//       };
-    
+    kfm->openURL(tmp.data());
   };
 
 void KfindWindow::openBinding()
   {
-    QString tmp;
-    KFM *PropertiesD= new KFM();
+    QString tmp= "file:";
+    KFM *kfm= new KFM();
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
       {
-	tmp.sprintf("file:%s",fileInfo->filePath());
-	PropertiesD->openURL(tmp);
+	tmp.append(fileInfo->filePath());
+	kfm->openURL(tmp.data());
       }
     else
-      PropertiesD->exec(lbx->text(lbx->currentItem()),0L);
+      {
+	tmp.append(lbx->text(lbx->currentItem()));
+	kfm->exec(tmp.data(),0L);
+      };
   };
 
 void KfindWindow::addToArchive()
@@ -317,16 +315,13 @@ void KfindWindow::addToArchive()
   QString pattern1 = filename.right(filename.length()-pos1);
   QString pattern2 = "*"+filename.mid(pos2,pos1-pos2)+pattern1;
 
-  //printf("filename1 = %s\n",pattern1.data());
-  //printf("filename2 = %s\n",pattern2.data());
-
   if ( (arch = KfArchiver::findByPattern(pattern2))!=0L)
     execAddToArchive(arch,filename);
   else
     if ( (arch = KfArchiver::findByPattern("*"+pattern1))!=0L)
       execAddToArchive(arch,filename);
     else
-      KMsgBox::message(parentWidget(),"Error","Could not recognize archive type!"
+      KMsgBox::message(parentWidget(),"Error","Couldn't recognize archive type!"
 		       ,KMsgBox::STOP, "OK"); 
 
 };

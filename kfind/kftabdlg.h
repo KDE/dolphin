@@ -2,12 +2,12 @@
  *
  *  kftabdlg.h
  *
- **********************************************************************/
+ ***********************************************************************/
 
 #ifndef KFTABDLG_H
 #define KFTABDLG_H
 
-#include <ktabctl.h>
+#include <ktabctl.h>  
 
 class QButtonGroup;
 class QPushButton;
@@ -19,73 +19,79 @@ class QCheckBox;
 class QLineEdit;
 class QString;
 class QDate;
+class QSize;
 
 class KfindTabDialog: public KTabCtl
 {
-    Q_OBJECT
- 
-  public:
-    KfindTabDialog( QWidget * parent = 0, const char * name = 0, 
-		    const char *searchPath = 0  );
-    //    ~KfindTabDialog();
-    QString createQuery();
+  Q_OBJECT
 
-  private slots:
-    // Slots for first page    
-    void getDirectory();
+public:
+  KfindTabDialog(QWidget * parent = 0,const char * name = 0,const char*searchPath=0);
+  //    ~KfindTabDialog();
+  QString createQuery();      
+  QSize sizeHint();
+  void setDefaults();
 
-    // Slots for second page
-    void enableEdit(int);
-    void disableAllEdit();
-    void enableCheckedEdit();
-    void isCheckedValid();
+private slots:
+  // Slots for first page
+  void getDirectory();
+  
+  // Slots for second page
+  void enableEdit(int);
+  void disableAllEdit();
+  void enableCheckedEdit();
+  void isCheckedValid(); 
+  
+  // Slots for third page
+  void checkSize();          
 
-    // Slots for third page
-    void checkSize();
-    
-  private:
-    void init(const char *searchPath = 0 );
-    QString date2String(QDate);
-    QDate string2Date(QString);
-    void resizeEvent( QResizeEvent * );
+signals:
 
-    bool modifiedFiles;
-    bool betweenDates;
-    bool prevMonth;
-    bool prevDay;
+protected:
 
-    bool enableSearch;
+private:
+  void resizeEvent( QResizeEvent * );
+  QString date2String(QDate);
+  QDate string2Date(QString);         
 
-    QWidget *pages[3]; 
+  bool modifiedFiles;
+  bool betweenDates;
+  bool prevMonth;
+  bool prevDay;
+  
+  bool enableSearch;            
 
-    // for firts page
-    QLabel      *namedL;
-    QComboBox   *nameBox;
-    QLabel      *lookinL;
-    QComboBox   *dirBox;
-    QCheckBox   *subdirsCb;
-    QPushButton *browseB;
+  QWidget *pages[3];
+  
+  // for firts page
+  QLabel      *namedL;
+  QComboBox   *nameBox;
+  QLabel      *lookinL;
+  QComboBox   *dirBox;
+  QCheckBox   *subdirsCb;
+  QPushButton *browseB;
 
-    KfDirDialog *dirselector;
+  KfDirDialog *dirselector;
 
-    // for second page
-    QButtonGroup *bg[2];
-    QRadioButton *rb1[2],*rb2[3];
-    QLineEdit *le[4];
-    QLabel *andL;
-    QLabel *monthL;
-    QLabel *dayL;
-
-    // for third page
-    QLabel *typeL;
-    QComboBox *typeBox;
-    QLabel *textL;
-    QLineEdit * textEdit;
-    QLabel *sizeL;
-    QComboBox *sizeBox;
-    QLineEdit *sizeEdit;
-    QLabel *kbL;
-
+  // for second page
+  QButtonGroup *bg[2];
+  QRadioButton *rb1[2],*rb2[3];
+  QLineEdit *le[4];
+  QLabel *andL;
+  QLabel *monthL;
+  QLabel *dayL;
+  
+  // for third page
+  QLabel *typeL;
+  QComboBox *typeBox;
+  QLabel *textL;
+  QLineEdit * textEdit;
+  QLabel *sizeL;
+  QComboBox *sizeBox;
+  QLineEdit *sizeEdit;
+  QLabel *kbL;
 };
 
 #endif
+
+ 
