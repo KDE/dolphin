@@ -114,6 +114,8 @@ void KonqFMSettings::init( KConfig * config )
 
 bool KonqFMSettings::shouldEmbed( const QString & mimetypeGroup )
 {
+  if ( mimetypeGroup == "inode" )
+    return true; //always embed mimetype inode/*
   if ( mimetypeGroup == "text" )
     return m_embedText;
   if ( mimetypeGroup == "image" )
