@@ -722,9 +722,17 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 
 void KonqKfmIconView::slotOpenURLRequest()
 {
+  if ( !openURLRequestFileItem )
+    // This shouldn't happen. Well, it can, if one double-clicks on an icon
+    // or for any other reason, two singleshots get fired before we get here.
+    kdWarning(1202) << "Null openURLRequestFileItem in KonqKfmIconView !" << endl;
+  else
+  {
     KParts::URLArgs args;
     args.serviceType = openURLRequestFileItem->mimetype();
     emit m_extension->openURLRequest( openURLRequestFileItem->url(), args );
+    openURLRequestFileItem = 0L;
+  }
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
