@@ -10,7 +10,7 @@
 <title>The Konsole Handbook</title>
 <authorgroup>
 <author>
-<firstname>Jonathon</firstname>
+<firstname>Jonathan</firstname>
 <surname>Singer</surname>
 <affiliation>
 <address><email>jsinger@genome.wi.mit.edu</email></address>
@@ -479,7 +479,7 @@ session.</para>
 <para>The application &konsole; <trademark class="copyright">copyright 1997-2000
 Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 
-<para>This document was written by Jonathon Singer
+<para>This document was written by Jonathan Singer
 <email>jsinger@genome.wi.mit.edu</email></para>
 
 <para>Converted to DocBook SGML by Michael McBride
