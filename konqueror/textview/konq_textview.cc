@@ -1,21 +1,21 @@
 /*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
- 
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
- 
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/ 
+
+*/
 
 #include "konq_textview.h"
 #include "konq_factory.h"
@@ -50,7 +50,7 @@
 class KonqTextViewFactory : public KLibFactory
 {
 public:
-  KonqTextViewFactory() 
+  KonqTextViewFactory()
   {
     KonqFactory::instanceRef();
   }
@@ -65,7 +65,7 @@ public:
     emit objectCreated( obj );
     return obj;
   }
-  
+
 };
 
 extern "C"
@@ -87,26 +87,26 @@ void KonqTextPrintingExtension::print()
   QPrinter printer;
 
   emit m_textView->setStatusBarText( i18n( "Printing..." ) );
-  
+
   KMultiLineEdit *edit = m_textView->multiLineEdit();
 
   QFont oldFont = edit->font();
   edit->setFont( KGlobal::generalFont() );
-  
+
   if ( printer.setup( edit ) )
   {
     QPainter painter;
     painter.begin( &printer );
-    
+
     painter.setFont( edit->font() );
     int lineSpacing = painter.fontMetrics().lineSpacing();
     QPaintDeviceMetrics paintDevMetrics( &printer );
-    
+
     int y = 0, i = 0, page = 1;
     const int Margin = 10;
-    
+
     emit m_textView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( page ) );
-    
+
     for (; i < edit->numLines(); i++ )
     {
       if ( Margin + y > paintDevMetrics.height() - Margin )
@@ -115,16 +115,16 @@ void KonqTextPrintingExtension::print()
 	printer.newPage();
 	y = 0;
       }
-    
+
       painter.drawText( Margin, Margin + y, paintDevMetrics.width(),
                         lineSpacing, ExpandTabs | DontClip,
 			edit->textLine( i ) );
 			
       y += lineSpacing;
     }
-    
+
     painter.end();
-    
+
   }
 
   edit->setFont( oldFont );
@@ -159,20 +159,20 @@ KonqTextView::KonqTextView()
   (void)new KonqTextEditExtension( this );
 
   m_pEdit = new KMultiLineEdit( this );
-  
+
   m_pEdit->setReadOnly( true );
 
   m_pEdit->installEventFilter( this );
-  
+
   m_jobId = 0;
   m_bFixedFont = false;
   m_pEdit->setFont( KGlobal::generalFont() );
-  
+
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
   m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotEdit() ), this );
   m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search", KonqFactory::instance() ) ), 0, this, SLOT( slotSearch() ), this );
   m_ptaFixedFont = new KToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
-  m_paSaveDocument = new KAction( i18n( "Save Document As..." ), 0, this, SLOT( slotSaveDocumentAs() ), this ); 
+  m_paSaveDocument = new KAction( i18n( "Save Document As..." ), 0, this, SLOT( slotSaveDocumentAs() ), this );
 
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paEdit, BrowserView::MenuEdit | BrowserView::ToolBar ) );
@@ -192,29 +192,29 @@ void KonqTextView::openURL( const QString &url, bool reload,
 {
   kdebug(0,1202,"bool KonqTextView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
   stop();
-  
+
   KIOCachedJob *job = new KIOCachedJob;
-  
+
   job->setGUImode( KIOJob::NONE );
-  
+
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotFinished( int ) ) );
   QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ), this, SLOT( slotRedirection( int, const char * ) ) );
   QObject::connect( job, SIGNAL( sigData( int, const char *, int ) ), this, SLOT( slotData( int, const char *, int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char * ) ), this, SLOT( slotError( int, int, const char * ) ) );
-  
+
   (void)new KonqProgressProxy( this, job );
-  
+
   m_jobId = job->id();
-  
+
   m_pEdit->clear();
-  
+
   m_iXOffset = xOffset;
   m_iYOffset = yOffset;
-  
+
   m_strURL = url;
   job->get( url, reload );
   emit started();
-  
+
 //  setCaptionFromURL( m_strURL );
 }
 
@@ -230,7 +230,7 @@ bool KonqTextView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMen
 
   if ( !CORBA::is_nil( viewMenu ) )
   {
-    m_idFixedFont = m_vMenuView->insertItem4( i18n( "Use Fixed Font" ), 
+    m_idFixedFont = m_vMenuView->insertItem4( i18n( "Use Fixed Font" ),
 					      this, "slotFixedFont", 0, -1, -1 );
     m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
   }
@@ -254,7 +254,7 @@ bool KonqTextView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
 {
   if ( CORBA::is_nil( toolBar.toolBar ) )
     return false;
-    
+
   if ( toolBar.create )
   {
     QString toolTip = i18n( "Search" );
@@ -271,7 +271,7 @@ bool KonqTextView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
     toolBar.toolBar->removeItem( TOOLBAR_SEARCH_ID );
     toolBar.toolBar->removeItem( TOOLBAR_EDITOR_ID );
   }
-    
+
   return true;
 }
 */
@@ -303,9 +303,9 @@ bool KonqTextView::eventFilter( QObject *o, QEvent *e )
        ((QMouseEvent *)e)->button() == RightButton )
   {
     KURL u( m_strURL );
-    
+
     mode_t mode = 0;
-    
+
     if ( u.isLocalFile() )
     {
       struct stat buff;
@@ -316,7 +316,7 @@ bool KonqTextView::eventFilter( QObject *o, QEvent *e )
       }
       mode = buff.st_mode;
     }
-    
+
     KFileItem item( mode, u );
     KFileItemList items;
     items.append( &item );
@@ -336,7 +336,7 @@ void KonqTextView::slotEdit()
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
   QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
-    
+
   QCString cmd;
   cmd.sprintf( "%s %s &", editor.ascii(), m_strURL.ascii() );
   system( cmd.data() );
@@ -347,7 +347,7 @@ void KonqTextView::slotFixedFont()
   m_bFixedFont = !m_bFixedFont;
 //  if ( !CORBA::is_nil( m_vMenuView ) )
 //    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
-    
+
   if ( m_bFixedFont )
     m_pEdit->setFont( KGlobal::fixedFont() );
   else
@@ -357,14 +357,14 @@ void KonqTextView::slotFixedFont()
 void KonqTextView::slotSearch()
 {
   m_pSearchDialog = new KonqSearchDialog( this );
-  
+
   QObject::connect( m_pSearchDialog, SIGNAL( findFirst( const QString &, bool, bool ) ),
                     this, SLOT( slotFindFirst( const QString &, bool, bool ) ) );
   QObject::connect( m_pSearchDialog, SIGNAL( findNext( bool, bool ) ),
                     this, SLOT( slotFindNext( bool, bool ) ) );
-  
+
   m_pSearchDialog->exec();
-  
+
   delete m_pSearchDialog;
   m_pSearchDialog = 0L;
 }
@@ -373,6 +373,7 @@ void KonqTextView::slotSaveDocumentAs()
 {
   KURL u( m_strURL );
 
+#ifndef AFTER_KRASH_API
   KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.txt",
 				      this, "filedialog", true, false );
 
@@ -385,6 +386,17 @@ void KonqTextView::slotSaveDocumentAs()
     job->copy( m_strURL, dest.url() );
   }
   delete dlg;
+#else
+  KURL dest = KFileDialog::getSaveFileName( u.filename(),
+				       i18n("*|All Files\n"
+					    "*.txt|Text-Files"), this,
+				       i18n( "Save as" ));
+  if ( !dest.isMalformed() )
+  {
+      KIOJob *job = new KIOJob;
+      job->copy( m_strURL, dest.url() );
+  }
+#endif
 }
 
 /*
@@ -420,12 +432,12 @@ void KonqTextView::slotFinished( int )
 void KonqTextView::slotRedirection( int, const char *url )
 {
 //  m_strURL = url;
-  
+
   QString decodedURL = url;
   KURL::decode( decodedURL );
   emit setLocationBarURL( decodedURL );
-  
-//  m_vMainWindow->setPartCaption( id(), QString(url) );  
+
+//  m_vMainWindow->setPartCaption( id(), QString(url) );
 }
 
 void KonqTextView::slotData( int, const char *data, int len )
@@ -441,7 +453,7 @@ void KonqTextView::slotError( int, int err, const char *text )
 void KonqTextView::slotFindFirst( const QString &_text, bool backwards, bool caseSensitive )
 {
   m_strSearchText = _text;
-  
+
   if ( backwards )
   {
     m_iSearchPos = m_pEdit->textLine( m_pEdit->numLines() - 1 ).length();
@@ -451,8 +463,8 @@ void KonqTextView::slotFindFirst( const QString &_text, bool backwards, bool cas
   {
     m_iSearchPos = 0;
     m_iSearchLine = 0;
-  }    
-  
+  }
+
   m_bFound = false;
   slotFindNext( backwards, caseSensitive );
 }
@@ -460,12 +472,12 @@ void KonqTextView::slotFindFirst( const QString &_text, bool backwards, bool cas
 void KonqTextView::slotFindNext( bool backwards, bool caseSensitive )
 {
   int index;
-  
+
   if ( backwards )
     index = m_pEdit->textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
   else
     index = m_pEdit->textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
-    
+
   while ( index == -1 )
   {
     if ( backwards )
@@ -478,15 +490,15 @@ void KonqTextView::slotFindNext( bool backwards, bool caseSensitive )
     {
       m_iSearchLine++;
       m_iSearchPos = 0;
-    }      
-    
+    }
+
     if ( ( backwards && m_iSearchLine < 0 ) ||
          ( !backwards && m_iSearchLine >= m_pEdit->numLines() ) )
     {
       if ( !m_bFound )
       {
         KMessageBox::information( m_pSearchDialog , i18n( "Search string not found." ));
-        return;      
+        return;
       }
 
       if ( backwards )
@@ -498,8 +510,8 @@ void KonqTextView::slotFindNext( bool backwards, bool caseSensitive )
       {
         m_iSearchPos = 0;
         m_iSearchLine = 0;
-      }    
-      
+      }
+
       m_bFound = false;	
     }
 
@@ -513,7 +525,7 @@ void KonqTextView::slotFindNext( bool backwards, bool caseSensitive )
   m_pEdit->setCursorPosition( m_iSearchLine, index, false );
   m_pEdit->setCursorPosition( m_iSearchLine, index + m_strSearchText.length(), true );
   m_pEdit->update();
-  
+
   if ( backwards )
     m_iSearchPos = index-1;
   else
@@ -531,7 +543,7 @@ void KonqTextView::mousePressEvent( QMouseEvent *e )
   if ( e->button() == RightButton && m_pMainView )
   {
     KURL u( m_strURL );
-    
+
     mode_t mode = 0;
     if ( u.isLocalFile() )
     {
@@ -543,7 +555,7 @@ void KonqTextView::mousePressEvent( QMouseEvent *e )
       }
       mode = buff.st_mode;
     }
-    
+
     KFileItem item( mode, u );
     KFileItemList items;
     items.append( &item );
