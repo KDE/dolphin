@@ -20,8 +20,7 @@
 
 // Change cursor over links
 // Underline links
-// Editor for viewing HTML source
-// TODO AutoLoad Images
+// AutoLoad Images
 // ... there is room for others :))
 
 
@@ -49,7 +48,6 @@ private:
 
         QCheckBox *cbCursor;
         QCheckBox *cbUnderline;
-        QLineEdit *leEditor;
         QCheckBox *m_pAutoLoadImagesCheckBox;
 };
 

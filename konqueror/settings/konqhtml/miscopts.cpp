@@ -44,21 +44,6 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QHBoxLayout * hlay = new QHBoxLayout(10);
-    lay->addLayout(hlay);
-    QLabel * label = new QLabel(i18n("View HTML source with:"),this);
-    hlay->addWidget(label, 1);
-
-    leEditor = new QLineEdit(this);
-    hlay->addWidget(leEditor, 5);
-
-    QString wtstr = i18n("Here you can specify the text viewer or editor konqueror will use "
-        "to display the HTML source of a document.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( leEditor, wtstr );
-
-    connect(leEditor, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
      "Automatically load images\n"
      "(Otherwise, click the Images button to load when needed)" ), this );
@@ -81,14 +66,12 @@ void KMiscHTMLOptions::load()
     g_pConfig->setGroup( "HTML Settings" );
     bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
     bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
-    QString sEditor = g_pConfig->readEntry( "Editor", DEFAULT_EDITOR );
     bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
 
     // *** apply to GUI ***
 
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
-    leEditor->setText(sEditor);
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
 }
 
@@ -96,7 +79,6 @@ void KMiscHTMLOptions::defaults()
 {
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
-    leEditor->setText(DEFAULT_EDITOR);
     m_pAutoLoadImagesCheckBox->setChecked( false );
 }
 
@@ -105,7 +87,6 @@ void KMiscHTMLOptions::save()
     g_pConfig->setGroup( "HTML Settings" );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
-    g_pConfig->writeEntry( "Editor", leEditor->text());
     g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
     g_pConfig->sync();
 }
