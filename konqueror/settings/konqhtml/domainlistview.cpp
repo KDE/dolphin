@@ -35,10 +35,10 @@
 DomainListView::DomainListView(KConfig *config,const QString &title,
 		QWidget *parent,const char *name) :
 	QGroupBox(title, parent, name), config(config) {
-  this->setColumnLayout(0, Qt::Vertical);
-  this->layout()->setSpacing(0);
-  this->layout()->setMargin(0);
-  QGridLayout* thisLayout = new QGridLayout(this->layout());
+  setColumnLayout(0, Qt::Vertical);
+  layout()->setSpacing(0);
+  layout()->setMargin(0);
+  QGridLayout* thisLayout = new QGridLayout(layout());
   thisLayout->setAlignment(Qt::AlignTop);
   thisLayout->setSpacing(KDialog::spacingHint());
   thisLayout->setMargin(KDialog::marginHint());
