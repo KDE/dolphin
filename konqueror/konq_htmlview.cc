@@ -51,7 +51,8 @@
 
 #define TOOLBAR_LOADIMAGES_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
 
-KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
+KonqHTMLView::KonqHTMLView( KonqMainView *mainView, KBrowser *parentBrowser, const char *name )
+: KBrowser( 0L, 0L, parentBrowser )
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
@@ -403,7 +404,19 @@ void KonqHTMLView::slotSelectionChanged()
 {
   SIGNAL_CALL0( "selectionChanged" );
 }
-
+/*
+KBrowser *KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
+{
+  KonqHTMLView *v = new KonqHTMLView( m_pMainView, _name );
+  v->reparent( _parent, 0, QPoint( 0, 0 ) );
+  
+  m_lstViews.append( Browser::View::_duplicate( v ) );
+  
+  v->setParent( this );
+  
+  return v;
+}
+*/
 // #include "kfmicons.h"
 
 KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char *, const char *, const char *,
@@ -629,7 +642,7 @@ void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffs
   req.yOffset = (CORBA::Long)_yoffset;
 
 
-  SIGNAL_CALL1( "openURL", req );
+  SIGNAL_CALL2( "openURL", id(), req );
 }
 
 void KonqHTMLView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )

@@ -71,7 +71,7 @@ public:
   virtual Browser::View_ptr activeView();
   virtual OpenParts::Id activeViewId();
 
-  virtual void openURL( const Browser::URLRequest &_urlreq );
+  virtual void openURL( OpenParts::Id id, const Browser::URLRequest &_urlreq );
   virtual void openURL( const char * _url, bool _reload = false, int xOffset = 0,
                         int yOffset = 0, KonqChildView *_view = 0L );
   
@@ -166,7 +166,6 @@ public:
   virtual void slotSaveDefaultProfile();
   virtual void slotProfileDlg();
   virtual void slotViewProfileActivated( CORBA::Long id );
-
 
   // Help menu
   virtual void slotHelpContents();    

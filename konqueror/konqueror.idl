@@ -79,7 +79,7 @@ module Konqueror
     Browser::View activeView();
     OpenParts::Id activeViewId();
 
-    slot void openURL( in Browser::URLRequest url );    
+    slot void openURL( in OpenParts::Id id, in Browser::URLRequest url );    
     
     slot void setStatusBarText( in wstring text );
     slot void setLocationBarURL( in OpenParts::Id id, in string url );

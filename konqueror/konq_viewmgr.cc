@@ -292,6 +292,9 @@ void KonqViewManager::removeView( KonqChildView *view )
   }	  
 
   m_pMainView->removeChildView( view->id() );
+  
+  if ( isLinked( view ) )
+    removeLink( view );
 
   delete view;
   
@@ -314,11 +317,11 @@ void KonqViewManager::doGeometry( int width, int height )
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
-  Konqueror::RowInfo *row = view->rowInfo();
-  KonqChildView *next = 0L;
-  
   if ( !view )
     return m_lstRows.getFirst()->children.getFirst();
+    
+  Konqueror::RowInfo *row = view->rowInfo();
+  KonqChildView *next = 0L;
   
   if ( m_lstRows.count() == 1 && row->children.count() == 1 )
     return view;
@@ -377,6 +380,78 @@ unsigned long KonqViewManager::viewIdByNumber( int num )
   }
   
   return 0;
+}
+
+void KonqViewManager::createLink( KonqChildView *source, KonqChildView *destination )
+{
+  if ( isLinked( source ) )
+    removeLink( source );
+    
+  m_mapViewLinks.insert( source, destination );
+}
+
+KonqChildView *KonqViewManager::readLink( KonqChildView *view )
+{
+  QMap<KonqChildView *, KonqChildView*>::ConstIterator it = m_mapViewLinks.find( view );
+  
+  if ( it != m_mapViewLinks.end() )
+    return it.data();
+
+  return view;
+}
+
+void KonqViewManager::removeLink( KonqChildView *source )
+{
+  m_mapViewLinks.remove( source );
+}
+
+KonqChildView *KonqViewManager::linkableViewVertical( KonqChildView *view, bool above )
+{
+  if ( m_lstRows.count() == 1 )
+    return 0L;
+
+  Konqueror::RowInfo *savedCurrentRow = m_lstRows.current();
+  
+  m_lstRows.findRef( view->rowInfo() );
+  
+  Konqueror::RowInfo *destRow = 0L;
+  if ( above )
+    destRow = m_lstRows.prev();
+  else
+    destRow = m_lstRows.next();
+
+  m_lstRows.findRef( savedCurrentRow );
+  
+  if ( !destRow )
+    return 0L;
+
+  if ( destRow->children.count() != 1 )
+    return 0L;
+
+  return destRow->children.getFirst();
+}
+
+KonqChildView *KonqViewManager::linkableViewHorizontal( KonqChildView *view, bool left )
+{
+  Konqueror::RowInfo *row = view->rowInfo();
+  
+  if ( row->children.count() == 1 )
+    return 0L;
+    
+  KonqChildView *savedCurrentView = row->children.current();
+  
+  row->children.findRef( view );
+  
+  KonqChildView *dest = 0L;
+  
+  if ( left )
+    dest = row->children.prev();
+  else
+    dest = row->children.next();
+    
+  row->children.findRef( savedCurrentView );
+  
+  return dest;
 }
 
 void KonqViewManager::clearRow( Konqueror::RowInfo *row )

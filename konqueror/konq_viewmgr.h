@@ -21,6 +21,7 @@
 #define __konq_viewmgr_h__ $Id$
 
 #include <qnamespace.h>
+#include <qmap.h>
 
 #include "konq_defs.h"
 
@@ -57,6 +58,17 @@ public:
 
   unsigned long viewIdByNumber( int num );
   
+  bool isLinked( KonqChildView *source ) { return m_mapViewLinks.contains( source ); }
+  
+  void createLink( KonqChildView *source, KonqChildView *destination );
+  
+  KonqChildView * readLink( KonqChildView *view );
+  
+  void removeLink( KonqChildView *source );
+  
+  KonqChildView *linkableViewVertical( KonqChildView *view, bool above );
+  KonqChildView *linkableViewHorizontal( KonqChildView *view, bool left );
+  
 private:
 
   void clearRow( Konqueror::RowInfo *row );
@@ -68,6 +80,7 @@ private:
   QSplitter *m_pMainSplitter;
 
   QList<Konqueror::RowInfo> m_lstRows;
+  QMap<KonqChildView *, KonqChildView*> m_mapViewLinks;
 };
 
 #endif

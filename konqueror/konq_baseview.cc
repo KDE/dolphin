@@ -103,5 +103,5 @@ void KonqBaseView::openURLRequest( const char *_url )
   urlRequest.reload = (CORBA::Boolean)false;
   urlRequest.xOffset = 0;
   urlRequest.yOffset = 0;
-  SIGNAL_CALL1( "openURL", urlRequest );
+  SIGNAL_CALL2( "openURL", id(), urlRequest );
 }

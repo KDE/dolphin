@@ -98,7 +98,8 @@ enum _ids {
     MWINDOW_SPLITHOR_ID, MWINDOW_SPLITVER_ID, MWINDOW_REMOVEVIEW_ID,
     MWINDOW_DEFAULTPROFILE_ID, 
     MWINDOW_PROFILEDLG_ID,
-    
+    MWINDOW_LINKVIEW_ID,
+
     MHELP_CONTENTS_ID,
     MHELP_ABOUT_ID
 };
@@ -493,7 +494,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuWindowProfiles->connect( "activated", this, "slotViewProfileActivated" );
   
   fillProfileMenu();
-  
+
   m_vMenuBar->insertSeparator( -1 );
   
   text = Q2C( i18n( "&Help" ) );
@@ -778,7 +779,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
 
 bool KonqMainView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
-  openURL( eventURL );
+  openURL( m_currentId, eventURL );
   return true;
 }
 
@@ -857,10 +858,15 @@ OpenParts::Id KonqMainView::activeViewId()
   return m_currentId;
 }
 
-void KonqMainView::openURL( const Browser::URLRequest &_urlreq )
+void KonqMainView::openURL( OpenParts::Id id, const Browser::URLRequest &_urlreq )
 {
+  KonqChildView *view = 0L;
+  MapViews::ConstIterator it = m_mapViews.find( id );
+  if ( it != m_mapViews.end() )
+    view = it.data();
+  
   openURL( _urlreq.url.in(), (bool)_urlreq.reload, (int)_urlreq.xOffset,
-          (int)_urlreq.yOffset );
+          (int)_urlreq.yOffset, view );
 }
 
 void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOffset, KonqChildView *_view )
@@ -933,6 +939,9 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
   KonqChildView *view = _view;
   if ( !view )
     view = m_currentView;
+
+  if ( view && m_pViewManager->isLinked( view ) )
+    view = m_pViewManager->readLink( view );
 
   if ( view )
   {

@@ -53,7 +53,7 @@ class KonqHTMLView : public KBrowser,
   Q_OBJECT  
 
 public:
-  KonqHTMLView( KonqMainView *mainView = 0L );
+  KonqHTMLView( KonqMainView *mainView = 0L, KBrowser *parentBrowser = 0L, const char *name = 0L );
   virtual ~KonqHTMLView();
 
   virtual bool event( const char *event, const CORBA::Any &value );
@@ -111,6 +111,8 @@ protected slots:
   
 protected:
 
+//  virtual KBrowser *createFrame( QWidget *_parent, const char *_name );
+
   virtual KHTMLEmbededWidget* newEmbededWidget( QWidget* _parent, const char *_name,
 						const char *_src, const char *_type,
 						int _marginwidth, int _marginheight,
@@ -121,6 +123,8 @@ private:
   OpenPartsUI::Menu_var m_vViewMenu;
   KonqMainView *m_pMainView;
   bool m_bAutoLoadImages;
+  
+//  QValueList<Browser::View_var> m_lstViews;
 
   CORBA::Long m_idSaveDocument;
   CORBA::Long m_idSaveFrame;
