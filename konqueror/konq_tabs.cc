@@ -302,12 +302,12 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
   // kdDebug(1202) << "newMaxLength=" << newMaxLength << endl;
 
   QString newTitle = title;
-  newTitle.replace( '&', "&&" );
   if ( newTitle.length() > newMaxLength )
     {
       setTabToolTip( sender, newTitle );
       newTitle = newTitle.left( newMaxLength-3 ) + "...";
     }
+  newTitle.replace( '&', "&&" );
   if ( tabLabel( sender ) != newTitle )
     changeTab( sender, newTitle );
 
@@ -324,9 +324,13 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
               newTitle = konqview->frame()->title();
           }
 
-          newTitle.replace( '&', "&&" );
+          removeTabToolTip( page( i ) );
           if ( newTitle.length() > newMaxLength )
-            newTitle = newTitle.left( newMaxLength-3 ) + "...";
+            {
+              setTabToolTip( page( i ), newTitle );
+              newTitle = newTitle.left( newMaxLength-3 ) + "...";
+            }
+          newTitle.replace( '&', "&&" );
           if ( newTitle != tabLabel( page( i ) ) )
             changeTab( page( i ), newTitle );
         }
