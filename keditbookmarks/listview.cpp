@@ -103,10 +103,11 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
     return bookmarks;
 }
 
+#define VALID_FIRST(items) ( (items->count() > 0) && !items->first()->isEmptyFolderPadder() )
+
 QPtrList<KEBListViewItem>* ListView::selectedItems() const {
     static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
     if (!s_selected_items_cache || s_listview_is_dirty) {
-        kdDebug () << "regened" << endl;
         QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
         for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
                 it.current() != 0; ++it) {
@@ -306,18 +307,16 @@ void ListView::setOpen(bool open) {
 }
 
 SelcAbilities ListView::getSelectionAbilities() const {
-    KEBListViewItem *item = selectedItems()->first();
-
     static SelcAbilities sa = { false, false, false, false, false, false, false, false, false };
 
-    if (item) {
-        KBookmark nbk = item->bookmark();
+    if (VALID_FIRST(selectedItems())) {
+        KBookmark nbk = selectedItems()->first()->bookmark();
         sa.itemSelected   = true;
         sa.group          = nbk.isGroup();
         sa.separator      = nbk.isSeparator();
         sa.urlIsEmpty     = nbk.url().isEmpty();
         sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
-        sa.root           = (m_listView->rootItem() == item);
+        sa.root           = (m_listView->rootItem() == selectedItems()->first());
         sa.multiSelect    = (selectedItems()->count() > 1);
         sa.tbShowState    = CmdGen::self()->shownInToolbar(nbk);
     }
@@ -354,12 +353,10 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
         mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
 
     } else {
-        QPtrList<KEBListViewItem> *selection = selectedItems();
-        KEBListViewItem *firstItem = selection->first();
-        if (!firstItem || firstItem == itemAfterQLVI)
+        if (!VALID_FIRST(selectedItems()) || (selectedItems()->first() == itemAfterQLVI))
             return;
         bool copy = (e->action() == QDropEvent::Copy);
-        mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
+        mcmd = CmdGen::self()->itemsMoved(selectedItems(), newAddress, copy);
     }
 
     CmdHistory::self()->didCommand(mcmd);
@@ -438,8 +435,9 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
 void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
     // hasParent is paranoid, after some thinking remove it
     KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
-    if (currentItem && currentItem->isEmptyFolderPadder() && currentItem->bookmark().hasParent())
-        m_last_selection_address = selectedItems()->count() >= 1
+    if (currentItem && !currentItem->isEmptyFolderPadder() && currentItem->bookmark().hasParent())
+        m_last_selection_address = 
+              VALID_FIRST(selectedItems())
             ? selectedItems()->first()->bookmark().address()
             : currentItem->bookmark().address();
     if (item && m_splitView && lv == m_folderListView) {
@@ -466,7 +464,7 @@ void ListView::handleSelectionChanged(KEBListView *) {
     s_listview_is_dirty = true;
     updateSelectedItems();
     KEBApp::self()->updateActions();
-    if (selectedItems()->count() >= 1)
+    if (VALID_FIRST(selectedItems()))
         KEBApp::self()->bkInfo()->showBookmark(selectedItems()->first()->bookmark());
 }
 
@@ -512,6 +510,7 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
 // used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
     // TODO - check which listview has focus
+    assert( VALID_FIRST(selectedItems()) );
     m_listView->rename(selectedItems()->first(), column);
 }
 
@@ -725,16 +724,17 @@ bool KEBListView::acceptDrag(QDropEvent * e) const {
 }
 
 QDragObject *KEBListView::dragObject() {
-    QPtrList<KEBListViewItem> *selcItems = ListView::self()->selectedItems();
-    if (selcItems->isEmpty() || selcItems->first()->isEmptyFolderPadder()) {
+    if (!VALID_FIRST(ListView::self()->selectedItems())) {
         // we handle empty folders here as a special
         // case for drag & drop in order to allow 
         // for pasting into a "empty folder"
         return (QDragObject*)0;
     }
-    QValueList<KBookmark> bookmarks = ListView::self()->itemsToBookmarks(selcItems);
+    QValueList<KBookmark> bookmarks = 
+        ListView::self()->itemsToBookmarks(ListView::self()->selectedItems());
     KBookmarkDrag *drag = KBookmarkDrag::newDrag(bookmarks, viewport());
-    const QString iconname = (bookmarks.size() == 1) ? bookmarks.first().icon() : "bookmark";
+    const QString iconname = 
+        (bookmarks.size() == 1) ? bookmarks.first().icon() : "bookmark";
     drag->setPixmap(SmallIcon(iconname)) ;
     return drag;
 }
