@@ -150,11 +150,13 @@ module Konqueror
     void setPart( in OpenParts::Part part );
     OpenParts::Part part();
   };
-    
+
+  enum NewViewPosition { above, below, left, right };
+
   interface MainView : OpenParts::Part
   {
-    // TODO : add arguments for position (left, right, above current, new row, ....)
-    void insertView( in View view );
+    // Position is relative to activeView(); above and below create a new row
+    void insertView( in View view, in NewViewPosition newViewPosition);
     void setActiveView( in OpenParts::Id id );
     View activeView();
     ViewList viewList();

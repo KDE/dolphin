@@ -23,7 +23,6 @@
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kmenubar.h>
-#include <kpanner.h>
 #include <kaccel.h>
 #include <kservices.h>
 #include <kmimetypes.h>
@@ -47,6 +46,7 @@
 #include <qpixmap.h>
 #include <qtimer.h>
 #include <qlayout.h>
+#include <qsplitter.h>
 
 #include <string>
 #include <list>
@@ -77,8 +77,8 @@ public:
   bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
   //IDL
-  // TODO : add arguments for position (left, right, above current, new row, ....)
-  virtual void insertView( Konqueror::View_ptr view );  
+  // Position is relative to activeView(); above and below create a new row
+  virtual void insertView( Konqueror::View_ptr view, Konqueror::NewViewPosition newViewPosition);
   virtual void setActiveView( OpenParts::Id id );
   virtual Konqueror::View_ptr activeView();
   virtual Konqueror::ViewList *viewList();
@@ -174,18 +174,6 @@ protected:
     int m_iYOffset;
   };
   
-  struct View
-  {
-    View();
-    Konqueror::View_var m_vView;
-    OPFrame *m_pFrame;
-    QString m_strUpURL;
-    list<History> m_lstBack;
-    list<History> m_lstForward;
-    QWidget* m_pPannerChild;
-    QGridLayout* m_pPannerChildGM;
-  };
-
   void initConfig();
   void initGui();
   void initPanner();
@@ -207,8 +195,40 @@ protected:
 
   KBookmarkMenu* m_pBookmarkMenu;
 
-  KPanner* m_pPanner;
+  //////// View storage //////////////
   
+  struct View
+  {
+    View();
+    Konqueror::View_var m_vView;
+    OPFrame *m_pFrame;
+    QString m_strUpURL;
+    list<History> m_lstBack;
+    list<History> m_lstForward;
+    // QWidget* m_pPannerChild; the widget is the view
+    QGridLayout* m_pPannerChildGM; // do we need that ?
+  };
+
+  /* A row of views */
+  struct Row {
+    QList<View> lstViews;
+    QSplitter* pRowSplitter;
+  };
+  /* The list of rows */
+  QList<Row> m_lstRows;
+  /* The main, vertical, QSplitter, which holds the rows */
+  QSplitter* m_pMainSplitter;
+
+  /* Dual storage of View * instances : mapped by Id */
+  map<OpenParts::Id,View*> m_mapViews;
+  
+  View *m_currentView;
+  Row *m_pCurrentRow;
+
+  Row * newRow();
+
+  ////////////////////
+    
   /**
    * The menu "New" in the "File" menu.
    * Since the items of this menu are not connected themselves
@@ -216,9 +236,6 @@ protected:
    * selected menu item.
    */
   KNewMenu *m_pMenuNew;
-
-  map<OpenParts::Id,View*> m_mapViews;
-  View *m_currentView;
 
   /**
    * Set to true while the constructor is running.

@@ -19,6 +19,7 @@ konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
 	xview.cc
 
 # noinst_HEADERS = ... to be completed  <= *.h? (Simon)
+# No wildcards. We'll put the full list here later (useful for make dist only) (David)
 
 METASOURCES = kbookmark.moc kbrowser.moc \
 	kfmpopup.moc kfmrun.moc \
@@ -43,6 +44,7 @@ konqueror.cc: konqueror.h
 konqueror.h: $(srcdir)/konqueror.idl
 	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
+kfmrun.cc: konqueror.h
 konq_baseview.cc: konqueror.h
 konq_baseview.h: konqueror.h
 konq_main.h: konqueror.h

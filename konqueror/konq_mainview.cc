@@ -213,6 +213,7 @@ void KonqMainView::cleanUp()
       }	
 
   m_mapViews.clear();
+  m_lstRows.clear();
 
   if ( m_pMenuNew )
     delete m_pMenuNew;
@@ -220,7 +221,7 @@ void KonqMainView::cleanUp()
   if ( m_pBookmarkMenu )
     delete m_pBookmarkMenu;
 
-  delete m_pPanner;
+  delete m_pMainSplitter;
 
   m_animatedLogoTimer.stop();
   s_lstWindows->removeRef( this );
@@ -490,7 +491,8 @@ bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-void KonqMainView::insertView( Konqueror::View_ptr view )
+void KonqMainView::insertView( Konqueror::View_ptr view,
+                               Konqueror::NewViewPosition newViewPosition )
 {
   Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
 
@@ -500,14 +502,53 @@ void KonqMainView::insertView( Konqueror::View_ptr view )
   View *v = new View;
 
   m_mapViews[ view->id() ] = v;
-
-  if ( m_mapViews.size() == 1 ) v->m_pPannerChild = m_pPanner->child1();
-  if ( m_mapViews.size() == 2 ) v->m_pPannerChild = m_pPanner->child0();
-
   v->m_vView = Konqueror::View::_duplicate( m_vView );
-  v->m_pPannerChildGM = new QGridLayout( v->m_pPannerChild, 1, 1 );
-  v->m_pFrame = new OPFrame( v->m_pPannerChild );
-  v->m_pPannerChildGM->addWidget( v->m_pFrame, 0, 0 );
+
+  if (newViewPosition == Konqueror::above || 
+      newViewPosition == Konqueror::below)
+  {
+    warning("TODO : create a new row and put the view in it");
+  }
+  else // left or right, in the current row
+  {
+    assert(m_pCurrentRow);
+    int n = m_pCurrentRow->lstViews.count();
+    debug("insertView : n = %d",n);
+    QWidget * parent = 0L;
+    switch (n) {
+      case 0 : // No view currently -> create one, but no splitter
+        parent = m_pMainSplitter;
+        break;
+      case 1 : // already one view -> create a splitter
+        assert(!m_pCurrentRow->pRowSplitter);
+        m_pCurrentRow->pRowSplitter = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
+        //row->pRowSplitter->setOpaqueResize( TRUE );
+        
+        // move the existing view from main splitter to row splitter
+        m_pCurrentRow->lstViews.first()->m_pFrame->reparent(
+          m_pCurrentRow->pRowSplitter, 0, QPoint(0,0), true );
+        parent = m_pCurrentRow->pRowSplitter;
+        break;
+      default : // more than one view -> add to existing splitter
+        parent = m_pCurrentRow->pRowSplitter;
+        break;
+    }
+
+    v->m_pFrame = new OPFrame( parent );
+
+    if ((n>0) && newViewPosition == Konqueror::left) {
+      m_pCurrentRow->lstViews.insert( 0, v );
+      m_pCurrentRow->pRowSplitter->moveToFirst( v->m_pFrame );
+    }
+    else {
+      m_pCurrentRow->lstViews.append( v );
+    }
+    // Is this necessary ? (David)
+    v->m_pPannerChildGM = new QGridLayout( parent, 1, 1 );
+    v->m_pPannerChildGM->addWidget( v->m_pFrame, 0, 0 );
+  }
+  
+  //v->m_pFrame = new OPFrame( v->m_pPannerChild );
   v->m_pFrame->attach( m_vView );
   v->m_pFrame->show();
 
@@ -1211,6 +1252,8 @@ void KonqMainView::openHTML( const char *url )
 
 void KonqMainView::slotSplitView()
 {
+  // JUST FOR TESTING
+  insertView( new KonqKfmIconView, Konqueror::right );
 /*
   if ( m_Props->m_bSplitView )
   {
@@ -1659,14 +1702,14 @@ void KonqMainView::slotPopupProperties()
 
 void KonqMainView::resizeEvent( QResizeEvent *e )
 {
-  m_pPanner->setGeometry( 0, 0, width(), height() );
+//  m_pPanner->setGeometry( 0, 0, width(), height() );
 }
 
 KonqMainView::View::View()
 {
   m_vView = 0L;
   m_pFrame = 0L;
-  m_pPannerChild = 0L;
+//  m_pPannerChild = 0L;
   m_pPannerChildGM = 0L;
 }
 
@@ -1714,32 +1757,50 @@ void KonqMainView::initGui()
   QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
 }
 
+KonqMainView::Row * KonqMainView::newRow()
+{
+  Row * row = new Row;
+  row->pRowSplitter = 0L; // no splitter, at first.
+
+  m_lstRows.insert( 0 /* HACK */, row );
+  debug("newRow() done");
+  return row;
+}
+
 void KonqMainView::initPanner()
 {
 /*  if ( m_Props->isShowingDirTree() )
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 30 );
-  else */ if ( m_Props->isSplitView() )
+  else if ( m_Props->isSplitView() )
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 50 );
   else
     m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 0 );
 
   QObject::connect( m_pPanner, SIGNAL( positionChanged() ), this, SLOT( slotPannerChanged() ) );
-
+*/
 //setView( m_pPanner );
 
-  m_pPanner->show();
+  // Create the main splitter
+  m_pMainSplitter = new QSplitter ( QSplitter::Vertical, 0 , "mainsplitter" );
+  //m_pMainSplitter->setOpaqueResize( TRUE ); 
+  // Create a row, and its splitter
+  m_lstRows.clear();
+  Row * row = newRow();
+  m_pCurrentRow = row;
+  m_pMainSplitter->show();
+  debug("initpanner() done");
 }
 
 void KonqMainView::initView()
 {
   Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqKfmIconView );
 
-  insertView( vView );
+  insertView( vView, Konqueror::left );
   setActiveView( vView->id() );
 
   vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
 
-  insertView( vView );
+  insertView( vView, Konqueror::left );
 
   //temporary...
   vView->show( true );
@@ -1751,14 +1812,8 @@ void KonqMainView::initView()
 
   EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
 
-  m_pPanner->setSeparator( 50 );
+//  m_pPanner->setSeparator( 50 );
 
-/*
-  if ( m_Props->isSplitView() )
-  {
-
-  }
-*/
 }
 /*
 void KonqMainView::setViewModeMenu( KfmView::ViewMode _viewMode )
