@@ -108,16 +108,17 @@ QString KonqAboutPageFactory::intro()
 		      "technology used throughout KDE 2, Konqueror is also a full featured, "
 		      "easy to use, and comfortable Web Browser, which you can use to explore "
 		      "the internet." ) )
-          .arg( i18n( "Simply enter the internet address (e.g. " ) )
-          .arg( i18n( ") of the webpage you want and press enter. Or choose one of the "
-		      "entries in your bookmark-menu. If you want to go back to the previous "
-		      "webpage, press the button " ) )
-          .arg( i18n( "(\"back\") in the toolbar. To go back to the home-directory of your "
-		      "local filesystem press " ) )
-          .arg( i18n( "(\"Home\"). For more detailed documentation on Konqueror click " ) )
-          .arg( i18n( "here" ) )
+          .arg( i18n( "Simply enter the internet address (e.g. <A HREF=\"http://www.kde.org\">http://www.kde.org</A>) "
+                      "of the webpage you want and press enter. Or choose one of the "
+		      "entries in your bookmark-menu.") )
+          .arg( i18n( "If you want to go back to the previous "
+		      "webpage, press the button <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp;"
+                      "(\"back\") in the toolbar.").arg("back.png") )
+          .arg( i18n( "To go back to the home-directory of your local filesystem press "
+                      "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; (\"Home\"). " ).arg("gohome.png") )
+          .arg( i18n( "For more detailed documentation on Konqueror click <A HREF=\"%1\">here</A>" )
+                      .arg("exec:/khelpcenter") )
           .arg( i18n( "Continue" ) )
-//           .arg( i18n( "" ) )
           ;
 
 
