@@ -335,7 +335,7 @@ void KBookmarkMenu::openNSBookmarks()
         int firstQuotes = t.find('"')+1;
         QCString link = t.mid(firstQuotes, t.find('"', firstQuotes)-firstQuotes);
         QCString name = t.mid(t.find('>', 15)+1);
-        QCString actionName = "bookmark" + link;
+        QCString actionLink = "bookmark" + link;
 
         name = name.left(name.findRev('<'));
         if ( name.right(4) == "</A>" )
@@ -343,7 +343,7 @@ void KBookmarkMenu::openNSBookmarks()
 
         KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
-                                        m_actionCollection, actionName.data());
+                                        m_actionCollection, actionLink.data());
 	action->setStatusText( link );
         action->plug( mstack.top()->m_parentMenu );
 	mstack.top()->m_actions.append( action );
