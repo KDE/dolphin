@@ -37,7 +37,7 @@
 #include <qclipboard.h>
 
 #include <kcursor.h>
-#include <html_element.h>
+#include <dom/html_element.h>
 #include <khtml.h>
 #include <klocale.h>
 #include <kfiledialog.h>
