@@ -55,7 +55,7 @@ class KSqueezedTextLabel;
 namespace KParts
 {
   class ReadOnlyPart;
-};
+}
 
 /**
  * A CheckBox with a special paintEvent(). It looks like the

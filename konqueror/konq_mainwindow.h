@@ -78,7 +78,7 @@ namespace KParts {
  class BrowserHostExtension;
  class ReadOnlyPart;
  struct URLArgs;
-};
+}
 
 class KonqExtendedBookmarkOwner;
 

@@ -2812,7 +2812,7 @@ void KonqMainWindow::slotCtrlTabPressed()
    KonqView * view = m_pViewManager->chooseNextView( m_currentView );
    if ( view )
       m_pViewManager->setActivePart( view->part() );
-};
+}
 
 void KonqMainWindow::slotClearHistory()
 {

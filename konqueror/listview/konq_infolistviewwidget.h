@@ -25,7 +25,7 @@
 #include <qmap.h>
 #include <qpair.h>
 
-namespace KIO {class MetaInfoJob;};
+namespace KIO {class MetaInfoJob;}
 class KonqListView;
 class KSelectAction;
 

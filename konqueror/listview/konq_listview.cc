@@ -271,7 +271,7 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
    KonqDirPart::guiActivateEvent(event );
    //ReadOnlyPart::guiActivateEvent(event );
    ((ListViewBrowserExtension*)m_extension)->updateActions();
-};
+}
 
 bool KonqListView::doOpenURL( const KURL &url )
 {
@@ -505,7 +505,7 @@ void KonqListView::slotHeaderClicked(int sec)
    config->writeEntry("SortBy",nameOfSortColumn);
    config->writeEntry("SortOrder",m_pListView->ascending());
    config->sync();
-};
+}
 
 void KonqListView::headerDragged(int sec, int from, int to)
 {

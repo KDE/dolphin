@@ -539,7 +539,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             // end debug code
             */
 
-	    for (QStringList::const_iterator ddit=dirtree_dirs.constBegin();ddit!=dirtree_dirs.constEnd();++ddit) {
+	    for (QStringList::const_iterator ddit=dirtree_dirs.begin();ddit!=dirtree_dirs.end();++ddit) {
 		QString dirtree_dir=*ddit;
 		if (dirtree_dir==path) continue;
 	        //    if ( !dirtree_dir.isEmpty() && dirtree_dir != path )

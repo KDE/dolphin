@@ -103,7 +103,7 @@ extern "C"
     {
         return new KonqSidebar_Tree(inst,par,widp,desktopname,name);
     }
-};
+}
 
 extern "C"
 {
@@ -138,4 +138,4 @@ extern "C"
 		}
 	return false;
    }
-};
+}

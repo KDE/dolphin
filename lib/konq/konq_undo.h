@@ -30,7 +30,7 @@
 namespace KIO
 {
   class Job;
-};
+}
 
 class KonqUndoJob;
 

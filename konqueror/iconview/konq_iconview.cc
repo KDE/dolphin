@@ -108,7 +108,7 @@ extern "C"
     {
         return new KonqIconViewFactory;
     }
-};
+}
 
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
  : KonqDirPartBrowserExtension( iconView )

@@ -121,6 +121,6 @@ extern "C"
     {
         return new KonqSidebarFactory;
     }
-};
+}
 
 #include "konqsidebar.moc"

@@ -47,7 +47,7 @@ class KActionMenu;
 namespace KParts
 {
   class ReadOnlyPart;
-};
+}
 
 class KonqViewManager : public KParts::PartManager
 {

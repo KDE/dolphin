@@ -9,7 +9,7 @@
 namespace KParts
 {
   class ReadOnlyPart;
-};
+}
 
 class KConfig;
 class KFileItem;

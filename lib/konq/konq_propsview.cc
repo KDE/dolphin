@@ -129,7 +129,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 bool KonqPropsView::isCaseInsensitiveSort() const
 {
    return d->caseInsensitiveSort;
-};
+}
 
 
 KConfigBase * KonqPropsView::currentConfig()

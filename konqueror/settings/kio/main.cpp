@@ -40,32 +40,32 @@ extern "C"
   KCModule *create_cookie(QWidget *parent, const char /**name*/)
   {
     return new KCookiesMain(parent);
-  };
+  }
 
   KCModule *create_smb(QWidget *parent, const char /**name*/)
   {
     return new SMBRoOptions(parent);
-  };
+  }
 
   KCModule *create_useragent(QWidget *parent, const char /**name*/)
   {
     return new UserAgentDlg(parent);
-  };
+  }
 
   KCModule *create_proxy(QWidget *parent, const char /**name*/)
   {
     return new KProxyOptions(parent);
-  };
+  }
 
   KCModule *create_cache(QWidget *parent, const char /**name*/)
   {
     return new KCacheConfigDialog( parent );
-  };
+  }
 
   KCModule *create_netpref(QWidget *parent, const char /**name*/)
   {
     return new KIOPreferences(parent);
-  };
+  }
 
   KCModule *create_lanbrowser(QWidget *parent, const char *)
   {

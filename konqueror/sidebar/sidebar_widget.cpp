@@ -367,7 +367,7 @@ void Sidebar_Widget::initialCopy()
 	int lVersion=lcfg.readNumEntry("Version",0);
 
 
-	for (QStringList::const_iterator ddit=dirtree_dirs.constBegin();ddit!=dirtree_dirs.constEnd();++ddit) {
+	for (QStringList::const_iterator ddit=dirtree_dirs.begin();ddit!=dirtree_dirs.end();++ddit) {
 		QString dirtree_dir=*ddit;
 		if (dirtree_dir == m_path) continue;	
 

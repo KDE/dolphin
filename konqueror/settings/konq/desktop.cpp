@@ -43,7 +43,7 @@ extern "C"
   KCModule *create_virtualdesktops(QWidget *parent, const char * /*name*/)
   {
     return new KDesktopConfig(parent, "kcmkonq");
-  };
+  }
 }
 
 // I'm using lineedits by intention as it makes sence to be able

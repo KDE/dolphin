@@ -100,7 +100,7 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
            this, SLOT( slotCopyingLinkDone( KIO::Job *, const KURL &, const QString &, const KURL & ) ) );
 
   KonqUndoManager::incRef();
-};
+}
 
 KonqCommandRecorder::~KonqCommandRecorder()
 {

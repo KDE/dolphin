@@ -83,7 +83,7 @@ extern "C"
   void *init_libnsplugin() {
       return new PluginFactory;
   }
-};
+}
 
 
 NSPluginCallback::NSPluginCallback(PluginPart *part)

@@ -403,7 +403,7 @@ bool KonqFrame::eventFilter(QObject* /*obj*/, QEvent *ev)
       };
    };
    return false;
-};
+}
 
 void KonqFrame::insertTopWidget( QWidget * widget )
 {
@@ -421,7 +421,7 @@ void KonqFrame::setView( KonqView* child )
      connect(m_pView,SIGNAL(sigPartChanged(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
              m_pStatusBar,SLOT(slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
    }
-};
+}
 
 void KonqFrame::setTitle( const QString &title , QWidget* /*sender*/)
 {

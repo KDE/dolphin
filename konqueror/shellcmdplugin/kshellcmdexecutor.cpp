@@ -39,7 +39,7 @@ KShellCommandExecutor::KShellCommandExecutor(const QString& command, QWidget* pa
 {
    setTextFormat(PlainText);
    setFont( KGlobalSettings::fixedFont() );
-};
+}
 
 KShellCommandExecutor::~KShellCommandExecutor()
 {
@@ -48,7 +48,7 @@ KShellCommandExecutor::~KShellCommandExecutor()
       ::kill(m_shellProcess->pid()+1, SIGTERM);
       delete m_shellProcess;
    };
-};
+}
 
 int KShellCommandExecutor::exec()
 {
@@ -86,7 +86,7 @@ int KShellCommandExecutor::exec()
    connect (m_writeNotifier, SIGNAL(activated(int)), this,SLOT(writeDataToShell()));
 
    return 1;
-};
+}
 
 void KShellCommandExecutor::readDataFromShell()
 {
@@ -106,7 +106,7 @@ void KShellCommandExecutor::readDataFromShell()
       this->append(QString(buffer));
       setTextFormat(PlainText);
    };
-};
+}
 
 void KShellCommandExecutor::writeDataToShell()
 {
@@ -123,7 +123,7 @@ void KShellCommandExecutor::writeDataToShell()
    else
       slotFinished();
    m_writeNotifier->setEnabled(false);
-};
+}
 
 void KShellCommandExecutor::slotFinished()
 {
@@ -141,6 +141,6 @@ void KShellCommandExecutor::slotFinished()
    delete m_shellProcess;
    m_shellProcess=0;
    emit finished();
-};
+}
 
 #include "kshellcmdexecutor.moc"

@@ -259,7 +259,7 @@ void KBehaviourOptions::updateWinPixmap(bool b)
 QString KBehaviourOptions::quickHelp() const
 {
     return i18n("<h1>Konqueror Behavior</h1> You can configure how Konqueror behaves as a file manager here.");
-};
+}
 
 
 void KBehaviourOptions::changed()

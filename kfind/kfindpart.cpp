@@ -31,7 +31,7 @@
 class KonqDirPart;
 
 typedef KParts::GenericFactory<KFindPart> KFindFactory;
-K_EXPORT_COMPONENT_FACTORY( libkfindpart, KFindFactory );
+K_EXPORT_COMPONENT_FACTORY( libkfindpart, KFindFactory )
 
 KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName, 
 	              QObject *parent, const char *name ,

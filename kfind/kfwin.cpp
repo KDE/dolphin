@@ -151,7 +151,7 @@ QString KfindWindow::reducedDir(const QString& fullDir)
       return tmp;
    };
    return fullDir;
-};
+}
 
 void KfindWindow::beginSearch(const KURL& baseUrl)
 {

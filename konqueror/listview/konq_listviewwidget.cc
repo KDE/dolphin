@@ -48,7 +48,7 @@ ColumnInfo::ColumnInfo()
    ,udsId(0)
    ,displayThisOne(FALSE)
    ,toggleThisOne(0)
-{};
+{}
 
 
 ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
@@ -68,7 +68,7 @@ void ColumnInfo::setData(const char* n, const char* desktopName, int kioUds,int 
    udsId=kioUds;
    displayThisOne=enabled;
    toggleThisOne=someAction;
-};
+}
 
 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)

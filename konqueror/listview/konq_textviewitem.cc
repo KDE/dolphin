@@ -56,7 +56,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
    };
    tmp+=text(_column);
    return tmp;
-};
+}
 
 void KonqTextViewItem::updateContents()
 {
@@ -187,7 +187,7 @@ void KonqTextViewItem::updateContents()
          };
       };
    };
-};
+}
 
 void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
@@ -217,4 +217,4 @@ void KonqTextViewItem::setup()
    int h(listView()->fontMetrics().height());
    if ( h % 2 > 0 ) h++;
    setHeight(h);
-};
+}

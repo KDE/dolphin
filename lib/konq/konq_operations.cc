@@ -199,7 +199,7 @@ void KonqOperations::copy( QWidget * parent, int method, const KURL::List & sele
      (void) new KonqCommandRecorder( KonqCommand::COPY, selectedURLs, destUrl, job );
   else
      (void) new KonqCommandRecorder( method==MOVE?KonqCommand::MOVE:KonqCommand::LINK, selectedURLs, destUrl, job );
-};
+}
 
 void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int confirmation )
 {

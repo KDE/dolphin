@@ -57,25 +57,25 @@ KShellCommandDialog::KShellCommandDialog(const QString& title, const QString& co
    connect(cancelButton, SIGNAL(clicked()), m_shell, SLOT(slotFinished()));
    connect(m_shell, SIGNAL(finished()), this, SLOT(disableStopButton()));
    connect(closeButton,SIGNAL(clicked()), this, SLOT(slotClose()));
-};
+}
 
 KShellCommandDialog::~KShellCommandDialog()
 {
    delete m_shell;
    m_shell=0;
-};
+}
 
 void KShellCommandDialog::disableStopButton()
 {
    cancelButton->setEnabled(false);
-};
+}
 
 void KShellCommandDialog::slotClose()
 {
    delete m_shell;
    m_shell=0;
    accept();
-};
+}
 
 //blocking
 int KShellCommandDialog::executeCommand()
@@ -85,6 +85,6 @@ int KShellCommandDialog::executeCommand()
    //kdDebug()<<"---------- KShellCommandDialog::executeCommand()"<<endl;
    m_shell->exec();
    return exec();
-};
+}
 
 #include "kshellcmddialog.moc"

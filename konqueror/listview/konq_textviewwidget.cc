@@ -137,7 +137,7 @@ void KonqTextViewWidget::createColumns()
    if (sortedByColumn=="FileName")
       setSorting(0,m_bAscending);
 
-};
+}
 
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {

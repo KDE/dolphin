@@ -93,7 +93,7 @@ bool QXtEventLoop::redeliverEvent( XEvent *event )
     if ( static_d->dispatchers[ event->type ]( event ) )
 	return TRUE;
     return FALSE;
-};
+}
 
 
 /*!\internal
