@@ -40,7 +40,7 @@ class NSPluginConfig : public KCModule
 
  protected slots:
   void change() { change( true ); };
-  void change( bool c ) { emit changed(c); m_changed = c; }; 
+  void change( bool c ) { emit changed(c); m_changed = c; };
 
   void scan();
 
@@ -61,7 +61,7 @@ class NSPluginConfig : public KCModule
   void dirUp();
   void dirDown();
   void dirEdited(const QString &);
-  void dirSelect( QListBoxItem * ); 
+  void dirSelect( QListBoxItem * );
 
 /******************************************************************************/
  protected:

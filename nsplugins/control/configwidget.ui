@@ -13,7 +13,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>470</width>
+            <width>466</width>
             <height>373</height>
         </rect>
     </property>
@@ -250,13 +250,6 @@
                                 <height>20</height>
                             </size>
                         </property>
-                        <property>
-                            <name>sizeHint</name>
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
                     </spacer>
                 </grid>
             </widget>
@@ -270,7 +263,7 @@
                     <name>title</name>
                     <string>Plugins</string>
                 </attribute>
-                <hbox>
+                <grid>
                     <property stdset="1">
                         <name>margin</name>
                         <number>11</number>
@@ -279,7 +272,7 @@
                         <name>spacing</name>
                         <number>6</number>
                     </property>
-                    <widget>
+                    <widget row="1"  column="0" >
                         <class>QListView</class>
                         <column>
                             <property>
@@ -318,7 +311,22 @@
                             <string>Here you can see a list of the netscape plugins KDE has found.</string>
                         </property>
                     </widget>
-                </hbox>
+                    <widget row="0"  column="0" >
+                        <class>QCheckBox</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>useArtsdsp</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>text</name>
+                            <string>Use &amp;artsdsp to pipe plugin sound through aRts</string>
+                        </property>
+                        <property stdset="1">
+                            <name>enabled</name>
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </grid>
             </widget>
         </widget>
     </vbox>

@@ -68,6 +68,8 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
     pluginInit();
 
     load();
+
+
 }
 
 
@@ -229,7 +231,8 @@ void NSPluginConfig::dirInit()
              SIGNAL(currentChanged(QListBoxItem*)),
              SLOT(dirSelect(QListBoxItem*)) );
 
-    void dirSelect( QListBoxItem * );
+    // XXX disable to avoid new strings
+    m_widget->useArtsdsp->hide();
 }
 
 
@@ -255,6 +258,10 @@ void NSPluginConfig::dirLoad( KConfig *config )
     // fill list
     m_widget->dirList->clear();
     m_widget->dirList->insertStringList( paths );
+
+    // setup other widgets
+    bool useArtsdsp = config->readBoolEntry( "useArtsdsp", false );
+    m_widget->useArtsdsp->setChecked( useArtsdsp );
 }
 
 
@@ -270,6 +277,7 @@ void NSPluginConfig::dirSave( KConfig *config )
     // write entry
     config->setGroup( "Misc" );
     config->writeEntry( "scanPaths", paths );
+    config->writeEntry( "useArtsdsp", m_widget->useArtsdsp->isOn() );
 }
 
 

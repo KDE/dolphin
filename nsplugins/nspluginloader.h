@@ -92,6 +92,7 @@ private:
   bool _running;
   QCString _dcopid;
   NSPluginViewerIface_stub *_viewer;
+  bool _useArtsdsp;
 
   static NSPluginLoader *s_instance;
   static int s_refCount;

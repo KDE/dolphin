@@ -31,6 +31,7 @@
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kstddirs.h>
+#include <kconfig.h>
 #include <dcopclient.h>
 #include <dcopstub.h>
 #include <qobject.h>
@@ -86,8 +87,14 @@ NSPluginLoader::NSPluginLoader()
 
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
-  QObject::connect(kapp->dcopClient(), SIGNAL(applicationRegistered(const QCString&)),
+  QObject::connect(kapp->dcopClient(),
+                   SIGNAL(applicationRegistered(const QCString&)),
                    this, SLOT(applicationRegistered(const QCString&)));
+
+  // load configuration
+  KConfig cfg("kcmnspluginrc", false);
+  cfg.setGroup("Misc");
+  _useArtsdsp = cfg.readBoolEntry( "useArtsdsp", false );
 }
 
 
@@ -226,17 +233,17 @@ bool NSPluginLoader::loadViewer()
    }
 
    // find the external artsdsp process
-#if 0
-   QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
-   if (!artsdsp)
-   {
-      kdDebug() << "can't find artsdsp" << endl;
-   } else
-   {
-      kdDebug() << artsdsp << endl;
-      *_process << artsdsp;
+   if( _useArtsdsp ) {
+       QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
+       if (!artsdsp)
+       {
+           kdDebug() << "can't find artsdsp" << endl;
+       } else
+       {
+           kdDebug() << artsdsp << endl;
+           *_process << artsdsp;
+       }
    }
-#endif
 
    *_process << viewer;
 
