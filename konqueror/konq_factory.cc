@@ -229,6 +229,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Carsten Pfeiffer",I18N_NOOP("developer (framework)"), "pfeiffer@kde.org" );
     s_aboutData->addAuthor( "Torsten Rahn", I18N_NOOP("graphics / icons"), "torsten@kde.org" );
     s_aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
+    s_aboutData->addAuthor( "Joseph Wenninger", I18N_NOOP("developer (extended sidebar framework"),"jowenn@kde.org");
   }
   return s_aboutData;
 }
