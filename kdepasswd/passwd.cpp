@@ -8,6 +8,8 @@
  * passwd.cpp: Change a user's password.
  */
 
+#include <config.h> // setenv
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
