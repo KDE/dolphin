@@ -1337,7 +1337,13 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "del", canDel > 0 );
     emit enableAction( "properties", iCount > 0 && KPropertiesDialog::canDisplay( selectedFileItems() ) );
     emit enableAction( "editMimeType", ( iCount == 1 ) );
-    emit enableAction( "rename", ( iCount == 1 ) && !bInTrash );
+    emit enableAction( "rename", currentItem() && !bInTrash );
+}
+
+void KonqIconViewWidget::renameCurrentItem()
+{
+    if ( currentItem() )
+        currentItem()->rename();
 }
 
 void KonqIconViewWidget::renameSelectedItem()
@@ -1590,6 +1596,7 @@ void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
     KIconView::contentsMouseReleaseEvent( e );
     if(d->releaseMouseEvent && d->pActivateDoubleClick && d->pActivateDoubleClick->isActive ())
         d->pActivateDoubleClick->stop();
+    slotSelectionChanged();
     d->releaseMouseEvent = true;
     m_bMousePressed = false;
 }

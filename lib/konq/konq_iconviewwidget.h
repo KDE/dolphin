@@ -246,6 +246,7 @@ public slots:
     void slotSaveIconPositions();
 
     void renameSelectedItem();
+    void renameCurrentItem();
 
     void slotToolTipPreview( const KFileItem *, const QPixmap & );
     void slotToolTipPreviewResult();
