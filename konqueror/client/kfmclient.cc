@@ -125,21 +125,10 @@ bool clientApp::openFileManagerWindow(const KURL & url)
     QString error;
     // We rely on services/konqueror.desktop since the normal konqueror.desktop
     // uses kfmclient (!!)
-    QString path = locate("services", "konqueror.desktop");
-    if ( !path.isEmpty() )
-    {
-      if ( KApplication::startServiceByDesktopPath( path,
+    if ( KApplication::startServiceByDesktopPath( "konqueror.desktop",
                url.url(), dcopService, error ) > 0 )
-      {
-        kdError() << "Couldn't start konqueror from services/konqueror.desktop: " << error << endl;
-        path = QString::null; // use KProcess
-      }
-    } else
     {
-      kdDebug() << "Couldn't find services/konqueror.desktop, using KProcess" << endl;
-    }
-    if ( path.isEmpty() ) // failure or not found
-    {
+      kdError() << "Couldn't start konqueror from services/konqueror.desktop: " << error << endl;
       KProcess proc;
       proc << "konqueror" << url.url();
       proc.start( KProcess::DontCare );
