@@ -224,8 +224,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     aSortBySize->setExclusiveGroup( "sorting" );
     aSortByType->setExclusiveGroup( "sorting" );
 
-    aSortByNameCS->setChecked( true );
-    aSortByNameCI->setChecked( false );
+    aSortByNameCS->setChecked( false );
+    aSortByNameCI->setChecked( true );
     aSortBySize->setChecked( false );
     aSortByType->setChecked( false );
 
