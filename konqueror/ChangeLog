@@ -1,3 +1,12 @@
+2000-11-25  David Faure  <faure@kde.org>
+
+	* konq_misc.cc: Fixed location bar not showing the URL asap.
+	
+	* konq_mainwindow.cc : Icons for the configure submenu.
+
+	* konq_actions.cc : KonqHistoryAction turned into KToolBarPopupAction.
+	Drag the "Location" label to start a drag with the current URL.
+
 2000-11-25  Simon Hausmann  <simon@kde.org>
 
 	* konq_view.cc (connectPart): Install new url event filter for plain
