@@ -24,6 +24,8 @@
 #include <qstring.h>
 #include <kicontheme.h>
 
+#include <sys/types.h> // for mode_t
+
 class QPainter;
 class KFileItem;
 class KonqBaseListViewWidget;
