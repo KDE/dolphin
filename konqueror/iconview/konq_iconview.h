@@ -61,6 +61,7 @@ public:
 
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
+  virtual void visualActivate(QIconViewItem *);
 
   uint itemCount() const;
   uint dirSize() const;
