@@ -68,3 +68,5 @@ QString KUserInfoChFnDlg::getpass()
 {
   return m_PsEdit->text();
 }
+
+#include "userinfo_chfn.moc"

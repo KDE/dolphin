@@ -165,3 +165,5 @@ void KUserInfoChFaceDlg::slotSaveCustomImage()
   }
 }
 #endif
+
+#include "userinfo_chface.moc"
