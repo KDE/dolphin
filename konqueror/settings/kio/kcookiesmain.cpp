@@ -82,19 +82,19 @@ void KCookiesMain::moduleChanged()
 
 QString KCookiesMain::quickHelp() const
 {
-  return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror "
-    " (or other KDE applications using the http protocol) stores on your "
-    " computer, initiiated by a remote internet server. This means, that "
-    " a web server can store information about you and your browsing activities "
-    " on your machine for later use. You might consider this an attack on your "
-    " privacy. <p> However, cookies are useful in certain situations. For example, they "
-    " are often used by internet shops, so you can 'put things into a shopping basket'. "
+  return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror"
+    " (or other KDE applications using the http protocol) stores on your"
+    " computer, initiated by a remote Internet server. This means that"
+    " a web server can store information about you and your browsing activities"
+    " on your machine for later use. You might consider this an invasion of"
+    " privacy. <p> However, cookies are useful in certain situations. For example, they"
+    " are often used by Internet shops, so you can 'put things into a shopping basket'."
     " Some sites require you have a browser that supports cookies. <p>"
     " Because most people want a compromise between privacy and the benefits cookies offer,"
-    " KDE offers you to customize the way it handles cookies. So you might want "
-    " to set KDE's default policy to ask you when a server wants to set a cookie,"
-    " so you can decide. For your favourite shopping web sites you trust in you might want to"
-    " set the policy to accept, so you can use the web sites without being asked"
+    " KDE offers you the ability to customize the way it handles cookies. So you might want"
+    " to set KDE's default policy to ask you whenever a server wants to set a cookie,"
+    " allowing you to decide. For your favorite shopping web sites that you trust, you might"
+    " want to set the policy to accept, then you can access the web sites without being prompted"
     " everytime KDE receives a cookie." );
 }
 

@@ -77,7 +77,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QString wtstr = i18n( "Enter the site or domain name where a fake identity should be used.  "
                         "<p><u>NOTE:</u> Wildcard syntax such as \"*,?\" is NOT allowed.  Instead "
                         "enter the top level address of a site to make generic matches for all "
-                        "locations found under it.  For example, if you want all site at "
+                        "locations found under it.  For example, if you want all sites at "
                         "<code>http://www.acme.com</code> to receive fake browser-identification, "
                         "simply enter <code>acme.com</code> here.");
   QWhatsThis::add( label, wtstr );
@@ -92,7 +92,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   wtstr = i18n( "<qt>Select the browser-identification to use whenever "
                 "contacting the site or domain given above."
                 "<P>Upon selection, a straight forward description, if "
-                "available will be, will be displayed in the box below." );
+                "available, will be displayed in the box below." );
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_cbIdentity, wtstr );
 

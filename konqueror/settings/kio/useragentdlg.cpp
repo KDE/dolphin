@@ -63,7 +63,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   bg_grid->setColStretch(0, 0);
   bg_grid->setColStretch(1, 2);
   bg_grid->addColSpacing(0, 3*KDialog::spacingHint() );
-  wtstr = i18n("Check anyone of the following boxes to modify the level of "
+  wtstr = i18n("Check any one of the following boxes to modify the level of "
                "information that should be included in the default browser "
                "identification shown above in <b>bold<b>.");
   QWhatsThis::add( bg_default, wtstr );
@@ -175,12 +175,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   wtstr = i18n("<qt>Here you can modify the default browser-identification string "
                "and/or set a site <code>(ex:www.kde.org)</code> or a domain "
                "<code>(ex:kde.org)</code> specific identification."
-               "<P>To add a new agent string, simply click the <code>New "
+               "<P>To add a new agent string, simply click on the <code>New "
                "</code>button and supply the necessary information requested "
-               "by the dialog box. To change an existing site specific entry "
-               ", click on the <code>Change</code> button.  The <code>Delete "
-               "</code> will remove the selected policy causing the default "
-               "setting to be used for that site or domain.");
+               "by the dialog box. To change an existing site specific entry, "
+               "click on the <code>Change</code> button.  The <code>Delete "
+               "</code> button will remove the selected policy, causing the "
+               "default setting to be used for that site or domain.");
                /*
                "The <code>Import</code> and <code>Export</code> buttons allows "
                "you to easily share your policies with other people by allowing "
@@ -441,18 +441,18 @@ QString UserAgentOptions::quickHelp() const
 {
   return i18n( "<h1>Browser Identification</h1> "
                "The browser-identification control screen allows you to have "
-               "full control over what konqueror will report itself as to web "
+               "full control over what Konqueror will report itself as to web "
                "sites."
                "<P>This ability to spoof or fake identity is necessary because "
                "some web sites do not display properly when they detect that "
                "they are not talking to current versions of Netscape Navigator "
-               "or Internet Explorer even if the \"unsupported browser\" actually "
+               "or Internet Explorer, even if the \"unsupported browser\" actually "
                "supports all the necessary features to render those pages properly. "
-               "Hence for such sites, you may want to override the default "
+               "Hence, for such sites, you may want to override the default "
                "identification by adding a site or domain specific entry."
                "<P><u>NOTE:</u> To obtain specific help on a particular section "
                "of the dialog box, simply click on the little <b>?</b> button on "
-               "the top right corner of this window and then click on that section "
+               "the top right corner of this window, then click on that section "
                "for which you are seeking help." );
 }
 

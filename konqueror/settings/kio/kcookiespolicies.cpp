@@ -201,12 +201,12 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     ds_lay->addWidget( vbox, 1, 1 );
 
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
-                                             "domain. To add a new policy, simply click the <i>Add...</i> "
+                                             "domain. To add a new policy, simply click on the <i>Add...</i> "
                                              "button and supply the necessary information requested by the "
                                              "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                              "button and choose the new policy from the policy dialog box.  Clicking "
-                                             "on the <i>Delete</i> will remove the selected policy causing the default "
-                                             "policy setting to be used for that domain. ") );
+                                             "on the <i>Delete</i> button will remove the selected policy causing the "
+                                             "default policy setting to be used for that domain. ") );
 #if 0
                                              "The <i>Import</i> and <i>Export</i> "
                                              "button allows you to easily share your policies with other people by allowing "
@@ -458,11 +458,11 @@ QString KCookiesPolicies::quickHelp() const
 {
     return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror\n"
                 " (or other KDE applications using the http protocol) stores on your\n"
-                " computer from a remote internet server. This means, that a web server\n"
+                " computer from a remote Internet server. This means, that a web server\n"
                 " can store information about you and your browsing activities\n"
-                " on your machine for later use. You might consider this an attack on your\n"
+                " on your machine for later use. You might consider this an invasion of\n"
                 " privacy. <p> However, cookies are useful in certain situations. For example, they\n"
-                " are often used by internet shops, so you can 'put things into a shopping basket'.\n"
+                " are often used by Internet shops, so you can 'put things into a shopping basket'.\n"
                 " Some sites require you have a browser that supports cookies. <p>\n"
                 " Because most people want a compromise between privacy and the benefits cookies offer,\n"
                 " KDE offers you the ability to customize the way it handles cookies. You might, for\n"
@@ -470,9 +470,9 @@ QString KCookiesPolicies::quickHelp() const
                 " a cookie or simply reject or accept everything.  For example, you might choose to\n"
                 " accept all cookies from your favorite shopping web site.  For this all you have to\n"
                 " do is either browse to that particular site and when you are presented with the cookie\n"
-                " dialog box, click on <i> This domain </i> under the apply to tab and choose accept or\n"
+                " dialog box, click on <i> This domain </i> under the 'apply to' tab and choose accept or\n"
                 " simply specify the name of the site in the <i> Domain Specific Policy </i> tab and set it\n"
-                " to accept. This allows you to receive cookies from trusted web sites without being asked\n"
+                " to accept. This enables you to receive cookies from trusted web sites without being asked\n"
                 " everytime KDE receives a cookie." );
 }
 

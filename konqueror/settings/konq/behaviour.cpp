@@ -96,26 +96,26 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     label->setBuddy(homeURL);
 
     QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
-                           "konqueror will jump to when the \"Home\" button is pressed. Usually a 'tilde' (~).");
+                           "Konqueror will jump to when the \"Home\" button is pressed. Usually a 'tilde' (~).");
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
 
     // ----
     row++;
-    QString opstrg = i18n("With this option activated, only one instance of Konqueror "
-                          "will exist in the memory of your computer at any moment "
+    QString opstrg = i18n("With this option is activated, only one instance of Konqueror "
+                          "will exist in the memory of your computer at any moment, "
                           "no matter how many browsing windows you open, "
                           "thus reducing resource requirements."
                           "<p>Be aware that this also means that, if something goes wrong, "
-                          "all your browsing windows will be closed simultaneously");
+                          "all your browsing windows will be closed simultaneously.");
     QString opstrl = i18n("With this option activated, only one instance of Konqueror "
-                          "will exist in the memory of your computer at any moment "
+                          "will exist in the memory of your computer at any moment, "
                           "no matter how many local browsing windows you open, "
                           "thus reducing resource requirements."
                           "<p>Be aware that this also means that, if something goes wrong, "
                           "all your local browsing windows will be closed simultaneously");
     QString opstrw = i18n("With this option activated, only one instance of Konqueror "
-                          "will exist in the memory of your computer at any moment "
+                          "will exist in the memory of your computer at any moment, "
                           "no matter how many web browsing windows you open, "
                           "thus reducing resource requirements."
                           "<p>Be aware that this also means that, if something goes wrong, "

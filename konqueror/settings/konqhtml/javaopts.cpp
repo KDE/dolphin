@@ -195,8 +195,8 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QWhatsThis::add( pathED, i18n("Enter the path to the java executable.  If you want to use the jre in "
                                   "your path, simply leave it as 'java'.  If you need to use a different jre, "
-                                  "enter the path to the java executable(for example, /usr/lib/jdk/bin/java), "
-                                  "or the path to the directory that contains 'bin/java'(for example, /opt/IBMJava2-13).") );
+                                  "enter the path to the java executable (for example, /usr/lib/jdk/bin/java), "
+                                  "or the path to the directory that contains 'bin/java' (for example, /opt/IBMJava2-13).") );
 
     QWhatsThis::add( addArgED, i18n("If you want special arguments to be passed to the virtual machine, enter them here.") );
 

@@ -58,7 +58,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   toplevel->addWidget( globalGB );
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Enable Java&Script globally" ), globalGB );
   QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
-        "(as known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
+        "(also known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
         "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
@@ -133,7 +133,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
-  js_popup      = new QButtonGroup(3, Horizontal, i18n( "Javascript web popups policy" ), this);
+  js_popup      = new QButtonGroup(3, Horizontal, i18n( "JavaScript web popups policy" ), this);
   js_popup->setExclusive(TRUE);
   js_popupAllow = new QRadioButton(i18n( "Allow" ), js_popup);
   js_popupAsk   = new QRadioButton(i18n( "Ask" ), js_popup);

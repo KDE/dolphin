@@ -83,7 +83,7 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
   wstr = i18n("Select the desired policy:"
               "<ul><li><b>Accept</b> - Allows this site to set "
               "cookie</li><li><b>Reject</b> - Refuse all cookies "
-              "sent from the this site</li><li><b>Ask</b> - Prompt "
+              "sent from this site</li><li><b>Ask</b> - Prompt "
               "when cookies are received from this site</li></ul>");
   QWhatsThis::add( l, wstr );
   QWhatsThis::add( m_cbPolicy, wstr );
