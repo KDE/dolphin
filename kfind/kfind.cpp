@@ -21,6 +21,7 @@
 #include <qstring.h>
 #include <qdir.h>
 #include <qkeycode.h>
+#include <qlayout.h>
 
 #include <kmsgbox.h>
 #include <kprocess.h>
@@ -40,13 +41,20 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
   // init IO buffer
   iBuffer = 0;
 
-    //create tabdialog
-  tabDialog = new KfindTabDialog(this,"dialog",searchPath);
+  QVBoxLayout *vBox = new QVBoxLayout(this);
+
+  //create tabwidget
+  tabWidget = new KfindTabWidget(this,"dialog",searchPath);
 
   //prepare window for find results
   win = new KfindWindow(this,"window");
   win->hide();  //and hide it firstly    
-  winsize=1;
+
+  vBox->addWidget(tabWidget);
+  vBox->addWidget(win);
+  vBox->activate();
+
+  setExpanded(false);
 
   connect(win ,SIGNAL(resultSelected(bool)),
 	  this,SIGNAL(resultSelected(bool)));
@@ -74,15 +82,7 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	  this,SLOT(processResults()));
   connect(&findProcess,SIGNAL(receivedStdout(KProcess *, char *, int)), 
 	  this, SLOT(handleStdout(KProcess *, char *, int))) ;
-    
-  resize(sizeHint());
-
-  // TODO
-  // this hack is needed with Qt 2.0 for some weird reason, probably because
-  // QTabDialog is a dialog and not a simple widget
-  tabDialog->setOkButton(QString::null);
-  tabDialog->recreate(this, 0, QPoint(0, 0));
-  tabDialog->show();
+  
 }
 
 
@@ -97,16 +97,6 @@ void Kfind::copySelection() {
 }
 
 
-void Kfind::resizeEvent( QResizeEvent *e) {
-  QWidget::resizeEvent(e);
-
-  tabDialog->setGeometry(0,0,
-			 width(),(tabDialog->sizeHint()).height());
-  win->setGeometry(0,(tabDialog->sizeHint()).height(),width(),
-		   height()-(tabDialog->sizeHint()).height());
-}
-
-    
 void Kfind::startSearch() {
   // init buffer
   if(iBuffer)
@@ -116,11 +106,11 @@ void Kfind::startSearch() {
   iBuffer[0] = 0;
 
   QString buffer,pom;
-  //int pos;
-  buffer = tabDialog->createQuery();
-
-  if ( winsize==1)
-    winsize=200;
+  // If this method returns NULL a error occured and 
+  // the error message was presented to the user. We just exit.
+  buffer = tabWidget->createQuery();
+  if(buffer == NULL)
+    return;
 
   emit resultSelected(false);
   win->clearList();
@@ -128,7 +118,7 @@ void Kfind::startSearch() {
   emit haveResults(false);
     
   win->beginSearch();
-  tabDialog->beginSearch();
+  tabWidget->beginSearch();
 
   if (!buffer.isNull())
     {
@@ -145,7 +135,7 @@ void Kfind::startSearch() {
 
 void Kfind::stopSearch() {
   //    printf("Stoping Search\n");
-  tabDialog->endSearch();
+  tabWidget->endSearch();
   win->doneSearch();
     
   enableSearchButton(true);
@@ -162,16 +152,15 @@ void Kfind::newSearch() {
     //    printf("Prepare for New Search\n");
   win->hide(); // !!!!!
   win->clearList();
-  winsize=1;
 
-  tabDialog->setDefaults();
+  tabWidget->setDefaults();
 
-  emit enableStatusBar(false);
   emit haveResults(false);
   emit resultSelected(false);
-     
+  setExpanded(false);
+
   stopSearch();
-  tabDialog->endSearch();
+  tabWidget->endSearch();
 }
 
 
@@ -189,7 +178,7 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
     // found one file, append it to listbox
     win->appendResult(iBuffer);
     if(win->numItems() == 1)
-      emit enableStatusBar(true);
+      setExpanded(false);
     memmove(iBuffer, p+1, strlen(p + 1)+1);
   }
 }
@@ -198,18 +187,30 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
 void Kfind::processResults() {
   win->show();
   win->doneSearch();
-  tabDialog->endSearch();
+  tabWidget->endSearch();
     
   emit haveResults(true);
-  emit enableStatusBar(true);
+  setExpanded(true);
 
   enableSearchButton(true);
 }
+void Kfind::setExpanded(bool expand) {
+  printf("Do it%d \n", expand);
 
+  if(expand) {
+    setMinimumSize(tabWidget->sizeHint().width(), 
+		   2*tabWidget->sizeHint().height());
+    setMaximumHeight(5000);
+    //    win->clearList();
+    win->show();
+  }
+  else {
+    win->hide();
+    setMinimumSize(tabWidget->sizeHint());
+    setMaximumHeight(tabWidget->sizeHint().height());
+  }
 
-QSize Kfind::sizeHint() {
-  QSize s;
-  s = tabDialog->sizeHint() + QSize(0,winsize-1); // this just doesn't work
-  s.setWidth(520);
-  return s;
+  emit enableStatusBar(expand);
 }
+
+

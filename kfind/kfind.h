@@ -21,7 +21,6 @@ Q_OBJECT
 public:
   Kfind( QWidget * parent = 0 ,const char * name = 0,const char*searchPath = 0);
   ~Kfind();
-  QSize sizeHint();
   void copySelection();
 
 public slots:
@@ -47,15 +46,14 @@ signals:
   void saveResults();
 
 protected:
-  void resizeEvent( QResizeEvent * );
 
 private:
   KShellProcess findProcess;
-  int winsize;
-  KfindTabDialog *tabDialog;
+  KfindTabWidget *tabWidget;
   KfindWindow * win;
 
   char *iBuffer;
+  void setExpanded(bool);
 };
 
 #endif

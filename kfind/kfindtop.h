@@ -18,7 +18,7 @@ class Kfind;
 class QPushButton;
 class KfindTabDialog;
 
-class KfindTop: public KTopLevelWidget
+class KfindTop: public KTMainWindow
 {
   Q_OBJECT
 
@@ -35,7 +35,6 @@ public slots:
   void statusChanged(const char *);
   void enableSearchButton(bool);
   void enableStatusBar(bool enable);
-  void resizeOnFloating();
 
   void copySelection();
 

@@ -7,20 +7,11 @@
 #ifndef KFWIN_H
 #define KFWIN_H
 
-#include <qwidget.h> 
-#include <qdialog.h> 
+#include <qlistbox.h> 
 
-class QListBox;
-class QLabel;
-class QDialog;
-class QGroupBox;
-class QCheckBox;
-class QString;
-class QLineEdit;
-class QFileInfo;
 class KfArchiver;
 
-class KfindWindow: public QWidget
+class KfindWindow: public   QListBox
 {
   Q_OBJECT  
 public:
@@ -57,14 +48,12 @@ private slots:
   void openBinding();
 
 protected:
-  void resizeEvent( QResizeEvent * );
 
 signals:
   void resultSelected(bool);
   void statusChanged(const char *);
 
 private:
-  QListBox * lbx;
   void execAddToArchive(KfArchiver *arch,QString filename);
 };
 

@@ -5,20 +5,21 @@
  ***********************************************************************/
 
 #include <stdio.h>
-#include <kapp.h>
-#include <kiconloader.h>
-#include "ktopwidget.h"
-#include <kmenubar.h>
-#include <ktoolbar.h>
-#include <kstatusbar.h>
+
 #include <qmessagebox.h>
 #include <qsize.h>
-
 #include <qpopupmenu.h>
 #include <qlayout.h>
 #include <qpixmap.h>
 #include <qkeycode.h>
 #include <qaccel.h>
+
+#include <kapp.h>
+#include <kiconloader.h>
+#include <kmenubar.h>
+#include <ktoolbar.h>
+#include <kstatusbar.h>
+#include <ktmainwindow.h>
 
 #include "kfoptions.h"
 #include "kftabdlg.h"
@@ -30,7 +31,7 @@
 #include "version.h"
 #include <kglobal.h> 
 
-KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
+KfindTop::KfindTop(const char *searchPath) : KTMainWindow()
   {
 //     setCaption(QString("KFind ")+KFIND_VERSION);
 
@@ -48,8 +49,6 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
 
     setMenu(_mainMenu);
     _mainMenu->show();
-
-    //_mainMenu->enableMoving(false);
 
     _statusBar = new KStatusBar( this, "_statusBar");
     _statusBar->insertItem("0 file(s) found", 0);
@@ -79,23 +78,9 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     connect(_kfind ,SIGNAL(enableStatusBar(bool)),
             this,SLOT(enableStatusBar(bool)));
 
-// No, No, No!!! This is pointless!   (sven)
-//    connect(_mainMenu ,SIGNAL(moved(menuPosition)),
-//    	    this,SLOT(resizeOnFloating()));
-//    connect(_toolBar ,SIGNAL(moved(BarPosition)),
-//    	    this,SLOT(resizeOnFloating()));
-
-    //_width=(440>_toolBar->width())?440:_toolBar->width();
-    _width=520;
-    //_height=(_kfind->sizeHint()).height(); // Unused as far as I can tell
-
-// Fixed and Y-fixed guys:  Please, please, please stop setting fixed size
-// on KTW! Fix it on your main view!
-//                                     sven
-
     this->enableStatusBar(false); // _kfile emited before connected (sven)
 
-   }; // and what's this semi-colon for? Grrrr!!!! (sven, too)
+   }
 
 KfindTop::~KfindTop()
   {
@@ -283,30 +268,13 @@ void KfindTop::enableSearchButton(bool enable)
 
 void KfindTop::enableStatusBar(bool enable) // rewriten (sven)
 {
-  /*
-   DON`T LOOK HERE FOR EXAMPLE! IT`S A FORNBIDDEN DANCE!
-   instead please mail me: sven@lisa.exp.univie.ac.at
-  */
-  //debug ("Wow, what an honour!");
   if (enable) // we become full-free - win is hsown and set
   {
-
-    KTopLevelWidget::enableStatusBar(KStatusBar::Show); // implicite update
-    _kfind->resize(_kfind->sizeHint());  // set size
-    _kfind->setMaximumSize(9999, 9999);  // set us loos
-    _kfind->setMinimumSize(_kfind->sizeHint()- QSize(0, 200));
-    setMaximumSize(9999, 9999); // kill any constraints
-    adjustSize(); // force us to resizeresizeresizeresizeresize
-    setMinimumSize (size()); // dont' make us smaller
-    
+    KTMainWindow::enableStatusBar(KStatusBar::Show); // implicite update
   }
   else  // we become YFixed - win is hidden
   {
-    _kfind->resize(width(), _kfind->sizeHint().height());
-    _kfind->setMinimumSize(_kfind->sizeHint());
-    _kfind->setMaximumSize(9999, _kfind->sizeHint().height());
-    KTopLevelWidget::enableStatusBar(KStatusBar::Hide); // updateRects: one
-    updateRects();  // Ooops? Twice?
+    KTMainWindow::enableStatusBar(KStatusBar::Hide); // updateRects: one
   }
 }
 void KfindTop::statusChanged(const char *str)
@@ -320,11 +288,6 @@ void KfindTop::prefs()
 
     prefs->show();
   };
-
-void KfindTop::resizeOnFloating()
-{
-  // If someone is more lazy than I am - he doesn't breath. (sven)
-};
 
 void KfindTop::copySelection() {
   if(_kfind)

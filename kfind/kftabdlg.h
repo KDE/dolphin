@@ -7,12 +7,12 @@
 #ifndef KFTABDLG_H
 #define KFTABDLG_H
 
-#include <qtabdialog.h>  
+#include <qtabwidget.h>  
+#include <qvalidator.h>  
 
 class QButtonGroup;
 class QPushButton;
 class QRadioButton;
-class KfDirDialog;
 class QLabel;
 class QComboBox;
 class QCheckBox;
@@ -20,38 +20,28 @@ class QLineEdit;
 class QString;
 class QDate;
 class QSize;
+class QRegExp;
 
-class KfindTabDialog: public QTabDialog
+class KfDirDialog;
+
+class KfindTabWidget: public QTabWidget
 {
   Q_OBJECT
 
 public:
-  KfindTabDialog(QWidget * parent = 0,const char * name = 0,const char*searchPath=0);
-  virtual ~KfindTabDialog();
+  KfindTabWidget(QWidget * parent = 0,const char * name = 0,const char*searchPath=0);
+  virtual ~KfindTabWidget();
   QString createQuery();      
-  QSize sizeHint();
   void setDefaults();
-
-  virtual void keyPressEvent(QKeyEvent *);
-
+  
   void beginSearch();
   void endSearch();
   void loadHistory();
   void saveHistory();
 
 private slots:
-  // Slots for first page
   void getDirectory();
-  
-  // Slots for second page
-  void enableEdit(int);
-  void disableAllEdit();
-  void enableCheckedEdit();
-  void isCheckedValid(); 
-  
-  // Slots for third page
-  void checkSize();          
-
+  void fixLayout();
   void slotSizeBoxChanged(int);
 
 signals:
@@ -59,19 +49,15 @@ signals:
 protected:
 
 private:
+  void setEnabled(bool);
+  bool isDateValid(); 
+
   QString date2String(QDate);
   QDate &string2Date(QString, QDate *);
 
-  bool modifiedFiles;
-  bool betweenDates;
-  bool prevMonth;
-  bool prevDay;
-  
-  bool enableSearch;            
-
   QWidget *pages[3];
   
-  // for firts page
+  // for first page
   QLabel      *namedL;
   QComboBox   *nameBox;
   QLabel      *lookinL;
@@ -101,6 +87,20 @@ private:
   QCheckBox *caseCb;
 
   QString _searchPath;
+};
+
+class KDigitValidator: public QValidator
+{
+  Q_OBJECT
+
+public:
+  KDigitValidator(QWidget * parent, const char *name = 0 );
+  ~KDigitValidator();
+  
+  QValidator::State validate(QString & input, int &) const;
+  
+ private:
+  QRegExp *r;
 };
 
 #endif

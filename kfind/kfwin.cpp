@@ -53,52 +53,24 @@
 extern KfSaveOptions *saving; 
 extern QList<KfArchiver> *archivers;
 
-class MyQListBox : public QListBox {
-public:
-  MyQListBox(QWidget *parent, const char *name) :
-    QListBox(parent, name) {
-  }
-
-  virtual bool eventFilter(QObject *, QEvent *e) {
-    if(e->type() == QEvent::KeyPress || e->type() == QEvent::Accel) {
-      QKeyEvent *k = (QKeyEvent *)e;
-      if(k->key() == Key_PageUp ||
-	 k->key() == Key_PageDown) {
-	keyPressEvent(k);
-	return TRUE;
-      }
-    }
-    
-    return FALSE;
-  }
-};
-  
-
 KfindWindow::KfindWindow( QWidget *parent, const char *name )
-    : QWidget( parent, name )          
+    : QListBox( parent, name )          
   {
-    lbx = new MyQListBox(this,"list_box" );
-    topLevelWidget()->installEventFilter(lbx);
-    lbx->setMultiSelection(FALSE);
+    //    topLevelWidget()->installEventFilter(lbx);
+    setMultiSelection(FALSE);
 
-    connect(lbx , SIGNAL(highlighted(int)),
+    connect(this , SIGNAL(highlighted(int)),
             this, SLOT(highlighted()) );
-    connect(lbx , SIGNAL(selected(int)),
+    connect(this, SIGNAL(selected(int)),
             this, SLOT( openBinding()) );
    };
 
 KfindWindow::~KfindWindow()
   {
-    delete lbx;
-  };
-
-void KfindWindow::resizeEvent( QResizeEvent * )
-  {
-    lbx->setGeometry(0,0,width(),height());    
   };
 
 void KfindWindow::appendResult(const char *file) {
-  lbx->insertItem(file);
+  insertItem(file);
 }
 
 void KfindWindow::beginSearch() {
@@ -109,13 +81,13 @@ void KfindWindow::beginSearch() {
 void KfindWindow::doneSearch() {
   killTimers();
   
-  QString str = i18n("%1 file(s) found").arg(lbx->count());
+  QString str = i18n("%1 file(s) found").arg(count());
   emit statusChanged(str.ascii());
 }
 
 void KfindWindow::timerEvent(QTimerEvent *) {
-  if(lbx->count() > 0) {
-    QString str = i18n("%1 file(s) found").arg(lbx->count());
+  if(count() > 0) {
+    QString str = i18n("%1 file(s) found").arg(count());
     emit statusChanged(str.ascii());
   }
 }
@@ -140,7 +112,7 @@ void KfindWindow::updateResults(const char *file )
 	return;
       };
     
-    lbx->clear();
+    clear();
     
     count=0;
     while ( !feof( f ) )
@@ -161,7 +133,7 @@ void KfindWindow::updateResults(const char *file )
     if (!(filename->exists()))
       strl->removeLast();
 
-    lbx->insertStrList(strl,-1);
+    insertStrList(strl,-1);
     QString statusmsg = i18n("%1 file(s) found").arg(count);
     emit statusChanged(statusmsg.ascii());
 
@@ -174,9 +146,9 @@ void KfindWindow::updateResults(const char *file )
 // copy to clipboard aka X11 selection
 void KfindWindow::copySelection() {
   QString s;
-  for(int i = 0; i < (int)lbx->count(); i++)
-    if(lbx->isSelected(i)) {
-      s.append(lbx->text(i));
+  for(int i = 0; i < (int)count(); i++)
+    if(isSelected(i)) {
+      s.append(text(i));
       s.append(" ");
     }
 
@@ -189,42 +161,43 @@ void KfindWindow::copySelection() {
 
 void KfindWindow::clearList()
   { 
-    lbx->clear();
+    clear();
   };
 
 void KfindWindow::changeItem(const char *itemName)
   {
-    lbx->changeItem(itemName,lbx->currentItem());    
+    debug("CXHANGE ITEM CALLED\n");
+    //    changeItem(itemName,currentItem());    
   };
 
 void KfindWindow::selectAll() {
-  lbx->setAutoUpdate(FALSE);
-  if(lbx->currentItem() == -1)
-    lbx->setCurrentItem(0);
-  for(int i = 0; i < (int)lbx->count(); i++)
-    lbx->setSelected(i, TRUE);
-  lbx->setAutoUpdate(TRUE);
-  lbx->repaint();
+  setAutoUpdate(FALSE);
+  if(currentItem() == -1)
+    setCurrentItem(0);
+  for(int i = 0; i < (int)count(); i++)
+    setSelected(i, TRUE);
+  setAutoUpdate(TRUE);
+  repaint();
 }
 
 void KfindWindow::invertSelection() {
-  lbx->setAutoUpdate(FALSE);
-  if(lbx->currentItem() == -1)
-    lbx->setCurrentItem(0);
-  for(int i = 0; i < (int)lbx->count(); i++)
-    lbx->setSelected(i, !lbx->isSelected(i));
-  lbx->setAutoUpdate(TRUE);
-  lbx->repaint();
+  setAutoUpdate(FALSE);
+  if(currentItem() == -1)
+    setCurrentItem(0);
+  for(int i = 0; i < (int)count(); i++)
+    setSelected(i, !isSelected(i));
+  setAutoUpdate(TRUE);
+  repaint();
 }
 
 void KfindWindow::unselectAll() {
-  lbx->setAutoUpdate(FALSE);
-  if(lbx->currentItem() == -1)
-    lbx->setCurrentItem(0);
-  for(int i = 0; i < (int)lbx->count(); i++)
-    lbx->setSelected(i, FALSE);
-  lbx->setAutoUpdate(TRUE);
-  lbx->repaint();
+  setAutoUpdate(FALSE);
+  if(currentItem() == -1)
+    setCurrentItem(0);
+  for(int i = 0; i < (int)count(); i++)
+    setSelected(i, FALSE);
+  setAutoUpdate(TRUE);
+  repaint();
 }
 
 void KfindWindow::saveResults()
@@ -243,7 +216,7 @@ void KfindWindow::saveResults()
 
     results=fopen(filename.ascii(),"w");
 
-    items=lbx->count();
+    items=count();
     if (results==0L)
       QMessageBox::warning(parentWidget(),i18n("Error"),
 		     i18n("It wasn't possible to save results!"),
@@ -265,7 +238,7 @@ void KfindWindow::saveResults()
 	    while(item!=items)
 	      {
 		fprintf(results,"<DT><A HREF=\"file:%s\">file:%s</A>\n",
-			lbx->text(item).ascii(),lbx->text(item).ascii());
+			text(item).ascii(),text(item).ascii());
 		item++;
 	      };
 	    fprintf(results,"</DL><P></BODY></HTML>\n");
@@ -275,7 +248,7 @@ void KfindWindow::saveResults()
 	    item=0;  
 	    while(item!=items)
 	      {
-		fprintf(results,"%s\n", lbx->text(item).ascii());
+		fprintf(results,"%s\n", text(item).ascii());
 		item++;
 	      };
 	    
@@ -297,13 +270,13 @@ void KfindWindow::highlighted()
 void KfindWindow::deleteFiles()
   {
     QString tmp = i18n("Do you really want to delete file:\n%1")
-                .arg(lbx->text(lbx->currentItem()));
+                .arg(text(currentItem()));
     if (!QMessageBox::information(parentWidget(),
 				  i18n("Delete File - Find Files"),
 				  tmp, i18n("&Yes"), i18n("&No"), 0, 
 				  1))
       {
-        QFileInfo *file = new QFileInfo(lbx->text(lbx->currentItem()));
+        QFileInfo *file = new QFileInfo(text(currentItem()));
 	if (file->isFile()||file->isSymLink())
             {
               if (remove(file->filePath().ascii())==-1)
@@ -326,8 +299,8 @@ void KfindWindow::deleteFiles()
                    // KFM *kfm= new KFM();
 #warning "TODO : implement a replacement for kfm->refreshDirectory(url)"
                    // and replace the one below as well
-                   // kfm->refreshDirectory(lbx->text(lbx->currentItem()));
-                   lbx->removeItem(lbx->currentItem());
+                   // kfm->refreshDirectory(text(currentItem()));
+                   removeItem(currentItem());
 		   // delete kfm;
  		  };
             }
@@ -354,8 +327,8 @@ void KfindWindow::deleteFiles()
                  else
                   {
 		    // KFM *kfm= new KFM();
-		    // kfm->refreshDirectory(lbx->text(lbx->currentItem()));
-		    lbx->removeItem(lbx->currentItem());
+		    // kfm->refreshDirectory(text(currentItem()));
+		    removeItem(currentItem());
 		    // delete kfm;
                   };
             };
@@ -368,11 +341,11 @@ void KfindWindow::fileProperties()
   {
     QString tmp= "file:";
 
-    QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+    QFileInfo *fileInfo = new QFileInfo(text(currentItem()));
     if (fileInfo->isDir())
 	tmp.append(fileInfo->filePath());
     else
-	tmp.append(lbx->text(lbx->currentItem()));
+	tmp.append(text(currentItem()));
     (void) new PropertiesDialog(tmp);
   };
 
@@ -380,7 +353,7 @@ void KfindWindow::openFolder()
   {
     QString tmp;
 
-    QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+    QFileInfo *fileInfo = new QFileInfo(text(currentItem()));
     if (fileInfo->isDir())
         tmp = "file:" + fileInfo->filePath();
       else
@@ -393,11 +366,11 @@ void KfindWindow::openBinding()
   {
     QString tmp= "file:";
 
-    QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+    QFileInfo *fileInfo = new QFileInfo(text(currentItem()));
     if (fileInfo->isDir())
 	tmp.append(fileInfo->filePath());
     else
-	tmp.append(lbx->text(lbx->currentItem()));
+	tmp.append(text(currentItem()));
     (void) new KRun( tmp );
   };
 
@@ -458,7 +431,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 
       if ( pom=="%d" )
 	{
-	  QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+	  QFileInfo *fileInfo = new QFileInfo(text(currentItem()));
 	  pom = fileInfo->dirPath(TRUE)+"/";
 	};
 
@@ -466,11 +439,11 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 	pom = archname;
       
       if ( pom=="%f" )
-	pom = lbx->text(lbx->currentItem());
+	pom = text(currentItem());
 
       if ( pom=="%n" )
 	{
-	  QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+	  QFileInfo *fileInfo = new QFileInfo(text(currentItem()));
 	  pom = fileInfo->fileName();
 	};
 
@@ -486,5 +459,5 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 };
 
 int KfindWindow::numItems() { 
-  return lbx->count(); 
+  return count(); 
 }
