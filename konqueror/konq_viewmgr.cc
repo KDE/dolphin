@@ -310,8 +310,8 @@ void KonqViewManager::removePart( KParts::Part * part )
         kdDebug(1202) << "Deleting m_pMainContainer " << m_pMainContainer << endl;
         delete m_pMainContainer;
         m_pMainContainer = 0L;
-        kdDebug(1202) << "Deleting m_pMainWindow " << m_pMainWindow << endl;
-        delete m_pMainWindow;
+        kdDebug(1202) << "Closing m_pMainWindow " << m_pMainWindow << endl;
+        m_pMainWindow->close(); // will delete it
         return;
       }
       else // normal case
