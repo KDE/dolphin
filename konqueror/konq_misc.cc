@@ -68,7 +68,11 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString 
   abortFullScreenMode();
 
   // If _url is 0L, open $HOME [this doesn't happen anymore]
-  KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
+  KURL url;
+  if (_url.isEmpty())
+     url.setPath(QDir::homeDirPath());
+  else
+     url = _url;
 
   KonqMainWindow *win = new KonqMainWindow( KURL(), false );
   win->setInitialFrameName( frameName );
