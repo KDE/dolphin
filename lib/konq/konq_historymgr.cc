@@ -122,10 +122,10 @@ bool KonqHistoryManager::loadHistory()
 	}
 	
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
-	blockSignals( false );
 	
 	m_history.sort();
 	adjustSize();
+	blockSignals( false );
     }
 
     file.close();
@@ -338,7 +338,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 {
     //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.url() << endl;
 
-    KonqHistoryEntry *entry = m_history.findEntry( e.url );
+    KonqHistoryEntry *entry = findEntry( e.url );
     if ( !entry ) { // create a new history entry
 	entry = new KonqHistoryEntry;
 	entry->url = e.url;
@@ -356,7 +356,9 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     m_pCompletion->addItem( entry->url.url() );
     m_pCompletion->addItem( entry->typedURL );
 
-    KParts::HistoryProvider::insert( entry->url.url() );
+    bool pending = (e.numberOfTimesVisited != 0);
+    if ( !pending ) // only insert confirming entries
+ 	KParts::HistoryProvider::insert( entry->url.url() );
 
     adjustSize();
 
@@ -482,11 +484,11 @@ bool KonqHistoryManager::loadFallback()
 	++it;
     }
 
-    blockSignals( false );
-    
     m_history.sort();
     adjustSize();
     saveHistory();
+
+    blockSignals( false );
 
     return true;
 }
@@ -524,6 +526,15 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
     }
 
     return entry;
+}
+
+KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
+{
+    // small optimization (dict lookup) for items _not_ in our history
+    if ( !KParts::HistoryProvider::contains( url.url() ) )
+	 return 0L;
+
+    return m_history.findEntry( url );
 }
 
 

@@ -292,6 +292,13 @@ protected:
 
 private:
     void clearPending();
+    /**
+     * a little optimization for KonqHistoryList::findEntry(),
+     * checking the dict of KParts::HistoryProvider before traversing the list.
+     * Can't be used everywhere, because it always returns 0L for "pending"
+     * entries, as those are not added to the dict, currently.
+     */
+    KonqHistoryEntry * findEntry( const KURL& url );
 
     /**
      * Stuff to create a proper history out of KDE 2.0's konq_history for
