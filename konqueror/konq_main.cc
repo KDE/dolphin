@@ -76,19 +76,6 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
 {
   kDebugInfo( 1202, "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " );
   kDebugInfo( 1202, "%s", filename.ascii() );
-  /*
-  KonqShell *shell = new KonqShell;
-
-  KonqPart *part = new KonqPart;
-
-  part->setOpenInitialURL( false );
-
-  //  shell->setRootPart( part );
-  KonqMainView *mainView = new KonqMainView( part, shell );
-
-  shell->setView( mainView );
-
-  */
 
   KonqMainView *mainView = new KonqMainView( QString::null, false );
 

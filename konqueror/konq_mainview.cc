@@ -373,7 +373,7 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
   openURL( url, args.reload, args.xOffset, args.yOffset, args.serviceType );
-} 
+}
 
 void KonqMainView::slotCreateNewWindow( const KURL &url )
 {
@@ -726,7 +726,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       m_paForward->setEnabled( false );
 
       view->widget()->setFocus();
-      
+
       return true;
     }
   else
@@ -1542,6 +1542,8 @@ void KonqMainView::enableAllActions( bool enable )
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
+  
+  actionCollection()->action( "konqueror_shell_close" )->setEnabled( true );
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )
