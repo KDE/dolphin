@@ -24,7 +24,6 @@
 #include "konq_treeview.h"
 #include "konq_txtview.h"
 #include "konq_htmlview.h"
-#include "konq_mainview.h"
 #include "konq_plugins.h"
 
 #include <qsplitter.h>
@@ -50,8 +49,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
                               Row * row, 
                               Konqueror::NewViewPosition newViewPosition,
                               OpenParts::Part_ptr parent,
-                              OpenParts::MainWindow_ptr mainWindow,
-                              KonqMainView * mainView
+                              OpenParts::MainWindow_ptr mainWindow
                               )
 {
   m_pFrame = new KonqFrame( row );
@@ -62,7 +60,6 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_bHistoryLock = false;
   m_vParent = OpenParts::Part::_duplicate( parent );
   m_vMainWindow = OpenParts::MainWindow::_duplicate( mainWindow );
-  m_mainView = mainView;
 
   if (newViewPosition == Konqueror::left)
     m_row->moveToFirst( m_pFrame );
@@ -91,7 +88,7 @@ void KonqChildView::detach()
 {
   m_pFrame->hide();
   m_pFrame->detach();
-  m_vView->disconnectObject( m_mainView );
+  m_vView->disconnectObject( m_vParent );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
   m_vView = 0L; //now it _IS_ dead
@@ -184,12 +181,12 @@ Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
   }
   else
   {
-    QString *serviceType = m_mainView->getServiceType( viewName );
-    assert( !serviceType->isNull() );
+    QString serviceType = KonqPlugins::getServiceType( viewName );
+    assert( !serviceType.isNull() );
     
-    assert( KonqPlugins::isPluginServiceType( *serviceType ) );
+    assert( KonqPlugins::isPluginServiceType( serviceType ) );
     
-    CORBA::Object_var obj = KonqPlugins::lookupServer( *serviceType, KonqPlugins::View );
+    CORBA::Object_var obj = KonqPlugins::lookupServer( serviceType, KonqPlugins::View );
     assert( !CORBA::is_nil( obj ) );
     
     Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
@@ -212,7 +209,7 @@ void KonqChildView::connectView(  )
 {
   try
   {
-    m_vView->connect("openURL", m_mainView, "openURL");
+    m_vView->connect("openURL", m_vParent, "openURL");
   }
   catch ( ... )
   {
@@ -220,7 +217,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("started", m_mainView, "slotURLStarted");
+    m_vView->connect("started", m_vParent, "slotURLStarted");
   }
   catch ( ... )
   {
@@ -228,7 +225,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("completed", m_mainView, "slotURLCompleted");
+    m_vView->connect("completed", m_vParent, "slotURLCompleted");
   }
   catch ( ... )
   {
@@ -236,7 +233,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("setStatusBarText", m_mainView, "setStatusBarText");
+    m_vView->connect("setStatusBarText", m_vParent, "setStatusBarText");
   }
   catch ( ... )
   {
@@ -244,7 +241,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("setLocationBarURL", m_mainView, "setLocationBarURL");
+    m_vView->connect("setLocationBarURL", m_vParent, "setLocationBarURL");
   }
   catch ( ... )
   {
@@ -252,7 +249,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("createNewWindow", m_mainView, "createNewWindow");
+    m_vView->connect("createNewWindow", m_vParent, "createNewWindow");
   }
   catch ( ... )
   {
@@ -260,7 +257,7 @@ void KonqChildView::connectView(  )
   }
   try
   {
-    m_vView->connect("popupMenu", m_mainView, "popupMenu");
+    m_vView->connect("popupMenu", m_vParent, "popupMenu");
   }
   catch ( ... )
   {

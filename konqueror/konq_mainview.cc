@@ -114,8 +114,6 @@ KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWid
   m_currentView = 0L;
   m_currentId = 0;
 
-  m_dctServiceTypes.setAutoDelete( true );
-      
   m_pAccel = new KAccel( this );
   m_pAccel->insertItem( i18n("Switch to left View"), "LeftView", CTRL+Key_1 );
   m_pAccel->insertItem( i18n("Switch to right View"), "RightView", CTRL+Key_2 );
@@ -440,14 +438,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
   cerr << "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )" << endl;
-  KonqChildView* previousView = m_currentView;
-
   setActiveView( child->id() );
-
-  if (previousView) // might be 0L e.g. if we just removed the current view
-    previousView->repaint();
-  m_currentView->repaint();
-  
   return true;
 }
 
@@ -456,7 +447,10 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
   cerr << "void KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )" << endl;
   // removing view-specific menu entries (view will probably be destroyed !)
   if (m_currentView)
+  {
     m_currentView->emitEventViewMenu( m_vMenuView, false );
+    m_currentView->repaint();
+  }
   m_currentView = 0L;
 
   // no more active view (even temporarily)
@@ -492,7 +486,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   }
 
   KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
-                                        this, m_vMainWindow, this );
+                                        this, m_vMainWindow );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
   QObject::connect( v, SIGNAL(sigSetUpEnabled( QString, OpenParts::Id )),
@@ -505,10 +499,11 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
 void KonqMainView::setActiveView( OpenParts::Id id )
 {
+  KonqChildView* previousView = m_currentView;
   // clean view-specific part of the view menu
-  if ( m_currentView != 0L )
-    m_currentView->emitEventViewMenu( m_vMenuView, false );
-
+  if ( previousView != 0L )
+    previousView->emitEventViewMenu( m_vMenuView, false );
+  
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
   
@@ -517,13 +512,16 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   m_currentId = id;
 
   slotSetUpEnabled( m_currentView->url(), id );
-  setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
-  setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
+  setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
+  setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
 
   m_currentView->emitEventViewMenu( m_vMenuView, true );
+  if (previousView != 0L) // might be 0L e.g. if we just removed the current view
+    previousView->repaint();
+  m_currentView->repaint();
 }
 
 Konqueror::View_ptr KonqMainView::activeView()
@@ -810,11 +808,11 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     //   m_popupMenu->setItemEnabled( id, false );
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), this, SLOT( slotBack() ), 101 );
-    if ( m_currentView->m_lstBack.size() == 0 )
+    if ( m_currentView->canGoBack() )
       m_popupMenu->setItemEnabled( id, false );
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), this, SLOT( slotForward() ), 102 );
-    if ( m_currentView->m_lstForward.size() == 0 )
+    if ( m_currentView->canGoForward() )
       m_popupMenu->setItemEnabled( id, false );
 
     m_popupMenu->insertSeparator();  
@@ -954,8 +952,6 @@ void KonqMainView::openDirectory( const char *url )
 
   m_currentView->changeViewMode( "KonquerorKfmIconView" );  
 
-  //createViewMenu();
-
   //TODO: check for html index file and stuff (Simon)
     
   // Do we perhaps want to display a html index file ? => Save the path of the URL
@@ -971,26 +967,19 @@ void KonqMainView::openHTML( const char *url )
   m_pRun = 0L;
   
   m_currentView->changeViewMode( "KonquerorHTMLView" );
-  // createViewMenu();
   m_currentView->openURL( url );
 }
 
-void KonqMainView::openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view )
+void KonqMainView::openPluginView( const char *url, Konqueror::View_ptr view )
 {
   m_pRun = 0L;
-
   Konqueror::View_var vView = Konqueror::View::_duplicate( view );
 
-  QString viewName = vView->viewName();
-  if ( m_dctServiceTypes[ viewName ] )
-    m_dctServiceTypes.remove( viewName );
-
-  m_dctServiceTypes.insert( viewName, new QString( serviceType ) );
-
   m_currentView->switchView( vView );
-
   m_currentView->openURL( url );
-  slotSetUpEnabled( QString::null, m_currentId ); // This is a hack. How can we really know if a plugin supports 'up' ?
+
+  slotSetUpEnabled( QString::null, m_currentId ); // HACK.
+     // How can we really know if a plugin supports 'up' ?
 }
 
 void KonqMainView::openText( const char *url )
@@ -998,9 +987,6 @@ void KonqMainView::openText( const char *url )
   m_pRun = 0L;
   
   m_currentView->changeViewMode( "KonquerorTxtView" );
-
-  // createViewMenu();
-
   m_currentView->openURL( url );
 }
 
@@ -1247,8 +1233,11 @@ void KonqMainView::slotURLEntered()
     return;
   }
 	
-  m_currentView->m_bBack = false;
-  m_currentView->m_bForward = false;
+  /*
+    m_currentView->m_bBack = false;
+    m_currentView->m_bForward = false;
+    Why this ? Seems not necessary ... (David)
+  */ 
 
   openURL( url, (CORBA::Boolean)false );
 }
@@ -1291,14 +1280,14 @@ void KonqMainView::slotBack()
 { 
   m_currentView->goBack();
 
-  if( m_currentView->m_lstBack.size() == 0 )
+  if( m_currentView->canGoBack() )
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
 }
 
 void KonqMainView::slotForward()
 {
   m_currentView->goForward();
-  if( m_currentView->m_lstForward.size() == 0 )
+  if( m_currentView->canGoForward() )
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
 }
 
@@ -1353,8 +1342,8 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   it->second->makeHistory( false /* not completed */, url );
   if ( id == m_currentId )
   {
-    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
-    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
   }
 }
 
@@ -1372,8 +1361,8 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
   it->second->makeHistory( true /* completed */, QString::null /* not used */);
   if ( id == m_currentId )
   {
-    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
-    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
   }
 }
 

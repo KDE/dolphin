@@ -96,11 +96,9 @@ public:
 
   void openDirectory( const char *url );
   void openHTML( const char *url );
-  void openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view );
+  void openPluginView( const char *url, Konqueror::View_ptr view );
   void openText( const char *url );
   
-  // For Child View
-  QString * getServiceType( QString viewName ) { return m_dctServiceTypes[viewName]; }
   /**
    * Enable or disable the "up" button (and the menu item)
    * @param _url the URL shown in the view - the button state depends on it
@@ -249,12 +247,9 @@ protected:
   /* The main, vertical, QSplitter, which holds the rows */
   QSplitter* m_pMainSplitter;
 
-  /* Dual storage of View * instances : mapped by Id */
+  /* Storage of View * instances : mapped by Id */
   map<OpenParts::Id,KonqChildView*> m_mapViews;
 
-  /* Maps view names to service types (only for plugin views!!) */
-  QDict<QString> m_dctServiceTypes;
-    
   KonqChildView *m_currentView;
   OpenParts::Id m_currentId;
   // current row is currentView->row, no need for a member

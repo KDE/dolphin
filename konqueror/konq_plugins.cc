@@ -10,6 +10,8 @@
 QDict< QList<KonqPlugins::imrActivationEntry> > KonqPlugins::s_dctViewServers;
 QDict< QList<KonqPlugins::imrActivationEntry> > KonqPlugins::s_dctPartServers;
 QDict< QList<KonqPlugins::imrActivationEntry> > KonqPlugins::s_dctEventFilterServers;
+QDict< QString > KonqPlugins::s_dctServiceTypes;
+      
 
 void KonqPlugins::init()
 {
@@ -18,6 +20,7 @@ void KonqPlugins::init()
   s_dctViewServers.setAutoDelete( true );
   s_dctPartServers.setAutoDelete( true );
   s_dctEventFilterServers.setAutoDelete( true );
+  s_dctServiceTypes.setAutoDelete( true );
 }
 
 bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter )
@@ -206,4 +209,13 @@ void KonqPlugins::reset()
   s_dctViewServers.clear();
   s_dctPartServers.clear();
   s_dctEventFilterServers.clear();
+  s_dctServiceTypes.clear();
+}
+
+void KonqPlugins::associate( const QString viewName, const QString serviceType )
+{
+  if ( s_dctServiceTypes[ viewName ] )
+    s_dctServiceTypes.remove( viewName );
+
+  s_dctServiceTypes.insert( viewName, new QString( serviceType ) );
 }

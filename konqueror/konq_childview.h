@@ -47,15 +47,14 @@ public:
    * @param view the IDL View to be added in the child view
    * @param row the row (i.e. splitter) where to add the frame
    * @param newViewPosition only valid if Left or Right
-   * @param parent the openparts parent for the view
+   * @param parent the mainview, parent of this view
    * @param mainWindow the KonqMainWindow hosting the view
    * @param mainView the KonqMainView owning the child view
    */
   KonqChildView( Konqueror::View_ptr view, Row * row,
                  Konqueror::NewViewPosition newViewPosition,
                  OpenParts::Part_ptr parent,
-                 OpenParts::MainWindow_ptr mainWindow,
-                 KonqMainView * mainView
+                 OpenParts::MainWindow_ptr mainWindow
                );
   ~KonqChildView();
 
@@ -110,10 +109,18 @@ public:
   void makeHistory( bool bCompleted, QString url );
     
   /**
+   * @return true if view can go back
+   */
+  bool canGoBack() { return m_lstBack.size() != 0; }
+  /**
    * Go back
    */
   void goBack();
   
+  /**
+   * @return true if view can go forward
+   */
+  bool canGoForward() { return m_lstForward.size() != 0; }
   /**
    * Go forward
    */
@@ -173,19 +180,18 @@ public: // temporary !!
   /* ? */
   QString m_strLocationBarURL;
 
+protected:
   bool m_bBack;
   bool m_bForward;
   
   list<InternalHistoryEntry> m_lstBack;
   list<InternalHistoryEntry> m_lstForward;
 
-protected:
   /** Used by makeHistory, to store an history entry between calls */
   InternalHistoryEntry m_tmpInternalHistoryEntry;
   /** If true, next call to makeHistory won't change the history */
   bool m_bHistoryLock;
     
-  KonqMainView * m_mainView;
   OpenParts::Part_var m_vParent;
   OpenParts::MainWindow_var m_vMainWindow;
   KonqFrame *m_pFrame;

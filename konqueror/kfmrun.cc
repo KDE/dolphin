@@ -87,7 +87,8 @@ void KfmRun::foundMimeType( const char *_type )
       assert( !CORBA::is_nil( obj ) );
       Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
       Konqueror::View_var v = Konqueror::View::_duplicate( factory->create() );
-      m_pView->openPluginView( m_strURL, _type, v );
+      KonqPlugins::associate( v->viewName(), _type );
+      m_pView->openPluginView( m_strURL, v );
       m_pView = 0L;
       m_bFinished = true;
       m_timer.start( 0, true );
