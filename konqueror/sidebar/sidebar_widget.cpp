@@ -519,7 +519,7 @@ void Sidebar_Widget::activatedMenu(int id)
 			showExtraButtons = ! showExtraButtons;
 			if(showExtraButtons)
 			{
-				ButtonBar->getButton(-1)->show();
+				ButtonBar->button(-1)->show();
 //				ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
 //JW - TEST				ButtonBar->insertButton(SmallIcon("remove"),-2);
 //JW - TEST				connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
@@ -529,7 +529,7 @@ void Sidebar_Widget::activatedMenu(int id)
 				KMessageBox::information(this,
 				i18n("You have hidden the navigation panel configuration button. To make it visible again, click the right mouse button on any of the navigation panel buttons and select \"Show Configuration Button\"."));
 
-				ButtonBar->getButton(-1)->hide();
+				ButtonBar->button(-1)->hide();
 //				ButtonBar->removeButton(-1);
 //JW -TEST				ButtonBar->removeButton(-2);
 			}
@@ -647,15 +647,15 @@ void Sidebar_Widget::createButtons()
 //  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();
 
-	if (!ButtonBar->getButton(-1)) {
+	if (!ButtonBar->button(-1)) {
 		ButtonBar->appendButton(SmallIcon("configure"), -1, Menu,
 					i18n("Configure Sidebar"));
 	}
 
 	if (showExtraButtons) {
-		ButtonBar->getButton(-1)->show();
+		ButtonBar->button(-1)->show();
 	} else {
-		ButtonBar->getButton(-1)->hide();
+		ButtonBar->button(-1)->hide();
 	}
 
 //	{
@@ -715,7 +715,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 		ButtonInfo *bi = new ButtonInfo(desktoppath, 0, url, lib, name,
 						icon, this);
 		/*int id=*/Buttons.insert(lastbtn, bi);
-		KMultiTabBarTab *tab = ButtonBar->getTab(lastbtn);
+		KMultiTabBarTab *tab = ButtonBar->tab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
 
@@ -741,7 +741,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 			popupFor=-1;
 			for (uint i=0;i<Buttons.count();i++)
 			{
-				if (bt==ButtonBar->getTab(i))
+				if (bt==ButtonBar->tab(i))
 					{popupFor=i; break;}
 			}
 
@@ -866,12 +866,12 @@ void Sidebar_Widget::showHidePage(int page)
 
 			connect(info->module,
 				SIGNAL(setIcon(const QString&)),
-				ButtonBar->getTab(page),
+				ButtonBar->tab(page),
 				SLOT(setIcon(const QString&)));
 
 			connect(info->module,
 				SIGNAL(setCaption(const QString&)),
-				ButtonBar->getTab(page),
+				ButtonBar->tab(page),
 				SLOT(setText(const QString&)));
 
 			if (singleWidgetMode)
