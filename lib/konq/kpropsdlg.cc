@@ -45,7 +45,6 @@
 #include <qfile.h>
 #include <qdir.h>
 #include <qdict.h>
-#include <klined.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
@@ -72,6 +71,9 @@
 #include <kservice.h>
 #include <kfileitem.h>
 #include <kuserpaths.h>
+#include <kglobal.h>
+#include <kcompletion.h>
+#include <klineedit.h>
 
 #include "kpropsdlg.h"
 
@@ -978,6 +980,27 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
 
   mainlayout->addStretch(2);
 
+  // The groupbox about run with substituted uid.
+
+  tmpQGroupBox = new QGroupBox(this, "GroupBox_3");
+  tmpQGroupBox->setFrameStyle(QFrame::Sunken|QFrame::Box);
+  tmpQGroupBox->setAlignment(Qt::AlignLeft);
+  mainlayout->addWidget(tmpQGroupBox, 2);
+
+  grouplayout = new QVBoxLayout(tmpQGroupBox, KDialog::spacingHint());
+  suidCheck = new QCheckBox(tmpQGroupBox, "RadioButton_4");
+  suidCheck->setText(i18n("Run as a different user"));
+  grouplayout->addWidget(suidCheck, 0);
+
+  hlayout = new QHBoxLayout(KDialog::spacingHint());
+  grouplayout->addLayout(hlayout, 1);
+  l = new QLabel(tmpQGroupBox, "Label_6");
+  l->setText(i18n("Username"));
+  hlayout->addWidget(l, 0);
+  suidEdit = new KLineEdit(tmpQGroupBox, "LineEdit_6");
+  hlayout->addWidget(suidEdit, 1);
+  mainlayout->addStretch(2);
+
 
   // now populate the page
   QString path = _props->kurl().path();
@@ -994,6 +1017,8 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
   swallowTitleStr = config.readEntry( "SwallowTitle");
   termStr = config.readEntry( "Terminal" );
   termOptionsStr = config.readEntry( "TerminalOptions" );
+  suidStr = config.readEntry( "X-KDE-SubstituteUID" );
+  suidUserStr = config.readEntry( "X-KDE-Username" );
 
   if ( !swallowExecStr.isNull() )
     swallowExecEdit->setText( swallowExecStr );
@@ -1009,8 +1034,24 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
     terminalCheck->setChecked( termStr == "1" );
   enableCheckedEdit();
 
+  suidCheck->setChecked( suidStr == "1" );
+  suidEdit->setText( suidUserStr );
+  enableSuidEdit();
+
+  // Provide username completion
+  KCompletion *compl = new KCompletion;
+  compl->setSorted(true);
+  struct passwd *pw;
+  setpwent();
+  while ((pw = getpwent()) != 0L)
+    compl->addItem(pw->pw_name);
+  endpwent();
+  suidEdit->setCompletionObject(compl, true);
+  suidEdit->setCompletionMode(KGlobal::CompletionAuto);
+
   connect( execBrowse, SIGNAL( clicked() ), this, SLOT( slotBrowseExec() ) );
   connect( terminalCheck, SIGNAL( clicked() ), this,  SLOT( enableCheckedEdit() ) );
+  connect( suidCheck, SIGNAL( clicked() ), this,  SLOT( enableSuidEdit() ) );
 
 }
 
@@ -1020,6 +1061,10 @@ void ExecPropsPage::enableCheckedEdit()
   terminalEdit->setEnabled(terminalCheck->isChecked());
 }
 
+void ExecPropsPage::enableSuidEdit()
+{
+  suidEdit->setEnabled(suidCheck->isChecked());
+}
 
 bool ExecPropsPage::supports( KFileItemList _items )
 {
@@ -1052,6 +1097,8 @@ void ExecPropsPage::applyChanges()
   config.writeEntry( "SwallowTitle", swallowTitleEdit->text() );
   config.writeEntry( "Terminal", terminalCheck->isChecked() ? "1" : "0" );
   config.writeEntry( "TerminalOptions", terminalEdit->text() );
+  config.writeEntry( "X-KDE-SubstituteUID", suidCheck->isChecked() ? "1" : "0" );
+  config.writeEntry( "X-KDE-Username", suidEdit->text() );
 }
 
 

@@ -49,6 +49,7 @@
 class QLineEdit;
 class QCheckBox;
 class QPushButton;
+class KLineEdit;
 
 class KIconLoaderButton;
 class PropsPage;
@@ -381,14 +382,17 @@ public slots:
 
 private slots:
   void enableCheckedEdit();
+  void enableSuidEdit();
 
 protected:
 
-    QLineEdit *execEdit;
+    KLineEdit *execEdit;
     QCheckBox *terminalCheck;
-    QLineEdit *terminalEdit;
-    QLineEdit *swallowExecEdit;
-    QLineEdit *swallowTitleEdit;
+    QCheckBox *suidCheck;
+    KLineEdit *terminalEdit;
+    KLineEdit *suidEdit;
+    KLineEdit *swallowExecEdit;
+    KLineEdit *swallowTitleEdit;
     QButton *execBrowse;
 
     QString execStr;
@@ -396,6 +400,8 @@ protected:
     QString swallowTitleStr;
     QString termStr;
     QString termOptionsStr;
+    QString suidStr;
+    QString suidUserStr;
 };
 
 /**
