@@ -329,7 +329,8 @@ protected slots:
   void slotCompletionModeChanged( KGlobalSettings::Completion );
   void slotMakeCompletion( const QString& );
   void slotRotation( KCompletionBase::KeyBindingType );
-
+  void slotMatch( const QString& );
+  
   void slotComboCut();
   void slotComboCopy();
   void slotComboPaste();
@@ -533,6 +534,7 @@ private:
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
     KAccel *m_accel;
+    bool m_urlCompletionStarted;
 };
 
 #endif

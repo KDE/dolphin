@@ -118,6 +118,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   s_lstViews->append( this );
 
+  m_urlCompletionStarted = false;
+
   m_currentView = 0L;
   m_initialKonqRun = 0L;
   m_pBookmarkMenu = 0L;
@@ -2047,6 +2049,8 @@ void KonqMainWindow::slotComboPlugged()
            SLOT( slotMakeCompletion( const QString& )));
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
+  connect( m_pURLCompletion, SIGNAL( match(const QString&) ),
+           SLOT( slotMatch(const QString&) ));
 
   m_combo->lineEdit()->installEventFilter(this);
 }
@@ -2077,34 +2081,32 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 {
   if( m_pURLCompletion )
   {
+    m_urlCompletionStarted = true; // flag for slotMatch()
+
     // kdDebug(1202) << "Local Completion object found!" << endl;
     QString completion = m_pURLCompletion->makeCompletion( text );
     m_currentDir = QString::null;
 
-    if ( completion.isNull() )
+    if ( completion.isNull() && !m_pURLCompletion->isRunning() )
     {
+      // No match() signal will come from m_pURLCompletion
       // ask the global one
       // tell the static completion object about the current completion mode
       completion = s_pCompletion->makeCompletion( text );
+
+      // some special handling necessary for CompletionPopup
+      if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
+        QStringList items = s_pCompletion->allMatches();
+        m_combo->setCompletedItems( items );
+      }
+      else if ( !completion.isNull() ) 
+        m_combo->setCompletedText( completion );
     }
     else
     {
+      // To be continued in slotMatch()... 
       if( !m_pURLCompletion->dir().isEmpty() )
         m_currentDir = m_pURLCompletion->dir();
-    }
-
-    // some special handling necessary for CompletionPopup
-    if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
-	QStringList items = m_pURLCompletion->allMatches( text );
-	items += s_pCompletion->allMatches( text );
-	// items.sort(); // should we?
-	m_combo->setCompletedItems( items );
-    }
-
-    else {
-	if ( !completion.isNull() ) {
-	    m_combo->setCompletedText( completion );
-	}
     }
   }
   // kdDebug(1202) << "Current dir: " << m_currentDir << "  Current text: " << text << endl;
@@ -2112,6 +2114,9 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 
 void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 {
+  // Tell slotMatch() to do nothing 
+  m_urlCompletionStarted = false;
+  
   bool prev = (type == KCompletionBase::PrevCompletionMatch);
   if ( prev || type == KCompletionBase::NextCompletionMatch ) {
     QString completion = prev ? m_pURLCompletion->previousMatch() :
@@ -2125,6 +2130,28 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
       return;
 
     m_combo->setCompletedText( completion );
+  }
+}
+
+// Handle match() from m_pURLCompletion
+void KonqMainWindow::slotMatch( const QString &match )
+{
+  // Check flag to avoid match() raised by rotation
+  if ( m_urlCompletionStarted ) {
+    m_urlCompletionStarted = false;
+
+    // some special handling necessary for CompletionPopup
+    if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
+      QStringList items = m_pURLCompletion->allMatches();
+
+      // Do we need this? It will give duplicates...
+      //items += s_pCompletion->allMatches( text );
+
+      // items.sort(); // should we?
+      m_combo->setCompletedItems( items );
+    }
+    else if ( !match.isNull() )
+       m_combo->setCompletedText( match );
   }
 }
 
