@@ -64,23 +64,8 @@ PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
   setMainWidget(m_dlgUI);
 
   m_dlgUI->leDomain->setValidator(new DomainLineValidator(m_dlgUI->leDomain));
-
-  QString wstr = i18n("Enter the host or domain to which this policy applies, "
-                      "e.g. <i>www.kde.org</i> or <i>.kde.org</i>");
-  QWhatsThis::add( m_dlgUI->leDomain, wstr );
-
   m_dlgUI->cbPolicy->setMinimumWidth( m_dlgUI->cbPolicy->fontMetrics().width('W') * 25 );
-  wstr = i18n("Select the desired policy:"
-              "<ul><li><b>Accept</b> - Allows this site to set cookie</li>"
-              "<li><b>Reject</b> - Refuse all cookies sent from this site</li>"
-              "<li><b>Ask</b> - Prompt when cookies are received from this site</li></ul>");
-  QWhatsThis::add( m_dlgUI->cbPolicy, wstr );
-
-  m_dlgUI->cbPolicy->clear ();
-  m_dlgUI->cbPolicy->insertItem (i18n("Accept"));
-  m_dlgUI->cbPolicy->insertItem (i18n("Reject"));
-  m_dlgUI->cbPolicy->insertItem (i18n("Ask"));
-
+  
   enableButtonOK( false );
   connect(m_dlgUI->leDomain, SIGNAL(textChanged(const QString&)),
     SLOT(slotTextChanged(const QString&)));
