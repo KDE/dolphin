@@ -544,7 +544,13 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 addAction( "trash" );
 
             if ( sDeleting ) {
-                addAction( "del" );
+                if ( !isLocal )
+                    addAction( "del" );
+                else {
+                    KConfigGroup configGroup( kapp->config(), "KDE" );
+                    if ( configGroup.readBoolEntry( "ShowDeleteCommand", false ) )
+                        addAction( "del" );
+                }
             }
         }
     }

@@ -3824,10 +3824,6 @@ void KonqMainWindow::initActions()
 
   m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
 
-  KConfig config("kdeglobals", true, false);
-  config.setGroup( "KDE" );
-  m_bShowDelete = config.readBoolEntry( "ShowDeleteCommand", false );
-
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
@@ -4542,6 +4538,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
   popupMenuCollection.insert( m_paRename );
+  popupMenuCollection.insert( m_paDelete );
 
   // The pasteto action is used when clicking on a dir, to paste into it.
   KAction *actPaste = KStdAction::paste( this, SLOT( slotPopupPasteTo() ), &popupMenuCollection, "pasteto" );
@@ -4561,9 +4558,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     m_popupURL = KURL();
     m_popupServiceType = QString::null;
   }
-
-  if ( !m_popupURL.isLocalFile() || m_bShowDelete )
-      popupMenuCollection.insert( m_paDelete );
 
   if ( (_items.count() == 1) && !m_popupServiceType.isEmpty() ) {
       QString currentServiceName = currentView->service()->desktopEntryName();
@@ -4768,11 +4762,6 @@ void KonqMainWindow::reparseConfiguration()
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
   m_sViewModeForDirectory = config->readEntry( "ViewMode" );
-
-  // Update display of "Delete" command if necessary
-  KConfig globalconfig("kdeglobals", true, false);
-  globalconfig.setGroup( "KDE" );
-  m_bShowDelete = globalconfig.readBoolEntry( "ShowDeleteCommand", false );
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();

@@ -677,7 +677,6 @@ private:
   // Global settings
   uint m_bSaveViewPropertiesLocally:1;
   uint m_bHTMLAllowed:1;
-  uint m_bShowDelete:1;
   // Set in constructor, used in slotRunFinished
   uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
