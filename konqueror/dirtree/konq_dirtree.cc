@@ -130,8 +130,7 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( data->encodedData( data->format() ).size() != 0 ) && selection;
 
-  emit enableAction( "pastecut", paste );
-  emit enableAction( "pastecopy", paste );
+  emit enableAction( "paste", paste );
 }
 
 void KonqDirTreeBrowserExtension::cut()
@@ -843,13 +842,14 @@ void KonqDirTree::FilesAdded( const KURL & dir )
 
 void KonqDirTree::FilesRemoved( const KURL::List & urls )
 {
-  //kdDebug() << "KonqDirTree::FilesRemoved " << urls.count() << endl;
+  //kdDebug(1202) << "KonqDirTree::FilesRemoved " << urls.count() << endl;
   for ( KURL::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
   {
+    //kdDebug(1202) <<  "KonqDirTree::FilesRemoved " << (*it).prettyURL() << endl;
     if ( m_dirtreeDir.isParentOf( *it ) )
     {
       QTimer::singleShot( 0, this, SLOT( rescanConfiguration() ) );
-      kdDebug() << "KonqDirTree::FilesRemoved done" << endl;
+      kdDebug(1202) << "KonqDirTree::FilesRemoved done" << endl;
       return;
     }
   }
@@ -857,6 +857,7 @@ void KonqDirTree::FilesRemoved( const KURL::List & urls )
 
 void KonqDirTree::FilesChanged( const KURL::List & urls )
 {
+  //kdDebug(1202) << "KonqDirTree::FilesChanged" << endl;
   // not same signal, but same implementation
   FilesRemoved( urls );
 }
