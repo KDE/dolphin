@@ -379,7 +379,9 @@ Menubar</guimenuitem> allows the menubar to be hidden. When
 the menubar is hidden, <guimenuitem>Show Menubar</guimenuitem> can be
 reached by <mousebutton>right</mousebutton> clicking in the
 window or by <keycombo action="simul">&Alt;&Ctrl;<keycap>M</keycap>
-</keycombo>.</para>
+</keycombo>, which is the default shortcut for activating the menubar.
+The menubar can also be toggled by assigning it a shortcut.
+</para>
 
 <sect2 id="session-menu">
 <title><guimenu>Session</guimenu> Menu</title>
@@ -617,13 +619,13 @@ signal</option></userinput>.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Clear Terminal</guimenuitem></menuchoice></term>
-<listitem><para><action>Clear all text from the session window.</action>.</para></listitem>
+<listitem><para><action>Clear all text from the session window</action>.</para></listitem>
 </varlistentry>
 
 
 <varlistentry>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Reset and Clear Terminal</guimenuitem></menuchoice></term>
-<listitem><para><action>Start a new session in the window.</action>.</para></listitem>
+<listitem><para><action>Reset and clear the session window</action>.</para></listitem>
 </varlistentry>
 
 
@@ -687,10 +689,7 @@ History As...</guimenuitem></menuchoice></term>
 <term><menuchoice><guimenu>View</guimenu><guimenuitem>Detach
 Session</guimenuitem></menuchoice></term>
 <listitem><para><action>Open the current session in a separate window.</action>
-The name of the session is displayed on the titlebar of the new window. Close
-the new window to restore the session to its original place,
-or <mousebutton>right</mousebutton>-click on the new window and select <guimenuitem>Attach Session</guimenuitem>.
-Note that if the main window is closed, any detached sessions will be closed with it.
+The name of the session is displayed on the titlebar of the new window.
 </para></listitem>
 </varlistentry>
 
@@ -957,8 +956,8 @@ of custom schemas and modification of the available sessions.</action></para>
 
 <variablelist>
 <varlistentry>
-<term><menuchoice><shortcut>
-<keycap>F1</keycap></shortcut><guimenu>Help</guimenu>
+<term><menuchoice>
+<guimenu>Help</guimenu>
 <guimenuitem>Konsole Handbook</guimenuitem></menuchoice></term>
 <listitem><para><action>Open the table of contents of this
 document.</action></para></listitem>
@@ -1335,8 +1334,12 @@ The following &Qt; options have no effect on &konsole;:
 <sect1 id="dcop">
 <title>DCOP</title>
 
-<para>Stub for DCOP intro
+<para>
+For an introduction to 
+&DCOP; and using <command>dcop</command> please look at
+<ulink url="help:/khelpcenter/userguide/kde-diy.html#dcop">the User Guide entry on DCOP</ulink>.
 </para>
+
 </sect1>
 
 </chapter>
