@@ -104,29 +104,29 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   m_pListView->setMinimumSize( m_pListView->sizeHint() );
 
   KGlobal::config()->setGroup("Settings");
-  m_cbSaveURLs = new QCheckBox( i18n("Save URLs in profile"), this );
+  m_cbSaveURLs = new QCheckBox( i18n("Save &URLs in profile"), this );
   m_cbSaveURLs->setChecked( KGlobal::config()->readBoolEntry("SaveURLInProfile",true) );
   m_pGrid->addMultiCellWidget( m_cbSaveURLs, 7, 7, 0, N_BUTTONS-1 );
 
-  m_cbSaveSize = new QCheckBox( i18n("Save window size in profile"), this );
+  m_cbSaveSize = new QCheckBox( i18n("Save &window size in profile"), this );
   m_cbSaveSize->setChecked( KGlobal::config()->readBoolEntry("SaveWindowSizeInProfile",false) );
   m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, N_BUTTONS-1 );
 
-  m_pSaveButton = new QPushButton( i18n( "Save" ), this );
+  m_pSaveButton = new QPushButton( i18n( "&Save" ), this );
   m_pSaveButton->setEnabled( !m_pProfileNameLineEdit->text().isEmpty() );
   m_pSaveButton->setDefault( true );
 
   m_pGrid->addWidget( m_pSaveButton, 9, 0 );
 
-  m_pDeleteProfileButton = new QPushButton( i18n( "Delete Selected Profile" ), this );
+  m_pDeleteProfileButton = new QPushButton( i18n( "&Delete Selected Profile" ), this );
 
   m_pGrid->addWidget( m_pDeleteProfileButton, 9, 1 );
 
-  m_pRenameProfileButton = new QPushButton( i18n( "Rename Selected Profile" ), this );
+  m_pRenameProfileButton = new QPushButton( i18n( "&Rename Selected Profile" ), this );
 
   m_pGrid->addWidget( m_pRenameProfileButton, 9, 2 );
 
-  m_pCloseButton = new QPushButton( i18n( "Close" ), this );
+  m_pCloseButton = new QPushButton( i18n( "&Close" ), this );
 
   m_pGrid->addWidget( m_pCloseButton, 9, 3 );
 
@@ -209,7 +209,7 @@ void KonqProfileDlg::slotRename()
   if ( it != m_mapEntries.end() )
   {
     KLineEditDlg dlg( i18n("Rename profile '%1'").arg(currentText), currentText, this );
-    dlg.setCaption( i18n("Rename profile") );
+    dlg.setCaption( i18n("Rename Profile") );
     if ( dlg.exec() )
     {
       QString newName = dlg.text();
