@@ -3,7 +3,7 @@
 
 #include <kded_instance.h>
 #include <ktrader.h>
-#include <kactivator.h>
+#include <knaming.h>
 #include <kdebug.h>
 
 void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
@@ -11,15 +11,16 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
   kdebug(0, 1202, "void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )" );
 
   KTrader *trader = KdedInstance::self()->ktrader();
-  KActivator *activator = KdedInstance::self()->kactivator();
+  KNaming *naming = KdedInstance::self()->knaming();
   
-  KTrader::OfferList offers = trader->query( "KOMPlugin" );
+  KTrader::OfferList offers = trader->query( "Konqueror/KOMPlugin" );
 
   KTrader::OfferList::ConstIterator it = offers.begin();
   for (; it != offers.end(); ++it )
   {
     QStringList requiredInterfaces = (*it)->property( "RequiredInterfaces" )->stringListValue();
     QStringList providedInterfaces = (*it)->property( "ProvidedInterfaces" )->stringListValue();
+    QString KNamingName = (*it)->property( "KNamingServiceName" )->stringValue();
     
     QStringList::ConstIterator it2 = requiredInterfaces.begin();
     for (; it2 != requiredInterfaces.end(); ++it2 )
@@ -29,16 +30,12 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 	return;
       }
       
-    QString repoId = (*it)->repoIds().first();
-    QString tag = (*it)->name();
-    int tagPos = repoId.findRev( "#" );
-    if ( tagPos != -1 )
+    CORBA::Object_var obj = naming->resolve( KNamingName );
+    if ( CORBA::is_nil( obj ) )
     {
-      tag = repoId.mid( tagPos+1 );
-      repoId.truncate( tagPos );
+      kdebug(0, 1202, "component is not loaded!" );
+      return;
     }
-    
-    CORBA::Object_var obj = activator->activateService( (*it)->name(), repoId, tag );
 
     KOM::PluginFactory_var factory = KOM::PluginFactory::_narrow( obj );    
     

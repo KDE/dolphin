@@ -52,9 +52,6 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
   while ( obj->_refcnt() > 1 ) obj->_deref();
 }
 
-// Let's do without it while it's broken ...
-// #define USE_QXEMBED
-
 KonqChildView::KonqChildView( Konqueror::View_ptr view, 
                               Row * row, 
                               NewViewPosition newViewPosition,
@@ -117,28 +114,20 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 
   m_pLayout = new QVBoxLayout( m_pWidget );
   m_pLayout->addWidget( m_pHeader );
-#ifdef USE_QXEMBED
-  m_pFrame = new OPFrame( m_pWidget );
-  m_pLayout->addWidget( m_pFrame );
-#endif
   if ( localView )
   {
     kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
-#ifdef USE_QXEMBED
-    m_pFrame->attachLocal( localView );
-#else 
     QWidget * localWidget = localView->widget();
+    m_pLayout->addWidget( localWidget );
     localWidget->reparent( m_pWidget, 0, QPoint(0, 0) );
-    m_pLayout->addWidget( localWidget ); 
+    localWidget->setGeometry( 0, 0, m_pWidget->width(), m_pWidget->height() );
     m_pFrame = 0L;
-#endif
   }
   else
   {
-//#ifndef USE_QXEMBED
     m_pFrame = new OPFrame( m_pWidget );
     m_pLayout->addWidget( m_pFrame );
-//#endif
+    m_pLayout->activate();
     kdebug(0, 1202, " ************* NOT LOCAL :( *************");
     m_pFrame->attach( view );
   }
@@ -146,14 +135,14 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 // disabled for now because it's slow (yet another trader query) and we
 // don't have any KOM plugins for views, yet (Simon)
 //  KonqPlugins::installKOMPlugins( view );
-  m_pLayout->activate();
 }
 
 void KonqChildView::detach()
 {
   if ( m_pFrame )
   {
-    m_pFrame->hide();
+    m_vView->show( false );
+//    m_pFrame->hide();
     m_pFrame->detach();
     delete m_pFrame;
     m_pFrame = 0L;
@@ -176,8 +165,8 @@ void KonqChildView::show()
 {
   kdebug(0,1202,"KonqChildView::show()");
   m_pWidget->show();
-  m_vView->show(true);
-  if ( m_pFrame ) m_pFrame->show();
+  m_vView->show( true );
+//  if ( m_pFrame ) m_pFrame->show();
 }
 
 void KonqChildView::openURL( QString url )
