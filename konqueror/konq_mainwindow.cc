@@ -1874,11 +1874,14 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->setHistoryItems( locationBarCombo );
   m_combo->setHandleSignals( false );
   m_pCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
+  m_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
 
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
+  connect( m_combo, SIGNAL( completionModeChanged( KGlobalSettings::Completion )),
+	   SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
 
   m_combo->lineEdit()->installEventFilter(this);
 }
