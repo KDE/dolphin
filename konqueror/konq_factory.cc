@@ -210,7 +210,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
     s_aboutData->addAuthor( "Matthias Welk", I18N_NOOP("developer"), "welk@fokus.gmd.de" );
     s_aboutData->addAuthor( "Alexander Neundorf", I18N_NOOP("developer (List views)"), "neundorf@kde.org" );
-    s_aboutData->addAuthor( "Michael Brade", I18N_NOOP("developer (List views)"), "brade@informatik.uni-muenchen.de" );
+    s_aboutData->addAuthor( "Michael Brade", I18N_NOOP("developer (List views, I/O lib)"), "brade@kde.org" );
     s_aboutData->addAuthor( "Lars Knoll", I18N_NOOP("developer (HTML rendering engine)"), "knoll@kde.org" );
     s_aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
     s_aboutData->addAuthor( "Dirk Mueller", I18N_NOOP("developer (HTML rendering engine)"), "mueller@kde.org" );
