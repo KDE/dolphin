@@ -4445,11 +4445,31 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
 
         if ( !config->hasKey( "MultipleTabConfirm" ) )
         {
-          if ( KMessageBox::warningContinueCancel( this, i18n("You have multiple tabs open in this window, are you sure you wish to close it?"), i18n("Confirmation"),
-                                        KStdGuiItem::close(), "MultipleTabConfirm" ) == KMessageBox::Cancel )
-          {
-            e->ignore();
-            return;
+          switch (
+              KMessageBox::warningYesNoCancel(
+                  this, 
+                  i18n("You have multiple tabs open in this window, "
+                        "are you sure you wish to close it?"),
+                  i18n("Confirmation"),
+                  KStdGuiItem::close(),
+                  KGuiItem(i18n( "Close Current Tab" ), "tab_remove"),
+                  "MultipleTabConfirm"
+              )
+            ) {
+            case KMessageBox::Yes :
+            break;
+            case KMessageBox::No :
+            {
+              e->ignore();
+              slotRemoveTab();
+              return;
+            }
+            break;
+            case KMessageBox::Cancel :
+            {
+              e->ignore();
+    	      return;
+            }
           }
         }
       }
