@@ -59,6 +59,8 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
 {
+   // Remove all items - for dirs, this calls removeSubDir
+   clear();
    kdDebug(1202) << "-KonqTreeViewWidget" << endl;
 }
 
