@@ -78,7 +78,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //Adjust QListView behaviour
    setSelectionMode( Extended );
    setMultiSelection(TRUE);
-   setSorting(0);
+   setSorting(m_filenameColumn);
 
    initConfig();
 
@@ -118,9 +118,8 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
 
 void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
 {
-   if ((_ev->state()==ShiftButton) && (!m_wasShiftEvent)) selectAll(FALSE);
-   m_wasShiftEvent=(_ev->state()==ShiftButton);
-   //cerr<<"keyPressEvent"<<endl;
+   if ((_ev->state()==ShiftButton) && (_ev->key()!=Key_Shift) && (_ev->key()!=Key_Control) && (_ev->key()!=Key_Meta) && (_ev->key()!=Key_Alt) && (!m_wasShiftEvent)) selectAll(FALSE);
+   m_wasShiftEvent=_ev->state()==ShiftButton;
    // We are only interested in the insert key here
    KonqListViewItem* item = (KonqListViewItem*)currentItem();
    //insert without modifiers toggles the selection of the current item and moves to the next
@@ -315,7 +314,6 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    kdDebug(1202)<<"readProtocolConfig: -"<<protocol<<"-"<<endl;
 
    KConfig * config = KGlobal::config();
-   //kdDebug(1202) << "in readProtocolConfig: protocol: -" <<protocol<<"-"<< endl;
    if ( config->hasGroup( "ListView_" + protocol ) )
       config->setGroup( "ListView_" + protocol );
    else
@@ -324,11 +322,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    QStringList lstColumns = config->readListEntry( "Columns" );
    if (lstColumns.isEmpty())
    {
-// Default column selection
-//      lstColumns.append( "Name" );
-//      lstColumns.append( "Type" );
+      // Default column selection
       lstColumns.append( "Size" );
-      //lstColumns.append( "Date" );
       lstColumns.append( "Modified" );
       lstColumns.append( "Permissions" );
       lstColumns.append( "Owner" );
@@ -336,12 +331,15 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       lstColumns.append( "Link" );
    }
 
+   //disable everything
    for (unsigned int i=0; i<confColumns.count(); i++)
    {
       confColumns.at(i)->displayThisOne=FALSE;
+      confColumns.at(i)->displayInColumn=-1;
       confColumns.at(i)->toggleThisOne->setChecked(FALSE);
       confColumns.at(i)->toggleThisOne->setEnabled(TRUE);
    };
+   int currentColumn(m_filenameColumn+1);
    //check all columns in lstColumns
    for (unsigned int i=0; i<lstColumns.count(); i++)
    {
@@ -351,7 +349,9 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
          if (confColumns.at(j)->name==*lstColumns.at(i))
          {
             confColumns.at(j)->displayThisOne=TRUE;
+            confColumns.at(j)->displayInColumn=currentColumn;
             confColumns.at(j)->toggleThisOne->setChecked(TRUE);
+            currentColumn++;
             break;
          };
       };
@@ -359,23 +359,25 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    KProtocolManager *protocolManager=&KProtocolManager::self();
    QStringList listingList=protocolManager->listing(protocol);
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
-   for (int j=0; j<listingList.count(); j++)
+   for (unsigned int j=0; j<listingList.count(); j++)
       kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
 
-   for (int i=0; i<confColumns.count(); i++)
+   for (unsigned int i=0; i<confColumns.count(); i++)
    {
-      int k(0);
+      unsigned int k(0);
       for (k=0; k<listingList.count(); k++)
          if (*listingList.at(k)==confColumns.at(i)->desktopFileName) break;
       if (*listingList.at(k)!=confColumns.at(i)->desktopFileName)
       {
+         for (unsigned int l=0; l<confColumns.count(); l++)
+            if (confColumns.at(i)->displayInColumn>confColumns.at(i)->displayInColumn)
+               confColumns.at(i)->displayInColumn--;
          confColumns.at(i)->displayThisOne=FALSE;
          confColumns.at(i)->toggleThisOne->setEnabled(FALSE);
          confColumns.at(i)->toggleThisOne->setChecked(FALSE);
       };
    };
 };
-
 
 void KonqBaseListViewWidget::stop()
 {
@@ -611,7 +613,8 @@ void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
 {
   KListView::viewportMousePressEvent( _ev );
 
-  QPoint globalPos = mapToGlobal( _ev->pos() );
+  //what was it intended for ? (alex)
+  //QPoint globalPos = mapToGlobal( _ev->pos() );
   m_pressed = false;
 
   KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
@@ -728,7 +731,7 @@ void KonqBaseListViewWidget::slotOnViewport()
    //TODO: Display summary in DetailedList in statusbar, like iconview does
 }
 
-void KonqBaseListViewWidget::slotExecuted( QListViewItem* _item )
+void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
 {
   //if ( isSingleClickArea( _mouse->pos() ) )
   {
@@ -835,21 +838,20 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
 void KonqBaseListViewWidget::createColumns()
 {
    //this column is always required, so add it
-   if (columns()<1) addColumn(i18n("Name"));
+   if (columns()<=m_filenameColumn) addColumn(i18n("Name"));
 
    //remove all but the first column
    for (int i=columns()-1; i>0; i--)
       removeColumn(i);
    //now add the checked columns
-   //start with 1, since we have the name column always
-   int currentColumn(1);
+   int currentColumn(m_filenameColumn+1);
    for (int i=0; i<confColumns.count(); i++)
    {
-      if (confColumns.at(i)->displayThisOne)
+      if ((confColumns.at(i)->displayThisOne) && (confColumns.at(i)->displayInColumn==currentColumn))
       {
          addColumn(i18n(confColumns.at(i)->name ));
          if (confColumns.at(i)->udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
-         confColumns.at(i)->displayInColumn=currentColumn;
+         i=-1;
          currentColumn++;
       };
    };

@@ -148,15 +148,15 @@ class KonqBaseListViewWidget : public KListView
        up/down: move one item up/down
        insert: toggle selection of current and move to the next
        space: toggle selection of the current
-       CTRL+up: move to the previous item and toggle selection of this one
-       CTRL+down: toggle selection of the current item and move to the next
-       CTRL+end: toggle selection from (including) the current
+       SHIFT+CTRL+up: move to the previous item and toggle selection of this one
+       SHIFT+CTRL+down: toggle selection of the current item and move to the next
+       SHIFT+CTRL+end: toggle selection from (including) the current
        item to (including) the last item
-       CTRL+home: toggle selection from (including) the current
+       SHIFT+CTRL+home: toggle selection from (including) the current
        item to the (including) the first item
-       CTRL+PgDn: toggle selection from (including) the current
+       SHIFT+CTRL+PgDn: toggle selection from (including) the current
        item to (excluding) the item one page down
-       CTRL+PgUp: toggle selection from (excluding) the current
+       SHIFT+CTRL+PgUp: toggle selection from (excluding) the current
        item to (including) the item one page up
 
        the combinations work the same with SHIFT instead of CTRL, except
@@ -166,8 +166,15 @@ class KonqBaseListViewWidget : public KListView
        This way e.g. SHIFT+up/PgUp then SHIFT+down/PgDn leaves no item selected
        */
       virtual void keyPressEvent( QKeyEvent *_ev );
+      
+      //creates the listview columns according to confColumns
       virtual void createColumns();
+      //reads the configuration for the columns of the current
+      //protocol, it is called when the protocol changes
+      //it checks/unchecks the menu items and sets confColumns
       void readProtocolConfig( const QString & protocol );
+      //calls updateContents of every ListViewItem, called after
+      //the columns changed
       void updateListContents();
 
       //this is called in the constructor, so virtual would be nonsense
@@ -208,6 +215,7 @@ class KonqBaseListViewWidget : public KListView
       /** View properties */
       KonqPropsView * m_pProps;
 
+      //I think I could use a simple *array for this... (Alex)
       QList<ColumnInfo> confColumns;
       
       KonqBaseListViewItem* m_dragOverItem;

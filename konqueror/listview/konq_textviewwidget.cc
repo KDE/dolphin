@@ -46,22 +46,10 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
 ,timer()
 {
    kdDebug(1202) << "+KonqTextViewWidget" << endl;
+   m_filenameColumn=1;
 
-   addColumn(" ",fontMetrics().width("@")+2);
-   addColumn(i18n("Name"),fontMetrics().width("_a_quite_long_filename_"));
-   setColumnAlignment(0,AlignRight);
-
-   addColumn(i18n("Size"),fontMetrics().width("000000000"));
-   //int permissionsWidth=fontMetrics().width(i18n("Permissions"))+fontMetrics().width("--");
-   //cerr<<" set to: "<<permissionsWidth<<endl;
-
-   addColumn(i18n("Owner"),fontMetrics().width("a_long_username"));
-   addColumn(i18n("Group"),fontMetrics().width("a_groupname"));
-
-   setColumnAlignment(2,AlignRight);
    setAllColumnsShowFocus(TRUE);
    setRootIsDecorated(false);
-   setSorting(1);
 
    colors[KTVI_REGULAR]=Qt::black;
    colors[KTVI_EXEC]=QColor(0,170,0);
@@ -86,7 +74,6 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    highlight[KTVI_UNKNOWN]=colors[KTVI_UNKNOWN].light();
    highlight[KTVI_CHARDEV]=colors[KTVI_CHARDEV].light(180);
    highlight[KTVI_BLOCKDEV]=colors[KTVI_BLOCKDEV].light(180);
-   m_filenameColumn=1;
    timer.start();
 }
 
@@ -108,11 +95,11 @@ void KonqTextViewWidget::createColumns()
    for (int i=columns()-1; i>1; i--)
       removeColumn(i);
 
-   int currentColumn(2);
+   int currentColumn(m_filenameColumn+1);
    //now add the checked columns
    for (int i=0; i<confColumns.count(); i++)
    {
-      if (confColumns.at(i)->displayThisOne)
+      if ((confColumns.at(i)->displayThisOne) && (confColumns.at(i)->displayInColumn==currentColumn))
       {
          ColumnInfo *tmpColumn=confColumns.at(i);
          QString tmpName=tmpColumn->name;
@@ -136,8 +123,14 @@ void KonqTextViewWidget::createColumns()
             addColumn(i18n(tmpName),fontMetrics().width("a_groupname"));
          else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
             addColumn(i18n(tmpName),fontMetrics().width("_a_quite_long_filename_"));
+         else if (tmpColumn->udsId==KIO::UDS_FILE_TYPE)
+            addColumn(i18n(tmpName),fontMetrics().width("a_file_type_"));
+         else if (tmpColumn->udsId==KIO::UDS_MIME_TYPE)
+            addColumn(i18n(tmpName),fontMetrics().width("a_long_mimetype"));
+         else if (tmpColumn->udsId==KIO::UDS_URL)
+            addColumn(i18n(tmpName),fontMetrics().width("_a_long_lonq_long_url_"));
             
-         confColumns.at(i)->displayInColumn=currentColumn;
+         i=-1;
          currentColumn++;
       };
    };

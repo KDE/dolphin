@@ -9,9 +9,12 @@
  </Menu>
  <Menu name="view">
   <Action name="show_dot" />
-  <Menu name="listview_show"><text>Show...</text>
+  <Menu name="listview_show"><text>Show details...</text>
    <Action name="show_size"/>
    <Action name="show_time"/>
+   <Action name="show_type"/>
+   <Action name="show_mimetype"/>
+   <Action name="show_url"/>
    <Action name="show_access_time"/>
    <Action name="show_creation_time"/>
    <Action name="show_permissions"/>
@@ -19,6 +22,9 @@
    <Action name="show_group"/>
    <Action name="show_link_dest"/>
   </Menu>
+  <Separator/>
+  <Action name="bgcolor"/>
+  <Action name="bgimage"/>
  </Menu>
 </MenuBar>
 </kpartgui>

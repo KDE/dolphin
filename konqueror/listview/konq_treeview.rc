@@ -25,9 +25,12 @@
   </Menu>
   <Separator/>
   <Action name="show_dot"/>
-  <Menu name="listview_show"><text>Show...</text>
+  <Menu name="listview_show"><text>Show details...</text>
    <Action name="show_dot" />
    <Action name="show_size"/>
+   <Action name="show_type"/>
+   <Action name="show_mimetype"/>
+   <Action name="show_url"/>
    <Action name="show_time"/>
    <Action name="show_access_time"/>
    <Action name="show_creation_time"/>

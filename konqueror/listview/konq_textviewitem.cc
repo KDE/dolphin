@@ -33,7 +33,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
    //check if it is a time column
    if (_column>1)
    {
-      for (int i=0; i<m_pTextView->columnConfigInfo()->count(); i++)
+      for (unsigned int i=0; i<m_pTextView->columnConfigInfo()->count(); i++)
       {
          ColumnInfo *cInfo=m_pTextView->columnConfigInfo()->at(i);
          if (_column==cInfo->displayInColumn)
@@ -130,31 +130,44 @@ void KonqTextViewItem::updateContents()
    setText(1,m_fileitem->text());
    //now we have the first two columns, so let's do the rest
 
-   for (int i=0; i<m_pTextView->confColumns.count(); i++)
+   for (unsigned int i=0; i<m_pTextView->confColumns.count(); i++)
    {
       ColumnInfo *tmpColumn=m_pTextView->confColumns.at(i);
       if (tmpColumn->displayThisOne)
       {
-         if (tmpColumn->udsId==KIO::UDS_USER)
-            setText(tmpColumn->displayInColumn,m_fileitem->user());
-         else if (tmpColumn->udsId==KIO::UDS_GROUP)
-            setText(tmpColumn->displayInColumn,m_fileitem->group());
-         else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
-            setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
-         else if (tmpColumn->udsId==KIO::UDS_SIZE)
+         switch (tmpColumn->udsId)
          {
+         case KIO::UDS_USER:
+            setText(tmpColumn->displayInColumn,m_fileitem->user());
+            break;
+         case KIO::UDS_GROUP:
+            setText(tmpColumn->displayInColumn,m_fileitem->group());
+            break;
+         case KIO::UDS_LINK_DEST:
+            setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
+            break;
+         case KIO::UDS_FILE_TYPE:
+            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            break;
+         case KIO::UDS_MIME_TYPE:
+            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            break;
+         case KIO::UDS_URL:
+            setText(tmpColumn->displayInColumn,m_fileitem->url().path());
+            break;
+         case KIO::UDS_SIZE:
             tmp.sprintf("%9d",size);
             setText(tmpColumn->displayInColumn,tmp);
-         }
-         else if (tmpColumn->udsId==KIO::UDS_ACCESS)
+            break;
+         case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
-         else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
-                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
-                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME))
-         {
+            break;
+         case KIO::UDS_MODIFICATION_TIME:
+         case KIO::UDS_ACCESS_TIME:
+         case KIO::UDS_CREATION_TIME:
             for( KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin(); it != m_fileitem->entry().end(); it++ )
             {
-               if ((*it).m_uds==tmpColumn->udsId)
+               if ((*it).m_uds==(unsigned int)tmpColumn->udsId)
                {
                   QDateTime dt;
                   dt.setTime_t((time_t) (*it).m_long);
@@ -164,7 +177,9 @@ void KonqTextViewItem::updateContents()
                };
 
             };
-
+            break;
+         default:
+            break;
          };
       };
    };

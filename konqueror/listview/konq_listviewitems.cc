@@ -66,28 +66,43 @@ void KonqListViewItem::init()
       ColumnInfo *tmpColumn=m_pListViewWidget->columnConfigInfo()->at(i);
       if (tmpColumn->displayThisOne)
       {
-         // Why did you remove the switch ? It's easier to read
-         // and more efficient... (David)
-         if (tmpColumn->udsId==KIO::UDS_USER)
+         switch (tmpColumn->udsId)
+         {
+            // Why did you remove the switch ? It's easier to read
+            // and more efficient... (David)
+            //so here we go again (Alex)
+         case KIO::UDS_USER:
             setText(tmpColumn->displayInColumn,m_fileitem->user());
-         else if (tmpColumn->udsId==KIO::UDS_GROUP)
+            break;
+         case KIO::UDS_GROUP:
             setText(tmpColumn->displayInColumn,m_fileitem->group());
-         else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
+            break;
+         case KIO::UDS_FILE_TYPE:
+            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            break;
+         case KIO::UDS_MIME_TYPE:
+            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
+            break;
+         case KIO::UDS_URL:
+            setText(tmpColumn->displayInColumn,m_fileitem->url().path());
+            break;
+         case KIO::UDS_LINK_DEST:
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
-         else if (tmpColumn->udsId==KIO::UDS_SIZE)
-         {
-            tmp.sprintf("%9d",size);
-            setText(tmpColumn->displayInColumn,tmp);
-         }
-         else if (tmpColumn->udsId==KIO::UDS_ACCESS)
+            break;
+         case KIO::UDS_SIZE:
+            /*tmp.sprintf("%9d",size);
+            setText(tmpColumn->displayInColumn,tmp);*/
+            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( size, 0));
+            break;
+         case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
-         else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
-                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
-                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME))
-         {
+            break;
+         case KIO::UDS_MODIFICATION_TIME:
+         case KIO::UDS_ACCESS_TIME:
+         case KIO::UDS_CREATION_TIME:
             for( KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin(); it != m_fileitem->entry().end(); it++ )
             {
-               if ((*it).m_uds==tmpColumn->udsId)
+               if ((*it).m_uds==(unsigned int)tmpColumn->udsId)
                {
                   QDateTime dt;
                   dt.setTime_t((time_t) (*it).m_long);
@@ -97,49 +112,12 @@ void KonqListViewItem::init()
                };
 
             };
-
+            break;
+         default:
+            break;
          };
       };
    };
-/*   const KIO::UDSEntry & entry = m_fileitem->entry();
-   KIO::UDSEntry::ConstIterator it = entry.begin();
-   for( ; it != entry.end(); it++ )
-   {
-      const KIO::UDSAtom & atom = (*it);
-      int * pColumn = m_pListViewWidget->columnForAtom( atom.m_uds );
-      if ( pColumn )
-      {
-         // We want to put that atom in the column *pColumn
-         // Now convert the text
-         QString text;
-         switch (atom.m_uds)
-         {
-         case KIO::UDS_ACCESS:
-            text = makeAccessString( (mode_t) atom.m_long );
-            break;
-         case KIO::UDS_FILE_TYPE :
-            text = makeTypeString( atom );
-            break;
-         case KIO::UDS_NAME :
-            text = m_fileitem->text();
-            break;
-         default:
-            // Otherwise use the type
-            switch (atom.m_uds & (KIO::UDS_TIME|KIO::UDS_STRING|KIO::UDS_LONG) )  {
-            case KIO::UDS_TIME :
-               text = makeTimeString( atom );
-               break;
-            case KIO::UDS_STRING :
-               text = atom.m_str;
-               break;
-            case KIO::UDS_LONG :
-               text = makeNumericString( atom );
-               break;
-            }
-         }
-         setText( *pColumn, text );
-      }
-   }*/
 }
 
 QString KonqListViewItem::key( int _column, bool asc) const
@@ -149,7 +127,7 @@ QString KonqListViewItem::key( int _column, bool asc) const
    //check if it is a time column
    if (_column>1)
    {
-      for (int i=0; i<m_pListViewWidget->columnConfigInfo()->count(); i++)
+      for (unsigned int i=0; i<m_pListViewWidget->columnConfigInfo()->count(); i++)
       {
          ColumnInfo *cInfo=m_pListViewWidget->columnConfigInfo()->at(i);
          if (_column==cInfo->displayInColumn)
@@ -201,22 +179,24 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 {
   QColorGroup cg( _cg );
 
-  if ( _column == 0 ) {
-    _painter->setFont( m_pListViewWidget->itemFont() );
-    cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
+  if ( _column == 0 )
+  {
+     _painter->setFont( m_pListViewWidget->itemFont() );
+     cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
   }
   else
-    _painter->setPen( m_pListViewWidget->color() );
+     _painter->setPen( m_pListViewWidget->color() );
 
   if (!m_pListViewWidget->props()->bgPixmap().isNull())
   {
-    _painter->drawTiledPixmap( 0, 0, _width, height(),
-                               m_pListViewWidget->props()->bgPixmap(),
-                               0, 0 ); // ?
+     _painter->drawTiledPixmap( 0, 0, _width, height(),
+                                m_pListViewWidget->props()->bgPixmap(),
+                                0, 0 ); // ?
   }
 
   // Now prevent QListViewItem::paintCell from drawing a white background
   // I hope color0 is transparent :-))
+  // Sorry, to me it looks more like black (alex)
   //cg.setColor( QColorGroup::Base, Qt::color0 );
 
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );

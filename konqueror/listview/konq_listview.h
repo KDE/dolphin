@@ -88,7 +88,19 @@ protected slots:
   void slotIconSizeToggled(bool b);
 
   void slotShowDot();
+  //this is called if a item in the submenu is toggled
+  //it saves the new configuration according to the menu items
+  //and calls createColumns()
+  //it adjusts the indece of the remaining columns
   void slotColumnToggled();
+  //this is called when the user changes the order of the
+  //columns by dragging them
+  //at this moment the columns haven't changed their order yet, so
+  //it starts a singleshottimer, after which the columns changed their order
+  //and then slotDaveAfterHeaderDrag is called
+  void headerDragged(int sec, int from, int to);
+  //saves the new order of the columns
+  void slotSaveAfterHeaderDrag();
 
 //  void slotCheckMimeTypes();
   void slotBackgroundColor();
@@ -116,6 +128,7 @@ protected slots:
   KToggleAction *m_paShowDot;
   KToggleAction *m_paShowTime;
   KToggleAction *m_paShowType;
+  KToggleAction *m_paShowMimeType;
   KToggleAction *m_paShowAccessTime;
   KToggleAction *m_paShowCreateTime;
   KToggleAction *m_paShowLinkDest;
@@ -123,6 +136,7 @@ protected slots:
   KToggleAction *m_paShowOwner;
   KToggleAction *m_paShowGroup;
   KToggleAction *m_paShowPermissions;
+  KToggleAction *m_paShowURL;
 
 //  KToggleAction *m_paCheckMimeTypes;
 };
