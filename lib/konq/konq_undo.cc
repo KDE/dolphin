@@ -346,9 +346,25 @@ void KonqUndoManager::undoStep()
   d->m_currentJob = 0;
 
   if ( d->m_undoState == MAKINGDIRS )
-  {
-    if ( !d->m_dirStack.isEmpty() )
-    {
+      undoMakingDirectories();
+
+  if ( d->m_undoState == MOVINGFILES )
+      undoMovingFiles();
+
+  if ( d->m_undoState == REMOVINGFILES )
+      undoRemovingFiles();
+
+  if ( d->m_undoState == REMOVINGDIRS )
+      undoRemovingDirectories();
+
+  if ( d->m_currentJob )
+    connect( d->m_currentJob, SIGNAL( result( KIO::Job * ) ),
+             this, SLOT( slotResult( KIO::Job * ) ) );
+}
+
+void KonqUndoManager::undoMakingDirectories()
+{
+    if ( !d->m_dirStack.isEmpty() ) {
       KURL dir = d->m_dirStack.pop();
       kdDebug(1203) << "KonqUndoManager::undoStep creatingDir " << dir.prettyURL() << endl;
       d->m_currentJob = KIO::mkdir( dir );
@@ -356,10 +372,10 @@ void KonqUndoManager::undoStep()
     }
     else
       d->m_undoState = MOVINGFILES;
-  }
+}
 
-  if ( d->m_undoState == MOVINGFILES )
-  {
+void KonqUndoManager::undoMovingFiles()
+{
     if ( !d->m_current.m_opStack.isEmpty() )
     {
       KonqBasicOperation op = d->m_current.m_opStack.pop();
@@ -396,10 +412,10 @@ void KonqUndoManager::undoStep()
     }
     else
       d->m_undoState = REMOVINGFILES;
-   }
+}
 
-  if ( d->m_undoState == REMOVINGFILES )
-  {
+void KonqUndoManager::undoRemovingFiles()
+{
     kdDebug(1203) << "KonqUndoManager::undoStep REMOVINGFILES" << endl;
     if ( !d->m_fileCleanupStack.isEmpty() )
     {
@@ -415,10 +431,10 @@ void KonqUndoManager::undoStep()
       if ( d->m_dirCleanupStack.isEmpty() && d->m_current.m_type == KonqCommand::MKDIR )
         d->m_dirCleanupStack << d->m_current.m_dst;
     }
-  }
+}
 
-  if ( d->m_undoState == REMOVINGDIRS )
-  {
+void KonqUndoManager::undoRemovingDirectories()
+{
     if ( !d->m_dirCleanupStack.isEmpty() )
     {
       KURL dir = d->m_dirCleanupStack.pop();
@@ -439,11 +455,6 @@ void KonqUndoManager::undoStep()
       }
       broadcastUnlock();
     }
-  }
-
-  if ( d->m_currentJob )
-    connect( d->m_currentJob, SIGNAL( result( KIO::Job * ) ),
-             this, SLOT( slotResult( KIO::Job * ) ) );
 }
 
 void KonqUndoManager::push( const KonqCommand &cmd )

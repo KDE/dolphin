@@ -133,6 +133,11 @@ private slots:
 private:
   void undoStep();
 
+  void undoMakingDirectories();
+  void undoMovingFiles();
+  void undoRemovingFiles();
+  void undoRemovingDirectories();
+
   void broadcastPush( const KonqCommand &cmd );
   void broadcastPop();
   void broadcastLock();
