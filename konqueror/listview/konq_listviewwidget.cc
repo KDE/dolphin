@@ -138,8 +138,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
    connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
             this, SLOT( slotRedirection( const KURL & ) ) );
-   connect( m_dirLister, SIGNAL( closeView() ),
-            this, SLOT( slotCloseView() ) );
    connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
             m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
 
@@ -1057,12 +1055,6 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
    m_pBrowserView->m_url=url;
    m_url = url;
-}
-
-void KonqBaseListViewWidget::slotCloseView()
-{
-   kdDebug(1202) << k_funcinfo << endl;
-   //delete m_pBrowserView;
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()

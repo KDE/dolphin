@@ -164,7 +164,6 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotDeleteItem( KFileItem * );
       virtual void slotRefreshItems( const KFileItemList & );
       virtual void slotRedirection( const KURL & );
-      virtual void slotCloseView();
       void slotPopupMenu(KListView* , QListViewItem* );
 
       // forces a repaint on column size changes / branch expansion
