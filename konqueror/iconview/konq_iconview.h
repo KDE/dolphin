@@ -215,8 +215,6 @@ protected:
   QList<KFileIVI> m_lstPendingMimeIconItems;
   QTimer * m_timer;
 
-  KFileItem * m_fakeRootItem;
-
   bool m_bUpdateContentsPosAfterListing;
 
   QString m_mode;
