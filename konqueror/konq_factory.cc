@@ -48,7 +48,7 @@ extern "C"
 KonqFactory::KonqFactory()
 {
   s_global = 0L;
-  QString path = global()->dirs()->saveLocation("data", "kfm/bookmarks", true);  
+  QString path = global()->dirs()->saveLocation("data", "kfm/bookmarks", true);
   (void)new KonqBookmarkManager( path );
   (void)new KTraderServiceProvider;
   (void)new KonqFileManager;
@@ -101,9 +101,7 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   //activate the view plugin
   KService::Ptr service = offers.first();
 
-  Factory *factory = Loader::self()->factory( service->library(), service->libraryMajor(),
-                                              service->libraryMinor(),
-					      service->libraryDependencies() );
+  KLibFactory *factory = KLibLoader::self()->factory( service->library() );
 
   if ( !factory )
     return 0L;
@@ -113,18 +111,18 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   return (BrowserView *)factory->create();
 }
 
-QObject* KonqFactory::create( QObject* parent = 0, const char* name = 0 )
+QObject* KonqFactory::create( QObject* parent, const char* name, const char* classname )
 {
 //  if ( !parent || !parent->inherits( "Part" ) )
 //    return 0L;
-  
-  return new KonqPart( (Part *)parent, name );
+
+  return new KonqPart( parent, name );
 }
 
 KLibGlobal *KonqFactory::global()
 {
   if ( !s_global )
     s_global = new KLibGlobal( "konqueror" );
-  
+
   return s_global;
 }

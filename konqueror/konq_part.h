@@ -26,22 +26,22 @@ class KonqPart : public Part
 {
   Q_OBJECT
 public:
-  KonqPart( Part *parent = 0, const char *name = 0 );
+  KonqPart( QObject *parent = 0, const char *name = 0 );
   ~KonqPart();
-  
+
   void setOpenInitialURL( bool open ) { m_bOpenInitialURL = open; }
-  
+
   virtual View *createView( QWidget *parent = 0, const char *name = 0 );
   virtual Shell *createShell();
-  
+
   virtual void paintEverything( QPainter &painter, const QRect &rect,
                                 bool transparent = false, View *view = 0 );
 				
 protected:
   virtual QString configFile() const;
-  
+
 private:
-  bool m_bOpenInitialURL;  
+  bool m_bOpenInitialURL;
 };
 
 #endif

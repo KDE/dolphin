@@ -65,7 +65,7 @@
 #include <kservices.h>
 #include <kpixmapcache.h>
 
-#include <loader.h>
+#include <klibloader.h>
 #include <part.h>
 
 #include <iostream.h>
@@ -495,7 +495,7 @@ void KonqMainView::slotStarted()
   (*it)->setLoading( true );
 
   (*it)->makeHistory( true );
-  
+
   if ( m_currentView == *it )
   {
     startAnimation();
@@ -659,9 +659,9 @@ void KonqMainView::customEvent( QCustomEvent *event )
   if ( KonqURLEnterEvent::test( event ) )
   {
     QString url = ((KonqURLEnterEvent *)event)->url();
-    
+
     openURL( 0L, url );
-    
+
     m_paURLCombo->setCurrentItem( 0 );
     m_paURLCombo->changeItem( url, 0 );
     return;
@@ -894,18 +894,18 @@ void KonqMainView::slotAbout()
 void KonqMainView::slotUpAboutToShow()
 {
   QPopupMenu *popup = m_paUp->popupMenu();
-  
+
   popup->clear();
-  
+
   KURL u( m_currentView->view()->url() );
   u.cd( ".." );
   while ( u.hasPath() )
   {
     popup->insertItem( u.decodedURL() );
-    
+
     if ( u.path() == "/" )
       break;
-      
+
     u.cd( ".." );
   }
 }
@@ -938,7 +938,7 @@ void KonqMainView::slotForwardActivated( int id )
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QStringList &urls )
 {
   menu->clear();
-  
+
   QStringList::ConstIterator it = urls.begin();
   QStringList::ConstIterator end = urls.end();
   for (; it != end; ++it )
@@ -947,17 +947,17 @@ void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QStringList &urls )
     menu->insertItem( *KPixmapCache::pixmapForURL( u, 0, u.isLocalFile(), true ),
                       *it );
   }
-  
+
 }
 
 void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &url )
 {
 
   childView->setLocationBarURL( url );
-  
+
   if ( childView == m_currentView )
     m_paURLCombo->changeItem( url, 0 );
-    
+
 }
 
 void KonqMainView::viewActivateEvent( ViewActivateEvent *e )
@@ -1062,27 +1062,27 @@ void KonqMainView::initActions()
   popup->insertSeparator();
 
   m_paUp = new KActionMenu( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::global() ) ), actionCollection(), "up" );
-  
+
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
-  
+
   m_paBack = new KActionMenu( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::global() ) ), actionCollection(), "back" );
-  
+
   m_paBack->setEnabled( false );
-  
+
   connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
-  
+
   m_paForward = new KActionMenu( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::global() ) ), actionCollection(), "forward" );
-  
+
   m_paForward->setEnabled( false );
-  
+
   connect( m_paForward, SIGNAL( activated() ), this, SLOT( slotForward() ) );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
-  
+
   m_paHome = new KAction( i18n("&Home" ), QIconSet( BarIcon( "home", KonqFactory::global() ) ), 0, this, SLOT( slotHome() ), actionCollection(), "home" );
 
   m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
@@ -1156,18 +1156,17 @@ void KonqMainView::initPlugins()
   KTrader::OfferList offers = KdedInstance::self()->ktrader()->query( "Konqueror/Plugin" );
   KTrader::OfferList::ConstIterator it = offers.begin();
   KTrader::OfferList::ConstIterator end = offers.end();
-  
+
   for (; it != end; ++it )
   {
     if ( (*it)->library().isEmpty() )
       continue;
-      
-    Factory *factory = Loader::self()->factory( (*it)->library(), (*it)->libraryMajor(), (*it)->libraryMinor(),
-                                                (*it)->libraryDependencies() );
+
+    KLibFactory *factory = KLibLoader::self()->factory( (*it)->library() );
 						
     if ( !factory )
       continue;
-      
+
     (void)factory->create( this );
   }
 }
@@ -1234,7 +1233,7 @@ void KonqMainView::updateStatusBar()
   m_progressBar->setValue( progress );
 
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-  
+
   m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
 }
 
