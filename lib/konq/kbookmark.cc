@@ -36,6 +36,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <krun.h>
+#include <kstringhandler.h>
 
 #include <kmimetype.h>
 #include <kio/global.h>
@@ -427,7 +428,12 @@ KBookmark* KBookmark::findBookmark( int _id )
   return 0L;
 }
 
-QString KBookmark::pixmapFile( )
+QString KBookmark::text() const 
+{
+  return KStringHandler::csqueeze(m_text);
+}
+
+QString KBookmark::pixmapFile()
 {
   if ( m_sPixmap.isEmpty() )
   {
@@ -441,16 +447,6 @@ QString KBookmark::pixmapFile( )
 	    0, KIcon::DefaultState, &m_sPixmap );
   }
   return m_sPixmap;
-}
-
-//static
-QString KBookmark::stringSqueeze( const QString & str, unsigned int maxlen )
-{
-  if (str.length() > maxlen) {
-    int part = (maxlen-3)/2;
-    return QString(str.left(part) + "..." + str.right(part));
-  }
-  else return str;
 }
 
 void KBookmarkOwner::openBookmarkURL(const QString& url)

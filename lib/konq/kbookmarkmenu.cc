@@ -48,6 +48,7 @@
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kwm.h>
+#include <kstringhandler.h>
 #include <kstdaction.h>
 
 #include <kmimetype.h>
@@ -253,7 +254,7 @@ void KBookmarkMenu::openNSBookmarks()
 
         name = name.left(name.findRev('<'));
 
-        KAction * action = new KAction( KBookmark::stringSqueeze(QString(name)), 0, 0,
+        KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
                                         m_actionCollection, QString("bookmark%1").arg(link) );
 	action->setShortText( link );
@@ -264,7 +265,7 @@ void KBookmarkMenu::openNSBookmarks()
         QCString name = t.mid(t.find('>', 8)+1);
         name = name.left(name.findRev('<'));
 
-        KActionMenu * actionMenu = new KActionMenu( KBookmark::stringSqueeze(QString(name)), "folder",
+        KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString(name)), "folder",
                                                     m_actionCollection, 0L );
         actionMenu->plug( mstack.top()->m_parentMenu );
 	mstack.top()->m_actions.append( actionMenu );
