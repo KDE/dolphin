@@ -101,8 +101,7 @@ void KfFileType::init()
   types = new QList<KfFileType>;
 
   // Read the filetypes
-  QString path = KApplication::kdedir();
-  path += "/share/mimelnk";
+  QString path = KApplication::kde_mimedir();
   initFileTypes( path.data() );
 };
 
