@@ -30,11 +30,25 @@ KQuery::KQuery(QObject *parent, const char * name)
   // these are text files:
   ignore_mimetypes.append("application/pdf");
   ignore_mimetypes.append("application/postscript");
+
   // PLEASE update the documentation when you add another
   // file type here:
   ooo_mimetypes.append("application/vnd.sun.xml.writer");
   ooo_mimetypes.append("application/vnd.sun.xml.calc");
   ooo_mimetypes.append("application/vnd.sun.xml.impress");
+  // OASIS mimetypes, used by OOo-2.x and KOffice >= 1.4
+  //ooo_mimetypes.append("application/vnd.oasis.opendocument.chart");
+  //ooo_mimetypes.append("application/vnd.oasis.opendocument.graphics");
+  //ooo_mimetypes.append("application/vnd.oasis.opendocument.graphics-template");
+  //ooo_mimetypes.append("application/vnd.oasis.opendocument.formula");
+  //ooo_mimetypes.append("application/vnd.oasis.opendocument.image");
+  ooo_mimetypes.append("application/vnd.oasis.opendocument.presentation-template");
+  ooo_mimetypes.append("application/vnd.oasis.opendocument.presentation");
+  ooo_mimetypes.append("application/vnd.oasis.opendocument.spreadsheet-template");
+  ooo_mimetypes.append("application/vnd.oasis.opendocument.spreadsheet");
+  ooo_mimetypes.append("application/vnd.oasis.opendocument.text-template");
+  ooo_mimetypes.append("application/vnd.oasis.opendocument.text");
+  // KOffice-1.3 mimetypes
   koffice_mimetypes.append("application/x-kword");
   koffice_mimetypes.append("application/x-kspread");
   koffice_mimetypes.append("application/x-kpresenter");
@@ -266,13 +280,13 @@ void KQuery::processQuery( KFileItem* file)
        int matchingLineNumber=0;
 
        // FIXME: doesn't work with non local files
-       
+
        QString filename;
        QTextStream* stream=0;
        QFile qf;
        QRegExp xmlTags;
        QByteArray zippedXmlFileContent;
-    
+
        // KWord's and OpenOffice.org's files are zipped...
        if( ooo_mimetypes.findIndex(file->mimetype()) != -1 ||
            koffice_mimetypes.findIndex(file->mimetype()) != -1 )
@@ -322,7 +336,7 @@ void KQuery::processQuery( KFileItem* file)
          stream=new QTextStream(&qf);
          stream->setEncoding(QTextStream::Locale);
        }
-       
+
        while ( ! stream->atEnd() )
        {
           QString str = stream->readLine();
@@ -331,7 +345,7 @@ void KQuery::processQuery( KFileItem* file)
           if (str.isNull()) break;
           if(isZippedOfficeDocument)
             str.replace(xmlTags, "");
-            
+
           if (m_regexpForContent)
           {
              if (m_regexp.search(str)>=0)
@@ -353,14 +367,14 @@ void KQuery::processQuery( KFileItem* file)
           kapp->processEvents();
        }
        delete stream;
-       
+
        if (!found)
           return;
     }
     emit addFile(file,matchingLine);
 }
 
-void KQuery::setContext(const QString & context, bool casesensitive, 
+void KQuery::setContext(const QString & context, bool casesensitive,
   bool search_binary, bool useRegexp)
 {
   m_context = context;
@@ -452,7 +466,7 @@ void KQuery::slotreceivedSdtout(KProcess*,char* str,int l)
 {
   int i;
 
-  bufferLocateLength+=l; 
+  bufferLocateLength+=l;
   str[l]='\0';
   bufferLocate=(char*)realloc(bufferLocate,sizeof(char)*(bufferLocateLength));
   for (i=0;i<l;i++)
@@ -470,7 +484,7 @@ void KQuery::slotendProcessLocate(KProcess*)
     emit result(0);
     return;
   }
-    
+
   i=0;
   do
   {
@@ -485,7 +499,7 @@ void KQuery::slotendProcessLocate(KProcess*)
    	qstr.append(bufferLocate[k+i-j+1]);
    strlist.append(qstr);
    i++;
-  	
+
   }while(i<bufferLocateLength);
   bufferLocateLength=0;
   free(bufferLocate);
@@ -493,5 +507,5 @@ void KQuery::slotendProcessLocate(KProcess*)
   slotListEntries(strlist );
   emit result(0);
 }
-  
+
 #include "kquery.moc"
