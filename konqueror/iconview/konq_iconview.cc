@@ -209,18 +209,18 @@ KonqKfmIconView::KonqKfmIconView()
   m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
   m_paNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
   m_paSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
-  m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
+  //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
   m_paLargeIcons->setExclusiveGroup( "ViewMode" );
   m_paNormalIcons->setExclusiveGroup( "ViewMode" );
   m_paSmallIcons->setExclusiveGroup( "ViewMode" );
-  m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
+  //m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
   m_paLargeIcons->setChecked( false );
   m_paNormalIcons->setChecked( true );
   m_paSmallIcons->setChecked( false );
-  m_paKOfficeMode->setChecked( false );
-  m_paKOfficeMode->setEnabled( false );
+  //m_paKOfficeMode->setChecked( false );
+  //m_paKOfficeMode->setEnabled( false );
 
   m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this );
   m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this );
@@ -239,7 +239,7 @@ KonqKfmIconView::KonqKfmIconView()
   connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
   connect( m_paNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
   connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
-  connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
+  //connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
 
   connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
   connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
@@ -265,7 +265,7 @@ KonqKfmIconView::KonqKfmIconView()
   actions()->append( BrowserView::ViewAction( m_paLargeIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paNormalIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paSmallIcons, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
+  //actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
 
 
   actions()->append( BrowserView::ViewAction( m_paSelect, BrowserView::MenuEdit ) );
@@ -665,7 +665,7 @@ void KonqKfmIconView::slotCompleted()
     m_bLoading = false;
   }
   m_pIconView->setContentsPos( m_iXOffset, m_iYOffset );
-  m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
+  //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
   slotOnViewport();
 
