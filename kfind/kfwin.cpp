@@ -28,6 +28,7 @@
 #include <kpropsdlg.h>
 #include <kstddirs.h>
 #include <kmessagebox.h>
+#include <kmimetype.h>
 #include <kglobal.h>
 
 #include "kfwin.h"
@@ -50,17 +51,11 @@ static const char* perm[4] = {
 #define WO 2
 #define NA 3
 
-// initialize static icons
-QPixmap *KfFileLVI::folderPixmap       = 0L;
-QPixmap *KfFileLVI::lockedFolderPixmap = 0L;
-QPixmap *KfFileLVI::filePixmap         = 0L;
-QPixmap *KfFileLVI::lockedFilePixmap   = 0L;
-
 KfFileLVI::KfFileLVI(QListView* lv, QString file)
   : QListViewItem(lv)
 {
   fileInfo = new QFileInfo(file);
-
+  
   QString size = QString("%1").arg(fileInfo->size());
 
   QString date;
@@ -81,38 +76,9 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   setText(3, date);
   setText(4, i18n(perm[perm_index]));
 
+  // put the icon into the leftmost column
+  setPixmap(0, KMimeType::pixmapForURL( file ));
 
-  // load the icons (same as in KFileInfoContents)
-  // maybe we should use the concrete icon associated with the mimetype
-  // in the future, but for now, this must suffice
-
-  KIconLoader::Size s = KIconLoader::Small;
-  KIconLoader *loader = KGlobal::iconLoader();
-  if (!folderPixmap) // don't use IconLoader to always get the same icon
-    folderPixmap = new QPixmap(loader->loadApplicationIcon("folder", s));
-
-  if (!lockedFolderPixmap)
-    lockedFolderPixmap = new QPixmap(loader->loadApplicationIcon("lockedfolder", s));
-
-  if (!filePixmap)
-    filePixmap = new QPixmap(loader->loadApplicationIcon("mimetypes/unknown", s));
-
-  if (!lockedFilePixmap)
-    lockedFilePixmap = new QPixmap(loader->loadApplicationIcon("locked", s));
-
-  const int column = 0; // place the icons in leftmost column
-  if (fileInfo->isDir()) {
-    if (fileInfo->isReadable())
-      setPixmap(column, *folderPixmap);
-    else
-      setPixmap(column, *lockedFolderPixmap);
-  }
-  else {
-    if (fileInfo->isReadable())
-      setPixmap(column, *filePixmap);
-    else
-      setPixmap(column, *lockedFilePixmap);
-  }
 }
 
 KfFileLVI::~KfFileLVI() {
@@ -279,10 +245,10 @@ void KfindWindow::selectionHasChanged()
       haveSelection = true;
       return;
     }
-      
+
     item = item->nextSibling();
   }
-  
+
   haveSelection = false;
   emit resultSelected(false);
 }
@@ -463,110 +429,8 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
   clipper()->repaint();
 }
 
-// The following to functions are an attempt to implement MS-like selection
-// (Control/Shift style). Not very elegant.
 
-void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
-{
-  QListView::contentsMousePressEvent(e);
-  return;
-  
-  QListViewItem *item = itemAt(contentsToViewport(e->pos()));
-  if(item == NULL) { // someone clicked where no listview item is (below items)
-    QListView::contentsMousePressEvent(e);
-    clearSelection();
-    //    selectionChanged( false );
-    return;
-  }
-
-  bool itemWasSelected = isSelected(item);
-
-
-  // We want to execute QListView::contentsMousePressEvent(e), but
-  // we do not want it to change selection and current item.
-  // To do it we store current item and make the item we click on unselectable.
-  // We restore all this after the contentsMousePressEvent() call
-  QListViewItem *anchor = 0L;
-  if(e->state() & ShiftButton)
-    anchor = currentItem();
-  item->setSelectable(FALSE);
-
-  QListView::contentsMousePressEvent(e);
-
-  item->setSelectable(TRUE);
-  if(e->state() & ShiftButton)
-    setCurrentItem(anchor);
-
-  // Now analyze what we got and make our selections
-
-  // No modifiers
-  if(!(e->state() & ControlButton) &&
-     !(e->state() & ShiftButton)) {
-    if ( !itemWasSelected ) { // otherwise dragging wouldn't work
-      clearSelection();
-      setSelected(item, TRUE);
-      //      selectionChanged(TRUE);
-    }
-    return;
-  }
-
-  // Control
-  if(e->state() & ControlButton) {
-    setSelected(item, !isSelected(item));
-    //    selectionChanged(isSelected(item));
-    return;
-  }
-
-  // Shift
-  if(e->state() & ShiftButton) {
-   QListViewItem *i = currentItem();
-   if(i == NULL)
-     return;
-
-   // Selects area from the current item to our item
-   bool down = itemPos(i) < itemPos(item);
-   if(down) {
-      while(i != item) {
-	setSelected(i, TRUE);
-	i = i->itemBelow();
-      }
-    }
-    else {
-      while(i != item) {
-	setSelected(i, TRUE);
-	i = i->itemAbove();
-      }
-    }
-    setSelected(item, TRUE);
-  }
-}
-
-void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e)
-{
-  QListView::contentsMouseReleaseEvent(e);
-  return;
-  
-  QListViewItem *item = itemAt(contentsToViewport(e->pos()));
-  if(item == NULL) { // someone clicked where no listview item is (below items)
-    QListView::contentsMouseReleaseEvent(e);
-    return;
-  }
-
-  // See comment for the contentsMousePressEvent() function.
-  // We just want to disable any selection/current item changes.
-  QListViewItem *anchor = 0L;
-  if(e->state() & ShiftButton)
-    anchor = currentItem();
-  item->setSelectable(FALSE);
-
-  QListView::contentsMouseReleaseEvent(e);
-
-  item->setSelectable(TRUE);
-  if(e->state() & ShiftButton)
-    setCurrentItem(anchor);
-}
-
-// drag items from the list (pfeiffer)
+// drag items from the list
 void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
 {
   QListView::contentsMouseMoveEvent(e);
@@ -589,17 +453,9 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
     QUriDrag *ud = new QUriDrag( this, "kfind uridrag" );
     ud->setFilenames( uris );
 
-    if ( uris.count() == 1 ) {
-      const QPixmap *pix = currentItem()->pixmap(0);
-      if ( pix && !pix->isNull() )
-	ud->setPixmap( *pix );
-    }
-    else {
-      // do we have a pixmap symbolizing more than one file?
-      const QPixmap *pix = KfFileLVI::filePixmap;
-      if ( pix && !pix->isNull() )
-	ud->setPixmap( *pix );
-    }
+    const QPixmap *pix = currentItem()->pixmap(0);
+    if ( pix && !pix->isNull() )
+      ud->setPixmap( *pix );
 
     // true => move operation, we need to update the list
     if ( ud->drag() && false ) { // FIXME, why does drag() always return true??
@@ -632,7 +488,7 @@ void KfindWindow::resetColumns(bool init)
 }
 
 
-// returns a pointer to a list of all selected ListViewItems (pfeiffer)
+// returns a pointer to a list of all selected ListViewItems
 QList<KfFileLVI> * KfindWindow::selectedItems()
 {
   mySelectedItems.clear();

@@ -22,9 +22,6 @@ class KfFileLVI : public QListViewItem
   QString key(int column, bool) const;
 
   QFileInfo *fileInfo;
-
-  static QPixmap *folderPixmap, *lockedFolderPixmap;
-  static QPixmap *filePixmap, *lockedFilePixmap;
 };
 
 class KfindWindow: public   QListView
@@ -55,8 +52,6 @@ private slots:
 
 protected:
   virtual void resizeEvent(QResizeEvent *e);
-  virtual void contentsMouseReleaseEvent(QMouseEvent *e);
-  virtual void contentsMousePressEvent(QMouseEvent *e);
   virtual void contentsMouseMoveEvent(QMouseEvent *e);
 
   QList<KfFileLVI> * selectedItems();
