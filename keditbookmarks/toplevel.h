@@ -86,6 +86,7 @@ public:
     KEBTopLevel( const QString & bookmarksFile );
     virtual ~KEBTopLevel();
 
+public:
     void addBookmark( QString url, QString text, QString address, QString icon );
     void createNewFolder( QString text, QString address );
 
@@ -162,6 +163,8 @@ protected:
 
     bool m_bModified;
     bool m_bCanPaste;
+    bool m_bReadOnly;
+    bool m_bUnique;
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;

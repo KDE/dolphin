@@ -343,16 +343,15 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_pListView->addColumn( "Address", 100 );
 #endif
 
-    bool unique = false;
-
     if (!kapp->dcopClient()->isApplicationRegistered(kapp->name())) {
        kapp->dcopClient()->registerAs(kapp->name(),false);
-       unique = true;
+       m_bReadOnly = false; m_bUnique = true;
     } else {
-       int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running. Do you really want to open another instance, or continue working in the other one? Please note that new instances of KEditBookmarks will not be able to stay in synch with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
+       int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?.\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
        if (0) {
-          KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running. Do you really want to open another instance, or continue working in the other one? Please note that new instances of KEditBookmarks will not be able to stay in synch with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Continue in old window") );
+          i18n("Continue in same");
        }
+       m_bReadOnly = true; m_bUnique = false;
        bool oldWindow = (answer==KMessageBox::No);
        if (oldWindow) {
           // kapp->dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
@@ -363,42 +362,51 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_pListView->setRootIsDecorated( true );
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
-    m_pListView->setItemsRenameable( true );
-    m_pListView->setItemsMovable( false ); // We move items ourselves (for undo)
-    m_pListView->setAcceptDrops( true );
-    m_pListView->setDropVisualizer( true );
+    if (!m_bReadOnly) {
+       m_pListView->setItemsRenameable( true );
+       m_pListView->setItemsMovable( false ); // We move items ourselves (for undo)
+       m_pListView->setAcceptDrops( true );
+       m_pListView->setDropVisualizer( true );
+    }
     m_pListView->setDragEnabled( true );
     m_pListView->setAllColumnsShowFocus( true );
     m_pListView->setSorting(-1, false);
     setCentralWidget( m_pListView );
     resize( m_pListView->sizeHint().width(), 400 );
 
-    connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-             SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
-    connect( m_pListView, SIGNAL(dropped (QDropEvent* , QListViewItem* , QListViewItem* )),
-             SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
-    connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
-             SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
-    connect( m_pListView, SIGNAL(selectionChanged() ),
-             SLOT(slotSelectionChanged() ) );
-    connect( kapp->clipboard(), SIGNAL(dataChanged()),
-             SLOT(slotClipboardDataChanged() ) );
-
-    // If someone plays with konq's bookmarks while we're open, update. (when applicable)
-    if (unique) {
-       connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
-                SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
+    if (!m_bReadOnly) {
+       connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
+                SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
+       connect( m_pListView, SIGNAL(dropped (QDropEvent* , QListViewItem* , QListViewItem* )),
+                SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
+       connect( kapp->clipboard(), SIGNAL(dataChanged()),
+                SLOT(slotClipboardDataChanged() ) );
     }
 
-    // Update GUI after executing command
-    connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
-    connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
+    connect( m_pListView, SIGNAL(selectionChanged() ),
+             SLOT(slotSelectionChanged() ) );
+    connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
 
-    if (unique) {
-       connectDCOPSignal(0, 0, "addBookmark_signal(QString,QString,QString,QString)",
-                               "addBookmark(QString,QString,QString,QString)", false);
-       connectDCOPSignal(0, 0, "createNewFolder_signal(QString,QString)",
-                               "createNewFolder(QString,QString)", false);
+             SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
+
+    // If someone plays with konq's bookmarks while we're open, update. (when applicable)
+    if (!m_bReadOnly) {
+
+       if (m_bUnique) {
+          connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
+                   SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
+       }
+
+       // Update GUI after executing command
+       connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
+       connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
+
+       if (m_bUnique) {
+          connectDCOPSignal(0, 0, "addBookmark_signal(QString,QString,QString,QString)",
+                                  "addBookmark(QString,QString,QString,QString)", false);
+          connectDCOPSignal(0, 0, "createNewFolder_signal(QString,QString)",
+                                  "createNewFolder(QString,QString)", false);
+       }
     }
 
     s_topLevel = this;
@@ -434,11 +442,17 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) new KAction( i18n( "Cancel &Checks" ), "canceltests", 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 
-
     m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
 
-    actionCollection()->action("canceltests")->setEnabled( false );
+    actionCollection()->action("canceltests")->setEnabled(false);
     actionCollection()->action("testall")->setEnabled(false);
+
+    if (m_bReadOnly) {
+       actionCollection()->action("exportNS")->setEnabled(false);
+       actionCollection()->action("exportMoz")->setEnabled(false);
+       actionCollection()->action("importMoz")->setEnabled(false);
+       actionCollection()->action("settings_showNS")->setEnabled(false);
+    }
 
     slotSelectionChanged();
     slotClipboardDataChanged();
@@ -489,6 +503,7 @@ void KEBTopLevel::slotSelectionChanged()
     bool root = false;
     bool separator = false;
     bool urlIsEmpty = false;
+    if (m_bReadOnly) root = false;
     if ( itemSelected )
     {
         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
@@ -500,21 +515,22 @@ void KEBTopLevel::slotSelectionChanged()
 
     KActionCollection * coll = actionCollection();
 
-    coll->action("edit_cut")->setEnabled(itemSelected && !root);
-    coll->action("edit_copy")->setEnabled(itemSelected && !root);
-    coll->action("edit_paste")->setEnabled(itemSelected && !root && m_bCanPaste);
-    coll->action("rename")->setEnabled(itemSelected && !separator && !root);
-    coll->action("changeurl")->setEnabled(itemSelected && !group && !separator && !root);
-    coll->action("delete")->setEnabled(itemSelected && !root);
-    coll->action("newfolder")->setEnabled(itemSelected);
-    coll->action("changeicon")->setEnabled(itemSelected && !root && !separator);
-    coll->action("insertseparator")->setEnabled(itemSelected);
-    coll->action("newbookmark")->setEnabled(itemSelected);
-    coll->action("sort")->setEnabled(group);
-    coll->action("setastoolbar")->setEnabled(group);
-    coll->action("openlink")->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
-    coll->action("testlink")->setEnabled(!root && itemSelected && !separator);
-    coll->action("testall")->setEnabled(itemSelected && !(root && m_pListView->childCount()==1));
+    // AK - this is a bit ugly but needed, maybe just hack the readonly thing by never setting?
+    coll->action("edit_cut")       ->setEnabled(!m_bReadOnly && itemSelected && !root);
+    coll->action("edit_copy")      ->setEnabled(!m_bReadOnly && itemSelected && !root);
+    coll->action("edit_paste")     ->setEnabled(!m_bReadOnly && itemSelected && !root && m_bCanPaste);
+    coll->action("rename")         ->setEnabled(!m_bReadOnly && itemSelected && !separator && !root);
+    coll->action("changeurl")      ->setEnabled(!m_bReadOnly && itemSelected && !group && !separator && !root);
+    coll->action("delete")         ->setEnabled(!m_bReadOnly && itemSelected && !root);
+    coll->action("newfolder")      ->setEnabled(!m_bReadOnly && itemSelected);
+    coll->action("changeicon")     ->setEnabled(!m_bReadOnly && itemSelected && !root && !separator);
+    coll->action("insertseparator")->setEnabled(!m_bReadOnly && itemSelected); // AK - rename to shorten tab space?
+    coll->action("newbookmark")    ->setEnabled(!m_bReadOnly && itemSelected);
+    coll->action("sort")           ->setEnabled(!m_bReadOnly && group);
+    coll->action("setastoolbar")   ->setEnabled(!m_bReadOnly && group);
+    coll->action("openlink")       ->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
+    coll->action("testlink")       ->setEnabled(!m_bReadOnly && !root && itemSelected && !separator);
+    coll->action("testall")        ->setEnabled(!m_bReadOnly && itemSelected && !(root && m_pListView->childCount()==1));
 }
 
 void KEBTopLevel::slotClipboardDataChanged()
@@ -851,10 +867,15 @@ void KEBTopLevel::slotShowNS()
 
 void KEBTopLevel::setModified( bool modified )
 {
-    m_bModified = modified;
-    setCaption( i18n("Bookmark Editor"), m_bModified );
-    actionCollection()->action("file_save")->setEnabled( m_bModified );
-    KBookmarkManager::self()->setUpdate( !m_bModified ); // only update when non-modified
+    if (!m_bReadOnly) {
+       // kdDebug() << "OOPPPSS!!!" << endl;
+       m_bModified = modified;
+       setCaption( i18n("Bookmark Editor"), m_bModified );
+       actionCollection()->action("file_save")->setEnabled( m_bModified );
+       KBookmarkManager::self()->setUpdate( !m_bModified ); // only update when non-modified
+    } else {
+       setCaption( QString("%1 [%2]").arg(i18n("Bookmark Editor")).arg(i18n("Read Only")) );
+    }
 }
 
 void KEBTopLevel::slotDocumentRestored()
