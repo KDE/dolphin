@@ -280,6 +280,10 @@
     <tabstop>leRealname</tabstop>
     <tabstop>leOrganization</tabstop>
     <tabstop>leEmail</tabstop>
+    <tabstop>leSMTP</tabstop>
+    <tabstop>rdbOneStar</tabstop>
+    <tabstop>rdbThreeStars</tabstop>
+    <tabstop>rdbShowPassword</tabstop>
     <tabstop>btnChangePassword</tabstop>
 </tabstops>
 <includes>
