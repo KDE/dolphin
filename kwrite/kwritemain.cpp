@@ -190,6 +190,7 @@ void TopLevel::slotOpen()
 {
   KateFileDialog *dialog = new KateFileDialog (QString::null,kateView->doc()->encoding(), this, i18n ("Open File"));
 	KateFileDialogData data = dialog->exec ();
+	delete dialog;
 
 	for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
   {
