@@ -78,9 +78,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setItemTextPos( QIconView::Bottom );
 
     m_size = 0; // default is DesktopIcon size
-    int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop ); // which is this size
-    setGridX( sz + 26 );
-    setGridY( sz + 26 );
+    calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
     m_bSortDirsFirst = true;
@@ -108,7 +106,8 @@ void KonqIconViewWidget::slotIconChanged( int group )
 	return;
 
     int size = m_size;
-    m_size = -1; // little trick to force grid change in setIcons
+    if ( m_size == 0 )
+      m_size = -1; // little trick to force grid change in setIcons
     setIcons( size ); // force re-determining all icons
 }
 
@@ -157,6 +156,9 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
         if ( m_pActiveItem == item )
             m_pActiveItem = 0L;
         item->setThumbnailPixmap( pixmap );
+        if ( item->width() > gridX() )
+          setGridX( item->width() );
+        // why not Y as well ?
     }
 }
 
@@ -189,12 +191,25 @@ void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
     }
     if ( sizeChanged )
     {
-      int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-      if ( sz + 26 > gridX() ) // In case of image preview, we may be more than that already
-          setGridX( sz + 26 );
-      setGridY( sz + 26 );
-      updateContents(); // take new grid into account
+      calculateGridX();
     }
+}
+
+void KonqIconViewWidget::calculateGridX()
+{
+  int oldGridX = gridX();
+  int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+  int newGridX = sz + 26 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
+
+  kdDebug(1203) << "sz=" << sz << "   right=" << (itemTextPos() == QIconView::Right) << endl;
+  kdDebug(1203) << "** calculateGridX: oldGridX=" << oldGridX << " newGridX=" << newGridX << endl;
+
+  if ( oldGridX != newGridX )
+  {
+    setGridX( newGridX );
+    arrangeItemsInGrid( true ); // take new grid into account
+    updateContents();
+  }
 }
 
 void KonqIconViewWidget::refreshMimeTypes()

@@ -89,6 +89,7 @@ public:
     /**
      * Sets the icons of all items, and stores the @p size
      * This doesn't touch thumbnails, except @p stopImagePreview is set to true
+     * Takes care of the grid, when changing the size
      */
     void setIcons( int size, bool stopImagePreview = false );
 
@@ -98,6 +99,8 @@ public:
     void refreshMimeTypes();
 
     int iconSize() { return m_size; }
+
+    void calculateGridX();
 
     void startImagePreview();
     void stopImagePreview();
