@@ -528,7 +528,6 @@ int main(int argc, char **argv)
   aboutData.addCredit ("Carsten Presser", I18N_NOOP("Betatest"), "mord-slime@gmx.de");
   aboutData.addCredit ("Jens Haupert", I18N_NOOP("Betatest"), "al_all@gmx.de");
   aboutData.addCredit ("Carsten Pfeiffer", I18N_NOOP("Very nice help"), "");
-  aboutData.addCredit ("Mr. Doerr", I18N_NOOP("For absolutely nothing"), "");
   aboutData.addCredit (I18N_NOOP("All people who have contributed and I have forgotten to mention"),"","");
 
   aboutData.setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"), I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
