@@ -327,7 +327,7 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
 {
     m_pProps->m_bImagePreview = toggle;
     m_pIconView->setImagePreviewAllowed ( m_pProps->m_bImagePreview );
-    m_pIconView->alignItemsInGrid( true );
+    m_pIconView->arrangeItemsInGrid( true );
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -487,7 +487,7 @@ void KonqKfmIconView::slotViewLarge( bool b )
     if ( b )
     {
 	m_pIconView->setIcons( KIconLoader::Large );
-	m_pIconView->alignItemsInGrid( true );
+	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
@@ -496,7 +496,7 @@ void KonqKfmIconView::slotViewNormal( bool b )
     if ( b )
     {
 	m_pIconView->setIcons( KIconLoader::Medium );
-	m_pIconView->alignItemsInGrid( true );
+	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
@@ -505,7 +505,7 @@ void KonqKfmIconView::slotViewSmall( bool b )
     if ( b )
     {
 	m_pIconView->setIcons( KIconLoader::Small );
-	m_pIconView->alignItemsInGrid( true );
+	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
@@ -786,7 +786,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
 {
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
 	if ( m_bNeedAlign )
-	    m_pIconView->alignItemsInGrid();
+	    m_pIconView->arrangeItemsInGrid();
 	return;
     }
 
