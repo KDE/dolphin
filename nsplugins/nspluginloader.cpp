@@ -70,7 +70,7 @@ NSPluginInstance::NSPluginInstance(QWidget *parent, PluginPrivateData *data, con
 
 NSPluginInstance::~NSPluginInstance()
 {
-  _data->stub->DestroyInstance(NSPluginInstanceIface_stub::winId());
+  destroyPlugin();
 }
 
 
@@ -193,10 +193,17 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
   if (!data)
     {
       data = new PluginPrivateData;
-      data->dcopid = plugin;
       data->running = false;
-
       data->process = new KProcess;
+
+      // get the dcop app id
+      int pid = (int)getpid();
+      QString dcopPlugin;
+      QTextOStream(&dcopPlugin) << plugin << "-" << pid;
+      data->dcopid = dcopPlugin;
+
+      // register process
+      _private.insert(plugin, data);
 
       connect(data->process, SIGNAL(processExited(KProcess*)),
 	      this, SLOT(processTerminated(KProcess*)));
@@ -206,13 +213,18 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       if (!viewer)
       {
       	kDebugError("Can't find nspluginviewer");
+      	
+      	delete data->process;
+      	_private.remove(plugin);
+      	delete data;
+      	
 	return false;
       }
       *data->process << viewer;
 
       // tell the process it's parameters
       *data->process << "-dcopid";
-      *data->process << plugin;
+      *data->process << data->dcopid;
       *data->process << "-plugin";
       *data->process << plugin;
 
@@ -220,21 +232,19 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       kDebugInfo("Running nspluginviewer");
       data->process->start();
 
-      // get the dcop app id
-      int pid = (int)data->process->getPid();
-      QString dcopPlugin;
-      QTextOStream(&dcopPlugin) << plugin << "-" << pid;
-
       // wait for the process to run
       int cnt = 0;
-      while (!kapp->dcopClient()->isApplicationRegistered(dcopPlugin.ascii()))
+      while (!kapp->dcopClient()->isApplicationRegistered(data->dcopid))
 	{
 	  kapp->processEvents();
 	  sleep(1); kdDebug() << "sleep" << endl;
 	  cnt++;
 	  if (cnt >= 100)
 	    {
-	      data->process->kill();
+	      delete data->process;
+	      _private.remove(plugin);
+      	      delete data;
+
 	      return false;
 	    } 
 	}
@@ -244,7 +254,7 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       cnt = 0;
       while (1)
       {
-      	data->stub = new NSPluginClassIface_stub(dcopPlugin.ascii(), plugin.ascii());
+      	data->stub = new NSPluginClassIface_stub(data->dcopid, plugin.ascii());
       	if (data->stub) break;
       	
       	kapp->processEvents();
@@ -253,15 +263,16 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
      	cnt++;
      	if (cnt >= 10)
 	{
-	  data->process->kill();
+	  delete data->process;
+      	  _private.remove(plugin);
+      	  delete data;
+      	        	 	
 	  return false;
 	}
       }
 
       kDebugInfo("stub = %x", data->stub);
     }
-
-  _private.insert(plugin, data);
 
   return true;
 }
@@ -273,13 +284,7 @@ void NSPluginLoader::unloadPlugin(const QString &plugin)
   if (data)
     {
       kdDebug() << "unloading plugin " << plugin << endl;
-
-      if (data->running)
-	{
-	  data->running = false;		
-	  delete data->process;
-	}
-
+      delete data->process;
       _private.remove(plugin);
     }
 }
