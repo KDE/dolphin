@@ -313,7 +313,7 @@ void KonqSidebarTree::contentsMouseReleaseEvent( QMouseEvent *e )
 void KonqSidebarTree::leaveEvent( QEvent *e )
 {
     KListView::leaveEvent( e );
-    m_part->emitStatusBarText( QString::null );
+//    emitStatusBarText( QString::null );
 }
 
 
@@ -345,7 +345,7 @@ void KonqSidebarTree::slotClicked( QListViewItem *item )
 
     args.serviceType = dItem->externalMimeType();
     args.trustedSource = true;
-    emit m_part->openURLRequest( dItem->externalURL(), args );
+    openURLRequest( dItem->externalURL(), args );
 }
 
 void KonqSidebarTree::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
@@ -691,10 +691,11 @@ void KonqSidebarTree::slotOnItem( QListViewItem *item )
 {
     KonqSidebarTreeItem *i = static_cast<KonqSidebarTreeItem *>( item );
     const KURL& url = i->externalURL();
+/*
     if ( url.isLocalFile() )
-	m_part->emitStatusBarText( url.path() );
+	emitStatusBarText( url.path() );
     else
-	m_part->emitStatusBarText( url.prettyURL() );
+	emitStatusBarText( url.prettyURL() );*/
 }
 
 void KonqSidebarTree::setContentsPos( int x, int y )
@@ -718,6 +719,21 @@ void KonqSidebarTree::slotItemRenamed(QListViewItem* item, const QString &name, 
         kdWarning() << "slotItemRenamed: rename not implemented for non-toplevel items" << endl;
 }
 
+
+void KonqSidebarTree::enableActions( bool copy, bool cut, bool paste,
+                        bool trash, bool del, bool shred,
+                        bool rename)
+{
+    enableAction( "copy", copy );
+    enableAction( "cut", cut );
+    enableAction( "paste", paste );
+    enableAction( "trash", trash );
+    enableAction( "del", del );
+    enableAction( "shred", shred );
+    enableAction( "rename", rename );
+}
+
+
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 
@@ -731,5 +747,8 @@ void KonqSidebarTreeToolTip::maybeTip( const QPoint &point )
 	    tip ( m_view->itemRect( item ), text );
     }
 }
+
+
+
 
 #include "konq_sidebartree.moc"

@@ -154,8 +154,7 @@ void KonqSidebarDirTreeItem::itemSelected()
     QMimeSource *data = QApplication::clipboard()->data();
     bool paste = ( data->encodedData( data->format() ).size() != 0 );
 
-    tree()->part()->enableActions( true, true, paste,
-                                                true && !bInTrash, true, true );
+    tree()->enableActions( true, true, paste, true && !bInTrash, true, true );
 }
 
 void KonqSidebarDirTreeItem::middleButtonPressed()
@@ -167,9 +166,10 @@ void KonqSidebarDirTreeItem::middleButtonPressed()
     if (offer) kdDebug(1201) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
     if ( offer && offer->desktopEntryName().startsWith("kfmclient") )
     {
+        kdDebug(1201)<<"Emitting createNewWindow"<<endl;
         KParts::URLArgs args;
         args.serviceType = m_fileItem->mimetype();
-        emit tree()->part()->createNewWindow( m_fileItem->url(), args );
+        emit tree()->createNewWindow( m_fileItem->url(), args );
     }
     else
         m_fileItem->run();
@@ -179,7 +179,7 @@ void KonqSidebarDirTreeItem::rightButtonPressed()
 {
     KFileItemList lstItems;
     lstItems.append( m_fileItem );
-    emit tree()->part()->popupMenu( QCursor::pos(), lstItems );
+    emit tree()->popupMenu( QCursor::pos(), lstItems );
 }
 
 void KonqSidebarDirTreeItem::paste()

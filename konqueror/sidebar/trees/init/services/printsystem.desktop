@@ -33,4 +33,4 @@ Name[zh_TW]=列印系統瀏覽器
 Name[zu]=Isistimu Yoshicelelo LOmbheki zincwadi
 Open=false
 X-KDE-TreeModule=Directory
-X-KDE-KonqSidebarModule=konq_sidebar_tree
+X-KDE-KonqSidebarModule=konqsidebar_tree

@@ -50,4 +50,4 @@ Name[zh_TW]=Audio CD 瀏覽器
 Name[zu]=Umbheki zincwadi weCD Ezwakalayo
 Open=false
 X-KDE-TreeModule=Directory
-X-KDE-KonqSidebarModule=konq_sidebar_tree
+X-KDE-KonqSidebarModule=konqsidebar_tree

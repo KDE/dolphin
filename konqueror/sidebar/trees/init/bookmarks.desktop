@@ -98,4 +98,4 @@ Comment[zh_TW]=快速存取網站的書籤列表
 Comment[zu]=Lolu uluhlu lwamamaki akho,yongeniso olusheshayo
 Open=false
 X-KDE-TreeModule=Bookmarks
-X-KDE-KonqSidebarModule=konq_sidebar_tree    
+X-KDE-KonqSidebarModule=konqsidebar_tree    

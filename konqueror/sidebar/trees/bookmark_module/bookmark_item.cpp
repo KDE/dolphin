@@ -38,7 +38,7 @@ QDragObject * KonqSidebarBookmarkItem::dragObject( QWidget * parent, bool )
 
 void KonqSidebarBookmarkItem::middleButtonPressed()
 {
-    emit tree()->part()->createNewWindow( externalURL() );
+    emit tree()->createNewWindow( externalURL() );
 }
 
 void KonqSidebarBookmarkItem::rightButtonPressed()
@@ -64,7 +64,7 @@ QString KonqSidebarBookmarkItem::toolTipText() const
 
 void KonqSidebarBookmarkItem::itemSelected()
 {
-    tree()->part()->enableActions( false, false, false, false, false, false );
+    tree()->enableActions( false, false, false, false, false, false );
 }
 
 QString KonqSidebarBookmarkItem::key( int /*column*/, bool /*ascending*/ ) const

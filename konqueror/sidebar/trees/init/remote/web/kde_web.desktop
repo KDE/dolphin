@@ -61,4 +61,4 @@ Name[zu]=Iphepha leKhaya le KDE
 Icon=www
 Open=false
 X-KDE-TreeModule=Directory
-X-KDE-KonqSidebarModule=konq_sidebar_tree
+X-KDE-KonqSidebarModule=konqsidebar_tree

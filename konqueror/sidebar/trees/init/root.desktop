@@ -101,4 +101,4 @@ Comment[zh_TW]=這是檔案系統的根目錄
 Comment[zu]=Lena yimpande yesistimu yamafayela
 Open=false
 X-KDE-TreeModule=Directory
-X-KDE-KonqSidebarModule=konq_sidebar_tree    
+X-KDE-KonqSidebarModule=konqsidebar_tree    

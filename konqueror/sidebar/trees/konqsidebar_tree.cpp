@@ -15,6 +15,21 @@ KonqSidebar_Tree::KonqSidebar_Tree(QObject *parent,QWidget *widgetParent, QStrin
 		int virt= ( (ksc.readEntry("X-KDE-TreeModule","")=="Virtual") ?VIRT_Folder:VIRT_Link);
 		if (virt==1) desktopName_=ksc.readEntry("X-KDE-RelURL","");
         	tree=new KonqSidebarTree(this,widgetParent,virt,desktopName_);
+    		connect(tree, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)),
+			this,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)));
+
+		connect(tree,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
+			this,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)));
+		
+		connect(tree,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )),
+			this,SIGNAL(popupMenu( const QPoint &, const KURL &, const QString &, mode_t )));
+
+		connect(tree,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
+			this,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
+
+		connect(tree,SIGNAL(enableAction( const char *, bool )),
+			this,SIGNAL(enableAction( const char *, bool)));
+
         }
 
 
@@ -22,22 +37,9 @@ KonqSidebar_Tree::~KonqSidebar_Tree(){;}
 
 void* KonqSidebar_Tree::provides(const QString &) {return 0;}
 
-void KonqSidebar_Tree::emitStatusBarText (const QString &) {;}
+//void KonqSidebar_Tree::emitStatusBarText (const QString &) {;}
 
 QWidget *KonqSidebar_Tree::getWidget(){return tree;}
-
-void KonqSidebar_Tree::enableActions( bool copy, bool cut, bool paste,
-                        bool trash, bool del, bool shred,
-                        bool rename)
-{
-    enableAction( "copy", copy );
-    enableAction( "cut", cut );
-    enableAction( "paste", paste );
-    enableAction( "trash", trash );
-    enableAction( "del", del );
-    enableAction( "shred", shred );
-    enableAction( "rename", rename );
-}
 
 void KonqSidebar_Tree::handleURL(const KURL &url)
     {
@@ -97,7 +99,7 @@ void KonqSidebar_Tree::rename()
 
 extern "C"
 {
-    void* create_konq_sidebar_tree(QObject *par,QWidget *widp,QString &desktopname,const char *name)
+    void* create_konqsidebar_tree(QObject *par,QWidget *widp,QString &desktopname,const char *name)
     {
         return new KonqSidebar_Tree(par,widp,desktopname,name);
     }
@@ -105,7 +107,7 @@ extern "C"
 
 extern "C"
 {
-   bool add_konq_sidebar_tree(QString* fn, QString* param, QMap<QString,QString> *map)
+   bool add_konqsidebar_tree(QString* fn, QString* param, QMap<QString,QString> *map)
    {
 	  KStandardDirs *dirs=KGlobal::dirs();
 	  QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);
@@ -128,7 +130,7 @@ extern "C"
 			map->insert("Name",ksc2.readEntry("Name"));
 		 	map->insert("Open","false");
 			map->insert("URL",ksc2.readEntry("X-KDE-Default-URL"));
-			map->insert("X-KDE-KonqSidebarModule","konq_sidebar_tree");
+			map->insert("X-KDE-KonqSidebarModule","konqsidebar_tree");
 			map->insert("X-KDE-TreeModule",ksc2.readEntry("X-KDE-TreeModule"));
 			fn->setLatin1("dirtree%1.desktop");
 			return true;

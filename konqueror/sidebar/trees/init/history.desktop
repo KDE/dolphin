@@ -98,4 +98,4 @@ Comment[zh_TW]=這是您最近訪問的 URL 的歷史紀錄。您可以多種方
 Comment[zu]=Lonangumlandp wama URL asonda kuyivakashela. Ungakwazi ukuwaqoqa ngezinhlela eziningi
 Open=false
 X-KDE-TreeModule=History
-X-KDE-KonqSidebarModule=konq_sidebar_tree    
+X-KDE-KonqSidebarModule=konqsidebar_tree    

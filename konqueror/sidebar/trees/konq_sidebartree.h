@@ -88,12 +88,15 @@ public:
     void FilesRemoved( const KURL::List & urls );
     void FilesChanged( const KURL::List & urls );
 
-    KonqSidebar_Tree * part() { return m_part; }
+    KonqSidebarPlugin * part() { return m_part; }
 
     void lockScrolling( bool lock ) { m_scrollingLocked = lock; }
 
     bool isOpeningFirstChild() const { return m_bOpeningFirstChild; }
  
+    void enableActions( bool copy, bool cut, bool paste,
+                        bool trash, bool del, bool shred,
+                        bool rename = false );
 
 public slots:
     virtual void setContentsPos( int x, int y );
@@ -137,7 +140,7 @@ private:
 
     QPtrList<KonqSidebarTreeModule> m_lstModules;
 
-    KonqSidebar_Tree *m_part;
+    KonqSidebarPlugin  *m_part;
 
     struct AnimationInfo
     {
@@ -176,6 +179,18 @@ private:
     bool m_bOpeningFirstChild;
 
     KonqSidebarTree_Internal *d;
+
+#undef signals
+#define signals public
+signals:
+#undef signals
+#define signals protected
+    void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+    void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+    void popupMenu( const QPoint &global, const KURL &url,
+         const QString &mimeType, mode_t mode = (mode_t)-1 );
+    void popupMenu( const QPoint &global, const KFileItemList &items );
+    void enableAction( const char * name, bool enabled );
 };
 
 #endif

@@ -71,7 +71,7 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
 
 void KonqSidebarHistoryItem::itemSelected()
 {
-    tree()->part()->enableActions( true, true, false,
+    tree()->enableActions( true, true, false,
                                                 false, false, false );
 }
 
@@ -192,7 +192,7 @@ KonqSidebarHistoryItem * KonqSidebarHistoryGroupItem::findChild(const KonqHistor
 
 void KonqSidebarHistoryGroupItem::itemSelected()
 {
-    tree()->part()->enableActions( false, false, false,
+    tree()->enableActions( false, false, false,
                                                 false, false, false );
 }
 

@@ -20,11 +20,8 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
                 KonqSidebar_Tree(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name=0);
                 ~KonqSidebar_Tree();
                 virtual void *provides(const QString &);
-		void emitStatusBarText (const QString &);
+//		void emitStatusBarText (const QString &);
                 virtual QWidget *getWidget();
-	        void enableActions( bool copy, bool cut, bool paste,
-                        bool trash, bool del, bool shred,
-                        bool rename = false );
                 protected:
                         class KonqSidebarTree *tree;
                         virtual void handleURL(const KURL &url);
@@ -36,11 +33,7 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
 			void del();
 			void shred();
 			void rename();
-#undef signals
-#define signals public
 signals:
-#undef signals
-#define signals protected
 			void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
   			void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 			void popupMenu( const QPoint &global, const KURL &url,

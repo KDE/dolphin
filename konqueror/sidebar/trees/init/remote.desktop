@@ -60,4 +60,4 @@ Icon=network
 Open=false
 X-KDE-TreeModule=Virtual
 X-KDE-RelURL=remote
-X-KDE-KonqSidebarModule=konq_sidebar_tree
+X-KDE-KonqSidebarModule=konqsidebar_tree

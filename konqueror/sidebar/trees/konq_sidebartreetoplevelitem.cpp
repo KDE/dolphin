@@ -52,7 +52,7 @@ void KonqSidebarTreeTopLevelItem::itemSelected()
     kdDebug() << "KonqSidebarTreeTopLevelItem::itemSelected" << endl;
     QMimeSource *data = QApplication::clipboard()->data();
     bool paste = m_bTopLevelGroup && data->provides("text/uri-list");
-    tree()->part()->enableActions( true, true, paste, true, true, true,
+    tree()->enableActions( true, true, paste, true, true, true,
                                                 true /*rename*/ );
 }
 
@@ -137,7 +137,7 @@ QDragObject * KonqSidebarTreeTopLevelItem::dragObject( QWidget * parent, bool mo
 void KonqSidebarTreeTopLevelItem::middleButtonPressed()
 {
     if ( !m_bTopLevelGroup )
-        emit tree()->part()->createNewWindow( m_externalURL );
+        emit tree()->createNewWindow( m_externalURL );
     // Do nothing for toplevel groups
 }
 
@@ -148,7 +148,7 @@ void KonqSidebarTreeTopLevelItem::rightButtonPressed()
     // We don't show "edit file type" (useless here) and "properties" (shows the wrong name,
     // i.e. the filename instead of the Name field). There's the Rename item for that.
     // Only missing thing is changing the URL of a link. Hmm...
-    emit tree()->part()->popupMenu( QCursor::pos(), url,
+    emit tree()->popupMenu( QCursor::pos(), url,
                  isTopLevelGroup() ? "inode/directory" : "application/x-desktop" );
 }
 

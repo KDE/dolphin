@@ -37,6 +37,8 @@
 #include <kiconloader.h>
 #include <qapplication.h>
 
+#include <kdebug.h>
+
 static KStaticDeleter<KonqSidebarHistorySettings> sd;
 KonqSidebarHistorySettings * KonqSidebarHistoryModule::s_settings = 0L;
 
@@ -237,10 +239,15 @@ void KonqSidebarHistoryModule::showPopupMenu()
 
 void KonqSidebarHistoryModule::slotNewWindow()
 {
+    kdDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow()"<<endl;
+
     QListViewItem *item = tree()->selectedItem();
     KonqSidebarHistoryItem *hi = dynamic_cast<KonqSidebarHistoryItem*>( item );
     if ( hi )
-	emit tree()->part()->createNewWindow( hi->url() );
+       {
+          kdDebug(1201)<<"void KonqSidebarHistoryModule::slotNewWindow(): emitting createNewWindow"<<endl;
+   	  emit tree()->createNewWindow( hi->url() );
+       }
 }
 
 void KonqSidebarHistoryModule::slotRemoveEntry()

@@ -916,6 +916,10 @@ void Sidebar_Widget::connectModule(QObject *mod)
 		connect(mod,SIGNAL(enableAction( const char *, bool)),
 			this,SLOT(enableAction(const char *, bool)));
 
+	if ((mod->metaObject()->findSignal("createNewWindow(const KURL&,const KParts::URLArgs&)"))!=-1)
+                connect(mod,SIGNAL(createNewWindow( const KURL &, const KParts::URLArgs &)),
+                        this,SLOT(createNewWindow( const KURL &, const KParts::URLArgs &)));
+
 #if 0
 /*?????*/
 					connect(browserExtCli,SIGNAL(setLocationBarURL( const QString &)),
