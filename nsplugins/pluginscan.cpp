@@ -112,6 +112,7 @@ void generateMimeType( QString mime, QString extensions, QString description )
         ts << "Comment=Supported by Netscape plugin" << endl;
         ts << "X-KDE-AutoEmbed=true" << endl;
         ts << "X-KDE-nsplugin=true" << endl;
+        ts << "InitialPreference=0" << endl;
 
         if (!extensions.isEmpty()) {
             ts << "Patterns=";
@@ -318,6 +319,7 @@ int main( int argc, char *argv[] )
         ts << "Icon=netscape" << endl;
         ts << "Comment=Netscape plugin viewer" << endl;
         ts << "X-KDE-Library=libnsplugin" << endl;
+        ts << "InitialPreference=0" << endl;
         ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
 
         if (mimeTypes.count() > 0) {
