@@ -1230,7 +1230,12 @@ void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group 
             fillGroup( item, grp );
             if (grp.isOpen())
                 item->QListViewItem::setOpen(true); // no need to save it again :)
+            if (grp.first().isNull()) {
+                // kdWarning() << "found an empty group!!!" << endl;
+                new KEBListViewItem( item, item );
+            }
             lastItem = item;
+                
         }
         else
         {

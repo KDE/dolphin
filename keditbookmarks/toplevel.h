@@ -42,6 +42,8 @@ public:
     KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk );
     // group
     KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp );
+    // empty group item
+    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after );
     void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
 
     virtual void setOpen( bool );

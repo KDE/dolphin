@@ -73,6 +73,14 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
     init(gp);
     setExpandable(true);
 }
+
+// empty folder item
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after )
+    : QListViewItem(parent, after, i18n("Empty folder") )
+{
+    setPixmap(0, SmallIcon("bookmark"));
+}
+
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment)
 {
   QColorGroup col(cg);
