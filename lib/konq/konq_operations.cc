@@ -201,9 +201,18 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs, int conf
     switch( method )
     {
       case TRASH:
-        job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
-        (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, KGlobalSettings::trashPath(), job );
-        break;
+      {
+        // Make sure the trash exists. Usually the case, but not when starting
+        // konq standalone.
+        QString trashPath = KGlobalSettings::trashPath();
+        if ( !QFile::exists( trashPath ) )
+            KStandardDirs::makeDir( QFile::encodeName( trashPath ), 0660 );
+        KURL u;
+        u.setPath( trashPath );
+        job = KIO::move( selectedURLs, u );
+        (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, u, job );
+         break;
+      }
       case EMPTYTRASH:
       case DEL:
         job = KIO::del( selectedURLs );
