@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 DocPath=kcontrol/konq-browsing.html
-Icon=konqueror_browser
+Icon=konqueror
 Exec=kcmshell WebBrowsing/konqhtml
 
 X-KDE-ModuleType=Library
@@ -35,7 +35,7 @@ Name[pt]=Navegador Konqueror
 Name[pt_BR]=Navegador Konqueror
 Name[ro]=Navigator de web Konqueror
 Name[ru]=Броузер Konqueror
-Name[sk]=Prohlížeč Konqueror
+Name[sk]=Priehliadač Konqueror
 Name[sl]=Brskalnik Konqueror
 Name[sr]=Konqueror pretraživač
 Name[sv]=Konquerors webbläsare
@@ -71,7 +71,7 @@ Comment[pt]=Configuração do navegador de internet Konqueror
 Comment[pt_BR]=Configurar a aparência e funcionamento do navegador denominado Konqueror
 Comment[ro]=Configurează aspectul navigatorului de web Konqueror
 Comment[ru]=Вы можете настроить, как будет выглядеть Konqueror
-Comment[sk]=Zde můžete nastavit vzhled a chování internetového prohlížeče zvaného Konqueror
+Comment[sk]=Môžete tu nastaviť vzhľad internetového prehliadača Konqueror
 Comment[sl]=Nastavite videz in delovanje spletnega brskalnika, imenovanega Konqueror.
 Comment[sr]=Podesite izgled Internet pretraživača koji se zove Konqueror
 Comment[sv]=Här kan du ställa in webbläsaren Konquerors utseende och känsla
@@ -105,7 +105,7 @@ Keywords[pl]=konqueror,kfm,przeglądarka,html,sieć,www,fonty,kolory,java,javasc
 Keywords[pt]=konqueror,kfm,navegador,html,web,www,tipos de letra,fontes,cores,java,javascript
 Keywords[pt_BR]=Konqueror,kfm,navegador,html,web,www,letras,fontes,cores,java,javascript
 Keywords[ro]=konqueror,kfm,navigator,browser,html,web,www,font,culori,java,javascript
-Keywords[sk]=konqueror,kfm,prohlížeč,html,web,www,písma,barvy,java,javascript
+Keywords[sk]=konqueror,kfm,prehliadač,html,web,www,písma,farby,java,javascript
 Keywords[sl]=konqueror,kfm,brskalnik,html,splet,www,pisave,barve,java,javascript
 Keywords[sv]=konqueror,erövraren,kfm,webbläsare,html,webb,www,teckensnitt,färger,java,javaskript
 Keywords[ta]=konqueror,kfm,உலாவி,html,வைல,நிறஙஂகளஂ,www,எழு஡ஂதுவைககளஂ,java,javascript
