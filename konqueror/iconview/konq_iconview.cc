@@ -29,7 +29,6 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kdirlister.h>
-#include <kio/job.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <konq_settings.h>
@@ -597,7 +596,8 @@ void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, 
 void KonqKfmIconView::slotStarted()
 {
     if ( m_bLoading )
-        emit started( m_dirLister->job() );
+        emit started( 0 );
+
     // An update may come in while we are still processing icons...
     // So don't clear the list.
     //m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
@@ -795,23 +795,31 @@ bool KonqKfmIconView::openURL( const KURL & url )
         // Create the directory lister
         m_dirLister = new KDirLister( true );
 
-        QObject::connect( m_dirLister, SIGNAL( started( const KURL & ) ),
-                          this, SLOT( slotStarted() ) );
-        QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-        QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-        QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-        QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
-                          this, SLOT( slotNewItems( const KFileItemList& ) ) );
-        QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                          this, SLOT( slotDeleteItem( KFileItem * ) ) );
-        QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
-                          this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
-        QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
-                          this, SLOT( slotRedirection( const KURL & ) ) );
-        QObject::connect( m_dirLister, SIGNAL( closeView() ),
-                          this, SLOT( slotCloseView() ) );
-        QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
-                          SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
+        connect( m_dirLister, SIGNAL( started( const KURL & ) ),
+                 this, SLOT( slotStarted() ) );
+        connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+        connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+        connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+        connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
+                 this, SLOT( slotNewItems( const KFileItemList& ) ) );
+        connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                 this, SLOT( slotDeleteItem( KFileItem * ) ) );
+        connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
+                 this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
+        connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+                 this, SLOT( slotRedirection( const KURL & ) ) );
+        connect( m_dirLister, SIGNAL( closeView() ),
+                 this, SLOT( slotCloseView() ) );
+        connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
+                 SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
+
+        connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
+                 extension(), SIGNAL( infoMessage( const QString& ) ) );
+        connect( m_dirLister, SIGNAL( percent( int ) ),
+                 extension(), SIGNAL( loadingProgress( int ) ) );
+        connect( m_dirLister, SIGNAL( speed( int ) ),
+                 extension(), SIGNAL( speedProgress( int ) ) );
+
     }
 
     m_bLoading = true;
@@ -839,8 +847,10 @@ bool KonqKfmIconView::openURL( const KURL & url )
         m_yOffset = m_pIconView->contentsY();
     }
 
+    m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
+
     // Start the directory lister !
-    m_dirLister->openURL( url, m_pProps->isShowingDotFiles() );
+    m_dirLister->openURL( url, false, m_extension->urlArgs().reload );
 
     m_bNeedAlign = false;
     m_bUpdateContentsPosAfterListing = true;
