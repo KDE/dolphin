@@ -351,7 +351,7 @@ struct KonqIconViewWidgetPrivate
     bool bSoundItemClicked;
     bool bAllowSetWallpaper;
     int gridXspacing;
-    
+
     QTimer* rearrangeIconsTimer;
 
     // Animated icons support
@@ -364,6 +364,8 @@ struct KonqIconViewWidgetPrivate
     KFileTip* pFileTip;
     QStringList previewSettings;
     bool renameItem;
+    bool firstClick;
+    QMouseEvent *pClickEvent;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -393,7 +395,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setItemTextPos( QIconView::Bottom );
 
     d->pFileTip = new KFileTip(this);
-
+    d->firstClick = false;
+    d->pClickEvent =  0L;
     calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
@@ -678,8 +681,8 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
             } else {
                 current->setThumbnailPixmap(pix);
             }
-            if ( needsUpdate 
-                    && autoArrange() 
+            if ( needsUpdate
+                    && autoArrange()
                     && !d->rearrangeIconsTimer->isActive() ) {
                 d->rearrangeIconsTimer->start( 500, true );
             }
@@ -690,7 +693,7 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
 void KonqIconViewWidget::slotPreviewResult()
 {
     d->pPreviewJob = 0;
-    if ( d->rearrangeIconsTimer->isActive() ) { 
+    if ( d->rearrangeIconsTimer->isActive() ) {
         d->rearrangeIconsTimer->stop();
         slotRearrangeIcons();
     }
@@ -1340,15 +1343,38 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
   // we could reimplement contentsDropEvent in KDIconView and set m_bNeedSave. Bah.
 }
 
-void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
+void KonqIconViewWidget::doubleClickTimeout()
 {
     d->renameItem= true;
+    mousePressChangeValue();
+    contentsMouseReleaseEvent( d->pClickEvent );
+}
+
+void KonqIconViewWidget::mousePressChangeValue()
+{
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_bMousePressed = true;
   if (d->pSoundPlayer)
     d->pSoundPlayer->stop();
   d->bSoundItemClicked = true;
-  KIconView::contentsMousePressEvent( e );
+  d->firstClick = false;
+}
+
+void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
+{
+     QIconViewItem* item = findItem( e->pos() );
+    if ( !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item && item->textRect( false ).contains(e->pos())&& !d->firstClick )
+    {
+        d->firstClick = true;
+        d->pClickEvent = e;
+        QTimer::singleShot(QApplication::doubleClickInterval(),this,SLOT(doubleClickTimeout()));
+        return;
+    }
+    else
+        d->renameItem= false;
+    mousePressChangeValue();
+    KIconView::contentsMousePressEvent( e );
+
 }
 
 void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )

@@ -252,6 +252,7 @@ protected slots:
     void slotReenableAnimation();
 
     void slotAboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
+    void doubleClickTimeout();
 
 private slots:
     void slotRearrangeIcons();
@@ -276,6 +277,7 @@ protected:
     virtual void contentsMouseMoveEvent( QMouseEvent *e );
     virtual void backgroundPixmapChange( const QPixmap & );
     void readAnimatedIconsConfig();
+    void mousePressChangeValue();
 
 private:
     KURL m_url;
