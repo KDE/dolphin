@@ -46,7 +46,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include <../kdesktop/fixx11h.h>
+#include <fixx11h.h>
 
 //#define DEBUG_HISTORY
 

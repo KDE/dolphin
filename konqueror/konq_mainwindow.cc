@@ -106,7 +106,7 @@
 #include <X11/Xlib.h>
 #include <sys/time.h>
 #include <X11/Xatom.h>
-#include <../kdesktop/fixx11h.h>
+#include <fixx11h.h>
 
 template class QPtrList<QPixmap>;
 template class QPtrList<KToggleAction>;
