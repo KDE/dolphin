@@ -236,6 +236,8 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_pViewManager;
 
+  createShellGUI( false );
+
   delete m_pBookmarkMenu;
 
   m_viewModeActions.clear();
