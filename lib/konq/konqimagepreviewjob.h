@@ -28,7 +28,7 @@ class KonqIconViewWidget;
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
  *
- * Supports mospics and xvpics, and generates mospics when none found.
+ * Supports png pics and xvpics, and generates png pics when none found.
  * Features network transparency, asynchronous processing, and safety
  * against deleted items.
  */

@@ -177,24 +177,24 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
 
       // No thumbnail, or too old -> check dirs, load orig image and create Pixie pic
 
-      // We call this again, because it's the mospics we want to generate, not the xvpics
+      // We call this again, because it's the png pics we want to generate, not the xvpics
       // Well, comment this out if you prefer compatibility over quality.
       determineThumbnailURL();
 
       if ( !m_bNoWrite )
       {
-        // m_thumbURL is /blah/.mospics/med/file.png
+        // m_thumbURL is /blah/.pics/med/file.png
         QString dir = m_thumbURL.directory();
-        QString mospicsPath = dir.left( dir.findRev( '/' ) ); // /blah/.mospics
-        KURL mospicsURL( m_thumbURL );
-        mospicsURL.setPath( mospicsPath );
+        QString pngpicsPath = dir.left( dir.findRev( '/' ) ); // /blah/.pngpics
+        KURL pngpicsURL( m_thumbURL );
+        pngpicsURL.setPath( pngpicsPath );
 
         // We don't check + create. We just create and ignore "already exists" errors.
         // Way more efficient, on all protocols.
         m_state = STATE_CREATEDIR1;
-        KIO::Job * job = KIO::mkdir( mospicsURL );
+        KIO::Job * job = KIO::mkdir( pngpicsURL );
         addSubjob(job);
-        kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir mospicsURL=" << mospicsURL.url() << endl;
+        kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir pngpicsURL=" << pngpicsURL.url() << endl;
         return;
       }
       // Fall through if we can't create dirs here
@@ -207,7 +207,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
         if (m_bCanSave)
         {
           KURL thumbdirURL( m_thumbURL );
-          thumbdirURL.setPath( m_thumbURL.directory() ); // /blah/.mospics/med
+          thumbdirURL.setPath( m_thumbURL.directory() ); // /blah/.pics/med
 
           // We don't check + create. We just create and ignore "already exists" errors.
           // Way more efficient, on all protocols. (Yes you read that once already)
@@ -270,32 +270,32 @@ void KonqImagePreviewJob::determineThumbnailURL()
     : KGlobal::iconLoader()->currentSize( KIcon::Desktop ); // if 0
 
   // Check if pixie thumbnail is there first
-  // This also takes care of browsing the .mospics dirs themselves
-  // Check if m_currentURL is /blah/.mospics/med/file.png
-  QString dir = m_currentURL.directory();               // /blah/.mospics/med
-  QString grandFather = dir.left( dir.findRev( '/' ) ); // /blah/.mospics
+  // This also takes care of browsing the .pics dirs themselves
+  // Check if m_currentURL is /blah/.pics/med/file.png
+  QString dir = m_currentURL.directory();               // /blah/.pics/med
+  QString grandFather = dir.left( dir.findRev( '/' ) ); // /blah/.pics
   QString grandFatherFileName = grandFather.mid( grandFather.findRev('/')+1 );
-  QString mospicsPath = (grandFatherFileName == ".mospics") ? grandFather : (dir + "/.mospics");
+  QString picsPath = (grandFatherFileName == ".pics") ? grandFather : (dir + "/.pics");
   m_thumbURL = m_currentURL;
 
   // Difference with the previous algorithm is: we always honour the
-  // requested icon size. Otherwise, one needs to remove .mospics when
+  // requested icon size. Otherwise, one needs to remove .pics when
   // changing icon size...
 
   if (size < 28)
   {
     m_extent = 48;
-    m_thumbURL.setPath( mospicsPath + "/small/" + m_currentURL.fileName() );
+    m_thumbURL.setPath( picsPath + "/small/" + m_currentURL.fileName() );
   }
   else if (size < 40)
   {
     m_extent = 64;
-    m_thumbURL.setPath( mospicsPath + "/med/" + m_currentURL.fileName() );
+    m_thumbURL.setPath( picsPath + "/med/" + m_currentURL.fileName() );
   }
   else
   {
     m_extent = 90;
-    m_thumbURL.setPath( mospicsPath + "/large/" + m_currentURL.fileName() );
+    m_thumbURL.setPath( picsPath + "/large/" + m_currentURL.fileName() );
   }
 }
 
