@@ -383,8 +383,8 @@ void KonqMainWindow::initBookmarkBar()
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
   connect( m_paBookmarkBar,
-	   SIGNAL( openBookmark(const QString &, bool) ),
-	   this, SLOT( slotOpenBookmarkURL(const QString &, bool) ));
+	   SIGNAL( openBookmark(const QString &, Qt::ButtonState) ),
+	   this, SLOT( slotOpenBookmarkURL(const QString &, Qt::ButtonState) ));
 
   // hide if empty
   if (bar->count() == 0 )
@@ -3738,8 +3738,8 @@ void KonqMainWindow::initActions()
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
   connect( m_pBookmarkMenu,
-	   SIGNAL( openBookmark(const QString &, bool) ),
-	   this, SLOT( slotOpenBookmarkURL(const QString &, bool) ));
+	   SIGNAL( openBookmark(const QString &, Qt::ButtonState) ),
+	   this, SLOT( slotOpenBookmarkURL(const QString &, Qt::ButtonState) ));
 
   KAction *addBookmark = actionCollection()->action("add_bookmark");
   if (addBookmark)
@@ -3843,10 +3843,34 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
   }
 }
 
-void KonqMainWindow::slotOpenBookmarkURL( const QString & url, bool inNewTab)
+void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState state)
 {
-  kdDebug(1202) << "KonqMainWindow::slotOpenBookmarkURL(" << url << ", " << inNewTab << ")" << endl;
-  openFilteredURL( url, inNewTab );
+    kdDebug(1202) << "KonqMainWindow::slotOpenBookmarkURL(" << url << ", " << state << ")" << endl;
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
+
+    KonqOpenURLRequest req;
+    req.newTab = true;
+    req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false ) ;
+
+    if (state & Qt::ShiftButton)
+        req.newTabInFront = !req.newTabInFront;
+
+    if( state & Qt::ControlButton ) // Ctrl Left/MMB    
+	openFilteredURL( url, req);    
+    else if( state & Qt::MidButton )
+    {
+	if(mmbOpensTab)	
+	    openFilteredURL( url, req);	
+	else
+	{
+	    KURL finalURL = KonqMisc::konqFilteredURL( this, url );
+	    KonqMisc::createNewWindow( finalURL.url() );
+	}
+    }
+    else
+	openFilteredURL( url, false );
 }
 
 void KonqMainWindow::slotMoveTabLeft()

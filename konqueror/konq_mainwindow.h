@@ -323,7 +323,7 @@ public slots:
 
   // for KBookmarkMenu and KBookmarkBar
   void slotFillContextMenu( const KBookmark &, QPopupMenu * );
-  void slotOpenBookmarkURL( const QString & url, bool inNewTab );
+  void slotOpenBookmarkURL( const QString & url, Qt::ButtonState state );
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
