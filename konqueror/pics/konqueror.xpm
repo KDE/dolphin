@@ -1,0 +1,30 @@
+/* XPM */
+/* Drawn  by Nico Shirwing for the K Desktop Environment */
+/* See http://www.kde.org */
+static char*kfm[]={
+"16 16 8 1",
+"# c #000000",
+"f c #808080",
+"c c #c0c0c0",
+"e c #ffa858",
+"b c #ffffff",
+"a c #a0a0a4",
+"d c #ffdca8",
+". c None",
+".#########......",
+"#abbcbcbcb##....",
+"#aaabc####cc#...",
+"#aaab#dddd####..",
+"#aaab#dee#dddd#.",
+"#aaab#cce#dddd#.",
+"#aaab#aacfcccc#.",
+"#aaab###afcccc#.",
+"#aaabfca#######.",
+"#aaabfcccccc#...",
+"#aaabcfffffc#...",
+"#aaabfcccccf#...",
+"#aaabfcfffcf#...",
+"#faabfcccccf#...",
+".##abcfffffc#...",
+"...##########..."};
+
