@@ -129,17 +129,20 @@ public:
   /**
    * Get view's URL
    */
-  QString url() { return m_vView->url(); } // FIXME:  string_dup ?
+  QString url();
   /**
    * Get view's name
    */
-  QString viewName() { return m_vView->viewName(); } // FIXME:  string_dup ?
+  QString viewName();
   /**
    * Get view's id
    */
   OpenParts::Id id() { return m_vView->id(); }
   /**
    * Get view's location bar URL (difference with url() ? to be explained)
+   * (hm... I think it can differ, for example in case of redirection, when
+   * the view wants to "represent" the "old" url, but the user should see the
+   * redirected url. Or? We should discuss this... I'm most likely wrong) (Simon)
    */
   // void locationBarURL() { return m_sLocationBarURL; }
 

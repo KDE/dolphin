@@ -29,15 +29,15 @@
 #include <qsplitter.h>
 
 /*
- The award for the worst hack (aka Bug Oscar) goes to..... ah no, 
- it's not Microsoft, it's me :-(
- Well, there's somewhere in there a bug in regard to freeing references
- of a view. As a quick/bad hack we "force" the destruction of the object 
- (in case of a local view, for a remote view this doesn't matter) by
- simply "deref'ing" .... (ask me for further details about this)
- In contrary to the Microsoft way of hacking this hack should increase the
- stability of the product ;-) . Anyway, the problem remains and this is not
- meant to be a solution.
+ This is a _very_ bad hack to fix some buggy reference count handling somewhere
+ in Konqy. We call this hack when we want to destroy a view, I mean really
+ destroy. For remote views this bug is no real problem since the reference 
+ counter on the server's side (the remote view) is not affected by our buggy 
+ referencing. But for local views, where proxy/stub == server, this _is_ a 
+ problem. So that's why we "kill" the CORBA reference counter this way, which
+ helps us to make sure that the object will really die.
+ Please don't misunderstand, this is meant to be a hack, not a solution or
+ a simple workaround. We NEED/SHOULD fix the real bug instead ASAP.
  Simon
  */
 void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
@@ -345,6 +345,20 @@ void KonqChildView::goForward()
     openURL( h.strURL );
 }
 
+QString KonqChildView::url()
+{
+  CORBA::String_var u = m_vView->url();
+  QString url( u.in() );
+  return url;
+}
+
+QString KonqChildView::viewName()
+{
+  CORBA::String_var v = m_vView->viewName();
+  QString viewName( v.in() );
+  return viewName;
+}
+
 void KonqChildView::reload()
 {
   m_bForward = false;
@@ -368,6 +382,12 @@ void KonqChildView::reload()
 
   // Hmm, if we need the current structure, we need to be able to _get_ the 
   // xofs and yofs, in order to fill the above. Can we do that ? (David)
+  
+  // very true... We should fix this ASAP (the event structure as well as the
+  // history functionality, bound to it in somehow (--> for example when pressing
+  // the back button I want the previous view to be at the previous x/y offset
+  // Hm....
+  // (Simon)
 }
 
 #include "konq_childview.moc"
