@@ -594,8 +594,8 @@ void KfmFinder::slotOnItem( KfmFinderItem* _item)
   text2 = text;
   text2.detach();
 
-  long size;
-  mode_t mode;
+  long size   = 0;
+  mode_t mode = 0;
 
   UDSEntry::iterator it = entry.begin();
   for( ; it != entry.end(); it++ )
@@ -668,7 +668,7 @@ void KfmFinder::slotReturnPressed( QListViewItem *_item )
   
   KfmFinderItem *item = (KfmFinderItem*)_item;
   UDSEntry entry = item->udsEntry();
-  mode_t mode;
+  mode_t mode = 0;
 
   UDSEntry::iterator it = entry.begin();
   for( ; it != entry.end(); it++ )
@@ -1243,6 +1243,13 @@ void KfmFinder::drawContentsOffset( QPainter* _painter, int _offsetx, int _offse
 
   QListView::drawContentsOffset( _painter, _offsetx, _offsety,
 				 _clipx, _clipy, _clipw, _cliph );
+}
+
+void KfmFinder::focusInEvent( QFocusEvent* _event )
+{
+  emit gotFocus();
+
+  QListView::focusInEvent( _event );
 }
 
 /**************************************************************

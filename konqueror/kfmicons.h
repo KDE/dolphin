@@ -92,6 +92,7 @@ signals:
   void started( const char* _url );
   void completed();
   void canceled();
+  void gotFocus();
 
 public slots:
   virtual void slotCloseURL( int _id );
@@ -115,6 +116,8 @@ protected slots:
 
 protected:  
   virtual void initConfig();
+
+  virtual void focusInEvent( QFocusEvent* _event );
 
   string m_strURL;
   K2URL m_url;

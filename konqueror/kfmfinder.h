@@ -179,6 +179,7 @@ signals:
   void started( const char* _url );
   void completed();
   void canceled();
+  void gotFocus();
   
 public slots:
   virtual void slotCloseSubFolder( int _id );
@@ -228,6 +229,8 @@ protected:
   virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety, 
 				   int _clipx, int _clipy, 
 				   int _clipw, int _cliph );
+
+  virtual void focusInEvent( QFocusEvent* _event );
 
   string m_strURL;
   K2URL m_url;

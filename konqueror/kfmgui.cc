@@ -42,10 +42,17 @@
 #include <iostream>
 #include <assert.h>
 
-#define TOOLBAR_URL_ID 1000
-#define TOOLBAR_UP_ID 0
-#define TOOLBAR_BACK_ID 1
+#define TOOLBAR_URL_ID     1000
+#define TOOLBAR_UP_ID      0
+#define TOOLBAR_BACK_ID    1
 #define TOOLBAR_FORWARD_ID 2
+#define TOOLBAR_HOME_ID    3
+#define TOOLBAR_RELOAD_ID  4
+#define TOOLBAR_COPY_ID    5
+#define TOOLBAR_PASTE_ID   6
+#define TOOLBAR_HELP_ID    7
+#define TOOLBAR_STOP_ID    8
+#define TOOLBAR_GEAR_ID    9
 
 QList<KfmGui>* KfmGui::s_lstWindows = 0L;
 QList<QPixmap>* KfmGui::s_lstAnimatedLogo = 0L;
@@ -89,10 +96,15 @@ KfmGui::KfmGui( const char *_url ) : KTopLevelWidget()
 
   m_bInit = false;
 
-  m_pView->setFocus();
-  m_pView->openURL( _url );
-  m_currentView = m_pView;
-  m_currentViewMode = m_Props->viewMode();
+  m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
+  m_rightView.m_pView->fetchFocus();
+  m_rightView.m_pView->openURL( _url );
+
+  if ( m_Props->isSplitView() )
+  {
+    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
+    m_leftView.m_pView->openURL( _url );
+  }
 }
 
 KfmGui::~KfmGui()
@@ -124,10 +136,12 @@ void KfmGui::initConfig()
   // Copy the default properties
   m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
   
+  fillCurrentView( m_rightView );
+
   if ( !m_bInit )
   {
-    m_pView->setViewMode( m_Props->m_viewMode );
-    m_pView2->setViewMode( m_Props->m_viewMode2 );
+    m_rightView.m_pView->setViewMode( m_Props->rightViewMode() );
+    m_leftView.m_pView->setViewMode( m_Props->leftViewMode() );
   }
   else
     this->resize(m_Props->m_width,m_Props->m_height);
@@ -149,14 +163,14 @@ void KfmGui::initGui()
   else if ( m_Props->isSplitView() )
   {
     m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
-    m_pPannerChild0GM->addWidget( m_pView2, 0, 0 );
+    m_pPannerChild0GM->addWidget( m_leftView.m_pView, 0, 0 );
     m_pPannerChild1GM = new QGridLayout( m_pPannerChild1, 1, 1 );
-    m_pPannerChild1GM->addWidget( m_pView, 0, 0 );
+    m_pPannerChild1GM->addWidget( m_rightView.m_pView, 0, 0 );
   }
   else
   {    
     m_pPannerChild1GM = new QGridLayout( m_pPannerChild1, 1, 1 );
-    m_pPannerChild1GM->addWidget( m_pView, 0, 0 );
+    m_pPannerChild1GM->addWidget( m_rightView.m_pView, 0, 0 );
   }
 }
 
@@ -272,25 +286,12 @@ void KfmGui::initMenu()
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 3 ), m_Props->isShowingDotFiles() );
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 4 ), m_Props->isShowingImagePreview() );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 3 ), m_bHTMLView );
-  switch( m_pView->viewMode() )
-    {
-    case KfmView::HOR_ICONS:
-      m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 7 ), true );
-      break;
-    case KfmView::VERT_ICONS:
-      m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 8 ), true );
-      break;
-    case KfmView::FINDER:
-      m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), true );
-      break;
-    default:
-      assert( 0 );
-      break;
-    }
 
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), m_pView->isHTMLAllowed() );
+  setViewModeMenu( m_Props->viewMode() );
+
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), m_currentView.m_pView->isHTMLAllowed() );
   
-  m_pBookmarkMenu = new KBookmarkMenu( m_pView );
+  m_pBookmarkMenu = new KBookmarkMenu( m_rightView.m_pView );
   
   QPopupMenu *options = new QPopupMenu;
   options->insertItem( i18n("Configure &keys"), this, SLOT( slotConfigureKeys() ) );
@@ -352,66 +353,57 @@ void KfmGui::initToolBar()
   path = kapp->kde_toolbardir() + "/";
 
   pixmap = *KPixmapCache::toolbarPixmap( "up.xpm");
-  m_pToolbar->insertButton(pixmap, TOOLBAR_UP_ID, SIGNAL( clicked() ), this, 
-			       SLOT( slotUp() ), false, 
-			       i18n("Up"));
+  m_pToolbar->insertButton(pixmap, TOOLBAR_UP_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotUp() ), false, i18n("Up"));
   
   pixmap = *KPixmapCache::toolbarPixmap( "back.xpm");
-  m_pToolbar->insertButton(pixmap, TOOLBAR_BACK_ID, SIGNAL( clicked() ), this, 
-			       SLOT( slotBack() ), false, 
-			       i18n("Back"));
+  m_pToolbar->insertButton(pixmap, TOOLBAR_BACK_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotBack() ), false, i18n("Back"));
   
   pixmap = *KPixmapCache::toolbarPixmap( "forward.xpm");
-  m_pToolbar->insertButton(pixmap, TOOLBAR_FORWARD_ID, SIGNAL( clicked() ), this, 
-			       SLOT( slotForward() ), false, 
-			       i18n("Forward"));
+  m_pToolbar->insertButton(pixmap, TOOLBAR_FORWARD_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotForward() ), false, i18n("Forward"));
   
   pixmap = *KPixmapCache::toolbarPixmap( "home.xpm");
-  m_pToolbar->insertButton(pixmap, 3, SIGNAL( clicked() ), this, 
-			       SLOT( slotHome() ), true, 
-			       i18n("Home") );
+  m_pToolbar->insertButton(pixmap, TOOLBAR_HOME_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotHome() ), true, i18n("Home") );
   
   m_pToolbar->insertSeparator();
   
   pixmap = *KPixmapCache::toolbarPixmap( "reload.xpm");
-  m_pToolbar->insertButton(pixmap, 4, SIGNAL( clicked() ), this, 
-			       SLOT( slotReload() ), true, 
-			       i18n("Reload") );
+  m_pToolbar->insertButton(pixmap, TOOLBAR_RELOAD_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotReload() ), true, i18n("Reload") );
   
   m_pToolbar->insertSeparator();
   
   pixmap = *KPixmapCache::toolbarPixmap( "editcopy.xpm");
-  m_pToolbar->insertButton(pixmap, 5, SIGNAL( clicked() ), this, 
-			       SLOT( slotCopy() ), true, 
-			       i18n("Copy") );
+  m_pToolbar->insertButton(pixmap, TOOLBAR_COPY_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotCopy() ), true, i18n("Copy") );
   
   pixmap = *KPixmapCache::toolbarPixmap( "editpaste.xpm");
-  m_pToolbar->insertButton(pixmap, 6, SIGNAL( clicked() ), this, 
-			       SLOT( slotPaste() ), true, 
-			       i18n("Paste") );
+  m_pToolbar->insertButton(pixmap, TOOLBAR_PASTE_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotPaste() ), true, i18n("Paste") );
   
   m_pToolbar->insertSeparator();
   
   pixmap = *KPixmapCache::toolbarPixmap( "help.xpm");
-  m_pToolbar->insertButton(pixmap, 7, SIGNAL( clicked() ), this, 
-			       SLOT( slotHelp() ), true, 
-			       i18n("Help"));
+  m_pToolbar->insertButton(pixmap, TOOLBAR_HELP_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotHelp() ), true, i18n("Help"));
   
   m_pToolbar->insertSeparator();
   
   pixmap = *KPixmapCache::toolbarPixmap( "stop.xpm");
-  m_pToolbar->insertButton(pixmap, 8, SIGNAL( clicked() ), this, 
-			       SLOT( slotStop() ), false, 
-			       i18n("Stop"));
+  m_pToolbar->insertButton(pixmap, TOOLBAR_STOP_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotStop() ), false, i18n("Stop"));
   
   path = kapp->kde_datadir() + "/kfm/pics/";
   
   pixmap.load( path + "/kde1.xpm" );
   
-  m_pToolbar->insertButton(pixmap, 9, SIGNAL( clicked() ), this, 
-			       SLOT( slotNewWindow() ), false );
-  m_pToolbar->setItemEnabled( 9, true );
-  m_pToolbar->alignItemRight( 9, true );
+  m_pToolbar->insertButton(pixmap, TOOLBAR_GEAR_ID, SIGNAL( clicked() ), 
+			   this, SLOT( slotNewWindow() ), false );
+  m_pToolbar->setItemEnabled( TOOLBAR_GEAR_ID, true );
+  m_pToolbar->alignItemRight( TOOLBAR_GEAR_ID, true );
 
   ////////////////////////
   // Add animated logo
@@ -475,30 +467,54 @@ void KfmGui::initToolBar()
 
 void KfmGui::initView()
 {
-  m_pView = new KfmView( this, m_pPannerChild1 );
+  m_rightView.m_pView = new KfmView( this, m_pPannerChild1 );
+
+  fillCurrentView( m_rightView );
 
   KConfig *config = kapp->getConfig();
   config->setGroup( "Settings" );
-  m_pView->setHTMLAllowed( config->readBoolEntry( "AllowHTML", true ) );
+  m_rightView.m_pView->setHTMLAllowed( config->readBoolEntry( "AllowHTML", true ) );
 
-  m_pView->show();
-  // setView( m_pView );
-  m_pView->setFocus();
+  m_rightView.m_pView->show();
+  m_rightView.m_pView->fetchFocus();
   
-  connect( m_pView, SIGNAL( canceled() ) , 
+  connect( m_rightView.m_pView, SIGNAL( canceled() ) , 
 	   this, SLOT( slotStopAnimation() ) );
-  connect( m_pView, SIGNAL( completed() ) , 
+  connect( m_rightView.m_pView, SIGNAL( completed() ) , 
 	   this, SLOT( slotStopAnimation() ) );
-  connect( m_pView, SIGNAL( started() ) , 
+  connect( m_rightView.m_pView, SIGNAL( started() ) , 
 	   this, SLOT( slotStartAnimation() ) );
-  connect( m_pView, SIGNAL( upURL() ), 
+  connect( m_rightView.m_pView, SIGNAL( upURL() ), 
 	   this, SLOT( slotUp() ) );
-  connect( m_pView, SIGNAL( backHistory() ), 
+  connect( m_rightView.m_pView, SIGNAL( backHistory() ), 
 	   this, SLOT( slotBack() ) );
-  connect( m_pView, SIGNAL( forwardHistory() ), 
+  connect( m_rightView.m_pView, SIGNAL( forwardHistory() ), 
 	   this, SLOT( slotForward() ) );
-  connect( m_pView, SIGNAL( gotFocus( KfmView* ) ), 
+  connect( m_rightView.m_pView, SIGNAL( gotFocus( KfmView* ) ), 
 	   this, SLOT( slotGotFocus( KfmView* ) ) );
+
+  if ( m_Props->isSplitView() )
+  {
+    m_leftView.m_pView = new KfmView( this, m_pPannerChild0 );
+    m_leftView.m_pView->setHTMLAllowed( config->readBoolEntry( "AllowHTML", true ) );
+    
+    m_leftView.m_pView->show();
+    
+    connect( m_leftView.m_pView, SIGNAL( canceled() ) , 
+	     this, SLOT( slotStopAnimation() ) );
+    connect( m_leftView.m_pView, SIGNAL( completed() ) , 
+	     this, SLOT( slotStopAnimation() ) );
+    connect( m_leftView.m_pView, SIGNAL( started() ) , 
+	     this, SLOT( slotStartAnimation() ) );
+    connect( m_leftView.m_pView, SIGNAL( upURL() ), 
+	     this, SLOT( slotUp() ) );
+    connect( m_leftView.m_pView, SIGNAL( backHistory() ), 
+	     this, SLOT( slotBack() ) );
+    connect( m_leftView.m_pView, SIGNAL( forwardHistory() ), 
+	     this, SLOT( slotForward() ) );
+    connect( m_leftView.m_pView, SIGNAL( gotFocus( KfmView* ) ), 
+	     this, SLOT( slotGotFocus( KfmView* ) ) );
+  }
 }
 
 void KfmGui::slotAboutApp()
@@ -554,13 +570,16 @@ void KfmGui::slotURLEntered()
   m_bBack = false;
   m_bForward = false;
 
-  m_currentView->openURL( url.c_str() );
+  m_currentView.m_pView->openURL( url.c_str() );
 }
 
 void KfmGui::slotSplitView()
 {
   if ( m_Props->m_bSplitView )
   {
+    fillCurrentView( m_rightView );
+    m_currentView.m_pView->fetchFocus();
+
     m_Props->m_bSplitView = false;
     m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 1 ), false );
 
@@ -570,12 +589,10 @@ void KfmGui::slotSplitView()
     m_pPannerChild0GM = 0L;
     cerr << "!!!!!!!!! Layout done !!!!!!!!!" << endl;
 
-    delete m_pView2;
-    m_pView2 = 0L;
-    
-    m_pView->setFocus();
-    m_currentView = m_pView;
-    m_currentViewMode = m_Props->m_viewMode;
+    delete m_leftView.m_pView;
+    m_leftView.m_lstBack.clear();
+    m_leftView.m_lstForward.clear();
+    m_leftView.m_strUpURL = "";
 
     return;
   }
@@ -589,40 +606,40 @@ void KfmGui::slotSplitView()
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 1 ), true );
   m_Props->m_bSplitView = true;
   
-  QString url = m_pView->currentURL();
-  m_Props->m_viewMode = m_pView->viewMode();
-  m_pView->clearFocus();
+  QString url = m_rightView.m_pView->currentURL();
+
+  saveCurrentView( m_rightView );
+  m_rightView.m_pView->clearFocus();
   
-  m_pView2 = new KfmView( this, m_pPannerChild0 );
-  m_Props->m_viewMode2 = m_Props->m_viewMode;
-  m_pView2->setViewMode( m_Props->m_viewMode2, false );
+  m_leftView.m_pView = new KfmView( this, m_pPannerChild0 );
+  m_leftView.m_pView->setViewMode( m_Props->leftViewMode(), false );
+
   m_pPannerChild0GM = new QGridLayout( m_pPannerChild0, 1, 1 );
-  m_pPannerChild0GM->addWidget( m_pView2, 0, 0 );
-  m_pView2->show();
+  m_pPannerChild0GM->addWidget( m_leftView.m_pView, 0, 0 );
+  m_leftView.m_pView->show();
   
   m_pPanner->setSeparator( 50 );
 
-  connect( m_pView2, SIGNAL( canceled() ) , 
+  connect( m_leftView.m_pView, SIGNAL( canceled() ) , 
 	   this, SLOT( slotStopAnimation() ) );
-  connect( m_pView2, SIGNAL( completed() ) , 
+  connect( m_leftView.m_pView, SIGNAL( completed() ) , 
 	   this, SLOT( slotStopAnimation() ) );
-  connect( m_pView2, SIGNAL( started() ) , 
+  connect( m_leftView.m_pView, SIGNAL( started() ) , 
 	   this, SLOT( slotStartAnimation() ) );
-  connect( m_pView2, SIGNAL( upURL() ), 
+  connect( m_leftView.m_pView, SIGNAL( upURL() ), 
 	   this, SLOT( slotUp() ) );
-  connect( m_pView2, SIGNAL( backHistory() ), 
+  connect( m_leftView.m_pView, SIGNAL( backHistory() ), 
 	   this, SLOT( slotBack() ) );
-  connect( m_pView2, SIGNAL( forwardHistory() ), 
+  connect( m_leftView.m_pView, SIGNAL( forwardHistory() ), 
 	   this, SLOT( slotForward() ) );
-  connect( m_pView2, SIGNAL( gotFocus( KfmView* ) ), 
+  connect( m_leftView.m_pView, SIGNAL( gotFocus( KfmView* ) ), 
 	   this, SLOT( slotGotFocus( KfmView* ) ) );
 
   cerr << "########## Opening " << url << endl;
   
-  m_pView2->openURL( url );
-  m_pView2->setFocus();
-  m_currentView = m_pView2;
-  m_currentViewMode = m_Props->m_viewMode2;
+  m_leftView.m_pView->openURL( url );
+  m_leftView.m_pView->fetchFocus();
+  fillCurrentView( m_leftView );
 }
 
 void KfmGui::slotLargeIcons()
@@ -632,8 +649,8 @@ void KfmGui::slotLargeIcons()
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), false );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_currentViewMode = KfmView::HOR_ICONS;
-  m_currentView->setViewMode( m_currentViewMode );
+  m_Props->m_currentViewMode =  KfmView::HOR_ICONS;
+  m_currentView.m_pView->setViewMode( m_Props->viewMode() );
 }
 
 void KfmGui::slotSmallIcons()
@@ -643,8 +660,8 @@ void KfmGui::slotSmallIcons()
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), false );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_currentViewMode = KfmView::VERT_ICONS;
-  m_currentView->setViewMode( m_currentViewMode );
+  m_Props->m_currentViewMode = KfmView::VERT_ICONS;
+  m_currentView.m_pView->setViewMode( m_Props->viewMode() );
 }
 
 void KfmGui::slotTreeView()
@@ -654,8 +671,8 @@ void KfmGui::slotTreeView()
   m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), true );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
 
-  m_currentViewMode = KfmView::FINDER;
-  m_currentView->setViewMode( m_currentViewMode );
+  m_Props->m_currentViewMode = KfmView::FINDER;
+  m_currentView.m_pView->setViewMode( m_Props->viewMode() );
 }
 
 void KfmGui::slotHTMLView()
@@ -663,9 +680,9 @@ void KfmGui::slotHTMLView()
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 7 ), false );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 8 ), false );
   // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), false );
-  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), !m_pView->isHTMLAllowed() );
+  m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), !m_currentView.m_pView->isHTMLAllowed() );
 
-  m_pView->setHTMLAllowed( !m_pView->isHTMLAllowed() );
+  m_currentView.m_pView->setHTMLAllowed( !m_currentView.m_pView->isHTMLAllowed() );
 }
 
 void KfmGui::slotSaveGeometry()
@@ -674,6 +691,11 @@ void KfmGui::slotSaveGeometry()
   config->setGroup( "Settings" );
 
   // Update the values in m_Props, if necessary :
+  if ( m_currentView.m_pView == m_leftView.m_pView )
+    saveCurrentView( m_leftView );
+  else
+    saveCurrentView( m_rightView );
+
   m_Props->m_width = this->width();
   m_Props->m_height = this->height();
   m_Props->m_toolBarPos = m_pToolbar->barPos();
@@ -719,11 +741,11 @@ void KfmGui::setLocationBarURL( const char *_url )
 void KfmGui::setUpURL( const char *_url )
 {
   if ( _url == 0 )
-    m_strUpURL = "";
+    m_currentView.m_strUpURL = "";
   else
-    m_strUpURL = _url;
+    m_currentView.m_strUpURL = _url;
 
-  if ( m_strUpURL.isEmpty() )
+  if ( m_currentView.m_strUpURL.isEmpty() )
     m_pToolbar->setItemEnabled( TOOLBAR_UP_ID, false );
   else
     m_pToolbar->setItemEnabled( TOOLBAR_UP_ID, true );
@@ -731,19 +753,19 @@ void KfmGui::setUpURL( const char *_url )
 
 void KfmGui::slotStop()
 {
-  m_pView->stop();
+  m_currentView.m_pView->stop();
 }
 
 void KfmGui::slotNewWindow()
 {
-  QString url = m_pView->currentURL();
+  QString url = m_currentView.m_pView->currentURL();
   KfmGui* g = new KfmGui( url );
   g->show();
 }
 
 void KfmGui::slotOpenLocation()
 {
-  QString url = m_pView->currentURL();
+  QString url = m_currentView.m_pView->currentURL();
     
   KLineEditDlg l( i18n("Open Location:"), url, this, true );
   int x = l.exec();
@@ -797,7 +819,7 @@ void KfmGui::slotOpenLocation()
       return;
     }
 	
-    m_pView->openURL( url );
+    m_currentView.m_pView->openURL( url );
   }
 }
 
@@ -812,7 +834,7 @@ void KfmGui::slotShowCache()
   
   string f = file.data();
   K2URL::encode( f );
-  m_pView->openURL( f.c_str() );
+  m_currentView.m_pView->openURL( f.c_str() );
 }
 
 void KfmGui::slotShowHistory()
@@ -822,48 +844,48 @@ void KfmGui::slotShowHistory()
 
 void KfmGui::slotUp()
 {
-  assert( !m_strUpURL.isEmpty() );
-  m_currentView->openURL( m_strUpURL );
+  assert( !m_currentView.m_strUpURL.isEmpty() );
+  m_currentView.m_pView->openURL( m_currentView.m_strUpURL );
 }
 
 void KfmGui::slotHome()
 {
   QString tmp( QDir::homeDirPath().data() );
-  m_currentView->openURL( tmp );
+  m_currentView.m_pView->openURL( tmp );
 }
 
 void KfmGui::slotBack()
 {
-  assert( m_lstBack.size() != 0 );
+  assert( m_currentView.m_lstBack.size() != 0 );
   // m_lstForward.push_front( m_currentHistory );
-  History h = m_lstBack.back();
-  m_lstBack.pop_back();
+  History h = m_currentView.m_lstBack.back();
+  m_currentView.m_lstBack.pop_back();
   
-  if( m_lstBack.size() == 0 )
+  if( m_currentView.m_lstBack.size() == 0 )
     m_pToolbar->setItemEnabled( TOOLBAR_BACK_ID, false );
   // if( m_lstForward.size() != 0 )
   // m_pToolbar->setItemEnabled( TOOLBAR_FORWARD_ID, true );
 
   m_bBack = true;
   
-  m_currentView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
+  m_currentView.m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
 }
 
 void KfmGui::slotForward()
 {
-  assert( m_lstForward.size() != 0 );
+  assert( m_currentView.m_lstForward.size() != 0 );
   // m_lstBack.push_back( m_currentHistory() );
-  History h = m_lstForward.front();
-  m_lstForward.pop_front();
+  History h = m_currentView.m_lstForward.front();
+  m_currentView.m_lstForward.pop_front();
 
   // if( m_lstBack.size() != 0 )
   // m_pToolbar->setItemEnabled( TOOLBAR_BACK_ID, true );
-  if( m_lstForward.size() == 0 )
+  if( m_currentView.m_lstForward.size() == 0 )
     m_pToolbar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
   
   m_bForward = true;
   
-  m_currentView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
+  m_currentView.m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
 }
 
 void KfmGui::slotReload()
@@ -871,7 +893,7 @@ void KfmGui::slotReload()
   m_bForward = false;
   m_bBack = false;
 
-  m_currentView->reload();
+  m_currentView.m_pView->reload();
 }
 
 void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
@@ -885,7 +907,7 @@ void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
   {
     m_bBack = false;
     
-    m_lstForward.push_front( h );
+    m_currentView.m_lstForward.push_front( h );
     m_pToolbar->setItemEnabled( TOOLBAR_FORWARD_ID, true );  
     return;
   }
@@ -894,13 +916,13 @@ void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
   {
     m_bForward = false;
     
-    m_lstBack.push_back( h );
+    m_currentView.m_lstBack.push_back( h );
     m_pToolbar->setItemEnabled( TOOLBAR_BACK_ID, true );  
     return;
   }
   
-  m_lstForward.clear();
-  m_lstBack.push_back( h );
+  m_currentView.m_lstForward.clear();
+  m_currentView.m_lstBack.push_back( h );
 
   m_pToolbar->setItemEnabled( TOOLBAR_FORWARD_ID, false );  
   m_pToolbar->setItemEnabled( TOOLBAR_BACK_ID, true );
@@ -913,42 +935,45 @@ void KfmGui::slotConfigureKeys()
 
 void KfmGui::slotFocusLeftView()
 {
-  slotGotFocus( m_pView2 );
+  slotGotFocus( m_leftView.m_pView );
 }
 
 void KfmGui::slotFocusRightView()
 {
-  slotGotFocus( m_pView );
+  slotGotFocus( m_rightView.m_pView );
 }
 
 void KfmGui::slotGotFocus( KfmView* _view )
 {
-  if ( m_pView == _view )
+  if ( m_rightView.m_pView == _view )
   {
-    if ( m_pView2 )
-      m_pView2->clearFocus();
+    if ( m_leftView.m_pView && m_leftView.m_pView == m_currentView.m_pView )
+    {
+      saveCurrentView( m_leftView );
+      m_leftView.m_pView->clearFocus();
+    }
 
-    m_Props->m_viewMode = m_pView->viewMode();
-    m_pView->setFocus();
-    m_currentView = m_pView;
-    m_currentViewMode = m_Props->m_viewMode;
-
-    setViewModeMenu( m_currentViewMode );
-    setLocationBarURL( m_pView->currentURL() );
+    fillCurrentView( m_rightView );
   }
-  else if ( m_pView2 == _view )
+  else if ( m_leftView.m_pView == _view )
   {
-    if ( m_pView )
-      m_pView->clearFocus();
+    if ( m_rightView.m_pView && m_rightView.m_pView == m_currentView.m_pView )
+    {
+      saveCurrentView( m_rightView );
+      m_rightView.m_pView->clearFocus();
+    }
 
-    m_Props->m_viewMode2 = m_pView2->viewMode();
-    m_pView2->setFocus();
-    m_currentView = m_pView2;
-    m_currentViewMode = m_Props->m_viewMode2;
-
-    setViewModeMenu( m_currentViewMode );
-    setLocationBarURL( m_pView2->currentURL() );
+    fillCurrentView( m_leftView );
   }
+
+  m_currentView.m_pView->fetchFocus();
+
+  m_pToolbar->setItemEnabled( TOOLBAR_UP_ID, hasUpURL() );
+  m_pToolbar->setItemEnabled( TOOLBAR_BACK_ID, hasBackHistory() );
+  m_pToolbar->setItemEnabled( TOOLBAR_FORWARD_ID, hasForwardHistory() );
+
+  setViewModeMenu( m_Props->viewMode() );
+  setLocationBarURL( m_currentView.m_pView->currentURL() );
 }
 
 void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
@@ -971,8 +996,43 @@ void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
     m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), true );
     break;
   default:
-    //    assert( 0 );
-    break;
+    assert( 0 );
+  }
+}
+
+void KfmGui::fillCurrentView( View _view )
+{
+  m_currentView = _view;
+
+  if ( _view.m_pView == m_leftView.m_pView )
+  {
+    m_Props->m_currentViewMode = m_Props->leftViewMode();
+    m_Props->m_bCurrentShowDot = m_Props->isLeftShowingDotFiles();
+    m_Props->m_bCurrentImagePreview = m_Props->isLeftShowingImagePreview();
+  }
+  else if ( _view.m_pView == m_rightView.m_pView )
+  {
+    m_Props->m_currentViewMode = m_Props->rightViewMode();
+    m_Props->m_bCurrentShowDot = m_Props->isRightShowingDotFiles();
+    m_Props->m_bCurrentImagePreview = m_Props->isRightShowingImagePreview();
+  }
+}
+
+void KfmGui::saveCurrentView( View _view )
+{
+  if ( _view.m_pView == m_leftView.m_pView )
+  {
+    m_leftView = m_currentView;
+    m_Props->m_leftViewMode = m_Props->viewMode();
+    m_Props->m_bLeftShowDot = m_Props->isShowingDotFiles();
+    m_Props->m_bLeftImagePreview = m_Props->isShowingImagePreview();
+  }
+  else if ( _view.m_pView == m_rightView.m_pView )
+  {
+    m_rightView = m_currentView;
+    m_Props->m_rightViewMode = m_Props->viewMode();
+    m_Props->m_bRightShowDot = m_Props->isShowingDotFiles();
+    m_Props->m_bRightImagePreview = m_Props->isShowingImagePreview();
   }
 }
 

@@ -64,9 +64,9 @@ public:
 
   void createGUI( const char *_url );
   
-  bool hasUpURL() { return !m_strUpURL.isEmpty(); }
-  bool hasBackHistory() { return m_lstBack.size() > 0; }
-  bool hasForwardHistory() { return m_lstForward.size() > 0; }
+  bool hasUpURL() { return !m_currentView.m_strUpURL.isEmpty(); }
+  bool hasBackHistory() { return m_currentView.m_lstBack.size() > 0; }
+  bool hasForwardHistory() { return m_currentView.m_lstForward.size() > 0; }
 
 protected slots:
   /////////////////////////
@@ -123,6 +123,14 @@ protected:
     int m_iYOffset;
   };
   
+  struct View
+  {
+    KfmView* m_pView;
+    QString m_strUpURL;
+    list<History> m_lstBack;
+    list<History> m_lstForward;
+  };
+
   void initConfig();
   void initGui();
   void initPanner();
@@ -132,6 +140,12 @@ protected:
   void initView();
   
   void setViewModeMenu( KfmView::ViewMode _viewMode );
+
+  //fills the current view properties with the specified one
+  void fillCurrentView( View _view );
+
+  //fills the properties of the specified view with the current ones
+  void saveCurrentView( View _view );
 
   KMenuBar *m_pMenu;
   KStatusBar *m_pStatusBar;
@@ -154,10 +168,9 @@ protected:
    */
   KNewMenu *m_pMenuNew;
 
-  KfmView* m_pView;
-  KfmView* m_pView2;
-  KfmView* m_currentView;
-  KfmView::ViewMode m_currentViewMode;
+  View m_leftView;
+  View m_rightView;
+  View m_currentView;
   
   /**
    * Set to true while the constructor is running.
@@ -168,10 +181,6 @@ protected:
   unsigned int m_animatedLogoCounter;
   QTimer m_animatedLogoTimer;
 
-  QString m_strUpURL;
-
-  list<History> m_lstBack;
-  list<History> m_lstForward;
   bool m_bBack;
   bool m_bForward;
 

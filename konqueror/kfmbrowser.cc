@@ -203,6 +203,20 @@ void KfmBrowser::slotOnURL( const char *_url )
     m_pView->gui()->setStatusBarText( url.url().c_str() );
 }
 
+bool KfmBrowser::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
+{
+  emit gotFocus();
+
+  return KBrowser::mousePressedHook( _url, _target, _mouse, _isselected );
+}
+
+void KfmBrowser::setFocus()
+{
+  emit gotFocus();
+
+  KBrowser::setFocus();
+}
+
 #include "kfmicons.h"
 
 KHTMLEmbededWidget* KfmBrowser::newEmbededWidget( QWidget* _parent, const char *_name, const char *_src, const char *_type,

@@ -436,14 +436,11 @@ void KBrowser::popupMenu( QStrList& _urls, const QPoint& _global_point, bool _on
 {
 }
 
-bool KBrowser::mousePressedHook( const char *_url, const char *, QMouseEvent *_mouse, bool _isselected )
+bool KBrowser::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
 {
   m_bStartedRubberBand = false;
   m_strSelectedURL = "";
     
-  if ( !hasFocus() )
-    setFocus();
-
   // Select by drawing a rectangle
   if ( _url == 0L && _mouse->button() == LeftButton && isFileManagerMode() )
   {

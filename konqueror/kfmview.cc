@@ -65,28 +65,42 @@ KfmView::KfmView( KfmAbstractGui *_gui, QWidget *_parent ) : QWidgetStack( _pare
   //  setLineWidth( 2 );
 
   m_pFinder = new KfmFinder( this );
-  m_pFinder->setFocusProxy( this );
   addWidget( m_pFinder , FINDER);
-  connect( m_pFinder, SIGNAL( started( const char* ) ), this, SLOT( slotURLStarted( const char* ) ) );
-  connect( m_pFinder, SIGNAL( canceled() ), this, SLOT( slotURLCanceled() ) );
-  connect( m_pFinder, SIGNAL( completed() ), this, SLOT( slotURLCompleted() ) );
+  connect( m_pFinder, SIGNAL( started( const char* ) ), 
+	   this, SLOT( slotURLStarted( const char* ) ) );
+  connect( m_pFinder, SIGNAL( canceled() ), 
+	   this, SLOT( slotURLCanceled() ) );
+  connect( m_pFinder, SIGNAL( completed() ), 
+	   this, SLOT( slotURLCompleted() ) );
+  connect( m_pFinder, SIGNAL( gotFocus() ),
+	   this, SLOT( slotGotFocus() ) );
 
   m_pIconView = new KfmIconView( this, this );
-  m_pIconView->setFocusProxy( this );
   addWidget( m_pIconView , HOR_ICONS);
-  connect( m_pIconView, SIGNAL( started( const char* ) ), this, SLOT( slotURLStarted( const char* ) ) );
-  connect( m_pIconView, SIGNAL( canceled() ), this, SLOT( slotURLCanceled() ) );
-  connect( m_pIconView, SIGNAL( completed() ), this, SLOT( slotURLCompleted() ) );
+  connect( m_pIconView, SIGNAL( started( const char* ) ), 
+	   this, SLOT( slotURLStarted( const char* ) ) );
+  connect( m_pIconView, SIGNAL( canceled() ), 
+	   this, SLOT( slotURLCanceled() ) );
+  connect( m_pIconView, SIGNAL( completed() ), 
+	   this, SLOT( slotURLCompleted() ) );
+  connect( m_pIconView, SIGNAL( gotFocus() ),
+	   this, SLOT( slotGotFocus() ) );
 
   m_pBrowser = new KfmBrowser( this, this );
-  m_pBrowser->setFocusProxy( this );
   addWidget( m_pBrowser , HTML);
-  connect( m_pBrowser, SIGNAL( started( const char* ) ), this, SLOT( slotURLStarted( const char* ) ) );
-  connect( m_pBrowser, SIGNAL( canceled() ), this, SLOT( slotURLCanceled() ) );
-  connect( m_pBrowser, SIGNAL( completed() ), this, SLOT( slotURLCompleted() ) );
+  connect( m_pBrowser, SIGNAL( started( const char* ) ), 
+	   this, SLOT( slotURLStarted( const char* ) ) );
+  connect( m_pBrowser, SIGNAL( canceled() ), 
+	   this, SLOT( slotURLCanceled() ) );
+  connect( m_pBrowser, SIGNAL( completed() ), 
+	   this, SLOT( slotURLCompleted() ) );
+  connect( m_pBrowser, SIGNAL( gotFocus() ),
+	   this, SLOT( slotGotFocus() ) );
 
-  connect( kdirwatch, SIGNAL( dirty( const char* ) ), this, SLOT( slotDirectoryDirty( const char* ) ) );
-  connect( kdirwatch, SIGNAL( deleted( const char* ) ), this, SLOT( slotDirectoryDeleted( const char* ) ) );
+  connect( kdirwatch, SIGNAL( dirty( const char* ) ), 
+	   this, SLOT( slotDirectoryDirty( const char* ) ) );
+  connect( kdirwatch, SIGNAL( deleted( const char* ) ), 
+	   this, SLOT( slotDirectoryDeleted( const char* ) ) );
 
   //  connect( m_pGui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
@@ -119,7 +133,7 @@ void KfmView::initConfig()
   setViewMode( m_pGui->props()->viewMode(), false );
 }
 
-void KfmView::setFocus()
+void KfmView::fetchFocus()
 {
   switch( m_viewMode )
   {
@@ -137,7 +151,7 @@ void KfmView::setFocus()
     break;
   }
 
-  QFrame::setFocus();
+  //  QWidgetStack::setFocus();
 }
 
 void KfmView::setViewMode( ViewMode _mode, bool _open_url )
@@ -156,61 +170,45 @@ void KfmView::setViewMode( ViewMode _mode, bool _open_url )
   
   m_viewMode = _mode;
   
+  if ( oldview != HTML && m_viewMode != HTML )
+    m_oldViewMode = oldview;
+
   switch( m_viewMode )
   {
   case FINDER:
-    // setFocusProxy( m_pFinder );
-    //    m_pFinder->setGeometry( 0, 0, width(), height() );
+    //    setFocusProxy( m_pFinder );
     if ( !url.isEmpty() && _open_url )
       m_pFinder->openURL( url );
     raiseWidget( m_pFinder );
-    //    m_pFinder->raise();
     m_pFinder->setFocus();
     break;
   case HOR_ICONS:
-    // setFocusProxy( m_pIconView );
-    //    m_pIconView->setGeometry( 0, 0, width(), height() );
+    //    setFocusProxy( m_pIconView );
     m_pIconView->setDisplayMode( KIconContainer::Horizontal );
     if ( !url.isEmpty() && oldview != VERT_ICONS && _open_url )
       m_pIconView->openURL( url );
     raiseWidget( m_pIconView );
-    //    m_pIconView->raise();
     m_pIconView->setFocus();
     break;
   case VERT_ICONS:
-    // setFocusProxy( m_pIconView );
-    //    m_pIconView->setGeometry( 0, 0, width(), height() );
+    //    setFocusProxy( m_pIconView );
     m_pIconView->setDisplayMode( KIconContainer::Vertical );
     if ( !url.isEmpty() && oldview != HOR_ICONS && _open_url )
       m_pIconView->openURL( url );
     raiseWidget( m_pIconView );
-    //    m_pIconView->raise();
     m_pIconView->setFocus();
     break;
   case HTML:
-    // setFocusProxy( m_pBrowser );
-    //    m_pBrowser->setGeometry( 0, 0, width(), height() );
+    //    setFocusProxy( m_pBrowser );
     // m_pBrowser->openURL( "/usr/lib/qt/html/classes.html" );
     if ( !url.isEmpty() && _open_url )
       m_pBrowser->openURL( "http://localhost/doc" );
     raiseWidget( m_pBrowser );
-    //    m_pBrowser->raise();
     m_pBrowser->setFocus();
     break;
   default:
     assert( 0 );
   }
-}
-
-void KfmView::resizeEvent( QResizeEvent * )
-{
-  setChildGeometries();
-//   if ( m_pFinder && m_viewMode == FINDER )
-//     m_pFinder->setGeometry( 0, 0, width(), height() );
-//   else if ( m_pIconView && ( m_viewMode == HOR_ICONS || m_viewMode == VERT_ICONS ) )
-//     m_pIconView->setGeometry( 0, 0, width(), height() );
-//   else if ( m_pBrowser && m_viewMode == HTML )
-//     m_pBrowser->setGeometry( 0, 0, width(), height() );
 }
 
 void KfmView::openURL( const char *_url, mode_t _mode, bool _is_local_file,
@@ -911,17 +909,17 @@ void KfmView::reload()
   }
 }
 
-void KfmView::focusInEvent( QFocusEvent* _event )
+void KfmView::slotGotFocus()
 {
   if ( !m_hasFocus )
   {
     m_hasFocus = true;
     setFrameStyle( QFrame::Panel | QFrame::Plain );
+    // setFrameStyle should call repaint but it doesn´t !
+    repaint();
     
     emit gotFocus( this );
   }
-    
-  QWidgetStack::focusInEvent( _event );
 }
 
 void KfmView::clearFocus()

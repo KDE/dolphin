@@ -70,12 +70,24 @@ public:
   //////// The read-only access methods. Order is to be kept. See below. /////
 
   //// First group : "Settings" for global props, "URL properties" in local props
-  
-  KfmView::ViewMode viewMode() { return m_viewMode; }  
-  KfmView::ViewMode viewMode2() { return m_viewMode2; }
 
-  bool isShowingDotFiles() { return m_bShowDot; } // what about m_ShowDot2 ?
-  bool isShowingImagePreview() { return m_bImagePreview; } // same question ?
+  //needed because view´s don´t knothing about left/right
+  KfmView::ViewMode viewMode() { return m_currentViewMode; }
+
+  KfmView::ViewMode leftViewMode() { return m_leftViewMode; }  
+  KfmView::ViewMode rightViewMode() { return m_rightViewMode; }
+
+  //needed because view´s don´t knothing about left/right
+  bool isShowingDotFiles() { return m_bCurrentShowDot; }
+
+  bool isLeftShowingDotFiles() { return m_bLeftShowDot; }
+  bool isRightShowingDotFiles() { return m_bRightShowDot; }
+
+  //needed because view´s don´t knothing about left/right
+  bool isShowingImagePreview() { return m_bCurrentImagePreview; }
+  bool isLeftShowingImagePreview() { return m_bLeftImagePreview; }
+  bool isRightShowingImagePreview() { return m_bRightImagePreview; }
+
   bool isShowingDirTree() { return m_bDirTree; }
   bool isSplitView() { return m_bSplitView; }
 
@@ -114,13 +126,17 @@ protected:
   
   // The members. Same order as the retrieval methods above. Keep order !
   
-  KfmView::ViewMode m_viewMode;
-  KfmView::ViewMode m_viewMode2;
+  KfmView::ViewMode m_currentViewMode;
+  KfmView::ViewMode m_leftViewMode;
+  KfmView::ViewMode m_rightViewMode;
 
-  bool m_bShowDot;
-  bool m_bShowDot2;
-  bool m_bImagePreview;
-  bool m_bImagePreview2;
+  bool m_bCurrentShowDot;
+  bool m_bLeftShowDot;
+  bool m_bRightShowDot;
+
+  bool m_bCurrentImagePreview;
+  bool m_bLeftImagePreview;
+  bool m_bRightImagePreview;
 
   bool m_bDirTree;
   bool m_bSplitView;

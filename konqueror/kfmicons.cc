@@ -526,8 +526,8 @@ void KfmIconView::slotOnItem( KIconContainerItem *_item )
   text2 = text;
   text2.detach();
 
-  long size;
-  mode_t mode;
+  long size   = 0;
+  mode_t mode = 0;
 
   UDSEntry::iterator it = entry.begin();
   for( ; it != entry.end(); it++ )
@@ -583,6 +583,13 @@ void KfmIconView::slotOnItem( KIconContainerItem *_item )
   }
   else
     m_pView->gui()->setStatusBarText( url.url().c_str() );
+}
+
+void KfmIconView::focusInEvent( QFocusEvent* _event )
+{
+  emit gotFocus();
+
+  KIconContainer::focusInEvent( _event );
 }
 
 KfmIconViewItem::KfmIconViewItem( KfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name )
@@ -679,7 +686,7 @@ bool KfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
 
 void KfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
 {
-  mode_t mode;
+  mode_t mode = 0;
 
   UDSEntry::iterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )

@@ -26,18 +26,34 @@ KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
 KfmGuiProps::KfmGuiProps( KConfig * config )
 {
   QString entry = "LargeIcons"; // default
-  m_viewMode = KfmView::HOR_ICONS;
-  entry = config->readEntry("ViewMode", entry);
+  m_leftViewMode = KfmView::HOR_ICONS;
+  entry = config->readEntry("LeftViewMode", entry);
   if (entry == "TreeView")
-    m_viewMode = KfmView::FINDER;
+    m_leftViewMode = KfmView::FINDER;
   if (entry == "SmallIcons")
-    m_viewMode = KfmView::VERT_ICONS;
+    m_leftViewMode = KfmView::VERT_ICONS;
   if (entry == "HTMLView")
-    m_viewMode = KfmView::HTML;
-  m_viewMode2 = m_viewMode;
+    m_leftViewMode = KfmView::HTML;
+
+  m_rightViewMode = KfmView::HOR_ICONS;
+  entry = config->readEntry("RightViewMode", entry);
+  if (entry == "TreeView")
+    m_rightViewMode = KfmView::FINDER;
+  if (entry == "SmallIcons")
+    m_rightViewMode = KfmView::VERT_ICONS;
+  if (entry == "HTMLView")
+    m_rightViewMode = KfmView::HTML;
   
-  m_bShowDot2 = m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
-  m_bImagePreview2 = m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
+  m_currentViewMode = m_rightViewMode;
+
+  m_bLeftShowDot = config->readBoolEntry( "LeftShowDotFiles", false );
+  m_bRightShowDot = config->readBoolEntry( "RightShowDotFiles", false );
+  m_bCurrentShowDot = m_bRightShowDot;
+
+  m_bLeftImagePreview = config->readBoolEntry( "LeftImagePreview", false );
+  m_bRightImagePreview = config->readBoolEntry( "RightImagePreview", false );
+  m_bCurrentImagePreview = m_bRightImagePreview;
+
   m_bDirTree = config->readBoolEntry( "DirTree", false );
   m_bSplitView = config->readBoolEntry( "SplitView", false );
   m_bCache = false; // What is it ???
@@ -149,7 +165,7 @@ void KfmGuiProps::saveProps( KConfig * config )
   config->writeEntry( "SplitView", m_bSplitView );
 
   QString entry;
-  switch ( m_viewMode )
+  switch ( m_leftViewMode )
     {
     case KfmView::FINDER:
       entry = "TreeView";
@@ -164,10 +180,30 @@ void KfmGuiProps::saveProps( KConfig * config )
       assert( 0 );
       break;
     }
-  config->writeEntry( "ViewMode", entry);
+  config->writeEntry( "LeftViewMode", entry);
 
-  config->writeEntry( "ShowDotFiles", m_bShowDot );
-  config->writeEntry( "ImagePreview", m_bImagePreview );
+  switch ( m_rightViewMode )
+    {
+    case KfmView::FINDER:
+      entry = "TreeView";
+      break;
+    case KfmView::VERT_ICONS:
+      entry = "SmallIcons";
+      break;
+    case KfmView::HOR_ICONS:
+      entry = "LargeIcons";
+      break;
+    default:
+      assert( 0 );
+      break;
+    }
+  config->writeEntry( "RightViewMode", entry);
+
+  config->writeEntry( "RightShowDotFiles", m_bRightShowDot );
+  config->writeEntry( "LeftShowDotFiles", m_bLeftShowDot );
+
+  config->writeEntry( "RightImagePreview", m_bRightImagePreview );
+  config->writeEntry( "LeftImagePreview", m_bLeftImagePreview );
   //  config->writeEntry( "AllowHTML", m_pView->isHTMLAllowed() ); FIXME
   
   if ( !m_bShowToolBar )

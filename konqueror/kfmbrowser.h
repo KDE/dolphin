@@ -51,6 +51,11 @@ public:
   KfmBrowser( QWidget *_parent, KfmView *_view, const char *_name = 0L, KBrowser *_parent_browser = 0L );
   virtual ~KfmBrowser();
 
+  virtual void setFocus();
+
+signals:
+  void gotFocus();
+
 public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
 
@@ -61,6 +66,7 @@ protected slots:
 protected:
 
   virtual void initConfig();
+
   /**
    * For internal use only
    *
@@ -68,6 +74,9 @@ protected:
    * of KfmBrowser. These instances are used as frames.
    */
   virtual KBrowser* createFrame( QWidget *_parent, const char *_name );
+
+  virtual bool mousePressedHook( const char* _url, const char *_target, QMouseEvent *_ev,
+				 bool _isselected);
 
   virtual KHTMLEmbededWidget* newEmbededWidget( QWidget* _parent, const char *_name,
 						const char *_src, const char *_type,

@@ -89,7 +89,7 @@ public:
   
   virtual QString workingURL() { return QString( m_strWorkingURL.c_str() ); }
 
-  virtual void setFocus();
+  virtual void fetchFocus();
   virtual bool hasFocus() { return m_hasFocus; }
 
   virtual void reload();
@@ -147,9 +147,10 @@ protected slots:
   virtual void slotBack() { emit backHistory(); }
   virtual void slotForward() { emit forwardHistory(); }
   
+  virtual void slotGotFocus();
+  
 protected:
   virtual void initConfig();
-  virtual void resizeEvent( QResizeEvent *_ev );
 
   //////////////////////
   // Called from @ref KfmRun
@@ -161,13 +162,12 @@ protected:
   virtual void makeHistory();
 
   QString findIndexFile( const char *_path );
-  
-  virtual void focusInEvent( QFocusEvent* _event );
 
   KfmFinder* m_pFinder;
   KfmIconView* m_pIconView;
   KfmBrowser* m_pBrowser;
   ViewMode m_viewMode;
+  ViewMode m_oldViewMode;
 
   KfmAbstractGui* m_pGui;
 
