@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include <qfile.h>
-
+#include <qfileinfo.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>
 
@@ -54,7 +54,7 @@ void KQuery::slotCanceled( KIO::Job * _job )
 
   emit result(KIO::ERR_USER_CANCELED);
 }
-
+#include <kdebug.h>
 void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 {
   KFileItem * file = 0;
@@ -101,7 +101,6 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
        continue;
     if ( (!m_groupname.isEmpty()) && (m_groupname != file->group()) )
        continue;
-
     // file type
     switch (m_filetype)
       {
@@ -180,7 +179,8 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 
        // FIXME: doesn't work with non local files
        QString filename = file->url().path();
-       if(filename.startsWith("/dev/"))
+       QFileInfo fileInfo( filename );
+       if(filename.startsWith("/dev/") || S_ISFIFO( file->mode() ))
           continue;
        QFile qf(filename);
        qf.open(IO_ReadOnly);
