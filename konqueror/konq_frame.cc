@@ -28,6 +28,7 @@
 #include <qkeysequence.h>
 
 #include <kapplication.h>
+#include <kipc.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <kprogress.h>
@@ -95,18 +96,25 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     m_progressBar->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
-    // Set height based on font metrics, so that all items have the same height
-    // TODO: separate method, to call it when the app's font changes
+    //kapp->addKipcEventMask(KIPC::FontChanged);
+    connect(kapp, SIGNAL(kdisplayFontChanged()), this, SLOT(slotFontChanged()));
+
+    adjustHeight();
+}
+
+KonqFrameStatusBar::~KonqFrameStatusBar()
+{
+}
+
+void KonqFrameStatusBar::adjustHeight()
+{
     int h = fontMetrics().height();
     if ( h < DEFAULT_HEADER_HEIGHT ) h = DEFAULT_HEADER_HEIGHT;
     m_led->setFixedHeight( h );
     m_progressBar->setFixedHeight( h );
     // This one is important. Otherwise richtext messages make it grow in height.
     m_pStatusLabel->setFixedHeight( h + 2 );
-}
 
-KonqFrameStatusBar::~KonqFrameStatusBar()
-{
 }
 
 void KonqFrameStatusBar::resizeEvent( QResizeEvent* ev )
@@ -193,6 +201,11 @@ void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 void KonqFrameStatusBar::slotClear()
 {
     slotDisplayStatusText( m_savedMessage );
+}
+
+void KonqFrameStatusBar::slotFontChanged()
+{
+    adjustHeight();
 }
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
@@ -367,7 +380,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 void KonqFrame::attachInternal()
 {
    //kdDebug(1202) << "KonqFrame::attachInternal()" << endl;
-   if (m_pLayout) delete m_pLayout;
+   delete m_pLayout;
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
@@ -501,10 +514,8 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
 KonqFrameContainer::~KonqFrameContainer()
 {
     //kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer() " << this << " - " << className() << endl;
-		if ( m_pFirstChild )
-			delete m_pFirstChild;
-		if ( m_pSecondChild )
-			delete m_pSecondChild;
+	delete m_pFirstChild;
+	delete m_pSecondChild;
 }
 
 void KonqFrameContainer::listViews( ChildViewList *viewList )
