@@ -875,11 +875,6 @@ void KonqKfmIconView::slotProcessMimeIcons()
 {
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
 
-  // We don't need to be notified on scrolls or resizes anymore. (Rikkus)
-  disconnect(
-    m_pIconView,  SIGNAL(viewportAdjusted()),
-    this,         SLOT(slotProcessMimeIcons()));
-
 	if ( m_bNeedAlign )
 	    m_pIconView->arrangeItemsInGrid();
 	return;
