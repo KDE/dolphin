@@ -319,7 +319,7 @@ void KonqDirPart::deleteItem( KFileItem * fileItem )
 void KonqDirPart::emitTotalCount()
 {
     QString summary =
-        KIO::itemsSummaryString64(m_lFileCount + m_lDirCount,
+        KIO::itemsSummaryString(m_lFileCount + m_lDirCount,
                                   m_lFileCount,
                                   m_lDirCount,
                                   m_lDirSize,
@@ -364,7 +364,7 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
                 fileCount++;
             }
 
-        emit setStatusBarText( KIO::itemsSummaryString64(fileCount + dirCount,
+        emit setStatusBarText( KIO::itemsSummaryString(fileCount + dirCount,
                                                          fileCount,
                                                          dirCount,
                                                          fileSizeSum,
