@@ -37,6 +37,7 @@
 class KNewMenu;
 class KService;
 class KonqPopupMenuPlugin;
+class KBookmarkManager;
 /**
  * This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
