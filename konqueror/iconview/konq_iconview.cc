@@ -1076,7 +1076,8 @@ void KonqKfmIconView::setupSortKeys()
             it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + '~' + it->text().lower() );
         break;
     case Date:
-        //Sorts by time of modification
+    {
+        //Sorts by time of modification (#52750)
         QDateTime dayt;
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
         {
@@ -1084,6 +1085,7 @@ void KonqKfmIconView::setupSortKeys()
             it->setKey(dayt.toString("yyyyMMddhhmmss"));
         }
         break;
+    }
     }
 }
 
