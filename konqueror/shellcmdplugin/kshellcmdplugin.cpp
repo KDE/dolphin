@@ -45,7 +45,8 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       KMessageBox::sorry(part->widget(),i18n("Executing shell commands works only on local directories."));
       return;
    }
-   KLineEditDlg l( i18n("Execute shell command:"), /*TODO part->currentItem()?part->currentItem()->text(0)*/"", part->widget() );
+   KLineEditDlg l(i18n("Execute shell command:"),part->currentItem(), part->widget() );
+   //KLineEditDlg l( i18n("Execute shell command:"), m_pListView->currentItem()?m_pListView->url().path()+QString("/")+m_pListView->currentItem()->text(0):"", m_pListView );
    if ( l.exec() )
    {
       QString chDir="cd ";
