@@ -35,6 +35,9 @@
 #include <kprocess.h>
 #include <kstandarddirs.h>
 #include <kopenwith.h>
+#include <kurlrequesterdlg.h>
+#include <kmessagebox.h>
+#include <kfiledialog.h>
 #include <kdebug.h>
 #include <dcopclient.h>
 
@@ -97,6 +100,10 @@ int main( int argc, char **argv )
                 "            #   'src' may be a list of URLs.\n").local8Bit());
     //printf(i18n("            #   'dest' may be \"trash:/\" to move the files\n"
     //            "            #   in the trash bin.\n\n").local8Bit());
+    printf(i18n("  kfmclient download ['src']\n"
+                "            # Copies the URL 'src' to a user specified location'.\n"
+                "            #   'src' may be a list of URLs, if not present then\n"
+                "            #   a url will be requested for.\n\n").local8Bit());
     printf(i18n("  kfmclient copy 'src' 'dest'\n"
                 "            # Copies the URL 'src' to 'dest'.\n"
                 "            #   'src' may be a list of URLs.\n\n").local8Bit());
@@ -349,6 +356,37 @@ bool clientApp::doIt()
       srcLst.append( args->url(i) );
 
     KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
+    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+    exec();
+    return m_ok;
+  }
+  else if ( command == "download" )
+  {
+    checkArgumentCount(argc, 0, 0);
+    KURL::List srcLst;
+    if (argc == 1) {
+       while(true) {
+          KURL src = KURLRequesterDlg::getURL();
+          if (!src.isEmpty()) {
+             if (src.isMalformed()) {
+                KMessageBox::error(0, i18n("Sorry, unable to download from an invalid url."));
+                continue;
+             }
+             srcLst.append(src);
+          }
+          break;
+       }
+    } else {
+       for ( int i = 1; i <= argc - 1; i++ )
+          srcLst.append( args->url(i) );
+    }
+    if (srcLst.count() == 0)
+       return m_ok;
+    QString dst = 
+       KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).filename()) );
+    if (dst == QString::null)
+       return m_ok; // AK - really okay?
+    KIO::Job * job = KIO::copy( srcLst, dst );
     connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
     exec();
     return m_ok;
