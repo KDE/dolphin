@@ -93,9 +93,14 @@ public:
 
   void setBgColor( const QColor & color );
   const QColor& bgColor(QWidget * widget) const;
+  void setTextColor( const QColor & color );
+  const QColor& textColor(QWidget * widget) const;
   void setBgPixmapFile( const QString & file );
   const QString& bgPixmapFile() const { return m_bgPixmapFile; }
   const QPixmap& bgPixmap() const { return m_bgPixmap; } // A helper for the above
+
+  // Applies bgcolor, textcolor, pixmap to the @p widget
+  void applyColors( QWidget * widget ) const;
 
 protected:
 
@@ -107,6 +112,7 @@ protected:
   int m_iItemTextPos;
   bool m_bShowDot;
   bool m_bImagePreview;
+  QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;
   QPixmap m_bgPixmap;

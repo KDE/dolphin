@@ -77,6 +77,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
 
+  m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
   m_bgPixmapFile = config->readEntry( "BgImage", "" );
   loadPixmap();
@@ -119,6 +120,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     m_bImagePreview = m_defaultProps->isShowingImagePreview();
+    m_textColor = m_defaultProps->m_textColor;
     m_bgColor = m_defaultProps->m_bgColor;
     m_bgPixmap = m_defaultProps->bgPixmap();
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
@@ -135,6 +137,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     m_bImagePreview = config->readBoolEntry( "ImagePreview", m_bImagePreview );
 
+    m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", "" );
     loadPixmap();
@@ -239,6 +242,29 @@ const QColor & KonqPropsView::bgColor( QWidget * widget ) const
     return m_bgColor;
 }
 
+void KonqPropsView::setTextColor( const QColor & color )
+{
+    m_textColor = color;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+    {
+        m_defaultProps->setTextColor( color );
+    }
+    else if (currentConfig())
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "TextColor", m_textColor );
+        currentConfig()->sync();
+    }
+}
+
+const QColor & KonqPropsView::textColor( QWidget * widget ) const
+{
+  if ( !m_textColor.isValid() )
+    return widget->colorGroup().text();
+  else
+    return m_textColor;
+}
+
 void KonqPropsView::setBgPixmapFile( const QString & file )
 {
     m_bgPixmapFile = file;
@@ -267,3 +293,19 @@ void KonqPropsView::loadPixmap()
   }
 }
 
+void KonqPropsView::applyColors(QWidget * widget) const
+{
+   if ( m_bgPixmapFile.isEmpty() )
+     widget->setBackgroundColor( bgColor(widget) );
+   else
+     widget->setBackgroundPixmap( m_bgPixmap );
+
+   QColorGroup a = widget->palette().active();
+   QColorGroup d = widget->palette().disabled(); // is this one ever used ?
+   QColorGroup i = widget->palette().inactive(); // is this one ever used ?
+   a.setColor( QColorGroup::Text, textColor(widget) );
+   d.setColor( QColorGroup::Text, textColor(widget) );
+   i.setColor( QColorGroup::Text, textColor(widget) );
+
+   widget->setPalette( QPalette( a, d, i ) );
+}
