@@ -1258,8 +1258,10 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // FIXME: workaround against Qt limitation: since we can't set the pixmap for
   // the edit-field, we had to add a dummy item into the combobox with the
   // right pixmap. Now we got to remove it.
-  if ( m_qComboHack )
+  if ( m_qComboHack ) {
       m_combo->removeItem( m_combo->count() -1 );
+      m_qComboHack = false;
+  }
 
 
   // Register this URL as a working one, in the completion object and the combo
@@ -1975,7 +1977,7 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
 
     if( completion.isNull() ) { // try the history KCompletion object
 	s_pCompletion->setCompletionMode( m_combo->completionMode() );
-	completion = prev ? s_pCompletion->previousMatch() : 
+	completion = prev ? s_pCompletion->previousMatch() :
 	                    s_pCompletion->nextMatch();
     }
     if ( completion.isEmpty() || completion == m_combo->currentText() )
