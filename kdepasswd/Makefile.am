@@ -10,12 +10,7 @@ kdepasswd_LDADD   = $(LIB_KDEUI) -lkdesu
 kdepasswd_METASOURCES =  AUTO
 noinst_HEADERS = passwd.h passwddlg.h
 
-desktopdir = $(kde_appsdir)/Settingsmenu
-desktop_DATA = kdepasswd.desktop
-
-install-data-local: uninstall.desktop
-	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Utilities
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Utilities/kdepasswd.desktop
+xdg_apps_DATA = kdepasswd.desktop
 
 ## Messages
 messages:

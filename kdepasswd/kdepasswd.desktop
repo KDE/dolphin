@@ -46,4 +46,4 @@ Type=Application
 Terminal=0
 X-KDE-StartupNotify=true
 X-DCOP-ServiceType=Multi
-Categories=Qt;KDE;Utility
+Categories=Qt;KDE;Settings
