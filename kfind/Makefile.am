@@ -2,6 +2,7 @@
 METASOURCES = AUTO
 EXTRA_DIST = DESCRIPTION
 SUBDIRS = pics
+KDE_ICON = kfind
 # set the include path for X, qt and KDE
 INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
 
