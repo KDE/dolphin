@@ -3235,8 +3235,8 @@ void KonqMainWindow::initActions()
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::reverseLayout() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::reverseLayout() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 
-  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , QApplication::reverseLayout() ? CTRL+SHIFT+Key_Right : CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
-  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , QApplication::reverseLayout() ? CTRL+SHIFT+Key_Left : CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
+  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
+  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
 
 #ifndef NDEBUG
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
@@ -3502,8 +3502,10 @@ void KonqMainWindow::updateViewActions()
         m_paActivatePrevTab->setEnabled( state );
 
         QPtrList<KonqFrameBase>* childFrameList = tabContainer->childFrameList();
-        m_paMoveTabLeft->setEnabled( currentView() ? currentView()->frame()!=childFrameList->first() : false );
-        m_paMoveTabRight->setEnabled( currentView() ? currentView()->frame()!=childFrameList->last() : false );
+        m_paMoveTabLeft->setEnabled( currentView() ? currentView()->frame()!=
+	    (QApplication::reverseLayout() ? childFrameList->last() : childFrameList->first()) : false );
+        m_paMoveTabRight->setEnabled( currentView() ? currentView()->frame()!=
+	    (QApplication::reverseLayout() ? childFrameList->first() : childFrameList->last()) : false );
     }
     else
     {
