@@ -188,9 +188,7 @@ class ListViewBrowserExtension : public KonqDirPartBrowserExtension
       void paste();
       void pasteTo( const KURL & );
       void rename();
-      void trash() { KonqOperations::del(m_listView->listViewWidget(),
-                                         KonqOperations::TRASH,
-                                         m_listView->listViewWidget()->selectedUrls()); }
+      void trash();
       void del() { KonqOperations::del(m_listView->listViewWidget(),
                                        KonqOperations::DEL,
                                        m_listView->listViewWidget()->selectedUrls()); }

@@ -23,6 +23,7 @@
 #include "konq_infolistviewwidget.h"
 
 #include <kaction.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kinputdialog.h>
@@ -163,6 +164,20 @@ void ListViewBrowserExtension::rename()
   QListViewItem* item = m_listView->listViewWidget()->currentItem();
   Q_ASSERT ( item );
   m_listView->listViewWidget()->rename( item, 0 );
+}
+
+void ListViewBrowserExtension::trash()
+{
+  if (sender() && sender()->inherits( "KAction" ) && 
+   (static_cast<KAction*>(const_cast<QObject*>(sender()))->activationReason()==KAction::PopupMenuActivation) &&
+   (KApplication::keyboardMouseState() & Qt::ShiftButton))
+     KonqOperations::del(m_listView->listViewWidget(),
+                                         KonqOperations::DEL,
+                                         m_listView->listViewWidget()->selectedUrls());
+  else
+     KonqOperations::del(m_listView->listViewWidget(),
+                                         KonqOperations::TRASH,
+                                         m_listView->listViewWidget()->selectedUrls());
 }
 
 void ListViewBrowserExtension::reparseConfiguration()

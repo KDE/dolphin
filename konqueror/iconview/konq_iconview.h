@@ -251,9 +251,7 @@ public slots:
   void paste() { m_iconView->iconViewWidget()->pasteSelection(); }
   void pasteTo( const KURL &u ) { m_iconView->iconViewWidget()->paste( u ); }
 
-  void trash() { KonqOperations::del(m_iconView->iconViewWidget(),
-                                     KonqOperations::TRASH,
-                                     m_iconView->iconViewWidget()->selectedUrls()); }
+  void trash();
   void del() { KonqOperations::del(m_iconView->iconViewWidget(),
                                    KonqOperations::DEL,
                                    m_iconView->iconViewWidget()->selectedUrls()); }

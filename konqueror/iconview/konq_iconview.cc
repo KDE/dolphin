@@ -28,6 +28,7 @@
 #include <qfile.h>
 
 #include <kaction.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobalsettings.h>
@@ -136,6 +137,20 @@ void IconViewBrowserExtension::reparseConfiguration()
     // but settings is easy :
     if ( m_iconView->iconViewWidget()->initConfig( false ) )
         m_iconView->iconViewWidget()->arrangeItemsInGrid(); // called if the font changed.
+}
+
+void IconViewBrowserExtension::trash()
+{
+   if (sender() && sender()->inherits( "KAction" ) && 
+     (static_cast<KAction*>(const_cast<QObject*>(sender()))->activationReason()==KAction::PopupMenuActivation) &&
+     (KApplication::keyboardMouseState() & Qt::ShiftButton))
+       KonqOperations::del(m_iconView->iconViewWidget(),
+                                     KonqOperations::DEL,
+                                     m_iconView->iconViewWidget()->selectedUrls());
+   else
+       KonqOperations::del(m_iconView->iconViewWidget(),
+                                     KonqOperations::TRASH,
+                                     m_iconView->iconViewWidget()->selectedUrls());
 }
 
 void IconViewBrowserExtension::properties()
