@@ -120,6 +120,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
 
+  m_MouseMiddleClickClosesTab = config->readBoolEntry( "MouseMiddleClickClosesTab", false );
   m_maxLength = config->readNumEntry("MaximumTabLength", 30);
   m_minLength = config->readNumEntry("MinimumTabLength", 3);
   if (m_minLength>m_maxLength)
@@ -511,6 +512,14 @@ void KonqFrameTabs::slotMouseMiddleClick()
 
 void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
 {
+  if ( m_MouseMiddleClickClosesTab ) {
+    if ( m_pChildFrameList->count() > 1 ) {
+      // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy and it could crash one day, but I haven't checked setWorkingTab so I don't know if it can handle nulls.
+      m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+      emit ( removeTabPopup() );
+    }
+  }
+  else {
   QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
   KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() ) );
   if ( !filteredURL.isEmpty() ) {
@@ -518,6 +527,7 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
     if (frame) {
       m_pViewManager->mainWindow()->openURL( frame->activeChildView(), filteredURL );
     }
+  }
   }
 }
 

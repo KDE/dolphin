@@ -127,6 +127,7 @@ private:
   QToolButton* m_leftWidget;
   bool m_permanentCloseButtons;
   bool m_alwaysTabBar;
+  bool m_MouseMiddleClickClosesTab;
 };
 
 #endif
