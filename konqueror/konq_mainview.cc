@@ -901,7 +901,7 @@ void KonqMainView::slotCut()
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
   stream << (int)true;
-  kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(bool)", data );
+  kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(int)", data );
   s_bMoveSelection = true;
 }
 
@@ -914,7 +914,7 @@ void KonqMainView::slotCopy()
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
   stream << (int)false;
-  kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(bool)", data );
+  kapp->dcopClient()->send( "*", "KonquerorIface", "setMoveSelection(int)", data );
   s_bMoveSelection = false;
 }
 
