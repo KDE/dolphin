@@ -170,7 +170,7 @@ void KEBTopLevel::resetActions()
    for (; it != end; ++it) {
       KAction *act = *it;
       // do not touch the configureblah actions
-      if ( strncmp(act->name(), "configure", 9) )
+      if ( strncmp(act->name(), "options_configure", 9) )
          act->setEnabled(false);
    }
 
