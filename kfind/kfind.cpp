@@ -125,7 +125,7 @@ void Kfind::stopSearch() {
   tabWidget->endSearch();
 
   if(findProcess->isRunning()) {
-    findProcess->kill();
+    findProcess->kill(SIGINT); // Default signal doesn't always work
     hasBeenKilled = true;
   }
   
