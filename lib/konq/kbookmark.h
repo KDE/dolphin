@@ -39,8 +39,11 @@ public:
 
     /**
      * Text shown for the bookmark
+     * If bigger than @p maxlen, the text is shortened by
+     * replacing middle characters with "..." (see KStringHandler::csqueeze)
+     * You should not have to change maxlen - this is mainly for keditbookmarks.
      */
-    QString text() const;
+    QString text( uint maxlen = 40 ) const;
     /**
      * URL contained by the bookmark
      */

@@ -175,7 +175,10 @@ void KBookmarkManager::slotEditBookmarks()
 
 KBookmark KBookmarkGroup::first() const
 {
-    return KBookmark(element.firstChild().toElement());
+    QDomElement firstChild = element.firstChild().toElement();
+    if ( firstChild.tagName() == "TEXT" )
+        firstChild = firstChild.nextSibling().toElement();
+    return KBookmark(firstChild);
 }
 
 KBookmark KBookmarkGroup::next( KBookmark & current ) const
@@ -236,10 +239,11 @@ QDomElement KBookmarkGroup::findToolbar() const
 
 bool KBookmark::isGroup() const
 {
-    return (element.tagName() == "GROUP");
+    return (element.tagName() == "GROUP"
+            || element.tagName() == "BOOKMARKS" ); // don't forget the toplevel group
 }
 
-QString KBookmark::text() const
+QString KBookmark::text( uint maxlen ) const
 {
     QString txt;
     // This small hack allows to avoid virtual tables in
@@ -249,7 +253,7 @@ QString KBookmark::text() const
     else
         txt = element.text();
 
-    return KStringHandler::csqueeze( txt );
+    return KStringHandler::csqueeze( txt, maxlen );
 }
 
 QString KBookmark::url() const
@@ -261,7 +265,12 @@ QString KBookmark::icon() const
 {
     QString icon = element.attribute("ICON");
     if ( icon.isEmpty() )
-        icon = KMimeType::iconForURL( url() );
+        // Default icon depends on URL for bookmarks, and is default directory
+        // icon for groups.
+        if ( isGroup() )
+            icon = KMimeType::mimeType( "inode/directory" )->KMimeType::icon( QString::null, true );
+        else
+            icon = KMimeType::iconForURL( url() );
     return icon;
 }
 
