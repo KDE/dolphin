@@ -5154,6 +5154,7 @@ static void hp_removeDuplicates( KCompletionMatches& l )
     QString http = "http://";
     QString ftp = "ftp://ftp.";
     QString file = "file:";
+    QString file2 = "file://";
     l.removeDuplicates();
     for( KCompletionMatches::Iterator it = l.begin();
          it != l.end();
@@ -5166,9 +5167,11 @@ static void hp_removeDuplicates( KCompletionMatches& l )
             }
             hp_removeDupe( l, str.mid( 7 ), it );
         }
-        if( str.startsWith( ftp )) // ftp://ftp.
+        else if( str.startsWith( ftp )) // ftp://ftp.
             hp_removeDupe( l, str.mid( 6 ), it ); // remove dupes without ftp://
-        if( str.startsWith( file ))
+        else if( str.startsWith( file2 ))
+            hp_removeDupe( l, str.mid( 7 ), it ); // remove dupes without file://
+        else if( str.startsWith( file ))
             hp_removeDupe( l, str.mid( 5 ), it ); // remove dupes without file:
     }
 }
