@@ -193,10 +193,9 @@ void KAppearanceOptions::getFontList( QStrList &list, const char *pattern )
     char **xFonts = XListFonts( qt_xdisplay(), pattern, 2000, &num );
 
     for ( int i = 0; i < num; i++ )
-    {
         addFont( list, xFonts[i] );
-    }
 
+    list.sort();
     XFreeFontNames( xFonts );
 }
 
