@@ -280,7 +280,9 @@ int directCommand(KCmdLineArgs *args)
             QString text = QString::fromLocal8Bit(args->getOption("menu"));
             QString result;
             bool retcode = Widgets::listBox(0, title, text, list, result);
-            cout << result.local8Bit().data() << endl;
+            if (1 == retcode) { // OK was selected
+	        cout << result.local8Bit().data() << endl;
+	    }
             return retcode ? 0 : 1;
         }
         return -1;
@@ -301,7 +303,9 @@ int directCommand(KCmdLineArgs *args)
 
             unsigned int i;
             for (i=0; i<result.count(); i++)
-                cout << result[i].local8Bit().data() << endl;
+                if (!result[i].local8Bit().isEmpty()) {
+		    cout << result[i].local8Bit().data() << endl;
+		}
             exit( retcode ? 0 : 1 );
         }
         return -1;
