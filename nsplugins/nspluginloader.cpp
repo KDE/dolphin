@@ -44,6 +44,7 @@
 
 #include "NSPluginClassIface_stub.h"
 
+#include <config.h>
 
 NSPluginLoader *NSPluginLoader::s_instance = 0;
 int NSPluginLoader::s_refCount = 0;
@@ -269,10 +270,18 @@ bool NSPluginLoader::loadViewer()
    int cnt = 0;
    while (!kapp->dcopClient()->isApplicationRegistered(_dcopid))
    {
-      //kapp->processEvents(); // would lead to recursive calls in khtml
+       //kapp->processEvents(); // would lead to recursive calls in khtml
+#ifdef HAVE_USLEEP
+       usleep( 50*1000 );
+#else
       sleep(1); kdDebug() << "sleep" << endl;
+#endif
       cnt++;
+#ifdef HAVE_USLEEP
+      if (cnt >= 100)
+#else
       if (cnt >= 10)
+#endif
       {
          kdDebug() << "timeout" << endl;
          delete _process;
