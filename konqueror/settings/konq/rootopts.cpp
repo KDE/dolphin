@@ -256,7 +256,7 @@ void KRootOptions::load()
     VertAlignBox->setChecked(bVertAlign);
     //
     g_pConfig->setGroup( "Menubar" );
-    bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
+    bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", true);
     menuBarBox->setChecked(bMenuBar);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -284,7 +284,7 @@ void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
-    menuBarBox->setChecked(false);
+    menuBarBox->setChecked(true);
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
