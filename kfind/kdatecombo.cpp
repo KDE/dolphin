@@ -32,7 +32,7 @@ void KDateCombo::initObject(const QDate & date, QWidget *parent, const char *nam
   datePicker->setMinimumSize(datePicker->sizeHint());
   popupFrame->setMainWidget(datePicker);
   setDate(date);
-  //connect(datePicker, SIGNAL(dateEntered(QDate)), this, SLOT(dateEnteredEvent(QDate)));
+  connect(datePicker, SIGNAL(dateEntered(QDate)), this, SLOT(dateEnteredEvent(QDate)));
   connect(datePicker, SIGNAL(dateSelected(QDate)), this, SLOT(dateEnteredEvent(QDate)));
 }
 

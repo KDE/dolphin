@@ -40,7 +40,7 @@ private:
 
 protected:
    virtual void mousePressEvent (QMouseEvent * e);
-
+   
 protected slots:
    void dateEnteredEvent(QDate);
 };
