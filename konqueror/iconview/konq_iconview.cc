@@ -798,15 +798,17 @@ void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoin
         i->setSelected( true, true /* don't touch other items */ );
 
     KFileItem * rootItem = m_dirLister->rootItem();
-    KURL parentDirURL = rootItem->url();
-    // Check if parentDirURL applies to the selected items (usually yes, but not with search results)
-    QPtrListIterator<KFileItem> kit( items );
-    for ( ; kit.current(); ++kit )
-        if ( kit.current()->url().directory( 1 ) != rootItem->url().path() )
-            parentDirURL = KURL();
-    // If rootItem is the parent of the selected items, then we can use isWritable() on it.
-    if ( !parentDirURL.isEmpty() && !rootItem->isWritable() )
-        popupFlags |= KParts::BrowserExtension::NoDeletion;
+    if ( rootItem ) {
+        KURL parentDirURL = rootItem->url();
+        // Check if parentDirURL applies to the selected items (usually yes, but not with search results)
+        QPtrListIterator<KFileItem> kit( items );
+        for ( ; kit.current(); ++kit )
+            if ( kit.current()->url().directory( 1 ) != rootItem->url().path() )
+                parentDirURL = KURL();
+        // If rootItem is the parent of the selected items, then we can use isWritable() on it.
+        if ( !parentDirURL.isEmpty() && !rootItem->isWritable() )
+            popupFlags |= KParts::BrowserExtension::NoDeletion;
+    }
 
     emit m_extension->popupMenu( 0L, _global, items, KParts::URLArgs(), popupFlags);
 }
