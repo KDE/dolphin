@@ -159,7 +159,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     cbMoveToTrash = new QCheckBox( i18n("&Move to trash"), bg );
 
     cbDelete = new QCheckBox( i18n("D&elete"), bg );
-    connect(cbShowDeleteCommand, SIGNAL(toggled(bool)), cbDelete, SLOT(setEnabled(bool)));
 
     lay->addWidget(bg);
 
@@ -211,7 +210,6 @@ void KBehaviourOptions::load()
     g_pConfig->setGroup( "Trash" );
     cbMoveToTrash->setChecked( g_pConfig->readBoolEntry("ConfirmTrash", DEFAULT_CONFIRMTRASH) );
     cbDelete->setChecked( g_pConfig->readBoolEntry("ConfirmDelete", DEFAULT_CONFIRMDELETE) );
-    cbDelete->setEnabled( cbShowDeleteCommand->isChecked() );
 }
 
 void KBehaviourOptions::defaults()
@@ -233,7 +231,6 @@ void KBehaviourOptions::defaults()
 
     cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
     cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
-    cbDelete->setEnabled( true );
     cbShowDeleteCommand->setChecked( false );
 }
 
