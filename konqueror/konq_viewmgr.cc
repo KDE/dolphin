@@ -480,15 +480,17 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
   cfg.sync();
 }
 
-void KonqViewManager::loadViewProfile( const QString & path, const QString & filename, const KURL & forcedURL )
+void KonqViewManager::loadViewProfile( const QString & path, const QString & filename, 
+                                       const KURL & forcedURL, const KonqOpenURLRequest &req )
 {
   KConfig cfg( path, true );
   cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
-  loadViewProfile( cfg, filename, forcedURL );
+  loadViewProfile( cfg, filename, forcedURL, req );
 }
 
-void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, const KURL & forcedURL )
+void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, 
+                                       const KURL & forcedURL, const KonqOpenURLRequest &req )
 {
   m_currentProfile = filename;
   m_currentProfileText = cfg.readEntry("Name",filename);
@@ -531,9 +533,11 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
   if ( /*m_pMainWindow->viewCount() == 0 &&*/ !forcedURL.isEmpty())
   {
       KonqView *firstChildView = chooseNextView( 0L );
-      KonqOpenURLRequest req( forcedURL.url() );
+      KonqOpenURLRequest _req(req);
+      if (_req.typedURL.isEmpty())
+          _req.typedURL = forcedURL.url();
       m_pMainWindow->openURL( firstChildView /* can be 0 for an empty profile */,
-                              forcedURL, QString::null, req );
+                              forcedURL, QString::null, _req );
 
       // TODO choose a linked view if any (instead of just the first one),
       // then open the same URL in any non-linked one

@@ -30,6 +30,7 @@
 #include <ktrader.h>
 
 #include <kparts/partmanager.h>
+#include <konq_openurlrequest.h>
 
 class QString;
 class QStringList;
@@ -115,8 +116,11 @@ public:
    * @param filename if set, remember the file name of the profile (for save settings)
    * It has to be under the profiles dir. Otherwise, set to QString::null
    * @param forcedURL if set, the URL to open, whatever the profile says
+   * @param req attributes related to @p forcedURL
    */
-  void loadViewProfile( KConfig &cfg, const QString & filename, const KURL & forcedURL = KURL() );
+  void loadViewProfile( KConfig &cfg, const QString & filename, 
+                        const KURL & forcedURL = KURL(),
+                        const KonqOpenURLRequest &req = KonqOpenURLRequest() );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
@@ -124,8 +128,11 @@ public:
    * @param filename if set, remember the file name of the profile (for save settings)
    * It has to be under the profiles dir. Otherwise, set to QString::null
    * @param forcedURL if set, the URL to open, whatever the profile says
+   * @param req attributes related to @p forcedURL
    */
-  void loadViewProfile( const QString & path, const QString & filename, const KURL & forcedURL = KURL() );
+  void loadViewProfile( const QString & path, const QString & filename, 
+                        const KURL & forcedURL = KURL(),
+                        const KonqOpenURLRequest &req = KonqOpenURLRequest() );
 
   /**
    * Return the filename of the last profile that was loaded

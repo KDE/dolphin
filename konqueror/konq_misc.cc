@@ -89,7 +89,9 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
   {
       mainWindow = new KonqMainWindow( QString::null, false );
       //FIXME: obey args (like passing post-data (to KRun), etc.)
-      mainWindow->viewManager()->loadViewProfile( path, filename, url );
+      KonqOpenURLRequest req;
+      req.args = args;
+      mainWindow->viewManager()->loadViewProfile( path, filename, url, req );
   }
   if (mainWindow->currentView())
       mainWindow->enableAllActions( true );
