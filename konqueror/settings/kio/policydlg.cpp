@@ -57,7 +57,7 @@ void PolicyDialog::setDisableEdit( bool state, const QString& text )
     if( text.isNull() );
         le_domain->setText( text );
         
-    le_domain->setEnabled( state );
+    le_domain->setReadOnly( !state );
     
     if( !state )
         cb_policy->setFocus();
