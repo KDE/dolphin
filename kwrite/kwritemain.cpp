@@ -134,7 +134,6 @@ void TopLevel::setupEditWidget(KateDocument *doc)
   connect(kateView,SIGNAL(newStatus()),this,SLOT(newStatus()));
   connect(kateView->doc(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
   connect(kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
-  connect(kateView, SIGNAL( enableUI( bool ) ), this, SLOT( slotEnableActions( bool ) ) );
 
   setCentralWidget(kateView);
 }
