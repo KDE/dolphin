@@ -336,8 +336,12 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
       m_rubber = 0;
    }
 
-   delete m_selected; m_selected = 0;
-
+   delete m_selected;
+   m_selected = new QPtrList<KonqBaseListViewItem>;
+   // Store list of selected items at mouse-press time.
+   // This is used when autoscrolling (why?)
+   // and during dnd (the target item is temporarily selected)
+   selectedItems( m_selected );
    QPoint vp = contentsToViewport( e->pos() );
    KonqBaseListViewItem *item = isExecuteArea( vp ) ?
          (KonqBaseListViewItem*)itemAt( vp ) : 0L;
@@ -348,12 +352,7 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
       if ( e->button() == LeftButton )
       {
          m_rubber = new QRect( e->x(), e->y(), 0, 0 );
-         if ( e->state() & ControlButton )
-         {
-            m_selected = new QPtrList<KonqBaseListViewItem>;
-            selectedItems( m_selected );
-         }
-         else
+         if ( ! ( e->state() & ControlButton ) )
             setSelected( itemAt( vp ), false );
       }
 
@@ -422,7 +421,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
 
    if ( vc == m_rubber->bottomRight() )
       return;
-   
+
    const int oldTop = m_rubber->normalize().top();
    const int oldBottom = m_rubber->normalize().bottom();
 
@@ -543,19 +542,19 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
    KonqBaseListViewItem *item =
        isExecuteArea( _ev->pos() ) ? (KonqBaseListViewItem*)itemAt( _ev->pos() ) : 0L;
 
+   // Unselect previous drag-over-item
+   if ( m_dragOverItem && m_dragOverItem != item )
+       if ( !m_selected || !m_selected->contains( m_dragOverItem ) )
+           setSelected( m_dragOverItem, false );
+
    if ( !item )
    {
-      if ( m_dragOverItem )
-         setSelected( m_dragOverItem, false );
       _ev->accept();
       return;
    }
 
    if ( m_dragOverItem == item )
        return; // No change
-
-   if ( m_dragOverItem != 0L )
-      setSelected( m_dragOverItem, false );
 
    if ( item->item()->acceptsDrops() )
    {
@@ -660,11 +659,11 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
    KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
    if ( m_activeItem != 0 && m_activeItem != item )
       m_activeItem->setActive( false );
-   
+
    if (item)
       item->setActive( true );
-   m_activeItem = item;   
-      
+   m_activeItem = item;
+
    // The .x() here is important, to avoid a Qt pseudo-bug... Basically,
    // don't call itemAt from here, it leads to bugs when deleting an item.
    if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ).x() ) )
@@ -693,7 +692,7 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
       // Actually attempt the rename. If it succeeds, KDirLister will update the name.
       KonqOperations::rename( this, renamedItem->item()->url(), name );
    }
-   
+
    // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
    setFocus();
 }
@@ -1030,7 +1029,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
     if ( (*it).item() == _fileitem )
     {
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
-      
+
       delete &(*it);
       // HACK HACK HACK: QListViewItem/KonqBaseListViewItem should
       // take care and the source looks like it does; till the
