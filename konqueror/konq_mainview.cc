@@ -1266,6 +1266,8 @@ void KonqMainView::updateStatusBar()
 
   if ( progress != -1 && !m_progressBar->isVisible() )
     m_progressBar->show();
+  else
+    m_progressBar->hide();
 
   m_progressBar->setValue( progress );
 

@@ -149,10 +149,6 @@ public slots:
   virtual void setViewMode( Konqueror::DirectoryDisplayMode mode );
   virtual Konqueror::DirectoryDisplayMode viewMode();
 
-signals:
-  // emitted here, triggers the popup menu in the main view
-  void popupMenu( const QPoint &_global, KFileItemList _items );
-
 protected slots:
   // slots connected to QIconView
   virtual void slotMousePressed( QIconViewItem *item );
