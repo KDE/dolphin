@@ -1449,7 +1449,7 @@ the user may specify the number of steps &kwrite; will retain in memory for
 purposes of undoing entries and actions.  This means that the higher the
 number of steps set the more memory &kwrite; will use for this.  Setting
 this entry to 10 would mean that the user would be be able reverse the last
-ten operations, <abbrev>i.e.</abbrev>i>, click the <guibutton>undo</guibutton>
+ten operations, <abbrev>i.e.</abbrev> click the <guibutton>undo</guibutton>
 button 10 times and obtain results.</para></listitem> </varlistentry>
 
 <varlistentry>
