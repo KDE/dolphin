@@ -47,7 +47,7 @@ public:
 		: QObject(parent), file(file_), dock(dock_), URL(url_),
 		libName(lib), displayName(dispName_), iconName(iconName_), m_part(part)
 		{
-		copy = cut = paste = trash = del = shred = rename =false;
+		copy = cut = paste = trash = del = rename =false;
 		}
 
 	~ButtonInfo() {}
@@ -64,7 +64,6 @@ public:
 	bool paste;
 	bool trash;
 	bool del;
-	bool shred;
         bool rename;
         KonqSidebarIface *m_part;
 	virtual bool universalMode() {return m_part->universalMode();}
@@ -75,7 +74,7 @@ class addBackEnd: public QObject
 {
 	Q_OBJECT
 public:
-	addBackEnd(QObject *parent,class QPopupMenu *addmenu, bool univeral,const char *name=0);
+	addBackEnd(QWidget *parent,class QPopupMenu *addmenu, bool univeral,const char *name=0);
 	~addBackEnd(){;}
 protected slots:
 	void aboutToShowAddMenu();
@@ -89,6 +88,7 @@ private:
 	QPtrVector<QString> libParam;
 	bool m_universal;
 	void doRollBack();
+	QWidget *m_parent;
 };
 
 class Sidebar_Widget: public QWidget

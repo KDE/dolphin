@@ -50,7 +50,9 @@
 
 bool Sidebar_Widget::s_skipInitialCopy=false;
 
-addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,bool universal, const char *name):QObject(parent,name)
+addBackEnd::addBackEnd(QWidget *parent,class QPopupMenu *addmenu,bool universal, const char *name)
+ : QObject(parent,name),
+   m_parent(parent)
 {
 	m_universal=universal;
 	menu = addmenu;
@@ -111,7 +113,7 @@ void addBackEnd::aboutToShowAddMenu()
 
 void addBackEnd::doRollBack()
 {
-	if (KMessageBox::questionYesNo(0,i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
+	if (KMessageBox::questionYesNo(m_parent, i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
 	{
 		KStandardDirs *dirs = KGlobal::dirs();
 		QString loc=dirs->saveLocation("data","konqsidebartng/",true);
@@ -121,7 +123,7 @@ void addBackEnd::doRollBack()
 		dirEntries.remove("..");
 		for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
 			if ((*it)!="add")
-				 KIO::NetAccess::del(KURL( loc+(*it) ));
+				 KIO::NetAccess::del(KURL( loc+(*it) ), m_parent);
 		}
 		emit initialCopyNeeded();
 	}
@@ -323,7 +325,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 		scf.setGroup("Desktop Entry");
 		if (scf.readPathEntry("URL", QString::null) == url.url()) {
 			// We already have this one!
-			KMessageBox::information(0L,
+			KMessageBox::information(this,
 					i18n("This entry already exists."));
 			return;
 		}
@@ -1097,8 +1099,6 @@ void Sidebar_Widget::enableAction( const char * name, bool enabled )
 				btninfo->trash = enabled;
 			else if (n == "del")
 				btninfo->del = enabled;
-			else if (n == "shred")
-				btninfo->shred = enabled;
 			else if (n == "rename")
 				btninfo->rename = enabled;
 		}
@@ -1119,7 +1119,6 @@ bool  Sidebar_Widget::doEnableActions()
 		getExtension()->enableAction( "paste", m_activeModule->paste );
 		getExtension()->enableAction( "trash", m_activeModule->trash );
 		getExtension()->enableAction( "del", m_activeModule->del );
-		getExtension()->enableAction( "shred", m_activeModule->shred );
 		getExtension()->enableAction( "rename", m_activeModule->rename );
 		return true;
 	}

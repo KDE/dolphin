@@ -51,9 +51,9 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 	    void copy(){if (widget) widget->stdAction("copy()");}
 	    void cut(){if (widget) widget->stdAction("cut()");}
 	    void paste(){if (widget) widget->stdAction("paste()");}
+	    void pasteTo(const KURL&){if (widget) widget->stdAction("paste()");}
 	    void trash(){if (widget) widget->stdAction("trash()");}
 	    void del(){if (widget) widget->stdAction("del()");}
-	    void shred(){if (widget) widget->stdAction("shred()");}
 	    void rename(){if (widget) widget->stdAction("rename()");}
   	    void properties() {if (widget) widget->stdAction("properties()");}
   	    void editMimeType() {if (widget) widget->stdAction("editMimeType()");}
