@@ -19,9 +19,9 @@ class KBehaviourOptions : public KCModule
   Q_OBJECT
 public:
   /**
-   * @param showBuiltinGroup : set to true for konqueror, false for kdesktop
+   * @param showFileManagerOptions : set to true for konqueror, false for kdesktop
    */
-  KBehaviourOptions(KConfig *config, QString group, bool showBuiltinGroup, QWidget *parent=0, const char *name=0);
+  KBehaviourOptions(KConfig *config, QString group, bool showFileManagerOptions, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -38,7 +38,7 @@ private:
 
   KConfig *g_pConfig;
   QString groupname;
-  bool m_bShowBuiltinGroup;
+  bool m_bFileManager;
 
   QCheckBox *cbTreeFollow;
   QCheckBox *cbSingleClick;
