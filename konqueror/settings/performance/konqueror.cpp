@@ -70,10 +70,10 @@ Konqueror::Konqueror( QWidget* parent_P )
               "startup sequence."
               "<p>This will make the first Konqueror window open faster, but "
               "at the expense of longer KDE startup times (but you will be able to work "
-              "while it is loading, so you may not even notice that it's taking longer)." ));
+              "while it is loading, so you may not even notice that it is taking longer)." ));
     QWhatsThis::add( cb_always_have_preloaded,
         i18n( "If enabled, KDE will always try to have one preloaded Konqueror instance ready; "
-              "preloading a new instance in the background whenever there isn't one available, "
+              "preloading a new instance in the background whenever there is not one available, "
               "so that windows will always open quickly."
               "<p><b>Warning:</b> In some cases, it is actually possible that this will "
               "reduce perceived performance." ));
