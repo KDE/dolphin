@@ -2990,7 +2990,17 @@ void KonqMainWindow::slotShowMenuBar()
 
 void KonqMainWindow::slotToggleFullScreen()
 {
-  m_bFullScreen = !m_bFullScreen;
+  if( m_bFullScreen )
+    showNormal();
+  else // both calls will generate event triggering updateFullScreen()
+    showFullScreen();
+}
+
+void KonqMainWindow::updateFullScreen()
+{
+  if( isFullScreen() == m_bFullScreen )
+      return;
+  m_bFullScreen = isFullScreen();
   if ( m_bFullScreen )
   {
     // Create toolbar button for exiting from full-screen mode
@@ -3001,9 +3011,8 @@ void KonqMainWindow::slotToggleFullScreen()
     menuBar()->hide();
     m_paShowMenuBar->setChecked( false );
 
-    showFullScreen();
-
     // Qt bug, the flags are lost. They know about it.
+    // happens only with the hackish non-_NET_WM_STATE_FULLSCREEN way
     setWFlags( WDestructiveClose );
     // Qt bug (see below)
     setAcceptDrops( FALSE );
@@ -3018,8 +3027,6 @@ void KonqMainWindow::slotToggleFullScreen()
 
     menuBar()->show(); // maybe we should store this setting instead of forcing it
     m_paShowMenuBar->setChecked( true );
-
-    showNormal();  // (calls setCaption, i.e. the one in this class!)
 
     // Qt bug, the flags aren't restored. They know about it.
     setWFlags( WType_TopLevel | WDestructiveClose );
@@ -4767,20 +4774,22 @@ void KonqMainWindow::resetWindow()
     kapp->setTopWidget( this ); // set again the default window icon
 }
 
-// since the preloading code tries to reuse KonqMainWindow,
-// the last window shouldn't be really deleted, but only hidden
-// deleting WDestructiveClose windows is done using deleteLater(),
-// so catch QEvent::DefferedDelete and check if this window should stay
 bool KonqMainWindow::event( QEvent* e )
 {
     if( e->type() == QEvent::DeferredDelete )
     {
+    // since the preloading code tries to reuse KonqMainWindow,
+    // the last window shouldn't be really deleted, but only hidden
+    // deleting WDestructiveClose windows is done using deleteLater(),
+    // so catch QEvent::DefferedDelete and check if this window should stay
         if( stayPreloaded())
         {
             setWFlags(WDestructiveClose); // was reset before deleteLater()
             return true; // no deleting
         }
     }
+    if( e->type() == QEvent::ShowFullScreen || e->type() == QEvent::ShowNormal )
+        updateFullScreen();
     return KParts::MainWindow::event( e );
 }
 

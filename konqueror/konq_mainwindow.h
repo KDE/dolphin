@@ -555,6 +555,8 @@ private:
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
+  
+  void updateFullScreen();
 
   KNewMenu * m_pMenuNew;
 
