@@ -58,7 +58,10 @@ void KFileIVI::setDisabled( bool disabled )
 void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 {
     m_bThumbnail = true;
-    QIconViewItem::setPixmap( pixmap, true /* ? */, true  /* ? */);
+    QIconViewItem::setPixmap( pixmap, true /* recalc */ );
+    if ( width() > iconView()->gridX() )
+      iconView()->setGridX( width() );
+    // why not Y as well ?
 }
 
 void KFileIVI::refreshIcon( bool redraw )

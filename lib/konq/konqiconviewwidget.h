@@ -98,7 +98,9 @@ public:
 
     int iconSize() { return m_size; }
 
-    void setImagePreviewAllowed( bool b );
+    void startImagePreview();
+    void stopImagePreview();
+    void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
 
     void setURL ( const KURL & kurl );
     const KURL & url() { return m_url; }
@@ -197,7 +199,6 @@ protected:
     KURL::List m_lstDragURLs;
 
     int m_size;
-    bool m_bImagePreviewAllowed;
 
     QGuardedPtr<KonqImagePreviewJob> m_pImagePreviewJob;
 

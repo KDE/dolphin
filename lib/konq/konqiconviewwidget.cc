@@ -50,8 +50,7 @@
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
     : KIconView( parent, name, f ),
-      m_rootItem( 0L ),
-      m_bImagePreviewAllowed( false )
+      m_rootItem( 0L )
 {
     QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
 		      this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
@@ -99,6 +98,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
 
 KonqIconViewWidget::~KonqIconViewWidget()
 {
+    stopImagePreview();
     KonqUndoManager::decRef();
 }
 
@@ -150,6 +150,16 @@ void KonqIconViewWidget::takeItem( QIconViewItem *item )
     KIconView::takeItem( item );
 }
 
+void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap )
+{
+    if ( item )
+    {
+        if ( m_pActiveItem == item )
+            m_pActiveItem = 0L;
+        item->setThumbnailPixmap( pixmap );
+    }
+}
+
 void KonqIconViewWidget::initConfig()
 {
     m_pSettings = KonqFMSettings::settings();
@@ -180,7 +190,8 @@ void KonqIconViewWidget::setIcons( int size )
     if ( sizeChanged )
     {
       int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-      setGridX( sz + 26 );
+      if ( sz + 26 > gridX() ) // In case of image preview, we may be more than that already
+          setGridX( sz + 26 );
       setGridY( sz + 26 );
       updateContents(); // take new grid into account
     }
@@ -202,25 +213,17 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::setImagePreviewAllowed( bool b )
+void KonqIconViewWidget::startImagePreview()
 {
-    if ( m_bImagePreviewAllowed == b )
-        return;
-    m_bImagePreviewAllowed = b;
+    stopImagePreview(); // just in case
+    m_pImagePreviewJob = new KonqImagePreviewJob( this );
+    m_pImagePreviewJob->startImagePreview();
+}
 
-    if (b) // On
-    {
-        m_pImagePreviewJob = new KonqImagePreviewJob( this );
-        m_pImagePreviewJob->determineNextIcon();
-    }
-    else // Off
-    {
-        if (!m_pImagePreviewJob.isNull())
-            m_pImagePreviewJob->kill();
-
-        // Restore normal icons
-        setIcons( m_size );
-    }
+void KonqIconViewWidget::stopImagePreview()
+{
+    if (!m_pImagePreviewJob.isNull())
+        m_pImagePreviewJob->kill();
 }
 
 KFileItemList KonqIconViewWidget::selectedFileItems()

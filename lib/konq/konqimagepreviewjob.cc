@@ -31,20 +31,30 @@
 KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView )
   : KIO::Job( false /* no GUI */ ), m_iconView( iconView )
 {
+  kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
     KFileIVI * ivi = static_cast<KFileIVI *>( it );
-    if ( !ivi->isThumbnail() ) // Well, if we did it already, no need to do it again :-)
-      if ( ivi->item()->mimetype().left(6) == "image/" )
-      {
-        m_items.append( ivi );
-      }
+    if ( ivi->item()->mimetype().left(6) == "image/" )
+      m_items.append( ivi );
   }
 }
 
 KonqImagePreviewJob::~KonqImagePreviewJob()
 {
+  kdDebug(1203) << "KonqImagePreviewJob::~KonqImagePreviewJob()" << endl;
+}
+
+void KonqImagePreviewJob::startImagePreview()
+{
+  // The reason for this being separate from determineNextIcon is so
+  // that we don't do arrangeItemsInGrid if there is no image at all
+  // in the current dir.
+  if ( m_items.isEmpty() )
+    delete this;
+  else
+    determineNextIcon();
 }
 
 void KonqImagePreviewJob::determineNextIcon()
@@ -55,8 +65,9 @@ void KonqImagePreviewJob::determineNextIcon()
   // No more items ?
   if ( m_items.isEmpty() )
   {
+    m_iconView->arrangeItemsInGrid();
     // Done
-    emit result(this);
+    emit result(this); // unused
     delete this;
   }
   else
@@ -95,7 +106,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       }
 
       determineThumbnailURL();
-      
+
       m_state = STATE_STATTHUMB;
       KIO::Job * job = KIO::stat( m_thumbURL, false );
       kdDebug(1203) << "KonqImagePreviewJob: KIO::stat thumb " << m_thumbURL.url() << endl;
@@ -130,6 +141,10 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
 
       // No thumbnail, or too old -> check dirs, load orig image and create Pixie pic
 
+      // We call this again, because it's the mospics we want to generate, not the xvpics
+      // Well, comment this out if you prefer compatibility over quality.
+      determineThumbnailURL();
+
       // m_thumbURL is /blah/.mospics/med/file.png
       QString dir = m_thumbURL.directory();
       QString mospicsPath = dir.left( dir.findRev( '/' ) ); // /blah/.mospics
@@ -158,8 +173,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       if ( pix.load( localFile ) )
       {
         // Found it, use it
-        if (!m_currentItem.isNull())
-            m_currentItem->setThumbnailPixmap( pix );
+        m_iconView->setThumbnailPixmap( m_currentItem, pix );
         unlink( localFile.local8Bit().data() );
       }
       // Whether we suceeded or not, move to next one
@@ -169,6 +183,8 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
     case STATE_CREATEDIR1:
       // We can save if the dir could be created or if it already exists
       m_bCanSave = (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST);
+
+      // TODO: remember this for the other items. No need to try mkdir for each one...
 
       if (m_bCanSave)
       {
@@ -285,8 +301,7 @@ bool KonqImagePreviewJob::statResultThumbnail( KIO::StatJob * job )
     if ( pix.load( m_thumbURL.path() ) )
     {
       // Found it, use it
-      if (!m_currentItem.isNull())
-        m_currentItem->setThumbnailPixmap( pix );
+      m_iconView->setThumbnailPixmap( m_currentItem, pix );
       determineNextIcon();
       return true;
     }
@@ -331,7 +346,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
         img = pix.convertToImage();
 
     // Set the thumbnail
-    m_currentItem->setThumbnailPixmap( pix );
+    m_iconView->setThumbnailPixmap( m_currentItem, pix );
 
     if ( m_bCanSave )
     {

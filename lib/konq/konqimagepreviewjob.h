@@ -28,6 +28,10 @@ class KonqIconViewWidget;
 /**
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
+ *
+ * Supports mospics and xvpics, and generates mospics when none found.
+ * Features network transparency, asynchronous processing, and safety
+ * against deleted items.
  */
 class KonqImagePreviewJob : public KIO::Job
 {
@@ -41,9 +45,10 @@ public:
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
-    void determineNextIcon();
+    void startImagePreview();
 
 protected:
+    void determineNextIcon();
     void determineThumbnailURL();
     bool statResultThumbnail( KIO::StatJob * );
     void createThumbnail( QString );
