@@ -59,7 +59,7 @@ public:
    * The others are automatically inserted.
    *
    */
-  KonqPopupMenu( KFileItemList items,
+  KonqPopupMenu( const KFileItemList &items,
                  QString viewURL,
                  QActionCollection & actions,
                  KNewMenu * newMenu );

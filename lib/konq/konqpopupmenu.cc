@@ -45,7 +45,7 @@
 #include "knewmenu.h"
 #include "konqpopupmenu.h"
 
-KonqPopupMenu::KonqPopupMenu( KFileItemList items,
+KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               QString viewURL,
                               QActionCollection & actions,
                               KNewMenu * newMenu )
