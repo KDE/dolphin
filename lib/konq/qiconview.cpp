@@ -1590,8 +1590,8 @@ void QIconViewItem::setIconRect( const QRect &r )
   Constructs an empty icon view
 */
 
-QIconView::QIconView( QWidget *parent, const char *name )
-    : QScrollView( parent, name, WNorthWestGravity )
+QIconView::QIconView( QWidget *parent, const char *name, WFlags f )
+    : QScrollView( parent, name, WNorthWestGravity | f )
 {
     if ( !unknown_icon ) {
 	QPixmap pix = QPixmap( unknown );
