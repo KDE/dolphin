@@ -298,7 +298,7 @@ void KAppearanceOptions::load()
     }
     charset = chSets[0];
     encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
-    kdDebug(0) << "encoding = " << encodingName << endl;
+    //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
 }
@@ -325,7 +325,8 @@ void KAppearanceOptions::updateGUI()
     KCharsets *s = KGlobal::charsets();
     //kdDebug() << s->xNameToID( charset ) << endl;
     QStringList families = s->availableFamilies( s->xNameToID( charset ) );
-
+    families.sort();
+    
     m_pStandard->clear();
     m_pStandard->insertStringList( families );
     i = 0;
@@ -393,10 +394,13 @@ void KAppearanceOptions::save()
     fontsForCharset[charset] = fonts;
     
     m_pConfig->setGroup(m_groupname);			
+    m_pConfig->writeEntry( "FontSize", fSize );
+    m_pConfig->writeEntry( "MinimumFontSize", fMinSize );                      
+
     QMap<QString, QStringList>::Iterator it;
     for( it = fontsForCharset.begin(); it != fontsForCharset.end(); ++it ) {
-	kdDebug() << "KAppearanceOptions::save "<< it.key() << endl; 
-	kdDebug() << "         "<< it.data().join(",") << endl; 
+	//kdDebug() << "KAppearanceOptions::save "<< it.key() << endl; 
+	//kdDebug() << "         "<< it.data().join(",") << endl; 
 	m_pConfig->writeEntry( it.key(), it.data() );
     }
     
@@ -405,6 +409,8 @@ void KAppearanceOptions::save()
         encodingName = "";
     m_pConfig->writeEntry( "DefaultEncoding", encodingName );
     m_pConfig->sync();
+
+
 }
 
 
