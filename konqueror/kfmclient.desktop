@@ -4,6 +4,7 @@ Exec=kfmclient openURL %u
 Icon=kfm
 DocPath=konqueror/index.html
 MimeType=text/html;inode/directory
+InitialPreference=9
 
 Name=File Manager
 Name[ca]=Gestor de fitxers
