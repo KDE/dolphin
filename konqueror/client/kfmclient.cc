@@ -171,7 +171,7 @@ void clientApp::slotAppRegistered( const QCString &appId )
     {
       KonquerorIface_stub konqy( appId, "KonquerorIface" );
       konqy.createBrowserWindowFromProfile( m_profile );
-      exit( 0 );
+      ::exit( 0 );
     }
 }
 
