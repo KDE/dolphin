@@ -75,6 +75,10 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
 
 KBookmarkMenu::~KBookmarkMenu()
 {
+  QListIterator<KAction> it( m_actions );
+  for (; it.current(); ++it )
+    it.current()->unplug( m_parentMenu );
+  
   m_lstSubMenus.clear();
 }
 
@@ -86,6 +90,10 @@ void KBookmarkMenu::slotBookmarksChanged()
   {
     //  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
   }
+  
+  QListIterator<KAction> it( m_actions );
+  for (; it.current(); ++it )
+    it.current()->unplug( m_parentMenu );
 
   m_parentMenu->clear();
   m_actions.clear();
@@ -116,9 +124,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
                                               QString("bookmark%1").arg(parent->id()) );
-    
+
     m_paAddBookmarks->setShortText( i18n( "Add a bookmark for the current document" ) );
-    
+
     m_paAddBookmarks->plug( m_parentMenu );
     m_actions.append( m_paAddBookmarks );
     m_parentMenu->insertSeparator();
