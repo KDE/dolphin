@@ -85,6 +85,7 @@ private:
     static QString simplifyURL(const KURL &);
     static QString iconNameFromURL(const KURL &);
     static KSimpleConfig *favicons();
+    bool isIconOld(const QString &);
 
 private:
     QStringList m_failedIcons;

@@ -19,6 +19,8 @@
 
 #include <stdio.h> /* rename() */
 #include <string.h> /* memcpy() */
+#include <sys/stat.h>
+#include <time.h>
 
 #include <qfile.h>
 #include <qimage.h>
@@ -180,19 +182,29 @@ KSimpleConfig *KonqFavIconMgr::favicons()
     return s_favicons;
 }
 
+bool KonqFavIconMgr::isIconOld(const QString &icon)
+{
+    struct stat st;
+    if (stat(QFile::encodeName(icon), &st) != 0)
+        return true; // Trigger a new download on error
+    return (time(0) - st.st_mtime) > 1209600; // arbitrary value (two weeks)
+}
+
 void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
 {
     // Ignore pages that explicitly specify /favicon.ico, like kmail.kde.org
     if (iconURL.host() == url.host() && iconURL.path() == "/favicon.ico")
         return;
-    if (!locate("icon", iconNameFromURL(iconURL)).isEmpty())
+    QString iconFile = locate("icon", iconNameFromURL(iconURL) + ".png");
+    if (!(iconFile.isEmpty() || isIconOld(iconFile)))
         return;
     startDownload(simplifyURL(url), false, iconURL);
 }
 
 void KonqFavIconMgr::downloadHostIcon(const KURL &url)
 {
-    if (!locate("icon", "favicons/" + url.host() + ".png").isEmpty())
+    QString iconFile = locate("icon", "favicons/" + url.host() + ".png");
+    if (!(iconFile.isEmpty() || isIconOld(iconFile)))
         return;
     KURL iconURL(url);
     iconURL.setEncodedPathAndQuery("/favicon.ico");
