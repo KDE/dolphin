@@ -194,7 +194,7 @@ QString KonqAboutPageFactory::intro()
 			" you can turn off this information screen by clicking <a href=\"%1\">here</a>. You can re-enable it"
 			" by choosing the Help -> Konqueror Introduction menu option, and then pressing "
 			"Settings -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
-	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
+	  .arg( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path )
 	  .arg( i18n( "Next: Tips &amp; Tricks" ) )
 	;
 
@@ -272,7 +272,7 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Manual"))
 	  .arg( i18n("Popup"))
 	  .arg( i18n("(Short-) Automatic"))
-	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
+	  .arg( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path )
 	  .arg( i18n("<a href=\"%1\">Return to Starting Points</a>").arg("launch.html") )
 
           ;
