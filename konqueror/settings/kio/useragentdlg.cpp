@@ -36,11 +36,11 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   //lay->setMargin( KDialog::marginHint() );
 
   // Send User-agent info ?
-  cb_sendUAString = new QCheckBox( i18n("Do not se&nd the user-agent string"), this );
+  cb_sendUAString = new QCheckBox( i18n("Do not se&nd browser identification"), this );
   QString wtstr = i18n("<qt>If checked, no identification information about "
                        "your browser will be sent to sites you visit while "
                        "browsing."
-                       "<P><u>NOTE:</u>Many sites rely on this information to "
+                       "<P><u>NOTE:</u> Many sites rely on this information to "
                        "display pages properly, hence, it is highly recommended "
                        "that you do not totaly disable this feature but rather "
                        "customize it."
@@ -274,9 +274,13 @@ void UserAgentOptions::save()
   KProtocolManager::setDefaultUserAgentModifiers( m_iMods );
   KProtocolManager::setUserAgentList( list );
 
+  // Inform running io-slaves about change...
   QByteArray data;
-  QCString launcher = KApplication::launcher();
-  kapp->dcopClient()->send( launcher, launcher, "reparseConfiguration()", data );
+  QDataStream stream( data, IO_WriteOnly );
+  stream << QString::null;
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
+  kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
 }
 
 void UserAgentOptions::addPressed()
@@ -405,10 +409,10 @@ QString UserAgentOptions::quickHelp() const
                "all the necessary features to render those pages properly. Hence "
                "for such sites, you may want to override the default identification "
                "by adding a site or domain specific entry."
-               "<P><u>NOTE:</u>To obtain specific help on a particular section of "
-               "the dialog box, simply click on the little question-mark button on "
-               "the top right corner of this window and then click on that section "
-               "for which you are seeking help." );
+               "<P><u>NOTE:</u> To obtain specific help on a particular section of "
+               "the dialog box, simply click on the little <b>?</b> button on the "
+               "top right corner of this window and then click on that section for "
+               "which you are seeking help." );
 }
 
 #include "useragentdlg.moc"
