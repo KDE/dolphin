@@ -81,6 +81,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_bReloadURL = false;
   m_iXOffset = 0;
   m_iYOffset = 0;
+  m_bLoading = false;
 }
 
 KonqChildView::~KonqChildView()

@@ -157,6 +157,7 @@ public slots:  // IDL
   virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
   virtual void slotReloadPlugins();
+  virtual void slotSaveDefaultProfile();
   virtual void slotSaveViewProfile();
   virtual void slotViewProfileActivated( CORBA::Long id );
 
@@ -192,6 +193,9 @@ public slots:  // IDL
   virtual void slotURLStarted( OpenParts::Id id, const char *url );
   virtual void slotURLCompleted( OpenParts::Id id );
   
+  virtual void slotUpAboutToShow();
+  virtual void slotUpActivated( CORBA::Long id );
+  
   /////////////////////////
   // Animated Logo
   /////////////////////////
@@ -203,6 +207,17 @@ public slots:  // IDL
   // internal ;-)
   //  
   void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
+
+  void slotSelectView1();
+  void slotSelectView2();
+  void slotSelectView3();
+  void slotSelectView4();
+  void slotSelectView5();
+  void slotSelectView6();
+  void slotSelectView7();
+  void slotSelectView8();
+  void slotSelectView9();
+  void slotSelectView10();
 
 protected:
 
@@ -281,6 +296,8 @@ private:
 
   OpenPartsUI::Menu_var m_vHistoryBackPopupMenu;
   OpenPartsUI::Menu_var m_vHistoryForwardPopupMenu;
+
+  OpenPartsUI::Menu_var m_vUpPopupMenu;
 
   KBookmarkMenu* m_pBookmarkMenu;
 

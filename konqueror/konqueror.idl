@@ -127,6 +127,7 @@ module Konqueror
     slot void slotConfigureBrowser();
     slot void slotConfigureKeys();
     slot void slotReloadPlugins();
+    slot void slotSaveDefaultProfile();
     slot void slotSaveViewProfile();
     slot void slotViewProfileActivated( in long id );
 
@@ -154,6 +155,9 @@ module Konqueror
 
     slot void slotURLStarted( in OpenParts::Id id, in string url );
     slot void slotURLCompleted( in OpenParts::Id id );
+    
+    slot void slotUpAboutToShow();
+    slot void slotUpActivated( in long id );
   };
   
   interface MainWindow : OpenParts::MainWindow

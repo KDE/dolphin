@@ -54,6 +54,8 @@ public:
   void doGeometry( int width, int height );
   
   KonqChildView *chooseNextView( KonqChildView *view );
+
+  unsigned long viewIdByNumber( int num );
   
 private:
 

@@ -86,8 +86,8 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
     cfg.writeEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ), viewIt.current()->serviceTypes().first() );
     
     //HACK
-    if ( viewIt.current()->viewName() == "KonquerorKfmTreeView" )
-      cfg.writeEntry( QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr ), true );
+    cfg.writeEntry( QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr ), 
+                    ( viewIt.current()->viewName() == "KonquerorKfmTreeView" ) );
   }
   
   cfg.sync();
@@ -104,7 +104,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     .intListValue();
   
   int rowCount = cfg.readNumEntry( "NumberOfRows" );
-  
+
   for ( int i = 0; i < rowCount; ++i )
   {
     QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
@@ -142,6 +142,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
       
       Browser::View_var vView;
       QStringList serviceTypes;
+
+      QString savedGroup = cfg.group();
       
       if ( treeView )
       {
@@ -154,6 +156,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
         //Simon TODO: error handling
         vView = KonqChildView::createView( serviceType, serviceTypes, m_pMainView );
       }
+      
+      cfg.setGroup( savedGroup );
       
       setupView( rowInfo, vView, serviceTypes );
       
@@ -303,6 +307,25 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
   }
   
   return next;
+}
+
+unsigned long KonqViewManager::viewIdByNumber( int num )
+{
+  QListIterator<Konqueror::RowInfo> rowIt( m_lstRows );
+  while ( rowIt.current() )
+  {
+    QListIterator<KonqChildView> childIt( rowIt.current()->children );
+    while ( childIt.current() )
+    {
+      if ( --num == 0 )
+        return childIt.current()->id();
+      childIt++;
+    }
+      
+    rowIt++;
+  }
+  
+  return 0;
 }
 
 void KonqViewManager::clearRow( Konqueror::RowInfo *row )
