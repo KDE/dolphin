@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #ifndef __kbookmarkmenu_h__
 #define __kbookmarkmenu_h__
@@ -25,6 +25,7 @@
 
 class QString;
 class KBookmark;
+class KAction;
 class QActionCollection;
 class KBookmarkOwner;
 class QPopupMenu;
@@ -42,7 +43,7 @@ class QPopupMenu;
  * <em>before</em> this class is ever called.
  *
  * Using this class if very simple:
- * 
+ *
  * 1) Create a popup menu (either KActionMenu or QPopupMenu will do)
  * 2) Instantiate a new KBookmarkMenu object using the above popup
  *    menu as a parameter
@@ -69,7 +70,7 @@ public:
    */
   KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
                  QActionCollection * _collec,  bool _root, bool _add = true);
-  ~KBookmarkMenu();  
+  ~KBookmarkMenu();
 
   /**
    * Even if you think you need to use this, you are probably wrong.
@@ -82,8 +83,15 @@ public:
 public slots:
   void slotBookmarksChanged();
   void slotBookmarkSelected();
-  
+  void slotNSBookmarkSelected();
+  void slotNSLoad();
+
 protected:
+  /**
+   * function that loads Netscape's bookmarks
+   */
+  void openNSBookmarks();
+
   bool m_bIsRoot;
   bool m_bAddBookmark;
   KBookmarkOwner *m_pOwner;

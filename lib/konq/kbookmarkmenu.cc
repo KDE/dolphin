@@ -1,3 +1,4 @@
+// -*- mode: c++; c-basic-offset: 2 -*-
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
 
@@ -32,6 +33,8 @@
 #include "kbookmarkmenu.h"
 
 #include <qdir.h>
+#include <qfile.h>
+#include <qstack.h>
 #include <qstring.h>
 #include <qpopupmenu.h>
 
@@ -110,6 +113,16 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               QString("bookmark%1").arg(parent->id()) );
     m_paAddBookmarks->plug( m_parentMenu );
     m_parentMenu->insertSeparator();
+
+    KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), QIconSet( ),
+                                              m_actionCollection, 0L );
+    actionMenu->plug( m_parentMenu );
+    KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
+                                                m_actionCollection, false,
+                                                m_bAddBookmark );
+    m_lstSubMenus.append(subMenu);
+    connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
+    m_parentMenu->insertSeparator();
   }
 
   for ( KBookmark * bm = parent->first(); bm != 0L;  bm = parent->next() )
@@ -136,6 +149,19 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       subMenu->fillBookmarkMenu( bm );
     }
   }
+}
+
+void KBookmarkMenu::slotNSBookmarkSelected()
+{
+    QString link(sender()->name()+8);
+
+    m_pOwner->openBookmarkURL( link );
+}
+
+void KBookmarkMenu::slotNSLoad()
+{
+  m_parentMenu->disconnect(SIGNAL(aboutToShow()));
+  openNSBookmarks();
 }
 
 void KBookmarkMenu::slotBookmarkSelected()
@@ -177,5 +203,58 @@ void KBookmarkMenu::slotBookmarkSelected()
   else
     kdError(1203) << "Bookmark not found !" << endl;
 }
+
+
+// -----------------------------------------------------------------------------
+
+void KBookmarkMenu::openNSBookmarks()
+{
+  QFile f(QDir::homeDirPath() + "/.netscape/bookmarks.html");
+  QStack<KBookmarkMenu> mstack;
+  mstack.push(this);
+
+  if(f.open(IO_ReadOnly)) {
+
+    QCString s(1024);
+    // skip header
+    while(f.readLine(s.data(), 1024) >= 0 && !s.contains("<DL>"));
+
+    while(f.readLine(s.data(), 1024)>=0) {
+      QCString t  = s.stripWhiteSpace();
+      if(t.left(12) == "<DT><A HREF=") {
+        QCString link = t.mid(13, t.find('"', 13)-13);
+        QCString name = t.mid(t.find('>', 15)+1);
+
+        name = name.left(name.findRev('<'));
+
+        KAction * action = new KAction( KBookmark::stringSqueeze(QString(name)), 0, 0,
+                                        this, SLOT( slotNSBookmarkSelected() ),
+                                        m_actionCollection, QString("bookmark%1").arg(link) );
+        action->plug( mstack.top()->m_parentMenu );
+      }
+      else if(t.left(7) == "<DT><H3") {
+        QCString name = t.mid(t.find('>', 8)+1);
+        name = name.left(name.findRev('<'));
+
+        KActionMenu * actionMenu = new KActionMenu( KBookmark::stringSqueeze(QString(name)), QIconSet(),
+                                                    m_actionCollection, 0L );
+        actionMenu->plug( mstack.top()->m_parentMenu );
+        KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
+                                                    m_actionCollection, false,
+                                                    m_bAddBookmark );
+        mstack.top()->m_lstSubMenus.append( subMenu );
+
+        mstack.push(subMenu);
+      }
+      else if(t.left(4) == "<HR>")
+        mstack.top()->m_parentMenu->insertSeparator();
+      else if(t.left(8) == "</DL><p>")
+        mstack.pop();
+    }
+
+    f.close();
+  }
+}
+
 
 #include "kbookmarkmenu.moc"
