@@ -20,8 +20,8 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <stream.h>
 #include <stdlib.h>
+#include <iostream.h>
 
 #include <qlist.h>
 #include <qfile.h>
