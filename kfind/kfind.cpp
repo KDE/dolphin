@@ -31,23 +31,23 @@
 #include "kfwin.h"
 #include "kfind.h"
 
-// this should be enough to hold at least two fully 
-// qualified pathnames. 
+// this should be enough to hold at least two fully
+// qualified pathnames.
 #define IBUFSIZE 16384
 
-Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
+Kfind::Kfind( QWidget *parent, const char *name, const QString & searchPath )
   : QWidget( parent, name )
 {
   // init IO buffer
   iBuffer = new char[IBUFSIZE];
   isResultReported = false;
-  
+
   // create tabwidget
   tabWidget = new KfindTabWidget(this,"dialog",searchPath);
 
   // prepare window for find results
   win = new KfindWindow(this,"window");
-  
+
   QVBoxLayout *vBox = new QVBoxLayout(this);
   vBox->addWidget(tabWidget);
   vBox->addWidget(win);
@@ -73,14 +73,14 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	  win,SLOT(selectAll()));
   connect(parentWidget(),SIGNAL(unselectAll()),
 	  win,SLOT(unselectAll()));
-  
-  // We want to use /bin/sh as a shell. With tcsh and csh 
+
+  // We want to use /bin/sh as a shell. With tcsh and csh
   // find process can not be stopped by kill() call.
   findProcess = new KShellProcess("/bin/sh");
-  
+
   connect(findProcess, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(stopSearch()));
-  connect(findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)), 
+  connect(findProcess, SIGNAL(receivedStdout(KProcess *, char *, int)),
 	  this, SLOT(handleStdout(KProcess *, char *, int))) ;
 }
 
@@ -91,16 +91,16 @@ Kfind::~Kfind() {
 
 void Kfind::startSearch() {
 
-  // If this method returns NULL a error occured and 
+  // If this method returns NULL a error occured and
   // the error message was presented to the user. We just exit.
   QString cmdline = tabWidget->createQuery();
   if(cmdline == NULL)
     return;
-  
+
   iBuffer[0] = 0;
   isResultReported = false;
   hasBeenKilled = false;
-  
+
   // Reset count
   QString str = i18n("%1 file(s) found").arg(0);
   emit statusChanged(str);
@@ -108,12 +108,12 @@ void Kfind::startSearch() {
   emit resultSelected(false);
   emit haveResults(false);
   emit enableSearchButton(false);
-  
+
   win->beginSearch();
   tabWidget->beginSearch();
 
   setExpanded(true);
-  
+
   findProcess->clearArguments();
   findProcess->setExecutable(cmdline);
   findProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
@@ -129,7 +129,7 @@ void Kfind::stopSearch() {
     findProcess->kill(SIGINT); // Default signal doesn't always work
     hasBeenKilled = true;
   }
-  
+
   setFocus();
 }
 
@@ -147,16 +147,16 @@ void Kfind::newSearch() {
 }
 
 void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
-  
+
   // If find process has been stopped by user ignore rest of the input
   if(hasBeenKilled)
     return;
-  
+
   // copy data to I/O buffer
   int len = strlen(iBuffer);
   memcpy(iBuffer + len, buffer, buflen);
   iBuffer[len + buflen] = 0;
-  
+
   // split buffer: too expensive, improve
   char *p;
   while(( p = strchr(iBuffer, '\n')) != 0) {
@@ -170,7 +170,7 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
     }
     memmove(iBuffer, p+1, strlen(p + 1)+1);
   }
-  
+
   // Update count
   QString str = i18n("%1 file(s) found").arg(KGlobal::locale()->formatNumber(win->childCount(), 0));
   emit statusChanged(str);
@@ -179,11 +179,11 @@ void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {
 void Kfind::setExpanded(bool expand) {
 
   // Changing size "hides" the file table (win) when we do not need it.
-  // If we really win->show()/hide() it, tabWidget is not stretched 
+  // If we really win->show()/hide() it, tabWidget is not stretched
   // when win is hided. (Bug in QT?)
-  
+
   if(expand) {
-    setMinimumSize(tabWidget->sizeHint().width(), 
+    setMinimumSize(tabWidget->sizeHint().width(),
 		   2*tabWidget->sizeHint().height());
     setMaximumHeight(5000);
   }
@@ -191,7 +191,7 @@ void Kfind::setExpanded(bool expand) {
     setMinimumSize(tabWidget->sizeHint());
     setMaximumHeight(tabWidget->sizeHint().height());
   }
-  
+
   emit enableStatusBar(expand);
 }
 
@@ -203,6 +203,6 @@ void Kfind::keyReleaseEvent(QKeyEvent *e)
 {
   if (e->key()==Key_Escape)
     stopSearch();
-  
+
   QWidget::keyReleaseEvent(e);
 }

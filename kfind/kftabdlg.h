@@ -7,9 +7,9 @@
 #ifndef KFTABDLG_H
 #define KFTABDLG_H
 
-#include <qtabwidget.h>  
+#include <qtabwidget.h>
 #include <qcombobox.h>
-#include <qvalidator.h>  
+#include <qvalidator.h>
 
 class QButtonGroup;
 class QPushButton;
@@ -28,9 +28,9 @@ class KfindTabWidget: public QTabWidget
   Q_OBJECT
 
 public:
-  KfindTabWidget(QWidget * parent = 0, const char *name=0, const char *searchPath=0);
+  KfindTabWidget(QWidget * parent = 0, const char *name=0, const QString & searchPath=QString::null);
   virtual ~KfindTabWidget();
-  QString createQuery();      
+  QString createQuery();
   void setDefaults();
 
   void beginSearch();
@@ -51,13 +51,13 @@ signals:
 protected:
 
 private:
-  bool isDateValid(); 
+  bool isDateValid();
 
   QString date2String(QDate);
   QDate &string2Date(QString, QDate *);
 
   QWidget *pages[3];
-  
+
   // for first page
   QLabel      *namedL;
   QComboBox   *nameBox;
@@ -75,7 +75,7 @@ private:
   QLabel *andL;
   QLabel *monthL;
   QLabel *dayL;
-  
+
   // for third page
   QLabel *typeL;
   QComboBox *typeBox;
@@ -97,9 +97,9 @@ class KDigitValidator: public QValidator
 public:
   KDigitValidator(QWidget * parent, const char *name = 0 );
   ~KDigitValidator();
-  
+
   QValidator::State validate(QString & input, int &) const;
-  
+
  private:
   QRegExp *r;
 };
@@ -111,7 +111,7 @@ class KfComboBox: public QComboBox
 public:
   KfComboBox(QWidget * parent, const char *name = 0 );
   ~KfComboBox();
-  
+
   void keyPressEvent(QKeyEvent *e);
 
 signals:

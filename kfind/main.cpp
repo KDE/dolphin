@@ -15,8 +15,9 @@
 #include <kcmdlineargs.h>
 #include <version.h>
 #include <kaboutdata.h>
+#include <kdebug.h>
 
-static const char *description = 
+static const char *description =
 	I18N_NOOP("KDE File find utility.");
 
 static KCmdLineOptions options[] =
@@ -27,10 +28,10 @@ static KCmdLineOptions options[] =
 
 KfSaveOptions *saving;
 
-int main( int argc, char ** argv ) 
+int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kfind", I18N_NOOP("KFind"), 
-		KFIND_VERSION, description, KAboutData::License_GPL, 
+	KAboutData aboutData( "kfind", I18N_NOOP("KFind"),
+		KFIND_VERSION, description, KAboutData::License_GPL,
 		"(c) 1998-2000, The KDE Developers");
 	aboutData.addAuthor("Martin Hartig");
 	aboutData.addAuthor("Mario Weilguni",0, "mweilguni@sime.com");
@@ -42,14 +43,14 @@ int main( int argc, char ** argv )
 	
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
-  
+
     KApplication app;
 
     //Scan for saving options in kfind resource file
     saving = new KfSaveOptions();
 
     // Scan for available filetypes
-    KfFileType::init();   
+    KfFileType::init();
 
     // Scan for avaiable archivers in kfind resource file
     KfArchiver::init();
@@ -74,7 +75,7 @@ int main( int argc, char ** argv )
  	else
  	  searchPath = getenv( "HOME" );
       };
-    
+
     QFileInfo filename(searchPath);
     if ( filename.exists() )
       {
@@ -88,23 +89,25 @@ int main( int argc, char ** argv )
 
     KfindTop *kfind= NULL;
 
+/*
     // session management (Matthias)
     if (kapp->isRestored()){
       int n = 1;
       while (KTMainWindow::canBeRestored(n)){
-	kfind = new KfindTop(searchPath.ascii()); 
+	kfind = new KfindTop(searchPath);
 	kfind->restore(n);
 	n++;
       }
       // end session management
     } else {
-      kfind = new KfindTop(searchPath.ascii());
+*/
+      kfind = new KfindTop(searchPath);
       kfind->show();
-    }
+//    }
     app.setMainWidget(kfind);
     kfind->nameSetFocus();
     int ret =  app.exec();
 
     return ret;
 };
- 
+

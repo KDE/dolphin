@@ -46,7 +46,7 @@ static QString quote(const QString);
 extern KfFileTypeList *types;
 
 KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
-			       const char *searchPath)
+			       const QString & searchPath)
   : QTabWidget( parent, name )
 {
     _searchPath = searchPath;
@@ -265,20 +265,21 @@ void KfindTabWidget::loadHistory()
 {
   // Load pattern history
   KConfig *conf = kapp->config();
-  QStrList sl;
   conf->setGroup("History");
-  if(conf->readListEntry("Patterns", sl, ','))
-    nameBox->insertStrList(&sl);
+  QStringList sl = conf->readListEntry("Patterns", ',');
+  if(!sl.isEmpty())
+    nameBox->insertStringList(sl);
   else
     nameBox->insertItem("*");
 
-  if(conf->readListEntry("Directories", sl, ',')) {
-    dirBox->insertStrList(&sl);
+  sl = conf->readListEntry("Directories", ',');
+  if(!sl.isEmpty()) {
+    dirBox->insertStringList(sl);
     // If the _searchPath already exists in the list we do not
     // want to add it again
-    int indx = sl.find(_searchPath);
+    int indx = sl.findIndex(_searchPath);
     if(indx == -1)
-      dirBox->insertItem(_searchPath);
+      dirBox->insertItem(_searchPath, 0); // make it the first one
     else
       dirBox->setCurrentItem(indx);
   }

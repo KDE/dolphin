@@ -19,7 +19,7 @@ class Kfind: public QWidget
 Q_OBJECT
 
 public:
-  Kfind( QWidget * parent = 0 ,const char * name = 0, const char*searchPath = 0);
+  Kfind( QWidget * parent = 0 ,const char * name = 0, const QString & searchPath = 0);
   ~Kfind();
   void copySelection();
 
@@ -50,7 +50,7 @@ protected:
    * Pressing Escape stops searching
    */
   virtual void keyReleaseEvent(QKeyEvent *e);
-  
+
 private:
   KShellProcess *findProcess;
   KfindTabWidget *tabWidget;
@@ -64,4 +64,4 @@ private:
 
 #endif
 
- 
+
