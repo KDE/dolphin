@@ -109,7 +109,7 @@ public:
   virtual QString currentURL();
   
 
-public slots:  
+public slots:  // IDL
   // File menu
   virtual void slotNewWindow();
   virtual void slotRun();
@@ -124,7 +124,6 @@ public slots:
   virtual void slotPaste();
   virtual void slotTrash();
   virtual void slotDelete();
-  virtual void slotSaveGeometry();
 
   // View menu
   virtual void slotSplitView();
@@ -149,6 +148,15 @@ public slots:
   virtual void slotEditApplications();
 
   // Options menu
+  virtual void slotShowMenubar();
+  virtual void slotShowStatusbar();
+  virtual void slotShowToolbar();
+  virtual void slotShowLocationbar();
+  virtual void slotSaveSettings();
+  virtual void slotSaveLocalSettings();
+  // TODO : cache submenu
+  virtual void slotConfigureFileManager();
+  virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
 
   // Help menu

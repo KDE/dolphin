@@ -84,22 +84,28 @@ enum _ids {
 
     MEDIT_COPY_ID, MEDIT_PASTE_ID, MEDIT_TRASH_ID, MEDIT_DELETE_ID, MEDIT_SELECT_ID,
     MEDIT_SELECTALL_ID, // MEDIT_FINDINPAGE_ID, MEDIT_FINDNEXT_ID,
-    MEDIT_MIMETYPES_ID, MEDIT_APPLICATIONS_ID, // later, add global mimetypes and apps here
-    MEDIT_SAVEGEOMETRY_ID,
+    MEDIT_MIMETYPES_ID, MEDIT_APPLICATIONS_ID, 
 
     MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID, MVIEW_REMOVEVIEW_ID, 
     MVIEW_SHOWDOT_ID, MVIEW_SHOWHTML_ID,
     MVIEW_LARGEICONS_ID, MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, 
     MVIEW_RELOAD_ID, MVIEW_STOP_ID,
-    // + view frame source, view document source, document encoding
+    // TODO : view frame source, view document source, document encoding
 
     MGO_UP_ID, MGO_BACK_ID, MGO_FORWARD_ID, MGO_HOME_ID,
     MGO_CACHE_ID, MGO_HISTORY_ID, MGO_MIMETYPES_ID, MGO_APPLICATIONS_ID,
+    // TODO : add global mimetypes and apps here
 
-    // clear cache is needed somewhere
-    // MOPTIONS_...
-
-    MHELP_HELP_ID
+    MOPTIONS_SHOWMENUBAR_ID, MOPTIONS_SHOWSTATUSBAR_ID, 
+    MOPTIONS_SHOWTOOLBAR_ID, MOPTIONS_SHOWLOCATIONBAR_ID,
+    MOPTIONS_SAVESETTINGS_ID,
+    MOPTIONS_SAVELOCALSETTINGS_ID,
+    // TODO : "Cache" submenu (clear cache, ...)
+    MOPTIONS_CONFIGUREFILEMANAGER_ID,
+    MOPTIONS_CONFIGUREBROWSER_ID,
+    MOPTIONS_CONFIGUREKEYS_ID,
+    
+    MHELP_HELP_ID // TODO : Corba-equivalent of kapp->getHelpMenu, in OPApplication
 };
 
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
@@ -187,10 +193,8 @@ void KonqMainView::init()
   CORBA::WString_var item = Q2C( i18n("Konqueror :-)") );
   m_vStatusBar->insertItem( item, 1 );
 
-  m_vStatusBar->enable( OpenPartsUI::Show );
-  if ( !m_Props->m_bShowStatusBar )
-    m_vStatusBar->enable( OpenPartsUI::Hide );
-    
+  m_vStatusBar->enable( m_Props->m_bShowStatusBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+
   initGui();
 
 //  KonqPlugins::installKOMPlugins( this ); <<--- enable this only if you want to fire up mainview plugins
@@ -425,8 +429,6 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Delete") );
   m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  text = Q2C( i18n("Save &Geometry") );
-  m_vMenuEdit->insertItem4( text, this, "slotSaveGeometry", 0, MEDIT_SAVEGEOMETRY_ID, -1 );
 
   text = Q2C( i18n("&View") );
   menuBar->insertMenu( text, m_vMenuView, -1, -1 );  
@@ -462,8 +464,32 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Options") );
   menuBar->insertMenu( text, m_vMenuOptions, -1, -1 );
 
+  text = Q2C( i18n("Show &Menubar") );
+  m_vMenuOptions->insertItem4( text, this, "slotShowMenubar", 0, MOPTIONS_SHOWMENUBAR_ID, -1 );
+  text = Q2C( i18n("Show &Statusbar") );
+  m_vMenuOptions->insertItem4( text, this, "slotShowStatusbar", 0, MOPTIONS_SHOWSTATUSBAR_ID, -1 );
+  text = Q2C( i18n("Show &Toolbar") );
+  m_vMenuOptions->insertItem4( text, this, "slotShowToolbar", 0, MOPTIONS_SHOWTOOLBAR_ID, -1 );
+  text = Q2C( i18n("Show &Locationbar") );
+  m_vMenuOptions->insertItem4( text, this, "slotShowLocationbar", 0, MOPTIONS_SHOWLOCATIONBAR_ID, -1 );
+  m_vMenuEdit->insertSeparator( -1 );
+  text = Q2C( i18n("Sa&ve Settings") );
+  m_vMenuOptions->insertItem4( text, this, "slotSaveSettings", 0, MOPTIONS_SAVESETTINGS_ID, -1 );
+  text = Q2C( i18n("Save Settings for this &URL") );
+  m_vMenuOptions->insertItem4( text, this, "slotSaveLocalSettings", 0, MOPTIONS_SAVELOCALSETTINGS_ID, -1 );
+  m_vMenuEdit->insertSeparator( -1 );
+  // TODO : cache submenu
+  text = Q2C( i18n("&Configure File Manager...") );
+  m_vMenuOptions->insertItem4( text, this, "slotConfigureFileManager", 0, MOPTIONS_CONFIGUREFILEMANAGER_ID, -1 );
+  text = Q2C( i18n("Configure &Browser...") );
+  m_vMenuOptions->insertItem4( text, this, "slotConfigureBrowser", 0, MOPTIONS_CONFIGUREBROWSER_ID, -1 );
   text = Q2C( i18n("Configure &keys") );
-  m_vMenuOptions->insertItem( text, this, "slotConfigureKeys", 0 );
+  m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
+
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, m_Props->m_bShowMenuBar );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, m_Props->m_bShowStatusBar );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, m_Props->m_bShowLocationBar );
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, m_Props->m_bShowToolBar );
 
   return true;
 }
@@ -546,10 +572,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
                              this, "slotNewWindow", true, 0L, -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
 
-  m_vToolBar->enable( OpenPartsUI::Show );
-  if ( !m_Props->m_bShowToolBar )
-    m_vToolBar->enable( OpenPartsUI::Hide );
-
+  m_vToolBar->enable( m_Props->m_bShowToolBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
   m_vToolBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_toolBarPos) );
 
   m_vLocationBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
@@ -572,10 +595,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vLocationBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_locationBarPos) );
 
-  m_vLocationBar->enable( OpenPartsUI::Show );
-  if ( !m_Props->m_bShowLocationBar )
-    m_vLocationBar->enable( OpenPartsUI::Hide );
-
+  m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
   // The toolbar is created AFTER the initial view is built and made active
   // So we need this :
   /*  if ( m_currentView )
@@ -1068,21 +1088,6 @@ void KonqMainView::slotDelete()
   // TODO
 }
 
-void KonqMainView::slotSaveGeometry()
-{
-  KConfig *config = kapp->getConfig();
-  config->setGroup( "Settings" );
-
-  // Update the values in m_Props, if necessary :
-  m_Props->m_width = this->width();
-  m_Props->m_height = this->height();
-//  m_Props->m_toolBarPos = m_pToolbar->barPos();
-  // m_Props->m_statusBarPos = m_pStatusBar->barPos(); doesn't exist. Hum.
-//  m_Props->m_menuBarPos = m_pMenu->menuBarPos();
-//  m_Props->m_locationBarPos = m_pLocationBar->barPos();
-  m_Props->saveProps(config);
-}
-
 void KonqMainView::slotSplitView()
 {
   // Create new view, same URL as current view, on its right.
@@ -1223,6 +1228,70 @@ void KonqMainView::slotEditMimeTypes()
 void KonqMainView::slotEditApplications()
 {
   openURL( kapp->kde_appsdir(), (CORBA::Boolean)false );
+}
+
+void KonqMainView::slotShowMenubar()
+{
+  m_Props->m_bShowMenuBar = !m_Props->m_bShowMenuBar;
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWMENUBAR_ID, m_Props->m_bShowMenuBar );
+/* TODO !! - Not sure it can be done with a menubarmanager...
+  OPMenuBarManager* m = m_vMainWindow->menuBarManager();
+  if (m_Props->m_bShowMenuBar)
+    m->create( id() );
+  else
+    m->clear();
+*/
+}
+
+void KonqMainView::slotShowStatusbar()
+{
+  m_Props->m_bShowStatusBar = !m_Props->m_bShowStatusBar;
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWSTATUSBAR_ID, m_Props->m_bShowStatusBar );
+  m_vStatusBar->enable( m_Props->m_bShowStatusBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+}
+
+void KonqMainView::slotShowToolbar()
+{
+  m_Props->m_bShowToolBar = !m_Props->m_bShowToolBar;
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, m_Props->m_bShowToolBar );
+  m_vToolBar->enable( m_Props->m_bShowToolBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+}
+
+void KonqMainView::slotShowLocationbar()
+{
+  m_Props->m_bShowLocationBar = !m_Props->m_bShowLocationBar;
+  m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, m_Props->m_bShowLocationBar );
+  m_vLocationBar->enable( m_Props->m_bShowLocationBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
+}
+
+void KonqMainView::slotSaveSettings()
+{
+  KConfig *config = kapp->getConfig();
+  config->setGroup( "Settings" );
+
+  // Update the values in m_Props, if necessary :
+  m_Props->m_width = this->width();
+  m_Props->m_height = this->height();
+//  m_Props->m_toolBarPos = m_pToolbar->barPos();
+  // m_Props->m_statusBarPos = m_pStatusBar->barPos(); doesn't exist. Hum.
+//  m_Props->m_menuBarPos = m_pMenu->menuBarPos();
+//  m_Props->m_locationBarPos = m_pLocationBar->barPos();
+  m_Props->saveProps(config);
+}
+
+void KonqMainView::slotSaveLocalSettings()
+{
+//TODO
+}
+
+void KonqMainView::slotConfigureFileManager()
+{
+//TODO
+}
+
+void KonqMainView::slotConfigureBrowser()
+{
+//TODO
 }
 
 void KonqMainView::slotConfigureKeys()

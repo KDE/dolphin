@@ -241,7 +241,6 @@ module Konqueror
     slot void slotPaste();
     slot void slotTrash();
     slot void slotDelete();
-    slot void slotSaveGeometry();
 
     // View menu
     slot void slotSplitView();
@@ -266,6 +265,15 @@ module Konqueror
     slot void slotEditApplications();
 
     // Options menu
+    slot void slotShowMenubar();
+    slot void slotShowStatusbar();
+    slot void slotShowToolbar();
+    slot void slotShowLocationbar();
+    slot void slotSaveSettings();
+    slot void slotSaveLocalSettings();
+    // TODO : cache submenu
+    slot void slotConfigureFileManager();
+    slot void slotConfigureBrowser();
     slot void slotConfigureKeys();
 
     // Help menu
