@@ -115,7 +115,7 @@ protected:
 
 private slots:
     void slotDoubleClicked( QListViewItem *item );
-    void slotClicked( QListViewItem *item );
+    void slotExecuted( QListViewItem *item );
     void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
     void slotSelectionChanged();
 

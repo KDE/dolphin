@@ -108,8 +108,8 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
              this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
-    connect( this, SIGNAL( clicked( QListViewItem * ) ),
-             this, SLOT( slotClicked( QListViewItem * ) ) );
+    connect( this, SIGNAL( activated( QListViewItem * ) ),
+             this, SLOT( slotExecuted( QListViewItem * ) ) );
     connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( selectionChanged() ),
@@ -326,11 +326,11 @@ void KonqSidebarTree::slotDoubleClicked( QListViewItem *item )
     if ( !static_cast<KonqSidebarTreeItem*>(item)->isClickable() )
         return;
 
-    slotClicked( item );
+    slotExecuted( item );
     item->setOpen( !item->isOpen() );
 }
 
-void KonqSidebarTree::slotClicked( QListViewItem *item )
+void KonqSidebarTree::slotExecuted( QListViewItem *item )
 {
     //kdDebug(1201) << "KonqSidebarTree::slotClicked " << item << endl;
     if ( !item )
