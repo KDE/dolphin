@@ -97,7 +97,7 @@ QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
- : m_currentView( 0 ), KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
+ : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
   if ( !s_lstViews )
     s_lstViews = new QList<KonqMainWindow>;
@@ -107,6 +107,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !s_actionSlotMap )
       s_actionSlotMap = new ActionSlotMap( KParts::BrowserExtension::actionSlotMap() );
 
+  m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_dcopObject = 0L;
   m_combo = 0L;
