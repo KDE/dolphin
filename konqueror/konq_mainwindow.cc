@@ -2799,10 +2799,6 @@ void KonqMainWindow::slotToggleFullScreen()
     lst.append( m_ptaFullScreen );
     plugActionList( "fullscreen", lst );
 
-    QPtrListIterator<KToolBar> barIt = toolBarIterator();
-    for (; barIt.current(); ++barIt )
-        barIt.current()->setEnableContextMenu( false );
-
     menuBar()->hide();
     m_paShowMenuBar->setChecked( false );
 
@@ -2821,10 +2817,6 @@ void KonqMainWindow::slotToggleFullScreen()
   else
   {
     unplugActionList( "fullscreen" );
-
-    QPtrListIterator<KToolBar> barIt = toolBarIterator();
-    for (; barIt.current(); ++barIt )
-        barIt.current()->setEnableContextMenu( true );
 
     menuBar()->show(); // maybe we should store this setting instead of forcing it
     m_paShowMenuBar->setChecked( true );
