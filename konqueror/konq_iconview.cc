@@ -19,6 +19,8 @@
 
 #include "konq_iconview.h"
 #include "konq_propsview.h"
+#include "konq_childview.h"
+#include "konq_frame.h"
 
 #include <assert.h>
 #include <string.h>
@@ -393,14 +395,18 @@ KonqKfmIconView::KonqKfmIconView()
   KToggleAction *aLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
   KToggleAction *aNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
   KToggleAction *aSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
+  m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
  
   aLargeIcons->setExclusiveGroup( "ViewMode" );
   aNormalIcons->setExclusiveGroup( "ViewMode" );
   aSmallIcons->setExclusiveGroup( "ViewMode" );
+  m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
   
   aLargeIcons->setChecked( true );
   aNormalIcons->setChecked( false );
   aSmallIcons->setChecked( false );
+  m_paKOfficeMode->setChecked( false );
+  m_paKOfficeMode->setEnabled( false );
   
   KToggleAction *aBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this, SLOT( slotTextBottom() ), this );
   KToggleAction *aRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this, SLOT( slotTextRight() ), this );
@@ -414,6 +420,7 @@ KonqKfmIconView::KonqKfmIconView()
   connect( aLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
   connect( aNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
   connect( aSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
+  connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
 
   connect( aBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
   connect( aRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
@@ -426,6 +433,7 @@ KonqKfmIconView::KonqKfmIconView()
   actions()->append( BrowserView::ViewAction( aLargeIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( aNormalIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( aSmallIcons, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( m_paSelect, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
@@ -647,6 +655,27 @@ void KonqKfmIconView::slotSetSortDirectionDescending()
   m_pIconView->sortItems( m_pIconView->sortOrder() );
 }
 
+void KonqKfmIconView::slotKofficeMode( bool b )
+{
+  if ( b )
+  {
+    QObject *obj = parent();
+    while ( obj )
+    {
+      if ( obj->inherits( "KonqFrame" ) )
+        break;
+      obj = obj->parent();
+    }
+    
+    if ( obj && obj->inherits( "KonqFrame" ) )
+    {
+      KonqChildView *childView = ((KonqFrame *)obj)->childView();
+      // TODO switch to koffice view mode here
+      childView->changeViewMode( "inode/directory", url(), false, "KonqTreeView" );
+    }
+  }
+}
+
 void KonqKfmIconView::slotViewLarge( bool b )
 {
   if ( b )
@@ -806,10 +835,6 @@ void KonqKfmIconView::initConfig()
                     new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()),
                     m_pSettings->autoSelect() );
   m_pIconView->setUseSingleClickMode( m_pSettings->singleClick() );
-
-  // probably not necessary with QIconView
-  //if ( !m_bInit )
-    //refresh();
 }
 
 void KonqKfmIconView::slotMousePressed( QIconViewItem *item )
@@ -874,6 +899,7 @@ void KonqKfmIconView::slotCompleted()
     m_bLoading = false;
   }
   m_pIconView->setContentsPos( m_iXOffset, m_iYOffset );
+  m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 }
 
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
@@ -900,6 +926,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
     emit loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
 
   //bSetupNeeded = true;
+  
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
