@@ -1525,6 +1525,10 @@ QString KonqMainView::currentURL()
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
+  m_oldView = m_currentView;
+  
+  m_currentView = childView( (BrowserView *)sender() );
+  
   //kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
   QString url = m_currentView->url();
 
@@ -1552,6 +1556,9 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 
   pPopupMenu->exec( _global );
   delete pPopupMenu;
+  
+  m_currentView = m_oldView;
+  checkEditExtension();
 }
 
 void KonqMainView::slotDatabaseChanged()

@@ -304,6 +304,8 @@ private:
 
   bool m_bURLEnterLock;
 
+  KonqChildView *m_oldView;
+
   static QList<QPixmap> *s_plstAnimatedLogo;
 
   static bool s_bMoveSelection;
