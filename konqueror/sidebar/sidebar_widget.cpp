@@ -180,7 +180,9 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
    	ButtonBar=new Sidebar_ButtonBar(this);
 	ButtonBar->setIconText(KToolBar::IconOnly);
+#ifdef __GNUC__
 #warning setIconSize(16) for the buttonbar is only a temporary solution for missing 22x22 icons
+#endif
 	ButtonBar->setIconSize(16);
    	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
@@ -199,11 +201,15 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertSeparator();
 	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
+#ifdef __GNUC__
 #warning replace SmallIcon with BarIcon when 22x22 icons are all available
+#endif
 	ButtonBar->insertButton(SmallIcon("remove"),-2);
 	connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),par,SLOT(doCloseMe()));
 	ButtonBar->insertLineSeparator();
+#ifdef __GNUC__
 #warning replace SmallIcon with BarIcon when 22x22 icons are all available
+#endif
 	ButtonBar->insertButton(SmallIcon("configure"), -1, Menu,true,
     	    				i18n("Configure Sidebar"));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
@@ -349,7 +355,9 @@ void Sidebar_Widget::updateDock()
 
 ButtonInfo* Sidebar_Widget::getActiveModule()
 {
+#ifdef __GNUC__
 #warning implement correctly for multiple views
+#endif
         ButtonInfo *info;
         for (unsigned int i=0;i<Buttons.count();i++)
                 if ((info=Buttons.at(i))->dock!=0)                      
