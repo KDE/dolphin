@@ -9,6 +9,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
@@ -29,28 +30,25 @@
 #include "passwd.h"
 
 
-#ifdef __GNUC__
-#define ID __PRETTY_FUNCTION__
-#else
-#define ID "PasswdProcess"
-#endif
-
-
 PasswdProcess::PasswdProcess(QCString user)
 {
     struct passwd *pw;
 
-    if (user.isEmpty()) {
+    if (user.isEmpty()) 
+    {
 	pw = getpwuid(getuid());
-	if (pw == 0L) {
-	    kdDebug() << "You don't exist!";
+	if (pw == 0L) 
+	{
+	    kdDebug(1512) << "You don't exist!\n";
             return;
 	}
 	m_User = pw->pw_name;
-    } else {
+    } else 
+    {
 	pw = getpwnam(user);
-	if (pw == 0L) {
-	    kdDebug() << ID << ": User " << user.data() << "does not exist.";
+	if (pw == 0L) 
+	{
+	    kdDebug(1512) << k_lineinfo << "User " << user << "does not exist.\n";
 	    return;
 	}
 	m_User = user;
@@ -65,7 +63,7 @@ PasswdProcess::~PasswdProcess()
 
 int PasswdProcess::checkCurrent(const char *oldpass)
 {
-    return exec(oldpass, 0L, 1) != 1;
+    return exec(oldpass, 0L, 1);
 }
     
 
@@ -77,26 +75,24 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
     if (check)
 	setTerminal(true);
 
-    QString path = KStandardDirs::findExe("passwd");
-    if (path.isEmpty()) {
-	kdDebug() << "passwd not found!";
-	return -1;
-    }
-    QCString cpath = path.latin1();
+    // Try to set the default locale to make the parsing of the output 
+    // of `passwd' easier.
+    putenv("LANG=C");
+
     QCStringList args;
     args += m_User;
-    if (PtyProcess::exec(cpath, args) < 0)
-	return -1;
-
-    int ret = ConversePasswd(oldpass, newpass, check);
-    if (ret < 0) {
-	kdDebug() << ID << ": Conversation with passwd failed";
-	return -1;
-    } 
-    if (ret == 1) {
-	kill(m_Pid, SIGKILL);
-	waitForChild();
+    int ret = PtyProcess::exec("passwd", args);
+    if (ret < 0)
+    {
+	kdDebug(1512) << k_lineinfo << "Passwd not found!\n";
+	return PasswdNotFound;
     }
+
+    ret = ConversePasswd(oldpass, newpass, check);
+    if (ret < 0)
+	kdDebug(1512) << k_lineinfo << "Conversation with passwd failed.\n";
+
+    waitForChild();
     return ret;
 }
 
@@ -104,6 +100,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 /*
  * The tricky thing is to make this work with a lot of different passwd
  * implementations. We _don't_ want implementation specific routines.
+ * Return values: -1 = unknown error, 0 = ok, >0 = error code.
  */
 
 int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass, 
@@ -112,30 +109,34 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
     QCString line;
     int state = 0;
 
-    while (state < 7) {
+    while (state != 7)
+    {
 	line = readLine();
-	if (line.isNull()) {
-	    if (state == 6)
-		break;
-	    else
-		return -1;
+	if (line.isNull()) 
+	{
+	    return -1;
 	}
 
-	switch (state) {
+	switch (state) 
+	{
 	case 0:
 	    // Eat garbage, wait for prompt
-	    if (isPrompt(line, "password")) {
+	    if (isPrompt(line, "password")) 
+	    {
 		WaitSlave();
 		write(m_Fd, oldpass, strlen(oldpass));
 		write(m_Fd, "\n", 1);
-		state++; break;
+		state++; 
+		break;
 	    }
-	    if (m_bTerminal) fputs(line, stdout);
+	    if (m_bTerminal) 
+		fputs(line, stdout);
 	    break;
 	
-	case 1: case 3: case 5:
+	case 1: case 3: case 6:
 	    // Wait for \n
-	    if (line.isEmpty()) {
+	    if (line.isEmpty()) 
+	    {
 		state++;
 		break;
 	    }
@@ -144,41 +145,67 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 
 	case 2: 
 	    // Wait for second prompt.
-	    if (isPrompt(line, "new")) {
+	    if (isPrompt(line, "new")) 
+	    {
 		if (check)
-		    return 1;
+		{
+		    kill(m_Pid, SIGKILL);
+		    waitForChild();
+		    return 0;
+		}
 		WaitSlave();
 		write(m_Fd, newpass, strlen(newpass));
 		write(m_Fd, "\n", 1);
-		state++; break;
+		state++; 
+		break;
 	    }
-	    // Assume error message.
-	    if (m_bTerminal) fputs(line, stdout);
+	    // Assume incorrect password.
+	    if (m_bTerminal) 
+		fputs(line, stdout);
 	    m_Error = line;
-	    return -1;
+	    return PasswordIncorrect;
 
 	case 4:
 	    // Wait for third prompt
-	    if (isPrompt(line, "password")) {
+	    if (isPrompt(line, "re")) 
+	    {
 		WaitSlave();
 		write(m_Fd, newpass, strlen(newpass));
 		write(m_Fd, "\n", 1);
-		state++; break;
+		state += 2;
+		break;
 	    }
-	    // Assume error message.
-	    if (m_bTerminal) fputs(line, stdout);
+	    // Warning or error about the new password
+	    if (m_bTerminal) 
+		fputs(line, stdout);
 	    m_Error = line;
-	    return -1;
+	    state++;
+	    break;
 
-	case 6:
-	    // Wait for EOF, but no prompt.
-	    if (isPrompt(line, "password"))
-		return 1;
-	    if (m_bTerminal) fputs(line, stdout);
+	case 5:
+	    // Wait for either a "Reenter password" or a "Enter password" prompt
+	    if (isPrompt(line, "re"))
+	    {
+		WaitSlave();
+		write(m_Fd, newpass, strlen(newpass));
+		write(m_Fd, "\n", 1);
+		state++;
+		break;
+	    }
+	    else if (isPrompt(line, "password"))
+	    {
+		kill(m_Pid, SIGKILL);
+		waitForChild();
+		return PasswordNotGood;
+	    }
+	    if (m_bTerminal)
+		fputs(line, stdout);
+	    m_Error += line;
+	    break;
 	}
     }
 
-    kdDebug() << ID << ": Conversation ended";
+    kdDebug(1512) << k_lineinfo << "Conversation ended successfully.\n";
     return 0;
 }
     
@@ -187,8 +214,10 @@ bool PasswdProcess::isPrompt(QCString line, const char *word)
 {
     unsigned i, j, colon;
 
-    for (i=0,j=0,colon=0; i<line.length(); i++) {
-	if (line[i] == ':') {
+    for (i=0,j=0,colon=0; i<line.length(); i++) 
+    {
+	if (line[i] == ':') 
+	{
 	    j = i; colon++;
 	    continue;
 	}
@@ -200,7 +229,6 @@ bool PasswdProcess::isPrompt(QCString line, const char *word)
 	return false;
     if (word == 0L)
 	return true;
-
     return line.contains(word, false);
 }
 

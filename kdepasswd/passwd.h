@@ -1,6 +1,6 @@
 /* vi: ts=8 sts=4 sw=4
  *
- * $Id: $
+ * $Id$
  *
  * This file is part of the KDE project, module kdesu.
  * Copyright (C) 2000 Geert Jansen <jansen@kde.org>
@@ -22,6 +22,8 @@ class PasswdProcess
 public:
     PasswdProcess(QCString user=0);
     ~PasswdProcess();
+
+    enum Errors { PasswdNotFound=1, PasswordIncorrect, PasswordNotGood };
 
     int checkCurrent(const char *oldpass);
     int exec(const char *oldpass, const char *newpass, int check=0);
