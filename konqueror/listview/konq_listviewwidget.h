@@ -159,8 +159,8 @@ public slots:
 protected slots:
    void slotAutoScroll();
 
-   virtual void slotOnItem( QListViewItem *_item );
-   virtual void slotOnViewport();
+   virtual void slot2OnItem( QListViewItem *_item );
+   virtual void slot2OnViewport();
    // from QListView
    virtual void slotReturnPressed( QListViewItem *_item );
    virtual void slotCurrentChanged( QListViewItem *_item ) { slotOnItem( _item ); }

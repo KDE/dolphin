@@ -130,8 +130,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT(slotPopupMenu( QListViewItem *, const QPoint&, int )) );
    connect( this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()) );
 
-   connect( this, SIGNAL(onItem(QListViewItem *)), SLOT(slotOnItem(QListViewItem *)) );
-   connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
+   connect( this, SIGNAL(onItem(QListViewItem *)), SLOT(slot2OnItem(QListViewItem *)) );
+   connect( this, SIGNAL(onViewport()), SLOT(slot2OnViewport()) );
 
    connect( horizontalScrollBar(), SIGNAL(valueChanged( int )),
             this, SIGNAL(viewportAdjusted()) );
@@ -740,7 +740,7 @@ void KonqBaseListViewWidget::startDrag()
    d->drag();
 }
 
-void KonqBaseListViewWidget::slotOnItem( QListViewItem *_item )
+void KonqBaseListViewWidget::slot2OnItem( QListViewItem *_item )
 {
    if ( m_rubber ) return;  // don't show tooltip during rubber banding
 
@@ -755,7 +755,7 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem *_item )
                        _item->pixmap(0) );
 }
 
-void KonqBaseListViewWidget::slotOnViewport()
+void KonqBaseListViewWidget::slot2OnViewport()
 {
    m_fileTip->setItem( 0 );
 }
@@ -825,6 +825,7 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem *item )
 {
    if ( !item )
       return;
+   m_fileTip->setItem( 0 );
    // isExecuteArea() checks whether the mouse pointer is
    // over an area where an action should be triggered
    // (i.e. the Name column, including pixmap and "+")
