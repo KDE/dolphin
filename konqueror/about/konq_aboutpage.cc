@@ -151,7 +151,7 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Supported standards") )
           .arg( i18n("Additional requirements*") )
           .arg( i18n("<A HREF=\"%1\">DOM</A> (Level 1, partially Level 2) based "
-                     "<A HREF=\"%1\">HTML 4.01</A>").arg("http://www.w3.org/DOM").arg("http://www.w3.org/TR/html4/") )
+                     "<A HREF=\"%2\">HTML 4.01</A>").arg("http://www.w3.org/DOM").arg("http://www.w3.org/TR/html4/") )
           .arg( i18n("built-in") )
           .arg( i18n("<A HREF=\"%1\">Cascading Style Sheets</A> (CSS 1, partially CSS 2)").arg("http://www.w3.org/Style/CSS/") )
           .arg( i18n("built-in") )
