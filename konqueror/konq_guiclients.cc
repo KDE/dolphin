@@ -273,6 +273,9 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
         viewManager->removeView( it.current() );
   }
 
+}
+void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
+{
   // The current approach is : save this setting as soon as it is changed
   // (This obeys to "no 'Save settings' menu item approach in the Style Guide")
   // I'm on the safe side, this way: whoever doesn't agree has to discuss
@@ -280,7 +283,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   KConfig *config = KonqFactory::instance()->config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
   QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
-  if (toggle)
+  if (add)
   {
       if ( !toggableViewsShown.contains( serviceName ) )
           toggableViewsShown.append(serviceName);
@@ -298,6 +301,8 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
 
   if ( action )
     static_cast<KToggleAction *>( action )->setChecked( true );
+  
+  saveConfig( true, name );
 }
 
 void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
@@ -308,6 +313,8 @@ void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
 
   if ( action )
     static_cast<KToggleAction *>( action )->setChecked( false );
+  
+  saveConfig( false, name );
 }
 
 #include "konq_guiclients.moc"

@@ -57,6 +57,8 @@ public:
   QList<KAction> actions() const;
   KAction *action( const QString &name ) { return m_actions[ name ]; }
 
+  void saveConfig( bool add, const QString &serviceName );
+
 private slots:
   void slotToggleView( bool toggle );
   void slotViewAdded( KonqChildView *view );
