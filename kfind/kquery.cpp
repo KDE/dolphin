@@ -220,6 +220,7 @@ void KQuery::processQuery( KFileItem* file)
     if (!m_context.isEmpty())
     {
        bool found = false;
+       bool isKWordDocument=false;
        int matchingLineNumber=0;
 
        // FIXME: doesn't work with non local files
@@ -227,35 +228,32 @@ void KQuery::processQuery( KFileItem* file)
        QString filename;
        QTextStream* stream;
        QFile qf;
-       QString strzippedXmlFileContent;
        QRegExp xmlTags;
-
+       QByteArray zippedXmlFileContent;
+    
        //KWord's files are compressed...
        if((file->mimetype()=="application/x-kword")||(file->mimetype()=="application/vnd.sun.xml.writer"))
        {
          KZip zipfile(file->url().path());
-         const KArchiveDirectory *zipfileContent = zipfile.directory();
-         const KZipFileEntry *zipfileEntry;
-         QByteArray zippedXmlFileContent;
+         KZipFileEntry *zipfileEntry;
 
          if(!zipfile.open(IO_ReadOnly))
            return;
-         zipfileContent = zipfile.directory();
+         const KArchiveDirectory *zipfileContent = zipfile.directory();
 
          if(file->mimetype()=="application/x-kword")
-           zipfileEntry=(const KZipFileEntry*)zipfileContent->entry("maindoc.xml");
+           zipfileEntry=(KZipFileEntry*)zipfileContent->entry("maindoc.xml");
          else
-           zipfileEntry=(const KZipFileEntry*)zipfileContent->entry("content.xml"); //for oOo
+           zipfileEntry=(KZipFileEntry*)zipfileContent->entry("content.xml"); //for oOo
 
          if(!zipfileEntry)
            return;
              
          zippedXmlFileContent=zipfileEntry->data();
-         strzippedXmlFileContent=QString::fromUtf8(zippedXmlFileContent);
          xmlTags.setPattern("<.*>");
          xmlTags.setMinimal(true);
-         strzippedXmlFileContent.replace(xmlTags, "");
-         stream = new QTextStream(strzippedXmlFileContent, IO_ReadOnly);
+         stream = new QTextStream(zippedXmlFileContent, IO_ReadOnly);
+         isKWordDocument=true;
        }
        else
        {
@@ -274,6 +272,9 @@ void KQuery::processQuery( KFileItem* file)
           matchingLineNumber++;
 
           if (str.isNull()) break;
+          if(isKWordDocument)
+            str.replace(xmlTags, "");
+            
           if (m_regexpForContent)
           {
              if (m_regexp.search(str)>=0)
