@@ -21,7 +21,7 @@
 #define __kfmclient_h
 
 #include <komApplication.h>
-#include <kded_utils.h>
+#include <kded_instance.h>
 #include <krun.h>
 #include "konqueror.h"
 
