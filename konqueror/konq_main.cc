@@ -31,7 +31,6 @@
 
 #include <kded_instance.h>
 #include <ktrader.h> //for KTraderServiceProvider
-#include <knaming.h>
 
 #include <kimgio.h>
 #include <kapp.h>
@@ -52,7 +51,6 @@
 #include "kfmrun.h"
 #include "konq_main.h"
 #include "konq_mainwindow.h"
-#include "konq_topwidget.h"
 #include "konq_mainview.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
@@ -66,8 +64,6 @@ void sig_term_handler( int signum );
 void sig_pipe_handler( int signum );
 
 bool g_bWithGUI = true;
-
-bool g_bUseNaming = false;
 
 /**********************************************
  *
@@ -179,7 +175,13 @@ void KonqApp::start()
 {
   if ( g_bWithGUI )
   {
-    (void) new KonqTopWidget();
+    if ( isRestored() )
+      RESTORE( KonqMainWindow )
+    else
+    {
+      KonqMainWindow *pShell = new KonqMainWindow();
+      pShell->show();
+    }
   }
 }
 
@@ -371,15 +373,6 @@ int main( int argc, char **argv )
   QString path = KGlobal::dirs()->getSaveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
 
-  KNaming *naming = kded.knaming();
-  CORBA::Object_var obj = naming->resolve( Konqueror::KONQ_NAMING );
-  if ( CORBA::is_nil( obj ) )
-  {
-    KonqApplicationIf *appIf = new KonqApplicationIf;
-    appIf->incRef(); //prevent anyone from destroying us
-    g_bUseNaming = naming->bind( Konqueror::KONQ_NAMING, appIf );
-  }
-
   app.exec();
 
   kdebug(0, 1202, "============ BACK from event loop ===========");
@@ -410,12 +403,6 @@ void sig_handler( int )
 void sig_term_handler( int )
 {
   kdebug( KDEBUG_INFO, 1202, "###################### SIG TERM ###################" );
-
-  if ( KonqTopWidget::isGoingDown() )
-    return;
-
-  KonqTopWidget::getKonqTopWidget()->slotSave();
-  KonqTopWidget::getKonqTopWidget()->slotShutDown();
 
   exit(1);
 }

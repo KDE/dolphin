@@ -344,27 +344,21 @@ int clientApp::doIt( int argc, char **argv )
 
 bool clientApp::getKonqy()
 {
-  KNaming *naming = kded->knaming();
-  
-  CORBA::Object_var obj = naming->resolve( Konqueror::KONQ_NAMING );
+  KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
+
+  if ( offers.count() != 1 )
+  {
+    printf("Found %i offers\n", offers.count());
+    fprintf( stderr, "Error: Can't find Konqueror service\n" );
+    return false;
+  }
+
+  CORBA::Object_var obj = activator->activateService( offers.first()->name(), "IDL:Konqueror/Application:1.0#App" );
+
   if ( CORBA::is_nil( obj ) )
   {
-    KTrader::OfferList offers = trader->query( "FileManager", "'IDL:Konqueror/Application:1.0#App' in RepoIds" );
-
-    if ( offers.count() != 1 )
-    {
-      printf("Found %i offers\n", offers.count());
-      fprintf( stderr, "Error: Can't find Konqueror service\n" );
-      return false;
-    }
-
-    obj = activator->activateService( offers.first()->name(), "IDL:Konqueror/Application:1.0", "App" );
-
-    if ( CORBA::is_nil( obj ) )
-    {
       fprintf( stderr, "Error: Can't connect to Konqueror\n" );
       return false;
-    }
   }
 
   m_vKonqy = Konqueror::Application::_narrow( obj );

@@ -26,7 +26,6 @@
 
 module Konqueror
 {
-  const string KONQ_NAMING = "KBase/Konqueror/Application";
  
   interface KfmIconView : Browser::View
   {
