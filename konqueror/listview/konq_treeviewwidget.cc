@@ -23,7 +23,6 @@
 
 #include <kdirlister.h>
 #include <kdebug.h>
-#include <kdebugclasses.h>
 
 
 template class QDict<KonqListViewDir>;
