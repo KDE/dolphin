@@ -22,6 +22,8 @@
  <Menu name="view"><text>&amp;View</text> <!--Here is what applies to the active view-->
   <Merge name="viewmode"/>
   <Action name="usehtml"/>
+  <Action name="lock"/>
+  <Action name="unlockall"/>
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />

@@ -354,21 +354,21 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
 
 void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
-  QString frameName = args.frameName; 
-  
+  QString frameName = args.frameName;
+
   if ( !frameName.isEmpty() )
   {
     static QString _top = QString::fromLatin1( "_top" );
     static QString _self = QString::fromLatin1( "_self" );
     static QString _parent = QString::fromLatin1( "_parent" );
     static QString _blank = QString::fromLatin1( "_blank" );
-    
+
     if ( frameName == _blank )
     {
       slotCreateNewWindow( url, args );
       return;
     }
-    
+
     if ( frameName != _top &&
 	 frameName != _self &&
 	 frameName != _parent )
@@ -388,12 +388,12 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 	mainView->openURL( view, url, args );
         return;
       }
-      
+
       openURL( view, url, args );
       return;
     }
   }
-  
+
   KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart *>( sender()->parent() );
   KonqChildView *view = childView( part );
   openURL( view, url, args );
@@ -403,7 +403,7 @@ void KonqMainView::openURL( KonqChildView *childView, const KURL &url, const KPa
 {
   //TODO: handle post data!
 
-  if ( childView->browserExtension() ) 
+  if ( childView->browserExtension() )
     childView->browserExtension()->setURLArgs( args );
 
   //  ### HACK !!
@@ -545,6 +545,24 @@ void KonqMainView::slotShowHTML()
     m_currentView->lockHistory();
     openView( "inode/directory", m_currentView->url().directory(), m_currentView );
   }
+}
+
+void KonqMainView::slotUnlockViews()
+{
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    (*it)->setPassiveMode( false );
+
+  m_paUnlockAll->setEnabled( false );
+}
+
+void KonqMainView::slotLockView()
+{
+  // Can't access this action in passive mode anyway
+  assert(!m_currentView->passiveMode());
+  m_currentView->setPassiveMode( true );
+  m_paUnlockAll->setEnabled( true );
 }
 
 void KonqMainView::slotStop()
@@ -717,12 +735,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
         return true; // fake everything was ok, we don't want to propagate the error
       }
 
-      enableAllActions( true ); // can't we rely on setActiveView to do the right thing ? (David)
-
-
-      // we surely don't have any history buffers at this time
-      m_paBack->setEnabled( false );
-      m_paForward->setEnabled( false );
+      enableAllActions( true );
 
       view->widget()->setFocus();
       // Triggered by setFocus anyway...
@@ -808,6 +821,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     createGUI( 0L );
   }
 
+  // View-dependent GUI
+
   guiFactory()->removeClient( m_viewModeGUIClient );
   guiFactory()->removeClient( m_openWithGUIClient );
   m_viewModeGUIClient->update( m_currentView->partServiceOffers() );
@@ -828,6 +843,9 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   if ( oldView )
     oldView->frame()->statusbar()->repaint();
+
+  // Can lock a view only if there is a next view
+  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 
   kdDebug(300) << "slotPartActivated: setting location bar url to "
                << m_currentView->locationBarURL() << endl;
@@ -969,21 +987,25 @@ void KonqMainView::slotFileNewAboutToShow()
 void KonqMainView::slotSplitViewHorizontal()
 {
   m_pViewManager->splitView( Qt::Horizontal );
+  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainView::slotSplitViewVertical()
 {
   m_pViewManager->splitView( Qt::Vertical );
+  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainView::slotSplitWindowHorizontal()
 {
   m_pViewManager->splitWindow( Qt::Horizontal );
+  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainView::slotSplitWindowVertical()
 {
   m_pViewManager->splitWindow( Qt::Vertical );
+  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainView::slotRemoveView()
@@ -991,8 +1013,11 @@ void KonqMainView::slotRemoveView()
   // takes care of choosing the new active view
   m_pViewManager->removeView( m_currentView );
 
-  if ( m_pViewManager->chooseNextView((KonqChildView *)m_currentView) == 0L )
-    m_currentView->frame()->statusbar()->passiveModeCheckBox()->hide();
+  //if ( m_pViewManager->chooseNextView(m_currentView) == 0L )
+  //  m_currentView->frame()->statusbar()->passiveModeCheckBox()->hide();
+
+  // Can lock a view only if there is a next view
+  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 }
 
 void KonqMainView::slotSaveDefaultProfile()
@@ -1326,6 +1351,11 @@ void KonqMainView::setUpEnabled( const KURL &url )
 
 void KonqMainView::initActions()
 {
+
+  // Note about this method : don't call setEnabled() on any of the actions.
+  // They are all disabled then re-enabled with enableAllActions
+  // If any one needs to be initially disabled, put that code in enableAllActions
+
   // File menu
   m_pMenuNew = new KNewMenu ( actionCollection(), "new_menu" );
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
@@ -1346,6 +1376,8 @@ void KonqMainView::initActions()
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
+  m_paLockView = new KAction( i18n( "Lock to current location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
+  m_paUnlockAll = new KAction( i18n( "Unlock all views"), 0, this, SLOT( slotUnlockViews() ), actionCollection(), "unlockall" );
 
   // Go menu
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", CTRL+Key_Up, actionCollection(), "up" );
@@ -1356,7 +1388,6 @@ void KonqMainView::initActions()
 
   m_paBack = new KonqHistoryAction( i18n( "&Back" ), "back", CTRL+Key_Left, actionCollection(), "back" );
 
-  m_paBack->setEnabled( false );
 
   connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
   // go menu
@@ -1368,7 +1399,6 @@ void KonqMainView::initActions()
 
   m_paForward = new KonqHistoryAction( i18n( "&Forward" ), "forward", CTRL+Key_Right, actionCollection(), "forward" );
 
-  m_paForward->setEnabled( false );
 
   connect( m_paForward, SIGNAL( activated() ), this, SLOT( slotForward() ) );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
@@ -1620,6 +1650,17 @@ void KonqMainView::enableAllActions( bool enable )
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
 
+  // This method is called with enable=false on startup, and
+  // then only once with enable=true when the first view is setup.
+  // So the code below is where actions that should initially be disabled are disabled.
+  if (enable)
+  {
+      // we surely don't have any history buffers at this time
+      m_paBack->setEnabled( false );
+      m_paForward->setEnabled( false );
+      // no locked views either
+      m_paUnlockAll->setEnabled( false );
+  }
   actionCollection()->action( "close" )->setEnabled( true );
 }
 
@@ -2151,7 +2192,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
 
 void KonqMainView::setInitialFrameName( const QString &name )
 {
-  m_initialFrameName = name; 
-} 
+  m_initialFrameName = name;
+}
 
 #include "konq_mainview.moc"

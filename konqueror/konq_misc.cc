@@ -29,8 +29,8 @@
 
 bool KonqFileManager::openFileManagerWindow( const KURL & _url )
 {
-  openFileManagerWindow( _url, QString::null ); 
-} 
+  return openFileManagerWindow( _url, QString::null );
+}
 
 bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &name )
 {

@@ -113,6 +113,8 @@ public slots:
   // View menu
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
+  void slotLockView();
+  void slotUnlockViews();
   void slotReload();
   void slotStop();
 
@@ -310,6 +312,8 @@ private:
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
 
+  KAction *m_paLockView;
+  KAction *m_paUnlockAll;
   KAction *m_paReload;
   KAction *m_paCut;
   KAction *m_paCopy;
