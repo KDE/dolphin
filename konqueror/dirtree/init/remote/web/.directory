@@ -1,7 +1,9 @@
 [Desktop Entry]
 Name=Web Sites
 Name[ca]=Llocs web
+Name[cs]=Webové stránky
 Name[de]=Webseiten
+Name[es]=Sitios web
 Name[et]=Veebi saidid
 Name[fi]=WWW-palvelimet
 Name[he]=תשרב םירתא
@@ -13,5 +15,5 @@ Name[no_NY]=Nettsider
 Name[pt]=Páginas na WWW
 Name[ro]=Site-uri de web
 Name[sl]=Spletne strani
-Name[tr]=Ýnternet Siteleri
+Name[tr]=İnternet Siteleri
 Icon=package_network
