@@ -262,7 +262,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
 
-  if ( view == m_currentView )
+  if ( view && view == m_currentView )
     startAnimation();
     
 }
@@ -617,6 +617,8 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
 
   if ( !childView )
     {
+      enableAllActions( true );
+
       BrowserView* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
       
       if ( !view )
@@ -811,7 +813,7 @@ void KonqMainView::slotMenuEditAboutToShow()
 
 void KonqMainView::slotMenuViewAboutToShow()
 {
-  if ( !m_bMenuViewDirty )
+  if ( !m_bMenuViewDirty || !m_pamView->isEnabled() )
     return;
 
   qDebug( "void KonqMainView::slotMenuViewAboutToShow()" );
@@ -1290,6 +1292,8 @@ void KonqMainView::initActions()
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks_menu" );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
+
+  enableAllActions( false );
 }
 
 void KonqMainView::initPlugins()
@@ -1401,6 +1405,13 @@ QString KonqMainView::findIndexFile( const QString &dir )
     return f;
 
   return QString::null;
+}
+
+void KonqMainView::enableAllActions( bool enable )
+{
+  int count = actionCollection()->count();
+  for ( int i = 0; i < count; i++ )
+    actionCollection()->action( i )->setEnabled( enable );
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )

@@ -212,6 +212,8 @@ private:
    */
   QString findIndexFile( const QString &directory );
 
+  void enableAllActions( bool enable );
+
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;
   
