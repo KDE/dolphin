@@ -36,6 +36,7 @@
 
 #include <assert.h>
 #include <X11/Xlib.h>
+#include <unistd.h>
 
 // for the link method only (to move with it)
 #include <kmessagebox.h>
