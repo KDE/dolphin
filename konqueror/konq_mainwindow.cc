@@ -773,11 +773,11 @@ void KonqMainWindow::slotNewWindow()
 {
   // ### Maybe use profile from current window, if set ?
   if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
-    KonqMisc::createBrowserWindowFromProfile( 
+    KonqMisc::createBrowserWindowFromProfile(
       locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),
       QString::fromLatin1("webbrowsing") );
   else
-    KonqMisc::createBrowserWindowFromProfile( 
+    KonqMisc::createBrowserWindowFromProfile(
       locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
       QString::fromLatin1("filemanagement") );
 }
@@ -2003,8 +2003,8 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 	// items.sort(); // should we?
 	m_combo->setCompletedItems( items );
     }
-    
-    else { 
+
+    else {
 	if ( !completion.isNull() ) {
 	    m_combo->setCompletedText( completion );
 	}
@@ -2456,10 +2456,7 @@ void KonqMainWindow::initActions()
   m_paSplitWindowVer = new KAction( i18n( "New View At Bottom" ), "view_bottom", 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ), "remove_view", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
-  // makes no sense since konqueror isn't launched directly (but through kfmclient)
-  // m_paSaveDefaultProfile = new KAction( i18n( "Save Current Profile As Default" ), 0, this, SLOT( slotSaveDefaultProfile() ), actionCollection(), "savedefaultprofile" );
-
-  m_paSaveRemoveViewProfile = new KAction( i18n( "Save/Remove View Profile" ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
+  m_paSaveRemoveViewProfile = new KAction( i18n( "Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
@@ -2760,6 +2757,11 @@ void KonqMainWindow::disableActionsNoView()
     m_combo->clear();
     action("clear_location")->setEnabled( true );
     action("animated_logo")->setEnabled( true );
+    m_paShowMenuBar->setEnabled( true );
+    m_paShowToolBar->setEnabled( true );
+    m_paShowLocationBar->setEnabled( true );
+    m_paShowBookmarkBar->setEnabled( true );
+    action("options_save_options")->setEnabled( true );
     updateLocalPropsActions();
 }
 
