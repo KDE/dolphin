@@ -103,6 +103,7 @@ void KDirLister::openURL( const KURL& _url )
 	   this, SLOT( slotError( int, int, const char* ) ) );
 
   m_initialURL = _url; // keep a copy
+  m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
   m_bFoundOne = false;
 
   m_buffer.clear();
