@@ -96,6 +96,7 @@ public:
 
 protected:
   void setupActions();
+  void guiActivateEvent( KParts::GUIActivateEvent *event );
 
 protected slots:
   void slotSelect();

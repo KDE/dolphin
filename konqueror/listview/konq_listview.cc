@@ -301,6 +301,13 @@ KonqListView::~KonqListView()
   delete m_pProps;
 }
 
+void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
+{
+   KonqDirPart::guiActivateEvent(event );
+   //ReadOnlyPart::guiActivateEvent(event );
+   ((ListViewBrowserExtension*)m_extension)->updateActions();
+};
+
 bool KonqListView::openURL( const KURL &url )
 {
   m_url = url;
