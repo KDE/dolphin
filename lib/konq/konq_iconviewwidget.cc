@@ -261,8 +261,15 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                     {
                         delete d->m_movie;
                         d->m_movie = new QMovie( movie ); // shallow copy, don't worry
-                       const QPixmap* pix = viewport()->backgroundPixmap();
-                       if (!(pix && !pix->isNull()))
+			// Fix alpha-channel - currently only if no background pixmap, 
+			// the bg pixmap case requires to uncomment the code at qmovie.cpp:404
+                        const QPixmap* pm = backgroundPixmap();
+                        bool hasPixmap = pm && !pm->isNull();
+                        if ( !hasPixmap ) {
+                            pm = viewport()->backgroundPixmap();
+                            hasPixmap = pm && !pm->isNull();
+			}
+                        if (!hasPixmap && backgroundMode() != NoBackground)
                            d->m_movie->setBackgroundColor( viewport()->backgroundColor() );
                         d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate(const QRect &) ) );
                         d->m_movie->connectStatus( this, SLOT( slotMovieStatus(int) ) );
