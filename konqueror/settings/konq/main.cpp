@@ -166,10 +166,12 @@ void KonqControlApplication::apply()
 
 int main(int argc, char **argv )
 {
-  g_pConfig = new KConfig( "konquerorrc", false, false );
+  bool desktop = argc > 1 && !strcmp(argv[1], "desktop");
+
+  g_pConfig = new KConfig( desktop ? "kdesktoprc" : "konquerorrc", false, false );
   KonqControlApplication app( argc, argv );
   
-  if ( argc > 1 && !strcmp(argv[1], "desktop") )
+  if ( desktop )
     app.setTitle( i18n( "Desktop Icons Configuration" ) );
   else
     app.setTitle( i18n( "Konqueror Configuration" ) );
