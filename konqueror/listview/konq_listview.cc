@@ -56,10 +56,8 @@ KonqListViewFactory::KonqListViewFactory()
 
 KonqListViewFactory::~KonqListViewFactory()
 {
-  if ( s_instance )
-    delete s_instance;
-  if ( s_defaultViewProps )
-    delete s_defaultViewProps;
+  delete s_instance;
+  delete s_defaultViewProps;
 
   s_instance = 0;
   s_defaultViewProps = 0;
@@ -118,6 +116,7 @@ void ListViewBrowserExtension::updateActions()
   // This code is very related to KonqIconViewWidget::slotSelectionChanged
   int canCopy = 0;
   int canDel = 0;
+  int canTrash = 0;
   bool bInTrash = false;
   KFileItemList lstItems = m_listView->selectedFileItems();
 
@@ -129,11 +128,13 @@ void ListViewBrowserExtension::updateActions()
       bInTrash = true;
     if (  KProtocolInfo::supportsDeleting(  url ) )
       canDel++;
+    if ( !item->localPath().isEmpty() )
+      canTrash++;
   }
 
   emit enableAction( "copy", canCopy > 0 );
   emit enableAction( "cut", canDel > 0 );
-  emit enableAction( "trash", canDel > 0 && !bInTrash && m_listView->url().isLocalFile() );
+  emit enableAction( "trash", canDel > 0 && !bInTrash && canDel == canTrash );
   emit enableAction( "del", canDel > 0 );
   emit enableAction( "properties", lstItems.count() > 0 && KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( lstItems.count() == 1 ) );
