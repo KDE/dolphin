@@ -41,7 +41,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-10-05</date>
+<date>2005-01-18</date>
 <releaseinfo>1.5</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole;
@@ -1453,11 +1453,15 @@ For an introduction to
 
 <para>&konsole; is maintained by &Waldo.Bastian; &Waldo.Bastian.mail;</para>
 
-<para>The application &konsole; Copyright &copy; 1997-2004
+<para>The application &konsole; Copyright &copy; 1997-2005
 &Lars.Doelle; &Lars.Doelle.mail;</para>
 
 <para>This document was written by &Jonathan.Singer;
 &Jonathan.Singer.mail;</para>
+
+<para>This document was updated for KDE 3.4 by
+<author><personname><firstname>Kurt</firstname><surname>Hindenburg</surname></personname><email>kurt.hindenburg@kdemail.net</email></author>
+( kurt.hindenburg AT kdemail.net )</para>
 
 <para>Originally converted to DocBook <acronym>SGML</acronym> by
 &Mike.McBride; and &Lauri.Watts;</para>
