@@ -10,6 +10,7 @@
 #include <klistview.h>
 #include <qdict.h>
 #include <qmap.h>
+#include <qpixmap.h>
 
 class KonqDirTreeBrowserExtension;
 class KonqDirTree;
