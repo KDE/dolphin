@@ -458,7 +458,11 @@ void KEBTopLevel::slotSelectionChanged()
 void KEBTopLevel::slotClipboardDataChanged()
 {
     kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
-    QMimeSource *data = QApplication::clipboard()->data(QClipboard::Clipboard);
+    QClipboard *clipboard = QApplication::clipboard();
+    bool oldMode = clipboard->selectionModeEnabled();
+    clipboard->setSelectionMode( false );
+    QMimeSource *data = clipboard->data();
+    clipboard->setSelectionMode( oldMode );
     m_bCanPaste = KBookmarkDrag::canDecode( data );
     slotSelectionChanged();
 }
@@ -766,7 +770,11 @@ void KEBTopLevel::slotCopy()
     Q_ASSERT( numSelected() != 0 );
     QValueList<KBookmark> bookmarks = getBookmarkSelection();
     KBookmarkDrag* data = KBookmarkDrag::newDrag( bookmarks, 0L /* not this ! */ );
-    QApplication::clipboard()->setData( data, QClipboard::Clipboard );
+    QClipboard *clipboard = QApplication::clipboard();
+    bool oldMode = clipboard->selectionModeEnabled();
+    clipboard->setSelectionMode( false );
+    clipboard->setData( data );
+    clipboard->setSelectionMode( oldMode );
 
     // slotClipboardDataChanged(); 
     // dfaure: don't ask 
@@ -775,7 +783,11 @@ void KEBTopLevel::slotCopy()
 
 void KEBTopLevel::slotPaste()
 {
-    pasteData( i18n("Paste"), QApplication::clipboard()->data(QClipboard::Clipboard), insertionAddress() );
+    QClipboard *clipboard = QApplication::clipboard();
+    bool oldMode = clipboard->selectionModeEnabled();
+    clipboard->setSelectionMode( false );
+    pasteData( i18n("Paste"), clipboard->data(), insertionAddress() );
+    clipboard->setSelectionMode( oldMode );
 }
 
 void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const QString & insertionAddress )
