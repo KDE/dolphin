@@ -11,6 +11,7 @@
 #include <qstrlist.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
+#include <qcombobox.h>
 
 #include <kcmodule.h>
 
@@ -46,14 +47,14 @@ private:
     KConfig* m_pConfig;
     QString  m_groupname;
 
-    QRadioButton *m_pUnderlineRadio[3];
+    QComboBox* m_pUnderlineCombo;
+    QComboBox* m_pAnimationsCombo;
     QCheckBox* cbCursor;
     QCheckBox* m_pAutoLoadImagesCheckBox;
+    QCheckBox* m_pAutoRedirectCheckBox;
     QCheckBox* m_pBackRightClick;
-    QCheckBox* m_pEnableFaviconCheckBox;
     QCheckBox* m_pFormCompletionCheckBox;
     KIntNumInput* m_pMaxFormCompletionItems;
-
 };
 
 #endif

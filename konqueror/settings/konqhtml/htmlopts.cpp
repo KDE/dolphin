@@ -3,29 +3,33 @@
 //
 // (c) Sven Radej 1998
 // (c) David Faure 1998
+// (c) 2001 Waldo Bastian <bastian@kde.org>
 
 #include <qlayout.h>//CT - 12Nov1998
 #include <qwhatsthis.h>
-#include <qvbuttongroup.h>
 #include <qvgroupbox.h>
-#include <qradiobutton.h>
+#include <qlabel.h>
 
 #include "htmlopts.h"
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <kglobalsettings.h> // get default for DEFAULT_CHANGECURSOR
 #include <klocale.h>
+#include <kdialog.h> 
 #include <knuminput.h>
+#include <kseparator.h>
 
 #include "htmlopts.moc"
 
-enum UnderlineLinkType { Always=0, Never=1, Hover=2 };
+enum UnderlineLinkType { UnderlineAlways=0, UnderlineNever=1, UnderlineHover=2 };
+enum AnimationsType { AnimationsAlways=0, AnimationsNever=1, AnimationsLoopOnce=2 };
 //-----------------------------------------------------------------------------
 
 KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *name )
     : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
+    int row = 0;
+    QGridLayout *lay = new QGridLayout(this, 10, 2, KDialog::marginHint(), KDialog::spacingHint());
 
      // Form completion
 
@@ -42,60 +46,87 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
         i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
     connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(changed()));
 
-    lay->addWidget( bgForm );
-
-    // Underline Link Settings
-
-    QVButtonGroup *bgLinks = new QVButtonGroup( i18n("Un&derline Links"), this );
-    bgLinks->setExclusive( TRUE );
-    connect(bgLinks, SIGNAL(clicked(int)), this, SLOT(changed()));
-    QWhatsThis::add( bgLinks, i18n("Controls how Konqueror handles underlining hyperlinks:<br>"
-				    "<ul><li><b>Always</b>: Always underline links</li>"
-				    "<li><b>Never</b>: Never underline links</li>"
-				    "<li><b>Hover</b>: Underline when the mouse is moved over the link</li>"
-				    "</ul><br><i>Note: The site's CSS definitions can override this value</i>") );
-
-    m_pUnderlineRadio[Always] = new QRadioButton( i18n("&Always"), bgLinks );
-    m_pUnderlineRadio[Never] = new QRadioButton( i18n("&Never"), bgLinks );
-    m_pUnderlineRadio[Hover] = new QRadioButton( i18n("&Hover"), bgLinks );
-
-    lay->addWidget(bgLinks);
+    lay->addMultiCellWidget( bgForm, row, row, 0, 1 );
+    row++;
 
 
     // Misc
 
     cbCursor = new QCheckBox(i18n("Change cursor over &links"), this);
-    lay->addWidget(cbCursor);
+    lay->addMultiCellWidget(cbCursor, row, row, 0, 1);
+    row++;
 
     QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "
        "(usually to a hand) if it is moved over a hyperlink.") );
 
     connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 
-    m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
-     "A&utomatically load images\n"
-     "(Otherwise, click the Images button to load when needed)" ), this );
-    QWhatsThis::add( m_pAutoLoadImagesCheckBox, i18n( "If this box is checked, Konqueror will automatically load any images that are embedded in a web page. Otherwise, it will display placeholders for the images, and you can then manually load the images by clicking on the image button.<br>Unless you have a very slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
-    connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
-    lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
-
-    m_pBackRightClick = new QCheckBox( i18n( "Right click goes back in history" ), this );
+    m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
       "To access the context menu, press the right mouse button and move." ) );
-    lay->addWidget( m_pBackRightClick, 1 );
+    lay->addMultiCellWidget( m_pBackRightClick, row, row, 0, 1);
+    row++;
     connect(m_pBackRightClick, SIGNAL(clicked()), this, SLOT(changed()));
-/*  Tackat doesn't want too much options :)
 
-    m_pEnableFaviconCheckBox = new QCheckBox( i18n( "Enable \"&favorite icon\" support" ), this );
-    QWhatsThis::add( m_pEnableFaviconCheckBox, i18n( "This will cause konqueror to look for <b>\"/favicon.ico\"</b> on the server "
-    "to display this icon in the locationbar and the bookmarks.") );
-    lay->addWidget( m_pEnableFaviconCheckBox, 1 );
-    connect(m_pEnableFaviconCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
-*/
+    m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( "A&utomatically load images"), this );
+    QWhatsThis::add( m_pAutoLoadImagesCheckBox, i18n( "If this box is checked, Konqueror will automatically load any images that are embedded in a web page. Otherwise, it will display placeholders for the images, and you can then manually load the images by clicking on the image button.<br>Unless you have a very slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
+    connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+    lay->addMultiCellWidget( m_pAutoLoadImagesCheckBox, row, row, 0, 1 );
+    row++;
 
-    lay->addStretch(10);
-    lay->activate();
+    m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading / redirecting"), this );
+    QWhatsThis::add( m_pAutoRedirectCheckBox, 
+    i18n( "Some webpages request an automatic reload or redirection after a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
+    connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+    lay->addMultiCellWidget( m_pAutoRedirectCheckBox, row, row, 0, 1 );
+    row++;
+
+
+    // More misc
+
+    KSeparator *sep = new KSeparator(this);
+    lay->addMultiCellWidget(sep, row, row, 0, 1);
+    row++;
+
+    QLabel *label = new QLabel( i18n("Un&derline Links:"), this);
+    m_pUnderlineCombo = new QComboBox( false, this );
+    label->setBuddy(m_pUnderlineCombo);
+    m_pUnderlineCombo->insertItem(i18n("Enabled"), UnderlineAlways);
+    m_pUnderlineCombo->insertItem(i18n("Disabled"), UnderlineNever);
+    m_pUnderlineCombo->insertItem(i18n("Only on Hover"), UnderlineHover);
+    lay->addWidget(label, row, 0);
+    lay->addWidget(m_pUnderlineCombo, row, 1);
+    row++;
+    QString whatsThis = i18n("Controls how Konqueror handles underlining hyperlinks:<br>"
+	    "<ul><li><b>Enabled</b>: Always underline links</li>"
+	    "<li><b>Disabled</b>: Never underline links</li>"
+	    "<li><b>Only on Hover</b>: Underline when the mouse is moved over the link</li>"
+	    "</ul><br><i>Note: The site's CSS definitions can override this value</i>");
+    QWhatsThis::add( label, whatsThis);
+    QWhatsThis::add( m_pUnderlineCombo, whatsThis);
+    connect(m_pUnderlineCombo, SIGNAL(activated(int)), this, SLOT(changed()));
+
+
+
+    label = new QLabel( i18n("A&nimations:"), this);
+    m_pAnimationsCombo = new QComboBox( false, this );
+    label->setBuddy(m_pAnimationsCombo);
+    m_pAnimationsCombo->insertItem(i18n("Enabled"), AnimationsAlways);
+    m_pAnimationsCombo->insertItem(i18n("Disabled"), AnimationsNever);
+    m_pAnimationsCombo->insertItem(i18n("Show only once"), AnimationsLoopOnce);
+    lay->addWidget(label, row, 0);
+    lay->addWidget(m_pAnimationsCombo, row, 1);
+    row++;
+    whatsThis = i18n("Controls how Konqueror shows animated images:<br>"
+	    "<ul><li><b>Enabled</b>: Show all animations completely.</li>"
+	    "<li><b>Disabled</b>: Never show animations, show the start image only.</li>"
+	    "<li><b>Show only once</b>: Show all animations completely but do not repeat them.</li>");
+    QWhatsThis::add( label, whatsThis);
+    QWhatsThis::add( m_pAnimationsCombo, whatsThis);
+    connect(m_pAnimationsCombo, SIGNAL(activated(int)), this, SLOT(changed()));
+
+    lay->setRowStretch(row, 1);
 
     load();
 }
@@ -110,10 +141,13 @@ void KMiscHTMLOptions::load()
     bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
     bool hoverLinks = m_pConfig->readBoolEntry("HoverLinks", true);
     bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
+    bool bAutoRedirect = m_pConfig->readBoolEntry( "AutoDelayedActions", true );
+    QString strAnimations = m_pConfig->readEntry( "ShowAnimations" ).lower();
 
     // *** apply to GUI ***
     cbCursor->setChecked( changeCursor );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+    m_pAutoRedirectCheckBox->setChecked( bAutoRedirect );
     m_pBackRightClick->setChecked( bBackRightClick );
 
     // we use two keys for link underlining so that this config file
@@ -121,15 +155,21 @@ void KMiscHTMLOptions::load()
     // has precedence over the UnderlineLinks setting
     if (hoverLinks)
     {
-        m_pUnderlineRadio[Hover]->setChecked( true );
+        m_pUnderlineCombo->setCurrentItem( UnderlineHover );
     }
     else
     {
         if (underlineLinks)
-            m_pUnderlineRadio[Always]->setChecked( true );
+            m_pUnderlineCombo->setCurrentItem( UnderlineAlways );
         else
-            m_pUnderlineRadio[Never]->setChecked( true );
+            m_pUnderlineCombo->setCurrentItem( UnderlineNever );
     }
+    if (strAnimations == "disabled")
+       m_pAnimationsCombo->setCurrentItem( AnimationsNever );
+    else if (strAnimations == "looponce")
+       m_pAnimationsCombo->setCurrentItem( AnimationsLoopOnce );
+    else
+       m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
 
     m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", true ) );
     m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
@@ -140,7 +180,9 @@ void KMiscHTMLOptions::defaults()
 {
     cbCursor->setChecked( false );
     m_pAutoLoadImagesCheckBox->setChecked( true );
-    m_pUnderlineRadio[Always]->setChecked( true );
+    m_pAutoRedirectCheckBox->setChecked( true );
+    m_pUnderlineCombo->setCurrentItem( UnderlineAlways );
+    m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
     m_pBackRightClick->setChecked( false );
@@ -153,16 +195,33 @@ void KMiscHTMLOptions::save()
     m_pConfig->setGroup( "HTML Settings" );
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
-//    m_pConfig->writeEntry( "EnableFavicon", m_pEnableFaviconCheckBox->isChecked() );
-    if (m_pUnderlineRadio[Hover]->isChecked())
+    m_pConfig->writeEntry( "AutoDekayedActions", m_pAutoRedirectCheckBox->isChecked() );
+    switch(m_pUnderlineCombo->currentItem())
     {
+      case UnderlineAlways:
+        m_pConfig->writeEntry( "UnderlineLinks", true );
+        m_pConfig->writeEntry( "HoverLinks", false );
+        break;
+      case UnderlineNever:
+        m_pConfig->writeEntry( "UnderlineLinks", false );
+        m_pConfig->writeEntry( "HoverLinks", false );
+        break;
+      case UnderlineHover:
         m_pConfig->writeEntry( "UnderlineLinks", false );
         m_pConfig->writeEntry( "HoverLinks", true );
+        break;
     }
-    else
+    switch(m_pAnimationsCombo->currentItem())
     {
-        m_pConfig->writeEntry( "HoverLinks", false );
-        m_pConfig->writeEntry( "UnderlineLinks", m_pUnderlineRadio[Always]->isChecked() );
+      case AnimationsAlways:
+        m_pConfig->writeEntry( "ShowAnimations", "Enabled" );
+        break;
+      case AnimationsNever:
+        m_pConfig->writeEntry( "ShowAnimations", "Disabled" );
+        break;
+      case AnimationsLoopOnce:
+        m_pConfig->writeEntry( "ShowAnimations", "LoopOnce" );
+        break;
     }
 
     m_pConfig->writeEntry( "FormCompletion", m_pFormCompletionCheckBox->isChecked() );

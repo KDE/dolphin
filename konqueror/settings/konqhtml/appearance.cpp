@@ -167,7 +167,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "Default Encoding"), this );
+  label = new QLabel( i18n( "Default Encoding:"), this );
   ++r;
   lay->addMultiCellWidget( label, r, r, E, E+1);
 
