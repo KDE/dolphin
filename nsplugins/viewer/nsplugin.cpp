@@ -47,6 +47,9 @@
 #include <dcopclient.h>
 #include <kprotocolmanager.h>
 #include <klocale.h>
+#include <kglobal.h>
+#include <kprocess.h>
+#include <kstddirs.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/Composite.h>
@@ -380,9 +383,24 @@ void g_NPN_Version(int *plugin_major, int *plugin_minor, int *browser_major, int
 }
 
 
-void g_NPN_ReloadPlugins(NPBool /*reloadPages*/)
+void g_NPN_ReloadPlugins(NPBool reloadPages)
 {
-   kdDebug(1431) << "g_NPN_ReloadPlugins() [unimplemented]" << endl;
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api15.html#999713
+   kdDebug(1431) << "g_NPN_ReloadPlugins()" << endl;
+   KProcess p;
+   p << KGlobal::dirs()->findExe("nspluginscan");
+
+   if (reloadPages) {
+      // This is the proper way, but it cannot be done because we have no
+      // handle to the caller!  How stupid!
+      //p.start(KProcess::Block);
+      // Let's only allow the caller to be reloaded, not everything.
+      //if (_callback)
+      //   _callback->reloadPage();
+      p.start(KProcess::DontCare);
+   } else {
+      p.start(KProcess::DontCare);
+   }
 }
 
 

@@ -25,6 +25,7 @@ class NSPluginCallback : public NSPluginCallbackIface
 public:
   NSPluginCallback(PluginPart *part);
 
+  ASYNC reloadPage();
   ASYNC requestURL(QString url, QString target);
   ASYNC statusMessage( QString msg );
   QString evalJavaScript( QString script );
@@ -84,6 +85,7 @@ public:
   void requestURL(const QString& url, const QString& target);
   void statusMessage( QString msg );
   QString evalJavaScript( const QString& script );
+  void reloadPage();
 
 protected:
   virtual bool openURL(const KURL &url);

@@ -202,13 +202,14 @@ bool PluginPart::openURL(const KURL &url)
 
             QString name = (*it).left(equalPos).upper();
             QString value = (*it).right((*it).length()-equalPos-1);
-            if (value.at(0)=='\"') value = value.right(value.length()-1);
-            if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
+            if (value.at(0)=='\"')
+                value = value.right(value.length()-1);
+            if (value.at(value.length()-1)=='\"')
+                value = value.left(value.length()-1);
 
             kdDebug(1432) << "name=" << name << " value=" << value << endl;
 
             if (!name.isEmpty()) {
-
                 // hack to pass view mode from khtml
                 if ( name=="__KHTML__PLUGINEMBED" ) {
                     embed = true;
@@ -257,10 +258,17 @@ bool PluginPart::openURL(const KURL &url)
 bool PluginPart::closeURL()
 {
     kdDebug(1432) << "PluginPart::closeURL" << endl;
-    if( _widget ) delete _widget; _widget = 0;
+    delete _widget;
+    _widget = 0;
     return true;
 }
 
+
+void PluginPart::reloadPage()
+{
+    kdDebug(1432) << "PluginPart::reloadPage()" << endl;
+    _extension->browserInterface()->callMethod("goHistory(int)", 0);
+}
 
 void PluginPart::requestURL(const QString& url, const QString& target)
 {
@@ -303,3 +311,4 @@ void PluginCanvasWidget::resizeEvent(QResizeEvent *ev)
     QWidget::resizeEvent(ev);
     emit resized(width(), height());
 }
+
