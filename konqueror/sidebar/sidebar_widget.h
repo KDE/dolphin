@@ -26,7 +26,7 @@
 #include <qstring.h>
 #include "konqsidebarplugin.h"
 #include <qlayout.h>
-#include <kmultiverttabbar.h>
+#include <kmultitabbar.h>
 #include <qguardedptr.h>
 
 class KDockWidget;
