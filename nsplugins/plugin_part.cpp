@@ -31,7 +31,7 @@ extern "C"
    * the form 'void *init_lib<library name>()  It always returns a
    * new factory object
    */
-  void *init_libplugin()
+  void *init_libnsplugin()
   {
     return new PluginFactory;
   }
