@@ -31,8 +31,6 @@ class KQuery;
 class KAboutData;
 //added
 class KonqPropsView;
-class KonqDirLister;
-class KonqFileItem;
 class KAction;
 class KToggleAction;
 class KActionMenu;
