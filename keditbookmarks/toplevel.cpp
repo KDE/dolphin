@@ -363,7 +363,8 @@ KBookmark KEBTopLevel::selectedBookmark() const
 #define IS_REAL(it) ( (it.current()->isSelected())                                        \
                    && ( (it.current()->parent() && !it.current()->parent()->isSelected()) \
                     || !(it.current()->parent()) )                                        \
-                   && ( it.current() != KEBTopLevel::self()->m_pListView->firstChild()) )
+                   && ( it.current() != KEBTopLevel::self()->m_pListView->firstChild())   \
+                   && ( !static_cast<KEBListViewItem *>(it.current())->m_emptyFolder ))
 
 QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
 {
@@ -1191,6 +1192,11 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
     KEBListViewItem * afterNow = static_cast<KEBListViewItem *>(_afterNow);
     if (!_newParent) // Not allowed to drop something before the root item !
         return;
+
+    if (afterNow && afterNow->m_emptyFolder) {
+        afterNow = 0;
+    }
+
     QString newAddress =
         afterNow ?
         // We move as the next child of afterNow
@@ -1366,12 +1372,10 @@ void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group 
             fillGroup( item, grp );
             if (grp.isOpen())
                 item->QListViewItem::setOpen(true); // no need to save it again :)
-            /*
             if (grp.first().isNull()) {
                 // kdWarning() << "found an empty group!!!" << endl;
                 new KEBListViewItem( item, item );
             }
-            */
             lastItem = item;
 
         }

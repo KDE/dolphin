@@ -59,6 +59,9 @@ public:
 
     const KBookmark & bookmark() { return m_bookmark; }
 
+    // ugly hack, make private?
+    bool m_emptyFolder;
+
 private:
     void init( const KBookmark & bk );
     void nsGet( QString &nModify );

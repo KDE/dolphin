@@ -78,6 +78,7 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after )
     : QListViewItem(parent, after, i18n("Empty folder") )
 {
+    m_emptyFolder = true;
     setPixmap(0, SmallIcon("bookmark"));
 }
 
@@ -107,6 +108,7 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
 
 void KEBListViewItem::init( const KBookmark & bk )
 {
+    m_emptyFolder = false;
     setPixmap(0, SmallIcon( bk.icon() ) );
 #ifdef DEBUG_ADDRESSES
     setText(3, bk.address());
