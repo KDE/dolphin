@@ -240,6 +240,8 @@ QString KonqUndoManager::undoText() const
     return i18n( "Und&o: Create Directory" );
   else
     assert( false );
+  /* NOTREACHED */
+  return QString::null;
 }
 
 void KonqUndoManager::undo()
