@@ -281,8 +281,8 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
       slotStop();
       // Show it for now in the location bar, but we'll need to store it in the view
       // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
-      //kdDebug(1202) << "setLocationBarURL : url = " << url.url() << endl;
-      setLocationBarURL( url.url() );
+      //kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
+      setLocationBarURL( url.prettyURL() );
     }
     else
     {
