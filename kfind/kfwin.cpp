@@ -29,15 +29,13 @@
 #include <qfiledlg.h> 
 #include <qlist.h>
 #include <qfileinf.h> 
+#include <qmsgbox.h>
 
 #include <kfm.h>
 #include <kfmclient_ipc.h>
-
-#include <kmsgbox.h>
 #include <kprocess.h>
 
 #include "kfwin.h"
-//#include "kftypes.h"
 #include "kfarch.h"
 #include "kfsave.h"
 
@@ -46,7 +44,6 @@
 
 extern KfSaveOptions *saving; 
 extern QList<KfArchiver> *archivers;
-//extern QList<KfFileType> *types;
 
 KfindWindow::KfindWindow( QWidget *parent, const char *name )
     : QWidget( parent, name )          
@@ -137,11 +134,9 @@ void KfindWindow::saveResults()
 
     items=lbx->count();
     if (results==0L)
-      KMsgBox::yesNo(parentWidget(),klocale->translate("Error"),
+      QMessageBox::warning(parentWidget(),klocale->translate("Error"),
 		     klocale->translate("It wasn't possible to save results!"),
-		     KMsgBox::EXCLAMATION,
-		     klocale->translate("OK"),
-		     klocale->translate("Cancel"));
+		     klocale->translate("OK"));
     else
       {
 	if ( strcmp(saving->getSaveFormat(),"HTML")==0)
@@ -175,10 +170,11 @@ void KfindWindow::saveResults()
 	    
 	  };
 	fclose(results); 
-	KMsgBox::message(parentWidget(),klocale->translate("Error"),
-			 klocale->translate("Results were saved to file\n")+
+ 	QMessageBox::information(parentWidget(),
+			 klocale->translate("Information"),
+ 			 klocale->translate("Results were saved to file\n")+
 			 filename,
-			 KMsgBox::INFORMATION,klocale->translate("OK"));
+ 			 klocale->translate("OK"));
       };
   };
 
@@ -193,40 +189,34 @@ void KfindWindow::deleteFiles()
 
     tmp.sprintf(klocale->translate("Do you really want to delete file:\n%s"),
                 lbx->text(lbx->currentItem()));
-    if(KMsgBox::yesNo(parentWidget(),klocale->translate("Delete File"),
-                      tmp,KMsgBox::QUESTION, klocale->translate("OK"),
-		      klocale->translate("Cancel")) == 1)
+    if(QMessageBox::warning(parentWidget(),klocale->translate("Delete File"),
+                      tmp,klocale->translate("OK"),
+		      klocale->translate("Cancel")) == 0)
       {
-	//        printf("So we'll delete it!\n");
-        
         QFileInfo *file = new QFileInfo(lbx->text(lbx->currentItem()));
 	if (file->isFile()||file->isSymLink())
             {
               if (remove(file->filePath())==-1)
                   switch(errno)
                     {
-    	              case EACCES: KMsgBox::yesNo(parentWidget(),
-						  klocale->translate("Error"),
-						  klocale->translate("You have no permission\n to delete this file"),
-						  KMsgBox::EXCLAMATION,
-						  klocale->translate("OK"),
-						  klocale->translate("Cancel"));
+    	              case EACCES: 
+			QMessageBox::warning(parentWidget(),
+					   klocale->translate("Error"),
+					   klocale->translate("You have no permission\n to delete this file"),
+					   klocale->translate("OK"));
                                    break;
-                      default: KMsgBox::yesNo(parentWidget(),
-					      klocale->translate("Error"),
-					      klocale->translate("It isn't possible to delete\nselected file"),
-					      KMsgBox::EXCLAMATION,
-					      klocale->translate("OK"),
-					      klocale->translate("Cancel"));
+                      default: 
+			QMessageBox::warning(parentWidget(),
+					     klocale->translate("Error"),
+					     klocale->translate("It isn't possible to delete\nselected file"),
+					     klocale->translate("OK"));
                     }
                 else
                   {
                    KFM *kfm= new KFM();
-                  /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
-                                                    lbx->currentItem()));
-		  */ 
                    kfm->refreshDirectory(lbx->text(lbx->currentItem()));
                    lbx->removeItem(lbx->currentItem());
+		   delete kfm;
  		  };
             }
           else
@@ -234,32 +224,24 @@ void KfindWindow::deleteFiles()
               if (rmdir(file->filePath())==-1)
 		  switch(errno)
                     {
-		    case EACCES: KMsgBox::yesNo(parentWidget(),
-						klocale->translate("Error"),
-						klocale->translate("You have no permission\n to delete this directory"),
-						KMsgBox::EXCLAMATION,
-						klocale->translate("OK"),
-						klocale->translate("Cancel"));
+		    case EACCES: QMessageBox::warning(parentWidget(),
+				              klocale->translate("Error"),
+		                              klocale->translate("You have no permission\n to delete this directory"),
+					      klocale->translate("OK"));
                                   break;
-      	             case ENOTEMPTY: KMsgBox::yesNo(parentWidget(),
-					   klocale->translate("Error"),
-                                           klocale->translate("Specified directory\nis not empty!"),
-                                           KMsgBox::EXCLAMATION,
-                                           klocale->translate("OK"),
-					   klocale->translate("Cancel"));
+      	             case ENOTEMPTY: QMessageBox::warning(parentWidget(),
+					    klocale->translate("Error"),
+					    klocale->translate("Specified directory\nis not empty!"),
+					    klocale->translate("OK"));
                                      break;
-     	             default: KMsgBox::yesNo(parentWidget(),klocale->translate("Error"),
-                                        klocale->translate("It isn't possible to delete\nselected directory"),
-                                         KMsgBox::EXCLAMATION,
-                                         klocale->translate("OK"),
-					 klocale->translate("Cancel"));
+     	             default: QMessageBox::warning(parentWidget(),
+					 klocale->translate("Error"),
+                                         klocale->translate("It isn't possible to delete\nselected directory"),
+                                         klocale->translate("OK"));
                    }
                  else
                   {
 		    KFM *kfm= new KFM();
-		    /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
-					      lbx->currentItem()));
-		    */ 
 		    kfm->refreshDirectory(lbx->text(lbx->currentItem()));
 		    lbx->removeItem(lbx->currentItem());
 		    delete kfm;
@@ -345,9 +327,9 @@ void KfindWindow::addToArchive()
     if ( (arch = KfArchiver::findByPattern("*"+pattern1))!=0L)
       execAddToArchive(arch,filename);
     else
-      KMsgBox::message(parentWidget(),klocale->translate("Error"),
-		       klocale->translate("Couldn't recognize archive type!")
-		       ,KMsgBox::STOP, klocale->translate("OK")); 
+      QMessageBox::warning(parentWidget(),klocale->translate("Error"),
+		       klocale->translate("Couldn't recognize archive type!"),
+		       klocale->translate("OK")); 
 
 };
 
@@ -383,8 +365,6 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 	{
 	  QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
 	  pom.sprintf("%s/",(fileInfo->dirPath(TRUE)).data());
-
-	  //	  printf("Dir = %s\n",pom.data());
 	};
 
       if ( pom=="%a" )

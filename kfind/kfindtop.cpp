@@ -11,7 +11,7 @@
 #include <kmenubar.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
-#include <kmsgbox.h>
+#include <qmsgbox.h>
 #include <qsize.h>
 
 #include <qpopmenu.h>
@@ -35,10 +35,6 @@
 KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
-
-    KWM::setIcon(winId(), kapp->getIconLoader()->loadIcon("kfind.xpm"));   
-    //KWM::setMiniIcon(winId(), 
-    //	     kapp->getIconLoader()->loadIcon("mini-kfind.xpm"));   
 
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
@@ -123,7 +119,7 @@ void KfindTop::about()
     tmp.sprintf(trans->translate("KFind %s\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>"),
 		KFIND_VERSION);
 
-    KMsgBox::message(this,"about box",tmp,KMsgBox::INFORMATION, "OK");
+    QMessageBox::information(this,"",tmp,trans->translate("OK"));
   };
 
 void KfindTop::menuInit()

@@ -17,10 +17,6 @@ int main( int argc, char ** argv )
     QString searchPath;
 
     KApplication app( argc, argv, "kfind" );
-
-    QString path = app.kdedir();   
-    app.getIconLoader()->insertDirectory(3, path + "/share/icons");
-    app.getIconLoader()->insertDirectory(4, path + "/share/icons/mini"); 
   
     //Scan for saving options in kfind resource file
     saving = new KfSaveOptions();
