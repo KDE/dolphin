@@ -22,16 +22,16 @@
 
 #include "kfmrun.h"
 #include "konq_mainview.h"
+#include "konq_childview.h"
 #include "konq_mainwindow.h"
-#include "konq_plugins.h"
 
 #include <string.h>
 
-KfmRun::KfmRun( KonqMainView* _view, unsigned long _viewId, const char *_url, mode_t _mode, bool _is_local_file, bool _auto_delete )
+KfmRun::KfmRun( KonqMainView* _view, KonqChildView *_childView, const char *_url, mode_t _mode, bool _is_local_file, bool _auto_delete )
   : KRun( _url, _mode, _is_local_file, _auto_delete )
 {
   m_pView = _view;
-  m_ulViewId = _viewId;
+  m_pChildView = _childView;
 }
 
 KfmRun::~KfmRun()
@@ -47,7 +47,7 @@ void KfmRun::foundMimeType( const char *_type )
 
   assert( m_pView );
 
-  if ( m_pView->openView( QString( _type ), m_strURL, m_ulViewId ) )
+  if ( m_pView->openView( QString( _type ), m_strURL, m_pChildView ) )
   {
     m_pView = 0L;
     m_bFinished = true;

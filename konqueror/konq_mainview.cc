@@ -834,7 +834,7 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean )
   
   slotStop(); //hm....
     
-  KfmRun *run = new KfmRun( this, m_currentId, url, 0, false, false );
+  KfmRun *run = new KfmRun( this, m_currentView, url, 0, false, false );
   if ( m_currentView )
     m_currentView->setKfmRun( run );
 }
@@ -892,7 +892,7 @@ void KonqMainView::createNewWindow( const char *url )
   m_pShell->show();
 }
 
-bool KonqMainView::openView( const QString &serviceType, const QString &url, unsigned long viewId )
+bool KonqMainView::openView( const QString &serviceType, const QString &url, KonqChildView *childView )
 {
   QString indexFile;
   KURL u( url );
@@ -923,10 +923,6 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, uns
     m_sInitialURL = QString::null;
     return true;
   }
-  
-  MapViews::ConstIterator it = m_mapViews.find( viewId );
-  assert( it != m_mapViews.end() );
-  const KonqChildView *childView = it.data();
   
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
