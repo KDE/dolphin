@@ -321,7 +321,7 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
-  m_pIconView->setWordWrapIconText( FALSE );
+  m_pIconView->setWordWrapIconText( true );
   m_pIconView->setAligning( true );
   m_pIconView->setSorting( true, m_pIconView->sortDirection() );
 
