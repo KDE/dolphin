@@ -828,9 +828,9 @@ void DesktopPathConfig::changed()
 
 QString DesktopPathConfig::quickHelp() const
 {
-  return i18n("<h1>Desktop</h1>\n"
-    "This module allows you to choose where files on your desktop\n"
-    "are being stored.\n"
+  return i18n("<h1>Paths</h1>\n"
+    "This module allows you to choose where in the filesystem the 
+    "files on your desktop should be stored.\n"
     "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
 }
 
