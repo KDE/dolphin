@@ -861,7 +861,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
     bool recalc = !m_pProps->m_bImagePreview;
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
-	item->QIconViewItem::setPixmap( newIcon, recalc, true );
+	item->QIconViewItem::setPixmap( newIcon );
 	if ( m_pProps->m_bImagePreview )
 	    m_bNeedAlign = true;
     }
