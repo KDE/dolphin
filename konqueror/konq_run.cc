@@ -63,8 +63,16 @@ void KonqRun::foundMimeType( const QString & _type )
   //kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
   //kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
 
+  // Check if the main window wasn't deleted meanwhile
+  if( !m_pMainWindow )
+  {
+      m_bFinished = true;
+      m_bFault = true;
+      m_timer.start( 0, true );
+      return;
+  }
+
   // Try to open in a view
-  assert( m_pMainWindow );
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
 
   // Support for saving remote files.

@@ -203,12 +203,12 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
            this, SLOT( slotUndoAvailable( bool ) ) );
 
   resize( 700, 480 );
-  kdDebug(1202) << "KonqMainWindow::KonqMainWindow done" << endl;
+  kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
 }
 
 KonqMainWindow::~KonqMainWindow()
 {
-  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow" << endl;
+  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << endl;
   if ( s_lstViews )
   {
     s_lstViews->removeRef( this );

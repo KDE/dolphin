@@ -21,6 +21,7 @@
 #define __kfm_run_h__
 
 #include <krun.h>
+#include <qguardedptr.h>
 #include <kservice.h>
 #include <sys/types.h>
 #include <konq_openurlrequest.h>
@@ -70,8 +71,8 @@ protected slots:
   void slotKonqMimetype(KIO::Job *job, const QString &type);
 
 protected:
-  KonqMainWindow* m_pMainWindow;
-  KonqView* m_pView;
+  QGuardedPtr<KonqMainWindow> m_pMainWindow;
+  QGuardedPtr<KonqView> m_pView;
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
   bool m_bTrustedSource;
