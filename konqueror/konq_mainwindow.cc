@@ -479,7 +479,6 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
   kdDebug(1202) << "req.followMode=" << req.followMode << endl;
-  kdDebug(1202) << " childView->isFollowActive()=" << childView->isFollowActive() << endl;
   //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
   //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
   //kdDebug(1202) << "req.newTab= " << req.newTab << endl;
@@ -488,6 +487,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   bool bOthersFollowed = false;
   if ( childView )
   {
+    kdDebug(1202) << " childView->isFollowActive()=" << childView->isFollowActive() << endl;
     // If we're not already following another view (and if we are not reloading)
     if ( !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile() )
     {
