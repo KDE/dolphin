@@ -208,22 +208,19 @@ void KonqIconViewWidget::setImagePreviewAllowed( bool b )
         return;
     m_bImagePreviewAllowed = b;
 
-#if 0 // DISABLED
     if (b) // On
     {
         m_pImagePreviewJob = new KonqImagePreviewJob( this );
+        m_pImagePreviewJob->determineNextIcon();
     }
     else // Off
     {
-        if (m_pImagePreviewJob)
-        {
+        if (!m_pImagePreviewJob.isNull())
             m_pImagePreviewJob->kill();
-            m_pImagePreviewJob = 0L;
-        }
+
         // Restore normal icons
         setIcons( m_size );
     }
-#endif
 }
 
 KFileItemList KonqIconViewWidget::selectedFileItems()

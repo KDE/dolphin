@@ -23,6 +23,7 @@
 #include <kiconview.h>
 #include <kurl.h>
 #include <konqfileitem.h>
+#include <qguardedptr.h>
 
 class KonqFMSettings;
 class KFileIVI;
@@ -198,7 +199,7 @@ protected:
     int m_size;
     bool m_bImagePreviewAllowed;
 
-    KonqImagePreviewJob * m_pImagePreviewJob;
+    QGuardedPtr<KonqImagePreviewJob> m_pImagePreviewJob;
 
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;

@@ -40,15 +40,20 @@ public:
     KonqImagePreviewJob( KonqIconViewWidget * iconView );
     virtual ~KonqImagePreviewJob();
 
-protected:
+    // Call this to get started
     void determineNextIcon();
+
+protected:
+    void determineThumbnailURL();
+    bool statResultThumbnail( KIO::StatJob * );
+    void createThumbnail( QString );
 
 protected slots:
     virtual void slotResult( KIO::Job *job );
 
 private:
     enum { STATE_STATORIG, STATE_STATTHUMB, STATE_STATXV, STATE_GETTHUMB, // if the thumbnail exists
-           STATE_GETORIG, STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_PUTTHUMB // if we create it
+           STATE_CREATEDIR1, STATE_CREATEDIR2, STATE_GETORIG, STATE_PUTTHUMB // if we create it
     } m_state;
 
     // The item might get deleted from the icon view while we
@@ -58,12 +63,18 @@ private:
     // Our todo list :)
     QValueList<KFileIVIPtr> m_items;
 
+    // The current item
+    KFileIVIPtr m_currentItem;
     // The URL of the current item (always equivalent to m_items.first()->item()->url())
     KURL m_currentURL;
     // The modification time of that URL
     time_t m_tOrig;
     // The URL where we find (or create) the thumbnail for the current URL
     KURL m_thumbURL;
+    // Size of thumbnail
+    int m_extent;
+    // Whether we can save the thumbnail
+   bool m_bCanSave;
 
     // Dad :)
     KonqIconViewWidget * m_iconView;
