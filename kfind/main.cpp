@@ -18,8 +18,8 @@ int main( int argc, char ** argv )
 
     KApplication app( argc, argv, "kfind" );
   
-    app.getIconLoader()->insertDirectory(0,
-		app.kde_datadir() + "/" + app.appName() + "/toolbar");
+    KGlobal::iconLoader()->insertDirectory(0,
+		  app.kde_datadir() + "/" + app.appName() + "/toolbar");
   
     //Scan for saving options in kfind resource file
     saving = new KfSaveOptions();

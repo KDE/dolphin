@@ -189,20 +189,19 @@ void KfindTop::menuInit()
 
 void KfindTop::toolBarInit()
   {
-    KIconLoader *loader = kapp->getIconLoader();
     QPixmap icon;
 
-    icon = loader->loadIcon("search.xpm");
+    icon = Icon("search.xpm");
     _toolBar->insertButton( icon, 0, SIGNAL(clicked()),
 			    _kfind, SLOT(startSearch()),
 			    TRUE, i18n("Start Search"));
 
-    icon = loader->loadIcon("reload.xpm");
+    icon = Icon("reload.xpm");
     _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
 			    _kfind, SLOT(newSearch()),
 			    TRUE, i18n("New Search"));
 
-    icon = loader->loadIcon("stop.xpm");
+    icon = Icon("stop.xpm");
     _toolBar->insertButton( icon, 2, SIGNAL(clicked()),
 			    _kfind, SLOT(stopSearch()),
 			    FALSE, i18n("Stop Search"));
@@ -210,43 +209,43 @@ void KfindTop::toolBarInit()
     _toolBar->insertSeparator();
 
 
-    icon = loader->loadIcon("openfile.xpm");
+    icon = Icon("openfile.xpm");
     _toolBar->insertButton( icon, 3,SIGNAL(clicked()),
 			    _kfind,SIGNAL(open()),
 			    FALSE, i18n("Open"));
 
-    icon = loader->loadIcon("archive.xpm");
+    icon = Icon("archive.xpm");
     _toolBar->insertButton( icon, 4,SIGNAL(clicked()),
 			    _kfind,SIGNAL(addToArchive()),
 			    FALSE, i18n("Add to archive"));
 
-    icon = loader->loadIcon("delete.xpm");
+    icon = Icon("delete.xpm");
     _toolBar->insertButton( icon, 5,SIGNAL(clicked()),
 			    _kfind,SIGNAL(deleteFile()),
 			    FALSE, i18n("Delete"));
 
-    icon = loader->loadIcon("info.xpm");
+    icon = Icon("info.xpm");
     _toolBar->insertButton( icon, 6,SIGNAL(clicked()),
 			    _kfind,SIGNAL(properties()),
 			    FALSE, i18n("Properties"));
 
-    icon = loader->loadIcon("fileopen.xpm");
+    icon = Icon("fileopen.xpm");
     _toolBar->insertButton( icon, 7,SIGNAL(clicked()),
 			    _kfind,SIGNAL(openFolder()),
 			    FALSE, i18n("Open Containing Folder"));
 
-    icon = loader->loadIcon("save.xpm");
+    icon = Icon("save.xpm");
     _toolBar->insertButton( icon, 8,SIGNAL(clicked()),
 			    _kfind,SIGNAL(saveResults()),
 			    FALSE, i18n("Save Search Results"));
 
     _toolBar->insertSeparator();
-    icon = loader->loadIcon("contents.xpm");
+    icon = Icon("contents.xpm");
     _toolBar->insertButton( icon, 9, SIGNAL( clicked() ),
 			  kapp, SLOT( appHelpActivated() ),
 			  TRUE, i18n("Help"));
 
-    icon = loader->loadIcon("exit.xpm");
+    icon = Icon("exit.xpm");
     _toolBar->insertButton( icon, 10, SIGNAL( clicked() ),
                           KApplication::getKApplication(), SLOT( quit() ),  
 			  TRUE, i18n("Quit"));
