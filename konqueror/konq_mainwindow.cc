@@ -417,7 +417,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 
     if ( !nameFilter.isEmpty() )
     {
-        if (!KProtocolInfo::supportsListing(filteredURL.protocol()))
+        if (!KProtocolInfo::supportsListing(filteredURL))
         {
             // Protocol doesn't support listing. Ouch. Revert to full URL, no name-filtering.
             url = _url;
@@ -455,7 +455,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   {
     serviceType = "text/html";
   }
-  else if ( url.isMalformed() )
+  else if ( !url.isValid() )
   {
       KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
       return;
@@ -2432,19 +2432,9 @@ void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
     req->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
 }
 
-//copied from libkonq/konq_popupmenu.cc
 void KonqMainWindow::slotNewDir()
 {
-    bool ok;
-    QString name = KInputDialog::getText ( i18n( "New Directory" ),
-        i18n( "Enter directory name:" ), i18n( "Directory" ), &ok, this );
-    if ( ok )
-    {
-        name = KIO::encodeFileName( name );
-        KURL url=m_currentView->url();
-        url.addPath( name );
-        KonqOperations::mkdir( 0L, url );
-    }
+  KonqOperations::newDir(this, m_currentView->url());
 }
 
 void KonqMainWindow::slotCopyFiles()
@@ -3881,7 +3871,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       {
           KURL firstURL = _items.getFirst()->url();
 	  //firstURL.cleanPath();
-          openedForViewURL = firstURL.cmp( viewURL, true );
+          openedForViewURL = firstURL.equals( viewURL, true );
       }
       dirsSelected = S_ISDIR( _items.getFirst()->mode() );
   }
