@@ -68,6 +68,8 @@ public:
   QComboBox *typeBox;
   QLineEdit * textEdit;
   QCheckBox   *caseSensCb;
+  QComboBox *m_usernameBox;
+  QComboBox *m_groupBox;
 
 private:
   bool isDateValid();

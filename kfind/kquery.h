@@ -27,6 +27,8 @@ class KQuery : public QObject
   void setFileType( int filetype );
   void setMimeType( const QString & mimetype );
   void setContext( const QString & context, bool casesensitive, bool useRegexp );
+  void setUsername( QString username );
+  void setGroupname( QString groupname );
 
   void start();
   void kill();
@@ -54,6 +56,9 @@ class KQuery : public QObject
   bool m_recursive;
   QString m_mimetype;
   QString m_context;
+  QString m_username;
+  QString m_groupname;
+
   bool m_casesensitive;
   bool m_regexpForContent;
   QPtrList<QRegExp> m_regexps;// regexps for file name

@@ -11,6 +11,7 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
+#include <qtooltip.h>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -54,6 +55,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     nameBox = new QComboBox(TRUE, pages[0], "combo1");
     QLabel * namedL = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
+    QToolTip::add( namedL, i18n("You can use wildcard matching and \";\" for separating multiple names") );
     dirBox  = new QComboBox(TRUE, pages[0], "combo2");
     QLabel * lookinL = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
@@ -95,7 +97,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // Layout
 
-    QGridLayout *grid = new QGridLayout( pages[0], 3, 3,
+    QGridLayout *grid = new QGridLayout( pages[0], 3, 2,
 					 KDialog::marginHint(),
 					 KDialog::spacingHint() );
     QBoxLayout *subgrid = new QHBoxLayout( -1 , "subgrid" );
@@ -116,7 +118,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     connect( browseB, SIGNAL(clicked()),
              this, SLOT(getDirectory()) );
 
-    addTab( pages[0], i18n(" Name/Location ") );
+    addTab( pages[0], i18n(" Name/&Location ") );
 
     // ************ Page Two
 
@@ -148,7 +150,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     // Layout
 
-    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  4,
+    QGridLayout *grid1 = new QGridLayout( pages[1], 6,  4,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
     grid1->addMultiCellWidget(findCreated, 0, 0, 0, 6 );
@@ -158,14 +160,18 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid1->addWidget(andL, 2, 3, AlignHCenter );
     grid1->addWidget(toDate, 2, 4 );
     grid1->addWidget(rb[1], 3, 1 );
-    grid1->addWidget(timeBox, 3, 2);
-    grid1->addWidget(betweenType, 3, 3 );
+    grid1->addMultiCellWidget(timeBox, 3, 3, 2, 3);
+    grid1->addWidget(betweenType, 3, 4 );
+    for (int c=1; c<=4; c++)
+       grid1->setColStretch(c,1);
+//    grid1->setColStretch(5,1);
+    grid1->setRowStretch(4,1);
 
     // Connect
     connect( findCreated,  SIGNAL(toggled(bool)), this,   SLOT(fixLayout()) );
     connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
 
-    addTab( pages[1], i18n(" Date Range ") );
+    addTab( pages[1], i18n(" &Date Range ") );
 
     // ************ Page Three
 
@@ -190,6 +196,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeEdit=new QSpinBox(1, INT_MAX, 1, pages[2], "sizeEdit" );
     sizeUnitBox =new QComboBox(FALSE, pages[2], "sizeUnitBox");
 
+    m_usernameBox = new QComboBox( true, pages[2], "m_combo1");
+    QLabel *m_usernameLabel= new QLabel(m_usernameBox,i18n("Owned by &user:"),pages[2]);
+    m_groupBox = new QComboBox( true, pages[2], "m_combo2");
+    QLabel *m_groupLabel= new QLabel(m_groupBox,i18n("Owned by &group:"),pages[2]);
+
     // Setup
 
     typeBox->insertItem(i18n("All Files and Directories"));
@@ -199,6 +210,12 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
     typeBox->insertItem(i18n("Executable Files"));
     typeBox->insertItem(i18n("SUID Executable Files"));
+
+    m_usernameBox->setDuplicatesEnabled(FALSE);
+    m_groupBox->setDuplicatesEnabled(FALSE);
+    m_usernameBox->setInsertionPolicy(QComboBox::AtTop);
+    m_groupBox->setInsertionPolicy(QComboBox::AtTop);
+
 
     initMimeTypes();
 
@@ -238,7 +255,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
-    QGridLayout *grid2 = new QGridLayout( pages[2], 4, 3,
+    QGridLayout *grid2 = new QGridLayout( pages[2], 5, 4,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
     grid2->addWidget( typeL, 0, 0 );
@@ -252,12 +269,17 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( sizeEdit, 3, 2 );
     grid2->addWidget( sizeUnitBox, 3, 3 );
 
+    grid2->addWidget(m_usernameLabel, 4, 0);
+    grid2->addWidget(m_usernameBox, 4, 1);
+    grid2->addWidget(m_groupLabel, 4, 2);
+    grid2->addWidget(m_groupBox, 4, 3);
+
     if ( editRegExp ) {
       // The editor was available, so lets use it.
       grid2->addWidget( editRegExp, 2, 3 );
     }
     
-    addTab( pages[2], i18n(" Advanced ") );
+    addTab( pages[2], i18n(" Ad&vanced ") );
 
     fixLayout();
     loadHistory();
@@ -546,6 +568,9 @@ void KfindTabWidget::setQuery(KQuery *query)
   }
   else
     query->setTimeRange(0, 0);
+
+  query->setUsername( m_usernameBox->currentText() );
+  query->setGroupname( m_groupBox->currentText() );
 
   query->setFileType(typeBox->currentItem());
 

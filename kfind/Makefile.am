@@ -27,8 +27,9 @@ messages:
 #And this is for kfind
 
 bin_PROGRAMS = kfind
-kfind_SOURCES = kfwin.cpp kfinddlg.cpp main.cpp
-kfind_LDADD   =  libkfindpart.la $(top_builddir)/libkonq/libkonq.la
+kfind_SOURCES = kfwin.cpp kfinddlg.cpp main.cpp kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp
+kfind_LDADD   =  $(LIB_KPARTS)
+#kfind_LDADD   =  libkfindpart.la $(top_builddir)/libkonq/libkonq.la
 
 # the library search path.
 kfind_LDFLAGS = $(all_libraries) $(KDE_RPATH)

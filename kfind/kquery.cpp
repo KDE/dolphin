@@ -93,6 +93,12 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
     if ( m_timeTo && m_timeTo < file->time(KIO::UDS_MODIFICATION_TIME) )
       continue;
 
+    // username / group match
+    if ( (m_username != "") && (m_username != file->user()) )
+       continue;
+    if ( (m_groupname != "") && (m_groupname != file->group()) )
+       continue;
+
     // file type
     switch (m_filetype)
       {
@@ -211,6 +217,17 @@ void KQuery::setTimeRange(time_t from, time_t to)
   m_timeFrom = from;
   m_timeTo = to;
 }
+
+void KQuery::setUsername(QString username)
+{
+   m_username = username;
+}
+
+void KQuery::setGroupname(QString groupname)
+{
+   m_groupname = groupname;
+}
+
 
 void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
 {
