@@ -98,7 +98,7 @@ void KBookmarkMenu::slotBookmarksChanged()
 
   if ( m_bIsRoot )
   {
-    CORBA::WString_var text = Q2C( i18n("&Edit Bookmarks...") );
+    QString text = i18n("&Edit Bookmarks...");
     m_vMenu->insertItem( text, m_vPart, "slotEditBookmarks", 0 );
   }    
 
@@ -110,12 +110,12 @@ void KBookmarkMenu::slotBookmarksChanged()
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 {
   KBookmark *bm;
-  CORBA::WString_var text;
+  QString text;
 
   assert( !CORBA::is_nil( m_vMenu ) );
   // kdebug(0, 1202, "KBookmarkMenu::fillBookmarkMenu( %p )", parent);
 
-  text = Q2C( i18n("&Add Bookmark") );
+  text = i18n("&Add Bookmark");
   m_vMenu->insertItem7( text, (CORBA::Long)parent->id(), -1 );
   m_vMenu->insertSeparator( -1 );
 
@@ -126,8 +126,8 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
     QString pixmapFullPath = KPixmapCache::pixmapFile( bm->pixmapFile(), true /* mini icon */ );
-    pix->data = CORBA::string_dup( pixmapFullPath.data() );
-    text = Q2C( bm->text() );
+    pix->data = pixmapFullPath.data();
+    text = bm->text();
     if ( bm->type() == KBookmark::URL )
     {
         m_vMenu->insertItem11( *pix, text, (CORBA::Long)bm->id(), -1 );	

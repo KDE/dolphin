@@ -90,8 +90,8 @@ void KNewMenu::fillMenu()
     if ( m_bUseOPMenu )
     {
       m_vMenu->clear();
-      CORBA::WString_var text = Q2C( i18n( "Folder" ) );
-      m_vMenu->insertItem( text, CORBA::Object::_nil(), 0L, 0 );
+      QString text = i18n( "Folder" );
+      m_vMenu->insertItem( text, CORBA::Object::_nil(), "", 0 );
     }
     else
     {
@@ -111,8 +111,8 @@ void KNewMenu::fillMenu()
             name.truncate( name.length() - 7 );
         if ( m_bUseOPMenu )
 	  {
-	    CORBA::WString_var text = Q2C( config.readEntry("Name", name) );
-	    m_vMenu->insertItem( text, CORBA::Object::_nil(), 0L, 0 );
+	    QString text = config.readEntry("Name", name);
+	    m_vMenu->insertItem( text, CORBA::Object::_nil(), "", 0 );
 	  }    
 	else
 	  m_pMenu->insertItem( config.readEntry("Name", name ) );
