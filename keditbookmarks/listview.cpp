@@ -441,9 +441,7 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
 
 // used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
-   KEBListViewItem* item = firstSelected();
-   Q_ASSERT(item);
-   m_listView->rename(item, column);
+   m_listView->rename(firstSelected(), column);
 }
 
 void ListView::clearSelection() {
@@ -454,16 +452,15 @@ void ListView::clearSelection() {
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
-   kdDebug() << "column == " << column << endl;
-   if ( !(KEBApp::self()->readonly())
-     && (item) && (item != firstChild()) 
-     && !(static_cast<KEBListViewItem *>(item)->isEmptyFolder())
-     && (column == NameColumn || column == UrlColumn)
-     && !(item->bookmark().isSeparator())
-     && !(column == 1 && item->bookmark().isGroup())
+   if ( !(column == NameColumn || column == UrlColumn)
+     || KEBApp::self()->readonly()
+     || !item || item == firstChild() || item->isEmptyFolder()
+     || item->bookmark().isSeparator()
+     || (column == UrlColumn && item->bookmark().isGroup())
    ) {
-      KListView::rename(item, column);
+      return;
    }
+   KListView::rename(item, column);
 }
 
 bool KEBListView::acceptDrag(QDropEvent * e) const {
