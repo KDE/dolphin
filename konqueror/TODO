@@ -50,6 +50,8 @@ konqueror framework:
 - implement "cutting" icons using semi-transparent icon effect
 (or more generally "disabled" setting).
 
+- Action for enabling/disabling javascript, in Settings.
+
 - the 'shared lib' or interface problem for plugins.
 
 - Allow for profiles without URL - and have two "default" ones (i.e. provided),
@@ -81,6 +83,8 @@ iconview+listviews:
 
 - Sorting by date, by extension...
 Many bugs (#3220 #2871...)
+
+Show dirs first even in descending order - or change the label of the action.
 
 - Hide backup files (files ending in ~ or #) - see #3212
 
