@@ -21,6 +21,7 @@
 
 #include <kurl.h>
 #include <qobject.h>
+#include <qevent.h>
 #include <konq_fileitem.h>
 
 namespace KIO { class Job; }
@@ -90,11 +91,12 @@ protected:
 
     struct DropInfo
     {
-        DropInfo( uint k, KURL::List & l, int x, int y ) :
-            keybstate(k), lst(l), mousePos(x,y) {}
+        DropInfo( uint k, KURL::List & l, int x, int y, QDropEvent::Action a ) :
+            keybstate(k), lst(l), mousePos(x,y), action(a) {}
         uint keybstate;
         KURL::List lst;
         QPoint mousePos;
+        QDropEvent::Action action;
     };
     // internal, for doDrop
     void setDropInfo( DropInfo * info ) { m_info = info; }

@@ -259,8 +259,17 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
         XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
                        &root_x, &root_y, &win_x, &win_y, &keybstate );
 
+        QDropEvent::Action action = ev->action();
+        // Check for the drop of a bookmark -> we want a Link action
+        if ( ev->provides("application/x-xbel") )
+        {
+            keybstate |= ControlMask | ShiftMask;
+            action = QDropEvent::Link;
+            kdDebug() << "KonqOperations::doDrop Bookmark -> emulating Link" << endl;
+        }
+
         KonqOperations * op = new KonqOperations(parent);
-        op->setDropInfo( new DropInfo( keybstate, lst, win_x, win_y ) );
+        op->setDropInfo( new DropInfo( keybstate, lst, win_x, win_y, action ) );
 
         // Ok, now we need destItem.
         if ( destItem )
@@ -283,7 +292,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
                 formats.append( ev->format( i ) );
         if ( formats.count() >= 1 )
         {
-            kdDebug(1203) << "Pasting to " << dest.url() << endl;
+            //kdDebug(1203) << "Pasting to " << dest.url() << endl;
 
             QByteArray data;
 
@@ -306,11 +315,11 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     assert(m_info); // setDropInfo should have been called before asyncDrop
     KURL dest = destItem->url();
     KURL::List lst = m_info->lst;
-    kdDebug() << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
+    //kdDebug() << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
     // Check what the destination is
     if ( S_ISDIR(destItem->mode()) )
     {
-        QDropEvent::Action action = QDropEvent::Copy;
+        QDropEvent::Action action = m_info->action;
         if ( dest.path( 1 ) == KGlobalSettings::trashPath() )
         {
             if ( askDeleteConfirmation( lst, DEFAULT_CONFIRMATION ) )
@@ -360,6 +369,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 case 3 : action = QDropEvent::Link; break;
                 case 4 :
                 {
+                    kdDebug(1203) << "setWallpaper iconView=" << iconView << " url=" << lst.first().url() << endl;
                     if (iconView) iconView->setWallpaper(lst.first());
                     delete this;
                     return;
