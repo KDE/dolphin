@@ -673,8 +673,11 @@ void DesktopPathConfig::save()
             // Either the Trash field wasn't changed (-> need to update it)
             if ( newTrashURL.cmp( trashURL, true ) )
             {
+                QString urlDesktop = urDesktop->url();
+                if ( urlDesktop.at(urlDesktop.length()-1)!='/')
+                    urlDesktop+="/";
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                urTrash->setURL( urDesktop->url() + trashURL.fileName() );
+                urTrash->setURL( urlDesktop + trashURL.fileName() );
                 kdDebug() << "The trash is moved with the desktop" << endl;
                 trashMoved = true;
             }
