@@ -34,6 +34,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
    konq_undo.cc konq_undo.skel \
    konq_historymgr.cc konq_historycomm.cc konq_historycomm.skel \
+   konq_pixmapprovider.cc \
    konq_faviconmgr.cc konq_faviconmgr.skel
 
 kdirnotify_DIR = $(kde_includes)
@@ -52,6 +53,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_operations.h \
     konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
+    konq_pixmapprovider.h \
     konq_faviconmgr.h
 
 messages:
