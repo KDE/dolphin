@@ -95,7 +95,9 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 	    this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
 
-    // Extract 6 icon sizes from the icon theme. Use 16,22,32,48,64,128 as default.
+    // Extract 6 icon sizes from the icon theme. 
+    // Use 16,22,32,48,64,128 as default.
+    // Use these also if the icon theme is scalable.
     int i;
     d->m_iIconSize[0] = 0; // Default value
     d->m_iIconSize[1] = KIcon::SizeSmall; // 16
@@ -108,15 +110,21 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     if (root)
     {
       QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
-      QValueList<int>::Iterator it;
-      for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<7); it++, i++)
-      {
-        d->m_iIconSize[i] = *it;
-        //kdDebug(1203) << "m_iIconSize[" << i << "] = " << *it << endl;
-      }
-      // Generate missing sizes
-      for (; i < 7; i++) {
-	d->m_iIconSize[i] = d->m_iIconSize[i - 1] + d->m_iIconSize[i - 1] / 2;
+      if (avSizes.count() < 10) {
+	// Use the icon sizes supplied by the theme.
+	// If avSizes contains more than 10 entries, assume a scalable
+	// icon theme.
+	QValueList<int>::Iterator it;
+	for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<7); it++, i++)
+	{
+	  d->m_iIconSize[i] = *it;
+	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << *it << endl;
+	}
+	// Generate missing sizes
+	for (; i < 7; i++) {
+	  d->m_iIconSize[i] =  d->m_iIconSize[i - 1];
+	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << 128 << endl;
+	}
       }
     }
 
