@@ -398,10 +398,9 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 {
   setTabColor( newPage, KGlobalSettings::textColor() );
-  // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
   KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>(newPage);
 
-  if (!m_pViewManager->isLoadingProfile()) {
+  if (currentFrame && !m_pViewManager->isLoadingProfile()) {
     m_pActiveChild = currentFrame;
     currentFrame->activateChild();
   }
@@ -435,7 +434,7 @@ void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
   m_pPopupMenu->setItemEnabled( CLOSETAB_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( CLOSE_OTHER_ID, m_pChildFrameList->count()>1 );
-  // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+  // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy and it could crash one day, but I haven't checked setWorkingTab so I don't know if it can handle nulls.
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
   refreshSubPopupMenuTab();
   m_pPopupMenu->exec( p );
@@ -463,8 +462,8 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
 
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
-  if ( m_pChildFrameList->count()>1 ) {
-    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+  if ( m_pChildFrameList->count() > 1 ) {
+    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy and it could crash one day, but I haven't checked setWorkingTab so I don't know if it can handle nulls.
     m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
     emit ( removeTabPopup() );
   }
@@ -493,9 +492,10 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
   QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
   KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
   if ( !filteredURL.isEmpty() ) {
-    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
     KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
-    m_pViewManager->mainWindow()->openURL( frame->activeChildView(), filteredURL );
+    if (frame) {
+      m_pViewManager->mainWindow()->openURL( frame->activeChildView(), filteredURL );
+    }
   }
 }
 
@@ -536,9 +536,8 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
 {
   KURL::List lstDragURLs;
   bool ok = KURLDrag::decode( e, lstDragURLs );
-  if ( ok && lstDragURLs.first().isValid() ) {
-    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
-    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
+  KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
+  if ( ok && lstDragURLs.first().isValid() && frame ) {
     KURL lstDragURL = lstDragURLs.first();
     if ( lstDragURL != frame->activeChildView()->url() )
       m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURL );
@@ -547,13 +546,14 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
 
 void KonqFrameTabs::slotInitiateDrag( QWidget *w )
 {
-   // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
-   KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>( w );
-   KURL::List lst;
-   lst.append( frame->activeChildView()->url() );
-   KURLDrag *d = new KURLDrag( lst, this );
-   d->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
-   d->dragCopy();
+  KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>( w );
+  if (frame) {
+    KURL::List lst;
+    lst.append( frame->activeChildView()->url() );
+    KURLDrag *d = new KURLDrag( lst, this );
+    d->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
+    d->dragCopy();
+  }
 }
 
 #include "konq_tabs.moc"
