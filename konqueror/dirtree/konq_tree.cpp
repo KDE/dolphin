@@ -164,7 +164,7 @@ void KonqTree::contentsDragMoveEvent( QDragMoveEvent *e )
 
     e->acceptAction();
 
-    item->setSelected( true );
+    setSelected( item, true );
 
     if ( item != m_dropItem )
     {
@@ -324,11 +324,14 @@ void KonqTree::rescanConfiguration()
 
 void KonqTree::slotSelectionChanged()
 {
-    KonqTreeItem * item = static_cast<KonqTreeItem *>( selectedItem() );
-    if ( item )
-        item->itemSelected();
-    /* else   -- doesn't seem to happen
-    {} */
+    if ( !m_dropItem ) // don't do this while the dragmove thing
+    {
+        KonqTreeItem * item = static_cast<KonqTreeItem *>( selectedItem() );
+        if ( item )
+            item->itemSelected();
+        /* else   -- doesn't seem to happen
+           {} */
+    }
 }
 
 void KonqTree::FilesAdded( const KURL & dir )
