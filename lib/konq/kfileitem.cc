@@ -63,11 +63,11 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   init();
 }
 
-KFileItem::KFileItem( QString _text, mode_t _mode, const KURL& _url ) :
+KFileItem::KFileItem( QString /*_text*/ /*TO REMOVE*/, mode_t _mode, const KURL& _url ) :
   m_entry(), // warning !
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
-  m_strText( _text ),
+  m_strText( decodeFileName( _url.filename() ) ),
   m_fileMode ( _mode ), // temporary
   m_permissions( (mode_t) -1 ),
   m_bLink( false ),
@@ -114,6 +114,13 @@ void KFileItem::init()
   if (!m_pMimeType)
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
   assert (m_pMimeType);
+}
+
+void KFileItem::refresh()
+{
+  m_fileMode = -1;
+  m_permissions = -1;
+  init();
 }
 
 QPixmap KFileItem::pixmap( KIconLoader::Size _size ) const

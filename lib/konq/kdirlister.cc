@@ -61,10 +61,8 @@ void KDirLister::slotFileDirty( const QString& _file )
   KFileItem * item = find( _file );
   if ( item ) {
     emit deleteItem( item );
-    KFileItem * item2 = item;
-    // We need to recreate the item, because i.e. the permissions can have changed.
-    item = new KFileItem( item->text(), -1, KURL( _file ) );
-    delete item2;
+    // We need to refresh the item, because i.e. the permissions can have changed.
+    item->refresh();
     emit newItem( item );
   }
 }

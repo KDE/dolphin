@@ -59,6 +59,11 @@ public:
   ~KFileItem() { }
 
   /**
+   * Re-read information (currently only permissions and mimetype)
+   */
+  void refresh();
+
+  /**
    * @return the url of the file
    */
   const KURL & url() const { return m_url; }
