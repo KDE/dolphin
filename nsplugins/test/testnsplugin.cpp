@@ -63,18 +63,18 @@ TestNSPlugin::~TestNSPlugin()
 
 void TestNSPlugin::newView()
 {
-  //QString src = "file:/home/sschimanski/kimble_themovie.swf";
-   QString src = "file:/home/sschimanski/in_ani.swf";
-   //QString src = "http://homepages.tig.com.au/~dkl/swf/promo.swf";
-   QString mime = "application/x-shockwave-flash";
-
-  //QString src = "file:/opt/kde/share/Circuit.jpg";
-  //QString mime = "image/jpg";
-
-  //QString src = "file:/home/sschimanski/hund.avi";
-  //QString mime = "video/avi";
-
    QStringList _argn, _argv;
+  
+//QString src = "file:/home/sschimanski/kimble_themovie.swf";
+   //QString src = "file:/home/sschimanski/in_ani.swf";
+   //QString src = "http://homepages.tig.com.au/~dkl/swf/promo.swf";
+   //QString mime = "application/x-shockwave-flash";
+
+   _argn << "name" << "controls" << "console";
+   _argv << "audio" << "ControlPanel" << "Clip1";
+   QString src = "http://welt.is-kunden.de:554/ramgen/welt/avmedia/realaudio/0701lw177135.rm";
+   QString mime = "audio/x-pn-realaudio-plugin";
+ 
    _argn << "SRC" << "TYPE" << "WIDTH" << "HEIGHT";
    _argv << src << mime << "400" << "100";
    QWidget *win = m_loader->NewInstance( m_client, src, mime, 1, _argn, _argv );
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
    KApplication *app = new KApplication(argc, argv, "nsplugin");
 
    app->dcopClient()->attach();
-   app->dcopClient()->registerAs(app.name());
+   app->dcopClient()->registerAs(app->name());
    app->dcopClient()->setNotifications(true);    
 
    TestNSPlugin *win = new TestNSPlugin;
