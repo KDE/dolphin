@@ -42,7 +42,7 @@ KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
 {
     setTitle( i18n("Exceptions") );
     QVBoxLayout* mainLayout = new QVBoxLayout( this,
-                                               2*KDialog::marginHint(),
+                                               KDialog::marginHint(),
                                                KDialog::spacingHint() );
     mainLayout->setAlignment( Qt::AlignTop );
 
@@ -251,7 +251,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
              :KCModule( parent, name )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this,
-                                               2*KDialog::marginHint(),
+                                               KDialog::marginHint(),
                                                KDialog::spacingHint() );
     QHBoxLayout* hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
