@@ -2199,6 +2199,11 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   // dummy item into combo
 
   if ( m_combo ) {
+    if ( m_qComboHack ) {
+      m_combo->removeItem( m_combo->count() -1 );
+      m_qComboHack = false;
+    }
+    
     //    m_combo->setEditText( url );
     for ( int i = 0; i < m_combo->count(); i++ ) {
       if ( m_combo->text( i ) == url ) {
