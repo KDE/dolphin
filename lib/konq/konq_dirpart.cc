@@ -162,9 +162,10 @@ void KonqDirPart::newItems( const KFileItemList & entries )
 {
     for (KFileItemListIterator it(entries); it.current(); ++it)
     {
-        if ( !S_ISDIR( it.current()->mode() ) )
+        if ( !it.current()->isDir() )
         {
-            m_lDirSize += it.current()->size();
+            if (!it.current()->isLink()) // ignore symlinks
+                m_lDirSize += it.current()->size();
             m_lFileCount++;
         }
         else
@@ -174,9 +175,10 @@ void KonqDirPart::newItems( const KFileItemList & entries )
 
 void KonqDirPart::deleteItem( KFileItem * fileItem )
 {
-    if ( !S_ISDIR( fileItem->mode() ) )
+    if ( !fileItem->isDir() )
     {
-        m_lDirSize -= fileItem->size();
+        if ( !fileItem->isLink() )
+            m_lDirSize -= fileItem->size();
         m_lFileCount--;
     }
     else
@@ -206,13 +208,14 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
         uint dirCount = 0;
 
         for (KFileItemListIterator it( lst ); it.current(); ++it )
-            if ( S_ISDIR( it.current()->mode() ) )
-                dirCount++;
-            else // what about symlinks ?
-            {
-                fileSizeSum += it.current()->size();
-                fileCount++;
-            }
+                if ( it.current()->isDir() )
+                    dirCount++;
+                else
+                {
+                    if (!it.current()->isLink()) // ignore symlinks
+                        fileSizeSum += it.current()->size();
+                    fileCount++;
+                }
 
         emit setStatusBarText( KIO::itemsSummaryString(fileCount + dirCount,
                                                        fileCount,
