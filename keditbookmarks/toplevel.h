@@ -131,8 +131,8 @@ public:
 
     static QPtrList<QListViewItem> * selectedItems();
 
+    QPtrList<KBookmark>* allBookmarks() const;
     QPtrList<KBookmark>* selectedBookmarks() const;
-    QPtrList<KBookmark>* selectedBookmarksPruned() const;
     QPtrList<KBookmark>* firstBookmark() const;
 
     QListViewItem* selectedItem();

@@ -337,18 +337,12 @@ QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
    return items;
 }
 
-// pruned == only the first bookmark in each folder
-QPtrList<KBookmark>* KEBTopLevel::selectedBookmarksPruned() const
+QPtrList<KBookmark>* KEBTopLevel::allBookmarks() const
 {
    // selection helper
    QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
-   QListViewItem *lastParent = 0;
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if ( 
-         IS_REAL_SEL(it) 
-      && (!lastParent || it.current()->parent() != lastParent) 
-      ) {
-         lastParent = it.current()->parent();
+      if (IS_REAL(it)) {
          bookmarks->append(&ITEM_TO_BK(it.current()));
       }
    }
@@ -878,26 +872,18 @@ void KEBTopLevel::slotOpenLink()
 
 void KEBTopLevel::slotTestAllLinks()
 {
-   testBookmarks(firstBookmark());
+   testBookmarks(allBookmarks());
 }
 
 void KEBTopLevel::slotTestLink()
 {
-   testBookmarks(selectedBookmarksPruned());
+   testBookmarks(selectedBookmarks());
 }
 
 void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks)
 {
-   QPtrListIterator<KBookmark> it(*bks);
-   for ( ; it.current() != 0; ++it ) {
-      KBookmark *bk = it.current();
-      // AK - fixme!!!
-      if (1) {
-         // AK - insert in position 0 and therefore backwards???
-         tests.insert(0, new TestLink(*bk));
-         actionCollection()->action("canceltests")->setEnabled( true );
-      }
-   }
+   tests.insert(0, new TestLink(bks));
+   actionCollection()->action("canceltests")->setEnabled( true );
 }
 
 // needed by the TestLink stuff

@@ -234,11 +234,11 @@ class TestLink: public QObject
    Q_OBJECT
 
 public:
-   TestLink(KBookmark bk);
+   TestLink(QPtrList <KBookmark>* bks);
    ~TestLink();
 
 public slots:
-   void Url(KBookmark bk);
+   void setCurrent(KBookmark bk);
    void finished(KIO::Job *j);
    void read(KIO::Job *j, const QByteArray &a);
 
@@ -249,13 +249,13 @@ private:
    void setStatus(KEBListViewItem *p, QString err);
    void setTmpStatus(KEBListViewItem *p, QString status);
    void setMod(KEBListViewItem *p, QString mod);
-   bool doNext(KEBListViewItem *p);
+   void doNext();
 
+private:
    KIO::TransferJob *m_job;
    KBookmark m_book;
-   // bool jobActive;
+   QPtrList<KBookmark> *m_bks;
    QString m_url;
-   int m_depth;
    bool m_errSet;
    QString m_oldStatus;
 };
