@@ -112,9 +112,23 @@ void KonqHTMLModule::defaults()
 
 QString KonqHTMLModule::quickHelp() const
 {
-  return i18n("<h1>Konqueror Browser</h1> Here you can configure konqueror's browser functionality. "
-    "Please note that the file manager functionality has to be configured using the \"File Manager\" "
-    "configuration module. <h2>HTML</h2> ");
+  return i18n("<h1>Konqueror Browser</h1> Here you can configure konqueror's browser "
+	      "functionality. Please note that the file manager "
+	      "functionality has to be configured using the \"File Manager\" "
+	      "configuration module."
+	      "<h2>HTML</h2>On the HTML page, you can make some "
+	      "settings how Konqueror should handle the HTML code in "
+	      "the web pages it loads. It is usually not necessary to "
+	      "change anything here." 
+	      "<h2>Appearance</h2>On this page, you can configure "
+	      "which fonts Konqueror should use to display the web "
+	      "pages you view." 
+	      "<h2>Java/JavaScript</h2>On this page, you can configure "
+	      "whether Java and/or JavaScript programs embedded in web pages should "
+	      "be allowed to be executed by Konqueror.<br>Active content is always a "
+	      "security risk, which is why Konqueror allows you to specify very "
+	      "fine-grained from which hosts you want to execute Java and/or "
+	      "JavaScript programs." ); 
 }
 
 

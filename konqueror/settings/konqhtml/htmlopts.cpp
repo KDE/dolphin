@@ -50,163 +50,171 @@
 KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
     : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
-    QString wtstr;
+  QString wtstr;
 
-    QGridLayout *lay = new QGridLayout(this, 1 ,1 , 9, 5);
-    int r = 0;
-    int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
+  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 9, 5);
+  int r = 0;
+  int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
-    QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
-					 i18n("Font Size"), this );
-    lay->addMultiCellWidget(bg, r, r, E, W);
+  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
+				       i18n("Font Si&ze"), this );
+  lay->addMultiCellWidget(bg, r, r, E, W);
 
-    QWhatsThis::add( bg, i18n("This is the relative font size Konqueror uses to display web sites.") );
+  QWhatsThis::add( bg, i18n("This is the relative font size Konqueror uses to display web sites.") );
 
-    bg->setExclusive( TRUE );
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
+  bg->setExclusive( TRUE );
+  connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
 
-    m_pSmall = new QRadioButton( i18n("Small"), bg );
-    m_pMedium = new QRadioButton( i18n("Medium"), bg );
-    m_pLarge = new QRadioButton( i18n("Large"), bg );
+  m_pSmall = new QRadioButton( i18n("&Small"), bg );
+  m_pMedium = new QRadioButton( i18n("&Medium"), bg );
+  m_pLarge = new QRadioButton( i18n("&Large"), bg );
 
-	QLabel* minSizeLA = new QLabel( i18n( "Minimum Font Size" ), this );
-	lay->addWidget( minSizeLA, ++r, E );
+  QLabel* minSizeLA = new QLabel( i18n( "M&inimum Font Size" ), this );
+  lay->addWidget( minSizeLA, ++r, E );
 	
-	minSizeSB = new QSpinBox( this );
-	connect( minSizeSB, SIGNAL( valueChanged( int ) ),
-			 this, SLOT( slotMinimumFontSize( int ) ) );
-	connect( minSizeSB, SIGNAL( valueChanged( int ) ),
-			 this, SLOT( changed() ) );
-	lay->addWidget( minSizeSB, r, r, M );
-	QWhatsThis::add( minSizeSB, i18n( "Konqueror will never display text smaller than this size,<br> no matter the web site settings" ) );
+  minSizeSB = new QSpinBox( this );
+  minSizeLA->setBuddy( minSizeSB );
+  connect( minSizeSB, SIGNAL( valueChanged( int ) ),
+	   this, SLOT( slotMinimumFontSize( int ) ) );
+  connect( minSizeSB, SIGNAL( valueChanged( int ) ),
+	   this, SLOT( changed() ) );
+  lay->addWidget( minSizeSB, r, r, M );
+  QWhatsThis::add( minSizeSB, i18n( "Konqueror will never display text smaller than this size,<br> no matter the web site settings" ) );
 
-    QLabel* label = new QLabel( i18n("Standard Font"), this );
-    lay->addWidget( label , ++r, E);
+  QLabel* label = new QLabel( i18n("S&tandard Font"), this );
+  lay->addWidget( label , ++r, E);
 
-    m_pStandard = new QComboBox( false, this );
-    lay->addMultiCellWidget(m_pStandard, r, r, M, W);
+  m_pStandard = new QComboBox( false, this );
+  label->setBuddy( m_pStandard );
+  lay->addMultiCellWidget(m_pStandard, r, r, M, W);
 
-    wtstr = i18n("This is the font used to display normal text in a web page.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pStandard, wtstr );
+  wtstr = i18n("This is the font used to display normal text in a web page.");
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pStandard, wtstr );
 
-    getFontList( standardFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
-    m_pStandard->insertStrList( &standardFonts );
-    connect( m_pStandard, SIGNAL( activated(const QString&) ),
-             SLOT( slotStandardFont(const QString&) ) );
-    connect( m_pStandard, SIGNAL( activated(const QString&) ),
-             SLOT(changed() ) );
+  getFontList( standardFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+  m_pStandard->insertStrList( &standardFonts );
+  connect( m_pStandard, SIGNAL( activated(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pStandard, SIGNAL( activated(const QString&) ),
+	   SLOT(changed() ) );
 
-    label = new QLabel( i18n( "Fixed Font"), this );
-    lay->addWidget( label, ++r, E);
+  label = new QLabel( i18n( "&Fixed Font"), this );
+  lay->addWidget( label, ++r, E);
 
-    m_pFixed = new QComboBox( false, this );
-    lay->addMultiCellWidget(m_pFixed, r, r, M, W);
+  m_pFixed = new QComboBox( false, this );
+  label->setBuddy( m_pFixed );
+  lay->addMultiCellWidget(m_pFixed, r, r, M, W);
 
-    wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pFixed, wtstr );
+  wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pFixed, wtstr );
 
-    getFontList( fixedFonts, "-*-*-*-*-*-*-*-*-*-*-m-*-*-*" );
-    m_pFixed->insertStrList( &fixedFonts );
+  getFontList( fixedFonts, "-*-*-*-*-*-*-*-*-*-*-m-*-*-*" );
+  m_pFixed->insertStrList( &fixedFonts );
 
-    connect( m_pFixed, SIGNAL( activated(const QString&) ),
-             SLOT( slotFixedFont(const QString&) ) );
-    connect( m_pFixed, SIGNAL( activated(const QString&) ),
-             SLOT(changed() ) );
+  connect( m_pFixed, SIGNAL( activated(const QString&) ),
+	   SLOT( slotFixedFont(const QString&) ) );
+  connect( m_pFixed, SIGNAL( activated(const QString&) ),
+	   SLOT(changed() ) );
 
-	label = new QLabel( i18n( "SerifFont" ), this );
-	lay->addWidget( label, ++r, E );
+  label = new QLabel( i18n( "S&erifFont" ), this );
+  lay->addWidget( label, ++r, E );
 
-	m_pSerif = new QComboBox( false, this );
-	lay->addMultiCellWidget( m_pSerif, r, r, M, W );
-    getFontList( serifFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
-    m_pSerif->insertStrList( &serifFonts );
+  m_pSerif = new QComboBox( false, this );
+  label->setBuddy( m_pSerif );
+  lay->addMultiCellWidget( m_pSerif, r, r, M, W );
+  getFontList( serifFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+  m_pSerif->insertStrList( &serifFonts );
 
-	wtstr= i18n( "This is the font used to display text that is marked up as serif." );
-	QWhatsThis::add( label, wtstr );
-	QWhatsThis::add( m_pSerif, wtstr );
+  wtstr= i18n( "This is the font used to display text that is marked up as serif." );
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pSerif, wtstr );
 
-	connect( m_pSerif, SIGNAL( activated( const QString& ) ),
-			 SLOT( slotSerifFont( const QString& ) ) );
-	connect( m_pFixed, SIGNAL( activated( const QString& ) ),
-			 SLOT( changed() ) );
+  connect( m_pSerif, SIGNAL( activated( const QString& ) ),
+	   SLOT( slotSerifFont( const QString& ) ) );
+  connect( m_pFixed, SIGNAL( activated( const QString& ) ),
+	   SLOT( changed() ) );
 
-	label = new QLabel( i18n( "SansSerifFont" ), this );
-	lay->addWidget( label, ++r, E );
+  label = new QLabel( i18n( "S&ansSerifFont" ), this );
+  lay->addWidget( label, ++r, E );
 
-	m_pSansSerif = new QComboBox( false, this );
-	lay->addMultiCellWidget( m_pSansSerif, r, r, M, W );
-    getFontList( sansSerifFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
-    m_pSansSerif->insertStrList( &sansSerifFonts );
+  m_pSansSerif = new QComboBox( false, this );
+  label->setBuddy( m_pSansSerif );
+  lay->addMultiCellWidget( m_pSansSerif, r, r, M, W );
+  getFontList( sansSerifFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+  m_pSansSerif->insertStrList( &sansSerifFonts );
 
-	wtstr= i18n( "This is the font used to display text that is marked up as sans-serif." );
-	QWhatsThis::add( label, wtstr );
-	QWhatsThis::add( m_pSansSerif, wtstr );
+  wtstr= i18n( "This is the font used to display text that is marked up as sans-serif." );
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pSansSerif, wtstr );
 
-	connect( m_pSansSerif, SIGNAL( activated( const QString& ) ),
-			 SLOT( slotCursiveFont( const QString& ) ) );
-	connect( m_pFixed, SIGNAL( activated( const QString& ) ),
-			 SLOT( changed() ) );
+  connect( m_pSansSerif, SIGNAL( activated( const QString& ) ),
+	   SLOT( slotCursiveFont( const QString& ) ) );
+  connect( m_pFixed, SIGNAL( activated( const QString& ) ),
+	   SLOT( changed() ) );
 	
-	label = new QLabel( i18n( "CursiveFont" ), this );
-	lay->addWidget( label, ++r, E );
+  label = new QLabel( i18n( "&CursiveFont" ), this );
+  lay->addWidget( label, ++r, E );
 
-	m_pCursive = new QComboBox( false, this );
-	lay->addMultiCellWidget( m_pCursive, r, r, M, W );
-    getFontList( cursiveFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
-    m_pCursive->insertStrList( &cursiveFonts );
+  m_pCursive = new QComboBox( false, this );
+  label->setBuddy( m_pCursive );
+  lay->addMultiCellWidget( m_pCursive, r, r, M, W );
+  getFontList( cursiveFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+  m_pCursive->insertStrList( &cursiveFonts );
 
-	wtstr= i18n( "This is the font used to display text that is marked up as italic." );
-	QWhatsThis::add( label, wtstr );
-	QWhatsThis::add( m_pCursive, wtstr );
+  wtstr= i18n( "This is the font used to display text that is marked up as italic." );
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pCursive, wtstr );
 
-	connect( m_pCursive, SIGNAL( activated( const QString& ) ),
-			 SLOT( slotCursiveFont( const QString& ) ) );
-	connect( m_pCursive, SIGNAL( activated( const QString& ) ),
-			 SLOT( changed() ) );
+  connect( m_pCursive, SIGNAL( activated( const QString& ) ),
+	   SLOT( slotCursiveFont( const QString& ) ) );
+  connect( m_pCursive, SIGNAL( activated( const QString& ) ),
+	   SLOT( changed() ) );
 
-	label = new QLabel( i18n( "FantasyFont" ), this );
-	lay->addWidget( label, ++r, E );
+  label = new QLabel( i18n( "Fantas&yFont" ), this );
+  lay->addWidget( label, ++r, E );
 
-	m_pFantasy = new QComboBox( false, this );
-	lay->addMultiCellWidget( m_pFantasy, r, r, M, W );
-    getFontList( fantasyFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
-    m_pFantasy->insertStrList( &fantasyFonts );
+  m_pFantasy = new QComboBox( false, this );
+  label->setBuddy( m_pFantasy );
+  lay->addMultiCellWidget( m_pFantasy, r, r, M, W );
+  getFontList( fantasyFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
+  m_pFantasy->insertStrList( &fantasyFonts );
 
-	wtstr= i18n( "This is the font used to display text that is marked up as a fantasy font." );
-	QWhatsThis::add( label, wtstr );
-	QWhatsThis::add( m_pFantasy, wtstr );
+  wtstr= i18n( "This is the font used to display text that is marked up as a fantasy font." );
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pFantasy, wtstr );
 
-	connect( m_pSerif, SIGNAL( activated( const QString& ) ),
-			 SLOT( slotFantasyFont( const QString& ) ) );
-	connect( m_pFixed, SIGNAL( activated( const QString& ) ),
-			 SLOT( changed() ) );
+  connect( m_pSerif, SIGNAL( activated( const QString& ) ),
+	   SLOT( slotFantasyFont( const QString& ) ) );
+  connect( m_pFixed, SIGNAL( activated( const QString& ) ),
+	   SLOT( changed() ) );
 
 
-    label = new QLabel( i18n( "Default Encoding"), this );
-    lay->addWidget( label, ++r, E);
+  label = new QLabel( i18n( "&Default Encoding"), this );
+  lay->addWidget( label, ++r, E);
 
-    m_pEncoding = new QComboBox( false, this );
-    encodings = KGlobal::charsets()->availableEncodingNames();
-    encodings.prepend(i18n("Use language encoding"));
-    m_pEncoding->insertStringList( encodings );
-    lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
+  m_pEncoding = new QComboBox( false, this );
+  label->setBuddy( m_pEncoding );
+  encodings = KGlobal::charsets()->availableEncodingNames();
+  encodings.prepend(i18n("Use language encoding"));
+  m_pEncoding->insertStringList( encodings );
+  lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
 
-    wtstr = i18n("Select the default encoding to be used. Normally, you'll be fine with 'Use language encoding' "
-       "and should not have to change this.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pEncoding, wtstr );
+  wtstr = i18n( "Select the default encoding to be used. Normally, you'll be fine with 'Use language encoding' "
+	       "and should not have to change this.");
+  QWhatsThis::add( label, wtstr );
+  QWhatsThis::add( m_pEncoding, wtstr );
 
-    connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
-             SLOT( slotEncoding(const QString&) ) );
-    connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
-             SLOT(changed() ) );
+  connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
+	   SLOT( slotEncoding(const QString&) ) );
+  connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
+	   SLOT(changed() ) );
 
-    connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
+  connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
-    r++; lay->setRowStretch(r, 8);
-    load();
+  r++; lay->setRowStretch(r, 8);
+  load();
 }
 
 void KAppearanceOptions::getFontList( QStrList &list, const char *pattern )
@@ -524,7 +532,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   toplevel->addWidget( javartGB );
 
   javaConsoleCB = new QCheckBox( i18n( "Show Java Console" ), javartGB );
-  QWhatsThis::add( javaConsoleCB, i18n("FIXME: what is this exactly?") );
+  QWhatsThis::add( javaConsoleCB, i18n( "If this box is checked, Konqueror will open a console window that Java programs can use for character-based input/output. Well-written Java applets do not need this, but the console can help to find problems with Java applets.") );
   connect( javaConsoleCB, SIGNAL( toggled( bool ) ),
 		   this, SLOT( changed() ) );
   QHBox* findJavaHB = new QHBox( javartGB );
