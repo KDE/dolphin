@@ -364,9 +364,8 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   m_mapCurrentOpeningFolders.insert( u, item );
 
-// ### re-enable when we have a nice icon as animation for a currently opening folder (Simon)
-//  if ( !m_animationTimer->isActive() )
-//    m_animationTimer->start( 50 );
+  if ( !m_animationTimer->isActive() )
+    m_animationTimer->start( 50 );
 }
 
 void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url )
@@ -705,7 +704,7 @@ void KonqDirTree::slotListingStopped()
 
 void KonqDirTree::slotAnimation()
 {
-  QPixmap gearPixmap = BarIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqDirTreeFactory::instance() );
+  QPixmap gearPixmap = SmallIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqDirTreeFactory::instance() );
 
   QMap<KURL, QListViewItem *>::ConstIterator it = m_mapCurrentOpeningFolders.begin();
   QMap<KURL, QListViewItem *>::ConstIterator end = m_mapCurrentOpeningFolders.end();
@@ -713,7 +712,7 @@ void KonqDirTree::slotAnimation()
     it.data()->setPixmap( 0, gearPixmap );
 
   m_animationCounter++;
-  if ( m_animationCounter == 10 )
+  if ( m_animationCounter == 7 )
     m_animationCounter = 1;
 }
 
