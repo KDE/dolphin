@@ -25,6 +25,7 @@
 #include <kplugininfo.h>
 #include <kpluginselector.h>
 #include <ksettings/dispatcher.h>
+#include <dcopref.h>
 
 #include "konq_extensionmanager.h"
 #include "konq_mainwindow.h"
@@ -108,6 +109,8 @@ void KonqExtensionManager::apply()
 				d->mainWindow->factory()->addClient(plugin);
 			}
 		}
+		DCOPRef preloader( "kded", "konqy_preloader" );
+		preloader.send( "unloadAllPreloaded" );
 	}
 }
 
