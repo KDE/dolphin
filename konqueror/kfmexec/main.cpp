@@ -1,6 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-                 2000 David Faure <faure@kde.org>
+   Copyright (C)       2000 David Faure <faure@kde.org>
+   Copyright (C)       2001 Waldo Bastian <bastian@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -29,7 +30,9 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kio/job.h>
+#include <krun.h>
 #include <kio/netaccess.h>
+#include <kservice.h>
 #include <klocale.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
@@ -76,8 +79,7 @@ KFMExec::KFMExec()
         // => It is not encoded and not shell escaped, too.
         if ( url.isLocalFile() )
         {
-            QString tmp( shellQuote( url.path() ) );
-            params.append(tmp);
+            fileList << url.path();
         }
         // It is an URL
         else
@@ -94,8 +96,7 @@ KFMExec::KFMExec()
                 // (Some programs rely on it)
                 QString tmp = locateLocal( "appdata", "tmp/" ) +
                               QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
-                params.append(tmp);
-                fileList.append( tmp );
+                fileList << tmp;
                 urlList.append( url );
 
                 expectedCounter++;
@@ -119,9 +120,9 @@ void KFMExec::slotResult( KIO::Job * job )
     if (job && job->error())
     {
         job->showErrorDialog();
-        QStringList::Iterator it = params.find( static_cast<KIO::FileCopyJob*>(job)->destURL().path() );
-        if ( it != params.end() )
-           params.remove( it );
+        QStringList::Iterator it = fileList.find( static_cast<KIO::FileCopyJob*>(job)->destURL().path() );
+        if ( it != fileList.end() )
+           fileList.remove( it );
         else
            kdDebug() <<  static_cast<KIO::FileCopyJob*>(job)->destURL().path() << " not found in list" << endl;
     }
@@ -139,29 +140,16 @@ void KFMExec::slotResult( KIO::Job * job )
 
 void KFMExec::slotRunApp()
 {
-    if ( params.isEmpty() )
+    if ( fileList.isEmpty() )
       exit(1);
 
-    int pos;
-    while ( ( pos = command.find( "%f" )) != -1 )
-      command.replace( pos, 2, "" );
-    while ( ( pos = command.find( "%F" )) != -1 )
-      command.replace( pos, 2, "" );
+    KService service("dummy", command, QString::null);
+    
+    // TODO: Coupling between fileList, urlList and 'times'
+    // is unreliable. (fileList and urlList are not always in sync)
+ 
 
-    command.append( " " );
-    QString files;
-    QStringList::ConstIterator cmdit = params.begin();
-    for ( ; cmdit != params.end() ; ++cmdit )
-    {
-        if ( !files.isEmpty() )
-            files += " ";
-        files += "\"";
-        files += *cmdit;
-        files += "\"";
-    }
-    kdDebug() << "files= " << files << endl;
-    command.append( files );
-
+    KURL::List list;
     // Store modification times
     int* times = new int[ fileList.count() ];
     int i = 0;
@@ -171,7 +159,13 @@ void KFMExec::slotRunApp()
         struct stat buff;
         stat( QFile::encodeName(*it), &buff );
         times[i++] = buff.st_mtime;
+        KURL url;
+        url.setPath(*it);
+        list << url;
     }
+
+    QStringList params = KRun::processDesktopExec(service, list, true);
+    command = params.join(" ");
 
     kdDebug() << "EXEC '" << command << "'" << endl;
 
@@ -217,43 +211,6 @@ void KFMExec::slotRunApp()
 
     //kapp->quit(); not efficient enough
     exit(0);
-}
-
-QString KFMExec::shellQuote( const QString & data )
-{
-    QString cmd = data;
-    int pos = 0;
-    while ( ( pos = cmd.find( ";", pos )) != -1 )
-    {
-        cmd.replace( pos, 1, "\\;" );
-        pos += 2;
-    }
-    pos = 0;
-    while ( ( pos = cmd.find( "\"", pos )) != -1 )
-    {
-        cmd.replace( pos, 1, "\\\"" );
-        pos += 2;
-    }
-    pos = 0;
-    while ( ( pos = cmd.find( "|", pos ) ) != -1 )
-    {
-        cmd.replace( pos, 1, "\\|" );
-        pos += 2;
-    }
-    pos = 0;
-    while ( ( pos = cmd.find( "(", pos )) != -1 )
-    {
-        cmd.replace( pos, 1, "\\(" );
-        pos += 2;
-    }
-    pos = 0;
-    while ( ( pos = cmd.find( ")", pos )) != -1 )
-    {
-        cmd.replace( pos, 1, "\\)" );
-        pos += 2;
-    }
-
-    return cmd;
 }
 
 int main( int argc, char **argv )
