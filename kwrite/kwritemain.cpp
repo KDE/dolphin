@@ -141,6 +141,8 @@ void TopLevel::setupEditWidget(Kate::Document *doc)
   connect(kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
 
   setCentralWidget(kateView);
+  
+  KStdAction::close( kateView, SLOT(flush()), actionCollection(), "file_close" );
 }
 
 
