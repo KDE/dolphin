@@ -336,8 +336,6 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
       while ( it != end && it.data() != view )
           ++it;
 
-  KonqMainWindow::MapViews::Iterator startIt = it;
-
   // the view should always be in the list
    if ( it == end ) {
      if ( view )
@@ -346,6 +344,8 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
      if ( it == end )
        return 0L; // We have no view at all - this happens with RootItem=empty
    }
+
+  KonqMainWindow::MapViews::Iterator startIt = it;
 
   // kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
   while ( true )
