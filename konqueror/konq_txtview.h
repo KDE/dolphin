@@ -32,6 +32,8 @@ protected slots:
 
 protected:
   virtual void mousePressEvent( QMouseEvent *e );  
+  virtual void dragEnterEvent( QDragEnterEvent *e );
+  virtual void dropEvent( QDropEvent *e );
     
 private:
   int m_jobId;

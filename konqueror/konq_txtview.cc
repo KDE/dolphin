@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <qdragobject.h>
+
 #include <kio_job.h>
 #include <kio_cache.h>
 #include <kio_error.h>
@@ -21,6 +23,7 @@ KonqTxtView::KonqTxtView()
   setReadOnly( true );
   
   m_jobId = 0;
+  setAcceptDrops( true );
 }
 
 KonqTxtView::~KonqTxtView()
@@ -146,6 +149,26 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
   }
   else
     QMultiLineEdit::mousePressEvent( e );
+}
+
+void KonqTxtView::dragEnterEvent( QDragEnterEvent *e )
+{
+  if ( QUrlDrag::canDecode( e ) )
+    e->accept();
+}
+
+void KonqTxtView::dropEvent( QDropEvent *e )
+{
+  QStrList urls;
+  if ( QUrlDrag::decode( e, urls ) )
+  {
+    Konqueror::EventOpenURL eventURL;
+    eventURL.url = CORBA::string_dup( urls.first() );
+    eventURL.reload = (CORBA::Boolean)false;
+    eventURL.xOffset = 0;
+    eventURL.yOffset = 0;
+    EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL );
+  }
 }
 
 #include "konq_txtview.moc"
