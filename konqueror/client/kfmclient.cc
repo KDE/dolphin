@@ -135,36 +135,35 @@ int main( int argc, char **argv )
 
 bool clientApp::openFileManagerWindow(const KURL & url)
 {
-  // If we want to open an HTTP url, use the web browsing profile
-  if (url.protocol().left(4) == QString::fromLatin1("http"))
-    return openProfile( QString::fromLatin1("webbrowsing"), url.url() );
-  else
-    return openProfile( QString::fromLatin1("filemanagement"), url.url() );
-
-/*
-  QByteArray data;
-  QCString appId, appObj;
-  if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
-                                 appId, appObj ) )
-  {
-    KonquerorIface_stub konqy( appId, appObj );
-    konqy.openBrowserWindow( url.url() );
-  }
-  else
-  {
-    QString error;
-    if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
-               url.url(), &error ) > 0 )
+    // If we want to open an html file, use the web browsing profile
+    if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("text/html"))
+        return openProfile( QString::fromLatin1("webbrowsing"), url.url() );
+    else if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("inode/directory") )
+        return openProfile( QString::fromLatin1("filemanagement"), url.url() );
+    else
     {
-      kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
-      KProcess proc;
-      proc << QString::fromLatin1("konqueror") << url.url();
-      proc.start( KProcess::DontCare );
+        QByteArray data;
+        QCString appId, appObj;
+        if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+                                       appId, appObj ) )
+        {
+            KonquerorIface_stub konqy( appId, appObj );
+            konqy.openBrowserWindow( url.url() );
+        }
+        else
+        {
+            QString error;
+            if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
+                                                          url.url(), &error ) > 0 )
+            {
+                kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
+                KProcess proc;
+                proc << QString::fromLatin1("konqueror") << url.url();
+                proc.start( KProcess::DontCare );
+            }
+        }
     }
-  }
-
-  return true;
-*/
+    return true;
 }
 
 bool clientApp::openProfile( const QString & filename, const QString & url )

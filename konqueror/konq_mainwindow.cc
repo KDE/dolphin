@@ -635,13 +635,19 @@ void KonqMainWindow::abortLoading()
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
-  // If we want to open an HTTP url, use the web browsing profile
-  if (url.protocol().left(4) == QString::fromLatin1("http"))
+  // If we want to open an html file, use the web browsing profile
+  if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("text/html"))
   {
     QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") );
     KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, url.url() );
     mainWindow->setInitialFrameName( args.frameName );
     //FIXME: obey args (like passing post-data (to KRun), etc.)
+  }
+  else if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("inode/directory") )
+  {
+    QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") );
+    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, url.url() );
+    mainWindow->setInitialFrameName( args.frameName );
   }
   else
     KonqFileManager::self()->openFileManagerWindow( url, args.frameName );
