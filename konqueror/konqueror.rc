@@ -111,7 +111,7 @@
   <Action name="about_kde"/>
  </Menu>
 </MenuBar>
-<ToolBar fullWidth="true" name="mainToolBar" newline="false">
+<ToolBar fullWidth="true" name="mainToolBar" newline="false" index="0">
  <Action name="up"/>
  <Action name="back"/>
  <Action name="forward"/>
@@ -132,11 +132,152 @@
  <WeakSeparator/>
  <Action name="animated_logo"/>
 </ToolBar>
-<ToolBar fullWidth="true" name="locationToolBar" newline="true" >
+<ToolBar fullWidth="true" name="locationToolBar" newline="true" index="1">
   <Action name="clear_location" />
   <Action name="location_label" />
   <Action name="toolbar_url_combo" />
 </ToolBar>
-<ToolBar fullWidth="true" name="bookmarkToolBar" newline="false" />
+<ToolBar fullWidth="true" name="bookmarkToolBar" newline="false"/>
 </kpartgui>
 
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="8">
+<MenuBar>
+ <Menu name="file"><text>&amp;Location</text>
+  <Action name="new_window"/>
+  <Action name="duplicate_window"/>
+  <Action name="open_location"/>
+  <Separator/>
+  <Action name="close"/>
+ </Menu>
+ <Menu name="edit"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
+  <Action name="undo" />
+  <Action name="cut"/>
+  <Action name="copy"/>
+  <Action name="paste"/>
+  <Action name="trash"/>
+  <Action name="del"/>
+  <Action name="shred"/>
+  <ActionList name="operations" /><!-- copy files and move files, when two directory views -->
+  <Separator/>
+  <Action name="new_menu"/>
+  <Separator/>
+  <Action name="editMimeType"/>
+  <Action name="properties"/>
+  <WeakSeparator/> <!-- hmm, this one is removed even when there are items on openwith. Bug ? -->
+  <ActionList name="openwith" />
+  <Separator />
+  <Merge/>
+ </Menu>
+ <Menu name="view"><text>&amp;View</text> <!--Here is what applies to the active view-->
+  <ActionList name="viewmode" />
+  <Action name="usehtml"/>
+  <Action name="lock"/>
+  <Action name="unlockall"/>
+  <Action name="link"/>
+  <Separator/>
+  <Action name="reload"/>
+  <Action name="stop" />
+  <Action name="print"/>
+  <DefineGroup name="print" />
+  <WeakSeparator/>
+  <Merge/>
+ </Menu>
+ <Menu name="go"><text>&amp;Go</text>
+  <Action name="up"/>
+  <Action name="back"/>
+  <Action name="forward"/>
+  <Action name="home"/>
+  <Separator/>
+  <Action name="go_applications"/>
+  <Action name="go_dirtree"/>
+  <Action name="go_trash"/>
+  <Action name="go_templates"/>
+  <Action name="go_autostart"/>
+  <Separator/>
+  <Action name="history"/>
+ </Menu>
+ <Action name="bookmarks"/>
+ <Menu name="tools"><text>&amp;Tools</text>
+  <Action name="run"/>
+  <Action name="open_terminal"/>
+  <Action name="findfile"/>
+  <WeakSeparator/>
+  <Merge/>
+ </Menu>
+ <Menu name="settings"><text>&amp;Settings</text>
+  <Action name="showmenubar"/>
+  <Action name="showtoolbar"/>
+  <Action name="showlocationbar"/>
+  <Action name="showbookmarkbar"/>
+  <Separator/>
+  <Action name="saveViewPropertiesLocally"/>
+  <Action name="removeLocalProperties"/>
+  <Separator/>
+  <Menu name="configure" icon="configure"><text>&amp;Configure</text>
+    <Action name="configurefilemanager"/>
+    <Action name="configurefiletypes"/>
+    <Separator/>
+    <Action name="configurebrowser"/>
+    <Action name="configureebrowsing"/>
+    <Action name="configurecookies"/>
+    <Action name="configureproxies"/>
+    <Separator/>
+    <Action name="configurekeys"/>
+    <Action name="configuretoolbars"/>
+  </Menu>
+ </Menu>
+ <Menu name="window"><text>&amp;Window</text>
+  <Action name="splitviewh"/>
+  <Action name="splitviewv"/>
+  <Action name="splitwindowh"/>
+  <Action name="splitwindowv"/>
+  <Action name="removeview"/>
+  <Separator/>
+  <ActionList name="toggleview" />
+  <Separator/>
+  <Action name="saveremoveviewprofile"/>
+  <Action name="loadviewprofile"/>
+  <Separator/>
+  <Action name="fullscreen"/>
+ </Menu>
+ <Merge/>
+ <Separator/>
+ <Menu name="help"><text>&amp;Help</text>
+  <Merge />
+  <Action name="contents"/>
+  <Action name="whats_this"/>
+  <Separator/>
+  <Action name="report_bug"/>
+  <Separator/>
+  <Action name="about_app"/>
+  <Action name="about_kde"/>
+ </Menu>
+</MenuBar>
+<ToolBar fullWidth="true" name="mainToolBar" newline="false" index="0">
+ <Action name="up"/>
+ <Action name="back"/>
+ <Action name="forward"/>
+ <Action name="home"/>
+ <Separator/>
+ <Action name="reload"/>
+ <Separator/>
+ <Action name="cut"/>
+ <Action name="copy"/>
+ <Action name="paste"/>
+ <Action name="print"/>
+ <Separator/>
+ <Action name="stop"/>
+ <WeakSeparator/>
+ <Merge/>
+ <ActionList name="viewmode_toolbar" />
+ <ActionList name="fullscreen" />
+ <WeakSeparator/>
+ <Action name="animated_logo"/>
+</ToolBar>
+<ToolBar fullWidth="true" name="locationToolBar" newline="true" index="1">
+  <Action name="clear_location" />
+  <Action name="location_label" />
+  <Action name="toolbar_url_combo" />
+</ToolBar>
+<ToolBar fullWidth="true" name="bookmarkToolBar" newline="false"/>
+</kpartgui>
