@@ -4738,7 +4738,6 @@ void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
 // that won't be reset by loading a profile
 void KonqMainWindow::resetWindow()
 {
-#ifdef QT_COPY_PATCH_0008
     char data[ 1 ];
     // empty append to get current X timestamp
     QWidget tmp_widget;
@@ -4755,7 +4754,6 @@ void KonqMainWindow::resetWindow()
 		     PropModeReplace, (unsigned char *) &x_time, 1);
     extern Time qt_x_last_input_time;   // reset also user time, so that this window
     qt_x_last_input_time = CurrentTime; // won't have _NET_WM_USER_TIME set
-#endif
 #if !KDE_IS_VERSION( 3, 2, 90 ) // _KDE_NET_USER_TIME is obsolete
     static Atom atom2 = XInternAtom( qt_xdisplay(), "_KDE_NET_USER_TIME", False );
     timeval tv;

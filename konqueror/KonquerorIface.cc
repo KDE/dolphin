@@ -35,10 +35,8 @@
 // it's better to reset the timestamp and rely on other means
 // of detecting the time when the user action that triggered all this
 // happened
-#ifdef QT_COPY_PATCH_0008
 #include <X11/Xlib.h>
 extern Time qt_x_last_input_time;
-#endif
 
 KonquerorIface::KonquerorIface()
  : DCOPObject( "KonquerorIface" )
@@ -51,9 +49,7 @@ KonquerorIface::~KonquerorIface()
 
 DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     KonqMainWindow *res = KonqMisc::createSimpleWindow( KURL(url) );
     if ( !res )
         return DCOPRef();
@@ -68,9 +64,7 @@ DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const QCString
 
 DCOPRef KonquerorIface::createNewWindow( const QString &url )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url) );
     if ( !res )
         return DCOPRef();
@@ -85,9 +79,7 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& 
 
 DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     KParts::URLArgs args;
     args.serviceType = mimetype;
     KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), args );
@@ -105,9 +97,7 @@ DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &m
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
     kdDebug(1202) << path << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString::null );
@@ -124,9 +114,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
     kdDebug(1202) << path << "," << filename << endl;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
@@ -144,9 +132,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileASN( const QString &path, 
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
     if ( !res )
         return DCOPRef();
@@ -162,9 +148,7 @@ DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURLASN( const QString &
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
 {
-#ifdef QT_COPY_PATCH_0008
     qt_x_last_input_time = 0;
-#endif
     KParts::URLArgs args;
     args.serviceType = mimetype;
     KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
