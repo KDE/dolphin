@@ -277,7 +277,7 @@ action="simul">&Ctrl;<keycap>C</keycap></keycombo></para></entry>
 </row>  
 <row>  
 <entry><para><keycombo 
-action="simul">&Ctrl;<keycap>M</keycap></keycombo></para></entry>  
+action="simul">&Ctrl;<keycap>B</keycap></keycombo></para></entry>  
 <entry><para>Set a Bookmark</para></entry>  
 </row>  
 <row>  
@@ -479,6 +479,7 @@ and how to print
 </listitem>  
 </varlistentry>  
   
+<!--
 <varlistentry>  
 <term id="new-view">
 <menuchoice>  
@@ -494,7 +495,8 @@ document.
 </para>
 </listitem>  
 </varlistentry>  
-  
+  //-->
+
 <varlistentry>  
 <term id="close">
 <menuchoice>
@@ -547,7 +549,7 @@ action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></shortcut>
 </listitem>  
 </varlistentry>  
   
-<varlistentry>  
+<!--<varlistentry>  
 <term><anchor id="undohistory"/><menuchoice>  
 <guimenu>Edit</guimenu><guimenuitem>Undo/Redo 
 History</guimenuitem></menuchoice></term>  
@@ -578,7 +580,7 @@ useful when the user knows precisely the point to which she or he would like to
 proceed - making it unnecessary to go through a series of single undo or redo  
 actions.</para>   
 </listitem>  
-</varlistentry>  
+</varlistentry>  //-->
   
 <varlistentry>  
 <term><anchor id="cut"/><menuchoice>  
@@ -634,7 +636,7 @@ copying the entire file to another application.</para>
 </listitem>  
 </varlistentry>  
   
-<varlistentry>  
+<!--<varlistentry>  
 <term><anchor id="invert-the-selection"/><menuchoice>  
 <guimenu>Edit</guimenu><guimenuitem>Invert 
 Selection</guimenuitem></menuchoice></term>  
@@ -642,7 +644,7 @@ Selection</guimenuitem></menuchoice></term>
 <para>This selects any unselected text while unselecting any selected text -  
 effectively reversing the current state of selection.</para>  
 </listitem>  
-</varlistentry>  
+</varlistentry>  //-->
   
 <varlistentry>  
 <term id="go-to-line">
@@ -650,7 +652,7 @@ effectively reversing the current state of selection.</para>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </shortcut>
-<guimenu>Find</guimenu>
+<guimenu>Edit</guimenu>
 <guimenuitem>Go to line</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>
@@ -673,27 +675,17 @@ action="simul">&Ctrl;<keycap>F</keycap></keycombo></shortcut>
 <guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice></term>
 <listitem>  
 <para>This opens the find dialog which is used to specify the <guilabel>Text to  
-
-
 Find</guilabel> in the document. There is small text box for entering the search 
-
- 
 pattern which also doubles as a dropdown box. Clicking on the dropdown arrow at  
-
-
 the side of the box makes available other recent search patterns. Other  
 parameters are included to make the search more efficient. Selecting  
 <guilabel>Case Sensitive</guilabel> will limit finds to entries that match the  
 case (upper or lower) of each of the characters in the search  
 pattern. <guilabel>Find Backwards</guilabel> directs the search to proceed in an 
-
- 
 upwardly direction. The <guilabel>Selected Text</guilabel> option keeps the  
 search within currently selected text. Checking <guilabel>Whole Words
 Only</guilabel> prevents the search from stopping on words that contain the
 searched for pattern. The <guilabel>Search from Cursor</guilabel> option begins  
-
-
 the search from the current position of the cursor within the document rather  
 than from the beginning.</para>   
 </listitem>  
@@ -744,7 +736,7 @@ On Replace</guilabel> option allows the user to have &kwrite; ask for
 confirmation before each replacement.</para> </listitem>
 </varlistentry>
 
-<varlistentry>
+<!--<varlistentry>
 <term>
 <menuchoice>
 <shortcut>
@@ -759,7 +751,7 @@ confirmation before each replacement.</para> </listitem>
 To be written
 </para>
 </listitem>
-</varlistentry>
+</varlistentry>//-->
 </variablelist>
 
 </sect1>  
@@ -820,38 +812,49 @@ available for this window.
 <listitem><para><action>This initiates the spell checking program - a program
 designed to help the user catch and correct any spelling errors.</action>
 Clicking on this entry will start the checker and bring up the speller dialog
-box through which the user can control the process.  There are three text boxes
+box through which the user can control the process.  There are four settings 
 lined up vertically in the center of the dialog with their corresponding labels
 just to the left.  Starting at the top they are:</para>
 
 <variablelist>
 <varlistentry>
-<term><guilabel>Misspelled Word:</guilabel></term>
+<term><guilabel>Unknown word:</guilabel></term>
 <listitem><para>Here, the spell checker indicates the word currently under
 consideration.  This happens when the checker encounters a word not in its
 dictionary - a file containing a list of correctly spelled words against which
 it compares each word in the editor.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Replacement:</guilabel></term>
+<term><guilabel>Replace with:</guilabel></term>
 <listitem><para> If the checker has any similar words in its dictionary the
 first one will be listed here.  The user can accept the suggestion, type in his
 or her own correction, or choose a different suggestion from the next
 box.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><guilabel>Suggestions:</guilabel></term>
+<term><guilabel>Suggested Words:</guilabel></term>
 <listitem><para> The checker may list here a number of possible replacements for
 the word under consideration.  Clicking on any one of the suggestions will cause
 that word to be entered in the <guilabel>Replacement:</guilabel> box,
 above.</para></listitem>
 </varlistentry>
+<varlistentry>
+<term><guilabel>Language:</guilabel></term>
+<listitem><para> If you have installed multiple dictionaries, here you can select which dictionary/language should be used.</para></listitem>
+</varlistentry>
 </variablelist>
 
-<para>On the right side of the dialog box are 6 buttons that allow the user to
+<para>On the right side of the dialog box are 5 buttons that allow the user to
 control the spell check process.  They are:</para>
 
 <variablelist>
+<varlistentry>
+<term><guibutton>Add to Dictionary</guibutton></term>
+<listitem><para>Pressing this button adds the word in the <guilabel>Misspelled
+Word:</guilabel> box to the checker's dictionary. This means that in the future
+the checker will always consider this word to be correctly
+spelled.</para></listitem>
+</varlistentry>
 <varlistentry>
 <term><guibutton>Replace</guibutton></term>
 <listitem><para> This button has the checker replace the word under
@@ -861,7 +864,7 @@ consideration in the document with the word in the
 <varlistentry>
 <term><guibutton>Replace All</guibutton></term>
 <listitem><para> This button causes the checker to replace not only the current
-<guilabel>Misspelled Word:</guilabel> but to automatically make the same
+<guilabel>Unknown word:</guilabel> but to automatically make the same
 substitution for any other occurrences of this <guilabel>Misspelled
 Word:</guilabel> in the document.</para></listitem>
 </varlistentry>
@@ -873,38 +876,25 @@ making any changes.</para></listitem>
 <varlistentry>
 <term><guibutton>Ignore All</guibutton></term>
 <listitem><para> This button tells the checker to do nothing with the current
-<guilabel>Misspelled Word:</guilabel> and to pass over any other instances of
+<guilabel>Unknown word:</guilabel> and to pass over any other instances of
 the same word.</para> <note><para>This only applies to the current spell check
 run.  If the checker is run again later it will stop on this same
 word.</para></note></listitem>
 </varlistentry>
-<varlistentry>
-<term><guibutton>Add</guibutton></term>
-<listitem><para>Pressing this button adds the word in the <guilabel>Misspelled
-Word:</guilabel> box to the checker's dictionary. This means that in the future
-the checker will always consider this word to be correctly
-spelled.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guibutton>Stop</guibutton></term>
-<listitem><para> This button stops the spell check process.</para></listitem>
-</varlistentry>
-
 </variablelist>
 
-<para>Located horizontally along the bottom of the spell check dialog is a
+<!--<para>Located horizontally along the bottom of the spell check dialog is a
 progress bar.  As the checking process proceeds the bar will fill from left to
 right providing a graphical representation of how far along in the document the
 process has reached.  In addition, the progress is displayed numerically in
-the center of the progress bar.</para>
+the center of the progress bar.</para>//-->
 
-<note><para>A numerical display of the spell check
+<!--<note><para>A numerical display of the spell check
 process is simultaneously displayed in the status bar of the editor.  The <link
 linkend="show-statusbar">status bar</link> is the horizontal strip at the bottom
-of the editor just outside of the text entry area.</para></note>
+of the editor just outside of the text entry area.</para></note>//-->
 
-<para>Two more buttons are located below the progress bar.  They are:</para>
+<para>Three more buttons are located horizontally along the bottom of the spell check dialog.  They are:</para>
 
 <variablelist>
 <varlistentry>
@@ -914,12 +904,20 @@ pages (this document).</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><guibutton>Finished</guibutton></term>
+<listitem><para> This button ends the spell check process, and returns to the document.</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><guibutton>Cancel</guibutton></term>
-<listitem><para> This button cancels the spell check process.</para></listitem>
+<listitem><para> This button cancels the spell check process, all modifications are reverted, and you will return to your document.</para></listitem>
 </varlistentry>
 
 <varlistentry>  
 <term><anchor id="indent"/><menuchoice>  
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu><guimenuitem>Indent</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>This increases the paragraph's indentation by one step. The size of the
@@ -929,7 +927,10 @@ settings</link>.</para>
 </varlistentry>  
   
 <varlistentry>  
-<term><anchor id="unindent"/><menuchoice>  
+<term><anchor id="unindent"/><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>I</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu><guimenuitem>Unindent</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>This reduces the paragraph's indentation by one step. The size of the step  
@@ -947,6 +948,9 @@ Indentation</guimenuitem></menuchoice></term>  <listitem>
   
 <varlistentry>  
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu><guimenuitem>Comment</guimenuitem></menuchoice></term>
 <listitem><para>This adds one space to the beginning of the line
 where the text cursor is located or to the beginning of any
@@ -956,94 +960,15 @@ selected lines.</para>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>D</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu><guimenuitem>Uncomment</guimenuitem></menuchoice></term>
 <listitem><para>This removes one space (if any exist) from the beginning of the line
 where the text cursor is located or from the beginning of any
 selected lines.</para></listitem>
 </varlistentry>
 </variablelist>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
-</shortcut>
-<guimenu>Tools</guimenu>
-<guimenuitem>Indent</guimenuitem>
-</menuchoice>
-</term>
-<listitem>
-<para>
-To be written
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
-</shortcut>
-<guimenu>Tools</guimenu>
-<guimenuitem>Unindent</guimenuitem>
-</menuchoice>
-</term>
-<listitem>
-<para>
-To be written
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<menuchoice>
-<guimenu>Tools</guimenu>
-<guimenuitem>Clean Indentation</guimenuitem>
-</menuchoice>
-</term>
-<listitem>
-<para>
-To be written
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>#</keycap></keycombo>
-</shortcut>
-<guimenu>Tools</guimenu>
-<guimenuitem>Comment</guimenuitem>
-</menuchoice>
-</term>
-<listitem>
-<para>
-To be written
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>
-<menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;&Shift;<keycap>#</keycap></keycombo>
-</shortcut>
-<guimenu>Tools</guimenu>
-<guimenuitem>Uncomment</guimenuitem>
-</menuchoice>
-</term>
-<listitem>
-<para>
-To be written
-</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -1086,10 +1011,24 @@ the statusbar is hidden.</para>
 file system) of the current document.  When unchecked the path is hidden.</para>
 </listitem>  
 </varlistentry>  
+
+<varlistentry>  
+<term><anchor id="preferences"/><menuchoice>  
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Editor...</guimenuitem>
+</menuchoice>
+</term>
+<listitem>
+<para>
+This menu item opens a dialog whereby several different <link
+linkend="pref-dialog">settings</link> may be adjusted.  
+</para>
+</listitem> 
+</varlistentry>
   
 <varlistentry>  
 <term><anchor id="configure-keybindings"/><menuchoice>  
-<guimenu>Settings</guimenu><guimenuitem>Configure Key Bindings</guimenuitem></menuchoice></term>  
+<guimenu>Settings</guimenu><guimenuitem>Configure Shortcuts...</guimenuitem></menuchoice></term>  
 <listitem>  
 <para>This command opens a dialog box whereby the <link  
 linkend="keybindings">key bindings</link> may be changed.  A display window at
@@ -1113,7 +1052,7 @@ would mean that anytime he or she held down the &Ctrl; and
   
 <varlistentry>  
 <term><anchor id="configure-toolbars"/><menuchoice>  
-<guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice></term>  
+<guimenu>Settings</guimenu><guimenuitem>Configure Toolbars...</guimenuitem></menuchoice></term>  
 <listitem><para>This will open the dialog whereby the toolbar configuration may
 be changed.   The user can choose which shortcut buttons should appear on the  
 toolbar. A display window on the left lists the commands available to placed
@@ -1127,19 +1066,7 @@ an action selected in the right window which changes the position of its button
 in the toolbar.</para> </listitem>   
 </varlistentry>  
   
-<varlistentry>  
-<term><anchor id="preferences"/><menuchoice>  
-<guimenu>Settings</guimenu>
-<guimenuitem>Configure Editor</guimenuitem>
-</menuchoice>
-</term>
-<listitem>
-<para>
-This menu item opens a dialog whereby several different <link
-linkend="pref-dialog">settings</link> may be adjusted.  
-</para>
-</listitem> 
-</varlistentry>
+
   
 <!-- 
 <varlistentry>  
@@ -1151,7 +1078,7 @@ highlighting.  The dialog is described in <xref
 linkend="pref-highlighting"/>.</para></listitem>  
 </varlistentry>  -->
   
-<varlistentry>
+<!--<varlistentry>
 <term>
 <menuchoice>
 <shortcut>
@@ -1167,9 +1094,9 @@ Toggle the display of a border on the left of the editing window, where
 bookmarks are displayed next to the line they apply to.
 </para>
 </listitem>
-</varlistentry>
+</varlistentry>//-->
 
-<varlistentry>
+<!--<varlistentry>
 <term id="vertical-selection">
 <menuchoice>
 <shortcut>
@@ -1188,9 +1115,9 @@ particular contiguous columns and rows.  In affect the user can select a
 rectangular area of text anywhere in the document.
 </para>  
 </listitem>  
-</varlistentry>  
+</varlistentry>  //-->
   
-<varlistentry>  
+<!--<varlistentry>  
 <term id="set-highlight">
 <menuchoice>  
 <guimenu>Settings</guimenu>
@@ -1204,9 +1131,9 @@ editor uses to display the text. The styles are selected by programming
 language. The font/color information is not stored with the document.
 </para>
 </listitem>  
-</varlistentry>  
+</varlistentry>  //-->
   
-<varlistentry>  
+<!--<varlistentry>  
 <term><anchor id="end-of-line"/>
 <menuchoice>  
 <guimenu>Settings</guimenu><guisubmenu>End of Line</guisubmenu></menuchoice></term>  
@@ -1215,7 +1142,7 @@ language. The font/color information is not stored with the document.
 line</quote> code for &kwrite; to use, <abbrev>i.e.</abbrev>, the accepted standard  
 used by &UNIX;, &Mac; or MSDOS/&Windows; systems.</para>
 </listitem>  
-</varlistentry>  
+</varlistentry>  //-->
   
 </variablelist>  
 </sect1>  
@@ -1394,7 +1321,7 @@ clipboard.</para></listitem>
   
 <varlistentry>  
 <term><guilabel>Vertical Selections</guilabel></term> <listitem><para>This  
-activates the <link linkend="vertical-selection">Vertical Selection</link>  
+activates the <!--<link linkend="vertical-selection">//-->Vertical Selection<!--</link>//-->  
 option.</para></listitem>  
 </varlistentry>  
   
