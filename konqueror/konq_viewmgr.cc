@@ -1108,25 +1108,27 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       for ( it.toFirst(); it != 0L; ++it )
       {
           KonqView *view = it.current()->activeChildView();
-          QVariant prop = view->part()->property("modified");
-          if (prop.isValid() && prop.toBool()) {
-              showTab( view );
-              if ( KMessageBox::warningContinueCancel( 0,
-                 i18n("This tab contains changes that have not been submitted.\nLoading a profile will discard these changes."),
-                 i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-              {
-                  showTab( originalView );
-                  return;
-              }
-          }
+          if (view && view->part()) {
+            QVariant prop = view->part()->property("modified");
+            if (prop.isValid() && prop.toBool()) {
+                showTab( view );
+                if ( KMessageBox::warningContinueCancel( 0,
+                   i18n("This tab contains changes that have not been submitted.\nLoading a profile will discard these changes."),
+                   i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+                {
+                    showTab( originalView );
+                    return;
+                }
+            }
+         }
       }
       showTab( originalView );
   }
   else
   {
       KonqView *view = m_pMainWindow->currentView();
-      if (view) {
-        QVariant prop = m_pMainWindow->currentView()->part()->property("modified");
+      if (view && view->part()) {
+        QVariant prop = view->part()->property("modified");
         if (prop.isValid() && prop.toBool())
             if ( KMessageBox::warningContinueCancel( 0,
                i18n("This page contains changes that have not been submitted.\nLoading a profile will discard these changes."),

@@ -1672,13 +1672,15 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
   if ( !reloadView || reloadView->url().isEmpty() )
     return;
 
-  QVariant prop = reloadView->part()->property("modified");
-  if (prop.isValid() && prop.toBool())
-    if ( KMessageBox::warningContinueCancel( this,
-         i18n("This page contains changes that have not been submitted.\nClosing the page will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-      return;
-    
+  if ( reloadView->part() ) {
+    QVariant prop = reloadView->part()->property("modified");
+    if (prop.isValid() && prop.toBool())
+      if ( KMessageBox::warningContinueCancel( this,
+           i18n("This page contains changes that have not been submitted.\nClosing the page will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+        return;
+  }
+
   KonqOpenURLRequest req( reloadView->typedURL() );
   if ( reloadView->prepareReload( req.args ) )
   {
@@ -1752,9 +1754,9 @@ QStringList KonqMainWindow::configModules() const
           "kde-khtml_fonts.desktop" << "kde-ebrowsing.desktop" <<
           "kde-kcmhistory.desktop" << "kde-cookies.desktop" <<
           "kde-cache.desktop" << "kde-proxy.desktop" << "kde-kcmcss.desktop" <<
-          "kde-crypto.desktop" << "kde-useragent.desktop" << 
+          "kde-crypto.desktop" << "kde-useragent.desktop" <<
           "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
-          
+
   return args;
 }
 
@@ -2380,12 +2382,14 @@ void KonqMainWindow::slotDuplicateTabPopup()
 
 void KonqMainWindow::slotBreakOffTab()
 {
-  QVariant prop = m_currentView->part()->property("modified");
-  if (prop.isValid() && prop.toBool())
-    if ( KMessageBox::warningContinueCancel( this,
-         i18n("This tab contains changes that have not been submitted.\nDetaching the tab will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-      return;
+  if (m_currentView && m_currentView->part()) {
+    QVariant prop = m_currentView->part()->property("modified");
+    if (prop.isValid() && prop.toBool())
+      if ( KMessageBox::warningContinueCancel( this,
+           i18n("This tab contains changes that have not been submitted.\nDetaching the tab will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+        return;
+  }
 
   m_pViewManager->breakOffTab();
   updateViewActions();
@@ -2394,20 +2398,22 @@ void KonqMainWindow::slotBreakOffTab()
 void KonqMainWindow::slotBreakOffTabPopup()
 {
   KonqView* originalView = m_currentView;
-  KonqView *view = m_pWorkingTab->activeChildView(); 
-  QVariant prop = view->part()->property("modified");
-  if (prop.isValid() && prop.toBool()) {
-    m_pViewManager->showTab( view );
-    if ( KMessageBox::warningContinueCancel( this,
-         i18n("This tab contains changes that have not been submitted.\nDetaching the tab will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-    {
-      m_pViewManager->showTab( originalView );
-      return;
+  KonqView *view = m_pWorkingTab->activeChildView();
+  if (view && view->part()) {
+    QVariant prop = view->part()->property("modified");
+    if (prop.isValid() && prop.toBool()) {
+      m_pViewManager->showTab( view );
+      if ( KMessageBox::warningContinueCancel( this,
+           i18n("This tab contains changes that have not been submitted.\nDetaching the tab will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+      {
+        m_pViewManager->showTab( originalView );
+        return;
+      }
     }
   }
   m_pViewManager->showTab( originalView );
-    
+
   //Can't do this safely here as the tabbar may disappear and we're
   //hanging off here.
   QTimer::singleShot(0, this, SLOT( slotBreakOffTabPopupDelayed() ) );
@@ -2482,12 +2488,14 @@ void KonqMainWindow::openMultiURL( KURL::List url )
 
 void KonqMainWindow::slotRemoveView()
 {
-  QVariant prop = m_currentView->part()->property("modified");
-  if (prop.isValid() && prop.toBool())
-    if ( KMessageBox::warningContinueCancel( this,
-         i18n("This view contains changes that have not been submitted.\nClosing the view will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-      return;
+  if (m_currentView && m_currentView->part()) {
+    QVariant prop = m_currentView->part()->property("modified");
+    if (prop.isValid() && prop.toBool())
+      if ( KMessageBox::warningContinueCancel( this,
+           i18n("This view contains changes that have not been submitted.\nClosing the view will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+        return;
+  }
 
   // takes care of choosing the new active view
   m_pViewManager->removeView( m_currentView );
@@ -2495,12 +2503,14 @@ void KonqMainWindow::slotRemoveView()
 
 void KonqMainWindow::slotRemoveTab()
 {
-  QVariant prop = m_currentView->part()->property("modified");
-  if (prop.isValid() && prop.toBool())
-    if ( KMessageBox::warningContinueCancel( this,
-         i18n("This tab contains changes that have not been submitted.\nClosing the tab will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-      return;
+  if (m_currentView && m_currentView->part()) {
+    QVariant prop = m_currentView->part()->property("modified");
+    if (prop.isValid() && prop.toBool())
+      if ( KMessageBox::warningContinueCancel( this,
+           i18n("This tab contains changes that have not been submitted.\nClosing the tab will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+        return;
+  }
 
   m_pViewManager->removeTab();
 }
@@ -2508,20 +2518,22 @@ void KonqMainWindow::slotRemoveTab()
 void KonqMainWindow::slotRemoveTabPopup()
 {
   KonqView *originalView = m_currentView;
-  KonqView *view = m_pWorkingTab->activeChildView(); 
-  QVariant prop = view->part()->property("modified");
-  if (prop.isValid() && prop.toBool()) {
-    m_pViewManager->showTab( view );
-    if ( KMessageBox::warningContinueCancel( this,
-         i18n("This tab contains changes that have not been submitted.\nClosing the tab will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-    {
-      m_pViewManager->showTab( originalView );
-      return;
+  KonqView *view = m_pWorkingTab->activeChildView();
+  if (view && view->part()) {
+    QVariant prop = view->part()->property("modified");
+    if (prop.isValid() && prop.toBool()) {
+      m_pViewManager->showTab( view );
+      if ( KMessageBox::warningContinueCancel( this,
+           i18n("This tab contains changes that have not been submitted.\nClosing the tab will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+      {
+        m_pViewManager->showTab( originalView );
+        return;
+      }
     }
+    m_pViewManager->showTab( originalView );
   }
-  m_pViewManager->showTab( originalView );
-  
+
   //Can't do immediately - may kill the tabbar, and we're in an event path down from it
   QTimer::singleShot( 0, this, SLOT( slotRemoveTabPopupDelayed() ) );
 }
@@ -2544,7 +2556,7 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it ) {
     KonqView *view = it.data();
-    if ( view != originalView ) {
+    if ( view != originalView && view && view->part()) {
       QVariant prop = view->part()->property("modified");
       if (prop.isValid() && prop.toBool()) {
         m_pViewManager->showTab( view );
@@ -2559,7 +2571,7 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
     }
   }
   m_pViewManager->showTab( originalView );
-    
+
   //Can't do immediately - kills the tabbar, and we're in an event path down from it
   QTimer::singleShot( 0, this, SLOT( slotRemoveOtherTabsPopupDelayed() ) );
 }
@@ -2577,20 +2589,22 @@ void KonqMainWindow::slotReloadAllTabs()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it ) {
     KonqView *view = it.data();
-    QVariant prop = view->part()->property("modified");
-    if (prop.isValid() && prop.toBool()) {
-      m_pViewManager->showTab( view );
-      if ( KMessageBox::warningContinueCancel( this,
-         i18n("This tab contains changes that have not been submitted.\nReloading all tabs will discard these changes."),
-         i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-      {
-          m_pViewManager->showTab( originalView );
-          return;
+    if (view && view->part()) {
+      QVariant prop = view->part()->property("modified");
+      if (prop.isValid() && prop.toBool()) {
+        m_pViewManager->showTab( view );
+        if ( KMessageBox::warningContinueCancel( this,
+           i18n("This tab contains changes that have not been submitted.\nReloading all tabs will discard these changes."),
+           i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+        {
+            m_pViewManager->showTab( originalView );
+            return;
+        }
       }
     }
   }
   m_pViewManager->showTab( originalView );
-  
+
   m_pViewManager->reloadAllTabs();
   updateViewActions();
 }
@@ -4729,26 +4743,28 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
           }
         }
       }
-      
+
       KonqView *originalView = m_currentView;
       MapViews::ConstIterator it = m_mapViews.begin();
       MapViews::ConstIterator end = m_mapViews.end();
       for (; it != end; ++it ) {
         KonqView *view = it.data();
-        QVariant prop = view->part()->property("modified");
-        if (prop.isValid() && prop.toBool()) {
-          m_pViewManager->showTab( view );
-          if ( KMessageBox::warningContinueCancel( this,
-            i18n("This tab contains changes that have not been submitted.\nClosing the window will discard these changes."),
-            i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
-          {
-            e->ignore();
-            m_pViewManager->showTab( originalView );
-            return;
+        if (view && view->part()) {
+          QVariant prop = view->part()->property("modified");
+          if (prop.isValid() && prop.toBool()) {
+            m_pViewManager->showTab( view );
+            if ( KMessageBox::warningContinueCancel( this,
+              i18n("This tab contains changes that have not been submitted.\nClosing the window will discard these changes."),
+              i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+            {
+              e->ignore();
+              m_pViewManager->showTab( originalView );
+              return;
+            }
           }
         }
       }
-//      m_pViewManager->showTab( originalView );      
+//      m_pViewManager->showTab( originalView );
     }
     else if ( m_currentView && m_currentView->part() )
     {
@@ -5164,7 +5180,7 @@ bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType )
 bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &/*mimeType*/, const KService::Ptr &offer )
 {
     // Prevention against user stupidity : if the associated app for this mimetype
-    // is konqueror/kfmclient, then we'll loop forever. So we have to 
+    // is konqueror/kfmclient, then we'll loop forever. So we have to
     // 1) force embedding first, if that works we're ok
     // 2) check what KRun is going to do before calling it.
     return ( offer && ( offer->desktopEntryName() == "konqueror" ||
