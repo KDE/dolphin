@@ -318,7 +318,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
     args.trustedSource = true;
 
     bool is_local = fileItem->isLocalFile();
-    
+
     if ( fileItem->isLink() && is_local ) // see KFileItem::run
         url = KURL( url, KURL::encode_string( fileItem->linkDest() ) );
 
@@ -429,8 +429,18 @@ void KonqDirPart::slotClipboardDataChanged()
 void KonqDirPart::updatePasteAction()
 {
     QMimeSource *data = QApplication::clipboard()->data();
-    bool paste = ( data->format() != 0 );
-
+    bool paste = ( data->format(0) != 0 );
+    KURL::List urls;
+    if ( KURLDrag::canDecode( data ) && KURLDrag::decode( data, urls ) ) {
+        if ( urls.isEmpty() )
+            paste = false;
+        else if ( urls.first().isLocalFile() )
+            emit m_extension->setActionText( "paste", i18n( "&Paste file", "&Paste %n files", urls.count() ) );
+        else
+            emit m_extension->setActionText( "paste", i18n( "&Paste URL", "&Paste %n URLs", urls.count() ) );
+    } else if ( paste ) {
+        emit m_extension->setActionText( "paste", i18n( "&Paste clipboard contents" ) );
+    }
     emit m_extension->enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
 }
 
