@@ -30,6 +30,7 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 #include <kapplication.h>
+#include <kglobalsettings.h>
 #include <ktempfile.h>
 #include <dcopclient.h>
 
@@ -1208,17 +1209,7 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
     int width = -1;
     int height = -1;
 
-    QRect geom;
-    KConfig gc("kdeglobals", false, false);
-    gc.setGroup("Windows");
-    if (QApplication::desktop()->isVirtualDesktop() &&
-        gc.readBoolEntry("XineramaEnabled", true) &&
-        gc.readBoolEntry("XineramaPlacementEnabled", true)) {
-        int screen = widget ? QApplication::desktop()->screenNumber(widget) :-1;
-        geom = QApplication::desktop()->screenGeometry(screen);
-    } else {
-        geom = QApplication::desktop()->geometry();
-    }
+    QRect geom = KGlobalSettings::desktopGeometry(widget);
 
     if ( widthStr.contains( '%' ) == 1 )
     {
