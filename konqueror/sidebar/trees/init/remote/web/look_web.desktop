@@ -1,8 +1,20 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Link
-URL=http://www.kde-look.org/
+URL=http://themes.kde.org/
 Name=KDE Eye Candy
+Name[bn]=কে.ডি.ই. আই ক্যান্ডি
+Name[da]=KDE øjenfryd
+Name[fr]=Agrément visuel KDE
+Name[hu]=KDE grafikai kiegészítők
+Name[is]=KDE augnayndi
+Name[nb]=KDE-pynt
+Name[nl]=Oogstrelend KDE
+Name[pt]=Gráficos Bonitos do KDE
+Name[pt_BR]=Candy Eye do KDE
+Name[sv]=KDE-ögongodis
+Name[xx]=xxKDE Eye Candyxx
+Name[zh_CN]=KDE 眼福
 Icon=www
 Open=false
 X-KDE-TreeModule=Directory
