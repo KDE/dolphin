@@ -56,7 +56,15 @@
 #include "sdk/npupp.h"
 
 // provide these symbols when compiling with gcc 3.x
-#if defined(__GNUC__) && __GNUC_PREREQ(3,0)
+
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#define KDE_GNUC_PREREQ(maj,min) \
+  ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+#else
+#define KDE_GNUC_PREREQ(maj,min) 0
+#endif 
+
+#if defined(__GNUC__) && KDE_GNUC_PREREQ(3,0)
 extern "C" void* __builtin_new(size_t s)
 {
    return operator new(s);
