@@ -718,7 +718,7 @@ void KEBTopLevel::slotImportCrash()
     int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
                                              i18n("Crash Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
-    ImportCommand * cmd = new ImportCommand( i18n("Import Crash Bookmarks"), KCrashBookmarkImporter::crashBookmarksFile(),
+    ImportCommand * cmd = new ImportCommand( i18n("Import Crash Bookmarks"), KCrashBookmarkImporter::crashBookmarksDir(),
                                              subFolder ? i18n("Crash Bookmarks") : QString::null, "crash", false, BK_CRASH); // TODO - icon
     m_commandHistory.addCommand( cmd );
 }

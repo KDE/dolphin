@@ -21,7 +21,12 @@
 #include <kstringhandler.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kapplication.h>
+#include <qfile.h>
+#include <qdir.h>
+#include <qstring.h>
 #include <qtextcodec.h>
+#include <dcopclient.h>
 
 #include <sys/types.h>
 #include <stddef.h>
@@ -86,9 +91,11 @@ crashxbel.print "</xbel>\n"
 crashxbel.close
 */
 
-void KCrashBookmarkImporter::parseCrashBookmarks( )
+#define LINELIMIT 4096
+
+void KCrashBookmarkImporter::parse_crash_file( QString filename )
 {
-    QFile f(m_fileName);
+    QFile f(filename);
 
     /*
     // TODO - what sort of url's can we get???
@@ -100,7 +107,6 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
 
     if(f.open(IO_ReadOnly)) {
 
-#define LINELIMIT 4096
         QCString s(4096);
 
         typedef QMap<QString, QString> ViewMap;
@@ -121,6 +127,7 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
             }
             /* else if (rx.cap(1) == "close") {
                views.remove(rx.cap(2));
+               error message here???
             } */
         }
 
@@ -137,13 +144,70 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
     }
 }
 
-QString KCrashBookmarkImporter::crashBookmarksFile( bool forSaving )
+void KCrashBookmarkImporter::parseCrashBookmarks( )
 {
-    // TODO - remove forSaving
+   typedef QMap<QString, bool> FileMap;
+   FileMap activeLogs;
 
-    // QDir::homeDirPath() + 
+   // for n in `dcop  | grep konqueror`; do dcop $n KonquerorIface 'crashLogFile()'; done
+   /*
+   for (each konqi instance) {
+   }
+   */
 
-    return KFileDialog::getOpenFileName( "/tmp/", i18n("*.xml|XML files (*.xml)") );
+   DCOPClient* dcop = kapp->dcopClient();
+
+   QCStringList apps = dcop->registeredApplications();
+   for ( QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it )
+   {
+      QCString &clientId = *it;
+
+      if ( (clientId == dcop->appId()) 
+        || qstrncmp(clientId, "konqueror", 9) != 0
+      ) {
+         continue;
+      }
+
+      QByteArray data, replyData;
+      QCString replyType;
+      QDataStream arg(data, IO_WriteOnly);
+
+      if ( !dcop->call( clientId.data(), "KonquerorIface", "crashLogFile()", data, replyType, replyData) ) {
+         kdWarning() << "umm.. you've probably not got my patched konqi :)" << endl;
+      } else {
+         QDataStream reply(replyData, IO_ReadOnly);
+
+         if ( replyType == "QString" )
+         {
+            QString ret;
+            reply >> ret;
+            activeLogs[ret] = true; // AK - nicer way to put this?
+         }
+      }
+   }
+
+   QDir d(m_fileName);
+   d.setFilter( QDir::Files );
+   d.setNameFilter("konqueror-crashlog*.xml");
+
+   const QFileInfoList *list = d.entryInfoList();
+   QFileInfoListIterator it( *list );
+   QFileInfo *fi;
+
+   while ( (fi = it.current()) != 0 ) {
+      ++it;
+
+      bool stillActive = activeLogs.contains(fi->absFilePath());
+
+      if (!stillActive) {
+         parse_crash_file(fi->absFilePath());
+      }
+   }
+}
+
+QString KCrashBookmarkImporter::crashBookmarksDir( )
+{
+    return KFileDialog::getExistingDirectory( );
 }
 
 #include "kbookmarkimporter_crash.moc"

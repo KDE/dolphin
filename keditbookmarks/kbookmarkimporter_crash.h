@@ -24,11 +24,6 @@
 #include <qstringlist.h>
 #include <ksimpleconfig.h>
 
-// TODO - make the newBookmark / newFolder stuff a known interface
-//      - and possibly port IE / Opera / Galeon to it
-//      - and make a XBEL importer / cleaner (optional?)
-//      - Galeon is just an overloaded XBEL importer - with a directory
-
 /**
  * A class for importing NS bookmarks
  * KEditBookmarks uses it to insert bookmarks into its DOM tree,
@@ -44,7 +39,7 @@ public:
     void parseCrashBookmarks();
 
     // Usual place for crash bookmarks
-    static QString crashBookmarksFile( bool forSaving=false );
+    static QString crashBookmarksDir( );
 
 signals:
 
@@ -73,6 +68,8 @@ signals:
 
 protected:
     QString m_fileName;
+
+    void parse_crash_file( QString filename );
 };
 
 #endif
