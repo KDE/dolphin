@@ -1149,13 +1149,22 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   //kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
 }
 
+void KonqViewManager::setActivePart( KParts::Part *part, QWidget * )
+{
+    setActivePart( part, false );
+}
+
 void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
 {
     //kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
     //if ( part )
     //    kdDebug(1202) << "    " << part->className() << " " << part->name() << endl;
 
-    if (part == activePart())
+    // Due to the single-shot timer below, we need to also make sure that
+    // the mainwindow also has the right part active already
+    KParts::Part* mainWindowActivePart = (m_pMainWindow && m_pMainWindow->currentView())
+                                         ? m_pMainWindow->currentView()->part() : 0;
+    if (part == activePart() && (!immediate || mainWindowActivePart == part))
     {
       if ( part )
         kdDebug(1202) << "Part is already active!" << endl;
@@ -1172,6 +1181,8 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
         // we process the mouse event before rebuilding the GUI.
         // Otherwise, when e.g. dragging icons, the mouse pointer can already
         // be very far from where it was...
+        // TODO: use a QTimer member var, so that if two conflicting calls to
+        // setActivePart(part,immediate=false) happen, the 1st one gets cancelled.
         QTimer::singleShot( 0, this, SLOT( emitActivePartChanged() ) );
     else
         emitActivePartChanged();
@@ -1195,11 +1206,6 @@ void KonqViewManager::slotActivePartChanged ( KParts::Part *newPart )
         view->frame()->parentContainer()->setActiveChild( view->frame() );
     }
     //kdDebug(1202) << "KonqViewManager::slotActivePartChanged done" << endl;
-}
-
-void KonqViewManager::setActivePart( KParts::Part *part, QWidget * )
-{
-    setActivePart( part, false );
 }
 
 void KonqViewManager::emitActivePartChanged()
