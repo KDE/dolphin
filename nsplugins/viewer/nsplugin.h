@@ -4,22 +4,22 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/                                                                            
+
+*/
 
 
 #ifndef __NS_PLUGIN_H__
@@ -73,11 +73,11 @@ public:
 signals:
   void finished( NSPluginStreamBase *strm );
 
-protected:  
+protected:
   void finish( bool err );
   bool pump();
   bool error() { return _error; };
-  void queue( const QByteArray &data );  
+  void queue( const QByteArray &data );
   bool create( QString url, QString mimeType, void *notify );
   int tries() { return _tries; };
 
@@ -88,11 +88,11 @@ protected:
   QString _url;
   QString _fileURL;
   class KTempFile *_tempFile;
- 
+
 private:
   int process( const QByteArray &data, int start );
-  
-  unsigned int _pos;  
+
+  unsigned int _pos;
   QByteArray _queue;
   unsigned int _queuePos;
   int _tries;
@@ -116,8 +116,8 @@ protected slots:
   void result(KIO::Job *job);
   void resume();
 
-protected: 
-  QGuardedPtr<KIO::TransferJob> _job; 
+protected:
+  QGuardedPtr<KIO::TransferJob> _job;
   QTimer *_resumeTimer;
 };
 
@@ -135,7 +135,7 @@ public:
 protected slots:
   void timer();
 
-protected: 
+protected:
   QTimer *_timer;
   bool _singleShot;
 };
@@ -148,7 +148,7 @@ class NSPluginInstance : public QObject, public virtual NSPluginInstanceIface
 public:
 
   // constructor, destructor
-  NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, 
+  NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle,
 		    int width, int height, QString src, QString mime,
 		    QObject *parent, const char* name=0 );
   ~NSPluginInstance();
@@ -172,8 +172,8 @@ public:
   NPError NPNewStream(NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype);
   void NPStreamAsFile(NPStream *stream, const char *fname);
   int32 NPWrite(NPStream *stream, int32 offset, int32 len, void *buf);
-  int32 NPWriteReady(NPStream *stream);  
-  
+  int32 NPWriteReady(NPStream *stream);
+
   // URL functions
   void NPURLNotify(QString url, NPReason reason, void *notifyData);
 
@@ -181,20 +181,16 @@ public:
   uint16 HandleEvent(void *event);
 
   // signal emitters
-  void emitStatus(const char *message) { emit status(message); };
-
-  void requestURL( const QString &url, const QString &mime, 
-		   const QString &target, void *notify );  
- 
-signals:
-  void status(const char *message);
+  void emitStatus( const QString &message);
+  void requestURL( const QString &url, const QString &mime,
+		   const QString &target, void *notify );
 
 public slots:
   void streamFinished( NSPluginStreamBase *strm );
 
 private slots:
   void timer();
-  
+
 private:
   friend class NSPluginStreamBase;
 
@@ -204,7 +200,7 @@ private:
   void addTempFile(KTempFile *tmpFile);
   QList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
-  QList<NSPluginStreamBase> _streams;  
+  QList<NSPluginStreamBase> _streams;
   KLibrary *_handle;
   QTimer *_timer;
 
@@ -217,14 +213,14 @@ private:
 
   struct Request
   {
-      Request( const QString &_url, const QString &_mime, 
-	       const QString &_target, void *_notify) 
+      Request( const QString &_url, const QString &_mime,
+	       const QString &_target, void *_notify)
 	  { url=_url; mime=_mime; target=_target; notify=_notify; };
 
       QString url;
       QString mime;
       QString target;
-      void *notify;	
+      void *notify;
   };
 
   QQueue<Request> _waitingRequests;
@@ -238,12 +234,12 @@ public:
 
   NSPluginClass( const QString &library, QObject *parent, const char *name=0 );
   ~NSPluginClass();
-  
-  QString getMIMEDescription();  
-  DCOPRef newInstance(QString url, QString mimeType, bool embed, 
+
+  QString getMIMEDescription();
+  DCOPRef newInstance(QString url, QString mimeType, bool embed,
 		      QStringList argn, QStringList argv);
   void destroyInstance( NSPluginInstance* inst );
-  bool error() { return _error; };  
+  bool error() { return _error; };
 
 protected slots:
   void timer();

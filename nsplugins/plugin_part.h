@@ -26,6 +26,7 @@ public:
   NSPluginCallback(PluginPart *part);
 
   virtual void requestURL(QString url, QString target);
+  virtual void statusMessage( QString msg );
 
 private:
 
@@ -83,6 +84,7 @@ public:
   virtual ~PluginPart();
 
   void requestURL(QCString url, QCString target);
+  void statusMessage( QString msg );
 
 protected:
   virtual bool openURL(const KURL &url);
@@ -93,14 +95,12 @@ protected slots:
   void pluginResized(int,int);
 
 private:
-  QGuardedPtr<NSPluginInstance> _widget;
-  QGuardedPtr<QLabel> _errorLabel;
+  QGuardedPtr<QWidget> _widget;
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;
   NSPluginCallback *_callback;
   QStringList _args;
   class NSPluginLoader *_loader;
-  static int s_loaderRef;
 };
 
 

@@ -44,6 +44,7 @@
 #include <ktempfile.h>
 #include <dcopclient.h>
 #include <kprotocolmanager.h>
+#include <klocale.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/Composite.h>
@@ -424,17 +425,21 @@ void NSPluginInstance::timer()
 
                     kdDebug() << "getting " << req.url << " src=" << _baseURL << endl;
 
+                    QString url;
+
                     // make absolute url
-                    if ( KURL::isRelativeURL(req.url) )
-                    {
+                    if ( KURL::isRelativeURL(req.url) ) {
                         KURL absUrl( _baseURL, req.url );
-                        s->get( absUrl.url(), req.mime, req.notify );
+                        url = absUrl.url();
                     } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
                         KURL absUrl( _baseURL );
                         absUrl.setPath( req.url );
-                        s->get( absUrl.url(), req.mime, req.notify );
+                        url = absUrl.url();
                     } else
-                        s->get( req.url, req.mime, req.notify );
+                        url = req.url;
+
+                    emitStatus( i18n("Requesting %1").arg(url) );
+                    s->get( url, req.mime, req.notify );
                 }
 
                 break;
@@ -455,9 +460,18 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 }
 
 
+void NSPluginInstance::emitStatus(const QString &message)
+{
+    kdDebug(1431) << "NSPluginInstance::emitStatus " << message << endl;
+    if( _callback )
+        _callback->statusMessage( message );
+}
+
+
 void NSPluginInstance::streamFinished( NSPluginStreamBase */*strm*/ )
 {
    kdDebug(1431) << "-> NSPluginInstance::streamFinished" << endl;
+   emitStatus( QString::null );
    _timer->start( 0, true );
 }
 

@@ -38,6 +38,8 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
+#include "../../kdelibs/khtml/java/javaembed.cpp"
+
 
 #include "nspluginloader.h"
 #include "nspluginloader.moc"
@@ -50,10 +52,11 @@ int NSPluginLoader::s_refCount = 0;
 
 
 NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id)
-  : QXEmbed(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id)
+  : EMBEDCLASS(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id)
 {
-  setBackgroundMode(QWidget::NoBackground);
-  embed( NSPluginInstanceIface_stub::winId() );
+    _loader = NSPluginLoader::instance();
+    setBackgroundMode(QWidget::NoBackground);
+    embed( NSPluginInstanceIface_stub::winId() );
 }
 
 
@@ -61,14 +64,15 @@ NSPluginInstance::~NSPluginInstance()
 {
    kdDebug() << "-> NSPluginInstance::~NSPluginInstance" << endl;
    shutdown();
-   emit destroyed( this );
+   kdDebug() << "release" << endl;
+   _loader->release();
    kdDebug() << "<- NSPluginInstance::~NSPluginInstance" << endl;
 }
 
 
 void NSPluginInstance::resizeEvent(QResizeEvent *event)
 {
-  QXEmbed::resizeEvent(event);
+  EMBEDCLASS::resizeEvent(event);
   resizePlugin(width(), height());
   kdDebug() << "NSPluginInstance(client)::resizeEvent" << endl;
 }
@@ -81,7 +85,6 @@ NSPluginLoader::NSPluginLoader()
    : QObject(), _mapping(7, false), _viewer(0)
 {
   scanPlugins();
-  _plugins.setAutoDelete( true );
   _mapping.setAutoDelete( true );
 
   // trap dcop register events
@@ -119,7 +122,6 @@ void NSPluginLoader::release()
 NSPluginLoader::~NSPluginLoader()
 {
    kdDebug() << "-> NSPluginLoader::~NSPluginLoader" << endl;
-   _plugins.clear();
    unloadViewer();
    kdDebug() << "<- NSPluginLoader::~NSPluginLoader" << endl;
 }
@@ -131,18 +133,16 @@ void NSPluginLoader::scanPlugins()
 
   // open the cache file
   QFile cachef(locate("data", "nsplugins/cache"));
-  if (!cachef.open(IO_ReadOnly))
-    {
+  if (!cachef.open(IO_ReadOnly)) {
       kdDebug() << "Could not load plugin cache file!" << endl;
       return;
-    }
+  }
 
   QTextStream cache(&cachef);
 
   // read in cache
   QString line, plugin;
-  while (!cache.atEnd())
-    {
+  while (!cache.atEnd()) {
       line = cache.readLine();
       if (line.isEmpty() || (line.left(1) == "#"))
         continue;
@@ -216,7 +216,8 @@ bool NSPluginLoader::loadViewer()
    int pid = (int)getpid();
    _dcopid.sprintf("nspluginviewer-%d", pid);
 
-   connect( _process, SIGNAL(processExited(KProcess*)), this, SLOT(processTerminated(KProcess*)) );
+   connect( _process, SIGNAL(processExited(KProcess*)),
+            this, SLOT(processTerminated(KProcess*)) );
 
    // find the external viewer process
    QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
@@ -314,7 +315,6 @@ void NSPluginLoader::processTerminated(KProcess *proc)
    if ( _process == proc)
    {
       kdDebug() << "Viewer process  terminated" << endl;
-      _plugins.clear();
       delete _viewer;
       delete _process;
       _viewer = 0;
@@ -394,20 +394,11 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
       kdDebug() << "Couldn't create plugin instance" << endl;
       return 0;
    }
-   NSPluginInstance *plugin = new NSPluginInstance( parent, inst_ref.app(), inst_ref.object() );
-   _plugins.append( plugin );
-   connect( plugin, SIGNAL(destroyed(NSPluginInstance *)),
-            this, SLOT(pluginDestroyed(NSPluginInstance *)) );
+
+   NSPluginInstance *plugin = new NSPluginInstance( parent, inst_ref.app(),
+                                                    inst_ref.object() );
 
    kdDebug() << "<- NSPluginLoader::NewInstance = " << (void*)plugin << endl;
    return plugin;
 }
 
-
-void NSPluginLoader::pluginDestroyed( NSPluginInstance *inst )
-{
-   kdDebug() << "NSPluginLoader::pluginDestroyed" << endl;
-   _plugins.setAutoDelete( false ); // avoid delete recursion
-   _plugins.remove( inst );
-   _plugins.setAutoDelete( true );
-}
