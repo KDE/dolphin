@@ -181,14 +181,14 @@ FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url
            this, SLOT( slotMimetype(KIO::Job *, const QString &) ));
 }
 
-void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString &typeUncopied) {
+void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString & /*type*/) {
    KIO::SimpleJob *sjob = static_cast<KIO::SimpleJob *>(job);
    m_url = sjob->url(); // allow for redirection
    sjob->putOnHold();
 
-   // QString type = typeUncopied; // local copy
-   // kdDebug() << "slotMimetype : " << type << endl;
-   // TODO - what to do if type is not text/html ??
+   // QString typeLocal = typeUncopied; // local copy
+   // kdDebug() << "slotMimetype : " << typeLocal << endl;
+   // TODO - what to do if typeLocal is not text/html ??
 
    m_part->openURL(m_url);
 }
