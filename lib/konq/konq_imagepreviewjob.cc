@@ -356,13 +356,13 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 {
   QPixmap pix;
   QImage img;
+  kdDebug() << "KonqImagePreviewJob::createThumbnail loading " << pixPath << endl;
   if ( pix.load( pixPath ) )
   {
     int w = pix.width(), h = pix.height();
     kdDebug() << "w=" << w << " h=" << h << " m_extent=" << m_extent << endl;
     // scale to pixie size
     if(w > m_extent || h > m_extent){
-        kdDebug() << "ok" << endl;
         if(w > h){
             h = (int)( (double)( h * m_extent ) / w );
             if ( h == 0 ) h = 1;
@@ -378,6 +378,13 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
         }
         kdDebug() << "smoothScale to " << w << "x" << h << endl;
         img = pix.convertToImage().smoothScale( w, h );
+        if ( img.width() != w || img.height() != h )
+        {
+            // Resizing failed. Aborting.
+            kdWarning() << "Resizing of " << pixPath << " failed. Aborting. " << endl;
+            determineNextIcon();
+            return;
+        }
         pix.convertFromImage( img );
     }
     else if (m_bCanSave)
