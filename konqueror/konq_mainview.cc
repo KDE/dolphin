@@ -52,6 +52,7 @@
 #include <knewmenu.h>
 #include <kstdaccel.h>
 #include <kstddirs.h>
+#include <ksycoca.h>
 #include <kurl.h>
 #include <kwm.h>
 #include <klineeditdlg.h>
@@ -116,6 +117,8 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
 
   connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
            this, SLOT( checkEditExtension() ) );
+  connect( KSycoca::self(), SIGNAL( databaseChanged() ), 
+           this, SLOT( slotDatabaseChanged() ) );
 
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Settings" );
@@ -1459,8 +1462,10 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   delete pPopupMenu;
 }
 
-void KonqMainView::databaseChanged()
+void KonqMainView::slotDatabaseChanged()
 {
+  // We could do better : for each item update the mimetype-related info
+  // That would reduce flickering
   slotReload();
 }
 

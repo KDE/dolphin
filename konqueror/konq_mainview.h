@@ -112,8 +112,6 @@ k_dcop:
 
   virtual void reparseConfiguration();
 
-  virtual void databaseChanged(); // called by kded
-
 public:
   bool openView( QString serviceType, QString _url, KonqChildView *childView );
 
@@ -164,6 +162,7 @@ protected slots:
   void slotSpeedProgress( int bytesPerSecond );
 
   void checkEditExtension();
+  void slotDatabaseChanged(); // connect to KSycoca
 
   void slotCut();  
   void slotCopy();
