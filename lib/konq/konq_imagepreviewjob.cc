@@ -72,7 +72,8 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
         else
         {
             bText = m_splitter && mimeType.startsWith( "text/") && (!previewSettings || previewSettings[KonqPropsView::TEXTPREVIEW]);
-            bHTML = mimeType == "text/html" && m_renderHTML;
+            if ((bHTML = mimeType == "text/html" && m_renderHTML))
+                m_bDirsCreated = false;
         }
         if ( bImage || bText || bHTML)
             m_items.append( ivi );
