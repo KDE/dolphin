@@ -285,15 +285,15 @@ void KonqChildView::makeHistory( bool pushEntry )
       }
       else if ( m_bForward ) 
       {
-         m_bForward = false;
-         kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
-         m_lstBack.append( m_pCurrentHistoryEntry );
+        m_bForward = false;
+        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+        m_lstBack.insert( 0, m_pCurrentHistoryEntry );
       } 
       else 
       {
         m_lstForward.clear();
         kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
-        m_lstBack.append( m_pCurrentHistoryEntry );
+        m_lstBack.insert( 0, m_pCurrentHistoryEntry );
       }
     }
     else
@@ -310,44 +310,35 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
 }
 
-void KonqChildView::goBack( int steps )
+void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 {
-  assert( m_lstBack.count() >= steps );
-
+  assert( stack.count() >= steps );
+  
   for ( int i = 0; i < steps-1; i++ )
-  {
-    HistoryEntry *e = m_lstBack.take( m_lstBack.count()-1 );
-    if ( e ) delete e;
-  }
+    stack.removeFirst();
 
-  HistoryEntry *h = m_lstBack.take( m_lstBack.count()-1 );
-  m_bBack = true;
-
+  HistoryEntry *h = stack.first();
+  
+  assert( h );
+  
   m_bReloadURL = false;
   m_iXOffset = h->xOffset;
   m_iYOffset = h->yOffset;
   changeViewMode( h->strServiceType, h->strURL );
-  if ( h ) delete h;
+  
+  stack.removeFirst();
+}
+
+void KonqChildView::goBack( int steps )
+{
+  m_bBack = true;
+  go( m_lstBack, steps );
 }
 
 void KonqChildView::goForward( int steps )
 {
-  assert( m_lstForward.count() >= steps );
-
-  for ( int i = 0; i < steps-1; i++ )
-  {
-    HistoryEntry *e = m_lstBack.take( 0 );
-    if ( e ) delete e;
-  }
-
-  HistoryEntry *h = m_lstForward.take( 0 );
   m_bForward = true;
-
-  m_bReloadURL = false;
-  m_iXOffset = h->xOffset;
-  m_iYOffset = h->yOffset;
-  changeViewMode( h->strServiceType, h->strURL );
-  delete h;
+  go( m_lstForward, steps );
 }
 
 QStringList KonqChildView::backHistoryURLs()
@@ -356,7 +347,7 @@ QStringList KonqChildView::backHistoryURLs()
   
   QListIterator<HistoryEntry> it( m_lstBack );
   for (; it.current(); ++it )
-    res.prepend( it.current()->strURL );
+    res.append( it.current()->strURL );
     
   return res;
 }
@@ -472,9 +463,7 @@ bool KonqChildView::createView( const QString &serviceType,
   if ( CORBA::is_nil( factory ) )
     return false;
 
-  kdebug(0, 1202, "KonqChildView: creating view!");
   view = factory->create();
-  kdebug(0, 1202, "KonqChildView: creating view done");
 
   if ( CORBA::is_nil( view ) )
     return false;

@@ -225,6 +225,8 @@ protected:
     QString strServiceType;
   };
 
+  void go( QList<HistoryEntry> &stack, int steps );
+  
   Browser::View_var m_vView;
     
   QString m_sLocationBarURL;
