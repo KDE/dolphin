@@ -4215,7 +4215,7 @@ bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType, cons
     // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
     // is going to do before calling it.
     if ( !offer || ( offer->desktopEntryName() != "konqueror" && 
-                     offer->desktopEntryName().startsWith("kfmclient") ) )
+                     !offer->desktopEntryName().startsWith("kfmclient") ) )
         return false;
 
     KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
