@@ -7,6 +7,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
+#include <qwhatsthis.h>
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kstddirs.h>
@@ -37,11 +38,17 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     {
       row++;
       cbTreeFollow = new QCheckBox( i18n( "Tree follows navigation in other views" ), this );
+      QWhatsThis::add( cbTreeFollow, i18n("This option only affects konqueror's behaviour if "
+         "you have several views open, one of which is a tree view. Then, when you change directories "
+         "in one view, the tree view will always highlight the current directory in the other view. This "
+         "is a behaviour similar to what you may know from other file managers.") );
       lay->addMultiCellWidget( cbTreeFollow, row, row, 0, N_COLS, Qt::AlignLeft );
       connect( cbTreeFollow, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
       row++;
       cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
+      QWhatsThis::add( cbNewWin, i18n("If this option is checked, konqueror will open a new window when "
+         "you click on a directory, rather than changing to that directory in your old window."));
       lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS-1, Qt::AlignLeft);
       connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
 
@@ -60,10 +67,18 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       homeURL = new QLineEdit(this);
       lay->addWidget(homeURL, row, 1);
 
+      QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
+         "konqueror will jump to when the \"Home\" button is pressed.");
+      QWhatsThis::add( label, homestr );
+      QWhatsThis::add( homeURL, homestr );
+
       // ----
       row++;
       QGroupBox *gbox = new QGroupBox(i18n("Use builtin viewer for"), this);
       lay->addMultiCellWidget(gbox,row,row,0,N_COLS,Qt::AlignLeft);
+      QWhatsThis::add( gbox, i18n("These options determine whether certain content "
+         "will be displayed in konqueror itself or if a separate application should be "
+         "launched instead.") );
 
       QGridLayout *grid = new QGridLayout(gbox, 4, 0,
                                           KDialog::marginHint(),

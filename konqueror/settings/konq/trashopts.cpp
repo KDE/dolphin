@@ -9,6 +9,7 @@
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
+#include <qwhatsthis.h>
 
 #include "trashopts.h"
 
@@ -33,6 +34,13 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     QVBoxLayout *bgLay = new QVBoxLayout(bg, KDialog::marginHint(),
 				       KDialog::spacingHint());
     bg->setExclusive( TRUE );
+
+    QWhatsThis::add( bg, i18n("This option tells konqueror what to do if you chose \"delete\" "
+       "in a file context menu. <ul><li><em>Move To Trash</em> moves the file to your trash directory, "
+       "where it can be recovered very easily</li><li><em>Delete</em> simply deletes the file</li><li><em>Shred</em> "
+       "will overwrite the file with certain bit patterns before deleting it. This makes recovery impossible "
+       "and should only be used if you have very confidential information (e.g. work for the CIA)") );
+
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
     connect(bg, SIGNAL( clicked( int ) ), SLOT( slotDeleteBehaviourChanged( int ) ));
 
@@ -53,6 +61,9 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
 					  this);
     connect(m_pConfirmDestructive, SIGNAL(clicked()), this, SLOT(changed()));
     lay->addWidget(m_pConfirmDestructive, 1, 0);
+
+    QWhatsThis::add( m_pConfirmDestructive, i18n("Please check this option if you want "
+       "konqueror to ask you for confirmation before doing dangerous things (e.g. deleting a file).") );
 
     load();
 }
@@ -82,6 +93,22 @@ void KTrashOptions::save()
     g_pConfig->writeEntry( "DeleteAction", deleteAction );
     g_pConfig->writeEntry( "ConfirmDestructive", m_pConfirmDestructive->isChecked());
     g_pConfig->sync();
+}
+
+QString KTrashOptions::quickHelp()
+{
+    return i18n("<h1>Trash Options</h1> Here you can modify the behaviour"
+                "of konqueror when you want to delete a file."
+                "<h2>On delete:</h2>This option determines what konqueror"
+                "will do with a file you chose to delete (e.g. in a context menu).<ul>"
+                "<li><em>Move To Trash</em> will move the file to the trash folder,"
+                "instead of deleting it, so you can easily recover it.</li>"
+                "<li><em>Delete</em> will simply delete the file.</li>"
+                "<li><em>Shred</em> will not only delete the file, but will first"
+                "overwrite it with different bit patterns. This makes recovery impossible."
+                "Use it, if you're keeping very sensitive data."
+                "<h2>Confirm destructive actions</h2>Check this box if you want konqueror"
+                "to ask \"Are you sure?\" before doing any destructive action (e.g. delete or shred).");
 }
 
 void KTrashOptions::slotDeleteBehaviourChanged( int b )

@@ -8,6 +8,7 @@
 #include <qlabel.h>
 #include <qgroupbox.h>
 #include <qlayout.h>//CT - 12Nov1998
+#include <qwhatsthis.h>
 #include <kapp.h>
 
 #include "miscopts.h"
@@ -30,6 +31,10 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     lay->addWidget(urlpropsbox);
     connect(urlpropsbox, SIGNAL(clicked()), this, SLOT(changed()));
 
+    QWhatsThis::add( urlpropsbox, i18n("This allows you to save different settings "
+       "depending on the URL. This way, you can configure konqueror to display certain "
+       "URLs differently.") );
+
     QGroupBox *gbox = new QGroupBox(i18n("Preferred Programs"), this);
     lay->addWidget(gbox);
 
@@ -45,6 +50,11 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     leTerminal = new QLineEdit(gbox);
     grid->addWidget(leTerminal, 1, 1);
     connect(leTerminal, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
+    QString wtstr = i18n("Enter here your favourite terminal program, e.g. konsole or xterm. This "
+       "program will be used when you select \"Open Terminal ...\".");
+    QWhatsThis::add( label, wtstr );
+    QWhatsThis::add( leTerminal, wtstr );
 
     lay->addStretch(10);
     lay->activate();
