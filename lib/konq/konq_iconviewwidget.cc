@@ -1789,6 +1789,16 @@ const QStringList& KonqIconViewWidget::previewSettings()
     return d->previewSettings;
 }
 
+void KonqIconViewWidget::setNewURL( const QString& url )
+{
+    KURL u;
+    if ( url.startsWith( "/" ) )
+        u.setPath( url );
+    else
+        u = url;
+    setURL( u );
+}
+
 #include "konq_iconviewwidget.moc"
 
 /* vim: set et sw=4 ts=8 softtabstop=4: */

@@ -43,6 +43,7 @@ class KonqIconViewWidget : public KIconView
     Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst )
     Q_PROPERTY( QRect iconArea READ iconArea WRITE setIconArea )
     Q_PROPERTY( int lineupMode READ lineupMode WRITE setLineupMode )
+    Q_PROPERTY( QString url READ urlString WRITE setNewURL )
 
     friend class KFileIVI;
 
@@ -140,7 +141,9 @@ public:
     void disableSoundPreviews();
 
     void setURL ( const KURL & kurl );
+    // ### KDE4: make const
     const KURL & url() { return m_url; }
+    QString urlString() const { return m_url.url(); }
     void setRootItem ( const KFileItem * item ) { m_rootItem = item; }
 
     /**
@@ -207,6 +210,7 @@ public:
 
     void setPreviewSettings(const QStringList& mimeTypes);
     const QStringList& previewSettings();
+    void setNewURL( const QString& url );
 
 public slots:
     /**
