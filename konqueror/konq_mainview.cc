@@ -621,7 +621,7 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
   return true;
 }
 
-bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
+bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
 {
   kdebug(0, 1202, "bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )");
   // removing view-specific menu entries (view will probably be destroyed !)
@@ -1226,12 +1226,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-  openURL( kapp->kde_mimedir(), (CORBA::Boolean)false );
+    openURL( kapp->kde_mimedir(), (CORBA::Boolean)false );
 }
 
 void KonqMainView::slotEditApplications()
 {
-  openURL( kapp->kde_appsdir(), (CORBA::Boolean)false );
+    openURL( kapp->kde_appsdir(), (CORBA::Boolean)false );
 }
 
 void KonqMainView::slotShowMenubar()
