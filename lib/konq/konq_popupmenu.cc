@@ -335,8 +335,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool currentDir     = false;
     bool sReading       = true;
     bool sWriting       = true;
-    bool sDeleting      = true;
-    bool sMoving        = true;
+    bool sDeleting      = ( d->m_itemFlags & KParts::BrowserExtension::NoDeletion ) == 0;
+    bool sMoving        = sDeleting;
     m_sMimeType         = m_lstItems.first()->mimetype();
     QString mimeGroup   = m_sMimeType.left(m_sMimeType.find('/'));
     mode_t mode         = m_lstItems.first()->mode();
@@ -534,8 +534,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             }
             if (!currentDir )
             {
-                if ( m_lstItems.count() == 1 && sWriting && !isIntoTrash )
-                    addAction("rename");
+                if ( m_lstItems.count() == 1 && sWriting && sDeleting && !isIntoTrash )
+                    addAction( "rename" );
 
                 if ( sMoving && !isIntoTrash )
                     addAction( "trash" );

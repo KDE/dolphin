@@ -141,7 +141,7 @@ void IconViewBrowserExtension::reparseConfiguration()
 
 void IconViewBrowserExtension::trash()
 {
-   if (sender() && sender()->inherits( "KAction" ) && 
+   if (sender() && sender()->inherits( "KAction" ) &&
      (static_cast<KAction*>(const_cast<QObject*>(sender()))->activationReason()==KAction::PopupMenuActivation) &&
      (KApplication::keyboardMouseState() & Qt::ShiftButton))
        KonqOperations::del(m_iconView->iconViewWidget(),
@@ -789,51 +789,65 @@ void KonqKfmIconView::slotDragFinished()
 
 void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoint& _global)
 {
-    if (  m_pIconView->selectedFileItems().count() == 0 )
+    const KFileItemList items = m_pIconView->selectedFileItems();
+    if ( items.isEmpty() )
         return;
+
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
+
     KFileIVI* i = static_cast<KFileIVI*>(_item);
     if (i)
         i->setSelected( true, true /* don't touch other items */ );
-    emit m_extension->popupMenu( 0L, _global, m_pIconView->selectedFileItems(), KParts::URLArgs(), popupFlags);
+
+    KFileItem * rootItem = m_dirLister->rootItem();
+    KURL parentDirURL = rootItem->url();
+    // Check if parentDirURL applies to the selected items (usually yes, but not with search results)
+    QPtrListIterator<KFileItem> kit( items );
+    for ( ; kit.current(); ++kit )
+        if ( kit.current()->url().directory( 1 ) != rootItem->url().path() )
+            parentDirURL = KURL();
+    // If rootItem is the parent of the selected items, then we can use isWritable() on it.
+    if ( !parentDirURL.isEmpty() && !rootItem->isWritable() )
+        popupFlags |= KParts::BrowserExtension::NoDeletion;
+
+    emit m_extension->popupMenu( 0L, _global, items, KParts::URLArgs(), popupFlags);
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint&)
 {
-    if ( _button == RightButton )
-        if(!_item)
+    if ( _button == RightButton && !_item )
+    {
+        // Right click on viewport
+        KFileItem * item = m_dirLister->rootItem();
+        bool delRootItem = false;
+        if ( ! item )
         {
-            // Right click on viewport
-            KFileItem * item = m_dirLister->rootItem();
-            bool delRootItem = false;
-            if ( ! item )
+            if ( m_bLoading )
             {
-                if ( m_bLoading )
-                {
-                    kdDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
-                    return; // too early, '.' not yet listed
-                }
-                else
-                {
-                    // We didn't get a root item (e.g. over FTP)
-                    // We have to create a dummy item. I tried using KonqOperations::statURL,
-                    // but this was leading to a huge delay between the RMB and the popup. Bad.
-                    // But KonqPopupMenu now takes care of stating before opening properties.
-                    item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
-                    delRootItem = true;
-                }
+                kdDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
+                return; // too early, '.' not yet listed
             }
-
-            KFileItemList items;
-            items.append( item );
-
-            KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
-
-            emit m_extension->popupMenu( 0L, QCursor::pos(), items, KParts::URLArgs(), popupFlags );
-
-            if ( delRootItem )
-                delete item; // we just created it
+            else
+            {
+                // We didn't get a root item (e.g. over FTP)
+                // We have to create a dummy item. I tried using KonqOperations::statURL,
+                // but this was leading to a huge delay between the RMB and the popup. Bad.
+                // But KonqPopupMenu now takes care of stating before opening properties.
+                item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+                delRootItem = true;
+            }
         }
+
+        KFileItemList items;
+        items.append( item );
+
+        KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
+
+        emit m_extension->popupMenu( 0L, QCursor::pos(), items, KParts::URLArgs(), popupFlags );
+
+        if ( delRootItem )
+            delete item; // we just created it
+    }
 }
 
 void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, const QPoint& )
