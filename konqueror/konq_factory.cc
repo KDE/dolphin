@@ -211,6 +211,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "George Staikos", I18N_NOOP("developer (SSL support)"), "staikos@kde.org" );
     s_aboutData->addAuthor( "Dawit Alemayehu",I18N_NOOP("developer (I/O lib, Authentication support)"), "adawit@kde.org" );
     s_aboutData->addAuthor( "Carsten Pfeiffer",I18N_NOOP("developer (framework)"), "pfeiffer@kde.org" );
+    s_aboutData->addAuthor( "Torsten Rahn", I18N_NOOP("graphics / icons"), "torsten@kde.org" );
     s_aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
   }
   return s_aboutData;
