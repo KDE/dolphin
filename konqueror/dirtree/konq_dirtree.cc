@@ -553,6 +553,9 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
 
 void KonqDirTree::slotDoubleClicked( QListViewItem *item )
 {
+  if ( !item )
+    return;
+ 
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
 
