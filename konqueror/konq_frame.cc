@@ -760,7 +760,7 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
   m_pTabWidget = parent;
   m_pViewManager = viewManager;
 
-  m_pPopupMenu = new QPopupMenu( 0L );
+  m_pPopupMenu = new QPopupMenu( this );
 
   m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), "&New Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
   m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), "&Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ) );
@@ -773,7 +773,6 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
 
 KonqTabBar::~KonqTabBar()
 {
-    delete m_pPopupMenu;
 }
 
 void KonqTabBar::mousePressEvent(QMouseEvent *e)
