@@ -192,7 +192,6 @@ protected:
   void initConfig();
   void initGui();
   void initPanner();
-  void initView();
 
   /**
    * Create a new view from the current view (same URL, same view type) 

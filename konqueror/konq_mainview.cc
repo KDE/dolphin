@@ -272,7 +272,7 @@ void KonqMainView::initConfig()
 
 void KonqMainView::initGui()
 {
-  initView();
+  openURL( m_sInitialURL, (CORBA::Boolean)true );
 
   if ( s_lstAnimatedLogo->count() == 0 )
   {
@@ -314,20 +314,6 @@ void KonqMainView::initPanner()
   // Create a row, and its splitter
   m_lstRows.clear();
   (void) newRow(true);
-}
-
-void KonqMainView::initView()
-{
-  KonqKfmIconView * pView = new KonqKfmIconView;
-  QStringList serviceTypes;
-  serviceTypes.append( "inode/directory" );
-  insertView( pView, left, serviceTypes );
-
-  MapViews::Iterator it = m_mapViews.find( pView->id() );
-  it.data()->lockHistory(); // first URL won't go into history
-  it.data()->openURL( m_sInitialURL );
-  
-  setActiveView( pView->id() );
 }
 
 bool KonqMainView::event( const char* event, const CORBA::Any& value )
@@ -902,6 +888,26 @@ void KonqMainView::createNewWindow( const char *url )
 
 bool KonqMainView::openView( const QString &serviceType, const QString &url )
 {
+  if ( !m_sInitialURL.isEmpty() )
+  {
+    Konqueror::View_var vView;
+    QStringList serviceTypes;
+    if (!KonqChildView::createView( serviceType, vView, serviceTypes ) )
+      return false;
+      
+    insertView( vView, left, serviceTypes );
+
+    MapViews::Iterator it = m_mapViews.find( vView->id() );
+    it.data()->lockHistory(); // first URL won't go into history
+    it.data()->openURL( m_sInitialURL );
+  
+    setActiveView( vView->id() );
+    
+    m_sInitialURL = QString::null;
+    m_pRun = 0L;
+    return true;
+  }
+  
   assert( m_currentView );
   
   //first check whether the current view can display this type directly, then
