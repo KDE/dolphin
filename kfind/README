@@ -1,7 +1,7 @@
 kfind
 =====
 
-Kfind is a frontend for the utility `find' inspired by the find
+Kfind is a front end for the utility `find' inspired by the find
 utility from NT.
 
 At this time it is fully functional. All options available in kfind
@@ -27,7 +27,7 @@ THANKS
 
 I want to thank Alexander Sanda <alex@darkstar.ping.at> for making
 KTabCtl and KMsgBox widgets which are used in Kfind and Torben Weis
-<weis@stud.uni-frankfurt.de> for his wonderful filemanager kfm.
+<weis@stud.uni-frankfurt.de> for his wonderful file manager kfm.
 
 
 I hope you will find this program somehow useful and I would
