@@ -1,4 +1,3 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
 // vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
@@ -47,6 +46,22 @@
 #include <kbookmarkmanager.h>
 
 // SHUFFLE all these functions around, the order is just plain stupid
+
+
+BookmarkLineEdit::BookmarkLineEdit( QWidget *parent )
+    : KLineEdit( parent )
+{
+}
+
+void BookmarkLineEdit::cut()
+{
+    QString select( selectedText() );
+    int pos( selectionStart() );
+    QString newText(  text().remove( pos, select.length() ) );
+    KLineEdit::cut();
+    emit textChanged( newText );
+    setText( newText );
+}
 
 // rename to something else
 static QString blah(QString in)
@@ -102,13 +117,13 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
 
     // readonly fields
 
-    QString visitDate = 
+    QString visitDate =
         blah( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
                                                              << "time_visited" ));
     m_visitdate_le->setReadOnly(true);
     m_visitdate_le->setText(visitDate);
 
-    QString creationDate = 
+    QString creationDate =
         blah( NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
                                                              << "time_added" ));
     m_credate_le->setReadOnly(true);
@@ -142,52 +157,52 @@ void BookmarkInfoWidget::slotTextChangedComment(const QString &str) {
     emit updateListViewItem();
 }
 
-BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name) 
+BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
     : QWidget(parent, name), m_connected(false) {
 
     QBoxLayout *vbox = new QVBoxLayout(this);
     QGridLayout *grid = new QGridLayout(vbox, 3, 4, 4);
 
-    m_title_le = new KLineEdit(this);
+    m_title_le = new BookmarkLineEdit(this);
     grid->addWidget(m_title_le, 0, 1);
     grid->addWidget(
-            new QLabel(m_title_le, i18n("Name:"), this), 
+            new QLabel(m_title_le, i18n("Name:"), this),
             0, 0);
-    connect(m_title_le, SIGNAL( textChanged(const QString &) ), 
+    connect(m_title_le, SIGNAL( textChanged(const QString &) ),
                         SLOT( slotTextChangedTitle(const QString &) ));
 
-    m_url_le = new KLineEdit(this);
+    m_url_le = new BookmarkLineEdit(this);
     grid->addWidget(m_url_le, 1, 1);
     grid->addWidget(
-            new QLabel(m_url_le, i18n("Location:"), this), 
+            new QLabel(m_url_le, i18n("Location:"), this),
             1, 0);
-    connect(m_url_le, SIGNAL( textChanged(const QString &) ), 
+    connect(m_url_le, SIGNAL( textChanged(const QString &) ),
                       SLOT( slotTextChangedURL(const QString &) ));
 
-    m_comment_le = new KLineEdit(this);
+    m_comment_le = new BookmarkLineEdit(this);
     grid->addWidget(m_comment_le, 2, 1);
     grid->addWidget(
-            new QLabel(m_comment_le, i18n("Comment:"), this), 
+            new QLabel(m_comment_le, i18n("Comment:"), this),
             2, 0);
-    connect(m_comment_le, SIGNAL( textChanged(const QString &) ), 
+    connect(m_comment_le, SIGNAL( textChanged(const QString &) ),
                           SLOT( slotTextChangedComment(const QString &) ));
 
     m_credate_le = new KLineEdit(this);
     grid->addWidget(m_credate_le, 0, 3);
     grid->addWidget(
-            new QLabel(m_credate_le, i18n("First viewed:"), this), 
+            new QLabel(m_credate_le, i18n("First viewed:"), this),
             0, 2);
 
     m_visitdate_le = new KLineEdit(this);
     grid->addWidget(m_visitdate_le, 1, 3);
     grid->addWidget(
-            new QLabel(m_visitdate_le, i18n("Viewed last:"), this), 
+            new QLabel(m_visitdate_le, i18n("Viewed last:"), this),
             1, 2 );
 
     m_visitcount_le = new KLineEdit(this);
     grid->addWidget(m_visitcount_le, 2, 3);
     grid->addWidget(
-            new QLabel(m_visitcount_le, i18n("Times visited:"), this), 
+            new QLabel(m_visitcount_le, i18n("Times visited:"), this),
             2, 2);
 }
 

@@ -1,4 +1,3 @@
-// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
 // vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
@@ -24,8 +23,16 @@
 
 #include <kbookmark.h>
 #include <qwidget.h>
+#include <klineedit.h>
 
-class KLineEdit;
+
+class BookmarkLineEdit : public KLineEdit {
+    Q_OBJECT
+public:
+    BookmarkLineEdit( QWidget * );
+public slots:
+    virtual void cut ();
+};
 
 class BookmarkInfoWidget : public QWidget {
     Q_OBJECT
@@ -42,9 +49,9 @@ public slots:
 signals:
     void updateListViewItem();
 private:
-    KLineEdit *m_title_le, *m_url_le, 
-              *m_comment_le, 
-              *m_visitdate_le, *m_credate_le,
+    BookmarkLineEdit *m_title_le, *m_url_le,
+        *m_comment_le;
+    KLineEdit  *m_visitdate_le, *m_credate_le,
               *m_visitcount_le;
     KBookmark m_bk;
     bool m_connected;
