@@ -454,7 +454,7 @@ void KonqViewModeAction::slotPopupAboutToHide()
 
             KToolBarButton *button = tb->getButton( itemId( i ) );
 
-            button->setDown( false );
+            button->setDown( isChecked() );
         }
     }
 }
