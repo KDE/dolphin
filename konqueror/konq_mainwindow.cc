@@ -1751,7 +1751,7 @@ void KonqMainWindow::updateLocalPropsActions()
 
 void KonqMainWindow::slotURLEntered( const QString &text )
 {
-  if ( m_bURLEnterLock )
+  if ( m_bURLEnterLock || text.isEmpty() )
     return;
 
   m_bURLEnterLock = true;
