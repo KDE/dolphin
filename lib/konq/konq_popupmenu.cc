@@ -480,13 +480,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
 KonqPopupMenu::~KonqPopupMenu()
 {
-  if(!m_pluginList.isEmpty() ){
-    KonqPopupMenuPlugin *plugin;
-    for( plugin= m_pluginList.first(); plugin != 0; plugin = m_pluginList.next() ){
-      removeChildClient( plugin );
-    }
-    m_pluginList.clear( ); // crash source?
-  }
+  m_pluginList.clear();
   delete m_factory;
   delete m_builder;
   delete d;
