@@ -195,8 +195,8 @@ void KFileIVI::setEffect( int group, int state )
 
     KIconEffect *effect = KGlobal::iconLoader()->iconEffect();
 
-    bool haveEffect = effect->hasEffect( KIcon::DefaultState, d->state ) !=
-                      effect->hasEffect( KIcon::DefaultState, state );
+    bool haveEffect = effect->hasEffect( KIcon::Desktop, d->state ) !=
+                      effect->hasEffect( KIcon::Desktop, state );
     
     if( haveEffect && 
         effect->fingerprint( KIcon::Desktop, d->state ) !=
