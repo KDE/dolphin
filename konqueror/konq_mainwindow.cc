@@ -3527,7 +3527,7 @@ void KonqMainWindow::updateViewActions()
 
       // This action doesn't appear in the GUI, it's for the shortcut only.
       // KNewMenu takes care of the GUI stuff.
-      m_paNewDir = new KAction( i18n("Create Directory..." ), Key_F10, this, SLOT( slotNewDir() ),
+      m_paNewDir = new KAction( i18n("Create Folder..." ), Key_F10, this, SLOT( slotNewDir() ),
                                 actionCollection(), "konq_create_dir" );
 
       QPtrList<KAction> lst;
