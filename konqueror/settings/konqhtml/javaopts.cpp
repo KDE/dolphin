@@ -174,14 +174,14 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                           "host or domain selected in the list box.") );
     QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                           "host or domain selected in the list box.") );
-#if 0                                          
+#if 0
     QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
                                           "the Java policies. These policies will be merged "
                                           "with the exisiting ones. Duplicate entries are ignored.") );
     QWhatsThis::add( exportDomainPB, i18n("Click this button to save the Java policy to a zipped "
                                           "file. The file, named <b>java_policy.tgz</b>, will be "
                                           "saved to a location of your choice." ) );
-#endif                                          
+#endif
     QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific Java policies for any particular "
                                             "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                             "button and supply the necessary information requested by the "
@@ -189,7 +189,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                             "button and choose the new policy from the policy dialog box. Clicking "
                                             "on the <i>Delete</i> button will remove the selected policy causing the default "
                                             "policy setting to be used for that domain.") );
-#if 0                                            
+#if 0
                                             "The <i>Import</i> and <i>Export</i> "
                                             "button allows you to easily share your policies with other people by allowing "
                                             "you to save and retrieve them from a zipped file.") );
@@ -271,6 +271,7 @@ void KJavaOptions::defaults()
     pathED->lineEdit()->setText( "java" );
     addArgED->setText( "" );
     enableShutdownCB->setChecked(true);
+    serverTimeoutSB->setValue( 60 );
     toggleJavaControls();
 }
 
