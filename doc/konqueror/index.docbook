@@ -16,7 +16,7 @@
 <author>
 <firstname>Pamela</firstname>
 <surname>Roberts</surname>
-<affiliation>
+<affiliation><jobtitle>Handbook maintainer</jobtitle>
 <address><email>pamroberts@blueyonder.co.uk</email></address>
 </affiliation>
 </author>
@@ -43,12 +43,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-04-08</date>
-<releaseinfo>3.00.00</releaseinfo>
+<date>2002-08-22</date>
+<releaseinfo>3.00.07</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
  Universal Viewing Application.</para>
-<para>This document describes &konqueror; version 3.0.0</para></abstract>
+<para>This document describes &konqueror; version 3.0.7</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -60,6 +60,48 @@
 </keywordset>
 
 </bookinfo>
+
+
+<chapter id="konqintro">
+<title>Overview</title>
+<para><emphasis>&konqueror;</emphasis> is an advanced 
+<link linkend="filemanager"> file manager</link> for the 
+K Desktop Environment, providing file management functions ranging from simple 
+cut/copy and paste operations to advanced local and remote network file 
+browsing. Directory contents can be displayed in a variety of text and icon 
+<link linkend="viewmode">view modes</link>, which can include thumbnail 
+preview images of file contents. File and directory properties can easily be 
+examined and changed and applications launched with a simple click of the 
+&LMB;.</para>
+<para><emphasis>&konqueror;</emphasis> is an <acronym>HTML</acronym> 4.01 
+compliant <link linkend="browser">web browser</link> with built in support 
+for JavaScript (ECMA-262), 
+<acronym>CSS</acronym> (Cascading Style Sheets) and bidirectional scripts 
+(arabic and hebrew). It provides support for the secure running of &Java; 
+applets, &Netscape; plugins for viewing Flash, RealAudio and RealVideo and 
+<acronym>SSL</acronym> for secure communications. Advanced features include 
+automatic <acronym>URL</acronym> and form completion, the ability to import 
+bookmarks from other browsers and tabbed browsing.
+</para>
+<para><emphasis>&konqueror;</emphasis> is also an excellent full featured 
+<link linkend="ftp">FTP</link> client.</para>
+<para><emphasis>&konqueror;</emphasis> is a universal viewing application, 
+capable of displaying images and documents without having to launch another 
+application. It does this by embedding components (&kde; Parts) provided by 
+other applications; from &kview; for image viewing, &kdvi; for 
+<acronym>DVI</acronym> viewing, &kghostview; for &PostScript; documents and 
+from the various &koffice; applications for their document types.
+</para>
+<para><emphasis>&konqueror;</emphasis> is a fully customizable application 
+which anyone can <link linkend="config">configure</link> to suit their own 
+needs, from changing the overall style and the sizes of text and icons to 
+selecting which items appear in the Menubar, changing the number and 
+positions of the toolbars and even defining new shortcut key combinations. 
+Different configuration <link linkend="save-settings">profiles</link> can be 
+saved for easy recall as needed.
+</para>
+</chapter>
+
 
 <chapter id="basics">
 <title>&konqueror; Basics</title>
@@ -83,16 +125,18 @@ switch between the two modes as needed when it is running, but it is convenient
 to be able to choose which mode is to be used when you start it up.</para>
 
 <itemizedlist>
-<listitem><para>If you have a <guiicon>house</guiicon> shaped icon on the panel
-or desktop, then &LMB; click on it to open &konqueror; as a file
-manager.</para></listitem>
+<listitem><para>If you have a <guiicon>house</guiicon> shaped icon on the panel 
+or desktop, then <mousebutton>left</mousebutton> click on it to open 
+&konqueror; as a file manager.</para></listitem>
 
-<listitem><para>Or &LMB; click on <guiicon>world</guiicon> shaped icon on the
-panel or desktop to open &konqueror; in browser mode.</para></listitem>
+<listitem><para>Or <mousebutton>left</mousebutton> click on <guiicon>world
+</guiicon> shaped icon on the panel or desktop to open &konqueror; in browser 
+mode.</para></listitem>
 
 <listitem><para>From the <guimenu>K</guimenu> menu, 
 select <menuchoice><guisubmenu>Internet</guisubmenu><guimenuitem>
-Konqueror Web Browser</guimenuitem></menuchoice> to start it as a browser.
+Konqueror Web Browser</guimenuitem></menuchoice> to start it as a browser, or 
+<guimenuitem>Home</guimenuitem> to launch &konqueror; in file manager mode.
 </para></listitem>
 
 <listitem><para><keycombo
@@ -109,8 +153,8 @@ browser.</para></listitem>
 
 <para>&konqueror; is also started automatically when you 
 <mousebutton>left</mousebutton> click on a desktop icon that represents a 
-directory, such as the <guiicon>Trash</guiicon> icon, or a 
-<acronym>URL</acronym>.</para>
+directory, such as a hard disk drive or the <guiicon>Trash</guiicon> icon.
+</para>
 
 
 </sect1>
@@ -142,42 +186,49 @@ action="simul"><keycap>Alt</keycap><keycap>E</keycap></keycombo> to show the
 linkend="menubar">Menubar</link> section of this document.</para>
 
 <para>The <interface>Toolbar</interface> contains icons for commonly used
-operations. Hover the mouse pointer over an icon to see a brief description of
-what that icon does, <mousebutton>left</mousebutton> click to activate the
-icon.
- 
-Click the <mousebutton>right</mousebutton> mouse button on a clear area of the 
-Toolbar to change the appearance and position of the Toolbar.</para>
+operations. <mousebutton>Left</mousebutton> clicking on an icon will activate 
+it. If you have enabled tooltips in the Control Center <menuchoice><guimenu>
+Look &amp; Feel</guimenu><guisubmenu>Style></guisubmenu><guimenuitem>
+Miscellaneous</guimenuitem></menuchoice> dialog a brief description of what 
+that icon does will appear when you hover the pointer over it.</para>
 
-<para>The <interface>Locationbar</interface> shows the path to the directory,
+<para>Some icons, for example the Up and Back icons in the previous screenshot, 
+have a small black triangle at their bottom right corner. If you hold the 
+<mousebutton>left</mousebutton> mouse button pressed while the cursor is over 
+this type of icon a small dropdown menu will appear.</para> 
+<para><mousebutton>Right</mousebutton> clicking on the <interface>Toolbar
+</interface> will bring up the <link linkend="rmb-menus"><guilabel>Toolbar 
+Menu</guilabel></link> which you can use to change the <interface>Toolbar
+</interface>'s appearance and position.</para>
+
+<para>The <interface>Location Toolbar</interface> shows the path to the directory,
 <acronym>URL</acronym> or file being viewed. You can type a path or
 <acronym>URL</acronym> here and press <keycap>Enter</keycap> or
  <mousebutton>left</mousebutton> click on the <guiicon>Go</guiicon> icon at the
- right hand end of the <interface>Locationbar</interface> to go to it. The
-black icon at the left hand end of the Locationbar clears the text entry
-box.</para>
+ right hand end of the <interface>Location Toolbar</interface> to go to it. The
+black icon at the left hand end of the <interface>Location Toolbar</interface> 
+clears the text entry box.</para>
 
 <para>The <interface>Bookmark Toolbar</interface> is the area under the
-<interface> Locationbar</interface> in the previous screenshot. You can add
+<interface> Location Toolbar</interface> in the previous screenshot. You can add
 frequently used bookmarks here, see the <link linkend="orgbmark">Organising
 Your
 Bookmarks</link> section of this document.</para>
 
-<para>The <interface>Window</interface> is the main area of &konqueror; and can
-show you the contents of a directory, a web page, document or image. Using the
- <link
-linkend="menu-window"><guimenu>Window</guimenu></link> menu you can split
-&konqueror;'s main window into one or more separate views, useful for drag and
-drop operations.</para>
+<para>The <interface>Window</interface> is the main area of &konqueror; and 
+can show you the contents of a directory, a web page, document or image. Using 
+the <link linkend="menu-window"><guimenu>Window</guimenu></link> menu you can 
+split &konqueror;'s main window into one or more separate views, useful for 
+drag and drop operations, or set it to contain two or more tabbed views.
+</para>
 
 <para>The <interface>Status Bar</interface> runs across the bottom of the
-window
+&konqueror;'s window
 and often shows general information about whatever the mouse pointer is
 hovering
 over. If you have split the main window into a number of views you will get an
-Status Bar for each view, and it will include a small light at the left hand
-end
-to show which is the <quote>active</quote>
+Status Bar for each view, and it will include a small green light at the left 
+hand end to show which is the <quote>active</quote>
 view. <mousebutton>Right</mousebutton> clicking on the Status Bar brings up the
 Status Bar <link linkend="rmb-menus"><mousebutton>Right </mousebutton> Mouse
  Button Menu</link>.</para>
@@ -187,15 +238,15 @@ screenshot, it is highly configurable. In particular:</para>
 
 <itemizedlist>
 <listitem><para>You can use the <link
-linkend="menu-settings"><guimenu>Settings</guimenu></link> menu 
-to choose whether to show or hide the Menubar, Toolbar, Locationbar and
-Bookmark Toolbar.</para></listitem>
-<listitem><para>You can also <quote>flatten</quote> the Toolbar, Locationbar
-and
-Bookmark Toolbar by &LMB; clicking on the vertical lines at the left hand end
-of
-the bars or move them around by holding the &LMB; down while you
+linkend="menu-settings"><guimenu>Settings</guimenu></link> menu  to choose 
+whether to show or hide the Menubar, Main Toolbar, Location Toolbar and
+Bookmark Toolbar, or even to add an Extra Toolbar.</para></listitem>
+<listitem><para>You can also <quote>flatten</quote> the toolbars by 
+<mousebutton>left</mousebutton> clicking on the vertical lines at the left hand end
+of the bars, or move them around by holding the &LMB; down while you
 drag these bars around. </para></listitem>
+<listitem><para>This screenshot does not show the optional <link linkend="sidebar">
+Navigation Panel</link>.</para></listitem>
 </itemizedlist>
 
 <para>For more details of how to change &konqueror;'s appearance, see the <link
@@ -214,9 +265,9 @@ this entire document if you take advantage of <guilabel>Tooltips</guilabel> and
 
 <para>If <guilabel>Tooltips</guilabel> have been enabled in &kde; (K menu
  <menuchoice><guimenu>Control Center</guimenu><guisubmenu>Look &amp;
- Feel</guisubmenu><guisubmenu>Widget Settings</guisubmenu></menuchoice>,
- <guilabel> Enable Tooltips</guilabel>) then when you hover the mouse pointer
- over a Toolbar
+ Feel</guisubmenu><guisubmenu>Style</guisubmenu></menuchoice>,
+ <guilabel>Miscellaneous</guilabel> dialog) then when you hover the mouse pointer
+ over a Toolbar or Navigation Panel 
 button it should bring up a terse description of what that button does.</para>
 
 <para><guimenuitem>What's This?</guimenuitem> is invoked by the Menubar
@@ -316,7 +367,7 @@ windows. </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>On the Toolbar</term>
+<term>On the Main Toolbar</term>
 <listitem><para><mousebutton>Right</mousebutton> click on any free area of the
 Toolbar to bring up the Toolbar Menu.  You can use it to control whether the
 Toolbar is at the top, bottom, left or right of &konqueror;'s window.
@@ -326,11 +377,11 @@ and whether they are shown as icons, text or both.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>On the Locationbar</term>
+<term>On the Location Toolbar</term>
 <listitem><para><mousebutton>Right</mousebutton> click in the
  <acronym>URL</acronym>
 entry box area to perform Cut, Copy, Paste or Clear operations in this area, or
-to change the <link linkend="path-complete">automatic path completion</link>
+to change the automatic <link linkend="path-complete">Text Completion</link>
 features.</para></listitem> 
 </varlistentry>
 
@@ -380,10 +431,11 @@ window.</para></listitem>
 <chapter id="filemanager">
 <title>&konqueror; the File Manager</title>
 
-<note><para>In &UNIX; and &Linux; all directories are arranged in a simple
- inverted tree
-structure descending and branching down from from a single top level 
-directory. This means that you can get from any directory to
+<sect1 id="dirfolders">
+<title>Directories, Folders and Paths</title>
+<para>In &UNIX; and &Linux; all directories are arranged in a simple 
+inverted tree structure descending and branching down from from a single top 
+level directory. This means that you can get from any directory to
 any other by going <quote>up</quote> until you reach a common point then
 <quote>down</quote> through the appropriate sub-directories until you reach
 your
@@ -391,66 +443,194 @@ target. </para>
 
 <para>The position of any file or directory in the tree can be described by its
 <quote>path</quote>, which is a simple list of the directories you would have
-to
-descend through to get to the target directory. For example <filename
-class="directory">/home/pam</filename> is the subdirectory <filename
+to descend through to get to the target directory or file. For example 
+<filename class="directory">/home/pam</filename> is the subdirectory <filename 
 class="directory">pam</filename> of the subdirectory <filename
-class="directory">home</filename> of the top level directory, which is
-represented by the leading <quote>/</quote>.</para>
+class="directory">home</filename> of the top level directory, and <filename>
+/home/pam/words.txt</filename> is the file <filename>words.txt</filename> in 
+that subdirectory. The leading <quote>/</quote> in these paths represents the 
+top level directory.</para>
 
-<para>Note that every accessible drive on your system, including other hard
-disc
- partitions and your floppy and
-cdrom, will appear in the tree descending from /. Their exact paths will depend
-on how your system was set up, but will usually be something like <filename
-class="directory">/mnt/floppy</filename> and <filename
-class="directory">/mnt/cdrom</filename>. See also the section on <link
-linkend="floppy-cd">Floppy and &CD-ROM; Drives.</link></para></note>
+<para>Every directory accessible by your system, including those on other hard 
+disk partitions, your floppy and cdrom, will appear in the tree descending 
+from /, their exact paths will depend on how your system was set up (see also 
+the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives).</link>
+</para>
+<para>Every user on a &UNIX; / &Linux; system has their own <quote>home</quote> 
+subdirectory directory to hold their personal files and settings, for example 
+<filename class="directory">/home/john</filename> and  
+<filename class="directory">/home/mary</filename>. The 
+symbol <keysym>~</keysym> is often used to represent the user's home 
+directory, so that <filename>~/letter.txt</filename> refers to the file 
+<filename>letter.txt</filename> in my home directory.</para>
+<para>Note that the term <quote>folder</quote> is often used instead of 
+<quote>directory</quote>.</para>
+</sect1>
+
+<sect1 id="viewmode">
+<title>View Modes</title>
+<para>In File Manager mode, &konqueror; shows you what files and 
+sub-directories are held in a directory, and can provide you with some 
+information about them.</para>
+<para>The <quote>path</quote> of the directory you are looking at is shown in 
+the Titlebar, and also in the Location Toolbar, prefixed with <quote>file:
+</quote> to indicate that the directory is part of your computer's normal file 
+system. For example <filename>file:/home/pam</filename>.</para>
+
+<para>The way that &konqueror; displays the files and folders depends mainly
+on your choice of View Mode. This can be selected from the <menuchoice>
+<guimenu>View</guimenu><guisubmenu>View Mode</guisubmenu></menuchoice> 
+sub menu, which gives you the following options:
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term><guimenuitem>Icon View</guimenuitem></term>
+<listitem><para>Displays the name and a suitable icon for each file or folder.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>MultiColumn View</guimenuitem></term>
+<listitem><para>Similar to <guimenuitem>Icon View</guimenuitem> except that the 
+display is neatly formatted into regular columns.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Detailed List View</guimenuitem></term>
+<listitem><para>Displays each file or folder on a separate line, as a small 
+icon followed by the file or folder name followed by information about the 
+item. The amount of information shown is controlled by the <menuchoice>
+<guimenu>View</guimenu><guisubmenu>Show Details</guisubmenu></menuchoice> 
+sub menu settings.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Text View</guimenuitem></term>
+<listitem><para>Similar to <guimenuitem>Detailed List View</guimenuitem> 
+except that icons are not shown and the first character in each line will be 
+<quote>/</quote> if the item is a folder.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Tree View</guimenuitem></term>
+<listitem><para>This option is useful for <link linkend="navigation">
+navigating</link> through the directory tree below the current directory. 
+The display is similar to <guimenuitem>Detailed List View</guimenuitem> 
+except that the start of each line will show a small <keysym>+</keysym> sign 
+in a box if the item is a folder. 
+<mousebutton>Left</mousebutton> clicking on the box will expand the display to
+show the contents of that folder.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Info List View</guimenuitem></term>
+<listitem><para>Similar to <guimenuitem>Detailed List View</guimenuitem> 
+except that, where applicable, it shows the number of lines, words and 
+characters and file format for each file.
+</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>The default file icons shown in <guimenuitem>Icon View</guimenuitem> and 
+<guimenuitem>MultiColumn View</guimenuitem> modes can be replaced by small 
+preview images of the file contents, see the section <link linkend="previews">
+File Previews</link> of this handbook for more details.</para>
+
+<sect2 id="filetipinfo">
+<title>File Tip Info</title>
+<para>Checking the <guilabel>Show file tips</guilabel> box in the <guilabel>
+Behavior</guilabel> page of the <link linkend="configfm">
+File Manager Configuration</link> dialog causes a small pop up information 
+window to appear when the mouse pointer is hovered over a file or folder name 
+or icon in <guimenuitem>Icon View</guimenuitem> or <guimenuitem>
+MultiColumn View</guimenuitem> mode. The <guilabel>Number of file tip entries:
+</guilabel> setting on this page controls how much information is shown.
+</para>
+<para>If the <guilabel>Show previews in file tips</guilabel> checkbox is 
+checked the pop up window will also show a small image of the file contents, 
+provided that <link linkend="previews">File Previews</link> have been enabled 
+for that type of file.</para>
+</sect2>
+
+<sect2 id="previews">
+<title>File Previews</title>
+<para>Selecting <menuchoice><guimenu>View</guimenu><guisubmenu>Preview
+</guisubmenu></menuchoice> from the Menubar will bring up a sub menu 
+that lets you enable file previews for certain types of file.</para>
+<para>Generally this means that the file's icon will be replaced by a small 
+image showing the file contents. The size of these images can be controlled to 
+some extent by the <guilabel>Increase size of previews relative to icons
+</guilabel> checkbox in the <guilabel>Previews</guilabel> page of the 
+<link linkend="configfm">File Manager Configuration</link> dialog.</para>
+<para>If file preview is enabled for <guimenuitem>Sound Files</guimenuitem> 
+the file will be played whenever the mouse cursor is hovering over the file 
+name or icon.</para>
+<para>Note that file previews are only available in <guimenuitem>Icon View
+</guimenuitem> and <guimenuitem>MultiColumn View</guimenuitem> modes.</para>
+<para>Because &konqueror; has to read much more data than just the file name 
+details to generate a preview, file previews may not be appropriate 
+when viewing files on a floppy or from a remote system. The <guilabel>Previews
+</guilabel> page of the <link linkend="configfm">File Manager Configuration
+</link> dialog alows you to disable file previews for protocols such as 
+<link linkend="ftp">ftp</link> where reading the extra data would take too 
+long.</para>
+</sect2>
+
+</sect1>
 
 <sect1 id="navigation">
 <title>Navigation</title>
-
-<para>&konqueror; is an excellent file manager, and as such will display the
-names of the files and sub-directories held in a directory. The
-<quote>path</quote> of the directory you are looking at is shown in the
-Titlebar
-and also in the Locationbar.</para>
-
-<para>Sub-directories are usually displayed with an icon that looks a little
-like a folder, although some special directories, such as
-<filename>Trash</filename> and <filename>Desktop</filename>, may have
-different,
-distinctive, icons. Files have their own icons, which may indicate what type of
-file it is - or at least what &konqueror; thinks it is. </para>
-
-<para>You can <quote>select</quote> a file or sub-directory by using the
-keyboard arrow keys to move through the displayed items. The appearance of the
-selected item will change and some information about it will be displayed in
-the
-Status Bar.</para>
+<para>To get to a wanted file with &konqueror; you first need to navigate 
+through the directory tree to find the directory (folder) containing that 
+file.</para>
 
 <para>To move between directories you can simply step up and down the
 tree:</para>
 
 <itemizedlist>
 <listitem><para>To descend into a sub-directory &LMB; click on its name or
-icon,
-or if you have <quote>selected</quote> it then just press
-<keycap>Enter</keycap>.</para></listitem> <listitem><para>To go up the
-directory
-tree, click on the <guiicon>Up</guiicon> button in the Toolbar, or use
-<keycombo
-action="simul"><keycap>Alt</keycap><keysym>Up Arrow</keysym></keycombo>, or use
-the Menubar
+icon, or if you have <quote>selected</quote> it (see below) then just press
+<keycap>Enter</keycap>.</para></listitem> 
+<listitem><para>To go up the directory tree, click on the <guiicon>Up
+</guiicon> button in the Toolbar, or use<keycombo action="simul"><keycap>Alt
+</keycap><keysym>Up Arrow</keysym></keycombo>, or use the Menubar
 <menuchoice><guimenu>Go</guimenu><guimenuitem>Up</guimenuitem></menuchoice>
 option.</para></listitem>
 </itemizedlist>
 
-<para>You can also go directly to any directory by typing its path into the
-Locationbar window or into the dialog box invoked by the Menubar
-<menuchoice><guimenu>Location</guimenu><guimenuitem>Open
-Location</guimenuitem></menuchoice> item or by <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>O</keycap></keycombo>. Don't forget
+<para>To <quote>select</quote> a file or folder in the displayed directory 
+without opening it in any way use the <keysym>up</keysym> and <keysym>down
+</keysym> arrow keys to move through the items. 
+The selected item will be highlighted and some information about it 
+will be displayed in the Status Bar. You can select multiple adjacent items by 
+holding the &Shift; key down while pressing the arrow keys.</para>
+
+<para>Setting the <link linkend="viewmode">View Mode</link> to <guimenuitem>
+Tree View</guimenuitem> can help you locate directories in the tree below the 
+current directory. In this mode each directory is shown with a small box at 
+the left. If the box contains a <keysym>+</keysym> sign <mousebutton>left
+</mousebutton> clicking on the box (not on the directory name or icon) will 
+display a sub tree showing any sub directories (but not ordinary files). 
+The small box will then change to show a <keysym>-</keysym> sign, 
+<mousebutton>left</mousebutton> click on that to collapse the sub tree. Once 
+you have found the directory you are looking for <mousebutton>left
+</mousebutton> click on the directory name or icon to open it.</para>
+
+<para>The <link linkend="sidebar">Navigation Panel</link> can also help you 
+find your way around the file system.</para>
+
+<para>You can go directly to any directory by typing its path into the
+Location Toolbar window or into the dialog box invoked by the Menubar
+<menuchoice><guimenu>Location</guimenu><guimenuitem>Open Location</guimenuitem>
+</menuchoice> item or by <keycombo action="simul"><keycap>Ctrl</keycap><keycap>
+O</keycap></keycombo>. &konqueror;'s <link linkend="path-complete">
+Text Completion</link> feature may be useful when you do this. Don't forget
 that in &Linux; / &UNIX; file and directory names are case sensitive.</para>
 
 <para>Once you have moved to a new directory then you can go back to your
@@ -472,177 +652,45 @@ over the Toolbar <guiicon>Up</guiicon>, <guiicon>Back</guiicon> or
 <guiicon>Forward</guiicon> buttons brings up a menu of recently visited
 locations.</para></tip>
 
-<sect2 id="path-complete">
-<title>Automatic Path Completion</title> 
-
-<para>You can get &konqueror; to help you when you are typing a path into the
-Locationbar by enabling one of the <guimenuitem>Text Completion</guimenuitem>
-features. To select how &konqueror; does this <mousebutton>right</mousebutton>
- click on a clear part of
-the Locationbar text entry box and select
-<guisubmenu>Text Completion</guisubmenu>. This will let you choose between the
-following possibilities:</para>
-
-<variablelist>
-
-<varlistentry>
-<term>None</term>
-<listitem><para>What you get is what you type.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>Manual</term>
-<listitem><para>Seems to be the same as None.</para></listitem> 
-</varlistentry>
-
-<varlistentry>
-<term>Automatic</term>
-<listitem><para>As you type into the Locationbar window &konqueror; will
-automatically extend what you type to complete one possible name,  highlighting 
-the characters it has added. Continue typing if that's not what you 
-wanted or press <keycap>Enter</keycap> to accept it.</para></listitem>
- </varlistentry>
-
-<varlistentry>
-<term>Drop-down List</term>
-<listitem><para>A drop-down window will appear as you type, showing the
-possible
-matches to what you have typed so far. When the path that you want appears in
-the window then double click on it with the &LMB;. Or you can use the
- <keysym>Down Arrow</keysym> and <keysym>Up Arrow</keysym>
-keys to select it then press <keycap>Enter</keycap>.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>Short Automatic</term>
-<listitem><para>This is like the Automatic mode except that it 
-restricts itself to more sensible suggestions.</para></listitem>
-</varlistentry>
-
-</variablelist>
-<para>You should try out these different modes and pick the one that suits you
- best.</para>
-</sect2>
-
-<sect2 id="sidebar">
-<title>The Navigation Panel</title>
-<para>If you want a better view of the directory structure, or easy access 
-to your Bookmarks, History and Network, then the  
-<menuchoice><guimenu>Window</guimenu><guimenuitem>Show 
-Navigation Panel</guimenuitem></menuchoice> option adds a new view at the left
- of the window as shown above. (For this screenshot the Menubar
-<menuchoice><guimenu>View</guimenu><guimenuitem>View
-Mode...</guimenuitem></menuchoice> and <menuchoice><guimenu>View</guimenu>
-<guimenuitem>Show details...</guimenuitem></menuchoice> options have been used
-to get a text listing of the directory contents in the right hand view rather
-than one using icons.)</para>
-
-<mediaobject>
-<imageobject><imagedata format="PNG" fileref="dirtree.png"/></imageobject>
-<textobject>
-<phrase>With the Navigation Panel</phrase>  
-</textobject>
-</mediaobject>
-
-<para>The <interface>Navigation Panel</interface> has a number of tabbed pages,
- containing tree views of your:
-<itemizedlist>
-<listitem><para>Bookmarks.</para></listitem>
-<listitem><para>History.</para></listitem>
-<listitem><para>Home directory.</para></listitem>
-<listitem><para>Remote (web or ftp) sites.</para></listitem>
-<listitem><para>The root directory.</para></listitem>
-</itemizedlist>
-</para>
-<para>When &konqueror; is showing more than one view, there will be a small box
-at the bottom right of each view. <mousebutton>Left</mousebutton> clicking on
-the box toggles an almost invisibly small icon on and off. Views showing this
-icon are linked. By linking the <interface>Navigation Panel</interface> and
-main
- views <mousebutton>left</mousebutton> clicking on any item in the
- <interface>Navigation Panel</interface> view 
-will automatically show its contents in the other view.</para>
-
-<para>To navigate through the items in a <interface>Navigation
-Panel</interface>
- page using your mouse, <mousebutton>left</mousebutton> click on a
-<guilabel>+</guilabel> symbol to show any subdirectories,
- <mousebutton>left</mousebutton> on the <guilabel>-</guilabel>
-symbol to collapse a sub-tree, and once you can see the wanted item,
- <mousebutton>left</mousebutton> click on its name or
-icon to open it in the other window. </para>
-
-<para>Or you can navigate from 
-the keyboard using the <keysym>Up</keysym> and <keysym>Down Arrow</keysym> keys
-to move up and down, the <keysym>Right Arrow</keysym> key to descend into a
-directory and the <keysym>Left Arrow</keysym> key to collapse a
-sub-directory. Once you have reached the wanted item then
-<keycap>Enter</keycap> will open it in the other view.</para>
-
-<para>The Bookmarks tree contains your bookmarks, just as displayed by the
- <guimenu>Bookmarks</guimenu> menu.</para>
-
-<para>The History tree contains <acronym>URL</acronym>s for
-the most recently visited web sites.</para>
-
-<para>The Home Directory tree shown in the <interface>Navigation
- Panel</interface> is actually 
-your personal home directory, which will have a path such as <filename 
-class="directory">/home/pam2</filename> if your username is 
-<quote>pam2</quote>.</para>
-
-<para>The Remote page tree shows details of files or web pages
-you can reach over your network (if you are connected to one).</para>
-
-<para>The Root Directory tree has the path <filename
-class="directory">/</filename>, and is the base directory of your system's
-local
-files. If you expand the <quote>Root</quote> directory you will find another
-directory called <filename class="directory">root</filename>. This belongs to
-the system administrator or Super User and is her home directory. You will also
-find a directory called <filename class="directory">home</filename>, in which
-you should be able to find your own <quote>Home</quote> directory again.</para>
-
-<para> There is also a Services page in the <interface>Navigation 
-Panel</interface>, containing entries for audio CD, <acronym>LAN</acronym>
- (Local Area Network) and Print System browsers.</para>
-</sect2>
-
 <sect2 id="file-find">
 <title>Finding Files and Directories</title>
 
 <para>If you don't know or can't remember where a file or directory is within
-your system, then use the Toolbar <guiicon>Find file</guiicon> button or the
+your system, then use the Toolbar <guiicon>Find File</guiicon> button or the
 Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Find 
 File...</guimenuitem></menuchoice> option.  This will embed the file finder 
-application &kfind; into &konqueror;'s window. See the <quote>Finding Your Lost 
-Files</quote> section of the &kde; User's manual for more details about
-&kfind;.
+application &kfind; into &konqueror;'s window. See the &kfind; Handbook 
+for help in using &kfind;.
 </para>
 
-<note><para>If the name of a file or directory begins with a period (dot), then
+<note><para>If the name of a file or folder begins with a period (dot), then
 it is a <quote>hidden</quote> file or directory, and will not normally be shown
-by &konqueror;.</para>
-
-<para>To see the hidden files or sub-directories use the Menubar
-<menuchoice><guimenu>View</guimenu><guimenuitem>Show Hidden
-Files</guimenuitem></menuchoice> option.</para></note>
+by &konqueror;. To see hidden files or folder use the Menubar <menuchoice>
+<guimenu>View</guimenu><guimenuitem>Show Hidden Files</guimenuitem>
+</menuchoice> option.</para>
+<para>Another reason why &konqueror; may not show the file or folder you are 
+looking for is that you may have the <link linkend="konq-plugin"><guisubmenu>
+View Filter</guisubmenu></link> plugin set to display only certain types of 
+file.</para></note>
 
 </sect2>
 
 <sect2 id="floppy-cd">
 <title>Floppy and &CD-ROM; Drives</title>
 
-<para>Any floppy disk or &CD; drive that you have on your system will usually
-appear in the <filename class="directory">/mnt</filename> directory, having a
-path something like <filename class="directory">/mnt/floppy</filename> or
-<filename class="directory">/mnt/cdrom</filename>, the details will depend on
+<para>Any floppy disk, &CD; drive or other hard disk partition that you have 
+on your system will usually appear in the <filename class="directory">/
+</filename>,  <filename class="directory">/mnt</filename> or 
+<filename class="directory">/auto</filename> directory, having a path something 
+like <filename class="directory">/mnt/floppy</filename> or
+<filename class="directory">/cdrom</filename>, the details will depend on
 how your system was set up.</para>
 
-<para>&Linux; requires that you <command>mount</command> a floppy disk or
-&CD-ROM; when you have inserted it into the drive, so that &Linux; can see
-what's on it. You also need to unmount it before removing the disk so &Linux;
-can register that it is no longer available. </para>
+<para>&UNIX; / &Linux; requires that you <command>mount</command> a floppy disk 
+or &CD-ROM; when you have inserted it into the drive, and <command>mount
+</command> other hard disk partitions when you want to access them. You also 
+need to unmount a floppy disk or &CD-ROM; before removing it to register that 
+it is no longer available. </para>
 
 <para>How you do this will depend on how your system:</para>
 
@@ -653,30 +701,37 @@ unmounting,
 although you may find that the &CD-ROM; occasionally starts up by itself for no
 apparent reason.</para></listitem>
 
-<listitem><para>You may have <guiicon>Floppy</guiicon> and &CD-ROM; icons on
-your desktop, in which case &LMB; click on the icon to mount a disk. Doing this
-should also bring up a &konqueror; window showing the contents of the floppy or
-&CD-ROM;. To unmount <mousebutton>right</mousebutton> click on the icon and
-choose the <guimenuitem>Unmount</guimenuitem> item.  Visit the section <link
-linkend="making">Create New...</link> to see how to create such an
-icon.</para></listitem>
+<listitem><para>You may have <guiicon>Floppy</guiicon>, &CD-ROM; and hard disk 
+icons on your desktop, in which case &LMB; click on the icon to mount it. 
+Doing this should also bring up a &konqueror; window showing the contents of 
+the floppy, &CD-ROM; or partition. To unmount <mousebutton>right</mousebutton> 
+click on the icon and choose the <guimenuitem>Unmount</guimenuitem> item.  
+Visit the section <link linkend="making">Create New...</link> in this Handbook 
+to see how to create such an icon.</para></listitem>
 
 <listitem><para>Or you can do it the traditional way by typing into a text
 console window:</para>
 
+<para><userinput><command>mount /mnt/floppy</command></userinput></para>
+
+<!-- This markup doesn't work properly, it puts 'mount' and '/mnt/floppy' 
+on separate lines
 <screen>
 <userinput><command>mount</command>
  <option><replaceable>/mnt/floppy</replaceable></option></userinput>
-</screen>
+</screen> -->
 
 <para>to mount, for example, the floppy drive, and</para>
 
+<!-- Same as above
 <screen>
 <userinput><command>umount</command>
  <option><replaceable>/mnt/floppy</replaceable></option></userinput></screen>
+-->
 
-<para>to unmount it. Type <command>umount</command> not
- <command>unmount</command>.
+<para><userinput><command>umount /mnt/floppy</command></userinput></para>
+
+<para>to unmount it (<command>umount</command> not <command>unmount</command>).
 </para>
 
 <note><para>Rather than having to open a text console to type the
@@ -760,15 +815,15 @@ the &RMB;, which will bring up a menu containing the
 <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Copy</guimenuitem></menuchoice>
 item, or the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>
-hotkey.</para></listitem>
+action="simul"><keycap>Ctrl</keycap><keycap>C</keycap></keycombo> 
+shortcut key combination.</para></listitem>
 
 <listitem><para>Navigate to the directory you want to copy the item into then
 Paste the item into the new directory by using the Toolbar
 <guiicon>Paste</guiicon> button or the Menubar
 <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Paste</guimenuitem></menuchoice> option or the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo> hotkey, or by
+action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo> shortcut, or by
 moving the mouse pointer to a clear area of the window and holding the &RMB;
 down to bring up a menu containing the <guimenuitem>Paste</guimenuitem> option.
 </para></listitem>
@@ -785,9 +840,9 @@ you do the <guimenuitem>Paste</guimenuitem> into the new directory.</para>
 
 <para>You can also copy or move selected item(s) to another directory by using 
 <menuchoice><guimenu>Edit</guimenu>
-<guimenuitem>Copy Files</guimenuitem></menuchoice> or
-<menuchoice><guimenu>Edit</guimenu>
-<guimenuitem>Move Files</guimenuitem></menuchoice>, or by selecting
+<guimenuitem>Copy Files</guimenuitem></menuchoice> (<keysym>F7</keysym>) or
+<menuchoice><guimenu>Edit</guimenu><guimenuitem>Move Files</guimenuitem>
+</menuchoice> (<keysym>F8</keysym>), or by selecting
 <guimenuitem>Copy To</guimenuitem> or <guimenuitem>Move To</guimenuitem> from
 the drop down menu you get when you <mousebutton>right</mousebutton> click on
 an file or directory name in the File Manager window.</para>
@@ -798,7 +853,7 @@ have the necessary permissions. See the section on <link
 linkend="super-user">Super User Mode</link> for further details.</para></note>
 
 
-<sect2>
+<sect2 id="dnd">
 <title>Using Drag 'n Drop</title>
 
 <para>&konqueror; also supports Drag and Drop copying and moving of files and
@@ -818,10 +873,7 @@ directory view - dropping it on top of another file name or icon can cause
 problems.</para>
 
 <para>You can also set up &konqueror; to show more than one directory within
-its
- window and drag
- &amp;
-drop between them.</para>
+its window and drag &amp; drop between them.</para>
 
 <mediaobject>
 <imageobject><imagedata format="PNG" fileref="dragdrop.png"/></imageobject>
@@ -830,55 +882,67 @@ drop between them.</para>
 </textobject>
 </mediaobject>
 
-<para>For this screenshot we have used the Menubar
+<para>This screenshot illustrates the use of the Menubar
 <menuchoice><guimenu>Window</guimenu> <guimenuitem>Split View
-Left/Right</guimenuitem></menuchoice> option, also available with the hotkey
+Left/Right</guimenuitem></menuchoice> option, also available with the shortcut 
 <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo>,
-
-
-
-
-
+action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap>
+</keycombo>,
 to split the main &konqueror; window into two views, each showing the contents
 of a different directory.</para>
 
-<para>When the window is split into two (or more) views it is usually best to
-make sure that they are not linked - the little boxes at the bottom right of
-each view should be empty.</para>
+<para>To be able to show different directories in each view they should not be 
+linked; the little boxes at the bottom right of each view should be empty.
+</para>
 
 <para>The <quote>active</quote> view, that is the one whose path is shown in
-the
-Locationbar and which responds to navigation and Menubar commands, is shown by
+the Location Toolbar and which responds to navigation and Menubar commands, is 
+shown by
 the little green light in the bottom left corner. To make a view active &LMB;
 click on an empty area of the view or on its Status Bar.</para>
 
 <para>To remove an active view from &konqueror;'s window use the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap></keycombo>
-
-
-
-
-hotkey, or the Menubar <menuchoice><guimenu>Window</guimenu>
+action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap>
+</keycombo> shortcut, or the Menubar <menuchoice><guimenu>Window</guimenu>
 <guimenuitem>Remove
 Active View</guimenuitem></menuchoice> option, or &RMB; click on the Status Bar
 and choose the <guimenuitem>Remove Active View</guimenuitem> option from the
 resulting menu.</para>
 
 </sect2>
+
+<sect2 id="dups">
+<title>Duplicate File Names</title>
+<para>If you try to paste a copied file file into a directory that already 
+contains a file with the same name, &konqueror; will pop up a dialog box warning 
+you that the file already exists. You can then choose to:
+</para>
+<itemizedlist>
+<listitem><para>
+<guilabel>Overwrite</guilabel> the old file with the newly copied one. 
+The <guibutton>Overwrite All</guibutton> button can be used if you have copied 
+multiple items.</para></listitem>
+<listitem><para>Cancel the paste operation by pressing the <guibutton>Skip
+</guibutton> or <guibutton>Skip All</guibutton> button.</para></listitem>
+<listitem><para>Give the file that is being copied a different name. You can 
+do this by typing a new name into the text entry box or get &konqueror; to 
+<guibutton>Propose</guibutton> one. When you have done this press the 
+<guibutton>Rename</guibutton> button.</para></listitem>
+</itemizedlist>
+</sect2>
 </sect1>
 
 <sect1 id="multiple">
 <title>Selecting Multiple Files</title>
 
-<para>You sometimes want to delete, copy or move a number of files that are
-similar in some way. For example you may wish to move all of the .png graphics
-files from one directory to another. &konqueror; makes this easy by letting you
+<para>You sometimes want to delete, copy or move a number of files that are 
+similar in some way. For example you may wish to move all of the .png graphics 
+files from one directory to another. &konqueror; makes this easy by letting you 
 select multiple files based on similarities in their file names.</para>
 
 <para>Use the Menubar <menuchoice><guimenu>Edit</guimenu>
-<guimenuitem>Select...</guimenuitem></menuchoice> item or the hotkey <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>. This brings
+<guimenuitem>Select...</guimenuitem></menuchoice> item or the shortcut <keycombo
+action="simul"><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>. This brings 
 up a little dialog box in which you enter a filename containing the wildcard
 characters <keycap>*</keycap>, which matches any number of characters, and
 <keycap>?</keycap> which matches a single character. Press
@@ -925,8 +989,8 @@ move commands will act on all of the selected files at once. </para>
 that the <keycombo
 action="simul"><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>, <keycombo
 action="simul"><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> and <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>*</keycap></keycombo> hotkeys only
-work with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
+action="simul"><keycap>Ctrl</keycap><keycap>*</keycap></keycombo> shorctuts 
+only work with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
 <keycap>*</keycap> keys.</para></note>
 
 </sect1>
@@ -961,14 +1025,15 @@ your <filename class="directory">~/Desktop</filename> directory (this may be
 called something slightly different depending on how &kde; was installed on 
 your system) or get to the
 <guisubmenu>Create New...  </guisubmenu> sub menu by
-<mousebutton>right</mousebutton> clicking on a free area of the desktop.</para>
+<mousebutton>right</mousebutton> clicking on a free area of the desktop 
+instead of within &konqueror;'s window.</para>
 
 <para>If you have a lot of specialised application links and don't want to
 clutter up the desktop, then why not create them in your Applications
 directory. You can get there in &konqueror; by choosing
 <menuchoice><guimenu>Go</guimenu>
 <guimenuitem>Applications</guimenuitem></menuchoice>. Then create a single icon
-on your desktop to open your Applications directory, which is usually at
+on your desktop to open your Applications directory, which is usually in
 <filename class="directory">~/.kde/share/applink</filename>.</para>
 
 <para>To put an application link icon into the panel, first create it in the
@@ -1009,16 +1074,17 @@ your Desktop.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Hard Disc...</guimenuitem></term>
+<term><guimenuitem>Hard Disk...</guimenuitem></term>
 <listitem><para>This option is similar to <guimenuitem>Floppy
-Device...</guimenuitem> but for a hard disc drive or
+Device...</guimenuitem> but for a hard disk drive or
  partition.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>CD-ROM Device...</guimenuitem></term>
+<term><guimenuitem>CD/DVD-ROM Device...</guimenuitem></term>
 <listitem><para>This option is similar to <guimenuitem>Floppy
-Device...</guimenuitem> but for a &CD-ROM; drive.</para></listitem>
+Device...</guimenuitem> but for a <acronym>CD</acronym> or <acronym>DVD</acronym> 
+drive.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1081,23 +1147,35 @@ role="extension">.kil</literal>.</para></listitem>
 <mousebutton>right</mousebutton> click on it and select 
 <guimenuitem>Rename</guimenuitem>.</para>
 
-<para>Or, to change the name or permissions of a file or directory 
+<para>To change the name or permissions of a file or directory 
 <mousebutton>right</mousebutton> click on its name or icon and select the 
-<guimenuitem>Properties...</guimenuitem> item. Or, if you have 
+<guimenuitem>Properties...</guimenuitem> item, or if you have 
 <quote>selected</quote> the file or directory, then you can use the Menubar 
 <menuchoice><guimenu>Edit</guimenu> 
 <guimenuitem>Properties</guimenuitem></menuchoice> option.</para>
 
-<para>This will bring up the Properties dialog box which has two tabs:</para>
+<para>This will bring up the Properties dialog box whith several tabbed 
+pages, the important ones being:</para>
 
 <itemizedlist>
 <listitem><para><guilabel>General</guilabel>, which gives you some
 information about the item and lets you change its name and, for a directory,
 the associated icon.</para></listitem>
 <listitem><para><guilabel>Permissions</guilabel>, which shows you the item's
-ownership and access permissions and lets you change the
-permissions.</para></listitem>
+ownership and access permissions and lets you change the permissions.
+</para></listitem>
 </itemizedlist>
+
+<sect2 id="copyrename">
+<title>Copy and Rename</title>
+<para>If you want to make a copy of an existing file with a different name, 
+perhaps as a backup, in the same directory as the original file, do a normal 
+<guimenuitem>Copy</guimenuitem> then when you <guimenuitem>Paste</guimenuitem> 
+it a dialog box will pop up  complaining that the file already exists. 
+Just type the new name into the dialog's text box and press the 
+<guibutton>Rename</guibutton> button (or if you are feeling lazy pressing the 
+<guibutton>Propose</guibutton> button will generate a new name for you).</para>
+</sect2>
 
 <sect2 id="super-user">
 <title>Super User Mode</title>
@@ -1113,7 +1191,7 @@ administrator, often known as the Super User or <quote>root</quote>. </para>
 the
 <guimenu>K</guimenu> Menu in Super User mode by selecting
 <menuchoice><guisubmenu>System</guisubmenu><guimenuitem>File Manager - Super
- User
+ User Mode
 </guimenuitem></menuchoice>. You will be asked for the <quote>root</quote>
 login password but as long as you can provide that &konqueror; will be started
 up with full access privileges to all files on your system.</para>
@@ -1126,25 +1204,32 @@ seriously increases your vulnerability to hacking.</para></warning>
 </sect2>
 </sect1>
 
+
 <sect1 id="commandline">
 <title>At the Command Line</title>
 
 <para>Although &konqueror; is a very powerful and flexible
 <acronym>GUI</acronym> file manager, there are occasions when the experienced
-&Linux; user wants to get down to the basics and work at the text command line
-level.</para>
+&Linux; / &UNIX; user wants to get down to the basics and work at the text 
+command line level.</para>
 
 <para>She could, of course, open an instance of &konsole;, perhaps with
 &konqueror;'s Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Open
 Terminal</guimenuitem></menuchoice> option or with <keycombo
 action="simul"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo>.</para>
-
-<para>But &konqueror; has yet another nice feature here, the Menubar
-<menuchoice><guimenu>Window</guimenu><guimenuitem>Show Terminal
-Emulator</guimenuitem></menuchoice> option opens up a terminal window as a new
-view within &konqueror;, and as long as the link icon is visible at the bottom
-right corner of each view, the terminal will follow any directory changes you
-make in the normal file manager view.</para>
+<para>If she only needs to execute a single shell command, then the 
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Execute Shell Command...
+</guimenuitem></menuchoice> (<keycombo action="simul"><keycap>Ctrl</keycap>
+<keycap>E</keycap></keycombo>) or the <menuchoice><guimenu>Tools</guimenu>
+<guimenuitem>Run Command</guimenuitem></menuchoice> (<keycombo action="simul">
+<keysym>Alt</keysym><keysym>F2</keysym></keycombo>) options may be easier.
+</para>
+<para>For more complex operations, &konqueror; has another nice feature; the 
+Menubar <menuchoice><guimenu>Window</guimenu><guimenuitem>Show Terminal
+Emulator</guimenuitem></menuchoice> option, which opens up a terminal window as 
+a new view within &konqueror;. As long as the link icon is visible at the 
+bottom right corner of each view, the terminal will follow any directory changes 
+you make in the normal file manager view.</para>
 
 <mediaobject>
 <imageobject><imagedata format="PNG" fileref="cmndline.png"/></imageobject>
@@ -1154,7 +1239,6 @@ make in the normal file manager view.</para>
 </mediaobject>
 
 </sect1>
-
 </chapter>
 
 <chapter id="browser">
@@ -1173,7 +1257,7 @@ make in the normal file manager view.</para>
 <para>Once you are connected to the Internet you can use &konqueror; to browse
 the Web just as easily as you can use it to handle your local files. Just type
 a
-<acronym>URL</acronym> into the Locationbar window, press
+<acronym>URL</acronym> into the Location Toolbar window, press
 <keycap>Enter</keycap>, and you are away!</para>
 
 <itemizedlist>
@@ -1215,7 +1299,7 @@ entered an incorrect <acronym>URL</acronym>.</para></note>
 &konqueror; just as you can with any other browser.</para>
 
 <itemizedlist>
-<listitem><para>Type a &URL; into the Locationbar window, press
+<listitem><para>Type a &URL; into the Location Toolbar window, press
 <keycap>Enter</keycap>, and &konqueror; will download and display that
 page. You can use the auto &URL; completion feature to help
 you type, this is similar to the <link linkend="path-complete">auto Path
@@ -1248,7 +1332,7 @@ this.</para></listitem>
 
 <listitem><para>To go back to the previous page use the <keycombo
 action="simul"><keycap>Alt</keycap><keysym>Left Arrow</keysym></keycombo>
-hotkey, the <guiicon>Back</guiicon> button on the Toolbar, or the Menubar
+shortcut, the <guiicon>Back</guiicon> button on the Toolbar, or the Menubar
 <menuchoice><guimenu>Go</guimenu> <guimenuitem>Back</guimenuitem></menuchoice>
 option, just as you do when navigating through your own
 files.</para></listitem>
@@ -1274,7 +1358,7 @@ depend on how the <acronym>HTML</acronym> page has been constructed.</para>
 <para>Some people seem to spend more time searching for a web page than
 actually
 reading it. Do you know that you can just type the subject you are looking for
-into the Locationbar window, and &konqueror; will automatically submit it to a
+into the Location Toolbar window, and &konqueror; will automatically submit it to a
 Web search engine? Try it by entering the name of your home town.</para>
 
 <para>Or you can tell it to use a particular search engine. For example
@@ -1343,7 +1427,7 @@ type the <acronym>URL</acronym></para>
 <userinput>ftp://ftp.kde.org/pub/kde</userinput>
 </screen>
 
-<para>into the Locationbar and press <keycap>Enter</keycap>. As long as you are
+<para>into the Location Toolbar and press <keycap>Enter</keycap>. As long as you are
 connected to the Internet, and as long as the &kde;'s &FTP; site is not too
 busy, you should end up seeing the <filename
 class="directory">/pub/kde</filename> directory at ftp.kde.org</para>
@@ -1372,7 +1456,7 @@ supply them.</para></note>
 <para>Sites that are more concerned with security will need a proper username
 and password, in which case &konqueror; will ask you for them or you can
 include
-the username in the <acronym>URL</acronym> you type into the Locationbar, as
+the username in the <acronym>URL</acronym> you type into the Location Toolbar, as
 for
 example</para>
 
@@ -1382,6 +1466,57 @@ example</para>
 <para>&konqueror; will then prompt you for the password.</para>
 
 </sect1>
+</chapter>
+
+<chapter id="path-complete">
+<title>Automatic Path Completion</title> 
+
+<para>You can get &konqueror; to help you when you are typing a path into the
+Location Toolbar by enabling one of the <guimenuitem>Text Completion</guimenuitem>
+features. To select how &konqueror; does this <mousebutton>right</mousebutton>
+ click on a clear part of the Location Toolbar text entry box and select
+<guisubmenu>Text Completion</guisubmenu>. This will let you choose between the
+following possibilities:</para>
+
+<variablelist>
+
+<varlistentry>
+<term>None</term>
+<listitem><para>What you get is what you type.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Manual</term>
+<listitem><para>Seems to be the same as None.</para></listitem> 
+</varlistentry>
+
+<varlistentry>
+<term>Automatic</term>
+<listitem><para>As you type into the Location Toolbar window &konqueror; will
+automatically extend what you type to complete one possible name,  highlighting 
+the characters it has added. Continue typing if that's not what you 
+wanted or press <keycap>Enter</keycap> to accept it.</para></listitem>
+ </varlistentry>
+
+<varlistentry>
+<term>Drop-down List</term>
+<listitem><para>A drop-down window will appear as you type, showing the
+possible
+matches to what you have typed so far. When the path that you want appears in
+the window then double click on it with the &LMB;. Or you can use the
+ <keysym>Down Arrow</keysym> and <keysym>Up Arrow</keysym>
+keys to select it then press <keycap>Enter</keycap>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Short Automatic</term>
+<listitem><para>This is like the Automatic mode except that it 
+restricts itself to more sensible suggestions.</para></listitem>
+</varlistentry>
+
+</variablelist>
+<para>You should try out these different modes and pick the one that suits you
+ best.</para>
 </chapter>
 
 <chapter id="bookmarks">
@@ -1394,7 +1529,7 @@ Web, letting you build up a list of useful sites.</para>
 <para>To open the <guimenu>Bookmarks</guimenu> drop-down list you may either
 <mousebutton>left</mousebutton> click on the Menubar
 <guimenu>Bookmarks</guimenu> item, or use the <keycombo
-action="simul"><keycap>Alt</keycap><keycap>B</keycap></keycombo> hotkey. Once
+action="simul"><keycap>Alt</keycap><keycap>B</keycap></keycombo> shortcut. Once
 the list is visible, you can navigate through it with the arrow keys or with
 your mouse, then press <keycap>Enter</keycap> or
 <mousebutton>left</mousebutton> click to visit the selected location.</para>
@@ -1489,6 +1624,94 @@ click on the <guimenuitem>Set As Toolbar Folder</guimenuitem> in the
 
 </sect1> 
 </chapter>
+
+
+<chapter id="sidebar">
+<title>The Navigation Panel</title>
+<para>If you want a better view of the directory structure, or easy access 
+to your Bookmarks, History and Network, then the  
+<menuchoice><guimenu>Window</guimenu><guimenuitem>Show 
+Navigation Panel</guimenuitem></menuchoice> option adds a new view at the left
+ of the window as shown above. (For this screenshot the Menubar
+<menuchoice><guimenu>View</guimenu><guimenuitem>View
+Mode...</guimenuitem></menuchoice> and <menuchoice><guimenu>View</guimenu>
+<guimenuitem>Show details...</guimenuitem></menuchoice> options have been used
+to get a text listing of the directory contents in the right hand view rather
+than one using icons.)</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="dirtree.png"/></imageobject>
+<textobject>
+<phrase>With the Navigation Panel</phrase>  
+</textobject>
+</mediaobject>
+
+<para>The <interface>Navigation Panel</interface> has a number of tabbed pages,
+ containing tree views of your:
+<itemizedlist>
+<listitem><para>Bookmarks.</para></listitem>
+<listitem><para>History.</para></listitem>
+<listitem><para>Home directory.</para></listitem>
+<listitem><para>Remote (web or ftp) sites.</para></listitem>
+<listitem><para>The root directory.</para></listitem>
+</itemizedlist>
+</para>
+<para>When &konqueror; is showing more than one view, there will be a small box
+at the bottom right of each view. <mousebutton>Left</mousebutton> clicking on
+the box toggles an almost invisibly small icon on and off. Views showing this
+icon are linked. By linking the <interface>Navigation Panel</interface> and
+main
+ views <mousebutton>left</mousebutton> clicking on any item in the
+ <interface>Navigation Panel</interface> view 
+will automatically show its contents in the other view.</para>
+
+<para>To navigate through the items in a <interface>Navigation
+Panel</interface>
+ page using your mouse, <mousebutton>left</mousebutton> click on a
+<guilabel>+</guilabel> symbol to show any subdirectories,
+ <mousebutton>left</mousebutton> on the <guilabel>-</guilabel>
+symbol to collapse a sub-tree, and once you can see the wanted item,
+ <mousebutton>left</mousebutton> click on its name or
+icon to open it in the other window. </para>
+
+<para>Or you can navigate from 
+the keyboard using the <keysym>Up</keysym> and <keysym>Down Arrow</keysym> keys
+to move up and down, the <keysym>Right Arrow</keysym> key to descend into a
+directory and the <keysym>Left Arrow</keysym> key to collapse a
+sub-directory. Once you have reached the wanted item then
+<keycap>Enter</keycap> will open it in the other view.</para>
+
+<para>The Bookmarks tree contains your bookmarks, just as displayed by the
+ <guimenu>Bookmarks</guimenu> menu.</para>
+
+<para>The History tree contains <acronym>URL</acronym>s for
+the most recently visited web sites.</para>
+
+<para>The Home Directory tree shown in the <interface>Navigation
+ Panel</interface> is actually 
+your personal home directory, which will have a path such as <filename 
+class="directory">/home/pam2</filename> if your username is 
+<quote>pam2</quote>.</para>
+
+<para>The Remote page tree shows details of files or web pages
+you can reach over your network (if you are connected to one).</para>
+
+<para>The Root Directory tree has the path <filename
+class="directory">/</filename>, and is the base directory of your system's
+local
+files. If you expand the <quote>Root</quote> directory you will find another
+directory called <filename class="directory">root</filename>. This belongs to
+the system administrator or Super User and is her home directory. You will also
+find a directory called <filename class="directory">home</filename>, in which
+you should be able to find your own <quote>Home</quote> directory again.</para>
+
+<para> There is also a Services page in the <interface>Navigation 
+Panel</interface>, containing entries for audio CD, <acronym>LAN</acronym>
+ (Local Area Network) and Print System browsers.</para>
+</chapter>
+
+
+
 <chapter id="save-settings">
 <title>Saving Settings &amp; Profiles</title>
 
@@ -1517,7 +1740,7 @@ pictures (by choosing <guimenuitem>Icon View</guimenuitem> and
 when you open it, while not displaying images as thumbnails in other
 directories.  </para></note>
 
-<para>Your current settings for the Menubar, Toolbar, Locationbar and Bookmark
+<para>Your current settings for the Menubar, Toolbar, Location Toolbar and Bookmark
 Toolbar are also saved as defaults.</para>
 
 <para>&konqueror;'s overall appearance when you start it up is determined by
@@ -1562,7 +1785,7 @@ suitable icon.</para></note>
 <para>
 If you want to read &UNIX; Man pages &konqueror; makes it easy, for 
 example type <userinput>man:touch</userinput> or 
-<userinput>#touch</userinput> into the locationbar to see the page for 
+<userinput>#touch</userinput> into the Location Toolbar to see the page for 
 the touch command.</para> 
 
 <para>And it makes browsing through Info pages an almost pleasant experience. 
@@ -1702,7 +1925,7 @@ wishes.</para>
 <title>Changing Bars</title>
 
 <para>When &kde; is newly installed, &konqueror;'s window contains a Menubar, a
-Toolbar, a Locationbar and possibly a Bookmark Toolbar.</para>
+Toolbar, a Location Toolbar and possibly a Bookmark Toolbar.</para>
 
 <para>Maybe you don't need all these bars. To hide one of them, go 
 into the <guimenu>Settings</guimenu> menu and uncheck its box. To show a hidden
@@ -1747,7 +1970,7 @@ This will bring up a dialog box with four tabbed pages;
 <guilabel>Behavior</guilabel> <guilabel>Appearance</guilabel>,
 <guilabel>Trash</guilabel>, and <guilabel>Previews</guilabel>. </para>
 
-<sect2>
+<sect2 >
 <title>Behavior</title> 
 
 <para>The <guilabel>Open directories in separate windows</guilabel> option lets
@@ -2091,7 +2314,7 @@ the <guilabel>KDE Control Module</guilabel> <guilabel>Enhanced
 Browsing</guilabel> dialog box.</para>
 
 <para>If the <guilabel>Enable Internet Keywords</guilabel> box is checked you
-can simply type normal words and phrases such as linux into the Locationbar and
+can simply type normal words and phrases such as linux into the Location Toolbar and
 you will either be redirected to the appropriate site or presented with a list
 of possible links. To do this &konqueror; submits the word(s) to
 <filename>www.internetkeywords.org</filename> which will redirect you if it
@@ -2105,7 +2328,7 @@ found. If you select <guilabel>None</guilabel> then
 <para>If you check the <guilabel>Enable Search Shortcuts</guilabel> box
 &konqueror; will let you use the <guilabel>Shortcuts</guilabel> defined in the
 selection box to choose a particular search engine. For example you can type
-<userinput>av:linux</userinput> into the Locationbar to search for
+<userinput>av:linux</userinput> into the Location Toolbar to search for
 <quote>linux</quote> using Altavista.</para>
 </sect1>
 
@@ -3058,7 +3281,7 @@ Toolbar.</action></para></listitem> </varlistentry>
 <guimenu>Settings</guimenu>
 <guimenuitem>Show Location Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show/Hide the locationbar.</action></para></listitem>
+<listitem><para><action>Show/Hide the Location Toolbar.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -3292,8 +3515,8 @@ you are running.</action></para></listitem>
 </variablelist>
 
 </sect2>
-
 </sect1>
+
 </chapter>
 
 <chapter id="faq">
@@ -3366,7 +3589,7 @@ directories.</para></answer>
 <question><para>How do I clear out the history file?</para></question>
 <answer><para>There are two <quote>histories</quote>:</para>
 <itemizedlist>
-<listitem><para>One is used for text completion in the Locationbar text entry
+<listitem><para>One is used for text completion in the Location Toolbar text entry
 box. To clear this <mousebutton>right</mousebutton> click on the text entry
 box and select <guimenuitem>Empty Contents
 </guimenuitem>.</para></listitem>
