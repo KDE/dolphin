@@ -595,7 +595,7 @@ void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, 
         mmbClicked( static_cast<KFileIVI*>(_item)->item() );
 }
 
-void KonqKfmIconView::slotStarted( const QString & /*url*/ )
+void KonqKfmIconView::slotStarted()
 {
     m_pIconView->selectAll( false );
     if ( m_bLoading )
@@ -775,13 +775,15 @@ void KonqKfmIconView::slotRenderingFinished()
 
 bool KonqKfmIconView::openURL( const KURL & url )
 {
+    beforeOpenURL(); // see KonqDirPart
+
     if ( !m_dirLister )
     {
         // Create the directory lister
         m_dirLister = new KonqDirLister( true );
 
         QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
-                          this, SLOT( slotStarted( const QString & ) ) );
+                          this, SLOT( slotStarted() ) );
         QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
         QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
         QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );

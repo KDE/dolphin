@@ -100,14 +100,14 @@ protected slots:
   void slotSelectionChanged();
 
   // slots connected to the directory lister
-  void slotStarted( const QString & );
-  void slotCanceled();
-  void slotCompleted();
-  void slotNewItems( const KFileItemList& );
-  void slotDeleteItem( KFileItem * );
-  void slotRefreshItems( const KFileItemList& );
-  void slotClear();
-  void slotRedirection( const KURL & );
+  virtual void slotStarted();
+  virtual void slotCanceled();
+  virtual void slotCompleted();
+  virtual void slotNewItems( const KFileItemList& );
+  virtual void slotDeleteItem( KFileItem * );
+  virtual void slotRefreshItems( const KFileItemList& );
+  virtual void slotClear();
+  virtual void slotRedirection( const KURL & );
   void slotCloseView();
 
   void slotViewportAdjusted() { m_mimeTypeResolver->slotViewportAdjusted(); }
