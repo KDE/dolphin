@@ -13,7 +13,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>462</width>
+            <width>458</width>
             <height>373</height>
         </rect>
     </property>
@@ -81,7 +81,7 @@
                                 </property>
                                 <property stdset="1">
                                     <name>text</name>
-                                    <string>&amp;Scan for new plugins</string>
+                                    <string>&amp;Scan for New Plugins</string>
                                 </property>
                                 <property>
                                     <name>whatsThis</name>
