@@ -45,6 +45,8 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
       m_mode = (mode_t)((*it).m_long);
     else if ( (*it).m_uds == UDS_NAME )
       m_strText = decodeFileName( (*it).m_str );
+    else if ( (*it).m_uds == UDS_URL )
+      m_url = KURL((*it).m_str);
   }
   KFileItem::init(); // don't call derived methods !
 }
