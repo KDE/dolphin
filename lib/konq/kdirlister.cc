@@ -38,9 +38,6 @@ KDirLister::KDirLister()
   m_bIsLocalURL = false;
   m_bComplete = true;
   m_jobId = 0;
-
-  // Connect the timer
-  connect( &m_bufferTimer, SIGNAL( timeout() ), this, SLOT( slotBufferTimeout() ) );
 }
 
 KDirLister::~KDirLister()
@@ -135,8 +132,6 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   // Keep dirs (keep == true) => don't clear items
   m_bFoundOne = _keep;
 
-  m_buffer.clear();
-
   m_jobId = job->id();
   job->listDir( m_sURL );
 
@@ -145,9 +140,6 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
 {
-  if ( m_bufferTimer.isActive() )
-    m_bufferTimer.stop();
-
   kioErrorDialog( _errid, _errortext );
   m_bComplete = true;
 
@@ -156,13 +148,9 @@ void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
 
 void KDirLister::slotCloseURL( int /*_id*/ )
 {
-  if ( m_bufferTimer.isActive() )
-    m_bufferTimer.stop();
-
   if ( m_bComplete )
     return;
 
-  slotBufferTimeout();
   m_jobId = 0;
   m_bComplete = true;
 
@@ -171,15 +159,6 @@ void KDirLister::slotCloseURL( int /*_id*/ )
 
 void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
 {
-  m_buffer.append( _entry ); // Copies _entry, since m_buffer is a QValueList
-  if ( !m_bufferTimer.isActive() )
-    m_bufferTimer.start( 1000, true );
-}
-
-void KDirLister::slotBufferTimeout()
-{
-  //kdebug(0,1203,"BUFFER TIMEOUT");
-
   //The first entry ?
   if ( !m_bFoundOne )
   {
@@ -191,35 +170,23 @@ void KDirLister::slotBufferTimeout()
     m_bIsLocalURL = m_url.isLocalFile();
   }
 
-  QValueListIterator<KUDSEntry> it = m_buffer.begin();
+  QString name;
 
-  for( ; it != m_buffer.end(); ++it )
-  {
-    QString name;
+  // Find out about the name
+  KUDSEntry::ConstIterator it = _entry.begin();
+  for( ; it != _entry.end(); it++ )
+    if ( (*it).m_uds == KIO::UDS_NAME )
+      name = (*it).m_str;
 
-    // Find out about the name
-    KUDSEntry::Iterator it2 = (*it).begin();
-    for( ; it2 != (*it).end(); it2++ )
-      if ( (*it2).m_uds == KIO::UDS_NAME )
-	name = (*it2).m_str;
-
-    assert( !name.isEmpty() );
-    if ( m_isShowingDotFiles || name[0] != '.' ) {
-      KURL u( m_url );
-      u.addPath( name );
-      kdebug(0,1203,"Adding %s", u.url().ascii());
-      KFileItem* item = new KFileItem( *it, u );
-      m_lstFileItems.append( item );
-      emit newItem( item );
-    }
+  assert( !name.isEmpty() );
+  if ( m_isShowingDotFiles || name[0] != '.' ) {
+    KURL u( m_url );
+    u.addPath( name );
+    kdebug(0,1203,"Adding %s", u.url().ascii());
+    KFileItem* item = new KFileItem( _entry, u );
+    m_lstFileItems.append( item );
+    emit newItem( item );
   }
-
-  // kdebug(0, 1203, "Update !");
-  // Tell the view to redraw itself
-  //emit update(); // QIconView is smart and doesn't need that.
-  // kdebug(0, 1203, "Update done");
-
-  m_buffer.clear();
 }
 
 void KDirLister::updateDirectory( const QString& _dir )
@@ -262,17 +229,12 @@ void KDirLister::updateDirectory( const QString& _dir )
 void KDirLister::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
 {
   kioErrorDialog( _errid, _errortext );
-
   m_bComplete = true;
-
   emit canceled();
 }
 
 void KDirLister::slotUpdateFinished( int /*_id*/ )
 {
-  if ( m_bufferTimer.isActive() )
-    m_bufferTimer.stop();
-
   m_jobId = 0;
   m_bComplete = true;
 
@@ -358,7 +320,6 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 
   m_buffer.clear();
 
-  //emit update();
   emit completed();
 
   // continue with pending updates

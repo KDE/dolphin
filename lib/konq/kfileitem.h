@@ -42,7 +42,7 @@ public:
    * @param _entry the KIO entry used to get the file, contains info about it
    * @param _url the file url
    */
-  KFileItem( KUDSEntry& _entry, KURL& _url );
+  KFileItem( const KUDSEntry& _entry, KURL& _url );
   /**
    * Create an item representing a file, from all the necessary info for it
    * @param _text the text showed for the file
@@ -81,7 +81,7 @@ public:
    * @param which UDS_MODIFICATION_TIME, UDS_ACCESS_TIME or even UDS_CREATION_TIME
    * @return the time asked for, in string format
    */
-  QString time( int which ) const;
+  QString time( unsigned int which ) const;
   /**
    * @return true if the file is a local file
    */
@@ -202,7 +202,13 @@ private:
   bool m_bMarked;
 };
 
+/**
+ * List of KFileItems
+ */
 typedef QList<KFileItem> KFileItemList;
+/**
+ * Iterator for KFileItemList
+ */
 typedef QListIterator<KFileItem> KFileItemListIterator;
 
 #endif

@@ -20,29 +20,29 @@ INCLUDES = $(all_includes) $(MICO_INCLUDES)
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0
-libkonq_la_LIBADD = -lkded $(LIB_KFILE) -lkpartsui -lkparts
+libkonq_la_LIBADD = -lkded $(LIB_KFILE)
 
-libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc kpopupmenu.cc \
+libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
 	kpropsdlg.cc \
-	kdirlister.cc kfileitem.cc kfileivi.cc konqsettings.cc \
-	qiconview.cpp qiconview_hack.cc
+	kdirlister.cc kfileitem.cc kfileivi.cc konqsettings.cc
+#	qiconview.cpp qiconview_hack.cc
 
-METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \
+METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc konqpopupmenu.moc \
 	kpropsdlg.moc \
 	kdirlister.moc kfileivi.moc 
 
-include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h kpopupmenu.h \
+include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	kpropsdlg.h \
-	kdirlister.h kfileitem.h kfileivi.h konqdefaults.h konqsettings.h\
-	qiconview.h
+	kdirlister.h kfileitem.h kfileivi.h konqdefaults.h konqsettings.h
+#	qiconview.h
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/libkonq.pot
 
-qiconview.moc: $(srcdir)/qiconview.h
-	$(MOC) $(srcdir)/qiconview.h -o qiconview.moc
+#qiconview.moc: $(srcdir)/qiconview.h
+#	$(MOC) $(srcdir)/qiconview.h -o qiconview.moc
 
-qiconview.moc.cpp: $(srcdir)/qiconview.cpp
-	$(MOC) $(srcdir)/qiconview.cpp -o qiconview.moc.cpp
+#qiconview.moc.cpp: $(srcdir)/qiconview.cpp
+#	$(MOC) $(srcdir)/qiconview.cpp -o qiconview.moc.cpp
 
-qiconview.lo : qiconview.moc.cpp qiconview.moc qiconview.cpp
+#qiconview.lo : qiconview.moc.cpp qiconview.moc qiconview.cpp

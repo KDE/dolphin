@@ -21,22 +21,26 @@
 #define __knewmenu_h
 
 #include <qintdict.h>
-#include <qpopmenu.h>
 #include <qstringlist.h>
-
-#include <openparts_ui.h>
+#include <qaction.h>
 
 /**
  * The manager for the 'New' submenu
  * Fills it with 'Folder' and one item per Template
  * Updates the menu if templates are added (fillTemplates() has to be called)
- *  hmm, perhaps a long-period KDirWatch here ??
+ *  hmm, perhaps a long-period KDirWatch here ??  (TODO !!)
+ *
+ * The New menu can be a standalone popupmenu or a
+ * popupmenu in a menubar
  */
-class KNewMenu : public QObject
+class KNewMenu : public QActionMenu
 {
   Q_OBJECT
 public:
-    KNewMenu( OpenPartsUI::Menu_ptr menu = 0L );
+    /**
+     * Constructor
+     */
+    KNewMenu( QActionCollection * _collec, const char *name=0L );
     ~KNewMenu() {}
 
     /**
@@ -53,34 +57,21 @@ public:
         popupFiles.append( _file );
     }
 
-    /**
-     * @return the popup menu, if not using corba, so that
-     * it can be added to another popup menu
-     */
-    QPopupMenu *popupMenu()
-    {
-      if ( m_bUseOPMenu )
-        return 0L;
-      else
-        return m_pMenu;
-    }
-
 public slots:        
     /**
      * Called when New->* is clicked
      */
-    void slotNewFile( int _id );
+    void slotNewFile();
  
     /**
-     * Called before showing the New menu
+     * Checks if updating the list is necessary
+     * IMPORTANT : Call this in the slot for aboutToShow.
+     * You should probably call setPopupFiles at the same time
+     * (that's for menu in the menubar - otherwise just call both at
+     * creation time)
      */
     void slotCheckUpToDate( );
 
-    /*
-     * Called when the templates has been copied
-     */
-    //    void slotCopyFinished( int id );
-     
 private:
 
     /**
@@ -93,6 +84,8 @@ private:
      * the same order as the 'New' menu.
      */
     static QStringList * templatesList;
+
+    QActionCollection * m_actionCollection;
 
     /**
      * Is increased when templatesList has been updated and
@@ -114,11 +107,6 @@ private:
      * Used to popup properties for it
      */
     QIntDict <QString> m_sDest;
-    
-    bool m_bUseOPMenu;
-    
-    OpenPartsUI::Menu_var m_vMenu;
-    QPopupMenu *m_pMenu;
 };
 
 #endif

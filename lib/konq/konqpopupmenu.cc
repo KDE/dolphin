@@ -22,8 +22,6 @@
 #include <qapplication.h>
 #include <qdragobject.h>
 
-#include <opMenu.h>
-
 #include <kbookmark.h>
 #include <kdebug.h>
 #include <kded_instance.h>
@@ -42,25 +40,21 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 
+#include <assert.h>
+
 #include "kpropsdlg.h"
 #include "knewmenu.h"
-#include "kpopupmenu.h"
+#include "konqpopupmenu.h"
 
 KonqPopupMenu::KonqPopupMenu( KFileItemList items,
                               QString viewURL,
-                              bool canGoBack,
-                              bool canGoForward,
-                              bool isMenubarHidden,
-			      bool handleEditOperations,
-			      bool canCopy,
-			      bool canPaste,
-			      bool canMove )
-  : m_pMenuNew(0L), m_sViewURL(viewURL), m_lstItems(items)
+                              QActionCollection & actions,
+                              KNewMenu * newMenu )
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions), m_pMenuNew( newMenu ), 
+    m_sViewURL(viewURL), m_lstItems(items)
 {
   assert( m_lstItems.count() >= 1 );
 
-  m_popupMenu = new OPMenu;
-  m_bHandleEditOperations = handleEditOperations;
   bool bHttp          = true;
   bool isTrash        = true;
   bool currentDir     = false;
@@ -69,7 +63,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   bool sWriting       = true;
   bool sDeleting      = true;
   bool sMoving        = true;
-  bool hasUpURL       = false;
+  //  bool hasUpURL       = false;
   m_sMimeType         = m_lstItems.first()->mimetype();
   mode_t mode         = m_lstItems.first()->mode();
   m_lstPopupURLs.clear();
@@ -143,134 +137,125 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     {
       currentDir = true;
       // ok, now check if we enable 'up'
+      /*
       if ( url.hasPath() )
         hasUpURL = ( url.path(1) != "/");
+      */
     }
   }
   
-  QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
+  QObject::disconnect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
-  m_popupMenu->clear();
+  clear();
 
   //////////////////////////////////////////////////////////////////////////
 
-  // check if menubar is hidden and if yes add "Show Menubar"
-  if (isMenubarHidden)
+  QAction * act;
+  if ( ( act = m_actions.action("showmenubar") ) )
   {
-    m_popupMenu->insertItem( i18n("Show Menubar"), KPOPUPMENU_SHOWMENUBAR_ID );
-    m_popupMenu->insertSeparator();
+    act->plug( this );
+    insertSeparator();
   }
   //------------------------------
 
   if ( isTrash )
   {
-    id = m_popupMenu->insertItem( i18n( "New view" ), 
+    id = insertItem( i18n( "New view" ), 
 				  this, SLOT( slotPopupNewView() ) );
-    m_popupMenu->insertSeparator();    
-    id = m_popupMenu->insertItem( i18n( "Empty Trash Bin" ), 
+    insertSeparator();    
+    id = insertItem( i18n( "Empty Trash Bin" ), 
 				  this, SLOT( slotPopupEmptyTrashBin() ) );
   } 
-  else if ( S_ISDIR( mode ) ) // all URLs are directories
+  else 
   {
-    m_pMenuNew = new KNewMenu(); 
-    id = m_popupMenu->insertItem( i18n("&New"), m_pMenuNew->popupMenu() );
-    m_popupMenu->insertSeparator();
+    if ( S_ISDIR( mode ) ) // all URLs are directories
+    {
+      // Add the "new" menu
+      m_pMenuNew->plug( this );
+      insertSeparator();
 
-    if ( currentDir ) {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.png" ), i18n( "Up" ), KPOPUPMENU_UP_ID );
-      m_popupMenu->setItemEnabled( id, hasUpURL );
+      if ( currentDir ) {
+        if ( ( act = m_actions.action("up") ) )
+          act->plug( this );
+        //setItemEnabled( id, hasUpURL );
 
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.png" ), i18n( "Back" ), KPOPUPMENU_BACK_ID );
-      m_popupMenu->setItemEnabled( id, canGoBack );
+        if ( ( act = m_actions.action("back") ) )
+          act->plug( this );
+        //setItemEnabled( id, canGoBack );
 
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.png" ), i18n( "Forward" ), KPOPUPMENU_FORWARD_ID );
-      m_popupMenu->setItemEnabled( id, canGoForward );
+        if ( ( act = m_actions.action("forward") ) )
+          act->plug( this );
+        //setItemEnabled( id, canGoForward );
 
-      m_popupMenu->insertSeparator();  
+        insertSeparator();  
+      }
+
+      id = insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
+      insertSeparator();    
+
+    }
+    else // not trash nor dir
+    {
+      if ( bHttp )
+      {
+        /* Should be for http URLs (HTML pages) only ... */
+        id = insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
+      }
+      id = insertItem( i18n( "Open with" ), this, SLOT( slotPopupOpenWith() ) );
+      insertSeparator();
     }
 
-    id = m_popupMenu->insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
-    m_popupMenu->insertSeparator();    
-
-    if ( sReading && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), KPOPUPMENU_COPY_ID );
-      m_popupMenu->setItemEnabled( id, canCopy );
-    }      
+    if ( sReading )
+      if ( ( act = m_actions.action("copy") ) )
+        act->plug( this );
       
+    if ( ( act = m_actions.action("paste") ) )
+      act->plug( this );
+
+    /*
+      I'm confused by this ...
     if ( sWriting && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
+      id = insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
     else if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
-      m_popupMenu->setItemEnabled( id, canPaste );
+    // do we have to create the item in this case, or in the other case ?
+      id = insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
+      setItemEnabled( id, canPaste );
     }      
+    */
     
+    /*
     if ( isClipboardEmpty() && m_bHandleEditOperations )
-      m_popupMenu->setItemEnabled( id, false );
+      setItemEnabled( id, false );
+    */
       
-    if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
-      m_popupMenu->setItemEnabled( id, canMove );
-    }      
+    if ( ( act = m_actions.action("trash") ) )
+      act->plug( this );
+    /*
+      if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
+      id = insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
+      else if ( !m_bHandleEditOperations )
+      {
+      id = insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
+      setItemEnabled( id, canMove );
+      }      
+    */
       
-    if ( sDeleting && !currentDir && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( i18n( "Delete" ), KPOPUPMENU_DELETE_ID );
-      m_popupMenu->setItemEnabled( id, canMove );
-    }
-    
-  }
-  else
-  {
-    if ( bHttp )
-    {
-      /* Should be for http URLs (HTML pages) only ... */
-      id = m_popupMenu->insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
-    }
-    id = m_popupMenu->insertItem( i18n( "Open with" ), this, SLOT( slotPopupOpenWith() ) );
-    m_popupMenu->insertSeparator();
-
-    if ( sReading && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), KPOPUPMENU_COPY_ID );
-      m_popupMenu->setItemEnabled( id, canCopy );
-    }      
-
-    if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
-      m_popupMenu->setItemEnabled( id, canPaste );
-    }      
-      
-    if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
-      m_popupMenu->setItemEnabled( id, canMove );
-    }      
-      
-    if ( sDeleting && !currentDir && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-      id = m_popupMenu->insertItem( i18n( "Delete" ), KPOPUPMENU_DELETE_ID );
-      m_popupMenu->setItemEnabled( id, canMove );
-    }
+    if ( ( act = m_actions.action("delete") ) )
+      act->plug( this );
+    /*
+      if ( sDeleting && !currentDir && m_bHandleEditOperations )
+      id = insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
+      else if ( !m_bHandleEditOperations )
+      {
+      id = insertItem( i18n( "Delete" ), KPOPUPMENU_DELETE_ID );
+      setItemEnabled( id, canMove );
+      }
+    */
     
   }
 
-  id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupAddToBookmark() ) );
+  id = insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupAddToBookmark() ) );
 
   if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
@@ -324,10 +309,10 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     }
   
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
-      QObject::connect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
+      QObject::connect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
     if ( !offers.isEmpty() || !user.isEmpty() )
-      m_popupMenu->insertSeparator();
+      insertSeparator();
   
     m_mapPopup.clear();
     m_mapPopup2.clear();
@@ -336,7 +321,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     KTrader::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
     {    
-      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it)->icon(), true ) ),
+      id = insertItem( *(KPixmapCache::pixmap( (*it)->icon(), true ) ),
 				    (*it)->name() );
       m_mapPopup[ id ] = *it;
     }
@@ -345,47 +330,40 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     for( ; it2 != user.end(); ++it2 )
     {
       if ( !(*it2).m_strIcon.isEmpty() )
-	id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
+	id = insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
       else
-	id = m_popupMenu->insertItem( (*it2).m_strName );
+	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
     }
     
     if ( builtin.count() > 0 )
-      m_popupMenu->insertSeparator();
+      insertSeparator();
 
     it2 = builtin.begin();
     for( ; it2 != builtin.end(); ++it2 )
     {
       if ( !(*it2).m_strIcon.isEmpty() )
-	id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
+	id = insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
       else
-	id = m_popupMenu->insertItem( (*it2).m_strName );
+	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
     }
 
     bLastSepInserted = true;
-    m_popupMenu->insertSeparator();
+    insertSeparator();
   
-    id = m_popupMenu->insertItem( i18n( "Edit Mime Type" ), 
+    id = insertItem( i18n( "Edit Mime Type" ), 
                                   this, SLOT( slotPopupMimeType() ) );
   }
   if ( PropertiesDialog::canDisplay( m_lstItems ) )
   {
-    if (!bLastSepInserted) m_popupMenu->insertSeparator();
-    m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
+    if (!bLastSepInserted) insertSeparator();
+    insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
   }
-}
-
-int KonqPopupMenu::exec( QPoint p )
-{
-  return m_popupMenu->exec( p );
 }
 
 KonqPopupMenu::~KonqPopupMenu()
 {
-  delete m_popupMenu;
-  if ( m_pMenuNew ) delete m_pMenuNew;
 }
 
 void KonqPopupMenu::slotPopupNewView()
@@ -511,4 +489,4 @@ void KonqPopupMenu::slotPopupProperties()
   (void) new PropertiesDialog( m_lstItems );
 }
 
-#include "kpopupmenu.moc"
+#include "konqpopupmenu.moc"

@@ -31,7 +31,7 @@
 #include <klocale.h>
 #include <krun.h>
 
-KFileItem::KFileItem( KUDSEntry& _entry, KURL& _url ) :
+KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ), 
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -42,7 +42,7 @@ KFileItem::KFileItem( KUDSEntry& _entry, KURL& _url ) :
   m_bLink = false;
   m_pMimeType = 0;
   m_strText = QString::null;
-  KUDSEntry::Iterator it = m_entry.begin();
+  KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
     if ( (*it).m_uds == UDS_FILE_TYPE )
       m_mode = (mode_t)((*it).m_long);
@@ -221,7 +221,7 @@ long KFileItem::size() const
   return 0L;
 }
 
-QString KFileItem::time( int which ) const
+QString KFileItem::time( unsigned int which ) const
 {
   // Extract it from the UDSEntry
   KUDSEntry::ConstIterator it = m_entry.begin();

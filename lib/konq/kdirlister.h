@@ -113,6 +113,8 @@ public:
    */
   QList<KFileItem> & items() { return m_lstFileItems; }
 
+  int jobId() { return m_jobId; }
+
 signals:
   /**
    * Tell the view that we started to list _url.
@@ -138,7 +140,6 @@ protected slots:
   virtual void slotCloseURL( int _id );
   virtual void slotListEntry( int _id, const KUDSEntry& _entry );
   virtual void slotError( int _id, int _errid, const char *_errortext );
-  virtual void slotBufferTimeout();
   virtual void slotUpdateError( int _id, int _errid, const char *_errortext );
   virtual void slotUpdateFinished( int _id );
   virtual void slotUpdateListEntry( int _id, const KUDSEntry& _entry );
@@ -156,7 +157,7 @@ protected:
   QString m_sURL;
 
   /** Did we found the first file in the dir ?
-      Set to false by openURL and to true by slotBufferTimeout */
+      Set to false by openURL and to true by slotListEntry */
   bool m_bFoundOne;
   bool m_bIsLocalURL;
 
@@ -177,8 +178,8 @@ protected:
   /** Used internally between starting-of-listing and first timeout */
   QString m_sWorkingURL;
 
+  /** Keep entries found - used by slotUpdate* */
   QValueList<KUDSEntry> m_buffer;
-  QTimer m_bufferTimer;
 
   QStringList m_lstPendingUpdates;
 };

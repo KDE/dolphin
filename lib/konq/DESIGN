@@ -4,16 +4,15 @@ libkonq is the construction kit for a file manager
 It is used by konqueror, of course, but also by kdesktop, which is 
 another file manager in fact, and by apps that want to use
 the properties dialog boxes (like kpanel and kfind) or the bookmark
-classes (none yet... kohtml ? Hum, the bookmark classes would have to be moved
-to kdelibs)
+classes.
 
 libkonq contents :
 ==================
 
 1) menus
 kbookmark.*     : general purpose bookmark class
-kbookmarkmenu.* : openparts-based bookmark menu
-kpopupmenu.*    : popupmenu for URLs
+kbookmarkmenu.* : bookmark menu
+konqpopupmenu.* : popupmenu for URLs
 knewmenu.*      : implements the 'new' menu (file templates)
 
 2) files
@@ -23,9 +22,11 @@ kdirlister.*    : directory lister (handles kiojob and the kfileitems for you)
 3) icons
 kfileivi.*      : icon representing a file (inherits QListViewItem and 
                   uses KFileItem for holding file information)
-kicondrag.*     : used together with kiconcontainer to move icons with the mouse
-                  ( ... to be ported ... )
 
 4) dialog boxes
 kpropsdlg.*     : the properties dialog box (for any URL)
+
+5) configuration
+konqsettings.*  : settings
+konqdefaults.h  : default values, shared with kcmkonq
 

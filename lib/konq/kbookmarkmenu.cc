@@ -31,19 +31,23 @@
 #include <errno.h>
 #include <assert.h>
 
-#include <kurl.h>
-#include <kbookmark.h>
-#include <kapp.h>
-#include <kwm.h>
-#include <kdebug.h>
-#include <kmessagebox.h>
 #include <qstring.h>
+#include <qpopupmenu.h>
+
+#include <kaction.h>
+#include <kapp.h>
+#include <kbookmark.h>
+#include <kdebug.h>
+#include <kiconloader.h>
+#include <kglobal.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kurl.h>
+#include <kwm.h>
 
 #include "kmimetypes.h"
 #include "kpixmapcache.h"
 
-#include <opUIUtils.h>
-#include <klocale.h>
 
 /********************************************************************
  *
@@ -51,17 +55,10 @@
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root )
-  : m_bIsRoot(_root), m_pOwner(_owner)
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, QActionCollection * _collec, bool _root )
+  : m_bIsRoot(_root), m_pOwner(_owner), m_parentMenu( _parentMenu ), m_actionCollection( _collec )
 {
   m_lstSubMenus.setAutoDelete( true );
-
-  assert( !CORBA::is_nil( menu ) );
-
-  m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
-  m_vPart = OpenParts::Part::_duplicate( part );
-  m_vMenu->connect( "activated", m_vPart, "slotBookmarkSelected" );
-  m_vMenu->connect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
 
   if ( m_bIsRoot )
   {
@@ -73,86 +70,75 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, OpenPartsUI::Menu_ptr men
 KBookmarkMenu::~KBookmarkMenu()
 {
   m_lstSubMenus.clear();
-
-  assert( !CORBA::is_nil( m_vMenu ) );
-
-  m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
-  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
-
-  m_vMenu = 0L;
 }
 
 void KBookmarkMenu::slotBookmarksChanged()
 {
-  assert( !CORBA::is_nil( m_vMenu ) );
-
   m_lstSubMenus.clear();
 
   if ( !m_bIsRoot )
   {
-    m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
-    m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
+    //  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
   }    
 
-  m_vMenu->clear();
+  m_parentMenu->clear();
 
   if ( m_bIsRoot )
   {
-    QString text = i18n("&Edit Bookmarks...");
-    m_vMenu->insertItem( text, m_vPart, "slotEditBookmarks", 0 );
+    KAction * m_paEditBookmarks = new KAction( i18n( "&Edit Bookmarks..." ), 0, KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" ); 
+    m_paEditBookmarks->plug( m_parentMenu );
   }    
 
-  kdebug(0, 1203, "fillBookmarkMenu : starting (this his hopefully faster than before)");
+  KGlobal::iconLoader()->setIconType( "icon" );
   fillBookmarkMenu( KBookmarkManager::self()->root() );
-  kdebug(0, 1203, "fillBookmarkMenu : done");
+  KGlobal::iconLoader()->setIconType( "toolbar" ); // restore default
 }
 
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 {
-  KBookmark *bm;
-  QString text;
+  // create the first item, add bookmark, with the parent's ID (as a name)
+  KAction * m_paAddBookmarks = new KAction( i18n( "&Add Bookmark" ), 0,
+                                            this, SLOT( slotBookmarkSelected() ),
+                                            m_actionCollection, QString("bookmark%1").arg(parent->id()) );
+  m_paAddBookmarks->plug( m_parentMenu );
 
-  assert( !CORBA::is_nil( m_vMenu ) );
-  // kdebug(0, 1202, "KBookmarkMenu::fillBookmarkMenu( %p )", parent);
+  m_parentMenu->insertSeparator();
 
-  text = i18n("&Add Bookmark");
-  m_vMenu->insertItem7( text, (CORBA::Long)parent->id(), -1 );
-  m_vMenu->insertSeparator( -1 );
-
-  // Create one OpenPartsUI::Pixmap (will be reused for each call)
-  OpenPartsUI::Pixmap* pix = new OpenPartsUI::Pixmap;
-  pix->onlyFilename = true;
-
-  for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
+  for ( KBookmark * bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
-    QString pixmapFullPath = KPixmapCache::pixmapFile( bm->pixmapFile(), true /* mini icon */ );
-    pix->data = pixmapFullPath.data();
-    text = bm->text();
     if ( bm->type() == KBookmark::URL )
     {
-        m_vMenu->insertItem11( *pix, text, (CORBA::Long)bm->id(), -1 );	
+      // create a normal URL item, with ID as a name
+      KAction * action = new KAction( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ), 0,
+                                      this, SLOT( slotBookmarkSelected() ),
+                                      m_actionCollection, QString("bookmark%1").arg(bm->id()) );
+      action->plug( m_parentMenu );
     }
     else
     {	
-        OpenPartsUI::Menu_var subMenuVar;
-        m_vMenu->insertItem12( *pix, text, subMenuVar, -1, -1 );
-        KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
-        m_lstSubMenus.append( subMenu );
-        subMenu->fillBookmarkMenu( bm );
+      QActionMenu * actionMenu = new QActionMenu( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ),
+                                                  m_actionCollection, 0L );
+      actionMenu->plug( m_parentMenu );
+      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(), 
+                                                  m_actionCollection, false );
+      m_lstSubMenus.append( subMenu );
+      subMenu->fillBookmarkMenu( bm );
     }
   }
-  delete pix;
 }
 
-void KBookmarkMenu::slotBookmarkSelected( int _id )
+void KBookmarkMenu::slotBookmarkSelected()
 {
+  debug("KBookmarkMenu::slotBookmarkSelected()");
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
+  debug( sender()->name() );
   
-  KBookmark *bm = KBookmarkManager::self()->findBookmark( _id );
+  int id = QString( sender()->name() + 8 ).toInt(); // skip "bookmark"
+  KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
 
   if ( bm )
   {
-    if ( bm->type() == KBookmark::Folder )
+    if ( bm->type() == KBookmark::Folder ) // "Add bookmark"
     {
       QString title = m_pOwner->currentTitle();
       QString url = m_pOwner->currentURL();
@@ -170,6 +156,8 @@ void KBookmarkMenu::slotBookmarkSelected( int _id )
 	
     m_pOwner->openBookmarkURL( bm->url() );
   }
+  else
+    debug("Bookmark not found !");
 }
 
 #include "kbookmarkmenu.moc"

@@ -389,6 +389,9 @@ protected:
   QString pixmapFile;
 };
 
+/**
+ * Properties page for directories
+ */
 class DirPropsPage : public PropsPage
 {
   Q_OBJECT
@@ -508,6 +511,9 @@ protected:
   QString pixmapFile;
 };
 
+/**
+ * Properties page for device .desktop files
+ */
 class DevicePropsPage : public PropsPage
 {
   Q_OBJECT

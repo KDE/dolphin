@@ -99,6 +99,7 @@ public:
   /**
    * Creates a bookmark manager with a path to the bookmarks
    * (e.g. kapp->localkdedir()+"/share/apps/kfm/bookmarks")
+   * or something more KDE2 compliant :)
    */
   KBookmarkManager( QString _path );
   virtual ~KBookmarkManager();
@@ -112,7 +113,8 @@ public:
    */
   KBookmark* root() { return m_Root; }
   /**
-   * For internal use only
+   * @internal
+   * Used by KBookmarkManager when a bookmark is selected
    */
   KBookmark* findBookmark( int _id ) { return m_Root->findBookmark( _id ); }
 
@@ -148,7 +150,7 @@ public slots:
    */
   void slotNotify( const QString &_url );
   /**
-   * For internal use only
+   * Connect this slot directly to the menu item "edit bookmarks"
    */
   void slotEditBookmarks();
   

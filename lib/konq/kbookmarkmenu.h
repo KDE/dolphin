@@ -20,13 +20,13 @@
 #ifndef __kbookmarkmenu_h__
 #define __kbookmarkmenu_h__
 
-#include <openparts.h>
-#include <openparts_ui.h>
 #include <qlist.h>
 #include <qobject.h>
 
 class QString;
 class KBookmark;
+class QActionCollection;
+class QPopupMenu;
 
 /**
  * A widget using the bookmarks must derive from this class. It implements
@@ -38,17 +38,17 @@ public:
   /**
    * This function is called if the user selectes a bookmark. You must overload it.
    */
-  virtual void openBookmarkURL( const char *_url ) = 0L;
+  virtual void openBookmarkURL( const QString & url ) = 0L;
   /**
    * @return the title of the current page. This is called if the user wants
    *         to add the current page to the bookmarks.
    */
-  virtual QString currentTitle() = 0;
+  virtual QString currentTitle() = 0L;
   /**
    * @return the URL of the current page. This is called if the user wants
    *         to add the current page to the bookmarks.
    */
-  virtual QString currentURL() = 0;
+  virtual QString currentURL() = 0L;
 };
 
 /**
@@ -60,21 +60,29 @@ class KBookmarkMenu : public QObject
 {
   Q_OBJECT
 public:
-  KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root = true );
+  /**
+   * Fills a bookmark menu (one instance of KBookmarkMenu is created
+   * for the toplevel menu, but also one per submenu).
+   * @param _owner implementation of the KBookmarkOwner interface (callbacks)
+   * @param _parentMenu menu to be filled
+   * @param _collec parent for the QActions
+   * @param _root true for the toplevel menu
+   */
+  KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu, QActionCollection * _collec,  bool _root );
   ~KBookmarkMenu();  
 
 public slots:
   void slotBookmarksChanged();
-  void slotBookmarkSelected( int _id );
+  void slotBookmarkSelected();
   
 protected:
   void fillBookmarkMenu( KBookmark *parent );
 
   bool m_bIsRoot;
   KBookmarkOwner *m_pOwner;
-  OpenPartsUI::Menu_var m_vMenu;
-  OpenParts::Part_var m_vPart;
+  QPopupMenu * m_parentMenu;
   QList<KBookmarkMenu> m_lstSubMenus;
+  QActionCollection * m_actionCollection;
 };
 
 #endif
