@@ -908,16 +908,14 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 
 void KIconContainer::drawSelectionRectangle( int x, int y, int dx, int dy )
 {
-  // This doesn't draw anything - no idea why ! (David)
-  QPainter * painter = new QPainter;
-  painter->begin( this );
-  QPen pen = painter->pen();
-  QBrush brush;
-  painter->setBrush( brush );
-  painter->drawRect( x, y, dx, dy );
-  painter->drawRect( x+1, y+1, dx - 2, dy - 2 );
-  painter->end();
-  delete painter;
+  QPainter p;
+  p.begin( viewport() );
+  p.setRasterOp( NotROP );
+  p.setPen( QPen( Qt::black, 1, Qt::DashDotLine ) );
+  p.setBrush( Qt::NoBrush );
+  p.drawRect( x, y, dx, dy );
+  // p.drawRect( x+1, y+1, dx - 2, dy - 2 );
+  p.end();
   /*
     XDrawRectangle(qt_xdisplay(), qt_xrootwin(), gc, x, y, dx, dy);
     if (dx>2) dx-=2;
