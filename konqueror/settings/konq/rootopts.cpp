@@ -449,6 +449,7 @@ void KRootOptions::save()
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
+    kapp->dcopClient()->send( "menuapplet", "menuapplet", "configure()", data );
 }
 
 void KRootOptions::enableChanged()
