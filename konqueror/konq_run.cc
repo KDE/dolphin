@@ -58,23 +58,23 @@ void KonqRun::foundMimeType( const char *_type )
   KRun::foundMimeType( _type );
 }
 
-bool KonqFileManager::openFileManagerWindow( const char *_url )
+bool KonqFileManager::openFileManagerWindow( const QString & _url )
 {
   // If _url is 0L, open $HOME
-  QString url = _url ? QString( _url ) : QDir::homeDirPath().prepend( "file:" );
+  QString url = !_url.isEmpty() ? _url : QDir::homeDirPath().prepend( "file:" );
 
   KonqShell *shell = new KonqShell;
   
   KonqPart *part = new KonqPart;
   
-  if ( _url )
+  if ( !_url.isEmpty() )
     part->setOpenInitialURL( false );
   
   shell->setRootPart( part );
   
   shell->show();
 
-  if ( _url )
+  if ( !_url.isEmpty() )
     ((KonqMainView *)shell->rootView())->openURL( 0L, url );
 
   return true; // why would it fail ? :)

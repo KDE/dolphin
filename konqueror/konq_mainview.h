@@ -45,12 +45,9 @@ class KonqPart;
 class KonqComboAction;
 struct HistoryEntry;
 
-class KonquerorIfaceImpl;
-
 class KonqMainView : public View,
                      virtual public KBookmarkOwner
 {
-  friend class KonquerorIfaceImpl;
   Q_OBJECT
 public:
   KonqMainView( KonqPart *part, QWidget *parent = 0, const char *name = 0 );
@@ -129,6 +126,8 @@ public:
   virtual QString currentURL();
 
   void setLocationBarURL( KonqChildView *childView, const QString &url );
+
+  static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
 
 protected:
   virtual void resizeEvent( QResizeEvent * );
@@ -292,7 +291,6 @@ private:
 
   static QList<QPixmap> *s_plstAnimatedLogo;
 
-protected:
   static bool s_bMoveSelection;  
 };
 

@@ -59,7 +59,7 @@ public:
   KonqFileManager() {} ;
   virtual ~KonqFileManager() {} ;
  
-  virtual bool openFileManagerWindow( const char *_url );
+  virtual bool openFileManagerWindow( const QString & _url );
 };
 
 #endif

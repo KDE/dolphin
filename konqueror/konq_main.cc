@@ -63,13 +63,13 @@ void KonquerorIfaceImpl::configure()
 
 void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
 {
-  KFileManager::getFileManager()->openFileManagerWindow( url.ascii() );
+  KFileManager::getFileManager()->openFileManagerWindow( url );
 }
 
 void KonquerorIfaceImpl::setMoveSelection( int move )
 {
   qDebug( "setMoveSelection: %i", move );
-  KonqMainView::s_bMoveSelection = (bool)move;
+  KonqMainView::setMoveSelection( (bool)move );
 }
 
 int main( int argc, char **argv )
