@@ -136,6 +136,7 @@ public:
     QValueList<KBookmark> selectedBookmarksExpanded() const;
 
     QListViewItem* selectedItem();
+    KBookmark rootBookmark() const;
     KBookmark selectedBookmark() const;
 
     void testBookmarks(QValueList<KBookmark> bks);

@@ -307,10 +307,24 @@ QListViewItem* KEBTopLevel::selectedItem()
    return (selectedItems()->first());
 }
 
+KBookmark KEBTopLevel::rootBookmark() const
+{
+   QListViewItem *rootItem = m_pListView->firstChild();
+   if (rootItem->isSelected()) {
+      kdDebug() << "no item" << endl;
+      return ITEM_TO_BK(rootItem);
+   } else {
+      kdDebug() << "oh, arse, we really messed up this time. :)" << endl;
+   }
+}
+
 KBookmark KEBTopLevel::selectedBookmark() const
 {
-   Q_ASSERT( (numSelected() == 1) );
-   return (selectedBookmarks().first());
+   if (numSelected() == 1) {
+       return (selectedBookmarks().first());
+   } else {
+      return rootBookmark();
+   }
 }
 
 // AK - TODO
@@ -443,6 +457,15 @@ void KEBTopLevel::slotSelectionChanged()
    bool singleSelect = false; // for simplification, not a real pulled value
 
    QListViewItem * item = selectedItems()->first();
+
+   if (!item) {
+      QListViewItem *rootItem = m_pListView->firstChild();
+      if (rootItem->isSelected()) {
+         kdDebug() << "no item" << endl;
+         item = rootItem;
+      }
+   }
+
    if (item) {
       kdDebug() << "KEBTopLevel::slotSelectionChanged " << ITEM_TO_BK(item).address() << endl;
       itemSelected = true;
@@ -453,6 +476,8 @@ void KEBTopLevel::slotSelectionChanged()
       urlIsEmpty= nbk.url().isEmpty();
       multiSelect = numSelected() > 1;
       singleSelect = !multiSelect && itemSelected;
+   } else {
+      kdDebug() << "no item" << endl;
    }
 
    updateSelection();
