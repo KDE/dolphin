@@ -325,7 +325,7 @@ void KonqRun::save( const KURL & url, const QString & suggestedFilename )
         KURL destURL( dlg->selectedURL() );
         if ( !destURL.isMalformed() )
         {
-            /*KIO::Job *job =*/ KIO::file_copy( url, destURL );
+            /*KIO::Job *job =*/ KIO::copy( url, destURL );
             // TODO connect job result, to display errors
             // Hmm, no object to connect to, here.
             // -> to move to konqoperations
