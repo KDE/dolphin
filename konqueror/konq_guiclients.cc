@@ -253,6 +253,9 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     if (!childView || !childView->frame())
         return;
 
+    // Toggleviews don't need their statusbar
+    childView->frame()->statusbar()->hide();
+
     KonqFrameContainerBase *newContainer = childView->frame()->parentContainer();
 
     if (newContainer->frameType()=="Container")
