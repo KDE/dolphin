@@ -25,15 +25,12 @@ AC_REQUIRE([AC_PATH_XTRA])
 motif_includes=
 motif_libraries=
 
-dnl AC_ARG_WITH(motif,
-dnl [  --without-motif         do not use Motif widgets])
-dnl Treat --without-motif like
-dnl --without-motif-includes --without-motif-libraries.
-dnl if test "$with_motif" = "no"
-dnl then
-dnl   motif_includes=none
-dnl   motif_libraries=none
-dnl fi
+AC_ARG_WITH(motif,
+[  --without-motif         do not use Motif widgets],
+[if test "$withval" = "no" ; then
+  motif_includes=none
+  motif_libraries=none
+fi])dnl
 
 AC_ARG_WITH(motif-includes,
 [  --with-motif-includes=DIR    Motif include files are in DIR],
