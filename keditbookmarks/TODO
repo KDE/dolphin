@@ -7,7 +7,7 @@ basic plan:
       make empty constructors for all
       move doImport into the base constructor
    possible use of guistates for action enabling logic?
-   recursive 404 finder, recursive sort
+   recursive 404 finder, recursive sort, duplicate finder
    add some metadata support - comments
 
 switch favicons to use the bookmarkiterator

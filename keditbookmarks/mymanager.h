@@ -50,7 +50,6 @@ class BkManagerAccessor {
    friend class KEBListView;
    friend class KEBTopLevel;
    friend class ActionsImpl;
-
    friend class ListView;
 
    friend class MoveCommand;
@@ -65,7 +64,7 @@ class BkManagerAccessor {
    friend class ImportCommand;
    friend class XBELImportCommand;
 
-public:
+private:
    static KBookmarkManager* mgr() { return MyManager::self()->mgr(); }
 };
 

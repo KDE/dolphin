@@ -154,7 +154,9 @@ void FavIconUpdater::setIconURL(const KURL &iconURL) {
 void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconName) {
    kdDebug() << "FavIconUpdater::notifyChange()" << endl;
 
+   Q_UNUSED(isHost);
    // kdDebug() << isHost << endl;;
+   Q_UNUSED(hostOrURL);
    // kdDebug() << hostOrURL << "==" << m_bk.url().url() << "-> " << iconName << endl;
 
    m_bk.internalElement().setAttribute("icon", iconName);
