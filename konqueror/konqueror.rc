@@ -100,19 +100,23 @@
  <Action name="back"/>
  <Action name="forward"/>
  <Action name="home"/>
+ <Action name="findfile" />
  <Separator/>
  <Action name="reload"/>
+ <Action name="stop"/>
  <Separator/>
  <Action name="cut"/>
  <Action name="copy"/>
  <Action name="paste"/>
  <Action name="print"/>
  <Separator/>
- <Action name="stop"/>
  <WeakSeparator/>
  <Merge/>
  <ActionList name="viewmode_toolbar" />
  <ActionList name="fullscreen" />
+  <Action name="splitwindowv" />
+  <Action name="splitwindowh" />
+  <Action name="removeview" /> 
  <WeakSeparator/>
  <Action name="animated_logo"/>
 </ToolBar>
