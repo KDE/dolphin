@@ -70,6 +70,10 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
              SLOT( slotStandardFont(const QString&) ) );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
+    connect( m_pStandard, SIGNAL( textChanged(const QString&) ),
+             SLOT( slotStandardFont(const QString&) ) );
+    connect( m_pStandard, SIGNAL( textChanged(const QString&) ),
+             SLOT(changed() ) );
 
     m_pSize = new QSpinBox( 4,18,1,this );
     label = new QLabel( m_pSize, i18n("Font si&ze:"), this );
