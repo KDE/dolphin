@@ -46,7 +46,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 12   // 3 cb, 1 line, 2 combo, 1 line, 3 paths and 1 label + last row
+#define RO_LASTROW 13   // 3 cb, 1 line, 3 combo, 1 line, 3 paths and 1 label + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -99,8 +99,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   tmpLabel = new QLabel( i18n("Clicks on the desktop"), this );
   lay->addMultiCellWidget( tmpLabel, row, row, 0, RO_LASTCOL );
 
-  /*
-    Bad idea, screws up the icon view
   row++;
   tmpLabel = new QLabel( i18n("Left button"), this );
   lay->addWidget( tmpLabel, row, 0 );
@@ -108,7 +106,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->addWidget( leftComboBox, row, 1 );
   fillMenuCombo( leftComboBox );
   connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
-  */
 
   row++;
   tmpLabel = new QLabel( i18n("Middle button"), this );
