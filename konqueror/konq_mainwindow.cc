@@ -815,7 +815,10 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
         // Make the sidebar follow the URLs opened in the active view
         if ((view!=senderView) && view->isFollowActive() && senderView == m_currentView)
         {
-            res=openView(serviceType,url,view,req) || res;
+            // Note that the return value is ignored. When clicking on a file it's not enough
+            // that the dirtree follows, to mean "the other views followed".
+            // We still want to see that file (e.g. in a separate viewer).
+            (void)openView(serviceType,url,view,req);
         }
     }
   }
