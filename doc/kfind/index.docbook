@@ -24,8 +24,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-06-24</date>
-<releaseinfo>1.10.00</releaseinfo>
+<date>2003-05-25</date>
+<releaseinfo>1.20.00</releaseinfo>
 
 <abstract>
 <para>
@@ -38,6 +38,7 @@
 <keyword>kdeutils</keyword>
 <keyword>kfind</keyword>
 <keyword>find</keyword>
+<keyword>search</keyword>
 </keywordset>
 </bookinfo>
 
@@ -70,12 +71,12 @@ expressions within files.
 When starting &kfind;, you will see a quite simple window. Type in the
 name of the file you are searching in the textbox labeled
 <guilabel>Named:</guilabel>, choose a directory where you want to search
-by typing it in the field <quote><guilabel>Look in:</guilabel></quote>
-or clicking <guibutton>Browse...</guibutton> and hit
+by typing it in the field <guilabel>Look in:</guilabel>
+or by clicking <guibutton>Browse...</guibutton> and hit
 <keycap>Enter</keycap> or click <guibutton>Find</guibutton>. If
 <guilabel>Include subdirectories</guilabel> is checked, all
 subdirectories starting from your chosen directory will be searched,
-too. The results will be displayed in the Box below.
+too. The results will be displayed in the box below.
 </para>
 
 <para>
@@ -88,10 +89,10 @@ You can use the following wildcards:
 <listitem>
 <para>
 The asterisk stands for any number of missing characters (even zero),
-that means &eg; searching for <filename>marc*</filename> may find the
+that means &eg; searching for <userinput>marc*</userinput> may find the
 files <filename>marc</filename>, <filename>marc.png</filename> and
-<filename> marc_must_not_read_this.kwd</filename>. Otherwise,
-<filename>mar*.kwd</filename> may find
+<filename> marc_must_not_read_this.kwd</filename>. 
+<userinput>mar*.kwd</userinput> may find
 <filename>marketplace.kwd</filename> and
 <filename>marc_must_not_read_this.kwd</filename>.
 </para>
@@ -103,8 +104,8 @@ files <filename>marc</filename>, <filename>marc.png</filename> and
 <listitem>
 <para>
 In contrast to the asterisk, the question mark stands for exacly one
-character, so <filename>mar?</filename> will find
-<filename>marc</filename>, but <filename>marc?</filename> won't find
+character, so <userinput>mar?</userinput> will find
+<filename>marc</filename>, but <userinput>marc?</userinput> won't find
 anything, as our files are called <filename>marc</filename> and
 <filename>marc.png</filename>. You can put as many question marks in the
 term as you want, it will find exactly that number of characters.
@@ -121,38 +122,11 @@ Of course you can combine those two wildcard symbols in a search term.
 </sect1>
 
 <sect1 id="kfind-date-range">
-<title>The Date Range Tab</title>
-
-<para>
-In this tab you can tell &kfind; the date period when the file(s) to be
-found have been created or edited last time.
-</para>
-
-<para>
-Choosing <guilabel>All files</guilabel> will tell &kfind; not to worry
-about dates. If you check <guilabel>Find all files created or
-modified:</guilabel>, you can either enter two dates, between which the
-files were changed or created, or specify a period of previous months or
-days where the files should lay in.
-</para>
-
-</sect1>
-
-<sect1 id="kfind-advanced">
-<title>The Advanced Tab</title>
-
-<para>
-Here you can refine your search or only look for files that contain a
-specific word or phrase.
-</para>
-
-<para>
-These are the special refinements you can choose:
-</para>
+<title>The Contents Tab</title>
 
 <variablelist>
 <varlistentry>
-<term><guilabel>Of Type</guilabel></term>
+<term><guilabel>File type</guilabel></term>
 <listitem>
 <para>
 Here you can specify the type of file you are searching for.
@@ -161,40 +135,50 @@ Here you can specify the type of file you are searching for.
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Containing Text</guilabel></term>
+<term><guilabel>Containing text</guilabel></term>
 <listitem>
 <para>
 Type in the word or phrase the files you are searching for must
 contain. Note: If you do this in a large directory or checked
-<guilabel>Include Subfolders</guilabel>, this may take a long time.
+<guilabel>Include subdirectories</guilabel> in the
+<guilabel>Name/Location</guilabel> tab, this may take a long time.
 </para>
+
+<note>
+<para>This option will <emphasis>not</emphasis> work for all files listed 
+under <guilabel>File type</guilabel>. Only the following file types
+are supported:
+
+<itemizedlist>
+<listitem><para>Text files, &eg; source code and <filename>REAMDE</filename> files</para></listitem>
+<listitem><para>KWord</para></listitem>
+<listitem><para>KPresenter</para></listitem>
+<listitem><para>KSpread</para></listitem>
+<listitem><para>OpenOffice.org Writer</para></listitem>
+<listitem><para>OpenOffice.org Impress</para></listitem>
+<listitem><para>OpenOffice.org Calc</para></listitem>
+</itemizedlist>
+
+</para>
+</note>
+
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Size is:</guilabel></term>
-<listitem>
-<para>Here you can specify if the file has to be at least or as most as
-big as the size (in KB) you entered in the following box.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Case Sensitive</guilabel></term>
+<term><guilabel>Case sensitive</guilabel></term>
 <listitem>
 <para>
-Usually, &kfind; doesn't matter of cases, so searching for
-<filename>marc.png</filename> will find <filename>marc.png</filename>
-and <filename>Marc.png</filename>. If you enable this option, it will
-only find files with the exact case matching, in our example only
-<filename>marc.png</filename>.
+If you enable this option, &kfind; will
+only find files with the exact case matching, &eg;
+<userinput>MARC</userinput> will only match
+<quote>MARC</quote>, not <quote>Marc</quote>.
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Use Regular Expression Matching</guilabel></term>
+<term><guilabel>Regular expression</guilabel></term>
 <listitem><para>If you have installed the &kregexpeditor; tool from
 the kdeutils package, you will have this additional option.  Enabling
 it will allow you to search for a <firstterm>regexp</firstterm> or
@@ -208,7 +192,50 @@ you.</para>
 
 <para>&kregexpeditor; is a very useful tool, and can be used from within
 many &kde; applications other than &kfind;.  You can find more
-information from within it's own help file.</para>
+information from within its own help file.</para>
+</listitem>
+</varlistentry>
+
+<!-- TODO: "Search metainfo sections" -->
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="kfind-advanced">
+<title>The Properties Tab</title>
+
+<para>
+Here you can refine your search. These are the special refinements 
+you can choose:
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term><guilabel>Find all files created or modified</guilabel></term>
+<listitem>
+<para>
+Here you can either enter two dates, between which the
+files were created or modified, or specify a time period.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>File size is</guilabel></term>
+<listitem>
+<para>Here you can specify if the file has to be at least or as most as
+big as the size you entered in the following box.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Files owned by user, Files owned by group</guilabel></term>
+<listitem>
+<para>Here you can specify user and group names.
+</para>
 </listitem>
 </varlistentry>
 
