@@ -623,7 +623,7 @@ void KonqMainView::slotSaveSettings()
 void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "Applications/konqueror", 0);
+    execl(locate("exe", "kcmshell"), "kcmshell", "Applications/kcmkonq", 0);
     warning("Error launching kcmshell Applications/konqueror!");
     exit(1);
   }
