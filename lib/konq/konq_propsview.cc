@@ -100,7 +100,7 @@ KonqPropsView::~KonqPropsView()
 {
 }
 
-void KonqPropsView::enterDir( const KURL & dir )
+bool KonqPropsView::enterDir( const KURL & dir )
 {
   // Can't do that with default properties
   assert( !isDefaultProperties() );
@@ -140,8 +140,11 @@ void KonqPropsView::enterDir( const KURL & dir )
     loadPixmap();
     delete config;
   }
+  //if there is or was a .directory then the settings probably have changed
+  bool configChanged=(m_dotDirExists|| dotDirExists);
   m_dotDirExists = dotDirExists;
   m_currentConfig = 0L; // new dir, not current config for saving yet
+  return configChanged;
 }
 
 void KonqPropsView::setSaveViewPropertiesLocally( bool value )
