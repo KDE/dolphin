@@ -38,25 +38,7 @@
 #include <kio/http_slave_defaults.h>
 
 #include "cache.h"
-
-class KMySpinBox : public QSpinBox
-{
-public:
-    KMySpinBox( QWidget* parent, const char *name=0L )
-    : QSpinBox(parent, name) { }
-    KMySpinBox( int minValue, int maxValue, int step, QWidget* parent)
-    : QSpinBox(minValue, maxValue, step, parent) { }
-    QLineEdit *editor() const { return QSpinBox::editor(); }
-    int value() const
-    {
-        #ifdef __GNUC__
-        #warning workaround for a bug of QSpinBox in >= Qt 2.2.0
-        #endif
-        if ( editor()->edited() )
-            const_cast<KMySpinBox*>(this)->interpretText();
-        return QSpinBox::value();
-    }
-};
+#include "kproxydlg.h"
 
 KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                    :KCModule( parent, name )
