@@ -1,5 +1,19 @@
+(#1)
 67787 : Bookmark toolbar shows wrong folder contents 
    - kawil's feature is majorly b0rked, it acts on the wrong element it seems...
+
+(#2)
+67921 : sort alphabetically is always disabled in konqueror's boo... 
+   - need to fix for 3.2, this one sucks
+
+(#3)
+67813 : Ability to import bookmarks from KDE>=3 
+   - need to confirm, this ones pretty sucky
+
+(#4)
+68161 : Favicons are lost on upgrade 
+   - nothing to do with bookmarks, but, no idea where to put it,
+     so, whatever, i'll handle it anyways...
 
 67635 : Bookmarks toolbar edits don't take effect until restart 
    - completely unable to confirm, and can't recall fixing this in the past.. umm..
@@ -10,17 +24,13 @@
 67686 : bookmark bar first displayed empty 
    - can't reproduce, maybe need to check from an empty .kde, thus no previous
 
+67958 : bookmark toolbar intermittenly disappears 
+   - maybe just another dup of tokoe's bug
+
 67685 : crash often kills bookmarks AND backup 
    - how the heck does a crash wipe the bookmarks.xml in the first place?
      well, whatever. i admit this can be improved, but only through new i18n's
      so thats not going to happen until i get permission for 3.2.1...
-
-67958 : bookmark toolbar intermittenly disappears 
-   - maybe just another dup of tokoe's bug
-
-68161 : Favicons are lost on upgrade 
-   - nothing to do with bookmarks, but, no idea where to put it,
-     so, whatever, i'll handle it anyways...
 
 somehow multi selected deletes are broken again:
    no longer crashes, but doesn't select current well
