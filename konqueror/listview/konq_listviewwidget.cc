@@ -410,19 +410,19 @@ void KonqBaseListViewWidget::slotAutoScroll()
       return;
 
    // this code assumes that all items have the same height
-   drawRubber();
 
    const QPoint pos = viewport()->mapFromGlobal( QCursor::pos() );
    const QPoint vc = viewportToContents( pos );
 
+   if ( vc == m_rubber->bottomRight() )
+      return;
+   
    const int oldTop = m_rubber->normalize().top();
    const int oldBottom = m_rubber->normalize().bottom();
 
+   drawRubber();
    m_rubber->setRight( vc.x() );
    m_rubber->setBottom( vc.y() );
-
-   QRect* oldRubber = m_rubber;
-   m_rubber = 0;
 
    QListViewItem *cur = itemAt( QPoint(0,0) );
 
@@ -459,7 +459,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
 
       while ( cur && rect.top() <= oldBottom )
       {
-         if ( rect.intersects( oldRubber->normalize() ) )
+         if ( rect.intersects( m_rubber->normalize() ) )
          {
             if ( !cur->isSelected() && cur->isSelectable() )
                setSelected( cur, true );
@@ -476,7 +476,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
 
       while ( cur && rect.bottom() >= oldTop )
       {
-         if ( rect.intersects( oldRubber->normalize() ) )
+         if ( rect.intersects( m_rubber->normalize() ) )
          {
             if ( !cur->isSelected() && cur->isSelectable() )
                setSelected( cur, true );
@@ -491,7 +491,6 @@ void KonqBaseListViewWidget::slotAutoScroll()
    blockSignals( block );
    emit selectionChanged();
 
-   m_rubber = oldRubber;
    drawRubber();
 
    const int scroll_margin = 40;
