@@ -104,9 +104,9 @@ void KonqOperations::emptyTrash()
 
 void KonqOperations::_del( int method, const KURL::List & selectedURLs )
 {
+  m_method = method;
   if ( m_bSkipConfirmation || askDeleteConfirmation( selectedURLs ) )
   {
-    m_method = method;
     m_srcURLs = selectedURLs;
     KIO::Job *job;
     switch( method )
@@ -142,9 +142,11 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
       for ( ; it != selectedURLs.end(); ++it )
         prettyList.append( (*it).prettyURL() );
 
-      return ( KMessageBox::questionYesNoList(0,
-                   i18n( "Do you really want to delete the file(s) ?" ), prettyList )
-               == KMessageBox::Yes );
+      QString msg = (m_method == DEL ? i18n( "Do you really want to delete the file(s) ?" ) :
+                     m_method == SHRED ? i18n( "Do you really want to shred the file(s) ?" ) :
+                     i18n( "Do you really want to send the file(s) to the trash ?" ));
+
+      return ( KMessageBox::questionYesNoList( 0, msg, prettyList ) == KMessageBox::Yes );
     }
     return true;
 }
