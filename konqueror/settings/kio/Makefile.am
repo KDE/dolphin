@@ -1,5 +1,5 @@
 
-INCLUDES = $(all_includes) 
+INCLUDES = $(all_includes) $(MICO_INCLUDES)
 LDFLAGS =  $(all_libraries) $(KDE_RPATH)
 LDADD =    -lkded $(LIB_KDEUI) 
 
