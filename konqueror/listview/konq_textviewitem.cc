@@ -22,6 +22,9 @@
 #include "konq_listview.h"
 #include "konq_settings.h"
 
+#include <qpixmap.h>
+#include <qimage.h>
+#include <kimageeffect.h>
 #include <kio/global.h>
 #include <assert.h>
 #include <stdio.h>
@@ -201,6 +204,18 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
    cg.setColor(QColorGroup::Highlight, Qt::darkGray);
 
    KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+}
+
+void KonqTextViewItem::paintFocus( QPainter *_p, const QColorGroup &_cg, const QRect &_r )
+{
+   listView()->style().drawFocusRect( _p, _r, _cg,
+           isSelected() ? &_cg.highlight() : &_cg.base(), isSelected() );
+
+   QPixmap pix( _r.width(), _r.height() );
+   bitBlt( &pix, 0, 0, _p->device(), _r.left(), _r.top(), _r.width(), _r.height() );
+   QImage im = pix.convertToImage();
+   im = KImageEffect::fade( im, 0.25, Qt::black );
+   _p->drawImage( _r.topLeft(), im );
 }
 
 void KonqTextViewItem::setup()

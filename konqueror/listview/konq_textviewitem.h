@@ -57,6 +57,7 @@ class KonqTextViewItem : public KonqBaseListViewItem
       /** Call this before destroying the text view (decreases reference count
        * on the view)*/
       virtual void paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment );
+      virtual void paintFocus( QPainter *_painter, const QColorGroup & _cg, const QRect & r );
       virtual void updateContents();
 
    protected:
