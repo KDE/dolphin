@@ -391,7 +391,7 @@ void KonqView::slotCompleted( bool hasPending )
 
       if ( m_bAborted ) // remove the pending entry on error
           KonqHistoryManager::kself()->removePending( url() );
-      else // register as proper history entry
+      else if ( m_lstHistory.current() ) // register as proper history entry
           KonqHistoryManager::kself()->confirmPending(url(), typedURL(),
 						      m_lstHistory.current()->title);
 
@@ -482,13 +482,8 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   ASSERT( !m_bLockHistory ); // should never happen
 
   HistoryEntry * current = m_lstHistory.current();
-  assert( current ); // let's see if this happens
-  if ( current == 0L) // empty history
-  {
-    kdWarning(1202) << "Creating item because history is empty !" << endl;
-    current = new HistoryEntry;
-    m_lstHistory.append( current );
-  }
+  if ( !current )
+    return;
 
   if ( browserExtension() )
   {
