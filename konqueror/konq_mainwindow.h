@@ -297,7 +297,7 @@ public:
 
   QString currentTitle() const;
   QString currentURL() const;
-  
+
   QStringList configModules() const;
 
 signals:
@@ -691,8 +691,8 @@ private:
   QPtrList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
   QPtrList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
-                                           // iconview and one for listview
-  QPtrList<KAction> m_viewModeActions;
+                                              // iconview and one for listview
+  QPtrList<KRadioAction> m_viewModeActions;
   QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
   // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
   // iconview, multicolumnview, treeview, etc .)

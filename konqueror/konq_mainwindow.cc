@@ -2023,8 +2023,39 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   updateOpenWithActions();
   updateLocalPropsActions();
   updateViewActions(); // undo, lock, link and other view-dependent actions
-  updateViewModeActions();
-  
+
+  if ( m_bViewModeToggled )
+  {
+      // if we just toggled the view mode via the view mode actions, then
+      // we don't need to do all the time-taking stuff below (Simon)
+      QString currentServiceDesktopEntryName = m_currentView->service()->desktopEntryName();
+      QPtrListIterator<KRadioAction> it( m_viewModeActions );
+      for (; it.current(); ++it ) {
+          if ( it.current()->name() == currentServiceDesktopEntryName ) {
+              it.current()->setChecked( true );
+              break;
+          }
+      }
+      QString currentServiceLibrary = m_currentView->service()->library();
+      QPtrListIterator<KAction> ittb( m_toolBarViewModeActions );
+      for (; ittb.current(); ++ittb ) {
+          KService::Ptr serv = KService::serviceByDesktopName( ittb.current()->name() );
+          if ( serv && serv->library() == currentServiceLibrary ) {
+              static_cast<KToggleAction*>( ittb.current() )->setChecked( true );
+              break;
+          }
+      }
+  }
+  else
+  {
+      updateViewModeActions();
+
+      m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
+  }
+
+  m_bViewModeToggled = false;
+
+
   m_pMenuNew->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
 
   m_currentView->frame()->statusbar()->updateActiveStatus();
@@ -2168,7 +2199,7 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *callingPart, const Q
     {
       ext = ext->findFrameParent(callingPart, name);
     }
-    
+
 //    KParts::BrowserHostExtension* ext = KonqView::hostExtension( view->part(), name );
 
     if ( ext )
@@ -3245,9 +3276,9 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
     showFullScreen();
     // Create toolbar button for exiting from full-screen mode
     // ...but only if there isn't one already...
- 
+
     bool haveFullScreenButton = false;
-    
+
     //Walk over the toolbars and check whether there is a show fullscreen button in any of them
     QPtrListIterator<KToolBar> barIt = toolBarIterator();
     for (; barIt.current(); ++barIt )
@@ -3260,14 +3291,14 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
             break;
         }
     }
-    
+
     if (!haveFullScreenButton)
     {
         QPtrList<KAction> lst;
         lst.append( m_ptaFullScreen );
         plugActionList( "fullscreen", lst );
     }
-    
+
 
     menuBar()->hide();
 
@@ -4044,7 +4075,7 @@ void KonqMainWindow::setCaption( const QString &caption )
   if ( !caption.isEmpty() && m_currentView )
   {
     kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
-    
+
     QString adjustedCaption = caption;
     // For local URLs we prefer to use only the directory name
     if (m_currentView->url().isLocalFile())
@@ -4054,7 +4085,7 @@ void KonqMainWindow::setCaption( const QString &caption )
        if (url.isValid() && url.isLocalFile())
           adjustedCaption = url.fileName();
     }
-    
+
     // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
     m_currentView->setCaption( adjustedCaption );
     KParts::MainWindow::setCaption( adjustedCaption );
@@ -4526,7 +4557,7 @@ void KonqMainWindow::updateViewModeActions()
   unplugViewModeActions();
   if ( m_viewModeMenu )
   {
-    QPtrListIterator<KAction> it( m_viewModeActions );
+    QPtrListIterator<KRadioAction> it( m_viewModeActions );
     for (; it.current(); ++it )
       it.current()->unplugAll();
     delete m_viewModeMenu;
