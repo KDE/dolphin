@@ -83,15 +83,15 @@ data5dir = $(kde_appsdir)/System/More
 # Use a hand-made rule for profiles because they are renamed upon installation
 profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
-	$(mkinstalldirs) $(profiledir)
-	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing.desktop $(profiledir)/webbrowsing
-	$(INSTALL_DATA) $(srcdir)/profile_filemanagement.desktop $(profiledir)/filemanagement
-	$(INSTALL_DATA) $(srcdir)/profile_midnightcommander.desktop $(profiledir)/midnightcommander
-	$(INSTALL_DATA) $(srcdir)/profile_filepreview.desktop $(profiledir)/filepreview
-	$(mkinstalldirs) $(kde_appsdir)/System
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/System/konquerorsu.desktop
+	$(mkinstalldirs) $(DESTDIR)$(profiledir)
+	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing.desktop $(DESTDIR)$(profiledir)/webbrowsing
+	$(INSTALL_DATA) $(srcdir)/profile_filemanagement.desktop $(DESTDIR)$(profiledir)/filemanagement
+	$(INSTALL_DATA) $(srcdir)/profile_midnightcommander.desktop $(DESTDIR)$(profiledir)/midnightcommander
+	$(INSTALL_DATA) $(srcdir)/profile_filepreview.desktop $(DESTDIR)$(profiledir)/filepreview
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/System
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/System/konquerorsu.desktop
 
 uninstall-local:
-	-rm -f $(profiledir)/webbrowsing $(profiledir)/filemanagement $(profiledir)/midnightcommander $(profiledir)/filepreview
-	-rm -f $(kde_appsdir)/System/konquerorsu.desktop
+	-rm -f $(DESTDIR)$(profiledir)/webbrowsing $(DESTDIR)$(profiledir)/filemanagement $(DESTDIR)$(profiledir)/midnightcommander $(DESTDIR)$(profiledir)/filepreview
+	-rm -f $(DESTDIR)$(kde_appsdir)/System/konquerorsu.desktop
 

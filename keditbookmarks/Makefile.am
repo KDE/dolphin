@@ -23,8 +23,8 @@ rcdir = $(kde_datadir)/keditbookmarks
 rc_DATA = keditbookmarksui.rc  
 
 install-data-local: uninstall.desktop
-	$(mkinstalldirs) $(kde_appsdir)/Internet
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Internet/keditbookmarks.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Internet
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Internet/keditbookmarks.desktop
 
 KDE_ICON = AUTO
 

@@ -29,5 +29,5 @@ smb_DATA = smb.desktop netpref.desktop
 smbdir = $(kde_appsdir)/Settings/Network
 
 install-data-local: uninstall.desktop
-	$(mkinstalldirs) $(kde_appsdir)/Settings/WebBrowsing
-	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Settings/WebBrowsing/smb.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/WebBrowsing
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/WebBrowsing/smb.desktop
