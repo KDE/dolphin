@@ -974,10 +974,6 @@ void KonqMainView::openDirectory( const char *url )
 
   //TODO: check for html index file and stuff (Simon)
     
-  // Parse URL
-  KURLList lst;
-  KURL::split( url, lst );
-
   // Do we perhaps want to display a html index file ? => Save the path of the URL
   //QString tmppath;
   //if ( lst.size() == 1 && lst.front().isLocalFile() /*&& isHTMLAllowed()*/ )
