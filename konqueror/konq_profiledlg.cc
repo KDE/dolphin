@@ -78,7 +78,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 #define N_BUTTONS 4
   m_pGrid = new QGridLayout( this, 10, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
 
-  QLabel *lblName = new QLabel( i18n(  "&Pofile name:" ), this );
+  QLabel *lblName = new QLabel( i18n(  "&Profile name:" ), this );
   m_pGrid->addMultiCellWidget( lblName, 0, 0, 0, N_BUTTONS-1 );
 
   m_pProfileNameLineEdit = new QLineEdit( this );
