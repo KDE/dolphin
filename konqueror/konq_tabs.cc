@@ -581,7 +581,9 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
 void KonqFrameTabs::hideTabBar()
 {
   if ( !m_alwaysTabBar ) {
+    if (m_leftWidget)
     m_leftWidget->hide();
+    if (m_rightWidget)
     m_rightWidget->hide();
     tabBar()->hide();
   }
@@ -592,7 +594,9 @@ void KonqFrameTabs::hideTabBar()
 void KonqFrameTabs::showTabBar()
 {
   tabBar()->show();
+  if (m_leftWidget)
   m_leftWidget->show();
+  if (m_rightWidget)
   m_rightWidget->show();
 }
 
