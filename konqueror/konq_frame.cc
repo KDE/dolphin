@@ -50,14 +50,14 @@ void KonqCheckBox::paintEvent(QPaintEvent *)
 {
     //static QPixmap indicator_anchor( UserIcon( "indicator_anchor" ) );
     static QPixmap indicator_connect( UserIcon( "indicator_connect" ) );
-    static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
+    static QPixmap indicator_noconnect( UserIcon( "indicator_noconnect" ) );
 
    QPainter p(this);
 
    if (isOn() || isDown())
       p.drawPixmap(0,0,indicator_connect);
    else
-      p.drawPixmap(0,0,indicator_empty);
+      p.drawPixmap(0,0,indicator_noconnect);
 }
 
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
@@ -99,7 +99,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
 {
-} 
+}
 
 void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
 {
@@ -156,15 +156,15 @@ void KonqFrameStatusBar::message( const QString &msg )
   }
   else if ( m_msgTimer->isActive() )
     m_msgTimer->stop();
-  
+
   QString saveMsg = m_savedMessage;
-  
+
   slotDisplayStatusText( msg );
-  
+
   m_savedMessage = saveMsg;
-  
+
   m_msgTimer->start( 2000 );
-} 
+}
 
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
@@ -172,7 +172,7 @@ void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
    m_pStatusLabel->resize(fontMetrics().width(text),13);
    m_pStatusLabel->setText(text);
    m_savedMessage = text;
-   
+
    if ( m_msgTimer && m_msgTimer->isActive() )
      m_msgTimer->stop();
 }
@@ -180,7 +180,7 @@ void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 void KonqFrameStatusBar::slotClear()
 {
   slotDisplayStatusText( m_savedMessage );
-} 
+}
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
 {
@@ -395,7 +395,7 @@ void KonqFrame::slotStatusBarClicked()
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
 {
-  if (mode && m_pChildView->mainView()->viewCount() == 2)
+  if (m_pChildView->mainView()->viewCount() == 2)
   {
     // Two views : link both
     KonqMainView::MapViews mapViews = m_pChildView->mainView()->viewMap();
