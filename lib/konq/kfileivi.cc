@@ -121,13 +121,16 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
 void KFileIVI::setOverlay( const QString& iconName )
 {
     d->m_overlayName = iconName;
-    d->m_overlay = DesktopIcon(iconName, m_size / 2);
+    if ( iconName.isNull() )
+        d->m_overlay = QPixmap();
+    else
+        d->m_overlay = DesktopIcon(iconName, m_size / 2);
 	refreshIcon(true);
 }
 
 void KFileIVI::setShowDirectoryOverlay( bool show ) 
 {
-    Q_ASSERT( m_fileitem->isDir() );
+    if ( !m_fileitem->isDir() ) return;
 
 	if (show) {
         if (!d->m_directoryOverlay) d->m_directoryOverlay = new KIVDirectoryOverlay(this);
@@ -136,6 +139,7 @@ void KFileIVI::setShowDirectoryOverlay( bool show )
 		    delete d->m_directoryOverlay;
             d->m_directoryOverlay = 0;
 		}
+        setOverlay(QString());
 	}
 }
 

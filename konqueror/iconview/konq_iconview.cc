@@ -405,6 +405,13 @@ void KonqKfmIconView::slotShowDirectoryOverlays()
 {
     m_pProps->setShowingDirectoryOverlays( !m_pProps->isShowingDirectoryOverlays() );
 
+    for ( QIconViewItem *item = m_pIconView->firstItem(); item; item = item->nextItem() )
+    {
+        KFileIVI* kItem = static_cast<KFileIVI*>(item);
+        kItem -> setShowDirectoryOverlay(m_pProps->isShowingDirectoryOverlays());
+    }
+
+    m_pIconView->updateContents();
 }
 
 void KonqKfmIconView::slotSelect()
