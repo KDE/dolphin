@@ -928,7 +928,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    // create plugin instance
    char mime[256];
-   strcpy(mime, mimeType.ascii());
+   strncpy(mime, mimeType.ascii(), 255);
+   mime[255] = 0;
    NPP npp = new NPP_t;
    npp->ndata = NULL;
 
