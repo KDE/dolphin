@@ -48,7 +48,7 @@
 #include "history_module.h"
 #include "history_settings.h"
 
-KStaticDeleter<KonqHistorySettings> sd;
+static KStaticDeleter<KonqHistorySettings> sd;
 KonqHistorySettings * KonqHistoryModule::s_settings = 0L;
 
 KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )

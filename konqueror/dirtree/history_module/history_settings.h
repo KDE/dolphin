@@ -34,6 +34,7 @@ public:
     enum { MINUTES, DAYS };
 
     KonqHistorySettings( QObject *parent, const char *name );
+    virtual ~KonqHistorySettings();
 
     void readSettings();
     void applySettings();

@@ -16,14 +16,18 @@ KonqHistorySettings::KonqHistorySettings( QObject *parent, const char *name )
     m_fontOlderThan.setItalic( true ); // default
 }
 
-KonqHistorySettings::KonqHistorySettings() :
-    QObject(),
-    m_activeDialog( 0L )
+KonqHistorySettings::KonqHistorySettings()
+    : QObject(),
+      DCOPObject( "KonqHistorySettings" ),
+      m_activeDialog( 0L )
 {
+    m_fontOlderThan.setItalic( true ); // default
 }
 
 KonqHistorySettings::KonqHistorySettings( const KonqHistorySettings& s )
-    : QObject()
+    : QObject(),
+      DCOPObject( "KonqHistorySettings" ),
+      m_activeDialog( 0L )
 {
     m_valueYoungerThan = s.m_valueYoungerThan;
     m_valueOlderThan = s.m_valueOlderThan;
@@ -35,6 +39,10 @@ KonqHistorySettings::KonqHistorySettings( const KonqHistorySettings& s )
 
     m_fontYoungerThan = s.m_fontYoungerThan;
     m_fontOlderThan = s.m_fontOlderThan;
+}
+
+KonqHistorySettings::~KonqHistorySettings()
+{
 }
 
 void KonqHistorySettings::readSettings()
