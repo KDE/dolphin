@@ -14,6 +14,8 @@
 #include <qfile.h>
 #include <kdebug.h>
 #include <qstring.h>
+#include <kparts/browserextension.h>
+#include <qmetaobject.h>
 
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name)
 {
@@ -43,27 +45,32 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 }
 
-void Sidebar_Widget::guiActivateEvent(KParts::GUIActivateEvent *event) 
+
+ButtonInfo* Sidebar_Widget::getActiveModule()
 {
-	kdDebug()<<"In gui Activate"<<endl;
-        ButtonInfo *info;   
-	for (unsigned int i=0;i<Buttons.count();i++)
-        {
-        	if ((info=Buttons.at(i))->dock!=0)
-                	{
-                        	if ((info->dock->isVisible()) && (info->module))
-				{
-					kdDebug()<<"Found a visible Gui part"<<endl;
-					if (info->module->provides("KParts::ReadOnlyPart")!=0)
-						{
-							partParent->factory()->addClient(
-								(KParts::ReadOnlyPart*)info->module->provides(
-								QString("KParts::ReadOnlyPart")));
-						}
-				}
-                       	}
-        }
+#warning implement correctly for multiple views
+        ButtonInfo *info;
+        for (unsigned int i=0;i<Buttons.count();i++)
+                if ((info=Buttons.at(i))->dock!=0)                      
+                      if ((info->dock->isVisible()) && (info->module)) return info;
+	return 0;
 }
+
+void Sidebar_Widget::stdAction(const char *handlestd)
+{
+	ButtonInfo* mod=getActiveModule();
+	if (!mod) return;
+	KParts::BrowserExtension *ext;
+	if (ext=(KParts::BrowserExtension*)mod->module->provides("KParts::BrowserExtension"))
+		{
+			QMetaData *md=ext->metaObject()->slot(handlestd);
+			if (md)
+			{
+				((void(*)())md->ptr)();
+			}
+		}
+}
+
 
 void Sidebar_Widget::createButtons()
 {
@@ -168,6 +175,26 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 				data->dock->setEnableDocking(KDockWidget::DockTop|
 				KDockWidget::DockBottom|KDockWidget::DockDesktop);
 				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);	
+				KParts::BrowserExtension *browserExtCli;
+				KParts::BrowserExtension *browserExtMst=KParts::BrowserExtension::childObject(partParent);
+				if ((browserExtCli=(KParts::BrowserExtension*)data->module->provides("KParts::BrowserExtension"))!=0)
+					{
+					connect(browserExtCli,SIGNAL(popupMenu( const QPoint &, const KURL &,
+				                  const QString &, mode_t)),browserExtMst,SIGNAL(popupMenu( const 
+							QPoint &, const KURL&, const QString &, mode_t)));
+
+					connect(browserExtCli,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &, 
+						const KURL &,const QString &, mode_t)),browserExtMst,
+						SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &, 
+						const KURL &,const QString &, mode_t)));
+
+					connect(browserExtCli,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
+					browserExtMst,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
+ 
+//					connect(browserExtCli,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs)),
+//					browserExtMst,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs))); 
+					}
+
 			}
 
 			delete confFile;

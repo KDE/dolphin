@@ -5,6 +5,7 @@
 #include <qlayout.h>
 #include <kparts/part.h>
 #include <kparts/factory.h>
+#include <kparts/browserextension.h>
 #include <klibloader.h>
 #include <kxmlgui.h>
 class SidebarClassic : public KonqSidebarPlugin
@@ -26,6 +27,7 @@ class SidebarClassic : public KonqSidebarPlugin
 		virtual void *provides(const QString &pro)
 		{
 			if (pro=="KParts::ReadOnlyPart") return dirtree;
+			if (pro=="KParts::BrowserExtension") return KParts::BrowserExtension::childObject(dirtree);  
 			return 0;
 		}
                 virtual QWidget *getWidget(){return dirtree->widget();}   

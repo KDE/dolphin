@@ -7,7 +7,6 @@
 #include <kurl.h>
 #include <ktoolbar.h>
 #include <kparts/part.h>
-#include <kparts/event.h>
 
 class ButtonInfo: public QObject
 {
@@ -28,6 +27,9 @@ class Sidebar_ButtonBar: public KToolBar
   public:
         Sidebar_ButtonBar(QWidget *parent):KToolBar(parent,"Konq::SidebarTNG",true){setAcceptDrops(true);}
 	~Sidebar_ButtonBar(){;}  
+ protected:
+	virtual void dragEnterEvent ( QDragEnterEvent * e){e->accept();} 
+	virtual void dragMoveEvent ( QDragEnterEvent * e){e->accept();} 
 };
 
 class Sidebar_Widget: public QHBox
@@ -37,7 +39,7 @@ class Sidebar_Widget: public QHBox
   Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char * name);
   ~Sidebar_Widget();
   void openURL(const class KURL &url);
-  void guiActivateEvent(KParts::GUIActivateEvent *event);  
+  void stdAction(const char *handlestd);
   private:
 	class KDockArea *Area;
 	class KToolBar *ButtonBar;
@@ -51,6 +53,8 @@ class Sidebar_Widget: public QHBox
 	KURL storedUrl;
 	bool stored_url;
 	KParts::ReadOnlyPart *partParent;
+	ButtonInfo* getActiveModule();
+
   protected slots:
 	void showHidePage(int value);
 };

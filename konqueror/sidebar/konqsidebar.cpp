@@ -9,7 +9,7 @@
 #include <qtextstream.h>
 #include <kdebug.h>
 
-KPartAppPart::KPartAppPart( QWidget *parentWidget, const char *widgetName,
+KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent, const char *name )
     : KParts::ReadOnlyPart(parent, name)
 {
@@ -19,24 +19,19 @@ KPartAppPart::KPartAppPart( QWidget *parentWidget, const char *widgetName,
     // this should be your custom internal widget
     m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
     setWidget(m_widget);
+    m_extension = new KonqSidebarBrowserExtension( this, m_widget,"KonqSidebar::BrowserExtension" );
 }
 
-KPartAppPart::~KPartAppPart()
+KonqSidebar::~KonqSidebar()
 {
 }
 
-void KPartAppPart::guiActivateEvent(KParts::GUIActivateEvent *event)
-{
-	kdDebug()<<"************************************ Sidebar::guiActivateEvent"<<endl;
-	m_widget->guiActivateEvent(event);  
-}
-
-bool KPartAppPart::openFile()
+bool KonqSidebar::openFile()
 {
 	return true;
 }
 
-bool KPartAppPart::openURL(const KURL &url){if (m_widget) m_widget->openURL(url); return true;} 
+bool KonqSidebar::openURL(const KURL &url){if (m_widget) m_widget->openURL(url); return true;} 
 
 // It's usually safe to leave the factory code alone.. with the
 // notable exception of the KAboutData data
@@ -64,7 +59,7 @@ KParts::Part* KPartAppPartFactory::createPartObject( QWidget *parentWidget, cons
                                                         const char *classname, const QStringList &args )
 {
     // Create an instance of our Part
-    KPartAppPart* obj = new KPartAppPart( parentWidget, widgetName, parent, name );
+    KonqSidebar* obj = new KonqSidebar( parentWidget, widgetName, parent, name );
 
     // See if we are to be read-write or not
 //    if (QCString(classname) == "KParts::ReadOnlyPart")
