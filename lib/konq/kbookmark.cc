@@ -369,11 +369,17 @@ KBookmark *KBookmark::first()
 
 KBookmark *KBookmark::next()
 {
-    m_sortIt++;
-    if ( m_sortIt == m_sortOrder.end() )
-        return NULL;
+    // try to skip invalid entries in the sort list
+    KBookmark *valid = 0;
+    while (!valid)
+    {
+        m_sortIt++;
+        if ( m_sortIt == m_sortOrder.end() )
+            return NULL;
 
-    return m_bookmarkMap.find(*m_sortIt);
+        valid = m_bookmarkMap.find(*m_sortIt);
+    }
+    return valid;
 }
 
 void KBookmark::append( const QString& _name, KBookmark *_bm )
