@@ -29,7 +29,6 @@ private:
   static QDict< QList<imrActivationEntry> > s_dctViewServers;
   static QDict< QList<imrActivationEntry> > s_dctPartServers;
   static QDict< QList<imrActivationEntry> > s_dctEventFilterServers;
-  static QList<imrActivationEntry> s_lstMainViewKOMPlugins;
 };
 
 #endif
