@@ -521,8 +521,10 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   if (m_pDocContainer == 0L)
     return;
-  if (m_pDocContainer->frameType() != "Tabs")
+  if (m_pDocContainer->frameType() != "Tabs") {
+    m_pMainWindow->close();
     return;
+  }
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
