@@ -49,9 +49,6 @@
 
 // #define DEBUG_ADDRESSES
 
-#undef typ
-#define typ m_listView
-
 ListView* ListView::s_self = 0;
 
 ListView::ListView() {
@@ -114,7 +111,7 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 void ListView::setInitialAddress(QString address) {
    KEBListViewItem *item = getItemAtAddress(address);
    if (!item) {
-      item = typ->rootItem();
+      item = m_listView->rootItem(); // BLAH
    }
    setCurrent(item);
    item->setSelected(true);
@@ -172,7 +169,8 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() {
    QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
-   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); 
+   // BLAH
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
         it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
          items->append(it.current());
@@ -232,7 +230,8 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if (!it.current()->isSelected() 
        || it.current()->isEmptyFolder()
-       || it.current() == typ->rootItem()) {
+       || it.current() == m_listView->rootItem()) {
+         // BLAH
          continue;
       }
       if (it.current()->childCount() > 0) {
@@ -259,7 +258,8 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
 
 QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
-   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
+   // BLAH
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolder()) {
          bookmarks.append(it.current()->bookmark());
       }
@@ -269,7 +269,8 @@ QValueList<KBookmark> ListView::allBookmarks() {
 
 void ListView::updateLastAddress() {
    KEBListViewItem *lastItem = 0;
-   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
+   // BLAH
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
          lastItem = it.current();
       }
@@ -312,7 +313,7 @@ void ListView::setCurrent(KEBListViewItem *item) {
 }
 
 KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
-   QListViewItem *item = typ->rootItem();
+   QListViewItem *item = m_listView->rootItem(); // BLAH
 
    QStringList addresses = QStringList::split('/',address); // e.g /5/10/2
 
@@ -330,7 +331,8 @@ KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
 }
 
 void ListView::setOpen(bool open) {
-   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
+   // BLAH
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if (it.current()->parent()) {
          it.current()->setOpen(open);
       }
@@ -349,13 +351,13 @@ SelcAbilities ListView::getSelectionAbilities() {
       sa.separator      = nbk.isSeparator();
       sa.urlIsEmpty     = nbk.url().isEmpty();
       sa.singleSelect   = (!sa.multiSelect && sa.itemSelected); // oops, TODO, FIXME!
-      sa.root           = (typ->rootItem() == item);
+      sa.root           = (m_listView->rootItem() == item); // BLAH
       sa.multiSelect    = (selectedItems()->count() > 1);
    } else {
       // kdDebug() << "no item" << endl;
    }
 
-   sa.notEmpty = (typ->rootItem()->childCount() > 0);
+   sa.notEmpty = (m_listView->rootItem()->childCount() > 0); // BLAH
 
    return sa;
 }
@@ -436,7 +438,7 @@ void ListView::fillWithGroup() {
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
    if (!parentItem) {
       lv->clear();
-      if (!m_splitView || !lv->isFolderList()) {
+      if (!m_splitView || lv->isFolderList()) {
          KEBListViewItem *tree = new KEBListViewItem(lv, group);
          fillWithGroup(lv, group, tree);
          tree->QListViewItem::setOpen(true);
@@ -489,8 +491,9 @@ void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qi
    if (!item) {
       return;
    }
+   // BLAH
    const char *type = 
-      (item == typ->rootItem()) || (item->bookmark().isGroup()) 
+      (item == m_listView->rootItem()) || (item->bookmark().isGroup()) 
     ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
@@ -576,7 +579,7 @@ void ListView::renameNextCell(bool fwd) {
                   : KEBListView::CommentColumn;
       }
       if (!myrenameitem 
-        || myrenameitem == typ->rootItem() 
+        || myrenameitem == m_listView->rootItem()  // BLAH
         || myrenameitem->isEmptyFolder()
         || myrenameitem->bookmark().isSeparator()
         || (myrenamecolumn == KEBListView::UrlColumn 
