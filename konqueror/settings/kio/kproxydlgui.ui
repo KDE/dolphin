@@ -12,7 +12,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>534</width>
+            <width>530</width>
             <height>456</height>
         </rect>
     </property>
@@ -642,6 +642,10 @@
                                 <property stdset="1">
                                     <name>maxValue</name>
                                     <number>99999</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>lineStep</name>
+                                    <number>32</number>
                                 </property>
                             </widget>
                             <spacer>
