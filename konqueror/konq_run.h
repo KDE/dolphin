@@ -54,6 +54,10 @@ public:
 protected:
   virtual void foundMimeType( const QString & _type );
   virtual void handleError( KIO::Job * job );
+  virtual void scanFile();
+    
+protected slots:
+  void slotRedirection( KIO::Job *, const KURL& );
 
 protected:
   QGuardedPtr<KonqMainWindow> m_pMainWindow;

@@ -25,6 +25,8 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 
+#include <konq_historymgr.h>
+
 #include <assert.h>
 
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
@@ -148,6 +150,26 @@ void KonqRun::handleError( KIO::Job *job )
 
   m_job = 0;
   foundMimeType( "text/html" );
+}
+
+void KonqRun::scanFile()
+{
+    KParts::BrowserRun::scanFile();
+    // could be a static cast as of now, but who would notify when 
+    // BrowserRun changes
+    KIO::TransferJob *job = dynamic_cast<KIO::TransferJob*>( m_job );
+    if ( job && !job->error() )
+        connect( job, SIGNAL( redirection( KIO::Job *, const KURL& )),
+                 SLOT( slotRedirection( KIO::Job *, const KURL& ) ));
+}
+
+void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )
+{
+    KURL redirectFromURL = static_cast<KIO::TransferJob *>(job)->url();
+    kdDebug(1202) << "KonqRun::slotRedirection from " <<
+        redirectFromURL.prettyURL() << " to " << redirectedToURL.prettyURL() << endl;
+    KonqHistoryManager::kself()->confirmPending( redirectFromURL );
+    KonqHistoryManager::kself()->addPending( redirectedToURL );
 }
 
 #include "konq_run.moc"
