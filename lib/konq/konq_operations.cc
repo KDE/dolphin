@@ -281,7 +281,9 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         {
           case DEL:
              result = KMessageBox::warningContinueCancelList( 0,
-             	i18n( "Do you really want to delete these %1 items?" ).arg(prettyList.count()),
+                // The "singular" form will never be shown in English, but
+		// Stephan wants me to use the standard form for a plural.
+             	i18n( "Do you really want to delete this item?", "Do you really want to delete these %n items?", prettyList.count()),
              	prettyList,
 		i18n( "Delete Files" ),
 		i18n( "Delete" ),
@@ -290,7 +292,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 
 	  case SHRED:
              result = KMessageBox::warningContinueCancelList( 0,
-                i18n( "Do you really want to shred these %1 items?" ).arg(prettyList.count()),
+                i18n( "Do you really want to shred this item?", "Do you really want to shred these %n items?", prettyList.count()),
                 prettyList,
                 i18n( "Shred Files" ),
 		i18n( "Shred" ),
@@ -300,7 +302,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
           case MOVE:
  	  default:
              result = KMessageBox::warningContinueCancelList( 0,
-                i18n( "Do you really want to move these %1 items to the trashcan?" ).arg(prettyList.count()),
+                i18n( "Do you really want to move this item to the trashcan?", "Do you really want to move these %n items to the trashcan?", prettyList.count()),
                 prettyList,
 		i18n( "Move to Trash" ),
 		i18n( "Verb", "Trash" ),
