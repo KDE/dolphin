@@ -81,6 +81,7 @@ protected:
   void queue( const QByteArray &data );
   bool create( QString url, QString mimeType, void *notify );
   int tries() { return _tries; };
+  void inform( );
 
   class NSPluginInstance *_instance;
   uint16 _streamType;
@@ -88,6 +89,7 @@ protected:
   void *_notifyData;
   QString _url;
   QString _fileURL;
+  QString _mimeType;
   class KTempFile *_tempFile;
 
 private:
@@ -99,6 +101,7 @@ private:
   int _tries;
   bool _onlyAsFile;
   bool _error;
+  bool _informed;
 };
 
 
@@ -114,6 +117,8 @@ public:
 
 protected slots:
   void data(KIO::Job *job, const QByteArray &data);
+  void totalSize(KIO::Job *job, unsigned long size);
+  void mimetype(KIO::Job * job, const QString &mimeType);
   void result(KIO::Job *job);
   void resume();
 

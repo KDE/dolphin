@@ -229,7 +229,8 @@ void g_NPN_Status(NPP instance, const char *message)
 // inquire user agent
 const char *g_NPN_UserAgent(NPP /*instance*/)
 {
-    QString agent = DEFAULT_USERAGENT_STRING;
+    KProtocolManager kpm;
+    QString agent = kpm.userAgentForHost("nspluginviewer");
     kdDebug(1431) << "g_NPN_UserAgent() = " << agent << endl;
     return agent.latin1();
 }
@@ -478,7 +479,7 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 {
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << url << " target=" <<
         target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( url, mime.isEmpty()?QString::fromLatin1("text/plain"):mime, target, notify ) );
+    _waitingRequests.enqueue( new Request( url, mime, target, notify ) );
     if ( _streams.count()==0 )
         _timer->start( 0, true );
 }
@@ -999,19 +1000,62 @@ void NSPluginStreamBase::stop()
     finish( true );
 }
 
+void NSPluginStreamBase::inform()
+{
+
+    if (! _informed)
+    {
+        KURL src(_url);
+
+        _informed = true;
+
+        // inform the plugin
+        _instance->NPNewStream( _mimeType.isEmpty() ? (char *) "text/plain" :  (char*)_mimeType.ascii(), 
+                    _stream, false, &_streamType );
+        kdDebug(1431) << "NewStream stype=" << _streamType << " url=" << _url << " mime=" << _mimeType << endl;
+
+        // prepare data transfer
+        _tempFile = 0L;
+
+        if ( _streamType==NP_ASFILE || _streamType==NP_ASFILEONLY ) {
+            _onlyAsFile = _streamType==NP_ASFILEONLY;
+            if ( KURL(_url).isLocalFile() )  {
+                kdDebug(1431) << "local file" << endl;
+                // local file can be passed directly
+                _fileURL = KURL(_url).path();
+
+                // without streaming stream is finished already
+                if ( _onlyAsFile ) {
+                    kdDebug() << "local file AS_FILE_ONLY" << endl;
+                    finish( false );
+                }
+            } else {
+                kdDebug() << "remote file" << endl;
+
+                // stream into temporary file (use lower() in case the
+                // filename as an upper case X in it)
+                _tempFile = new KTempFile( QString::null, src.fileName().lower() );
+                _tempFile->setAutoDelete( TRUE );
+                _fileURL = _tempFile->name();
+                kdDebug() << "saving into " << _fileURL << endl;
+            }
+        }
+    }
+
+}
 
 bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
 {
     if ( _stream )
         return false;
 
-    KURL src(url);
     _url = url;
     _notifyData = notify;
     _pos = 0;
     _tries = 0;
     _onlyAsFile = false;
     _streamType = NP_NORMAL;
+    _informed = false;
 
     // create new stream
     _stream = new NPStream;
@@ -1022,37 +1066,7 @@ bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
     _stream->lastmodified = 0;
     _stream->notifyData = _notifyData;
 
-    // inform the plugin
-    _instance->NPNewStream( (char*)mimeType.ascii(), _stream, false, &_streamType );
-    kdDebug(1431) << "NewStream stype=" << _streamType << " url=" << url << " mime=" << mimeType << endl;
-
-    // prepare data transfer
-    _tempFile = 0L;
-
-    if ( _streamType==NP_ASFILE || _streamType==NP_ASFILEONLY ) {
-        _onlyAsFile = _streamType==NP_ASFILEONLY;
-        if ( KURL(url).isLocalFile() )  {
-            kdDebug(1431) << "local file" << endl;
-            // local file can be passed directly
-            _fileURL = KURL(url).path();
-
-            // without streaming stream is finished already
-            if ( _onlyAsFile ) {
-                kdDebug() << "local file AS_FILE_ONLY" << endl;
-                finish( false );
-                return false;
-            }
-        } else {
-            kdDebug() << "remote file" << endl;
-
-            // stream into temporary file (use lower() in case the
-            // filename as an upper case X in it)
-            _tempFile = new KTempFile( QString::null, src.fileName().lower() );
-            _tempFile->setAutoDelete( TRUE );
-            _fileURL = _tempFile->name();
-            kdDebug() << "saving into " << _fileURL << endl;
-        }
-    }
+    _mimeType = mimeType;
 
     return true;
 }
@@ -1066,6 +1080,8 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
    to_sent = data.size()-start;
    while (to_sent>0)
    {
+      inform();
+
       max = _instance->NPWriteReady( _stream );
       len = QMIN(max, to_sent);
 
@@ -1098,6 +1114,8 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
 bool NSPluginStreamBase::pump()
 {
     kdDebug(1431) << "queue pos " << _queuePos << ", size " << _queue.size() << endl;
+
+    inform();
 
     if ( _queuePos<_queue.size() ) {
         unsigned newPos;
@@ -1147,6 +1165,8 @@ void NSPluginStreamBase::finish( bool err )
     _queue.resize( 0 );
     _pos = 0;
     _queuePos = 0;
+
+    inform();
 
     if ( !err ) {
         if ( _tempFile ) {
@@ -1254,6 +1274,10 @@ bool NSPluginStream::get( QString url, QString mimeType, void *notify )
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
+        connect(_job, SIGNAL(totalSize(KIO::Job *, unsigned long )),
+                SLOT(totalSize(KIO::Job *, unsigned long)));
+        connect(_job, SIGNAL(mimetype(KIO::Job *, const QString &)),
+                SLOT(mimetype(KIO::Job *, const QString &)));
     }
 
     return false;
@@ -1269,6 +1293,20 @@ void NSPluginStream::data(KIO::Job * job, const QByteArray &data)
         _resumeTimer->start( 100, TRUE );
     }
 }
+
+void NSPluginStream::totalSize(KIO::Job * job, unsigned long size)
+{
+    kdDebug(1431) << "NSPluginStream::totalSize - job=" << (void*)job << " size=" << size << endl;
+    _stream->end = size;
+}
+
+void NSPluginStream::mimetype(KIO::Job * job, const QString &mimeType)
+{
+    kdDebug(1431) << "NSPluginStream::QByteArray - job=" << (void*)job << " mimeType=" << mimeType << endl;
+    _mimeType = mimeType;
+}
+
+
 
 
 void NSPluginStream::resume()
