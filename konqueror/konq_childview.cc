@@ -192,7 +192,8 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   // Ok, now we can show (and store) the new location bar URL
   // (If we do that later, slotPartActivated will display the wrong one,
   //  and if we do that earlier, it messes up the history entry ;-)
-  setLocationBarURL( locationBarURL );
+  if ( !locationBarURL.isEmpty() )
+      setLocationBarURL( locationBarURL );
 
   if ( !m_service->serviceTypes().contains( serviceType ) ||
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
