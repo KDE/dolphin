@@ -512,7 +512,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   m_factory->addClient( this );
 }
 
-KonqPopupMenu::newviewPos() const {
+int KonqPopupMenu::newviewPos() const {
   return d->m_newviewPos;
 }
 
