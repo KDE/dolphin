@@ -361,8 +361,8 @@ SelcAbilities ListView::getSelectionAbilities() {
 }
 
 // TODO
-/* TYP */
-void ListView::handleDropped(KEBListView *, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
+void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
+   Q_UNUSED(lv);
    if (!newParent) {
       // drop before root item
       return;
@@ -471,13 +471,14 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
    }
 }
 
-void ListView::handleSelectionChanged(KEBListView *) {
+void ListView::handleSelectionChanged(KEBListView *lv) {
+   Q_UNUSED(lv);
    KEBApp::self()->updateActions();
    updateSelectedItems();
 }
 
-/* TYP */
-void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
+void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qitem, const QPoint &p) {
+   Q_UNUSED(lv);
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if (!item) {
       return;
@@ -492,13 +493,13 @@ void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qite
 }
 
 /* MOVE */
-/* TYP */
-void ListView::handleDoubleClicked(KEBListView *, QListViewItem *item, const QPoint &, int column) {
+void ListView::handleDoubleClicked(KEBListView *lv, QListViewItem *item, const QPoint &, int column) {
+   Q_UNUSED(lv);
    m_listView->rename(item, column);
 }
 
-/* TYP */
-void ListView::handleItemRenamed(KEBListView *, QListViewItem *item, const QString &newText, int column) {
+void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QString &newText, int column) {
+   Q_UNUSED(lv);
    Q_ASSERT(item);
    KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
    KCommand *cmd = 0;
@@ -556,6 +557,14 @@ static KEBListViewItem *myrenameitem = 0;
 
 /* MOVE */
 void ListView::renameNextCell(bool fwd) {
+   // this needs to take special care
+   // of the current listview focus!
+   // but for the moment we just default
+   // to using the item listview
+   // in fact, because the two are so 
+   // different they each need to be 
+   // handled almost completely differently...
+   KEBListView *lv = m_listView;
    while (1) {
       if (fwd && myrenamecolumn < KEBListView::CommentColumn) {
          myrenamecolumn++;
@@ -565,9 +574,9 @@ void ListView::renameNextCell(bool fwd) {
          myrenameitem    = 
             static_cast<KEBListViewItem *>(
               fwd ? ( myrenameitem->itemBelow() 
-                    ? myrenameitem->itemBelow() : m_listView->firstChild() ) 
+                    ? myrenameitem->itemBelow() : lv->firstChild() ) 
                   : ( myrenameitem->itemAbove()
-                    ? myrenameitem->itemAbove() : m_listView->lastItem() ) );
+                    ? myrenameitem->itemAbove() : lv->lastItem() ) );
          myrenamecolumn  
             = fwd ? KEBListView::NameColumn 
                   : KEBListView::CommentColumn;
@@ -584,7 +593,7 @@ void ListView::renameNextCell(bool fwd) {
          break;
       }
    }
-   m_listView->rename(myrenameitem, myrenamecolumn);
+   lv->rename(myrenameitem, myrenamecolumn);
 }
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
