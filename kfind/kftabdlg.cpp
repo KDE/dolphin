@@ -363,25 +363,26 @@ void KfindTabDialog::isCheckedValid()
 
     if (betweenDates == TRUE)
       {
+        QDate hi, hi2;
         bool rightDates = TRUE;
 
         match = date.match(le[0]->text(), 0,&len);
         if ( !(match != -1 && len == (int)strlen(le[0]->text())) )
 	  rightDates=FALSE;
 
-        if ( string2Date(le[0]->text()).isNull() ) 
+        if ( string2Date(le[0]->text(), &hi).isNull() ) 
           rightDates=FALSE;
 
         match = date.match(le[1]->text(), 0,&len);
         if ( !(match != -1 && len == (int)strlen(le[1]->text())) )
 	  rightDates=FALSE;
 
-       if ( string2Date(le[1]->text()).isNull() ) 
+       if ( string2Date(le[1]->text(), &hi).isNull() ) 
          rightDates=FALSE;
 
         if (rightDates)
-	  if (string2Date(le[0]->text())>string2Date(le[1]->text()))
-	    rightDates  = FALSE;
+	  if (string2Date(le[0]->text(), &hi)>string2Date(le[1]->text(), &hi2))
+             rightDates  = FALSE;
 
         if (!rightDates)
             {
@@ -500,9 +501,10 @@ QString KfindTabDialog::createQuery()
           {
             if (betweenDates == TRUE)
               {
+              QDate q1, q2;
                 str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d",
-		 (string2Date(le[0]->text())).daysTo(QDate::currentDate()),
-		 (string2Date(le[1]->text())).daysTo(QDate::currentDate()) ));
+               (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
+		(string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
               };
 
             if (prevMonth == TRUE)
@@ -540,16 +542,14 @@ QString KfindTabDialog::date2String(QDate date)
     return(str);
   };
 
-QDate KfindTabDialog::string2Date(QString str)
+QDate &KfindTabDialog::string2Date(QString str, QDate *qd)
 {   
     int year,month,day;
-    QDate tmpD;
-        
+            
     sscanf(str,"%2d/%2d/%4d",&day,&month,&year);
-    if (QDate::isValid(year,month,day))
-        return QDate(year,month,day);
-      else
-        return (tmpD);   
+    qd->setYMD(year, month, day);
+    return *qd; 
+
 }
 
 void  KfindTabDialog::getDirectory()
