@@ -31,7 +31,7 @@ KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part,
                                   QWidget *_parent, 
                                   const char *_name ) : QWidget( _parent, _name )
 {
-  m_vPart = OpenParts::Part::_duplicate( part );
+  setPart( part );
   QString key;
 
   //killTimers();
@@ -199,7 +199,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
 
   QPixmap *pm;
   p.setClipRect(r);
-  p.setClipping(True);
+  p.setClipping(true);
 
   if ( look == PIXMAP){
     pm = hasFocus ? frameHeaderActive : frameHeaderInactive;
@@ -240,7 +240,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
       p.eraseRect(r);
     //}
   }
-  p.setClipping(False);
+  p.setClipping(false);
 
 /*
 //  p.setPen(is_active ? kapp->activeTextColor() : app->inactiveTextColor());

@@ -26,6 +26,7 @@
 #include "konq_htmlview.h"
 #include "konq_plugins.h"
 
+#include <opFrame.h>
 #include <qsplitter.h>
 #include <qlayout.h>
 
@@ -90,6 +91,7 @@ KonqChildView::~KonqChildView()
 
 void KonqChildView::attach( Konqueror::View_ptr view, QWidget * builtinView )
 {
+  m_pHeader->setPart( view );
   m_bBuiltin = (builtinView != 0L);
   m_vView = Konqueror::View::_duplicate( view );
   m_vView->setMainWindow( m_vMainWindow );
@@ -135,9 +137,9 @@ void KonqChildView::detach()
 void KonqChildView::repaint()
 {
   kdebug(0,1202,"KonqChildView::repaint()");
-  kdebug(0, 1202, "m_pFrame is %p", m_pFrame);
   if (m_pFrame != 0L) m_pFrame->repaint();
   m_pHeader->repaint();
+  kdebug(0,1202,"KonqChildView::repaint() : done");
 }
 
 void KonqChildView::show()

@@ -23,7 +23,7 @@
 #include <qcolor.h>
 #include <qwidget.h>
 #include <kpixmap.h>
-#include <opFrame.h>
+// #include <opFrame.h>
 #include "openparts.h"
 
 class QPixmap;
@@ -35,7 +35,7 @@ enum KonqFrameHeaderLook{
   PIXMAP
 };
 
-class KonqFrame;
+// class KonqFrame;
 
 class KonqFrameHeader : public QWidget
 {
@@ -44,6 +44,11 @@ class KonqFrameHeader : public QWidget
 public:
   KonqFrameHeader( OpenParts::Part_ptr view, QWidget *_parent = 0L, const char *_name = 0L );
   ~KonqFrameHeader() {}
+
+  /**
+   * Call this to change the part bound to the frame header.
+   */
+  void setPart( OpenParts::Part_ptr part ) { m_vPart = OpenParts::Part::_duplicate( part ); }
 
 signals:
   void headerClicked();
