@@ -36,6 +36,7 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
    public:
       KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget );
       ~KonqTextViewWidget();
+      virtual bool isExecuteArea( const QPoint& point );
 
    protected slots:
       // slots connected to the directory lister

@@ -72,6 +72,11 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
 KonqTextViewWidget::~KonqTextViewWidget()
 {}
 
+bool KonqTextViewWidget::isExecuteArea( const QPoint& point )
+{
+   return isNameColumn(point);
+}
+
 void KonqTextViewWidget::createColumns()
 {
    //the textview has fixed size columns
