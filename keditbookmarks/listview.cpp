@@ -127,6 +127,21 @@ void ListView::connectSignals() {
    }
 }
 
+// fowards
+
+#define lt ListView::self()
+
+void KEBListView::slotSelectionChanged() 
+  { lt->slotSelectionChanged(); }
+void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) 
+  { lt->slotContextMenu(a,b,c); }
+void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c)
+  { lt->slotItemRenamed(a,b,c); }
+void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c)
+  { lt->slotDoubleClicked(a,b,c); }
+void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c)
+  { lt->slotDropped(a,b,c); }
+
 void ListView::connectSignals(KEBListView *listview) {
    connect(listview, SIGNAL( selectionChanged() ),
            this,     SLOT( slotSelectionChanged() ));
@@ -449,7 +464,6 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
    }
 }
 
-/* TYP */
 void ListView::slotSelectionChanged() {
    KEBApp::self()->updateActions();
    updateSelectedItems();

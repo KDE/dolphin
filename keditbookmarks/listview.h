@@ -88,6 +88,12 @@ public:
 public slots:
    virtual void rename(QListViewItem *item, int c);
 
+   void slotSelectionChanged();
+   void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
+   void slotItemRenamed(QListViewItem *, const QString &, int);
+   void slotDoubleClicked(QListViewItem *, const QPoint &, int);
+   void slotDropped(QDropEvent*, QListViewItem*, QListViewItem*);
+
 protected:
    virtual bool acceptDrag(QDropEvent *e) const;
    virtual QDragObject* dragObject();
@@ -151,7 +157,7 @@ public:
    void rename(int);
    void clearSelection();
 
-protected slots:
+public slots:
    void slotDropped(QDropEvent *, QListViewItem *, QListViewItem *);
    void slotSelectionChanged();
    void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
