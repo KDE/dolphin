@@ -11,7 +11,7 @@
 #include "version.h"
 
 static const char description[] =
-	I18N_NOOP("KDE File find utility.");
+	I18N_NOOP("KDE file find utility");
 
 static KCmdLineOptions options[] =
 {

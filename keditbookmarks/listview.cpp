@@ -332,7 +332,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
     KMacroCommand *mcmd = 0;
 
     if (!inApp) {
-        mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
+        mcmd = CmdGen::self()->insertMimeSource(i18n("Drop Items"), e, newAddress);
 
     } else {
         if (!VALID_FIRST(selectedItems()) || (selectedItems()->first() == itemAfterQLVI))
