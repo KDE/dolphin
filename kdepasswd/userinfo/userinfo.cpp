@@ -49,7 +49,7 @@
  * DLL interface.
  */
 typedef KGenericFactory<KUserInfoConfig, QWidget > UserInfoFactory;
-K_EXPORT_COMPONENT_FACTORY (kcm_userinfo, UserInfoFactory("userinfo") );
+K_EXPORT_COMPONENT_FACTORY (kcm_userinfo, UserInfoFactory("userinfo") )
 
 KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStringList &)
   : KCModule(UserInfoFactory::instance(), parent, name)
