@@ -6,6 +6,7 @@
 #include <kfilemetainfo.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 #include "kquery.h"
 
@@ -34,6 +35,16 @@ void KQuery::kill()
 
 void KQuery::start()
 {
+  QString directory;
+  KProcess proc;
+  
+  directory.sprintf("kfindtmp.%d/", getpid());
+  tmpdir = locateLocal("tmp", directory );
+
+  proc.clearArguments();
+  proc  << "mkdir" << tmpdir;
+  proc.start(KProcess::Block);
+
   if(m_useLocate) //use "locate" instead of the internal search method
   {
     processLocate->clearArguments();
@@ -60,7 +71,7 @@ void KQuery::slotResult( KIO::Job * _job )
 {
   if (job != _job) return;
   job = 0;
-
+  removeTempDir();
   emit result(_job->error());
 }
 
@@ -68,7 +79,7 @@ void KQuery::slotCanceled( KIO::Job * _job )
 {
   if (job != _job) return;
   job = 0;
-
+  removeTempDir();
   emit result(KIO::ERR_USER_CANCELED);
 }
 
@@ -222,7 +233,28 @@ void KQuery::processQuery( KFileItem* file)
        int matchingLineNumber=0;
 
        // FIXME: doesn't work with non local files
-       QString filename = file->url().path();
+       
+       QString filename;
+       KProcess proc;
+
+       //KWord's files are compressed...
+       if((file->mimetype()=="application/x-kword")||(file->mimetype()=="application/vnd.sun.xml.writer"))
+       {
+         proc.clearArguments();
+         proc << "unzip" << "-o" << file->url().path() << "-d" << tmpdir;
+         proc.start(KProcess::Block);
+
+         if(file->mimetype()=="application/x-kword")
+           filename=tmpdir+"/maindoc.xml";
+         else
+           filename=tmpdir+"/content.xml";
+           
+         if(!QFile::exists(filename))
+           filename=file->url().path();
+       }
+       else
+         filename = file->url().path();
+         
        if(filename.startsWith("/dev/"))
           return;
        QFile qf(filename);
@@ -393,4 +425,13 @@ void KQuery::slotendProcessLocate(KProcess*)
   emit result(0);
 }
 
+void KQuery::removeTempDir()
+{
+  KProcess proc;
+
+  proc.clearArguments();
+  proc  << "rm" << "-Rf" << tmpdir;
+  proc.start(KProcess::Block);
+}
+  
 #include "kquery.moc"
