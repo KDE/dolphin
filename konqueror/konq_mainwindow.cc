@@ -2379,6 +2379,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    QString label=text+" "+m_currentView->url().prettyURL()+" "+i18n("to:");
    KURLRequesterDlg dlg(initialUrl,label,this,"urlrequester",true);
    dlg.setCaption(i18n("Enter Target"));
+   dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly |KFile::Directory);
    if (dlg.exec())
    {
       url=dlg.selectedURL();
