@@ -286,7 +286,7 @@ public:
    void mousePressEvent(QMouseEvent *ev);
    void focusInEvent(QFocusEvent *ev);
    void setGrayedText(QString grayedText) { m_grayedText = grayedText; }
-   QString grayedText() { return m_grayedText; }
+   QString grayedText() const { return m_grayedText; }
 private:
    QString m_grayedText;
 };
