@@ -146,6 +146,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     //kdDebug(1202) << "Move in child" << endl;
     splitFrame->widget()->reparent( newContainer, pos, true /*showIt*/ );
+    newContainer->insertChildFrame( splitFrame );
 
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
@@ -187,7 +188,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
 void KonqViewManager::removeView( KonqView *view )
 {
-  //kdDebug(1202) << "---------------- removeView" << view << endl;
+  kdDebug(1202) << "---------------- removeView" << view << endl;
   if ( activePart() == view->part() )
   {
     KonqView *nextView = chooseNextView( view );
@@ -219,6 +220,7 @@ void KonqViewManager::removeView( KonqView *view )
   otherFrame->reparentFrame( m_pMainWindow, pos );
   otherFrame->widget()->hide(); // Can't hide before, but after is better than nothing
   otherFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize
+  parentContainer->removeChildFrame( otherFrame );
 
   m_pMainWindow->removeChildView( view );
 
@@ -776,7 +778,7 @@ void KonqViewManager::printFullHierarchy( KonqFrameContainer * container, int id
         else if ( child->widget()->isA("KonqFrameContainer") )
             printFullHierarchy( static_cast<KonqFrameContainer *>(child), ident + 2 );
         else
-            kdDebug(1202) << spaces << "  " << "KonqFrame containing view "
+            kdDebug(1202) << spaces << "  " << "KonqFrame " << child << " containing view "
                           << static_cast<KonqFrame *>(child)->childView()
                           << " part "
                           << static_cast<KonqFrame *>(child)->part()

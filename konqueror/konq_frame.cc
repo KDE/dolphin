@@ -487,11 +487,15 @@ void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame )
   if (frame)
   {
       if( !m_pFirstChild )
+      {
           m_pFirstChild = frame;
-
+          kdDebug(1202) << "Setting as first child" << endl;
+      }
       else if( !m_pSecondChild )
+      {
           m_pSecondChild = frame;
-
+          kdDebug(1202) << "Setting as second child" << endl;
+      }
       else
         kdWarning(1202) << this << " already has two children..."
                           << m_pFirstChild << " and " << m_pSecondChild << endl;
