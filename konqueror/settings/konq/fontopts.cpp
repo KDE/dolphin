@@ -160,13 +160,13 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     {
         row++;
 
-        m_pSizeInBytes = new QCheckBox(i18n("Display filesizes in b&ytes"), this);
+        m_pSizeInBytes = new QCheckBox(i18n("Display file sizes in b&ytes"), this);
         lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,Qt::AlignLeft );
         connect( m_pSizeInBytes, SIGNAL(clicked()), this, SLOT(changed()) );
 
-        QWhatsThis::add( m_pSizeInBytes, i18n("Checking this option will result in filesizes"
-                                              " being displayed in bytes. Otherwise filesizes are"
-                                              " converted to kilobytes or megabytes if appropriate.") );
+        QWhatsThis::add( m_pSizeInBytes, i18n("Checking this option will result in file sizes"
+                                              " being displayed in bytes. Otherwise file sizes are"
+                                              " being displayed in kilobytes or megabytes if appropriate.") );
     }
 
     assert( row == LASTLINE-1 );
