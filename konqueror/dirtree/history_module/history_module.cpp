@@ -60,7 +60,7 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 {
     if ( !s_settings ) {
 	s_settings = sd.setObject(
-			 new KonqHistorySettings( kapp, "history settings" ));
+			 new KonqHistorySettings( 0, "history settings" ));
 	s_settings->readSettings();
     }
 
@@ -154,7 +154,7 @@ void KonqHistoryModule::slotCreateItems()
     while ( (entry = it.current()) ) {
 	KonqHistoryGroupItem *group = getGroupItem( entry->url );
 	item = new KonqHistoryItem( entry, group, m_topLevelItem );
-	
+
 	++it;
     }
 
@@ -167,7 +167,7 @@ void KonqHistoryModule::slotCreateItems()
 	group = m_dict.find( *it2 );
 	if ( group )
 	    group->setOpen( true );
-	
+
 	++it2;
     }
 
@@ -485,7 +485,7 @@ void KonqHistoryDialog::slotNewerChanged( int value )
 {
     const QString& days = i18n("days");
     const QString& minutes = i18n("minutes");
-	
+
     if ( value == 1 ) {
 	comboNewer->changeItem( i18n("day"), KonqHistorySettings::DAYS );
 	comboNewer->changeItem( i18n("minute"), KonqHistorySettings::MINUTES );
@@ -503,7 +503,7 @@ void KonqHistoryDialog::slotOlderChanged( int value )
 {
     const QString& days = i18n("days");
     const QString& minutes = i18n("minutes");
-	
+
     if ( value == 1 ) {
 	comboOlder->changeItem( i18n("day"), KonqHistorySettings::DAYS );
 	comboOlder->changeItem( i18n("minute"), KonqHistorySettings::MINUTES );
