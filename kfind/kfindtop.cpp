@@ -13,6 +13,7 @@
 
 #include <kapp.h>
 #include <kiconloader.h>
+#include <khelpmenu.h>
 #include <kmenubar.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
@@ -83,10 +84,6 @@ KfindTop::KfindTop(const char *searchPath)
 
 KfindTop::~KfindTop()
 {
-  delete _fileMenu;
-  delete _editMenu;
-  delete _optionMenu;
-  delete _helpMenu;
   delete _kfind;
   delete _mainMenu;
   delete _toolBar;
@@ -95,10 +92,23 @@ KfindTop::~KfindTop()
 
 void KfindTop::menuInit()
 {
-  _fileMenu   = new QPopupMenu;
-  _editMenu   = new QPopupMenu;
-  _optionMenu = new QPopupMenu;
-  _helpMenu   = new QPopupMenu;
+  _mainMenu = new KMenuBar(this, "_mainMenu");
+
+  _fileMenu   = new QPopupMenu(this);
+  _mainMenu->insertItem( i18n("&File"), _fileMenu);
+
+  _editMenu   = new QPopupMenu(this);
+  _mainMenu->insertItem( i18n("&Edit"), _editMenu);
+
+
+  _optionMenu = new QPopupMenu(this);
+  _mainMenu->insertItem( i18n("&Options"), _optionMenu);
+  _mainMenu->insertSeparator();
+
+  QString tmp = i18n("KFind %1\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>")
+    .arg(KFIND_VERSION);
+  _helpMenu   = new KHelpMenu(this, tmp);
+  _mainMenu->insertItem( i18n("&Help"), _helpMenu->menu() );
 
   _accel->connectItem(KAccel::Find, _kfind, SLOT(startSearch()));
   _accel->connectItem(KAccel::Open, this,   SIGNAL(open()));
@@ -175,16 +185,6 @@ void KfindTop::menuInit()
   _optionMenu->insertItem(i18n("&Preferences ..."),
 			  this,SLOT(prefs()));
 
-  QString tmp = i18n("KFind %1\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>")
-    .arg(KFIND_VERSION);
-  _helpMenu=helpMenu( tmp );
-
-  _mainMenu = new KMenuBar(this, "_mainMenu");
-  _mainMenu->insertItem( i18n("&File"), _fileMenu);
-  _mainMenu->insertItem( i18n("&Edit"), _editMenu);
-  _mainMenu->insertItem( i18n("&Options"), _optionMenu);
-  _mainMenu->insertSeparator();
-  _mainMenu->insertItem( i18n("&Help"), _helpMenu );
 }
 
 void KfindTop::toolBarInit()
@@ -242,13 +242,8 @@ void KfindTop::toolBarInit()
 
   icon = BarIcon("contents");
   _toolBar->insertButton( icon, 9, SIGNAL( clicked() ),
-			  kapp, SLOT( appHelpActivated() ),
+			  _helpMenu, SLOT( appHelpActivated() ),
 			  TRUE, i18n("Help"));
-
-  icon = BarIcon("exit");
-  _toolBar->insertButton( icon, 10, SIGNAL( clicked() ),
-                          KApplication::kApplication(), SLOT( quit() ),
-			  TRUE, i18n("Quit"));
 }
 
 void KfindTop::nameSetFocus()

@@ -18,6 +18,7 @@ class Kfind;
 class QPushButton;
 class KfindTabDialog;
 class KAccel;
+class KHelpMenu;
 
 class KfindTop: public KTMainWindow
 {
@@ -70,7 +71,7 @@ private:
   QPopupMenu     *_fileMenu;
   QPopupMenu     *_editMenu;
   QPopupMenu     *_optionMenu;
-  QPopupMenu     *_helpMenu;
+  KHelpMenu      *_helpMenu;
   
   KToolBar       *_toolBar;
   KStatusBar     *_statusBar;
