@@ -106,6 +106,8 @@ void CreateCommand::execute()
 
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
                 bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
+                if(!m_iconPath.isEmpty())
+                    bk.internalElement().setAttribute( "icon",m_iconPath );
             }
             else
                 bk = parentGroup.addBookmark( m_text, m_url, m_iconPath);
