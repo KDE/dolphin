@@ -13,8 +13,8 @@ PICSDIR = $(LIBDIR)/pics
 INCLDIR	= @all_includes@ -I..
 
 
-CXXFLAGS= @CXXFLAGS@ -DKFIND_VERSION=\"$(KFIND_VERSION)\" -DHAVE_CONFIG_H -I../kfm/libkfm
-LDFLAGS	= @LDFLAGS@ @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ -L../kfm/libkfm
+CXXFLAGS= @CXXFLAGS@ -DKFIND_VERSION=\"$(KFIND_VERSION)\" -DHAVE_CONFIG_H
+LDFLAGS	= @LDFLAGS@ @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ 
 CXX 	= @CXX@
 MOC 	= @MOC@
 
