@@ -25,8 +25,8 @@
 
 #include <assert.h>
 
-
 #include <dcopclient.h>
+#include <dcopref.h>
 
 #include <kapplication.h>
 #include <kdatastream.h>
@@ -34,6 +34,9 @@
 #include <klocale.h>
 
 #include <kio/job.h>
+
+inline const char *dcopTypeName( const KonqCommand & ) { return "KonqCommand"; }
+inline const char *dcopTypeName( const KonqCommand::Stack & ) { return "KonqCommand::Stack"; }
 
 /**
  * checklist:
@@ -497,11 +500,9 @@ void KonqUndoManager::broadcastPush( const KonqCommand &cmd )
     push( cmd );
     return;
   }
-  QByteArray data;
-  QDataStream stream( data, IO_WriteOnly );
-  stream << cmd;
-  kapp->dcopClient()->send( "kdesktop", "KonqUndoManager", "push(KonqCommand)", data );
-  kapp->dcopClient()->send( "konqueror*", "KonqUndoManager", "push(KonqCommand)", data );
+
+  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "push", cmd );
+  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "push", cmd );
 }
 
 void KonqUndoManager::broadcastPop()
@@ -511,9 +512,8 @@ void KonqUndoManager::broadcastPop()
     pop();
     return;
   }
-  QByteArray data;
-  kapp->dcopClient()->send( "kdesktop", "KonqUndoManager", "pop()", data );
-  kapp->dcopClient()->send( "konqueror*", "KonqUndoManager", "pop()", data );
+  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "pop" );
+  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "pop" );
 }
 
 void KonqUndoManager::broadcastLock()
@@ -525,9 +525,8 @@ void KonqUndoManager::broadcastLock()
     lock();
     return;
   }
-  QByteArray data;
-  kapp->dcopClient()->send( "kdesktop", "KonqUndoManager", "lock()", data );
-  kapp->dcopClient()->send( "konqueror*", "KonqUndoManager", "lock()", data );
+  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "lock" );
+  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "lock" );
 }
 
 void KonqUndoManager::broadcastUnlock()
@@ -539,9 +538,8 @@ void KonqUndoManager::broadcastUnlock()
     unlock();
     return;
   }
-  QByteArray data;
-  kapp->dcopClient()->send( "kdesktop", "KonqUndoManager", "unlock()", data );
-  kapp->dcopClient()->send( "konqueror*", "KonqUndoManager", "unlock()", data );
+  DCOPRef( "kdesktop", "KonqUndoManager" ).send( "unlock" );
+  DCOPRef( "konqueror*", "KonqUndoManager" ).send( "unlock" );
 }
 
 bool KonqUndoManager::initializeFromKDesky()
@@ -563,16 +561,7 @@ bool KonqUndoManager::initializeFromKDesky()
   if ( !client->isApplicationRegistered( "kdesktop" ) )
     return false;
 
-  QByteArray data;
-  QCString replyType;
-  QByteArray replyData;
-
-  bool res = client->call( "kdesktop", "KonqUndoManager", "get()", data, replyType, replyData );
-  if ( !res )
-    return false;
-
-  QDataStream stream( replyData, IO_ReadOnly );
-  stream >> d->m_commands;
+  d->m_commands = DCOPRef( "kdesktop", "KonqUndoManager" ).call( "get" );
   return true;
 }
 
