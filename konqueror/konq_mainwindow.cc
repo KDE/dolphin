@@ -717,7 +717,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   QString originalURL = url.pathOrURL();
   if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
   {
-    if (originalURL.right(1) != "/")
+    if (!originalURL.endsWith("/"))
         originalURL += '/';
     originalURL += req.nameFilter;
   }
@@ -2622,7 +2622,7 @@ void KonqMainWindow::slotPopupNewTabRight()
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
     bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
 
-    if (KApplication::keyboardModifiers() & KApplication::ShiftModifier)
+    if (KApplication::keyboardMouseState() & ShiftButton)
       newTabsInFront = !newTabsInFront;
 
     popupNewTab(newTabsInFront, false);
@@ -4421,7 +4421,7 @@ QString KonqMainWindow::currentURL() const
       QString nameFilter = static_cast<KonqDirPart *>(m_currentView->part())->nameFilter();
       if ( !nameFilter.isEmpty() )
       {
-          if (url.right(1) != "/")
+          if (!url.endsWith("/"))
               url += '/';
           url += nameFilter;
       }
