@@ -228,6 +228,7 @@ PluginPart::~PluginPart()
 
 bool PluginPart::openURL(const KURL &url)
 {
+    closeURL();
     kdDebug(1432) << "-> PluginPart::openURL" << endl;
 
     m_url = url;
