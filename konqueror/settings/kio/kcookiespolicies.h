@@ -15,13 +15,14 @@
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
 #include <qgroupbox.h>
-
+#include <qmap.h>
 #include <kcmodule.h>
 
 
 class DCOPClient;
 class QStringList;
 class KListView;
+class QListViewItem;
 
 class KCookiesPolicies : public KCModule
 {
@@ -65,6 +66,7 @@ private:
     QPushButton*  pb_domPolicyImport;
     QPushButton*  pb_domPolicyExport;
 
+    QMap<QListViewItem*, QString> domainPolicy;
 };
 
 #endif // __KCOOKIESPOLICIES_H

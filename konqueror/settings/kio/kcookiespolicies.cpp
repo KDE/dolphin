@@ -38,12 +38,11 @@ enum KCookieAdvice {
 
 static QString adviceToStr(KCookieAdvice _advice)
 {
-    switch( _advice )
-    {
-        case KCookieAccept: return "Accept";
-        case KCookieReject: return "Reject";
-        case KCookieAsk: return "Ask";
-        default: return "Dunno";
+    switch( _advice ) {
+    case KCookieAccept: return I18N_NOOP("Accept");
+    case KCookieReject: return I18N_NOOP("Reject");
+    case KCookieAsk: return I18N_NOOP("Ask");
+    default: return QString::null;
     }
 }
 
@@ -74,7 +73,7 @@ static void splitDomainAdvice(const QString& configStr, QString &domain, KCookie
     else
     {
         domain = tmp.left(splitIndex);
-        advice = strToAdvice( tmp.mid( splitIndex+1, tmp.length()).ascii() );
+        advice = strToAdvice( tmp.mid( splitIndex+1, tmp.length()) );
     }
 }
 
@@ -265,7 +264,7 @@ void KCookiesPolicies::changePressed()
         return;
     }
 
-    KCookieAdvice advice = strToAdvice(index->text(1));
+    KCookieAdvice advice = strToAdvice(domainPolicy[index]);
 
     PolicyDialog pDlg( this );
     pDlg.setDisableEdit( false, index->text(0) );
@@ -275,8 +274,9 @@ void KCookiesPolicies::changePressed()
     pDlg.setDefaultPolicy( advice - 1 );
     if( pDlg.exec() )
     {
-        index->setText(1, adviceToStr( (KCookieAdvice) pDlg.policyAdvice() ));
-        changed();
+      domainPolicy[index] = adviceToStr((KCookieAdvice)pDlg.policyAdvice());
+      index->setText(1, i18n(domainPolicy[index]).utf8());
+      changed();
     }
 }
 
@@ -288,6 +288,7 @@ void KCookiesPolicies::deletePressed()
         KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
         return;
     }
+    domainPolicy.remove(index);
     delete index;
     changed();
 }
@@ -311,11 +312,13 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 {
     for (QStringList::ConstIterator it = domainConfig.begin();
          it != domainConfig.end(); ++it) {
-        QString domain;
-        KCookieAdvice advice;
-        splitDomainAdvice(*it, domain, advice);
-        kdDebug() << "inserting " << *it << endl;
-        (void)new QListViewItem( lb_domainPolicy, domain, adviceToStr(advice) );
+      QString domain;
+      KCookieAdvice advice;
+      splitDomainAdvice(*it, domain, advice);
+      QString advStr = adviceToStr(advice);
+      QListViewItem *index =
+        new QListViewItem( lb_domainPolicy, domain, i18n(advStr) );
+      domainPolicy[index] = advStr;
     }
 }
 
@@ -352,7 +355,7 @@ void KCookiesPolicies::load()
 void KCookiesPolicies::save()
 {
   KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
-  const char *advice;
+  QString advice;
 
   g_pConfig->setGroup( "Cookie Policy" );
   g_pConfig->writeEntry( "Cookies", cb_enableCookies->isChecked() );
@@ -367,8 +370,8 @@ void KCookiesPolicies::save()
   QStringList domainConfig;
   QListViewItem *at = lb_domainPolicy->firstChild();
   while (at) {
-      domainConfig.append(QString::fromLatin1("%1:%2").arg(at->text(0)).arg(at->text(1)));
-      at = at->nextSibling();
+    domainConfig.append(QString::fromLatin1("%1:%2").arg(at->text(0)).arg(domainPolicy[at]));
+    at = at->nextSibling();
   }
   g_pConfig->writeEntry("CookieDomainAdvice", domainConfig);
 
