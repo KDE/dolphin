@@ -82,7 +82,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
     lay->addWidget( new QLabel( i18n( "Maximum file size:" ), this ) );
 
     m_maxSize = new KDoubleNumInput( this );
-    m_maxSize->setSuffix( i18n("MB") );
+    m_maxSize->setSuffix( i18n(" MB") );
     m_maxSize->setRange( 0.2, 100, 0.2, true );
     m_maxSize->setPrecision( 1 );
     lay->addWidget( m_maxSize );
