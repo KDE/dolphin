@@ -47,6 +47,11 @@ QString KonqTextViewItem::key( int _column, bool asc) const
                tmp+=tmpDate;
                return tmp;
             }
+            else if (cInfo->udsId==KIO::UDS_SIZE)
+            {
+               tmp += QString::number( m_fileitem->size() ).rightJustify( 20, '0' );
+               return tmp;
+            }
             else break;
 
          };
@@ -156,8 +161,7 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_SIZE:
-            tmp.sprintf("%9ld",size);
-            setText(tmpColumn->displayInColumn,tmp);
+            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size, 0));
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
