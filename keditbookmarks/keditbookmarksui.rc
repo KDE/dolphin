@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="17">
+<kpartgui name="keditbookmarks" version="18">
 
 <MenuBar>
 
@@ -122,6 +122,7 @@
 
 <State name="notreadonly">
   <enable>
+    <Action name="file_save"/>
     <Action name="importGaleon"/>
     <Action name="importKDE2"/>
     <Action name="importOpera"/>
@@ -136,7 +137,6 @@
 <State name="normal">
   <enable>
     <Action name="file_open"/>
-    <Action name="file_save"/>
     <Action name="file_save_as"/>
     <Action name="file_quit"/>
     <Action name="exportNS"/>
