@@ -29,7 +29,7 @@ public:
   
   virtual void cleanUp();
   
-  virtual CORBA::Boolean eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value );
+  virtual bool eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value );
 };
 
 class KonqSearcherFactory : public KOMPluginFactory

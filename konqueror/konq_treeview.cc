@@ -130,7 +130,7 @@ KonqKfmTreeView::~KonqKfmTreeView()
 bool KonqKfmTreeView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL( eventURL );
-  openURL( eventURL.url, (int)eventURL.xOffset, (int)eventURL.yOffset );
+  openURL( eventURL.url, eventURL.xOffset, eventURL.yOffset );
   return true;
 }
 
@@ -138,10 +138,8 @@ bool KonqKfmTreeView::mappingFillMenuView( Browser::View::EventFillMenu_ptr view
 {
   if ( !CORBA::is_nil( viewMenu ) )
   {
-    CORBA::WString_var text = Q2C( i18n("Rel&oad Tree") );
-    viewMenu->insertItem4( text, this, "slotReloadTree", 0, -1 , -1 );
-    text = Q2C( i18n("Show &Dot Files") );
-    m_idShowDot = viewMenu->insertItem4( text, this, "slotShowDot" , 0, -1, -1 );
+    viewMenu->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree", 0, -1 , -1 );
+    m_idShowDot = viewMenu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, -1, -1 );
     viewMenu->setItemChecked( m_idShowDot, m_pProps->m_bShowDot );
     m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
   }
@@ -160,33 +158,33 @@ void KonqKfmTreeView::stop()
   m_dirLister->stop();
 }
 
-char *KonqKfmTreeView::url()
+QCString KonqKfmTreeView::url()
 {
 // Simon: We cannot use the dirlister to find out about our current url since
 //        it's also used for sub-folders! use KonqBaseView::m_strURL instead
-  return CORBA::string_dup( m_strURL.ascii() );
+  return m_strURL.latin1();
 /*
   assert( m_dirLister );
   return CORBA::string_dup( m_dirLister->url().ascii() );
 */  
 }
 
-CORBA::Long KonqKfmTreeView::xOffset()
+long int KonqKfmTreeView::xOffset()
 {
-  return (CORBA::Long)contentsY();
+  return contentsY();
 }
 
-CORBA::Long KonqKfmTreeView::yOffset()
+long int KonqKfmTreeView::yOffset()
 {
-  return (CORBA::Long)contentsX();
+  return contentsX();
 }
 
-void KonqKfmTreeView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
+void KonqKfmTreeView::can( bool &copy, bool &paste, bool &move )
 {
   QValueList<KfmTreeViewItem*> selection;
   selectedItems( selection );
   
-  move = copy = (CORBA::Boolean) ( selection.count() != 0 );
+  move = copy = ( selection.count() != 0 );
   
   // we don't allow paste because it might be confusing to the user, since he/she
   // doesn't really know *where* (url) the data is pasted then (IMHO)
@@ -216,7 +214,7 @@ void KonqKfmTreeView::pasteSelection()
   assert( 0 );
 }
 
-void KonqKfmTreeView::moveSelection( const char *destinationURL )
+void KonqKfmTreeView::moveSelection( const QCString &destinationURL )
 {
   QValueList<KfmTreeViewItem*> selection;
   selectedItems( selection );
@@ -230,7 +228,7 @@ void KonqKfmTreeView::moveSelection( const char *destinationURL )
     
   KIOJob *job = new KIOJob;
   
-  if ( destinationURL )
+  if ( !destinationURL.isEmpty() )
     job->move( lstURLs, destinationURL );
   else
     job->del( lstURLs );
@@ -662,8 +660,7 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
   QString s;
   if ( _item )
     s = _item->item()->getStatusBarInfo();
-  CORBA::WString_var ws = Q2C( s );
-  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
+  SIGNAL_CALL1( "setStatusBarText", s );
 }
 
 void KonqKfmTreeView::selectedItems( QValueList<KfmTreeViewItem*>& _list )
@@ -842,7 +839,7 @@ void KonqKfmTreeView::setComplete()
 void KonqKfmTreeView::slotStarted( const QString & url )
 {
   if ( !m_bTopLevelComplete )
-    SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
+    SIGNAL_CALL2( "started", id(), url.ascii() );
 }
 
 void KonqKfmTreeView::slotCompleted()

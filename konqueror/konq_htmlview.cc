@@ -91,7 +91,7 @@ KonqHTMLView::~KonqHTMLView()
 {
 }
 
-bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
+bool KonqHTMLView::event( const QCString &event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
   
@@ -113,9 +113,9 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
   m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
   enableImages( m_bAutoLoadImages );  
   
-  QString url = eventURL.url.in();
+  QString url = eventURL.url;
   
-  if ( !(bool)eventURL.reload && urlcmp( url, KBrowser::m_strURL, TRUE, TRUE ) )
+  if ( !eventURL.reload && urlcmp( url, KBrowser::m_strURL, TRUE, TRUE ) )
   {
     KURL u( url );
     KBrowser::m_strWorkingURL = url;
@@ -128,7 +128,7 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
     slotCompleted();
     return true;
   }
-  else KBrowser::openURL( url, (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
+  else KBrowser::openURL( url, eventURL.reload, eventURL.xOffset, eventURL.yOffset );
   
   if ( m_jobId )
   {
@@ -151,16 +151,16 @@ bool KonqHTMLView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMen
   m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
   if ( !CORBA::is_nil( viewMenu ) )
   {
-    CORBA::WString_var text;
-    m_idSaveDocument = viewMenu->insertItem4( ( text = Q2C( i18n("&Save As...") ) ), 
+    QString text;
+    m_idSaveDocument = viewMenu->insertItem4( ( text = i18n("&Save As...") ), 
                                               this, "saveDocument", 0, -1, -1 );
-    m_idSaveFrame = viewMenu->insertItem4( ( text = Q2C( i18n("Save &Frame As...") ) ), 
+    m_idSaveFrame = viewMenu->insertItem4( ( text = i18n("Save &Frame As..." ) ), 
                                            this, "saveFrame", 0, -1, -1 );
-    m_idSaveBackground = viewMenu->insertItem4( ( text = Q2C( i18n("Save &Background Image As...") ) ), 
+    m_idSaveBackground = viewMenu->insertItem4( ( text = i18n("Save &Background Image As...") ), 
                                                 this, "saveBackground", 0, -1, -1 );
-    m_idViewDocument = viewMenu->insertItem4( ( text = Q2C( i18n( "View Document Source" ) ) ), 
+    m_idViewDocument = viewMenu->insertItem4( ( text = i18n( "View Document Source" ) ), 
                                               this, "viewDocumentSource", 0, -1, -1 );
-    m_idViewFrame = viewMenu->insertItem4( ( text = Q2C( i18n( "View Frame Source" ) ) ), 
+    m_idViewFrame = viewMenu->insertItem4( ( text = i18n( "View Frame Source" ) ), 
                                            this, "viewFrameSource", 0, -1, -1 );
       
     checkViewMenu();
@@ -185,7 +185,7 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
     
   if ( viewToolBar.create )
   {
-    CORBA::WString_var toolTip = Q2C( i18n( "Load Images" ) );
+    QString toolTip = i18n( "Load Images" );
     OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "image.png" ) );
     viewToolBar.toolBar->insertButton2( pix, TOOLBAR_LOADIMAGES_ID, 
                                         SIGNAL(clicked()), this, "slotLoadImages", 
@@ -279,7 +279,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 {
   if ( !_url )
   {
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( 0L, 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", QString() );
     return;
   }
 
@@ -295,8 +295,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
   {
     QString decodedURL = _url;
     KURL::decode( decodedURL );
-    CORBA::WString_var wurl = Q2C( decodedURL );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", decodedURL );
     return;
   }
 
@@ -328,8 +327,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
       {
         text2 += "  ";
         text2 += tmp;
-	CORBA::WString_var wtext2 = Q2C( text2 );
-        SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wtext2, 0 ) );
+        SIGNAL_CALL1( "setStatusBarText", text2 );
 	return;
       }
       buff_two[n] = 0;
@@ -360,13 +358,11 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
       text += "  ";
       text += com;
     }
-    CORBA::WString_var wtext = Q2C( text );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wtext.out(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", text );
   }
   else
   {
-    CORBA::WString_var wurl = Q2C( url.decodedURL() );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wurl.out(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText", url.decodedURL() );
   }    
 }
 
@@ -378,13 +374,12 @@ void KonqHTMLView::slotSetTitle( QString title )
   if ( m_pMainView ) //builtin view?
     decodedTitle.prepend( "Konqueror: " );
   
-  CORBA::WString_var ctitle = Q2C( decodedTitle );
-  m_vMainWindow->setPartCaption( id(), ctitle );
+  m_vMainWindow->setPartCaption( id(), decodedTitle );
 }
 
 void KonqHTMLView::slotStarted( const QString &url )
 {
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url.ascii(), 0 ) );
+  SIGNAL_CALL2( "started", id(), url.ascii() );
 }
 
 void KonqHTMLView::slotCompleted()
@@ -409,12 +404,12 @@ void KonqHTMLView::slotDocumentRedirection( int, const char *url )
   //sure the url in the mainview gets updated
   QString decodedURL = url;
   KURL::decode( decodedURL );
-  SIGNAL_CALL2( "setLocationBarURL", id(), (char *)decodedURL.ascii() );
+  SIGNAL_CALL2( "setLocationBarURL", id(), decodedURL.ascii() );
 }
 
 void KonqHTMLView::slotNewWindow( const QString &url )
 {
-  SIGNAL_CALL1( "createNewWindow", CORBA::Any::from_string( (char *)url.ascii(), 0 ) );
+  SIGNAL_CALL1( "createNewWindow", url.ascii() );
 }
 
 void KonqHTMLView::slotSelectionChanged()
@@ -464,22 +459,22 @@ void KonqHTMLView::stop()
   checkViewMenu();
 }
 
-char *KonqHTMLView::url()
+QCString KonqHTMLView::url()
 {
   QString u = m_strWorkingURL;
   if ( u.isEmpty() )
     u = KBrowser::m_strURL;
-  return CORBA::string_dup( u.ascii() );
+  return strdup(u.ascii());
 }
 
-CORBA::Long KonqHTMLView::xOffset()
+long int KonqHTMLView::xOffset()
 {
-  return (CORBA::Long)KBrowser::xOffset();
+  return KBrowser::xOffset();
 }
 
-CORBA::Long KonqHTMLView::yOffset()
+long int KonqHTMLView::yOffset()
 {
-  return (CORBA::Long)KBrowser::yOffset();
+  return KBrowser::yOffset();
 }
 
 void KonqHTMLView::print()
@@ -628,12 +623,12 @@ void KonqHTMLView::openTxtView( const QString &/*url*/ )
   }
 }
 
-void KonqHTMLView::beginDoc( const char *url, CORBA::Long dx, CORBA::Long dy )
+void KonqHTMLView::beginDoc( const QCString &url, long int dx, long int dy )
 {
   KBrowser::begin( url, (int)dx, (int)dy );
 }
 
-void KonqHTMLView::writeDoc( const char *data )
+void KonqHTMLView::writeDoc( const QCString &data )
 {
   KBrowser::write( data );
 }
@@ -653,22 +648,22 @@ void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffs
   kdebug( 0, 1202, "void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )");
   
   Browser::URLRequest req;
-  req.url = CORBA::string_dup( _url.ascii() );
-  req.reload = (CORBA::Boolean)_reload;
-  req.xOffset = (CORBA::Long)_xoffset;
-  req.yOffset = (CORBA::Long)_yoffset;
+  req.url = _url.ascii();
+  req.reload = _reload;
+  req.xOffset = _xoffset;
+  req.yOffset = _yoffset;
 
 
   SIGNAL_CALL2( "openURL", id(), req );
 }
 
-void KonqHTMLView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
+void KonqHTMLView::can( bool &copy, bool &paste, bool &move )
 {
   KHTMLView *selectedView = getSelectedView();
   if ( selectedView )
-    copy = (CORBA::Boolean)selectedView->isTextSelected();
+    copy = selectedView->isTextSelected();
   else
-    copy = (CORBA::Boolean)isTextSelected();
+    copy = isTextSelected();
 
   paste = false;    
   move = false;
@@ -691,7 +686,7 @@ void KonqHTMLView::pasteSelection()
   assert( 0 );
 }
 
-void KonqHTMLView::moveSelection( const char * )
+void KonqHTMLView::moveSelection( const QCString & )
 {
   assert( 0 );
 }
@@ -700,17 +695,17 @@ void KonqHTMLView::checkViewMenu()
 {
   if ( !CORBA::is_nil( m_vViewMenu ) )
   {
-    CORBA::WString_var text;
+    QString text;
     if ( isFrameSet() )
     {
-      text = Q2C( i18n("&Save Frameset As...") );
+      text = i18n("&Save Frameset As...");
       m_vViewMenu->changeItemText( text, m_idSaveDocument );
       m_vViewMenu->setItemEnabled( m_idSaveFrame, true );
       m_vViewMenu->setItemEnabled( m_idViewFrame, true );
     } 
     else
     {
-      text = Q2C( i18n("&Save As...") );
+      text = i18n("&Save As...");
       m_vViewMenu->changeItemText( text, m_idSaveDocument );
       m_vViewMenu->setItemEnabled( m_idSaveFrame, false );
       m_vViewMenu->setItemEnabled( m_idViewFrame, false );

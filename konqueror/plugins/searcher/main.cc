@@ -47,37 +47,35 @@ void KonqSearcher::cleanUp()
   KOMPlugin::cleanUp();
 }
 
-CORBA::Boolean KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value )
+bool KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value )
 {
   if ( strcmp( name, "Konqueror/GUI/URLEntered" ) == 0 )
   {
     cerr << "filtering " << name << endl;
-    CORBA::WChar *url;
-    value >>= CORBA::Any::to_wstring( url, 0 );
-    QString qurl = C2Q( url );
-    KURL kurl( qurl );
+    QString url;
+    value >>= url;
+    KURL kurl( url );
     
     // candidate?
     if ( kurl.isMalformed() || !KProtocolManager::self().protocols().contains( kurl.protocol() ) )
     {
-      int pos = qurl.find( ':' );
-      QString key = qurl.left( pos );
+      int pos = url.find( ':' );
+      QString key = url.left( pos );
       
       QString query = EngineCfg::self()->query( key );
       if ( query != QString::null )
       {
-        QString querypart = qurl.mid( pos+1 ).replace( QRegExp( " " ), "+" );
+        QString querypart = url.mid( pos+1 ).replace( QRegExp( " " ), "+" );
 	KURL::encode( querypart );
-        QString qnewurl = query.replace( QRegExp( "|" ), querypart );
-	CORBA::WString_var wnewurl = Q2C( qnewurl );
+        QString newurl = query.replace( QRegExp( "|" ), querypart );
 	
-	EMIT_EVENT_WSTRING( obj, name, wnewurl );
+	EMIT_EVENT( obj, name, newurl );
 	
-	return (CORBA::Boolean)true;
+	return true;
       }
     }
   }
-  return (CORBA::Boolean)false;
+  return false;
 }
 
 KonqSearcherFactory::KonqSearcherFactory( const CORBA::BOA::ReferenceData &refData )

@@ -64,8 +64,8 @@ public:
   KonqBrowserFactory( const CORBA::BOA::ReferenceData &refData );
   KonqBrowserFactory( CORBA::Object_ptr obj );
   
-  OpenParts::MainWindow_ptr createBrowserWindow( const char *url );
-  OpenParts::Part_ptr createBrowserPart( const char *url );
+  OpenParts::MainWindow_ptr createBrowserWindow( const QCString &url );
+  OpenParts::Part_ptr createBrowserPart( const QCString &url );
 };
 
 class KonqBookmarkManager : public KBookmarkManager

@@ -228,8 +228,7 @@ void KonqMainView::init()
   {
     m_pProgressBar = new KProgress( 0, 100, 0, KProgress::Horizontal );
     m_vStatusBar->insertWidget( m_pProgressBar->winId(), 120, STATUSBAR_LOAD_ID );
-    CORBA::WString_var item = Q2C( QString::fromLatin1( "XXXXXXXX" ) );
-    m_vStatusBar->insertItem( item, STATUSBAR_SPEED_ID );
+    m_vStatusBar->insertItem( QString::fromLatin1( "XXXXXXXX" ), STATUSBAR_SPEED_ID );
     m_vStatusBar->insertItem( 0L, STATUSBAR_MSG_ID );
     m_pProgressBar->hide();
   }
@@ -297,8 +296,10 @@ void KonqMainView::cleanUp()
   kdebug(0,1202,"void KonqMainView::cleanUp() done");
 }
 
-bool KonqMainView::event( const char* event, const CORBA::Any& value )
+bool KonqMainView::event( const QCString &event, const CORBA::Any& value )
 {
+    printf("==> KonqMainView::event()\n");
+
   EVENT_MAPPER( event, value );
 
   MAPPING( OpenPartsUI::eventCreateMenuBar, OpenPartsUI::typeCreateMenuBar_ptr, mappingCreateMenubar );
@@ -307,7 +308,7 @@ bool KonqMainView::event( const char* event, const CORBA::Any& value )
   MAPPING( OpenParts::eventParentGotFocus, OpenParts::Part_ptr, mappingParentGotFocus );
   MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
   MAPPING( Browser::eventNewTransfer, Browser::EventNewTransfer, mappingNewTransfer );
-  MAPPING_WSTRING( Konqueror::eventURLEntered, mappingURLEntered );
+  MAPPING( Konqueror::eventURLEntered, QString, mappingURLEntered );
 
   END_EVENT_MAPPER;
 
@@ -368,166 +369,119 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 
   KStdAccel stdAccel;
 
-  CORBA::WString_var text = Q2C( i18n("&File") );
-  
-  CORBA::Long m_idMenuFile = menuBar->insertMenu( text, m_vMenuFile, -1, -1 );
+  long int m_idMenuFile = menuBar->insertMenu( i18n("&File"), m_vMenuFile, -1, -1 );
 
   m_vMenuFile->connect( "highlighted", this, "slotItemHighlighted" );
 
-  text = Q2C( i18n("&New") );
-  m_vMenuFile->insertItem8( text, m_vMenuFileNew, MFILE_NEW_ID, -1 );
+  m_vMenuFile->insertItem8( i18n("&New"), m_vMenuFileNew, MFILE_NEW_ID, -1 );
 
   m_vMenuFileNew->connect("activated", this, "slotFileNewActivated");
   m_vMenuFileNew->connect("aboutToShow", this, "slotFileNewAboutToShow");
   
   m_pMenuNew = new KNewMenu( m_vMenuFileNew );
 
-  text = Q2C( i18n("New &Window") );
-  m_vMenuFile->insertItem4( text, this, "slotNewWindow", stdAccel.openNew(), MFILE_NEWWINDOW_ID, -1 );
+  m_vMenuFile->insertItem4( i18n("New &Window"), this, "slotNewWindow", stdAccel.openNew(), MFILE_NEWWINDOW_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  text = Q2C( i18n("&Run...") );
-  m_vMenuFile->insertItem4( text, this, "slotRun", 0, MFILE_RUN_ID, -1  );
-  text = Q2C( i18n("Open &Terminal") );
-  m_vMenuFile->insertItem4( text, this, "slotTerminal", CTRL+Key_T, MFILE_OPENTERMINAL_ID, -1 );
+  m_vMenuFile->insertItem4( i18n("&Run..."), this, "slotRun", 0, MFILE_RUN_ID, -1  );
+  m_vMenuFile->insertItem4( i18n("Open &Terminal"), this, "slotTerminal", CTRL+Key_T, MFILE_OPENTERMINAL_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
 
-  text = Q2C( i18n("&Open Location...") );
-  m_vMenuFile->insertItem4( text, this, "slotOpenLocation", stdAccel.open(), MFILE_OPENLOCATION_ID, -1 );
-  text = Q2C( i18n("&Find") );
-  m_vMenuFile->insertItem4( text, this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
+  m_vMenuFile->insertItem4( i18n("&Open Location..."), this, "slotOpenLocation", stdAccel.open(), MFILE_OPENLOCATION_ID, -1 );
+  m_vMenuFile->insertItem4( i18n("&Find"), this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.png" ) );
-  text = Q2C( i18n("&Print...") );
-  m_vMenuFile->insertItem6( pix, text, this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
+  m_vMenuFile->insertItem6( pix, i18n("&Print..."), this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
 
   menuBar->setFileMenu( m_idMenuFile );
 
-  text = Q2C( i18n("&Edit") );
-  menuBar->insertMenu( text, m_vMenuEdit, -1, -1 );
+  menuBar->insertMenu( i18n("&Edit"), m_vMenuEdit, -1, -1 );
 
   m_vMenuEdit->connect( "highlighted", this, "slotItemHighlighted" );
-
   m_vMenuEdit->connect("aboutToShow", this, "slotMenuEditAboutToShow");
   
   m_bEditMenuDirty = true;
   
   createEditMenu();
 
-  text = Q2C( i18n("&View") );
-  menuBar->insertMenu( text, m_vMenuView, -1, -1 );  
+  menuBar->insertMenu( i18n("&View"), m_vMenuView, -1, -1 );  
 
   m_vMenuView->connect( "highlighted", this, "slotItemHighlighted" );
-
   m_vMenuView->connect("aboutToShow", this, "slotMenuViewAboutToShow");
   
   m_bViewMenuDirty = true;
   
   createViewMenu();
   
-  text = Q2C( i18n("&Go") );
-  menuBar->insertMenu( text, m_vMenuGo, -1, -1 );
+  menuBar->insertMenu( i18n("&Go"), m_vMenuGo, -1, -1 );
 
   m_vMenuGo->connect( "highlighted", this, "slotItemHighlighted" );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.png" ) );
-  text = Q2C( i18n("&Up") );
-  m_vMenuGo->insertItem6( pix, text, this, "slotUp", 0, MGO_UP_ID, -1 );
+  m_vMenuGo->insertItem6( pix, i18n("&Up"), this, "slotUp", 0, MGO_UP_ID, -1 );
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.png" ) );
-  text = Q2C( i18n("&Back") );
-  m_vMenuGo->insertItem6( pix, text, this, "slotBack", 0, MGO_BACK_ID, -1 );
+  m_vMenuGo->insertItem6( pix, i18n("&Back"), this, "slotBack", 0, MGO_BACK_ID, -1 );
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.png" ) );
-  text = Q2C( i18n("&Forward") );
-  m_vMenuGo->insertItem6( pix, text, this, "slotForward", 0, MGO_FORWARD_ID, -1 );
+  m_vMenuGo->insertItem6( pix, i18n("&Forward"), this, "slotForward", 0, MGO_FORWARD_ID, -1 );
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.png" ) );
-  text = Q2C( i18n("&Home") );
-  m_vMenuGo->insertItem6( pix, text, this, "slotHome", 0, MGO_HOME_ID, -1 );
+  m_vMenuGo->insertItem6( pix, i18n("&Home"), this, "slotHome", 0, MGO_HOME_ID, -1 );
   m_vMenuGo->insertSeparator( -1 );
-  text = Q2C( i18n("&Cache") );
-  m_vMenuGo->insertItem4( text, this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
-  text = Q2C( i18n("&History") );
-  m_vMenuGo->insertItem4( text, this, "slotShowHistory", 0, MGO_HISTORY_ID, -1 );
-  text = Q2C( i18n("Mime &Types") );
-  m_vMenuGo->insertItem4( text, this, "slotEditMimeTypes", 0, MGO_MIMETYPES_ID, -1 );
-  text = Q2C( i18n("App&lications") );
-  m_vMenuGo->insertItem4( text, this, "slotEditApplications", 0, MGO_APPLICATIONS_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("&Cache"), this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("&History"), this, "slotShowHistory", 0, MGO_HISTORY_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("Mime &Types"), this, "slotEditMimeTypes", 0, MGO_MIMETYPES_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("App&lications"), this, "slotEditApplications", 0, MGO_APPLICATIONS_ID, -1 );
   //TODO: Global mime types and applications for root
 
-  text = Q2C( i18n("&Bookmarks") );
-  menuBar->insertMenu( text, m_vMenuBookmarks, -1, -1 );
+  menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_vMenuBookmarks, this, true );
   
-  text = Q2C( i18n("&Options") );
-  menuBar->insertMenu( text, m_vMenuOptions, -1, -1 );
+  menuBar->insertMenu( i18n("&Options"), m_vMenuOptions, -1, -1 );
 
-  text = Q2C( i18n("Show &Menubar") );
-  m_vMenuOptions->insertItem4( text, this, "slotShowMenubar", 0, MOPTIONS_SHOWMENUBAR_ID, -1 );
-  text = Q2C( i18n("Show &Statusbar") );
-  m_vMenuOptions->insertItem4( text, this, "slotShowStatusbar", 0, MOPTIONS_SHOWSTATUSBAR_ID, -1 );
-  text = Q2C( i18n("Show &Toolbar") );
-  m_vMenuOptions->insertItem4( text, this, "slotShowToolbar", 0, MOPTIONS_SHOWTOOLBAR_ID, -1 );
-  text = Q2C( i18n("Show &Locationbar") );
-  m_vMenuOptions->insertItem4( text, this, "slotShowLocationbar", 0, MOPTIONS_SHOWLOCATIONBAR_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Show &Menubar"), this, "slotShowMenubar", 0, MOPTIONS_SHOWMENUBAR_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Show &Statusbar"), this, "slotShowStatusbar", 0, MOPTIONS_SHOWSTATUSBAR_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Show &Toolbar"), this, "slotShowToolbar", 0, MOPTIONS_SHOWTOOLBAR_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Show &Locationbar"), this, "slotShowLocationbar", 0, MOPTIONS_SHOWLOCATIONBAR_ID, -1 );
   m_vMenuOptions->insertSeparator( -1 );
-  text = Q2C( i18n("Sa&ve Settings") );
-  m_vMenuOptions->insertItem4( text, this, "slotSaveSettings", 0, MOPTIONS_SAVESETTINGS_ID, -1 );
-  text = Q2C( i18n("Save Settings for this &URL") );
-  m_vMenuOptions->insertItem4( text, this, "slotSaveLocalSettings", 0, MOPTIONS_SAVELOCALSETTINGS_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Sa&ve Settings"), this, "slotSaveSettings", 0, MOPTIONS_SAVESETTINGS_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Save Settings for this &URL"), this, "slotSaveLocalSettings", 0, MOPTIONS_SAVELOCALSETTINGS_ID, -1 );
   m_vMenuOptions->insertSeparator( -1 );
   // TODO : cache submenu
-  text = Q2C( i18n("&Configure File Manager...") );
-  m_vMenuOptions->insertItem4( text, this, "slotConfigureFileManager", 0, MOPTIONS_CONFIGUREFILEMANAGER_ID, -1 );
-  text = Q2C( i18n("Configure &Browser...") );
-  m_vMenuOptions->insertItem4( text, this, "slotConfigureBrowser", 0, MOPTIONS_CONFIGUREBROWSER_ID, -1 );
-  text = Q2C( i18n("Configure &keys") );
-  m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
-  text = Q2C( i18n("Reload Plugins") );
-  m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
-  text = Q2C( i18n("Configure Plugins...") );
-  m_vMenuOptions->insertItem4( text, this, "slotConfigurePlugins", 0, MOPTIONS_CONFIGUREPLUGINS_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("&Configure File Manager..."), this, "slotConfigureFileManager", 0, MOPTIONS_CONFIGUREFILEMANAGER_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Configure &Browser..."), this, "slotConfigureBrowser", 0, MOPTIONS_CONFIGUREBROWSER_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Configure &keys"), this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Reload Plugins"), this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
+  m_vMenuOptions->insertItem4( i18n("Configure Plugins..."), this, "slotConfigurePlugins", 0, MOPTIONS_CONFIGUREPLUGINS_ID, -1 );
 
-  text = Q2C( i18n( "&Window" ) );
-  m_vMenuBar->insertMenu( text, m_vMenuWindow, -1, -1 );
+  m_vMenuBar->insertMenu( i18n( "&Window" ), m_vMenuWindow, -1, -1 );
   
-  text = Q2C( i18n( "Split View &Horizontally" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSplitViewHorizontal", 0, MWINDOW_SPLITVIEWHOR_ID, -1 );
-  text = Q2C( i18n( "Split View &Vertically" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSplitViewVertical", 0, MWINDOW_SPLITVIEWVER_ID, -1 );
-  text = Q2C( i18n( "Split Window &Horizontally" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSplitWindowHorizontal", 0, MWINDOW_SPLITWINHOR_ID, -1 );
-  text = Q2C( i18n( "Split Window &Vertically" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSplitWindowVertical", 0, MWINDOW_SPLITWINVER_ID, -1 );
-  text = Q2C( i18n( "Remove Active View" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotRemoveView", CTRL+Key_R, MWINDOW_REMOVEVIEW_ID, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Split View &Horizontally" ), this, "slotSplitViewHorizontal", 0, MWINDOW_SPLITVIEWHOR_ID, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Split View &Vertically" ), this, "slotSplitViewVertical", 0, MWINDOW_SPLITVIEWVER_ID, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Split Window &Horizontally" ), this, "slotSplitWindowHorizontal", 0, MWINDOW_SPLITWINHOR_ID, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Split Window &Vertically" ), this, "slotSplitWindowVertical", 0, MWINDOW_SPLITWINVER_ID, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Remove Active View" ), this, "slotRemoveView", CTRL+Key_R, MWINDOW_REMOVEVIEW_ID, -1 );
   
   m_vMenuWindow->insertSeparator( -1 );
   
-  text = Q2C( i18n( "Save Current Profile As Default" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotSaveDefaultProfile", 0, MWINDOW_DEFAULTPROFILE_ID, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Save Current Profile As Default" ), this, "slotSaveDefaultProfile", 0, MWINDOW_DEFAULTPROFILE_ID, -1 );
   
   m_vMenuWindow->insertSeparator( -1 );
   
-  text = Q2C( i18n( "Save/Remove View Profile" ) );
-  m_vMenuWindow->insertItem4( text, this, "slotProfileDlg", 0, MWINDOW_PROFILEDLG_ID, -1 );
-  text = Q2C( i18n( "Load View Profile" ) );
-  m_vMenuWindow->insertItem8( text, m_vMenuWindowProfiles, -1, -1 );
+  m_vMenuWindow->insertItem4( i18n( "Save/Remove View Profile" ), this, "slotProfileDlg", 0, MWINDOW_PROFILEDLG_ID, -1 );
+  m_vMenuWindow->insertItem8( i18n( "Load View Profile" ), m_vMenuWindowProfiles, -1, -1 );
   
   m_vMenuWindowProfiles->connect( "activated", this, "slotViewProfileActivated" );
-  
+
   fillProfileMenu();
 
   m_vMenuBar->insertSeparator( -1 );
   
-  text = Q2C( i18n( "&Help" ) );
-  CORBA::Long helpId = m_vMenuBar->insertMenu( text, m_vMenuHelp, -1, -1 );
+  long int helpId = m_vMenuBar->insertMenu( i18n( "&Help" ), m_vMenuHelp, -1, -1 );
   m_vMenuBar->setHelpMenu( helpId );
   
-  text = Q2C( i18n("&Contents" ) );
-  m_vMenuHelp->insertItem4( text, this, "slotHelpContents", stdAccel.help(), MHELP_CONTENTS_ID, -1 );
+  m_vMenuHelp->insertItem4( i18n("&Contents"), this, "slotHelpContents", stdAccel.help(), MHELP_CONTENTS_ID, -1 );
 
   m_vMenuHelp->insertSeparator( -1 );
   
-  text = Q2C( i18n("&About Konqueror" ) );
-  m_vMenuHelp->insertItem4( text, this, "slotHelpAbout", 0, MHELP_ABOUT_ID, -1 );
+  m_vMenuHelp->insertItem4( i18n("&About Konqueror" ), this, "slotHelpAbout", 0, MHELP_ABOUT_ID, -1 );
 
   // Ok, this is wrong. But I don't see where to do it properly
   // (i.e. checking for m_v*Bar->isVisible())
@@ -569,7 +523,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
        if ( m_currentView )
        {
          Browser::View::EventFillToolBar ev;
-	 ev.create = (CORBA::Boolean)false;
+	 ev.create = (bool)false;
 	 ev.toolBar = OpenPartsUI::ToolBar::_duplicate( m_vToolBar );
 	 EMIT_EVENT( m_currentView->view(), Browser::View::eventFillToolBar, ev );
        }
@@ -594,9 +548,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vToolBar->connect( "highlighted", this, "slotItemHighlighted" );
 				    
-  CORBA::WString_var toolTip;
   
-  toolTip = Q2C( i18n("Up") );
+  QString toolTip = i18n("Up");
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.png" ) );
   m_vToolBar->insertButton2( pix, MGO_UP_ID, SIGNAL(clicked()),
                              this, "slotUp", false, toolTip, -1);
@@ -607,7 +560,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vUpPopupMenu->connect( "activated", this, "slotUpActivated" );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.png" ) );
-  toolTip = Q2C( i18n("Back") );
+  toolTip = i18n("Back");
   m_vToolBar->insertButton2( pix, MGO_BACK_ID, SIGNAL(clicked()),
                              this, "slotBack", false, toolTip, -1);
 
@@ -618,7 +571,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vHistoryBackPopupMenu->connect( "activated", this, "slotHistoryBackwardActivated" );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.png" ) );
-  toolTip = Q2C( i18n("Forward") );
+  toolTip = i18n("Forward");
   m_vToolBar->insertButton2( pix, MGO_FORWARD_ID, SIGNAL(clicked()),
                              this, "slotForward", false, toolTip, -1);
 
@@ -628,50 +581,50 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vHistoryForwardPopupMenu->connect( "activated", this, "slotHistoryForwardActivated" );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.png" ) );
-  toolTip = Q2C( i18n("Home") );
+  toolTip = i18n("Home");
   m_vToolBar->insertButton2( pix, MGO_HOME_ID, SIGNAL(clicked()),
                              this, "slotHome", true, toolTip, -1);
 
   m_vToolBar->insertSeparator( -1 );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.png" ) );
-  toolTip = Q2C( i18n("Reload") );
+  toolTip = i18n("Reload");
   m_vToolBar->insertButton2( pix, MVIEW_RELOAD_ID, SIGNAL(clicked()),
                              this, "slotReload", true, toolTip, -1);
 
   m_vToolBar->insertSeparator( -1 );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.png" ) );
-  toolTip = Q2C( i18n("Copy") );
+  toolTip = i18n("Copy");
   m_vToolBar->insertButton2( pix, MEDIT_COPY_ID, SIGNAL(clicked()),
                              this, "slotCopy", true, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.png" ) );
-  toolTip = Q2C( i18n("Paste") );
+  toolTip = i18n("Paste");
   m_vToolBar->insertButton2( pix, MEDIT_PASTE_ID, SIGNAL(clicked()),
                              this, "slotPaste", true, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.png" ) );
-  toolTip = Q2C( i18n( "Print" ) );
+  toolTip = i18n( "Print" );
   m_vToolBar->insertButton2( pix, MFILE_PRINT_ID, SIGNAL(clicked()),
                              this, "slotPrint", true, toolTip, -1 );
  				
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.png" ) );
-  toolTip = Q2C( i18n("Help") );
+  toolTip = i18n("Help");
   m_vToolBar->insertButton2( pix, MHELP_CONTENTS_ID, SIGNAL(clicked()),
                              this, "slotHelpContents", true, toolTip, -1);
 				
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "stop.png" ) );
-  toolTip = Q2C( i18n("Stop") );
+  toolTip = i18n("Stop");
   m_vToolBar->insertButton2( pix, MVIEW_STOP_ID, SIGNAL(clicked()),
                              this, "slotStop", false, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.png" ) );
-  CORBA::Long gearIndex = m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
+  long int gearIndex = m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
                                                      this, "slotNewWindow", true, 0L, -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
 
@@ -686,24 +639,17 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vLocationBar->setFullWidth( true );
 
-  CORBA::WString_var text = Q2C( i18n("Location : ") );
-  m_vLocationBar->insertTextLabel( text, -1, -1 );
+  m_vLocationBar->insertTextLabel( i18n("Location : "), -1, -1 );
 
-  toolTip = Q2C( i18n("Current Location") );
+  toolTip = i18n("Current Location");
   
-  text = Q2C( QString::null );
-  OpenPartsUI::WStrList items;
-  items.length( 0 );
+  QStringList items;
   if ( m_currentView )
-  {
-    items.length( 1 );
-    items[ 0 ] = Q2C( m_currentView->locationBarURL() );
-  }
+    items.append( m_currentView->locationBarURL() );
   
-  
-  m_vLocationBar->insertCombo3( items, TOOLBAR_URL_ID, true, SIGNAL( activated(const QString &) ),
-                                this, "slotURLEntered", true, toolTip, 70, -1,
-				OpenPartsUI::AfterCurrent );
+  m_vLocationBar->insertCombo( items, TOOLBAR_URL_ID, true, SIGNAL( activated(const QString &) ),
+			       this, "slotURLEntered", true, toolTip, 70, -1,
+			       OpenPartsUI::AfterCurrent );
 
   m_vLocationBar->setComboAutoCompletion( TOOLBAR_URL_ID, true );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
@@ -818,14 +764,14 @@ bool KonqMainView::mappingOpenURL( Browser::EventOpenURL eventURL )
 bool KonqMainView::mappingNewTransfer( Browser::EventNewTransfer transfer )
 {
   KIOJob *job = new KIOJob;
-  job->copy( transfer.source.in(), transfer.destination.in() );
+  job->copy( transfer.source, transfer.destination );
   
   return true;
 }
 
-bool KonqMainView::mappingURLEntered( const CORBA::WChar *_url )
+bool KonqMainView::mappingURLEntered( const QString &_url )
 {
-  QString url = C2Q( _url );
+  QString url = _url;
 
   // Exit if the user did not enter an URL
   if ( url.isEmpty() )
@@ -863,10 +809,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   checkEditExtension();
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
-  {
-    CORBA::WString_var text = Q2C( m_currentView->locationBarURL() );
-    m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, text, 0 );
-  }    
+    m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, m_currentView->locationBarURL(), 0 );
 
   if ( m_pProgressBar )
   {
@@ -907,7 +850,7 @@ OpenParts::Id KonqMainView::activeViewId()
   return m_currentId;
 }
 
-void KonqMainView::selectViewByNumber( CORBA::Long number )
+void KonqMainView::selectViewByNumber( long int number )
 {
   OpenParts::Id viewId = m_pViewManager->viewIdByNumber( number );
   if ( viewId != 0 )
@@ -921,8 +864,8 @@ void KonqMainView::openURL( OpenParts::Id id, const Browser::URLRequest &_urlreq
   if ( it != m_mapViews.end() )
     view = it.data();
 
-  openURL( _urlreq.url.in(), (bool)_urlreq.reload, (int)_urlreq.xOffset,
-          (int)_urlreq.yOffset, view );
+  openURL( _urlreq.url, _urlreq.reload, _urlreq.xOffset,
+          _urlreq.yOffset, view );
 }
 
 void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOffset, KonqChildView *_view )
@@ -1011,32 +954,30 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
   
   if ( view )
   {
-    setLocationBarURL( view->id(), url );
+    setLocationBarURL( view->id(), url.ascii() );
     view->setKfmRun( run );
     view->setMiscURLData( reload, xOffset, yOffset );
   }
 }
 
-void KonqMainView::setStatusBarText( const CORBA::WChar *_text )
+void KonqMainView::setStatusBarText( const QString &_text )
 {
   if ( !CORBA::is_nil( m_vStatusBar ) )
     m_vStatusBar->changeItem( _text, STATUSBAR_MSG_ID );
 }
 
-void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
+void KonqMainView::setLocationBarURL( OpenParts::Id id, const QCString &_url )
 {
   MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
 
-  CORBA::WString_var wurl = Q2C( QString( _url ) );
-    
   it.data()->setLocationBarURL( _url );
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
-    m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, wurl, 0 );
+    m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, QString(_url), 0 );
 }
 
-void KonqMainView::createNewWindow( const char *url )
+void KonqMainView::createNewWindow( const QCString &url )
 {
   KonqMainWindow *m_pShell = new KonqMainWindow( url );
   m_pShell->show();
@@ -1169,8 +1110,7 @@ void KonqMainView::openBookmarkURL( const char *url )
 
 QString KonqMainView::currentTitle()
 {
-  CORBA::WString_var t = m_vMainWindow->partCaption( m_currentId );
-  QString title = C2Q( t );
+  QString title = m_vMainWindow->partCaption( m_currentId );
   
   if ( title.right( 12 ) == " - Konqueror" )
     title.truncate( title.length() - 12 );
@@ -1304,7 +1244,7 @@ void KonqMainView::slotDelete()
 {
   CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
   Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
-  editExtension->moveSelection( 0L );
+  editExtension->moveSelection( QCString() );
 }
 
 void KonqMainView::slotSplitViewHorizontal()
@@ -1610,9 +1550,9 @@ void KonqMainView::slotReloadPlugins()
 {
   KonqPlugins::reload();
 
-  KOM::Base::EventFilterSeq_var filters = describeEventFilters();
+  KOM::Base::EventFilterSeq filters = describeEventFilters();
 
-  for ( CORBA::ULong k = 0; k < filters->length(); ++k )
+  for ( unsigned long k = 0; k < filters.count(); ++k )
     uninstallFilter( filters[ k ].receiver );
 
   KonqPlugins::installKOMPlugins( this );
@@ -1626,7 +1566,7 @@ void KonqMainView::slotReloadPlugins()
     pView = (*it)->view();
 
     filters = pView->describeEventFilters();
-    for ( CORBA::ULong k = 0; k < filters->length(); ++k )
+    for ( unsigned long k = 0; k < filters.count(); ++k )
       pView->uninstallFilter( filters[ k ].receiver );
 
     KonqPlugins::installKOMPlugins( pView );
@@ -1682,10 +1622,9 @@ void KonqMainView::slotProfileDlg()
 */  
 }
 
-void KonqMainView::slotViewProfileActivated( CORBA::Long id )
+void KonqMainView::slotViewProfileActivated( long int id )
 {
-  CORBA::WString_var text = m_vMenuWindowProfiles->text( id );
-  QString name = QString::fromLatin1( "konqueror/profiles/" ) + C2Q( text );
+  QString name = QString::fromLatin1( "konqueror/profiles/" ) + m_vMenuWindowProfiles->text( id );
   
   QString fileName = locate( "data", name );
   
@@ -1712,17 +1651,17 @@ void KonqMainView::slotHelpAbout()
 "Simon Hausmann <hausmann@kde.org>\n"
 "Michael Reiher <michael.reiher@gmx.de>\n"
 "Matthias Welk <welk@fokus.gmd.de>\n"
-"Waldo Bastian <bastian@kde.org> , Lars Knoll <knoll@mpi-hd.mpg.de> (khtml library)\n"
+"Waldo Bastian <bastian@kde.org>, Lars Knoll <knoll@kde.org> (khtml library)\n"
 "Matt Koss <koss@napri.sk>, Alex Zepeda <garbanzo@hooked.net> (kio library/slaves)\n"
   ));
 }
 
-void KonqMainView::slotURLEntered( const CORBA::WChar *_url )
+void KonqMainView::slotURLEntered( const QString &_url )
 {
-  EMIT_EVENT_WSTRING( this, Konqueror::eventURLEntered, _url );
+  EMIT_EVENT( this, Konqueror::eventURLEntered, _url );
 }
 
-void KonqMainView::slotFileNewActivated( CORBA::Long id )
+void KonqMainView::slotFileNewActivated( long int id )
 {
   if ( m_pMenuNew )
      {
@@ -1758,7 +1697,6 @@ void KonqMainView::fillHistoryPopup( OpenPartsUI::Menu_ptr menu, const QStringLi
   if ( !m_currentView )
     return;
 
-  CORBA::WString_var text;
   OpenPartsUI::Pixmap_var pix;
   QStringList::ConstIterator it = urls.begin();
   QStringList::ConstIterator end = urls.end();
@@ -1767,7 +1705,7 @@ void KonqMainView::fillHistoryPopup( OpenPartsUI::Menu_ptr menu, const QStringLi
   {
     KURL u( *it ) ;
     menu->insertItem11( ( pix = OPUIUtils::convertPixmap( *KPixmapCache::pixmapForURL( u, 0, u.isLocalFile(), true ) ) ), 
-                        ( text = Q2C( *it ) ), -1, -1 );
+                        *it, -1, -1 );
   }			
 }
 
@@ -1781,34 +1719,34 @@ void KonqMainView::slotHistoryForwardAboutToShow()
   fillHistoryPopup( m_vHistoryForwardPopupMenu, m_currentView->forwardHistoryURLs() );
 }
 
-void KonqMainView::slotHistoryBackwardActivated( CORBA::Long id )
+void KonqMainView::slotHistoryBackwardActivated( long int id )
 {
   if ( m_currentView )
     m_currentView->goBack( m_vHistoryBackPopupMenu->indexOf( id ) + 1 );
 }
 
-void KonqMainView::slotHistoryForwardActivated( CORBA::Long id )
+void KonqMainView::slotHistoryForwardActivated( long int id )
 {
   if ( m_currentView )
     m_currentView->goForward( m_vHistoryForwardPopupMenu->indexOf( id ) + 1 );
 }
 
-void KonqMainView::slotBookmarkSelected( CORBA::Long id )
+void KonqMainView::slotBookmarkSelected( long int id )
 {
   if ( m_pBookmarkMenu )
     m_pBookmarkMenu->slotBookmarkSelected( id );
 }
 
-void KonqMainView::slotBookmarkHighlighted( CORBA::Long id )
+void KonqMainView::slotBookmarkHighlighted( long int id )
 {
   if ( m_pBookmarkMenu && !CORBA::is_nil( m_vStatusBar ) )
   {
-    CORBA::WString_var wurl;
+    QString url;
     KBookmark *bm = KBookmarkManager::self()->findBookmark( (int)id );
     if ( bm )
-      wurl = Q2C( bm->url() );
+      url = bm->url();
 
-    m_vStatusBar->changeItem( wurl, STATUSBAR_MSG_ID );
+    m_vStatusBar->changeItem( url, STATUSBAR_MSG_ID );
   }
 }
 
@@ -1817,10 +1755,10 @@ void KonqMainView::slotEditBookmarks()
   KBookmarkManager::self()->slotEditBookmarks();
 }
 
-void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
+void KonqMainView::slotURLStarted( OpenParts::Id id, const QCString &url )
 {
-  kdebug(0, 1202, "KonqMainView::slotURLStarted( %d, %s )", id, url);
-  if ( !url )
+  kdebug(0, 1202, "KonqMainView::slotURLStarted( %d, %s )", id, (const char *)url);
+  if ( url.isEmpty() )
     return;
 
   MapViews::Iterator it = m_mapViews.find( id );
@@ -1889,13 +1827,11 @@ void KonqMainView::slotUpAboutToShow()
 {
   m_vUpPopupMenu->clear();
 
-  CORBA::WString_var text;
-  
   KURL u( m_currentView->url() );
   u.cd( ".." );
   while ( u.hasPath() )
   {
-    m_vUpPopupMenu->insertItem7( ( text = Q2C( u.decodedURL() ) ), -1, -1 );
+    m_vUpPopupMenu->insertItem7( u.decodedURL(), -1, -1 );
     
     if ( u.path() == "/" )
       break;
@@ -1904,14 +1840,12 @@ void KonqMainView::slotUpAboutToShow()
   }
 }
 
-void KonqMainView::slotUpActivated( CORBA::Long id )
+void KonqMainView::slotUpActivated( long int id )
 {
-  CORBA::WString_var text = m_vUpPopupMenu->text( id );
-  QString url = C2Q( text );
-  openURL( url.ascii() );
+  openURL( m_vUpPopupMenu->text( id ).ascii() );
 }
 
-void KonqMainView::slotLoadingProgress( OpenParts::Id id, CORBA::Long percent )
+void KonqMainView::slotLoadingProgress( OpenParts::Id id, long int percent )
 {
   if ( id != m_currentId || !m_pProgressBar || !m_currentView->isLoading() )
     return;
@@ -1926,7 +1860,7 @@ void KonqMainView::slotLoadingProgress( OpenParts::Id id, CORBA::Long percent )
   (*it)->setProgress( (int)percent );
 }
 
-void KonqMainView::slotSpeedProgress( OpenParts::Id id, CORBA::Long bytesPerSecond )
+void KonqMainView::slotSpeedProgress( OpenParts::Id id, long int bytesPerSecond )
 {
   if ( id != m_currentId || CORBA::is_nil( m_vStatusBar ) || !m_currentView->isLoading() )
     return;
@@ -1938,9 +1872,7 @@ void KonqMainView::slotSpeedProgress( OpenParts::Id id, CORBA::Long bytesPerSeco
   else
     sizeStr = i18n( "stalled" );
     
-  CORBA::WString_var wSizeStr = Q2C( sizeStr );
-
-  m_vStatusBar->changeItem( wSizeStr, STATUSBAR_SPEED_ID );
+  m_vStatusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
 }
 
 void KonqMainView::slotSelectionChanged()
@@ -1948,7 +1880,7 @@ void KonqMainView::slotSelectionChanged()
   checkEditExtension();
 }
 
-void KonqMainView::slotItemHighlighted( CORBA::Long id )
+void KonqMainView::slotItemHighlighted( long int id )
 {
   if ( CORBA::is_nil( m_vStatusBar ) )
     return;
@@ -1970,8 +1902,7 @@ void KonqMainView::slotItemHighlighted( CORBA::Long id )
     default: msg = QString::null; break;
   }
   
-  CORBA::WString_var wmsg = Q2C( msg );
-  m_vStatusBar->changeItem( wmsg, STATUSBAR_MSG_ID );
+  m_vStatusBar->changeItem( msg, STATUSBAR_MSG_ID );
 }
 
 void KonqMainView::slotAnimatedLogoTimeout()
@@ -2001,9 +1932,8 @@ void KonqMainView::slotStopAnimation()
     setItemEnabled( m_vMenuView, MVIEW_STOP_ID, false );
   }
 
-  CORBA::WString_var msg = Q2C( i18n("Document: Done") );
   if ( !CORBA::is_nil( m_vStatusBar ) )
-    m_vStatusBar->changeItem( msg, STATUSBAR_MSG_ID );
+    m_vStatusBar->changeItem( i18n("Document: Done"), STATUSBAR_MSG_ID );
 }
 
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
@@ -2016,9 +1946,9 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
 
 void KonqMainView::checkEditExtension()
 {
-  CORBA::Boolean bCopy = false;
-  CORBA::Boolean bPaste = false;
-  CORBA::Boolean bMove = false;
+  bool bCopy = false;
+  bool bPaste = false;
+  bool bMove = false;
   
   if ( m_currentView &&
        m_currentView->view()->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
@@ -2139,7 +2069,7 @@ void KonqMainView::clearViewGUIElements( KonqChildView *childView )
   EMIT_EVENT( view, Browser::View::eventFillMenuView, (Browser::View::EventFillMenu*)0L );
     
   Browser::View::EventFillToolBar ev;
-  ev.create = (CORBA::Boolean)false;
+  ev.create = false;
   ev.toolBar = OpenPartsUI::ToolBar::_duplicate( m_vToolBar );
   EMIT_EVENT( view, Browser::View::eventFillToolBar, ev );
 }
@@ -2150,7 +2080,7 @@ void KonqMainView::createViewToolBar( KonqChildView *childView )
     return;
 
   Browser::View::EventFillToolBar ev;
-  ev.create = (CORBA::Boolean)true;
+  ev.create = true;
   ev.startIndex = m_lToolBarViewStartIndex;
   ev.toolBar = OpenPartsUI::ToolBar::_duplicate( m_vToolBar );
   EMIT_EVENT( childView->view(), Browser::View::eventFillToolBar, ev );
@@ -2162,24 +2092,18 @@ void KonqMainView::createViewMenu()
   {
     m_vMenuView->clear();
   
-    CORBA::WString_var text;
     OpenPartsUI::Pixmap_var pix;
     
     m_vMenuView->setCheckable( true );
     
-    text = Q2C( i18n("&Large Icons") );
-    m_vMenuView->insertItem4( text, this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
-    text = Q2C( i18n("&Small Icons") );
-    m_vMenuView->insertItem4( text, this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
-    text = Q2C( i18n("Small Vertical Icons" ) );
-    m_vMenuView->insertItem4( text, this, "slotSmallVerticalIcons", 0, MVIEW_SMALLVICONS_ID, -1 );
-    text = Q2C( i18n("&Tree View") );
-    m_vMenuView->insertItem4( text, this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
+    m_vMenuView->insertItem4( i18n("Small Vertical Icons" ), this, "slotSmallVerticalIcons", 0, MVIEW_SMALLVICONS_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Tree View"), this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
 
     m_vMenuView->insertSeparator( -1 );
 
-    text = Q2C( i18n("&Use HTML") );
-    m_vMenuView->insertItem4( text, this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Use HTML"), this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
     
     m_vMenuView->insertSeparator( -1 );
 
@@ -2202,6 +2126,8 @@ void KonqMainView::createViewMenu()
 	  case Konqueror::SmallVerticalIcons:
 	    m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, true );
 	    break;
+	  default:
+	    break;
 	}
       }
       else if ( pView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
@@ -2209,10 +2135,8 @@ void KonqMainView::createViewMenu()
     }
 
     pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.png" ) );
-    text = Q2C( i18n("&Reload Document") );
-    m_vMenuView->insertItem6( pix, text, this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
-    text = Q2C( i18n("Sto&p loading") );
-    m_vMenuView->insertItem4( text, this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
+    m_vMenuView->insertItem6( pix, i18n("&Reload Document"), this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
+    m_vMenuView->insertItem4( i18n("Sto&p loading"), this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
 
     setItemEnabled( m_vMenuWindow, MWINDOW_REMOVEVIEW_ID, 
 	(m_mapViews.count() > 1) );
@@ -2242,16 +2166,13 @@ void KonqMainView::createEditMenu()
     KStdAccel stdAccel; // Get standard accelarators (copy, paste, cut)
 
     OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.png" ) );
-    CORBA::WString_var text = Q2C( i18n("&Copy") );
-    m_vMenuEdit->insertItem6( pix, text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
+    CORBA::WString_var text = 
+    m_vMenuEdit->insertItem6( pix, i18n("&Copy"), this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
     pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.png" ) );
-    text = Q2C( i18n("&Paste") );
-    m_vMenuEdit->insertItem6( pix, text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
+    m_vMenuEdit->insertItem6( pix, i18n("&Paste"), this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
     pix = OPUIUtils::convertPixmap( *KPixmapCache::pixmap( "kfm_trash.png", true ) );
-    text = Q2C( i18n("&Move to Trash") );
-    m_vMenuEdit->insertItem6( pix, text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
-    text = Q2C( i18n("&Delete") );
-    m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
+    m_vMenuEdit->insertItem6( pix, i18n("&Move to Trash"), this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
+    m_vMenuEdit->insertItem4( i18n("&Delete"), this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
     m_vMenuEdit->insertSeparator( -1 );
 
     checkEditExtension();
@@ -2294,10 +2215,8 @@ void KonqMainView::fillProfileMenu()
     QStringList::ConstIterator eIt = entries.begin();
     QStringList::ConstIterator eEnd = entries.end();
     
-    CORBA::WString_var text;
-    
     for (; eIt != eEnd; ++eIt )
-      m_vMenuWindowProfiles->insertItem7( ( text = Q2C( *eIt ) ), -1, -1 );
+      m_vMenuWindowProfiles->insertItem7( *eIt, -1, -1 );
   }
 }
 
@@ -2305,10 +2224,9 @@ QStringList KonqMainView::locationBarCombo()
 {
   QStringList entryList;
   
-  CORBA::WString_var item;
-  CORBA::Long count = m_vLocationBar->comboItemCount( TOOLBAR_URL_ID );
+  long int count = m_vLocationBar->comboItemCount( TOOLBAR_URL_ID );
   for ( CORBA::ULong i = 0; i < (CORBA::ULong)count; i++ )
-    entryList.append( C2Q( item = m_vLocationBar->comboItem( TOOLBAR_URL_ID, i ) ) );
+    entryList.append( m_vLocationBar->comboItem( TOOLBAR_URL_ID, i ) );
 
   return entryList;
 }
@@ -2317,12 +2235,11 @@ void KonqMainView::setLocationBarCombo( const QStringList &entryList )
 {
   m_vToolBar->clearCombo( TOOLBAR_URL_ID );
 
-  CORBA::WString_var item;
   QStringList::ConstIterator it = entryList.begin();
   QStringList::ConstIterator end = entryList.end();
 
   for (; it != end; ++it )
-    m_vLocationBar->insertComboItem( TOOLBAR_URL_ID, ( item = Q2C( *it ) ), -1 );
+    m_vLocationBar->insertComboItem( TOOLBAR_URL_ID, *it, -1 );
     
   if ( entryList.count() == 0 )
     m_vLocationBar->insertComboItem( TOOLBAR_URL_ID, 0L, -1 );

@@ -23,6 +23,7 @@
 #include <kdebug.h>
 
 #include <opUIUtils.h>
+#include <openparts_ui.h>
 
 KonqBaseView::KonqBaseView()
 {
@@ -58,8 +59,10 @@ void KonqBaseView::cleanUp()
   OPPartIf::cleanUp();
 }
 
-bool KonqBaseView::event( const char *event, const CORBA::Any &value )
+bool KonqBaseView::event( const QCString &event, const CORBA::Any &value )
 {
+    printf("KonqBaseView::event()\n");
+
   EVENT_MAPPER( event, value );
   
   MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu_ptr, mappingFillMenuEdit );
@@ -89,13 +92,13 @@ bool KonqBaseView::mappingFillToolBar( Browser::View::EventFillToolBar )
 
 bool KonqBaseView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
-  SIGNAL_CALL2( "setLocationBarURL", id(), (char*)eventURL.url );
+  SIGNAL_CALL2( "setLocationBarURL", id(), eventURL.url );
   return false;
 }
 
-char *KonqBaseView::url()
+QCString KonqBaseView::url()
 {
-  return CORBA::string_dup( m_strURL.data() );
+  return m_strURL.latin1();
 }
 
 void KonqBaseView::openURLRequest( const char *_url )
@@ -103,8 +106,8 @@ void KonqBaseView::openURLRequest( const char *_url )
   // Ask the main view to open this URL, since it might not be suitable
   // for the current type of view. It might even be a file (KRun will be used)
   Browser::URLRequest urlRequest;
-  urlRequest.url = CORBA::string_dup( _url );
-  urlRequest.reload = (CORBA::Boolean)false;
+  urlRequest.url = _url;
+  urlRequest.reload = false;
   urlRequest.xOffset = 0;
   urlRequest.yOffset = 0;
   SIGNAL_CALL2( "openURL", id(), urlRequest );
@@ -124,7 +127,7 @@ void KonqBaseView::setCaptionFromURL( const QString &_url )
 
   int l = QDir::homeDirPath().length();
 
-  if ( url.length() >= l &&
+  if ( (int)url.length() >= l &&
        url.left( l ) == QDir::homeDirPath() )
   {
     url.remove( 0, l );
@@ -133,6 +136,8 @@ void KonqBaseView::setCaptionFromURL( const QString &_url )
 
   url.append( " - Konqueror" );
   
-  CORBA::WString_var wCaption = Q2C( url );
-  m_vMainWindow->setPartCaption( id(), wCaption );
+  m_vMainWindow->setPartCaption( id(), url );
 }
+
+
+

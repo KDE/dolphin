@@ -108,7 +108,7 @@ KonqKfmIconView::~KonqKfmIconView()
 bool KonqKfmIconView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
-  openURL( eventURL.url, (int)eventURL.xOffset, (int)eventURL.yOffset );
+  openURL( eventURL.url, eventURL.xOffset, eventURL.yOffset );
   return true;
 }
 
@@ -118,31 +118,26 @@ bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu_ptr view
   
   if ( !CORBA::is_nil( viewMenu ) )
   {
-    CORBA::WString_var text;
-//    text = Q2C( i18n("Image &Preview") );
-//    viewMenu->insertItem4( text, this, "slotShowSchnauzer" , 0, -1, -1 );
-    text = Q2C( i18n("Show &Dot Files") );
-    m_idShowDotFiles = viewMenu->insertItem4( text, this, "slotShowDot" , 0, -1, -1 );
+//    viewMenu->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, -1, -1 );
+    m_idShowDotFiles = viewMenu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, -1, -1 );
     viewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
     
-    text = Q2C( i18n( "Sort..." ) );
-    viewMenu->insertItem8( text, m_vSortMenu, -1, -1 );
+    viewMenu->insertItem8( i18n( "Sort..." ), m_vSortMenu, -1, -1 );
     
     m_vSortMenu->setCheckable( true );
 
-    text = Q2C( i18n( "by Name ( Case Sensitive )" ) );
-    m_idSortByNameCaseSensitive = m_vSortMenu->insertItem4( text, this, "slotSortByNameCaseSensitive", 0, -1, -1 );
+    m_idSortByNameCaseSensitive = m_vSortMenu->insertItem4( i18n( "by Name ( Case Sensitive )" ), this, 
+							    "slotSortByNameCaseSensitive", 0, -1, -1 );
 
-    text = Q2C( i18n( "by Name ( Case Insensitive )" ) );
-    m_idSortByNameCaseInsensitive = m_vSortMenu->insertItem4( text, this, "slotSortByNameCaseInsensitive", 0, -1, -1 );
+    m_idSortByNameCaseInsensitive = m_vSortMenu->insertItem4( i18n( "by Name ( Case Insensitive )" ), this,
+							      "slotSortByNameCaseInsensitive", 0, -1, -1 );
     
-    text = Q2C( i18n( "by Size" ) );
-    m_idSortBySize = m_vSortMenu->insertItem4( text, this, "slotSortBySize", 0, -1, -1 );
+    m_idSortBySize = m_vSortMenu->insertItem4( i18n( "by Size" ), this, "slotSortBySize", 0, -1, -1 );
 
     m_vSortMenu->insertSeparator( -1 );
     
-    text = Q2C( i18n( "Descending" ) );
-    m_idSortDescending = m_vSortMenu->insertItem4( text, this, "slotSetSortDirectionDescending", 0, -1, -1 );
+    m_idSortDescending = m_vSortMenu->insertItem4( i18n( "Descending" ), this, 
+						   "slotSetSortDirectionDescending", 0, -1, -1 );
     m_vSortMenu->setItemChecked( m_idSortDescending, sortDirection() == KIconContainerItem::Descending );
     
     setupSortMenu();
@@ -157,14 +152,14 @@ bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr edit
 {
   if ( !CORBA::is_nil( editMenu ) )
   {
-    CORBA::WString_var text;
-    text = Q2C( i18n("&Select") );
+    QString text;
+    text = i18n("&Select");
     editMenu->insertItem4( text, this, "slotSelect" , 0, -1, -1 );
-    text = Q2C( i18n("&Unselect") );
+    text = i18n("&Unselect");
     editMenu->insertItem4( text, this, "slotUnselect" , 0, -1, -1 );
-    text = Q2C( i18n("Select &All") );
+    text = i18n("Select &All");
     editMenu->insertItem4( text, this, "slotSelectAll" , 0, -1, -1 );
-    text = Q2C( i18n("U&nselect All") );
+    text = i18n("U&nselect All");
     editMenu->insertItem4( text, this, "slotUnselectAll" , 0, -1, -1 );
     
     m_proxySelectAll = new Qt2CORBAProxy( this, "slotSelectAll" );
@@ -307,6 +302,7 @@ Konqueror::DirectoryDisplayMode KonqKfmIconView::viewMode()
     case Vertical:
       return Konqueror::SmallIcons;
     case SmallVertical:
+    default:
       return Konqueror::SmallVerticalIcons;
   }
 }
@@ -316,24 +312,24 @@ void KonqKfmIconView::stop()
   m_dirLister->stop();
 }
 
-char *KonqKfmIconView::url()
+QCString KonqKfmIconView::url()
 {
-  char *url = 0;
+  QCString url;
 
   if ( m_dirLister )
-    url = (char *)m_dirLister->url().ascii();
+    url = m_dirLister->url().ascii();
 
-  return CORBA::string_dup( url );
+  return url;
 }
 
-CORBA::Long KonqKfmIconView::xOffset()
+long int KonqKfmIconView::xOffset()
 {
-  return (CORBA::Long)contentsX();
+  return contentsX();
 }
 
-CORBA::Long KonqKfmIconView::yOffset()
+long int KonqKfmIconView::yOffset()
 {
-  return (CORBA::Long)contentsY();
+  return contentsY();
 }
 
 void KonqKfmIconView::initConfig()
@@ -487,7 +483,7 @@ void KonqKfmIconView::slotStarted( const QString & url )
 {
   unselectAll();
   if ( m_bLoading )
-    SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
+    SIGNAL_CALL2( "started", id(), url.ascii() );
   bSetupNeeded = false;
 }
 
@@ -576,17 +572,17 @@ void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
   setCaptionFromURL( _url );
 }
 
-void KonqKfmIconView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
+void KonqKfmIconView::can( bool &copy, bool &paste, bool &move )
 {
   QList<KIconContainerItem> selection;
   selectedItems( selection );
-  move = copy = (CORBA::Boolean) ( selection.count() != 0 );
+  move = copy = ( selection.count() != 0 );
 
   bool bKIOClipboard = !isClipboardEmpty();
   
   QMimeSource *data = QApplication::clipboard()->data();
   
-  paste = (CORBA::Boolean) ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
+  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
 }
 
 void KonqKfmIconView::copySelection()
@@ -610,7 +606,7 @@ void KonqKfmIconView::pasteSelection()
   pasteClipboard( m_dirLister->url() );
 }
 
-void KonqKfmIconView::moveSelection( const char *destinationURL )
+void KonqKfmIconView::moveSelection( const QCString &destinationURL )
 {
   QList<KIconContainerItem> selection;
   selectedItems( selection );
@@ -623,7 +619,7 @@ void KonqKfmIconView::moveSelection( const char *destinationURL )
   
   KIOJob *job = new KIOJob;
   
-  if ( destinationURL )
+  if ( !destinationURL.isEmpty() )
     job->move( lstURLs, destinationURL );
   else
     job->del( lstURLs );
@@ -637,8 +633,7 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
     KFileItem * fileItem = ((KFileICI *)_item)->item();
     s = fileItem->getStatusBarInfo();
   }
-  CORBA::WString_var ws = Q2C( s );
-  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
+  SIGNAL_CALL1( "setStatusBarText", s );
 }
 
 void KonqKfmIconView::setupSortMenu()
@@ -664,3 +659,4 @@ void KonqKfmIconView::setupSortMenu()
 }
 
 #include "konq_iconview.moc"
+

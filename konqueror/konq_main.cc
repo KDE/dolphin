@@ -158,12 +158,12 @@ KonqBrowserFactory::KonqBrowserFactory( CORBA::Object_ptr obj )
 {
 }
 
-OpenParts::MainWindow_ptr KonqBrowserFactory::createBrowserWindow( const char *url )
+OpenParts::MainWindow_ptr KonqBrowserFactory::createBrowserWindow( const QCString &url )
 {
   return OpenParts::MainWindow::_duplicate( KonqApplicationIf::allocMainWindow( url )->interface() );
 }
 
-OpenParts::Part_ptr KonqBrowserFactory::createBrowserPart( const char *url )
+OpenParts::Part_ptr KonqBrowserFactory::createBrowserPart( const QCString &url )
 {
   return OpenParts::Part::_duplicate( KonqApplicationIf::allocMainView( url ) );
 }

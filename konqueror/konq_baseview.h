@@ -38,7 +38,7 @@ public:
   virtual void init();
   virtual void cleanUp();
   
-  virtual bool event( const char *event, const CORBA::Any &value );
+  virtual bool event( const QCString &event, const CORBA::Any &value );
   virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar );
@@ -47,7 +47,7 @@ public:
   /**
    * @return the URL shown by this view
    */
-  virtual char *url();
+  virtual QCString url();
 
   /**
    * Ask the main view to open this URL, since it might not be suitable

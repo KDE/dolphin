@@ -17,6 +17,8 @@
  
 */ 
 
+// FIXME: needed because of kactivator.h (lars)
+#include <kactivator.h>
 #include "konq_plugins.h"
 
 #include <qstringlist.h>
@@ -30,7 +32,6 @@
 
 #include <kded_instance.h>
 #include <knaming.h>
-#include <kactivator.h>
 #include <kservices.h>
 #include <kdebug.h>
 #include <kprocess.h>
@@ -47,15 +48,12 @@ KonqEventFilterProxy::KonqEventFilterProxy( CORBA::Object_ptr factory, const QSt
   m_vVirtualFactoryRef = CORBA::Object::_duplicate( factory );
   
   KOM::EventTypeSeq seq;
-  seq.length( events.count() );
 
   QStringList::ConstIterator it = events.begin();
   QStringList::ConstIterator end = events.end();
   
-  CORBA::ULong i = 0;
- 
   for (; it != end; ++it )
-    seq[ i++ ] = CORBA::string_dup( (*it).ascii() );
+    seq.append( (*it).ascii() );
 
   obj->installFilter( this, "eventFilter", seq, KOM::Base::FM_WRITE );
   m_vObj = KOM::Base::_duplicate( obj );
@@ -77,7 +75,7 @@ void KonqEventFilterProxy::cleanUp()
   KOMBase::cleanUp();
 }
 
-CORBA::Boolean KonqEventFilterProxy::eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value )
+bool KonqEventFilterProxy::eventFilter( KOM::Base_ptr obj, const QCString &name, const CORBA::Any &value )
 {
   if ( !CORBA::is_nil( m_rRef ) )
     return m_rRef->eventFilter( obj, name, value );
@@ -170,7 +168,8 @@ void KonqPlugins::installPlugin( KOM::Component_ptr comp, KService::Ptr pluginIn
     repoId.truncate( tagPos );
   }
 	
-  CORBA::Object_var obj = KdedInstance::self()->kactivator()->activateService( pluginInfo->name(), repoId, tag );
+  CORBA::Object_var obj = KdedInstance::self()->kactivator()
+      ->activateService( pluginInfo->name().ascii(), repoId.ascii(), tag.ascii() );
 	
   if ( CORBA::is_nil( obj ) )
   {

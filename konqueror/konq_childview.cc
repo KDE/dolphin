@@ -115,16 +115,16 @@ void KonqChildView::show()
 void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
 {
   Browser::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( url.data() );
+  eventURL.url = url.latin1();
   if ( useMiscURLData )
   {
-    eventURL.reload = (CORBA::Boolean)m_bReloadURL;
+    eventURL.reload = m_bReloadURL;
     eventURL.xOffset = m_iXOffset;
     eventURL.yOffset = m_iYOffset;
   }
   else
   {
-    eventURL.reload = (CORBA::Boolean)false;
+    eventURL.reload = false;
     eventURL.xOffset = 0;
     eventURL.yOffset = 0;
   }    
@@ -320,8 +320,7 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
-  CORBA::String_var curl = m_vView->url();
-  m_pCurrentHistoryEntry->strURL = QString( curl.in() );
+  m_pCurrentHistoryEntry->strURL = m_vView->url();
   m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
@@ -395,8 +394,7 @@ QStringList KonqChildView::forwardHistoryURLs()
 QString KonqChildView::url()
 {
   assert( m_vView );
-  CORBA::String_var u = m_vView->url();
-  QString url( u.in() );
+  QString url = m_vView->url();
   return url;
 }
 
@@ -408,7 +406,7 @@ void KonqChildView::reload()
   
   Browser::EventOpenURL eventURL;
   eventURL.url = m_vView->url();
-  eventURL.reload = (CORBA::Boolean)true;
+  eventURL.reload = true;
   eventURL.xOffset = m_vView->xOffset();
   eventURL.yOffset = m_vView->yOffset();
   EMIT_EVENT( m_vView, Browser::eventOpenURL, eventURL );

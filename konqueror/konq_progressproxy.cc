@@ -50,13 +50,13 @@ void KonqProgressProxy::slotProcessedSize( int, unsigned long size )
 {
   if ( m_ulTotalDocumentSize > 0 && (*m_dctSignals)[ "loadingProgress" ] )
     signal_call2( "loadingProgress", m_dctSignals, m_partId, 
-                  (CORBA::Long)( size * 100 / m_ulTotalDocumentSize ) );
+                  (long int)( size * 100 / m_ulTotalDocumentSize ) );
 }
 
 void KonqProgressProxy::slotSpeed( int, unsigned long bytesPerSecond )
 {
   if ( (*m_dctSignals)[ "speedProgress" ] )
-    signal_call2( "speedProgress", m_dctSignals, m_partId, (CORBA::Long)bytesPerSecond );
+    signal_call2( "speedProgress", m_dctSignals, m_partId, (long int)bytesPerSecond );
 }
 
 #include "konq_progressproxy.moc"

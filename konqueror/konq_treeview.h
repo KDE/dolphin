@@ -157,14 +157,14 @@ public:
 
   virtual void stop();
   
-  virtual char *url();
-  virtual CORBA::Long xOffset();
-  virtual CORBA::Long yOffset();
+  virtual QCString url();
+  virtual long int xOffset();
+  virtual long int yOffset();
 
-  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
+  virtual void can( bool &copy, bool &paste, bool &move );
   virtual void copySelection();
   virtual void pasteSelection();
-  virtual void moveSelection( const char *destinationURL );
+  virtual void moveSelection( const QCString &destinationURL );
 
   virtual void slotReloadTree();
   virtual void slotShowDot();
@@ -327,7 +327,7 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
   
-  CORBA::Long m_idShowDot;
+  long int m_idShowDot;
   
   KonqMainView *m_pMainView;
 };

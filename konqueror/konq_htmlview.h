@@ -56,7 +56,7 @@ public:
   KonqHTMLView( KonqMainView *mainView = 0L, KBrowser *parentBrowser = 0L, const char *name = 0L );
   virtual ~KonqHTMLView();
 
-  virtual bool event( const char *event, const CORBA::Any &value );
+  virtual bool event( const QCString &event, const CORBA::Any &value );
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
   virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
@@ -64,7 +64,7 @@ public:
 
   virtual void stop();
 
-  virtual char *url();
+  virtual QCString url();
   virtual CORBA::Long xOffset();
   virtual CORBA::Long yOffset();
 
@@ -79,18 +79,18 @@ public:
   
   virtual void slotLoadImages();
   
-  virtual void beginDoc( const char *url, CORBA::Long dx, CORBA::Long dy );
-  virtual void writeDoc( const char *data );
+  virtual void beginDoc( const QCString &url, long int dx, long int dy );
+  virtual void writeDoc( const QCString &data );
   virtual void endDoc();
   virtual void parseDoc();
 
   virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
   
-  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
+  virtual void can( bool &copy, bool &paste, bool &move );
   
   virtual void copySelection();
   virtual void pasteSelection();
-  virtual void moveSelection( const char * );
+  virtual void moveSelection( const QCString & );
       
 public slots:
   virtual void slotMousePressed( const QString &, const QPoint&, int );

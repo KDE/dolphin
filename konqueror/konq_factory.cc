@@ -18,6 +18,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  
 */ 
+#include <kactivator.h>
 
 #include "konq_factory.h"
 #include "konq_mainview.h"
@@ -28,7 +29,6 @@
 
 #include <kded_instance.h>
 #include <ktrader.h>
-#include <kactivator.h>
 
 Browser::View_ptr KonqFactory::createView( const QString &serviceType, 
 			                   QStringList &serviceTypes,
@@ -90,7 +90,7 @@ Browser::View_ptr KonqFactory::createView( const QString &serviceType,
     repoId.truncate( tagPos );
   }  
 
-  CORBA::Object_var obj = activator->activateService( service->name(), repoId, tag );
+  CORBA::Object_var obj = activator->activateService( service->name().latin1(), repoId.latin1(), tag.latin1() );
   
   Browser::ViewFactory_var factory = Browser::ViewFactory::_narrow( obj );
   

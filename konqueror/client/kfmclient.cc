@@ -42,6 +42,8 @@
 #include <ktrader.h>
 #include <openparts.h>
 
+#include <sti.h>
+
 #include "kfmclient.h"
 
 int main( int argc, char **argv )
@@ -120,7 +122,7 @@ bool clientApp::openFileManagerWindow(const char* _url)
   {
     CORBA::Request_var req = m_vKonqy->_request( "createBrowserWindow" );
     
-    req->add_in_arg( "url" ) <<= CORBA::Any::from_string( (char *)_url, 0 );
+    req->add_in_arg( "url" ) <<= _url;
     
     req->result()->value()->type( OpenParts::_tc_MainWindow );
     

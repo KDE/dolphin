@@ -55,17 +55,17 @@ public:
   // IDL
   virtual void stop();
   
-  virtual char *url();
-  virtual CORBA::Long xOffset();
-  virtual CORBA::Long yOffset();
+  virtual QCString url();
+  virtual long int xOffset();
+  virtual long int yOffset();
 
   virtual void openURL( const char* _url, int xOffset, int yOffset );
 
-  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
+  virtual void can( bool &copy, bool &paste, bool &move );
   
   virtual void copySelection();
   virtual void pasteSelection();
-  virtual void moveSelection( const char *destinationURL );  
+  virtual void moveSelection( const QCString &destinationURL );  
   
   //virtual void updateDirectory();
 
@@ -138,11 +138,11 @@ protected:
   /** Proxies for each CORBA slot that has to be invoked from a Qt signql */
   Qt2CORBAProxy * m_proxySelectAll;
   
-  CORBA::Long m_idShowDotFiles;
-  CORBA::Long m_idSortByNameCaseSensitive;
-  CORBA::Long m_idSortByNameCaseInsensitive;
-  CORBA::Long m_idSortBySize;
-  CORBA::Long m_idSortDescending;
+  long int m_idShowDotFiles;
+  long int m_idSortByNameCaseSensitive;
+  long int m_idSortByNameCaseInsensitive;
+  long int m_idSortBySize;
+  long int m_idSortDescending;
   
   KonqMainView *m_pMainView;
 };

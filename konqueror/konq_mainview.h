@@ -58,29 +58,29 @@ public:
   virtual void init();
   virtual void cleanUp();
 
-  virtual bool event( const char* event, const CORBA::Any& value );
+  virtual bool event( const QCString &event, const CORBA::Any& value );
   bool mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar );
   bool mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory );
   bool mappingChildGotFocus( OpenParts::Part_ptr child );
   bool mappingParentGotFocus( OpenParts::Part_ptr child );
   bool mappingOpenURL( Browser::EventOpenURL eventURL );
   bool mappingNewTransfer( Browser::EventNewTransfer transfer );
-  bool mappingURLEntered( const CORBA::WChar *_url );
+  bool mappingURLEntered( const QString &_url );
 
   //IDL
   virtual void setActiveView( OpenParts::Id id );
   virtual Browser::View_ptr activeView();
   virtual OpenParts::Id activeViewId();
-  virtual void selectViewByNumber( CORBA::Long number );
+  virtual void selectViewByNumber( long int number );
 
   virtual void openURL( OpenParts::Id id, const Browser::URLRequest &_urlreq );
   virtual void openURL( const char * _url, bool _reload = false, int xOffset = 0,
                         int yOffset = 0, KonqChildView *_view = 0L );
   
-  virtual void setStatusBarText( const CORBA::WChar *_text );
-  virtual void setLocationBarURL( OpenParts::Id id, const char *_url );
+  virtual void setStatusBarText( const QString &_text );
+  virtual void setLocationBarURL( OpenParts::Id id, const QCString &_url );
   
-  virtual void createNewWindow( const char *url );
+  virtual void createNewWindow( const QCString &url );
 
   void popupMenu( const QPoint &_global, KFileItemList _items );
   
@@ -175,7 +175,7 @@ public slots:
   virtual void slotRemoveView();
   virtual void slotSaveDefaultProfile();
   virtual void slotProfileDlg();
-  virtual void slotViewProfileActivated( CORBA::Long id );
+  virtual void slotViewProfileActivated( long int id );
 
   // Help menu
   virtual void slotHelpContents();    
@@ -184,11 +184,11 @@ public slots:
   /////////////////////////
   // Location Bar
   /////////////////////////
-  virtual void slotURLEntered( const CORBA::WChar *_url );
+  virtual void slotURLEntered( const QString &_url );
   
   /////////////////////////
   
-  virtual void slotFileNewActivated( CORBA::Long id );
+  virtual void slotFileNewActivated( long int id );
   virtual void slotFileNewAboutToShow();
   
   virtual void slotMenuEditAboutToShow();
@@ -199,25 +199,25 @@ public slots:
   virtual void slotHistoryBackwardAboutToShow();
   virtual void slotHistoryForwardAboutToShow();
 
-  virtual void slotHistoryBackwardActivated( CORBA::Long id );
-  virtual void slotHistoryForwardActivated( CORBA::Long id );
+  virtual void slotHistoryBackwardActivated( long int id );
+  virtual void slotHistoryForwardActivated( long int id );
   
-  virtual void slotBookmarkSelected( CORBA::Long id );
-  virtual void slotBookmarkHighlighted( CORBA::Long id );
+  virtual void slotBookmarkSelected( long int id );
+  virtual void slotBookmarkHighlighted( long int id );
   virtual void slotEditBookmarks();  
   
-  virtual void slotURLStarted( OpenParts::Id id, const char *url );
+  virtual void slotURLStarted( OpenParts::Id id, const QCString &url );
   virtual void slotURLCompleted( OpenParts::Id id );
   
   virtual void slotUpAboutToShow();
-  virtual void slotUpActivated( CORBA::Long id );
+  virtual void slotUpActivated( long int id );
 
-  virtual void slotLoadingProgress( OpenParts::Id id, CORBA::Long percent );
-  virtual void slotSpeedProgress( OpenParts::Id id, CORBA::Long bytesPerSecond );
+  virtual void slotLoadingProgress( OpenParts::Id id, long int percent );
+  virtual void slotSpeedProgress( OpenParts::Id id, long int bytesPerSecond );
 
   virtual void slotSelectionChanged();
   
-  virtual void slotItemHighlighted( CORBA::Long id );
+  virtual void slotItemHighlighted( long int id );
 
 public slots:
   /////////////////////////
@@ -359,7 +359,7 @@ private:
 
   QString m_sInitialURL;
   
-  CORBA::Long m_lToolBarViewStartIndex;
+  long int m_lToolBarViewStartIndex;
 
   bool m_bEditMenuDirty;
   bool m_bViewMenuDirty;

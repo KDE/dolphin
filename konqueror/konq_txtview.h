@@ -44,8 +44,8 @@ public:
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
   virtual bool mappingFillToolBar( Browser::View::EventFillToolBar toolBar );
 
-  virtual CORBA::Long xOffset();
-  virtual CORBA::Long yOffset();
+  virtual long int xOffset();
+  virtual long int yOffset();
 
   virtual void stop();
   
@@ -56,11 +56,11 @@ public:
 
   virtual void print();
 
-  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
+  virtual void can( bool &copy, bool &paste, bool &move );
   
   virtual void copySelection();
   virtual void pasteSelection();
-  virtual void moveSelection( const char * );
+  virtual void moveSelection( const QCString & );
 
 protected slots:
   void slotFinished( int );
@@ -88,7 +88,7 @@ private:
   KonqSearchDialog *m_pSearchDialog;
   bool m_bFound;
   
-  CORBA::Long m_idFixedFont;
+  long int m_idFixedFont;
 };
 
 #endif

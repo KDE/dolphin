@@ -156,6 +156,8 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
     case RECT: return KPixmapEffect::RectangleGradient;
     case PIPE: return KPixmapEffect::PipeCrossGradient;
     case ELLIP: return KPixmapEffect::EllipticGradient;
+    default:
+	break;
     }
   
 }
@@ -426,7 +428,7 @@ KonqFrame::listViews( ChildViewList *viewList )
 }
 
 void 
-KonqFrame::saveConfig( KConfig* config, int id, int depth )
+KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
 {
   config->writeEntry( QString::fromLatin1( "URL" ), childView()->url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ), childView()->serviceTypes().first() );

@@ -77,7 +77,7 @@ KonqTxtView::~KonqTxtView()
 bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL( eventURL );
- kdebug(0,1202,"bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
+  kdebug(0,1202,"bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
   stop();
   
   CachedKIOJob *job = new CachedKIOJob;
@@ -99,8 +99,8 @@ bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
   m_iYOffset = eventURL.yOffset;
   
   m_strURL = eventURL.url;
-  job->get( eventURL.url, (bool)eventURL.reload );
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
+  job->get( eventURL.url, eventURL.reload );
+  SIGNAL_CALL2( "started", id(), eventURL.url );
   
   setCaptionFromURL( m_strURL );
 
@@ -113,9 +113,8 @@ bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu
 
   if ( !CORBA::is_nil( viewMenu ) )
   {
-    CORBA::WString_var txt;
-    m_idFixedFont = m_vMenuView->insertItem4( ( txt = Q2C( i18n( "Use Fixed Font" ) ) ),
-                                              this, "slotFixedFont", 0, -1, -1 );
+    m_idFixedFont = m_vMenuView->insertItem4( i18n( "Use Fixed Font" ), 
+					      this, "slotFixedFont", 0, -1, -1 );
     m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
   }
 
@@ -126,13 +125,9 @@ bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu
 {
   if ( !CORBA::is_nil( editMenu ) )
   {
-    CORBA::WString_var txt;
-    editMenu->insertItem4( ( txt = Q2C( i18n( "Select &All" ) ) ), 
-                           this, "slotSelectAll", 0, -1, -1 );
-    editMenu->insertItem4( ( txt = Q2C( i18n( "Launch &Editor" ) ) ),
-                           this, "slotEdit", 0, -1, -1 );
-    editMenu->insertItem4( ( txt = Q2C( i18n( "Search..." ) ) ),
-                           this, "slotSearch", 0, -1, -1 );
+    editMenu->insertItem4( i18n( "Select &All" ), this, "slotSelectAll", 0, -1, -1 );
+    editMenu->insertItem4( i18n( "Launch &Editor" ), this, "slotEdit", 0, -1, -1 );
+    editMenu->insertItem4( i18n( "Search..." ), this, "slotSearch", 0, -1, -1 );
   }
 
   return true;
@@ -145,11 +140,11 @@ bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
     
   if ( toolBar.create )
   {
-    CORBA::WString_var toolTip = Q2C( i18n( "Search" ) );
+    QString toolTip = i18n( "Search" );
     OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "search.png" ) );
     toolBar.toolBar->insertButton2( pix, TOOLBAR_SEARCH_ID, SIGNAL(clicked()),
                                     this, "slotSearch", true, toolTip, toolBar.startIndex++ );
-    toolTip = Q2C( i18n( "Launch Editor" ) );
+    toolTip = i18n( "Launch Editor" );
     pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "pencil.png" ) );
     toolBar.toolBar->insertButton2( pix, TOOLBAR_EDITOR_ID, SIGNAL(clicked()),
                                     this, "slotEdit", true, toolTip, toolBar.startIndex++ );
@@ -163,14 +158,14 @@ bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
   return true;
 }
 
-CORBA::Long KonqTxtView::xOffset()
+long int KonqTxtView::xOffset()
 {
-  return (CORBA::Long)QTableView::xOffset();
+  return QTableView::xOffset();
 }
 
-CORBA::Long KonqTxtView::yOffset()
+long int KonqTxtView::yOffset()
 {
-  return (CORBA::Long)QTableView::yOffset();
+  return QTableView::yOffset();
 }
 
 void KonqTxtView::stop()
@@ -230,10 +225,8 @@ void KonqTxtView::slotSearch()
 void KonqTxtView::print()
 {
   QPrinter printer;
-  CORBA::WString_var text;
 
-  text = Q2C( i18n( "Printing..." ) );
-  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( text.out(), 0 ) );
+  SIGNAL_CALL1( "setStatusBarText", i18n( "Printing..." ) );
   
   if ( printer.setup( this ) )
   {
@@ -247,15 +240,13 @@ void KonqTxtView::print()
     int y = 0, i = 0, page = 1;
     const int Margin = 10;
     
-    text = Q2C( i18n( "Printing page %1 ..." ).arg( page ) );
-    SIGNAL_CALL1( "setStatusBarText" , CORBA::Any::from_wstring( text.out(), 0 ) );
+    SIGNAL_CALL1( "setStatusBarText" , i18n( "Printing page %1 ..." ).arg( page ) );
     
     for (; i < numLines(); i++ )
     {
       if ( Margin + y > paintDevMetrics.height() - Margin )
       {
-        text = Q2C( i18n( "Printing page %1 ..." ).arg( ++page ) );
-	SIGNAL_CALL1( "setStatusBarText" , CORBA::Any::from_wstring( text.out(), 0 ) );
+	SIGNAL_CALL1( "setStatusBarText" , i18n( "Printing page %1 ..." ).arg( ++page ) );
 	printer.newPage();
 	y = 0;
       }
@@ -271,12 +262,12 @@ void KonqTxtView::print()
     
   }
 
-  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( (CORBA::WChar*)0L, 0 ) );
+  SIGNAL_CALL1( "setStatusBarText", QString() );
 }
 
-void KonqTxtView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
+void KonqTxtView::can( bool &copy, bool &paste, bool &move )
 {
-  copy = (CORBA::Boolean)hasMarkedText();
+  copy = (bool)hasMarkedText();
   paste = false;
   move = false;
 }
@@ -291,7 +282,7 @@ void KonqTxtView::pasteSelection()
   assert( 0 );
 }
 
-void KonqTxtView::moveSelection( const char * )
+void KonqTxtView::moveSelection( const QCString & )
 {
   assert( 0 );
 }
@@ -307,9 +298,8 @@ void KonqTxtView::slotFinished( int )
 void KonqTxtView::slotRedirection( int, const char *url )
 {
 //  m_strURL = url;
-  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)url, 0 ) );
-  CORBA::WString_var caption = Q2C( QString( url ) );  
-  m_vMainWindow->setPartCaption( id(), caption );  
+  SIGNAL_CALL2( "setLocationBarURL", id(), QCString(url) );
+  m_vMainWindow->setPartCaption( id(), QString(url) );  
 }
 
 void KonqTxtView::slotData( int, const char *data, int len )
