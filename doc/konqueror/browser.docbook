@@ -223,7 +223,7 @@ Shortcut. The first field is for the human readable name of the search
 provider; that is, simply the name of the Search provider. For
 example, <trademark>Google</trademark>.</para>
 
-<para>In the next field you should enter the URI that is used to do a
+<para>In the next field you should enter the &URI; that is used to do a
 search on the search engine. The whole text to be searched for can be
 specified as <userinput>\{@}</userinput> or
 <userinput>\{0}</userinput>. The recommended version is
@@ -256,7 +256,7 @@ the &URL; address. For example, doing a <trademark>Google</trademark>
 search for &konqueror; produces the &URL;: <ulink
 url="http://www.google.com/search?q=konqueror&amp;ie=UTF-8&amp;oe=UTF-8">http://www.google.com/search?q=konqueror&amp;ie=UTF-8&amp;oe=UTF-8</ulink>. Now
 you need to merely replace &konqueror; with
-<userinput>\{@}</userinput> in this example to find the approrpriate
+<userinput>\{@}</userinput> in this example to find the appropriate
 &URI; to be entered.</para>
 
 <para>In the third field you need to enter the &URI; shortcut. For
@@ -264,7 +264,7 @@ example, the <userinput>gg</userinput> in
 <userinput>gg:konqueror</userinput>. In the next option &mdash; the
 drop-down menu &mdash; you have the option to select the character set that
 will be used to encode the search query. Once you have entered all the
-options corectly to your satisfaction, press &Enter; and your new Web
+options correctly to your satisfaction, press &Enter; and your new Web
 Shortcut should now be available in &konqueror;.</para>
 
 </sect1>
@@ -283,7 +283,7 @@ pointing device.</para>
 
 <para>To activate the access keys in &konqueror;, press and release
 &Ctrl;. Once this is pressed, if a particular link on the website has
-the <literal>accesskey</literal> attribute in the given link, then the
+the <sgmltag class="attribute">accesskey</sgmltag> attribute in the given link, then the
 character(s) should appear over the link, identifying what needs to be
 pressed. Then, you can enter the character(s) associated with the link
 as an alternative to following the link with the mouse. To disable the
