@@ -1231,6 +1231,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   if ( !part )
   {
     kdDebug(1202) << "No part activated - returning" << endl;
+    unplugViewModeActions();
     createGUI( 0L );
     return;
   }
