@@ -89,7 +89,7 @@ protected:
   uint16 _streamType;
   NPStream *_stream;
   void *_notifyData;
-  QString _url;
+  KURL _url;
   QString _fileURL;
   QString _mimeType;
   QByteArray _data;

@@ -660,7 +660,8 @@ void NSPluginInstance::timer()
         if ( req.url.left(11).lower()=="javascript:" )
             url = req.url;
         else if ( KURL::isRelativeURL(req.url) ) {
-            KURL absUrl( _baseURL, req.url );
+            KURL bu( _baseURL );
+            KURL absUrl( bu, req.url );
             url = absUrl.url();
         } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
             KURL absUrl( _baseURL );
@@ -738,7 +739,8 @@ void NSPluginInstance::timer()
 
 
 QString NSPluginInstance::normalizedURL(const QString& url) const {
-    KURL inURL(_baseURL, url);
+    KURL bu( _baseURL );
+    KURL inURL(bu, url);
     KConfig cfg("kcmnspluginrc", true);
     cfg.setGroup("Misc");
 
@@ -1556,7 +1558,7 @@ void NSPluginStreamBase::finish( bool err )
 
         _instance->NPDestroyStream( _stream, NPRES_DONE );
         if ( _notifyData )
-            _instance->NPURLNotify( _url, NPRES_DONE, _notifyData );
+            _instance->NPURLNotify( _url.url(), NPRES_DONE, _notifyData );
     } else {
         // close temp file
         if ( _tempFile )
@@ -1565,7 +1567,7 @@ void NSPluginStreamBase::finish( bool err )
         // destroy stream
         _instance->NPDestroyStream( _stream, NPRES_NETWORK_ERR );
         if ( _notifyData )
-            _instance->NPURLNotify( _url, NPRES_NETWORK_ERR, _notifyData );
+            _instance->NPURLNotify( _url.url(), NPRES_NETWORK_ERR, _notifyData );
     }
 
     // delete stream
@@ -1648,7 +1650,7 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
     // create new stream
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
-        _job = KIO::get(url, false, false);
+        _job = KIO::get(KURL( url ), false, false);
         _job->addMetaData("errorPage", "false");
         _job->addMetaData("AllowCompressedPage", "false");
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
@@ -1670,7 +1672,7 @@ bool NSPluginStream::post( const QString& url, const QByteArray& data,
     // create new stream
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
-        _job = KIO::http_post(url, data, false);
+        _job = KIO::http_post(KURL( url ), data, false);
         _job->addMetaData("content-type", args.contentType());
         _job->addMetaData("errorPage", "false");
         _job->addMetaData("AllowCompressedPage", "false");
