@@ -518,6 +518,9 @@ KMacroCommand* CmdGen::insertMimeSource(
             mydrag->setEncodedData(data->encodedData("GALEON_BOOKMARK"));
             data = mydrag;
             break;
+        } else if( strcmp(format, "application/x-xbel" )==0) {
+            /* nothing we created a kbbookmarks drag when we copy element (slotcopy/slotpaste)*/
+            break;
         } else if (strcmp(format, "text/uri-list") == 0) { 
             KURL::List uris;
             if (!KURLDrag::decode(data, uris))
