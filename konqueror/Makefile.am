@@ -56,7 +56,7 @@ dummy.cc:
 
 messages: rc.cpp
 	$(EXTRACTRC) */*.rc >> rc.cpp
-	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc dirtree/*.cpp dirtree/*h dirtree/*/*.cpp dirtree/*/*.h kedit*/*.cpp about/*.h about/*.cc -o $(podir)/konqueror.pot
+	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc dirtree/*.cpp dirtree/*h dirtree/*/*.cpp dirtree/*/*.h kedit*/*.cpp about/*.h about/*.cc shellcmdplugin/*.cpp -o $(podir)/konqueror.pot
 
 data_DATA = konquerorsu.desktop kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop
 datadir = $(kde_appsdir)/System
