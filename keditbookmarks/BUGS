@@ -1,13 +1,6 @@
-dirk has noted its buggy as shit even now
-if you tab to next field then the current
-field isn't saved! (is this still the case?)
---
 multi selection deletion then shift down selects roots
-deletion of group shuffles down top elements, should shuffle up bottom
 clicking in the increm. search text field selects the root item in the list view
---
-tips dialog:
-   fixes bugs - shortcuts for keyboard selection are wierd
+tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
 --
 26255
 bookmarks use last url component rather than title 

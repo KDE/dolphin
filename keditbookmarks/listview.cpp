@@ -595,9 +595,12 @@ void ListView::renameNextCell(bool fwd) {
 
 class KeyPressEater : public QObject {
 public:
-   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
+   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { 
+      m_allowedToTab = true; 
+   }
 protected:
    bool eventFilter(QObject *, QEvent *);
+   bool m_allowedToTab;
 };
 
 bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
@@ -606,9 +609,13 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
       if ((k->key() == Qt::Key_Backtab || k->key() == Qt::Key_Tab)
       && !(k->state() & ControlButton || k->state() & AltButton)
       ) {
-         bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
-         ListView::self()->renameNextCell(fwd);
+         if (m_allowedToTab) {
+            bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
+            ListView::self()->renameNextCell(fwd);
+         }
          return true;
+      } else {
+         m_allowedToTab = (k->key() == Qt::Key_Escape || k->key() == Qt::Key_Enter);
       }
    }
    return false;
