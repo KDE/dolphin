@@ -139,28 +139,61 @@ int main( int argc, char **argv )
 }
 
 /** Whether to start a new konqueror or reuse an existing process */
-static bool startNewKonqueror( const KURL & url )
+static bool startNewKonqueror()
 {
-    KConfig config( QString::fromLatin1("kfmclientrc") );
-    config.setGroup( QString::fromLatin1("Settings") );
-    // Current default: reuse an existing process for local urls, create a new one for remote ones
-    QString val = config.readEntry( QString::fromLatin1("StartNewKonqueror"), QString::fromLatin1("Web only") );
-    if ( (val == QString::fromLatin1("Web only")   && !url.isLocalFile()) ||
-         (val == QString::fromLatin1("Local only") &&  url.isLocalFile()) ||
-         (  val == QString::fromLatin1("Always") ||
-            val == QString::fromLatin1("true") ||
-            val == QString::fromLatin1("TRUE") ||
-            val == QString::fromLatin1("1")))
-        return true;
+    KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
+    cfg.setGroup( "Reusing" );
+    QStringList allowed_parts;
+    if( cfg.hasKey( "SafeParts" ))
+    {
+        if( cfg.readListEntry( "SafeParts" ).isEmpty())
+            return true; // always start new konqy
+        return false; // will check safe parts using DCOP
+    }
     else
-        return false; // means (val == "Never") or one of the two above combinations return false
+    {   // backwards comp.
+        KConfig cfg( QString::fromLatin1( "kfmclientrc" ), true );
+        cfg.setGroup( "Settings" );
+        QString value = cfg.readEntry( "StartNewKonqueror", QString::fromLatin1( "Web Only " ));
+        if( value == QString::fromLatin1("Always") ||
+            value == QString::fromLatin1("true") ||
+            value == QString::fromLatin1("TRUE") ||
+            value == QString::fromLatin1("1") )
+            return true; // always start new konqy
+        return false; // will check safe parts using DCOP
+    }
+}
+
+// when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
+static QCString getPreloadedKonqy()
+{
+    KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
+    cfg.setGroup( "Reusing" );
+    if( cfg.readNumEntry( "MaxPreloadCount", 0 ) == 0 )
+        return "";
+    DCOPRef ref( "kded", "konqy_preloader" );
+    return ref.call( "getPreloadedKonqy" );
+}
+
+
+static QCString konqyToReuse()
+{ // prefer(?) preloaded ones
+    QCString ret = getPreloadedKonqy();
+    if( !ret.isEmpty())
+        return ret;
+    if( startNewKonqueror())
+        return "";
+    QCString appObj;
+    QByteArray data;
+    if( !kapp->dcopClient()->findObject( "konqueror*", "KonquerorIface",
+             "processCanBeReused()", data, ret, appObj ) )
+        return "";
+    return ret;
 }
 
 bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 {
     kdDebug() << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
-    QByteArray data;
-    QCString appId, appObj;
 
 	// check if user wants to use external browser
 	KConfig config( QString::fromLatin1("kfmclientrc"));
@@ -174,12 +207,11 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 		return true;
 	}
 
-    if ( !startNewKonqueror(url) &&
-         dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
-                                   appId, appObj ) )
+    QCString appId = konqyToReuse();
+    if( !appId.isEmpty())
     {
         kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
-        KonquerorIface_stub konqy( appId, appObj );
+        KonquerorIface_stub konqy( appId, "KonquerorIface" );
         konqy.createNewWindowASN( url.url(), mimetype, kapp->startupId());
         KStartupInfoId id;
         id.initId( kapp->startupId());
@@ -219,11 +251,8 @@ bool clientApp::openProfile( const QString & filename, const QString & url, cons
   m_profileName = filename;
   m_url = url;
   m_mimetype = mimetype;
-  QByteArray data;
-  QCString appId, appObj;
-  if ( startNewKonqueror(KURL(url)) ||
-       !dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
-                                 appId, appObj ) )
+  QCString appId = konqyToReuse();
+  if( appId.isEmpty())
   {
     QString error;
     if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
@@ -232,8 +261,8 @@ bool clientApp::openProfile( const QString & filename, const QString & url, cons
       kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
       return false;
     }
-    // startServiceByDesktopPath waits for the app to register with DCOP
-    // so when we arrive here, konq is up and running already, and appId contains the identification
+      // startServiceByDesktopPath waits for the app to register with DCOP
+      // so when we arrive here, konq is up and running already, and appId contains the identification
   }
 
   QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + m_profileName );

@@ -279,6 +279,14 @@ public:
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType );
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType, const KService::Ptr &offer );
 
+  void resetWindow();
+  
+  static void setPreloadedFlag( bool preloaded );
+  static bool isPreloaded() { return s_preloaded; }
+  static void setPreloadedWindow( KonqMainWindow* );
+  static KonqMainWindow* preloadedWindow() { return s_preloadedWindow; }
+  bool stayPreloaded();
+
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
@@ -434,6 +442,8 @@ protected slots:
   void slotFindClosed( KonqDirPart * dirPart );
 
   void slotIconsChanged();
+  
+  virtual bool event( QEvent* );
 
 protected:
   static QString detectNameFilter( QString & url );
@@ -648,6 +658,9 @@ private:
   bool m_urlCompletionStarted;
 
   bool m_bBackRightClick;
+  
+  static bool s_preloaded;
+  static KonqMainWindow* s_preloadedWindow;
 
 public:
 

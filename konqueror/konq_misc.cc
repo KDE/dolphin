@@ -18,11 +18,11 @@
 */
 
 
-#include <qapplication.h>
 #include <qwhatsthis.h>
 #include <qstyle.h>
 #include <qdir.h>
 
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kurifilter.h>
@@ -31,6 +31,7 @@
 #include <kwin.h>
 #include <kprotocolinfo.h>
 #include <kurldrag.h>
+#include <kstartupinfo.h>
 
 #include "konq_misc.h"
 #include "konq_mainwindow.h"
@@ -104,7 +105,6 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
   return createBrowserWindowFromProfile( profile, profileName, url, args, forbidUseHTML );
 }
 
-
 KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML )
 {
   kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
@@ -118,6 +118,18 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       mainWindow = createSimpleWindow( url, args.frameName );
       if ( forbidUseHTML )
           mainWindow->setShowHTML( false );
+  }
+  else if( KonqMainWindow::isPreloaded() && KonqMainWindow::preloadedWindow() != NULL )
+  {
+      mainWindow = KonqMainWindow::preloadedWindow();
+      KStartupInfo::setWindowStartupId( mainWindow->winId(), kapp->startupId());
+      KonqMainWindow::setPreloadedWindow( NULL );
+      mainWindow->resetWindow();
+      mainWindow->setShowHTML( !forbidUseHTML );
+      //FIXME: obey args (like passing post-data (to KRun), etc.)
+      KonqOpenURLRequest req;
+      req.args = args;
+      mainWindow->viewManager()->loadViewProfile( path, filename, url, req, true );
   }
   else
   {

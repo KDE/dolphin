@@ -176,10 +176,13 @@ public:
    * It has to be under the profiles dir. Otherwise, set to QString::null
    * @param forcedURL if set, the URL to open, whatever the profile says
    * @param req attributes related to @p forcedURL
+   * @param resetWindow if the profile doesn't have attributes like size or toolbar
+   * settings, they will be reset to the defaults
    */
   void loadViewProfile( KConfig &cfg, const QString & filename,
                         const KURL & forcedURL = KURL(),
-                        const KonqOpenURLRequest &req = KonqOpenURLRequest() );
+                        const KonqOpenURLRequest &req = KonqOpenURLRequest(),
+                        bool resetWindow = false );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
@@ -188,11 +191,13 @@ public:
    * It has to be under the profiles dir. Otherwise, set to QString::null
    * @param forcedURL if set, the URL to open, whatever the profile says
    * @param req attributes related to @p forcedURL
+   * @param resetWindow if the profile doesn't have attributes like size or toolbar
+   * settings, they will be reset to the defaults
    */
   void loadViewProfile( const QString & path, const QString & filename,
                         const KURL & forcedURL = KURL(),
-                        const KonqOpenURLRequest &req = KonqOpenURLRequest() );
-
+                        const KonqOpenURLRequest &req = KonqOpenURLRequest(),
+                        bool resetWindow = false );
   /**
    * Return the filename of the last profile that was loaded
    * by the view manager. For "save settings".

@@ -162,7 +162,17 @@ k_dcop:
    */
   ASYNC comboCleared( QCString );
 
+  /**
+   * Used by kfmclient when the 'minimize memory usage' setting is set
+   * to find out if this konqueror can be used.
+   */
+  bool processCanBeReused();
+
+  /**
+   * Called from konqy_preloader to terminate this Konqueror instance,
+   * if it's in the preloaded mode, and there are too many preloaded Konqy's
+   */
+  ASYNC terminatePreloaded();
 };
 
 #endif
-

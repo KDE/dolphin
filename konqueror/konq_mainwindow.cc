@@ -98,10 +98,14 @@ QPtrList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KConfig * KonqMainWindow::s_comboConfig = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
 QFile * KonqMainWindow::s_crashlog_file = 0;
+bool KonqMainWindow::s_preloaded = false;
+KonqMainWindow* KonqMainWindow::s_preloadedWindow = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
+  setPreloadedFlag( false );
+  
   if ( !s_lstViews )
     s_lstViews = new QPtrList<KonqMainWindow>;
 
@@ -263,6 +267,13 @@ KonqMainWindow::~KonqMainWindow()
   }
 
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
+}
+
+// used by preloading - this KonqMainWindow will be reused, reset everything
+// that won't be reset by loading a profile
+void KonqMainWindow::resetWindow()
+{
+    ignoreInitialGeometry();
 }
 
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
@@ -3956,7 +3967,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
 
       if ( !config->hasKey( "MultipleTabConfirm" ) )
       {
-        if ( KMessageBox::warningYesNo( 0L, i18n("You have multiple tabs open in this window, are you sure you wish to close it?"), i18n("Confirmation"),
+        if ( KMessageBox::warningYesNo( this, i18n("You have multiple tabs open in this window, are you sure you wish to close it?"), i18n("Confirmation"),
                                         KStdGuiItem::yes(), KStdGuiItem::no(), "MultipleTabConfirm" ) == KMessageBox::No )
         {
           e->ignore();
@@ -4308,6 +4319,72 @@ bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType, cons
 }
 
 // KonqFrameContainerBase implementation END
+
+void KonqMainWindow::setPreloadedFlag( bool preloaded )
+{
+    if( s_preloaded == preloaded )
+        return;
+    s_preloaded = preloaded;
+    if( s_preloaded )
+    {
+        kapp->disableSessionManagement(); // dont restore preloaded konqy's
+        return; // was registered before calling this
+    }
+    delete s_preloadedWindow; // preloaded state was abandoned without reusing the window
+    s_preloadedWindow = NULL;
+    kapp->enableSessionManagement(); // enable SM again
+    DCOPRef ref( "kded", "konqy_preloader" );
+    ref.send( "unregisterPreloadedKonqy", kapp->dcopClient()->appId());
+}
+
+void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
+{
+    s_preloadedWindow = window;
+    if( window == NULL )
+        return;
+    window->viewManager()->clear();
+}
+
+// since the preloading code tries to reuse KonqMainWindow,
+// the last window shouldn't be really deleted, but only hidden
+// deleting WDestructiveClose windows is done using deleteLater(),
+// so catch QEvent::DefferedDelete and check if this window should stay
+bool KonqMainWindow::event( QEvent* e )
+{
+    if( e->type() == QEvent::DeferredDelete )
+    {
+        if( stayPreloaded())
+        {
+            setWFlags(WDestructiveClose); // was reset before deleteLater()
+            return true; // no deleting
+        }
+    }
+    return KParts::MainWindow::event( e );
+}
+
+bool KonqMainWindow::stayPreloaded()
+{
+    if( mainWindowList()->count() > 1 )
+        return false;
+    // ok, last one
+    KConfigGroupSaver group( KGlobal::config(), "Reusing" );
+    if( KGlobal::config()->readNumEntry( "MaxPreloadCount", 0 ) == 0 )
+    {
+        kapp->deref(); // for the extra ref() done in main()
+        return false;
+    }
+    DCOPRef ref( "kded", "konqy_preloader" );
+    if( !ref.call( "registerPreloadedKonqy", kapp->dcopClient()->appId()))
+    {
+        kapp->deref();
+        return false;
+    }
+    KonqMainWindow::setPreloadedFlag( true );
+    kdDebug(1202) << "Konqy kept for preloading :" << kapp->dcopClient()->appId() << endl;
+    kapp->ref(); // closeEvent() did deref()
+    KonqMainWindow::setPreloadedWindow( this );
+    return true;
+}
 
 #include "konq_mainwindow.moc"
 

@@ -790,6 +790,7 @@ void KonqViewManager::viewCountChanged()
   }
 
 }
+
 void KonqViewManager::clear()
 {
   kdDebug(1202) << "KonqViewManager::clear" << endl;
@@ -981,16 +982,18 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
 }
 
 void KonqViewManager::loadViewProfile( const QString & path, const QString & filename,
-                                       const KURL & forcedURL, const KonqOpenURLRequest &req )
+                                       const KURL & forcedURL, const KonqOpenURLRequest &req,
+                                       bool resetWindow )
 {
   KConfig cfg( path, true );
   cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
-  loadViewProfile( cfg, filename, forcedURL, req );
+  loadViewProfile( cfg, filename, forcedURL, req, resetWindow );
 }
 
 void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
-                                       const KURL & forcedURL, const KonqOpenURLRequest &req )
+                                       const KURL & forcedURL, const KonqOpenURLRequest &req,
+                                       bool resetWindow )
 {
   m_currentProfile = filename;
   m_currentProfileText = cfg.readEntry("Name",filename);
@@ -1061,6 +1064,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
      QSize size = readConfigSize( cfg, m_pMainWindow );
      if ( size.isValid() )
          m_pMainWindow->resize( size );
+     else if( resetWindow )
+         m_pMainWindow->resize( 700, 480 ); // size from KonqMainWindow ctor
  }
 
   // Apply menu/toolbar settings saved in profile. Read from a separate group
@@ -1071,6 +1076,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     QString savedGroup = cfg.group();
     m_pMainWindow->applyMainWindowSettings( &cfg, "Main Window Settings" );
     cfg.setGroup( savedGroup );
+  } else if( resetWindow ) {
+    m_pMainWindow->applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
   }
 
 #ifndef NDEBUG

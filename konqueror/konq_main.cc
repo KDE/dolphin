@@ -21,6 +21,7 @@
 #include "konq_misc.h"
 #include "konq_factory.h"
 #include "konq_mainwindow.h"
+#include "konq_view.h"
 #include "KonquerorIface.h"
 
 #include <ktempfile.h>
@@ -37,6 +38,7 @@
 static KCmdLineOptions options[] =
 {
   { "silent", I18N_NOOP("Start without a default window."), 0 },
+  { "preload", I18N_NOOP("Preload for later use."), 0 },
   { "profile <profile>",   I18N_NOOP("Profile to open."), 0 },
   { "mimetype <mimetype>",   I18N_NOOP("Mimetype to use for this URL, (e.g. text/html or inode/directory)."), 0 },
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
@@ -95,7 +97,23 @@ int main( int argc, char **argv )
      {
          if (args->count() == 0)
          {
-             if (!args->isSet("silent"))
+             if (args->isSet("preload"))
+             {
+                 KConfigGroupSaver group( app.config(), "Reusing" );
+                 if( app.config()->readNumEntry( "MaxPreloadCount", 0 ) > 0 )
+                 {
+                     DCOPRef ref( "kded", "konqy_preloader" );
+                     if( !ref.call( "registerPreloadedKonqy", app.dcopClient()->appId()))
+                         return 0; // too many preloaded or failed
+                     KonqMainWindow::setPreloadedFlag( true );
+                     kdDebug(1202) << "Konqy preloaded :" << app.dcopClient()->appId() << endl;
+                 }
+                 else
+                 {
+                     return 0; // no preloading
+                 }
+             }
+             else if (!args->isSet("silent"))
              {
                  KonqMainWindow *mainWindow = new KonqMainWindow;
                  mainWindow->show();
@@ -127,20 +145,18 @@ int main( int argc, char **argv )
   }
   args->clear();
 
+  app.ref(); // for preloading
+  
   app.exec();
 
- //// Temporary code, waiting for Qt to do this properly
-
-  // Delete all toplevel widgets that have WDestructiveClose, so that we don't have
+  // Delete all KonqMainWindows, so that we don't have
   // any parts loaded when KLibLoader::cleanUp is called.
-  QWidgetList *list = QApplication::topLevelWidgets();
-  QWidgetListIt it(*list);
-  QWidget * w;
-  while( (w=it.current()) != 0 ) {
-     ++it;
-     if ( w->testWFlags( Qt::WDestructiveClose ) )
-          delete w;
-  }  
+  // Their deletion was postponed in their event()
+  // (and Qt doesn't delete WDestructiveClose widgets on exit anyway :(  )
+  while( KonqMainWindow::mainWindowList() != NULL )
+  { // the list will be deleted by last KonqMainWindow
+      delete KonqMainWindow::mainWindowList()->first();
+  }
 
   KonqMainWindow::s_crashlog_file->remove();
 

@@ -23,6 +23,7 @@
 #include "KonqMainWindowIface.h"
 #include "konq_mainwindow.h"
 #include "konq_viewmgr.h"
+#include "konq_view.h"
 #include <konq_settings.h>
 #include <kapplication.h>
 #include <dcopclient.h>
@@ -206,4 +207,68 @@ void KonquerorIface::comboCleared( QCString objId )
 {
     KonqMainWindow::comboAction( KonqMainWindow::ComboClear,
 				 QString::null, objId );
+}
+
+bool KonquerorIface::processCanBeReused()
+{
+    if( KonqMainWindow::isPreloaded())
+        return false; // will be handled by preloading related code instead
+    QPtrList<KonqMainWindow>* windows = KonqMainWindow::mainWindowList();
+    if( windows == NULL )
+        return true;
+    KConfig* cfg = kapp->config();
+    KConfigGroupSaver saver( cfg, "Reusing" );
+    QStringList allowed_parts;
+    allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
+                  << QString::fromLatin1( "konq_multicolumnview.desktop" )
+                  << QString::fromLatin1( "konq_sidebartng.desktop" )
+                  << QString::fromLatin1( "konq_infolistview.desktop" )
+                  << QString::fromLatin1( "konq_treeview.desktop" )
+                  << QString::fromLatin1( "konq_detailedlistview.desktop" );
+    bool all_parts_allowed = false;
+    if( cfg->hasKey( "SafeParts" ))
+        allowed_parts = cfg->readListEntry( "SafeParts" );
+    else
+    {   // backwards comp.
+        KConfig cfg( "kfmclientrc", true );
+        cfg.setGroup( "Settings" );
+        QString value = cfg.readEntry( "StartNewKonqueror", QString::fromLatin1( "Web Only " ));
+        if( value == QString::fromLatin1("Always") ||
+            value == QString::fromLatin1("true") ||
+            value == QString::fromLatin1("TRUE") ||
+            value == QString::fromLatin1("1") )
+            ; // no parts are allowed
+        else if( value == QString::fromLatin1( "Local Only" ))
+            allowed_parts << QString::fromLatin1( "KHTMLPart" );
+        else if( value == QString::fromLatin1( "Web only" ))
+            ; // use the defaults
+        else
+            all_parts_allowed = true;
+    }
+    if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
+        all_parts_allowed = true;
+    if( all_parts_allowed )
+        return true;
+    for( QPtrListIterator<KonqMainWindow> it1( *windows );
+         it1 != NULL;
+         ++it1 )
+    {
+        kdDebug(1202) << "processCanBeReused: count=" << (*it1)->viewCount() << endl;
+        const KonqMainWindow::MapViews& views = (*it1)->viewMap();
+        for( KonqMainWindow::MapViews::ConstIterator it2 = views.begin();
+             it2 != views.end();
+             ++it2 )
+        {
+            kdDebug(1202) << "processCanBeReused: part=" << (*it2)->service()->desktopEntryPath() << ", URL=" << (*it2)->url().prettyURL() << endl;
+            if( !allowed_parts.contains( (*it2)->service()->desktopEntryPath()))
+                return false;
+        }
+    }
+    return true;
+}
+
+void KonquerorIface::terminatePreloaded()
+{
+    if( KonqMainWindow::isPreloaded())
+        kapp->exit();
 }
