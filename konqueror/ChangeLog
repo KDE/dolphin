@@ -1,3 +1,16 @@
+2000-12-09  Simon Hausmann  <simon@kde.org>
+
+	* konq_actions.{cc,h}: Added KonqViewModeAction, a KRadioAction
+	with an additional delayed popupmenu
+
+	* konq_mainwindow.{cc,h}: Changed the toolbar viewmode buttons to
+	show the available viewmodes grouped. For directories they are
+	grouped by iconview and listview. This way one can quickly
+	switch between the favourite list and iconview while still having
+	the complete choice of viewmodes via delayed popupmenus
+	(idea by Torsten and David)
+	
+
 2000-12-08  David Faure  <faure@kde.org>
 
 	* konq_mainwindow.cc (openURL): Support for about:blank

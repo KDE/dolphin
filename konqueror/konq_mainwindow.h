@@ -55,6 +55,7 @@ class KonqFrameBase;
 class KonqFrameContainer;
 class KToolBarPopupAction;
 class KonqLogoAction;
+class KonqViewModeAction;
 class KonqPart;
 class KonqViewManager;
 class OpenWithGUIClient;
@@ -481,7 +482,12 @@ private:
 
   QList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
+  QList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
+                                           // iconview and one for listview
   QList<KAction> m_viewModeActions;
+  QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
+  // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
+  // iconview, multicolumnview, treeview, etc .)
 
   KonqMainWindowIface * m_dcopObject;
 

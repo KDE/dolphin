@@ -130,4 +130,26 @@ private:
   QLabel * m_label;
 };
 
+class KonqViewModeAction : public KRadioAction
+{
+    Q_OBJECT
+public:
+    KonqViewModeAction( const QString &text, const QString &icon,
+                        QObject *parent, const char *name );
+    virtual ~KonqViewModeAction();
+
+    virtual int plug( QWidget *widget, int index = -1 );
+
+    QPopupMenu *popupMenu() const { return m_menu; }
+
+private slots:
+    void slotPopupAboutToShow();
+    void slotPopupActivated();
+    void slotPopupAboutToHide();
+
+private:
+    bool m_popupActivated;
+    QPopupMenu *m_menu;
+};
+
 #endif

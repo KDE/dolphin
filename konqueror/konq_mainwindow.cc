@@ -144,6 +144,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_openWithActions.setAutoDelete( true );
   m_viewModeActions.setAutoDelete( true );
+  m_toolBarViewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
   m_paCopyFiles = 0L;
   m_paMoveFiles = 0L;
@@ -999,27 +1000,62 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 
   bool bQuickViewModeChange = false;
 
-  // check if we can do a quick property-based viewmode change
+  // iterate over all services, update the toolbar service map
+  // and check if we can do a quick property-based viewmode change
   KTrader::OfferList offers = m_currentView->partServiceOffers();
   KTrader::OfferList::ConstIterator oIt = offers.begin();
   KTrader::OfferList::ConstIterator oEnd = offers.end();
   for (; oIt != oEnd; ++oIt )
   {
       KService::Ptr service = *oIt;
-      if ( service->desktopEntryName() == modeName &&
-           service->library() == m_currentView->service()->library() )
+
+      if ( service->desktopEntryName() == modeName )
       {
-        QVariant modeProp = service->property( "X-KDE-BrowserView-ModeProperty" );
-        QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );
-        if ( !modeProp.isValid() || !modePropValue.isValid() )
-          break;
+          // we changed the viewmode of either iconview or listview
+          // -> update the service in the corresponding map, so that
+          // we can set the correct text, icon, etc. properties to the
+          // KonqViewModeAction when rebuilding the view-mode actions in
+          // updateViewModeActions
+          // (I'm saying iconview/listview here, but theoretically it could be
+          //  any view :)
+          m_viewModeToolBarServices[ service->library() ] = service;
 
-        m_currentView->part()->setProperty( modeProp.toString().latin1(), modePropValue );
+          if (  service->library() == m_currentView->service()->library() )
+          {
+              QVariant modeProp = service->property( "X-KDE-BrowserView-ModeProperty" );
+              QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );
+              if ( !modeProp.isValid() || !modePropValue.isValid() )
+                  break;
 
-        m_currentView->setService( service );
+              m_currentView->part()->setProperty( modeProp.toString().latin1(), modePropValue );
 
-        bQuickViewModeChange = true;
-        break;
+              KService::Ptr oldService = m_currentView->service();
+
+              // we aren't going to re-build the viewmode actions but instead of a
+              // quick viewmode change (iconview) -> find the iconview-konqviewmode
+              // action and set new text,icon,etc. properties, to show the new
+              // current viewmode
+              QListIterator<KAction> it( m_toolBarViewModeActions );
+              for (; it.current(); ++it )
+                  if ( QString::fromLatin1( it.current()->name() ) == oldService->desktopEntryName() )
+                  {
+                      assert( it.current()->inherits( "KonqViewModeAction" ) );
+
+                      KonqViewModeAction *action = static_cast<KonqViewModeAction *>( it.current() );
+
+                      action->setChecked( true );
+                      action->setText( service->name() );
+                      action->setIcon( service->icon() );
+                      action->setName( service->desktopEntryName().ascii() );
+
+                      break;
+                  }
+
+              m_currentView->setService( service );
+
+              bQuickViewModeChange = true;
+              break;
+          }
       }
   }
 
@@ -3071,47 +3107,115 @@ void KonqMainWindow::updateViewModeActions()
   {
     QListIterator<KAction> it( m_viewModeActions );
     for (; it.current(); ++it )
-      it.current()->unplug( m_viewModeMenu->popupMenu() );
+      it.current()->unplugAll();
     delete m_viewModeMenu;
   }
 
   m_viewModeMenu = 0;
+  m_toolBarViewModeActions.clear();
   m_viewModeActions.clear();
 
-  const KTrader::OfferList &services =  m_currentView->partServiceOffers();
+  // if we changed the viewmode to something new, then we have to
+  // make sure to also clear our [libiconview,liblistview]->service-for-viewmode
+  // map
+  if ( m_viewModeToolBarServices.count() > 0 &&
+       !m_viewModeToolBarServices.begin().data()->serviceTypes().contains( m_currentView->serviceType() ) )
+      m_viewModeToolBarServices.clear();
+
+  KTrader::OfferList services =  m_currentView->partServiceOffers();
 
   if ( services.count() <= 1 )
     return;
 
   m_viewModeMenu = new KActionMenu( i18n( "View Mode" ), this );
 
+  // a temporary map, just like the m_viewModeToolBarServices map, but
+  // mapping to a KonqViewModeAction object. It's just temporary as we
+  // of use it to group the viewmode actions (iconview,multicolumnview,
+  // treeview, etc.) into to two groups -> icon/list
+  // Although I wrote this now only of icon/listview it has to work for
+  // any view, that's why it's so general :)
+  QMap<QString,KonqViewModeAction*> groupedServiceMap;
+
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
       QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
-      if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
+      if ( prop.isValid() && prop.toBool() ) // No toggable views in view mode
+          continue;
+
+      KRadioAction *action;
+
+      QString icon = (*it)->icon();
+      if ( icon != QString::fromLatin1( "unknown" ) )
+          // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
+          action = new KRadioAction( (*it)->name(), icon, 0, this, (*it)->desktopEntryName().ascii() );
+      else
+          action = new KRadioAction( (*it)->name(), 0, this, (*it)->desktopEntryName().ascii() );
+
+      action->setExclusiveGroup( "KonqMainWindow_ViewModes" );
+
+      connect( action, SIGNAL( toggled( bool ) ),
+               this, SLOT( slotViewModeToggle( bool ) ) );
+
+      m_viewModeActions.append( action );
+      action->plug( m_viewModeMenu->popupMenu() );
+
+      // look if we already have a KonqViewModeAction (in the toolbar)
+      // for this component
+      QMap<QString,KonqViewModeAction*>::Iterator mapIt = groupedServiceMap.find( (*it)->library() );
+
+      // if we don't have -> create one
+      if ( mapIt == groupedServiceMap.end() )
       {
-          KRadioAction *action;
-
+          // default
+          QString text = (*it)->name();
           QString icon = (*it)->icon();
-          if ( icon != QString::fromLatin1( "unknown" ) )
-            // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-            action = new KRadioAction( (*it)->name(), icon, 0, this, (*it)->desktopEntryName().ascii() );
-          else
-            action = new KRadioAction( (*it)->name(), 0, this, (*it)->desktopEntryName().ascii() );
+          QCString name = (*it)->desktopEntryName().ascii();
 
-          if ( (*it)->desktopEntryName() == m_currentView->service()->desktopEntryName() )
-              action->setChecked( true );
+          // if we previously changed the viewmode (see slotViewModeToggle!)
+          // then we will want to use the previously used settings (previous as
+          // in before the actions got deleted)
+          QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.find( (*it)->library() );
+          if ( serviceIt != m_viewModeToolBarServices.end() )
+          {
+              text = (*serviceIt)->name();
+              icon = (*serviceIt)->icon();
+              name = (*serviceIt)->desktopEntryName().ascii();
+          }
 
-          action->setExclusiveGroup( "KonqMainWindow_ViewModes" );
+          KonqViewModeAction *tbAction = new KonqViewModeAction( text,
+                                                                 icon,
+                                                                 this,
+                                                                 name );
 
-          connect( action, SIGNAL( toggled( bool ) ),
+          tbAction->setExclusiveGroup( "KonqMainWindow_ToolBarViewModes" );
+
+          tbAction->setChecked( action->isChecked() );
+
+          connect( tbAction, SIGNAL( toggled( bool ) ),
                    this, SLOT( slotViewModeToggle( bool ) ) );
 
-          m_viewModeActions.append( action );
-          action->plug( m_viewModeMenu->popupMenu() );
+          m_toolBarViewModeActions.append( tbAction );
+
+          mapIt = groupedServiceMap.insert( (*it)->library(), tbAction );
       }
+
+      // make sure to check the appropriate viewmode action of the currently
+      // displayed viewmode and do likewise for the toolbar button (action)
+      if ( (*it)->desktopEntryName() == m_currentView->service()->desktopEntryName() )
+      {
+          action->setChecked( true );
+
+          (*mapIt)->setChecked( true );
+          (*mapIt)->setText( (*it)->name() );
+          (*mapIt)->setIcon( (*it)->icon() );
+          (*mapIt)->setName( (*it)->desktopEntryName().ascii() ); // tricky...
+      }
+
+      // plug action also into the delayed popupmenu of appropriate toolbar action
+      action->plug( (*mapIt)->popupMenu() );
   }
 
   if ( !m_currentView->isToggleView() ) // No view mode for toggable views
@@ -3127,7 +3231,7 @@ void KonqMainWindow::plugViewModeActions()
   plugActionList( "viewmode", lst );
   // display the toolbar viewmode icons only for inode/directory, as here we have dedicated icons
   if ( m_currentView->serviceType() == "inode/directory" )
-    plugActionList( "viewmode_toolbar", m_viewModeActions );
+    plugActionList( "viewmode_toolbar", m_toolBarViewModeActions );
 }
 
 void KonqMainWindow::unplugViewModeActions()

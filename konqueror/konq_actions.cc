@@ -29,6 +29,7 @@
 
 #include <kurldrag.h>
 #include <ktoolbar.h>
+#include <ktoolbarbutton.h>
 #include <kcombobox.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
@@ -391,6 +392,71 @@ void KonqLabelAction::unplug( QWidget *widget )
 
     return;
   }
+}
+
+KonqViewModeAction::KonqViewModeAction( const QString &text, const QString &icon,
+                                        QObject *parent, const char *name )
+    : KRadioAction( text, icon, 0, parent, name )
+{
+    m_menu = new QPopupMenu;
+
+    connect( m_menu, SIGNAL( aboutToShow() ),
+             this, SLOT( slotPopupAboutToShow() ) );
+    connect( m_menu, SIGNAL( activated( int ) ),
+             this, SLOT( slotPopupActivated() ) );
+    connect( m_menu, SIGNAL( aboutToHide() ),
+             this, SLOT( slotPopupAboutToHide() ) );
+}
+
+KonqViewModeAction::~KonqViewModeAction()
+{
+    delete m_menu;
+}
+
+int KonqViewModeAction::plug( QWidget *widget, int index )
+{
+    int res = KRadioAction::plug( widget, index );
+
+    if ( widget->inherits( "KToolBar" ) )
+    {
+        KToolBar *toolBar = static_cast<KToolBar *>( widget );
+
+        KToolBarButton *button = toolBar->getButton( itemId( res ) );
+
+        button->setDelayedPopup( m_menu, false );
+    }
+
+    return res;
+}
+
+void KonqViewModeAction::slotPopupAboutToShow()
+{
+    m_popupActivated = false;
+}
+
+void KonqViewModeAction::slotPopupActivated()
+{
+    m_popupActivated = true;
+}
+
+void KonqViewModeAction::slotPopupAboutToHide()
+{
+    if ( !m_popupActivated )
+    {
+        int i = 0;
+        for (; i < containerCount(); ++i )
+        {
+            QWidget *widget = container( i );
+            if ( !widget->inherits( "KToolBar" ) )
+                continue;
+
+            KToolBar *tb = static_cast<KToolBar *>( widget );
+
+            KToolBarButton *button = tb->getButton( itemId( i ) );
+
+            button->setDown( false );
+        }
+    }
 }
 
 #include "konq_actions.moc"
