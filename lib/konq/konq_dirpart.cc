@@ -135,8 +135,8 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 
     actionCollection()->setHighlightingEnabled( true );
 
-    m_paIncIconSize = new KAction( i18n( "Increase Icon Size" ), "viewmag+", 0, this, SLOT( slotIncIconSize() ), actionCollection(), "incIconSize" );
-    m_paDecIconSize = new KAction( i18n( "Decrease Icon Size" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
+    m_paIncIconSize = new KAction( i18n( "Enlarge Icons" ), "viewmag+", 0, this, SLOT( slotIncIconSize() ), actionCollection(), "incIconSize" );
+    m_paDecIconSize = new KAction( i18n( "Shrink Icons" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
 
     m_paDefaultIcons = new KRadioAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
     d->aEnormousIcons = new KRadioAction( i18n( "&Huge" ), 0,
