@@ -31,8 +31,10 @@
 #include <kdebug.h>
 #include <kdialog.h>
 #include <klocale.h>
-#include <dcopclient.h>
+#include <kprocess.h>
 #include <ksaveioconfig.h>
+
+#include <dcopclient.h>
 #include <kio/http_slave_defaults.h>
 
 #include "cache.h"
@@ -186,6 +188,10 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
              SLOT(configChanged()));
     connect( sb_max_cache_size, SIGNAL(valueChanged ( int )),this,
              SLOT(configChanged()));
+
+    connect( pb_clearCache, SIGNAL( clicked() ), this,
+             SLOT( slotClearCache() ) );
+
     // buddies
     lb_max_cache_size->setBuddy( sb_max_cache_size );
     load();
@@ -260,6 +266,15 @@ QString KCacheConfigDialog::quickHelp() const
                  "page again that you have recently read, it will not be "
                  "downloaded from the Internet, but rather retrieved from the "
                  "cache, which is a lot faster.</p>" );
+}
+
+void KCacheConfigDialog::slotClearCache()
+{
+    KProcess process;
+	process << "kio_http_cache_cleaner" << "--clear-all";
+	process.start(KProcess::DontCare);
+	// Cleaning up might take a while. Better detach.
+	process.detach();
 }
 
 #include "cache.moc"

@@ -47,6 +47,7 @@ public:
 
 protected slots:
   void configChanged() { emit changed( true ); };
+  void slotClearCache();
 
 private:
     QCheckBox* cb_useCache;
