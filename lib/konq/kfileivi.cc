@@ -22,22 +22,21 @@
 
 KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed )
   : QIconViewItem( iconview, fileitem->text(),
-                   // We can't use the two QIconSet sizes here ... because we have three :)
-                   QIconSet( fileitem->pixmap( size, bImagePreviewAllowed ), QIconSet::Automatic ) ),
+                   fileitem->pixmap( size, bImagePreviewAllowed ) ),
     m_fileitem( fileitem )
 {
   setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
   if ( m_fileitem->isLink() )
   {
     QFont newFont = font();
-    newFont.setItalic( true ); // FIXME
+    newFont.setItalic( true );
     setFont( newFont );
   }
 }
 
 void KFileIVI::setIcon( KIconLoader::Size size, bool bImagePreviewAllowed )
 {
-  QIconViewItem::setIcon( QIconSet( m_fileitem->pixmap( size, bImagePreviewAllowed ) ) );
+  QIconViewItem::setIcon( m_fileitem->pixmap( size, bImagePreviewAllowed ) );
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const

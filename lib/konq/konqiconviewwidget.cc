@@ -96,7 +96,6 @@ void KonqIconViewWidget::setIcons( KIconLoader::Size size )
   for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
     ((KFileIVI*)it)->setIcon( size, m_bImagePreviewAllowed );
   }
-  setViewMode( (size == KIconLoader::Small) ? QIconSet::Small : QIconSet::Large );
 }
 
 void KonqIconViewWidget::refreshMimeTypes()
@@ -335,7 +334,7 @@ QDragObject * KonqIconViewWidget::dragObject()
 
     QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
     KonqDrag *drag = new KonqDrag( viewport() );
-    drag->setPixmap( QPixmap( currentItem()->icon().pixmap( QIconView::viewMode(), QIconSet::Normal ) ),
+    drag->setPixmap( currentItem()->icon(),
 		     QPoint( currentItem()->iconRect().width() / 2,
 			     currentItem()->iconRect().height() / 2 ) );
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
