@@ -508,9 +508,9 @@ void KonqBaseListViewWidget::initConfig()
    m_bgPixmap         = m_pProps->bgPixmap();
    if ( m_bgPixmap.isNull() )
    {
-     a.setColor( QColorGroup::Base, m_pSettings->bgColor() );
-     d.setColor( QColorGroup::Base, m_pSettings->bgColor() );
-     i.setColor( QColorGroup::Base, m_pSettings->bgColor() );
+     a.setColor( QColorGroup::Base, m_pProps->bgColor() );
+     d.setColor( QColorGroup::Base, m_pProps->bgColor() );
+     i.setColor( QColorGroup::Base, m_pProps->bgColor() );
    }
    else
       viewport()->setBackgroundPixmap( m_bgPixmap );

@@ -623,7 +623,7 @@ void KonqKfmIconView::slotBackgroundColor()
 
 void KonqKfmIconView::slotBackgroundImage()
 {
-    KonqBgndDialog dlg( url(), KonqIconViewFactory::instance() );
+    KonqBgndDialog dlg( m_pProps->bgPixmapFile(), KonqIconViewFactory::instance() );
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
 	m_pProps->setBgPixmapFile( dlg.pixmapFile() );
