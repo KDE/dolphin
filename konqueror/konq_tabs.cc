@@ -186,9 +186,7 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
         newTitle = konqview->frame()->title();
     }
 
-    if ( maxLength == 3)
-      newTitle = "";
-    else if ( newTitle.length() > maxLength )
+    if ( newTitle.length() > maxLength )
       newTitle = newTitle.left( maxLength-3 ) + "...";
     newTitle.replace( '&' , "&&" );
 
@@ -233,12 +231,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 
   QString newTitle = title;
   newTitle.replace( '&', "&&" );
-  if ( newMaxLength == 3)
-    {
-      setTabToolTip( sender, newTitle );
-      newTitle = "";
-    }
-  else if ( newTitle.length() > newMaxLength )
+  if ( newTitle.length() > newMaxLength )
     {
       setTabToolTip( sender, newTitle );
       newTitle = newTitle.left( newMaxLength-3 ) + "...";
@@ -260,9 +253,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
           }
 
 	  newTitle.replace( '&', "&&" );
-          if ( newMaxLength == 3)
-            newTitle = "";
-          else if ( newTitle.length() > newMaxLength )
+          if ( newTitle.length() > newMaxLength )
             newTitle = newTitle.left( newMaxLength-3 ) + "...";
           if ( newTitle != tabLabel( page( i ) ) )
             changeTab( page( i ), newTitle );
