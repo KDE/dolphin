@@ -209,12 +209,12 @@ void NSPluginConfig::changeDirs()
 void NSPluginConfig::scan()
 {
       QProgressDialog progress( i18n("Scanning for plugins"), i18n("Cancel"), 4, this );
-      m_nspluginscan = new KProcess;
+      nspluginscan = new KProcess;
       QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
       if (!scanExe)
       {
 	 kdDebug() << "can't find nspluginviewer" << endl;
-	 delete m_nspluginscan;
+	 delete nspluginscan;
 
 	 KMessageBox::sorry ( this,  
 			      i18n("The nspluginscan executable can't be found."
@@ -224,19 +224,19 @@ void NSPluginConfig::scan()
       progress.setProgress( 1 );
 
       
-      *m_nspluginscan << scanExe;
+      *nspluginscan << scanExe;
       kdDebug() << "Running nspluginscan" << endl;
-      m_nspluginscan->start();
+      nspluginscan->start();
       progress.setProgress( 2 );
       
-      while ( m_nspluginscan->isRunning() )
+      while ( nspluginscan->isRunning() )
       {          	 
 	 if ( progress.wasCancelled() ) break;	 
 	 kapp->processEvents();
       }
       progress.setProgress( 2 );
       
-      delete m_nspluginscan;
+      delete nspluginscan;
 
       fillPluginList();
       progress.setProgress( 4 );

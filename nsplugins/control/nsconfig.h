@@ -51,7 +51,6 @@ protected slots:
 private:
   QCheckBox *m_startkdeScan;
   QListView *m_pluginList;
-  KProcess *m_nspluginscan;
 };
 
 #endif

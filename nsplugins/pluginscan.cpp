@@ -23,12 +23,10 @@
  
 */                                                                            
 
-
 #include <qdir.h>
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qregexp.h>
-
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -75,8 +73,8 @@ void generateMimeType(QString mime, QString extensions, QString description)
 	  for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
 	  {
 	     // filter dangerous extension
-	     if ( *it!="rpm" ) // ### FIXME
-	        ts << "*." << *it << ";";
+	     if ( *id!="rpm" )
+		ts << "*." << *it << ";";
 	  }
 	  ts << endl;
 	}
@@ -153,8 +151,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       QStringList entries = QStringList::split(';', mimeInfo);
       QStringList::Iterator entry;
       for (entry = entries.begin(); entry!=entries.end(); ++entry)
-      {
-	 kdDebug() << "***********" << *entry << endl;
+      {	 
 	 QStringList tokens = QStringList::split(':', *entry, TRUE);
 	 QStringList::Iterator token;
 	 token = tokens.begin();
@@ -234,10 +231,10 @@ int main(int argc, char *argv[])
       if (info.count() == 3)
 	{
 	  if (!mimeTypes.contains(info[0]))
-	    mimeTypes.append(info[0]);
+	    mimeTypes.append(info[0].lower());
 
 	  if (!mimeExists(info[0]))
-	    generateMimeType(info[0],info[1],info[2]);
+	    generateMimeType(info[0].lower(),info[1],info[2]);
 	}
     }
   
