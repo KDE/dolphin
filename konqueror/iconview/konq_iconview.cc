@@ -255,8 +255,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_paSmallIcons->setExclusiveGroup( "ViewMode" );
   m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
-  m_paLargeIcons->setChecked( true );
-  m_paNormalIcons->setChecked( false );
+  m_paLargeIcons->setChecked( false );
+  m_paNormalIcons->setChecked( true );
   m_paSmallIcons->setChecked( false );
   m_paKOfficeMode->setChecked( false );
   m_paKOfficeMode->setEnabled( false );
@@ -351,6 +351,9 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setWordWrapIconText( true );
   m_pIconView->setAligning( true );
   m_pIconView->setSorting( true, m_pIconView->sortDirection() );
+  // KDE extension : KIconLoader size
+  m_pIconView->setSize( KIconLoader::Medium ); // TODO : part of KonqPropsView
+  m_size = KIconLoader::Medium;
 
   m_eSortCriterion = NameCaseInsensitive;
 }
@@ -503,20 +506,26 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b ) {
-	m_pIconView->setViewMode( QIconSet::Large );
+        m_size = KIconLoader::Large;
+        m_pIconView->setSize( m_size );
+        m_pIconView->setViewMode( QIconSet::Large );
     }
 }
 
 void KonqKfmIconView::slotViewNormal( bool b )
 {
     if ( b ) {
-	m_pIconView->setViewMode( QIconSet::Automatic );
+        m_size = KIconLoader::Medium;
+        m_pIconView->setSize( m_size );
+	m_pIconView->setViewMode( QIconSet::Large );
     }
 }
 
 void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b ) {
+        m_size = KIconLoader::Small;
+        m_pIconView->setSize( m_size );
 	m_pIconView->setViewMode( QIconSet::Small );
     }
 }
@@ -570,7 +579,7 @@ void KonqKfmIconView::saveState( QDataStream &stream )
 {
   BrowserView::saveState( stream );
 
-  stream << (Q_INT32)m_pIconView->viewMode() << (Q_INT32)m_pIconView->itemTextPos();
+  stream << (Q_INT32)m_size << (Q_INT32)m_pIconView->itemTextPos();
 }
 
 void KonqKfmIconView::restoreState( QDataStream &stream )
@@ -581,14 +590,14 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
 
   stream >> iIconSize >> iTextPos;
 
-  QIconSet::Size iconSize = (QIconSet::Size)iIconSize;
+  KIconLoader::Size iconSize = (KIconLoader::Size)iIconSize;
   QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
 
   switch ( iconSize )
   {
-    case QIconSet::Large: m_paLargeIcons->setChecked( true ); break;
-    case QIconSet::Automatic: m_paNormalIcons->setChecked( true ); break;
-    case QIconSet::Small: m_paSmallIcons->setChecked( true ); break;
+    case KIconLoader::Large: m_paLargeIcons->setChecked( true ); break;
+    case KIconLoader::Medium: m_paNormalIcons->setChecked( true ); break;
+    case KIconLoader::Small: m_paSmallIcons->setChecked( true ); break;
   }
 
   if ( textPos == QIconView::Bottom )
@@ -725,7 +734,7 @@ void KonqKfmIconView::slotCompleted()
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 {
 //  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
-  KFileIVI* item = new KFileIVI( m_pIconView, _fileitem );
+  KFileIVI* item = new KFileIVI( m_pIconView, _fileitem, m_size );
   item->setRenameEnabled( false );
 
   QObject::connect( item, SIGNAL( dropMe( KFileIVI *, QDropEvent * ) ),
@@ -888,6 +897,15 @@ void KonqIconViewWidget::initConfig()
                     m_pSettings->autoSelect() );
   setUseSingleClickMode( m_pSettings->singleClick() );
 }
+
+void KonqIconViewWidget::setSize( KIconLoader::Size size )
+{
+    for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
+      ((KFileIVI*)it)->setSize( size );
+    }
+    //updateContents();
+}
+
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
   if ( m_pProps->bgPixmap().isNull() )

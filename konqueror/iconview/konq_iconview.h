@@ -20,6 +20,7 @@
 #define __konq_iconview_h__
 
 #include <kbrowser.h>
+#include <kiconloader.h>
 
 #include <qiconview.h>
 #include <qtimer.h>
@@ -175,6 +176,8 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
 
+  KIconLoader::Size m_size;
+
   unsigned long m_ulTotalFiles;
 
   long int m_idShowDotFiles;
@@ -216,6 +219,8 @@ public:
   virtual QDragObject *dragObject();
 
   void initConfig();
+
+  void setSize( KIconLoader::Size size );
 
 protected:
   virtual void drawBackground( QPainter *p, const QRect &r );
