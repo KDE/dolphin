@@ -96,7 +96,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
 	   SLOT(slotChanged() ) );
   connect( m_pFonts[1]->lineEdit(), SIGNAL( textChanged(const QString&) ),
-	   SLOT( slotStandardFont(const QString&) ) );
+	   SLOT( slotFixedFont(const QString&) ) );
   connect( m_pFonts[1], SIGNAL( textChanged(const QString&) ),
 	   SLOT(slotChanged() ) );
 
@@ -117,7 +117,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
   connect( m_pFonts[2]->lineEdit(), SIGNAL( textChanged(const QString&) ),
-	   SLOT( slotStandardFont(const QString&) ) );
+	   SLOT( slotSerifFont(const QString&) ) );
   connect( m_pFonts[2], SIGNAL( textChanged(const QString&) ),
 	   SLOT(slotChanged() ) );
 
@@ -138,7 +138,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
   connect( m_pFonts[3]->lineEdit(), SIGNAL( textChanged(const QString&) ),
-	   SLOT( slotStandardFont(const QString&) ) );
+	   SLOT( slotSansSerifFont(const QString&) ) );
   connect( m_pFonts[3], SIGNAL( textChanged(const QString&) ),
 	   SLOT(slotChanged() ) );
 
@@ -160,7 +160,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
   connect( m_pFonts[4]->lineEdit(), SIGNAL( textChanged(const QString&) ),
-	   SLOT( slotStandardFont(const QString&) ) );
+	   SLOT( slotCursiveFont(const QString&) ) );
   connect( m_pFonts[4], SIGNAL( textChanged(const QString&) ),
 	   SLOT(slotChanged() ) );
 
@@ -182,7 +182,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
   connect( m_pFonts[5]->lineEdit(), SIGNAL( textChanged(const QString&) ),
-	   SLOT( slotStandardFont(const QString&) ) );
+	   SLOT( slotFantasyFont(const QString&) ) );
   connect( m_pFonts[5], SIGNAL( textChanged(const QString&) ),
 	   SLOT(slotChanged() ) );
 
