@@ -38,8 +38,15 @@ class KHTMLSideBar : public KHTMLPart
 			setJavaEnabled(false);
 			setPluginsEnabled(false);
 
+			setFormNotification(KHTMLPart::Only);
+			connect(this,
+				SIGNAL(formSubmitNotification(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)),
+				this,
+				SLOT(formProxy(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&))
+				);
+
 			_linkMenu = new KPopupMenu(widget(),
-						"link context menu");
+					"link context menu");
 			_linkMenu->insertItem(i18n("&Open Link"),
 					this, SLOT(loadPage()));
 			_linkMenu->insertItem(i18n("Open in New &Window"),
@@ -58,6 +65,7 @@ class KHTMLSideBar : public KHTMLPart
 		virtual ~KHTMLSideBar() {}
 
 	signals:
+		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
 		void openURLRequest(const QString& url, KParts::URLArgs args);
 		void openURLNewWindow(const QString& url, KParts::URLArgs args);
 		void reload();
@@ -105,6 +113,28 @@ class KHTMLSideBar : public KHTMLPart
 			}
 		}
 
+		void formProxy(const char *action,
+				const QString& url,
+				const QByteArray& formData,
+				const QString& target,
+				const QString& contentType,
+				const QString& boundary) {
+			QString t = target.lower();
+			QString u = completeURL(url).url();
+
+			// Some sites seem to use empty targets to send to the
+			// main frame.
+			if (t.isEmpty() || t == "_content") {
+				kdDebug() << "submitting form to the main page" << endl;
+				emit submitFormRequest(action, u, formData,
+						target, contentType, boundary);
+			} else if (t == "_self") {
+				setFormNotification(KHTMLPart::NoNotification);
+				submitFormProxy(action, u, formData, target,
+						contentType, boundary);
+				setFormNotification(KHTMLPart::Only);
+			}
+		}
 	private:
 		KPopupMenu *_menu, *_linkMenu;
 		QString _lastUrl;
@@ -125,6 +155,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 		virtual void *provides(const QString &);
 
 	signals:
+		void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
 		void openURLRequest(const KURL &url, const KParts::URLArgs &args);
 		void createNewWindow(const KURL &url, const KParts::URLArgs &args);
 	protected:

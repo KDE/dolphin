@@ -1004,6 +1004,22 @@ KInstance  *Sidebar_Widget::getInstance()
 	return ((KonqSidebar*)m_partParent)->getInstance();
 }
 
+void Sidebar_Widget::submitFormRequest(const char *action,
+					const QString& url,
+					const QByteArray& formData,
+					const QString& target,
+					const QString& contentType,
+					const QString& boundary )
+{
+KParts::URLArgs args;
+
+	args.setContentType("Content-Type: " + contentType);
+	args.postData = formData;
+	args.setDoPost(QCString(action).lower() == "post");
+	// FIXME: boundary?
+	emit getExtension()->openURLRequest(url, args);
+}
+
 void Sidebar_Widget::openURLRequest( const KURL &url, const KParts::URLArgs &args)
 {
 	getExtension()->openURLRequest(url,args);
@@ -1126,6 +1142,13 @@ void Sidebar_Widget::connectModule(QObject *mod)
 	if (mod->metaObject()->findSignal("openURLRequest(const KURL&,const KParts::URLArgs&)") != -1) {
 		connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
 			this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
+	}
+
+	if (mod->metaObject()->findSignal("submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)") != -1) {
+		connect(mod,
+			SIGNAL(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)),
+			this,
+			SLOT(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)));
 	}
 
 	if (mod->metaObject()->findSignal("enableAction(const char*,bool)") != -1) {

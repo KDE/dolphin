@@ -45,6 +45,10 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 		SIGNAL(openURLNewWindow(const QString&, KParts::URLArgs)),
 		this,
 		SLOT(urlNewWindow(const QString&, KParts::URLArgs)));
+	connect(_htmlPart,
+		SIGNAL(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)),
+		this,
+		SIGNAL(submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&)));
 
 	_desktopName = desktopName;
 

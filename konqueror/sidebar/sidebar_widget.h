@@ -141,6 +141,11 @@ public:
  /* The following public slots are wrappers for browserextension fields */
 public slots:
 	void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+	/* @internal
+	 * @since 3.2
+	 * ### KDE4 remove me
+	 */
+	void submitFormRequest(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&);
   	void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 	void createNewWindow( const KURL &url, const KParts::URLArgs &args,
              const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part );
