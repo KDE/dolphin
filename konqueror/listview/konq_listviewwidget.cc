@@ -481,7 +481,10 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
          // Multiple URLs ?
          QPixmap pixmap2;
-         if (( urls.count() > 1 ) || (m_pressedItem->pixmap(0)->isNull()))
+         bool pixmap0Invalid(m_pressedItem->pixmap(0)==0);
+         if (!pixmap0Invalid) if (m_pressedItem->pixmap(0)->isNull()) pixmap0Invalid=TRUE;
+
+         if (( urls.count() > 1 ) || (pixmap0Invalid))
          {
             pixmap2 = DesktopIcon( "kmultiple", KIcon::SizeMedium );
             if ( pixmap2.isNull() )
@@ -501,7 +504,7 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
             hotspot.setY( pixmap2.height() / 2 );
             d->setPixmap( pixmap2, hotspot );
          }
-         else if (!m_pressedItem->pixmap(0)->isNull())
+         else if (!pixmap0Invalid)
          {
             hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
             hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
