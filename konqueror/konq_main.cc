@@ -155,7 +155,7 @@ int main( int argc, char **argv )
      for ( int i = 0; i < args->count(); i++ )
         fm.openFileManagerWindow( args->arg(i) );
   }
-  delete args;
+  args->clear();
 
   QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 
