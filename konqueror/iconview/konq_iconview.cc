@@ -613,11 +613,10 @@ void KonqKfmIconView::slotBackgroundColor()
     QColor bgndColor;
     if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
     {
-	m_pProps->m_bgColor = bgndColor;
-	m_pProps->m_bgPixmap = QPixmap();
-	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
-	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
-	//m_pProps->saveLocal( url() );
+	m_pProps->setBgColor( bgndColor );
+	m_pProps->setBgPixmapFile( "" );
+	m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor() );
+	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
 	m_pIconView->updateContents();
     }
 }
@@ -627,10 +626,9 @@ void KonqKfmIconView::slotBackgroundImage()
     KonqBgndDialog dlg( url(), KonqIconViewFactory::instance() );
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
-	m_pProps->m_bgPixmap = dlg.pixmap();
-	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
-	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
-	// no need to savelocal, the dialog does it
+	m_pProps->setBgPixmapFile( dlg.pixmapFile() );
+	m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor() );
+	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
 	m_pIconView->updateContents();
     }
 }
@@ -1048,8 +1046,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
     m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
 
-    m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
-    m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
+    m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor() );
+    m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
 
     emit setWindowCaption( _url.decodedURL() );
 
