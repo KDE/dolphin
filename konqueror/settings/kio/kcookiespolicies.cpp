@@ -68,8 +68,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( m_cbRejectCrossDomainCookies, 
                      i18n("Check this option to reject all cookies that "
                           "originate from a site other than the one you "
-                          "requested. If you for example visit www.foobar.com "
-                          "while this option is checked only cookies that come "
+                          "requested. If you, for example, visit www.foobar.com "
+                          "while this option is checked, only cookies that come "
                           "from www.foobar.com will be processed per your "
                           "default or site specific policy. All other cookies "
                           "will be automatically rejected. This reduces the "
@@ -84,7 +84,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                      i18n("Check this option to automatically accept "
                           "cookies that are only stored in memory "
                           "temporarily. Such cookies are not saved "
-                          "to your local storage device or hard drive."
+                          "to your local storage device or hard drive. "
                           "Instead, they are deleted when you close all "
                           "applications (mostly your browser) that use them."));                          
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
@@ -96,7 +96,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( m_cbIgnoreCookieExpirationDate, 
                      i18n("Check this option to automatically accept all "
                           "cookies as session based. All cookies will then "
-                          "be automatically deleted when you exit all the "
+                          "be automatically deleted when you exit all of "
                           "the applications that use them.  Note that this "
                           "option causes the cookiejar to ignore the expiration "
                           "date of a cookie set by the site operator that "
