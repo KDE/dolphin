@@ -24,6 +24,8 @@
 #include <kdesktopfile.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
+#include <kdirlister.h>
+
 
 KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree )
     : KonqSidebarTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)
@@ -138,7 +140,7 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
 
     if ( !m_dirLister ) // created on demand
     {
-        m_dirLister = new KonqDirLister( true );
+        m_dirLister = new KDirLister( true );
         m_dirLister->setDirOnlyMode( true );
 
         connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
@@ -223,7 +225,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     QPtrListIterator<KFileItem> kit ( entries );
     for( ; kit.current(); ++kit )
     {
-        KonqFileItem * fileItem = static_cast<KonqFileItem *>(*kit);
+        KFileItem * fileItem = *kit;
         if (! fileItem->isDir() )
         {
             kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;

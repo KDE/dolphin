@@ -22,6 +22,7 @@
 #include <konq_operations.h>
 #include <konq_drag.h>
 #include <kdebug.h>
+#include <kfileitem.h>
 #include <kglobalsettings.h>
 #include <kuserprofile.h>
 #include <qapplication.h>
@@ -34,7 +35,7 @@
 
 #define MYMODULE static_cast<KonqSidebarDirTreeModule*>(module())
 
-KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTreeItem *parentItem, KonqSidebarTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
+KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTreeItem *parentItem, KonqSidebarTreeTopLevelItem *topLevelItem, KFileItem *fileItem )
     : KonqSidebarTreeItem( parentItem, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
@@ -42,7 +43,7 @@ KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTreeItem *parentItem,
     init();
 }
 
-KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTree *parent, KonqSidebarTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
+KonqSidebarDirTreeItem::KonqSidebarDirTreeItem( KonqSidebarTree *parent, KonqSidebarTreeTopLevelItem *topLevelItem, KFileItem *fileItem )
     : KonqSidebarTreeItem( parent, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
