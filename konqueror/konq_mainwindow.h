@@ -297,6 +297,8 @@ public:
 
   QString currentTitle() const;
   QString currentURL() const;
+  
+  QStringList configModules() const;
 
 signals:
   void viewAdded( KonqView *view );

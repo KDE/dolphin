@@ -1736,6 +1736,21 @@ void KonqMainWindow::slotGoAutostart()
   openURL( 0L, u );
 }
 
+QStringList KonqMainWindow::configModules() const
+{
+  QStringList args;
+  args << "kde-filebehavior.desktop" << "kde-fileappearance.desktop" <<
+          "kde-filepreviews.desktop" << "kde-filetypes.desktop" <<
+          "kde-khtml_behavior.desktop" << "kde-khtml_java_js.desktop" <<
+          "kde-khtml_fonts.desktop" << "kde-ebrowsing.desktop" <<
+          "kde-kcmhistory.desktop" << "kde-cookies.desktop" <<
+          "kde-cache.desktop" << "kde-proxy.desktop" << "kde-kcmcss.desktop" <<
+          "kde-crypto.desktop" << "kde-useragent.desktop" << 
+          "kde-khtml_plugins.desktop" << "kde-kcmkonqyperformance.desktop";
+          
+  return args;
+}
+
 void KonqMainWindow::slotConfigure()
 {
   KApplication::startServiceByDesktopName("konqueror_config");
@@ -3315,7 +3330,8 @@ void KonqMainWindow::initActions()
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Folder Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
-  KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
+  if (!kapp->authorizeControlModules(configModules()).isEmpty())
+     KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection() );
 
   KStdAction::keyBindings( guiFactory(), SLOT( configureShortcuts() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
@@ -4055,12 +4071,26 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
-  if ( _items.count() == 1 ) {
+  bool sReading = false;
+  if ( _items.count() > 0 )
+  {
+    m_popupURL = _items.getFirst()->url();
+    sReading = KProtocolInfo::supportsReading( m_popupURL );
+    if (sReading)
+      m_popupServiceType = _items.getFirst()->mimetype();
+  }
+  else
+  {
+    m_popupURL = KURL();
+    m_popupServiceType = QString::null;
+  }
+
+  if ( (_items.count() == 1) && !m_popupServiceType.isEmpty() ) {
       QString currentServiceName = currentView->service()->desktopEntryName();
 
       // List of services for the "Preview In" submenu.
       m_popupEmbeddingServices = KTrader::self()->query(
-          _items.getFirst()->mimetype(),
+          m_popupServiceType,
           "KParts/ReadOnlyPart",
           // Obey "HideFromMenus". It defaults to false so we want "absent or true"
           // (wow, testing for 'true' if absent doesn't work, so order matters)
@@ -4071,16 +4101,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
           QString::null );
   }
 
-  if ( _items.count() > 0 )
-  {
-    m_popupURL = _items.getFirst()->url();
-    m_popupServiceType = _items.getFirst()->mimetype();
-  }
-  else
-  {
-    m_popupURL = KURL();
-    m_popupServiceType = QString::null;
-  }
 
   // Don't set the view URL for a toggle view.
   // (This is a bit of a hack for the directory tree....)
@@ -4112,7 +4132,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   // Those actions go into the PopupMenuGUIClient, since that's the one defining them.
   KAction *actNewWindow = 0L, *actNewTab = 0L;
-  if( !openedForViewURL && !isIntoTrash )
+  if( !openedForViewURL && !isIntoTrash && sReading )
   {
       actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
       actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
