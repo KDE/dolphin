@@ -477,10 +477,8 @@ void ListView::handleSelectionChanged(KEBListView *) {
 
 void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
-   if (!item) {
-      return;
-   }
-   const char *type = ( (item == m_listView->rootItem()) 
+   const char *type = ( !item
+                     || (item == m_listView->rootItem()) 
                      || (item->bookmark().isGroup()) 
                      || (item->isEmptyFolderPadder()))
                       ? "popup_folder" : "popup_bookmark";
