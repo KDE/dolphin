@@ -18,6 +18,7 @@
    Boston, MA 02111-1307, USA.
 */
 #include "konq_iconviewwidget.h"
+#include "konq_operations.h"
 #include "konq_undo.h"
 #include "konq_sound.h"
 
@@ -37,7 +38,6 @@
 #include <kfileivi.h>
 #include <konq_settings.h>
 #include <konq_drag.h>
-#include <konq_operations.h>
 #include <kglobalsettings.h>
 #include <kpropertiesdialog.h>
 #include <kipc.h>
