@@ -19,8 +19,11 @@
 #ifndef __konq_imagepreviewjob_h__
 #define __konq_imagepreviewjob_h__
 
+#include <qdict.h>
+
 #include <kio/job.h>
 
+class QImage;
 class KPixmapSplitter;
 class KFileIVI;
 class KonqIconViewWidget;
@@ -55,6 +58,7 @@ protected:
     void determineThumbnailURL();
     bool statResultThumbnail( KIO::StatJob * );
     void createThumbnail( QString );
+    const QImage& getIcon( const QString& mimeType );
 
 protected slots:
     virtual void slotResult( KIO::Job *job );
@@ -90,6 +94,8 @@ private:
 
     // for the text-preview
     KPixmapSplitter *m_splitter;
+    // cache for transparent icons
+    QDict<QImage> m_iconDict;
 };
 
 #endif

@@ -20,9 +20,11 @@
 #include "konq_imagepreviewjob.h"
 
 #include <qfile.h>
+#include <qimage.h>
 
 #include <kfileivi.h>
 #include <kiconloader.h>
+#include <kimageeffect.h>
 #include <konq_iconviewwidget.h>
 #include <konq_propsview.h>
 #include <kpixmapsplitter.h>
@@ -41,7 +43,8 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool fo
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
   m_splitter = splitter;
   m_bDirsCreated = true; // if no images, no need for dirs
-
+  m_iconDict.setAutoDelete( true );
+  
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
@@ -402,6 +405,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 
   // create text-preview
   if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
+      bool blendIcon = KGlobal::iconLoader()->alphaBlending();
       saveImage = false; // generating them on the fly is slightly faster
       const int bytesToRead = 1024; // FIXME, make configurable
       QFile file( pixPath );
@@ -497,8 +501,23 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      p.drawRect( 0, 0, pix.width(), pix.height() );
 	      p.end();
 
- 	      if ( saveImage )
- 		  img = pix.convertToImage();
+	      
+	      // blending the mimetype icon in
+	      if ( blendIcon ) {
+		  img = pix.convertToImage();
+		  QImage icon = getIcon( m_currentItem->item()->mimetype() );
+	      
+		  // reusing x and y variables
+		  x = pix.width() - icon.width() - xOffset;
+		  x = QMAX( x, 0 );
+		  y = pix.height() - icon.height() - yOffset;
+		  y = QMAX( y, 0 );
+		  KImageEffect::blendOnLower( x, y, icon, img );
+		  pix.convertFromImage( img );
+	      }
+	      
+  	      if ( saveImage && !blendIcon )
+  		  img = pix.convertToImage();
 	  }
 	  file.close();
       }
@@ -569,5 +588,27 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   }
   determineNextIcon();
 }
+
+const QImage& KonqImagePreviewJob::getIcon( const QString& mimeType )
+{
+    QImage* icon = m_iconDict.find( mimeType );
+    if ( !icon ) { // generate it!
+	icon = new QImage( m_currentItem->item()->determineMimeType()->pixmap( KIcon::Desktop, m_iconView->iconSize() ).convertToImage() );
+	icon->setAlphaBuffer( true );
+
+	int w = icon->width();
+	int h = icon->height();
+	for ( int y = 0; y < h; y++ ) {
+	    QRgb *line = (QRgb *) icon->scanLine( y );
+	    for ( int x = 0; x < w; x++ )
+		line[x] &= 0x35ffffff; // transparency
+	}
+	
+	m_iconDict.insert( mimeType, icon );
+    }
+    
+    return *icon;
+}
+
 
 #include "konq_imagepreviewjob.moc"

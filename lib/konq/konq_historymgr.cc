@@ -346,9 +346,11 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 	entry->firstVisited = e.firstVisited;
 	m_history.append( entry );
     }
-	
-    entry->typedURL = e.typedURL;
-    entry->title = e.title;
+
+    if ( !e.typedURL.isEmpty() )
+	entry->typedURL = e.typedURL;
+    if ( !e.title.isEmpty() )
+	entry->title = e.title;
     entry->numberOfTimesVisited += e.numberOfTimesVisited;
     entry->lastVisited = e.lastVisited;
 
@@ -490,11 +492,12 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 KonqHistoryEntry * KonqHistoryList::findEntry( const QString& url )
 {
     KonqHistoryIterator it( *this );
+    it.toLast(); // we search backwards, probably faster to find an entry
     while ( it.current() ) {
 	if ( it.current()->url == url )
 	    return it.current();
 
-	++it;
+	--it;
     }
 
     return 0L;
