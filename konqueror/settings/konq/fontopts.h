@@ -34,15 +34,14 @@
 #ifndef __KONQFONT_OPTIONS_H__
 #define __KONQFONT_OPTIONS_H__
 
-#include <qtabdialog.h>
-#include <qcombobox.h>
 #include <qstrlist.h>
-#include <qcheckbox.h>
-#include <kcolorbtn.h>
-#include <qradiobutton.h>
-#include <qfont.h>
-#include <kconfig.h>
 #include <kcmodule.h>
+
+class KConfig;
+class KColorButton;
+class QRadioButton;
+class QComboBox;
+class QCheckBox;
 
 
 //-----------------------------------------------------------------------------

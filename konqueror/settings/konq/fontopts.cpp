@@ -29,6 +29,7 @@
 #include <kglobalsettings.h>
 #include <kdialog.h>
 #include <kconfig.h>
+#include <kcolorbutton.h>
 #include <X11/Xlib.h>
 
 #include "fontopts.h"
