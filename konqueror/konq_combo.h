@@ -59,15 +59,15 @@ public:
 
     virtual void popup();
 
-    // tell if URL was sent while Ctrl was pressed
-    bool ctrlReturnPressed();
-
 protected:
     virtual void keyPressEvent( QKeyEvent * );
     virtual bool eventFilter( QObject *, QEvent * );
     virtual void mousePressEvent( QMouseEvent * );
     virtual void mouseMoveEvent( QMouseEvent * );
     void selectWord(QKeyEvent *e);
+
+signals:
+    void activated( const QString &, const Qt::ButtonState & );
 
 private slots:
     void slotReturnPressed();
@@ -83,7 +83,6 @@ private:
 
 private:
     bool m_returnPressed;
-    bool m_ctrlReturnPressed;
     bool m_permanent;
     int m_cursorPos;
     int m_currentIndex;

@@ -1962,14 +1962,14 @@ void KonqMainWindow::updateLocalPropsActions()
     m_paRemoveLocalProperties->setEnabled( canWrite );
 }
 
-void KonqMainWindow::slotURLEntered( const QString &text )
+void KonqMainWindow::slotURLEntered( const QString &text, const Qt::ButtonState &state )
 {
   if ( m_bURLEnterLock || text.isEmpty() )
     return;
 
   m_bURLEnterLock = true;
 
-  openFilteredURL( text.stripWhiteSpace(), m_combo->ctrlReturnPressed() );
+  openFilteredURL( text.stripWhiteSpace(), state & ControlButton );
 
   m_bURLEnterLock = false;
 }
@@ -2347,8 +2347,8 @@ void KonqMainWindow::initCombo()
 
   m_combo->init( s_pCompletion );
 
-  connect( m_combo, SIGNAL(activated(const QString&)),
-           this, SLOT(slotURLEntered(const QString&)) );
+  connect( m_combo, SIGNAL(activated(const QString&,const Qt::ButtonState&)),
+           this, SLOT(slotURLEntered(const QString&,const Qt::ButtonState&)) );
 
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
