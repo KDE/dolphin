@@ -88,7 +88,7 @@ bool KDCOPPropertyProxy::isPropertyRequest( const QCString &fun, QObject *object
 
 QCString KDCOPPropertyProxy::functions( QObject *object )
 {
-  QCString res = "property(QString);setProperty(QCString,QVariant);propertyNames();";
+  QCString res = "property(QCString);setProperty(QCString,QVariant);propertyNames();";
 
   QStrList properties = object->metaObject()->propertyNames( true );
   QStrListIterator it( properties );

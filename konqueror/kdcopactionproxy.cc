@@ -45,12 +45,22 @@ public:
 
 KDCOPActionProxy::KDCOPActionProxy( KActionCollection *actionCollection, DCOPObject *parent )
 {
+  init( actionCollection, parent ); 
+}
+
+KDCOPActionProxy::KDCOPActionProxy( DCOPObject *parent )
+{
+  init( 0, parent );
+} 
+
+void KDCOPActionProxy::init( KActionCollection *collection, DCOPObject *parent )
+{
   d = new KDCOPActionProxyPrivate;
-  d->m_actionCollection = actionCollection;
+  d->m_actionCollection = collection;
   d->m_parent = parent;
   d->m_prefix = parent->objId() + "/action/";
   d->m_pos = d->m_prefix.length();
-}
+} 
 
 KDCOPActionProxy::~KDCOPActionProxy()
 {
@@ -59,11 +69,17 @@ KDCOPActionProxy::~KDCOPActionProxy()
 
 QValueList<KAction *>KDCOPActionProxy::actions() const
 {
+  if ( !d->m_actionCollection )
+    return QValueList<KAction *>();
+  
   return d->m_actionCollection->actions();
 }
 
 KAction *KDCOPActionProxy::action( const char *name ) const
 {
+  if ( !d->m_actionCollection )
+    return 0;
+  
   return d->m_actionCollection->action( name );
 }
 
