@@ -355,7 +355,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 	    act->setIconSet( pix );
           }
 	
-	  addAction( act, menu );
+	  addAction( act, m_menuElement ); // Add to toplevel menu
 	
           m_mapPopupServices[ id++ ] = *it2;
           insertedOffer = true;
