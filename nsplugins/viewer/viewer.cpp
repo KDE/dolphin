@@ -4,6 +4,7 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <mhk@caldera.de>
+  		     Stefan Schimanski <1Stein@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,11 +23,13 @@
 */                                                                            
 
 
+#include <qmessagebox.h>
 #include <kdebug.h>
 #include <kapp.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <qxt.h>
+#include <klocale.h>
 
 #include "kxt.h"
 #include "nsplugin.h"
@@ -57,13 +60,10 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
  * the "old style" and keep lot's of global vars. :-)
  */
 
-QCString dcopId;              // id for dcop
 QCString plugin;              // name of the plugin
+QCString dcopId;
 
-DCOPClient *dcopClient;       // the dcop client
-
-
-/** 
+/**
  * parseCommandLine - get command line parameters
  *
  */
@@ -106,31 +106,46 @@ protected:
 int main(int argc, char** argv)
 {
   // trap X errors
-  XSetErrorHandler(x_errhandler);                                           
+  XSetErrorHandler(x_errhandler);
+  setvbuf( stderr, NULL, _IONBF, 0 );
 
   // Create application
   parseCommandLine(argc, argv);
   KXtApplication app(argc, argv, "nspluginviewer");
+  //app.createToplevelWidget();
 
-  // register DCOP service
-  dcopClient = new DCOPClient;
-  dcopClient->attach();
-  dcopClient->registerAs(dcopId, false);
+  // initialize the dcop client
+  if (!app.dcopClient()->attach())
+    {
+      QMessageBox::critical(NULL,
+        i18n("Error connecting to DCOP server"),
+        i18n("There was an error connecting to the Desktop\n"
+             "communications server.  Please make sure that\n"
+             "the 'dcopserver' process has been started, and\n"
+             "then try again.\n"));
+      exit(1);
+    }
+
+  dcopId = app.dcopClient()->registerAs(plugin);
 
   // create the DCOP object for the plugin class
   NSPluginClass *cls = new NSPluginClass(plugin, plugin);
 
   // Testing code
-  QString src = "file:/home/sschimanski/autsch.swf";
-  QString mime = "application/x-shockwave-flash";
+  //QString src = "file:/home/sschimanski/kimble_themovie.swf";
+  //QString src = "file:/home/sschimanski/autsch.swf";
+  //QString mime = "application/x-shockwave-flash";
+
+  //QString src = "file:/opt/kde/share/Circuit.jpg";
+  //QString mime = "image/jpg";
 
   //QString src = "file:/home/sschimanski/hund.avi";
   //QString mime = "video/avi";
 
-  QStringList _argn, _argv;
+  /*QStringList _argn, _argv;
   _argn << "WIDTH" << "HEIGHT" << "SRC" << "MIME";
   _argv << "400" << "250" << src << mime;
-  cls->NewInstance(mime, 1, _argn, _argv);
+  cls->NewInstance(mime, 1, _argn, _argv);*/
 
   app.exec();
 }
