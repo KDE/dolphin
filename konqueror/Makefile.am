@@ -22,6 +22,7 @@ libkonqueror_la_SOURCES = \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
 			  konq_events.cc \
 			  konq_bgnddlg.cc \
+		          konq_misc.cc \
 		          konq_factory.cc \
 			  kbrowser.moc.cc
 
@@ -40,7 +41,6 @@ konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_frame.cc \
 		    konq_actions.cc \
 		    konq_profiledlg.cc \
-		    konq_misc.cc \
 		    kbugreport.cc
 
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
