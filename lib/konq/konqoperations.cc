@@ -127,8 +127,11 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
         // Check if we dropped something on itself
         KURL::List::Iterator it = lst.begin();
         for ( ; it != lst.end() ; it++ )
+        {
+            kdDebug() << "URL : " << (*it).url() << endl;
             if ( dest.cmp( *it, true /*ignore trailing slashes*/ ) )
                 return; // do nothing instead of displaying kfm's annoying error box
+        }
 
         // Check what the destination is
         if ( S_ISDIR(destItem->mode()) )

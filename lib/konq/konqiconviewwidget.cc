@@ -205,10 +205,14 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 {
     if ( e->provides( "text/uri-list" ) )
     {
+        QByteArray payload = e->encodedData( "text/uri-list" );
+        if ( !payload.size() )
+            kdError() << "Empty data !" << endl;
         // Cache the URLs, since we need them every time we move over a file
         // (see KFileIVI)
         bool ok = KonqDrag::decode( e, m_lstDragURLs );
-        assert( ok );
+        if( !ok )
+            kdError() << "Couldn't decode urls dragged !" << endl;
     }
     KIconView::contentsDragEnterEvent( e );
 }
@@ -283,6 +287,7 @@ void KonqIconViewWidget::cutSelection()
 
 void KonqIconViewWidget::copySelection()
 {
+    kdDebug() << " -- KonqIconViewWidget::copySelection() -- " << endl;
     QDragObject * obj = dragObject();
     QApplication::clipboard()->setData( obj );
 }
