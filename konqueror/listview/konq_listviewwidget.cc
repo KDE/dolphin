@@ -739,6 +739,10 @@ void KonqBaseListViewWidget::setComplete()
         }
         emit selectionChanged();
     }
+    //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+    QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+    keyPressEvent(&tmpEvent);
+
     // Show "cut" icons as such
     m_pBrowserView->slotClipboardDataChanged();
 }
