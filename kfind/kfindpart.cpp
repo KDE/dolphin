@@ -97,12 +97,15 @@ void KFindPart::slotStarted()
 
 void KFindPart::addFile(const KFileItem *item, const QString& matchingLine)
 {
-    m_lstFileItems.append( item );
+    // item is deleted by caller
+    // we need to clone it
+    KFileItem *clonedItem = new KFileItem(*item);
+    m_lstFileItems.append( clonedItem );
 
     KFileItemList lstNewItems;
-    lstNewItems.append(item);
+    lstNewItems.append(clonedItem);
     emit newItems(lstNewItems);
-
+   
   /*
   win->insertItem(item);
 
