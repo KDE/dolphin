@@ -1761,6 +1761,17 @@ void KonqMainView::slotSelectionInfo( const KonqFileItemList &items )
   QApplication::sendEvent( this, &ev );
 }
 
+void KonqMainView::saveProperties( KConfig *config )
+{
+  m_pViewManager->saveViewProfile( *config );
+}
+
+void KonqMainView::readProperties( KConfig *config )
+{
+  enableAllActions( true );
+  m_pViewManager->loadViewProfile( *config );
+}
+
 static const char *viewModeGUI = ""
 "<!DOCTYPE viewmodexml>"
 "<viewmodexml name=\"viewmode\">"

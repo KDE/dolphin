@@ -146,11 +146,22 @@ int main( int argc, char **argv )
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  if (args->count() == 0)
+  if ( kapp->isRestored() )
+  {
+    int n = 1;
+    while ( KTMainWindow::canBeRestored( n ) )
+    {
+      (new KonqMainView( KURL(), false ) )->restore( n );
+      n++;
+    }
+  }
+  else if (args->count() == 0)
   {
      if (!args->isSet("silent"))
      {
-        fm.openFileManagerWindow( KURL() );
+     //        fm.openFileManagerWindow( KURL() );
+       KonqMainView *mainView = new KonqMainView;
+       mainView->show();
      }
   }
   else

@@ -82,6 +82,9 @@ public:
 
   void attachToolbars( KonqFrame *frame );
 
+  virtual void saveProperties( KConfig *config );
+  virtual void readProperties( KConfig *config );
+
 public slots:
 
   void slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items );
