@@ -110,16 +110,19 @@ void KonqInfoListViewWidget::createFavoriteColumns()
             {
                 const KFileMimeTypeInfo::GroupInfo* groupInfo =
                                     mimeTypeInfo->groupInfo(*group);
-                QStringList keys = groupInfo->supportedKeys();
-                QStringList::Iterator key = keys.begin();
-                for (; key != keys.end(); ++key)
+                if(groupInfo)
                 {
-                    if ( *key == *prefKey )
+                    QStringList keys = groupInfo->supportedKeys();
+                    QStringList::Iterator key = keys.begin();
+                    for (; key != keys.end(); ++key)
                     {
-                        const KFileMimeTypeInfo::ItemInfo* itemInfo =
-                                    groupInfo->itemInfo(*key);
-                        addColumn(itemInfo->translatedKey());
-                        m_columnKeys.append(*key);
+                        if ( *key == *prefKey )
+                        {
+                            const KFileMimeTypeInfo::ItemInfo* itemInfo =
+                                groupInfo->itemInfo(*key);
+                            addColumn(itemInfo->translatedKey());
+                            m_columnKeys.append(*key);
+                        }
                     }
                 }
             }
