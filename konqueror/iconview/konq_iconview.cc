@@ -698,7 +698,11 @@ bool KonqKfmIconView::doCloseURL()
     m_dirLister->stop();
 
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
+
+    // stopImagePreview will trigger an immediate repaint, so we avoid this
+    m_pIconView->setUpdatesEnabled( false );
     m_pIconView->stopImagePreview();
+    m_pIconView->setUpdatesEnabled( true );
     return true;
 }
 
@@ -925,6 +929,10 @@ void KonqKfmIconView::slotCompleted()
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 {
+    // Stop the autorefresh timer since data to display has arrived and will
+    // be drawn in moments
+    if ( m_pTimeoutRefreshTimer && m_pTimeoutRefreshTimer->isActive() )
+        m_pTimeoutRefreshTimer->stop();
     // We need to disable graphics updates on the iconview when
     // inserting items, or else a blank paint operation will be
     // performed on the top-left corner for each inserted item!
