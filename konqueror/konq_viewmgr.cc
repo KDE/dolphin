@@ -724,7 +724,6 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
     childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
-    childView->setLockedLocation( cfg.readBoolEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
     childView->setToggleView( cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );
 
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
@@ -745,6 +744,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
         m_pMainWindow->openView( serviceType, url, childView, req );
       }
     }
+    // Do this after opening the URL, so that it's actually possible to open it :)
+    childView->setLockedLocation( cfg.readBoolEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
   }
   else if( name.find("Container") != -1 ) {
     kdDebug(1202) << "Item is Container" << endl;

@@ -462,7 +462,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   bool bOthersFollowed = false;
   // If linked view and if we are not already following another view
-  if ( childView && childView->isLinkedView() && !req.followMode )
+  if ( childView && childView->isLinkedView() && !req.followMode && !m_pViewManager->isLoadingProfile() )
     bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView );
 
   if ( childView && childView->isLockedLocation() )
@@ -1237,7 +1237,7 @@ void KonqMainWindow::slotConfigureToolbars()
   {
     if ( m_toggleViewGUIClient )
       plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
-    if ( m_currentView->appServiceOffers().count() > 0 )
+    if ( m_currentView && m_currentView->appServiceOffers().count() > 0 )
       plugActionList( "openwith", m_openWithActions );
 
     plugViewModeActions();
@@ -2239,9 +2239,12 @@ void KonqMainWindow::slotComboDelete()
 
 void KonqMainWindow::slotClearLocationBar()
 {
-  kdDebug(1202) << "slotClearLocationBar" << endl;
-  m_combo->clearTemporary();
-  m_combo->setFocus();
+    if ( m_combo )
+    {
+        kdDebug(1202) << "slotClearLocationBar" << endl;
+        m_combo->clearTemporary();
+        m_combo->setFocus();
+    }
 }
 
 void KonqMainWindow::slotShowMenuBar()
@@ -2373,8 +2376,9 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 // called via DCOP from KonquerorIface
 void KonqMainWindow::addToCombos( const QString& url, const QCString& objId )
 {
+    if (!s_lstViews) // this happens in "konqueror --silent"
+        return;
     kdDebug(1202) << "KonqMainWindow::addToCombos " << url << " " << objId << endl;
-    assert(s_lstViews);
     KonqCombo *combo = 0L;
     KonqMainWindow *window = s_lstViews->first();
     while ( window ) {
@@ -2392,12 +2396,13 @@ void KonqMainWindow::addToCombos( const QString& url, const QCString& objId )
 
 QString KonqMainWindow::locationBarURL() const
 {
-    return m_combo->currentText();
+    return m_combo ? m_combo->currentText() : QString::null;
 }
 
 void KonqMainWindow::focusLocationBar()
 {
-    m_combo->setFocus();
+    if ( m_combo )
+        m_combo->setFocus();
 }
 
 void KonqMainWindow::startAnimation()
@@ -2864,7 +2869,8 @@ void KonqMainWindow::disableActionsNoView()
             act->setEnabled( true );
     }
     m_pamLoadViewProfile->setEnabled( true );
-    m_combo->clearTemporary();
+    if ( m_combo )
+        m_combo->clearTemporary();
     m_paShowMenuBar->setEnabled( true );
     m_paShowToolBar->setEnabled( true );
     m_paShowLocationBar->setEnabled( true );
