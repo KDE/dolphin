@@ -109,9 +109,6 @@ int main( int argc, char **argv )
                 "            #   'src' may be a list of URLs.\n\n").local8Bit());
     printf(i18n("  kfmclient sortDesktop\n"
                 "            # Rearranges all icons on the desktop.\n\n").local8Bit());
-    printf(i18n("  kfmclient selectDesktopIcons x y w h add\n"
-                "            # Selects the icons on the desktop in the given rectangle\n"
-                "            # If add is 1, adds selection to the current one\n\n").local8Bit());
     printf(i18n("  kfmclient configure\n"
                 "            # Re-read konqueror's configuration.\n\n").local8Bit());
     printf(i18n("  kfmclient configureDesktop\n"
@@ -401,17 +398,6 @@ bool clientApp::doIt()
     kdesky.rearrangeIcons( (int)false );
 
     return true;
-  }
-  else if ( command == "selectDesktopIcons" )
-  {
-    checkArgumentCount(argc, 6, 6);
-    int x = atoi( args->arg(1) );
-    int y = atoi( args->arg(2) );
-    int w = atoi( args->arg(3) );
-    int h = atoi( args->arg(4) );
-    // bool bAdd = (bool) atoi( args->arg(5) ); /* currently unused */ // TODO
-    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
-    kdesky.selectIconsInRect( x, y, w, h );
   }
   else if ( command == "configure" )
   {
