@@ -1293,7 +1293,7 @@ KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KU
 void KfmTreeViewItem::init()
 {
   QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, true );
-  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
+  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->name().ascii());
   else setPixmap( 0, *p );
 }
 

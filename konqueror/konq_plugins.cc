@@ -45,7 +45,7 @@ bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, 
   
   bool res = false;
 
-  QListIterator<KService> it( *KService::allServices() );
+  QListIterator<KService> it( KService::services() );
   for ( ; it.current(); ++it )
   {
     if ( it.current()->hasServiceType( serviceType ) && it.current()->file() )

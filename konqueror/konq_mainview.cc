@@ -67,6 +67,7 @@
 #include <kprotocolmanager.h>
 #include <kservices.h>
 #include <kstdaccel.h>
+#include <kuserprofile.h>
 
 #include <iostream>
 #include <assert.h>
@@ -955,14 +956,13 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   // Do all URLs have the same mimetype ?
   url = KURL( m_lstPopupURLs.getFirst() );
 
-#warning "some code in KonqMainView::popupMenu disabled by David because of new libkio API"
-/*
+
   KMimeType* mime = KMimeType::findByURL( url, (mode_t)popup.mode, (bool)popup.isLocalFile );
-  assert( mime );
-  const char *s;
-  for( s = m_lstPopupURLs.next(); mime != 0L && s != 0L; s = m_lstPopupURLs.next() )
+  ASSERT( mime );
+  QStringList::Iterator it = m_lstPopupURLs.begin();
+  for( ; it != m_lstPopupURLs.end(); ++it )
   {
-    KURL u( s );  
+    KURL u( *it );  
     KMimeType* m = KMimeType::findByURL( u, (mode_t)popup.mode, (bool)popup.isLocalFile );
     if ( m != mime )
       mime = 0L;
@@ -970,35 +970,34 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   
   if ( mime )
   {
-    // Get all services for this mime type
-    list<KService::Offer> offers;
-    KService::findServiceByServiceType( mime->mimeType(), offers );
+    KServiceTypeProfile::OfferList offers = KServiceTypeProfile::offers( mime->name() );
 
-    list<KDELnkMimeType::Service> builtin;
-    list<KDELnkMimeType::Service> user;
-    if ( strcmp( mime->mimeType(), "application/x-kdelnk" ) == 0 )
+    QValueList<KDELnkMimeType::Service> builtin;
+    QValueList<KDELnkMimeType::Service> user;
+    if ( mime->name() == "application/x-kdelnk" )
     {
-      KDELnkMimeType::builtinServices( url, builtin );
-      KDELnkMimeType::userDefinedServices( url, user );
+      builtin = KDELnkMimeType::builtinServices( url );
+      user = KDELnkMimeType::userDefinedServices( url );
     }
   
-    if ( !offers.empty() || !user.empty() || !builtin.empty() )
+    if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
       QObject::connect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
-    if ( !offers.empty() || !user.empty() )
+    if ( !offers.isEmpty() || !user.isEmpty() )
       m_popupMenu->insertSeparator();
   
     m_mapPopup.clear();
     m_mapPopup2.clear();
   
-    list<KService::Offer>::iterator it = offers.begin();
+    KServiceTypeProfile::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
     {    
-      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it->m_pService->icon(), true ) ), it->m_pService->name() );
-      m_mapPopup[ id ] = it->m_pService;
+      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it->service().icon(), true ) ),
+				    it->service().name() );
+      m_mapPopup[ id ] = &(it->service());
     }
     
-    list<KDELnkMimeType::Service>::iterator it2 = user.begin();
+    QValueList<KDELnkMimeType::Service>::Iterator it2 = user.begin();
     for( ; it2 != user.end(); ++it2 )
     {
       if ( !it2->m_strIcon.isEmpty() )
@@ -1008,7 +1007,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
       m_mapPopup2[ id ] = *it2;
     }
     
-    if ( builtin.size() > 0 )
+    if ( builtin.count() > 0 )
       m_popupMenu->insertSeparator();
 
     it2 = builtin.begin();
@@ -1021,7 +1020,6 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
       m_mapPopup2[ id ] = *it2;
     }
   }
-*/
   
   if ( m_lstPopupURLs.count() == 1 )
   {
@@ -1610,24 +1608,22 @@ void KonqMainView::slotPopupBookmarks()
 void KonqMainView::slotPopup( int id )
 {
   // Is it a usual service
-  QMap<int,KService *>::Iterator it = m_mapPopup.find( id );
+  QMap<int,const KService *>::Iterator it = m_mapPopup.find( id );
   if ( it != m_mapPopup.end() )
   {
     KRun::run( *(it.data()), m_lstPopupURLs );
     return;
   }
   
-#warning "code disabled in KonqMainView::slotPopup"
-  /*
   // Is it a service specific to kdelnk files ?
-  map<int,KDELnkMimeType::Service>::iterator it2 = m_mapPopup2.find( id );
+  QMap<int,KDELnkMimeType::Service>::Iterator it2 = m_mapPopup2.find( id );
   if ( it2 == m_mapPopup2.end() )
     return;
-  
-  const char *u;
-  for( u = m_lstPopupURLs.first(); u != 0L; u = m_lstPopupURLs.next() )
-    KDELnkMimeType::executeService( u, it2->second );
-  */
+
+  QStringList::Iterator it3 = m_lstPopupURLs.begin();
+  for( ; it3 != m_lstPopupURLs.end(); ++it3 )
+    KDELnkMimeType::executeService( *it3, it2.data() );
+
   return;
 }
 

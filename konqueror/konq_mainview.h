@@ -291,8 +291,8 @@ protected:
 
   QStringList m_lstPopupURLs;
   CORBA::Long m_popupMode; // mode_t of first URL in m_lstPopupURLs
-  QMap<int,KService *> m_mapPopup;
-  //  QMap<int,KDELnkMimeType::Service> m_mapPopup2;
+  QMap<int,const KService *> m_mapPopup;
+  QMap<int,KDELnkMimeType::Service> m_mapPopup2;
 
   KfmRun *m_pRun;
 
