@@ -413,8 +413,10 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
 {
   KListView::contentsMousePressEvent( e );
-  m_dragPos = e->pos();
-  m_bDrag = true;
+  if ( e->button() == LeftButton ) {
+      m_dragPos = e->pos();
+      m_bDrag = true;
+  }
 }
 
 void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
