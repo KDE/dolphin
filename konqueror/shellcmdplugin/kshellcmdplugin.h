@@ -26,24 +26,11 @@ class KShellCmdPlugin : public KParts::Plugin
 {
     Q_OBJECT
 public:
-    KShellCmdPlugin( QObject* parent, const char* name );
+    KShellCmdPlugin( QObject* parent, const char* name, const QStringList & );
     ~KShellCmdPlugin() {}
 
 public slots:
     void slotExecuteShellCommand();
-};
-
-class KShellCmdPluginFactory : public KLibFactory
-{
-    Q_OBJECT
-public:
-    KShellCmdPluginFactory( QObject* parent = 0, const char* name = 0 );
-    ~KShellCmdPluginFactory();
-
-    virtual QObject* createObject( QObject* parent = 0, const char* pname = 0, const char* name = "QObject", const QStringList &args = QStringList() );
-
-private:
-    static KInstance* s_instance;
 };
 
 #endif

@@ -23,9 +23,10 @@
 #include <klocale.h>
 #include <kprocess.h>
 #include "kshellcmddialog.h"
-#include <kinstance.h>
+#include <kgenericfactory.h>
 
-KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name )
+KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
+	                          const QStringList & )
     : KParts::Plugin( parent, name )
 {
     new KAction( i18n( "&Execute Shell Command" ), CTRL+Key_E, this,
@@ -72,33 +73,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    }
 }
 
-
-KShellCmdPluginFactory::KShellCmdPluginFactory( QObject* parent, const char* name )
-  : KLibFactory( parent, name )
-{
-  s_instance = new KInstance("KPluginFactory");
-}
-
-KShellCmdPluginFactory::~KShellCmdPluginFactory()
-{
-  delete s_instance;
-}
-
-QObject* KShellCmdPluginFactory::createObject( QObject* parent, const char* name, const char*, const QStringList & )
-{
-    return new KShellCmdPlugin( parent, name );
-}
-
-extern "C"
-{
-  void* init_libkshellcmdplugin()
-  {
-    return new KShellCmdPluginFactory;
-  }
-
-}
-
-KInstance* KShellCmdPluginFactory::s_instance = 0L;
+K_EXPORT_COMPONENT_FACTORY( libkshellcmdplugin, KGenericFactory<KShellCmdPlugin> );
 
 #include "kshellcmdplugin.moc"
 
