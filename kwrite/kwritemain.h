@@ -41,6 +41,8 @@ class KWrite : public KParts::MainWindow
     void init(); //initialize caption, status and show
 
     void loadURL(const KURL &url);
+    
+    KTextEditor::View *kateView() const { return m_kateView; }
 
   private:
     virtual bool queryClose();
@@ -53,8 +55,7 @@ class KWrite : public KParts::MainWindow
     virtual void dragEnterEvent( QDragEnterEvent * );
     virtual void dropEvent( QDropEvent * );
 
-    KTextEditor::View *kateView;
-
+    KTextEditor::View * m_kateView;
     KRecentFilesAction * m_recentFiles;
     KToggleAction * m_paShowPath;
 //    KToggleAction * m_paShowToolBar;
