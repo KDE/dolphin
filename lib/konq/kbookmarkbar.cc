@@ -71,6 +71,8 @@ void KBookmarkBar::clear()
     m_actions.clear();
     m_actions.setAutoDelete( false );
 
+    if ( m_toolBar )
+        m_toolBar->clear();
 }
 
 void KBookmarkBar::slotBookmarksChanged( const QString & group )
@@ -104,14 +106,19 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
     {
         if (!bm.isGroup())
         {
-            KAction *action;
-            // create a normal URL item, with ID as a name
-            action = new KAction(bm.text(), bm.icon(), 0,
-                                 this, SLOT(slotBookmarkSelected()),
-                                 m_actionCollection,
-                                 bm.url().url().utf8());
-            action->plug(m_toolBar);
-            m_actions.append( action );
+            if ( bm.isSeparator() )
+                m_toolBar->insertLineSeparator();
+            else
+            {
+                KAction *action;
+                // create a normal URL item, with ID as a name
+                action = new KAction(bm.text(), bm.icon(), 0,
+                                     this, SLOT(slotBookmarkSelected()),
+                                     m_actionCollection,
+                                     bm.url().url().utf8());
+                action->plug(m_toolBar);
+                m_actions.append( action );
+            }
         }
         else
         {
