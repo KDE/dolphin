@@ -29,31 +29,13 @@
 #include <qptrstack.h>
 #include <qobject.h>
 
-// OLD COMMENT
-
-// AK - TODO SOON!!!!
-
-// do something, yet this case is ambigious,
-// for a cancel from the file dialog it should
-// do nothing, yet for a import without "..."
-// it shouldn't even be called + thus should be
-// a assert, or possible not...
-// need to think more about this...
-
-// REPLY
-
-// umm.. problem is that in the first place there
-// should imo be no imports without "..." as all
-// the importers should just suggest rather than
-// forcing the filename to import
-
 // part pure
 class ImportCommand : public QObject, public KCommand
 {
    Q_OBJECT
 public:
    ImportCommand()
-      : KCommand(), m_folder(false), m_cleanUpCmd(0L), m_utf8(false)
+      : KCommand(), m_utf8(false), m_folder(false), m_cleanUpCmd(0L)
    { ; }
 
    virtual void import(const QString &fileName, bool folder) = 0;
@@ -92,13 +74,16 @@ protected:
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
    virtual void doExecute(const KBookmarkGroup &) = 0;
 
+protected:
+   QString m_visibleName;
    QString m_fileName;
-   bool m_folder;
    QString m_icon;
    QString m_group;
-   KMacroCommand *m_cleanUpCmd;
    bool m_utf8;
-   QString m_visibleName;
+
+private:
+   bool m_folder;
+   KMacroCommand *m_cleanUpCmd;
 };
 
 // part pure

@@ -1,3 +1,15 @@
+"MAJOR" THINGS TO DO
+--------------------
+   
+well, too many apparently normal functions also contain
+gui stuff. this sucks. its mainly in kio/bookmarks unfortunately,
+so, can't change behaviour at the moment, i think.
+examples: newFolder in kbookmarkgroup
+          importer defaultlocation should *not* have gui stuff
+
+MINOR THINGS
+------------
+
 basic plan:       cleanup importing:
                      make all importers do a file selection dlg
                   recursive 404 finder
