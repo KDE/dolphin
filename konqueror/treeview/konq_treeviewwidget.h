@@ -24,10 +24,10 @@
 #include <qpixmap.h>
 #include <qdict.h>
 #include <qtimer.h>
+#include <kurl.h>
 
 struct KUDSAtom;
 class QCursor;
-class KURL;
 class KDirLister;
 class KonqTreeViewItem;
 class KonqTreeViewDir;
@@ -51,9 +51,9 @@ class KonqTreeViewWidget : public QListView
 public:
   KonqTreeViewWidget( KonqTreeView *parent );
   ~KonqTreeViewWidget();
-  
+
   void stop();
-  QString url();
+  const KURL & url();
 
   struct iterator
   {
@@ -105,7 +105,7 @@ protected slots:
 
   // Called by m_timer timeout and upon completion
   virtual void slotUpdate();
-  
+
   virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KonqTreeViewItem*)_item ); }
 
 protected:
@@ -178,16 +178,16 @@ protected:
 
   int m_iXOffset;
   int m_iYOffset;
-  
+
   long int m_idShowDot;
-  
-  QString m_strURL;
+
+  KURL m_sURL;
 
   KonqTreeView *m_pBrowserView;
 
   QTimer m_timer;
   QList<KFileItem> m_lstNewItems;
-  
+
 };
 
 #endif

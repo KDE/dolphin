@@ -112,9 +112,9 @@ void KonqTreeViewWidget::stop()
   m_dirLister->stop();
 }
 
-QString KonqTreeViewWidget::url()
+const KURL & KonqTreeViewWidget::url()
 {
-  return m_strURL;
+  return m_sURL;
 }
 
 void KonqTreeViewWidget::initConfig()
@@ -213,7 +213,7 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *_ev  )
 
   QStringList lst;
 
-  QString dest = ( item ) ? item->item()->url().url() : m_dirLister->url();
+  QString dest = ( item ) ? item->item()->url().url() : m_sURL.url();
 
   if ( QUrlDrag::decodeToUnicodeUris( _ev, lst ) )
   {
@@ -221,7 +221,7 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *_ev  )
       return;
 
     KIOJob *job = new KIOJob;
-    
+
     if ( _ev->action() == QDropEvent::Move )
       job->move( lst, dest );
     else
@@ -499,10 +499,9 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
   if ( lstItems.count() == 0 )
   {
     mode_t mode = S_IFDIR;
-    KURL url( m_dirLister->url() );
-
-    KFileItem item( mode, url );
-    lstItems.append( &item );
+    KFileItem * item = new KFileItem ( mode, m_sURL );
+    lstItems.append( item );
+    lstItems.setAutoDelete( true ); // will delete 'item'
   }
 
   emit m_pBrowserView->popupMenu( _global, lstItems );
@@ -584,17 +583,17 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
   m_iXOffset = xOffset;
   m_iYOffset = yOffset;
 
-  m_strURL = url.url();
+  m_sURL = url;
 
   if ( m_pProps->enterDir( url ) )
   {
     // nothing to do yet
   }
-  
+
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
 
-//  setCaptionFromURL( m_strURL );
+//  setCaptionFromURL( m_sURL );
 }
 
 void KonqTreeViewWidget::setComplete()
@@ -665,7 +664,7 @@ void KonqTreeViewWidget::slotUpdate()
     dir.setFileName( "" );
     //kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
     KonqTreeViewDir * parentDir = 0L;
-    if( !urlcmp( dir.url(0), m_strURL, true, true ) ) 
+    if( !urlcmp( dir.url(0), m_sURL.url(), true, true ) )
       {
         parentDir = findDir ( dir.url( 0 ) );
         kdebug( KDEBUG_INFO, 1202, "findDir returned %p", parentDir );
@@ -816,11 +815,11 @@ KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
   for( ; it.current(); ++it )
   {
     debug( it.current()->url(0) );
-    if ( urlcmp( it.current()->url(0), _url, true, true ) ) 
+    if ( urlcmp( it.current()->url(0), _url, true, true ) )
       {
         lasttvd = it.current();
         return it.current();
-      }           
+      }
   }
   return 0L;
 }

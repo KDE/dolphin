@@ -90,7 +90,7 @@ void TreeViewPropertiesExtension::reparseConfiguration()
 void TreeViewPropertiesExtension::saveLocalProperties()
 {
   // TODO move this to KonqTreeView. Ugly.
-  m_treeView->treeViewWidget()->m_pProps->saveLocal( KURL( m_treeView->url() ) );
+  m_treeView->treeViewWidget()->m_pProps->saveLocal( m_treeView->url() );
 }
 
 void TreeViewPropertiesExtension::savePropertiesAsDefault()
@@ -214,7 +214,7 @@ void KonqTreeView::openURL( const QString &url, bool /*reload*/,
 
 QString KonqTreeView::url()
 {
-  return m_pTreeView->url();
+  return m_pTreeView->url().url();
 }
 
 int KonqTreeView::xOffset()
