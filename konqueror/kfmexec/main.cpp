@@ -11,6 +11,7 @@
 #include <kio_netaccess.h>
 #include <klocale.h>
 #include <kcmdlineargs.h>
+#include <kaboutdata.h>
 
 #include <qlist.h>
 #include <qstring.h>
@@ -218,8 +219,15 @@ QString KFMExec::shellQuote( const char *_data )
 
 int main( int argc, char **argv )
 {
-    KCmdLineArgs::init(argc, argv, "kfmexec", description, version);
-
+    KAboutData aboutData( "kfmexec", I18N_NOOP("KFMExec"),
+        version, description, KAboutData::License_GPL,
+        "(c) 1998-2000, The KFM/Konqueror Developers");
+    aboutData.addAuthor("David Faure",0, "faure@kde.org");
+    aboutData.addAuthor("Stephen Kulow",0, "coolo@kde.org");
+    aboutData.addAuthor("Bernhard Rosenkraenzer",0, "bero@redhat.de");
+    aboutData.addAuthor("Waldo Bastian",0, "bastian@kde.org");
+    
+    KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( options );
 
     KApplication app;
