@@ -183,6 +183,8 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
    // TODO: this is a hack, better fix the connections of m_dirLister if possible!
    m_dirLister->disconnect( this );
    delete m_dirLister;
+
+   delete m_fileTip;
 }
 
 void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
