@@ -70,7 +70,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), i18n("D&etach Tab"), m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ), QKeySequence("Ctrl+Shift+B"), BREAKOFF_ID );
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("&Close Tab"), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ), QKeySequence("Ctrl+W"), CLOSETAB_ID );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReloadPopup() ), KStdAccel::key(KStdAccel::Reload) );
+  m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReloadPopup() ), KStdAccel::shortcut(KStdAccel::Reload) );
   m_pPopupMenu->insertItem( SmallIcon( "reload_all_tabs" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ), QKeySequence(), RELOAD_ALL_ID );
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ), QKeySequence(), CLOSE_OTHER_ID );
@@ -460,7 +460,7 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>( w );
    KURL::List lst;
    lst.append( frame->activeChildView()->url() );
-   KURLDrag *d = KURLDrag::newDrag( lst, this );
+   KURLDrag *d = new KURLDrag( lst, this );
    d->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
    d->dragCopy();
 }

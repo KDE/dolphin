@@ -50,14 +50,13 @@ void KonqMisc::abortFullScreenMode()
   QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
-    int currentDesktop = KWin::currentDesktop();
     QPtrListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
     {
       if ( it.current()->fullScreenMode() )
       {
-	KWin::Info info = KWin::info( it.current()->winId() );
-	if ( info.desktop == currentDesktop )
+	KWin::WindowInfo info = KWin::windowInfo( it.current()->winId(), NET::WMDesktop );
+	if ( info.valid() && info.isOnCurrentDesktop() )
           it.current()->slotToggleFullScreen();
       }
     }
@@ -207,7 +206,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
     {
       KURL::List lst;
       lst.append( m_mw->currentView()->url() );
-      QDragObject * drag = KURLDrag::newDrag( lst, m_mw );
+      QDragObject * drag = new KURLDrag( lst, m_mw );
       drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
       drag->dragCopy();
     }

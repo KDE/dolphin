@@ -306,8 +306,8 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
                 return true;
             }
 
-            if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
-                 KStdAccel::isEqual( e, KStdAccel::deleteWordForward() ) ||
+            if ( KKey( e ) == KKey( int( KStdAccel::deleteWordBack() ) ) ||
+                 KKey( e ) == KKey( int( KStdAccel::deleteWordForward() ) ) ||
                  ((e->state() & ControlButton) &&
                    (e->key() == Key_Left || e->key() == Key_Right) ) ) {
                 selectWord(e);
@@ -329,8 +329,8 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
     KHistoryCombo::keyPressEvent( e );
     // we have to set it as temporary, otherwise we wouldn't get our nice
     // pixmap. Yes, QComboBox still sucks.
-    if ( KStdAccel::isEqual( e, KStdAccel::rotateUp() ) ||
-         KStdAccel::isEqual( e, KStdAccel::rotateDown() ) )
+    if ( KKey( e ) == KKey( int( KStdAccel::rotateUp() ) ) ||
+         KKey( e ) == KKey( int( KStdAccel::rotateDown() ) ) )
 	setTemporary( currentText() );
 }
 
@@ -447,11 +447,11 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
          KGlobalSettings::dndEventDelay() )
     {
         KURL url = currentText();
-        if ( !url.isMalformed() )
+        if ( url.isValid() )
         {
             KURL::List list;
             list.append( url );
-            KURLDrag *drag = KURLDrag::newDrag( list, this );
+            KURLDrag *drag = new KURLDrag( list, this );
             QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText(),
                                                                  KIcon::SizeMedium );
             if ( !pix.isNull() )

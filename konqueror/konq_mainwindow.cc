@@ -460,7 +460,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
       return;
   }
-  else if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) && url.protocol() != "about" )
+  else if ( !KProtocolInfo::isKnownProtocol( url ) && url.protocol() != "about" )
   {
       KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
       return;
@@ -2429,7 +2429,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 
 void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
 {
-    req->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
+    req->fileDialog()->setMode(KFile::Directory|KFile::ExistingOnly);
 }
 
 void KonqMainWindow::slotNewDir()
@@ -2835,7 +2835,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       // prevents the lineedit from getting this event. IMHO the accel
       // should be disabled in favor of the focus-widget.
       KAction *duplicate = actionCollection()->action("duplicate_window");
-      if ( duplicate->accel() == QKeySequence(CTRL+Key_D) )
+      if ( duplicate->shortcut() == QKeySequence(CTRL+Key_D) )
           duplicate->setEnabled( false );
 
       if (slotNames.contains("cut()"))
@@ -2875,7 +2875,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       // we use new_window as reference, as it's always in the same state
       // as duplicate_window
       KAction *duplicate = actionCollection()->action("duplicate_window");
-      if ( duplicate->accel() == QKeySequence(CTRL+Key_D) )
+      if ( duplicate->shortcut() == QKeySequence(CTRL+Key_D) )
           duplicate->setEnabled( actionCollection()->action("new_window")->isEnabled() );
 
       if (slotNames.contains("cut()"))
@@ -3109,7 +3109,7 @@ void KonqMainWindow::initActions()
 
   m_paFileType = new KAction( i18n( "&Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties" ), ALT+Key_Return, actionCollection(), "properties" );
-  (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+  (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::shortcut(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link..." ), "mail_generic", 0, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
   (void) new KAction( i18n( "S&end File..." ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
@@ -3118,7 +3118,7 @@ void KonqMainWindow::initActions()
   {
      (void) new KAction( i18n( "Open &Terminal" ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   }
-  (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
+  (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::shortcut(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
 
   m_paFindFiles = new KToggleAction( i18n( "&Find File..." ), "filefind", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
@@ -3131,16 +3131,16 @@ void KonqMainWindow::initActions()
   m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
-  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::key(KStdAccel::Up), this, SLOT( slotUp() ), actionCollection(), "up" );
+  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::shortcut(KStdAccel::Up), this, SLOT( slotUp() ), actionCollection(), "up" );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
   QPair< KGuiItem, KGuiItem > backForward = KStdGuiItem::backAndForward();
-  m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::key(KStdAccel::Back), this, SLOT( slotBack() ), actionCollection(), "back" );
+  m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::shortcut(KStdAccel::Back), this, SLOT( slotBack() ), actionCollection(), "back" );
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::key(KStdAccel::Forward), this, SLOT( slotForward() ), actionCollection(), "forward" );
+  m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::shortcut(KStdAccel::Forward), this, SLOT( slotForward() ), actionCollection(), "forward" );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
@@ -3148,7 +3148,7 @@ void KonqMainWindow::initActions()
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
   connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
-  m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
+  m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
@@ -3199,7 +3199,7 @@ void KonqMainWindow::initActions()
 
   m_ptaFullScreen = KStdAction::fullScreen( this, SLOT( slotToggleFullScreen() ), actionCollection() );
 
-  m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
+  m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::shortcut(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
   //m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
