@@ -492,7 +492,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    QString appId, QString callbackId,
                                    bool embed,
                                    QObject *parent, const char* name )
-   : QObject( parent, name ), DCOPObject()
+   : DCOPObject(), QObject( parent, name ) 
 {
     Q_UNUSED(embed);
    _visible = false;
@@ -1022,7 +1022,7 @@ void NSPluginInstance::displayPlugin()
 
 NSPluginViewer::NSPluginViewer( QCString dcopId,
                                 QObject *parent, const char *name )
-   : QObject( parent, name ), DCOPObject(dcopId)
+   : DCOPObject(dcopId), QObject( parent, name ) 
 {
     _classes.setAutoDelete( true );
 }
@@ -1073,7 +1073,7 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
 
 NSPluginClass::NSPluginClass( const QString &library,
                               QObject *parent, const char *name )
-   : QObject( parent, name ), DCOPObject()
+   : DCOPObject(), QObject( parent, name ) 
 {
     // initialize members
     _handle = KLibLoader::self()->library(QFile::encodeName(library));
