@@ -67,7 +67,7 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
   QString profileName = (!(KProtocolInfo::supportsListing(url.protocol())) ||
-                        url.path().right(5) == ".html" || 
+                        url.path().right(5) == ".html" ||
 			url.path().right(4) == ".htm" )
           ? "webbrowsing" : "filemanagement";
 
@@ -95,10 +95,6 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       req.args = args;
       mainWindow->viewManager()->loadViewProfile( path, filename, url, req );
   }
-  if (mainWindow->currentView())
-      mainWindow->enableAllActions( true );
-  else
-      mainWindow->disableActionsNoView();
   mainWindow->setInitialFrameName( args.frameName );
   mainWindow->show();
   return mainWindow;
