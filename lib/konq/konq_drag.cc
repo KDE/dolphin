@@ -53,9 +53,11 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
     if ( mimetype == "application/x-qiconlist" )
         a = QIconDrag::encodedData( mime );
     else if ( mimetype == "text/uri-list" ) {
-        QUriDrag tmp;
-        tmp.setUnicodeUris( urls );
-        return tmp.encodedData( mime );
+        QCString s = urls.join( "\r\n" ).latin1();
+        if( urls.count() > 0 )
+            s.append( "\r\n" );
+        a.resize( s.length() + 1 ); // trailing zero
+        memcpy( a.data(), s.data(), s.length() + 1 );
     }
     else if ( mimetype == "application/x-kde-cutselection" ) {
         QCString s ( m_bCutSelection ? "1" : "0" );
