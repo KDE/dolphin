@@ -339,7 +339,7 @@ void KWrite::newCaption()
     QString c;
     if (!m_paShowPath->isChecked())
     {
-      c = m_view->document()->url().filename();
+      c = m_view->document()->url().fileName();
 
       //File name shouldn't be too long - Maciek
       if (c.length() > 64)
