@@ -447,7 +447,6 @@ void KonqDirPart::emitTotalCount()
 {
     if ( !d->dirLister || d->dirLister->url().isEmpty() )
         return;
-    kdDebug() << k_funcinfo << "d->dirSizeDirty=" << d->dirSizeDirty << endl;
     if ( d->dirSizeDirty ) {
         m_lDirSize = 0;
         m_lFileCount = 0;
@@ -466,7 +465,6 @@ void KonqDirPart::emitTotalCount()
         }
         d->dirSizeDirty = false;
     }
-    kdDebug() << k_funcinfo << "filecount=" << m_lFileCount << " dirsize=" << m_lDirSize << endl;
 
     QString summary =
         KIO::itemsSummaryString(m_lFileCount + m_lDirCount,
