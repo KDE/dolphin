@@ -50,14 +50,14 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
 
 // bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk )
-    : QListViewItem(parent, bk.fullText(), bk.url()), m_bookmark(bk)
+    : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk)
 {
     init(bk);
 }
 
 // bookmark (after another)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk )
-    : QListViewItem(parent, after, bk.fullText(), bk.url()), m_bookmark(bk)
+    : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk)
 {
     init(bk);
 }
@@ -80,7 +80,7 @@ void KEBListViewItem::init( const KBookmark & bk )
 
 void KEBListViewItem::setOpen( bool open )
 {
-    m_bookmark.internalElement().setAttribute( "OPEN", open ? 1 : 0 );
+    m_bookmark.internalElement().setAttribute( "folded", open ? "no" : "yes" );
     QListViewItem::setOpen( open );
 }
 
@@ -108,7 +108,7 @@ public:
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
-    : KMainWindow(), m_commandHistory( actionCollection() )
+    : KMainWindow(), m_bIsSaving( false ), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
     // It will be available in KBookmarkManager::self() from now.
@@ -195,8 +195,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
 KEBTopLevel::~KEBTopLevel()
 {
-    //if ( kapp->clipboard()->ownsSelection() )
-    //    kapp->clipboard()->clear();
     s_topLevel = 0L;
 }
 
@@ -247,17 +245,16 @@ void KEBTopLevel::slotSave()
 
 bool KEBTopLevel::save()
 {
+    m_bIsSaving = true;
     bool ok = KBookmarkManager::self()->save();
     if (ok)
     {
         QByteArray data;
-        // We don't want to notify ourselves (keditbookmarks), because this would
-        // call slotBookmarksChanged, which clears the history.
-        // There's probably a better solution than hardcoding konq/kdesktop, but not at 4:47am.
-        kapp->dcopClient()->send( "konqueror*", "KBookmarkManager", "notifyCompleteChange()", data );
-        kapp->dcopClient()->send( "kdesktop", "KBookmarkManager", "notifyCompleteChange()", data );
+        // We'll get the notification ourselves as well, that's why we use m_bIsSaving
+        kapp->dcopClient()->send( "*", "KBookmarkManager", "notifyCompleteChange()", data );
         setModified( false );
     }
+    m_bIsSaving = false;
     return ok;
 }
 
@@ -308,16 +305,6 @@ void KEBTopLevel::slotDelete()
         return;
     }
     KBookmark bk = selectedBookmark();
-#if 0
-    kdDebug() << "KEBTopLevel::slotDelete child count=" << bk.internalElement().childNodes().count() << endl;
-    if ( bk.isGroup() && bk.internalElement().childNodes().count() > 1 /*there's always "TEXT"*/ )
-    {
-        if ( KMessageBox::questionYesNo( this, i18n("This is a bookmark folder. Are you sure you want to delete it ?\nThis operation can't be undone."),
-                                         i18n("Confirmation required") ) == KMessageBox::No )
-            return;
-    }
-#endif
-
     DeleteCommand * cmd = new DeleteCommand( i18n("Delete item"), bk.address() );
     m_commandHistory.addCommand( cmd );
 }
@@ -403,7 +390,7 @@ void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const
     if ( KEBDrag::canDecode( data ) )
     {
         KBookmark bk = KEBDrag::decode( data );
-        kdDebug() << "KEBTopLevel::slotPaste url=" << bk.url() << endl;
+        kdDebug() << "KEBTopLevel::slotPaste url=" << bk.url().prettyURL() << endl;
         CreateCommand * cmd = new CreateCommand( cmdName, insertionAddress, bk );
         m_commandHistory.addCommand( cmd );
     }
@@ -462,8 +449,8 @@ void KEBTopLevel::slotShowNS()
 {
     kdDebug() << "KEBTopLevel::slotShowNS" << endl;
     QDomElement rootElem = KBookmarkManager::self()->root().internalElement();
-    QString attr = "HIDE_NSBK";
-    rootElem.setAttribute(attr, rootElem.attribute(attr) == "1" ? "0" : "1");
+    QString attr = "hide_nsbk";
+    rootElem.setAttribute(attr, rootElem.attribute(attr) == "yes" ? "no" : "yes");
     setModified(); // one will need to save, to get konq to notice the change
     // If that's bad, then we need to put this flag in a KConfig.
 }
@@ -607,10 +594,13 @@ void KEBTopLevel::slotContextMenu( KListView *, QListViewItem * _item, const QPo
 
 void KEBTopLevel::slotBookmarksChanged()
 {
-    kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
     // This is called when someone changes bookmarks in konqueror....
-    m_commandHistory.clear();
-    fillListView();
+    if ( ! m_bIsSaving )
+    {
+        kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
+        m_commandHistory.clear();
+        fillListView();
+    }
 }
 
 void KEBTopLevel::update()
@@ -657,7 +647,7 @@ void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group 
             KBookmarkGroup grp = bk.toGroup();
             KEBListViewItem * item = new KEBListViewItem( parentItem, lastItem, grp );
             fillGroup( item, grp );
-            if (grp.internalElement().attribute("OPEN") == "1")
+            if (grp.isOpen())
                 item->QListViewItem::setOpen(true); // no need to save it again :)
             lastItem = item;
         }

@@ -114,6 +114,7 @@ protected:
 
     bool m_bModified;
     bool m_bCanPaste;
+    bool m_bIsSaving;
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
     KCommandHistory m_commandHistory;

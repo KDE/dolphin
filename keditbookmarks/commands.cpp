@@ -44,6 +44,7 @@ void MoveCommand::execute()
     //kdDebug() << "MoveCommand::execute parentAddress=" << parentAddress << " posInNewParent=" << posInNewParent << endl;
     KBookmark newParentBk = KBookmarkManager::self()->findByAddress( parentAddress );
     ASSERT( !newParentBk.isNull() );
+    ASSERT( newParentBk.isGroup() );
 
     if ( posInNewParent == 0 ) // First child
     {
@@ -55,8 +56,8 @@ void MoveCommand::execute()
         kdDebug() << "MoveCommand::execute afterAddress=" << afterAddress << endl;
         KBookmark afterNow = KBookmarkManager::self()->findByAddress( afterAddress );
         ASSERT(!afterNow.isNull());
-        QDomNode result = newParentBk.internalElement().insertAfter( bk.internalElement(), afterNow.internalElement() );
-        ASSERT(!result.isNull());
+        bool result = newParentBk.toGroup().moveItem( bk, afterNow );
+        ASSERT(result);
         kdDebug() << "MoveCommand::execute after moving in the dom tree : item=" << bk.address() << endl;
     }
 
@@ -103,7 +104,7 @@ void CreateCommand::execute()
                 bk = parentGroup.createNewFolder( m_text );
                 m_text = bk.fullText(); // remember it, we won't have to ask it again
                 kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
-                bk.internalElement().setAttribute( "OPEN", m_open ? 1 : 0 );
+                bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
             }
             else
                 bk = parentGroup.addBookmark( m_text, m_url );
@@ -116,7 +117,7 @@ void CreateCommand::execute()
     {
         kdDebug() << "Opening parent" << endl;
         // Open the parent (useful if it was empty) - only for manual commands
-        parentGroup.internalElement().setAttribute( "OPEN", 1 );
+        parentGroup.internalElement().setAttribute( "folded", "no" );
     }
     ASSERT( bk.address() == m_to );
 }
@@ -151,7 +152,7 @@ void DeleteCommand::execute()
         if ( bk.isGroup() )
         {
             m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),
-                                      bk.internalElement().attribute("OPEN")=="1");
+                                      bk.internalElement().attribute("folded")=="no");
             m_subCmd = deleteAll( bk.toGroup() );
             m_subCmd->execute();
         }
@@ -215,11 +216,7 @@ void RenameCommand::execute()
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
     ASSERT( !bk.isNull() );
 
-    QDomText domtext;
-    if (bk.isGroup())
-        domtext = bk.internalElement().elementsByTagName("TEXT").item(0).firstChild().toText();
-    else
-        domtext = bk.internalElement().firstChild().toText();
+    QDomText domtext = bk.internalElement().elementsByTagName("title").item(0).firstChild().toText();
 
     m_oldText = domtext.data();
     domtext.setData( m_newText );
@@ -303,7 +300,7 @@ void ImportCommand::execute()
         // Find or create "Netscape Bookmarks" toplevel item
         // Hmm, let's just create it. The user will clean up if he imports twice.
         netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder);
-        netscapeGroup.internalElement().setAttribute("ICON", m_icon);
+        netscapeGroup.internalElement().setAttribute("icon", m_icon);
         m_group = netscapeGroup.address();
     } else
     {
@@ -357,7 +354,7 @@ void ImportCommand::newBookmark( const QString & text, const QCString & url, con
 {
     KBookmark bk = mstack.top()->addBookmark( text, QString::fromUtf8(url) );
     // Store additionnal info
-    bk.internalElement().setAttribute("NETSCAPEINFO",additionnalInfo);
+    bk.internalElement().setAttribute("netscapeinfo",additionnalInfo);
 }
 
 void ImportCommand::newFolder( const QString & text, bool open, const QString & additionnalInfo )
@@ -367,8 +364,8 @@ void ImportCommand::newFolder( const QString & text, bool open, const QString & 
     mstack.push( &(mlist.last()) );
     // Store additionnal info
     QDomElement element = mlist.last().internalElement();
-    element.setAttribute("NETSCAPEINFO",additionnalInfo);
-    element.setAttribute("OPEN",open?"1":"0");
+    element.setAttribute("netscapeinfo",additionnalInfo);
+    element.setAttribute("folded",open?"no":"yes");
 }
 
 void ImportCommand::newSeparator()

@@ -52,7 +52,7 @@ public:
 
     // Create a bookmark
     CreateCommand( const QString & name, const QString & address,
-                   const QString & text, const QString & url )
+                   const QString & text, const KURL & url )
         : KCommand(name), m_to(address), m_text(text), m_url(url),
           m_group(false), m_separator(false), m_originalBookmark(QDomElement())
     {}
@@ -77,7 +77,7 @@ public:
 private:
     QString m_to;
     QString m_text;
-    QString m_url;
+    KURL m_url;
     bool m_group:1;
     bool m_separator:1;
     bool m_open:1;
