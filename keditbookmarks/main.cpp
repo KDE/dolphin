@@ -47,7 +47,7 @@ int prepare(KApplication &app, QString bookmarksFile = "") {
   bool unique = (givenName == appName);
 
   if (!unique) {
-     int answer = KMessageBox::warningYesNo( 0, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
+     int answer = KMessageBox::warningYesNo( 0, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run Another"), i18n("Quit") );
      if (0) {
         i18n("Continue in same");
      }

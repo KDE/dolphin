@@ -193,7 +193,7 @@ void KFMExec::slotRunApp()
         {
             if ( KMessageBox::questionYesNo( 0L,
                                              i18n( "The file\n%1\nhas been modified.\nDo you want to upload the changes?" ).arg(dest.prettyURL()),
-                                             i18n("File changed" ) ) == KMessageBox::Yes )
+                                             i18n("File Changed" ) ) == KMessageBox::Yes )
             {
                 kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
                 // Do it the synchronous way.
