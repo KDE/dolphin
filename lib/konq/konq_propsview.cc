@@ -87,7 +87,19 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
+
   m_dontPreview = config->readListEntry( "DontPreview" );
+  m_dontPreview.remove("audio/"); //Use the separate setting.
+  //We default to this off anyway, so it's no harm to remove this
+
+  //The setting for sound previews is stored separately, so we can force
+  //the default-to-off bias to propagate up.
+  if (!config->readBoolEntry("EnableSoundPreviews", false))
+  {
+    if (!m_dontPreview.contains("audio/"))
+      m_dontPreview.append("audio/");
+  }
+
   d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", true );
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
@@ -188,7 +200,29 @@ bool KonqPropsView::enterDir( const KURL & dir )
     d->caseInsensitiveSort=config->readBoolEntry("CaseInsensitiveSort",d->caseInsensitiveSort);
     m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
     if (config->hasKey( "DontPreview" ))
+    {
         m_dontPreview = config->readListEntry( "DontPreview" );
+
+        //If the .directory file says something about sound previews,
+        //obey it, otherwise propagate the setting up from the defaults
+        //All this really should be split into a per-thumbnail setting,
+        //but that's too invasive at this point
+        if (config->hasKey("EnableSoundPreviews"))
+        {
+
+            if (!config->readBoolEntry("EnableSoundPreviews", false))
+                if (!m_dontPreview.contains("audio/"))
+                    m_dontPreview.append("audio/");
+        }
+        else
+        {
+            if (m_defaultProps->m_dontPreview.contains("audio/"))
+                if (!m_dontPreview.contains("audio/"))
+                    m_dontPreview.append("audio/");
+        }
+    }
+
+
 
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
@@ -310,8 +344,20 @@ void KonqPropsView::setShowingPreview( const QString &preview, bool show )
     else if (currentConfig())
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
+
+        //Audio is special-cased, as we use a binary setting
+        //for it to get it to follow the defaults right.
+        bool audioEnabled = !m_dontPreview.contains("audio/");
+
+        //Don't write it out into the DontPreview line
+        if (!audioEnabled)
+            m_dontPreview.remove("audio/");
         currentConfig()->writeEntry( "DontPreview", m_dontPreview );
+        currentConfig()->writeEntry( "EnableSoundPreviews", audioEnabled );
         currentConfig()->sync();
+        if (!audioEnabled)
+            m_dontPreview.append("audio/");
+
     }
 
     delete d->previewsToShow;
