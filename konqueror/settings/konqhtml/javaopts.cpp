@@ -120,13 +120,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     toplevel->addWidget( javartGB );
 
     QHBox* hbox = new QHBox( javartGB );
-    javaConsoleCB = new QCheckBox( i18n( "&Show Java Console" ), hbox );
+    javaConsoleCB = new QCheckBox( i18n( "&Show Java console" ), hbox );
     connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
 
-    javaSecurityManagerCB = new QCheckBox( i18n("&Use Security Manager" ), hbox );
+    javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), hbox );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
 
-    enableShutdownCB = new QCheckBox( i18n("S&hutdown Applet Server when inactive"), javartGB );
+    enableShutdownCB = new QCheckBox( i18n("S&hutdown applet server when inactive"), javartGB );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 

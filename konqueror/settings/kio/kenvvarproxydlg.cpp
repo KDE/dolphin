@@ -140,7 +140,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                               QSizePolicy::Fixed, QSizePolicy::Minimum );
     hlay->addItem( spacer );
 
-    m_cbShowValue = new QCheckBox( i18n("Show Actual &Values"), m_gbHostnames,
+    m_cbShowValue = new QCheckBox( i18n("Show actual &values"), m_gbHostnames,
                                   "m_cbShowValue" );
     hlay->addWidget( m_cbShowValue );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::MinimumExpanding,

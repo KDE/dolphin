@@ -63,7 +63,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
         "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-//  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable Debu&gging" ), globalGB );
+//  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable debu&gging" ), globalGB );
 //  QWhatsThis::add( enableJavaScriptDebugCB, i18n("Enables the reporting of errors that occur when JavaScript "
 //        "code is executed, and allows the use of the JavaScript debugger to trace through code execution. "
 //        "Note that this has a small performance impact and is mainly only useful for developers.") );
