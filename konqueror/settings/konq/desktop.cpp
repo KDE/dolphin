@@ -79,7 +79,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
   layout->addWidget(number_group);
 
   // name group
-  QGroupBox *name_group = new QGroupBox("", this);
+  QGroupBox *name_group = new QGroupBox(i18n("Desktop &Names"), this);
 
   QGridLayout *grid = new QGridLayout(name_group, 8, 4,
                       KDialog::marginHint(),
