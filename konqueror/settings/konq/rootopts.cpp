@@ -14,27 +14,31 @@
 
 #include <config.h>
 
+#include <qcheckbox.h>
+#include <qcombobox.h>
 #include <qdir.h>
-#include <dcopclient.h>
+#include <qgrid.h>
+#include <qlabel.h>
+#include <qlayout.h>
+#include <qvgroupbox.h>
+#include <qwhatsthis.h>
+
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <kdialog.h>
 #include <kglobalsettings.h>
 #include <klistview.h>
 #include <klocale.h>
-#include <kio/job.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
 #include <kipc.h>
+#include <kmessagebox.h>
 #include <ktrader.h>
 #include <kseparator.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <kstandarddirs.h>
 #include <kurlrequester.h>
-#include <qwhatsthis.h>
-#include <assert.h>
+
+#include <dcopclient.h>
+#include <kio/job.h>
 
 #include "rootopts.h"
 
@@ -82,19 +86,23 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 {
   QLabel * tmpLabel;
 
-#define RO_LASTROW 11   // 5 cb, 1 listview, 1 line, 3 combo + last row
+#define RO_LASTROW 3   // 2 GroupBoxes + last row
 #define RO_LASTCOL 2
-
   int row = 0;
-  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
+  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, KDialog::spacingHint());
   QString strMouseButton1, strMouseButton3, strButtonTxt1, strButtonTxt3;
   bool leftHandedMouse;
 
-  lay->setRowStretch(RO_LASTROW,10); // last line grows
+  lay->setRowStretch(RO_LASTROW, 10); // last line grows
 
+  /*
   lay->setColStretch(0,0);
   lay->setColStretch(1,0);
   lay->setColStretch(2,10);
+  */
+
+  QGroupBox *groupBox = new QVGroupBox(i18n("Misc Options"), this);
+  lay->addWidget(groupBox, 0, 0);
 
   /*
    * The text on this form depends on the mouse setting, which can be right
@@ -103,27 +111,22 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
    */
   leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
-  menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
-  lay->addMultiCellWidget(menuBarBox, row, row, 0, 0);
+
+  menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), groupBox);
   connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
                                     " desktop popup menus to appear at the top of the screen in the style"
                                     " of Macintosh. This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
-  row++;
 
-  iconsEnabledBox = new QCheckBox(i18n("Enable &Icons on Desktop"), this);
-  lay->addMultiCellWidget(iconsEnabledBox, row, row, 0, 0);
+  iconsEnabledBox = new QCheckBox(i18n("Enable &Icons on Desktop"), groupBox);
   connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
   QWhatsThis::add( iconsEnabledBox, i18n("Uncheck this option if you do not want to have icons on the desktop."
                                       " Without icons the desktop will be somewhat faster but you will no"
                                       " longer be able to drag files to the desktop." ) );
 
-  row++;
 
-
-  vertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
-  lay->addMultiCellWidget(vertAlignBox, row, row, 0, 0);
+  vertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), groupBox);
   connect(vertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( vertAlignBox, i18n("Check this option if you want the icons"
                                       " on the desktop to be aligned vertically (in columns). If you leave this"
@@ -132,10 +135,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                       " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
                                       " arranged horizontally or vertically.") );
 
-  row++;
-
-  showHiddenBox = new QCheckBox(i18n("Show H&idden Files on Desktop"), this);
-  lay->addMultiCellWidget(showHiddenBox, row, row, 0, 0);
+  showHiddenBox = new QCheckBox(i18n("Show H&idden Files on Desktop"), groupBox);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
                                        " in your desktop directory that begin with a period (.) will be shown."
@@ -147,38 +147,32 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
 
-
-  row++;
-  vrootBox = new QCheckBox(i18n("Support Programs in Desktop Window"), this);
-  lay->addMultiCellWidget(vrootBox, row, row, 0, 0);
+  vrootBox = new QCheckBox(i18n("Pr&ograms in Desktop Window"), groupBox);
   connect(vrootBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( vrootBox, i18n("Check this option if you want to"
                                     " run X11 programs that draw into the desktop such as xsnow, xpenguin or"
                                     " xmountain. If you have problems with applications like netscape that check"
                                     " the root window for running instances, disable this option.") );
 
-  row++;
-  lay->setRowStretch( row, 10 );
   previewListView = new KListView( this );
   previewListView->setFullWidth(true);
   previewListView->addColumn( i18n("Show Previews for:") );
-  lay->addMultiCellWidget( previewListView, row - 5, row, 1, RO_LASTCOL );
   QWhatsThis::add(previewListView, i18n("Select for which types of files you want to"
                                         " enable preview images"));
 
-  row++;
-  KSeparator * hLine2 = new KSeparator(KSeparator::HLine, this);
-  lay->addMultiCellWidget(hLine2, row, row, 0, RO_LASTCOL);
+  lay->addWidget(previewListView, row, RO_LASTCOL);
 
   row++;
-  tmpLabel = new QLabel( i18n("Clicks on the desktop"), this );
-  lay->addMultiCellWidget( tmpLabel, row, row, 0, RO_LASTCOL );
+  groupBox = new QVGroupBox( i18n("Clicks on the desktop"), this );
+  lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
 
-  strMouseButton1 = i18n("Left Button");
+  QGrid * grid = new QGrid(2, groupBox);
+
+  strMouseButton1 = i18n("Left Button:");
   strButtonTxt1 = i18n( "You can choose what happens when"
    " you click the left button of your pointing device on the desktop:");
 
-  strMouseButton3 = i18n("Right Button");
+  strMouseButton3 = i18n("Right Button:");
   strButtonTxt3 = i18n( "You can choose what happens when"
    " you click the right button of your pointing device on the desktop:");
 
@@ -188,12 +182,9 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
      qSwap(strButtonTxt1, strButtonTxt3);
   }
 
-  row++;
-  tmpLabel = new QLabel( strMouseButton1, this );
-  lay->addWidget( tmpLabel, row, 0 );
-  leftComboBox = new QComboBox( this );
+  tmpLabel = new QLabel( strMouseButton1, grid );
+  leftComboBox = new QComboBox( grid );
   tmpLabel->setBuddy( leftComboBox );
-  lay->addWidget( leftComboBox, row, 1 );
   fillMenuCombo( leftComboBox );
   connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
   QString wtstr = strButtonTxt1 +
@@ -213,12 +204,9 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( leftComboBox, wtstr );
 
-  row++;
-  tmpLabel = new QLabel( i18n("Middle button"), this );
-  lay->addWidget( tmpLabel, row, 0 );
-  middleComboBox = new QComboBox( this );
+  tmpLabel = new QLabel( i18n("Middle Button:"), grid );
+  middleComboBox = new QComboBox( grid );
   tmpLabel->setBuddy( middleComboBox );
-  lay->addWidget( middleComboBox, row, 1 );
   fillMenuCombo( middleComboBox );
   connect(middleComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
   wtstr = i18n("You can choose what happens when"
@@ -239,12 +227,9 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( middleComboBox, wtstr );
 
-  row++;
-  tmpLabel = new QLabel( strMouseButton3, this );
-  lay->addWidget( tmpLabel, row, 0 );
-  rightComboBox = new QComboBox( this );
+  tmpLabel = new QLabel( strMouseButton3, grid );
+  rightComboBox = new QComboBox( grid );
   tmpLabel->setBuddy( rightComboBox );
-  lay->addWidget( rightComboBox, row, 1 );
   fillMenuCombo( rightComboBox );
   connect(rightComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
   wtstr = strButtonTxt3 +
@@ -265,8 +250,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( rightComboBox, wtstr );
 
   // -- Bottom --
-  assert( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
-  lay->activate();
+  Q_ASSERT( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
 
   load();
 }
@@ -465,8 +449,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
   QWhatsThis::add( urDocument, wtstr );
 
   // -- Bottom --
-  assert( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
-  lay->activate();
+  Q_ASSERT( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
 
   load();
 }

@@ -52,10 +52,10 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     lay->setColStretch(LASTCOLUMN,10);
 
     row++;
-    label = new QLabel( i18n("Standard Font"), this );
-    lay->addWidget(label,row,0);
 
     m_pStandard = new KFontCombo( this );
+    label = new QLabel( m_pStandard, i18n("&Standard Font:"), this );
+    lay->addWidget(label,row,0);
     lay->addMultiCellWidget(m_pStandard,row,row,1,1);
 
     wtstr = i18n("This is the font used to display text in Konqueror windows.");
@@ -68,10 +68,9 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
 
-    label = new QLabel( i18n("Font Size"), this );
-    lay->addWidget(label,row,0);
-
     m_pSize = new QSpinBox( 4,18,1,this );
+    label = new QLabel( m_pSize, i18n("Font Si&ze:"), this );
+    lay->addWidget(label,row,0);
     lay->addMultiCellWidget(m_pSize,row,row,1,1);
 
     connect( m_pSize, SIGNAL( valueChanged(int) ),
@@ -84,10 +83,9 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
     //
 #define COLOR_BUTTON_COL 1
-    label = new QLabel( i18n("Normal Text Color:"), this );
-    lay->addWidget(label,row,0);
-
     m_pNormalText = new KColorButton( normalTextColor, this );
+    label = new QLabel( m_pNormalText, i18n("Normal Te&xt Color:"), this );
+    lay->addWidget(label,row,0);
     lay->addWidget(m_pNormalText,row,COLOR_BUTTON_COL,Qt::AlignLeft);
 
     wtstr = i18n("This is the color used to display text in Konqueror windows.");
