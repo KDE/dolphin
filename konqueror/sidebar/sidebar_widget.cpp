@@ -152,6 +152,7 @@ void addBackEnd::activatedAddMenu(int id)
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name)
 	:QWidget(parent,name),KonqSidebar_PluginInterface()
 {
+	m_initial=true;
 	deleting=false;
 	connect(this,SIGNAL(destroyed()),this,SLOT(slotDeleted()));
 	noUpdate=false;
@@ -418,21 +419,39 @@ void Sidebar_Widget::readConfig()
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
 	doLayout();
-	savedWidth=((QWidget*)(parent()))->width();
-	somethingVisible=true;
-	bool tmpSomethingVisible=false;
+	if (m_initial) savedWidth=((QWidget*)(parent()))->width();
+
+	bool tmpSomethingVisible=m_initial?false:somethingVisible;
+	somethingVisible=false;
 	for (uint i=0; i<Buttons.count();i++)
 	{
 		if (list.contains(Buttons.at(i)->file))
 			{
-				tmpSomethingVisible=true;
+//				tmpSomethingVisible=true;
 				somethingVisible=true;
 				ButtonBar->setTab(i,true); //showHidePage(i);
+				noUpdate=true;
 				showHidePage(i);
-				if (singleWidgetMode) return;
+				if (singleWidgetMode) break;
 			}
 	}
-	if (!tmpSomethingVisible) collapseExpandSidebar();
+
+	if (m_initial)
+	{
+		somethingVisible=true;
+		collapseExpandSidebar();
+	}
+	else
+	{
+		if (somethingVisible != tmpSomethingVisible)
+		{
+			somethingVisible=tmpSomethingVisible;
+		}
+  		collapseExpandSidebar();
+	}
+        noUpdate=false;
+	m_initial=false;
+
 }
 
 void Sidebar_Widget::updateDock()
@@ -466,6 +485,7 @@ void Sidebar_Widget::createButtons()
 			{
 				if (Buttons.at(i)->dock!=0)
 				{
+					noUpdate=true;					
 					if (Buttons.at(i)->dock->isVisible()) showHidePage(i);
 					if (Buttons.at(i)->module!=0) delete Buttons.at(i)->module;
 					delete Buttons.at(i)->dock;
@@ -654,7 +674,7 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 
 void Sidebar_Widget::showHidePage(int page)
 {
-	qDebug("ShowHidePage");
+	qDebug(" *******************************************ShowHidePage");
 	ButtonInfo *info=Buttons.at(page);
 	if (!info->dock)
 		{

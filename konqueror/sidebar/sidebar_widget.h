@@ -117,6 +117,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	bool doEnableActions();
 	bool noUpdate;
 	bool deleting;
+	bool m_initial;
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	friend class ButtonInfo;
