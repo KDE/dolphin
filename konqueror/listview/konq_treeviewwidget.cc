@@ -51,6 +51,20 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
    kdDebug(1202) << "-KonqTreeViewWidget" << endl;
 }
 
+bool KonqTreeViewWidget::openURL( const KURL &url )
+{
+   m_urlsToOpen.clear();
+   if ( m_pBrowserView->extension()->urlArgs().reload )
+   {
+      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+      for (; it.current(); ++it )
+         if ( it.current()->isOpen() )
+            m_urlsToOpen.append( it.current()->url( -1 ) );
+   }
+
+   return KonqBaseListViewWidget::openURL( url );
+}
+
 void KonqTreeViewWidget::saveState( QDataStream &stream )
 {
     QStringList openDirList;

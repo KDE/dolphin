@@ -36,6 +36,8 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget );
       virtual ~KonqTreeViewWidget();
 
+      virtual bool openURL( const KURL &url );
+
       virtual void saveState( QDataStream &stream );
       virtual void restoreState( QDataStream &stream );
 
