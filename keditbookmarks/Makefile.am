@@ -23,8 +23,9 @@ dummy.cpp:
 rcdir = $(kde_datadir)/keditbookmarks
 rc_DATA = keditbookmarksui.rc  
 
-data_DATA = keditbookmarks.desktop
-datadir = $(kde_appsdir)/Internet
+install-data-local: uninstall.desktop
+	$(mkinstalldirs) $(kde_appsdir)/Internet
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/Internet/keditbookmarks.desktop
 
 KDE_ICON = AUTO
 
