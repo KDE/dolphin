@@ -115,6 +115,7 @@ public:
   void removeChildView( KonqChildView *childView );
   KonqChildView *childView( BrowserView *view );
 
+  int viewCount() { return m_mapViews.count(); }
   QValueList<BrowserView *> viewList();
   
   KonqChildView *currentChildView() { return m_currentView; }

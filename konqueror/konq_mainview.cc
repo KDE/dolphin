@@ -850,6 +850,9 @@ void KonqMainView::slotRemoveView()
   setActiveView( nextView->view() );
 
   m_pViewManager->removeView( prevView );
+
+  if ( m_mapViews.count() == 1 )
+    m_currentView->frame()->header()->passiveModeCheckBox()->setEnabled( false );
 }
 
 void KonqMainView::slotSaveDefaultProfile()

@@ -91,6 +91,8 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
     KonqFrameContainer* parentContainer = viewFrame->parentContainer();
     bool moveNewContainer = (parentContainer->idAfter( viewFrame ) != 0);
 
+    viewFrame->header()->passiveModeCheckBox()->setEnabled( true );
+
     if( moveNewContainer )       
       kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( viewFrame ) );
     else
@@ -134,6 +136,8 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
 
     // exclude the splitter and all child widgets from the part focus handling
     m_pMainContainer->show();
+
+    m_pMainView->childView( newView )->frame()->header()->passiveModeCheckBox()->setEnabled( false );
   }
 }
 

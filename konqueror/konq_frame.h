@@ -65,6 +65,8 @@ public:
   KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
   ~KonqFrameHeader() {}
 
+  QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
+
 signals:
   /**
    * This signal is emmitted when the user clicked the header.
