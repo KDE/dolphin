@@ -156,18 +156,18 @@ public:
   /**
    * Retrieve view's URL
    */
-  KURL url();
+  KURL url() const;
 
   /**
    * Get view's location bar URL, i.e. the one that the view signals
    * It can be different from url(), for instance if we display a index.html
    */
-  const QString locationBarURL() { return m_sLocationBarURL; }
+  QString locationBarURL() const { return m_sLocationBarURL; }
 
   /**
    * Get the URL that was typed to get the current URL.
    */
-  const QString typedURL() { return m_sTypedURL; }
+  QString typedURL() const { return m_sTypedURL; }
   /**
    * Set the URL that was typed to get the current URL.
    */
@@ -183,7 +183,7 @@ public:
    */
   void partDeleted() { m_pPart = 0L; }
 
-  KParts::BrowserExtension *browserExtension() {
+  KParts::BrowserExtension *browserExtension() const {
       return KParts::BrowserExtension::childObject( m_pPart );
   }
 

@@ -594,7 +594,7 @@ void KonqView::copyHistory( KonqView *other )
         m_lstHistory.append( new HistoryEntry( *it.current() ) );
 }
 
-KURL KonqView::url()
+KURL KonqView::url() const
 {
   assert( m_pPart );
   return m_pPart->url();
