@@ -324,7 +324,7 @@ void KonqFrame::listViews( ChildViewList *viewList )
 void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int /*id*/, int /*depth*/ )
 {
   if (saveURLs)
-    config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ),
+    config->writePathEntry( QString::fromLatin1( "URL" ).prepend( prefix ),
                         childView()->url().url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->desktopEntryName() );

@@ -1050,7 +1050,7 @@ void KonqViewManager::saveViewProfile( const QString & fileName, const QString &
   KSimpleConfig cfg( path );
   cfg.setGroup( "Profile" );
   if ( !profileName.isEmpty() )
-      cfg.writeEntry( "Name", profileName );
+      cfg.writePathEntry( "Name", profileName );
 
   saveViewProfile( cfg, saveURLs, saveWindowSize );
 
@@ -1104,7 +1104,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   bool alwaysTabbedMode = config->readBoolEntry( "AlwaysTabbedMode", false );
 
   m_currentProfile = filename;
-  m_currentProfileText = cfg.readEntry("Name",filename);
+  m_currentProfileText = cfg.readPathEntry("Name",filename);
   m_pMainWindow->currentProfileChanged();
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )
@@ -1421,7 +1421,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     {
       KURL url( defaultURL );
       if ( cfg.hasKey( key ) ) // if it has it, we load it, even if empty
-        url = KURL( cfg.readEntry( key ) );
+        url = KURL( cfg.readPathEntry( key ) );
 
       if ( !url.isEmpty() )
       {

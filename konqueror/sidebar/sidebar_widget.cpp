@@ -274,7 +274,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 	for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
 		KSimpleConfig scf(list + *it, false);
 		scf.setGroup("Desktop Entry");
-		if (scf.readEntry("URL", QString::null) == url.url()) {
+		if (scf.readPathEntry("URL", QString::null) == url.url()) {
 			// We already have this one!
 			KMessageBox::information(0L,
 					i18n("This entry already exists."));
@@ -289,7 +289,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 		KSimpleConfig scf(myFile, false);
 		scf.setGroup("Desktop Entry");
 		scf.writeEntry("Type", "Link");
-		scf.writeEntry("URL", url.url());
+		scf.writePathEntry("URL", url.url());
 		scf.writeEntry("Icon", "netscape");
 		scf.writeEntry("Name", i18n("Web SideBar Plugin"));
 		scf.writeEntry("Open", "true");
@@ -424,7 +424,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 				KSimpleConfig ksc(m_path+m_currentButton->file);
 				ksc.setGroup("Desktop Entry");
 				ksc.writeEntry("Name",newurl);
-				ksc.writeEntry("URL",newurl);
+				ksc.writePathEntry("URL",newurl);
 				ksc.sync();
 				QTimer::singleShot(0,this,SLOT(updateButtons()));
 			}
@@ -660,11 +660,11 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	confFile = new KSimpleConfig(m_path+desktoppath,true);
 	confFile->setGroup("Desktop Entry");
 
-    	QString icon = confFile->readEntry("Icon","");
-	QString name = confFile->readEntry("Name","");
-	QString comment = confFile->readEntry("Comment","");
-	QString url = confFile->readEntry("URL","");
-	QString lib = confFile->readEntry("X-KDE-KonqSidebarModule","");
+    	QString icon = confFile->readEntry("Icon",QString::null);
+	QString name = confFile->readEntry("Name",QString::null);
+	QString comment = confFile->readEntry("Comment",QString::null);
+	QString url = confFile->readPathEntry("URL",QString::null);
+	QString lib = confFile->readEntry("X-KDE-KonqSidebarModule",QString::null);
 
         delete confFile;
 

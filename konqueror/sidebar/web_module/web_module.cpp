@@ -51,7 +51,7 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 	KSimpleConfig ksc(_desktopName);
 	ksc.setGroup("Desktop Entry");
 
-	_url = ksc.readEntry("URL");
+	_url = ksc.readPathEntry("URL");
 	_htmlPart->openURL(_url);
 	// Must load this delayed
 	QTimer::singleShot(0, this, SLOT(loadFavicon()));
@@ -95,8 +95,8 @@ void KonqSideBarWebModule::loadFavicon() {
 
 		KSimpleConfig ksc(_desktopName);
 		ksc.setGroup("Desktop Entry");
-		if (icon != ksc.readEntry("Icon")) {
-			ksc.writeEntry("Icon", icon);
+		if (icon != ksc.readPathEntry("Icon")) {
+			ksc.writePathEntry("Icon", icon);
 		}
 	}
 }
@@ -113,8 +113,8 @@ void KonqSideBarWebModule::setTitle(const QString& title) {
 
 		KSimpleConfig ksc(_desktopName);
 		ksc.setGroup("Desktop Entry");
-		if (title != ksc.readEntry("Name")) {
-			ksc.writeEntry("Name", title);
+		if (title != ksc.readPathEntry("Name")) {
+			ksc.writePathEntry("Name", title);
 		}
 	}
 }

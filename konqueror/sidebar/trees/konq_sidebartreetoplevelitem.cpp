@@ -90,7 +90,7 @@ void KonqSidebarTreeTopLevelItem::drop( QDropEvent * ev )
                     KSimpleConfig config( linkURL.path() );
                     config.setDesktopGroup();
                     // Don't write a Name field in the desktop file, it makes renaming impossible
-                    config.writeEntry( "URL", targetURL.url() );
+                    config.writePathEntry( "URL", targetURL.url() );
                     config.writeEntry( "Type", "Link" );
                     QString icon = KMimeType::findByURL( targetURL )->icon( targetURL, false );
                     static const QString& unknown = KGlobal::staticQString("unknown");
