@@ -676,14 +676,8 @@ void KonqKfmIconView::newIconSize( int size )
     if ( effSize == oldEffSize )
         return;
 
-    // Stop a possible preview job taking care of disabling updates
-    // or else the view will be repainted immediately
-    if ( m_pProps->isShowingPreview() )
-    {
-        m_pIconView->setUpdatesEnabled( false );
-        m_pIconView->stopImagePreview();
-        m_pIconView->setUpdatesEnabled( true );
-    }
+    // Stop a preview job that might be running
+    m_pIconView->stopImagePreview();
 
     // Set icons size, arrage items in grid and repaint the whole view
     m_pIconView->setIcons( size );
@@ -699,10 +693,7 @@ bool KonqKfmIconView::doCloseURL()
 
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
 
-    // stopImagePreview will trigger an immediate repaint, so we avoid this
-    m_pIconView->setUpdatesEnabled( false );
     m_pIconView->stopImagePreview();
-    m_pIconView->setUpdatesEnabled( true );
     return true;
 }
 

@@ -1150,8 +1150,8 @@ void KonqIconViewWidget::stopImagePreview()
     {
         d->pPreviewJob->kill();
         d->pPreviewJob = 0;
-        if (autoArrange())
-            arrangeItemsInGrid();
+        // Now that previews are updated in-place, calling
+        // arrangeItemsInGrid() here is not needed anymore
     }
 }
 
