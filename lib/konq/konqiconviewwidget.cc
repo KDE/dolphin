@@ -77,8 +77,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setItemTextPos( QIconView::Bottom );
 
     int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    setGridX( sz + 20 );
-    setGridY( sz + 20 );
+    setGridX( sz + 26 );
+    setGridY( sz + 26 );
     setAutoArrange( true );
     setSorting( true, sortDirection() );
     m_bSortDirsFirst = true;
@@ -105,8 +105,8 @@ void KonqIconViewWidget::slotIconChanged( int group )
     }
 
     int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    setGridX( sz + 20 );
-    setGridY( sz + 20 );
+    setGridX( sz + 26 );
+    setGridY( sz + 26 );
     updateContents();
 }
 
