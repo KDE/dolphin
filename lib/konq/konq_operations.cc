@@ -538,8 +538,9 @@ void KonqOperations::doFileCopy()
         if (iconView && iconView->maySetWallpaper() &&
             (lst.count() == 1) &&
             ((!KImageIO::type(lst.first().path()).isEmpty()) ||
-             (KImageIO::isSupported(KMimeType::findByURL(lst.first())->name(),
-                                    KImageIO::Reading))))
+             (KImageIO::isSupported(KMimeType::findByURL(lst.first())->name(), KImageIO::Reading)) ||
+              lst.first().fileName().endsWith(".svg") || 
+              lst.first().fileName().endsWith(".svgz")))
         {
             bSetWallpaper = true;
         }
