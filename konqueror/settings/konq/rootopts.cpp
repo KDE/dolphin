@@ -160,7 +160,7 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Desktop Icons" );
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
-    bool bVertAlign = g_pConfig->readNumEntry("VertAlign", 0);
+    bool bVertAlign = g_pConfig->readNumEntry("VertAlign", 1);
     VertAlignBox->setChecked(bVertAlign);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -190,7 +190,7 @@ void KRootOptions::load()
 void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
-    VertAlignBox->setChecked(0);
+    VertAlignBox->setChecked(true);
     //leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
