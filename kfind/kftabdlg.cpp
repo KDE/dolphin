@@ -230,7 +230,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     textEdit=new KLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2], "text");
 
-    caseContextCb  =new QCheckBox(i18n("C&ase sensitive"), pages[2]);
+    caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Regular e&xpression"), pages[2]);
 
     QPushButton* editRegExp = 0;

@@ -92,11 +92,11 @@ QString KfFileLVI::key(int column, bool) const
 {
   switch (column) {
   case 2:
-    // Returns date in bytes. Used for sorting
-    return QString().sprintf("%10d", fileInfo->size());
+    // Returns size in bytes. Used for sorting
+    return QString().sprintf("%010d", fileInfo->size());
   case 3:
     // Returns time in secs from 1/1/1970. Used for sorting
-    return QString().sprintf("%10ld", fileitem.time(KIO::UDS_MODIFICATION_TIME));
+    return QString().sprintf("%010ld", fileitem.time(KIO::UDS_MODIFICATION_TIME));
   }
 
   return text(column);
