@@ -456,7 +456,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     // note, no need to do the updateBookmarkMetadata for every
     // history object, only need to for the broadcast sender as
     // the history object itself keeps the data consistant.
-    KonqBookmarkManager::self()->updateAccessMetadata(entry->url.url());
+    KonqBookmarkManager::self()->updateAccessMetadata( urlString );
 
     if ( saveId == objId() ) {
 	// we are the sender of the broadcast, so we save
