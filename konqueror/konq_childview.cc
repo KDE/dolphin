@@ -72,6 +72,7 @@ KonqChildView::KonqChildView( BrowserView *view,
   m_iXOffset = 0;
   m_iYOffset = 0;
   m_bLoading = false;
+  m_bViewStarted = false;
   m_iProgress = -1;
   m_bPassiveMode = false;
   m_bProgressSignals = true;
@@ -155,7 +156,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   if ( url.isEmpty() )
     url = KonqChildView::url();
 
-  if ( m_bLoading )
+  if ( m_bViewStarted )
     stop();
 
   makeHistory( false );
@@ -284,7 +285,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 //  m_iYOffset = h->yOffset;
 //  changeViewMode( h->strServiceType, h->strURL, true, h->strServiceName );
   
-  if ( m_bLoading )
+  if ( m_bViewStarted )
     stop();
 
   makeHistory( false );
@@ -348,13 +349,15 @@ void KonqChildView::run( const QString & url )
 
 void KonqChildView::stop()
 {
-  if ( m_bLoading )
+  if ( m_bViewStarted )
   {
     m_pView->stop();
-    m_bLoading = false;
+    m_bViewStarted = false;
   }
   else if ( m_pRun )
     delete (KonqRun *)m_pRun; // should set m_pRun to 0L
+
+  m_bLoading = false;
 
     //  if ( m_pRun ) debug(" m_pRun is not NULL "); else debug(" m_pRun is NULL ");
   //if ( m_pRun ) delete (KonqRun *)m_pRun; // should set m_pRun to 0L

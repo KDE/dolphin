@@ -268,7 +268,10 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
   }
 
   if ( view && view == m_currentView )
+  {
+    view->setLoading( true );  
     startAnimation();
+  }
     
 }
 
@@ -558,6 +561,7 @@ void KonqMainView::slotStarted()
   assert( it != m_mapViews.end() );
 
   (*it)->setLoading( true );
+  (*it)->setViewStarted( true );
 
   (*it)->makeHistory( true );
 
@@ -581,6 +585,7 @@ void KonqMainView::slotCompleted()
   MapViews::ConstIterator it = m_mapViews.find( view );
 
   (*it)->setLoading( false );
+  (*it)->setViewStarted( false );
   (*it)->setProgress( -1 );
 
   if ( (KonqChildView *)m_currentView == *it )
@@ -699,6 +704,11 @@ void KonqMainView::setActiveView( BrowserView *view )
   m_paForward->setEnabled( m_currentView->canGoForward() );
 
   checkEditExtension();
+
+  if ( m_currentView->isLoading() )
+    startAnimation();
+  else
+    stopAnimation();
 
   m_bMenuViewDirty = true;
 }

@@ -195,6 +195,9 @@ public:
 
   void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
+
+  void setViewStarted( bool b ) { m_bViewStarted = b; }
+  bool viewStarted() const { return m_bViewStarted; }
   
   void setProgress( int percent ) { m_iProgress = percent; }
   int progress() const { return m_iProgress; }
@@ -250,6 +253,7 @@ protected:
   int m_iYOffset;
   KonqFrame *m_pKonqFrame;
   bool m_bLoading;
+  bool m_bViewStarted;
   int m_iProgress;
   bool m_bPassiveMode;
   bool m_bProgressSignals;
