@@ -814,6 +814,7 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
       createColumns();
    };
    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
+   m_pBrowserView->m_url=url;
    m_url = url;
 }
 
