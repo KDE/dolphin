@@ -42,15 +42,17 @@ struct KonqBasicOperation
   bool m_valid;
   bool m_directory;
   bool m_renamed;
+  bool m_link;
   KURL m_src;
   KURL m_dst;
+  QString m_target;
 };
 
 struct KonqCommand
 {
   typedef QValueStack<KonqCommand> Stack;
 
-  enum Type { COPY, MOVE };
+  enum Type { COPY, MOVE, LINK };
 
   KonqCommand()
   { m_valid = false; }
@@ -74,6 +76,7 @@ private slots:
   void slotResult( KIO::Job *job );
 
   void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory, bool renamed );
+  void slotCopyingLinkDone( KIO::Job *, const KURL &from, const QString &target, const KURL &to );
 
 private:
   class KonqCommandRecorderPrivate;
@@ -126,7 +129,7 @@ private:
 
   bool initializeFromKDesky();
 
-  enum UndoState { MAKINGDIRS, MOVINGFILES, REMOVINGDIRS };
+  enum UndoState { MAKINGDIRS, MOVINGFILES, REMOVINGDIRS, REMOVINGFILES };
 
   class KonqUndoManagerPrivate;
   KonqUndoManagerPrivate *d;

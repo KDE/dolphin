@@ -245,7 +245,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
                 case QDropEvent::Link :
                   job = KIO::link( lst, dest );
                   op->setOperation( 0L, LINK, lst, dest );
-                  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
+                  (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
                   break;
                 default : kdError(1203) << "Unknown action " << (int)ev->action() << endl; delete op; return;
             }
