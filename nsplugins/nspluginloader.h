@@ -93,7 +93,7 @@ protected slots:
 private:
 
   QStringList _searchPaths;
-  QDict<char> _mapping, _filetype;  
+  QDict<QString> _mapping, _filetype;
   
   KProcess *_process;
   bool _running;

@@ -82,6 +82,7 @@ NSPluginLoader::NSPluginLoader()
 {
   scanPlugins();
   _plugins.setAutoDelete( true );
+  _mapping.setAutoDelete( true );
 
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
@@ -158,13 +159,13 @@ void NSPluginLoader::scanPlugins()
       if (!mime.isEmpty())
 	{
 	  // insert the mimetype -> plugin mapping
-	  _mapping.insert(mime, strdup(plugin));
+	  _mapping.insert(mime, new QString(plugin));
 	  
 	  // insert the suffix -> mimetype mapping
 	  QStringList::Iterator suffix;
 	  for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix)
 	    if (!_filetype.find((*suffix).stripWhiteSpace()))
-	      _filetype.insert((*suffix).stripWhiteSpace(), mime);
+	      _filetype.insert((*suffix).stripWhiteSpace(), new QString(mime));
 	}
     }
 }
@@ -172,12 +173,12 @@ void NSPluginLoader::scanPlugins()
 
 QString NSPluginLoader::lookupMimeType(const QString &url)
 {
-  QDictIterator<char> dit2(_filetype);
+  QDictIterator<QString> dit2(_filetype);
   while (dit2.current())
     {
       QString ext = QString(".")+dit2.currentKey();
       if (url.right(ext.length()) == ext)
-	return dit2.current();
+	return *dit2.current();
       ++dit2;
     }
   return QString::null;
@@ -186,7 +187,7 @@ QString NSPluginLoader::lookupMimeType(const QString &url)
 
 QString NSPluginLoader::lookup(const QString &mimeType)
 {
-  QString plugin = _mapping[mimeType];
+  QString plugin = *_mapping[mimeType];
 
   kdDebug() << "Looking up plugin for mimetype " << mimeType << ": " << plugin << endl;
 
@@ -203,9 +204,7 @@ bool NSPluginLoader::loadViewer()
 
    // get the dcop app id
    int pid = (int)getpid();
-   QString dcopPlugin;
-   QTextOStream(&dcopPlugin) << "nspluginviewer-" << pid;
-   _dcopid = dcopPlugin;
+   _dcopid.sprintf("nspluginviewer-%d", pid);
 
    connect( _process, SIGNAL(processExited(KProcess*)), this, SLOT(processTerminated(KProcess*)) );
 
@@ -344,8 +343,8 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
    int argc = argn.count();
    for (int i=0; i<argc; i++)
    {
-      if (!stricmp(argn[i], "width")) width = argv[i].toUInt();
-      if (!stricmp(argn[i], "height")) height = argv[i].toUInt();
+      if (argn[i].lower() == "width") width = argv[i].toUInt();
+      if (argn[i].lower() == "height") height = argv[i].toUInt();
    }
   
    // lookup plugin for mime type

@@ -104,7 +104,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
       // open the library and ask for the mimetype
       void *func_GetMIMEDescription = 0; 
-      KLibrary *_handle = KLibLoader::self()->library( absFile );
+      KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
 
       if (!_handle)
       {
@@ -117,7 +117,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       if (!func_GetMIMEDescription)
       {
 	 kdDebug() << " not a plugin" << endl;
-	 KLibLoader::self()->unloadLibrary( absFile );
+	 KLibLoader::self()->unloadLibrary( absFile.latin1() );
 	 continue;
       }
 
@@ -130,7 +130,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       if (!mimeInfo)
       {
 	 kdDebug() << " not a plugin" << endl;
-	 KLibLoader::self()->unloadLibrary( absFile );
+	 KLibLoader::self()->unloadLibrary( absFile.latin1() );
 	 continue;
       }
 
@@ -157,7 +157,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 	  
       kdDebug() << "  is a plugin" << endl;
 	  
-      KLibLoader::self()->unloadLibrary( absFile );	        
+      KLibLoader::self()->unloadLibrary( absFile.latin1() );
    }
 
    // iterate over all sub directories
