@@ -41,6 +41,7 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
     : QListViewItem(parent, i18n("Bookmarks") ), m_bookmark(group)
 {
     setPixmap(0, SmallIcon("bookmark"));
+    setExpandable(true); // Didn't know this was necessary :)
 #ifdef DEBUG_ADDRESSES
     setText(2, bk.address());
 #endif
