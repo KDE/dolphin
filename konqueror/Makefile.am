@@ -64,7 +64,7 @@ messages: rc.cpp
 	$(EXTRACTRC) sidebar/trees/history_module/history_dlg.ui >> rc.cpp
 	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc  kedit*/*.cpp about/*.h about/*.cc shellcmdplugin/*.cpp -o `find sidebar -name "*.cpp"` `find sidebar -name "*.h"` -o $(podir)/konqueror.pot
 
-data_DATA = konquerorsu.desktop kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop
+data_DATA =  kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop
 datadir = $(kde_appsdir)/System
 
 data2_DATA = Home.desktop
@@ -76,6 +76,10 @@ data3dir = $(kde_appsdir)/Internet
 data4_DATA = konqfilemgr.desktop
 data4dir = $(kde_appsdir)/.hidden
 
+data5_DATA = konquerorsu.desktop
+data5dir = $(kde_appsdir)/System/More
+
+
 # Use a hand-made rule for profiles because they are renamed upon installation
 profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
@@ -84,6 +88,10 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/profile_filemanagement.desktop $(profiledir)/filemanagement
 	$(INSTALL_DATA) $(srcdir)/profile_midnightcommander.desktop $(profiledir)/midnightcommander
 	$(INSTALL_DATA) $(srcdir)/profile_filepreview.desktop $(profiledir)/filepreview
+	$(mkinstalldirs) $(kde_appsdir)/System
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(kde_appsdir)/System/konquerorsu.desktop
+
 uninstall-local:
 	-rm -f $(profiledir)/webbrowsing $(profiledir)/filemanagement $(profiledir)/midnightcommander $(profiledir)/filepreview
+	-rm -f $(kde_appsdir)/System/konquerorsu.desktop
 
