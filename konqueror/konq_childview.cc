@@ -351,6 +351,10 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 //  m_iYOffset = h->yOffset;
 //  changeViewMode( h->strServiceType, h->strURL, true, h->strServiceName );
 
+  stack.setAutoDelete( false );
+  stack.removeFirst();
+  stack.setAutoDelete( true );
+  
   if ( m_bViewStarted )
     stop();
 
@@ -386,7 +390,10 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 
   m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
 
-  stack.removeFirst();
+  delete h;
+  
+  if ( m_pMainView->currentChildView() == this )
+    m_pMainView->updateToolBarActions();
 }
 
 void KonqChildView::goBack( int steps )

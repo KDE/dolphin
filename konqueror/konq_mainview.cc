@@ -551,15 +551,11 @@ void KonqMainView::slotUp()
 void KonqMainView::slotBack()
 {
   m_currentView->goBack();
-
-  m_paBack->setEnabled( m_currentView->canGoBack() );
 }
 
 void KonqMainView::slotForward()
 {
   m_currentView->goForward();
-
-  m_paBack->setEnabled( m_currentView->canGoForward() );
 }
 
 void KonqMainView::slotHome()
