@@ -44,7 +44,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	subLayout->setColStretch(0,0);
 	subLayout->setColStretch(1,1);
 	subLayout->setColStretch(2,1);
-	subLayout->setColStretch(3,1);
+	subLayout->setColStretch(3,2);
 	subLayout->setColStretch(4,0);
 
 	labelNet = new QLabel(i18n("Network settings:"), this);
