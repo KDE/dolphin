@@ -473,6 +473,11 @@ void KonqView::createHistoryEntry()
         {
             if ( !m_lstHistory.removeLast() ) // and remove from the end (faster and easier)
                 assert(0);
+            // go to last one. The documentation says that removeLast() 
+            // makes current() null if it's the last item. however in qt2
+            // the behaviour was different than the documentation. this is
+            // changed in qt3 to behave as documented ;-) (Simon)
+            m_lstHistory.at( m_lstHistory.count() - 1 );
         }
         // Now current is the current again.
     }
