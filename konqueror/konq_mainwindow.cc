@@ -858,7 +858,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     if ( !windowArgs.toolBarsVisible )
     {
-      for ( QPtrListIterator<KToolBar> it( toolBarIterator() ); it.current(); ++it )
+      for ( QPtrListIterator<KToolBar> it( mainWindow->toolBarIterator() ); it.current(); ++it )
       {
         (*it)->hide();
       }
