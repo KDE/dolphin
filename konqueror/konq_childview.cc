@@ -177,6 +177,9 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
   openURL( url, useMiscURLData );
 
+  // Give focus to the view
+  m_pView->widget()->setFocus();
+
   return true;
 }
 

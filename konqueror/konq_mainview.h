@@ -53,6 +53,7 @@ class KonqFrameContainer;
 class KonqFrame;
 class KBookmarkMenu;
 class ViewModeGUIClient;
+class EmbedData;
 
 namespace KParts {
  class BrowserExtension;
@@ -191,7 +192,12 @@ protected slots:
 
   void slotSaveDefaultProfile();
 
-  void slotDatabaseChanged(); // connect to KSycoca
+  // Connected to KonqPopupMenu
+  void slotOpenEmbedded( const QString & serviceType, const KURL & url, const QString & serviceName );
+  void slotOpenEmbeddedDoIt();
+
+  // Connected to KSycoca
+  void slotDatabaseChanged();
 
   void slotCut();
   void slotCopy();
@@ -322,6 +328,8 @@ private:
   bool m_bFullScreen;
   KonqFrameContainer *m_tempContainer;
   QWidget::FocusPolicy m_tempFocusPolicy;
+
+  EmbedData * m_embeddingData;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 

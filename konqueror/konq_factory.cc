@@ -66,17 +66,18 @@ KonqFactory::~KonqFactory()
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
                                          const QString &serviceName,
 				         KService::Ptr *serviceImpl,
-				         KTrader::OfferList *serviceOffers,
-                                         bool forceAutoEmbed )
+				         KTrader::OfferList *serviceOffers )
 {
   kdDebug(1202) << QString("trying to create view for \"%1\"").arg(serviceType) << endl;
 
+  // We ask ourselves whether to do it or not only if no service was specified.
+  // If it was (from the View menu or from RMB + Embedding service), just do it.
+  bool forceAutoEmbed = !serviceName.isEmpty();
   if ( ! forceAutoEmbed )
   {
     if ( ! KonqFMSettings::settings()->shouldEmbed( serviceType ) )
       return KonqViewFactory();
   }
-  kdDebug(1202) << "Embedding" << endl;
 
   // Ok, we embed. Query the trader
   static QString browserViewConstraint = QString::fromLatin1( "('Browser/View' in ServiceTypes) or ('KParts/ReadOnlyPart' in ServiceTypes)" );

@@ -757,43 +757,42 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
       return true;
     }
-  else
+  else // We know the child view
   {
-    kdDebug(1202) << (QString("(1) KonqMainView::openView : url = '%1'").arg(url.url())) << endl;
+    kdDebug(1202) << "KonqMainView::openView : url = " << url.url() << endl;
     // This is already called in ::openURL
     //    childView->stop();
-  }
-  kdDebug(1202) << (QString("(2) KonqMainView::openView : url = '%1'").arg(url.url())) << endl;
 
-  if ( ( serviceType == "inode/directory" ) &&
-       ( childView->allowHTML() ) &&
+    if ( ( serviceType == "inode/directory" ) &&
+         ( childView->allowHTML() ) &&
          ( url.isLocalFile() ) &&
 	 ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
-  {
-    serviceType = "text/html";
-    url = KURL( indexFile.prepend( "file:" ) );
-  }
+    {
+      serviceType = "text/html";
+      KURL::encode( indexFile );
+      url = KURL( indexFile );
+    }
 
-  if ( childView->changeViewMode( serviceType, url ) )
-  {
-    // Give focus to the view
-    childView->view()->widget()->setFocus();
-    return true;
-  }
+    if ( childView->changeViewMode( serviceType, url ) )
+    {
+      return true;
+    }
 
-  // Didn't work, abort
-  childView->setLoading( false );
-  if ( childView == m_currentView )
-  {
-    stopAnimation();
-    setLocationBarURL( childView, childView->view()->url().url() );
-  }
+    // Didn't work, abort
+    childView->setLoading( false );
+    if ( childView == m_currentView )
+    {
+      stopAnimation();
+      setLocationBarURL( childView, childView->view()->url().url() );
+    }
 
-  return false;
+    return false;
+  }
 }
 
 void KonqMainView::slotPartActivated( KParts::Part *part )
 {
+  kdDebug(1202) << "slotPartActivated " << part << endl;
   if ( !part )
   {
     createGUI( 0L );
@@ -1699,10 +1698,37 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
-                             m_pMenuNew );
+                             m_pMenuNew,
+                             true /*allow embedding*/);
+  connect( &pPopupMenu, SIGNAL( openEmbedded( const QString &, const KURL &, const QString & ) ),
+           this, SLOT( slotOpenEmbedded( const QString &, const KURL &, const QString & ) ) );
   pPopupMenu.exec( _global );
 
   m_currentView = m_oldView;
+}
+
+// Used to store the stuff we want to embed if an embedding service is chosen
+// (We have to do this due to the singleShot timer, and we don't want to bloat KonqMainView with that)
+struct EmbedData
+{
+  QString serviceType;
+  KURL url;
+  QString serviceName;
+};
+
+void KonqMainView::slotOpenEmbedded( const QString & serviceType, const KURL & url, const QString & serviceName )
+{
+  m_embeddingData = new EmbedData;
+  m_embeddingData->serviceType = serviceType;
+  m_embeddingData->url = url;
+  m_embeddingData->serviceName = serviceName;
+  QTimer::singleShot( 0, this, SLOT( slotOpenEmbeddedDoIt() ) );
+}
+
+void KonqMainView::slotOpenEmbeddedDoIt()
+{
+  (void) m_currentView->changeViewMode( m_embeddingData->serviceType, m_embeddingData->url, true, m_embeddingData->serviceName );
+  delete m_embeddingData;
 }
 
 void KonqMainView::slotDatabaseChanged()
