@@ -82,6 +82,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_iXOffset = 0;
   m_iYOffset = 0;
   m_bLoading = false;
+  m_iProgress = 0;
 }
 
 KonqChildView::~KonqChildView()
@@ -275,6 +276,22 @@ void KonqChildView::connectView(  )
   catch ( ... )
   {
     kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""createNewWindow"" ");
+  }
+  try
+  {
+    m_vView->connect("loadingProgress", m_pMainView, "slotLoadingProgress");
+  }
+  catch ( ... )
+  {
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""loadingProgress"" ");
+  }
+  try
+  {
+    m_vView->connect("speedProgress", m_pMainView, "slotSpeedProgress");
+  }
+  catch ( ... )
+  {
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""speedProgress"" ");
   }
 
 }

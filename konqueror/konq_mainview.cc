@@ -38,6 +38,7 @@
 
 #include <opUIUtils.h>
 
+#include <qprogressbar.h>
 #include <qkeycode.h>
 #include <qmsgbox.h>
 #include <qpixmap.h>
@@ -98,6 +99,10 @@ enum _ids {
     MHELP_CONTENTS_ID,
     MHELP_ABOUT_ID
 };
+
+#define STATUSBAR_LOAD_ID 1
+#define STATUSBAR_SPEED_ID 2
+#define STATUSBAR_MSG_ID 3
 
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
 QList<OpenPartsUI::Pixmap>* KonqMainView::s_lstAnimatedLogo = 0L;
@@ -174,6 +179,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   s_lstWindows->append( this );
 
   m_pViewManager = 0L;
+  m_pProgressBar = 0L;
 
   initConfig();
 }
@@ -199,9 +205,14 @@ void KonqMainView::init()
   if ( !CORBA::is_nil( statusBarManager ) )
     m_vStatusBar = statusBarManager->registerClient( id() );
 
-  CORBA::WString_var item = Q2C( i18n("Konqueror :-)") );
   if ( !CORBA::is_nil( m_vStatusBar ) )
-    m_vStatusBar->insertItem( item, 1 );
+  {
+    m_pProgressBar = new QProgressBar( 100 );
+    m_vStatusBar->insertWidget( m_pProgressBar->winId(), 120, STATUSBAR_LOAD_ID );
+    CORBA::WString_var item = Q2C( QString::fromLatin1( "XXXXXXXX" ) );
+    m_vStatusBar->insertItem( item, STATUSBAR_SPEED_ID );
+    m_vStatusBar->insertItem( 0L, STATUSBAR_MSG_ID );
+  }
 
   m_pViewManager = new KonqViewManager( this );
 
@@ -247,6 +258,9 @@ void KonqMainView::cleanUp()
 
   if ( m_pBookmarkMenu )
     delete m_pBookmarkMenu;
+
+  if ( m_pProgressBar )
+    delete m_pProgressBar;
 
   delete m_pViewManager;
 
@@ -695,6 +709,12 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   setItemEnabled( m_vMenuView, MVIEW_RELOAD_ID, false );
   setItemEnabled( m_vMenuView, MVIEW_STOP_ID, false );
 
+  if ( m_pProgressBar )
+    m_pProgressBar->reset();
+
+  if ( !CORBA::is_nil( m_vStatusBar ) )
+    m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
+
   return true;
 }
 
@@ -740,6 +760,18 @@ void KonqMainView::setActiveView( OpenParts::Id id )
     CORBA::WString_var text = Q2C( m_currentView->locationBarURL() );
     m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, text, 0 );
   }    
+
+  if ( m_pProgressBar )
+  {
+    int prog = m_currentView->progress();
+    if ( prog == -1 )
+      m_pProgressBar->reset();
+    else
+      m_pProgressBar->setProgress( prog );
+  }
+
+  if ( !CORBA::is_nil( m_vStatusBar ) )
+    m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
 
   m_bEditMenuDirty = true;
   m_bViewMenuDirty = true;
@@ -877,7 +909,7 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
 void KonqMainView::setStatusBarText( const CORBA::WChar *_text )
 {
   if ( !CORBA::is_nil( m_vStatusBar ) )
-    m_vStatusBar->changeItem( _text, 1 );
+    m_vStatusBar->changeItem( _text, STATUSBAR_MSG_ID );
 }
 
 void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
@@ -1509,6 +1541,7 @@ void KonqMainView::slotURLEntered( const CORBA::WChar *_url )
   openURL( url.ascii() );
   
   m_vLocationBar->setCurrentComboItem( TOOLBAR_URL_ID, 0 );
+  m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, _url, 0 );
 }
 
 void KonqMainView::slotFileNewActivated( CORBA::Long id )
@@ -1597,7 +1630,7 @@ void KonqMainView::slotBookmarkHighlighted( CORBA::Long id )
     if ( bm )
       wurl = Q2C( bm->url() );
 
-    setStatusBarText( wurl );
+    m_vStatusBar->changeItem( wurl, STATUSBAR_MSG_ID );
   }
 }
 
@@ -1622,12 +1655,18 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
     slotStartAnimation();
 
   (*it)->makeHistory( true );
+  (*it)->setProgress( -1 );
   
   if ( id == m_currentId )
   {
     setUpEnabled( url, id );
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
+    if ( m_pProgressBar )
+      m_pProgressBar->reset();
+
+    if ( !CORBA::is_nil( m_vStatusBar ) )
+      m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
   }
 }
 
@@ -1644,10 +1683,18 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
   if ( id == m_currentId )
     slotStopAnimation();
 
+  (*it)->setProgress( -1 );
+
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
+    
+    if ( m_pProgressBar ) 
+      m_pProgressBar->reset();
+      
+    if ( !CORBA::is_nil( m_vStatusBar ) )
+      m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
   }
 }
 
@@ -1675,6 +1722,33 @@ void KonqMainView::slotUpActivated( CORBA::Long id )
   CORBA::WString_var text = m_vUpPopupMenu->text( id );
   QString url = C2Q( text );
   openURL( url.ascii() );
+}
+
+void KonqMainView::slotLoadingProgress( OpenParts::Id id, CORBA::Long percent )
+{
+  if ( id == m_currentId && m_pProgressBar && m_currentView->isLoading() )
+    m_pProgressBar->setProgress( (int)percent );
+  
+  MapViews::Iterator it = m_mapViews.find( id );
+  
+  (*it)->setProgress( (int)percent );
+}
+
+void KonqMainView::slotSpeedProgress( OpenParts::Id id, CORBA::Long bytesPerSecond )
+{
+  if ( id != m_currentId || CORBA::is_nil( m_vStatusBar ) || !m_currentView->isLoading() )
+    return;
+
+  QString sizeStr;
+  
+  if ( bytesPerSecond > 0 )
+    sizeStr = KIOJob::convertSize( (int)bytesPerSecond ) + QString::fromLatin1( "/s" );
+  else
+    sizeStr = i18n( "stalled" );
+    
+  CORBA::WString_var wSizeStr = Q2C( sizeStr );
+
+  m_vStatusBar->changeItem( wSizeStr, STATUSBAR_SPEED_ID );
 }
 
 void KonqMainView::slotAnimatedLogoTimeout()
@@ -1705,7 +1779,8 @@ void KonqMainView::slotStopAnimation()
   }
 
   CORBA::WString_var msg = Q2C( i18n("Document: Done") );
-  setStatusBarText( msg );
+  if ( !CORBA::is_nil( m_vStatusBar ) )
+    m_vStatusBar->changeItem( msg, STATUSBAR_MSG_ID );
 }
 
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )

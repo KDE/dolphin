@@ -162,6 +162,9 @@ module Konqueror
     
     slot void slotUpAboutToShow();
     slot void slotUpActivated( in long id );
+    
+    slot void slotLoadingProgress( in OpenParts::Id id, in long percent );
+    slot void slotSpeedProgress( in OpenParts::Id id, in long bytesPerSecond );
   };
   
   interface MainWindow : OpenParts::MainWindow

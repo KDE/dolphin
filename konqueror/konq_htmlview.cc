@@ -39,9 +39,11 @@
 #include <kfiledialog.h>
 #include <kurl.h>
 #include <kio_error.h>
+#include <kio_job.h>
 #include <kmimetypes.h>
 #include <kapp.h>
 #include <kpixmapcache.h>
+#include <konq_progressproxy.h>
 
 #include <opUIUtils.h>
 
@@ -52,6 +54,9 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
 
+  SIGNAL_IMPL( "loadingProgress" );
+  SIGNAL_IMPL( "speedProgress" );
+  
   setWidget( this );
 
   QWidget::setFocusPolicy( StrongFocus );
@@ -101,6 +106,14 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
   enableImages( m_bAutoLoadImages );  
   
   KBrowser::openURL( QString( eventURL.url.in() ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
+  
+  
+  if ( m_jobId )
+  {
+    KIOJob *job = KIOJob::find( m_jobId );
+    if ( job )
+      (void)new KonqProgressProxy( this, job );
+  }
 
   checkViewMenu();
   return true;

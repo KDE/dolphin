@@ -32,6 +32,7 @@
 #include <kmimetypes.h>
 #include <kbookmarkmenu.h>
 
+class QProgressBar;
 class KAccel;
 class KNewMenu;
 class KService;
@@ -198,6 +199,9 @@ public slots:  // IDL
   
   virtual void slotUpAboutToShow();
   virtual void slotUpActivated( CORBA::Long id );
+
+  virtual void slotLoadingProgress( OpenParts::Id id, CORBA::Long percent );
+  virtual void slotSpeedProgress( OpenParts::Id id, CORBA::Long bytesPerSecond );
   
   /////////////////////////
   // Animated Logo
@@ -271,6 +275,9 @@ private:
    * ones of the current view.
    */
   void createEditMenu();
+
+  void clearStatusBar();
+  void setupStatusBar( bool loadItem, bool speedItem );
 
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
@@ -349,6 +356,8 @@ private:
 
   QStringList m_lstLocationBarCombo;
 
+  QProgressBar *m_pProgressBar;
+  
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;
 };

@@ -40,6 +40,7 @@
 #include <kapp.h>
 #include <kglobal.h>
 #include <kpixmapcache.h>
+#include <konq_progressproxy.h>
 
 #define TOOLBAR_SEARCH_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
 #define TOOLBAR_EDITOR_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN + 1
@@ -49,6 +50,9 @@ KonqTxtView::KonqTxtView( KonqMainView *mainView )
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
+
+  SIGNAL_IMPL( "loadingProgress" );
+  SIGNAL_IMPL( "speedProgress" );
   
   setWidget( this );
   
@@ -83,6 +87,8 @@ bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
   QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ), this, SLOT( slotRedirection( int, const char * ) ) );
   QObject::connect( job, SIGNAL( sigData( int, const char *, int ) ), this, SLOT( slotData( int, const char *, int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char * ) ), this, SLOT( slotError( int, int, const char * ) ) );
+  
+  (void)new KonqProgressProxy( this, job );
   
   m_jobId = job->id();
   

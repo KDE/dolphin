@@ -196,6 +196,9 @@ public:
 
   void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
+  
+  void setProgress( int percent ) { m_iProgress = percent; }
+  int progress() const { return m_iProgress; }
 
   static Browser::View_ptr createView( const QString &serviceType, 
 			               QStringList &serviceTypes, 
@@ -253,6 +256,7 @@ protected:
   KonqFrame* m_pKonqFrame;
   Konqueror::RowInfo *m_pRow;
   bool m_bLoading;
+  int m_iProgress;
 };
 
 #endif

@@ -108,8 +108,8 @@ bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu_ptr view
   if ( !CORBA::is_nil( viewMenu ) )
   {
     CORBA::WString_var text;
-    text = Q2C( i18n("Image &Preview") );
-    viewMenu->insertItem4( text, this, "slotShowSchnauzer" , 0, -1, -1 );
+//    text = Q2C( i18n("Image &Preview") );
+//    viewMenu->insertItem4( text, this, "slotShowSchnauzer" , 0, -1, -1 );
     text = Q2C( i18n("Show &Dot Files") );
     m_idShowDotFiles = viewMenu->insertItem4( text, this, "slotShowDot" , 0, -1, -1 );
     viewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
