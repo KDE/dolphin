@@ -14,6 +14,8 @@ public:
 signals:
     void initialize();
 
+private slots:
+    void slotInitialize();
 private:
     int m_eventType;
     bool m_signalEmitted;
