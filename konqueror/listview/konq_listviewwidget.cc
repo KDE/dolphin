@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+                 2001, 2002 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -23,7 +24,6 @@
 
 #include <kdebug.h>
 #include <kdirlister.h>
-#include <kio/job.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprotocolinfo.h>
@@ -142,6 +142,13 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT( slotCloseView() ) );
    connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
             m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
+
+   connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
+            m_pBrowserView->extension(), SIGNAL( infoMessage( const QString& ) ) );
+   connect( m_dirLister, SIGNAL( percent( int ) ),
+            m_pBrowserView->extension(), SIGNAL( loadingProgress( int ) ) );
+   connect( m_dirLister, SIGNAL( speed( int ) ),
+            m_pBrowserView->extension(), SIGNAL( speedProgress( int ) ) );
 
    viewport()->setMouseTracking( true );
    viewport()->setFocusPolicy( QWidget::WheelFocus );
@@ -878,6 +885,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_dirLister->setNameFilter( m_pBrowserView->nameFilter() );
    m_dirLister->setMimeFilter( m_pBrowserView->mimeFilter() );
+   m_dirLister->setShowingDotFiles( m_pBrowserView->m_pProps->isShowingDotFiles() );
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
@@ -894,8 +902,12 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       m_xOffset = contentsX();
       m_yOffset = contentsY();
    }
+
+   if ( columnWidthMode(0) == Maximum )
+      setColumnWidth(0,50);
+
    // Start the directory lister !
-   m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
+   m_dirLister->openURL( url, false /* new url */, m_pBrowserView->extension()->urlArgs().reload );
 
    m_bUpdateContentsPosAfterListing = true;
 
@@ -911,9 +923,6 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       // and otherwise we get a color/pixmap in the square between the scrollbars.
       m_pBrowserView->m_pProps->applyColors( viewport() );
    }
-
-   if (columnWidthMode(0)==Maximum)
-      setColumnWidth(0,50);
 
    return true;
 }
@@ -961,7 +970,7 @@ void KonqBaseListViewWidget::setComplete()
 void KonqBaseListViewWidget::slotStarted()
 {
    if (!m_bTopLevelComplete)
-      emit m_pBrowserView->started(m_dirLister->job());
+      emit m_pBrowserView->started( 0 );
 }
 
 void KonqBaseListViewWidget::slotCompleted()

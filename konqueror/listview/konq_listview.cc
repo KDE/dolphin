@@ -33,6 +33,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qheader.h>
+#include <qregexp.h>
 
 #include <assert.h>
 #include <string.h>
@@ -430,6 +431,7 @@ void KonqListView::slotShowDot()
 {
    m_pProps->setShowingDotFiles( m_paShowDot->isChecked() );
    m_pListView->m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
+   m_pListView->m_dirLister->emitChanges();
 }
 
 void KonqListView::slotCaseInsensitive()

@@ -235,7 +235,8 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 
 void KonqTreeViewWidget::openSubFolder( KonqListViewDir* _dir )
 {
-   m_dirLister->openURL( _dir->item()->url(), props()->isShowingDotFiles(), true /* keep existing data */ );
+   m_dirLister->setShowingDotFiles( props()->isShowingDotFiles() );
+   m_dirLister->openURL( _dir->item()->url(), true /* keep existing data */ );
 }
 
 void KonqTreeViewWidget::stopListingSubFolder( KonqListViewDir* _dir )
