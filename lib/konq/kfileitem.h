@@ -63,9 +63,13 @@ public:
    */
   const KURL & url() const { return m_url; }
   /**
-   * @return the mode of the file, as returned by stat()
+   * @return the permissions of the file (stat.st_mode containing only permissions)
    */
-  mode_t mode() const { return m_mode; }
+  mode_t permissions() const { return m_permissions; }
+  /**
+   * @return the file type (stat.st_mode containing only S_IFDIR, S_IFLNK, ...)
+   */
+  mode_t mode() const { return m_fileMode; }
 
   /**
    * @return the owner of the file.
@@ -201,9 +205,13 @@ protected:
    */
   QString m_strText;
   /**
-   * The mode (as given by stat()) for the file - or the link-dest for a link
+   * The file mode
    */
-  mode_t m_mode;
+  mode_t m_fileMode;
+  /**
+   * The permissions
+   */
+  mode_t m_permissions;
 
   /**
    * the user and group assigned to the file.

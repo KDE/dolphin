@@ -464,7 +464,6 @@ bool FilePropsPage::supports( KFileItemList /*_items*/ )
 
 void FilePropsPage::applyChanges()
 {
-  QString oldpath = properties->kurl().path(-1);
   QString fname = properties->kurl().filename();
   QString n;
   if (nameArea->isA("QLabel"))
@@ -474,12 +473,13 @@ void FilePropsPage::applyChanges()
   
   // Do we need to rename the file ?
   if ( oldName != n || m_bFromTemplate ) { // true for any from-template file
+    QString oldpath = properties->kurl().path(-1);
     // Tell properties. Warning, this changes the result of properties->kurl() !
     properties->rename( n );
     
     // Don't remove the template !!
     if ( !m_bFromTemplate ) {
-      if ( rename( oldpath, properties->kurl().path() ) != 0 )
+      if ( rename( oldpath, properties->kurl().path(-1) ) != 0 )
 	KMessageBox::sorry(this, 
 			   i18n("Could not rename file or directory\n%s\n"));
     }
@@ -493,15 +493,25 @@ void FilePropsPage::applyChanges()
     
     // Save the file where we can -> usually in ~/.kde/...
     if (BindingPropsPage::supports(properties->items()))
+    {
       path = locateLocal("mime", m_sRelativePath);
+      properties->updateUrl( KURL( path ) );
+    }
     else if (ExecPropsPage::supports(properties->items()))
+    {
       path = locateLocal("apps", m_sRelativePath);
+      properties->updateUrl( KURL( path ) );
+    }
     else if (properties->item()->mimetype() == "inode/directory")
+    {
       path = properties->kurl().path(1) + ".directory";
+      // don't change the path in properties here !
+      // because the other tabs (i.e. permissions) apply to the directory,
+      // not the desktop file.
+    }
     else
       path = properties->kurl().path();
 
-    properties->updateUrl( KURL( path ) );
     
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) ) {
@@ -525,7 +535,7 @@ void FilePropsPage::applyChanges()
     cfg.sync();
 
     // Force updates if that file is displayed.
-    KDirWatch::self()->setFileDirty( oldPath );
+    KDirWatch::self()->setFileDirty( properties->kurl().path() );
   }
 }
 
@@ -541,7 +551,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 
     isLink = properties->item()->isLink();
     isDir = properties->item()->mimetype() == "inode/directory";
-    permissions = properties->item()->mode();
+    permissions = properties->item()->permissions();
     strOwner = properties->item()->user();
     strGroup = properties->item()->group();
 
@@ -768,9 +778,20 @@ void FilePermissionsPropsPage::applyChanges()
       KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
   }
   
+  debug("permissions : %d", permissions);
+  debug("p : %d", p);
+  debug("path : %s", path.ascii());
   if ( permissions != p )
+  {
     if ( chmod( path, p ) != 0 )
       KMessageBox::sorry( 0, i18n( "Could not change permissions.\nYou most likely do not have access to write to this file or directory." ));
+    else
+    {
+      // Force refreshing information about that file if displayed.
+      KDirWatch::self()->setFileDirty( path );
+    }
+  }
+
 }
 
 ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) 

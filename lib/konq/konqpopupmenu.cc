@@ -63,7 +63,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   bool sMoving        = true;
   //  bool hasUpURL       = false;
   m_sMimeType         = m_lstItems.first()->mimetype();
-  mode_t mode         = m_lstItems.first()->mode();
+  mode_t mode     = m_lstItems.first()->mode();
   m_lstPopupURLs.clear();
   int id;
 

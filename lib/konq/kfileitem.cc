@@ -34,17 +34,19 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ), 
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
+  m_fileMode( (mode_t)-1 ),
+  m_permissions( (mode_t)-1 ),
+  m_bLink( false ),
+  m_pMimeType( 0 ),
   m_bMarked( false )
 {
   // extract the mode and the filename from the UDS Entry
-  m_mode = 0;
-  m_bLink = false;
-  m_pMimeType = 0;
-  m_strText = QString::null;
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
     if ( (*it).m_uds == UDS_FILE_TYPE )
-      m_mode = (mode_t)((*it).m_long);
+      m_fileMode = (mode_t)((*it).m_long);
+    else if ( (*it).m_uds == UDS_ACCESS)
+      m_permissions = (mode_t)((*it).m_long);
     else if ( (*it).m_uds == UDS_USER)
       m_user = ((*it).m_str);
     else if ( (*it).m_uds == UDS_GROUP)
@@ -58,7 +60,7 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
     else if ( (*it).m_uds == UDS_LINK_DEST )
       m_bLink = !(*it).m_str.isEmpty(); // we don't store the link dest
   }
-  KFileItem::init(); // don't call derived methods !
+  init();
 }
 
 KFileItem::KFileItem( QString _text, mode_t _mode, const KURL& _url ) :
@@ -66,14 +68,20 @@ KFileItem::KFileItem( QString _text, mode_t _mode, const KURL& _url ) :
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
   m_strText( _text ),
-  m_mode( _mode ),
+  m_fileMode ( _mode ), // temporary
+  m_permissions( (mode_t) -1 ),
   m_bLink( false ),
   m_bMarked( false )
 {
-  KFileItem::init(); // don't call derived methods !
-  // determine mode if unknown
-  if ( m_mode == (mode_t) -1 )
+  init();
+}
+
+void KFileItem::init()
+{
+  // determine mode and/or permissions if unknown
+  if ( m_fileMode == (mode_t) -1 || m_permissions == (mode_t) -1 )
   {
+    mode_t mode = 0;
     if ( m_url.isLocalFile() )
     {
       /* directories may not have a slash at the end if
@@ -85,29 +93,26 @@ KFileItem::KFileItem( QString _text, mode_t _mode, const KURL& _url ) :
        */
       struct stat buf;
       lstat( m_url.path( -1 ), &buf );
-      m_mode = buf.st_mode;
+      mode = buf.st_mode;
 
-      if ( S_ISLNK( m_mode ) )
+      if ( S_ISLNK( mode ) )
       {
         m_bLink = true;
         stat( m_url.path( -1 ), &buf );
-        m_mode = buf.st_mode;
+        mode = buf.st_mode;
       }
     }
-    else
-      m_mode = 0;
+    if ( m_fileMode == (mode_t) -1 )
+      m_fileMode = mode & S_IFMT; // extract file type
+    if ( m_permissions == (mode_t) -1 )
+      m_permissions = mode & 0x1FF; // extract permissions 
   }
 
-  m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL, true /* fast mode */ );
-}
-
-void KFileItem::init()
-{
   assert(!m_strText.isNull());
 
   // determine the mimetype
   if (!m_pMimeType)
-    m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL );
+    m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
   assert (m_pMimeType);
 }
 
@@ -161,7 +166,7 @@ QString KFileItem::getStatusBarInfo() const
       text += "  ";
       text += tmp;
   }
-  else if ( S_ISREG( m_mode ) )
+  else if ( S_ISREG( m_fileMode ) )
   {
       if (mySize < 1024)
         text = QString("%1 (%2 %3)").arg(text2).arg((long) mySize).arg(i18n("bytes"));
@@ -173,7 +178,7 @@ QString KFileItem::getStatusBarInfo() const
       text += "  ";
       text += comment;
   }
-  else if ( S_ISDIR ( m_mode ) )
+  else if ( S_ISDIR ( m_fileMode ) )
   {
       text += "/  ";
       text += comment;
@@ -264,7 +269,7 @@ QString KFileItem::iconName() const
 
 void KFileItem::run()
 {
-  (void) new KRun( m_url.url(), m_mode, m_bIsLocalURL );
+  (void) new KRun( m_url.url(), m_fileMode, m_bIsLocalURL );
 }
 
 QString KFileItem::encodeFileName( const QString & _str )
