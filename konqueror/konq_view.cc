@@ -749,6 +749,9 @@ void KonqView::setRun( KonqRun * run )
     // Tell the KonqRun to abort, but don't delete it ourselves.
     // It could be showing a message box right now. It will delete itself anyway.
     m_pRun->abort();
+    // finish() will be emitted later (when back to event loop)
+    // and we don't want it to call slotRunFinished (which stops the animation and stop button).
+    m_pRun->disconnect( m_pMainWindow );
   }
   m_pRun = run;
 }
