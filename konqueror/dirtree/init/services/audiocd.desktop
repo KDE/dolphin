@@ -1,6 +1,11 @@
 [Desktop Entry]
 Type=Link
 URL=audiocd:/
-Icon=cdrom_unmount
+Icon=cdaudio_unmount
 Name=Audio CD Browser
+Name[da]=Audio CD Søger
+Name[de]=Audio-CD-Browser
+Name[he]=עמש ירוטילת ןפדפד
+Name[hu]=HangCD-nézegető
+Name[ro]=Navigator CD audio
 Open=false
