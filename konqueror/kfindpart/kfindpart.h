@@ -57,7 +57,7 @@ public:
     void restoreKFindState( QDataStream *stream );
 
   // "Cut" icons : disable those whose URL is in lst, enable the rest //added for konqdirpart
-  virtual void disableIcons( const KURL::List & lst ){};
+  virtual void disableIcons( const KURL::List & ){};
   virtual const KFileItem * currentItem(){return 0;};
 
 signals:

@@ -81,6 +81,8 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
 
     kdDebug() << "KFindPart::KFindPart " << this << endl;
     m_kfindWidget = new Kfind( parentWidget, name );
+    m_kfindWidget->setMaximumHeight(m_kfindWidget->minimumSizeHint().height());
+
     setWidget( m_kfindWidget );
 
     connect( m_kfindWidget, SIGNAL(started()),
@@ -179,7 +181,6 @@ void KFindPart::saveKFindState( QDataStream *stream )
 
 void KFindPart::restoreKFindState( QDataStream *stream )
 {
-  QList<KFileItem> *lstiItems;
   int nbitems;
   int i;
   KURL itemUrl;
