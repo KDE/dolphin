@@ -422,7 +422,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vLocationBar->insertLined("", TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, i18n("Current Location"), 70, -1 );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
   if ( m_currentView )
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
+    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->locationBarURL().ascii() );
 
   //TODO: support completion in opToolBar->insertLined....
   //TODO: m_vLocationBar->setBarPos( convert_to_openpartsui_bar_pos( m_Props->m_locationBarPos ) ) );
@@ -516,7 +516,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
+    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->locationBarURL().ascii() );
 
   m_currentView->emitEventViewMenu( m_vMenuView, true );
   if (previousView != 0L) // might be 0L e.g. if we just removed the current view
@@ -527,7 +527,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 Konqueror::View_ptr KonqMainView::activeView()
 {
   if ( m_currentView )
-    return Konqueror::View::_duplicate( m_currentView->m_vView );
+    return Konqueror::View::_duplicate( m_currentView->getView() );
   else
     return Konqueror::View::_nil();
 }
@@ -543,7 +543,7 @@ Konqueror::ViewList *KonqMainView::viewList()
   for (; it != m_mapViews.end(); it++ )
   {
     seq->length( i++ );
-    (*seq)[ i ] = it->second->m_vView;
+    (*seq)[ i ] = it->second->getView(); // no duplicate here ?
   }
 
   return seq;
@@ -641,15 +641,14 @@ void KonqMainView::setStatusBarText( const char *_text )
 void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
 {
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
-  
   assert( it != m_mapViews.end() );
   
-  it->second->m_strLocationBarURL = _url;
+  it->second->setLocationBarURL( _url );
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, _url );
 
-  slotSetUpEnabled( _url, id ); // new url -> check if up is possible
+  // hmm, not the right URL it seems. slotSetUpEnabled( _url, id );
 }
 
 void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable )
@@ -1080,7 +1079,7 @@ void KonqMainView::slotLargeIcons()
   //this must never fail... 
   //(but it's quite sure that doesn't fail ;) 
   //(we could also ask via supportsInterface() ...anyway)
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->m_vView );
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->getView() );
   
   iv->slotLargeIcons();
 }
@@ -1089,7 +1088,7 @@ void KonqMainView::slotSmallIcons()
 {
   m_currentView->changeViewMode( "KonquerorKfmIconView" );
   
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->m_vView );
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->getView() );
   
   iv->slotSmallIcons();
 }
@@ -1250,7 +1249,7 @@ void KonqMainView::slotStop()
     m_pRun = 0L;
   }
   
-  m_currentView->m_vView->stop();
+  m_currentView->stop();
 }
 
 void KonqMainView::slotNewWindow()

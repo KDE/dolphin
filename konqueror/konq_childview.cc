@@ -54,7 +54,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
 {
   m_pFrame = new KonqFrame( row );
   m_row = row;
-  m_strLocationBarURL = "";
+  m_sLocationBarURL = "";
   m_bBack = false;
   m_bForward = false;
   m_bHistoryLock = false;
@@ -96,6 +96,7 @@ void KonqChildView::detach()
 
 void KonqChildView::repaint()
 {
+  debug("KonqChildView::repaint()");
   assert(m_pFrame);
   m_pFrame->repaint();
 }

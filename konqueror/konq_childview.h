@@ -58,17 +58,15 @@ public:
                );
   ~KonqChildView();
 
-  /* Get view's row */
+  /** Get view's row */
   Row * getRow() { return m_row; }
-  /* Attach a view */
+  /** Attach a view */
   void attach( Konqueror::View_ptr view );
-  /* Detach attached view, before deleting myself, or attaching another one */
+  /** Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
-  /* */
+  /** Force a repaint of the frame header */
   void repaint();
-
-  void reload();
 
   /**
    * Displays another URL, but without changing the view mode (caller has to 
@@ -127,6 +125,15 @@ public:
   void goForward();
 
   /**
+   * Stop loading
+   */
+  void stop() { m_vView->stop(); }
+  /**
+   * Reload
+   */
+  void reload();
+
+  /**
    * Get view's URL
    */
   QString url();
@@ -139,12 +146,22 @@ public:
    */
   OpenParts::Id id() { return m_vView->id(); }
   /**
-   * Get view's location bar URL (difference with url() ? to be explained)
-   * (hm... I think it can differ, for example in case of redirection, when
-   * the view wants to "represent" the "old" url, but the user should see the
-   * redirected url. Or? We should discuss this... I'm most likely wrong) (Simon)
+   * Get view's location bar URL, i.e. the one that the view signals
+   * It can be different from url(), for instance if we display a index.html (David)
    */
-  // void locationBarURL() { return m_sLocationBarURL; }
+  const QString locationBarURL() { return m_sLocationBarURL; }
+
+  /**
+   * Get view object (should never be needed, except for IDL methods 
+   * like activeView() and viewList())
+   */
+  Konqueror::View_ptr getView() { return Konqueror::View::_duplicate(m_vView); }
+  // FIXME : is duplicated needed ? activeView will do it too !
+
+  /**
+   * Set location bar URL (called by MainView, when View signals it)
+   */
+  void setLocationBarURL( const QString locationBarURL ) { m_sLocationBarURL = locationBarURL; }
 
 signals:
 
@@ -176,14 +193,10 @@ protected:
   /* Used by makeHistory, to store the URL _previously_ opened in this view */
   QString m_strLastURL;
     
-public: // temporary !!
-
   Konqueror::View_var m_vView;
     
-  /* ? */
-  QString m_strLocationBarURL;
+  QString m_sLocationBarURL;
 
-protected:
   bool m_bBack;
   bool m_bForward;
   
