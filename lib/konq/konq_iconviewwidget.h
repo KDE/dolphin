@@ -44,6 +44,8 @@ class KonqIconViewWidget : public KIconView
     Q_PROPERTY( QRect iconArea READ iconArea WRITE setIconArea )
     Q_PROPERTY( int lineupMode READ lineupMode WRITE setLineupMode )
 
+    friend class KFileIVI;
+
 public:
 
     enum LineupMode { LineupHorizontal=1, LineupVertical, LineupBoth };
@@ -202,6 +204,13 @@ protected:
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
 
     virtual void drawBackground( QPainter *p, const QRect &r );
+    /**
+     * r is the rectangle which you want to paint from the background.
+     * pt is the upper left point in the painter device where you want to paint
+     * the rectangle r.
+     */
+    virtual void drawBackground( QPainter *p, const QRect &r,
+		 			const QPoint &pt );
     virtual void viewportResizeEvent(QResizeEvent *);
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDropEvent( QDropEvent *e );
