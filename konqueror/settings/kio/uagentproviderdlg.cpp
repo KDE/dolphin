@@ -64,38 +64,17 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
 
   dlg = new UAProviderDlgUI (this);
-  mainLayout->addWidget(dlg);
+  mainLayout->addWidget(dlg);  
 
-  QString wtstr = i18n( "Enter the site or domain where a fake browser "
-                        "identification should be used. <p><u>NOTE:</u> "
-                        "Wildcard syntaxes such as \"*,?\" are NOT allowed. "
-                        "Instead use the top level address of a site to "
-                        "make generic matches. For example, if you want all "
-                        "KDE sites to receive a fake browser identification, "
-                        "you would enter <code>.kde.org</code>. The fake "
-                        "identity would then be sent to any KDE site that "
-                        "ends with <code>.kde.org</code>." );
-  QWhatsThis::add( dlg->lbSite, wtstr );
-  QWhatsThis::add( dlg->leSite, wtstr );
+  init();
+}
 
-  wtstr = i18n( "<qt>Select the browser identification to use whenever "
-                "contacting the site you specified above.");
-  QWhatsThis::add( dlg->lbAlias, wtstr );
-  QWhatsThis::add( dlg->cbAlias, wtstr );
+UAProviderDlg::~UAProviderDlg()
+{
+}
 
-
-  wtstr = i18n( "The actual browser identification text that will be sent "
-                "to the remote machine." );
-  QWhatsThis::add( dlg->lbIdentity, wtstr );
-  QWhatsThis::add( dlg->leIdentity, wtstr );
-
-  // Update button
-  wtstr = i18n( "Updates the browser identification list.\n"
-                "<p><u>NOTE:</u> There is no need to press this button "
-                "unless a new description file was added while this "
-                "configuration box is displayed!" );
-  QWhatsThis::add( dlg->pbUpdateList, wtstr );
-
+void UAProviderDlg::init()
+{
   connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
   connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
 
@@ -104,20 +83,9 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
 
   connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
            SLOT(slotActivated(const QString&)) );
-
+           
   connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
 
-  init();
-  dlg->leSite->setFocus();
-}
-
-UAProviderDlg::~UAProviderDlg()
-{
-}
-
-
-void UAProviderDlg::init()
-{
   if ( !m_provider )
     m_provider = new FakeUASProvider();
 
@@ -125,6 +93,8 @@ void UAProviderDlg::init()
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
   dlg->cbAlias->insertItem( "", 0 );
   dlg->cbAlias->listBox()->sort();
+  
+  dlg->leSite->setFocus();  
 }
 
 void UAProviderDlg::slotActivated( const QString& text )
@@ -132,7 +102,7 @@ void UAProviderDlg::slotActivated( const QString& text )
   if ( text.isEmpty() )
     dlg->leIdentity->setText( "" );
   else
-    dlg->leIdentity->setText( m_provider->agentStr(text) );
+    dlg->leIdentity->setSqueezedText( m_provider->agentStr(text) );
 
   dlg->pbOk->setEnabled( (!dlg->leSite->text().isEmpty() && !text.isEmpty()) );
 }

@@ -48,13 +48,12 @@ private slots:
   void updateButtons();
   void selectionChanged();
 
-  void deleteAllPressed();
-  void deletePressed();
-  void changePressed();
   void addPressed();
+  void changePressed();
+  void deletePressed();  
+  void deleteAllPressed();  
   
-  void changeSendUAString();
-  void changeSendUAString(bool);
+  void configChanged();
   void changeDefaultUAModifiers( int );
 
 private:
@@ -78,7 +77,6 @@ private:
   int d_itemsSelected;
 
   KConfig *m_config;
-
   UserAgentDlgUI* dlg;
 };
 

@@ -54,81 +54,11 @@ UserAgentDlg::UserAgentDlg( QWidget * parent )
   dlg = new UserAgentDlgUI (this);
   mainLayout->addWidget(dlg);
 
-  // Send User-agent info ?
-  QString wtstr = i18n("<qt>Enable/disable the sending of the browser "
-                       "identification while browsing sites."
-                       "<P><u>NOTE:</u> Many sites rely on this information to "
-                       "display pages properly, hence, it is highly recommended "
-                       "that you do not totally disable this feature but rather "
-                       "customize it."
-                       "<P>By default only minimal identification information is "
-                       "sent to remote sites. You can see this string below.</qt>");
-  QWhatsThis::add( dlg->cbSendUAString, wtstr );
-
-  wtstr = i18n("Check any one of the following boxes to modify the level of "
-               "information that should be included in the default browser "
-               "identification in <b>bold</b>.");
-  QWhatsThis::add( dlg->bgDefaultId, wtstr );
-
-
-  wtstr = i18n("The default identification sent to remote sites "
-               "during browsing. You can customize it using the options "
-               "provided below.");
-  QWhatsThis::add( dlg->leDefaultId, wtstr );
-
-  wtstr = i18n("Check this box to add your <code>operating system name</code> "
-               "to the default identification string.");
-  QWhatsThis::add( dlg->cbOS, wtstr );
-
-  wtstr = i18n("Check this box to add your <code>operating system version "
-               "number</code> to the default identification string.");
-  QWhatsThis::add( dlg->cbOSVersion, wtstr );
-
-  wtstr = i18n("Check this box to add your <code>platform</code> to the default "
-               "identification string.");
-  QWhatsThis::add( dlg->cbPlatform, wtstr );
-
-  wtstr = i18n("Check this box to add your <code>machine or processor type"
-               "</code> to the default identification string.");
-  QWhatsThis::add( dlg->cbProcessorType, wtstr );
-
-  wtstr = i18n("Check this box to add your language settings to the default "
-               "identification string.");
-  QWhatsThis::add( dlg->cbLanguage, wtstr );
-
-  dlg->lvDomainPolicyList->addColumn(i18n("Site/Domain Name"));
-  dlg->lvDomainPolicyList->addColumn(i18n("Alias"));
-  dlg->lvDomainPolicyList->addColumn(i18n("User Agent"));
-
   dlg->lvDomainPolicyList->setSorting(0);
-  dlg->lvDomainPolicyList->setColumnWidth(0, dlg->lvDomainPolicyList->fontMetrics().width('W')*15);
-  dlg->lvDomainPolicyList->setResizeMode (QListView::AllColumns);
+  
+  connect( dlg->cbSendUAString, SIGNAL(clicked()), SLOT(configChanged()) );
 
-  wtstr = i18n("Browser identification strings that will be used "
-               "in place of the default one above whenever you "
-               "browse the listed site or sites.");
-  QWhatsThis::add( dlg->lvDomainPolicyList, wtstr );
-
-  QWhatsThis::add( dlg->pbNew, i18n("Add browser identification for a specific site.") );
-  QWhatsThis::add( dlg->pbChange, i18n("Change the selected identifier.") );
-  QWhatsThis::add( dlg->pbDelete, i18n("Delete the selected identifier.") );
-  QWhatsThis::add( dlg->pbDeleteAll, i18n("Delete all identifiers") );
-
-  wtstr = i18n("<qt>Here you can modify the default browser-identification string "
-               "and/or set a site <code>(ex:www.kde.org)</code> or a domain "
-               "<code>(ex:kde.org)</code> specific identification."
-               "<P>To add a new agent string, simply click on the <code>New "
-               "</code>button and supply the necessary information requested "
-               "by the dialog box. To change an existing site specific entry, "
-               "click on the <code>Change</code> button. The <code>Delete "
-               "</code> button will remove the selected policy, causing the "
-               "default setting to be used for that site or domain.");
-
-  connect( dlg->cbSendUAString, SIGNAL(toggled(bool)),
-           SLOT(changeSendUAString(bool)) );
-  connect( dlg->cbSendUAString, SIGNAL(clicked()), SLOT(changeSendUAString()) );
-
-  connect(dlg->bgDefaultId, SIGNAL(clicked(int)),
+  connect( dlg->gbDefaultId, SIGNAL(clicked(int)),
            SLOT(changeDefaultUAModifiers(int)));
 
   connect( dlg->lvDomainPolicyList, SIGNAL(selectionChanged()),
@@ -150,6 +80,7 @@ UserAgentDlg::~UserAgentDlg()
 {
   if ( m_provider )
     delete m_provider;
+  
   delete m_config;
 }
 
@@ -168,11 +99,11 @@ void UserAgentDlg::load()
          continue;
       QString domain = *it;
       m_config->setGroup(*it);
-      QString userAgent = m_config->readEntry("UserAgent");
-      if (!userAgent.isEmpty())
+      QString agentStr = m_config->readEntry("UserAgent");
+      if (!agentStr.isEmpty())
       {
-         QString comment = m_provider->aliasStr(userAgent);
-         (void) new QListViewItem( dlg->lvDomainPolicyList, domain.lower(), userAgent, comment );
+         QString realName = m_provider->aliasStr(agentStr);
+         (void) new QListViewItem( dlg->lvDomainPolicyList, domain.lower(), realName, agentStr );
       }
   }
 
@@ -188,8 +119,6 @@ void UserAgentDlg::load()
   dlg->cbPlatform->setChecked( m_ua_keys.contains('p') );
   dlg->cbProcessorType->setChecked( m_ua_keys.contains('m') );
   dlg->cbLanguage->setChecked( m_ua_keys.contains('l') );
-  changeSendUAString();
-
   updateButtons();
 }
 
@@ -215,7 +144,7 @@ void UserAgentDlg::defaults()
   dlg->cbLanguage->setChecked( m_ua_keys.contains('l') );
   dlg->cbSendUAString->setChecked( true );
   updateButtons();
-  changeSendUAString();
+  configChanged();
 }
 
 void UserAgentDlg::save()
@@ -241,7 +170,7 @@ void UserAgentDlg::save()
     QString domain = it->text(0);
     if (domain[0] == '.')
       domain = domain.mid(1);
-    QString userAgent = it->text(1);
+    QString userAgent = it->text(2);
     m_config->setGroup(domain);
     m_config->writeEntry("UserAgent", userAgent);
     deleteList.remove(domain);
@@ -306,7 +235,7 @@ bool UserAgentDlg::handleDuplicate( const QString& site,
         item->setText(0, site);
         item->setText(1, identity);
         item->setText(2, alias);
-        changed( true );
+        configChanged();
       }
       return true;
     }
@@ -329,7 +258,7 @@ void UserAgentDlg::addPressed()
                                                 pdlg.alias() );
       dlg->lvDomainPolicyList->sort();
       dlg->lvDomainPolicyList->setCurrentItem( index );
-      changed( true );
+      configChanged();
     }
   }
 }
@@ -356,7 +285,7 @@ void UserAgentDlg::changePressed()
       index->setText( 0, new_site );
       index->setText( 1, pdlg.identity() );
       index->setText( 2, pdlg.alias() );
-      changed( true );
+      configChanged();
     }
   }
 }
@@ -389,25 +318,19 @@ void UserAgentDlg::deletePressed()
     dlg->lvDomainPolicyList->setSelected (nextItem, true);
 
   updateButtons();
-  changed( true );
+  configChanged();
 }
 
 void UserAgentDlg::deleteAllPressed()
 {
   dlg->lvDomainPolicyList->clear();
   updateButtons();
-  changed( true );
+  configChanged();
 }
 
-void UserAgentDlg::changeSendUAString()
+void UserAgentDlg::configChanged()
 {
   setChanged ( true );
-}
-
-void UserAgentDlg::changeSendUAString(bool enabled)
-{
-  dlg->bgDefaultId->setEnabled( enabled );
-  dlg->gbDomainPolicy->setEnabled( enabled );
 }
 
 void UserAgentDlg::changeDefaultUAModifiers( int )
@@ -435,8 +358,25 @@ void UserAgentDlg::changeDefaultUAModifiers( int )
   if ( dlg->leDefaultId->text() != modVal )
   {
     dlg->leDefaultId->setSqueezedText(modVal);
-    changed( true );
+    configChanged();
   }
+}
+
+void UserAgentDlg::selectionChanged ()
+{
+  QListViewItem* item;
+
+  d_itemsSelected = 0;
+  item = dlg->lvDomainPolicyList->firstChild ();
+
+  while (item != 0L)
+  {
+    if (dlg->lvDomainPolicyList->isSelected (item))
+      d_itemsSelected++;
+    item = item->nextSibling ();
+  }
+
+  updateButtons ();
 }
 
 QString UserAgentDlg::quickHelp() const
@@ -459,23 +399,6 @@ QString UserAgentDlg::quickHelp() const
                "of the dialog box, simply click on the quick help button on "
                "the window title bar, then click on the section "
                "for which you are seeking help." );
-}
-
-void UserAgentDlg::selectionChanged ()
-{
-  QListViewItem* item;
-
-  d_itemsSelected = 0;
-  item = dlg->lvDomainPolicyList->firstChild ();
-
-  while (item != 0L)
-  {
-    if (dlg->lvDomainPolicyList->isSelected (item))
-      d_itemsSelected++;
-    item = item->nextSibling ();
-  }
-
-  updateButtons ();
 }
 
 #include "useragentdlg.moc"
