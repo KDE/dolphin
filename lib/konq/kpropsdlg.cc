@@ -768,12 +768,12 @@ void FilePermissionsPropsPage::applyChanges()
       g = 0L;
     
     if ( pw == 0L ) {
-      warning(i18n(" ERROR: No user %s"),(const char*)owner->text() );
+      kdebug(KDEBUG_ERROR,1202," ERROR: No user %s",(const char*)owner->text());
       return;
     }
     if ( g == 0L ) {
-      warning(i18n(" ERROR: No group %s"),
-	      (const char*)grp->text(grp->currentItem()) ); // should never happen
+      kdebug(KDEBUG_ERROR,1202," ERROR: No group %s",
+             (const char*)grp->text(grp->currentItem()) ); // should never happen
       return;
     }
     if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
