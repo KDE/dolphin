@@ -92,17 +92,17 @@ LanBrowser::LanBrowser(QWidget *parent)
      connect(lisaPage,SIGNAL(changed()),this,SLOT(slotEmitChanged()));
    }
 
-   resLisaPage = KCModuleLoader::loadModule("kcmreslisa", &tabs);
-   if (resLisaPage)
-   {
-     tabs.addTab(resLisaPage,i18n("R&esLISa Daemon"));
-     connect(resLisaPage,SIGNAL(changed()),this,SLOT(slotEmitChanged()));
-   }
+//   resLisaPage = KCModuleLoader::loadModule("kcmreslisa", &tabs);
+//   if (resLisaPage)
+//   {
+//     tabs.addTab(resLisaPage,i18n("R&esLISa Daemon"));
+//     connect(resLisaPage,SIGNAL(changed()),this,SLOT(slotEmitChanged()));
+//   }
 
    kioLanPage = KCModuleLoader::loadModule("kcmkiolan", &tabs);
    if (kioLanPage)
    {
-     tabs.addTab(kioLanPage,i18n("lan:/ && &rlan:/"));
+     tabs.addTab(kioLanPage,i18n("lan:/ Iosla&ve"));
      connect(kioLanPage,SIGNAL(changed()),this,SLOT(slotEmitChanged()));
    }
 
@@ -120,8 +120,8 @@ void LanBrowser::load()
    smbPage->load();
    if (lisaPage)
      lisaPage->load();
-   if (resLisaPage)
-     resLisaPage->load();
+//   if (resLisaPage)
+//     resLisaPage->load();
    if (kioLanPage)
      kioLanPage->load();
    emit changed(false);
@@ -130,8 +130,8 @@ void LanBrowser::load()
 void LanBrowser::save()
 {
    smbPage->save();
-   if (resLisaPage)
-     resLisaPage->save();
+//   if (resLisaPage)
+//     resLisaPage->save();
    if (kioLanPage)
      kioLanPage->save();
    if (lisaPage)

@@ -46,7 +46,7 @@ class LanBrowser:public KCModule
       QTabWidget tabs;
       KCModule *smbPage;
       KCModule *lisaPage;
-      KCModule *resLisaPage;
+//      KCModule *resLisaPage;
       KCModule *kioLanPage;
 };
 #endif
