@@ -631,7 +631,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
     // (we are here only if the view opening a URL initially is linked)
     if ( (view != senderView) && view->isLinkedView() )
     {
-      kdDebug(1202) << "Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
+      kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
 
       // XXX duplicate code from ::openURL
       if ( view == m_currentView )
@@ -642,7 +642,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       else
           view->stop();
 
-      res = res || openView( serviceType, url, view, req );
+      res = openView( serviceType, url, view, req ) || res;
     }
   }
 
