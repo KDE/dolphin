@@ -95,8 +95,15 @@ public:
   QList<KFileItem> & items() { return m_lstFileItems; }
   
 signals:
-  /** Tell the view that we started to list _url */
+  /**
+   * Tell the view that we started to list _url.
+   * It is usefull for the rotating gear. The view knows that openURL
+   * should start it, but it doesn't know when an automatic update
+   * of the directory happens. In this case, this signal is emitted with
+   * _url = QString::null.
+   */
   void started( const QString& _url );
+
   /** Tell the view that listing is finished */
   void completed();
   /** Tell the view that user canceled the listing */
