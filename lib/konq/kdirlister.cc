@@ -58,13 +58,15 @@ KDirLister::~KDirLister()
 
 void KDirLister::slotDirectoryDirty( const QString& _dir )
 {
-  QString f = _dir;
-  // KURL::encode( f ); ?? Necessary ?
-  if ( !urlcmp( m_url.url(), f, true, true ) ) 
-    // Used url.cmp since there is no KURL cmp method that ignores refs...
-    return;
-
-  updateDirectory();
+  // _dir does not contain a trailing slash
+  kdebug( KDEBUG_INFO, 1203, "KDirLister::slotDirectoryDirty( %s )", _dir.ascii() );
+  // Check for _dir in m_lstDirs (which contains decoded paths)
+  for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
+    if ( _dir == (*it) )
+    {
+      updateDirectory( _dir );
+      break;
+    }
 }
 
 void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
@@ -96,13 +98,13 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   // Automatic updating of directories ?
   if ( _url.isLocalFile() )
   {
-    //kdebug(0, 1202, "adding %s", _url.path().ascii() );
+    //kdebug(0, 1203, "adding %s", _url.path().ascii() );
     kdirwatch->addDir( _url.path() );
     if ( !_keep ) // already done if keep == true
       connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
                this, SLOT( slotDirectoryDirty( const QString& ) ) );
   }
-  m_lstDirs.append( _url.path() );
+  m_lstDirs.append( _url.path( -1 ) ); // store path without trailing slash
 
   m_bComplete = false;
 
@@ -205,8 +207,9 @@ void KDirLister::slotBufferTimeout()
   m_buffer.clear();
 }
 
-void KDirLister::updateDirectory()
+void KDirLister::updateDirectory( const QString& _dir )
 {
+  kdebug( KDEBUG_INFO, 1203, "KDirLister::updateDirectory( %s )", _dir.ascii() );
   if ( !m_bComplete )
     return;
   
@@ -228,6 +231,9 @@ void KDirLister::updateDirectory()
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
   
+  m_url = KURL( _dir );
+  m_sURL = m_url.url();
+
   m_jobId = job->id();
   job->listDir( m_sURL );
   kdebug(KDEBUG_INFO, 1203, "update started in %s", m_sURL.data());
@@ -252,11 +258,19 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   m_jobId = 0;
   m_bComplete = true;
   
-  // Unmark all items
+  // Unmark all items whose path is m_sURL
+  QString sPath = m_url.path( 1 ); // with trailing slash
   QListIterator<KFileItem> kit ( m_lstFileItems );
   for( ; kit.current(); ++kit )
-    (*kit)->unmark();
-    
+  {
+    if ( (*kit)->url().directory( false /* keep trailing slash */, false ) == sPath )
+    {
+      kdebug( KDEBUG_INFO, 1203, "slotUpdateFinished : unmarking %s", (*kit)->url().url().ascii() );
+      (*kit)->unmark();
+    } else
+      (*kit)->mark(); // keep the other items
+  }
+
   QValueListIterator<UDSEntry> it = m_buffer.begin();
   for( ; it != m_buffer.end(); ++it )
   {    
@@ -274,7 +288,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     {
       // Form the complete url
       KURL u( m_url );
-      u.addPath( name.data() );
+      u.addPath( name );
       kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
 
       // Find this icon
@@ -336,7 +350,9 @@ void KDirLister::setShowingDotFiles( bool _showDotFiles )
   if ( m_isShowingDotFiles != _showDotFiles )
   {
     m_isShowingDotFiles = _showDotFiles;
-    updateDirectory();
+    // updateDirectory( m_sURL ); // update only one directory
+    for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
+      updateDirectory( *it ); // update all directories
   }
 }
 

@@ -93,7 +93,7 @@ public:
    * local files, using KDirWatch, but it might be useful to force an
    * update manually.
    */
-  virtual void updateDirectory();
+  virtual void updateDirectory( const QString& _dir );
 
   /**
    * Changes the "is viewing dot files" setting.
