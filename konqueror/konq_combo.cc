@@ -22,6 +22,7 @@
 #include <kdebug.h>
 #include <kicontheme.h>
 #include <konq_pixmapprovider.h>
+#include <kstdaccel.h>
 
 #include <dcopclient.h>
 
@@ -30,7 +31,7 @@
 KConfig * KonqCombo::s_config = 0L;
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
-    : KComboBox( true, parent, name ),
+    : KHistoryCombo( parent, name ),
       m_returnPressed( false ),
       m_permanent( false )
 {
@@ -91,7 +92,7 @@ void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 void KonqCombo::insertPermanent( const QString& url )
 {
     // kdDebug << "### insertPermanent!" << endl;
-    
+
     saveState();
     setTemporary( url );
     m_permanent = true;
@@ -103,6 +104,7 @@ void KonqCombo::insertPermanent( const QString& url )
 void KonqCombo::applyPermanent()
 {
     if ( m_permanent ) {
+    qDebug("** applyPermanent!");
 	// remove as many items as needed to honour maxCount()
 	int i = count();
 	while ( count() >= maxCount() )
@@ -133,8 +135,15 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
 	(pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
 	return;
 
+    setUpdatesEnabled( false );
+    lineEdit()->setUpdatesEnabled( false );
+    
     removeItem( index );
     insertItem( pix, t, index );
+    
+    setUpdatesEnabled( true );
+    lineEdit()->setUpdatesEnabled( true );
+    repaint();
 }
 
 void KonqCombo::saveState()
@@ -211,6 +220,16 @@ void KonqCombo::clearTemporary( bool makeCurrent )
     changeItem( QString::null, temporary ); // ### default pixmap?
     if ( makeCurrent )
 	setCurrentItem( temporary );
+}
+
+void KonqCombo::keyPressEvent( QKeyEvent *e )
+{
+    KHistoryCombo::keyPressEvent( e );
+    // we have to set it as temporary, otherwise we wouldn't get our nice
+    // pixmap. Yes, QComboBox still sucks.
+    if ( KStdAccel::isEqual( e, KStdAccel::rotateUp() ) ||
+	 KStdAccel::isEqual( e, KStdAccel::rotateDown() ) )
+	setTemporary( currentText() );
 }
 
 void KonqCombo::setConfig( KConfig *kc )

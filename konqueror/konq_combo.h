@@ -20,11 +20,15 @@
 #ifndef KONQ_COMBO_H
 #define KONQ_COMBO_H
 
+#include <qevent.h>
+
 #include <kcombobox.h>
 
 class KConfig;
 
-class KonqCombo : public KComboBox
+// we use KHistoryCombo _only_ for the up/down keyboard handling, otherwise
+// KComboBox would do fine.
+class KonqCombo : public KHistoryCombo
 {
     Q_OBJECT
 
@@ -48,6 +52,9 @@ public:
 
     static void setConfig( KConfig * );
 
+protected:
+    virtual void keyPressEvent( QKeyEvent * );
+    
 private slots:
     void slotReturnPressed();
 
