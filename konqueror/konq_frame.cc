@@ -376,7 +376,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 
 KonqFrame::~KonqFrame()
 {
-  kdDebug(1202) << "KonqFrame::~KonqFrame() " << this << endl;
+  //kdDebug(1202) << "KonqFrame::~KonqFrame() " << this << endl;
   //delete m_pLayout;
 }
 
@@ -431,7 +431,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 
 void KonqFrame::attachInternal()
 {
-   kdDebug(1202) << "KonqFrame::attachInternal()" << endl;
+   //kdDebug(1202) << "KonqFrame::attachInternal()" << endl;
    if (m_pLayout) delete m_pLayout;
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
@@ -540,7 +540,7 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
 
 KonqFrameContainer::~KonqFrameContainer()
 {
-    kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer() " << this << " - " << className() << endl;
+    //kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer() " << this << " - " << className() << endl;
 }
 
 void KonqFrameContainer::listViews( ChildViewList *viewList )
@@ -631,19 +631,19 @@ void KonqFrameContainer::swapChildren()
 
 void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame )
 {
-  kdDebug(1202) << "KonqFrameContainer " << this << ": insertChildFrame " << frame << endl;
+  //kdDebug(1202) << "KonqFrameContainer " << this << ": insertChildFrame " << frame << endl;
 
   if (frame)
   {
       if( !m_pFirstChild )
       {
           m_pFirstChild = frame;
-          kdDebug(1202) << "Setting as first child" << endl;
+          //kdDebug(1202) << "Setting as first child" << endl;
       }
       else if( !m_pSecondChild )
       {
           m_pSecondChild = frame;
-          kdDebug(1202) << "Setting as second child" << endl;
+          //kdDebug(1202) << "Setting as second child" << endl;
       }
       else
         kdWarning(1202) << this << " already has two children..."
@@ -654,7 +654,7 @@ void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame )
 
 void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
 {
-  kdDebug(1202) << "KonqFrameContainer::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
+  //kdDebug(1202) << "KonqFrameContainer::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
   if( m_pFirstChild == frame )
     m_pFirstChild = 0L;
 
