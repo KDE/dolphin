@@ -95,14 +95,14 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     m_progressBar->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
-	fontChanged();
+	fontChange(font());
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
 {
 }
 
-void KonqFrameStatusBar::fontChanged()
+void KonqFrameStatusBar::fontChange(const QFont & /* oldFont */)
 {
     int h = fontMetrics().height();
     if ( h < DEFAULT_HEADER_HEIGHT ) h = DEFAULT_HEADER_HEIGHT;

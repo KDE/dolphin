@@ -136,7 +136,7 @@ class KonqFrameStatusBar : public KStatusBar
       /**
        * Takes care of the statusbars size 
        **/
-      virtual void fontChanged();
+      virtual void fontChange(const QFont &oldFont);
 
    private:
       KonqFrame* m_pParentKonqFrame;
