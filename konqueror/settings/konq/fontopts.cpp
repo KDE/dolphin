@@ -233,8 +233,11 @@ void KonqFontOptions::load()
     else if (m_stdFont.pointSizeFloat() == 14.0)
        fSize = 5;
 
-    normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
-    highlightedTextColor = g_pConfig->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
+    normalTextColor = KGlobalSettings::textColor();
+    normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &normalTextColor );
+
+    highlightedTextColor = KGlobalSettings::highlightedTextColor();
+    highlightedTextColor = g_pConfig->readColorEntry( "HighlightedTextColor", &highlightedTextColor );
 
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
@@ -251,8 +254,8 @@ void KonqFontOptions::defaults()
     stdName = KGlobalSettings::generalFont().family();
     m_stdFont = QFont(stdName, 12);
 
-    normalTextColor = FM_DEFAULT_TXT_COLOR;
-    highlightedTextColor = FM_DEFAULT_HIGHLIGHTED_TXT_COLOR;
+    normalTextColor = KGlobalSettings::textColor();
+    highlightedTextColor = KGlobalSettings::highlightedTextColor();
 
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
