@@ -265,6 +265,25 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   mainLayout->addWidget( gb_siteSpecific );
   mainLayout->addSpacing( KDialog::spacingHint() );
 
+  connect( cb_sendUAString, SIGNAL(toggled(bool)),
+           SLOT(changeSendUAString(bool)) );
+  connect( cb_sendUAString, SIGNAL(clicked()), SLOT(changeSendUAString()) );
+  
+  connect(bg_default, SIGNAL(clicked(int)), 
+           SLOT(changeDefaultUAModifiers(int)));
+  
+  connect( lv_siteUABindings, SIGNAL(selectionChanged()),
+           SLOT(selectionChanged()) );
+  connect( lv_siteUABindings, SIGNAL(doubleClicked (QListViewItem *)),
+           SLOT(changePressed()) );
+  connect( lv_siteUABindings, SIGNAL( returnPressed ( QListViewItem * ) ),
+           SLOT( changePressed() ));
+
+  connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
+  connect( pb_change, SIGNAL( clicked() ), SLOT( changePressed() ) );
+  connect( pb_delete, SIGNAL( clicked() ), SLOT( deletePressed() ) );  
+  connect( pb_deleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
+   
   load();
 }
 
@@ -277,28 +296,6 @@ UserAgentOptions::~UserAgentOptions()
 
 void UserAgentOptions::load()
 {
-  connect( cb_sendUAString, SIGNAL(toggled(bool)), this, 
-           SLOT(changeSendUAString(bool)) );
-  connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(changeSendUAString()) );
-  
-  connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changeDefaultUAModifiers(int)));
-  
-  connect( lv_siteUABindings, SIGNAL(selectionChanged()),
-           SLOT(selectionChanged()) );
-  connect( lv_siteUABindings, SIGNAL(doubleClicked (QListViewItem *)),
-           SLOT(changePressed()) );
-  connect( lv_siteUABindings, SIGNAL( returnPressed ( QListViewItem * ) ),
-           SLOT( changePressed() ));
-
-  connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
-  connect( pb_change, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-  connect( pb_delete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );  
-  connect( pb_deleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
-#if 0  
-  connect( pb_import, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-  connect( pb_export, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
-#endif
-   
   d_itemsSelected = 0;
   lv_siteUABindings->clear();
 
