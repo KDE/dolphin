@@ -311,7 +311,7 @@ void NSPluginConfig::dirSelect( QListBoxItem *item )
 void NSPluginConfig::dirBrowse()
 {
     QString path = KFileDialog::getExistingDirectory( QString::null,  this,
-                                                i18n("Select plugin scan directory") );
+                                                i18n("Select Plugin Scan Directory") );
     if ( !path.isEmpty() ) {
         m_widget->dirEdit->setText( path );
         change();
