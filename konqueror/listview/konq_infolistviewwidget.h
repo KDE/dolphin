@@ -48,6 +48,8 @@ class KonqInfoListViewWidget : public KonqBaseListViewWidget
       // slots connected to the directory lister
 //      virtual void setComplete();
       virtual void slotNewItems( const KFileItemList & );
+      virtual void slotDeleteItem( KFileItem * );
+      virtual void slotClear();
       virtual void slotSelectMimeType();
       
       void slotMetaInfo(const KFileItem*);
@@ -80,6 +82,7 @@ class KonqInfoListViewWidget : public KonqBaseListViewWidget
       
       KSelectAction*                  m_mtSelector;
       KIO::MetaInfoJob*               m_metaInfoJob;
+      KFileItemList                   m_metaInfoTodo;
 };
 
 #endif

@@ -120,7 +120,6 @@ void KonqInfoListViewItem::gotMetaInfo()
 {
     KFileMetaInfo info = item()->metaInfo(false);
 
-    Q_ASSERT(info.isValid());
     if (!info.isValid()) return;
 
     QStringList::ConstIterator it = m_ILVWidget->columnKeys().begin();

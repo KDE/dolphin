@@ -1,3 +1,21 @@
+/* This file is part of the KDE project
+   Copyright (C) 2002 Rolf Magnus <ramagnus@kde.org>
+   Copyright (C) 2003 Waldo Bastian <bastian@kde.org>
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public
+   License as published by the Free Software Foundation version 2.0
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; see the file COPYING.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
+*/
 #include "konq_infolistviewwidget.h"
 #include "konq_infolistviewwidget.moc"
 #include "konq_infolistviewitem.h"
@@ -17,6 +35,7 @@ KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
                                                 QWidget* parentWidget)
   : KonqBaseListViewWidget(parent, parentWidget)
 {
+    m_metaInfoJob = 0;
 
     m_mtSelector = new KSelectAction(i18n("View &as"), 0, this,
                                      SLOT(slotSelectMimeType()),
@@ -28,6 +47,7 @@ KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
 KonqInfoListViewWidget::~KonqInfoListViewWidget()
 {
     delete m_mtSelector;
+    delete m_metaInfoJob;
 }
 
 void KonqInfoListViewWidget::slotSelectMimeType()
@@ -193,18 +213,44 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
         triggerUpdate();
     }
 
-   slotUpdateBackground();
+    slotUpdateBackground();
 
     determineCounts(list);
 
     kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
 
     // start getting metainfo from the files
-    m_metaInfoJob = KIO::fileMetaInfo(list);
-    connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
+    if (m_metaInfoJob)
+    {
+       for (QPtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
+          m_metaInfoTodo.append(kit.current());
+    }
+    else
+    {
+        m_metaInfoJob = KIO::fileMetaInfo(list);
+        connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
              this, SLOT( slotMetaInfo( const KFileItem*)));
-    connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
+        connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
              this, SLOT( slotMetaInfoResult()));
+    }
+}
+
+void KonqInfoListViewWidget::slotDeleteItem( KFileItem * item )
+{
+    m_metaInfoTodo.removeRef(item);
+    if (m_metaInfoJob)
+       m_metaInfoJob->removeItem(item);
+       
+    KonqBaseListViewWidget::slotDeleteItem(item);
+}
+
+void KonqInfoListViewWidget::slotClear()
+{
+    m_metaInfoTodo.clear();
+    delete m_metaInfoJob;
+    m_metaInfoJob = 0;
+
+    KonqBaseListViewWidget::slotClear();
 }
 
 void KonqInfoListViewWidget::slotMetaInfo(const KFileItem* item)
@@ -226,9 +272,22 @@ void KonqInfoListViewWidget::slotMetaInfo(const KFileItem* item)
 
 void KonqInfoListViewWidget::slotMetaInfoResult()
 {
-    m_bTopLevelComplete = false;
-    kdDebug(1203) << "emitting completed!!!!!!!!!!!!!!!!\n";
-    slotCompleted();
+    m_metaInfoJob = 0;
+    if (m_metaInfoTodo.isEmpty())
+    {
+       m_bTopLevelComplete = false;
+       kdDebug(1203) << "emitting completed!!!!!!!!!!!!!!!!\n";
+       slotCompleted();
+    }
+    else
+    {
+        m_metaInfoJob = KIO::fileMetaInfo(m_metaInfoTodo);
+        connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
+             this, SLOT( slotMetaInfo( const KFileItem*)));
+        connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
+             this, SLOT( slotMetaInfoResult()));
+        m_metaInfoTodo.clear();
+    }
 }
 
 void KonqInfoListViewWidget::determineCounts(const KFileItemList& list)
