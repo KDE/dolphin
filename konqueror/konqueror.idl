@@ -193,6 +193,7 @@ module Konqueror
     HTMLView createHTMLView();
     KfmTreeView createKfmTreeView();
     TxtView createTxtView();
+    void configure(); // called by kfmclient configure
   };
   
 };

@@ -83,6 +83,7 @@ KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
   // Create a properties instance for this view
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
+  m_pSettings = KonqSettings::defaultFMSettings();
 
   setRootIsDecorated( true );
   setTreeStepSize( 20 );
@@ -160,13 +161,7 @@ void KonqKfmTreeView::stop()
 
 QCString KonqKfmTreeView::url()
 {
-// Simon: We cannot use the dirlister to find out about our current url since
-//        it's also used for sub-folders! use KonqBaseView::m_strURL instead
   return m_strURL.latin1();
-/*
-  assert( m_dirLister );
-  return CORBA::string_dup( m_dirLister->url().ascii() );
-*/  
 }
 
 long int KonqKfmTreeView::xOffset()
@@ -249,121 +244,44 @@ void KonqKfmTreeView::slotShowDot()
 
 void KonqKfmTreeView::initConfig()
 {
-  QPalette p          = viewport()->palette();
-//  KfmViewSettings *settings  = m_pView->settings();
+  QColor bgColor           = m_pSettings->bgColor();
+  QColor textColor         = m_pSettings->textColor();
+  QColor linkColor         = m_pSettings->linkColor();
+  QColor vLinkColor        = m_pSettings->vLinkColor();
 
-  KConfig *config = kapp->getConfig();
-  config->setGroup("Settings");
+  QString stdFontName      = m_pSettings->stdFontName();
+  QString fixedFontName    = m_pSettings->fixedFontName();
+  int fontSize             = m_pSettings->fontSize();
 
-  KfmViewSettings *settings = new KfmViewSettings( config );
-
-  m_bgColor           = settings->bgColor();
-  m_textColor         = settings->textColor();
-  m_linkColor         = settings->linkColor();
-  m_vLinkColor        = settings->vLinkColor();
-  m_stdFontName       = settings->stdFontName();
-  m_fixedFontName     = settings->fixedFontName();
-  m_fontSize          = settings->fontSize();
-
-//   m_bgPixmap          = props->bgPixmap();
+  m_bgPixmap         = m_pProps->bgPixmap();
 
 //   if ( m_bgPixmap.isNull() )
 //     viewport()->setBackgroundMode( PaletteBackground );
 //   else
 //     viewport()->setBackgroundMode( NoBackground );
 
-  m_mouseMode         = settings->mouseMode();
-
-  m_underlineLink     = settings->underlineLink();
-  m_changeCursor      = settings->changeCursor();
-
+  QPalette p          = viewport()->palette();
   QColorGroup c = p.normal();
-  QColorGroup n( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
-		 m_textColor, m_bgColor );
+  QColorGroup n( textColor, bgColor, c.light(), c.dark(), c.mid(),
+		 textColor, bgColor );
   p.setNormal( n );
   c = p.active();
-  QColorGroup a( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
-		 m_textColor, m_bgColor );
+  QColorGroup a( textColor, bgColor, c.light(), c.dark(), c.mid(),
+		 textColor, bgColor );
   p.setActive( a );
   c = p.disabled();
-  QColorGroup d( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
-		 m_textColor, m_bgColor );
+  QColorGroup d( textColor, bgColor, c.light(), c.dark(), c.mid(),
+		 textColor, bgColor );
   p.setDisabled( d );
   viewport()->setPalette( p );
-//   viewport()->setBackgroundColor( m_bgColor );
+//   viewport()->setBackgroundColor( bgColor );
 
-  QFont font( m_stdFontName, m_fontSize );
+  QFont font( stdFontName, fontSize );
   setFont( font );
 
-  delete settings;
-}
-
-void KonqKfmTreeView::setBgColor( const QColor& _color )
-{
-  m_bgColor = _color;
-
-  update();
-}
-
-void KonqKfmTreeView::setTextColor( const QColor& _color )
-{
-  m_textColor = _color;
-
-  update();
-}
-
-void KonqKfmTreeView::setLinkColor( const QColor& _color )
-{
-  m_linkColor = _color;
-
-  update();
-}
-
-void KonqKfmTreeView::setVLinkColor( const QColor& _color )
-{
-  m_vLinkColor = _color;
-
-  update();
-}
-
-void KonqKfmTreeView::setStdFontName( const char *_name )
-{
-  m_stdFontName = _name;
-
-  update();
-}
-
-void KonqKfmTreeView::setFixedFontName( const char *_name )
-{
-  m_fixedFontName = _name;
-
-  update();
-}
-
-void KonqKfmTreeView::setFontSize( const int _size )
-{
-  m_fontSize = _size;
-
-  update();
-}
-
-void KonqKfmTreeView::setBgPixmap( const QPixmap& _pixmap )
-{
-  m_bgPixmap = _pixmap;
-
-  if ( m_bgPixmap.isNull() )
-    viewport()->setBackgroundMode( PaletteBackground );
-  else
-    viewport()->setBackgroundMode( NoBackground );
-
-  update();
-}
-
-void KonqKfmTreeView::setUnderlineLink( bool _underlineLink )
-{
-  m_underlineLink = _underlineLink;
-
-  update();
+  m_bSingleClick       = m_pSettings->singleClick();
+  m_bUnderlineLink     = m_pSettings->underlineLink();
+  m_bChangeCursor      = m_pSettings->changeCursor();
 }
 
 void KonqKfmTreeView::viewportDragMoveEvent( QDragMoveEvent *_ev )
@@ -497,7 +415,7 @@ void KonqKfmTreeView::viewportMousePressEvent( QMouseEvent *_ev )
   QPoint globalPos = mapToGlobal( _ev->pos() );
   m_pressed = false;
   
-  if ( m_mouseMode == Konqueror::SingleClick )
+  if ( m_bSingleClick )
   {
     KfmTreeViewItem *item = (KfmTreeViewItem*)itemAt( _ev->pos() );
     if ( item )
@@ -550,7 +468,7 @@ void KonqKfmTreeView::viewportMouseReleaseEvent( QMouseEvent *_mouse )
   if ( !m_pressed )
     return;
 
-  if ( m_mouseMode == Konqueror::SingleClick &&
+  if ( m_bSingleClick &&
        _mouse->button() == LeftButton &&
        !( ( _mouse->state() & ControlButton ) == ControlButton ) &&
        isSingleClickArea( _mouse->pos() ) )
@@ -577,7 +495,7 @@ void KonqKfmTreeView::viewportMouseMoveEvent( QMouseEvent *_mouse )
 	slotOnItem( item );
 	m_overItem = item;
 
-	if ( m_mouseMode == Konqueror::SingleClick && m_changeCursor )
+	if ( m_bSingleClick && m_bChangeCursor )
 	  setCursor( m_handCursor );
       }
     }
@@ -814,8 +732,6 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
 
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
-  // Note : we don't store the url. KDirLister does it for us.
-  // Simon: We do! see comment in KonqKfmTreeView::url() to find out why :-)
   m_strURL = url.url();
   
   setCaptionFromURL( m_strURL );
@@ -975,116 +891,6 @@ KonqKfmTreeView::iterator KonqKfmTreeView::iterator::operator++(int)
 
   return it;
 }
-
-/*
-void KonqKfmTreeView::slotUpdateFinished( int _id )
-{
-  if ( m_pWorkingDir )
-    m_bSubFolderComplete = true;
-  else
-    m_bTopLevelComplete = true;
-
-  // Unmark all items
-  QListViewItem *item;
-  if ( m_pWorkingDir )
-    item = m_pWorkingDir->firstChild();
-  else
-    item = firstChild();
-  while( item )
-  {
-    ((KfmTreeViewItem*)item)->unmark();
-    item = item->nextSibling();
-  }
-
-  QValueList<UDSEntry>::Iterator it = m_buffer.begin();
-  for( ; it != m_buffer.end(); it++ ) {
-    int isdir = -1;
-    QString name;
-
-    // Find out wether it is a directory
-    UDSEntry::Iterator it2 = (*it).begin();
-    for( ; it2 != (*it).end(); it2++ )  {
-      if ( (*it2).m_uds == UDS_FILE_TYPE ) {
-	mode_t mode = (mode_t)((*it2).m_long);
-	if ( S_ISDIR( mode ) )
-	  isdir = 1;
-	else
-	  isdir = 0;
-      }  else if ( (*it2).m_uds == UDS_NAME ) {
-	name = (*it2).m_str;
-      }
-    }
-
-    assert( isdir != -1 && !name.isEmpty() );
-
-    if ( m_isShowingDotFiles || name[0]!='.' ) {
-      // Find this icon
-      bool done = false;
-      QListViewItem *item;
-      if ( m_pWorkingDir )
-        item = m_pWorkingDir->firstChild();
-      else
-        item = firstChild();
-      while( item ) {
-        if ( name == ((KfmTreeViewItem*)item)->getText().ascii() ) {
-          ((KfmTreeViewItem*)item)->mark();
-          done = true;
-        }
-        item = item->nextSibling();
-      }
-
-      if ( !done ) {
-        kdebug(0,1202,"Inserting %s", name.ascii());
-        KfmTreeViewItem *item;
-        if ( m_pWorkingDir ) {
-          KURL u( m_workingURL );
-          u.addPath( name.ascii() );
-          kdebug(0,1202,"Final path 1 '%s'", u.path().data());
-          if ( isdir )
-            item = new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
-          else
-            item = new KfmTreeViewItem( this, m_pWorkingDir, *it, u );
-        } else {
-          KURL u( m_url );
-          u.addPath( name.ascii() );
-          kdebug(0,1202,"Final path 2 '%s'", u.path().data());
-          if ( isdir )
-            item = new KfmTreeViewDir( this, *it, u );
-          else
-            item = new KfmTreeViewItem( this, *it, u );
-        }
-        item->mark();
-      }
-    }
-  }
-
-  // Find all unmarked items and delete them
-  QList<QListViewItem> lst;
-
-  if ( m_pWorkingDir )
-    item = m_pWorkingDir->firstChild();
-  else
-    item = firstChild();
-  while( item )
-  {
-    if ( !((KfmTreeViewItem*)item)->isMarked() )
-    {
-      kdebug(0,1202,"Removing %s", ((KfmTreeViewItem*)item)->getText().data());
-      lst.append( item );
-    }
-    item = item->nextSibling();
-  }
-
-  QListViewItem* qlvi;
-  for( qlvi = lst.first(); qlvi != 0L; qlvi = lst.next() )
-    delete qlvi;
-
-  m_buffer.clear();
-  m_pWorkingDir = 0L;
-
-  SIGNAL_CALL1( "completed", id() );
-}
-*/
 
 void KonqKfmTreeView::drawContentsOffset( QPainter* _painter, int _offsetx, int _offsety,
 				    int _clipx, int _clipy, int _clipw, int _cliph )
@@ -1285,8 +1091,8 @@ const char* KfmTreeViewItem::makeAccessString( const UDSAtom &_atom ) const
 
 void KfmTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & cg, int column, int width, int alignment )
 {
-  if ( m_pTreeView->m_mouseMode == Konqueror::SingleClick &&
-       m_pTreeView->m_underlineLink && column == 0)
+  if ( m_pTreeView->m_bSingleClick &&
+       m_pTreeView->m_bUnderlineLink && column == 0)
   {
     QFont f = _painter->font();
     f.setUnderline( true );

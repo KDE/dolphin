@@ -32,6 +32,7 @@ class KDirLister;
 class KFileItem;
 class Qt2CORBAProxy;
 class KFileIVI;
+class KonqSettings;
 
 /**
  * The Icon View for konqueror. Handles big icons (Horizontal mode) and
@@ -132,6 +133,9 @@ protected:
 
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
+
+  /** Konqueror settings */
+  KonqSettings * m_pSettings;
 
   /** View properties */
   KonqPropsView * m_pProps;

@@ -42,6 +42,7 @@ class KMimeType;
 class KFileItem;
 class KDirLister;
 class KonqPropsView;
+class KonqSettings;
 
 /**
  * One item in the tree
@@ -188,35 +189,6 @@ public:
   iterator begin() { iterator it( (KfmTreeViewItem*)firstChild() ); return it; }
   iterator end() { iterator it; return it; }
 
-  // ********* TODO : move this to properties stuff
-  virtual void setBgColor( const QColor& _color );
-  virtual const QColor& bgColor() { return m_bgColor; }
-  virtual void setTextColor( const QColor& _color );
-  virtual const QColor& textColor() { return m_textColor; }
-  virtual void setLinkColor( const QColor& _color );
-  virtual const QColor& linkColor() { return m_linkColor; }
-  virtual void setVLinkColor( const QColor& _color );
-  virtual const QColor& vLinkColor() { return m_vLinkColor; }
-
-  virtual void setStdFontName( const char *_name );
-  virtual const char* stdFontName() { return m_stdFontName; }
-  virtual void setFixedFontName( const char *_name );
-  virtual const char* fixedFontName() { return m_fixedFontName; }
-  virtual void setFontSize( const int _size );
-  virtual const int fontSize() { return m_fontSize; }
-
-  virtual void setBgPixmap( const QPixmap& _pixmap );
-  virtual const QPixmap& bgPixmap() { return m_bgPixmap; }
-
-  virtual void setMouseMode( Konqueror::MouseMode _mode ) { m_mouseMode = _mode; }
-  virtual Konqueror::MouseMode mouseMode() { return m_mouseMode; }
-
-  virtual void setUnderlineLink( bool _underlineLink );
-  virtual bool underlineLink() { return m_underlineLink; }
-  virtual void setChangeCursor( bool _changeCursor ) { m_changeCursor = _changeCursor; }
-  virtual bool changeCursor() { return m_changeCursor; };
-  // ********
-
   virtual void openURL( const char* _url, int xOffset, int yOffset );
 
   virtual void openSubFolder( const KURL &_url, KfmTreeViewDir* _dir );
@@ -276,6 +248,9 @@ protected:
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
 
+  /** Konqueror settings */
+  KonqSettings * m_pSettings;
+
   /** View properties */
   KonqPropsView * m_pProps;
 
@@ -304,25 +279,13 @@ protected:
 
   QCursor m_stdCursor;
   QCursor m_handCursor;
-
-  QColor m_bgColor;
-  QColor m_textColor;
-  QColor m_linkColor;
-  QColor m_vLinkColor;
-
-  QString m_stdFontName;
-  QString m_fixedFontName;
+  QPixmap m_bgPixmap;
 
   KfmTreeViewItem* m_overItem;
 
-  int m_fontSize;
-
-  QPixmap m_bgPixmap;
-
-  Konqueror::MouseMode m_mouseMode;
-
-  bool m_underlineLink;
-  bool m_changeCursor;
+  bool m_bSingleClick;
+  bool m_bUnderlineLink;
+  bool m_bChangeCursor;
 
   int m_iXOffset;
   int m_iYOffset;

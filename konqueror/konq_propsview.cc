@@ -92,38 +92,61 @@ void KonqPropsView::saveProps( KConfig * config )
   config->sync();
 }
 
-//////////////////// KfmViewSettings ///////////////////////////////
+//////////////////// KonqSettings ///////////////////////////////
 
-KfmViewSettings * KfmViewSettings::m_pDefaultFMSettings = 0L;
-KfmViewSettings * KfmViewSettings::m_pDefaultHTMLSettings = 0L;
+KonqSettings * KonqSettings::m_pDefaultFMSettings = 0L;
+KonqSettings * KonqSettings::m_pDefaultHTMLSettings = 0L;
+
+#define HTMLGROUP "KFM HTML Defaults"
+#define FMGROUP   "KFM HTML Defaults" // FM Defaults when kcmkonq supports it
 
 //static
-KfmViewSettings * KfmViewSettings::defaultFMSettings() 
+KonqSettings * KonqSettings::defaultFMSettings() 
 {
   if (!m_pDefaultFMSettings)
   {
-    kdebug(0,1202,"Reading config for defaultFMSettings");
     KConfig *config = kapp->getConfig();
-    KConfigGroupSaver cgs(config, "KFM FM Defaults" );
-    m_pDefaultFMSettings = new KfmViewSettings(config);
+    KConfigGroupSaver cgs(config, FMGROUP);
+    m_pDefaultFMSettings = new KonqSettings(config);
   }
   return m_pDefaultFMSettings;
 }
 
 //static
-KfmViewSettings * KfmViewSettings::defaultHTMLSettings() 
+KonqSettings * KonqSettings::defaultHTMLSettings() 
 {
   if (!m_pDefaultHTMLSettings)
   {
-    kdebug(0,1202,"Reading config for defaultHTMLSettings");
     KConfig *config = kapp->getConfig();
-    KConfigGroupSaver cgs(config, "KFM HTML Defaults" );
-    m_pDefaultHTMLSettings = new KfmViewSettings(config);
+    KConfigGroupSaver cgs(config, HTMLGROUP);
+    m_pDefaultHTMLSettings = new KonqSettings(config);
   }
   return m_pDefaultHTMLSettings;
 }
 
-KfmViewSettings::KfmViewSettings( KConfig * config )
+//static
+void KonqSettings::reparseConfiguration()
+{
+  if (m_pDefaultHTMLSettings) 
+  {
+    KConfig *config = kapp->getConfig();
+    KConfigGroupSaver cgs(config, HTMLGROUP);
+    m_pDefaultHTMLSettings->init( config );
+  }
+  if (m_pDefaultFMSettings) 
+  {
+    KConfig *config = kapp->getConfig();
+    KConfigGroupSaver cgs(config, FMGROUP);
+    m_pDefaultFMSettings->init( config );
+  }
+}
+
+KonqSettings::KonqSettings( KConfig * config )
+{
+  init( config );
+}
+
+void KonqSettings::init( KConfig * config )
 {
   m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
   if ( m_iFontSize < 8 )
@@ -139,32 +162,23 @@ KfmViewSettings::KfmViewSettings( KConfig * config )
   if ( m_strFixedFontName.isEmpty() )
     m_strFixedFontName = DEFAULT_VIEW_FIXED_FONT;
 
-  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", true );
-
-  QString entry = config->readEntry( "MouseMode" , "SingleClick");
-  if ( entry == "SingleClick" )
-    m_mouseMode = Konqueror::SingleClick;
-  else
-    m_mouseMode = Konqueror::DoubleClick;
-
   m_bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
   m_textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
   m_linkColor = config->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
   m_vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
 
+  // Behaviour
+  KConfigGroupSaver cgs( config, "Behaviour" );
+  m_bSingleClick = config->readBoolEntry("SingleClick", true);
+  m_iAutoSelect = config->readNumEntry("AutoSelect", 50);
+  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", false );
   m_underlineLink = config->readBoolEntry( "UnderlineLink", true );
   
-  KConfigGroupSaver cgs(config, "Misc Defaults" );
+  // Other
+  config->setGroup( "Misc Defaults" ); // group will be restored by cgs anyway
   m_bAutoLoadImages = config->readBoolEntry( "AutoLoadImages", true );
 }
 
-KfmViewSettings::~KfmViewSettings()
+KonqSettings::~KonqSettings()
 {
-}
-
-void KfmViewSettings::saveProps( KConfig * config )
-{
-  // TODO !
-
-  config->sync();
 }

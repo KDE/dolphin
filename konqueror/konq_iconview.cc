@@ -29,6 +29,7 @@
 
 #include <kaccel.h>
 #include <kapp.h>
+#include <kcursor.h>
 #include <kdirlister.h>
 #include <kfileivi.h>
 #include <kfileitem.h>
@@ -68,7 +69,8 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   // Create a properties instance for this view
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
-  
+  m_pSettings = KonqSettings::defaultFMSettings();
+
   // Dont repaint on configuration changes during construction
   m_bInit = true;
 
@@ -94,6 +96,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   QObject::connect( this, SIGNAL( selectionChanged() ), 
                     this, SLOT( slotSelectionChanged() ) );
 		    
+  // TODO
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
   QObject::connect( this, SIGNAL( itemRightClicked( QIconViewItem * ) ),
@@ -407,35 +410,32 @@ void KonqKfmIconView::dropStuff( QDropEvent *ev, KFileIVI *item )
 
 void KonqKfmIconView::initConfig()
 {
-/*
-  QPalette p          = viewport()->palette();
-//  KfmViewSettings *settings = m_pView->settings();
+  KonqSettings *settings = KonqSettings::defaultFMSettings();
 
-  KConfig *config = kapp->getConfig();
-  config->setGroup("Settings");
+  // Color settings
+  QColor bgColor           = m_pSettings->bgColor();
+  QColor textColor         = m_pSettings->textColor();
+  QColor linkColor         = m_pSettings->linkColor();
+  QColor vLinkColor        = m_pSettings->vLinkColor();
 
-  KfmViewSettings *settings = new KfmViewSettings( config );
+  // Font settings
+  QString stdFontName      = m_pSettings->stdFontName();
+  QString fixedFontName    = m_pSettings->fixedFontName();
+  int fontSize             = m_pSettings->fontSize();
 
-  m_bgColor           = settings->bgColor();
-  m_textColor         = settings->textColor();
-  m_linkColor         = settings->linkColor();
-  m_vLinkColor        = settings->vLinkColor();
-  m_stdFontName       = settings->stdFontName();
-  m_fixedFontName     = settings->fixedFontName();
-  m_fontSize          = settings->fontSize();
-
+  /*
   //  m_bgPixmap          = props->bgPixmap(); // !!
 
   if ( m_bgPixmap.isNull() )
     viewport()->setBackgroundMode( PaletteBackground );
   else
     viewport()->setBackgroundMode( NoBackground );
+  */
 
-  m_mouseMode = (KIconContainer::MouseMode) settings->mouseMode();
+  // bool bUnderlineLink = m_pSettings->underlineLink();
 
-  m_underlineLink = settings->underlineLink();
-  m_changeCursor = settings->changeCursor();
-
+  /*
+  QPalette p          = viewport()->palette();
   QColorGroup c = p.normal();
   QColorGroup n( m_textColor, m_bgColor, c.light(), c.dark(), c.mid(),
 		 m_textColor, m_bgColor );
@@ -449,16 +449,20 @@ void KonqKfmIconView::initConfig()
 		 m_textColor, m_bgColor );
   p.setDisabled( d );
   viewport()->setPalette( p );
-
-  QFont font( m_stdFontName, m_fontSize );
+  */
+  QFont font( stdFontName, fontSize );
   setFont( font );
 
-  if ( !m_bInit )
-    refresh();
+  // Behaviour
+  bool bChangeCursor = m_pSettings->changeCursor();
+  QIconView::setSingleClickConfiguration( new QFont(font), new QColor(textColor), new QFont(font), new QColor(linkColor), 
+                    new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()), 
+                    m_pSettings->autoSelect() );
+  QIconView::setUseSingleClickMode( m_pSettings->singleClick() );
 
-  delete settings;
-  //  delete props;
-*/  
+  // probably not necessary with QIconView
+  //if ( !m_bInit )
+    //refresh();
 }
 
 void KonqKfmIconView::slotMousePressed( QIconViewItem *item )

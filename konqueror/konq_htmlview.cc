@@ -80,7 +80,7 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView, KBrowser *parentBrowser, con
   
   m_pMainView = mainView;
 
-  m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
+  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
 
   enableSmartAnchorHandling( false );
 
@@ -110,7 +110,7 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
   
-  m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
+  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
   enableImages( m_bAutoLoadImages );  
   
   QString url = eventURL.url;
@@ -177,7 +177,7 @@ bool KonqHTMLView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr )
 
 bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar )
 {
-  if ( KfmViewSettings::defaultHTMLSettings()->autoLoadImages() )
+  if ( KonqSettings::defaultHTMLSettings()->autoLoadImages() )
     return false;
 
   if ( CORBA::is_nil( viewToolBar.toolBar ) )
@@ -254,7 +254,7 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
   QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
                     this, SLOT( slotSelectionChanged() ) );
 
-  KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
+  KonqSettings *settings = KonqSettings::defaultHTMLSettings();
   KHTMLWidget* htmlWidget = frame->getKHTMLWidget();
 
   htmlWidget->setDefaultBGColor( settings->bgColor() );
@@ -270,7 +270,7 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
     htmlWidget->setURLCursor( KCursor().handCursor() );
   else
     htmlWidget->setURLCursor( KCursor().arrowCursor() );		    
-    checkViewMenu();
+  checkViewMenu();
     
   frame->enableImages( m_bAutoLoadImages );
 }

@@ -56,6 +56,14 @@ public:
   Konqueror::HTMLView_ptr createHTMLView();
   Konqueror::KfmTreeView_ptr createKfmTreeView();
   Konqueror::TxtView_ptr createTxtView();
+
+  void configure();
+
+  /*
+signals:
+  void sigConfigure();
+  */
+  
 };
 
 class KonqBrowserFactory : public Browser::BrowserFactory_skel

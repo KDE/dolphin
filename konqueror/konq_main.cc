@@ -148,6 +148,12 @@ Konqueror::TxtView_ptr KonqApplicationIf::createTxtView()
   return Konqueror::TxtView::_duplicate( txtView );
 }
 
+void KonqApplicationIf::configure()
+{
+  // emit a signal to tell the views to re-read their configuration
+  // emit sigConfigure();
+}
+
 KonqBrowserFactory::KonqBrowserFactory( const CORBA::BOA::ReferenceData &refData )
 : Browser::BrowserFactory_skel( refData )
 {

@@ -185,7 +185,13 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
-    //	kfm.configure();
+    bool ok = getKonqy();
+    if (ok)
+    {
+      CORBA::Request_var req = m_vKonqy->_request( "configure" );
+      //req->result()->value()->type( OpenParts::_tc_MainWindow );
+      req->invoke();
+    }
   }
   else if ( strcmp( argv[1], "openURL" ) == 0 )
   {
