@@ -67,7 +67,7 @@ int main( int argc, char **argv )
   if ( kapp->isRestored() )
   {
     int n = 1;
-    while ( KTMainWindow::canBeRestored( n ) )
+    while ( KonqMainWindow::canBeRestored( n ) )
     {
       (new KonqMainWindow( KURL(), false ) )->restore( n );
       n++;

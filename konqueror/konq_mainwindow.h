@@ -144,7 +144,7 @@ public:
 
   virtual void customEvent( QCustomEvent *event );
 
-  /// Overloaded of KTMainWindow
+  /// Overloaded of KMainWindow
   virtual void setCaption( const QString &caption );
 
   /// Overloaded functions of KBookmarkOwner

@@ -382,9 +382,9 @@ void KonqLogoAction::stop()
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
 /*
-  if ( widget->inherits( "KTMainWindow" ) )
+  if ( widget->inherits( "KMainWindow" ) )
   {
-    ((KTMainWindow*)widget)->setIndicatorWidget(m_logoLabel);
+    ((KMainWindow*)widget)->setIndicatorWidget(m_logoLabel);
 
     addContainer( widget, -1 );
 
