@@ -49,6 +49,8 @@
 
 // #define DEBUG_ADDRESSES
 
+#define typ m_listView
+
 ListView* ListView::s_self = 0;
 
 ListView::ListView() {
@@ -114,20 +116,6 @@ void ListView::connectSignals(KEBListView *listview) {
            this,     SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
-/* MOVE */
-KEBListViewItem* ListView::getFirstChild() {
-   return static_cast<KEBListViewItem *>(m_listView->firstChild());
-}
-
-/* MOVE */
-QPtrList<KEBListViewItem>* ListView::itemList() {
-   QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
-   for (QListViewItemIterator it(m_listView); it.current(); it++) {
-      items->append(static_cast<KEBListViewItem *>(it.current()));
-   }
-   return items;
-}
-
 QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*items); it.current() != 0; ++it) {
@@ -138,7 +126,8 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() {
    QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); 
+        it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
          items->append(it.current());
       }
@@ -184,7 +173,8 @@ void ListView::deselectParents(KEBListViewItem *item) {
 }
 
 void ListView::updateSelectedItems() {
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); 
+        it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
          deselectParents(it.current());
       }
@@ -193,10 +183,10 @@ void ListView::updateSelectedItems() {
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
       if (!it.current()->isSelected() 
        || it.current()->isEmptyFolder()
-       || it.current() == getFirstChild()) {
+       || it.current() == typ->getFirstChild()) {
          continue;
       }
       if (it.current()->childCount() > 0) {
@@ -223,7 +213,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
 
 QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
       if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolder()) {
          bookmarks.append(it.current()->bookmark());
       }
@@ -233,7 +223,7 @@ QValueList<KBookmark> ListView::allBookmarks() {
 
 void ListView::updateLastAddress() {
    KEBListViewItem *lastItem = 0;
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
       if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
          lastItem = it.current();
       }
@@ -276,7 +266,7 @@ void ListView::setCurrent(KEBListViewItem *item) {
 }
 
 KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
-   QListViewItem *item = getFirstChild();
+   QListViewItem *item = typ->getFirstChild();
 
    QStringList addresses = QStringList::split('/',address); // e.g /5/10/2
 
@@ -294,7 +284,7 @@ KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
 }
 
 void ListView::setOpen(bool open) {
-   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
       if (it.current()->parent()) {
          it.current()->setOpen(open);
       }
@@ -313,13 +303,13 @@ SelcAbilities ListView::getSelectionAbilities() {
       sa.separator      = nbk.isSeparator();
       sa.urlIsEmpty     = nbk.url().isEmpty();
       sa.singleSelect   = (!sa.multiSelect && sa.itemSelected); // oops, TODO, FIXME!
-      sa.root           = (getFirstChild() == item);
+      sa.root           = (typ->getFirstChild() == item);
       sa.multiSelect    = (selectedItems()->count() > 1);
    } else {
       // kdDebug() << "no item" << endl;
    }
 
-   sa.notEmpty = (getFirstChild()->childCount() > 0);
+   sa.notEmpty = (typ->getFirstChild()->childCount() > 0);
 
    return sa;
 }
@@ -435,7 +425,7 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
       return;
    }
    const char *type = 
-      (item == getFirstChild()) || (item->bookmark().isGroup()) 
+      (item == typ->getFirstChild()) || (item->bookmark().isGroup()) 
     ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
@@ -523,7 +513,7 @@ void ListView::renameNextCell(bool fwd) {
                   : KEBListView::CommentColumn;
       }
       if (!myrenameitem 
-        || myrenameitem == getFirstChild() 
+        || myrenameitem == typ->getFirstChild() 
         || myrenameitem->isEmptyFolder()
         || myrenameitem->bookmark().isSeparator()
         || (myrenamecolumn == KEBListView::UrlColumn 
@@ -568,6 +558,18 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
       }
    }
    return false;
+}
+
+KEBListViewItem* KEBListView::getFirstChild() {
+   return static_cast<KEBListViewItem *>(firstChild());
+}
+
+QPtrList<KEBListViewItem>* KEBListView::itemList() {
+   QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
+   for (QListViewItemIterator it(this); it.current(); it++) {
+      items->append(static_cast<KEBListViewItem *>(it.current()));
+   }
+   return items;
 }
 
 bool KEBListView::acceptDrag(QDropEvent * e) const {

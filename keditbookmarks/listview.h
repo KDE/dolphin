@@ -30,33 +30,6 @@
 
 #include "toplevel.h"
 
-class KEBListView : public KListView
-{
-   Q_OBJECT
-public:
-   enum { 
-      NameColumn = 0,
-      UrlColumn = 1,
-      CommentColumn = 2,
-      StatusColumn = 3,
-      AddressColumn = 4
-   };
-   KEBListView(QWidget *parent) : KListView(parent) {}
-   virtual ~KEBListView() {}
-
-   void init();
-   void readonlyFlagInit(bool);
-
-public slots:
-   virtual void rename(QListViewItem *item, int c);
-
-protected:
-   virtual bool acceptDrag(QDropEvent *e) const;
-   virtual QDragObject* dragObject();
-};
-
-// DESIGN - make these seperate classes?, else move impls back into listview.cpp
-
 class KEBListViewItem : public QListViewItem
 {
 private:
@@ -89,6 +62,34 @@ private:
    QString m_oldStatus;
 };
 
+class KEBListView : public KListView
+{
+   Q_OBJECT
+public:
+   enum { 
+      NameColumn = 0,
+      UrlColumn = 1,
+      CommentColumn = 2,
+      StatusColumn = 3,
+      AddressColumn = 4
+   };
+   KEBListView(QWidget *parent) : KListView(parent) {}
+   virtual ~KEBListView() {}
+
+   void init();
+   void readonlyFlagInit(bool);
+
+   KEBListViewItem* getFirstChild();
+   QPtrList<KEBListViewItem>* itemList();
+
+public slots:
+   virtual void rename(QListViewItem *item, int c);
+
+protected:
+   virtual bool acceptDrag(QDropEvent *e) const;
+   virtual QDragObject* dragObject();
+};
+
 // DESIGN - make some stuff private if possible
 class ListView : public QObject
 {
@@ -101,10 +102,6 @@ public:
 
    void connectSignals();
    void connectSignals(KEBListView *listview);
-
-   // item stuff
-   KEBListViewItem* getFirstChild();
-   QPtrList<KEBListViewItem>* itemList();
 
    // selected item stuff
    int numSelected();
@@ -143,6 +140,8 @@ public:
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
+
+   void setInitialItem(QString address);
 
 protected slots:
    void slotDropped(QDropEvent *, QListViewItem *, QListViewItem *);
