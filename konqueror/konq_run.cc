@@ -160,10 +160,21 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
 
   KIO::SimpleJob *job = (KIO::SimpleJob *) m_job;
 
+  // type is a reference on TranfserJob::m_mimetype. This
+  // reference is DEAD after the putOnHold() call (which kills
+  // the TransferJob) , therefore type points to already
+  // freed memory! So let's make a reference here, to make sure
+  // that in the TransferJob destructor only the QString object
+  // (without the shared QString data) is destructed, not the
+  // actual data plus reference counter!
+  // (in order to have a proper QString for the foundMimeType call
+  // below) . Purify rocks!
+  // (Simon)
+  QString _type = type;
   job->putOnHold();
   m_job = 0;
 
-  foundMimeType( type );
+  foundMimeType( _type );
 }
 
 bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
