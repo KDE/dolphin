@@ -634,7 +634,8 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   else
   {
     debug("%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url).latin1());
-    childView->stop();
+    // This is already called in ::openURL
+    //    childView->stop();
   }
   debug("%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url).latin1());
 

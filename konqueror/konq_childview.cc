@@ -353,8 +353,8 @@ void KonqChildView::stop()
     m_pView->stop();
     m_bLoading = false;
   }
-  //  else if ( m_pRun )
-  //    delete (KonqRun *)m_pRun; // should set m_pRun to 0L
+  else if ( m_pRun )
+    delete (KonqRun *)m_pRun; // should set m_pRun to 0L
 
     //  if ( m_pRun ) debug(" m_pRun is not NULL "); else debug(" m_pRun is NULL ");
   //if ( m_pRun ) delete (KonqRun *)m_pRun; // should set m_pRun to 0L
