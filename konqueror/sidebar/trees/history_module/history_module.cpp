@@ -344,11 +344,14 @@ KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KURL
 
 void KonqSidebarHistoryModule::slotClearHistory()
 {
-    if ( KMessageBox::questionYesNo( tree(),
+    KGuiItem guiitem = KStdGuiItem::clear();
+    guiitem.setIconSet( SmallIconSet("history_clear"));
+
+    if ( KMessageBox::warningContinueCancel( tree(),
 				     i18n("Do you really want to clear "
 					  "the entire history?"),
-				     i18n("Clear History?") )
-	 == KMessageBox::Yes )
+				     i18n("Clear History?"), guiitem )
+	 == KMessageBox::Continue )
 	KonqHistoryManager::kself()->emitClear();
 }
 

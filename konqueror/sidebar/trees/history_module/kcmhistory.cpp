@@ -33,6 +33,7 @@
 #include <kfontdialog.h>
 #include <kgenericfactory.h>
 #include <kglobal.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <knuminput.h>
@@ -286,11 +287,13 @@ void HistorySidebarConfig::slotGetFontOlder()
 
 void HistorySidebarConfig::slotClearHistory()
 {
-    if ( KMessageBox::questionYesNo( this,
+    KGuiItem guiitem = KStdGuiItem::clear();
+    guiitem.setIconSet( SmallIconSet("history_clear"));
+    if ( KMessageBox::warningContinueCancel( this,
 				     i18n("Do you really want to clear "
 					  "the entire history?"),
-				     i18n("Clear History?") )
-	 == KMessageBox::Yes )
+				     i18n("Clear History?"), guiitem )
+	 == KMessageBox::Continue )
 	KonqHistoryManager::kself()->emitClear();
 }
 

@@ -516,8 +516,8 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		}
 		case 3:
 		{
-			if (KMessageBox::questionYesNo(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").
-				arg(m_currentButton->displayName))==KMessageBox::Yes)
+			if (KMessageBox::warningContinueCancel(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").arg(m_currentButton->displayName),
+                            QString::null,KStdGuiItem::del())==KMessageBox::Continue)
 			{
 				QFile f(m_path+m_currentButton->file);
 				if (!f.remove())
@@ -826,7 +826,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set URL..."),2);
 					m_buttonPopup->insertItem(SmallIconSet("image"), i18n("Set Icon..."),1);
 					m_buttonPopup->insertSeparator();
-					m_buttonPopup->insertItem(SmallIconSet("remove"), i18n("Remove"),3);
+					m_buttonPopup->insertItem(SmallIconSet("editdelete"), i18n("Remove"),3);
 					m_buttonPopup->insertSeparator();
 					m_buttonPopup->insertItem(SmallIconSet("configure"), i18n("Configure Navigation Panel"), m_menu, 4);
 					connect(m_buttonPopup, SIGNAL(activated(int)),
