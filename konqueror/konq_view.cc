@@ -198,7 +198,10 @@ bool KonqView::changeViewMode( const QString &serviceType,
   {
 
     if ( isLockedViewMode() )
-      return true; // we can't do that if our view mode is locked
+    {
+      kdDebug(1202) << "This view's mode is locked - can't change" << endl;
+      return false; // we can't do that if our view mode is locked
+    }
 
     kdDebug(1202) << "Switching view modes..." << endl;
     KTrader::OfferList partServiceOffers, appServiceOffers;
