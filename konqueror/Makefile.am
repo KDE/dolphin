@@ -37,6 +37,12 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_browseriface.cc \
 	    delayedinitializer.cc
 
+noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
+	konq_actions.h konq_browseriface.h konq_combo.h konq_factory.h \
+	konq_frame.h konq_guiclients.h konq_main.h konq_mainwindow.h \
+	konq_misc.h konq_openurlrequest.h konq_profiledlg.h konq_run.h \
+	konq_view.h konq_viewmgr.h version.h
+
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = ../libkonq/libkonq.la
 
