@@ -14,6 +14,7 @@
 #include <qmap.h>
 
 class QSpinBox;
+class KFontCombo;
 
 class KAppearanceOptions : public KCModule
 {
@@ -55,12 +56,12 @@ private:
   QRadioButton* m_pLarge;
   QRadioButton* m_pXLarge;
   QSpinBox* minSizeSB;
-  QComboBox* m_pFixed;
-  QComboBox* m_pStandard;
-  QComboBox* m_pSerif;
-  QComboBox* m_pSansSerif;
-  QComboBox* m_pCursive;
-  QComboBox* m_pFantasy;
+  KFontCombo* m_pFixed;
+  KFontCombo* m_pStandard;
+  KFontCombo* m_pSerif;
+  KFontCombo* m_pSansSerif;
+  KFontCombo* m_pCursive;
+  KFontCombo* m_pFantasy;
   QComboBox* m_pEncoding;
   QComboBox* m_pChset;
 

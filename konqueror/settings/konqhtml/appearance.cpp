@@ -26,6 +26,7 @@
 #include <X11/Xlib.h>
 #include <klineedit.h>
 #include <qspinbox.h>
+#include <kfontcombo.h>
 
 #include "htmlopts.h"
 #include "policydlg.h"
@@ -87,7 +88,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   QLabel* label = new QLabel( i18n("S&tandard Font"), this );
   lay->addWidget( label , ++r, E+1);
 
-  m_pStandard = new QComboBox( false, this );
+  m_pStandard = new KFontCombo( this );
   label->setBuddy( m_pStandard );
   lay->addMultiCellWidget(m_pStandard, r, r, M, W);
 
@@ -103,7 +104,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "&Fixed Font"), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFixed = new QComboBox( false, this );
+  m_pFixed = new KFontCombo( this );
   label->setBuddy( m_pFixed );
   lay->addMultiCellWidget(m_pFixed, r, r, M, W);
 
@@ -119,7 +120,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "S&erif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pSerif = new QComboBox( false, this );
+  m_pSerif = new KFontCombo( this );
   label->setBuddy( m_pSerif );
   lay->addMultiCellWidget( m_pSerif, r, r, M, W );
 
@@ -135,7 +136,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "S&ans Serif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pSansSerif = new QComboBox( false, this );
+  m_pSansSerif = new KFontCombo( this );
   label->setBuddy( m_pSansSerif );
   lay->addMultiCellWidget( m_pSansSerif, r, r, M, W );
 
@@ -151,7 +152,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "&Cursive Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pCursive = new QComboBox( false, this );
+  m_pCursive = new KFontCombo( this );
   label->setBuddy( m_pCursive );
   lay->addMultiCellWidget( m_pCursive, r, r, M, W );
 
@@ -167,7 +168,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "Fantas&y Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFantasy = new QComboBox( false, this );
+  m_pFantasy = new KFontCombo( this );
   label->setBuddy( m_pFantasy );
   lay->addMultiCellWidget( m_pFantasy, r, r, M, W );
 
@@ -348,48 +349,42 @@ void KAppearanceOptions::updateGUI()
     QStringList families = s->availableFamilies( s->xNameToID( charset ) );
     families.sort();
 
-    m_pStandard->clear();
-    m_pStandard->insertStringList( families );
+    m_pStandard->setFonts( families );
     i = 0;
     for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
         if ( fonts[0] == *sit )
             m_pStandard->setCurrentItem( i );
     }
 
-    m_pFixed->clear();
-    m_pFixed->insertStringList( families );
+    m_pFixed->setFonts( families );
     i = 0;
     for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
         if ( fonts[1] == *sit )
             m_pFixed->setCurrentItem( i );
     }
 
-    m_pSerif->clear();
-    m_pSerif->insertStringList( families );
+    m_pSerif->setFonts( families );
     i = 0;
     for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
         if ( fonts[2] == *sit )
             m_pSerif->setCurrentItem( i );
     }
 
-    m_pSansSerif->clear();
-    m_pSansSerif->insertStringList( families );
+    m_pSansSerif->setFonts( families );
     i = 0;
     for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
         if ( fonts[3] == *sit )
             m_pSansSerif->setCurrentItem( i );
     }
 
-    m_pCursive->clear();
-    m_pCursive->insertStringList( families );
+    m_pCursive->setFonts( families );
     i = 0;
     for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
         if ( fonts[4] == *sit )
             m_pCursive->setCurrentItem( i );
     }
 
-    m_pFantasy->clear();
-    m_pFantasy->insertStringList( families );
+    m_pFantasy->setFonts( families );
     i = 0;
     for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
         if ( fonts[5] == *sit )
