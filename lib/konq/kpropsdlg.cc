@@ -987,6 +987,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     QVBoxLayout * layout = new QVBoxLayout(this, SEPARATION);
     URLEdit = new QLineEdit( this, "LineEdit_1" );
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
+    iconBox->setIconType("icon"); // Choose from app icons
 
     QLabel* tmpQLabel;
     tmpQLabel = new QLabel( this, "Label_1" );
@@ -1068,6 +1069,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     // See resize event for widgets placement
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
+    iconBox->setIconType("icon"); // Choose from app icons
 
     QLabel* tmpQLabel = new QLabel( this, "Label_1" );
     tmpQLabel->setText( i18n("Background") );
@@ -1651,6 +1653,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     commentEdit = new QLineEdit( this, "LineEdit_2" );
     mimeEdit = new QLineEdit( this, "LineEdit_3" );
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
+    iconBox->setIconType("icon"); // Choose from app icons
     appBox = new QComboBox( false, this, "ComboBox_2" );
 
     QBoxLayout * mainlayout = new QVBoxLayout(this, SEPARATION);
@@ -1802,17 +1805,6 @@ void BindingPropsPage::applyChanges()
     // config.writeEntry( "DefaultApp", kdelnklist.at( appBox->currentItem() ) );
 
     config.sync();
-
-/*
-    KMimeType::clearAll();
-    KMimeType::init();
-    if ( KRootWidget::getKRootWidget() )
-	KRootWidget::getKRootWidget()->update();
-
-    KfmGui *win;
-    for ( win = KfmGui::getWindowList().first(); win != 0L; win = KfmGui::getWindowList().next() )
-	win->updateView();
-*/
 }
 
 /* ----------------------------------------------------
@@ -1874,9 +1866,11 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->adjustSize();
     
     mounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
+    mounted->setIconType("icon"); // Choose from app icons
     mounted->setGeometry( 10, 250, 50, 50 );
     
     unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
+    unmounted->setIconType("icon"); // Choose from app icons
     unmounted->setGeometry( 170, 250, 50, 50 );
 
     QString path( _props->kurl().path() );
