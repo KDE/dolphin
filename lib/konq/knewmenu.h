@@ -51,7 +51,7 @@ public:
      * Constructor
      */
     KNewMenu( KActionCollection * _collec, const char *name=0L );
-    virtual ~KNewMenu() {}
+    virtual ~KNewMenu();
 
     /**
      * Set the files the popup is shown for

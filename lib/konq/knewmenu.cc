@@ -41,7 +41,7 @@
 #include "knewmenu.h"
 
 QValueList<KNewMenu::Entry> * KNewMenu::s_templatesList = 0L;
-int KNewMenu::s_templatesVersion = 1; // one step ahead, to force filling the menu
+int KNewMenu::s_templatesVersion = 0;
 bool KNewMenu::s_filesParsed = false;
 KDirWatch * KNewMenu::s_pDirWatch = 0L;
 
@@ -49,13 +49,22 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "Create &new" ), "filenew", _collec, name ), m_actionCollection( _collec ),
   menuItemsVersion( 0 )
 {
+    kdDebug() << "KNewMenu::KNewMenu " << this << endl;
   // Don't fill the menu yet
   // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
 }
 
+KNewMenu::~KNewMenu()
+{
+    kdDebug() << "KNewMenu::~KNewMenu " << this << endl;
+}
+
 void KNewMenu::slotCheckUpToDate( )
 {
-    if (menuItemsVersion < s_templatesVersion)
+    kdDebug(1203) << "KNewMenu::slotCheckUpToDate() " << this
+                  << " : menuItemsVersion=" << menuItemsVersion
+                  << " s_templatesVersion=" << s_templatesVersion << endl;
+    if (menuItemsVersion < s_templatesVersion || s_templatesVersion == 0)
     {
         kdDebug(1203) << "KNewMenu::slotCheckUpToDate() : recreating actions" << endl;
         // We need to clean up the action collection
