@@ -257,7 +257,8 @@ void KBookmarkManager::notifyCompleteChange( QString caller )
     // Reparse
     parse();
     // Tell our GUI
-    emit changed( QString::null, caller );
+    // (emit with group == "" to directly mark the root menu as dirty)
+    emit changed( "", caller );
     // Also tell specifically about the toolbar
     KBookmarkGroup tbGroup = toolbar();
     if (!tbGroup.isNull())
