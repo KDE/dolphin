@@ -1,38 +1,20 @@
 
 INCLUDES = -I$(srcdir)/../libkonq $(all_includes)
 
-SUBDIRS = plugins client
+SUBDIRS = plugins client htmlview iconview textview treeview
 
-lib_LTLIBRARIES = libkonqhtmlview.la libkonqiconview.la libkonqtxtview.la \
-                  libkonqtreeview.la libkonqueror.la
+lib_LTLIBRARIES = libkonqueror.la
 
 rcdir = $(kde_datadir)/konqueror
 rc_DATA = konqueror_part.rc konqueror_shell.rc
 
 kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop konq_htmlview.desktop konq_iconview.desktop \
-              konq_txtview.desktop konq_treeview.desktop
+kdelnk_DATA = konqueror.desktop 
 
 servicetypedir = $(kde_servicetypesdir)
 servicetype_DATA = konq_plugin.desktop
 
 METASOURCES = AUTO
-
-libkonqhtmlview_la_SOURCES = konq_htmlview.cc
-libkonqhtmlview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libkonqhtmlview_la_LIBADD = libkonqueror.la $(LIB_KHTML)
-
-libkonqiconview_la_SOURCES = konq_iconview.cc
-libkonqiconview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libkonqiconview_la_LIBADD = libkonqueror.la
-
-libkonqtxtview_la_SOURCES = konq_txtview.cc konq_searchdia.cc
-libkonqtxtview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libkonqtxtview_la_LIBADD = libkonqueror.la $(LIB_KDECORE)
-
-libkonqtreeview_la_SOURCES = konq_treeview.cc
-libkonqtreeview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libkonqtreeview_la_LIBADD = libkonqueror.la 
 
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
@@ -52,9 +34,7 @@ browser.moc.cc: $(kde_includes)/browser.h
 bin_PROGRAMS = konqueror
 
 konqueror_SOURCES = konq_main.cc KonquerorIface.skel
-
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-
 konqueror_LDADD = libkonqueror.la
 
 messages:
@@ -68,6 +48,11 @@ messages:
 
 check_PROGRAMS = linktest
 linktest_SOURCES = $(konqueror_SOURCES)
-linktest_LDADD = $(lib_LTLIBRARIES)
+linktest_LDADD = $(lib_LTLIBRARIES) \
+	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
+	$(top_builddir)/konqueror/iconview/libkonqiconview.la \
+	$(top_builddir)/konqueror/textview/libkonqtextview.la \
+	$(top_builddir)/konqueror/treeview/libkonqtreeview.la
+
 linktest_LDFLAGS = $(konqueror_LDFLAGS)
 

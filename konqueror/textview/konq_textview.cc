@@ -17,7 +17,7 @@
  
 */ 
 
-#include "konq_txtview.h"
+#include "konq_textview.h"
 #include "konq_factory.h"
 #include "konq_searchdia.h"
 #include "konq_progressproxy.h"
@@ -528,4 +528,4 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
 }
 */
 
-#include "konq_txtview.moc"
+#include "konq_textview.moc"
