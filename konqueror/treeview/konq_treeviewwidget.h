@@ -81,6 +81,11 @@ public:
   /** @return the KonqTreeViewDir which handles the directory _url */
   virtual KonqTreeViewDir * findDir ( const QString & _url );
 
+  /**
+   * @return the Properties instance for this view. Used by the items.
+   */
+  KonqPropsView * props() { return m_pProps; }
+
 public slots:
   virtual void slotOnItem( KonqTreeViewItem* _item );
 
@@ -164,6 +169,7 @@ protected:
   QCursor m_handCursor;
   QPixmap m_bgPixmap;
 
+  // TODO remove this and use KonqSettings
   bool m_bSingleClick;
   bool m_bUnderlineLink;
   bool m_bChangeCursor;

@@ -82,8 +82,6 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent )
   QObject::connect( this, SIGNAL( currentChanged( QListViewItem* ) ),
 	   this, SLOT( slotCurrentChanged( QListViewItem* ) ) );
 
-  //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
-
   viewport()->setAcceptDrops( true );
   viewport()->setMouseTracking( true );
   setAcceptDrops( true );

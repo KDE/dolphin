@@ -57,6 +57,7 @@
 #include <klineeditdlg.h>
 #include <konqdefaults.h>
 #include <konqpopupmenu.h>
+#include <konqsettings.h>
 #include <kprogress.h>
 #include <kio_job.h>
 #include <kuserpaths.h>
@@ -67,8 +68,6 @@
 #include <dcopclient.h>
 #include <klibloader.h>
 #include <part.h>
-
-#include <iostream.h>
 
 #define STATUSBAR_LOAD_ID 1
 #define STATUSBAR_SPEED_ID 2
@@ -223,14 +222,14 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       view->stop();
     }	
 
-    kdebug( KDEBUG_INFO, 1202, "%s", QString("view->run for %1").arg(url).latin1() );
+    //kdebug( KDEBUG_INFO, 1202, "%s", QString("view->run for %1").arg(url).latin1() );
     view->run( url );
     setLocationBarURL( view, url );
     view->setMiscURLData( reload, xOffset, yOffset );
   }
   else
   {
-    kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
+    //kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
     m_paURLCombo->QSelectAction::changeItem( 0, url );
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
@@ -1178,13 +1177,6 @@ void KonqMainView::initActions()
   m_paMimeTypes = new KAction( i18n( "Mime &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
 
-  /*
-  m_paShowMenuBar = new KAction( i18n( "Show &Menubar" ), 0, this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-  m_paShowStatusBar = new KAction( i18n( "Show &Statusbar" ), 0, this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
-  m_paShowToolBar = new KAction( i18n( "Show &Toolbar" ), 0, this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
-  m_paShowLocationBar = new KAction( i18n( "Show &Locationbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
-  */
-
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
 
@@ -1405,7 +1397,11 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 void KonqMainView::configure()
 {
   debug("KonqMainView::configure() !");
-  // TODO
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    (*it)->view()->configure();
+  KonqSettings::reparseConfiguration();
 }
 
 #include "konq_mainview.moc"

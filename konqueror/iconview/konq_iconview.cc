@@ -288,8 +288,6 @@ KonqKfmIconView::KonqKfmIconView()
   QObject::connect( m_pIconView, SIGNAL( selectionChanged() ),
                     m_extension, SIGNAL( selectionChanged() ) );
 
-  //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
-
   QObject::connect( m_pIconView, SIGNAL( itemRightPressed( QIconViewItem * ) ),
                     this, SLOT( slotItemRightClicked( QIconViewItem * ) ) );
   QObject::connect( m_pIconView, SIGNAL( viewportRightPressed() ),
@@ -320,6 +318,14 @@ KonqKfmIconView::~KonqKfmIconView()
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
   delete m_pIconView;
+}
+
+void KonqKfmIconView::configure()
+{
+  debug("KonqKfmIconView::configure()");
+  // m_pProps is a problem here (what is local, what is global ?)
+  // but settings is easy :
+  m_pIconView->initConfig();
 }
 
 void KonqKfmIconView::slotShowDot()

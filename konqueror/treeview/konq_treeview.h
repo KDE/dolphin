@@ -63,6 +63,7 @@ public:
   virtual void stop();
 
   KonqTreeViewWidget *treeView() const { return m_pTreeView; }
+  virtual void configure();
 
 protected:
   virtual void resizeEvent( QResizeEvent * );

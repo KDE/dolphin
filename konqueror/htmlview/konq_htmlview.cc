@@ -93,15 +93,7 @@ KonqHTMLView::KonqHTMLView()
   QObject::connect( m_pBrowser, SIGNAL( canceled() ),
                     this, SIGNAL( canceled() ) );
 
-  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
-  bool enableJava = KonqSettings::defaultHTMLSettings()->enableJava();
-  QString javaPath = KonqSettings::defaultHTMLSettings()->javaPath();
-  javaPath = "$KDEDIR/share/apps/kjava/kjava-classes.zip:"+javaPath+"/lib";
-  bool enableJavaScript = KonqSettings::defaultHTMLSettings()->enableJavaScript();
-
-  m_pBrowser->enableJava(enableJava);
-  setenv("CLASSPATH",javaPath.latin1(), 1);
-  m_pBrowser->enableJScript(enableJavaScript);
+  initConfig();
 
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
@@ -115,6 +107,26 @@ KonqHTMLView::KonqHTMLView()
 KonqHTMLView::~KonqHTMLView()
 {
   delete m_pBrowser;
+}
+
+void KonqHTMLView::configure()
+{
+  // Called by "kfmclient configure".
+  // TODO : some stuff not done in initConfig :)
+  initConfig();
+}
+
+void KonqHTMLView::initConfig()
+{
+  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
+  bool enableJava = KonqSettings::defaultHTMLSettings()->enableJava();
+  QString javaPath = KonqSettings::defaultHTMLSettings()->javaPath();
+  javaPath = "$KDEDIR/share/apps/kjava/kjava-classes.zip:"+javaPath+"/lib";
+  bool enableJavaScript = KonqSettings::defaultHTMLSettings()->enableJavaScript();
+
+  m_pBrowser->enableJava(enableJava);
+  setenv("CLASSPATH",javaPath.latin1(), 1);
+  m_pBrowser->enableJScript(enableJavaScript);
 }
 
 void KonqHTMLView::openURL( const QString &url, bool reload,

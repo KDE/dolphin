@@ -152,6 +152,11 @@ KonqTreeView::~KonqTreeView()
   delete m_pTreeView;
 }
 
+void KonqTreeView::configure()
+{
+  m_pTreeView->initConfig();
+}
+
 void KonqTreeView::openURL( const QString &url, bool /*reload*/,
                             int xOffset, int yOffset )
 {

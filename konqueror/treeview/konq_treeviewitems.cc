@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "konq_propsview.h"
 #include "konq_treeviewitems.h"
 #include "konq_treeviewwidget.h"
 #include <kfileitem.h>
@@ -173,16 +174,31 @@ const char* KonqTreeViewItem::makeAccessString( const KUDSAtom &_atom ) const
   return buffer;
 }
 
-void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & cg, int column, int width, int alignment )
+void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
+  // Underline link ?
   if ( m_pTreeView->m_bSingleClick &&
-       m_pTreeView->m_bUnderlineLink && column == 0)
+       m_pTreeView->m_bUnderlineLink && _column == 0)
   {
     QFont f = _painter->font();
     f.setUnderline( true );
     _painter->setFont( f );
   }
-  QListViewItem::paintCell( _painter, cg, column, width, alignment );
+  // TODO text color
+  
+  if (!m_pTreeView->props()->bgPixmap().isNull())
+  {
+    _painter->drawTiledPixmap( 0, 0, _width, height(),
+                               m_pTreeView->props()->bgPixmap(),
+                               0, 0 ); // ?
+  }
+
+  // Now prevent QListViewItem::paintCell from drawing a white background
+  QColorGroup cg( _cg );
+  // I hope color0 is transparent :-))
+  cg.setColor( QColorGroup::Base, Qt::color0 );
+
+  QListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );
 }
 
 /**************************************************************

@@ -80,6 +80,7 @@ public:
   virtual void restoreState( QDataStream &stream );
 
   KonqIconViewWidget *iconView() const { return m_pIconView; }
+  void configure();
 
 public slots:
   void slotShowDot();
