@@ -767,7 +767,18 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     createGUI( part );
   }
   else
+  {
+    //we should find some central place for those actions.... Perhaps move kbrowser.h to libkparts and provide the
+    //string array in kbrowser.cc? (Simon)
+    m_paCut->setEnabled( false );
+    m_paCopy->setEnabled( false );
+    m_paPaste->setEnabled( false );
+    m_paDelete->setEnabled( false );
+    m_paTrash->setEnabled( false );
+    m_paPrint->setEnabled( false );
+  
     createGUI( 0L );
+  }
 
   guiFactory()->removeServant( m_viewModeGUIServant );
   m_viewModeGUIServant->update( m_currentView->serviceOffers() );
