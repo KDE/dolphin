@@ -31,7 +31,6 @@
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
-#include <khtml_settings.h>
 #include <khtmldefaults.h>
 
 #include "appearance.moc"
