@@ -25,6 +25,7 @@
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qtooltip.h>
+#include <qlabel.h>
 #include <qmovie.h>
 #include <qregexp.h>
 
@@ -41,16 +42,24 @@
 #include <kicontheme.h>
 #include <kiconeffect.h>
 #include <kurldrag.h>
+#include <kstandarddirs.h>
 
 #include <assert.h>
 #include <unistd.h>
 
-class KFileTip: public QToolTip
+class KFileTip: public QLabel
 {
 public:
-    KFileTip(KIconView* parent) : QToolTip(parent)
+    KFileTip( KIconView* parent )
+        : QLabel( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),
+          m_view( parent ),
+          m_corner( 0 ),
+          m_filter( false )
     {
-        m_view = parent;
+        setPalette( QToolTip::palette() );
+        setMargin( 1 );
+        setFrameStyle( QFrame::Plain | QFrame::Box );
+        hide();
     }
 
     void setOptions( bool on, int num)
@@ -59,25 +68,141 @@ public:
         m_on = on;
     }
 
+    void setItem( KFileIVI *ivi );
+
+    virtual bool eventFilter( QObject *, QEvent *e );
+
 protected:
-    virtual void maybeTip ( const QPoint & p );
+    virtual void drawContents( QPainter *p );
+    virtual void timerEvent( QTimerEvent * );
+
+private:
+    void setFilter( bool enable );
+
     KIconView* m_view;
     int        m_num;
     bool       m_on;
+    QPixmap    m_corners[4];
+    int        m_corner;
+    bool       m_filter;
 };
 
-void KFileTip::maybeTip (const QPoint & p)
+void KFileTip::setItem( KFileIVI *ivi )
 {
     if (!m_on) return;
-    QPoint point = m_view->viewportToContents( p );
-    KFileIVI* ivi = static_cast<KFileIVI *>(m_view->findItem( point ));
-    if ( ivi ) {
-        QString text = ivi->item()->getToolTipText(m_num);
+
+    QString text = ivi ? ivi->item()->getToolTipText( m_num ) : QString::null;
+    if ( !text.isEmpty() ) {
+        setText( text );
+        adjustSize();
         QRect rect = ivi->rect();
-        rect.moveBy( -m_view->contentsX(), -m_view->contentsY() );
-        if ( !text.isEmpty() )
-            tip ( rect, text );
+        QPoint off = m_view->mapToGlobal( m_view->contentsToViewport( QPoint( 0, 0 ) ) );
+        rect.moveBy( off.x(), off.y() );
+
+        QPoint pos = rect.center();
+        m_corner = 0;
+        if ( ( ( rect.center().x() > width() ) && ( rect.center().x() - off.x() > m_view->width() / 2 ) ) ||
+             ( rect.center().x() + width() > QApplication::desktop()->width() ) )
+        {
+            pos.setX( pos.x() - width() );
+            m_corner = 1;
+        }
+        if ( ( ( rect.top() > height() ) && ( rect.top() - off.y() > m_view->height() / 2 ) ) ||
+             ( rect.bottom() + height() > QApplication::desktop()->height() ) )
+        {
+            pos.setY( rect.top() - height() );
+            m_corner += 2;
+        }
+        else pos.setY( rect.bottom() );
+
+        move( pos );
+        killTimers();
+        setFilter( true );
+        if ( !isVisible() ) startTimer( 2000 );
     }
+    else {
+        killTimers();
+        if ( isVisible() ) startTimer( 500 );
+        else setFilter( false );
+    }
+}
+
+void KFileTip::drawContents( QPainter *p )
+{
+    static const char * const names[] = {
+        "arrow_topleft",
+        "arrow_topright",
+        "arrow_bottomleft",
+        "arrow_bottomright"
+    };
+
+    if ( m_corners[m_corner].isNull() )
+        m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
+
+    QPixmap &pix = m_corners[m_corner];
+    switch ( m_corner )
+    {
+        case 0:
+            p->drawPixmap( 3, 3, pix );
+            break;
+        case 1:
+            p->drawPixmap( width() - pix.width() - 3, 3, pix );
+            break;
+        case 2:
+            p->drawPixmap( 3, height() - pix.height() - 3, pix );
+            break;
+        case 3:
+            p->drawPixmap( width() - pix.width() - 3, height() - pix.height() - 3, pix );
+            break;
+    }
+
+    QLabel::drawContents( p );
+}
+
+void KFileTip::setFilter( bool enable )
+{
+    if ( enable == m_filter ) return;
+
+    if ( enable ) {
+        kapp->installEventFilter( this );
+        kapp->setGlobalMouseTracking( true );
+    }
+    else {
+        kapp->setGlobalMouseTracking( false );
+        kapp->removeEventFilter( this );
+    }
+    m_filter = enable;
+}
+
+void KFileTip::timerEvent( QTimerEvent * )
+{
+    killTimers();
+    if ( !isVisible() ) {
+        startTimer( 15000 );
+        show();
+    }
+    else {
+        setFilter( false );
+        hide();
+    }
+}
+
+bool KFileTip::eventFilter( QObject *, QEvent *e )
+{
+    switch ( e->type() )
+    {
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease:
+        case QEvent::KeyPress:
+        case QEvent::KeyRelease:
+        case QEvent::FocusIn:
+        case QEvent::FocusOut:
+            killTimers();
+            setFilter( false );
+            hide();
+    }
+
+    return false;
 }
 
 struct KonqIconViewWidgetPrivate
@@ -95,11 +220,13 @@ struct KonqIconViewWidgetPrivate
         doAnimations = true;
         m_movie = 0L;
         m_movieBlocked = 0;
+        pFileTip = 0;
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
         delete pSoundTimer;
         delete m_movie;
+        delete pFileTip;
         //delete pPreviewJob; done by stopImagePreview
     }
     KFileIVI *pActiveItem;
@@ -233,6 +360,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
         if( item != d->pActiveItem )
         {
             d->pActiveItem = static_cast<KFileIVI *>(item);
+            d->pFileTip->setItem( d->pActiveItem );
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
                 kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
@@ -297,6 +425,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             // No effect. If we want to underline on hover, we should
             // force the IVI to repaint here, though!
             d->pActiveItem = 0L;
+            d->pFileTip->setItem( 0L );
         }
     } // bMousePressed
     else
@@ -334,6 +463,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 
 void KonqIconViewWidget::slotOnViewport()
 {
+    d->pFileTip->setItem( 0L );
+
     if (d->pSoundPlayer)
       d->pSoundPlayer->stop();
     d->pSoundItem = 0;
@@ -658,9 +789,15 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
     if (iconSize < 28)
         size = 48;
     else if (iconSize < 40)
-        size = 60;
+#if 0 // TMS sizes, enable when KIO::Previewjob uses them
+        size = 64;
+    else if (iconSize < 60)
+        size = 96;
     else
-	size = 90;
+	size = 128;
+#endif
+        size = 60;
+    else size = 90;
 
     d->pPreviewJob = KIO::filePreview( items, size, size, iconSize,
         m_pSettings->textPreviewIconTransparency(), true /* scale */,
