@@ -2,6 +2,7 @@
 // Port to KControl by David Faure <faure@kde.org>
 
 #include <qlayout.h> //CT
+#include <qwhatsthis.h>
 
 #include <kdialog.h>
 #include <klocale.h>
@@ -59,7 +60,11 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   cb_useProxy = new QCheckBox( i18n("Use &Proxy"), this );
   lay->addMultiCellWidget(cb_useProxy,ROW_USEPROXY,ROW_USEPROXY,1,6);
-  
+  QWhatsThis::add( cb_useProxy, i18n("If this option is enabled, Konqueror will use the"
+    " proxy servers provided below for HTTP and FTP connections.  Ask your internet service"
+    " provider if you don't know if you do have access to proxy servers.<p>Using proxy servers"
+    " is optional but can give you faster access to data on the internet.") );
+
   connect( cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
   connect( cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
@@ -84,6 +89,14 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_http_port->setAlignment(AlignVCenter);
   lay->addWidget(lb_http_port,ROW_HTTP,4);
 
+  QString wtstr = i18n("If you want access to an HTTP proxy server, enter its address here.");
+  QWhatsThis::add( lb_http_url, wtstr );
+  QWhatsThis::add( le_http_url, wtstr );
+  wtstr = i18n("If you want access to an HTTP proxy server, enter its port number here."
+    " FIXME: standard port? default value?");
+  QWhatsThis::add( lb_http_port, wtstr );
+  QWhatsThis::add( le_http_port, wtstr );
+
   le_ftp_url = new QLineEdit(this);
   lay->addWidget(le_ftp_url,ROW_FTP,2);
   connect(le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
@@ -100,6 +113,14 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_ftp_port->setAlignment(AlignVCenter);
   lay->addWidget(lb_ftp_port,ROW_FTP,4);
 
+  wtstr = i18n("If you want access to an FTP proxy server, enter its address here.");
+  QWhatsThis::add( lb_ftp_url, wtstr );
+  QWhatsThis::add( le_ftp_url, wtstr );
+  wtstr = i18n("If you want access to an FTP proxy server, enter its port number here."
+    " FIXME: standard port? default value?");
+  QWhatsThis::add( lb_ftp_port, wtstr );
+  QWhatsThis::add( le_ftp_port, wtstr );
+
   le_no_prx = new QLineEdit(this);
   lay->addMultiCellWidget(le_no_prx,ROW_NOPROXY,ROW_NOPROXY,2,5);
   connect(le_no_prx, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
@@ -108,9 +129,14 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_no_prx->setAlignment(AlignVCenter);
   lay->addWidget(lb_no_prx,ROW_NOPROXY,1);
 
+  wtstr = i18n("Here you can provide a list of hosts that will be directly accessed without"
+    " asking a proxy first. FIXME");
+  QWhatsThis::add( le_no_prx, wtstr );
+  QWhatsThis::add( lb_no_prx, wtstr );
+
   cb_useCache = new QCheckBox( i18n("Use &Cache"), this );
   lay->addMultiCellWidget(cb_useCache,ROW_USECACHE,ROW_USECACHE,1,6);
-  
+
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
@@ -136,6 +162,8 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   cp_down->setPixmap( BarIcon("down") );
   cp_down->setFixedSize(20,20);
   lay->addWidget(cp_down,ROW_HTTP,6);
+  QWhatsThis::add( cp_down, i18n("Click this button to copy the values for the HTTP proxy"
+    " server to the fields for the FTP proxy server, if you have one proxy for both protocols.") );
 
   lay->activate();
 
