@@ -1,0 +1,80 @@
+<!DOCTYPE QConfig ><QConfig>
+<MenuBar>
+ <Menu name="File">
+  <Action name="new_menu"/>
+  <Action name="new_window"/>
+  <Separator/>
+  <Action name="run"/>
+  <Action name="open_terminal"/>
+  <Action name="open_location"/>
+  <Action name="find"/>
+  <Separator/>
+  <Action name="print"/>
+ </Menu>
+ <Action name="edit_menu"/>
+ <Action name="view_menu"/>
+ <Menu name="Go"><text>&Go</text>
+  <Action name="up"/>
+  <Action name="back"/>
+  <Action name="forward"/>
+  <Action name="home"/>
+  <Separator/>
+  <Action name="cache"/>
+  <Action name="history"/>
+  <Action name="mimetypes"/>
+  <Action name="applications"/>
+ </Menu>
+ <Action name="bookmarks_menu"/>
+ <Menu name="Options"><text>&Options</text>
+  <Action name="showmenubar"/>
+  <Action name="showstatusbar"/>
+  <Action name="showtoolbar"/>
+  <Action name="showlocationbar"/>
+  <Separator/>
+  <Action name="savesettings"/>
+  <Action name="savesettingsperurl"/>
+  <Separator/>
+  <Action name="configurefilemanager"/>
+  <Action name="configurebrowser"/>
+  <Action name="configurekeys"/>
+  <Action name="reloadplugins"/>
+  <Action name="configureplugins"/>
+ </Menu>
+ <Menu name="Window"><text>&Window</text>
+  <Action name="splitviewh"/>
+  <Action name="splitviewv"/>
+  <Action name="splitwindowh"/>
+  <Action name="splitwindowv"/>
+  <Action name="removeview"/>
+  <Separator/>
+  <Action name="saveremoveviewprofile"/>
+  <Action name="loadviewprofile"/>
+ </Menu>
+ <Separator/>
+ <Menu name="Help">
+  <Action name="about"/>
+ </Menu>
+</MenuBar>
+<ToolBars>
+ <ToolBar fullWidth="true" name="mainToolBar">
+  <Action name="up"/>
+  <Action name="back"/>
+  <Action name="forward"/>
+  <Action name="home"/>
+  <Separator/>
+  <Action name="reload"/>
+  <Separator/>
+  <Action name="copy"/>
+  <Action name="paste"/>
+  <Action name="print"/>
+  <Separator/>
+  <Action name="stop"/>
+  <Separator/>
+  <Action name="animated_logo"/>
+ </ToolBar>
+ <ToolBar fullWidth="true">
+  <Action name="toolbar_url_combo"/>
+ </ToolBar>
+</ToolBars>
+</QConfig>
+

@@ -26,8 +26,7 @@
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
 
-#include <browser.h>
-
+class BrowserView;
 class QPixmap;
 class QVBoxLayout;
 class OPFrame;
@@ -36,6 +35,7 @@ class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainer;
 class QCheckBox;
+class KConfig;
 
 enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
 			  RECT, PIPE, ELLIP, XPixmap };
@@ -127,7 +127,7 @@ public:
    * Attach a view to the KonqFrame.
    * @param view the view to attach (instead of the current one, if any)
    */
-  void attach( Browser::View_ptr view );
+  void attach( BrowserView *view );
 
   /** 
    * Detach attached view, before deleting myself, or attaching another one 
@@ -137,7 +137,7 @@ public:
   /**
    * Returns the view that is currently connected to the Frame.
    */
-  Browser::View_ptr view( void );
+  BrowserView *view( void );
 
   bool isActivePart();
 
@@ -154,6 +154,8 @@ public:
   QWidget* widget() { return this; }
   virtual QString frameType() { return QString("View"); }
 
+  KonqFrameHeader *header() const { return m_pHeader; }
+
 public slots:  
 
   /**
@@ -165,17 +167,12 @@ public slots:
 
 protected:
   virtual void paintEvent( QPaintEvent* );
-
-  OPFrame *m_pOPFrame;
+  
   QVBoxLayout *m_pLayout;
   KonqChildView *m_pChildView;
 
-  Browser::View_var m_vView;
+  BrowserView *m_pView;
   
-  OpenParts::Id m_id;
-  
-  OpenParts::MainWindow_var m_vMainWindow;
-
   KonqFrameHeader* m_pHeader;
 };
 

@@ -1,74 +1,30 @@
-INCLUDES  = -I$(top_srcdir)/libkonq $(MICO_INCLUDES) $(all_includes)
-LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
-LDADD = -lkparts -lkded $(LIB_KFILE) $(LIB_KHTML) $(top_builddir)/libkonq/libkonq.la 
-IDL_FLAGS = --relative-paths --any -I$(idldir)
+INCLUDES = -I$(srcdir)/../lib/kparts -I$(srcdir)/../libkonq \
+	 $(all_includes)
+LDFLAGS  = -L../libkonq $(LIB_KHTML) -lkjava $(all_libraries)
 
-SUBDIRS = client pics Templates plugins
+SUBDIRS = plugins
 
-data_DATA = directory.trash directory.autostart directory.templates directory.desktop
-datadir = $(kde_datadir)/konqueror
+lib_LTLIBRARIES = libkonqueror.la
 
-service_DATA = konqueror.desktop
-servicedir = $(kde_servicesdir)
+libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
+			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
+			  konq_frame.cc konq_propsview.cc konq_propsmainview.cc \
+			  konq_factory.cc konq_events.cc konq_iconview.cc \
+			  konq_searchdia.cc konq_txtview.cc \
+			  konq_treeview.cc konq_misc.cc konq_progressproxy.cc \
+			  konq_htmlview.cc konq_actions.cc
 
-servicetype_DATA = konq_eventfilter.desktop
-servicetypedir = $(kde_servicetypesdir)
+libkonqueror_la_METASOURCES = AUTO
 
-EXTRA_DIST = $(data_DATA) $(service_DATA) $(servicetype_DATA)
+libkonqueror_la_LDFLAGS = -version-info 1:0:0
 
-####### Files
+libkonqueror_la_LIBADD = ../lib/kparts/libkparts.la -lkded -lkonq $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT)
 
 bin_PROGRAMS = konqueror
 
-# Source files, please keep sorted.
-konqueror_SOURCES =  browser.idl konq_mainwindow.cc kfmrun.cc \
-	konq_baseview.cc konq_childview.cc konq_factory.cc konq_frame.cc \
-	konq_htmlview.cc konq_iconview.cc \
-	konq_main.cc konq_mainview.cc \
-	konq_plugins.cc konq_profiledlg.cc konq_progressproxy.cc \
-	konq_propsmainview.cc konq_propsview.cc konq_searchdia.cc \
-	konq_treeview.cc konq_txtview.cc konqueror.idl konq_viewmgr.cc
+konqueror_SOURCES = konq_main.cc
 
-noinst_HEADERS = browser.h kfmrun.h \
-	konq_baseview.h konq_childview.h konq_factory.h konq_frame.h \
-	konq_htmlview.h konq_iconview.h \
-	konq_main.h konq_mainview.h konq_mainwindow.h \
-	konq_plugins.h konq_profiledlg.h konq_progressproxy.h \
-	konq_propsmainview.h konq_propsview.h konq_searchdia.h \
-	konq_treeview.h konq_txtview.h konqueror.h konq_viewmgr.h \
-	konq_defs.h
+konqueror_LDFLAGS = $(KDE_RPATH)
 
-METASOURCES = kfmrun.moc \
-	konq_childview.moc konq_frame.moc \
-	konq_htmlview.moc konq_iconview.moc \
-	konq_main.moc konq_mainview.moc konq_mainwindow.moc konq_plugins.moc \
-	konq_profiledlg.moc konq_progressproxy.moc konq_searchdia.moc \
-	konq_treeview.moc konq_txtview.moc
-
-DISTCLEANFILES = $(METASOURCES) browser.cc browser.h konqueror.cc konqueror.h
-
-idl_DATA = konqueror.idl
-
-browser_IDLDIR = $(idldir)
-
-messages:
-	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/konqueror.pot
-
-####### Build rules
-
-konqueror.h: browser.h
-
-kfmrun.cc: konqueror.h
-konq_baseview.cc: konqueror.h
-konq_baseview.h: konqueror.h
-konq_main.h: konqueror.h
-konq_mainview.h: konqueror.h
-konq_mainwindow.h: konqueror.h
-
-# Because konqueror.cc is duplicated in client/, the TAGS file is invalid
-# Solution : remove inclusion of client/TAGS
-etags: 
-	mv TAGS TAGS_tmp && \
-	  head -$$[`wc -l <TAGS_tmp`-2] TAGS_tmp > TAGS && \
-	    rm -f TAGS_tmp
+konqueror_LDADD = libkonqueror.la $(LIBMICO)
 

@@ -21,6 +21,7 @@
 #define __konq_viewmgr_h__ $Id$
 
 #include <qnamespace.h>
+#include <qobject.h>
 #include <qmap.h>
 
 #include "konq_defs.h"
@@ -31,15 +32,11 @@ class KConfig;
 class KonqMainView;
 class KonqFrameContainer;
 class KonqChildView;
+class BrowserView;
 
-namespace Browser
+class KonqViewManager : public QObject
 {
-  class View;
-  typedef View * View_ptr;
-};
-
-class KonqViewManager
-{
+  Q_OBJECT
 public:
   KonqViewManager( KonqMainView *mainView );
   ~KonqViewManager();
@@ -56,7 +53,7 @@ public:
    * provided by newView
    */
   void splitView( Qt::Orientation orientation,
-		  Browser::View_ptr newView,
+		  BrowserView *newView,
 		  const QStringList &newViewServiceTypes );
 
   /**
@@ -73,7 +70,9 @@ public:
   void doGeometry( int width, int height );
   
   KonqChildView *chooseNextView( KonqChildView *view );
-  unsigned long viewIdByNumber( int number );
+//  unsigned long viewIdByNumber( int number );
+
+  bool eventFilter( QObject *obj, QEvent *ev );
 
 private:
 
@@ -81,7 +80,7 @@ private:
    * Mainly creates the the backend structure(KonqChildView) for a view and
    * connects it
    */
-  void setupView( KonqFrameContainer *parentContainer, Browser::View_ptr view, const QStringList &serviceTypes );
+  void setupView( KonqFrameContainer *parentContainer, BrowserView *view, const QStringList &serviceTypes );
   
   KonqMainView *m_pMainView;
   

@@ -1,0 +1,16 @@
+<!DOCTYPE QConfig ><QConfig>
+<MenuBar>
+ <Menu name="File"><text>&File</text>
+  <Part/>
+  <Action name="konqueror_shell_close"/>
+  <Action name="konqueror_shell_quit"/>
+ </Menu>
+ <Part/>
+ <Menu name="Help"><text>&Help</text>
+  <Part/>
+ </Menu>
+</MenuBar>
+<ToolBars>
+</ToolBars>
+</QConfig>
+

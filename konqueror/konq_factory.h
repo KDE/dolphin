@@ -24,17 +24,17 @@
 
 #include <qstring.h>
 #include <qstringlist.h>
-#include <konqueror.h>
 
-class KonqMainView;
+#include "konq_defs.h"
+
+class BrowserView;
 
 class KonqFactory
 {
 public:
-  static Browser::View_ptr createView( const QString &serviceType, 
-			               QStringList &serviceTypes, 
-			               KonqMainView *mainView,
-				       Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
+  static BrowserView *createView( const QString &serviceType, 
+			          QStringList &serviceTypes, 
+				  Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
 };
 
 #endif

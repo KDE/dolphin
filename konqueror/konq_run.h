@@ -26,12 +26,19 @@
 class KonqMainView;
 class KonqChildView;
 
-class KfmRun : public KRun
+class KonqRun : public KRun
 {
   Q_OBJECT
 public:
-  KfmRun( KonqMainView* _view, KonqChildView *_childView, const char *_url, mode_t _mode = 0, bool _is_local_file = false, bool _auto_delete = true );
-  virtual ~KfmRun();
+  /**
+   * Create a KonqRun instance, associated to the main view and an
+   * optionnal child view.
+   */
+  KonqRun( KonqMainView* _view, KonqChildView *_childView, 
+           const QString &_url, mode_t _mode = 0, 
+           bool _is_local_file = false, bool _auto_delete = true );
+
+  virtual ~KonqRun();
   
 protected:
   /**

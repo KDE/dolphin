@@ -20,6 +20,9 @@
 #ifndef __konq_treeview_h__
 #define __konq_treeview_h__
 
+#include "browser.h"
+#include "konq_defs.h"
+
 #include <qvaluelist.h>
 #include <qlistview.h>
 #include <qdict.h>
@@ -27,17 +30,13 @@
 #include <qcursor.h>
 #include <qpixmap.h>
 
-#include "konq_baseview.h"
-
-#include "konq_defs.h"
-#include <kio_interface.h>
-
+struct KUDSAtom;
 class QCursor;
 class KURL;
-class KonqMainView;
 class KfmTreeViewDir;
 class KfmTreeViewItem;
-class KonqKfmTreeView;
+class KfmTreeView;
+class KonqTreeView;
 class KMimeType;
 class KFileItem;
 class KDirLister;
@@ -47,7 +46,7 @@ class KonqSettings;
 /**
  * One item in the tree
  */
-class KfmTreeViewItem : public QListViewItem, private KIO
+class KfmTreeViewItem : public QListViewItem
 {
 public:
   /**
@@ -55,14 +54,14 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KfmTreeViewItem( KonqKfmTreeView *_parent, KFileItem* _fileitem );
+  KfmTreeViewItem( KfmTreeView *_parent, KFileItem* _fileitem );
   /**
    * Create an item representing a file, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, KFileItem* _fileitem );
+  KfmTreeViewItem( KfmTreeView *_treeview, KfmTreeViewDir *_parent, KFileItem* _fileitem );
   virtual ~KfmTreeViewItem() { }
 
   virtual QString text( int column ) const;
@@ -87,7 +86,7 @@ protected:
   /** Pointer to the file item in KDirLister's list */      
   KFileItem* m_fileitem;
   /** Parent tree view */
-  KonqKfmTreeView* m_pTreeView;
+  KfmTreeView* m_pTreeView;
 };
 
 /**
@@ -101,14 +100,14 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KfmTreeViewDir( KonqKfmTreeView *_parent, KFileItem* _fileitem );
+  KfmTreeViewDir( KfmTreeView *_parent, KFileItem* _fileitem );
   /**
    * Create an item representing a directory, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _parent, KFileItem* _fileitem );
+  KfmTreeViewDir( KfmTreeView *_treeview, KfmTreeViewDir * _parent, KFileItem* _fileitem );
   virtual ~KfmTreeViewDir();
 
   /**
@@ -136,32 +135,46 @@ protected:
   bool m_bComplete;
 };
 
+class KonqTreeView : public BrowserView
+{
+  friend class KfmTreeView;
+  Q_OBJECT
+public:
+  KonqTreeView();
+  virtual ~KonqTreeView();
+  
+  virtual void openURL( const QString &url, bool reload = false,
+                        int xOffset = 0, int yOffset = 0 );
+
+  virtual QString url();
+  virtual int xOffset();
+  virtual int yOffset();
+  virtual void stop();
+
+protected:
+  virtual void resizeEvent( QResizeEvent * );
+
+private:
+  KfmTreeView *m_pTreeView;
+};
+
 /**
  * The tree view
  */
-class KonqKfmTreeView : public QListView,
-                        public KonqBaseView,
-			virtual public Konqueror::KfmTreeView_skel,
-			virtual public Browser::EditExtension_skel
+class KfmTreeView : public QListView
 {
   friend KfmTreeViewItem;
   friend KfmTreeViewDir;
 
   Q_OBJECT
 public:
-  KonqKfmTreeView( KonqMainView *mainView = 0L );
-  ~KonqKfmTreeView();
-
-  virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
-
-  virtual void stop();
+  KfmTreeView( KonqTreeView *parent );
+  ~KfmTreeView();
   
-  virtual QCString url();
-  virtual long int xOffset();
-  virtual long int yOffset();
+  void stop();
+  QString url();
 
+/*
   virtual void can( bool &copy, bool &paste, bool &move );
   virtual void copySelection();
   virtual void pasteSelection();
@@ -169,7 +182,7 @@ public:
 
   virtual void slotReloadTree();
   virtual void slotShowDot();
-    
+*/    
   struct iterator
   {
     KfmTreeViewItem* m_p;
@@ -205,7 +218,7 @@ protected slots:
   virtual void slotReturnPressed( QListViewItem *_item );
   virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
 
-  void slotSelectionChanged();
+//  void slotSelectionChanged();
 
   // slots connected to the directory lister
   virtual void slotStarted( const QString & );
@@ -254,9 +267,6 @@ protected:
   /** View properties */
   KonqPropsView * m_pProps;
 
-  /** The view menu */
-  OpenPartsUI::Menu_var m_vViewMenu;
-
   /** If 0L, we are listing the toplevel.
    * Otherwise, m_pWorkingDir points to the directory item we are listing,
    * and all files found will be created under this directory item.
@@ -271,6 +281,7 @@ protected:
   QDict<KfmTreeViewDir> m_mapSubDirs;
 
   KfmTreeViewItem* m_dragOverItem;
+  KfmTreeViewItem* m_overItem;
   QStringList m_lstDropFormats;
 
   bool m_pressed;
@@ -281,8 +292,6 @@ protected:
   QCursor m_handCursor;
   QPixmap m_bgPixmap;
 
-  KfmTreeViewItem* m_overItem;
-
   bool m_bSingleClick;
   bool m_bUnderlineLink;
   bool m_bChangeCursor;
@@ -292,7 +301,9 @@ protected:
   
   long int m_idShowDot;
   
-  KonqMainView *m_pMainView;
+  QString m_strURL;
+  
+  KonqTreeView *m_pBrowserView;
 };
 
 #endif

@@ -1,5 +1,6 @@
-INCLUDES  =  -I$(top_srcdir)/konqueror $(all_includes)
-LDFLAGS   = $(all_libraries) $(KDE_RPATH)
+INCLUDES  =  -I$(top_srcdir)/konqueror -I$(top_srcdir)/lib/kparts \
+$(all_includes)
+LDFLAGS   = $(all_libraries)
 LDADD = -lkdeui
 
 lib_LTLIBRARIES = libkonqsearcher.la

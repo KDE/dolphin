@@ -18,54 +18,136 @@
 */ 
 
 #include "konq_txtview.h"
-#include "konq_mainview.h"
 #include "konq_searchdia.h"
 #include "konq_progressproxy.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <qdragobject.h>
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qpaintdevicemetrics.h>
+#include <qmultilineedit.h>
 
+#include <kaction.h>
 #include <kio_job.h>
 #include <kio_cache.h>
 #include <kio_error.h>
 #include <kurl.h>
 #include <klocale.h>
-#include <opUIUtils.h>
 #include <kapp.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
 #include <kpixmapcache.h>
+#include <kdebug.h>
+#include <kiconloader.h>
 #include <konqdefaults.h>
 
-#define TOOLBAR_SEARCH_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
-#define TOOLBAR_EDITOR_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN + 1
+KonqTxtPrintingExtension::KonqTxtPrintingExtension( KonqTxtView *txtView )
+: PrintingExtension( txtView, "KonqTxtPrintingExtension" )
+{
+  m_txtView = txtView;
+}
 
-KonqTxtView::KonqTxtView( KonqMainView *mainView )
+void KonqTxtPrintingExtension::print()
+{
+  QPrinter printer;
+
+  emit m_txtView->setStatusBarText( i18n( "Printing..." ) );
+  
+  KMultiLineEdit *edit = m_txtView->multiLineEdit();
+  
+  if ( printer.setup( edit ) )
+  {
+    QPainter painter;
+    painter.begin( &printer );
+    
+    painter.setFont( edit->font() );
+    int lineSpacing = painter.fontMetrics().lineSpacing();
+    QPaintDeviceMetrics paintDevMetrics( &printer );
+    
+    int y = 0, i = 0, page = 1;
+    const int Margin = 10;
+    
+    emit m_txtView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( page ) );
+    
+    for (; i < edit->numLines(); i++ )
+    {
+      if ( Margin + y > paintDevMetrics.height() - Margin )
+      {
+	emit m_txtView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( ++page ) );
+	printer.newPage();
+	y = 0;
+      }
+    
+      painter.drawText( Margin, Margin + y, paintDevMetrics.width(),
+                        lineSpacing, ExpandTabs | DontClip,
+			edit->textLine( i ) );
+			
+      y += lineSpacing;
+    }
+    
+    painter.end();
+    
+  }
+
+  emit m_txtView->setStatusBarText( QString::null );
+}
+
+KonqTxtEditExtension::KonqTxtEditExtension( KonqTxtView *txtView )
+ : EditExtension( txtView, "KonqTxtEditExtension" )
+{
+  m_txtView = txtView;
+}
+
+void KonqTxtEditExtension::can( bool &copy, bool &paste, bool &move )
+{
+  copy = m_txtView->multiLineEdit()->textMarked();
+  paste = false;
+  move = false;
+}
+
+void KonqTxtEditExtension::copySelection()
+{
+  m_txtView->multiLineEdit()->copy();
+}
+
+void KonqTxtEditExtension::pasteSelection()
+{
+}
+
+void KonqTxtEditExtension::moveSelection( const QString &destinationURL = QString::null )
+{
+}
+
+KonqTxtView::KonqTxtView()
 {
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
-  ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
-  ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
-  ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
 
-  SIGNAL_IMPL( "loadingProgress" );
-  SIGNAL_IMPL( "speedProgress" );
+  (void)new KonqTxtPrintingExtension( this );
+  (void)new KonqTxtEditExtension( this );
+
+  m_pEdit = new KMultiLineEdit( this );
   
-  setWidget( this );
+  m_pEdit->setReadOnly( true );
+
+  m_pEdit->installEventFilter( this );
   
-  QWidget::setFocusPolicy( StrongFocus );
-  
-  setReadOnly( true );
-  
-  m_pMainView = mainView;
   m_jobId = 0;
-  setAcceptDrops( true );
   m_bFixedFont = false;
-  setFont( KGlobal::generalFont() );
+  m_pEdit->setFont( KGlobal::generalFont() );
+  
+  m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll ), this );
+  m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil" ) ), 0, this, SLOT( slotEdit() ), this );
+  m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search" ) ), 0, this, SLOT( slotSearch() ), this );
+  m_ptaFixedFont = new QToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
+
+  actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paEdit, BrowserView::MenuEdit | BrowserView::ToolBar ) );
+  actions()->append( BrowserView::ViewAction( m_paSearch, BrowserView::MenuEdit | BrowserView::ToolBar ) );
+  actions()->append( BrowserView::ViewAction( m_ptaFixedFont, BrowserView::MenuView ) );
 }
 
 KonqTxtView::~KonqTxtView()
@@ -74,9 +156,9 @@ KonqTxtView::~KonqTxtView()
   stop();
 }
 
-bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
+void KonqTxtView::openURL( const QString &url, bool reload,
+                           int xOffset, int yOffset )
 {
-  KonqBaseView::mappingOpenURL( eventURL );
   kdebug(0,1202,"bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
   stop();
   
@@ -93,20 +175,24 @@ bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
   
   m_jobId = job->id();
   
-  clear();
+  m_pEdit->clear();
   
-  m_iXOffset = eventURL.xOffset;
-  m_iYOffset = eventURL.yOffset;
+  m_iXOffset = xOffset;
+  m_iYOffset = yOffset;
   
-  m_strURL = eventURL.url;
-  job->get( eventURL.url, eventURL.reload );
-  SIGNAL_CALL2( "started", id(), eventURL.url );
+  m_strURL = url;
+  job->get( url, reload );
+  emit started();
   
-  setCaptionFromURL( m_strURL );
-
-  return true;
+//  setCaptionFromURL( m_strURL );
 }
 
+QString KonqTxtView::url()
+{
+  return m_strURL;
+}
+
+/*
 bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
   m_vMenuView = OpenPartsUI::Menu::_duplicate( viewMenu );
@@ -157,15 +243,22 @@ bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
     
   return true;
 }
+*/
 
-long int KonqTxtView::xOffset()
+int KonqTxtView::xOffset()
 {
-  return QTableView::xOffset();
+  int line, col;
+  m_pEdit->cursorPosition( &line, &col );
+  return line; //although this is not pixel value it doesn't matter actually,
+               //as the values used for openURL() are supposed to be cursor
+	       //coordinates anyway (Simon)
 }
 
-long int KonqTxtView::yOffset()
+int KonqTxtView::yOffset()
 {
-  return QTableView::yOffset();
+  int line, col;
+  m_pEdit->cursorPosition( &line, &col );
+  return col;
 }
 
 void KonqTxtView::stop()
@@ -179,9 +272,38 @@ void KonqTxtView::stop()
   }
 }
 
+bool KonqTxtView::eventFilter( QObject *o, QEvent *e )
+{
+  if ( o == m_pEdit && e->type() == QEvent::MouseButtonPress &&
+       ((QMouseEvent *)e)->button() == RightButton )
+  {
+    KURL u( m_strURL );
+    
+    mode_t mode = 0;
+    
+    if ( u.isLocalFile() )
+    {
+      struct stat buff;
+      if ( stat( u.path(), &buff ) == -1 )
+      {
+        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, m_strURL );
+	return true;
+      }
+      mode = buff.st_mode;
+    }
+    
+    KFileItem item( "textURL" /*whatever*/ , mode, u );
+    KFileItemList items;
+    items.append( &item );
+    emit popupMenu( QCursor::pos(), items );
+    return true;
+  }
+  return false;
+}
+
 void KonqTxtView::slotSelectAll()
 {
-  QMultiLineEdit::selectAll();
+  m_pEdit->selectAll();
 }
 
 void KonqTxtView::slotEdit()
@@ -198,13 +320,13 @@ void KonqTxtView::slotEdit()
 void KonqTxtView::slotFixedFont()
 {
   m_bFixedFont = !m_bFixedFont;
-  if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
+//  if ( !CORBA::is_nil( m_vMenuView ) )
+//    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
     
   if ( m_bFixedFont )
-    setFont( KGlobal::fixedFont() );
+    m_pEdit->setFont( KGlobal::fixedFont() );
   else
-    setFont( KGlobal::generalFont() );
+    m_pEdit->setFont( KGlobal::generalFont() );
 }
 
 void KonqTxtView::slotSearch()
@@ -222,49 +344,7 @@ void KonqTxtView::slotSearch()
   m_pSearchDialog = 0L;
 }
 
-void KonqTxtView::print()
-{
-  QPrinter printer;
-
-  SIGNAL_CALL1( "setStatusBarText", i18n( "Printing..." ) );
-  
-  if ( printer.setup( this ) )
-  {
-    QPainter painter;
-    painter.begin( &printer );
-    
-    painter.setFont( font() );
-    int lineSpacing = painter.fontMetrics().lineSpacing();
-    QPaintDeviceMetrics paintDevMetrics( &printer );
-    
-    int y = 0, i = 0, page = 1;
-    const int Margin = 10;
-    
-    SIGNAL_CALL1( "setStatusBarText" , i18n( "Printing page %1 ..." ).arg( page ) );
-    
-    for (; i < numLines(); i++ )
-    {
-      if ( Margin + y > paintDevMetrics.height() - Margin )
-      {
-	SIGNAL_CALL1( "setStatusBarText" , i18n( "Printing page %1 ..." ).arg( ++page ) );
-	printer.newPage();
-	y = 0;
-      }
-    
-      painter.drawText( Margin, Margin + y, paintDevMetrics.width(),
-                        lineSpacing, ExpandTabs | DontClip,
-			textLine( i ) );
-			
-      y += lineSpacing;
-    }
-    
-    painter.end();
-    
-  }
-
-  SIGNAL_CALL1( "setStatusBarText", QString() );
-}
-
+/*
 void KonqTxtView::can( bool &copy, bool &paste, bool &move )
 {
   copy = (bool)hasMarkedText();
@@ -286,20 +366,19 @@ void KonqTxtView::moveSelection( const QCString & )
 {
   assert( 0 );
 }
-
+*/
 void KonqTxtView::slotFinished( int )
 {
   m_jobId = 0;
-  SIGNAL_CALL1( "completed", id() );
-  setXOffset( m_iXOffset );
-  setYOffset( m_iYOffset );
+  emit completed();
+  m_pEdit->setCursorPosition( m_iYOffset, m_iXOffset );
 }
 
 void KonqTxtView::slotRedirection( int, const char *url )
 {
 //  m_strURL = url;
-  SIGNAL_CALL2( "setLocationBarURL", id(), QCString(url) );
-  m_vMainWindow->setPartCaption( id(), QString(url) );  
+  emit setLocationBarURL( QString( url ) );
+//  m_vMainWindow->setPartCaption( id(), QString(url) );  
 }
 
 void KonqTxtView::slotData( int, const char *data, int len )
@@ -307,7 +386,7 @@ void KonqTxtView::slotData( int, const char *data, int len )
   QByteArray a( len );
   memcpy( a.data(), data, len );
   QString s( a );
-  append( s );
+  m_pEdit->append( s );
 }
 
 void KonqTxtView::slotError( int, int err, const char *text )
@@ -321,8 +400,8 @@ void KonqTxtView::slotFindFirst( const QString &_text, bool backwards, bool case
   
   if ( backwards )
   {
-    m_iSearchPos = lineLength( numLines() - 1 );
-    m_iSearchLine = numLines() - 1;
+    m_iSearchPos = m_pEdit->textLine( m_pEdit->numLines() - 1 ).length();
+    m_iSearchLine = m_pEdit->numLines() - 1;
   }
   else
   {
@@ -339,9 +418,9 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
   int index;
   
   if ( backwards )
-    index = textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
+    index = m_pEdit->textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
   else
-    index = textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
+    index = m_pEdit->textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
     
   while ( index == -1 )
   {
@@ -349,7 +428,7 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
     {
       m_iSearchLine--;
       if ( m_iSearchLine >= 0 )
-        m_iSearchPos = lineLength( m_iSearchLine );
+        m_iSearchPos = m_pEdit->textLine( m_iSearchLine ).length();
     }
     else
     {
@@ -358,7 +437,7 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
     }      
     
     if ( ( backwards && m_iSearchLine < 0 ) ||
-         ( !backwards && m_iSearchLine >= numLines() ) )
+         ( !backwards && m_iSearchLine >= m_pEdit->numLines() ) )
     {
       if ( !m_bFound )
       {
@@ -368,8 +447,8 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
 
       if ( backwards )
       {
-        m_iSearchPos = lineLength( numLines() - 1 );
-        m_iSearchLine = numLines() - 1;
+        m_iSearchPos = m_pEdit->textLine( m_pEdit->numLines() - 1 ).length();
+        m_iSearchLine = m_pEdit->numLines() - 1;
       }
       else
       {
@@ -381,15 +460,15 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
     }
 
     if ( backwards )
-      index = textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
+      index = m_pEdit->textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
     else
-      index = textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
+      index = m_pEdit->textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
   }
 
   m_bFound = true;
-  setCursorPosition( m_iSearchLine, index, false );
-  setCursorPosition( m_iSearchLine, index + m_strSearchText.length(), true );
-  update();
+  m_pEdit->setCursorPosition( m_iSearchLine, index, false );
+  m_pEdit->setCursorPosition( m_iSearchLine, index + m_strSearchText.length(), true );
+  m_pEdit->update();
   
   if ( backwards )
     m_iSearchPos = index-1;
@@ -397,6 +476,12 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
     m_iSearchPos = index+1;
 }
 
+void KonqTxtView::resizeEvent( QResizeEvent * )
+{
+  m_pEdit->setGeometry( 0, 0, width(), height() );
+}
+
+/*
 void KonqTxtView::mousePressEvent( QMouseEvent *e )
 {
   if ( e->button() == RightButton && m_pMainView )
@@ -409,13 +494,13 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
       struct stat buff;
       if ( stat( u.path(), &buff ) == -1 )
       {
-        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, m_strURL );
+        kioErrorDialog( ERR_COULD_NOT_STAT, m_strURL );
 	return;
       }
       mode = buff.st_mode;
     }
     
-    KFileItem item( "textURL" /*whatever*/, mode, u );
+    KFileItem item( "textURL" *//*whatever*/ /*, mode, u );
     KFileItemList items;
     items.append( &item );
     m_pMainView->popupMenu( QPoint( e->globalX(), e->globalY() ), items );
@@ -423,5 +508,6 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
   else
     QMultiLineEdit::mousePressEvent( e );
 }
+*/
 
 #include "konq_txtview.moc"

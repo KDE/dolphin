@@ -29,10 +29,10 @@
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kpixmap.h>
-#include <opFrame.h>
 
 #include "konq_frame.h"
 #include "konq_childview.h"
+#include "browser.h"
 
 #define DEFAULT_HEADER_HEIGHT 11
 
@@ -109,10 +109,10 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   frameHeaderInactive = new QPixmap;
 
   if ( frameHeaderLook == XPixmap ) {
-    KIconLoader* iconLoader = new KIconLoader( config, "kwm" );
+    KIconLoader* iconLoader = new KIconLoader((KConfig *)0L, "kwm");
     
-    *(frameHeaderActive) = iconLoader->reloadIcon("activetitlebar.xpm");
-    *(frameHeaderInactive) = iconLoader->reloadIcon("inactivetitlebar.xpm");
+    *(frameHeaderActive) = iconLoader->reloadIcon("activetitlebar");
+    *(frameHeaderInactive) = iconLoader->reloadIcon("inactivetitlebar");
 
     if (frameHeaderInactive->size() == QSize(0,0))
       *frameHeaderInactive = *frameHeaderActive;
@@ -157,7 +157,7 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
     case PIPE: return KPixmapEffect::PipeCrossGradient;
     case ELLIP: return KPixmapEffect::EllipticGradient;
     default:
-	break;
+      return KPixmapEffect::HorizontalGradient; // keep compiler happy
     }
   
 }
@@ -395,10 +395,9 @@ void KonqFrameHeader::resizeEvent( QResizeEvent * )
 KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
                     : QWidget( _parentContainer, _name)
 {
-  m_pOPFrame = 0L;
   m_pLayout = 0L;
   m_pChildView = 0L;
-  m_vView = 0L;
+  m_pView = 0L;
 
   // add the frame header to the layout
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
@@ -406,18 +405,15 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
   connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
-Browser::View_ptr 
+BrowserView * 
 KonqFrame::view( void ) 
 { 
-  return Browser::View::_duplicate( m_vView ); 
+  return m_pView;
 }
 
 bool KonqFrame::isActivePart()
 {
-  if ( m_id == 0 )
-    return false;
-    
-  return ( m_vMainWindow->activePartId() == m_id );
+  return ( m_pView == m_pChildView->mainView()->currentView() );
 }
 
 void 
@@ -437,12 +433,15 @@ KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
   {
     QString strDirMode;
     
-    Browser::View_ptr pView = childView()->view();
+    BrowserView *pView = childView()->view();
       
-    if ( pView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+    if ( pView->inherits( "KfmTreeView" ) )
       strDirMode = "TreeView";
     else
     {
+#warning FIXME (Simon)
+      strDirMode = "LargeIcons";
+/*    
       Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( pView );
       
       Konqueror::DirectoryDisplayMode dirMode = iv->viewMode();
@@ -460,6 +459,7 @@ KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
 	break;
       default: assert( 0 );
       }
+*/      
     }
       
     config->writeEntry( QString::fromLatin1( "DirectoryMode" ), strDirMode );
@@ -467,45 +467,18 @@ KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
 }
 
 void
-KonqFrame::attach( Browser::View_ptr view )
+KonqFrame::attach( BrowserView *view )
 {
-  m_vView = Browser::View::_duplicate( view );
-  m_id = m_vView->id();
+  m_pView = view;
 
-  m_vMainWindow = m_vView->mainWindow();
-
-  OPPartIf* localView = 0L;
-  OpenParts::Window w = view->window();
-  // Local or remote ? (Simon's trick ;)
-  QListIterator<OPPartIf> it = OPPartIf::partIterator();
-  for (; it.current(); ++it )
-    if ( (*it)->window() == w )
-      localView = *it;
-
-  if (m_pOPFrame) delete m_pOPFrame;
   if (m_pLayout) delete m_pLayout;
 
   m_pLayout = new QVBoxLayout( this );
   m_pLayout->addWidget( m_pHeader );
-  if ( localView )
-  {
-    kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
-    QWidget * localWidget = localView->widget();
-    localWidget->reparent( this, 0, QPoint( 0, 0) );
-    localWidget->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
-    m_pLayout->addWidget( localWidget );
-    localWidget->show();
-    m_pOPFrame = 0L;
-  }
-  else
-  {
-    m_pOPFrame = new OPFrame( this );
-    m_pLayout->addWidget( m_pOPFrame );
-    m_pLayout->activate();
-    kdebug(0, 1202, " ************* NOT LOCAL :( *************");
-    m_pOPFrame->attach( view );
-    m_pOPFrame->setGeometry( 0, 0, width(), height() );
-  }
+  m_pView->reparent( this, 0, QPoint( 0, 0) );
+  m_pView->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
+  m_pLayout->addWidget( m_pView );
+  m_pView->show();
   m_pHeader->show();
   m_pLayout->activate();
 }
@@ -513,14 +486,7 @@ KonqFrame::attach( Browser::View_ptr view )
 void
 KonqFrame::detach( void )
 {
-  m_id = 0;
-  m_vMainWindow = 0L;
-
-  m_vView = 0L;
-  if( m_pOPFrame) {
-    delete m_pOPFrame;
-    m_pOPFrame = 0L;
-  }
+  m_pView = 0L;
 }
 
 KonqFrameContainer* 
@@ -547,11 +513,14 @@ KonqFrame::reparent( QWidget* parent, WFlags f,
 void
 KonqFrame::slotHeaderClicked()
 {
+  m_pChildView->mainView()->setActiveView( m_pView );
+/*
   if ( !CORBA::is_nil( m_vView ) )
   {
     OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
     mainWindow->setActivePart( m_vView->id() );
   }    
+*/  
 }
 
 void KonqFrame::slotPassiveModeChange( bool mode )

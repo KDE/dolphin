@@ -24,14 +24,15 @@
 
 #include "konq_defs.h"
 #include "konq_mainview.h"
+#include "browser.h"
 
 #include <qlist.h>
 #include <qstring.h>
 #include <qobject.h>
 #include <qstringlist.h>
+#include <qguardedptr.h>
 
-class KonqBaseView;
-class KfmRun;
+class KonqRun;
 class KonqFrame;
 class QSplitter;
 
@@ -47,12 +48,12 @@ public:
   /**
    * Create a child view
    * @param view the IDL View to be added in the child view
-   * @param row the row (i.e. splitter) where to add the frame
-   * @param newViewPosition only valid if Left or Right
+   * @param viewFrame the frame where to create the view - becomes owned by the view,
+   * which will delete it when destroyed.
    * @param mainView is the mainview :-)
    * @param serviceTypes is the list of supported servicetypes
    */
-  KonqChildView( Browser::View_ptr view,
+  KonqChildView( BrowserView *view,
 		 KonqFrame* viewFrame,
 		 KonqMainView * mainView,
 		 const QStringList &serviceTypes );
@@ -62,7 +63,7 @@ public:
   /** Attach a view
    * @param view the view to attach (instead of the current one, if any)
    */
-  void attach( Browser::View_ptr view );
+  void attach( BrowserView *view );
   /** Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
@@ -81,12 +82,12 @@ public:
   /**
    * Replace the current view vith _vView
    */
-  void switchView( Browser::View_ptr _vView, const QStringList &serviceTypes );
+  void switchView( BrowserView *pView, const QStringList &serviceTypes );
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
                        bool useMiscURLData = true, 
 		       Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
-  void changeView( Browser::View_ptr _vView, const QStringList &serviceTypes, 
+  void changeView( BrowserView *pView, const QStringList &serviceTypes, 
                    const QString &url = QString::null );
   
   /**
@@ -122,9 +123,13 @@ public:
   QStringList forwardHistoryURLs();
 
   /**
+   * Run the view (uses KonqRun)
+   */
+  void run( const QString & url );
+  /**
    * Stop loading
    */
-  void stop() { m_vView->stop(); }
+  void stop();
   /**
    * Reload
    */
@@ -136,10 +141,6 @@ public:
   QString url();
   
   /**
-   * Get view's id
-   */
-  OpenParts::Id id() { return m_vView->id(); }
-  /**
    * Get view's location bar URL, i.e. the one that the view signals
    * It can be different from url(), for instance if we display a index.html (David)
    */
@@ -148,11 +149,8 @@ public:
   /**
    * Get view object (should never be needed, except for IDL methods 
    * like activeView() and viewList())
-   *
-   * note: as you can see this method does *not* call _duplicate, so take
-   *       care of this when calling..
    */
-  Browser::View_ptr view() { return m_vView; }
+  BrowserView *view() { return m_pView; }
 
   /**
    * Returns a pointer to the KonqFrame which the view lives in
@@ -173,9 +171,6 @@ public:
   QStringList serviceTypes() { return m_lstServiceTypes; }
   
   bool supportsServiceType( const QString &serviceType ) { return m_lstServiceTypes.contains( serviceType ); }
-
-  void setKfmRun( KfmRun *run ) { m_pRun = run; }
-  KfmRun *kfmRun() const { return m_pRun; }
 
   void setMiscURLData( bool reload, int xOffset, int yOffset )
   {
@@ -198,17 +193,14 @@ public:
 
   bool supportsProgressIndication() const { return m_bProgressSignals; }
 
-  static Browser::View_ptr createView( const QString &serviceType, 
-			               QStringList &serviceTypes, 
-			               KonqMainView *mainView,
-				       Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
+  KonqMainView *mainView() const { return m_pMainView; }
 
 signals:
 
   /**
    * Signal the main view that our id changed (e.g. because of changeViewMode)
    */
-  void sigIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
+  void sigViewChanged( BrowserView *oldView, BrowserView *newView );
 
 protected:
   /**
@@ -229,7 +221,7 @@ protected:
 
   void go( QList<HistoryEntry> &stack, int steps );
   
-  Browser::View_var m_vView;
+  BrowserView *m_pView;
     
   QString m_sLocationBarURL;
 
@@ -245,10 +237,9 @@ protected:
   bool m_bHistoryLock;
     
   KonqMainView *m_pMainView;
-  OpenParts::MainWindow_var m_vMainWindow;
   QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
-  KfmRun *m_pRun;
+  QGuardedPtr<KonqRun> m_pRun;
   bool m_bReloadURL;
   int m_iXOffset;
   int m_iYOffset;

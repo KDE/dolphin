@@ -1,4 +1,4 @@
-#/*  This file is part of the KDE project
+/*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
  
     This program is free software; you can redistribute it and/or modify
@@ -22,28 +22,32 @@
 #include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_frame.h"
+#include "browser.h"
 
 #include <qstringlist.h>
 #include <qdir.h>
+#include <qevent.h>
+#include <qapplication.h>
 
 #include <kconfig.h>
-#include <browser.h>
+#include <kdebug.h>
 
-#include <opApplication.h>
+#include <assert.h>
 
 KonqViewManager::KonqViewManager( KonqMainView *mainView )
 {
   m_pMainView = mainView;
 
   m_pMainContainer = 0L;
+  
+  qApp->installEventFilter( this );
 }
 
 KonqViewManager::~KonqViewManager()
 {
   clear();
 
-  m_pMainView->removeSeparatedWidget( m_pMainContainer );
-  delete m_pMainContainer;
+  if (m_pMainContainer) delete m_pMainContainer;
 }
 
 void KonqViewManager::splitView ( Qt::Orientation orientation ) 
@@ -53,7 +57,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
   QString url = currentChildView->url();
   const QString serviceType = currentChildView->serviceTypes().first();
 
-  Browser::View_var vView;
+  BrowserView *pView;
   QStringList serviceTypes;
   
   // KonqFactory::createView() ignores this if the servicetypes is
@@ -62,25 +66,31 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
   
   if ( currentChildView->supportsServiceType( "inode/directory" ) )
   {
-    if ( currentChildView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+//    if ( currentChildView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+    if ( currentChildView->view()->inherits( "KfmTreeView" ) )
       dirMode = Konqueror::TreeView;
     else
     {
-      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( currentChildView->view() );
-      dirMode = iv->viewMode();
+//      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( currentChildView->view() );
+//      KonqKfmIconView *iconView = (KonqKfmIconView *)(currentChildView->view());
+      
+//      dirMode = iconView->viewMode();
+#warning FIXME (Simon)
+        dirMode = Konqueror::LargeIcons;
     }
   }
   
-  if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode ) ) ) )
+  if ( !( pView = KonqFactory::createView( serviceType, serviceTypes, dirMode ) ) )
     return; //do not split the view at all if we can't clone the current view
 
-  splitView( orientation, vView, serviceTypes );
+  splitView( orientation, pView, serviceTypes );
 
-  m_pMainView->childView( vView->id() )->openURL( url );
+//  m_pMainView->childView( pView )->openURL( url );
+  pView->openURL( url );
 }
 
 void KonqViewManager::splitView ( Qt::Orientation orientation, 
-			       Browser::View_ptr newView,
+			       BrowserView *newView,
 			       const QStringList &newViewServiceTypes )
 {
   kdebug(0, 1202, "KonqViewManager::splitview" );
@@ -134,7 +144,6 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
     setupView( m_pMainContainer, newView, newViewServiceTypes );
 
     // exclude the splitter and all child widgets from the part focus handling
-    m_pMainView->addSeparatedWidget( m_pMainContainer );
     m_pMainContainer->show();
   }
 }
@@ -160,7 +169,7 @@ void KonqViewManager::removeView( KonqChildView *view )
   //otherFrame->widget()->hide();
   otherFrame->reparent( m_pMainView, 0, pos );
 
-  m_pMainView->removeChildView( view->id() );
+  m_pMainView->removeChildView( view );
 
   //triggering QObject::childEvent manually
   parentContainer->removeChild( view->frame() );
@@ -212,11 +221,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   m_pMainContainer->show();
 
   loadItem( cfg, m_pMainContainer, rootItem );
-
-  OpenParts::MainWindow_var vMainWindow = m_pMainView->mainWindow();
-  
-  if ( vMainWindow->activePartId() == m_pMainView->id() )
-    vMainWindow->setActivePart( viewIdByNumber( 0 ) );
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
@@ -252,16 +256,17 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 	
     }
 
-    Browser::View_var vView;
+    BrowserView *pView;
     QStringList serviceTypes;
 
     //Simon TODO: error handling
-    vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode);
-    if( !CORBA::is_nil( vView )	) {
+    pView = KonqFactory::createView( serviceType, serviceTypes, dirMode);
+    if( pView ) {
       kdebug(0, 1202, "Creating View Stuff");  
-      setupView( parent, vView, serviceTypes);
+      setupView( parent, pView, serviceTypes);
 
-      m_pMainView->childView( vView->id() )->openURL( url );
+//      m_pMainView->childView( pView->id() )->openURL( url );
+      pView->openURL( url );
     }
     else
       warning("Profile Loading Error: View creation failed" );
@@ -314,7 +319,7 @@ void KonqViewManager::clear()
     m_pMainContainer->listViews( &viewList );
 
     for ( ; it.current(); ++it ) {
-      m_pMainView->removeChildView( it.current()->id() );
+      m_pMainView->removeChildView( it.current() );
       delete it.current();
     }    
   
@@ -339,13 +344,14 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
     return viewList.first();
 
   int pos = viewList.find( view ) + 1;
-  if( pos >= viewList.count() )
+  if( pos >= (int)viewList.count() )
     pos = 0;
   kdebug(0, 1202, "next view: %d", pos );  
 
   return viewList.at( pos );
 }
-
+#warning FIXME (Simon)
+/*
 unsigned long KonqViewManager::viewIdByNumber( int number )
 {
   kdebug(0, 1202, "KonqViewManager::viewIdByNumber( %d )", number );  
@@ -359,16 +365,55 @@ unsigned long KonqViewManager::viewIdByNumber( int number )
   else
     return 0L;
 }
+*/
 
-void KonqViewManager::setupView( KonqFrameContainer *parentContainer, Browser::View_ptr view, const QStringList &serviceTypes )
+bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
+{
+  if ( ev->type() == QEvent::MouseButtonPress ||
+       ev->type() == QEvent::MouseButtonDblClick )
+  {
+    if ( !obj->isWidgetType() )
+      return false;
+      
+    QWidget *w = (QWidget *)obj;
+    
+    if ( ( w->testWFlags( WStyle_Dialog ) && w->isModal() ) ||
+           w->testWFlags( WType_Popup ) )
+      return false;
+    
+    while ( w )
+    {
+      
+      // check for the correct type and see if we "own" the view
+      if ( w->inherits( "BrowserView" ) && m_pMainView->childView( (BrowserView *)w ) &&
+           ((BrowserView *)w) != m_pMainView->currentView() )
+      {
+        m_pMainView->setActiveView( (BrowserView *)w );
+        return false;
+      }
+      
+      w = w->parentWidget();
+
+      if ( w && ( ( w->testWFlags( WStyle_Dialog ) && w->isModal() ) ||
+                  w->testWFlags( WType_Popup ) ) )
+          return false;
+
+    }
+    
+  }
+
+  return false;
+}
+
+void KonqViewManager::setupView( KonqFrameContainer *parentContainer, BrowserView *view, const QStringList &serviceTypes )
 {
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( view, newViewFrame, 
 					m_pMainView, serviceTypes );
 
-  QObject::connect( v, SIGNAL( sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id ) ), 
-                    m_pMainView, SLOT( slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ) );
+  QObject::connect( v, SIGNAL( sigViewChanged( BrowserView *, BrowserView * ) ), 
+                    m_pMainView, SLOT( slotViewChanged( BrowserView *, BrowserView * ) ) );
 
   m_pMainView->insertChildView( v );
 

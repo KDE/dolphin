@@ -20,26 +20,27 @@
 #ifndef __konq_progressproxy_h__
 #define __konq_progressproxy_h__
 
-#include <opPart.h>
+#include <qobject.h>
 
+class BrowserView;
 class KIOJob;
 
 class KonqProgressProxy : public QObject
 {
   Q_OBJECT
 public:
-  KonqProgressProxy( OPPartIf *part, KIOJob *job );
+  KonqProgressProxy( BrowserView *view, KIOJob *job );
 
 protected slots:
   void slotTotalSize( int, unsigned long size );
   void slotProcessedSize( int, unsigned long size );
   void slotSpeed( int, unsigned long bytesPerSecond );
 
+signals:
+  void loadingProgress( int percent );
+  void speedProgress( int bytesPerSecond );
+
 private:
-  OpenParts::Id m_partId;
-  
-  QAsciiDict<KOMBase::ClientList> *m_dctSignals;
-  
   unsigned long m_ulTotalDocumentSize;
 };
 

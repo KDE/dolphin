@@ -19,20 +19,22 @@
 #ifndef __konq_iconview_h__
 #define __konq_iconview_h__
 
-#include "qiconview.h"
-#include "konq_baseview.h"
+#include "browser.h"
+#include "konq_defs.h"
 
+#include <qiconview.h>
 #include <qtimer.h>
 #include <qstrlist.h>
 
-class KonqMainView;
 class KonqKfmIconView;
+class KIconView;
 class KonqPropsView;
 class KDirLister;
 class KFileItem;
-class Qt2CORBAProxy;
-class KFileIVI;
 class KonqSettings;
+class KFileIVI;
+class KAction;
+class QActionMenu;
 
 class KonqDragItem : public QIconDragItem
 {
@@ -82,67 +84,80 @@ protected:
 
 };
 
+class IconEditExtension : public EditExtension
+{
+  friend class KonqKfmIconView;
+  Q_OBJECT
+public:
+  IconEditExtension( KonqKfmIconView *iconView );
+  
+  virtual void can( bool &copy, bool &paste, bool &move );
+
+  virtual void copySelection();
+  virtual void pasteSelection();
+  virtual void moveSelection( const QString &destinationURL = QString::null );
+  
+private:
+  KonqKfmIconView *m_iconView;
+};
+
 /**
  * The Icon View for konqueror. Handles big icons (Horizontal mode) and
  * small icons (Vertical mode).
  * The "Kfm" in the name stands for file management since it shows files :)
  */
-class KonqKfmIconView : public QIconView,
-                        public KonqBaseView,
-                        virtual public Konqueror::KfmIconView_skel,
-			virtual public Browser::EditExtension_skel
+class KonqKfmIconView : public BrowserView
 {
   Q_OBJECT
 public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
 
-  // C++
-  KonqKfmIconView( KonqMainView *mainView = 0L );
+  KonqKfmIconView();
   virtual ~KonqKfmIconView();
 
-  virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
+  virtual void openURL( const QString &url, bool reload = false,
+                        int xOffset = 0, int yOffset = 0 );
 
-  // IDL
+  virtual QString url();
+  virtual int xOffset();
+  virtual int yOffset();
   virtual void stop();
 
-  virtual QCString url();
-  virtual long int xOffset();
-  virtual long int yOffset();
+  KIconView *iconView() const { return m_pIconView; }
 
-  virtual void openURL( const char* _url, int xOffset, int yOffset );
-
+/*
   virtual void can( bool &copy, bool &paste, bool &move );
 
   virtual void copySelection();
   virtual void pasteSelection();
   virtual void moveSelection( const QCString &destinationURL );
-
+*/
 public slots:
-  // IDL
-  virtual void slotShowDot();
-  virtual void slotSelect();
-  virtual void slotUnselect();
-  virtual void slotSelectAll();
-  virtual void slotUnselectAll();
+  //TODO: move to BrowserIconView
+  void slotShowDot();
+  void slotSelect();
+  void slotUnselect();
+  void slotSelectAll();
+  void slotUnselectAll();
 
-  virtual void slotSortByNameCaseSensitive();
-  virtual void slotSortByNameCaseInsensitive();
-  virtual void slotSortBySize();
-  virtual void slotSetSortDirectionDescending();
+  void slotSortByNameCaseSensitive();
+  void slotSortByNameCaseInsensitive();
+  void slotSortBySize();
+  void slotSetSortDirectionDescending();
 
-  virtual void setViewMode( Konqueror::DirectoryDisplayMode mode );
-  virtual Konqueror::DirectoryDisplayMode viewMode();
+  void setViewMode( Konqueror::DirectoryDisplayMode mode );
+  Konqueror::DirectoryDisplayMode viewMode();
+
+signals:
+  // emitted here, triggers the popup menu in the main view
+  void popupMenu( const QPoint &_global, KFileItemList _items );
 
 protected slots:
   // slots connected to QIconView
   virtual void slotMousePressed( QIconViewItem *item );
   virtual void slotDrop( QDropEvent *e );
   void slotDropItem( KFileIVI *item, QDropEvent *e );
-
-  void slotSelectionChanged();
 
   void slotItemRightClicked( QIconViewItem *item );
   void slotViewportRightClicked();
@@ -151,27 +166,24 @@ protected slots:
   void slotOnViewport();
 
   // slots connected to the directory lister
-  virtual void slotStarted( const QString & );
-  virtual void slotCompleted();
-  virtual void slotCanceled();
-  virtual void slotClear();
-  virtual void slotNewItem( KFileItem * );
-  virtual void slotDeleteItem( KFileItem * );
+  void slotStarted( const QString & );
+  void slotCompleted();
+  void slotNewItem( KFileItem * );
+  void slotDeleteItem( KFileItem * );
+
+  void slotClear();
+
+  void slotTotalFiles( int, unsigned long files );
 
 protected:
-    void initDrag( QDropEvent *e );
   /** Common to slotDrop and slotDropItem */
   void dropStuff( QDropEvent *e, KFileIVI *item = 0L );
-
-  /** Overloaded from QIconView */
-  virtual QDragObject *dragObject();
 
   virtual void initConfig();
 
   void setupSorting( SortCriterion criterion );
 
-  /** Overloaded from OPPartIf */
-  void setFocus( bool mode );
+  virtual void resizeEvent( QResizeEvent * );
 
   /** */
   void setupSortMenu();
@@ -183,11 +195,11 @@ protected:
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
 
-  /** Konqueror settings */
-  KonqSettings * m_pSettings;
-
   /** View properties */
   KonqPropsView * m_pProps;
+
+  /** Konqueror settings */
+  KonqSettings * m_pSettings;
 
   /**
    * Set to true while the constructor is running.
@@ -197,19 +209,10 @@ protected:
 
   bool m_bLoading;
 
-  /** The view menu */
-  OpenPartsUI::Menu_var m_vViewMenu;
-
-  OpenPartsUI::Menu_var m_vSortMenu;
-
-  /** Set to true if the next slotUpdate needs to call setup() */
-  //bool bSetupNeeded;
-
   int m_iXOffset;
   int m_iYOffset;
 
-  /** Proxies for each CORBA slot that has to be invoked from a Qt signal */
-  Qt2CORBAProxy * m_proxySelectAll;
+  unsigned long m_ulTotalFiles;
 
   long int m_idShowDotFiles;
   long int m_idSortByNameCaseSensitive;
@@ -219,7 +222,30 @@ protected:
 
   SortCriterion m_eSortCriterion;
 
-  KonqMainView *m_pMainView;
+  KAction *m_paDotFiles;
+  QActionMenu *m_pamSort;
+
+  KAction *m_paSelect;
+  KAction *m_paUnselect;
+  KAction *m_paSelectAll;
+  KAction *m_paUnselectAll;
+
+  IconEditExtension *m_extension;
+
+  KIconView *m_pIconView;
+};
+
+class KIconView : public QIconView
+{
+public:
+  KIconView( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 )
+  : QIconView( parent, name, f ) {}
+
+  virtual QDragObject *dragObject();
+
+protected:
+    void initDrag( QDropEvent *e );
+
 };
 
 #endif

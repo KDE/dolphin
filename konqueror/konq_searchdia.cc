@@ -36,7 +36,7 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
   
   QHBox *hBox = new QHBox( m_pVBox );
   
-  QLabel *findLabel = new QLabel( i18n( "Find :"), hBox );
+  (void) new QLabel( i18n( "Find :"), hBox );
   
   m_pLineEdit = new QLineEdit( hBox );
   connect( m_pLineEdit, SIGNAL( textChanged( const QString & ) ),
@@ -55,7 +55,7 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
   m_pCaseSensitiveCheckBox->setChecked( false );
   m_pBackwardsCheckBox->setChecked( false );
   
-  KSeparator *separator = new KSeparator( QFrame::HLine, m_pVBox );
+  (void) new KSeparator( QFrame::HLine, m_pVBox );
   
   KButtonBox *buttonBox = new KButtonBox( m_pVBox );
   

@@ -19,12 +19,15 @@
 
 #include "konq_childview.h"
 #include "konq_frame.h"
-#include "konq_plugins.h"
 #include "konq_propsview.h"
 #include "konq_factory.h"
-#include "kfmrun.h"
+#include "konq_run.h"
 
-KonqChildView::KonqChildView( Browser::View_ptr view, 
+#include <assert.h>
+
+#include <kdebug.h>
+
+KonqChildView::KonqChildView( BrowserView *view, 
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
 			      const QStringList &serviceTypes
@@ -38,7 +41,6 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_bForward = false;
   m_bHistoryLock = false;
   m_pMainView = mainView;
-  m_vMainWindow = mainView->mainWindow();
   m_pRun = 0L;
 
   attach( view );
@@ -51,7 +53,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_iXOffset = 0;
   m_iYOffset = 0;
   m_bLoading = false;
-  m_iProgress = 0;
+  m_iProgress = -1;
   m_bPassiveMode = false;
   m_bProgressSignals = true;
 }
@@ -62,38 +64,41 @@ KonqChildView::~KonqChildView()
   detach();
   delete m_pKonqFrame;
   if ( m_pRun )
-    delete m_pRun;
+    delete (KonqRun *)m_pRun;
 }
 
-void KonqChildView::attach( Browser::View_ptr view )
+void KonqChildView::attach( BrowserView *view )
 {
-  m_vView = Browser::View::_duplicate( view );
-  m_vView->incRef();
-  m_vView->setMainWindow( m_vMainWindow );
-  m_vView->setParent( m_pMainView );
+  m_pView = view;
   connectView( );
 
   m_pKonqFrame->show();
   m_pKonqFrame->attach( view );
 
-  KonqPlugins::installKOMPlugins( view );
+//  KonqPlugins::installKOMPlugins( view );
 }
 
 void KonqChildView::detach()
 {
 //  m_pKonqFrame->hide();
   m_pKonqFrame->detach();
+  
+  QObject *obj = m_pView->child( 0L, "EditExtension" );
+  if ( obj )
+    obj->disconnect( m_pMainView );
 
+/*
   if ( m_vView->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
   {
     CORBA::Object_var obj = m_vView->getInterface( "IDL:Browser/EditExtension:1.0" );
     Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
     editExtension->disconnectObject( m_pMainView );
   }
+*/
   
-  m_vView->disconnectObject( m_pMainView );
-  m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
-  m_vView = 0L; //now it _IS_ dead
+  m_pView->disconnect( m_pMainView );
+  delete m_pView;
+  m_pView = 0L;
 }
 
 void KonqChildView::repaint()
@@ -114,32 +119,18 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
 {
-  Browser::EventOpenURL eventURL;
-  eventURL.url = url.latin1();
   if ( useMiscURLData )
-  {
-    eventURL.reload = m_bReloadURL;
-    eventURL.xOffset = m_iXOffset;
-    eventURL.yOffset = m_iYOffset;
-  }
+    m_pView->openURL( url, m_bReloadURL, m_iXOffset, m_iYOffset );
   else
-  {
-    eventURL.reload = false;
-    eventURL.xOffset = 0;
-    eventURL.yOffset = 0;
-  }    
-  EMIT_EVENT( m_vView, Browser::eventOpenURL, eventURL );
+    m_pView->openURL( url );
+
+  m_pMainView->setLocationBarURL( this, url );
 }
 
-void KonqChildView::switchView( Browser::View_ptr _vView, const QStringList &serviceTypes )
+void KonqChildView::switchView( BrowserView *pView, const QStringList &serviceTypes )
 {
-  kdebug(0,1202,"switchView : part->inactive");
-  m_vMainWindow->setActivePart( m_pMainView->id() );
-    
   detach();
-  Browser::View_var vView = Browser::View::_duplicate( _vView );
-  kdebug(0,1202,"switchView : attaching new one");
-  attach( vView );
+  attach( pView );
 
   m_lstServiceTypes = serviceTypes;
   
@@ -166,23 +157,23 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     return true;
   }
 
-  Browser::View_var vView;
+  BrowserView *pView;
   QStringList serviceTypes;
-  if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode ) ) ) )
+  if ( !( pView = KonqFactory::createView( serviceType, serviceTypes, dirMode ) ) )
    return false;
   makeHistory( false );
-  OpenParts::Id oldId = m_vView->id();
-  switchView( vView, serviceTypes );
+  BrowserView *oldView = m_pView;
   
-  emit sigIdChanged( this, oldId, vView->id() );
+  emit sigViewChanged( oldView, pView );
+  
+  switchView( pView, serviceTypes );
   
   openURL( url, useMiscURLData );
   
-  m_vMainWindow->setActivePart( vView->id() ); 
   return true;
 }
 
-void KonqChildView::changeView( Browser::View_ptr _vView, 
+void KonqChildView::changeView( BrowserView *pView, 
                                 const QStringList &serviceTypes, 
 				const QString &_url )
 {
@@ -190,20 +181,56 @@ void KonqChildView::changeView( Browser::View_ptr _vView,
   if ( url.isEmpty() )
     url = KonqChildView::url();
     
-  m_vMainWindow->setActivePart( m_pMainView->id() );
-    
-  OpenParts::Id oldId = m_vView->id();
-  switchView( _vView, serviceTypes );
+  BrowserView *oldView = m_pView;
+
+  emit sigViewChanged( oldView, pView );
   
-  emit sigIdChanged( this, oldId, _vView->id() );
+  switchView( pView, serviceTypes );
+  
   
   openURL( url );
-  
-  m_vMainWindow->setActivePart( _vView->id() );
 }
 
 void KonqChildView::connectView(  )
 {
+
+  connect( m_pView, SIGNAL( openURLRequest( const QString &, bool, int, int ) ),
+           m_pMainView, SLOT( openURL( const QString &, bool, int, int ) ) );
+
+  connect( m_pView, SIGNAL( started() ),
+           m_pMainView, SLOT( slotStarted() ) );
+  connect( m_pView, SIGNAL( completed() ),
+           m_pMainView, SLOT( slotCompleted() ) );
+  connect( m_pView, SIGNAL( canceled() ),
+           m_pMainView, SLOT( slotCanceled() ) );
+
+  connect( m_pView, SIGNAL( setStatusBarText( const QString & ) ),
+           m_pMainView, SLOT( slotSetStatusBarText( const QString & ) ) );
+
+  connect( m_pView, SIGNAL( popupMenu( const QPoint &, KFileItemList ) ),
+           m_pMainView, SLOT( slotPopupMenu( const QPoint &, KFileItemList ) ) );
+
+  QObject *obj = m_pView->child( 0L, "EditExtension" );
+  if ( obj )
+  {
+    EditExtension *editExtension = (EditExtension *)obj;
+    connect( editExtension, SIGNAL( selectionChanged() ),
+             m_pMainView, SLOT( checkEditExtension() ) );
+  }
+
+  connect( m_pView, SIGNAL( setLocationBarURL( const QString & ) ),
+           m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
+
+//  connect( m_pView, SIGNAL( createNewWindow( const QString & ) ),
+//           m_pMainView, SLOT( slotCreateNewWindow( const QString ) ) );
+
+  connect( m_pView, SIGNAL( loadingProgress( int ) ),
+           m_pMainView, SLOT( slotLoadingProgress( int ) ) );
+
+  connect( m_pView, SIGNAL( speedProgress( int ) ),
+           m_pMainView, SLOT( slotSpeedProgress( int ) ) );
+
+/*
   try
   {
     m_vView->connect("openURL", m_pMainView, "openURL");
@@ -285,7 +312,7 @@ void KonqChildView::connectView(  )
     }
     
   }
-
+*/
 }
 
 void KonqChildView::makeHistory( bool pushEntry )
@@ -320,21 +347,25 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
-  m_pCurrentHistoryEntry->strURL = m_vView->url();
-  m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
-  m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
+  m_pCurrentHistoryEntry->strURL = m_pView->url();
+  m_pCurrentHistoryEntry->xOffset = m_pView->xOffset();
+  m_pCurrentHistoryEntry->yOffset = m_pView->yOffset();
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
   
   if ( m_pCurrentHistoryEntry->strServiceType == "inode/directory" )
   {
-    if ( m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
-    else
-    {
-      Konqueror::KfmIconView_var iconView = Konqueror::KfmIconView::_narrow( m_vView );
-      
-      m_pCurrentHistoryEntry->eDirMode = iconView->viewMode();
-    }
+//    if ( m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+#warning FIXME (Simon)
+  m_pCurrentHistoryEntry->eDirMode = Konqueror::LargeIcons;
+//    if ( m_pView->inherits( "KfmTreeView" ) )
+//      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
+//    else
+//    {
+//      Konqueror::KfmIconView_var iconView = Konqueror::KfmIconView::_narrow( m_vView );
+//      KonqKfmIconView *iconView = (KonqKfmIconView *)m_pView;
+//      
+//      m_pCurrentHistoryEntry->eDirMode = iconView->KonqKfmIconView::viewMode();
+//    }
   }
 }
 
@@ -393,9 +424,25 @@ QStringList KonqChildView::forwardHistoryURLs()
 
 QString KonqChildView::url()
 {
-  assert( m_vView );
-  QString url = m_vView->url();
-  return url;
+  assert( m_pView );
+  return m_pView->url();
+}
+
+void KonqChildView::run( const QString & url )
+{
+  debug(" ********** KonqChildView::run ");
+  m_pRun = new KonqRun( mainView(), this, url, 0, false, true );
+  // stop() will get called by KonqMainView::openView or completely destroyed
+}
+
+void KonqChildView::stop()
+{
+  m_pView->stop();
+
+  if ( m_pRun ) debug(" m_pRun is not NULL ");
+  else debug(" m_pRun is NULL ");
+//  if ( m_pRun ) delete (KonqRun *)m_pRun; // HACK !!!!!
+  m_pRun = 0L;
 }
 
 void KonqChildView::reload()
@@ -404,12 +451,7 @@ void KonqChildView::reload()
   m_bBack = false;
   lockHistory();
   
-  Browser::EventOpenURL eventURL;
-  eventURL.url = m_vView->url();
-  eventURL.reload = true;
-  eventURL.xOffset = m_vView->xOffset();
-  eventURL.yOffset = m_vView->yOffset();
-  EMIT_EVENT( m_vView, Browser::eventOpenURL, eventURL );
+  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
 }
 
 #include "konq_childview.moc"

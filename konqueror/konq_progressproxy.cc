@@ -19,24 +19,20 @@
 
 #include "konq_progressproxy.h"
 
+#include <browser.h>
+
 #include <kio_job.h>
 
-KonqProgressProxy::KonqProgressProxy( OPPartIf *part, KIOJob *job )
+KonqProgressProxy::KonqProgressProxy( BrowserView *view, KIOJob *job )
+: QObject( job )
 {
-  job->insertChild( this ); //let's make sure we get deleted when the job dies
-  
-  m_dctSignals = part->signalImplementations();
-
-  if ( !part->supportsInterface( "IDL:Browser/View:1.0" ) ||
-       !(*m_dctSignals)[ "loadingProgress" ] ||
-       !(*m_dctSignals)[ "speedProgress" ] )
-    assert( 0 );
-
-  m_partId = part->id();
   
   connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
   connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
   connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
+
+  connect( this, SIGNAL( loadingProgress( int ) ), view, SIGNAL( loadingProgress( int ) ) );
+  connect( this, SIGNAL( speedProgress( int ) ), view, SIGNAL( speedProgress( int ) ) );
 
   m_ulTotalDocumentSize = 0;
 }
@@ -48,15 +44,13 @@ void KonqProgressProxy::slotTotalSize( int, unsigned long size )
 
 void KonqProgressProxy::slotProcessedSize( int, unsigned long size )
 {
-  if ( m_ulTotalDocumentSize > 0 && (*m_dctSignals)[ "loadingProgress" ] )
-    signal_call2( "loadingProgress", m_dctSignals, m_partId, 
-                  (long int)( size * 100 / m_ulTotalDocumentSize ) );
+  if ( m_ulTotalDocumentSize > 0 )
+    emit loadingProgress( size * 100 / m_ulTotalDocumentSize );
 }
 
 void KonqProgressProxy::slotSpeed( int, unsigned long bytesPerSecond )
 {
-  if ( (*m_dctSignals)[ "speedProgress" ] )
-    signal_call2( "speedProgress", m_dctSignals, m_partId, (long int)bytesPerSecond );
+  emit speedProgress( (long int)bytesPerSecond );
 }
 
 #include "konq_progressproxy.moc"

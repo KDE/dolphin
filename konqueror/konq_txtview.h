@@ -20,48 +20,73 @@
 #ifndef __konq_txtview_h__
 #define __konq_txtview_h__
 
-#include "konq_baseview.h"
+#include "browser.h"
 
 #include <qmultilineedit.h>
 
-class KonqMainView;
 class QFont;
 class KonqSearchDialog;
+class QToggleAction;
+class QAction;
+class KonqTxtView;
+class KMultiLineEdit;
 
-class KonqTxtView : public QMultiLineEdit,
-                    public KonqBaseView,
-		    virtual public Konqueror::TxtView_skel,
-		    virtual public Browser::EditExtension_skel
+class KonqTxtPrintingExtension : public PrintingExtension
 {
   Q_OBJECT
-  
 public:
-  KonqTxtView( KonqMainView *mainView = 0L );
-  virtual ~KonqTxtView();
-  
-  virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
-  virtual bool mappingFillToolBar( Browser::View::EventFillToolBar toolBar );
-
-  virtual long int xOffset();
-  virtual long int yOffset();
-
-  virtual void stop();
-  
-  virtual void slotSelectAll();
-  virtual void slotEdit();
-  virtual void slotFixedFont();
-  virtual void slotSearch();
+  KonqTxtPrintingExtension( KonqTxtView *txtView );
 
   virtual void print();
 
+private:
+  KonqTxtView *m_txtView;
+};
+
+class KonqTxtEditExtension : public EditExtension
+{
+  Q_OBJECT
+public:
+  KonqTxtEditExtension( KonqTxtView *txtView );
+  
+  virtual void can( bool &copy, bool &paste, bool &move );
+
+  virtual void copySelection();
+  virtual void pasteSelection();
+  virtual void moveSelection( const QString &destinationURL = QString::null );
+
+private:
+  KonqTxtView *m_txtView;  
+};
+
+class KonqTxtView : public BrowserView
+{
+  friend class KonqTxtPrintingExtension;
+  friend class KonqTxtEditExtension;
+
+  Q_OBJECT
+  
+public:
+  KonqTxtView();
+  virtual ~KonqTxtView();
+  
+  virtual void openURL( const QString &url, bool reload = false,
+                        int xOffset = 0, int yOffset = 0 );
+
+  virtual QString url();
+  virtual int xOffset();
+  virtual int yOffset();
+  virtual void stop();
+
+  virtual bool eventFilter( QObject *o, QEvent *e );
+
+/*
   virtual void can( bool &copy, bool &paste, bool &move );
   
   virtual void copySelection();
   virtual void pasteSelection();
   virtual void moveSelection( const QCString & );
-
+*/
 protected slots:
   void slotFinished( int );
   void slotRedirection( int, const char * );
@@ -71,16 +96,26 @@ protected slots:
   void slotFindFirst( const QString &_text, bool backwards, bool caseSensitive );
   void slotFindNext( bool backwards, bool caseSensitive );
 
+  void slotSelectAll();
+  void slotEdit();
+  void slotFixedFont();
+  void slotSearch();
+
 protected:
-  virtual void mousePressEvent( QMouseEvent *e );
+//  virtual void mousePressEvent( QMouseEvent *e );
+  virtual void resizeEvent( QResizeEvent * );
+
+  KMultiLineEdit *multiLineEdit() const { return m_pEdit; }
 
 private:
+  KMultiLineEdit *m_pEdit;
+
+  QString m_strURL;
+
   int m_jobId;
-  KonqMainView *m_pMainView;
   int m_iXOffset;
   int m_iYOffset;
   bool m_bFixedFont;
-  OpenPartsUI::Menu_var m_vMenuView;
   
   QString m_strSearchText;
   int m_iSearchPos;
@@ -89,6 +124,22 @@ private:
   bool m_bFound;
   
   long int m_idFixedFont;
+  
+  QAction *m_paSelectAll;
+  QAction *m_paEdit;
+  QAction *m_paSearch;
+  QToggleAction *m_ptaFixedFont;
+};
+
+class KMultiLineEdit : public QMultiLineEdit
+{
+  Q_OBJECT
+public:
+  KMultiLineEdit( QWidget *parent = 0, const char *name = 0 ) : QMultiLineEdit( parent, name ) {}
+  ~KMultiLineEdit() {}
+  
+  bool textMarked() const { return hasMarkedText(); }
+ 
 };
 
 #endif

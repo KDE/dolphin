@@ -19,10 +19,9 @@
 
 #include "konq_htmlview.h"
 #include "konq_propsview.h"
-#include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_factory.h"
-#include "konq_txtview.h"
+//#include "konq_txtview.h"
 #include "konq_progressproxy.h"
 
 #include <sys/stat.h>
@@ -48,125 +47,115 @@
 #include <konqdefaults.h>
 #include <konqsettings.h>
 
-#include <opUIUtils.h>
-
-#define TOOLBAR_LOADIMAGES_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
-
-KonqHTMLView::KonqHTMLView( KonqMainView *mainView, KBrowser *parentBrowser, const char * )
-: KBrowser( 0L, 0L, parentBrowser )
+KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
+: KHTMLWidget( htmlView, name )
 {
-  ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
-  ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
-  ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
+  m_pHTMLView = htmlView;
+}
 
-  SIGNAL_IMPL( "loadingProgress" );
-  SIGNAL_IMPL( "speedProgress" );
-  
-  SIGNAL_IMPL( "selectionChanged" ); //part of the EditExtension (Simon)
-  
-  setWidget( this );
+void KonqBrowser::openURL( QString url, bool reload, int xOffset, int yOffset, const char *post_data )
+{
+  emit m_pHTMLView->openURLRequest( url, reload, xOffset, yOffset );
+}
 
-  QWidget::setFocusPolicy( StrongFocus );
+KonqHTMLView::KonqHTMLView()
+{
+  m_pBrowser = new KonqBrowser( this, "konqbrowser" );
 
-  QObject::connect( this, SIGNAL( setTitle( QString ) ),
+  QObject::connect( m_pBrowser, SIGNAL( setTitle( QString ) ),
                     this, SLOT( slotSetTitle( QString ) ) );
-  QObject::connect( this, SIGNAL( completed() ),
+  QObject::connect( m_pBrowser, SIGNAL( completed() ),
                     this, SLOT( slotCompleted() ) );
-  QObject::connect( this, SIGNAL( started( const QString & ) ),
-                    this, SLOT( slotStarted( const QString & ) ) );
-  QObject::connect( this, SIGNAL( canceled() ),
-                    this, SLOT( slotCanceled() ) );
-
-  m_vViewMenu = 0L;
-  
-  m_pMainView = mainView;
+  QObject::connect( m_pBrowser, SIGNAL( started( const QString & ) ),
+                    this, SIGNAL( started() ) );
+  QObject::connect( m_pBrowser, SIGNAL( canceled() ),
+                    this, SIGNAL( canceled() ) );
 
   m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
 
-  enableSmartAnchorHandling( false );
-
-  slotFrameInserted( this );
+  slotFrameInserted( m_pBrowser );
 }
 
 KonqHTMLView::~KonqHTMLView()
 {
+  delete m_pBrowser;
 }
 
-bool KonqHTMLView::event( const QCString &event, const CORBA::Any &value )
+void KonqHTMLView::openURL( const QString &url, bool reload = false,
+                            int xOffset = 0, int yOffset = 0 )
 {
-  EVENT_MAPPER( event, value );
-  
-  MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu_ptr, mappingFillMenuEdit );
-  MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu_ptr, mappingFillMenuView );
-  MAPPING( Browser::View::eventFillToolBar, Browser::View::EventFillToolBar, mappingFillToolBar );
-  MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
-    
-  END_EVENT_MAPPER;
-  
-  return false;
-}
+    m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
+    m_pBrowser->enableImages( m_bAutoLoadImages );
 
-
-bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
-{
-  KonqBaseView::mappingOpenURL(eventURL);
-  
-  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
-  enableImages( m_bAutoLoadImages );  
-  
-  QString url = eventURL.url;
-  
-  if ( !eventURL.reload && urlcmp( url, KBrowser::m_strURL, TRUE, TRUE ) )
+  if ( !reload && urlcmp( url, m_strURL, TRUE, TRUE ) )
   {
     KURL u( url );
-    KBrowser::m_strWorkingURL = url;
-    KBrowser::m_strURL = url;
-    slotStarted( url );
+    m_strURL = url;
+    emit started();
     if ( !u.htmlRef().isEmpty() )
-      gotoAnchor( u.htmlRef() );
-    else //HACK (Simon)
-      slotScrollVert( 0 );
+      m_pBrowser->gotoAnchor( u.htmlRef() );
+    // ### FIXME
+    //    else //HACK (Simon)
+    //      m_pBrowser->slotScrollVert( 0 );
     slotCompleted();
-    return true;
+    return;
   }
-  else KBrowser::openURL( url, eventURL.reload, eventURL.xOffset, eventURL.yOffset );
-  
-  if ( m_jobId )
+  else m_pBrowser->KHTMLWidget::openURL( url, reload, xOffset, yOffset );
+
+  if ( m_pBrowser->jobId() )
   {
-    KIOJob *job = KIOJob::find( m_jobId );
+    KIOJob *job = KIOJob::find( m_pBrowser->jobId() );
     if ( job )
     {
       (void)new KonqProgressProxy( this, job );
-      
+
       QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ),
                         this, SLOT( slotDocumentRedirection( int, const char * ) ) );
-    }      
+    }
   }
-
-  checkViewMenu();
-  return true;
 }
 
+QString KonqHTMLView::url()
+{
+  return m_strURL;
+}
+
+int KonqHTMLView::xOffset()
+{
+  return m_pBrowser->contentsX();
+}
+
+int KonqHTMLView::yOffset()
+{
+  return m_pBrowser->contentsY();
+}
+
+void KonqHTMLView::stop()
+{
+  m_pBrowser->slotStop();
+}
+
+/*
 bool KonqHTMLView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
   m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
   if ( !CORBA::is_nil( viewMenu ) )
   {
     QString text;
-    m_idSaveDocument = viewMenu->insertItem4( ( text = i18n("&Save As...") ), 
+    m_idSaveDocument = viewMenu->insertItem4( ( text = i18n("&Save As...") ),
                                               this, "saveDocument", 0, -1, -1 );
-    m_idSaveFrame = viewMenu->insertItem4( ( text = i18n("Save &Frame As..." ) ), 
+    m_idSaveFrame = viewMenu->insertItem4( ( text = i18n("Save &Frame As..." ) ),
                                            this, "saveFrame", 0, -1, -1 );
-    m_idSaveBackground = viewMenu->insertItem4( ( text = i18n("Save &Background Image As...") ), 
+    m_idSaveBackground = viewMenu->insertItem4( ( text = i18n("Save &Background Image As...") ),
                                                 this, "saveBackground", 0, -1, -1 );
-    m_idViewDocument = viewMenu->insertItem4( ( text = i18n( "View Document Source" ) ), 
+    m_idViewDocument = viewMenu->insertItem4( ( text = i18n( "View Document Source" ) ),
                                               this, "viewDocumentSource", 0, -1, -1 );
-    m_idViewFrame = viewMenu->insertItem4( ( text = i18n( "View Frame Source" ) ), 
+    m_idViewFrame = viewMenu->insertItem4( ( text = i18n( "View Frame Source" ) ),
                                            this, "viewFrameSource", 0, -1, -1 );
-      
+
     checkViewMenu();
   }
-    
+
   return true;
 }
 
@@ -183,13 +172,13 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
 
   if ( CORBA::is_nil( viewToolBar.toolBar ) )
     return true;
-    
+
   if ( viewToolBar.create )
   {
     QString toolTip = i18n( "Load Images" );
     OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "image.png" ) );
-    viewToolBar.toolBar->insertButton2( pix, TOOLBAR_LOADIMAGES_ID, 
-                                        SIGNAL(clicked()), this, "slotLoadImages", 
+    viewToolBar.toolBar->insertButton2( pix, TOOLBAR_LOADIMAGES_ID,
+                                        SIGNAL(clicked()), this, "slotLoadImages",
 					true, toolTip, viewToolBar.startIndex++ );
   }
   else
@@ -197,18 +186,15 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
 
   return true;
 }
-
+*/
 void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global, int _button )
 {
   QString url = _url;
 
   if ( _url.isEmpty() )
-    if ( !KBrowser::m_strURL )
-      return;
-    else
-      url = KBrowser::m_strURL;
+    url = m_strURL;
 
-  if ( _button == RightButton && m_pMainView )
+  if ( _button == RightButton )
   {
     KURL u( url );
 
@@ -218,7 +204,7 @@ void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global,
       struct stat buff;
       if ( stat( u.path(), &buff ) == -1 )
       {
-        kioErrorDialog( ERR_COULD_NOT_STAT, url );
+        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, url );
         return;
       }
       mode = buff.st_mode;
@@ -228,59 +214,61 @@ void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global,
       int i = cURL.length();
       // A url ending with '/' is always a directory
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
-        mode = S_IFDIR; 
+        mode = S_IFDIR;
     }
-    
-    KFileItem item( "viewURL" /*whatever*/, mode, u );
+/*
+    KFileItem item( "viewURL" /*whatever*/ /*, mode, u );
     KFileItemList items;
     items.append( &item );
     m_pMainView->popupMenu( _global, items );
+*/
   }
 }
 
-void KonqHTMLView::slotFrameInserted( KBrowser *frame )
+void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
 {
-  QObject::connect( frame, SIGNAL( onURL( KHTMLView*, QString ) ), 
-                    this, SLOT( slotShowURL( KHTMLView*, QString ) ) );
+  QObject::connect( frame, SIGNAL( onURL( const QString &) ),
+                    this, SLOT( slotShowURL( const QString &) ) );
 
   QObject::connect( frame, SIGNAL( mousePressed( const QString &, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const QString &, const QPoint&, int ) ) );
-		    
+		
   QObject::connect( frame, SIGNAL( frameInserted( KBrowser * ) ),
-                    this, SLOT( slotFrameInserted( KBrowser * ) ) );		    
+                    this, SLOT( slotFrameInserted( KBrowser * ) ) );		
 
   QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
                     this, SLOT( slotNewWindow( const QString & ) ) );
 
-  QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
-                    this, SLOT( slotSelectionChanged() ) );
+#warning TODO (extension!) (Simon)
+//  QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
+//                    this, SIGNAL( selectionChanged() ) );
 
   KonqSettings *settings = KonqSettings::defaultHTMLSettings();
-  KHTMLWidget* htmlWidget = frame->getKHTMLWidget();
 
-  htmlWidget->setDefaultBGColor( settings->bgColor() );
-  htmlWidget->setDefaultTextColors( settings->textColor(),
+  frame->setDefaultBGColor( settings->bgColor() );
+  frame->setDefaultTextColors( settings->textColor(),
 				    settings->linkColor(),
 				    settings->vLinkColor() );
-  htmlWidget->setStandardFont( settings->stdFontName() );
-  htmlWidget->setFixedFont( settings->fixedFontName() );
+  frame->setStandardFont( settings->stdFontName() );
+  frame->setFixedFont( settings->fixedFontName() );
 
-  htmlWidget->setUnderlineLinks( settings->underlineLink() );
+  frame->setUnderlineLinks( settings->underlineLink() );
 
   if ( settings->changeCursor() )
-    htmlWidget->setURLCursor( KCursor().handCursor() );
+    frame->setURLCursor( KCursor().handCursor() );
   else
-    htmlWidget->setURLCursor( KCursor().arrowCursor() );		    
-  checkViewMenu();
-    
+    frame->setURLCursor( KCursor().arrowCursor() );		
+
+//  checkViewMenu();
+
   frame->enableImages( m_bAutoLoadImages );
 }
 
-void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
+void KonqHTMLView::slotShowURL( const QString &_url )
 {
   if ( !_url )
   {
-    SIGNAL_CALL1( "setStatusBarText", QString() );
+    emit setStatusBarText( QString::null );
     return;
   }
 
@@ -296,7 +284,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
   {
     QString decodedURL = _url;
     KURL::decode( decodedURL );
-    SIGNAL_CALL1( "setStatusBarText", decodedURL );
+    emit setStatusBarText( decodedURL );
     return;
   }
 
@@ -310,10 +298,10 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 
     struct stat lbuff;
     lstat( decodedPath, &lbuff );
-    
+
     QString text = url.url();
     QString text2 = text;
-    
+
     if (S_ISLNK( lbuff.st_mode ) )
     {
       QString tmp;
@@ -328,11 +316,11 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
       {
         text2 += "  ";
         text2 += tmp;
-        SIGNAL_CALL1( "setStatusBarText", text2 );
+	emit setStatusBarText( text2 );
 	return;
       }
       buff_two[n] = 0;
-      
+
       text += buff_two;
       text += "  ";
       text += tmp;
@@ -359,44 +347,30 @@ void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
       text += "  ";
       text += com;
     }
-    SIGNAL_CALL1( "setStatusBarText", text );
+    emit setStatusBarText( text );
   }
   else
-  {
-    SIGNAL_CALL1( "setStatusBarText", url.decodedURL() );
-  }    
+    emit setStatusBarText( url.decodedURL() );
 }
 
 void KonqHTMLView::slotSetTitle( QString title )
 {
+#warning TODO (in the Canossa framework) (Simon)
+/*
   QString decodedTitle = title;
   KURL::decode( decodedTitle );
-  
+
   if ( m_pMainView ) //builtin view?
     decodedTitle.prepend( "Konqueror: " );
-  
-  m_vMainWindow->setPartCaption( id(), decodedTitle );
-}
 
-void KonqHTMLView::slotStarted( const QString &url )
-{
-  SIGNAL_CALL2( "started", id(), url.ascii() );
+  m_vMainWindow->setPartCaption( id(), decodedTitle );
+*/
 }
 
 void KonqHTMLView::slotCompleted()
 {
-  SIGNAL_CALL1( "completed", id() );
-  checkViewMenu();
-}
-
-void KonqHTMLView::slotCanceled()
-{
-  // we need this because the destructor of KBrowser calls slotStop, which
-  // against emits the canceled signal. However at this time the KOM stuff
-  // is already cleaned up and we can't deal with signal stuff anymore
-  // (Simon)
-  if ( !m_bIsClean )
-    SIGNAL_CALL1( "canceled", id() );
+  emit completed();
+//  checkViewMenu();
 }
 
 void KonqHTMLView::slotDocumentRedirection( int, const char *url )
@@ -405,35 +379,37 @@ void KonqHTMLView::slotDocumentRedirection( int, const char *url )
   //sure the url in the mainview gets updated
   QString decodedURL = url;
   KURL::decode( decodedURL );
-  SIGNAL_CALL2( "setLocationBarURL", id(), decodedURL.ascii() );
+  emit setLocationBarURL( decodedURL );
 }
 
 void KonqHTMLView::slotNewWindow( const QString &url )
 {
-  SIGNAL_CALL1( "createNewWindow", url.ascii() );
+  emit createNewWindow( url );
 }
 
-void KonqHTMLView::slotSelectionChanged()
+void KonqHTMLView::resizeEvent( QResizeEvent * )
 {
-  SIGNAL_CALL0( "selectionChanged" );
+  m_pBrowser->setGeometry( 0, 0, width(), height() );
 }
+
 /*
 KBrowser *KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 {
   KonqHTMLView *v = new KonqHTMLView( m_pMainView, _name );
   v->reparent( _parent, 0, QPoint( 0, 0 ) );
-  
+
   v->setParent( this );
-  
+
   v->connect
-  
+
   return v;
 }
 */
 // #include "kfmicons.h"
 
+#if 0 // ### FIXME (lars)
 KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char *, const char *, const char *,
-						    int /*_marginwidth */, int /*_marginheight*/, 
+						    int /*_marginwidth */, int /*_marginheight*/,
 						    int _frameborder, bool _noresize )
 {
   KonqEmbededFrame *e = new KonqEmbededFrame( _parent, _frameborder,
@@ -453,39 +429,17 @@ KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char
 
   return e;
 }
-
-void KonqHTMLView::stop()
-{
-  KBrowser::slotStop();
-  checkViewMenu();
-}
-
-QCString KonqHTMLView::url()
-{
-  QString u = m_strWorkingURL;
-  if ( u.isEmpty() )
-    u = KBrowser::m_strURL;
-
-  return u.isEmpty() ? QCString() : (QCString)strdup(u.ascii());
-}
-
-long int KonqHTMLView::xOffset()
-{
-  return KBrowser::xOffset();
-}
-
-long int KonqHTMLView::yOffset()
-{
-  return KBrowser::yOffset();
-}
+#endif
 
 void KonqHTMLView::print()
 {
-  KHTMLView::print();
+    // ### FIXME
+    //m_pBrowser->print();
 }
 
 void KonqHTMLView::saveDocument()
 {
+/*
   if ( isFrameSet() )
   {
     //TODO
@@ -512,10 +466,12 @@ void KonqHTMLView::saveDocument()
 
     delete dlg;
   }
+*/
 }
 
 void KonqHTMLView::saveFrame()
 {
+/*
   KHTMLView *v = getSelectedView();
   if ( v )
   {
@@ -539,12 +495,14 @@ void KonqHTMLView::saveFrame()
 
     delete dlg;
   }
+*/
 }
 
 void KonqHTMLView::saveBackground()
 {
+/*
   QString bURL;
-  
+
   if ( isFrameSet() )
     bURL = getSelectedView()->getKHTMLWidget()->getBackground();
   else
@@ -552,9 +510,9 @@ void KonqHTMLView::saveBackground()
 
   if ( bURL.isNull() || bURL.isEmpty() )
     return;
-  
+
   KURL srcURL( bURL );
-  
+
   KFileDialog *dlg = new KFileDialog( QString::null, "*",
 				      this , "filedialog", true, false );
   dlg->setCaption(i18n("Save background image as"));
@@ -567,44 +525,50 @@ void KonqHTMLView::saveBackground()
       transfer.destination = destURL.url();
       EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
     }
-  
+
   delete dlg;
+*/
 }
 
 void KonqHTMLView::viewDocumentSource()
 {
-  openTxtView( getKHTMLWidget()->getDocumentURL().url() );
+//  openTxtView( getKHTMLWidget()->getDocumentURL().url() );
 }
 
 void KonqHTMLView::viewFrameSource()
 {
+/*
   KHTMLView *v = getSelectedView();
   if ( v )
     openTxtView( v->getKHTMLWidget()->getDocumentURL().url() );
+*/
 }
 
 void KonqHTMLView::slotLoadImages()
 {
+/*
   m_bAutoLoadImages = true;
-  enableImages( m_bAutoLoadImages );  
-  
+  enableImages( m_bAutoLoadImages );
+
   Browser::EventOpenURL ev;
   ev.url = url();
   ev.reload = true;
   ev.xOffset = xOffset();
   ev.yOffset = yOffset();
   EMIT_EVENT( this, Browser::eventOpenURL, ev );
+*/
 }
 
 void KonqHTMLView::openTxtView( const QString &/*url*/ )
 {
+/*
   if ( m_pMainView )
   {
     KonqChildView *childView = m_pMainView->childView( id() );
     if ( childView )
     {
       QStringList serviceTypes;
-      Browser::View_var vView = KonqFactory::createView( "text/plain", serviceTypes, m_pMainView );
+      Browser::View_var vView = KonqFactory::createView( "text/plain", serviceTypes );
       childView->makeHistory( false );
       childView->changeView( vView, serviceTypes );
     }
@@ -614,60 +578,28 @@ void KonqHTMLView::openTxtView( const QString &/*url*/ )
     KConfig *config = kapp->config();
     config->setGroup( "Misc Defaults" );
     QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
-    
+
     QString u = m_strWorkingURL;
     if ( u.isEmpty() )
       u = KBrowser::m_strURL;
-    
+
     QCString cmd;
     cmd.sprintf( "%s %s &", editor.ascii(), u.ascii() );
     system( cmd.data() );
   }
+*/
 }
-
-void KonqHTMLView::beginDoc( const QCString &url, long int dx, long int dy )
-{
-  KBrowser::begin( url, (int)dx, (int)dy );
-}
-
-void KonqHTMLView::writeDoc( const QCString &data )
-{
-  KBrowser::write( data );
-}
-
-void KonqHTMLView::endDoc()
-{
-  KBrowser::end();
-}
-
-void KonqHTMLView::parseDoc()
-{
-  KBrowser::parse();
-}
-
-void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char */*_post_data*/ )
-{
-  kdebug( 0, 1202, "void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )");
-  
-  Browser::URLRequest req;
-  req.url = _url.ascii();
-  req.reload = _reload;
-  req.xOffset = _xoffset;
-  req.yOffset = _yoffset;
-
-
-  SIGNAL_CALL2( "openURL", id(), req );
-}
-
+/*
 void KonqHTMLView::can( bool &copy, bool &paste, bool &move )
 {
+
   KHTMLView *selectedView = getSelectedView();
   if ( selectedView )
     copy = selectedView->isTextSelected();
   else
     copy = isTextSelected();
 
-  paste = false;    
+  paste = false;
   move = false;
 }
 
@@ -679,7 +611,7 @@ void KonqHTMLView::copySelection()
     selectedView->getSelectedText( text );
   else
     getSelectedText( text );
-    
+
   QApplication::clipboard()->setText( text );
 }
 
@@ -692,9 +624,11 @@ void KonqHTMLView::moveSelection( const QCString & )
 {
   assert( 0 );
 }
+*/
 
 void KonqHTMLView::checkViewMenu()
 {
+/*
   if ( !CORBA::is_nil( m_vViewMenu ) )
   {
     QString text;
@@ -704,7 +638,7 @@ void KonqHTMLView::checkViewMenu()
       m_vViewMenu->changeItemText( text, m_idSaveDocument );
       m_vViewMenu->setItemEnabled( m_idSaveFrame, true );
       m_vViewMenu->setItemEnabled( m_idViewFrame, true );
-    } 
+    }
     else
     {
       text = i18n("&Save As...");
@@ -723,11 +657,13 @@ void KonqHTMLView::checkViewMenu()
       }
     else
       bURL = getKHTMLWidget()->getBackground();
-    
+
     m_vViewMenu->setItemEnabled( m_idSaveBackground, !bURL.isNull() && !bURL.isEmpty() );
   }
+*/
 }
 
+#if 0
 /**********************************************
  *
  * KonqEmbededFrame
@@ -761,6 +697,6 @@ void KonqEmbededFrame::resizeEvent( QResizeEvent * )
 
   m_pChild->setGeometry( 0, 0, width(), height() );
 }
-
+#endif
 
 #include "konq_htmlview.moc"

@@ -17,27 +17,30 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#include <kded_instance.h>
-#include <ktrader.h>
+#include <qdir.h>
+#include <kdebug.h>
 
-#include "kfmrun.h"
+#include "konq_run.h"
+#include "konq_shell.h"
+#include "konq_part.h"
 #include "konq_mainview.h"
-#include "konq_mainwindow.h"
 
-#include <string.h>
+#include <assert.h>
+#include <iostream.h>
 
-KfmRun::KfmRun( KonqMainView* _view, KonqChildView *_childView, const char *_url, mode_t _mode, bool _is_local_file, bool _auto_delete )
+KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const QString & _url, mode_t _mode, bool _is_local_file, bool _auto_delete )
   : KRun( _url, _mode, _is_local_file, _auto_delete )
 {
   m_pView = _view;
   m_pChildView = _childView;
 }
 
-KfmRun::~KfmRun()
+KonqRun::~KonqRun()
 {
+  cerr << "KonqRun::~KonqRun()" << endl;
 }
 
-void KfmRun::foundMimeType( const char *_type )
+void KonqRun::foundMimeType( const char *_type )
 {
   kdebug(0,1202,"FILTERING %s", _type);
 
@@ -57,9 +60,20 @@ void KfmRun::foundMimeType( const char *_type )
 
 bool KonqFileManager::openFileManagerWindow( const char *_url )
 {
-  KonqMainWindow *m_pShell = new KonqMainWindow( _url );
-  m_pShell->show();
+  // If _url is 0L, open $HOME
+  QString url = _url ? QString( _url ) : QDir::homeDirPath().prepend( "file:" );
+
+  KonqShell *shell = new KonqShell;
+  
+  KonqPart *part = new KonqPart;
+  
+  shell->setRootPart( part );
+  
+  shell->show();
+
+  ((KonqMainView *)shell->rootView())->openURL( 0L, url );
+
   return true; // why would it fail ? :)
 }
 
-#include "kfmrun.moc"
+#include "konq_run.moc"
