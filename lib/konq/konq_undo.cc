@@ -40,8 +40,8 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
   connect( job, SIGNAL( result( KIO::Job * ) ),
 	   this, SLOT( slotResult( KIO::Job * ) ) );
 
-  connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL & ) ),
-	   this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL & ) ) );
+  connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool ) ),
+	   this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool ) ) );
 };
 
 KonqCommandRecorder::~KonqCommandRecorder()
@@ -58,13 +58,14 @@ void KonqCommandRecorder::slotResult( KIO::Job *job )
   KonqUndoManager::self()->addCommand( d->m_cmd );
 }
 
-void KonqCommandRecorder::slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to )
+void KonqCommandRecorder::slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory )
 {
   KonqBasicOperation op;
   op.m_valid = true;
+  op.m_directory = directory;
   op.m_src = from;
   op.m_dst = to;
-  d->m_cmd.m_opStack.prepend( op );
+  d->m_cmd.m_opStack.push( op );
 }
 
 KonqUndoManager *KonqUndoManager::s_self = 0;
@@ -177,26 +178,26 @@ void KonqUndoManager::slotResult( KIO::Job *job )
   }
   else
     undoStep();
-} 
+}
 
 void KonqUndoManager::undoStep()
 {
   while ( d->m_current.m_opStack.count() > 0 )
   {
     KonqBasicOperation op = d->m_current.m_opStack.pop();
-    if ( d->m_current.m_type == KonqCommand::MOVE )
-      kdDebug() << "moving " << op.m_dst.prettyURL() << " back to " << op.m_src.prettyURL() << endl;
+    if ( op.m_directory )
+      kdDebug() << "removing dir " << op.m_dst.prettyURL() << endl;
     else
-      kdDebug() << "copying " << op.m_dst.prettyURL() << " back to " << op.m_src.prettyURL() << endl;
+      kdDebug() << "moving " << op.m_dst.prettyURL() << " back to " << op.m_src.prettyURL() << endl;
   }
-  
+
   if ( d->m_current.m_opStack.count() == 0 )
   {
     d->m_current.m_valid = false;
     broadcastUnlock();
     return;
   }
-/*  
+/*
   KonqBasicOperation op = d->m_current.m_opStack.pop();
   assert( op.m_valid );
   if ( d->m_current.m_type == KonqCommand::MOVE )
@@ -238,14 +239,14 @@ void KonqUndoManager::pop()
 
 void KonqUndoManager::lock()
 {
-  assert( !d->m_lock ); 
+  assert( !d->m_lock );
   d->m_lock = true;
   emit undoAvailable( undoAvailable() );
 }
 
 void KonqUndoManager::unlock()
 {
-  assert( d->m_lock ); 
+  assert( d->m_lock );
   d->m_lock = false;
   emit undoAvailable( undoAvailable() );
 }
@@ -284,7 +285,7 @@ void KonqUndoManager::broadcastPop()
 void KonqUndoManager::broadcastLock()
 {
   assert( !d->m_lock );
-  
+
   if ( !d->m_syncronized )
   {
     lock();
@@ -293,12 +294,12 @@ void KonqUndoManager::broadcastLock()
   QByteArray data;
   kapp->dcopClient()->send( "kdesktop", "KonqUndoManager", "lock()", data );
   kapp->dcopClient()->send( "konqueror*", "KonqUndoManager", "lock()", data );
-} 
+}
 
 void KonqUndoManager::broadcastUnlock()
 {
-  assert( d->m_lock ); 
-  
+  assert( d->m_lock );
+
   if ( !d->m_syncronized )
   {
     unlock();
@@ -307,7 +308,7 @@ void KonqUndoManager::broadcastUnlock()
   QByteArray data;
   kapp->dcopClient()->send( "kdesktop", "KonqUndoManager", "unlock()", data );
   kapp->dcopClient()->send( "konqueror*", "KonqUndoManager", "unlock()", data );
-} 
+}
 
 bool KonqUndoManager::initializeFromKDesky()
 {

@@ -22,6 +22,7 @@ struct KonqBasicOperation
   { m_valid = false; }
 
   bool m_valid;
+  bool m_directory;
   KURL m_src;
   KURL m_dst;
 };
@@ -53,7 +54,7 @@ public:
 private slots:
   void slotResult( KIO::Job *job );
 
-  void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to );
+  void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory );
 
 private:
   class KonqCommandRecorderPrivate;
