@@ -43,6 +43,7 @@ public:
 
 private slots:
     void slotChanged();
+    void launchAdvancedTabDialog();
 
 private:
     KConfig* m_pConfig;
@@ -55,12 +56,8 @@ private:
     QCheckBox* m_pAutoRedirectCheckBox;
     QCheckBox* m_pBackRightClick;
     QCheckBox* m_pShowMMBInTabs;
-    QCheckBox* m_pNewTabsInBackground;
-    QCheckBox* m_pTabConfirm;
     QCheckBox* m_pFormCompletionCheckBox;
-    QCheckBox* m_pOpenAfterCurrentPage;
     QCheckBox* m_pDynamicTabbarHide;
-    QCheckBox* m_pPermanentCloseButton;
     KIntNumInput* m_pMaxFormCompletionItems;
 };
 
