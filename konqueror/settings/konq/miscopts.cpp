@@ -44,6 +44,12 @@ KMiscOptions::KMiscOptions( QWidget *parent, const char *name )
     leEditor = new QLineEdit(this);
     hlay->addWidget(leEditor, 5);
 
+    m_pAutoLoadImagesCheckBox =  new QCheckBox( i18n( ""
+     "Automatically load images\n""
+     (Otherwise, click the Images button to load when needed)" ), this );
+     
+    lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
+
     lay->addStretch(10);
     lay->activate();
     
@@ -58,6 +64,7 @@ void KMiscOptions::loadSettings()
     bool bTreeFollow = g_pConfig->readBoolEntry( "TreeFollowsView", false);
     QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
     QString sEditor = g_pConfig->readEntry( "Editor", DEFAULT_EDITOR );
+    bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
 
     // *** apply to GUI ***
 
@@ -65,6 +72,7 @@ void KMiscOptions::loadSettings()
     treefollowbox->setChecked(bTreeFollow);
     leTerminal->setText(sTerminal);
     leEditor->setText(sEditor);
+    m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
 }
 
 void KMiscOptions::defaultSettings()
@@ -73,6 +81,7 @@ void KMiscOptions::defaultSettings()
     treefollowbox->setChecked(false);
     leTerminal->setText(DEFAULT_TERMINAL);
     leEditor->setText(DEFAULT_EDITOR);
+    m_pAutoLoadImagesCheckBox->setChecked( true );
 }
 
 void KMiscOptions::saveSettings()
@@ -82,6 +91,7 @@ void KMiscOptions::saveSettings()
     g_pConfig->writeEntry( "TreeFollowsView", treefollowbox->isChecked());
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
     g_pConfig->writeEntry( "Editor", leEditor->text());
+    g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
     g_pConfig->sync();
 }
 

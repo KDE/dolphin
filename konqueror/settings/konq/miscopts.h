@@ -23,6 +23,7 @@ extern KConfig *g_pConfig;
 // Allow per-url settings         (Sven)
 // Tree view follows navigation   (David)
 // Preferred terminal             (David)
+// AutoLoad Images                (Simon)
 // ... there is room for others :))
 
 class KMiscOptions : public KConfigWidget
@@ -40,6 +41,7 @@ private:
         QCheckBox *treefollowbox;
         QLineEdit *leTerminal;
         QLineEdit *leEditor;
+	QCheckBox *m_pAutoLoadImagesCheckBox;
 };
 
 #endif // __KFM_MISC_OPTIONS_H
