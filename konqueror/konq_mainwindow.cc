@@ -1517,6 +1517,11 @@ void KonqMainWindow::slotRunFinished()
   if ( run == m_initialKonqRun )
       m_initialKonqRun = 0L;
 
+  if ( !run->mailtoURL().isEmpty() )
+  {
+      kapp->invokeMailer( run->mailtoURL() );
+  }
+
   if ( run->hasError() ) { // we had an error
       QByteArray data;
       QDataStream s( data, IO_WriteOnly );

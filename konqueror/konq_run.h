@@ -51,6 +51,8 @@ public:
 
   const QString & typedURL() const { return m_req.typedURL; }
 
+  KURL mailtoURL() const { return m_mailto; }
+
 protected:
   virtual void foundMimeType( const QString & _type );
   virtual void handleError( KIO::Job * job );
@@ -64,6 +66,7 @@ protected:
   QGuardedPtr<KonqView> m_pView;
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
+  KURL m_mailto;
 };
 
 #endif

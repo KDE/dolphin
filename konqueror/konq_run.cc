@@ -123,7 +123,14 @@ void KonqRun::foundMimeType( const QString & _type )
 void KonqRun::handleError( KIO::Job *job )
 {
   kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
-
+  if (!m_mailto.isEmpty())
+  {
+     m_job = 0;
+     m_bFinished = true;
+     m_timer.start( 0, true );
+     return;
+  }
+ 
   if (job->error() == KIO::ERR_NO_CONTENT)
   {
      KParts::BrowserRun::handleError(job);
@@ -169,6 +176,12 @@ void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )
     kdDebug(1202) << "KonqRun::slotRedirection from " <<
         redirectFromURL.prettyURL() << " to " << redirectedToURL.prettyURL() << endl;
     KonqHistoryManager::kself()->confirmPending( redirectFromURL );
+    
+    if (redirectedToURL.protocol() == "mailto")
+    {
+       m_mailto = redirectedToURL;
+       return; // Error will follow
+    }
     KonqHistoryManager::kself()->addPending( redirectedToURL );
 }
 
