@@ -589,7 +589,6 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
 
   KParts::URLArgs args;
-
   if ( dItem->isListable() )
     args.serviceType = QString::fromLatin1( "inode/directory" );
 

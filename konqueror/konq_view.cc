@@ -67,6 +67,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bLoading = false;
   m_bPassiveMode = false;
   m_bLockedViewMode = false;
+  m_bLockedLocation = false;
   m_bLinkedView = false;
   m_bAborted = false;
   m_bToggleView = false;
@@ -162,7 +163,6 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   if ( prop.isValid() && prop.toBool() )
   {
     setPassiveMode( true ); // set as passive
-    //TODO, perhaps: don't allow "Unlock all views" to unlock this view ?
   }
 
   // Honour "linked view"

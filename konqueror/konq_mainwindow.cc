@@ -306,16 +306,6 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
       view->stop();
       // Don't change location bar if not current view
     }
-    if ( view->passiveMode() )
-    {
-      // Passive views are handled differently. No view-mode change allowed,
-      // no need to use the serviceType argument. We just force an openURL on the
-      // view and hope it can cope with it. If not, it should just ignore it.
-      // In all theory we should call updateHistoryEntry here. Bah.
-      //view->openURL( url );
-      openView( serviceType, url, view, req );
-      return;
-    }
   }
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
@@ -360,6 +350,9 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // If linked view and if we are not already following another view
   if ( childView && childView->linkedView() && !req.followMode )
     makeViewsFollow( _url, childView );
+
+  if ( childView && childView->lockedLocation() )
+    return true;
 
   QString indexFile;
 
@@ -535,10 +528,10 @@ void KonqMainWindow::makeViewsFollow( const KURL & url, KonqView * senderView )
     if ( (*it != senderView) && (*it)->linkedView() )
     {
       // A linked view follows this URL if it supports that service type
-      // _OR_ if the sender is passive (in this case it's locked and we want
+      // _OR_ if the sender is locked (in this case it's locked and we want
       // the active view to show the URL anyway - example is a web URL in konqdirtree)
       if ( (*it)->supportsServiceType( senderView->serviceType() )
-           || senderView->passiveMode() )
+           || senderView->lockedLocation() )
       {
         kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << url.url() << endl;
         openView( (*it)->serviceType(), url, (*it), req );
@@ -755,7 +748,13 @@ void KonqMainWindow::slotUnlockViews()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    (*it)->setPassiveMode( false );
+  {
+    if ( (*it)->lockedLocation() )
+    {
+      (*it)->setLockedLocation( false );
+      (*it)->setPassiveMode( false );
+    }
+  }
 
   m_paUnlockAll->setEnabled( false );
 }
@@ -764,7 +763,10 @@ void KonqMainWindow::slotLockView()
 {
   // Can't access this action in passive mode anyway
   assert(!m_currentView->passiveMode());
+  // Those two feature are one for the user: passive mode and locked location
+  // (Only the dirtree uses one and not the other)
   m_currentView->setPassiveMode( true );
+  m_currentView->setLockedLocation( true );
   m_paUnlockAll->setEnabled( true );
 }
 
@@ -1855,8 +1857,8 @@ void KonqMainWindow::initActions()
   m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
 				   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
 	
-  m_paHome->setWhatsThis( i18n( "Click this button to display your home directory<br><br>\n\n"
-				"You can configure the path of your home directory in the"
+  m_paHome->setWhatsThis( i18n( "Click this button to display your 'Home URL'<br><br>\n\n"
+				"You can configure the location this button brings you to in the"
 				"<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
   m_paHome->setShortText( i18n( "Enter your home directory" ) );
 				

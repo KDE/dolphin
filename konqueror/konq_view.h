@@ -210,6 +210,10 @@ public:
   bool isLoading() const { return m_bLoading; }
 
   // True if "locked to current location" (and their view mode, in fact)
+  bool lockedLocation() const { return m_bLockedLocation; }
+  void setLockedLocation( bool b ) { m_bLockedLocation = b; }
+
+  // True if can't be made active (e.g. dirtree).
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
@@ -323,6 +327,7 @@ protected:
   QGuardedPtr<KonqRun> m_pRun;
   KonqFrame *m_pKonqFrame;
   bool m_bLoading;
+  bool m_bLockedLocation;
   bool m_bPassiveMode;
   bool m_bLockedViewMode;;
   bool m_bLinkedView;
