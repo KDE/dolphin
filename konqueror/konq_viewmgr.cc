@@ -1096,6 +1096,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                                        const KURL & forcedURL, const KonqOpenURLRequest &req,
                                        bool resetWindow )
 {
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  bool alwaysTabbedMode = config->readBoolEntry( "AlwaysTabbedMode", false );
+
   m_currentProfile = filename;
   m_currentProfileText = cfg.readEntry("Name",filename);
   m_pMainWindow->currentProfileChanged();
@@ -1114,6 +1118,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     rootItem = "InitialView";
   }
   //kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
+
+  if ( alwaysTabbedMode && rootItem == "empty" )
+  {
+    cfg.writeEntry( "View0_ServiceType", "text/html" );
+    cfg.writeEntry( "View0_ServiceName", "html" );
+    rootItem = "View0";
+  }
 
   if ( rootItem != "empty" && forcedURL.url() != "about:blank" )
   {
@@ -1137,9 +1148,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     m_pMainWindow->action( "clear_location" )->activate();
   }
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  if ( config->readBoolEntry( "AlwaysTabbedMode", false ) && m_pDocContainer->frameType() != "Tabs" )
+  if ( alwaysTabbedMode && m_pDocContainer->frameType() != "Tabs")
     convertDocContainer();
 
   // Set an active part first so that we open the URL in the current view
