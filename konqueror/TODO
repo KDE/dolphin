@@ -5,7 +5,7 @@ kio:
 
 kio_http:
 =========
-- implementing mimetype with a beginning of GET
+- implementing mimetype with a beginning of GET (partly done, to be more tested)
 - lacking errorPage stuff
 - switching to proxy http as soon as settings are changed (not after killall kio_http) #3588
 - auto-unzipping of tar.gz files downloaded (some time ago)
@@ -15,12 +15,11 @@ kio_http:
 khtml:
 ======
 - Don't change URL until the new page is actually showing up.
-Otherwise, relative links are broken if we abort loading early.
+Otherwise, relative links are broken if we abort loading early. (done, to be tested)
 - (if local dir) : drop should copy to parent dir (for Antonio :)
 - meta-equiv redirections not supported #3051
-- many bugs :(
-- implement search functionality in KonqHTMLView -> wait until khtml catched
-  up :-)
+- many bugs in the buglist :(
+- implement search functionality in KonqHTMLView -> wait until khtml catched up :-)
 
 libkonq:
 ========
@@ -39,8 +38,6 @@ libkonq:
 
 - #3350 when moving a file to a directory the box with copy/move/link pops up
 even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
-
-- Add folder in bookmark (new menu item on top of each bookmark menu)  #3349
 
 - Image Preview : make size configurable for tackat :)
 
@@ -65,6 +62,7 @@ before pasting another one ?
 - Bug #2760 and other problems with splitter sizes
 
 - #3176 : From the main KDE menu, choose "Context Help", next click on the main form of konqueror
+(David): didn't get what that one was about...
 
 - New window -> empty one (uses profile) and Duplicate window -> duplicates
  everything, including history and layout.
@@ -107,9 +105,7 @@ listviews:
 
 - textview: dragging from there and dropping in another view crashes, I'm told.
 
-- honour icon size (#3092)
-
-- crash in double-click mode when double-clicking. #3356
+- crash in double-click mode when double-clicking. #3356 (already fixed?)
 
 dirtree:
 ========
@@ -122,6 +118,7 @@ kpropsdlg (kfile):
 
 - Maybe add GUI (in kpropsdlg probably) for user defined actions in .desktop
 files (example: see eject action in the CDROM template) ?
+- Maybe a checkbox for the appstart-notification thing ?
 
 And more:
 =========
