@@ -9,10 +9,6 @@
 #include "kfindtop.h"
 #include "kfsave.h"
 #include <kglobal.h>
-#include <kded_instance.h>
-#include <ktrader.h>
-#include <kregistry.h>
-#include <kregfactories.h>
 
 KfSaveOptions *saving;
 
@@ -32,14 +28,6 @@ int main( int argc, char ** argv )
     // Scan for avaiable archivers in kfind resource file
     KfArchiver::init();
  
-    CORBA::ORB_ptr orb = CORBA::ORB_init( argc, argv, "mico-local-orb" );
-    KdedInstance kded( argc, argv, orb );
-    
-    KTraderServiceProvider sp;
-    
-    KRegistry::self()->addFactory( new KServiceTypeFactory );
-    KRegistry::self()->load();
-    
     for( i=1; i<argc; i++)
       {
  	if (argv[i][0]=='-')

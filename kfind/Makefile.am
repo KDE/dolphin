@@ -1,5 +1,5 @@
 
-INCLUDES= -I$(top_srcdir)/libkonq/ $(all_includes) $(MICO_INCLUDES)
+INCLUDES= -I$(top_srcdir)/libkonq/ $(all_includes)
 
 bin_PROGRAMS = kfind
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
