@@ -175,15 +175,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     : KParts::ReadOnlyPart( parent, name )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
-
-    setInstance( KonqIconViewFactory::instance() );
-
+    
     m_extension = new IconViewBrowserExtension( this );
-
-    setXMLFile( "konq_iconview.rc" );
-
+    
     // Create a properties instance for this view
-    m_pProps = new KonqPropsView( instance(), KonqIconViewFactory::defaultViewProps() );
+    m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
 
@@ -198,6 +194,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              m_extension, SIGNAL( enableAction( const char *, bool ) ) );
 
     setWidget( m_pIconView );
+
+    setInstance( KonqIconViewFactory::instance() );
+
+    setXMLFile( "konq_iconview.rc" );
 
     // Don't repaint on configuration changes during construction
     m_bInit = true;
