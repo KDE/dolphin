@@ -28,3 +28,7 @@ bookmarklets:   add some examples!
 
 notes:
    http://c2.com/cgi/wiki?FunctorObject
+
+need to get keyboard shortcut changes working somehow (wheels)
+have to get splitview, dynamic filtering (e.g sorting, pruning),
+and duplicate removal and a few other things done for 3.2
