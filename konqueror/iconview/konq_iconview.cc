@@ -788,8 +788,9 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
   QPixmap newIcon = item->item()->pixmap( m_pIconView->size(), m_pProps->m_bImagePreview );
 
+  bool recalc = !m_pProps->m_bImagePreview;
   if ( currentIcon.serialNumber() != newIcon.serialNumber() )
-    item->QIconViewItem::setIcon( newIcon );
+    item->QIconViewItem::setIcon( newIcon, TRUE, recalc );
 
   m_lstPendingMimeIconItems.removeFirst();
   QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
