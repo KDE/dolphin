@@ -242,7 +242,6 @@ KonqMainWindow::~KonqMainWindow()
   disconnect( actionCollection(), SIGNAL( clearStatusText() ),
               this, SLOT( slotClearStatusText() ) );
 
-  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents" << endl;
   if ( m_combo )
   {
     KConfig *config = KGlobal::config();
@@ -256,12 +255,10 @@ KonqMainWindow::~KonqMainWindow()
     prov->save( config, "ComboIconCache", histItems );
     m_combo->setPixmapProvider( 0L );
 
-    config->sync();
+    // config->sync(); // saveToolBarServicesMap() below does this, too
   }
 
   saveToolBarServicesMap();
-
-  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents done" << endl;
 
   delete m_pViewManager;
 
