@@ -4752,7 +4752,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       }
 //      m_pViewManager->showTab( originalView );      
     }
-    else
+    else if ( m_currentView && m_currentView->part() )
     {
       QVariant prop = m_currentView->part()->property("modified");
       if (prop.isValid() && prop.toBool())
