@@ -77,7 +77,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
              SLOT(changed() ) );
 
 
-    label = new QLabel( "Font Size", this );
+    label = new QLabel( i18n("Font Size"), this );
     lay->addWidget(label,row,0);
 
     m_pSize = new QSpinBox( 4,18,1,this );
