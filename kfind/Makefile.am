@@ -17,15 +17,14 @@ BUILT_SOURCES  =  mkfdird.cpp mkfwin.cpp mkfindtop.cpp \
 noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h
 
+SUBDIRS = pics
+
 install-data-local:
 	$(mkinstalldirs) $(ICONSDIR)
 	$(INSTALL_DATA) kfind.xpm $(ICONSDIR)
-	(cd pics && $(MAKE) install)
 
 uninstall-local:
 	rm -f $(ICONSDIR)/$(TARGET).xpm
-	(cd pics && $(MAKE) uninstall)
-
 
 mkfdird.cpp: kfdird.h
 	$(MOC) kfdird.h -o mkfdird.cpp
