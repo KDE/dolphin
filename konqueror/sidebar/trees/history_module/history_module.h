@@ -41,10 +41,18 @@ class KonqSidebarHistoryModule : public QObject, public KonqSidebarTreeModule
     Q_OBJECT
 
 public:
+    enum {
+        ModuleContextMenu = 1,
+        EntryContextMenu  = 2
+    };
+
     KonqSidebarHistoryModule( KonqSidebarTree * parentTree, const char * name = 0 );
     virtual ~KonqSidebarHistoryModule();
 
     virtual void addTopLevelItem( KonqSidebarTreeTopLevelItem * item );
+    virtual bool handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *item, const QPoint& pos );
+
+    void showPopupMenu( int which, const QPoint& pos );
 
     // called by the items
     void showPopupMenu();

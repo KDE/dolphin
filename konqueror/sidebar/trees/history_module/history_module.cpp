@@ -210,23 +210,40 @@ void KonqSidebarHistoryModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     m_topLevelItem = item;
 }
 
+bool KonqSidebarHistoryModule::handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, 
+                                                          const QPoint& pos )
+{
+    showPopupMenu( ModuleContextMenu, pos );
+    return true;
+}
+
 void KonqSidebarHistoryModule::showPopupMenu()
+{
+    showPopupMenu( EntryContextMenu | ModuleContextMenu, QCursor::pos() );
+}
+
+void KonqSidebarHistoryModule::showPopupMenu( int which, const QPoint& pos )
 {
     QPopupMenu *sortMenu = new QPopupMenu;
     m_collection->action("byName")->plug( sortMenu );
     m_collection->action("byDate")->plug( sortMenu );
 
     QPopupMenu *menu = new QPopupMenu;
-    m_collection->action("open_new")->plug( menu );
-    menu->insertSeparator();
-    m_collection->action("remove")->plug( menu );
+
+    if ( which & EntryContextMenu )
+    {
+        m_collection->action("open_new")->plug( menu );
+        menu->insertSeparator();
+        m_collection->action("remove")->plug( menu );
+    }
+
     m_collection->action("clear")->plug( menu );
     menu->insertSeparator();
     menu->insertItem( i18n("Sort"), sortMenu );
     menu->insertSeparator();
     m_collection->action("preferences")->plug( menu );
 
-    menu->exec( QCursor::pos() );
+    menu->exec( pos );
     delete menu;
     delete sortMenu;
 }

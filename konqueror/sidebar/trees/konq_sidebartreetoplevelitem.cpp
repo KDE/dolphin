@@ -148,8 +148,12 @@ void KonqSidebarTreeTopLevelItem::rightButtonPressed()
     // We don't show "edit file type" (useless here) and "properties" (shows the wrong name,
     // i.e. the filename instead of the Name field). There's the Rename item for that.
     // Only missing thing is changing the URL of a link. Hmm...
-    emit tree()->popupMenu( QCursor::pos(), url,
-                 isTopLevelGroup() ? "inode/directory" : "application/x-desktop" );
+
+    if ( !module() || !module()->handleTopLevelContextMenu( this, QCursor::pos() ) )
+    {
+        emit tree()->popupMenu( QCursor::pos(), url,
+                     isTopLevelGroup() ? "inode/directory" : "application/x-desktop" );
+    }
 }
 
 

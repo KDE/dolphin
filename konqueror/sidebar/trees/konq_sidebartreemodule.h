@@ -53,6 +53,8 @@ public:
     bool showHidden() { return m_showHidden;}
     virtual void setShowHidden(bool showhidden) {m_showHidden=showhidden;}
 
+    virtual bool handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, const QPoint& ) { return false; }
+
 protected:
     KonqSidebarTree * m_pTree;
     bool m_showHidden;
