@@ -714,9 +714,6 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     cfg.setGroup( "Profile" );
     QSize size = KonqViewManager::readConfigSize( cfg );
 
-    if ( size.isValid() )
-        mainWindow->resize( size );
-
     if ( windowArgs.x != -1 )
         mainWindow->move( windowArgs.x, mainWindow->y() );
     if ( windowArgs.y != -1 )
