@@ -47,6 +47,8 @@ public:
 
   KonqView *childView() const { return m_pView; }
 
+  const QString & typedURL() const { return m_req.typedURL; }
+
 protected:
   /**
    * Called if the mimetype has been detected. The function checks wether the document

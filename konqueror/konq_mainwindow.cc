@@ -912,9 +912,9 @@ void KonqMainWindow::slotRunFinished()
     if ( childView == m_currentView )
     {
       stopAnimation();
-      // Revert to working URL
-      //childView->setLocationBarURL( childView->history().current()->locationBarURL );
-      // Not anymore - it's been reported to be very annoying
+      // Revert to working URL - unless the URL was typed manually
+      if ( run->typedURL().isEmpty() ) // not typed
+        childView->setLocationBarURL( childView->history().current()->locationBarURL );
     }
   }
 }
@@ -956,6 +956,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 
   // Register this URL as a working one, in the completion object and the combo.
 
+  // TODO use KComboBox::isInserted next wednesday
   m_combo->insertItem( view->locationBarURL() );
 
   QString u = view->typedURL();
