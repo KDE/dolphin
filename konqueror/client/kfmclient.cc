@@ -109,7 +109,7 @@ int main( int argc, char **argv )
     return 0;
   }
     
-  clientApp a( argc, argv );
+  clientApp a( argc, argv, "kfmclient" );
 
   KTraderServiceProvider sp;
 

@@ -30,7 +30,7 @@ class clientApp : public KOMApplication,
 {
 public:
 
-  clientApp( int &argc, char **argv, const QCString& rAppName = QString::null )
+  clientApp( int &argc, char **argv, const QCString& rAppName )
     : KOMApplication ( argc, argv, rAppName )
     {
       kded = new KdedInstance( argc, argv, komapp_orb );
