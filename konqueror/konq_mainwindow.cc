@@ -3052,7 +3052,7 @@ void KonqMainWindow::show()
   updateBookmarkBar(); // hide if empty
 
   // Call parent method
-  KMainWindow::show();
+  KParts::MainWindow::show();
 }
 
 QString KonqMainWindow::currentURL() const
