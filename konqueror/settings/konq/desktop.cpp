@@ -118,7 +118,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   // Begin check for immutable
   int kwin_screen_number = DefaultScreen(qt_xdisplay());
 
-  KConfig *config = KGlobal::config();
+  KConfig config( "kwinrc" );
 
   QCString groupname;
   if (kwin_screen_number == 0)
@@ -126,15 +126,15 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   else
      groupname.sprintf("Desktops-screen-%d", kwin_screen_number);
 
-  if (config->groupIsImmutable(QString::fromUtf8(groupname)))
+  if (config.groupIsImmutable(QString::fromUtf8(groupname)))
   {
      name_group->setEnabled(false);
      number_group->setEnabled(false);
   }
   else
   {
-     KConfigGroupSaver cfgSaver(config, groupname);
-     if (config->entryIsImmutable("Number"))
+     KConfigGroupSaver cfgSaver(&config, groupname);
+     if (config.entryIsImmutable("Number"))
      {
         number_group->setEnabled(false);
      }
