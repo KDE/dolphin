@@ -211,7 +211,8 @@ bool KonqView::changeViewMode( const QString &serviceType,
     if ( viewFactory.isNull() )
     {
       // Revert location bar's URL to the working one
-      setLocationBarURL( history().current()->locationBarURL );
+      if(history().current())
+        setLocationBarURL( history().current()->locationBarURL );
       return false;
     }
 
