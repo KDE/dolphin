@@ -17,7 +17,9 @@ put "%u" in its desktop file - and kfmexec isn't used -. If it doesn't, either
 it's a KApplication and kfmexec does its job, or it's a KUniqueApplication
 and... kfmexec can't see modifications to the file. Be warned.
 
-At the time of this writing, ark is an example of such an app.
+From Waldo: "The program doesn't return _at once_. It returns
+after "newInstance()" returns. So if you open the file there it will still work.
+(Or rename it)"
 
 David Faure <faure@kde.org>
 20-May-2000

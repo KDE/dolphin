@@ -208,7 +208,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     // Don't repaint on configuration changes during construction
     m_bInit = true;
 
-    m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+    m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
     m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, actionCollection(), "image_preview" );
 
     connect( m_paImagePreview, SIGNAL( toggled( bool ) ), this, SLOT( slotImagePreview( bool ) ) );

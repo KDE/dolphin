@@ -5,17 +5,12 @@ kio:
 
 kio_http:
 =========
-- implementing mimetype with a beginning of GET (partly done, to be more tested)
 - lacking errorPage stuff
-- switching to proxy http as soon as settings are changed (not after killall kio_http) #3588
-- auto-unzipping of tar.gz files downloaded (some time ago)
 - cache expiration (I think of the "non implemented" line-edit in kcontrol)
 - and of course better SSL security as Waldo discovered  #3443
 
 khtml:
 ======
-- Don't change URL until the new page is actually showing up.
-Otherwise, relative links are broken if we abort loading early. (done, to be tested)
 - (if local dir) : drop should copy to parent dir (for Antonio :)
 - meta-equiv redirections not supported #3051
 - many bugs in the buglist :(
@@ -80,10 +75,6 @@ iconview+listviews:
 this directory" too... ?
 
 - select files to be shown using shell globs (file:/home/dfaure/*.txt)
-
-- Better handling of multiple selections (eg. try selecting
-  several images then invoking kview - you get loads of kview
-  processes rather than just one).  => KRun
 
 - Undo functionality
 
