@@ -175,8 +175,6 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void popupMenu( const QPoint& _global );
 
-      virtual bool isSingleClickArea( const QPoint& _point );
-
       virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety,
                                    int _clipx, int _clipy,
                                    int _clipw, int _cliph );

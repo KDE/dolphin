@@ -371,7 +371,9 @@ void KonqBaseListViewWidget::initConfig()
 
 void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
-   KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
+   KonqBaseListViewItem *item =
+       isExecuteArea( _ev->pos() ) ? (KonqBaseListViewItem*)itemAt( _ev->pos() ) : 0L;
+
    if ( !item )
    {
       if ( m_dragOverItem )
@@ -381,7 +383,8 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
    }
 
    if ( m_dragOverItem == item )
-      return;
+       return; // No change
+
    if ( m_dragOverItem != 0L )
       setSelected( m_dragOverItem, false );
 
@@ -432,7 +435,9 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 
    ev->accept();
 
-   KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( ev->pos() );
+   // We dropped on an item only if we dropped on the Name column.
+   KonqBaseListViewItem *item =
+       isExecuteArea( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
    KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
    if ( !destItem )
@@ -489,23 +494,6 @@ void KonqBaseListViewWidget::startDrag()
          d->drag();
 }
 
-bool KonqBaseListViewWidget::isSingleClickArea( const QPoint& _point )
-{
-   if ( itemAt( _point ) )
-   {
-      int x = _point.x();
-      int pos = header()->mapToActual( 0 );
-      int offset = 0;
-      int width = columnWidth( pos );
-
-      for ( int index = 0; index < pos; index++ )
-         offset += columnWidth( index );
-
-      return ( x > offset && x < ( offset + width ) );
-   }
-   return false;
-}
-
 void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 {
    QString s;
@@ -537,12 +525,10 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
 {
   if ( !item )
       return;
-  //isSingleClickArea() checks wether the mouse pointer is
+  // isExecuteArea() checks whether the mouse pointer is
   // over an area where an action should be triggered
-  // no matter wether single or double click
-
-  // Is this still necessary with KListView ? (David)
-  if ( isSingleClickArea( viewport()->mapFromGlobal(QCursor::pos())))
+  // (i.e. the Name column, including pixmap and "+")
+  if ( isExecuteArea( viewport()->mapFromGlobal(QCursor::pos())) )
   {
     if ( item->isExpandable() )
       item->setOpen( !item->isOpen() );
@@ -601,30 +587,37 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
 {
-  kdDebug(1202) << "KonqBaseListViewWidget::slotRightButtonPressed" << endl;
-  popupMenu( _global );
+   kdDebug(1202) << "KonqBaseListViewWidget::slotRightButtonPressed" << endl;
+   popupMenu( _global );
 }
 
-void KonqBaseListViewWidget::slotPopupMenu(KListView* , QListViewItem* )
+void KonqBaseListViewWidget::slotPopupMenu(KListView*, QListViewItem * )
 {
-   QPoint p (width() / 2, height() / 2 );
-   p = mapToGlobal( p );
-   popupMenu( p );
+   kdDebug() << "KonqBaseListViewWidget::slotPopupMenu" << endl;
+   popupMenu( QCursor::pos() );
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
 {
    KFileItemList lstItems;
 
-   QValueList<KonqBaseListViewItem*> items;
-   selectedItems( items );
-   QValueList<KonqBaseListViewItem*>::Iterator it = items.begin();
-   for( ; it != items.end(); ++it )
-      lstItems.append( (*it)->item() );
+   // Only consider a right-click on the name column as something
+   // related to the selection. On all the other columns, we want
+   // a popup for the current dir instead.
+   if ( isExecuteArea( viewport()->mapFromGlobal( _global ) ) )
+   {
+       QValueList<KonqBaseListViewItem*> items;
+       selectedItems( items );
+       QValueList<KonqBaseListViewItem*>::Iterator it = items.begin();
+       for( ; it != items.end(); ++it )
+           lstItems.append( (*it)->item() );
+   }
 
    KFileItem * rootItem = 0L;
+   bool deleteRootItem = false;
    if ( lstItems.count() == 0 ) // emit popup for background
    {
+     clearSelection();
 
      rootItem = m_dirLister->rootItem();
      if ( !rootItem )
@@ -632,14 +625,14 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
        // Maybe we want to do a stat to get full info about the root item
        // (when we use permissions). For now create a dummy one.
        rootItem = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+       deleteRootItem = true;
      }
 
      lstItems.append( rootItem );
    }
    emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
 
-   if ( lstItems.count() == 0 )
-    if ( ! m_dirLister->rootItem() )
+    if ( deleteRootItem )
       delete rootItem; // we just created it
 }
 
