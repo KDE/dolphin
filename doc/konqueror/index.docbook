@@ -457,7 +457,7 @@ top level directory.</para>
 <para>Every directory accessible by your system, including those on other hard 
 disk partitions, your floppy and &CD-ROM;, will appear in the tree descending 
 from /, their exact paths will depend on how your system was set up (see also 
-the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives).</link>
+the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives</link>).
 </para>
 <para>Every user on a &UNIX; / &Linux; system has their own <quote>home</quote> 
 subdirectory directory to hold their personal files and settings, for example 
