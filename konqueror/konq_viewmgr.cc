@@ -302,7 +302,7 @@ void KonqViewManager::viewCountChanged()
 void KonqViewManager::saveViewProfile( KConfig &cfg )
 {
   kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
-  if( m_pMainContainer->firstChild() ) {
+  if( m_pMainContainer && m_pMainContainer->firstChild() ) {
     cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
     QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
     prefix.append( '_' );
