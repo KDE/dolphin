@@ -3,11 +3,9 @@
   user name in a URL.
 - Sorting by date, ... 
 
-- (Following to discussion with Sven) : Update kpropsdlg so that it can show
-up with a default mimetype / application / .... It would _know_ the
-filename but would only use it to write, not read at startup.
-This involves making New/Mimetype and New/Application built-in
-templates, just like New/Folder, since the file would be not used at all.
+- Confirmation box before deleting :)
+  A nice one would contain the list of files to be deleted, if few of them
+  otherwise the number (or simply "...")
 
 - The ability to edit the binding for a mime type by
   selecting a file of that type.
@@ -20,13 +18,13 @@ templates, just like New/Folder, since the file would be not used at all.
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
 
-- select files using shell globs.
+- select files to be shown using shell globs (file:/home/dfaure/*.txt)
 
 - Better handling of multiple selections (eg. try selecting
   several images then invoking kview - you get loads of kview 
   processes rather than just one).
 
-- When you are adding to the selction (eg. by shift + LMB)
+- When you are adding to the selection (eg. by shift + LMB)
   then change the mouse cursor to indicate this. Several drawing programs do
   this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
 
