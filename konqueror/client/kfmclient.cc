@@ -76,7 +76,7 @@ int main( int argc, char **argv )
                 "            #   or file name, such as . or subdir/\n"
                 "            #   If 'url' is omitted, $HOME is used instead.\n\n").local8Bit());
     printf(i18n("            # If 'mimetype' is specified, it will be used to determine the\n"
-                "            #   component that konqueror should use. For instance, set it to\n"
+                "            #   component that Konqueror should use. For instance, set it to\n"
                 "            #   text/html for a web page, to make it appear faster\n\n").local8Bit());
 
     printf(i18n("  kfmclient openProfile 'profile' ['url']\n"
@@ -110,7 +110,7 @@ int main( int argc, char **argv )
     printf(i18n("  kfmclient sortDesktop\n"
                 "            # Rearranges all icons on the desktop.\n\n").local8Bit());
     printf(i18n("  kfmclient configure\n"
-                "            # Re-read konqueror's configuration.\n\n").local8Bit());
+                "            # Re-read Konqueror's configuration.\n\n").local8Bit());
     printf(i18n("  kfmclient configureDesktop\n"
                 "            # Re-read kdesktop's configuration.\n\n").local8Bit());
 
