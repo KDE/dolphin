@@ -303,7 +303,7 @@ KonqKfmIconView::KonqKfmIconView()
   m_lDirSize = 0;
   m_lFileCount = 0;
   m_lDirCount = 0;
-  
+
   connect( m_pIconView, SIGNAL( selectionChanged() ),
 	   this, SLOT( slotDisplayFileSelectionInfo() ) );
 }
@@ -347,7 +347,7 @@ void KonqKfmIconView::slotSelect()
     while ( it )
     {
       if ( re.match( it->text() ) != -1 )
-        it->setSelected( true );
+        it->setSelected( true, true );
       it = it->nextItem();
     }
 
@@ -371,7 +371,7 @@ void KonqKfmIconView::slotUnselect()
     while ( it )
     {
       if ( re.match( it->text() ) != -1 )
-        it->setSelected( false );
+        it->setSelected( false, true );
       it = it->nextItem();
     }
 
@@ -594,7 +594,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
   if(_item) {
     switch(_button) {
       case RightButton:
-        ((KFileIVI*)_item)->setSelected( true );
+        ((KFileIVI*)_item)->setSelected( true, true );
         emit popupMenu( _global, m_pIconView->selectedFileItems() );
         break;
       case MidButton:
@@ -715,7 +715,7 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
   long fileSizeSum = 0;
   long fileCount = 0;
   long dirCount = 0;
-  
+
   KFileItemList lst = m_pIconView->selectedFileItems();
   KFileItemListIterator it( lst );
 
@@ -727,7 +727,7 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
       fileSizeSum += it.current()->size();
       fileCount++;
     }
-  
+
   if ( lst.count() > 0 )
     emit setStatusBarText( i18n( "%1 Item(s) Selected - %2 File(s) (%3 Total) - %4 Directories" )
        		           .arg( lst.count() ).arg( fileCount ).arg( KIOJob::convertSize( fileSizeSum ) ).arg( dirCount ) );
