@@ -38,7 +38,7 @@ SearchItrHolder::SearchItrHolder()
 }
 
 void SearchItrHolder::doItrListChanged() {
-   KEBApp::self()->setCancelSearchEnabled(count() > 0);
+   ;
 }
 
 void SearchItrHolder::slotFindNext() {
