@@ -84,7 +84,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
       "To access the context menu, press the right mouse button and move." ) );
     lay->addWidget( m_pBackRightClick, 1 );
-
+    connect(m_pBackRightClick, SIGNAL(clicked()), this, SLOT(changed()));
 /*  Tackat doesn't want too much options :)
 
     m_pEnableFaviconCheckBox = new QCheckBox( i18n( "Enable \"&favorite icon\" support" ), this );
