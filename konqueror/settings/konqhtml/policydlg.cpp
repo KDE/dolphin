@@ -38,7 +38,7 @@ PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const c
   grid->addWidget(l_javapolicy, 1, 0);
 
   cb_javapolicy = new QComboBox(this);
-  l->setBuddy( cb_javapolicy );
+  l_javapolicy->setBuddy( cb_javapolicy );
   QStringList policies;
   policies << i18n( "Accept" ) << i18n( "Reject" );
   cb_javapolicy->insertStringList( policies );
