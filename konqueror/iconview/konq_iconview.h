@@ -143,7 +143,19 @@ protected:
    */
   bool m_bInit;
 
+  /**
+   * Set to true while the dirlister is running, _if_ we asked it
+   * explicitely (openURL). If it is auto-updating, this is not set to true.
+   */
   bool m_bLoading;
+
+  /**
+   * Set to true if we still need to emit completed() at some point
+   * (after the loading is finished and after the visible icons have been
+   * processed)
+   */
+  bool m_bNeedEmitCompleted;
+
   /**
    * Set to true if slotCompleted needs to realign the icons
    */

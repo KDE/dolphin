@@ -355,6 +355,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_dirLister = 0L;
     m_bLoading = false;
     m_bNeedAlign = false;
+    m_bNeedEmitCompleted = false;
 
     m_pIconView->setResizeMode( QIconView::Adjust );
     m_pIconView->setIcons( 0 ); // TODO : part of KonqPropsView
@@ -749,7 +750,9 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
     m_pIconView->selectAll( false );
     if ( m_bLoading )
 	emit started( m_dirLister->job() );
-    m_lstPendingMimeIconItems.clear();
+    // An update may come in while we are still processing icons...
+    // So don't clear the list.
+    //m_lstPendingMimeIconItems.clear();
 }
 
 void KonqKfmIconView::slotCanceled()
@@ -771,6 +774,8 @@ void KonqKfmIconView::slotCompleted()
     //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
     slotOnViewport();
+    // slotProcessMimeIcons will do it
+    m_bNeedEmitCompleted = true;
 
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
@@ -899,11 +904,11 @@ void KonqKfmIconView::slotProcessMimeIcons()
     // kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() "
     //             << m_lstPendingMimeIconItems.count() << endl;
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
-        if ( m_bLoading )
+        if ( m_bNeedEmitCompleted )
         {
             kdDebug() << "KonqKfmIconView completed()" << endl;
             emit completed();
-            m_bLoading = false;
+            m_bNeedEmitCompleted = false;
         }
 	if ( m_bNeedAlign )
         {
@@ -912,8 +917,6 @@ void KonqKfmIconView::slotProcessMimeIcons()
         }
 	return;
     }
-    else
-      m_bLoading = true; // (David) Hmm, why is this necessary ?
 
     // Find an icon that's visible.
     //
@@ -942,11 +945,11 @@ void KonqKfmIconView::slotProcessMimeIcons()
     // No more visible items.
     if (0 == item)
     {
-      if ( m_bLoading )
+      if ( m_bNeedEmitCompleted )
       {
         kdDebug() << "KonqKfmIconView completed()" << endl;
         emit completed();
-        m_bLoading = false;
+        m_bNeedEmitCompleted = false;
       }
       return;
     }
