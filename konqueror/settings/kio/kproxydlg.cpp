@@ -232,6 +232,7 @@ void KProxyDialog::load()
   dlg->gbAuth->setEnabled( useProxy );
 
   dlg->cbPersConn->setChecked( proto.persistentProxyConnection() );
+  dlg->cbPersConn->setEnabled( useProxy );
 
   if ( !m_data->scriptProxy.isEmpty() )
     dlg->location->lineEdit()->setText( m_data->scriptProxy );
@@ -433,9 +434,11 @@ void KProxyDialog::slotChanged()
 
 void KProxyDialog::slotUseProxyChanged()
 {
-  dlg->gbConfigure->setEnabled(dlg->cbUseProxy->isChecked());
+  bool useProxy = dlg->cbUseProxy->isChecked();
+  dlg->gbConfigure->setEnabled(useProxy);
   dlg->location->setEnabled(dlg->rbAutoScript->isChecked());
-  dlg->gbAuth->setEnabled(dlg->cbUseProxy->isChecked());
+  dlg->gbAuth->setEnabled(useProxy);
+  dlg->cbPersConn->setEnabled(useProxy);
   emit changed( true );
 }
 
