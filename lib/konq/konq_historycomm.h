@@ -23,6 +23,7 @@
 #include <qdatetime.h>
 
 #include <dcopobject.h>
+#include <kurl.h>
 
 class KonqHistoryEntry
 {
@@ -30,7 +31,7 @@ public:
     KonqHistoryEntry()
 	: numberOfTimesVisited(1) {}
 
-    QString url;
+    KURL url;
     QString typedURL;
     QString title;
     Q_UINT32 numberOfTimesVisited;
@@ -64,7 +65,7 @@ k_dcop:
     virtual void notifyMaxCount( Q_UINT32 count, QCString saveId ) = 0;
     virtual void notifyMaxAge( Q_UINT32 days, QCString saveId ) = 0;
     virtual void notifyClear( QCString saveId ) = 0;
-    virtual void notifyRemove( QString url, QCString saveId ) = 0;
+    virtual void notifyRemove( KURL url, QCString saveId ) = 0;
 
 };
 

@@ -3,7 +3,7 @@
 // QDataStream operators (read and write a KonqHistoryEntry
 // from/into a QDataStream
 QDataStream& operator<< (QDataStream& s, const KonqHistoryEntry& e) {
-    s << e.url;
+    s << e.url.url();
     s << e.typedURL;
     s << e.title;
     s << e.numberOfTimesVisited;
@@ -14,7 +14,9 @@ QDataStream& operator<< (QDataStream& s, const KonqHistoryEntry& e) {
 }
 
 QDataStream& operator>> (QDataStream& s, KonqHistoryEntry& e) {
-    s >> e.url;
+    QString url;
+    s >> url;
+    e.url = url;
     s >> e.typedURL;
     s >> e.title;
     s >> e.numberOfTimesVisited;

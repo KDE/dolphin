@@ -43,7 +43,7 @@ typedef QListIterator<KonqHistoryEntry> KonqHistoryIterator;
 class KonqHistoryList : public KonqBaseHistoryList
 {
 public:
-    KonqHistoryEntry * findEntry( const QString& url );
+    KonqHistoryEntry * findEntry( const KURL& url );
 
 protected:
     /**
@@ -96,7 +96,7 @@ public:
      *
      * The history is saved after receiving the DCOP call.
      */
-    void emitRemoveFromHistory( const QString& url );
+    void emitRemoveFromHistory( const KURL& url );
 
     /**
      * @returns the current maximum number of history entries.
@@ -152,7 +152,7 @@ public:
      */
     const KonqHistoryList& entries() const { return m_history; }
 
-    
+
 public slots:
     /**
      * Loads the history and fills the completion object.
@@ -170,8 +170,8 @@ public slots:
      * The history is saved afterwards, if necessary.
      */
     void emitClear();
- 
-    
+
+
 signals:
     /**
      * Emitted after the entire history was loaded from disk.
@@ -250,7 +250,7 @@ protected:
      * Notifes about a url that has to be removed from the history.
      * The instance where saveId == objId() has to save the history.
      */
-    virtual void notifyRemove( QString url, QCString saveId );
+    virtual void notifyRemove( KURL url, QCString saveId );
 
     /**
      * Does the work for @ref addPending() and @ref confirmPending().

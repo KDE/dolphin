@@ -135,7 +135,8 @@ bool KonqHistoryManager::loadHistory()
 	    m_history.append( entry );
 
 	    // insert the completion item weighted
- 	    m_pCompletion->addItem( entry->url, entry->numberOfTimesVisited );
+ 	    m_pCompletion->addItem( entry->url.url(),
+				    entry->numberOfTimesVisited );
  	    m_pCompletion->addItem( entry->typedURL,
 				    entry->numberOfTimesVisited );
 	}
@@ -184,7 +185,7 @@ void KonqHistoryManager::adjustSize()
 {
     KonqHistoryEntry *entry = m_history.getFirst();
     while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
-	m_pCompletion->removeItem( entry->url );
+	m_pCompletion->removeItem( entry->url.url() );
 	m_pCompletion->removeItem( entry->typedURL );
 
 	emit entryRemoved( m_history.getFirst() );
@@ -209,9 +210,9 @@ void KonqHistoryManager::confirmPending( const KURL& url,
 }
 
 
-void KonqHistoryManager::addToHistory(bool pending, const KURL& url,
-				      const QString& typedURL,
-				      const QString& title )
+void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
+				       const QString& typedURL,
+				       const QString& title )
 {
     kdDebug(1203) << "## addToHistory: " << url.url() << "Typed URL: " << typedURL << ", Title: " << title << endl;
 
@@ -219,15 +220,17 @@ void KonqHistoryManager::addToHistory(bool pending, const KURL& url,
 	return;
 
     KonqHistoryEntry entry;
-    entry.url = url.url();
-    if ( entry.url != typedURL )
+    QString u = url.url();
+    entry.url = url;
+    if ( u != typedURL )
 	entry.typedURL = typedURL;
-    entry.title = title;
+    if ( u != title )
+	entry.title = title;
     entry.firstVisited = QDateTime::currentDateTime();
     entry.lastVisited = entry.firstVisited;
 
     if ( !pending ) { // remove from pending if available.
-	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find(url.url());
+	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( url.url());
 	if ( it != m_pending.end() ) {
 	    delete it.data();
 	    m_pending.remove( it );
@@ -243,7 +246,7 @@ void KonqHistoryManager::addToHistory(bool pending, const KURL& url,
 	// We add a copy of the current history entry of the url to the
 	// pending list, so that we can restore it if the user canceled.
 	// If there is no entry for the url yet, we just store the url.
-	KonqHistoryEntry *oldEntry = m_history.findEntry( url.url() );
+	KonqHistoryEntry *oldEntry = m_history.findEntry( url );
 	m_pending.insert( url.url(), oldEntry ?
 			             new KonqHistoryEntry( *oldEntry ) : 0L );
     }
@@ -274,7 +277,7 @@ void KonqHistoryManager::removePending( const KURL& url )
     QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( url.url() );
     if ( it != m_pending.end() ) {
 	KonqHistoryEntry *oldEntry = it.data(); // the old entry, may be 0L
-	emitRemoveFromHistory( url.url() ); // remove the current pending entry
+	emitRemoveFromHistory( url ); // remove the current pending entry
 
 	if ( oldEntry ) // we had an entry before, now use that instead
 	    emitAddToHistory( *oldEntry );
@@ -295,13 +298,13 @@ void KonqHistoryManager::clearPending()
     m_pending.clear();
 }
 
-void KonqHistoryManager::emitRemoveFromHistory( const QString& url )
+void KonqHistoryManager::emitRemoveFromHistory( const KURL& url )
 {
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
     stream << url << objId();
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyRemove(QString, QCString)", data );
+			      "notifyRemove(KURL, QCString)", data );
 }
 
 void KonqHistoryManager::emitClear()
@@ -337,7 +340,7 @@ void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 					     QCString saveId )
 {
-    kdDebug(1203) << "#### Got new entry from Broadcast: " << e.url << endl;
+    kdDebug(1203) << "## Got new entry from Broadcast: " << e.url.url() << endl;
 
     KonqHistoryEntry *entry = m_history.findEntry( e.url );
     if ( !entry ) { // create a new history entry
@@ -354,7 +357,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     entry->numberOfTimesVisited += e.numberOfTimesVisited;
     entry->lastVisited = e.lastVisited;
 
-    m_pCompletion->addItem( entry->url );
+    m_pCompletion->addItem( entry->url.url() );
     m_pCompletion->addItem( entry->typedURL );
 
     adjustSize();
@@ -405,13 +408,13 @@ void KonqHistoryManager::notifyClear( QCString saveId )
     emit cleared();
 }
 
-void KonqHistoryManager::notifyRemove( QString url, QCString saveId )
+void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 {
-    kdDebug(1203) << "#### Broadcast: remove entry:: " << url << endl;
+    kdDebug(1203) << "#### Broadcast: remove entry:: " << url.url() << endl;
 
     KonqHistoryEntry *entry = m_history.findEntry( url );
     if ( entry ) {
-	m_pCompletion->removeItem( entry->url );
+	m_pCompletion->removeItem( entry->url.url() );
 	m_pCompletion->removeItem( entry->typedURL );
 	int index = m_history.findRef( entry );
 	if ( index >= 0 ) {
@@ -442,7 +445,8 @@ bool KonqHistoryManager::loadFallback()
 	entry = createFallbackEntry( *it );
 	if ( entry ) {
 	    m_history.append( entry );
-	    m_pCompletion->addItem( entry->url, entry->numberOfTimesVisited );
+	    m_pCompletion->addItem( entry->url.url(),
+				    entry->numberOfTimesVisited );
    	}
 	++it;
     }
@@ -479,7 +483,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
     if ( !u.isMalformed() ) {
 	entry = new KonqHistoryEntry;
 	// that's the only entries we know about...
-	entry->url = item.left( len );
+	entry->url = u;
 	entry->numberOfTimesVisited = weight;
     }
     return entry;
@@ -489,7 +493,7 @@ KonqHistoryEntry * KonqHistoryManager::createFallbackEntry(const QString& item) 
 //////////////////////////////////////////////////////////////////
 
 
-KonqHistoryEntry * KonqHistoryList::findEntry( const QString& url )
+KonqHistoryEntry * KonqHistoryList::findEntry( const KURL& url )
 {
     KonqHistoryIterator it( *this );
     it.toLast(); // we search backwards, probably faster to find an entry
