@@ -208,7 +208,7 @@ QString KBookmark::fullText() const
 
 QString KBookmark::url() const
 {
-    return element.attribute("URL");
+    return element.attribute("URL"); // TODO : what about encoding ? - check XBEL
 }
 
 QString KBookmark::icon() const

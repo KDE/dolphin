@@ -68,8 +68,8 @@ protected:
 public:
     virtual ~KonqDrag() {}
 
-    const char* format( int i ) const;
-    QByteArray encodedData( const char* mime ) const;
+    virtual const char* format( int i ) const;
+    virtual QByteArray encodedData( const char* mime ) const;
 
     void setMoveSelection( bool move ) { m_bCutSelection = move; }
 

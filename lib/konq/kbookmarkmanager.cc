@@ -143,9 +143,6 @@ bool KBookmarkManager::save()
         KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
         return false;
     }
-    //This seems to save in local8bit ?!?!?!?
-    //QTextStream ts( &file );
-    //ts << m_doc;
     QCString cstr = m_doc.toCString(); // is in UTF8
     file.file()->writeBlock( cstr.data(), cstr.length() );
     if (!file.close())
