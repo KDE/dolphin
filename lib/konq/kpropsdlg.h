@@ -412,8 +412,7 @@ public slots:
   
 protected:
   void showSettings(QString filename);
-  void drawWallPaper();
-  virtual void paintEvent ( QPaintEvent *);
+  void loadWallPaper();
   virtual void resizeEvent ( QResizeEvent *);
     
   QPushButton *applyButton;
@@ -426,6 +425,7 @@ protected:
   QString wallStr;
   QString iconStr;
   
+  QWidget * wallWidget;
   QPixmap wallPixmap;
   QString wallFile;
   int imageX, imageW, imageH, imageY;

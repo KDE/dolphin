@@ -1023,7 +1023,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     QLabel* tmpQLabel = new QLabel( this, "Label_1" );
     tmpQLabel->setText( i18n("Background") );
-    tmpQLabel->move( 10, 90 );
+    tmpQLabel->move( 90, 10 );
     tmpQLabel->adjustSize();
 
     wallBox = new QComboBox( false, this, "ComboBox_1" );
@@ -1055,11 +1055,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     }
 
     if ( iconStr.isEmpty() )
-    {
-	QString str( KMimeType::findByURL( properties->kurl(), properties->item()->mode(), true )->KServiceType::icon() );
-	KURL u( str );
-	iconStr = u.filename();
-    }
+	iconStr = KMimeType::findByURL( properties->kurl(), properties->item()->mode(), true )->KServiceType::icon();
     
     iconBox->setIcon( iconStr );
 
@@ -1067,15 +1063,20 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     wallBox->insertItem(  i18n("(Default)"), 0 );
     
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
-	wallBox->insertItem( *it );
-    
+        wallBox->insertItem( ( (*it).at(0)=='/' ) ?        // if absolute path
+                             KURL( *it ).filename() :    // then only filename
+                             *it );
+
     showSettings( wallStr );
 
+    wallBox->adjustSize();
+    
     browseButton = new QPushButton( i18n("&Browse..."), this );
     browseButton->adjustSize();
     connect( browseButton, SIGNAL( clicked() ), SLOT( slotBrowse() ) );
 
-    drawWallPaper();
+    wallWidget = new QWidget( this );
+    loadWallPaper();
 
     connect( wallBox, SIGNAL( activated( int ) ), this, SLOT( slotWallPaperChanged( int ) ) );
 }
@@ -1125,14 +1126,13 @@ void DirPropsPage::applyChanges()
     }
 
     // Get the default image
-    QString str( KMimeType::findByURL( properties->kurl(),
-				       properties->item()->mode(), true )->KServiceType::icon() );
-    KURL u( str );
-    QString str2 = u.filename();
+    QString str = KMimeType::findByURL( properties->kurl(),
+                                        properties->item()->mode(), true )->KServiceType::icon();
     QString sIcon;
     // Is it another one than the default ?
-    if ( str2 != iconBox->icon() )
+    if ( str != iconBox->icon() )
         sIcon = iconBox->icon();
+    // (otherwise write empty value)
     config.writeEntry( "Icon", sIcon );
     config.writeEntry( "MiniIcon", sIcon );
     
@@ -1162,71 +1162,56 @@ void DirPropsPage::slotBrowse( )
 {
     QString filename = KFileDialog::getOpenFileName( 0 );
     showSettings( filename );
-    drawWallPaper( );
+    wallBox->adjustSize();
+    loadWallPaper();
 }
 
 void DirPropsPage::slotWallPaperChanged( int )
 {
-    drawWallPaper();
+    loadWallPaper();
 }
 
-void DirPropsPage::paintEvent( QPaintEvent *_ev )
-{
-    PropsPage::paintEvent( _ev );
-    drawWallPaper();
-}
-
-void DirPropsPage::drawWallPaper()
+void DirPropsPage::loadWallPaper()
 {
     int i = wallBox->currentItem();
     if ( i == -1 )
+        wallPixmap.resize(0,0);
+    else
     {
-	erase( imageX, imageY, imageW, imageH );
-	return;
+        QString text = wallBox->text( i );
+        if ( text == i18n( "(Default)" ) )
+            wallPixmap.resize(0,0);
+        else
+        {
+            QString file = locate("wallpaper", text);
+            if ( file != wallFile )
+            {
+                // debugT("Loading WallPaper '%s'\n",file.ascii());
+                wallFile = file;
+                wallPixmap.load( file );
+            }
+            
+            if ( wallPixmap.isNull() )
+                warning("Could not load wallpaper %s\n",file.ascii());
+        }
     }
-    
-    QString text = wallBox->text( i );
-    if ( text == i18n( "(Default)" ) )
-    {
-	erase( imageX, imageY, imageW, imageH );
-	return;
-    }
-
-    QString file = locate("wallpaper", text);
-
-    if ( file != wallFile )
-    {
-	// debugT("Loading WallPaper '%s'\n",file.ascii());
-	wallFile = file;
-	wallPixmap.load( file );
-    }
-    
-    if ( wallPixmap.isNull() )
-	warning("Could not load wallpaper %s\n",file.ascii());
-    
-    erase( imageX, imageY, imageW, imageH );
-    QPainter painter;
-    painter.begin( this );
-    painter.setClipRect( imageX, imageY, imageW, imageH );
-    painter.drawPixmap( QPoint( imageX, imageY ), wallPixmap );
-    painter.end();
+    wallWidget->setBackgroundPixmap( wallPixmap );
 }
 
 void DirPropsPage::resizeEvent ( QResizeEvent *)
 {
-    imageX = 180; // X of the image (10 + width of the combobox + 10)
-    // could be calculated in the future, depending on the length of the items
-    // in the list.
-    imageY = 90 + fontHeight; // so that combo & image are under the label
+    iconBox->setGeometry( 10, 20, 50, 50 );
+    wallBox->move( 90, 10 + fontHeight );
+    browseButton->move( 90, wallBox->y()+wallBox->height()+SEPARATION ); // under wallBox
+
+    imageX = 10;
+    imageY = browseButton->y()+browseButton->height()+SEPARATION; // under the browse button
     imageW = width() - imageX - SEPARATION;
     imageH = height() - imageY - applyButton->height() - SEPARATION*2;
 
-    iconBox->setGeometry( 10, 20, 50, 50 );
-    wallBox->setGeometry( 10, imageY, imageX-20, 30 );
-    browseButton->move( 10, wallBox->y()+wallBox->height()+SEPARATION );
+    wallWidget->setGeometry( imageX, imageY, imageW, imageH );
     applyButton->move( 10, imageY+imageH+SEPARATION );
     globalButton->move( applyButton->x() + applyButton->width() + SEPARATION, applyButton->y() );
-    
 }
 
 void DirPropsPage::slotApply()
@@ -1236,10 +1221,11 @@ void DirPropsPage::slotApply()
 
 void DirPropsPage::slotApplyGlobal()
 {
-    KConfig *config = KApplication::getKApplication()->getConfig();
-    
-    config->setDesktopGroup();
+    // Write the image setting to konqueror's configuration
+    KConfig *config = new KConfig( "konquerorrc", false, false );
 
+    config->setGroup( "HTML Settings" ); // TODO : FM Settings when done in kcmkonq
+    
     int i = wallBox->currentItem();
     if ( i != -1 )
     {
@@ -1250,6 +1236,7 @@ void DirPropsPage::slotApplyGlobal()
     }
 
     config->sync();
+    delete config;
 }
 
 /* ----------------------------------------------------
