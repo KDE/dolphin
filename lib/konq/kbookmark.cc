@@ -383,6 +383,8 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 KBookmark *KBookmark::first()
 {
     m_sortIt = m_sortOrder.begin();
+    if ( m_sortIt == m_sortOrder.end() )
+        return 0L;
     return m_bookmarkMap.find(*m_sortIt);
 }
 
@@ -394,7 +396,7 @@ KBookmark *KBookmark::next()
     {
         m_sortIt++;
         if ( m_sortIt == m_sortOrder.end() )
-            return NULL;
+            return 0L;
 
         valid = m_bookmarkMap.find(*m_sortIt);
     }
@@ -413,7 +415,7 @@ void KBookmark::clear()
 {
   KBookmark *bm;
 
-  for ( bm = children()->first(); bm != NULL; bm = children()->next() )
+  for ( bm = children()->first(); bm != 0L; bm = children()->next() )
   {
     bm->clear();
   }
@@ -429,7 +431,7 @@ KBookmark* KBookmark::findBookmark( int _id )
 
   KBookmark *bm;
 
-  for ( bm = children()->first(); bm != NULL; bm = children()->next() )
+  for ( bm = children()->first(); bm != 0L; bm = children()->next() )
   {
     if ( bm->id() == _id )
       return bm;
