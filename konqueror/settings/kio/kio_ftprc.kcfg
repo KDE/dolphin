@@ -1,0 +1,18 @@
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+ <kcfgfile name="kio_ftprc" />
+ <group name="DesktopIcons" >
+ 
+   <entry name="DisablePassiveMode" type="Bool">
+     <label>Disable Passive FTP</label>
+     <whatsthis>When FTP connections are passive, the client connect to the server instead of the opposite, firewalls does not block. Although, old FTP server may not support Passive FTP</whatsthis>
+     <default>false</default>
+
+   <entry name="MarkPartial" type="Bool">
+     <label>Mark partially uploaded files</label>
+     <whatsthis>While a file is being uploaded its extension is "*.part". When fully uploaded it is renamed to its real name</whatsthis>
+     <default>true</default>
+   </entry>
+
+ </group>
+</kcfg>
