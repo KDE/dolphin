@@ -25,6 +25,7 @@
 #include <klistview.h>
 #include <klocale.h>
 #include <krfcdate.h>
+#include <qregexp.h>
 #include "kinsertionsort.h"
 
 void MoveCommand::execute()

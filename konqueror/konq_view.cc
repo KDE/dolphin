@@ -44,11 +44,7 @@
 #include <qobjectlist.h>
 #include <config.h>
 #if QT_VERSION >= 300
-#ifdef HAVE_PRIVATE_QUCOMEXTRA_P_H
 #include <private/qucomextra_p.h>
-#else
-#include <qucom.h>
-#endif
 #endif
 
 #include <kparts/factory.h>
@@ -788,11 +784,7 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
     return false;
   QUObject o[ 2 ];
 
-#ifdef HAVE_PRIVATE_QUCOMEXTRA_P_H
   static_QUType_bool.set( o + 1, value );
-#else
-  pQUType_bool->set( o + 1, value );
-#endif
 
   obj->qt_invoke( id, o );
   return true;
@@ -823,11 +815,7 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
     return false;
   QUObject o[ 2 ];
 
-#ifdef HAVE_PRIVATE_QUCOMEXTRA_P_H
   static_QUType_QString.set( o + 1, value );
-#else
-  pQUType_QString->set( o + 1, value );
-#endif
 
   obj->qt_invoke( id, o );
   return true;
