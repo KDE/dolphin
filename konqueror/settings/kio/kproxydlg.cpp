@@ -170,8 +170,8 @@ void KProxyOptions::load()
 
   g_pConfig->setGroup( "Cache Settings" );
   cb_useCache->setChecked(  g_pConfig->readBoolEntry( "UseCache", true ));
-  le_max_cache_size->setText( "Not yet implemented.");
-  le_max_cache_age->setText( "Not yet implemented.");
+  le_max_cache_size->setText( g_pConfig->readEntry( "MaxCacheSize", "5000" ));
+  le_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
 
   delete g_pConfig;
 
@@ -246,8 +246,8 @@ void KProxyOptions::save()
 
     g_pConfig->setGroup( "Cache Settings" );
     g_pConfig->writeEntry( "UseCache", cb_useCache->isChecked() );
+    g_pConfig->writeEntry( "MaxCacheSize", le_max_cache_size->text() );
 // Not yet implemented:
-//    g_pConfig->writeEntry( "MaxCacheSize", le_max_cache_size->text() );
 //    g_pConfig->writeEntry( "MaxCacheAge", le_max_cache_age->text() );
     g_pConfig->sync();
    
