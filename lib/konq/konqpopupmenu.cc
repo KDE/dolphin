@@ -75,8 +75,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
-                              bool allowEmbeddingServices,
-			      bool addTrailingSeparator )
+                              bool allowEmbeddingServices )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
@@ -408,9 +407,6 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 		       &m_ownActions, "properties" );
     addAction( act );
   }
-
-  if ( addTrailingSeparator )
-    addSeparator();
 
   addMerge( 0 );
 

@@ -66,8 +66,7 @@ public:
                  KURL viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
-                 bool allowEmbeddingServices = false,
-                 bool addTrailingSeparator = false );
+                 bool allowEmbeddingServices = false );
   /**
    * Don't forget to destroy the object
    */
