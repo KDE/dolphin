@@ -38,7 +38,7 @@
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent)
+KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char *name)
     : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
 {
     QLabel *label;
