@@ -246,7 +246,7 @@ void UserAgentOptions::textChanged( const QString& )
   else
     resetPB->setEnabled( false );
 
-  if ( !server[0].isLetterOrNumber() && server[0] != '.' )
+  if ( !server.isEmpty() && !server[0].isLetterOrNumber() && server[0] != '.' )
     return;
 
   if( !login.isEmpty() && !server.isEmpty() )
