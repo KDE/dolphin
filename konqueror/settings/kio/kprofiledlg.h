@@ -24,6 +24,7 @@
 
 #include <kcontrol.h>
 #include <ktrader.h>
+#include <kservicetype.h>
 
 class KSimpleConfig;
 class KServiceType;
@@ -37,7 +38,7 @@ class KProfileOptions : public KConfigWidget
 {
   Q_OBJECT
 public:
-  KProfileOptions( int &argc, char **argv, QWidget *parent = 0L, const char *name = 0L );
+  KProfileOptions( QWidget *parent = 0L, const char *name = 0L );
   ~KProfileOptions();
   
   virtual void loadSettings();
@@ -55,8 +56,6 @@ protected slots:
 private:
   void updateGUI();
   
-  KTrader::OfferList serviceOffers( const QString &serviceType );
-
   struct Service
   {
     Service() {}
@@ -95,7 +94,7 @@ private:
   QString m_strLastServiceName;
   
   KTrader::OfferList m_lstAllServices;
-  QList<KServiceType> m_lstAllServiceTypes;
+  KServiceType::List m_lstAllServiceTypes;
 };
 
 #endif

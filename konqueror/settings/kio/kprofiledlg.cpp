@@ -32,27 +32,14 @@
 #include <qcheckbox.h>
 #include <qspinbox.h>
 
-#include <kded_instance.h>
 #include <ksimpleconfig.h>
-#include <kregfactories.h>
 #include <kservicetype.h>
 #include <klocale.h>
 
-KProfileOptions::KProfileOptions( int &argc, char **argv, QWidget *parent, const char *name )
+KProfileOptions::KProfileOptions( QWidget *parent, const char *name )
 : KConfigWidget( parent, name )
 {
-  if ( !KdedInstance::self() )
-  {
-    CORBA::ORB_ptr pORB = CORBA::ORB_init( argc, argv, "mico-local-orb" );
-    new KdedInstance( argc, argv, pORB );
-    
-    KRegistry *reg = new KRegistry;
-    reg->addFactory( new KServiceTypeFactory );
-    reg->load();
-  }
-
-  m_lstAllServices = KdedInstance::self()->ktrader()->listServices();
-  m_lstAllServiceTypes = KServiceType::serviceTypes();
+  m_lstAllServiceTypes = KServiceType::allServiceTypes();
 
   m_pConfig = new KSimpleConfig( "profilerc" );
   
@@ -68,7 +55,7 @@ KProfileOptions::KProfileOptions( int &argc, char **argv, QWidget *parent, const
   connect( m_pServiceTypesBox, SIGNAL( activated( const QString & ) ),
            this, SLOT( slotServiceTypeSelected( const QString & ) ) );
 
-  QLabel *label1 = new QLabel( i18n( "Select Service:" ), m_pLayoutWidget );
+  /*QLabel *label1 = */new QLabel( i18n( "Select Service:" ), m_pLayoutWidget );
 
   m_pServicesBox = new QListBox( m_pLayoutWidget );
  
@@ -83,7 +70,7 @@ KProfileOptions::KProfileOptions( int &argc, char **argv, QWidget *parent, const
 
   QHBox *hBox = new QHBox( m_pLayoutWidget );
   
-  QLabel *label2 = new QLabel( i18n( "Preference Value :" ), hBox );
+  /*QLabel *label2 = */ new QLabel( i18n( "Preference Value :" ), hBox );
   
   m_pPreferenceSpinBox = new QSpinBox( hBox );
   
@@ -185,10 +172,10 @@ void KProfileOptions::slotServiceTypeSelected( const QString &serviceType )
 {
   m_pServicesBox->clear();
   
-  KTrader::OfferList offers = serviceOffers( serviceType );
+  KService::List offers = KServiceType::offers( serviceType );
   
-  KTrader::OfferList::ConstIterator it = offers.begin();
-  KTrader::OfferList::ConstIterator end = offers.end();
+  KService::List::ConstIterator it = offers.begin();
+  KService::List::ConstIterator end = offers.end();
   for (; it != end; ++it )
     m_pServicesBox->insertItem( (*it)->name() );
 
@@ -201,13 +188,13 @@ void KProfileOptions::updateGUI()
 {
   m_pServiceTypesBox->clear();
   
-  QListIterator<KServiceType> it( m_lstAllServiceTypes );
-  for (; it.current(); ++it )
+  QValueListIterator<KServiceType::Ptr> it= m_lstAllServiceTypes.begin();
+  for (; it != m_lstAllServiceTypes.end(); ++it )
   {
-    KTrader::OfferList tempOffers = serviceOffers( it.current()->name() );
-    if ( tempOffers.count() > 0 )
-      m_pServiceTypesBox->insertItem( it.current()->name() );
-  }    
+    KService::List tempOffers = KServiceType::offers( (*it)->name() );
+    if ( tempOffers.count() > 0 ) // at least one offer ?
+      m_pServiceTypesBox->insertItem( (*it)->name() ); // yes -> insert
+  }
   
   if ( m_pServiceTypesBox->count() > 0 )
   {
@@ -252,19 +239,6 @@ void KProfileOptions::updateProfileMap()
     m_pAllowAsDefaultCheckBox->setChecked( false );
   }
   
-}
-
-KTrader::OfferList KProfileOptions::serviceOffers( const QString &serviceType )
-{
-  KTrader::OfferList res;
-  
-  KTrader::OfferList::ConstIterator it = m_lstAllServices.begin();
-  KTrader::OfferList::ConstIterator end = m_lstAllServices.end();
-  for (; it != end; ++it )
-    if ( (*it)->hasServiceType( serviceType ) )
-      res.append( *it );
-  
-  return res;
 }
 
 bool KProfileOptions::findService( const QString &serviceType, const QString &serviceName, Service &service )

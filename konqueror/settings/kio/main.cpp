@@ -56,7 +56,7 @@ KIOControlApplication::KIOControlApplication( int &argc, char **argv )
    addPage( m_pCookiesOptions = new KCookiesOptions( dialog, "cookies" ), i18n( "Coo&kies" ), "kio-5.html" );
 
   if ( !pages || pages->contains( "profile" ) )
-   addPage( m_pProfileOptions = new KProfileOptions( argc, argv, dialog, "profile" ), i18n( "&User Preferences For Services" ), "kio-6.html" );
+   addPage( m_pProfileOptions = new KProfileOptions( dialog, "profile" ), i18n( "&User Preferences For Services" ), "kio-6.html" );
 
   if ( m_pProxyOptions || m_pSMBOptions || m_pUserAgentOptions || 
        m_pCookiesOptions || m_pProfileOptions )

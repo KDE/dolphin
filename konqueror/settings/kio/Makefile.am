@@ -1,7 +1,7 @@
 
 INCLUDES = $(all_includes)
 LDFLAGS =  $(all_libraries) $(KDE_RPATH)
-LDADD =    $(LIB_KDEUI) 
+LDADD =    $(LIB_KIO) 
 
 bin_PROGRAMS = kcmkio
 METASOURCES = kproxydlg.moc ksmboptdlg.moc useragentdlg.moc kcookiesdlg.moc \
