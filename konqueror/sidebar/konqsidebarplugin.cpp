@@ -19,3 +19,13 @@
 
 #include "konqsidebarplugin.moc"
 #include <kdebug.h>
+
+
+KonqSidebarPlugin::KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget *widgetParent,QString &desktopName_, const char* name=0):QObject(parent,name),desktopName(desktopName_){m_parentInstance=instance;}
+
+KonqSidebarPlugin::~KonqSidebarPlugin(){;}
+
+KInstance *KonqSidebarPlugin::parentInstance(){return m_parentInstance;}
+
+void KonqSidebarPlugin::openURL(const KURL& url){handleURL(url);}
+

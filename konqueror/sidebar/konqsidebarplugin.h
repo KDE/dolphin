@@ -33,11 +33,11 @@ class KonqSidebarPlugin : public QObject
 {
 	Q_OBJECT
 	public:
-		KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget *widgetParent,QString &desktopName_, const char* name=0):QObject(parent,name),desktopName(desktopName_){m_parentInstance=instance;}
-		~KonqSidebarPlugin(){;}
+		KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget *widgetParent,QString &desktopName_, const char* name=0);
+		~KonqSidebarPlugin();
 		virtual QWidget *getWidget()=0;
 		virtual void *provides(const QString &)=0;
-		KInstance *parentInstance(){return m_parentInstance;}
+		KInstance *parentInstance();
 	protected:
 		virtual void handleURL(const KURL &url)=0;
 		QString desktopName;
@@ -52,7 +52,7 @@ class KonqSidebarPlugin : public QObject
 		void completed();
 
 	public slots:
-		void openURL(const KURL& url){handleURL(url);}
+	  void openURL(const KURL& url);
 
 	/*
 		if your plugin supports file preview implement (not supported yet)
