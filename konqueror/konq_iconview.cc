@@ -653,7 +653,7 @@ void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
 
 KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url )
   : KIconContainerItem( _parent ), 
-    KFileIcon( _entry, _url, _parent->displayMode() == KIconContainer::Vertical )
+    KFileItem( _entry, _url )
 {
   m_pIconView = _parent;
   init();
@@ -661,34 +661,28 @@ KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _e
 
 void KonqKfmIconViewItem::init()
 {
-  // Done out of the constructor since it uses fields filled by KFileIcon constructor
+  // Done out of the constructor since it uses fields filled by KFileItem constructor
 
-  // Set the item text (the one displayed) from the text computed by KFileIcon
+  // Set the item text (the one displayed) from the text computed by KFileItem
   setText( getText() );
-  // Set the item name from the url hold by KFileIcon
+  // Set the item name from the url hold by KFileItem
   setName( url() );
-  // Determine the item pixmap from one determined by KFileIcon
-  QPixmap *p = getPixmap();
+  // Determine the item pixmap from one determined by KFileItem
+  QPixmap *p = getPixmap( m_pIconView->displayMode() == KIconContainer::Vertical );
   if (p) setPixmap( *p );
 }
 
 void KonqKfmIconViewItem::refresh()
 {
-  bool oldmini = m_bMini;
-  m_bMini = ( m_pIconView->displayMode() == KIconContainer::Vertical );
-
-  if ( m_bMini != oldmini )
-  {
-    QPixmap *p = getPixmap(); // determine the pixmap (KFileIcon)
-    if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
-  }
+  QPixmap *p = getPixmap( m_pIconView->displayMode() == KIconContainer::Vertical ); // determine the pixmap (KFileItem)
+  if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
 
   KIconContainerItem::refresh();
 }
 
 void KonqKfmIconViewItem::paint( QPainter* _painter, bool _drag )
 {
-  if ( isLink() ) // implemented in KFileIcon
+  if ( isLink() ) // implemented in KFileItem
   {
     QFont f = _painter->font();
     f.setItalic( true );

@@ -54,7 +54,7 @@ messages:
 IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
 
 konqueror.cc: konqueror.h
-konqueror.h: $(srcdir)/konqueror.idl
+konqueror.h: $(srcdir)/konqueror.idl $(micodir)/include/CORBA.h
 	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
 kfmrun.cc: konqueror.h

@@ -29,7 +29,7 @@
 
 #include <string>
 
-#include <kfileicon.h>
+#include <kfileitem.h>
 #include "konq_baseview.h"
 
 #include "mousemode.h"
@@ -40,7 +40,7 @@ class KonqKfmTreeView;
 class KMimeType;
 
 class KfmTreeViewItem : public QListViewItem,
-                        public KFileIcon
+                        public KFileItem
 {
 public:
   KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url );
