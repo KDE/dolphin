@@ -553,7 +553,7 @@ void KonqOperations::doFileCopy()
     {
         if ( (*it).path(1) == KGlobalSettings::trashPath())
             newTrashPath=m_destURL.path()+(*it).path().right((*it).path().length()-(*it).directory().length());
-        if ( KProtocolInfo::supportsDeleting( *it ) )
+        if ( KProtocolInfo::supportsDeleting( *it ) && QFileInfo((*it).fileName()).isWritable() )
             mlst.append(*it);
     }
 
@@ -597,7 +597,7 @@ void KonqOperations::doFileCopy()
         QPopupMenu popup;
         if ( sReading )
             popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
-        if ( (sMoving || (sReading && sDeleting)) /*&& !sTrash*/)
+        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)))
             popup.insertItem( i18n( "&Move Here" ), 2 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
         if (bSetWallpaper)
