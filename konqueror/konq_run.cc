@@ -17,7 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qdir.h>
 #include <kdebug.h>
 
 #include "konq_run.h"
@@ -58,17 +57,6 @@ void KonqRun::foundMimeType( const char *_type )
   kdebug(0,1202,"Nothing special to do here");
 
   KRun::foundMimeType( _type );
-}
-
-bool KonqFileManager::openFileManagerWindow( const QString & _url )
-{
-  // If _url is 0L, open $HOME
-  QString url = !_url.isEmpty() ? _url : QDir::homeDirPath().prepend( "file:" );
-
-  KonqMainView *win = new KonqMainView( url );
-  win->show();
-
-  return true; // why would it fail ? :)
 }
 
 #include "konq_run.moc"

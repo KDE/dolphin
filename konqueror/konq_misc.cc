@@ -18,7 +18,25 @@
 */
 
 #include "konq_misc.h"
-#include "konq_run.h"
+#include "konq_mainview.h"
+#include <qdir.h>
+
+/**********************************************
+ *
+ * KonqFileManager
+ *
+ **********************************************/
+
+bool KonqFileManager::openFileManagerWindow( const QString & _url )
+{
+  // If _url is 0L, open $HOME
+  QString url = !_url.isEmpty() ? _url : QDir::homeDirPath().prepend( "file:" );
+ 
+  KonqMainView *win = new KonqMainView( url );
+  win->show();
+ 
+  return true; // why would it fail ? :)
+}
 
 /**********************************************
  *
@@ -31,3 +49,4 @@ void KonqBookmarkManager::editBookmarks( const char *_url )
   // Will call the KonqFileManager re-implementation
   KFileManager::getFileManager()->openFileManagerWindow( _url );
 }
+

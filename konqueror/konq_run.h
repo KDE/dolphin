@@ -60,14 +60,4 @@ protected:
   bool m_bFoundMimeType;
 };
 
-/* Implement the openFileManagerWindow call that libkio does if necessary */
-class KonqFileManager : public KFileManager
-{
-public:
-  KonqFileManager() {} ;
-  virtual ~KonqFileManager() {} ;
-
-  virtual bool openFileManagerWindow( const QString & _url );
-};
-
 #endif

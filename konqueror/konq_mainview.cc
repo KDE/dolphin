@@ -24,6 +24,7 @@
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_run.h"
+#include "konq_misc.h"
 #include "konq_factory.h"
 #include "konq_viewmgr.h"
 #include "konq_frame.h"

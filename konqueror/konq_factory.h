@@ -32,8 +32,6 @@
 #include <kparts/part.h>
 
 class BrowserView;
-class KonqBookmarkManager;
-class KonqFileManager;
 class KonqMainView;
 
 class KonqViewFactory
@@ -74,8 +72,6 @@ public:
 private:
   static unsigned long m_instanceRefCnt;
   static KInstance *s_instance;
-  KonqBookmarkManager *m_bookmarkManager;
-  KonqFileManager *m_fileManager;
 };
 
 #endif

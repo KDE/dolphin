@@ -46,21 +46,17 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name
 
   if ( !obj )
     obj = (KParts::ReadOnlyPart *)m_factory->create( parent, name, "KParts::ReadOnlyPart", m_args );
+  return obj;
 }
 
 KonqFactory::KonqFactory()
 {
   s_instance = 0L;
   QString path = instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
-  m_bookmarkManager = new KonqBookmarkManager( path );
-  m_fileManager = new KonqFileManager;
 }
 
 KonqFactory::~KonqFactory()
 {
-  delete m_bookmarkManager;
-  delete m_fileManager;
-
   if ( s_instance )
     delete s_instance;
 

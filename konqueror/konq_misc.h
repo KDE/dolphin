@@ -24,6 +24,7 @@
 // konq_main.cc
 
 #include <kbookmark.h>
+#include <krun.h>
 
 class KonqBookmarkManager : public KBookmarkManager
 {
@@ -32,5 +33,15 @@ public:
   ~KonqBookmarkManager() {}
   virtual void editBookmarks( const char *_url );
 }; 
+
+/* Implement the openFileManagerWindow call that libkio does if necessary */
+class KonqFileManager : public KFileManager
+{
+public:
+  KonqFileManager() {} ;
+  virtual ~KonqFileManager() {} ;
+ 
+  virtual bool openFileManagerWindow( const QString & _url );
+};
 
 #endif
