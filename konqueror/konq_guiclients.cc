@@ -255,7 +255,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     }
 
     // If not passive, set as active :)
-    if (!childView->passiveMode())
+    if (!childView->isPassiveMode())
       //viewManager->setActivePart( view );
       childView->part()->widget()->setFocus();
 

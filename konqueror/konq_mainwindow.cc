@@ -356,10 +356,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   kdDebug(1202) << "req.followMode=" << req.followMode << endl;
 
   // If linked view and if we are not already following another view
-  if ( childView && childView->linkedView() && !req.followMode )
+  if ( childView && childView->isLinkedView() && !req.followMode )
     makeViewsFollow( _url, childView );
 
-  if ( childView && childView->lockedLocation() )
+  if ( childView && childView->isLockedLocation() )
     return true;
 
   QString indexFile;
@@ -375,7 +375,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   QString serviceName; // default: none provided
 
   // Look for which view mode to use, if a directory - not if view locked, and not if following a URL
-  if ( ( !childView || (!req.followMode && !childView->lockedViewMode()) )
+  if ( ( !childView || (!req.followMode && !childView->isLockedViewMode()) )
        && serviceType == "inode/directory" )
   { // Phew !
 
@@ -533,7 +533,7 @@ void KonqMainWindow::makeViewsFollow( const KURL & url, KonqView * senderView )
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
   {
-    if ( (*it != senderView) && (*it)->linkedView() )
+    if ( (*it != senderView) && (*it)->isLinkedView() )
     {
       kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url=" << url.url() << endl;
       // We can't assume the service type. People put HTML links in their dirtree ;)
@@ -749,7 +749,7 @@ void KonqMainWindow::slotUnlockViews()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
   {
-    if ( (*it)->lockedLocation() )
+    if ( (*it)->isLockedLocation() )
     {
       (*it)->setLockedLocation( false );
       (*it)->setPassiveMode( false );
@@ -762,7 +762,7 @@ void KonqMainWindow::slotUnlockViews()
 void KonqMainWindow::slotLockView()
 {
   // Can't access this action in passive mode anyway
-  assert(!m_currentView->passiveMode());
+  assert(!m_currentView->isPassiveMode());
   // Those two feature are one for the user: passive mode and locked location
   // (Only the dirtree uses one and not the other)
   m_currentView->setLockedLocation( true );
@@ -777,6 +777,14 @@ void KonqMainWindow::slotStop()
   {
     m_currentView->frame()->statusbar()->message( i18n("Canceled.") );
   }
+}
+
+void KonqMainWindow::slotLinkView()
+{
+  // Can't access this action in passive mode anyway
+  assert(!m_currentView->isPassiveMode());
+  bool link = !m_currentView->isLinkedView();
+  m_currentView->setLinkedView( link ); // takes care of the statusbar and the action
 }
 
 void KonqMainWindow::slotReload()
@@ -1029,7 +1037,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
     newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
 
-    if ( newView->passiveMode() || m_currentView == newView )
+    if ( newView->isPassiveMode() || m_currentView == newView )
     {
       kdDebug(1203) << "Passive mode or already current view - return" << endl;
       // Passive view. Don't connect anything, don't change m_currentView
@@ -1111,12 +1119,13 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   // Can lock a view only if there is a next view
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 
+  m_paLinkView->setChecked( m_currentView->isLinkedView() );
+
   kdDebug(1202) << "slotPartActivated: setting location bar url to "
                << m_currentView->locationBarURL() << endl;
   if ( m_combo )
     m_combo->setEditText( m_currentView->locationBarURL() );
 
-  updateStatusBar();
   updateToolBarActions();
 
   // Set active instance - but take care of builtin views
@@ -1137,6 +1146,7 @@ void KonqMainWindow::insertChildView( KonqView *childView )
            this, SLOT( slotViewCompleted( KonqView * ) ) );
 
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+  m_paLinkView->setEnabled( viewCount() > 1 );
 
   childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
   m_pViewManager->viewCountChanged();
@@ -1161,6 +1171,7 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   m_mapViews.remove( it );
 
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+  m_paLinkView->setEnabled( viewCount() > 1 );
 
   if ( childView == m_currentView )
   {
@@ -1231,7 +1242,7 @@ int KonqMainWindow::activeViewsCount() const
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    if ( !it.data()->passiveMode() )
+    if ( !it.data()->isPassiveMode() )
       ++res;
 
   return res;
@@ -1342,9 +1353,6 @@ void KonqMainWindow::slotRemoveView()
 {
   // takes care of choosing the new active view
   m_pViewManager->removeView( m_currentView );
-
-  //if ( m_pViewManager->chooseNextView(m_currentView) == 0L )
-  //  m_currentView->frame()->statusbar()->passiveModeCheckBox()->hide();
 
   // Can lock a view only if there is a next view
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
@@ -1744,6 +1752,7 @@ void KonqMainWindow::initActions()
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_paLockView = new KAction( i18n( "Lock to current location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
   m_paUnlockAll = new KAction( i18n( "Unlock all views"), 0, this, SLOT( slotUnlockViews() ), actionCollection(), "unlockall" );
+  m_paLinkView = new KToggleAction( i18n( "Link view"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", CTRL+Key_Up, actionCollection(), "up" );
@@ -1917,6 +1926,13 @@ void KonqMainWindow::initActions()
 				"You can also select the <b>Stop Command</b> from the View menu." ) );
   m_paStop->setShortText( i18n( "Stop loading the document" ) );
 
+
+  // Please proof-read those (David)
+
+  m_paLockView->setShortText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
+
+  m_paLinkView->setShortText( i18n("Sets the view as 'linked'. A linked view follows directory changes done in other linked views") );
+
 }
 
 void KonqMainWindow::updateToolBarActions()
@@ -2022,6 +2038,8 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paUnlockAll->setEnabled( false );
       // removeview only if more than one active view
       m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+      // link view only if more than one view
+      m_paLinkView->setEnabled( viewCount() > 1 );
       // Load profile submenu
       m_pViewManager->profileListDirty();
   }

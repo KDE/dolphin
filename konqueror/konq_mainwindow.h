@@ -146,10 +146,14 @@ public:
 
   void enableAllActions( bool enable );
 
-  void updateStatusBar() {} // to remove if we confirm we don't want that anymore
   void updateToolBarActions();
 
   bool fullScreenMode() const { return m_ptaFullScreen->isChecked(); }
+
+  /**
+   * @return the "link view" action, for checking/unchecking from KonqView
+   */
+  KToggleAction * linkViewAction() { return m_paLinkView; }
 
   /**
    * The default settings "allow HTML" - the one used when creating a new view
@@ -194,6 +198,7 @@ public slots:
   void slotShowHTML();
   void slotLockView();
   void slotUnlockViews();
+  void slotLinkView();
   void slotReload();
   void slotStop();
 
@@ -272,7 +277,6 @@ protected slots:
   void slotComboPlugged();
 
   void slotShowMenuBar();
-  //void slotShowStatusBar();
   void slotShowToolBar();
   void slotShowLocationBar();
   void slotShowBookmarkBar();
@@ -349,6 +353,7 @@ private:
 
   KAction *m_paLockView;
   KAction *m_paUnlockAll;
+  KToggleAction *m_paLinkView;
   KAction *m_paReload;
   KAction *m_paUndo;
   KAction *m_paCut;

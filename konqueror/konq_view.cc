@@ -219,7 +219,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
   {
 
-    if ( lockedViewMode() )
+    if ( isLockedViewMode() )
       return true; // we can't do that if our view mode is locked
 
     KTrader::OfferList partServiceOffers, appServiceOffers;
@@ -316,10 +316,7 @@ void KonqView::slotStarted( KIO::Job * job )
   m_bLoading = true;
 
   if ( m_pMainWindow->currentView() == this )
-  {
-    m_pMainWindow->updateStatusBar();
     m_pMainWindow->updateToolBarActions();
-  }
 
   if (job)
   {
@@ -549,6 +546,8 @@ void KonqView::setPassiveMode( bool mode )
 void KonqView::setLinkedView( bool mode )
 {
   m_bLinkedView = mode;
+  if ( m_pMainWindow->currentView() == this )
+    m_pMainWindow->linkViewAction()->setChecked( mode );
   frame()->statusbar()->setLinkedView( mode );
 }
 

@@ -289,7 +289,7 @@ void KonqViewManager::viewCountChanged()
   for (  ; it != end ; ++it )
   {
       it.data()->frame()->statusbar()->showActiveViewIndicator(
-          bShowActiveViewIndicator && !it.data()->passiveMode()
+          bShowActiveViewIndicator && !it.data()->isPassiveMode()
       );
       it.data()->frame()->statusbar()->showLinkedViewIndicator( bShowLinkedViewIndicator );
   }
@@ -347,7 +347,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
       break; // no next view found
 
     KonqView *nextView = it.data();
-    if ( nextView && !nextView->passiveMode() )
+    if ( nextView && !nextView->isPassiveMode() )
       return nextView;
   }
 
@@ -466,21 +466,21 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   //  nextChildView->part()->widget()->setFocus();
 
   // Window size
-  
+
   bool ok;
-  
+
   QString widthStr = cfg.readEntry( "Width" );
   QString heightStr = cfg.readEntry( "Height" );
 
   int width = -1;
   int height = -1;
-  
+
   if ( widthStr.contains( '%' ) == 1 )
   {
     widthStr.truncate( widthStr.length() - 1 );
     int relativeWidth = widthStr.toInt( &ok );
     if ( ok )
-      width = relativeWidth * QApplication::desktop()->width() / 100; 
+      width = relativeWidth * QApplication::desktop()->width() / 100;
   }
   else
   {
@@ -494,7 +494,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     heightStr.truncate( heightStr.length() - 1 );
     int relativeHeight = heightStr.toInt( &ok );
     if ( ok )
-      height = relativeHeight * QApplication::desktop()->height() / 100; 
+      height = relativeHeight * QApplication::desktop()->height() / 100;
   }
   else
   {

@@ -202,28 +202,28 @@ public:
   bool supportsServiceType( const QString &serviceType ) { return serviceTypes().contains( serviceType ); }
 
   // True if "Use index.html" is set (->the view doesn't necessarily show HTML!)
-  void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
   bool allowHTML() const { return m_bAllowHTML; }
+  void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
 
   // True if currently loading
-  void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
+  void setLoading( bool b ) { m_bLoading = b; }
 
   // True if "locked to current location" (and their view mode, in fact)
-  bool lockedLocation() const { return m_bLockedLocation; }
+  bool isLockedLocation() const { return m_bLockedLocation; }
   void setLockedLocation( bool b ) { m_bLockedLocation = b; }
 
   // True if can't be made active (e.g. dirtree).
-  bool passiveMode() const { return m_bPassiveMode; }
+  bool isPassiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
   // True if locked to current view mode
   // Toggle views and passive views are always locked.
-  bool lockedViewMode() const { return m_bLockedViewMode || m_bToggleView || m_bPassiveMode; }
+  bool isLockedViewMode() const { return m_bLockedViewMode || m_bToggleView || m_bPassiveMode; }
   void setLockedViewMode( bool mode ) { m_bLockedViewMode = mode; } // currently unused
 
   // True if 'link' symbol set
-  bool linkedView() const { return m_bLinkedView; }
+  bool isLinkedView() const { return m_bLinkedView; }
   void setLinkedView( bool mode );
 
   // True if toggle view

@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="4">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="5">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -18,8 +18,8 @@
   <Separator/>
   <Action name="new_menu"/>
   <Separator/>
-  <Action name="editMimeType"/><!--Applies to one file only-->
-  <Action name="properties"/><!--Applies to one file only-->
+  <Action name="editMimeType"/>
+  <Action name="properties"/>
   <WeakSeparator/>
   <ActionList name="openwith" />
   <Separator />
@@ -30,6 +30,7 @@
   <Action name="usehtml"/>
   <Action name="lock"/>
   <Action name="unlockall"/>
+  <Action name="link"/>
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
@@ -91,8 +92,6 @@
   <Separator/>
   <ActionList name="toggleview" />
   <Separator/>
-  <!--<Action name="savedefaultprofile"/>
-  <Separator/>-->
   <Action name="saveremoveviewprofile"/>
   <Action name="loadviewprofile"/>
   <Separator/>

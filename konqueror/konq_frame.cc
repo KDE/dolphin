@@ -110,7 +110,7 @@ void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
 void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
 {
    QWidget::mousePressEvent( event );
-   if ( !m_pParentKonqFrame->childView()->passiveMode() )
+   if ( !m_pParentKonqFrame->childView()->isPassiveMode() )
    {
       emit clicked();
       update();
@@ -302,8 +302,8 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
                         childView()->url().url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
-  config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
-  config->writeEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), childView()->linkedView() );
+  config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->isPassiveMode() );
+  config->writeEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), childView()->isLinkedView() );
 }
 
 KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
