@@ -1,5 +1,2 @@
-- use Konqui's cache
 - asynchronous integration with konqi (no freezing!)
 - implement the new plugin schema
-- XEmbed plugin support
-...

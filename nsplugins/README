@@ -228,10 +228,8 @@ browser plugin execution environment, it still lacks the following features:
 
   LiveConnect will probably never be supported due to JRE ABI issues, and
   the fact that we need to have a JRE with JNI inside the nspluginviewer.
-  LiveConnect is almost obsolete as well.  It is more likely that XPConnect
-  is the proper approach for the future.
-
-- XPConnect (Mozilla) JavaScript connectivity
+  LiveConnect is almost obsolete as well.  XPConnect will not be integrated
+  either.
 
 The current support is enough to run common plugins such as Macromedia(R)
 Flash(R) and RealPlayer(R), but some of their functionality might be missing.
