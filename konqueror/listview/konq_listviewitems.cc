@@ -32,7 +32,7 @@
  * KonqListViewItem
  *
  **************************************************************/
-KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, 
+KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget,
                                     KonqListViewItem * _parent, KFileItem* _fileitem )
    : KonqBaseListViewItem( _listViewWidget, _parent, _fileitem ),
      m_pixmaps( listView()->columns() )
@@ -123,7 +123,15 @@ void KonqListViewItem::updateContents()
                      ++n;
                      if ( n == numExtra )
                      {
-                         setText(tmpColumn->displayInColumn, (*it).m_str);
+                         if ( tmpColumn->type == QVariant::DateTime )
+                         {
+                             QDateTime dt = QDateTime::fromString( (*it).m_str, Qt::ISODate );
+                             setText(tmpColumn->displayInColumn,
+                                     KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+
+                                     KGlobal::locale()->formatTime(dt.time())+" ");
+                         }
+                         else // if ( tmpColumn->type == QVariant::String )
+                             setText(tmpColumn->displayInColumn, (*it).m_str);
                          break;
                      }
                  }
@@ -282,7 +290,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
             cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(_column), *pm ) );
             QPoint o = _painter->brushOrigin();
             _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
-            const QColorGroup::ColorRole crole = 
+            const QColorGroup::ColorRole crole =
                 QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
             _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
             _painter->setBrushOrigin( o );
@@ -294,7 +302,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
         _width = newWidth;
     }
-	
+
     KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 

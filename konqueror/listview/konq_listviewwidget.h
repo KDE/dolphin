@@ -55,14 +55,15 @@ class ColumnInfo
 {
 public:
    ColumnInfo();
-   ColumnInfo( const QString& n, const QString& desktopName, int kioUds,
-               int count, bool enabled, KToggleAction *someAction, int theWidth = -1 );
-   void setData( const QString& n, const QString& desktopName, int kioUds, int count,
-                 bool enabled, KToggleAction *someAction, int theWith = -1 );
+   void setData( const QString& n, const QString& desktopName, int kioUds,
+                 KToggleAction *someAction, int theWith = -1 );
+   void setData( const QString& n, const QString& desktopName, int kioUds /* UDS_EXTRA */,
+                 QVariant::Type type, KToggleAction *someAction, int theWith = -1 );
    int displayInColumn;
    QString name;
    QString desktopFileName;
    int udsId;
+   QVariant::Type type; // only used if udsId == UDS_EXTRA
    bool displayThisOne;
    KToggleAction *toggleThisOne;
    int width;
@@ -179,7 +180,7 @@ protected slots:
    // forces a repaint on column size changes / branch expansion
    // when there is a background pixmap
    void slotUpdateBackground();
-   
+
    //Notifies the browser view of the currently selected items
    void slotSelectionChanged();
    virtual void reportItemCounts();

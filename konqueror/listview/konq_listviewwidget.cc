@@ -50,28 +50,34 @@ ColumnInfo::ColumnInfo()
    ,name()
    ,desktopFileName()
    ,udsId(0)
+   ,type(QVariant::Invalid)
    ,displayThisOne(false)
    ,toggleThisOne(0)
 {}
 
 
-ColumnInfo::ColumnInfo(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction, int theWidth)
-   :displayInColumn(count)
-   ,name(n)
-   ,desktopFileName(desktopName)
-   ,udsId(kioUds)
-   ,displayThisOne(enabled)
-   ,toggleThisOne(someAction)
-   ,width(theWidth)
-{}
-
-void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction, int theWidth)
+void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUds,
+                         KToggleAction* someAction, int theWidth)
 {
-   displayInColumn=count;
+   displayInColumn=-1;
    name=n;
    desktopFileName=desktopName;
    udsId=kioUds;
-   displayThisOne=enabled;
+   type=QVariant::Invalid;
+   displayThisOne=false;
+   toggleThisOne=someAction;
+   width=theWidth;
+}
+
+void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUds,
+                         QVariant::Type t, KToggleAction* someAction, int theWidth)
+{
+   displayInColumn=-1;
+   name=n;
+   desktopFileName=desktopName;
+   udsId=kioUds;
+   type=t;
+   displayThisOne=false;
    toggleThisOne=someAction;
    width=theWidth;
 }
@@ -230,11 +236,18 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    KProtocolInfo::ExtraFieldList::Iterator extraFieldsIt = extraFields.begin();
    for ( int num = 1; extraFieldsIt != extraFields.end(); ++extraFieldsIt, ++num )
    {
-      QString column = (*extraFieldsIt).name;
+      const QString column = (*extraFieldsIt).name;
       if ( lstColumns.find(column) == lstColumns.end() )
          lstColumns << column;
-      QString type = (*extraFieldsIt).type; // ## TODO use when sorting
-      confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, false, 0);
+      const QString type = (*extraFieldsIt).type; // ## TODO use when sorting
+      QVariant::Type t = QVariant::Invalid;
+      if ( type.lower() == "qstring" )
+          t = QVariant::String;
+      else if ( type.lower() == "qdatetime" )
+          t = QVariant::DateTime;
+      else
+          kdWarning() << "Unsupported ExtraType '" << type << "'" << endl;
+      confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, t, 0);
    }
 
    //disable everything
@@ -287,9 +300,9 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
                   str = "_a_long_/_mimetype_";
                else if ( tmpColumn->udsId == KIO::UDS_URL )
                   str = "a_long_lonq_long_very_long_url";
-               else if ( (tmpColumn->udsId == KIO::UDS_MODIFICATION_TIME)
-                         || (tmpColumn->udsId == KIO::UDS_ACCESS_TIME)
-                         || (tmpColumn->udsId == KIO::UDS_CREATION_TIME) )
+               else if ( (tmpColumn->udsId & KIO::UDS_TIME)
+                         || (tmpColumn->udsId == KIO::UDS_EXTRA &&
+                             (tmpColumn->type & QVariant::DateTime)) )
                {
                   QDateTime dt( QDate( 2000, 10, 10 ), QTime( 20, 20, 20 ) );
                   str = KGlobal::locale()->formatDate( dt.date(), true ) +
