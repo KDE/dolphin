@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Link
+URL=print:/
+Icon=fileprint
+Name=Print System Browser
+Open=false
+X-KDE-TreeModule=Directory
+X-KDE-KonqSidebarModule=konqsidebar_tree
