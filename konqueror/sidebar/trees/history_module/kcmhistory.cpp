@@ -62,14 +62,14 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
     dialog->spinNewer->setRange( 0, INT_MAX, 1, false );
     dialog->spinOlder->setRange( 0, INT_MAX, 1, false );
 
-    dialog->comboNewer->insertItem( i18n("Minutes"), 
+    dialog->comboNewer->insertItem( i18n("Minutes"),
                                     KonqSidebarHistorySettings::MINUTES );
-    dialog->comboNewer->insertItem( i18n("Days"), 
+    dialog->comboNewer->insertItem( i18n("Days"),
                                     KonqSidebarHistorySettings::DAYS );
 
-    dialog->comboOlder->insertItem( i18n("Minutes"), 
+    dialog->comboOlder->insertItem( i18n("Minutes"),
                                     KonqSidebarHistorySettings::MINUTES );
-    dialog->comboOlder->insertItem( i18n("Days"), 
+    dialog->comboOlder->insertItem( i18n("Days"),
                                     KonqSidebarHistorySettings::DAYS );
 
     connect( dialog->cbExpire, SIGNAL( toggled( bool )),
@@ -82,22 +82,22 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
     connect( dialog->spinOlder, SIGNAL( valueChanged( int )),
 	     SLOT( slotOlderChanged( int )));
 
-    connect( dialog->btnFontNewer, SIGNAL( clicked() ), 
+    connect( dialog->btnFontNewer, SIGNAL( clicked() ),
              SLOT( slotGetFontNewer() ));
-    connect( dialog->btnFontOlder, SIGNAL( clicked() ), 
+    connect( dialog->btnFontOlder, SIGNAL( clicked() ),
              SLOT( slotGetFontOlder() ));
-    connect( dialog->btnClearHistory, SIGNAL( clicked() ), 
+    connect( dialog->btnClearHistory, SIGNAL( clicked() ),
              SLOT( slotClearHistory() ));
 
-    connect( dialog->cbDetailedTips, SIGNAL( toggled( bool )), 
+    connect( dialog->cbDetailedTips, SIGNAL( toggled( bool )),
              SLOT( configChanged() ));
-    connect( dialog->cbExpire, SIGNAL( toggled( bool )), 
+    connect( dialog->cbExpire, SIGNAL( toggled( bool )),
              SLOT( configChanged() ));
-    connect( dialog->spinEntries, SIGNAL( valueChanged( int )), 
+    connect( dialog->spinEntries, SIGNAL( valueChanged( int )),
              SLOT( configChanged() ));
-    connect( dialog->comboNewer, SIGNAL( activated( int )), 
+    connect( dialog->comboNewer, SIGNAL( activated( int )),
              SLOT( configChanged() ));
-    connect( dialog->comboOlder, SIGNAL( activated( int )), 
+    connect( dialog->comboOlder, SIGNAL( activated( int )),
              SLOT( configChanged() ));
 
     dialog->show();
@@ -211,7 +211,7 @@ void HistorySidebarConfig::slotExpireChanged( int value )
     if ( value == 1 )
         dialog->spinExpire->setSuffix( i18n(" day") );
     else
-        dialog->spinExpire->setSuffix( 
+        dialog->spinExpire->setSuffix(
             i18n("'URLs expire after XX days.' Unfortunately the plural "
                  "handling of KLocale doesn't work here, as I only need "
                  "the word 'days' and not the entire sentence here. Sorry.",
@@ -228,15 +228,15 @@ void HistorySidebarConfig::slotNewerChanged( int value )
     const QString& minutes = i18n("Minutes");
 
     if ( value == 1 ) {
-	dialog->comboNewer->changeItem( i18n("Day"), 
+	dialog->comboNewer->changeItem( i18n("Day"),
                                         KonqSidebarHistorySettings::DAYS );
-	dialog->comboNewer->changeItem( i18n("Minute"), 
+	dialog->comboNewer->changeItem( i18n("Minute"),
                                         KonqSidebarHistorySettings::MINUTES );
     }
     else {
-	dialog->comboNewer->changeItem( days, 
+	dialog->comboNewer->changeItem( days,
                                         KonqSidebarHistorySettings::DAYS );
-	dialog->comboNewer->changeItem( minutes, 
+	dialog->comboNewer->changeItem( minutes,
                                         KonqSidebarHistorySettings::MINUTES);
     }
 
@@ -251,34 +251,36 @@ void HistorySidebarConfig::slotOlderChanged( int value )
     const QString& minutes = i18n("Minutes");
 
     if ( value == 1 ) {
-	dialog->comboOlder->changeItem( i18n("Day"), 
+	dialog->comboOlder->changeItem( i18n("Day"),
                                         KonqSidebarHistorySettings::DAYS );
-	dialog->comboOlder->changeItem( i18n("Minute"), 
+	dialog->comboOlder->changeItem( i18n("Minute"),
                                         KonqSidebarHistorySettings::MINUTES );
     }
     else {
-	dialog->comboOlder->changeItem( days, 
+	dialog->comboOlder->changeItem( days,
                                         KonqSidebarHistorySettings::DAYS );
-	dialog->comboOlder->changeItem( minutes, 
+	dialog->comboOlder->changeItem( minutes,
                                         KonqSidebarHistorySettings::MINUTES);
     }
 
     if ( dialog->spinNewer->value() > dialog->spinOlder->value() )
 	dialog->spinNewer->setValue( dialog->spinOlder->value() );
-    
+
     configChanged();
 }
 
 void HistorySidebarConfig::slotGetFontNewer()
 {
-    (void) KFontDialog::getFont( m_fontNewer, false, this );
-    configChanged();
+    int result = KFontDialog::getFont( m_fontNewer, false, this );
+    if ( result == KFontDialog::Accepted )
+        configChanged();
 }
 
 void HistorySidebarConfig::slotGetFontOlder()
 {
-    (void) KFontDialog::getFont( m_fontOlder, false, this );
-    configChanged();
+    int result = KFontDialog::getFont( m_fontOlder, false, this );
+    if ( result == KFontDialog::Accepted )
+        configChanged();
 }
 
 void HistorySidebarConfig::slotClearHistory()
