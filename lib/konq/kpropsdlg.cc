@@ -703,6 +703,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     // and the icon button, on the right of this vertical layout
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
     iconBox->setFixedSize( 50, 50 );
+    iconBox->setIconType("icon"); // Choose from app icons
     hlayout->addWidget(iconBox, 0, AlignCenter);
 
     // The groupbox about swallowing
