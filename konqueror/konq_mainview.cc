@@ -230,6 +230,24 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
 {
   debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
 
+  if ( _url.left( 7 ) == "mailto:" )
+  {
+    QString addr = _url.mid( 7 );
+    KURL::decode( addr );
+    QString subj;
+
+    int subjPos = addr.find( "?subject=" );
+    if ( subjPos != -1 )
+    {
+      subj = addr.mid( subjPos + 9 );
+      addr.truncate( subjPos );
+    }
+
+    kapp->invokeMailer( addr, subj );
+
+    return;
+  }  
+  
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
   QString url = konqFilteredURL(_url);
