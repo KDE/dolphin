@@ -60,6 +60,11 @@ public slots:
      */
     void slotCheckUpToDate( );
 
+    /*
+     * Called when the templates has been copied
+     */
+    void slotCopyFinished( int id );
+
     QPopupMenu *popupMenu()
     {
       if ( m_bUseOPMenu )
@@ -95,6 +100,12 @@ private:
      * is displayed. The URL belonging to this popup menu is stored here.
      */
     QStrList popupFiles; 
+
+    /*
+     * The destination of the copy, for each job being run (job id is the dict key).
+     * Used to popup properties for it
+     */
+    QIntDict <QString> m_sDest;
     
     bool m_bUseOPMenu;
     

@@ -162,6 +162,9 @@ void KNewMenu::slotNewFile( int _id )
     else if ( m_pMenu->text( _id ) == 0 )
       return;
 
+    m_sDest.clear();
+    m_sDest.setAutoDelete(true);
+
     QString p;
     
     if ( m_bUseOPMenu )
@@ -170,8 +173,6 @@ void KNewMenu::slotNewFile( int _id )
       p = templatesList->at( m_pMenu->indexOf( _id ) );
       
     QString tmp = p;
-    // Reggie: not needed anymore (Qt 2.0)
-    //tmp.detach();
 
     if ( strcmp( tmp, "Folder" ) != 0 ) {
       QString x = KfmPaths::templatesPath() + p;
@@ -232,11 +233,11 @@ void KNewMenu::slotNewFile( int _id )
 	    QString src = KfmPaths::templatesPath() + p;
             for ( s = urls.first(); s != 0L; s = urls.next() )
             {
-                KIOJob * job = new KIOJob;
-		KURL url( s );
-		url.addPath( name );
-		QString u2 = url.url();
+                KIOJob * job = new KIOJob( );
+		KURL dest( s );
+		dest.addPath( name );
 
+		//QString u2 = url.url();
 		// debugT("Command copy '%s' '%s'\n",src.data(),dest.data());
 
 		// --- Sven's check if this is global apps/mime start ---
@@ -245,10 +246,24 @@ void KNewMenu::slotNewFile( int _id )
 		// User wants to create new entry in global mime/apps dir;
 		//		Kfm::setUpDest(&u2);
 		// --- Sven's check if global apps/mime end ---
-                job->copy( src, u2 );
+
+                if ( name.right(7) ==".kdelnk" )
+                {
+                  m_sDest.insert( job->id(), new QString( dest.url() ) );
+                  connect(job, SIGNAL( finished( int ) ), this, SLOT( slotCopyFinished( int ) ) );
+                }
+
+                job->copy( src, dest.url() );
             }
 	}
     }
+}
+
+void KNewMenu::slotCopyFinished( int id )
+{
+  // Now open the properties dialog on the file, as it was a kdelnk
+  // TODO
+  //(void) new Properties( m_sDest.find( id )->data() );
 }
 
 #include "kfmpopup.moc"

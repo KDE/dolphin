@@ -1367,7 +1367,7 @@ QString KfmTreeViewItem::makeTypeString( const UDSAtom &_atom ) const
 {
   mode_t mode = (mode_t) _atom.m_long;
 
-  if ( mode & S_ISVTX /* S_ISLNK( mode ) */ )
+  if ( S_ISLNK( mode ) )
     return i18n( "Link" );
   else if ( S_ISDIR( mode ) )
     return i18n( "Directory" );

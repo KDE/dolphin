@@ -679,7 +679,7 @@ void KonqKfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
       break;
     }
 
-  if (mode & S_ISVTX /*S_ISLNK( mode )*/ )
+  if ( S_ISLNK( mode ) )
   {
     QFont f = _painter->font();
     f.setItalic( true );
