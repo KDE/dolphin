@@ -40,6 +40,7 @@
 #include <kfiledialog.h>
 #include <kurl.h>
 #include <kio/job.h>
+#include <kmessagebox.h>
 #include <kmimetype.h>
 #include <konqdefaults.h>
 #include <konq_htmlsettings.h>
@@ -164,14 +165,10 @@ bool KonqHTMLView::openURL( const KURL &url )
   // don't call our reimplementation as it emits openURLRequest! (Simon)
   m_pWidget->KHTMLWidget::openURL( url.url() /*,reload, xOffset, yOffset*/ );
 
-  if ( m_pWidget->jobId() )
+  if ( m_pWidget->job() )
   {
-    KIOJob *job = KIOJob::find( m_pWidget->jobId() );
-    if ( job )
-    {
-      QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ),
+      QObject::connect( m_pWidget->job(), SIGNAL( sigRedirection( int, const char * ) ),
                         this, SLOT( slotDocumentRedirection( int, const char * ) ) );
-    }
   }
 
   updateActions();
@@ -187,7 +184,7 @@ void KonqHTMLView::slotCanceled()
 
 void KonqHTMLView::slotStarted( const QString & )
 {
-  emit started( m_pWidget->jobId() );
+  emit started( m_pWidget->job() );
 }
 
 void KonqHTMLView::slotCompleted()
@@ -304,7 +301,7 @@ debug(" KonqHTMLWidget::slotMousePressed ");
       struct stat buff;
       if ( stat( u.path(), &buff ) == -1 )
       {
-        kioErrorDialog( KIO::ERR_COULD_NOT_STAT, u.url() );
+        KMessageBox::error( 0L, i18n( "Could not access\n%1" ).arg(u.url()) );
         return;
       }
       mode = buff.st_mode;
@@ -557,8 +554,8 @@ void KonqHTMLView::saveDocument()
 	KURL destURL( dlg->selectedURL() );
 	if ( !destURL.isMalformed() )
 	{
-    	  KIOJob *job = new KIOJob;
-	  job->copy( url().url(), destURL.url() );
+            KIO::Job *job = KIO::copy( url(), destURL );
+            // TODO connect job result, to display errors
 	}
       }
 
@@ -587,8 +584,8 @@ void KonqHTMLView::saveFrame()
     KURL destURL(dlg->selectedURL());
     if ( !destURL.isMalformed() )
     {
-      KIOJob *job = new KIOJob;
-      job->copy( url().url(), destURL.url() );
+      KIO::Job *job = KIO::copy( url(), destURL );
+      // TODO connect job result, to display errors
     }
   }
 
@@ -612,8 +609,8 @@ void KonqHTMLView::saveBackground()
     KURL destURL( dlg->selectedURL());
     if ( !destURL.isMalformed() )
     {
-      KIOJob *job = new KIOJob;
-      job->copy( url().url(), destURL.url() );
+      KIO::Job *job = KIO::copy( url(), destURL );
+      // TODO connect job result, to display errors
     }
   }
 
