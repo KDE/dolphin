@@ -568,6 +568,7 @@ private:
 
   void plugViewModeActions();
   void unplugViewModeActions();
+  static QString viewModeActionKey( KService::Ptr service );
 
   void connectActionCollection( KActionCollection *coll );
   void disconnectActionCollection( KActionCollection *coll );
@@ -687,7 +688,7 @@ private:
   KCMultiDialog* m_configureDialog;
 
   /**
-   * A list of the modules to be shown in 
+   * A list of the modules to be shown in
    * the configure dialog.
    * @since 3.4
    */

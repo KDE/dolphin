@@ -1538,9 +1538,10 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 
   // iterate over all services, update the toolbar service map
   // and check if we can do a quick property-based viewmode change
-  KTrader::OfferList offers = m_currentView->partServiceOffers();
+  const KTrader::OfferList offers = m_currentView->partServiceOffers();
   KTrader::OfferList::ConstIterator oIt = offers.begin();
   KTrader::OfferList::ConstIterator oEnd = offers.end();
+  const QString currentServiceKey = viewModeActionKey( m_currentView->service() );
   for (; oIt != oEnd; ++oIt )
   {
       KService::Ptr service = *oIt;
@@ -1554,9 +1555,10 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
           // updateViewModeActions
           // (I'm saying iconview/listview here, but theoretically it could be
           //  any view :)
-          m_viewModeToolBarServices[ service->library() ] = service;
+          const QString serviceKey = viewModeActionKey( service );
+          m_viewModeToolBarServices[ serviceKey ] = service;
 
-          if (  service->library() == m_currentView->service()->library() )
+          if ( serviceKey == currentServiceKey )
           {
               QVariant modeProp = service->property( "X-KDE-BrowserView-ModeProperty" );
               QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );
@@ -2109,7 +2111,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
       // if we just toggled the view mode via the view mode actions, then
       // we don't need to do all the time-taking stuff below (Simon)
-      QString currentServiceDesktopEntryName = m_currentView->service()->desktopEntryName();
+      const QString currentServiceDesktopEntryName = m_currentView->service()->desktopEntryName();
       QPtrListIterator<KRadioAction> it( m_viewModeActions );
       for (; it.current(); ++it ) {
           if ( it.current()->name() == currentServiceDesktopEntryName ) {
@@ -2117,11 +2119,11 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
               break;
           }
       }
-      QString currentServiceLibrary = m_currentView->service()->library();
+      const QString currentServiceLibrary = viewModeActionKey( m_currentView->service() );
       QPtrListIterator<KAction> ittb( m_toolBarViewModeActions );
       for (; ittb.current(); ++ittb ) {
           KService::Ptr serv = KService::serviceByDesktopName( ittb.current()->name() );
-          if ( serv && serv->library() == currentServiceLibrary ) {
+          if ( serv && viewModeActionKey( serv ) == currentServiceLibrary ) {
               KToggleAction* ta = static_cast<KToggleAction*>( ittb.current() );
               ta->setChecked( true );
 	      QString servicename = m_currentView->service()->genericName();
@@ -4667,6 +4669,16 @@ void KonqMainWindow::updateOpenWithActions()
   }
 }
 
+QString KonqMainWindow::viewModeActionKey( KService::Ptr service )
+{
+    QString library = service->library();
+    // Group all non-builtin views together
+    QVariant builtIntoProp = service->property( "X-KDE-BrowserView-Built-Into" );
+    if ( !builtIntoProp.isValid() || builtIntoProp.toString() != "konqueror" )
+        library = "external";
+    return library;
+}
+
 void KonqMainWindow::updateViewModeActions()
 {
   unplugViewModeActions();
@@ -4744,11 +4756,7 @@ void KonqMainWindow::updateViewModeActions()
       m_viewModeActions.append( action );
       action->plug( m_viewModeMenu->popupMenu() );
 
-      QString library = (*it)->library();
-      // Group all non-builtin views together
-      QVariant builtIntoProp = (*it)->property( "X-KDE-BrowserView-Built-Into" );
-      if ( !builtIntoProp.isValid() || builtIntoProp.toString() != "konqueror" )
-          library = "external";
+      const QString library = viewModeActionKey( *it );
 
       // look if we already have a KonqViewModeAction (in the toolbar)
       // for this component
@@ -4761,7 +4769,7 @@ void KonqMainWindow::updateViewModeActions()
           QString text = itname;
           QString icon = (*it)->icon();
           QCString name = (*it)->desktopEntryName().latin1();
-          //kdDebug(1202) << " Creating action for " << library << ". Default service " << itname << endl;
+          kdDebug(1202) << " Creating action for " << library << ". Default service " << itname << endl;
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
           // then we will want to use the previously used settings (previous as
@@ -4769,7 +4777,7 @@ void KonqMainWindow::updateViewModeActions()
           QMap<QString,KService::Ptr>::ConstIterator serviceIt = m_viewModeToolBarServices.find( library );
           if ( serviceIt != m_viewModeToolBarServices.end() )
           {
-              //kdDebug(1202) << " Setting action for " << library << " to " << (*serviceIt)->name() << endl;
+              kdDebug(1202) << " Setting action for " << library << " to " << (*serviceIt)->name() << endl;
               text = (*serviceIt)->genericName();
               if (text.isEmpty())
                   text = (*serviceIt)->name();
@@ -4782,7 +4790,7 @@ void KonqMainWindow::updateViewModeActions()
               QString preferredService = config->readEntry( library );
               if ( !preferredService.isEmpty() && name != preferredService.latin1() )
               {
-                  //kdDebug(1202) << " Inserting into preferredServiceMap(" << (*it)->library() << ") : " << preferredService << endl;
+                  //kdDebug(1202) << " Inserting into preferredServiceMap(" << library << ") : " << preferredService << endl;
                   // The preferred service isn't the current one, so remember to set it later
                   preferredServiceMap[ library ] = preferredService;
               }
