@@ -59,7 +59,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       connect(homeURL, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
 
       QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
-         "konqueror will jump to when the \"Home\" button is pressed.");
+         "konqueror will jump to when the \"Home\" button is pressed. Usually a 'tilde' (~).");
       QWhatsThis::add( label, homestr );
       QWhatsThis::add( homeURL, homestr );
 
@@ -68,8 +68,10 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       QGroupBox *gbox = new QGroupBox(i18n("Use builtin viewer for"), this);
       lay->addMultiCellWidget(gbox,row,row,0,2,Qt::AlignLeft);
       QWhatsThis::add( gbox, i18n("These options determine whether certain types of content "
-         "should be displayed in Konqueror itself. If unchecked, Konqueror will launch the "
-         "application associated with the file type.") );
+         "should be displayed embedded in Konqueror itself. If unchecked, Konqueror will launch the "
+         "application associated with the file type. Please note that these"
+         " settings only take effect on files for which you have not specified"
+         " a special behavior in the 'File Associations' control module.") );
 
       QGridLayout *grid = new QGridLayout(gbox, 4, 0,
                                           KDialog::marginHint(),
