@@ -60,7 +60,8 @@ protected slots:
 class KBookmark;
 class KBookmarkManager;
 
-class CurrentMgr {
+class CurrentMgr : public QObject {
+   Q_OBJECT
 public:
    static CurrentMgr* self() 
       { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
@@ -75,6 +76,8 @@ public:
    void setUpdate(bool update);
    QString path();
    bool showNSBookmarks();
+protected slots:
+   void slotBookmarksChanged(const QString &, const QString &);
 private:
    CurrentMgr() : m_mgr(0) { ; }
    KBookmarkManager *m_mgr;
@@ -102,7 +105,7 @@ public:
    void setCancelFavIconUpdatesEnabled(bool);
    void setCancelTestsEnabled(bool);
 
-   void emitSlotCommandExecuted();
+   void notifyCommandExecuted();
 
    void updateActions();
 
@@ -127,7 +130,6 @@ public slots:
 
 protected slots:
    void slotClipboardDataChanged();
-   void slotBookmarksChanged(const QString &, const QString &);
    void slotNewToolbarConfig();
 
 private:

@@ -48,8 +48,7 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
    if (!favicon.isNull()) {
       // kdDebug() << "downloadIcon() - favicon" << favicon << endl;
       bk.internalElement().setAttribute("icon", favicon);
-      // kdDebug() << "favicon - emitSlotCommandExecuted()" << favicon << endl;
-      KEBApp::self()->emitSlotCommandExecuted();
+      KEBApp::self()->notifyCommandExecuted();
       // kdDebug() << "emit done(true)" << endl;
       emit done(true);
 
@@ -110,7 +109,7 @@ void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconNa
    // kdDebug() << hostOrURL << "==" << m_bk.url().url() << "-> " << iconName << endl;
 
    m_bk.internalElement().setAttribute("icon", iconName);
-   KEBApp::self()->emitSlotCommandExecuted();
+   KEBApp::self()->notifyCommandExecuted();
 }
 
 /* -------------------------- */

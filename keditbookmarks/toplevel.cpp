@@ -65,7 +65,7 @@ CmdHistory* CmdHistory::self() {
 }
 
 void CmdHistory::slotCommandExecuted() {
-   KEBApp::self()->emitSlotCommandExecuted();
+   KEBApp::self()->notifyCommandExecuted();
 }
 
 void CmdHistory::slotDocumentRestored() {
@@ -83,7 +83,7 @@ void CmdHistory::notifyDocSaved() {
 void CmdHistory::didCommand(KCommand *cmd) {
    if (cmd) {
       m_commandHistory.addCommand(cmd, false);
-      KEBApp::self()->emitSlotCommandExecuted();
+      KEBApp::self()->notifyCommandExecuted();
    }
 }
 
@@ -111,15 +111,25 @@ bool CurrentMgr::showNSBookmarks() { return mgr()->showNSBookmarks(); }
 
 void CurrentMgr::createManager(QObject *top, const QString &filename) {
    if (m_mgr) {
-      QObject::disconnect(m_mgr, 0, 0, 0);
+      disconnect(m_mgr, 0, 0, 0);
+      // still todo - delete old m_mgr
    }
-
-   // TODO - delete m_mgr, and do testing
 
    m_mgr = KBookmarkManager::managerForFile(filename, false);
 
-   QObject::connect(m_mgr, SIGNAL( changed(const QString &, const QString &) ),
-                    top,   SLOT( slotBookmarksChanged(const QString &, const QString &) ));
+   connect(m_mgr, SIGNAL( changed(const QString &, const QString &) ),
+                  SLOT( slotBookmarksChanged(const QString &, const QString &) ));
+}
+
+void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
+   // TODO umm.. what happens if a readonly gets a update for a non-readonly???
+   // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
+   if ((caller.latin1() != kapp->dcopClient()->appId()) && !KEBApp::self()->modified()) {
+      kdDebug() << "CurrentMgr::slotBookmarksChanged" << endl;
+      CmdHistory::self()->clearHistory();
+      ListView::self()->fillWithGroup();
+      KEBApp::self()->updateActions();
+   }
 }
 
 void CurrentMgr::notifyManagers() {
@@ -396,25 +406,12 @@ void KEBApp::slotClipboardDataChanged() {
 
 /* -------------------------- */
 
-void KEBApp::emitSlotCommandExecuted() {
+void KEBApp::notifyCommandExecuted() {
    if (!m_readOnly) {
       kdDebug() << "KEBApp::slotCommandExecuted" << endl;
       setModifiedFlag(true);
       ListView::self()->updateListView();
       ListView::self()->emitSlotSelectionChanged();
-      updateActions();
-   }
-}
-
-/* -------------------------- */
-
-void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
-   // TODO umm.. what happens if a readonly gets a update for a non-readonly???
-   // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
-   if ((caller.latin1() != kapp->dcopClient()->appId()) && !m_modified) {
-      kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
-      m_cmdHistory->clearHistory();
-      ListView::self()->fillWithGroup();
       updateActions();
    }
 }
