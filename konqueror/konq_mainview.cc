@@ -1175,10 +1175,12 @@ void KonqMainView::initActions()
   m_paMimeTypes = new KAction( i18n( "Mime &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
 
+  /*
   m_paShowMenuBar = new KAction( i18n( "Show &Menubar" ), 0, this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowStatusBar = new KAction( i18n( "Show &Statusbar" ), 0, this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
   m_paShowToolBar = new KAction( i18n( "Show &Toolbar" ), 0, this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KAction( i18n( "Show &Locationbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
+  */
 
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
@@ -1374,8 +1376,9 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   // Well, not here, but dynamically, so that the go menu is right as well
 
   QActionCollection popupMenuCollection;
-  // if ( !m_vMenuBar->isVisible() )
-  // popupMenuCollection.insert( m_paShowMenuBar );
+  if ( !shell()->menuBar()->isVisible() )
+    // HACK !
+    popupMenuCollection.insert( ((KonqShell *) shell())->menuBarAction() );
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );

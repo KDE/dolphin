@@ -748,8 +748,11 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
 
   KURL u( _url );
   if ( m_pProps->enterDir( u ) )
-  {
-    // nothing to do yet
+  { // We found and parsed a .directory. Apply properties.
+    if ( m_pProps->bgPixmap().isNull() )
+      m_pIconView->setBackgroundColor( m_pProps->bgColor() );
+    else
+      m_pIconView->setBackgroundPixmap( m_pProps->bgPixmap() );
   }
 
   // Start the directory lister !
@@ -815,12 +818,17 @@ void KonqIconViewWidget::initConfig()
   QColor textColor         = m_pSettings->textColor();
   QColor linkColor         = m_pSettings->linkColor();
 
+  if ( m_pProps->bgPixmap().isNull() )
+    setBackgroundColor( m_pProps->bgColor() );
+  else
+    setBackgroundPixmap( m_pProps->bgPixmap() );
+
   /*
     // Does this make sense ? (David)
   if ( m_bgPixmap.isNull() )
-    viewport()->setBackgroundMode( PaletteBackground );
+    setBackgroundMode( PaletteBackground );
   else
-    viewport()->setBackgroundMode( NoBackground );
+    setBackgroundMode( NoBackground );
   */
 
   // Font settings
@@ -840,10 +848,13 @@ void KonqIconViewWidget::initConfig()
 }
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
+  QIconView::drawBackground( p , r );
+    /*
   if ( m_pProps->bgPixmap().isNull() )
     p->fillRect( r, QBrush( m_pProps->bgColor() ) );
   else
     p->drawTiledPixmap( r, m_pProps->bgPixmap() );
+    */
 }
 
 QDragObject * KonqIconViewWidget::dragObject()

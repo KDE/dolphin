@@ -23,6 +23,7 @@
 #include <shell.h>
 
 class KAction;
+class KToggleAction;
 class KHelpMenu;
 
 class KonqShell : public Shell
@@ -32,7 +33,14 @@ public:
   KonqShell();
   ~KonqShell();
 
+  // HACK for konq_mainview
+  KToggleAction * menuBarAction() { return m_paShowMenuBar; }
+
 public slots:
+  void slotShowMenuBar();
+  void slotShowStatusBar();
+  void slotShowToolBar();
+  void slotShowLocationBar();
   void slotQuit();
   
 protected:
@@ -43,6 +51,12 @@ private:
   KAction *m_paShellQuit;
   KAction *m_paShellHelpAboutKDE;
   KHelpMenu *m_helpMenu;
+
+  KToggleAction *m_paShowMenuBar;
+  KToggleAction *m_paShowStatusBar;
+  KToggleAction *m_paShowToolBar;
+  KToggleAction *m_paShowLocationBar;
+  
 };
 
 #endif

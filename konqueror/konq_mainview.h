@@ -224,11 +224,6 @@ private:
   KAction *m_paMimeTypes;
   KAction *m_paApplications;
   
-  KAction *m_paShowMenuBar;
-  KAction *m_paShowStatusBar;
-  KAction *m_paShowToolBar;
-  KAction *m_paShowLocationBar;
-  
   KAction *m_paSaveSettings;
   KAction *m_paSaveSettingsPerURL;
   

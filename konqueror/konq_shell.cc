@@ -39,11 +39,57 @@ KonqShell::KonqShell()
   m_paShellQuit = new KAction( i18n( "Quit" ), accel.quit(), this, SLOT( slotQuit() ), actionCollection(), "konqueror_shell_quit" );
   m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
 
+  m_paShowMenuBar = new KToggleAction( i18n( "Show &Menubar" ), 0, this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
+  m_paShowStatusBar = new KToggleAction( i18n( "Show &Statusbar" ), 0, this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
+  m_paShowToolBar = new KToggleAction( i18n( "Show &Toolbar" ), 0, this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
+  m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
+
+  m_paShowMenuBar->setChecked( true );
+  m_paShowStatusBar->setChecked( true );
+  m_paShowToolBar->setChecked( true );
+  m_paShowLocationBar->setChecked( true );
+
 }
 
 KonqShell::~KonqShell()
 {
   delete rootPart();
+}
+
+void KonqShell::slotShowMenuBar()
+{
+  if (menuBar()->isVisible())
+    menuBar()->enable( KMenuBar::Hide );
+  else
+    menuBar()->enable( KMenuBar::Show );
+}
+
+void KonqShell::slotShowStatusBar()
+{
+  if (statusBar()->isVisible())
+    statusBar()->enable( KStatusBar::Hide );
+  else
+    statusBar()->enable( KStatusBar::Show );
+}
+
+void KonqShell::slotShowToolBar()
+{
+  KToolBar * bar = viewToolBar( "mainToolBar" );
+  if (!bar) return;
+  if (bar->isVisible())
+    bar->enable( KToolBar::Hide );
+  else
+    bar->enable( KToolBar::Show );
+}
+
+void KonqShell::slotShowLocationBar()
+{
+  KToolBar * bar = viewToolBar( "locationToolBar" );
+  if (!bar) return;
+  if (bar->isVisible())
+    bar->enable( KToolBar::Hide );
+  else
+    bar->enable( KToolBar::Show );
 }
 
 void KonqShell::slotQuit()

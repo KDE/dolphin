@@ -6,6 +6,16 @@
   <Action name="konqueror_shell_quit"/>
  </Menu>
  <Part/>
+ <Menu name="Options"><text>&Options</text>
+  <Action name="showmenubar"/>
+  <Action name="showstatusbar"/>
+  <Action name="showtoolbar"/>
+  <Action name="showlocationbar"/>
+  <Part/>
+ </Menu>
+ <Menu name="Window"><text>&Window</text>
+  <Part/>
+ </Menu>
  <Menu name="Help"><text>&Help</text>
   <Part/>
   <Action name="konqueror_shell_aboutkde"/>

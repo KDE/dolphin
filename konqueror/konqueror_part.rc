@@ -26,11 +26,6 @@
  </Menu>
  <Action name="bookmarks_menu"/>
  <Menu name="Options"><text>&Options</text>
-  <Action name="showmenubar"/>
-  <Action name="showstatusbar"/>
-  <Action name="showtoolbar"/>
-  <Action name="showlocationbar"/>
-  <Separator/>
   <Action name="savesettings"/>
   <Action name="savesettingsperurl"/>
   <Separator/>
@@ -74,7 +69,7 @@
   <Separator/>
   <Action name="animated_logo"/>
  </ToolBar>
- <ToolBar fullWidth="true">
+ <ToolBar fullWidth="true" name="locationToolBar">
   <Action name="toolbar_url_combo"/>
  </ToolBar>
 </ToolBars>
