@@ -31,7 +31,6 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <klineeditdlg.h>
-#include <kmessagebox.h>
 #include <konq_settings.h>
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
@@ -619,32 +618,8 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     KFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
         return;
-    if ( !fileItem->isReadable() )
-    {
-        // No permissions or local file that doesn't exist - need to find out which
-        if ( !fileItem->isLocalFile() || QFile::exists( fileItem->url().path() ) )
-        {
-            KMessageBox::error( m_pIconView, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(fileItem->url().prettyURL()) );
-            return;
-        }
-        // ### Add error message if the latter case, after msg freeze.
-    }
 
-    KParts::URLArgs args;
-    fileItem->determineMimeType();
-    if ( fileItem->isMimeTypeKnown() )
-        args.serviceType = fileItem->mimetype();
-    args.trustedSource = true;
-    KURL url = fileItem->url();
-    if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
-        url = KURL( url, fileItem->linkDest() );
-    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
-        // This means both: open new window, and reuse existing window for that dir
-        // if there is already one
-        args.frameName = url.prettyURL(-1);
-    }
-    kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
-    emit m_extension->openURLRequest( url, args );
+    lmbClicked( fileItem );
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)

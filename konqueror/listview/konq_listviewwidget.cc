@@ -29,7 +29,6 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <klocale.h>
-#include <kmessagebox.h>
 #include <kprotocolinfo.h>
 #include <kaction.h>
 #include <kurldrag.h>
@@ -754,14 +753,6 @@ KonqPropsView * KonqBaseListViewWidget::props() const
    return m_pBrowserView->m_pProps;
 }
 
-void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const QString & mimeType)
-{
-   KParts::URLArgs args;
-   args.trustedSource = true;
-   args.serviceType = mimeType;
-   emit m_pBrowserView->extension()->openURLRequest(url,args);
-}
-
 void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 {
    if ( !_item )
@@ -770,32 +761,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    if ( !fileItem )
       return;
 
-   KURL u( fileItem->url() );
-   if ( !fileItem->isReadable() )
-   {
-        // No permissions or local file that doesn't exist - need to find out which
-        if ( !fileItem->isLocalFile() || QFile::exists( fileItem->url().path() ) )
-        {
-            KMessageBox::error( this, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(u.prettyURL()) );
-            return;
-        }
-        // ### Add error message if the latter case, after msg freeze.
-   }
-   if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
-      u = KURL( u, fileItem->linkDest() );
-
-   if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
-      KParts::URLArgs args;
-      args.serviceType = fileItem->mimetype(); // inode/directory
-      emit m_pBrowserView->extension()->createNewWindow( u, args );
-   } else
-   {
-      QString mimetype;
-      fileItem->determineMimeType();
-      if ( fileItem->isMimeTypeKnown() )
-          mimetype = fileItem->mimetype();
-      emitOpenURLRequest( u, mimetype );
-   }
+   m_pBrowserView->lmbClicked( fileItem );
 }
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
@@ -962,7 +928,7 @@ void KonqBaseListViewWidget::setComplete()
       setUpdatesEnabled( true );
       triggerUpdate();
    }
-   
+
    // Show "cut" icons as such
    m_pBrowserView->slotClipboardDataChanged();
 }
