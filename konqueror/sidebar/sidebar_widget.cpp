@@ -371,13 +371,17 @@ void Sidebar_Widget::activatedMenu(int id)
 					{
 						if (Buttons.at(tmpLatestViewed)->dock)
 						{
+							noUpdate=true;
 							Buttons.at(tmpLatestViewed)->dock->undock();
 			                                Buttons.at(tmpLatestViewed)->dock->setEnableDocking(KDockWidget::DockTop|
                                 				KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
 							kdDebug()<<"Reconfiguring multi view mode"<<endl;
-                                			Buttons.at(tmpLatestViewed)->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
+							ButtonBar->setTab(tmpLatestViewed,true);
+							showHidePage(tmpLatestViewed);
+/*                                			Buttons.at(tmpLatestViewed)->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
 							Buttons.at(tmpLatestViewed)->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
 							Buttons.at(tmpLatestViewed)->dock->show();
+*/
 						}
 
 					}

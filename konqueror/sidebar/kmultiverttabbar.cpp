@@ -5,6 +5,7 @@
 #include <qlayout.h>
 #include <qpainter.h>
 #include <kdebug.h>
+#include <qtooltip.h>
 
 KMultiVertTabBarInternal::KMultiVertTabBarInternal(QWidget *parent):QScrollView(parent)
 	{
@@ -71,7 +72,7 @@ KMultiVertTabBarTab* KMultiVertTabBarInternal::getTab(int id)
 int KMultiVertTabBarInternal::insertTab(QPixmap pic ,int id,const QString& text)
 {
 	KMultiVertTabBarTab  *tab;
-	tabs.append(tab= new KMultiVertTabBarTab(pic,QString::null,id,box,position));
+	tabs.append(tab= new KMultiVertTabBarTab(pic,text,id,box,position));
 	tab->show();
 	return 0;
 }
@@ -107,6 +108,7 @@ KMultiVertTabBarButton::KMultiVertTabBarButton(const QPixmap& pic,const QString&
 	setFixedHeight(24);
 	setFixedWidth(24);
 	m_id=id;
+	QToolTip::add(this,text);
 	connect(this,SIGNAL(clicked()),this,SLOT(slotClicked()));
 }
 
