@@ -192,18 +192,18 @@ void KFileIVI::setEffect( int group, int state )
 	    break;
     }
     // Do not update if the fingerprint is identical (prevents flicker)!
-    if( KGlobal::iconLoader()->iconEffect()->fingerprint
-	    ( KIcon::Desktop, d->state ) !=
-	KGlobal::iconLoader()->iconEffect()->fingerprint
-	    ( KIcon::Desktop, state ) )
+
+    KIconEffect *effect = KGlobal::iconLoader()->iconEffect();
+
+    if( effect->fingerprint( KIcon::Desktop, d->state ) !=
+	effect->fingerprint( KIcon::Desktop, state ) )
     {
 	// Effects on are not applied until they are first accessed to
 	// save memory. Do this now when needed
 	if( m_bThumbnail )
 	{
 	    if( d->icons.isGenerated( QIconSet::Large, mode ) )
-		d->icons.setPixmap( KGlobal::iconLoader()->iconEffect()->
-				    apply( d->thumb, KIcon::Desktop, state ),
+		d->icons.setPixmap( effect->apply( d->thumb, KIcon::Desktop, state ),
 				    QIconSet::Large, mode );
 	}
 	else
