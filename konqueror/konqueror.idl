@@ -234,6 +234,8 @@ module Konqueror
     slot void slotSaveGeometry();
     slot void slotShowCache();
     slot void slotShowHistory();
+    slot void slotEditMimeTypes();
+    slot void slotEditApplications();
     slot void slotOpenLocation();
     slot void slotConfigureKeys();
     slot void slotAboutApp();

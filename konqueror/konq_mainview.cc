@@ -1397,6 +1397,16 @@ void KonqMainView::slotShowHistory()
   // TODO
 }
 
+void KonqMainView::slotEditMimeTypes()
+{
+  openURL( kapp->kde_mimedir(), (CORBA::Boolean)false );
+}
+
+void KonqMainView::slotEditApplications()
+{
+  openURL( kapp->kde_appsdir(), (CORBA::Boolean)false );
+}
+
 void KonqMainView::slotOpenLocation()
 {
   CORBA::String_var url = m_currentView->m_vView->url();

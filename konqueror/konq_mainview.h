@@ -133,6 +133,8 @@ public slots:
   virtual void slotSaveGeometry();
   virtual void slotShowCache();
   virtual void slotShowHistory();
+  virtual void slotEditMimeTypes();
+  virtual void slotEditApplications();
   virtual void slotOpenLocation();
   virtual void slotConfigureKeys();
   virtual void slotAboutApp();
