@@ -681,24 +681,15 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
 {
   if ( !m_pMainView ) return;
   
-  QStringList lstPopupURLs;
+  KFileItemList lstItems;
 
   QValueList<KfmTreeViewItem*> items;
   selectedItems( items );
-  mode_t mode = 0;
-  bool first = true;
   QValueList<KfmTreeViewItem*>::Iterator it = items.begin();
-  for( ; it != items.end(); ++it ) {
-    lstPopupURLs.append( (*it)->item()->url().url() );
+  for( ; it != items.end(); ++it )
+    lstItems.append( (*it)->item() );
 
-    if ( first ) {
-      mode = (*it)->item()->mode();
-      first = false;
-    } else if ( mode != (*it)->item()->mode() ) // modes are different
-      mode = 0; // reset to 0
-  }
-
-  m_pMainView->popupMenu( _global, lstPopupURLs, mode );
+  m_pMainView->popupMenu( _global, lstItems );
 }
 
 void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )

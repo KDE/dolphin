@@ -380,9 +380,6 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
 {
   if ( e->button() == RightButton && m_pMainView )
   {
-    QStringList lstPopupURLs;
-    lstPopupURLs.append( m_strURL );
-    
     KURL u( m_strURL );
     
     mode_t mode = 0;
@@ -397,8 +394,10 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
       mode = buff.st_mode;
     }
     
-    m_pMainView->popupMenu( QPoint( e->globalX(), e->globalY() ),
-                            lstPopupURLs, mode );
+    KFileItem item( "textURL" /*whatever*/, mode, u );
+    KFileItemList items;
+    items.append( &item );
+    m_pMainView->popupMenu( QPoint( e->globalX(), e->globalY() ), items );
   }
   else
     QMultiLineEdit::mousePressEvent( e );

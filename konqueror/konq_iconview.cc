@@ -278,67 +278,34 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     // Right button ?
     if ( _button == RightButton && m_pMainView )
     {
-      QString cURL = bgUrl.url( 1 );
-      int i = cURL.length();
+      // This is a directory. Always.
+      mode_t mode = S_IFDIR;
 
-      mode_t mode = 0;
-      QStringList lstPopupURLs;
-      
-      lstPopupURLs.append( cURL );
-
-      // A url ending with '/' is always a directory
-      if ( i >= 1 && cURL[ i - 1 ] == '/' )
-	mode = S_IFDIR;
-      // With HTTP we can be sure that everything that does not end with '/'
-      // is NOT a directory
-      else if ( strcmp( bgUrl.protocol(), "http" ) == 0 ) //?iconview and http? (Simon)
-	mode = 0;
-      // Local filesystem without subprotocol
-      if ( bgUrl.isLocalFile() )
-      {
-	struct stat buff;
-	if ( stat( bgUrl.path(), &buff ) == -1 )
-	{
-	  kioErrorDialog( ERR_COULD_NOT_STAT, cURL );
-	  return;
-	}
-	mode = buff.st_mode;
-      }
-
-      m_pMainView->popupMenu( _global, lstPopupURLs, mode );
+      KFileItem item( "viewURL" /*whatever*/, mode, bgUrl );
+      KFileItemList items;
+      items.append( &item );
+      m_pMainView->popupMenu( _global, items );
     }
   }
   else if ( _button == LeftButton )
     slotReturnPressed( _item, _global );
   else if ( _button == RightButton && m_pMainView )
   {
-    QStringList lstPopupURLs;
+    KFileItemList lstItems;
 
     QList<KIconContainerItem> icons;
     selectedItems( icons ); // KIconContainer fills the list
-    mode_t mode = 0;
-    bool first = true;
     QListIterator<KIconContainerItem> icit( icons );
-    int i = 0;
     // For each selected icon
     for( ; *icit; ++icit )
     {
       // Cast the iconcontainer item into an icon item
       // and get the file item out of it
       KFileItem * item = ((KFileICI *)*icit)->item();
-      lstPopupURLs.append( item->url().url() );
-      
-      // get common mode among all urls, if there is
-      if ( first )
-      {    
-        mode = item->mode();
-        first = false;
-      }
-      else if ( mode != item->mode() )
-        mode = 0;
+      lstItems.append( item );
     }
 
-    m_pMainView->popupMenu( _global, lstPopupURLs, mode );
+    m_pMainView->popupMenu( _global, lstItems );
   }
 }
 

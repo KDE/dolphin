@@ -28,6 +28,7 @@
 #include <qtimer.h>
 #include <qwidget.h>
 
+#include <kfileitem.h>
 #include <kmimetypes.h>
 #include <kbookmarkmenu.h>
 
@@ -79,7 +80,7 @@ public:
   
   virtual void createNewWindow( const char *url );
 
-  void popupMenu( const QPoint &_global, const QStringList &_urls, mode_t _mode );
+  void popupMenu( const QPoint &_global, KFileItemList _items );
   
   bool openView( const QString &serviceType, const QString &url, KonqChildView *childView );
 

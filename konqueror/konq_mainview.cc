@@ -899,18 +899,17 @@ void KonqMainView::createNewWindow( const char *url )
   m_pShell->show();
 }
 
-void KonqMainView::popupMenu( const QPoint &_global, const QStringList &_urls, mode_t _mode )
+void KonqMainView::popupMenu( const QPoint &_global, KFileItemList _items )
 {
-  KonqPopupMenu * popupMenu = new KonqPopupMenu( _urls, 
-                                                 _mode,
+  KonqPopupMenu * popupMenu = new KonqPopupMenu( _items,
                                                  m_currentView->url(),
                                                  m_currentView->canGoBack(),
                                                  m_currentView->canGoForward(),
                                                  !m_vMenuBar->isVisible() ); // hidden ?
 
-  kdebug(0, 1202, "exec()");
+  //kdebug(0, 1202, "exec()");
   int iSelected = popupMenu->exec( _global );
-  kdebug(0, 1202, "deleting popupMenu object");
+  //kdebug(0, 1202, "deleting popupMenu object");
   delete popupMenu;
   /* Test for konqueror-specific entries. A normal signal/slot mechanism doesn't work here,
      because those slots are virtual. */

@@ -171,23 +171,29 @@ void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global,
   {
     KURL u( url );
 
-    QStringList lstPopupURLs;
-    
-    lstPopupURLs.append( url );
-    
     mode_t mode = 0;
     if ( u.isLocalFile() )
+    {
+      struct stat buff;
+      if ( stat( u.path(), &buff ) == -1 )
       {
-	struct stat buff;
-	if ( stat( u.path(), &buff ) == -1 )
-	  {
-	    kioErrorDialog( ERR_COULD_NOT_STAT, url );
-	    return;
-	  }
-	mode = buff.st_mode;
+        kioErrorDialog( ERR_COULD_NOT_STAT, url );
+        return;
       }
-
-    m_pMainView->popupMenu( _global, lstPopupURLs, mode );
+      mode = buff.st_mode;
+    } else
+    {
+      QString cURL = u.url( 1 );
+      int i = cURL.length();
+      // A url ending with '/' is always a directory
+      if ( i >= 1 && cURL[ i - 1 ] == '/' )
+        mode = S_IFDIR; 
+    }
+    
+    KFileItem item( "viewURL" /*whatever*/, mode, u );
+    KFileItemList items;
+    items.append( &item );
+    m_pMainView->popupMenu( _global, items );
   }
 }
 
