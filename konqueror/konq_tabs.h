@@ -47,12 +47,14 @@ class KonqFrameTabs : public KTabWidget, public KonqFrameContainerBase
   friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
 
 public:
-  KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name = 0);
+  KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
+		KonqViewManager* viewManager, const char * name = 0);
   virtual ~KonqFrameTabs();
 
   virtual void listViews( ChildViewList *viewList );
 
-  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs,
+			   KonqFrameBase* docContainer, int id = 0, int depth = 0 );
   virtual void copyHistory( KonqFrameBase *other );
 
   virtual void printFrameInfo( const QString& spaces );
@@ -117,9 +119,7 @@ private:
   QPopupMenu* m_pPopupMenu;
     QPopupMenu * m_pSubPopupMenuTab;
   uint m_CurrentMaxLength;
-#if QT_VERSION >= 0x030200
   QToolButton* m_rightWidget;
-#endif
   bool m_permanentCloseButtons;
 };
 

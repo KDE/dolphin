@@ -50,7 +50,8 @@
 
 //###################################################################
 
-KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
+KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
+                             KonqViewManager* viewManager, const char * name)
   : KTabWidget(parent, name), m_CurrentMaxLength(30)
 {
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
@@ -61,24 +62,60 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pActiveChild = 0L;
   m_pViewManager = viewManager;
 
-  connect( this, SIGNAL( currentChanged ( QWidget * ) ), this, SLOT( slotCurrentChanged( QWidget* ) ) );
+  connect( this, SIGNAL( currentChanged ( QWidget * ) ),
+           this, SLOT( slotCurrentChanged( QWidget* ) ) );
 
   m_pPopupMenu = new QPopupMenu( this );
-  m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), i18n("&New Tab"), m_pViewManager->mainWindow(), SLOT( slotAddTab() ), QKeySequence("Ctrl+Shift+N") );
-  m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), i18n("&Duplicate Tab"), m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ), QKeySequence("Ctrl+Shift+D") );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_new" ),
+                            i18n("&New Tab"),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotAddTab() ),
+                            QKeySequence("Ctrl+Shift+N") );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ),
+                            i18n("&Duplicate Tab"),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotDuplicateTabPopup() ),
+                            QKeySequence("Ctrl+Shift+D") );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), i18n("D&etach Tab"), m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ), QKeySequence("Ctrl+Shift+B"), BREAKOFF_ID );
-  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("&Close Tab"), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ), QKeySequence("Ctrl+W"), CLOSETAB_ID );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ),
+                            i18n("D&etach Tab"),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotBreakOffTabPopup() ),
+                            QKeySequence("Ctrl+Shift+B"),
+                            BREAKOFF_ID );
+  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ),
+			    i18n("&Close Tab"),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotRemoveTabPopup() ),
+                            QKeySequence("Ctrl+W"),
+                            CLOSETAB_ID );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReloadPopup() ), KStdAccel::shortcut(KStdAccel::Reload) );
-  m_pPopupMenu->insertItem( SmallIcon( "reload_all_tabs" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ), QKeySequence(), RELOAD_ALL_ID );
+  m_pPopupMenu->insertItem( SmallIcon( "reload" ),
+                            i18n( "&Reload" ),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotReloadPopup() ),
+                            KStdAccel::shortcut(KStdAccel::Reload) );
+  m_pPopupMenu->insertItem( SmallIcon( "reload_all_tabs" ),
+                            i18n( "&Reload All Tabs" ),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotReloadAllTabs() ),
+                            QKeySequence(),
+                            RELOAD_ALL_ID );
   m_pPopupMenu->insertSeparator();
-  m_pSubPopupMenuTab = new QPopupMenu(this );
+  m_pSubPopupMenuTab = new QPopupMenu( this );
   m_pPopupMenu->insertItem( i18n("Switch to Tab:" ), m_pSubPopupMenuTab );
-  connect( m_pSubPopupMenuTab, SIGNAL( activated ( int) ), this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
+  connect( m_pSubPopupMenuTab, SIGNAL( activated ( int ) ),
+           this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ), QKeySequence(), CLOSE_OTHER_ID );
-  connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & )), SLOT(slotContextMenu( QWidget *, const QPoint & )));
+  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ),
+                            i18n( "Close &Other Tabs" ),
+                            m_pViewManager->mainWindow(),
+                            SLOT( slotRemoveOtherTabsPopup() ),
+                            QKeySequence(),
+                            CLOSE_OTHER_ID );
+  connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & ) ),
+           SLOT(slotContextMenu( QWidget *, const QPoint & ) ) );
+
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   m_permanentCloseButtons = config->readBoolEntry( "PermanentCloseButton", false );
@@ -89,12 +126,13 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   else
     setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", false ) );
   connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
-  connect( this, SIGNAL( removeTabPopup() ), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
+  connect( this, SIGNAL( removeTabPopup() ),
+           m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
 
-#if QT_VERSION >= 0x030200
   if ( config->readBoolEntry( "AddTabButton", true ) ) {
     QToolButton * leftWidget = new QToolButton( this );
-    connect( leftWidget, SIGNAL( clicked() ), m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
+    connect( leftWidget, SIGNAL( clicked() ),
+             m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
     leftWidget->setIconSet( SmallIcon( "tab_new" ) );
     leftWidget->adjustSize();
     QToolTip::add(leftWidget, i18n("Open a new tab"));
@@ -102,23 +140,30 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   }
   if ( config->readBoolEntry( "CloseTabButton", true ) ) {
     m_rightWidget = new QToolButton( this );
-    connect( m_rightWidget, SIGNAL( clicked() ), m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
+    connect( m_rightWidget, SIGNAL( clicked() ),
+             m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
     m_rightWidget->setIconSet( SmallIcon( "tab_remove" ) );
     m_rightWidget->adjustSize();
     QToolTip::add(m_rightWidget, i18n("Close the current tab"));
     setCornerWidget( m_rightWidget, TopRight );
   }
-#endif
 
   setTabReorderingEnabled( true );
-  connect( this, SIGNAL( movedTab( int, int ) ), SLOT( slotMovedTab( int, int ) ) );
-  connect( this, SIGNAL( mouseMiddleClick() ), SLOT( slotMouseMiddleClick() ) );
-  connect( this, SIGNAL( mouseMiddleClick( QWidget * ) ), SLOT( slotMouseMiddleClick( QWidget * ) ) );
+  connect( this, SIGNAL( movedTab( int, int ) ),
+           SLOT( slotMovedTab( int, int ) ) );
+  connect( this, SIGNAL( mouseMiddleClick() ),
+           SLOT( slotMouseMiddleClick() ) );
+  connect( this, SIGNAL( mouseMiddleClick( QWidget * ) ),
+           SLOT( slotMouseMiddleClick( QWidget * ) ) );
 
-  connect( this, SIGNAL( testCanDecode(const QDragMoveEvent *, bool & )), SLOT( slotTestCanDecode(const QDragMoveEvent *, bool & ) ) );
-  connect( this, SIGNAL( receivedDropEvent( QDropEvent * )), SLOT( slotReceivedDropEvent( QDropEvent * ) ) );
-  connect( this, SIGNAL( receivedDropEvent( QWidget *, QDropEvent * )), SLOT( slotReceivedDropEvent( QWidget *, QDropEvent * ) ) );
-  connect( this, SIGNAL( initiateDrag( QWidget * )), SLOT( slotInitiateDrag( QWidget * ) ) );
+  connect( this, SIGNAL( testCanDecode(const QDragMoveEvent *, bool & )),
+           SLOT( slotTestCanDecode(const QDragMoveEvent *, bool & ) ) );
+  connect( this, SIGNAL( receivedDropEvent( QDropEvent * )),
+           SLOT( slotReceivedDropEvent( QDropEvent * ) ) );
+  connect( this, SIGNAL( receivedDropEvent( QWidget *, QDropEvent * )),
+           SLOT( slotReceivedDropEvent( QWidget *, QDropEvent * ) ) );
+  connect( this, SIGNAL( initiateDrag( QWidget * )),
+           SLOT( slotInitiateDrag( QWidget * ) ) );
 }
 
 KonqFrameTabs::~KonqFrameTabs()
@@ -133,7 +178,8 @@ void KonqFrameTabs::listViews( ChildViewList *viewList ) {
     it.current()->listViews(viewList);
 }
 
-void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id, int depth )
+void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool saveURLs,
+                                KonqFrameBase* docContainer, int id, int depth )
 {
   //write children
   QStringList strlst;
@@ -150,7 +196,8 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
 
   config->writeEntry( QString::fromLatin1( "Children" ).prepend( prefix ), strlst );
 
-  config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ), currentPageIndex() );
+  config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ),
+                      currentPageIndex() );
 }
 
 void KonqFrameTabs::copyHistory( KonqFrameBase *other )
@@ -168,15 +215,21 @@ void KonqFrameTabs::copyHistory( KonqFrameBase *other )
 
 void KonqFrameTabs::printFrameInfo( const QString& spaces )
 {
-  kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visible=" << QString("%1").arg(isVisible())
-                << " activeChild=" << m_pActiveChild << endl;
-  if (!m_pActiveChild) kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
+  kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visible="
+                << QString("%1").arg(isVisible()) << " activeChild="
+                << m_pActiveChild << endl;
+
+  if (!m_pActiveChild)
+      kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
+
   KonqFrameBase* child;
   int childFrameCount = m_pChildFrameList->count();
   for (int i = 0 ; i < childFrameCount ; i++) {
     child = m_pChildFrameList->at(i);
-    if (child != 0L) child->printFrameInfo(spaces + "  ");
-    else kdDebug(1202) << spaces << "  Null child" << endl;
+    if (child != 0L)
+      child->printFrameInfo(spaces + "  ");
+    else
+      kdDebug(1202) << spaces << "  Null child" << endl;
   }
 }
 
@@ -241,7 +294,8 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 
   uint newMaxLength=30;
   for ( ; newMaxLength > 3; newMaxLength-- ) {
-    // kdDebug(1202) << "tabBarWidthForMaxChars(" << newMaxLength << ")=" << tabBarWidthForMaxChars( newMaxLength ) << endl;
+    // kdDebug(1202) << "tabBarWidthForMaxChars(" << newMaxLength
+    //               << ")=" << tabBarWidthForMaxChars( newMaxLength ) << endl;
     if ( tabBarWidthForMaxChars( newMaxLength ) < maxTabBarWidth )
       break;
   }
