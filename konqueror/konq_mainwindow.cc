@@ -243,13 +243,13 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   KConfigGroupSaver cgs(config,"MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
-  m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
-  m_ptaUseHTML->setChecked( m_bHTMLAllowed );
   m_sViewModeForDirectory = config->readEntry( "ViewMode" );
-
   m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
 
+  m_ptaUseHTML->setChecked( m_bHTMLAllowed );  
+  m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
+  
   KonqUndoManager::incRef();
 
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
@@ -4129,6 +4129,9 @@ void KonqMainWindow::reparseConfiguration()
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs(config,"MainView Settings");
   m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
+  m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
+  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
+  m_sViewModeForDirectory = config->readEntry( "ViewMode" );
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
