@@ -41,6 +41,7 @@ class IconViewPropertiesExtension : public ViewPropertiesExtension
 public:
   IconViewPropertiesExtension( KonqKfmIconView *iconView );
 
+  virtual void reparseConfiguration();
   virtual void saveLocalProperties();
   virtual void savePropertiesAsDefault();
 
@@ -93,8 +94,7 @@ public:
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
 
-  KonqIconViewWidget *iconView() const { return m_pIconView; }
-  void configure();
+  KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
 public slots:
   void slotShowDot();

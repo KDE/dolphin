@@ -1444,14 +1444,18 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   delete pPopupMenu;
 }
 
-void KonqMainView::configure()
+void KonqMainView::reparseConfiguration()
 {
-  debug("KonqMainView::configure() !");
+  debug("KonqMainView::reparseConfiguration() !");
   KonqSettings::reparseConfiguration();
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    (*it)->view()->configure();
+  {
+    QObject *obj = (*it)->view()->child( 0L, "ViewPropertiesExtension" );
+    if ( obj )
+      ((ViewPropertiesExtension *)obj)->reparseConfiguration();
+  }
 }
 
 #include "konq_mainview.moc"

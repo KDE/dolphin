@@ -29,6 +29,20 @@
 class KonqTreeViewWidget;
 class KonqTreeView;
 
+class TreeViewPropertiesExtension : public ViewPropertiesExtension
+{
+  Q_OBJECT
+public:
+  TreeViewPropertiesExtension( KonqTreeView *treeView );
+
+  virtual void reparseConfiguration();
+  virtual void saveLocalProperties();
+  virtual void savePropertiesAsDefault();
+
+private:
+  KonqTreeView *m_treeView;  
+};
+
 class TreeViewEditExtension : public EditExtension
 {
   Q_OBJECT
@@ -49,6 +63,7 @@ private:
 class KonqTreeView : public BrowserView
 {
   friend class KonqTreeViewWidget;
+  friend class TreeViewPropertiesExtension;
   Q_OBJECT
 public:
   KonqTreeView();
@@ -62,8 +77,7 @@ public:
   virtual int yOffset();
   virtual void stop();
 
-  KonqTreeViewWidget *treeView() const { return m_pTreeView; }
-  virtual void configure();
+  KonqTreeViewWidget *treeViewWidget() const { return m_pTreeView; }
 
 protected:
   virtual void resizeEvent( QResizeEvent * );

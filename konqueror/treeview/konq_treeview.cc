@@ -29,6 +29,7 @@
 #include <kio_job.h>
 #include <kmimetype.h>
 #include <kdebug.h>
+#include <konq_propsview.h>
 
 #include <assert.h>
 #include <string.h>
@@ -67,6 +68,30 @@ extern "C"
   }
 };
 
+TreeViewPropertiesExtension::TreeViewPropertiesExtension( KonqTreeView *treeView )
+  : ViewPropertiesExtension( treeView, "ViewPropertiesExtension" )
+{
+  m_treeView = treeView;
+}
+
+void TreeViewPropertiesExtension::reparseConfiguration()
+{
+  // m_pProps is a problem here (what is local, what is global ?)
+  // but settings is easy : 
+  m_treeView->treeViewWidget()->initConfig();
+}
+
+void TreeViewPropertiesExtension::saveLocalProperties()
+{
+  // TODO move this to KonqTreeView. Ugly.
+  m_treeView->treeViewWidget()->m_pProps->saveLocal( KURL( m_treeView->url() ) );
+}
+
+void TreeViewPropertiesExtension::savePropertiesAsDefault()
+{
+  m_treeView->treeViewWidget()->m_pProps->saveAsDefault();
+}
+
 TreeViewEditExtension::TreeViewEditExtension( KonqTreeView *treeView )
  : EditExtension( treeView, "TreeViewEditExtension" )
 {
@@ -77,7 +102,7 @@ void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move 
 {
   QValueList<KonqTreeViewItem*> selection;
   
-  m_treeView->treeView()->selectedItems( selection );
+  m_treeView->treeViewWidget()->selectedItems( selection );
   
   cut = move = copy = ( selection.count() != 0 );
   
@@ -94,7 +119,7 @@ void TreeViewEditExtension::copySelection()
 {
   QValueList<KonqTreeViewItem*> selection;
   
-  m_treeView->treeView()->selectedItems( selection );
+  m_treeView->treeViewWidget()->selectedItems( selection );
   
   QStringList lstURLs;
   
@@ -116,7 +141,7 @@ void TreeViewEditExtension::pasteSelection( bool move )
 void TreeViewEditExtension::moveSelection( const QString &destinationURL )
 {
   QValueList<KonqTreeViewItem*> selection;
-  m_treeView->treeView()->selectedItems( selection );
+  m_treeView->treeViewWidget()->selectedItems( selection );
   
   QStringList lstURLs;
   
@@ -150,11 +175,6 @@ KonqTreeView::KonqTreeView()
 KonqTreeView::~KonqTreeView()
 {
   delete m_pTreeView;
-}
-
-void KonqTreeView::configure()
-{
-  m_pTreeView->initConfig();
 }
 
 void KonqTreeView::openURL( const QString &url, bool /*reload*/,

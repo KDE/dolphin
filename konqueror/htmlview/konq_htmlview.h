@@ -28,6 +28,20 @@
 class KonqHTMLView;
 class KonqSearchDialog;
 
+class HTMLViewPropertiesExtension : public ViewPropertiesExtension
+{
+  Q_OBJECT
+public:
+  HTMLViewPropertiesExtension( KonqHTMLView *htmlView );
+
+  virtual void reparseConfiguration();
+  virtual void saveLocalProperties();
+  virtual void savePropertiesAsDefault();
+
+private:
+  KonqHTMLView *m_HTMLView;  
+};
+
 /* ### FIXME (Lars)
 class KonqEmbededFrame : public KHTMLEmbededWidget
 {
@@ -63,6 +77,7 @@ class KonqHTMLView : public BrowserView
 {
   Q_OBJECT
   friend class KonqBrowser;
+  friend class HTMLViewPropertiesExtension;
 public:
   KonqHTMLView();
   virtual ~KonqHTMLView();
@@ -114,6 +129,7 @@ protected slots:
 
 protected:
   void initConfig();
+
   virtual void resizeEvent( QResizeEvent * );
 
   void openTxtView( const QString &url );

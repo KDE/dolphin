@@ -72,7 +72,7 @@ public:
       {
         ++it;
 	
-	QIconView *iconView = obj->iconView();
+	QIconView *iconView = obj->iconViewWidget();
 	
 	if ( *it == "LargeIcons" )
 	{
@@ -107,9 +107,16 @@ extern "C"
 };
 
 IconViewPropertiesExtension::IconViewPropertiesExtension( KonqKfmIconView *iconView )
-  : ViewPropertiesExtension( iconView, "IconViewPropertiesExtension" )
+  : ViewPropertiesExtension( iconView, "ViewPropertiesExtension" )
 {
   m_iconView = iconView;
+}
+
+void IconViewPropertiesExtension::reparseConfiguration()
+{
+  // m_pProps is a problem here (what is local, what is global ?)
+  // but settings is easy : 
+  m_iconView->iconViewWidget()->initConfig();
 }
 
 void IconViewPropertiesExtension::saveLocalProperties()
@@ -122,6 +129,7 @@ void IconViewPropertiesExtension::savePropertiesAsDefault()
   m_iconView->m_pProps->saveAsDefault();
 }
 
+
 IconEditExtension::IconEditExtension( KonqKfmIconView *iconView )
  : EditExtension( iconView, "IconEditExtension" )
 {
@@ -132,7 +140,7 @@ void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
   bool bItemSelected = false;
 
-  for ( QIconViewItem *it = m_iconView->iconView()->firstItem(); it; it = it->nextItem() )
+  for ( QIconViewItem *it = m_iconView->iconViewWidget()->firstItem(); it; it = it->nextItem() )
     if ( it->isSelected() )
     {
       bItemSelected = true;
@@ -156,7 +164,7 @@ void IconEditExtension::cutSelection()
 
 void IconEditExtension::copySelection()
 {
-  QDragObject * obj = m_iconView->iconView()->dragObject();
+  QDragObject * obj = m_iconView->iconViewWidget()->dragObject();
   QApplication::clipboard()->setData( obj );
 }
 
@@ -169,7 +177,7 @@ void IconEditExtension::moveSelection( const QString &destinationURL )
 {
   QStringList lstURLs;
 
-  for ( QIconViewItem *it = m_iconView->iconView()->firstItem(); it; it = it->nextItem() )
+  for ( QIconViewItem *it = m_iconView->iconViewWidget()->firstItem(); it; it = it->nextItem() )
     if ( it->isSelected() )
       lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
 
@@ -352,14 +360,6 @@ KonqKfmIconView::~KonqKfmIconView()
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
   delete m_pIconView;
-}
-
-void KonqKfmIconView::configure()
-{
-  debug("KonqKfmIconView::configure()");
-  // m_pProps is a problem here (what is local, what is global ?)
-  // but settings is easy :
-  m_pIconView->initConfig();
 }
 
 void KonqKfmIconView::slotShowDot()

@@ -109,7 +109,7 @@ public slots:
 public:
 k_dcop:
 
-  virtual void configure();
+  virtual void reparseConfiguration();
 
 public:
   bool openView( QString serviceType, QString _url, KonqChildView *childView );

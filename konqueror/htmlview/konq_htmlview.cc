@@ -71,6 +71,29 @@ extern "C"
   }
 };
 
+HTMLViewPropertiesExtension::HTMLViewPropertiesExtension( KonqHTMLView *htmlView )
+  : ViewPropertiesExtension( htmlView, "ViewPropertiesExtension" )
+{
+  m_HTMLView = htmlView;
+}
+
+void HTMLViewPropertiesExtension::reparseConfiguration()
+{
+  // Called by "kfmclient configure".
+  // TODO : some stuff not done in initConfig :)
+  m_HTMLView->initConfig();
+}
+
+void HTMLViewPropertiesExtension::saveLocalProperties()
+{
+  //  m_HTMLView->m_pProps->saveLocal( KURL( m_HTMLView->url() ) );
+}
+
+void HTMLViewPropertiesExtension::savePropertiesAsDefault()
+{
+  //  m_HTMLView->m_pProps->saveAsDefault();
+}
+
 KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
 : KHTMLWidget( htmlView, name )
 {
@@ -113,13 +136,6 @@ KonqHTMLView::KonqHTMLView()
 KonqHTMLView::~KonqHTMLView()
 {
   delete m_pBrowser;
-}
-
-void KonqHTMLView::configure()
-{
-  // Called by "kfmclient configure".
-  // TODO : some stuff not done in initConfig :)
-  initConfig();
 }
 
 void KonqHTMLView::initConfig()

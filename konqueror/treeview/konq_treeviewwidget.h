@@ -35,6 +35,7 @@ class KonqTreeView;
 class KFileItem;
 class KonqPropsView;
 class KonqSettings;
+class TreeViewPropertiesExtension;
 
 /**
  * The tree view
@@ -44,6 +45,7 @@ class KonqTreeViewWidget : public QListView
   friend KonqTreeViewItem;
   friend KonqTreeViewDir;
   friend KonqTreeView;
+  friend TreeViewPropertiesExtension;
 
   Q_OBJECT
 public:
