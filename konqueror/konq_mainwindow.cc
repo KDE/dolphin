@@ -157,7 +157,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   }
 
   updateBookmarkBar();
-  
+
   m_bNeedApplyMainWindowSettings = true;
   if ( !initialURL.isEmpty() )
   {
@@ -222,7 +222,7 @@ KonqMainWindow::~KonqMainWindow()
     KConfig *config = KonqFactory::instance()->config();
     config->setGroup( "Settings" );
     config->writeEntry( "ToolBarCombo", comboItems );
-    config->writeEntry( "CompletionMode", m_combo->completionMode() );
+    config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
     config->sync();
   }
 
@@ -612,7 +612,7 @@ void KonqMainWindow::slotStop()
   abortLoading();
   if ( m_currentView )
   {
-    m_currentView->frame()->statusbar()->message( i18n("Canceled.") ); 
+    m_currentView->frame()->statusbar()->message( i18n("Canceled.") );
   }
 }
 
@@ -2263,6 +2263,6 @@ void KonqMainWindow::updateBookmarkBar()
   }
   else if ( bar )
     m_paShowBookmarkBar->setChecked( true );
-} 
+}
 
 #include "konq_mainwindow.moc"
