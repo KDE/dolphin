@@ -20,8 +20,6 @@
 #include "passwd.h"
 #include "passwddlg.h"
 
-#define VERSION "0.1"
-
 static KCmdLineOptions options[] = 
 {
     { "user", I18N_NOOP("Change password of this user."), 0 },
