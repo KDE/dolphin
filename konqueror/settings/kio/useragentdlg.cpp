@@ -13,12 +13,14 @@
 #include <kconfig.h>
 
 #include <qlayout.h> //CT
+#include <qwhatsthis.h>
 
 #include "defaults.h"
 
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   KCModule( parent, name )
 {
+  QString wtstr;
   QGridLayout *lay = new QGridLayout(this,7,5,10,5);
   lay->addRowSpacing(0,10);
   lay->addRowSpacing(3,25);
@@ -47,6 +49,11 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   onserverED = new QLineEdit( this );
   lay->addWidget(onserverED,1,2);
 
+  wtstr = i18n( "Enter the server (or a domain) you want to fool about Konqueror's identity here."
+    " Wildcard syntax (e.g. *.cnn.com) is allowed.");
+  QWhatsThis::add( onserverLA, wtstr );
+  QWhatsThis::add( onserverED, wtstr );
+
   connect( onserverED, SIGNAL( textChanged(const QString&) ),
 		   SLOT( textChanged( const QString&) ) );
 
@@ -57,11 +64,18 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   loginasED = new QLineEdit( this );
   lay->addWidget(loginasED,2,2);
 
+  wtstr = i18n( "Here you can enter the identification Konqueror should use for the given server."
+    " Exampe: <em>Mozilla/4.0 (compatible; MSIE 4.0)</em>");
+  QWhatsThis::add( loginasLA, wtstr );
+  QWhatsThis::add( loginasED, wtstr );
+
   connect( loginasED, SIGNAL( textChanged(const QString&) ),
 		   SLOT( textChanged(const QString&) ) );
 
   addPB = new QPushButton( i18n( "&Add" ), this );
   lay->addWidget(addPB,1,3);
+  QWhatsThis::add( addPB, i18n("Adds the agent binding you've specified to the list of agent bindings."
+    " This is not enabled if you haven't provided server <em>and</em> login information.") );
 
   addPB->setEnabled( false );
   connect( addPB, SIGNAL( clicked() ), SLOT( addClicked() ) );
@@ -69,6 +83,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
 
   deletePB = new QPushButton( i18n( "&Delete" ), this );
   lay->addWidget(deletePB,2,3);
+
+  QWhatsThis::add( deletePB, i18n("Removes the selected binding from the list of agent bindings.") );
 
   deletePB->setEnabled( false );
   connect( deletePB, SIGNAL( clicked() ), SLOT( deleteClicked() ) );
@@ -79,6 +95,14 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
 
   bindingsLB = new QListBox( this );
   lay->addMultiCellWidget(bindingsLB,5,5,2,3);
+
+  wtstr = i18n( "This box contains a list of agent bindings, i.e. information on how"
+    " Konqueror will identify itself to a server. You might want to set up bindings"
+    " to fool servers that think other browsers than Netscape are dumb, so Konqueror"
+    " will identify itself as 'Mozilla/4.0'.<p>"
+    " Select a binding to change or delete it." );
+  QWhatsThis::add( bindingsLA, wtstr );
+  QWhatsThis::add( bindingsLB, wtstr );
 
   lay->activate();
 

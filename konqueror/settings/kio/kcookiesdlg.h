@@ -31,6 +31,7 @@ Q_OBJECT
     virtual void load();
     virtual void save();
     virtual void defaults();
+    virtual QString quickHelp();
 
   public slots:
     void changeCookiesEnabled();

@@ -5,6 +5,7 @@
 
 #include <qlayout.h>
 #include <qradiobutton.h>
+#include <qwhatsthis.h>
 
 #include <klocale.h>
 #include <kapp.h>
@@ -29,7 +30,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   lay->addRowSpacing(0,10);
   lay->addRowSpacing(2,10);
   lay->addRowSpacing(4,10);
-  lay->addRowSpacing(6,10); 
+  lay->addRowSpacing(6,10);
   lay->addColSpacing(0,10);
   lay->addColSpacing(2,10);
   lay->addColSpacing(4,10);
@@ -40,7 +41,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   lay->setRowStretch(3,1); // ROW_DEFAULT_ACCEPT
   lay->setRowStretch(4,0);
   lay->setRowStretch(5,1); // ROW_CHANGE_DOMAIN
-  lay->setRowStretch(6,10); 
+  lay->setRowStretch(6,10);
 
   lay->setColStretch(0,0);
   lay->setColStretch(1,1);
@@ -52,6 +53,8 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
   connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
   lay->addWidget(cb_enableCookies,ROW_ENABLE_COOKIES,1);
+  QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally"
+    " you will want to have cookie support enabled and customize it to suit your need of privacy.") );
 
   {
     QButtonGroup *bg = new QButtonGroup( i18n("Default accept policy"), this );
@@ -75,6 +78,13 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
 
     bgLay->activate();
     lay->addWidget(bg, ROW_DEFAULT_ACCEPT+1, ROW_DEFAULT_ACCEPT);
+
+    QWhatsThis::add( bg, i18n("The default accept policy determines the way KDE will"
+      " handle cookies sent from a server that does not belong to a domain for which"
+      " you have set a specific policy. <ul><li><em>Accept</em> will cause KDE to silently"
+      " accept all cookies</li><li><em>Ask</em> will cause KDE to ask you for your confirmation"
+      " everytime a server wants to set a cookie</li><li><em>Reject</em> will cause KDE"
+      " not to set cookies</li></ul>") );
   }
 
   // CREATE SPLIT LIST BOX
@@ -86,6 +96,13 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   wListLabel = new QLabel( wList, i18n("Domain specific settings:"), this );
   lay->addWidget( wListLabel, ROW_DEFAULT_ACCEPT, 1 );
   wListLabel->setFixedHeight( wListLabel->sizeHint().height() );
+
+  QString wtstr = i18n("This box contains the domains and hosts you have set"
+    " a specific cookie policy for. This policy will be used instead of the"
+    " default policy for any cookie sent by those domains or hosts. <p>"
+    " Select a policy to change or delete it using the controls on the right.");
+  QWhatsThis::add( wList, wtstr );
+  QWhatsThis::add( wListLabel, wtstr );
 
   connect( wList, SIGNAL( highlighted( int ) ), SLOT( updateDomain( int ) ) );
   connect( wList, SIGNAL( selected( int ) ), SLOT( updateDomain( int ) ) );
@@ -140,6 +157,17 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
     bgLay->addMultiCellWidget( bbox, 5,5,0,2);
 
     lay->addWidget(bg,ROW_CHANGE_DOMAIN,3);
+
+    QWhatsThis::add( bg, i18n("Here you can set speficic policies for certain"
+      " domains or hosts. To add a new policy, enter the domain or the host"
+      " into the text field, choose one of the policies and click the 'Change'"
+      " button. To change a policy, select the name of the domain or host in the"
+      " box in the left, select the new policy and click 'Change'. To delete a"
+      " policy, select it and click 'Delete'. The policies are:"
+      " <ul><li><em>Accept</em> will cause KDE to silently"
+      " accept all cookies</li><li><em>Ask</em> will cause KDE to ask you for your confirmation"
+      " everytime a server wants to set a cookie</li><li><em>Reject</em> will cause KDE"
+      " not to set cookies</li></ul>") );
   }
 
   lay->activate();
@@ -421,6 +449,24 @@ void KCookiesOptions::defaults()
   rb_domPolicyAsk->setChecked( true );
 
   changeCookiesEnabled();
+}
+
+QString KCookiesOptions::quickHelp()
+{
+  return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror "
+    " (or other KDE applications using the http protocol) stores on your "
+    " computer, initiiated by a remote internet server. This means, that "
+    " a web server can store information about you and your browsing activities "
+    " on your machine for later use. You might consider this an attack on your "
+    " privacy. <p> However, cookies are useful in certain situations. For example, they "
+    " are often used by internet shops, so you can 'put things into a shopping basket'. "
+    " Some sites require you have a browser that supports cookies. <p>"
+    " Because most people want a compromise between privacy and the benefits cookies offer,"
+    " KDE offers you to customize the way it handles cookies. So you might want "
+    " to set KDE's default policy to ask you when a server wants to set a cookie,"
+    " so you can decide. For your favourite shopping web sites you trust in you might want to"
+    " set the policy to accept, so you can use the web sites without being asked"
+    " everytime KDE receives a cookie." );
 }
 
 
