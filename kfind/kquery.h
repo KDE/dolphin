@@ -37,8 +37,8 @@ class KQuery : public QObject
   void slotCanceled(KIO::Job *);
 
  signals:
-  //TODO: void addFile(const KFileItem &filename, const QString& matchingLine); working with konqueror
-  void addFile(const KFileItem *filename);
+  void addFile(const KFileItem *filename, const QString& matchingLine);
+  //void addFile(const KFileItem *filename);
   void result(int);
 
  private:

@@ -60,8 +60,8 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
 
     //setXMLFile( "kfind.rc" );
     query = new KQuery(this);
-    connect(query, SIGNAL(addFile(const KFileItem *)),
-            SLOT(addFile(const KFileItem *)));
+    connect(query, SIGNAL(addFile(const KFileItem *, const QString&)),
+            SLOT(addFile(const KFileItem *, const QString&)));
     connect(query, SIGNAL(result(int)),
             SLOT(slotResult(int)));
 
@@ -95,7 +95,7 @@ void KFindPart::slotStarted()
     emit clear();
 }
 
-void KFindPart::addFile(const KFileItem *item)
+void KFindPart::addFile(const KFileItem *item, const QString& matchingLine)
 {
     m_lstFileItems.append( item );
 
@@ -165,7 +165,7 @@ void KFindPart::restoreKFindState( QDataStream *stream )
   for(i=0;i<nbitems;i++)
   {
     *stream >> itemUrl;
-    addFile(new KFileItem(itemUrl,"",0));
+    addFile(new KFileItem(itemUrl,"",0),"");
   }
     emit finished();
 }

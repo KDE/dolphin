@@ -76,7 +76,7 @@ signals:
 protected slots:
     void slotStarted();
     void slotDestroyMe();
-    void addFile(const KFileItem *item);
+    void addFile(const KFileItem *item, const QString& matchingLine);
     void slotResult(int errorCode);
 
   // slots connected to the directory lister  //added for konqdirpart

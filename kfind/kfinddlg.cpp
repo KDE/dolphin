@@ -72,8 +72,8 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   connect(this, SIGNAL( applyClicked() ), this, SLOT(about()));
 
   query = new KQuery(frame);
-  connect(query, SIGNAL(addFile(const KFileItem*/*FIXME,const QString&*/)),
-	  SLOT(addFile(const KFileItem*/*FIXME,const QString&*/)));
+  connect(query, SIGNAL(addFile(const KFileItem*,const QString&)),
+	  SLOT(addFile(const KFileItem*,const QString&)));
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
   aboutWin = new KAboutApplication(this, "about", true);
 }
@@ -165,9 +165,9 @@ void KfindDlg::slotResult(int errorCode)
   setFocus();
 }
 
-void KfindDlg::addFile(const KFileItem* item/*FIXME, const QString& matchingLine*/)
+void KfindDlg::addFile(const KFileItem* item, const QString& matchingLine)
 {
-  win->insertItem(*item, ""/*,matchingLine*/);
+  win->insertItem(*item,matchingLine);
 
   if (!isResultReported)
   {

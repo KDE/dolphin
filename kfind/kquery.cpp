@@ -3,7 +3,6 @@
 #include <qfile.h>
 
 #include <kfileitem.h>
-
 #include "kquery.moc"
 
 KQuery::KQuery(QObject *parent, const char * name)
@@ -56,6 +55,8 @@ void KQuery::slotCanceled( KIO::Job * _job )
 void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 {
   QString matchingLine;
+	int matchingLineNumber;
+
   KIO::UDSEntryListConstIterator it = list.begin();
   KIO::UDSEntryListConstIterator end = list.end();
   for (; it != end; ++it)
@@ -124,32 +125,35 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 
 	// FIXME: doesn't work with non local files
 	QString filename = file->url().path();
-	if(filename.startsWith("/dev/")) //TEST: Perhaps we can search in /dev...
+	if(filename.startsWith("/dev/"))
 	  continue;
 	QFile qf(filename);
 	qf.open(IO_ReadOnly);
 	QTextStream stream(&qf);
 	stream.setEncoding(QTextStream::Locale);
+	matchingLineNumber=0;
 	while ( ! stream.atEnd() )
 	  {
 	    QString str = stream.readLine();
+	  	  matchingLineNumber++;
+
 	    if (str.isNull()) break;
        if (m_regexpForContent)
        {
-       if (m_regexp.search(str)>=0)
+	       if (m_regexp.search(str)>=0)
 	      {
-	      	matchingLine=str;
-		found = true;
-		break;
+					matchingLine=QString::number(matchingLineNumber)+": "+str;
+					found = true;
+					break;
 	      }
        }
        else
        {
 	    if (str.find(m_context, 0, m_casesensitive) != -1)
 	      {
-	      	matchingLine=str;
-		found = true;
-		break;
+					matchingLine=QString::number(matchingLineNumber)+": "+str;
+				found = true;
+				break;
 	      }
        };
 //            kapp->processEvents();
@@ -158,9 +162,8 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	if (!found)
 	  continue;
       }
-
-    //TODO: emit addFile(file,matchingLine); working with konqueror
-    emit addFile(file);
+    emit addFile(file,matchingLine);
+    //emit addFile(file);//Tested OK
   }
 }
 
