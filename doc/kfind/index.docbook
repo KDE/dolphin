@@ -151,9 +151,9 @@ are supported:
 
 <itemizedlist>
 <listitem><para>Text files, &eg; source code and <filename>REAMDE</filename> files</para></listitem>
-<listitem><para>KWord</para></listitem>
-<listitem><para>KPresenter</para></listitem>
-<listitem><para>KSpread</para></listitem>
+<listitem><para>KWord &gt;= 1.2</para></listitem>
+<listitem><para>KPresenter &gt;= 1.2</para></listitem>
+<listitem><para>KSpread &gt;= 1.2</para></listitem>
 <listitem><para>OpenOffice.org Writer</para></listitem>
 <listitem><para>OpenOffice.org Impress</para></listitem>
 <listitem><para>OpenOffice.org Calc</para></listitem>
