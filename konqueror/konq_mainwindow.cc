@@ -1034,13 +1034,10 @@ void KonqMainWindow::slotOpenTerminal()
 
 void KonqMainWindow::slotOpenLocation()
 {
-  QString u;
-  KURL url;
-
-  if (m_currentView)
-    u = m_currentView->url().prettyURL();
-
-  url = KURLRequesterDlg::getURL( u, this, i18n("Open Location") );
+  // Don't pre-fill the url, as it is auto-selected and thus overwrites the
+  // X clipboard, making it impossible to paste in the url you really wanted.
+  // Another example of why the X clipboard sux
+  KURL url = KURLRequesterDlg::getURL( QString::null, this, i18n("Open Location") );
   if (!url.isEmpty())
      openFilteredURL( url.url().stripWhiteSpace() );
 }
