@@ -26,7 +26,6 @@
 class KonqPropsView;
 class KDirLister;
 class KonqFileItem;
-class KonqFMSettings;
 class KFileIVI;
 class KAction;
 class KToggleAction;
@@ -124,9 +123,6 @@ protected:
 
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
-
-  /** Konqueror settings */
-  KonqFMSettings * m_pSettings;
 
   /** View properties */
   KonqPropsView * m_pProps;

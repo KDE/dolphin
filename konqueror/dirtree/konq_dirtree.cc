@@ -184,7 +184,7 @@ bool KonqDirTreePart::event( QEvent *e )
  if ( KParts::ReadOnlyPart::event( e ) )
    return true;
 
- if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this && KonqFMSettings::defaultIconSettings()->treeFollow() )
+ if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this && KonqFMSettings::settings()->treeFollow() )
  {
    m_pTree->followURL( ((KParts::OpenURLEvent *)e)->url() );
    return true;

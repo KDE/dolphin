@@ -170,7 +170,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     // Create a properties instance for this view
     // (copying the default values)
     m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
-    m_pSettings = KonqFMSettings::defaultIconSettings();
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
 
@@ -665,7 +664,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     KonqFileItem *fileItem = ((KFileIVI*)item)->item();
     if ( !fileItem )
 	return;
-    if (m_pSettings->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
+    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
 	fileItem->run();
     } else {
         // We want to emit openURLRequest, but not right now, because

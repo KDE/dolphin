@@ -73,7 +73,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   if ( ! forceAutoEmbed )
   {
-    if ( ! KonqFMSettings::defaultIconSettings()->shouldEmbed( serviceType ) )
+    if ( ! KonqFMSettings::settings()->shouldEmbed( serviceType ) )
       return KonqViewFactory();
   }
   kdDebug(1202) << "Embedding" << endl;

@@ -33,7 +33,6 @@ class QCursor;
 class KDirLister;
 class KonqBaseListViewItem;
 class KonqPropsView;
-class KonqFMSettings;
 class ListViewPropertiesExtension;
 
 /**
@@ -164,9 +163,6 @@ class KonqBaseListViewWidget : public KListView
 
       /** The directory lister for this URL */
       KDirLister* m_dirLister;
-
-      /** Konqueror settings */
-      KonqFMSettings * m_pSettings;
 
       /** View properties */
       KonqPropsView * m_pProps;

@@ -21,7 +21,6 @@
 #include "konq_listviewitems.h"
 #include "konq_listviewwidget.h"
 #include "konq_propsview.h"
-#include "konq_htmlsettings.h"
 #include <kglobalsettings.h>
 
 
@@ -75,7 +74,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    // Create a properties instance for this view
    // (copying the default values)
    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
-   m_pSettings = KonqFMSettings::defaultTreeSettings();
 
    //Adjust QListView behaviour
    //setSelectionMode( Extended );
@@ -235,12 +233,13 @@ QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol
 
 void KonqBaseListViewWidget::initConfig()
 {
-   QColor bgColor           = m_pSettings->bgColor();
-   // TODO QColor textColor         = m_pSettings->normalTextColor();
+  KonqFMSettings * pSettings = KonqFMSettings::settings();
+   QColor bgColor           = pSettings->bgColor();
+   // TODO QColor textColor         = pSettings->normalTextColor();
    // TODO highlightedTextColor
 
-   QString stdFontName      = m_pSettings->stdFontName();
-   int fontSize             = m_pSettings->fontSize();
+   QString stdFontName      = pSettings->stdFontName();
+   int fontSize             = pSettings->fontSize();
 
    m_bgPixmap         = m_pProps->bgPixmap();
 
@@ -255,8 +254,8 @@ void KonqBaseListViewWidget::initConfig()
    QFont font( stdFontName, fontSize );
    setFont( font );
 
+   m_bUnderlineLink     = pSettings->underlineLink();
    m_bSingleClick       = KGlobalSettings::singleClick();
-   m_bUnderlineLink     = m_pSettings->underlineLink();
    m_bChangeCursor      = KGlobalSettings::changeCursorOverIcon();
 }
 
@@ -562,14 +561,13 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 
    KURL u( fileItem->url() );
 
-
-//   emit m_pBrowserView->extension()->openURLRequest( u, false, 0, 0, fileItem->mimetype() );
-    KParts::URLArgs args;
-    if ( u.isLocalFile() )
-      serviceType = fileItem->mimetype();
-    //args.serviceType = item->mimetype();
-    emitOpenURLRequest( fileItem->url(), args );
-
+    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
+	fileItem->run();
+    } else {
+        KParts::URLArgs args;
+        args.serviceType = fileItem->mimetype();
+        emitOpenURLRequest( fileItem->url(), args );
+    }
 }
 
 /*void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )

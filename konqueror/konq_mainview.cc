@@ -590,7 +590,7 @@ void KonqMainView::slotForward()
 
 void KonqMainView::slotHome()
 {
-  openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::defaultIconSettings()->homeURL() ) ) );
+  openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::settings()->homeURL() ) ) );
 }
 
 void KonqMainView::slotGoMimeTypes()
