@@ -12,8 +12,8 @@
 
 #include "miscopts.h"
 
-#include "defaults.h"
-#include <klocale.h> // include default values directly from kfm
+#include <konqdefaults.h> // include default values directly from konqueror
+#include <klocale.h>
 
 //-----------------------------------------------------------------------------
 

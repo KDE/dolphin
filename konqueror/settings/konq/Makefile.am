@@ -1,5 +1,5 @@
 
-INCLUDES = $(all_includes) 
+INCLUDES = -I$(top_srcdir)/libkonq $(all_includes) 
 LDFLAGS =  $(all_libraries) $(KDE_RPATH)
 LDADD =    $(LIB_KDEUI) 
 
