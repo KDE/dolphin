@@ -1,3 +1,14 @@
+2000-10-26  David Faure  <faure@kde.org>
+
+	* kbookmarkbar.*: Update for XML bookmarks, fill in aboutToShow, update
+	sub-menus upon changed() signal, enabled "Add Bookmark" and "New Folder"
+
+2000-10-24  David Faure  <faure@kde.org>
+
+	* kbookmark*: Reimplemented the bookmarks, they are now saved in XML.
+	Desktop files are imported if the XML file doesn't exist (it's
+	immediately saved, so this should happen only once).
+
 2000-10-22  Simon Hausmann  <simon@kde.org>
 
 	* konq_view.{cc,h} : changed part->child( 0, "KParts::BE" ) calls to
