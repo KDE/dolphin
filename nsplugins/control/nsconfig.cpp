@@ -24,6 +24,7 @@
 #include <qcheckbox.h>
 #include <qlistview.h>
 #include <qpushbutton.h>
+#include <qwhatsthis.h>
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kstddirs.h>
@@ -56,6 +57,10 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   m_startkdeScan = new QCheckBox( i18n("Scan for new plugins at KDE startup"), scanGrp );
   scanLayout->addWidget( m_startkdeScan );
   connect( m_startkdeScan, SIGNAL(clicked()), this, SLOT(configChanged()) );
+  QWhatsThis::add( m_startkdeScan, i18n("If this option is enabled, on every startup KDE"
+    " will look for new netscape plugins. This makes it easier for you if you often install"
+    " new plugins, but it may slow down KDE startup, too. So especially if you seldom install"
+    " plugins you might want to disable this option.") );
 
   // scan buttons
   QHBoxLayout *butLayout = new QHBoxLayout( scanLayout, 5 );
@@ -63,6 +68,8 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   QPushButton *scanButton = new QPushButton( i18n("&Scan"), scanGrp );
   butLayout->addWidget( scanButton );
   connect( scanButton, SIGNAL(clicked()), this, SLOT(scan()) );
+  QWhatsThis::add( scanButton, i18n("Click here to scan for newly installed netscape plugins"
+    " now.") );
 
   /*QPushButton *dirButton = new QPushButton( i18n("Scan &Directories..."), scanGrp );
   butLayout->addWidget( dirButton );
@@ -75,6 +82,8 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   QBoxLayout *listLayout =
      new QVBoxLayout( listGrp, KDialog::marginHint(), KDialog::spacingHint());
   listLayout->addSpacing( fontMetrics().lineSpacing() );
+  QWhatsThis::add( listGrp, i18n("Here you can see a list of the netscape plugins"
+    " KDE has found, together with the according mimetypes.") );
 
   m_pluginList = new QListView( listGrp );
   listLayout->addWidget( m_pluginList );
@@ -181,7 +190,7 @@ void NSPluginConfig::fillPluginList()
       QString suffixes = desc[1];
 
       if (!mime.isEmpty())
-      {	
+      {
 	 kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
 	 lastMIME = new QListViewItem( next, lastMIME, i18n("MIME type"), mime );
 	 lastMIME->setOpen( true );
@@ -230,8 +239,8 @@ void NSPluginConfig::scan()
       progress.setProgress( 2 );
 
       while ( nspluginscan->isRunning() )
-      {          	
-	 if ( progress.wasCancelled() ) break;	
+      {
+	 if ( progress.wasCancelled() ) break;
 	 kapp->processEvents();
       }
       progress.setProgress( 2 );
@@ -240,6 +249,14 @@ void NSPluginConfig::scan()
 
       fillPluginList();
       progress.setProgress( 4 );
+}
+
+QString NSPluginConfig::quickHelp() const
+{
+      return i18n("<h1>Netscape Plugins</h1> The Konqueror web browser can use netscape"
+        " plugins to show special content, just like the Navigator does. Please note that"
+        " how you have to install netscape plugins may depend on your distribution. A typical"
+        " place to install them is for example '/opt/netscape/plugins'.");
 }
 
 extern "C"

@@ -34,20 +34,21 @@ class NSPluginConfig : public KCModule
 public:
   NSPluginConfig(QWidget *parent = 0L, const char *name = 0L);
   virtual ~NSPluginConfig();
-  
+
   void load();
   void save();
   void defaults();
-  
+  QString quickHelp() const;
+
   int buttons();
-  
+
 protected slots:
   void configChanged();
 
   void changeDirs();
-  void scan();  
+  void scan();
   void fillPluginList();
-      
+
 private:
   QCheckBox *m_startkdeScan;
   QListView *m_pluginList;
