@@ -74,8 +74,9 @@ QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
    for (QValueList<QString>::iterator it = keys.begin();
          it != keys.end(); ++it 
    ) {
-      if ((*it).find(text,0,false) != -1)
+      if ((*it).find(text,0,false) != -1) {
          matches += m_bk_map[(*it)];
+      }
    }
    return matches;
 }
@@ -83,13 +84,40 @@ QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
 Searcher* Searcher::s_self = 0;
 
 static int m_currentResult;
-static QStringList m_foundAddrs;
+
+class Address
+{
+   public:
+   Address() { ; }
+   Address(const QString &str) { m_string = str; }
+   virtual ~Address() { ; }
+   QString string() const { return m_string; }
+   bool operator< ( const Address & s2 ) const {
+      QStringList s1s = QStringList::split("/", m_string);
+      QStringList s2s = QStringList::split("/", s2.string());
+      for (unsigned int n = 0; ; n++) {
+         if (n >= s1s.count())  // "/0/*5" < "/0"
+            return false;
+         if (n >= s2s.count())  // "/0" > "/0/*5"
+            return true;
+         int i1 = s1s[n].toInt();
+         int i2 = s2s[n].toInt();
+         if (i1 != i2)          // "/*0/2" == "/*0/3"
+            return (i1 < i2);   // "/*2" < "/*3"
+      }
+      return false;
+   }
+   private:
+   QString m_string;
+};
+
+static QValueList<Address> m_foundAddrs;
 
 void Searcher::slotSearchNext()
 {
    if (m_foundAddrs.empty())
       return;
-   KEBListViewItem *item = ListView::self()->getItemAtAddress(m_foundAddrs[m_currentResult]);
+   KEBListViewItem *item = ListView::self()->getItemAtAddress(m_foundAddrs[m_currentResult].string());
    m_currentResult = ((m_currentResult+1) <= m_foundAddrs.count())
                     ? (m_currentResult+1) : 0;
    ListView::self()->clearSelection();
@@ -105,9 +133,15 @@ void Searcher::slotSearchTextChanged(const QString & text)
    QValueList<KBookmark> results = m_bktextmap->find(text);
    m_foundAddrs.clear();
    for (QValueList<KBookmark>::iterator it = results.begin(); it != results.end(); ++it )
-      m_foundAddrs << (*it).address();
+      m_foundAddrs << Address((*it).address());
    // sort the addr list so we don't go "next" in a random order
-   m_foundAddrs.sort();
+   qHeapSort(m_foundAddrs.begin(), m_foundAddrs.end());
+   /*
+   kdDebug() << ">>" << endl;
+   for (QValueList<Address>::iterator it = m_foundAddrs.begin(); it != m_foundAddrs.end(); ++it )
+      kdDebug() << (*it).string() << endl;
+   kdDebug() << "<<" << endl;
+   */
    m_currentResult = 0;
    slotSearchNext();
 }
