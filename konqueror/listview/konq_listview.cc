@@ -152,12 +152,6 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "del", del );
   emit enableAction( "shred", del );
 
-  QMimeSource *data = QApplication::clipboard()->data();
-  bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
-    (selection.count() <= 1); // We can paste on ONE item or on the background
-
-  emit enableAction( "paste", paste );
-
   KFileItemList lstItems;
   if ( firstSelectedItem )
       lstItems.append( firstSelectedItem );
