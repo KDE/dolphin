@@ -236,7 +236,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
     m_pMainWindow->viewManager()->setActivePart( m_pPart );
   }
-  else
+  else if ( m_serviceType != serviceType )
   {
       m_serviceType = serviceType;
       kdDebug(1202) << "KonqView::changeViewMode service type set to " << m_serviceType << endl;
