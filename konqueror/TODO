@@ -59,25 +59,13 @@ konqueror framework:
 - Minicli's current directory (Dawit's last post on kde-cvs was confused I think.
   All we need is chdir() so that apps can find files from the current dir).
 
-iconview:
-========
-
-- When word wrap is false, Reggie suggested adding a tooltip with the fullname
-
-- Stop not possible while image preview running - to be tested. #2872
-
-
 iconview+listviews:
 ===================
-
-- Sorting by extension ?
 
 - Hide backup files (files ending in ~ or #) - see #3212
 
 - if we keep "background color for this directory" should we have "text color for
 this directory" too... ?
-
-- Undo functionality (in progress)
 
 - Link symbol (see post "Links" on kfm-devel)
 
@@ -87,7 +75,7 @@ listviews:
 
 - textview: dragging from there and dropping in another view crashes, I'm told.
 
-- crash in double-click mode when double-clicking. #3356 (already fixed?)
+- grep for TODO in the .rc files: missing sorting options: dir firsts, case [in]sensitive
 
 dirtree:
 ========
@@ -116,6 +104,9 @@ And more:
 - Show caitoo in the RMB on links - this is different from usual services,
 since it's not associated to a mimetype, but to non-local protocols...
 
+- Embedding kspread in konq, and pressing reload creates a new page  ?!?!?!?
+
+- Action for clearing the location bar (for shortcut)
 
 
 - see grep TODO *.cc *.h
