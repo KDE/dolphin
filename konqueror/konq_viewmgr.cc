@@ -811,8 +811,9 @@ void KonqViewManager::clear()
   }
 
   kdDebug(1202) << "deleting mainFrame " << endl;
-  m_pMainWindow->removeChildFrame( m_pMainWindow->childFrame() );
-  delete m_pMainWindow->childFrame();
+  KonqFrameBase* frame = m_pMainWindow->childFrame();
+  m_pMainWindow->removeChildFrame( frame ); // will set childFrame() to NULL
+  delete frame;
 
   m_pDocContainer = 0L;
 }
