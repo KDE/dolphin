@@ -8,6 +8,7 @@ bin_PROGRAMS =
 lib_LTLIBRARIES =
 kdeinit_LTLIBRARIES = konqueror.la
 
+noinst_LTLIBRARIES = libkonqueror_intern.la
 konqdatadir = $(kde_datadir)/konqueror
 konqdata_DATA = konqueror.rc konq-simplebrowser.rc
 
@@ -20,6 +21,7 @@ METASOURCES = AUTO
 
 include_HEADERS = KonquerorIface.h
 
+libkonqueror_intern_la_SOURCES = konq_settingsxt.kcfgc
 konqueror_la_SOURCES = konq_main.cc \
 	    KonquerorIface.cc KonquerorIface.skel \
 	    KonqMainWindowIface.cc KonqMainWindowIface.skel \
@@ -36,8 +38,7 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_browseriface.cc \
 	    delayedinitializer.cc \
 	    konq_mainwindow.cc  \
-	    konq_extensionmanager.cc \
-	    konq_settingsxt.kcfgc 
+	    konq_extensionmanager.cc
 
 konqueror_la_PCH = AUTO
 
@@ -48,7 +49,7 @@ noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
 	konq_view.h konq_viewmgr.h konq_extensionmanager.h version.h
 
 konqueror_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIBMALLOC) $(LIB_KUTILS)
+konqueror_la_LIBADD = ../libkonq/libkonq.la libkonqueror_intern.la $(LIBMALLOC) $(LIB_KUTILS)
 
 # Hmm, this experiment of a static konq failed, don't trust it...
 # (but feel free to fix it :)

@@ -5,7 +5,7 @@ kde_module_LTLIBRARIES = kded_konqy_preloader.la
 INCLUDES= -I.. $(all_includes)
 kded_konqy_preloader_la_SOURCES = preloader.cc preloader.skel
 kded_konqy_preloader_la_LDFLAGS = $(all_libraries) -module -avoid-version
-kded_konqy_preloader_la_LIBADD = $(LIB_KSYCOCA)
+kded_konqy_preloader_la_LIBADD = ../libkonqueror_intern.la $(LIB_KSYCOCA)
 
 METASOURCES = AUTO
 
