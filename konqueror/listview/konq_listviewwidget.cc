@@ -425,7 +425,9 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
    KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
    //TODO: Highlight on mouseover
 
-   if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ) ) )
+   // The .x() here is important, to avoid a Qt pseudo-bug... Basically,
+   // don't call itemAt from here, it leads to bugs when deleting an item.
+   if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ).x() ) )
    {
       emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
    }
@@ -853,6 +855,10 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
+    /*
+    kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
+              << r.x() << "," << r.y() << " " << r.width() << "x" << r.height()
+              << endl; */
     const QPixmap *pm = viewport()->backgroundPixmap();
 
     if (!pm || pm->isNull())
