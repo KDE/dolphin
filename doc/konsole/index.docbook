@@ -1,13 +1,12 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
- <!ENTITY konsole "<application>Konsole</application>">
+ <!ENTITY kappname "&konsole;">
+ <!ENTITY % English "INCLUDE">
  <!ENTITY % addindex "IGNORE">
- <![ %addindex; [ <!ENTITY docindex SYSTEM "docindex.docbook"> ]]>
- <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Application-Variable Entities V1.0//EN">
+ <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
  %ents;
- <![ %addindex; [ <!ENTITY kdedocindex SYSTEM "docindex.docbook"> ]]>
 ]>
 
-<book lang="en">
+<book lang="&language;">
 
 <bookinfo>
 <title>The &konsole Handbook</title>
@@ -16,24 +15,28 @@
 <firstname>Jonathan</firstname>
 <surname>Singer</surname>
 <affiliation>
-<address><email>jsinger@genome.wi.mit.edu</email></address>
+<address><email>jsinger@leeta.net</email></address>
 </affiliation>
 </author>
-<othercredit>
+
+<othercredit role="developer">
 <firstname>Lars</firstname><surname>D&ouml;lle</surname><contrib>Developer</contrib>
 <affiliation>
 <address><email>lars.doelle@on-line.de</email></address>
 </affiliation>
 </othercredit>
-<othercredit>
+
+<othercredit role="reviewer">
 <firstname>Michael</firstname><surname>McBride</surname><contrib>Reviewer</contrib>
 <affiliation><address><email>mmcbride@ematic.com</email></address></affiliation>
 </othercredit>
-<othercredit>
+
+<othercredit role="reviewer">
 <firstname>Lauri</firstname><surname>Watts</surname><contrib>Reviewer</contrib>
 <affiliation><address><email>vampyr@atconnex.net</email></address></affiliation>
 </othercredit>
 </authorgroup>
+
 <copyright>
 <year>2000</year>
 <holder>Jonathan Singer</holder>
@@ -41,13 +44,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>03/06/2000</date>
-<releaseinfo>0.09.15</releaseinfo>
+<date>15/11/2000</date>
+<releaseinfo>1.00.10</releaseinfo>
 
-<abstract><para>This document is the user handbook for the
-&konsole 
-application.</para><para>&konsole is an X terminal
-emulator for KDE 2.0</para></abstract>
+<abstract><para>This document is the user handbook for the &konsole
+application.</para><para>&konsole is an X terminal emulator for KDE
+2.0</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -62,51 +64,53 @@ emulator for KDE 2.0</para></abstract>
 <chapter id="introduction">
 <title>Introduction to &konsole;</title>
 
-<para>&konsole; is an X terminal emulation which provides a command-line
-interface (<abbrev>CLI</abbrev>) while using the graphical K Desktop
+<para>&konsole; is an X terminal emulator which provides a command-line
+interface (<acronym>CLI</acronym>) while using the graphical K Desktop
 Environment. &konsole; helps to better organize user's desktop by containing
 multiple sessions in a single window (a less cluttered desktop). </para>
 
-<para>It's advanced features include a simple configuration and the ability to
+<para>Its advanced features include a simple configuration and the ability to
 use multiple terminal shells in a single window</para>
 
 <para>Using &konsole, a user can open:</para>
 <itemizedlist>	
 <listitem><para>Linux console sessions</para></listitem>
-<listitem><para>Midnight Commander file manager sessions</para></listitem> 
+<listitem><para><application>Midnight Commander</application> file manager
+sessions</para></listitem>  
 <listitem><para>Shell sessions</para></listitem>
-<listitem><para>Root consoles sessions</para></listitem>
+<listitem><para>Root console sessions</para></listitem>
 </itemizedlist>
     
 <para>These sessions can be renamed to help you keep track of all your shells,
-or signaled (STOP, CONT, HUP, INT, TERM, KILL) </para>
+or signaled (STOP, CONT, HUP, INT, TERM, KILL).</para>
     
 <para>For more control over &konsole;, a user can:</para>
 <itemizedlist>
 <listitem><para>hide/show the menubar, toolbar and/or frame</para></listitem>
-<listitem><para>select the size of a &konsole; window, fonts, color schemes, and key mapping</para></listitem>
-<listitem><para>change location of the scrollbar or hide the scrollbar</para></listitem>
+<listitem><para>select the size of a &konsole; window, fonts, color schemes, and
+key mapping</para></listitem>
+<listitem><para>change location of the scrollbar or hide the
+scrollbar</para></listitem>
 </itemizedlist>
     
-<para>All chosen options can be made default for forthcoming sessions by
-saving them. 
-</para>
+<para>All chosen options can be made the default for forthcoming sessions by
+saving them. </para>
     
 <sect1 id="history">
 <title>History</title>
 
 <para>For those with a deep interest in the taxonomy of free X terminals, there
-are two others of this kind: <application>xterm</application>, the
-original, written even before X itself (a month or two), and
+are two others of this kind: <application>xterm</application>, the original,
+written even before X itself (a month or two), and
 <application>xvt</application>, a lightweight <application>xterm</application>
 clone, on which most other currently available derivatives (notably
 <application>eterm</application>) are based.</para>
 
 <para> After a decade, &konsole; is the first rewrite from the ground up. While
 <application>xterm</application> has definitely been hacked to death (its
-<filename>README</filename> starts with the words "Abandon All Hope, Ye Who
-Enter Here"), &konsole; offers a fresh start using contemporary technologies and
-understanding of X.</para>
+<filename>README</filename> starts with the words <quote>Abandon All Hope, Ye
+Who Enter Here</quote>), &konsole; offers a fresh start using contemporary
+technologies and understanding of X.</para>
 
 </sect1>
 </chapter>
@@ -116,20 +120,22 @@ understanding of X.</para>
 
 <para>&konsole is part of the KDE 2.0 base packages.  It will automatically be
 installed with your KDE installation, and requires KDE 2.0 to function.</para>
-<para>For more information, you should visit the KDE website at <ulink url="http://www.kde.org/">http://www.kde.org/</ulink></para>
+<para>For more information, you should visit the KDE website at <ulink
+url="http://www.kde.org/">http://www.kde.org/</ulink></para>
 
-<para>To obtain &konsole; separately, it is part of the kdebase package, and should be compiled and
-installed as indicated in the package's main directory.  New versions of kdebase
-can be obtained at <ulink url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para> 
+<para>To obtain &konsole; separately, download the kdebase package, and compile
+and install it as indicated in the package's main directory.  New versions of
+kdebase can be obtained at <ulink
+url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
 
 <para>To build &konsole;:</para>
 
 <screen>
-<prompt>$</prompt>  <command>cd <filename>kdebase/konsole</filename></command>
-<prompt>$</prompt>  <command>./configure</command>
-<prompt>$</prompt>  <command>make</command>
+<prompt>$</prompt>  <userinput><command>cd</command> <filename>kdebase/konsole</filename></userinput>
+<prompt>$</prompt>  <userinput><command>./configure</command></userinput>
+<prompt>$</prompt>  <userinput><command>make</command></userinput>
 <lineannotation>Then as root:</lineannotation>
-<prompt>#</prompt>  <command>make install</command>
+<prompt>#</prompt>  <userinput><command>make install</command></userinput>
 </screen>
 
 </chapter>
@@ -143,20 +149,34 @@ can be obtained at <ulink url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</u
 <para>When &konsole; is started, an application (typically a Unix shell) runs in
 the window. Simply type at the prompt.</para>
 
+<screenshot>
+<screeninfo>&konsole; Screen</screeninfo>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="konsole.png" format="PNG">
+          </imageobject>
+          <textobject>
+            <phrase>&konsole; Screen</phrase>
+          </textobject>
+        </mediaobject>
+</screenshot>
+
 </sect1>
 
 <sect1 id="history-option">
 <title>History</title>
 
 <para>As lines scroll off the top of the screen, they can be reviewed by moving
-the scroll bar upwards, or through the use of the
-<keycombo><keycap>Shift</keycap><keycap>Page Up</keycap></keycombo> (to move
-back a page), <keycombo><keycap>Shift</keycap><keycap>Page
-Down</keycap></keycombo> (to move forward a page),
-<keycombo><keycap>Shift</keycap><keycap>Up</keycap></keycombo> (to move up a
-line) and <keycombo><keycap>Shift</keycap><keycap>Down</keycap></keycombo> (to
-move down a line) keys. (Provided the "<link
-linkend="options-menu">History"</link> option is on.)</para>
+the scroll bar upwards, or through the use of the <keycombo
+action="simul"><keycap>Shift</keycap><keycap>Page Up</keycap></keycombo> (to
+move back a page), <keycombo action="simul"><keycap>Shift</keycap><keycap>Page
+Down</keycap></keycombo> (to move forward a page), <keycombo
+action="simul"><keycap>Shift</keycap><keycap>Up</keycap></keycombo> (to move up
+a line) and <keycombo
+action="simul"><keycap>Shift</keycap><keycap>Down</keycap></keycombo> (to move
+down a line) keys (provided the "<link linkend="options-menu">History"</link>
+option is on).</para>
+
 </sect1>
 
 <sect1 id="mousebuttons">
@@ -166,12 +186,11 @@ linkend="options-menu">History"</link> option is on.)</para>
 <variablelist>
 
 <varlistentry>
-
-<term><mousebutton>Left</mousebutton></term> <listitem><para>Clicking the
-<mousebutton>left</mousebutton> button is passed as an event to the application
-running in the emulation, if it is mouse-aware.  If a program will react on
-mouse clicks &konsole; indicates this by showing an arrow cursor. If not, an
-I-beam (bar) cursor is shown.</para>
+<term><mousebutton>Left</mousebutton></term> 
+<listitem><para>Clicking the <mousebutton>left</mousebutton> button is passed as
+an event to the application running in the emulation, if it is mouse-aware.  If
+a program will react on mouse clicks, &konsole; indicates this by showing an
+arrow cursor. If not, an I-beam (bar) cursor is shown.</para>
 
 <para>Holding the <mousebutton>left</mousebutton> button down and dragging the
 mouse over the screen with a mouse-unaware application running will mark a
@@ -189,7 +208,7 @@ normally.</para>
 
 <para>If the upper or lower edge of the text area is touched while marking,
 &konsole; scrolls up or down, eventually exposing text within the history
-buffer. The scrolling stops when the mouse stops moving.</para> 
+buffer. The scrolling stops when the mouse stops moving.</para>
 
 <para>After the mouse is released, &konsole; attempts to keep the text in the
 clipboard visible by holding the marked area reversed. The marked area reverts
@@ -202,26 +221,29 @@ has to be pressed when clicking.</para>
 	    
 </listitem>
 </varlistentry>
-	
+
 <varlistentry>
-<term><mousebutton>Middle</mousebutton></term> <listitem><para>Pressing the
-<mousebutton>middle</mousebutton> button pastes text currently in the
-clipboard.</para>
+<term><mousebutton>Middle</mousebutton></term> 
+
+<listitem><para>Pressing the <mousebutton>middle</mousebutton> button pastes
+text currently in the clipboard.</para>
+
 <note><para>If you have a mouse with only two buttons, pressing both the
 <mousebutton>left</mousebutton> and <mousebutton>right</mousebutton> buttons
 together emulates the <mousebutton>middle</mousebutton> button of a three button
 mouse.</para></note>
+
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><mousebutton>Right</mousebutton></term> <listitem><para>The
-<mousebutton>right</mousebutton> button up the <guimenu>"Options"</guimenu>
-menu. The <keycombo><keycap>Ctrl</keycap></keycombo> +
-<mousebutton>right</mousebutton> button brings up the <guimenu>"File"</guimenu>
-menu, while <keycombo><keycap>Shift</keycap></keycombo> +
-<mousebutton>right</mousebutton> button brings up the
-<guimenu>"Sessions"</guimenu> menu.</para></listitem>
+<term><mousebutton>Right</mousebutton></term> 
+<listitem><para>The <mousebutton>right</mousebutton> button brings up the
+<guimenu>Options</guimenu> menu. The <keycombo action="simul"><keycap>Ctrl</keycap> <mousebutton>right</mousebutton></keycombo>
+button brings up the <guimenu>File</guimenu> menu, while <keycombo
+								   action="simul"><keycap>Shift</keycap>
+<mousebutton>right</mousebutton></keycombo> button brings up the
+<guimenu>Sessions</guimenu> menu.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -231,10 +253,10 @@ menu, while <keycombo><keycap>Shift</keycap></keycombo> +
 <title>Menu Bar</title>
 
 <para>The menubar is at the top of the &konsole window. It can be hidden and
-restored by toggling <guimenuitem>"Show Menubar"</guimenuitem> in the
-<guimenu>"Options"</guimenu> menu. When the menubar is hidden,
-<guimenuitem>"Show Menubar"</guimenuitem> can be reached by
-<mousebutton>right</mousebutton>-clicking in the window.</para>
+restored by toggling <guimenuitem>Show Menubar</guimenuitem> in the
+<guimenu>Options</guimenu> menu. When the menubar is hidden, <guimenuitem>Show
+Menubar</guimenuitem> can be reached by <mousebutton>right</mousebutton>
+clicking in the window.</para>
 
 <sect2 id="file-menu">
 <title>The <guimenu>File</guimenu> menu</title>
@@ -243,25 +265,29 @@ restored by toggling <guimenuitem>"Show Menubar"</guimenuitem> in the
 <term><menuchoice><guimenu>File</guimenu><guimenuitem>Linux
 Console</guimenuitem></menuchoice></term>
 <listitem><para><action> Opens a new session emulating a text-only Linux
-system.</action></para><para>
-(See the file <filename>README.linux.console</filename> for detailed
-information on how the Linux console differs from a typical Unix console.)</para></listitem>
-
+system.</action></para>
+<note><para>See the file <filename>README.linux.console</filename> for detailed
+information on how the Linux console differs from a typical Unix
+console.</para></note></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>File</guimenu><guimenuitem>Midnight Commander</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>File</guimenu><guimenuitem>Midnight
+Commander</guimenuitem></menuchoice></term>
 <listitem><para><action>Opens a new session with the <application>Midnight
 Commander</application> graphical file browser</action></para></listitem>
 </varlistentry>
 <varlistentry>
 
-<term><menuchoice><guimenu>File</guimenu><guimenuitem>Shell</guimenuitem></menuchoice></term>
-<listitem><para><action>Opens a new session with a terminal shell</action></para></listitem>
+<term><menuchoice><guimenu>File</guimenu>
+<guimenuitem>Shell</guimenuitem></menuchoice></term>
+<listitem><para><action>Opens a new session with a terminal
+shell</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>File</guimenu><guimenuitem>Root Console</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>File</guimenu><guimenuitem>Root
+Console</guimenuitem></menuchoice></term>
 <listitem><para><action>Opens a new session with a terminal shell, as the root
 user. </action></para><para>After being prompted for the root password, the
 <prompt>#</prompt> prompt appears, indicating that the user is working with root
@@ -271,7 +297,8 @@ damage.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>File</guimenu><guimenuitem>Quit</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>File</guimenu>
+<guimenuitem><accel>Q</accel>uit</guimenuitem></menuchoice></term>
 <listitem><para><action>Quits &konsole;, closing all sessions and any
 applications launched from them.</action></para></listitem>
 </varlistentry>
@@ -284,34 +311,66 @@ applications launched from them.</action></para></listitem>
 
 <variablelist>
 <varlistentry>
-<term><menuchoice><guimenu>Sessions</guimenu><guimenuitem>Send Signal</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Sessions</guimenu>
+<guisubmenu>Send Signal</guisubmenu></menuchoice></term>
 <listitem><para><action>Send Signal - Sends the specified signal to the shell
 process, or other process, that was launched when the new session was
 started.</action></para><para>Currently available signals are:</para>
-<informaltable frame=none>
-<tgroup cols=3>
+
+<informaltable>
+<tgroup cols="2">
 <tbody>
-<row><entry>Stop</entry><entry>-</entry> <entry>to stop process</entry></row>
-<row><entry>Cont</entry> <entry>-</entry><entry>continue if stopped</entry></row>
-<row><entry>HUP</entry> <entry>-</entry><entry>hangup detected on controlling terminal, or death of controlling process</entry></row>
-<row><entry>Int</entry> <entry>-</entry><entry>interrupt from keyboard</entry></row>
-<row><entry>Term</entry> <entry>-</entry><entry>termination signal</entry></row>
-<row><entry>Kill</entry> <entry>-</entry><entry>kill signal</entry></row>
-</tbody></tgroup>
+<row>
+<entry><errorcode>STOP</errorcode></entry>
+<entry>to stop process</entry>
+</row>
+<row>
+<entry><errorcode>CONT</errorcode></entry>
+<entry>continue if stopped</entry>
+</row>
+<row>
+<entry><errorcode>HUP</errorcode></entry>
+<entry>hangup detected on controlling terminal, or death of controlling
+process</entry>
+</row>
+<row>
+<entry><errorcode>INT</errorcode></entry>
+<entry>interrupt from keyboard</entry>
+</row>
+<row>
+<entry><errorcode>TERM</errorcode></entry>
+<entry>termination signal</entry>
+</row>
+<row>
+<entry><errorcode>KILL</errorcode></entry>
+<entry>kill signal</entry>
+</row>
+</tbody>
+</tgroup>
 </informaltable>
-<para>Refer to your system manual pages for further details by giving the command <command>man 7 signal</command></para>
-</listitem>
+
+<para>Refer to your system manual pages for further details by giving the
+command <userinput><command>man</command> <option>7
+signal</option></userinput></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Sessions</guimenu><guimenuitem>R<accel>e</accel>name
+Session...</guimenuitem></menuchoice></term>
+<listitem><para><action>Changes the name of the active
+session</action></para></listitem>
 </varlistentry>
 <varlistentry>
-<term><menuchoice><guimenu>Sessions</guimenu><guimenuitem>Rename Session</guimenuitem></menuchoice></term>
-<listitem><para><action>Changes the name of the active session</action></para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Session icons...</guimenuitem></menuchoice></term>
-<listitem><para>At the bottom of the menu is a list of the available sessions. Selecting one
-makes that session active.</para>
-<para>You can use the Shift-Left/Right keys to cycle through the available sesions, too.</para>
-</listitem>
+
+<term><menuchoice><guimenu>Sessions</guimenu>
+<guimenuitem>Session icons...</guimenuitem></menuchoice></term>
+<listitem><para>At the bottom of the menu is a list of the available
+sessions. Selecting one makes that session active.</para>
+
+<para>You can also use the <keycombo
+action="simul"><keycap>Shift</keycap><keycap>Left</keycap></keycombo>/<keycombo
+action="simul"><keycap>Shift</keycap><keycap>Right</keycap></keycombo> keys to
+cycle through the available sesions.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -321,59 +380,98 @@ makes that session active.</para>
 <title>The <guimenu>Options</guimenu> menu</title>
 
 <variablelist>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show Menubar</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Options</guimenu><guimenuitem>R<accel>e</accel>name
+Session...</guimenuitem></menuchoice></term>
+<listitem><para><action>Changes the name of the active
+session</action></para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show
+<accel>M</accel>enubar</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides the menubar</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show toolbar</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show
+<accel>T</accel>oolbar</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides the toolbar</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show Frame</guimenuitem></menuchoice></term>
-<listitem><para><action>Shows or hides frame at side of window</action></para></listitem>
+<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Show
+<accel>F</accel>rame</guimenuitem></menuchoice></term>
+<listitem><para><action>Shows or hides frame at side of
+window</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Scrollbar</guimenuitem></menuchoice></term>
-<listitem><para><action>Controls location of scrollbar: none, left, or right</action></para></listitem>
+<term><menuchoice><guimenu>Options</guimenu>
+<guisubmenu>Scrollbar</guisubmenu></menuchoice></term>
+<listitem><para><action>Controls location of scrollbar</action>:
+<guimenuitem>none</guimenuitem>, <guimenuitem>left</guimenuitem>, or
+<guimenuitem>right</guimenuitem></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Fullscreen</guimenuitem></menuchoice></term>
-<listitem><para><action>Toggles window between full-screen and normal size</action></para></listitem>
+<term><menuchoice><guimenu>Options</guimenu>
+<guimenuitem>F<accel>u</accel>llscreen</guimenuitem></menuchoice></term>
+<listitem><para><action>Toggles window between full-screen and normal
+size</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Option</guimenu><guimenuitem>Size</guimenuitem></menuchoice></term>
-<listitem><para><action>Sets size of text area (given in columns x rows)</action></para></listitem>
+<term><menuchoice><guimenu>Options</guimenu>
+<guisubmenu>Size</guisubmenu></menuchoice></term>
+<listitem><para><action>Sets size of text area (given in columns x
+rows)</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Fonts</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Options</guimenu>
+<guisubmenu>Fonts</guisubmenu></menuchoice></term>
 <listitem><para><action>Sets font size</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Schema</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Options</guimenu>
+<guimenuitem><accel>S</accel>chema</guimenuitem></menuchoice></term>
 <listitem><para><action>Sets colors of text and background</action></para>
-<para>The list of these schemata is taken from <filename>$KDEDIR/apps/konsole/*.schema</filename>.
-      Add to or modify these files to match your needs.</para>
-</listitem>
+<para>The list of these schemata is taken from
+<filename>$KDEDIR/apps/konsole/*.schema</filename>. Add to or modify these files
+to match your needs.</para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>History</guimenuitem></menuchoice></term>
-<listitem><para><action>Toggles saving of lines that have scrolled off the top of the window</action></para></listitem>
+<term><menuchoice><guimenu>Options</guimenu>
+<guimenuitem><accel>H</accel>istory</guimenuitem></menuchoice></term> 
+<listitem><para><action>Toggles saving of lines that have scrolled off the top
+of the window</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Codec</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Options</guimenu>
+<guimenuitem><accel>C</accel>odec</guimenuitem></menuchoice></term>
 <listitem><para><action>Not implemented yet</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Keyboard</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Options</guimenu>
+<guimenuitem><accel>K</accel>eyboard</guimenuitem></menuchoice></term>
 <listitem><para><action>Chooses desired keymapping</action></para>
-<para>The list of these keymappings is taken from <filename>$KDEDIR/apps/konsole/*.keymap</filename>.
-      Add to or modify these files to match your needs.</para>
-</listitem>
+<para>The list of these keymappings is taken from
+<filename>$KDEDIR/apps/konsole/*.keymap</filename>.  Add to or modify these
+files to match your needs.</para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Save Options</guimenuitem></menuchoice></term>
-<listitem><para><action>Save the current settings as the new defaults</action></para></listitem>
+<term><menuchoice><guimenu>Options</guimenu><guimenuitem>Save
+<accel>O</accel>ptions</guimenuitem></menuchoice></term>
+<listitem><para><action>Save the current settings as the new
+defaults</action></para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -384,24 +482,39 @@ makes that session active.</para>
 
 <variablelist>
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem>Contents</guimenuitem></menuchoice></term>
-<listitem><para><action>Opens the table of contents of this document</action></para></listitem>
+<term><menuchoice><shortcut>
+<keycap>F1</keycap></shortcut><guimenu>Help</guimenu>
+<guimenuitem><accel>C</accel>ontents...</guimenuitem></menuchoice></term>
+<listitem><para><action>Opens the table of contents of this
+document</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem>Technical Reference</guimenuitem></menuchoice></term>
-<listitem><para><action>Detailed information on terminal emulation and &konsole;</action></para></listitem>
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>T</accel>echnical
+Reference</guimenuitem></menuchoice></term>
+<listitem><para><action>Detailed information on terminal emulation and
+&konsole;</action></para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem>Report Bug</guimenuitem></menuchoice></term>
-<listitem><para><action>submit a bug report or a feature request for &konsole;</action></para></listitem>
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>R</accel>eport
+Bug...</guimenuitem></menuchoice></term>
+<listitem><para><action>submit a bug report or a feature request</action> for
+&konsole;</para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem>About Konsole</guimenuitem></menuchoice></term>
-<listitem><para><action>Information about &konsole;'s author</action></para></listitem>
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>A</accel>bout
+Konsole...</guimenuitem></menuchoice></term>
+<listitem><para><action>Information about</action> &konsole;'s
+author</para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem>About KDE</guimenuitem></menuchoice></term>
-<listitem><para><action>Information about the KDE project</action></para></listitem>
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem>About
+<accel>K</accel>DE...</guimenuitem></menuchoice></term>
+<listitem><para><action>Information about the KDE
+project</action></para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -413,13 +526,17 @@ makes that session active.</para>
 <title>The toolbar</title>
 
 <para>The toolbar is at the bottom of the &konsole; window.</para>
-<para>It can be hidden and restored by toggling <guimenuitem>"Show Toolbar"</guimenuitem> in the
-<guimenu>"Options"</guimenu> menu or by clicking the textured "handle" at the
-side of the bar. The bar contains a <guiicon>"New"</guiicon> icon and icons for
-the current sessions. Clicking <guiicon>"New"</guiicon> opens a new "Shell"
-session.</para>
+
+<para>It can be hidden and restored by toggling <guimenuitem>Show
+Toolbar</guimenuitem> in the <guimenu>Options</guimenu> menu or by clicking
+the textured <quote>handle</quote> at the side of the bar. The bar contains a
+<guiicon>New</guiicon> icon and icons for the current sessions. Clicking
+<guiicon>New</guiicon> opens a new <quote>Shell</quote> session.</para>
 
 <para>Clicking an existing session's icon makes that session active.</para>
+<para>When the toolbar is hidden, <keycombo action="simul"><keycap>Shift</keycap> <keycap>Left</keycap></keycombo> and
+<keycombo action="simul"><keycap>Shift</keycap>
+<keycap>Right</keycap></keycombo> can be used to move between sessions.</para>
 
 </sect1>
 
@@ -427,14 +544,16 @@ session.</para>
 <title>Command-line options</title>
 
 <para>When &konsole; is started from the command-line, various options can be specified to modify it's behavior</para>
+
 <variablelist>
 <varlistentry>
 <term><option>--help</option></term>
-<listitem><para><action>lists the various options</action></para></listitem>
+<listitem><para><action>List the various options</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--name</option></term>
-<listitem><para><action>Set the name that appears in the titlebar</action></para></listitem>
+<listitem><para><action>Set the name that appears in the
+titlebar</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--ls</option></term>
@@ -442,48 +561,65 @@ session.</para>
 </varlistentry>
 <varlistentry>
 <term><option>--nowelcome</option></term>
-<listitem><para><action>Suppress the "Welcome to &konsole;" message that normally appears in the titlebar</action></para></listitem>
+<listitem><para>Suppress the "Welcome to &konsole;" message that normally
+appears in the titlebar</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--title</option></term>
+<listitem><para><action>Set the window title</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--nohist</option></term>
-<listitem><para><action>Disables the saving of lines that scroll off the top of the window</action></para></listitem>
+<listitem><para><action>Disable the saving of lines that scroll off the top of the window</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--notoolbar</option></term>
+<listitem><para><action>Start &konsole; without a toolbar</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--vt_sz <replaceable>CCxLL</replaceable></option></term>
-<listitem><para><action>Starts a terminal window of CC Columns and LL lines</action></para></listitem>
+<listitem><para><action>Start a terminal window of CC Columns and LL
+lines</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option> -e <replaceable>&lt;command&gt;</replaceable></option></term>
-<listitem><para><action>Execute &lt;command&gt; instead of shell</action></para></listitem>
+<listitem><para><action>Execute &lt;command&gt; instead of
+shell</action></para></listitem>
 </varlistentry>
 </variablelist>
+
 <para>For instance:</para>
+
 <informalexample>
 <screen>
-<prompt>bash$</prompt> <command>konsole <replaceable>--vt_sz 90x25 --nohist</replaceable></command>
-</screen><para> starts a &konsole; window with 90 columns and 25 rows, with no history</para>
-      </informalexample>
-<para>&konsole; also accepts generic Qt and KDE options:</para>
+<prompt>bash$</prompt> <userinput><command>konsole</command> <replaceable>--vt_sz 90x25 --nohist</replaceable></userinput>
+</screen>
+
+<para> starts a &konsole; window with 90 columns and 25 rows, with no history</para>
+</informalexample>
+
+<para>&konsole; also accepts generic &Qt; and KDE options:</para>
+
 <variablelist>
 <varlistentry>
 <term><option>--author</option></term>
-<listitem><para><action>Shows the author(s) names</action></para></listitem>
+<listitem><para><action>Show the author(s) names</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--V</option></term>
-<listitem><para><action>Shows the version number</action></para></listitem>
+<listitem><para><action>Show the version number</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-qt</option></term>
-<listitem><para><action>lists Qt-specific options</action></para></listitem>
+<listitem><para><action>List Qt-specific options</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-kde</option></term>
-<listitem><para><action>lists KDE-specific options</action></para></listitem>
+<listitem><para><action>List KDE-specific options</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-all</option></term>
-<listitem><para><action>lists all options</action></para></listitem>
+<listitem><para><action>Lists all option</action></para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -500,11 +636,12 @@ Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 <para>This document was written by Jonathan Singer
 <email>jsinger@genome.wi.mit.edu</email></para>
 
-<para>Converted to DocBook SGML by Michael McBride
+<para>Converted to DocBook <acronym>SGML</acronym> by Michael McBride
 <email>mmcbride@ematic.com</email> and Lauri Watts
 <email>vampyr@atconnex.net</email></para>
 
-&license-links;
+&underFDL;
+&underGPL;
 </chapter>
   
 <![ %addindex; [ &docindex; ]]>
