@@ -80,7 +80,7 @@ void TestLinkItr::doAction() {
    curItem()->setTmpStatus(i18n("Checking..."));
    QString oldModDate = TestLinkItrHolder::self()->getMod(curBk().url().url());
    curItem()->setOldStatus(oldModDate);
-   TestLinkItrHolder::setMod(curBk().url().url(), i18n("Checking..."));
+   TestLinkItrHolder::self()->setMod(curBk().url().url(), i18n("Checking..."));
 }
 
 void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
@@ -155,17 +155,9 @@ static QString mkTimeStr(int b) {
 
 /* -------------------------- */
 
-void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue) {
-   if (!oldValue.isEmpty()) {
-      self()->m_modify[url] = oldValue;
-   } else {
-      self()->m_modify.remove(url);
-   }
-}
-
 const QString TestLinkItrHolder::getMod(const QString &url) const {
-   return self()->m_modify.contains(url) 
-        ? self()->m_modify[url] 
+   return m_modify.contains(url) 
+        ? m_modify[url] 
         : QString::null;
 }
 
@@ -176,11 +168,19 @@ const QString TestLinkItrHolder::getOldMod(const QString &url) const {
 }
 
 void TestLinkItrHolder::setMod(const QString &url, const QString &val) {
-   self()->m_modify[url] = val;
+   m_modify[url] = val;
 }
 
 void TestLinkItrHolder::setOldMod(const QString &url, const QString &val) {
-   self()->m_oldModify[url] = val;
+   m_oldModify[url] = val;
+}
+
+void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue) {
+   if (!oldValue.isEmpty()) {
+      m_modify[url] = oldValue;
+   } else {
+      m_modify.remove(url);
+   }
 }
 
 /* -------------------------- */
@@ -200,7 +200,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
    if (self()->getOldMod(url).isNull()) {
       // first time
       oldModStr = nsinfo;
-      setOldMod(url, oldModStr);
+      self()->setOldMod(url, oldModStr);
 
    } else if (!newModStr.isNull()) {
       // umm... nsGet not called here, missing optimisation?
@@ -211,7 +211,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
       QString oom = nsinfo;
       oldModStr = self()->getOldMod(url);
       if (oom.toInt() > oldModStr.toInt()) {
-         setOldMod(url, oom);
+         self()->setOldMod(url, oom);
          oldModStr = oom;
       }
    }
@@ -282,7 +282,7 @@ const QString KEBListViewItem::nsGet() const {
 
 /* -------------------------- */
 
-static QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
+static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
    QString nCreate, nAccess, nModify;
    parseNsInfo(_nsinfo, nCreate, nAccess, nModify);
 
@@ -297,13 +297,22 @@ static QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
    return tmp;
 }
 
-void KEBListViewItem::nsPut(const QString &nm) {
-   QString tmp = updateNsInfoMod(m_bookmark.internalElement().attribute("netscapeinfo"), nm);
-   m_bookmark.internalElement().setAttribute("netscapeinfo", tmp);
+static const QString NetscapeInfoAttribute = "netscapeinfo";
 
+static const QString Bk_getNsInfo(const KBookmark &bk) { 
+   return bk.internalElement().attribute(NetscapeInfoAttribute);
+}
+
+static void Bk_setBkNsInfo(KBookmark bk, const QString &info) { 
+   bk.internalElement().setAttribute(NetscapeInfoAttribute, info);
+}
+
+void KEBListViewItem::nsPut(const QString &newModDate) {
+   const QString info = Bk_getNsInfo(m_bookmark);
+   Bk_setBkNsInfo(m_bookmark, updateNsInfoMod(info, newModDate));
+   TestLinkItrHolder::self()->setMod(url(), newModDate);
+   setText(KEBListView::StatusColumn, newModDate);
    KEBApp::self()->setModifiedFlag(true);
-   setText(KEBListView::StatusColumn, nm);
-   TestLinkItrHolder::setMod(url(), nm);
 }
 
 void KEBListViewItem::modUpdate() {
@@ -332,7 +341,7 @@ void KEBListViewItem::setTmpStatus(const QString &status) {
 void KEBListViewItem::restoreStatus() {
    if (!m_oldStatus.isNull()) {
       kdDebug() << "KEBListViewItem::restoreStatus" << endl;
-      TestLinkItrHolder::resetToValue(url(), m_oldStatus);
+      TestLinkItrHolder::self()->resetToValue(url(), m_oldStatus);
       modUpdate();
    }
 }
