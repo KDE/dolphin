@@ -659,7 +659,7 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
         	            if ( *eIt != "." && *eIt != ".."
                 	         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
 	                    { // we don't have that one yet -> copy it.
-                	        QString cp("cp -R ");
+                	        QString cp("cp -R --");
         	                cp += KProcess::quote(dirtree_dir + *eIt);
 	                        cp += " ";
         	                cp += KProcess::quote(path);
