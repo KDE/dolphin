@@ -112,7 +112,6 @@ QString KFileItem::getStatusBarInfo() const
   QString linkDest;
 
   long size   = 0;
-  mode_t mode = 0;
 
   // Extract from the UDSEntry the additionnal info we didn't get previously
   UDSEntry::ConstIterator it = m_entry.begin();
