@@ -673,6 +673,9 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       m_pBrowserView->m_pProps->applyColors( viewport() );
    }
 
+   if (columnWidthMode(0)==Maximum)
+      setColumnWidth(0,50);
+
    return true;
 }
 
