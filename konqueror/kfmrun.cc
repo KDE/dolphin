@@ -22,7 +22,6 @@
 
 #include "kfmrun.h"
 #include "konq_mainview.h"
-#include "konq_childview.h"
 #include "konq_mainwindow.h"
 
 #include <string.h>

@@ -207,6 +207,9 @@ void KonqMainView::cleanUp()
 
   kdebug(0,1202,"void KonqMainView::cleanUp()");
 
+  if ( m_mapViews.contains( m_vMainWindow->activePartId() ) )
+    m_vMainWindow->setActivePart( id() );
+
   m_vStatusBar = 0L;
 
   OpenParts::MenuBarManager_var menuBarManager = m_vMainWindow->menuBarManager();
@@ -601,7 +604,6 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
 
-  //TODO instead: choose next view (Simon)
   m_currentView = 0L;
   m_currentId = 0;
 
@@ -945,6 +947,10 @@ void KonqMainView::saveProperties( KConfig *config )
 
 void KonqMainView::readProperties( KConfig *config )
 {
+
+  if ( m_mapViews.contains( m_vMainWindow->activePartId() ) )
+    m_vMainWindow->setActivePart( id() );
+
   m_pViewManager->loadViewProfile( *config );
 }
 
@@ -1061,7 +1067,12 @@ void KonqMainView::slotRemoveView()
   if ( m_mapViews.count() == 1 )
     return;
 
-  m_pViewManager->removeView( m_currentView );
+  KonqChildView *nextView = m_pViewManager->chooseNextView( m_currentView );
+  KonqChildView *prevView = m_currentView;
+
+  m_vMainWindow->setActivePart( nextView->id() );
+
+  m_pViewManager->removeView( prevView );
 }
 
 void KonqMainView::slotShowHTML()
@@ -1342,6 +1353,8 @@ void KonqMainView::slotViewProfileActivated( CORBA::Long id )
   QString name = QString::fromLatin1( "konqueror/profiles/" ) + C2Q( text );
   
   QString fileName = locate( "data", name );
+  
+  m_vMainWindow->setActivePart( this->id() );
   
   KConfig cfg( fileName, true );
   cfg.setGroup( "Profile" );

@@ -33,7 +33,6 @@
 KonqViewManager::KonqViewManager( KonqMainView *mainView )
 {
   m_pMainView = mainView;
-  m_vMainWindow = mainView->mainWindow();
 
   m_lstRows.setAutoDelete( true );
   
@@ -96,6 +95,8 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
 
 void KonqViewManager::loadViewProfile( KConfig &cfg )
 {
+  bool bFirstViewActivated = false;
+
   clear();
 
   QValueList<int> mainSplitterSizes = 
@@ -157,6 +158,16 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
       setupView( rowInfo, vView, serviceTypes );
       
       m_pMainView->childView( vView->id() )->openURL( url );
+
+      if ( !bFirstViewActivated )
+      {
+        OpenParts::MainWindow_var vMainWindow = m_pMainView->mainWindow();
+	
+	if ( vMainWindow->activePartId() == m_pMainView->id() )
+	  vMainWindow->setActivePart( vView->id() );
+	
+        bFirstViewActivated = true;
+      }
       
     }
 
@@ -167,8 +178,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   }  
 
   m_pMainSplitter->setSizes( mainSplitterSizes );  
-  
-  m_vMainWindow->setActivePart( m_lstRows.first()->children.first()->id() );
 }
 
 void KonqViewManager::insertView ( Qt::Orientation orientation, 
@@ -215,9 +224,6 @@ void KonqViewManager::insertView ( Qt::Orientation orientation,
 
 void KonqViewManager::removeView( KonqChildView *view )
 {
-  if ( view == m_pMainView->currentChildView() )
-    m_vMainWindow->setActivePart( m_pMainView->id() );
-
   bool deleteParentSplitter = false;
   QSplitter *parentSplitter = view->frame()->parentSplitter();
 
@@ -249,6 +255,54 @@ void KonqViewManager::clear()
 void KonqViewManager::doGeometry( int width, int height )
 {
   m_pMainSplitter->setGeometry( 0, 0, width, height );
+}
+
+KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
+{
+  RowInfo *row = view->rowInfo();
+  KonqChildView *next = 0L;
+  
+  if ( !view )
+    return m_lstRows.getFirst()->children.getFirst();
+  
+  if ( m_lstRows.count() == 1 && row->children.count() == 1 )
+    return view;
+    
+  if ( row->children.count() > 1 )
+  {
+    KonqChildView *savedCurrentChild = row->children.current();
+    
+    row->children.findRef( view );
+    
+    next = row->children.next();
+    if ( !next )
+    {
+      row->children.findRef( view );
+      next = row->children.prev();
+    }
+    
+    row->children.findRef( savedCurrentChild );
+  }
+  else
+  {
+    RowInfo *savedCurrentRow = m_lstRows.current();
+  
+    m_lstRows.findRef( row );
+    
+    RowInfo *nextRow = m_lstRows.next();
+    if ( !nextRow )
+    {
+      m_lstRows.findRef( row );
+      nextRow = m_lstRows.prev();
+    }
+    
+    if ( nextRow && nextRow->children.count() > 0 )
+      next = nextRow->children.getFirst();
+    
+    m_lstRows.findRef( savedCurrentRow );
+  }
+  
+  return next;
 }
 
 void KonqViewManager::clearRow( RowInfo *row )

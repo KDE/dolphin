@@ -23,8 +23,6 @@
 #include <qnamespace.h>
 #include <qlist.h>
 
-#include <openparts.h>
-
 class QSplitter;
 class QStringList;
 class KConfig;
@@ -63,6 +61,8 @@ public:
 
   void doGeometry( int width, int height );
   
+  KonqChildView *chooseNextView( KonqChildView *view );
+  
 private:
 
   void clearRow( RowInfo *row );
@@ -74,8 +74,6 @@ private:
   QSplitter *m_pMainSplitter;
 
   QList<RowInfo> m_lstRows;
-  
-  OpenParts::MainWindow_var m_vMainWindow;
 };
 
 #endif
