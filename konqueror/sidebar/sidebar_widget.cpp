@@ -46,11 +46,7 @@
 #include <qdockarea.h>
 #include <config.h>
 #if QT_VERSION >= 300
-#ifdef HAVE_PRIVATE_QUCOMEXTRA_P_H
 #include <private/qucomextra_p.h>
-#else
-#include <qucom.h>
-#endif
 #endif
 
 

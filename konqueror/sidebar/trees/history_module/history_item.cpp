@@ -99,14 +99,14 @@ QString KonqSidebarHistoryItem::key( int column, bool ascending ) const
 	return KonqSidebarTreeItem::key( column, ascending );
 
     QString tmp;
-    tmp.sprintf( "%08d", m_entry->lastVisited.secsTo(MYMODULE->currentTime()));
+    tmp.sprintf( "%08x", m_entry->lastVisited.secsTo(MYMODULE->currentTime()));
     return tmp;
 }
 
 QString KonqSidebarHistoryItem::toolTipText() const
 {
     if ( s_settings->m_detailedTips ) {
-        // this weird ordering of %4, %1, %2, %3 is due to the reason, that some 
+        // this weird ordering of %4, %1, %2, %3 is due to the reason, that some
         // urls seem to contain %N, which would get substituted in the next
         // .arg() calls. So to fix this, we first substitute the last items
         // and then put in the url.
@@ -136,7 +136,7 @@ void KonqSidebarHistoryItem::paintCell( QPainter *p, const QColorGroup & cg,
 	    dt = current.addDays( - s_settings->m_valueOlderThan );
 	else
 	    dt = current.addSecs( - (s_settings->m_valueOlderThan * 60) );
-	
+
 	if ( m_entry->lastVisited < dt )
 	    p->setFont( s_settings->m_fontOlderThan );
     }
@@ -218,7 +218,7 @@ QString KonqSidebarHistoryGroupItem::key( int column, bool ascending ) const
 	return KonqSidebarTreeItem::key( column, ascending );
 
     QString tmp;
-    tmp.sprintf( "%08d", m_lastVisited.secsTo( MYMODULE->currentTime() ));
+    tmp.sprintf( "%08x", m_lastVisited.secsTo( MYMODULE->currentTime() ));
     return tmp;
 }
 
