@@ -84,7 +84,7 @@ QStringList KCrashBookmarkImporter::getCrashLogs() {
 
    QDir d( crashBookmarksDir() );
    d.setFilter( QDir::Files );
-   d.setNameFilter("konqueror-crashlog*.xml");
+   d.setNameFilter("konqueror-crash-*.log");
 
    QMap<QString, bool> activeLogs;
 

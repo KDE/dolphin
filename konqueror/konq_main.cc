@@ -60,7 +60,7 @@ int main( int argc, char **argv )
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  KTempFile crashlog_file(locateLocal("tmp", "konqueror-crashlog"), ".xml");
+  KTempFile crashlog_file(locateLocal("tmp", "konqueror-crash-"), ".log");
 
   KonqMainWindow::s_crashlog_file = new QFile( crashlog_file.name() );
   KonqMainWindow::s_crashlog_file->open( IO_WriteOnly );
