@@ -127,9 +127,10 @@ public:
   const QList<HistoryEntry> forwardHistory() { return m_lstForward; }
 
   /**
-   * Run the view (uses KonqRun)
+   * Set the KonqRun instance that is running something for this view
+   * The mainview uses this to store the KonqRun for each child view.
    */
-  void run( const KURL & url );
+  void setRun( KonqRun * run  );
   /**
    * Stop loading
    */

@@ -91,16 +91,13 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
   */
 
   KonqMainView *mainView = new KonqMainView( QString::null, false );
-  mainView->show();
 
   KSimpleConfig cfg( filename, true );
   cfg.setGroup( "Profile" );
   mainView->viewManager()->loadViewProfile( cfg );
   mainView->enableAllActions( true );
 
-  //  shell->setActiveView( mainView );
-
-  //  shell->show();
+  mainView->show();
 }
 
 void KonquerorIfaceImpl::setMoveSelection( int move )

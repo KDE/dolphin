@@ -18,12 +18,12 @@
 */
 
 #include "konq_childview.h"
-#include "konq_frame.h"
-#include "konq_propsview.h"
 #include "konq_factory.h"
+#include "konq_frame.h"
+#include "konq_mainview.h"
+#include "konq_propsview.h"
 #include "konq_run.h"
 #include "konq_viewmgr.h"
-#include "konq_mainview.h"
 #include <kio/job.h>
 
 #include <assert.h>
@@ -396,19 +396,9 @@ KURL KonqChildView::url()
   return m_pView->url();
 }
 
-void KonqChildView::run( const KURL & url )
+void KonqChildView::setRun( KonqRun * run )
 {
-  debug(" ********** KonqChildView::run ");
-  // IMHO KRun should use KURL, too (Simon)
-  m_pRun = new KonqRun( mainView(), this, url.url(), 0, false, true );
-
-  connect( m_pRun, SIGNAL( finished() ),
-	   mainView(), SLOT( slotRunFinished() ) );
-  connect( m_pRun, SIGNAL( error() ),
-	   mainView(), SLOT( slotRunFinished() ) );
-
-  // stop() will get called by KonqMainView::openView or the KonqRun will
-  // be destroyed upon completion (autodelete)
+  m_pRun = run;
 }
 
 void KonqChildView::stop()

@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <iostream.h>
 
-KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const QString & _url, mode_t _mode, bool _is_local_file, bool _auto_delete )
+KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const KURL & _url, mode_t _mode, bool _is_local_file, bool _auto_delete )
   : KRun( _url, _mode, _is_local_file, _auto_delete )
 {
   m_pView = _view;

@@ -43,6 +43,7 @@
 
 #include <kaction.h>
 #include <kdebug.h>
+#include <kdebug2.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kiconloader.h>
@@ -299,9 +300,7 @@ void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_u
 void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, int xOffset,
                             int yOffset, const QString &serviceType )
 {
-  kDebugInfo( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(url.url()).ascii() );
-
-  /////////// First, modify the URL if necessary (adding protocol, ...) //////
+  kdDebug(1202) << "KonqMainView::openURL : _url = '" << url.url() << "'\n";
 
   if ( url.isMalformed() )
   {
@@ -320,46 +319,36 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
       //will do all the stuff below plus GUI stuff
       slotStop();
     else
-    {
       view->stop();
-    }	
 
-     setLocationBarURL( view, url.decodedURL() );
-     view->setMiscURLData( reload, xOffset, yOffset );
-    if ( !serviceType.isEmpty() )
-    {
-      kDebugInfo( 1202, "%s", QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType).latin1() );
-      if ( !openView( serviceType, url, view ) )
-      {
-        kDebugInfo( 1202, "%s", QString("Nope. Creating new KRun for %1").arg(url.url()).latin1() );
-        (void)new KRun( url.url() );
-      }
-    }
-    else
-    {
-      kDebugInfo( 1202, "%s", QString("view->run for %1").arg(url.url()).latin1() );
-      view->run( url );
-    }
-
+    setLocationBarURL( view, url.decodedURL() );
+    view->setMiscURLData( reload, xOffset, yOffset );
   }
   else
   {
     if ( m_combo )
       m_combo->setEditText( url.decodedURL() );
+  }
 
-    if ( !serviceType.isEmpty() )
+  kDebugInfo( 1202, "%s", QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType).latin1() );
+  if ( !serviceType.isEmpty() )
+  {
+    if ( !openView( serviceType, url, view /* can be 0L */) )
     {
-      if ( !openView( serviceType, url, 0L ) )
-      {
-        kDebugInfo( 1202, "%s", QString("Creating new KRun for %1").arg(url.url()).latin1() );
-        (void)new KRun( url.url() );
-      }
+      kDebugInfo( 1202, "%s", QString("Creating new KRun for %1").arg(url.url()).latin1() );
+      (void)new KRun( url );
     }
-    else
-    {
-      kDebugInfo( 1202, "%s", QString("Creating new konqrun for %1").arg(url.url()).latin1() );
-      (void) new KonqRun( this, 0L, url.url(), 0, false, true );
-    }
+  }
+  else
+  {
+    kDebugInfo( 1202, "%s", QString("Creating new konqrun for %1").arg(url.url()).latin1() );
+    KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
+    if ( view )
+      view->setRun( run );
+    connect( run, SIGNAL( finished() ),
+             this, SLOT( slotRunFinished() ) );
+    connect( run, SIGNAL( error() ),
+             this, SLOT( slotRunFinished() ) );
   }
 
   if ( view && view == m_currentView && serviceType.isEmpty() )
@@ -673,6 +662,18 @@ void KonqMainView::slotRunFinished()
     return;
 
   KonqChildView *childView = run->childView();
+
+  if ( run->hasError() )
+  {
+    kDebugWarning( 1202, " Couldn't run ... what do we do ? " );
+    if ( !childView ) // Nothing to show ??
+    {
+      close(); // This window is useless
+      KMessageBox::sorry(0L, i18n("Could not display the requested URL, closing the window"));
+      // or should we go back $HOME ?
+      return;
+    }
+  }
 
   if ( !childView )
     return;
