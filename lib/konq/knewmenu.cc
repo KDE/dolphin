@@ -192,7 +192,7 @@ void KNewMenu::slotNewFile()
       value = sFile;
     } else {
       value = "";
-      text = i18n("New Folder :");
+      text = i18n("Enter name for new folder:");
     }
 
     KLineEditDlg l( text, value, 0L );
