@@ -110,58 +110,58 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
   btn_deleteAll = new QPushButton(i18n("Dele&te all"), bbox);
   btn_deleteAll->setEnabled(false);
   vlay->addWidget(btn_deleteAll);
-  vlay->addStretch( 1 );
 
   btn_reload = new QPushButton( i18n("&Reload List"), bbox );
   vlay->addWidget(btn_reload);
 
+  vlay->addStretch( 1 );
+
+
   // Cookie details layout
   grp_details = new QGroupBox( i18n("Cookie Details"), this);
-  QGridLayout* d_lay = new QGridLayout( grp_details, 7, 2,
-                                        KDialog::marginHint(),
-                                        KDialog::spacingHint() );
-  d_lay->addRowSpacing( 0, fontMetrics().lineSpacing() );
+  grp_details->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0,grp_details ->sizePolicy().hasHeightForWidth() ) );
+  grp_details->setColumnLayout(0, Qt::Vertical );
+  grp_details->layout()->setSpacing( 0 );
+  grp_details->layout()->setMargin( 0 );
+  QGridLayout* d_lay = new QGridLayout( grp_details->layout() );
+  d_lay->setAlignment( Qt::AlignTop );
+  d_lay->setSpacing( 6  );
+  d_lay->setMargin( 11 );
 
   QLabel* label = new QLabel(i18n("Name:"), grp_details);
   d_lay->addWidget(label,1,0);
   le_name = new QLineEdit( grp_details );
   le_name->setReadOnly(true);
-  le_name->setMinimumWidth( fontMetrics().width('W') * 20 );
   d_lay->addWidget(le_name,1,1);
 
   label = new QLabel(i18n("Value:"), grp_details);
   d_lay->addWidget(label,2,0);
   le_value = new QLineEdit( grp_details );
   le_value->setReadOnly(true);
-  le_value->setMinimumWidth( fontMetrics().width('W') * 20 );
   d_lay->addWidget(le_value,2,1);
 
   label = new QLabel(i18n("Domain:"), grp_details);
   d_lay->addWidget(label,3,0);
   le_domain = new QLineEdit( grp_details );
   le_domain->setReadOnly(true);
-  le_domain->setMinimumWidth( fontMetrics().width('W') * 20 );
   d_lay->addWidget(le_domain,3,1);
 
   label = new QLabel(i18n("Path:"), grp_details);
   d_lay->addWidget(label,4,0);
   le_path = new QLineEdit( grp_details );
   le_path->setReadOnly(true);
-  le_path->setMinimumWidth( fontMetrics().width('W') * 20 );
   d_lay->addWidget(le_path,4,1);
 
   label = new QLabel(i18n("Expires On:"), grp_details);
   d_lay->addWidget(label,5,0);
   le_expires = new QLineEdit( grp_details );
   le_expires->setReadOnly(true);
-  le_expires->setMinimumWidth( fontMetrics().width('W') * 20 );
   d_lay->addWidget(le_expires,5,1);
 
   label = new QLabel(i18n("Is Secure:"), grp_details);
   d_lay->addWidget(label,6,0);
   le_isSecure = new QLineEdit( grp_details );
   le_isSecure->setReadOnly(true);
-  le_isSecure->setMinimumWidth( fontMetrics().width('W') * 20 );
   d_lay->addWidget(le_isSecure,6,1);
 
   connect(lv_cookies, SIGNAL(expanded(QListViewItem*)), SLOT(getCookies(QListViewItem*)) );
