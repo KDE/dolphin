@@ -124,6 +124,8 @@ protected:
 
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
 
+  void calculateGridX();
+
   void setupSorting( SortCriterion criterion );
 
   /** */

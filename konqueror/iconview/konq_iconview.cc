@@ -347,6 +347,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
     {
 	m_iIconSize[i] = *it;
+	kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
     }
 
     // Now we may react to configuration changes
@@ -358,7 +359,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bNeedEmitCompleted = false;
 
     m_pIconView->setResizeMode( QIconView::Adjust );
-    m_pIconView->setIcons( 0 ); // TODO : part of KonqPropsView
+    m_pIconView->setIcons( 0 ); // default is DesktopIcon size
 
     m_eSortCriterion = NameCaseInsensitive;
 
@@ -384,12 +385,8 @@ KonqKfmIconView::~KonqKfmIconView()
 void KonqKfmIconView::slotImagePreview( bool toggle )
 {
     m_pProps->m_bImagePreview = toggle;
-    if ( !m_pProps->m_bImagePreview ) {
-	if ( m_pIconView->itemTextPos() == QIconView::Bottom )
-	    m_pIconView->setGridX( 70 );
-	else
-	    m_pIconView->setGridX( 120 );
-    }
+    if ( !m_pProps->m_bImagePreview )
+      calculateGridX();
     m_pIconView->setImagePreviewAllowed ( m_pProps->m_bImagePreview );
     if ( m_pProps->m_bImagePreview ) {
 	QIconViewItem *i = m_pIconView->firstItem();
@@ -398,6 +395,25 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
 	}
     }
     m_pIconView->arrangeItemsInGrid( TRUE );
+}
+
+void KonqKfmIconView::calculateGridX()
+{
+  int realIconSize = m_pIconView->iconSize();
+  if ( realIconSize == 0 ) // default size
+  {
+    KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
+    realIconSize = root->defaultSize( KIcon::Desktop );
+  }
+  bool bSmall = (realIconSize == m_iIconSize[0]);
+  kdDebug(1202) << "realIconSize=" << realIconSize << " Smaller size=" << m_iIconSize[0] << endl;
+
+  // This is the method that determines the GridX to use - but
+  // when we are in image preview mode, it's not enough
+  if ( m_pIconView->itemTextPos() == QIconView::Bottom )
+    m_pIconView->setGridX( bSmall ? 50 : 70 );
+  else
+    m_pIconView->setGridX( bSmall ? 90 : 120 );
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -569,6 +585,7 @@ void KonqKfmIconView::slotViewLarge( bool b )
     if ( b )
     {
 	m_pIconView->setIcons( m_iIconSize[2] );
+        calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
@@ -578,6 +595,7 @@ void KonqKfmIconView::slotViewMedium( bool b )
     if ( b )
     {
 	m_pIconView->setIcons( m_iIconSize[1] );
+        calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
@@ -592,6 +610,7 @@ void KonqKfmIconView::slotViewSmall( bool b )
     if ( b )
     {
 	m_pIconView->setIcons( m_iIconSize[0] );
+        calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
@@ -601,6 +620,7 @@ void KonqKfmIconView::slotViewDefault( bool b)
     if ( b )
     {
 	m_pIconView->setIcons( 0 );
+        calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
@@ -608,16 +628,16 @@ void KonqKfmIconView::slotViewDefault( bool b)
 void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {
-	m_pIconView->setGridX( 70 );
 	m_pIconView->setItemTextPos( QIconView::Bottom );
+        calculateGridX();
     }
 }
 
 void KonqKfmIconView::slotTextRight( bool b )
 {
     if ( b ) {
-	m_pIconView->setGridX( 120 );
 	m_pIconView->setItemTextPos( QIconView::Right );
+        calculateGridX();
     }
 }
 
@@ -1019,11 +1039,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     emit setWindowCaption( _url.decodedURL() );
 
-    m_pIconView->show(); // ?
-    if ( m_pIconView->itemTextPos() == QIconView::Bottom )
-	m_pIconView->setGridX( 70 );
-    else
-	m_pIconView->setGridX( 120 );
+    //m_pIconView->show(); // ?
+    calculateGridX();
     return true;
 }
 
@@ -1043,10 +1060,10 @@ void KonqKfmIconView::slotOnViewport()
 	}
 
     emit setStatusBarText(
-				       displayString(m_pIconView->count(),
-						     m_lFileCount,
-						     m_lDirSize,
-						     m_lDirCount));
+      displayString(m_pIconView->count(),
+                    m_lFileCount,
+                    m_lDirSize,
+                    m_lDirCount));
 }
 
 uint KonqKfmIconView::itemCount() const
