@@ -113,7 +113,9 @@ void PropertiesDialog::init()
 {
   pageList.setAutoDelete( true );
 
+  // Shouldn't this be ported to KDialogBase ?
   tab = new QTabDialog( 0L, 0L );
+  tab->setCaption( i18n( "Properties Dialog" ) );
 
   // Matthias: let the dialog look like a modal dialog
   XSetTransientForHint(qt_xdisplay(), tab->winId(), tab->winId());
