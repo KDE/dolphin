@@ -454,7 +454,8 @@ void Sidebar_Widget::activatedMenu(int id)
 			showExtraButtons = ! showExtraButtons;
 			if(showExtraButtons)
 			{
-				ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+				ButtonBar->getButton(-1)->show();
+//				ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
 //JW - TEST				ButtonBar->insertButton(SmallIcon("remove"),-2);
 //JW - TEST				connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
 			}
@@ -463,8 +464,8 @@ void Sidebar_Widget::activatedMenu(int id)
 				KMessageBox::information(this,
 				i18n("You have hidden the navigation panel configuration button. To make it visible again, click the right mouse button on any of the navigation panel buttons and select \"Show Configuration Button\"."));
 
-
-				ButtonBar->removeButton(-1);
+				ButtonBar->getButton(-1)->hide();
+//				ButtonBar->removeButton(-1);
 //JW -TEST				ButtonBar->removeButton(-2);
 			}
 			break;
@@ -568,15 +569,21 @@ void Sidebar_Widget::createButtons()
 //  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();
 
+	if (!ButtonBar->getButton(-1)) ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+
 	if(showExtraButtons)
-	{
-		if (!ButtonBar->getButton(-1))
-		{
-			ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+		ButtonBar->getButton(-1)->show();
+	else
+		ButtonBar->getButton(-1)->hide();
+
+//	{
+//		if (!ButtonBar->getButton(-1))
+//		{
+//			ButtonBar->appendButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
 //JW - TEST			ButtonBar->insertButton(SmallIcon("remove"),-2);
 //JW - TEST			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
-		}
-	}
+//		}
+//	}
 }
 
 bool Sidebar_Widget::openURL(const class KURL &url)
