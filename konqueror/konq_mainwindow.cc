@@ -2383,10 +2383,6 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       connect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
       connect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
-      m_bCutWasEnabled = m_paCut->isEnabled();
-      m_bCopyWasEnabled = m_paCopy->isEnabled();
-      m_bPasteWasEnabled = m_paPaste->isEnabled();
-      m_bDeleteWasEnabled = m_paDelete->isEnabled();
       m_paTrash->setText( i18n("&Delete") ); // Name Delete the action associated with 'del'
       m_paTrash->setEnabled(true);
       m_paDelete->setEnabled(false);
@@ -2434,12 +2430,22 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       disconnect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
       disconnect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
-      m_paCut->setEnabled( m_bCutWasEnabled );
-      m_paCopy->setEnabled( m_bCopyWasEnabled );
-      m_paPaste->setEnabled( m_bPasteWasEnabled );
-      m_paDelete->setEnabled( m_bDeleteWasEnabled );
-      m_paTrash->setEnabled( m_bDeleteWasEnabled );
-      m_paShred->setEnabled( m_bDeleteWasEnabled );
+      if ( ext ) {
+          m_paCut->setEnabled( ext->isActionEnabled( "cut" ) );
+          m_paCopy->setEnabled( ext->isActionEnabled( "copy" ) );
+          m_paPaste->setEnabled( ext->isActionEnabled( "paste" ) );
+          m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
+          m_paTrash->setEnabled( ext->isActionEnabled( "trash" ) );
+          m_paShred->setEnabled( ext->isActionEnabled( "shred" ) );
+      } else {
+          m_paCut->setEnabled( false );
+          m_paCopy->setEnabled( false );
+          m_paPaste->setEnabled( false );
+          m_paDelete->setEnabled( false );
+          m_paTrash->setEnabled( false );
+          m_paShred->setEnabled( false );
+      }
+      m_paTrash->setText( i18n("&Move to Trash") ); // Name back
       m_paTrash->setText( i18n("&Move to Trash") ); // Name back
     }
   }
@@ -3042,6 +3048,10 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
     kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
   {
+    if ( m_bLocationBarConnected && (
+      act==m_paCopy || act==m_paCut || act==m_paPaste || act==m_paDelete || act==m_paTrash || act==m_paShred ) )
+        // Don't change action state while the location bar has focus.
+        return;
     //kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
     act->setEnabled( enabled );
   }

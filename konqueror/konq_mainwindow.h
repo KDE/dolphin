@@ -513,10 +513,6 @@ private:
 
   KAction *m_ptaFullScreen;
 
-  uint m_bCutWasEnabled:1;
-  uint m_bCopyWasEnabled:1;
-  uint m_bPasteWasEnabled:1;
-  uint m_bDeleteWasEnabled:1;
   uint m_bLocationBarConnected:1;
   uint m_bURLEnterLock:1;
   uint m_bFullScreen:1;
