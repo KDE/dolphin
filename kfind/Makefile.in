@@ -14,8 +14,8 @@ DOCSDIR = $(prefix)/doc/HTML/
 INCLDIR	= @all_includes@ -I..
 
 
-CXXFLAGS+= -DVERSION=\"$(VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H -I../kfm/libkfm
-LDFLAGS	+= @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ -L../kfm/libkfm
+CXXFLAGS= @CXXFLAGS@ -DVERSION=\"$(VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H -I../kfm/libkfm
+LDFLAGS	= @LDFLAGS@ @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ -L../kfm/libkfm
 CXX 	= @CXX@
 MOC 	= @MOC@
 
