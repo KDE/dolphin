@@ -348,7 +348,7 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Desktop Icons" );
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
-    bool bVertAlign = g_pConfig->readNumEntry("VertAlign", DEFAULT_VERT_ALIGN);
+    bool bVertAlign = g_pConfig->readBoolEntry("VertAlign", DEFAULT_VERT_ALIGN);
     vertAlignBox->setChecked(bVertAlign);
     KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
     previewListView->clear();
