@@ -4,6 +4,9 @@
 <MenuBar>
 
 <Menu name="file" noMerge="1"><text>&amp;File</text>
+ <Action name="importCrash"/>
+ <Action name="importOpera"/>
+ <Action name="importIE"/>
  <Action name="importNS"/>
  <Action name="importMoz"/>
  <Action name="exportNS"/>

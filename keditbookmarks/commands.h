@@ -174,6 +174,11 @@ private:
     QString m_groupAddress;
 };
 
+#define BK_IE     2
+#define BK_OPERA  3
+#define BK_CRASH  1
+#define BK_NS     0
+
 #include <qptrstack.h>
 #include <qobject.h>
 class ImportCommand : public QObject, public KNamedCommand
@@ -187,8 +192,8 @@ public:
      * @param icon icon for the new folder, if @p folder isn't empty
      * @param utf8 true if the HTML is in utf-8 encoding
      */
-    ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon, bool utf8 )
-        : KNamedCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8)
+    ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon, bool utf8, int bookmarksType )
+        : KNamedCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8), m_bookmarksType(bookmarksType)
     {}
     virtual ~ImportCommand() {}
     virtual void execute();
@@ -201,6 +206,11 @@ protected slots:
     void endFolder();
 
 private:
+    void nsExecute();
+    void crashExecute();
+    void IEExecute();
+    void operaExecute();
+
     QPtrStack<KBookmarkGroup> mstack;
     QValueList<KBookmarkGroup> mlist;
     QString m_fileName;
@@ -209,6 +219,7 @@ private:
     QString m_group;
     KMacroCommand * m_cleanUpCmd;
     bool m_utf8;
+    int m_bookmarksType;
 };
 
 class KEBListViewItem;

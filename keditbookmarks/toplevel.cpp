@@ -23,6 +23,9 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
+#include <kbookmarkimporter_crash.h>
+#include <kbookmarkimporter_ie.h>
+#include <kbookmarkimporter_opera.h>
 #include <kbookmarkexporter.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
@@ -125,6 +128,9 @@ void KEBTopLevel::createActions() {
     // Create the actions
 
     KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
+    (void) new KAction( i18n( "Import Crash Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
+    (void) new KAction( i18n( "Import Opera Bookmarks" ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
+    (void) new KAction( i18n( "Import IE Bookmarks" ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
     act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
     (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
     act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
@@ -229,6 +235,9 @@ void KEBTopLevel::resetActions()
     actionCollection()->action("exportMoz")->setEnabled(true);
 
     if (!m_bReadOnly) {
+       actionCollection()->action("importCrash")->setEnabled(true);
+       actionCollection()->action("importOpera")->setEnabled(true);
+       actionCollection()->action("importIE")->setEnabled(true);
        actionCollection()->action("importNS")->setEnabled(true);
        actionCollection()->action("importMoz")->setEnabled(true);
        actionCollection()->action("settings_showNS")->setEnabled(true);
@@ -681,6 +690,39 @@ void KEBTopLevel::slotInsertSeparator()
     m_commandHistory.addCommand( cmd );
 }
 
+void KEBTopLevel::slotImportIE()
+{
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                             i18n("IE Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+    ImportCommand * cmd = new ImportCommand( i18n("Import IE Bookmarks"), KIEBookmarkImporter::IEBookmarksDir(),
+                                             subFolder ? i18n("IE Bookmarks") : QString::null, "ie", false, BK_IE); // TODO - icon
+    m_commandHistory.addCommand( cmd );
+}
+
+void KEBTopLevel::slotImportOpera()
+{
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                             i18n("Opera Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+    ImportCommand * cmd = new ImportCommand( i18n("Import Opera Bookmarks"), KOperaBookmarkImporter::operaBookmarksFile(),
+                                             subFolder ? i18n("Opera Bookmarks") : QString::null, "opera", false, BK_OPERA); // TODO - icon
+    m_commandHistory.addCommand( cmd );
+}
+
+void KEBTopLevel::slotImportCrash()
+{
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                             i18n("Crash Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+    ImportCommand * cmd = new ImportCommand( i18n("Import Crash Bookmarks"), KCrashBookmarkImporter::crashBookmarksFile(),
+                                             subFolder ? i18n("Crash Bookmarks") : QString::null, "crash", false, BK_CRASH); // TODO - icon
+    m_commandHistory.addCommand( cmd );
+}
+
 void KEBTopLevel::slotImportNS()
 {
     // Hmm, there's no questionYesNoCancel...
@@ -688,7 +730,7 @@ void KEBTopLevel::slotImportNS()
                                              i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
-                                             subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape", false);
+                                             subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape", false, BK_NS);
     m_commandHistory.addCommand( cmd );
 
     // Ok, we don't need the dynamic menu anymore
@@ -706,7 +748,7 @@ void KEBTopLevel::slotImportMoz()
     if(!mozFile.isEmpty())
     {
         ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), mozFile,
-                                                 subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla", true);
+                                                 subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla", true, BK_NS);
         m_commandHistory.addCommand( cmd );
     }
 }

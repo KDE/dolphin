@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2002 Alexander Kellett <lypanov@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -21,6 +22,9 @@
 #include <qregexp.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
+#include <kbookmarkimporter_crash.h>
+#include <kbookmarkimporter_ie.h>
+#include <kbookmarkimporter_opera.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <krfcdate.h>
@@ -338,27 +342,85 @@ void SortCommand::unexecute()
 
 void ImportCommand::execute()
 {
-    KBookmarkGroup netscapeGroup;
+    KBookmarkGroup bkGroup;
     if ( !m_folder.isEmpty() )
     {
         // Find or create "Netscape Bookmarks" toplevel item
         // Hmm, let's just create it. The user will clean up if he imports twice.
-        netscapeGroup = KEBTopLevel::bookmarkManager()->root().createNewFolder(KEBTopLevel::bookmarkManager(),m_folder,false);
-        netscapeGroup.internalElement().setAttribute("icon", m_icon);
-        m_group = netscapeGroup.address();
+        bkGroup = KEBTopLevel::bookmarkManager()->root().createNewFolder(KEBTopLevel::bookmarkManager(),m_folder,false);
+        bkGroup.internalElement().setAttribute("icon", m_icon);
+        m_group = bkGroup.address();
     } else
     {
         // Import into the root, after cleaning it up
-        netscapeGroup = KEBTopLevel::bookmarkManager()->root();
+        bkGroup = KEBTopLevel::bookmarkManager()->root();
         delete m_cleanUpCmd;
-        m_cleanUpCmd = DeleteCommand::deleteAll( netscapeGroup );
+        m_cleanUpCmd = DeleteCommand::deleteAll( bkGroup );
         // Unselect current item, it doesn't exist anymore
         KEBTopLevel::self()->listView()->clearSelection();
         m_cleanUpCmd->execute();
         m_group = ""; // import at the root
     }
 
-    mstack.push( &netscapeGroup );
+    mstack.push( &bkGroup );
+
+    // TODO - convert to enum rather than define!
+
+    if (m_bookmarksType == BK_NS) {
+       nsExecute();
+    } else if (m_bookmarksType == BK_IE) {
+       IEExecute();
+    } else if (m_bookmarksType == BK_OPERA) {
+       operaExecute();
+    } else if (m_bookmarksType == BK_CRASH) {
+       crashExecute();
+    }
+
+    // Save memory
+    mlist.clear();
+    mstack.clear();
+}
+
+// FIXME - EVIL CODE DUPLICATION
+
+void ImportCommand::crashExecute()
+{
+    KCrashBookmarkImporter importer(m_fileName);
+    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
+             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
+    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
+             SLOT( newFolder( const QString &, bool, const QString & ) ) );
+    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
+    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
+    importer.parseCrashBookmarks();
+} 
+
+void ImportCommand::operaExecute()
+{
+    KOperaBookmarkImporter importer(m_fileName);
+    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
+             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
+    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
+             SLOT( newFolder( const QString &, bool, const QString & ) ) );
+    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
+    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
+    importer.parseOperaBookmarks();
+} 
+
+void ImportCommand::IEExecute()
+{
+    KIEBookmarkImporter importer(m_fileName);
+    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
+             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
+    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
+             SLOT( newFolder( const QString &, bool, const QString & ) ) );
+    connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
+    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
+    importer.parseIEBookmarks();
+} 
+
+void ImportCommand::nsExecute()
+{
     KNSBookmarkImporter importer(m_fileName);
     connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
              SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
@@ -367,9 +429,6 @@ void ImportCommand::execute()
     connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
     connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
     importer.parseNSBookmarks( m_utf8 );
-    // Save memory
-    mlist.clear();
-    mstack.clear();
 }
 
 void ImportCommand::unexecute()

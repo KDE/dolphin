@@ -142,6 +142,9 @@ public:
     QPtrList <TestLink> tests;
 
 public slots:
+    void slotImportCrash();
+    void slotImportOpera();
+    void slotImportIE();
     void slotImportNS();
     void slotExportNS();
     void slotImportMoz();
