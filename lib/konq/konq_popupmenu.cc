@@ -547,13 +547,14 @@ void KonqPopupMenu::addPlugins( ){
 	// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
 	//search for a plugin with the right protocol
 	KTrader::OfferList plugin_offers;
+        unsigned int pluginCount = 0;
 	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
 	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
 	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
         if ( !plugin_offers.isEmpty() )
             addGroup( "plugins" );
 	// travers the offerlist
-	for(; iterator != end; ++iterator ){
+	for(; iterator != end; ++iterator, ++pluginCount ){
 		KonqPopupMenuPlugin *plugin =
 			KParts::ComponentFactory::
 			createInstanceFromLibrary<KonqPopupMenuPlugin>( (*iterator)->library().local8Bit(),
@@ -561,6 +562,9 @@ void KonqPopupMenu::addPlugins( ){
 									(*iterator)->name().latin1() );
 		if ( !plugin )
 			continue;
+                QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );
+                addMerge( pluginClientName );
+                plugin->domDocument().documentElement().setAttribute( "name", pluginClientName );
 		m_pluginList.append( plugin );
 		insertChildClient( plugin );
 	}

@@ -83,12 +83,11 @@ void KonqXMLGUIClient::addSeparator( const QDomElement &menu )
   parent.appendChild( m_doc.createElement( tagSeparator ) );
 }
 
-void KonqXMLGUIClient::addMerge( const char *name )
+void KonqXMLGUIClient::addMerge( const QString &name )
 {
-  static QString tagMerge = QString::fromLatin1( "merge" );
-  QDomElement merge = m_doc.createElement( tagMerge );
+  QDomElement merge = m_doc.createElement( "merge" );
   m_menuElement.appendChild( merge );
-  if ( name )
+  if ( !name.isEmpty() )
     merge.setAttribute( attrName, name );
 }
 
