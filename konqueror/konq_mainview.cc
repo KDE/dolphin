@@ -636,7 +636,8 @@ void KonqMainView::slotGoTrash()
 
 void KonqMainView::slotGoTemplates()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::templatesPath() );
+  KonqFileManager::getFileManager()->openFileManagerWindow(
+      KonqFactory::instance()->dirs()->resourceDirs("templates").last() );
 }
 
 void KonqMainView::slotGoAutostart()
