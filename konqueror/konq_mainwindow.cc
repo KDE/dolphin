@@ -710,7 +710,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   QString locationBarURL = m_currentView->locationBarURL();
 
   bool bQuickViewModeChange = false;
-  
+
   // check if we can do a quick property-based viewmode change
   KTrader::OfferList offers = m_currentView->partServiceOffers();
   KTrader::OfferList::ConstIterator oIt = offers.begin();
@@ -722,7 +722,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
            service->library() == m_currentView->service()->library() )
       {
         QVariant modeProp = service->property( "X-KDE-BrowserView-ModeProperty" );
-        QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );  
+        QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );
         if ( !modeProp.isValid() || !modePropValue.isValid() )
           break;
 	
@@ -734,7 +734,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
         break;
       }
   }
-  
+
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
@@ -743,7 +743,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
     QString nameFilter = detectNameFilter( locURL );
     m_currentView->openURL( locURL, locationBarURL, nameFilter );
   }
-  
+
   // Now save this setting, either locally or globally
   if ( m_bSaveViewPropertiesLocally )
   {
@@ -2492,7 +2492,9 @@ void KonqMainWindow::plugViewModeActions()
   QList<KAction> lst;
   lst.append( m_viewModeMenu );
   plugActionList( "viewmode", lst );
-  plugActionList( "viewmode_toolbar", m_viewModeActions );
+  // display the toolbar viewmode icons only for inode/directory, as here we have dedicated icons
+  if ( m_currentView->serviceType() == "inode/directory" )
+    plugActionList( "viewmode_toolbar", m_viewModeActions );
 }
 
 void KonqMainWindow::unplugViewModeActions()
