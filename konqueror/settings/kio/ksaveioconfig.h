@@ -33,17 +33,7 @@ public:
   static void setProxyConnectTimeout( int );
 
   static void setResponseTimeout( int );
-
-
-  /** Miscelaneous Settings */
-  static void setMarkPartial( bool );
-
-  static void setMinimumKeepSize( int );
-
-  static void setAutoResume( bool );
-
-  static void setPersistentConnections( bool );
-
+  
 
   /** Cache Settings */
   static void setMaxCacheAge( int );
@@ -70,5 +60,14 @@ public:
 
   static void setNoProxyFor( const QString& );
 
+
+  /** Miscelaneous Settings */
+  static void setMarkPartial( bool );
+
+  static void setMinimumKeepSize( int );
+
+  static void setAutoResume( bool );
+
+  static void setPersistentConnections( bool );
 };
 #endif

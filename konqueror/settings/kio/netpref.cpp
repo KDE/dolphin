@@ -1,15 +1,19 @@
+#include <qgrid.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qspinbox.h>
 #include <qvgroupbox.h>
+#include <qtooltip.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qtooltip.h>
 #include <qgrid.h>
+#include <qvgroupbox.h>
 
 #include <kio/ioslave_defaults.h>
 #include <ksaveioconfig.h>
 #include <dcopclient.h>
+#include <knuminput.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <kconfig.h>
@@ -42,21 +46,21 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     QLabel* lbl_serverResponse = new QLabel( i18n("Server &response:"), grid,
                                              "lbl_serverResponse" );
 
-    sb_socketRead = new QSpinBox( grid, "sb_socketRead" );
+    sb_socketRead = new KIntNumInput( grid, "sb_socketRead" );
     sb_socketRead->setSuffix( i18n( " sec" ) );
-    connect(sb_socketRead, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
+    connect(sb_socketRead, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
 
-    sb_proxyConnect = new QSpinBox( grid, "sb_proxyConnect" );
+    sb_proxyConnect = new KIntNumInput( grid, "sb_proxyConnect" );
     sb_proxyConnect->setSuffix( i18n( " sec" ) );
-    connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
+    connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
 
-    sb_serverConnect = new QSpinBox( grid, "sb_serverConnect" );
+    sb_serverConnect = new KIntNumInput( grid, "sb_serverConnect" );
     sb_serverConnect->setSuffix( i18n( " sec" ) );
-    connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
+    connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
 
-    sb_serverResponse = new QSpinBox( grid, "sb_serverResponse" );
+    sb_serverResponse = new KIntNumInput( grid, "sb_serverResponse" );
     sb_serverResponse->setSuffix( i18n( " sec" ) );
-    connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
+    connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(timeoutChanged(int)));
 
 	 QWidget *spacer = new QWidget(grid);
     spacer->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
@@ -94,27 +98,19 @@ KIOPreferences::~KIOPreferences()
 {
 }
 
-void KIOPreferences::timeoutChanged(int /*val*/)
-{
-  emit changed(true);
-}
-
 void KIOPreferences::load()
 {
-  sb_socketRead->setValue( KProtocolManager::readTimeout() );
-  sb_serverResponse->setValue( KProtocolManager::responseTimeout() );
-  sb_serverConnect->setValue( KProtocolManager::connectTimeout() );
-  sb_proxyConnect->setValue( KProtocolManager::proxyConnectTimeout() );
+  KProtocolManager proto;
 
-  sb_socketRead->setMinValue( MIN_TIMEOUT_VALUE );
-  sb_serverResponse->setMinValue( MIN_TIMEOUT_VALUE );
-  sb_serverConnect->setMinValue( MIN_TIMEOUT_VALUE );
-  sb_proxyConnect->setMinValue( MIN_TIMEOUT_VALUE );
+  sb_socketRead->setRange( MIN_TIMEOUT_VALUE, MAX_TIMEOUT_VALUE );
+  sb_serverResponse->setRange( MIN_TIMEOUT_VALUE, MAX_TIMEOUT_VALUE );
+  sb_serverConnect->setRange( MIN_TIMEOUT_VALUE, MAX_TIMEOUT_VALUE );
+  sb_proxyConnect->setRange( MIN_TIMEOUT_VALUE, MAX_TIMEOUT_VALUE );
 
-  sb_socketRead->setMaxValue( MAX_TIMEOUT_VALUE );
-  sb_serverResponse->setMaxValue( MAX_TIMEOUT_VALUE );
-  sb_serverConnect->setMaxValue( MAX_TIMEOUT_VALUE );
-  sb_proxyConnect->setMaxValue( MAX_TIMEOUT_VALUE );
+  sb_socketRead->setValue( proto.readTimeout() );
+  sb_serverResponse->setValue( proto.responseTimeout() );
+  sb_serverConnect->setValue( proto.connectTimeout() );
+  sb_proxyConnect->setValue( proto.proxyConnectTimeout() );
 
   KConfig config( "kio_ftprc", true, false );
   cb_ftpEnablePasv->setChecked( !config.readBoolEntry( "DisablePassiveMode", false ) );

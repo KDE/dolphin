@@ -3,13 +3,14 @@
 
 #include <kcmodule.h>
 
+class QLabel;
+class QGroupBox;
+class QCheckBox;
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class QGroupBox;
-class QLabel;
-class QSpinBox;
-class QCheckBox;
+
+class KIntNumInput;
 
 class KIOPreferences : public KCModule
 {
@@ -28,17 +29,19 @@ signals:
     void changed(bool really);
 
 protected slots:
-    virtual void timeoutChanged(int val);
- void configChanged(){emit changed(true);}
+    void timeoutChanged(int) { configChanged(); }
+    void configChanged(){emit changed(true);}
+
 private:
-    QGroupBox* gb_Timeout;
-    QSpinBox* sb_socketRead;
-    QSpinBox* sb_proxyConnect;
-    QSpinBox* sb_serverConnect;
-    QSpinBox* sb_serverResponse;
     QGroupBox* gb_Ftp;
+    QGroupBox* gb_Timeout;
     QCheckBox* cb_ftpEnablePasv;
     QCheckBox* cb_ftpMarkPartial;
+
+    KIntNumInput* sb_socketRead;
+    KIntNumInput* sb_proxyConnect;
+    KIntNumInput* sb_serverConnect;
+    KIntNumInput* sb_serverResponse;
 };
 
 #endif // KIOPREFERENCES_H
