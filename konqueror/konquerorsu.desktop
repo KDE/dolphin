@@ -5,7 +5,6 @@ Exec=konqueror
 DocPath=konqueror/index.html
 Icon=kfm
 X-KDE-SubstituteUID=true
-X-KDE-Username=root
 
 Name=File Manager - Super User Mode
 Name[ar]=مدير الملفات - وضعية المستخدم الجذري

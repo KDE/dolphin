@@ -141,5 +141,3 @@ DocPath=kcontrol/timeouts.html
 X-KDE-FactoryName=netpref
 X-KDE-Library=kio
 X-KDE-ModuleType=Library
-X-KDE-SubstituteUID=false
-
