@@ -16,7 +16,7 @@ kde_module_LTLIBRARIES = konq_sidebartest.la
 # the Part's source, library search path, and link libraries
 konq_sidebartest_la_SOURCES = konqsidebartest.cpp
 konq_sidebartest_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-konq_sidebartest_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../libkonqsidebarplugin.la
+konq_sidebartest_la_LIBADD  = $(LIB_KPARTS) $(LIB_KIO) ../libkonqsidebarplugin.la
 
 # this is where the part's XML-GUI resource file goes
 partrcdir   = $(kde_datadir)/konqsidebartng/entries

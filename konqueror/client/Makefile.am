@@ -5,7 +5,7 @@ lib_LTLIBRARIES = kfmclient.la
 
 INCLUDES= -I.. $(all_includes)
 kfmclient_la_LDFLAGS = $(all_libraries) -module -avoid-version
-kfmclient_la_LIBADD =  $(LIB_KFILE)
+kfmclient_la_LIBADD =  $(LIB_KIO)
 kfmclient_la_SOURCES = kfmclient.cc KonquerorIface.stub KDesktopIface.stub
 
 noinst_HEADERS = kfmclient.h
