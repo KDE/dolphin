@@ -411,7 +411,7 @@ void KonqIconViewWidget::slotSelectionChanged()
 
 void KonqIconViewWidget::cutSelection()
 {
-    kdDebug() << " -- KonqIconViewWidget::cutSelection() -- " << endl;
+    kdDebug(1203) << " -- KonqIconViewWidget::cutSelection() -- " << endl;
     KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
     obj->setMoveSelection( true );
     QApplication::clipboard()->setData( obj );
@@ -419,7 +419,7 @@ void KonqIconViewWidget::cutSelection()
 
 void KonqIconViewWidget::copySelection()
 {
-    kdDebug() << " -- KonqIconViewWidget::copySelection() -- " << endl;
+    kdDebug(1203) << " -- KonqIconViewWidget::copySelection() -- " << endl;
     KonqIconDrag * obj = konqDragObject( /* no parent ! */ );
     QApplication::clipboard()->setData( obj );
 }
@@ -431,7 +431,7 @@ void KonqIconViewWidget::pasteSelection()
     QMimeSource *data = QApplication::clipboard()->data();
     if ( data->provides( "application/x-kde-cutselection" ) ) {
       move = KonqDrag::decodeIsCutSelection( data );
-      kdDebug() << "move (from clipboard data) = " << move << endl;
+      kdDebug(1203) << "move (from clipboard data) = " << move << endl;
     }
 
     KURL::List lst = selectedUrls();
