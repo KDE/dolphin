@@ -159,8 +159,6 @@ extern "C" int kdemain( int argc, char **argv )
   }
   args->clear();
 
-  app.ref(); // for preloading
-
   app.exec();
 
   // Delete all KonqMainWindows, so that we don't have

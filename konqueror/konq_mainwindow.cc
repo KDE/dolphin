@@ -4428,7 +4428,18 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
           QApplication::sendEvent( (*it)->part()->widget(), e );
   }
   KParts::MainWindow::closeEvent( e );
+  if( isPreloaded() && !kapp->sessionSaving())
+  { // queryExit() refused closing, hide instead
+      hide();
+  }
   kdDebug(1202) << "KonqMainWindow::closeEvent end" << endl;
+}
+
+bool KonqMainWindow::queryExit()
+{
+    if( kapp->sessionSaving()) // *sigh*
+        return true;
+    return !stayPreloaded();
 }
 
 void KonqMainWindow::setIcon( const QPixmap& pix )
@@ -4887,32 +4898,21 @@ bool KonqMainWindow::stayPreloaded()
         return false;
     // not running in full KDE environment?
     if( getenv( "KDE_FULL_SESSION" ) == NULL || getenv( "KDE_FULL_SESSION" )[ 0 ] == '\0' )
-    {
-        kapp->deref(); // for the extra ref() done in main()
         return false;
-    }
     KConfigGroupSaver group( KGlobal::config(), "Reusing" );
     if( KGlobal::config()->readNumEntry( "MaxPreloadCount", 1 ) == 0 )
-    {
-        kapp->deref(); // for the extra ref() done in main()
         return false;
-    }
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())
-    {
-        kapp->deref(); // for the extra ref() done in main()
         return false;
-    }
     DCOPRef ref( "kded", "konqy_preloader" );
     if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000,
         kapp->dcopClient()->appId(), qt_xscreen()))
     {
-        kapp->deref();
         return false;
     }
     KonqMainWindow::setPreloadedFlag( true );
     kdDebug(1202) << "Konqy kept for preloading :" << kapp->dcopClient()->appId() << endl;
-    kapp->ref(); // closeEvent() did deref()
     KonqMainWindow::setPreloadedWindow( this );
     return true;
 }

@@ -497,6 +497,7 @@ protected:
   void updateLocalPropsActions();
 
   virtual void closeEvent( QCloseEvent * );
+  virtual bool queryExit();
 
   bool askForTarget(const QString& text, KURL& url);
 
