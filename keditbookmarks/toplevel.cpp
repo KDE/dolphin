@@ -45,6 +45,9 @@
 
 KEBApp *KEBApp::s_topLevel = 0;
 
+#include <qsplitter.h>
+#include <qtextedit.h>
+
 KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address)
    : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) {
 
@@ -54,10 +57,16 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    s_topLevel = this;
 
-   ListView::createListView(this);
+   QSplitter *splitter = new QSplitter(this);
+
+   new QTextEdit(splitter);
+
+   ListView::createListView(splitter);
    ListView::self()->initListView();
-   setCentralWidget(ListView::self()->widget());
-   resize(ListView::self()->widget()->sizeHint().width(), 400);
+
+   setCentralWidget(splitter);
+   resize(ListView::self()->widget()->sizeHint().width()
+        + 0, 400);
 
    createActions();
    createGUI();
