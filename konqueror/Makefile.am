@@ -30,11 +30,11 @@ libkonqhtmlview_la_LIBADD = libkonqueror.la $(LIB_KHTML)
 
 libkonqiconview_la_SOURCES = konq_iconview.cc
 libkonqiconview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libkonqiconview_la_LIBADD = libkonqueror.la 
+libkonqiconview_la_LIBADD = libkonqueror.la
 
 libkonqtxtview_la_SOURCES = konq_txtview.cc konq_searchdia.cc
 libkonqtxtview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
-libkonqtxtview_la_LIBADD = libkonqueror.la 
+libkonqtxtview_la_LIBADD = libkonqueror.la $(LIB_KDECORE)
 
 libkonqtreeview_la_SOURCES = konq_treeview.cc
 libkonqtreeview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
@@ -71,3 +71,9 @@ messages:
 	    (cd $$subdir && $(MAKE) -f Makefile.am messages) || exit 1; \
 	  fi ;\
 	done
+
+check_PROGRAMS = linktest
+linktest_SOURCES = $(konqueror_SOURCES)
+linktest_LDADD = $(lib_LTLIBRARIES)
+linktest_LDFLAGS = $(konqueror_LDFLAGS)
+
