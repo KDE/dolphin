@@ -82,6 +82,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
     subMenu.appendChild( text );
     text.appendChild( m_doc.createTextNode( i18n( "Preview In" ) ) );
     subMenu.setAttribute( "group", "preview" );
+    subMenu.setAttribute( "name", "preview submenu" );
 
     bool inserted = false;
 
