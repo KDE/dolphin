@@ -38,12 +38,12 @@ KAboutData *KonqFactory::s_aboutData = 0;
 
 KonqViewFactory::KonqViewFactory( KLibFactory *factory, const QStringList &args,
                                   bool createBrowser )
-    : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser ) 
+    : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser )
 {
     if ( m_createBrowser )
         m_args << QString::fromLatin1( "Browser/View" );
 }
- 
+
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName,
                                                QObject * parent, const char *name )
 {
