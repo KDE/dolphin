@@ -85,7 +85,7 @@ int main( int argc, char **argv )
     printf(i18n("  kfmclient openProfile 'profile' ['url']\n"
                 "            # Opens a window using the given profile.\n"
                 "            #   'profile' is a file under ~/.kde/share/apps/konqueror/profiles.\n"
-                "            #   'url' is an optionnal URL to open.\n\n").local8Bit());
+                "            #   'url' is an optional URL to open.\n\n").local8Bit());
 
     printf(i18n("  kfmclient openProperties 'url'\n"
                 "            # Opens a properties menu\n\n").local8Bit());
