@@ -94,14 +94,14 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                                      "session cookies"),
                                                      m_bgPreferences );
     QWhatsThis::add( m_cbIgnoreCookieExpirationDate, 
-                     i18n("Check this option to treat all cookies like "
+                     i18n("Check this option to treat all cookies as "
                           "session cookies. Session cookies are small "
-                          "pieces of data that are stored in the memory "
-                          "of your computer until you quit or close all "
-                          "applications (e.g. your browser) that make "
-                          "use of them. Unlike regular cookies, session "
-                          "cookies are never stored on your hard drive or "
-                          "local storage device."
+                          "pieces of data that are temporarily stored "
+                          "in your computer's memory until you quit or "
+                          "close all applications (e.g. your browser) "
+                          "that use use them. Unlike regular cookies, "
+                          "session cookies are never stored on your "
+                          "hard drive or storage device."
                           "<P>NOTE: checking this option along with the "
                           "previous one will override your default as well "
                           "as site specific cookie policies. However, doing "
