@@ -3,7 +3,6 @@ Encoding=UTF-8
 Exec=kfind %f
 Icon=kfind
 DocPath=kfind/index.html
-TerminalOptions=
 Path=
 Type=Application
 Terminal=0
