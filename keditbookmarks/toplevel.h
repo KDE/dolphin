@@ -37,6 +37,7 @@ struct SelcAbilities {
 class KBookmarkManager;
 class KBookmarkEditorIface;
 class ImportCommand;
+class KToggleAction;
 
 class KEBApp : public KMainWindow
 {
@@ -51,6 +52,8 @@ public:
    virtual ~KEBApp();
 
    void setModifiedFlag(bool);
+
+   KToggleAction* getToggleAction(const char *);
 
    void setActionsEnabled(SelcAbilities);
 

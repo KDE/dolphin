@@ -192,42 +192,29 @@ void KEBApp::createActions() {
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
 
-static void disableDynamicActions(QValueList<KAction *> actions) {
-   QValueList<KAction *>::Iterator it = actions.begin();
-   QValueList<KAction *>::Iterator end = actions.end();
-   for (; it != end; ++it) {
-      KAction *act = *it;
-      if ((strncmp(act->name(), "options_configure", strlen("options_configure")) != 0)
-       && (strncmp(act->name(), "help_", strlen("help_")) != 0)) {
-         act->setEnabled(false);
-      }
-   }
+KToggleAction* KEBApp::getToggleAction(const char *action) {
+   return static_cast<KToggleAction*>(actionCollection()->action(action));
 }
 
 void KEBApp::resetActions() {
-   // DESIGN - try to remove usage of this
-   disableDynamicActions(actionCollection()->actions());
-
+   stateChanged("disablestuff");
    stateChanged("normal");
 
    if (!m_readOnly) {
       stateChanged("notreadonly");
    }
 
-   static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))
-      ->setChecked(m_saveOnClose);
-
-   static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))
+   getToggleAction("settings_saveonclose")->setChecked(m_saveOnClose);
+   getToggleAction("settings_showNS")
       ->setChecked(CurrentMgr::self()->showNSBookmarks());
 }
 
 void KEBApp::slotSaveOnClose() {
-   m_saveOnClose
-      = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
+   m_saveOnClose = getToggleAction("settings_saveonclose")->isChecked();
 }
 
 bool KEBApp::nsShown() {
-   return static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))->isChecked();
+   return getToggleAction("settings_showNS")->isChecked();
 }
 
 void KEBApp::updateActions() {
@@ -377,25 +364,18 @@ void KEBApp::slotCommandExecuted() {
 }
 
 void KEBApp::slotDocumentRestored() {
-   if (m_readOnly) {
-      return;
+   if (!m_readOnly) {
+      // called when undoing the very first action - or the first one after
+      // saving. the "document" is set to "non modified" in that case.
+      setModifiedFlag(false);
    }
-   // called when undoing the very first action - or the first one after
-   // saving. the "document" is set to "non modified" in that case.
-   setModifiedFlag(false);
 }
 
 void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
-   /*
-   kdDebug() << "caller == " << caller << ", "
-             << "kapp->name() == " << kapp->name() << ", "
-             << "kapp->dcopClient()->appId() == " << kapp->dcopClient()->appId() << endl;
-   */
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
    // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
    if ((caller.latin1() != kapp->dcopClient()->appId()) && !m_modified) {
       kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
-      // DESIGN - is this logic really unique?
       clearHistory();
       ListView::self()->fillWithGroup();
       updateActions();

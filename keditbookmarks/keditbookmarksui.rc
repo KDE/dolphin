@@ -141,4 +141,50 @@
   </enable>
 </State>
 
+<State name="disablestuff">
+  <disable>
+    <Action name="cancelfaviconupdates"/>
+    <Action name="cancelsearch"/>
+    <Action name="canceltests"/>
+    <Action name="changecomment"/>
+    <Action name="changeicon"/>
+    <Action name="changeurl"/>
+    <Action name="collapseall"/>
+    <Action name="delete"/>
+    <Action name="edit_copy"/>
+    <Action name="edit_cut"/>
+    <Action name="edit_paste"/>
+    <Action name="edit_redo"/>
+    <Action name="edit_undo"/>
+    <Action name="expandall"/>
+    <Action name="exportMoz"/>
+    <Action name="exportNS"/>
+    <Action name="file_open"/>
+    <Action name="file_quit"/>
+    <Action name="file_save"/>
+    <Action name="file_save_as"/>
+    <Action name="importGaleon"/>
+    <Action name="importIE"/>
+    <Action name="importKDE2"/>
+    <Action name="importMoz"/>
+    <Action name="importNS"/>
+    <Action name="importOpera"/>
+    <Action name="insertseparator"/>
+    <Action name="newbookmark"/>
+    <Action name="newfolder"/>
+    <Action name="nexthit"/>
+    <Action name="openlink"/>
+    <Action name="rename"/>
+    <Action name="search"/>
+    <Action name="setastoolbar"/>
+    <Action name="settings_saveonclose"/>
+    <Action name="settings_showNS"/>
+    <Action name="sort"/>
+    <Action name="testall"/>
+    <Action name="testlink"/>
+    <Action name="updateallfavicons"/>
+    <Action name="updatefavicon"/>
+  </disable>
+</State>
+
 </kpartgui>
