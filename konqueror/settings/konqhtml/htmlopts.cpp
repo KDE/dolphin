@@ -75,6 +75,8 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	minSizeSB = new QSpinBox( this );
 	connect( minSizeSB, SIGNAL( valueChanged( int ) ),
 			 this, SLOT( slotMinimumFontSize( int ) ) );
+	connect( minSizeSB, SIGNAL( valueChanged( int ) ),
+			 this, SLOT( changed() ) );
 	lay->addWidget( minSizeSB, r, r, M );
 	QWhatsThis::add( minSizeSB, i18n( "Konqueror will never display text smaller than this size,<br> no matter the web site settings" ) );
 
