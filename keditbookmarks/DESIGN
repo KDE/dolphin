@@ -1,0 +1,22 @@
+bookmarkiterator
+-> favicons
+-> testlink
+
+toplevel
+   listview (almost done)
+   gui
+   cmdgen
+   misc
+
+commands
+   move
+   delete
+   create
+   rename
+   edit (attribute)
+-> importers
+
+3 different selection styles:
+   bookmark iterators (ITR_ACTION)
+   single bookmark (ITEM_ACTION)
+   normal selection (SELC_ACTION)

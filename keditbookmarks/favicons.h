@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 2002 Alexander Kellett <lypanov@kde.org>
+   Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,70 +19,92 @@
 #ifndef __favicons_h
 #define __favicons_h
 
-#include <time.h>
-#include <kmainwindow.h>
 #include <kbookmark.h>
-#include <qlistview.h>
-#include <klistview.h>
-#include <kcommand.h>
-#include <dcopobject.h>
-#include <commands.h>
 #include <konq_faviconmgr.h>
 
+#include <kparts/part.h>
 #include <kparts/browserinterface.h>
-#include <kparts/browserextension.h>
-#include <khtml_part.h>
+
+#include "bookmarkiterator.h"
+
+class FavIconsItrHolder : public BookmarkIteratorHolder {
+public:
+   static FavIconsItrHolder* self() { 
+      if (!s_self) { s_self = new FavIconsItrHolder(); }; return s_self; 
+   }
+protected:
+   virtual void doItrListChanged();
+private:
+   FavIconsItrHolder();
+   static FavIconsItrHolder *s_self;
+};
+
+class FavIconUpdater;
+
+class FavIconsItr : public BookmarkIterator
+{
+   Q_OBJECT
+
+public:
+   FavIconsItr(QValueList<KBookmark> bks);
+   ~FavIconsItr();
+   virtual BookmarkIteratorHolder* holder() { return FavIconsItrHolder::self(); }
+
+public slots:
+   void slotDone(bool succeeded);
+
+private:
+   virtual void doBlah();
+   virtual bool isBlahable(const KBookmark &bk);
+   FavIconUpdater *m_updater;
+   bool m_done;
+};
 
 class FavIconWebGrabber : public QObject
 {
-
-    Q_OBJECT
+   Q_OBJECT
 public:
-    FavIconWebGrabber( KHTMLPart * part, const KURL & url );
-    ~FavIconWebGrabber() {}
+   FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
+   ~FavIconWebGrabber() {}
 
 protected slots:
-    void slotMimetype( KIO::Job *job, const QString &_type );
-    void slotFinished( KIO::Job * job );
+   void slotMimetype(KIO::Job *job, const QString &_type);
+   void slotFinished(KIO::Job *job);
 
 private:
-    KHTMLPart * m_part;
-    KURL m_url;
+   KParts::ReadOnlyPart *m_part;
+   KURL m_url;
 };
-
-class FavIconUpdater ;
 
 class FavIconBrowserInterface : public KParts::BrowserInterface
 {
    Q_OBJECT
-   public:
-      FavIconBrowserInterface( FavIconUpdater *view, const char *name );
-   private:
-      FavIconUpdater *m_view;
+public:
+   FavIconBrowserInterface(FavIconUpdater *view, const char *name);
+private:
+   FavIconUpdater *m_view;
 };
 
-class FavIconUpdater : public KonqFavIconMgr {
-
+class FavIconUpdater : public KonqFavIconMgr 
+{
    Q_OBJECT
 
 public:   
-   static FavIconUpdater * self();
-   FavIconUpdater( QObject *parent, const char *name );
-   ~FavIconUpdater();
-   void queueIcon(const KBookmark &bk);
+   FavIconUpdater(QObject *parent, const char *name);
    void downloadIcon(const KBookmark &bk);
-   void downloadIconComplex(const KBookmark &bk);
+   void downloadIconActual(const KBookmark &bk);
 
-   // from KonqFavIconMgr
-   virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName );
+   virtual void notifyChange(bool isHost, QString hostOrURL, QString iconName);
 
-private slots:
-   void setIconURL( const KURL & iconURL );
+protected slots:
+   void setIconURL(const KURL &iconURL);
    void slotCompleted();
 
+signals:
+   void done(bool succeeded);
+
 private:
-   static FavIconUpdater * s_self;
-   KHTMLPart *m_part;
+   KParts::ReadOnlyPart *m_part;
    FavIconBrowserInterface *m_browserIface;
    KBookmark m_bk;
 };

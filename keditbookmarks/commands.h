@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,75 +20,71 @@
 #ifndef __commands_h
 #define __commands_h
 
-#include <kio/job.h>
-
 #include <kcommand.h>
 #include <kbookmark.h>
 
-#include <qptrstack.h>
-#include <qobject.h>
-
-#define  BK_NS       0
-#define  BK_IE       2
-#define  BK_OPERA    3
-#define  BK_XBEL     4
-
-// ## TODO: s/KNamedCommand/KCommand/ where possible (i.e. virtual QString name())
-
-class MoveCommand : public KNamedCommand
+class FinalAddressCommand
 {
 public:
-   /**
-    * This command stores the movement of an item in the tree.
-    * Create it with itemsAlreadyMoved=true since KListView moves the
-    * item before telling us about it.
-    */
-   MoveCommand(const QString &name, const QString &from, const QString &to)
-      : KNamedCommand(name), m_from(from), m_to(to)
+   virtual QString finalAddress() = 0;
+};
+
+class MoveCommand : public KCommand, public FinalAddressCommand
+{
+public:
+   // "Create it with itemsAlreadyMoved=true since 
+   // "KListView moves the item before telling us about it."
+   MoveCommand(const QString &from, const QString &to, const QString &name = QString::null)
+      : KCommand(), m_from(from), m_to(to), m_mytext(name)
    { ; }
    virtual ~MoveCommand() { ; }
    virtual void execute();
    virtual void unexecute();
-   QString finalAddress();
+   virtual QString name() const;
+   virtual QString finalAddress();
 private:
    QString m_from;
    QString m_to;
+   QString m_mytext;
 };
 
-class CreateCommand : public KNamedCommand
+class CreateCommand : public KCommand, public FinalAddressCommand
 {
 public:
-   // Create a separator
-   CreateCommand(const QString &name, const QString &address)
-      : KNamedCommand(name), m_to(address), 
-        m_group(false), m_separator(true), m_originalBookmark(QDomElement())
+   // separator
+   CreateCommand(const QString &address, bool konqi = false)
+      : KCommand(), m_to(address),
+        m_group(false), m_separator(true), m_konqi(konqi), m_originalBookmark(QDomElement())
    { ; }
 
-   // Create a bookmark
-   CreateCommand(const QString &name, const QString &address,
-                 const QString &text, const QString &iconPath, const KURL &url)
-      : KNamedCommand(name), m_to(address), m_text(text), m_iconPath(iconPath), m_url(url),
-        m_group(false), m_separator(false), m_originalBookmark(QDomElement())
+   // bookmark
+   CreateCommand(const QString &address,
+                 const QString &text, const QString &iconPath, 
+                 const KURL &url, bool konqi = false)
+      : KCommand(), m_to(address), m_text(text), m_iconPath(iconPath), m_url(url),
+        m_group(false), m_separator(false), m_konqi(konqi), m_originalBookmark(QDomElement())
    { ; }
 
-   // Create a folder
-   CreateCommand(const QString &name, const QString &address,
-                 const QString &text, const QString &iconPath, bool open)
-      : KNamedCommand(name), m_to(address), m_text(text), m_iconPath(iconPath),
-        m_group(true), m_separator(false), m_open(open), m_originalBookmark(QDomElement())
+   // folder
+   CreateCommand(const QString &address,
+                 const QString &text, const QString &iconPath, 
+                 bool open, bool konqi = false)
+      : KCommand(), m_to(address), m_text(text), m_iconPath(iconPath),
+        m_group(true), m_separator(false), m_open(open), m_konqi(konqi), m_originalBookmark(QDomElement())
    { ; }
 
-   // Create a copy of an existing bookmark (whatever it is)
-   CreateCommand(const QString &name, const QString &address,
-                 const KBookmark &original )
-      : KNamedCommand(name), m_to(address), m_group(false), m_separator(false),
-        m_open(false), m_originalBookmark(original)
+   // clone existing bookmark
+   CreateCommand(const QString &address,
+                 const KBookmark &original, const QString &name = QString::null)
+      : KCommand(), m_to(address), m_group(false), m_separator(false),
+        m_open(false), m_konqi(false), m_originalBookmark(original), m_mytext(name)
    { ; }
 
    virtual ~CreateCommand() { ; }
    virtual void execute();
    virtual void unexecute();
-   QString finalAddress();
+   virtual QString name() const;
+   virtual QString finalAddress();
 private:
    QString m_to;
    QString m_text;
@@ -96,71 +93,75 @@ private:
    bool m_group:1;
    bool m_separator:1;
    bool m_open:1;
+   bool m_konqi:1;
    KBookmark m_originalBookmark;
+   QString m_mytext;
 };
 
-class DeleteCommand : public KNamedCommand
+class DeleteCommand : public KCommand
 {
 public:
-   DeleteCommand(const QString &name, const QString &from)
-      : KNamedCommand(name), m_from(from), m_cmd(0L), m_subCmd(0L)
+   DeleteCommand(const QString &from)
+      : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L)
    { ; }
    virtual ~DeleteCommand() { delete m_cmd; }
    virtual void execute();
    virtual void unexecute();
-
+   virtual QString name() const { 
+      // NOTE - DeleteCommand needs no name, its always embedded in a macrocommand
+      return ""; 
+   };
    static KMacroCommand* deleteAll(const KBookmarkGroup &parentGroup);
 private:
    QString m_from;
-   KNamedCommand *m_cmd;
+   KCommand *m_cmd;
    KMacroCommand *m_subCmd;
 };
 
-class EditCommand : public KNamedCommand
+class EditCommand : public KCommand
 {
 public:
 
    struct Edition {
-      Edition() { ; } // For QValueList
+      Edition() { ; } // needed for QValueList
       Edition(const QString &a, const QString &v) : attr(a), value(v) {}
       QString attr;
       QString value;
    };
 
-   /**
-    * This command changes the value of one attribute of the bookmark @p address
-    */
-   EditCommand(const QString &name, const QString &address, Edition edition) 
-      : KNamedCommand(name), m_address(address)
+   // change one attribute
+   EditCommand(const QString &address, Edition edition, const QString &name = QString::null) 
+      : KCommand(), m_address(address), m_mytext(name)
    {
       m_editions.append(edition);
    }
 
-   /**
-    * This command changes the value of several attributes of the bookmark @p address
-    */
-   EditCommand(const QString & name, const QString & address,
-               const QValueList<Edition> & editions)
-      : KNamedCommand(name), m_address(address), m_editions(editions)
+   // change multiple attributes
+   EditCommand(const QString &address,
+               const QValueList<Edition> &editions, const QString &name = QString::null)
+      : KCommand(), m_address(address), m_editions(editions), m_mytext(name)
    { ; }
    virtual ~EditCommand() { ; }
    virtual void execute();
    virtual void unexecute();
+   virtual QString name() const;
 private:
    QString m_address;
    QValueList<Edition> m_editions;
    QValueList<Edition> m_reverseEditions;
+   QString m_mytext;
 };
 
-class RenameCommand : public KNamedCommand
+class RenameCommand : public KCommand
 {
 public:
-   RenameCommand(const QString &name, const QString &address, const QString &newText)
-      : KNamedCommand(name), m_address(address), m_newText(newText) 
+   RenameCommand(const QString &address, const QString &newText)
+      : KCommand(), m_address(address), m_newText(newText) 
    { ; }
    virtual ~RenameCommand() { ; }
    virtual void execute();
    virtual void unexecute();
+   virtual QString name() const;
 private:
    QString m_address;
    QString m_newText;
@@ -185,82 +186,16 @@ private:
    QString m_groupAddress;
 };
 
-class ImportCommand : public QObject, public KNamedCommand
-{
-   Q_OBJECT
+class CmdGen {
 public:
-   /**
-    * @param name name of the command
-    * @param fileName HTML file to import
-    * @param folder name of the folder to create. Empty for no creation (root()).
-    * @param icon icon for the new folder, if @p folder isn't empty
-    * @param utf8 true if the HTML is in utf-8 encoding
-    */
-   ImportCommand(const QString &name, const QString &fileName, const QString &folder, 
-                 const QString &icon, bool utf8, int bookmarksType)
-      : KNamedCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), 
-        m_cleanUpCmd(0L), m_utf8(utf8), m_bookmarksType(bookmarksType)
-   { ; }
-   virtual ~ImportCommand() 
-   { ; }
-   virtual void execute();
-   virtual void unexecute();
-
-   QString groupAddress() { return m_group; }
-
-protected slots:
-   void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
-   void newFolder(const QString &text, bool open, const QString &additionnalInfo);
-   void newSeparator();
-   void endFolder();
-
+   static CmdGen* self() { if (!s_self) s_self = new CmdGen(); return s_self; }
+   KMacroCommand* setAsToolbar(const KBookmark &bk);
+   KMacroCommand* deleteItems(QString commandName, QPtrList<class QListViewItem> *items);
+   KMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
+   KMacroCommand* itemsMoved(QPtrList<QListViewItem> *items, const QString &newAddress, bool copy);
 private:
-   void connectImporter(const QObject *importer);
-
-   void xbelExecute(); // doesn't use signals
-   void nsExecute();
-   void IEExecute();
-   void operaExecute();
-
-   QPtrStack<KBookmarkGroup> mstack;
-   QValueList<KBookmarkGroup> mlist;
-   QString m_fileName;
-   QString m_folder;
-   QString m_icon;
-   QString m_group;
-   KMacroCommand *m_cleanUpCmd;
-   bool m_utf8;
-   int m_bookmarksType;
-};
-
-class KEBListViewItem;
-
-class TestLink: public QObject
-{
-   Q_OBJECT
-
-public:
-   TestLink(QValueList<KBookmark> bks);
-   ~TestLink();
-
-public slots:
-   void jobResult(KIO::Job *job);
-   void jobData(KIO::Job *job, const QByteArray &data);
-
-signals:
-   void deleteSelf(TestLink *);
-
-private:
-   void setMod(KEBListViewItem *item, QString modDate);
-   void doNext();
-
-private:
-   KIO::TransferJob *m_job;
-   KBookmark m_book;
-   QValueList<KBookmark> m_bks;
-   QString m_url;
-   bool m_errSet;
-   QString m_oldStatus;
+   CmdGen() { ; }
+   static CmdGen *s_self;
 };
 
 #endif

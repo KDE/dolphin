@@ -1,0 +1,79 @@
+basic plan:
+   do any remaining DESIGN comments
+   cleanup IS_EF usage
+   cleanup selectedBookmarksExpanded as much as possible and rename
+   cleanup importing:
+      make all importers do a file selection dlg
+      make empty constructors for all
+      move doImport into the base constructor
+   possible use of guistates for action enabling logic?
+   make an actionsimpl class
+   recursive 404 finder, recursive sort
+   add some metadata support - comments
+   search dialog
+   bugfix - 
+      crash when copying a selection into a child folder which is part of selection
+
+switch favicons to use the bookmarkiterator
+make an all dirs sort function that uses the bookmarkiterator
+add a comment field after looking at galeon for a while
+write more in DESIGN - arrangement of classes, pattern usage
+rethink the selection paradigm - pruning filters + single base
+split off CORECLASS functionality from toplevel.cpp
+do the same for listview classes, and abtract further
+
+for me:
+   better tabbing stuff 
+      - crashes tabset loading & bookmark tabset loading/saving
+
+   (http://bugs.kde.org/show_bug.cgi?id=45711)
+
+favicons:
+   http://bugs.kde.org/show_bug.cgi?id=39879
+   http://bugs.kde.org/show_bug.cgi?id=23102
+
+system wide bookmark file includes:
+   http://bugs.kde.org/show_bug.cgi?id=28192
+
+NOTES
+-----
+
+TODO
+features to do for next release
+advanced sorting, recursive favicon updates, enhanced columns (comments), other stuff
+
+LATER - attempt to hide away the address strings?
+
+------------ SELECTIONS ------------
+DESIGN
+
+the use of Q_ASSERTs everywhere in this file
+is kinda ugly, try to figure out a way of removing
+them via more checks elsewhere, or possibly by
+making "assert helpers" for frequently performed
+asserts??? ouch, even more ugly?
+
+LATER
+
+this all needs to be rethought
+pruning should be a layer of processing
+done after the selectedItems call, the
+selected items should be cached based
+on use of slotSelectionChanged, 
+
+TODO
+
+the actual selection should return 
+all possible items, i.e ->selected()
+then pruning should be possible
+number of fuinctions
+pruning / filters should
+
+on top of this, we can't alpha sort
+the root element for some reason
+this needs to be fixed!!!
+
+simple motivation for this:
+currently you can't even ctrl-v paste 
+onto a empty folder item!!!
+

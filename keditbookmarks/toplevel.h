@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+   Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -19,239 +20,158 @@
 #ifndef __toplevel_h
 #define __toplevel_h
 
-#include <time.h>
 #include <kmainwindow.h>
-#include <kbookmark.h>
-#include <qlistview.h>
-#include <klistview.h>
 #include <kcommand.h>
-#include <dcopobject.h>
-#include <commands.h>
-#include <konq_faviconmgr.h>
-
-#include <kparts/browserinterface.h>
-#include <kparts/browserextension.h>
-#include <khtml_part.h>
 
 // #define DEBUG_ADDRESSES
 
-class KToggleAction;
-class TestLink;
+#define COL_ADDR 3
+#define COL_STAT 2
 
-class KEBListViewItem : public QListViewItem
-{
-public:
-    // toplevel item (there should be only one!)
-    KEBListViewItem(QListView *parent, const KBookmark & group );
-    // bookmark (first of its group)
-    KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk );
-    // bookmark (after another)
-    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk );
-    // group
-    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp );
-    // empty group item
-    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after );
-    void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
-
-    virtual void setOpen( bool );
-    void modUpdate( );
-    void nsPut ( QString nm);
-    void setTmpStatus(QString status,  QString &oldStatus);
-    void restoreStatus( QString oldStatus);
-
-    const KBookmark & bookmark() { return m_bookmark; }
-
-    // ugly hack, make private?
-    bool m_emptyFolder;
-
-private:
-    void init( const KBookmark & bk );
-    void nsGet( QString &nModify );
-    void nsGet( QString &nCreate, QString &nAccess, QString &nModify );
-
-    KBookmark m_bookmark;
-    int render;
+struct SelcAbilities {
+   bool itemSelected:1;
+   bool group:1;
+   bool root:1;
+   bool separator:1;
+   bool urlIsEmpty:1;
+   bool multiSelect:1;
+   bool singleSelect:1;
+   bool notEmpty:1;
 };
 
-class KEBListView : public KListView
-{
-    Q_OBJECT
-public:
-    KEBListView( QWidget * parent ) : KListView( parent ) {}
-    virtual ~KEBListView() {}
+class QListViewItem;
+class KBookmark;
+class KBookmarkManager;
+class KListView;
+class KEBListView;
+class KEBListViewItem;
+class BookmarkIterator;
+class ImportCommand;
+class KBookmarkEditorIface;
+class MyManager;
 
-public slots:
-    virtual void rename( QListViewItem *item, int c );
-
-protected:
-    virtual bool acceptDrag( QDropEvent * e ) const;
-    virtual QDragObject *dragObject();
-};
-
-typedef QMap<QString, QString> StringMap;
-
-// Those methods aren't in KEBTopLevel since KEBTopLevel registers in DCOP
-// and we need to create this DCOPObject after registration.
-class KBookmarkEditorIface : public QObject, public DCOPObject
-{
-    Q_OBJECT
-    K_DCOP
-public:
-    KBookmarkEditorIface();
-k_dcop:
-    void slotAddedBookmark( QString filename, QString url, QString text, QString address, QString icon );
-    void slotCreatedNewFolder( QString filename, QString text, QString address );
-signals:
-    void addedBookmark( QString url, QString text, QString address, QString icon );
-    void createdNewFolder( QString text, QString address );
-};
-
-// Also a DCOP object, in order to catch KBookmarkNotifier signals.
 class KEBTopLevel : public KMainWindow
 {
-    Q_OBJECT
-
-    friend class FavIconUpdater;
+   Q_OBJECT
 
 public:
-    static KEBTopLevel * self() { return s_topLevel; }
-    static KBookmarkManager * bookmarkManager() { return s_pManager; }
+   // DESIGN - rename its _not_ a singleton!
+   static KEBTopLevel* self() { return s_topLevel; }
 
-    KEBTopLevel( const QString & bookmarksFile, bool readonly );
-    virtual ~KEBTopLevel();
+   // DESIGN - define remove this
+   static MyManager* myManager();
 
-public:
-    bool save();
+   QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
-    void setModified( bool modified = true );
+   KEBTopLevel(const QString & bookmarksFile, bool readonly);
+   virtual ~KEBTopLevel();
 
-    QValueList<KBookmark> getBookmarkSelection();
-    void updateSelection();
-    static int numSelected();
+   void setModifiedFlag(bool);
 
-    static QPtrList<QListViewItem>* selectedItems();
+   // DESIGN - preferably remove
+   KEBListView* listView() const { return m_pListView; }
 
-    QValueList<KBookmark> allBookmarks() const;
-    QValueList<KBookmark> selectedBookmarks() const;
-    QValueList<KBookmark> selectedBookmarksExpanded() const;
+   void setActionsEnabled(SelcAbilities);
 
-    QListViewItem* selectedItem();
-    KBookmark rootBookmark() const;
-    KBookmark selectedBookmark() const;
+   void setCancelFavIconUpdatesEnabled(bool);
+   void setCancelSearchEnabled(bool);
+   void setCancelTestsEnabled(bool);
 
-    void testBookmarks(QValueList<KBookmark> bks);
+   void emitSlotCommandExecuted();
 
-    // @return where to insert a new item - depending on the selected item
-    QString insertionAddress() const;
+   void addImport(ImportCommand *cmd);
 
-    KEBListViewItem * findByAddress( const QString & address ) const;
+   void didCommand(KCommand *cmd);
+   void addCommand(KCommand *cmd);
 
-    /**
-     * Rebuild the whole list view from the dom document
-     * Openness of folders is saved, as well as current item.
-     * Call this every time the underlying qdom document is modified.
-     */
-    void update();
+   void docSaved();
+   void clearHistory();
 
-    KListView * listView() const { return m_pListView; }
+   void updateActions();
 
-    StringMap Modify;
-    StringMap oldModify;
-    QPtrList<TestLink> tests;
+   bool readonly() { return m_bReadOnly; }
 
-   void doImport(QString, QString, QString, QString, QString, bool, int);
+private:
+   static KBookmarkManager* bookmarkManager();
+
+   bool save();
+
+   void updateListView();
 
 public slots:
-    void slotImportKDE();
-    void slotImportGaleon();
-    void slotImportOpera();
-    void slotImportIE();
-    void slotImportNS();
-    void slotExportNS();
-    void slotImportMoz();
-    void slotExportMoz();
-    void slotLoad();
-    void slotSave();
-    void slotSaveAs();
-    void slotDocumentRestored();
-    void slotCut();
-    void slotCopy();
-    void slotPaste();
-    void slotRename();
-    void slotChangeURL();
-    void slotChangeIcon();
-    void slotUpdateFavicon();
-    void slotDelete();
-    void slotNewFolder();
-    void slotNewBookmark();
-    void slotInsertSeparator();
-    void slotSort();
-    void slotSetAsToolbar();
-    void slotOpenLink();
-    void slotShowNS();
-    void slotConfigureKeyBindings();
-    void slotConfigureToolbars();
-    void slotTestLink();
-    void slotTestAllLinks();
-    void slotCancelTest(TestLink *t);
-    void slotCancelAllTests();
+   void slotImportKDE();
+   void slotImportGaleon();
+   void slotImportOpera();
+   void slotImportIE();
+   void slotImportNS();
+   void slotExportNS();
+   void slotImportMoz();
+   void slotExportMoz();
+   void slotLoad();
+   void slotSave();
+   void slotSaveAs();
+   void slotDocumentRestored();
+   void slotCut();
+   void slotCopy();
+   void slotPaste();
+   void slotRename();
+   void slotChangeURL();
+   void slotChangeIcon();
+   void slotDelete();
+   void slotNewFolder();
+   void slotNewBookmark();
+   void slotInsertSeparator();
+   void slotSort();
+   void slotSetAsToolbar();
+   void slotOpenLink();
+   void slotShowNS();
+   void slotSaveOnClose();
+   void slotConfigureKeyBindings();
+   void slotConfigureToolbars();
+   void slotTestSelection();
+   void slotTestAll();
+   void slotCancelAllTests();
+   void slotUpdateFavIcon();
+   void slotUpdateAllFavIcons();
+   void slotCancelFavIconUpdates();
+   void slotSearch();
+   void slotCancelSearch();
 
 protected slots:
-    void slotItemRenamed(QListViewItem *, const QString &, int);
-    void slotDropped(QDropEvent*, QListViewItem*, QListViewItem*);
-    void slotDoubleClicked(QListViewItem *, const QPoint &, int);
-    void slotSelectionChanged();
-    void slotClipboardDataChanged();
-    void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
-    void slotBookmarksChanged( const QString &, const QString & );
-    void slotCommandExecuted();
-    void slotNewToolbarConfig();
-    void slotExpandAll() { setAllOpen(true); }
-    void slotCollapseAll() { setAllOpen(false); }
+   void slotClipboardDataChanged();
+   void slotBookmarksChanged(const QString &, const QString &);
+   void slotCommandExecuted();
+   void slotNewToolbarConfig();
 
-    // slots for DCOP-originated events
-    void slotAddedBookmark( QString url, QString text, QString address, QString icon );
-    void slotCreatedNewFolder( QString text, QString address );
+   // DESIGN - move impl into .cpp
+   void slotExpandAll() { setAllOpen(true); }
+   void slotCollapseAll() { setAllOpen(false); }
 
-protected:
-    void construct(bool firstTime = true);
+   void slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon);
+   void slotDcopCreatedNewFolder(QString filename, QString text, QString address);
 
-    void disconnectSignals();
-    void connectSignals();
+private:
+   void construct();
+   void connectSignals();
 
-    void initListView(bool firstTime = true);
+   void resetActions();
+   void createActions();
 
-    void resetActions();
-    void createActions();
+   virtual bool queryClose();
 
-    void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
-    virtual bool queryClose();
-    void fillListView();
-    void pasteData( const QString & cmdName, QMimeSource * data, const QString & insertionAddress );
-    void itemMoved(QPtrList<QListViewItem> *_items, const QString & newAddress, bool copy);
-    QString correctAddress(QString address);
-    void deleteSelection(QString commandName);
-    void setAllOpen(bool open);
+   void setAllOpen(bool open);
 
-    void selectImport(ImportCommand *cmd);
+   bool m_bModified;
+   bool m_bCanPaste;
+   bool m_bReadOnly;
 
-    bool m_bModified;
-    bool m_bCanPaste;
-    bool m_bReadOnly;
+   KCommandHistory m_commandHistory;
+   KEBListView *m_pListView;
+   KBookmarkEditorIface *m_dcopIface;
+   QString m_bookmarksFilename;
+   bool m_saveOnClose;
 
-    QString m_bookmarksFilename;
-
-    KToggleAction * m_taShowNS;
-    KListView * m_pListView;
-    KCommandHistory m_commandHistory;
-
-    KBookmarkEditorIface * m_dcopIface;
-
-    static KEBTopLevel * s_topLevel;
-    static KBookmarkManager * s_pManager;
-
-    QString m_last_selection_address;
+   static KEBTopLevel *s_topLevel;
 };
 
 #endif
-
