@@ -505,12 +505,12 @@ void KonqFrame::setView( KonqView* child )
    }
 };
 
-void KonqFrame::setTitle( QString title , QWidget* sender)
+void KonqFrame::setTitle( QString title , QWidget* /*sender*/)
 {
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrame::setIconURL( const KURL & iconURL, QWidget* sender )
+void KonqFrame::setIconURL( const KURL & iconURL, QWidget* /*sender*/ )
 {
   if (m_pParentContainer) m_pParentContainer->setIconURL( iconURL, widget() );
 }
@@ -682,17 +682,17 @@ void KonqFrameContainer::swapChildren()
   m_pSecondChild = firstCh;
 }
 
-void KonqFrameContainer::setTitle( QString title , QWidget* sender)
+void KonqFrameContainer::setTitle( QString title , QWidget* /*sender*/)
 {
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrameContainer::setIconURL( const KURL & iconURL, QWidget* sender )
+void KonqFrameContainer::setIconURL( const KURL & iconURL, QWidget* /*sender*/ )
 {
   if (m_pParentContainer) m_pParentContainer->setIconURL( iconURL, widget() );
 }
 
-void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int index  )
+void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int /*index*/  )
 {
   kdDebug(1202) << "KonqFrameContainer " << this << ": insertChildFrame " << frame << endl;
 
@@ -786,7 +786,7 @@ void KonqFrameTabs::copyHistory( KonqFrameBase *other )
     return;
   }
 
-  for (int i = 0; i < m_pChildFrameList->count(); i++ )
+  for (uint i = 0; i < m_pChildFrameList->count(); i++ )
   {
     m_pChildFrameList->at(i)->copyHistory( static_cast<KonqFrameTabs *>( other )->m_pChildFrameList->at(i) );
   }
