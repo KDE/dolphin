@@ -87,6 +87,8 @@ public:
   QString evalJavaScript( const QString& script );
   void reloadPage();
 
+  void changeSrc(const QString& url);
+
 protected:
   virtual bool openURL(const KURL &url);
   virtual bool closeURL();
@@ -122,6 +124,7 @@ signals:
 
 private:
     QString __nsplugin;
+    PluginPart *_part;
 };
 
 

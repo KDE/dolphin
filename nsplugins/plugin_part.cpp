@@ -28,15 +28,19 @@ public:
 
 
 PluginLiveConnectExtension::PluginLiveConnectExtension(PluginPart* part) 
-: KParts::LiveConnectExtension(part) {
+: KParts::LiveConnectExtension(part), _part(part) {
 }
 
 PluginLiveConnectExtension::~PluginLiveConnectExtension() {
 }
 
 bool PluginLiveConnectExtension::put( const unsigned long, const QString &field, const QString &value) {
+    kdDebug(1432) << "PLUGIN:LiveConnect::put " << field << " " << value << endl;
     if (field == "__nsplugin") {
         __nsplugin = value;
+        return true;
+    } else if (field.lower() == "src") {
+        _part->changeSrc(value);
         return true;
     }
     return false;
@@ -44,6 +48,7 @@ bool PluginLiveConnectExtension::put( const unsigned long, const QString &field,
 
 QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
 {
+    kdDebug(1432) << "PLUGIN:LiveConnect::evalJavaScript " << script << endl;
     ArgList args;
     QString jscode;
     jscode.sprintf("this.__nsplugin=eval(\"%s\")", script.latin1());
@@ -306,9 +311,15 @@ void PluginPart::pluginResized(int w, int h)
 }
 
 
+void PluginPart::changeSrc(const QString& url) {
+    closeURL();
+    openURL(url);
+}
+
 void PluginCanvasWidget::resizeEvent(QResizeEvent *ev)
 {
     QWidget::resizeEvent(ev);
     emit resized(width(), height());
 }
+
 
