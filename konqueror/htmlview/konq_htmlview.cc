@@ -659,7 +659,8 @@ void KonqHTMLView::openTxtView( const KURL &url )
   }
 
   if ( obj && obj->inherits( "KonqFrame" ) )
-    emit m_extension->openURLRequest( url, false, 0, 0, "text/plain" );
+    emit m_extension->openURLRequest( url.url().ascii(), false, 0, 0, 
+    		"text/plain" );
   else
   {
     KConfig *config = KonqFactory::instance()->config();
