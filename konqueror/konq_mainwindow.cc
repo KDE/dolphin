@@ -800,9 +800,18 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
           bool forceAutoEmbed = req.forceAutoEmbed;
           if ( !req.typedURL.isEmpty() ) // the user _typed_ the URL, he wants it in Konq.
               forceAutoEmbed = true;
-          // If the protocol doesn't support writing (e.g. HTTP) then we don't want the FM settings.
-          // So we ask the user, instead, except in some very well-known cases.
-          if ( !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) && url.protocol() != "about" ) {
+          // Related to KonqFactory::createView
+          if ( !forceAutoEmbed && !KonqFMSettings::settings()->shouldEmbed( serviceType ) )
+          {
+              kdDebug(1202) << "openView: KonqFMSettings says: don't embed this servicetype" << endl;
+              ok = false;
+          }
+
+          // If the protocol doesn't support writing (e.g. HTTP) then we might want to save instead of just embedding.
+          // So (if embedding would succeed, hence the checks above) we ask the user
+          // Otherwise the user will get asked 'open or save' in openURL anyway.
+          if ( ok && !forceAutoEmbed && !KProtocolInfo::supportsWriting( url )
+               && url.protocol() != "about" ) {
               QString suggestedFilename;
 
               KonqRun* run = childView->run();
@@ -820,7 +829,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
                   return true; // handled
               }
           }
-          ok = childView->changeViewMode( serviceType, serviceName, forceAutoEmbed );
+          if ( ok )
+              ok = childView->changeViewMode( serviceType, serviceName, forceAutoEmbed );
       }
   }
 
@@ -2021,7 +2031,7 @@ void KonqMainWindow::removeChildView( KonqView *childView )
 
   m_mapViews.remove( it );
 
-	kdDebug(1202) << "View " << childView << " removed from map" << endl;
+  kdDebug(1202) << "View " << childView << " removed from map" << endl;
 
   viewCountChanged();
   emit viewRemoved( childView );
@@ -4952,7 +4962,7 @@ void KonqMainWindow::resetWindow()
                     32, PropModeReplace, (unsigned char *)&now, 1);
 #endif
 // Qt remembers the iconic state if the window was withdrawn while on another virtual desktop
-    clearWState( WState_Minimized ); 
+    clearWState( WState_Minimized );
     ignoreInitialGeometry();
     kapp->setTopWidget( this ); // set again the default window icon
 }
