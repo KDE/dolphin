@@ -1,0 +1,11 @@
+# KDE Config File
+[KDE Desktop Entry]
+Name=Konqueror
+Exec=konqueror --server
+Comment=KDE File Manager & Web Browser
+RepoID=IDL:KFM/Application:1.0,
+ActivationMode=shared
+Type=OpenPart
+Icon=unknown.xpm
+MiniIcon=unknown.xpm
+ServiceType=FileManager

@@ -1,0 +1,91 @@
+/* This file is part of the KDE project
+   Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+ 
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public
+   License as published by the Free Software Foundation; either
+   version 2 of the License, or (at your option) any later version.
+ 
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+ 
+   You should have received a copy of the GNU Library General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
+*/     
+
+// Popup menus for kfm icons. Only the 'New' submenu for the moment.
+// (c) David Faure, 1998
+#ifndef KFMPOPUP_H
+#define KFMPOPUP_H
+
+#include <qpopmenu.h>
+#include <qstrlist.h>
+
+// The 'New' submenu, with 'Folder' and one item per Template
+class KNewMenu : public QPopupMenu
+{
+    Q_OBJECT
+public:
+    KNewMenu();
+    ~KNewMenu() {}
+
+    /**
+     * Fills the templates list. Can be called at any time to update it.
+     */
+    static void fillTemplates();
+    
+    /**
+     * Set the files the popup is shown for
+     */
+    void setPopupFiles(QStrList & _files);
+    void setPopupFiles(const char * _file) {
+        popupFiles.clear();
+        popupFiles.append( _file );
+    }
+    
+protected slots:
+
+    /**
+     * Called when New->* is clicked
+     */
+    void slotNewFile( int _id );
+ 
+    /**
+     * Called before showing the New menu
+     */
+    void slotCheckUpToDate( );
+ 
+private:
+
+    /**
+     * Fills the menu from the templates list.
+     */
+    void fillMenu();
+
+    /**
+     * List of all template files. It is important that they are in
+     * the same order as the 'New' menu.
+     */
+    static QStrList * templatesList;
+
+    /**
+     * Is increased when templatesList has been updated and
+     * menu needs to be re-filled. Menus have their own version and compare it
+     * to templatesVersion before showing up
+     */
+    static int templatesVersion;
+
+    int menuItemsVersion;
+    
+    /**
+     * When the user pressed the right mouse button over an URL a popup menu
+     * is displayed. The URL belonging to this popup menu is stored here.
+     */
+    QStrList popupFiles; 
+};
+
+#endif // KFMPOPUP_H
