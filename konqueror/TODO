@@ -12,6 +12,12 @@ kio_http:
 khtml:
 ======
 - (if local dir) : drop should copy to parent dir (for Antonio :)
+  more generic approach (idea by lars) : konq installs an eventfilter
+  on the part's widget and looks for uri-dnd'events. configurable
+  via a bool property on the part (or in the BE)
+  that reminds me: dropping urls in the lineedit doesn't work, for
+  some strange reason (qlineedit supports it and calls insert())
+
 - #3490, stop animated gifs
 
 libkonq:
