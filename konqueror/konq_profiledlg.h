@@ -29,7 +29,7 @@ class QListViewItem;
 class QGridLayout;
 class QCheckBox;
 class QLineEdit;
-class QPushButton;
+class KPushButton;
 
 class KonqProfileDlg : public KDialog
 {
@@ -60,10 +60,10 @@ private:
 
   QLineEdit *m_pProfileNameLineEdit;
 
-  QPushButton *m_pDeleteProfileButton;
-  QPushButton *m_pRenameProfileButton;
-  QPushButton *m_pSaveButton;
-  QPushButton *m_pCloseButton;
+  KPushButton *m_pDeleteProfileButton;
+  KPushButton *m_pRenameProfileButton;
+  KPushButton *m_pSaveButton;
+  KPushButton *m_pCloseButton;
   QCheckBox *m_cbSaveURLs;
   QCheckBox *m_cbSaveSize;
 

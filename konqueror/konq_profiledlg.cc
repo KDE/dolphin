@@ -25,6 +25,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qheader.h>
+#include <qlineedit.h>
 
 #include <klistview.h>
 #include <kdebug.h>
@@ -33,8 +34,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
-#include <qpushbutton.h>
-#include <qlineedit.h>
+#include <kpushbutton.h>
 
 QMap<QString,QString> KonqProfileDlg::readAllProfiles()
 {
@@ -73,10 +73,13 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 #define N_BUTTONS 4
   m_pGrid = new QGridLayout( this, 10, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
 
-  m_pGrid->addMultiCellWidget( new QLabel( i18n( "Enter Profile Name:" ), this ), 0, 0, 0, N_BUTTONS-1 );
+  QLabel *lblName = new QLabel( i18n(  "&Pofile name:" ), this );
+  m_pGrid->addMultiCellWidget( lblName, 0, 0, 0, N_BUTTONS-1 );
 
   m_pProfileNameLineEdit = new QLineEdit( this );
   m_pProfileNameLineEdit->setFocus();
+
+  lblName->setBuddy( m_pProfileNameLineEdit );
 
   m_pGrid->addMultiCellWidget( m_pProfileNameLineEdit, 1, 1, 0, N_BUTTONS-1 );
 
@@ -112,21 +115,21 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   m_cbSaveSize->setChecked( KGlobal::config()->readBoolEntry("SaveWindowSizeInProfile",false) );
   m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, N_BUTTONS-1 );
 
-  m_pSaveButton = new QPushButton( i18n( "&Save" ), this );
+  m_pSaveButton = new KPushButton( KStdGuiItem::save(), this );
   m_pSaveButton->setEnabled( !m_pProfileNameLineEdit->text().isEmpty() );
   m_pSaveButton->setDefault( true );
 
   m_pGrid->addWidget( m_pSaveButton, 9, 0 );
 
-  m_pDeleteProfileButton = new QPushButton( i18n( "&Delete Selected Profile" ), this );
+  m_pDeleteProfileButton = new KPushButton( i18n( "&Delete Profile" ), this );
 
   m_pGrid->addWidget( m_pDeleteProfileButton, 9, 1 );
 
-  m_pRenameProfileButton = new QPushButton( i18n( "&Rename Selected Profile" ), this );
+  m_pRenameProfileButton = new KPushButton( i18n( "&Rename Profile" ), this );
 
   m_pGrid->addWidget( m_pRenameProfileButton, 9, 2 );
 
-  m_pCloseButton = new QPushButton( i18n( "&Close" ), this );
+  m_pCloseButton = new KPushButton( KStdGuiItem::close(), this );
 
   m_pGrid->addWidget( m_pCloseButton, 9, 3 );
 
@@ -179,7 +182,7 @@ void KonqProfileDlg::slotSave()
 
   kdDebug(1202) << "Saving as " << name << endl;
   m_pViewManager->saveViewProfile( name, m_pProfileNameLineEdit->text(),
-                                   m_cbSaveURLs->isChecked(), m_cbSaveSize->isChecked() );
+            m_cbSaveURLs->isChecked(), m_cbSaveSize->isChecked() );
 
   accept();
 }
@@ -208,7 +211,7 @@ void KonqProfileDlg::slotRename()
 
   if ( it != m_mapEntries.end() )
   {
-    KLineEditDlg dlg( i18n("Rename profile '%1'").arg(currentText), currentText, this );
+    KLineEditDlg dlg( i18n("Rename profile '%1':").arg(currentText), currentText, this );
     dlg.setCaption( i18n("Rename Profile") );
     if ( dlg.exec() )
     {
