@@ -184,6 +184,10 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
         kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, appObj );
         konqy.createNewWindow( url.url(), mimetype );
+        // TODO this is just a temporary hack <l.lunak@kde.org> 
+        KStartupInfoId id;
+        id.initId( kapp->startupId());
+        KStartupInfo::sendFinish( id );
     }
     else
     {
@@ -261,6 +265,10 @@ void clientApp::slotAppRegistered( const QCString &appId )
         else
             konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url, m_mimetype );
         sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
+        // TODO this is just a temporary hack <l.lunak@kde.org> 
+        KStartupInfoId id;
+        id.initId( kapp->startupId());
+        KStartupInfo::sendFinish( id );
         ::exit( 0 );
     }
 }
