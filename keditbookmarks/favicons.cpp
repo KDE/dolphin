@@ -127,7 +127,7 @@ void FavIconUpdater::slotCompleted() {
 
 void FavIconUpdater::downloadIcon(const KBookmark &bk) {
    QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
-   if (favicon != QString::null) {
+   if (!favicon.isNull()) {
       kdDebug(26000) << "downloadIcon() - favicon" << favicon << endl;
       bk.internalElement().setAttribute("icon", favicon);
       kdDebug(26000) << "favicon - emitSlotCommandExecuted()" << favicon << endl;
@@ -139,7 +139,7 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
       KonqFavIconMgr::downloadHostIcon(bk.url());
       favicon = KonqFavIconMgr::iconForURL(bk.url().url());
       kdDebug(26000) << "favicon == " << favicon << endl;;
-      if (favicon == QString::null) {
+      if (favicon.isNull()) {
          downloadIconActual(bk);
       }
    }

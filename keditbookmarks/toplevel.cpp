@@ -464,7 +464,7 @@ void KEBTopLevel::slotLoad() {
    // TODO - add a few default place to the file dialog somehow?,
    //      - e.g kfile bookmarks +  normal bookmarks file dir
    QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", this);
-   if (bookmarksFile != QString::null) {
+   if (!bookmarksFile.isNull()) {
       m_bookmarksFilename = bookmarksFile;
       construct();
    }
