@@ -84,6 +84,7 @@ public:
                     const char* slot, QObject* parent, const char* name = 0 );
 
     virtual int plug( QWidget *widget, int index = -1 );
+    virtual void updateIcon(int id);
 
     void start();
     void stop();

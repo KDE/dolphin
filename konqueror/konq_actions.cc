@@ -222,6 +222,19 @@ void KonqLogoAction::stop()
   }
 }
 
+void KonqLogoAction::updateIcon(int id)
+{
+    QWidget *w = container( id );
+
+    if ( w->inherits( "KToolBar" ) )
+    {
+      KAnimWidget *anim = ((KToolBar *)w)->animatedWidget( menuId( id ) );
+      anim->setIcons(icon());
+    }
+}
+
+
+
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
 /*
