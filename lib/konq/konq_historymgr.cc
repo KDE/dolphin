@@ -669,6 +669,8 @@ void KonqHistoryManager::addToCompletion( const QString& url, const QString& typ
                                           int numberOfTimesVisited )
 {
     m_pCompletion->addItem( url, numberOfTimesVisited );
+    if ( numberOfTimesVisited == 1 ) // i.e. just visited, not loaded from disk
+	numberOfTimesVisited += 10; // typed urls have a higher priority
     m_pCompletion->addItem( typedURL, numberOfTimesVisited );
 }
 
