@@ -13,7 +13,7 @@
  <Action name="insertseparator"/>
  <Separator/>
  <Action name="file_save"/>
- <Action name="file_close"/>
+ <Action name="file_quit"/>
 </Menu>
 
 <Menu name="edit"><text>&amp;Edit</text>

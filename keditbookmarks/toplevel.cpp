@@ -165,11 +165,11 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     act->setEnabled( QFile::exists( KNSBookmarkImporter::mozillaBookmarksFile() ) );
     (void) new KAction( i18n( "Export To Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
-    (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
+    (void) KStdAction::quit( this, SLOT( close() ), actionCollection() );
     (void) KStdAction::cut( this, SLOT( slotCut() ), actionCollection() );
     (void) KStdAction::copy( this, SLOT( slotCopy() ), actionCollection() );
     (void) KStdAction::paste( this, SLOT( slotPaste() ), actionCollection() );
-    (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
+    (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
     (void) new KAction( i18n( "Chan&ge Icon" ), "www", 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
     (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
