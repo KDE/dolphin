@@ -115,4 +115,4 @@ void KonqExtensionManager::show()
 	KDialogBase::show();
 }
 
-//#include "konq_extensionmanager.moc"
+#include "konq_extensionmanager.moc"
