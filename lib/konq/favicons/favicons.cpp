@@ -63,6 +63,9 @@ FaviconsModule::FaviconsModule(const QCString &obj)
     d->faviconsDir.truncate(d->faviconsDir.length()-9); // Strip off "favicons/"
     d->metaData.insert("ssl_no_client_cert", "TRUE");
     d->metaData.insert("ssl_militant", "TRUE");
+    d->metaData.insert("UseCache", "false");
+    d->metaData.insert("cookies", "none");
+    d->metaData.insert("no-auth", "true");
     d->config = new KSimpleConfig(locateLocal("data", "konqueror/faviconrc"));
     d->killJobs.setAutoDelete(true);
     d->faviconsCache.setAutoDelete(true);
