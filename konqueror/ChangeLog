@@ -37,6 +37,15 @@ Fri Feb 12 21:01:20 1999 Simon Hausmann <tronical@gmx.net>
 
         * kfm.idl, kfm_mainwindow.*, kfmgui.*, kfmpopup.*, kfmview.cc:
           - the new menu works now
-          - konqueror exist now clean (without any segfaults, mico-asserts, or
+          - konqueror exits now clean (without any segfaults, mico-asserts, or
             so ;)
           - small bugfix for the view-mode-menu
+
+Sun Feb 14 19:26:09 1999 Simon Hausmann <tronical@gmx.net>
+
+        * kbookmark.*, kfm.idl, kfm_mainwindow.cc, kfmgui.* :
+          - the bookmarks work now
+          - tiny fixes in kfmgui and kfm_mainwindow
+          - added a general method openURL to kfm.idl
+            (welcome "remote" konqueror users, there's more to come ;)
+

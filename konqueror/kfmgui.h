@@ -87,6 +87,8 @@ public:
   bool hasBackHistory() { return m_currentView->m_lstBack.size() > 0; }
   bool hasForwardHistory() { return m_currentView->m_lstForward.size() > 0; }
 
+  virtual void openURL( const char *url );
+  
 public slots:  
   /////////////////////////
   // MenuBar
@@ -121,6 +123,9 @@ public slots:
 
   virtual void slotFileNewActivated( CORBA::Long id );
   virtual void slotFileNewAboutToShow();
+  
+  virtual void slotBookmarkSelected( CORBA::Long id );
+  virtual void slotEditBookmarks();
     
   /////////////////////////
   // Accel
@@ -181,6 +186,8 @@ protected:
   OpenPartsUI::ToolBar_var m_vLocationBar;
   
   OpenPartsUI::StatusBar_var m_vStatusBar;
+
+  KBookmarkMenu* m_pBookmarkMenu;
 
 /*  
   KMenuBar *m_pMenu;

@@ -19,6 +19,8 @@
 
 #include <qdir.h>
 
+#include "kbookmark.h"
+
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -34,9 +36,10 @@
 #include <kwm.h>
 #include <qmsgbox.h>
 
-#include "kbookmark.h"
 #include "kmimetypes.h"
 #include "kpixmapcache.h"
+
+#include <opUIUtils.h>
 
 /**
  * Gloabl ID for bookmarks.
@@ -439,11 +442,18 @@ QPixmap* KBookmark::pixmap( bool _mini )
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, bool _root ) : QPopupMenu()
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, KFM::Part_ptr part, bool _root )
 {
   m_pOwner = _owner;
   m_bIsRoot = _root;
-  connect( this, SIGNAL( activated( int ) ), this, SLOT( slotBookmarkSelected( int ) ) );
+
+  m_lstSubMenus.setAutoDelete( true );
+
+  assert( !CORBA::is_nil( menu ) );
+      
+  m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
+  m_vPart = KFM::Part::_duplicate( part );
+  m_vMenu->connect( "activated", m_vPart, "slotBookmarkSelected" );
 
   if ( m_bIsRoot )
   {
@@ -452,32 +462,57 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, bool _root ) : QPopupMenu(
   }
 }
 
+KBookmarkMenu::~KBookmarkMenu()
+{
+  m_lstSubMenus.clear();  
+
+  assert( !CORBA::is_nil( m_vMenu ) );
+ 
+  m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
+      
+  m_vMenu = 0L;
+}
+
 void KBookmarkMenu::slotBookmarksChanged()
 {
-  clear();
-  if ( m_bIsRoot )
-    insertItem( i18n( "&Edit Bookmarks..." ), KBookmarkManager::self(), SLOT( slotEditBookmarks() ) );
+  assert( !CORBA::is_nil( m_vMenu ) );
+    
+  m_lstSubMenus.clear();
 
+  if ( !m_bIsRoot )    
+    m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
+      
+  m_vMenu->clear();
+    
+  if ( m_bIsRoot )
+    m_vMenu->insertItem( i18n("&Edit Bookmarks..."), m_vPart, "slotEditBookmarks", 0 );
+  
   fillBookmarkMenu( KBookmarkManager::self()->root() );
 }
 
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 {
   KBookmark *bm;
-    
-  insertItem( i18n("&Add Bookmark"), parent->id() );
-  insertSeparator();
+
+  assert( !CORBA::is_nil( m_vMenu ) );
+  
+  m_vMenu->insertItem7( i18n("&Add Bookmark"), (CORBA::Long)parent->id(), -1 );
+  m_vMenu->insertSeparator( -1 );
   
   for ( bm = parent->children()->first(); bm != NULL;  bm = parent->children()->next() )
   {
     if ( bm->type() == KBookmark::URL )
     {
-      insertItem( *(bm->pixmap( true )), bm->text(), bm->id() );
+      OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *(bm->pixmap( true )) );
+      m_vMenu->insertItem11( pix, bm->text(), (CORBA::Long)bm->id(), -1 );	
     }
     else
     {	    
-      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, false );
-      insertItem( *(bm->pixmap( true) ), bm->text(), subMenu );
+      OpenPartsUI::Menu_var subMenuVar;
+      OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *(bm->pixmap( true )) );
+      m_vMenu->insertItem12( pix, bm->text(), subMenuVar, -1, -1 );
+      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
+      m_lstSubMenus.append( subMenu );
       subMenu->fillBookmarkMenu( bm );
     }
   }

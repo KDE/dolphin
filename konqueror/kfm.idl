@@ -28,6 +28,8 @@ module KFM
 {
 	interface Part : OpenParts::Part
 	{
+	  void openURL( in string url );
+	
           slot void slotLargeIcons();
           slot void slotSmallIcons();
           slot void slotTreeView();
@@ -52,6 +54,9 @@ module KFM
 
 	  slot void slotFileNewActivated( in long id );
 	  slot void slotFileNewAboutToShow();	
+	  
+	  slot void slotBookmarkSelected( in long id );
+	  slot void slotEditBookmarks();
 	};
 	
 	interface MainWindow : OpenParts::MainWindow

@@ -68,6 +68,8 @@ KfmMainWindow::~KfmMainWindow()
   m_vPart = 0L;
   
   m_pFrame->detach();
+
+  interface()->cleanUp(); 
 }
 
 OPMainWindowIf* KfmMainWindow::interface()

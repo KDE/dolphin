@@ -71,7 +71,6 @@ enum _ids {
     MVIEW_RELOAD_ID // + view frame source, view document source, document encoding
 
     // clear cache is needed somewhere
-
     // MOPTIONS_...
 };
 
@@ -133,6 +132,7 @@ KfmGui::KfmGui( const char *_url, QWidget *_parent = 0L ) : QWidget( _parent )
 
 KfmGui::~KfmGui()
 {
+  cleanUp();
 }
 
 void KfmGui::init()
@@ -191,7 +191,10 @@ void KfmGui::cleanUp()
   
   if ( m_pMenuNew )
     delete m_pMenuNew;
-  
+
+  if ( m_pBookmarkMenu )
+    delete m_pBookmarkMenu;    
+      
   m_animatedLogoTimer.stop();
   s_lstWindows->removeRef( this );
   
@@ -216,7 +219,19 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   {
     m_vMenuFileNew->disconnect("activated", this, "slotFileNewActivated");
     m_vMenuFileNew->disconnect("aboutToShow", this, "slotFileNewAboutToShow");
-  
+
+    if ( m_pMenuNew )
+    {
+      delete m_pMenuNew;
+      m_pMenuNew = 0L;
+    }  
+    
+    if ( m_pBookmarkMenu )
+    {
+      delete m_pBookmarkMenu;
+      m_pBookmarkMenu = 0L;
+    }
+      
     m_vMenuFile = 0L;
     m_vMenuFileNew = 0L;
     m_vMenuEdit = 0L;
@@ -299,7 +314,7 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
  
   menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
 
-  //TODO: m_pBookmarkMenu = new KBookmarkMenu( m_rightView.m_pView, m_vMenuBookmarks );
+  m_pBookmarkMenu = new KBookmarkMenu( m_currentView->m_pView, m_vMenuBookmarks, this, true );
   
   menuBar->insertMenu( i18n("&Options"), m_vMenuOptions, -1, -1 );
   
@@ -883,6 +898,11 @@ void KfmGui::slotSplitView()
     m_vMenuView->setItemChecked( MVIEW_SPLITWINDOW_ID, m_Props->m_bSplitView );
 }
 
+void KfmGui::openURL( const char *url )
+{
+  m_currentView->m_pView->openURL( url );
+}
+
 void KfmGui::slotLargeIcons()
 {
   m_currentView->m_pView->setViewMode( KfmView::HOR_ICONS );
@@ -1145,6 +1165,17 @@ void KfmGui::slotFileNewAboutToShow()
     m_pMenuNew->slotCheckUpToDate();
 }
 
+void KfmGui::slotBookmarkSelected( CORBA::Long id )
+{
+  if ( m_pBookmarkMenu )
+    m_pBookmarkMenu->slotBookmarkSelected( id );
+}
+
+void KfmGui::slotEditBookmarks()
+{
+  KBookmarkManager::self()->slotEditBookmarks();
+}
+
 void KfmGui::addHistory( const char *_url, int _xoffset, int _yoffset )
 {
   History h;
@@ -1213,7 +1244,10 @@ void KfmGui::slotGotFocus( KfmView* _view )
     }
   }
 
-  _view->fetchFocus();
+// Simon: removed -> caused invinite loop :
+// fetchFocus calls whatever_view->setFocus which again
+// emits gotFocus ...
+//  _view->fetchFocus(); 
 
   if ( !CORBA::is_nil( m_vToolBar ) )
   {

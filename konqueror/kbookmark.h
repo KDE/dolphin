@@ -27,6 +27,9 @@
 
 #include <ksimpleconfig.h>
 
+#include "kfm.h"
+#include <openparts_ui.h>
+
 class KBookmarkManager;
 class KBookmark;
 
@@ -58,13 +61,14 @@ public:
  * it you must in addition implement @ref KBookmarkOwner. 
  * And you must create an instance of @ref KBookmarkManager on startup.
  */
-class KBookmarkMenu : public QPopupMenu
+class KBookmarkMenu : public QObject
 {
   Q_OBJECT
 public:
-  KBookmarkMenu( KBookmarkOwner *_owner, bool _root = true );
-  
-protected slots:
+  KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, KFM::Part_ptr part, bool _root = true );
+ ~KBookmarkMenu();  
+
+public slots:
   void slotBookmarksChanged();
   void slotBookmarkSelected( int _id );
   
@@ -73,6 +77,9 @@ protected:
 
   bool m_bIsRoot;
   KBookmarkOwner *m_pOwner;
+  OpenPartsUI::Menu_var m_vMenu;
+  KFM::Part_var m_vPart;
+  QList<KBookmarkMenu> m_lstSubMenus;
 };
 
 /**
