@@ -22,10 +22,16 @@
 #include <kiconloader.h>
 #include <qiconview.h>
 #include <kurl.h>
+#include <kfileitem.h>
 
 class KonqSettings;
 class KFileIVI;
 
+/**
+ * A file-aware icon view, implementing drag'n'drop, KDE icon sizes, 
+ * user settings, ...
+ * Used by kdesktop and konq_iconview
+ */
 class KonqIconViewWidget : public QIconView
 {
   Q_OBJECT
@@ -33,25 +39,30 @@ public:
   KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
   virtual ~KonqIconViewWidget() {}
 
-  virtual QDragObject *dragObject();
-
   void initConfig();
 
   void setSize( KIconLoader::Size size );
-
   KIconLoader::Size size() { return m_size; }
 
   void setURL ( const QString & kurl ) { m_url = kurl; }
 
+  /** Made public for konq_iconview (copy) */
+  virtual QDragObject *dragObject();
+
+  /**
+   * Get list of selected KFileItems
+   */
+  KFileItemList selectedFileItems();
+
 protected slots:
 
   virtual void slotDrop( QDropEvent *e );
-  // connect each item to this 
+  /** connect each item to this */
   virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
 protected:
   /** Common to slotDrop and slotDropItem */
-  virtual void dropStuff( QDropEvent *ev, KFileIVI *item );
+  virtual void dropStuff( KFileIVI *item, QDropEvent *ev );
 
   virtual void drawBackground( QPainter *p, const QRect &r );
 

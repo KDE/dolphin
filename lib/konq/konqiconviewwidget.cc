@@ -45,7 +45,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
 	
   setSelectionMode( QIconView::Extended );
   setItemTextPos( QIconView::Bottom );
-  setResizeMode( QIconView::Adjust );
   setGridX( 70 );
   setWordWrapIconText( true ); // TODO make configurable
   setAligning( true );
@@ -90,6 +89,19 @@ void KonqIconViewWidget::setSize( KIconLoader::Size size )
     ((KFileIVI*)it)->setSize( size );
   }
   setViewMode( (size == KIconLoader::Small) ? QIconSet::Small : QIconSet::Large );
+}
+
+KFileItemList KonqIconViewWidget::selectedFileItems()
+{
+  KFileItemList lstItems;
+
+  QIconViewItem *it = firstItem();
+  for (; it; it = it->nextItem() )
+    if ( it->isSelected() ) {
+      KFileItem *fItem = ((KFileIVI *)it)->item();
+      lstItems.append( fItem );
+    }
+  return lstItems;
 }
 
 // TODO : move this to libkonq or libkio
@@ -223,10 +235,10 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
     }
   }
 
-  dropStuff( e, item );
+  dropStuff( item, e );
 }
 
-void KonqIconViewWidget::dropStuff( QDropEvent *ev, KFileIVI *item )
+void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 {
   QStringList lst;
 
