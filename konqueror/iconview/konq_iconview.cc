@@ -863,7 +863,8 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
     //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-				   m_pIconView->iconSize(), m_pProps->isShowingImagePreview() );
+				   m_pIconView->iconSize()
+                                   /* m_pProps->isShowingImagePreview() */ );
     item->setRenameEnabled( false );
 
     QObject::connect( item, SIGNAL( dropMe( KFileIVI *, QDropEvent * ) ),
@@ -1058,15 +1059,15 @@ void KonqKfmIconView::slotProcessMimeIcons()
     KMimeType::Ptr dummy = item->item()->determineMimeType();
 
     QPixmap newIcon = item->item()->pixmap( m_pIconView->iconSize(),
-                                            item->state(),
-                                            m_pProps->isShowingImagePreview() );
+                                            item->state()
+                                            /* m_pProps->isShowingImagePreview() */ );
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
 	item->QIconViewItem::setPixmap( newIcon );
 	if ( item->width() > m_pIconView->gridX() )
 	    m_pIconView->setGridX( item->width() );
-	if ( item->item()->isThumbnail() )
+	if ( item->isThumbnail() )
 	    m_bNeedAlign = true;
     }
 
