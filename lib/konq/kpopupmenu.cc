@@ -23,6 +23,7 @@
 
 #include <kbookmark.h>
 #include <kdebug.h>
+#include <kded_instance.h>
 #include <kio_job.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
@@ -30,6 +31,7 @@
 #include <kprotocolmanager.h>
 #include <krun.h>
 #include <kservices.h>
+#include <ktrader.h>
 #include <kurl.h>
 #include <kuserprofile.h>
 #include <userpaths.h>
@@ -222,11 +224,16 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   
   if ( mime )
   {
-    KServiceTypeProfile::OfferList offers = KServiceTypeProfile::offers( mime->name() );
+
+    // KServiceTypeProfile::OfferList offers = KServiceTypeProfile::offers( mime->name() );
+
+    KTrader* trader = KdedInstance::self()->ktrader();
+       
+    KTrader::OfferList offers = trader->query( mime->name() );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
-    if ( mime->name() == "application/x-desktop" )
+    if ( mime->name() == "application/x-desktop" ) // ???
     {
       builtin = KDEDesktopMimeType::builtinServices( url );
       user = KDEDesktopMimeType::userDefinedServices( url );
@@ -241,12 +248,13 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     m_mapPopup.clear();
     m_mapPopup2.clear();
   
-    KServiceTypeProfile::OfferList::Iterator it = offers.begin();
+    // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
+    KTrader::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
     {    
-      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it->service()->icon(), true ) ),
-				    it->service()->name() );
-      m_mapPopup[ id ] = it->service();
+      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it)->icon(), true ) ),
+				    (*it)->name() );
+      m_mapPopup[ id ] = *it;
     }
     
     QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
