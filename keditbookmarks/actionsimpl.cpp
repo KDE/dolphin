@@ -128,7 +128,7 @@ actionCollection());
         i18n("C&hange Comment"), "text", Key_F4,
         actn, SLOT( slotChangeComment() ), actionCollection(), "changecomment");
     (void) new KAction(
-        i18n("Chan&ge Icon..."), 0,
+        i18n("Chan&ge Icon..."), "icons", 0,
         actn, SLOT( slotChangeIcon() ), actionCollection(), "changeicon");
     (void) new KAction(
         i18n("Update Favicon"), 0,
