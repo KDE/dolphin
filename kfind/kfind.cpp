@@ -24,7 +24,6 @@
 #include <qlayout.h>
 
 #include <klocale.h>
-#include <kmsgbox.h>
 #include <kprocess.h>
 
 #include "kftabdlg.h"
