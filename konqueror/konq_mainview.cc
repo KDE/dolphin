@@ -173,6 +173,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   }
 
   resize( 700, 480 );
+  m_bFullScreen = false;
 }
 
 KonqMainView::~KonqMainView()
@@ -1211,6 +1212,28 @@ void KonqMainView::toggleBar( const char *name, const char *className )
     bar->show();
 }
 
+void KonqMainView::slotFullScreenStart()
+{
+  KonqFrame *widget = m_currentView->frame(); 
+  m_tempContainer = widget->parentContainer();
+  m_tempFocusPolicy = widget->focusPolicy();
+  widget->header()->hide();
+  widget->recreate( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup, QPoint( 0, 0 ), true );
+  widget->resize( QApplication::desktop()->width(), QApplication::desktop()->height() );
+  widget->setFocusPolicy( QWidget::StrongFocus );
+  widget->setFocus();
+  m_bFullScreen = true;
+}
+
+void KonqMainView::slotFullScreenStop()
+{
+  KonqFrame *widget = m_currentView->frame();
+  widget->recreate( m_tempContainer, 0, QPoint( 0, 0 ), true);
+  widget->header()->show();
+  widget->setFocusPolicy( m_tempFocusPolicy );
+  m_bFullScreen = false;
+} 
+
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
   menu->clear();
@@ -1346,6 +1369,9 @@ void KonqMainView::initActions()
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
+  
+  m_paFullScreenStart = new KAction( i18n( "Experimental Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
+  m_paFullScreenStop = new KAction( i18n( "Stop Experimental Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
 
   /*
   QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIconLoader::Small );
@@ -1607,6 +1633,9 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
   popupMenuCollection.insert( m_paDelete );
   popupMenuCollection.insert( m_paShred );
 
+  if ( m_bFullScreen )
+    popupMenuCollection.insert( m_paFullScreenStop );
+  
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,

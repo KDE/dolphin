@@ -71,6 +71,8 @@
   <Separator/>
   <Action name="saveremoveviewprofile"/>
   <Action name="loadviewprofile"/>
+  <Separator/>
+  <Action name="fullscreenstart"/>
  </Menu>
  <Merge/>
  <Separator/>

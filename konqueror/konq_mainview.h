@@ -49,6 +49,7 @@ class KonqHistoryAction;
 class KonqBookmarkBar;
 struct HistoryEntry;
 class KonqFrameBase;
+class KonqFrameContainer;
 class KBookmarkMenu;
 class ViewModeGUIClient;
 
@@ -214,6 +215,9 @@ protected slots:
   void slotShowLocationBar();
   void slotShowBookmarkBar();
 
+  void slotFullScreenStart();
+  void slotFullScreenStop();
+
 protected:
 
   void toggleBar( const char *name, const char *className );
@@ -303,6 +307,13 @@ private:
   KToggleAction *m_paShowToolBar;
   KToggleAction *m_paShowLocationBar;
   KToggleAction *m_paShowBookmarkBar;
+
+  KAction *m_paFullScreenStart;
+  KAction *m_paFullScreenStop;
+
+  bool m_bFullScreen;
+  KonqFrameContainer *m_tempContainer;
+  QWidget::FocusPolicy m_tempFocusPolicy;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 
