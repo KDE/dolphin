@@ -174,7 +174,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
   hlay->addItem( spacer );
   bg_grid->addMultiCellLayout( hlay, 6, 6, 0, 1 );
-  
+
 
   mainLayout->addWidget( bg_default );
 
@@ -212,6 +212,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
            SLOT(selectionChanged()) );
   connect( lv_siteUABindings, SIGNAL(doubleClicked (QListViewItem *)),
            SLOT(changePressed()) );
+  connect( lv_siteUABindings, SIGNAL( returnPressed ( QListViewItem * ) ),
+           SLOT( changePressed() ));
 
   wtstr = i18n("<qt>This box contains a list of browser-identifications that "
                "will be used in place of the default one when browsing the "
@@ -382,7 +384,7 @@ void UserAgentOptions::save()
 
     it = it->nextSibling();
   }
-  
+
   m_config->setGroup(QString::null);
   m_config->writeEntry("SendUserAgent", cb_sendUAString->isChecked());
   m_config->writeEntry("UserAgentKeys", m_ua_keys );
