@@ -504,10 +504,7 @@ Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 <email>mmcbride@ematic.com</email> and Lauri Watts
 <email>vampyr@atconnex.net</email></para>
 
-<para>This program is licensed under the terms of the <ulink
-url="common/gpl-licence.html">GNU General Public License Version 2</ulink>.  The
-documentation is licensed under the terms of the <ulink
-url="common/fdl-licence.html">GNU Free Documentation License.</ulink></para>
+&license-links;
 </chapter>
   
 <![ %addindex; [ &docindex; ]]>
