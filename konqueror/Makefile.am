@@ -1,11 +1,7 @@
 
-INCLUDES  = -I$(top_srcdir)/kom -I$(top_builddir)/kom \
-	-I$(top_srcdir)/parts -I$(top_builddir)/parts \
-	-I$(top_srcdir)/partsui -I$(top_builddir)/partsui \
-	$(MICO_INCLUDES) $(all_includes) -I$(idldir)
+INCLUDES  = $(MICO_INCLUDES) $(all_includes) -I$(idldir)
 LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
-LDADD = $(top_builddir)/parts/libkparts.la $(top_builddir)/partsui/libkpartsui.la \
-	$(top_builddir)/kom/libkom.la -lkdeutil $(LIB_KHTML) -lkio $(LIB_KDEUI) \
+LDADD = -lkparts -lkpartsui -lkom -lkdeutil $(LIB_KHTML) -lkio $(LIB_KDEUI) \
 	$(LIBMICO) 
 
 ####### Files
