@@ -639,7 +639,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     m_urlRequester->setMode( KFile::File | KFile::Directory );
 
     m_urlRequester->setMinimumWidth( m_urlRequester->sizeHint().width() * 3 );
-    topLayout->addWidget( m_urlRequester );
+
     connect( m_urlRequester->lineEdit(), SIGNAL(textChanged(const QString&)),
              SLOT(slotURLTextChanged(const QString&)) );
     label->setBuddy(m_urlRequester);  // please "scheck" style
