@@ -398,7 +398,8 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 {
   setTabColor( newPage, KGlobalSettings::textColor() );
-  KonqFrameBase* currentFrame = static_cast<KonqFrame*>(newPage);
+  // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+  KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>(newPage);
 
   if (!m_pViewManager->isLoadingProfile()) {
     m_pActiveChild = currentFrame;
@@ -434,7 +435,8 @@ void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
   m_pPopupMenu->setItemEnabled( CLOSETAB_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( CLOSE_OTHER_ID, m_pChildFrameList->count()>1 );
-  m_pViewManager->mainWindow()->setWorkingTab( static_cast<KonqFrame*>(w) );
+  // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+  m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
   refreshSubPopupMenuTab();
   m_pPopupMenu->exec( p );
 }
@@ -462,7 +464,8 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
   if ( m_pChildFrameList->count()>1 ) {
-    m_pViewManager->mainWindow()->setWorkingTab( static_cast<KonqFrame*>(w) );
+    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+    m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
     emit ( removeTabPopup() );
   }
 }
@@ -490,7 +493,8 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
   QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
   KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
   if ( !filteredURL.isEmpty() ) {
-    KonqFrameBase* frame = static_cast<KonqFrame*>(w);
+    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
     m_pViewManager->mainWindow()->openURL( frame->activeChildView(), filteredURL );
   }
 }
@@ -533,7 +537,8 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
   KURL::List lstDragURLs;
   bool ok = KURLDrag::decode( e, lstDragURLs );
   if ( ok && lstDragURLs.first().isValid() ) {
-    KonqFrameBase* frame = static_cast<KonqFrame*>(w);
+    // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
     KURL lstDragURL = lstDragURLs.first();
     if ( lstDragURL != frame->activeChildView()->url() )
       m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURL );
@@ -542,7 +547,8 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
 
 void KonqFrameTabs::slotInitiateDrag( QWidget *w )
 {
-   KonqFrameBase* frame = static_cast<KonqFrame*>( w );
+   // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy.
+   KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>( w );
    KURL::List lst;
    lst.append( frame->activeChildView()->url() );
    KURLDrag *d = new KURLDrag( lst, this );
