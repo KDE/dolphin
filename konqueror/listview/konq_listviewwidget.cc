@@ -937,8 +937,6 @@ void KonqBaseListViewWidget::setComplete()
    m_itemToGoTo = "";
    m_restored = false;
 
-   // Show "cut" icons as such
-   m_pBrowserView->slotClipboardDataChanged();
    // Show totals
    slotOnViewport();
 
@@ -948,6 +946,9 @@ void KonqBaseListViewWidget::setComplete()
       setUpdatesEnabled( true );
       triggerUpdate();
    }
+   
+   // Show "cut" icons as such
+   m_pBrowserView->slotClipboardDataChanged();
 }
 
 void KonqBaseListViewWidget::slotStarted()
