@@ -107,8 +107,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QWhatsThis::add(namedL,nameWhatsThis);
     const QString whatsfileindex
       = i18n("<qt>This lets you use the files' index created by the <i>slocate</i> "
-	     "package to <i>speed-up</i> the search. Don't forget to update the index from time to time "
-       "(using <i>updatedb</i>)"
+	     "package to speed-up the search. Don't forget to update the index from time to time "
+       "(using <i>updatedb</i>)."
 	     "</qt>");
     QToolTip::add(useLocateCb,whatsfileindex);
 
@@ -259,6 +259,12 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
     binaryContextCb  =new QCheckBox(i18n("Include &binary files"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Regular e&xpression"), pages[2]);
+
+    const QString binaryTooltip
+      = i18n("<qt>This lets you search in any type of file, "
+       "even those that usually do not contain text (for example "
+	   "program files and images).</qt>");
+    QToolTip::add(binaryContextCb,binaryTooltip);
 
     QPushButton* editRegExp = 0;
     if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
