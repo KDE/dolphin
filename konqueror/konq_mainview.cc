@@ -1521,7 +1521,7 @@ void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
     // execute 'kcmkonq' 
-    execl(locate("exe", "/kcmkonq"), 0);
+    execl(locate("exe", "kcmkonq"), 0);
     warning("Error launching kcmkonq !");
     exit(1);
   }             
