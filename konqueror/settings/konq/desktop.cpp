@@ -79,6 +79,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
 
   lay->addWidget(label);
   lay->addWidget(_numInput);
+  lay->setStretchFactor( _numInput, 2 );
 
   layout->addWidget(number_group);
 
