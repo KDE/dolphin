@@ -53,7 +53,7 @@ KonqHistorySettings * KonqHistoryModule::s_settings = 0L;
 
 KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     : QObject( 0L, name ), KonqTreeModule( parentTree ),
-      m_dict( 1499 ),
+      m_dict( 349 ),
       m_topLevelItem( 0L ),
       m_dlg( 0L ),
       m_initialized( false )

@@ -52,7 +52,7 @@ KonqSidebarHistorySettings * KonqSidebarHistoryModule::s_settings = 0L;
 
 KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree, const char *name )
     : QObject( 0L, name ), KonqSidebarTreeModule( parentTree ),
-      m_dict( 1499 ),
+      m_dict( 349 ),
       m_topLevelItem( 0L ),
       m_dlg( 0L ),
       m_initialized( false )
