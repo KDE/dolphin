@@ -515,7 +515,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   if ( url.url() == "about:konqueror" )
   {
-      serviceType = "KParts/ReadOnlyPart";
+      serviceType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
   }
 
