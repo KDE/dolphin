@@ -214,6 +214,13 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !initialGeometrySet() )
       resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
+
+  QByteArray params;
+  QDataStream stream(params, IO_WriteOnly);
+  stream << winId();
+  if( !kapp->dcopClient()->send( "kcookiejar", "kcookiejar",
+                    "registerWindowId(long int)", params ) )
+      kdDebug(1202) << "Could not register window with cookie jar!" << endl;
 }
 
 KonqMainWindow::~KonqMainWindow()
