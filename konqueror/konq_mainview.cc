@@ -49,6 +49,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qmetaobject.h>
+#include <qlayout.h>
 
 #include <kaction.h>
 #include <kdebug.h>
