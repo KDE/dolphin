@@ -135,9 +135,9 @@ void KonqDirPart::setMimeFilter( const QString& mime )
 
 QString KonqDirPart::mimeFilter() const
 {
-    QString u = url().url();
-    if ( d->mimeFilterList.contains( u ) )
-        return d->mimeFilterList[u];
+    QMapConstIterator<QString,QString> it = d->mimeFilterList.find(url().url());
+    if ( it != d->mimeFilterList.end() )
+        return it.data();
     else
         return QString::null;
 }
