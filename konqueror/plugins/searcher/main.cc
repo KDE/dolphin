@@ -59,13 +59,17 @@ bool KonqSearcher::eventFilter(QObject *, QEvent *ev) {
 	// Is this URL a andidate for filtering?
 
 	if (kurl.isMalformed() || !KProtocolManager::self().protocols().contains(kurl.protocol())) {
-	    int pos = url.find(':');
-	    QString key = url.left(pos);
+	    QString query = QString::null;
 
 	    // See if it's a searcher prefix. If not, use Internet Keywords
-	    // if we can.
+	    // if we can. Note that we want a colon to match a searcher
+	    // prefix.
 
-	    QString query = EngineCfg::self()->searchQuery(key);
+	    int pos = url.find(':');
+	    if (pos >= 0) {
+	        QString key = url.left(pos);
+	        query = EngineCfg::self()->searchQuery(key);
+	    }
 	    if (query == QString::null) {
 		query = EngineCfg::self()->navQuery();
 	    }
