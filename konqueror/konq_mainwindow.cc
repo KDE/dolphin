@@ -1216,7 +1216,11 @@ void KonqMainWindow::slotLinkView()
 
 void KonqMainWindow::slotReload()
 {
-  m_currentView->reload();
+  if ( !m_currentView || m_currentView->url().isEmpty() )
+    return;
+  KonqOpenURLRequest req( m_currentView->typedURL() );
+  req.args.reload = true;
+  openURL( m_currentView, m_currentView->url(), QString::null /* the servicetype may have changed */, req );
 }
 
 void KonqMainWindow::slotHome()
@@ -2743,7 +2747,7 @@ void KonqMainWindow::updateViewActions()
   //m_paLockView->setEnabled( m_pViewManager->chooseNextView(m_currentView) != 0L && );
   //kdDebug(1202) << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
 
-  m_paLockView->setEnabled( m_currentView && !m_currentView->isLockedLocation() );
+  m_paLockView->setEnabled( m_currentView && !m_currentView->isLockedLocation() && viewCount() > 1 );
   m_paUnlockView->setEnabled( m_currentView && m_currentView->isLockedLocation() );
 
   // Can remove view if we'll still have a main view after that
