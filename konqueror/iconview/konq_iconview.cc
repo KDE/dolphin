@@ -61,7 +61,7 @@
 #include <qpen.h>
 
 template class QList<KFileIVI>;
-template class QValueList<int>;
+//template class QValueList<int>;
 
 class KonqIconViewFactory : public KParts::Factory
 {
@@ -1138,7 +1138,7 @@ void KonqKfmIconView::visualActivate(QIconViewItem * item)
     // actDelay is inversely proportional to actSpeed and needs to be
     // divided up into actCount portions.
     // We also convert the us value to ms.
-    
+
     unsigned int actDelay = (1000 * (100 - actSpeed)) / actCount;
     qDebug("actDelay == %d", actDelay);
 
@@ -1151,12 +1151,12 @@ void KonqKfmIconView::visualActivate(QIconViewItem * item)
     // Adjust to correct position. If this isn't done, the fact that the
     // text may be wider than the pixmap puts us off-centre.
     rect.moveBy(irect.x(), irect.y());
-    
+
     // We work from the centre of the pixmap - it's nicer that way.
     QPoint c = rect.center();
 
     QPainter p(m_pIconView->viewport());
-    
+
     // Use NotROP to avoid having to repaint the pixmap each time.
     p.setPen(QPen(Qt::black, 1, Qt::DotLine));
     p.setRasterOp(Qt::NotROP);
@@ -1165,7 +1165,7 @@ void KonqKfmIconView::visualActivate(QIconViewItem * item)
     // Use the minimum of width and height to avoid painting outside the
     // pixmap area.
     unsigned int delta(QMIN(rect.width() / actCount, rect.height() / actCount));
-    
+
     for (unsigned int i = 1; i < actCount; i++) {
 
         int sz = i * delta;
