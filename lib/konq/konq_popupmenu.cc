@@ -382,7 +382,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     // Either 'newview' is in the actions we're given (probably in the tabhandling group)
     // or we need to insert it ourselves (e.g. for kdesktop). In the first case, actNewWindow must remain 0.
-    if ( kpf & ShowNewWindow )
+    if ( ((kpf & ShowNewWindow) != 0) && sReading )
     {
         QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
         actNewWindow = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
@@ -543,7 +543,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
     }
 
-    if ( !isCurrentTrash && !isIntoTrash)
+    if ( !isCurrentTrash && !isIntoTrash && sReading)
     {
 
         // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
@@ -820,7 +820,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         addSeparator();
     }
 
-    if ( !isCurrentTrash && !isIntoTrash && !devicesFile)
+    if ( !isCurrentTrash && !isIntoTrash && !devicesFile && sReading)
         addPlugins( ); // now it's time to add plugins
 
     if ( KPropertiesDialog::canDisplay( m_lstItems ) && (kpf & ShowProperties) )
@@ -834,7 +834,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
         m_menuElement.removeChild( m_menuElement.lastChild() );
 
-    if( bCanChangeSharing && !isCurrentTrash && !isIntoTrash)
+    if( bCanChangeSharing && !isCurrentTrash && !isIntoTrash )
     {
         if(KFileShare::authorization()==KFileShare::Authorized)
         {
