@@ -133,7 +133,7 @@ void PropertiesDialog::slotApply()
 	// Should never happen
 	if ( i == -1 )
 	return;
-	s = s.left( i + 1 );
+	s.truncate( i + 1 );
     }
     
     /* still needed ?
@@ -224,19 +224,19 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     // Extract the directories name without path
     QString filename;
     QString tmp2 = properties->kurl().path();
-    if ( tmp2.right(1) == "/" )
+    if ( tmp2.at(tmp2.length() - 1) == '/' )
 	tmp2.truncate( tmp2.length() - 1 );
     int i = tmp2.findRev( "/" );
     // Is is not the root directory ?
     if ( i != -1 )
 	filename = tmp2.mid( i + 1, tmp2.length() );
     else
-	filename = "/";
+	filename = '/';
     filename = KFileItem::decodeFileName( filename );
 
     QString tmp = path;
-    if ( tmp.right(1) != "/" )
-      tmp += "/";
+    if ( tmp.at(tmp.length() - 1) != '/' )
+      tmp += '/';
     bool isTrash = false;
     // is it the trash bin ?
     if ( strcmp( properties->kurl().protocol(), "file" ) == 0L &&
@@ -249,8 +249,8 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
      * stat("/is/unaccessible")  -> rwx------
      * stat("/is/unaccessible/") -> EPERM            H.Z.
      */
-    if ( path.length() > 1 && path.right(1) == "/" )
-	path = path.left( path.length() - 1 );             
+    if ( path.length() > 1 && path.at(path.length() - 1) == '/' )
+	path.truncate( path.length() - 1);
 
     struct stat buff;
     stat( path.ascii(), &buff );
@@ -373,7 +373,7 @@ void FilePropsPage::applyChanges()
     if ( oldName != n )
     {
 	QString s = path;
-	if ( s.right(1) == "/") 
+	if ( s.at(s.length() - 1) == '/') 
 	  // It's a directory, so strip the trailing slash first
 	  s.truncate( s.length() - 1);
 
@@ -382,9 +382,9 @@ void FilePropsPage::applyChanges()
 	if ( i == -1 )
 	    return;
 	s.truncate( i );
-	s += "/";
+	s += '/';
 	s += n;
-	if ( path.right(1) == "/") 
+	if ( path.at(path.length() - 1) == '/') 
 	  // It's a directory, so strip the trailing slash (in case it's a
           // symlink)
 	  path.truncate( path.length() - 1);
@@ -404,8 +404,8 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     QString fname = properties->kurl().filename();
 
     /* remove appended '/' .. see comment in FilePropsPage */
-    if ( path.length() > 1 && path.right( 1 ) == "/" )
-	path = path.left ( path.length() - 1 );          
+    if ( path.length() > 1 && path.at( path.length() - 1 ) == '/' )
+	path.truncate( path.length() - 1 );
 
     struct stat buff;
     lstat( path.ascii(), &buff ); // display uid/gid of the link, if it's a link
@@ -920,7 +920,7 @@ void ExecPropsPage::applyChanges()
       // we created all subdirs or failed
       if (!err) // if we didn't fail try to make file just for check
       {
-	path.prepend("/"); // be sure to have /netscape.kdelnk
+	path.prepend('/'); // be sure to have /netscape.kdelnk
 	path.prepend(lDir.absPath());
 	f.setName(path);
 	//debug("path = %s", path.ascii());
@@ -1109,7 +1109,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     QString tmp = _props->kurl().path();
     
-    if ( tmp.right(1) != "/" )
+    if ( tmp.at(tmp.length() - 1) != '/' )
 	tmp += "/.directory";
     else
 	tmp += ".directory";
@@ -1164,8 +1164,8 @@ bool DirPropsPage::supports( const KURL& _kurl, mode_t _mode )
     
     QString tmp = path;
     
-    if ( tmp.right(1) != "/" )
-	tmp += "/";
+    if ( tmp.at( tmp.length() - 1) != '/' )
+	tmp += '/';
     if ( strcmp( _kurl.protocol(), "file" ) == 0L &&
 	 tmp == UserPaths::trashPath()) 
         return false;
@@ -1176,7 +1176,7 @@ bool DirPropsPage::supports( const KURL& _kurl, mode_t _mode )
 void DirPropsPage::applyChanges()
 {
     QString tmp = properties->kurl().path();
-    if ( tmp.right(1) != "/" )
+    if ( tmp.at( tmp.length() - 1 ) != '/' )
 	tmp += "/.directory";
     else
 	tmp += ".directory";
@@ -1221,14 +1221,14 @@ void DirPropsPage::applyChanges()
 
     tmp = properties->kurl().url();
     
-    if ( tmp.right(1) == "/" )
-	tmp = tmp.left( tmp.length() - 1 );
+    if ( tmp.at( tmp.length() - 1) == '/' )
+	tmp.truncate( tmp.length() - 1 );
     
     i = tmp.findRev( "/" );
     // Should never happen
     if ( i == -1 )
 	return;
-    tmp = tmp.left( i + 1 );
+    tmp.truncate ( i + 1 );
 /*
     KIOServer::sendNotify( tmp );
 */
@@ -1473,7 +1473,7 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
     {
 	int pos = 0;
 	int pos2 = 0;
-	while ( ( pos2 = extensionsStr.find( ";", pos ) ) != -1 )
+	while ( ( pos2 = extensionsStr.find( ';', pos ) ) != -1 )
 	{
 	    extensionsList->inSort( extensionsStr.mid( pos, pos2 - pos ) );
 	    pos = pos2 + 1;
@@ -1594,7 +1594,7 @@ void ApplicationPropsPage::applyChanges()
 	    // in case of problems.
 	    {
 	      QFile tmp(kapp->kde_appsdir() +
-			"/" + path.left(i) + "/.directory");
+			'/' + path.left(i) + "/.directory");
 	      //debug ("---- looking for: %s", tmp.name());
 	      if (tmp.open( IO_ReadOnly))
 	      {
@@ -1645,7 +1645,7 @@ void ApplicationPropsPage::applyChanges()
       // we created all subdirs or failed
       if (!err) // if we didn't fail try to make file just for check
       {
-	path.prepend("/"); // be sure to have /netscape.kdelnk
+	path.prepend('/'); // be sure to have /netscape.kdelnk
 	path.prepend(lDir.absPath());
 	f.setName(path);
 	//debug("path = %s", path.ascii());
@@ -1697,15 +1697,15 @@ void ApplicationPropsPage::applyChanges()
 
     QString tmp = binaryPatternEdit->text();
     if ( tmp.length() > 0 )
-	if ( tmp.right(1) != ";" )
-	    tmp += ";";
+	if ( tmp.at(tmp.length() - 1) != ';' )
+	    tmp += ';';
     config.writeEntry( "BinaryPattern", tmp );
 
     extensionsStr = "";
     for ( uint i = 0; i < extensionsList->count(); i++ )
     {
 	extensionsStr += extensionsList->text( i );
-	extensionsStr += ";";
+	extensionsStr += ';';
     }
     config.writeEntry( "MimeType", extensionsStr );
     config.writeEntry( "Name", nameEdit->text(), true, false, true );
@@ -1960,7 +1960,7 @@ void BindingPropsPage::applyChanges()
 	    // in case of problems.
 	    {
 	      QFile tmp(kapp->kde_mimedir() +
-			"/" + path.left(i) + "/.directory");
+			'/' + path.left(i) + "/.directory");
 	      //debug ("---- looking for: %s", tmp.name());
 	      if (tmp.open( IO_ReadOnly))
 	      {
@@ -2010,7 +2010,7 @@ void BindingPropsPage::applyChanges()
       // we created all subdirs or failed
       if (!err) // if we didn't fail try to make file just for check
       {
-	path.prepend("/"); // be sure to have /jpeg.kdelnk
+	path.prepend('/'); // be sure to have /jpeg.kdelnk
 	path.prepend(lDir.absPath());
 	f.setName(path);
 	//debug("path = %s", path.ascii());
@@ -2056,8 +2056,8 @@ void BindingPropsPage::applyChanges()
     
     QString tmp = patternEdit->text();
     if ( tmp.length() > 1 )
-	if ( tmp.right(1) != ";" )
-	    tmp += ";";
+	if ( tmp.at(tmp.length() - 1) != ';' )
+	    tmp += ';';
     config.writeEntry( "Patterns", tmp );
     config.writeEntry( "Comment", commentEdit->text(), true, false, true );
     config.writeEntry( "MimeType", mimeEdit->text() );

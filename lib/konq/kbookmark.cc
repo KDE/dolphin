@@ -161,7 +161,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
     if ( strcmp( ep->d_name, "." ) != 0 && strcmp( ep->d_name, ".." ) != 0 )
     {
       QString file = _path;
-      file += "/";
+      file += '/';
       file += ep->d_name;
 
       KMimeMagicResult * res = KMimeMagic::self()->findFileType( file );
@@ -234,7 +234,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   m_type = URL;
 
   m_file = _parent->file();
-  m_file += "/";
+  m_file += '/';
   m_file += _text;
 
   _parent->append( this );
@@ -256,7 +256,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   m_file = dir;
   if ( !_text.isEmpty() )
   {
-    m_file += "/";
+    m_file += '/';
     m_file += KFileItem::encodeFileName( _text );
   }
 
@@ -295,7 +295,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   m_type = URL;
 
   m_file = _parent->file();
-  m_file += "/";
+  m_file += '/';
   m_file += KFileItem::encodeFileName( _text );
   // m_file += ".desktop"; // looks better to the user without extension
 

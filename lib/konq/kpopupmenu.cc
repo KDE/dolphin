@@ -85,8 +85,8 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     if ( isTrash )
     {
       QString path = url.path();
-      if ( path.right(1) != "/" )
-	path += "/";
+      if ( path.at(path.length() - 1) != '/' )
+	path += '/';
     
       if ( protocol != "file" ||
 	   path != UserPaths::trashPath() )
