@@ -218,7 +218,8 @@ public:
 
   virtual void selectedItems( QValueList<KfmTreeViewItem*>& _list );
 
-  //  virtual void updateDirectory();
+  /** @return the KfmTreeViewDir which handles the directory _url */
+  virtual KfmTreeViewDir * findDir ( const QString & _url );
 
 public slots:
   virtual void slotOnItem( KfmTreeViewItem* _item );
@@ -236,7 +237,6 @@ protected slots:
   virtual void slotNewItem( KFileItem * );
   virtual void slotDeleteItem( KFileItem * );
 
-  //virtual void slotDirectoryDirty( const char *_url );
   virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KfmTreeViewItem*)_item ); }
 
 protected:
@@ -254,8 +254,6 @@ protected:
   virtual void mouseMoveEvent( QMouseEvent *_ev );
   virtual void mouseReleaseEvent( QMouseEvent *_ev );
   virtual void keyPressEvent( QKeyEvent *_ev );
-
-  //  virtual void updateDirectory( KfmTreeViewDir *_dir, const char *_url );
 
   virtual void addSubDir( const KURL & _url, KfmTreeViewDir* _dir );
   virtual void removeSubDir( const KURL & _url );

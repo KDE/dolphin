@@ -404,24 +404,6 @@ void KonqKfmTreeView::dropEvent( QDropEvent *  )
   m_dragOverItem = 0L;
 }
 
-/*
-void KonqKfmTreeView::slotDirectoryDirty( const char *_dir )
-{
-  QString f = _dir;
-  KURL::encode( f );
-
-  QDictIterator<KfmTreeViewDir> it( m_mapSubDirs );
-  for( ; it.current(); ++it )
-  {
-    if ( urlcmp( it.current()->url(0), f, true, true ) )
-    {
-      updateDirectory( it.current(), it.current()->url(0) );
-      return;
-    }
-  }
-}
-*/
-
 void KonqKfmTreeView::addSubDir( const KURL & _url, KfmTreeViewDir* _dir )
 {
   m_mapSubDirs.insert( _url.url(), _dir );
@@ -855,11 +837,17 @@ void KonqKfmTreeView::slotNewItem( KFileItem * _fileitem )
   kdebug( KDEBUG_INFO, 1202, "KonqKfmTreeView::slotNewItem(...)");
   bool isdir = S_ISDIR( _fileitem->mode() );
 
-  if ( m_pWorkingDir ) { // adding under a directory item
+  KURL dir ( _fileitem->url() );
+  dir.setFileName( "" );
+  kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
+  KfmTreeViewDir * parentDir = findDir ( dir.url( 0 ) );
+  kdebug( KDEBUG_INFO, 1202, "findDir returned %p", parentDir );
+
+  if ( parentDir ) { // adding under a directory item
     if ( isdir )
-      new KfmTreeViewDir( this, m_pWorkingDir, _fileitem );
+      new KfmTreeViewDir( this, parentDir, _fileitem );
     else
-      new KfmTreeViewItem( this, m_pWorkingDir, _fileitem );
+      new KfmTreeViewItem( this, parentDir, _fileitem );
   } else { // adding on the toplevel
     if ( isdir )
       new KfmTreeViewDir( this, _fileitem );
@@ -1109,6 +1097,18 @@ void KonqKfmTreeView::focusInEvent( QFocusEvent* _event )
 //  emit gotFocus();
 
   QListView::focusInEvent( _event );
+}
+
+KfmTreeViewDir * KonqKfmTreeView::findDir( const QString &_url )
+{
+  QDictIterator<KfmTreeViewDir> it( m_mapSubDirs );
+  for( ; it.current(); ++it )
+  {
+    debug( it.current()->url(0) );
+    if ( urlcmp( it.current()->url(0), _url, true, true ) )
+      return it.current();
+  }
+  return 0L;
 }
 
 /**************************************************************
