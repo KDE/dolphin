@@ -55,7 +55,7 @@ UserAgentDlg::UserAgentDlg( QWidget * parent )
   mainLayout->addWidget(dlg);
 
   dlg->lvDomainPolicyList->setSorting(0);
-  
+
   connect( dlg->cbSendUAString, SIGNAL(clicked()), SLOT(configChanged()) );
 
   connect( dlg->gbDefaultId, SIGNAL(clicked(int)),
@@ -78,10 +78,8 @@ UserAgentDlg::UserAgentDlg( QWidget * parent )
 
 UserAgentDlg::~UserAgentDlg()
 {
-  if ( m_provider )
     delete m_provider;
-  
-  delete m_config;
+    delete m_config;
 }
 
 void UserAgentDlg::load()
