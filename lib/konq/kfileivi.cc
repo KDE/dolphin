@@ -111,7 +111,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
       m_state = KIcon::DisabledState;
     else
       m_state = state;
-    
+
     if ( d->m_overlayName.isNull() )
         d->m_overlay = QPixmap();
     else {
@@ -123,32 +123,32 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
         }
         d->m_overlay = DesktopIcon(d->m_overlayName, halfSize);
     }
-      
+
     setPixmapDirect(m_fileitem->pixmap( m_size, m_state ) , recalc, redraw );
 }
 
 void KFileIVI::setOverlay( const QString& iconName )
 {
     d->m_overlayName = iconName;
-   
+
     refreshIcon(true);
 }
 
 KIVDirectoryOverlay* KFileIVI::setShowDirectoryOverlay( bool show )
 {
-    if ( !m_fileitem->isDir() || m_fileitem->iconName() != "folder" ) return 0;
+    if ( !m_fileitem->isDir() || m_fileitem->iconName() != "folder" )
+        return 0;
 
-	if (show) {
-        if (!d->m_directoryOverlay) d->m_directoryOverlay = new KIVDirectoryOverlay(this);
+    if (show) {
+        if (!d->m_directoryOverlay)
+            d->m_directoryOverlay = new KIVDirectoryOverlay(this);
         return d->m_directoryOverlay;
-	} else {
-        if (d->m_directoryOverlay) {
-		    delete d->m_directoryOverlay;
-            d->m_directoryOverlay = 0;
-		}
+    } else {
+        delete d->m_directoryOverlay;
+        d->m_directoryOverlay = 0;
         setOverlay(QString());
         return 0;
-	}
+    }
 }
 
 bool KFileIVI::showDirectoryOverlay(  )
@@ -294,7 +294,7 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
     {
         if ( m_fileitem->acceptsDrops() ) // Directory, executables, ...
             return true;
-        
+
         // Use cache
         KURL::List uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
 
