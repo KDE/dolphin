@@ -584,6 +584,9 @@ void KonqKfmIconView::slotSortDirsFirst()
 
 void KonqKfmIconView::newIconSize( int size )
 {
+    if ( size == m_pIconView->iconSize() )
+        return;
+
     KonqDirPart::newIconSize( size );
     m_pIconView->setIcons( size );
     if ( m_pProps->isShowingPreview() )
