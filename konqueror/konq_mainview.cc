@@ -117,17 +117,10 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   KonqFactory::instanceRef();
 
-  if ( !s_plstAnimatedLogo )
-    s_plstAnimatedLogo = new QStringList;
-
-  if ( s_plstAnimatedLogo->count() == 0 )
+  if ( !s_plstAnimatedLogo ) 
   {
-    for ( int i = 1; i <= 50; i++ )
-    {
-      QString n;
-      n.sprintf( "animated/kde.%04i", i );
-      s_plstAnimatedLogo->append( n );
-    }
+    s_plstAnimatedLogo = new QStringList;
+    *s_plstAnimatedLogo += KGlobal::iconLoader()->loadAnimated( "kde", KIcon::MainToolbar );
   }
 
   m_pViewManager = new KonqViewManager( this );
