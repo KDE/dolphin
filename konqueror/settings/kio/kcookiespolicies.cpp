@@ -71,7 +71,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                           "requested. If you, for example, visit www.foobar.com "
                           "while this option is checked, only cookies that come "
                           "from www.foobar.com will be processed per your "
-                          "your settings. All other cookies will be automatically "
+                          "settings. All other cookies will automatically be "
                           "rejected. This reduces the chances of site operators "
                           "compiling a profile about your daily browsing habits.") );
     m_bgPreferences->insert( m_cbRejectCrossDomainCookies );
@@ -102,7 +102,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                           "pieces of data that are stored in the memory "
                           "of your computer until you quit or close all "
                           "applications (e.g. your browser) that make "
-                          "use of them.  Unlike regular cookies, session "
+                          "use of them. Unlike regular cookies, session "
                           "cookies are never stored on your hard drive or "
                           "local storage device."
                           "<P>NOTE: checking this option along with the "
