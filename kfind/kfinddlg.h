@@ -64,7 +64,6 @@ private:
   KStatusBar *mStatusBar;
   KDirLister *dirlister;
   KDirWatch *dirwatch;
-  bool has_libfam;
 };
 
 #endif

@@ -88,10 +88,6 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
   aboutWin = new KAboutApplication(this, "about", true);
 
-  //Disable the search results update if one hasn't FAM
-  KStandardDirs dirs;
-  dirs.addPrefix("/usr");
-  has_libfam=!dirs.findResource("lib","libfam.so").isNull();
   dirwatch=NULL;
 }
 
@@ -140,7 +136,7 @@ void KfindDlg::startSearch()
   dirwatch->addDir(query->url().path(),true);
 
   //Getting a list of all subdirs
-  if(tabWidget->isSearchRecursive() && has_libfam)
+  if(tabWidget->isSearchRecursive() && (dirwatch->internalMethod() == KDirWatch::FAM))
   {
     QStringList subdirs=getAllSubdirs(query->url().path());
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
