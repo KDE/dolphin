@@ -4,7 +4,6 @@ Type=Application
 Exec=kfmclient openProfile filemanagement
 Icon=kfm
 DocPath=konqueror/index.html
-InitialPreference=15
 
 Name=File Manager
 Name[af]=Lêer Bestuurder
