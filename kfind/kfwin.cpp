@@ -52,7 +52,7 @@ static const char* perm[4] = {
 #define WO 2
 #define NA 3
 
-KfFileLVI::KfFileLVI(QListView* lv, QString file)
+KfFileLVI::KfFileLVI(KListView* lv, QString file)
   : QListViewItem(lv)
 {
   fileInfo = new QFileInfo(file);
@@ -102,9 +102,9 @@ QString KfFileLVI::key(int column, bool) const
 }
 
 KfindWindow::KfindWindow( QWidget *parent, const char *name )
-  : QListView( parent, name )
+  : KListView( parent, name )
 {
-  setSelectionMode( QListView::Extended );
+  setSelectionMode( KListView::Extended );
   setShowSortIndicator( TRUE );
 
   addColumn(i18n("Name"));
@@ -123,7 +123,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
 
   resetColumns(TRUE);
 
-  connect(this, SIGNAL(doubleClicked(QListViewItem *)),
+  connect(this, SIGNAL(executed(QListViewItem *)),
 	  this, SLOT(openBinding()));
   connect( this, SIGNAL(selectionChanged()),
 	   this, SLOT( selectionHasChanged() ));
@@ -434,10 +434,10 @@ void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
     warning(i18n("Error while creating child process!").ascii());
 }
 
-// Resizes QListView to occupy all visible space
+// Resizes KListView to occupy all visible space
 void KfindWindow::resizeEvent(QResizeEvent *e)
 {
-  QListView::resizeEvent(e);
+  KListView::resizeEvent(e);
   resetColumns(FALSE);
   clipper()->repaint();
 }
@@ -445,7 +445,7 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 
 void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 {
-  QListView::contentsMousePressEvent( e );
+  KListView::contentsMousePressEvent( e );
   KfFileLVI *item = (KfFileLVI *) itemAt(contentsToViewport(e->pos()));
   if ( !item )
     return;
@@ -457,13 +457,13 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 void KfindWindow::contentsMouseReleaseEvent( QMouseEvent * e )
 {
   m_pressed = false;
-  QListView::contentsMouseReleaseEvent( e );
+  KListView::contentsMouseReleaseEvent( e );
 }
 
 // drag items from the list
 void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
 {
-  QListView::contentsMouseMoveEvent(e);
+  KListView::contentsMouseMoveEvent(e);
 
   if ( !m_pressed ) // Just moving, not a drag
     return;

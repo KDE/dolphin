@@ -7,7 +7,7 @@
 #ifndef KFWIN_H
 #define KFWIN_H
 
-#include <qlistview.h>
+#include <klistview.h>
 
 class KfArchiver;
 class QPixmap;
@@ -16,7 +16,7 @@ class QFileInfo;
 class KfFileLVI : public QListViewItem
 {
  public:
-  KfFileLVI(QListView* lv, QString file);
+  KfFileLVI(KListView* lv, QString file);
   ~KfFileLVI();
 
   QString key(int column, bool) const;
@@ -24,7 +24,7 @@ class KfFileLVI : public QListViewItem
   QFileInfo *fileInfo;
 };
 
-class KfindWindow: public   QListView
+class KfindWindow: public   KListView
 {
   Q_OBJECT
 public:
