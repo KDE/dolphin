@@ -450,7 +450,8 @@ void KonqListView::slotColumnToggled()
    kdDebug(1202) << "::slotColumnToggled" << endl;
    for (uint i=0; i<m_pListView->NumberOfAtoms; i++)
    {
-      m_pListView->confColumns[i].displayThisOne=m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled();
+      m_pListView->confColumns[i].displayThisOne=!m_pListView->confColumns[i].toggleThisOne
+        || (m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled());
       //this column has been enabled, the columns after it slide one column back
       if ((m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn==-1))
       {

@@ -230,16 +230,13 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    confColumns.resize( NumberOfAtoms );
 
    KProtocolInfo::ExtraFieldList::Iterator extraFieldsIt = extraFields.begin();
-   if ( defaultColumns )
+   for ( int num = 1; extraFieldsIt != extraFields.end(); ++extraFieldsIt, ++num )
    {
-       int num = 1;
-       for ( ; extraFieldsIt != extraFields.end(); ++extraFieldsIt, ++num )
-       {
-           QString column = (*extraFieldsIt).name;
-           lstColumns << column;
-           QString type = (*extraFieldsIt).type; // ## TODO use when sorting
-           confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, false, 0);
-       }
+      QString column = (*extraFieldsIt).name;
+      if ( defaultColumns || ( lstColumns.find(column) == lstColumns.end() ) )
+         lstColumns << column;
+      QString type = (*extraFieldsIt).type; // ## TODO use when sorting
+      confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, false, 0);
    }
 
    //disable everything
@@ -321,7 +318,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    for ( unsigned int i = 0; i < NumberOfAtoms; i++ )
    {
       if ( confColumns[i].udsId == KIO::UDS_URL ||
-           confColumns[i].udsId == KIO::UDS_MIME_TYPE )
+           confColumns[i].udsId == KIO::UDS_MIME_TYPE ||
+           !confColumns[i].displayThisOne )
       {
          continue;
       }
@@ -331,13 +329,16 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
       {
          //move all columns behind one to the front
          for ( unsigned int l = 0; l < NumberOfAtoms; l++ )
-            if ( confColumns[i].displayInColumn > confColumns[i].displayInColumn )
-               confColumns[i].displayInColumn--;
+            if ( confColumns[l].displayInColumn > confColumns[i].displayInColumn )
+               confColumns[l].displayInColumn--;
 
          //disable this column
          confColumns[i].displayThisOne = false;
-         confColumns[i].toggleThisOne->setEnabled( false );
-         confColumns[i].toggleThisOne->setChecked( false );
+         if ( confColumns[i].toggleThisOne )
+         {
+           confColumns[i].toggleThisOne->setEnabled( false );
+           confColumns[i].toggleThisOne->setChecked( false );
+         }
       }
    }
 }
