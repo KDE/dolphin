@@ -251,6 +251,12 @@ void KIconContainer::remove( KIconContainerItem* _item, bool _refresh )
   if ( !_refresh )
     wipeOutItem( _item );
   
+  if ( _item->isSelected() )
+  {
+    _item->setSelected( false, false );
+    emit selectionChanged( _item );
+  }
+  
   m_lstItems.removeRef( _item );
 
   if ( _refresh )
