@@ -84,7 +84,7 @@ QString KonqAboutPageFactory::intro()
     if ( s_intro_html )
         return *s_intro_html;
 
-    QString res = loadFile( locate( "data", "konqueror/about/intro.html" ));
+    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/intro_rtl.html" : "konqueror/about/intro.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -128,7 +128,7 @@ QString KonqAboutPageFactory::specs()
     if ( s_specs_html )
         return *s_specs_html;
 
-    QString res = loadFile( locate( "data", "konqueror/about/specs.html" ));
+    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/specs_rtl.html" : "konqueror/about/specs.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -184,7 +184,7 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Manual"))
 	  .arg( i18n("Popup"))
 	  .arg( i18n("(Short-) Automatic"))
-          .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg("intro.html") )
+          .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg(kapp->reverseLayout() ? "intro_rtl.html" : "intro.html") )
 
           ;
 
@@ -198,7 +198,7 @@ QString KonqAboutPageFactory::tips()
     if ( s_tips_html )
         return *s_tips_html;
 
-    QString res = loadFile( locate( "data", "konqueror/about/tips.html" ));
+    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/tips_rtl.html" : "konqueror/about/tips.html" ));
     if ( res.isEmpty() )
 	return res;
 
@@ -314,19 +314,19 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
         return;
     }
 
-    if ( url == QString::fromLatin1("intro.html") )
+    if ( url == QString::fromLatin1("intro.html") || url == QString::fromLatin1("intro_rtl.html") )
     {
         emit browserExtension()->openURLNotify();
 	serve( KonqAboutPageFactory::intro() );
         return;
     }
-    else if ( url == QString::fromLatin1("specs.html") )
+    else if ( url == QString::fromLatin1("specs.html") || url == QString::fromLatin1("specs_rtl.html") )
     {
         emit browserExtension()->openURLNotify();
 	serve( KonqAboutPageFactory::specs() );
         return;
     }
-    else if ( url == QString::fromLatin1("tips.html") )
+    else if ( url == QString::fromLatin1("tips.html") || url == QString::fromLatin1("tips_rtl.html") )
     {
         emit browserExtension()->openURLNotify();
         serve( KonqAboutPageFactory::tips() );
