@@ -1840,13 +1840,6 @@ void KonqMainWindow::slotGoTrash()
   openURL( 0L, KURL( "trash:/" ) );
 }
 
-void KonqMainWindow::slotGoTemplates()
-{
-  KURL u;
-  u.setPath( KGlobal::dirs()->resourceDirs( "templates" ).last() );
-  openURL( 0L, u );
-}
-
 void KonqMainWindow::slotGoAutostart()
 {
   KURL u;
@@ -3727,7 +3720,6 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Sett&ings" ), 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
-  (void) new KAction( i18n( "Templates" ), 0, this, SLOT( slotGoTemplates() ), actionCollection(), "go_templates" );
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
   KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most Often Visited"), actionCollection(), "go_most_often" );
   connect( mostOften, SIGNAL( activated( const KURL& )),
@@ -4352,7 +4344,7 @@ void KonqMainWindow::disableActionsNoView()
     static const char* const s_enActions[] = { "new_window", "duplicate_window", "open_location",
                                          "toolbar_url_combo", "clear_location", "animated_logo",
                                          "konqintro", "go_most_often", "go_applications", "go_dirtree",
-                                         "go_trash", "go_templates", "go_autostart", "go_url",
+                                         "go_trash", "go_autostart", "go_url",
                                          "options_configure_extensions", 0 };
     for ( int i = 0 ; s_enActions[i] ; ++i )
     {

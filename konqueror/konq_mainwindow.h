@@ -388,7 +388,6 @@ public slots:
   void slotGoSettings();
   void slotGoDirTree();
   void slotGoTrash();
-  void slotGoTemplates();
   void slotGoAutostart();
 
   void slotConfigure();
