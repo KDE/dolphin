@@ -30,7 +30,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kdirlister.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <konq_settings.h>
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
@@ -457,13 +457,11 @@ void KonqKfmIconView::slotShowDirectoryOverlays()
 
 void KonqKfmIconView::slotSelect()
 {
-    KLineEditDlg l( i18n("Select files:"), "*", m_pIconView );
-    if ( l.exec() )
+    bool ok;
+    QString pattern = KInputDialog::getText( QString::null,
+        i18n( "Select files:" ), "*", &ok, m_pIconView );
+    if ( ok )
     {
-        QString pattern = l.text();
-        if ( pattern.isEmpty() )
-            return;
-
         QRegExp re( pattern, true, true );
 
         m_pIconView->blockSignals( true );
@@ -486,13 +484,11 @@ void KonqKfmIconView::slotSelect()
 
 void KonqKfmIconView::slotUnselect()
 {
-    KLineEditDlg l( i18n("Unselect files:"), "*", m_pIconView );
-    if ( l.exec() )
+    bool ok;
+    QString pattern = KInputDialog::getText( QString::null,
+        i18n( "Unselect files:" ), "*", &ok, m_pIconView );
+    if ( ok )
     {
-        QString pattern = l.text();
-        if ( pattern.isEmpty() )
-            return;
-
         QRegExp re( pattern, true, true );
 
         m_pIconView->blockSignals( true );

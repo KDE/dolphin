@@ -27,7 +27,7 @@
 #include <krun.h>
 #include <kprotocolinfo.h>
 #include <kiconloader.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kglobalsettings.h>
 #include <kstandarddirs.h>
 #include <kxmlguifactory.h>
@@ -686,11 +686,13 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupNewDir()
 {
-    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), d->m_parentWidget );
-    l.setCaption(i18n("New Directory"));
-    if ( l.exec() )
+    bool ok;
+    QString dir = KInputDialog::getText( i18n( "New Directory" ),
+        i18n( "Enter directory name:" ), i18n( "Directory" ), &ok,
+        d->m_parentWidget );
+    if ( ok )
     {
-        QString name = KIO::encodeFileName( l.text() );
+        QString name = KIO::encodeFileName( dir );
         KURL::List::ConstIterator it = m_lstPopupURLs.begin();
         for ( ; it != m_lstPopupURLs.end(); it++ )
         {

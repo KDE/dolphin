@@ -17,7 +17,7 @@
 */
 
 #include "kshellcmdplugin.h"
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <konq_dirpart.h>
 #include <kprocess.h>
@@ -62,16 +62,19 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    {
       defaultValue = KProcess::quote( url.path() );
    }
-   KLineEditDlg l(i18n("Execute shell command in current directory:"), defaultValue, part->widget() );
-   if ( l.exec() )
+   bool ok;
+   QString cmd = KInputDialog::getText( QString::null,
+      i18n( "Execute shell command in current directory:" ), defaultValue,
+      &ok, part->widget() );
+   if ( ok )
    {
       QString chDir;
       chDir="cd ";
       chDir+=KProcess::quote(part->url().path());
       chDir+="; ";
-      chDir+=l.text();
+      chDir+=cmd;
 
-      KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(l.text()),chDir,part->widget(),true);
+      KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(cmd),chDir,part->widget(),true);
       shellCmdDialog->resize(500,300);
       shellCmdDialog->executeCommand();
       delete shellCmdDialog;

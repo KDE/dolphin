@@ -23,7 +23,7 @@
 
 #include "widgets.h"
 #include "klistboxdialog.h"
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kpassdlg.h>
 #include <kdebug.h>
 
@@ -33,13 +33,11 @@
 
 bool Widgets::inputBox(QWidget *parent, const QString& title, const QString& text, const QString& init, QString &result)
 {
-  KLineEditDlg dlg( text, init, parent );
-
-  dlg.setCaption(title);
-  bool retcode = (dlg.exec() == QDialog::Accepted);
-  if ( retcode )
-    result = dlg.text();
-  return retcode;
+  bool ok;
+  QString str = KInputDialog::getText( title, text, init, &ok, parent );
+  if ( ok )
+    result = str;
+  return ok;
 }
 
 bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& text, QCString &result)

@@ -25,7 +25,7 @@
 
 #include <qsocketnotifier.h>
 
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kdesu/process.h>
 #include <klocale.h>
 
@@ -111,10 +111,12 @@ void KShellCommandExecutor::readDataFromShell()
 void KShellCommandExecutor::writeDataToShell()
 {
    //kdDebug()<<"--------- writing ------------"<<endl;
-   KLineEditDlg l( i18n("Input required:"), "", this );
-   if ( l.exec() )
+   bool ok;
+   QString str = KInputDialog::getText( QString::null,
+      i18n( "Input Required:" ), QString::null, &ok, this );
+   if ( ok )
    {
-      QCString input=l.text().latin1();
+      QCString input=str.latin1();
       ::write(m_shellProcess->fd(),input,input.length());
       ::write(m_shellProcess->fd(),"\n",1);
    }

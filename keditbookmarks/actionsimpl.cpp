@@ -34,7 +34,7 @@
 #include <kfiledialog.h>
 #include <kkeydialog.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <krun.h>
 
 #include <kicondialog.h>
@@ -81,17 +81,15 @@ void ActionsImpl::slotPaste() {
 /* -------------------------------------- */
 
 void ActionsImpl::slotNewFolder() {
-   // TODO - move this into a sanely named gui class in kio/bookmarks?
-   KLineEditDlg dlg(i18n("New folder:"), "", 0);
-   dlg.setCaption(i18n("Create New Bookmark Folder"));
-   // text is empty by default, therefore disable ok button.
-   dlg.enableButtonOK(false);
-   if (!dlg.exec()) {
+   bool ok;
+   QString str = KInputDialog::getText( i18n( "Create New Bookmark Folder" ),
+      i18n( "New folder:" ), QString::null, &ok );
+   if (!ok)
       return;
-   }
+
    CreateCommand *cmd = new CreateCommand(
                               ListView::self()->userAddress(),
-                              dlg.text(), "bookmark_folder", /*open*/ true);
+                              str, "bookmark_folder", /*open*/ true);
    CmdHistory::self()->addCommand(cmd);
 }
 

@@ -25,7 +25,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kdirlister.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <konq_drag.h>
 #include <kpropertiesdialog.h>
@@ -329,11 +329,10 @@ void KonqListView::disableIcons( const KURL::List &lst )
 
 void KonqListView::slotSelect()
 {
-   KLineEditDlg l( i18n("Select files:"), "*", m_pListView );
-   if ( !l.exec() )
-      return;
-   QString pattern = l.text();
-   if ( pattern.isEmpty() )
+   bool ok;
+   QString pattern = KInputDialog::getText( QString::null,
+      i18n( "Select files:" ), "*", &ok, m_pListView );
+   if ( !ok )
       return;
 
    QRegExp re( pattern, true, true );
@@ -361,11 +360,10 @@ void KonqListView::slotSelect()
 
 void KonqListView::slotUnselect()
 {
-   KLineEditDlg l( i18n("Unselect files:"), "*", m_pListView );
-   if ( !l.exec() )
-      return;
-   QString pattern = l.text();
-   if ( pattern.isEmpty() )
+   bool ok;
+   QString pattern = KInputDialog::getText( QString::null,
+      i18n( "Unselect files:" ), "*", &ok, m_pListView );
+   if ( !ok )
       return;
 
    QRegExp re( pattern, TRUE, TRUE );

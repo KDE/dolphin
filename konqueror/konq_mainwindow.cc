@@ -33,7 +33,7 @@
 #include <konq_pixmapprovider.h>
 #include <konq_operations.h>
 #include <konqbookmarkmanager.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kzip.h>
 #include <config.h>
 #include <pwd.h>
@@ -2375,11 +2375,12 @@ void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
 //copied from libkonq/konq_popupmenu.cc
 void KonqMainWindow::slotNewDir()
 {
-    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), this );
-    l.setCaption(i18n("New Directory"));
-    if ( l.exec() )
+    bool ok;
+    QString name = KInputDialog::getText ( i18n( "New Directory" ),
+        i18n( "Enter directory name:" ), i18n( "Directory" ), &ok, this );
+    if ( ok )
     {
-        QString name = KIO::encodeFileName( l.text() );
+        name = KIO::encodeFileName( name );
         KURL url=m_currentView->url();
         url.addPath( name );
         KonqOperations::mkdir( 0L, url );

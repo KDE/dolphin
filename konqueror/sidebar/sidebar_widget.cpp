@@ -26,7 +26,7 @@
 #include <kicondialog.h>
 #include <qtimer.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <qdir.h>
 #include <config.h>
 #include <qpopupmenu.h>
@@ -268,7 +268,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		this, SLOT(dockWidgetHasUndocked(KDockWidget*)));
 }
 
-void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& name) {
+void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 	//kdDebug() << "Web sidebar entry to be added: " << url.url()
 	//	<< " [" << name << "]" << endl;
 
@@ -428,9 +428,10 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		}
 		case 2:
 		{
-			bool okval;
-			QString newurl = KLineEditDlg::getText(i18n("Enter a URL:"), Buttons.at(popupFor)->URL,&okval,this);
-			if ((okval) && (!newurl.isEmpty()))
+			bool ok;
+			QString newurl = KInputDialog::getText(QString::null,
+				i18n("Enter a URL:"), Buttons.at(popupFor)->URL,&ok,this);
+			if (ok)
 			{
 				KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
 				ksc.setGroup("Desktop Entry");

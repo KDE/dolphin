@@ -22,7 +22,7 @@
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
 #include <kinstance.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
@@ -340,15 +340,10 @@ void KNewMenu::slotNewFile()
     {
         // The template is not a desktop file
         // Show the small dialog for getting the destination filename
-        KLineEditDlg dlg( entry.comment, entry.text, d->m_parentWidget );
-        // TODO dlg.setCaption( i18n( ... ) );
-        if ( dlg.exec() )
-        {
-            name = dlg.text();
-            if ( name.isEmpty() )
-                return;
-        }
-        else
+        bool ok;
+        name = KInputDialog::getText( QString::null, entry.comment,
+            entry.text, &ok, d->m_parentWidget );
+        if ( !ok )
             return;
     }
 
