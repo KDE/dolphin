@@ -846,10 +846,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     }
     else
     {
-      // no sidebar (this is for both JS-opened pages with target=_blank
-      // and for the always-new-window FM option)
-      KonqMisc::createSimpleWindow( url, args );
-      //KonqMisc::createNewWindow( url, args );
+      KonqMisc::createNewWindow( url, args );
     }
 }
 
@@ -905,8 +902,8 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     // activate the view _now_ in order to make the menuBar() hide call work
     if ( part )
         mainWindow->viewManager()->setActivePart( part, true );
-
-    KSimpleConfig cfg( locate( "data", QString::fromLatin1( "konqueror/profiles/webbrowsing" ) ), true );
+    QString profileName = QString::fromLatin1( url.isLocalFile() ? "konqueror/profiles/filemanagement" : "konqueror/profiles/webbrowsing" );
+    KSimpleConfig cfg( locate( "data", profileName ), true );
     cfg.setGroup( "Profile" );
 
     if ( windowArgs.x != -1 )
