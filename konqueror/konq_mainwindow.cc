@@ -3176,7 +3176,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   if (kapp->authorize("shell_access"))
   {
-     (void) new KAction( i18n( "Open &Terminal" ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
+     (void) new KAction( i18n( "Open &Terminal" ), "openterm", Key_F10, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   }
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::shortcut(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
 
@@ -3237,7 +3237,7 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", CTRL+SHIFT+Key_N, this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", "CTRL+SHIFT+N;CTRL+T", this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
   m_paDuplicateTab = new KAction( i18n( "&Duplicate Current Tab" ), "tab_duplicate", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
