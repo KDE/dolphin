@@ -238,11 +238,11 @@ void ActionsImpl::slotOpenLink() {
 /* ------------------------------------------------------------- */
 
 void ActionsImpl::slotRename() {
-   listview->rename(COL_NAME);
+   listview->rename(KEBListView::NameColumn);
 }
 
 void ActionsImpl::slotChangeURL() {
-   listview->rename(COL_URL);
+   listview->rename(KEBListView::UrlColumn);
 }
 
 void ActionsImpl::slotSetAsToolbar() {

@@ -30,15 +30,11 @@
 
 #include "toplevel.h"
 
-#define COL_NAME 0
-#define COL_URL  1
-#define COL_STAT 2
-#define COL_ADDR 3
-
 class KEBListView : public KListView
 {
    Q_OBJECT
 public:
+   enum { NameColumn = 0, UrlColumn = 1, StatusColumn = 2, AddressColumn = 3 };
    KEBListView(QWidget *parent) : KListView(parent) {}
    virtual ~KEBListView() {}
 
@@ -50,18 +46,18 @@ protected:
    virtual QDragObject* dragObject();
 };
 
+// DESIGN - make these seperate classes?, else move impls back into listview.cpp
+
 class KEBListViewItem : public QListViewItem
 {
 private:
    void normalConstruct(const KBookmark &bk) {
 #ifdef DEBUG_ADDRESSES
-      setText(COL_ADDR, bk.address());
+      setText(KEBListView::AddressColumn, bk.address());
 #endif
       setPixmap(0, SmallIcon(bk.icon()));
       modUpdate();
    }
-
-// DESIGN - make these seperate classes?, else move impls back into listview.cpp
 
 public:
    // toplevel item (there should be only one!)

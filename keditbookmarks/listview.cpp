@@ -70,8 +70,8 @@ void ListView::initListView() {
 #ifdef DEBUG_ADDRESSES
    m_listView->addColumn(i18n("Address"), 100);
 #endif
-   m_listView->setRenameable(COL_NAME);
-   m_listView->setRenameable(COL_URL);
+   m_listView->setRenameable(KEBListView::NameColumn);
+   m_listView->setRenameable(KEBListView::UrlColumn);
    m_listView->setSorting(-1, false);
    m_listView->setDragEnabled(true);
    m_listView->setSelectionModeExt(KListView::Extended);
@@ -422,8 +422,8 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
 void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
    if ((!KEBTopLevel::self()->readonly()) 
     && (item)
-    && ((column == COL_URL) 
-     || (column == COL_NAME))
+    && ((column == KEBListView::UrlColumn) 
+     || (column == KEBListView::NameColumn))
    ) {
       m_listView->rename(item, column);
    }
@@ -434,16 +434,16 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
    KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
    KCommand *cmd = 0;
    switch (column) {
-      case COL_NAME:
+      case KEBListView::NameColumn:
          if (newText.isEmpty()) {
             // can't have an empty name, therefore undo the user action
-            item->setText(COL_NAME, bk.fullText());
+            item->setText(KEBListView::NameColumn, bk.fullText());
          } else if (bk.fullText() != newText) {
             cmd = new RenameCommand(bk.address(), newText);
          }
          break;
 
-      case COL_URL:
+      case KEBListView::UrlColumn:
          if (bk.url() != newText) {
             cmd = new EditCommand(bk.address(), EditCommand::Edition("href", newText), i18n("URL"));
          }
@@ -501,7 +501,7 @@ void KEBListViewItem::setOpen(bool open) {
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, int w, int a) {
    QColorGroup cg(ocg);
 
-   if (col == COL_STAT) {
+   if (col == KEBListView::StatusColumn) {
       TestLinkItr::paintCellHelper(p, cg, m_paintstyle);
    }
 

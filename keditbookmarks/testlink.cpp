@@ -304,20 +304,20 @@ void KEBListViewItem::nsPut(QString nm) {
    m_bookmark.internalElement().setAttribute("netscapeinfo", tmp);
 
    KEBTopLevel::self()->setModifiedFlag(true);
-   setText(COL_STAT, nm);
+   setText(KEBListView::StatusColumn, nm);
    TestLinkItrHolder::setMod(m_bookmark.url().url(), nm);
 }
 
 void KEBListViewItem::modUpdate() {
    QString statusLine;
    statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintstyle, nsGet());
-   setText(COL_STAT, statusLine);
+   setText(KEBListView::StatusColumn, statusLine);
 }
 
 void KEBListViewItem::setTmpStatus(QString status) {
    QString url = m_bookmark.url().url();
    m_paintstyle = 2;
-   setText(COL_STAT,status);
+   setText(KEBListView::StatusColumn,status);
    m_oldStatus = TestLinkItrHolder::getMod(url);
    TestLinkItrHolder::setMod(url, status);
 }
