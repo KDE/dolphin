@@ -187,8 +187,7 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    vsplitter->setSizes(QValueList<int>() << bkinfo->sizeHint().height() << 380 << bkinfo->sizeHint().height() );
 
    setCentralWidget(vsplitter);
-   resize(ListView::self()->widget()->sizeHint().width()
-         + 0 /* TODO - other split view */, 500);
+   resize(ListView::self()->widget()->sizeHint().width(), vsplitter->sizeHint().height());
 
    createActions();
    createGUI();
