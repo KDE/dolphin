@@ -9,3 +9,6 @@ METASOURCES = AUTO
 
 servicesdir = $(kde_servicesdir)/kded
 services_DATA = favicons.desktop
+
+update_DATA = favicons.upd move_favicons.sh
+updatedir = $(kde_datadir)/kconf_update
