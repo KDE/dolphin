@@ -38,6 +38,7 @@
 static KCmdLineOptions options[] =
 {
   { "silent", I18N_NOOP("Start without a default window."), 0 },
+  { "profile <profile>",   I18N_NOOP("Profile to open."), 0 },
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
   { 0, 0, 0}
 };
@@ -72,26 +73,43 @@ int main( int argc, char **argv )
       n++;
     }
   }
-  else if (args->count() == 0)
-  {
-     if (!args->isSet("silent"))
-     {
-       KonqMainWindow *mainWindow = new KonqMainWindow;
-       mainWindow->show();
-     }
-  }
   else
   {
-     for ( int i = 0; i < args->count(); i++ )
+     if (args->isSet("profile"))
      {
-         // konqFilteredURL doesn't cope with local files... A bit of hackery below
-         KURL url = args->url(i);
-         KURL urlToOpen;
-         if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
-             urlToOpen = url;
+       QString profile = QString::fromLocal8Bit(args->getOption("profile"));
+       QString profilePath = profile;
+       if (profile[0] != '/')
+           profilePath = locate( "data", QString::fromLatin1("konqueror/profiles/")+profile );
+       QString url;
+       if (args->count() == 1)
+           url = QString::fromLocal8Bit(args->arg(0));
+       KonqFileManager::self()->createBrowserWindowFromProfile( profilePath, profile, url );
+     }
+     else
+     {
+         if (args->count() == 0)
+         {
+             if (!args->isSet("silent"))
+             {
+                 KonqMainWindow *mainWindow = new KonqMainWindow;
+                 mainWindow->show();
+             }
+         }
          else
-             urlToOpen = KURL( konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
-         KonqFileManager::self()->openFileManagerWindow( urlToOpen );
+         {
+             for ( int i = 0; i < args->count(); i++ )
+             {
+                 // konqFilteredURL doesn't cope with local files... A bit of hackery below
+                 KURL url = args->url(i);
+                 KURL urlToOpen;
+                 if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
+                     urlToOpen = url;
+                 else
+                     urlToOpen = KURL( konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
+                 KonqFileManager::self()->openFileManagerWindow( urlToOpen );
+             }
+         }
      }
   }
   args->clear();
