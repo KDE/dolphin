@@ -199,7 +199,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
                                       actionCollection(), "show_directory_overlays" );
 
-    m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
+    m_pamPreview = new KActionMenu( i18n( "&Preview" ), actionCollection(), "iconview_preview" );
 
     m_paEnablePreviews = new KToggleAction( i18n("Show Previews"), 0, actionCollection(), "iconview_preview_all" );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );

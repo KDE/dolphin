@@ -9,7 +9,7 @@
   <Action name="invertselection"/>
  </Menu>
  <Menu name="view"><text>&amp;View</text>
-  <Menu name="iconview_mode"><text>Icon Size</text>
+  <Menu name="iconview_mode"><text>&amp;Icon Size</text>
    <Action name="modedefault"/>
    <Separator/>
    <Action name="modehuge"/>
@@ -17,7 +17,7 @@
    <Action name="modemedium"/>
    <Action name="modesmall"/>
   </Menu>
-  <Menu name="iconview_sort"><text>Sort</text>
+  <Menu name="iconview_sort"><text>S&amp;ort</text>
    <Action name="sort_nc"/>
    <Action name="sort_nci"/>
    <Action name="sort_size"/>

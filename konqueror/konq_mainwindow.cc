@@ -2807,12 +2807,12 @@ void KonqMainWindow::initActions()
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
-  m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
+  m_paFileType = new KAction( i18n( "&Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link" ), "mail_generic", CTRL+Key_L, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
-  (void) new KAction( i18n( "Send File" ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
+  (void) new KAction( i18n( "&Send File" ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   if (kapp->authorize("shell_access"))
   {
@@ -2828,7 +2828,7 @@ void KonqMainWindow::initActions()
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_paLockView = new KAction( i18n( "Lock to Current Location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
   m_paUnlockView = new KAction( i18n( "Unlock View"), 0, this, SLOT( slotUnlockView() ), actionCollection(), "unlock" );
-  m_paLinkView = new KToggleAction( i18n( "Link View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
+  m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
   m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", ALT+Key_Up, this, SLOT( slotUp() ), actionCollection(), "up" );
@@ -2875,8 +2875,8 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paAddTab = new KAction( i18n( "New Tab" ), "tab_new", CTRL+SHIFT+Key_N, this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
-  m_paDuplicateTab = new KAction( i18n( "Duplicate Current Tab" ), "tab_duplicate", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
+  m_paAddTab = new KAction( i18n( "&New Tab" ), "tab_new", CTRL+SHIFT+Key_N, this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paDuplicateTab = new KAction( i18n( "&Duplicate Current Tab" ), "tab_duplicate", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
   m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
@@ -2889,7 +2889,7 @@ void KonqMainWindow::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = new KAction( i18n( "Full-Screen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
+  m_ptaFullScreen = new KAction( i18n( "&Full-Screen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
@@ -3082,9 +3082,9 @@ void KonqMainWindow::updateViewActions()
     {
       // F5 is the default key binding for Reload.... a la Windows.
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
-      m_paCopyFiles = new KAction( i18n("Copy Files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
-      m_paMoveFiles = new KAction( i18n("Move Files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
-      m_paNewDir    = new KAction( i18n("New Directory"), Key_F10, this, SLOT( slotNewDir() ), actionCollection(), "newdir" );
+      m_paCopyFiles = new KAction( i18n("Copy &Files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
+      m_paMoveFiles = new KAction( i18n("M&ove Files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      m_paNewDir    = new KAction( i18n("Ne&w Directory"), Key_F10, this, SLOT( slotNewDir() ), actionCollection(), "newdir" );
       QPtrList<KAction> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );
@@ -3664,7 +3664,7 @@ void KonqMainWindow::updateViewModeActions()
   if ( services.count() <= 1 )
     return;
 
-  m_viewModeMenu = new KActionMenu( i18n( "View Mode" ), this );
+  m_viewModeMenu = new KActionMenu( i18n( "&View Mode" ), this );
 
   // a temporary map, just like the m_viewModeToolBarServices map, but
   // mapping to a KonqViewModeAction object. It's just temporary as we
