@@ -116,9 +116,11 @@ void g_NPN_MemFree(void *ptr)
      ::free(ptr);
 }
 
-uint32 g_NPN_MemFlush(uint32 /*size*/)
+uint32 g_NPN_MemFlush(uint32 size)
 {
+   Q_UNUSED(size);
    //kdDebug(1431) << "g_NPN_MemFlush()" << endl;
+   // MAC OS only..  we don't use this
    return 0;
 }
 
@@ -126,6 +128,8 @@ uint32 g_NPN_MemFlush(uint32 /*size*/)
 // redraw
 void g_NPN_ForceRedraw(NPP /*instance*/)
 {
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api3.html#999401
+   // FIXME
    kdDebug(1431) << "g_NPN_ForceRedraw() [unimplemented]" << endl;
 }
 
@@ -133,6 +137,8 @@ void g_NPN_ForceRedraw(NPP /*instance*/)
 // invalidate rect
 void g_NPN_InvalidateRect(NPP /*instance*/, NPRect* /*invalidRect*/)
 {
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api7.html#999503
+   // FIXME
    kdDebug(1431) << "g_NPN_InvalidateRect() [unimplemented]" << endl;
 }
 
@@ -140,6 +146,8 @@ void g_NPN_InvalidateRect(NPP /*instance*/, NPRect* /*invalidRect*/)
 // invalidate region
 void g_NPN_InvalidateRegion(NPP /*instance*/, NPRegion /*invalidRegion*/)
 {
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api8.html#999528
+   // FIXME
    kdDebug(1431) << "g_NPN_InvalidateRegion() [unimplemented]" << endl;
 }
 
@@ -157,17 +165,17 @@ NPError g_NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
       case NPNVxtAppContext:
          *(void**)value = XtDisplayToApplicationContext(qt_xdisplay());
          return NPERR_NO_ERROR;
-#ifdef NP4
       case NPNVjavascriptEnabledBool:
-         (bool)(*value) = false; // FIXME: Let's have a talk with Harri :-)
+         *(bool*)value = true;
          return NPERR_NO_ERROR;
       case NPNVasdEnabledBool:
-         (bool)(*value) = false; // FIXME: No clue what this means...
+         // SmartUpdate - we don't do this
+         *(bool*)value = false;
          return NPERR_NO_ERROR;
-      case NPNVOfflineBool:
-         (bool)(*value) = false;
+      case NPNVisOfflineBool:
+         // Offline browsing - no thanks
+         *(bool*)value = false;
          return NPERR_NO_ERROR;
-#endif
       default:
          return NPERR_INVALID_PARAM;
    }
@@ -175,36 +183,54 @@ NPError g_NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
 
 
 NPError g_NPN_DestroyStream(NPP instance, NPStream* stream,
-                          NPReason /*reason*/)
+                          NPReason reason)
 {
+   // FIXME: is this correct?  I imagine it is not.  (GS)
    kdDebug(1431) << "g_NPN_DestroyStream()" << endl;
 
    NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
    inst->streamFinished( (NSPluginStream *)stream->ndata );
 
-   return NPERR_GENERIC_ERROR;
+   switch (reason) {
+   case NPRES_DONE:
+      return NPERR_NO_ERROR;
+   case NPRES_USER_BREAK:
+      // FIXME: notify the user
+   case NPRES_NETWORK_ERR:
+      // FIXME: notify the user
+   default:
+      return NPERR_GENERIC_ERROR;
+   }
 }
 
 
 NPError g_NPN_RequestRead(NPStream* /*stream*/, NPByteRange* /*rangeList*/)
 {
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api16.html#999734
    kdDebug(1431) << "g_NPN_RequestRead() [unimplemented]" << endl;
 
+   // FIXME
    return NPERR_GENERIC_ERROR;
 }
 
 NPError g_NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/,
                       const char* /*target*/, NPStream** /*stream*/)
 {
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api12.html#999628
    kdDebug(1431) << "g_NPN_NewStream() [unimplemented]" << endl;
 
+   // FIXME
+   // This creates a stream from the plugin to the browser of type "type" to
+   // display in "target"
    return NPERR_GENERIC_ERROR;
 }
 
 int32 g_NPN_Write(NPP /*instance*/, NPStream* /*stream*/, int32 /*len*/, void* /*buf*/)
 {
+   // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api21.html#999859
    kdDebug(1431) << "g_NPN_Write() [unimplemented]" << endl;
 
+   // FIXME
    return 0;
 }
 
@@ -392,7 +418,8 @@ void g_NPN_ReloadPlugins(NPBool reloadPages)
 
    if (reloadPages) {
       // This is the proper way, but it cannot be done because we have no
-      // handle to the caller!  How stupid!
+      // handle to the caller!  How stupid!  We cannot force all konqi windows
+      // to reload - that would be evil.
       //p.start(KProcess::Block);
       // Let's only allow the caller to be reloaded, not everything.
       //if (_callback)
@@ -408,6 +435,8 @@ void g_NPN_ReloadPlugins(NPBool reloadPages)
 JRIEnv *g_NPN_GetJavaEnv()
 {
    kdDebug(1431) << "g_NPN_GetJavaEnv() [unimplemented]" << endl;
+   // FIXME - what do these do?  I can't find docs, and even Mozilla doesn't
+   //         implement them
    return 0;
 }
 
@@ -415,15 +444,25 @@ JRIEnv *g_NPN_GetJavaEnv()
 jref g_NPN_GetJavaPeer(NPP /*instance*/)
 {
    kdDebug(1431) << "g_NPN_GetJavaPeer() [unimplemented]" << endl;
+   // FIXME - what do these do?  I can't find docs, and even Mozilla doesn't
+   //         implement them
    return 0;
 }
 
 
-NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void* /*value*/)
+NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable variable, void* /*value*/)
 {
    kdDebug(1431) << "g_NPN_SetValue() [unimplemented]" << endl;
-
-   return NPERR_GENERIC_ERROR;
+   switch (variable) {
+   case NPPVpluginWindowBool:
+      // FIXME
+      // If true, the plugin is windowless.  If false, it is in a window.
+   case NPPVpluginTransparentBool:
+      // FIXME
+      // If true, the plugin is displayed transparent
+   default:
+      return NPERR_GENERIC_ERROR;
+   }
 }
 
 
