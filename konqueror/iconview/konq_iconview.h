@@ -46,6 +46,7 @@ class KonqKfmIconView : public KParts::ReadOnlyPart
   Q_PROPERTY( uint directorySize READ dirSize )
   Q_PROPERTY( uint directoryCount READ dirCount )
   Q_PROPERTY( uint fileCount READ fileCount )
+  Q_PROPERTY( bool supportsUndo READ supportsUndo );
 public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
@@ -67,6 +68,8 @@ public:
   uint dirSize() const;
   uint dirCount() const;
   uint fileCount() const;
+
+  bool supportsUndo() const { return true; }
 
 public slots:
   void slotImagePreview( bool toggle );

@@ -217,6 +217,10 @@ public slots:
   void slotConfigureKeys();
   void slotConfigureToolbars();
 
+  void slotUndoAvailable( bool avail );
+  // ugly temporary workaround until KAction::setText is a slot (Simon)
+  void slotUndoTextChanged( const QString &text );
+
   void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
   void slotRunFinished();
@@ -346,6 +350,7 @@ private:
   KAction *m_paLockView;
   KAction *m_paUnlockAll;
   KAction *m_paReload;
+  KAction *m_paUndo;
   KAction *m_paCut;
   KAction *m_paCopy;
   KAction *m_paPaste;

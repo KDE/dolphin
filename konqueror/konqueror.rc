@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="3">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="4">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -8,6 +8,7 @@
   <Action name="close"/>
  </Menu>
  <Menu name="edit"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
+  <Action name="undo" />
   <Action name="cut"/>
   <Action name="copy"/>
   <Action name="paste"/>
