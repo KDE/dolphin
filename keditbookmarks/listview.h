@@ -90,6 +90,7 @@ public:
    virtual ~KEBListView() {}
 
    void init();
+   void makeConnections();
    void readonlyFlagInit(bool);
 
    virtual void startDrag();
@@ -129,7 +130,6 @@ public:
    void updateListViewSetup(bool readOnly);
 
    void connectSignals();
-   void connectSignals(KEBListView *listview);
 
    // selected item stuff
    int numSelected();
@@ -196,6 +196,7 @@ private:
    static bool s_listview_is_dirty;
    static int s_myrenamecolumn;
    static KEBListViewItem *s_myrenameitem;
+   static QStringList s_selected_addresses;
 };
 
 #endif

@@ -49,6 +49,10 @@
 // #define DEBUG_ADDRESSES
 
 ListView* ListView::s_self = 0;
+QStringList ListView::s_selected_addresses;
+int ListView::s_myrenamecolumn = -1;
+KEBListViewItem *ListView::s_myrenameitem = 0;
+bool ListView::s_listview_is_dirty = false;
 
 ListView::ListView() {
    m_splitView = false;
@@ -80,27 +84,10 @@ void ListView::setInitialAddress(QString address) {
 }
 
 void ListView::connectSignals() {
-   connectSignals(m_listView);
+   m_listView->makeConnections();
    if (m_splitView) {
-      connectSignals(m_folderListView);
+      m_folderListView->makeConnections();
    }
-}
-
-// forwards - fixme - this should actually be used :)
-
-void ListView::connectSignals(KEBListView *listview) {
-   connect(listview, SIGNAL( selectionChanged() ),
-           listview, SLOT( slotSelectionChanged() ));
-   connect(listview, SIGNAL( currentChanged(QListViewItem *) ),
-           listview, SLOT( slotCurrentChanged(QListViewItem *) ));
-   connect(listview, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
-           listview, SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
-   connect(listview, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
-           listview, SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
-   connect(listview, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
-           listview, SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
-   connect(listview, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
-           listview, SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
 QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) {
@@ -110,8 +97,6 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
    }
    return bookmarks;
 }
-
-bool ListView::s_listview_is_dirty = false;
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() {
    static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
@@ -395,14 +380,12 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
    CmdHistory::self()->didCommand(mcmd);
 }
 
-static QStringList selected_addresses;
-
 void ListView::updateListView() {
-   selected_addresses.clear();
+   s_selected_addresses.clear();
    QPtrList<KEBListViewItem> *selcItems = selectedItems();
    for (QPtrListIterator<KEBListViewItem> it(*selcItems); it.current() != 0; ++it) {
       if (it.current()->bookmark().hasParent()) {
-         selected_addresses << it.current()->bookmark().address();
+         s_selected_addresses << it.current()->bookmark().address();
       }
    }
    updateTree();
@@ -463,7 +446,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
       if (bk.address() == addr) {
          setCurrent(item);
       }
-      if (selected_addresses.contains(bk.address())) {
+      if (s_selected_addresses.contains(bk.address())) {
          lv->setSelected(item, true);
       }
    }
@@ -537,9 +520,6 @@ void ListView::clearSelection() {
    m_listView->clearSelection();
 }
 
-int ListView::s_myrenamecolumn = -1;
-KEBListViewItem *ListView::s_myrenameitem = 0;
-
 void ListView::startRename(int column, KEBListViewItem *item) {
    s_myrenamecolumn = column;
    s_myrenameitem = item;
@@ -584,6 +564,29 @@ void ListView::renameNextCell(bool fwd) {
 
 /* -------------------------------------- */
 
+class KeyPressEater : public QObject {
+public:
+   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
+protected:
+   bool eventFilter(QObject *, QEvent *);
+};
+
+bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
+   if (pe->type() == QEvent::KeyPress) {
+      QKeyEvent *k = (QKeyEvent *) pe;
+      if ((k->key() == Qt::Key_Backtab || k->key() == Qt::Key_Tab)
+      && !(k->state() & ControlButton || k->state() & AltButton)
+      ) {
+         bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
+         ListView::self()->renameNextCell(fwd);
+         return true;
+      }
+   }
+   return false;
+}
+
+/* -------------------------------------- */
+
 void KEBListView::init() {
    setRootIsDecorated(false);
    if (!m_folderList) {
@@ -605,6 +608,21 @@ void KEBListView::init() {
    setDragEnabled(true);
    setSelectionModeExt((!m_folderList) ? KListView::Extended: KListView::Single);
    setAllColumnsShowFocus(true);
+}
+
+void KEBListView::makeConnections() {
+   connect(this, SIGNAL( selectionChanged() ),
+                 SLOT( slotSelectionChanged() ));
+   connect(this, SIGNAL( currentChanged(QListViewItem *) ),
+                 SLOT( slotCurrentChanged(QListViewItem *) ));
+   connect(this, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
+                 SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
+   connect(this, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
+                 SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
+   connect(this, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
+                 SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
+   connect(this, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
+                 SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
 void KEBListView::readonlyFlagInit(bool readonly) {
@@ -634,29 +652,22 @@ void KEBListView::startDrag() {
       return;
    }
 
-   /*bool moved = */ drag->drag();
+   bool moved = drag->drag();
 
-   /*
    kdDebug() << "1" << endl;
+   kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
    if (moved) {
-      kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
       kdDebug() << "cooool, gonna delete it!" << endl;
+      /*
       if (drag->target() != viewport()) {
          KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
                                                             ListView::self()->selectedItems());
          CmdHistory::self()->didCommand(mcmd);
       }
+      */
    }
    kdDebug() << "2" << endl;
-   */
 }
-
-class KeyPressEater : public QObject {
-public:
-   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
-protected:
-   bool eventFilter(QObject *, QEvent *);
-};
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
@@ -674,20 +685,6 @@ void KEBListView::rename(QListViewItem *qitem, int column) {
    KeyPressEater *keyPressEater = new KeyPressEater(this);
    renameLineEdit()->installEventFilter(keyPressEater);
    KListView::rename(item, column);
-}
-
-bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
-   if (pe->type() == QEvent::KeyPress) {
-      QKeyEvent *k = (QKeyEvent *) pe;
-      if ((k->key() == Qt::Key_Backtab || k->key() == Qt::Key_Tab)
-      && !(k->state() & ControlButton || k->state() & AltButton)
-      ) {
-         bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
-         ListView::self()->renameNextCell(fwd);
-         return true;
-      }
-   }
-   return false;
 }
 
 KEBListViewItem* KEBListView::rootItem() {
