@@ -421,6 +421,7 @@ void KNewMenu::slotFillTemplates()
 
     // Look into "templates" dirs.
     QStringList files = d->m_actionCollection->instance()->dirs()->findAllResources("templates");
+    KSortableValueList<Entry,QString> slist;
     for ( QStringList::Iterator it = files.begin() ; it != files.end() ; ++it )
     {
         //kdDebug(1203) << *it << endl;
@@ -433,9 +434,19 @@ void KNewMenu::slotFillTemplates()
             if ( (*it).endsWith( "Directory.desktop" ) )
                 s_templatesList->prepend( e );
             else
-                s_templatesList->append( e );
+            {
+                KSimpleConfig config( *it, true );
+                config.setDesktopGroup();
+                slist.insert( config.readEntry("Name"), e );
+            }
         }
     }
+    slist.sort();
+    for(KSortableValueList<Entry, QString>::ConstIterator it = slist.begin(); it != slist.end(); ++it)
+    {
+        s_templatesList->append( (*it).value() );
+    }
+
 }
 
 void KNewMenu::slotNewFile()
@@ -611,7 +622,7 @@ void KURLDesktopFileDlg::initDialog( const QString& textFileName, const QString&
     label = new QLabel( textUrl, urlBox );
     m_urlRequester = new KURLRequester( defaultUrl, urlBox, "urlRequester" );
     m_urlRequester->setMode( KFile::File | KFile::Directory );
-    
+
     m_urlRequester->setMinimumWidth( m_urlRequester->sizeHint().width() * 3 );
     topLayout->addWidget( m_urlRequester );
     connect( m_urlRequester->lineEdit(), SIGNAL(textChanged(const QString&)),
