@@ -207,6 +207,9 @@ void KonqDirTreeItem::setOpen( bool open )
   QListViewItem::setOpen( open );
 }
 
+//TODO: make it configurable via viewprops
+static const int autoOpenTimeout = 750;
+
 KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   : QListView( parent )
 {
@@ -222,9 +225,15 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   connect( m_animationTimer, SIGNAL( timeout() ),
 	   this, SLOT( slotAnimation() ) );
 
+  m_dropItem = 0;
+  
   addColumn( "" );
   header()->hide();
 
+  m_autoOpenTimer = new QTimer( this );
+  connect( m_autoOpenTimer, SIGNAL( timeout() ),
+	   this, SLOT( slotAutoOpenFolder() ) );
+  
   m_root = new QListViewItem( this, i18n( "Computer" ) );
   m_root->setSelectable( false );
 
@@ -302,6 +311,7 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )
 {
+  m_dropItem = 0; 
 }
 
 void KonqDirTree::contentsDragMoveEvent( QDragMoveEvent *e )
@@ -310,6 +320,8 @@ void KonqDirTree::contentsDragMoveEvent( QDragMoveEvent *e )
 
   if ( !item || !item->isSelectable() )
   {
+    m_dropItem = 0;
+    m_autoOpenTimer->stop();
     e->ignore();
     return;
   }
@@ -317,14 +329,24 @@ void KonqDirTree::contentsDragMoveEvent( QDragMoveEvent *e )
   e->acceptAction();
  
   setSelected( item, true );
+  
+  if ( item != m_dropItem )
+  {
+    m_autoOpenTimer->stop();
+    m_dropItem = item;
+    m_autoOpenTimer->start( autoOpenTimeout );
+  }
 }
 
 void KonqDirTree::contentsDragLeaveEvent( QDragLeaveEvent * )
 {
+  m_dropItem = 0; 
 } 
 
 void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 {
+  m_autoOpenTimer->stop();
+ 
   QList<KonqDirTreeItem> selection = selectedItems();
   
   assert( selection.count() == 1 );
@@ -550,6 +572,17 @@ void KonqDirTree::slotAnimation()
   m_animationCounter++;
   if ( m_animationCounter == 10 )
     m_animationCounter = 1;
+}
+
+void KonqDirTree::slotAutoOpenFolder()
+{
+  m_autoOpenTimer->stop();
+  
+  if ( !m_dropItem || m_dropItem->isOpen() )
+    return;
+  
+  m_dropItem->setOpen( true );
+  m_dropItem->repaint();
 }
 
 void KonqDirTree::init()

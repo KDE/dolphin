@@ -108,6 +108,8 @@ private slots:
 
   void slotAnimation();
 
+  void slotAutoOpenFolder();
+
 private:
   void init();
   void scanDir( QListViewItem *parent, const QString &path );
@@ -157,6 +159,10 @@ private:
 
   QPoint m_dragPos;
   bool m_bDrag;
+
+  QListViewItem *m_dropItem;
+
+  QTimer *m_autoOpenTimer;
 };
 
 #endif
