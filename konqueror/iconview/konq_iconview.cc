@@ -325,6 +325,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bLoading = false;
     m_bNeedAlign = false;
     m_bNeedEmitCompleted = false;
+    m_timer = new QTimer( this );
+    connect( m_timer, SIGNAL( timeout() ), this, SLOT( slotProcessMimeIcons() ) );
 
     m_pIconView->setResizeMode( QIconView::Adjust );
 
@@ -358,7 +360,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 KonqKfmIconView::~KonqKfmIconView()
 {
     kdDebug(1202) << "-KonqKfmIconView" << endl;
-    if ( m_dirLister ) delete m_dirLister;
+    delete m_dirLister;
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
@@ -824,7 +826,7 @@ void KonqKfmIconView::slotCompleted()
     // slotProcessMimeIcons will do it
     m_bNeedEmitCompleted = true;
 
-    QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
+    m_timer->start( 0, true /* single shot */ );
 
     // Disable cut icons if any
     m_pIconView->slotClipboardDataChanged();
@@ -1049,7 +1051,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
     }
 
     m_lstPendingMimeIconItems.remove(item);
-    QTimer::singleShot( nextDelay, this, SLOT( slotProcessMimeIcons() ) );
+    m_timer->start( nextDelay, true /* single shot */ );
 }
 
 bool KonqKfmIconView::openURL( const KURL &_url )

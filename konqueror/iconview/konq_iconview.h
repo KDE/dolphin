@@ -32,6 +32,7 @@ class KToggleAction;
 class KActionMenu;
 class QIconViewItem;
 class IconViewBrowserExtension;
+class QTimer;
 
 /**
  * The Icon View for konqueror.
@@ -204,6 +205,7 @@ protected:
   KonqIconViewWidget *m_pIconView;
 
   QList<KFileIVI> m_lstPendingMimeIconItems;
+  QTimer * m_timer;
 
   bool m_bUpdateContentsPosAfterListing;
 };
