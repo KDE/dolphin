@@ -56,7 +56,6 @@ private:
         // Checkboxes
         QCheckBox *iconsEnabledBox;
         QCheckBox *showHiddenBox;
-        QCheckBox *vertAlignBox;
         QCheckBox *menuBarBox;
 	QCheckBox *vrootBox;
 	

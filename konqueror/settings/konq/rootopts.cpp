@@ -145,15 +145,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                                       " longer be able to drag files to the desktop." ) );
 
 
-  vertAlignBox = new QCheckBox(i18n("Align icons &vertically on desktop"), groupBox);
-  connect(vertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
-  QWhatsThis::add( vertAlignBox, i18n("Check this option if you want the icons"
-                                      " on the desktop to be aligned vertically (in columns). If you leave this"
-                                      " option unchecked, desktop icons are aligned horizontally.<p>"
-                                      " Note that you can drag icons wherever you want to on the desktop. When"
-                                      " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
-                                      " arranged horizontally or vertically.") );
-
   showHiddenBox = new QCheckBox(i18n("Show h&idden files on desktop"), groupBox);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
@@ -369,7 +360,6 @@ void KRootOptions::load()
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
     bool bVertAlign = g_pConfig->readBoolEntry("VertAlign", DEFAULT_VERT_ALIGN);
-    vertAlignBox->setChecked(bVertAlign);
     KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
     previewListView->clear();
     QStringList previews = g_pConfig->readListEntry("Preview");
@@ -410,7 +400,6 @@ void KRootOptions::load()
 void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
-    vertAlignBox->setChecked(true);
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<KRootOptPreviewItem *>(item)->setOn(false);
     menuBarBox->setChecked(false);
@@ -427,7 +416,6 @@ void KRootOptions::save()
 {
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
-    g_pConfig->writeEntry("VertAlign",vertAlignBox->isChecked());
     QStringList previews;
     for ( KRootOptPreviewItem *item = static_cast<KRootOptPreviewItem *>( previewListView->firstChild() );
           item;
@@ -470,7 +458,6 @@ void KRootOptions::enableChanged()
 {
     bool enabled = iconsEnabledBox->isChecked();
     showHiddenBox->setEnabled(enabled);
-    vertAlignBox->setEnabled(enabled);
     previewListView->setEnabled(enabled);
     vrootBox->setEnabled(enabled);
 
