@@ -28,8 +28,12 @@
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,
-                                        bool /* dirsSelected */, bool isIntoTrash )
+                                        bool showEmbeddingServices, bool doTabHandling )
 {
+    //giving a name to each guiclient: just for debugging
+    // (needs delete instance() in the dtor if enabled for good)
+    //setInstance( new KInstance( "PopupMenuGUIClient" ) );
+
     m_mainWindow = mainWindow;
 
     m_doc = QDomDocument( "kpartgui" );
@@ -59,7 +63,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
         menu.appendChild( m_doc.createElement( "separator" ) );
     }
 
-    if ( !isIntoTrash )
+    if ( showEmbeddingServices )
     {
         KTrader::OfferList::ConstIterator it = embeddingServices.begin();
         KTrader::OfferList::ConstIterator end = embeddingServices.end();
@@ -92,19 +96,25 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                 menu.removeChild( menu.namedItem( "menu" ) );
         }
     }
-    QDomElement openInWindow = m_doc.createElement( "action" );
-    openInWindow.setAttribute( "name", "newview" );
-    openInWindow.setAttribute( "group", "tabhandling" );
-    menu.appendChild( openInWindow );
 
-    QDomElement openInTabElement = m_doc.createElement( "action" );
-    openInTabElement.setAttribute( "name", "openintab" );
-    openInTabElement.setAttribute( "group", "tabhandling" );
-    menu.appendChild( openInTabElement );
+    if ( doTabHandling )
+    {
+        QDomElement openInWindow = m_doc.createElement( "action" );
+        openInWindow.setAttribute( "name", "newview" );
+        openInWindow.setAttribute( "group", "tabhandling" );
+        menu.appendChild( openInWindow );
 
-    QDomElement separatorElement = m_doc.createElement( "separator" );
-    separatorElement.setAttribute( "group", "tabhandling" );
-    menu.appendChild( separatorElement );
+        QDomElement openInTabElement = m_doc.createElement( "action" );
+        openInTabElement.setAttribute( "name", "openintab" );
+        openInTabElement.setAttribute( "group", "tabhandling" );
+        menu.appendChild( openInTabElement );
+
+        QDomElement separatorElement = m_doc.createElement( "separator" );
+        separatorElement.setAttribute( "group", "tabhandling" );
+        menu.appendChild( separatorElement );
+    }
+
+    //kdDebug() << k_funcinfo << m_doc.toString() << endl;
 
     setDOMDocument( m_doc );
 }

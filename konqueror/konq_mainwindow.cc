@@ -4301,7 +4301,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KURL viewURL = currentView->isToggleView() ? KURL() : currentView->url();
 
   bool openedForViewURL = false;
-  bool dirsSelected = false;
+  //bool dirsSelected = false;
 
   if ( _items.count() == 1 )
   {
@@ -4311,25 +4311,29 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 	  //firstURL.cleanPath();
           openedForViewURL = firstURL.equals( viewURL, true );
       }
-      dirsSelected = S_ISDIR( _items.getFirst()->mode() );
+      //dirsSelected = S_ISDIR( _items.getFirst()->mode() );
   }
     //check if current url is trash
   KURL url = viewURL;
   url.cleanPath();
-  bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+  bool isIntoTrash = url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+  bool doTabHandling = !openedForViewURL && !isIntoTrash && sReading;
+  bool showEmbeddingServices = !isIntoTrash && (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) == 0;
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
-                                                                dirsSelected, isIntoTrash || (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems));
+                                                                showEmbeddingServices, doTabHandling );
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
+
   // Those actions go into the PopupMenuGUIClient, since that's the one defining them.
   KAction *actNewWindow = 0L, *actNewTab = 0L;
-  if( !openedForViewURL && !isIntoTrash && sReading )
+  if( doTabHandling )
   {
       actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
       actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
       actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
       actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
+      doTabHandling = true;
   }
 
   if (currentView->isHierarchicalView())

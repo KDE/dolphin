@@ -55,7 +55,7 @@ class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:
   PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices,
-                      bool dirsSelected, bool isIntoTrash );
+                      bool isIntoTrash, bool doTabHandling );
   virtual ~PopupMenuGUIClient();
 
   virtual KAction *action( const QDomElement &element ) const;
