@@ -139,7 +139,7 @@ other currently available derivatives (notably
 
 <para> After a decade, &konsole; is the first rewrite from the ground
 up. While <application>xterm</application> has definitely been hacked
-to death (its <filename>README</filename> s with the words
+to death (its <filename>README</filename> begins with the words
 <quote>Abandon All Hope, Ye Who Enter Here</quote>), &konsole; offers
 a fresh start using contemporary technologies and understanding of
 X.</para>
