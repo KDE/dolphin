@@ -221,7 +221,7 @@ void KonqDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 
 void KonqDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 {
-    assert( fileItem->isDir() );
+    ASSERT( fileItem->isDir() );
 
     kdDebug(1201) << "KonqDirTreeModule::slotDeleteItem( " << fileItem->url().url(-1) << " )" << endl;
 
