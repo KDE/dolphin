@@ -50,11 +50,10 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kurl.h>
+#include <kmimetype.h>
 #include <kwm.h>
 #include <kstringhandler.h>
 #include <kstdaction.h>
-
-#include <kmimetype.h>
 
 template class QList<KBookmarkMenu>;
 
