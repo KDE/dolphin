@@ -27,6 +27,7 @@
 #include <qsplitter.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qtabwidget.h>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
@@ -41,7 +42,9 @@ class QToolButton;
 class KonqView;
 class KonqFrameBase;
 class KonqFrame;
+class KonqFrameContainerBase;
 class KonqFrameContainer;
+class KonqFrameTabs;
 class KConfig;
 class KSeparator;
 class KProgress;
@@ -168,21 +171,36 @@ typedef QPtrList<KonqView> ChildViewList;
 class KonqFrameBase
 {
  public:
-  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 ) = 0;
+  virtual ~KonqFrameBase() {}
+
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0) = 0;
+
   virtual void copyHistory( KonqFrameBase *other ) = 0;
+
+  virtual void printFrameInfo( QString spaces );
 
   virtual void reparentFrame( QWidget* parent,
                               const QPoint & p, bool showIt=FALSE ) = 0;
 
-  virtual KonqFrameContainer* parentContainer() = 0;
+  virtual KonqFrameContainerBase* parentContainer() { return m_pParentContainer; }
+  virtual void setParentContainer(KonqFrameContainerBase* parent) { m_pParentContainer = parent; }
+
+  virtual void setTitle( QString title , QWidget* sender) = 0;
+  virtual void setIconURL( const KURL & iconURL, QWidget* sender ) = 0;
+
   virtual QWidget* widget() = 0;
 
   virtual void listViews( ChildViewList *viewList ) = 0;
   virtual QCString frameType() = 0;
 
- protected:
+  virtual void activateChild() = 0;
+
+  virtual KonqView* activeChildView() = 0;
+
+protected:
   KonqFrameBase() {}
-  virtual ~KonqFrameBase() {}
+
+  KonqFrameContainerBase* m_pParentContainer;
 };
 
 /**
@@ -202,8 +220,8 @@ class KonqFrame : public QWidget, public KonqFrameBase
   Q_OBJECT
 
 public:
-  KonqFrame( KonqFrameContainer *_parentContainer = 0L,
-             const char *_name = 0L );
+  KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer = 0L,
+             const char *name = 0L );
   virtual ~KonqFrame();
 
   /**
@@ -243,13 +261,18 @@ public:
   void setView( KonqView* child );
   virtual void listViews( ChildViewList *viewList );
 
-  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 );
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
   virtual void copyHistory( KonqFrameBase *other );
+
+  virtual void printFrameInfo( QString spaces );
+
+  virtual void setTitle( QString title, QWidget* sender );
+  virtual void setIconURL( const KURL & iconURL, QWidget* sender );
 
   virtual void reparentFrame(QWidget * parent,
                      const QPoint & p, bool showIt=FALSE );
 
-  virtual KonqFrameContainer* parentContainer();
+  //virtual KonqFrameContainerBase* parentContainer();
   virtual QWidget* widget() { return this; }
   virtual QCString frameType() { return QCString("View"); }
 
@@ -257,6 +280,10 @@ public:
 
   KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
   KonqFrameHeader    *header() const { return m_pHeader; }
+
+  virtual void activateChild();
+  
+  KonqView* activeChildView() { return m_pView; }
 
 public slots:
 
@@ -285,6 +312,44 @@ protected:
   KonqFrameHeader *m_pHeader;
 };
 
+class KonqFrameContainerBase : public KonqFrameBase
+{
+public:
+  virtual ~KonqFrameContainerBase() {}
+
+  /**
+   * Call this after inserting a new frame into the splitter.
+   */
+  virtual void insertChildFrame( KonqFrameBase * frame, int index = -1 ) = 0;
+  /**
+   * Call this before deleting one of our children.
+   */
+  virtual void removeChildFrame( KonqFrameBase * frame ) = 0;
+
+  //inherited
+  virtual void printFrameInfo( QString spaces );
+
+  virtual QCString frameType() { return QCString("ContainerBase"); }
+
+  virtual void reparentFrame(QWidget * parent,
+                             const QPoint & p, bool showIt=FALSE ) = 0;
+
+  virtual KonqFrameBase* activeChild() { return m_pActiveChild; }
+
+  virtual void setActiveChild( KonqFrameBase* activeChild ) { m_pActiveChild = activeChild;
+                                                              m_pParentContainer->setActiveChild( this ); }
+
+  virtual void activateChild() { if (m_pActiveChild) m_pActiveChild->activateChild(); }
+  
+  virtual KonqView* activeChildView() { if (m_pActiveChild) return m_pActiveChild->activeChildView();
+                                        else return 0L; }
+
+protected:
+  KonqFrameContainerBase() {}
+
+  KonqFrameBase* m_pActiveChild;
+};
+
 /**
  * With KonqFrameContainers and @refKonqFrames we can create a flexible
  * storage structure for the views. The top most element is a
@@ -294,35 +359,40 @@ protected:
  * KonqFrameContainers or, as leaves, KonqFrames.
  */
 
-class KonqFrameContainer : public QSplitter, public KonqFrameBase
+class KonqFrameContainer : public QSplitter, public KonqFrameContainerBase
 {
   Q_OBJECT
   friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
 public:
   KonqFrameContainer( Orientation o,
                       QWidget* parent,
+                      KonqFrameContainerBase* parentContainer,
                       const char * name = 0);
   virtual ~KonqFrameContainer();
 
   virtual void listViews( ChildViewList *viewList );
 
-  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id = 0, int depth = 0 );
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
   virtual void copyHistory( KonqFrameBase *other );
 
   KonqFrameBase* firstChild() { return m_pFirstChild; }
   KonqFrameBase* secondChild() { return m_pSecondChild; }
   KonqFrameBase* otherChild( KonqFrameBase* child );
 
+	virtual void printFrameInfo( QString spaces );
+
   void swapChildren();
 
-  virtual KonqFrameContainer* parentContainer();
+  virtual void setTitle( QString title, QWidget* sender );
+  virtual void setIconURL( const KURL & iconURL, QWidget* sender );
+
   virtual QWidget* widget() { return this; }
   virtual QCString frameType() { return QCString("Container"); }
 
   /**
    * Call this after inserting a new frame into the splitter.
    */
-  void insertChildFrame( KonqFrameBase * frame );
+  void insertChildFrame( KonqFrameBase * frame, int index = -1 );
   /**
    * Call this before deleting one of our children.
    */
@@ -341,6 +411,54 @@ signals:
 protected:
   KonqFrameBase* m_pFirstChild;
   KonqFrameBase* m_pSecondChild;
+};
+
+class KonqFrameTabs : public QTabWidget, public KonqFrameContainerBase
+{
+  Q_OBJECT
+  friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
+
+public:
+  KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, const char * name = 0);
+  virtual ~KonqFrameTabs();
+
+  virtual void listViews( ChildViewList *viewList );
+
+  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
+  virtual void copyHistory( KonqFrameBase *other );
+
+  virtual void printFrameInfo( QString spaces );
+
+  QPtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
+
+  virtual void setTitle( QString title, QWidget* sender );
+  virtual void setIconURL( const KURL & iconURL, QWidget* sender );
+
+  virtual QWidget* widget() { return this; }
+  virtual QCString frameType() { return QCString("Tabs"); }
+
+  /**
+   * Call this after inserting a new frame into the splitter.
+   */
+  void insertChildFrame( KonqFrameBase * frame, int index = -1);
+
+  /**
+   * Call this before deleting one of our children.
+   */
+  void removeChildFrame( KonqFrameBase * frame );
+
+  //inherited
+  virtual void reparentFrame(QWidget * parent,
+                             const QPoint & p, bool showIt=FALSE );
+
+public slots:
+  void slotCurrentChanged( QWidget* newPage );
+
+signals:
+  void ctrlTabPressed();
+
+protected:
+  QPtrList<KonqFrameBase>* m_pChildFrameList;
 };
 
 #endif

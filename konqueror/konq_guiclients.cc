@@ -225,8 +225,6 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
   KonqViewManager *viewManager = m_mainWindow->viewManager();
 
-  KonqFrameContainer *mainContainer = viewManager->mainContainer();
-
   if ( toggle )
   {
 
@@ -242,8 +240,10 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     else
       newSplitterSizes << 30 << 100;
 
-    KonqFrameContainer *newContainer = childView->frame()->parentContainer();
-    newContainer->setSizes( newSplitterSizes );
+    KonqFrameContainerBase *newContainer = childView->frame()->parentContainer();
+
+    if (newContainer->frameType()=="Container")
+      static_cast<KonqFrameContainer*>(newContainer)->setSizes( newSplitterSizes );
 
 #if 0 // already done by splitWindow
     if ( m_mainWindow->currentView() )
@@ -267,7 +267,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   {
     QPtrList<KonqView> viewList;
 
-    mainContainer->listViews( &viewList );
+    m_mainWindow->listViews( &viewList );
 
     QPtrListIterator<KonqView> it( viewList );
     for (; it.current(); ++it )

@@ -90,15 +90,19 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
 
 KonqView::~KonqView()
 {
-  //kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
+  kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
 
   // We did so ourselves for passive views
-  if ( isPassiveMode() && m_pPart )
+  if (m_pPart != 0L)
+  {
+    if ( isPassiveMode() )
       disconnect( m_pPart, SIGNAL( destroyed() ), m_pMainWindow->viewManager(), SLOT( slotObjectDestroyed() ) );
 
-  delete m_pPart;
+    delete m_pPart;
+  }
+
   delete (KonqRun *)m_pRun;
-  //kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
+  kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
 }
 
 void KonqView::openURL( const KURL &url, const QString & locationBarURL, const QString & nameFilter )
@@ -470,7 +474,14 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 void KonqView::setIconURL( const KURL & iconURL )
 {
   KonqPixmapProvider::self()->setIconForURL( m_sLocationBarURL, iconURL );
+  if (!m_bPassiveMode) frame()->setIconURL( iconURL, 0L );
   m_bGotIconURL = true;
+}
+
+void KonqView::setCaption( const QString & caption )
+{
+  m_caption = caption;
+  if (!m_bPassiveMode) frame()->setTitle( caption , 0L );
 }
 
 void KonqView::slotOpenURLNotify()
@@ -880,7 +891,7 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
 
 void KonqView::setViewName( const QString &name )
 {
-    //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << " part=" << m_pPart << endl;
+    //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
     if ( m_pPart )
         m_pPart->setName( name.local8Bit().data() );
 }

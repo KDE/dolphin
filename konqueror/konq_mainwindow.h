@@ -39,6 +39,7 @@
 #include <ktrader.h>
 
 #include "konq_combo.h"
+#include "konq_frame.h"
 
 class KAction;
 class KActionCollection;
@@ -55,6 +56,7 @@ class KonqView;
 class KonqComboAction;
 class KonqFrame;
 class KonqFrameBase;
+class KonqFrameContainerBase;
 class KonqFrameContainer;
 class KToolBarPopupAction;
 class KonqLogoAction;
@@ -79,7 +81,8 @@ namespace KParts {
 
 
 class KonqMainWindow : public KParts::MainWindow,
-		       virtual public KBookmarkOwner
+		       virtual public KBookmarkOwner,
+		       public KonqFrameContainerBase
 {
   Q_OBJECT
 public:
@@ -193,6 +196,8 @@ public:
   void updateViewModeActions();
   void updateViewActions();
 
+  void setShowHTML( bool b );
+
   bool fullScreenMode() const { return m_bFullScreen; }
 
   /**
@@ -225,7 +230,44 @@ public:
   static void comboAction( int action, const QString& url,
 			   const QCString& objId );
 
-  void setShowHTML( bool );
+  void dumpViewList();
+  
+  // KonqFrameContainerBase implementation BEGIN
+  
+  /**
+   * Call this after inserting a new frame into the splitter.
+   */
+  void insertChildFrame( KonqFrameBase * frame, int index = -1 );
+  /**
+   * Call this before deleting one of our children.
+   */
+  void removeChildFrame( KonqFrameBase * frame );
+  
+  void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
+
+  void copyHistory( KonqFrameBase *other );
+
+  void printFrameInfo( QString spaces );
+
+  void reparentFrame( QWidget* parent,
+                              const QPoint & p, bool showIt=FALSE );
+
+  KonqFrameContainerBase* parentContainer();
+  void setParentContainer(KonqFrameContainerBase* parent);
+
+  void setTitle( QString title , QWidget* sender);
+  void setIconURL( const KURL & iconURL, QWidget* sender );
+  
+  QWidget* widget();
+
+  void listViews( ChildViewList *viewList );
+  QCString frameType();
+
+  KonqFrameBase* childFrame();
+
+  void setActiveChild( KonqFrameBase* activeChild );
+
+  // KonqFrameContainerBase implementation END
 
 signals:
   void viewAdded( KonqView *view );
@@ -317,7 +359,11 @@ protected slots:
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
+  void slotAddTab();
+  void slotPopupNewTab();
   void slotRemoveView();
+  void slotRemoveCurrentTab();
+  void slotDumpDebugInfo();
 
   void slotSaveViewProfile();
   void slotSaveViewPropertiesLocally();
@@ -441,7 +487,7 @@ private:
 
   void connectActionCollection( KActionCollection *coll );
   void disconnectActionCollection( KActionCollection *coll );
-
+  
   KNewMenu * m_pMenuNew;
 
   KAction *m_paFileType;
@@ -464,7 +510,10 @@ private:
 
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;
+  KAction *m_paAddTab;
   KAction *m_paRemoveView;
+	KAction *m_paRemoveCurrentTab;
+	KAction *m_paDumpDebugInfo;
 
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
@@ -525,6 +574,9 @@ private:
   KActionCollection* m_bookmarkBarActionCollection;
 
   KonqViewManager *m_pViewManager;
+  KonqFrameBase* m_pChildFrame;
+
+  KFileItemList popupItems;
 
   KonqRun *m_initialKonqRun;
 

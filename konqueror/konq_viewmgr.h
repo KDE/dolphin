@@ -38,6 +38,8 @@ class KConfig;
 class KonqMainWindow;
 class KonqFrameBase;
 class KonqFrameContainer;
+class KonqFrameContainerBase;
+class KonqFrameTabs;
 class KonqView;
 class BrowserView;
 class KActionMenu;
@@ -51,8 +53,10 @@ class KonqViewManager : public KParts::PartManager
 {
   Q_OBJECT
 public:
-  KonqViewManager( KonqMainWindow *mainWindow, QWidget *parentWidget );
+  KonqViewManager( KonqMainWindow *mainWindow );
   ~KonqViewManager();
+
+  KonqView* Initialize( const QString &serviceType, const QString &serviceName );
 
   /**
    * Splits the view, depending on orientation, either horizontally or
@@ -82,21 +86,24 @@ public:
                          bool newOneFirst = false);
 
   /**
-   * Do the actual splitting. The new View will be created from serviceType.
-   * Returns the newly created view or 0L if the new view couldn't be created.
+   * Adds a tab to m_pMainContainer
    */
-  KonqView* split (KonqFrameBase* splitFrame,
-                   Qt::Orientation orientation,
-                   const QString &serviceType = QString::null,
+
+  KonqView* addTab(const QString &serviceType = QString::null,
                    const QString &serviceName = QString::null,
-                   KonqFrameContainer **newFrameContainer = 0L,
-                   bool passiveMode = false, bool forceAutoEmbed = false );
+                   bool passiveMode = false, bool forceAutoEmbed = false);
 
   /**
    * Guess!:-)
    * Also takes care of setting another view as active if @p view was the active view
    */
   void removeView( KonqView *view );
+
+  /**
+   * Guess Again!:->
+   * Also takes care of setting another view as active if the active view was in this tab
+   */
+  void removeCurrentTab();
 
   /**
    * Saves the current view layout to a config file.
@@ -174,8 +181,7 @@ public:
 
   void profileListDirty( bool broadcast = true );
 
-  // Can be 0L (initially)
-  KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
+  KonqFrameBase *docContainer() const { return m_pDocContainer; }
 
   KonqMainWindow *mainWindow() const { return m_pMainWindow; }
 
@@ -191,13 +197,14 @@ public:
 
   void setActivePart( KParts::Part *part, bool immediate );
 
-
   void showProfileDlg( const QString & preselectProfile );
 
   /**
    *   The widget is the one which you are referring to.
    */
   static QSize readConfigSize( KConfig &cfg, QWidget *widget = NULL);
+
+  void printFullHierarchy( KonqFrameContainerBase * container );
 
 protected slots:
   void emitActivePartChanged();
@@ -210,6 +217,8 @@ protected slots:
 
   void slotPassiveModePartDeleted();
 
+  void slotActivePartChanged ( KParts::Part *newPart );
+
 protected:
 
   /**
@@ -220,7 +229,7 @@ protected:
    * @param openURL whether to open urls at all (from the profile or using @p defaultURL).
    *  (this is set to false when we have a forcedURL to open)
    */
-  void loadItem( KConfig &cfg, KonqFrameContainer *parent,
+  void loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
                  const QString &name, const KURL & defaultURL, bool openURL );
 
   // Disabled - we do it ourselves
@@ -244,7 +253,7 @@ private:
    * Mainly creates the backend structure(KonqView) for a view and
    * connects it
    */
-  KonqView *setupView( KonqFrameContainer *parentContainer,
+  KonqView *setupView( KonqFrameContainerBase *parentContainer,
                        KonqViewFactory &viewFactory,
                        const KService::Ptr &service,
                        const KTrader::OfferList &partServiceOffers,
@@ -254,13 +263,12 @@ private:
 
   //just for debugging
   void printSizeInfo( KonqFrameBase* frame,
-                      KonqFrameContainer* parent,
+                      KonqFrameContainerBase* parent,
                       const char* msg );
-  void printFullHierarchy( KonqFrameContainer * container, int ident = 0 );
 
   KonqMainWindow *m_pMainWindow;
-  QWidget *m_pParentWidget;
-  KonqFrameContainer *m_pMainContainer;
+
+  KonqFrameBase *m_pDocContainer;
 
   QGuardedPtr<KActionMenu> m_pamProfiles;
   bool m_bProfileListDirty;

@@ -296,7 +296,7 @@ public slots:
    */
   void setIconURL( const KURL &iconURL );
 
-  void setCaption( const QString & caption ) { m_caption = caption; }
+  void setCaption( const QString & caption );
 
 protected slots:
   // connected to the KROP's KIO::Job

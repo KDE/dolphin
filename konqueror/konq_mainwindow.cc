@@ -83,7 +83,6 @@
 #include <kuserprofile.h>
 #include <kwin.h>
 #include <kfiledialog.h>
-
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
@@ -106,6 +105,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_urlCompletionStarted = false;
 
   m_currentView = 0L;
+  m_pChildFrame = 0L;
   m_initialKonqRun = 0L;
   m_pBookmarkMenu = 0L;
   m_dcopObject = 0L;
@@ -120,9 +120,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_bViewModeToggled = false;
 
-  QWidget* widget = new QVBox( this, "main widget" );
-  setCentralWidget( widget );
-  m_pViewManager = new KonqViewManager( this, widget );
+  m_pViewManager = new KonqViewManager( this );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
 
@@ -219,6 +217,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 KonqMainWindow::~KonqMainWindow()
 {
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << endl;
+
+  delete m_pViewManager;
+
   if ( s_lstViews )
   {
     s_lstViews->removeRef( this );
@@ -232,8 +233,6 @@ KonqMainWindow::~KonqMainWindow()
   disconnectActionCollection( actionCollection() );
 
   saveToolBarServicesMap();
-
-  delete m_pViewManager;
 
   //  createShellGUI( false );
 
@@ -592,10 +591,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   if ( !childView )
     {
       // Create a new view
-      // The last "true" means: force auto-embed even if user setting is "separate viewer",
+      // Initialize always uses force auto-embed even if user setting is "separate viewer",
       // since this window has no view yet - we don't want to keep an empty mainwindow.
       // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
-      childView = m_pViewManager->splitView( Qt::Horizontal, serviceType, serviceName, false, true );
+      childView = m_pViewManager->Initialize( serviceType, serviceName );
 
       if ( !childView )
         {
@@ -912,7 +911,7 @@ void KonqMainWindow::slotDuplicateWindow()
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   if (mainWindow->currentView())
   {
-      mainWindow->viewManager()->mainContainer()->copyHistory( m_pViewManager->mainContainer() );
+      mainWindow->copyHistory( childFrame() );
   }
   mainWindow->show();
 }
@@ -1521,7 +1520,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
 {
-  kdDebug(1202) << "slotPartActivated " << part << " "
+  kdDebug(1202) << "KonqMainWindow::slotPartActivated " << part << " "
                 <<  ( part && part->instance() && part->instance()->aboutData() ? part->instance()->aboutData()->appName() : "" ) << endl;
 
   KonqView *newView = 0;
@@ -1606,6 +1605,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   // View-dependent GUI
 
   KParts::MainWindow::setCaption( m_currentView->caption() );
+  m_currentView->frame()->setTitle( m_currentView->caption() , 0L);
   updateOpenWithActions();
   updateLocalPropsActions();
   updateViewActions(); // undo, lock, link and other view-dependent actions
@@ -1663,23 +1663,40 @@ void KonqMainWindow::insertChildView( KonqView *childView )
 void KonqMainWindow::removeChildView( KonqView *childView )
 {
   kdDebug(1202) << "KonqMainWindow::removeChildView childView " << childView << endl;
+
   disconnect( childView, SIGNAL( viewCompleted( KonqView * ) ),
               this, SLOT( slotViewCompleted( KonqView * ) ) );
 
+  dumpViewList();
+
   MapViews::Iterator it = m_mapViews.begin();
   MapViews::Iterator end = m_mapViews.end();
+
   // find it in the map - can't use the key since childView->part() might be 0L
+
+  kdDebug(1202) << "Searching map" << endl;
+
   while ( it != end && it.data() != childView )
       ++it;
+
+  kdDebug(1202) << "Verifying search results" << endl;
+
   if ( it == m_mapViews.end() )
   {
       kdWarning(1202) << "KonqMainWindow::removeChildView childView " << childView << " not in map !" << endl;
       return;
   }
+
+  kdDebug(1202) << "Removing view " << childView << endl;
+
   m_mapViews.remove( it );
+
+	kdDebug(1202) << "View " << childView << " removed from map" << endl;
 
   viewCountChanged();
   emit viewRemoved( childView );
+
+  dumpViewList();
 
   // KonqViewManager takes care of m_currentView
 }
@@ -1878,19 +1895,62 @@ void KonqMainWindow::slotFileNewAboutToShow()
 void KonqMainWindow::slotSplitViewHorizontal()
 {
   KonqView * newView = m_pViewManager->splitView( Qt::Horizontal );
+  if (newView == 0L) return;
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
 }
 
 void KonqMainWindow::slotSplitViewVertical()
 {
   KonqView * newView = m_pViewManager->splitView( Qt::Vertical );
+  if (newView == 0L) return;
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
+}
+
+void KonqMainWindow::slotAddTab()
+{
+  KonqView* newView = m_pViewManager->addTab();
+  if (newView == 0L) return;
+  newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
+}
+
+void KonqMainWindow::slotPopupNewTab()
+{
+  KURL url;
+  KFileItemListIterator it ( popupItems );
+  QString mimeType, mimeComment;
+  KonqView* newView;
+  for ( ; it.current(); ++it )
+  {
+    newView = 0L;
+    url = (*it)->url();
+    mimeType = (*it)->mimetype();
+    mimeComment = (*it)->mimeComment();
+    if (mimeType == "application/octet-stream") mimeType = mimeComment = "";
+    newView = m_pViewManager->addTab(mimeType, mimeComment);
+    if (newView != 0L) newView->openURL( url, url.prettyURL() );
+  }
+
+  if (newView != 0L) {
+    kdDebug(1202) << "slotPopupNewTab() setting part " << newView->part() << " active." << endl;
+    m_pViewManager->setActivePart( newView->part(), true );
+  }
 }
 
 void KonqMainWindow::slotRemoveView()
 {
   // takes care of choosing the new active view
   m_pViewManager->removeView( m_currentView );
+}
+
+void KonqMainWindow::slotRemoveCurrentTab()
+{
+	m_pViewManager->removeCurrentTab();
+}
+
+void KonqMainWindow::slotDumpDebugInfo()
+{
+  dumpViewList();
+  m_pViewManager->printFullHierarchy( 0L );
 }
 
 void KonqMainWindow::slotSaveViewPropertiesLocally()
@@ -2339,6 +2399,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
     //    kdDebug(1202) << "slotNames=" << s << endl;
     //}
 
+
     if (ev->type()==QEvent::FocusIn)
     {
       //kdDebug(1202) << "ComboBox got the focus..." << endl;
@@ -2538,8 +2599,10 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 
   m_combo->setURL( url );
 
-  if ( !url.isEmpty() )
+  if ( !url.isEmpty() ) {
       setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
+      //if (m_currentView) m_currentView->setIconURL( url );
+  }
 }
 
 // called via DCOP from KonquerorIface
@@ -2698,7 +2761,11 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
+  m_paAddTab = new KAction( i18n( "Add Tab" ), "view_add_tab", 0, this, SLOT( slotAddTab() ), actionCollection(), "addtab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
+
+  m_paRemoveCurrentTab = new KAction( i18n( "Remove Current Tab" ), "view_remove_current_tab", 0, this, SLOT( slotRemoveCurrentTab() ), actionCollection(), "removecurrenttab" );
+  m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "&Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load &View Profile" ), actionCollection(), "loadviewprofile" );
@@ -2852,6 +2919,20 @@ void KonqMainWindow::updateViewActions()
   // Can remove view if we'll still have a main view after that
   m_paRemoveView->setEnabled( mainViewsCount() > 1 ||
                               ( m_currentView && m_currentView->isToggleView() ) );
+
+  KonqFrameBase* docContainer = m_pViewManager->docContainer();
+
+  if ( docContainer == 0L )
+  {
+    m_paAddTab->setEnabled( false );
+    m_paRemoveCurrentTab->setEnabled( false );
+  }
+  else
+  {
+    m_paAddTab->setEnabled( true );
+    if ( docContainer->frameType() == "Tabs" ) m_paRemoveCurrentTab->setEnabled( true );
+    else m_paRemoveCurrentTab->setEnabled( false );
+  }
 
   // Can split a view if it's not a toggle view (because a toggle view can be here only once)
   bool isNotToggle = m_currentView && !m_currentView->isToggleView();
@@ -3247,6 +3328,22 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if ( openedForViewURL && !viewURL.isLocalFile() )
       pPopupMenu.setURLTitle( m_currentView->caption() );
 
+  KAction *actNewTab = new KAction( i18n( "New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), &popupMenuCollection, "newtab" );
+  actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
+
+  QString name;
+  for ( int i = 0; i < 30; i++) {
+    name = pPopupMenu.text(pPopupMenu.idAt(i));
+    if (name == i18n( "New Window" )) {
+      kdDebug(1202) << "Adding at index " << i+1 << endl;
+      actNewTab->plug( &pPopupMenu, i+1 );
+      break;
+    }
+  }
+
+  // We will need these if we call the newTab slot
+  popupItems = _items;
+
   connectActionCollection( pPopupMenu.actionCollection() );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
@@ -3628,6 +3725,8 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
   if ( !url.isEmpty() )
     big = KonqPixmapProvider::self()->pixmapFor( url, KIcon::SizeMedium );
 
+  if (m_currentView) m_currentView->setIconURL( KURL(url) );
+
   KWin::setIcons( winId(), big, pix );
 }
 
@@ -3863,5 +3962,61 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
         }
     return items;
 }
+
+void KonqMainWindow::dumpViewList()
+{
+  MapViews::Iterator end = m_mapViews.end();
+
+  kdDebug(1202) << m_mapViews.count() << "Views" << endl;
+
+  for (MapViews::Iterator it = m_mapViews.begin(); it != end; it++)
+  {
+    kdDebug(1202) << it.data() << endl;
+  }
+}
+
+// KonqFrameContainerBase implementation BEGIN
+
+/**
+ * Call this after inserting a new frame into the splitter.
+ */
+void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int index )
+{
+  m_pChildFrame = frame;
+  frame->setParentContainer(this);
+  setCentralWidget( frame->widget() );
+}
+
+/**
+ * Call this before deleting one of our children.
+ */
+void KonqMainWindow::removeChildFrame( KonqFrameBase * frame ) { m_pChildFrame = 0L; }
+
+void KonqMainWindow::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id, int depth ) { if( m_pChildFrame ) m_pChildFrame->saveConfig( config, prefix, saveURLs, docContainer, id, depth); }
+
+void KonqMainWindow::copyHistory( KonqFrameBase *other ) { if( m_pChildFrame ) m_pChildFrame->copyHistory( other ); }
+
+void KonqMainWindow::printFrameInfo( QString spaces ) { if( m_pChildFrame ) m_pChildFrame->printFrameInfo( spaces ); }
+
+void KonqMainWindow::reparentFrame( QWidget* parent,
+                                    const QPoint & p, bool showIt ) { return; }
+
+KonqFrameContainerBase* KonqMainWindow::parentContainer() { return 0L; }
+void KonqMainWindow::setParentContainer(KonqFrameContainerBase* parent) { return; }
+
+void KonqMainWindow::setTitle( QString title , QWidget* sender) { return; }
+void KonqMainWindow::setIconURL( const KURL & iconURL, QWidget* sender ) { return; }
+
+QWidget* KonqMainWindow::widget() { return this; }
+
+void KonqMainWindow::listViews( ChildViewList *viewList ) { if( m_pChildFrame ) m_pChildFrame->listViews( viewList ); }
+
+QCString KonqMainWindow::frameType() { return QCString("MainWindow"); }
+
+KonqFrameBase* KonqMainWindow::childFrame() { return m_pChildFrame; }
+
+void KonqMainWindow::setActiveChild( KonqFrameBase* activeChild ) { m_pActiveChild = activeChild; }
+
+// KonqFrameContainerBase implementation END
 
 #include "konq_mainwindow.moc"
