@@ -84,7 +84,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
 void KBehaviourOptions::load()
 {
-    g_pConfig->setGroup("Behaviour");	
+    g_pConfig->setGroup( groupname );
     bool singleClick = g_pConfig->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
     int  autoSelect = g_pConfig->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
     if ( autoSelect < 0 ) autoSelect = 0;
@@ -113,7 +113,7 @@ void KBehaviourOptions::defaults()
 
 void KBehaviourOptions::save()
 {
-    g_pConfig->setGroup( "Behaviour" );			
+    g_pConfig->setGroup( groupname );
     g_pConfig->writeEntry( "SingleClick", cbSingleClick->isChecked() );
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );

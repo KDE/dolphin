@@ -59,7 +59,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  misc = new KMiscOptions(config, groupName, this);
+  misc = new KMiscOptions(config, "Misc Defaults", this);
   tab->addTab(misc, i18n("&Other"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 }
@@ -115,7 +115,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
 
   tab = new QTabWidget(this);
 
-  root = new KRootOptions(config, "Desktop Settings", this);
+  root = new KRootOptions(config, this);
   tab->addTab(root, i18n("&Desktop"));
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 

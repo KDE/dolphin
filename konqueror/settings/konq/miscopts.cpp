@@ -66,7 +66,7 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
 void KMiscOptions::load()
 {
     // *** load ***
-    g_pConfig->setGroup( "Misc Defaults" );
+    g_pConfig->setGroup( groupname );
     bool bUrlprops = g_pConfig->readBoolEntry( "EnablePerURLProps", false);
     QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
     bool bHaveBigToolBar = g_pConfig->readBoolEntry( "HaveBigToolBar", false );
@@ -90,7 +90,7 @@ void KMiscOptions::defaults()
 
 void KMiscOptions::save()
 {
-    g_pConfig->setGroup( "Misc Defaults" );
+    g_pConfig->setGroup( groupname );
     g_pConfig->writeEntry( "EnablePerURLProps", urlpropsbox->isChecked());
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
     g_pConfig->writeEntry( "HaveBigToolBar", m_pHaveBiiigToolBarCheckBox->isChecked() );

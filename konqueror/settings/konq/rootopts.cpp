@@ -37,8 +37,8 @@
 
 static const char * s_choices[4] = { "", "WindowListMenu", "DesktopMenu", "AppMenu" };
 
-KRootOptions::KRootOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
+KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
+    : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
 #define RO_ROWS 6
