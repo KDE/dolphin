@@ -166,8 +166,6 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
         m_pProps = new KonqPropsView(tree()->part()->parentInstance(), s_defaultViewProps );
     }
 
-    listDirectory( item );
-
     if ( !item->isTopLevelItem() &&
          static_cast<KonqSidebarDirTreeItem *>(item)->hasStandardIcon() )
     {
@@ -177,6 +175,8 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
     }
     else
         m_pTree->startAnimation( item );
+
+    listDirectory( item );
 }
 
 void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
