@@ -20,6 +20,7 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qlayout.h>
+#include <qpushbutton.h>
 #include <qpopupmenu.h>
 
 #include <kaction.h>
@@ -36,6 +37,8 @@
 #include "history_dlg.h"
 #include "history_module.h"
 #include "history_settings.h"
+#include <kiconloader.h>
+#include <qapplication.h>
 
 static KStaticDeleter<KonqHistorySettings> sd;
 KonqHistorySettings * KonqHistoryModule::s_settings = 0L;

@@ -23,6 +23,7 @@
 #include <klocale.h>
 #include <kprocess.h>
 #include "kshellcmddialog.h"
+#include <kinstance.h>
 
 KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name )
     : KParts::Plugin( parent, name )

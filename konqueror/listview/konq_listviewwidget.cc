@@ -35,6 +35,7 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <kiconloader.h>
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)

@@ -20,6 +20,7 @@
 #include <kbookmarkdrag.h>
 #include <konq_treepart.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 
 KonqBookmarkItem::KonqBookmarkItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, const KBookmark & bk, int key )
     : KonqTreeItem( parentItem, topLevelItem ), m_bk(bk), m_key(key)

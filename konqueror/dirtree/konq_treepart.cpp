@@ -24,6 +24,7 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qdir.h>
+#include <kinstance.h>
 
 KInstance *KonqTreeFactory::s_instance = 0;
 

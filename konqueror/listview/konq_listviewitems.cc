@@ -24,6 +24,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <qpainter.h>
+#include <kiconloader.h>
 
 /**************************************************************
  *

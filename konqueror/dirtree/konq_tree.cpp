@@ -31,7 +31,8 @@
 
 #include <dirtree_module/dirtree_module.h> // TEMPORARY HACK
 #include <history_module/history_module.h> // TEMPORARY HACK
-#include <bookmark_module/bookmark_module.h> // TEMPORARY HACK
+#include <bookmark_module/bookmark_module.h>
+#include <kiconloader.h> // TEMPORARY HACK
 
 static const int autoOpenTimeout = 750;
 

@@ -22,6 +22,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <kglobal.h>
 
 QString KonqTextViewItem::key( int _column, bool asc) const
 {

@@ -16,6 +16,8 @@
 #include <kfiledialog.h>
 
 #include "kquery.h"
+#include <qpushbutton.h>
+#include <kglobal.h>
 #include "kftabdlg.moc"
 
 // Static utility functions

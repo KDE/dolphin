@@ -33,10 +33,13 @@
 #include <kicondialog.h>
 #include <kapplication.h>
 #include <qclipboard.h>
+#include <qpopupmenu.h>
 #include <qpainter.h>
 #include <dcopclient.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <klocale.h>
+#include <kiconloader.h>
 
 //#define DEBUG_ADDRESSES
 
