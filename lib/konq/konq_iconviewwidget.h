@@ -285,6 +285,8 @@ protected:
     virtual void wheelEvent( QWheelEvent* );
     void readAnimatedIconsConfig();
     void mousePressChangeValue();
+    
+    int previewIconSize( int size ) const;
 
 private:
     KURL m_url;

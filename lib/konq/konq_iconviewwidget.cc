@@ -345,6 +345,9 @@ struct KonqIconViewWidgetPrivate
         pFileTip = 0;
         pActivateDoubleClick = 0L;
         bCaseInsensitive = true;
+
+        KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+        bBoostPreview = group.readBoolEntry( "BoostSize", false );
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
@@ -363,6 +366,7 @@ struct KonqIconViewWidgetPrivate
     bool bSoundItemClicked;
     bool bAllowSetWallpaper;
     bool bCaseInsensitive;
+    bool bBoostPreview;
     int gridXspacing;
 
     QTimer* rearrangeIconsTimer;
@@ -858,7 +862,13 @@ bool KonqIconViewWidget::initConfig( bool bInit )
     }
     setWordWrapIconText( m_pSettings->wordWrapText() );
 
-    if (!bInit)
+    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+    bool boost = group.readBoolEntry( "BoostSize", false );
+
+    // Update icons if settings for preview icon size have changed
+    if (boost != d->bBoostPreview)
+        setIcons(m_size);
+    else if (!bInit)
         updateContents();
     return fontChanged;
 }
@@ -876,17 +886,23 @@ void KonqIconViewWidget::disableSoundPreviews()
 
 void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreviewFor )
 {
-    //kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreviewFor.join(",") << ")" << endl;
+    // size has changed?
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
-
-    if ( sizeChanged )
+    
+    // boost preview option has changed?
+    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+    bool boost = group.readBoolEntry( "BoostSize", false );
+    bool previewSizeChanged = ( boost != d->bBoostPreview );
+    d->bBoostPreview = boost;
+    
+    if ( sizeChanged || previewSizeChanged )
     {
         setSpacing( (size > KIcon::SizeSmall) ? 5 : 0 );
     }
 
-    if ( sizeChanged || !stopImagePreviewFor.isEmpty() )
+    if ( sizeChanged || previewSizeChanged || !stopImagePreviewFor.isEmpty() )
     {
         calculateGridX();
     }
@@ -897,13 +913,14 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
         // Set a normal icon for files that are not thumbnails, and for files
         // that are thumbnails but for which it should be stopped
         if ( !ivi->isThumbnail() ||
+             sizeChanged ||
              stopAll ||
              mimeTypeMatch( ivi->item()->mimetype(), stopImagePreviewFor ) )
         {
             ivi->setIcon( size, ivi->state(), true, false );
         }
         else
-            ivi->invalidateThumb( ivi->state(), false );
+            ivi->invalidateThumb( ivi->state(), true );
     }
 
     if ( autoArrange() && (oldGridX != gridX() || !stopImagePreviewFor.isEmpty()) )
@@ -953,6 +970,7 @@ int KonqIconViewWidget::gridXValue() const
 {
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int newGridX = sz + (!m_bSetGridX ? d->gridXspacing : 50) + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
+    newGridX = QMAX( newGridX, previewIconSize( sz ) + 13 );
     //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
 }
@@ -1020,19 +1038,11 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
     int size;
 
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    if ( group.readBoolEntry("BoostSize", false) ) {
-        if (iconSize < 28)
-            size = 48;
-        else if (iconSize < 40)
-            size = 64;
-        else if (iconSize < 60)
-            size = 96;
-        else
-            size = 128;
-    } else {
-        size = iconSize;
-        iconSize /= 2;
-    }
+    d->bBoostPreview = group.readBoolEntry("BoostSize", false);
+    size = previewIconSize( iconSize );
+
+    if ( !d->bBoostPreview )
+         iconSize /= 2;
 
     d->pPreviewJob = KIO::filePreview( items, size, size, iconSize,
         m_pSettings->textPreviewIconTransparency(), true /* scale */,
@@ -1969,6 +1979,22 @@ void KonqIconViewWidget::lineupIcons()
     delete[] bins;
     kdDebug(1203) << n << " icons successfully moved.\n";
     return;
+}
+
+int KonqIconViewWidget::previewIconSize( int size ) const
+{
+    int iconSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+
+    if (!d->bBoostPreview)
+        return iconSize;
+    if (iconSize < 28)
+        return 48;
+    if (iconSize < 40)
+        return 64;
+    if (iconSize < 60)
+        return 96;
+
+    return 128;
 }
 
 void KonqIconViewWidget::visualActivate(QIconViewItem * item)
