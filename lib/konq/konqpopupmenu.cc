@@ -464,7 +464,7 @@ void KonqPopupMenu::slotResult( KIO::Job * job )
 
 void KonqPopupMenu::slotPopupOpenWith()
 {
-  KOpenWithDlg l( m_lstPopupURLs, i18n("Open With:"), "", (QWidget*)0L);
+  KOpenWithDlg l( m_lstPopupURLs );
   if ( l.exec() )
   {
     KService::Ptr service = l.service();
