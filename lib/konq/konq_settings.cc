@@ -128,6 +128,7 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
         return (serviceTypeGroup=="image"); // embedding is false by default except for image/*
+    // Note: if you change the above default, also change kcontrol/filetypes/typeslistitem.cpp !
     kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QString::fromLatin1("true");
 }
