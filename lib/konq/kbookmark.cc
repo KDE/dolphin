@@ -176,6 +176,8 @@ bool KBookmarkGroup::isToolbarGroup() const
 
 QDomElement KBookmarkGroup::findToolbar() const
 {
+    if ( element.attribute("toolbar") == "yes" )
+        return element;
     // Search among the "folder" children only
     QDomNodeList list = element.elementsByTagName("folder");
     for ( uint i = 0 ; i < list.count() ; ++i )
