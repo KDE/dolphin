@@ -33,6 +33,7 @@
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qwhatsthis.h>
+#include <qtl.h>                                                                                  
 #include <assert.h>
 
 #include "rootopts.h"
@@ -52,12 +53,21 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
+  QString strMouseButton1, strMouseButton3, strButtonTxt1, strButtonTxt3;
+  bool leftHandedMouse;
 
   lay->setRowStretch(RO_LASTROW,10); // last line grows
 
   lay->setColStretch(0,0);
   lay->setColStretch(1,0);
   lay->setColStretch(2,10);
+
+  /*
+   * The text on this form depends on the mouse setting, which can be right
+   * or left handed.  The outer button functionality is actually swapped
+   *
+   */
+  leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
   VertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
   lay->addMultiCellWidget(VertAlignBox, row, row, 0, 1);
@@ -101,17 +111,30 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   tmpLabel = new QLabel( i18n("Clicks on the desktop"), this );
   lay->addMultiCellWidget( tmpLabel, row, row, 0, RO_LASTCOL );
 
+  strMouseButton1 = i18n("Left Button");
+  strButtonTxt1 = i18n( "You can choose what happens when"
+   " you click the left button of your pointing device on the desktop:");
+
+  strMouseButton3 = i18n("Right Button");
+  strButtonTxt3 = i18n( "You can choose what happens when"
+   " you click the right button of your pointing device on the desktop:");
+
+  if ( leftHandedMouse )
+  {
+     qSwap(strMouseButton1, strMouseButton3);
+     qSwap(strButtonTxt1, strButtonTxt3);
+  }
+
   row++;
-  tmpLabel = new QLabel( i18n("&Left button"), this );
+  tmpLabel = new QLabel( strMouseButton1, this );
   lay->addWidget( tmpLabel, row, 0 );
   leftComboBox = new QComboBox( this );
   tmpLabel->setBuddy( leftComboBox );
   lay->addWidget( leftComboBox, row, 1 );
   fillMenuCombo( leftComboBox );
   connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
-  QString wtstr = i18n("You can choose what happens when"
-                       " you click the left button of your pointing device on the desktop:"
-                       " <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
+  QString wtstr = strButtonTxt1 +
+                  i18n(" <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
                        " <li><em>Window list menu:</em> a menu showing all windows on all"
                        " virtual desktops pops up. You can click on the desktop name to switch"
                        " to that desktop, or on a window name to shift focus to that window,"
@@ -128,7 +151,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( leftComboBox, wtstr );
 
   row++;
-  tmpLabel = new QLabel( i18n("M&iddle button"), this );
+  tmpLabel = new QLabel( i18n("Middle button"), this );
   lay->addWidget( tmpLabel, row, 0 );
   middleComboBox = new QComboBox( this );
   tmpLabel->setBuddy( middleComboBox );
@@ -154,16 +177,15 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( middleComboBox, wtstr );
 
   row++;
-  tmpLabel = new QLabel( i18n("&Right button"), this );
+  tmpLabel = new QLabel( strMouseButton3, this );
   lay->addWidget( tmpLabel, row, 0 );
   rightComboBox = new QComboBox( this );
   tmpLabel->setBuddy( rightComboBox );
   lay->addWidget( rightComboBox, row, 1 );
   fillMenuCombo( rightComboBox );
   connect(rightComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
-  wtstr = i18n("You can choose what happens when"
-               " you click the right button of your pointing device on the desktop:"
-               " <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
+  wtstr = strButtonTxt3 +
+          i18n(" <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
                " <li><em>Window list menu:</em> a menu showing all windows on all"
                " virtual desktops pops up. You can click on the desktop name to switch"
                " to that desktop, or on a window name to shift focus to that window,"
