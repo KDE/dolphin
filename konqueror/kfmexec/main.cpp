@@ -47,7 +47,7 @@ KFMExec::KFMExec()
 
     expectedCounter = 0;
     command = args->arg(0);
-    kDebugString( command );
+    kDebugInfo( command.ascii() );
 
     for ( int i = 1; i < args->count(); i++ )
     {
@@ -150,7 +150,7 @@ void KFMExec::slotResult( KIO::Job * job )
 	    if ( KMessageBox::questionYesNo( 0L, i18n( "The file\n%1\nhas been modified.\nDo you want to save it?" ).arg(src) )
                       == KMessageBox::Yes )
 	    {
-		kDebugString(QString("src='%1'  dest='%2'").arg(src).arg(dest.url()));
+		kDebugInfo(QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii());
                 // Do it the synchronous way.
 		KIO::NetAccess::upload( src, dest );
 	    }
