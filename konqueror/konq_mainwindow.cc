@@ -1342,12 +1342,14 @@ void KonqMainWindow::slotReload()
 {
   if ( !m_currentView || m_currentView->url().isEmpty() )
     return;
-  m_currentView->lockHistory();
   KonqOpenURLRequest req( m_currentView->typedURL() );
-  req.args.reload = true;
-  // Reuse current servicetype for local files, but not for remote files (it could have changed, e.g. over HTTP)
-  QString serviceType = m_currentView->url().isLocalFile() ? m_currentView->serviceType() : QString::null;
-  openURL( m_currentView, m_currentView->url(), serviceType, req );
+  if ( m_currentView->prepareReload( req.args ) )
+  {
+      m_currentView->lockHistory();
+      // Reuse current servicetype for local files, but not for remote files (it could have changed, e.g. over HTTP)
+      QString serviceType = m_currentView->url().isLocalFile() ? m_currentView->serviceType() : QString::null;
+      openURL( m_currentView, m_currentView->url(), serviceType, req );
+  }
 }
 
 void KonqMainWindow::slotHome()
@@ -1995,7 +1997,7 @@ void KonqMainWindow::popupNewTab(bool infront)
     mimeComment = (*it)->mimeComment();
     if (mimeType == "application/octet-stream") mimeType = mimeComment = "";
     newView = m_pViewManager->addTab(mimeType, mimeComment);
-    if (newView != 0L) 
+    if (newView != 0L)
     {
       newView->openURL( url, url.prettyURL() );
       lastView = newView;
@@ -3869,7 +3871,7 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
     static const QString& http = KGlobal::staticQString( "http" );
     static const QString& ftp = KGlobal::staticQString( "ftp" );
 
-    if ( group.isNull() ) 
+    if ( group.isNull() )
         return;
 
     for ( KBookmark bm = group.first();
@@ -3880,7 +3882,7 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
         }
 
         KURL url = bm.url();
-        if ( !url.isValid() ) 
+        if ( !url.isValid() )
             continue;
 
         QString u = url.prettyURL();

@@ -41,6 +41,8 @@
 #include <qobjectlist.h>
 #include <config.h>
 #include <private/qucomextra_p.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 //#define DEBUG_HISTORY
 
@@ -61,6 +63,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
 
   m_sLocationBarURL = "";
   m_bLockHistory = false;
+  m_doPost = false;
   m_pMainWindow = mainWindow;
   m_pRun = 0L;
   m_pPart = 0L;
@@ -120,11 +123,11 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
 
-  // TODO - AK - could be abstracted to prevent duplication here 
+  // TODO - AK - could be abstracted to prevent duplication here
   //             & in destructor & in the importer
   if (KonqMainWindow::s_crashlog_file) {
      QString part_url = m_pPart ? ( m_pPart->url().url() ) : QString::null;
-     if (part_url == QString::null) 
+     if (part_url == QString::null)
         part_url = QString("");
      QCString lines = ( QString("closed(%1):%2\nopened(%3):%4\n")
                            .arg(m_randID,0,16).arg(part_url)
@@ -138,6 +141,15 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   if ( ext )
     args = ext->urlArgs();
 
+  // Typing "Enter" again after the URL of an aborted view, triggers a reload.
+  if ( m_bAborted && m_pPart && m_pPart->url() == url )
+  {
+    if ( !prepareReload( args ) )
+      return;
+    if ( ext )
+      ext->setURLArgs( args );
+  }
+
 #ifdef DEBUG_HISTORY
   kdDebug(1202) << "m_bLockedLocation=" << m_bLockedLocation << " args.lockHistory()=" << args.lockHistory() << endl;
 #endif
@@ -150,16 +162,18 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
     // We do this first so that everything is ready if a part calls completed().
     createHistoryEntry();
   } else
-      m_bLockHistory = false;
+    m_bLockHistory = false;
 
   callExtensionStringMethod( "setNameFilter(QString)", nameFilter );
   setLocationBarURL( locationBarURL );
 
-  if ( m_bAborted && m_pPart && m_pPart->url() == url )
+  if ( !args.reload )
   {
-    args.reload = true;
-    if ( ext )
-      ext->setURLArgs( args );
+    // Save the POST data that is necessary to open this URL
+    // (so that reload can re-post it)
+    m_doPost = args.doPost();
+    m_postContentType = args.contentType();
+    m_postData = args.postData;
   }
 
   m_bAborted = false;
@@ -605,6 +619,10 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   current->title = m_caption;
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->desktopEntryName();
+
+  current->doPost = m_doPost;
+  current->postData = m_doPost ? m_postData : QByteArray();
+  current->postContentType = m_doPost ? m_postContentType : QString::null;
 }
 
 void KonqView::goHistory( int steps )
@@ -663,6 +681,8 @@ void KonqView::go( int steps )
     return /*false*/;
   }
 
+  m_bAborted = false;
+
   setServiceTypeInExtension();
 
   if ( browserExtension() )
@@ -671,11 +691,13 @@ void KonqView::go( int steps )
     QDataStream stream( h.buffer, IO_ReadOnly );
 
     browserExtension()->restoreState( stream );
+
+    m_doPost = h.doPost;
+    m_postContentType = h.postContentType;
+    m_postData = h.postData;
   }
   else
     m_pPart->openURL( h.url );
-
-  //m_bAborted = false; // should we do that ?
 
   sendOpenURLEvent( h.url );
 
@@ -1068,6 +1090,25 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         }
     }
     return false;
+}
+
+bool KonqView::prepareReload( KParts::URLArgs& args )
+{
+    args.reload = true;
+    // Repost form data if this URL is the result of a POST HTML form.
+    if ( m_doPost )
+    {
+        if ( KMessageBox::warningContinueCancel( 0, i18n( "Repost form data?" ),
+                                                 i18n( "Security Warning" ) ) == KMessageBox::Continue )
+        {
+            args.setDoPost( true );
+            args.setContentType( m_postContentType );
+            args.postData = m_postData;
+        }
+        else
+            return false;
+    }
+    return true;
 }
 
 #include "konq_view.moc"

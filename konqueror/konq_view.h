@@ -49,6 +49,9 @@ struct HistoryEntry
   QByteArray buffer;
   QString strServiceType;
   QString strServiceName;
+  QByteArray postData;
+  QString postContentType;
+  bool doPost;
 };
 
 /* This class represents a child of the main view. The main view maintains
@@ -268,6 +271,10 @@ public:
 
   void goHistory( int steps );
 
+  // Called before reloading this view. Sets args.reload to true, and offers to repost form data.
+  // Returns false in case the reload must be cancelled.
+  bool prepareReload( KParts::URLArgs& args );
+
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
   static KParts::BrowserHostExtension *hostExtension( KParts::ReadOnlyPart *part, const QString &name );
@@ -366,9 +373,19 @@ protected:
    */
   QPtrList<HistoryEntry> m_lstHistory;
 
+  /**
+   * The post data that _resulted_ in this page.
+   * e.g. when submitting a form, and the result is an image, this data will be
+   * set (and saved/restored) when the image is being viewed. Necessary for reload.
+   */
+  QByteArray m_postData;
+  QString m_postContentType;
+  bool m_doPost;
+
   KonqMainWindow *m_pMainWindow;
   QGuardedPtr<KonqRun> m_pRun;
   KonqFrame *m_pKonqFrame;
+
   uint m_bAllowHTML:1;
   uint m_bLoading:1;
   uint m_bLockedLocation:1;
