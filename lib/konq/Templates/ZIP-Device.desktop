@@ -7,7 +7,7 @@ Type=FSDevice
 Icon=zip_mount
 UnmountIcon=zip_unmount
 Actions=Eject
-X-KDE-Priority=0
+X-KDE-Priority=TopLevel
 [Desktop Action Eject]
 Name=Eject
 Name[af]=Uitskiet
