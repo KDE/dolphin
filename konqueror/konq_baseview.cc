@@ -99,3 +99,15 @@ void KonqBaseView::restoreState( const Konqueror::View::HistoryEntry &entry )
   eventURL.yOffset = 0;
   EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL );
 }
+
+void KonqBaseView::openURLRequest( const char *_url )
+{
+  // Ask the main view to open this URL, since it might not be suitable
+  // for the current type of view. It might even be a file (KRun will be used)
+  Konqueror::URLRequest urlRequest;
+  urlRequest.url = CORBA::string_dup( _url );
+  urlRequest.reload = (CORBA::Boolean)false;
+  urlRequest.xOffset = 0;
+  urlRequest.yOffset = 0;
+  SIGNAL_CALL1( "openURL", urlRequest );
+}

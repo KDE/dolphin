@@ -186,16 +186,6 @@ void KonqKfmTreeView::slotShowDot()
   // TODO
 }
 
-void KonqKfmTreeView::openURLRequest( const char *_url )
-{
-  Konqueror::URLRequest urlRequest;
-  urlRequest.url = CORBA::string_dup( _url );
-  urlRequest.reload = (CORBA::Boolean)false;
-  urlRequest.xOffset = 0;
-  urlRequest.yOffset = 0;
-  SIGNAL_CALL1( "openURL", urlRequest );
-}
-
 void KonqKfmTreeView::initConfig()
 {
   QPalette p          = viewport()->palette();
@@ -688,21 +678,12 @@ void KonqKfmTreeView::slotReturnPressed( QListViewItem *_item )
     return;
 
   KfmTreeViewItem *item = (KfmTreeViewItem*)_item;
-  UDSEntry entry = item->udsEntry();
-  mode_t mode = 0;
-
-  UDSEntry::iterator it = entry.begin();
-  for( ; it != entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-    {
-      mode = (mode_t)it->m_long;
-      break;
-    }
+  mode_t mode = item->mode();
 
   //execute only if item is not a directory or a link
   // why ? a link to a file would be ok, I think (David)
   if ( S_ISREG( mode ) )
-    openURLRequest( item->url().ascii() ); //FIXME: obey mode/m_bIsLocalURL 
+    openURLRequest( item->url().ascii() ); //FIXME: obey mode/m_bIsLocalURL (?)  ?? (David)
 }
 
 void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column )
@@ -739,25 +720,20 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
   selectedItems( items );
   mode_t mode = 0;
   bool first = true;
-  list<KfmTreeViewItem*>::iterator itit = items.begin();
+  list<KfmTreeViewItem*>::iterator it = items.begin();
   int i = 0;
-  for( ; itit != items.end(); ++itit )
+  for( ; it != items.end(); ++it )
   {
     popupRequest.urls.length( i + 1 );
-    popupRequest.urls[ i++ ] = (*itit)->url();
+    popupRequest.urls[ i++ ] = (*it)->url();
 
-    UDSEntry::iterator it = (*itit)->udsEntry().begin();
-    for( ; it != (*itit)->udsEntry().end(); it++ )
-      if ( it->m_uds == UDS_FILE_TYPE )
-      {
-	if ( first )
-	{
-	  mode = (mode_t)it->m_long;
-	  first = false;
-	}
-	else if ( mode != (mode_t)it->m_long )
-	    mode = 0;
-      }
+    if ( first )
+    {
+      mode = (*it)->mode();
+      first = false;
+    }
+    else if ( mode != (*it)->mode() ) // modes are different
+      mode = 0; // reset to 0
   }
 
   popupRequest.x = _global.x();
@@ -1290,14 +1266,14 @@ void KonqKfmTreeView::focusInEvent( QFocusEvent* _event )
  **************************************************************/
 
 KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url )
-  : QListViewItem( _parent ), KFileIcon( _entry, _url )
+  : QListViewItem( _parent ), KFileIcon( _entry, _url, true /* mini icon */ )
 {
   m_pTreeView = _treeview;
   init();
 }
 
 KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url )
-  : QListViewItem( _parent ), KFileIcon( _entry, _url )
+  : QListViewItem( _parent ), KFileIcon( _entry, _url, true /* mini icon */ )
 {
   m_pTreeView = _parent;
   init();
@@ -1305,29 +1281,9 @@ KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KU
 
 void KfmTreeViewItem::init()
 {
-  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, true );
-  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->name().ascii());
-  else setPixmap( 0, *p );
+  QPixmap *p = getPixmap(); // determine the pixmap (KFileIcon)
+  if ( p ) setPixmap( 0, *p );
 }
-
-
-/*
-void KfmTreeViewItem::popupMenu( const QPoint &_global, int _column )
-{
-  mode_t mode = 0;
-  UDSEntry::iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-
-//  m_pFinder->setSelected( this, true );
-  m_pTreeView->setSelected( this, true );
-
-  QStrList urls;
-  urls.append( m_strURL.c_str() );
-  m_pFinder->view()->popupMenu( _global, urls, mode, m_bIsLocalURL );
-}
-*/
 
 QString KfmTreeViewItem::key( int _column, bool ) const
 {

@@ -23,7 +23,7 @@
 #include <qlistview.h>
 #include <qtimer.h>
 #include <qdict.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 #include <qcursor.h>
 #include <qpixmap.h>
 
@@ -47,7 +47,6 @@ public:
   KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url );
   virtual ~KfmTreeViewItem() { }
 
-  virtual const QString name() const { return text( 0 ); }
   virtual QString text( int column ) const;
   virtual QString key( int _column, bool ) const;
 
@@ -55,7 +54,7 @@ public:
   virtual void paintCell( QPainter *_painter, const QColorGroup & cg, int column, int width, int alignment );
 
 protected:
-  virtual void init();
+  void init();
   
   const char* makeNumericString( const UDSAtom &_atom ) const;
   const char* makeTimeString( const UDSAtom &_atom ) const;
@@ -105,8 +104,6 @@ public:
   virtual void slotReloadTree();
   virtual void slotShowDot();
     
-  virtual void openURLRequest( const char *_url );
-
   struct iterator
   {
     KfmTreeViewItem* m_p;
@@ -239,7 +236,7 @@ protected:
   QDict<KfmTreeViewDir> m_mapSubDirs;
 
   KfmTreeViewItem* m_dragOverItem;
-  QStrList m_lstDropFormats;
+  QStringList m_lstDropFormats;
 
   bool m_pressed;
   QPoint m_pressedPos;

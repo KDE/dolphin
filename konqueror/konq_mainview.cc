@@ -888,6 +888,11 @@ void KonqMainView::openDirectory( const char *url )
 {
   m_pRun = 0L;
 
+  // Wrong. If the current view is a treeview, we want to keep it this way
+  // Same if it's an icon view. We want to change it only if it can't handle
+  // a directory. We need a generic way to know if the current view
+  // can handle a given mimetype or not... or at least if it can handle
+  // a directory...
   m_currentView->changeViewMode( "KonquerorKfmIconView" );  
 
   //TODO: check for html index file and stuff (Simon)

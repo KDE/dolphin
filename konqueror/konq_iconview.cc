@@ -343,18 +343,13 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       popupRequest.urls.length( i + 1 );
       popupRequest.urls[ i++ ] = (*icit)->url();
 
-      UDSEntry::iterator it = (*icit)->udsEntry().begin();
-      for( ; it != (*icit)->udsEntry().end(); it++ )
-	if ( it->m_uds == UDS_FILE_TYPE )
-	{
-	  if ( first )
-	  {
-	    mode = (mode_t)it->m_long;
-	    first = false;
-	  }
-	  else if ( mode != (mode_t)it->m_long )
-	    mode = 0;
-	}
+      if ( first )
+      {
+        mode = (*icit)->mode();
+        first = false;
+      }
+      else if ( mode != (*icit)->mode() ) // modes are different
+        mode = 0; // reset to 0
     }
 
     popupRequest.x = _global.x();
@@ -566,14 +561,6 @@ void KonqKfmIconView::updateDirectory()
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( 0L, 0 ) );
 }
 
-void KonqKfmIconView::openURLRequest( const char *_url )
-{
-  Konqueror::URLRequest url;
-  url.url = CORBA::string_dup( _url );
-  url.reload = (CORBA::Boolean)false;
-  SIGNAL_CALL1( "openURL", url );
-}
-
 void KonqKfmIconView::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
 {
   kioErrorDialog( _errid, _errortext );
@@ -680,81 +667,41 @@ void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
   KIconContainer::focusInEvent( _event );
 }
 
+///////// KonqKfmIconViewItem ////////
+
 KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url )
-  : KIconContainerItem( _parent ), KFileIcon( _entry, _url )
+  : KIconContainerItem( _parent ), 
+    KFileIcon( _entry, _url, _parent->displayMode() == KIconContainer::Vertical )
 {
   m_pIconView = _parent;
-  init( _entry );
+  init();
 }
 
-void KonqKfmIconViewItem::init( UDSEntry& _entry )
+void KonqKfmIconViewItem::init()
 {
-  m_displayMode = m_pIconView->displayMode();
-
-  // Find out about the name
-  const char * name = 0L;
-  UDSEntry::iterator it2 = _entry.begin();
-  for( ; it2 != _entry.end(); it2++ )
-    if ( it2->m_uds == UDS_NAME )
-      name = it2->m_str.c_str();
-  assert(name);
-  setText(name);
-
-  bool mini = m_pIconView->displayMode() == KIconContainer::Vertical;
-  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, mini );
-  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType().ascii());
-  else setPixmap( *p );
-
+  // Done out of the constructor since it uses fields filled by KFileIcon constructor
+  setText(m_name);
+  QPixmap *p = getPixmap(); // determine the pixmap (KFileIcon)
+  if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
 }
 
 void KonqKfmIconViewItem::refresh()
 {
-  if ( m_displayMode != m_pIconView->displayMode() )
+  bool oldmini = m_bMini;
+  m_bMini = ( m_pIconView->displayMode() == KIconContainer::Vertical );
+
+  if ( m_bMini != oldmini )
   {
-    m_displayMode = m_pIconView->displayMode();
-
-    mode_t mode = 0;
-    UDSEntry::iterator it = m_entry.begin();
-    for( ; it != m_entry.end(); it++ )
-      if ( it->m_uds == UDS_FILE_TYPE )
-	mode = (mode_t)it->m_long;
-
-    bool mini = m_pIconView->displayMode() == KIconContainer::Vertical;
-    setPixmap( *( KPixmapCache::pixmapForURL( m_url, mode, m_bIsLocalURL, mini ) ) );
+    QPixmap *p = getPixmap(); // determine the pixmap (KFileIcon)
+    if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
   }
 
   KIconContainerItem::refresh();
 }
 
-/*
-void KonqKfmIconViewItem::returnPressed()
-{
-  mode_t mode = 0;
-  UDSEntry::iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-
-  // (void)new KRun( m_strURL.c_str(), mode, m_bIsLocalURL );
-//  m_pIconView->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
-// HACKHACKHACK
-  m_pIconView->openURLRequest( m_strURL.c_str() );
-}
-*/
-
 void KonqKfmIconViewItem::paint( QPainter* _painter, bool _drag )
 {
-  mode_t mode = 0;
-
-  UDSEntry::iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-    {
-      mode = (mode_t)it->m_long;
-      break;
-    }
-
-  if ( S_ISLNK( mode ) )
+  if ( isLink() ) // implemented in KFileIcon
   {
     QFont f = _painter->font();
     f.setItalic( true );
@@ -763,23 +710,5 @@ void KonqKfmIconViewItem::paint( QPainter* _painter, bool _drag )
 
   KIconContainerItem::paint( _painter, _drag );
 }
-
-/*
-void KonqKfmIconViewItem::popupMenu( const QPoint &_global )
-{
-  mode_t mode = 0;
-  UDSEntry::iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-
-  m_pIconView->setSelected( this, true );
-
-  QStrList lst;
-  lst.append( m_strURL.data() );
-
-  m_pIconView->view()->popupMenu( _global, lst, mode, m_bIsLocalURL );
-}
-*/
 
 #include "konq_iconview.moc"

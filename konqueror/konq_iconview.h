@@ -40,12 +40,11 @@ public:
   virtual ~KonqKfmIconViewItem() { }
 
 protected:
-  void init( UDSEntry& _entry );
+  void init();
   virtual void paint( QPainter* _painter, bool _drag );
   virtual void refresh();
   
   KonqKfmIconView* m_pIconView;
-  KIconContainer::DisplayMode m_displayMode;
 };
 
 class KonqKfmIconView : public KIconContainer,
@@ -72,8 +71,6 @@ public:
 
   virtual void updateDirectory();
 
-  virtual void openURLRequest( const char *_url );
-    
 public slots:
   virtual void slotCloseURL( int _id );
   virtual void slotListEntry( int _id, const UDSEntry& _entry );

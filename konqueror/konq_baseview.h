@@ -44,10 +44,19 @@ public:
   virtual bool mappingCreateViewToolBar( Konqueror::View::EventCreateViewToolBar viewToolBar );
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
+  /**
+   * @return the URL shown by this view
+   */
   virtual char *url();
 
   virtual Konqueror::View::HistoryEntry *saveState();
   virtual void restoreState( const Konqueror::View::HistoryEntry &history );
+
+  /**
+   * Ask the main view to open this URL, since it might not be suitable
+   * for the current type of view. It might even be a file (KRun will be used)
+   */
+  virtual void openURLRequest( const char *_url );
 
 protected:
   QString m_strURL;
