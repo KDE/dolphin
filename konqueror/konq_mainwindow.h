@@ -362,6 +362,7 @@ public slots:
   void slotConfigure();
   void slotConfigureKeys();
   void slotConfigureToolbars();
+    void slotConfigureSpellChecking();
   void slotNewToolbarConfig();
 
   void slotUndoAvailable( bool avail );
@@ -598,7 +599,7 @@ private:
     KAction *m_paMoveTabLeft;
     KAction *m_paMoveTabRight;
 
-
+    KAction *m_paConfigureSpellChecking;
 
   KonqLogoAction *m_paAnimatedLogo;
 
@@ -683,7 +684,7 @@ private:
   bool m_bBackRightClick;
 
   KURL m_pendingBookmarklet;
-  
+
   static bool s_preloaded;
   static KonqMainWindow* s_preloadedWindow;
 

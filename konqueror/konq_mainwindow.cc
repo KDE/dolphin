@@ -429,15 +429,15 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( !view  && !req.newTab)
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
 
-  if ( url.protocol() == "javascript" && !req.typedURL.isEmpty() ) 
+  if ( url.protocol() == "javascript" && !req.typedURL.isEmpty() )
   {
-    m_pendingBookmarklet = url;    
-    if ( view && view->part() && view->part()->inherits("KHTMLPart") && !view->url().isEmpty() ) 
+    m_pendingBookmarklet = url;
+    if ( view && view->part() && view->part()->inherits("KHTMLPart") && !view->url().isEmpty() )
     {
       executePendingBookmarklet( view );
       return;
     }
-    else 
+    else
     {
       abortLoading();
       serviceType = "text/html";
@@ -1521,6 +1521,11 @@ void KonqMainWindow::slotConfigure()
   KApplication::startServiceByDesktopName("konqueror_config");
 }
 
+void KonqMainWindow::slotConfigureSpellChecking()
+{
+    KApplication::startServiceByDesktopName("spellchecking");
+}
+
 void KonqMainWindow::slotConfigureKeys()
 {
   KKeyDialog dlg( true, this );
@@ -1677,9 +1682,9 @@ void KonqMainWindow::executePendingBookmarklet( KonqView * view )
   setLocationBarURL( m_pendingBookmarklet.prettyURL() );
   view->setTypedURL( m_pendingBookmarklet.prettyURL() );
   QString script;
-  script = KURL::decode_string( 
+  script = KURL::decode_string(
               m_pendingBookmarklet.url().right(m_pendingBookmarklet.url().length() - 11) );
-  connect(this, SIGNAL( executeScript(const QString &) ), 
+  connect(this, SIGNAL( executeScript(const QString &) ),
           view->part(), SLOT( executeScript(const QString &) ));
   emit executeScript( script );
   disconnect(this, SIGNAL( executeScript(const QString &) ), 0, 0);
@@ -3049,6 +3054,8 @@ void KonqMainWindow::initActions()
 
   KStdAction::keyBindings( this, SLOT( slotConfigureKeys() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
+
+  m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), 0, this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");
 
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
