@@ -74,6 +74,8 @@ public:
      */
     static void statURL( const KURL & url, const QObject *receiver, const char *member );
 
+    static void rename( QWidget * parent, const KFileItem * item, const QString & name );
+
 signals:
     void statFinished( const KFileItem * item );
 
@@ -104,7 +106,7 @@ protected slots:
 
 private:
     int m_method;
-    KURL::List m_srcURLs;
+    //KURL::List m_srcURLs;
     KURL m_destURL;
     // for doDrop
     DropInfo * m_info;

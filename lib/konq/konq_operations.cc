@@ -1,8 +1,6 @@
 /*  This file is part of the KDE project
     Copyright (C) 2000  David Faure <faure@kde.org>
 
-#include "konq_operations.h"
-
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -159,7 +157,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs, int conf
   m_method = method;
   if ( confirmation == SKIP_CONFIRMATION || askDeleteConfirmation( selectedURLs, confirmation ) )
   {
-    m_srcURLs = selectedURLs;
+    //m_srcURLs = selectedURLs;
     KIO::Job *job;
     switch( method )
     {
@@ -409,10 +407,28 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     delete this;
 }
 
-void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest )
+void KonqOperations::rename( QWidget * parent, const KFileItem * item, const QString & name )
+{
+    KURL oldurl = item->url();
+    QString newPath = oldurl.directory(false,true) + name;
+    kdDebug() << "KonqOperations::rename newPath=" << newPath << endl;
+    KURL newurl(oldurl);
+    newurl.setPath(newPath);
+    if ( oldurl != newurl )
+    {
+        KURL::List lst;
+        lst.append(oldurl);
+        KIO::Job * job = KIO::moveAs( oldurl, newurl );
+        KonqOperations * op = new KonqOperations( parent );
+        op->setOperation( job, MOVE, lst, newurl );
+        (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
+    }
+}
+
+void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & /*src*/, const KURL & dest )
 {
   m_method = method;
-  m_srcURLs = src;
+  //m_srcURLs = src;
   m_destURL = dest;
   if ( job )
     connect( job, SIGNAL( result( KIO::Job * ) ),

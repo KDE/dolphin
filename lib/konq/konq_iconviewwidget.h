@@ -120,6 +120,7 @@ public:
     void setItemColor( const QColor &c );
     QColor itemColor() const;
 
+    void renameSelectedItem();
     virtual void cutSelection();
     virtual void copySelection();
     virtual void pasteSelection();
@@ -190,6 +191,8 @@ protected slots:
     virtual void slotViewportScrolled(int);
 
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
+
+    void slotItemRenamed(QIconViewItem *item, const QString &name);
 
     void slotIconChanged(int);
     void slotOnItem(QIconViewItem *);

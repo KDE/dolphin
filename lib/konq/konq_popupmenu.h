@@ -34,10 +34,6 @@
 class KNewMenu;
 class KService;
 
-/*enum { KPOPUPMENU_BACK_ID, KPOPUPMENU_FORWARD_ID, KPOPUPMENU_UP_ID,
-       KPOPUPMENU_SHOWMENUBAR_ID, KPOPUPMENU_COPY_ID, KPOPUPMENU_PASTE_ID,
-       KPOPUPMENU_TRASH_ID, KPOPUPMENU_DELETE_ID, KPOPUPMENU_SHRED_ID };*/
-
 /**
  * This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
@@ -59,7 +55,7 @@ public:
    * (true in konqueror, false in kdesktop and others)
    *
    * The actions to pass in include :
-   * showmenubar, back, forward, up, cut, copy, paste, trash, del, shred
+   * showmenubar, back, forward, up, cut, copy, paste, trash, rename, del, shred
    * The others items are automatically inserted.
    *
    */

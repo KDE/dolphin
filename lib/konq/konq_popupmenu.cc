@@ -234,6 +234,9 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       addAction( "trash" );
     }
 
+    if ( m_lstItems.count() == 1 && sWriting && !currentDir )
+        addAction("rename");
+
     if ( sDeleting && !currentDir ) {
       addAction( "del" );
       if ( m_sViewURL.isLocalFile() )

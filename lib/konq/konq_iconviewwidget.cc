@@ -75,6 +75,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
+    connect( this, SIGNAL(itemRenamed(QIconViewItem *, const QString &)), SLOT(slotItemRenamed(QIconViewItem *, const QString &)) );
 
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
@@ -99,6 +100,13 @@ KonqIconViewWidget::~KonqIconViewWidget()
     stopImagePreview();
     KonqUndoManager::decRef();
     delete m_splitter;
+}
+
+void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &name)
+{
+    kdDebug() << "KonqIconViewWidget::slotItemRenamed" << endl;
+    KFileItem * fileItem = static_cast<KFileIVI *>(item)->item();
+    KonqOperations::rename( this, fileItem, name );
 }
 
 void KonqIconViewWidget::slotIconChanged( int group )
@@ -457,7 +465,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
         (iCount <= 1); // We can't paste to more than one destination, can we ?
 
-    emit enableAction( "paste", paste );
+    emit enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
 
     KFileItemList lstItems;
     if ( firstSelectedItem )
@@ -465,8 +473,26 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "properties", ( iCount == 1 ) &&
                        KPropertiesDialog::canDisplay( lstItems ) );
     emit enableAction( "editMimeType", ( iCount == 1 ) );
+    emit enableAction( "rename", ( iCount == 1 ) );
+}
 
-    // TODO : if only one url, check that it's a dir
+void KonqIconViewWidget::renameSelectedItem()
+{
+    kdDebug(1203) << " -- KonqIconViewWidget::renameSelectedItem() -- " << endl;
+    QIconViewItem * item = 0L;
+    QIconViewItem *it = firstItem();
+    for (; it; it = it->nextItem() )
+        if ( it->isSelected() && !item )
+        {
+            item = it;
+            break;
+        }
+    if (!item)
+    {
+        ASSERT(item);
+        return;
+    }
+    item->rename();
 }
 
 void KonqIconViewWidget::cutSelection()
