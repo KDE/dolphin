@@ -41,16 +41,21 @@
 KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
-    QGridLayout *lay = new QGridLayout(this, 2 /* rows */, 2,
+    QGridLayout *lay = new QGridLayout(this, 2 /* rows */, 1/*2*/,
                                        KDialog::marginHint(),
                                        KDialog::spacingHint());
     lay->setRowStretch(1,1); // last row
-    lay->setColStretch(1,1); // last col
+//    lay->setColStretch(1,1); // last col
 
     QButtonGroup *bg = new QButtonGroup( i18n("Ask confirmation for:"), this );
-    bg->setMinimumWidth( bg->fontMetrics().width( bg->title() ) + 50 );
-    QVBoxLayout *bgLay = new QVBoxLayout(bg, KDialog::marginHint(),
-                       KDialog::spacingHint());
+    bg->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)3, bg->sizePolicy().hasHeightForWidth()) );
+    bg->setColumnLayout(0, Qt::Vertical );
+    bg->layout()->setSpacing( 0 );
+    bg->layout()->setMargin( 0 );
+    QVBoxLayout *bgLay = new QVBoxLayout( bg->layout() );
+    bgLay->setAlignment( Qt::AlignTop );
+    bgLay->setSpacing( KDialog::spacingHint() );
+    bgLay->setMargin( KDialog::marginHint() );
     QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
        " for a confirmation when you \"delete\" a file."
        " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
@@ -64,7 +69,7 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
     connect(bg, SIGNAL( clicked( int ) ), SLOT( slotDeleteBehaviourChanged( int ) ));
 
-    bgLay->addSpacing(10);
+//    bgLay->addSpacing(10);
 
     cbMoveToTrash = new QCheckBox( i18n("Move To Trash"), bg );
     bgLay->addWidget(cbMoveToTrash);
