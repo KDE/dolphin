@@ -219,6 +219,7 @@ bool KonquerorIface::processCanBeReused()
     KConfig* cfg = kapp->config();
     KConfigGroupSaver saver( cfg, "Reusing" );
     QStringList allowed_parts;
+    // is duplicated in client/kfmclient.cc
     allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
                   << QString::fromLatin1( "konq_multicolumnview.desktop" )
                   << QString::fromLatin1( "konq_sidebartng.desktop" )

@@ -40,6 +40,9 @@
 #include <kfiledialog.h>
 #include <kdebug.h>
 #include <dcopclient.h>
+#include <ktrader.h>
+#include <kservice.h>
+#include <qregexp.h>
 
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"
@@ -141,16 +144,77 @@ int main( int argc, char **argv )
   return clientApp::doIt() ? 0 /*no error*/ : 1 /*error*/;
 }
 
-/** Whether to start a new konqueror or reuse an existing process */
-static bool startNewKonqueror()
+/*
+ Whether to start a new konqueror or reuse an existing process.
+ 
+ First of all, this concept is actually broken, as the view used to show
+ the data may change at any time, and therefore Konqy reused to browse
+ "safe" data may eventually browse something completely different.
+ Moreover, it's quite difficult to find out when to reuse, and thus this
+ function is an ugly hack. You've been warned.
+ 
+ Kfmclient will attempt to find an instance for reusing if either reusing
+ is configured to reuse always,
+ or it's not configured to never reuse, and the URL to-be-opened is "safe".
+ The URL is safe, if the view used to view it is listed in the allowed KPart's.
+ In order to find out the part, mimetype is needed, and KTrader is needed.
+ If mimetype is not known, KMimeType is used (which doesn't work e.g. for remote
+ URLs, but oh well). Since this function may be running without a KApplication
+ instance, I'm actually quite surprised it works, and it may sooner or later break.
+ Nice, isn't it?
+ 
+ If a profile is being used, and no url has been explicitly given, it needs to be
+ read from the profile. If there's more than one URL listed in the profile, no reusing
+ will be done (oh well), if there's no URL, no reusing will be done either (also
+ because the webbrowsing profile doesn't have any URL listed).
+*/
+static bool startNewKonqueror( QString url, QString mimetype, const QString& profile )
 {
+    if( url.isEmpty() && !profile.isEmpty())
+    {
+	QString profilepath = locate( "data", QString::fromLatin1("konqueror/profiles/") + profile );
+	if( profilepath.isEmpty())
+	    return true;
+	KConfig cfg( profilepath, true );
+	cfg.setDollarExpansion( true );
+	QMap< QString, QString > entries = cfg.entryMap( QString::fromLatin1( "Profile" ));
+	QRegExp urlregexp( QString::fromLatin1( "^View[0-9]*_URL$" ));
+	QStringList urls;
+	for( QMap< QString, QString >::ConstIterator it = entries.begin();
+	     it != entries.end();
+	     ++it )
+	{
+	    if( urlregexp.search( it.key()) >= 0 && !(*it).isEmpty())
+		urls << *it;
+	}
+	if( urls.count() != 1 )
+	    return true;
+	url = urls.first();
+	mimetype = QString::fromLatin1( "" );
+    }
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     QStringList allowed_parts;
+    // is duplicated in ../KonquerorIface.cc
+    allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
+                  << QString::fromLatin1( "konq_multicolumnview.desktop" )
+                  << QString::fromLatin1( "konq_sidebartng.desktop" )
+                  << QString::fromLatin1( "konq_infolistview.desktop" )
+                  << QString::fromLatin1( "konq_treeview.desktop" )
+                  << QString::fromLatin1( "konq_detailedlistview.desktop" );
     if( cfg.hasKey( "SafeParts" )
-        && cfg.readListEntry( "SafeParts" ).isEmpty())
-            return true; // always start new konqy
-    return false; // will check safe parts using DCOP
+        && cfg.readEntry( "SafeParts" ) != QString::fromLatin1( "SAFE" ))
+        allowed_parts = cfg.readListEntry( "SafeParts" );
+    if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
+	return true; // all parts allowed
+    if( mimetype.isEmpty())
+	mimetype = KMimeType::findByURL( url )->name();
+    KTrader::OfferList offers = KTrader::self()->query( mimetype, QString::fromLatin1( "KParts/ReadOnlyPart" ),
+	QString::null, QString::null );
+    KService::Ptr serv;
+    if( offers.count() > 0 )
+        serv = offers.first();
+    return serv == NULL || !allowed_parts.contains( serv->desktopEntryName() + QString::fromLatin1(".desktop") );
 }
 
 // when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
@@ -168,12 +232,12 @@ static QCString getPreloadedKonqy()
 }
 
 
-static QCString konqyToReuse()
+static QCString konqyToReuse( const QString& url, const QString& mimetype, const QString& profile )
 { // prefer(?) preloaded ones
     QCString ret = getPreloadedKonqy();
     if( !ret.isEmpty())
         return ret;
-    if( startNewKonqueror())
+    if( startNewKonqueror( url, mimetype, profile ))
         return "";
     QCString appObj;
     QByteArray data;
@@ -199,7 +263,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 		return true;
 	}
 
-    QCString appId = konqyToReuse();
+    QCString appId = konqyToReuse( url.url(), mimetype, QString::null );
     if( !appId.isEmpty())
     {
         kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
@@ -246,7 +310,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 
 bool clientApp::openProfile( const QString & profileName, const QString & url, const QString & mimetype )
 {
-  QCString appId = konqyToReuse();
+  QCString appId = konqyToReuse( url, mimetype, profileName );
   if( appId.isEmpty())
   {
     QString error;
