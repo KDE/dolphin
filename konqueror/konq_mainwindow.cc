@@ -4719,10 +4719,9 @@ void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
 
 // used by preloading - this KonqMainWindow will be reused, reset everything
 // that won't be reset by loading a profile
-#include <netwm.h> // only for KWIN_FOCUS, remove when not needed
 void KonqMainWindow::resetWindow()
 {
-#ifdef KWIN_FOCUS
+#ifdef QT_COPY_PATCH_0008
     char data[ 1 ];
     // empty append to get current X timestamp
     QWidget tmp_widget;
