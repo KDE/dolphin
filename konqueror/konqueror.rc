@@ -38,10 +38,11 @@
   <Action name="home"/>
   <Action name="open_location"/>
   <Separator/>
-  <Action name="go_mimetypes"/>
   <Action name="go_applications"/>
   <Action name="go_dirtree"/>
   <Action name="go_trash"/>
+  <Action name="go_templates"/>
+  <Action name="go_autostart"/>
   <Separator/>
   <Action name="history"/>
  </Menu>
