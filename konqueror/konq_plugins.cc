@@ -192,7 +192,7 @@ void KonqPlugins::parseService( const QString file, const QString serviceType, b
     }
     else
     {
-      cerr << "unknown servicetype!!!!!!!!!!!!!!" << endl;
+     kdebug(0,1202,"unknown servicetype!!!!!!!!!!!!!!");
       return;
     }
     

@@ -64,7 +64,7 @@ KonqTxtView::~KonqTxtView()
 bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL( eventURL );
-  cerr << "bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )" << endl;
+ kdebug(0,1202,"bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
   stop();
   
   CachedKIOJob *job = new CachedKIOJob;

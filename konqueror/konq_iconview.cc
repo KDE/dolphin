@@ -225,7 +225,7 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
-  cerr << "void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )" << endl;
+  kdebug(0,1202,"void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )");
 
   if ( !_item )
   {
@@ -321,7 +321,7 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
   {
     if( lst.count() == 0 )
     {
-      cerr << "Oooops, no data ...." << endl;
+      kdebug(0,1202,"Oooops, no data ....");
       return;
     }
   }
@@ -331,7 +331,7 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
       pasteData( m_strURL.data(), _ev->data( _formats.getFirst() ) );
     else
     {
-      cerr << "Pasting to " << ((KonqKfmIconViewItem*)_item)->url() << endl;
+      kdebug(0,1202,"Pasting to %s", ((KonqKfmIconViewItem*)_item)->url().data());
       pasteData( ((KonqKfmIconViewItem*)_item)->url(), _ev->data( _formats.getFirst() ) );
     }
   }
@@ -392,7 +392,7 @@ void KonqKfmIconView::openURL( const char *_url )
   m_jobId = job->id();
   job->listDir( url.url() );
 
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_sWorkingURL, 0 ) );
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_sWorkingURL.data(), 0 ) );
   m_vMainWindow->setPartCaption( id(), m_sWorkingURL );
 }
 
@@ -424,7 +424,7 @@ void KonqKfmIconView::slotListEntry( int /*_id*/, const UDSEntry& _entry )
 
 void KonqKfmIconView::slotBufferTimeout()
 {
-  //cerr << "BUFFER TIMEOUT" << endl;
+  //kdebug(0,1202,"BUFFER TIMEOUT");
 
   list<UDSEntry>::iterator it = m_buffer.begin();
 
@@ -453,22 +453,22 @@ void KonqKfmIconView::slotBufferTimeout()
     assert( !name.empty() );
     if ( m_isShowingDotFiles || name[0]!='.' )
     {
-      //cerr << "Processing " << name << endl;
+      //kdebug(0,1202,"Processing %s", name);
 
       KURL u( m_url );
       u.addPath( name.c_str() );
       KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
       insert( item, -1, -1, false );
 
-      //cerr << "Ended " << name << endl;
+      //kdebug(0,1202,"Ended %s", name);
     }
   }
 
-  //cerr << "Doing setup" << endl;
+  //kdebug(0,1202,"Doing setup");
 
   setup();
 
-  //cerr << "111111111111111111" << endl;
+  //kdebug(0,1202,"111111111111111111");
 
   // refresh();
 
@@ -572,7 +572,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
         KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
         item->mark();
         insert( item );
-        cerr << "Inserting " << name << endl;
+        kdebug(0,1202,"Inserting %s", name.c_str());
       }
     }
   }
@@ -584,7 +584,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
   {
     if ( !((KonqKfmIconViewItem&)**kit).isMarked() )
     {
-      cerr << "Removing " << (*kit)->text() << endl;
+      kdebug(0,1202,"Removing %s", (*kit)->text());
       lst.append( &**kit );
     }
   }

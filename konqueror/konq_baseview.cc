@@ -21,7 +21,7 @@ KonqBaseView::KonqBaseView()
 
 KonqBaseView::~KonqBaseView()
 {
-  cerr << "KonqBaseView::~KonqBaseView() -> " << debug_ViewName.in() << endl;
+  kdebug(0,1202,"KonqBaseView::~KonqBaseView() -> %s", debug_ViewName.in());
   cleanUp();
 }
 
@@ -35,7 +35,7 @@ void KonqBaseView::cleanUp()
   if ( m_bIsClean )
     return;
 
-  cerr << "void KonqBaseView::cleanUp() -> " << debug_ViewName.in() << endl;
+  kdebug(0,1202,"void KonqBaseView::cleanUp() -> %s", debug_ViewName.in());
 
   OPPartIf::cleanUp();
 }

@@ -350,7 +350,7 @@ int main( int argc, char **argv )
 
   KonqPlugins::init();
   
-  cerr << "===================== mime stuff finished ==============" << endl;
+  kdebug(0, 1202, "===================== mime stuff finished ==============");
 
   kimgioRegister();
 
@@ -362,7 +362,7 @@ int main( int argc, char **argv )
   
   app.exec();
 
-  cerr << "============ BACK from event loop ===========" << endl;
+  kdebug(0, 1202, "============ BACK from event loop ===========");
   sig_term_handler(0);
 
   return 0;

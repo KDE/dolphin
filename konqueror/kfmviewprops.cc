@@ -62,7 +62,7 @@ KfmViewProps::KfmViewProps( const KConfig * config )
     QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
     if ( p )
     {
-      cerr << "Got background" << endl;
+     kdebug(0,1202,"Got background");
       m_bgPixmap = *p;
     }
   }

@@ -344,7 +344,7 @@ char *KonqHTMLView::url()
 
 Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
 {
-  cerr << "Konqueror::View::HistoryEntry *KonqHTMLView::saveState()" << endl;
+ kdebug(0,1202,"Konqueror::View::HistoryEntry *KonqHTMLView::saveState()");
 
   Konqueror::View::HistoryEntry *entry = new Konqueror::View::HistoryEntry;
   
@@ -358,7 +358,7 @@ Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
 
 void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )
 {
-  cerr << "void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )" << endl;
+ kdebug(0,1202,"void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )");
 
   Konqueror::HTMLView::SavedState state;
   

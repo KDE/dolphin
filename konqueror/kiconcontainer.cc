@@ -611,7 +611,7 @@ void KIconContainer::dragEnterEvent( QDragEnterEvent *_ev )
       m_lstDropFormats.append( _ev->format( i ) );
   }
 
-  cerr << "GOT DRAG" << endl;
+ kdebug(0,1202,"GOT DRAG");
 
   // By default we accept any format
   _ev->accept();
@@ -625,13 +625,13 @@ void KIconContainer::dragLeaveEvent( QDragLeaveEvent * )
 
   /** DEBUG CODE */
   // Give the user some feedback...
-  cerr << "Left!" << endl;
+ kdebug(0,1202,"Left!");
   /** End DEBUG CODE */
 }
 
 void KIconContainer::dropEvent( QDropEvent * e )
 {
-  cerr << "YappaDappaDu" << endl;
+ kdebug(0,1202,"YappaDappaDu");
 
   if ( m_dragOverItem != end() )
     setSelected( &**m_dragOverItem, false );
@@ -646,12 +646,12 @@ void KIconContainer::dropEvent( QDropEvent * e )
   // Background drop
   if ( it == end() )
   {
-    cerr << "Background drop" << endl;
+   kdebug(0,1202,"Background drop");
     emit drop( e, 0L, m_lstDropFormats );
   }
   else
   {
-    cerr << "Item drop" << endl;
+   kdebug(0,1202,"Item drop");
     emit drop( e, &**it, m_lstDropFormats );
   }
 
@@ -670,7 +670,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
     char *s;
     for ( s = m_lstDropURLs.first(); s != 0L; s = m_lstDropURLs.next() )
     {
-      cerr << "Testing URL " << s << endl;
+     kdebug(0,1202,"Testing URL " << s);
 
       KURL u( s );
       if ( u.isMalformed() )
@@ -698,7 +698,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
 
 void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 {
-  //  cerr << "void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )" << endl;
+  // kdebug(0,1202,"void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )");
 
   if ( !hasFocus() )
     setFocus();
@@ -883,7 +883,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
     // Do not handle and more mouse move or mouse release events
     m_pressed = false;
 
-    cerr << "Starting drag" << endl;
+   kdebug(0,1202,"Starting drag");
 
     // Multiple URLs ?
     if ( lst.count() > 1 )
@@ -944,11 +944,11 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
   int maxX = _clipx + _clipw;
   int maxY = _clipy + _cliph;
 
-  // cerr << "!!!!!!!!!! DRAW !!!!!!!!!!!!" <<  " x=" << _clipx << " y=" << _clipy << " w=" << _clipw << " h=" << _cliph << " ox=" << _offsetx << " oy=" << _offsety << endl;
+  //kdebug(0,1202,"!!!!!!!!!! DRAW !!!!!!!!!!!!" <<  " x=" << _clipx << " y=" << _clipy << " w=" << _clipw << " h=" << _cliph << " ox=" << _offsetx << " oy=" << _offsety);
 
   if ( m_bDirty )
   {
-    cerr << "!!!!!!!!!! DRAW SETUP !!!!!!!!!!!!" << endl;
+   kdebug(0,1202,"!!!!!!!!!! DRAW SETUP !!!!!!!!!!!!");
     setup();
   }
 
@@ -1018,7 +1018,7 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
     item->paintFocus( _painter, cgr, r );
   }
 
-  // cerr << "!!!!!!!!!! DRAW END !!!!!!!!!!!!" << endl;
+  //kdebug(0,1202,"!!!!!!!!!! DRAW END !!!!!!!!!!!!");
 }
 
 void KIconContainer::setup()

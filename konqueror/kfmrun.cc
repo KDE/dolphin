@@ -39,7 +39,7 @@ KfmRun::~KfmRun()
 
 void KfmRun::foundMimeType( const char *_type )
 {
-  cerr << "FILTERING " << _type << endl;
+  kdebug(0,1202,"FILTERING %s", _type);
   
   if ( strcmp( _type, "inode/directory" ) == 0 )
   {    
@@ -79,7 +79,7 @@ void KfmRun::foundMimeType( const char *_type )
   bool isView, isPart, isEventFilter;
   if ( KonqPlugins::isPluginServiceType( _type, &isView, &isPart, &isEventFilter ) )
   {
-    cerr << "found plugin for " << _type << endl;
+    kdebug(0,1202,"found plugin for %s", _type);
     
     if ( isView )
     {
@@ -97,7 +97,7 @@ void KfmRun::foundMimeType( const char *_type )
     else ;//TODO
   }
   
-  cerr << "Nothing special to do here" << endl;
+  kdebug(0,1202,"Nothing special to do here");
 
   KRun::foundMimeType( _type );
 }

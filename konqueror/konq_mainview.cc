@@ -518,14 +518,14 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
 bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
-  cerr << "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )" << endl;
+  kdebug(0, 1202, "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )");
   setActiveView( child->id() );
   return true;
 }
 
 bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
 {
-  cerr << "void KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )" << endl;
+  kdebug(0, 1202, "bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )");
   // removing view-specific menu entries (view will probably be destroyed !)
   if (m_currentView)
   {
@@ -1481,7 +1481,7 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
 
 void KonqMainView::slotURLCompleted( OpenParts::Id id )
 {
-  cerr << "void KonqMainView::slotURLCompleted( OpenParts::Id id )" << endl;
+  kdebug(0, 1202, "void KonqMainView::slotURLCompleted( OpenParts::Id id )");
 
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
   

@@ -154,7 +154,7 @@ Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
 {
   Konqueror::View_var vView;
 
-  cerr << "void KonqChildView::createViewByName( " << viewName << " )" << endl;
+  kdebug(0,1202,"void KonqChildView::createViewByName( %s )", viewName);
 
   //check for builtin views
   if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
@@ -211,7 +211,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""openURL"" ");
   }
   try
   {
@@ -219,7 +219,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""started"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""started"" ");
   }
   try
   {
@@ -227,7 +227,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""completed"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""completed"" ");
   }
   try
   {
@@ -235,7 +235,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""setStatusBarText"" ");
   }
   try
   {
@@ -243,7 +243,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""setLocationBarURL"" ");
   }
   try
   {
@@ -251,7 +251,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""createNewWindow"" ");
   }
   try
   {
@@ -259,7 +259,7 @@ void KonqChildView::connectView(  )
   }
   catch ( ... )
   {
-    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
+    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""popupMenu"" ");
   }
 
 }
@@ -318,7 +318,7 @@ void KonqChildView::goBack()
   InternalHistoryEntry h = m_lstBack.back();
   m_lstBack.pop_back();
   m_bBack = true;
-  cerr << "restoring " << h.entry.url << " with mode " << h.strViewName << endl; 
+  kdebug(0,1202,"restoring %s with mode %s", h.entry.url.in(), h.strViewName.data());
 
   changeViewMode( h.strViewName );
 

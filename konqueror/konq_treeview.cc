@@ -870,7 +870,7 @@ void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
   if ( !m_bTopLevelComplete )
   {
     // TODO: Give a warning
-    cerr << "Still waiting for toplevel directory" << endl;
+    kdebug(0,1202,"Still waiting for toplevel directory");
     return;
   }
 
@@ -1176,13 +1176,13 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
 
       if ( !done )
       {
-        cerr << "Inserting " << name << endl;
+        kdebug(0,1202,"Inserting %s", name.c_str());
         KfmTreeViewItem *item;
         if ( m_pWorkingDir )
         {
           KURL u( m_workingURL );
           u.addPath( name.c_str() );
-          cerr << "Final path 1 '" << u.path() << '"' << endl;
+          kdebug(0,1202,"Final path 1 '%s'", u.path().data());
           if ( isdir )
             item = new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
           else
@@ -1192,7 +1192,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
         {
           KURL u( m_url );
           u.addPath( name.c_str() );
-          cerr << "Final path 2 '" << u.path() << '"' << endl;
+          kdebug(0,1202,"Final path 2 '%s'", u.path().data());
           if ( isdir )
             item = new KfmTreeViewDir( this, *it, u );
           else
@@ -1214,7 +1214,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
   {
     if ( !((KfmTreeViewItem*)item)->isMarked() )
     {
-      cerr << "Removing " << ((KfmTreeViewItem*)item)->name() << endl;
+      kdebug(0,1202,"Removing %s", ((KfmTreeViewItem*)item)->name().data());
       lst.append( item );
     }
     item = item->nextSibling();

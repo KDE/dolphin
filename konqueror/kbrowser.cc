@@ -199,14 +199,14 @@ void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffs
 
 void KBrowser::slotFinished( int /*_id*/ )
 {
-  cerr << "SLOT_FINISHED 1" << endl;
+  kdebug(0,1202,"SLOT_FINISHED 1");
 
-  cerr << "SLOT_FINISHED 2" << endl;
+  kdebug(0,1202,"SLOT_FINISHED 2");
   m_strWorkingURL = "";
   
   if ( m_bParsing )
   {
-    cerr << "SLOT_FINISHED 3" << endl;
+    kdebug(0,1202,"SLOT_FINISHED 3");
     end();
   }
 
@@ -223,7 +223,7 @@ void KBrowser::slotRedirection( int /*_id*/, const char *_url )
 
 void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
 {
-  cerr << "SLOT_DATA " << _len << endl;
+  kdebug(0,1202,"SLOT_DATA %d", _len);
 
   /** DEBUG **/
   assert( (int)strlen(_p ) <= _len );
@@ -232,7 +232,7 @@ void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
   // The first data ?
   if ( !m_strWorkingURL.isEmpty() )
   {
-    cerr << "BEGIN..." << endl;
+    kdebug(0,1202,"BEGIN...");
     m_lstChildren.clear();
     m_strURL = m_strWorkingURL;
     m_strWorkingURL = "";
@@ -250,7 +250,7 @@ void KBrowser::slotData( int /*_id*/, const char *_p, int _len )
 
 void KBrowser::slotError( int /*_id*/, int _err, const char *_text )
 {
-  cerr << "+++++++++++++ ERROR " << _err << " " << _text << endl;
+  kdebug(0,1202,"+++++++++++++ ERROR %s, %s ", _err, _text);
   
   slotStop();
 
@@ -259,14 +259,14 @@ void KBrowser::slotError( int /*_id*/, int _err, const char *_text )
   // !!!!!! HACK !!!!!!!!!!
   kioErrorDialog( _err, _text );
   
-  cerr << "+++++++++++ RETURN from error ++++++++++" << endl;
+  kdebug(0,1202,"+++++++++++ RETURN from error ++++++++++");
   
   // emit canceled();
 }
 
 void KBrowser::slotURLRequest( const char *_url )
 {
-  cerr << "URLRequest " << _url << endl;
+  kdebug(0,1202,"URLRequest %s", _url);
   
   m_lstPendingURLRequests.append( _url );
  
@@ -335,10 +335,10 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     }
     else if ( strcmp( _target, "_top" ) == 0 )
     {
-      cerr << "OPENING top " << url << endl;
+      kdebug(0,1202,"OPENING top %s", url.data());
       topView()->openURL( url );
       emit urlClicked( url );
-      cerr << "OPENED top" << endl;
+      kdebug(0,1202,"OPENED top");
       return;
     }
     else if ( strcmp( _target, "_blank" ) == 0 )
@@ -387,7 +387,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
     if ( urlcmp( url, m_strURL, TRUE, TRUE ) )
     {
       QString anchor = u1.htmlRef();
-      cerr << "Going to anchor " << anchor << endl;
+      kdebug(0,1202,"Going to anchor %s", anchor.data());
       gotoAnchor( anchor );
       emit urlClicked( url );
       return;
@@ -769,9 +769,9 @@ KBrowser* KBrowser::findChildView( const char *_target )
 void KBrowser::childCompleted( KBrowser *_browser )
 {
   /** DEBUG **/
-  cerr << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
-  cerr << "--------------- ChildFinished " << hex << (int)this << dec << "----------------------" << endl;
-  /** Ende DEBUG **/
+  kdebug(0,1202,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  kdebug(0,1202,"--------------- ChildFinished %p ----------------------",this);
+  /** End DEBUG **/
 
   QListIterator<Child> it( m_lstChildren );
   for( ; it.current(); ++it )
@@ -783,7 +783,7 @@ void KBrowser::childCompleted( KBrowser *_browser )
   if ( m_bComplete )
     slotDocumentFinished( this );
 
-  cerr << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+  kdebug(0,1202,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 }
 
 void KBrowser::slotDocumentFinished( KHTMLView* _view )
@@ -794,13 +794,13 @@ void KBrowser::slotDocumentFinished( KHTMLView* _view )
   /** DEBUG **/
   if ( !m_pParentBrowser )
   {
-    cerr << "--------------------------------------------------" << endl;
-    cerr << "--------------- DocFinished " << hex << (int)this << dec << "----------------------" << endl;
-    cerr << "--------------------------------------------------" << endl;
+    kdebug(0,1202,"--------------------------------------------------");
+    kdebug(0,1202,"--------------- DocFinished %p ----------------------",this);
+    kdebug(0,1202,"--------------------------------------------------");
   }
   else
-    cerr << "########### SUB-DocFinished " << hex << (int)this << dec << "##############" << endl;
-  /** Ende DEBUG **/
+    kdebug(0,1202,"########### SUB-DocFinished %p ##############",this);
+  /** End DEBUG **/
 
   m_bComplete = true;
   
@@ -829,7 +829,7 @@ KBrowserURLRequestJob::KBrowserURLRequestJob( KBrowser* _browser )
 
 KBrowserURLRequestJob::~KBrowserURLRequestJob()
 {
-  cerr << "Destructor 1" << endl;
+  kdebug(0,1202,"Destructor 1");
   if ( m_jobId )
   {
     KIOJob* job = KIOJob::find( m_jobId );
@@ -837,12 +837,12 @@ KBrowserURLRequestJob::~KBrowserURLRequestJob()
       job->kill();
     m_jobId = 0;
   }
-  cerr << "Destructor 2" << endl;
+  kdebug(0,1202,"Destructor 2");
 }
 
 void KBrowserURLRequestJob::run( const char *_url, const char *_simple_url, bool _reload )
 {
-  cerr << "$$$$$$$$$ BrowserJob for " << _url << endl;
+  kdebug(0,1202,"$$$$$$$$$ BrowserJob for %s", _url);
   
   m_strSimpleURL = _simple_url;
   m_strURL = _url;
@@ -862,10 +862,10 @@ void KBrowserURLRequestJob::slotFinished( int /*_id*/ )
 {
   m_jobId = 0;
   
-  cerr << "BROWSER JOB FINISHED " << m_strURL << " " << m_strSimpleURL << endl;
+  kdebug(0,1202,"BROWSER JOB FINISHED %s %s", m_strURL.data(), m_strSimpleURL.data());
   m_pBrowser->data( m_strSimpleURL, "", 0, true );
   m_pBrowser->urlRequestFinished( this );
-  cerr << "Back" << endl;
+  kdebug(0,1202,"Back");
 }
 
 void KBrowserURLRequestJob::slotData( int /*_id*/, const char* _data, int _len )
