@@ -165,9 +165,9 @@ void KPreviewOptions::load(bool useDefaults)
     for ( ; it.current() ; ++it ) {
         QString protocol( it.current()->text() );
         if ( ( protocol == "file" ) && ( !group.hasKey ( protocol ) ) )
-	  // file should be enabled in case is not defined because if not so
-	  // than preview's lost when size is changed from default one
-	  it.current()->setOn( true );
+          // file should be enabled in case is not defined because if not so
+          // than preview's lost when size is changed from default one
+          it.current()->setOn( true );
         else
           it.current()->setOn( group.readBoolEntry( protocol, false ) );
     }
