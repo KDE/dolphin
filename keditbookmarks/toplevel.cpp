@@ -251,6 +251,8 @@ void KEBTopLevel::connectSignals() {
               SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ) );
       connect(m_pListView, SIGNAL( dropped (QDropEvent* , QListViewItem* , QListViewItem* ) ),
               SLOT( slotDropped(QDropEvent* , QListViewItem* , QListViewItem* ) ) );
+      connect(m_pListView, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
+              SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ) );
       connect(kapp->clipboard(), SIGNAL( dataChanged() ),
               SLOT( slotClipboardDataChanged() ) );
 
@@ -1005,6 +1007,13 @@ void KEBTopLevel::slotDocumentRestored()
    // Called when undoing the very first action - or the first one after
    // saving. The "document" is set to "non modified" in that case.
    setModified(false);
+}
+
+void KEBTopLevel::slotDoubleClicked(QListViewItem *item, const QPoint &, int column)
+{
+   if (item) {
+      m_pListView->rename(item, column);
+   }
 }
 
 void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText, int column)

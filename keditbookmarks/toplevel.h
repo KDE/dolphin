@@ -198,7 +198,8 @@ public slots:
 
 protected slots:
     void slotItemRenamed(QListViewItem *, const QString &, int);
-    void slotDropped(QDropEvent* , QListViewItem* , QListViewItem* );
+    void slotDropped(QDropEvent*, QListViewItem*, QListViewItem*);
+    void slotDoubleClicked(QListViewItem *, const QPoint &, int);
     void slotSelectionChanged();
     void slotClipboardDataChanged();
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
