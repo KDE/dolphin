@@ -59,50 +59,56 @@ void KonqCheckBox::paintEvent(QPaintEvent *)
 }
 
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
-:QWidget( _parent, _name )
-,m_pParentKonqFrame( _parent )
-,m_yOffset(0)
-,m_showLed(true)
+  : KStatusBar( _parent, _name ),
+    m_pParentKonqFrame( _parent )
 {
-   m_pStatusLabel = new QLabel( this );
-   m_pStatusLabel->show();
-   m_pStatusLabel->installEventFilter(this);
+    setSizeGripEnabled( false );
 
-   m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
-   m_pLinkedViewCheckBox->show();
-   QWhatsThis::add( m_pLinkedViewCheckBox,
-                    i18n("Checking this box on at least two views sets those views as 'linked'. "
-                         "Then, when you change directories in one view, the other views "
-                         "linked with it will automatically update to show the current directory. "
-                         "This is especially useful with different types of views, such as a "
-                         "directory tree with an icon view or detailed view, and possibly a "
-                         "terminal emulator window." ) );
+    m_led = new QLabel( this );
+    m_led->setAlignment( Qt::AlignCenter );
+    addWidget( m_led, 0, false ); // led (active view indicator)
+    m_led->hide();
 
-   int h=fontMetrics().height()+2;
-   if (h<DEFAULT_HEADER_HEIGHT ) h=DEFAULT_HEADER_HEIGHT;
-   setFixedHeight(h);
-   m_yOffset=(h-13)/2;
+    m_pStatusLabel = new QLabel( this );
+    m_pStatusLabel->setMinimumSize( 0, 0 );
+    m_pStatusLabel->setSizePolicy(QSizePolicy( QSizePolicy::Ignored, QSizePolicy::Fixed ));
+    m_pStatusLabel->installEventFilter(this);
+    addWidget( m_pStatusLabel, 1 /*stretch*/, false ); // status label
 
-   //m_pLinkedViewCheckBox->setGeometry(20,m_yOffset,13,13);
-   m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
-   m_pStatusLabel->setGeometry(40,0,50,h);
+    m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
+    m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
+    QWhatsThis::add( m_pLinkedViewCheckBox,
+                     i18n("Checking this box on at least two views sets those views as 'linked'. "
+                          "Then, when you change directories in one view, the other views "
+                          "linked with it will automatically update to show the current directory. "
+                          "This is especially useful with different types of views, such as a "
+                          "directory tree with an icon view or detailed view, and possibly a "
+                          "terminal emulator window." ) );
+    addWidget( m_pLinkedViewCheckBox, 0, true /*permanent->right align*/ );
+    connect( m_pLinkedViewCheckBox, SIGNAL(toggled(bool)),
+            this, SIGNAL(linkedViewClicked(bool)) );
 
-   connect(m_pLinkedViewCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(linkedViewClicked(bool)));
+    m_progressBar = new KProgress( this );
+    m_progressBar->hide();
+    addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
-   m_progressBar = new KProgress( this );
-   m_progressBar->hide();
-  //m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
-//   m_msgTimer = 0;
+    // Set height based on font metrics, so that all items have the same height
+    // TODO: separate method, to call it when the app's font changes
+    int h = fontMetrics().height();
+    if ( h < DEFAULT_HEADER_HEIGHT ) h = DEFAULT_HEADER_HEIGHT;
+    m_led->setFixedHeight( h );
+    m_progressBar->setFixedHeight( h );
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
 {
 }
 
-void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
+void KonqFrameStatusBar::resizeEvent( QResizeEvent* ev )
 {
-   m_progressBar->setGeometry( width()-160, 0, 140, height() );
-   m_pLinkedViewCheckBox->move( width()-15, m_yOffset ); // right justify
+    //m_progressBar->setGeometry( width()-160, 0, 140, height() );
+    //m_pLinkedViewCheckBox->move( width()-15, m_yOffset ); // right justify
+    KStatusBar::resizeEvent( ev );
 }
 
 // I don't think this code _ever_ gets called!
@@ -163,40 +169,25 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
 
 void KonqFrameStatusBar::message( const QString &msg )
 {
-    /*
-  if ( !m_msgTimer )
-  {
-    m_msgTimer = new QTimer( this, "msgtimer" );
-    connect( m_msgTimer, SIGNAL( timeout() ),
-             this, SLOT( slotClear() ) );
-  }
-  else if ( m_msgTimer->isActive() )
-    m_msgTimer->stop();
-    */
-
-  QString saveMsg = m_savedMessage;
-
-  slotDisplayStatusText( msg );
-
-  m_savedMessage = saveMsg;
-
-//  m_msgTimer->start( 2000 );
+    // We don't use the message()/clear() mechanism of QStatusBar because
+    // it really looks ugly (the label border goes away, the active-view indicator
+    // is hidden...)
+    QString saveMsg = m_savedMessage;
+    slotDisplayStatusText( msg );
+    m_savedMessage = saveMsg;
 }
 
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
-   //kdDebug(1202)<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
-   m_pStatusLabel->resize(fontMetrics().width(text),fontMetrics().height()+2);
-   m_pStatusLabel->setText(text);
-   m_savedMessage = text;
-
-//   if ( m_msgTimer && m_msgTimer->isActive() )
-//     m_msgTimer->stop();
+    //kdDebug(1202)<<"KonqFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
+    //m_pStatusLabel->resize(fontMetrics().width(text),fontMetrics().height()+2);
+    m_pStatusLabel->setText(text);
+    m_savedMessage = text;
 }
 
 void KonqFrameStatusBar::slotClear()
 {
-  slotDisplayStatusText( m_savedMessage );
+    slotDisplayStatusText( m_savedMessage );
 }
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
@@ -210,8 +201,6 @@ void KonqFrameStatusBar::slotLoadingProgress( int percent )
     m_progressBar->hide();
 
   m_progressBar->setValue( percent );
-  //m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-  //m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
 }
 
 void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
@@ -223,7 +212,6 @@ void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
   else
     sizeStr = i18n( "Stalled" );
 
-  //m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
   slotDisplayStatusText( sizeStr ); // let's share the same label...
 }
 
@@ -236,17 +224,19 @@ void KonqFrameStatusBar::slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *
 
 void KonqFrameStatusBar::showActiveViewIndicator( bool b )
 {
-    m_showLed = b;
-    repaint();
+    if ( b )
+        m_led->show();
+    else
+        m_led->hide();
+    updateActiveStatus();
 }
 
 void KonqFrameStatusBar::showLinkedViewIndicator( bool b )
 {
-    if (b)
-      m_pLinkedViewCheckBox->show();
+    if ( b )
+        m_pLinkedViewCheckBox->show();
     else
-      m_pLinkedViewCheckBox->hide();
-    //repaint();
+        m_pLinkedViewCheckBox->hide();
 }
 
 void KonqFrameStatusBar::setLinkedView( bool b )
@@ -256,39 +246,33 @@ void KonqFrameStatusBar::setLinkedView( bool b )
     m_pLinkedViewCheckBox->blockSignals( false );
 }
 
-void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
+void KonqFrameStatusBar::updateActiveStatus()
 {
-#ifndef NOINDICATOR
-   static QPixmap indicator_viewactive( UserIcon( "indicator_viewactive" ) );
-   static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
-#endif
+    bool hasFocus = m_pParentKonqFrame->isActivePart();
+    QPalette pal = palette();
 
-   if (!isVisible()) return;
-   bool hasFocus = m_pParentKonqFrame->isActivePart();
-   QPalette pal = palette();
+    const QColorGroup& activeCg = kapp->palette().active();
+    QBrush bg = activeCg.brush ( QColorGroup::Background );
+    pal.setBrush( QColorGroup::Background,
+                  m_led->isShown() ? ( hasFocus ? activeCg.midlight()
+                                       : activeCg.mid() ) // active/inactive
+                  : bg ); // only one view
 
-   QBrush bg = kapp->palette().active().brush ( QColorGroup::Background );
-   pal.setBrush( QColorGroup::Background,
-                 m_showLed ? ( hasFocus ? kapp->palette().active().midlight()
-                               : kapp->palette().active().mid() ) // active/inactive
-                 : bg ); // only one view
+    setPalette( pal );
 
-   setPalette( pal );
-   QWidget::paintEvent(e);
-#ifndef NOINDICATOR
-   if (m_showLed) {
-     QPainter p(this);
-     p.drawPixmap(4,m_yOffset,hasFocus ? indicator_viewactive : indicator_empty);
-   }
-#endif
+    static QPixmap indicator_viewactive( UserIcon( "indicator_viewactive" ) );
+    static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
+    if ( m_led->isShown() )
+    {
+        m_led->setPixmap( hasFocus ? indicator_viewactive : indicator_empty );
+    }
 }
-
 
 //###################################################################
 
-void KonqFrameBase::printFrameInfo(QString spaces)
+void KonqFrameBase::printFrameInfo(const QString& spaces)
 {
-	kdDebug(1202) << spaces << "KonqFrameBase " << this << ", this shouldn't happen!" << endl;
+    kdDebug(1202) << spaces << "KonqFrameBase " << this << " printFrameInfo not implemented in derived class!" << endl;
 }
 
 //###################################################################
@@ -346,7 +330,7 @@ void KonqFrame::copyHistory( KonqFrameBase *other )
     childView()->copyHistory( static_cast<KonqFrame *>( other )->childView() );
 }
 
-void KonqFrame::printFrameInfo( QString spaces )
+void KonqFrame::printFrameInfo( const QString& spaces )
 {
    QString className = "NoPart";
    if (part()) className = part()->widget()->className();
@@ -488,7 +472,7 @@ void KonqFrame::activateChild()
 
 //###################################################################
 
-void KonqFrameContainerBase::printFrameInfo(QString spaces)
+void KonqFrameContainerBase::printFrameInfo(const QString& spaces)
 {
 	kdDebug(1202) << spaces << "KonqFrameContainerBase " << this << ", this shouldn't happen!" << endl;
 }
@@ -588,7 +572,7 @@ KonqFrameBase* KonqFrameContainer::otherChild( KonqFrameBase* child )
    return 0L;
 }
 
-void KonqFrameContainer::printFrameInfo( QString spaces )
+void KonqFrameContainer::printFrameInfo( const QString& spaces )
 {
         kdDebug(1202) << spaces << "KonqFrameContainer " << this << " visible=" << QString("%1").arg(isVisible())
                       << " activeChild=" << m_pActiveChild << endl;
@@ -779,7 +763,7 @@ void KonqFrameTabs::copyHistory( KonqFrameBase *other )
   }
 }
 
-void KonqFrameTabs::printFrameInfo( QString spaces )
+void KonqFrameTabs::printFrameInfo( const QString& spaces )
 {
   kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visible=" << QString("%1").arg(isVisible())
                 << " activeChild=" << m_pActiveChild << endl;

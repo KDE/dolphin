@@ -1819,10 +1819,10 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   m_bViewModeToggled = false;
 
-  m_currentView->frame()->statusbar()->repaint();
+  m_currentView->frame()->statusbar()->updateActiveStatus();
 
   if ( oldView && oldView->frame() )
-    oldView->frame()->statusbar()->repaint();
+    oldView->frame()->statusbar()->updateActiveStatus();
 
   if ( !m_bLockLocationBarURL )
   {

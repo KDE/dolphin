@@ -167,16 +167,10 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
 
   if (m_pDocContainer == splitFrame) m_pDocContainer = newContainer;
 
-#if 0
-  // That's the old part - it's wrong, right?
-  newContainer->setActiveChild( splitFrame ); // The old part
-  setActivePart( splitFrame->part(), true );
-#else
   assert( newView->frame() );
   assert( newView->part() );
   newContainer->setActiveChild( newView->frame() );
   setActivePart( newView->part(), false );
-#endif
 
 #ifndef NDEBUG
   m_pMainWindow->dumpViewList();
@@ -1186,7 +1180,10 @@ void KonqViewManager::slotActivePartChanged ( KParts::Part *newPart )
       return;
     }
     if (view->frame()->parentContainer() == 0L) return;
-    if (!m_bLoadingProfile) view->frame()->parentContainer()->setActiveChild( view->frame() );
+    if (!m_bLoadingProfile)  {
+        view->frame()->statusbar()->updateActiveStatus();
+        view->frame()->parentContainer()->setActiveChild( view->frame() );
+    }
     //kdDebug(1202) << "KonqViewManager::slotActivePartChanged done" << endl;
 }
 

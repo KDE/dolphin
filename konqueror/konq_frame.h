@@ -32,6 +32,7 @@
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
+#include <kstatusbar.h>
 
 class QPixmap;
 class QVBoxLayout;
@@ -78,7 +79,7 @@ protected:
  * The KonqFrameStatusBar is the statusbar under each konqueror view.
  * It indicates in particular whether a view is active or not.
  */
-class KonqFrameStatusBar : public QWidget
+class KonqFrameStatusBar : public KStatusBar
 {
   Q_OBJECT
 
@@ -98,17 +99,18 @@ class KonqFrameStatusBar : public QWidget
        * Shows/hides the linked-view indicator
        */
       void showLinkedViewIndicator( bool b );
+      /**
+       * Updates the active-view indicator and the statusbar color.
+       */
+      void updateActiveStatus();
 
    public slots:
-      /**
-       * Display a temporary message in the statusbar
-       */
-      void message( const QString &msg );
       void slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
       void slotDisplayStatusText(const QString& text);
       void slotClear();
+      void message ( const QString & message );
 
    signals:
       /**
@@ -130,14 +132,12 @@ class KonqFrameStatusBar : public QWidget
        */
       virtual void splitFrameMenu();
 
-      virtual void paintEvent(QPaintEvent *e);
+   private:
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pLinkedViewCheckBox;
       KProgress *m_progressBar;
       QLabel *m_pStatusLabel;
-      int m_yOffset;
-      bool m_showLed;
-//      QTimer *m_msgTimer;
+      QLabel* m_led;
       QString m_savedMessage;
 };
 
@@ -153,7 +153,7 @@ class KonqFrameBase
 
   virtual void copyHistory( KonqFrameBase *other ) = 0;
 
-  virtual void printFrameInfo( QString spaces );
+  virtual void printFrameInfo( const QString& spaces );
 
   virtual void reparentFrame( QWidget* parent,
                               const QPoint & p, bool showIt=FALSE ) = 0;
@@ -240,7 +240,7 @@ public:
   virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
   virtual void copyHistory( KonqFrameBase *other );
 
-  virtual void printFrameInfo( QString spaces );
+  virtual void printFrameInfo( const QString& spaces );
 
   virtual void setTitle( QString title, QWidget* sender );
   virtual void setTabIcon( QString url, QWidget* sender );
@@ -303,7 +303,7 @@ public:
   virtual void removeChildFrame( KonqFrameBase * frame ) = 0;
 
   //inherited
-  virtual void printFrameInfo( QString spaces );
+  virtual void printFrameInfo( const QString& spaces );
 
   virtual QCString frameType() { return QCString("ContainerBase"); }
 
@@ -355,7 +355,7 @@ public:
   KonqFrameBase* secondChild() { return m_pSecondChild; }
   KonqFrameBase* otherChild( KonqFrameBase* child );
 
-	virtual void printFrameInfo( QString spaces );
+  virtual void printFrameInfo( const QString& spaces );
 
   void swapChildren();
 
@@ -419,7 +419,7 @@ public:
   virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
   virtual void copyHistory( KonqFrameBase *other );
 
-  virtual void printFrameInfo( QString spaces );
+  virtual void printFrameInfo( const QString& spaces );
 
   QPtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
 
