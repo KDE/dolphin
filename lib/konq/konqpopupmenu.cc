@@ -156,6 +156,12 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   }
   //------------------------------
 
+  if ( ( act = m_actions.action( "fullscreenstop" ) ) )
+  {
+    act->plug( this );
+    insertSeparator();
+  }
+  
   if ( isTrash )
   {
     id = insertItem( i18n( "New View" ),
