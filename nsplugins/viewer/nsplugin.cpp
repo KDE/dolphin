@@ -421,7 +421,7 @@ DCOPRef NSPluginViewer::NewClass( QString plugin )
 NSPluginClass::NSPluginClass( const QString &library, QObject *parent )
    : QObject( parent ), DCOPObject(), _libname(library), _constructed(false),  _initialized(false)
 {
-   _handle = KLibLoader::self()->library(library);
+   _handle = KLibLoader::self()->library(library.latin1());
   
    kdDebug() << "Library handle=" << _handle << endl;
 
@@ -895,7 +895,7 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
       {
 	 _instance->NPStreamAsFile( _stream, tmpFile.ascii() );
 	 _instance->NPDestroyStream( _stream, NPRES_DONE );
-	 if ( _notifyData ) _instance->NPURLNotify( url, NPRES_NETWORK_ERR, _notifyData );
+	 if ( _notifyData ) _instance->NPURLNotify( url.ascii() /* ### FIXME!! */, NPRES_NETWORK_ERR, _notifyData );
 	 delete _stream;
 	 _stream = 0;
 
@@ -924,7 +924,7 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
 
 
 
-void NSPluginStream::data(KIO::Job */*job*/, const QByteArray &data)
+void NSPluginStream::data(KIO::Job * /*job*/, const QByteArray &data)
 {
    //kdDebug() << "-> NSPluginStream::data" << endl;
    unsigned int pos = process( data, 0 );  
@@ -1018,7 +1018,7 @@ void NSPluginStream::result(KIO::Job *job)
       }
       
       _instance->NPDestroyStream( _stream, NPRES_DONE );
-      if ( _notifyData ) _instance->NPURLNotify( _url, NPRES_DONE, _notifyData );
+      if ( _notifyData ) _instance->NPURLNotify( _url.ascii() /* ### FIXME!!! */, NPRES_DONE, _notifyData );
    } else
    {
       // close temp file
@@ -1027,7 +1027,7 @@ void NSPluginStream::result(KIO::Job *job)
 
       // destroy stream
       _instance->NPDestroyStream(_stream, NPRES_NETWORK_ERR);
-      if ( _notifyData ) _instance->NPURLNotify( _url, NPRES_NETWORK_ERR, _notifyData );
+      if ( _notifyData ) _instance->NPURLNotify( _url.ascii() /* ### FIXME!!! */, NPRES_NETWORK_ERR, _notifyData );
       delete _stream;
       _stream = 0;
 
