@@ -77,6 +77,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_rubber(0)
 ,m_showIcons(true)
 ,m_bCaseInsensitive(true)
+,m_bUpdateContentsPosAfterListing(false)
 ,m_bAscending(true)
 ,m_itemFound(false)
 ,m_goToFirstItem(false)
