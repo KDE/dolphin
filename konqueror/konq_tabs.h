@@ -96,7 +96,8 @@ protected:
 private slots:
   void slotContextMenu( QWidget*, const QPoint& );
   void slotCloseRequest( QWidget* );
-
+  void slotMovedTab( const int, const int );
+  
 private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;

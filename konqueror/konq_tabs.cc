@@ -84,6 +84,9 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     setCornerWidget( rightWidget, TopRight );
   }
 #endif
+
+  setTabReorderingEnabled( true );
+  connect( this, SIGNAL( movedTab( const int, const int ) ), SLOT( slotMovedTab( const int, const int ) ) );
 }
 
 KonqFrameTabs::~KonqFrameTabs()
@@ -231,26 +234,22 @@ void KonqFrameTabs::moveTabLeft(int index)
 {
   if ( index == 0 )
     return;
-  KonqFrameBase* currentFrame = m_pChildFrameList->at(index );
-  kdDebug()<<" currentFrame :"<<currentFrame<<" index :"<<index<<endl;
-  removePage(currentFrame->widget());
-  m_pChildFrameList->remove(currentFrame);
-
-  insertChildFrame( currentFrame, index-1 );
-  setCurrentPage( index-1 );
+  moveTab( index, index-1 );
 }
 
 void KonqFrameTabs::moveTabRight(int index)
 {
   if ( index == count()-1 )
     return;
-  KonqFrameBase* currentFrame = m_pChildFrameList->at(index );
-  kdDebug()<<" currentFrame :"<<currentFrame<<" index :"<<index<<endl;
-  removePage(currentFrame->widget());
-  m_pChildFrameList->remove(currentFrame);
+  moveTab( index, index+1 );
+}
 
-  insertChildFrame( currentFrame, index+1 );
-  setCurrentPage( index+1 );
+void KonqFrameTabs::slotMovedTab(const int from, const int to)
+{
+  KonqFrameBase* currentFrame = m_pChildFrameList->at( from );
+  kdDebug()<<" currentFrame: "<<currentFrame<<" index: "<<from<<endl;
+  m_pChildFrameList->remove( currentFrame );
+  m_pChildFrameList->insert( to, currentFrame );
 }
 
 void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
