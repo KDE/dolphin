@@ -3884,10 +3884,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KonqView * m_oldView = m_currentView;
 
   KonqView * currentView = childView( static_cast<KParts::ReadOnlyPart *>( sender()->parent() ) );
-  // the page is currently loading something -> Don't enter a local event loop
-  // by launching a popupmenu!
-  if ( currentView->run() != 0 )
-      return;
 
   //kdDebug() << "KonqMainWindow::slotPopupMenu m_oldView=" << m_oldView << " new currentView=" << currentView << " passive:" << currentView->isPassiveMode() << endl;
 
