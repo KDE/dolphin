@@ -1317,7 +1317,13 @@ void KonqMainWindow::slotConfigure()
 
 void KonqMainWindow::slotConfigureKeys()
 {
-  KKeyDialog::configureKeys(actionCollection(), xmlFile());
+  KKeyDialog dlg;
+
+  dlg.insert( actionCollection() );
+  if ( currentPart() )
+    dlg.insert( currentPart()->actionCollection() );
+
+  dlg.configure();
 }
 
 void KonqMainWindow::slotConfigureToolbars()
