@@ -39,7 +39,6 @@
 #include <kio_paste.h>
 #include <klineeditdlg.h>
 #include <kmimetype.h>
-#include <kpixmapcache.h>
 #include <kurl.h>
 #include <kdebug.h>
 #include <konqsettings.h>

@@ -33,7 +33,6 @@
 #include <kio_paste.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kpixmapcache.h>
 #include <kprotocolmanager.h>
 
 #include <konqsettings.h>
@@ -133,25 +132,13 @@ void KonqTreeViewWidget::initConfig()
 
   m_bgPixmap         = m_pProps->bgPixmap();
 
-//   if ( m_bgPixmap.isNull() )
-//     viewport()->setBackgroundMode( PaletteBackground );
-//   else
-//     viewport()->setBackgroundMode( NoBackground );
-
-  QPalette p          = viewport()->palette();
-  QColorGroup c = p.normal();
-  QColorGroup n( textColor, bgColor, c.light(), c.dark(), c.mid(),
-		 textColor, bgColor );
-  p.setNormal( n );
-  c = p.active();
-  QColorGroup a( textColor, bgColor, c.light(), c.dark(), c.mid(),
-		 textColor, bgColor );
-  p.setActive( a );
-  c = p.disabled();
-  QColorGroup d( textColor, bgColor, c.light(), c.dark(), c.mid(),
-		 textColor, bgColor );
-  p.setDisabled( d );
-  setPalette( p );
+  if ( m_bgPixmap.isNull() )
+  {
+    // viewport()->setBackgroundMode( PaletteBackground );
+    /*viewport()->*/setBackgroundColor( bgColor );
+  }
+  else
+    viewport()->setBackgroundPixmap( m_bgPixmap );
 
   QFont font( stdFontName, fontSize );
   setFont( font );
@@ -407,7 +394,7 @@ void KonqTreeViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
     QPixmap pixmap2;
     if ( urls.count() > 1 )
     {
-      pixmap2 = KPixmapCache::pixmap( "kmultiple", true );
+      pixmap2 = KGlobal::iconLoader()->loadApplicationIcon( "kmultiple", KIconLoader::Medium );
       if ( pixmap2.isNull() )
 	warning("KDesktop: Could not find kmultiple pixmap\n");
     }

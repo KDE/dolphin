@@ -39,7 +39,6 @@
 #include <kurl.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kpixmapcache.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <konqdefaults.h>

@@ -43,7 +43,6 @@
 #include <kio_error.h>
 #include <kio_job.h>
 #include <kmimetype.h>
-#include <kpixmapcache.h>
 #include <konqdefaults.h>
 #include <konqsettings.h>
 #include <klibloader.h>

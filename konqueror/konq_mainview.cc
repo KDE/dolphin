@@ -62,7 +62,6 @@
 #include <ktrader.h>
 #include <ksharedptr.h>
 #include <kservice.h>
-#include <kpixmapcache.h>
 
 #include <klibloader.h>
 #include <part.h>
