@@ -16,6 +16,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+// -*- mode: c++; c-basic-offset: 2 -*-
 
 #include <kparts/browserextension.h>
 #include "konq_viewmgr.h"
@@ -198,6 +199,16 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
 
 void KonqViewManager::removeView( KonqChildView *view )
 {
+  if ( activePart() == view->view() )
+  {
+    KonqChildView *nextView = chooseNextView( view );
+    // Don't remove the last view
+    if ( nextView == 0L )
+      return;
+    // Ensure this is not the active view anymore
+    setActivePart( nextView->view() );
+  }
+
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
   KonqFrameContainer* grandParentContainer = parentContainer->parentContainer();
   bool moveOtherChild = (grandParentContainer->idAfter( parentContainer ) != 0);

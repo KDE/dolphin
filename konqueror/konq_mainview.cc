@@ -574,13 +574,44 @@ void KonqMainView::slotToggleDirTree( bool toggle )
     mainContainer->listViews( &viewList );
 
     QListIterator<KonqChildView> it( viewList );
-
-    if ( m_currentView->view()->inherits( "KonqDirTreePart" ) )
-      m_pViewManager->setActivePart( m_pViewManager->chooseNextView( m_currentView )->view() );
-
     for (; it.current(); ++it )
       if ( it.current()->view()->inherits( "KonqDirTreePart" ) )
         m_pViewManager->removeView( it.current() );
+    // takes care of choosing the new active view
+  }
+}
+
+void KonqMainView::slotToggleCmdLine( bool toggle )
+{
+  KonqFrameContainer *mainContainer = m_pViewManager->mainContainer();
+  assert( mainContainer );
+
+  if ( toggle ) // show it
+  {
+    KonqFrameBase *splitFrame = mainContainer->firstChild();
+
+    KonqFrameContainer *newContainer;
+
+    KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Vertical,
+         QString::fromLatin1( "application/x-konsole" ), QString::fromLatin1( "Konsole" ),
+                                                        &newContainer );
+
+    QValueList<int> newSplitterSizes;
+    newSplitterSizes << 100 << 30;
+
+    newContainer->setSizes( newSplitterSizes );
+  }
+  else
+  {
+    QList<KonqChildView> viewList;
+
+    mainContainer->listViews( &viewList );
+
+    QListIterator<KonqChildView> it( viewList );
+    for (; it.current(); ++it )
+      if ( it.current()->view()->inherits( "konsolePart" ) )
+        m_pViewManager->removeView( it.current() );
+    // takes care of choosing the new active view
   }
 }
 
@@ -875,6 +906,15 @@ void KonqMainView::insertChildView( KonqChildView *childView )
     m_ptaShowDirTree->setChecked( true );
     m_ptaShowDirTree->blockSignals( false );
   }
+  /*
+    What is this for ?
+  if ( childView->view()->inherits( "konsolePart" ) )
+  {
+    m_ptaShowCmdLine->blockSignals( true );
+    m_ptaShowCmdLine->setChecked( true );
+    m_ptaShowCmdLine->blockSignals( false );
+  }
+  */
 }
 
 void KonqMainView::removeChildView( KonqChildView *childView )
@@ -993,16 +1033,8 @@ void KonqMainView::slotSplitWindowVertical()
 
 void KonqMainView::slotRemoveView()
 {
-  KonqChildView *nextView = m_pViewManager->chooseNextView( (KonqChildView *)m_currentView );
-  KonqChildView *prevView = m_currentView;
-
-  // Don't remove the last active view
-  if ( nextView == 0L )
-  	return;
-	
-  m_pViewManager->setActivePart( nextView->view() );
-
-  m_pViewManager->removeView( prevView );
+  // takes care of choosing the new active view
+  m_pViewManager->removeView( m_currentView );
 
   if ( m_pViewManager->chooseNextView((KonqChildView *)m_currentView) == 0L )
     m_currentView->frame()->statusbar()->passiveModeCheckBox()->hide();
@@ -1409,6 +1441,8 @@ void KonqMainView::initActions()
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
   connect( m_ptaShowDirTree, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleDirTree( bool ) ) );
+  m_ptaShowCmdLine = new KToggleAction( i18n( "Show Command Line" ), 0, actionCollection(), "showcmdline" );
+  connect( m_ptaShowCmdLine, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleCmdLine( bool ) ) );
 
   // Go menu
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", CTRL+Key_Up, actionCollection(), "up" );
@@ -1705,7 +1739,7 @@ QString KonqMainView::currentURL()
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
 {
-  slotPopupMenu( 0L, _global, url, _mimeType, _mode ); 
+  slotPopupMenu( 0L, _global, url, _mimeType, _mode );
 }
 
 void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
@@ -1718,7 +1752,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items )
 {
-  slotPopupMenu( 0L, _global, _items ); 
+  slotPopupMenu( 0L, _global, _items );
 }
 
 void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KonqFileItemList &_items )
@@ -1747,7 +1781,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
   //    popupMenuCollection.insert( m_paFullScreenStop );
 
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this );
-  
+
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
@@ -1756,16 +1790,16 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
 			     ( client != 0 ) ? true : false );
   connect( &pPopupMenu, SIGNAL( openEmbedded( const QString &, const KURL &, const QString & ) ),
            this, SLOT( slotOpenEmbedded( const QString &, const KURL &, const QString & ) ) );
-  
+
   pPopupMenu.factory()->addClient( konqyMenuClient );
 
   if ( client )
     pPopupMenu.factory()->addClient( client );
-  
+
   pPopupMenu.exec( _global );
 
   delete konqyMenuClient;
-  
+
   m_currentView = m_oldView;
 }
 
@@ -1984,41 +2018,41 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView )
   QDomElement root = doc.createElement( "kpartgui" );
   root.setAttribute( "name", "konqueror" );
   doc.appendChild( root );
-  
+
   QDomElement menu = doc.createElement( "Menu" );
   root.appendChild( menu );
   menu.setAttribute( "name", "popupmenu" );
-  
+
   if ( !mainView->menuBar()->isVisible() )
   {
     QDomElement showMenuBarElement = doc.createElement( "action" );
     showMenuBarElement.setAttribute( "name", "showmenubar" );
     menu.appendChild( showMenuBarElement );
-    
+
     menu.appendChild( doc.createElement( "separator" ) );
   }
-  
+
   if ( mainView->fullScreenMode() )
   {
     QDomElement stopFullScreenElement = doc.createElement( "action" );
     stopFullScreenElement.setAttribute( "name", "fullscreenstop" );
     menu.appendChild( stopFullScreenElement );
-    
+
     menu.appendChild( doc.createElement( "separator" ) );
   }
-  
+
   setDocument( doc );
 
   m_mainView = mainView;
-} 
+}
 
 PopupMenuGUIClient::~PopupMenuGUIClient()
 {
-} 
+}
 
 KActionCollection *PopupMenuGUIClient::actionCollection() const
 {
-  return m_mainView->actionCollection(); 
-} 
+  return m_mainView->actionCollection();
+}
 
 #include "konq_mainview.moc"

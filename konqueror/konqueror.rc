@@ -27,6 +27,7 @@
  <Menu name="view"><text>&amp;View</text>
   <Action name="usehtml"/>
   <Action name="showdirtree"/>
+  <Action name="showcmdline"/>
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />

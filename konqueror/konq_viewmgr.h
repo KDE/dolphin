@@ -80,6 +80,7 @@ public:
 
   /**
    * Guess!:-)
+   * Also takes care of setting another view as active if @p view was the active view
    */
   void removeView( KonqChildView *view );
 

@@ -110,6 +110,7 @@ public slots:
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
   void slotToggleDirTree( bool );
+  void slotToggleCmdLine( bool );
   void slotReload();
   void slotStop();
 
@@ -324,6 +325,7 @@ private:
 
   KToggleAction *m_ptaUseHTML;
   KToggleAction *m_ptaShowDirTree;
+  KToggleAction *m_ptaShowCmdLine;
 
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;
