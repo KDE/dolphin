@@ -129,10 +129,6 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
 
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
-
-  iterator it = begin();
-  for( ; it != end(); ++it )
-    it->prepareToDie();
 }
 
 void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
@@ -384,6 +380,12 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
    for (unsigned int j=0; j<listingList.count(); j++)
       kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
+
+   // Even if this is not given by the protocol, we can determine it.
+   // Please don't remove this ;-). It makes it possible to show the file type
+   // using the mimetype comment, which for most users is a nicer alternative
+   // than the raw mimetype name.
+   listingList.append( "MimeType" );
 
    for (unsigned int i=0; i<NumberOfAtoms; i++)
    {

@@ -156,7 +156,7 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_SIZE:
-            tmp.sprintf("%9d",size);
+            tmp.sprintf("%9ld",size);
             setText(tmpColumn->displayInColumn,tmp);
             break;
          case KIO::UDS_ACCESS:

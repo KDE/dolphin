@@ -22,6 +22,7 @@
 #include "konq_listviewwidget.h"
 #include "konq_listview.h"
 #include <konqfileitem.h>
+#include <kdebug.h>
 #include <kio/job.h>
 #include <kio/global.h>
 #include <klocale.h>
@@ -33,7 +34,6 @@
  * KonqListViewItem
  *
  **************************************************************/
-//KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewDir * _parent, KonqFileItem* _fileitem )
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KonqFileItem* _fileitem )
 :KonqBaseListViewItem( _parent,_fileitem )
 {
@@ -66,9 +66,6 @@ void KonqListViewItem::init()
       {
          switch (tmpColumn->udsId)
          {
-            // Why did you remove the switch ? It's easier to read
-            // and more efficient... (David)
-            //so here we go again (Alex)
          case KIO::UDS_USER:
             setText(tmpColumn->displayInColumn,m_fileitem->user());
             break;
@@ -113,42 +110,38 @@ QString KonqListViewItem::key( int _column, bool asc) const
 {
    QString tmp=sortChar;
    if (!asc && (sortChar=='0')) tmp=QChar('2');
-   //check if it is a time column
-   if (_column>1)
+   //check if it is a time or size column
+   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
-      {
-         ColumnInfo *cInfo=&m_pListViewWidget->columnConfigInfo()[i];
-         if (_column==cInfo->displayInColumn)
+     ColumnInfo *cInfo=&m_pListViewWidget->columnConfigInfo()[i];
+     if (_column==cInfo->displayInColumn)
+     {
+       switch (cInfo->udsId)
+       {
+         case KIO::UDS_MODIFICATION_TIME:
+         case KIO::UDS_ACCESS_TIME:
+         case KIO::UDS_CREATION_TIME:
          {
-            if ((cInfo->udsId==KIO::UDS_MODIFICATION_TIME)
-                || (cInfo->udsId==KIO::UDS_ACCESS_TIME)
-                || (cInfo->udsId==KIO::UDS_CREATION_TIME))
-            {
-               QString tmpDate;
-               tmpDate.sprintf("%ld",m_fileitem->time(cInfo->udsId));
-               tmp+=tmpDate;
-               return tmp;
-            }
-            else break;
-
+           QString tmpDate;
+           tmpDate.sprintf("%ld",m_fileitem->time(cInfo->udsId));
+           tmp+=tmpDate;
+           return tmp;
          }
-      }
+         case KIO::UDS_SIZE:
+         {
+           QString tmpSize;
+           tmpSize.sprintf("%09ld",m_fileitem->size());
+           tmp+=tmpSize;
+           return tmp;
+         }
+         default:
+           break;
+       }
+       break;
+     }
    }
    tmp+=text(_column);
    return tmp;
-}
-
-QString KonqListViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
-{
-  return KGlobal::locale()->formatNumber( _atom.m_long, 0);
-}
-
-QString KonqListViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
-{
-   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
-   return KGlobal::locale()->formatDate(dt.date(), true) + " " +
-      KGlobal::locale()->formatTime(dt.time());
 }
 
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
@@ -171,10 +164,56 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   }
 
   // Now prevent QListViewItem::paintCell from drawing a white background
-  // I hope color0 is transparent :-))
+  // I hope color0 is transparent :-)) (Reggie)
   // Sorry, to me it looks more like black (alex)
   //cg.setColor( QColorGroup::Base, QColor(qRgba(0, 0, 0, 0)));
 
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
+const char* KonqBaseListViewItem::makeAccessString( mode_t mode)
+{
+   static char buffer[ 12 ];
+
+   char uxbit,gxbit,oxbit;
+
+   if ( (mode & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
+      uxbit = 's';
+   else if ( (mode & (S_IXUSR|S_ISUID)) == S_ISUID )
+      uxbit = 'S';
+   else if ( (mode & (S_IXUSR|S_ISUID)) == S_IXUSR )
+      uxbit = 'x';
+   else
+      uxbit = '-';
+	
+   if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
+      gxbit = 's';
+   else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )
+      gxbit = 'S';
+   else if ( (mode & (S_IXGRP|S_ISGID)) == S_IXGRP )
+      gxbit = 'x';
+   else
+      gxbit = '-';
+
+   if ( (mode & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
+      oxbit = 't';
+   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_ISVTX )
+      oxbit = 'T';
+   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_IXOTH )
+      oxbit = 'x';
+   else
+      oxbit = '-';
+
+   buffer[0] = ((( mode & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
+   buffer[1] = ((( mode & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
+   buffer[2] = uxbit;
+   buffer[3] = ((( mode & S_IRGRP ) == S_IRGRP ) ? 'r' : '-' );
+   buffer[4] = ((( mode & S_IWGRP ) == S_IWGRP ) ? 'w' : '-' );
+   buffer[5] = gxbit;
+   buffer[6] = ((( mode & S_IROTH ) == S_IROTH ) ? 'r' : '-' );
+   buffer[7] = ((( mode & S_IWOTH ) == S_IWOTH ) ? 'w' : '-' );
+   buffer[8] = oxbit;
+   buffer[9] = 0;
+
+   return buffer;
+}

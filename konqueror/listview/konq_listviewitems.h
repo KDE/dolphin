@@ -42,15 +42,12 @@ class KonqBaseListViewItem : public QListViewItem
       virtual ~KonqBaseListViewItem() {}
       /** @return the file item held by this instance */
       KonqFileItem * item() {return m_fileitem;}
-      /** Call this before destroying the tree view (decreases reference count
-       * on the view) */
-      virtual void prepareToDie() {}
       virtual void updateContents() {};
    protected:
       QChar sortChar;
       /** Pointer to the file item in KonqDirLister's list */
       KonqFileItem* m_fileitem;
-      const char* makeAccessString( const mode_t mode ) const;
+      static const char* makeAccessString( const mode_t mode );
 };
 
 /**
@@ -75,17 +72,12 @@ class KonqListViewItem : public KonqBaseListViewItem
       //KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewDir *_parent, KonqFileItem* _fileitem );
       virtual ~KonqListViewItem() { }
 
-      virtual void prepareToDie() { m_pListViewWidget = 0L; }
       virtual QString key( int _column, bool ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
-      virtual void updateContents() {init();};
+      virtual void updateContents() {init();}
    protected:
       void init();
-
-      //hmm, not used at the moment, but only since I'm lazy (Alex)
-      QString makeNumericString( const KIO::UDSAtom &_atom ) const;
-      QString makeTimeString( const KIO::UDSAtom &_atom ) const;
 
       /** Parent tree view */
       KonqBaseListViewWidget* m_pListViewWidget;
@@ -103,51 +95,5 @@ inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,
 ,m_fileitem(_fileitem)
 {}
 
-inline const char* KonqBaseListViewItem::makeAccessString( mode_t mode) const
-{
-   static char buffer[ 12 ];
-
-   char uxbit,gxbit,oxbit;
-
-   if ( (mode & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
-      uxbit = 's';
-   else if ( (mode & (S_IXUSR|S_ISUID)) == S_ISUID )
-      uxbit = 'S';
-   else if ( (mode & (S_IXUSR|S_ISUID)) == S_IXUSR )
-      uxbit = 'x';
-   else
-      uxbit = '-';
-	
-   if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
-      gxbit = 's';
-   else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )
-      gxbit = 'S';
-   else if ( (mode & (S_IXGRP|S_ISGID)) == S_IXGRP )
-      gxbit = 'x';
-   else
-      gxbit = '-';
-
-   if ( (mode & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
-      oxbit = 't';
-   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_ISVTX )
-      oxbit = 'T';
-   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_IXOTH )
-      oxbit = 'x';
-   else
-      oxbit = '-';
-
-   buffer[0] = ((( mode & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
-   buffer[1] = ((( mode & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
-   buffer[2] = uxbit;
-   buffer[3] = ((( mode & S_IRGRP ) == S_IRGRP ) ? 'r' : '-' );
-   buffer[4] = ((( mode & S_IWGRP ) == S_IWGRP ) ? 'w' : '-' );
-   buffer[5] = gxbit;
-   buffer[6] = ((( mode & S_IROTH ) == S_IROTH ) ? 'r' : '-' );
-   buffer[7] = ((( mode & S_IWOTH ) == S_IWOTH ) ? 'w' : '-' );
-   buffer[8] = oxbit;
-   buffer[9] = 0;
-
-   return buffer;
-}
 
 #endif
