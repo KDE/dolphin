@@ -1260,6 +1260,9 @@ void KonqIconViewWidget::doubleClickTimeout()
 
 void KonqIconViewWidget::wheelEvent(QWheelEvent* e)
 {
+    // when scrolling with mousewheel, stop possible pending filetip
+    d->pFileTip->setItem( 0 );
+
     if (e->state() == ControlButton)
     {
         if (e->delta() >= 0)
