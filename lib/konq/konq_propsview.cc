@@ -60,6 +60,7 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
     : m_bSaveViewPropertiesLocally( false ), // will be overriden by setSave... anyway
     // if this is the default properties instance, then keep config object for saving
+    m_dotDirExists( false ),
     m_currentConfig( defaultProps ? 0L : instance->config() ),
     m_defaultProps( defaultProps )
 {
@@ -110,16 +111,24 @@ void KonqPropsView::enterDir( const KURL & dir )
 {
   // Can't do that with default properties
   assert( !isDefaultProperties() );
-  // Revert to default setting first
-  m_bShowDot = m_defaultProps->isShowingDotFiles();
-  m_bImagePreview = m_defaultProps->isShowingImagePreview();
-  m_bHTMLAllowed = m_defaultProps->isHTMLAllowed();
-  m_bgPixmap = m_defaultProps->m_bgPixmap;
-  m_bgColor = KonqFMSettings::settings()->bgColor();
+
   // Check for .directory
   KURL u ( dir );
   u.addPath(".directory");
-  if (u.isLocalFile() && QFile::exists( u.path() ))
+  bool dotDirExists = u.isLocalFile() && QFile::exists( u.path() );
+
+  // Revert to default setting first - unless there is no .directory
+  // in the previous dir nor in this one (then we can keep the current settings)
+  if (dotDirExists || m_dotDirExists)
+  {
+    m_bShowDot = m_defaultProps->isShowingDotFiles();
+    m_bImagePreview = m_defaultProps->isShowingImagePreview();
+    m_bHTMLAllowed = m_defaultProps->isHTMLAllowed();
+    m_bgPixmap = m_defaultProps->m_bgPixmap;
+    m_bgColor = KonqFMSettings::settings()->bgColor();
+  }
+
+  if (dotDirExists)
   {
     //kdDebug(1203) << "Found .directory file" << endl;
     dotDirectory = u.path();
@@ -142,6 +151,7 @@ void KonqPropsView::enterDir( const KURL & dir )
     }
     delete config;
   }
+  m_dotDirExists = dotDirExists;
   m_currentConfig = 0L; // new dir, not current config for saving yet
 }
 

@@ -102,8 +102,10 @@ protected:
 
 protected:
 
+  // Path to .directory file, whether it exists or not
   QString dotDirectory;
 
+  // Current config object for _saving_
   KConfigBase * currentConfig();
 
   QString currentGroup() {
@@ -111,6 +113,10 @@ protected:
   }
 
   bool m_bSaveViewPropertiesLocally;
+
+  // True if we found a .directory file to read
+  bool m_dotDirExists;
+
   // Points to the current .directory file if we are in
   // save-view-properties-locally mode, otherwise to the global config
   // It is set to 0L to mark it as "needs to be constructed".
