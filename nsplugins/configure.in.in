@@ -203,6 +203,8 @@ if test "$with_motif" != "no"; then
   NSPluginDir="nsplugins"
 else
   NSPluginDir=""
+  DO_NOT_COMPILE="$DO_NOT_COMPILE nsplugins"
 fi
+dnl What is this good for ? (david)
 AC_SUBST(NSPluginDir)
 
