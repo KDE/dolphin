@@ -4,26 +4,32 @@
 #include <qlayout.h> //CT
 #include <qwhatsthis.h>
 
-#include <kdialog.h>
-#include <klocale.h>
 #include <kapp.h>
 #include <kurl.h>
+#include <kdialog.h>
+#include <klocale.h>
 #include <string.h>
-#include "kproxydlg.h"
-#include <dcopclient.h>
-#include <kconfig.h>
+#include <kprotocolmanager.h>
+#include <knumvalidator.h>
 #include <kiconloader.h>
 #include <kglobal.h>
+#include <dcopclient.h>
+
+#include "kproxydlg.h"
 
 #define ROW_USEPROXY            1
 #define ROW_HTTP                2
 #define ROW_FTP                 3
-//
 #define ROW_NOPROXY             5
-//
 #define ROW_USECACHE            7
 #define ROW_MAXCACHESIZE        8
 #define ROW_MAXCACHEAGE         9
+
+// PROXY AND PORT SETTINGS
+#define DEFAULT_MIN_PORT_VALUE      1
+#define DEFAULT_MAX_PORT_VALUE      65536
+#define DEFAULT_PROXY_PORT          8080
+
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
@@ -90,6 +96,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_http_port->setAlignment(AlignVCenter);
   lay->addWidget(lb_http_port,ROW_HTTP,4);
 
+
   QString wtstr = i18n("If you want access to an HTTP proxy server, enter its address here.");
   QWhatsThis::add( lb_http_url, wtstr );
   QWhatsThis::add( le_http_url, wtstr );
@@ -107,11 +114,13 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   le_ftp_port = new QLineEdit(this);
   lay->addWidget(le_ftp_port,ROW_FTP,5);
+  le_ftp_port->setValidator( new KIntValidator( DEFAULT_MIN_PORT_VALUE, DEFAULT_MAX_PORT_VALUE, le_ftp_port ) );
   connect(le_ftp_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_ftp_port = new QLabel( le_ftp_port, i18n("Po&rt:"), this);
   lb_ftp_port->setAlignment(AlignVCenter);
   lay->addWidget(lb_ftp_port,ROW_FTP,4);
+
 
   wtstr = i18n("If you want access to an FTP proxy server, enter its address here.");
   QWhatsThis::add( lb_ftp_url, wtstr );
@@ -129,7 +138,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->addWidget(lb_no_prx,ROW_NOPROXY,1);
 
   wtstr = i18n("Here you can provide a list of hosts or domains that will be directly accessed without"
-    " asking a proxy first. Usually, this will be hosts on your local network.");
+    "asking a proxy first. Usually, this will be hosts on your local network.");
   QWhatsThis::add( le_no_prx, wtstr );
   QWhatsThis::add( lb_no_prx, wtstr );
 
@@ -160,10 +169,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   le_max_cache_age = new QLineEdit(this);
   lay->addWidget(le_max_cache_age,ROW_MAXCACHEAGE,2);
+  le_max_cache_age->setValidator( new KIntValidator( le_max_cache_age ) );
   connect(le_max_cache_age, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_max_cache_age = new QLabel( le_max_cache_age,
-                                i18n("Maximum Cache &Age:"), this);
+  lb_max_cache_age = new QLabel( le_max_cache_age, i18n("Maximum Cache &Age:"), this);
   lb_max_cache_age->setAlignment(AlignVCenter);
   lay->addWidget(lb_max_cache_age,ROW_MAXCACHEAGE,1);
   wtstr = i18n( "Pages that are older than the time entered here will be deleted from the cache automatically. This feature is not yet implemented." );
@@ -183,12 +192,18 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( cp_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
   connect( cp_down, SIGNAL( clicked() ), SLOT( changed() ) );
 
+  // Use a validator to ensure only proper values are entered!!
+  KIntValidator* validator = new KIntValidator( DEFAULT_MIN_PORT_VALUE, DEFAULT_MAX_PORT_VALUE, this );
+  le_http_port->setValidator(validator);
+  le_ftp_port->setValidator(validator);
+
   // finally read the options
   load();
 }
 
 KProxyOptions::~KProxyOptions()
 {
+/* Why ?? They are automatically deleted!!! (DA)
   // now delete everything we allocated before
   // delete lb_info;
   delete lb_http_url;
@@ -202,6 +217,7 @@ KProxyOptions::~KProxyOptions()
   delete cp_down;
   delete cb_useProxy;
   // time to say goodbye ...
+*/
 }
 
 
@@ -212,22 +228,14 @@ QString KProxyOptions::quickHelp() const
 
 void KProxyOptions::load()
 {
-  KConfig *g_pConfig = new KConfig("kioslaverc");
+  updateGUI ( KProtocolManager::proxyFor( "http" ),
+              KProtocolManager::proxyFor( "ftp" ),
+              KProtocolManager::useProxy(),
+              KProtocolManager::noProxyFor());
 
-  g_pConfig->setGroup( "Proxy Settings" );
-  updateGUI (
-      g_pConfig->readEntry( "httpProxy" ),
-      g_pConfig->readEntry( "ftpProxy" ),
-      g_pConfig->readBoolEntry( "UseProxy" ),
-      g_pConfig->readEntry( "NoProxyFor" )
-      );
-
-  g_pConfig->setGroup( "Cache Settings" );
-  cb_useCache->setChecked(  g_pConfig->readBoolEntry( "UseCache", true ));
-  le_max_cache_size->setText( g_pConfig->readEntry( "MaxCacheSize", "5000" ));
+  cb_useCache->setChecked(KProtocolManager::useCache());
+  le_max_cache_size->setText( QString::number( KProtocolManager::maxCacheSize() ) );
   le_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
-
-  delete g_pConfig;
 
   setProxy();
   setCache();
@@ -243,21 +251,29 @@ void KProxyOptions::defaults() {
   setProxy();
 }
 
-void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
-               QString noProxyFor)
+void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
+                              bool bUseProxy, QString noProxyFor)
 {
   KURL url;
 
-  if( !httpProxy.isEmpty() ) {
+  if( !httpProxy.isEmpty() )
+  {
     url = httpProxy;
     le_http_url->setText( url.host() );
-    le_http_port->setText( QString::number( url.port() ) );
+    uint port_num = url.port();
+    if( port_num == 0 )
+      port_num = DEFAULT_PROXY_PORT;
+    le_http_port->setText( QString::number( port_num ) );
   }
 
-  if( !ftpProxy.isEmpty() ) {
+  if( !ftpProxy.isEmpty() )
+  {
     url = ftpProxy;
     le_ftp_url->setText( url.host() );
-    le_ftp_port->setText( QString::number( url.port() ) );
+    uint port_num = url.port();
+    if( port_num == 0 )
+      port_num = DEFAULT_PROXY_PORT;
+    le_ftp_port->setText( QString::number( port_num ) );
   }
 
   cb_useProxy->setChecked(bUseProxy);
@@ -269,44 +285,35 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy, bool bUseProx
 
 void KProxyOptions::save()
 {
-  KConfig *g_pConfig = new KConfig("kioslaverc");
-
-    QString url;
-
-    g_pConfig->setGroup( "Proxy Settings" );
-
-    url = le_http_url->text();
-    if( !url.isEmpty() ) {
+    QString url = le_http_url->text();
+    if( !url.isEmpty() )
+    {
       if ( url.left( 7 ) != "http://" )
         url.prepend( "http://" );
 
       url += ":";
       url += le_http_port->text();    // port
     }
-    g_pConfig->writeEntry( "httpProxy", url );
+    KProtocolManager::setProxyFor( "http", url );
 
     url = le_ftp_url->text();
-    if( !url.isEmpty() ) {
+    if( !url.isEmpty() )
+    {
       if ( url.left( 6 ) != "ftp://" )
         url.prepend( "ftp://" );
 
       url += ":";
       url += le_ftp_port->text();      // port
     }
-    g_pConfig->writeEntry( "ftpProxy", url );
+    KProtocolManager::setProxyFor( "ftp", url );
+    KProtocolManager::setUseProxy( cb_useProxy->isChecked() );
+    KProtocolManager::setNoProxyFor( le_no_prx->text() );
 
-    g_pConfig->writeEntry( "UseProxy", cb_useProxy->isChecked() );
-    g_pConfig->writeEntry( "NoProxyFor", le_no_prx->text() );
+    // Cache stuff.  TODO:needs to be separated from proxy post 2.0 (DA)
+    KProtocolManager::setUseCache( cb_useCache->isChecked() );
+    KProtocolManager::setMaxCacheSize(le_max_cache_size->text().toInt());
 
-    g_pConfig->setGroup( "Cache Settings" );
-    g_pConfig->writeEntry( "UseCache", cb_useCache->isChecked() );
-    g_pConfig->writeEntry( "MaxCacheSize", le_max_cache_size->text() );
-// Not yet implemented:
-//    g_pConfig->writeEntry( "MaxCacheAge", le_max_cache_age->text() );
-    g_pConfig->sync();
-
-    delete g_pConfig;
-
+    // Update everyone...
     QByteArray data;
     // This should only be done when the FTP proxy setting is changed (on/off)
     QCString launcher = KApplication::launcher();
@@ -359,7 +366,6 @@ void KProxyOptions::changeCache()
 {
   setCache();
 }
-
 
 void KProxyOptions::changed()
 {
