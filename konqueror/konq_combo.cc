@@ -501,23 +501,39 @@ void KonqCombo::setConfig( KConfig *kc )
 
 void KonqCombo::paintEvent( QPaintEvent *pe )
 {
+    QColor color(245, 246, 190);
     QComboBox::paintEvent( pe );
 
     QLineEdit *edit = lineEdit();
+    QRect re = style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField );
+    re = QStyle::visualRect(re, this);
+    
     if ( m_pageSecurity!=KonqMainWindow::NotCrypted ) {
-        edit->setPaletteBackgroundColor( QColor(245, 246, 190) );
         QPainter p( this );
-        QRect re = style().querySubControlMetrics( QStyle::CC_ComboBox, this, QStyle::SC_ComboBoxEditField );
-        re = QStyle::visualRect(re, this);
         p.setClipRect( re );
 
-        QPixmap pix = SmallIcon( m_pageSecurity==KonqMainWindow::Encrypted ? "encrypted" : "halfencrypted" );
-        p.fillRect( re.x(), re.y(), pix.width() + 4, re.height(), QBrush( QColor(245, 246, 190) ));
+        QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText() );
+        p.fillRect( re.x(), re.y(), pix.width() + 4, re.height(), QBrush( color ));
         p.drawPixmap( re.x() + 2, re.y() + ( re.height() - pix.height() ) / 2, pix );
+
+        QRect r = edit->geometry();
+        r.setRight( re.right() - pix.width() - 4 );
+        if ( r != edit->geometry() )
+            edit->setGeometry( r );
+        edit->setPaletteBackgroundColor( color );
+        
+        pix = SmallIcon( m_pageSecurity==KonqMainWindow::Encrypted ? "encrypted" : "halfencrypted" );
+        p.fillRect( re.right() - pix.width() - 3 , re.y(), pix.width() + 4, re.height(), QBrush( color ));
+        p.drawPixmap( re.right() - pix.width() -1 , re.y() + ( re.height() - pix.height() ) / 2, pix );
         p.setClipping( FALSE );
     }
-    else
+    else {
+        QRect r = edit->geometry();
+        r.setRight( re.right() );
+        if ( r != edit->geometry() )
+            edit->setGeometry( r );
         edit->unsetPalette();
+    }
 }
 
 void KonqCombo::setPageSecurity( int pageSecurity )
