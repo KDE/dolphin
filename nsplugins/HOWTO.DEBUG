@@ -1,0 +1,22 @@
+Want to run nspluginviewer in valgrind?  It's not easy.  Here's how:
+
+- Trigger the plugin you want in konqueror without valgrind running.
+- ps awwww | grep nspluginviewer
+- Record the commandline, then kill -11 the process
+- close drkonqi
+- in a konsole, export ARTSDSP_MMAP=1
+	- run LD_PRELOAD=$KDEDIR/lib/libartsdsp.so.0:$KDEDIR/lib/libartsc.so.0 valgrind -v --num-callers=15 --error-limit=no nspluginviewer <commandline that you saved>
+
+- WAIT for four lines to be printed to the screen that start with:
+5 ............
+6 ............
+7 ............
+8 ............
+
+- QUICKLY go back to konqi, reload the plugin page.
+- You should see the valgrind konsole start to scroll lots of debug output.  If
+  it does not, then it probably not picking up the new nspluginviewer.  Try
+  again.
+- As long as you don't close this konqueror window, you should be able to keep
+  rerunning valgrinded nspluginviewer without much trouble.
+
