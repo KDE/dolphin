@@ -21,26 +21,19 @@
 #ifndef MYMAIN_H
 #define MYMAIN_H
 
-#include <qtabwidget.h>
-#include <kglobal.h>
-#include <qlayout.h>
-#include <qlabel.h>
-
 #include <kcmodule.h>
+#include <kglobal.h>
+
+class QTabWidget;
 
 class LanBrowser:public KCModule
 {
    Q_OBJECT
    public:
       LanBrowser(QWidget *parent=0);
-      virtual ~LanBrowser() {};
       virtual void load();
       virtual void save();
-      virtual void defaults() {};
-      QString quickHelp() const;
 
-   protected slots:
-      void slotEmitChanged();
    private:
       QVBoxLayout layout;
       QTabWidget tabs;

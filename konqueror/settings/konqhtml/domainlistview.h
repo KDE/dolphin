@@ -24,7 +24,6 @@
 
 #include <qgroupbox.h>
 #include <qmap.h>
-//#include <qstring.h>
 
 class QListViewItem;
 class QPushButton;

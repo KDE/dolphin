@@ -24,18 +24,18 @@
 #include <qlayout.h>
 #include <qwhatsthis.h>
 
-#include "previews.h"
-
-#include <kprotocolinfo.h>
-#include <kdialog.h>
-#include <klistview.h>
-#include <klocale.h>
-#include <kglobal.h>
-#include <knuminput.h>
-#include <kconfig.h>
+#include <dcopclient.h>
 
 #include <kapplication.h>
-#include <dcopclient.h>
+#include <kconfig.h>
+#include <kdialog.h>
+#include <kglobal.h>
+#include <klistview.h>
+#include <klocale.h>
+#include <knuminput.h>
+#include <kprotocolinfo.h>
+
+#include "previews.h"
 
 //-----------------------------------------------------------------------------
 
@@ -64,6 +64,17 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
 
     lay->addWidget( new QLabel( i18n("<p>Allow previews, \"Folder Icons Reflect Contents\", and "
                                      "retrieval of meta-data on protocols:</p>"), this ) );
+
+    setQuickHelp( i18n("<h1>Preview Options</h1> Here you can modify the behavior "
+                "of Konqueror when it shows the files in a folder."
+                "<h2>The list of protocols:</h2> check the protocols over which "
+                "previews should be shown; uncheck those over which they should not. "
+                "For instance, you might want to show previews over SMB if the local "
+                "network is fast enough, but you might disable it for FTP if you often "
+                "visit very slow FTP sites with large images."
+                "<h2>Maximum File Size:</h2> select the maximum file size for which "
+                "previews should be generated. For instance, if set to 1 MB (the default), "
+                "no preview will be generated for files bigger than 1 MB, for speed reasons."));
 
     // Listview containing checkboxes for all protocols that support listing
     KListView *listView = new KListView( this, "listView" );
@@ -193,20 +204,6 @@ void KPreviewOptions::save()
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();
     kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-}
-
-QString KPreviewOptions::quickHelp() const
-{
-    return i18n("<h1>Preview Options</h1> Here you can modify the behavior "
-                "of Konqueror when it shows the files in a folder."
-                "<h2>The list of protocols:</h2> check the protocols over which "
-                "previews should be shown; uncheck those over which they should not. "
-                "For instance, you might want to show previews over SMB if the local "
-                "network is fast enough, but you might disable it for FTP if you often "
-                "visit very slow FTP sites with large images."
-                "<h2>Maximum File Size:</h2> select the maximum file size for which "
-                "previews should be generated. For instance, if set to 1 MB (the default), "
-                "no preview will be generated for files bigger than 1 MB, for speed reasons.");
 }
 
 void KPreviewOptions::changed()

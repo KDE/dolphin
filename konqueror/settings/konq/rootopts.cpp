@@ -21,27 +21,25 @@
 #include <qvgroupbox.h>
 #include <qwhatsthis.h>
 
+#include <dcopclient.h>
+
 #include <kapplication.h>
+#include <kcustommenueditor.h>
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kglobalsettings.h>
-#include <klistview.h>
-#include <klocale.h>
 #include <kipc.h>
-#include <kmessagebox.h>
-#include <ktrader.h>
-#include <kstandarddirs.h>
-#include <kurlrequester.h>
-#include <kmimetype.h>
-#include <kcustommenueditor.h>
-
-#include <dcopclient.h>
+#include <klistview.h>
 #include <kio/job.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kmimetype.h>
+#include <kstandarddirs.h>
+#include <ktrader.h>
+#include <konq_defaults.h> // include default values directly from libkonq
+#include <kurlrequester.h>
 
 #include "rootopts.h"
-
-#include <konq_defaults.h> // include default values directly from libkonq
-
 
 //-----------------------------------------------------------------------------
 
@@ -64,6 +62,12 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
   lay->setColStretch(0,0);
   lay->setColStretch(1,0);
   lay->setColStretch(2,10);
+
+
+  setQuickHelp( i18n("<h1>Paths</h1>\n"
+    "This module allows you to choose where in the filesystem the "
+    "files on your desktop should be stored.\n"
+    "Use the \"Whats This?\" (Shift+F1) to get help on specific options."));
 
   // Desktop Paths
   row++;
@@ -330,20 +334,5 @@ void DesktopPathConfig::slotResult( KIO::Job * job )
     }
     qApp->exit_loop();
 }
-
-void DesktopPathConfig::changed()
-{
-  emit KCModule::changed(true);
-}
-
-
-QString DesktopPathConfig::quickHelp() const
-{
-  return i18n("<h1>Paths</h1>\n"
-    "This module allows you to choose where in the filesystem the "
-    "files on your desktop should be stored.\n"
-    "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
-}
-
 
 #include "rootopts.moc"

@@ -36,13 +36,15 @@
 
 #include <qstringlist.h>
 #include <qspinbox.h>
+
 #include <kcmodule.h>
 
-class KConfig;
-class KColorButton;
-class QRadioButton;
-class KFontCombo;
 class QCheckBox;
+class QRadioButton;
+
+class KColorButton;
+class KConfig;
+class KFontCombo;
 
 
 //-----------------------------------------------------------------------------
@@ -66,9 +68,6 @@ public slots:
   void slotNormalTextColorChanged( const QColor &col );
   //void slotHighlightedTextColorChanged( const QColor &col );
   void slotTextBackgroundColorChanged( const QColor &col );
-
-private slots:
-  void changed();
 
 private:
   void updateGUI();

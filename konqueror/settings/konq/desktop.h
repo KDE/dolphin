@@ -41,12 +41,8 @@ class KDesktopConfig : public KCModule
   void save();
   void defaults();
   
-  int buttons();
-  QString quickHelp() const;
-
  protected slots:
   void slotValueChanged(int);
-  void slotOptionChanged();
     
  private:
   KIntNumInput *_numInput;

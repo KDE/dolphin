@@ -21,18 +21,20 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qwhatsthis.h>
+#include <qvbox.h>
 #include <qvbuttongroup.h>
 #include <qvgroupbox.h>
-#include <qvbox.h>
+#include <qwhatsthis.h>
+
+#include <dcopclient.h>
+
+#include <kapplication.h>
 #include <kconfig.h>
+#include <kio/uiserver_stub.h>
 #include <klocale.h>
 #include <konq_defaults.h>
 #include <kstandarddirs.h>
-#include <kapplication.h>
 #include <kurlrequester.h>
-#include <dcopclient.h>
-#include <kio/uiserver_stub.h>
 
 #include "behaviour.h"
 
@@ -40,6 +42,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     : KCModule(parent, "kcmkonq"), g_pConfig(config), groupname(group)
 {
     QLabel * label;
+
+    setQuickHelp( i18n("<h1>Konqueror Behavior</h1> You can configure how Konqueror behaves as a file manager here."));
 
     QVBoxLayout *lay = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
@@ -278,17 +282,6 @@ void KBehaviourOptions::updateWinPixmap(bool b)
   else
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
-}
-
-QString KBehaviourOptions::quickHelp() const
-{
-    return i18n("<h1>Konqueror Behavior</h1> You can configure how Konqueror behaves as a file manager here.");
-}
-
-
-void KBehaviourOptions::changed()
-{
-  emit KCModule::changed(true);
 }
 
 #include "behaviour.moc"

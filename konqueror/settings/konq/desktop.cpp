@@ -55,6 +55,8 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   : KCModule(parent, "kcmkonq")
 {
 
+  setQuickHelp( i18n("<h1>Multiple Desktops</h1>In this module, you can configure how many virtual desktops you want and how these should be labeled."));
+
   Q_ASSERT(maxDesktops % 2 == 0);
 
   QVBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
@@ -70,7 +72,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   _numInput = new KIntNumInput(4, number_group);
   _numInput->setRange(1, maxDesktops, 1, true);
   connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
-  connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotOptionChanged()));
+  connect(_numInput, SIGNAL(valueChanged(int)),  SLOT( changed() ));
   label->setBuddy( _numInput );
   QString wtstr = i18n( "Here you can set how many virtual desktops you want on your KDE desktop. Move the slider to change the value." );
   QWhatsThis::add( label, wtstr );
@@ -99,9 +101,9 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
       QWhatsThis::add( _nameInput[i+(maxDesktops/2)], i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
 
       connect(_nameInput[i], SIGNAL(textChanged(const QString&)),
-          SLOT(slotOptionChanged()));
+           SLOT( changed() ));
       connect(_nameInput[i+(maxDesktops/2)], SIGNAL(textChanged(const QString&)),
-          SLOT(slotOptionChanged()));
+           SLOT( changed() ));
     }
 
   for(int i = 1; i < maxDesktops; i++)
@@ -110,7 +112,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   layout->addWidget(name_group);
 
   _wheelOption = new QCheckBox(i18n("Mouse wheel over desktop background switches desktop"), this);
-  connect(_wheelOption,SIGNAL(toggled(bool)),this,SLOT(slotOptionChanged()));
+  connect(_wheelOption,SIGNAL(toggled(bool)), SLOT( changed() ));
 
   layout->addWidget(_wheelOption);
   layout->addStretch(1);
@@ -231,11 +233,6 @@ void KDesktopConfig::defaults()
   emit changed(false);
 }
 
-QString KDesktopConfig::quickHelp() const
-{
-  return i18n("<h1>Multiple Desktops</h1>In this module, you can configure how many virtual desktops you want and how these should be labeled.");
-}
-
 void KDesktopConfig::slotValueChanged(int n)
 {
   for(int i = 0; i < maxDesktops; i++)
@@ -249,7 +246,3 @@ void KDesktopConfig::slotValueChanged(int n)
   emit changed(true);
 }
 
-void KDesktopConfig::slotOptionChanged()
-{
-  emit changed(true);
-}

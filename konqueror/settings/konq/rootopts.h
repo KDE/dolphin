@@ -14,16 +14,19 @@
 
 
 #include <qstring.h>
-#include <kurl.h>
+
 #include <kcmodule.h>
 #include <kio/global.h>
+#include <kurl.h>
 
-class QPushButton;
-class KConfig;
 class QCheckBox;
 class QComboBox;
-class KURLRequester;
+class QPushButton;
+
+class KConfig;
 class KListView;
+class KURLRequester;
+
 namespace KIO { class Job; }
 
 //-----------------------------------------------------------------------------
@@ -38,10 +41,8 @@ public:
         virtual void load();
         virtual void save();
         virtual void defaults();
-        virtual QString quickHelp() const;
 
 private slots:
-	void changed();
     void slotEntries( KIO::Job * job, const KIO::UDSEntryList& list);
 
 private:

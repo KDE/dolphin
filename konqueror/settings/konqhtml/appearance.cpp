@@ -1,24 +1,27 @@
-#include <qlayout.h>
-#include <qwhatsthis.h>
+
 #include <qfontdatabase.h>
-#include <qvgroupbox.h>
-#include <kglobal.h>
-#include <kconfig.h>
 #include <qlabel.h>
+#include <qlayout.h>
+#include <qvgroupbox.h>
+#include <qwhatsthis.h>
+
+#include <dcopclient.h>
+
+#include <kapplication.h>
 #include <kcharsets.h>
+#include <kconfig.h>
 #include <kdebug.h>
+#include <kdialog.h>
+#include <kfontcombo.h>
+#include <kglobal.h>
+#include <khtmldefaults.h>
+#include <klocale.h>
+#include <knuminput.h>
+
 #if defined Q_WS_X11 && !defined K_WS_QTONLY
 #include <X11/Xlib.h>
 #endif
-#include <kfontcombo.h>
-#include <knuminput.h>
-#include <kdialog.h>
 
-#include <klocale.h>
-#include <khtmldefaults.h>
-
-#include <kapplication.h>
-#include <dcopclient.h>
 
 #include "appearance.moc"
 
@@ -27,6 +30,10 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
       fSize( 10 ), fMinSize( HTML_DEFAULT_MIN_FONT_SIZE )
 
 {
+  setQuickHelp( i18n("<h1>Konqueror Fonts</h1>On this page, you can configure "
+              "which fonts Konqueror should use to display the web "
+              "pages you view."));
+
   QString wtstr;
 
   QGridLayout *lay = new QGridLayout(this, 1 ,1 , 0, KDialog::spacingHint());
@@ -42,7 +49,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   m_minSize->setLabel( i18n( "M&inimum font size:" ) );
   m_minSize->setRange( 2, 30 );
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotMinimumFontSize( int ) ) );
-  connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotChanged() ) );
+  connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
   QWhatsThis::add( m_minSize, i18n( "Konqueror will never display text smaller than "
                                     "this size,<br>overriding any other settings" ) );
 
@@ -50,7 +57,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   m_MedSize->setLabel( i18n( "&Medium font size:" ) );
   m_MedSize->setRange( 2, 30 );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotFontSize( int ) ) );
-  connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotChanged() ) );
+  connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
   QWhatsThis::add( m_MedSize,
                    i18n("This is the relative font size Konqueror uses "
                         "to display web sites.") );
@@ -72,11 +79,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[0], SIGNAL( activated(const QString&) ),
 	   SLOT( slotStandardFont(const QString&) ) );
   connect( m_pFonts[0], SIGNAL( activated(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
   connect( m_pFonts[0]->lineEdit(), SIGNAL( textChanged(const QString&) ),
 	   SLOT( slotStandardFont(const QString&) ) );
   connect( m_pFonts[0], SIGNAL( textChanged(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "&Fixed font:"), this );
   lay->addWidget( label, ++r, E );
@@ -93,11 +100,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
 	   SLOT( slotFixedFont(const QString&) ) );
   connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
   connect( m_pFonts[1]->lineEdit(), SIGNAL( textChanged(const QString&) ),
 	   SLOT( slotFixedFont(const QString&) ) );
   connect( m_pFonts[1], SIGNAL( textChanged(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "S&erif font:" ), this );
   lay->addWidget( label, ++r, E );
@@ -114,11 +121,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotSerifFont( const QString& ) ) );
   connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
-	   SLOT( slotChanged() ) );
+	   SLOT( changed() ) );
   connect( m_pFonts[2]->lineEdit(), SIGNAL( textChanged(const QString&) ),
 	   SLOT( slotSerifFont(const QString&) ) );
   connect( m_pFonts[2], SIGNAL( textChanged(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "Sa&ns serif font:" ), this );
   lay->addWidget( label, ++r, E );
@@ -135,11 +142,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotSansSerifFont( const QString& ) ) );
   connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
-	   SLOT( slotChanged() ) );
+	   SLOT( changed() ) );
   connect( m_pFonts[3]->lineEdit(), SIGNAL( textChanged(const QString&) ),
 	   SLOT( slotSansSerifFont(const QString&) ) );
   connect( m_pFonts[3], SIGNAL( textChanged(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
 
 
   label = new QLabel( i18n( "C&ursive font:" ), this );
@@ -157,11 +164,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotCursiveFont( const QString& ) ) );
   connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
-	   SLOT( slotChanged() ) );
+	   SLOT( changed() ) );
   connect( m_pFonts[4]->lineEdit(), SIGNAL( textChanged(const QString&) ),
 	   SLOT( slotCursiveFont(const QString&) ) );
   connect( m_pFonts[4], SIGNAL( textChanged(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
 
 
   label = new QLabel( i18n( "Fantas&y font:" ), this );
@@ -179,11 +186,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotFantasyFont( const QString& ) ) );
   connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
-	   SLOT( slotChanged() ) );
+	   SLOT( changed() ) );
   connect( m_pFonts[5]->lineEdit(), SIGNAL( textChanged(const QString&) ),
 	   SLOT( slotFantasyFont(const QString&) ) );
   connect( m_pFonts[5], SIGNAL( textChanged(const QString&) ),
-	   SLOT(slotChanged() ) );
+	   SLOT(changed() ) );
 
 
   label = new QLabel( i18n( "Font &size adjustment for this encoding:" ), this );
@@ -196,7 +203,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
 	   SLOT( slotFontSizeAdjust( int ) ) );
   connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
-	   SLOT( slotChanged() ) );
+	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "Default encoding:"), this );
   //++r;
@@ -218,7 +225,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
 	   SLOT( slotEncoding(const QString&) ) );
   connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
-	   SLOT( slotChanged() ) );
+	   SLOT( changed() ) );
 
   ++r; lay->setRowStretch(r, 8);
 
@@ -397,15 +404,3 @@ void KAppearanceOptions::save()
   emit changed(false);
 }
 
-
-void KAppearanceOptions::slotChanged()
-{
-  emit changed(true);
-}
-
-QString KAppearanceOptions::quickHelp() const
-{
-  return i18n("<h1>Konqueror Fonts</h1>On this page, you can configure "
-              "which fonts Konqueror should use to display the web "
-              "pages you view.");
-}

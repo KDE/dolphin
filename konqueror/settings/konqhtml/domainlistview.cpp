@@ -19,18 +19,18 @@
 
 */
 
-#include "domainlistview.h"
-#include "policies.h"
-#include "policydlg.h"
+#include <qlayout.h>
+#include <qpushbutton.h>
+#include <qwhatsthis.h>
 
 #include <kconfig.h>
 #include <klistview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qwhatsthis.h>
+#include "domainlistview.h"
+#include "policies.h"
+#include "policydlg.h"
 
 DomainListView::DomainListView(KConfig *config,const QString &title,
 		QWidget *parent,const char *name) :

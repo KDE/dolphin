@@ -23,11 +23,12 @@
 
 class QCheckBox;
 class QLabel;
-class KURLRequester;
-class KConfig;
-class QVButtonGroup;
 class QRadioButton;
 class QSpinBox;
+class QVButtonGroup;
+
+class KConfig;
+class KURLRequester;
 
 //-----------------------------------------------------------------------------
 
@@ -41,11 +42,9 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
-  virtual QString quickHelp() const;
 
 protected slots:
 
-  void changed();
   void updateWinPixmap(bool);
   void slotShowTips(bool);
 private:

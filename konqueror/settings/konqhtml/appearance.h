@@ -25,7 +25,6 @@ class KAppearanceOptions : public KCModule
 public:
   KAppearanceOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
   ~KAppearanceOptions();
-  QString quickHelp() const;
 
   virtual void load();
   virtual void save();
@@ -42,9 +41,6 @@ public slots:
   void slotFantasyFont( const QString& n );
   void slotEncoding( const QString& n);
   void slotFontSizeAdjust( int value );
-
-private slots:
-  void slotChanged();
 
 private:
   void updateGUI();

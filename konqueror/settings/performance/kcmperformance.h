@@ -36,9 +36,6 @@ class Config
         virtual void load();
         virtual void save();
         virtual void defaults();
-        virtual QString quickHelp() const;
-    private slots:
-        void configChanged();
     private:
         Konqueror* konqueror_widget;
         SystemWidget* system_widget;
@@ -53,9 +50,6 @@ class KonquerorConfig
         virtual void load();
         virtual void save();
         virtual void defaults();
-        virtual QString quickHelp() const;
-    private slots:
-        void configChanged();
     private:
         Konqueror* widget;
     };

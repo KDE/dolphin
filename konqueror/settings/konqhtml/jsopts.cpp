@@ -52,21 +52,21 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
         "(also known as JavaScript) that can be contained in HTML pages. "
         "Note that, as with any browser, enabling scripting languages can be a security problem.") );
-  connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+  connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), SLOT( changed() ) );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChangeJSEnabled() ) );
 
   reportErrorsCB = new QCheckBox( i18n( "Report &errors" ), globalGB );
   QWhatsThis::add( reportErrorsCB, i18n("Enables the reporting of errors that occur when JavaScript "
 	"code is executed.") );
-  connect( reportErrorsCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+  connect( reportErrorsCB, SIGNAL( clicked() ), SLOT( changed() ) );
 
   jsDebugWindow = new QCheckBox( i18n( "Enable debu&gger" ), globalGB );
   QWhatsThis::add( jsDebugWindow, i18n( "Enables builtin JavaScript debugger." ) );
-  connect( jsDebugWindow, SIGNAL( clicked() ), SLOT( slotChanged() ) );
+  connect( jsDebugWindow, SIGNAL( clicked() ), SLOT( changed() ) );
 
   // the domain-specific listview
   domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this,this);
-  connect(domainSpecific,SIGNAL(changed(bool)),SLOT(slotChanged()));
+  connect(domainSpecific,SIGNAL(changed(bool)),SLOT(changed()));
   toplevel->addWidget( domainSpecific, 2 );
 
   QWhatsThis::add( domainSpecific, i18n("Here you can set specific JavaScript policies for any particular "
@@ -97,7 +97,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   js_policies_frame = new JSPoliciesFrame(&js_global_policies,
   		i18n("Global JavaScript Policies"),this);
   toplevel->addWidget(js_policies_frame);
-  connect(js_policies_frame, SIGNAL(changed()), SLOT(slotChanged()));
+  connect(js_policies_frame, SIGNAL(changed()), SLOT(changed()));
 
   // Finally do the loading
   load();
@@ -156,11 +156,6 @@ void KJavaScriptOptions::save()
     // sync moved to KJSParts::save
 //    m_pConfig->sync();
     emit changed(false);
-}
-
-void KJavaScriptOptions::slotChanged()
-{
-  emit changed(true);
 }
 
 void KJavaScriptOptions::slotChangeJSEnabled() {

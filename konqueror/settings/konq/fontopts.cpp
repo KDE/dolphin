@@ -17,23 +17,26 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <assert.h>
+
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qwhatsthis.h>
-#include <kconfig.h>
-#include <kapplication.h>
+
 #include <dcopclient.h>
-#include <kdebug.h>
+
+#include <kapplication.h>
 #include <kcolorbutton.h>
+#include <kconfig.h>
+#include <kdebug.h>
+#include <kfontcombo.h>
+#include <kfontdialog.h>
+#include <klocale.h>
+#include <konq_defaults.h> // include default values directly from konqueror
 
 #include "fontopts.h"
-#include <assert.h>
 
-#include <konq_defaults.h> // include default values directly from konqueror
-#include <klocale.h>
-#include <kfontdialog.h>
-#include <kfontcombo.h>
 
 //-----------------------------------------------------------------------------
 
@@ -275,7 +278,6 @@ void KonqFontOptions::defaults()
     }
     cbUnderline->setChecked( DEFAULT_UNDERLINELINKS );
     updateGUI();
-    emit KCModule::changed( true );
 }
 
 void KonqFontOptions::updateGUI()
@@ -325,13 +327,6 @@ void KonqFontOptions::save()
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
-    emit KCModule::changed( false );
-}
-
-
-void KonqFontOptions::changed()
-{
-  emit KCModule::changed( true );
 }
 
 void KonqFontOptions::slotTextBackgroundClicked()

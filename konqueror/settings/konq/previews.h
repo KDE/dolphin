@@ -32,6 +32,7 @@ Configuration of the maximum image size
 */
 
 #include <qstring.h>
+
 #include <kcmodule.h>
 
 class KConfig;
@@ -47,7 +48,6 @@ public:
     virtual void load();
     virtual void save();
     virtual void defaults();
-    virtual QString quickHelp() const;
 
 protected:
     void load(bool useDefaults);
