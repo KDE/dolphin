@@ -3,8 +3,7 @@
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
-   License as published by the Free Software Foundation; either
-   version 2 of the License, or (at your option) any later version.
+   License version 2 as published by the Free Software Foundation.
 
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,10 +23,12 @@
 #include <qstringlist.h>
 
 #include <kaction.h>
+#include <kdialogbase.h>
 
 namespace KIO { class Job; }
 
 class KDirWatch;
+class KURLRequester;
 
 /**
  * The 'New' submenu, both for the File menu and the RMB popup menu.
@@ -84,6 +85,8 @@ protected slots:
     void slotFillTemplates();
 
     void slotResult( KIO::Job * );
+    // Special case (filename conflict when creating a link=url file)
+    void slotRenamed( KIO::Job *, const KURL&, const KURL& );
 
 private:
 
@@ -123,7 +126,8 @@ private:
      */
     static QValueList<Entry> * s_templatesList;
 
-    KActionCollection * m_actionCollection;
+    class KNewMenuPrivate;
+    KNewMenuPrivate* d;
 
     /**
      * Is increased when templatesList has been updated and
@@ -150,9 +154,53 @@ private:
      * True when a desktop file with Type=URL is being copied
      */
     bool m_isURLDesktopFile;
-    QString m_destURL;
+    QString m_linkURL; // the url to put in the file
 
     static KDirWatch * s_pDirWatch;
+};
+
+/**
+ * @internal
+ * Dialog to ask for a filename and a URL, when creating a link to a URL.
+ * Basically a merge of KLineEditDlg and KURLRequesterDlg ;)
+ * @author David Faure <faure@kde.org>
+ */
+class KURLDesktopFileDlg : public KDialogBase
+{
+    Q_OBJECT
+public:
+    KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl );
+    virtual ~KURLDesktopFileDlg() {}
+
+    /**
+     * @return the filename the user entered (no path)
+     */
+    QString fileName() const;
+    /**
+     * @return the URL the user entered
+     */
+    QString url() const;
+
+protected slots:
+    void slotClear();
+    void slotNameTextChanged( const QString& );
+    void slotURLTextChanged( const QString& );
+private:
+    void initDialog( const QString& textFileName, const QString& defaultName, const QString& textUrl, const QString& defaultUrl );
+private:
+    /**
+     * The line edit widget for the fileName
+     */
+    KLineEdit *m_leFileName;
+    /**
+     * The URL requester for the URL :)
+     */
+    KURLRequester *m_urlRequester;
+
+    /**
+     * True if the filename was manually edited.
+     */
+    bool m_fileNameEdited;
 };
 
 #endif
