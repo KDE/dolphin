@@ -259,7 +259,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
              	i18n( "Do you really want to delete this item?", "Do you really want to delete these %n items?", prettyList.count()),
              	prettyList,
 		i18n( "Delete Files" ),
-		KGuiItem( i18n( "Delete" ), "editdelete" ),
+		KStdGuiItem::del(),
 		keyName, KMessageBox::Dangerous);
 	 break;
 
@@ -278,7 +278,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
                 i18n( "Do you really want to move this item to the trash?", "Do you really want to move these %n items to the trash?", prettyList.count()),
                 prettyList,
 		i18n( "Move to Trash" ),
-		KGuiItem( i18n( "Verb", "Trash" ), "edittrash"),
+		KGuiItem( i18n( "Verb", "&Trash" ), "edittrash"),
 		keyName, KMessageBox::Dangerous);
       }
       if (!keyName.isEmpty())
