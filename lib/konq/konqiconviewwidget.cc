@@ -235,7 +235,8 @@ void KonqIconViewWidget::slotDrop( QDropEvent *e )
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
 {
-
+  QStringList lst;
+ 
   // Use either the root url or the item url
   KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
 
@@ -249,7 +250,8 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
 
   if ( dest.path( 1 ) == KUserPaths::trashPath() )
     e->setAction( QDropEvent::Move );
-  else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
+  else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) &&
+	    QUrlDrag::decodeToUnicodeUris( e, lst ) ) // provide the popupmenu only for url drags
   {
     // Nor control nor shift are pressed => show popup menu
     QPopupMenu popup;
