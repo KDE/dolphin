@@ -12,16 +12,21 @@
 #include <kiconloader.h>
 #include <kglobal.h>
 
-#define ROW_USEPROXY 1
-#define ROW_HTTP 2
-#define ROW_FTP 3
-#define ROW_NOPROXY 5
+#define ROW_USEPROXY		1
+#define ROW_HTTP		2
+#define ROW_FTP			3
+//
+#define ROW_NOPROXY		5
+//
+#define ROW_USECACHE		7
+#define ROW_MAXCACHESIZE	8
+#define ROW_MAXCACHEAGE		9
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
 
-  QGridLayout *lay = new QGridLayout(this,7,8,10,5);
+  QGridLayout *lay = new QGridLayout(this,11,8,10,5);
   lay->addRowSpacing(4,20);
   lay->addRowSpacing(6,20);
   lay->addColSpacing(0,10);
@@ -34,7 +39,11 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->setRowStretch(3,0); // FTP
   lay->setRowStretch(4,2);
   lay->setRowStretch(5,0); // NOPROXY
-  lay->setRowStretch(6,20);
+  lay->setRowStretch(6,2);
+  lay->setRowStretch(7,0); // USECACHE
+  lay->setRowStretch(8,0); // MAX CACHE SIZE
+  lay->setRowStretch(9,0); // MAX CACHE AGE
+  lay->setRowStretch(10,20);
 
   lay->setColStretch(0,0);
   lay->setColStretch(1,0);
@@ -45,52 +54,75 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->setColStretch(6,1);
   lay->setColStretch(7,0);
 
-  cb_useProxy = new QCheckBox( i18n("Use proxy"), this );
+  cb_useProxy = new QCheckBox( i18n("Use &Proxy"), this );
   lay->addMultiCellWidget(cb_useProxy,ROW_USEPROXY,ROW_USEPROXY,1,6);
   
   connect( cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
   connect( cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  
-  lb_http_url = new QLabel( i18n("HTTP Proxy:"), this);
-  lb_http_url->setAlignment(AlignVCenter);
-  lay->addWidget(lb_http_url,ROW_HTTP,1);
 
   le_http_url = new QLineEdit(this);
   lay->addWidget(le_http_url,ROW_HTTP,2);
   connect(le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_http_port = new QLabel( i18n("Port:"), this);
-  lb_http_port->setAlignment(AlignVCenter);
-  lay->addWidget(lb_http_port,ROW_HTTP,4);
+  lb_http_url = new QLabel( le_http_url, i18n("&HTTP Proxy:"), this);
+  lb_http_url->setAlignment(AlignVCenter);
+  lay->addWidget(lb_http_url,ROW_HTTP,1);
 
   le_http_port = new QLineEdit(this);
   le_http_port->setGeometry(280, 110, 55, 30);
   lay->addWidget(le_http_port,ROW_HTTP,5);
   connect(le_http_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_ftp_url = new QLabel( i18n("FTP Proxy:"), this);
-  lb_ftp_url->setAlignment(AlignVCenter);
-  lay->addWidget(lb_ftp_url,ROW_FTP,1);
+  lb_http_port = new QLabel( le_http_port, i18n("Port:"), this);
+  lb_http_port->setAlignment(AlignVCenter);
+  lay->addWidget(lb_http_port,ROW_HTTP,4);
 
   le_ftp_url = new QLineEdit(this);
   lay->addWidget(le_ftp_url,ROW_FTP,2);
   connect(le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_ftp_port = new QLabel( i18n("Port:"), this);
-  lb_ftp_port->setAlignment(AlignVCenter);
-  lay->addWidget(lb_ftp_port,ROW_FTP,4);
+  lb_ftp_url = new QLabel( le_ftp_url, i18n("&FTP Proxy:"), this);
+  lb_ftp_url->setAlignment(AlignVCenter);
+  lay->addWidget(lb_ftp_url,ROW_FTP,1);
 
   le_ftp_port = new QLineEdit(this);
   lay->addWidget(le_ftp_port,ROW_FTP,5);
   connect(le_ftp_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-  lb_no_prx = new QLabel(i18n("No Proxy for:"), this);
-  lb_no_prx->setAlignment(AlignVCenter);
-  lay->addWidget(lb_no_prx,ROW_NOPROXY,1);
+  lb_ftp_port = new QLabel( le_ftp_port, i18n("Port:"), this);
+  lb_ftp_port->setAlignment(AlignVCenter);
+  lay->addWidget(lb_ftp_port,ROW_FTP,4);
 
   le_no_prx = new QLineEdit(this);
   lay->addMultiCellWidget(le_no_prx,ROW_NOPROXY,ROW_NOPROXY,2,5);
   connect(le_no_prx, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
+  lb_no_prx = new QLabel(le_no_prx, i18n("&No Proxy for:"), this);
+  lb_no_prx->setAlignment(AlignVCenter);
+  lay->addWidget(lb_no_prx,ROW_NOPROXY,1);
+
+  cb_useCache = new QCheckBox( i18n("Use &Cache"), this );
+  lay->addMultiCellWidget(cb_useCache,ROW_USECACHE,ROW_USECACHE,1,6);
+  
+  connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  le_max_cache_size = new QLineEdit(this);
+  lay->addWidget(le_max_cache_size,ROW_MAXCACHESIZE,2);
+  connect(le_max_cache_size, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
+  lb_max_cache_size = new QLabel( le_max_cache_size, i18n("Maximum Cache &Size:"), this);
+  lb_max_cache_size->setAlignment(AlignVCenter);
+  lay->addWidget(lb_max_cache_size,ROW_MAXCACHESIZE,1);
+
+  le_max_cache_age = new QLineEdit(this);
+  lay->addWidget(le_max_cache_age,ROW_MAXCACHEAGE,2);
+  connect(le_max_cache_age, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
+  lb_max_cache_age = new QLabel( le_max_cache_age,
+				i18n("Maximum Cache &Age:"), this);
+  lb_max_cache_age->setAlignment(AlignVCenter);
+  lay->addWidget(lb_max_cache_age,ROW_MAXCACHEAGE,1);
 
   QString path;
   cp_down = new QPushButton( this );
@@ -136,9 +168,15 @@ void KProxyOptions::load()
       g_pConfig->readEntry( "NoProxyFor" )
       );
 
+  g_pConfig->setGroup( "Cache Settings" );
+  cb_useCache->setChecked(  g_pConfig->readBoolEntry( "UseCache", true ));
+  le_max_cache_size->setText( "Not yet implemented.");
+  le_max_cache_age->setText( "Not yet implemented.");
+
   delete g_pConfig;
 
   setProxy();
+  setCache();
 }
 
 void KProxyOptions::defaults() {
@@ -205,6 +243,12 @@ void KProxyOptions::save()
 
     g_pConfig->writeEntry( "UseProxy", cb_useProxy->isChecked() );
     g_pConfig->writeEntry( "NoProxyFor", le_no_prx->text() );
+
+    g_pConfig->setGroup( "Cache Settings" );
+    g_pConfig->writeEntry( "UseCache", cb_useCache->isChecked() );
+// Not yet implemented:
+//    g_pConfig->writeEntry( "MaxCacheSize", le_max_cache_size->text() );
+//    g_pConfig->writeEntry( "MaxCacheAge", le_max_cache_age->text() );
     g_pConfig->sync();
    
     delete g_pConfig;
@@ -231,9 +275,24 @@ void KProxyOptions::setProxy()
   cb_useProxy->setChecked( useProxy );
 }
 
+void KProxyOptions::setCache()
+{
+  bool useCache = cb_useCache->isChecked();
+
+  // now set all input fields
+  le_max_cache_size->setEnabled( useCache );
+  le_max_cache_age->setEnabled( useCache );
+  cb_useCache->setChecked( useCache );
+}
+
 void KProxyOptions::changeProxy()
 {
   setProxy();
+}
+
+void KProxyOptions::changeCache()
+{
+  setCache();
 }
 
 

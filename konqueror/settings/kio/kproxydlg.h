@@ -51,12 +51,23 @@ Q_OBJECT
     QLabel *lb_no_prx;
     QLineEdit *le_no_prx;
 
+    // Maximum Cache Size
+    QLabel *lb_max_cache_size;
+    QLineEdit *le_max_cache_size;
+
+    // Maximum Cache Age
+    QLabel *lb_max_cache_age;
+    QLineEdit *le_max_cache_age;
+
     // copy down butto
     QPushButton *cp_down;
     // use proxy checker
     QCheckBox *cb_useProxy;
+    // use cache checker
+    QCheckBox *cb_useCache;
 
     void setProxy();
+    void setCache();
     void readOptions();
 
   private slots:
@@ -67,6 +78,7 @@ Q_OBJECT
   public slots:
     void copyDown();		// use the http setting for all services
     void changeProxy();
+    void changeCache();
     void updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
                    QString noProxyFor);
 };
