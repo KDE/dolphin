@@ -1,3 +1,4 @@
+- I think kdesktop and konqueror should share more code (the QIconView-inherited class)
 
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL.
