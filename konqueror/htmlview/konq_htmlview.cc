@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <config.h>
 #include "konq_htmlview.h"
 #include "konq_propsview.h"
 #include "konq_frame.h"
@@ -48,11 +49,6 @@
 #include <konq_htmlsettings.h>
 #include <klibloader.h>
 #include <kstddirs.h>
-
-#ifdef hpux
-#include "config.h"    /* needed for setenv() on HP-UX */
-#endif
-
 
 
 class KonqHTMLViewFactory : public KLibFactory
