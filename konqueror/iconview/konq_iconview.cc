@@ -205,7 +205,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_ulTotalFiles = 0;
 
-  // Dont repaint on configuration changes during construction
+  // Don't repaint on configuration changes during construction
   m_bInit = true;
 
   m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
@@ -342,7 +342,7 @@ KonqKfmIconView::KonqKfmIconView()
   m_bLoading = false;
   m_bNeedAlign = false;
 
-  m_pIconView->setSelectionMode( QIconView::Multi );
+  m_pIconView->setSelectionMode( QIconView::Extended );
   m_pIconView->setViewMode( QIconSet::Large );
   m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
@@ -664,8 +664,6 @@ void KonqKfmIconView::slotDropItem( KFileIVI *item, QDropEvent *e )
 
 void KonqKfmIconView::slotItemRightClicked( QIconViewItem *item )
 {
-  item->setSelected( true );
-
   KFileItemList lstItems;
 
   QIconViewItem *it = m_pIconView->firstItem();
