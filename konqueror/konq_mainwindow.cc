@@ -1916,7 +1916,8 @@ void KonqMainWindow::slotUpAboutToShow()
   u = u.upURL();
   while ( u.hasPath() )
   {
-    popup->insertItem( KMimeType::pixmapForURL( u, 0, KIcon::Small ), u.prettyURL() );
+    popup->insertItem( KonqPixmapProvider::self()->pixmapFor( u.url() ), 
+		       u.prettyURL() );
 
     if ( u.path() == "/" )
       break;
