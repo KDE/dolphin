@@ -61,7 +61,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    }
    else
    {
-      path = KProcess::quote( url.path() );
+      path = url.path();
    }
    bool ok;
    QString cmd = KInputDialog::getText( QString::null,
