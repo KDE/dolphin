@@ -27,6 +27,8 @@
 #include <kmessagebox.h>
 #include <kstddirs.h>
 #include <kdebug.h>
+#include <kimagefilepreview.h>
+#include <krecentdocument.h>
 
 #include "konq_bgnddlg.h"
 
@@ -122,9 +124,24 @@ void KBgndDialogPage::showSettings( QString fileName )
 
 void KBgndDialogPage::slotBrowse( )
 {
-    KURL url = KFileDialog::getOpenURL( 0 );
-    if (url.isEmpty())
+    KFileDialog *dlg = new KFileDialog( QString::null, QString::null, this, "filedialog", true );
+    dlg->setCaption( i18n("Open") );
+
+    KImageFilePreview *preview = new KImageFilePreview( dlg );
+    preview->show();
+    dlg->setPreviewWidget( preview );
+
+    dlg->exec();
+
+    KURL url = dlg->selectedURL();
+
+    delete dlg;
+
+    if (url.isEmpty() || url.isMalformed())
       return;
+
+    KRecentDocument::add( url );
+
     if (!url.isLocalFile()) {
       KMessageBox::sorry(this, i18n("Currently are only local wallpapers allowed."));
     } else
