@@ -103,6 +103,11 @@
 #include <malloc.h>
 #endif
 
+#include <X11/Xlib.h>
+#include <sys/time.h>
+#include <X11/Xatom.h>
+#include <../kdesktop/fixx11h.h>
+
 template class QPtrList<QPixmap>;
 template class QPtrList<KToggleAction>;
 
@@ -4605,24 +4610,37 @@ void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
     KIO::Scheduler::unregisterWindow( window );
 }
 
-#include <X11/Xlib.h>
-#include <sys/time.h>
-#include <X11/Xatom.h>
 // used by preloading - this KonqMainWindow will be reused, reset everything
 // that won't be reset by loading a profile
+#include <netwm.h> // only for KWIN_FOCUS, remove when not needed
 void KonqMainWindow::resetWindow()
 {
-    // bad hack - without updating the _KDE_NET_USER_TIME property,
-    // will apply don't_steal_focus to this window, and will not make it active
+#ifdef KWIN_FOCUS
+    char data[ 1 ];
+    // empty append to get current X timestamp
+    QWidget tmp_widget;
+    XChangeProperty( qt_xdisplay(), tmp_widget.winId(), XA_WM_CLASS, XA_STRING, 8,
+		    PropModeAppend, (unsigned char*) &data, 0 );
+    XEvent ev;
+    XWindowEvent( qt_xdisplay(), tmp_widget.winId(), PropertyChangeMask, &ev );
+    long x_time = ev.xproperty.time;
+    // bad hack - without updating the _KDE_NET_WM_USER_CREATION_TIME property,
+    // KWin will apply don't_steal_focus to this window, and will not make it active
     // (shows mainly with 'konqueror --preload')
-    // the system used by don't_steal_focus should be probably rethought
-    static Atom atom = XInternAtom( qt_xdisplay(), "_KDE_NET_USER_TIME", False );
+    static Atom atom = XInternAtom( qt_xdisplay(), "_KDE_NET_WM_USER_CREATION_TIME", False );
+    XChangeProperty( qt_xdisplay(), winId(), atom, XA_CARDINAL, 32,
+		     PropModeReplace, (unsigned char *) &x_time, 1);
+    extern Time qt_x_last_input_time;   // reset also user time, so that this window
+    qt_x_last_input_time = CurrentTime; // won't have _NET_WM_USER_TIME set
+#endif
+#if !KDE_IS_VERSION( 3, 2, 90 ) // _KDE_NET_USER_TIME is obsolete
+    static Atom atom2 = XInternAtom( qt_xdisplay(), "_KDE_NET_USER_TIME", False );
     timeval tv;
     gettimeofday( &tv, NULL );
     unsigned long now = tv.tv_sec * 10 + tv.tv_usec / 100000;
-    XChangeProperty(qt_xdisplay(), winId(), atom, XA_CARDINAL,
+    XChangeProperty(qt_xdisplay(), winId(), atom2, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&now, 1);
-
+#endif
     ignoreInitialGeometry();
     kapp->setTopWidget( this ); // set again the default window icon
 }
