@@ -33,6 +33,7 @@
 #include <kprogress.h>
 #include <klocale.h>
 
+#include "konq_events.h"
 #include "konq_frame.h"
 #include "konq_tabs.h"
 #include "konq_view.h"
@@ -333,6 +334,9 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
   config->writeEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), childView()->isLockedLocation() );
   //config->writeEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), statusbar()->isVisible() );
   if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
+
+  KonqConfigEvent ev( config, prefix+":", true/*save*/);
+  QApplication::sendEvent( childView()->part(), &ev );
 }
 
 void KonqFrame::copyHistory( KonqFrameBase *other )

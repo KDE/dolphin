@@ -23,6 +23,7 @@
 #include "konq_frame.h"
 #include "konq_tabs.h"
 #include "konq_profiledlg.h"
+#include "konq_events.h"
 
 #include <qfileinfo.h>
 #include <qptrlist.h>
@@ -1410,7 +1411,9 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
         }
       }
     }
-
+    KonqConfigEvent ev( &cfg, prefix+":", false/*load*/);
+    QApplication::sendEvent( childView->part(), &ev );
+   
     childView->frame()->show();
 
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
