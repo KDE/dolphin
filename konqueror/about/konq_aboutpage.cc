@@ -284,7 +284,11 @@ QString KonqAboutPageFactory::plugins()
     if ( s_plugins_html )
         return *s_plugins_html;
 
-    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ));
+    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ))
+                  .arg(i18n("Installed Plugins"))
+                  .arg(i18n("<td>Plugin</td><td>Description</td><td>File</td><td>Types</td>"))
+                  .arg(i18n("Installed"))
+                  .arg(i18n("<td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td>"));
     if ( res.isEmpty() )
 	return res;
 
