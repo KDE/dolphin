@@ -4,6 +4,7 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qstrlist.h>
+#include <qtimer.h>
 
 namespace KIO { class Job; }
 
@@ -17,6 +18,7 @@ public:
 
 public slots:
     void slotResult( KIO::Job * );
+    void slotRunApp();
 
 protected:
     int counter;
