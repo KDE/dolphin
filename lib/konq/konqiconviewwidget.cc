@@ -189,7 +189,7 @@ void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
           ivi->setIcon( size, ivi->state(),
                         true, true /* perhaps we should do one big redraw instead ? */);
     }
-    if ( sizeChanged )
+    if ( sizeChanged || stopImagePreview )
     {
       calculateGridX();
     }
@@ -199,15 +199,15 @@ void KonqIconViewWidget::calculateGridX()
 {
   int oldGridX = gridX();
   int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-  int newGridX = sz + 26 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
+  int newGridX = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
 
-  kdDebug(1203) << "sz=" << sz << "   right=" << (itemTextPos() == QIconView::Right) << endl;
-  kdDebug(1203) << "** calculateGridX: oldGridX=" << oldGridX << " newGridX=" << newGridX << endl;
+  kdDebug(1203) << "calculateGridX: oldGridX=" << oldGridX << " newGridX=" << newGridX << endl;
 
   if ( oldGridX != newGridX )
   {
     setGridX( newGridX );
     arrangeItemsInGrid( true ); // take new grid into account
+    /// There seems to be a bug. If the new grid is smaller than the older, nothing happens...
     updateContents();
   }
 }

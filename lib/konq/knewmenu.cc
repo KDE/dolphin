@@ -258,8 +258,18 @@ void KNewMenu::slotNewFile()
     //not i18n'ed enough said Hans
     //QString defaultName = KURL( entry.templatePath ).fileName();
     QString defaultName = entry.text;
+    m_isURLDesktopFile = false;
     if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
     {
+        KDesktopFile df( entry.templatePath );
+        kdDebug(1203) <<  df.readType() << endl;
+        if ( df.readType() == "Link" )
+        {
+            m_isURLDesktopFile = true;
+            defaultName = df.readURL();
+        }
+        else
+        {
           KURL::List::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
@@ -269,10 +279,11 @@ void KNewMenu::slotNewFile()
               (void) new KPropertiesDialog( entry.templatePath, *it, defaultName );
           }
           return; // done, exit.
+        }
     }
 
-    // The template is not a desktop file
-
+    // The template is not a desktop file [or a URL one]
+    // Show the small dialog for getting the destination filename
     KLineEditDlg l( i18n("New %1:").arg(entry.text), defaultName, 0L );
     if ( l.exec() )
     {
@@ -300,7 +311,7 @@ void KNewMenu::slotNewFile()
             for ( ; it != popupFiles.end(); ++it )
             {
 		KURL dest( *it );
-                dest.addPath(  KIO::encodeFileName(name) ); // Chosen destination file name
+                dest.addPath( KIO::encodeFileName(name) ); // Chosen destination file name
 
                 KIO::Job * job = KIO::copyAs( src, dest );
                 connect( job, SIGNAL( result( KIO::Job * ) ),
@@ -314,15 +325,17 @@ void KNewMenu::slotResult( KIO::Job * job )
 {
     if (job->error())
         job->showErrorDialog();
-    /*
-      Done by KIO::copyAs
-    else {
+    else
+      if ( m_isURLDesktopFile )
+      {
         KURL destURL = static_cast<KIO::CopyJob*>(job)->destURL();
-        destURL.setPath( destURL.directory() );
-        KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
-        allDirWatchers.FilesAdded( destURL );
-    }
-    */
+        if ( destURL.isLocalFile() )
+        {
+          KDesktopFile df( destURL.path() );
+          df.writeEntry( "URL", KIO::decodeFileName( destURL.fileName() ) );
+          df.sync();
+        }
+      }
 }
 
 #include "knewmenu.moc"

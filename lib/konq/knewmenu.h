@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+   Copyright (C) 1998-2000 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -144,6 +144,11 @@ private:
      * is displayed. The URL belonging to this popup menu is stored here.
      */
     KURL::List popupFiles;
+
+    /**
+     * True when a desktop file with Type=URL is being copied
+     */
+    bool m_isURLDesktopFile;
 
     static KDirWatch * s_pDirWatch;
 };
