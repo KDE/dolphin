@@ -803,8 +803,16 @@ void KonqIconViewWidget::lineupIcons()
         kdWarning(1203) << "No icons at all ?\n";
         return;
     }
-    int dx = gridX() + spacing();
-    int dy = firstItem()->height() + spacing(); // Can't use gridY, we set it to -1
+
+    // For dx, use what used to be the gridX
+    int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    int dx = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0); 
+    // For dy, well, let's use any icon, it should do
+    int dy = firstItem()->height();
+
+    dx += spacing();
+    dy += spacing();
+   
     kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
 
     if ((dx < 15) || (dy < 15))
