@@ -94,8 +94,10 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
 
    //Adjust KListView behaviour
-   setSelectionModeExt( Konqueror );
    setMultiSelection(TRUE);
+   //maybe these two calls should be merged in KListView::setSelectionModeExt() ?
+   setSelectionMode( QListView::Extended);
+   setSelectionModeExt( Konqueror );
    //setSorting(m_filenameColumn);
 
    initConfig();
