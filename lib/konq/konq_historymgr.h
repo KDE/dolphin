@@ -71,23 +71,6 @@ public:
     static KonqHistoryManager *self();
 
     /**
-     * Loads the history and fills the completion object.
-     */
-    bool loadHistory();
-
-    /**
-     * Saves the entire history.
-     */
-    bool saveHistory();
-
-    /**
-     * Clears the history and tells all other Konqueror instances via DCOP
-     * to do the same.
-     * The history is saved afterwards, if necessary.
-     */
-    void emitClear();
-
-    /**
      * Sets a new maximum size of history and truncates the current history
      * if necessary. Notifies all other Konqueror instances via DCOP
      * to do the same.
@@ -163,12 +146,38 @@ public:
      */
     KCompletion * completionObject() const { return m_pCompletion; }
 
+    /**
+     * @returns the list of all history entries, sorted by date
+     * (oldest entries first)
+     */
+    const KonqHistoryList& entries() const { return m_history; }
+
+    
+public slots:
+    /**
+     * Loads the history and fills the completion object.
+     */
+    bool loadHistory();
+
+    /**
+     * Saves the entire history.
+     */
+    bool saveHistory();
+
+    /**
+     * Clears the history and tells all other Konqueror instances via DCOP
+     * to do the same.
+     * The history is saved afterwards, if necessary.
+     */
+    void emitClear();
+ 
+    
 signals:
     /**
      * Emitted after the entire history was loaded from disk.
      */
     void loadingFinished();
-    
+
     /**
      * Emitted after a new entry was added
      */
@@ -185,7 +194,7 @@ signals:
      * Emitted after the history was cleared.
      */
     void cleared();
-    
+
 protected:
     KonqHistoryManager( QObject *parent, const char *name );
     ~KonqHistoryManager();
