@@ -1,7 +1,6 @@
 
 INCLUDES= $(all_includes) 
 
-DISTCLEANFILES = $(BUILT_SOURCES)
 bin_PROGRAMS = kfind
 LDADD = $(all_libraries) -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 $(LIBSOCKET) $(KDE_RPATH)
 
@@ -15,6 +14,8 @@ kfind_SOURCES  =  kfarch.cpp kfdird.cpp kfindtop.cpp  kftabdlg.cpp \
 
 BUILT_SOURCES  =  kfdird.moc kfwin.moc kfindtop.moc \
              kftabdlg.moc kfoptions.moc kfind.moc
+
+DISTCLEANFILES = $(BUILT_SOURCES)
 
 noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h
@@ -51,3 +52,6 @@ kfoptions.moc: kfoptions.h
 
 kfind.moc: kfind.h
 	$(MOC) kfind.h -o kfind.moc
+
+moc.cpp: $(BUILT_SOURCES)
+
