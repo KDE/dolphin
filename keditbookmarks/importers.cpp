@@ -303,7 +303,11 @@ static TheImporter* callImporter(QWidget *parent)
       return 0;
    }
    int ret = TheImporter::doImport(parent, importer->visibleName());
-   return (ret == 0) ? 0 : new TheImporter(mydirname, (ret == 2));
+   if (ret == 0) {
+      return 0;
+   }
+   importer->init3(mydirname, (ret == 2));
+   return importer;
 }
 
 ImportCommand* ImportCommandFactory::call(const QCString &type, QWidget *top) {
