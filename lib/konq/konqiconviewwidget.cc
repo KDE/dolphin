@@ -186,36 +186,36 @@ void KonqIconViewWidget::initConfig()
 
 void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
 {
+    kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreview << endl;
     bool sizeChanged = (m_size != size);
+    int oldGridX = gridX();
     m_size = size;
+    if ( sizeChanged || stopImagePreview )
+    {
+        calculateGridX();
+    }
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
         if ( stopImagePreview || !ivi->isThumbnail() )
-          ivi->setIcon( size, ivi->state(),
-                        true, true /* perhaps we should do one big redraw instead ? */);
+            ivi->setIcon( size, ivi->state(),
+                          true, true /* perhaps we should do one big redraw instead ? */);
     }
-    if ( sizeChanged || stopImagePreview )
+    if ( oldGridX != gridX() || stopImagePreview )
     {
-      calculateGridX();
+        arrangeItemsInGrid( true ); // take new grid into account
     }
 }
 
 void KonqIconViewWidget::calculateGridX()
 {
-  int oldGridX = gridX();
   int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
   int newGridX = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
 
-  kdDebug(1203) << "calculateGridX: oldGridX=" << oldGridX << " newGridX=" << newGridX << endl;
+  kdDebug(1203) << "calculateGridX: newGridX=" << newGridX
+                << "sz=" << sz << endl;
 
-  if ( oldGridX != newGridX )
-  {
-    setGridX( newGridX );
-    arrangeItemsInGrid( true ); // take new grid into account
-    /// There seems to be a bug. If the new grid is smaller than the older, nothing happens...
-    updateContents();
-  }
+  setGridX( newGridX );
 }
 
 void KonqIconViewWidget::refreshMimeTypes()
