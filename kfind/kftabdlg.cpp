@@ -374,6 +374,7 @@ void KfindTabWidget::setURL( const KURL & url )
   else {
     QDir m_dir("/lib");
     dirBox ->insertItem( m_url.url() );
+    dirBox ->insertItem( "file:" + QString(getenv("HOME")) );
     dirBox ->insertItem( "file:/" );
     dirBox ->insertItem( "file:/usr" );
     if (m_dir.exists())
@@ -434,6 +435,7 @@ void KfindTabWidget::loadHistory()
   else {
     QDir m_dir("/lib");
     dirBox ->insertItem( m_url.url() );
+    dirBox ->insertItem( "file:" + QString(getenv("HOME")) );
     dirBox ->insertItem( "file:/" );
     dirBox ->insertItem( "file:/usr" );
     if (m_dir.exists())
@@ -770,9 +772,16 @@ static void save_pattern(QComboBox *obj,
   // maxCount() (QT bug?). This API call will truncate list if needed.
   obj->setMaxCount(15);
 
+  // make sure the current item is saved first so it will be the
+  // default when started next time
   QStringList sl;
-  for (int i = 0; i < obj->count(); i++)
-    sl.append(obj->text(i));
+  QString cur = obj->currentText();
+  sl.append(cur);
+  for (int i = 0; i < obj->count(); i++) {
+    if( cur != obj->text(i) ) {
+      sl.append(obj->text(i));
+    }
+  }
 
   KConfig *conf = KGlobal::config();
   conf->setGroup(group);
