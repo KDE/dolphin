@@ -35,6 +35,7 @@ static struct timeval startTime;
 #include <qfile.h>
 #include <qimage.h>
 
+#include <kdatastream.h> // Do not remove, needed for correct bool serialization
 #include <kfileivi.h>
 #include <konq_iconviewwidget.h>
 #include <konq_propsview.h>
@@ -494,8 +495,10 @@ void KonqImagePreviewJob::slotThumbData(KIO::Job *, const QByteArray &data)
     {
         QDataStream str(data, IO_ReadOnly);
         int w, h, d;
-        str >> w >> h >> d;
+        bool alpha;
+        str >> w >> h >> d >> alpha;
         QImage img(m_shmaddr, w, h, d, 0, 0, QImage::IgnoreEndian);
+        img.setAlphaBuffer(alpha);
         pix.convertFromImage(img);
         if (save)
         {
