@@ -230,6 +230,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
     m_ownActions.setWidget( this );
 
+    bool bIsLink        = !showPropertiesAndFileType;
     bool currentDir     = false;
     bool sReading       = true;
     bool sWriting       = true;
@@ -416,48 +417,43 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         if (actNewView)
             addAction( actNewView );
         addGroup( "tabhandling" );
-        bool separatorAdded = false;
 
-        if ( !currentDir && sReading && !isIntoTrash &&!devicesFile ) {
-            addSeparator();
-            separatorAdded = true;
-            if ( sDeleting ) {
-                addAction( "cut" );
-            }
-            addAction( "copy" );
-        }
-
-        if ( S_ISDIR(mode) && sWriting && !isIntoTrash) {
-            if ( !separatorAdded )
-                addSeparator();
-            if ( currentDir )
-                addAction( "paste" );
-            else
-                addAction( "pasteto" );
-        }
-        if ( !isIntoTrash )
+        if ( !bIsLink )
         {
-            if (!currentDir )
-            {
-                if ( sReading || sWriting ) // only if we added an action above
-                    addSeparator();
-
-                if ( m_lstItems.count() == 1 && sWriting )
-                    addAction("rename");
-
-                if ( sMoving )
-                    addAction( "trash" );
-
+            if ( !currentDir && sReading && !isIntoTrash &&!devicesFile ) {
                 if ( sDeleting ) {
-                    addAction( "del" );
+                    addAction( "cut" );
+                }
+                addAction( "copy" );
+            }
+
+            if ( S_ISDIR(mode) && sWriting && !isIntoTrash) {
+                if ( currentDir )
+                    addAction( "paste" );
+                else
+                    addAction( "pasteto" );
+            }
+            if ( !isIntoTrash )
+            {
+                if (!currentDir )
+                {
+                    if ( m_lstItems.count() == 1 && sWriting )
+                        addAction("rename");
+
+                    if ( sMoving )
+                        addAction( "trash" );
+
+                    if ( sDeleting ) {
+                        addAction( "del" );
+                    }
                 }
             }
         }
-        else
-            addSeparator();
+        addGroup( "editactions" );
     }
     if ( !isCurrentTrash && !isIntoTrash )
     {
+        addSeparator();
         QString caption;
         if (currentDir)
         {
@@ -469,16 +465,18 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         }
         else if (S_ISDIR(mode))
            caption = i18n("&Bookmark This Directory");
-        else if (showPropertiesAndFileType)
-           caption = i18n("&Bookmark This File");
-        else
+        else if (bIsLink)
            caption = i18n("&Bookmark This Link");
+        else
+           caption = i18n("&Bookmark This File");
         
         act = new KAction( caption, "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
         if (m_lstItems.count() > 1)
             act->setEnabled(false);
         if (kapp->authorizeKAction("bookmarks"))
             addAction( act );
+        if (bIsLink)
+            addGroup( "linkactions" );
     }
 
     //////////////////////////////////////////////////////
