@@ -163,7 +163,7 @@ void KonqDirPart::saveState( QDataStream &stream )
 void KonqDirPart::restoreNameFilter( QDataStream &stream )
 {
     stream >> m_nameFilter;
-    kdDebug(1203) << "KonqDirPart::restoreNameFilter " << m_nameFilter << endl;
+    //kdDebug(1203) << "KonqDirPart::restoreNameFilter " << m_nameFilter << endl;
 }
 
 void KonqDirPart::restoreState( QDataStream &stream )
@@ -244,7 +244,7 @@ void KonqDirPart::emitTotalCount()
         QVariant prop = m_findPart->property( "showsResult" );
         bShowsResult = prop.isValid() && prop.toBool();
     }
-    kdDebug(1203) << "KonqDirPart::emitTotalCount bShowsResult=" << bShowsResult << endl;
+    //kdDebug(1203) << "KonqDirPart::emitTotalCount bShowsResult=" << bShowsResult << endl;
     emit setStatusBarText( bShowsResult ? i18n("Search result: %1").arg(summary) : summary );
 }
 
@@ -348,7 +348,7 @@ void KonqDirPart::beforeOpenURL()
 {
     if ( m_findPart )
     {
-        kdDebug() << "KonqDirPart::beforeOpenURL -> emit findClosed " << this << endl;
+        kdDebug(1203) << "KonqDirPart::beforeOpenURL -> emit findClosed " << this << endl;
         delete m_findPart;
         m_findPart = 0L;
         emit findClosed( this );
