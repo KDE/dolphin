@@ -32,6 +32,7 @@
 #include <kmessagebox.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
+#include <konqsettings.h>
 
 #include <assert.h>
 #include <string.h>

@@ -18,7 +18,7 @@
 */     
 
 #include "konq_propsmainview.h"
-#include "konq_defaults.h"
+#include <konqdefaults.h>
 
 #include <assert.h>
 

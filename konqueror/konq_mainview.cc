@@ -22,7 +22,6 @@
 #include "kfmrun.h"
 #include "knewmenu.h"
 #include "konq_mainview.h"
-#include "konq_defaults.h"
 #include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_mainwindow.h"
@@ -60,6 +59,7 @@
 #include <kglobal.h>
 #include <userpaths.h>
 #include <kprogress.h>
+#include <konqdefaults.h>
 
 #include <assert.h>
 #include <pwd.h>

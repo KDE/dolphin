@@ -41,6 +41,7 @@
 #include <kpixmapcache.h>
 #include <krun.h>
 #include <kurl.h>
+#include <konqsettings.h>
 
 #include <qmsgbox.h>
 #include <qkeycode.h>
@@ -410,8 +411,6 @@ void KonqKfmIconView::dropStuff( QDropEvent *ev, KFileIVI *item )
 
 void KonqKfmIconView::initConfig()
 {
-  KonqSettings *settings = KonqSettings::defaultFMSettings();
-
   // Color settings
   QColor bgColor           = m_pSettings->bgColor();
   QColor textColor         = m_pSettings->textColor();

@@ -22,7 +22,6 @@
 
 #include "konq_defs.h"
 
-#include <qcolor.h>
 #include <qpixmap.h>
 
 #include <kconfig.h>
@@ -98,91 +97,5 @@ private:
   KonqPropsView();
 };
 
-
-// The class KonqSettings holds the general settings for konqueror.
-// There is no 'local' (per-URL) instance of it.
-// All those settings can only be changed in kcmkonq.
-
-// For further customization, we could have one instance for
-// all HTML views and one for all FileManager views.
-// (TODO in kcmkonq, using two groups : KFM HTML Defaults, KFM FM Defaults)
-//
-// <vapor>
-// Or even one for icon view and one for tree view, ...
-// But then all that has to be done in kcmkonq as well.
-// </vapor>
-
-class KonqSettings
-{
-protected:
-  // Constructs a KonqSettings instance from a config file.
-  // Set the group before calling.
-  // (done by defaultFMSettings and defaultHTMLSettings)
-  KonqSettings( KConfig * config );
-
-  // Called by constructor and reparseConfiguration
-  void init( KConfig * config );
-
-  // Destructor. Don't delete any instance by yourself.
-  virtual ~KonqSettings();
-
-public:
-    
-  // A static instance of KonqSettings, holding the values for FileManager
-  static KonqSettings * defaultFMSettings();
-  // A static instance of KonqSettings, holding the values for HTML
-  static KonqSettings * defaultHTMLSettings();
-
-  // TODO : will have to be called on slotConfigure
-  static void reparseConfiguration();
-
-  //////// The read-only access methods. Order is to be kept. See below. /////
-
-  // Behaviour settings
-  bool singleClick() { return m_bSingleClick; }
-  int autoSelect() { return m_iAutoSelect; }
-  bool changeCursor() { return m_bChangeCursor; }
-  bool underlineLink() { return m_underlineLink; }
-
-  // Font settings
-  const char* stdFontName() { return m_strStdFontName; }
-  const char* fixedFontName() { return m_strFixedFontName; }
-  int fontSize() { return m_iFontSize; }
-
-  // Color settings
-  const QColor& bgColor() { return m_bgColor; }
-  const QColor& textColor() { return m_textColor; }
-  const QColor& linkColor() { return m_linkColor; }
-  const QColor& vLinkColor() { return m_vLinkColor; }
-
-  // Other
-  bool autoLoadImages() { return m_bAutoLoadImages; }
-
-protected:
-  static KonqSettings * m_pDefaultFMSettings;
-  static KonqSettings * m_pDefaultHTMLSettings;
-  
-  bool m_bSingleClick;
-  int m_iAutoSelect;  
-  bool m_bChangeCursor;
-  bool m_underlineLink;
-
-  QString m_strStdFontName;
-  QString m_strFixedFontName;
-  int m_iFontSize;  
-  
-  QColor m_bgColor;
-  QColor m_textColor;
-  QColor m_linkColor;
-  QColor m_vLinkColor;
-
-  bool m_bAutoLoadImages;
-
-private:
-  // There is no default constructor. Use the provided ones.
-  KonqSettings();
-  // No copy constructor either. What for ?
-  KonqSettings( const KonqSettings &);
-};
 
 #endif
