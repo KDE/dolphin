@@ -178,8 +178,8 @@
                                     <string>&amp;New</string>
                                 </property>
                             </widget>
-                            <widget row="0"  column="0" >
-                                <class>QLineEdit</class>
+                            <widget row="0"  column="0" colspan="2">
+                                <class>KURLRequester</class>
                                 <property stdset="1">
                                     <name>name</name>
                                     <cstring>dirEdit</cstring>
@@ -187,6 +187,10 @@
                                 <property stdset="1">
                                     <name>enabled</name>
                                     <bool>false</bool>
+                                </property>
+                                <property stdset="1">
+                                    <name>mode</name>
+                                    <number>18</number>
                                 </property>
                             </widget>
                             <widget row="3"  column="2" >
@@ -220,7 +224,7 @@
                                 </property>
                             </widget>
                             <widget row="1"  column="0"  rowspan="4"  colspan="2" >
-                                <class>QListBox</class>
+                                <class>KListBox</class>
                                 <property stdset="1">
                                     <name>name</name>
                                     <cstring>dirList</cstring>
@@ -254,28 +258,6 @@
                                     </size>
                                 </property>
                             </spacer>
-                            <widget row="0"  column="1" >
-                                <class>QToolButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>dirBrowse</cstring>
-                                </property>
-                                <property stdset="1">
-                                    <name>enabled</name>
-                                    <bool>false</bool>
-                                </property>
-                                <property stdset="1">
-                                    <name>sizePolicy</name>
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                    </sizepolicy>
-                                </property>
-                                <property stdset="1">
-                                    <name>text</name>
-                                    <string>...</string>
-                                </property>
-                            </widget>
                         </grid>
                     </widget>
                 </vbox>

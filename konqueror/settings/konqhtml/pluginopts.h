@@ -65,7 +65,6 @@ private:
   void dirSave( KConfig *config );
 
  protected slots:
-  void dirBrowse();
   void dirNew();
   void dirRemove();
   void dirUp();

@@ -23,6 +23,7 @@
 #include <kiconloader.h>
 #include <qlineedit.h>
 #include <kfiledialog.h>
+#include <kurlrequester.h>
 
 #include <qlayout.h>
 #include <qtoolbutton.h>
@@ -132,9 +133,8 @@ void KPluginOptions::defaults()
 
     m_widget->scanAtStartup->setChecked( false );
 
-    m_widget->dirEdit->setText("");
+    m_widget->dirEdit->setURL("");
     m_widget->dirEdit->setEnabled( false );
-    m_widget->dirBrowse->setEnabled( false );
     m_widget->dirRemove->setEnabled( false );
 
     dirLoad( config );
@@ -272,7 +272,7 @@ extern "C"
 
 void KPluginOptions::dirInit()
 {
-    connect( m_widget->dirBrowse, SIGNAL(clicked()), SLOT(dirBrowse()) );
+    m_widget->dirEdit->setCaption(i18n("Select Plugin Scan Directory"));
     connect( m_widget->dirNew, SIGNAL(clicked()), SLOT(dirNew()) );
     connect( m_widget->dirRemove, SIGNAL(clicked()), SLOT(dirRemove()) );
     connect( m_widget->dirUp, SIGNAL(clicked()), SLOT(dirUp()) );
@@ -283,7 +283,7 @@ void KPluginOptions::dirInit()
              SLOT(dirEdited(const QString &)) );
 
     connect( m_widget->dirList,
-             SIGNAL(currentChanged(QListBoxItem*)),
+             SIGNAL(executed(QListBoxItem*)),
              SLOT(dirSelect(QListBoxItem*)) );
 }
 
@@ -338,33 +338,20 @@ void KPluginOptions::dirSave( KConfig *config )
 void KPluginOptions::dirSelect( QListBoxItem *item )
 {
     m_widget->dirEdit->setEnabled( item!=0 );
-    m_widget->dirBrowse->setEnabled( item!=0 );
     m_widget->dirRemove->setEnabled( item!=0 );
 
     unsigned cur = m_widget->dirList->currentItem();
     m_widget->dirDown->setEnabled( item!=0 && cur<m_widget->dirList->count()-1 );
     m_widget->dirUp->setEnabled( item!=0 && cur>0 );
-
-    m_widget->dirEdit->setText( item!=0 ? item->text() : QString::null );
-
-}
-
-
-void KPluginOptions::dirBrowse()
-{
-    QString path = KFileDialog::getExistingDirectory( QString::null,  this,
-                                                i18n("Select Plugin Scan Directory") );
-    if ( !path.isEmpty() ) {
-        m_widget->dirEdit->setText( path );
-        change();
-    }
-}
+    m_widget->dirEdit->setURL( item!=0 ? item->text() : QString::null );
+ }
 
 
 void KPluginOptions::dirNew()
 {
     m_widget->dirList->insertItem( QString::null, 0 );
     m_widget->dirList->setCurrentItem( 0 );
+    m_widget->dirEdit->setURL("");
     m_widget->dirEdit->setFocus();
     change();
 }
