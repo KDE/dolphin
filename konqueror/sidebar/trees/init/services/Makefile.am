@@ -1,2 +1,2 @@
-data_DATA = .directory audiocd.desktop lisa.desktop printsystem.desktop
+data_DATA = .directory audiocd.desktop lisa.desktop printsystem.desktop devices.desktop
 datadir = $(kde_datadir)/konqsidebartng/virtual_folders/services
