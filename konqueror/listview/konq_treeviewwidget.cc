@@ -275,7 +275,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 {
     // Check if this item is in m_dictSubDirs, and if yes, then remove it
-    removeSubDir( _fileItem->url().url(-1) );
+    removeSubDir( KURL( _fileItem->url().url(-1) ) );
 
     KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }

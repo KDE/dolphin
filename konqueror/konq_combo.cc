@@ -446,7 +446,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
          (e->pos() - m_dragStart).manhattanLength() >
          KGlobalSettings::dndEventDelay() )
     {
-        KURL url = currentText();
+        KURL url ( currentText() );
         if ( url.isValid() )
         {
             KURL::List list;

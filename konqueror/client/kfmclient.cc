@@ -207,7 +207,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
     if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
 	return true; // all parts allowed
     if( mimetype.isEmpty())
-	mimetype = KMimeType::findByURL( url )->name();
+	mimetype = KMimeType::findByURL( KURL( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QString::fromLatin1( "KParts/ReadOnlyPart" ),
 	QString::null, QString::null );
     KService::Ptr serv;
@@ -535,7 +535,9 @@ bool clientApp::doIt()
        KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).filename()) );
     if (dst == QString::null)
        return m_ok; // AK - really okay?
-    KIO::Job * job = KIO::copy( srcLst, dst );
+    KURL dsturl;
+    dsturl.setPath( dst );
+    KIO::Job * job = KIO::copy( srcLst, dsturl );
     connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
     app.exec();
     return m_ok;

@@ -109,7 +109,7 @@ extern "C" int kdemain( int argc, char **argv )
        if (args->isSet("mimetype"))
            urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
        kdDebug(1202) << "main() -> createBrowserWindowFromProfile servicetype=" << urlargs.serviceType << endl;
-       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, url, urlargs );
+       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, KURL( url ), urlargs );
      }
      else
      {

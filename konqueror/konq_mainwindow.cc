@@ -421,7 +421,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
     if (m_currentDir.isEmpty() && m_currentView)
        m_currentDir = m_currentView->url().path(1);
 
-    KURL filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
+    KURL filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
     kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
@@ -1502,7 +1502,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
     QString locURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
-    m_currentView->openURL( locURL, locationBarURL, nameFilter );
+    m_currentView->openURL( KURL( locURL ), locationBarURL, nameFilter );
   }
 
   // Now save this setting, either locally or globally (for directories only)
@@ -1648,37 +1648,45 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoApplications()
 {
-  KonqMisc::createSimpleWindow( "programs:/" );
+  KonqMisc::createSimpleWindow( KURL( "programs:/" ) );
 }
 
 void KonqMainWindow::slotGoDevices()
 {
-  KonqMisc::createSimpleWindow( "devices:/" );
+  KonqMisc::createSimpleWindow( KURL( "devices:/" ) );
 }
 
 void KonqMainWindow::slotGoSettings()
 {
-  KonqMisc::createSimpleWindow( "settings:/" );
+  KonqMisc::createSimpleWindow( KURL( "settings:/" ) );
 }
 
 void KonqMainWindow::slotGoDirTree()
 {
-  KonqMisc::createSimpleWindow( locateLocal( "data", "konqueror/dirtree/" ) );
+  KURL u;
+  u.setPath( locateLocal( "data", "konqueror/dirtree/" ) );
+  KonqMisc::createSimpleWindow( u );
 }
 
 void KonqMainWindow::slotGoTrash()
 {
-  KonqMisc::createSimpleWindow( KGlobalSettings::trashPath() );
+  KURL u;
+  u.setPath( KGlobalSettings::trashPath() );
+  KonqMisc::createSimpleWindow( u );
 }
 
 void KonqMainWindow::slotGoTemplates()
 {
-  KonqMisc::createSimpleWindow( KGlobal::dirs()->resourceDirs("templates").last() );
+  KURL u;
+  u.setPath( KGlobal::dirs()->resourceDirs( "templates" ).last() );
+  KonqMisc::createSimpleWindow( u );
 }
 
 void KonqMainWindow::slotGoAutostart()
 {
-  KonqMisc::createSimpleWindow( KGlobalSettings::autostartPath() );
+  KURL u;
+  u.setPath( KGlobalSettings::autostartPath() );
+  KonqMisc::createSimpleWindow( u );
 }
 
 void KonqMainWindow::slotConfigure()
@@ -2257,7 +2265,7 @@ void KonqMainWindow::slotFileNewAboutToShow()
   // As requested by KNewMenu :
   m_pMenuNew->slotCheckUpToDate();
   // And set the files that the menu apply on :
-  m_pMenuNew->setPopupFiles( m_currentView->url().url() );
+  m_pMenuNew->setPopupFiles( KURL( m_currentView->url().url() ) );
 }
 
 void KonqMainWindow::slotSplitViewHorizontal()

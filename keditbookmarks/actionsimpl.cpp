@@ -487,7 +487,7 @@ void ActionsImpl::slotPrint() {
     s_objId = s_part->property("dcopObjectId").toString().latin1();
     connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
-    s_part->openURL(tmpf.name());
+    s_part->openURL(KURL( tmpf.name() ));
 }
 
 void ActionsImpl::slotDelayedPrint() {

@@ -480,7 +480,7 @@ void KonqFrameTabs::slotSubPopupMenuTabActivated( int _id)
 void KonqFrameTabs::slotMouseMiddleClick()
 {
   QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
-  KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
+  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() ) );
   if ( !filteredURL.isEmpty() ) {
     KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
     if (newView == 0L) return;
@@ -493,7 +493,7 @@ void KonqFrameTabs::slotMouseMiddleClick()
 void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
 {
   QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
-  KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
+  KURL filteredURL ( KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() ) );
   if ( !filteredURL.isEmpty() ) {
     KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
     if (frame) {

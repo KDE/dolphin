@@ -348,7 +348,7 @@ void KonqAboutPage::restoreState( QDataStream &stream )
 void KonqAboutPage::serve( const QString& html, const QString& what )
 {
     m_what = what;
-    begin( QString("about:%1").arg(what) );
+    begin( KURL( QString("about:%1").arg(what) ) );
     write( html );
     end();
     m_htmlDoc = html;
