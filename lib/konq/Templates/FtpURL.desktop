@@ -1,10 +1,16 @@
 [Desktop Entry]
 Name=FTP URL
+Name[ca]=URL d'FTP
 Name[eo]=FTP-adreso
 Name[fi]=FTP-linkki
+Name[fr]=Adresse FTP
 Name[no]=FTP-URL
+Name[no_NY]=FTP-URL
+Name[pt]=URL de FTP
+Name[ro]=Adresă FTP
 Name[sl]=Vir FTP
+Name[sv]=FTP-URL
 URL=ftp://ftp.kde.org/pub/kde
-Icon=filesystems/ftp
+Icon=ftp
 Type=Link
 

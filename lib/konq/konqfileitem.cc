@@ -172,7 +172,7 @@ QPixmap KonqFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed
     if ( S_ISDIR( m_fileMode ) )
      return KGlobal::iconLoader()->loadIcon( "folder", _size );
 
-    return KGlobal::iconLoader()->loadIcon( "mimetypes/unknown", _size );
+    return KGlobal::iconLoader()->loadIcon( "unknown", _size );
   }
 
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
