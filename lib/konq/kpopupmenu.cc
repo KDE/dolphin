@@ -331,10 +331,7 @@ void KonqPopupMenu::slotPopupTrash()
 void KonqPopupMenu::slotPopupDelete()
 {
   KIOJob *job = new KIOJob;
-  list<string> lst;
-  QStringList::Iterator it = m_lstPopupURLs.begin();
-  for ( ; it != m_lstPopupURLs.end(); ++it )
-    lst.push_back( (*it).data() );
+  QStringList lst(m_lstPopupURLs);
   job->del( lst );
 }
 

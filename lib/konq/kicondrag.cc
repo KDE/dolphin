@@ -119,7 +119,7 @@ bool KIconDrag::decode( QMimeSource* e, KIconDrag::IconList& _list )
       }
       else
       {
-	QString tmp( d + f, c - f + 1 );
+	QString tmp( QString(d + f).left( c - f + 1 ) );
 	s = tmp;
       }
       Icon icon;
@@ -159,7 +159,7 @@ bool KIconDrag::decode( QMimeSource* e, QStringList& _list )
       }
       else
       {
-	QString s( d + f, c - f + 1 );
+	QString s( QString(d + f).left(c - f + 1) );
 	_list.append( s );
       }
     }
