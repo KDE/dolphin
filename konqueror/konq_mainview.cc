@@ -1398,7 +1398,27 @@ void KonqMainView::slotConfigureKeys()
 void KonqMainView::slotReloadPlugins()
 {
   KonqPlugins::reload();
-  //TODO: reinstall them
+
+  KOM::Component::PluginInfoSeq_var plugins = describePlugins();
+  for ( CORBA::ULong k = 0; k < plugins->length(); ++k )
+    removePlugin( plugins[ k ].id );
+
+  KonqPlugins::installKOMPlugins( this );
+
+  Konqueror::View_var vView;
+  
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+  {
+    vView = (*it)->view();
+    
+    plugins = vView->describePlugins();
+    for ( CORBA::ULong k = 0; k < plugins->length(); ++k )
+      removePlugin( plugins[ k ].id );
+      
+    KonqPlugins::installKOMPlugins( vView );
+  }
 }
 
 void KonqMainView::slotHelpContents()

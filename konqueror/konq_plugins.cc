@@ -32,49 +32,88 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 {
   kdebug(0, 1202, "void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )" );
 
-  KNaming *naming = KdedInstance::self()->knaming();
-  KActivator *activator = KdedInstance::self()->kactivator();
-
   if ( !bInitialized )
     reload();
 
   KTrader::OfferList::ConstIterator it = komPluginOffers.begin();
   KTrader::OfferList::ConstIterator end = komPluginOffers.end();
   for (; it != end; ++it )
+    installPlugin( comp, *it );
+}
+
+void KonqPlugins::reload()
+{
+  komPluginOffers = KdedInstance::self()->ktrader()->query( "Konqueror/KOMPlugin" );
+
+  //remove all invalid offers
+  KTrader::OfferList::Iterator it = komPluginOffers.begin();
+  KTrader::OfferList::Iterator end = komPluginOffers.end();
+  while ( it != end )
   {
     KService::PropertyPtr requiredIfProp = (*it)->property( "X-KDE-KonqKOM-RequiredInterfaces" );
     KService::PropertyPtr providedIfProp = (*it)->property( "X-KDE-KonqKOM-ProvidedInterfaces" );
     KService::PropertyPtr useNamingProp = (*it)->property( "X-KDE-KonqKOM-UseNamingService" );
     KService::PropertyPtr namingProp = (*it)->property( "X-KDE-KonqKOM-KNamingServiceName" );
     
+    //missing interface properties?
     if ( !requiredIfProp || !providedIfProp )
-      continue;
-    
-    bool useNaming = true;
-    if ( useNamingProp && !useNamingProp->boolValue() )
-      useNaming = false;
-    
-    QStringList requiredInterfaces = requiredIfProp->stringListValue();
-    QStringList providedInterfaces = providedIfProp->stringListValue();
-    CORBA::Object_var obj;
-    QStringList::ConstIterator it2;
-    
-    if ( useNaming )
     {
-      if ( !namingProp )
-        continue;
-	
+      komPluginOffers.remove( it );
+      it = komPluginOffers.begin();
+      continue;
+    }
+    
+    //use naming service but missing naming service name?
+    if ( useNamingProp && useNamingProp->boolValue() && !namingProp )
+    {
+      komPluginOffers.remove( it );
+      it = komPluginOffers.begin();
+      continue;
+    }
+    
+    ++it;
+  }
+
+  bInitialized = true;
+}
+
+void KonqPlugins::installPlugin( KOM::Component_ptr comp, KTrader::ServicePtr pluginInfo )
+{
+  QStringList requiredInterfaces = pluginInfo->property( "X-KDE-KonqKOM-RequiredInterfaces" )->stringListValue();
+  
+  QStringList::ConstIterator it = requiredInterfaces.begin();
+  QStringList::ConstIterator end = requiredInterfaces.end();
+  for (; it != end; ++it )
+    if ( !comp->supportsInterface( (*it).ascii() ) )
+    {
+      kdebug(0, 1202, "component does not support %s", (*it).ascii() );
+      return;
+    }
+
+  QStringList providedInterfaces = pluginInfo->property( "X-KDE-KonqKOM-ProvidedInterfaces" )->stringListValue();
+  it = providedInterfaces.begin();
+  end = providedInterfaces.end();
+  for (; it != end; ++it )
+    if ( comp->supportsPluginInterface( (*it).ascii() ) )
+    {
+      kdebug(0, 1202, "component already supports pluginIf %s", (*it).ascii() );
+      return;
+    }
+    
+  KService::PropertyPtr useNamingProp = pluginInfo->property( "X-KDE-KonqKOM-UseNamingService" );
+  KService::PropertyPtr namingProp = pluginInfo->property( "X-KDE-KonqKOM-KNamingServiceName" );
+  
+  CORBA::Object_var obj;
+  
+  bool useNaming = true;
+  if ( useNamingProp && !useNamingProp->boolValue() )
+    useNaming = false;
+    
+  if ( useNaming )
+    {
       QString KNamingName = namingProp->stringValue();
     
-      it2 = requiredInterfaces.begin();
-      for (; it2 != requiredInterfaces.end(); ++it2 )
-        if ( !comp->supportsInterface( (*it2).ascii() ) )
-        {
-          kdebug(0, 1202, "component does not support %s", (*it2).ascii() );
-	  return;
-        }
-      
-      obj = naming->resolve( KNamingName );
+      obj = KdedInstance::self()->knaming()->resolve( KNamingName );
       if ( CORBA::is_nil( obj ) )
       {
         kdebug(0, 1202, "component is not loaded!" );
@@ -83,8 +122,8 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
     }      
     else
       {
-        QString repoId = *( (*it)->repoIds().begin() );
-	QString tag = (*it)->name();
+        QString repoId = *( pluginInfo->repoIds().begin() );
+	QString tag = pluginInfo->name();
 	int tagPos = repoId.findRev( '#' );
 	if ( tagPos != -1 )
 	{
@@ -92,7 +131,7 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 	  repoId.truncate( tagPos );
 	}
 	
-	obj = activator->activateService( (*it)->name(), repoId, tag );
+	obj = KdedInstance::self()->kactivator()->activateService( pluginInfo->name(), repoId, tag );
 	
         if ( CORBA::is_nil( obj ) )
         {
@@ -101,38 +140,36 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
         }
       }
 
-    KOM::PluginFactory_var factory = KOM::PluginFactory::_narrow( obj );    
-    
-    KOM::InterfaceSeq reqIf;
-    KOM::InterfaceSeq reqPlugins;
-    KOM::InterfaceSeq prov;
-    int i;
-      
-    reqIf.length( requiredInterfaces.count() );
-    i = 0;
-  
-    it2 = requiredInterfaces.begin();
-    for (; it2 != requiredInterfaces.end(); ++it2 )
-      reqIf[ i++ ] = CORBA::string_dup( (*it2).ascii() );
-	
-    reqPlugins.length( 0 ); //TODO: support plugin dependencies (shouldn't be hard, I'm just too lazy to do it now :-) (Simon)
+  KOM::PluginFactory_var factory = KOM::PluginFactory::_narrow( obj );    
 
-    prov.length( providedInterfaces.count() );
-    i = 0;
-      
-    it2 = providedInterfaces.begin();
-    for (; it2 != providedInterfaces.end(); ++it2 )
-      prov[ i++ ] = CORBA::string_dup( (*it2).ascii() );
-	
-    comp->addPlugin( factory, reqIf, reqPlugins, prov, true );
+  if ( CORBA::is_nil( factory ) )
+  {
+    kdebug(0, 1202, "server does not support KOM::PluginFactory!");
+    return;
   }
-}
 
-void KonqPlugins::reload()
-{
-  KTrader *trader = KdedInstance::self()->ktrader();
+  KOM::InterfaceSeq reqIf;
+  KOM::InterfaceSeq reqPlugins;
+  KOM::InterfaceSeq prov;
+  CORBA::ULong i;
+      
+  reqIf.length( requiredInterfaces.count() );
+  i = 0;
   
-  komPluginOffers = trader->query( "Konqueror/KOMPlugin" );
-  
-  bInitialized = true;
+  it = requiredInterfaces.begin();
+  end = requiredInterfaces.end();
+  for (; it != end; ++it )
+    reqIf[ i++ ] = CORBA::string_dup( (*it).ascii() );
+	
+  reqPlugins.length( 0 ); //TODO: support plugin dependencies (shouldn't be hard, I'm just too lazy to do it now :-) (Simon)
+
+  prov.length( providedInterfaces.count() );
+  i = 0;
+      
+  it = providedInterfaces.begin();
+  end = providedInterfaces.end();
+  for (; it != end; ++it )
+    prov[ i++ ] = CORBA::string_dup( (*it).ascii() );
+	
+  comp->addPlugin( factory, reqIf, reqPlugins, prov, true );
 }

@@ -59,6 +59,7 @@
 #include "konq_partview.h"
 #include "konq_treeview.h"
 #include "konq_txtview.h"
+#include "konq_plugins.h"
 #include <kstddirs.h>
 
 void sig_handler( int signum );
@@ -95,6 +96,7 @@ KonqMainView *KonqApplicationIf::allocMainView()
 {
   KonqMainView *mainView = new KonqMainView;
   KOMShutdownManager::self()->watchObject( mainView );
+  // no need to install plugins because it is already done in the mainview!
   return mainView;
 }
 
@@ -103,6 +105,7 @@ KonqMainWindow *KonqApplicationIf::allocMainWindow( const char *url )
   KonqMainWindow * mw = new KonqMainWindow( url );
   mw->show(); // ahah, it won't show up, otherwise !
   KOMShutdownManager::self()->watchObject( mw->interface() );
+  KonqPlugins::installKOMPlugins( mw->interface() );
   return mw;
 }
 
@@ -130,6 +133,7 @@ Konqueror::KfmIconView_ptr KonqApplicationIf::createKfmIconView()
 {
   KonqKfmIconView *iconView = new KonqKfmIconView;
   KOMShutdownManager::self()->watchObject( iconView );
+  KonqPlugins::installKOMPlugins( iconView );
   return Konqueror::KfmIconView::_duplicate( iconView );
 }
 
@@ -137,6 +141,7 @@ Konqueror::HTMLView_ptr KonqApplicationIf::createHTMLView()
 {
   KonqHTMLView *htmlView = new KonqHTMLView;
   KOMShutdownManager::self()->watchObject( htmlView );
+  KonqPlugins::installKOMPlugins( htmlView );
   return Konqueror::HTMLView::_duplicate( htmlView );
 }
 
@@ -144,6 +149,7 @@ Konqueror::KfmTreeView_ptr KonqApplicationIf::createKfmTreeView()
 {
   KonqKfmTreeView *treeView = new KonqKfmTreeView;
   KOMShutdownManager::self()->watchObject( treeView );
+  KonqPlugins::installKOMPlugins( treeView );
   return Konqueror::KfmTreeView::_duplicate( treeView );
 }
 
@@ -151,6 +157,7 @@ Konqueror::PartView_ptr KonqApplicationIf::createPartView()
 {
   KonqPartView *partView = new KonqPartView;
   KOMShutdownManager::self()->watchObject( partView );
+  KonqPlugins::installKOMPlugins( partView );
   return Konqueror::PartView::_duplicate( partView );
 }
 
@@ -158,6 +165,7 @@ Konqueror::TxtView_ptr KonqApplicationIf::createTxtView()
 {
   KonqTxtView *txtView = new KonqTxtView;
   KOMShutdownManager::self()->watchObject( txtView );
+  KonqPlugins::installKOMPlugins( txtView );
   return Konqueror::TxtView::_duplicate( txtView );
 }
 
