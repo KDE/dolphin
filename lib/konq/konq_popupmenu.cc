@@ -70,6 +70,44 @@ class KonqPopupMenu::KonqPopupMenuPrivate
 public:
   KonqPopupMenuPrivate();
 };
+KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
+{
+  m_Reading = false;
+  m_Writing = false;
+  m_Deleting = false;
+  m_Moving = false;
+  m_TrashIncluded = false;
+}
+KonqPopupMenu::ProtocolInfo::ProtocolInfo(bool readable, bool writable,
+					  bool deletable, bool movable,
+					  bool trashIncluded )
+{
+  m_Reading = readable;
+  m_Writing = writable;
+  m_Deleting = deletable;
+  m_Moving = movable;
+  m_TrashIncluded = trashIncluded;
+}
+bool KonqPopupMenu::ProtocolInfo::supportsReading() const
+{
+  return m_Reading;
+}
+bool KonqPopupMenu::ProtocolInfo::supportsWriting() const
+{
+  return m_Writing;
+}
+bool KonqPopupMenu::ProtocolInfo::supportsDeleting() const
+{
+  return m_Deleting;
+}
+bool KonqPopupMenu::ProtocolInfo::supportsMoving() const
+{
+  return m_Moving;
+}
+bool KonqPopupMenu::ProtocolInfo::trashIncluded() const
+{
+  return m_TrashIncluded;
+}
 
 KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               KURL viewURL,
@@ -144,10 +182,15 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       sMoving = false;
       sDeleting = false;
   }
-
   //check if current url is trash
   url = m_sViewURL;
   url.cleanPath();
+
+  m_info.m_Reading = sReading;
+  m_info.m_Writing = sWriting;
+  m_info.m_Deleting = sDeleting;
+  m_info.m_Moving = sMoving;
+  m_info.m_TrashIncluded = bTrashIncluded;
 
   bool isCurrentTrash = ( url.isLocalFile() &&
                           url.path(1) == KGlobalSettings::trashPath() );
@@ -572,16 +615,21 @@ KActionCollection *KonqPopupMenu::actionCollection() const
 QString KonqPopupMenu::mimeType( ) const {
     return m_sMimeType;
 }
+KonqPopupMenu::ProtocolInfo KonqPopupMenu::protocolInfo() const
+{
+  return m_info;
+}
 void KonqPopupMenu::addPlugins( ){
 	// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
 	//search for a plugin with the right protocol
 	KTrader::OfferList plugin_offers;
         unsigned int pluginCount = 0;
 	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
-	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
-	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
         if ( plugin_offers.isEmpty() ) 
 	  return; // no plugins installed do not bother about it
+
+	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
+	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
 
 	addGroup( "plugins" );
 	// travers the offerlist

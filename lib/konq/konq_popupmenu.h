@@ -71,6 +71,25 @@ public:
    */
   ~KonqPopupMenu();
 
+  class ProtocolInfo {
+   public:
+    ProtocolInfo();
+    ProtocolInfo(bool readable, bool writeable, 
+		 bool deleteable, bool moveable, 
+		 bool trashIncluded );
+    bool supportsReading()  const;
+    bool supportsWriting()  const;
+    bool supportsDeleting() const;
+    bool supportsMoving()   const;
+    bool trashIncluded()    const;
+   private:
+    friend class KonqPopupMenu;
+    bool m_Reading:1;
+    bool m_Writing:1;
+    bool m_Deleting:1;
+    bool m_Moving:1;
+    bool m_TrashIncluded:1;
+  };
   /**
    * Reimplemented for internal purpose
    */
@@ -82,6 +101,8 @@ public:
   KURL url( ) const;
   KFileItemList fileItemList() const;
   KURL::List popupURLList( ) const;
+  ProtocolInfo protocolInfo() const;
+
 public slots:
   void slotPopupNewDir();
   void slotPopupNewView();
@@ -111,6 +132,7 @@ private:
   KXMLGUIFactory *m_factory;
   KXMLGUIBuilder *m_builder;
   QString attrName;
+  ProtocolInfo m_info;
   QPtrList<KonqPopupMenuPlugin> m_pluginList;
 };
 
