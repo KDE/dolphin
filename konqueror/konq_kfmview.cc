@@ -65,11 +65,6 @@ bool KonqKfmViewItem::acceptsDrops( QStrList& /* _formats */ )
   return false;
 }
 
-void KonqKfmViewItem::returnPressed()
-{
-  //TODO
-}
-
 QString KonqKfmViewItem::getStatusBarInfo()
 {
   QString comment = m_pMimeType->comment( m_url, false );

@@ -202,10 +202,7 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
     return;
 
   KonqKfmIconViewItem *item = (KonqKfmIconViewItem*)_item;
-  //sorry for hacking, but I just want my "browser" back :)
-  //->just temporary, ok? (Simon)
-   openURLRequest( ((KonqKfmIconViewItem*)item)->url().ascii() );
-//  item->returnPressed();
+  openURLRequest( item->url().ascii() );
 }
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
@@ -252,10 +249,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     }
   }
   else if ( _button == LeftButton )
-  //sorry for hacking, but I just want my "browser" back :)
-  //->just temporary, ok? (Simon)
-   openURLRequest( ((KonqKfmIconViewItem*)_item)->url().ascii() );
-//    ((KonqKfmIconViewItem*)_item)->returnPressed();
+    slotReturnPressed( _item, _global );
   else if ( _button == RightButton )
   {
     Konqueror::View::MenuPopupRequest popupRequest;
@@ -297,10 +291,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 void KonqKfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
   if ( _button == LeftButton )
-  //sorry for hacking, but I just want my "browser" back :)
-  //->just temporary, ok? (Simon)
-   openURLRequest( ((KonqKfmIconViewItem*)_item)->url().ascii() );
-//    ((KonqKfmIconViewItem*)_item)->returnPressed();
+    slotReturnPressed( _item, _global );
 }
 
 void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList &_formats )

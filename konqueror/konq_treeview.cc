@@ -542,7 +542,6 @@ void KonqKfmTreeView::mouseReleaseEvent( QMouseEvent *_mouse )
       m_pressedItem->setOpen( !m_pressedItem->isOpen() );
 
     slotReturnPressed( m_pressedItem );
-    //    m_pressedItem->returnPressed();
   }
 
   m_pressed = false;
@@ -674,9 +673,9 @@ void KonqKfmTreeView::slotReturnPressed( QListViewItem *_item )
     }
 
   //execute only if item is not a directory or a link
-
+  // why ? a link to a file would be ok, I think (David)
   if ( S_ISREG( mode ) )
-    item->returnPressed();
+    openURLRequest( item->url().ascii() ); //FIXME: obey mode/m_bIsLocalURL 
 }
 
 void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column )
@@ -1284,20 +1283,6 @@ void KfmTreeViewItem::init()
   else setPixmap( 0, *p );
 }
 
-/*
-void KfmTreeViewItem::returnPressed()
-{
-  mode_t mode = 0;
-  UDSEntry::iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-
-  // (void)new KRun( m_strURL.c_str(), mode, m_bIsLocalURL );
-//  m_pFinder->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
-  m_pTreeView->openURLRequest( m_strURL.c_str() ); //FIXME: obey mode/m_bIsLocalURL
-}
-*/
 
 /*
 void KfmTreeViewItem::popupMenu( const QPoint &_global, int _column )

@@ -64,11 +64,6 @@ public:
   // virtual void popupMenu( const QPoint& _global, int _column );
   // virtual void popupMenu( const QPoint& _global );
 
-  /* Called when 'return' is pressed (or item clicked)
-   * Opens the item (using KfmRun)
-   */
-  virtual void returnPressed();
-
   virtual KMimeType* mimeType() { return m_pMimeType; }
 
 protected:
