@@ -252,6 +252,7 @@ void KCookiesPolicies::addPressed()
         QListViewItem* index = new QListViewItem(lb_domainPolicy, pDlg.domain(),
 												 adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
 		domainPolicy.insert( index, adviceToStr( (KCookieAdvice)pDlg.policyAdvice() ) );
+		lb_domainPolicy->setCurrentItem( index );
         changed();
     }
 }
