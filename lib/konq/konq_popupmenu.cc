@@ -32,6 +32,7 @@
 #include <kxmlguifactory.h>
 #include <kxmlguibuilder.h>
 #include <klibloader.h>
+#include <kparts/componentfactory.h>
 
 #include <assert.h>
 
@@ -87,7 +88,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   int id = 0;
 
   setFont(KGlobalSettings::menuFont());
-	m_pluginList.setAutoDelete( true );
+  m_pluginList.setAutoDelete( true );
   m_ownActions.setHighlightingEnabled( true );
 
   attrName = QString::fromLatin1( "name" );
@@ -544,50 +545,27 @@ KActionCollection *KonqPopupMenu::actionCollection() const
   return const_cast<KActionCollection *>( &m_ownActions );
 }
 
-QString KonqPopupMenu::mimeType( ){
+QString KonqPopupMenu::mimeType( ) const {
     return m_sMimeType;
 }
 void KonqPopupMenu::addPlugins( ){
-// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
-//search for a plugin with the right protocol
+	// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
+	//search for a plugin with the right protocol
 	KTrader::OfferList plugin_offers = KTrader::self()->query(m_sMimeType, "'KonqPopupMenu/Plugin' in ServiceTypes");
 	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
 	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
 	// travers the offerlist
 	for(; iterator != end; ++iterator ){
-		QString libName = (*iterator)->library( );
-		if( libName.isEmpty( ) ) // if there is no lib go to the next offer
-
+		KonqPopupMenuPlugin *plugin =
+			KParts::ComponentFactory::
+			createInstanceFromLibrary<KonqPopupMenuPlugin>( (*iterator)->library().local8Bit(),
+									this,
+									(*iterator)->name().latin1() );
+		if ( !plugin )
 			continue;
-		KLibrary *lib = KLibLoader::self()->library( libName.local8Bit() );
-		if ( !lib )
-			continue;
-		KLibFactory *factory = lib->factory( );
-		if (!factory ) {
-			delete lib;
-			continue;
-		}
-		QObject *obj = factory->create( this, (*iterator)->name().latin1(), "KonqPopupMenuPlugin" );
-		if ( !obj ) {
-			delete lib;
-			//delete factory; // makes sense but Simon didn't do it? so what?
-			continue;
-		}
-		if ( !obj->inherits("KonqPopupMenuPlugin") ){
-			delete obj;
-			continue;
-			//delete lib; // is this necessary?
-			//delete factory; // is this necessary?
-		}
-		KonqPopupMenuPlugin *plugin = static_cast<KonqPopupMenuPlugin *>( obj );
-		if ( !plugin ){
-		    delete obj;
-		    continue;
-		}
-		//connect(this, SIGNAL(XMLGUIFinished() ), plugin, SLOT(slotXMLGUIFinished() ) );
 		m_pluginList.append( plugin );
-    insertChildClient( plugin );
-    addMerge( 0 );
+		insertChildClient( plugin );
+		addMerge( 0 ); // we want to be at a special position not at the end
 	}
 
 }
@@ -604,7 +582,7 @@ KURL::List KonqPopupMenu::popupURLList( ) const {
 	Plugin
 */
 
-KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *_popup ){
+KonqPopupMenuPlugin::KonqPopupMenuPlugin( QObject *, const char *, const QStringList & ){
 }
 KonqPopupMenuPlugin::~KonqPopupMenuPlugin( ){
 

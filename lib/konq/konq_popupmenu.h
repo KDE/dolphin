@@ -78,7 +78,7 @@ public:
 
 
   virtual KActionCollection *actionCollection() const;
-  QString mimeType( );
+  QString mimeType( ) const;
   KURL url( ) const;
   KFileItemList fileItemList() const;
   KURL::List popupURLList( ) const;
@@ -116,15 +116,15 @@ private:
 class KonqPopupMenuPlugin : public QObject, public KonqXMLGUIClient {
 	Q_OBJECT
 public:
-	/**
-	* Constructor
-	* If you want to insert a dynamic item or menu to konqpopupmenu
-	* this class is the right choice.
-	* Create a KAction and use _popup->addAction(new KAction );
-	* If you want to create a submenu use _popup->addGroup( );
-	*/
-	KonqPopupMenuPlugin( KonqPopupMenu *_popup ); // this should also be the parent
-	virtual ~KonqPopupMenuPlugin ( );
+  /**
+  * Constructor
+  * If you want to insert a dynamic item or menu to konqpopupmenu
+  * this class is the right choice.
+  * Create a KAction and use _popup->addAction(new KAction );
+  * If you want to create a submenu use _popup->addGroup( );
+  */
+  KonqPopupMenuPlugin( QObject *_popup, const char *name, const QStringList &args ); // this should also be the parent
+  virtual ~KonqPopupMenuPlugin ( );
 };
 
 #endif
