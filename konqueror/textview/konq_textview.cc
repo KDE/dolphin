@@ -418,6 +418,8 @@ void KonqTextView::slotRedirection( int, const char *url )
 
 void KonqTextView::slotData( int, const char *data, int len )
 {
+  if ( len == 0 )
+    return;
   QByteArray a( len );
   memcpy( a.data(), data, len );
   QString s( a );
