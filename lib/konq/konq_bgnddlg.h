@@ -56,7 +56,7 @@ public slots:
   void slotBrowse();
 
 protected:
-  void showSettings( QString fileName );
+  void showSettings( const QString& fileName );
   void loadWallPaper();
   virtual void resizeEvent ( QResizeEvent * );
 

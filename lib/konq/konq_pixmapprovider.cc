@@ -67,9 +67,7 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     else
 	u = url;
 
-    icon = KonqFavIconMgr::iconForURL(u.url());
-    if ( icon.isEmpty() )
-	icon = KMimeType::iconForURL( u );
+    icon = KMimeType::iconForURL( u );
 
     Q_ASSERT( !icon.isEmpty() );
 
@@ -126,13 +124,13 @@ void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
           ++it )
     {
         KURL url( it.key() );
-        if ( url.protocol().left( 4 ) == "http" &&
+        if ( url.protocol().startsWith("http") &&
             ( ( isHost && url.host() == hostOrURL ) ||
                 ( url.host() + url.path() == hostOrURL ) ) )
         {
             // For host default-icons still query the favicon manager to get
             // the correct icon for pages that have an own one.
-            QString icon = isHost ? KonqFavIconMgr::iconForURL( it.key() ) : iconName;
+            QString icon = isHost ? KMimeType::favIconForURL( url ) : iconName;
             if ( !icon.isEmpty() )
                 *it = icon;
         }

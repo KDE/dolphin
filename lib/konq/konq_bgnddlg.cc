@@ -99,7 +99,7 @@ KBgndDialogPage::~KBgndDialogPage()
 {
 }
 
-void KBgndDialogPage::showSettings( QString fileName )
+void KBgndDialogPage::showSettings( const QString& fileName )
 {
   for ( int i = 1; i < m_wallBox->count(); i++ )
     {
@@ -124,23 +124,11 @@ void KBgndDialogPage::showSettings( QString fileName )
 
 void KBgndDialogPage::slotBrowse( )
 {
-    KFileDialog *dlg = new KFileDialog( QString::null, QString::null, this, "filedialog", true );
-    dlg->setCaption( i18n("Open") );
+    KURL url = KFileDialog::getImageOpenURL( QString::null, this, 
+                                             i18n("Select Image" ) );
 
-    KImageFilePreview *preview = new KImageFilePreview( dlg );
-    preview->show();
-    dlg->setPreviewWidget( preview );
-
-    dlg->exec();
-
-    KURL url = dlg->selectedURL();
-
-    delete dlg;
-
-    if (url.isEmpty() || url.isMalformed())
+    if (url.isMalformed())
       return;
-
-    KRecentDocument::add( url );
 
     if (!url.isLocalFile()) {
       KMessageBox::sorry(this, i18n("Currently only local wallpapers are allowed."));

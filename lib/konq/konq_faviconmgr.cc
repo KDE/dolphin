@@ -21,6 +21,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kglobal.h>
+#include <kmimetype.h>
 
 #include "konq_faviconmgr.moc"
 
@@ -35,27 +36,7 @@ KonqFavIconMgr::KonqFavIconMgr(QObject *parent, const char *name)
 
 QString KonqFavIconMgr::iconForURL(const QString &url)
 {
-
-    KConfig *config = KGlobal::config();
-    config->setGroup( "HTML Settings" );
-    if (config->readBoolEntry( "EnableFavicon", true ))
-    {
-        QByteArray data;
-        QDataStream str(data, IO_WriteOnly);
-        str << KURL(url);
-        QCString replyType;
-        QByteArray reply;
-        kapp->dcopClient()->call("kded", "favicons", "iconForURL(KURL)", data,
-            replyType, reply);
-        if (replyType == "QString")
-        {
-            QDataStream replyStr(reply, IO_ReadOnly);
-            QString result;
-            replyStr >> result;
-            return result;
-        }
-    }
-    return QString::null;
+    return KMimeType::favIconForURL( KURL(url) );
 }
 
 void KonqFavIconMgr::setIconForURL(const KURL &url, const KURL &iconURL)
