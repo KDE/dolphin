@@ -497,7 +497,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 				ksc.setGroup("Desktop Entry");
                                 if ( !dlg->selectedURL().isValid())
                                 {
-                                    KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist<qt>").arg(dlg->selectedURL().url()));
+                                    KMessageBox::error(this, i18n("<qt><b>%1</b> does not exist</qt>").arg(dlg->selectedURL().url()));
                                 }
                                 else
                                 {

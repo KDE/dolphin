@@ -2673,7 +2673,7 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 	return true;
       else
 	{
-	  KMessageBox::error( this, i18n("<qt><b>%1</b> is not valid<qt>").arg(url.url()));
+	  KMessageBox::error( this, i18n("<qt><b>%1</b> is not valid</qt>").arg(url.url()));
 	  return false;
 	}
    }
