@@ -158,9 +158,9 @@ void UserAgentOptions::load()
     aliasMap.insert( "Mozilla/4.0 (compatible; MSIE 5.0; Win32)",
                      i18n("Internet Explorer 5.0 on Win32") );
     aliasMap.insert( "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)",
-                     i18n("Internet Exploerer 5.5 on Windows NT 5.0") );
+                     i18n("Internet Explorer 5.5 on Windows NT 5.0") );
     aliasMap.insert( "Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)",
-                     i18n("Internet Exploerer 5.5 on Windows 98") );
+                     i18n("Internet Explorer 5.5 on Windows 98") );
     // NS stuff
     aliasMap.insert( "Mozilla/3.01 (X11; I; Linux 2.2.14 i686)",
                      i18n("Netscape Navigator 3.01 on Linux") );
