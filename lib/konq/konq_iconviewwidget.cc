@@ -23,6 +23,7 @@
 #include <qclipboard.h>
 #include <qtimer.h>
 #include <qpainter.h>
+#include <qtooltip.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -40,6 +41,29 @@
 #include <assert.h>
 #include <unistd.h>
 
+class KFileTip: public QToolTip
+{
+public:
+    KFileTip(KIconView* parent)    : QToolTip(parent) {m_view = parent;};
+
+protected:
+    virtual void maybeTip ( const QPoint & p );
+    KIconView* m_view;
+};
+
+void KFileTip::maybeTip (const QPoint & p)
+{
+    QPoint point = m_view->viewportToContents( p );
+    KFileIVI* ivi = static_cast<KFileIVI *>(m_view->findItem( point ));
+    if ( ivi ) {
+  	    QString text = ivi->item()->getToolTipText();
+        QRect rect = ivi->rect();
+        rect.moveBy( -m_view->contentsX(), -m_view->contentsY() );
+        if ( !text.isEmpty() )
+            tip ( rect, text );
+    }
+}
+
 struct KonqIconViewWidgetPrivate
 {
     KFileIVI *pActiveItem;
@@ -50,6 +74,7 @@ struct KonqIconViewWidgetPrivate
     KonqSoundPlayer *pSoundPlayer;
     QTimer *pSoundTimer;
     KIO::PreviewJob *pPreviewJob;
+    KFileTip* pFileTip;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -99,6 +124,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     slotSelectionChanged();
     m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
     KonqUndoManager::incRef();
+    d->pFileTip = new KFileTip(this);
 }
 
 KonqIconViewWidget::~KonqIconViewWidget()
