@@ -19,7 +19,6 @@
 #ifndef __konq_treeviewwidget_h__
 #define __konq_treeviewwidget_h__
 
-#include <qlistview.h>
 #include <qcursor.h>
 #include <qpixmap.h>
 #include <qintdict.h>
@@ -27,6 +26,7 @@
 #include <qtimer.h>
 #include <kurl.h>
 #include <konqfileitem.h>
+#include <klistview.h>
 
 namespace KIO { class Job; }
 class QCursor;
@@ -39,10 +39,10 @@ class KonqFMSettings;
 class TreeViewPropertiesExtension;
 
 /**
- * The tree view widget (based on QListView).
+ * The tree view widget (based on KListView).
  * Most of the functionality is here.
  */
-class KonqTreeViewWidget : public QListView
+class KonqTreeViewWidget : public KListView
 {
   friend KonqTreeViewItem;
   friend KonqTreeViewDir;
@@ -56,6 +56,8 @@ public:
 
   void stop();
   const KURL & url();
+
+  enum KonqTreeViewMode { ListMode, TreeMode };
 
   struct iterator
   {
@@ -99,14 +101,21 @@ public:
    */
   KonqPropsView * props() { return m_pProps; }
 
+  void setCheckMimeTypes( bool enable ) { m_checkMimeTypes = enable; }
+  bool checkMimetypes() { return m_checkMimeTypes; }
+
+  void setShowIcons( bool enable ) { m_showIcons = enable; }
+  bool showIcons() { return m_showIcons; }
+
 public slots:
-  virtual void slotOnItem( KonqTreeViewItem* _item );
+  void slotOnItem( QListViewItem* _item );
+  void slotOnViewport();
 
 protected slots:
   // from QListView
   void slotReturnPressed( QListViewItem *_item );
   void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
-  void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KonqTreeViewItem*)_item ); }
+  void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( _item ); }
 
   // slots connected to the directory lister
   void slotStarted( const QString & );
@@ -198,6 +207,10 @@ protected:
   bool m_bChangeCursor;
 
   long int m_idShowDot;
+
+  KonqTreeViewMode m_mode;
+  bool m_showIcons;
+  bool m_checkMimeTypes;  
 
   KURL m_url;
 

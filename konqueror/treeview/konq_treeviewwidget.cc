@@ -45,7 +45,7 @@
 template class QDict<KonqTreeViewDir>;
 
 KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWidget )
-: QListView( parentWidget )
+: KListView( parentWidget )
 {
   kDebugInfo( 1202, "+KonqTreeViewWidget");
 
@@ -65,12 +65,18 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWid
   m_dirLister          = 0L;
   m_lasttvd            = 0L;
 
+  m_mode = TreeMode;
+  m_showIcons = true;
+  m_checkMimeTypes = true;  
+
   // Create a properties instance for this view
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
   m_pSettings = KonqFMSettings::defaultTreeSettings();
 
-  setRootIsDecorated( true );
+  if( m_mode == TreeMode )
+    setRootIsDecorated( true );
+
   setTreeStepSize( 20 );
   setSorting( 1 );
 
@@ -86,6 +92,10 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWid
 	   this, SLOT( slotReturnPressed( QListViewItem* ) ) );
   QObject::connect( this, SIGNAL( currentChanged( QListViewItem* ) ),
 	   this, SLOT( slotCurrentChanged( QListViewItem* ) ) );
+  QObject::connect( this, SIGNAL( onItem( QListViewItem * ) ),
+	   this, SLOT( slotOnItem( QListViewItem * ) ) );
+  QObject::connect( this, SIGNAL( onViewport() ),
+	   this, SLOT( slotOnViewport() ) );
 
   viewport()->setAcceptDrops( true );
   viewport()->setMouseTracking( true );
@@ -401,73 +411,54 @@ void KonqTreeViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 
 void KonqTreeViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 {
-  if ( !m_pressed || !m_pressedItem )
+  KListView::viewportMouseMoveEvent( _mouse );
+
+  if ( m_pressed && m_pressedItem )
   {
-    KonqTreeViewItem* item = (KonqTreeViewItem*)itemAt( _mouse->pos() );
-    if ( isSingleClickArea( _mouse->pos() ) )
+    int x = _mouse->pos().x();
+    int y = _mouse->pos().y();
+
+    //Is it time to start a drag?
+    if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
     {
-      if ( m_overItem != item ) // we are on another item than before
+      // Collect all selected items
+      QStrList urls;
+      iterator it = begin();
+      for( ; it != end(); it++ )
+	if ( it->isSelected() )
+	  urls.append( it->item()->url().url() );
+      
+      // Multiple URLs ?
+      QPixmap pixmap2;
+      if ( urls.count() > 1 )
       {
-	slotOnItem( item );
-	m_overItem = item;
-
-	if ( m_bSingleClick && m_bChangeCursor )
-	  setCursor( m_handCursor );
+	pixmap2 = KGlobal::iconLoader()->loadIcon( "kmultiple", KIconLoader::Medium );
+	if ( pixmap2.isNull() )
+	  warning("KDesktop: Could not find kmultiple pixmap\n");
       }
-    }
-    else if ( !item )
-    {
-      slotOnItem( 0L );
 
-      setCursor( m_stdCursor );
-      m_overItem = 0L;
-    }
-
-    return;
-  }
-
-  int x = _mouse->pos().x();
-  int y = _mouse->pos().y();
-
-  if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
-  {
-    // Collect all selected items
-    QStrList urls;
-    iterator it = begin();
-    for( ; it != end(); it++ )
-      if ( it->isSelected() )
-	urls.append( it->item()->url().url() );
-
-    // Multiple URLs ?
-    QPixmap pixmap2;
-    if ( urls.count() > 1 )
-    {
-      pixmap2 = KGlobal::iconLoader()->loadIcon( "kmultiple", KIconLoader::Medium );
+      // Calculate hotspot
+      QPoint hotspot;
+      
+      // Do not handle and more mouse move or mouse release events
+      m_pressed = false;
+      
+      QUriDrag *d = new QUriDrag( urls, viewport() );
       if ( pixmap2.isNull() )
-	warning("KDesktop: Could not find kmultiple pixmap\n");
+      {
+	hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
+	hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
+	d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
+      }
+      else
+      {
+	hotspot.setX( pixmap2.width() / 2 );
+	hotspot.setY( pixmap2.height() / 2 );
+	d->setPixmap( pixmap2, hotspot );
+      }
+
+      d->drag();
     }
-
-    // Calculate hotspot
-    QPoint hotspot;
-
-    // Do not handle and more mouse move or mouse release events
-    m_pressed = false;
-
-    QUriDrag *d = new QUriDrag( urls, viewport() );
-    if ( pixmap2.isNull() )
-    {
-      hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
-      hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
-      d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
-    }
-    else
-    {
-      hotspot.setX( pixmap2.width() / 2 );
-      hotspot.setY( pixmap2.height() / 2 );
-      d->setPixmap( pixmap2, hotspot );
-    }
-
-    d->drag();
   }
 }
 
@@ -489,12 +480,25 @@ bool KonqTreeViewWidget::isSingleClickArea( const QPoint& _point )
   return false;
 }
 
-void KonqTreeViewWidget::slotOnItem( KonqTreeViewItem* _item)
+void KonqTreeViewWidget::slotOnItem( QListViewItem* _item)
 {
+  KonqTreeViewItem* item = (KonqTreeViewItem*)_item;
+
   QString s;
-  if ( _item )
-    s = _item->item()->getStatusBarInfo();
+
+  //TODO: Highlight on mouseover
+
+  m_overItem = item;
+
+  if ( item )
+    s = item->item()->getStatusBarInfo();
   emit m_pBrowserView->setStatusBarText( s );
+}
+
+void KonqTreeViewWidget::slotOnViewport()
+{
+  m_overItem = 0L;
+  //TODO: Display summary in ListMode in statusbar, like iconview does
 }
 
 void KonqTreeViewWidget::selectedItems( QValueList<KonqTreeViewItem*>& _list )
@@ -698,16 +702,30 @@ void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
         kDebugInfo( 1202, "findDir returned %p", parentDir );
       }
 
-    if ( parentDir ) { // adding under a directory item
+    switch(m_mode){
+
+    case ListMode: 
       if ( isdir )
-        new KonqTreeViewDir( this, parentDir, (*kit) );
+	new KonqTreeViewDir( this, (*kit) );
       else
-        new KonqTreeViewItem( this, parentDir, (*kit) );
-    } else { // adding on the toplevel
-      if ( isdir )
-        new KonqTreeViewDir( this, (*kit) );
-      else
-        new KonqTreeViewItem( this, (*kit) );
+	new KonqTreeViewItem( this, (*kit) );
+      break;
+
+    case TreeMode: 
+      if ( parentDir ) { // adding under a directory item
+	if ( isdir )
+	  new KonqTreeViewDir( this, parentDir, (*kit) );
+	else
+	  new KonqTreeViewItem( this, parentDir, (*kit) );
+      } else { // adding on the toplevel
+	if ( isdir )
+	  new KonqTreeViewDir( this, (*kit) );
+	else
+	  new KonqTreeViewItem( this, (*kit) );
+      }
+      break;
+
+    default: kDebugInfo( 1202,"Unknown TreeView Mode!!!");
     }
   }
 }
@@ -730,6 +748,13 @@ void KonqTreeViewWidget::openSubFolder( const KURL &_url, KonqTreeViewDir* _dir 
   {
     // TODO: Give a warning
     kDebugInfo(1202,"Still waiting for toplevel directory");
+    return;
+  }
+
+  if( m_mode == ListMode ) {
+    KParts::URLArgs args;
+    args.serviceType = _dir->item()->mimetype();
+    emit m_pBrowserView->extension()->openURLRequest( _dir->item()->url(), args );
     return;
   }
 
