@@ -457,9 +457,10 @@ protected slots:
 
   virtual bool event( QEvent* );
 
-    void slotMoveTabLeft();
-    void slotMoveTabRight();
+  void slotMoveTabLeft();
+  void slotMoveTabRight();
 
+  void slotAddWebSideBar(const KURL& url, const QString& name);
 
 protected:
   static QString detectNameFilter( QString & url );

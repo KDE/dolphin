@@ -4186,6 +4186,21 @@ void KonqMainWindow::slotOpenURL( const KURL& url )
 {
     openURL( 0L, url );
 }
+ 
+void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
+{
+    if (url.url().isEmpty() && name.isEmpty())
+        return;
+
+    kdDebug(1202) << "Requested to add URL " << url.url() << " [" << name << "] to the sidebar!" << endl;
+    int rc = KMessageBox::questionYesNo(0L, 
+              i18n("Add new web extension \"%1\" to your sidebar?")
+                                .arg(name.isEmpty() ? name : url.prettyURL()),
+              i18n("Web Sidebar"));
+
+    if (rc == KMessageBox::Yes) {
+    }
+}
 
 void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
 {
