@@ -674,6 +674,8 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
 
+      view->setFocus();
+
       return true;
     }
   else
