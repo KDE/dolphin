@@ -428,16 +428,24 @@ void KonqView::slotStarted( KIO::Job * job )
 
   if (job)
   {
+      // Manage passwords properly...
+      if (m_pMainWindow)
+      {
+        kdDebug(7035) << "slotStarted: Window ID = " << m_pMainWindow->topLevelWidget()->winId() << endl;
+        job->setWindow (m_pMainWindow->topLevelWidget ());
+      }
+
       connect( job, SIGNAL( percent( KIO::Job *, unsigned long ) ), this, SLOT( slotPercent( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( infoMessage( KIO::Job *, const QString & ) ), this, SLOT( slotInfoMessage( KIO::Job *, const QString & ) ) );
   }
 }
 
-void KonqView::setLoading( bool loading, bool hasPending /*=false*/ )
+void KonqView::setLoading( bool loading, bool hasPending /*= false*/)
 {
     kdDebug(1202) << k_funcinfo << "loading=" << loading << " hasPending=" << hasPending << endl;
     m_bLoading = loading;
+    m_bPendingRedirection = hasPending;
     if ( m_pMainWindow->currentView() == this )
         m_pMainWindow->updateToolBarActions( hasPending );
 
@@ -470,8 +478,8 @@ void KonqView::slotCompleted( bool hasPending )
 
   if ( ! m_bLockHistory )
   {
-      // Success... update history entry, including location bar URL 
-      updateHistoryEntry( true ); 
+      // Success... update history entry, including location bar URL
+      updateHistoryEntry( true );
 
       if ( m_bAborted ) // remove the pending entry on error
           KonqHistoryManager::kself()->removePending( url() );
@@ -766,7 +774,7 @@ void KonqView::stop()
 {
   kdDebug(1202) << "KonqView::stop()" << endl;
   m_bAborted = false;
-  if ( m_bLoading )
+  if ( m_bLoading || m_bPendingRedirection)
   {
     // aborted -> confirm the pending url. We might as well remove it, but
     // we decided to keep it :)
@@ -776,7 +784,7 @@ void KonqView::stop()
     m_pPart->closeURL();
     m_bAborted = true;
     m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-    setLoading( false );
+    setLoading( false, false );
   }
   if ( m_pRun )
   {

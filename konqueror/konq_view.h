@@ -400,6 +400,7 @@ protected:
   uint m_bGotIconURL:1;
   uint m_bPopupMenuEnabled:1;
   uint m_bFollowActive:1;
+  uint m_bPendingRedirection:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
