@@ -471,9 +471,9 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
         m_shmid = shmget(IPC_PRIVATE, m_extent * m_extent * 4, IPC_CREAT|0777);
         if (m_shmid != -1)
         {
-            m_shmaddr = static_cast<uchar *>(shmat(m_shmid, 0, SHM_RDONLY));
+            m_shmaddr = (char*) shmat(m_shmid, 0, SHM_RDONLY);
             shmctl(m_shmid, IPC_RMID, 0);
-            if (m_shmaddr == (uchar *)-1)
+            if (m_shmaddr == (char *)-1)
             {
                 m_shmaddr = 0;
                 m_shmid = -1;
@@ -498,7 +498,7 @@ void KonqImagePreviewJob::slotThumbData(KIO::Job *, const QByteArray &data)
         int w, h, d;
         bool alpha;
         str >> w >> h >> d >> alpha;
-        QImage img(m_shmaddr, w, h, d, 0, 0, QImage::IgnoreEndian);
+        QImage img((uchar *)m_shmaddr, w, h, d, 0, 0, QImage::IgnoreEndian);
         img.setAlphaBuffer(alpha);
         pix.convertFromImage(img);
         if (save)

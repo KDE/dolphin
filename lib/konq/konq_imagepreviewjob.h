@@ -115,7 +115,7 @@ private:
 	// of extent x extent x 4 (32 bit image) on first need.
 	int m_shmid;
 	// And the data area
-	uchar *m_shmaddr;
+	char *m_shmaddr;
 };
 
 #endif
