@@ -803,7 +803,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyURL() << endl;
 
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
     if ( config->readBoolEntry( "MMBOpensTab", false ) ) {
       KFileItem item( url, 0 /*_mimeType*/, 0 /*_mode*/ );  // FIXME with real values
       KFileItemList items;
