@@ -40,7 +40,6 @@
 #include <qpopupmenu.h>
 #include <qpainter.h>
 #include <dcopclient.h>
-#include <assert.h>
 #include <stdlib.h>
 #include <klocale.h>
 #include <kiconloader.h>
@@ -548,20 +547,18 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
 {
    // AK - this completely assumed perfection in the address.. is that okay?
    kdDebug() << "KEBTopLevel::findByAddress " << address << endl;
-   QListViewItem * item = m_pListView->firstChild();
+   QListViewItem *item = m_pListView->firstChild();
 
    // The address is something like /5/10/2
    QStringList addresses = QStringList::split('/',address);
 
-   // AK - TODO - why assert rather than Q_ASSERT???
-
    for (QStringList::Iterator it = addresses.begin(); it != addresses.end(); ++it) {
-      uint number = (*it).toUInt();
-      //kdDebug() << "KBookmarkManager::findByAddress " << number << endl;
-      assert(item);
+      uint drawerIndex = (*it).toUInt();
+      //kdDebug() << "KBookmarkManager::findByAddress " << drawerIndex << endl;
+      Q_ASSERT(item);
       item = item->firstChild();
-      for (uint i = 0; i < number; ++i) {
-         assert(item);
+      for (uint i = 0; i < drawerIndex; ++i) {
+         Q_ASSERT(item);
          item = item->nextSibling();
       }
    }
@@ -571,7 +568,7 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
 
 void KEBTopLevel::slotRename()
 {
-   QListViewItem* item = selectedItem();
+   QListViewItem *item = selectedItem();
    Q_ASSERT(item);
    if (item) {
       m_pListView->rename(item, COL_NAME);
@@ -851,19 +848,21 @@ void KEBTopLevel::slotPaste()
    clipboard->setSelectionMode(oldMode);
 }
 
-void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const QString & insertionAddress )
+void KEBTopLevel::pasteData(const QString & cmdName,  QMimeSource * data, const QString & insertionAddress)
 {
    QString currentAddress = insertionAddress;
-   if (KBookmarkDrag::canDecode( data )) {
-      KMacroCommand * mcmd = new KMacroCommand( i18n("Add a Number of Bookmarks") );
-      QValueList<KBookmark> bookmarks = KBookmarkDrag::decode( data );
+   if (KBookmarkDrag::canDecode(data)) {
+      KMacroCommand *mcmd = new KMacroCommand(i18n("Add a Number of Bookmarks"));
+      QValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
       for (QValueListConstIterator<KBookmark> it = bookmarks.begin(); it != bookmarks.end(); ++it) {
-         CreateCommand * cmd = new CreateCommand(cmdName, currentAddress, (*it));
+         CreateCommand *cmd = new CreateCommand(cmdName, currentAddress, (*it));
+         cmd->execute();
          mcmd->addCommand(cmd);
          kdDebug() << "KEBTopLevel::slotPaste url=" << (*it).url().prettyURL() << currentAddress << endl;
          currentAddress = KBookmark::nextAddress(currentAddress);
       }
-      m_commandHistory.addCommand(mcmd);
+      m_commandHistory.addCommand(mcmd, false);
+      slotCommandExecuted();
    }
 }
 
@@ -871,29 +870,29 @@ void KEBTopLevel::slotSort()
 {
    KBookmark bk = selectedBookmark();
    Q_ASSERT(bk.isGroup());
-   SortCommand * cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
-   m_commandHistory.addCommand( cmd );
+   SortCommand *cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
+   m_commandHistory.addCommand(cmd);
 }
 
 void KEBTopLevel::slotSetAsToolbar()
 {
-   KMacroCommand * cmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
+   KMacroCommand *cmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
 
    KBookmarkGroup oldToolbar = s_pManager->toolbar();
    if (!oldToolbar.isNull()) {
       QValueList<EditCommand::Edition> lst;
       lst.append(EditCommand::Edition("toolbar", "no"));
       lst.append(EditCommand::Edition("icon", ""));
-      EditCommand * cmd1 = new EditCommand("", oldToolbar.address(), lst);
+      EditCommand *cmd1 = new EditCommand("", oldToolbar.address(), lst);
       cmd->addCommand(cmd1);
    }
 
    KBookmark bk = selectedBookmark();
-   Q_ASSERT( bk.isGroup() );
+   Q_ASSERT(bk.isGroup());
    QValueList<EditCommand::Edition> lst;
    lst.append(EditCommand::Edition("toolbar", "yes"));
    lst.append(EditCommand::Edition("icon", "bookmark_toolbar"));
-   EditCommand * cmd2 = new EditCommand("", bk.address(), lst);
+   EditCommand *cmd2 = new EditCommand("", bk.address(), lst);
    cmd->addCommand(cmd2);
 
    m_commandHistory.addCommand( cmd );
@@ -922,25 +921,25 @@ void KEBTopLevel::slotTestLink()
 void KEBTopLevel::testBookmarks(QValueList<KBookmark> bks)
 {
    tests.insert(0, new TestLink(bks));
-   actionCollection()->action("canceltests")->setEnabled( true );
+   actionCollection()->action("canceltests")->setEnabled(true);
 }
 
 // needed by the TestLink stuff
-void KEBTopLevel::slotCancelTest(TestLink *t)
+void KEBTopLevel::slotCancelTest(TestLink *test)
 {
-   tests.removeRef(t);
-   delete t;
+   tests.removeRef(test);
+   delete test;
    if (tests.count() == 0) {
-      actionCollection()->action("canceltests")->setEnabled( false );
+      actionCollection()->action("canceltests")->setEnabled(false);
    }
 }
 
 void KEBTopLevel::slotCancelAllTests()
 {
-   TestLink *t, *p;
-   for (t = tests.first(); t != 0; t=p) {
-      p = tests.next();
-      slotCancelTest(t);
+   TestLink *test, *nextTest;
+   for (test = tests.first(); test != 0; test=nextTest) {
+      nextTest = tests.next();
+      slotCancelTest(test);
    }
 }
 
@@ -980,7 +979,7 @@ void KEBTopLevel::slotDocumentRestored()
 {
    // Called when undoing the very first action - or the first one after
    // saving. The "document" is set to "non modified" in that case.
-   setModified( false );
+   setModified(false);
 }
 
 void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText, int column)
@@ -990,18 +989,18 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
    switch (column) {
       case COL_NAME:
          if ( (bk.fullText() != newText) && !newText.isEmpty()) {
-            RenameCommand * cmd = new RenameCommand( i18n("Renaming"), bk.address(), newText );
-            m_commandHistory.addCommand( cmd );
+            RenameCommand *cmd = new RenameCommand(i18n("Renaming"), bk.address(), newText);
+            m_commandHistory.addCommand(cmd);
 
          } else if(newText.isEmpty()) {
-            item->setText(COL_NAME, bk.fullText() );
+            item->setText(COL_NAME, bk.fullText());
          }
          break;
       case COL_URL:
          if (bk.url() != newText) {
-            EditCommand * cmd = new EditCommand( i18n("URL Change"), bk.address(),
-                                                 EditCommand::Edition("href", newText) );
-            m_commandHistory.addCommand( cmd );
+            EditCommand *cmd = new EditCommand(i18n("URL Change"), bk.address(),
+                                               EditCommand::Edition("href", newText));
+            m_commandHistory.addCommand(cmd);
          }
          break;
       default:
@@ -1023,17 +1022,17 @@ void KEBTopLevel::slotChangeIcon()
    KIconDialog dlg(this);
    QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
    if (!newIcon.isEmpty()) {
-      EditCommand * cmd = new EditCommand( i18n("Icon Change"), bk.address(),
-                                           EditCommand::Edition("icon", newIcon) );
-      m_commandHistory.addCommand( cmd );
+      EditCommand *cmd = new EditCommand(i18n("Icon Change"), bk.address(),
+                                         EditCommand::Edition("icon", newIcon));
+      m_commandHistory.addCommand(cmd);
    }
 }
 
-void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListViewItem * _afterNow)
+void KEBTopLevel::slotDropped(QDropEvent *evt, QListViewItem *_newParent, QListViewItem *_afterNow)
 {
    // calculate the address given by parent+afterme
-   KEBListViewItem * newParent = static_cast<KEBListViewItem *>(_newParent);
-   KEBListViewItem * afterNow = static_cast<KEBListViewItem *>(_afterNow);
+   KEBListViewItem *newParent = static_cast<KEBListViewItem *>(_newParent);
+   KEBListViewItem *afterNow = static_cast<KEBListViewItem *>(_afterNow);
 
    if (!_newParent) {
       // not allowed to drop something before the root item !
@@ -1047,32 +1046,32 @@ void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListV
 
    QString newAddress =
       (afterNow)
-      ? (KBookmark::nextAddress(afterNow->bookmark().address())) // the next child of afterNow
-      : (newParent->bookmark().address() + "/0"); // first child of newParent
+         ? (KBookmark::nextAddress(afterNow->bookmark().address())) // the next child of afterNow
+         : (newParent->bookmark().address() + "/0");                // first child of newParent
 
-   if (e->source() == m_pListView->viewport()) {
+   if (evt->source() == m_pListView->viewport()) {
       // simplified version of movableDropEvent (parent, afterme);
       QPtrList<QListViewItem>* selection = selectedItems();
-      QListViewItem * i = selection->first();
-      Q_ASSERT(i);
-      if (i && i != _afterNow) {
+      QListViewItem *firstItem = selection->first();
+      Q_ASSERT(firstItem);
+      if (firstItem && firstItem != _afterNow) {
          // sanity check - don't move a item into it's own child structure
          // AK - check if this is still a posssiblity or not, as this
          //      seems like quite unneeded complexity as itemMoved in
          //      its multiple reincarnation should skip such items...
          QListViewItem *chk = _newParent;
          while(chk) {
-            if(chk == i) {
+            if(chk == firstItem) {
                return;
             }
             chk = chk->parent();
          }
-         itemMoved(selection, newAddress, e->action() == QDropEvent::Copy);
+         itemMoved(selection, newAddress, evt->action() == QDropEvent::Copy);
       }
 
    } else {
       // Drop from the outside
-      pasteData(i18n("Drop items"), e, newAddress);
+      pasteData(i18n("Drop items"), evt, newAddress);
    }
 }
 
