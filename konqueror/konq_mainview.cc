@@ -1094,17 +1094,28 @@ void KonqMainView::slotDelete()
 {
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
 
+  if ( !obj )
+    return;
+  
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
   bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
   if (confirm)
+  {
+    QStringList selectedUrls = ((EditExtension *)obj)->selectedUrls();
+    
+    QStringList::Iterator it = selectedUrls.begin();
+    QStringList::Iterator end = selectedUrls.end();
+    for ( ; it != end; ++it )
+      KURL::decode( *it );
+    
     if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ),
-         obj ? ((EditExtension *)obj)->selectedUrls() : 0L)
+         selectedUrls )
 	 == KMessageBox::No)
       return;
-
-  if ( obj )
-    ((EditExtension *)obj)->moveSelection();
+  }
+    
+  ((EditExtension *)obj)->moveSelection();
 }
 
 void KonqMainView::slotSetLocationBarURL( const QString &url )
@@ -1351,7 +1362,7 @@ void KonqMainView::initActions()
   m_paMimeTypes = new KAction( i18n( "File &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
   m_paDirTree = new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotEditDirTree() ), actionCollection(), "dirtree" );
-  
+
   // Options menu
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
