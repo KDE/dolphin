@@ -277,8 +277,8 @@ void TopLevel::printDlg()
 void TopLevel::newCurPos()
 {
   statusBar()->changeItem(i18n(" Line: %1 Col: %2 ")
-    .arg(KGlobal::locale()->formatNumber(kateView->currentLine(), 0))
-    .arg(KGlobal::locale()->formatNumber(kateView->currentColumn(), 0)),
+    .arg(KGlobal::locale()->formatNumber(kateView->cursorLine(), 0))
+    .arg(KGlobal::locale()->formatNumber(kateView->cursorColumn(), 0)),
     ID_LINE_COLUMN);
 }
 
