@@ -193,13 +193,13 @@ void KonqKfmTreeView::initConfig()
 {
   QPalette p          = viewport()->palette();
 //  KfmViewSettings *settings  = m_pView->settings();
-//  KfmViewProps *props = m_pView->props();
+//  KonqPropsView *props = m_pView->props();
 
   KConfig *config = kapp->getConfig();
   config->setGroup("Settings");
 
   KfmViewSettings *settings = new KfmViewSettings( config );
-  KfmViewProps *props = new KfmViewProps( config );
+  KonqPropsView *props = new KonqPropsView( config );
 
 
   m_bgColor           = settings->bgColor();

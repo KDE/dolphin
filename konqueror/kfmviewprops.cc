@@ -24,22 +24,22 @@
 #include <kpixmapcache.h>
 #include <iostream>
 
-KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
+KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
 
 // static
-KfmViewProps * KfmViewProps::defaultProps()
+KonqPropsView * KonqPropsView::defaultProps()
 {
   if (!m_pDefaultProps)
   {
     kdebug(0,1202,"Reading global config for kfmviewprops");
     KConfig *config = kapp->getConfig();
     KConfigGroupSaver cgs(config, "Settings");
-    m_pDefaultProps = new KfmViewProps(config);
+    m_pDefaultProps = new KonqPropsView(config);
   }
   return m_pDefaultProps;
 }
 
-KfmViewProps::KfmViewProps( const KConfig * config )
+KonqPropsView::KonqPropsView( const KConfig * config )
 {
   QString entry = "LargeIcons"; // default
 /*  m_viewMode = KfmView::HOR_ICONS;
@@ -68,11 +68,11 @@ KfmViewProps::KfmViewProps( const KConfig * config )
   }
 }
 
-KfmViewProps::~KfmViewProps()
+KonqPropsView::~KonqPropsView()
 {
 }
 
-void KfmViewProps::saveProps( KConfig * config )
+void KonqPropsView::saveProps( KConfig * config )
 {
   QString entry;
 /*  switch ( m_viewMode )

@@ -17,11 +17,10 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#ifndef __kfm_guiprops_h__
-#define __kfm_guiprops_h__
+#ifndef __konq_propsmainview_h
+#define __konq_propsmainview_h
 
 #include <kconfig.h>
-// #include "kfm_abstract_gui.h"
 
 #include <ktoolbar.h>
 #include <kmenubar.h>
@@ -37,28 +36,28 @@
  *
  * The local values can be read from a kdelnk file, if any (.directory, bookmark, ...).
  */
-class KfmGuiProps
+class KonqPropsMainView
 {
   // This is not a Q_OBJECT because we need a copy constructor.
 public:
   friend class KonqMainView;
   
   /**
-   * To construct a new KfmGuiProps instance with values taken
+   * To construct a new KonqPropsMainView instance with values taken
    * from defaultProps, use the copy constructor.
    *
-   * Constructs a KfmGuiProps instance from a config file.
+   * Constructs a KonqPropsMainView instance from a config file.
    * Set the group before calling.
    * ("Settings" for global props, "URL properties" in local props)
    * TODO : will have to be called on slotConfigure
    * TODO : will have to be called for local properties
    */
-  KfmGuiProps( const KConfig * config );
+  KonqPropsMainView( const KConfig * config );
 
   /**
    * Destructor
    */
-  virtual ~KfmGuiProps();
+  virtual ~KonqPropsMainView();
 
   /**
    * Save to config file
@@ -71,18 +70,18 @@ public:
 
   bool isSplitView() const { return m_bSplitView; }
   
-  // No *bar access methods (all done from KfmGui)
+  // No *bar access methods (all done from KonqMainView)
   // No width/height access methods either.
 
   /**
-   * The static instance of KfmGuiProps, holding the default values
+   * The static instance of KonqPropsMainView, holding the default values
    * from the config file
    */
-  static KfmGuiProps * defaultProps() { return m_pDefaultProps; }
+  static KonqPropsMainView * defaultProps() { return m_pDefaultProps; }
   
 private:
   // There is no default constructor. Use the provided one or copy constructor
-  KfmGuiProps();
+  KonqPropsMainView();
 
   bool m_bSplitView;
 
@@ -99,9 +98,9 @@ private:
   int m_height;
 
   /**
-   * The static instance. Only KfmGui can change its value.
+   * The static instance. Only KonqMainView can change its value.
    */
-  static KfmGuiProps * m_pDefaultProps;
+  static KonqPropsMainView * m_pDefaultProps;
 };
 
 #endif

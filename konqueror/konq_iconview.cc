@@ -51,7 +51,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 
   setWidget( this );
 
-  QWidget::show();
+  //QWidget::show();
 
   QWidget::setFocusPolicy( StrongFocus );
   viewport()->setFocusPolicy( StrongFocus );
@@ -159,13 +159,13 @@ void KonqKfmIconView::initConfig()
 {
   QPalette p          = viewport()->palette();
 //  KfmViewSettings *settings = m_pView->settings();
-//  KfmViewProps *props = m_pView->props();
+//  KonqPropsView *props = m_pView->props();
 
   KConfig *config = kapp->getConfig();
   config->setGroup("Settings");
 
   KfmViewSettings *settings = new KfmViewSettings( config );
-  KfmViewProps *props = new KfmViewProps( config );
+  KonqPropsView *props = new KonqPropsView( config );
 
   m_bgColor           = settings->bgColor();
   m_textColor         = settings->textColor();

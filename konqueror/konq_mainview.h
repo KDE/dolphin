@@ -38,7 +38,7 @@ class KBookmarkMenu;
 class KNewMenu;
 class KService;
 class KURLCompletion;
-class KfmGuiProps;
+class KonqPropsMainView;
 class KfmRun;
 class KonqChildView;
 
@@ -277,14 +277,7 @@ protected:
 
   KAccel* m_pAccel;
 
-  KfmGuiProps *m_Props;
-
-  /*
-  QStringList m_lstPopupURLs;
-  CORBA::Long m_popupMode; // mode_t of first URL in m_lstPopupURLs
-  QMap<int,const KService *> m_mapPopup;
-  QMap<int,KDELnkMimeType::Service> m_mapPopup2;
-  */
+  KonqPropsMainView *m_Props;
 
   KfmRun *m_pRun;
 

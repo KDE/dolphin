@@ -31,7 +31,7 @@ class KfmViewSettings; // see below
 
 class KonqBaseView;
 
-// The class KfmViewProps holds the properties for a KfmView
+// The class KonqPropsView holds the properties for a KfmView
 //
 // Separating them from the KfmView class allows to store the default
 // values (the one read from kfmrc) in a static instance of this class
@@ -40,27 +40,27 @@ class KonqBaseView;
 //
 // The local values can be read from a kdelnk file, if any (.directory, bookmark, ...).
 
-class KfmViewProps
+class KonqPropsView
 {
   // This is not a Q_OBJECT because we need a copy constructor.
 public:
   
-  // The static instance of KfmViewProps, holding the default values
+  // The static instance of KonqPropsView, holding the default values
   // from the config file
-  static KfmViewProps * defaultProps();
+  static KonqPropsView * defaultProps();
   
-  // To construct a new KfmViewProps instance with values taken
+  // To construct a new KonqPropsView instance with values taken
   // from defaultProps, use the copy constructor.
   
-  // Constructs a KfmViewProps instance from a config file.
+  // Constructs a KonqPropsView instance from a config file.
   // Set the group before calling.
   // ("Settings" for global props, "ViewNNN" for local props)
   // TODO : will have to be called on slotConfigure
   // TODO : will have to be called for local properties
-  KfmViewProps( const KConfig * config );
+  KonqPropsView( const KConfig * config );
 
   // Destructor
-  virtual ~KfmViewProps();
+  virtual ~KonqPropsView();
 
   // Save to config file
   // Set the group before calling.
@@ -82,7 +82,7 @@ public:
 protected:
 
   // The static instance. Only KfmView can change its value.
-  static KfmViewProps * m_pDefaultProps;
+  static KonqPropsView * m_pDefaultProps;
 
 //  KfmView::ViewMode m_viewMode;
   bool m_bShowDot;
@@ -94,7 +94,7 @@ protected:
 private:
 
   // There is no default constructor. Use the provided one or copy constructor
-  KfmViewProps();
+  KonqPropsView();
 };
 
 // The class KfmViewSettings holds the general settings, that apply to

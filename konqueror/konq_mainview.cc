@@ -31,7 +31,7 @@
 #include "konq_partview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
-#include "kfmguiprops.h"
+#include "konq_propsmainview.h"
 #include "kfmrun.h"
 #include "knewmenu.h"
 #include "kpopupmenu.h"
@@ -248,17 +248,17 @@ void KonqMainView::cleanUp()
 void KonqMainView::initConfig()
 {
   // Read application config file if not already done
-  if (!KfmGuiProps::m_pDefaultProps)
+  if (!KonqPropsMainView::m_pDefaultProps)
   {
     kdebug(0,1202,"Reading global config");
     KConfig *config = kapp->getConfig();
     config->setGroup( "Settings" );
-    KfmGuiProps::m_pDefaultProps = new KfmGuiProps(config);
+    KonqPropsMainView::m_pDefaultProps = new KonqPropsMainView(config);
   }
 
   // For the moment, no local properties
   // Copy the default properties
-  m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
+  m_Props = new KonqPropsMainView( *KonqPropsMainView::m_pDefaultProps );
 
   if ( !m_bInit )
   {
@@ -300,7 +300,7 @@ Row * KonqMainView::newRow( bool append )
     m_lstRows.insert( 0, row );
     m_pMainSplitter->moveToFirst( row );
   }
-  row->show();
+  if (isVisible()) row->show();
   kdebug(0,1202,"newRow() done");
   return row;
 }
@@ -314,7 +314,6 @@ void KonqMainView::initPanner()
   // Create a row, and its splitter
   m_lstRows.clear();
   (void) newRow(true);
-  m_pMainSplitter->show();
 }
 
 void KonqMainView::initView()
@@ -325,8 +324,16 @@ void KonqMainView::initView()
   MapViews::Iterator it = m_mapViews.find( vView1->id() );
   it.data()->lockHistory(); // first URL won't go into history
   it.data()->openURL( m_sInitialURL );
-
+  
+  // kdebug(0, 1202, "initView : setting current View");
+  // m_currentView = it.data();
+  kdebug(0, 1202, "initView : setting active View");
   setActiveView( vView1->id() );
+  // kdebug(0, 1202, "initView : setting Active Part");
+  // m_vMainWindow->setActivePart( vView1->id() );
+  // kdebug(0, 1202, "initView : setting Focus");
+  // vView1->setFocus(true);
+  kdebug(0, 1202, "initView : done");
 }
 
 bool KonqMainView::event( const char* event, const CORBA::Any& value )
@@ -581,13 +588,14 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   // The toolbar is created AFTER the initial view is built and made active
   // So we need this :
-  if ( m_currentView )
+  /*  if ( m_currentView )
   {
     setUpEnabled( m_currentView->url(), m_currentId );
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
   }
-    
+  */  
+  
   kdebug(0,1202,"KonqMainView::mappingCreateToolbar : done !");
   return true;
 }
@@ -659,6 +667,8 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   m_mapViews.insert( view->id(), v );
 
+  if (isVisible()) view->show(true);
+  
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
 }
 
@@ -688,9 +698,12 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   }    
 
   m_currentView->emitEventViewMenu( m_vMenuView, true );
-  if (previousView != 0L) // might be 0L e.g. if we just removed the current view
-    previousView->repaint();
-  m_currentView->repaint();
+  if ( isVisible() )
+  {
+    if (previousView != 0L) // might be 0L e.g. if we just removed the current view
+      previousView->repaint();
+    m_currentView->repaint();
+  } else kdebug(0, 1202, "It WORKS ! We detected that the main view is NOT visible");
 }
 
 Konqueror::View_ptr KonqMainView::activeView()

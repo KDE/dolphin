@@ -17,14 +17,14 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#include "kfmguiprops.h"
+#include "konq_propsmainview.h"
 #include "konq_defaults.h"
 
 #include <assert.h>
 
-KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
+KonqPropsMainView * KonqPropsMainView::m_pDefaultProps = 0L;
 
-KfmGuiProps::KfmGuiProps( const KConfig * config )
+KonqPropsMainView::KonqPropsMainView( const KConfig * config )
 {
   QString entry;
   m_bSplitView = config->readBoolEntry( "SplitView", false );
@@ -83,16 +83,16 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
   else
     m_bShowStatusBar = false;
 
-  m_width = config->readNumEntry("WindowWidth",  KFMGUI_WIDTH);
-  m_height = config->readNumEntry("WindowHeight",KFMGUI_HEIGHT);
+  m_width = config->readNumEntry("WindowWidth",  MAINWINDOW_WIDTH);
+  m_height = config->readNumEntry("WindowHeight",MAINWINDOW_HEIGHT);
 
 }
 
-KfmGuiProps::~KfmGuiProps()
+KonqPropsMainView::~KonqPropsMainView()
 {
 }
 
-void KfmGuiProps::saveProps( KConfig * config )
+void KonqPropsMainView::saveProps( KConfig * config )
 {
   config->writeEntry( "SplitView", m_bSplitView );
   

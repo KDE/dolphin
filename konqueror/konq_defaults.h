@@ -69,11 +69,9 @@
 #define DEFAULT_VIEW_FIXED_FONT "courier"
 #define DEFAULT_VIEW_FONT_SIZE 12
 
-// the default size of the kfm browswer windows
-// these are optimized sizes displaying a maximum number
-// of icons. -- Bernd
-#define KFMGUI_HEIGHT 360
-#define KFMGUI_WIDTH 540
+// the default size of the main window
+#define MAINWINDOW_HEIGHT 360
+#define MAINWINDOW_WIDTH 540
 
 // Default terminal for Open Terminal and for 'run in terminal'
 #define DEFAULT_TERMINAL "konsole"

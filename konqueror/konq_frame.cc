@@ -126,8 +126,13 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) : QWid
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* )");
   bool hasFocus = m_pParentKonqFrame->part()->hasFocus();
+  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
+  if (!isVisible())
+  {
+    kdebug(0, 1202, "paintEvent aborted : not visible !");
+    return;
+  }
 
   QRect r = rect();
   //bool double_buffering = false;
