@@ -167,10 +167,6 @@ signals:
    * Signal the main view that our id changed (e.g. because of changeViewMode)
    */
   void sigIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
-  /**
-   * Signal the main view that our URL changed, so it may have to change the state of the 'up' button
-   */
-  void sigSetUpEnabled( QString url, OpenParts::Id id );
 
 protected:
   /**

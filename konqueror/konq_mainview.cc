@@ -579,6 +579,15 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   if ( !m_Props->m_bShowLocationBar )
     m_vLocationBar->enable( OpenPartsUI::Hide );
 
+  // The toolbar is created AFTER the initial view is built and made active
+  // So we need this :
+  if ( m_currentView )
+  {
+    setUpEnabled( m_currentView->url(), m_currentId );
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
+  }
+    
   kdebug(0,1202,"KonqMainView::mappingCreateToolbar : done !");
   return true;
 }
@@ -602,7 +611,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
   m_currentView = 0L;
 
   // no more active view (even temporarily)
-  slotSetUpEnabled( "/", 0 );
+  setUpEnabled( "/", 0 );
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
 
@@ -647,8 +656,6 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
                                         this, m_vMainWindow );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
-  QObject::connect( v, SIGNAL(sigSetUpEnabled( QString, OpenParts::Id )),
-                    this, SLOT(slotSetUpEnabled( QString, OpenParts::Id )) );
 
   m_mapViews.insert( view->id(), v );
 
@@ -657,6 +664,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
 void KonqMainView::setActiveView( OpenParts::Id id )
 {
+  kdebug(0, 1202, "KonqMainView::setActiveView( %d )", id);
   KonqChildView* previousView = m_currentView;
   // clean view-specific part of the view menu
   if ( previousView != 0L )
@@ -669,7 +677,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   assert( m_currentView );
   m_currentId = id;
 
-  slotSetUpEnabled( m_currentView->url(), id );
+  setUpEnabled( m_currentView->url(), id );
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
@@ -811,8 +819,6 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, wurl );
-
-  // hmm, not the right URL it seems. slotSetUpEnabled( _url, id );
 }
 
 void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable )
@@ -826,7 +832,7 @@ void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enab
     m_vToolBar->setItemEnabled( id, enable );
 } 
 
-void KonqMainView::slotSetUpEnabled( QString _url, OpenParts::Id _id )
+void KonqMainView::setUpEnabled( QString _url, OpenParts::Id _id )
 {
   if ( _id != m_currentId )
     return;
@@ -882,7 +888,7 @@ void KonqMainView::openPluginView( const char *url, Konqueror::View_ptr view )
   m_currentView->switchView( vView );
   m_currentView->openURL( url );
 
-  slotSetUpEnabled( QString::null, m_currentId ); // HACK.
+  setUpEnabled( QString::null, m_currentId ); // HACK.
      // How can we really know if a plugin supports 'up' ?
 }
 
@@ -1291,6 +1297,7 @@ void KonqMainView::slotEditBookmarks()
 
 void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
 {
+  kdebug(0, 1202, "KonqMainView::slotURLStarted( %d, %s )", id, url);
   if ( !url )
     return;
 
@@ -1304,6 +1311,7 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   it.data()->makeHistory( false /* not completed */, url );
   if ( id == m_currentId )
   {
+    setUpEnabled( m_currentView->url(), id );
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
   }

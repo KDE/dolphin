@@ -105,7 +105,6 @@ void KonqChildView::repaint()
 
 void KonqChildView::openURL( QString url )
 {
-  emit sigSetUpEnabled( url, m_vView->id() );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.data() );
   eventURL.reload = (CORBA::Boolean)false;

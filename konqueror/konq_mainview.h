@@ -91,13 +91,6 @@ public:
   void openPluginView( const char *url, Konqueror::View_ptr view );
   void openText( const char *url );
   
-  /**
-   * Enable or disable the "up" button (and the menu item)
-   * @param _url the URL shown in the view - the button state depends on it
-   * @param _id the view id - if not currentId, the call has no effect
-   */
-  void setUpEnabled( const char * _url, OpenParts::Id _id );
-
   ////////////////////
   /// Overloaded functions of KBookmarkOwner
   ////////////////////
@@ -188,22 +181,7 @@ public slots:
   void slotStartAnimation();
   void slotStopAnimation();
   
-  // Popup
-  /*
-  void slotPopupNewView();
-  void slotPopupEmptyTrashBin();
-  void slotPopupCopy();
-  void slotPopupPaste();
-  void slotPopupTrash();
-  void slotPopupDelete();
-  void slotPopupOpenWith();
-  void slotPopupBookmarks();
-  void slotPopup( int id );
-  void slotPopupProperties();
-  */
-
   void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
-  void slotSetUpEnabled( QString url, OpenParts::Id id );
   
 protected:
 
@@ -221,7 +199,8 @@ protected:
    */
   void splitView ( Konqueror::NewViewPosition newViewPosition );
 
- void changeViewMode( const char *viewName ) ; 
+  void changeViewMode( const char *viewName ) ; 
+
   /**
    * Enable menu item and related toolbar button if present
    * This will allow configurable toolbar buttons later
@@ -230,6 +209,14 @@ protected:
    * @param enable whether to enable or disable it
    */
   void setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable );
+
+  /**
+   * Enable or disable the "up" button (and the menu item)
+   * @param _url the URL shown in the view - the button state depends on it
+   * @param _id the view id - if not currentId, the call has no effect
+   */
+  void setUpEnabled( QString _url, OpenParts::Id _id );
+
 
   void makeHistory( KonqChildView *v );
 
