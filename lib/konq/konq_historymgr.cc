@@ -33,8 +33,6 @@
 
 #include <zlib.h>
 
-template class QMap<QString,KonqHistoryEntry*>;
-
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
               KonqHistoryComm( "KonqHistoryManager" )
