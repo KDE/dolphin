@@ -30,6 +30,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
                                        KDialog::marginHint(),
 				       KDialog::spacingHint());     // border, space
     lay->setRowStretch(N_ROWS-1,1);
+    lay->setColStretch(N_COLS-1,1);
 
     cbAutoSelect = new QCheckBox(i18n("&Automatically select icons"), this);
     lay->addMultiCellWidget(cbAutoSelect,row,row,0,N_COLS,Qt::AlignLeft);
@@ -82,11 +83,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
     row++;
-    label = new QLabel(this, i18n("Home URL:"));
+    label = new QLabel(i18n("Home URL:"), this);
     lay->addWidget(label, row, 0);
 
     homeURL = new QLineEdit(this);
-    lay->addWidget(homeURL, row, 1, 1);
+    lay->addWidget(homeURL, row, 1);
 
     // ----
     if (m_bShowBuiltinGroup)
