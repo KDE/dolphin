@@ -35,7 +35,7 @@
 #include <kmimetype.h>
 #include <krun.h>
 
-KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
+KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand ) :
   m_entry( _entry ),
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -83,10 +83,10 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
       break;
   }
   }
-  init();
+  init( _determineMimeTypeOnDemand );
 }
 
-KFileItem::KFileItem( mode_t _mode, const KURL& _url ) :
+KFileItem::KFileItem( mode_t _mode, const KURL& _url, bool _determineMimeTypeOnDemand ) :
   m_entry(), // warning !
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -96,10 +96,10 @@ KFileItem::KFileItem( mode_t _mode, const KURL& _url ) :
   m_bLink( false ),
   m_bMarked( false )
 {
-  init();
+  init( _determineMimeTypeOnDemand );
 }
 
-void KFileItem::init()
+void KFileItem::init( bool findMimeType )
 {
   // determine mode and/or permissions if unknown
   if ( m_fileMode == (mode_t) -1 || m_permissions == (mode_t) -1 )
@@ -132,26 +132,35 @@ void KFileItem::init()
   }
 
   // determine the mimetype
-  if (!m_pMimeType)
+  if (!m_pMimeType && !findMimeType )
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
-  assert (m_pMimeType);
+
+  //  assert (m_pMimeType);
 }
 
 void KFileItem::refresh()
 {
   m_fileMode = (mode_t)-1;
   m_permissions = (mode_t)-1;
-  init();
+  init( true );
 }
 
 void KFileItem::refreshMimeType()
 {
   m_pMimeType = 0L;
-  init(); // Will determine the mimetype
+  init( true ); // Will determine the mimetype
 }
 
 QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
 {
+  if ( !m_pMimeType )
+  {
+    if ( S_ISDIR( m_fileMode ) )
+     return KGlobal::iconLoader()->loadApplicationIcon( "folder", _size );
+ 
+    return KGlobal::iconLoader()->loadApplicationIcon( "mimetypes/unknown", _size );
+  }
+ 
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
   {
     QString xvpicPath = m_url.directory() +
@@ -233,17 +242,18 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
   return p;
 }
 
-bool KFileItem::acceptsDrops() const
+bool KFileItem::acceptsDrops()
 {
   // Any directory : yes
-  if ( mimetype() == "inode/directory" )
+//  if ( mimetype() == "inode/directory" )
+  if ( S_ISDIR( mode() ) ) 
     return true;
 
   // But only local .desktop files and executables
   if ( !m_bIsLocalURL )
     return false;
 
-  if ( mimetype() == "application/x-desktop")
+  if ( m_pMimeType && mimetype() == "application/x-desktop")
     return true;
 
   // Executable, shell script ... ?
@@ -253,9 +263,9 @@ bool KFileItem::acceptsDrops() const
   return false;
 }
 
-QString KFileItem::getStatusBarInfo() const
+QString KFileItem::getStatusBarInfo()
 {
-  QString comment = m_pMimeType->comment( m_url, false );
+  QString comment = mimeType()->comment( m_url, false );
   QString text = m_strText;
   // Extract from the UDSEntry the additional info we didn't get previously
   QString myLinkDest = linkDest();
@@ -358,22 +368,32 @@ QString KFileItem::time( unsigned int which ) const
   return QString::null;
 }
 
-QString KFileItem::mimetype() const
+QString KFileItem::mimetype()
 {
-  return m_pMimeType->name();
+  return mimeType()->name();
 }
 
-QString KFileItem::mimeComment() const
+KMimeType::Ptr KFileItem::mimeType()
 {
-  if (!m_pMimeType->comment(m_url, false).isEmpty())
-    return m_pMimeType->comment(m_url, false);
+  if ( !m_pMimeType )
+    m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
+  
+  return m_pMimeType;
+}
+
+QString KFileItem::mimeComment()
+{
+ KMimeType::Ptr mType = mimeType(); 
+ QString comment = mType->comment( m_url, false );
+  if (!comment.isEmpty())
+    return comment;
   else
-    return m_pMimeType->name();
+    return mType->name();
 }
 
-QString KFileItem::iconName() const
+QString KFileItem::iconName()
 {
-  return m_pMimeType->icon(m_url, false);
+  return mimeType()->icon(m_url, false);
 }
 
 void KFileItem::run()

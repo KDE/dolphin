@@ -273,7 +273,7 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   m_unselectableItems.append( m_root );
 
   m_lastItem = 0L;
-  
+
   init();
 
   m_root->setOpen( true );
@@ -523,9 +523,9 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
 
   if ( item == m_lastItem )
     return;
-  
+
   emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
-  
+
   m_lastItem = item;
 }
 
@@ -560,9 +560,9 @@ void KonqDirTree::slotClicked( QListViewItem *item )
 
   if ( item == m_lastItem )
     return;
-  
+
   emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
-  
+
   m_lastItem = item;
 }
 
@@ -633,7 +633,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
     return;
 
   QStringList entries = dir.entryList( QDir::Files );
-  
+
   if ( isRoot && entries.count() == 0 )
   {
     QString homeLnk = locate( "data", "konqueror/dirtree/home.desktop", KonqFactory::instance() );
@@ -643,12 +643,12 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
       QCString cp;
       cp.sprintf( "cp %s %s", homeLnk.local8Bit().data(), path.local8Bit().data() );
       system( cp.data() );
-      
+
       dir.setPath( path ); //hack to make QDir to consider the dir to be dirty and re-read it
       entries = dir.entryList( QDir::Files );
     }
   }
-  
+
   QStringList::ConstIterator eIt = entries.begin();
   QStringList::ConstIterator eEnd = entries.end();
 
@@ -749,7 +749,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadApplicationIcon( icon, KIconLoader::Small ) );
   item->setText( 0, name );
 
-  KDirLister *dirLister = new KDirLister;
+  KDirLister *dirLister = new KDirLister( true );
   dirLister->setDirOnlyMode( true );
 
   connect( dirLister, SIGNAL( newItem( KFileItem * ) ),

@@ -122,6 +122,8 @@ protected slots:
 
   void slotDisplayFileSelectionInfo();
 
+  void slotProcessMimeIcons();
+
 protected:
 
   void setupSorting( SortCriterion criterion );
@@ -186,6 +188,8 @@ protected:
   IconEditExtension *m_extension;
 
   KonqIconViewWidget *m_pIconView;
+
+  QList<KFileIVI> m_lstPendingMimeIconItems;
 };
 
 

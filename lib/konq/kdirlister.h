@@ -53,7 +53,7 @@ public:
   /**
    * Create a directory lister
    */
-  KDirLister();
+  KDirLister( bool _delayedMimeTypes = false );
   /**
    * Destroy the directory lister
    */
@@ -194,9 +194,11 @@ protected:
 
   /** Whether koffice documents were found */
   bool m_bKofficeDocs;
-  
+
   /** List only directories */
   bool m_bDirOnlyMode;
+
+  bool m_bDelayedMimeTypes;
 };
 
 #endif

@@ -43,15 +43,19 @@ public:
    * Create an item representing a file, from a UDSEntry - e.g. returned by KDirLister
    * @param _entry the KIO entry used to get the file, contains info about it
    * @param _url the file url
+   * @param _determineMimeTypeOnDemand specify if the mimetype of the given URL should be
+   *        determined immediately or on demand
    */
-  KFileItem( const KUDSEntry& _entry, KURL& _url );
+  KFileItem( const KUDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand = false );
   /**
    * Create an item representing a file, from all the necessary info for it
    * @param _mode the file mode (according to stat())
    * Set to -1 if unknown. For local files, KFileItem will use stat().
    * @param _url the file url
+   * @param _determineMimeTypeOnDemand specify if the mimetype of the given URL should be
+   *        determined immediately or on demand
    */
-  KFileItem( mode_t _mode, const KURL& _url );
+  KFileItem( mode_t _mode, const KURL& _url, bool _determineMimeTypeOnDemand = false );
   /**
    * Destructor
    */
@@ -132,19 +136,24 @@ public:
   /**
    * @return the mimetype of the file item
    */
-  QString mimetype() const;
+  QString mimetype();
+
+  /**
+   * @return the mimetype of the file item
+   */
+  KMimeType::Ptr mimeType();
 
   /**
    * @return the descriptive comment for this mime type, or
    *         the mime type itself if none is present.
    */
-  QString mimeComment() const;
+  QString mimeComment();
 
   /**
    * @return the full path name to the icon that represents
    *         this mime type.
    */
-  QString iconName() const;
+  QString iconName();
 
   /**
    * @return the UDS entry. Used by the tree view to access all details
@@ -161,14 +170,14 @@ public:
    * @return the string to be displayed in the statusbar when the mouse
    *         is over this item
    */
-  QString getStatusBarInfo() const;
+  QString getStatusBarInfo();
 
   /**
    * @return true if files can be dropped over this item
    * Contrary to popular belief, not only dirs will return true :)
    * Executables, .desktop files, will do so as well.
    */
-  bool acceptsDrops( ) const;
+  bool acceptsDrops( );
 
   /**
    * Let's "KRun" this file !
@@ -201,7 +210,7 @@ protected:
    * Computes the text, mode, and mimetype from the UDSEntry
    * Called by constructor, but can be called again later
    */
-  void init();
+  void init( bool findMimeType );
 
   /**
    * We keep a copy of the UDSEntry since we need it for @ref #getStatusBarInfo

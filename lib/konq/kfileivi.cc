@@ -25,7 +25,8 @@ KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size 
                    fileitem->pixmap( size, bImagePreviewAllowed ) ),
     m_fileitem( fileitem )
 {
-  setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
+//  setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
+  setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
   if ( m_fileitem->isLink() )
   {
     QFont newFont = font();
@@ -51,7 +52,8 @@ void KFileIVI::setKey( const QString &key )
 {
   QString theKey = key;
 
-  if ( m_fileitem->mimetype() == "inode/directory" )
+  //  if ( m_fileitem->mimetype() == "inode/directory" )
+  if ( S_ISDIR( m_fileitem->mode() ) )
     theKey.prepend( '0' );
   else
     theKey.prepend( '1' );

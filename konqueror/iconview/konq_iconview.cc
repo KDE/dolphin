@@ -654,6 +654,7 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
   m_pIconView->selectAll( false );
   if ( m_bLoading )
     emit started();
+  m_lstPendingMimeIconItems.clear();
 }
 
 void KonqKfmIconView::slotCompleted()
@@ -672,6 +673,8 @@ void KonqKfmIconView::slotCompleted()
   }
 
   slotOnViewport();
+  
+  QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
@@ -705,6 +708,8 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 
   if ( m_ulTotalFiles > 0 )
     emit loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
+
+  m_lstPendingMimeIconItems.append( item );
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
@@ -734,6 +739,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 void KonqKfmIconView::slotClear()
 {
   m_pIconView->clear();
+  m_lstPendingMimeIconItems.clear();
 }
 
 void KonqKfmIconView::slotTotalFiles( int, unsigned long files )
@@ -766,12 +772,32 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
     slotOnViewport();
 }
 
+void KonqKfmIconView::slotProcessMimeIcons()
+{
+  if ( m_lstPendingMimeIconItems.count() == 0 )
+    return;
+  
+  KFileIVI *item = m_lstPendingMimeIconItems.first();
+  
+  QPixmap currentIcon = item->icon();
+  
+  KMimeType::Ptr dummy = item->item()->mimeType();
+  
+  QPixmap newIcon = item->item()->pixmap( m_pIconView->size(), m_pProps->m_bImagePreview );
+  
+  if ( currentIcon.serialNumber() != newIcon.serialNumber() )
+    item->QIconViewItem::setIcon( newIcon );
+  
+  m_lstPendingMimeIconItems.removeFirst();
+  QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
+}
+
 void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset, int yOffset )
 {
   if ( !m_dirLister )
   {
     // Create the directory lister
-    m_dirLister = new KDirLister();
+    m_dirLister = new KDirLister( true );
 
     QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
                       this, SLOT( slotStarted( const QString & ) ) );

@@ -33,13 +33,14 @@
 #include <kurl.h>
 #include <kuserpaths.h>
 
-KDirLister::KDirLister()
+KDirLister::KDirLister( bool _delayedMimeTypes )
 {
   m_bComplete = true;
   m_jobId = 0;
   m_lstFileItems.setAutoDelete( true );
   m_rootFileItem = 0L;
   m_bDirOnlyMode = false;
+  m_bDelayedMimeTypes = _delayedMimeTypes;
 }
 
 KDirLister::~KDirLister()
@@ -183,24 +184,24 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
   else if ( name == "." )
   {
     KURL u( m_url );
-    m_rootFileItem = new KFileItem( _entry, u );
+    m_rootFileItem = new KFileItem( _entry, u, m_bDelayedMimeTypes );
   }
   else if ( m_isShowingDotFiles || name[0] != '.' )
   {
     KURL u( m_url );
     u.addPath( name );
     //kdebug(0,1203,"Adding %s", u.url().ascii());
-    KFileItem* item = new KFileItem( _entry, u );
-    
+    KFileItem* item = new KFileItem( _entry, u, m_bDelayedMimeTypes );
+
     if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
     {
       delete item;
       return;
     }
-    
+
     m_lstFileItems.append( item );
     emit newItem( item );
-
+    /*
     // Detect koffice files
     QString mimeType = item->mimetype();
     if ( mimeType.left(15) == "application/x-k" )
@@ -209,6 +210,7 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
       // To be changed later on if anybody else uses a x-k* mimetype
       m_bKofficeDocs = true;
     }
+    */
   }
 }
 
@@ -317,7 +319,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       if ( !done )
       {
         //kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
-        KFileItem* item = new KFileItem( *it, u );
+        KFileItem* item = new KFileItem( *it, u, m_bDelayedMimeTypes );
 	
 	if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
 	{
