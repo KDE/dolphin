@@ -1,7 +1,17 @@
-1999-04-28  Christophe Prud'homme  <Christophe.Prudhomme@ann.jussieu.fr>
+2000-10-21  David Faure  <faure@kde.org>
 
-	* Makefile.am: $(top_srcdir) to $(top_builddir)
+	* Fix for linked views saved in profile, introducing isLoadingProfile().
 
+2000-10-20  David Faure  <faure@kde.org>
+
+	* konq_misc.cc: Use webbrowsing profile for *.html *.htm as well.
+
+2000-10-20  Simon Hausmann  <hausmann@kde.org>
+
+	* Duplicate window duplicates the history as well.
+
+[...... long period of development up to KDE 2.0 ommitted .....]
+	
 1999-03-15  Michael Reiher <michael.reiher@gmx.de>
 
 	* Implemented an ActiveViewIndicator : KonqFrame
