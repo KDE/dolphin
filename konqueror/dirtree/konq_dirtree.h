@@ -42,7 +42,7 @@ class KonqDirTreePart : public KParts::ReadOnlyPart
 {
   Q_OBJECT
   friend class KonqDirTree;
-  Q_PROPERTY( bool supportsUndo READ supportsUndo );
+  Q_PROPERTY( bool supportsUndo READ supportsUndo )
 public:
   KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name = 0L );
   virtual ~KonqDirTreePart();

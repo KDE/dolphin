@@ -62,7 +62,7 @@ class KonqListView : public KonqDirPart
 {
   friend class KonqBaseListViewWidget;
   Q_OBJECT
-  Q_PROPERTY( bool supportsUndo READ supportsUndo );
+  Q_PROPERTY( bool supportsUndo READ supportsUndo )
 public:
   KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqListView();
