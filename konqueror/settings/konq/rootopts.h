@@ -76,6 +76,7 @@ private:
         QPushButton *rightEditButton;
         
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
+        bool m_wheelSwitchesWorkspace;
 };
 
 //-----------------------------------------------------------------------------

@@ -104,6 +104,8 @@ private:
   QCheckBox* m_pWordWrap;
   QCheckBox* cbUnderline;
   QCheckBox* m_pSizeInBytes;
+
+  int m_gridXSpacing;
 };
 
 #endif

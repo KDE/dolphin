@@ -226,6 +226,10 @@ void KonqFontOptions::load()
     }
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
 
+    KConfig cfg("kdeglobals");
+    cfg.setGroup("DesktopIcons");
+    m_gridXSpacing=cfg.readNumEntry("GridXSpacing", 50);
+
     updateGUI();
 }
 
@@ -287,6 +291,10 @@ void KonqFontOptions::save()
     }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
+    
+    KConfig cfg("kdeglobals");
+    cfg.setGroup("DesktopIcons");
+    cfg.writeEntry("GridXSpacing", m_gridXSpacing);
 }
 
 
