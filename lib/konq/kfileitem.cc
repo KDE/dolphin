@@ -188,10 +188,13 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
       // No xv pic, or too old -> load the orig image and create the XV pic
       if ( pix.load( m_url.path() ) )
       {
+        bool bCanSave = true;
         // Create .xvpics/ if it doesn't exist
         QDir xvDir( m_url.directory() );
         if ( !xvDir.exists(".xvpics") )
-          xvDir.mkdir(".xvpics");
+        {
+          bCanSave = xvDir.mkdir(".xvpics");
+        }
         // Save XV file
         int w, h;
         if ( pix.width() > pix.height() )
@@ -204,13 +207,23 @@ QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) 
           h = QMIN( pix.height(), 60 ); // TODO make configurable for tackat :-)
           w = (int)( (float)pix.width() * ( (float)h / (float)pix.height() ) );
         }
-        QImageIO iio;
-        iio.setImage( pix.convertToImage().smoothScale( w, h ) );
-        iio.setFileName( xvpicPath );
-        iio.setFormat( "XV" );
-        iio.write();
-        // Load it
-        if ( pix.load( xvpicPath ) ) return pix;
+        if (bCanSave)
+        {
+          QImageIO iio;
+          iio.setImage( pix.convertToImage().smoothScale( w, h ) );
+          iio.setFileName( xvpicPath );
+          iio.setFormat( "XV" );
+          bCanSave = iio.write();
+          // Load it
+          if ( pix.load( xvpicPath ) ) return pix;
+        }
+        if (!bCanSave) // not "else", write may have failed !
+        {
+          // Ok, this is ugly and slow. Anybody knows of a better solution ?
+          QImage img = pix.convertToImage().smoothScale( w, h );
+          pix.convertFromImage( img );
+          return pix;
+        }
       }
     }
   }
@@ -366,7 +379,7 @@ QString KFileItem::iconName() const
 
 QString KFileItem::text() const
 {
-    if (m_bIsLocalURL && KDesktopFile::isDesktopFile(m_url.url()))
+    if (m_bIsLocalURL && m_pMimeType->name() == "application/x-desktop")
     {
         KDesktopFile desktop(m_url.path(), true);
         return desktop.readName();
