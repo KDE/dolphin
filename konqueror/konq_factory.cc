@@ -159,7 +159,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     service = (*it);
     // Allowed as default ?
     QVariant prop = service->property( "X-KDE-BrowserView-AllowAsDefault" );
-    kdDebug() << service->name() << " : X-KDE-BrowserView-AllowAsDefault is valid : " << prop.isValid() << endl;
+    kdDebug(1202) << service->name() << " : X-KDE-BrowserView-AllowAsDefault is valid : " << prop.isValid() << endl;
     if ( !prop.isValid() || prop.toBool() ) // defaults to true
     {
       kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;

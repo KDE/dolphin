@@ -266,7 +266,7 @@ void KonqViewManager::removeView( KonqChildView *view )
 // reimplemented from PartManager
 void KonqViewManager::removePart( KParts::Part * part )
 {
-  kdDebug() << "KonqViewManager::removePart ( " << part << " )" << endl;
+  kdDebug(1202) << "KonqViewManager::removePart ( " << part << " )" << endl;
   // This is called when a part auto-deletes itself (case 1), or when
   // the "delete view" above deletes, in turn, the part (case 2)
 
@@ -464,7 +464,7 @@ void KonqViewManager::clear()
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
-  kdDebug() << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
+  kdDebug(1202) << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
   KonqMainView::MapViews mapViews = m_pMainView->viewMap();
 
   KonqMainView::MapViews::Iterator it = mapViews.begin();

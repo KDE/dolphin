@@ -959,7 +959,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   // Can lock a view only if there is a next view
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 
-  kdDebug(300) << "slotPartActivated: setting location bar url to "
+  kdDebug(1202) << "slotPartActivated: setting location bar url to "
                << m_currentView->locationBarURL() << endl;
   if ( m_combo )
     m_combo->setEditText( m_currentView->locationBarURL() );
