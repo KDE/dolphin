@@ -170,3 +170,4 @@ QStringList FakeUASProvider::userAgentAliasList ()
   }
   return m_lstAlias;
 }
+
