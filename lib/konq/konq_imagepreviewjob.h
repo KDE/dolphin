@@ -67,7 +67,7 @@ private slots:
     void slotThumbData(KIO::Job *, const QByteArray &);
 
 private:
-    void saveThumbnail(const QImage &img);
+    void saveThumbnail(const QByteArray &imgData);
 
 private:
     enum { STATE_STATORIG, STATE_STATTHUMB, STATE_STATXV, STATE_GETTHUMB, // if the thumbnail exists

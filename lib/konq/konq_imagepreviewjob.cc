@@ -310,6 +310,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
     }
     case STATE_PUTTHUMB:
     {
+      QFile::remove( static_cast<KIO::FileCopyJob*>(job)->destURL().path() );
       // Ignore errors - there's nothing else we can do for this poor thumbnail
       determineNextIcon();
       return;
@@ -454,29 +455,35 @@ void KonqImagePreviewJob::slotThumbData(KIO::Job *job, const QByteArray &data)
     bool save = static_cast<KIO::TransferJob *>(job)->queryMetaData("save") == "true";
     m_iconView->setThumbnailPixmap(m_currentItem, pix);
     if (save && m_bCanSave)
-        saveThumbnail(pix.convertToImage());
+        saveThumbnail(data);
 }
 
-void KonqImagePreviewJob::saveThumbnail(const QImage &img)
+void KonqImagePreviewJob::saveThumbnail(const QByteArray &imgData)
 {
+    QFile file;
     QString tmpFile;
     if ( m_thumbURL.isLocalFile() )
-        tmpFile = m_thumbURL.path();
+        file.setName( m_thumbURL.path() );
     else
-        tmpFile = tmpnam(0);
-    QImageIO iio;
-    iio.setImage(img);
-    iio.setFileName( tmpFile );
-    iio.setFormat("PNG");
-    if ( iio.write() )
+    {
+        KTempFile tmpFile;
+        file.setName( tmpFile.name() );
+    }
+    if ( file.open(IO_WriteOnly) )
+    {
+        file.writeBlock( imgData.data(), imgData.size() );
+        file.close();
         if ( !m_thumbURL.isLocalFile() )
         {
             m_state = STATE_PUTTHUMB;
-            KIO::Job * job = KIO::file_copy( tmpFile, m_thumbURL, -1, true /* overwrite */, false, false /* No GUI */ );
+            KIO::Job * job = KIO::file_copy( file.name(), m_thumbURL, -1, true /* overwrite */, false, false /* No GUI */ );
             kdDebug(1203) << "KonqImagePreviewJob: KIO::file_copy thumb " << tmpFile << " to " << m_thumbURL.url() << endl;
             addSubjob(job);
             return;
         }
+    }
+    else if ( !m_thumbURL.isLocalFile() )
+        file.remove();
 }
 
 #include "konq_imagepreviewjob.moc"
