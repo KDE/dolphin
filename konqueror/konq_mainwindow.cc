@@ -933,6 +933,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   KonqOpenURLRequest req;
   req.args = args;
 
+  // Clicking on a link that points to the page itself (e.g. anchor)
   if ( !args.doPost() && !args.reload &&
           childView && urlcmp( url.url(), childView->url().url(), true, true ) )
   {
@@ -941,6 +942,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
       serviceType = childView->serviceType();
 
     childView->stop();
+    req.forceAutoEmbed = true;
     openView( serviceType, url, childView, req );
     return;
   }
