@@ -324,6 +324,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bInit = false;
 
     m_dirLister = 0L;
+    m_fakeRootItem = 0L;
     m_bLoading = false;
     m_bNeedAlign = false;
     m_bNeedEmitCompleted = false;
@@ -357,6 +358,7 @@ KonqKfmIconView::~KonqKfmIconView()
     kdDebug(1202) << "-KonqKfmIconView" << endl;
     delete m_dirLister;
     delete m_pProps;
+    delete m_fakeRootItem;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
 }
@@ -642,7 +644,6 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
         {
             // Right click on viewport
             KFileItem * item = m_dirLister->rootItem();
-            bool delRootItem = false;
             if ( ! item )
             {
                 if ( m_bLoading )
@@ -652,19 +653,19 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
                 }
                 else
                 {
-                    // We didn't get a root item (e.g. over FTP)
-                    // TODO Use KIO::stat (or NetAccess::stat ?) here !
-                    item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
-                    delRootItem = true;
+                    if ( !m_fakeRootItem)
+                    {
+                        // We didn't get a root item (e.g. over FTP)
+                        // TODO Use KIO::stat (or NetAccess::stat ?) here !
+                        item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+                        m_fakeRootItem = item;
+                    }
                 }
             }
 
             KFileItemList items;
             items.append( item );
             emit m_extension->popupMenu( QCursor::pos(), items );
-
-            if ( delRootItem )
-                delete item; // we just created it
         }
 }
 
