@@ -14,6 +14,7 @@ class KURL;
 
 
 class KonqSidebar;
+class KPartAppPartFactory;
 
 class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 {
@@ -62,6 +63,7 @@ public:
     virtual bool openURL(const KURL &url);
     KonqSidebarBrowserExtension* extension() const
        { return m_extension; }
+    KInstance *getInstance();
 protected:
     /**
      * This must be implemented by each part

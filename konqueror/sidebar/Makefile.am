@@ -1,6 +1,6 @@
 # this has all of the subdirectories that make will recurse into.  if
 # there are none, comment this out
-SUBDIRS = . test sidebar_classic
+SUBDIRS = . sidebar_classic trees
 
 # set the include path for X, qt and KDE
 INCLUDES = $(all_includes)
@@ -24,7 +24,7 @@ libkonqsidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ./libkonqsidebarplugin.la
 
 libkonqsidebarplugin_la_SOURCES=konqsidebarplugin.cpp
 libkonqsidebarplugin_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-libkonqsidebarplugin_la_LIBADD = $(LIB_QT) $(LIB_KDECORE)
+libkonqsidebarplugin_la_LIBADD = $(LIB_QT) $(LIB_KDECORE) $(LIB_KPARTS)
 
 # this is where the desktop file will go 
 partdesktopdir   = $(kde_servicesdir)

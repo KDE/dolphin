@@ -15,11 +15,17 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
 {
     // we need an instance
     setInstance( KPartAppPartFactory::instance() );
-
+    m_extension=0;
     // this should be your custom internal widget
     m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
-    setWidget(m_widget);
     m_extension = new KonqSidebarBrowserExtension( this, m_widget,"KonqSidebar::BrowserExtension" );
+    setWidget(m_widget);
+}
+
+KInstance *KonqSidebar::getInstance()
+{
+	kdDebug()<<"KonqSidebar::getInstance()"<<endl;
+	return KPartAppPartFactory::instance() ; 
 }
 
 KonqSidebar::~KonqSidebar()

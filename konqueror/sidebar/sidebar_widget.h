@@ -8,18 +8,20 @@
 #include <ktoolbar.h>
 #include <kparts/part.h>
 #include <qstring.h>
+#include "konqsidebarplugin.h"
 
 class ButtonInfo: public QObject
 {
 	Q_OBJECT
 	public:
-	ButtonInfo(const QString& file_,class KDockWidget *dock_, int tmp):
-		file(file_),dock(dock_)
+	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_):
+		file(file_),dock(dock_),URL(url_)
 		{;}
 	~ButtonInfo(){;}
 	class QString file;
 	class KDockWidget *dock;
 	class KonqSidebarPlugin *module;	
+	class QString URL;
 };
 
 
@@ -36,20 +38,23 @@ class addBackEnd: public QObject
 	protected slots:
 		void aboutToShowAddMenu();
 		void activatedAddMenu(int);
+	signals:
+		void updateNeeded();
+
 };
 
 class Sidebar_ButtonBar: public KToolBar
 {
   Q_OBJECT
   public:
-        Sidebar_ButtonBar(QWidget *parent):KToolBar(parent,"Konq::SidebarTNG",true){setAcceptDrops(true);}
+        Sidebar_ButtonBar(QWidget *parent):KToolBar(parent,"Konq::SidebarTNG",true){/*setAcceptDrops(true);*/}
 	~Sidebar_ButtonBar(){;}  
  protected:
 	virtual void dragEnterEvent ( QDragEnterEvent * e){e->accept();} 
 	virtual void dragMoveEvent ( QDragEnterEvent * e){e->accept();} 
 };
 
-class Sidebar_Widget: public QHBox
+class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 {
   Q_OBJECT
   public:
@@ -57,11 +62,13 @@ class Sidebar_Widget: public QHBox
   ~Sidebar_Widget();
   void openURL(const class KURL &url);
   void stdAction(const char *handlestd);
+  virtual KParts::ReadOnlyPart *getPart();
+  virtual KParts::BrowserExtension *getExtension();
+  virtual KInstance *getInstance();
   private:
 	class KDockArea *Area;
 	class KToolBar *ButtonBar;
         QVector<ButtonInfo> Buttons;
-	void createButtons();
 	bool addButton(const QString &desktoppath,int pos=-1);
 	bool createView(ButtonInfo *data);
 	class KDockWidget *mainW;
@@ -71,10 +78,19 @@ class Sidebar_Widget: public QHBox
 	bool stored_url;
 	KParts::ReadOnlyPart *partParent;
 	ButtonInfo* getActiveModule();
-	class QPopupMenu* addMenu;
-
+	bool singleWidgetMode;
+	void readConfig();
+	class QStringList visibleViews;
+	class QPopupMenu *buttonPopup;
+	int popupFor;
+  protected:
+	virtual bool eventFilter(QObject*,QEvent*);
   protected slots:
 	void showHidePage(int value);
+	void updateDock();
+	void createButtons();
+	void activatedMenu(int id);
+	void buttonPopupActivate(int);
 };
 
 #endif
