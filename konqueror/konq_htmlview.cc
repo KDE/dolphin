@@ -464,7 +464,8 @@ QCString KonqHTMLView::url()
   QString u = m_strWorkingURL;
   if ( u.isEmpty() )
     u = KBrowser::m_strURL;
-  return strdup(u.ascii());
+
+  return u.isEmpty() ? QCString() : (QCString)strdup(u.ascii());
 }
 
 long int KonqHTMLView::xOffset()
