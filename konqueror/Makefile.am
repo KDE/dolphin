@@ -1,6 +1,6 @@
-INCLUDES  = $(MICO_INCLUDES) $(all_includes) -I$(idldir)
-LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
-LDADD = -lkparts $(LIB_KFILE) $(LIB_KHTML) 
+INCLUDES  = $(MICO_INCLUDES) $(all_includes) -I$(idldir) -I$(top_srcdir)/libkonq
+LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH) -L$(top_srcdir)/libkonq
+LDADD = -lkparts $(LIB_KFILE) $(LIB_KHTML) -lkonq
 
 SUBDIRS = client pics Templates
 
@@ -18,23 +18,22 @@ bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
 konqueror_SOURCES =  kbookmarkmenu.cc kbrowser.cc \
-	konq_propsmainview.cc kpopupmenu.cc kfmrun.cc kfmviewprops.cc \
+	konq_propsmainview.cc kfmrun.cc kfmviewprops.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konq_plugins.cc \
-	konq_partview.cc konq_treeview.cc konq_txtview.cc konqueror.cc \
-	knewmenu.cc
+	konq_partview.cc konq_treeview.cc konq_txtview.cc konqueror.cc
 
 # noinst_HEADERS = ... to be completed
 
 METASOURCES = kbookmarkmenu.moc kbrowser.moc \
-	kpopupmenu.moc kfmrun.moc \
+	kfmrun.moc \
 	kiconcontainer.moc \
 	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
-	konq_partview.moc konq_treeview.moc konq_txtview.moc knewmenu.moc
+	konq_partview.moc konq_treeview.moc konq_txtview.moc
 
 kde_parts_DATA = konqueror_part.kdelnk
 
