@@ -610,7 +610,7 @@ void KonqKfmIconView::slotTextRight( bool b )
 
 void KonqKfmIconView::slotBackgroundColor()
 {
-    QColor bgndColor;
+    QColor bgndColor = m_pProps->bgColor();
     if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
     {
 	m_pProps->setBgColor( bgndColor );
