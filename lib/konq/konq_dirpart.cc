@@ -227,8 +227,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
     else
     {
         // MMB on background, try opening clipboard URL
-        QApplication::clipboard()->setSelectionMode( true );
-        QMimeSource *data = QApplication::clipboard()->data();
+        QMimeSource *data = QApplication::clipboard()->data(QClipboard::Selection);
         if ( data->provides("text/plain") )
         {
             QString url;
@@ -254,7 +253,6 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
                     emit m_extension->openURLRequest( u );
             }
         }
-
     }
 }
 
