@@ -10,7 +10,7 @@
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
-#include <dcopclient.h>
+#include <dcopref.h>
 
 #include "kcookiesmain.h"
 #include "kcookiespolicies.h"
@@ -22,20 +22,13 @@ KCookiesMain::KCookiesMain(QWidget *parent)
     management = 0;
 
     bool managerOK = false;
-    QByteArray data;
-    QCString replyType;
-    QByteArray replyData;
-    QDataStream args(data, IO_WriteOnly);
-    args << QCString("kcookiejar");
 
-    kapp->dcopClient()->call("kded", "kded", "loadModule(QCString)", data, replyType, replyData);
-    if (replyType == "bool")
-    {
-       bool b;
-       QDataStream str(replyData, IO_ReadOnly);
-       str >> b;
-       managerOK = b;
-    }
+    DCOPReply reply = DCOPRef( "kded", "kded" ).call( "loadModule", 
+        QCString( "kcookiejar" ) );
+
+    if ( reply.isValid() )
+        managerOK = reply;
+
     if (!managerOK)
     {
        kdDebug(7103) << "kcm_kio: KDED could not load KCookiejar!" << endl;
