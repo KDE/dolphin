@@ -268,6 +268,8 @@ public:
    */
   virtual void FilesRemoved( const KURL::List & fileList );
 
+  virtual void FilesChanged( const KURL::List & fileList );
+
 public slots:
   /**
    * If you know that something in the bookmarks directory tree changed, call this
