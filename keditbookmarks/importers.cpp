@@ -71,10 +71,10 @@ ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) 
         return 0;
     }
 
-    int answer = 
+    int answer =
         KMessageBox::questionYesNoCancel(
                 top, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                i18n("%1 Import").arg(importer->visibleName()), 
+                i18n("%1 Import").arg(importer->visibleName()),
                 i18n("As New Folder"), i18n("Replace"));
 
     if (answer == KMessageBox::Cancel) {
@@ -106,7 +106,7 @@ void ImportCommand::execute() {
         m_cleanUpCmd = DeleteCommand::deleteAll(bkGroup);
 
         KMacroCommand *mcmd = (KMacroCommand*) m_cleanUpCmd;
-        mcmd->addCommand(new DeleteCommand(bkGroup.address(), 
+        mcmd->addCommand(new DeleteCommand(bkGroup.address(),
                     true /* contentOnly */));
 
         // unselect current item, it doesn't exist anymore
@@ -170,12 +170,12 @@ QString IEImportCommand::requestFilename() const {
     return importer.findDefaultLocation();
 }
 
-// following two are really just xbel 
+// following two are really just xbel
 
 QString GaleonImportCommand::requestFilename() const {
     return KFileDialog::getOpenFileName(
             QDir::homeDirPath() + "/.galeon",
-            i18n("*.xbel|Galeon bookmark files (*.xbel)"));
+            i18n("*.xbel|Galeon Bookmark Files (*.xbel)"));
 }
 
 #include "kstandarddirs.h"
@@ -183,7 +183,7 @@ QString GaleonImportCommand::requestFilename() const {
 QString KDE2ImportCommand::requestFilename() const {
     return KFileDialog::getOpenFileName(
             locateLocal("data", "konqueror"),
-            i18n("*.xml|KDE bookmark files (*.xml)"));
+            i18n("*.xml|KDE Bookmark Files (*.xml)"));
 }
 
 /* -------------------------------------- */
@@ -223,7 +223,7 @@ void HTMLImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
 /* -------------------------------------- */
 
 void XBELImportCommand::doCreateHoldingFolder(KBookmarkGroup &) {
-    // rather than reuse the old group node we transform the 
+    // rather than reuse the old group node we transform the
     // root xbel node into the group when doing an xbel import
 }
 
@@ -287,5 +287,5 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
             root.appendChild((*it));
     }
 }
- 
+
 #include "importers.moc"
