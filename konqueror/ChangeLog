@@ -49,3 +49,6 @@ Sun Feb 14 19:26:09 1999 Simon Hausmann <tronical@gmx.net>
           - added a general method openURL to kfm.idl
             (welcome "remote" konqueror users, there's more to come ;)
 
+Tue Feb 16 17:02:14 1999 Simon Hausmann <tronical@gmx.net>
+
+        * kfmgui.cc : small fix to make the "new" menu work better

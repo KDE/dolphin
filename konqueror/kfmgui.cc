@@ -1165,7 +1165,14 @@ void KfmGui::slotReload()
 void KfmGui::slotFileNewActivated( CORBA::Long id )
 {
   if ( m_pMenuNew )
-    m_pMenuNew->slotNewFile( (int)id );
+     {
+       QStrList urls;
+       urls.append( m_currentView->m_pView->currentURL() );
+       
+       m_pMenuNew->setPopupFiles( urls );
+       
+       m_pMenuNew->slotNewFile( (int)id );
+     }  
 }
 
 void KfmGui::slotFileNewAboutToShow()
