@@ -36,10 +36,6 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
 
-    KWM::setIcon(winId(), kapp->getIconLoader()->loadIcon("kfind.xpm"));   
-    //KWM::setMiniIcon(winId(), 
-    //	     kapp->getIconLoader()->loadIcon("mini-kfind.xpm"));   
-
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
     _toolBar->show();
