@@ -544,7 +544,7 @@ static KCmdLineOptions options[] =
   KCmdLineLastOption
 };
 
-int main(int argc, char **argv)
+extern "C" int kdemain(int argc, char **argv)
 {
   KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
 
