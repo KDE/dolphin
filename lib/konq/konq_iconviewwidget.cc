@@ -1011,15 +1011,11 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
         if (iconSize < 28)
             size = 48;
         else if (iconSize < 40)
-#if 0 // TMS sizes, enable when KIO::Previewjob uses them
             size = 64;
         else if (iconSize < 60)
             size = 96;
         else
             size = 128;
-#endif
-            size = 60;
-        else size = 90;
     } else {
         size = iconSize;
         iconSize /= 2;
