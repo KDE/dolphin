@@ -633,8 +633,7 @@ void KonqHTMLView::saveBackground()
 	  job->copy( backgroundURL.url(), destURL.url() );
       }
 
-    delete dlg;
-  }
+  delete dlg;
 #endif
 }
 
