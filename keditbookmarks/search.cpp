@@ -100,6 +100,48 @@ void SearchItr::setSearch(int options, const QString& pattern) {
    */
 }
 
+/* 
+slotFindNext::
+    KFind::Result res = KFind::NoMatch;
+    while(res == KFind::NoMatch && m_findItem) {
+       if (m_find->needData()) {
+          m_find->setData(m_findItem->text(1));
+       }
+
+       // Let KFind inspect the text fragment, 
+       // and display a dialog if a match is found
+       res = m_find->find();
+
+       if (res == KFind::NoMatch) {
+          if (m_find->options() & KFindDialog::FindBackwards) {
+             m_findItem = (BugLVI*)m_findItem->itemAbove();
+          } else {
+             m_findItem = (BugLVI*)m_findItem->itemBelow();
+          }
+       }
+    }
+    if (res == KFind::NoMatch) {
+      // i.e. at end
+      if (m_find->shouldRestart()) {
+         m_findItem = (BugLVI*)m_listBugs->firstChild();
+         slotFindNext();
+      } else {
+         delete m_find;
+         m_find = 0L;
+      }
+    }
+
+*/
+
+/*
+searchHighlight::
+    if (m_findItem) {
+       m_listBugs->clearSelection();
+       m_listBugs->setSelected(m_findItem, true);
+       m_listBugs->ensureItemVisible(m_findItem);
+    }
+*/
+
 bool SearchItr::isApplicable(const KBookmark &bk) {
    return (!bk.isSeparator());
 }
