@@ -1554,22 +1554,18 @@ void KonqMainView::openBookmarkURL( const QString & url )
   openURL( 0L, KURL( url ) );
 }
 
-QString KonqMainView::currentTitle()
+void KonqMainView::setCaption( const QString &caption )
 {
-
-  QString title = caption();
-
-  if ( title.right( 12 ) == " - Konqueror" )
-    title.truncate( title.length() - 12 );
-
-  return title;
+  // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
+  m_title = caption;
+  KParts::MainWindow::setCaption( caption );
 }
 
 QString KonqMainView::currentURL()
 {
   assert( m_currentView );
   return m_currentView->view()->url().url();
-} 
+}
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
 {

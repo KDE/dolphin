@@ -146,9 +146,12 @@ public:
 
   virtual void customEvent( QCustomEvent *event );
 
+  /// Overloaded of KTMainWindow
+  virtual void setCaption( const QString &caption );
+
   /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
-  virtual QString currentTitle();
+  virtual QString currentTitle() { return m_title; }
   virtual QString currentURL();
 
   void setLocationBarURL( KonqChildView *childView, const QString &url );
@@ -311,6 +314,8 @@ private:
   KonqViewManager *m_pViewManager;
 
   KStatusBar * m_statusBar;
+
+  QString m_title;
 
   QGuardedPtr<KProgress> m_progressBar;
 
