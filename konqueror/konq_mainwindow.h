@@ -66,6 +66,7 @@ class ViewModeGUIClient;
 class KonqMainWindowIface;
 class KonqDirPart;
 class KonqRun;
+class KURLRequester;
 struct HistoryEntry;
 
 namespace KParts {
@@ -366,6 +367,10 @@ protected:
   virtual void closeEvent( QCloseEvent * );
 
   bool askForTarget(const QString& text, KURL& url);
+    
+private slots:
+  void slotRequesterClicked( KURLRequester * ); 
+    
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the

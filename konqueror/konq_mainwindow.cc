@@ -1797,8 +1797,8 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    layout->addWidget(label);
    QString initialUrl = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
    KURLRequester *urlReq=new KURLRequester(initialUrl, dlg);
-   // Hmm, this creates the filedialog, hidden, which fires up a KIO job to list the dir, etc. :(
-   urlReq->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
+   connect( urlReq, SIGNAL( openFileDialog( KURLRequester * )), 
+	    SLOT( slotRequesterClicked( KURLRequester * )));
 
    layout->addWidget(urlReq);
    QHBox *hbox=new QHBox(dlg);
@@ -1817,6 +1817,11 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    url=urlReq->url();
    delete dlg;
    return true;
+}
+
+void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
+{
+    req->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
 }
 
 void KonqMainWindow::slotCopyFiles()
