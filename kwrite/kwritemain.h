@@ -57,9 +57,6 @@ class KWrite : public KParts::MainWindow
     KToggleAction * m_paShowToolBar;
     KToggleAction * m_paShowStatusBar;
 
-  private:
-	KURL delayedURL;
-
   public slots:
     void slotNew();
     void slotFlush ();

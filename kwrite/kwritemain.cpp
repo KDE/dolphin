@@ -86,7 +86,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
 
 
 KWrite::~KWrite()
-{
+{                           
   if (kateView->document()->views().count() == 1) docList.remove((KTextEditor::Document*)kateView->document());
 }
 
