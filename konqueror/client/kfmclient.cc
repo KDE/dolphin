@@ -116,10 +116,12 @@ int main( int argc, char **argv )
 
 bool clientApp::openFileManagerWindow(const KURL & url)
 {
-
-  if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
+  QByteArray data;
+  QCString appId, appObj;
+  if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+                                 appId, appObj ) )
   {
-    KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
+    KonquerorIface_stub konqy( appId, appObj );
     konqy.openBrowserWindow( url.url() );
   }
   else
@@ -140,10 +142,12 @@ bool clientApp::openFileManagerWindow(const KURL & url)
 
 bool clientApp::openProfile( const QString & profile )
 {
-
-  if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
+  QByteArray data;
+  QCString appId, appObj;
+  if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+                                 appId, appObj ) )
   {
-    KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
+    KonquerorIface_stub konqy( appId, appObj );
     konqy.createBrowserWindowFromProfile( profile );
   }
   else

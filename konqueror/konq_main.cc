@@ -50,10 +50,7 @@ int main( int argc, char **argv )
 
   KApplication app;
 
-  // First instance registers as "konqueror" (for kfmclient etc.)
-  // Others register with PID.
-  bool withPID = app.dcopClient()->isApplicationRegistered( "konqueror" );
-  app.dcopClient()->registerAs( "konqueror", withPID );
+  app.dcopClient()->registerAs( "konqueror" );
 
   app.dcopClient()->setDefaultObject( (new KonquerorIface())->objId() );
 
