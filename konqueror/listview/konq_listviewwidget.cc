@@ -77,6 +77,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_pBrowserView(parent)
 ,m_dirLister(new KDirLister( true /*m_showIcons==FALSE*/))
 ,m_dragOverItem(0)
+,m_activeItem(0)
+,m_selected(0)
 ,m_scrollTimer(0)
 ,m_rubber(0)
 ,m_showIcons(true)
@@ -88,7 +90,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
-,m_activeItem(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -172,6 +173,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
 {
    kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
+
+   delete m_selected;
 
    // TODO: this is a hack, better fix the connections of m_dirLister if possible!
    m_dirLister->disconnect( this );
@@ -333,7 +336,7 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
       m_rubber = 0;
    }
 
-   m_selected.clear();
+   delete m_selected; m_selected = 0;
 
    QPoint vp = contentsToViewport( e->pos() );
    KonqBaseListViewItem *item = isExecuteArea( vp ) ?
@@ -346,7 +349,10 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
       {
          m_rubber = new QRect( e->x(), e->y(), 0, 0 );
          if ( e->state() & ControlButton )
+         {
+            m_selected = new QPtrList<KonqBaseListViewItem>;
             selectedItems( m_selected );
+         }
          else
             setSelected( itemAt( vp ), false );
       }
@@ -373,7 +379,7 @@ void KonqBaseListViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
       m_scrollTimer = 0;
    }
 
-   m_selected.clear();
+   delete m_selected; m_selected = 0;
    KListView::contentsMouseReleaseEvent( e );
 }
 
@@ -463,7 +469,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
          {
             if ( !cur->isSelected() && cur->isSelectable() )
                setSelected( cur, true );
-         } else if ( !m_selected.contains( (KonqBaseListViewItem*)cur ) )
+         } else if ( !m_selected || !m_selected->contains( (KonqBaseListViewItem*)cur ) )
             setSelected( cur, false );
 
          cur = cur->itemBelow();
@@ -480,7 +486,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
          {
             if ( !cur->isSelected() && cur->isSelectable() )
                setSelected( cur, true );
-         } else if ( !m_selected.contains( (KonqBaseListViewItem*)cur ) )
+         } else if ( !m_selected || !m_selected->contains( (KonqBaseListViewItem*)cur ) )
             setSelected( cur, false );
 
          cur = cur->itemAbove();
@@ -611,15 +617,6 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqOperations::doDrop( destItem /*may be 0L*/, u, ev, this );
 }
 
-void KonqBaseListViewWidget::takeItem( QListViewItem *item )
-{
-    if ( m_activeItem == static_cast<KonqBaseListViewItem *>(item) )
-        m_activeItem = 0L;
-
-    KListView::takeItem( item );
-}
-
-
 void KonqBaseListViewWidget::startDrag()
 {
    KURL::List urls = selectedUrls();
@@ -660,7 +657,6 @@ void KonqBaseListViewWidget::startDrag()
 
 void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 {
-   
    KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
    if ( m_activeItem != 0 && m_activeItem != item )
       m_activeItem->setActive( false );
@@ -745,12 +741,12 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
   }
 }
 
-void KonqBaseListViewWidget::selectedItems( QValueList<KonqBaseListViewItem*>& _list )
+void KonqBaseListViewWidget::selectedItems( QPtrList<KonqBaseListViewItem>* _list )
 {
    iterator it = begin();
    for( ; it != end(); it++ )
       if ( it->isSelected() )
-         _list.append( &*it );
+         _list->append( &*it );
 }
 
 KFileItemList KonqBaseListViewWidget::selectedFileItems()
@@ -810,11 +806,10 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
    // a popup for the current dir instead.
    if ((alwaysForSelectedFiles) || (isExecuteArea( viewport()->mapFromGlobal( _global ) )))
    {
-       QValueList<KonqBaseListViewItem*> items;
-       selectedItems( items );
-       QValueList<KonqBaseListViewItem*>::Iterator it = items.begin();
-       for( ; it != items.end(); ++it )
-          lstItems.append( (*it)->item() );
+       QPtrList<KonqBaseListViewItem> items;
+       selectedItems( &items );
+       for(KonqBaseListViewItem *item = items.first(); item; item = items.next())
+          lstItems.append( item->item() );
    }
 
    KFileItem * rootItem = 0L;
@@ -989,6 +984,7 @@ void KonqBaseListViewWidget::slotClear()
    kdDebug(1202) << k_funcinfo << endl;
 
    m_activeItem = 0;
+   delete m_selected; m_selected = 0;
    m_pBrowserView->resetCount();
    m_pBrowserView->lstPendingMimeIconItems().clear();
 
@@ -1034,9 +1030,6 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
     if ( (*it).item() == _fileitem )
     {
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
-      
-      if ( m_activeItem == static_cast<KonqBaseListViewItem *>(&(*it)) )
-         m_activeItem = 0L;      
       
       delete &(*it);
       // HACK HACK HACK: QListViewItem/KonqBaseListViewItem should

@@ -36,7 +36,7 @@
  *
  **************************************************************/
 KonqInfoListViewItem::KonqInfoListViewItem( KonqInfoListViewWidget *_widget, KonqInfoListViewItem * _parent, KFileItem* _fileitem )
-:KonqBaseListViewItem( _parent,_fileitem ), m_ILVWidget(_widget)
+:KonqBaseListViewItem( _widget,_parent,_fileitem ), m_ILVWidget(_widget)
 {
     updateContents();
 }

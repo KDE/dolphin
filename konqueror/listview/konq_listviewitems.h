@@ -38,8 +38,8 @@ class KonqBaseListViewItem : public KListViewItem
 {
    public:
       KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem);
-      KonqBaseListViewItem(KonqBaseListViewItem *_parent, KFileItem* _fileitem);
-      virtual ~KonqBaseListViewItem() {}
+      KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KonqBaseListViewItem *_parent, KFileItem* _fileitem);
+      virtual ~KonqBaseListViewItem();
       /** @return the file item held by this instance */
       KFileItem * item() { return m_fileitem; }
       void mimetypeFound();
@@ -66,6 +66,9 @@ class KonqBaseListViewItem : public KListViewItem
       
       /** Pointer to the file item in KDirLister's list */
       KFileItem* m_fileitem;
+      /** Parent tree view */
+      KonqBaseListViewWidget* m_pListViewWidget;
+
       static const char* makeAccessString( const mode_t mode );
 };
 
@@ -89,7 +92,7 @@ class KonqListViewItem : public KonqBaseListViewItem
        */
       KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem *_parent, KFileItem* _fileitem );
 
-      virtual ~KonqListViewItem() { }
+      virtual ~KonqListViewItem() {}
 
       virtual QString key( int _column, bool ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
@@ -97,9 +100,6 @@ class KonqListViewItem : public KonqBaseListViewItem
       virtual void updateContents();
       virtual void setDisabled( bool disabled );
       virtual void setActive  ( bool active   );
-   protected:
-      /** Parent tree view */
-      KonqBaseListViewWidget* m_pListViewWidget;
 };
 
 #endif

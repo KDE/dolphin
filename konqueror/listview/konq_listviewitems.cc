@@ -31,8 +31,8 @@
  * KonqListViewItem
  *
  **************************************************************/
-KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem * _parent, KFileItem* _fileitem )
-:KonqBaseListViewItem( _parent,_fileitem )
+KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KFileItem* _fileitem )
+:KonqBaseListViewItem(_listViewWidget,_parent,_fileitem )
 {
    updateContents();
 }
@@ -57,7 +57,7 @@ void KonqListViewItem::updateContents()
 
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      ColumnInfo *tmpColumn=&static_cast<KonqBaseListViewWidget *>(listView())->columnConfigInfo()[i];
+      ColumnInfo *tmpColumn=&m_pListViewWidget->columnConfigInfo()[i];
       if (tmpColumn->displayThisOne)
       {
          switch (tmpColumn->udsId)
@@ -81,7 +81,7 @@ void KonqListViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
             break;
          case KIO::UDS_SIZE:
-            if ( static_cast<KonqBaseListViewWidget *>(listView())->m_pSettings->fileSizeInBytes() )
+            if ( m_pListViewWidget->m_pSettings->fileSizeInBytes() )
                 setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(),0)+" ");
             else
                 setText(tmpColumn->displayInColumn,KIO::convertSize(m_fileitem->size())+" ");
@@ -113,17 +113,16 @@ void KonqListViewItem::updateContents()
 void KonqListViewItem::setDisabled( bool disabled )
 {
     KonqBaseListViewItem::setDisabled( disabled );
-    int iconSize = static_cast<KonqBaseListViewWidget *>(listView())->iconSize();
+    int iconSize = m_pListViewWidget->iconSize();
     iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
 
 void KonqListViewItem::setActive( bool active )
 {
-    if ( !listView() ) return;
     //#### Optimize away repaint if possible, like the iconview does?
     KonqBaseListViewItem::setActive( active );
-    int iconSize = static_cast<KonqBaseListViewWidget *>(listView())->iconSize();
+    int iconSize = m_pListViewWidget->iconSize();
     iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
@@ -136,7 +135,7 @@ QString KonqListViewItem::key( int _column, bool asc ) const
    //check if it is a time or size column
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-     ColumnInfo *cInfo=&static_cast<KonqBaseListViewWidget *>(listView())->columnConfigInfo()[i];
+     ColumnInfo *cInfo=&m_pListViewWidget->columnConfigInfo()[i];
      if (_column==cInfo->displayInColumn)
      {
        switch (cInfo->udsId)
@@ -153,7 +152,7 @@ QString KonqListViewItem::key( int _column, bool asc ) const
        break;
      }
    }
-   tmp += static_cast<KonqBaseListViewWidget *>(listView())->caseInsensitiveSort() ? text(_column).lower() : text(_column);
+   tmp += m_pListViewWidget->caseInsensitiveSort() ? text(_column).lower() : text(_column);
    return tmp;
 }
 
@@ -163,12 +162,12 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   if ( _column == 0 )
   {
-     _painter->setFont( static_cast<KonqBaseListViewWidget *>(listView())->itemFont() );
+     _painter->setFont( m_pListViewWidget->itemFont() );
   }
   //else
-  //   _painter->setPen( static_cast<KonqBaseListViewWidget *>(listView())->color() );
+  //   _painter->setPen( m_pListViewWidget->color() );
 
-  cg.setColor( QColorGroup::Text, static_cast<KonqBaseListViewWidget *>(listView())->itemColor() );
+  cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
   KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
@@ -227,20 +226,33 @@ KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidg
 ,m_bDisabled(false)
 ,m_bActive(false)
 ,m_fileitem(_fileitem)
+,m_pListViewWidget(_listViewWidget)
 {}
 
-KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent, KFileItem* _fileitem)
+KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KonqBaseListViewItem *_parent, KFileItem* _fileitem)
 :KListViewItem(_parent)
 ,sortChar('1')
 ,m_bDisabled(false)
 ,m_bActive(false)
 ,m_fileitem(_fileitem)
+,m_pListViewWidget(_listViewWidget)
 {}
+
+KonqBaseListViewItem::~KonqBaseListViewItem()
+{
+   if (m_pListViewWidget->m_activeItem == this)
+      m_pListViewWidget->m_activeItem = 0;
+   if (m_pListViewWidget->m_dragOverItem == this)
+      m_pListViewWidget->m_dragOverItem = 0;
+      
+   if (m_pListViewWidget->m_selected)
+      m_pListViewWidget->m_selected->removeRef(this);
+}
 
 QRect KonqBaseListViewItem::rect() const
 {
-    QRect r = listView()->itemRect(this);
-    return QRect( listView()->viewportToContents( r.topLeft() ), QSize( r.width(), r.height() ) );
+    QRect r = m_pListViewWidget->itemRect(this);
+    return QRect( m_pListViewWidget->viewportToContents( r.topLeft() ), QSize( r.width(), r.height() ) );
 }
 
 void KonqBaseListViewItem::mimetypeFound()
@@ -248,7 +260,7 @@ void KonqBaseListViewItem::mimetypeFound()
     // Update icon
     setDisabled( m_bDisabled );
     uint done = 0;
-    KonqBaseListViewWidget * lv = static_cast<KonqBaseListViewWidget*>(listView());
+    KonqBaseListViewWidget * lv = m_pListViewWidget;
     for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms && done < 2; i++)
     {
         ColumnInfo *tmpColumn=&lv->columnConfigInfo()[i];

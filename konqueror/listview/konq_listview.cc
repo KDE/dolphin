@@ -118,21 +118,15 @@ int ListViewBrowserExtension::yOffset()
 void ListViewBrowserExtension::updateActions()
 {
   // This code is very related to KonqIconViewWidget::slotSelectionChanged
-
-  QValueList<KonqBaseListViewItem*> selection;
-  m_listView->listViewWidget()->selectedItems( selection );
-
   int canCopy = 0;
   int canDel = 0;
   bool bInTrash = false;
-  KFileItemList lstItems;
+  KFileItemList lstItems = m_listView->selectedFileItems();
 
-  QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
-  for (; it != selection.end(); ++it )
+  for (KFileItem *item = lstItems.first(); item; item = lstItems.next())
   {
-    lstItems.append( (*it)->item() );
     canCopy++;
-    KURL url = (*it)->item()->url();
+    KURL url = item->url();
     if ( url.directory(false) == KGlobalSettings::trashPath() )
       bInTrash = true;
     if (  KProtocolInfo::supportsDeleting(  url ) )
@@ -144,27 +138,14 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "trash", canDel > 0 && !bInTrash && m_listView->url().isLocalFile() );
   emit enableAction( "del", canDel > 0 );
   emit enableAction( "shred", canDel > 0 );
-  emit enableAction( "properties", selection.count() > 0 && KPropertiesDialog::canDisplay( lstItems ) );
-  emit enableAction( "editMimeType", ( selection.count() == 1 ) );
+  emit enableAction( "properties", lstItems.count() > 0 && KPropertiesDialog::canDisplay( lstItems ) );
+  emit enableAction( "editMimeType", ( lstItems.count() == 1 ) );
   emit enableAction( "rename", ( m_listView->listViewWidget()->currentItem() != 0 ) );
 }
 
 void ListViewBrowserExtension::copySelection( bool move )
 {
-  QValueList<KonqBaseListViewItem*> selection;
-
-  m_listView->listViewWidget()->selectedItems( selection );
-
-  KURL::List lstURLs;
-
-  QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KonqBaseListViewItem*>::ConstIterator end = selection.end();
-  for (; it != end; ++it )
-  {
-    lstURLs.append( (*it)->item()->url() );
-  }
-
-  KonqDrag *urlData = KonqDrag::newDrag( lstURLs, move );
+  KonqDrag *urlData = KonqDrag::newDrag( m_listView->listViewWidget()->selectedUrls(), move );
   QApplication::clipboard()->setData( urlData );
 }
 
@@ -204,23 +185,14 @@ void ListViewBrowserExtension::setNameFilter( const QString &nameFilter )
 
 void ListViewBrowserExtension::properties()
 {
-    QValueList<KonqBaseListViewItem*> selection;
-    m_listView->listViewWidget()->selectedItems( selection );
-    KFileItemList lstItems;
-
-    QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
-    for ( ; it != selection.end(); ++it )
-        lstItems.append( (*it)->item() );
-			  
-    (void) new KPropertiesDialog( lstItems );
+  (void) new KPropertiesDialog( m_listView->selectedFileItems() );
 }
 
 void ListViewBrowserExtension::editMimeType()
 {
-    QValueList<KonqBaseListViewItem*> selection;
-    m_listView->listViewWidget()->selectedItems( selection );
-    assert ( selection.count() == 1 );
-    KonqOperations::editMimeType( selection.first()->item()->mimetype() );
+  KFileItemList items = m_listView->selectedFileItems();
+  assert ( items.count() == 1 );
+  KonqOperations::editMimeType( items.first()->mimetype() );
 }
 
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )

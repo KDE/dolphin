@@ -71,6 +71,7 @@ class ColumnInfo
  */
 class KonqBaseListViewWidget : public KListView
 {
+   friend class KonqBaseListViewItem;
    friend class KonqListView;
    friend class ListViewBrowserExtension;
 
@@ -103,7 +104,7 @@ class KonqBaseListViewWidget : public KListView
 
       virtual bool openURL( const KURL &url );
 
-      void selectedItems( QValueList<KonqBaseListViewItem*>& _list );
+      void selectedItems( QPtrList<KonqBaseListViewItem> *_list );
       KFileItemList selectedFileItems();
       KURL::List selectedUrls();
 
@@ -140,8 +141,6 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void disableIcons( const KURL::List & lst );
       
-      virtual void takeItem ( QListViewItem * i );
-
       KonqListView *m_pBrowserView;
       KonqFMSettings *m_pSettings;
 
@@ -238,8 +237,8 @@ class KonqBaseListViewWidget : public KListView
       //ColumnInfo* orderOfColumns[NumberOfAtoms];
 
       KonqBaseListViewItem* m_dragOverItem;
-    //QStringList m_lstDropFormats;
-      QValueList<KonqBaseListViewItem*> m_selected;
+      KonqBaseListViewItem *m_activeItem;
+      QPtrList<KonqBaseListViewItem> *m_selected;
       QTimer *m_scrollTimer;
 
       QFont m_itemFont;
@@ -261,7 +260,6 @@ class KonqBaseListViewWidget : public KListView
 
       QString m_itemToGoTo;
       QTimer *m_backgroundTimer;
-      KonqBaseListViewItem *m_activeItem;
 };
 
 #endif

@@ -30,6 +30,7 @@ class KonqListView;
 class KonqTreeViewWidget : public KonqBaseListViewWidget
 {
    friend class KonqListViewDir;
+   friend class KonqTreeViewDir;
 
    Q_OBJECT
 public:
