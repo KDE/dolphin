@@ -256,11 +256,19 @@ void KfmView::setShowDot( bool bShowDotFiles )
   m_Props->m_bShowDot = bShowDotFiles;
   switch( m_viewMode )
   {
+  case FINDER:
+    m_pFinder->setShowingDotFiles( bShowDotFiles );
+    break;
   case HOR_ICONS:
-      m_pIconView->setShowingDotFiles( bShowDotFiles );
-      break;
+  case VERT_ICONS:
+    m_pIconView->setShowingDotFiles( bShowDotFiles );
+    break;
+  case HTML:
+    // ???
+    break;
+  case NOMODE:
+    break;
   }
-  // TODO
 }
 
 void KfmView::openURL( const char *_url, mode_t _mode, bool _is_local_file,

@@ -933,7 +933,7 @@ void KfmFinder::slotBufferTimeout()
     int isdir = -1;
     string name;
     
-    // Find out wether it is a directory
+    // Find out whether it is a directory
     UDSEntry::iterator it2 = it->begin();
     for( ; it2 != it->end(); it2++ )
     {
@@ -953,35 +953,38 @@ void KfmFinder::slotBufferTimeout()
   
     assert( isdir != -1 && !name.empty() );
 
-    // The first entry in the toplevel ?
-    if ( !m_pWorkingDir && !m_strWorkingURL.empty() )
+    if ( m_isShowingDotFiles || name[0]!='.' )
     {
-      clear();
+      // The first entry in the toplevel ?
+      if ( !m_pWorkingDir && !m_strWorkingURL.empty() )
+      {
+        clear();
       
-      m_strURL = m_strWorkingURL;
-      m_strWorkingURL = "";
-      m_url = m_strURL;
-      K2URL u( m_url );
-      m_bIsLocalURL = u.isLocalFile();
-    }
+        m_strURL = m_strWorkingURL;
+        m_strWorkingURL = "";
+        m_url = m_strURL;
+        K2URL u( m_url );
+        m_bIsLocalURL = u.isLocalFile();
+      }
     
-    if ( m_pWorkingDir )
-    {
-      K2URL u( m_workingURL );
-      u.addPath( name.c_str() );
-      if ( isdir )   
-	new KfmFinderDir( this, m_pWorkingDir, *it, u );
+      if ( m_pWorkingDir )
+      {
+        K2URL u( m_workingURL );
+        u.addPath( name.c_str() );
+        if ( isdir )   
+          new KfmFinderDir( this, m_pWorkingDir, *it, u );
+        else
+          new KfmFinderItem( this, m_pWorkingDir, *it, u );
+      }
       else
-	new KfmFinderItem( this, m_pWorkingDir, *it, u );
-    }
-    else
-    {
-      K2URL u( m_url );
-      u.addPath( name.c_str() );
-      if ( isdir )   
-	new KfmFinderDir( this, *it, u );
-      else
-	new KfmFinderItem( this, *it, u );
+      {
+        K2URL u( m_url );
+        u.addPath( name.c_str() );
+        if ( isdir )   
+          new KfmFinderDir( this, *it, u );
+        else
+          new KfmFinderItem( this, *it, u );
+      }
     }
   }
 
@@ -1141,48 +1144,51 @@ void KfmFinder::slotUpdateFinished( int /*_id*/ )
   
     assert( isdir != -1 && !name.empty() );
 
-    // Find this icon
-    bool done = false;
-    QListViewItem *item;
-    if ( m_pWorkingDir )
-      item = m_pWorkingDir->firstChild();
-    else
-      item = firstChild();
-    while( item )
+    if ( m_isShowingDotFiles || name[0]!='.' )
     {
-      if ( name == ((KfmFinderItem*)item)->name() )
-      {  
-	((KfmFinderItem*)item)->mark();
-	done = true;
-      }
-      item = item->nextSibling();
-    }
-    
-    if ( !done )
-    {
-      cerr << "Inserting " << name << endl;
-      KfmFinderItem *item;
+      // Find this icon
+      bool done = false;
+      QListViewItem *item;
       if ( m_pWorkingDir )
-      {
-	K2URL u( m_workingURL );
-	u.addPath( name.c_str() );
-	cerr << "Final path 1 '" << u.path() << '"' << endl;
-	if ( isdir )   
-	  item = new KfmFinderDir( this, m_pWorkingDir, *it, u );
-	else
-	  item = new KfmFinderItem( this, m_pWorkingDir, *it, u );
-      }
+        item = m_pWorkingDir->firstChild();
       else
+        item = firstChild();
+      while( item )
       {
-	K2URL u( m_url );
-	u.addPath( name.c_str() );
-	cerr << "Final path 2 '" << u.path() << '"' << endl;
-	if ( isdir )   
-	  item = new KfmFinderDir( this, *it, u );
-	else
-	  item = new KfmFinderItem( this, *it, u );
+        if ( name == ((KfmFinderItem*)item)->name() )
+        {  
+          ((KfmFinderItem*)item)->mark();
+          done = true;
+        }
+        item = item->nextSibling();
       }
-      item->mark();
+    
+      if ( !done )
+      {
+        cerr << "Inserting " << name << endl;
+        KfmFinderItem *item;
+        if ( m_pWorkingDir )
+        {
+          K2URL u( m_workingURL );
+          u.addPath( name.c_str() );
+          cerr << "Final path 1 '" << u.path() << '"' << endl;
+          if ( isdir )   
+            item = new KfmFinderDir( this, m_pWorkingDir, *it, u );
+          else
+            item = new KfmFinderItem( this, m_pWorkingDir, *it, u );
+        }
+        else
+        {
+          K2URL u( m_url );
+          u.addPath( name.c_str() );
+          cerr << "Final path 2 '" << u.path() << '"' << endl;
+          if ( isdir )   
+            item = new KfmFinderDir( this, *it, u );
+          else
+            item = new KfmFinderItem( this, *it, u );
+        }
+        item->mark();
+      }
     }
   }
 
