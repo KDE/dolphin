@@ -35,6 +35,7 @@ class KonqDirPart: public KParts::ReadOnlyPart
   Q_OBJECT
 public:
     KonqDirPart( QObject *parent, const char *name );
+    
     virtual ~KonqDirPart();
 
     /**
@@ -42,19 +43,24 @@ public:
      */
     void setBrowserExtension( KParts::BrowserExtension * extension )
       { m_extension = extension; }
+
     KParts::BrowserExtension * extension()
       { return m_extension; }
 
     QScrollView * scrollWidget();
 
     void saveNameFilter( QDataStream &stream );
+
     void restoreNameFilter( QDataStream &stream );
+
     virtual void saveState( QDataStream &stream );
+
     virtual void restoreState( QDataStream &stream );
 
     void mmbClicked( KFileItem * fileItem );
 
     void setNameFilter( const QString & nameFilter ) { m_nameFilter = nameFilter; }
+
     QString nameFilter() const { return m_nameFilter; }
 
     /**
@@ -97,18 +103,22 @@ public:
         m_lFileCount = 0;
         m_lDirCount = 0;
     }
+
     /**
      * Update the counts for those new items
      */
     void newItems( const KFileItemList & entries );
+
     /**
      * Update the counts with this item being deleted
      */
     void deleteItem( KFileItem * fileItem );
+
     /**
      * Show the counts for the directory in the status bar
      */
     void emitTotalCount();
+
     /**
      * Show the counts for the selected items in the status bar, if any
      * otherwise show the info for the directory.
@@ -148,11 +158,18 @@ public:
     virtual KFileItemList selectedFileItems() { return KFileItemList(); }
 
 signals:
+
+    /**
+     * Emitted whenever the current URL is about to be changed.
+     */
+    void aboutToOpenURL();
+
     /**
      * We emit this if we want a find part to be created for us.
      * This happens when restoring from history
      */
     void findOpen( KonqDirPart * );
+
     /**
      * We emit this _after_ a find part has been created for us.
      * This also happens initially.
@@ -189,14 +206,21 @@ public slots:
      * itself, if entering a directory. It deletes the find part !
      */
     void slotFindClosed();
-    /* Start and stop the animated "K" during
-        kfindpart's file search
-    */
+
+    /**
+     * Start the animated "K" during kfindpart's file search
+     */
     void slotStartAnimationSearching();
+
+    /**
+     * Start the animated "K" during kfindpart's file search
+     */
     void slotStopAnimationSearching();
 
     void slotBackgroundColor();
+
     void slotBackgroundImage();
+
     /**
      * Called when the clipboard's data changes, to update the 'cut' icons
      * Call this when the directory's listing is finished, to draw icons as cut.
@@ -219,7 +243,6 @@ public slots:
     virtual void slotRedirection( const KURL & ) = 0;
 
 protected:
-
     /**
      * Call this at the beginning of openURL
      */
@@ -228,6 +251,7 @@ protected:
     QString m_nameFilter;
 
     KParts::BrowserExtension * m_extension;
+
     /**
      * View properties
      */

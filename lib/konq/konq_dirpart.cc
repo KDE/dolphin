@@ -39,7 +39,7 @@
 class KonqDirPart::KonqDirPartPrivate
 {
 public:
-    QMap<QString,QStringList> mimeFilterList;
+    QStringList mimeFilters;
 };
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
@@ -112,7 +112,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 KonqDirPart::~KonqDirPart()
 {
     // Close the find part with us
-        delete m_findPart;
+    delete m_findPart;
     delete d;
 }
 
@@ -120,22 +120,18 @@ void KonqDirPart::setMimeFilter (const QStringList& mime)
 {
     QString u = url().url();
 
-		if (u.isEmpty ())
-			return;
+    if ( u.isEmpty () )
+        return;
 
     if ( mime.isEmpty() )
-        d->mimeFilterList.remove( u );
+        d->mimeFilters.clear();
     else
-        d->mimeFilterList[u] = mime;
+        d->mimeFilters = mime;
 }
 
 QStringList KonqDirPart::mimeFilter() const
 {
-    QMapConstIterator<QString,QStringList> it = d->mimeFilterList.find(url().url());
-    if ( it != d->mimeFilterList.end() )
-        return it.data ();
-    else
-        return QStringList();
+    return d->mimeFilters;
 }
 
 QScrollView * KonqDirPart::scrollWidget()
@@ -219,7 +215,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
 
 void KonqDirPart::saveNameFilter( QDataStream &stream )
 {
-    stream << m_nameFilter << d->mimeFilterList;
+    stream << m_nameFilter;
 }
 
 void KonqDirPart::saveState( QDataStream &stream )
@@ -248,7 +244,7 @@ void KonqDirPart::saveState( QDataStream &stream )
 
 void KonqDirPart::restoreNameFilter( QDataStream &stream )
 {
-    stream >> m_nameFilter >> d->mimeFilterList;
+    stream >> m_nameFilter;
     //kdDebug(1203) << "KonqDirPart::restoreNameFilter " << m_nameFilter << endl;
 }
 
@@ -465,6 +461,9 @@ void KonqDirPart::beforeOpenURL()
         m_findPart = 0L;
         emit findClosed( this );
     }
+    
+    kdDebug(1203) << "KonqDirPart::beforeOpenURL: url= " << url().url() << endl;
+    emit aboutToOpenURL ();
 }
 
 void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
@@ -516,6 +515,5 @@ void KonqDirPart::slotStopAnimationSearching()
 {
   completed();
 }
-
 
 #include "konq_dirpart.moc"
