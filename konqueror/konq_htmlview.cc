@@ -425,11 +425,10 @@ Konqueror::HTMLView::SavedState KonqHTMLView::savePage( SavedPage *p )
     sp.hasFormsList = true;
     
     sp.forms.length( p->forms->count() );
-    
-    QStrListIterator it( *p->forms );
+    QStringList::Iterator it = p->forms->begin();   
     int i = 0;
-    for (; it.current(); ++it )
-      sp.forms[ i++ ] = it.current();
+    for (; it != p->forms->end(); ++it )
+      sp.forms[ i++ ] = *it;
   }
   else
     sp.hasFormsList = false;
@@ -482,7 +481,7 @@ SavedPage *KonqHTMLView::restorePage( Konqueror::HTMLView::SavedState state )
   
   if ( state.hasFormsList )
   {
-    p->forms = new QStrList;
+    p->forms = new QStringList;
     
     for ( CORBA::ULong i = 0; i < state.forms.length(); i++ )
       p->forms->append( state.forms[ i ].in() );

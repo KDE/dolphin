@@ -199,7 +199,7 @@ protected:
    *
    * @see KHTMLView::mousePressedHook
    */
-  virtual bool mousePressedHook( const char* _url, const char *_target, QMouseEvent *_ev,
+  virtual bool mousePressedHook( QString _url, QString _target, QMouseEvent *_ev,
 				 bool _isselected);
   
   virtual QString completeURL( const char *_url );

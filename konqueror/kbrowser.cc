@@ -437,13 +437,13 @@ void KBrowser::popupMenu( QStrList& _urls, const QPoint& _global_point, bool _on
 {
 }
 
-bool KBrowser::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
+bool KBrowser::mousePressedHook( QString _url, QString _target, QMouseEvent *_mouse, bool _isselected )
 {
   m_bStartedRubberBand = false;
   m_strSelectedURL = "";
     
   // Select by drawing a rectangle
-  if ( _url == 0L && _mouse->button() == LeftButton && isFileManagerMode() )
+  if (_url.isEmpty() && _mouse->button() == LeftButton && isFileManagerMode())
   {
     QPoint p = mapToGlobal( _mouse->pos() );
 
@@ -606,7 +606,7 @@ bool KBrowser::mouseReleaseHook( QMouseEvent *_mouse )
   // The user pressed the mouse over an URL, did no DND and released it
   else if ( !m_strSelectedURL.isEmpty() && _mouse->button() == LeftButton )
   {
-    QStrList list;
+    QStringList list;
     getSelected( list );
 
     // The user selected the first icon
