@@ -138,8 +138,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     setCentralWidget( m_pListView );
     resize( m_pListView->sizeHint().width(), 400 );
 
-//    connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-//             SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
+    connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
+             SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
     connect( m_pListView, SIGNAL(dropped (QDropEvent* , QListViewItem* , QListViewItem* )),
              SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
     connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
