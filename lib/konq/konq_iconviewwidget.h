@@ -159,6 +159,11 @@ public:
 
     bool isDesktop() const { return m_bDesktop; }
 
+    /**
+     * Provided for KDesktop.
+     */
+    virtual void setWallpaper(const KURL&) { }
+
     void disableIcons( const KURL::List & lst );
 
 public slots:

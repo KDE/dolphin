@@ -42,11 +42,13 @@
 #include <kdesktopfile.h>
 #include <kurldrag.h>
 #include <kglobalsettings.h>
+#include <kimageio.h>
 #include <kio/job.h>
 #include <kio/paste.h>
 #include <klocale.h>
 #include <konq_drag.h>
 #include <konq_fileitem.h>
+#include <konq_iconviewwidget.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
 #include <kstddirs.h>
@@ -262,17 +264,33 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
                 ev->setAction( QDropEvent::Move );
             else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
             {
+                KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent);
+                bool bSetWallpaper = false;
+                if (iconView && iconView->isDesktop() && 
+                    (lst.count() == 1) &&
+                    (!KImageIO::type(lst.first().path()).isEmpty()))
+                {
+                   bSetWallpaper = true;
+                }
+
                 // Nor control nor shift are pressed => show popup menu
                 QPopupMenu popup;
                 popup.insertItem( i18n( "&Copy Here" ), 1 );
                 popup.insertItem( i18n( "&Move Here" ), 2 );
                 popup.insertItem( i18n( "&Link Here" ), 3 );
+                if (bSetWallpaper)
+                   popup.insertItem( i18n( "Set as &Wallpaper"), 4 );
 
                 int result = popup.exec( QPoint( win_x, win_y ) );
                 switch (result) {
                     case 1 : ev->setAction( QDropEvent::Copy ); break;
                     case 2 : ev->setAction( QDropEvent::Move ); break;
                     case 3 : ev->setAction( QDropEvent::Link ); break;
+                    case 4 : 
+                    {
+                      if (iconView) iconView->setWallpaper(lst.first());
+                      return;
+                    }
                     default : return;
                 }
             }
