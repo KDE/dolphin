@@ -241,10 +241,6 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	QTimer::singleShot(0,this,SLOT(createButtons()));
 //	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
-
-	// we want to keep our size when the splitter is resized!
-	// The next line is not correct fix for above, triggers more annoying bug (#50316)!
-//	static_cast<QSplitter*>( parent->parentWidget() )->setResizeMode( parent, QSplitter::KeepSize );
 }
 
 void Sidebar_Widget::finishRollBack()
@@ -567,6 +563,15 @@ void Sidebar_Widget::createButtons()
 		}
 	}
 	
+	// we want to keep our size when the splitter is resized!
+	QWidget* qparent=static_cast<QWidget*>(parent());
+	
+	QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
+	QValueList<int>::Iterator it = list.begin();
+	if (it!=list.end()) (*it)=qparent->width();
+	((QSplitter*)parent()->parent())->setSizes(list);
+	
+	static_cast<QSplitter*>( qparent->parentWidget() )->setResizeMode( qparent, QSplitter::KeepSize );
 }
 
 bool Sidebar_Widget::openURL(const class KURL &url)
