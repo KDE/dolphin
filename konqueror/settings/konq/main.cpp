@@ -56,7 +56,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, groupName, this);
-  tab->addTab(font, i18n("&Fonts / Colors"));
+  tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   misc = new KMiscOptions(config, groupName, this);
