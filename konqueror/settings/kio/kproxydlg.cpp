@@ -270,8 +270,10 @@ void KProxyOptions::save()
     url = le_ftp_url->text();
     if( !url.isEmpty() )
     {
-      if ( url.left( 6 ) != "ftp://" )
-        url.prepend( "ftp://" );
+      if ( url.left( 6 ) == "ftp://" )
+        url.replace( 0, 3, "http" );
+      else
+        url.prepend( "http://" );
 
       url += ":";
       url += QString::number(sb_ftp_port->value());
