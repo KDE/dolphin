@@ -210,7 +210,7 @@ bool PluginPart::openURL(const KURL &url)
    }
 
    kdDebug(1432) << "<- PluginPart::openURL = " << !_widget.isNull() << endl;
-   return _widget.isNull();
+   return !_widget.isNull();
 }
 
 

@@ -777,6 +777,9 @@ DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, bool embed,
 {
    kdDebug(1431) << "-> NSPluginClass::NewInstance" << endl;
 
+   if ( !_constructed )
+       return DCOPRef();
+
    // copy parameters over
    unsigned int argc = argn.count();
    char **_argn = new char*[argc];
