@@ -63,7 +63,7 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
 
     KConfig *kc = KGlobal::config();
     KConfigGroupSaver cs( kc, "HistorySettings" );
-    m_sortsByName = kc->readEntry( "SortHistory", "byName" ) == "byName";
+    m_sortsByName = kc->readEntry( "SortHistory", "byDate" ) == "byName";
 
 
     KonqHistoryManager *manager = KonqHistoryManager::kself();
