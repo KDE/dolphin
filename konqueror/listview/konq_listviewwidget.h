@@ -149,10 +149,9 @@ signals:
 
 public slots:
    //virtual void slotOnItem( KonqBaseListViewItem* _item );
-   virtual void updateSelectedFilesInfo();
-   void slotMouseButtonClicked(int _button, QListViewItem *_item, const QPoint& pos, int);
+   void slotMouseButtonClicked( int _button, QListViewItem *_item, const QPoint& pos, int );
    virtual void slotExecuted( QListViewItem *_item );
-   void slotItemRenamed(QListViewItem *, const QString &, int);
+   void slotItemRenamed( QListViewItem *, const QString &, int );
 
 protected slots:
    void slotAutoScroll();
@@ -170,11 +169,14 @@ protected slots:
    virtual void slotDeleteItem( KFileItem * );
    virtual void slotRefreshItems( const KFileItemList & );
    virtual void slotRedirection( const KURL & );
-   void slotPopupMenu(QListViewItem*, const QPoint&, int);
+   void slotPopupMenu( QListViewItem *, const QPoint&, int );
 
    // forces a repaint on column size changes / branch expansion
    // when there is a background pixmap
    void slotUpdateBackground();
+   
+   //Notifies the browser view of the currently selected items
+   virtual void reportItemCounts();
 
 protected:
    //creates the listview columns according to confColumns
@@ -190,9 +192,6 @@ protected:
    //this is called in the constructor, so virtual would be nonsense
    void initConfig();
    //QStringList readProtocolConfig( const QString & protocol );
-
-   //Notifies the browser view of the currently selected items
-   void reportSelectedItems();
 
    virtual void startDrag();
    virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );

@@ -126,7 +126,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect( this, SIGNAL(contextMenuRequested(QListViewItem*, const QPoint&, int)),
             this, SLOT(slotPopupMenu(QListViewItem*, const QPoint&, int)));
    connect( this, SIGNAL(selectionChanged()),
-            this, SLOT(updateSelectedFilesInfo()));
+            this, SLOT(reportItemCounts()));
 
    connect( horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SIGNAL(viewportAdjusted()));
@@ -376,13 +376,6 @@ const KURL & KonqBaseListViewWidget::url()
    return m_url;
 }
 
-void KonqBaseListViewWidget::updateSelectedFilesInfo()
-{
-   // Display statusbar info, and emit selectionInfo
-   KFileItemList lst = selectedFileItems();
-   m_pBrowserView->emitCounts( lst, true );
-}
-
 void KonqBaseListViewWidget::initConfig()
 {
    m_pSettings = KonqFMSettings::settings();
@@ -464,7 +457,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 
    QPoint vp = contentsToViewport( e->pos() );
    KonqBaseListViewItem* item = isExecuteArea( vp ) ?
-         static_cast<KonqBaseListViewItem*>( itemAt( vp ) ) : 0L;
+         static_cast<KonqBaseListViewItem *>( itemAt( vp ) ) : 0;
 
    if ( item != m_activeItem )
    {
@@ -480,7 +473,10 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          m_pBrowserView->emitMouseOver( item->item() );
       }
       else
-         reportSelectedItems();
+      {
+         reportItemCounts();
+         m_pBrowserView->emitMouseOver( 0 );
+      }
    }
 
    KListView::contentsMouseMoveEvent( e );
@@ -744,11 +740,10 @@ void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString
    setFocus();
 }
 
-void KonqBaseListViewWidget::reportSelectedItems()
+void KonqBaseListViewWidget::reportItemCounts()
 {
    KFileItemList lst = selectedFileItems();
    m_pBrowserView->emitCounts( lst, false );
-   m_pBrowserView->emitMouseOver( 0 );
 }
 
 void KonqBaseListViewWidget::slotMouseButtonClicked( int _button, 
@@ -757,13 +752,13 @@ void KonqBaseListViewWidget::slotMouseButtonClicked( int _button,
    if ( _button == MidButton )
    {
       if ( _item && isExecuteArea( viewport()->mapFromGlobal(pos) ) )
-         m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
+         m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem *>(_item)->item() );
       else // MMB on background
-         m_pBrowserView->mmbClicked( 0L );
+         m_pBrowserView->mmbClicked( 0 );
    }
 }
 
-void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
+void KonqBaseListViewWidget::slotExecuted( QListViewItem *item )
 {
    if ( !item )
       return;
@@ -821,7 +816,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
       m_pBrowserView->lmbClicked( fileItem );
    else
-      KMessageBox::information( 0L, i18n("You must take the file out of the trash before being able to use it.") );
+      KMessageBox::information( 0, i18n("You must take the file out of the trash before being able to use it.") );
 }
 
 void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *, const QPoint &point, int )
@@ -838,11 +833,11 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
    // Only consider a right-click on the name column as something
    // related to the selection. On all the other columns, we want
    // a popup for the current dir instead.
-   if ((alwaysForSelectedFiles) || (isExecuteArea( viewport()->mapFromGlobal( _global ) )))
+   if ( alwaysForSelectedFiles || isExecuteArea( viewport()->mapFromGlobal( _global ) ) )
    {
        QPtrList<KonqBaseListViewItem> items;
        selectedItems( &items );
-       for(KonqBaseListViewItem *item = items.first(); item; item = items.next())
+       for ( KonqBaseListViewItem *item = items.first(); item; item = items.next() )
           lstItems.append( item->item() );
    }
 
@@ -868,7 +863,7 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
       lstItems.append( rootItem );
       popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
    }
-   emit m_pBrowserView->extension()->popupMenu( 0L, _global, lstItems, KParts::URLArgs(), popupFlags );
+   emit m_pBrowserView->extension()->popupMenu( 0, _global, lstItems, KParts::URLArgs(), popupFlags );
 
    if ( deleteRootItem )
       delete rootItem; // we just created it
@@ -876,7 +871,7 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
 
 void KonqBaseListViewWidget::updateListContents()
 {
-   for (KonqBaseListViewWidget::iterator it = begin(); it != end(); it++ )
+   for ( KonqBaseListViewWidget::iterator it = begin(); it != end(); it++ )
       it->updateContents();
 }
 
@@ -989,7 +984,9 @@ void KonqBaseListViewWidget::setComplete()
    m_restored = false;
 
    // Show totals
-   reportSelectedItems();
+   reportItemCounts();
+   
+   m_pBrowserView->emitMouseOver( 0 );
 
    if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
    {
