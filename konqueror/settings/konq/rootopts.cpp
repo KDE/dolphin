@@ -252,14 +252,14 @@ void KRootOptions::defaults()
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
     menuBarBox->setChecked(true);
-    //leftComboBox->setCurrentItem( NOTHING );
+    leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
 
-    // Desktop Paths
+    // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
     leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
     leTrash->setText( QDir::homeDirPath() + "/Desktop/Trash/" );
-    leAutostart->setText( QDir::homeDirPath() + "/Desktop/Autostart/" );
+    leAutostart->setText( KGlobal::dirs()->localkdedir() + "Autostart/" );
 }
 
 void KRootOptions::save()
