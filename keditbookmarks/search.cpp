@@ -21,6 +21,7 @@
 #include "toplevel.h"
 #include "listview.h"
 #include "search.h"
+#include "commands.h"
 
 #include <qregexp.h>
 #include <qtimer.h>
@@ -84,8 +85,7 @@ void KBookmarkTextMap::update()
 
 void KBookmarkTextMap::visit(const KBookmark &bk) {
     if (!bk.isSeparator()) {
-        // todo - comment field
-        QString text = bk.url().url() + " " + bk.text();
+        QString text = bk.url().url() + " " + bk.text() + NodeEditCommand::getNodeText(bk, "desc");
         m_bk_map[text].append(bk);
     }
 }
