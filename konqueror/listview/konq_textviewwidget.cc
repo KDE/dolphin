@@ -84,11 +84,14 @@ void KonqTextViewWidget::createColumns()
    //these both columns are always required, so add them
    if (columns()<2)
    {
-      addColumn(" ",fontMetrics().width("@")+2);
       addColumn(i18n("Name"),fontMetrics().width("_a_quite_long_filename_"));
-      setColumnAlignment(0,AlignRight);
+      addColumn(" ",fontMetrics().width("@")+2);
+      setColumnAlignment(1,AlignRight);
+      //this way the column with the name has the index 0 and
+      //so the "jump to filename beginning with this character" works
+      header()->moveSection(0,2);
    };
-   setSorting(m_filenameColumn,TRUE);
+   setSorting(0,TRUE);
 
    //remove all but the first two columns
    for (int i=columns()-1; i>1; i--)

@@ -84,7 +84,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_pBrowserView(parent)
 ,m_selectedFilesStatusText()
-,m_wasShiftEvent(FALSE)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -99,7 +98,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //maybe these two calls should be merged in KListView::setSelectionModeExt() ?
    setSelectionMode( QListView::Extended);
    setSelectionModeExt( Konqueror );
-   //setSorting(m_filenameColumn);
 
    initConfig();
 
@@ -703,14 +701,14 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
 void KonqBaseListViewWidget::createColumns()
 {
    //this column is always required, so add it
-   if (columns()<=m_filenameColumn) addColumn(i18n("Name"));
-   setSorting(m_filenameColumn,TRUE);
+   if (columns()<1) addColumn(i18n("Name"));
+   setSorting(0,TRUE);
 
    //remove all but the first column
    for (int i=columns()-1; i>0; i--)
       removeColumn(i);
    //now add the checked columns
-   int currentColumn(m_filenameColumn+1);
+   int currentColumn(1);
    for (int i=0; i<NumberOfAtoms; i++)
    {
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))

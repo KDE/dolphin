@@ -234,7 +234,6 @@ class KonqBaseListViewWidget : public KListView
       KonqListView *m_pBrowserView;
    protected:
       QString m_selectedFilesStatusText;
-      bool m_wasShiftEvent;
 };
 
 #endif

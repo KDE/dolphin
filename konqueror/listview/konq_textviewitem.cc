@@ -27,7 +27,7 @@
 
 QString KonqTextViewItem::key( int _column, bool asc) const
 {
-   if (_column==0) return key(1,asc);
+   if (_column==1) return key(0,asc);
    QString tmp=sortChar;
    if (!asc && (sortChar=='0')) tmp=QChar('2');
    //check if it is a time column
@@ -131,8 +131,8 @@ void KonqTextViewItem::updateContents()
       type=KTVI_UNKNOWN;
       size=-1;
    };
-   setText(0,tmp);
-   setText(1,m_fileitem->text());
+   setText(1,tmp);
+   setText(0,m_fileitem->text());
    //now we have the first two columns, so let's do the rest
 
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)

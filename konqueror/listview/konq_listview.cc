@@ -343,7 +343,7 @@ void KonqListView::slotSelect()
       m_pListView->blockSignals( true );
 
       for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
-         if ( re.match( it->text(m_pListView->m_filenameColumn) ) != -1 )
+         if ( re.match( it->text(0) ) != -1 )
             it->setSelected( TRUE);
 
       m_pListView->blockSignals( false );
@@ -372,7 +372,7 @@ void KonqListView::slotUnselect()
       m_pListView->blockSignals(TRUE);
 
       for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
-         if ( re.match( it->text(m_pListView->m_filenameColumn) ) != -1 )
+         if ( re.match( it->text(0) ) != -1 )
             it->setSelected(FALSE);
 
       m_pListView->blockSignals(FALSE);
