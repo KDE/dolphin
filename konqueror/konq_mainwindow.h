@@ -664,6 +664,7 @@ private:
 
   QString m_title;
 
+  QLabel* m_locationLabel;
   QGuardedPtr<KonqCombo> m_combo;
   static KConfig *s_comboConfig;
   KURLCompletion *m_pURLCompletion;

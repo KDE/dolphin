@@ -306,6 +306,8 @@ KonqMainWindow::~KonqMainWindow()
   m_psNextTab = 0L;
   delete m_psPrevTab;
   m_psPrevTab = 0L;
+  delete m_locationLabel;
+  m_locationLabel = 0L;
 
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
@@ -396,11 +398,11 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 {
     QString url = _url;
     QString nameFilter = detectNameFilter( url );
-            
+
     // Filter URL to build a correct one
     if (m_currentDir.isEmpty() && m_currentView)
        m_currentDir = m_currentView->url().path(1);
-    
+
     KURL filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
     kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
@@ -3237,9 +3239,9 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  QLabel* label = new KonqDraggableLabel( this, i18n("L&ocation: ") );
-  (void) new KWidgetAction( label, i18n("L&ocation: "), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
-  label->setBuddy( m_combo );
+  m_locationLabel = new KonqDraggableLabel( 0, i18n("L&ocation: ") );
+  (void) new KWidgetAction( m_locationLabel, i18n("L&ocation: "), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
+  m_locationLabel->setBuddy( m_combo );
 
   KWidgetAction* comboAction = new KWidgetAction( m_combo, i18n( "Location Bar" ), 0,
                   0, 0, actionCollection(), "toolbar_url_combo" );
@@ -3863,7 +3865,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              this,
                              showPropsAndFileType,
                              m_currentView->isHierarchicalView());
-  
+
   if ( openedForViewURL && !viewURL.isLocalFile() )
       pPopupMenu.setURLTitle( m_currentView->caption() );
 
