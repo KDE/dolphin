@@ -39,6 +39,7 @@
 #include "behaviour.h"
 #include "fontopts.h"
 #include "miscopts.h"
+#include "trashopts.h"
 
 #include "main.h"
 #include "main.moc"
@@ -62,6 +63,10 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
+  trash = new KTrashOptions(config, "Trash", this);
+  tab->addTab(trash, i18n("&Trash"));
+  connect(trash, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
   misc = new KMiscOptions(config, "Misc Defaults", this);
   tab->addTab(misc, i18n("&Other"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
@@ -72,6 +77,7 @@ void KonqyModule::load()
 {
   behaviour->load();
   font->load();
+  trash->load();
   misc->load();
 }
 
@@ -80,6 +86,7 @@ void KonqyModule::save()
 {
   behaviour->save();
   font->save();
+  trash->save();
   misc->save();
 
   // Send signal to konqueror
@@ -95,6 +102,7 @@ void KonqyModule::defaults()
 {
   behaviour->defaults();
   font->defaults();
+  trash->defaults();
   misc->defaults();
 }
 
@@ -124,6 +132,8 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   font = new KonqFontOptions(config, "Icon Settings", this);
   tab->addTab(font, i18n("&Fonts"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  //should we add Trash also here ?
 }
 
 

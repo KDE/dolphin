@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/libkonq $(all_includes) 
+INCLUDES = -I$(top_srcdir)/libkonq $(all_includes)
 LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
@@ -6,10 +6,10 @@ METASOURCES = AUTO
 lib_LTLIBRARIES = libkcm_konq.la
 
 libkcm_konq_la_SOURCES = rootopts.cpp main.cpp behaviour.cpp fontopts.cpp \
-			miscopts.cpp
+			miscopts.cpp trashopts.cpp
 
 libkcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_konq_la_LIBADD = -lkdeui  
+libkcm_konq_la_LIBADD = -lkdeui
 
 libkcm_konq_la_DATA = overlapping.png onlyone.png
 libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
@@ -25,4 +25,4 @@ test_SOURCES = $(libkcm_konq_la_SOURCES) test.cpp
 test.cpp:
 	echo "int main() {};" > test.cpp
 test_LDFLAGS  = $(all_libraries) -module -avoid-version
-test_LDADD = -lkdeui                                                    
+test_LDADD = -lkdeui

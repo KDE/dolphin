@@ -5,8 +5,8 @@
 // (c) Sven Radej 1998
 // (c) David Faure 1998
 
-#ifndef __KFM_MISC_OPTIONS_H
-#define __KFM_MISC_OPTIONS_H
+#ifndef __MISC_OPTIONS_H
+#define __MISC_OPTIONS_H
 
 #include <qstrlist.h>
 #include <qcheckbox.h>
@@ -20,7 +20,6 @@
 
 // Allow per-url settings         (Sven)
 // Preferred terminal             (David)
-// Big ToolBar                    (Simon)  => to move to options menu
 // ... there is room for others :))
 
 
@@ -48,7 +47,6 @@ private:
 
         QCheckBox *urlpropsbox;
         QLineEdit *leTerminal;
-	QCheckBox *m_pConfirmDestructive;
 };
 
-#endif // __KFM_MISC_OPTIONS_H
+#endif

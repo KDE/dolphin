@@ -46,11 +46,6 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     grid->addWidget(leTerminal, 1, 1);
     connect(leTerminal, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
-    m_pConfirmDestructive = new QCheckBox(i18n("Confirm destructive actions"),
-					  this);
-    connect(m_pConfirmDestructive, SIGNAL(clicked()), this, SLOT(changed()));
-    lay->addWidget(m_pConfirmDestructive);
-
     lay->addStretch(10);
     lay->activate();
 
@@ -68,7 +63,6 @@ void KMiscOptions::load()
 
     urlpropsbox->setChecked(bUrlprops);
     leTerminal->setText(sTerminal);
-    m_pConfirmDestructive->setChecked(g_pConfig->readBoolEntry("ConfirmDestructive", true));
 
 }
 
@@ -76,7 +70,6 @@ void KMiscOptions::defaults()
 {
     urlpropsbox->setChecked(false);
     leTerminal->setText(DEFAULT_TERMINAL);
-    m_pConfirmDestructive->setChecked(true);
 }
 
 void KMiscOptions::save()
@@ -84,7 +77,6 @@ void KMiscOptions::save()
     g_pConfig->setGroup( groupname );
     g_pConfig->writeEntry( "EnablePerURLProps", urlpropsbox->isChecked());
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
-    g_pConfig->writeEntry( "ConfirmDestructive", m_pConfirmDestructive->isChecked());
     g_pConfig->sync();
 }
 

@@ -36,7 +36,7 @@ class KBehaviourOptions;
 class KonqFontOptions;
 class KMiscOptions;
 class KRootOptions;
-
+class KTrashOptions;
 
 class KonqyModule : public KCModule
 {
@@ -63,6 +63,7 @@ private:
   KBehaviourOptions *behaviour;
   KonqFontOptions   *font;
   KMiscOptions      *misc;
+  KTrashOptions  *trash;
 
 };
 
