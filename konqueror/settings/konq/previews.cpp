@@ -92,9 +92,12 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
     connect( m_maxSize, SIGNAL( valueChanged(double) ), SLOT( changed() ) );
 
     m_boostSize = new QCheckBox(i18n("Increase size of previews relative to icons"), this);
+    connect( m_boostSize, SIGNAL( toggled(bool) ), SLOT( changed() ) );
     lay->addWidget(m_boostSize);
 
     m_useFileThumbnails = new QCheckBox(i18n("Use thumbnails embedded in files"), this);
+    connect( m_useFileThumbnails, SIGNAL( toggled(bool) ), SLOT( changed() ) );
+
     lay->addWidget(m_useFileThumbnails);
 
     QWhatsThis::add( m_useFileThumbnails,
