@@ -615,6 +615,7 @@ private:
   KToggleAction *m_paLockView;
   KToggleAction *m_paLinkView;
   KAction *m_paReload;
+  KAction *m_paReloadAllTabs;
   KAction *m_paUndo;
   KAction *m_paCut;
   KAction *m_paCopy;

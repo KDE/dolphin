@@ -3362,6 +3362,7 @@ void KonqMainWindow::initActions()
   KShortcut reloadShortcut = KStdAccel::shortcut(KStdAccel::Reload);
   reloadShortcut.append(KKey(CTRL + Key_R));
   m_paReload = new KAction( i18n( "&Reload" ), "reload", reloadShortcut, this, SLOT( slotReload() ), actionCollection(), "reload" );
+  m_paReloadAllTabs = new KAction( i18n( "&Reload All Tabs" ), "reload_all_tabs", SHIFT+Key_F5, this, SLOT( slotReloadAllTabs() ), actionCollection(), "reload_all_tabs" );
 
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
   //m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
@@ -3453,6 +3454,11 @@ void KonqMainWindow::initActions()
                                   "This may, for example, be needed to refresh webpages that have been "
                                   "modified since they were loaded, in order to make the changes visible." ) );
   m_paReload->setStatusText( i18n( "Reload the currently displayed document" ) );
+
+  m_paReloadAllTabs->setWhatsThis( i18n( "Reload all currently displayed documents in tabs<p>"
+                                  "This may, for example, be needed to refresh webpages that have been "
+                                  "modified since they were loaded, in order to make the changes visible." ) );
+  m_paReloadAllTabs->setStatusText( i18n( "Reload all currently displayed document in tabs" ) );
 
   m_paStop->setWhatsThis( i18n( "Stop loading the document<p>"
                                 "All network transfers will be stopped and Konqueror will display the content "
@@ -3834,6 +3840,7 @@ void KonqMainWindow::disableActionsNoView()
     // No view -> there are some things we can't do
     m_paUp->setEnabled( false );
     m_paReload->setEnabled( false );
+    m_paReloadAllTabs->setEnabled( false );
     m_paBack->setEnabled( false );
     m_paForward->setEnabled( false );
     m_ptaUseHTML->setEnabled( false );

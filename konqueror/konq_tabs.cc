@@ -94,12 +94,12 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             i18n( "&Reload" ),
                             m_pViewManager->mainWindow(),
                             SLOT( slotReloadPopup() ),
-                            KStdAccel::shortcut(KStdAccel::Reload) );
+                            m_pViewManager->mainWindow()->action("reload")->shortcut() );
   m_pPopupMenu->insertItem( SmallIcon( "reload_all_tabs" ),
                             i18n( "&Reload All Tabs" ),
                             m_pViewManager->mainWindow(),
                             SLOT( slotReloadAllTabs() ),
-                            QKeySequence(),
+                            m_pViewManager->mainWindow()->action("reload_all_tabs")->shortcut(),
                             RELOAD_ALL_ID );
   m_pPopupMenu->insertSeparator();
   m_pSubPopupMenuTab = new QPopupMenu( this );
