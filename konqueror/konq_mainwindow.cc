@@ -364,20 +364,24 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
     // Filter URL to build a correct one
     KURL filteredURL = KonqMisc::konqFilteredURL( this, _url, m_currentDir );
     kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
+    if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
+        return;
 
     QString url = filteredURL.prettyURL();
     // Detect name filter _after_ doing URL parsing, necessary for urls like file:/path/*.[hc]
     // The prettyURL above is necessary in such a case, to avoid *.%5Bhc%5D
     QString nameFilter = detectNameFilter( url );
     if ( !nameFilter.isEmpty() )
+    {
         filteredURL = url; // reparse, without the filter this time
 
-    if (!KProtocolInfo::supportsListing(filteredURL.protocol()))
-    {
-        // Protocol doesn't support listing. Ouch. Revert to full URL, no name-filtering.
-        url = _url;
-        nameFilter = QString::null;
-        filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
+        if (!KProtocolInfo::supportsListing(filteredURL.protocol()))
+        {
+            // Protocol doesn't support listing. Ouch. Revert to full URL, no name-filtering.
+            url = _url;
+            nameFilter = QString::null;
+            filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
+        }
     }
 
     // Remember the initial (typed) URL
