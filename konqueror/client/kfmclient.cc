@@ -39,6 +39,7 @@
 
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"
+#include "KDesktopIface_stub.h"
 
 int main( int argc, char **argv )
 {
@@ -153,12 +154,11 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
-/*    
-    bool ok = getKDesky();
-    if (ok) 
-      m_vKDesky->rearrangeIcons( (CORBA::Boolean) false /* don't ask */ /* );
-    return ok;
-*/    
+    
+    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+    kdesky.rearrangeIcons( (int)false );
+
+    return true;
   }
   else if ( strcmp( argv[1], "configure" ) == 0 )
   {
@@ -183,13 +183,9 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
-/*    
-    bool ok = getKDesky();
-    if (ok)
-    {
-      CORBA::Request_var req = m_vKDesky->_request( "configure" );
-      req->invoke();
-    }*/
+
+    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+    kdesky.configure();
   }
   else if ( strcmp( argv[1], "openURL" ) == 0 )
   {
@@ -336,12 +332,8 @@ int clientApp::doIt( int argc, char **argv )
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
       // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */
-/*      
-      bool ok = getKDesky();
-      if (ok)
-        m_vKDesky->selectIconsInRect( x, y, w, h /* , bAdd TODO */  /*);
-      return ok;
-      */
+    KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+    kdesky.selectIconsInRect( x, y, w, h );
     }
     else
     {

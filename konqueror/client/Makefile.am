@@ -8,11 +8,15 @@ AM_CXXFLAGS += -pedantic
 
 bin_PROGRAMS = kfmclient
 
-kfmclient_SOURCES = kfmclient.cc KonquerorIface_stub.cpp
+kfmclient_SOURCES = kfmclient.cc KonquerorIface_stub.cpp KDesktopIface_stub.cpp
 noinst_HEADERS = kfmclient.h
 
 KonquerorIface.kidl: $(top_srcdir)/konqueror/KonquerorIface.h
 	( kidl $(top_srcdir)/konqueror/KonquerorIface.h > KonquerorIface.kidl ; kidl2cpp --no-skel KonquerorIface.kidl )
 KonquerorIface_stub.cpp: KonquerorIface.kidl
 
-kfmclient.cc: KonquerorIface_stub.cpp
+KDesktopIface.kidl: $(top_srcdir)/kdesktop/KDesktopIface.h
+	( kidl $(top_srcdir)/kdesktop/KDesktopIface.h > KDesktopIface.kidl ; kidl2cpp --no-skel KDesktopIface.kidl )
+KDesktopIface_stub.cpp: KDesktopIface.kidl
+
+kfmclient.cc: KonquerorIface_stub.cpp KDesktopIface_stub.cpp
