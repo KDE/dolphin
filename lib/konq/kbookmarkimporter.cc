@@ -170,10 +170,12 @@ void KNSBookmarkImporter::parseNSBookmarks()
             QCString t = s.stripWhiteSpace();
             if(t.left(12).upper() == "<DT><A HREF=" ||
                t.left(16).upper() == "<DT><H3><A HREF=") {
-                int firstQuotes = t.find('"')+1;
-                int secondQuotes = t.find('"', firstQuotes);
+              int firstQuotes = t.find('"')+1;
+              int secondQuotes = t.find('"', firstQuotes);
+              if (firstQuotes != -1 && secondQuotes != -1)
+              {
                 QCString link = t.mid(firstQuotes, secondQuotes-firstQuotes);
-                int endTag = t.find('>', 15);
+                int endTag = t.find('>', secondQuotes+1);
                 QCString name = t.mid(endTag+1);
                 name = name.left(name.findRev('<'));
                 if ( name.right(4) == "</A>" )
@@ -183,6 +185,7 @@ void KNSBookmarkImporter::parseNSBookmarks()
 
                 emit newBookmark( KStringHandler::csqueeze(QString::fromLocal8Bit(name)),
                                   link, QString::fromLocal8Bit(additionnalInfo) );
+              }
             }
             else if(t.left(7).upper() == "<DT><H3") {
                 int endTag = t.find('>', 7);
