@@ -288,7 +288,7 @@ void KonqOperations::slotResult( KIO::Job * job )
     else
     {
       kdDebug() << "KonqOperations::slotResult : notifying the KonqDirListers" << endl;
-      KonqDirLister_stub allDirListers("*", "KonqDirLister");
+      KonqDirLister_stub allDirListers("*", "KonqDirLister*");
       switch (m_method) {
         case TRASH:
             // Notify the listers showing the trash that new files are there

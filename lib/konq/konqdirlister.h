@@ -80,6 +80,9 @@ protected:
    */
   virtual KFileItem * createFileItem( const KIO::UDSEntry&, const KURL&,
 				      bool determineMimeTypeOnDemand );
+
+  // @internal
+  static int s_serial;
 };
 
 #endif

@@ -21,8 +21,12 @@
 #include "konqfileitem.h"
 #include <kdebug.h>
 
+// Needed since DCOP enforces object id uniqueness.
+int KonqDirLister::s_serial = 0;
+
 KonqDirLister::KonqDirLister( bool _delayedMimeTypes )
-    : KDirLister( _delayedMimeTypes ), DCOPObject( "KonqDirLister" )
+    : KDirLister( _delayedMimeTypes ),
+      DCOPObject( QString("KonqDirLister-%1").arg(++s_serial).latin1() )
 {
   //m_bKofficeDocs = false;
 }
