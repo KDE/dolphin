@@ -29,7 +29,7 @@ KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
 	                          const QStringList & )
     : KParts::Plugin( parent, name )
 {
-    if (!kapp->authorize("shell access"))
+    if (!kapp->authorize("shell_access"))
        return;
 
     new KAction( i18n( "&Execute Shell Command" ), CTRL+Key_E, this,
