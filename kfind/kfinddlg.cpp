@@ -37,8 +37,6 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   enableButton(User1, false); // Disable "Stop"
   enableButton(User2, false); // Disable "Save As..."
 
-  setEscapeButton(User2);
-
   setButtonApply(KGuiItem(i18n("&Find"), "find"));
 
   isResultReported = false;
