@@ -22,6 +22,8 @@
 #include <qdir.h>
 #include <qtimer.h>
 #include <kdebug.h>
+#include <ksimpleconfig.h>
+#include <kmimetype.h>
 #include <kdesktopfile.h>
 #include <kglobalsettings.h>
 #include <kstandarddirs.h>

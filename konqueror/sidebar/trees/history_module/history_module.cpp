@@ -23,6 +23,7 @@
 
 #include <kaction.h>
 #include <kcursor.h>
+#include <kconfig.h>
 #include <kfontdialog.h>
 #include <kmessagebox.h>
 #include <knuminput.h>

@@ -21,9 +21,10 @@
 
 #include <qlistview.h>
 #include <kurl.h>
-#include <konq_dirlister.h>
+
 class QPainter;
 class QDragObject;
+class QStrList;
 class KonqSidebarTree;
 class KonqSidebarTreeItem;
 class KonqSidebarTreeModule;

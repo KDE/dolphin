@@ -20,6 +20,8 @@
 #define konq_treetoplevelitem_h
 
 #include "konq_sidebartreeitem.h"
+
+class QStrList;
 class KonqSidebarTreeModule;
 
 /**
