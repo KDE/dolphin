@@ -44,20 +44,22 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
     QByteArray a;
     QCString mimetype( mime );
     if ( mimetype == "application/x-qiconlist" )
-	a = QIconDrag::encodedData( mime );
+        a = QIconDrag::encodedData( mime );
     else if ( mimetype == "text/uri-list" ) {
         QCString s = urls.join( "\r\n" ).latin1();
-	a.resize( s.length() + 1 ); // trailing zero
-	memcpy( a.data(), s.data(), s.length() + 1 );
+        a.resize( s.length() + 1 ); // trailing zero
+        memcpy( a.data(), s.data(), s.length() + 1 );
     }
     else if ( mimetype == "application/x-kde-cutselection" ) {
         QCString s ( m_bCutSelection ? "1" : "0" );
-	a.resize( s.length() + 1 ); // trailing zero
-	memcpy( a.data(), s.data(), s.length() + 1 );
+        a.resize( s.length() + 1 ); // trailing zero
+        memcpy( a.data(), s.data(), s.length() + 1 );
     }
     else if ( mimetype == "text/plain" ) {
-        QCString s = urls.join( "\n" ).latin1();
-        // perhaps use QUriDrag::unicodeUriToUri here ?
+        QStringList uris;
+        for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
+            uris.append(KURL((*it).latin1(), QFont::Unicode).prettyURL());
+        QCString s = uris.join( "\n" ).local8Bit();
         a.resize( s.length() + 1 ); // trailing zero
         memcpy( a.data(), s.data(), s.length() + 1 );
     }
@@ -122,7 +124,10 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
     }
     else if ( mimetype == "text/plain" )
     {
-        QCString s = QStringList::fromStrList(m_urls).join( "\n" ).latin1();
+        QStringList uris;
+        for (QStrListIterator it(m_urls); *it; ++it)
+            uris.append(KURL(*it, QFont::Unicode).prettyURL());
+        QCString s = uris.join( "\n" ).local8Bit();
         a.resize( s.length() + 1 ); // trailing zero
         memcpy( a.data(), s.data(), s.length() + 1 );
     }
