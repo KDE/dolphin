@@ -91,7 +91,7 @@ QString CookieListViewItem::text(int f) const
 }
 
 KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
-                   :QWidget(parent, name)
+                   : KCModule(parent, name)
 {
   // Toplevel layout
   QVBoxLayout *layout = new QVBoxLayout( this, 2*KDialog::marginHint(),
@@ -318,7 +318,7 @@ QString KCookiesManagement::quickHelp() const
   return i18n("<h1>KCookiesManagement::quickHelp()</h1>" );
 }
 
-void KCookiesManagement::changed()
+void KCookiesManagement::slotChanged()
 {
   emit changed(true);
 }
@@ -501,7 +501,7 @@ void KCookiesManagement::deleteCookie()
 
   btn_delete->setEnabled(lv_cookies->selectedItem());
   btn_deleteAll->setEnabled(lv_cookies->childCount());
-  changed();
+  slotChanged();
 }
 
 void KCookiesManagement::deleteAllCookies()
@@ -510,7 +510,7 @@ void KCookiesManagement::deleteAllCookies()
   m_bDeleteAll = true;
   btn_delete->setEnabled(false);
   btn_deleteAll->setEnabled(false);
-  changed();
+  slotChanged();
 }
 
 #include "kcookiesmanagement.moc"

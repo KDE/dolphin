@@ -42,7 +42,7 @@ class QListViewItem;
 class KListView;
 class DCOPClient;
 
-class KCookiesPolicies : public QWidget
+class KCookiesPolicies : public KCModule
 {
     Q_OBJECT
 
@@ -68,9 +68,6 @@ protected slots:
     void deletePressed();
     void changePressed();
     void addPressed();
-
-signals:
-    void changed( bool );
 
 private:
     void updateDomainList(const QStringList& list);

@@ -26,9 +26,6 @@ public:
 
     QString quickHelp() const;
 
-signals:
-    void changed(bool really);
-
 protected slots:
     void timeoutChanged(int) { configChanged(); }
     void configChanged() { emit changed(true); }
