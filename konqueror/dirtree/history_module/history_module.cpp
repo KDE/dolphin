@@ -53,7 +53,7 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 			SLOT( slotRemoveEntry() ), m_collection, "remove");
     (void) new KAction( i18n("C&lear History"), 0, manager,
 			SLOT( emitClear() ), m_collection, "clear");
-    (void) new KAction( i18n("Preferences..."), 0, this,
+    (void) new KAction( i18n("&Preferences..."), 0, this,
 			SLOT( slotPreferences()), m_collection, "preferences");
 
     m_folderPixmap = KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::NoGroup, KIcon::SizeSmall );
@@ -69,7 +69,7 @@ void KonqHistoryModule::slotCreateItems()
     KonqHistoryIterator it( entries );
 
     QString host;
-    
+
     while ( (entry = it.current()) ) {
 	QString host( entry->url.host() );
 	KonqHistoryGroupItem *group = m_dict.find( host );
@@ -119,7 +119,7 @@ void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
 	return;
 
     delete group->findChild( entry );
-    
+
     if ( group->childCount() == 0 )
 	m_dict.remove( host );
 }
@@ -138,16 +138,22 @@ void KonqHistoryModule::showPopupMenu()
     menu->insertSeparator();
     m_collection->action("preferences")->plug( menu );
 
-    menu->popup( QCursor::pos() );
+    menu->exec( QCursor::pos() );
+    delete menu;
 }
 
 void KonqHistoryModule::slotRemoveEntry()
 {
-    KonqHistoryItem *item = static_cast<KonqHistoryItem*>(tree()->selectedItem());
-    if ( !item )
-	return;
+    QListViewItem *item = tree()->selectedItem();
+    KonqHistoryItem *hi = dynamic_cast<KonqHistoryItem*>( item );
+    if ( hi )
+	KonqHistoryManager::self()->emitRemoveFromHistory( hi->externalURL());
 
-    KonqHistoryManager::self()->emitRemoveFromHistory( item->externalURL() );
+    else {
+	KonqHistoryGroupItem *gi = dynamic_cast<KonqHistoryGroupItem*>( item );
+	if ( gi )
+	    gi->remove();
+    }
 }
 
 void KonqHistoryModule::slotPreferences()

@@ -44,8 +44,12 @@ void KonqHistoryItem::update( const KonqHistoryEntry */*entry*/ )
     QString title( m_entry->title );
     if ( !title.isEmpty() && title != m_entry->url.url() )
 	setText( 0, title );
-    else
-	setText( 0, m_entry->url.path() );
+    else {
+	QString path( m_entry->url.path() );
+	if ( path.isEmpty() )
+	    path += '/';
+	setText( 0, path );
+    }
 }
 
 void KonqHistoryItem::itemSelected()
@@ -104,10 +108,10 @@ KonqHistoryGroupItem::KonqHistoryGroupItem( const QString& host,
 void KonqHistoryGroupItem::remove()
 {
     KonqHistoryManager *manager = KonqHistoryManager::self();
-    KonqHistoryItem *item = static_cast<KonqHistoryItem*>( firstChild() );
-    while( item ) {
-	manager->emitRemoveFromHistory( item->externalURL() );
-	item = static_cast<KonqHistoryItem*>( firstChild() );
+    KonqHistoryItem *child = static_cast<KonqHistoryItem*>( firstChild() );
+    while( child ) {
+	manager->emitRemoveFromHistory( child->externalURL() );
+	child = static_cast<KonqHistoryItem*>( child->nextSibling() );
     }
 }
 
