@@ -338,7 +338,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
 	if ( KMessageBox::questionYesNo( widget(),
 					 i18n("Do you want to disable showing\n"
 					      "the Introduction in the webbrowsing profile?"),
-					 i18n("Faster startup?") )
+					 i18n("Faster Startup?") )
 	     == KMessageBox::Yes )
 	{
 	    QString profile = locateLocal("data", "konqueror/profiles/webbrowsing");
