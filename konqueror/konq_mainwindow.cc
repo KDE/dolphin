@@ -3643,7 +3643,7 @@ void KonqMainWindow::initActions()
   KStdAction::keyBindings( guiFactory(), SLOT( configureShortcuts() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
 
-  m_paConfigureExtensions = new KAction( i18n("Configure Extensions..."), "extensions", 0, this, SLOT( slotConfigureExtensions()), actionCollection(), "options_configure_extensions");
+  m_paConfigureExtensions = new KAction( i18n("Configure Extensions..."), 0, this, SLOT( slotConfigureExtensions()), actionCollection(), "options_configure_extensions");
   m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), "spellcheck", 0,this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");
 
   // Window menu
