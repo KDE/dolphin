@@ -303,10 +303,8 @@ QDragObject* KonqSidebarTree::dragObject()
         return 0;
 
     const QPixmap *pix = item->pixmap(0);
-    if ( pix && drag->pixmap().isNull() ) {
-        QPoint hotspot( pix->width() / 2, pix->height() / 2 );
-        drag->setPixmap( *pix, hotspot );
-    }
+    if ( pix && drag->pixmap().isNull() )
+        drag->setPixmap( *pix );
 
     return drag;
 }

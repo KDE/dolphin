@@ -636,21 +636,14 @@ void KonqBaseListViewWidget::startDrag()
           kdWarning(1202) << "Could not find multiple pixmap" << endl;
    }
 
-   // Calculate hotspot
-   QPoint hotspot;
-
    KURLDrag *d = KURLDrag::newDrag( urls, viewport() );
    if ( !pixmap2.isNull())
    {
-      hotspot.setX( pixmap2.width() / 2 );
-      hotspot.setY( pixmap2.height() / 2 );
-      d->setPixmap( pixmap2, hotspot );
+      d->setPixmap( pixmap2 );
    }
    else if (!pixmap0Invalid)
    {
-      hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
-      hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
-      d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
+      d->setPixmap( *m_pressedItem->pixmap( 0 ) );
    }
    d->drag();
 }
