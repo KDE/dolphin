@@ -1,4 +1,19 @@
 [Desktop Entry]
 Type=ServiceType
 X-KDE-ServiceType=KonqPopupMenu/Plugin
-Comment=Plugin for the Konquer PopupMenu
+Comment=Plugin for the Konqueror Popup Menu
+Comment[az]=Konqueror PopupMenu əlavəsi
+Comment[da]=Indstik for Konqueror popop-menu
+Comment[en_GB]=Plugin for the Konqueror PopupMenu
+Comment[es]=Plugin para el menú emergente de Konqueror
+Comment[he]=תוסף לתפריט המוקפץ של Konqueror
+Comment[hu]=Bővítőmodul a Konqueror felbukkanó menühöz
+Comment[lv]=Iekarotāja UzlēcošāsIzvēlnes Iespraudnis
+Comment[nl]=Plugin voor Konqueror's contextmenu
+Comment[pt]='Plugin' para o Menu do Konqueror
+Comment[pt_BR]='Plugin' para o Menu do Konqueror
+Comment[sk]=Modul pre menu Konquerora
+Comment[sv]=Insticksprogram för Konquerors popupp-meny
+Comment[xh]=Iplagi efakiweyo yeKonqueror ye PopupMenu
+Comment[xx]=xx
+Comment[zu]=Iplagi ye Konquer PopupMenu
