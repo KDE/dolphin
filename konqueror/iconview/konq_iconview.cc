@@ -700,8 +700,13 @@ void KonqKfmIconView::slotCompleted()
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
-void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
+void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 {
+  KFileItemListIterator it(entries);
+  for (; it.current(); ++it) {
+
+    KFileItem * _fileitem = it.current();
+
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
 	m_lDirSize += _fileitem->size();
@@ -733,6 +738,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
       emit m_extension->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
 
     m_lstPendingMimeIconItems.append( item );
+  }
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
@@ -859,8 +865,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 	QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
 	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
 	QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-	QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ),
-			  this, SLOT( slotNewItem( KFileItem * ) ) );
+	QObject::connect( m_dirLister, SIGNAL( newItems( const KIO::UDSEntryList& ) ),
+			  this, SLOT( slotNewItems( const KIO::UDSEntryList& ) ) );
 	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
     }

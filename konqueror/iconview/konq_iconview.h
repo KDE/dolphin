@@ -98,7 +98,7 @@ protected slots:
   void slotStarted( const QString & );
   void slotCanceled();
   void slotCompleted();
-  void slotNewItem( KFileItem * );
+  void slotNewItems( const KFileItemList& );
   void slotDeleteItem( KFileItem * );
 
   void slotClear();
