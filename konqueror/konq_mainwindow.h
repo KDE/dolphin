@@ -388,6 +388,11 @@ protected:
 private slots:
   void slotRequesterClicked( KURLRequester * );
   void slotIntro();
+  /**
+   * Loads the url displayed currently in the lineedit of the locationbar, by
+   * emulating a enter key press event.
+   */
+  void goURL();
 
 private:
   /**

@@ -2682,6 +2682,8 @@ void KonqMainWindow::initActions()
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
+  (void) new KAction( i18n( "Go" ), "key_enter", 0, this, SLOT( goURL() ), actionCollection(), "go_url" );
+
   enableAllActions( false );
 
   // help stuff
@@ -3533,6 +3535,19 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 void KonqMainWindow::slotIntro()
 {
   openURL( 0L, KURL("about:konqueror") );
+}
+
+void KonqMainWindow::goURL()
+{
+    if ( !m_combo )
+        return;
+
+    QLineEdit *lineEdit = m_combo->lineEdit();
+    if ( !lineEdit )
+        return;
+
+    QKeyEvent event( QEvent::KeyPress, Key_Return, '\n', 0 );
+    QApplication::sendEvent( lineEdit, &event );
 }
 
 void KonqMainWindow::slotOpenURL( const KURL& url )

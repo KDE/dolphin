@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="34">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="35">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -129,6 +129,7 @@
   <Action name="clear_location" />
   <Action name="location_label" />
   <Action name="toolbar_url_combo" />
+  <Action name="go_url" />
 </ToolBar>
 <ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"><text>Bookmark Toolbar</text>
 </ToolBar>

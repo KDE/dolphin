@@ -1,3 +1,12 @@
+2001-04-27  Simon Hausmann  <simon@kde.org>
+
+	* konq_mainwindow.cc (goURL): new slot, sending a fake key
+	event to the lineedit, acting like the user pressing return
+	(initActions): allocate a "Go" action and connect it to the
+	new goURL slot
+
+	* konqueror.rc: inserted go action into the locationbar
+
 2001-04-07  Simon Hausmann  <simon@kde.org>
 
 	* konq_mainwindow.cc (slotReload): call m_currentView->lockHistory(),
