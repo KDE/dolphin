@@ -188,7 +188,7 @@ linkend="menubar">Menubar</link> section of this document.</para>
 <para>The <interface>Toolbar</interface> contains icons for commonly used
 operations. <mousebutton>Left</mousebutton> clicking on an icon will activate 
 it. If you have enabled tooltips in the Control Center <menuchoice><guimenu>
-Look &amp; Feel</guimenu><guisubmenu>Style></guisubmenu><guimenuitem>
+Look &amp; Feel</guimenu><guisubmenu>Style</guisubmenu><guimenuitem>
 Miscellaneous</guimenuitem></menuchoice> dialog a brief description of what 
 that icon does will appear when you hover the pointer over it.</para>
 
