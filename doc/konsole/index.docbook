@@ -2,6 +2,9 @@
  <!ENTITY konsole "<application>Konsole</application>">
  <!ENTITY % addindex "IGNORE">
  <![ %addindex; [ <!ENTITY docindex SYSTEM "docindex.docbook"> ]]>
+ <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Application-Variable Entities V1.0//EN">
+ %ents;
+ <![ %addindex; [ <!ENTITY kdedocindex SYSTEM "docindex.docbook"> ]]>
 ]>
 
 <book lang="en">
@@ -21,8 +24,12 @@
 <affiliation>
 <address><email>lars.doelle@on-line.de</email></address>
 </affiliation>
+</othercredit>
+<othercredit>
 <firstname>Michael</firstname><surname>McBride</surname><contrib>Reviewer</contrib>
 <affiliation><address><email>mmcbride@ematic.com</email></address></affiliation>
+</othercredit>
+<othercredit>
 <firstname>Lauri</firstname><surname>Watts</surname><contrib>Reviewer</contrib>
 <affiliation><address><email>vampyr@atconnex.net</email></address></affiliation>
 </othercredit>
@@ -31,6 +38,9 @@
 <year>2000</year>
 <holder>Jonathan Singer</holder>
 </copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
 <date>03/06/2000</date>
 <releaseinfo>0.09.15</releaseinfo>
 
