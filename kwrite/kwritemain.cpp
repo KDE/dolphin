@@ -540,7 +540,7 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char **argv)
 {
-  KLocale::setMainCatalogue("katepart");         //lukas: set this to have the kwritepart translated using kate message catalog
+  KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
 
   KAboutData aboutData ("kwrite", I18N_NOOP("KWrite"), "4.1",
 	I18N_NOOP( "KWrite - Lightweight Kate" ), KAboutData::License_GPL,
@@ -583,6 +583,8 @@ int main(int argc, char **argv)
   KCmdLineArgs::addCmdLineOptions( options );
 
   KApplication *a = new KApplication();
+
+  KGlobal::locale()->insertCatalogue("katepart");
 
   DCOPClient *client = kapp->dcopClient();
   if (!client->isRegistered())
