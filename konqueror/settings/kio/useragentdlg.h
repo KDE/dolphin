@@ -19,6 +19,7 @@
 
 #include <kcmodule.h>
 
+class QComboBox;
 
 class UserAgentOptions : public KCModule
 {
@@ -47,7 +48,7 @@ private:
   QLabel* onserverLA;
   QLineEdit* onserverED;
   QLabel* loginasLA;
-  QLineEdit* loginasED;
+  QComboBox* loginasED;
 
   QPushButton* addPB;
   QPushButton* deletePB;
