@@ -383,7 +383,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   KonqView *view = _view;
-  if ( !view )
+  if ( !view  && !req.newTab)
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
 
   if ( view )
@@ -481,7 +481,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   //kdDebug(1202) << "req.followMode=" << req.followMode << endl;
   //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
   //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
-
+  //kdDebug(1202) << "req.newTab= " << req.newTab << endl;
+  //kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
 
   bool bOthersFollowed = false;
   // If linked view and if we are not already following another view (and if we are not reloading)
@@ -602,11 +603,31 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   bool ok = true;
   if ( !childView )
     {
-      // Create a new view
-      // Initialize always uses force auto-embed even if user setting is "separate viewer",
-      // since this window has no view yet - we don't want to keep an empty mainwindow.
-      // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
-      childView = m_pViewManager->Initialize( serviceType, serviceName );
+      if (req.newTab)
+      {
+        childView = m_pViewManager->addTab( serviceType, serviceName );
+        if (req.newTabInFront && childView)
+        {
+          KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
+          tabContainer->setCurrentPage( tabContainer->count()-1 );
+        }
+      }
+
+      else
+      {
+        // Create a new view
+        // Initialize always uses force auto-embed even if user setting is "separate viewer",
+        // since this window has no view yet - we don't want to keep an empty mainwindow.
+        // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
+        childView = m_pViewManager->Initialize( serviceType, serviceName );
+      
+        enableAllActions( true );
+
+        m_pViewManager->setActivePart( childView->part() );
+
+        childView->setViewName( m_initialFrameName );
+        m_initialFrameName = QString::null;
+      }
 
       if ( !childView )
         {
@@ -614,14 +635,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
               .arg(KLibLoader::self()->lastErrorMessage()) );
           return true; // fake everything was ok, we don't want to propagate the error
         }
-
-      enableAllActions( true );
-
-      m_pViewManager->setActivePart( childView->part() );
-
-      childView->setViewName( m_initialFrameName );
-      m_initialFrameName = QString::null;
-    }
+      }
   else // We know the child view
     {
       //childView->stop();
@@ -807,11 +821,11 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
     if ( config->readBoolEntry( "MMBOpensTab", false ) ) {
-      KFileItem item( url, 0 /*_mimeType*/, 0 /*_mode*/ );  // FIXME with real values
-      KFileItemList items;
-      items.append( &item );
-      popupItems = items;
-      popupNewTab(true);  // False opens in background tab
+      KonqOpenURLRequest req;
+      req.newTab = true;
+      req.newTabInFront = true;
+      req.args = args;
+      openURL( 0L, url, QString::null, req );    
     }
     else
       KonqMisc::createNewWindow( url, args );
@@ -2005,27 +2019,16 @@ void KonqMainWindow::slotPopupNewTab()
 
 void KonqMainWindow::popupNewTab(bool infront)
 {
-  KURL url;
+  kdDebug(1202) << "KonqMainWindow::popupNewTab()" << endl;
+  
   KFileItemListIterator it ( popupItems );
-  QString mimeType, mimeComment;
-  KonqView* newView = 0;
-  KonqView* lastView = 0;
+  KonqOpenURLRequest req;
+  req.newTab = true;
+  req.newTabInFront = infront;
   for ( ; it.current(); ++it )
   {
-    newView = 0L;
-    url = (*it)->url();
-    mimeType = (*it)->mimetype();
-    mimeComment = (*it)->mimeComment();
-    if (mimeType == "application/octet-stream") mimeType = mimeComment = "";
-    newView = m_pViewManager->addTab(mimeType, mimeComment);
-    if (newView != 0L)
-    {
-      newView->openURL( url, url.prettyURL() );
-      lastView = newView;
-    }
+    openURL( 0L, (*it)->url(), QString::null, req );    
   }
-  if (infront)
-    m_pViewManager->showTab(lastView);
 }
 
 void KonqMainWindow::slotRemoveView()
