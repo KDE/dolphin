@@ -165,14 +165,14 @@ else
 fi
 
 if test "$with_motif" != "no"; then
-        if test "$motif_libraries" = ""; then
+        if test "$motif_libraries" = "" -o "$motif_libraries" = "/usr/lib"; then
                 link_motif="-lXm"
                 MOTIF_LIBS="-lXm"
         else
                 link_motif="-L$motif_libraries -lXm"
                 MOTIF_LIBS="-L$motif_libraries -lXm"
         fi
-        if test "$motif_includes" != ""; then
+        if test "$motif_includes" != "" -a "$motif_includes" != "/usr/include"; then
                 include_motif="-I$motif_includes"
                 MOTIF_CFLAGS="-I$motif_includes"
         fi
