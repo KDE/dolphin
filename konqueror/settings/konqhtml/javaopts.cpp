@@ -253,7 +253,7 @@ void KJavaOptions::defaults()
     javaSecurityManagerCB->setChecked( true );
     pathED->lineEdit()->setText( "java" );
     addArgED->setText( "" );
-
+    enableShutdownCB->setChecked(true);
     toggleJavaControls();
 }
 
