@@ -482,6 +482,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
   m_pIconView->setGridY( 70 );
+#warning "Uncomment the line below if we switch to a more recent Qt 2.1 snaphsot"
+  //m_pIconView->setWordWrapIconText( FALSE );
   m_pIconView->setReorderItemsWhenInsert( true );
   m_pIconView->setResortItemsWhenInsert( true, m_pIconView->sortOrder() );
 
@@ -702,14 +704,18 @@ void KonqKfmIconView::slotViewSmall( bool b )
 
 void KonqKfmIconView::slotTextBottom( bool b )
 {
-  if ( b )
-    m_pIconView->setItemTextPos( QIconView::Bottom );
+    if ( b ) {
+	m_pIconView->setGridX( 70 );
+	m_pIconView->setItemTextPos( QIconView::Bottom );
+    }
 }
 
 void KonqKfmIconView::slotTextRight( bool b )
 {
-  if ( b )
-    m_pIconView->setItemTextPos( QIconView::Right );
+    if ( b ) {
+	m_pIconView->setGridX( 120 );
+	m_pIconView->setItemTextPos( QIconView::Right );
+    }
 }
 
 void KonqKfmIconView::stop()
