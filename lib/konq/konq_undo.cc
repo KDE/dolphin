@@ -19,6 +19,8 @@
 
 #include "konq_undo.h"
 
+#undef Always
+
 #include <kio/uiserver_stub.h>
 
 #include <assert.h>
