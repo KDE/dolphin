@@ -28,8 +28,8 @@
 
 HTMLExporter::HTMLExporter() 
     : m_out(&m_string, IO_WriteOnly) {
-        m_level = 0;
-    }
+    m_level = 0;
+}
 
 void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
     QFile file(filename);
@@ -45,12 +45,13 @@ void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
 QString HTMLExporter::toString(const KBookmarkGroup &grp)
 {
     traverse(grp);
-    return
-        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"
-        "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>\n"
-        "<BODY>\n"
-        + m_string +
-        "</BODY></HTML>\n";
+    return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"
+           "<HTML><HEAD><TITLE>My Bookmarks</TITLE>\n"
+           "<META http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\" />"
+           "</HEAD>\n"
+           "<BODY>\n"
+         + m_string +
+           "</BODY></HTML>\n";
 }
 
 void HTMLExporter::visit(const KBookmark &bk) {
@@ -63,7 +64,7 @@ void HTMLExporter::visitEnter(const KBookmarkGroup &grp) {
     // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
     m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
     m_out << "<P style=\"margin-left: " 
-        << (m_level * 3) << "em\">" << endl;
+          << (m_level * 3) << "em\">" << endl;
     m_level++;
 } 
 
@@ -73,6 +74,6 @@ void HTMLExporter::visitLeave(const KBookmarkGroup &) {
     m_level--;
     if (m_level != 0)
         m_out << "<P style=\"left-margin: " 
-            << (m_level * 3) << "em\">" << endl;
+              << (m_level * 3) << "em\">" << endl;
 }
 
