@@ -71,7 +71,11 @@ extern "C" int kdemain( int argc, char **argv )
     int n = 1;
     while ( KonqMainWindow::canBeRestored( n ) )
     {
-      (new KonqMainWindow( KURL(), false ) )->restore( n );
+      QString className = KMainWindow::classNameOfToplevel( n );
+      if( className == QString::fromLatin1( "KonqMainWindow" ))
+          (new KonqMainWindow( KURL(), false ) )->restore( n );
+      else
+          kdWarning() << "Unknown class " << className << " in session saved data!" << endl;
       n++;
     }
   }
