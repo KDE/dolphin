@@ -428,19 +428,18 @@ void ListView::updateListView() {
 
 void ListView::fillWithGroup() {
    if (SPLIT) {
-      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root(), false);
-      fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root(), true);
+      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
+      fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root());
    } else {
-      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root(), false);
+      fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
    }
 }
 
-void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group, 
-                             bool groupsonly, KEBListViewItem *parentItem) {
+void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
    if (!parentItem) {
-      listview->clear();
-      KEBListViewItem *tree = new KEBListViewItem(listview, group);
-      fillWithGroup(listview, group, groupsonly, tree);
+      lv->clear();
+      KEBListViewItem *tree = new KEBListViewItem(lv, group);
+      fillWithGroup(lv, group, tree);
       tree->QListViewItem::setOpen(true);
       return;
    }
@@ -448,12 +447,12 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
-         if (!(groupsonly && SPLIT)) {
+         if (!(lv->isFolderList() && SPLIT)) {
             continue;
          }
          KBookmarkGroup grp = bk.toGroup();
          item = new KEBListViewItem(parentItem, lastItem, grp);
-         fillWithGroup(listview, grp, groupsonly, item);
+         fillWithGroup(lv, grp, item);
          if (grp.isOpen()) {
             item->QListViewItem::setOpen(true);
          }
@@ -463,7 +462,7 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
          }
          lastItem = item;
 
-      } else if (!(groupsonly && SPLIT)) {
+      } else if (!(lv->isFolderList() && SPLIT)) {
          item = lastItem ? new KEBListViewItem(parentItem, lastItem, bk)
                          : new KEBListViewItem(parentItem, bk);
          lastItem = item;
@@ -497,7 +496,6 @@ void ListView::handleDoubleClicked(KEBListView *lv, QListViewItem *item, const Q
 }
 
 void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QString &newText, int column) {
-   Q_UNUSED(lv);
    Q_ASSERT(item);
    KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
    KCommand *cmd = 0;
@@ -508,11 +506,13 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
       } else if (bk.fullText() != newText) {
          cmd = new NodeEditCommand(bk.address(), newText, "title");
       }
-   } else if (column == KEBListView::UrlColumn) {
+
+   } else if (column == KEBListView::UrlColumn && !lv->isFolderList()) {
       if (bk.url() != newText) {
          cmd = new EditCommand(bk.address(), EditCommand::Edition("href", newText), i18n("URL"));
       }
-   } else if (column == KEBListView::CommentColumn) {
+
+   } else if (column == KEBListView::CommentColumn && !lv->isFolderList()) {
       if (NodeEditCommand::getNodeText(bk, "desc") != newText) {
          cmd = new NodeEditCommand(bk.address(), newText, "desc");
       }
