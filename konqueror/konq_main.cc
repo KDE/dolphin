@@ -137,8 +137,15 @@ extern "C" int kdemain( int argc, char **argv )
              }
              else if (!args->isSet("silent"))
              {
-                 KonqMainWindow *mainWindow = new KonqMainWindow;
-                 mainWindow->show();
+                 // By default try to open in webbrowser mode. People can use "konqueror ." to get a filemanager.
+                 QString profile = "webbrowsing";
+                 QString profilePath = locate( "data", QString::fromLatin1("konqueror/profiles/")+profile );
+                 if ( !profilePath.isEmpty() ) {
+                     KonqMisc::createBrowserWindowFromProfile( profilePath, profile );
+                 } else {
+                     KonqMainWindow *mainWindow = new KonqMainWindow;
+                     mainWindow->show();
+                 }
              }
              kdDebug(1202) << "main() -> no args" << endl;
          }
