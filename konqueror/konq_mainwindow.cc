@@ -1026,6 +1026,7 @@ void KonqMainWindow::slotUnlockViews()
   }
 
   m_paUnlockAll->setEnabled( false );
+  viewsChanged();
 }
 
 void KonqMainWindow::slotLockView()
@@ -1036,6 +1037,7 @@ void KonqMainWindow::slotLockView()
   // (Only the dirtree uses one and not the other)
   m_currentView->setLockedLocation( true );
   m_currentView->setPassiveMode( true ); // do this one last !
+  // ###### TODO: also do this when a profile locks a view...
   m_paUnlockAll->setEnabled( true );
 }
 
@@ -1421,6 +1423,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   // View-dependent GUI
 
   updateOpenWithActions();
+  updateLocalPropsActions();
 
   if ( !m_bViewModeToggled ) // if we just toggled the view mode via the view mode actions, then
                              // we don't need to do all the time-taking stuff below (Simon)
@@ -1441,8 +1444,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   // Can lock a view only if there is a next view
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
-
-  m_paLinkView->setChecked( m_currentView->isLinkedView() );
+  // Can remove view if we'll still have a main view after that
+  m_paRemoveView->setEnabled( mainViewsCount() > 1 || m_currentView->isToggleView() );
 
   if ( !m_bLockLocationBarURL )
   {
@@ -1478,6 +1481,7 @@ void KonqMainWindow::insertChildView( KonqView *childView )
   emit viewAdded( childView );
 }
 
+// Called by KonqViewManager, internal
 void KonqMainWindow::removeChildView( KonqView *childView )
 {
   disconnect( childView, SIGNAL( viewCompleted( KonqView * ) ),
@@ -1506,8 +1510,9 @@ void KonqMainWindow::viewCountChanged()
   // This is called when the number of views changes.
   kdDebug(1202) << "KonqMainWindow::viewCountChanged" << endl;
 
-  m_paRemoveView->setEnabled( mainViewsCount() > 1 );
-  m_paLinkView->setEnabled( viewCount() > 1 );
+  // done in slotPartActivated now
+  //m_paRemoveView->setEnabled( mainViewsCount() > 1 );
+  //m_paLinkView->setEnabled( viewCount() > 1 );
 
   // Only one view -> make it unlinked
   if ( viewCount() == 1 )
@@ -1551,6 +1556,9 @@ void KonqMainWindow::viewsChanged()
     delete m_paMoveFiles;
     m_paMoveFiles = 0L;
   }
+
+  // Can lock a view only if there is a next view
+  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 }
 
 KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
@@ -1718,35 +1726,28 @@ void KonqMainWindow::slotSplitViewHorizontal()
 {
   KonqView * newView = m_pViewManager->splitView( Qt::Horizontal );
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
-  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainWindow::slotSplitViewVertical()
 {
   KonqView * newView = m_pViewManager->splitView( Qt::Vertical );
   newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
-  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainWindow::slotSplitWindowHorizontal()
 {
   m_pViewManager->splitWindow( Qt::Horizontal );
-  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainWindow::slotSplitWindowVertical()
 {
   m_pViewManager->splitWindow( Qt::Vertical );
-  m_paLockView->setEnabled( true ); // in case we had only one view previously
 }
 
 void KonqMainWindow::slotRemoveView()
 {
   // takes care of choosing the new active view
   m_pViewManager->removeView( m_currentView );
-
-  // Can lock a view only if there is a next view
-  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 }
 
 void KonqMainWindow::slotSaveViewPropertiesLocally()
@@ -2692,10 +2693,13 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paForward->setEnabled( false );
       // no locked views either
       m_paUnlockAll->setEnabled( false );
+
+      // done in slotPartActivated now
       // removeview only if more than one main view
-      m_paRemoveView->setEnabled( mainViewsCount() > 1 );
+      //m_paRemoveView->setEnabled( mainViewsCount() > 1 );
       // link view only if more than one view
-      m_paLinkView->setEnabled( viewCount() > 1 );
+      //m_paLinkView->setEnabled( viewCount() > 1 );
+
       // Load profile submenu
       m_pViewManager->profileListDirty();
 

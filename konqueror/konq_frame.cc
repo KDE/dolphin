@@ -121,7 +121,17 @@ void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
 
 void KonqFrameStatusBar::splitFrameMenu()
 {
-   KActionCollection *actionColl = m_pParentKonqFrame->childView()->mainWindow()->actionCollection();
+   KonqMainWindow * mw = m_pParentKonqFrame->childView()->mainWindow();
+
+   // We have to ship the remove view action ourselves,
+   // since this may not be the active view (passive view)
+   KAction actRemoveView(i18n("Remove View"), 0, m_pParentKonqFrame, SLOT(slotRemoveView()), 0, "removethisview");
+   //KonqView * nextView = mw->viewManager()->chooseNextView( m_pParentKonqFrame->childView() );
+   actRemoveView.setEnabled( mw->mainViewsCount() > 1 || m_pParentKonqFrame->childView()->isToggleView() || m_pParentKonqFrame->childView()->isPassiveMode() );
+
+   // For the rest, we borrow them from the main window
+   // ###### might be not right for passive views !
+   KActionCollection *actionColl = mw->actionCollection();
 
    QPopupMenu menu;
 
@@ -129,7 +139,7 @@ void KonqFrameStatusBar::splitFrameMenu()
    actionColl->action( "splitviewv" )->plug( &menu );
    actionColl->action( "splitwindowh" )->plug( &menu );
    actionColl->action( "splitwindowv" )->plug( &menu );
-   actionColl->action( "removeview" )->plug( &menu );
+   actRemoveView.plug( &menu );
 
    menu.exec(QCursor::pos());
 }
@@ -242,21 +252,29 @@ void KonqFrameStatusBar::setLinkedView( bool b )
 
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
+#ifndef NOINDICATOR
    static QPixmap indicator_viewactive( UserIcon( "indicator_viewactive" ) );
    static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
+#endif
 
    if (!isVisible()) return;
-   QWidget::paintEvent(e);
-   if (!m_showLed) return;
    bool hasFocus = m_pParentKonqFrame->isActivePart();
-   // Can't happen
-   //   if ( m_pParentKonqFrame->childView()->passiveMode() )
-   //   hasFocus = false;
-   QPainter p(this);
-   if (hasFocus)
-      p.drawPixmap(4,m_yOffset,indicator_viewactive);
-   else
-      p.drawPixmap(4,m_yOffset,indicator_empty);
+   QPalette pal = palette();
+
+   QColor bg = kapp->palette().active().background();
+   pal.setColor( QColorGroup::Background,
+                 m_showLed ? ( hasFocus ? kapp->palette().active().midlight()
+                               : kapp->palette().active().mid() ) // active/inactive
+                 : bg ); // only one view
+
+   setPalette( pal );
+   QWidget::paintEvent(e);
+#ifndef NOINDICATOR
+   if (m_showLed) {
+     QPainter p(this);
+     p.drawPixmap(4,m_yOffset,hasFocus ? indicator_viewactive : indicator_empty);
+   }
+#endif
 }
 
 //###################################################################
@@ -369,7 +387,7 @@ void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 
 void KonqFrame::slotStatusBarClicked()
 {
-  if ( !isActivePart() )
+  if ( !isActivePart() && m_pView && !m_pView->isPassiveMode() )
     m_pView->mainWindow()->viewManager()->setActivePart( part() );
 }
 
@@ -392,6 +410,11 @@ void
 KonqFrame::paintEvent( QPaintEvent* )
 {
    m_pStatusBar->repaint();
+}
+
+void KonqFrame::slotRemoveView()
+{
+   m_pView->mainWindow()->viewManager()->removeView( m_pView );
 }
 
 //###################################################################

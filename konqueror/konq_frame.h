@@ -219,6 +219,11 @@ public slots:
 
   void slotLinkedViewClicked( bool mode );
 
+  /**
+   * Is called when 'Remove View' is called from the popup menu
+   */
+  void slotRemoveView();
+
 protected:
   virtual void paintEvent( QPaintEvent* );
 

@@ -1,3 +1,16 @@
+2000-11-04  David Faure  <faure@kde.org>
+
+	* konq_frame.cc: "Remove View" in RMB on statusbar.
+	Don't try to activate passive views when clicking statusbar.
+	Different background color on statusbar for active view.
+	* konq_mainwindow.cc: Fixes for "Remove Active View" enabling,
+	to avoid ending up with a lonely embedded konsole, and some
+	cleanup of code for enabling other view-related actions.
+
+2000-10-31  Carsten Pfeiffer  <pfeiffer@kde.org>
+
+	* libkonq: Implemented "Text preview" functionality
+
 2000-10-26  David Faure  <faure@kde.org>
 
 	* keditbookmarks/*: Finally, a bookmark editor for konqueror.

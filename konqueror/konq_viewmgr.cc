@@ -54,6 +54,7 @@ KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
 
   m_pamProfiles = 0L;
   m_bProfileListDirty = true;
+  m_bLoadingProfile = false;
 }
 
 KonqViewManager::~KonqViewManager()
@@ -480,7 +481,7 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
   cfg.sync();
 }
 
-void KonqViewManager::loadViewProfile( const QString & path, const QString & filename, 
+void KonqViewManager::loadViewProfile( const QString & path, const QString & filename,
                                        const KURL & forcedURL, const KonqOpenURLRequest &req )
 {
   KConfig cfg( path, true );
@@ -489,7 +490,7 @@ void KonqViewManager::loadViewProfile( const QString & path, const QString & fil
   loadViewProfile( cfg, filename, forcedURL, req );
 }
 
-void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, 
+void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                                        const KURL & forcedURL, const KonqOpenURLRequest &req )
 {
   m_currentProfile = filename;
