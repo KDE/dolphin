@@ -34,7 +34,7 @@ class KActionMenu;
 class KActionCollection;
 class KBookmarkOwner;
 class KBookmarkMenu;
-class QPopupMenu;
+class KPopupMenu;
 namespace KIO { class Job; }
 
 /**
@@ -49,9 +49,9 @@ namespace KIO { class Job; }
  * any way, you must reimplement and instantiate those classes
  * <em>before</em> this class is ever called.
  *
- * Using this class if very simple:
+ * Using this class is very simple:
  *
- * 1) Create a popup menu (either KActionMenu or QPopupMenu will do)
+ * 1) Create a popup menu (either KActionMenu or KPopupMenu will do)
  * 2) Instantiate a new KBookmarkMenu object using the above popup
  *    menu as a parameter
  * 3) Insert your (now full) popup menu wherever you wish
@@ -83,7 +83,7 @@ public:
    * A _null_ parentAddress denotes a NS-bookmark menu.
    * An _empty_ parentAddress denotes the toplevel bookmark menu
    */
-  KBookmarkMenu( KBookmarkOwner * owner, QPopupMenu * parentMenu,
+  KBookmarkMenu( KBookmarkOwner * owner, KPopupMenu * parentMenu,
                  KActionCollection * collec, bool root, bool add = true,
                  const QString & parentAddress = "" );
 
@@ -132,7 +132,7 @@ protected:
    * The menu in which we plug our actions.
    * Supplied in the constructor.
    */
-  QPopupMenu * m_parentMenu;
+  KPopupMenu * m_parentMenu;
   /**
    * List of our sub menus
    */

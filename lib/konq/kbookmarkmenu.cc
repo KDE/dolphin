@@ -40,9 +40,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kpopupmenu.h>
 #include <kstdaccel.h>
 #include <kstdaction.h>
-#include <kpopupmenu.h>
 
 template class QPtrList<KBookmarkMenu>;
 
@@ -52,7 +52,7 @@ template class QPtrList<KBookmarkMenu>;
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, KPopupMenu * _parentMenu,
                               KActionCollection *collec, bool _isRoot, bool _add,
                               const QString & parentAddress )
   : m_bIsRoot(_isRoot), m_bAddBookmark(_add), m_pOwner(_owner),
