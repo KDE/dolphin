@@ -69,6 +69,9 @@ public:
     // If unknown, return QString::null, konq will determine the mimetype itself
     virtual QString externalMimeType() const { return QString::null; }
 
+    // overwrite this if you want a tooltip shown on your item
+    virtual QString toolTipText() const { return QString::null; }
+    
     // Called when this item is selected
     // Reimplement, and emit the appropriate enableAction signals
     // from tree()->part()->extension()

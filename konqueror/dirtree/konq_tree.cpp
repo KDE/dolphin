@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+                 2000 Carsten Pfeiffer <pfeiffer@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -39,7 +40,8 @@
 static const int autoOpenTimeout = 750;
 
 KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
-    : KListView( parentWidget )
+    : KListView( parentWidget ),
+      m_toolTip( this )
 {
     setAcceptDrops( true );
     viewport()->setAcceptDrops( true );
@@ -576,6 +578,21 @@ void KonqTree::slotOnItem( QListViewItem *item )
 	m_part->emitStatusBarText( url.path() );
     else
 	m_part->emitStatusBarText( url.prettyURL() );
+}
+
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+
+
+void KonqTreeToolTip::maybeTip( const QPoint &point )
+{
+    QListViewItem *item = m_view->itemAt( point );
+    if ( item ) {
+	QString text = static_cast<KonqTreeItem*>( item )->toolTipText();
+	if ( !text.isEmpty() )
+	    tip ( m_view->itemRect( item ), text );
+    }
 }
 
 #include "konq_tree.moc"

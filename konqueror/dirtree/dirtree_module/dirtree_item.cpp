@@ -181,3 +181,11 @@ void KonqDirTreeItem::delOperation( int method )
 
     KonqOperations::del(tree(), method, lst);
 }
+
+QString KonqDirTreeItem::toolTipText() const
+{
+    if ( m_fileItem->url().isLocalFile() )
+	return m_fileItem->url().path();
+
+    return m_fileItem->url().prettyURL();
+}

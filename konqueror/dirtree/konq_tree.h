@@ -1,6 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
-
+                 2000 Carsten Pfeiffer <pfeiffer@kde.org>
+		
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License version 2 as published by the Free Software Foundation.
@@ -23,11 +24,27 @@
 #include "konq_treetoplevelitem.h"
 #include <kdirnotify.h>
 #include <qmap.h>
+#include <qpoint.h>
 #include <qstrlist.h>
+#include <qtooltip.h>
 class KonqTreeModule;
 class KonqTreeItem;
 class KonqTreePart;
 class QTimer;
+
+
+
+class KonqTreeToolTip : public QToolTip
+{
+public:
+    KonqTreeToolTip( QListView *view ) : QToolTip( view ), m_view( view ) {}
+
+protected:
+    virtual void maybeTip( const QPoint & );
+
+private:
+    QListView *m_view;
+};
 
 /**
  * The multi-purpose tree (listview)
@@ -122,6 +139,8 @@ private:
 
     // The base URL for our configuration directory
     KURL m_dirtreeDir;
+
+    KonqTreeToolTip m_toolTip;
 };
 
 #endif

@@ -45,6 +45,7 @@ public:
     // The URL to open when this link is clicked
     virtual KURL externalURL() const { return m_entry->url; }
     const KURL& url() const { return m_entry->url; } // a faster one
+    virtual QString toolTipText() const;
 
     QString host() const { return m_entry->url.host(); }
     QString path() const { return m_entry->url.path(); }

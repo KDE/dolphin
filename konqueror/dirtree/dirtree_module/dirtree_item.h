@@ -52,6 +52,7 @@ public:
     // The URL to open when this link is clicked
     virtual KURL externalURL() const;
     virtual QString externalMimeType() const;
+    virtual QString toolTipText() const;
 
     virtual void itemSelected();
 

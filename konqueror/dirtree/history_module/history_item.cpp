@@ -52,7 +52,7 @@ void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 	    path += '/';
 	setText( 0, path );
     }
-    
+
     MYGROUP->itemUpdated( this ); // update for sorting
 }
 
@@ -91,10 +91,16 @@ QString KonqHistoryItem::key( int column, bool ascending ) const
 {
     if ( MYMODULE->sortsByName() )
 	return KonqTreeItem::key( column, ascending );
-    
+
     QString tmp;
     tmp.sprintf( "%08d", m_entry->lastVisited.secsTo(MYMODULE->currentTime()));
     return tmp;
+}
+
+QString KonqHistoryItem::toolTipText() const
+{
+    // ### date, etc. all in richtext :)
+    return m_entry->url.url();
 }
 
 
