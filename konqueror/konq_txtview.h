@@ -1,5 +1,5 @@
 /*  This file is part of the KDE project
-    Copyright (C) 1999 David Faure <faure@kde.org>
+    Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
  
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ 
 */ 
 
 #ifndef __konq_txtview_h__
@@ -46,6 +47,7 @@ public:
   virtual char *viewName() { return CORBA::string_dup( "KonquerorTxtView" ); }
   
   virtual void slotSelectAll();
+  virtual void slotEdit();
 
   virtual void print();
 

@@ -19,6 +19,7 @@
 
 #include "konq_txtview.h"
 #include "konq_mainview.h"
+#include "konq_defaults.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -34,6 +35,7 @@
 #include <kurl.h>
 #include <klocale.h>
 #include <opUIUtils.h>
+#include <kapp.h>
 
 KonqTxtView::KonqTxtView( KonqMainView *mainView )
 {
@@ -97,17 +99,23 @@ bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
 //HACK
 #define MEDIT_BASE_ID 1523
 #define MEDIT_SELECTALL_ID MEDIT_BASE_ID+1
+#define MEDIT_EDIT_ID MEDIT_BASE_ID+2
 
   if ( !CORBA::is_nil( editMenu.menu ) )
   {
     if ( editMenu.create )
     {
-      CORBA::WString_var txt = Q2C( i18n( "Select &All" ) );
-      editMenu.menu->insertItem4( txt, this, "slotSelectAll", 0, MEDIT_SELECTALL_ID, -1 );
+      CORBA::WString_var txt;
+      editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Select &All" ) ) ), 
+                                  this, "slotSelectAll", 0, 
+				  MEDIT_SELECTALL_ID, -1 );
+      editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Launch &Editor" ) ) ),
+                                  this, "slotEdit", 0, MEDIT_EDIT_ID, -1 );
     }
     else
     {
       editMenu.menu->removeItem( MEDIT_SELECTALL_ID );
+      editMenu.menu->removeItem( MEDIT_EDIT_ID );
     }
   }
 
@@ -138,6 +146,17 @@ void KonqTxtView::stop()
 void KonqTxtView::slotSelectAll()
 {
   QMultiLineEdit::selectAll();
+}
+
+void KonqTxtView::slotEdit()
+{
+  KConfig *config = kapp->getConfig();
+  config->setGroup( "Misc Defaults" );
+  QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
+    
+  QCString cmd;
+  cmd.sprintf( "%s %s &", editor.ascii(), m_strURL.ascii() );
+  system( cmd.data() );
 }
 
 void KonqTxtView::print()

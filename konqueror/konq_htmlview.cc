@@ -23,6 +23,7 @@
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_txtview.h"
+#include "konq_defaults.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -40,6 +41,7 @@
 #include <kurl.h>
 #include <kio_error.h>
 #include <kmimetypes.h>
+#include <kapp.h>
 
 #include <opUIUtils.h>
 
@@ -542,6 +544,20 @@ void KonqHTMLView::openTxtView( const QString &url )
       childView->makeHistory( false );
       childView->changeView( vView, serviceTypes );
     }
+  }
+  else
+  {
+    KConfig *config = kapp->getConfig();
+    config->setGroup( "Misc Defaults" );
+    QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
+    
+    QString u = m_strWorkingURL;
+    if ( u.isEmpty() )
+      u = KBrowser::m_strURL;
+    
+    QCString cmd;
+    cmd.sprintf( "%s %s &", editor.ascii(), u.ascii() );
+    system( cmd.data() );
   }
 }
 

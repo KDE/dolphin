@@ -160,6 +160,7 @@ module Konqueror
   interface TxtView : View, PrintingExtension
   {
     slot void slotSelectAll();
+    slot void slotEdit();
   };
 
   interface MainView : OpenParts::Part
