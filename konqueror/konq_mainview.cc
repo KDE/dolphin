@@ -333,10 +333,10 @@ bool KonqMainView::event( const char* event, const CORBA::Any& value )
 {
   EVENT_MAPPER( event, value );
 
-  MAPPING( OpenPartsUI::eventCreateMenuBar, OpenPartsUI::typeCreateMenuBar_var, mappingCreateMenubar );
-  MAPPING( OpenPartsUI::eventCreateToolBar, OpenPartsUI::typeCreateToolBar_var, mappingCreateToolbar );
-  MAPPING( OpenParts::eventChildGotFocus, OpenParts::Part_var, mappingChildGotFocus );
-  MAPPING( OpenParts::eventParentGotFocus, OpenParts::Part_var, mappingParentGotFocus );
+  MAPPING( OpenPartsUI::eventCreateMenuBar, OpenPartsUI::typeCreateMenuBar_ptr, mappingCreateMenubar );
+  MAPPING( OpenPartsUI::eventCreateToolBar, OpenPartsUI::typeCreateToolBar_ptr, mappingCreateToolbar );
+  MAPPING( OpenParts::eventChildGotFocus, OpenParts::Part_ptr, mappingChildGotFocus );
+  MAPPING( OpenParts::eventParentGotFocus, OpenParts::Part_ptr, mappingParentGotFocus );
   MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
   MAPPING( Konqueror::eventNewTransfer, Konqueror::EventNewTransfer, mappingNewTransfer );
 
