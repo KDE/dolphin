@@ -22,6 +22,7 @@
 #include "konq_propsview.h"
 #include "konq_settings.h"
 
+#include <kio/paste.h>
 #include <kapplication.h>
 #include <kaction.h>
 #include <kdatastream.h>
@@ -426,22 +427,13 @@ void KonqDirPart::slotClipboardDataChanged()
     updatePasteAction();
 }
 
-void KonqDirPart::updatePasteAction()
+void KonqDirPart::updatePasteAction() // KDE4: merge into method above
 {
-    QMimeSource *data = QApplication::clipboard()->data();
-    bool paste = ( data->format(0) != 0 );
-    KURL::List urls;
-    if ( KURLDrag::canDecode( data ) && KURLDrag::decode( data, urls ) ) {
-        if ( urls.isEmpty() )
-            paste = false;
-        else if ( urls.first().isLocalFile() )
-            emit m_extension->setActionText( "paste", i18n( "&Paste file", "&Paste %n files", urls.count() ) );
-        else
-            emit m_extension->setActionText( "paste", i18n( "&Paste URL", "&Paste %n URLs", urls.count() ) );
-    } else if ( paste ) {
-        emit m_extension->setActionText( "paste", i18n( "&Paste clipboard contents" ) );
-    }
-    emit m_extension->enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
+    QString actionText = KIO::pasteActionText();
+    bool paste = !actionText.isEmpty();
+    if ( paste )
+      emit m_extension->setActionText( "paste", actionText );
+    emit m_extension->enableAction( "paste", paste );
 }
 
 void KonqDirPart::newItems( const KFileItemList & entries )
