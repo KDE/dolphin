@@ -84,12 +84,10 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#ifndef HAVE_MNTENT_H
+
 #define RO_LASTROW 15   // 4 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
-#else
-#define RO_LASTROW 16 // one more for dynamic services
-#endif
 #define RO_LASTCOL 2
+
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
   QString strMouseButton1, strMouseButton3, strButtonTxt1, strButtonTxt3;
@@ -141,26 +139,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                     " of Macintosh.  This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
 
-#ifdef HAVE_MNTENT_H
-
-#undef RO_LASTROW
-#define RO_LASTROW 16
-
-  row++;
-  dynamicDevicesBox = new QCheckBox(i18n("Enable Dynamic Desktop Devices"), 
-				    this);
-  lay->addMultiCellWidget(dynamicDevicesBox, row, row, 0, 0);
-  connect(dynamicDevicesBox, SIGNAL(clicked()), this, SLOT(changed()));
-  QWhatsThis::add(dynamicDevicesBox, 
-		  i18n("If you check this option, any"
-		       " removable devices that you have"
-		       " permission to mount will be"
-		       " shown on the desktop. If you add or remove devices,"
-		       " icons will be updated accordingly.<p>"
-		       "This usually includes CD-ROM drives, ZIP"
-		       " drives, etc."));
-#endif
-  
   row++;
   vrootBox = new QCheckBox(i18n("Support Programs in Desktop Window"), this);
   lay->addMultiCellWidget(vrootBox, row, row, 0, 0);
@@ -366,10 +344,6 @@ void KRootOptions::load()
         new KRootOptPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     new KRootOptPreviewItem(this, previewListView, previews.contains("audio/"));
     //
-#ifdef HAVE_MNTENT_H
-    dynamicDevicesBox->setChecked(g_pConfig->readBoolEntry("DynamicDevices", DEFAULT_DESKTOP_DYNDEV));
-#endif
-    //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
     menuBarBox->setChecked(bMenuBar);
@@ -404,9 +378,6 @@ void KRootOptions::defaults()
     VertAlignBox->setChecked(true);
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<KRootOptPreviewItem *>(item)->setOn(false);
-#ifdef HAVE_MNTENT_H
-    dynamicDevicesBox->setChecked(DEFAULT_DESKTOP_DYNDEV);
-#endif
     menuBarBox->setChecked(false);
     vrootBox->setChecked( false );
     leftComboBox->setCurrentItem( NOTHING );
@@ -432,9 +403,6 @@ void KRootOptions::save()
         if ( item->isOn() )
             previews.append( item->pluginName() );
     g_pConfig->writeEntry( "Preview", previews );
-#ifdef HAVE_MNTENT_H
-    g_pConfig->writeEntry( "DynamicDevices", dynamicDevicesBox->isChecked());
-#endif
     g_pConfig->setGroup( "Menubar" );
     g_pConfig->writeEntry("ShowMenubar", menuBarBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
