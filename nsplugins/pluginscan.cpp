@@ -134,7 +134,6 @@ void generateMimeType( QString mime, QString extensions, QString pluginName, QSt
         ts << "Comment=Netscape " << pluginName << endl;
         ts << "X-KDE-AutoEmbed=true" << endl;
         ts << "X-KDE-nsplugin=true" << endl;
-        ts << "InitialPreference=0" << endl;
 
         if (!extensions.isEmpty()) {
             QStringList exts = QStringList::split(",", extensions);
@@ -463,6 +462,8 @@ void removeExistingExtensions( QString &extension )
     QStringList exts = QStringList::split( ",", extension );
     for ( QStringList::Iterator it=exts.begin(); it!=exts.end(); ++it ) {
         QString ext = (*it).stripWhiteSpace();
+        if ( ext == "*" ) // some plugins have that, but we don't want to associate a mimetype with *.*!
+            continue;
 
         KMimeType::Ptr mime = KMimeType::findByURL( KURL("file:///foo."+ext ),
                                                     0, true, true );
