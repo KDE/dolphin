@@ -72,15 +72,14 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
 
       // ----
       row++;
-      QString opstrIntro = i18n("With this option activated, only one instance of Konqueror "
-                        "will exist in the memory of your computer at any moment "
-                        "no matter how many ");
-      QString opstrLocal = i18n("<b>local</b> ");
-      QString opstrWeb   = i18n("<b>web</b> ");
-      QString opstrMid   = i18n("browsing windows you open, thus reducing resource requirements."
-                        "<p>Be aware that this also means that, if something goes wrong, "
-                        "all your ");
-      QString opstrClose = i18n("windows will be closed simultaneously");
+      QString opstr = i18n("With this option activated, only one instance of Konqueror "
+                           "will exist in the memory of your computer at any moment "
+                           "no matter how many %1 browsing windows you open, "
+                           "thus reducing resource requirements."
+                           "<p>Be aware that this also means that, if something goes wrong, "
+                           "all your %2 browsing windows will be closed simultaneously");
+      QString opstrLocal = i18n("<b>local</b>");
+      QString opstrWeb   = i18n("<b>web</b>");
 
       bgOneProcess = new QVButtonGroup(i18n("Minimize memory usage"), this);
       bgOneProcess->setExclusive( true );
@@ -91,13 +90,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
                                          "to make each browsing activity independent from the others"));
 
         rbOPLocal = new QRadioButton(i18n("For &local browsing only (recommended)"), bgOneProcess);
-        QWhatsThis::add( rbOPLocal, opstrIntro + opstrLocal + opstrMid + opstrLocal + opstrClose);
+        QWhatsThis::add( rbOPLocal, opstr.arg(opstrLocal).arg(opstrLocal));
 
         rbOPWeb = new QRadioButton(i18n("For &web browsing only"), bgOneProcess);
-        QWhatsThis::add( rbOPWeb, opstrIntro + opstrWeb + opstrMid + opstrWeb + opstrClose);
+        QWhatsThis::add( rbOPWeb, opstr.arg(opstrWeb).arg(opstrWeb));
 
         rbOPAlways = new QRadioButton(i18n("&Always (use with care)"), bgOneProcess);
-        QWhatsThis::add( rbOPAlways, opstrIntro +  opstrMid + opstrClose);
+        QWhatsThis::add( rbOPAlways, opstr.arg("").arg(""));
 
         rbOPLocal->setChecked(true);
       }
