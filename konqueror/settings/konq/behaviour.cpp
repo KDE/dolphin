@@ -95,7 +95,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
 */
-    cbShowPreviewsInTips = new QCheckBox( i18n( "Show &previews in file tips" ), vbox );
+
+    QHBox *hboxpreview = new QHBox(vbox);
+    QWidget* spacer = new QWidget( hboxpreview );
+    spacer->setMinimumSize( 20, 0 );
+    spacer->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
+
+    cbShowPreviewsInTips = new QCheckBox( i18n( "Show &previews in file tips" ), hboxpreview );
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
