@@ -220,7 +220,7 @@ void KMiscHTMLOptions::load()
     bool underlineLinks = READ_BOOL("UnderlineLinks", DEFAULT_UNDERLINELINKS);
     bool hoverLinks = READ_BOOL("HoverLinks", true);
     bool bAutoLoadImages = READ_BOOL( "AutoLoadImages", true );
-    bool bUnfinishedImageFrame = READ_BOOL( "UnfinishedImageFrame", false );
+    bool bUnfinishedImageFrame = READ_BOOL( "UnfinishedImageFrame", true );
     QString strAnimations = READ_ENTRY( "ShowAnimations" ).lower();
 
     bool bAutoRedirect = m_pConfig->readBoolEntry( "AutoDelayedActions", true );
