@@ -753,7 +753,9 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     KonqOpenURLRequest req;
     req.args = args;
 
-    if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
+    if ( args.serviceType.isEmpty() )
+      mainWindow->openURL( 0L, url, QString::null, req );
+    else if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
     {
 	// we have problems. abort.
 	delete mainWindow;
@@ -761,13 +763,14 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 	return;
     }
 
-    mainWindow->show();
-
     // cannot use activePart/currentView, because the activation through the partmanager
     // is delayed by a singleshot timer (see KonqViewManager::setActivePart)
-    MapViews::ConstIterator it = mainWindow->viewMap().begin();
-    view = it.data();
-    part = it.key();
+    if ( mainWindow->viewMap().count() )
+    {
+      MapViews::ConstIterator it = mainWindow->viewMap().begin();
+      view = it.data();
+      part = it.key();
+    }
 
     // activate the view _now_ in order to make the menuBar() hide call work
     if ( part )
@@ -828,6 +831,11 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     if ( !windowArgs.resizable )
         // ### this doesn't seem to work :-(
         mainWindow->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+    mainWindow->show();
+
+    if ( windowArgs.lowerWindow )
+        mainWindow->lower();
 
     if ( windowArgs.fullscreen )
         mainWindow->action( "fullscreen" )->activate();
