@@ -513,8 +513,10 @@ void KNewMenu::slotNewFile()
         // The template is not a desktop file
         // Show the small dialog for getting the destination filename
         bool ok;
+        QString text = entry.text;
+        text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
         name = KInputDialog::getText( QString::null, entry.comment,
-    	entry.text, &ok, d->m_parentWidget );
+    	text, &ok, d->m_parentWidget );
         if ( !ok )
 	    return;
     }
