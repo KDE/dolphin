@@ -77,7 +77,7 @@ static void continueInWindow(QString _wname) {
         }
     }
 
-    KWin::setActiveWindow(id);
+    KWin::activateWindow(id);
 }
 
 // TODO - make this register() or something like that and move dialog into main
