@@ -69,6 +69,7 @@ int main( int argc, char **argv )
 
   if ( args->isSet("commands") )
   {
+    KCmdLineArgs::enable_i18n();
     printf(i18n("\nSyntax:\n").local8Bit());
     printf(i18n("  kfmclient openURL 'url' ['mimetype']\n"
                 "            # Opens a window showing 'url'.\n"
