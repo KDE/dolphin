@@ -461,6 +461,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotSort() ), actionCollection(), "sort");
    (void) new KAction(i18n("Set as T&oolbar Folder"), "bookmark_toolbar", 0,
                       actn, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar");
+   (void) new KAction(i18n("Show in T&oolbar"), "bookmark_toolbar", 0,
+                      actn, SLOT( slotShowInToolbar() ), actionCollection(), "showintoolbar");
    (void) new KAction(i18n("&Expand All Folders"), 0,
                       actn, SLOT( slotExpandAll() ), actionCollection(), "expandall");
    (void) new KAction(i18n("Collapse &All Folders"), 0,
@@ -595,7 +597,8 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
       }
 
       if (!sa.multiSelect) {
-         toEnable << "newfolder" << "newbookmark" << "insertseparator";
+         toEnable << "newfolder" << "newbookmark" 
+                  << "insertseparator" << "showintoolbar";
          if (sa.group)
             toEnable << "sort" << "recursivesort" << "setastoolbar";
       }

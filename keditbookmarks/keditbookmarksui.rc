@@ -27,13 +27,16 @@
 </Menu>
 
 <Menu name="edit"><text>&amp;Edit</text>
-  <!-- The undo/redo/cut/copy/paste stuff goes here (ui_standards.rc) -->
+  <!-- undo/redo/cut/copy/paste stuff is 
+       merged (?) at this point (ui_standards.rc) -->
+  <!-- Various things -->
   <Action name="rename"/>
   <Action name="changeurl"/>
   <Action name="changecomment"/>
-  <Action name="updatefavicon"/>
   <Action name="changeicon"/>
   <Action name="delete"/>
+  <Action name="updatefavicon"/>
+  <Action name="showintoolbar"/>
   <Separator/><!-- Stuff for folders -->
   <Action name="setastoolbar"/>
   <Action name="sort"/>
@@ -60,10 +63,10 @@
 </Menu>
 
 <Menu name="settings"><text>&amp;Settings</text>
-  <Action name="settings_showNS" append="save_merge"/>
   <Action name="settings_saveonclose" append="save_merge"/>
-  <Action name="settings_advancedaddbookmark" append="save_merge"/>
   <Action name="settings_splitview" append="save_merge"/>
+  <Action name="settings_showNS" append="save_merge"/>
+  <Action name="settings_advancedaddbookmark" append="save_merge"/>
 </Menu>
 
 </MenuBar>
@@ -77,7 +80,9 @@
 </ToolBar>
 
 <Menu name="popup_folder">
+  <!-- Stuff for folders -->
   <Action name="setastoolbar"/>
+  <Action name="showintoolbar"/>
   <Action name="sort"/>
   <Action name="recursivesort"/>
   <Separator/><!-- Clipboard -->
@@ -100,6 +105,7 @@
 
 <Menu name="popup_bookmark">
   <!-- Stuff for bookmarks -->
+  <Action name="showintoolbar"/>
   <Action name="openlink"/>
   <Action name="testlink"/>
   <Action name="updatefavicon"/>
@@ -121,10 +127,10 @@
   <Action name="delete"/>
 </Menu>
 
-<!--     Application States           -->
+<!--         APPLICATION STATES        -->
 
 <State name="notreadonly">
-  <enable>
+  <Enable>
     <Action name="file_save"/>
     <Action name="importGaleon"/>
     <Action name="importKDE2"/>
@@ -135,11 +141,11 @@
     <Action name="settings_showNS"/>
     <Action name="settings_saveonclose"/>
     <Action name="settings_advancedaddbookmark"/>
-  </enable>
+  </Enable>
 </State>
 
 <State name="normal">
-  <enable>
+  <Enable>
     <Action name="file_open"/>
     <Action name="file_save_as"/>
     <Action name="file_quit"/>
@@ -150,11 +156,11 @@
     <Action name="exportMoz"/>
     <Action name="expandall"/>
     <Action name="collapseall"/>
-  </enable>
+  </Enable>
 </State>
 
 <State name="disablestuff">
-  <disable>
+  <Disable>
     <Action name="cancelfaviconupdates"/>
     <Action name="canceltests"/>
     <Action name="changecomment"/>
@@ -180,16 +186,17 @@
     <Action name="openlink"/>
     <Action name="rename"/>
     <Action name="setastoolbar"/>
-    <Action name="settings_showNS"/>
-    <Action name="settings_saveonclose"/>
-    <Action name="settings_advancedaddbookmark"/>
+    <Action name="showintoolbar"/>
     <Action name="sort"/>
     <Action name="recursivesort"/>
     <Action name="testall"/>
     <Action name="testlink"/>
     <Action name="updateallfavicons"/>
     <Action name="updatefavicon"/>
-  </disable>
+    <Action name="settings_showNS"/>
+    <Action name="settings_saveonclose"/>
+    <Action name="settings_advancedaddbookmark"/>
+  </Disable>
 </State>
 
 </kpartgui>

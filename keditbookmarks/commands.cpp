@@ -390,6 +390,21 @@ KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
    QValueList<EditCommand::Edition> lst;
    lst.append(EditCommand::Edition("toolbar", "yes"));
    lst.append(EditCommand::Edition("icon", "bookmark_toolbar"));
+   // TODO - see below
+   EditCommand *cmd2 = new EditCommand(bk.address(), lst);
+   mcmd->addCommand(cmd2);
+
+   return mcmd;
+}
+
+KMacroCommand* CmdGen::showInToolbar(const KBookmark &bk) {
+   KMacroCommand *mcmd = new KMacroCommand(i18n("Show in Bookmark Toolbar"));
+
+   QValueList<EditCommand::Edition> lst;
+   lst.append(EditCommand::Edition("showintoolbar", "yes"));
+   // TODO - some proper kind of feedback - e.g, an icon effect/emblem
+   //      - the following will erase the stored icon for the item
+   lst.append(EditCommand::Edition("icon", "bookmark_toolbar"));
    EditCommand *cmd2 = new EditCommand(bk.address(), lst);
    mcmd->addCommand(cmd2);
 

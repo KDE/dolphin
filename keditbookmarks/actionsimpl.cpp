@@ -253,6 +253,12 @@ void ActionsImpl::slotSetAsToolbar() {
    CmdHistory::self()->addCommand(mcmd);
 }
 
+void ActionsImpl::slotShowInToolbar() {
+   KBookmark bk = ListView::self()->firstSelected()->bookmark();
+   KMacroCommand *mcmd = CmdGen::self()->showInToolbar(bk);
+   CmdHistory::self()->addCommand(mcmd);
+}
+
 void ActionsImpl::slotChangeIcon() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    KIconDialog dlg(KEBApp::self());
