@@ -126,12 +126,47 @@ void KonqInfoListViewItem::gotMetaInfo()
     for (int i = 1; it != m_ILVWidget->columnKeys().end(); ++it, ++i)
     {
         KFileMetaInfoItem kfmii = info.item(*it);
-        if (!kfmii.isValid()) continue;
+
+        m_columnTypes.append(kfmii.type());
+
+        if (!kfmii.isValid())
+            continue;
+
         QString s = kfmii.string().simplifyWhiteSpace();
-        if (!s.isEmpty()) setText(i, s); else setText(i, "");
+        setText(i, s.isNull() ? QString("") : s);
     }
 }  
 
+int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending ) const
+{
+    KonqInfoListViewItem *i = dynamic_cast<KonqInfoListViewItem *>(item);
+
+    if(!i ||
+       int(m_columnTypes.size()) <= col ||
+       int(i->m_columnTypes.size()) <= col ||
+       m_columnTypes[col] != i->m_columnTypes[col])
+    {
+        return KonqBaseListViewItem::compare(item, col, ascending);
+    }
+
+    bool ok1;
+    int value1 = text(col).toInt(&ok1);
+    
+    bool ok2;
+    int value2 = i->text(col).toInt(&ok2);
+
+    if(!ok1 || !ok2)
+    {
+        return KonqBaseListViewItem::compare(item, col, ascending);
+    }
+
+    if(value1 == value2)
+    {
+        return 0;
+    }
+
+    return value1 > value2 ? 1 : -1;
+}
 
 void KonqInfoListViewItem::setDisabled( bool disabled )
 {

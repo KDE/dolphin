@@ -62,15 +62,18 @@ class KonqInfoListViewItem : public KonqBaseListViewItem
       virtual void updateContents();
       virtual void setDisabled( bool disabled );
 
-      enum ColumnType { FileName, MetaInfo, UDS_Entry };
-
       virtual void gotMetaInfo();
-//      virtual QString MetaInfoKey(int column);
-//      virtual ColumnType type(int column);
+
+      virtual int compare(QListViewItem *item, int col, bool ascending) const;
 
    protected:
-      /** Parent tree view */
-      KonqInfoListViewWidget* m_ILVWidget; // the info list view widget
+      /**
+       * Parent tree view - the info list view widget
+       */
+      KonqInfoListViewWidget* m_ILVWidget;
+
+   private:
+      QValueVector<QVariant::Type> m_columnTypes;
 };
 
 #endif
