@@ -461,14 +461,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
         addAction( act );
-        if ( KPropertiesDialog::canDisplay( m_lstItems ) && (kpf & ShowProperties) )
-        {
-            act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
-                               &m_ownActions, "properties" );
-            addAction( act );
-        }
-        m_factory->addClient( this );
-        return;
     }
     else
     {
@@ -602,7 +594,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         (*list) = KDEDesktopMimeType::userDefinedServices( path, cfg, url.isLocalFile() );
     }
 
-    if ( !isCurrentTrash && !isIntoTrash && sReading )
+    if ( sReading )
     {
 
         // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
@@ -649,6 +641,21 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 {
                     QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
                     if ( !kapp->dcopClient()->isApplicationRegistered( app.utf8() ) )
+                        continue;
+                }
+
+                if ( cfg.hasKey( "X-KDE-Protocol" ) )
+                {
+                    const QString protocol = cfg.readEntry( "X-KDE-Protocol" );
+                    if ( protocol != m_sViewURL.protocol() )
+                        continue;
+                }
+
+                if ( cfg.hasKey( "X-KDE-Require" ) )
+                {
+                    const QStringList capabilities = cfg.readListEntry( "X-KDE-Require" );
+                    // TODO we should also check for writing permissions in the current directory
+                    if ( capabilities.contains( "Write" ) && !sWriting )
                         continue;
                 }
 
