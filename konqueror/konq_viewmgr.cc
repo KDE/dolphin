@@ -1025,6 +1025,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
     childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
     childView->setToggleView( cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );
+    if( !cfg.readBoolEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), true ) )
+      childView->frame()->statusbar()->hide();
 
     if (cfg.readBoolEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), false ))
       m_pDocContainer = childView->frame();

@@ -415,6 +415,7 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
   config->writeEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), childView()->isLinkedView() );
   config->writeEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), childView()->isToggleView() );
   config->writeEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), childView()->isLockedLocation() );
+  config->writeEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), statusbar()->isVisible() );
   config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), (this == docContainer) );
 }
 
