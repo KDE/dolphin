@@ -1506,10 +1506,20 @@ void KonqIconViewWidget::lineupIcons()
         return;
     }
 
+    // Make a list of items, and look at the highest one
+    QValueList<QIconViewItem*> items;
+    int dy = 0;
+
+    // Put each ivi in its corresponding bin.
+    QIconViewItem *item;
+    for (item=firstItem(); item; item=item->nextItem())
+    {
+        items.append(item);
+        dy = QMAX( dy, item->height() );
+    }
+
     // For dx, use what used to be the gridX
     int dx = gridXValue();
-    // For dy, well, let's use any icon, it should do
-    int dy = firstItem()->height();
 
     dx += spacing();
     dy += spacing();
@@ -1558,15 +1568,6 @@ void KonqIconViewWidget::lineupIcons()
         bins[j] = new QIVItemPtr[nx];
         for (i=0; i<nx; i++)
             bins[j][i] = 0;
-    }
-
-    QValueList<QIconViewItem*> items;
-
-    // Put each ivi in its corresponding bin.
-    QIconViewItem *item;
-    for (item=firstItem(); item; item=item->nextItem())
-    {
-        items.append(item);
     }
 
     int left = x1;
