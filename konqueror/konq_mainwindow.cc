@@ -5063,7 +5063,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
             m_pViewManager->showTab( view );
             if ( KMessageBox::warningContinueCancel( this,
               i18n("This tab contains changes that have not been submitted.\nClosing the window will discard these changes."),
-              i18n("Discard Changes?"), KGuiItem(i18n("&Discard Changes"),"file_quit"), "discardchangesclose") != KMessageBox::Continue )
+              i18n("Discard Changes?"), KGuiItem(i18n("&Discard Changes"),"exit"), "discardchangesclose") != KMessageBox::Continue )
             {
               e->ignore();
               m_pViewManager->showTab( originalView );
@@ -5081,7 +5081,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       if (prop.isValid() && prop.toBool())
          if ( KMessageBox::warningContinueCancel( this,
            i18n("This page contains changes that have not been submitted.\nClosing the window will discard these changes."),
-           i18n("Discard Changes?"), KGuiItem(i18n("&Discard Changes"),"file_quit"), "discardchangesclose") != KMessageBox::Continue )
+           i18n("Discard Changes?"), KGuiItem(i18n("&Discard Changes"),"exit"), "discardchangesclose") != KMessageBox::Continue )
          {
            e->ignore();
            return;
