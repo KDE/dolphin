@@ -48,9 +48,6 @@
 #define DEFAULT_UNDERLINELINKS true
 #define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
 
-// icon spacing defaults (is it used ?)
-#define DEFAULT_ICON_SPACING 5
-
 // root window icon text transparency default -- stefan@space.twc.de
 //#define DEFAULT_TRANSPARENT_ICON_TEXT true
 
@@ -58,15 +55,8 @@
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
 #define DEFAULT_VERT_ALIGN true
 
-// the default size of the main window (currently unused)
-#define MAINWINDOW_HEIGHT 360
-#define MAINWINDOW_WIDTH 540
-
 // Default terminal for Open Terminal and for 'run in terminal'
 #define DEFAULT_TERMINAL "konsole"
-
-// Default UserAgent string (e.g. Konqueror/2.0)
-#define DEFAULT_USERAGENT_STRING QString("Konqueror/")+KDE_VERSION_STRING
 
 // Confirmations for deletions
 #define DEFAULT_CONFIRMTRASH true
