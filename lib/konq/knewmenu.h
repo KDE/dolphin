@@ -26,6 +26,7 @@
 #include <kaction.h>
 #include <kdialogbase.h>
 #include <kurl.h>
+#include <libkonq_export.h>
 
 namespace KIO { class Job; }
 
@@ -48,7 +49,7 @@ class QPopupMenu;
  * Ideas and code for the new template handling mechanism ('link' desktop files)
  * from Christoph Pickart <pickart@iam.uni-bonn.de>
  */
-class KNewMenu : public KActionMenu
+class LIBKONQ_EXPORT KNewMenu : public KActionMenu
 {
   Q_OBJECT
 public:

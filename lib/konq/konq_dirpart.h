@@ -26,6 +26,7 @@
 #include <kfileitem.h>
 #include <kdatastream.h>
 #include <kio/global.h>
+#include <libkonq_export.h>
 
 class KDirLister;
 namespace KParts { class BrowserExtension; }
@@ -35,7 +36,7 @@ class KAction;
 class KToggleAction;
 class KonqDirPartBrowserExtension;
 
-class KonqDirPart: public KParts::ReadOnlyPart
+class LIBKONQ_EXPORT KonqDirPart: public KParts::ReadOnlyPart
 {
     Q_OBJECT
 
@@ -325,7 +326,7 @@ private:
     KonqDirPartPrivate* d;
 };
 
-class KonqDirPartBrowserExtension : public KParts::BrowserExtension
+class LIBKONQ_EXPORT KonqDirPartBrowserExtension : public KParts::BrowserExtension
 {
 public:
     KonqDirPartBrowserExtension( KonqDirPart* dirPart )

@@ -31,6 +31,7 @@
 
 #include <kfileitem.h>
 #include <kmimetype.h> // for KDEDesktopMimeType
+#include <libkonq_export.h>
 
 #include <kparts/browserextension.h>
 
@@ -49,7 +50,7 @@ class KBookmarkManager;
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
  */
-class KonqPopupMenu : public QPopupMenu, public KonqXMLGUIClient
+class LIBKONQ_EXPORT KonqPopupMenu : public QPopupMenu, public KonqXMLGUIClient
 {
   Q_OBJECT
 public:
@@ -198,7 +199,7 @@ private:
   KBookmarkManager* m_pManager;
 };
 
-class KonqPopupMenuPlugin : public QObject, public KonqXMLGUIClient {
+class LIBKONQ_EXPORT KonqPopupMenuPlugin : public QObject, public KonqXMLGUIClient {
 	Q_OBJECT
 public:
   /**
