@@ -442,9 +442,8 @@ KMacroCommand* CmdGen::insertMimeSource(
          break;
       }
    }
-   if (!KBookmarkDrag::canDecode(data)) {
+   if (!KBookmarkDrag::canDecode(data))
       return 0;
-   }
    KMacroCommand *mcmd = new KMacroCommand(cmdName);
    QString currentAddress = addr;
    QValueList<KBookmark> bookmarks = KBookmarkDrag::decode(data);
@@ -456,9 +455,8 @@ KMacroCommand* CmdGen::insertMimeSource(
       //           << (*it).url().prettyURL() << currentAddress << endl;
       currentAddress = KBookmark::nextAddress(currentAddress);
    }
-   if (modified) {
+   if (modified)
       delete data;
-   }
    return mcmd;
 }
 
