@@ -1370,6 +1370,8 @@ void KonqMainWindow::slotRunFinished()
         childView->setLocationBarURL( childView->history().current()->locationBarURL );
     }
   }
+  else // No view, e.g. empty webbrowsing profile
+    stopAnimation();
 }
 
 void KonqMainWindow::applyKonqMainWindowSettings()

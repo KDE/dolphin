@@ -1,3 +1,8 @@
+2001-03-31  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc(slotRunFinished): Stop wheel animation when a 
+	konqrun fails and we have no view.
+
 2001-03-25  Simon Hausmann  <simon@kde.org>
 
 	* iconview/konq_iconview.cc (KonqKfmIconView): specify a status text for
