@@ -2549,7 +2549,8 @@ void KonqMainWindow::initActions()
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
-  new KAction( i18n( "&Configure..." ), "configure", 0, this, SLOT( slotConfigure() ), actionCollection(), "configure" );
+  KStdAction::preferences (this, SLOT (slotConfigure()), actionCollection(), "configure");
+  //  new KAction( i18n( "&Configure..." ), "configure", 0, this, SLOT( slotConfigure() ), actionCollection(), "configure" );
 
   KStdAction::keyBindings( this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
