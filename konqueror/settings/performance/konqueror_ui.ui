@@ -80,7 +80,7 @@
                                 <cstring>lb_preload_count</cstring>
                             </property>
                             <property name="text">
-                                <string>Maximum number of instances kept &amp;preloaded</string>
+                                <string>Maximum number of instances kept &amp;preloaded:</string>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>sb_preload_count</cstring>

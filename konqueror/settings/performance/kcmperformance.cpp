@@ -76,7 +76,7 @@ void Config::defaults()
 
 QString Config::quickHelp() const
     {
-    return i18n( "<h1>KDE performance</h1>"
+    return i18n( "<h1>KDE Performance</h1>"
         " You can configure settings improving KDE performance here." );
     }
 
@@ -117,7 +117,7 @@ void KonquerorConfig::defaults()
 
 QString KonquerorConfig::quickHelp() const
     {
-    return i18n( "<h1>Konqueror performance</h1>"
+    return i18n( "<h1>Konqueror Performance</h1>"
         " You can configure several settings improving Konqueror performance here."
         " This includes options for reusing already running instances "
         " or keeping instances preloaded." );
