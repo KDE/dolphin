@@ -1,3 +1,10 @@
+2001-05-01  Simon Hausmann  <simon@kde.org>
+
+	* konq_mainwindow.cc : moved the connect and disconnect calls
+	to/from the highlighting signals of the actioncollections into
+	two separate methods, for cleanup, and use the qt child deletion
+	mechanism to delete the bookmark actioncollection
+
 2001-04-28  Simon Hausmann  <simon@kde.org>
 
 	* konq_actions.h (class KonqGoURLAction): new class, derived

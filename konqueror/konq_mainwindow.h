@@ -424,6 +424,9 @@ private:
   void plugViewModeActions();
   void unplugViewModeActions();
 
+  void connectActionCollection( KActionCollection *coll );
+  void disconnectActionCollection( KActionCollection *coll );
+
   KNewMenu * m_pMenuNew;
 
   KAction *m_paFileType;

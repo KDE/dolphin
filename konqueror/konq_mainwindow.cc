@@ -242,10 +242,7 @@ KonqMainWindow::~KonqMainWindow()
     }
   }
 
-  disconnect( actionCollection(), SIGNAL( actionStatusText( const QString &) ),
-              this, SLOT( slotActionStatusText( const QString & ) ) );
-  disconnect( actionCollection(), SIGNAL( clearStatusText() ),
-              this, SLOT( slotClearStatusText() ) );
+  disconnectActionCollection( actionCollection() );
 
   saveToolBarServicesMap();
 
@@ -254,7 +251,6 @@ KonqMainWindow::~KonqMainWindow()
   //  createShellGUI( false );
 
   delete m_pBookmarkMenu;
-  delete m_bookmarksActionCollection;
   delete m_pURLCompletion;
 
   m_viewModeActions.clear();
@@ -1442,12 +1438,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     {
       KActionCollection *coll = oldView->part()->actionCollection();
       if ( coll )
-      {
-          disconnect( coll, SIGNAL( actionStatusText( const QString & ) ),
-                      this, SLOT( slotActionStatusText( const QString & ) ) );
-          disconnect( coll, SIGNAL( clearStatusText() ),
-                      this, SLOT( slotClearStatusText() ) );
-      }
+          disconnectActionCollection( coll );
     }
   }
 
@@ -1495,12 +1486,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   KActionCollection *coll = m_currentView->part()->actionCollection();
   if ( coll )
-  {
-      connect( coll, SIGNAL( actionStatusText( const QString & ) ),
-               this, SLOT( slotActionStatusText( const QString & ) ) );
-      connect( coll, SIGNAL( clearStatusText() ),
-               this, SLOT( slotClearStatusText() ) );
-  }
+      connectActionCollection( coll );
 
   // View-dependent GUI
 
@@ -2540,10 +2526,7 @@ void KonqMainWindow::setUpEnabled( const KURL &url )
 void KonqMainWindow::initActions()
 {
   actionCollection()->setHighlightingEnabled( true );
-  connect( actionCollection(), SIGNAL( actionStatusText( const QString &) ),
-           this, SLOT( slotActionStatusText( const QString & ) ) );
-  connect( actionCollection(), SIGNAL( clearStatusText() ),
-           this, SLOT( slotClearStatusText() ) );
+  connectActionCollection( actionCollection() );
 
 
   // Note about this method : don't call setEnabled() on any of the actions.
@@ -2665,12 +2648,9 @@ void KonqMainWindow::initActions()
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
-  m_bookmarksActionCollection = new KActionCollection;
+  m_bookmarksActionCollection = new KActionCollection( this );
   m_bookmarksActionCollection->setHighlightingEnabled( true );
-  connect( m_bookmarksActionCollection, SIGNAL( actionStatusText( const QString &) ),
-           this, SLOT( slotActionStatusText( const QString & ) ) );
-  connect( m_bookmarksActionCollection, SIGNAL( clearStatusText() ),
-           this, SLOT( slotClearStatusText() ) );
+  connectActionCollection( m_bookmarksActionCollection );
 
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
@@ -3152,6 +3132,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              m_pMenuNew,
                              showPropsAndFileType );
 
+  connectActionCollection( pPopupMenu.actionCollection() );
+
   pPopupMenu.factory()->addClient( konqyMenuClient );
 
   if ( client )
@@ -3584,6 +3566,22 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
             }
         }
     }
+}
+
+void KonqMainWindow::connectActionCollection( KActionCollection *coll )
+{
+    connect( coll, SIGNAL( actionStatusText( const QString & ) ),
+             this, SLOT( slotActionStatusText( const QString & ) ) );
+    connect( coll, SIGNAL( clearStatusText() ),
+             this, SLOT( slotClearStatusText() ) );
+}
+
+void KonqMainWindow::disconnectActionCollection( KActionCollection *coll )
+{
+    disconnect( coll, SIGNAL( actionStatusText( const QString & ) ),
+                this, SLOT( slotActionStatusText( const QString & ) ) );
+    disconnect( coll, SIGNAL( clearStatusText() ),
+                this, SLOT( slotClearStatusText() ) );
 }
 
 #include "konq_mainwindow.moc"
