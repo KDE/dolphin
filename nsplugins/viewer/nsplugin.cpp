@@ -235,7 +235,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
                      uint32 len, const char* buf, NPBool file, void* notifyData)
 {
 // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api14.html
-   kdDebug(1431) << "g_NPN_PostURL() [incomplete]" << endl;
+   kdDebug(1431) << "g_NPN_PostURLNotify() [incomplete]" << endl;
    QByteArray postdata;
 
    if (file) { // buf is a filename
@@ -561,9 +561,20 @@ void NSPluginInstance::timer()
             {
                 kdDebug(1431) << "Starting new stream " << req.url << endl;
 
-                // hack to get java vm and HyperCosm 3d working
-                if ( url.lower()=="javascript:document.location" ||
+                if (req.post) {
+                    // create stream
+                    NSPluginStream *s = new NSPluginStream( this );
+                    connect( s, SIGNAL(finished(NSPluginStreamBase*)),
+                             SLOT(streamFinished(NSPluginStreamBase*)) );
+                    _streams.append( s );
+
+                    kdDebug() << "posting to " << url << endl;
+
+                    emitStatus( i18n("Submitting data to %1").arg(url) );
+                    s->post( url, req.data, req.mime, req.notify );
+                } else if ( url.lower()=="javascript:document.location" ||
                      url.lower()=="javascript:window.location.href" ) {
+                    // hack to get java vm and HyperCosm 3d working
                     NSPluginBufStream *s = new NSPluginBufStream( this );
                     connect( s, SIGNAL(finished(NSPluginStreamBase*)),
                              SLOT(streamFinished(NSPluginStreamBase*)) );
