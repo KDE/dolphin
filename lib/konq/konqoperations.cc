@@ -21,6 +21,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <krun.h>
 
 #include <kpropsdlg.h>
 
@@ -53,7 +54,8 @@ KonqOperations::KonqOperations( QWidget *parent )
 
 void KonqOperations::editMimeType( const QString & mimeType )
 {
-    QString mimeTypeFile = locate("mime", mimeType + ".desktop");
+  /*
+  QString mimeTypeFile = locate("mime", mimeType + ".desktop");
   if ( mimeTypeFile.isEmpty() )
   {
     mimeTypeFile = locate("mime", mimeType + ".kdelnk");
@@ -64,8 +66,12 @@ void KonqOperations::editMimeType( const QString & mimeType )
         return; // hmmm
     }
   }
-
   (void) new KPropertiesDialog( mimeTypeFile  );
+  */
+
+  KRun::runCommand( QString::fromLatin1("keditfiletype ") + mimeType,
+                    QString::fromLatin1("keditfiletype"),
+                    QString::fromLatin1("keditfiletype") /* Icon. hmm, doesn't exist yet */);
 }
 
 void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )
