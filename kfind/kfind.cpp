@@ -199,3 +199,10 @@ void Kfind::copySelection() {
   win->copySelection();
 }
 
+void Kfind::keyReleaseEvent(QKeyEvent *e)
+{
+  if (e->key()==Key_Escape)
+    stopSearch();
+  
+  QWidget::keyReleaseEvent(e);
+}

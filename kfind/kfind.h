@@ -46,7 +46,11 @@ signals:
   void saveResults();
 
 protected:
-
+  /**
+   * Pressing Escape stops searching
+   */
+  virtual void keyReleaseEvent(QKeyEvent *e);
+  
 private:
   KShellProcess *findProcess;
   KfindTabWidget *tabWidget;
