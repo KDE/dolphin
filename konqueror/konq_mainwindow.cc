@@ -460,6 +460,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                                   QString::null,
                                   false,
                                   openAfterCurrentPage);
+    view->frame()->setTitle( _url.host() , 0L);
   }
 
   if ( view )
