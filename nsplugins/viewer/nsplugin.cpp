@@ -781,7 +781,8 @@ DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, bool embed,
 
    // copy parameters over
    unsigned int argc = argn.count();
-   char *_argn[argc], *_argv[argc];
+   char **_argn = new char*[argc];
+   char **_argv = new char*[argc];
    QString src = url;
    int width = 300;
    int height = 300;
@@ -818,6 +819,8 @@ DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, bool embed,
    // Create DCOP instance for created plugin
    NSPluginInstance *inst = new NSPluginInstance( npp, &_pluginFuncs, _handle,
                                                   width, height, src, mimeType, this );
+   delete [] _argn;
+   delete [] _argv;
    if (!inst)
    {
       kdDebug() << "<- PlluginClass::NewInstance = 0" << endl;
