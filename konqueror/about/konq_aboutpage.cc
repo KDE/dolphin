@@ -12,6 +12,7 @@
 #include <kaction.h>
 
 #include <assert.h>
+#include <qfile.h>
 
 extern "C"
 {
