@@ -752,11 +752,18 @@ bool KonqIconViewWidget::initConfig( bool bInit )
     m_pSettings = KonqFMSettings::settings();
 
     // Color settings
-    if (!m_bDesktop)
+    QColor normalTextColor       = m_pSettings->normalTextColor();
+    setItemColor( normalTextColor );
+
+    if (m_bDesktop)
     {
-       QColor normalTextColor       = m_pSettings->normalTextColor();
-       setItemColor( normalTextColor );
+      QColor itemTextBg = m_pSettings->itemTextBackground();
+      if ( itemTextBg.isValid() )
+          setItemTextBackground( itemTextBg );
+      else
+          setItemTextBackground( NoBrush );
     }
+
 
     d->pFileTip->setOptions(m_pSettings->showFileTips() && QToolTip::isGloballyEnabled(),
                             m_pSettings->showPreviewsInFileTips(),
