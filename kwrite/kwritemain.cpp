@@ -53,6 +53,8 @@
 #include "kwritedialogs.h"
 #include <qtimer.h>
 
+#include <stdlib.h> // exit
+
 // StatusBar field IDs
 #define ID_GEN 1
 
