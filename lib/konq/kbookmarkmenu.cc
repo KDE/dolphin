@@ -78,7 +78,7 @@ KBookmarkMenu::~KBookmarkMenu()
   QListIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
     it.current()->unplug( m_parentMenu );
-  
+
   m_lstSubMenus.clear();
 }
 
@@ -90,7 +90,7 @@ void KBookmarkMenu::slotBookmarksChanged()
   {
     //  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
   }
-  
+
   QListIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
     it.current()->unplug( m_parentMenu );
@@ -130,8 +130,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     m_paAddBookmarks->plug( m_parentMenu );
     m_actions.append( m_paAddBookmarks );
     m_parentMenu->insertSeparator();
+  } //CT hmmm! Why was this beforehand *under* the Netscape Bookmark mechanism?
 
-    if ( m_bIsRoot )
+  if ( m_bIsRoot )
     {
       KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), QIconSet( ),
                                                   m_actionCollection, 0L );
@@ -144,7 +145,6 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
       m_parentMenu->insertSeparator();
     }
-  }
 
   for ( KBookmark * bm = parent->first(); bm != 0L;  bm = parent->next() )
   {
