@@ -37,6 +37,7 @@
 #include <krfcdate.h>
 #include <qclipboard.h>
 #include <qfile.h>
+#include <qpainter.h>
 #include <dcopclient.h>
 #include <assert.h>
 #include <stdlib.h>

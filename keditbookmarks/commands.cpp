@@ -18,6 +18,7 @@
 
 #include "commands.h"
 #include "toplevel.h"
+#include <qregexp.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 #include <kdebug.h>
