@@ -256,7 +256,7 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
     return;
 
   KFileItem *fileItem = ((KFileICI*)_item)->item();
-  openURLRequest( fileItem->url().ascii() );
+  openURLRequest( fileItem->url().url().ascii() );
 }
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
@@ -318,7 +318,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       // Cast the iconcontainer item into an icon item
       // and get the file item out of it
       KFileItem * item = ((KFileICI *)*icit)->item();
-      lstPopupURLs.append( item->url() );
+      lstPopupURLs.append( item->url().url() );
       
       // get common mode among all urls, if there is
       if ( first )

@@ -31,6 +31,7 @@ class KfmViewSettings; // see below
 
 class KonqBaseView;
 class KonqKfmIconView;
+class KonqKfmTreeView;
 
 // The class KonqPropsView holds the properties for a KonqBaseView
 //
@@ -46,6 +47,7 @@ class KonqPropsView
   // A BaseView can read/write the values directly.
   friend KonqBaseView;
   friend KonqKfmIconView; // seems it doesn't inherit "friendliness" !
+  friend KonqKfmTreeView; //      ... strange ...
 
   // This is not a Q_OBJECT because we need a copy constructor.
 public:
