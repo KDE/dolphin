@@ -1224,7 +1224,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "del", canDel > 0 );
     emit enableAction( "properties", iCount > 0 && KPropertiesDialog::canDisplay( selectedFileItems() ) );
     emit enableAction( "editMimeType", ( iCount == 1 ) );
-    emit enableAction( "rename", ( iCount == 1 ) );
+    emit enableAction( "rename", ( iCount == 1 ) && !bInTrash );
 }
 
 void KonqIconViewWidget::renameSelectedItem()

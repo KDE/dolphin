@@ -139,7 +139,7 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "del", canDel > 0 );
   emit enableAction( "properties", lstItems.count() > 0 && KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( lstItems.count() == 1 ) );
-  emit enableAction( "rename", ( m_listView->listViewWidget()->currentItem() != 0 ) );
+  emit enableAction( "rename", ( m_listView->listViewWidget()->currentItem() != 0 )&& !bInTrash );
 }
 
 void ListViewBrowserExtension::copySelection( bool move )
