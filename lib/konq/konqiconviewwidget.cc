@@ -228,10 +228,10 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::startImagePreview()
+void KonqIconViewWidget::startImagePreview( bool force )
 {
     stopImagePreview(); // just in case
-    m_pImagePreviewJob = new KonqImagePreviewJob( this );
+    m_pImagePreviewJob = new KonqImagePreviewJob( this, force );
     m_pImagePreviewJob->startImagePreview();
 }
 

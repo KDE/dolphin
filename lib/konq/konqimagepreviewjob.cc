@@ -28,8 +28,8 @@
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
  */
-KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView )
-  : KIO::Job( false /* no GUI */ ), m_iconView( iconView )
+KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force )
+  : KIO::Job( false /* no GUI */ ), m_bNoWrite( false ), m_iconView( iconView )
 {
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
   // Look for images and store the items in our todo list :)
@@ -37,7 +37,8 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView )
   {
     KFileIVI * ivi = static_cast<KFileIVI *>( it );
     if ( ivi->item()->mimetype().left(6) == "image/" )
-      m_items.append( ivi );
+      if ( force || !ivi->isThumbnail() )
+        m_items.append( ivi );
   }
 }
 
@@ -133,32 +134,6 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
 
       return;
     }
-    case STATE_STATXV:
-    {
-      // Try to load this thumbnail - takes care of determineNextIcon
-      if ( statResultThumbnail( static_cast<KIO::StatJob *>(job) ) )
-        return;
-
-      // No thumbnail, or too old -> check dirs, load orig image and create Pixie pic
-
-      // We call this again, because it's the mospics we want to generate, not the xvpics
-      // Well, comment this out if you prefer compatibility over quality.
-      determineThumbnailURL();
-
-      // m_thumbURL is /blah/.mospics/med/file.png
-      QString dir = m_thumbURL.directory();
-      QString mospicsPath = dir.left( dir.findRev( '/' ) ); // /blah/.mospics
-      KURL mospicsURL( m_thumbURL );
-      mospicsURL.setPath( mospicsPath );
-
-      // We don't check + create. We just create and ignore "already exists" errors.
-      // Way more efficient, on all protocols.
-      m_state = STATE_CREATEDIR1;
-      KIO::Job * job = KIO::mkdir( mospicsURL );
-      addSubjob(job);
-      kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir mospicsURL=" << mospicsURL.url() << endl;
-      return;
-    }
     case STATE_GETTHUMB:
     {
       // We arrive here if statResultThumbnail found a remote thumbnail
@@ -180,29 +155,63 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       determineNextIcon();
       return;
     }
-    case STATE_CREATEDIR1:
-      // We can save if the dir could be created or if it already exists
-      m_bCanSave = (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST);
+    case STATE_STATXV:
+      // Try to load this thumbnail - takes care of determineNextIcon
+      if ( statResultThumbnail( static_cast<KIO::StatJob *>(job) ) )
+        return;
 
-      // TODO: remember this for the other items. No need to try mkdir for each one...
+      // No thumbnail, or too old -> check dirs, load orig image and create Pixie pic
 
-      if (m_bCanSave)
+      // We call this again, because it's the mospics we want to generate, not the xvpics
+      // Well, comment this out if you prefer compatibility over quality.
+      determineThumbnailURL();
+
+      if ( !m_bNoWrite )
       {
-        KURL thumbdirURL( m_thumbURL );
-        thumbdirURL.setPath( m_thumbURL.directory() ); // /blah/.mospics/med
+        // m_thumbURL is /blah/.mospics/med/file.png
+        QString dir = m_thumbURL.directory();
+        QString mospicsPath = dir.left( dir.findRev( '/' ) ); // /blah/.mospics
+        KURL mospicsURL( m_thumbURL );
+        mospicsURL.setPath( mospicsPath );
 
         // We don't check + create. We just create and ignore "already exists" errors.
-        // Way more efficient, on all protocols. (Yes you read that once already)
-        m_state = STATE_CREATEDIR2;
-        KIO::Job * job = KIO::mkdir( thumbdirURL );
+        // Way more efficient, on all protocols.
+        m_state = STATE_CREATEDIR1;
+        KIO::Job * job = KIO::mkdir( mospicsURL );
         addSubjob(job);
-        kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir thumbdirURL=" << thumbdirURL.url() << endl;
+        kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir mospicsURL=" << mospicsURL.url() << endl;
         return;
+      }
+      // Fall through if we can't create dirs here
+    case STATE_CREATEDIR1:
+      if ( !m_bNoWrite )
+      {
+        // We can save if the dir could be created or if it already exists
+        m_bCanSave = (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST);
+
+        if (m_bCanSave)
+        {
+          KURL thumbdirURL( m_thumbURL );
+          thumbdirURL.setPath( m_thumbURL.directory() ); // /blah/.mospics/med
+
+          // We don't check + create. We just create and ignore "already exists" errors.
+          // Way more efficient, on all protocols. (Yes you read that once already)
+          m_state = STATE_CREATEDIR2;
+          KIO::Job * job = KIO::mkdir( thumbdirURL );
+          addSubjob(job);
+          kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir thumbdirURL=" << thumbdirURL.url() << endl;
+          return;
+        }
+        else
+          m_bNoWrite = true; // remember not to create dir next time
       }
       // Fall through if we can't save
     case STATE_CREATEDIR2:
       // We can save if the dir could be created or if it already exists
-      m_bCanSave = (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST);
+      m_bCanSave = ( !m_bNoWrite &&
+                    (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST) );
+      if (!m_bCanSave)
+        m_bNoWrite = true;
 
       // We still need to load the orig file ! (This is getting tedious) :)
       if ( m_currentURL.isLocalFile() )

@@ -41,7 +41,7 @@ public:
     /**
      * Create a job for determining the pixmaps of the images in the @p iconView
      */
-    KonqImagePreviewJob( KonqIconViewWidget * iconView );
+    KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
@@ -79,7 +79,9 @@ private:
     // Size of thumbnail
     int m_extent;
     // Whether we can save the thumbnail
-   bool m_bCanSave;
+    bool m_bCanSave;
+    // Set to true if we can't create a dir - caching
+    bool m_bNoWrite;
 
     // Dad :)
     KonqIconViewWidget * m_iconView;
