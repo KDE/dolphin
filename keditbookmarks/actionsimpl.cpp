@@ -327,7 +327,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
 
     QStringList toEnable;
     
-    if (sa.itemSelected) {
+    if (sa.itemSelected && !sa.root) {
         toEnable << "edit_copy";
         if (!sa.urlIsEmpty && !sa.group && !sa.separator)
             toEnable << "openlink";

@@ -104,7 +104,10 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
     return bookmarks;
 }
 
-#define VALID_ITEM(item) ( !item->isEmptyFolderPadder() && item->bookmark().hasParent() )
+#define VALID_ITEM(item)                                            \
+    ( !item->isEmptyFolderPadder()                                  \
+   && (item->bookmark().hasParent() || item->parent() == 0) )
+
 #define VALID_FIRST(items) ( (items->count() > 0) && VALID_ITEM(items->first()) )
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() const {
@@ -294,8 +297,8 @@ SelcAbilities ListView::getSelectionAbilities() const {
         sa.group          = nbk.isGroup();
         sa.separator      = nbk.isSeparator();
         sa.urlIsEmpty     = nbk.url().isEmpty();
+        sa.root           = (selectedItems()->first() == m_listView->rootItem());
         sa.singleSelect   = (!sa.multiSelect && sa.itemSelected);
-        sa.root           = (m_listView->rootItem() == selectedItems()->first());
         sa.multiSelect    = (selectedItems()->count() > 1);
         sa.tbShowState    = CmdGen::self()->shownInToolbar(nbk);
     }
