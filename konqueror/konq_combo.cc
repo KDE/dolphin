@@ -91,8 +91,6 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
 
     if ( !kapp->dcopClient()->isAttached() )
         kapp->dcopClient()->attach();
-
-    historylist = KonqHistoryManager::kself()->entries();
 }
 
 KonqCombo::~KonqCombo()
@@ -617,6 +615,7 @@ bool KonqCombo::hasSufficientContrast(const QColor &c1, const QColor &c2)
 
 QString KonqCombo::historyTitle( const KURL& url )
 {
+    historylist = KonqHistoryManager::kself()->entries();
     KonqHistoryEntry *historyentry = historylist.findEntry( url );
     if ( !historyentry && !url.url().endsWith( "/" ) ) {
         KURL _url = url;
