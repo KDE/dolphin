@@ -145,17 +145,15 @@ void KCookiesManagement::save()
   // If delete all cookies was requested!
   if(m_bDeleteAll)
   {
-    if(DCOPRef("kded", "kcookiejar").send("deleteAllCookies"))
-    {
-      m_bDeleteAll = false; // deleted[Cookies|Domains] have been cleared yet
-    }
-    else
+    if(!DCOPRef("kded", "kcookiejar").send("deleteAllCookies"))
     {
       QString caption = i18n ("DCOP Communication Error");
       QString message = i18n ("Unable to delete all the cookies as requested.");
       KMessageBox::sorry (this, caption, message);
       return;
     }
+    
+    m_bDeleteAll = false; // deleted[Cookies|Domains] have been cleared yet    
   }
 
   // Certain groups of cookies were deleted...
@@ -168,22 +166,21 @@ void KCookiesManagement::save()
     QDataStream callStream(call, IO_WriteOnly);
     callStream << *dIt;
 
-    if(DCOPRef("kded", "kcookiejar").send("deleteCookiesFromDomain", (*dIt)))
-    {
-      dIt = deletedDomains.remove(dIt);
-    }
-    else
+    if( !DCOPRef("kded", "kcookiejar").send("deleteCookiesFromDomain", (*dIt)) )
     {
       QString caption = i18n ("DCOP Communication Error");
       QString message = i18n ("Unable to delete cookies as requested.");
       KMessageBox::sorry (this, caption, message);
       return;
     }
+    
+    dIt = deletedDomains.remove(dIt);
   }
 
   // Individual cookies were deleted...
   bool success = true; // Maybe we can go on...
   QDictIterator<CookiePropList> cookiesDom(deletedCookies);
+  
   while(cookiesDom.current())
   {
     CookiePropList *list = cookiesDom.current();
@@ -191,24 +188,23 @@ void KCookiesManagement::save()
 
     while(*cookie)
     {
-      if( DCOPRef("kded", "kcookiejar").send("deleteCookie",(*cookie)->domain,
-                                             (*cookie)->host, (*cookie)->path,
-                                             (*cookie)->name) )
-      {
-        list->removeRef(*cookie);
-      }
-      else
+      if( !DCOPRef("kded", "kcookiejar").send("deleteCookie",(*cookie)->domain,
+                                              (*cookie)->host, (*cookie)->path,
+                                              (*cookie)->name) )
       {
         success = false;
         break;
       }
+      
+      list->removeRef(*cookie);
     }
 
-    if(success)
-      deletedCookies.remove(cookiesDom.currentKey());
-    else
+    if(!success)
       break;
+    
+    deletedCookies.remove(cookiesDom.currentKey());
   }
+  
   emit changed( false );
 }
 
@@ -221,8 +217,9 @@ void KCookiesManagement::defaults()
 
 void KCookiesManagement::reset(bool deleteAll)
 {
-    if ( !deleteAll )
-        m_bDeleteAll = false;
+  if ( !deleteAll )
+    m_bDeleteAll = false;
+  
   clearCookieDetails();
   dlg->lvCookies->clear();
   deletedDomains.clear();
@@ -251,31 +248,28 @@ void KCookiesManagement::getDomains()
 {
   DCOPReply reply = DCOPRef("kded", "kcookiejar").call("findDomains");
 
-  if(reply.isValid())
-  {
-    QStringList domains = reply;
-
-    if ( dlg->lvCookies->childCount() )
-    {
-      reset();
-      dlg->lvCookies->setCurrentItem( 0L );
-    }
-
-    CookieListViewItem *dom;
-    QStringList::Iterator dIt = domains.begin();
-    for( ; dIt != domains.end(); dIt++)
-    {
-      dom = new CookieListViewItem(dlg->lvCookies, *dIt);
-      dom->setExpandable(true);
-    }
-  }
-  else
+  if( !reply.isValid() )
   {
     QString caption = i18n ("Information Lookup Failure");
     QString message = i18n ("Unable to retrieve information about the "
                             "cookies stored on your computer.");
     KMessageBox::sorry (this, caption, message);
     return;
+  }
+  
+  QStringList domains = reply;
+
+  if ( dlg->lvCookies->childCount() )
+  {
+    reset();
+    dlg->lvCookies->setCurrentItem( 0L );
+  }
+
+  CookieListViewItem *dom;
+  for(QStringList::Iterator dIt = domains.begin(); dIt != domains.end(); dIt++)
+  {
+    dom = new CookieListViewItem(dlg->lvCookies, *dIt);
+    dom->setExpandable(true);
   }
 
   // are ther any cookies?
@@ -328,30 +322,28 @@ bool KCookiesManagement::cookieDetails(CookieProp *cookie)
                                                          cookie->host,
                                                          cookie->path,
                                                          cookie->name);
-  if( reply.isValid() )
+  if( !reply.isValid() )
+    return false;
+
+  QStringList fieldVal = reply;
+
+  QStringList::Iterator c = fieldVal.begin();
+  cookie->value = *c++;
+  unsigned tmp = (*c++).toUInt();
+
+  if( tmp == 0 )
+    cookie->expireDate = i18n("End of session");
+  else
   {
-    QStringList fieldVal = reply;
-
-    QStringList::Iterator c = fieldVal.begin();
-    cookie->value = *c++;
-    unsigned tmp = (*c++).toUInt();
-
-    if( tmp == 0 )
-      cookie->expireDate = i18n("End of session");
-    else
-    {
-      QDateTime expDate;
-      expDate.setTime_t(tmp);
-      cookie->expireDate = KGlobal::locale()->formatDateTime(expDate);
-    }
-
-    tmp = (*c).toUInt();
-    cookie->secure = i18n(tmp ? "Yes" : "No");
-    cookie->allLoaded = true;
-    return true;
+    QDateTime expDate;
+    expDate.setTime_t(tmp);
+    cookie->expireDate = KGlobal::locale()->formatDateTime(expDate);
   }
 
-  return false;
+  tmp = (*c).toUInt();
+  cookie->secure = i18n(tmp ? "Yes" : "No");
+  cookie->allLoaded = true;
+  return true;
 }
 
 void KCookiesManagement::showCookieDetails(QListViewItem* item)
