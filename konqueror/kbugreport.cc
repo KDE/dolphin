@@ -86,14 +86,14 @@ KBugReport::KBugReport( QWidget * parent )
   bgLay->setRowStretch(0,0);
   bgLay->setRowStretch(1,1);
   m_bgSeverity->setExclusive( TRUE );
-  const char * sevNames[4] = { "critical", "grave", "normal", "wishlist" };
-  const QString sevTexts[4] = { i18n("Critical"), i18n("Grave"), i18n("Normal"), i18n("Wishlist") };
-  for (int i = 0 ; i < 4 ; i++ )
+  const char * sevNames[5] = { "critical", "grave", "normal", "wishlist", "i18n" };
+  const QString sevTexts[5] = { i18n("Critical"), i18n("Grave"), i18n("Normal"), i18n("Wishlist"), i18n("Translation") };
+  for (int i = 0 ; i < 5 ; i++ )
   {
     // Store the severity string as the name
     QRadioButton * rb = new QRadioButton( sevTexts[i], m_bgSeverity, sevNames[i] );
     bgLay->addWidget(rb,1,i);
-    if (i==2) rb->setChecked(true);
+    if (i==2) rb->setChecked(true); // default : "normal"
   }
   lay->addWidget( m_bgSeverity );
 
@@ -107,7 +107,10 @@ KBugReport::KBugReport( QWidget * parent )
   lay->addLayout(hlay);
 
   // A little help label
-  QLabel * label = new QLabel( i18n("Enter below the text (in English if possible) that you wish to submit for the bug report\nIf you press Ok, and a mail will be sent to the maintainer of this program and to the KDE buglist\nYou can access the previously reported bugs on http://bugs.kde.org/"), parent, "label");
+  QLabel * label = new QLabel(
+    i18n("Enter below the text (in English if possible) that you wish to submit for the bug report\n"
+         "If you press Ok, and a mail will be sent to the maintainer of this program and to the KDE buglist\n"
+         "You can access the previously reported bugs and wishes at http://bugs.kde.org/"), parent, "label");
   lay->addWidget( label );
 
   // The multiline-edit
@@ -163,15 +166,26 @@ int KBugReport::exec()
 QString KBugReport::text()
 {
   // Prepend the pseudo-headers to the contents of the mail
-  return QString("Package: ")+kapp->name()+"\n"
-    "Version: "+m_strVersion+"\n"+
-    "Severity: "+m_bgSeverity->selected()->name()+"\n"+
-    "\n"+
-    m_lineedit->text();
+  QString severity = m_bgSeverity->selected()->name();
+  if (severity == "i18n")
+    // Case 1 : i18n bug
+    return QString("Package: i18n")+"\n"+
+      "Severity: Normal\n"+
+      "\n"+
+      "Application: "+kapp->name()+"\n"+
+      "Version: "+m_strVersion+"\n"+ // not really i18n's version, so better here IMHO
+      "\n"+
+      m_lineedit->text();
+  else
+    // Case 2 : normal bug
+    return QString("Package: ")+kapp->name()+"\n"+
+      "Version: "+m_strVersion+"\n"+
+      "Severity: "+severity+"\n"+
+      "\n"+
+      m_lineedit->text();
 }
 
-//#define RECIPIENT "submit@bugs.kde.org"
-#define RECIPIENT "faure@kde.org" // testing
+#define RECIPIENT "submit@bugs.kde.org"
 
 bool KBugReport::sendBugReport()
 {
@@ -189,7 +203,7 @@ bool KBugReport::sendBugReport()
   FILE * fd = popen(command.local8Bit(),"w");
   if (!fd)
   {
-    kdebug(KDEBUG_ERROR,0,"Unable to open a pipe towards the 'mail' program.");
+    kdebug(KDEBUG_ERROR,0,"Unable to open a pipe to %s",command.local8Bit().data());
     return false;
   }
 
