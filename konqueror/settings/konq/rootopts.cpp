@@ -279,7 +279,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   
   enableDevicesBox = new QCheckBox(i18n("Enable"), groupBox);
   connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(changed()));
-  
+  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableDevicesBoxChanged()));  
   devicesListView = new KListView( groupBox );
   devicesListView->setFullWidth(true);
   devicesListView->addColumn( i18n("Types to Display") );
@@ -311,6 +311,12 @@ void KRootOptions::fillDevicesListView()
 		
         }
     }
+    devicesListView->setEnabled(enableDevicesBox->isChecked());
+}
+
+void KRootOptions::enableDevicesBoxChanged()
+{
+	devicesListView->setEnabled(enableDevicesBox->isChecked());
 }
 
 void KRootOptions::saveDevicesListView()
