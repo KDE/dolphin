@@ -41,6 +41,7 @@
 #include "kcookiespolicies.h"
 #include "kcookiesmanagement.h"
 
+#include <assert.h>
 
 struct CookieProp
 {
