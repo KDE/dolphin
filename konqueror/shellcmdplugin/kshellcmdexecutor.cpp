@@ -70,8 +70,8 @@ int KShellCommandExecutor::exec()
 
    QCStringList args;
    args+="-c";
-   args+=m_command.latin1();
-   //kdDebug()<<"------- executing: "<<m_command.latin1()<<endl;
+   args+=m_command.local8Bit();
+   //kdDebug()<<"------- executing: "<<m_command.local8Bit()<<endl;
 
    QCString shell( getenv("SHELL") );
    if (shell.isEmpty())
@@ -108,7 +108,7 @@ void KShellCommandExecutor::readDataFromShell()
    {
       //kdDebug()<<"***********************\n"<<buffer<<"###################\n"<<endl;
       buffer[bytesRead]='\0';
-      this->append(QString(buffer));
+      this->append(QString::fromLocal8Bit(buffer));
       setTextFormat(PlainText);
    };
 }
@@ -121,7 +121,7 @@ void KShellCommandExecutor::writeDataToShell()
       i18n( "Input Required:" ), QString::null, &ok, this );
    if ( ok )
    {
-      QCString input=str.latin1();
+      QCString input=str.local8Bit();
       ::write(m_shellProcess->fd(),input,input.length());
       ::write(m_shellProcess->fd(),"\n",1);
    }
