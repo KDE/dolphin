@@ -3,17 +3,17 @@ LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
 
-kde_module_LTLIBRARIES = libkcm_konq.la
+kde_module_LTLIBRARIES = kcm_konq.la
 
-libkcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp \
+kcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp \
 		trashopts.cpp fontopts.cpp previews.cpp \
 		desktop.cpp uiserver.stub main.cpp
 
-libkcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA)
+kcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
+kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA)
 
-libkcm_konq_la_DATA = overlapping.png onlyone.png
-libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
+kcm_konq_la_DATA = overlapping.png onlyone.png
+kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 
 data_DATA = kcmkonq.desktop
 datadir = $(kde_appsdir)/Settings/FileBrowsing
@@ -30,7 +30,7 @@ install-data-local: uninstall.desktop
 
 uiserver_DIR = $(kde_includes)/kio
 
-EXTRA_DIST = $(libkcm_konq_la_DATA) $(data_DATA)
+EXTRA_DIST = $(kcm_konq_la_DATA) $(data_DATA)
 
 messages:
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkonq.pot

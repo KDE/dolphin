@@ -5,22 +5,22 @@ LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
 
-kde_module_LTLIBRARIES = libkcm_kio.la
+kde_module_LTLIBRARIES = kcm_kio.la
 
-libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
+kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
 			main.cpp smbrodlg.cpp useragentdlg.cpp kmanualproxydlg.cpp \
       kenvvarproxydlg.cpp kproxydlg.cpp kcookiesmanagement.cpp \
       fakeuaprovider.cpp uagentproviderdlg.cpp netpref.cpp \
       cache.cpp kproxyexceptiondlg.cpp ksaveioconfig.cpp
 
-libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)
+kcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
+kcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkio.pot
 
 check_PROGRAMS = test
-test_SOURCES = $(libkcm_kio_la_SOURCES) test.cpp
+test_SOURCES = $(kcm_kio_la_SOURCES) test.cpp
 test.cpp:
 	echo "int main() {};" > test.cpp
 test_LDFLAGS  = $(all_libraries) -module -avoid-version
