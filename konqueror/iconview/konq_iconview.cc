@@ -601,7 +601,17 @@ void KonqKfmIconView::slotSortDirsFirst()
 
 void KonqKfmIconView::newIconSize( int size )
 {
-    if ( size == m_pIconView->iconSize() )
+    //Either of the sizes can be 0 to indicate the default (Desktop) size icons.
+    //check for that when checking whether the size changed
+    int effSize = size;
+    if (effSize == 0)
+       effSize = IconSize(KIcon::Desktop);
+
+    int oldEffSize = m_pIconView->iconSize();
+    if (oldEffSize == 0)
+       oldEffSize = IconSize(KIcon::Desktop);
+
+    if ( effSize == oldEffSize )
         return;
 
     KonqDirPart::newIconSize( size );
