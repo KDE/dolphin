@@ -1,10 +1,10 @@
 #include "konqsidebar.h"
+#include "sidebar_widget.h"
 
 #include <kinstance.h>
 #include <kaction.h>
 #include <kstdaction.h>
 #include <kfiledialog.h>
-#include <sidebar_widget.h>
 #include <qfile.h>
 #include <qtextstream.h>
 #include <kdebug.h>

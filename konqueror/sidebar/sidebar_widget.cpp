@@ -1,5 +1,3 @@
-#include "sidebar_widget.h"
-#include "sidebar_widget.moc"
 #include <kdockwidget.h>
 #include <qwidget.h>
 #include <qpushbutton.h>
@@ -16,6 +14,88 @@
 #include <qstring.h>
 #include <kparts/browserextension.h>
 #include <qmetaobject.h>
+#include <qpopupmenu.h>
+#include <kiconloader.h>
+#include "sidebar_widget.h"
+#include "sidebar_widget.moc"
+#include <qmap.h>
+
+addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
+{
+	menu=addmenu;
+	connect(menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowAddMenu()));
+	connect(menu,SIGNAL(activated(int)),this,SLOT(activatedAddMenu(int)));
+}
+
+void addBackEnd::aboutToShowAddMenu()
+{
+  if (!menu) return;
+  KStandardDirs *dirs = KGlobal::dirs(); 
+  QStringList list=dirs->findAllResources("data","konqsidebartng/add/*.desktop",false,true);
+  libNames.setAutoDelete(true);
+  libNames.resize(0); 	
+  libParam.setAutoDelete(true);
+  libParam.resize(0); 	
+  menu->clear();
+  int i=0;
+  for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
+  {
+  	KSimpleConfig *confFile;
+
+	confFile=new KSimpleConfig(*it,true);
+	confFile->setGroup("Desktop Entry");
+    	QString icon=confFile->readEntry("Icon","");
+	if (!icon.isEmpty())
+		menu->insertItem(SmallIcon(icon),confFile->readEntry("Name",""),i);
+	else
+		menu->insertItem(confFile->readEntry("Name",""),i);
+	libNames.resize(libNames.size()+1);
+	libNames.insert(libNames.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule","")));
+	libParam.resize(libParam.size()+1);
+	libParam.insert(libParam.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
+	delete confFile;
+	
+  }
+}
+
+void addBackEnd::activatedAddMenu(int id)
+{
+	kdDebug()<<"activatedAddMenu: " << QString("%1").arg(id)<<endl;
+	if(id>=libNames.size()) return;
+	
+	KLibLoader *loader = KLibLoader::self();
+ 
+        // try to load the library
+        QString libname("lib");
+	libname=libname+(*libNames.at(id));
+        KLibrary *lib = loader->library(QFile::encodeName(libname));
+        if (lib)
+                {
+                // get the create_ function
+                QString factory("add_");
+		factory=factory+(*libNames.at(id));
+                void *add = lib->symbol(QFile::encodeName(factory));
+ 
+                if (add)
+                        {
+                        //call the add function
+                        bool (*func)(QString*, QString*, QMap<QString,QString> *);
+                        QMap<QString,QString> map;
+                        func = (bool (*)(QString*, QString*, QMap<QString,QString> *)) add;
+                        QString *tmp=new QString("");
+                        if (func(tmp,libParam.at(id),&map))
+                                {
+ 
+                                }
+                        else
+                                {kdWarning()<< "No new entry (error?)"<<endl;}
+                        delete tmp;
+                        }
+                }
+                else
+                        kdWarning() << "libname:"<< libNames.at(id) << " doesn't specify a library!" << endl;	
+}
+
 
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name)
 {
@@ -35,8 +115,10 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	ButtonBar->setIconText(KToolBar::IconOnly);
     	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
-	ButtonBar->insertButton(QString::fromLatin1("configure"), -1, true,
+	addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
+	ButtonBar->insertButton(QString::fromLatin1("filenew"), -1, addMenu,true,
     	    				i18n("Configure this dialog"));
+	(void) new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd");
 	ButtonBar->setMinimumHeight(10);
 //	ButtonBar=new QButtonGroup(this);
 //	ButtonBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
@@ -61,12 +143,12 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 	ButtonInfo* mod=getActiveModule();
 	if (!mod) return;
 	KParts::BrowserExtension *ext;
-	if (ext=(KParts::BrowserExtension*)mod->module->provides("KParts::BrowserExtension"))
+	if ((ext=(KParts::BrowserExtension*)mod->module->provides("KParts::BrowserExtension")))
 		{
 			QMetaData *md=ext->metaObject()->slot(handlestd);
 			if (md)
 			{
-				((void(*)())md->ptr)();
+				(ext->*((void(QObject::*)())md->ptr))();
 			}
 		}
 }
@@ -77,7 +159,7 @@ void Sidebar_Widget::createButtons()
 	//PARSE ALL DESKTOP FILES
 	Buttons.resize(0);
 	KStandardDirs *dirs = KGlobal::dirs(); 
-        QStringList list=dirs->findAllResources("data","konqsidebartng/*.desktop",false,true);
+        QStringList list=dirs->findAllResources("data","konqsidebartng/entries/*.desktop",false,true);
  	
   	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	    	
@@ -129,7 +211,7 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
 	{
 
  				KLibLoader *loader = KLibLoader::self();
- 
+
       				// try to load the library
       				QString libname("lib%1");
       				KLibrary *lib = loader->library(QFile::encodeName(libname.arg(lib_name)));
@@ -138,16 +220,16 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
          			 	// get the create_ function
           				QString factory("create_%1");
           				void *create = lib->symbol(QFile::encodeName(factory.arg(lib_name)));
- 
+
           				if (create)
             					{
 				        	   	// create the module
-								
+
 					              	KonqSidebarPlugin* (*func)(QObject *, QWidget*, QString&, const char *);
 					              	func = (KonqSidebarPlugin* (*)(QObject *, QWidget *, QString&, const char *)) create;
 					              	return  (KonqSidebarPlugin*)func(this,par,desktopName,0);
 					            }
-			        }		    
+			        }
 			    	else
 		      			kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
 			return 0;
@@ -190,9 +272,19 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 
 					connect(browserExtCli,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
 					browserExtMst,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
+
+					connect(browserExtCli,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
+					browserExtMst,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &))); 
+
+/*?????*/
+					connect(browserExtCli,SIGNAL(setLocationBarURL( const QString &)),
+					browserExtMst,SIGNAL(setLocationBarURL( const QString &)));
+					connect(browserExtCli,SIGNAL(setIconURL( const KURL &)),
+					browserExtMst,SIGNAL(setIconURL( const KURL &)));
+/*?????*/
+					connect(browserExtCli,SIGNAL(infoMessage( const QString & )),
+					browserExtMst,SIGNAL(infoMessage( const QString & )));
  
-//					connect(browserExtCli,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs)),
-//					browserExtMst,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs))); 
 					}
 
 			}

@@ -7,6 +7,7 @@
 #include <kurl.h>
 #include <ktoolbar.h>
 #include <kparts/part.h>
+#include <qstring.h>
 
 class ButtonInfo: public QObject
 {
@@ -19,6 +20,22 @@ class ButtonInfo: public QObject
 	class QString file;
 	class KDockWidget *dock;
 	class KonqSidebarPlugin *module;	
+};
+
+
+class addBackEnd: public QObject
+{
+	Q_OBJECT
+	public:
+		addBackEnd(QObject *parent,class QPopupMenu *addmenu, const char *name=0);
+		~addBackEnd(){;}
+	private:
+		QGuardedPtr<class QPopupMenu> menu;
+		QVector<QString> libNames;
+		QVector<QString> libParam;
+	protected slots:
+		void aboutToShowAddMenu();
+		void activatedAddMenu(int);
 };
 
 class Sidebar_ButtonBar: public KToolBar
@@ -54,6 +71,7 @@ class Sidebar_Widget: public QHBox
 	bool stored_url;
 	KParts::ReadOnlyPart *partParent;
 	ButtonInfo* getActiveModule();
+	class QPopupMenu* addMenu;
 
   protected slots:
 	void showHidePage(int value);

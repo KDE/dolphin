@@ -23,5 +23,9 @@ libkonqsidebar_classic_wrap_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libkonqsidebar_classic_wrap_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../libkonqsidebarplugin.la
 
 # this is where the part's XML-GUI resource file goes
-partrcdir   = $(kde_datadir)/konqsidebartng
+partrcdir   = $(kde_datadir)/konqsidebartng/entries
 partrc_DATA = sidebar_classic.desktop
+
+partadddir   = $(kde_datadir)/konqsidebartng/add
+partadd_DATA = sidebar_classic_add.desktop
+

@@ -23,5 +23,5 @@ libkonqsidebartest_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libkonqsidebartest_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../libkonqsidebarplugin.la
 
 # this is where the part's XML-GUI resource file goes
-partrcdir   = $(kde_datadir)/konqsidebartng
+partrcdir   = $(kde_datadir)/konqsidebartng/entries
 partrc_DATA = test.desktop
