@@ -74,9 +74,9 @@ KWrite::KWrite (KTextEditor::Document *doc)
       m_paShowStatusBar(0)
 {
   setMinimumSize(200,200);
-  
+
   if (!initialGeometrySet())
-     resize(640,400); 
+     resize(640,400);
 
   if (!doc) {
 	doc=KTextEditor::EditorChooser::createDocument(this,"KTextEditor::Document");
@@ -101,7 +101,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
 
 
 KWrite::~KWrite()
-{                           
+{
   if (kateView->document()->views().count() == 1) docList.remove(kateView->document());
 }
 
@@ -150,7 +150,7 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
                                   "Please check your KDE installation."));
     exit(1);
   }
-  
+
   kateView = doc->createView (this, 0L);
 
   connect(kateView,SIGNAL(newStatus()),this,SLOT(newCaption()));
@@ -159,7 +159,7 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
   connect(kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
 
   setCentralWidget(kateView);
-  
+
   KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" )->setWhatsThis(i18n("Use this to close the current document"));
 }
 
@@ -453,7 +453,7 @@ void KWrite::writeConfig()
   config->setGroup("General Options");
   writeConfig(config);
 
-  if (kateView && KTextEditor::configInterface(kateView->document())) 
+  if (kateView && KTextEditor::configInterface(kateView->document()))
     KTextEditor::configInterface(kateView->document())->writeConfig();
 }
 
@@ -469,8 +469,8 @@ void KWrite::restore(KConfig *config, int n)
 
 void KWrite::readProperties(KConfig *config)
 {
-  readConfig(config);       
-  
+  readConfig(config);
+
   if (KTextEditor::sessionConfigInterface(kateView))
     KTextEditor::sessionConfigInterface(kateView)->readSessionConfig(config);
 }
@@ -479,7 +479,7 @@ void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
   config->writeEntry("DocumentNumber",docList.find(kateView->document()) + 1);
-  
+
   if (KTextEditor::sessionConfigInterface(kateView))
     KTextEditor::sessionConfigInterface(kateView)->writeSessionConfig(config);
 }
@@ -497,7 +497,7 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
      doc = docList.at(z - 1);
-     
+
      if (KTextEditor::configInterface(doc))
        KTextEditor::configInterface(doc)->writeSessionConfig(config);
   }
@@ -522,8 +522,8 @@ void KWrite::restore()
   for (z = 1; z <= docs; z++) {
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
-     doc = KTextEditor::createDocument ("libkatepart");  
-     
+     doc = KTextEditor::createDocument ("libkatepart");
+
      if (KTextEditor::configInterface(doc))
        KTextEditor::configInterface(doc)->readSessionConfig(config);
      docList.append(doc);
@@ -540,7 +540,7 @@ void KWrite::restore()
 static KCmdLineOptions options[] =
 {
   { "+[URL]",   I18N_NOOP("Document to open."), 0 },
-  { 0, 0, 0}
+  KCmdLineLastOption
 };
 
 int main(int argc, char **argv)

@@ -61,7 +61,7 @@ static const KCmdLineOptions options[] =
    { "commands", I18N_NOOP("Show available commands."), 0},
    { "+command", I18N_NOOP("Command (see --commands)."), 0},
    { "+[URL(s)]", I18N_NOOP("Arguments for command."), 0},
-   {0,0,0}
+   KCmdLineLastOption
 };
 
 int main( int argc, char **argv )
@@ -225,7 +225,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
             kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
             */
             // pass kfmclient's startup id to konqueror using kshell
-            KStartupInfoId id; 
+            KStartupInfoId id;
             id.initId( startup_id_str );
             id.setupStartupEnv();
             KProcess proc;
@@ -315,7 +315,7 @@ bool clientApp::doIt()
 
   QCString command = args->arg(0);
 
-  // read ASN env. variable for non-KApp cases  
+  // read ASN env. variable for non-KApp cases
   startup_id_str = KStartupInfo::currentStartupIdEnv().id();
 
   if ( command == "openURL" )
@@ -348,10 +348,10 @@ bool clientApp::doIt()
       url = args->url(2).url();
     return openProfile( QString::fromLocal8Bit(args->arg(1)), url );
   }
-  
+
   // the following commands need KApplication
   clientApp app;
-  
+
   if ( command == "openProperties" )
   {
     checkArgumentCount(argc, 2, 2);
@@ -421,7 +421,7 @@ bool clientApp::doIt()
     }
     if (srcLst.count() == 0)
        return m_ok;
-    QString dst = 
+    QString dst =
        KFileDialog::getSaveFileName( (argc<2) ? (QString::null) : (args->url(1).filename()) );
     if (dst == QString::null)
        return m_ok; // AK - really okay?

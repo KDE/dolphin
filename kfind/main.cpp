@@ -16,7 +16,7 @@ static const char *description =
 static KCmdLineOptions options[] =
 {
   { "+[searchpath]", I18N_NOOP("Path(s) to search."), 0 },
-  { 0,0,0 }
+  KCmdLineLastOption
 };
 
 int main( int argc, char ** argv )

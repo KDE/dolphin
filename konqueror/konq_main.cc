@@ -42,7 +42,7 @@ static KCmdLineOptions options[] =
   { "profile <profile>",   I18N_NOOP("Profile to open."), 0 },
   { "mimetype <mimetype>",   I18N_NOOP("Mimetype to use for this URL, (e.g. text/html or inode/directory)."), 0 },
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
-  { 0, 0, 0}
+  KCmdLineLastOption
 };
 
 int main( int argc, char **argv )

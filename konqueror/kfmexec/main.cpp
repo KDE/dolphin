@@ -52,7 +52,7 @@ static KCmdLineOptions options[] =
 {
    { "+command", I18N_NOOP("Command to execute."), 0 },
    { "[URLs]", I18N_NOOP("URL(s) or local file used for 'command'."), 0 },
-   { 0, 0, 0 }
+   KCmdLineLastOption
 };
 
 
