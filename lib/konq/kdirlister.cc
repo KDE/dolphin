@@ -160,15 +160,14 @@ void KDirLister::slotBufferTimeout()
     QString name;
     
     // Find out about the name
-    UDSEntry::iterator it2 = (*it).begin();
+    UDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
-      if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str;
-  
+      if ( (*it2).m_uds == UDS_NAME )
+	name = (*it2).m_str;
+
     bool m_isShowingDotFiles = true; // TODO
     assert( !name.isEmpty() );
-    if ( m_isShowingDotFiles || name[0] != '.' )
-    {
+    if ( m_isShowingDotFiles || name[0] != '.' ) {
       KURL u( m_url );
       u.addPath( name );
       //kdebug(0,1203,"Adding %s", u.url().ascii());
@@ -245,10 +244,10 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     QString name;
     
     // Find out about the name
-    UDSEntry::iterator it2 = (*it).begin();
+    UDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
-      if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str;
+      if ( (*it2).m_uds == UDS_NAME )
+	name = (*it2).m_str;
   
     assert( !name.isEmpty() );
 

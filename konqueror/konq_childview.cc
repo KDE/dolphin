@@ -328,23 +328,18 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
   {
     if ( !m_bHistoryLock && ( url != m_tmpInternalHistoryEntry.strURL ) ) // no lock
     {
-      if ( m_bBack )
-      {
+      if ( m_bBack ) {
         m_bBack = false;
         kdebug(0,1202,"pushing into forward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
-        m_lstForward.push_front( m_tmpInternalHistoryEntry );
-      }
-      else if ( m_bForward )
-      {
+        m_lstForward.prepend( m_tmpInternalHistoryEntry );
+      } else if ( m_bForward ) {
         m_bForward = false;
         kdebug(0,1202,"pushing into backward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
-        m_lstBack.push_back( m_tmpInternalHistoryEntry );
-      }
-      else
-      {
+        m_lstBack.append( m_tmpInternalHistoryEntry );
+      } else {
         m_lstForward.clear();
         kdebug(0,1202,"pushing into backward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
-        m_lstBack.push_back( m_tmpInternalHistoryEntry );
+        m_lstBack.append( m_tmpInternalHistoryEntry );
       }	
     }
     else
@@ -369,15 +364,14 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
 
 void KonqChildView::goBack()
 {
-  assert( m_lstBack.size() != 0 );
+  assert( m_lstBack.count() != 0 );
 
-  InternalHistoryEntry h = m_lstBack.back();
-  m_lstBack.pop_back();
+  InternalHistoryEntry h = m_lstBack.last();
+  m_lstBack.remove(m_lstBack.fromLast());
   m_bBack = true;
   kdebug(0,1202,"restoring %s with stype %s", h.entry.url.in(), h.strServiceType.ascii());
 
-  if ( h.bHasHistoryEntry )  
-  {
+  if ( h.bHasHistoryEntry ) {
     Konqueror::View_var vView;
     QStringList serviceTypes;
     createView( h.strServiceType, vView, serviceTypes );
@@ -400,19 +394,18 @@ void KonqChildView::goBack()
 
 void KonqChildView::goForward()
 {
-  assert( m_lstForward.size() != 0 );
+  assert( m_lstForward.count() != 0 );
 
-  InternalHistoryEntry h = m_lstForward.front();
-  m_lstForward.pop_front();
+  InternalHistoryEntry h = m_lstForward.first();
+  m_lstForward.remove(m_lstForward.begin());
   m_bForward = true;
   kdebug(0,1202,"restoring %s with stype %s", h.entry.url.in(), h.strServiceType.ascii());
 
-  if ( h.bHasHistoryEntry )  
-  {
+  if ( h.bHasHistoryEntry ) {
     Konqueror::View_var vView;
     QStringList serviceTypes;
     createView( h.strServiceType, vView, serviceTypes );
-    
+
     OpenParts::Id oldId = m_vView->id();
     switchView( vView, serviceTypes );
 
@@ -528,7 +521,7 @@ bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var 
   
   if ( service->repoIds().count() == 0 )  //uh...is it a CORBA service at all??
     return false;
-  
+ 
   QString repoId = service->repoIds().first();
   QString tag = service->name(); //use service name as default tag
   int tagPos = repoId.find( "#" );

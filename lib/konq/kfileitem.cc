@@ -1,22 +1,26 @@
-/* This file is part of the KDE project
-   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+/*
+ * This file is part of the KDE project
+ *
+ * Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+ * $Id$
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ **/
 
-   This program is free software; you can redistribute it and/or
-   modify it under the terms of the GNU General Public
-   License as published by the Free Software Foundation; either
-   version 2 of the License, or (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program; see the file COPYING.  If not, write to
-   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.
-*/
-
+#include <assert.h>
 #include <unistd.h>
 
 #include "kfileitem.h"
@@ -35,19 +39,18 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
   // extract the mode and the filename from the UDS Entry
   m_mode = 0;
   m_strText = QString::null;
-  UDSEntry::iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-  {
-    if ( it->m_uds == UDS_FILE_TYPE )
-      m_mode = (mode_t)it->m_long;
-    else if ( it->m_uds == UDS_NAME )
-      m_strText = decodeFileName( it->m_str );
+  UDSEntry::Iterator it = m_entry.begin();
+  for( ; it != m_entry.end(); it++ ) {
+    if ( (*it).m_uds == UDS_FILE_TYPE )
+      m_mode = (mode_t)((*it).m_long);
+    else if ( (*it).m_uds == UDS_NAME )
+      m_strText = decodeFileName( (*it).m_str );
   }
   KFileItem::init(); // don't call derived methods !
 }
 
 KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
-  m_entry( 0 ), // warning !
+  m_entry(), // warning !
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
   m_strText( _text ),
@@ -106,17 +109,16 @@ QString KFileItem::getStatusBarInfo() const
   long size   = 0;
   mode_t mode = 0;
 
-  UDSEntry::const_iterator it = m_entry.begin();
-  for( ; it != m_entry.end(); it++ )
-  {
-    if ( it->m_uds == UDS_SIZE )
-      size = it->m_long;
-    else if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-    else if ( it->m_uds == UDS_LINK_DEST )
-      linkDest = it->m_str;
-    else if ( it->m_uds == UDS_NAME )
-      text = it->m_str;
+  UDSEntry::ConstIterator it = m_entry.begin();
+  for( ; it != m_entry.end(); it++ ) {
+    if ( (*it).m_uds == UDS_SIZE )
+      size = (*it).m_long;
+    else if ( (*it).m_uds == UDS_FILE_TYPE )
+      mode = (mode_t)((*it).m_long);
+    else if ( (*it).m_uds == UDS_LINK_DEST )
+      linkDest = (*it).m_str;
+    else if ( (*it).m_uds == UDS_NAME )
+      text = (*it).m_str;
   }
 
   QString text2 = text.copy();

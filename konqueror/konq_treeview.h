@@ -20,6 +20,7 @@
 #ifndef __konq_treeview_h__
 #define __konq_treeview_h__
 
+#include <qvaluelist.h>
 #include <qlistview.h>
 #include <qtimer.h>
 #include <qdict.h>
@@ -161,7 +162,7 @@ public:
   iterator begin() { iterator it( (KfmTreeViewItem*)firstChild() ); return it; }
   iterator end() { iterator it; return it; }
 
-  virtual void selectedItems( list<KfmTreeViewItem*>& _list );
+  virtual void selectedItems( QValueList<KfmTreeViewItem*>& _list );
 
   virtual void updateDirectory();
 
@@ -230,7 +231,7 @@ protected:
 
   int m_iColumns;
 
-  list<UDSEntry> m_buffer;
+  QValueList<UDSEntry> m_buffer;
   QTimer m_bufferTimer;
 
   QDict<KfmTreeViewDir> m_mapSubDirs;

@@ -664,12 +664,12 @@ void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
   SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
 }
 
-void KonqKfmTreeView::selectedItems( list<KfmTreeViewItem*>& _list )
+void KonqKfmTreeView::selectedItems( QValueList<KfmTreeViewItem*>& _list )
 {
   iterator it = begin();
   for( ; it != end(); it++ )
     if ( it->isSelected() )
-      _list.push_back( &*it );
+      _list.append( &*it );
 }
 
 void KonqKfmTreeView::slotReturnPressed( QListViewItem *_item )
@@ -716,23 +716,20 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
 
   popupRequest.urls.length( 0 );
 
-  list<KfmTreeViewItem*> items;
+  QValueList<KfmTreeViewItem*> items;
   selectedItems( items );
   mode_t mode = 0;
   bool first = true;
-  list<KfmTreeViewItem*>::iterator it = items.begin();
+  QValueList<KfmTreeViewItem*>::Iterator it = items.begin();
   int i = 0;
-  for( ; it != items.end(); ++it )
-  {
+  for( ; it != items.end(); ++it ) {
     popupRequest.urls.length( i + 1 );
     popupRequest.urls[ i++ ] = (*it)->url();
 
-    if ( first )
-    {
+    if ( first ) {
       mode = (*it)->mode();
       first = false;
-    }
-    else if ( mode != (*it)->mode() ) // modes are different
+    } else if ( mode != (*it)->mode() ) // modes are different
       mode = 0; // reset to 0
   }
 
@@ -919,44 +916,37 @@ void KonqKfmTreeView::slotCloseSubFolder( int /*_id*/ )
 
 void KonqKfmTreeView::slotListEntry( int /*_id*/, const UDSEntry& _entry )
 {
-  m_buffer.push_back( _entry );
+  m_buffer.append( _entry );
   if ( !m_bufferTimer.isActive() )
     m_bufferTimer.start( 1000, true );
 }
 
 void KonqKfmTreeView::slotBufferTimeout()
 {
-  list<UDSEntry>::iterator it = m_buffer.begin();
-  for( ; it != m_buffer.end(); it++ )
-  {
+  QValueList<UDSEntry>::Iterator it = m_buffer.begin();
+  for( ; it != m_buffer.end(); it++ ) {
     int isdir = -1;
     string name;
 
     // Find out whether it is a directory
-    UDSEntry::iterator it2 = it->begin();
-    for( ; it2 != it->end(); it2++ )
-    {
-      if ( it2->m_uds == UDS_FILE_TYPE )
-      {
-	mode_t mode = (mode_t)it2->m_long;
+    UDSEntry::Iterator it2 = (*it).begin();
+    for( ; it2 != (*it).end(); it2++ ) {
+      if ( (*it2).m_uds == UDS_FILE_TYPE ) {
+	mode_t mode = (mode_t)((*it2).m_long);
 	if ( S_ISDIR( mode ) )
 	  isdir = 1;
 	else
 	  isdir = 0;
-      }
-      else if ( it2->m_uds == UDS_NAME )
-      {
-	name = it2->m_str;
+      } else if ( (*it2).m_uds == UDS_NAME ) {
+	name = (*it2).m_str;
       }
     }
 
     assert( isdir != -1 && !name.empty() );
 
-    if ( m_isShowingDotFiles || name[0]!='.' )
-    {
+    if ( m_isShowingDotFiles || name[0]!='.' ) {
       // The first entry in the toplevel ?
-      if ( !m_pWorkingDir && !m_strWorkingURL.empty() )
-      {
+      if ( !m_pWorkingDir && !m_strWorkingURL.empty() ) {
         clear();
 
         m_strURL = m_strWorkingURL.c_str();
@@ -966,17 +956,14 @@ void KonqKfmTreeView::slotBufferTimeout()
         m_bIsLocalURL = u.isLocalFile();
       }
 
-      if ( m_pWorkingDir )
-      {
+      if ( m_pWorkingDir ) {
         KURL u( m_workingURL );
         u.addPath( name.c_str() );
         if ( isdir )
           new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
         else
           new KfmTreeViewItem( this, m_pWorkingDir, *it, u );
-      }
-      else
-      {
+      } else {
         KURL u( m_url );
         u.addPath( name.c_str() );
         if ( isdir )
@@ -1118,34 +1105,28 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
     item = item->nextSibling();
   }
 
-  list<UDSEntry>::iterator it = m_buffer.begin();
-  for( ; it != m_buffer.end(); it++ )
-  {
+  QValueList<UDSEntry>::Iterator it = m_buffer.begin();
+  for( ; it != m_buffer.end(); it++ ) {
     int isdir = -1;
     string name;
 
     // Find out wether it is a directory
-    UDSEntry::iterator it2 = it->begin();
-    for( ; it2 != it->end(); it2++ )
-    {
-      if ( it2->m_uds == UDS_FILE_TYPE )
-      {
-	mode_t mode = (mode_t)it2->m_long;
+    UDSEntry::Iterator it2 = (*it).begin();
+    for( ; it2 != (*it).end(); it2++ )  {
+      if ( (*it2).m_uds == UDS_FILE_TYPE ) {
+	mode_t mode = (mode_t)((*it2).m_long);
 	if ( S_ISDIR( mode ) )
 	  isdir = 1;
 	else
 	  isdir = 0;
-      }
-      else if ( it2->m_uds == UDS_NAME )
-      {
-	name = it2->m_str;
+      }  else if ( (*it2).m_uds == UDS_NAME ) {
+	name = (*it2).m_str;
       }
     }
 
     assert( isdir != -1 && !name.empty() );
 
-    if ( m_isShowingDotFiles || name[0]!='.' )
-    {
+    if ( m_isShowingDotFiles || name[0]!='.' ) {
       // Find this icon
       bool done = false;
       QListViewItem *item;
@@ -1153,22 +1134,18 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
         item = m_pWorkingDir->firstChild();
       else
         item = firstChild();
-      while( item )
-      {
-        if ( name == ((KfmTreeViewItem*)item)->getText().ascii() )
-        {
+      while( item ) {
+        if ( name == ((KfmTreeViewItem*)item)->getText().ascii() ) {
           ((KfmTreeViewItem*)item)->mark();
           done = true;
         }
         item = item->nextSibling();
       }
 
-      if ( !done )
-      {
+      if ( !done ) {
         kdebug(0,1202,"Inserting %s", name.c_str());
         KfmTreeViewItem *item;
-        if ( m_pWorkingDir )
-        {
+        if ( m_pWorkingDir ) {
           KURL u( m_workingURL );
           u.addPath( name.c_str() );
           kdebug(0,1202,"Final path 1 '%s'", u.path().data());
@@ -1176,9 +1153,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
             item = new KfmTreeViewDir( this, m_pWorkingDir, *it, u );
           else
             item = new KfmTreeViewItem( this, m_pWorkingDir, *it, u );
-        }
-        else
-        {
+        } else {
           KURL u( m_url );
           u.addPath( name.c_str() );
           kdebug(0,1202,"Final path 2 '%s'", u.path().data());
@@ -1221,7 +1196,7 @@ void KonqKfmTreeView::slotUpdateFinished( int /*_id*/ )
 
 void KonqKfmTreeView::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
 {
-  m_buffer.push_back( _entry );
+  m_buffer.append( _entry );
 }
 
 void KonqKfmTreeView::drawContentsOffset( QPainter* _painter, int _offsetx, int _offsety,
@@ -1289,7 +1264,7 @@ QString KfmTreeViewItem::key( int _column, bool ) const
 {
   static char buffer[ 12 ];
 
-  assert( _column < (int)m_entry.size() );
+  assert( _column < (int)m_entry.count() );
 
   unsigned long uds = m_entry[ _column ].m_uds;
 
@@ -1306,9 +1281,9 @@ QString KfmTreeViewItem::key( int _column, bool ) const
 
 QString KfmTreeViewItem::text( int _column ) const
 {
-  //  assert( _column < (int)m_entry.size() );
+  //  assert( _column < (int)m_entry.count() );
 
-  if ( _column >= (int)m_entry.size() )
+  if ( _column >= (int)m_entry.count() )
     return "";
 
   unsigned long uds = m_entry[ _column ].m_uds;

@@ -1,23 +1,26 @@
-/*  This file is part of the KDE project
-    Copyright (C) 1998, 1999 David Faure <faure@kde.org>
- 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
- 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
- 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/     
+/*
+ *  This file is part of the KDE project
+ *  Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+ *
+ *  $Id$
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ **/     
 
 #ifndef __konq_childview_h__
-#define __konq_childview_h__
+#define __konq_childview_h__ "$Id$"
 
 #include "konq_mainview.h"
 
@@ -25,8 +28,6 @@
 #include <qstring.h>
 #include <qobject.h>
 #include <qstringlist.h>
-
-#include <list>
 
 class QVBoxLayout;
 class QSplitter;
@@ -127,7 +128,7 @@ public:
   /**
    * @return true if view can go back
    */
-  bool canGoBack() { return m_lstBack.size() != 0; }
+  bool canGoBack() { return m_lstBack.count() != 0; }
   /**
    * Go back
    */
@@ -136,7 +137,7 @@ public:
   /**
    * @return true if view can go forward
    */
-  bool canGoForward() { return m_lstForward.size() != 0; }
+  bool canGoForward() { return m_lstForward.count() != 0; }
   /**
    * Go forward
    */
@@ -229,8 +230,8 @@ protected:
   bool m_bBack;
   bool m_bForward;
   
-  list<InternalHistoryEntry> m_lstBack;
-  list<InternalHistoryEntry> m_lstForward;
+  QValueList<InternalHistoryEntry> m_lstBack;
+  QValueList<InternalHistoryEntry> m_lstForward;
 
   /** Used by makeHistory, to store an history entry between calls */
   InternalHistoryEntry m_tmpInternalHistoryEntry;
