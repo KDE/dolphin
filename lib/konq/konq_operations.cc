@@ -561,7 +561,7 @@ void KonqOperations::doFileCopy()
             delete this;
             return;
         }
-        
+
         if ( askDeleteConfirmation( mlst, DEFAULT_CONFIRMATION ) )
             action = QDropEvent::Move;
         else
@@ -598,7 +598,7 @@ void KonqOperations::doFileCopy()
         }
         //bool sTrash = url.path(1) == KGlobalSettings::trashPath();
         // Nor control nor shift are pressed => show popup menu
-        
+
         QPopupMenu popup;
         if ( sReading && !linkOnly)
             popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
@@ -611,6 +611,9 @@ void KonqOperations::doFileCopy()
         popup.insertItem(SmallIconSet("cancel"), i18n( "C&ancel" ), 5);
 
         int result = popup.exec( m_info->mousePos );
+        if (  iconView && iconView->isDesktop() )
+            iconView->setLastIconPosition( m_info->mousePos );
+
         switch (result) {
         case 1 : action = QDropEvent::Copy; break;
         case 2 : action = QDropEvent::Move; break;
@@ -815,14 +818,14 @@ void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
        {
           KURL url=baseURL;
           url.addPath( name );
-          
+
           if (access(QFile::encodeName(url.path()), F_OK) == -1)
              break;
-             
+
           name = base + QString("_%1").arg(n++);
        }
     }
-    
+
     name = KInputDialog::getText ( i18n( "New Directory" ),
         i18n( "Enter directory name:" ), name, &ok, parent );
     if ( ok )
