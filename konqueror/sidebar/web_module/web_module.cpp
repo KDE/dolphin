@@ -19,11 +19,15 @@
 #include "web_module.h"
 #include <qfileinfo.h>
 #include <qtimer.h>
+#include <qspinbox.h>
+#include <qhbox.h>
 
+#include <kdialog.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
+#include <dom/html_inline.h>
 #include <konq_pixmapprovider.h>
 
 
@@ -42,6 +46,8 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 		this,
 		SLOT(urlClicked(const QString&, KParts::URLArgs)));
 	connect(_htmlPart,
+		SIGNAL(setAutoReload()), this, SLOT( setAutoReload() ));
+	connect(_htmlPart,
 		SIGNAL(openURLNewWindow(const QString&, KParts::URLArgs)),
 		this,
 		SLOT(urlNewWindow(const QString&, KParts::URLArgs)));
@@ -54,7 +60,7 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 
 	KSimpleConfig ksc(_desktopName);
 	ksc.setGroup("Desktop Entry");
-
+        reloadTimeout = ksc.readNumEntry("Reload", 0);
 	_url = ksc.readPathEntry("URL");
 	_htmlPart->openURL(_url );
 	// Must load this delayed
@@ -72,6 +78,31 @@ QWidget *KonqSideBarWebModule::getWidget() {
 	return _htmlPart->widget();
 }
 
+void KonqSideBarWebModule::setAutoReload(){
+	KDialogBase dlg(0, "", true, i18n("Set Refresh Timeout (0 disables)"),
+			KDialogBase::Ok|KDialogBase::Cancel);
+	QHBox *hbox = dlg.makeHBoxMainWidget();
+	
+	QSpinBox *mins = new QSpinBox( 0, 120, 1, hbox );
+	mins->setSuffix( i18n(" minutes") );
+	QSpinBox *secs = new QSpinBox( 0, 59, 1, hbox );
+	secs->setSuffix( i18n(" seconds") );
+
+	if( reloadTimeout > 0 )	{
+		int seconds = reloadTimeout / 1000;
+		secs->setValue( seconds % 60 );
+		mins->setValue( ( seconds - secs->value() ) / 60 );
+	}
+	
+	if( dlg.exec() == QDialog::Accepted ) {
+		int msec = ( mins->value() * 60 + secs->value() ) * 1000;
+		reloadTimeout = msec;
+		KSimpleConfig ksc(_desktopName);
+		ksc.setGroup("Desktop Entry");
+		ksc.writeEntry("Reload", reloadTimeout);	
+		reload();
+	}
+}
 
 void *KonqSideBarWebModule::provides(const QString &) {
 	return 0L;
@@ -90,7 +121,7 @@ void KonqSideBarWebModule::urlNewWindow(const QString& url, KParts::URLArgs args
 
 void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
 {
-	emit openURLRequest(KURL( url ), args);
+	emit openURLRequest( KURL(url), args);
 }
 
 
@@ -132,6 +163,9 @@ void KonqSideBarWebModule::setTitle(const QString& title) {
 
 
 void KonqSideBarWebModule::pageLoaded() {
+	if( reloadTimeout > 0 ) {
+		QTimer::singleShot( reloadTimeout, this, SLOT( reload() ) );
+	}
 }
 
 

@@ -60,6 +60,7 @@ class KHTMLSideBar : public KHTMLPart
 			_menu = new KPopupMenu(widget(), "context menu");
 			_menu->insertItem(SmallIcon("reload"), i18n("&Reload"),
 					this, SIGNAL(reload()));
+			_menu->insertItem(SmallIcon("reload"), i18n("Set &Automatic Reload"),                                                  this, SIGNAL(setAutoReload()));
 
 			connect(this,
 				SIGNAL(popupMenu(const QString&,const QPoint&)),
@@ -74,15 +75,19 @@ class KHTMLSideBar : public KHTMLPart
 		void openURLRequest(const QString& url, KParts::URLArgs args);
 		void openURLNewWindow(const QString& url, KParts::URLArgs args);
 		void reload();
+		void setAutoReload();
 
 	protected:
 		virtual void urlSelected( const QString &url, int button,
 				int state, const QString &_target,
 				KParts::URLArgs args = KParts::URLArgs()) {
-			if (button == LeftButton &&
-				_target.lower() == "_content") {
-				emit openURLRequest(completeURL(url).url(),
+			if (button == LeftButton ){
+				if( _target.lower() == "_self" ) {
+					openURL( url );
+				} else {
+					emit openURLRequest(completeURL(url).url(),
 							args);
+				}
 				return;
 			}
 			if (button == MidButton) {
@@ -180,11 +185,13 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 		void pageLoaded();
 		void loadFavicon();
 		void setTitle(const QString&);
+		void setAutoReload();
 		void reload();
 
 	private:
 		KHTMLSideBar *_htmlPart;
 		KURL _url;
+		int reloadTimeout;
 		QString _desktopName;
 };
 
