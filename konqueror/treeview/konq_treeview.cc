@@ -225,9 +225,10 @@ bool KonqTreeView::openURL( const KURL &url )
   return m_pTreeView->openURL( url );
 }
 
-void KonqTreeView::closeURL()
+bool KonqTreeView::closeURL()
 {
   m_pTreeView->stop();
+  return true;
 }
 
 void KonqTreeView::guiActivateEvent( KParts::GUIActivateEvent *event )
