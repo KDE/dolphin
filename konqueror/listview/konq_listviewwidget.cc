@@ -567,7 +567,7 @@ void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
   //isSingleClickArea() checks wether the mouse pointer is
   // over an area where an action should be triggered
   // no matter wether single or double click
-  if ( isSingleClickArea( mapFromGlobal(QCursor::pos())))
+  if ( isSingleClickArea( viewport()->mapFromGlobal(QCursor::pos())))
   {
     if ( m_pressedItem->isExpandable() )
       m_pressedItem->setOpen( !m_pressedItem->isOpen() );
