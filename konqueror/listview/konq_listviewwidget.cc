@@ -475,7 +475,6 @@ void KonqBaseListViewWidget::slotAutoScroll()
    ensureVisible( vc.x(), vc.y() );
 
    pos = viewport()->mapFromGlobal( QCursor::pos() );
-   vc = viewportToContents( pos );
    if ( !QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( pos ) &&
         !m_scrollTimer )
    {
