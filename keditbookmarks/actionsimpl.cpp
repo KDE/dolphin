@@ -52,7 +52,7 @@
 
 #include <kdatastream.h>
 #include <ktempfile.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 #include <kparts/part.h>
 #include <kparts/componentfactory.h>
@@ -64,7 +64,6 @@
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 
-#include <kbookmarkimporter.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
 #include <kbookmarkexporter.h>
