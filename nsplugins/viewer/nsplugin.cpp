@@ -1480,12 +1480,12 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
       inform();
 
       max = _instance->NPWriteReady(_stream);
-      kdDebug(1431) << "to_sent == " << to_sent << " and max = " << max << endl;
+      //kdDebug(1431) << "to_sent == " << to_sent << " and max = " << max << endl;
       len = QMIN(max, to_sent);
 
-      kdDebug(1431) << "-> Feeding stream to plugin: offset=" << _pos << ", len=" << len << endl;
+      //kdDebug(1431) << "-> Feeding stream to plugin: offset=" << _pos << ", len=" << len << endl;
       sent = _instance->NPWrite( _stream, _pos, len, d );
-      kdDebug(1431) << "<- Feeding stream: sent = " << sent << endl;
+      //kdDebug(1431) << "<- Feeding stream: sent = " << sent << endl;
 
       if (sent == 0) // interrupt the stream for a few ms
           break;
@@ -1549,10 +1549,12 @@ void NSPluginStreamBase::queue( const QByteArray &data )
     _queuePos = 0;
     _tries = 0;
 
+/*
     kdDebug(1431) << "new queue size=" << data.size()
                   << " data=" << (void*)data.data() 
                   << " queue=" << (void*)_queue.data() << " qsize="
                   << _queue.size() << endl;
+*/
 }
 
 
@@ -1713,7 +1715,7 @@ bool NSPluginStream::post( const QString& url, const QByteArray& data,
 
 void NSPluginStream::data(KIO::Job * job, const QByteArray &data)
 {
-    kdDebug(1431) << "NSPluginStream::data - job=" << (void*)job << " data size=" << data.size() << endl;
+    //kdDebug(1431) << "NSPluginStream::data - job=" << (void*)job << " data size=" << data.size() << endl;
     queue( data );
     if ( !pump() ) {
         _job->suspend();
