@@ -313,7 +313,7 @@ void KonqDirTree::clear()
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
 {
-//  qDebug( "openSubFolder( %s )", item->fileItem()->url().url().ascii() );
+//  kdDebug() << "openSubFolder( " << item->fileItem()->url().url() << " )" << endl;
   TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
@@ -505,7 +505,7 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
     for (; dirIt != dirEnd; ++dirIt )
     {
-      //    qDebug( "comparing %s with %s", dirIt.key().url().ascii(), dir.url().ascii() );
+      //    kdDebug() << "comparing " << dirIt.key().url() << " with " << dir.url() << endl;
       if ( dir.cmp( dirIt.key(), true ) )
         break;
     }
@@ -526,7 +526,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
 {
   assert( S_ISDIR( item->mode() ) );
 
-  //  qDebug( "slotDeleteItem( %s )", item->url().url().ascii() );
+  //  kdDebug() << "slotDeleteItem( " << item->url().url() << " )" << endl;
 
   KonqDirLister *lister = (KonqDirLister *)sender();
 
@@ -544,7 +544,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
   {
     if ( ((KonqDirTreeItem *)it.current())->fileItem() == item )
     {
-    //      qDebug( "removing %s", item->url().url().ascii() );
+    //      kdDebug() << "removing " << item->url().url() << endl;
       delete it.current();
       return;
     }
@@ -773,7 +773,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   QString icon = "folder";
   bool    open = false;
 
-  qDebug( "Scanning %s",  path.ascii() );
+  kdDebug() << "Scanning " << path << endl;
 
   QString dotDirectoryFile = QString(  path ).append( "/.directory" );
 
