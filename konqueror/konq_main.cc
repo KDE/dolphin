@@ -46,7 +46,6 @@
 #include "konq_main.h"
 #include "konq_mainwindow.h"
 #include "kfmpaths.h"
-#include "xview.h"
 #include "konq_mainview.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
@@ -207,8 +206,6 @@ int main( int argc, char **argv )
   cerr << "===================== mime stuff finished ==============" << endl;
 
   kimgioRegister();
-
-  QImageIO::defineIOHandler( "XV", "^P7 332", 0, read_xv_file, 0L );
 
   KonqBookmarkManager bm;
 
