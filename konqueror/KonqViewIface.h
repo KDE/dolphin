@@ -94,6 +94,11 @@ k_dcop:
    */
   DCOPRef part();
 
+  /**
+   * Enable/Disable the context popup menu for this view.
+   */
+  void enablePopupMenu( bool b );
+
 private:
 
   KonqView * m_pView;

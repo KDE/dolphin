@@ -251,6 +251,10 @@ public:
   void setViewName( const QString &name );
   QString viewName() const { return m_name; }
 
+  // True to enable the context popup menu
+  void enablePopupMenu( bool b );
+  bool isPopupMenuEnabled() const { return m_bPopupMenuEnabled; }
+
   QStringList frameNames() const;
 
   KonqViewIface * dcopObject();
@@ -359,6 +363,7 @@ protected:
   uint m_bLockHistory:1;
   uint m_bAborted:1;
   uint m_bGotIconURL:1;
+  uint m_bPopupMenuEnabled:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;

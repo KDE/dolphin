@@ -93,3 +93,8 @@ DCOPRef KonqViewIface::part()
   res.setRef( kapp->dcopClient()->appId(), dcopProperty.toCString() );
   return res;
 }
+
+void KonqViewIface::enablePopupMenu( bool b )
+{
+  m_pView->enablePopupMenu( b );
+}
