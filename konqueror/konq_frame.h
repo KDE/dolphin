@@ -48,15 +48,17 @@ namespace KParts
   class ReadOnlyPart;
 };
 
-/** A CheckBox with a special paintEvent(). It looks like the
- unchecked radiobutton in b2k style if unchecked and contains a little
- anchor if checked.
+/**
+ * A CheckBox with a special paintEvent(). It looks like the
+ * unchecked radiobutton in b2k style if unchecked and contains a little
+ * anchor if checked.
  */
 class KonqCheckBox : public QCheckBox
 {
+    Q_OBJECT // for classname
 public:
-    KonqCheckBox(QWidget *parent=0, const char *name=0)
-        : QCheckBox(parent, name){}
+    KonqCheckBox(QWidget *parent=0, const char *name=0);
+    virtual ~KonqCheckBox();
 protected:
     void paintEvent(QPaintEvent *ev);
 };
@@ -72,7 +74,7 @@ class KonqFrameStatusBar : public QWidget
 
    public:
       KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
-      ~KonqFrameStatusBar() {}
+      virtual ~KonqFrameStatusBar() {}
 
       void setLinkedView( bool b );
       /**
@@ -116,7 +118,7 @@ class KonqFrameStatusBar : public QWidget
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pLinkedViewCheckBox;
       KProgress *m_progressBar;
-      QLabel statusLabel;
+      QLabel *m_pStatusLabel;
       int m_yOffset;
       bool m_showLed;
 };
@@ -128,8 +130,8 @@ class KonqFrameBase
  public:
   virtual void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 ) = 0;
 
-  virtual void reparent( QWidget* parent, Qt::WFlags f,
-			 const QPoint & p, bool showIt=FALSE ) = 0;
+  virtual void reparentFrame( QWidget* parent,
+                              const QPoint & p, bool showIt=FALSE ) = 0;
 
   virtual KonqFrameContainer* parentContainer() = 0;
   virtual QWidget* widget() = 0;
@@ -161,7 +163,7 @@ class KonqFrame : public QWidget, public KonqFrameBase
 public:
   KonqFrame( KonqFrameContainer *_parentContainer = 0L,
 	     const char *_name = 0L );
-  ~KonqFrame();
+  virtual ~KonqFrame();
 
   /**
    * Attach a view to the KonqFrame.
@@ -184,8 +186,8 @@ public:
 
   void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
 
-  void reparent(QWidget * parent, WFlags f,
-		const QPoint & p, bool showIt=FALSE );
+  void reparentFrame(QWidget * parent,
+                     const QPoint & p, bool showIt=FALSE );
 
   KonqFrameContainer* parentContainer();
   QWidget* widget() { return this; }
@@ -248,18 +250,18 @@ public:
   void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
 
   KonqFrameBase* firstChild() { return m_pFirstChild; }
-  void setFirstChild( KonqFrameBase* child ) { m_pFirstChild = child; }
   KonqFrameBase* secondChild() { return m_pSecondChild; }
-  void setSecondChild( KonqFrameBase* child ) { m_pSecondChild = child; }
   KonqFrameBase* otherChild( KonqFrameBase* child );
+
+  void swapChildren();
 
   KonqFrameContainer* parentContainer();
   virtual QWidget* widget() { return this; }
   virtual QString frameType() { return QString("Container"); }
 
   //inherited
-  void reparent(QWidget * parent, WFlags f,
-		const QPoint & p, bool showIt=FALSE );
+  void reparentFrame(QWidget * parent,
+                     const QPoint & p, bool showIt=FALSE );
 
   //make this one public
   int idAfter( QWidget* w ){ return QSplitter::idAfter( w ); }

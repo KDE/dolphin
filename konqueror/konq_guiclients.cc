@@ -357,11 +357,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     if ( !horizontal )
     {
       newContainer->moveToLast( splitFrame->widget() );
-
-      KonqFrameBase *firstCh = newContainer->firstChild();
-      KonqFrameBase *secondCh = newContainer->secondChild();
-      newContainer->setFirstChild( secondCh );
-      newContainer->setSecondChild( firstCh );
+      newContainer->swapChildren();
     }
 
     QValueList<int> newSplitterSizes;

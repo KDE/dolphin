@@ -165,11 +165,14 @@ public:
   static KonqChildView *findChildView( const QString &name, KonqMainView **mainView, KParts::BrowserHostExtension **hostExtension );
 
   int viewCount() const { return m_mapViews.count(); }
-  QValueList<KParts::ReadOnlyPart *> viewList();
+  int activeViewsCount() const;
+
+  // It is recommended to use @ref viewMap instead
+  // (the list has to be built from the map...)
+  QValueList<KParts::ReadOnlyPart *> viewList() const;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 
-  // for KonqFrame::slotLinkedViewClicked only...
   const MapViews & viewMap() const { return m_mapViews; }
 
   KonqChildView *currentChildView() const { return m_currentView; }

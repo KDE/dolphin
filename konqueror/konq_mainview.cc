@@ -181,10 +181,12 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   resize( 700, 480 );
   m_bFullScreen = false;
+  kdDebug(1202) << "KonqMainView::KonqMainView done" << endl;
 }
 
 KonqMainView::~KonqMainView()
 {
+  kdDebug(1202) << "KonqMainView::~KonqMainView" << endl;
   if ( s_lstViews )
   {
     s_lstViews->removeRef( this );
@@ -214,10 +216,10 @@ KonqMainView::~KonqMainView()
 
   delete m_pViewManager;
 
-  if ( m_pBookmarkMenu )
-    delete m_pBookmarkMenu;
+  delete m_pBookmarkMenu;
 
   KonqFactory::instanceUnref();
+  kdDebug(1202) << "KonqMainView::~KonqMainView done" << endl;
 }
 
 QWidget *KonqMainView::createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id )
@@ -849,7 +851,7 @@ void KonqMainView::insertChildView( KonqChildView *childView )
 {
   m_mapViews.insert( childView->view(), childView );
 
-  m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
+  m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
   emit viewAdded( childView );
 }
@@ -857,16 +859,21 @@ void KonqMainView::insertChildView( KonqChildView *childView )
 void KonqMainView::removeChildView( KonqChildView *childView )
 {
   MapViews::Iterator it = m_mapViews.find( childView->view() );
+  if ( it == m_mapViews.end() )
+  {
+      kdWarning(1202) << "KonqMainView::removeChildView childView " << childView << " not in map !" << endl;
+      return;
+  }
   m_mapViews.remove( it );
 
-  m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
+  m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
   if ( childView == m_currentView )
   {
     m_currentView = 0L;
     m_pViewManager->setActivePart( 0L );
   }
-  if ( viewCount() == 1 )
+  if ( viewCount() == 1 && m_currentView )
     m_currentView->frame()->statusbar()->hideStuff();
 
   emit viewRemoved( childView );
@@ -926,7 +933,7 @@ KonqChildView *KonqMainView::findChildView( const QString &name, KonqMainView **
   return 0;
 }
 
-QValueList<KParts::ReadOnlyPart *> KonqMainView::viewList()
+QValueList<KParts::ReadOnlyPart *> KonqMainView::viewList() const
 {
   QValueList<KParts::ReadOnlyPart *> res;
 
@@ -934,6 +941,18 @@ QValueList<KParts::ReadOnlyPart *> KonqMainView::viewList()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     res.append( (*it)->view() );
+
+  return res;
+}
+
+int KonqMainView::activeViewsCount() const
+{
+  int res = 0;
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    if ( !it.data()->passiveMode() )
+      ++res;
 
   return res;
 }
@@ -981,7 +1000,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
       // Don't resend to sender
       if (it.key() != ev->part())
       {
-       kdDebug() << "Sending event to view " << it.key()->className() << endl;
+        //kdDebug(1202) << "Sending event to view " << it.key()->className() << endl;
        QApplication::sendEvent( it.key(), event );
        // Linked-views feature
        if ( bLinked && (*it)->linkedView()
@@ -990,11 +1009,11 @@ void KonqMainView::customEvent( QCustomEvent *event )
        {
          if ( (*it)->supportsServiceType( senderChildView->serviceType() ) )
          {
-           kdDebug() << "Sending openURL to view, url:" << ev->url().url() << endl;
-           kdDebug() << "Current view url:" << (*it)->url().url() << endl;
+           kdDebug(1202) << "Sending openURL to view, url:" << ev->url().url() << endl;
+           kdDebug(1202) << "Current view url:" << (*it)->url().url() << endl;
            openURL( (*it), ev->url() );
          } else
-           kdDebug() << "View doesn't support service type " << senderChildView->serviceType() << endl;
+           kdDebug(1202) << "View doesn't support service type " << senderChildView->serviceType() << endl;
        }
       }
     }
@@ -1106,7 +1125,7 @@ void KonqMainView::slotCopy()
 
 void KonqMainView::slotPaste()
 {
-  kdDebug() << "slotPaste() - moveselection is " << s_bMoveSelection << endl;
+  kdDebug(1202) << "slotPaste() - moveselection is " << s_bMoveSelection << endl;
   if ( s_bMoveSelection )
     callExtensionMethod( m_currentView, "pastecut()" );
   else
@@ -1481,7 +1500,7 @@ void KonqMainView::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_paFullScreenStart = new KAction( i18n( "Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
+  m_paFullScreenStart = new KAction( i18n( "Fullscreen Mode" ), "window_fullscreen", 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
   m_paFullScreenStop = new KAction( i18n( "Stop Fullscreen Mode" ), "window_nofullscreen", 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
 
   /*
@@ -1664,7 +1683,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 
 void KonqMainView::disconnectExtension( KParts::BrowserExtension *ext )
 {
-  kdDebug(1202) << "Disconnecting extension" << endl;
+  //kdDebug(1202) << "Disconnecting extension" << endl;
   QValueList<KAction *> actions = actionCollection()->actions();
   QValueList<KAction *>::ConstIterator it = actions.begin();
   QValueList<KAction *>::ConstIterator end = actions.end();
@@ -1704,8 +1723,8 @@ void KonqMainView::enableAllActions( bool enable )
       m_paForward->setEnabled( false );
       // no locked views either
       m_paUnlockAll->setEnabled( false );
-      // removeview only if more than one
-      m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
+      // removeview only if more than one active view
+      m_paRemoveView->setEnabled( activeViewsCount() > 1 );
   }
   actionCollection()->action( "close" )->setEnabled( true );
 }

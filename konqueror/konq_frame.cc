@@ -54,6 +54,17 @@
 
 //#include <iostream.h>
 
+KonqCheckBox::KonqCheckBox( QWidget * parent, const char * name )
+  :QCheckBox( parent, name )
+{
+  kdDebug(1202) << this << " KonqCheckBox created" << endl;
+}
+
+KonqCheckBox::~KonqCheckBox()
+{
+  kdDebug(1202) << this << " KonqCheckBox deleted" << endl;
+}
+
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
     static QPixmap anchor_grey(anchor_grey_xpm);
@@ -70,14 +81,15 @@ void KonqCheckBox::paintEvent(QPaintEvent *)
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 :QWidget( _parent, _name )
 ,m_pParentKonqFrame( _parent )
-,statusLabel(this)
 ,m_yOffset(0)
 ,m_showLed(true)
 {
-   m_pLinkedViewCheckBox = new KonqCheckBox( this );
+   m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
    m_pLinkedViewCheckBox->show();
-   statusLabel.show();
-   statusLabel.installEventFilter(this);
+
+   m_pStatusLabel = new QLabel( this );
+   m_pStatusLabel->show();
+   m_pStatusLabel->installEventFilter(this);
 
    int h=fontMetrics().height()+2;
    if (h<DEFAULT_HEADER_HEIGHT ) h=DEFAULT_HEADER_HEIGHT;
@@ -86,7 +98,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
    m_pLinkedViewCheckBox->setGeometry(20,m_yOffset,13,13);
    m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
-   statusLabel.setGeometry(40,0,50,h);
+   m_pStatusLabel->setGeometry(40,0,50,h);
 
    connect(m_pLinkedViewCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(linkedViewClicked(bool)));
 
@@ -142,9 +154,9 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
 
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
-   //kdDebug()<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
-   statusLabel.resize(fontMetrics().width(text),13);
-   statusLabel.setText(text);
+   //kdDebug(1202)<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
+   m_pStatusLabel->resize(fontMetrics().width(text),13);
+   m_pStatusLabel->setText(text);
 }
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
@@ -232,22 +244,24 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 
    // add the frame statusbar to the layout
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
-   QObject::connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
+   connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
    m_separator = 0;
 
+#ifdef METAVIEWS
    m_metaViewLayout = 0;
    m_metaViewFrame = new QFrame( this, "metaviewframe" );
    m_metaViewFrame->show();
+#endif
 }
 
 KonqFrame::~KonqFrame()
 {
-  kdDebug() << "KonqFrame::~KonqFrame() " << this << endl;
+  kdDebug(1202) << "KonqFrame::~KonqFrame() " << this << endl;
   //delete m_pLayout;
 }
 
-KParts::ReadOnlyPart * KonqFrame::view( void )
+KParts::ReadOnlyPart * KonqFrame::view()
 {
   return m_pView;
 }
@@ -275,11 +289,15 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
    KonqViewFactory factory( viewFactory );
 
-   //   m_pView = factory.create( this, m_pMainView, "child view" );
    // Note that we set the parent to 0.
    // We don't want that deleting the widget deletes the part automatically
    // because we already have that taken care of in KParts...
+
+#ifdef METAVIEWS
    m_pView = factory.create( m_metaViewFrame, "childview widget", 0, "child view" );
+#else
+   m_pView = factory.create( this, "childview widget", 0, "child view" );
+#endif
 
    assert( m_pView->widget() );
 
@@ -293,10 +311,11 @@ void KonqFrame::attachInternal()
 {
    kdDebug(1202) << "KonqFrame::attachInternal()" << endl;
    if (m_pLayout) delete m_pLayout;
-   if ( m_metaViewLayout ) delete m_metaViewLayout;
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
+#ifdef METAVIEWS
+   if ( m_metaViewLayout ) delete m_metaViewLayout;
    m_metaViewFrame->setFrameStyle( QFrame::NoFrame );
    m_metaViewFrame->setLineWidth( 0 );
    //   m_metaViewFrame->setFrameStyle( QFrame::Panel | QFrame::Raised );
@@ -307,9 +326,10 @@ void KonqFrame::attachInternal()
    m_metaViewLayout->addWidget( m_pView->widget() );
 
    m_pLayout->addWidget( m_metaViewFrame );
+#else
+   m_pLayout->addWidget( m_pView->widget() );
+#endif
 
-   //   m_pLayout->addWidget( m_pView->widget() );
-   //   m_pLayout->addWidget
    m_pLayout->addWidget( m_pStatusBar );
    m_pView->widget()->show();
    if ( m_pChildView->mainView()->fullScreenMode() )
@@ -324,9 +344,11 @@ void KonqFrame::setChildView( KonqChildView* child )
    m_pChildView = child;
    if (m_pChildView!=0)
    {
-      connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),m_pStatusBar,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
-      //connect(m_pChildView->view(),SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
-   };
+     connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
+             m_pStatusBar,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
+     //connect(m_pChildView->view(),SIGNAL(setStatusBarText(const QString &)),
+     //m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
+   }
 };
 
 KonqFrameContainer* KonqFrame::parentContainer()
@@ -337,10 +359,10 @@ KonqFrameContainer* KonqFrame::parentContainer()
       return 0L;
 }
 
-void KonqFrame::reparent( QWidget* parent, WFlags f,
-		     const QPoint & p, bool showIt )
+void KonqFrame::reparentFrame( QWidget* parent,
+                               const QPoint & p, bool showIt )
 {
-   QWidget::reparent( parent, f, p, showIt );
+   QWidget::reparent( parent, p, showIt );
 }
 
 void KonqFrame::slotStatusBarClicked()
@@ -379,6 +401,7 @@ void KonqFrame::detachMetaView()
 
 void KonqFrame::attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewFrame, const QMap<QString,QVariant> &framePropertyMap )
 {
+#ifdef METAVIEWS
 //  m_separator = new KSeparator( this );
 //  m_pLayout->insertWidget( 0, m_separator );
 //  m_pLayout->insertWidget( 0, view->widget() );
@@ -392,6 +415,9 @@ void KonqFrame::attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewF
 
     m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
   }
+#else
+  kdError(1202) << "Meta views not supported" << endl;
+#endif
 }
 
 //###################################################################
@@ -407,16 +433,16 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
 
 KonqFrameContainer::~KonqFrameContainer()
 {
-    kdDebug() << "KonqFrameContainer::~KonqFrameContainer()" << endl;
+    kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer()" << endl;
 }
 
 void KonqFrameContainer::listViews( ChildViewList *viewList )
 {
-   if( firstChild() )
-      firstChild()->listViews( viewList );
+   if( m_pFirstChild )
+      m_pFirstChild->listViews( viewList );
 
-   if( secondChild() )
-      secondChild()->listViews( viewList );
+   if( m_pSecondChild )
+      m_pSecondChild->listViews( viewList );
 }
 
 void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, int depth )
@@ -475,50 +501,61 @@ KonqFrameContainer* KonqFrameContainer::parentContainer()
     return 0L;
 }
 
-void KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt )
+void KonqFrameContainer::reparentFrame( QWidget* parent,
+                                        const QPoint & p, bool showIt )
 {
-  QWidget::reparent( parent, f, p, showIt );
+  QWidget::reparent( parent, p, showIt );
+}
+
+void KonqFrameContainer::swapChildren()
+{
+  KonqFrameBase *firstCh = m_pFirstChild;
+  m_pFirstChild = m_pSecondChild;
+  m_pSecondChild = firstCh;
 }
 
 void KonqFrameContainer::childEvent( QChildEvent * ce )
 {
-    kdDebug(1202) << "KonqFrameContainer::childEvent this" << this << endl;
+  //kdDebug(1202) << "KonqFrameContainer::childEvent this" << this << endl;
+
    KonqFrameBase* castChild = 0L;
-
    if( ce->child()->isA("KonqFrame") )
-      castChild = ( KonqFrame* )ce->child();
+      castChild = static_cast< KonqFrame* >(ce->child());
    else if( ce->child()->isA("KonqFrameContainer") )
-      castChild = ( KonqFrameContainer* )ce->child();
+      castChild = static_cast< KonqFrameContainer* >(ce->child());
 
-   if( ce->type() == QEvent::ChildInserted )
+   if( castChild )
    {
+     if( ce->type() == QEvent::ChildInserted )
+     {
+       if( !firstChild() )
+         m_pFirstChild = castChild;
 
-      if( castChild )
-         if( !firstChild() )
-         {
-            setFirstChild( castChild );
-         }
-         else if( !secondChild() )
-         {
-            setSecondChild( castChild );
-         }
+       else if( !secondChild() )
+         m_pSecondChild = castChild;
 
+       else
+         kdWarning(1202) << "Already have two children..." << endl;
+
+     }
+     else if( ce->type() == QEvent::ChildRemoved )
+     {
+       if( m_pFirstChild == castChild )
+         m_pFirstChild = 0L;
+
+       else if( m_pSecondChild == castChild )
+         m_pSecondChild = 0L;
+
+       else
+         kdWarning(1202) << "Can't find this child..." << endl;
+     }
    }
-   else if( ce->type() == QEvent::ChildRemoved )
-   {
-
-      if( castChild )
-      {
-         if( firstChild() == ( KonqFrameBase* )castChild )
-         {
-            setFirstChild( 0L );
-         }
-         else if( secondChild() == ( KonqFrameBase* )castChild )
-         {
-            setSecondChild( 0L );
-         }
-      }
-   }
+     /*
+   else // this happens with the splitter handle..
+     kdDebug(1202) << "KonqFrameContainer::childEvent."
+               << " Child " << ce->child() << " is a " << ce->child()->className()
+               << " name=" << ce->child()->name() << endl;
+               */
 
    QSplitter::childEvent( ce );
 }

@@ -425,12 +425,12 @@ void KonqChildView::go( int steps )
   assert( currentHistoryEntry );
   assert( newPos == m_lstHistory.at() ); // check we moved (i.e. if I understood the docu)
   assert( currentHistoryEntry == m_lstHistory.current() );
-  kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
+  //kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
 
   HistoryEntry h( *currentHistoryEntry ); // make a copy of the current history entry, as the data
                                           // the pointer points to will change with the following calls
 
-  kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
+  //kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
   if ( ! changeViewMode( h.strServiceType, h.strServiceName, QString::null, h.locationBarURL ) )
   {
     kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
@@ -442,7 +442,7 @@ void KonqChildView::go( int steps )
 
   if ( browserExtension() )
   {
-    kdDebug(1202) << "Restoring view from stream" << endl;
+    //kdDebug(1202) << "Restoring view from stream" << endl;
     QDataStream stream( h.buffer, IO_ReadOnly );
 
     browserExtension()->restoreState( stream );
@@ -458,7 +458,7 @@ void KonqChildView::go( int steps )
   if ( m_metaView )
     m_metaView->openURL( h.url );
 
-  kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
+  //kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
 }
 
 KURL KonqChildView::url()

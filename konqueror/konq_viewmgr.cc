@@ -58,8 +58,6 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
 KonqViewManager::~KonqViewManager()
 {
   clear();
-
-  if (m_pMainContainer) delete m_pMainContainer;
 }
 
 KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
@@ -149,7 +147,7 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     debug("Move out child");
     //splitFrame->widget()->hide();
-    splitFrame->widget()->reparent( m_pMainView, 0, pos );
+    splitFrame->widget()->reparent( m_pMainView, pos );
     splitFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize, so that both container childs are equally size after split
 
     debug("Create new Container");
@@ -162,7 +160,7 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
       parentContainer->moveToFirst( newContainer );
 
     debug("Move in Child");
-    splitFrame->widget()->reparent( newContainer, 0, pos, true );
+    splitFrame->widget()->reparent( newContainer, pos, true /*showIt*/ );
 
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
 
@@ -233,7 +231,7 @@ void KonqViewManager::removeView( KonqChildView *view )
   QPoint pos = otherFrame->widget()->pos();
 
   //otherFrame->widget()->hide();
-  otherFrame->reparent( m_pMainView, 0, pos );
+  otherFrame->reparentFrame( m_pMainView, pos );
   otherFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize
 
   m_pMainView->removeChildView( view );
@@ -243,12 +241,12 @@ void KonqViewManager::removeView( KonqChildView *view )
   //kdDebug(1202) << "Deleting view " << view << endl;
   delete view;
 
-  //triggering QObject::childEvent manually
+  kdDebug(1202) << "triggering QObject::childEvent manually " << endl;
   grandParentContainer->removeChild( parentContainer ); // ????? (David)
-  //kdDebug(1202) << "Deleting parentContainer " << parentContainer << endl;
+  kdDebug(1202) << "Deleting parentContainer " << parentContainer << endl;
   delete parentContainer;
 
-  otherFrame->reparent( grandParentContainer, 0, pos, true );
+  otherFrame->reparentFrame( grandParentContainer, pos, true/*showIt*/ );
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
@@ -335,6 +333,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   //if ( lst.count() == 1 && !childView->passiveMode() )
   //  childView->frame()->statusbar()->hideStuff();
+  kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
@@ -431,7 +430,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
 void KonqViewManager::clear()
 {
-  //kdDebug(1202) << "KonqViewManager::clear: " << endl;
+  kdDebug(1202) << "KonqViewManager::clear: " << endl;
   QList<KonqChildView> viewList;
   QListIterator<KonqChildView> it( viewList );
 
@@ -451,41 +450,45 @@ void KonqViewManager::clear()
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
-  QValueList<KParts::ReadOnlyPart *> viewList = m_pMainView->viewList();
+  kdDebug() << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
+  KonqMainView::MapViews mapViews = m_pMainView->viewMap();
 
   if ( !view )
-    return m_pMainView->childView( *viewList.begin() );
+  {
+    // Should this happen ?
+    kdWarning() << "KonqViewManager::chooseNextView called with view = 0L" << endl;
+    return mapViews.begin().data(); // what if it's passive ?
+  }
 
-  QValueList<KParts::ReadOnlyPart *>::ConstIterator it = viewList.find( view->view() );
-  QValueList<KParts::ReadOnlyPart *>::ConstIterator end = viewList.end();
+  KonqMainView::MapViews::Iterator it = mapViews.find( view->view() );
+  KonqMainView::MapViews::Iterator end = mapViews.end();
 
-  QValueList<KParts::ReadOnlyPart *>::ConstIterator startIt = it;
+  KonqMainView::MapViews::Iterator startIt = it;
 
   // the view should always be in the list, shouldn't it?
   // maybe use assert( it != end )?
    if ( it == end ) {
-     it = viewList.begin();
-      if ( it == end )
+     kdWarning() << "View is not in list !" << endl;
+     it = mapViews.begin();
+     if ( it == end )
        return 0L; // wow, that certainly caught all possibilities!
    }
 
   while ( true )
   {
 
-    if ( it++ == end )
-       it = viewList.begin();
+    if ( ++it == end ) // move to next
+      it = mapViews.begin(); // rewind on end
  	
     if ( it == startIt )
-       break;
+      break; // no next view found
 
-    KonqChildView *nextView = m_pMainView->childView( *it );
+    KonqChildView *nextView = it.data();
     if ( nextView && !nextView->passiveMode() )
       return nextView;
-
   }
 
-  return 0L; // ARGHL
-
+  return 0L; // no next view found
 }
 
 void KonqViewManager::setProfiles( KActionMenu *profiles )
