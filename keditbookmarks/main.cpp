@@ -105,6 +105,7 @@ int main(int argc, char **argv) {
                         KAboutData::License_GPL,
                         I18N_NOOP("(c) 2000 - 2003, KDE developers") );
    aboutData.addAuthor("David Faure", 0, "faure@kde.org");
+   aboutData.addAuthor("Alexander Kellett", 0, "lypanov@kde.org");
 
    KCmdLineArgs::init(argc, argv, &aboutData);
    KApplication::addCmdLineOptions();
