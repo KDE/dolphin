@@ -9,8 +9,6 @@
 #include "kfsave.h"
 
 KfSaveOptions *saving;
-// global KLocale instance
-KLocale locale("kfind");
 
 int main( int argc, char ** argv ) 
   {
