@@ -12,8 +12,9 @@
 
 #include "ksmboptdlg.h"
 
+
 KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
-  : KConfigWidget(parent, name)
+  : KCModule(parent, name)
 {
 	QGridLayout *topLayout = new QGridLayout(this,4,1,10,0,"smbOptTopLayout");
 	labelInfo1 = new QLabel(i18n("Note: konqueror is a SMB client only."), this);
@@ -54,12 +55,14 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 
 	editBrowseServer = new QLineEdit(this);
 	subLayout->addWidget(editBrowseServer,1,3);
-	
+	connect(editBrowseServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
 	labelBroadcast = new QLabel(i18n("Broadcast address:"), this);
 	subLayout->addWidget(labelBroadcast,2,2);
 
 	editBroadcast = new QLineEdit(this);
 	subLayout->addWidget(editBroadcast,2,3);
+	connect(editBroadcast, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
 	labelUser = new QLabel(i18n("User settings:"), this);
 	subLayout->addWidget(labelUser,4,1);
@@ -69,7 +72,8 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 
 	editDefaultUser = new QLineEdit(this);
 	subLayout->addWidget(editDefaultUser,4,3);
-	
+	connect(editDefaultUser, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+
 	labelPassword = new QLabel(i18n("Password policy:"), this);
 	subLayout->addWidget(labelPassword,5,2);
 
@@ -78,11 +82,17 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	
 	QGridLayout *bgLay = new QGridLayout(groupPassword,3,1,15,5);
 	radioPolicyAsk = new QRadioButton( i18n("Ask"), groupPassword );
-    bgLay->addWidget(radioPolicyAsk, 0, 0);
+	bgLay->addWidget(radioPolicyAsk, 0, 0);
+	connect(radioPolicyAsk, SIGNAL(clicked()), this, SLOT(changed()));
+
 	radioPolicyNever = new QRadioButton( i18n("Never"), groupPassword );
-    bgLay->addWidget(radioPolicyNever, 1, 0);
+	bgLay->addWidget(radioPolicyNever, 1, 0);
+	connect(radioPolicyNever, SIGNAL(clicked()), this, SLOT(changed()));
+
 	radioPolicyAlways = new QRadioButton( i18n("Always"), groupPassword );
-    bgLay->addWidget(radioPolicyAlways, 2, 0);
+	bgLay->addWidget(radioPolicyAlways, 2, 0);
+	connect(radioPolicyAlways, SIGNAL(clicked()), this, SLOT(changed()));
+
 	bgLay->activate();
 	
 	subLayout->addWidget(groupPassword,5,3);
@@ -92,15 +102,17 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	topLayout->activate();
 
 	// finaly read the options
-	loadSettings();
+	load();
 }
 
 KSMBOptions::~KSMBOptions()
 {
 }
 
-void KSMBOptions::loadSettings()
+void KSMBOptions::load()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc");
+
 	QString tmp;
 	g_pConfig->setGroup( "Browser Settings/SMB" );
 	tmp = g_pConfig->readEntry( "Browse server" );
@@ -126,10 +138,14 @@ void KSMBOptions::loadSettings()
 			radioPolicyAsk->setChecked(true);
 		}
 	}
+
+  delete g_pConfig;
 }
 
-void KSMBOptions::saveSettings()
+void KSMBOptions::save()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc");
+
 	g_pConfig->setGroup( "Browser Settings/SMB" );	
 	g_pConfig->writeEntry( "Browse server", editBrowseServer->text());
 	g_pConfig->writeEntry( "Broadcast address", editBroadcast->text());
@@ -140,14 +156,11 @@ void KSMBOptions::saveSettings()
 		g_pConfig->writeEntry( "Remember password", "Never");
 	else g_pConfig->writeEntry( "Remember password", "Ask");
 	g_pConfig->sync();
+
+  delete g_pConfig;
 }
 
-void KSMBOptions::applySettings()
-{
-	saveSettings();
-}
-
-void KSMBOptions::defaultSettings()
+void KSMBOptions::defaults()
 {
 	radioPolicyAsk->setChecked(true);
 	radioPolicyNever->setChecked(false);
@@ -156,5 +169,12 @@ void KSMBOptions::defaultSettings()
 	editBroadcast->setText( "" );
 	editDefaultUser->setText( "" );
 }
+
+
+void KSMBOptions::changed()
+{
+  emit KCModule::changed(true);
+}
+
 
 #include "ksmboptdlg.moc"

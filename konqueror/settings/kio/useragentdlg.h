@@ -17,12 +17,10 @@
 #include <qpushbutton.h>
 #include <qlistbox.h>
 
-#include <kcontrol.h>
-#include <kconfig.h>
+#include <kcmodule.h>
 
-extern KConfig *g_pConfig;
 
-class UserAgentOptions : public KConfigWidget
+class UserAgentOptions : public KCModule
 {
   Q_OBJECT
 
@@ -30,10 +28,9 @@ public:
   UserAgentOptions ( QWidget * parent = 0L, const char * name = 0L) ;
   ~UserAgentOptions();
 
-  virtual void loadSettings();
-  virtual void saveSettings();
-  virtual void applySettings();
-  virtual void defaultSettings();
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
   
 private slots:
   void textChanged(const QString&);
@@ -42,6 +39,9 @@ private slots:
   void deleteClicked();
   void listboxHighlighted( const QString& );
   
+  void changed();
+
+
 private:
   QLabel* onserverLA;
   QLineEdit* onserverED;

@@ -14,24 +14,28 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qbuttongroup.h>
+#include <qradiobutton.h>
 
 #include <kkeydialog.h> // for ksplitlist
-#include <kcontrol.h>
+#include <kcmodule.h>
 #include <kconfig.h>
 
-extern KConfig *g_pConfig;
 
-class KCookiesOptions : public KConfigWidget
+class KCookiesOptions : public KCModule
 {
 Q_OBJECT
   public:
     KCookiesOptions(QWidget *parent = 0L, const char *name = 0L);
     ~KCookiesOptions();
 
-    virtual void loadSettings();
-    virtual void saveSettings();
-    virtual void applySettings();
-    virtual void defaultSettings();
+    virtual void load();
+    virtual void save();
+    virtual void defaults();
+
+  private slots:
+
+    void changed();
+
     
   private:
     void removeDomain(const char *domain);

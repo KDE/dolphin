@@ -18,26 +18,21 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 
-#include <kcontrol.h>
-class KConfig;
+#include <kcmodule.h>
 
-extern KConfig *g_pConfig;
 
-class KProxyOptions : public KConfigWidget
+class KProxyOptions : public KCModule
 {
 Q_OBJECT
   public:
     KProxyOptions(QWidget *parent = 0L, const char *name = 0L);
     ~KProxyOptions();
     
-    virtual void loadSettings();
-    virtual void saveSettings();
-    virtual void applySettings();
-    virtual void defaultSettings();
+    virtual void load();
+    virtual void save();
+    virtual void defaults();
     
   private:
-    bool useProxy;
-    
     // a little information for the user
     QLabel *lb_info;
     
@@ -64,6 +59,11 @@ Q_OBJECT
 
     void setProxy();
     void readOptions();
+
+  private slots:
+
+    void changed();
+
     
   public slots:
     void copyDown();		// use the http setting for all services

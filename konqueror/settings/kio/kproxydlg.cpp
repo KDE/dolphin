@@ -18,7 +18,7 @@
 #define ROW_NOPROXY 5
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
-  : KConfigWidget(parent, name)
+  : KCModule(parent, name)
 {
 
   QGridLayout *lay = new QGridLayout(this,7,8,10,5);
@@ -49,6 +49,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->addMultiCellWidget(cb_useProxy,ROW_USEPROXY,ROW_USEPROXY,1,6);
   
   connect( cb_useProxy, SIGNAL( clicked() ), SLOT( changeProxy() ) );
+  connect( cb_useProxy, SIGNAL( clicked() ), this, SLOT( changed() ) );
   
   lb_http_url = new QLabel( i18n("HTTP Proxy:"), this);
   lb_http_url->setAlignment(AlignVCenter);
@@ -56,6 +57,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   le_http_url = new QLineEdit(this);
   lay->addWidget(le_http_url,ROW_HTTP,2);
+  connect(le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_http_port = new QLabel( i18n("Port:"), this);
   lb_http_port->setAlignment(AlignVCenter);
@@ -64,6 +66,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   le_http_port = new QLineEdit(this);
   le_http_port->setGeometry(280, 110, 55, 30);
   lay->addWidget(le_http_port,ROW_HTTP,5);
+  connect(le_http_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_ftp_url = new QLabel( i18n("FTP Proxy:"), this);
   lb_ftp_url->setAlignment(AlignVCenter);
@@ -71,6 +74,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   le_ftp_url = new QLineEdit(this);
   lay->addWidget(le_ftp_url,ROW_FTP,2);
+  connect(le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_ftp_port = new QLabel( i18n("Port:"), this);
   lb_ftp_port->setAlignment(AlignVCenter);
@@ -78,6 +82,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   le_ftp_port = new QLineEdit(this);
   lay->addWidget(le_ftp_port,ROW_FTP,5);
+  connect(le_ftp_port, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_no_prx = new QLabel(i18n("No Proxy for:"), this);
   lb_no_prx->setAlignment(AlignVCenter);
@@ -85,6 +90,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   le_no_prx = new QLineEdit(this);
   lay->addMultiCellWidget(le_no_prx,ROW_NOPROXY,ROW_NOPROXY,2,5);
+  connect(le_no_prx, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   QString path;
   cp_down = new QPushButton( this );
@@ -95,9 +101,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lay->activate();
 
   connect( cp_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
+  connect( cp_down, SIGNAL( clicked() ), SLOT( changed() ) );
 
   // finally read the options
-  loadSettings();
+  load();
 }
 
 KProxyOptions::~KProxyOptions()
@@ -117,8 +124,10 @@ KProxyOptions::~KProxyOptions()
   // time to say goodbye ...
 }
 
-void KProxyOptions::loadSettings()
+void KProxyOptions::load()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc");
+
   g_pConfig->setGroup( "Proxy Settings" );
   updateGUI (
       g_pConfig->readEntry( "HttpProxy" ),
@@ -126,10 +135,20 @@ void KProxyOptions::loadSettings()
       g_pConfig->readBoolEntry( "UseProxy" ),
       g_pConfig->readEntry( "NoProxyFor" )
       );
+
+  delete g_pConfig;
+
+  setProxy();
 }
 
-void KProxyOptions::defaultSettings() {
-  updateGUI ("","",false,"");
+void KProxyOptions::defaults() {
+  cb_useProxy->setChecked(false);
+  le_http_url->setText("");
+  le_http_port->setText(""); 
+  le_ftp_url->setText("");
+  le_ftp_port->setText(""); 
+  le_no_prx->setText("");  
+  setProxy();
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
@@ -149,15 +168,17 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy, bool bUseProx
     le_ftp_port->setText( QString::number( url.port() ) ); 
   }
 
-  useProxy = bUseProxy;
+  cb_useProxy->setChecked(bUseProxy);
   setProxy();
   
   le_no_prx->setText( noProxyFor );  
 
 }
 
-void KProxyOptions::saveSettings()
+void KProxyOptions::save()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc");
+
     QString url;
 
     g_pConfig->setGroup( "Proxy Settings" );
@@ -182,15 +203,13 @@ void KProxyOptions::saveSettings()
     }
     g_pConfig->writeEntry( "FtpProxy", url );
 
-    g_pConfig->writeEntry( "UseProxy", useProxy );
+    g_pConfig->writeEntry( "UseProxy", cb_useProxy->isChecked() );
     g_pConfig->writeEntry( "NoProxyFor", le_no_prx->text() );
     g_pConfig->sync();
+   
+    delete g_pConfig;
 }
 
-void KProxyOptions::applySettings()
-{
-    saveSettings();
-}
 
 void KProxyOptions::copyDown()
 {
@@ -200,6 +219,8 @@ void KProxyOptions::copyDown()
 
 void KProxyOptions::setProxy()
 {
+  bool useProxy = cb_useProxy->isChecked();
+
   // now set all input fields
   le_http_url->setEnabled( useProxy );
   le_http_port->setEnabled( useProxy );
@@ -212,8 +233,14 @@ void KProxyOptions::setProxy()
 
 void KProxyOptions::changeProxy()
 {
-  useProxy = cb_useProxy->isChecked();
   setProxy();
 }
+
+
+void KProxyOptions::changed()
+{
+  emit KCModule::changed(true);
+}
+
 
 #include "kproxydlg.moc"

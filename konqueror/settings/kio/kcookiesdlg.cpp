@@ -19,7 +19,7 @@
 #define ROW_BOTTOM 7
 
 KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
-  : KConfigWidget(parent, name)
+  : KCModule(parent, name)
 {
 
   QGridLayout *lay = new QGridLayout(this,ROW_BOTTOM+1,5,10,5);
@@ -48,6 +48,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   
   cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
   connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
+  connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
   lay->addWidget(cb_enableCookies,ROW_ENABLE_COOKIES,1);
 
   {
@@ -59,6 +60,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
     bgLay->addRowSpacing(2,5);
     bgLay->setRowStretch(0,0);
     bgLay->setRowStretch(1,0);
+    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
 
     rb_gbPolicyAccept = new QRadioButton( i18n("Accept"), bg );
     bgLay->addWidget(rb_gbPolicyAccept, 1, 0);
@@ -85,6 +87,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
 
   connect( wList, SIGNAL( highlighted( int ) ), SLOT( updateDomain( int ) ) );
   connect( wList, SIGNAL( selected( int ) ), SLOT( updateDomain( int ) ) );
+  connect( wList, SIGNAL( selected( int ) ), this, SLOT(changed() ) );
   {
     QButtonGroup *bg = new QButtonGroup( i18n("Change domain accept policy"), this );
     bg2 = bg;
@@ -98,30 +101,36 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
     bgLay->setRowStretch(3,0);
     bgLay->setRowStretch(4,1);
     bgLay->setRowStretch(5,0);
+    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
 
     le_domain = new QLineEdit(bg);
     bgLay->addMultiCellWidget(le_domain,1,1,0,2);
               
     rb_domPolicyAccept = new QRadioButton( i18n("Accept"), bg );
     bgLay->addWidget(rb_domPolicyAccept, 3, 0);
+    connect(rb_domPolicyAccept, SIGNAL(clicked()), this, SLOT(changed()));
 
     rb_domPolicyAsk = new QRadioButton( i18n("Ask"), bg );
     bgLay->addWidget(rb_domPolicyAsk, 3, 1);
+    connect(rb_domPolicyAsk, SIGNAL(clicked()), this, SLOT(changed()));
 
     rb_domPolicyReject = new QRadioButton( i18n("Reject"), bg );
     rb_domPolicyAsk->setChecked( true );
     bgLay->addWidget(rb_domPolicyReject, 3, 2);
+    connect(rb_domPolicyReject, SIGNAL(clicked()), this, SLOT(changed()));
 
     KButtonBox *bbox = new KButtonBox( bg );
     bbox->addStretch( 20 );
         
     b0 = bbox->addButton( i18n("Change") );
     connect( b0, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
+    connect( b0, SIGNAL( clicked() ), this, SLOT( changed() ) );
                 
     bbox->addStretch( 10 );
                     
     b1 = bbox->addButton( i18n("Delete") );
     connect( b1, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
+    connect( b1, SIGNAL( clicked() ), this, SLOT( deleted() ) );
                             
     bbox->addStretch( 20 );
                                 
@@ -134,7 +143,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
   lay->activate();
 
   // finally read the options
-  loadSettings();
+  load();
 }
 
 KCookiesOptions::~KCookiesOptions()
@@ -342,8 +351,10 @@ void KCookiesOptions::updateDomainList()
   wList->update();
 }
 
-void KCookiesOptions::loadSettings()
+void KCookiesOptions::load()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc", false, false);
+
   QString tmp;
   g_pConfig->setGroup( "Browser Settings/HTTP" );
 
@@ -360,10 +371,15 @@ void KCookiesOptions::loadSettings()
   (void) g_pConfig->readListEntry("CookieDomainAdvice", domainConfig);
 
   updateDomainList();
+  changeCookiesEnabled();
+  
+  delete g_pConfig;
 }
 
-void KCookiesOptions::saveSettings()
+void KCookiesOptions::save()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc", false, false);
+
   const char *advice;
   g_pConfig->setGroup( "Browser Settings/HTTP" );
   g_pConfig->writeEntry( "Cookies", cb_enableCookies->isChecked() );
@@ -378,14 +394,12 @@ void KCookiesOptions::saveSettings()
   g_pConfig->writeEntry("CookieDomainAdvice", domainConfig);
 
   g_pConfig->sync();
+
+  delete g_pConfig;
 }
 
-void KCookiesOptions::applySettings()
-{
-  saveSettings();
-}
 
-void KCookiesOptions::defaultSettings()
+void KCookiesOptions::defaults()
 {
   cb_enableCookies->setChecked( true );
 
@@ -398,6 +412,15 @@ void KCookiesOptions::defaultSettings()
   rb_domPolicyAccept->setChecked( false );
   rb_domPolicyReject->setChecked( false );
   rb_domPolicyAsk->setChecked( true );
+
+  changeCookiesEnabled();
 }
+
+
+void KCookiesOptions::changed()
+{
+  emit KCModule::changed(true);
+}
+
 
 #include "kcookiesdlg.moc"

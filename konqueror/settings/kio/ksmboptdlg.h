@@ -10,22 +10,25 @@
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 
-#include <kcontrol.h>
-class KConfig;
- 
-extern KConfig *g_pConfig;
+#include <kcmodule.h>
 
-class KSMBOptions : public KConfigWidget
+
+class KSMBOptions : public KCModule
 {
 Q_OBJECT
 public:
 	KSMBOptions(QWidget *parent = 0L, const char *name = 0L);
 	~KSMBOptions();
 
-	virtual void loadSettings();
-	virtual void saveSettings();
-	virtual void applySettings();
-	virtual void defaultSettings();
+	virtual void load();
+	virtual void save();
+	virtual void defaults();
+
+
+private slots:
+
+  void changed();
+
 
 private:
 	// information concerning this dialog

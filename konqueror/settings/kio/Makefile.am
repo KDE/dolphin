@@ -1,15 +1,16 @@
-
 INCLUDES = $(all_includes)
 LDFLAGS =  $(all_libraries) $(KDE_RPATH)
 LDADD =    $(LIB_KIO) 
 
-bin_PROGRAMS = kcmkio
-METASOURCES = kproxydlg.moc ksmboptdlg.moc useragentdlg.moc kcookiesdlg.moc
+METASOURCES = AUTO
 
-noinst_HEADERS = kproxydlg.h ksmboptdlg.h useragentdlg.h kcookiesdlg.h 
+lib_LTLIBRARIES = libkcm_kio.la
 
-kcmkio_SOURCES = main.cpp kproxydlg.cpp ksmboptdlg.cpp useragentdlg.cpp \
-                 kcookiesdlg.cpp 
+libkcm_kio_la_SOURCES = kcookiesdlg.cpp main.cpp ksmboptdlg.cpp \
+			useragentdlg.cpp kproxydlg.cpp
+
+libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version
+libkcm_kio_la_LIBADD = -lkdeui
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(kcmkio_SOURCES) && mv messages.po ../../po/kcmkio.pot

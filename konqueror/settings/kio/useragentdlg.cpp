@@ -10,13 +10,14 @@
 
 #include <kapp.h>
 #include <klocale.h>
+#include <kconfig.h>
 
 #include <qlayout.h> //CT
 
 #include "defaults.h"
 
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
-  KConfigWidget( parent, name )
+  KCModule( parent, name )
 {
   QGridLayout *lay = new QGridLayout(this,7,5,10,5);
   lay->addRowSpacing(0,10);
@@ -45,7 +46,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
 
   onserverED = new QLineEdit( this );
   lay->addWidget(onserverED,1,2);
-
+  
   connect( onserverED, SIGNAL( textChanged(const QString&) ),
 		   SLOT( textChanged( const QString&) ) );
 
@@ -64,12 +65,14 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
 
   addPB->setEnabled( false );
   connect( addPB, SIGNAL( clicked() ), SLOT( addClicked() ) );
+  connect( addPB, SIGNAL( clicked() ), SLOT( changed() ) );
   
   deletePB = new QPushButton( i18n( "&Delete" ), this );
   lay->addWidget(deletePB,2,3);
 
   deletePB->setEnabled( false );
   connect( deletePB, SIGNAL( clicked() ), SLOT( deleteClicked() ) );
+  connect( deletePB, SIGNAL( clicked() ), SLOT( changed() ) );
 
   bindingsLA = new QLabel( i18n( "Known bindings:" ), this );
   lay->addMultiCellWidget(bindingsLA,4,4,2,3);
@@ -83,7 +86,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( bindingsLB, SIGNAL( highlighted( const QString&) ),
 		   SLOT( listboxHighlighted( const QString& ) ) );
 
-  loadSettings();
+  load();
 }
 
 
@@ -91,8 +94,10 @@ UserAgentOptions::~UserAgentOptions()
 {
 }
 
-void UserAgentOptions::loadSettings()
+void UserAgentOptions::load()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc");
+
   // read entries for UserAgentDlg
   g_pConfig->setGroup( "Browser Settings/UserAgent" );
   int entries = g_pConfig->readNumEntry( "EntriesCount", 0 );
@@ -108,27 +113,27 @@ void UserAgentOptions::loadSettings()
             settingsList.append( entry );
         }
   if( entries == 0 ) {
-    defaultSettings();
+    defaults();
   }
   else {
     bindingsLB->clear();
     bindingsLB->insertStringList( settingsList );
   }
+
+  delete g_pConfig;
 }
 
-void UserAgentOptions::defaultSettings()
+void UserAgentOptions::defaults()
 {
   bindingsLB->clear();
   bindingsLB->insertItem( QString("*:"+DEFAULT_USERAGENT_STRING) );
 }
 
-void UserAgentOptions::applySettings()
-{
-  saveSettings();
-}
 
-void UserAgentOptions::saveSettings()
+void UserAgentOptions::save()
 {
+  KConfig *g_pConfig = new KConfig("kioslaverc");
+
     // write back the entries from UserAgent
     g_pConfig->setGroup("Browser Settings/UserAgent");
 
@@ -142,6 +147,8 @@ void UserAgentOptions::saveSettings()
       g_pConfig->writeEntry( key, bindingsLB->text( i ) );
     }
     g_pConfig->sync();
+
+  delete g_pConfig;
 }
 
 void UserAgentOptions::textChanged( const QString& )
@@ -189,5 +196,12 @@ void UserAgentOptions::listboxHighlighted( const QString& _itemtext )
 
   highlighted_item = bindingsLB->currentItem();
 }
+
+
+void UserAgentOptions::changed()
+{
+  emit KCModule::changed(true);
+}
+
 
 #include "useragentdlg.moc"
