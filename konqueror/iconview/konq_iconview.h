@@ -102,6 +102,9 @@ public slots:
   void slotTextBottom( bool b );
   void slotTextRight( bool b );
 
+  void slotBackgroundColor();
+  void slotBackgroundImage();
+
 protected slots:
   // slots connected to QIconView
   virtual void slotMousePressed( QIconViewItem *item );

@@ -30,19 +30,20 @@
 
 #include <kaccel.h>
 #include <kcursor.h>
+#include <kcolordlg.h>
+#include <kdebug.h>
 #include <kdirlister.h>
 #include <kfileivi.h>
 #include <kfileitem.h>
 #include <kio_error.h>
 #include <kio_job.h>
 #include <kio_paste.h>
+#include <klibloader.h>
 #include <klineeditdlg.h>
 #include <kmimetype.h>
-#include <kurl.h>
-#include <kdebug.h>
 #include <konqsettings.h>
 #include <konqdrag.h>
-#include <klibloader.h>
+#include <kurl.h>
 
 #include <qmsgbox.h>
 #include <qfile.h>
@@ -184,8 +185,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
   m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
 
-  KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive" ), 0, this );
-  KToggleAction *aSortByNameCI = new KToggleAction( i18n( "by Name (Case Insensitive" ), 0, this );
+  KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive)" ), 0, this );
+  KToggleAction *aSortByNameCI = new KToggleAction( i18n( "by Name (Case Insensitive)" ), 0, this );
   KToggleAction *aSortBySize = new KToggleAction( i18n( "By Size" ), 0, this );
 
   aSortByNameCS->setExclusiveGroup( "sorting" );
@@ -242,6 +243,11 @@ KonqKfmIconView::KonqKfmIconView()
   m_paBottomText->setChecked( true );
   m_paRightText->setChecked( false );
 
+  KAction * paBackgroundColor = new KAction( i18n( "Background Color" ), 0, this, SLOT( slotBackgroundColor() ), this );
+  KAction * paBackgroundImage = new KAction( i18n( "Background Image" ), 0, this, SLOT( slotBackgroundImage() ), this );
+
+  //
+  
   connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
   connect( m_paNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
   connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
@@ -249,6 +255,8 @@ KonqKfmIconView::KonqKfmIconView()
 
   connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
   connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
+
+  //
 
   actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
@@ -260,10 +268,16 @@ KonqKfmIconView::KonqKfmIconView()
 
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
+  actions()->append( BrowserView::ViewAction( paBackgroundColor, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( paBackgroundImage, BrowserView::MenuView ) );
+
+  actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
+
   actions()->append( BrowserView::ViewAction( m_paLargeIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paNormalIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paSmallIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
+
 
   actions()->append( BrowserView::ViewAction( m_paSelect, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
@@ -502,6 +516,22 @@ void KonqKfmIconView::slotTextRight( bool b )
 	m_pIconView->setGridX( 120 );
 	m_pIconView->setItemTextPos( QIconView::Right );
     }
+}
+
+void KonqKfmIconView::slotBackgroundColor()
+{
+  QColor bgndColor;
+  if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
+  {
+    m_pProps->m_bgColor = bgndColor;
+    m_pProps->m_bgPixmap = QPixmap();
+    m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), FALSE );
+  }
+}
+
+void KonqKfmIconView::slotBackgroundImage()
+{
+  // TODO 
 }
 
 void KonqKfmIconView::stop()
