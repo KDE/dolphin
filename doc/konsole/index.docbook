@@ -44,7 +44,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>15/11/2000</date>
+<date>14/12/2000</date>
 <releaseinfo>1.00.10</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole application.</para>
@@ -112,31 +112,6 @@ Who Enter Here</quote>), &konsole; offers a fresh start using contemporary
 technologies and understanding of X.</para>
 
 </sect1>
-</chapter>
-
-<chapter id="installation">
-<title>Installation</title>
-
-<para>&konsole is part of the KDE 2.0 base packages.  It will automatically be
-installed with your KDE installation, and requires KDE 2.0 to function.</para>
-<para>For more information, you should visit the KDE website at <ulink
-url="http://www.kde.org/">http://www.kde.org/</ulink></para>
-
-<para>To obtain &konsole; separately, download the kdebase package, and compile
-and install it as indicated in the package's main directory.  New versions of
-kdebase can be obtained at <ulink
-url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
-
-<para>To build &konsole;:</para>
-
-<screen>
-<prompt>$</prompt>  <userinput><command>cd</command> <filename>kdebase/konsole</filename></userinput>
-<prompt>$</prompt>  <userinput><command>./configure</command></userinput>
-<prompt>$</prompt>  <userinput><command>make</command></userinput>
-<lineannotation>Then as root:</lineannotation>
-<prompt>#</prompt>  <userinput><command>make install</command></userinput>
-</screen>
-
 </chapter>
 
 <chapter id="use-of-konsole">
@@ -259,6 +234,7 @@ clicking in the window.</para>
 
 <sect2 id="file-menu">
 <title>The <guimenu>File</guimenu> menu</title>
+
 <variablelist>
 <varlistentry>
 <term><menuchoice><guimenu>File</guimenu><guimenuitem>Linux
@@ -273,8 +249,8 @@ console.</para></note></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>File</guimenu><guimenuitem>Midnight
 Commander</guimenuitem></menuchoice></term>
-<listitem><para><action>Opens a new session with the <application>Midnight
-Commander</application> graphical file browser</action></para></listitem>
+<listitem><para><action>Opens a new session</action> with the <application>Midnight
+Commander</application> graphical file browser</para></listitem>
 </varlistentry>
 <varlistentry>
 
@@ -298,8 +274,8 @@ damage.</para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>File</guimenu>
 <guimenuitem><accel>Q</accel>uit</guimenuitem></menuchoice></term>
-<listitem><para><action>Quits &konsole;, closing all sessions and any
-applications launched from them.</action></para></listitem>
+<listitem><para><action>Quits</action> &konsole;, closing all sessions and any
+applications launched from them.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -491,8 +467,8 @@ document</action></para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>T</accel>echnical
 Reference</guimenuitem></menuchoice></term>
-<listitem><para><action>Detailed information on terminal emulation and
-&konsole;</action></para></listitem>
+<listitem><para><action>Detailed information on terminal emulation</action> and
+&konsole;</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -573,7 +549,7 @@ appears in the titlebar</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--notoolbar</option></term>
-<listitem><para><action>Start &konsole; without a toolbar</action></para></listitem>
+<listitem><para>Start &konsole; <action>without a toolbar</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--vt_sz <replaceable>CCxLL</replaceable></option></term>
@@ -642,6 +618,33 @@ Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
 &underFDL;
 &underGPL;
 </chapter>
+
+
+<appendix id="installation">
+<title>Installation</title>
+
+<para>&konsole is part of the KDE 2.0 base packages.  It will automatically be
+installed with your KDE installation, and requires KDE 2.0 to function.</para>
+<para>For more information, you should visit the KDE website at <ulink
+url="http://www.kde.org/">http://www.kde.org/</ulink></para>
+
+<para>To obtain &konsole; separately, download the kdebase package, and compile
+and install it as indicated in the package's main directory.  New versions of
+kdebase can be obtained at <ulink
+url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
+
+<para>To build &konsole;:</para>
+
+<screen>
+<prompt>$</prompt>  <userinput><command>cd</command> <filename>kdebase/konsole</filename></userinput>
+<prompt>$</prompt>  <userinput><command>./configure</command></userinput>
+<prompt>$</prompt>  <userinput><command>make</command></userinput>
+<lineannotation>Then as root:</lineannotation>
+<prompt>#</prompt>  <userinput><command>make install</command></userinput>
+</screen>
+
+</appendix>
+
   
 <![ %addindex; [ &docindex; ]]>
 
