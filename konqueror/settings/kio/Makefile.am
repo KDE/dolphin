@@ -5,7 +5,7 @@ METASOURCES = AUTO
 
 lib_LTLIBRARIES = libkcm_kio.la
 
-libkcm_kio_la_SOURCES = kcookiesmain.cpp kcookiespolicies.cpp kcookiesmanagement.cpp \
+libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp kcookiesmanagement.cpp \
 			main.cpp ksmboptdlg.cpp useragentdlg.cpp kproxydlg.cpp
 
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
