@@ -176,15 +176,17 @@ void ListViewBrowserExtension::copySelection( bool move )
 
   m_listView->listViewWidget()->selectedItems( selection );
 
-  QStringList lstURLs;
+  QStrList lstURLs;
 
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
   QValueList<KonqBaseListViewItem*>::ConstIterator end = selection.end();
   for (; it != end; ++it )
-    lstURLs.append( (*it)->item()->url().url() );
+  {
+    lstURLs.append( (*it)->item()->url().url().local8Bit().data() );
+  }
 
   KonqDrag *urlData = new KonqDrag;
-  urlData->setUnicodeUris( lstURLs );
+  urlData->setUris( lstURLs );
   urlData->setMoveSelection( move );
   QApplication::clipboard()->setData( urlData );
 }
