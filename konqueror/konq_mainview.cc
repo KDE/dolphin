@@ -616,8 +616,8 @@ void KonqMainView::slotSaveSettings()
 void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "Applications/kcmkonq", 0);
-    warning("Error launching kcmshell Applications/konqueror!");
+    execl(locate("exe", "kcmshell"), "kcmshell", "kcmkonq", 0);
+    warning("Error launching kcmshell kcmkonq!");
     exit(1);
   }
 }
@@ -625,8 +625,8 @@ void KonqMainView::slotConfigureFileManager()
 void KonqMainView::slotConfigureBrowser()
 {
   if (fork() == 0) {
-    execl(locate("exe", "kcmshell"), "kcmshell", "Applications/konqhtml", 0);
-    warning("Error launching kcmshell Applications/konqhtml!");
+    execl(locate("exe", "kcmshell"), "kcmshell", "konqhtml", 0);
+    warning("Error launching kcmshell konqhtml!");
     exit(1);
   }
 }
