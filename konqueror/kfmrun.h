@@ -50,7 +50,7 @@ public:
   KonqFileManager() {} ;
   virtual ~KonqFileManager() {} ;
  
-  virtual void openFileManagerWindow( const char *_url );
+  virtual bool openFileManagerWindow( const char *_url );
 };
 
 #endif

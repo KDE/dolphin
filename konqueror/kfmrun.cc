@@ -56,10 +56,11 @@ void KfmRun::foundMimeType( const char *_type )
   KRun::foundMimeType( _type );
 }
 
-void KonqFileManager::openFileManagerWindow( const char *_url )
+bool KonqFileManager::openFileManagerWindow( const char *_url )
 {
   KonqMainWindow *m_pShell = new KonqMainWindow( _url );
   m_pShell->show();
+  return true; // why would it fail ? :)
 }
 
 #include "kfmrun.moc"
