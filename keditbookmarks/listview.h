@@ -170,7 +170,7 @@ private:
    void deselectParents(KEBListViewItem *item);
    QString m_last_selection_address;
    KEBListView *m_listView;
-   KEBListView *m_listView2;
+   KEBListView *m_folderListView;
    bool m_splitView;
 };
 

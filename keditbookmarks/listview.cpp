@@ -60,7 +60,7 @@ ListView::ListView() {
 void ListView::createListViews(QSplitter *splitter) {
    (void) self();
    if (self()->m_splitView) {
-      self()->m_listView2 = new KEBListView(splitter, true);
+      self()->m_folderListView = new KEBListView(splitter, true);
    }
    self()->m_listView = new KEBListView(splitter, false);
    splitter->setSizes(QValueList<int>() << 100 << 300);
@@ -69,7 +69,7 @@ void ListView::createListViews(QSplitter *splitter) {
 void ListView::initListViews() {
    self()->m_listView->init();
    if (m_splitView) {
-      self()->m_listView2->init();
+      self()->m_folderListView->init();
    }
 }
 
@@ -99,7 +99,7 @@ void KEBListView::init() {
 void ListView::updateListViewSetup(bool readonly) {
    self()->m_listView->readonlyFlagInit(readonly);
    if (m_splitView) {
-      self()->m_listView2->readonlyFlagInit(readonly);
+      self()->m_folderListView->readonlyFlagInit(readonly);
    }
 }
 
@@ -122,7 +122,7 @@ void ListView::setInitialAddress(QString address) {
 void ListView::connectSignals() {
    connectSignals(m_listView);
    if (m_splitView) {
-      connectSignals(m_listView2);
+      connectSignals(m_folderListView);
    }
 }
 
@@ -428,7 +428,7 @@ void ListView::updateListView() {
 void ListView::fillWithGroup() {
    if (m_splitView) {
       fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
-      fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root());
+      fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
    } else {
       fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
    }
