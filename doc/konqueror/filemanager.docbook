@@ -36,7 +36,7 @@ from /, their exact paths will depend on how your system was set up (see also
 the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives</link>).
 </para>
 <para>Every user on a &UNIX; / &Linux; system has their own <quote>home</quote> 
-subdirectory directory to hold their personal files and settings, for example 
+directory to hold their personal files and settings, for example 
 <filename class="directory">/home/john</filename> and  
 <filename class="directory">/home/mary</filename>. The 
 symbol <keycap>~</keycap> is often used to represent the user's home 
@@ -132,9 +132,8 @@ MultiColumn View</guimenuitem> mode. The <guilabel>Number of file tip entries:
 </guilabel> setting on this page controls how much information is shown.
 </para>
 <para>If the <guilabel>Show previews in file tips</guilabel> checkbox is 
-checked the pop up window will also show a small image of the file contents, 
-provided that <link linkend="previews">File Previews</link> have been enabled 
-for that type of file.</para>
+checked the pop up window will also show a small image of the file contents.
+</para>
 </sect2>
 
 <sect2 id="previews">

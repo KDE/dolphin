@@ -107,7 +107,7 @@ find your own <quote>Home</quote> directory again.</para>
 <listitem><para>This page provides quick access to the following services:
 </para>
 <para>The <guilabel>Audio CD Browser</guilabel>.</para>
-<para><guilabel>Devices</guilabel>. This is tree view of your hard disc 
+<para><guilabel>Devices</guilabel>. This shows your hard disc 
 partitions, floppy and &CD-ROM;. <mousebutton>Left</mousebutton> click on 
 a device or partition name to mount it and display its contents in the main 
 view.  A mounted device or partition can be unmounted by <mousebutton>right
