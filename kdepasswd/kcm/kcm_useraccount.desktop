@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=kdmconfig
+Categories=QT;KDE;X-KDE-settings-security;
+X-KDE-ParentApp=kcontrol
+X-KDE-Library=useraccount
+Type=Application
+Exec=kcmshell kcm_useraccount
+Name=Password & User Information
+Keywords=password;email;name;organization;realname;login image;face; echo mode;
+Comment=User information such as password, name and email

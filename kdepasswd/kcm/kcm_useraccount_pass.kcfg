@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+	<kcfgfile name="kdeglobals"/>
+	<group name="Passwords">
+		<entry name="EchoMode" type="Enum">
+			<label>Password echo type</label>
+			<choices>
+				<choice name="OneStar"/>
+				<choice name="ThreeStars"/>
+				<choice name="NoEcho"/>
+			</choices>
+			<default>OneStar</default>
+		</entry>
+		<entry name="test" type="String">
+			<default> adasderasd </default>
+		</entry>
+	</group>
+</kcfg>

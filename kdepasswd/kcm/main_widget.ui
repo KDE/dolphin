@@ -1,0 +1,280 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>MainWidget</class>
+<author>Frans Englich &lt;frans.englich@telia.com&gt;</author>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>MainWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>420</width>
+            <height>514</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>KCMUserAccount</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="0" column="1" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>lblClickButtonInfo</cstring>
+            </property>
+            <property name="text">
+                <string>&lt;i&gt;Click the button to change your image&lt;/i&gt;</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="0" column="0">
+            <property name="name">
+                <cstring>btnChangeFace</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>74</width>
+                    <height>74</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>74</width>
+                    <height>74</height>
+                </size>
+            </property>
+            <property name="acceptDrops">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>grpUserInformation</cstring>
+            </property>
+            <property name="title">
+                <string>User Information</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>lblOrganisation</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Organization:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leOrganization</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>leRealname</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>lblRealName</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Name:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leRealname</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>leOrganization</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>lblEmail</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Email:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leEmail</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>leEmail</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;SMTP Server:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leSMTP</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>leSMTP</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="1">
+                    <property name="name">
+                        <cstring>lblUsername</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="0">
+                    <property name="name">
+                        <cstring>lblUsernameTell</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Username:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="5" column="0">
+                    <property name="name">
+                        <cstring>lblUIDTell</cstring>
+                    </property>
+                    <property name="text">
+                        <string>User ID:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="5" column="1">
+                    <property name="name">
+                        <cstring>lblUID</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QButtonGroup" row="2" column="0" rowspan="2" colspan="2">
+            <property name="name">
+                <cstring>bgpPassword</cstring>
+            </property>
+            <property name="title">
+                <string>Echo Character As</string>
+            </property>
+            <property name="flat">
+                <bool>false</bool>
+            </property>
+            <property name="checkable">
+                <bool>false</bool>
+            </property>
+            <property name="checked">
+                <bool>false</bool>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>rdbOneStar</cstring>
+                    </property>
+                    <property name="text">
+                        <string>One star</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>rdbThreeStars</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Three stars</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0">
+                    <property name="name">
+                        <cstring>rdbNoEcho</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show password</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer row="2" column="2">
+            <property name="name">
+                <cstring>spacer5</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>70</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="3" column="3">
+            <property name="name">
+                <cstring>spacer6</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>150</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="KPushButton" row="2" column="3">
+            <property name="name">
+                <cstring>btnChangePassword</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<tabstops>
+    <tabstop>btnChangeFace</tabstop>
+    <tabstop>leRealname</tabstop>
+    <tabstop>leOrganization</tabstop>
+    <tabstop>leEmail</tabstop>
+    <tabstop>btnChangePassword</tabstop>
+</tabstops>
+<includes>
+    <include location="local" impldecl="in implementation">kdialog.h</include>
+</includes>
+<layoutdefaults spacing="6" margin="11"/>
+<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
+<includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>
