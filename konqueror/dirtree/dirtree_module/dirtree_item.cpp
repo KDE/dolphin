@@ -48,8 +48,6 @@ KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLev
 
 KonqDirTreeItem::~KonqDirTreeItem()
 {
-    if ( m_topLevelItem )
-        MYMODULE->removeSubDir( this );
 }
 
 void KonqDirTreeItem::setOpen( bool open )

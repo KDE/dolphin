@@ -95,8 +95,8 @@ void KonqTree::clearTree()
 {
 //     for ( KonqTreeModule * module = m_lstModules.first() ; module ; module = m_lstModules.next() )
 //         module->clearAll();
-    m_topLevelItems.clear();
     m_lstModules.clear();
+    m_topLevelItems.clear();
     m_mapCurrentOpeningFolders.clear();
     clear();
     setRootIsDecorated( true );

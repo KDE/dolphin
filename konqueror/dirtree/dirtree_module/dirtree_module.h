@@ -60,9 +60,6 @@ private:
     // URL -> item
     QDict<KonqTreeItem> m_dictSubDirs;
 
-    // Cache, for findDir
-    //KonqTreeItem* m_lasttvd;
-
     // The dirlister - having only one prevents opening two subdirs at the same time,
     // but it's necessary for the update feature.... if we want two openings on the
     // same tree, it requires a major kdirlister improvement (rather as a subclass).

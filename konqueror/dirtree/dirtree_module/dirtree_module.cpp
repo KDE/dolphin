@@ -28,7 +28,7 @@
 #include <assert.h>
 
 KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
-    : KonqTreeModule( parentTree ), /*m_lasttvd(0L), */m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)
+    : KonqTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)
 {
     // Used to be static...
     s_defaultViewProps = new KonqPropsView( KonqTreeFactory::instance(), 0L );
@@ -110,7 +110,6 @@ void KonqDirTreeModule::addSubDir( KonqTreeItem *item )
 
 void KonqDirTreeModule::removeSubDir( KonqTreeItem *item )
 {
-    //m_lasttvd = 0L; // drop cache, to avoid segfaults
     m_dictSubDirs.remove( item->externalURL().url(-1) );
 }
 
@@ -208,7 +207,10 @@ void KonqDirTreeModule::slotDeleteItem( KFileItem *fileItem )
     KonqTreeItem * item = m_dictSubDirs[ fileItem->url().url(-1) ];
     ASSERT(item);
     if (item)
+    {
+        removeSubDir( item );
         delete item;
+    }
 }
 
 void KonqDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL & newUrl )
