@@ -186,9 +186,9 @@ void KJavaOptions::load()
     bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
     int  serverTimeout    = m_pConfig->readNumEntry( "AppletServerTimeout", 60 );
 #if defined(PATH_JAVA)
-    QString sJavaPath     = m_pConfig->readEntry( "JavaPath", PATH_JAVA );
+    QString sJavaPath     = m_pConfig->readPathEntry( "JavaPath", PATH_JAVA );
 #else
-    QString sJavaPath     = m_pConfig->readEntry( "JavaPath", "java" );
+    QString sJavaPath     = m_pConfig->readPathEntry( "JavaPath", "java" );
 #endif
 
     if( sJavaPath == "/usr/lib/jdk" )
@@ -209,7 +209,7 @@ void KJavaOptions::load()
     javaConsoleCB->setChecked( bJavaConsole );
     javaSecurityManagerCB->setChecked( bSecurityManager );
 
-    addArgED->setText( m_pConfig->readEntry( "JavaArgs", "" ) );
+    addArgED->setText( m_pConfig->readEntry( "JavaArgs" ) );
     pathED->lineEdit()->setText( sJavaPath );
 
     enableShutdownCB->setChecked( bServerShutdown );
@@ -236,7 +236,7 @@ void KJavaOptions::save()
     java_global_policies.save();
     m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
     m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
-    m_pConfig->writeEntry( "JavaPath", pathED->lineEdit()->text() );
+    m_pConfig->writePathEntry( "JavaPath", pathED->lineEdit()->text() );
     m_pConfig->writeEntry( "UseSecurityManager", javaSecurityManagerCB->isChecked() );
     m_pConfig->writeEntry( "ShutdownAppletServer", enableShutdownCB->isChecked() );
     m_pConfig->writeEntry( "AppletServerTimeout", serverTimeoutSB->value() );

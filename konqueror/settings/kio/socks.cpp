@@ -195,7 +195,7 @@ void KSocksConfig::load()
     base->_c_customLabel->setEnabled(false);
     base->_c_customPath->setEnabled(false);
   }
-  base->_c_customPath->setURL(config.readEntry("SOCKS_lib", ""));
+  base->_c_customPath->setURL(config.readPathEntry("SOCKS_lib"));
 
   QListViewItem *thisitem;
   while ((thisitem = base->_c_libs->firstChild())) {
@@ -203,7 +203,7 @@ void KSocksConfig::load()
      delete thisitem;
   }
 
-  QStringList libs = config.readListEntry("SOCKS_lib_path");
+  QStringList libs = config.readPathListEntry("SOCKS_lib_path");
   for(QStringList::Iterator it = libs.begin();
                             it != libs.end();
                             ++it ) {
@@ -221,7 +221,7 @@ void KSocksConfig::save()
   KConfigGroup config(kapp->config(), "Socks");
   config.writeEntry("SOCKS_enable",base-> _c_enableSocks->isChecked(), true, true);
   config.writeEntry("SOCKS_method", base->bg->id(base->bg->selected()), true, true);
-  config.writeEntry("SOCKS_lib", base->_c_customPath->url(), true, true);
+  config.writePathEntry("SOCKS_lib", base->_c_customPath->url(), true, true);
   QListViewItem *thisitem = base->_c_libs->firstChild();
 
   QStringList libs;
@@ -229,7 +229,7 @@ void KSocksConfig::save()
     libs << thisitem->text(0);
     thisitem = thisitem->itemBelow();
   }
-  config.writeEntry("SOCKS_lib_path", libs, ',', true, true);
+  config.writePathEntry("SOCKS_lib_path", libs, ',', true, true);
 
   kapp->config()->sync();
 

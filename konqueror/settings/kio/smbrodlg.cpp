@@ -99,8 +99,8 @@ void SMBRoOptions::load()
 
    QString tmp;
    cfg->setGroup( "Browser Settings/SMBro" );
-   m_userLe->setText(cfg->readEntry("User",""));
-   m_workgroupLe->setText(cfg->readEntry("Workgroup",""));
+   m_userLe->setText(cfg->readEntry("User"));
+   m_workgroupLe->setText(cfg->readEntry("Workgroup"));
    m_showHiddenShares->setChecked(cfg->readBoolEntry("ShowHiddenShares",false));
 
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
@@ -108,7 +108,7 @@ void SMBRoOptions::load()
    m_encodingList->setCurrentItem( _strList.findIndex( cfg->readEntry( "Encoding", m_encoding.lower() ) ) );
 
    // unscramble
-   QString scrambled = cfg->readEntry( "Password","" );
+   QString scrambled = cfg->readEntry( "Password" );
    QString password = "";
    for (uint i=0; i<scrambled.length()/3; i++)
    {

@@ -323,7 +323,7 @@ void KAppearanceOptions::load()
     while (fonts.count() < 7)
        fonts.append(QString::null);
 
-    encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
+    encodingName = m_pConfig->readEntry( "DefaultEncoding" );
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
