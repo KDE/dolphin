@@ -4,3 +4,5 @@ data_DATA =  index.html index-1.html index-2.html \
 
 datadir = $(kde_htmldir)/en/kfind
 
+EXTRA_DIST = $(data_DATA)
+

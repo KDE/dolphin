@@ -161,7 +161,7 @@ void KfindWindow::updateResults(const char *file )
     sprintf(str,i18n("%d file(s) found"),count);
     emit statusChanged(str);
 
-    unlink(file);
+	unlink( file );
     fclose(f);    
     delete filename;
     delete strl;
