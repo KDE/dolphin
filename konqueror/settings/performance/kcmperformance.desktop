@@ -160,4 +160,4 @@ Keywords[xx]=xxperformance,speed,memory,improvexx
 Keywords[zh_CN]=performance,speed,memory,improve,性能,速度,内存,提高
 Keywords[zh_TW]=performance,speed,memory,improve,效能,速度,記憶體,增進
 
-Categories=Qt;KDE;X-KDE-settings-components
+Categories=Qt;KDE;X-KDE-settings-components;

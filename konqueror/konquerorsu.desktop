@@ -67,9 +67,8 @@ Name[vi]=Trình quản lí file(của người quản lý)
 Name[wa]=Manaedjeu di fitchîs - Môde super uzeu (root)
 Name[xh]=Umphathi Wefayile - Indlela Ephezulu Yomsebenzisi
 Name[xx]=xxFile Manager - Super User Modexx
-Name[zh_CN]=文件管理器 - 超级用户模式
 Name[zh_TW]=檔案總管 - 超級使用者模式
 Name[zu]=Imenenja yamafayela - Indlela Yomsebenzisi Omkhulu
 
 
-Categories=Qt;KDE;System;X-KDE-More
+Categories=Qt;KDE;System;X-KDE-More;

@@ -179,4 +179,4 @@ Keywords[zh_CN]=Cache,History,Browsing History,Ports,Size,缓存,历史
 Keywords[zh_TW]=Cache,History,Browsing History,Ports,Size,快取
 Keywords[zu]=Cache,Umlando,Umlando wokucinga,Izikhumulo,Usayizi
 
-Categories=Qt;KDE;X-KDE-settings-webbrowsing
+Categories=Qt;KDE;X-KDE-settings-webbrowsing;

@@ -2,7 +2,6 @@
 Encoding=UTF-8
 Exec=
 Icon=exec
-TerminalOptions=
 Path=
-Terminal=0
+Terminal=false
 Type=Application

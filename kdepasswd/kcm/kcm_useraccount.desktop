@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Icon=kdmconfig
-Categories=QT;KDE;X-KDE-settings-security;
 X-KDE-ParentApp=kcontrol
 X-KDE-Library=useraccount
 Type=Application
@@ -51,7 +50,7 @@ Keywords[bs]=password;email;name;organization;realname;login image;face; echo mo
 Keywords[ca]=contrasenya;correu;nom;organització;nom real;imatge de connexió;aspecte;mode d'eco;
 Keywords[cs]=heslo,email,jméno,organizace,přihlašovací obrázek
 Keywords[cy]=cyfrinair;ebost;enw;sefydliad;enw go iawn;delwedd fewngofnodi;wyneb; modd atsain;
-Keywords[da]=kodeord;email;e-post;organisation;rigtigt navn;login-billede;hoved; ekkotilstand;
+Keywords[da]=kodeord;email;e-mail;organisation;rigtigt navn;login-billede;hoved; ekkotilstand;
 Keywords[de]=Passwort,E-Mail,Name,Organisation,Realer Name,Login,Bild,Schriftart,Echomodus
 Keywords[el]=κωδικός πρόσβασης;email;όνομα;οργανισμός;πραγματικό όνομα;εικόνα σύνδεσης;πρόσωπο; τρόπος εμφάνισης;
 Keywords[en_GB]=password;email;name;organisation;realname;login image;face; echo mode;
@@ -87,7 +86,7 @@ Comment[bs]=Informacije o korisniku kao što su šifra, ime i e-mail
 Comment[ca]=Informació de l'usuari com ara contrasenya, nom i correu
 Comment[cs]=Informace o uživateli, jako heslo, jméno nebo email
 Comment[cy]=Gwybodaeth ddefnyddiwr fel cyfrinair, enw ac ebost
-Comment[da]=Brugerinformation såsom kodeord, navn og e-post
+Comment[da]=Brugerinformation såsom kodeord, navn og e-mail
 Comment[de]=Benutzerinformation wie Passwort, Name, Mail-Adresse
 Comment[el]=Πληροφορίες χρήστη όπως ο κωδικός πρόσβασης, το όνομα και το email
 Comment[eo]=Uzantaj informoj kiel pasvorto, nomo kaj retpoŝto

@@ -153,7 +153,7 @@ Keywords[fi]=konqueror,kfm,selain,html,web,www,kirjasimet,merkistöt,koodaus
 Keywords[fr]=konqueror,kfm,navigateur,html,web,www,polices,couleurs,java,javascript,curseur,liens,images,jeu de caractères,caractères,codage,encodage
 Keywords[gl]=konqueror,kfm,navegador,html,web,www,fontes,caracteres,conxunto de caracteres,codificación
 Keywords[he]=konqueror,kfm,דפדפן,html,web,www,אינטרנט,גופנים,מערכי תווים,קידוד
-Keywords[hi]=कॉन्क्वेरर,केएफएम,ब्राउजर,एचटीएमएल,वेब,डब्ल्यूडब्ल्यूडब्ल्यू,फ़ॉन्ट्स,अक्षरमाला,अक्षर माला,एनकोडिंग
+Keywords[hi]=कॉन्करर,केएफएम,ब्राउजर,एचटीएमएल,वेब,डब्ल्यूडब्ल्यूडब्ल्यू,फ़ॉन्ट्स,अक्षरमाला,अक्षर माला,एनकोडिंग
 Keywords[hu]=Konqueror,kfm,böngésző,HTML,web,WWW,betűtípusok,karakterkészletek,betűkészletek,kódolás
 Keywords[is]=vafri,vefur,vefurinn,vefsíður,letur,litir,kóðun,stafatafla, bendill,myndir,www,html,stafir
 Keywords[it]=konqueror,kfm,browser,html,web,www,caratteri,colori,set di caratteri,charset,codifica
@@ -189,4 +189,4 @@ Keywords[zh_CN]=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets
 Keywords[zh_TW]=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets,征服家,字元,字元集,編碼,瀏覽器,字型,網頁
 Keywords[zu]=konqueror,kfm,umcingi,html,web,www,izinhlobo zamagama,charsets,amaqoqo ezimpawu,ukubhala ngekhodi
 
-Categories=Qt;KDE;X-KDE-settings-webbrowsing
+Categories=Qt;KDE;X-KDE-settings-webbrowsing;
