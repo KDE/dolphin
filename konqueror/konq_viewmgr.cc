@@ -342,7 +342,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
 
     if ( ++it == end ) // move to next
       it = mapViews.begin(); // rewind on end
- 	
+
     if ( it == startIt && view )
       break; // no next view found
 
@@ -355,10 +355,10 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
 }
 
 KonqViewFactory KonqViewManager::createView( const QString &serviceType,
-					  const QString &serviceName,
-					  KService::Ptr &service,
-					  KTrader::OfferList &partServiceOffers,
-					  KTrader::OfferList &appServiceOffers )
+                                          const QString &serviceName,
+                                          KService::Ptr &service,
+                                          KTrader::OfferList &partServiceOffers,
+                                          KTrader::OfferList &appServiceOffers )
 {
   kdDebug(1202) << "KonqViewManager::createView" << endl;
   KonqViewFactory viewFactory;
@@ -368,12 +368,12 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
     KonqView *cv = m_pMainWindow->currentView();
 
     viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->name(),
-				           &service, &partServiceOffers, &appServiceOffers );
+                                           &service, &partServiceOffers, &appServiceOffers );
   }
   else {
     //create view with the given servicetype
     viewFactory = KonqFactory::createView( serviceType, serviceName,
-		       	                   &service, &partServiceOffers, &appServiceOffers );
+                                           &service, &partServiceOffers, &appServiceOffers );
   }
 
   return viewFactory;
@@ -513,6 +513,21 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   printFullHierarchy( m_pMainContainer );
 }
 
+void KonqViewManager::setActivePart( KParts::Part *part, QWidget * )
+{
+    PartManager::setActivePart( part );
+    // We use a 0s single shot timer so that when clicking on a part,
+    // we process the mouse event before rebuilding the GUI.
+    // Otherwise, when e.g. dragging icons, the mouse pointer can already
+    // be very far from where it was...
+    QTimer::singleShot( 0, this, SLOT( emitActivePartChanged() ) );
+}
+
+void KonqViewManager::emitActivePartChanged()
+{
+    m_pMainWindow->slotPartActivated( activePart() );
+}
+
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
                                 const QString &name, const KURL & defaultURL, const KURL & forcedURL )
 {
@@ -578,12 +593,12 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     else if( ostr == "Horizontal" )
       o = Qt::Horizontal;
     else {
-	kdWarning() << "Profile Loading Error: No orientation specified in " << name << endl;
+        kdWarning() << "Profile Loading Error: No orientation specified in " << name << endl;
       o = Qt::Horizontal;
     }
 
     QValueList<int> sizes =
-	cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
+        cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
 
     QStrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
@@ -620,7 +635,7 @@ void KonqViewManager::setProfiles( KActionMenu *profiles )
              this, SLOT( slotProfileActivated( int ) ) );
     connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
              this, SLOT( slotProfileListAboutToShow() ) );
-  }	
+  }
   //KonqMainWindow::enableAllActions will call it anyway
   //profileListDirty();
 }
@@ -685,8 +700,8 @@ void KonqViewManager::slotProfileListAboutToShow()
 ///////////////// Debug stuff ////////////////
 
 void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
-				     KonqFrameContainer* parent,
-				     const char* msg )
+                                     KonqFrameContainer* parent,
+                                     const char* msg )
 {
   QRect r;
   r = frame->widget()->geometry();

@@ -124,8 +124,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_pViewManager = new KonqViewManager( this );
 
-  connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
-	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
+  // See KonqViewManager::setActivePart
+  //connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
+  //       this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
 
@@ -196,7 +197,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   KonqUndoManager::incRef();
 
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
-	   this, SLOT( slotUndoAvailable( bool ) ) );
+           this, SLOT( slotUndoAvailable( bool ) ) );
 
   resize( 700, 480 );
   kdDebug(1202) << "KonqMainWindow::KonqMainWindow done" << endl;
@@ -298,7 +299,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
                                                 const QString &serviceType, const KonqOpenURLRequest & req,
-			      bool trustedSource )
+                              bool trustedSource )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
                 << "serviceType='" << serviceType << "' view=" << _view << endl;
@@ -462,8 +463,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   if (ok)
   {
-    kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
-    kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
+    //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
+    //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
     childView->setTypedURL( req.typedURL );
     childView->openURL( url, originalURL, req.nameFilter );
   }
@@ -488,8 +489,8 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
     }
 
     if ( frameName != _top &&
-	 frameName != _self &&
-	 frameName != _parent )
+         frameName != _self &&
+         frameName != _parent )
     {
       KParts::BrowserHostExtension *hostExtension = 0;
       KonqView *view = childView( frameName, &hostExtension );
@@ -497,17 +498,17 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
       {
         KonqMainWindow *mainWindow = 0;
         view = findChildView( frameName, &mainWindow, &hostExtension );
-	
-	if ( !view || !mainWindow )
-	{
-	  slotCreateNewWindow( url, args );
-	  return;
-	}
 
-	if ( hostExtension )
-	  hostExtension->openURLInFrame( url, args );
-	else
-  	   mainWindow->openURL( view, url, args );
+        if ( !view || !mainWindow )
+        {
+          slotCreateNewWindow( url, args );
+          return;
+        }
+
+        if ( hostExtension )
+          hostExtension->openURLInFrame( url, args );
+        else
+           mainWindow->openURL( view, url, args );
         return;
       }
 
@@ -733,11 +734,11 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
         QVariant modePropValue = service->property( "X-KDE-BrowserView-ModePropertyValue" );
         if ( !modeProp.isValid() || !modePropValue.isValid() )
           break;
-	
+
         m_currentView->part()->setProperty( modeProp.toString().latin1(), modePropValue );
-	
+
         m_currentView->setService( service );
-	
+
         bQuickViewModeChange = true;
         break;
       }
@@ -901,7 +902,7 @@ void KonqMainWindow::slotConfigureFileManager()
 {
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
-	  "kcmshell", "kcmkonq", 0);
+          "kcmshell", "kcmkonq", 0);
     warning("Error launching kcmshell kcmkonq!");
     exit(1);
   }
@@ -911,7 +912,7 @@ void KonqMainWindow::slotConfigureFileTypes()
 {
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
-	  "kcmshell", "filetypes", 0);
+          "kcmshell", "filetypes", 0);
     warning("Error launching kcmshell filetypes !");
     exit(1);
   }
@@ -921,7 +922,7 @@ void KonqMainWindow::slotConfigureBrowser()
 {
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
-	  "kcmshell", "konqhtml", 0);
+          "kcmshell", "konqhtml", 0);
     warning("Error launching kcmshell konqhtml!");
     exit(1);
   }
@@ -931,7 +932,7 @@ void KonqMainWindow::slotConfigureEBrowsing()
 {
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
-	  "kcmshell", "ebrowsing", 0);
+          "kcmshell", "ebrowsing", 0);
     warning("Error launching kcmshell ebrowsing!");
     exit(1);
   }
@@ -941,7 +942,7 @@ void KonqMainWindow::slotConfigureCookies()
 {
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
-	  "kcmshell", "cookies", 0);
+          "kcmshell", "cookies", 0);
     warning("Error launching kcmshell cookies!");
     exit(1);
   }
@@ -951,7 +952,7 @@ void KonqMainWindow::slotConfigureProxies()
 {
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
-	  "kcmshell", "proxy", 0);
+          "kcmshell", "proxy", 0);
     warning("Error launching kcmshell proxy!");
     exit(1);
   }
@@ -1136,8 +1137,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       return;
     }
   }
-  else
-    kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
+  //else
+  //  kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
+  // Well, it happens when closing the window
 
   KParts::BrowserExtension *ext = 0;
 
@@ -2002,7 +2004,7 @@ void KonqMainWindow::initActions()
 {
   actionCollection()->setHighlightingEnabled( true );
   connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
-	   this, SLOT( slotActionHighlighted( KAction * ) ) );
+           this, SLOT( slotActionHighlighted( KAction * ) ) );
 
   // Note about this method : don't call setEnabled() on any of the actions.
   // They are all disabled then re-enabled with enableAllActions
@@ -2017,7 +2019,7 @@ void KonqMainWindow::initActions()
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", 0 /*conflict with New Window! KStdAccel::key(KStdAccel::New)*/,
-		      this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
+                      this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
 
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
@@ -2104,7 +2106,7 @@ void KonqMainWindow::initActions()
   m_ptaFullScreen->setChecked( false );
 
   connect( m_ptaFullScreen, SIGNAL( toggled( bool ) ),
-	   this, SLOT( slotToggleFullScreen( bool ) ) );
+           this, SLOT( slotToggleFullScreen( bool ) ) );
 
   KHelpMenu * m_helpMenu = new KHelpMenu( this, KonqFactory::aboutData() );
   KStdAction::helpContents( m_helpMenu, SLOT( appHelpActivated() ), actionCollection(), "contents" );
@@ -2119,7 +2121,7 @@ void KonqMainWindow::initActions()
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
   m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
   connect( KonqUndoManager::self(), SIGNAL( undoTextChanged( const QString & ) ),
-	   m_paUndo, SLOT( setText( const QString & ) ) );
+           m_paUndo, SLOT( setText( const QString & ) ) );
 
   // Those are connected to the browserextension directly
   m_paCut = KStdAction::cut( 0, 0, actionCollection(), "cut" );
@@ -2166,42 +2168,42 @@ void KonqMainWindow::initActions()
   // help stuff
 
   m_paBack->setWhatsThis( i18n( "Click this button to display the previous document<br><br>\n\n"
-				"You can also select the <b>Back Command</b> from the Go menu." ) );
+                                "You can also select the <b>Back Command</b> from the Go menu." ) );
   m_paBack->setStatusText( i18n( "Display the previous document" ) );
 
   m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
-				   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
-	
+                                   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
+
   m_paHome->setWhatsThis( i18n( "Click this button to display your 'Home URL'<br><br>\n\n"
-				"You can configure the location this button brings you to in the"
-				"<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
+                                "You can configure the location this button brings you to in the"
+                                "<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
   m_paHome->setStatusText( i18n( "Enter your home directory" ) );
-				
+
   m_paReload->setWhatsThis( i18n( "Reloads the currently displayed document<br><br>\n\n"
-				  "You can also select the <b>Reload Command</b> from the View menu." ) );
+                                  "You can also select the <b>Reload Command</b> from the View menu." ) );
   m_paReload->setStatusText( i18n( "Reload the current document" ) );
-			
+
   m_paCut->setWhatsThis( i18n( "Click this button to cut the currently selected text or items and move it "
                                "to the system clipboard<br><br>\n\n"
-			       "You can also select the <b>Cut Command</b> from the Edit menu." ) );
+                               "You can also select the <b>Cut Command</b> from the Edit menu." ) );
   m_paCut->setStatusText( i18n( "Moves the selected text/item(s) to the clipboard" ) );
 
   m_paCopy->setWhatsThis( i18n( "Click this button to copy the currently selected text or items to the "
-				"system clipboard<br><br>\n\n"
-				"You can also select the <b>Copy Command</b> from the Edit menu." ) );
+                                "system clipboard<br><br>\n\n"
+                                "You can also select the <b>Copy Command</b> from the Edit menu." ) );
   m_paCopy->setStatusText( i18n( "Copies the selected text/item(s) to the clipboard" ) );
 
   m_paPaste->setWhatsThis( i18n( "Click this button to paste the previously cutted or copied clipboard "
                                  "content<br><br>\n\n"
-				 "You can also select the <b>Paste Command</b> from the Edit menu." ) );
+                                 "You can also select the <b>Paste Command</b> from the Edit menu." ) );
   m_paPaste->setStatusText( i18n( "Pastes the clipboard content" ) );
 
   m_paPrint->setWhatsThis( i18n( "Click this button to print the currently displayed document<br><br>\n\n"
-				 "You can also select the <b>Print Command</b> from the View menu." ) );
+                                 "You can also select the <b>Print Command</b> from the View menu." ) );
   m_paPrint->setStatusText( i18n( "Print the current document" ) );
 
   m_paStop->setWhatsThis( i18n( "Click this button to abort loading the document<br><br>\n\n"
-				"You can also select the <b>Stop Command</b> from the View menu." ) );
+                                "You can also select the <b>Stop Command</b> from the View menu." ) );
   m_paStop->setStatusText( i18n( "Stop loading the document" ) );
 
 
@@ -2426,8 +2428,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if ( _items.count() == 1 )
     // Can't use X-KDE-BrowserView-HideFromMenus directly in the query because '-' is a substraction !!!
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
-						  "('Browser/View' in ServiceTypes) or "
-						  "('KParts/ReadOnlyPart' in ServiceTypes)" );
+                                                  "('Browser/View' in ServiceTypes) or "
+                                                  "('KParts/ReadOnlyPart' in ServiceTypes)" );
 
   if ( _items.count() > 0 )
   {
@@ -2446,7 +2448,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              m_currentView->url(),
                              popupMenuCollection,
                              m_pMenuNew,
-		 showPropsAndFileType );
+                 showPropsAndFileType );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
 
@@ -2559,7 +2561,7 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
     action->setIcon( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),
-	     this, SLOT( slotOpenWith() ) );
+             this, SLOT( slotOpenWith() ) );
 
     m_openWithActions.append( action );
   }
@@ -2591,12 +2593,12 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
       if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
       {
           KRadioAction *action;
-	
-	  QString icon = (*it)->icon();
+
+          QString icon = (*it)->icon();
           if ( icon != QString::fromLatin1( "unknown" ) )
-  	    // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-	    action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->name().ascii() );
-	  else
+            // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
+            action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->name().ascii() );
+          else
             action = new KRadioAction( (*it)->comment(), 0, this, (*it)->name().ascii() );
 
           if ( (*it)->name() == m_currentView->service()->name() )
@@ -2606,9 +2608,9 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
 
           connect( action, SIGNAL( toggled( bool ) ),
                    this, SLOT( slotViewModeToggle( bool ) ) );
-	
-	  m_viewModeActions.append( action );
-	  action->plug( m_viewModeMenu->popupMenu() );
+
+          m_viewModeActions.append( action );
+          action->plug( m_viewModeMenu->popupMenu() );
       }
   }
 }

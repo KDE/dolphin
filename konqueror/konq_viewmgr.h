@@ -144,9 +144,16 @@ public:
   /**
    * Reimplemented from PartManager
    */
-  void removePart( KParts::Part * part );
+  virtual void removePart( KParts::Part * part );
+
+  /**
+   * Reimplemented from PartManager
+   */
+  virtual void setActivePart( KParts::Part *part, QWidget *widget = 0L );
 
 protected slots:
+  void emitActivePartChanged();
+
   void slotProfileDlg();
 
   void slotProfileActivated( int id );

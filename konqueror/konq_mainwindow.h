@@ -243,8 +243,9 @@ public slots:
   // reimplement from KParts::MainWindow
   virtual void slotSetStatusBarText( const QString &text );
 
-protected slots:
+  // public for KonqViewManager
   void slotPartActivated( KParts::Part *part );
+protected slots:
   void slotViewCompleted( KonqView * view );
   void slotEnableAction( const char * name, bool enabled );
 
