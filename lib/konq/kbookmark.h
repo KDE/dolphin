@@ -193,6 +193,8 @@ public:
     KBookmark createNewSeparator();
     /**
      * Create a new bookmark, as the last child of this group
+     * Don't forget to use KBookmarkManager::self()->emitChanged( parentBookmark );
+     * if this bookmark was added interactively.
      */
     KBookmark addBookmark( const QString & text, const KURL & url );
 

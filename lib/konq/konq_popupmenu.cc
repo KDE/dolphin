@@ -482,6 +482,7 @@ void KonqPopupMenu::slotPopupAddToBookmark()
   KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
       root.addBookmark( (*it).prettyURL(), (*it).url() );
+  KBookmarkManager::self()->emitChanged( root );
 }
 
 void KonqPopupMenu::slotRunService()
