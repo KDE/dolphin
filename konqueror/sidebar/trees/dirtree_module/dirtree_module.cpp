@@ -134,11 +134,12 @@ void KonqSidebarDirTreeModule::removeSubDir( KonqSidebarTreeItem *item, bool chi
     if ( !childrenOnly )
     {
         bool b = m_dictSubDirs.remove( item->externalURL().url(-1) );
-	while (!(((KonqSidebarDirTreeItem*) item)->alias.isEmpty()))
+	KonqSidebarDirTreeItem *ditem = dynamic_cast<KonqSidebarDirTreeItem*>(item);
+	while (ditem && !(ditem->alias.isEmpty()))
 	{
-	        b = b|m_dictSubDirs.remove( ((KonqSidebarDirTreeItem*) item)->alias.front() );
+	        b = b|m_dictSubDirs.remove( ditem->alias.front() );
 
-		((KonqSidebarDirTreeItem*) item)->alias.pop_front();
+		ditem->alias.pop_front();
 	}
         if (!b)
             kdWarning(1201) << this << " KonqSidebarDirTreeModule::removeSubDir item " << item
@@ -314,8 +315,11 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
         m_dictSubDirs.insert( newUrl.url(-1), item );
         if (item->parent())
         {
-            ((KonqSidebarDirTreeItem*) item)->alias<<oldUrl.url(-1);
-            ((KonqSidebarDirTreeItem*) item)->alias<<newUrl.url(-1);
+	    KonqSidebarDirTreeItem* ditem = dynamic_cast<KonqSidebarDirTreeItem*>(item);
+	    if (ditem) {
+            	ditem->alias<<oldUrl.url(-1);
+            	ditem->alias<<newUrl.url(-1);
+	    }
         }
         kdDebug(1201) << "Updating url to " << newUrl.prettyURL() << endl;
     }
