@@ -244,7 +244,7 @@ void KUserInfoConfig::slotChangeRealName()
     else if ( ret == ChfnProcess::MiscError )
       KMessageBox::sorry( this, i18n("An error occurred: %1").arg( chfnproc->error() ) );
     else
-      KMessageBox::sorry( this, i18n("An unkown error occurred.") );
+      KMessageBox::sorry( this, i18n("An unknown error occurred.") );
     delete chfnproc;
   }
   delete pDlg;
