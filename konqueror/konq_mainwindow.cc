@@ -1977,6 +1977,9 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 {
   if( m_pURLCompletion )
   {
+    // setting the mode still necessary?
+    s_pCompletion->setCompletionMode( m_combo->completionMode() );
+
     // kdDebug(1202) << "Local Completion object found!" << endl;
     QString completion = m_pURLCompletion->makeCompletion( text );
     m_currentDir = QString::null;
@@ -1985,7 +1988,6 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
     {
       // ask the global one
       // tell the static completion object about the current completion mode
-      s_pCompletion->setCompletionMode( m_combo->completionMode() );
       completion = s_pCompletion->makeCompletion( text );
     }
     else
@@ -1996,8 +1998,8 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
 
     // some special handling necessary for CompletionPopup
     if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
-	QStringList items = m_pURLCompletion->allMatches();
-	items += s_pCompletion->allMatches();
+	QStringList items = m_pURLCompletion->allMatches( text );
+	items += s_pCompletion->allMatches( text );
 	// items.sort(); // should we?
 	m_combo->setCompletedItems( items );
     }
