@@ -36,6 +36,7 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QTimer;
 class QPushButton;
+class QToolButton;
 
 class KonqView;
 class KonqFrameBase;
@@ -158,7 +159,7 @@ class KonqFrameHeader : public QWidget
       virtual void showCloseMenu();
       KonqFrame* m_pParentKonqFrame;
       QLabel *m_pHeaderLabel;
-      QPushButton *m_pCloseButton;
+      QToolButton *m_pCloseButton;
       QHBoxLayout *m_pLayout;
 };
 

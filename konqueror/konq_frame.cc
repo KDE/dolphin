@@ -26,6 +26,7 @@
 #include <qwhatsthis.h>
 #include <qtimer.h>
 #include <qpushbutton.h>
+#include <qtoolbutton.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -296,7 +297,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    QFont f = KGlobalSettings::generalFont();
 
    // do I have to worry about negative font sizes? (bc of the -1)
-   f.setPixelSize(f.pixelSize() - 1);
+//   f.setPixelSize(f.pixelSize() - 1);
 
 
 
@@ -305,13 +306,15 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    m_pHeaderLabel->setAlignment(AlignCenter);
    m_pHeaderLabel->setFrameStyle( QFrame::StyledPanel );
    m_pHeaderLabel->installEventFilter(this);
-   m_pCloseButton = new QPushButton( this );
+   m_pCloseButton = new QToolButton( this );
+   m_pCloseButton->setAutoRaise(true);
 
    // button is square -- figure out the len of an edge
-   int edge = m_pCloseButton->fontMetrics().height() + 2;
+   int edge = m_pCloseButton->fontMetrics().height() + 5;
 
    m_pCloseButton->setMaximumHeight(edge);
    m_pCloseButton->setMaximumWidth(edge);
+   m_pCloseButton->setMinimumWidth(edge);  //make it square as the width is smaller than the height
 
    f.setBold(false);
    m_pHeaderLabel->setFont(f);
@@ -328,7 +331,6 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    m_pCloseButton->setText("x");
 
 
-   m_pCloseButton->setFlat(true);
    m_pCloseButton->setFocusPolicy(NoFocus);
 }
 
