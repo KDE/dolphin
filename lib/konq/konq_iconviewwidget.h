@@ -113,6 +113,11 @@ public:
     int iconSize() { return m_size; }
 
     void calculateGridX();
+    /**
+     * The horizontal distance between two icons
+     * (whether or not a grid has been given to QIconView)
+     */
+    int gridXValue() const;
 
     void startImagePreview( const QStringList &previewSettings, bool force );
     void stopImagePreview();

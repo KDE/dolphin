@@ -366,15 +366,15 @@ void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
 void KonqIconViewWidget::calculateGridX()
 {
     if ( m_bSetGridX )
-    {
-        int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-        int newGridX = sz + 50 + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
+        setGridX( gridXValue() );
+}
 
-        kdDebug(1203) << "calculateGridX: newGridX=" << newGridX
-                      << "sz=" << sz << endl;
-
-        setGridX( newGridX );
-    }
+int KonqIconViewWidget::gridXValue() const
+{
+    int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    int newGridX = sz + 50 + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
+    kdDebug(1203) << "gridXValue: " << newGridX << "sz=" << sz << endl;
+    return newGridX;
 }
 
 void KonqIconViewWidget::refreshMimeTypes()
@@ -990,8 +990,7 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // For dx, use what used to be the gridX
-    int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    int dx = sz + 50 + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
+    int dx = gridXValue();
     // For dy, well, let's use any icon, it should do
     int dy = firstItem()->height();
 
