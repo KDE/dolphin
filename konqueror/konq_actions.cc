@@ -23,6 +23,7 @@
 
 #include <qlabel.h>
 #include <qpopupmenu.h>
+#include <qwhatsthis.h>
 
 #include <ktoolbar.h>
 #include <kcombobox.h>
@@ -72,6 +73,8 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   emit plugged();
 
+  QWhatsThis::add( comboBox, whatsThis() );
+  
   return containerCount() - 1;
 }
 
@@ -120,7 +123,7 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
     connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
 
     bar->setDelayedPopup( id_, popupMenu(), true );
-
+    
     return containerCount() - 1;
   }
 
