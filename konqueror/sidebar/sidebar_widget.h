@@ -14,14 +14,15 @@ class ButtonInfo: public QObject
 {
 	Q_OBJECT
 	public:
-	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_):
-		file(file_),dock(dock_),URL(url_)
+	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib):
+		file(file_),dock(dock_),URL(url_),libName(lib)
 		{;}
 	~ButtonInfo(){;}
 	class QString file;
 	class KDockWidget *dock;
 	class KonqSidebarPlugin *module;	
 	class QString URL;
+	class QString libName;
 };
 
 
@@ -65,6 +66,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
   virtual KParts::ReadOnlyPart *getPart();
   virtual KParts::BrowserExtension *getExtension();
   virtual KInstance *getInstance();
+  static QString PATH;
   private:
 	class KDockArea *Area;
 	class KToolBar *ButtonBar;
@@ -83,6 +85,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 	class QStringList visibleViews;
 	class QPopupMenu *buttonPopup;
 	int popupFor;
+	void initialCopy();
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
   protected slots:

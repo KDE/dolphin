@@ -29,3 +29,6 @@ partdesktop_DATA = konq_sidebartng.desktop
 # this is where the part's XML-GUI resource file goes
 partrcdir   = $(kde_confdir)
 partrc_DATA = konqsidebartng.rc
+
+versiondir = $(kde_datadir)/konqsidebartng/entries/
+version_DATA=.version

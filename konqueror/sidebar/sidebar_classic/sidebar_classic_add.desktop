@@ -1,8 +1,22 @@
 [Desktop Entry]
 Type=Link
 URL=
-Icon=history
+Icon=view_sidetree
 Name=Classic Sidebar
+Name[az]=Klassik Yan Çubuq
+Name[de]=Klassischer Navigator
+Name[eo]=Klasika navigilo
+Name[es]=Barra lateral clásica
+Name[he]=יסאלק ידדצ לגרס
+Name[hu]=klasszikus oldalpanel
+Name[lv]=Klasiskā Sānujosla
+Name[mt]=Sidebar Klassiku
+Name[pl]=Klasyczny pasek boczny
+Name[pt_BR]=Barra Lateral Clássica
+Name[pt]=Barra Lateral Clássica
+Name[sk]=Klasický bočný panel
+Name[sl]=Klasična stranska letev
+Name[sv]=Klassisk sidrad
 
 Open=false
 X-KDE-KonqSidebarAddModule=konqsidebar_classic_wrap

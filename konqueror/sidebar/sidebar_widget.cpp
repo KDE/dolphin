@@ -26,6 +26,10 @@
 #include <qtimer.h>
 #include <kmessagebox.h>
 #include <klineeditdlg.h>
+#include <qdir.h>
+
+
+QString  Sidebar_Widget::PATH=QString(""); 
 
 addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
 {
@@ -38,7 +42,7 @@ void addBackEnd::aboutToShowAddMenu()
 {
   if (!menu) return;
   KStandardDirs *dirs = KGlobal::dirs(); 
-  QStringList list=dirs->findAllResources("data","konqsidebartng/add/*.desktop",false,true);
+  QStringList list=dirs->findAllResources("data","konqsidebartng/add/*.desktop",true,true);
   libNames.setAutoDelete(true);
   libNames.resize(0); 	
   libParam.setAutoDelete(true);
@@ -141,6 +145,7 @@ void addBackEnd::activatedAddMenu(int id)
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name),KonqSidebar_PluginInterface()
 {
         kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
+        PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);    
 	Buttons.resize(0);
 	Buttons.setAutoDelete(true);
 	stored_url=false;
@@ -180,11 +185,52 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 //	ButtonBar=new QButtonGroup(this);
 //	ButtonBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
 //	ButtonBar->setFixedWidth(25);
+
+	initialCopy();
+
 	QTimer::singleShot(0,this,SLOT(createButtons()));
 	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
 }
 
+
+void Sidebar_Widget::initialCopy()
+{
+	   QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/").last();
+            if ( !dirtree_dir.isEmpty() && dirtree_dir != PATH )
+            {
+		   KSimpleConfig gcfg(dirtree_dir+".version");
+		   KSimpleConfig lcfg(PATH+".version");
+		   int gversion=gcfg.readNumEntry("Version",1);
+		   if (lcfg.readNumEntry("Version",0)>=gversion) return;
+
+ 	        QDir dir(PATH);
+    	        QStringList entries = dir.entryList( QDir::Files );
+                QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
+                dirEntries.remove( "." );
+                dirEntries.remove( ".." );
+
+                QDir globalDir( dirtree_dir );
+                ASSERT( globalDir.isReadable() );
+                // Only copy the entries that don't exist yet in the local dir
+                QStringList globalDirEntries = globalDir.entryList();
+                QStringList::ConstIterator eIt = globalDirEntries.begin();
+                QStringList::ConstIterator eEnd = globalDirEntries.end();
+                for (; eIt != eEnd; ++eIt )
+                {
+                    //kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
+                    if ( *eIt != "." && *eIt != ".."
+                         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
+                    { // we don't have that one yet -> copy it.
+                        QString cp = QString("cp -R %1%2 %3").arg(dirtree_dir).arg(*eIt).arg(PATH);
+                        kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
+                        ::system( cp.local8Bit().data() );
+                    }
+                }
+		lcfg.writeEntry("Version",gversion);
+		lcfg.sync();
+	   }
+}
 
 void Sidebar_Widget::buttonPopupActivate(int id)
 {
@@ -198,7 +244,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 			kdDebug()<<"New Icon Name:"<<iconname<<endl;;
 			if (!iconname.isEmpty())
 				{
-					KSimpleConfig ksc(Buttons.at(popupFor)->file);
+					KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
 					ksc.setGroup("Desktop Entry");
 					ksc.writeEntry("Icon",iconname);
 					ksc.sync();
@@ -212,7 +258,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 			  QString newurl=KLineEditDlg::getText(i18n("Enter an url"), Buttons.at(popupFor)->URL,&okval,this);
 			  if ((okval) && (!newurl.isEmpty()))
 				{
-                                        KSimpleConfig ksc(Buttons.at(popupFor)->file);
+                                        KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
                                         ksc.setGroup("Desktop Entry");
                                         ksc.writeEntry("Name",newurl);
                                         ksc.writeEntry("URL",newurl);
@@ -225,7 +271,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		{
 			if (KMessageBox::questionYesNo(this,i18n("Do you really want to delete this entry ?"))==KMessageBox::Yes)
 				{
-					QFile f(Buttons.at(popupFor)->file);
+					QFile f(PATH+Buttons.at(popupFor)->file);
 					if (!f.remove()) qDebug("Error, file not deleted");
 				        QTimer::singleShot(0,this,SLOT(createButtons()));  
 				}	
@@ -253,6 +299,7 @@ void Sidebar_Widget::readConfig()
 	KConfig conf("konqsidebartng.rc");
 	singleWidgetMode=(conf.readEntry("SingleWidgetMode","true")=="true");
 	QStringList list=conf.readListEntry("OpenViews");
+	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
 	for (int i=0; i<Buttons.count();i++)
 	{
 		if (list.contains(Buttons.at(i)->file))
@@ -312,10 +359,21 @@ void Sidebar_Widget::createButtons()
 			}
 	}
 	Buttons.resize(0);
-	KStandardDirs *dirs = KGlobal::dirs(); 
-        QStringList list=dirs->findAllResources("data","konqsidebartng/entries/*.desktop",false,true);
-	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
-  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
+
+	if (!PATH.isEmpty())
+		{
+			kdDebug()<<"PATH: "<<PATH<<endl;
+			QDir dir(PATH);
+			QStringList list=dir.entryList("*.desktop");
+			for (QStringList::Iterator it=list.begin(); it!=list.end(); ++it)
+				{
+					addButton(*it);
+				}
+		}
+
+//        QStringList list=dirs->findAllResources("data","konqsidebartng/entries/*.desktop",false,true);
+//	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
+//  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();	    	
 }
 
@@ -340,13 +398,17 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	Buttons.resize(Buttons.size()+1);
 
   	KSimpleConfig *confFile;
+	
+	kdDebug()<<"addButton:"<<(PATH+desktoppath)<<endl;
 
-	confFile=new KSimpleConfig(desktoppath,true);
+	confFile=new KSimpleConfig(PATH+desktoppath,true);
 	confFile->setGroup("Desktop Entry");
  
     	QString icon=confFile->readEntry("Icon","");
 	QString name=confFile->readEntry("Name","");
 	QString url=confFile->readEntry("URL","");
+	QString lib=confFile->readEntry("X-KDE-KonqSidebarModule","");
+
         delete confFile;
 
 
@@ -355,7 +417,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	{
 	  	ButtonBar->insertButton(icon, lastbtn, true,name);
 	  	ButtonBar->setToggle(lastbtn);
-		int id=Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url));
+		int id=Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib));
 		ButtonBar->getButton(lastbtn)->installEventFilter(this);
 	}
 	
@@ -412,7 +474,8 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
 
 					              	KonqSidebarPlugin* (*func)(QObject *, QWidget*, QString&, const char *);
 					              	func = (KonqSidebarPlugin* (*)(QObject *, QWidget *, QString&, const char *)) create;
-					              	return  (KonqSidebarPlugin*)func(this,par,desktopName,0);
+							QString fullPath(PATH+desktopName);
+					              	return  (KonqSidebarPlugin*)func(this,par,fullPath,0);
 					            }
 			        }
 			    	else
@@ -447,7 +510,7 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 			confFile->setGroup("Desktop Entry");
 
 			data->dock=Area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
-			data->module=loadModule(data->dock,data->file,confFile->readEntry("X-KDE-KonqSidebarModule",""));
+			data->module=loadModule(data->dock,data->file,data->libName);
 			if (data->module==0)
 			{
 				delete data->dock;
