@@ -7,6 +7,7 @@
 #include <qradiobutton.h>
 #include <kconfig.h>
 #include <klocale.h>
+#include <konqdefaults.h>
 
 #include "behaviour.h"
 
@@ -31,13 +32,11 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
     lay->setColStretch(0,0);
     lay->setColStretch(1,1);
 
-    cbSingleClick = new QCheckBox(i18n("&Single click to activate"),
-                              this);
+    cbSingleClick = new QCheckBox(i18n("&Single click to activate"), this);
     lay->addMultiCellWidget(cbSingleClick,row,row,0,N_COLS,Qt::AlignLeft);
 
     row++;
-    cbAutoSelect = new QCheckBox(i18n("&Auto select"),
-                              this);
+    cbAutoSelect = new QCheckBox(i18n("&Auto select"), this);
     lay->addMultiCellWidget(cbAutoSelect,row,row,0,N_COLS,Qt::AlignLeft);
 
     //----------
@@ -62,13 +61,11 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
     //----------
 
     row++;
-    cbCursor = new QCheckBox(i18n("&Change cursor over link"),
-                              this);
+    cbCursor = new QCheckBox(i18n("&Change cursor over link"), this);
     lay->addMultiCellWidget(cbCursor,row,row,0,N_COLS,Qt::AlignLeft);
 
     row++;
-    cbUnderline = new QCheckBox(i18n("&Underline links"),
-                                 this);
+    cbUnderline = new QCheckBox(i18n("&Underline links"), this);
     lay->addMultiCellWidget(cbUnderline,row,row,0,N_COLS,Qt::AlignLeft);
 
     connect( cbSingleClick, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
@@ -79,11 +76,11 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
 void KBehaviourOptions::loadSettings()
 {
     g_pConfig->setGroup( "Behaviour" );	
-    bool singleClick = g_pConfig->readBoolEntry("SingleClick", true);
-    int  autoSelect = g_pConfig->readNumEntry("AutoSelect", 50);
+    bool singleClick = g_pConfig->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+    int  autoSelect = g_pConfig->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
     if ( autoSelect < 0 ) autoSelect = 0;
-    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", false);
-    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", true);
+    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
+    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
 
     cbSingleClick->setChecked( singleClick );
     cbAutoSelect->setChecked( autoSelect > 0 );

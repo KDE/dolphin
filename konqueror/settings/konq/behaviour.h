@@ -14,7 +14,7 @@ class KBehaviourOptions : public KConfigWidget
 {
   Q_OBJECT
 public:
-  KBehaviourOptions( QWidget *parent = 0L, const char *name = 0L );
+  KBehaviourOptions( QWidget *parent, const char *name );
 
   virtual void loadSettings();
   virtual void saveSettings();

@@ -30,7 +30,7 @@ class KFontOptions : public KConfigWidget
 {
   Q_OBJECT
 public:
-  KFontOptions( QWidget *parent = 0L, const char *name = 0L );
+  KFontOptions( QWidget *parent, const char *name, const char *groupName );
 
   virtual void loadSettings();
   virtual void saveSettings();
@@ -63,6 +63,8 @@ private:
   QStrList standardFonts;
   QStrList fixedFonts;
   QStringList charsets;
+
+  QCString m_sGroup;
 };
 
 //-----------------------------------------------------------------------------
@@ -71,7 +73,7 @@ class KColorOptions : public KConfigWidget
 {
   Q_OBJECT
 public:
-  KColorOptions( QWidget *parent = NULL, const char *name = NULL );
+  KColorOptions( QWidget *parent, const char *name, const char *groupName );
 
   virtual void loadSettings();
   virtual void saveSettings();
@@ -94,6 +96,8 @@ private:
   QColor textColor;
   QColor linkColor;
   QColor vLinkColor;
+
+  QCString m_sGroup;
 };
 
 #endif		// __HTML_OPTIONS_H__

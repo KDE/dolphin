@@ -28,8 +28,8 @@
 
 //-----------------------------------------------------------------------------
 
-KFontOptions::KFontOptions( QWidget *parent, const char *name )
-    : KConfigWidget( parent, name )
+KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *groupName )
+    : KConfigWidget( parent, name ), m_sGroup( groupName )
 {
     QLabel *label;
 
@@ -182,7 +182,7 @@ void KFontOptions::slotCharset(const QString& n)
 
 void KFontOptions::loadSettings()
 {
-    g_pConfig->setGroup( "KFM HTML Defaults" );		
+    g_pConfig->setGroup( m_sGroup );		
     QString fs = g_pConfig->readEntry( "BaseFontSize" );  
     if ( !fs.isEmpty() )
     {
@@ -204,7 +204,7 @@ void KFontOptions::loadSettings()
 
 void KFontOptions::defaultSettings()
 {
-    g_pConfig->setGroup( "KFM HTML Defaults" );			
+    g_pConfig->setGroup( m_sGroup );			
     fSize=4;
     stdName = KGlobal::generalFont().family();
     fixedName = KGlobal::fixedFont().family();
@@ -248,7 +248,7 @@ void KFontOptions::updateGUI()
 
 void KFontOptions::saveSettings()
 {
-    g_pConfig->setGroup( "KFM HTML Defaults" );			
+    g_pConfig->setGroup( m_sGroup );			
     g_pConfig->writeEntry( "BaseFontSize", fSize );
     g_pConfig->writeEntry( "StandardFont", stdName );
     g_pConfig->writeEntry( "FixedFont", fixedName );
@@ -266,8 +266,8 @@ void KFontOptions::applySettings()
 
 //-----------------------------------------------------------------------------
 
-KColorOptions::KColorOptions( QWidget *parent, const char *name )
-    : KConfigWidget( parent, name )
+KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *groupName)
+    : KConfigWidget( parent, name ), m_sGroup( groupName )
 {
     QLabel *label;
 
@@ -380,7 +380,7 @@ void KColorOptions::slotVLinkColorChanged( const QColor &col )
 
 void KColorOptions::loadSettings()
 {
-    g_pConfig->setGroup( "KFM HTML Defaults" );	
+    g_pConfig->setGroup( m_sGroup );	
     bgColor = g_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
     textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
     linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
@@ -410,7 +410,7 @@ void KColorOptions::defaultSettings()
 
 void KColorOptions::saveSettings()
 {
-    g_pConfig->setGroup( "KFM HTML Defaults" );			
+    g_pConfig->setGroup( m_sGroup );			
     g_pConfig->writeEntry( "BgColor", bgColor );
     g_pConfig->writeEntry( "TextColor", textColor );
     g_pConfig->writeEntry( "LinkColor", linkColor);
