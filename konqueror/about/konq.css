@@ -1,0 +1,21 @@
+
+#headerR {
+  width: 430px;
+  height: 131px;
+  background-image: url(top-right-konqueror.png);
+}
+
+#title {
+  right: 100px;
+}
+
+#tagline {
+  right: 100px;
+}
+
+#boxCenter {
+  background-image: url(box-centre-konqueror.png);
+  background-repeat: no-repeat;
+}
+
+
