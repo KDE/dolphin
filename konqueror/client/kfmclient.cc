@@ -163,6 +163,19 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
     kdDebug() << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
     QByteArray data;
     QCString appId, appObj;
+
+	// check if user wants to use external browser
+	KConfig config( QString::fromLatin1("kfmclientrc"));
+	config.setGroup( QString::fromLatin1("Settings"));
+	QString strBrowser = config.readEntry( QString::fromLatin1("ExternalBrowser"));
+	if (!strBrowser.isEmpty())
+	{
+		KProcess proc;
+		proc << strBrowser << url.url();
+		proc.start( KProcess::DontCare );
+		return true;
+	}
+
     if ( !startNewKonqueror(url) &&
          dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                    appId, appObj ) )
