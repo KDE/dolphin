@@ -106,15 +106,8 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
 
   if( KURIFilter::self()->filterURI( data ) )
   {
-    if( data.uriType() == KURIFilterData::ERROR )
-    {
-      // HACK: To get around message freeze!!  The if
-      // statement should be removed after 2.0 freeze
-      // is lifted...
-      if( !data.errorMsg().isEmpty() )
-	 KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
-      return QString::null;
-    }
+    if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
+      KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
     else
       return data.uri().url();
   }
