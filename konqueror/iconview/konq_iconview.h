@@ -177,6 +177,13 @@ protected:
   bool m_bUpdateContentsPosAfterListing:1;
 
   bool m_bDirPropertiesChanged:1;
+  
+  /**
+   * Set in doCloseURL and used in setViewMode to restart a preview
+   * job interrupted when switching to IconView or MultiColumnView.
+   * Hacks like this must be removed in KDE4!
+   */
+  bool m_bPreviewRunningBeforeCloseURL:1;
 
   bool m_bNeedSetCurrentItem:1;
   

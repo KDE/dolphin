@@ -385,6 +385,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bNeedEmitCompleted = false;
     m_bUpdateContentsPosAfterListing = false;
     m_bDirPropertiesChanged = true;
+    m_bPreviewRunningBeforeCloseURL = false;
     m_pIconView->setResizeMode( QIconView::Adjust );
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
@@ -693,6 +694,7 @@ bool KonqKfmIconView::doCloseURL()
 
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
 
+    m_bPreviewRunningBeforeCloseURL = m_pIconView->isPreviewRunning();
     m_pIconView->stopImagePreview();
     return true;
 }
@@ -991,10 +993,9 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
-    m_pIconView->stopImagePreview();
-
     if ( _fileitem == m_dirLister->rootItem() )
     {
+        m_pIconView->stopImagePreview();
         m_pIconView->setRootItem( 0L );
         return;
     }
@@ -1008,6 +1009,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
     // might have to hide it now.
     if (ivi)
     {
+        m_pIconView->stopImagePreview();
         KonqDirPart::deleteItem( _fileitem );
 
         m_pIconView->takeItem( ivi );
@@ -1131,7 +1133,6 @@ void KonqKfmIconView::slotClear()
     // changes are: view background or color, iconsize, enabled previews
     if ( m_bDirPropertiesChanged )
     {
-        m_bDirPropertiesChanged = false;
         m_pProps->applyColors( m_pIconView->viewport() );
         newIconSize( m_pProps->iconSize() );
         m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
@@ -1261,9 +1262,8 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     // Start the directory lister !
     m_dirLister->openURL( url, false, args.reload );
 
-    // Properties (icon size, preview, ..) will be applied into the
-    // slotClear(); this is called between m_dirLister->openURL and the
-    // first incoming results that will be delivered with slotNewItems
+    // View properties (icon size, background, ..) will be applied into slotClear()
+    // if m_bDirPropertiesChanged is set. If so, here we update preview actions.
     if ( m_bDirPropertiesChanged )
     {
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
@@ -1329,6 +1329,13 @@ void KonqKfmIconView::setViewMode( const QString &mode )
     {
         m_pIconView->setArrangement(QIconView::LeftToRight);
         m_pIconView->setItemTextPos(QIconView::Bottom);
+    }
+
+    if ( m_bPreviewRunningBeforeCloseURL )
+    {
+        m_bPreviewRunningBeforeCloseURL = false;
+        // continue (param: false) a preview job interrupted by doCloseURL
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
     }
 }
 
