@@ -85,11 +85,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
-                                     "disk is still valid. If this is disabled, "
-                                     "a cached copy of remote files will be "
-                                     "used whenever possible. You can still "
-                                     "use the reload button to synchronize the "
-                                     "cache with the remote host.") );
+                                     "disk is still valid.");
     hlay->addWidget( rb_verify );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
@@ -106,7 +102,9 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     
     QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always lookup "
                                               "the cache before connecting "
-                                              "to the internet.") );
+                                              "to the internet. You can still "
+                                     "use the reload button to synchronize the "
+                                     "cache with the remote host.") );
     hlay->addWidget( rb_cacheIfPossible );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
