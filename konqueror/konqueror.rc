@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="Konqueror" version="37">
+<kpartgui name="Konqueror" version="38">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -72,10 +72,11 @@
  </Menu>
  <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
   <Action name="showmenubar"/>
-  <Action name="showtoolbar"/>
+<!--  <Action name="showtoolbar"/>
   <Action name="showextratoolbar"/>
   <Action name="showlocationbar"/>
-  <Action name="showbookmarkbar"/>
+  <Action name="showbookmarkbar"/> -->
+  <Action name="toolbars_showhide"/>
   <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>
