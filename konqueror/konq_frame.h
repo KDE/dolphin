@@ -22,6 +22,7 @@
 #include <qcolor.h>
 #include <qwidget.h>
 #include <qsplitter.h>
+#include <qcheckbox.h>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
@@ -34,11 +35,23 @@ class KonqChildView;
 class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainer;
-class QCheckBox;
 class KConfig;
 
 enum KonqFrameHeaderLook{ Plain,  HORIZ, VERT, DIAG, CROSSDIAG, PYRAM,
 			  RECT, PIPE, ELLIP, XPixmap };
+
+/**
+ * Because checkboxes cannot be any size, I did a custom checkbox based
+ * on QStyle::drawBevelButton for Konq frames (mosfet).
+ */
+class KonqCheckBox : public QCheckBox
+{
+public:
+    KonqCheckBox(QWidget *parent=0, const char *name=0)
+        : QCheckBox(parent, name){;}
+protected:
+    void paintEvent(QPaintEvent *ev);
+};
 
 /**
  * The KonqFrameHeader indicates wether a view is active or not. It uses the 

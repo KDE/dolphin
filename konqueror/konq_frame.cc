@@ -20,9 +20,9 @@
 
 #include <qpainter.h>
 #include <qimage.h>
+#include <qbitmap.h>
 #include <qlayout.h>
 #include <qsplitter.h>
-#include <qcheckbox.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -37,6 +37,32 @@
 #include <assert.h>
 
 #define DEFAULT_HEADER_HEIGHT 11
+
+static QBitmap *checkBmp = NULL;
+
+void KonqCheckBox::paintEvent(QPaintEvent *)
+{
+static unsigned char check_bits[] = {
+  0x11, 0x0a, 0x04, 0x0a, 0x11, };     
+    
+    if(!checkBmp){
+        checkBmp = new QBitmap(5, 5, check_bits, true);
+        checkBmp->setMask(*checkBmp);
+    }
+    QPainter p(this);
+    QRect r = rect();
+
+    bool active = isOn() || isDown();
+    QApplication::style().drawBevelButton(&p, r.x(), r.y(), r.width(),
+                                          r.height(), colorGroup(), active);
+    if(active){
+        p.setPen(colorGroup().text());
+        p.drawPixmap((width()-checkBmp->width())/2,
+                     (height()-checkBmp->height())/2,
+                     *checkBmp);
+    }
+}
+
 
 KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) 
                                 : QWidget( _parent, _name ),
@@ -137,7 +163,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
       startTimer(options.TitleAnimation);
   */
 
-  m_pPassiveModeCheckBox = new QCheckBox( this );
+  m_pPassiveModeCheckBox = new KonqCheckBox( this );
 
   setFixedHeight( DEFAULT_HEADER_HEIGHT );
   
