@@ -313,33 +313,15 @@ public:
         , m_dirPart( dirPart )
     {}
 
-    // If your KonqDirPart-derived class needs to save and restore state,
-    // you should probably override KonqDirPart::saveState
-    // and KonqDirPart::restoreState, not the following methods.
-    virtual void saveState( QDataStream &stream ) // KDE4: make non-inline
-    {
-        m_dirPart->saveState( stream );
-        bool hasFindPart = m_dirPart->findPart();
-        stream << hasFindPart;
-        if ( !hasFindPart )
-            KParts::BrowserExtension::saveState( stream );
-        else {
-            m_dirPart->saveFindState( stream );
-        }
-    }
-
-    virtual void restoreState( QDataStream &stream ) // KDE4: make non-inline
-    {
-        m_dirPart->restoreState( stream );
-        bool hasFindPart;
-        stream >> hasFindPart;
-        if ( !hasFindPart )
-            // This calls openURL, that's why we don't want to call it in case of a find part
-            KParts::BrowserExtension::restoreState( stream );
-        else {
-            m_dirPart->restoreFindState( stream );
-        }
-    }
+    /**
+     * This calls saveState in KonqDirPart, and also takes care of the "find part".
+     *
+     * If your KonqDirPart-derived class needs to save and restore state,
+     * you should probably override KonqDirPart::saveState
+     * and KonqDirPart::restoreState, not the following methods.
+     */
+    virtual void saveState( QDataStream &stream );
+    virtual void restoreState( QDataStream &stream );
 
 private:
     KonqDirPart* m_dirPart;
