@@ -134,7 +134,7 @@ KonqExtendedBookmarkOwner::KonqExtendedBookmarkOwner(KonqMainWindow *w)
    m_pKonqMainWindow = w;
 }
 
-KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
+KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name, const QString& xmluiFile)
  : KParts::MainWindow( NoDCOPObject, 0L, name, WDestructiveClose | WStyle_ContextHelp )
 {
   setPreloadedFlag( false );
@@ -217,7 +217,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   connect( kapp, SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
 
-  setXMLFile( "konqueror.rc" );
+  //load the xmlui file specified in the profile or the default konqueror.rc
+  setXMLFile( xmluiFile );
 
   setStandardToolBarMenuEnabled( true );
 
@@ -1202,7 +1203,7 @@ void KonqMainWindow::slotDuplicateWindow()
   config.setGroup( "View Profile" );
   m_pViewManager->saveViewProfile( config, true, true );
 
-  KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
+  KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false, 0, xmlFile());
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   if (mainWindow->currentView())
   {

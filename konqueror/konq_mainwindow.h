@@ -95,7 +95,7 @@ class KonqMainWindow : public KParts::MainWindow, public KonqFrameContainerBase
 public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
 
-  KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
+  KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
   ~KonqMainWindow();
 
   /**

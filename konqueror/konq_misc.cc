@@ -135,13 +135,18 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
   }
   else
   {
-      mainWindow = new KonqMainWindow( KURL(), false );
+      KConfig cfg( path, true );
+      cfg.setDollarExpansion( true );
+      cfg.setGroup( "Profile" );
+      QString xmluiFile=cfg.readEntry("XMLUIFile","konqueror.rc");
+
+      mainWindow = new KonqMainWindow( KURL(), false, 0, xmluiFile );
       if ( forbidUseHTML )
           mainWindow->setShowHTML( false );
       //FIXME: obey args (like passing post-data (to KRun), etc.)
       KonqOpenURLRequest req;
       req.args = args;
-      mainWindow->viewManager()->loadViewProfile( path, filename, url, req );
+      mainWindow->viewManager()->loadViewProfile( cfg, filename, url, req );
   }
   mainWindow->setInitialFrameName( args.frameName );
   mainWindow->show();
