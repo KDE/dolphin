@@ -76,6 +76,7 @@ public:
   bool underlineLink() { return m_underlineLink; }
   bool shouldEmbed( const QString & mimetypeGroup );
   bool alwaysNewWin() { return m_alwaysNewWin; }
+  QString homeURL() { return m_homeURL; }
 
   // Font settings
   const QString& stdFontName() { return m_strStdFontName; }
@@ -113,6 +114,8 @@ protected:
   QColor m_highlightedTextColor;
 
   bool m_bWordWrapText;
+
+  QString m_homeURL;
 
 private:
   // There is no default constructor. Use the provided ones.

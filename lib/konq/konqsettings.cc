@@ -106,6 +106,8 @@ void KonqFMSettings::init( KConfig * config )
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
+  m_homeURL = config->readEntry("HomeURL", "~");
+
   m_embedText = config->readBoolEntry( "EmbedText", true );
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
   m_embedOther = config->readBoolEntry( "EmbedOther", true );
