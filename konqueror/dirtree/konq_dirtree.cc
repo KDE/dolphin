@@ -146,7 +146,7 @@ KURL::List KonqDirTreeBrowserExtension::selectedUrls()
 void KonqDirTreeBrowserExtension::slotResult( KIO::Job * job )
 {
     if (job->error())
-        job->showErrorDialog();
+        job->showErrorDialog(m_tree);
 }
 
 KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name )
