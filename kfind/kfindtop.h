@@ -7,7 +7,7 @@
 #ifndef KFINDTOP_H
 #define KFINDTOP_H
 
-#include <ktopwidget.h>
+#include <ktmainwindow.h>
 #include <klocale.h>
 
 class QPopupMenu;
