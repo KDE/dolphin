@@ -1127,33 +1127,29 @@ void KonqMainView::slotShowStatusBar()
 
 void KonqMainView::slotShowToolBar()
 {
-  KToolBar * bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
-  if (!bar) return;
-  if (bar->isVisible())
-    bar->hide();
-  else
-    bar->show();
+  toggleBar( "mainToolBar", "KToolBar" );
 }
 
 void KonqMainView::slotShowLocationBar()
 {
-  KToolBar * bar = (KToolBar *)child( "locationToolBar", "KToolBar" );
-  if (!bar) return;
-  if (bar->isVisible())
-    bar->hide();
-  else
-    bar->show();
+  toggleBar( "locationToolBar", "KToolBar" );
 }
 
 void KonqMainView::slotShowBookmarkBar()
 {
-  KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
-  if (!bar) return;
-  if (bar->isVisible())
+  toggleBar( "bookmarkToolBar", "KToolBar" );
+}
+
+void KonqMainView::toggleBar( const char *name, const char *className )
+{
+  KToolBar *bar = (KToolBar *)child( name, className );
+  if ( !bar )
+    return;
+  if ( bar->isVisible() )
     bar->hide();
   else
     bar->show();
-}
+} 
 
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
@@ -1416,26 +1412,7 @@ void KonqMainView::updateToolBarActions()
   else
     stopAnimation(); // takes care of m_paStop
 }
-/*
-void KonqMainView::updateExtensionDependendActions( KonqChildView *childView )
-{
-  bool printExt = false;
 
-  if ( childView->browserView() && childView->view()->child( 0L, "PrintingExtension" ) )
-    printExt = true;
-
-  m_paPrint->setEnabled( printExt );
-
-  bool bViewPropExt = false;
-
-  if ( childView->browserView() && childView->view()->child( 0L, "ViewPropertiesExtension" ) )
-    bViewPropExt = true;
-
-  m_paSaveSettings->setEnabled( bViewPropExt );
-  m_paSaveSettingsPerURL->setEnabled( bViewPropExt );
-  checkEditExtension();
-}
-*/
 QString KonqMainView::findIndexFile( const QString &dir )
 {
   QDir d( dir );

@@ -206,6 +206,8 @@ protected slots:
 
 protected:
 
+  void toggleBar( const char *name, const char *className );
+
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
   void callExtensionMethod( KonqChildView * childView, const char * methodName );
