@@ -74,7 +74,8 @@ void KonqIconDrag::append( const QIconDragItem &item, const QRect &pr,
 //
 
 KonqDrag::KonqDrag( QWidget * dragSource, const char* name )
-  : QUriDrag( dragSource, name )
+  : QUriDrag( dragSource, name ),
+    m_bCutSelection( false )
 {}
 
 const char* KonqDrag::format( int i ) const
