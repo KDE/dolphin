@@ -1662,8 +1662,8 @@ void KonqIconViewWidget::lineupIcons()
     int dx = QMAX( iconSize + d->desktopGridSpacing.x(),
                    previewSize + spacing() );
     int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
-    int dy = textHeight + QMAX( iconSize + 2 + d->desktopGridSpacing.y(),
-                                previewSize );
+    int dy = textHeight + 2 +
+        QMAX( iconSize + d->desktopGridSpacing.y(), previewSize );
 
     // Icon Area
     int x1, x2, y1, y2;
@@ -1838,7 +1838,7 @@ void KonqIconViewWidget::lineupIcons()
             if ( !bin->isEmpty() ) {
                 QIconViewItem* item = bin->first();
                 int newX = x1 + i*dx + ( dx - item->width() ) / 2;
-                int newY = y1 + j*dy + dy - ( item->textRect().y() + textHeight + 2 );
+                int newY = y1 + j*dy + dy - ( item->pixmapRect().bottom() + textHeight + 2 );
                 if ( item->x() != newX || item->y() != newY ) {
                     QRect oldRect = item->rect();
                     movedItems.prepend( item );
