@@ -129,7 +129,7 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
   bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
-	       ( selection );
+               ( selection );
 
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
@@ -288,7 +288,7 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   m_animationTimer = new QTimer( this );
 
   connect( m_animationTimer, SIGNAL( timeout() ),
-	   this, SLOT( slotAnimation() ) );
+           this, SLOT( slotAnimation() ) );
 
   m_dropItem = 0;
 
@@ -297,16 +297,16 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
 
   m_autoOpenTimer = new QTimer( this );
   connect( m_autoOpenTimer, SIGNAL( timeout() ),
-	   this, SLOT( slotAutoOpenFolder() ) );
+           this, SLOT( slotAutoOpenFolder() ) );
 
   connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
-	   this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
+           this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
   connect( this, SIGNAL( rightButtonPressed( QListViewItem *, const QPoint &, int ) ),
-	   this, SLOT( slotRightButtonPressed( QListViewItem * ) ) );
+           this, SLOT( slotRightButtonPressed( QListViewItem * ) ) );
   connect( this, SIGNAL( clicked( QListViewItem * ) ),
-	   this, SLOT( slotClicked( QListViewItem * ) ) );
+           this, SLOT( slotClicked( QListViewItem * ) ) );
   connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
-	   this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
+           this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
 
   m_lastItem = 0L;
 
@@ -363,8 +363,9 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   m_mapCurrentOpeningFolders.insert( u, item );
 
-  if ( !m_animationTimer->isActive() )
-    m_animationTimer->start( 50 );
+// ### re-enable when we have a nice icon as animation for a currently opening folder (Simon)
+//  if ( !m_animationTimer->isActive() )
+//    m_animationTimer->start( 50 );
 }
 
 void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url )
@@ -401,7 +402,7 @@ void KonqDirTree::followURL( const KURL &_url )
       // That's the URL we want to follow -> ensure visible, select, return.
       if ( _url.cmp( dirIt.key(), true ) )
       {
-	ensureItemVisible( dirIt.data() );
+        ensureItemVisible( dirIt.data() );
         setSelected( dirIt.data(), true );
         return;
       }
@@ -411,7 +412,7 @@ void KonqDirTree::followURL( const KURL &_url )
         if ( !dirIt.data()->isOpen() )
         {
             m_selectAfterOpening = _url;
-	    //kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
+            //kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
             dirIt.data()->setOpen( true );
             return; // We know we won't find it
         }
@@ -476,8 +477,8 @@ void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
   if ( e->button() == LeftButton && i ) {
       // if the user clicked into the root decoration of the item, don't try to start a drag!
       if ( p.x() > header()->cellPos( header()->mapToActual( 0 ) ) +
-	   treeStepSize() * ( i->depth() + ( rootIsDecorated() ? 1 : 0) ) + itemMargin() ||
-	   p.x() < header()->cellPos( header()->mapToActual( 0 ) ) )
+           treeStepSize() * ( i->depth() + ( rootIsDecorated() ? 1 : 0) ) + itemMargin() ||
+           p.x() < header()->cellPos( header()->mapToActual( 0 ) ) )
       {
         m_dragPos = e->pos();
         m_bDrag = true;
@@ -930,13 +931,13 @@ void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &fil
     dirLister->setDirOnlyMode( true );
 
     connect( dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-  	     this, SLOT( slotNewItems( const KFileItemList & ) ) );
+             this, SLOT( slotNewItems( const KFileItemList & ) ) );
     connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-	     this, SLOT( slotDeleteItem( KFileItem * ) ) );
+             this, SLOT( slotDeleteItem( KFileItem * ) ) );
     connect( dirLister, SIGNAL( completed() ),
-	     this, SLOT( slotListingStopped() ) );
+             this, SLOT( slotListingStopped() ) );
     connect( dirLister, SIGNAL( canceled() ),
-	     this, SLOT( slotListingStopped() ) );
+             this, SLOT( slotListingStopped() ) );
   }
   else
     item->setExpandable( false );
