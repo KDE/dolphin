@@ -30,7 +30,8 @@ KUserInfoChFnDlg::KUserInfoChFnDlg(QString *userName, QString *userFullName,
   QVBoxLayout *top = new QVBoxLayout(page, 10);
   top->setAlignment( Qt::AlignTop );
 
-  QLabel *header = new QLabel( i18n("Changing real name for user %1:\n").arg( *userName ), page );
+  QLabel *header = new QLabel( i18n("Changing Real Name for User '%1'").arg( *userName ), page );
+
   top->addWidget( header );
 
   // Name input

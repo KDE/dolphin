@@ -54,11 +54,11 @@ K_EXPORT_COMPONENT_FACTORY (kcm_userinfo, UserInfoFactory("userinfo") )
 KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStringList &)
   : KCModule(UserInfoFactory::instance(), parent, name)
 {
-  QVBoxLayout *pTop = new QVBoxLayout(this, 10);
+  QVBoxLayout *pTop = new QVBoxLayout(this, KDialog::spacingHint());
   pTop->setAlignment( Qt::AlignTop );
 
   // The header (face and name)
-  QHBoxLayout *pHeaderLayout = new QHBoxLayout(this, 5, 10);
+  QHBoxLayout *pHeaderLayout = new QHBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
   pHeaderLayout->setAlignment( Qt::AlignLeft );
 
   m_pFaceButton = new QPushButton( this );
@@ -82,12 +82,12 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
   pHeaderLayout->addWidget(m_pHeader);
   pTop->addLayout( pHeaderLayout );
 
-  QHBoxLayout *pMainArea = new QHBoxLayout( this, 5, 10 );
+  QHBoxLayout *pMainArea = new QHBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
 
   // The left-hand side information
-  QGroupBox *pInfoGroup = new QGroupBox( i18n("Information"), this );
+  QGroupBox *pInfoGroup = new QGroupBox( 0, Qt::Vertical, i18n("Information"), this );
 
-  QHBoxLayout *pInfoLayout = new QHBoxLayout( pInfoGroup, 20, 10 );
+  QHBoxLayout *pInfoLayout = new QHBoxLayout( pInfoGroup->layout(), KDialog::spacingHint() );
 
   QLabel *pInfoLeft = new QLabel( i18n("Real name:\nUser name:\nUser ID:\nHome directory:\nShell:"), pInfoGroup );
   m_pInfoRight = new QLabel( m_InfoRightText , pInfoGroup );
@@ -98,9 +98,8 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
 
   // The Right-hand settings buttons
   QGroupBox *pSettingsGroup = new QGroupBox( i18n("Settings"), this );
-  pSettingsGroup->setFixedWidth( 200 );
 
-  QVBoxLayout *pSettingsLayout = new QVBoxLayout( pSettingsGroup, 20, 10 );
+  QVBoxLayout *pSettingsLayout = new QVBoxLayout( pSettingsGroup, KDialog::marginHint(), KDialog::spacingHint() );
 
   QPushButton *pChangeNameBtn = new QPushButton( i18n("Change Real &Name..."), pSettingsGroup );
   connect( pChangeNameBtn, SIGNAL(clicked()), SLOT(slotChangeRealName()) );
