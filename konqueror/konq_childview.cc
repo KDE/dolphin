@@ -109,13 +109,14 @@ int KonqChildView::changeViewMode( const char *viewName )
   detach();
   Konqueror::View_var vView = KonqChildView::createViewByName( viewName );
   attach( vView );
-
+/*
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( sViewURL.in() );
   eventURL.reload = (CORBA::Boolean)false;
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
   EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
+*/  
   return vView->id();
 }
 
