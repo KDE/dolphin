@@ -102,7 +102,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     
     QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always lookup "
                                               "the cache before connecting "
-                                              "to the internet. You can still "
+                                              "to the Internet. You can still "
                                      "use the reload button to synchronize the "
                                      "cache with the remote host.") );
     hlay->addWidget( rb_cacheIfPossible );
