@@ -1479,7 +1479,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 
   static const char * s_actionnames[] = {
     "cut", "copy", "paste", "del", "trash", "shred",
-      "print", "saveLocalProperties", "savePropertiesAsDefault" };
+      "print", "saveLocalProperties", "savePropertiesAsDefault", "editMimeType", "properties" };
   QStrList slotNames =  ext->metaObject()->slotNames();
   // Loop over standard action names
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
