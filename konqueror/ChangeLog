@@ -1,3 +1,8 @@
+2001-01-13  David Faure  <faure@kde.org>
+
+	* konq_dirpart.cc etc.: Always paste to current directory, even
+	when an item is selected.
+
 2001-01-12  David Faure  <faure@kde.org>
 
 	* konq_viewmgr.cc (loadViewProfile): Set active part before loading
