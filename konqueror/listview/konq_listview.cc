@@ -103,13 +103,13 @@ ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
 
 int ListViewBrowserExtension::xOffset()
 {
-  kdDebug() << "ListViewBrowserExtension::xOffset" << endl;
+  kdDebug(1202) << k_funcinfo << endl;
   return m_listView->listViewWidget()->contentsX();
 }
 
 int ListViewBrowserExtension::yOffset()
 {
-  kdDebug() << "ListViewBrowserExtension::yOffset" << endl;
+  kdDebug(1202) << k_funcinfo << endl;
   return m_listView->listViewWidget()->contentsY();
 }
 
@@ -329,13 +329,14 @@ void KonqListView::determineIcon( KonqBaseListViewItem * item )
 
 void KonqListView::saveState( QDataStream &stream )
 {
-    kdDebug() << "KonqListView::saveState" << endl;
+    kdDebug(1202) << k_funcinfo << endl;
     KonqDirPart::saveState( stream );
     m_pListView->saveState( stream );
 }
 
 void KonqListView::restoreState( QDataStream &stream )
 {
+    kdDebug(1202) << k_funcinfo << endl;
     KonqDirPart::restoreState( stream );
     m_pListView->restoreState( stream );
 }
