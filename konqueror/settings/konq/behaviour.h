@@ -18,7 +18,10 @@ class KBehaviourOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KBehaviourOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
+  /**
+   * @param showBuiltinGroup : set to true for konqueror, false for kdesktop
+   */
+  KBehaviourOptions(KConfig *config, QString group, bool showBuiltinGroup, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -26,10 +29,10 @@ public:
 
 
 protected slots:
-  
+
   virtual void slotClick();
   void changed();
- 
+
 
 private:
 
@@ -43,6 +46,9 @@ private:
   QCheckBox *cbCursor;
   QCheckBox *cbUnderline;
 
+  QCheckBox *cbEmbedText;
+  QCheckBox *cbEmbedImage;
+  QCheckBox *cbEmbedOther;
 };
 
 

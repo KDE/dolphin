@@ -27,6 +27,7 @@
 #include <qradiobutton.h>
 #include <qlineedit.h>
 #include <kglobal.h>
+#include <kdialog.h>
 #include <kconfig.h>
 #include <X11/Xlib.h>
 
@@ -44,7 +45,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     QLabel *label;
     int row = 0;
 
-    QGridLayout *lay = new QGridLayout(this,9/*rows*/,3 /*cols*/,10,5);
+    QGridLayout *lay = new QGridLayout(this,9/*rows*/,3 /*cols*/,KDialog::marginHint(),
+				       KDialog::spacingHint());
 #define LASTLINE 8
 #define LASTCOLUMN 2
     lay->setRowStretch(LASTLINE,10);
@@ -273,7 +275,7 @@ void KonqFontOptions::slotBgColorChanged( const QColor &col )
     if ( bgColor != col )
     {
         bgColor = col;
-        changed();  
+        changed();
     }
 }
 

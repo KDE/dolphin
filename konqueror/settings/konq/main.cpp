@@ -47,11 +47,11 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
   KConfig *config = new KConfig("konquerorrc", false, false);
-  
+
   tab = new QTabWidget(this);
 
   QString groupName = "Icon Settings";
-  behaviour = new KBehaviourOptions(config, groupName, this);
+  behaviour = new KBehaviourOptions(config, groupName, true, this);
   tab->addTab(behaviour, i18n("&Behaviour"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
@@ -78,13 +78,13 @@ void KonqyModule::save()
   behaviour->save();
   font->save();
   misc->save();
-  
+
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
   QByteArray data;
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
-  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data ); 
+  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
 }
 
 
@@ -120,7 +120,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   // those use "Icon Settings" since they are read by KonqFMSettings
-  behaviour = new KBehaviourOptions(config, "Icon Settings", this);
+  behaviour = new KBehaviourOptions(config, "Icon Settings", false, this);
   tab->addTab(behaviour, i18n("&Behaviour"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
@@ -175,14 +175,14 @@ void KDesktopModule::resizeEvent(QResizeEvent *)
 extern "C"
 {
 
-  KCModule *create_konqueror(QWidget *parent, const char *name) 
-  { 
+  KCModule *create_konqueror(QWidget *parent, const char *name)
+  {
     KGlobal::locale()->insertCatalogue("kcmkonq");
     return new KonqyModule(parent, name);
   }
 
-  KCModule *create_desktop(QWidget *parent, const char *name) 
-  { 
+  KCModule *create_desktop(QWidget *parent, const char *name)
+  {
     KGlobal::locale()->insertCatalogue("kcmkonq");
     return new KDesktopModule(parent, name);
   }

@@ -2,37 +2,31 @@
 
 
 #include <qcheckbox.h>
+#include <qgroupbox.h>
 #include <qslider.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
+#include <kdialog.h>
 #include <klocale.h>
 #include <konqdefaults.h>
 
 
 #include "behaviour.h"
 
-KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *parent, const char *name )
+KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBuiltinGroup, QWidget *parent, const char *name )
     : KCModule(parent, name), g_pConfig(config), groupname(group)
 {
     QLabel * label;
     int row = 0;
 
 #define N_COLS 2
-#define N_ROWS 7
+#define N_ROWS 8
     QGridLayout *lay = new QGridLayout(this,N_ROWS,N_COLS, // rows, cols
-                                       20,15);     // border, space
-    lay->setRowStretch(0,1);
-    lay->setRowStretch(1,1);
-    lay->setRowStretch(2,1);
-    lay->setRowStretch(3,0);
-    lay->setRowStretch(4,1);
-    lay->setRowStretch(5,1);
-    lay->setRowStretch(6,1);
-
-    lay->setColStretch(0,0);
-    lay->setColStretch(1,1);
+                                       KDialog::marginHint(),
+				       KDialog::spacingHint());     // border, space
+    lay->setRowStretch(N_ROWS-1,1);
 
     cbSingleClick = new QCheckBox(i18n("&Single click on icon to run / open"), this);
     lay->addMultiCellWidget(cbSingleClick,row,row,0,N_COLS,Qt::AlignLeft);
@@ -60,9 +54,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     row++;
     label = new QLabel(i18n("Small"), this);
     lay->addWidget(label,row,1);
- 
+
     label = new QLabel(i18n("Large"), this);
-    lay->addWidget(label,row,2, Qt::AlignRight); 
+    lay->addWidget(label,row,2, Qt::AlignRight);
     //----------
 
     row++;
@@ -77,6 +71,34 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     connect( cbSingleClick, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
     connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
+
+    // ----
+    if (showBuiltinGroup)
+    {
+      row++;
+      QGroupBox *gbox = new QGroupBox(i18n("Use builtin viewer for"), this);
+      lay->addMultiCellWidget(gbox,row,row,0,N_COLS,Qt::AlignLeft);
+
+      QGridLayout *grid = new QGridLayout(gbox, 4, 0,
+                                          KDialog::marginHint(),
+                                          KDialog::spacingHint());
+      grid->addRowSpacing(0,10);
+      grid->setRowStretch(0,0);
+
+      cbEmbedText = new QCheckBox( i18n("Text files"), gbox );
+      grid->addWidget( cbEmbedText, 1, 0 );
+      connect(cbEmbedText, SIGNAL(clicked()), this, SLOT(changed()));
+
+      cbEmbedImage = new QCheckBox( i18n("Image files"), gbox );
+      grid->addWidget( cbEmbedImage, 2, 0 );
+      connect(cbEmbedImage, SIGNAL(clicked()), this, SLOT(changed()));
+
+      cbEmbedOther = new QCheckBox( i18n("Other (DVI,PS...)"), gbox );
+      grid->addWidget( cbEmbedOther, 3, 0 );
+      connect(cbEmbedOther, SIGNAL(clicked()), this, SLOT(changed()));
+
+      gbox->setMinimumWidth( cbEmbedOther->width()+50 ); // workaround for groupbox title truncated
+    }
 
     load();
 }
@@ -97,6 +119,14 @@ void KBehaviourOptions::load()
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
 
+    bool embedText = g_pConfig->readBoolEntry("EmbedText", true);
+    bool embedImage = g_pConfig->readBoolEntry("EmbedImage", true);
+    bool embedOther = g_pConfig->readBoolEntry("EmbedOther", true);
+
+    cbEmbedText->setChecked( embedText );
+    cbEmbedImage->setChecked( embedImage );
+    cbEmbedOther->setChecked( embedOther );
+
     slotClick();
 }
 
@@ -108,6 +138,10 @@ void KBehaviourOptions::defaults()
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
 
+    cbEmbedText->setChecked( true );
+    cbEmbedImage->setChecked( true );
+    cbEmbedOther->setChecked( true );
+
     slotClick();
 }
 
@@ -118,6 +152,9 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+    g_pConfig->writeEntry( "EmbedText", cbEmbedText->isChecked() );
+    g_pConfig->writeEntry( "EmbedImage", cbEmbedImage->isChecked() );
+    g_pConfig->writeEntry( "EmbedOther", cbEmbedOther->isChecked() );
     g_pConfig->sync();
 }
 
