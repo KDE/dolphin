@@ -342,7 +342,6 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         addSeparator();
         separatorAdded = true;
       if ( sDeleting ) {
-        addAction( "undo" );
         addAction( "cut" );
       }
       addAction( "copy" );
