@@ -171,7 +171,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     }
 
     row++;
-    QPushButton* pbIconSize = new QPushButton( i18n("Configure Icon Size"), this);
+    QPushButton* pbIconSize = new QPushButton( i18n("Icon Preferences"), this);
     connect( pbIconSize, SIGNAL(clicked()), this, SLOT(slotConfigureIconSize()) );
     lay->addMultiCellWidget( pbIconSize, row, row, 0, LASTCOLUMN, Qt::AlignLeft );
 
