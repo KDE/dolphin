@@ -31,6 +31,8 @@
 #include <qregexp.h>
 #include <qbuffer.h>
 
+#include <dcopclient.h>
+
 #include <kapp.h>
 #include <kdebug.h>
 #include <kglobal.h>
@@ -459,6 +461,8 @@ void removeExistingExtensions( QString &extension )
 
 int main( int argc, char **argv )
 {
+    printf("10\n"); fflush(stdout);
+
     KAboutData aboutData( "nspluginscan", I18N_NOOP("nspluginscan"),
                           "0.3", "nspluginscan", KAboutData::License_GPL,
                           "(c) 2000,2001 by Stefan Schimanski" );
@@ -482,16 +486,24 @@ int main( int argc, char **argv )
     if (!cachef.open(IO_WriteOnly))
         return -1;
     QTextStream cache(&cachef);
+    printf("20\n"); fflush(stdout);
 
     // read in the plugins mime information
     kdDebug(1433) << "Scanning directories" << endl;
+    int count = searchPaths.count();
+    int i = 0;
     for ( QStringList::Iterator it = searchPaths.begin();
-          it != searchPaths.end(); ++it)
+          it != searchPaths.end(); ++it, ++i)
+    {
         scanDirectory( *it, mimeInfoList, cache );
+        printf("%d\n", 25 + (50*i) / count ); fflush(stdout);
+    }
 
+    printf("75\n"); fflush(stdout);
     // delete old mime types
     kdDebug(1433) << "Removing old mimetypes" << endl;
     deletePluginMimeTypes();
+    printf("80\n");  fflush(stdout);
 
     // write mimetype files
     kdDebug(1433) << "Creating MIME type descriptions" << endl;
@@ -524,6 +536,7 @@ int main( int argc, char **argv )
               kdDebug(1433) << " - already existant" << endl;
         }
     }
+    printf("85\n"); fflush(stdout);
 
     // close files
     kdDebug(1433) << "Closing cache file" << endl;
@@ -534,4 +547,11 @@ int main( int argc, char **argv )
 
     // write plugin lib service file
     writeServicesFile( mimeTypes );
+    printf("90\n"); fflush(stdout);
+
+    DCOPClient *dcc = kapp->dcopClient();
+    if ( !dcc->isAttached() )
+        dcc->attach();
+    // Tel kded to update sycoca database.
+    dcc->send("kded", "kbuildsycoca", "recreate()", QByteArray());
 }

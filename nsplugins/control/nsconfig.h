@@ -24,6 +24,8 @@
 #include <kcmodule.h>
 #include "configwidget.h"
 
+class QProgressDialog;
+class KProcIO;
 
 class NSPluginConfig : public KCModule
 {
@@ -39,14 +41,17 @@ class NSPluginConfig : public KCModule
   QString quickHelp() const;
 
  protected slots:
+  void progress(KProcIO *);
   void change() { change( true ); };
   void change( bool c ) { emit changed(c); m_changed = c; };
 
   void scan();
+  void scanDone();
 
  private:
   ConfigWidget *m_widget;
   bool m_changed;
+  QProgressDialog *m_progress;
 
 /******************************************************************************/
  protected:

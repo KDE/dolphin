@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include <qregexp.h>
 #include <qlayout.h>
 #include <qvbox.h>
 #include <qgroupbox.h>
@@ -29,7 +30,6 @@
 #include <qlistview.h>
 #include <qpushbutton.h>
 #include <qwhatsthis.h>
-#include <qregexp.h>
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kstddirs.h>
@@ -40,7 +40,7 @@
 #include <kfile.h>
 #include <qtextstream.h>
 #include <kiconloader.h>
-#include <kprocess.h>
+#include <kprocio.h>
 #include <kmessagebox.h>
 #include <qprogressdialog.h>
 #include <qlistbox.h>
@@ -144,8 +144,8 @@ void NSPluginConfig::scan()
     }
 
     // find nspluginscan executable
-    QProgressDialog progress( i18n("Scanning for plugins"), i18n("Cancel"), 4, this );
-    KProcess* nspluginscan = new KProcess;
+    m_progress = new QProgressDialog( i18n("Scanning for plugins"), i18n("Cancel"), 100, this );
+    KProcIO* nspluginscan = new KProcIO;
     QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
     if (!scanExe) {
         kdDebug() << "can't find nspluginviewer" << endl;
@@ -156,28 +156,37 @@ void NSPluginConfig::scan()
                                   "Netscape plugins won't be scanned.") );
         return;
     }
-    progress.setProgress( 1 );
+    m_progress->setProgress( 5 );
 
     // start nspluginscan
     *nspluginscan << scanExe;
     kdDebug() << "Running nspluginscan" << endl;
-    nspluginscan->start();
-    progress.setProgress( 2 );
-
-    // wait for termination of nspluginscan
-    while ( nspluginscan->isRunning() ) {
-        if ( progress.wasCancelled() ) break;
-        kapp->processEvents();
-    }
-    progress.setProgress( 2 );
+    connect(nspluginscan, SIGNAL(readReady(KProcIO*)), 
+            this, SLOT(progress(KProcIO*)));
+    connect(nspluginscan, SIGNAL(processExited(KProcess *)),
+            this, SLOT(scanDone()));
+    if (nspluginscan->start())
+       kapp->enter_loop();
 
     delete nspluginscan;
 
     // update dialog
+    m_progress->setProgress(100);
     load();
-    progress.setProgress( 4 );
+    delete m_progress;
 }
 
+void NSPluginConfig::progress(KProcIO *proc)
+{
+    QString line;
+    while(proc->readln(line) > 0);
+    m_progress->setProgress(line.stripWhiteSpace().toInt());
+}
+
+void NSPluginConfig::scanDone()
+{
+    kapp->exit_loop();
+}
 
 QString NSPluginConfig::quickHelp() const
 {
