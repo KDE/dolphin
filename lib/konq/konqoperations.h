@@ -38,6 +38,11 @@ protected:
     virtual ~KonqOperations() {}
 
 public:
+    /**
+     * Pop up properties dialog for mimetype @p mimeType.
+     */
+    static void editMimeType( const QString & mimeType );
+
     enum { TRASH, DEL, SHRED };
     static void del( QWidget * parent, int method, const KURL::List & selectedURLs );
     /**

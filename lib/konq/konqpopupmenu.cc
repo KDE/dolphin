@@ -45,6 +45,7 @@
 #include "kpropsdlg.h"
 #include "knewmenu.h"
 #include "konqpopupmenu.h"
+#include "konqoperations.h"
 
 class KonqPopupMenuGUIBuilder : public KXMLGUIBuilder
 {
@@ -516,19 +517,7 @@ void KonqPopupMenu::slotRunService()
 
 void KonqPopupMenu::slotPopupMimeType()
 {
-  QString mimeTypeFile = locate("mime", m_sMimeType + ".desktop");
-  if ( mimeTypeFile.isEmpty() )
-  {
-    mimeTypeFile = locate("mime", m_sMimeType + ".kdelnk");
-    if ( mimeTypeFile.isEmpty() )
-    {
-      mimeTypeFile = locate("mime", m_sMimeType );
-      if ( mimeTypeFile.isEmpty() )
-        return; // hmmm
-    }
-  }
-
-  (void) new PropertiesDialog( mimeTypeFile  );
+  KonqOperations::editMimeType( m_sMimeType );
 }
 
 void KonqPopupMenu::slotPopupProperties()

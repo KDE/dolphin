@@ -36,6 +36,7 @@
 #include <konqdrag.h>
 #include <konqoperations.h>
 #include <kglobalsettings.h>
+#include <kpropsdlg.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -234,14 +235,19 @@ void KonqIconViewWidget::slotSelectionChanged()
     bool cutcopy, del;
     bool bInTrash = false;
     int iCount = 0;
+    KFileItem * firstSelectedItem = 0L;
 
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
     {
 	if ( it->isSelected() )
+        {
 	    iCount++;
+            if ( ! firstSelectedItem )
+                firstSelectedItem = (static_cast<KFileIVI *>( it ))->item();
 
-	if ( (static_cast<KFileIVI *>( it ))->item()->url().directory(false) == KGlobalSettings::trashPath() )
-	    bInTrash = true;
+            if ( (static_cast<KFileIVI *>( it ))->item()->url().directory(false) == KGlobalSettings::trashPath() )
+                bInTrash = true;
+        }
     }
     cutcopy = del = ( iCount > 0 );
 
@@ -258,6 +264,13 @@ void KonqIconViewWidget::slotSelectionChanged()
 
     emit enableAction( "pastecopy", paste );
     emit enableAction( "pastecut", paste );
+
+    KFileItemList lstItems;
+    if ( firstSelectedItem )
+        lstItems.append( firstSelectedItem );
+    emit enableAction( "properties", ( iCount == 1 ) &&
+                       PropertiesDialog::canDisplay( lstItems ) );
+    emit enableAction( "editMimeType", ( iCount == 1 ) );
 
     // TODO : if only one url, check that it's a dir
 }

@@ -21,6 +21,8 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+#include <kpropsdlg.h>
+
 // For doDrop
 #include <qpopupmenu.h>
 #include <kio/paste.h>
@@ -28,12 +30,30 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kprocess.h>
+#include <kstddirs.h>
 #include <konqfileitem.h>
 #include <konqdrag.h>
 #include <assert.h>
 #include <unistd.h>
 #include <kglobalsettings.h>
 #include <X11/Xlib.h>
+
+void KonqOperations::editMimeType( const QString & mimeType )
+{
+    QString mimeTypeFile = locate("mime", mimeType + ".desktop");
+  if ( mimeTypeFile.isEmpty() )
+  {
+    mimeTypeFile = locate("mime", mimeType + ".kdelnk");
+    if ( mimeTypeFile.isEmpty() )
+    {
+      mimeTypeFile = locate("mime", mimeType );
+      if ( mimeTypeFile.isEmpty() )
+        return; // hmmm
+    }
+  }
+
+  (void) new PropertiesDialog( mimeTypeFile  );
+}
 
 void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )
 {

@@ -104,7 +104,7 @@ void KNewMenu::fillMenu()
         {
           if ( (*it)->text() == name )
           {
-            kdDebug(1203) << "skipping" << (*templ) << endl;
+            //kdDebug(1203) << "skipping " << (*templ) << endl;
             bSkip = true;
           }
         }
