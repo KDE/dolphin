@@ -188,8 +188,8 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                               bool showProperties )
     : QPopupMenu( 0L, "konq_popupmenu" ),
-      m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
-      m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+      m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ), "KonqPopupMenu::m_ownActions" ),
+		  m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
     init(0, kpf, KParts::BrowserExtension::DefaultPopupItems);
@@ -201,7 +201,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
                               bool showProperties )
-    : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+    : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
     init(parentWidget, kpf, KParts::BrowserExtension::DefaultPopupItems);
@@ -214,7 +214,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               QWidget * parentWidget,
                               KonqPopupFlags kpf,
                               KParts::BrowserExtension::PopupFlags flags)
-  : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+  : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QWidget *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
     init(parentWidget, kpf, flags);
 }
@@ -457,11 +457,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     if ( actNewWindow && !isKDesktop )
     {
         if (isCurrentTrash)
-            actNewWindow->setStatusText( i18n( "Open the trash in a new window" ) );
+            actNewWindow->setToolTip( i18n( "Open the trash in a new window" ) );
         else if (isSingleMedium)
-            actNewWindow->setStatusText( i18n( "Open the medium in a new window") );
+            actNewWindow->setToolTip( i18n( "Open the medium in a new window") );
         else
-            actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
+            actNewWindow->setToolTip( i18n( "Open the document in a new window" ) );
     }
 
     if ( S_ISDIR(mode) && sWriting && !isCurrentTrash ) // A dir, and we can create things into it
