@@ -778,7 +778,15 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   else // We know the child view
   {
       if ( !childView->isLockedViewMode() )
-          ok = childView->changeViewMode( serviceType, serviceName );
+      {
+          bool forceAutoEmbed = req.forceAutoEmbed;
+          // If the user _typed_ the URL, or if the protocol doesn't support
+          // writing (e.g. HTTP) then it's fine to override the "auto-embed" FM settings.
+          if ( !req.typedURL.isEmpty()
+               || !KProtocolInfo::supportsWriting( url ) )
+              forceAutoEmbed = true;
+          ok = childView->changeViewMode( serviceType, serviceName, forceAutoEmbed );
+      }
   }
 
   if (ok)

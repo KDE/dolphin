@@ -8,11 +8,10 @@
 struct KonqOpenURLRequest {
 
   KonqOpenURLRequest() :
-      followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage( false )
-    {}
+      followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage(false), forceAutoEmbed(false)    {}
 
   KonqOpenURLRequest( const QString & url ) :
-    typedURL(url), followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage(false)
+    typedURL(url), followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage(false), forceAutoEmbed(false)
     {}
 
   QString debug() const {
@@ -32,6 +31,8 @@ struct KonqOpenURLRequest {
           s << "newTabInFront";
       if ( openAfterCurrentPage )
           s << "openAfterCurrentPage";
+      if ( forceAutoEmbed )
+          s << "forceAutoEmbed";
       return "[" + s.join(" ") + "]";
 #else
       return QString::null;
@@ -44,6 +45,7 @@ struct KonqOpenURLRequest {
   bool newTab; // open url in new tab
   bool newTabInFront; // new tab in front or back
   bool openAfterCurrentPage;
+  bool forceAutoEmbed; // if true, override the user's FMSettings for embedding
   KParts::URLArgs args;
 };
 

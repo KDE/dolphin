@@ -110,7 +110,8 @@ public:
    *        @see KonqFactory.
    */
   bool changeViewMode( const QString &serviceType,
-                       const QString &serviceName = QString::null );
+                       const QString &serviceName = QString::null,
+                       bool forceAutoEmbed = false );
 
   /**
    * Call this to prevent next openURL() call from changing history lists

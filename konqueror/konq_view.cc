@@ -286,7 +286,8 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
 }
 
 bool KonqView::changeViewMode( const QString &serviceType,
-                               const QString &serviceName )
+                               const QString &serviceName,
+                               bool forceAutoEmbed )
 {
   // Caller should call stop first.
   assert ( !m_bLoading );
@@ -307,7 +308,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
   kdDebug(1202) << "Switching view modes..." << endl;
   KTrader::OfferList partServiceOffers, appServiceOffers;
   KService::Ptr service = 0L;
-  KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
+  KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers, forceAutoEmbed );
 
   if ( viewFactory.isNull() )
   {

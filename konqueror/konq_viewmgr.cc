@@ -61,7 +61,7 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
   //kdDebug(1202) << "KonqViewManager::Initialize()" << endl;
   KService::Ptr service;
   KTrader::OfferList partServiceOffers, appServiceOffers;
-  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true );
+  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true /*forceAutoEmbed*/ );
   if ( newViewFactory.isNull() )
   {
     kdDebug(1202) << "KonqViewManager::Initialize() No suitable factory found." << endl;
@@ -1169,6 +1169,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       KConfig *config = KGlobal::config();
       KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
       _req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+      _req.forceAutoEmbed = true; // it's a new window, let's use it
 
       m_pMainWindow->openURL( nextChildView /* can be 0 for an empty profile */,
                               forcedURL, _req.args.serviceType, _req, _req.args.trustedSource );
@@ -1196,7 +1197,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
          // Full screen off
          if (m_pMainWindow->fullScreenMode())
              m_pMainWindow->slotToggleFullScreen();
-                               
+
          QSize size = readConfigSize( cfg, m_pMainWindow );
          if ( size.isValid() )
              m_pMainWindow->resize( size );
@@ -1355,7 +1356,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     KService::Ptr service;
     KTrader::OfferList partServiceOffers, appServiceOffers;
 
-    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
+    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers, true /*forceAutoEmbed*/ );
     if ( viewFactory.isNull() )
     {
       kdWarning(1202) << "Profile Loading Error: View creation failed" << endl;
@@ -1415,7 +1416,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     }
     KonqConfigEvent ev( &cfg, prefix+"_", false/*load*/);
     QApplication::sendEvent( childView->part(), &ev );
-   
+
     childView->frame()->show();
 
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
