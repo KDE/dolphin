@@ -22,7 +22,8 @@ libkonqueror_la_SOURCES = \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
 			  konq_events.cc \
 			  konq_bgnddlg.cc \
-		          konq_factory.cc
+		          konq_factory.cc \
+			  konq_metadata.cc
 
 libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
 
