@@ -50,11 +50,11 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>27/01/2001</date>
+<date>03/02/2001</date>
 <releaseinfo>2.1.0</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
-Document Viewer.</para>
+/Document Viewer.</para>
 <para>This document describes &konqueror; version 2.1</para></abstract>
 
 <keywordset>
@@ -1053,56 +1053,6 @@ make in the normal file manager view.</para>
 <phrase>Including the terminal emulator</phrase>
 </textobject>
 </mediaobject>
-
-</sect1>
-
-<sect1 id="samba">
-<title>Sharing Data With &Windows; 9x/NT Boxes</title>
-
-<para>On a <acronym>LAN</acronym> (Local Area Network), &Microsoft; &Windows;
-machines can share directories or devices such as printers with each other.  The
-protocol used by &Microsoft; for this is called <application>SMB</application>,
-standing for <application>Server Block Message</application>.</para>
-
-<para>If you're on a <acronym>LAN</acronym> where &Windows; machines are also
-connected with <application>SMB</application>, you may want to access them using
-this system. You're lucky, because &konqueror; is able to do this.</para>
-
-<para>The first thing to do is to configure &kde; to tell it which machine you
-want to access. This is done with the <guimenu>K</guimenu> menu
-<menuchoice><guisubmenu>Preferences</guisubmenu><guisubmenu>Network</guisubmenu>
-<guimenuitem>Windows Shares</guimenuitem></menuchoice> option. Read the
-&kcontrol; documentation for more information.</para>
-
-<para>Once this configuration is done, you can easily browse the Neighborhood.
-There are two ways to access to <application>SMB</application> shared
-resources:</para>
-
-<orderedlist>
-
-<listitem><para>Check <guimenuitem>Show Sidebar</guimenuitem> in the
-<guimenu>Window</guimenu> menu, then browse the
-<menuchoice><guimenuitem>Network</guimenuitem> <guimenuitem>Windows
-Shares</guimenuitem></menuchoice>" item.</para></listitem>
-
-<listitem><para>Directly type the <acronym>URL</acronym> of the machine:
-<userinput>smb://WORKGROUP/MACHINE/</userinput> or simply
-<userinput>smb://MACHINE</userinput> into the Locationbar.</para></listitem>
-</orderedlist>
-
-<note><para>In the <application>SMB</application> sharing system, a Workgroup is
-a group of machines. Belonging to one Workgroup or another does not affect the
-rights system.</para></note>
-
-<para>&kde; itself does not provide a <application>SMB</application>
-server.  If you want to share your own files with Windows users, you must
-install a <application>Samba</application> server. This requires Super-User
-rights and a few <quote>command line Linux</quote> operations.</para>
-
-<para><application>Samba</application> may be provided with your Linux
-distribution, otherwise see <ulink
-url="http://www.samba.org">http://www.samba.org</ulink> for download and
-installation instructions.</para>
 
 </sect1>
 
