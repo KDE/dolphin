@@ -351,8 +351,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
         }
     }
 
-    QString stbString = QString("%1 in T&oolbar")
-        .arg(sa.tbShowState ? i18n("Hide") : i18n("Show"));
+    QString stbString = sa.tbShowState ? i18n("Hide in T&oolbar") : i18n("Show in T&oolbar");
     coll->action("showintoolbar")->setText(stbString);
 
     for ( QStringList::Iterator it = toEnable.begin();
