@@ -59,9 +59,9 @@ private slots:
   void deletePressed();
   void changePressed();
   void addPressed();
-  void changed();
   
   void changeSendUAString();
+  void changeSendUAString(bool);
   void changeDefaultUAModifiers( int );
 
 private:

@@ -34,13 +34,12 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <klistview.h>
-#include <dcopclient.h>
 #include <kmessagebox.h>
 #include <ksimpleconfig.h>
-#include <ksaveioconfig.h>
 #include <kio/http_slave_defaults.h>
 
 #include "useragentdlg.h"
+#include "ksaveioconfig.h"
 #include "fakeuaprovider.h"
 #include "uagentproviderdlg.h"
 
@@ -66,8 +65,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                        "<P>Only minimal identification information is sent to "
                        "remote sites as shown below in <b>bold</b>.</qt>");
   QWhatsThis::add( cb_sendUAString, wtstr );
-  connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(changeSendUAString()) );
-  connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(changed()) );
 
   hlay->addWidget( cb_sendUAString );
 
@@ -90,7 +87,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "information that should be included in the default browser "
                "identification shown above in <b>bold</b>.");
   QWhatsThis::add( bg_default, wtstr );
-  connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changeDefaultUAModifiers(int)));
   lb_default = new KLineEdit( bg_default );
   lb_default->setReadOnly( true );
   lb_default->setFrameShape( QFrame::Box );
@@ -211,13 +207,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lv_siteUABindings->setColumnWidthMode(2, QListView::Manual);
   lv_siteUABindings->setColumnWidth(0, lv_siteUABindings->fontMetrics().width('W')*15);
 
-  connect( lv_siteUABindings, SIGNAL(selectionChanged()),
-           SLOT(selectionChanged()) );
-  connect( lv_siteUABindings, SIGNAL(doubleClicked (QListViewItem *)),
-           SLOT(changePressed()) );
-  connect( lv_siteUABindings, SIGNAL( returnPressed ( QListViewItem * ) ),
-           SLOT( changePressed() ));
-
   wtstr = i18n("<qt>This box contains a list of browser-identifications that "
                "will be used in place of the default one when browsing the "
                "listed site(s)."
@@ -232,33 +221,27 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   vbox->setSpacing( KDialog::spacingHint() );
   pb_add = new QPushButton( i18n("&New..."), vbox );
   QWhatsThis::add( pb_add, i18n("Add browser identification for a specific site.") );
-  connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
-
+  
   pb_change = new QPushButton( i18n("C&hange..."), vbox );
   pb_change->setEnabled( false );
   QWhatsThis::add( pb_change, i18n("Change the selected identifier.") );
-  connect( pb_change, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
   pb_delete = new QPushButton( i18n("De&lete"), vbox );
   pb_delete->setEnabled( false );
   QWhatsThis::add( pb_delete, i18n("Delete the selected identifier.") );
-  connect( pb_delete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
   pb_deleteAll = new QPushButton( i18n("D&elete All"), vbox );
   pb_deleteAll->setEnabled( false );
   QWhatsThis::add( pb_deleteAll, i18n("Delete all identifiers") );
-  connect( pb_deleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
 
 #if 0
   pb_import = new QPushButton( i18n("Import..."), vbox );
   pb_import->hide();
   QWhatsThis::add( pb_import, i18n("Import pre-packaged site/domain specific identifiers") );
-  connect( pb_import, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-
+  
   pb_export = new QPushButton( i18n("Export..."), vbox );
   pb_export->hide();
   QWhatsThis::add( pb_export, i18n("Export pre-packaged site/domain specific identifiers" ) );
-  connect( pb_export, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
 #endif
 
   wtstr = i18n("<qt>Here you can modify the default browser-identification string "
@@ -294,6 +277,28 @@ UserAgentOptions::~UserAgentOptions()
 
 void UserAgentOptions::load()
 {
+  connect( cb_sendUAString, SIGNAL(toggled(bool)), this, 
+           SLOT(changeSendUAString(bool)) );
+  connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(changeSendUAString()) );
+  
+  connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changeDefaultUAModifiers(int)));
+  
+  connect( lv_siteUABindings, SIGNAL(selectionChanged()),
+           SLOT(selectionChanged()) );
+  connect( lv_siteUABindings, SIGNAL(doubleClicked (QListViewItem *)),
+           SLOT(changePressed()) );
+  connect( lv_siteUABindings, SIGNAL( returnPressed ( QListViewItem * ) ),
+           SLOT( changePressed() ));
+
+  connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
+  connect( pb_change, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
+  connect( pb_delete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );  
+  connect( pb_deleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
+#if 0  
+  connect( pb_import, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
+  connect( pb_export, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
+#endif
+   
   d_itemsSelected = 0;
   lv_siteUABindings->clear();
 
@@ -419,13 +424,9 @@ void UserAgentOptions::save()
      m_config->sync();
   }
 
-  // Inform running io-slaves about change...
-  QByteArray data;
-  QDataStream stream( data, IO_WriteOnly );
-  stream << QString::null;
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
-  kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+  KSaveIOConfig::updateRunningIOSlaves (this);  
+  
+  emit changed( false );  
 }
 
 bool UserAgentOptions::handleDuplicate( const QString& site,
@@ -449,7 +450,7 @@ bool UserAgentOptions::handleDuplicate( const QString& site,
         item->setText(0, site);
         item->setText(1, identity);
         item->setText(2, alias);
-        changed();
+        changed( true );
       }
       return true;
     }
@@ -472,7 +473,7 @@ void UserAgentOptions::addPressed()
                                                 dlg->alias() );
       lv_siteUABindings->sort();
       lv_siteUABindings->setCurrentItem( index );
-      changed();
+      changed( true );
     }
   }
   delete dlg;
@@ -498,7 +499,7 @@ void UserAgentOptions::changePressed()
       index->setText( 0, new_site );
       index->setText( 1, dlg->identity() );
       index->setText( 2, dlg->alias() );
-      changed();
+      changed( true );
     }
   }
   delete dlg;
@@ -532,19 +533,23 @@ void UserAgentOptions::deletePressed()
     lv_siteUABindings->setSelected (nextItem, true);
 
   updateButtons();
-  changed();
+  changed( true );
 }
 
 void UserAgentOptions::deleteAllPressed()
 {
   lv_siteUABindings->clear();
   updateButtons();
-  changed();
+  changed( true );
 }
 
 void UserAgentOptions::changeSendUAString()
 {
-  bool enabled = cb_sendUAString->isChecked();
+  emit changed ( true );
+}
+
+void UserAgentOptions::changeSendUAString(bool enabled)
+{ 
   bg_default->setEnabled( enabled );
   gb_siteSpecific->setEnabled( enabled );
 }
@@ -574,13 +579,8 @@ void UserAgentOptions::changeDefaultUAModifiers( int )
   if ( lb_default->text() != modVal )
   {
     lb_default->setText(modVal);
-    changed();
+    changed( true );
   }
-}
-
-void UserAgentOptions::changed()
-{
-  emit KCModule::changed(true);
 }
 
 QString UserAgentOptions::quickHelp() const

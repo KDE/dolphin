@@ -18,6 +18,9 @@
 */
 
 #include <kconfig.h>
+#include <klocale.h>
+#include <dcopclient.h>
+#include <kmessagebox.h>
 #include <kio/ioslave_defaults.h>
 
 #include "ksaveioconfig.h"
@@ -169,4 +172,32 @@ void KSaveIOConfig::setProxyConfigScript( const QString& _url )
   cfg.setGroup( "Proxy Settings" );
   cfg.writeEntry( "Proxy Config Script", _url );
   cfg.sync();
+}
+
+void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
+{
+  // Inform running io-slaves about the changes...
+  bool updateSuccessful = false;
+  DCOPClient *client = new DCOPClient;
+  if (client->attach())
+  {
+    QByteArray data;
+    QDataStream stream( data, IO_WriteOnly );
+    stream << QString::null;
+    updateSuccessful= client->send( "*", "KIO::Scheduler",
+                                    "reparseSlaveConfiguration(QString)",
+                                    data );
+  }
+  
+  // if we cannot update, ioslaves inform the end user...
+  if (!updateSuccessful)
+  {
+    QString caption = i18n("Update Failed");
+    QString message = i18n("You have to restart the running applications "
+                           "for these changes to take effect.");
+    KMessageBox::information (parent, message, caption);
+    return;    
+  }
+  
+  delete client;
 }

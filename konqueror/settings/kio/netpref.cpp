@@ -7,13 +7,12 @@
 #include <qvgroupbox.h>
 
 #include <kio/ioslave_defaults.h>
-#include <ksaveioconfig.h>
-#include <dcopclient.h>
 #include <knuminput.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <kconfig.h>
 
+#include "ksaveioconfig.h"
 #include "netpref.h"
 
 #define MAX_TIMEOUT_VALUE  3600
@@ -110,19 +109,10 @@ void KIOPreferences::save()
   config.writeEntry( "DisablePassiveMode", !cb_ftpEnablePasv->isChecked() );
   config.writeEntry( "MarkPartial", cb_ftpMarkPartial->isChecked() );
   config.sync();
-
-  emit changed(true);
-
-  // Inform running io-slaves about change...
-  QByteArray data;
-  QDataStream stream( data, IO_WriteOnly );
-  stream << QString::null;
-
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
-
-  kapp->dcopClient()->send( "*", "KIO::Scheduler",
-                            "reparseSlaveConfiguration(QString)", data );
+  
+  KSaveIOConfig::updateRunningIOSlaves (this);
+  
+  emit changed( false );  
 }
 
 void KIOPreferences::defaults()

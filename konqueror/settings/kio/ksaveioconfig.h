@@ -22,6 +22,8 @@
 
 #include <kprotocolmanager.h>
 
+class QWidget;
+
 class KSaveIOConfig
 {
 public:
@@ -69,5 +71,8 @@ public:
   static void setAutoResume( bool );
 
   static void setPersistentConnections( bool );
+  
+  /** Update all running io-slaves */
+  static void updateRunningIOSlaves (QWidget * parent = 0L);
 };
 #endif

@@ -30,12 +30,11 @@
 #include <klocale.h>
 #include <klistview.h>
 #include <klineedit.h>
-#include <dcopclient.h>
 #include <kmessagebox.h>
 #include <kurlrequester.h>
-#include <ksaveioconfig.h>
 #include <kprotocolmanager.h>
 
+#include "ksaveioconfig.h"
 #include "kenvvarproxydlg.h"
 #include "kmanualproxydlg.h"
 
@@ -442,27 +441,10 @@ void KProxyDialog::save()
   KSaveIOConfig::setProxyConfigScript( m_data->scriptProxy );
   KSaveIOConfig::setUseReverseProxy( m_data->useReverseProxy );
   KSaveIOConfig::setNoProxyFor( m_data->noProxyFor.join(",") );
- 
- 
-  // Update all running io-slaves...
-  // If we cannot update, let the user know that they need to
-  // restart all running application that need this info.
-  if ( !kapp->dcopClient()->isAttached() && !kapp->dcopClient()->attach() )
-  { 
-    QString caption = i18n("Proxy Configuration Update");
-    
-    QString message = i18n("You have to restart the running applications "
-                           "for these changes to take effect.");
-                           
-    KMessageBox::information (this, message, caption);
-    return;
-  }
 
-  QByteArray data;
-  QDataStream stream( data, IO_WriteOnly );
-  stream << QString();
-  kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
 
+  KSaveIOConfig::updateRunningIOSlaves (this);
+     
   emit changed( false );
 }
 

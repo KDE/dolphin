@@ -236,14 +236,10 @@ void KCacheConfigDialog::save()
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
     stream << QString::null;
-
-    DCOPClient* client = new DCOPClient;
-    if ( !client->isAttached() )
-        client->attach();
-
-    client->send( "*", "KIO::Scheduler",
-                  "reparseSlaveConfiguration(QString)", data );
-    delete client;
+    
+    KSaveIOConfig::updateRunningIOSlaves (this);
+  
+    emit changed( false );
 }
 
 void KCacheConfigDialog::defaults()
@@ -251,6 +247,8 @@ void KCacheConfigDialog::defaults()
   cb_useCache->setChecked( true );
   rb_verify->setChecked( true );
   sb_max_cache_size->setValue( DEFAULT_MAX_CACHE_SIZE );
+  
+  emit changed( true );  
 }
 
 QString KCacheConfigDialog::quickHelp() const
