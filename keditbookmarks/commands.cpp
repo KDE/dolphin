@@ -171,11 +171,18 @@ QString NodeEditCommand::name() const {
     return i18n("Renaming"); 
 }
 
-QString NodeEditCommand::getNodeText(KBookmark bk, const QString &nodename) {
-    QDomNode subnode = bk.internalElement().namedItem(nodename);
-    return subnode.isNull() || subnode.firstChild().isNull() 
-        ? QString::null
-        : subnode.firstChild().toText().data();
+QString NodeEditCommand::getNodeText(KBookmark bk, const QStringList &nodehier) {
+    QDomNode subnode = bk.internalElement();
+    for (QStringList::ConstIterator it = nodehier.begin(); 
+            it != nodehier.end(); ++it)
+    {
+        subnode = subnode.namedItem((*it));
+        if (subnode.isNull())
+            return QString::null;
+    }
+    return (subnode.firstChild().isNull())
+         ? QString::null
+         : subnode.firstChild().toText().data();
 }
 
 void NodeEditCommand::execute() {

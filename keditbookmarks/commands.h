@@ -123,7 +123,7 @@ public:
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const;
-   static QString getNodeText(KBookmark, const QString &);
+   static QString getNodeText(KBookmark bk, const QStringList &nodehier);
 private:
    QString m_address;
    QString m_newText;

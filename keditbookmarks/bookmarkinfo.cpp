@@ -19,6 +19,7 @@
 */
 
 #include "bookmarkinfo.h"
+#include "commands.h"
 
 #include <stdlib.h>
 
@@ -48,9 +49,17 @@
 void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     m_title_le->setText(bk.text());
     m_url_le->setText(bk.url().url());
-    m_comment_le->setText("a comment");
-    m_moddate_le->setText("the modification date");
-    m_credate_le->setText("the creation date");
+
+    m_comment_le->setText(
+            NodeEditCommand::getNodeText(bk, QStringList() << "desc"));
+    m_moddate_le->setText(
+            NodeEditCommand::getNodeText(bk, QStringList() << "info"
+                                                           << "metadata"
+                                                           << "time_added" ));
+    m_credate_le->setText(
+            NodeEditCommand::getNodeText(bk, QStringList() << "info" 
+                                                           << "metadata"
+                                                           << "time_added" ));
 }
 
 BookmarkInfoWidget::BookmarkInfoWidget(
