@@ -184,14 +184,13 @@ protected:
    //reads the configuration for the columns of the current
    //protocol, it is called when the protocol changes
    //it checks/unchecks the menu items and sets confColumns
-   void readProtocolConfig( const QString& protocol );
+   void readProtocolConfig( const KURL& url );
    //calls updateContents of every ListViewItem, called after
    //the columns changed
    void updateListContents();
 
    //this is called in the constructor, so virtual would be nonsense
    void initConfig();
-   //QStringList readProtocolConfig( const QString & protocol );
 
    virtual void startDrag();
    virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );

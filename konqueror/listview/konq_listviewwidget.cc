@@ -179,8 +179,9 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
    delete m_dirLister;
 }
 
-void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
+void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
 {
+   const QString protocol = url.protocol();
    KConfig *config = KGlobal::config();
    if ( config->hasGroup( "ListView_" + protocol ) )
       config->setGroup( "ListView_" + protocol );
@@ -216,8 +217,6 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    int extraIndex = NumberOfAtoms;
 
    // Check for any extra data
-   KURL url;
-   url.setProtocol(protocol);
    KProtocolInfo::ExtraFieldList extraFields = KProtocolInfo::extraFields(url);
    NumberOfAtoms += extraFields.count();
    confColumns.resize( NumberOfAtoms );
@@ -303,7 +302,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       }
    }
    //check what the protocol provides
-   QStringList listingList = KProtocolInfo::listing( KURL( protocol ) );
+   QStringList listingList = KProtocolInfo::listing( url );
    kdDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
 
    // Even if this is not given by the protocol, we can determine it.
@@ -882,7 +881,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // The first time or new protocol? So create the columns first.
    if ( columns() < 1 || url.protocol() != m_url.protocol() )
    {
-      readProtocolConfig( url.protocol() );
+      readProtocolConfig( url );
       createColumns();
    }
 
@@ -1126,7 +1125,7 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 
    if ( (columns() < 1) || (url.protocol() != m_url.protocol()) )
    {
-      readProtocolConfig( url.protocol() );
+      readProtocolConfig( url );
       createColumns();
    }
    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
@@ -1254,7 +1253,7 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
 
    if ( columns() < 1 || url.protocol() != m_url.protocol() )
    {
-      readProtocolConfig( url.protocol() );
+      readProtocolConfig( url );
       createColumns();
    }
    m_url = url;
