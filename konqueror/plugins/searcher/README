@@ -1,0 +1,6 @@
+In February 2000, konq_searcher's functionality was moved into a plugin for
+the KURIFilter class. Since konq_searcher is the only Konq plugin, though,
+I kept it as an example. It does use KURIFilter now, of course...
+
+Yves Arrouye <yves@realnames.com>
+
