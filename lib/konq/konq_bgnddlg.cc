@@ -45,7 +45,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
     QWidget* page = new QWidget( this );
     setMainWidget( page );
     QVBoxLayout* mainLayout = new QVBoxLayout( page, 0, KDialog::spacingHint() );
-    
+
     m_buttonGroup = new QButtonGroup( i18n("Background"), page );
     m_buttonGroup->setColumnLayout( 0, Qt::Vertical );
     m_buttonGroup->layout()->setMargin( KDialog::marginHint() );
@@ -58,7 +58,7 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
              this, SLOT( slotBackgroundModeChanged() ) );
 
     // color
-    m_radioColor = new QRadioButton( i18n("&Color:"), m_buttonGroup );
+    m_radioColor = new QRadioButton( i18n("Co&lor:"), m_buttonGroup );
     groupLayout->addWidget( m_radioColor, 0, 0 );
     m_buttonColor = new KColorButton( theColor, defaultColor, m_buttonGroup );
     m_buttonColor->setSizePolicy( QSizePolicy::Preferred,
@@ -67,14 +67,14 @@ KonqBgndDialog::KonqBgndDialog( QWidget* parent,
 
     connect( m_buttonColor, SIGNAL( changed( const QColor& ) ),
              this, SLOT( slotColorChanged() ) );
-    
+
     // picture
     m_radioPicture = new QRadioButton( i18n("&Picture:"), m_buttonGroup );
     groupLayout->addWidget( m_radioPicture, 1, 0 );
     m_comboPicture = new KURLComboRequester( m_buttonGroup );
     groupLayout->addMultiCellWidget( m_comboPicture, 1, 1, 1, 2 );
     initPictures();
-    
+
     connect( m_comboPicture->comboBox(), SIGNAL( activated( int ) ),
 	     this, SLOT( slotPictureChanged() ) );
     connect( m_comboPicture, SIGNAL( urlSelected(const QString &) ),
@@ -124,7 +124,7 @@ QColor KonqBgndDialog::color() const
 {
     if ( m_radioColor->isChecked() )
         return m_buttonColor->color();
-        
+
     return QColor();
 }
 
@@ -133,9 +133,9 @@ void KonqBgndDialog::initPictures()
     KGlobal::dirs()->addResourceType( "tiles",
         KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
     kdDebug(1203) << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
-    
+
     QStringList list = KGlobal::dirs()->findAllResources("tiles");
-    
+
     if ( list.isEmpty() )
         m_comboPicture->comboBox()->insertItem( i18n("None") );
     else {
@@ -157,7 +157,7 @@ void KonqBgndDialog::loadPicture( const QString& fileName )
             return;
         }
     }
-    
+
     if ( !fileName.isEmpty() ) {
         m_comboPicture->comboBox()->insertItem( fileName );
         m_comboPicture->comboBox()->setCurrentItem( i );
