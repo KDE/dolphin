@@ -80,11 +80,11 @@ KJSParts::KJSParts(KConfig *config, QWidget *parent, const char *name)
   // ### the groupname is duplicated in KJSParts::save
   java = new KJavaOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( java, i18n( "&Java" ) );
-  connect( java, SIGNAL( changed( bool ) ), SLOT( slotChanged() ) );
+  connect( java, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
 
   javascript = new KJavaScriptOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( javascript, i18n( "Java&Script" ) );
-  connect( javascript, SIGNAL( changed( bool ) ), SLOT( slotChanged() ) );
+  connect( javascript, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
 }
 
 KJSParts::~KJSParts()
@@ -96,7 +96,6 @@ void KJSParts::load()
 {
   javascript->load();
   java->load();
-  setChanged(false);
 }
 
 
@@ -122,13 +121,8 @@ void KJSParts::save()
   if ( !kapp->dcopClient()->isAttached() )
     kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
-  setChanged(false);
 }
 
-void KJSParts::slotChanged()
-{
-  setChanged( javascript->changed() || java->changed() );
-}
 
 void KJSParts::defaults()
 {
