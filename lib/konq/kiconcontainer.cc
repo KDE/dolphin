@@ -340,8 +340,8 @@ void KIconContainer::selectIcons( const QRect& rect, bool _refresh )
   iterator it = begin();
   for( ; *it; ++it )
   {
-    bool inRect = rect.contains( QRect((*it)->position(), (*it)->size()) );
-    // select the icon if contained by the rectangle [and not selected]
+    bool inRect = rect.intersects( QRect((*it)->position(), (*it)->size()) );
+    // select the icon's box intersects the rectangle [and not selected]
     // deselect if not in rectangle [and selected]
     if ( inRect != (*it)->isSelected() )
     {
@@ -911,12 +911,11 @@ void KIconContainer::drawSelectionRectangle( int x, int y, int dx, int dy )
   QPainter p;
   p.begin( viewport() );
   p.setRasterOp( NotROP );
-  p.setPen( QPen( Qt::black, 1, Qt::DashDotLine ) );
+  p.setPen( QPen( Qt::black /*, 1, Qt::DashDotLine */ ) ); // solid line looks better, no ?
   p.setBrush( Qt::NoBrush );
   p.drawRect( x, y, dx, dy );
-  // p.drawRect( x+1, y+1, dx - 2, dy - 2 );
   p.end();
-  /*
+  /* old krootwm code
     XDrawRectangle(qt_xdisplay(), qt_xrootwin(), gc, x, y, dx, dy);
     if (dx>2) dx-=2;
     if (dy>2) dy-=2;
