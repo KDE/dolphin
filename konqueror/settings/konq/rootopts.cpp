@@ -301,7 +301,7 @@ void KRootOptions::load()
     g_pConfig->setGroup( "General" );
     vrootBox->setChecked( g_pConfig->readBoolEntry( "SetVRoot", false ) );
     iconsEnabledBox->setChecked( g_pConfig->readBoolEntry( "Enabled", true ) );
-    
+
     //
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
@@ -387,7 +387,7 @@ QString KRootOptions::quickHelp() const
     "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
 }
 
-DesktopPathConfig::DesktopPathConfig(KConfig *config, QWidget *parent, const char *name )
+DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
     : KCModule( parent, name )
 {
   QLabel * tmpLabel;

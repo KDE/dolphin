@@ -170,7 +170,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   tab->addTab(virtualDesks, i18n("&Number of Desktops"));
   connect(virtualDesks, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  paths = new DesktopPathConfig(config, this);
+  paths = new DesktopPathConfig(this);
   tab->addTab(paths, i18n("&Paths"));
   connect(paths, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 

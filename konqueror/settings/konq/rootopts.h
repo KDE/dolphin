@@ -73,7 +73,7 @@ class DesktopPathConfig : public KCModule
 {
         Q_OBJECT
 public:
-        DesktopPathConfig(KConfig *config, QWidget *parent = 0L, const char *name = 0L );
+        DesktopPathConfig(QWidget *parent = 0L, const char *name = 0L );
         virtual void load();
         virtual void save();
         virtual void defaults();
