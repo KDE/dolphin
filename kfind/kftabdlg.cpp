@@ -66,7 +66,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     // Setup
 
     subdirsCb->setChecked(true);
-    caseSensCb->setChecked(true);
+    caseSensCb->setChecked(false);
 
     nameBox->setDuplicatesEnabled(FALSE);
     dirBox->setDuplicatesEnabled(FALSE);
