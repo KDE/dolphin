@@ -17,5 +17,5 @@ Name[sk]=FTP odkaz
 Name[sl]=Vir FTP
 Name[sv]=FTP-URL
 URL=ftp://ftp.kde.org/pub/kde
-Icon=ftp.png
+Icon=ftp
 Type=Link

@@ -21,5 +21,5 @@ Name[sk]=Odkaz na World Wide Web (HTTP)
 Name[sl]=Spletni vir (URL)
 Name[sv]=World Wide Web-URL
 URL=http://www.kde.org
-Icon=www.png
+Icon=www
 Type=Link
