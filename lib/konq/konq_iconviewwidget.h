@@ -145,7 +145,6 @@ public:
      */
     KFileItemList selectedFileItems();
 
-    void setItemFont( const QFont &f );
     void setItemColor( const QColor &c );
     QColor itemColor() const;
 

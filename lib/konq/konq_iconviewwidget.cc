@@ -484,8 +484,16 @@ void KonqIconViewWidget::initConfig( bool bInit )
     // Font settings
     QFont font( m_pSettings->standardFont() );
     font.setUnderline( m_pSettings->underlineLink() );
-    setItemFont( font );
-
+    if ( font != KonqIconViewWidget::font() )
+    {
+        setFont( font );
+        if (!bInit)
+        {
+            // QIconView doesn't do it by default... but if the font is made much
+            // bigger, we really need to give more space between the icons
+            arrangeItemsInGrid();
+        }
+    }
     setWordWrapIconText( m_pSettings->wordWrapText() );
 
     if (!bInit)
@@ -771,11 +779,6 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
     KIconView::contentsDragEnterEvent( e );
-}
-
-void KonqIconViewWidget::setItemFont( const QFont &f )
-{
-    setFont( f );
 }
 
 void KonqIconViewWidget::setItemColor( const QColor &c )
