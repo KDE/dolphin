@@ -36,11 +36,12 @@ public:
   KConfig* http_config;
 };
 
+static KSaveIOConfigPrivate *ksiocpref = 0;
 static KStaticDeleter<KSaveIOConfigPrivate> ksiocp;
 
 KSaveIOConfigPrivate::KSaveIOConfigPrivate (): config(0), http_config(0)
 {
-  ksiocp.setObject (this);
+  ksiocp.setObject (ksiocpref, this);
 }
 
 KSaveIOConfigPrivate::~KSaveIOConfigPrivate ()
