@@ -2041,7 +2041,11 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       for (; ittb.current(); ++ittb ) {
           KService::Ptr serv = KService::serviceByDesktopName( ittb.current()->name() );
           if ( serv && serv->library() == currentServiceLibrary ) {
-              static_cast<KToggleAction*>( ittb.current() )->setChecked( true );
+              KToggleAction* ta = static_cast<KToggleAction*>( ittb.current() );
+              ta->setChecked( true );
+              ta->setText( m_currentView->service()->name() );
+              ta->setIcon( m_currentView->service()->icon() );
+              ta->setName( m_currentView->service()->desktopEntryName().ascii() ) ;
               break;
           }
       }
