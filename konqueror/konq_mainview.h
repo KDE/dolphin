@@ -177,6 +177,8 @@ public slots:  // IDL
   virtual void slotMenuEditAboutToShow();
   virtual void slotMenuViewAboutToShow();
 
+  void fillHistoryPopup( OpenPartsUI::Menu_ptr menu, const QStringList &urls );
+
   virtual void slotHistoryBackwardAboutToShow();
   virtual void slotHistoryForwardAboutToShow();
 

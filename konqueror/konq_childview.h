@@ -197,10 +197,9 @@ public:
   void setRowInfo( Konqueror::RowInfo *rowInfo ) { m_pRow = rowInfo; }
   Konqueror::RowInfo *rowInfo() const { return m_pRow; }
 
-  static bool createView( const QString &serviceType, 
-                          Browser::View_var &view, 
-			  QStringList &serviceTypes, 
-			  KonqMainView *mainView );
+  static Browser::View_ptr createView( const QString &serviceType, 
+			               QStringList &serviceTypes, 
+			               KonqMainView *mainView );
 
 signals:
 

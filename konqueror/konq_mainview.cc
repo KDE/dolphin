@@ -848,10 +848,10 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
          ( u.isLocalFile() ) &&
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
     {
-      KonqChildView::createView( "text/html", vView, serviceTypes, this );
+      vView = KonqChildView::createView( "text/html", serviceTypes, this );
       m_sInitialURL = indexFile;
     }
-    else if (!KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
+    else if ( CORBA::is_nil( ( vView = KonqChildView::createView( serviceType, serviceTypes, this ) ) ) )
       return false;
       
     m_pViewManager->insertView( Qt::Vertical, vView, serviceTypes );
@@ -1432,38 +1432,34 @@ void KonqMainView::slotMenuViewAboutToShow()
   createViewMenu();
 }
 
-void KonqMainView::slotHistoryBackwardAboutToShow()
+void KonqMainView::fillHistoryPopup( OpenPartsUI::Menu_ptr menu, const QStringList &urls )
 {
-  m_vHistoryBackPopupMenu->clear();
+  menu->clear();
   
   if ( !m_currentView )
     return;
-    
-  QStringList urls = m_currentView->backHistoryURLs();
 
   CORBA::WString_var text;
-  
+  OpenPartsUI::Pixmap_var pix;
   QStringList::ConstIterator it = urls.begin();
   QStringList::ConstIterator end = urls.end();
+  int i = 0;
   for (; it != end; ++it )
-    m_vHistoryBackPopupMenu->insertItem7( ( text = Q2C( *it ) ), -1, -1 );
+  {
+    KURL u( *it ) ;
+    menu->insertItem11( ( pix = OPUIUtils::convertPixmap( *KPixmapCache::pixmapForURL( u, 0, u.isLocalFile(), true ) ) ), 
+                        ( text = Q2C( *it ) ), -1, -1 );
+  }			
+}
+
+void KonqMainView::slotHistoryBackwardAboutToShow()
+{
+  fillHistoryPopup( m_vHistoryBackPopupMenu, m_currentView->backHistoryURLs() );
 }
 
 void KonqMainView::slotHistoryForwardAboutToShow()
 {
-  m_vHistoryForwardPopupMenu->clear();
-
-  if ( !m_currentView )
-    return;
-    
-  QStringList urls = m_currentView->forwardHistoryURLs();
-  
-  CORBA::WString_var text;
-  
-  QStringList::ConstIterator it = urls.begin();
-  QStringList::ConstIterator end = urls.end();
-  for (; it != end; ++it )
-    m_vHistoryForwardPopupMenu->insertItem7( ( text = Q2C( *it ) ), -1, -1 );
+  fillHistoryPopup( m_vHistoryForwardPopupMenu, m_currentView->forwardHistoryURLs() );
 }
 
 void KonqMainView::slotHistoryBackwardActivated( CORBA::Long id )
@@ -1646,7 +1642,7 @@ void KonqMainView::splitView ( Orientation orientation )
     serviceTypes.append( serviceType );
     vView = Browser::View::_duplicate( new KonqKfmTreeView( this ) );
   }
-  else if ( !KonqChildView::createView( serviceType, vView, serviceTypes, this ) )
+  else if ( CORBA::is_nil( ( vView = KonqChildView::createView( serviceType, serviceTypes, this ) ) ) )
     return; //do not split the view at all if we can't clone the current view
 
   m_pViewManager->insertView( orientation, vView, serviceTypes );

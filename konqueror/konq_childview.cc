@@ -45,7 +45,14 @@
  */
 void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
 {
-  while ( obj->_refcnt() > 1 ) obj->_deref();
+  if ( obj->_refcnt() > 1 )
+  {
+    while ( obj->_refcnt() > 1 ) obj->_deref();
+  }
+  else
+  {
+    cerr << "the refcount bug disappeard! please tell kfm-devel@kde.org!" << endl;
+  }    
 }
 
 KonqChildView::KonqChildView( Browser::View_ptr view, 
@@ -183,7 +190,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
     serviceTypes.append( serviceType );
     vView = Browser::View::_duplicate( new KonqKfmTreeView( m_pMainView ) );
   }
-  else if ( !createView( serviceType, vView, serviceTypes, m_pMainView ) )
+  else if ( CORBA::is_nil( ( vView = createView( serviceType, serviceTypes, m_pMainView ) ) ) )
    return false;
   
   makeHistory( false );
@@ -409,10 +416,9 @@ bool KonqChildView::supportsServiceType( const QString &serviceType )
   return result;
 }
 
-bool KonqChildView::createView( const QString &serviceType, 
-                                Browser::View_var &view, 
-				QStringList &serviceTypes,
-				KonqMainView *mainView )
+Browser::View_ptr KonqChildView::createView( const QString &serviceType, 
+			                     QStringList &serviceTypes,
+				             KonqMainView *mainView )
 {
   serviceTypes.clear();
 
@@ -422,24 +428,21 @@ bool KonqChildView::createView( const QString &serviceType,
   if ( serviceType == "inode/directory" )
   {
     //default for directories is the iconview
-    view = Browser::View::_duplicate( new KonqKfmIconView( mainView ) );
     serviceTypes.append( serviceType );
-    return true;
+    return Browser::View::_duplicate( new KonqKfmIconView( mainView ) );
   }
   else if ( serviceType == "text/html" )
   {
-    view = Browser::View::_duplicate( new KonqHTMLView( mainView ) );
     serviceTypes.append( serviceType );
-    return true;
+    return Browser::View::_duplicate( new KonqHTMLView( mainView ) );
   }
   else if ( serviceType.left( 5 ) == "text/" &&
             ( serviceType.mid( 5, 2 ) == "x-" ||
 	      serviceType.mid( 5 ) == "english" ||
 	      serviceType.mid( 5 ) == "plain" ) )
   {
-    view = Browser::View::_duplicate( new KonqTxtView( mainView ) );
     serviceTypes.append( serviceType );
-    return true;
+    return Browser::View::_duplicate( new KonqTxtView( mainView ) );
   }
   
   //now let's query the Trader for view plugins
@@ -449,13 +452,13 @@ bool KonqChildView::createView( const QString &serviceType,
   KTrader::OfferList offers = trader->query( serviceType, "'Browser/View' in ServiceTypes" );
   
   if ( offers.count() == 0 ) //no results?
-    return false;
+    return Browser::View::_nil();
     
   //activate the view plugin
   KService::Ptr service = offers.first();
   
   if ( service->repoIds().count() == 0 )  //uh...is it a CORBA service at all??
-    return false;
+    return Browser::View::_nil();
  
   QString repoId = service->repoIds().first();
   QString tag = service->name(); //use service name as default tag
@@ -471,21 +474,11 @@ bool KonqChildView::createView( const QString &serviceType,
   Browser::ViewFactory_var factory = Browser::ViewFactory::_narrow( obj );
   
   if ( CORBA::is_nil( factory ) )
-    return false;
-
-  view = factory->create();
-
-  if ( CORBA::is_nil( view ) )
-    return false;
-
-  //hack to keep view alive
-  cerr << "test#1" << endl;
-  CORBA::String_var tmp = view->viewName();
-  cerr << "test#1 done" << endl;
+    return Browser::View::_nil();
 
   serviceTypes = service->serviceTypes();
-
-  return true;
+  
+  return factory->create();
 }
 
 #include "konq_childview.moc"

@@ -152,7 +152,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
       else
       {
         //Simon TODO: error handling
-        KonqChildView::createView( serviceType, vView, serviceTypes, m_pMainView );
+        vView = KonqChildView::createView( serviceType, serviceTypes, m_pMainView );
       }
       
       setupView( rowInfo, vView, serviceTypes );
