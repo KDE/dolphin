@@ -611,6 +611,7 @@ private:
 
   KAction *m_paTrash;
   KAction *m_paDelete;
+  QPtrList<KAction> m_deleteActions;
 
   KAction *m_paCopyFiles;
   KAction *m_paMoveFiles;

@@ -169,10 +169,12 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_openWithActions.setAutoDelete( true );
   m_viewModeActions.setAutoDelete( true );
+  m_deleteActions.setAutoDelete( true );
   m_toolBarViewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
   m_paCopyFiles = 0;
   m_paMoveFiles = 0;
+  m_paDelete = 0;
   m_paNewDir = 0;
   m_bookmarkBarActionCollection = 0L;
   KonqExtendedBookmarkOwner *extOwner = new KonqExtendedBookmarkOwner( this );
@@ -226,6 +228,12 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   createGUI( 0L );
 
   connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
+
+  if ( m_paDelete )
+  {
+    m_deleteActions.append( m_paDelete );
+    plugActionList( "delactions", m_deleteActions );
+  }
 
   if ( !m_toggleViewGUIClient->empty() )
     plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
@@ -2953,7 +2961,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       connect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
       m_paTrash->setEnabled(false);
-      m_paDelete->setEnabled(false);
+      if (m_paDelete)
+        m_paDelete->setEnabled(false);
 
       slotClipboardDataChanged();
 
@@ -2996,13 +3005,15 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
           m_paCut->setEnabled( ext->isActionEnabled( "cut" ) );
           m_paCopy->setEnabled( ext->isActionEnabled( "copy" ) );
           m_paPaste->setEnabled( ext->isActionEnabled( "paste" ) );
-          m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
+          if (m_paDelete)
+              m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
           m_paTrash->setEnabled( ext->isActionEnabled( "trash" ) );
       } else {
           m_paCut->setEnabled( false );
           m_paCopy->setEnabled( false );
           m_paPaste->setEnabled( false );
-          m_paDelete->setEnabled( false );
+          if (m_paDelete)
+              m_paDelete->setEnabled( false );
           m_paTrash->setEnabled( false );
       }
     }
@@ -3312,7 +3323,11 @@ void KonqMainWindow::initActions()
 
   m_paRename = new KAction( i18n( "&Rename" ), /*"editrename",*/ Key_F2, actionCollection(), "rename" );
   m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Key_Delete, actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
+
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cgs( config, "FMSettings" );
+  if ( config->readBoolEntry( "ShowDeleteCommand", true ) )
+    m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
 
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
@@ -3969,7 +3984,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
   popupMenuCollection.insert( m_paRename );
-  popupMenuCollection.insert( m_paDelete );
+  if (m_paDelete)
+      popupMenuCollection.insert( m_paDelete );
 
   // The pasteto action is used when clicking on a dir, to paste into it.
   KAction *actPaste = KStdAction::paste( this, SLOT( slotPopupPasteTo() ), &popupMenuCollection, "pasteto" );
@@ -4179,6 +4195,26 @@ void KonqMainWindow::reparseConfiguration()
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
   m_sViewModeForDirectory = config->readEntry( "ViewMode" );
+
+  // Update display of "Delete" command if necessary
+  config->setGroup( "FMSettings" );  // cgs' destructor will reset
+  if ( config->readBoolEntry( "ShowDeleteCommand", true ) )
+  {
+    if ( !m_paDelete )
+    {
+      unplugActionList( "delactions" );
+      m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
+      m_deleteActions.clear();
+      m_deleteActions.append( m_paDelete );
+      plugActionList( "delactions", m_deleteActions );
+    }
+  }
+  else
+  {
+    unplugActionList( "delactions" );
+    delete m_paDelete;
+    m_paDelete = 0;
+  }
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();

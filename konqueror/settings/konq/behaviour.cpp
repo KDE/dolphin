@@ -130,6 +130,12 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
 
+    cbShowDeleteCommand = new QCheckBox( i18n( "Show 'Delete' me&nu entries which bypass the trashcan" ), this );
+    lay->addWidget( cbShowDeleteCommand );
+    connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
+
+    QWhatsThis::add( cbShowDeleteCommand, i18n("Uncheck this if you don't want 'Delete' menu commands to be displayed "
+                                                "on the desktop and in the file manager's menus and context menus."));
 
     QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation For"), this );
     bg->layout()->setSpacing( KDialog::spacingHint() );
@@ -145,6 +151,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     cbMoveToTrash = new QCheckBox( i18n("&Move to trash"), bg );
 
     cbDelete = new QCheckBox( i18n("D&elete"), bg );
+    connect(cbShowDeleteCommand, SIGNAL(toggled(bool)), cbDelete, SLOT(setEnabled(bool)));
 
     lay->addWidget(bg);
 
@@ -181,6 +188,7 @@ void KBehaviourOptions::load()
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
 
     cbRenameDirectlyIcon->setChecked( g_pConfig->readBoolEntry("RenameIconDirectly",  DEFAULT_RENAMEICONDIRECTLY ) );
+    cbShowDeleteCommand->setChecked( g_pConfig->readBoolEntry("ShowDeleteCommand", true) );
 
 //    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
@@ -195,6 +203,7 @@ void KBehaviourOptions::load()
     g_pConfig->setGroup( "Trash" );
     cbMoveToTrash->setChecked( g_pConfig->readBoolEntry("ConfirmTrash", DEFAULT_CONFIRMTRASH) );
     cbDelete->setChecked( g_pConfig->readBoolEntry("ConfirmDelete", DEFAULT_CONFIRMDELETE) );
+    cbDelete->setEnabled( cbShowDeleteCommand->isChecked() );
 }
 
 void KBehaviourOptions::defaults()
@@ -216,6 +225,8 @@ void KBehaviourOptions::defaults()
 
     cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
     cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
+    cbDelete->setEnabled( true );
+    cbShowDeleteCommand->setChecked( true );
 }
 
 void KBehaviourOptions::save()
@@ -230,6 +241,7 @@ void KBehaviourOptions::save()
 //    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
     g_pConfig->writeEntry( "RenameIconDirectly", cbRenameDirectlyIcon->isChecked());
+    g_pConfig->writeEntry( "ShowDeleteCommand", cbShowDeleteCommand->isChecked());
 
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
@@ -253,6 +265,7 @@ void KBehaviourOptions::save()
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();
     kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+    kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
 }
 
 void KBehaviourOptions::updateWinPixmap(bool b)
