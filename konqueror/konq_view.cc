@@ -444,7 +444,7 @@ void KonqView::slotCompleted( bool hasPending )
     {
       // Try to get /favicon.ico
       if ( m_serviceType == "text/html" && url().protocol().left(4) == "http" )
-      KonqPixmapProvider::downloadHostIcon( url() );
+          KonqPixmapProvider::downloadHostIcon( url() );
     }
   }
 }
