@@ -57,7 +57,6 @@ private:
     QRadioButton* rb_offlineMode;
 
     QLabel* lb_max_cache_size;
-    QLabel* lb_size;
     QSpinBox* sb_max_cache_size;
     QPushButton* pb_clearCache;
 };

@@ -72,7 +72,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     QVBoxLayout* gb_Cache_policyLayout = new QVBoxLayout( gb_Cache_policy->layout() );
     gb_Cache_policyLayout->setAlignment( Qt::AlignTop );
     gb_Cache_policyLayout->setSpacing( KDialog::spacingHint() );
-    gb_Cache_policyLayout->setMargin( 2*KDialog::marginHint() );
+    gb_Cache_policyLayout->setMargin( KDialog::marginHint() );
 
     hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
@@ -140,7 +140,8 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     sb_max_cache_size = new QSpinBox( this, "sb_max_cache_size" );
     sb_max_cache_size->setEnabled( false );
     sb_max_cache_size->setMinValue( 1 );
-    sb_max_cache_size->setMaxValue( 99999999 );
+    sb_max_cache_size->setMaxValue( 999999 );
+    sb_max_cache_size->setSuffix(i18n(" KB"));
     QWhatsThis::add( sb_max_cache_size, i18n("This is the average size "
                                              "in KB that the cache will "
                                              "take on your hard disk. Once "
@@ -148,10 +149,6 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                                              "will be deleted from the cache "
                                              "to reduce it to this size.") );
     hlay->addWidget( sb_max_cache_size );
-
-    lb_size = new QLabel( i18n("kB"), this, "lb_size" );
-    lb_size->setEnabled( false );
-    hlay->addWidget( lb_size );
 
     pb_clearCache = new QPushButton( i18n("C&lear Cache"), this,
                                      "pb_clearCache" );
@@ -176,8 +173,6 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
              SLOT( setEnabled(bool) ) );
     connect( cb_useCache, SIGNAL( toggled(bool) ), this,
              SLOT(configChanged()));
-    connect( cb_useCache, SIGNAL( toggled(bool) ), lb_size,
-             SLOT( setEnabled(bool) ) );
     connect( cb_useCache, SIGNAL( toggled(bool) ), lb_max_cache_size,
              SLOT( setEnabled(bool) ) );
     connect( cb_useCache, SIGNAL( toggled(bool) ), sb_max_cache_size,
@@ -213,7 +208,6 @@ void KCacheConfigDialog::load()
 
     bool useCache = cb_useCache->isChecked();
     gb_Cache_policy->setEnabled( useCache );
-    lb_size->setEnabled( useCache );
     lb_max_cache_size->setEnabled( useCache );
     sb_max_cache_size->setEnabled( useCache );
     pb_clearCache->setEnabled( useCache );
