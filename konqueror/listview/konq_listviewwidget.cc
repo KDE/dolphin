@@ -800,6 +800,7 @@ void KonqBaseListViewWidget::slotPopupMenu(QListViewItem*, const QPoint &point, 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
 {
    KFileItemList lstItems;
+   KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
 
    // Only consider a right-click on the name column as something
    // related to the selection. On all the other columns, we want
@@ -832,8 +833,9 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
       }
 
       lstItems.append( rootItem );
+      popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
    }
-   emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
+   emit m_pBrowserView->extension()->popupMenu( 0L, _global, lstItems, KParts::URLArgs(), popupFlags );
 
    if ( deleteRootItem )
       delete rootItem; // we just created it

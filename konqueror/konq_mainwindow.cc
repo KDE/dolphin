@@ -3767,15 +3767,15 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KFileItem item( url, _mimeType, _mode );
   KFileItemList items;
   items.append( &item );
-  slotPopupMenu( client, _global, items, KParts::URLArgs(), false ); //BE CAREFUL WITH sender() !
+  slotPopupMenu( client, _global, items, KParts::URLArgs(), KParts::BrowserExtension::DefaultPopupItems, false ); //BE CAREFUL WITH sender() !
 }
 
-void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const KParts::URLArgs &_args, mode_t _mode )
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags f, mode_t _mode )
 {
   KFileItem item( url, _args.serviceType, _mode );
   KFileItemList items;
   items.append( &item );
-  slotPopupMenu( client, _global, items, _args, false ); //BE CAREFUL WITH sender() !
+  slotPopupMenu( client, _global, items, _args, f, false ); //BE CAREFUL WITH sender() !
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
@@ -3785,10 +3785,16 @@ void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &
 
 void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items )
 {
-  slotPopupMenu( client, _global, _items, KParts::URLArgs(), true );
+  slotPopupMenu( client, _global, _items, KParts::URLArgs(), KParts::BrowserExtension::DefaultPopupItems, true );
 }
 
-void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, bool showPropsAndFileType )
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags _flags )
+{
+	slotPopupMenu( 0, _global, _items, _args, _flags, true );
+}
+  
+
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags itemFlags, bool showPropsAndFileType )
 {
   KonqView * m_oldView = m_currentView;
 
@@ -3899,13 +3905,16 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
   }
 
+  if (m_currentView->isHierarchicalView())
+    itemFlags |= KParts::BrowserExtension::ShowCreateDirectory;
+
   KonqPopupMenu pPopupMenu ( KonqBookmarkManager::self(), _items,
                              viewURL,
                              popupMenuCollection,
                              m_pMenuNew,
                              this,
                              showPropsAndFileType,
-                             m_currentView->isHierarchicalView());
+                             itemFlags);
 
   if ( openedForViewURL && !viewURL.isLocalFile() )
       pPopupMenu.setURLTitle( m_currentView->caption() );

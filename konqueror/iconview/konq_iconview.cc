@@ -687,8 +687,11 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 
 void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoint& _global)
 {
-    (static_cast<KFileIVI*>(_item))->setSelected( true, true /* don't touch other items */ );
-    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
+    KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
+    KFileIVI* i = static_cast<KFileIVI*>(_item);
+    if (i)
+        i->setSelected( true, true /* don't touch other items */ );
+    emit m_extension->popupMenu( 0L, _global, m_pIconView->selectedFileItems(), KParts::URLArgs(), popupFlags);
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint&)
@@ -719,7 +722,10 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 
             KFileItemList items;
             items.append( item );
-            emit m_extension->popupMenu( QCursor::pos(), items );
+
+            KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
+
+            emit m_extension->popupMenu( 0L, QCursor::pos(), items, KParts::URLArgs(), popupFlags );
 
             if ( delRootItem )
                 delete item; // we just created it
