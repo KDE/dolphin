@@ -622,6 +622,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
                         this, SLOT( slotRedirection( const KURL & ) ) );
       QObject::connect( m_dirLister, SIGNAL( closeView() ),
                         this, SLOT( slotCloseView() ) );
+      QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
+                        m_pBrowserView, SLOT( itemsFilteredByMime( const KFileItemList & ) ) );
   }
 
    // The first time or new protocol ? So create the columns first
@@ -661,6 +663,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    bool newProps = m_pBrowserView->m_pProps->enterDir( url );
 
    m_dirLister->setNameFilter( m_pBrowserView->nameFilter() );
+   m_dirLister->setMimeFilter( m_pBrowserView->mimeFilter() );
    // Start the directory lister !
    m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 

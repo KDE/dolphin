@@ -174,7 +174,6 @@ void IconViewBrowserExtension::setNameFilter( QString nameFilter )
   m_iconView->m_nameFilter = nameFilter;
 }
 
-
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
     : KonqDirPart( parent, name ), m_itemDict( 43 )
 {
@@ -787,6 +786,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
                           this, SLOT( slotRedirection( const KURL & ) ) );
         QObject::connect( m_dirLister, SIGNAL( closeView() ),
                           this, SLOT( slotCloseView() ) );
+        QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
+                          SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
     }
 
     m_bLoading = true;
@@ -803,6 +804,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
     bool newProps = m_pProps->enterDir( url );
 
     m_dirLister->setNameFilter( m_nameFilter );
+
+    m_dirLister->setMimeFilter( mimeFilter() );
 
     // Start the directory lister !
     m_dirLister->openURL( url, m_pProps->isShowingDotFiles() );
