@@ -42,6 +42,7 @@
 #include <kurlrequesterdlg.h>
 #include <kinputdialog.h>
 #include <kfiledialog.h>
+#include <kdesktopfile.h>
 #include "konqsidebar.h"
 
 #include "sidebar_widget.h"
@@ -75,10 +76,14 @@ void addBackEnd::aboutToShowAddMenu()
 
 	for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
 	{
-		KSimpleConfig *confFile;
+		KDesktopFile *confFile;
 
-		confFile = new KSimpleConfig(*it, true);
-		confFile->setGroup("Desktop Entry");
+		confFile = new KDesktopFile(*it, true);
+		if (! confFile->tryExec()) {
+			delete confFile;
+			i--;
+			continue;
+		}
 		if (m_universal) {
 			if (confFile->readEntry("X-KDE-KonqSidebarUniversal").upper()!="TRUE") {
 				delete confFile;
@@ -92,7 +97,7 @@ void addBackEnd::aboutToShowAddMenu()
 				continue;
 			}
 		}
-		QString icon = confFile->readEntry("Icon");
+		QString icon = confFile->readIcon();
 		if (!icon.isEmpty())
 		{
 			menu->insertItem(SmallIcon(icon),
