@@ -23,6 +23,7 @@
 #include <kstdaction.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <qpopupmenu.h>
 
 KMacroCommand::KMacroCommand( const QString & name ) : KCommand(name)
 {
@@ -52,12 +53,41 @@ void KMacroCommand::unexecute()
 
 ////////////
 
-KCommandHistory::KCommandHistory(KActionCollection * actionCollection) :
+KCommandHistory::KCommandHistory() :
     m_present(0L), m_undoLimit(50), m_redoLimit(30), m_first(false)
 {
-    m_undo = KStdAction::undo( this, SLOT( undo() ), actionCollection );
-    m_redo = KStdAction::redo( this, SLOT( redo() ), actionCollection );
+    m_commands.setAutoDelete(true);
+    clear();
+}
 
+KCommandHistory::KCommandHistory(KActionCollection * actionCollection, bool withMenus) :
+    m_present(0L), m_undoLimit(50), m_redoLimit(30), m_first(false)
+{
+    if (withMenus)
+    {
+        KToolBarPopupAction * undo = new KToolBarPopupAction( i18n("Und&o"), "undo",
+                                          KStdAccel::key(KStdAccel::Undo), this, SLOT( undo() ),
+                                          actionCollection, KStdAction::stdName( KStdAction::Undo ) );
+        connect( undo->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUndoAboutToShow() ) );
+        connect( undo->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUndoActivated( int ) ) );
+        m_undo = undo;
+        m_undoPopup = undo->popupMenu();
+
+        KToolBarPopupAction * redo = new KToolBarPopupAction( i18n("Re&do"), "redo",
+                                          KStdAccel::key(KStdAccel::Redo), this, SLOT( redo() ),
+                                          actionCollection, KStdAction::stdName( KStdAction::Redo ) );
+        connect( redo->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotRedoAboutToShow() ) );
+        connect( redo->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotRedoActivated( int ) ) );
+        m_redo = redo;
+        m_redoPopup = redo->popupMenu();
+    }
+    else
+    {
+        m_undo = KStdAction::undo( this, SLOT( undo() ), actionCollection );
+        m_redo = KStdAction::redo( this, SLOT( redo() ), actionCollection );
+        m_undoPopup = 0L;
+        m_redoPopup = 0L;
+    }
     m_commands.setAutoDelete(true);
     clear();
 }
@@ -88,17 +118,9 @@ void KCommandHistory::addCommand(KCommand *command, bool execute) {
         m_first=false;
         m_undo->setEnabled(true);
         m_undo->setText(i18n("Und&o: %1").arg(m_present->name()));
-        /* can't happen anymore
-        if(m_commands.next()!=0) {
-            KCommand *tmp=m_commands.current();
-            m_redo->setEnabled(true);
-            m_redo->setText(i18n("Re&do: %1").arg(tmp->name()));
-        }
-        else */ {
-            if(m_redo->isEnabled()) {
-                m_redo->setEnabled(false);
-                m_redo->setText(i18n("No Redo Possible"));
-            }
+        if(m_redo->isEnabled()) {
+            m_redo->setEnabled(false);
+            m_redo->setText(i18n("No Redo Possible"));
         }
         clipCommands();
     }
@@ -201,6 +223,49 @@ void KCommandHistory::clipCommands() {
         for(int i=0; i<(count-(index+m_redoLimit)); ++i)
             m_commands.removeLast();
     }
+}
+
+void KCommandHistory::slotUndoAboutToShow()
+{
+    m_undoPopup->clear();
+    int i = 0;
+    if (m_commands.findRef(m_present)!=-1)
+        while ( m_commands.current() && i<10 ) // TODO make number of items configurable ?
+        {
+            m_undoPopup->insertItem( i18n("Undo: %1").arg(m_commands.current()->name()), i++ );
+            m_commands.prev();
+        }
+}
+
+void KCommandHistory::slotUndoActivated( int pos )
+{
+    kdDebug() << "KCommandHistory::slotUndoActivated " << pos << endl;
+    for ( int i = 0 ; i < pos+1; ++i )
+        undo();
+}
+
+void KCommandHistory::slotRedoAboutToShow()
+{
+    m_redoPopup->clear();
+    int i = 0;
+    if (m_first)
+    {
+        m_present = m_commands.first();
+        m_redoPopup->insertItem( i18n("Redo: %1").arg(m_present->name()), i++ );
+    }
+    if (m_commands.findRef(m_present)!=-1 && m_commands.next())
+        while ( m_commands.current() && i<10 ) // TODO make number of items configurable ?
+        {
+            m_redoPopup->insertItem( i18n("Redo: %1").arg(m_commands.current()->name()), i++ );
+            m_commands.next();
+        }
+}
+
+void KCommandHistory::slotRedoActivated( int pos )
+{
+    kdDebug() << "KCommandHistory::slotRedoActivated " << pos << endl;
+    for ( int i = 0 ; i < pos+1; ++i )
+        redo();
 }
 
 #include "kcommand.moc"

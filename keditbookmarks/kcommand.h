@@ -27,6 +27,7 @@
 
 class KAction;
 class KActionCollection;
+class QPopupMenu;
 
 /**
  * The abstract base class for all Commands. Commands are used to
@@ -100,10 +101,20 @@ class KCommandHistory : public QObject {
     Q_OBJECT
 public:
     /**
-     * Create a command history. This also creates an
-     * undo and a redo action, in the @p actionCollection.
+     * Create a command history, to store commands.
+     * This constructor doesn't create actions, so you need to call
+     * @ref undo and @ref redo yourself.
      */
-    KCommandHistory(KActionCollection *actionCollection);
+    KCommandHistory();
+
+    /**
+     * Create a command history, to store commands.
+     * This also creates an undo and a redo action, in the @p actionCollection,
+     * using the standard names ("edit_undo" and "edit_redo").
+     * @param withMenus if true, the actions will display a menu when plugged
+     * into a toolbar.
+     */
+    KCommandHistory(KActionCollection *actionCollection, bool withMenus = true);
 
     virtual ~KCommandHistory();
 
@@ -127,6 +138,12 @@ public slots:
     virtual void undo();
     virtual void redo();
 
+protected slots:
+    void slotUndoAboutToShow();
+    void slotUndoActivated( int );
+    void slotRedoAboutToShow();
+    void slotRedoActivated( int );
+
 signals:
     /**
      * This is called every time a command is executed
@@ -141,6 +158,7 @@ private:
     QList<KCommand> m_commands;
     KCommand *m_present;
     KAction *m_undo, *m_redo;
+    QPopupMenu *m_undoPopup, *m_redoPopup;
     int m_undoLimit, m_redoLimit;
     bool m_first;  // attention: it's the first command in the list!
 };
