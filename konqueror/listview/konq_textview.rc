@@ -1,12 +1,16 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqTextView" version="2">
+<kpartgui name="KonqTextView" version="3">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
-  <Action name="select"/>
-  <Action name="unselect"/>
-  <Action name="unselectall"/>
-  <Action name="invertselection"/>
- </Menu>
+    <Menu name="selection"><text>Selection</text>
+     <Action name="select"/>
+     <Action name="unselect"/>
+     <Separator/>
+     <Action name="selectall"/>
+     <Action name="unselectall"/>
+     <Action name="invertselection"/>
+   </Menu>
+</Menu>
  <Menu name="view"><text>&amp;View</text>
   <Action name="show_dot" />
   <Action name="sort_caseinsensitive"/>
