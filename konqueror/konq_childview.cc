@@ -177,9 +177,6 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ),
            m_pMainView, SLOT( openURL( const KURL &, bool, int, int, const QString & ) ) );
 
-  connect( ext, SIGNAL( setStatusBarText( const QString & ) ),
-           m_pMainView, SLOT( slotSetStatusBarText( const QString & ) ) );
-
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
