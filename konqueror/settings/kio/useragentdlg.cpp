@@ -227,7 +227,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "you to easily share your policies with other people by allowing "
                "you to save and retrieve them from a zipped file.")
 #endif
-  
+
   QWhatsThis::add( gb_siteSpecific, wtstr );
   s_grid->addWidget( vbox, 1, 1 );
 
@@ -280,14 +280,14 @@ void UserAgentOptions::load()
   cb_showMachine->setChecked( m_ua_keys.contains('m') );
   cb_showLanguage->setChecked( m_ua_keys.contains('l') );
   changeSendUAString();
-  
+
   updateButtons();
 }
 
 void UserAgentOptions::updateButtons()
 {
   bool hasItems = lv_siteUABindings->childCount() > 0;
-  
+
   pb_change->setEnabled ((hasItems && d_itemsSelected == 1));
   pb_delete->setEnabled ((hasItems && d_itemsSelected > 0));
   pb_deleteAll->setEnabled ( hasItems );
@@ -305,6 +305,7 @@ void UserAgentOptions::defaults()
   cb_showMachine->setChecked( m_ua_keys.contains('m') );
   cb_showLanguage->setChecked( m_ua_keys.contains('l') );
   cb_sendUAString->setChecked( true );
+  updateButtons();
   changeSendUAString();
 }
 
