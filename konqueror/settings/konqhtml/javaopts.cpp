@@ -8,7 +8,7 @@
 // (c) Kalle Dalheimer 2000
 // Redesign and cleanup
 // (c) Daniel Molkentin 2000
-// Big changes to accomodate per-domain settings
+// Big changes to accommodate per-domain settings
 // (c) Leo Savernik 2002
 
 #include <config.h>

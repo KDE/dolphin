@@ -8,7 +8,7 @@
 // (C) Kalle Dalheimer 2000
 // Major cleanup & Java/JS settings splitted
 // (c) Daniel Molkentin 2000
-// Big changes to accomodate per-domain settings
+// Big changes to accommodate per-domain settings
 // (c) Leo Savernik 2002
 
 #include <qlayout.h>
