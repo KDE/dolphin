@@ -80,29 +80,29 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 
   QVBox* domainSpecificVB = new QVBox( domainSpecificHB );
   domainSpecificVB->setSpacing( 10 );
-  QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificVB );
+  QPushButton* addDomainPB = new QPushButton( i18n("&Add..."), domainSpecificVB );
   QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
                                      "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-  QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificVB );
+  QPushButton* changeDomainPB = new QPushButton( i18n("&Change..."), domainSpecificVB );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-  QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificVB );
+  QPushButton* deleteDomainPB = new QPushButton( i18n("&Delete"), domainSpecificVB );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
   connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
-  QPushButton* importDomainPB = new QPushButton( i18n("Import..."), domainSpecificVB );
+  QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificVB );
   QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
                                         "the JavaScript policies.  These policies will be merged "
                                         "with the exisiting ones.  Duplicate entries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
 
-  QPushButton* exportDomainPB = new QPushButton( i18n("Export..."), domainSpecificVB );
+  QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificVB );
   QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
                                         "file.  The file, named <b>javascript_policy.tgz</b>, will be "
                                         "saved to a location of your choice." ) );
@@ -123,7 +123,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVGroupBox* miscSettingsGB = new QVGroupBox( i18n( "Miscellaneous JavaScript Settings" ), this );
   toplevel->addWidget( miscSettingsGB );
 
-  disableWindowOpenCB = new QCheckBox( i18n( "Disable \"window.open()\"" ), miscSettingsGB );
+  disableWindowOpenCB = new QCheckBox( i18n( "Disable \"&window.open()\"" ), miscSettingsGB );
   QWhatsThis::add( disableWindowOpenCB, i18n("If you disable this option, Konqueror will stop interpreting the <i>window.open()</i> "
                                              "JavaScript command. This is useful if you regulary visit sites that make extensive use of this "
                                              "command to pop up ad banners.<br><br><b>Note:</b> Disabling this option might also "
@@ -132,7 +132,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( disableWindowOpenCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
-  enableDebugOutputCB = new QCheckBox( i18n( "Show debugger window" ), miscSettingsGB);
+  enableDebugOutputCB = new QCheckBox( i18n( "&Show debugger window" ), miscSettingsGB);
   enableDebugOutputCB->setEnabled( false );
 
   QWhatsThis::add( enableDebugOutputCB, i18n("Show a window with informations and warnings issued by the JavaScript interpreter. "

@@ -77,20 +77,20 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QVBox* domainSpecificVB = new QVBox( domainSpecificHB );
     domainSpecificVB->setSpacing( 10 );
-    QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificVB );
+    QPushButton* addDomainPB = new QPushButton( i18n("&Add..."), domainSpecificVB );
     connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-    QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificVB );
+    QPushButton* changeDomainPB = new QPushButton( i18n("&Change..."), domainSpecificVB );
     connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-    QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificVB );
+    QPushButton* deleteDomainPB = new QPushButton( i18n("&Delete"), domainSpecificVB );
     connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
-    QPushButton* importDomainPB = new QPushButton( i18n("Import..."), domainSpecificVB );
+    QPushButton* importDomainPB = new QPushButton( i18n("&Import..."), domainSpecificVB );
     connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
     importDomainPB->setEnabled( false );
 
-    QPushButton* exportDomainPB = new QPushButton( i18n("Export..."), domainSpecificVB );
+    QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificVB );
     connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
     exportDomainPB->setEnabled( false );
 
@@ -102,13 +102,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     toplevel->addWidget( javartGB );
 
     QHBox* hbox = new QHBox( javartGB );
-    javaConsoleCB = new QCheckBox( i18n( "Show Java Console" ), hbox );
+    javaConsoleCB = new QCheckBox( i18n( "&Show Java Console" ), hbox );
     connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
-  		
-    javaSecurityManagerCB = new QCheckBox( i18n("Use Security Manager" ), hbox );
+
+    javaSecurityManagerCB = new QCheckBox( i18n("&Use Security Manager" ), hbox );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
 
-    enableShutdownCB = new QCheckBox( i18n("Shutdown Applet Server when inactive"), javartGB );
+    enableShutdownCB = new QCheckBox( i18n("S&hutdown Applet Server when inactive"), javartGB );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
