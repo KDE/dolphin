@@ -3,7 +3,7 @@ INCLUDES= $(all_includes)
 
 bin_PROGRAMS = kfind
 LDFLAGS =  $(all_libraries) $(KDE_RPATH)
-LDADD = $(LIB_KFILE) $(LIB_KFM)
+LDADD = $(LIB_KFILE) -lkonq
 
 ####### Files
 

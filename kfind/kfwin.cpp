@@ -35,9 +35,11 @@
 #include <kfiledialog.h>
 
 #include <kdebug.h>
-#include <kfm.h>
+#include <krun.h>
 #include <kprocess.h>
 #include <kmsgbox.h>
+#include <kpropsdlg.h>
+#include <krun.h>
 
 #include "kfwin.h"
 #include "kfarch.h"
@@ -321,10 +323,12 @@ void KfindWindow::deleteFiles()
                     }
                 else
                   {
-                   KFM *kfm= new KFM();
-                   kfm->refreshDirectory(lbx->text(lbx->currentItem()));
+                   // KFM *kfm= new KFM();
+#warning "TODO : implement a replacement for kfm->refreshDirectory(url)"
+                   // and replace the one below as well
+                   // kfm->refreshDirectory(lbx->text(lbx->currentItem()));
                    lbx->removeItem(lbx->currentItem());
-		   delete kfm;
+		   // delete kfm;
  		  };
             }
           else
@@ -349,10 +353,10 @@ void KfindWindow::deleteFiles()
                    }
                  else
                   {
-		    KFM *kfm= new KFM();
-		    kfm->refreshDirectory(lbx->text(lbx->currentItem()));
+		    // KFM *kfm= new KFM();
+		    // kfm->refreshDirectory(lbx->text(lbx->currentItem()));
 		    lbx->removeItem(lbx->currentItem());
-		    delete kfm;
+		    // delete kfm;
                   };
             };
 
@@ -363,26 +367,18 @@ void KfindWindow::deleteFiles()
 void KfindWindow::fileProperties()
   {
     QString tmp= "file:";
-    KFM *kfm= new KFM();
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
-      {
 	tmp.append(fileInfo->filePath());
-	kfm->openProperties(tmp.data());
-      }
     else
-      {
 	tmp.append(lbx->text(lbx->currentItem()));
-	kfm->openProperties(tmp.data());
-      };
-    delete kfm;
+    (void) new PropertiesDialog(tmp);
   };
 
 void KfindWindow::openFolder()
   {
     QString tmp;
-    KFM *kfm= new KFM();
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
@@ -390,28 +386,19 @@ void KfindWindow::openFolder()
       else
         tmp = "file:" + fileInfo->dirPath();
 
-
-    kfm->openURL(tmp.data());
-    delete kfm;
+    (void) new KRun(tmp);
   };
 
 void KfindWindow::openBinding()
   {
     QString tmp= "file:";
-    KFM *kfm= new KFM();
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
-      {
 	tmp.append(fileInfo->filePath());
-	kfm->openURL(tmp.data());
-      }
     else
-      {
 	tmp.append(lbx->text(lbx->currentItem()));
-	kfm->exec(tmp.data(),0L);
-      };
-    delete kfm;
+    (void) new KRun( tmp );
   };
 
 void KfindWindow::addToArchive()
