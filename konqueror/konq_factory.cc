@@ -26,7 +26,7 @@
 #include "konq_run.h"
 #include "version.h"
 
-#include <konqsettings.h>
+#include <konq_settings.h>
 #include <kdebug.h>
 #include <kstddirs.h>
 #include <kuserprofile.h>
