@@ -1454,9 +1454,17 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
     if ( openURL )
     {
-      KURL url( defaultURL );
-      if ( cfg.hasKey( key ) ) // if it has it, we load it, even if empty
-        url = KURL( cfg.readPathEntry( key ) );
+      KURL url;
+      
+      if ( cfg.hasKey( key ) )
+      {
+        QString u = cfg.readPathEntry( key );
+        if ( u.isEmpty() )
+          u = QString::fromLatin1("about:blank");
+        url = u;
+      }
+      else
+        url = defaultURL;
 
       if ( !url.isEmpty() )
       {
