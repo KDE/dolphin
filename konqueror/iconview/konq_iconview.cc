@@ -180,7 +180,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
-    m_extension = new IconViewBrowserExtension( this );
+    setBrowserExtension( new IconViewBrowserExtension( this ) );
 
     // Create a properties instance for this view
     m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
@@ -626,19 +626,9 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 	    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
 	    break;
 	case MidButton:
-          {
             // New window
-            KFileItem * fileItem = static_cast<KFileIVI*>(_item)->item();
-            if ( KonqFMSettings::settings()->shouldEmbed( fileItem->mimetype() ) )
-            {
-              KParts::URLArgs args;
-              args.serviceType = fileItem->mimetype();
-              emit m_extension->createNewWindow( fileItem->url(), args );
-            }
-            else
-              fileItem->run();
+            mmbClicked( static_cast<KFileIVI*>(_item)->item() );
             break;
-          }
         }
     }
 }

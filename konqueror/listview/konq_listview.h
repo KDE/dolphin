@@ -73,8 +73,6 @@ public:
 
   KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 
-  ListViewBrowserExtension *extension() const { return m_browser; }
-
   bool supportsUndo() const { return true; }
 
 protected:
@@ -109,7 +107,6 @@ protected slots:
 private:
 
   KonqBaseListViewWidget *m_pListView;
-  ListViewBrowserExtension *m_browser;
 
   KAction *m_paSelect;
   KAction *m_paUnselect;

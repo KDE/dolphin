@@ -121,6 +121,7 @@ class KonqBaseListViewWidget : public KListView
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
+      void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
       virtual void slotOnItem( QListViewItem* _item );
       virtual void slotOnViewport();
       virtual void slotExecuted( QListViewItem* _item );

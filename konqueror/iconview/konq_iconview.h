@@ -203,8 +203,6 @@ protected:
 
   int m_iIconSize[3];
 
-  IconViewBrowserExtension *m_extension;
-
   // used by slotOpenURLRequest
   KonqFileItem * openURLRequestFileItem;
 

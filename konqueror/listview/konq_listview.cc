@@ -224,12 +224,12 @@ void ListViewBrowserExtension::reparseConfiguration()
 
 void ListViewBrowserExtension::setSaveViewPropertiesLocally(bool value)
 {
-   m_listView->m_pProps->setSaveViewPropertiesLocally( value );
+   m_listView->props()->setSaveViewPropertiesLocally( value );
 }
 
 void ListViewBrowserExtension::setNameFilter( QString nameFilter )
 {
-  m_listView->m_nameFilter = nameFilter;
+  m_listView->setNameFilter( nameFilter );
 }
 
 void ListViewBrowserExtension::properties()
@@ -257,7 +257,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    // All the listview view modes inherit the same properties defaults...
    m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
 
-   m_browser = new ListViewBrowserExtension( this );
+   setBrowserExtension( new ListViewBrowserExtension( this ) );
 
    if (mode=="TextView")
    {
@@ -295,7 +295,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    m_pListView->confColumns[10].setData(I18N_NOOP("File Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType);
 
    QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
-                    m_browser, SLOT( updateActions() ) );
+                    m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
    connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
 }
@@ -326,7 +326,7 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
   KParts::ReadOnlyPart::guiActivateEvent( event );
   if ( event->activated() )
-    m_browser->updateActions();
+    static_cast<ListViewBrowserExtension*>(m_extension)->updateActions();
 }
 
 

@@ -97,6 +97,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    connect(this,SIGNAL(rightButtonPressed(QListViewItem*,const QPoint&,int)),this,SLOT(slotRightButtonPressed(QListViewItem*,const QPoint&,int)));
    connect(this,SIGNAL(returnPressed(QListViewItem*)),this,SLOT(slotReturnPressed(QListViewItem*)));
+   connect(this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
+           this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
    connect(this,SIGNAL(executed(QListViewItem* )),this,SLOT(slotExecuted(QListViewItem*)));
    connect(this,SIGNAL(currentChanged(QListViewItem*)),this,SLOT(slotCurrentChanged(QListViewItem*)));
    connect(this,SIGNAL(onItem(QListViewItem*)),this,SLOT(slotOnItem(QListViewItem*)));
@@ -553,13 +555,18 @@ void KonqBaseListViewWidget::slotOnViewport()
    //TODO: Display summary in DetailedList in statusbar, like iconview does
 }
 
+void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
+{
+  if(_item && _button == MidButton && col < 2)
+    m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
+}
+
 void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
 {
   //isSingleClickArea() checks wether the mouse pointer is
   // over an area where an action should be triggered
   // no matter wether single or double click
   if ( isSingleClickArea( mapFromGlobal(QCursor::pos())))
-
   {
     if ( m_pressedItem->isExpandable() )
       m_pressedItem->setOpen( !m_pressedItem->isOpen() );
@@ -611,7 +618,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 {
    if ( !_item )
       return;
-   KonqFileItem *fileItem = ((KonqBaseListViewItem*)_item)->item();
+   KonqFileItem *fileItem = static_cast<KonqBaseListViewItem*>(_item)->item();
    if ( !fileItem )
       return;
    QString serviceType = QString::null;
@@ -619,7 +626,9 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    KURL u( fileItem->url() );
 
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
-	fileItem->run();
+        KParts::URLArgs args;
+        args.serviceType = fileItem->mimetype(); // inode/directory
+        emit m_pBrowserView->extension()->createNewWindow( u, args );
     } else {
         // We want to emit openURLRequest, but not right now, because
         // the listview is going to emit other signals (mouse release).
