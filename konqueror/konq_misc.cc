@@ -63,13 +63,13 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
   return true; // why would it fail ? :)
 }
 
-KonqMainWindow * KonqFileManager::createBrowserWindowFromProfile( const QString &filename, const QString &url )
+KonqMainWindow * KonqFileManager::createBrowserWindowFromProfile( const QString &path, const QString &filename, const QString &url )
 {
   kdDebug(1202) << "void KonqFileManager::createBrowserWindowFromProfile() " << endl;
-  kdDebug(1202) << filename << "," << url << endl;
+  kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url << endl;
 
   KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
-  mainWindow->viewManager()->loadViewProfile( filename, KURL(url) );
+  mainWindow->viewManager()->loadViewProfile( path, filename, KURL(url) );
   mainWindow->enableAllActions( true );
   mainWindow->show();
   return mainWindow;

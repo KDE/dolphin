@@ -122,13 +122,13 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   connect( m_pProfileNameLineEdit, SIGNAL( textChanged( const QString & ) ),
            this, SLOT( slotTextChanged( const QString & ) ) );
-	
+
   connect( m_pSaveButton, SIGNAL( clicked() ),
            this, SLOT( slotSave() ) );
-	
+
   connect( m_pDeleteProfileButton, SIGNAL( clicked() ),
            this, SLOT( slotDelete() ) );
-	
+
   connect( m_pRenameProfileButton, SIGNAL( clicked() ),
            this, SLOT( slotRename() ) );
 
@@ -157,22 +157,8 @@ void KonqProfileDlg::slotSave()
     }
   }
 
-  QString fileName = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
-                                          name, KGlobal::instance() );
-
-  if ( QFile::exists( fileName ) )
-    QFile::remove( fileName );
-
-  KSimpleConfig cfg( fileName );
-  cfg.setGroup( "Profile" );
-  cfg.writeEntry( "Name", m_pProfileNameLineEdit->text() );
-  m_pViewManager->saveViewProfile( cfg, m_cbSaveURLs->isChecked() );
-  if ( m_cbSaveSize->isChecked() )
-  {
-    cfg.writeEntry( "Width", m_pViewManager->mainWindow()->width() );
-    cfg.writeEntry( "Height", m_pViewManager->mainWindow()->height() );
-  }
-  cfg.sync();
+  m_pViewManager->saveViewProfile( name, m_pProfileNameLineEdit->text(),
+                                   m_cbSaveURLs->isChecked(), m_cbSaveSize->isChecked() );
 
   accept();
 }

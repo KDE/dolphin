@@ -93,23 +93,45 @@ public:
    * Saves the current view layout to a config file.
    * Remove config file before saving, especially if saveURLs is false.
    * @param cfg the config file
-   * @param saveURLs whether to save the URLs in the profile or not
+   * @param saveURLs whether to save the URLs in the profile
+   * @param saveWindowSize whether to save the size of the window in the profile
    */
-  void saveViewProfile( KConfig &cfg, bool saveURLs );
+  void saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWindowSize );
+
+  /**
+   * Saves the current view layout to a config file.
+   * Remove config file before saving, especially if saveURLs is false.
+   * @param fileName the name of the config file
+   * @param profileName the name of the profile
+   * @param saveURLs whether to save the URLs in the profile
+   * @param saveWindowSize whether to save the size of the window in the profile
+   */
+  void saveViewProfile( const QString & fileName, const QString & profileName,
+                        bool saveURLs, bool saveWindowSize );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
    * @param cfg the config file
+   * @param filename if set, remember the file name of the profile (for save settings)
+   * It has to be under the profiles dir. Otherwise, set to QString::null
    * @param forcedURL if set, the URL to open, whatever the profile says
    */
-  void loadViewProfile( KConfig &cfg, const KURL & forcedURL = KURL() );
+  void loadViewProfile( KConfig &cfg, const QString & filename, const KURL & forcedURL = KURL() );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
-   * @param filename the name of the config file (under the profiles dir, if relative)
+   * @param path the full path to the config file
+   * @param filename if set, remember the file name of the profile (for save settings)
+   * It has to be under the profiles dir. Otherwise, set to QString::null
    * @param forcedURL if set, the URL to open, whatever the profile says
    */
-  void loadViewProfile( const QString & filename, const KURL & forcedURL = KURL() );
+  void loadViewProfile( const QString & path, const QString & filename, const KURL & forcedURL = KURL() );
+
+  /**
+   * Return the filename of the last profile that was loaded
+   * by the view manager. For "save settings".
+   */
+  QString currentProfile() const { return m_currentProfile; }
 
   /**
    * Load the config entries for a view.
@@ -204,6 +226,7 @@ private:
 
   QGuardedPtr<KActionMenu> m_pamProfiles;
   bool m_bProfileListDirty;
+  QString m_currentProfile;
 
   QMap<QString, QString> m_mapProfileNames;
 };

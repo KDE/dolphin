@@ -169,17 +169,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   }
   else if ( openInitialURL )
   {
-    /*
-    KConfig *config = KGlobal::config();
-
-    if ( config->hasGroup( "Default View Profile" ) )
-    {
-      config->setGroup( "Default View Profile" );
-      enableAllActions( true );
-      m_pViewManager->loadViewProfile( *config );
-    }
-    else
-    */
     KURL homeURL;
     homeURL.setPath( QDir::homeDirPath() );
     openURL( 0L, homeURL );
@@ -654,8 +643,14 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
 void KonqMainWindow::slotNewWindow()
 {
-  KonqFileManager::self()->createBrowserWindowFromProfile(
-      locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ) );
+  if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
+      KonqFileManager::self()->createBrowserWindowFromProfile(
+          locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),
+          QString::fromLatin1("webbrowsing") );
+  else
+      KonqFileManager::self()->createBrowserWindowFromProfile(
+          locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
+          QString::fromLatin1("filemanagement") );
 }
 
 void KonqMainWindow::slotDuplicateWindow()
@@ -664,10 +659,10 @@ void KonqMainWindow::slotDuplicateWindow()
   tempFile.setAutoDelete( true );
   KConfig config( tempFile.name() );
   config.setGroup( "View Profile" );
-  m_pViewManager->saveViewProfile( config, true );
+  m_pViewManager->saveViewProfile( config, true, true );
 
   KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
-  mainWindow->viewManager()->loadViewProfile( config );
+  mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
   mainWindow->enableAllActions( true );
   mainWindow->show();
 }
@@ -1077,7 +1072,7 @@ void KonqMainWindow::slotRunFinished()
 
     // We do this here and not in the constructor, because
     // we are waiting for the first view to be set up before doing this...
-
+    // Note: this is only used when konqueror is started from command line.....
     if ( m_bNeedApplyMainWindowSettings )
     {
       m_bNeedApplyMainWindowSettings = false; // only once
@@ -1655,41 +1650,20 @@ KonqView * KonqMainWindow::otherView( KonqView * view ) const
   return 0L;
 }
 
-/*
-void KonqMainWindow::slotSaveDefaultProfile()
+void KonqMainWindow::slotSaveViewProfile()
 {
-  KConfig *config = KGlobal::config();
-  config->setGroup( "Default View Profile" );
-  m_pViewManager->saveViewProfile( *config );
-}
-*/
+    if ( m_pViewManager->currentProfile().isEmpty() )
+    {
+        // The action should be disabled...........
+        kdWarning(1202) << "No known profile. Use the Save Profile dialog box" << endl;
+    } else {
 
-/*
-  Now uses KAboutData and the standard about box
-void KonqMainWindow::slotAbout()
-{
-  KMessageBox::about( 0, i18n(
-"Konqueror Version %1\n"
-"Author: Torben Weis <weis@kde.org>\n"
-"Current maintainer: David Faure <faure@kde.org>\n\n"
-"Current team:\n"
-"  David Faure <faure@kde.org>\n"
-"  Simon Hausmann <hausmann@kde.org>\n"
-"  Michael Reiher <michael.reiher@gmx.de>\n"
-"  Matthias Welk <welk@fokus.gmd.de>\n"
-"HTML rendering engine:\n"
-"  Lars Knoll <knoll@kde.org>\n"
-"  Antti Koivisto <koivisto@kde.org>\n"
-"  Waldo Bastian <bastian@kde.org>\n"
-"KIO library/slaves:\n"
-"  Matt Koss <koss@miesto.sk>\n"
-"  Alex Zepeda <garbanzo@hooked.net>\n"
-"Java applet support:\n"
-"  Richard Moore <rich@kde.org>\n"
-"  Dina Rogozin <dima@mercury.co.il>\n"
-  ).arg(KONQUEROR_VERSION));
+        m_pViewManager->saveViewProfile( m_pViewManager->currentProfile(),
+                                         QString::null/*unchanged*/,
+                                         true /* URLs */, true /* size */ );
+
+    }
 }
-*/
 
 void KonqMainWindow::slotUpAboutToShow()
 {
@@ -2142,6 +2116,8 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
 
   // Settings menu
+
+  m_paSaveViewProfile = new KAction( i18n( "Save View Profile %1" ).arg(QString::null), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
   m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Sa&ve View Properties In Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
@@ -2390,6 +2366,12 @@ void KonqMainWindow::slotEnableAction( const char * name, bool enabled )
   }
 }
 
+void KonqMainWindow::currentProfileChanged()
+{
+    m_paSaveViewProfile->setEnabled( !m_pViewManager->currentProfile().isEmpty() );
+    m_paSaveViewProfile->setText( i18n("Save View Profile %1").arg(m_pViewManager->currentProfile()) );
+}
+
 void KonqMainWindow::enableAllActions( bool enable )
 {
   int count = actionCollection()->count();
@@ -2417,6 +2399,8 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paLinkView->setEnabled( viewCount() > 1 );
       // Load profile submenu
       m_pViewManager->profileListDirty();
+
+      currentProfileChanged();
 
       slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
 
@@ -2596,13 +2580,13 @@ void KonqMainWindow::reparseConfiguration()
 
 void KonqMainWindow::saveProperties( KConfig *config )
 {
-  m_pViewManager->saveViewProfile( *config, true /* save URLs */ );
+  m_pViewManager->saveViewProfile( *config, true /* save URLs */, false );
 }
 
 void KonqMainWindow::readProperties( KConfig *config )
 {
   enableAllActions( true );
-  m_pViewManager->loadViewProfile( *config );
+  m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
 }
 
 void KonqMainWindow::setInitialFrameName( const QString &name )

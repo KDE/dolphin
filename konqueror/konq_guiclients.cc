@@ -278,10 +278,10 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 }
 void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
 {
-  // The current approach is : save this setting as soon as it is changed
-  // (This obeys to "no 'Save settings' menu item approach in the Style Guide")
-  // I'm on the safe side, this way: whoever doesn't agree has to discuss
-  // with the style guide authors, not with me ;-)     (David)
+  // This is used on konqueror's startup....... so it's never used, since
+  // the K menu only contains calls to kfmclient......
+  // Well, it could be useful again in the future.
+  // Currently, the profiles save this info.
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
   QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );

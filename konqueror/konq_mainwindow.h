@@ -177,6 +177,9 @@ public:
   // public for konq_guiclients
   void viewCountChanged();
 
+  // for the view manager
+  void currentProfileChanged();
+
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
@@ -251,6 +254,7 @@ public slots:
 
   // public for KonqViewManager
   void slotPartActivated( KParts::Part *part );
+
 protected slots:
   void slotViewCompleted( KonqView * view );
   void slotEnableAction( const char * name, bool enabled );
@@ -265,6 +269,7 @@ protected slots:
   void slotSplitWindowVertical();
   void slotRemoveView();
 
+  void slotSaveViewProfile();
   void slotSaveViewPropertiesLocally();
   void slotRemoveLocalProperties();
 
@@ -367,6 +372,7 @@ private:
 
   KonqBidiHistoryAction *m_paHistory;
 
+  KAction *m_paSaveViewProfile;
   KToggleAction *m_paSaveViewPropertiesLocally;
   KAction *m_paRemoveLocalProperties;
 
@@ -375,8 +381,6 @@ private:
   KAction *m_paSplitWindowHor;
   KAction *m_paSplitWindowVer;
   KAction *m_paRemoveView;
-
-  KAction *m_paSaveDefaultProfile;
 
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;

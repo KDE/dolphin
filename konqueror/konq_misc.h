@@ -54,7 +54,9 @@ public:
 
   bool openFileManagerWindow( const KURL &url, const QString &name );
 
-  KonqMainWindow * createBrowserWindowFromProfile( const QString &filename, const QString &url = QString::null );
+  KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
+                                                   const QString &filename,
+                                                   const QString &url = QString::null );
 
 private:
   static KonqFileManager *s_pSelf;

@@ -429,29 +429,55 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
 ///////////////// Profile stuff ////////////////
 
-void KonqViewManager::saveViewProfile( KConfig &cfg, bool saveURLs )
+void KonqViewManager::saveViewProfile( const QString & fileName, const QString & profileName, bool saveURLs, bool saveWindowSize )
+{
+
+  QString path = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
+                                          fileName, KGlobal::instance() );
+
+  if ( QFile::exists( path ) )
+    QFile::remove( path );
+
+  KSimpleConfig cfg( path );
+  cfg.setGroup( "Profile" );
+  if ( !profileName.isEmpty() )
+      cfg.writeEntry( "Name", profileName );
+
+  saveViewProfile( cfg, saveURLs, saveWindowSize );
+
+}
+
+void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWindowSize )
 {
   kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
   if( m_pMainContainer && m_pMainContainer->firstChild() ) {
-    cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
-    QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
+    cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString::number(0) );
+    QString prefix = m_pMainContainer->firstChild()->frameType() + QString::number(0);
     prefix.append( '_' );
     m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, saveURLs, 0, 1 );
+  }
+
+  if ( saveWindowSize )
+  {
+    cfg.writeEntry( "Width", m_pMainWindow->width() );
+    cfg.writeEntry( "Height", m_pMainWindow->height() );
   }
 
   cfg.sync();
 }
 
-void KonqViewManager::loadViewProfile( const QString & filename, const KURL & forcedURL )
+void KonqViewManager::loadViewProfile( const QString & path, const QString & filename, const KURL & forcedURL )
 {
-  KConfig cfg( filename, true );
+  KConfig cfg( path, true );
   cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
-  loadViewProfile( cfg, forcedURL );
+  loadViewProfile( cfg, filename, forcedURL );
 }
 
-void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
+void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, const KURL & forcedURL )
 {
+  m_currentProfile = filename;
+  m_pMainWindow->currentProfileChanged();
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )
     defaultURL = m_pMainWindow->currentView()->url();
@@ -708,10 +734,8 @@ void KonqViewManager::slotProfileActivated( int id )
   if ( nameIt == m_mapProfileNames.end() )
     return;
 
-  KConfig cfg( *nameIt, true );
-  cfg.setDollarExpansion( true );
-  cfg.setGroup( "Profile" );
-  loadViewProfile( cfg );
+  KURL u; u.setPath( *nameIt );
+  loadViewProfile( *nameIt, u.fileName() );
 }
 
 void KonqViewManager::slotProfileListAboutToShow()

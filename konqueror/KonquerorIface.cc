@@ -43,16 +43,23 @@ void KonquerorIface::openBrowserWindow( const QString &url )
   KonqFileManager::self()->openFileManagerWindow( url );
 }
 
-void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )
+void KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
-  kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &filename ) " << endl;
-  kdDebug(1202) << filename << endl;
-  KonqFileManager::self()->createBrowserWindowFromProfile( filename, QString::null );
+  kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
+  kdDebug(1202) << path << endl;
+  KonqFileManager::self()->createBrowserWindowFromProfile( path, QString::null );
 }
 
-void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &filename, const QString &url )
+void KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
-  KonqFileManager::self()->createBrowserWindowFromProfile( filename, url );
+  kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
+  kdDebug(1202) << path << "," << filename << endl;
+  KonqFileManager::self()->createBrowserWindowFromProfile( path, filename );
+}
+
+void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
+{
+  KonqFileManager::self()->createBrowserWindowFromProfile( path, filename, url );
 }
 
 void KonquerorIface::reparseConfiguration()

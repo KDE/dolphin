@@ -46,14 +46,25 @@ k_dcop:
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
-  ASYNC createBrowserWindowFromProfile( const QString &filename );
+  ASYNC createBrowserWindowFromProfile( const QString &path );
+
+  /**
+   * As the name says, this creates a window from a profile.
+   * Used for instance by kfmclient.
+   * @param path full path to the profile file
+   * @param filename name of the profile file, if under the profiles dir
+   */
+  ASYNC createBrowserWindowFromProfile( const QString &path, const QString &filename );
 
   /**
    * Creates a window from a profile and a URL.
    * Used by kfmclient to open http URLs with the webbrowsing profile
    * and others with the filemanagement profile.
+   * @param path full path to the profile file
+   * @param filename name of the profile file, if under the profiles dir
+   * @param url the URL to open
    */
-  ASYNC createBrowserWindowFromProfileAndURL( const QString &filename, const QString &url );
+  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
 
   /**
    * Called by kcontrol when the global configuration changes
