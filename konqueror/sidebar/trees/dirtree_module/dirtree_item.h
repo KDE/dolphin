@@ -56,6 +56,7 @@ public:
 
     virtual void itemSelected();
 
+    bool hasStandardIcon();
 private:
     void init();
     void delOperation( int method );

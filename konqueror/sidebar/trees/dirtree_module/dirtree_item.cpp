@@ -79,8 +79,22 @@ void KonqSidebarDirTreeItem::setOpen( bool open )
     kdDebug(1201) << "KonqSidebarDirTreeItem::setOpen " << open << endl;
     if ( open & !childCount() && m_bListable )
         MYMODULE->openSubFolder( this );
-
+    else if ( hasStandardIcon() )
+    {
+        int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
+        if ( open )
+            setPixmap( 0, DesktopIcon( "folder_open", size ) );
+        else
+            setPixmap( 0, m_fileItem->pixmap( size ) );
+    }
     KonqSidebarTreeItem::setOpen( open );
+}
+
+bool KonqSidebarDirTreeItem::hasStandardIcon()
+{
+    // The reason why we can't use KFileItem::iconName() is that it doesn't
+    // take custom icons in .directory files into account
+    return m_fileItem->determineMimeType()->icon( m_fileItem->url(), m_fileItem->isLocalFile() ) == "folder";
 }
 
 void KonqSidebarDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )

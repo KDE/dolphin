@@ -172,7 +172,15 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
     else if ( ! m_lstPendingOpenings.contains( item ) )
         m_lstPendingOpenings.append( item );
 
-    m_pTree->startAnimation( item );
+    if ( !item->isTopLevelItem() &&
+         static_cast<KonqSidebarDirTreeItem *>(item)->hasStandardIcon() )
+    {
+        int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
+        QPixmap pix = DesktopIcon( "folder_open", size );
+        m_pTree->startAnimation( item, "kde", 6, &pix );
+    }
+    else
+        m_pTree->startAnimation( item );
 }
 
 void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )

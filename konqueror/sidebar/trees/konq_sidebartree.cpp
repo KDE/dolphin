@@ -655,9 +655,10 @@ void KonqSidebarTree::slotAnimation()
 }
 
 
-void KonqSidebarTree::startAnimation( KonqSidebarTreeItem * item, const char * iconBaseName, uint iconCount )
+void KonqSidebarTree::startAnimation( KonqSidebarTreeItem * item, const char * iconBaseName, uint iconCount, const QPixmap * originalPixmap )
 {
-    m_mapCurrentOpeningFolders.insert( item, AnimationInfo( iconBaseName, iconCount, *item->pixmap(0) ) );
+    const QPixmap *pix = originalPixmap ? originalPixmap : item->pixmap(0);
+    m_mapCurrentOpeningFolders.insert( item, AnimationInfo( iconBaseName, iconCount, *pix ) );
     if ( !m_animationTimer->isActive() )
         m_animationTimer->start( 50 );
 }
