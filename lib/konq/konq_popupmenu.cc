@@ -420,9 +420,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
     }
 
-    bool isCurrentTrash = ( url.protocol() == "trash" &&
-                            url.path().length() <= 1 ) ||
-                          ( m_lstItems.count() == 1 && bTrashIncluded );
+    bool isCurrentTrash = m_lstItems.count() == 1 && bTrashIncluded;
     bool isIntoTrash = url.protocol() == "trash";
     clear();
 
@@ -501,6 +499,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     addSeparator();
                 }
             }
+        } else if ( isIntoTrash ) {
+            // Trashed item, offer restoring
+            act = new KAction( i18n( "&Restore" ), 0, this, SLOT( slotPopupRestoreTrashedItems() ), &m_ownActions, "restore" );
+            addAction( act );
         }
 
         if (d->m_itemFlags & KParts::BrowserExtension::ShowNavigationItems)
@@ -942,6 +944,11 @@ void KonqPopupMenu::slotPopupNewDir()
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
   KonqOperations::emptyTrash();
+}
+
+void KonqPopupMenu::slotPopupRestoreTrashedItems()
+{
+  KonqOperations::restoreTrashedItems( m_lstPopupURLs );
 }
 
 void KonqPopupMenu::slotPopupOpenWith()

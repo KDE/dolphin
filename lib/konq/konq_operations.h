@@ -73,6 +73,7 @@ public:
     static void doPaste( QWidget * parent, const KURL & destURL );
 
     static void emptyTrash();
+    static void restoreTrashedItems( const KURL::List& urls );
 
     /**
      * Create a directory
@@ -120,6 +121,7 @@ protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
     bool askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation );
     void _del( int method, const KURL::List & selectedURLs, int confirmation );
+    void _restoreTrashedItems( const KURL::List& urls );
     void _statURL( const KURL & url, const QObject *receiver, const char *member );
 
     // internal, for COPY/MOVE/LINK/MKDIR
@@ -164,6 +166,26 @@ private:
     // for doDrop
     DropInfo * m_info;
     KIOPasteInfo * m_pasteInfo;
+};
+
+#include <kio/job.h>
+
+/// Restore multiple trashed files
+class KonqMultiRestoreJob : public KIO::Job
+{
+    Q_OBJECT
+
+public:
+    KonqMultiRestoreJob( const KURL::List& urls, bool showProgressInfo );
+
+protected slots:
+    virtual void slotStart();
+    virtual void slotResult( KIO::Job *job );
+
+private:
+    const KURL::List m_urls;
+    KURL::List::const_iterator m_urlsIterator;
+    int m_progress;
 };
 
 #endif

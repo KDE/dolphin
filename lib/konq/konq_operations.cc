@@ -97,6 +97,12 @@ void KonqOperations::emptyTrash()
   op->_del( EMPTYTRASH, KURL("trash:/"), SKIP_CONFIRMATION );
 }
 
+void KonqOperations::restoreTrashedItems( const KURL::List& urls )
+{
+  KonqOperations *op = new KonqOperations( 0L );
+  op->_restoreTrashedItems( urls );
+}
+
 void KonqOperations::mkdir( QWidget *parent, const KURL & url )
 {
     KIO::Job * job = KIO::mkdir( url );
@@ -213,6 +219,13 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
              SLOT( slotResult( KIO::Job * ) ) );
   } else
     delete this;
+}
+
+void KonqOperations::_restoreTrashedItems( const KURL::List& urls )
+{
+    KonqMultiRestoreJob* job = new KonqMultiRestoreJob( urls, true );
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
 }
 
 bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation )
@@ -762,6 +775,55 @@ void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
         }
         KonqOperations::mkdir( 0L, url );
     }
+}
+
+////
+
+KonqMultiRestoreJob::KonqMultiRestoreJob( const KURL::List& urls, bool showProgressInfo )
+    : KIO::Job( showProgressInfo ),
+      m_urls( urls ), m_urlsIterator( m_urls.begin() ),
+      m_progress( 0 )
+{
+  QTimer::singleShot(0, this, SLOT(slotStart()));
+}
+
+void KonqMultiRestoreJob::slotStart()
+{
+    // Well, it's not a total in bytes, so this would look weird
+    //if ( m_urlsIterator == m_urls.begin() ) // first time: emit total
+    //    emit totalSize( m_urls.count() );
+
+    if ( m_urlsIterator != m_urls.end() )
+    {
+        const KURL& url = *m_urlsIterator;
+        Q_ASSERT( url.protocol() == "trash" );
+        QByteArray packedArgs;
+        QDataStream stream( packedArgs, IO_WriteOnly );
+        stream << (int)3 << url;
+        KIO::Job* job = KIO::special( url, packedArgs );
+        addSubjob( job );
+    }
+    else // done!
+    {
+        KDirNotify_stub allDirNotify("*", "KDirNotify*");
+        allDirNotify.FilesRemoved( m_urls );
+        emitResult();
+    }
+}
+
+void KonqMultiRestoreJob::slotResult( KIO::Job *job )
+{
+    if ( job->error() )
+    {
+        KIO::Job::slotResult( job ); // will set the error and emit result(this)
+    }
+    subjobs.remove( job );
+    // Move on to next one
+    ++m_urlsIterator;
+    ++m_progress;
+    //emit processedSize( this, m_progress );
+    emitPercent( m_progress, m_urls.count() );
+    slotStart();
 }
 
 #include "konq_operations.moc"
