@@ -150,6 +150,9 @@ public:
   KonqView *currentView() const { return m_currentView; }
   KParts::ReadOnlyPart *currentPart() const;
 
+  /** URL of current part, or URLs of selected items for directory views */
+  KURL::List currentURLs() const;
+
   // Only valid if there are one or two views
   KonqView * otherView( KonqView * view ) const;
 
@@ -410,7 +413,7 @@ private:
    * Adds all children of @p group to the static completion object
    */
   void bookmarksIntoCompletion( const KBookmarkGroup& group );
-    
+
   /**
    * Returns all matches of the url-history for @p s. If there are no direct
    * matches, it will try completing with http:// prepended, and if there's
@@ -418,7 +421,7 @@ private:
    * popupcompletion and not for manual or auto-completion.
    */
   static QStringList historyPopupCompletionItems( const QString& s = QString::null);
-    
+
   void startAnimation();
   void stopAnimation();
 

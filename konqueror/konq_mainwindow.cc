@@ -880,14 +880,45 @@ void KonqMainWindow::slotDuplicateWindow()
 
 void KonqMainWindow::slotSendURL()
 {
-  kapp->invokeMailer("mailto:?subject=" + m_currentView->caption() +
-                     "&body=" + KURL::encode_string(m_currentView->url().url()));
+  KURL::List lst = currentURLs();
+  QString body;
+  QString fileNameList;
+  for ( KURL::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
+  {
+    if ( !body.isEmpty() ) body += '\n';
+    body += (*it).prettyURL();
+    if ( !fileNameList.isEmpty() ) fileNameList += ", ";
+    fileNameList += (*it).fileName();
+  }
+  QString subject;
+  if ( m_currentView && !m_currentView->part()->inherits("KonqDirPart") )
+    subject = m_currentView->caption();
+  else
+    subject = fileNameList;
+  kapp->invokeMailer(QString::null,QString::null,QString::null,
+                     subject, body);
 }
 
 void KonqMainWindow::slotSendFile()
 {
-  kapp->invokeMailer("mailto:?subject=" + m_currentView->caption() +
-                     "&attach=" + m_currentView->url().url());
+  KURL::List lst = currentURLs();
+  QStringList urls;
+  QString fileNameList;
+  for ( KURL::List::Iterator it = lst.begin() ; it != lst.end() ; ++it )
+  {
+    if ( !fileNameList.isEmpty() ) fileNameList += ", ";
+    fileNameList += (*it).fileName();
+    urls.append( (*it).url() );
+  }
+  QString subject;
+  if ( m_currentView && !m_currentView->part()->inherits("KonqDirPart") )
+    subject = m_currentView->caption();
+  else
+    subject = fileNameList;
+  kapp->invokeMailer(QString::null, QString::null, QString::null, subject,
+                     QString::null, //body
+                     QString::null,
+                     urls); // attachments
 }
 
 void KonqMainWindow::slotRun()
@@ -1890,13 +1921,7 @@ void KonqMainWindow::slotCopyFiles()
   if (!askForTarget(i18n("Copy selected files from"),dest))
      return;
 
-  KonqDirPart * part = static_cast<KonqDirPart *>(m_currentView->part());
-  KURL::List lst;
-  KFileItemList tmpList=part->selectedFileItems();
-  for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
-     lst.append(item->url());
-
-  KonqOperations::copy(this,KonqOperations::COPY,lst,dest);
+  KonqOperations::copy(this,KonqOperations::COPY,currentURLs(),dest);
 }
 
 void KonqMainWindow::slotMoveFiles()
@@ -1906,14 +1931,28 @@ void KonqMainWindow::slotMoveFiles()
   if (!askForTarget(i18n("Move selected files from"),dest))
      return;
 
-   KonqDirPart * part = static_cast<KonqDirPart *>(m_currentView->part());
-   KURL::List lst;
-   KFileItemList tmpList=part->selectedFileItems();
+  KonqOperations::copy(this,KonqOperations::MOVE,currentURLs(),dest);
+}
 
-  for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
-     lst.append(item->url());
-
-  KonqOperations::copy(this,KonqOperations::MOVE,lst,dest);
+KURL::List KonqMainWindow::currentURLs() const
+{
+  KURL::List urls;
+  if ( m_currentView )
+  {
+    urls.append( m_currentView->url() );
+    if ( m_currentView->part()->inherits("KonqDirPart") )
+    {
+      KFileItemList tmpList= static_cast<KonqDirPart *>(m_currentView->part())->selectedFileItems();
+      KFileItem *item=tmpList.first();
+      if (item) // Return list of selected items only if we have a selection
+      {
+        urls.clear();
+        for (; item!=0; item=tmpList.next())
+          urls.append(item->url());
+      }
+    }
+  }
+  return urls;
 }
 
 // Only valid if there are one or two views
@@ -3671,15 +3710,15 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
 {
     QString http = "http://";
     QString www = "http://www.";
-    
+
     QStringList items = s_pCompletion->allMatches( s );
     if ( items.isEmpty() && !s.startsWith( http ) ) {
         items = s_pCompletion->allMatches( http + s );
-        
+
         if ( items.isEmpty() && !s.startsWith( www ) )
             items = s_pCompletion->allMatches( www + s );
     }
-    
+
     return items;
 }
 
