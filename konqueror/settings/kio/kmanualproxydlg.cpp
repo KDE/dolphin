@@ -483,10 +483,10 @@ bool KManualProxyDlg::validate()
     {
         QString msg;
         if ( i > 0 )
-          msg = i18n("The highlighted input fields contain\n"
+          msg = i18n("The highlighted input fields contain "
                      "invalid proxy addresses!");
         else
-          msg = i18n("The highlighted input field contains\n"
+          msg = i18n("The highlighted input field contains "
                      "an invalid proxy address!");
         QString details = i18n("<qt>Make sure the proxy address(es) you "
                                "provided are valid. Note that you <b>must</b> "

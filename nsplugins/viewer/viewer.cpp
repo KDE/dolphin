@@ -25,7 +25,7 @@
 
 #include "nsplugin.h"
 
-#include <qmessagebox.h>
+#include <kmessagebox.h>
 #include <kdebug.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
@@ -220,12 +220,12 @@ int main(int argc, char** argv)
    DCOPClient *dcop = app.dcopClient();
    if (!dcop->attach())
    {
-      QMessageBox::critical(NULL,
-                            i18n("Error connecting to DCOP server"),
-                            i18n("There was an error connecting to the Desktop\n"
-                                 "communications server.  Please make sure that\n"
-                                 "the 'dcopserver' process has been started, and\n"
-                                 "then try again.\n"));
+      KMessageBox::error(NULL,
+                            i18n("There was an error connecting to the Desktop "
+                                 "communications server.  Please make sure that "
+                                 "the 'dcopserver' process has been started, and "
+                                 "then try again."),
+                            i18n("Error connecting to DCOP server"));
       exit(1);
    }
 

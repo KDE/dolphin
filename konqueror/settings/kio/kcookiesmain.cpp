@@ -26,7 +26,7 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
         if (KApplication::startServiceByDesktopName("kcookiejar", QStringList(), &error ))
         {
           kdDebug(7103) << "kcm_kio: error starting KCookiejar: " << error << "\n" << endl;
-          KMessageBox::sorry(0, i18n("This control module could not start the cookie server process\n"
+          KMessageBox::sorry(0, i18n("This control module could not start the cookie server process.\n"
                                      "It will not be possible to manage received cookies"));
           managerOK = false;
         }

@@ -360,7 +360,7 @@ KonqSidebarHistoryGroupItem * KonqSidebarHistoryModule::getGroupItem( const KURL
 void KonqSidebarHistoryModule::slotClearHistory()
 {
     if ( KMessageBox::questionYesNo( tree(),
-				     i18n("Do you really want to clear\n"
+				     i18n("Do you really want to clear "
 					  "the entire history?"),
 				     i18n("Clear History?") )
 	 == KMessageBox::Yes )

@@ -336,7 +336,7 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
     else if ( url == QString::fromLatin1("config:/disable_overview") )
     {
 	if ( KMessageBox::questionYesNo( widget(),
-					 i18n("Do you want to disable showing\n"
+					 i18n("Do you want to disable showing "
 					      "the Introduction in the webbrowsing profile?"),
 					 i18n("Faster Startup?") )
 	     == KMessageBox::Yes )
