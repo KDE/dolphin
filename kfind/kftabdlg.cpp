@@ -328,13 +328,20 @@ bool KfindTabWidget::isDateValid()
   // If we can not parse either of the dates or
   // "from" date is bigger than "to" date return FALSE.
   QDate hi1, hi2;
+
+  QString str;
   if ( string2Date(le[0]->text(), &hi1).isNull() ||
-       string2Date(le[1]->text(), &hi2).isNull() ||
-       hi1 > hi2) {
-    KMessageBox::sorry(this, i18n("The date is not valid!"));
+       string2Date(le[1]->text(), &hi2).isNull() )
+    str = i18n("The date is not valid!");
+  else if ( hi1 > hi2 )
+    str = i18n("Invalid date range!");
+  else if ( QDate::currentDate() < hi1 )
+    str = i18n("Can't search dates in the future!");
+
+  if (!str.isNull()) {
+    KMessageBox::sorry(0, str);
     return FALSE;
   }
-
   return TRUE;
 }
 
@@ -445,10 +452,26 @@ QString KfindTabWidget::createQuery() {
   if (rb1[1]->isChecked()) { // Modified
     okToUseLocate = false;
     if (rb2[0]->isChecked()) { // Between dates
+      QDate cur = QDate::currentDate();
       QDate q1, q2;
-      str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d ",
-	   (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
-	   (string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
+      string2Date(le[0]->text(), &q1);
+      string2Date(le[1]->text(), &q2);
+
+      // do not generate negative numbers .. find doesn't handle that
+      int days1 = q1.daysTo(cur);
+      if (days1 < 0) days1 = 0;
+      int days2 = q2.daysTo(cur);
+
+      str.append(" -daystart");
+
+      str.append(" -mtime -");
+      str.append(QString::number(days1));
+
+      // Simply ignore max-date if in future
+      if (days2 > 0) {
+	str.append(" -mtime +");
+	str.append(QString::number(days2));
+      }
     }
     else
       if (rb2[1]->isChecked()) { // Previous mounth
