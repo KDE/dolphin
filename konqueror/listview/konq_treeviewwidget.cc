@@ -116,7 +116,7 @@ void KonqTreeViewWidget::setComplete()
    else
    {
       m_bTopLevelComplete = true;
-      if (m_itemToGoTo.isEmpty())
+      if ((m_goToFirstItem==true) || (m_itemFound==false))
       {
          setCurrentItem(firstChild());
          //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
@@ -178,26 +178,28 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             fileItem = new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
       }
 
-      if (!m_itemToGoTo.isEmpty())
-      {
-         if (fileItem)
+      if (m_goToFirstItem==false)
+         if (m_itemFound==false)
          {
-            if (fileItem->text(0)==m_itemToGoTo)
+            if (fileItem)
             {
-               setCurrentItem(fileItem);
-               ensureItemVisible(fileItem);
-               emit selectionChanged();
-               //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-               QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-               keyPressEvent(&tmpEvent);
+               if (fileItem->text(0)==m_itemToGoTo)
+               {
+                  setCurrentItem(fileItem);
+                  m_itemFound=true;
+               };
+            }
+            else if (dirItem)
+            {
+               if (dirItem->text(0)==m_itemToGoTo)
+               {
+                  setCurrentItem(dirItem);
+                  m_itemFound=true;
+               };
             };
-         }
-         else if (dirItem)
-         {
-            if (dirItem->text(0)==m_itemToGoTo)
+            if (m_itemFound)
             {
-               setCurrentItem(dirItem);
-               ensureItemVisible(dirItem);
+               ensureItemVisible(currentItem());
                emit selectionChanged();
                //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
                QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
@@ -205,7 +207,6 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             };
          };
 
-      };
       if (fileItem)
           m_pBrowserView->lstPendingMimeIconItems().append( fileItem );
 

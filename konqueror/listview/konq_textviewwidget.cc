@@ -155,16 +155,18 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
    for( QListIterator<KFileItem> kit (entries); kit.current(); ++kit )
    {
       KonqTextViewItem *tmp=new KonqTextViewItem( this,static_cast<KonqFileItem*> (*kit));
-      if (!m_itemToGoTo.isEmpty())
-         if (tmp->text(0)==m_itemToGoTo)
-         {
-            setCurrentItem(tmp);
-            ensureItemVisible(tmp);
-            emit selectionChanged();
-            //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-            QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-            keyPressEvent(&tmpEvent);
-         };
+      if (m_goToFirstItem==false)
+         if (m_itemFound==false)
+            if (tmp->text(0)==m_itemToGoTo)
+            {
+               setCurrentItem(tmp);
+               ensureItemVisible(tmp);
+               emit selectionChanged();
+               //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+               QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+               keyPressEvent(&tmpEvent);
+               m_itemFound=true;
+            };
    };
    //kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
 }
