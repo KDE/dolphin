@@ -157,5 +157,3 @@ KInstance *KonqFactory::instance()
 
   return s_instance;
 }
-
-#include "konq_factory.moc"
