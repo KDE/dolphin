@@ -54,8 +54,8 @@ public:
 protected slots:
     void changeCookiesEnabled();
     void updateButtons();
-    void importPressed();
-    void exportPressed();
+
+    void deleteAllPressed();
     void deletePressed();
     void changePressed();
     void addPressed();
@@ -77,9 +77,8 @@ private:
     KListView*    lv_domainPolicy;
     QPushButton*  pb_domPolicyAdd;
     QPushButton*  pb_domPolicyDelete;
+    QPushButton*  pb_domPolicyDeleteAll;
     QPushButton*  pb_domPolicyChange;
-    QPushButton*  pb_domPolicyImport;
-    QPushButton*  pb_domPolicyExport;
 
     QMap<QListViewItem*, const char *> domainPolicy;
 };

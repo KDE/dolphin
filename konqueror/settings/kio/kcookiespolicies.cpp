@@ -175,16 +175,21 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     pb_domPolicyDelete = new QPushButton( i18n("De&lete"), vbox );
     pb_domPolicyDelete->setEnabled( false );
-    QWhatsThis::add( pb_domPolicyDelete, i18n("Click on this button to change the policy for the "
+    QWhatsThis::add( pb_domPolicyDelete, i18n("Click on this button to remove the policy for the "
                                               "domain selected in the list box.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
+    pb_domPolicyDeleteAll = new QPushButton( i18n("Clear &All"), vbox );
+    pb_domPolicyDeleteAll->setEnabled( false );
+    QWhatsThis::add( pb_domPolicyDeleteAll, i18n("Click on this button to remove all domain policies.") );
+    connect( pb_domPolicyDeleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
 
+#if 0
     pb_domPolicyImport = new QPushButton( i18n("Import..."), vbox );
     QWhatsThis::add( pb_domPolicyImport, i18n("Click this button to choose the file that contains "
                                               "the cookie policies.  These policies will be merged "
                                               "with the existing ones.  Duplicate entries are ignored.") );
-    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
+    connect( pb_domPolicyImport, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
     pb_domPolicyImport->hide();
 
     pb_domPolicyExport = new QPushButton( i18n("Export..."), vbox );
@@ -192,9 +197,10 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                               "file.  The file, named <b>cookie_policy.tgz</b>, will be "
                                               "saved to a location of your choice." ) );
 
-    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
-    ds_lay->addWidget( vbox, 1, 1 );
+    connect( pb_domPolicyExport, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
     pb_domPolicyExport->hide();
+#endif
+    ds_lay->addWidget( vbox, 1, 1 );
 
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
                                              "domain. To add a new policy, simply click the <i>Add...</i> "
@@ -202,9 +208,13 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                              "button and choose the new policy from the policy dialog box.  Clicking "
                                              "on the <i>Delete</i> will remove the selected policy causing the default "
-                                             "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
+                                             "policy setting to be used for that domain. "
+						) );
+#if 0
+					     "The <i>Import</i> and <i>Export</i> "
                                              "button allows you to easily share your policies with other people by allowing "
-                                             "you to save and retrive them from a zipped file.") );
+                                             "you to save and retrive them from a zipped file."
+#endif
 
     lay->addSpacing( KDialog::spacingHint() );
     load();
@@ -262,6 +272,15 @@ void KCookiesPolicies::deletePressed()
     changed();
 }
 
+void KCookiesPolicies::deleteAllPressed()
+{
+    domainPolicy.clear();
+    lv_domainPolicy->clear();
+    updateButtons();
+    changed();
+}
+
+#if 0
 void KCookiesPolicies::importPressed()
 {
 }
@@ -269,6 +288,7 @@ void KCookiesPolicies::importPressed()
 void KCookiesPolicies::exportPressed()
 {
 }
+#endif
 
 void KCookiesPolicies::updateButtons()
 {
@@ -276,6 +296,7 @@ void KCookiesPolicies::updateButtons()
   bool itemSelected = ( hasItems && lv_domainPolicy->selectedItem()!=0 );
   pb_domPolicyChange->setEnabled( itemSelected );
   pb_domPolicyDelete->setEnabled( itemSelected );
+  pb_domPolicyDeleteAll->setEnabled( hasItems );
 }
 
 void KCookiesPolicies::changeCookiesEnabled()
@@ -325,6 +346,7 @@ void KCookiesPolicies::load()
      cfg->deleteGroup( "Browser Settings/HTTP" );
 
   delete cfg;
+  updateButtons();
 }
 
 void KCookiesPolicies::save()
