@@ -22,7 +22,7 @@
 #ifndef __kfileivi_h__
 #define __kfileivi_h__
 
-#include <qiconview.h>
+#include <kiconview.h>
 #include <kiconloader.h>
 #include <konq_fileitem.h>
 class KonqIconViewWidget;
