@@ -5,7 +5,7 @@
 #ifndef _POLICYDLG_H
 #define _POLICYDLG_H
 
-#include <kdialog.h>
+#include <kdialogbase.h>
 
 #include <qlineedit.h>
 #include <qstringlist.h>
@@ -29,7 +29,7 @@ class Policies;
  *
  * @author unknown
  */
-class PolicyDialog : public KDialog
+class PolicyDialog : public KDialogBase
 {
     Q_OBJECT
 
