@@ -1246,13 +1246,21 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if (!m_combo) // happens if removed from .rc file :)
     return;
 
-  // Register this URL as a working one, in the completion object and the combo.
-  if ( !m_combo->contains( view->locationBarURL() ) )
+  // Register this URL as a working one, in the completion object and the combo
+  // Only register remote URLs, because local ones will be found by 
+  // KURLCompletion
+  bool isLocal = KURL( view->locationBarURL() ).isLocalFile();
+  
+  if ( !m_combo->contains( view->locationBarURL() ) ) {
       // goes both into the combo and the completion object
        m_combo->addToHistory( view->locationBarURL() );
+       if ( isLocal ) // but we only want remote urls in the completion object
+	   m_combo->completionObject()->removeItem( view->locationBarURL() );
+  }
   else {
       // or just into the completion object (for proper weighting)
-      m_combo->completionObject()->addItem( view->locationBarURL() );
+      if ( !isLocal )
+	  m_combo->completionObject()->addItem( view->locationBarURL() );
 
       // it's already in the combo, so we better make it the current item
       // ... _if_ the user didn't change the url while we were loading
@@ -1264,10 +1272,11 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
       }
   }
 
-
-  QString u = view->typedURL();
-  if ( !u.isEmpty() && u != view->locationBarURL() )
-    m_combo->completionObject()->addItem( u ); // short version
+  if ( !isLocal ) {
+      QString u = view->typedURL();
+      if ( !u.isEmpty() && u != view->locationBarURL() )
+	  m_combo->completionObject()->addItem( u ); // short version
+  }
 }
 
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
