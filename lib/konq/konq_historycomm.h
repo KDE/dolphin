@@ -29,6 +29,8 @@
 class KonqHistoryEntry
 {
 public:
+    //Should URLs be marshaled as strings (for DCOP, V2 history format)?
+    static bool marshalURLAsStrings;
     KonqHistoryEntry()
 	: numberOfTimesVisited(1) {}
 

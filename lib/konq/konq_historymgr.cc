@@ -30,7 +30,7 @@
 
 #include <zlib.h>
 
-const Q_UINT32 KonqHistoryManager::s_historyVersion = 2;
+const Q_UINT32 KonqHistoryManager::s_historyVersion = 3;
 
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
@@ -104,19 +104,35 @@ bool KonqHistoryManager::loadHistory()
         bool crcChecked = false;
         bool crcOk = false;
 
-        if ( version == 2 ) {
+        if ( version == 2 || version == 3) {
             Q_UINT32 crc;
-
             crcChecked = true;
-
             fileStream >> crc >> data;
-
             crcOk = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() ) == crc;
-
             stream = &crcStream; // pick up the right stream
         }
-        else if ( version == 1 ) // fake, as we still support v1
-            version = 2;
+
+	if ( version == 3 )
+	{
+	    //Use KURL marshalling for V3 format.
+	    KonqHistoryEntry::marshalURLAsStrings = false;
+	}
+
+	if ( version < 3 )
+	{
+	    //Turn on backwards compatibility mode..
+	    KonqHistoryEntry::marshalURLAsStrings = true;
+	    // it doesn't make sense to save to save maxAge and maxCount  in the
+	    // binary file, this would make backups impossible (they would clear
+	    // themselves on startup, because all entries expire).
+	    // [But V1 and V2 formats did it, so we do a dummy read]
+	    Q_UINT32 dummy;
+	    *stream >> dummy;
+	    *stream >> dummy;
+
+	    //OK.
+	    version = 3;
+	}
 
         if ( s_historyVersion != version || ( crcChecked && !crcOk ) ) {
 	    kdWarning() << "The history version doesn't match, aborting loading" << endl;
@@ -125,23 +141,16 @@ bool KonqHistoryManager::loadHistory()
 	    return false;
 	}
 
-	// it doesn't make sense to save to save maxAge and maxCount  in the
-	// binary file, this would make backups impossible (they would clear
-	// themselves on startup, because all entries expire).
-	Q_UINT32 dummy;
-        *stream >> dummy;
-        *stream >> dummy;
 
         while ( !stream->atEnd() ) {
 	    KonqHistoryEntry *entry = new KonqHistoryEntry;
 	    Q_CHECK_PTR( entry );
             *stream >> *entry;
-
 	    // kdDebug(1203) << "## loaded entry: " << entry->url << ",  Title: " << entry->title << endl;
 	    m_history.append( entry );
+	    QString urlString2 = entry->url.prettyURL();    
 
-	    // insert the completion item weighted
- 	    m_pCompletion->addItem( entry->url.prettyURL(),
+	    m_pCompletion->addItem( urlString2,
 				    entry->numberOfTimesVisited );
  	    m_pCompletion->addItem( entry->typedURL,
 				    entry->numberOfTimesVisited );
@@ -151,7 +160,7 @@ bool KonqHistoryManager::loadHistory()
 	    KParts::HistoryProvider::insert( urlString );
             // DF: also insert the "pretty" version if different
             // This helps getting 'visited' links on websites which don't use fully-escaped urls.
-            QString urlString2 = entry->url.prettyURL();
+        
             if ( urlString != urlString2 )
                 KParts::HistoryProvider::insert( urlString2 );
 	}
@@ -161,11 +170,21 @@ bool KonqHistoryManager::loadHistory()
 	m_history.sort();
 	adjustSize();
     }
+    
+    
+    //This is important - we need to switch to a consistent marshalling format for
+    //communicating between different konqueror instances. Since during an upgrade
+    //some "old" copies may still running, we use the old format for the DCOP transfers.
+    //This doesn't make that much difference performance-wise for single entries anyway.
+    KonqHistoryEntry::marshalURLAsStrings = true;
+
 
     // Theoretically, we should emit update() here, but as we only ever
     // load items on startup up to now, this doesn't make much sense. Same
     // thing for the above loadFallback().
     // emit KParts::HistoryProvider::update( some list );
+
+
 
     file.close();
     emit loadingFinished();
@@ -189,15 +208,18 @@ bool KonqHistoryManager::saveHistory()
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
 
-    stream << m_maxCount;   // not saved in history anymore, just a dummy here
-    stream << m_maxAgeDays; // not saved in history anymore, just a dummy here
-
+    //We use KURL for marshalling URLs in entries in the V3
+    //file format
+    KonqHistoryEntry::marshalURLAsStrings = false;
     QPtrListIterator<KonqHistoryEntry> it( m_history );
     KonqHistoryEntry *entry;
     while ( (entry = it.current()) ) {
         stream << *entry;
 	++it;
     }
+
+    //For DCOP, transfer strings instead - wire compat.
+    KonqHistoryEntry::marshalURLAsStrings = true;
 
     Q_UINT32 crc = crc32( 0, reinterpret_cast<unsigned char *>( data.data() ), data.size() );
     *fileStream << crc << data;
@@ -489,8 +511,10 @@ void KonqHistoryManager::notifyClear( QCString saveId )
 void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 {
     kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
+    
 
     KonqHistoryEntry *entry = m_history.findEntry( url );
+    
     if ( entry ) { // entry is now the current item
 	m_pCompletion->removeItem( entry->url.prettyURL() );
 	m_pCompletion->removeItem( entry->typedURL );
@@ -503,6 +527,7 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 	m_history.take(); // does not delete
 	emit entryRemoved( entry );
 	delete entry;
+
 
 	if ( saveId == objId() )
 	    saveHistory();
@@ -517,6 +542,7 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
     KURL::List::Iterator it = urls.begin();
     while ( it != urls.end() ) {
 	KonqHistoryEntry *entry = m_history.findEntry( *it );
+	
 	if ( entry ) { // entry is now the current item
 	    m_pCompletion->removeItem( entry->url.prettyURL() );
 	    m_pCompletion->removeItem( entry->typedURL );

@@ -1,11 +1,15 @@
 #include "konq_historycomm.h"
 
+bool KonqHistoryEntry::marshalURLAsStrings;
+
 // QDataStream operators (read and write a KonqHistoryEntry
 // from/into a QDataStream)
 QDataStream& operator<< (QDataStream& s, const KonqHistoryEntry& e) {
-    // TODO (BIC) stream the KURL, not just its .url(). Takes a bit more space,
-    // but prevents much reparsing when loading.
-    s << e.url.url();
+    if (KonqHistoryEntry::marshalURLAsStrings)
+	s << e.url.url();
+    else
+	s << e.url;
+
     s << e.typedURL;
     s << e.title;
     s << e.numberOfTimesVisited;
@@ -16,9 +20,17 @@ QDataStream& operator<< (QDataStream& s, const KonqHistoryEntry& e) {
 }
 
 QDataStream& operator>> (QDataStream& s, KonqHistoryEntry& e) {
-    QString url;
-    s >> url;
-    e.url = url;
+    if (KonqHistoryEntry::marshalURLAsStrings)
+    {
+	QString url;
+	s >> url;
+	e.url = url;
+    }
+    else
+    {
+	s>>e.url;
+    }
+
     s >> e.typedURL;
     s >> e.title;
     s >> e.numberOfTimesVisited;
