@@ -246,7 +246,14 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     kdDebug() << "ToggleViewGUIClient::slotToggleView setToggleView(true) on " << childView << endl;
     childView->setToggleView( true );
+
     m_mainWindow->viewCountChanged();
+
+    // turn on frame header if it is vertical.  it looked quite ugly for horizontal,
+    // but this could be fixed by having a fixed height.  (the layout stretched)
+    if( !horizontal)
+        childView->frame()->header()->setText(childView->service()->name());
+
   }
   else
   {
@@ -291,6 +298,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
   {
     static_cast<KToggleAction *>( action )->setChecked( true );
     saveConfig( true, name );
+    view->frame()->header()->setAction(action);
   }
 }
 

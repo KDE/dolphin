@@ -25,6 +25,7 @@
 #include <qsplitter.h>
 #include <qwhatsthis.h>
 #include <qtimer.h>
+#include <qpushbutton.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -34,6 +35,7 @@
 #include <kprogress.h>
 #include <klocale.h>
 #include <kseparator.h>
+#include <kaction.h>
 
 #include <kparts/browserextension.h>
 #include <kparts/event.h>
@@ -281,6 +283,46 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 #endif
 }
 
+
+KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
+:QWidget( _parent, _name )
+,m_pParentKonqFrame( _parent )
+{
+
+   m_pLayout = new QHBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
+   m_pHeaderLabel = new QLabel( this, "KonqFrameHeader label" );
+   m_pHeaderLabel->setAlignment(AlignCenter);
+   m_pHeaderLabel->setFrameStyle( QFrame::StyledPanel );
+
+   m_pCloseButton = new QPushButton( this );
+
+   m_pLayout->addWidget( m_pHeaderLabel );
+   m_pLayout->addWidget( m_pCloseButton );
+
+   m_pLayout->setStretchFactor( m_pHeaderLabel, 1 );
+   m_pLayout->setStretchFactor( m_pCloseButton, 0 );
+   m_pCloseButton->setText("X");
+
+   m_pCloseButton->setFocusPolicy(NoFocus);
+}
+
+KonqFrameHeader::~KonqFrameHeader()
+{
+}
+
+void KonqFrameHeader::setText(const QString &text)
+{
+    if( !isVisible() ) show();
+    m_pHeaderLabel->setText(text);
+}
+
+void KonqFrameHeader::setAction( KAction *inAction )
+{
+    connect(m_pCloseButton, SIGNAL(clicked()), inAction, SLOT(activate()));
+}
+
+
+
 //###################################################################
 
 KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
@@ -291,6 +333,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 
    // the frame statusbar
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
+   m_pHeader = new KonqFrameHeader(this, "KonquerorFrameHeader");
    connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
    m_separator = 0;
@@ -347,6 +390,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    attachInternal();
 
    m_pStatusBar->slotConnectToNewView(0, 0,m_pPart);
+
    return m_pPart;
 }
 
@@ -357,11 +401,15 @@ void KonqFrame::attachInternal()
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
+   m_pLayout->addWidget( m_pHeader );
+
    m_pLayout->addWidget( m_pPart->widget() );
 
    m_pLayout->addWidget( m_pStatusBar );
    m_pPart->widget()->show();
    m_pStatusBar->show();
+   m_pHeader->hide();
+
    m_pLayout->activate();
 
    m_pPart->widget()->installEventFilter(this);
@@ -396,8 +444,6 @@ void KonqFrame::setView( KonqView* child )
    {
      connect(m_pView,SIGNAL(sigPartChanged(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
              m_pStatusBar,SLOT(slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
-     //connect(m_pView->view(),SIGNAL(setStatusBarText(const QString &)),
-     //m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
    }
 };
 

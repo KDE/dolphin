@@ -33,7 +33,10 @@
 
 class QPixmap;
 class QVBoxLayout;
+class QHBoxLayout;
 class QTimer;
+class QPushButton;
+
 class KonqView;
 class KonqFrameBase;
 class KonqFrame;
@@ -41,6 +44,7 @@ class KonqFrameContainer;
 class KConfig;
 class KSeparator;
 class KProgress;
+class KAction;
 
 namespace KParts
 {
@@ -124,6 +128,29 @@ class KonqFrameStatusBar : public QWidget
       QString m_savedMessage;
 };
 
+
+/**
+ * The KonqFrameHeader provides a title and button to remove the view.
+ */
+
+class KonqFrameHeader : public QWidget
+{
+  Q_OBJECT
+
+   public:
+      KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
+      virtual ~KonqFrameHeader();
+      virtual void setAction( KAction *inAction );
+      virtual void setText(const QString& text);
+
+   protected:
+
+      KonqFrame* m_pParentKonqFrame;
+      QLabel *m_pHeaderLabel;
+      QPushButton *m_pCloseButton;
+      QHBoxLayout *m_pLayout;
+};
+
 typedef QList<KonqView> ChildViewList;
 
 class KonqFrameBase
@@ -178,7 +205,7 @@ public:
    make KonqMainWindow switch to the next view
    */
   virtual bool eventFilter(QObject*obj,QEvent *ev);
- 
+
   /**
    * Inserts the part's widget and the statusbar into the layout
    */
@@ -217,6 +244,7 @@ public:
   QVBoxLayout *layout() { return m_pLayout; }
 
   KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
+  KonqFrameHeader    *header() const { return m_pHeader; }
 
 public slots:
 
@@ -242,6 +270,7 @@ protected:
 
   KSeparator *m_separator;
   KonqFrameStatusBar* m_pStatusBar;
+  KonqFrameHeader *m_pHeader;
 };
 
 /**

@@ -1,3 +1,8 @@
+2001-05-10  Mark Deneen <deneen@bucknell.edu>
+
+	* Implemented header of vertical toggle views, with support for
+	a caption text and a close-button
+
 2001-05-05  David Faure  <faure@kde.org>
 
 	* konq_mainwindow.cc: Set WDestructiveClose again when going
