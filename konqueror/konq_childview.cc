@@ -51,7 +51,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
                               Row * row, 
                               Konqueror::NewViewPosition newViewPosition,
                               OpenParts::Part_ptr parent,
-                              QWidget * parentWidget,
+                              QWidget * ,
                               OpenParts::MainWindow_ptr mainWindow
                               )
   : m_row( row )

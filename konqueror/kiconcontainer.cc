@@ -30,6 +30,7 @@
 #include <string.h>
 #include <drag.h>
 #include <kdebug.h>
+#include <kglobal.h>
 
 /*******************************************************
  *
