@@ -128,6 +128,7 @@ public:
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
    void fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem = 0);
    void setCurrent(KEBListViewItem *item);
+   void renameNextCell(bool dir);
 
    KEBListViewItem* findOpenParent(KEBListViewItem *item);
    void openParents(KEBListViewItem *item);

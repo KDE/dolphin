@@ -34,6 +34,7 @@
 #include <kfiledialog.h>
 #include <kkeydialog.h>
 #include <kmessagebox.h>
+#include <klineedit.h>
 #include <krun.h>
 
 #include <kbookmarkdrag.h>
@@ -71,6 +72,7 @@ void ListView::initListView() {
    m_listView->setRenameable(KEBListView::NameColumn);
    m_listView->setRenameable(KEBListView::UrlColumn);
    m_listView->setRenameable(KEBListView::CommentColumn);
+   m_listView->setTabOrderedRenaming(false);
    m_listView->setSorting(-1, false);
    m_listView->setDragEnabled(true);
    m_listView->setSelectionModeExt(KListView::Extended);
@@ -458,17 +460,78 @@ void ListView::clearSelection() {
 
 /* -------------------------------------- */
 
+class KeyPressEater : public QObject {
+public:
+   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
+protected:
+   bool eventFilter(QObject *, QEvent *);
+};
+
+static int myrenamecolumn = -1;
+static KEBListViewItem *myrenameitem = 0;
+
+void ListView::renameNextCell(bool fwd) {
+   while (1) {
+      if (fwd && myrenamecolumn < KEBListView::CommentColumn) {
+         myrenamecolumn++;
+      } else if (!fwd && myrenamecolumn > KEBListView::NameColumn) {
+         myrenamecolumn--;
+      } else {
+         myrenameitem    = fwd ? myrenameitem->itemBelow()
+                               : myrenameitem->itemAbove();
+         if (!myrenameitem) {
+            myrenameitem = fwd ? m_listView->firstChild()
+                               : m_listView->lastItem();
+         }
+         myrenamecolumn  = fwd ? KEBListView::NameColumn 
+                               : KEBListView::CommentColumn;
+      }
+      if (!myrenameitem 
+        || myrenameitem == getFirstChild() 
+        || myrenameitem->isEmptyFolder()
+        || myrenameitem->bookmark().isSeparator()
+        || (myrenamecolumn == KEBListView::UrlColumn 
+         && myrenameitem->bookmark().isGroup())
+      ) {
+         ;
+      } else {
+         break;
+      }
+   }
+   m_listView->rename(myrenameitem, myrenamecolumn);
+}
+
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if ( !(column == NameColumn || column == UrlColumn || column == CommentColumn)
      || KEBApp::self()->readonly()
-     || !item || item == firstChild() || item->isEmptyFolder()
+     || !item 
+     || item == firstChild() 
+     || item->isEmptyFolder()
      || item->bookmark().isSeparator()
      || (column == UrlColumn && item->bookmark().isGroup())
    ) {
       return;
    }
+   myrenamecolumn = column;
+   myrenameitem = item;
+   KeyPressEater *keyPressEater = new KeyPressEater(this);
+   renameLineEdit()->installEventFilter(keyPressEater);
    KListView::rename(item, column);
+}
+
+bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
+   if (pe->type() == QEvent::KeyPress) {
+      QKeyEvent *k = (QKeyEvent *) pe;
+      if ((k->key() == Qt::Key_Backtab || k->key() == Qt::Key_Tab)
+      && !(k->state() & ControlButton || k->state() & AltButton)
+      ) {
+         bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
+         ListView::self()->renameNextCell(fwd);
+         return true;
+      }
+   }
+   return false;
 }
 
 bool KEBListView::acceptDrag(QDropEvent * e) const {
