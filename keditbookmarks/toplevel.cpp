@@ -381,6 +381,7 @@ void KEBTopLevel::slotSelectionChanged( QListViewItem * item )
     coll->action("edit_rename")->setEnabled(itemSelected && !separator);
     coll->action("edit_delete")->setEnabled(itemSelected);
     coll->action("edit_newfolder")->setEnabled(group);
+    coll->action("edit_insertseparator")->setEnabled(group);
     //coll->action("edit_sort")->setEnabled(group); // not implemented
     coll->action("edit_setastoolbar")->setEnabled(group);
     coll->action("edit_openlink")->setEnabled(itemSelected && !group && !separator);
