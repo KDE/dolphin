@@ -283,27 +283,30 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
              // This should take care of the problem
              filename.replace("%", "%<i></i>");
 
-             result = KMessageBox::warningContinueCancel( 0,
+             result = KMessageBox::warningYesNo( 0,
              	i18n( "<p>Do you really want to delete <b>%1</b> from <b>%2</b>?</p>" ).arg( filename ).arg( directory ),
 		i18n( "Delete File" ),
 		i18n( "Delete" ),
+		i18n( "&Cancel" ),
 		keyName, false);
 	     break;
 
 	  case SHRED:
-             result = KMessageBox::warningContinueCancel( 0,
+             result = KMessageBox::warningYesNo( 0,
              	i18n( "<p>Do you really want to shred <b>%1</b>?</p>" ).arg( filename ),
 		i18n( "Shred File" ),
 		i18n( "Shred" ),
+		i18n( "&Cancel" ),
 		keyName, false);
 	     break;
 
           case MOVE:
  	  default:
-             result = KMessageBox::warningContinueCancel( 0,
+             result = KMessageBox::warningYesNo( 0,
              	i18n( "<p>Do you really want to move <b>%1</b> to the trash?</p>" ).arg( filename ),
 		i18n( "Move to Trash" ),
 		i18n( "Verb", "Trash" ),
+		i18n( "&Cancel" ),
 		keyName, false);
 	     break;
         }
