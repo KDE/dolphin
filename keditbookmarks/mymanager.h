@@ -37,6 +37,7 @@ public:
    bool showNSBookmarks() { return mgr()->showNSBookmarks(); }
    QString correctAddress(const QString &address);
    KBookmarkManager* mgr() const { return m_mgr; }
+   static const KBookmark bookmarkAt(const QString & a) { return self()->mgr()->findByAddress(a); }
 private:
    CurrentMgr() {
       m_mgr = 0;
