@@ -44,6 +44,7 @@ class KonqHTMLModule : public KCModule
 public:
 
   KonqHTMLModule(QWidget *parent, const char *name);
+  virtual ~KonqHTMLModule();
 
   void load();
   void save();
@@ -67,6 +68,8 @@ private:
   KHTTPOptions       *http;
   KMiscHTMLOptions   *misc;
 
+  KConfig *m_globalConfig;
+  KConfig *m_localConfig;
 };
 
 #endif

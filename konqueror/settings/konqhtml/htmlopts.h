@@ -59,8 +59,8 @@ private:
 
 private:
 
-  KConfig *g_pConfig;
-  QString groupname;
+  KConfig *m_pConfig;
+  QString m_groupname;
 
   QRadioButton* m_pSmall;
   QRadioButton* m_pMedium;
@@ -102,15 +102,15 @@ public:
 
 
 private slots:
-  
+
   void toggleJavaControls();
   void changed();
 
 
 private:
 
-  KConfig *g_pConfig;
-  QString groupname;
+  KConfig *m_pConfig;
+  QString m_groupname;
 
   QLabel    *lb_JavaPath;
   QLineEdit *le_JavaPath;
@@ -121,8 +121,8 @@ private:
   QCheckBox *cb_enableJavaScript;
   QRadioButton *rb_autoDetect;
   QRadioButton *rb_userDetect;
-  
-  
+
+
 };
 
 #endif		// __HTML_OPTIONS_H__

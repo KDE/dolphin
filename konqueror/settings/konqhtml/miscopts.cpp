@@ -18,14 +18,10 @@
 #include <klocale.h>
 #include <kconfig.h>
 
-extern KConfig *g_pConfig;
-extern QString g_groupname;
-
-
 //-----------------------------------------------------------------------------
 
 KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
+    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
@@ -63,10 +59,10 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 void KMiscHTMLOptions::load()
 {
     // *** load ***
-    g_pConfig->setGroup( "HTML Settings" );
-    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
-    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
-    bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
+    m_pConfig->setGroup( "HTML Settings" );
+    bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
+    bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
+    bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
 
     // *** apply to GUI ***
 
@@ -84,11 +80,11 @@ void KMiscHTMLOptions::defaults()
 
 void KMiscHTMLOptions::save()
 {
-    g_pConfig->setGroup( "HTML Settings" );
-    g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
-    g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
-    g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
-    g_pConfig->sync();
+    m_pConfig->setGroup( "HTML Settings" );
+    m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
+    m_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+    m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    m_pConfig->sync();
 }
 
 void KMiscHTMLOptions::changed()

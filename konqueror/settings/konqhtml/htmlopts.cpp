@@ -27,14 +27,10 @@
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
 
-extern KConfig *g_pConfig;
-extern QString g_groupname;
-
-
 //-----------------------------------------------------------------------------
 
 KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
+    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
     QString wtstr;
 
@@ -256,8 +252,8 @@ void KAppearanceOptions::slotCharset(const QString& n)
 
 void KAppearanceOptions::load()
 {
-    g_pConfig->setGroup(groupname);
-    QString fs = g_pConfig->readEntry( "BaseFontSize" );
+    m_pConfig->setGroup(m_groupname);
+    QString fs = m_pConfig->readEntry( "BaseFontSize" );
     if ( !fs.isEmpty() )
     {
         fSize = fs.toInt();
@@ -269,15 +265,15 @@ void KAppearanceOptions::load()
     else
         fSize = 3;
 
-    stdName = g_pConfig->readEntry( "StandardFont" );
-    fixedName = g_pConfig->readEntry( "FixedFont" );
-    charsetName = g_pConfig->readEntry( "DefaultCharset" );
+    stdName = m_pConfig->readEntry( "StandardFont" );
+    fixedName = m_pConfig->readEntry( "FixedFont" );
+    charsetName = m_pConfig->readEntry( "DefaultCharset" );
 
-    bgColor = g_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-    textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-    linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-    vLinkColor = g_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-    bool forceDefaults = g_pConfig->readBoolEntry("ForceDefaultColors", false);
+    bgColor = m_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
+    textColor = m_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
+    linkColor = m_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
+    vLinkColor = m_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
+    bool forceDefaults = m_pConfig->readBoolEntry("ForceDefaultColors", false);
 
     m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
@@ -344,20 +340,20 @@ void KAppearanceOptions::updateGUI()
 
 void KAppearanceOptions::save()
 {
-    g_pConfig->setGroup(groupname);			
-    g_pConfig->writeEntry( "BaseFontSize", fSize );
-    g_pConfig->writeEntry( "StandardFont", stdName );
-    g_pConfig->writeEntry( "FixedFont", fixedName );
+    m_pConfig->setGroup(m_groupname);			
+    m_pConfig->writeEntry( "BaseFontSize", fSize );
+    m_pConfig->writeEntry( "StandardFont", stdName );
+    m_pConfig->writeEntry( "FixedFont", fixedName );
     // If the user chose "Use language charset", write an empty string
     if (charsetName == i18n("Use language charset"))
         charsetName = "";
-    g_pConfig->writeEntry( "DefaultCharset", charsetName );
-    g_pConfig->writeEntry( "BgColor", bgColor );
-    g_pConfig->writeEntry( "TextColor", textColor );
-    g_pConfig->writeEntry( "LinkColor", linkColor);
-    g_pConfig->writeEntry( "VLinkColor", vLinkColor );
-    g_pConfig->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
-    g_pConfig->sync();
+    m_pConfig->writeEntry( "DefaultCharset", charsetName );
+    m_pConfig->writeEntry( "BgColor", bgColor );
+    m_pConfig->writeEntry( "TextColor", textColor );
+    m_pConfig->writeEntry( "LinkColor", linkColor);
+    m_pConfig->writeEntry( "VLinkColor", vLinkColor );
+    m_pConfig->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
+    m_pConfig->sync();
 }
 
 
@@ -392,7 +388,7 @@ void KAppearanceOptions::slotVLinkColorChanged( const QColor &col )
 
 
 KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
+    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
@@ -489,13 +485,13 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
 void KAdvancedOptions::load()
 {
     // *** load ***
-    g_pConfig->setGroup(groupname);
-    bool bJavaScript = g_pConfig->readBoolEntry( "EnableJavaScript", false);
-    bool bJava = g_pConfig->readBoolEntry( "EnableJava", false);
-    bool bJavaConsole = g_pConfig->readBoolEntry( "ShowJavaConsole", false);
-    bool bJavaAutoDetect = g_pConfig->readBoolEntry( "JavaAutoDetect", true);
-    QString sJDKArgs = g_pConfig->readEntry( "JavaArgs", "" );
-    QString sJDK = g_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
+    m_pConfig->setGroup(m_groupname);
+    bool bJavaScript = m_pConfig->readBoolEntry( "EnableJavaScript", false);
+    bool bJava = m_pConfig->readBoolEntry( "EnableJava", false);
+    bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false);
+    bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true);
+    QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
+    QString sJDK = m_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
 
     // *** apply to GUI ***
 
@@ -528,14 +524,14 @@ void KAdvancedOptions::defaults()
 
 void KAdvancedOptions::save()
 {
-    g_pConfig->setGroup(groupname);
-    g_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
-    g_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
-    g_pConfig->writeEntry( "ShowJavaConsole", cb_showJavaConsole->isChecked());
-    g_pConfig->writeEntry( "JavaAutoDetect", rb_autoDetect->isChecked());
-    g_pConfig->writeEntry( "JavaArgs", le_JavaArgs->text());
-    g_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
-    g_pConfig->sync();
+    m_pConfig->setGroup(m_groupname);
+    m_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
+    m_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
+    m_pConfig->writeEntry( "ShowJavaConsole", cb_showJavaConsole->isChecked());
+    m_pConfig->writeEntry( "JavaAutoDetect", rb_autoDetect->isChecked());
+    m_pConfig->writeEntry( "JavaArgs", le_JavaArgs->text());
+    m_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
+    m_pConfig->sync();
 }
 
 void KAdvancedOptions::changed()

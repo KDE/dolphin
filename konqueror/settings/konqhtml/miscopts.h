@@ -43,8 +43,8 @@ private slots:
 
 private:
 
-        KConfig *g_pConfig;
-	QString groupname;
+        KConfig *m_pConfig;
+	QString m_groupname;
 
         QCheckBox *cbCursor;
         QCheckBox *cbUnderline;

@@ -44,30 +44,36 @@
 KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-  KConfig *config = new KConfig("khtmlrc", false, false);
+  m_globalConfig = new KConfig("khtmlrc", false, false);
+  m_localConfig = new KConfig( "konquerorrc", false, false );
 
   QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  misc = new KMiscHTMLOptions(config, "HTML Settings", this);
+  misc = new KMiscHTMLOptions(m_globalConfig, "HTML Settings", this);
   tab->addTab(misc, i18n("&HTML"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  appearance = new KAppearanceOptions(config, "HTML Settings", this);
+  appearance = new KAppearanceOptions(m_globalConfig, "HTML Settings", this);
   tab->addTab(appearance, i18n("&Appearance"));
   connect(appearance, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  advanced = new KAdvancedOptions(config, "HTML Settings", this);
+  advanced = new KAdvancedOptions(m_localConfig, "HTML Settings", this);
   tab->addTab(advanced, i18n("&Advanced"));
   connect(advanced, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  http = new KHTTPOptions(config, "HTML Settings", this);
+  http = new KHTTPOptions(m_globalConfig, "HTML Settings", this);
   tab->addTab(http, i18n("H&TTP"));
   connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
 }
 
+KonqHTMLModule::~KonqHTMLModule()
+{
+  delete m_localConfig; 
+  delete m_globalConfig;
+} 
 
 void KonqHTMLModule::load()
 {

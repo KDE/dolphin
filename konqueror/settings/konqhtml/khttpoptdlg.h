@@ -8,7 +8,7 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qstring.h>
- 
+
 #include <kcmodule.h>
 #include <kconfig.h>
 
@@ -26,11 +26,11 @@ Q_OBJECT
     virtual void load();
     virtual void save();
     virtual void defaults();
-    
+
   private:
-    
-    KConfig *g_pConfig;
-    QString groupname;
+
+    KConfig *m_pConfig;
+    QString m_groupname;
 
     // Acceptable languages "LANG" - locale selected languages
     QLabel *lb_languages;	

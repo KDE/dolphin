@@ -10,28 +10,24 @@
 #include <kconfig.h>
 
 
-extern KConfig *g_pConfig;
-extern QString g_groupname;
-
-
 KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-  : KCModule( parent, name ), g_pConfig(config), groupname(group)
+  : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
   QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
-  
+
   lay->addWidget( new QLabel(i18n("Accept languages:"), this) );
 
   le_languages = new QLineEdit(this);
   lay->addWidget( le_languages );
-  connect(le_languages, SIGNAL(textChanged(const QString&)), 
+  connect(le_languages, SIGNAL(textChanged(const QString&)),
 	  this, SLOT(changed()));
-  
+
   lay->addSpacing(10);
   lay->addWidget( new QLabel(i18n("Accept character sets:"), this) );
-  
+
   le_charsets = new QLineEdit(this);
   lay->addWidget( le_charsets );
-  connect(le_charsets, SIGNAL(textChanged(const QString&)), 
+  connect(le_charsets, SIGNAL(textChanged(const QString&)),
 	  this, SLOT(changed()));
 
   lay->addSpacing(10);
@@ -52,22 +48,22 @@ KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, cons
 void KHTTPOptions::load()
 {
   QString tmp;
-  g_pConfig->setGroup( "Browser Settings/HTTP" );	
-  tmp = g_pConfig->readEntry( "AcceptLanguages",KGlobal::locale()->languages());
+  m_pConfig->setGroup( "Browser Settings/HTTP" );	
+  tmp = m_pConfig->readEntry( "AcceptLanguages",KGlobal::locale()->languages());
   le_languages->setText( tmp );
-  tmp = g_pConfig->readEntry( "AcceptCharsets",defaultCharsets);
+  tmp = m_pConfig->readEntry( "AcceptCharsets",defaultCharsets);
   le_charsets->setText( tmp );
 
-  cb_assumeHTML->setChecked(g_pConfig->readBoolEntry( "AssumeHTML", false ));
+  cb_assumeHTML->setChecked(m_pConfig->readBoolEntry( "AssumeHTML", false ));
 }
 
 void KHTTPOptions::save()
 {
-  g_pConfig->setGroup( "Browser Settings/HTTP" );	
-  g_pConfig->writeEntry( "AcceptLanguages", le_languages->text());
-  g_pConfig->writeEntry( "AcceptCharsets", le_charsets->text());
-  g_pConfig->writeEntry( "AssumeHTML",cb_assumeHTML->isChecked());
-  g_pConfig->sync();
+  m_pConfig->setGroup( "Browser Settings/HTTP" );	
+  m_pConfig->writeEntry( "AcceptLanguages", le_languages->text());
+  m_pConfig->writeEntry( "AcceptCharsets", le_charsets->text());
+  m_pConfig->writeEntry( "AssumeHTML",cb_assumeHTML->isChecked());
+  m_pConfig->sync();
 }
 
 void KHTTPOptions::defaults()
