@@ -87,7 +87,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   u.addPath(".directory");
   if (u.isLocalFile() && QFile::exists( u.path() ))
   {
-    kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
+    //kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
     KSimpleConfig config( u.path(), true);
     config.setDesktopGroup();
     // TODO add support for setting both of those in konqueror !
@@ -95,9 +95,11 @@ bool KonqPropsView::enterDir( const KURL & dir )
     QString pix = config.readEntry( "BgImage", "" );
     if ( !pix.isEmpty() )
     {
+      debug("BgImage is %s", pix.data());
       QPixmap* p = KPixmapCache::wallpaperPixmap( pix );
       if ( p )
         m_bgPixmap = * p;
+      else debug("Wallpaper not found");
     } else
     { // No background pixmap here, revert to default setting
       m_bgPixmap = m_pDefaultProps->m_bgPixmap;
