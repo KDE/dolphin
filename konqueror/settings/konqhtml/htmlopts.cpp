@@ -33,6 +33,7 @@
 #include <kcolorbutton.h>
 #include <kcharsets.h>
 
+
 #include <X11/Xlib.h>
 
 #include "htmlopts.h"
@@ -40,6 +41,7 @@
 
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
+#include <khtml_settings.h>
 
 //-----------------------------------------------------------------------------
 
@@ -377,74 +379,6 @@ void KAppearanceOptions::slotVLinkColorChanged( const QColor &col )
 }
 
 
-/*
-* The functions below are utility functions used to
-* properly split and change a Java/JavaScript policy information
-* from a string format to one appropriate. They are bluntly stolen from
-* kcookiespolicies.cpp and modified to fit Java/JavaScript.
-*
-*/
-
-enum KJavaScriptAdvice {
-    KJavaScriptDunno=0,
-    KJavaScriptAccept,
-    KJavaScriptReject
-};
-
-static const char * adviceToStr(KJavaScriptAdvice _advice)
-{
-    switch( _advice ) {
-    case KJavaScriptAccept: return I18N_NOOP("Accept");
-    case KJavaScriptReject: return I18N_NOOP("Reject");
-    default: return 0;
-    }
-}
-
-static KJavaScriptAdvice strToAdvice(const QString& _str)
-{
-  KJavaScriptAdvice ret = KJavaScriptDunno;
-
-    if (!_str)
-        ret = KJavaScriptDunno;
-
-    if (_str.lower() == QString::fromLatin1("accept"))
-        ret = KJavaScriptAccept;
-    else if (_str.lower() == QString::fromLatin1("reject"))
-        ret = KJavaScriptReject;
-
-    return ret;
-}
-
-static void splitDomainAdvice(const QString& configStr, QString &domain, 
-							  KJavaScriptAdvice &javaAdvice, KJavaScriptAdvice& javaScriptAdvice)
-{
-    QString tmp(configStr);
-    int splitIndex = tmp.find(':');
-    if ( splitIndex == -1)
-    {
-        domain = configStr;
-        javaAdvice = KJavaScriptDunno;
-		javaScriptAdvice = KJavaScriptDunno;
-    }
-    else
-    {
-        domain = tmp.left(splitIndex);
-		QString adviceString = tmp.mid( splitIndex+1, tmp.length() );
-		int splitIndex2 = adviceString.find( ':' );
-		if( splitIndex2 == -1 ) {
-		  // Java advice only
-		  javaAdvice = strToAdvice( adviceString );
-		  javaScriptAdvice = KJavaScriptDunno;
-		} else {
-		  // Java and JavaScript advice
-		  javaAdvice = strToAdvice( adviceString.left( splitIndex2 ) );
-		  javaScriptAdvice = strToAdvice( adviceString.mid( splitIndex2+1,
-															adviceString.length() ) );
-		}
-    }
-}
-
-
 KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent, 
 										const char *name ) :
   KCModule( parent, name ), m_pConfig( config ), m_groupname( group )
@@ -673,18 +607,18 @@ void KJavaScriptOptions::addPressed()
     PolicyDialog pDlg( this, 0L );
     // We subtract one from the enum value because
     // KJavaScriptDunno is not part of the choice list.
-    int def_javapolicy = KJavaScriptReject - 1;
-    int def_javascriptpolicy = KJavaScriptReject - 1;
+    int def_javapolicy = KHTMLSettings::KJavaScriptReject - 1;
+    int def_javascriptpolicy = KHTMLSettings::KJavaScriptReject - 1;
     pDlg.setDefaultPolicy( def_javapolicy, def_javascriptpolicy );
     pDlg.setCaption( i18n( "New Java/JavaScript Policy" ) );
     if( pDlg.exec() ) {
 	  QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-												adviceToStr( (KJavaScriptAdvice)
+												KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
 															 pDlg.javaPolicyAdvice() ),
-												adviceToStr( (KJavaScriptAdvice)
+												KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
 															 pDlg.javaScriptPolicyAdvice() ) );
-	  javaDomainPolicy.insert( index, adviceToStr( (KJavaScriptAdvice)pDlg.javaPolicyAdvice() ) );
-	  javaScriptDomainPolicy.insert( index, adviceToStr( (KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() ) );
+	  javaDomainPolicy.insert( index, KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice() ) );
+	  javaScriptDomainPolicy.insert( index, KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() ) );
 	  domainSpecificLV->setCurrentItem( index );
 	  changed();
     }
@@ -699,8 +633,8 @@ void KJavaScriptOptions::changePressed()
         return;
     }
 
-    KJavaScriptAdvice javaAdvice = strToAdvice(javaDomainPolicy[index]);
-    KJavaScriptAdvice javaScriptAdvice = strToAdvice(javaScriptDomainPolicy[index]);
+    KHTMLSettings::KJavaScriptAdvice javaAdvice = KHTMLSettings::strToAdvice(javaDomainPolicy[index]);
+    KHTMLSettings::KJavaScriptAdvice javaScriptAdvice = KHTMLSettings::strToAdvice(javaScriptDomainPolicy[index]);
 
     PolicyDialog pDlg( this );
     pDlg.setDisableEdit( false, index->text(0) );
@@ -711,9 +645,9 @@ void KJavaScriptOptions::changePressed()
     if( pDlg.exec() )
     {
       javaDomainPolicy[index] =
-		adviceToStr((KJavaScriptAdvice)pDlg.javaPolicyAdvice());
+		KHTMLSettings::adviceToStr((KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice());
 	  javaScriptDomainPolicy[index] =
-		adviceToStr((KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() );
+		KHTMLSettings::adviceToStr((KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() );
       index->setText(1, i18n(javaDomainPolicy[index]) );
 	  index->setText(2, i18n(javaScriptDomainPolicy[index] ));
       changed();
@@ -761,11 +695,11 @@ void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
     for (QStringList::ConstIterator it = domainConfig.begin();
          it != domainConfig.end(); ++it) {
       QString domain;
-      KJavaScriptAdvice javaAdvice;
-	  KJavaScriptAdvice javaScriptAdvice;
-      splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
-      QCString javaAdvStr = adviceToStr(javaAdvice);
-	  QCString javaScriptAdvStr = adviceToStr(javaScriptAdvice);
+      KHTMLSettings::KJavaScriptAdvice javaAdvice;
+	  KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
+      KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
+      QCString javaAdvStr = KHTMLSettings::adviceToStr(javaAdvice);
+	  QCString javaScriptAdvStr = KHTMLSettings::adviceToStr(javaScriptAdvice);
       QListViewItem *index =
         new QListViewItem( domainSpecificLV, domain, i18n(javaAdvStr), 
 						   i18n( javaScriptAdvStr ) );

@@ -9,7 +9,7 @@ libkcm_konqhtml_la_SOURCES = main.cpp htmlopts.cpp \
 			khttpoptdlg.cpp miscopts.cpp policydlg.cpp
 
 libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_konqhtml_la_LIBADD = -lkdeui
+libkcm_konqhtml_la_LIBADD = -lkhtml -lkdeui
 
 data_DATA = konqhtml.desktop
 datadir = $(kde_appsdir)/Settings/Browsing/Web
