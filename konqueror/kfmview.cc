@@ -105,7 +105,9 @@ KfmView::KfmView( KfmAbstractGui *_gui, QWidget *_parent ) : QWidgetStack( _pare
 
   //  connect( m_pGui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
-  setViewMode( m_viewMode, false );
+  // m_viewMode is a copy of m_Props->m_viewMode. This makes expressions simpler
+  m_viewMode = NOMODE;
+  setViewMode( m_Props->m_viewMode, false );
 
 }
 
@@ -167,7 +169,6 @@ void KfmView::initConfig()
   // Copy the default properties
   m_Props = new KfmViewProps( *KfmViewProps::m_pDefaultProps );
 
-  m_viewMode = m_Props->m_viewMode; // cache a copy, will make things simpler
 
   // TODO : when saving configuration,   m_Props->m_viewMode = m_viewMode;
 }

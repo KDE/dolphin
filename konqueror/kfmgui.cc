@@ -15,7 +15,7 @@
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include <qdir.h>
 
@@ -43,21 +43,37 @@
 #include <kpixmapcache.h>
 #include <kio_linedit_dlg.h>
 #include <kkeydialog.h>
+#include <kstdaccel.h>
 
 #include <iostream>
 #include <assert.h>
 
-#define TOOLBAR_URL_ID     1000
-#define TOOLBAR_UP_ID      0
-#define TOOLBAR_BACK_ID    1
-#define TOOLBAR_FORWARD_ID 2
-#define TOOLBAR_HOME_ID    3
-#define TOOLBAR_RELOAD_ID  4
-#define TOOLBAR_COPY_ID    5
-#define TOOLBAR_PASTE_ID   6
-#define TOOLBAR_HELP_ID    7
-#define TOOLBAR_STOP_ID    8
-#define TOOLBAR_GEAR_ID    9
+enum _ids {
+////// toolbar buttons //////
+    TOOLBAR_UP_ID, TOOLBAR_BACK_ID, TOOLBAR_FORWARD_ID, 
+    TOOLBAR_HOME_ID, TOOLBAR_RELOAD_ID, TOOLBAR_COPY_ID, TOOLBAR_PASTE_ID,
+    TOOLBAR_HELP_ID, TOOLBAR_STOP_ID, TOOLBAR_GEAR_ID, 
+/////  toolbar lineedit /////
+    TOOLBAR_URL_ID,
+
+////// menu items //////
+    MFILE_NEW_ID, MFILE_NEWWINDOW_ID, MFILE_RUN_ID, MFILE_OPENTERMINAL_ID,
+    MFILE_GOTO_ID, MFILE_CACHE_ID, MFILE_HISTORY_ID, MFILE_OPENLOCATION_ID,
+    MFILE_FIND_ID, MFILE_PRINT_ID, MFILE_CLOSE_ID,
+
+    MEDIT_COPY_ID, MEDIT_PASTE_ID, MEDIT_TRASH_ID, MEDIT_DELETE_ID, MEDIT_SELECT_ID,
+    MEDIT_SELECTALL_ID, // MEDIT_FINDINPAGE_ID, MEDIT_FINDNEXT_ID, 
+    MEDIT_MIMETYPES_ID, MEDIT_APPLICATIONS_ID, // later, add global mimetypes and apps here
+    MEDIT_SAVEGEOMETRY_ID,
+
+    MVIEW_SPLITWINDOW_ID, MVIEW_SHOWDOT_ID, MVIEW_IMAGEPREVIEW_ID, MVIEW_LARGEICONS_ID,
+    MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, MVIEW_HTMLVIEW_ID, MVIEW_RELOADTREE_ID,
+    MVIEW_RELOAD_ID // + view frame source, view document source, document encoding
+
+    // clear cache is needed somewhere
+
+    // MOPTIONS_...
+};
 
 QList<KfmGui>* KfmGui::s_lstWindows = 0L;
 QList<OpenPartsUI::Pixmap>* KfmGui::s_lstAnimatedLogo = 0L;
@@ -81,7 +97,7 @@ KfmGui::KfmGui( const char *_url, QWidget *_parent = 0L ) : QWidget( _parent )
   m_vLocationBar = 0L;
   
   m_vStatusBar = 0L;
-    
+
   m_pAccel = new KAccel( this );
   m_pAccel->insertItem( i18n("Switch to left View"), "LeftView", CTRL+Key_1 );
   m_pAccel->insertItem( i18n("Switch to right View"), "RightView", CTRL+Key_2 );
@@ -211,67 +227,75 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     return true;
   }
 
+  KStdAccel stdAccel;
+
   CORBA::Long m_idMenuFile = menuBar->insertMenu( i18n("&File"), m_vMenuFile, -1, -1 );
   
-  m_vMenuFile->insertItem8( i18n("&New"), m_vMenuFileNew, -1, -1 );
+  m_vMenuFile->insertItem8( i18n("&New"), m_vMenuFileNew, MFILE_NEW_ID, -1 );
   
   m_vMenuFileNew->connect("activated", this, "slotFileNewActivated");
   m_vMenuFileNew->connect("aboutToShow", this, "slotFileNewAboutToShow");
   m_pMenuNew = new KNewMenu( m_vMenuFileNew );
   
-  m_vMenuFile->insertItem( i18n("New &Window"), this, "slotNewWindow", 0 );
+  m_vMenuFile->insertItem4( i18n("New &Window"), this, "slotNewWindow", stdAccel.openNew(), MFILE_NEWWINDOW_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  m_vMenuFile->insertItem( i18n("&Run..."), this, "slotRun", 0 );
-  m_vMenuFile->insertItem( i18n("Open &Terminal"), this, "slotTerminal", CTRL+Key_T );
+  m_vMenuFile->insertItem4( i18n("&Run..."), this, "slotRun", 0, MFILE_RUN_ID, -1  );
+  m_vMenuFile->insertItem4( i18n("Open &Terminal"), this, "slotTerminal", CTRL+Key_T, MFILE_OPENTERMINAL_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
   
   OpenPartsUI::Menu_var m_vMenuFileGoto;
   
-  m_vMenuFile->insertItem8( i18n("&Goto"), m_vMenuFileGoto, -1, -1 );
+  m_vMenuFile->insertItem8( i18n("&Goto"), m_vMenuFileGoto, MFILE_GOTO_ID, -1 );
   
-  m_vMenuFileGoto->insertItem( i18n("&Cache"), this, "slotShowCache", 0 );
-  m_vMenuFileGoto->insertItem( i18n("&History"), this, "slotShowHistory", 0 );
+  m_vMenuFileGoto->insertItem4( i18n("&Cache"), this, "slotShowCache", 0, MFILE_CACHE_ID, -1 );
+  m_vMenuFileGoto->insertItem4( i18n("&History"), this, "slotShowHistory", 0, MFILE_HISTORY_ID, -1 );
   
-  m_vMenuFile->insertItem( i18n("&Open Location..."), this, "slotOpenLocation", CTRL+Key_L );
-  m_vMenuFile->insertItem( i18n("&Find"), this, "slotToolFind", CTRL+Key_F );
+  m_vMenuFile->insertItem4( i18n("&Open Location..."), this, "slotOpenLocation", stdAccel.open(), MFILE_OPENLOCATION_ID, -1 );
+  m_vMenuFile->insertItem4( i18n("&Find"), this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  m_vMenuFile->insertItem( i18n("&Print..."), this, "slotPrint", 0 );
+  m_vMenuFile->insertItem4( i18n("&Print..."), this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  m_vMenuFile->insertItem( i18n("&Close"), this, "slotClose", CTRL+Key_W );
+  m_vMenuFile->insertItem4( i18n("&Close"), this, "slotClose", stdAccel.close(), MFILE_CLOSE_ID, -1 );
   
   menuBar->setFileMenu( m_idMenuFile );
   
   menuBar->insertMenu( i18n("&Edit"), m_vMenuEdit, -1, -1 );
 
-  m_vMenuEdit->insertItem( i18n("&Copy"), this, "slotCopy", CTRL+Key_C );  
-  m_vMenuEdit->insertItem( i18n("&Paste"), this, "slotPaste", CTRL+Key_V );
-  m_vMenuEdit->insertItem( i18n("&Move to Trash"), this, "slotTrash", 0 );  
-  m_vMenuEdit->insertItem( i18n("&Delete"), this, "slotDelete", 0 );  
+  m_vMenuEdit->insertItem4( i18n("&Copy"), this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
+  m_vMenuEdit->insertItem4( i18n("&Paste"), this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
+  m_vMenuEdit->insertItem4( i18n("&Move to Trash"), this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
+  m_vMenuEdit->insertItem4( i18n("&Delete"), this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  m_vMenuEdit->insertItem( i18n("&Select"), this, "slotSelect", CTRL+Key_S );
+  m_vMenuEdit->insertItem4( i18n("&Select"), this, "slotSelect", CTRL+Key_S, MEDIT_SELECT_ID, -1 );
+  m_vMenuEdit->insertItem4( i18n("Select &all"), this, "slotSelectAll", CTRL+Key_A, MEDIT_SELECTALL_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  m_vMenuEdit->insertItem( i18n("Mime Types"), this, "slotEditMimeTypes", 0 );
-  m_vMenuEdit->insertItem( i18n("Applications"), this, "slotEditApplications", 0 );
+  // m_vMenuEdit->insertItem4( i18n("&Find in page..."), this, "slotFindInPage", Key_F2, MEDIT_FINDINPAGE_ID, -1 );
+  // m_vMenuEdit->insertItem4( i18n("Find &next"), this, "slotFindNext", Key_F3, MEDIT_FINDNEXT_ID, -1 );
+  // m_vMenuEdit->insertSeparator( -1 );
+  m_vMenuEdit->insertItem4( i18n("Mime &Types"), this, "slotEditMimeTypes", 0, MEDIT_MIMETYPES_ID, -1 );
+  m_vMenuEdit->insertItem4( i18n("App&lications"), this, "slotEditApplications", 0, MEDIT_APPLICATIONS_ID, -1 );
+  //TODO: Global mime types and applications for root
   m_vMenuEdit->insertSeparator( -1 );
-  m_vMenuEdit->insertItem( i18n("Save Geometry"), this, "slotSaveGeometry", 0 );
+  m_vMenuEdit->insertItem4( i18n("Save &Geometry"), this, "slotSaveGeometry", 0, MEDIT_SAVEGEOMETRY_ID, -1 );
 
   menuBar->insertMenu( i18n("&View"), m_vMenuView, -1, -1 );
 
   m_vMenuView->setCheckable( true );
-  m_vMenuView->insertItem( i18n("Show Directory Tr&ee"), this, "slotShowTree" , 0 );
-  m_vMenuView->insertItem( i18n("Split &window"), this, "slotSplitView" , 0 );
-  m_vMenuView->insertItem( i18n("Show &Dot Files"), this, "slotShowDot" , 0 );
-  m_vMenuView->insertItem( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0 );
-  m_vMenuView->insertItem( i18n("&Always Show index.html"), this, "slotShowHTML" , 0 );
+  //  m_vMenuView->insertItem4( i18n("Show Directory Tr&ee"), this, "slotShowTree" , 0 );
+  m_vMenuView->insertItem4( i18n("Split &window"), this, "slotSplitView" , 0, MVIEW_SPLITWINDOW_ID, -1 );
+  m_vMenuView->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
+  m_vMenuView->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
+  //m_vMenuView->insertItem4( i18n("&Always Show index.html"), this, "slotShowHTML" , 0 );
   m_vMenuView->insertSeparator( -1 );  
-  m_vMenuView->insertItem( i18n("&Large Icons"), this, "slotLargeIcons" , 0 );
-  m_vMenuView->insertItem( i18n("&Small Icons"), this, "slotSmallIcons" , 0 );
-  m_vMenuView->insertItem( i18n("&Tree View"), this, "slotTreeView" , 0 );
+  m_vMenuView->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
+  m_vMenuView->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
+  m_vMenuView->insertItem4( i18n("&Tree View"), this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
   m_vMenuView->insertSeparator( -1 );  
-  m_vMenuView->insertItem( i18n("&Use HTML"), this, "slotHTMLView" , 0 );
+  m_vMenuView->insertItem4( i18n("&Use HTML"), this, "slotHTMLView" , 0, MVIEW_HTMLVIEW_ID, -1 );
   m_vMenuView->insertSeparator( -1 );  
-  m_vMenuView->insertItem( i18n("Rel&oad Tree"), this, "slotReloadTree" , 0 );
-  m_vMenuView->insertItem( i18n("&Reload Document"), this, "slotReload" , 0 );
+  m_vMenuView->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree" , 0, MVIEW_RELOADTREE_ID, -1 );
+  m_vMenuView->insertItem4( i18n("&Reload Document"), this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
+  //TODO: view frame source, view document source, document encoding
  
   menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
 
@@ -280,6 +304,9 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   menuBar->insertMenu( i18n("&Options"), m_vMenuOptions, -1, -1 );
   
   m_vMenuOptions->insertItem( i18n("Configure &keys"), this, "slotConfigureKeys", 0 );
+
+  // disable menu items that need to be
+  slotGotFocus( m_currentView->m_pView );
 
   return true;
 }
@@ -352,9 +379,9 @@ bool KfmGui::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory )
   m_vToolBar->enable( OpenPartsUI::Show );
   if ( !m_Props->m_bShowToolBar )
     m_vToolBar->enable( OpenPartsUI::Hide );
-  
+
   //TODO: m_vToolBar->setBarPos( convert_to_openpartsui_bar_pos( m_Props->m_toolBarPos ) ) );
-  			     				 
+
   m_vLocationBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
   
   m_vLocationBar->setFullWidth( true );
@@ -791,8 +818,8 @@ void KfmGui::createView( )
   m_views.append( new View );
 
   // HACK : for the moment, use m_pPanner as parent for views. Will have to be extended
-  if (m_views.count() == 1) m_views.last()->m_pPannerChild = m_pPanner->child0();
-  if (m_views.count() == 2) m_views.last()->m_pPannerChild = m_pPanner->child1();
+  if (m_views.count() == 1) m_views.last()->m_pPannerChild = m_pPanner->child1();
+  if (m_views.count() == 2) m_views.last()->m_pPannerChild = m_pPanner->child0();
 
   KfmView * v = new KfmView( this, m_views.last()->m_pPannerChild );
   m_views.last()->m_pView = v;
@@ -822,14 +849,10 @@ void KfmGui::slotSplitView()
 {
   if ( m_Props->m_bSplitView )
   {
-    // fillCurrentView( m_rightView );
     m_currentView->m_pView->fetchFocus();
 
     m_Props->m_bSplitView = false;
     
-    if ( !CORBA::is_nil( m_vMenuView ) )
-      m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), false );
-
     m_pPanner->setSeparator( 0 );
 
     View * todel = m_views.at(1);    
@@ -841,9 +864,6 @@ void KfmGui::slotSplitView()
     m_views.remove(1);
   } else 
   {
-    if ( !CORBA::is_nil( m_vMenuView ) )  
-      m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), true );
-    
     m_Props->m_bSplitView = true;
   
     QString url = m_views.at(0)->m_pView->currentURL();
@@ -859,58 +879,36 @@ void KfmGui::slotSplitView()
     m_views.at(1)->m_pView->openURL( url );
 
   }
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), m_Props->m_bSplitView );
+  if ( !CORBA::is_nil( m_vMenuView ) )
+    m_vMenuView->setItemChecked( MVIEW_SPLITWINDOW_ID, m_Props->m_bSplitView );
 }
 
 void KfmGui::slotLargeIcons()
 {
-  if ( !CORBA::is_nil( m_vMenuView ) )
-  {
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), true );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
-  }
-  // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
-
   m_currentView->m_pView->setViewMode( KfmView::HOR_ICONS );
+  setViewModeMenu( KfmView::HOR_ICONS );
 }
 
 void KfmGui::slotSmallIcons()
 {
-  if ( !CORBA::is_nil( m_vMenuView ) )
-  {
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), true );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
-  }
-      
-  // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
-
   m_currentView->m_pView->setViewMode( KfmView::VERT_ICONS );
+  setViewModeMenu( KfmView::VERT_ICONS );
 }
 
 void KfmGui::slotTreeView()
 {
-  if ( !CORBA::is_nil( m_vMenuView ) )
-  {
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), true );
-  }    
-  
-  // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 11 ), false );
-
   m_currentView->m_pView->setViewMode( KfmView::FINDER );
+  setViewModeMenu( KfmView::FINDER );
 }
 
 void KfmGui::slotHTMLView()
 {
-  // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 7 ), false );
-  // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 8 ), false );
-  // m_pViewMenu->setItemChecked( m_pViewMenu->idAt( 9 ), false );
+  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
   
   if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), !m_currentView->m_pView->isHTMLAllowed() );
+    m_vMenuView->setItemChecked( MVIEW_HTMLVIEW_ID, !m_currentView->m_pView->isHTMLAllowed() );
 
   m_currentView->m_pView->setHTMLAllowed( !m_currentView->m_pView->isHTMLAllowed() );
 }
@@ -937,7 +935,7 @@ void KfmGui::slotAnimatedLogoTimeout()
     m_animatedLogoCounter = 0;
     
   if ( !CORBA::is_nil( m_vToolBar ) )    
-    m_vToolBar->setButtonPixmap( 9, *( s_lstAnimatedLogo->at( m_animatedLogoCounter ) ) );
+    m_vToolBar->setButtonPixmap( TOOLBAR_GEAR_ID, *( s_lstAnimatedLogo->at( m_animatedLogoCounter ) ) );
 }
 
 void KfmGui::slotStartAnimation()
@@ -946,7 +944,7 @@ void KfmGui::slotStartAnimation()
   m_animatedLogoTimer.start( 50 );
 
   if ( !CORBA::is_nil( m_vToolBar ) )
-    m_vToolBar->setItemEnabled( 8, true );
+    m_vToolBar->setItemEnabled( TOOLBAR_STOP_ID, true );
 }
 
 void KfmGui::slotStopAnimation()
@@ -955,8 +953,8 @@ void KfmGui::slotStopAnimation()
   
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
-    m_vToolBar->setButtonPixmap( 9, *( s_lstAnimatedLogo->at( 0 ) ) );
-    m_vToolBar->setItemEnabled( 8, false );
+    m_vToolBar->setButtonPixmap( TOOLBAR_GEAR_ID, *( s_lstAnimatedLogo->at( 0 ) ) );
+    m_vToolBar->setItemEnabled( TOOLBAR_STOP_ID, false );
   }
       
   setStatusBarText( i18n("Document: Done") );
@@ -1203,6 +1201,8 @@ void KfmGui::slotFocusRightView()
 
 void KfmGui::slotGotFocus( KfmView* _view )
 {
+  debug("KfmGui::slotGotFocus");
+  assert (m_currentView);
   m_currentView->m_pView->clearFocus(); // is it necessary ? David.
 
   for (View * v = m_views.first() ; v != 0L; v = m_views.next())
@@ -1226,12 +1226,10 @@ void KfmGui::slotGotFocus( KfmView* _view )
   setViewModeMenu( vProps->viewMode() );
   setLocationBarURL( m_currentView->m_pView->currentURL() );
 
-  // m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), vProps->isShowingDirTree() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 3 ), vProps->isShowingDotFiles() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 4 ), vProps->isShowingImagePreview() );
-  m_vMenuView->setItemChecked( m_vMenuView->idAt( 11 ), vProps->isHTMLAllowed() );
-
-  setViewModeMenu( vProps->viewMode() );
+  // m_vMenuView->setItemChecked( ..., vProps->isShowingDirTree() );
+  m_vMenuView->setItemChecked( MVIEW_SHOWDOT_ID, vProps->isShowingDotFiles() );
+  m_vMenuView->setItemChecked( MVIEW_IMAGEPREVIEW_ID, vProps->isShowingImagePreview() );
+  m_vMenuView->setItemChecked( MVIEW_HTMLVIEW_ID, vProps->isHTMLAllowed() );
 }
 
 void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
@@ -1241,23 +1239,24 @@ void KfmGui::setViewModeMenu( KfmView::ViewMode _viewMode )
   switch( _viewMode )
   {
   case KfmView::HOR_ICONS:
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), true );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
+    m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, true );
+    m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
+    m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
     break;
   case KfmView::VERT_ICONS:
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), true );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), false );
+    m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
+    m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, true );
+    m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
     break;
   case KfmView::FINDER:
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 6 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 7 ), false );
-    m_vMenuView->setItemChecked( m_vMenuView->idAt( 8 ), true );
+    m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
+    m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
+    m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
     break;
   default:
     assert( 0 );
   }
+  // m_pViewMenu->setItemChecked( MVIEW_HTMLVIEW_ID, false );
 }
 
 void KfmGui::createGUI( const char *_url )
