@@ -65,7 +65,7 @@ public:
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const;
-   virtual QString finalAddress();
+   virtual QString finalAddress(); // make const
 private:
    QString m_to;
    QString m_text;
@@ -114,19 +114,19 @@ private:
    QString m_mytext;
 };
 
-// rename to NodeEditCommand
-class RenameCommand : public KCommand
+class NodeEditCommand : public KCommand
 {
 public:
-   RenameCommand(const QString &address, 
-                 const QString &newText, 
-                 const QString &nodeName)
+   NodeEditCommand(const QString &address, 
+                   const QString &newText, 
+                   const QString &nodeName)
       : KCommand(), m_address(address), m_newText(newText), m_nodename(nodeName)
    { ; }
-   virtual ~RenameCommand() { ; }
+   virtual ~NodeEditCommand() { ; }
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const;
+   static QString getNodeText(KBookmark, const QString &);
 private:
    QString m_address;
    QString m_newText;

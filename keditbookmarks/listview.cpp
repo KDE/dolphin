@@ -436,7 +436,7 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
             // can't have an empty name, therefore undo the user action
             item->setText(KEBListView::NameColumn, bk.fullText());
          } else if (bk.fullText() != newText) {
-            cmd = new RenameCommand(bk.address(), newText, "title");
+            cmd = new NodeEditCommand(bk.address(), newText, "title");
          }
          break;
 
@@ -449,6 +449,7 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
       case KEBListView::CommentColumn:
          if (bk.internalElement().attribute("desc") != newText) {
             cmd = new EditCommand(bk.address(), EditCommand::Edition("desc", newText), i18n("Comment"));
+            cmd = new NodeEditCommand(bk.address(), newText, "title");
          }
          break;
 

@@ -159,11 +159,19 @@ void EditCommand::unexecute() {
 
 /* -------------------------------------- */
 
-QString RenameCommand::name() const {
+QString NodeEditCommand::name() const {
+   // TODO - make dynamic
    return i18n("Renaming"); 
 }
 
-void RenameCommand::execute() {
+QString NodeEditCommand::getNodeText(KBookmark bk, const QString &nodename) {
+   QDomNode subnode = bk.internalElement().namedItem(nodename);
+   Q_ASSERT(!subnode.isNull());
+   return subnode.firstChild().isNull() ? QString::null
+                                        : subnode.firstChild().toText().data();
+}
+
+void NodeEditCommand::execute() {
    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
    Q_ASSERT(!bk.isNull());
 
@@ -182,9 +190,9 @@ void RenameCommand::execute() {
    domtext.setData(m_newText);
 }
 
-void RenameCommand::unexecute() {
+void NodeEditCommand::unexecute() {
    // code reuse
-   RenameCommand cmd(m_address, m_oldText, m_nodename);
+   NodeEditCommand cmd(m_address, m_oldText, m_nodename);
    cmd.execute();
    // get the old text back from it, in case they changed (hmm, shouldn't happen)
    m_newText = cmd.m_oldText;
