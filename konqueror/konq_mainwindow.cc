@@ -2923,7 +2923,7 @@ void KonqMainWindow::updateViewActions()
 
   KonqFrameBase* docContainer = m_pViewManager->docContainer();
 
-  if ( docContainer == 0L )
+  if ( docContainer == 0L && !(currentView() && currentView()->frame()))
   {
     m_paAddTab->setEnabled( false );
     m_paRemoveCurrentTab->setEnabled( false );
@@ -2931,8 +2931,8 @@ void KonqMainWindow::updateViewActions()
   else
   {
     m_paAddTab->setEnabled( true );
-    if ( docContainer->frameType() == "Tabs" ) m_paRemoveCurrentTab->setEnabled( true );
-    else m_paRemoveCurrentTab->setEnabled( false );
+    m_paRemoveCurrentTab->setEnabled( docContainer &&
+                                      docContainer->frameType() == "Tabs" );
   }
 
   // Can split a view if it's not a toggle view (because a toggle view can be here only once)
