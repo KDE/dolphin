@@ -670,6 +670,7 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
     updateStatusBar();
     //checkEditExtension();
     m_bMenuViewDirty = true;
+    m_pViewManager->setActivePart( newView );
   }
 }
 
@@ -843,7 +844,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   if ( m_currentView->browserExtension() )
     connectExtension( m_currentView->browserExtension() );
 
-  //  guiFactory()->removeServant( m_viewModeGUIServant );
+  //guiFactory()->removeServant( m_viewModeGUIServant );
   m_viewModeGUIServant->update( m_currentView->serviceOffers() );
   guiFactory()->addServant( m_viewModeGUIServant );
 
