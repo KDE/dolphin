@@ -70,7 +70,7 @@ KBookmarkManager* KBookmarkManager::self()
       QCString cmd;
       cmd.sprintf( "cp %s %s/.directory",
           QFile::encodeName(locate("data", "kbookmark/directory.bookmarkbar")).data(),
-          bookmark_path.data() );
+          QFile::encodeName(bookmark_path).data() );
       system( cmd );
     }
 
@@ -225,7 +225,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
       {
         KSimpleConfig cfg( file.path(), true );
         cfg.setDesktopGroup();
-        QString type = cfg.readEntry( "Type" );	
+        QString type = cfg.readEntry( "Type" );
         // Is it really a bookmark file ?
         if ( type == "Link" )
           (void) new KBookmark( this, _bm, ep->d_name, cfg, 0 /* desktop group */ );
@@ -459,7 +459,7 @@ KBookmark* KBookmark::findBookmark( int _id )
     {
       KBookmark *b = bm->findBookmark( _id );
       if ( b )
-	return b;
+        return b;
     }
   }
 
@@ -482,7 +482,7 @@ QString KBookmark::pixmapFile()
     url.setPath( m_file );
     // Get the full path to the Small icon and store it into m_sPixmap
     KMimeType::pixmapForURL( url, buff.st_mode, KIcon::Small,
-	    0, KIcon::DefaultState, &m_sPixmap );
+            0, KIcon::DefaultState, &m_sPixmap );
   }
   return m_sPixmap;
 }
