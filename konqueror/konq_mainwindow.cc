@@ -89,6 +89,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
+#include <kprocess.h>
 
 template class QPtrList<QPixmap>;
 template class QPtrList<KToggleAction>;
@@ -1090,7 +1091,10 @@ void KonqMainWindow::slotOpenTerminal()
               dir = u.directory();
   }
 
-  QString cmd = QString("cd \"%1\" ; %2 &").arg( dir ).arg( term );
+  QString cmd = QString("cd ");
+  cmd += KProcess::quote(dir);
+  cmd += ";";
+  cmd += term;
   kdDebug(1202) << "slotOpenTerminal: " << cmd << endl;
   system( QFile::encodeName(cmd) );
 }
