@@ -351,6 +351,11 @@ void KonqMainWindow::initBookmarkBar()
   if (m_paBookmarkBar) return;
 
   m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), this, bar, m_bookmarkBarActionCollection, this );
+/*
+  connect( m_paBookmarkBar,
+           SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
+           this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
+*/
 
   // hide if empty
   if (bar->count() == 0 )
@@ -3279,46 +3284,22 @@ void KonqMainWindow::initActions()
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes made in other linked views.") );
 }
 
-void KonqMainWindow::slotFillContextMenu( const KBookmark &bm, QPopupMenu * pm )
+void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
 {
-  kdDebug() << "KonqMainWindow::slotFillContextMenu(bm, pm == " << pm << ")" << endl;
-  if ( bm.isGroup() )
+  kdDebug() << "KonqMainWindow::slotFillContextMenu(bk, pm == " << pm << ")" << endl;
+  popupItems.clear();
+  if ( bk.isGroup() )
   {
-    KBookmarkGroup gp = bm.toGroup();
-
-    popupItems.clear();
-
-    QValueList<KURL> list = gp.groupUrlList();
+    KBookmarkGroup grp = bk.toGroup();
+    QValueList<KURL> list = grp.groupUrlList();
     QValueList<KURL>::Iterator it = list.begin();
-    QValueList<KURL>::Iterator end = list.end();
-    for (; it != end; ++it )
-    {
-      popupItems.append( new KFileItem( (*it), QString::null,
-                                        KFileItem::Unknown) );
-    }
-
+    for (; it != list.end(); ++it )
+      popupItems.append( new KFileItem( (*it), QString::null, KFileItem::Unknown) );
     pm->insertItem( i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTab() ) );
-
-    /*
-    original code:
-       QStringList::const_iterator first = urlList.begin();
-       openFilteredURL( *first );
-       ++first;
-       while ( first != urlList.end() )
-       {
-           openFilteredURL( *first, true );
-           ++first;
-       }
-    TODO - use openfilteredurl in new code
-    */
   }
   else
   {
-    // popupItems is used by slotPopupNewTab
-    popupItems.clear();
-    popupItems.append( new KFileItem( bm.url(), QString::null,
-                                      KFileItem::Unknown) );
-
+    popupItems.append( new KFileItem( bk.url(), QString::null, KFileItem::Unknown) );
     pm->insertItem( i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
   }
 }
