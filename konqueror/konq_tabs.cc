@@ -157,6 +157,8 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
            SLOT( slotMouseMiddleClick() ) );
   connect( this, SIGNAL( mouseMiddleClick( QWidget * ) ),
            SLOT( slotMouseMiddleClick( QWidget * ) ) );
+  connect( this, SIGNAL( mouseDoubleClick() ),
+           m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
 
   connect( this, SIGNAL( testCanDecode(const QDragMoveEvent *, bool & )),
            SLOT( slotTestCanDecode(const QDragMoveEvent *, bool & ) ) );
