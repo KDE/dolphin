@@ -169,10 +169,6 @@ QString EngineCfg::navQuery() const {
 	if (search != QString::null) {
 	    int pct = m_currInternetKeywordsNavEngine.m_strQueryWithSearch.find("\\|");
 	    if (pct >= 0) {
-		int npct = search.find("\\1");
-		if (npct >= 0) {
-		    search = search.replace(npct, 2, "%1");
-		}
 		KURL::encode(search);
 		QString res = m_currInternetKeywordsNavEngine.m_strQueryWithSearch;
 		return res.replace(pct, 2, search);
