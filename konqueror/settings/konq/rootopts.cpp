@@ -86,7 +86,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 {
   QLabel * tmpLabel;
 
-#define RO_LASTROW 3   // 2 GroupBoxes + last row
+#define RO_LASTROW 2   // 2 GroupBoxes + last row = 3 rows. But it starts at 0 ;)
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, KDialog::spacingHint());
