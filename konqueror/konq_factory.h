@@ -26,7 +26,6 @@
 #include <qstringlist.h>
 
 #include <klibloader.h>
-#include <kinstance.h>
 #include <ktrader.h>
 
 #include <kparts/part.h>
@@ -65,13 +64,9 @@ public:
 				     KTrader::OfferList *partServiceOffers = 0,
 				     KTrader::OfferList *appServiceOffers = 0);
 				
-
-  static KInstance *instance();	
-
   static const KAboutData* aboutData();
 
 private:
-  static KInstance *s_instance;
   static KAboutData *s_aboutData;
 };
 

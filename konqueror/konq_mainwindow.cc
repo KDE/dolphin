@@ -141,7 +141,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   initActions();
 
-  setInstance( KonqFactory::instance() );
+  setInstance( KGlobal::instance() );
 
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
@@ -170,7 +170,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   else if ( openInitialURL )
   {
     /*
-    KConfig *config = KonqFactory::instance()->config();
+    KConfig *config = KGlobal::config();
 
     if ( config->hasGroup( "Default View Profile" ) )
     {
@@ -189,7 +189,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
       m_bNeedApplyMainWindowSettings = false;
 
   // Read basic main-view settings
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
@@ -221,7 +221,7 @@ KonqMainWindow::~KonqMainWindow()
 
   if ( m_combo )
   {
-    KConfig *config = KonqFactory::instance()->config();
+    KConfig *config = KGlobal::config();
     config->setGroup( "Settings" );
     config->writeEntry( "Maximum of URLs in combo", m_combo->maxCount() );
     config->writeEntry( "ToolBarCombo", m_combo->historyItems() );
@@ -628,7 +628,7 @@ void KonqMainWindow::slotRun()
 
 void KonqMainWindow::slotOpenTerminal()
 {
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   config->setGroup( "Misc Defaults" );
   QString term = config->readEntry( "Terminal", DEFAULT_TERMINAL );
 
@@ -734,7 +734,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
       }
   } else
   {
-      KConfig *config = KonqFactory::instance()->config();
+      KConfig *config = KGlobal::config();
       KConfigGroupSaver cgs( config, "MainView Settings" );
       config->writeEntry( "ViewMode", modeName );
       config->sync();
@@ -764,7 +764,7 @@ void KonqMainWindow::slotShowHTML()
       }
   } else
   {
-      KConfig *config = KonqFactory::instance()->config();
+      KConfig *config = KGlobal::config();
       KConfigGroupSaver cgs( config, "MainView Settings" );
       config->writeEntry( "HTMLAllowed", b );
       config->sync();
@@ -841,7 +841,7 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoApplications()
 {
-  openURL( 0L, KURL( KonqFactory::instance()->dirs()->saveLocation("apps") ) );
+  openURL( 0L, KURL( KGlobal::dirs()->saveLocation("apps") ) );
 }
 
 void KonqMainWindow::slotGoDirTree()
@@ -857,7 +857,7 @@ void KonqMainWindow::slotGoTrash()
 void KonqMainWindow::slotGoTemplates()
 {
   KonqFileManager::self()->openFileManagerWindow(
-      KonqFactory::instance()->dirs()->resourceDirs("templates").last() );
+      KGlobal::dirs()->resourceDirs("templates").last() );
 }
 
 void KonqMainWindow::slotGoAutostart()
@@ -1025,7 +1025,7 @@ void KonqMainWindow::slotRunFinished()
 
 void KonqMainWindow::applyMainWindowSettings()
 {
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
   QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
   QStringList::ConstIterator togIt = toggableViewsShown.begin();
@@ -1470,7 +1470,7 @@ void KonqMainWindow::slotSaveViewPropertiesLocally()
 {
   m_bSaveViewPropertiesLocally = !m_bSaveViewPropertiesLocally;
   // And this is a main-view setting, so save it
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
   config->writeEntry( "SaveViewPropertiesLocally", m_bSaveViewPropertiesLocally );
   config->sync();
@@ -1539,7 +1539,7 @@ KonqView * KonqMainWindow::otherView( KonqView * view ) const
 /*
 void KonqMainWindow::slotSaveDefaultProfile()
 {
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   config->setGroup( "Default View Profile" );
   m_pViewManager->saveViewProfile( *config );
 }
@@ -1664,7 +1664,7 @@ void KonqMainWindow::slotComboPlugged()
   m_combo = m_paURLCombo->combo();
 
   m_combo->clearHistory();
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
   m_combo->setMaxCount( config->readNumEntry("Maximum of URLs in combo", 10 ));
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );

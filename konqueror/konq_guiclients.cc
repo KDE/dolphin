@@ -282,7 +282,7 @@ void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
   // (This obeys to "no 'Save settings' menu item approach in the Style Guide")
   // I'm on the safe side, this way: whoever doesn't agree has to discuss
   // with the style guide authors, not with me ;-)     (David)
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "MainView Settings" );
   QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
   if (add)

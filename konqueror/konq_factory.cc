@@ -28,7 +28,6 @@
 
 #include <konqsettings.h>
 #include <kdebug.h>
-#include <kinstance.h>
 #include <kstddirs.h>
 #include <kuserprofile.h>
 #include <kaboutdata.h>
@@ -39,7 +38,6 @@
 
 #include <assert.h>
 
-KInstance *KonqFactory::s_instance = 0;
 KAboutData *KonqFactory::s_aboutData = 0;
 
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName, QObject * parent, const char *name )
@@ -74,16 +72,11 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char
 
 KonqFactory::KonqFactory()
 {
-  s_instance = 0;
-  /*QString path = */instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
+  KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
 }
 
 KonqFactory::~KonqFactory()
 {
-  if ( s_instance )
-    delete s_instance;
-
-  s_instance = 0L;
 }
 
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
@@ -194,14 +187,6 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   }
 
   return KonqViewFactory( factory, args, service->serviceTypes().contains( "Browser/View" ) );
-}
-
-KInstance *KonqFactory::instance()
-{
-  if ( !s_instance )
-    s_instance = new KInstance( aboutData() );
-
-  return s_instance;
 }
 
 const KAboutData *KonqFactory::aboutData()

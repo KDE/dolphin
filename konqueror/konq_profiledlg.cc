@@ -42,7 +42,7 @@ QMap<QString,QString> KonqProfileDlg::readAllProfiles()
 {
   QMap<QString,QString> mapProfiles;
 
-  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
+  QStringList profiles = KGlobal::dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
   QStringList::ConstIterator pIt = profiles.begin();
   QStringList::ConstIterator pEnd = profiles.end();
   for (; pIt != pEnd; ++pIt )
@@ -158,7 +158,7 @@ void KonqProfileDlg::slotSave()
   }
 
   QString fileName = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
-                                          name, KonqFactory::instance() );
+                                          name, KGlobal::instance() );
 
   if ( QFile::exists( fileName ) )
     QFile::remove( fileName );
