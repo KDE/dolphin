@@ -399,7 +399,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 	insertedOffer = true;
       }
 
-      if ( insertedOffer && showPropertiesAndFileType )
+      if ( insertedOffer )
         addSeparator();
     }
 
@@ -423,6 +423,10 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     addAction( act );
   }
 
+  while ( !m_menuElement.lastChild().isNull() && 
+            m_menuElement.lastChild().toElement().tagName().lower() == "separator" ) 
+    m_menuElement.removeChild( m_menuElement.lastChild() );
+      
   addMerge( 0 );
 
   m_factory->addClient( this );
