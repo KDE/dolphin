@@ -981,7 +981,7 @@ void KonqMainView::checkEditExtension()
   m_paCopy->setEnabled( bCopy );
   m_paPaste->setEnabled( bPaste );
   m_paTrash->setEnabled( bMove );
-  m_paDelete->setEnabled( bMove );
+  m_paDelete->setEnabled( bMove ); // should we do this for the trash can?
 }
 
 void KonqMainView::slotCut()
@@ -1198,7 +1198,7 @@ void KonqMainView::initActions()
 
   m_paRun = new KAction( i18n( "&Run..." ), 0, this, SLOT( slotRun() ), actionCollection(), "run" );
   m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
-  m_paOpenLocation = new KAction( i18n( "Open &Location..." ), CTRL+Key_L, this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
+  m_paOpenLocation = new KAction( i18n( "&Open Location..." ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), 0, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
   m_paPrint = new KAction( i18n( "&Print..."), QIconSet( BarIcon( "fileprint", KonqFactory::instance() ) ), stdAccel.print(), this, SLOT( slotPrint() ), actionCollection(), "print" );
@@ -1253,15 +1253,15 @@ void KonqMainView::initActions()
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
 
-  m_paConfigureFileManager = new KAction( i18n( "&Configure File Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  m_paConfigureFileManager = new KAction( i18n( "&Configure File Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
+  m_paConfigureFileManager = new KAction( i18n( "Configure File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
+  m_paConfigureFileManager = new KAction( i18n( "Configure File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
   m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
-  m_paConfigureKeys = new KAction( i18n( "Configure &keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
+  m_paConfigureKeys = new KAction( i18n( "Configure &Keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
 
   m_paSplitViewHor = new KAction( i18n( "Split View &Horizontally" ), CTRL+Key_H, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Vertically" ), CTRL+Key_V, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paSplitWindowHor = new KAction( i18n( "Split Window &Horizontally" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
-  m_paSplitWindowVer = new KAction( i18n( "Split Window &Vertically" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
+  m_paSplitWindowHor = new KAction( i18n( "Split Window Horizontally" ), 0, this, SLOT( slotSplitWindowHorizontal() ), actionCollection(), "splitwindowh" );
+  m_paSplitWindowVer = new KAction( i18n( "Split Window Vertically" ), 0, this, SLOT( slotSplitWindowVertical() ), actionCollection(), "splitwindowv" );
   m_paRemoveView = new KAction( i18n( "Remove Active View" ), CTRL+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
   m_paSaveDefaultProfile = new KAction( i18n( "Save Current Profile As Default" ), 0, this, SLOT( slotSaveDefaultProfile() ), actionCollection(), "savedefaultprofile" );
@@ -1276,9 +1276,9 @@ void KonqMainView::initActions()
   m_paReload = new KAction( i18n( "&Reload Document" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paCut = new KAction( i18n( "&Cut" ), QIconSet( BarIcon( "editcut", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotCut() ), actionCollection(), "cut" );
-  m_paCopy = new KAction( i18n( "&Copy" ), QIconSet( BarIcon( "editcopy", KonqFactory::instance() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
+  m_paCopy = new KAction( i18n( "C&opy" ), QIconSet( BarIcon( "editcopy", KonqFactory::instance() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
   m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::instance() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
-  m_paStop = new KAction( i18n( "Sto&p loading" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
+  m_paStop = new KAction( i18n( "&Stop loading" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
