@@ -120,6 +120,8 @@ void KonqDirTreeModule::openSubFolder( KonqTreeItem *item )
 
         connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
                  this, SLOT( slotNewItems( const KFileItemList & ) ) );
+        connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
+                 this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
         connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
                  this, SLOT( slotDeleteItem( KFileItem * ) ) );
         connect( m_dirLister, SIGNAL( completed() ),
@@ -189,6 +191,24 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
         KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( parentItem, m_topLevelItem, fileItem );
         dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
         dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
+    }
+}
+
+void KonqDirTreeModule::slotRefreshItems( const KFileItemList &entries )
+{
+    int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
+    QListIterator<KFileItem> kit ( entries );
+    for( ; kit.current(); ++kit )
+    {
+        // All items are in m_dictSubDirs, so look them up fast
+        KonqTreeItem * item = m_dictSubDirs[ kit.current()->url().url(-1) ];
+        if ( !item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
+        {
+            KonqDirTreeItem * dirTreeItem = static_cast<KonqDirTreeItem *>(item);
+            KonqFileItem * fileItem = dirTreeItem->fileItem();
+            dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
+            dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
+        }
     }
 }
 

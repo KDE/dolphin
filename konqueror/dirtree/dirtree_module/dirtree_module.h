@@ -48,6 +48,7 @@ public:
 
 private slots:
     void slotNewItems( const KFileItemList & );
+    void slotRefreshItems( const KFileItemList & );
     void slotDeleteItem( KFileItem *item );
     void slotRedirection( const KURL & oldUrl, const KURL & newUrl );
     void slotListingStopped();
