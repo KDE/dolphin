@@ -10,7 +10,7 @@
 #include <qhbuttongroup.h>
 #include <qradiobutton.h>
 #include <qlist.h>
-#include "qlistbox.h"
+#include <qlistbox.h>
 
 #include <kcmodule.h>
 
