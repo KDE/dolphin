@@ -25,6 +25,7 @@
 #include "konq_misc.h"
 #include "konq_run.h"
 
+#include <konqsettings.h>
 #include <kdebug.h>
 #include <kinstance.h>
 #include <kstddirs.h>
@@ -64,8 +65,15 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
 				      KService::Ptr *serviceImpl,
 				      KTrader::OfferList *serviceOffers )
 {
-  kdebug(0,1202,"trying to create view for \"%s\"", serviceType.ascii());
+  kdebug(0,1202,QString("trying to create view for \"%1\"").arg(serviceType));
 
+  // First check user's settings
+  QString mimeTypeGroup = serviceType.left(serviceType.find("/"));
+  if (serviceType != "text/html") // HACK. Will be replaced by a X-KDE-Embed setting in the mimetypes
+    if (! KonqFMSettings::defaultIconSettings()->shouldEmbed( mimeTypeGroup ) )
+      return false;
+
+  // Then query the trader
   QString constraint = "('Browser/View' in ServiceTypes)";
 
   KTrader::OfferList offers = KTrader::self()->query( serviceType, constraint );
