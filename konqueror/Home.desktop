@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=kfmclient openURL %u
+Exec=kfmclient openProfile filemanagement
 Icon=kfm_home
 Terminal=0
 
@@ -35,9 +35,10 @@ Name[sv]=Hemkatalogen
 Name[ta]=ெதாடகஂக அைடவு
 Name[tr]=Başlangıç Dizini
 Name[uk]=Домашній каталог
+Name[zh_CN.GB2312]=使用者主目录
 
 Comment=This folder contains all your personal files
-Comment[ca]=Aquest directori conté els seus fitxers personals
+Comment[ca]=Aquest directori cont� els seus fitxers personals
 Comment[cs]=Tento adresář obsahuje vaše osobní soubory
 Comment[da]=Denne mappe indeholder alle dine personlige filer
 Comment[de]=Dieses Verzeichnis enthält Ihre persönlichen Dateien.
@@ -62,9 +63,10 @@ Comment[pt_BR]=Esta pasta contém os seus arquivos pessoais
 Comment[ro]=Directorul personal al utilizatorului
 Comment[ru]=Эта папка содержит все ваши личные файлы
 Comment[sl]=V tem imeniku so shranjene vse vaše osebne datoteke
-Comment[sr]=Ovaj direktorijum sadrĹži vase liÄ�ne podatke
+Comment[sr]=Ovaj direktorijum sadrži vaše lične podatke
 Comment[sv]=Den här katalogen innehåller alla dina personliga filer
 Comment[ta]=இநத அைடவிலஂ உஙகளஂ ெசாநஂத ேகாபஂபுகளஂ இருகஂகுமஂ
 Comment[tr]=Bu dizin tüm kişisel dosyalarınızı içerir
 Comment[uk]=Цей каталог містить всі ваші персональні файли
+Comment[zh_CN.GB2312]=这个文件夹包含你的所有个人文件
 
