@@ -152,8 +152,8 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
    protected slots:
       void updateActions();
 
-      void copy();
-      void cut();
+      void copy() { copySelection( true ); }
+      void cut() { copySelection( false ); }
       void pastecut() { pasteSelection( true ); }
       void pastecopy() { pasteSelection( false ); }
       void trash() { KonqOperations::del(m_listView->listViewWidget(),
@@ -175,6 +175,7 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
       void editMimeType();
 
    private:
+      void copySelection( bool move );
       void pasteSelection( bool move );
 
       KonqListView *m_listView;

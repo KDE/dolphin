@@ -23,39 +23,40 @@
 #include "konq_textviewwidget.h"
 #include "konq_treeviewwidget.h"
 
-#include <kcursor.h>
-#include <konqdirlister.h>
-#include <konqfileitem.h>
-#include <kio/paste.h>
-#include <kio/job.h>
-#include <kdebug.h>
 #include <kaction.h>
-#include <kstdaction.h>
+#include <kcolordlg.h>
+#include <kcursor.h>
+#include <kdebug.h>
+#include <kio/job.h>
+#include <kio/paste.h>
+#include <klibloader.h>
+#include <klineeditdlg.h>
+#include <klocale.h>
+#include <konq_bgnddlg.h>
+#include <konqdirlister.h>
+#include <konqdrag.h>
+#include <konqfileitem.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
-#include <klineeditdlg.h>
 #include <kpropsdlg.h>
 #include <kprotocolmanager.h>
-#include <kcolordlg.h>
-#include <konq_bgnddlg.h>
+#include <kstdaction.h>
+
+#include <qapplication.h>
+#include <qclipboard.h>
+#include <qdragobject.h>
+#include <qheader.h>
+#include <qkeycode.h>
+#include <qlist.h>
+#include <qregexp.h>
+#include <qstringlist.h>
+#include <qtimer.h>
 
 #include <assert.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
-
-#include <qkeycode.h>
-#include <qlist.h>
-#include <qdragobject.h>
-#include <qapplication.h>
-#include <qclipboard.h>
-#include <qstringlist.h>
-#include <klocale.h>
-#include <klibloader.h>
-#include <qregexp.h>
-#include <qheader.h>
-#include <qtimer.h>
 
 KonqListViewFactory::KonqListViewFactory()
 {
@@ -169,13 +170,7 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "editMimeType", ( selection.count() == 1 ) );
 }
 
-void ListViewBrowserExtension::cut()
-{
-  //TODO: grey out item
-  copy();
-}
-
-void ListViewBrowserExtension::copy()
+void ListViewBrowserExtension::copySelection( bool move )
 {
   QValueList<KonqBaseListViewItem*> selection;
 
@@ -188,8 +183,9 @@ void ListViewBrowserExtension::copy()
   for (; it != end; ++it )
     lstURLs.append( (*it)->item()->url().url() );
 
-  QUriDrag *urlData = new QUriDrag;
+  KonqDrag *urlData = new KonqDrag;
   urlData->setUnicodeUris( lstURLs );
+  urlData->setMoveSelection( move );
   QApplication::clipboard()->setData( urlData );
 }
 
@@ -198,6 +194,13 @@ void ListViewBrowserExtension::pasteSelection( bool move )
   QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
+
+  // move or not move ?
+  QMimeSource *data = QApplication::clipboard()->data();
+  if ( data->provides( "application/x-kde-cutselection" ) ) {
+    bool bMove = KonqDrag::decodeIsCutSelection( data );
+    kdDebug() << " CHECK: move (from dcop hack) = " << move << "  bMove (from clipboard data) = " << bMove << endl;
+  }
   KIO::pasteClipboard( selection.first()->item()->url(), move );
 }
 
