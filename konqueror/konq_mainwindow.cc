@@ -1329,7 +1329,7 @@ void KonqMainWindow::slotGoAutostart()
 
 void KonqMainWindow::slotConfigure()
 {
-  kapp->startServiceByDesktopName("konqueror_config");
+	KApplication::startServiceByDesktopName("konqueror_config");
 }
 
 void KonqMainWindow::slotConfigureKeys()
