@@ -53,12 +53,10 @@ KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, con
                                                       QObject *parent, const char *name,
                                                       const char *, const QStringList & )
 {
-    KonqFrame *frame = dynamic_cast<KonqFrame *>( parentWidget );
+    //KonqFrame *frame = dynamic_cast<KonqFrame *>( parentWidget );
+    //if ( !frame ) return 0;
 
-    if ( !frame )
-        return 0;
-
-    return new KonqAboutPage( frame->childView()->mainWindow(),
+    return new KonqAboutPage( //frame->childView()->mainWindow(),
                               parentWidget, widgetName, parent, name );
 }
 
@@ -179,10 +177,9 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("Transfer protocols:") )
           .arg( i18n("HTTP 1.1 (including gzip/bzip2 compression)") )
           .arg( i18n("FTP") )
+          .arg( i18n("and <A HREF=\"%1\">many more...</A>").arg("exec:/kcmshell ioslaveinfo") )
           .arg( i18n("built-in") )
-          .arg( i18n("Back") )
-          .arg( i18n("to the Introduction") )
-          //.arg( i18n("") )
+          .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg("intro.html") )
           ;
 
     s_specs_html = new QString( res );
@@ -230,7 +227,6 @@ QString KonqAboutPageFactory::tips()
 		      "konqueror (Window -> Show Terminal Emulator)." ) )
 	  .arg( i18n( "Thanks to DCOP you can have full control over Konqueror using a script." ) )
 	  .arg( i18n( "Continue" ) )
-	  //	  .arg( i18n( "" ) )
           ;
 
 
@@ -240,7 +236,7 @@ QString KonqAboutPageFactory::tips()
 }
 
 
-KonqAboutPage::KonqAboutPage( KonqMainWindow *, // TODO get rid of this
+KonqAboutPage::KonqAboutPage( //KonqMainWindow *
                               QWidget *parentWidget, const char *widgetName,
                               QObject *parent, const char *name )
     : KHTMLPart( parentWidget, widgetName, parent, name )

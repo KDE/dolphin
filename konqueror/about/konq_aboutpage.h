@@ -6,7 +6,6 @@
 
 class KHTMLPart;
 class KInstance;
-class KonqMainWindow;
 
 class KonqAboutPageFactory : public KParts::Factory
 {
@@ -35,7 +34,7 @@ class KonqAboutPage : public KHTMLPart
 {
     Q_OBJECT
 public:
-    KonqAboutPage( KonqMainWindow *mainWindow,
+    KonqAboutPage( /*KonqMainWindow *mainWindow,*/
                    QWidget *parentWidget, const char *widgetName,
                    QObject *parent, const char *name );
     ~KonqAboutPage();
