@@ -33,9 +33,6 @@ public:
 
   KonqDirTreeBrowserExtension *extension() const { return m_extension; }
 
-protected:
-  virtual bool event( QEvent *e );
-
 private:
   KonqDirTree *m_pTree;
   KonqDirTreeBrowserExtension *m_extension;

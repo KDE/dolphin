@@ -179,11 +179,10 @@ KonqDirTreePart::~KonqDirTreePart()
 
 bool KonqDirTreePart::openURL( const KURL & url )
 {
-  kdDebug() << "******* KonqDirTreePart::openURL(" << url.url() << ")" << endl;
   m_url = url;
+  emit started( 0 );
   m_pTree->followURL( url );
-  //emit started( 0 );
-  //emit completed();
+  emit completed();
   return true;
 }
 
@@ -192,22 +191,6 @@ bool KonqDirTreePart::closeURL()
   // (David) shouldn't we stop the dirLister here?
 
   return true;
-}
-
-bool KonqDirTreePart::event( QEvent *e )
-{
- if ( KParts::ReadOnlyPart::event( e ) )
-   return true;
-
-    /*
- if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this && KonqFMSettings::settings()->treeFollow() )
- {
-   m_pTree->followURL( ((KParts::OpenURLEvent *)e)->url() );
-   return true;
- }
-    */
-
- return false;
 }
 
 KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KonqFileItem *item )
@@ -474,7 +457,7 @@ void KonqDirTree::slotNewItems( const KonqFileItemList& entries )
 
     //  KonqDirTreeItem *parentDir = findDir( *topLevelItem.m_mapSubDirs, dir.url( 0 ) );
     //  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->find( dir );
-    // *mumble* can't use QMap::find() because the cmp doesn't ingore the trailing slash :-(
+    // *mumble* can't use QMap::find() because the cmp doesn't ignore the trailing slash :-(
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->begin();
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
     for (; dirIt != dirEnd; ++dirIt )
@@ -700,8 +683,11 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
   QStringList::ConstIterator eEnd = entries.end();
 
   for (; eIt != eEnd; eIt++ )
-    if ( KDesktopFile::isDesktopFile( *eIt ) )
-      loadTopLevelItem( parent, QString( *eIt ).prepend( path ) );
+  {
+    QString filePath = QString( *eIt ).prepend( path );
+    if ( KMimeType::findByURL( filePath, 0, true )->name() == "application/x-desktop" )
+      loadTopLevelItem( parent, filePath );
+  }
 
   entries = dir.entryList( QDir::Dirs );
   eIt = entries.begin();
