@@ -116,6 +116,8 @@ public:
 
   void abortLoading();
 
+    void openMultiURL( KURL::List url );
+
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
   // Central widget of the mainwindow, never 0L

@@ -2143,6 +2143,21 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
   }
 }
 
+void KonqMainWindow::openMultiURL( KURL::List url )
+{
+    KURL::List::ConstIterator it = url.begin();
+    KURL::List::ConstIterator end = url.end();
+    for (; it != end; ++it )
+    {
+        KonqView* newView = m_pViewManager->addTab();
+        if (newView == 0L) continue;
+        openURL( newView, *it,QString::null);
+        m_pViewManager->showTab( newView );
+        focusLocationBar();
+        m_pWorkingTab = 0L;
+    }
+}
+
 void KonqMainWindow::slotRemoveView()
 {
   // takes care of choosing the new active view

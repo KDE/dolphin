@@ -120,6 +120,8 @@ int main( int argc, char **argv )
          }
          else
          {
+             KURL::List urlList;
+             KonqMainWindow * mainwin = 0L;
              for ( int i = 0; i < args->count(); i++ )
              {
                  // KonqMisc::konqFilteredURL doesn't cope with local files... A bit of hackery below
@@ -136,15 +138,20 @@ int main( int argc, char **argv )
                      urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
                      kdDebug(1202) << "main() : setting serviceType to " << urlargs.serviceType << endl;
                  }
-                 KonqMisc::createNewWindow( urlToOpen, urlargs );
+                 if ( !mainwin )
+                     mainwin =KonqMisc::createNewWindow( urlToOpen, urlargs );
+                 else
+                     urlList += urlToOpen;
              }
+             if ( mainwin )
+                 mainwin->openMultiURL( urlList );
          }
      }
   }
   args->clear();
 
   app.ref(); // for preloading
-  
+
   app.exec();
 
   // Delete all KonqMainWindows, so that we don't have
