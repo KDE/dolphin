@@ -196,7 +196,6 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertSeparator();
 	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	// ButtonBar->insertLineSeparator();
 	ButtonBar->insertButton(SmallIcon("configure"), -1, Menu,
     	    				i18n("Configure Sidebar"));
 	ButtonBar->insertButton(SmallIcon("remove"),-2);

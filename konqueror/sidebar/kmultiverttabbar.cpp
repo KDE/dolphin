@@ -96,10 +96,10 @@ KMultiVertTabBarTab::KMultiVertTabBarTab(const QPixmap& pic, const QString& text
 
 void KMultiVertTabBarTab::drawButton(QPainter *paint)
 {
- 	QPixmap pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
+        QPixmap pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
 	if (!isOn())
 	{
-		paint->fillRect(0,0,23,22,QBrush(colorGroup().background()));
+		paint->fillRect(0,0,23,22,QBrush(colorGroup().background().dark(120)));
 		paint->drawPixmap(12-pixmap.width()/2,12-pixmap.height()/2,pixmap);
 		paint->setPen(colorGroup().shadow());
 		paint->drawLine(0,23,23,23);
@@ -146,8 +146,14 @@ KMultiVertTabBar::KMultiVertTabBar(QWidget *parent):QWidget(parent)
 	l=new QVBoxLayout(this);
 	l->setMargin(0);
 	l->setAutoAdd(false);
+	
 	internal=new KMultiVertTabBarInternal(this);
 	l->insertWidget(0,internal);
+	QFrame *tmp;
+	l->insertWidget(0,tmp=new QFrame(this));
+	tmp->setFixedHeight(4);
+	tmp->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	tmp->setLineWidth(2);
 	setPosition(KMultiVertTabBar::Right);
 }
 
