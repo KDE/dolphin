@@ -88,6 +88,7 @@ private:
     // Over that, it's too much
     unsigned long m_maximumSize;
 
+    // for the text-preview
     KPixmapSplitter *m_splitter;
 };
 

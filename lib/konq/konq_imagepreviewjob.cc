@@ -391,7 +391,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 
   // create text-preview
   if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
-      const int bytesToRead = 256; // FIXME, make configurable
+      const int bytesToRead = 1024; // FIXME, make configurable
       QFile file( pixPath );
       if ( file.open( IO_ReadOnly )) {
 	  char data[bytesToRead+1];
@@ -402,8 +402,8 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      QString text = QString::fromLocal8Bit( data );
 	      kdDebug(1203) << "Textpreview-data: " << text << endl;
 	      // FIXME: maybe strip whitespace and read more?
-	
-	      // do the actual drawing
+
+	      // where we get the characters from
 	      QPixmap source = m_splitter->pixmap();
 	      QRect rect;
 	
@@ -475,13 +475,17 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		      bitBlt( &pix, QPoint(x,y), &source, rect, CopyROP );
 		  }
 
-		  x += xOffset;
+		  x += xOffset; // next character
 	      }
 
-	      QPainter p( &pix );
+	      // paint a black rectangle around the "page"
+	      QPainter p;
+	      p.begin( &pix );
 	      p.setPen( QColor( 88, 88, 88 ));
 	      p.drawRect( 0, 0, pix.width(), pix.height() );
+	      p.end();
 	
+		
 	      if ( m_bCanSave )
 		  img = pix.convertToImage();
 	  }
