@@ -600,9 +600,6 @@ private:
 
   KNewMenu * m_pMenuNew;
 
-  KAction *m_paFileType;
-  KAction *m_paProperties;
-
   KAction *m_paPrint;
 
   KActionMenu *m_pamBookmarks;
@@ -628,7 +625,6 @@ private:
   KAction *m_paRemoveOtherTabs;
   KAction *m_paActivateNextTab;
   KAction *m_paActivatePrevTab;
-  KAction *m_paDumpDebugInfo;
 
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
