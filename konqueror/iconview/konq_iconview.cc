@@ -705,8 +705,12 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
     {
         KFileIVI * ivi = m_itemDict[ rit.current() ];
         ASSERT(ivi);
+        kdDebug() << "KonqKfmIconView::slotRefreshItems ivi=" << ivi << endl;
         if (ivi)
+        {
             ivi->refreshIcon( true );
+            ivi->setText( rit.current()->text() );
+        }
     }
     // In case we replace a big icon with a small one, need to repaint.
     m_pIconView->updateContents();
