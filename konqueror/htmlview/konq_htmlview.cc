@@ -45,7 +45,7 @@
 #include <kio_job.h>
 #include <kmimetype.h>
 #include <konqdefaults.h>
-#include <konqsettings.h>
+#include <konq_htmlsettings.h>
 #include <klibloader.h>
 #include <kstddirs.h>
 

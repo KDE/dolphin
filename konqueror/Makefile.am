@@ -20,7 +20,8 @@ include_HEADERS = KonquerorIface.h
 
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
-			  konq_frame.cc konq_propsview.cc konq_propsmainview.cc \
+			  konq_frame.cc \
+			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
 			  konq_factory.cc konq_events.cc \
 			  konq_misc.cc konq_progressproxy.cc \
 			  konq_actions.cc konq_profiledlg.cc \

@@ -20,6 +20,7 @@
 #include <qdir.h>
 
 #include <kbrowser.h>
+#include "konq_htmlsettings.h"
 #include "konq_mainview.h"
 #include "konq_shell.h"
 #include "konq_part.h"
@@ -1508,7 +1509,7 @@ void KonqMainView::slotDatabaseChanged()
 void KonqMainView::reparseConfiguration()
 {
   debug("KonqMainView::reparseConfiguration() !");
-  // TODO : split this in two methods, so that changing one doesn't reparse the other
+  kapp->config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
   KonqHTMLSettings::reparseConfiguration();
   MapViews::ConstIterator it = m_mapViews.begin();
