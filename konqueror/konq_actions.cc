@@ -39,7 +39,7 @@ KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject 
   m_member = member;
 }
 
-int KonqComboAction::plug( QWidget *w )
+int KonqComboAction::plug( QWidget *w, int index )
 {
   //  if ( !w->inherits( "KToolBar" ) );
   //    return -1;
@@ -48,11 +48,11 @@ int KonqComboAction::plug( QWidget *w )
 
   QLabel *label = new QLabel( plainText(), w );
   label->adjustSize();
-  toolBar->insertWidget( get_toolbutton_id(), label->width(), label );
+  toolBar->insertWidget( get_toolbutton_id(), label->width(), label, index );
 
   int id = get_toolbutton_id();
 
-  toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member );
+  toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
 
   QComboBox *comboBox = toolBar->getCombo( id );
 
@@ -130,7 +130,7 @@ KonqHistoryAction::~KonqHistoryAction()
     delete m_popup;
 }
 
-int KonqHistoryAction::plug( QWidget *widget )
+int KonqHistoryAction::plug( QWidget *widget, int index )
 {
 
   if ( widget->inherits( "KToolBar" ) )
@@ -139,7 +139,7 @@ int KonqHistoryAction::plug( QWidget *widget )
 
     int id_ = get_toolbutton_id();
     bar->insertButton( iconSet().pixmap(), id_, SIGNAL( clicked() ), this, SLOT( slotActivated() ),
-		       isEnabled(), plainText() );
+		       isEnabled(), plainText(), index );
 
     addContainer( bar, id_ );
 
@@ -150,7 +150,7 @@ int KonqHistoryAction::plug( QWidget *widget )
     return containerCount() - 1;
   }
 
-  return KAction::plug( widget );
+  return KAction::plug( widget, index );
 }
 
 void KonqHistoryAction::unplug( QWidget *widget )
@@ -221,10 +221,11 @@ KonqBookmarkBar::KonqBookmarkBar( const QString& text, int accel,
 {
 }
 
-int KonqBookmarkBar::plug( QWidget *w )
+int KonqBookmarkBar::plug( QWidget *w, int index )
 {
   KToolBar *toolBar = (KToolBar *)w;
 
+#warning "FIXME: obey index"
   new KBookmarkBar(m_pOwner, toolBar, (QActionCollection*)parent());
 
   int id = get_toolbutton_id();

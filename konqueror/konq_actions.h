@@ -34,7 +34,7 @@ class KonqComboAction : public QAction
 public:
     KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member, QObject* parent, const char* name );
 
-    virtual int plug( QWidget *w );
+    virtual int plug( QWidget *w, int index = -1 );
 
     virtual void unplug( QWidget *w );
 
@@ -65,7 +65,7 @@ public:
 
     virtual ~KonqHistoryAction();
 
-    virtual int plug( QWidget *widget );
+    virtual int plug( QWidget *widget, int index = -1 );
     virtual void unplug( QWidget *widget );
 
     virtual void setEnabled( bool b );
@@ -84,7 +84,7 @@ class KonqBookmarkBar : public QAction
 public:
     KonqBookmarkBar( const QString& text, int accel, KBookmarkOwner *owner, QObject* parent, const char* name );
 
-    virtual int plug( QWidget *w );
+    virtual int plug( QWidget *w, int index = -1 );
 
     virtual void unplug( QWidget *w );
 
