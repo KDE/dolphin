@@ -182,7 +182,7 @@ KBookmark ListView::selectedBookmark() {
    return firstSelected()->bookmark();
 }
 
-#define IS_EF(it) (static_cast<KEBListViewItem *>(it)->isEmptyFolder())
+#define IS_EF(item) ((item)->isEmptyFolder())
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
@@ -191,8 +191,9 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
       if ((it.current()->isSelected()) && !IS_EF(it.current())) {
          if (it.current()->childCount() > 0) {
             for(QListViewItemIterator it2((QListViewItem*)it.current()); it2.current(); it2++) {
-               if (!IS_EF(it2.current())) {
-                  const KBookmark bk = qitemToBookmark(it2.current());
+	       KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
+               if (!IS_EF(item)) {
+                  const KBookmark bk = item->bookmark();
                   if (!addresses.contains(bk.address())) {
                      bookmarks.append(bk);
                      addresses.append(bk.address());
@@ -205,7 +206,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
                }
             }
          } else {
-            const KBookmark bk = qitemToBookmark(it.current());
+            const KBookmark bk = it.current()->bookmark();
             if (!addresses.contains(bk.address())) {
                bookmarks.append(bk);
                addresses.append(bk.address());
