@@ -94,6 +94,8 @@ KIconContainer::KIconContainer( QWidget *_parent, const char *_name, WFlags _fla
   viewport()->setFocusProxy( this );
   setFocusPolicy( TabFocus );
   viewport()->setMouseTracking( true );
+
+  setFrameStyle( QFrame::NoFrame | QFrame::Plain );
 }
 
 KIconContainer::~KIconContainer()
