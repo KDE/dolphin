@@ -42,11 +42,9 @@
 KCacheConfigDialog::KCacheConfigDialog( QWidget* parent )
                    :KCModule( parent, "kcmkio" )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
+    QVBoxLayout* mainLayout = new QVBoxLayout( this, 0,
                                                KDialog::spacingHint() );
-    QHBoxLayout* hlay = new QHBoxLayout;
-    hlay->setSpacing( KDialog::spacingHint() );
-    hlay->setMargin( 0 );
+    QHBoxLayout* hlay = new QHBoxLayout( this, 0, KDialog::spacingHint() );
 
     cb_useCache = new QCheckBox( i18n("&Use cache"), this, "cb_useCache" );
     cb_useCache->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
