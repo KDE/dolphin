@@ -247,18 +247,12 @@ bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
 
 int KonqTxtView::xOffset()
 {
-  int line, col;
-  m_pEdit->cursorPosition( &line, &col );
-  return line; //although this is not pixel value it doesn't matter actually,
-               //as the values used for openURL() are supposed to be cursor
-	       //coordinates anyway (Simon)
+  return m_pEdit->xScrollOffset();
 }
 
 int KonqTxtView::yOffset()
 {
-  int line, col;
-  m_pEdit->cursorPosition( &line, &col );
-  return col;
+  return m_pEdit->yScrollOffset();
 }
 
 void KonqTxtView::stop()
@@ -371,7 +365,7 @@ void KonqTxtView::slotFinished( int )
 {
   m_jobId = 0;
   emit completed();
-  m_pEdit->setCursorPosition( m_iYOffset, m_iXOffset );
+  m_pEdit->setScrollOffset( m_iXOffset, m_iYOffset );
 }
 
 void KonqTxtView::slotRedirection( int, const char *url )

@@ -139,6 +139,11 @@ public:
   ~KMultiLineEdit() {}
   
   bool textMarked() const { return hasMarkedText(); }
+
+  int xScrollOffset() const { return xOffset(); }
+  int yScrollOffset() const { return yOffset(); }
+  
+  void setScrollOffset( int x, int y ) { setOffset( x, y ); }
  
 };
 

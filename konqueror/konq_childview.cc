@@ -350,6 +350,7 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->strURL = m_pView->url();
   m_pCurrentHistoryEntry->xOffset = m_pView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_pView->yOffset();
+  
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
   
   if ( m_pCurrentHistoryEntry->strServiceType == "inode/directory" )

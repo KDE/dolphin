@@ -101,6 +101,8 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   if ( !factory )
     return 0L;
 
+  serviceTypes = service->serviceTypes();
+
   return (BrowserView *)factory->create();
 }
 

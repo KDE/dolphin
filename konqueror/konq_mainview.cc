@@ -495,7 +495,7 @@ void KonqMainView::slotStarted()
   (*it)->setLoading( true );
 
   (*it)->makeHistory( true );
-
+  
   if ( m_currentView == *it )
   {
     startAnimation();
@@ -1069,11 +1069,15 @@ void KonqMainView::initActions()
   
   m_paBack = new KActionMenu( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::global() ) ), actionCollection(), "back" );
   
+  m_paBack->setEnabled( false );
+  
   connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
   
   m_paForward = new KActionMenu( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::global() ) ), actionCollection(), "forward" );
+  
+  m_paForward->setEnabled( false );
   
   connect( m_paForward, SIGNAL( activated() ), this, SLOT( slotForward() ) );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
@@ -1219,7 +1223,7 @@ void KonqMainView::unPlugViewGUI( BrowserView *view )
 
 void KonqMainView::updateStatusBar()
 {
-  if ( !m_progressBar )
+  if ( !m_progressBar || !m_statusBar )
     return;
 
   int progress = m_currentView->progress();
@@ -1230,6 +1234,8 @@ void KonqMainView::updateStatusBar()
   m_progressBar->setValue( progress );
 
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
+  
+  m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
 }
 
 QString KonqMainView::findIndexFile( const QString &dir )
