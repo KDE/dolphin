@@ -113,6 +113,12 @@ void KonqIconViewWidget::slotOnViewport()
     m_pActiveItem = 0L;
 }
 
+void KonqIconViewWidget::clear()
+{
+    KIconView::clear();
+    m_pActiveItem = 0L;
+}
+
 void KonqIconViewWidget::initConfig()
 {
     m_pSettings = KonqFMSettings::settings();

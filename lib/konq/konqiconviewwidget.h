@@ -90,6 +90,11 @@ public:
      */
     const KURL::List & dragURLs() { return m_lstDragURLs; }
 
+    /**
+     * Reimplemented from QIconView
+     */
+    virtual void clear();
+
 public slots:
     /**
      * Checks the new selection and emits enableAction() signals
