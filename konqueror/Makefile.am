@@ -3,7 +3,7 @@ LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
 LDADD = -lkparts -lkpartsui -lkom $(LIB_KFILE) $(LIB_KIO) $(LIB_KHTML) \
 	$(LIBMICO)
 
-SUBDIRS = pics Templates
+SUBDIRS = client pics Templates
 
 data_DATA = directory.trash directory.autostart directory.templates directory.desktop
 datadir = $(kde_datadir)/kfm
