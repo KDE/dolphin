@@ -24,7 +24,7 @@
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kdebug.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <konq_dirpart.h>
 
 class KQuery;
@@ -92,7 +92,7 @@ private:
     /**
      * The internal storage of file items
      */
-    QList<KFileItem> m_lstFileItems;
+    QPtrList<KFileItem> m_lstFileItems;
 };
 
 /* This class will be used to save the kfind dialog state and

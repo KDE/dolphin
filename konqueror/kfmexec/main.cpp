@@ -36,7 +36,7 @@
 #include <kaboutdata.h>
 #include <kstartupinfo.h>
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstring.h>
 
 #include "main.h"
@@ -57,11 +57,11 @@ static KCmdLineOptions options[] =
 
 int jobCounter = 0;
 
-QList<KIO::Job>* jobList = 0L;
+QPtrList<KIO::Job>* jobList = 0L;
 
 KFMExec::KFMExec()
 {
-    jobList = new QList<KIO::Job>;
+    jobList = new QPtrList<KIO::Job>;
     jobList->setAutoDelete( false ); // jobs autodelete themselves
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -154,7 +154,7 @@ void KFMExec::slotRunApp()
     command.append( " " );
     QString files;
     QStringList::ConstIterator cmdit = params.begin();
-    for ( ; cmdit != params.end() ; ++cmdit ) 
+    for ( ; cmdit != params.end() ; ++cmdit )
     {
         if ( !files.isEmpty() )
             files += " ";

@@ -104,7 +104,7 @@ class KonqBaseListViewWidget : public KListView
        */
       KonqPropsView * props() const;
 
-      //QList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
+      //QPtrList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
       ColumnInfo * columnConfigInfo() {return confColumns;};
       QString sortedByColumn;
 
@@ -210,7 +210,7 @@ class KonqBaseListViewWidget : public KListView
       /** The directory lister for this URL */
       KonqDirLister* m_dirLister;
 
-      //QList<ColumnInfo> confColumns;
+      //QPtrList<ColumnInfo> confColumns;
       // IMO there is really no need for an advanced data structure
       //we have a fixed number of members,
       //it consumes less memory and access should be faster (Alex)

@@ -63,7 +63,7 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       QDict<KonqListViewDir> m_dictSubDirs;
 
       QStringList m_urlsToOpen;
-      QList<KonqListViewDir> m_itemsToOpen;
+      QPtrList<KonqListViewDir> m_itemsToOpen;
 };
 
 #endif

@@ -14,7 +14,7 @@
 #include <qpushbutton.h>
 #include <qdir.h>
 #include <qregexp.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qvalidator.h>
 
 #include <kglobal.h>
@@ -34,7 +34,7 @@ static void save_pattern(QComboBox *, const QString &, const QString &);
 
 #define SPECIAL_TYPES 7
 
-class KSortedMimeTypeList : public QList<KMimeType>
+class KSortedMimeTypeList : public QPtrList<KMimeType>
 {
 public:
   KSortedMimeTypeList() { };

@@ -393,7 +393,7 @@ void KonqBaseListViewWidget::drawRubber()
    style().drawFocusRect( &p, QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
                           colorGroup(), &colorGroup().base() );
 #else
-   style().drawPrimitive( QStyle::PE_FocusRect, &p, 
+   style().drawPrimitive( QStyle::PE_FocusRect, &p,
                           QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
                           colorGroup(), QStyle::Style_Default, colorGroup().base() );
 #endif
@@ -990,7 +990,7 @@ void KonqBaseListViewWidget::slotClear()
 void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
    //kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
-   for (QListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
+   for (QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
       KonqListViewItem * tmp = new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
       if (m_goToFirstItem==false)
@@ -1036,7 +1036,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 
 void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 {
-   QListIterator<KFileItem> kit ( entries );
+   QPtrListIterator<KFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
    {
       iterator it = begin();

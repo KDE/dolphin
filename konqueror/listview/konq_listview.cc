@@ -45,7 +45,7 @@
 #include <qdragobject.h>
 #include <qheader.h>
 #include <qkeycode.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qregexp.h>
 #include <qstringlist.h>
 #include <qtimer.h>

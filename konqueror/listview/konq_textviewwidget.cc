@@ -152,7 +152,7 @@ void KonqTextViewWidget::createColumns()
 
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   for( QListIterator<KFileItem> kit (entries); kit.current(); ++kit )
+   for( QPtrListIterator<KFileItem> kit (entries); kit.current(); ++kit )
    {
       KonqTextViewItem *tmp=new KonqTextViewItem( this,static_cast<KonqFileItem*> (*kit));
       if (m_goToFirstItem==false)

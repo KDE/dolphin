@@ -136,7 +136,7 @@ void KonqTreeViewWidget::slotClear()
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 {
     // Find parent item - it's the same for all the items
-    QListIterator<KFileItem> kit ( entries );
+    QPtrListIterator<KFileItem> kit ( entries );
     KURL dir ( (*kit)->url() );
     dir.setFileName( "" );
     //kdDebug(1202) << "dir = " << dir.url() << endl;
@@ -221,7 +221,7 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 {
     QString url = _fileItem->url().url( 0 );
     m_urlsToOpen.remove( url );
-    QListIterator<KonqListViewDir> it( m_itemsToOpen );
+    QPtrListIterator<KonqListViewDir> it( m_itemsToOpen );
     for (; it.current(); ++it )
         if ( it.current()->url( 0 ) == url )
         {
