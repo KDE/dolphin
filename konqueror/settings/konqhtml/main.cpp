@@ -58,10 +58,10 @@ extern "C"
 		return new KAppearanceOptions(c, "HTML Settings", parent, name);
 	}
 
-	KCModule *create_khtml_java_js(QWidget *parent, const char *name)
+	KCModule *create_khtml_java_js(QWidget *parent, const char */*name*/)
 	{
 		KConfig *c = new KConfig( "konquerorrc", false, false );
-		return new KJSParts(c, parent, name);
+		return new KJSParts(c, parent, "kcmkonqhtml");
 	}
 
 	KCModule *create_khtml_plugins(QWidget *parent, const char *name)
