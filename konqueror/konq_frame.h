@@ -50,6 +50,7 @@ class KConfig;
 class KSeparator;
 class KProgress;
 class KAction;
+class KSqueezedTextLabel;
 
 namespace KParts
 {
@@ -140,7 +141,7 @@ class KonqFrameStatusBar : public KStatusBar
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pLinkedViewCheckBox;
       KProgress *m_progressBar;
-      QLabel *m_pStatusLabel;
+      KSqueezedTextLabel *m_pStatusLabel;
       QLabel* m_led;
       QString m_savedMessage;
 };

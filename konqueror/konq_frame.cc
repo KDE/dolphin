@@ -32,6 +32,7 @@
 #include <kiconloader.h>
 #include <kprogress.h>
 #include <klocale.h>
+#include <ksqueezedtextlabel.h>
 
 #include "konq_events.h"
 #include "konq_frame.h"
@@ -72,7 +73,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     addWidget( m_led, 0, false ); // led (active view indicator)
     m_led->hide();
 
-    m_pStatusLabel = new QLabel( this );
+    m_pStatusLabel = new KSqueezedTextLabel( this );
     m_pStatusLabel->setMinimumSize( 0, 0 );
     m_pStatusLabel->setSizePolicy(QSizePolicy( QSizePolicy::Ignored, QSizePolicy::Fixed ));
     m_pStatusLabel->installEventFilter(this);
