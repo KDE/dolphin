@@ -60,7 +60,7 @@ KCookiesPolicies::~KCookiesPolicies()
 void KCookiesPolicies::configChanged ()
 {
   //kdDebug() << "KCookiesPolicies::configChanged..." << endl;
-  setChanged( true );
+  setChanged((d_configChanged=true));
 }
 
 void KCookiesPolicies::cookiesEnabled( bool enable )
@@ -265,6 +265,7 @@ void KCookiesPolicies::selectionChanged ()
 void KCookiesPolicies::load()
 {
   d_itemsSelected = 0;
+  d_configChanged = false;
   
   KConfig cfg ("kcookiejarrc", true);
   cfg.setGroup ("Cookie Policy");
@@ -339,14 +340,13 @@ void KCookiesPolicies::load()
   connect( dlg->pbNew, SIGNAL(clicked()), SLOT( addPressed() ) );
   connect( dlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
   connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
-  connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
-  setChanged( false );
+  connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );           
 }
 
 void KCookiesPolicies::save()
 {
   // If nothing changed, ignore the save request.
-  if (!KCModule::changed())
+  if (!d_configChanged)
     return;
 
   KConfig cfg ( "kcookiejarrc" );
@@ -413,7 +413,6 @@ void KCookiesPolicies::defaults()
 
   cookiesEnabled( dlg->cbEnableCookies->isChecked() );
   updateButtons();
-  setChanged( true );
 }
 
 void KCookiesPolicies::splitDomainAdvice (const QString& cfg, QString &domain,
