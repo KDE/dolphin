@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="nspluginpart" version="1">
+<MenuBar>
+  <Menu name="file"><text>&amp;File</text>
+    <Action name="saveDocument"/>
+  </Menu>
+</MenuBar>
+</kpartgui>
+

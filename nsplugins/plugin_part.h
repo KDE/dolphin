@@ -98,6 +98,7 @@ protected:
 
 protected slots:
   void pluginResized(int,int);
+  void saveAs();
 
 private:
   QGuardedPtr<QWidget> _widget;

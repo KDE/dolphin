@@ -1,17 +1,18 @@
-#include <kapplication.h>
-#include <klocale.h>
-#include <kaboutdata.h>
-#include <kdebug.h>
 #include <dcopclient.h>
-#include <qlabel.h>
-
+#include <kaboutdata.h>
+#include <kaction.h>
+#include <kapplication.h>
+#include <kdebug.h>
+#include <kfiledialog.h>
+#include <kio/netaccess.h>
+#include <klocale.h>
 #include <kparts/browserinterface.h>
 #include <kparts/browserextension.h>
 
-#include "nspluginloader.h"
+#include <qlabel.h>
 
+#include "nspluginloader.h"
 #include "plugin_part.h"
-#include "plugin_part.moc"
 
 
 class PluginBrowserExtension : public KParts::BrowserExtension
@@ -47,7 +48,7 @@ Q_UNUSED(type);
 Q_UNUSED(retobjid);
 Q_UNUSED(value);
     kdDebug(1432) << "PLUGIN:LiveConnect::call " << func << " args: " << args << endl;
-      return false;
+    return false;
 }
 
 bool PluginLiveConnectExtension::put( const unsigned long, const QString &field, const QString &value) {
@@ -186,6 +187,13 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     _extension = static_cast<PluginBrowserExtension*>(new KParts::BrowserExtension(this));
     _liveconnect = new PluginLiveConnectExtension(this);
 
+    // Only create this if we have no parent since the parent part is
+    // responsible for "Save As" then
+    if (!parent || !parent->inherits("Part")) {
+        new KAction(i18n("&Save As..."), CTRL+Key_S, this, SLOT(saveAs()), actionCollection(), "saveDocument");
+        setXMLFile("nspluginpart.rc");
+    }
+
     // create
     _loader = NSPluginLoader::instance();
     _callback = new NSPluginCallback(this);
@@ -273,11 +281,11 @@ bool PluginPart::openURL(const KURL &url)
         _widget = label;
     }
 
-    _widget->resize( _canvas->width(), _canvas->height() );
+    _widget->resize(_canvas->width(), _canvas->height());
     _widget->show();
 
     kdDebug(1432) << "<- PluginPart::openURL = " << (inst!=0) << endl;
-    return inst!=0;
+    return inst != 0L;
 }
 
 
@@ -308,7 +316,7 @@ void PluginPart::postURL(const QString& url, const QString& target, const QByteA
     args.postData = data;
     args.setContentType(mime);
 
-    emit _extension->openURLRequest( new_url, args );
+    emit _extension->openURLRequest(new_url, args);
 }
 
 void PluginPart::requestURL(const QString& url, const QString& target)
@@ -321,20 +329,21 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     args.frameName = target;
     args.setDoPost(false);
 
-    emit _extension->openURLRequest( new_url, args );
+    emit _extension->openURLRequest(new_url, args);
 }
 
-void PluginPart::evalJavaScript( int id, const QString & script )
+void PluginPart::evalJavaScript(int id, const QString & script)
 {
-    if ( _widget )
-        static_cast<NSPluginInstance *>((QWidget*)_widget)->javascriptResult
-            ( id, _liveconnect->evalJavaScript( script ) );
+    if (_widget) {
+        QString rc = _liveconnect->evalJavaScript(script);
+        static_cast<NSPluginInstance*>((QWidget*)_widget)->javascriptResult(id, rc);
+    }
 }
 
-void PluginPart::statusMessage( QString msg )
+void PluginPart::statusMessage(QString msg)
 {
     kdDebug(1422) << "PluginPart::statusMessage " << msg << endl;
-    emit setStatusBarText( msg );
+    emit setStatusBarText(msg);
 }
 
 
@@ -342,8 +351,9 @@ void PluginPart::pluginResized(int w, int h)
 {
     kdDebug(1432) << "PluginPart::pluginResized()" << endl;
 
-    if ( _widget )
-        _widget->resize( w, h );
+    if (_widget) {
+        _widget->resize(w, h);
+    }
 }
 
 
@@ -352,6 +362,13 @@ void PluginPart::changeSrc(const QString& url) {
     openURL(url);
 }
 
+
+void PluginPart::saveAs() {
+    KURL savefile = KFileDialog::getSaveURL(QString::null, QString::null, _widget);
+    KIO::NetAccess::copy(m_url, savefile, _widget);
+}
+
+
 void PluginCanvasWidget::resizeEvent(QResizeEvent *ev)
 {
     QWidget::resizeEvent(ev);
@@ -359,3 +376,4 @@ void PluginCanvasWidget::resizeEvent(QResizeEvent *ev)
 }
 
 
+#include "plugin_part.moc"
