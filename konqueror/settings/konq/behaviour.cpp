@@ -59,7 +59,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
    // ----
 
-    cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), vbox);
+    cbNewWin = new QCheckBox(i18n("Open directories in separate &windows"), vbox);
     QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
                                     "you open a directory, rather than showing that directory's contents in the current window."));
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
@@ -78,7 +78,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     // --
 
-    cbShowTips = new QCheckBox( i18n( "&Show file tips" ), vbox );
+    cbShowTips = new QCheckBox( i18n( "Show file &tips" ), vbox );
     connect(cbShowTips, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
@@ -95,7 +95,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
 */
-    cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), vbox );
+    cbShowPreviewsInTips = new QCheckBox( i18n( "Show &previews in file tips" ), vbox );
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
@@ -134,11 +134,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
 
-    cbMoveToTrash = new QCheckBox( i18n("Move to trash"), bg );
+    cbMoveToTrash = new QCheckBox( i18n("&Move to trash"), bg );
 
-    cbDelete = new QCheckBox( i18n("Delete"), bg );
+    cbDelete = new QCheckBox( i18n("D&elete"), bg );
 
-    cbShred = new QCheckBox( i18n("Shred"), bg );
+    cbShred = new QCheckBox( i18n("Sh&red"), bg );
 
     lay->addWidget(bg);
 
