@@ -55,6 +55,7 @@ void KHTMLPluginKTTSD::slotReadOut()
         KHTMLPart *part = (KHTMLPart *) parent();
 
         QString query;
+	//FIXME:  part->selectedTextAsHTML()  instead, which will return valid-xml html so that you can speak the tags
         if (part->hasSelection())
           query = part->selectedText();
         else
