@@ -173,6 +173,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   setXMLFile( "konqueror.rc" );
 
+  setStandardToolBarMenuEnabled( true );
+
   createGUI( 0L );
 
   if ( !m_toggleViewGUIClient->empty() )
