@@ -23,7 +23,6 @@
 #include <qmap.h>
 
 #include <kcontrol.h>
-#include <ktrader.h>
 #include <kservicetype.h>
 
 class KSimpleConfig;
@@ -93,7 +92,6 @@ private:
   QString m_strLastServiceType;
   QString m_strLastServiceName;
   
-  KTrader::OfferList m_lstAllServices;
   KServiceType::List m_lstAllServiceTypes;
 };
 
