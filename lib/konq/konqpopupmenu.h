@@ -25,6 +25,7 @@
 #include <qpopupmenu.h>
 #include <qmap.h>
 #include <kaction.h>
+#include <kxmlguiclient.h>
 #include <qstringlist.h>
 
 #include <konqfileitem.h>
@@ -42,7 +43,7 @@ class KService;
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
  */
-class KonqPopupMenu : public QPopupMenu
+class KonqPopupMenu : public QPopupMenu, public KXMLGUIClient
 {
   Q_OBJECT
 public:
@@ -65,11 +66,22 @@ public:
                  KURL viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
-                 bool allowEmbeddingServices = false );
+                 bool allowEmbeddingServices = false,
+                 bool addTrailingSeparator = false );
   /**
    * Don't forget to destroy the object
    */
   ~KonqPopupMenu();
+
+  /**
+   * Reimplemented for internal purpose
+   */
+  virtual KAction *action( const QDomElement &element ) const;
+
+  /**
+   * Reimplemented for internal purpose
+   */
+  virtual QDomDocument document() const;
 
 signals:
   /**
@@ -82,7 +94,7 @@ public slots:
   void slotPopupEmptyTrashBin();
   void slotPopupOpenWith();
   void slotPopupAddToBookmark();
-  void slotPopup( int id );
+  void slotRunService();
   void slotPopupMimeType();
   void slotPopupProperties();
 
@@ -90,7 +102,16 @@ protected slots:
   void slotResult( KIO::Job * );
 
 protected:
-  KActionCollection & m_actions;
+  void prepareXMLGUIStuff();
+  void addAction( KAction *action );
+  void addAction( const char *name );
+  void addSeparator();
+  void addMerge( const char *name );
+
+  KActionCollection &m_actions;
+  KActionCollection m_ownActions;
+
+  KAction *m_paNewView;
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;
   QString m_sMimeType;
@@ -100,6 +121,11 @@ protected:
   QMap<int,KService::Ptr> m_mapPopupEmbedding;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopupServices;
   bool m_bHandleEditOperations;
+  QDomDocument m_doc;
+  QDomElement m_menuElement;
+  KXMLGUIFactory *m_factory;
+  KXMLGUIBuilder *m_builder;
+  QString attrName;
 };
 
 #endif
