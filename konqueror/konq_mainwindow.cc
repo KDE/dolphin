@@ -412,7 +412,6 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   if ( url.url() == "about:blank" )
   {
     serviceType = "text/html";
-    url = KURL();
   }
   else if ( url.isMalformed() )
   {
@@ -690,12 +689,16 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
         // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
         childView = m_pViewManager->Initialize( serviceType, serviceName );
 
-        enableAllActions( true );
+        if ( childView )
+        {
+            enableAllActions( true );
 
-        m_pViewManager->setActivePart( childView->part() );
+            m_pViewManager->setActivePart( childView->part() );
 
-        childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
-        m_initialFrameName = QString::null;
+            childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
+            m_initialFrameName = QString::null;
+            m_currentView = childView;
+        }
       }
 
       if ( !childView )
