@@ -251,7 +251,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                     else {
                         kdDebug(1203) << "we go ahead.." << endl;
                         d->m_movieBlocked++;
-                        QTimer::singleShot(1200, this, SLOT(slotReenableAnimation()));
+                        QTimer::singleShot(500, this, SLOT(slotReenableAnimation()));
                         d->m_movie->restart();
                         d->m_movie->unpause();
                     }
@@ -352,7 +352,7 @@ void KonqIconViewWidget::slotOnViewport()
             d->m_movie->pause();
             d->m_movieBlocked++;
             kdDebug(1203) << "on viewport, blocking" << endl;
-            QTimer::singleShot(1200, this, SLOT(slotReenableAnimation()));
+            QTimer::singleShot(500, this, SLOT(slotReenableAnimation()));
         }
         d->pActiveItem->refreshIcon( true );
         Q_ASSERT( d->pActiveItem->state() == KIcon::DefaultState );
