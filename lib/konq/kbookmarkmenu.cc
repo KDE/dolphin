@@ -153,55 +153,57 @@ void KBookmarkMenu::refill()
   m_parentMenu->adjustSize();
 }
 
+void KBookmarkMenu::addAddBookmark()
+{
+  // create "add bookmark", with the parent's ID (as a name)
+  KAction * paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
+                                          "bookmark_add",
+                                          m_bIsRoot ? KStdAccel::addBookmark() : 0,
+                                          this,
+                                          SLOT( slotAddBookmark() ),
+                                          m_actionCollection );
+
+  paAddBookmarks->setStatusText( i18n( "Add a bookmark for the current document" ) );
+
+  paAddBookmarks->plug( m_parentMenu );
+  m_actions.append( paAddBookmarks );
+}
+
+void KBookmarkMenu::addNewFolder()
+{
+  KAction * paNewFolder = new KAction( i18n( "&New Folder..." ),
+                                       "folder_new", //"folder",
+                                       0,
+                                       this,
+                                       SLOT( slotNewFolder() ),
+                                       m_actionCollection );
+
+  paNewFolder->setStatusText( i18n( "Create a new bookmark folder in this menu" ) );
+
+  paNewFolder->plug( m_parentMenu );
+  m_actions.append( paNewFolder );
+}
+
 void KBookmarkMenu::fillBookmarkMenu()
 {
-  if ( m_bAddBookmark )
-  {
-    // create the first item, add bookmark, with the parent's ID (as a name)
-    KAction * paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
-                                              "bookmark_add",
-                                              m_bIsRoot ? KStdAccel::addBookmark() : 0,
-                                              this,
-                                              SLOT( slotAddBookmark() ),
-                                              m_actionCollection );
-
-    paAddBookmarks->setStatusText( i18n( "Add a bookmark for the current document" ) );
-
-    paAddBookmarks->plug( m_parentMenu );
-    m_actions.append( paAddBookmarks );
-  }
-
   if ( m_bIsRoot )
   {
+    if ( m_bAddBookmark )
+      addAddBookmark();
+
     KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ),
                                                              m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
     m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
     m_actions.append( m_paEditBookmarks );
 
-    if ( !m_bAddBookmark )
-      m_parentMenu->insertSeparator();
-  }
-
-  if ( m_bAddBookmark )
-  {
-    KAction * paNewFolder = new KAction( i18n( "&New Folder..." ),
-                                         "folder_new", //"folder",
-                                         0,
-                                         this,
-                                         SLOT( slotNewFolder() ),
-                                         m_actionCollection );
-
-    paNewFolder->setStatusText( i18n( "Create a new bookmark folder in this menu" ) );
-
-    paNewFolder->plug( m_parentMenu );
-    m_actions.append( paNewFolder );
+    if ( m_bAddBookmark )
+      addNewFolder();
 
     m_parentMenu->insertSeparator();
-  }
 
-  if ( m_bIsRoot && KBookmarkManager::self()->showNSBookmarks()
-       && QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) )
+    if ( KBookmarkManager::self()->showNSBookmarks()
+         && QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) )
     {
       KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), "netscape",
                                                   m_actionCollection, 0L );
@@ -214,6 +216,7 @@ void KBookmarkMenu::fillBookmarkMenu()
       connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
       m_parentMenu->insertSeparator();
     }
+  }
 
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
   ASSERT(!parentBookmark.isNull());
@@ -254,6 +257,13 @@ void KBookmarkMenu::fillBookmarkMenu()
                                                   bm.address() );
       m_lstSubMenus.append( subMenu );
     }
+  }
+
+  if ( !m_bIsRoot && m_bAddBookmark )
+  {
+    m_parentMenu->insertSeparator();
+    addAddBookmark();
+    addNewFolder();
   }
 }
 

@@ -118,6 +118,8 @@ protected slots:
 protected:
 
   void refill();
+  void addAddBookmark();
+  void addNewFolder();
 
   bool m_bIsRoot:1;
   bool m_bAddBookmark:1;
