@@ -81,9 +81,6 @@
 // Default terminal for Open Terminal and for 'run in terminal'
 #define DEFAULT_TERMINAL "konsole"
 
-// Default editor for viewing HTML source
-#define DEFAULT_EDITOR "kedit"
-
 // Default UserAgent string (e.g. Konqueror/2.0)
 #define DEFAULT_USERAGENT_STRING QString("Konqueror/")+KDE_VERSION_STRING
 
