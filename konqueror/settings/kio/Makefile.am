@@ -14,7 +14,7 @@ kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
       uagentproviderdlg.cpp netpref.cpp cache.cpp ksaveioconfig.cpp
 
 kcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-kcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KFILE)
+kcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KIO)
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkio.pot
