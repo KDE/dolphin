@@ -53,58 +53,46 @@ public:
 private:
 
   static KInstance *s_instance;
+  class NSPluginLoader *_loader;
 };
 
 
 class PluginCanvasWidget : public QWidget
 {
   Q_OBJECT
-
 public:
 
   PluginCanvasWidget(QWidget *parent=0, const char *name=0)
     : QWidget(parent,name) {};
 
-
 protected:
-
   void resizeEvent(QResizeEvent *e);
 
-
 signals:
-
   void resized(int,int);
-
 };
 
 
 class PluginPart: public KParts::ReadOnlyPart
 {
   Q_OBJECT
-
 public:
-
   PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
              const char *name, const QStringList &args = QStringList());
   virtual ~PluginPart();
 
   void requestURL(QCString url, QCString target);
 
-
 protected:
-
   virtual bool openURL(const KURL &url);
   virtual bool closeURL();
   virtual bool openFile() { return false; };
 
-
 protected slots:
-
   void pluginResized(int,int);
-
+  void widgetDestroyed( NSPluginInstance *inst );
 
 private:
-
   NSPluginInstance *_widget;
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;

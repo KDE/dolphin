@@ -4,6 +4,7 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+                     Stefan Schimanski <1Stein@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,7 +39,6 @@
 
 
 class KProcess;
-class PluginPrivateData;
 
 
 class NSPluginInstance : public QXEmbed, virtual public NSPluginInstanceIface_stub
@@ -46,20 +46,14 @@ class NSPluginInstance : public QXEmbed, virtual public NSPluginInstanceIface_st
   Q_OBJECT
 
 public:
-
-  NSPluginInstance(QWidget *parent, PluginPrivateData *data, const QCString& app, const QCString& id);
+  NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id);
   ~NSPluginInstance();
 
+signals:
+  void destroyed( NSPluginInstance *inst );
 
 protected:
-
   void resizeEvent(QResizeEvent *event);
-
-
-private:
-
-  PluginPrivateData *_data;
-
 };
 
 
@@ -72,10 +66,8 @@ public:
   NSPluginLoader();
   ~NSPluginLoader();
 
-
   NSPluginInstance *NewInstance(QWidget *parent, QString url, QString mimeType, int type, 
 				QStringList argn, QStringList argv);
-
 
   static NSPluginLoader *instance();
   void release();
@@ -88,21 +80,27 @@ protected:
   QString lookup(const QString &mimeType);
   QString lookupMimeType(const QString &url);
 
-  bool loadPlugin(const QString &plugin);
-  void unloadPlugin(const QString &plugin);
-
+  bool loadViewer();
+  void unloadViewer();
 
 protected slots:
 
-  void applicationRegistered(const QCString& appId);
-  void processTerminated(KProcess *proc);
+  void applicationRegistered( const QCString& appId );
+  void processTerminated( KProcess *proc );
+  void pluginDestroyed( NSPluginInstance *inst );
  
  
 private:
 
   QStringList _searchPaths;
-  QDict<char> _mapping, _filetype;
-  QDict<PluginPrivateData> _private;
+  QDict<char> _mapping, _filetype;  
+  
+  KProcess *_process;
+  bool _running;
+  QCString _dcopid;
+  NSPluginViewerIface_stub *_viewer;
+  
+  QList<NSPluginInstanceIface_stub> _plugins;
 
   static NSPluginLoader *s_instance;
   static int s_refCount;

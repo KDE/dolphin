@@ -45,33 +45,24 @@
 #include "NSPluginClassIface_stub.h"
 
 
-class PluginPrivateData
-{
-public:
-
-  KProcess                *process;
-  QCString                dcopid;
-  bool                    running;
-  NSPluginClassIface_stub *stub;
-
-};
-
-
 NSPluginLoader *NSPluginLoader::s_instance = 0;
 int NSPluginLoader::s_refCount = 0;
 
 
-NSPluginInstance::NSPluginInstance(QWidget *parent, PluginPrivateData *data, const QCString& app, const QCString& id)
-  : QXEmbed(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), _data(data)
+NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id)
+  : QXEmbed(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id)
 {
   setBackgroundMode(QWidget::NoBackground);
-  embed(NSPluginInstanceIface_stub::winId());
+  embed( NSPluginInstanceIface_stub::winId() );
 }
 
 
 NSPluginInstance::~NSPluginInstance()
 {
-  destroyPlugin();
+   kdDebug() << "-> NSPluginInstance::~NSPluginInstance" << endl;
+   destroyPlugin();
+   emit destroyed( this );
+   kdDebug() << "<- NSPluginInstance::~NSPluginInstance" << endl;
 }
 
 
@@ -83,24 +74,29 @@ void NSPluginInstance::resizeEvent(QResizeEvent *event)
 }
 
 
+/*******************************************************************************/
+
+
 NSPluginLoader::NSPluginLoader()
-  : QObject(), _mapping(7, false)
+   : QObject(), _mapping(7, false), _viewer(0)
 {
   scanPlugins();
+  _plugins.setAutoDelete( true );
 
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
   QObject::connect(kapp->dcopClient(), SIGNAL(applicationRegistered(const QCString&)),
-	  this, SLOT(applicationRegistered(const QCString&)));
+		   this, SLOT(applicationRegistered(const QCString&)));
 }
 
 
 NSPluginLoader *NSPluginLoader::instance()
-{
+{   
   if (!s_instance)
     s_instance = new NSPluginLoader;
 
   s_refCount++;
+  kdDebug() << "NSPluginLoader::instance -> " <<  s_refCount << endl;
 
   return s_instance;
 }
@@ -108,25 +104,23 @@ NSPluginLoader *NSPluginLoader::instance()
 
 void NSPluginLoader::release()
 {
-  s_refCount--;
+   s_refCount--;
+   kdDebug() << "NSPluginLoader::release -> " <<  s_refCount << endl;
 
-  if (s_refCount==0)
-  {
-    delete s_instance;
-    s_instance = 0;
-  }
+   if (s_refCount==0)
+   {      
+      delete s_instance;
+      s_instance = 0;
+   }
 }
 
 
 NSPluginLoader::~NSPluginLoader()
 {
-  kdDebug() << "~NSPluginLoader" << endl;
-  QDictIterator<PluginPrivateData> dit(_private);
-  while (dit.current())
-    {
-      unloadPlugin(dit.currentKey());
-      ++dit;
-    }
+   kdDebug() << "-> NSPluginLoader::~NSPluginLoader" << endl;
+   _plugins.clear();
+   unloadViewer();
+   kdDebug() << "<- NSPluginLoader::~NSPluginLoader" << endl;
 }
 
 
@@ -200,200 +194,198 @@ QString NSPluginLoader::lookup(const QString &mimeType)
 }
 
 
-bool NSPluginLoader::loadPlugin(const QString &plugin)
+bool NSPluginLoader::loadViewer()
 {
-  kdDebug() << "NSPluginLoader::loadPlugin" << endl;
-  PluginPrivateData *data = _private[plugin];
+   kdDebug() << "NSPluginLoader::loadViewer" << endl;
+  
+   _running = false;
+   _process = new KProcess;
 
-  if (data)
-  {
-    kdDebug() << "old plugin found: data=" << data << endl;
-  } else
-    {
-      data = new PluginPrivateData;
-      data->running = false;
-      data->process = new KProcess;
+   // get the dcop app id
+   int pid = (int)getpid();
+   QString dcopPlugin;
+   QTextOStream(&dcopPlugin) << "nspluginviewer-" << pid;
+   _dcopid = dcopPlugin;
 
-      // get the dcop app id
-      int pid = (int)getpid();
-      QString dcopPlugin;
-      QTextOStream(&dcopPlugin) << plugin << "-" << pid;
-      data->dcopid = dcopPlugin;
+   connect( _process, SIGNAL(processExited(KProcess*)), this, SLOT(processTerminated(KProcess*)) );
 
-      // register process
-      _private.insert(plugin, data);
+   // find the external viewer process   
+   QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
+   if (!viewer)
+   {
+      kdDebug() << "can't find nspluginviewer" << endl;
+      delete _process;	      	
+      return false;
+   }
 
-      connect(data->process, SIGNAL(processExited(KProcess*)),
-	      this, SLOT(processTerminated(KProcess*)));
+   // find the external artsdsp process   
+#if 0
+   QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
+   if (!artsdsp)
+   {
+      kdDebug() << "can't find artsdsp" << endl;
+   } else
+   {
+      kdDebug() << artsdsp << endl;
+      *_process << artsdsp;
+   }
+#endif
+   
+   *_process << viewer;
 
-      // find the external viewer process
-      QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
-      if (!viewer)
+   // tell the process it's parameters
+   *_process << "-dcopid";
+   *_process << _dcopid;
+
+   // run the process
+   kdDebug() << "Running nspluginviewer" << endl;
+   _process->start();
+
+   // wait for the process to run
+   int cnt = 0;
+   while (!kapp->dcopClient()->isApplicationRegistered(_dcopid))
+   {
+      //kapp->processEvents(); // would lead to recursive calls in khtml
+      sleep(1); kdDebug() << "sleep" << endl;
+      cnt++;
+      if (cnt >= 100)
       {
-      	kdError() << "Can't find nspluginviewer" << endl;
-      	
-      	delete data->process;
-      	_private.remove(plugin);
-      	delete data;
-      	
-	return false;
-      }
-      *data->process << viewer;
+	 kdDebug() << "timeout" << endl;
+	 delete _process;      
+	 return false;
+      } 
+   }      
 
-      // tell the process it's parameters
-      *data->process << "-dcopid";
-      *data->process << data->dcopid;
-      *data->process << "-plugin";
-      *data->process << plugin;
+   // get viewer dcop interface
+   _viewer = new NSPluginViewerIface_stub( _dcopid, "viewer" );   
 
-      // run the process
-      kdDebug() << "Running nspluginviewer" << endl;
-      data->process->start();
-
-      // wait for the process to run
-      int cnt = 0;
-      while (!kapp->dcopClient()->isApplicationRegistered(data->dcopid))
-	{
-	  //kapp->processEvents(); // would lead to recursive calls in khtml
-	  sleep(1); kdDebug() << "sleep" << endl;
-	  cnt++;
-	  if (cnt >= 100)
-	    {
-	      delete data->process;
-	      _private.remove(plugin);
-      	      delete data;
-
-	      return false;
-	    } 
-	}
-
-      // create the proxy object
-      kdDebug() << "Creating NSPluginClassIface_stub" << endl;
-      cnt = 0;
-      while (1)
-      {
-      	data->stub = new NSPluginClassIface_stub(data->dcopid, plugin.ascii());
-      	if (data->stub) break;
-      	
-      	//kapp->processEvents(); // would lead to recursive calls in khtml
-      	      	
-      	sleep(1); kdDebug() << "sleep" << endl;      	
-     	cnt++;
-     	if (cnt >= 10)
-	{
-	  delete data->process;
-      	  _private.remove(plugin);
-      	  delete data;
-      	        	 	
-	  return false;
-	}
-      }
-
-      kdDebug() << "stub = " << data->stub << endl;
-    }
-
-  return true;
+   return _viewer!=0;
 }
 
 
-void NSPluginLoader::unloadPlugin(const QString &plugin)
+void NSPluginLoader::unloadViewer()
 {
-  PluginPrivateData *data = _private[plugin];
-  if (data)
-    {
-      kdDebug() << "unloading plugin " << plugin << endl;
-      delete data->process;
-      _private.remove(plugin);
-    }
+   kdDebug() << "-> NSPluginLoader::unloadViewer" << endl;   
+
+   if ( _viewer )
+   {
+      _viewer->Shutdown();
+      kdDebug() << "Shutdown viewer" << endl;
+      delete _viewer;
+      delete _process;
+      _viewer = 0;
+      _process = 0;
+   }
+
+   kdDebug() << "<- NSPluginLoader::unloadViewer" << endl;  
 }
 
 
 void NSPluginLoader::applicationRegistered( const QCString& appId )
 {
-  kdDebug() << "DCOP application " << appId.data() << " just registered!" << endl;
+   kdDebug() << "DCOP application " << appId.data() << " just registered!" << endl;
 
-  QDictIterator<PluginPrivateData> dit(_private);
-  while (dit.current())
-    {
-      if (dit.current()->dcopid == appId)
-	{
-	  dit.current()->running = true;
-	  kdDebug() << "plugin now running" << endl;
-	}
-      ++dit;
-    }
+   if ( _dcopid==appId )
+   {
+      _running = true;
+      kdDebug() << "plugin now running" << endl;
+   }
 }
 
 
 void NSPluginLoader::processTerminated(KProcess *proc)
 {
-  QDictIterator<PluginPrivateData> dit(_private);
-  while (dit.current())
-    {
-      if (dit.current()->process == proc)
-	{
-	  kdDebug() << "Plugin process for " << dit.currentKey() << " terminated" << endl;
-	  unloadPlugin(dit.currentKey());	  
-	}
-      ++dit;
-    }
+   if ( _process == proc)
+   {
+      kdDebug() << "Viewer process  terminated" << endl;
+      _plugins.clear();
+      delete _viewer;
+      delete _process;
+      _viewer = 0;
+      _process = 0;
+   }
 }
-
 
 
 NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeType, int type,
 					      QStringList argn, QStringList argv)
 {
-  kdDebug() << "-> NSPluginLoader::NewInstance( parent=" << parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
+   kdDebug() << "-> NSPluginLoader::NewInstance( parent=" << (void*)parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
 
-  // check the mime type
-  QString mime = mimeType;
-  if (mime.isEmpty())
-    {
+   if ( !_viewer )
+   {
+      // load plugin viewer process
+      loadViewer();
+
+      if ( !_viewer )
+      {
+	 kdDebug() << "No viewer dcop stub found" << endl;
+	 return 0;
+      }
+   }
+
+   // check the mime type
+   QString mime = mimeType;
+   if (mime.isEmpty())
+   {
       mime = lookupMimeType(url);
       argn << "MIME";
       argv << mime;
-    }
-  if (mime.isEmpty())
-    {
+   }
+   if (mime.isEmpty())
+   {
       kdDebug() << "Unknown MimeType" << endl;
       return 0;
-    }
+   }
 
-  // get requested size
-  unsigned int width = 0;
-  unsigned int height = 0;
-  int argc = argn.count();
-  for (int i=0; i<argc; i++)
-    {
-       if (!stricmp(argn[i], "width")) width = argv[i].toUInt();
-       if (!stricmp(argn[i], "height")) height = argv[i].toUInt();
-    }
+   // get requested size
+   unsigned int width = 0;
+   unsigned int height = 0;
+   int argc = argn.count();
+   for (int i=0; i<argc; i++)
+   {
+      if (!stricmp(argn[i], "width")) width = argv[i].toUInt();
+      if (!stricmp(argn[i], "height")) height = argv[i].toUInt();
+   }
   
-  // load the plugin
-  QString plugin = lookup(mime);
-  if (plugin.isEmpty())
-    {
+   // lookup plugin for mime type
+   QString plugin_name = lookup(mime);
+   if (plugin_name.isEmpty())
+   {
       kdDebug() << "No suitable plugin" << endl;
       return 0;
-    }
+   }
 
-  if (!loadPlugin(plugin))
-    {
-      kdDebug() << "Could not load plugin" << endl;
+   // get plugin class object
+   DCOPRef cls_ref = _viewer->NewClass( plugin_name );   
+   if ( cls_ref.isNull() )
+   {
+      kdDebug() << "Couldn't create plugin class" << endl;
       return 0;
-    }
+   }
+   NSPluginClassIface_stub *cls = new NSPluginClassIface_stub( cls_ref.app(), cls_ref.object() );
 
-  // get a new plugin instance
-  PluginPrivateData *data = _private[plugin];
+   // get plugin instance
+   DCOPRef inst_ref = cls->NewInstance( mime, type, argn, argv );   
+   if ( inst_ref.isNull() )
+   {
+      kdDebug() << "Couldn't create plugin instance" << endl;
+      return 0;
+   }
+   NSPluginInstance *plugin = new NSPluginInstance( parent, inst_ref.app(), inst_ref.object() ); 
+   _plugins.append( plugin );
+   connect( plugin, SIGNAL(destroyed(NSPluginInstance *)), 
+	    this, SLOT(pluginDestroyed(NSPluginInstance *)) );
 
-  kdDebug() << data->stub->GetMIMEDescription() << endl;
+   kdDebug() << "<- NSPluginLoader::NewInstance = " << (void*)plugin << endl;
+   return plugin;
+}
 
-  DCOPRef ref = data->stub->NewInstance(mime, type, argn, argv);
-  NSPluginInstance *inst = 0L;
-  if (!ref.isNull())
-    inst = new NSPluginInstance(parent, data, ref.app(), ref.object());
 
-  kdDebug() << "<- NSPluginLoader::NewInstance = " << inst << endl;
-  return inst;
+void NSPluginLoader::pluginDestroyed( NSPluginInstance *inst )
+{
+   kdDebug() << "NSPluginLoader::pluginDestroyed" << endl;
+   _plugins.setAutoDelete( false ); // avoid delete recursion
+   _plugins.remove( inst );
+   _plugins.setAutoDelete( true );
 }
