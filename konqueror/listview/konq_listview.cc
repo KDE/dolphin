@@ -32,6 +32,7 @@
 #include <kpropertiesdialog.h>
 #include <kstdaction.h>
 #include <kprotocolinfo.h>
+#include <klineedit.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -158,6 +159,15 @@ void ListViewBrowserExtension::rename()
   QListViewItem* item = m_listView->listViewWidget()->currentItem();
   Q_ASSERT ( item );
   m_listView->listViewWidget()->rename( item, 0 );
+
+  // Enhanced rename: Don't highlight the file extension.
+  KLineEdit* le = m_listView->listViewWidget()->renameLineEdit();
+  if ( le ) {
+     QString txt = le->text();
+     int firstDot = txt.find('.');
+     if( firstDot > 0 )
+        le->setSelection(0, firstDot);
+  }
 }
 
 void ListViewBrowserExtension::trash()
