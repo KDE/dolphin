@@ -2100,7 +2100,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Find file..." ), "find", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
-  m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
+  (void) KStdAction::quit( this, SLOT( close() ), actionCollection(), "quit" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_paLockView = new KAction( i18n( "Lock to current location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
@@ -2422,7 +2422,7 @@ void KonqMainWindow::enableAllActions( bool enable )
 
       m_paStop->setEnabled( m_currentView && m_currentView->isLoading() );
   }
-  actionCollection()->action( "close" )->setEnabled( true );
+  actionCollection()->action( "quit" )->setEnabled( true );
 }
 
 void KonqMainWindow::openBookmarkURL( const QString & url )

@@ -1,11 +1,11 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="12">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="13">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
   <Separator/>
-  <Action name="close"/>
+  <Action name="quit"/>
  </Menu>
  <Menu name="edit"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
   <Action name="undo" />

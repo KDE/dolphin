@@ -357,7 +357,6 @@ private:
   KAction *m_paProperties;
 
   KAction *m_paPrint;
-  KAction *m_paShellClose;
 
   KActionMenu *m_pamBookmarks;
 
