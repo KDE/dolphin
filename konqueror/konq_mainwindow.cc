@@ -2423,7 +2423,7 @@ void KonqMainWindow::initActions()
   m_paPaste = KStdAction::paste( 0, 0, actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", Key_Delete, actionCollection(), "trash" );
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Key_Delete, actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), SHIFT+Key_Delete, actionCollection(), "del" );
   m_paShred = new KAction( i18n( "&Shred" ), CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
