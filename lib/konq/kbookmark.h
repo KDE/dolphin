@@ -29,12 +29,6 @@
 class KBookmarkManager;
 class KBookmark;
 
-////// KBookmarkOwner and KBookmarkMenu not here because they rely on openparts.
-////// If you want openparts menus, take the code from konqueror
-////// Otherwise, we could re-add here the standard menus
-////// Or create an abstract class, that has to be reimplemented for use
-////// with qpopupmenu or opMenu. Depends on people's needs. (David).
-
 /**
  * Internal Class
  */
