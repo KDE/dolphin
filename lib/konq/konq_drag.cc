@@ -69,7 +69,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
-                uris.append(KURLDrag::checkFilenameURL(KURL((*it).latin1(), 106).prettyURL())); // 106 is mib enum for utf8 codec
+                uris.append(KURLDrag::stringToUrl((*it).latin1()).prettyURL());
             QCString s = uris.join( "\n" ).local8Bit();
             if( uris.count() > 1 )
                 s.append( "\n" );
@@ -84,7 +84,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             QStringList uris;
 
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
-               uris.append(KURLDrag::checkFilenameURL(KURL(*it, 106).url(0, 4))); // 106 is mib enum for utf8 codec; 4 for latin1
+               uris.append(KURLDrag::stringToUrl((*it).latin1()).url(0, 4)); // 4 for latin1
 
             QCString s = uris.join( "\n" ).latin1();
             if( uris.count() > 1 )
@@ -99,7 +99,7 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
-                uris.append(KURLDrag::checkFilenameURL(KURL(*it, 106).prettyURL())); // 106 is mib enum for utf8 codec
+                uris.append(KURLDrag::stringToUrl((*it).latin1()).prettyURL());
             QCString s = uris.join( "\n" ).utf8();
             if( uris.count() > 1 )
                 s.append( "\n" );
@@ -121,7 +121,7 @@ void KonqIconDrag::append( const QIconDragItem &item, const QRect &pr,
                              const QRect &tr, const QString &url )
 {
     QIconDrag::append( item, pr, tr );
-    urls.append( KURLDrag::checkFilenameURL(url));
+    urls.append( url );
 }
 
 //
@@ -135,11 +135,7 @@ KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool move, QWidget * drag
     // Get each URL encoded in utf8 - and since we get it in escaped
     // form on top of that, .latin1() is fine.
     for ( ; uit != uEnd ; ++uit )
-        {
-        QString url = (*uit).url(0,106); // 106 is mib enum for utf8 codec
-        url = KURLDrag::checkFilenameURL( url );
-        uris.append( url.latin1() ); 
-        }
+        uris.append( KURLDrag::urlToString( *uit ).latin1() );
     return new KonqDrag( uris, move, dragSource, name );
 }
 
@@ -175,7 +171,7 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
     {
         QStringList uris;
         for (QStrListIterator it(m_urls); *it; ++it)
-            uris.append(KURL(*it, 106).prettyURL()); // 106 is mib enum for utf8 codec
+            uris.append(KURLDrag::stringToUrl(*it).prettyURL());
         QCString s = uris.join( "\n" ).local8Bit();
         if( uris.count() > 1 )
             s.append( "\n" );

@@ -1081,7 +1081,8 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         if ( it->isSelected() ) {
-          QString itemURL = (static_cast<KFileIVI *>(it))->item()->url().url(0, 106); // 106 is mib enum for utf8 codec
+          KURL url = (static_cast<KFileIVI *>(it))->item()->url();
+          QString itemURL = KURLDrag::urlToString(url);
           kdDebug(1203) << "itemURL=" << itemURL << endl;
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
