@@ -122,6 +122,12 @@ void KonqRun::handleError( KIO::Job *job )
 {
   kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
 
+  if (job->error() == KIO::ERR_NO_CONTENT)
+  {
+     KParts::BrowserRun::handleError(job);
+     return;
+  }
+
   /**
    * To display this error in KHTMLPart instead of inside a dialog box,
    * we tell konq that the mimetype is text/html, and we redirect to
