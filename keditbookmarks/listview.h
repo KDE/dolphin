@@ -142,7 +142,6 @@ public:
    QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items);
 
    // bookmark stuff
-   KBookmark selectedBookmark();
    QValueList<KBookmark> getBookmarkSelection();
    QValueList<KBookmark> allBookmarks();
    QValueList<KBookmark> selectedBookmarksExpanded();

@@ -133,9 +133,9 @@ KEBListViewItem* ListView::firstSelected() {
 }
 
 KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) {
-   KEBListViewItem *c = item;
+   QListViewItem *c = item;
    while(true) {
-      if (c = static_cast<KEBListViewItem *>(c->parent()), !c) {
+      if (c = c->parent(), !c) {
          return 0;
       } else if (c->isOpen()) {
          return c;
@@ -144,9 +144,9 @@ KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) {
 }
 
 void ListView::openParents(KEBListViewItem *item) {
-   KEBListViewItem *c = item;
+   QListViewItem *c = item;
    while(true) {
-      if (c = static_cast<KEBListViewItem *>(c->parent()), c) {
+      if (c = c->parent(), c) {
          c->setOpen(true);
       } else {
          break;
@@ -171,11 +171,6 @@ void ListView::updateSelectedItems() {
          deselectParents(it.current());
       }
    }
-}
-
-KBookmark ListView::selectedBookmark() {
-   // TODO - remove!
-   return firstSelected()->bookmark();
 }
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
@@ -243,7 +238,7 @@ QString ListView::userAddress() {
       return "/0";
 
    } else {
-      KBookmark current = selectedItems()->first()->bookmark();
+      KBookmark current = firstSelected()->bookmark();
       return (current.isGroup()) 
            ? (current.address() + "/0")
            : KBookmark::nextAddress(current.address());
@@ -286,7 +281,7 @@ void ListView::setOpen(bool open) {
 }
 
 SelcAbilities ListView::getSelectionAbilities() {
-   KEBListViewItem *item = selectedItems()->first();
+   KEBListViewItem *item = firstSelected();
 
    static SelcAbilities sa = { false, false, false, false, false, false, false, false };
 

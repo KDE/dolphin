@@ -205,7 +205,7 @@ void ActionsImpl::slotSearch() {
 /* ------------------------------------------------------------- */
 
 void ActionsImpl::slotSort() {
-   KBookmark bk = ListView::self()->selectedBookmark();
+   KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());
    SortCommand *cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
    KEBTopLevel::self()->addCommand(cmd);
@@ -244,14 +244,14 @@ void ActionsImpl::slotChangeURL() {
 }
 
 void ActionsImpl::slotSetAsToolbar() {
-   KBookmark bk = ListView::self()->selectedBookmark();
+   KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());
    KMacroCommand *mcmd = CmdGen::self()->setAsToolbar(bk);
    KEBTopLevel::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotChangeIcon() {
-   KBookmark bk = ListView::self()->selectedBookmark();
+   KBookmark bk = ListView::self()->firstSelected()->bookmark();
    KIconDialog dlg(KEBTopLevel::self());
    QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
    if (newIcon.isEmpty()) {
