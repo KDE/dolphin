@@ -57,7 +57,7 @@ public:
 };
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
-  KActionMenu( i18n( "Create &New" ), "filenew", _collec, name ),
+  KActionMenu( i18n( "Create New" ), "filenew", _collec, name ),
   menuItemsVersion( 0 )
 {
     //kdDebug(1203) << "KNewMenu::KNewMenu " << this << endl;

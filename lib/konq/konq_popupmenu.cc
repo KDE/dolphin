@@ -245,7 +245,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       }
       else
       {
-        KAction *actNewDir = new KAction( i18n( "Create Directory..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+        KAction *actNewDir = new KAction( i18n( "Create Director&y..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
         addAction( actNewDir );
         addSeparator();
       }
@@ -308,7 +308,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     }
   }
 
-  act = new KAction( i18n( "A&dd to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
+  act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
   addAction( act );
 
   //////////////////////////////////////////////////////
@@ -391,12 +391,12 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
         m_menuElement.appendChild( menu );
         QDomElement text = m_doc.createElement( "text" );
         menu.appendChild( text );
-        text.appendChild( m_doc.createTextNode( i18n("O&pen With") ) );
+        text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
       }
 
       if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
       {
-        KAction *openWithAct = new KAction( i18n( "O&pen With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+        KAction *openWithAct = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu );
       }
 
