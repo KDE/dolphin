@@ -236,9 +236,6 @@ void NSPluginConfig::dirInit()
     connect( m_widget->dirList,
              SIGNAL(currentChanged(QListBoxItem*)),
              SLOT(dirSelect(QListBoxItem*)) );
-
-    // XXX disabled to avoid new strings
-    m_widget->useArtsdsp->hide();
 }
 
 
