@@ -230,9 +230,6 @@ public slots:
   void del() { KonqOperations::del(m_iconView->iconViewWidget(),
                                    KonqOperations::DEL,
                                    m_iconView->iconViewWidget()->selectedUrls()); }
-  void shred() { KonqOperations::del(m_iconView->iconViewWidget(),
-                                     KonqOperations::SHRED,
-                                     m_iconView->iconViewWidget()->selectedUrls()); }
   void properties();
   void editMimeType();
 

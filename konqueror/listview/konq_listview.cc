@@ -137,7 +137,6 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "cut", canDel > 0 );
   emit enableAction( "trash", canDel > 0 && !bInTrash && m_listView->url().isLocalFile() );
   emit enableAction( "del", canDel > 0 );
-  emit enableAction( "shred", canDel > 0 );
   emit enableAction( "properties", lstItems.count() > 0 && KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( lstItems.count() == 1 ) );
   emit enableAction( "rename", ( m_listView->listViewWidget()->currentItem() != 0 ) );

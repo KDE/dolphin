@@ -189,9 +189,6 @@ class ListViewBrowserExtension : public KonqDirPartBrowserExtension
       void del() { KonqOperations::del(m_listView->listViewWidget(),
                                        KonqOperations::DEL,
                                        m_listView->listViewWidget()->selectedUrls()); }
-      void shred() { KonqOperations::del(m_listView->listViewWidget(),
-                                         KonqOperations::SHRED,
-                                         m_listView->listViewWidget()->selectedUrls()); }
 
       void reparseConfiguration();
       void setSaveViewPropertiesLocally( bool value );

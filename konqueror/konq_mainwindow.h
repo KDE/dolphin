@@ -606,16 +606,15 @@ private:
 
   KAction *m_paTrash;
   KAction *m_paDelete;
-  KAction *m_paShred;
 
   KAction *m_paCopyFiles;
   KAction *m_paMoveFiles;
   KAction *m_paNewDir;
 
-    KAction *m_paMoveTabLeft;
-    KAction *m_paMoveTabRight;
+  KAction *m_paMoveTabLeft;
+  KAction *m_paMoveTabRight;
 
-    KAction *m_paConfigureSpellChecking;
+  KAction *m_paConfigureSpellChecking;
 
   KonqLogoAction *m_paAnimatedLogo;
 

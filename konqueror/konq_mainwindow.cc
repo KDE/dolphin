@@ -2879,8 +2879,6 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         disconnect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
       if (slotNames.contains("trash()"))
         disconnect( m_paTrash, SIGNAL( activated() ), ext, SLOT( trash() ) );
-      if (slotNames.contains("shred()"))
-        disconnect( m_paShred, SIGNAL( activated() ), ext, SLOT( shred() ) );
 
       connect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
       connect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
@@ -2891,7 +2889,6 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
       m_paTrash->setEnabled(false);
       m_paDelete->setEnabled(false);
-      m_paShred->setEnabled(false);
 
       slotClipboardDataChanged();
 
@@ -2922,8 +2919,6 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         connect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
       if (slotNames.contains("trash()"))
         connect( m_paTrash, SIGNAL( activated() ), ext, SLOT( trash() ) );
-      if (slotNames.contains("shred()"))
-        connect( m_paShred, SIGNAL( activated() ), ext, SLOT( shred() ) );
 
       disconnect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
       disconnect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
@@ -2938,14 +2933,12 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
           m_paPaste->setEnabled( ext->isActionEnabled( "paste" ) );
           m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
           m_paTrash->setEnabled( ext->isActionEnabled( "trash" ) );
-          m_paShred->setEnabled( ext->isActionEnabled( "shred" ) );
       } else {
           m_paCut->setEnabled( false );
           m_paCopy->setEnabled( false );
           m_paPaste->setEnabled( false );
           m_paDelete->setEnabled( false );
           m_paTrash->setEnabled( false );
-          m_paShred->setEnabled( false );
       }
     }
   }
@@ -3254,7 +3247,6 @@ void KonqMainWindow::initActions()
   m_paRename = new KAction( i18n( "&Rename" ), /*"editrename",*/ Key_F2, actionCollection(), "rename" );
   m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Key_Delete, actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
-  m_paShred = new KAction( i18n( "&Shred" ), "editshred", CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
@@ -3583,7 +3575,7 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
   else
   {
     if ( m_bLocationBarConnected && (
-      act==m_paCopy || act==m_paCut || act==m_paPaste || act==m_paDelete || act==m_paTrash || act==m_paShred ) )
+      act==m_paCopy || act==m_paCut || act==m_paPaste || act==m_paDelete || act==m_paTrash ) )
         // Don't change action state while the location bar has focus.
         return;
     //kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
@@ -3855,7 +3847,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paTrash );
   popupMenuCollection.insert( m_paRename );
   popupMenuCollection.insert( m_paDelete );
-  popupMenuCollection.insert( m_paShred );
 
   // The pasteto action is used when clicking on a dir, to paste into it.
   KAction *actPaste = KStdAction::paste( this, SLOT( slotPopupPasteTo() ), &popupMenuCollection, "pasteto" );

@@ -26,7 +26,6 @@
   <Action name="rename"/>
   <Action name="trash"/>
   <Action name="del"/>
-  <Action name="shred"/>
   <ActionList name="operations" /><!-- copy files and move files, when two directory views -->
   <Separator/>
   <Action name="new_menu"/>
