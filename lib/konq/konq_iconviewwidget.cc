@@ -890,7 +890,8 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     
     if ( sizeChanged || previewSizeChanged )
     {
-        setSpacing( (size > KIcon::SizeSmall) ? 5 : 0 );
+        int realSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+        setSpacing( ( realSize > KIcon::SizeSmall ) ? 5 : 0 );
     }
 
     if ( sizeChanged || previewSizeChanged || !stopImagePreviewFor.isEmpty() )
