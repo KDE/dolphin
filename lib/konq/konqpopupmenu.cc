@@ -158,7 +158,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   if ( isTrash )
   {
-    id = insertItem( i18n( "New view" ), 
+    id = insertItem( i18n( "New View" ), 
 				  this, SLOT( slotPopupNewView() ) );
     insertSeparator();    
     id = insertItem( i18n( "Empty Trash Bin" ), 
@@ -199,7 +199,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         /* Should be for http URLs (HTML pages) only ... */
         id = insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
       }
-      id = insertItem( i18n( "Open with" ), this, SLOT( slotPopupOpenWith() ) );
+      id = insertItem( i18n( "Open With..." ), this, SLOT( slotPopupOpenWith() ) );
       insertSeparator();
     }
 
@@ -358,13 +358,13 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     bLastSepInserted = true;
     insertSeparator();
   
-    id = insertItem( i18n( "Edit File Type" ), // or "File Type Properties" ?
+    id = insertItem( i18n( "Edit File Type..." ), // or "File Type Properties" ?
                      this, SLOT( slotPopupMimeType() ) );
   }
   if ( PropertiesDialog::canDisplay( m_lstItems ) )
   {
     if (!bLastSepInserted) insertSeparator();
-    insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
+    insertItem( i18n("Properties..."), this, SLOT( slotPopupProperties() ) );
   }
 }
 
@@ -382,11 +382,11 @@ void KonqPopupMenu::slotPopupNewView()
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
   QDir trashDir( KUserPaths::trashPath() );
+  //  QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
   QStringList files = trashDir.entryList( QDir::Files );
   
-  QStringList::Iterator it = files.begin();
-  QStringList::Iterator end = files.end();
-  for (; it != end; ++it )
+  QStringList::Iterator it(files.begin());
+  for (; it != files.end(); ++it )
     (*it).prepend( KUserPaths::trashPath() );
   
   KIOJob *job = new KIOJob;
