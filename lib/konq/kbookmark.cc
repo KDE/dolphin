@@ -144,7 +144,7 @@ void KBookmarkManager::save()
     //QTextStream ts( &file );
     //ts << m_doc;
     QCString cstr = m_doc.toCString(); // is in UTF8
-    file.writeBlock( cstr );
+    file.writeBlock( cstr.data(), cstr.length() );
     file.close();
 }
 
