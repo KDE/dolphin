@@ -548,6 +548,18 @@ bool QIconDrag::decode( QMimeSource* e, QIconList &list_ )
 */
 
 /*!
+  \fn void QIconViewItem::renamed ()
+  This signal is emitted when the item has been renamed using
+  in-place renaming.
+*/
+
+/*!
+  \fn void QIconViewItem::renamed (const QString & text)
+  This signal is emitted when the item has been renamed using
+  in-place renaming. \a text is the new item-text.
+*/
+
+/*!
  Constructs an iconview item with no text and a default icon, and
  inserts it into the iconview \a parent.
 */
@@ -675,7 +687,8 @@ void QIconViewItem::setText( const QString &text )
 }
 
 /*!
-  Sets \a k as key of the iconview item.
+  Sets \a k as key of the iconview item. This is
+  used for sorting.
 */
 
 void QIconViewItem::setKey( const QString &k )
@@ -1083,8 +1096,7 @@ bool QIconViewItem::intersects( QRect r ) const
 }
 
 /*!
-  Changes the \font as the font of this item. This shouldn't be manually,
-  as the font of the iconview is and should be used.
+  Changes font of this item to \a font.
 */
 
 void QIconViewItem::setFont( const QFont &font )
@@ -1549,13 +1561,23 @@ void QIconViewItem::setIconRect( const QRect &r )
   This signal is emitted, if the user doubleclicked on the item \a item.
 */
 
+/*! \fn void  QIconView::itemRightPressed (QIconViewItem * item)
+  This signal is emitted, if the user pressed on the item \a item using the right mouse button.
+*/
+
+/*! \fn void  QIconView::viewportRightPressed ()
+  This signal is emitted, when the user pressed with the right mouse button onto the viewport
+  (not on an item)
+*/
+
 /*! \fn void  QIconView::itemRightClicked (QIconViewItem * item)
-  This signal is emitted, if the user clicked on the item \a item using the right mouse button.
+  This signal is emitted, if the user clicked (pressed + released) on the
+  item \a item using the right mouse button.
 */
 
 /*! \fn void  QIconView::viewportRightClicked ()
-  This signal is emitted, when the user clicked with the right mouse button onto the viewport
-  (not on an item)
+  This signal is emitted, when the user clicked (pressed + released) with
+  the right mouse button onto the viewport (not on an item)
 */
 
 /*! \fn void  QIconView::selectionChanged ()
@@ -1584,6 +1606,48 @@ void QIconViewItem::setIconRect( const QRect &r )
 /*! \fn void  QIconView::onViewport()
   This signal is emitted, when the user moves the mouse cursor, which was
   on an item away from the item onto the viewport.
+*/
+
+/*!
+  \fn void QIconView::itemRenamed (QIconViewItem * item)
+  If the \a item has been renamed (e.g. by in-place renaming),
+  this signal is emitted.
+*/
+
+/*!
+  \fn void QIconView::itemRenamed (QIconViewItem * item, const QString &name)
+  If the \a item has been renamed (e.g. by in-place renaming),
+  this signal is emitted. \a name is the new text (name) of the item.
+*/
+
+/*!
+  \fn void QIconView::rightButtonPressed (QIconViewItem * item, const QPoint & pos)
+  This signal is emitted wher the user pressed with the right mouse button on
+  either and item (then \a item is the item under the mouse cursor) or
+  somewhere else (then \a item is NULL). \a pos the position of the mouse cursor.
+*/
+
+/*!
+  \fn void QIconView::rightButtonClicked (QIconViewItem * item, const QPoint & pos)
+  This signal is emitted wher the user clicked (pressed + released) with the right
+  mouse button on either and item (then \a item is the item under the mouse cursor) or
+  somewhere else (then \a item is NULL). \a pos the position of the mouse cursor.
+*/
+
+/*!
+  \fn void QIconView:mouseButtonPressed (int button, QIconViewItem * item, const QPoint & pos)
+  This signal is emitted wher the user pressed with any mouse button on
+  either and item (then \a item is the item under the mouse cursor) or
+  somewhere else (then \a item is NULL). \a button is the number of the mouse button which
+  the user pressed, and \a pos the position of the mouse cursor.
+*/
+
+/*!
+  \fn void QIconView:mouseButtonClicked (int button, QIconViewItem * item, const QPoint & pos)
+  This signal is emitted wher the user clicked (pressed + released) with any mouse button on
+  either and item (then \a item is the item under the mouse cursor) or
+  somewhere else (then \a item is NULL). \a button is the number of the mouse button which
+  the user clicked, and \a pos the position of the mouse cursor.
 */
 
 /*!
@@ -2647,16 +2711,18 @@ bool QIconView::sortOrder() const
 
 void QIconView::contentsMousePressEvent( QMouseEvent *e )
 {
+    QIconViewItem *item = findItem( e->pos() );
+    emit mouseButtonPressed( e->button(), item, e->globalPos() );
+
     if ( d->currentItem )
 	d->currentItem->renameItem();
 
     if ( e->button() == LeftButton ) {
 	d->startDrag = FALSE;
 
-	QIconViewItem *item = findItem( e->pos() );
 	QIconViewItem *oldCurrent = d->currentItem;
-
-	if ( item  && item->isSelected() &&
+	
+	if ( item && item->isSelected() &&
 	     item->textRect( FALSE ).contains( e->pos() ) ) {
 
 	    if ( !item->renameEnabled() )
@@ -2694,13 +2760,13 @@ void QIconView::contentsMousePressEvent( QMouseEvent *e )
 
 	d->mousePressed = TRUE;
     } else if ( e->button() == RightButton ) {
-	QIconViewItem *item = findItem( e->pos() );
 	emit rightButtonPressed( item, e->globalPos() );
 	if ( item )
-	    emit itemRightClicked( item );
+	    emit itemRightPressed( item );
 	else
-	    emit viewportRightClicked();
-		
+	    emit viewportRightPressed();
+    } else if ( e->button() == MidButton ) {
+	emit mouseButtonPressed( 1, item, e->globalPos() );
     }
 }
 
@@ -2710,6 +2776,9 @@ void QIconView::contentsMousePressEvent( QMouseEvent *e )
 
 void QIconView::contentsMouseReleaseEvent( QMouseEvent *e )
 {
+    QIconViewItem *item = findItem( e->pos() );
+    emit mouseButtonClicked( e->button(), item, e->globalPos() );
+
     d->mousePressed = FALSE;
     d->startDrag = FALSE;
 
@@ -2727,7 +2796,6 @@ void QIconView::contentsMouseReleaseEvent( QMouseEvent *e )
 	delete d->rubber;
 	d->rubber = 0;
     } else if ( !d->startDrag && d->singleClickMode ) {
-	QIconViewItem *item = findItem( e->pos() );
 	if ( item && !item->renameBox ) {
 	    selectAll( FALSE );
 	    item->setSelected( TRUE, TRUE );
@@ -2740,6 +2808,14 @@ void QIconView::contentsMouseReleaseEvent( QMouseEvent *e )
 	d->scrollTimer->stop();
 	delete d->scrollTimer;
 	d->scrollTimer = 0;
+    }
+
+    if ( e->button() == RightButton ) {
+	emit rightButtonClicked( item, e->globalPos() );
+	if ( item )
+	    emit itemRightClicked( item );
+	else
+	    emit viewportRightClicked();
     }
 }
 
@@ -3486,6 +3562,10 @@ void QIconView::emitNewSelectionNumber()
     d->numSelectedItems = num;
 }
 
+/*!
+  \internal
+*/
+
 void QIconView::emitRenamed( QIconViewItem *item )
 {
     if ( !item )
@@ -3697,6 +3777,7 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 	    // first calculate the row height
 	    int h = 0;
 	    int x = 0;
+	    int ih = 0;
 	    QIconViewItem *item = begin;
 	    while ( TRUE ) {
 		x += d->spacing + item->width();
@@ -3705,6 +3786,7 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 		    break;
 		}
 		h = QMAX( h, item->height() );
+		ih = QMAX( ih, item->iconRect().height() );
 		QIconViewItem *old = item;
 		item = item->next;
 		if ( !item ) {
@@ -3722,9 +3804,10 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 	    while ( TRUE ) {
 		item->dirty = FALSE;
 		if ( item == begin )
-		    item->move( d->spacing, y + h - item->height() );
+		    item->move( d->spacing, y + ih - item->iconRect().height() );
 		else
-		    item->move( item->prev->x() + item->prev->width() + d->spacing, y + h - item->height() );
+		    item->move( item->prev->x() + item->prev->width() + d->spacing,
+				y + ih - item->iconRect().height() );
 		if ( item == end )
 		    break;
 		item = item->next;
@@ -3734,6 +3817,7 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 	    // first calculate the row height
 	    int h = begin->height();
 	    int x = d->spacing;
+	    int ih = begin->iconRect().height();
 	    QIconViewItem *item = begin;
 	    int i = 0;
 	    int sp = 0;
@@ -3753,6 +3837,7 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 		    break;
 		}
 		h = QMAX( h, item->height() );
+		ih = QMAX( ih, item->iconRect().height() );
 		QIconViewItem *old = item;
 		item = item->next;
 		if ( !item ) {
@@ -3774,18 +3859,20 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 		int r = calcGridNum( item->width(), d->rastX );
 		if ( item == begin ) {
 		    if ( d->itemTextPos == Bottom )
-			item->move( d->spacing + ( r * d->rastX - item->width() ) / 2, y + h - item->height() );
+			item->move( d->spacing + ( r * d->rastX - item->width() ) / 2,
+				    y + ih - item->iconRect().height() );
 		    else
-			item->move( d->spacing, y + h - item->height() );
+			item->move( d->spacing, y + ih - item->iconRect().height() );
 		    i += r;
 		    sp += r;
 		} else {
 		    sp += r;
 		    int x = i * d->rastX + sp * d->spacing;
 		    if ( d->itemTextPos == Bottom )
-			item->move( x + ( r * d->rastX - item->width() ) / 2, y + h - item->height() );
+			item->move( x + ( r * d->rastX - item->width() ) / 2,
+				    y + ih - item->iconRect().height() );
 		    else
-			item->move( x, y + h - item->height() );
+			item->move( x, y + ih - item->iconRect().height() );
 		    i += r;
 		}
 		if ( item == end )
@@ -3832,7 +3919,7 @@ QIconViewItem *QIconView::makeRowLayout( QIconViewItem *begin, int &y )
 			item->move( x + ( w - item->width() ) / 2, d->spacing );
 		    else
 			item->move( x + ( w - item->width() ) / 2,
-				item->prev->y() + item->prev->height() + d->spacing );
+				    item->prev->y() + item->prev->height() + d->spacing );
 		} else {
 		    if ( item == begin )
 			item->move( x, d->spacing );
@@ -3929,6 +4016,13 @@ static int cmpIconViewItems( const void *n1, const void *n2 )
     return i1->item->key().compare( i2->item->key() );
 }
 
+/*!
+  Sorts the items of the listview. If \a ascending is TRUE, the items
+  are sorted in increasing order, else in decreasing order. For sorting
+  the key of the items is used.
+
+  \sa QIconViewItem::key(), QIconViewItem::setKey()
+*/
 
 void QIconView::sortItems( bool ascending )
 {
