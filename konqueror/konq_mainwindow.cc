@@ -464,6 +464,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
     if ( req.newTabInFront )
       m_pViewManager->showTab( view );
+   
+    updateViewActions(); //A new tab created -- we may need to enable the "remove tab" button (#56318)
   }
 
   if ( view )
