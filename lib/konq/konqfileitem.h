@@ -34,9 +34,8 @@ public:
 	        bool isDirectory = false )
  : KFileItem( entry, url, determineMimeTypeOnDemand, isDirectory ) {}
 
-  KonqFileItem( mode_t mode, mode_t permissions, const KURL& url, bool determineMimeTypeOnDemand = false,
-	        bool isDirectory = false )
- : KFileItem( mode, permissions, url, determineMimeTypeOnDemand, isDirectory ) {}
+  KonqFileItem( mode_t mode, mode_t permissions, const KURL& url, bool determineMimeTypeOnDemand = false )
+ : KFileItem( mode, permissions, url, determineMimeTypeOnDemand ) {}
 
   KonqFileItem( const KURL &url, const QString &mimeType, mode_t mode )
  : KFileItem( url, mimeType, mode ) {}
