@@ -181,7 +181,7 @@ QString GaleonImportCommand::requestFilename() const {
 QString KDE2ImportCommand::requestFilename() const {
     // locateLocal on the bookmarks file and get dir?
     return KFileDialog::getOpenFileName(
-            QDir::homeDirPath() + "/.kde",
+            QDir::homeDirPath() + "/.kde/share/apps/konqueror",
             i18n("*.xml|KDE bookmark files (*.xml)"));
 }
 
@@ -227,10 +227,8 @@ void XBELImportCommand::doCreateHoldingFolder(KBookmarkGroup &) {
 }
 
 void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
-    KBookmarkManager *pManager;
-
     // check if already open first???
-    pManager = KBookmarkManager::managerForFile(m_fileName, false);
+    KBookmarkManager *pManager = KBookmarkManager::managerForFile(m_fileName, false);
 
     QDomDocument doc = CurrentMgr::self()->mgr()->internalDocument();
 
