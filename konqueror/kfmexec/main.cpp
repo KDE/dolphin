@@ -97,7 +97,7 @@ KFMExec::KFMExec()
                 // Unlike KDE-1.1, we put the filename at the end so that the extension is kept
                 // (Some programs rely on it)
 		QString tmp = locateLocal( "appdata", "tmp/" ) +
-		              QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.filename());
+		              QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
 		if ( !files.isEmpty() )
 		    files += " ";
 		files += "\"";

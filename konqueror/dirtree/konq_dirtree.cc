@@ -518,7 +518,7 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
 
     KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( this, parentDir, topLevelItem.m_item, item );
     dirTreeItem->setPixmap( 0, m_folderPixmap );
-    dirTreeItem->setText( 0, KIO::decodeFileName( item->url().filename() ) );
+    dirTreeItem->setText( 0, KIO::decodeFileName( item->url().fileName() ) );
   }
 }
 
