@@ -447,8 +447,8 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
          break;
 
       case KEBListView::CommentColumn:
-         if (bk.internalElement().attribute("comment") != newText) {
-            cmd = new EditCommand(bk.address(), EditCommand::Edition("comment", newText), i18n("Comment"));
+         if (bk.internalElement().attribute("desc") != newText) {
+            cmd = new EditCommand(bk.address(), EditCommand::Edition("desc", newText), i18n("Comment"));
          }
          break;
 
@@ -567,7 +567,7 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 #ifdef DEBUG_ADDRESSES
    setText(KEBListView::AddressColumn, bk.address());
 #endif
-   setText(KEBListView::CommentColumn, bk.internalElement().attribute("comment"));
+   setText(KEBListView::CommentColumn, bk.internalElement().attribute("desc"));
    setPixmap(0, SmallIcon(bk.icon()));
    modUpdate();
 }
