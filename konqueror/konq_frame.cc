@@ -182,7 +182,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     r.setRect(0,0,r.width(),r.height());
   }*/
 
-  QPixmap *pm;
+    //  QPixmap *pm;
   p.setClipRect(r);
   p.setClipping(True);
 

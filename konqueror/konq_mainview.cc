@@ -230,7 +230,7 @@ void KonqMainView::cleanUp()
   if ( m_vMainWindow->activePartId() == m_currentId )
     m_vMainWindow->setActivePart( 0 );
     
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); it++ )
       {
         it->second->m_vView->disconnectObject( this );
@@ -465,7 +465,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 {
   cerr << "bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )" << endl;
-  View* previousView = m_currentView;
+  KonqChildView* previousView = m_currentView;
 
   setActiveView( child->id() );
 
@@ -493,7 +493,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 {
   Konqueror::View_var m_vView = Konqueror::View::_duplicate( view );
 
-  View *v = new View;
+  KonqChildView *v = new KonqChildView;
   Row * currentRow;
   if (m_currentView)
     currentRow = m_currentView->row;
@@ -538,7 +538,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
     EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
   }
 
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
 
   assert( it != m_mapViews.end() );
   
@@ -579,7 +579,7 @@ Konqueror::ViewList *KonqMainView::viewList()
   int i = 0;
   seq->length( i );
 
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.begin();
 
   for (; it != m_mapViews.end(); it++ )
   {
@@ -592,7 +592,7 @@ Konqueror::ViewList *KonqMainView::viewList()
 
 void KonqMainView::removeView( OpenParts::Id id )
 {
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
   if ( it != m_mapViews.end() )
   {
     if ( id == m_currentId )
@@ -692,9 +692,9 @@ Konqueror::View_ptr KonqMainView::createViewByName( const char *viewName )
   return Konqueror::View::_duplicate( vView );
 }
 
-void KonqMainView::makeHistory( View *v )
+void KonqMainView::makeHistory( KonqChildView *v )
 {
-  InternalHistoryEntry h;
+  KonqChildView::InternalHistoryEntry h;
 
   if ( !v->m_bCompleted )
   {
@@ -747,7 +747,7 @@ void KonqMainView::makeHistory( View *v )
     Konqueror::View::HistoryEntry_var state = v->m_vView->saveState();
     h.entry = state;
 
-    v->m_tmpInternalHistoryEntry = h;    
+    v->m_tmpInternalHistoryEntry = h;
   }
   
 }
@@ -815,7 +815,7 @@ void KonqMainView::setStatusBarText( const char *_text )
 
 void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
 {
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
   
   assert( it != m_mapViews.end() );
   
@@ -1579,10 +1579,10 @@ void KonqMainView::slotHome()
 }
 
 void KonqMainView::slotBack()
-{
+{ 
   assert( m_currentView->m_lstBack.size() != 0 );
 
-  InternalHistoryEntry h = m_currentView->m_lstBack.back();
+  KonqChildView::InternalHistoryEntry h = m_currentView->m_lstBack.back();
   m_currentView->m_lstBack.pop_back();
 
   if( m_currentView->m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
@@ -1612,7 +1612,7 @@ void KonqMainView::slotForward()
 {
   assert( m_currentView->m_lstForward.size() != 0 );
 
-  InternalHistoryEntry h = m_currentView->m_lstForward.front();
+  KonqChildView::InternalHistoryEntry h = m_currentView->m_lstForward.front();
   m_currentView->m_lstForward.pop_front();
 
   if( m_currentView->m_lstForward.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
@@ -1694,7 +1694,7 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   if ( !url )
     return;
 
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
   
   assert( it != m_mapViews.end() );
   
@@ -1712,7 +1712,7 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
 {
   cerr << "void KonqMainView::slotURLCompleted( OpenParts::Id id )" << endl;
 
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
   
   assert( it != m_mapViews.end() );
   
@@ -1851,18 +1851,6 @@ void KonqMainView::resizeEvent( QResizeEvent *e )
   m_pMainSplitter->setGeometry( 0, 0, width(), height() ); 
 }
 
-KonqMainView::View::View()
-{
-  m_bCompleted = false;
-  m_vView = 0L;
-  m_pFrame = 0L;
-  row = 0L;
-  m_strLocationBarURL = "";
-  m_bBack = false;
-  m_bForward = false;
-  m_iHistoryLock = 0;
-}
-
 void KonqMainView::initConfig()
 {
   // Read application config file if not already done
@@ -1907,9 +1895,8 @@ void KonqMainView::initGui()
   QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
 }
 
-KonqMainView::Row * KonqMainView::newRow( bool append )
+Row * KonqMainView::newRow( bool append )
 {
-  //Row * row = new Row;
   Row * row = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
   //row->setOpaqueResize( TRUE );
   if ( append )
@@ -1953,7 +1940,7 @@ void KonqMainView::initView()
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
 
-  map<OpenParts::Id,View*>::iterator it = m_mapViews.find( vView1->id() );
+  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
   it->second->m_iHistoryLock = 1;
   it = m_mapViews.find( vView2->id() );
   it->second->m_iHistoryLock = 1;

@@ -27,12 +27,13 @@
 #include <kservices.h>
 #include <kmimetypes.h>
 
-#include "konqueror.h"
-#include "kfmpopup.h"
-#include "kfmguiprops.h"
-#include "kfmrun.h"
-#include "konq_frame.h"
 #include "kbookmarkmenu.h"
+#include "kfmguiprops.h"
+#include "kfmpopup.h"
+#include "kfmrun.h"
+#include "konq_childview.h"
+#include "konq_frame.h"
+#include "konqueror.h"
 
 #include <opPart.h>
 #include <opMainWindow.h>
@@ -42,7 +43,6 @@
 #include <opToolBar.h>
 #include <opStatusBar.h>
 
-#include <qpixmap.h>
 #include <qlist.h>
 #include <qpopmenu.h>
 #include <qpixmap.h>
@@ -206,9 +206,7 @@ protected:
   /* Connects a view to the mainview. Do this after creating it and before inserting it */
   void connectView( Konqueror::View_ptr view );
 
-  struct View;
-  
-  void makeHistory( View *v );
+  void makeHistory( KonqChildView *v );
 
   void createViewMenu();
   void setupViewMenus();
@@ -231,53 +229,18 @@ protected:
 
   //////// View storage //////////////
 
-  typedef QSplitter Row;
-
-  struct InternalHistoryEntry
-  {
-    bool bHasHistoryEntry;
-    string strURL;
-    Konqueror::View::HistoryEntry entry;
-    CORBA::String_var strViewName;
-  };
-    
-  struct View
-  {
-    View();
-    
-    bool m_bCompleted;
-    
-    Konqueror::View_var m_vView;
-    
-    QString m_strLocationBarURL;
-    
-    string m_strLastURL;
-
-    bool m_bBack;
-    bool m_bForward;
-    int m_iHistoryLock;
-  
-    InternalHistoryEntry m_tmpInternalHistoryEntry;
-    
-    list<InternalHistoryEntry> m_lstBack;
-    list<InternalHistoryEntry> m_lstForward;
-    
-    KonqFrame *m_pFrame;
-    Row * row;
-  };
-
   /* The list of rows */
   QList<Row> m_lstRows;
   /* The main, vertical, QSplitter, which holds the rows */
   QSplitter* m_pMainSplitter;
 
   /* Dual storage of View * instances : mapped by Id */
-  map<OpenParts::Id,View*> m_mapViews;
+  map<OpenParts::Id,KonqChildView*> m_mapViews;
 
   /* Maps view names to service types (only for plugin views!!) */
   QDict<QString> m_dctServiceTypes;
     
-  View *m_currentView;
+  KonqChildView *m_currentView;
   OpenParts::Id m_currentId;
   // current row is currentView->row, no need for a member
 

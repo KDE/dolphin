@@ -18,18 +18,20 @@ bin_PROGRAMS = konqueror
 konqueror_SOURCES =  kbookmarkmenu.cc kbrowser.cc \
 	kfmguiprops.cc kfmpaths.cc kfmpopup.cc kfmrun.cc kfmviewprops.cc \
 	kiconcontainer.cc \
-	konq_baseview.cc konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \
+	konq_baseview.cc konq_childview.cc konq_frame.cc \
+	konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konq_plugins.cc \
-	konqueror.cc konq_treeview.cc konq_partview.cc konq_frame.cc
+	konq_partview.cc konq_treeview.cc konqueror.cc 
 
 # noinst_HEADERS = ... to be completed
 
 METASOURCES = kbookmarkmenu.moc kbrowser.moc \
 	kfmpopup.moc kfmrun.moc \
 	kiconcontainer.moc \
+	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
-	konq_partview.moc konq_treeview.moc konq_frame.moc
+	konq_partview.moc konq_treeview.moc
 
 kde_parts_DATA = konqueror_part.kdelnk
 
