@@ -69,6 +69,7 @@ static void continueInWindow(QString _wname) {
    KWin::setActiveWindow(id);
 }
 
+// TODO - make this register() or something like that and move dialog into main
 static int askUser(KApplication &app, QString filename, bool &readonly) {
    QCString requestedName("keditbookmarks");
 
@@ -76,7 +77,7 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
       requestedName += "-" + filename.utf8();
    }
 
-   if (app.dcopClient()->registerAs(requestedName,false) == requestedName) {
+   if (app.dcopClient()->registerAs(requestedName, false) == requestedName) {
       return true;
    }
 
@@ -104,7 +105,7 @@ int main(int argc, char **argv) {
                         I18N_NOOP("Konqueror Bookmarks Editor"),
                         KAboutData::License_GPL,
                         I18N_NOOP("(c) 2000 - 2003, KDE developers") );
-   aboutData.addAuthor("David Faure",0, "faure@kde.org");
+   aboutData.addAuthor("David Faure", 0, "faure@kde.org");
 
    KCmdLineArgs::init(argc, argv, &aboutData);
    KApplication::addCmdLineOptions();
@@ -131,7 +132,7 @@ int main(int argc, char **argv) {
       QString path = QString::fromLocal8Bit(args->getOption(mozFlag ? "exportmoz" : "exportns"));
       KEBNSBookmarkExporter exporter(mgr, path);
       exporter.write(mozFlag);
-      return 0;
+      return 0; // error flag on exit?, 1?
    }
 
    QString address = 
@@ -141,13 +142,14 @@ int main(int argc, char **argv) {
 
    args->clear();
 
-   bool readonly = false;
+   bool readonly = false; // passed by ref
+
    if (askUser(app, (gotArg ? filename : ""), readonly)) {
       KEBApp *toplevel = new KEBApp(filename, readonly, address);
       toplevel->show();
       app.setMainWidget(toplevel);
       return app.exec();
-   } else {
-      return 0;
    }
+
+   return 0;
 }
