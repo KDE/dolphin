@@ -19,6 +19,7 @@ public:
 
     static KInstance *instance() { return s_instance; }
 
+    static QString launch();
     static QString intro();
     static QString specs();
     static QString tips();
@@ -28,7 +29,7 @@ private:
     static QString loadFile( const QString& file );
 
     static KInstance *s_instance;
-    static QString *s_intro_html, *s_specs_html, *s_tips_html, *s_plugins_html;
+    static QString *s_launch_html, *s_intro_html, *s_specs_html, *s_tips_html, *s_plugins_html;
 };
 
 class KonqAboutPage : public KHTMLPart

@@ -19,5 +19,6 @@ konq_aboutpage_data_DATA = \
 	bar-middle-right.png   box-bottom-left.png    box-top-middle.png \
 	bar-top-left.png       box-bottom-middle.png  box-top-right.png \
 	bar-top-middle.png     box-bottom-right.png   lightning.png \
-	intro.html specs.html tips.html plugins.html plugins_rtl.html \
+	launch.html intro.html specs.html tips.html plugins.html \
+	plugins_rtl.html \
 	konq_about.css konq_about_rtl.css

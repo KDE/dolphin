@@ -14,11 +14,12 @@
 
 #include <assert.h>
 #include <qfile.h>
-
+#include <qdir.h>
 
 K_EXPORT_COMPONENT_FACTORY( konq_aboutpage, KonqAboutPageFactory )
 
 KInstance *KonqAboutPageFactory::s_instance = 0;
+QString *KonqAboutPageFactory::s_launch_html = 0;
 QString *KonqAboutPageFactory::s_intro_html = 0;
 QString *KonqAboutPageFactory::s_specs_html = 0;
 QString *KonqAboutPageFactory::s_tips_html = 0;
@@ -34,6 +35,8 @@ KonqAboutPageFactory::~KonqAboutPageFactory()
 {
     delete s_instance;
     s_instance = 0;
+    delete s_launch_html;
+    s_launch_html = 0;
     delete s_intro_html;
     s_intro_html = 0;
     delete s_specs_html;
@@ -80,6 +83,60 @@ QString KonqAboutPageFactory::loadFile( const QString& file )
     return res;
 }
 
+QString KonqAboutPageFactory::launch()
+{
+  if ( s_launch_html )
+    return *s_launch_html;
+
+  QString res = loadFile( locate( "data", "konqueror/about/launch.html" ));
+  if ( res.isEmpty() )
+    return res;
+
+  KIconLoader *iconloader = KGlobal::iconLoader();
+  QString home_icon_path = iconloader->iconPath("kfm_home", KIcon::Desktop );
+  QString storage_icon_path = iconloader->iconPath("system", KIcon::Desktop );
+  QString remote_icon_path = iconloader->iconPath("network", KIcon::Desktop );
+  QString wastebin_icon_path = iconloader->iconPath("trashcan_full", KIcon::Desktop );
+  QString applications_icon_path = iconloader->iconPath("kmenu", KIcon::Desktop );
+  QString settings_icon_path = iconloader->iconPath("kcontrol", KIcon::Desktop );
+  QString home_folder = QDir::homeDirPath();
+  QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
+
+  res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
+
+  res = res.arg( i18n("Conquer your Desktop!") )
+      .arg( i18n( "Konqueror" ) )
+      .arg( i18n("Conquer your Desktop!") )
+      .arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
+      .arg( i18n( "Launch" ) )
+      .arg( i18n( "Introduction" ) )
+      .arg( i18n( "Tips" ) )
+      .arg( i18n( "Specifications" ) )
+      .arg( i18n( "Welcome to Konqueror %1." ).arg( KGlobal::instance()->aboutData()->version() ) )
+      .arg( home_folder )
+      .arg( home_icon_path )
+      .arg( home_folder )
+      .arg( i18n( "Home Folder" ) )
+      .arg( storage_icon_path )
+      .arg( i18n( "Storage Media" ) )
+      .arg( remote_icon_path )
+      .arg( i18n( "Remote Folders" ) )
+      .arg( wastebin_icon_path )
+      .arg( i18n( "Trash" ) )
+      .arg( applications_icon_path )
+      .arg( i18n( "Applications" ) )
+      .arg( settings_icon_path )
+      .arg( i18n( "Settings" ) )
+      .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
+      .arg( i18n( "Introduction to Konqueror" ) )
+      ;
+  i18n("Search the Web");//i18n for possible future use
+
+  s_launch_html = new QString( res );
+
+  return res;
+}
+
 QString KonqAboutPageFactory::intro()
 {
     if ( s_intro_html )
@@ -100,6 +157,7 @@ QString KonqAboutPageFactory::intro()
 	.arg( i18n( "Konqueror" ) )
 	.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
+	.arg( i18n( "Launch" ) )
 	.arg( i18n( "Introduction" ) )
           .arg( i18n( "Tips" ) )
           .arg( i18n( "Specifications" ) )
@@ -150,6 +208,7 @@ QString KonqAboutPageFactory::specs()
 	.arg( i18n( "Konqueror" ) )
 	.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
+	.arg( i18n( "Launch" ) )
 	.arg( i18n( "Introduction" ) )
 	.arg( i18n( "Tips" ) )
 	.arg( i18n( "Specifications" ) )
@@ -201,7 +260,7 @@ QString KonqAboutPageFactory::specs()
 	  .arg( i18n("Popup"))
 	  .arg( i18n("(Short-) Automatic"))
 	  .arg( i18n( "<img width='16' height='16' src=\"%1\">" ).arg( continue_icon_path ) )
-	  .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg(kapp->reverseLayout() ? "intro_rtl.html" : "intro.html") )
+	  .arg( i18n("<a href=\"%1\">Back to the Launch Page</a>").arg("launch.html") )
 
           ;
 
@@ -242,6 +301,7 @@ QString KonqAboutPageFactory::tips()
 	.arg( i18n( "Konqueror" ) )
 	.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n("Konqueror is your file manager, web browser and universal document viewer.") )
+	.arg( i18n( "Launch" ) )
 	.arg( i18n( "Introduction" ) )
 	.arg( i18n( "Tips" ) )
 	.arg( i18n( "Specifications" ) )
@@ -335,7 +395,7 @@ bool KonqAboutPage::openURL( const KURL &u )
 {
     if (u.url() == "about:plugins")
        serve( KonqAboutPageFactory::plugins(), "plugins" );
-    else serve( KonqAboutPageFactory::intro(), "konqueror" );
+    else serve( KonqAboutPageFactory::launch(), "konqueror" );
     return true;
 }
 
@@ -378,19 +438,25 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
         return;
     }
 
-    if ( url == QString::fromLatin1("intro.html") || url == QString::fromLatin1("intro_rtl.html") )
+    if ( url == QString::fromLatin1("launch.html") )
     {
         emit browserExtension()->openURLNotify();
-	serve( KonqAboutPageFactory::intro(), "konqueror" );
+	serve( KonqAboutPageFactory::launch(), "konqueror" );
         return;
     }
-    else if ( url == QString::fromLatin1("specs.html") || url == QString::fromLatin1("specs_rtl.html") )
+    else if ( url == QString::fromLatin1("intro.html") )
+    {
+        emit browserExtension()->openURLNotify();
+        serve( KonqAboutPageFactory::intro(), "konqueror" );
+        return;
+    }
+    else if ( url == QString::fromLatin1("specs.html") )
     {
         emit browserExtension()->openURLNotify();
 	serve( KonqAboutPageFactory::specs(), "konqueror" );
         return;
     }
-    else if ( url == QString::fromLatin1("tips.html") || url == QString::fromLatin1("tips_rtl.html") )
+    else if ( url == QString::fromLatin1("tips.html") )
     {
         emit browserExtension()->openURLNotify();
         serve( KonqAboutPageFactory::tips(), "konqueror" );

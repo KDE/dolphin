@@ -39,12 +39,12 @@
         <div id="barCenter" class="bar_text">
           %1<br />
           <!-- Konqueror is your file manager, web browser and universal document viewer. -->
-          <ul>
-	    <li><a href="launch.html">%1</a><!--launch--></li>
-            <li>%1<!-- introduction --></li>
-            <li><a href="tips.html">%1<!--tips--></a></li>
-            <li><a href="specs.html">%1<!-- specs --></a></li>
-          </ul>
+	  <ul>
+	    <li>%1<!--launch--></li>
+	    <li><a href="intro.html">%1<!-- intro --></a></li>
+	    <li><a href="tips.html">%1</a><!--tips--></li>
+	    <li><a href="specs.html">%1<!-- specs --></a></li>
+	  </ul>
         </div>
       </div>
     </div>
@@ -58,35 +58,43 @@
       <div id="boxR">
         <div id="boxCenter">
         <h2 style="margin-top: 0px;">%1</h2>
+	
+	<table border="0" align="center">
+	  <tr>
+	    <td>
+	      <a href="%1"><img src="%1" width="32" height="32" /> 
+		<a href="%1">%1</a>
+	      </td>
+	      <td>
+		<a href="media:/"><img src="%1" width="32" height="32" /> 
+		  <a href="media:/">%1</a>
+		</td>
+	      </tr>
+	      <tr>
+		<td>
+		  <a href="remote:/"><img src="%1" width="32" height="32" /> 
+		    <a href="remote:/">%1</a>
+		  </td>
+		  <td>
+		    <a href="trash:/"><img src="%1" width="32" height="32" /> 
+		      <a href="trash:/">%1</a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <a href="applications:/"><img src="%1" width="32" height="32" /> 
+			<a href="applications:/">%1</a>
+		      </td>
+		      <td>
+			<a href="settings:/"><img src="%1" width="32" height="32" /> 
+			  <a href="settings:/">%1</a>
+			</td>
+		      </tr>
+		    </table>
+		    
+		    <p style="margin-bottom: 0px">%1&nbsp;<a href="intro.html">%1
+			<!-- Continue --></a></p>
 
-        <!--Welcome to Konqueror-->
-
-          <p>%1</p><!--
-        With Konqueror you have your filesystem at your command, browsing local or
-        networked drives with equal ease.
-        Thanks to the component technology used throughout KDE, Konqueror is also
-        a full featured, easy to use,
-        and comfortable Web Browser, which you can use to explore the internet.
-        -->
-
-          <p>%1
-          <!-- Simply enter the internet address (e.g. http://www.kde.org)
-              of the webpage you want and press enter. Or choose one of the entries 
-              in your bookmark-menu.-->
-           %1
-          <!--If you want to go back to the previous webpage, press 
-               the button ("back") in the toolbar.-->
-           %1<!--To go back to the home-directory of your local
-               filesystem press ("Home").-->
-           %1
-          <!--For more detailed documentation on Konqueror click here --></p>
-
-          <p><img width="32" height="32" border="0" src=
-          "lightning.png" align="left" alt="" /> %1
-          <!--Tuning tip...--></p>
-
-          <p style="margin-bottom: 0px">%1&nbsp;<a href="tips.html">%1
-          <!-- Continue --></a></p>
         </div>
       </div>
     </div>
