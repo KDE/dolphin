@@ -123,7 +123,7 @@
                         </property>
                         <property>
                             <name>whatsThis</name>
-                            <string>If this option is enabled, on every startup KDE will look for new netscape plugins. This makes it easier for you if you often install new plugins, but it may slow down KDE startup, too. So especially if you seldom install plugins you might want to disable this option.</string>
+                            <string>If this option is enabled, KDE will look for new netscape plugins everytime it starts up. This makes it easier for you if you often install new plugins, but it may also slow down KDE startup. You might want to disable this option, especially if you seldom install plugins.</string>
                         </property>
                     </widget>
                     <widget>

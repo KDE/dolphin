@@ -133,7 +133,7 @@ void KonqRun::foundMimeType( const QString & _type )
   KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, true /*need app*/ );
   if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
   {
-    KMessageBox::error( m_pMainWindow, i18n("There appears to be a misconfiguration. You have associated konqueror with %1, but it can't handle this file type.").arg(mimeType));
+    KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
     m_pMainWindow = 0L;
     m_timer.start( 0, true );
     return;

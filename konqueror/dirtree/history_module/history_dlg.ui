@@ -295,7 +295,7 @@
                             </property>
                             <property>
                                 <name>toolTip</name>
-                                <string>Shows the number of times visited and the dates of first and last visit additionally to the URL</string>
+                                <string>Shows the number of times visited and the dates of the first and last visits, in addition to the URL</string>
                             </property>
                         </widget>
                         <widget>

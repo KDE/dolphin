@@ -2445,7 +2445,7 @@ void KonqMainWindow::slotToggleFullScreen()
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
 
-    m_ptaFullScreen->setText( i18n( "Stop Fullscreen Mode" ) );
+    m_ptaFullScreen->setText( i18n( "Exit Full-Screen Mode" ) );
     m_ptaFullScreen->setIcon( "window_nofullscreen" );
   }
   else
@@ -2471,7 +2471,7 @@ void KonqMainWindow::slotToggleFullScreen()
     topData()->dnd = 0;
     setAcceptDrops( TRUE );
 
-    m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
+    m_ptaFullScreen->setText( i18n( "Full-Screen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
   }
 }
@@ -2646,7 +2646,7 @@ void KonqMainWindow::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = new KAction( i18n( "Fullscreen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
+  m_ptaFullScreen = new KAction( i18n( "Full-Screen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
@@ -2705,51 +2705,51 @@ void KonqMainWindow::initActions()
   // help stuff
 
   m_paBack->setWhatsThis( i18n( "Click this button to display the previous document<br><br>\n\n"
-                                "You can also select the <b>Back Command</b> from the Go menu." ) );
+                                "You can also select the <b>Back</b> command from the Go menu." ) );
   m_paBack->setStatusText( i18n( "Display the previous document" ) );
 
   m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
-                                   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
+                                   "You can also select the <b>Forward</b> command from the Go menu." ) );
 
   m_paHome->setWhatsThis( i18n( "Click this button to display your 'Home URL'<br><br>\n\n"
-                                "You can configure the location this button brings you to in the "
-                                "<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
+                                "You can configure the location this button takes you to in the "
+                                "<b>KDE Control Center</b>, under <b>FileBrowsing</b> / <b>File Manager</b>" ) );
   m_paHome->setStatusText( i18n( "Enter your home directory" ) );
 
   m_paReload->setWhatsThis( i18n( "Reloads the currently displayed document<br><br>\n\n"
-                                  "You can also select the <b>Reload Command</b> from the View menu." ) );
+                                  "You can also select the <b>Reload</b> command from the View menu." ) );
   m_paReload->setStatusText( i18n( "Reload the current document" ) );
 
   m_paCut->setWhatsThis( i18n( "Click this button to cut the currently selected text or items and move it "
                                "to the system clipboard<br><br>\n\n"
-                               "You can also select the <b>Cut Command</b> from the Edit menu." ) );
+                               "You can also select the <b>Cut</b> command from the Edit menu." ) );
   m_paCut->setStatusText( i18n( "Moves the selected text/item(s) to the clipboard" ) );
 
   m_paCopy->setWhatsThis( i18n( "Click this button to copy the currently selected text or items to the "
                                 "system clipboard<br><br>\n\n"
-                                "You can also select the <b>Copy Command</b> from the Edit menu." ) );
+                                "You can also select the <b>Copy</b> command from the Edit menu." ) );
   m_paCopy->setStatusText( i18n( "Copies the selected text/item(s) to the clipboard" ) );
 
-  m_paPaste->setWhatsThis( i18n( "Click this button to paste the previously cutted or copied clipboard "
-                                 "content<br><br>\n\n"
-                                 "You can also select the <b>Paste Command</b> from the Edit menu." ) );
-  m_paPaste->setStatusText( i18n( "Pastes the clipboard content" ) );
+  m_paPaste->setWhatsThis( i18n( "Click this button to paste the previously cut or copied clipboard "
+                                 "contents<br><br>\n\n"
+                                 "You can also select the <b>Paste</b> command from the Edit menu." ) );
+  m_paPaste->setStatusText( i18n( "Pastes the clipboard contents" ) );
 
   m_paPrint->setWhatsThis( i18n( "Click this button to print the currently displayed document<br><br>\n\n"
-                                 "You can also select the <b>Print Command</b> from the View menu." ) );
+                                 "You can also select the <b>Print</b> command from the View menu." ) );
   m_paPrint->setStatusText( i18n( "Print the current document" ) );
 
   m_paStop->setWhatsThis( i18n( "Click this button to abort loading the document<br><br>\n\n"
-                                "You can also select the <b>Stop Command</b> from the View menu." ) );
+                                "You can also select the <b>Stop</b> command from the View menu." ) );
   m_paStop->setStatusText( i18n( "Stop loading the document" ) );
 
 
   // Please proof-read those (David)
 
-  m_ptaUseHTML->setStatusText( i18n("Open index.html when entering a directory, if present") );
+  m_ptaUseHTML->setStatusText( i18n("If present, open index.html when entering a directory.") );
   m_paLockView->setStatusText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
   m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
-  m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes done in other linked views") );
+  m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes made in other linked views.") );
 }
 
 void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)

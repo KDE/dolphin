@@ -1,4 +1,4 @@
-/* This file is part of the KDE project
+x/* This file is part of the KDE project
    Copyright (C) 1998, 1999 Michael Reiher <michael.reiher@gmx.de>
 
    This program is free software; you can redistribute it and/or
@@ -226,7 +226,7 @@ void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
   if ( bytesPerSecond > 0 )
     sizeStr = KIO::convertSize( bytesPerSecond ) + QString::fromLatin1( "/s" );
   else
-    sizeStr = i18n( "stalled" );
+    sizeStr = i18n( "Stalled" );
 
   //m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
   slotDisplayStatusText( sizeStr ); // let's share the same label...

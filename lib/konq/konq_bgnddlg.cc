@@ -143,7 +143,7 @@ void KBgndDialogPage::slotBrowse( )
     KRecentDocument::add( url );
 
     if (!url.isLocalFile()) {
-      KMessageBox::sorry(this, i18n("Currently are only local wallpapers allowed."));
+      KMessageBox::sorry(this, i18n("Currently only local wallpapers are allowed."));
     } else
       showSettings( url.path() );
 }

@@ -98,7 +98,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     KAction *a = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ),
                               actionCollection(), "bgcolor" );
 
-    a->setStatusText( i18n( "Allows choosing a background color for this view" ) );
+    a->setStatusText( i18n( "Allows choosing of a background color for this view" ) );
 
     a = new KAction( i18n( "Background Image..." ), "background", 0,
                      this, SLOT( slotBackgroundImage() ),

@@ -280,8 +280,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
                                        this, SLOT( slotInvertSelection() ),
                                        actionCollection(), "invertselection" );
 
-    m_paSelect->setStatusText( i18n( "Allows selecting file or directory items based on a given mask" ) );
-    m_paUnselect->setStatusText( i18n( "Allows unselecting file or directory items based on a given mask" ) );
+    m_paSelect->setStatusText( i18n( "Allows selecting of file or directory items based on a given mask" ) );
+    m_paUnselect->setStatusText( i18n( "Allows unselecting of file or directory items based on a given mask" ) );
     m_paSelectAll->setStatusText( i18n( "Selects all items" ) );
     m_paUnselectAll->setStatusText( i18n( "Unselects all selected items" ) );
     m_paInvertSelection->setStatusText( i18n( "Inverts the current selection of items" ) );
