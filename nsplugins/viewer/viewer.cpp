@@ -89,15 +89,9 @@ void parseCommandLine(int argc, char *argv[])
 
 
 /**
- * MyDCOPClient - ugly trick to access protected method
+ * socket notifier handling
  *
  */
-class MyDCOPClient : public DCOPClient
-{
- public:
-  void processSocket() { processSocketData(0); };
-};
-
 
 struct SocketNot
 {
