@@ -293,8 +293,14 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
   bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
   QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
-  KAction *actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
-  if ( !isKDesktop )
+  KAction *actNewView = 0L;
+
+  if (!m_actions.action("newview"))
+  {
+    actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  }
+
+  if ( actNewView && !isKDesktop )
   {
     if (isCurrentTrash)
       actNewView->setStatusText( i18n( "Open the trash in a new window" ) );
@@ -304,7 +310,8 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
   if ( isCurrentTrash )
   {
-    addAction( actNewView );
+    if (actNewView)
+      addAction( actNewView );
     addGroup( "tabhandling" );
     addSeparator();
 
@@ -359,7 +366,8 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     }
 
     // "open in new window" always available
-    addAction( actNewView );
+    if (actNewView)
+      addAction( actNewView );
     addGroup( "tabhandling" );
     bool separatorAdded = false;
 
