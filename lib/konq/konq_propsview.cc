@@ -71,19 +71,14 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
 
   // Default background color is the one from the settings, i.e. configured in kcmkonq
+  // TODO: remove it from there ?
   m_bgColor = KonqFMSettings::settings()->bgColor();
 
   m_bgPixmap.resize(0,0);
-  QString pix = config->readEntry( "BackgroundPixmap", "" );
-  if ( pix.isEmpty() )
+  m_bgPixmapFile = config->readEntry( "BackgroundPixmap", "" );
+  if ( !m_bgPixmapFile.isEmpty() )
   {
-      // should probably use config instead...
-    KConfig builtinviewConfig( "konqbuiltinviewrc", true, false );
-    QString pix = builtinviewConfig.readEntry( "BackgroundPixmap", "" );
-  }
-  if ( !pix.isEmpty() )
-  {
-    QPixmap p = wallpaperPixmap( pix );
+    QPixmap p = wallpaperPixmap( m_bgPixmapFile );
     if ( !p.isNull() )
     {
       kdDebug(1203) << "Got background" << endl;
@@ -98,6 +93,7 @@ KConfigBase * KonqPropsView::currentConfig()
     {
         // 0L ? This has to be a non-default save-locally instance...
         assert ( m_bSaveViewPropertiesLocally );
+        assert ( !isDefaultProperties() );
 
         if (dotDirectory.isEmpty())
             kdWarning(1203) << "Empty dotDirectory !" << endl;
@@ -149,42 +145,6 @@ void KonqPropsView::enterDir( const KURL & dir )
   m_currentConfig = 0L; // new dir, not current config for saving yet
 }
 
-#if 0
-// TO BE DELETED
-void KonqPropsView::saveAsDefault( KInstance *instance )
-{
-  KConfig *config = instance->config();
-  KConfigGroupSaver cgs(config, "Settings");
-  saveProps( config );
-}
-
-// TO BE DELETED
-void KonqPropsView::saveLocal( const KURL & dir )
-{
-  KURL u ( dir );
-  u.addPath(".directory");
-  if (!u.isLocalFile() || access (dir.path(), W_OK) != 0)
-  {
-    KMessageBox::sorry( 0L, i18n( QString("Can't write to %1").arg(dir.path()) ) );
-    // Well in theory we could write even to some FTP dir, but not with KSimpleConfig :)
-    return;
-  }
-
-  //kdDebug(1203) << "Found .directory file" << endl;
-  KSimpleConfig config( u.path());
-  config.setGroup("URL properties");
-  saveProps( & config );
-}
-
-// TO BE DELETED
-void KonqPropsView::saveProps( KConfig * config )
-{
-  config->writeEntry( "BgColor", m_bgColor );
-  // TODO save FILENAME for the BgImage...
-  config->sync();
-}
-#endif
-
 void KonqPropsView::setSaveViewPropertiesLocally( bool value )
 {
     assert( !isDefaultProperties() );
@@ -211,6 +171,7 @@ void KonqPropsView::setShowingDotFiles( bool show )
         kdDebug(1203) << "Saving in current config" << endl;
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "ShowDotFiles", m_bShowDot );
+        currentConfig()->sync();
     }
 }
 
@@ -223,6 +184,7 @@ void KonqPropsView::setShowingImagePreview( bool show )
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "ImagePreview", m_bImagePreview );
+        currentConfig()->sync();
     }
 }
 
@@ -235,5 +197,8 @@ void KonqPropsView::setHTMLAllowed( bool allowed )
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
+        currentConfig()->sync();
     }
 }
+
+// TODO setBgColor, setBgPixmapFile

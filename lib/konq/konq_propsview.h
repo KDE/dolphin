@@ -71,26 +71,6 @@ public:
    */
   void enterDir( const KURL & dir );
 
-#if 0
-  /**
-   * Save in local .directory if possible
-   */
-  void saveLocal( const KURL & dir );
-
-  /**
-   * Save those properties as default
-   * ("Options"/"Save settings")  ["as default" missing ?]
-   */
-  void saveAsDefault( KInstance *instance );
-
-  /**
-   * Save to config file
-   * Set the group before calling.
-   * ("Settings" for global props, "ViewNNN" for SM (TODO),
-   * "URL properties" for .directory files)
-   */
-  void saveProps( KConfig * config );
-#endif
 
   void setSaveViewPropertiesLocally( bool value );
 
@@ -108,11 +88,14 @@ public:
 
   const QColor& bgColor() const { return m_bgColor; }
   const QPixmap& bgPixmap() const { return m_bgPixmap; }
+  const QString& bgPixmapFile() const { return m_bgPixmapFile; }
+  // TODO: make those protected
   QColor m_bgColor;
   QPixmap m_bgPixmap;
 
 protected:
 
+  QString m_bgPixmapFile;
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
