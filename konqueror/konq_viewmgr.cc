@@ -911,7 +911,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
        kdWarning() << "View " << view << " is not in list !" << endl;
      it = mapViews.begin();
      if ( it == end )
-       return 0L; // We have no view at all - this happens with RootItem=empty
+       return 0L; // We have no view at all - this used to happen with totally-empty-profiles
    }
 
   KonqMainWindow::MapViews::Iterator startIt = it;
@@ -1157,22 +1157,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
   QString rootItem = cfg.readEntry( "RootItem", "empty" );
 
-  //kdDebug(1202) << rootItem << endl;
-
-  if( rootItem.isNull() ) {
-    // Config file doesn't contain anything about view profiles, fallback to defaults
-    rootItem = "InitialView";
-  }
   //kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
 
-  if ( rootItem == "empty" )
-  {
-    cfg.writeEntry( "View0_ServiceType", "text/html" );
-    cfg.writeEntry( "View0_ServiceName", "html" );
-    rootItem = "View0";
-  }
-
-  if ( rootItem != "empty" && forcedURL.url() != "about:blank" )
+  if ( forcedURL.url() != "about:blank" )
   {
     // This flag is used by KonqView, to distinguish manual view creation
     // from profile loading (e.g. in switchView)
@@ -1423,13 +1410,20 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
 
   //kdDebug(1202) << "begin loadItem: " << name << endl;
 
-  if( name.startsWith("View") ) {
-    //kdDebug(1202) << "Item is View" << endl;
+  if( name.startsWith("View") || name == "empty" ) {
     //load view config
-    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-    //kdDebug(1202) << "ServiceType: " << serviceType << endl;
-
-    QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
+    QString serviceType;
+    QString serviceName;
+    if ( name == "empty" ) {
+        // An empty profile is an empty KHTML part. Makes all KHTML actions available, avoids crashes,
+        // makes it easy to DND a URL onto it, and makes it fast to load a website from there.
+        serviceType = "text/html";
+        serviceName = "html";
+    } else {
+        serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
+        serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
+    }
+    //kdDebug(1202) << "ServiceType: " << serviceType << " " << serviceName << endl;
 
     KService::Ptr service;
     KTrader::OfferList partServiceOffers, appServiceOffers;
