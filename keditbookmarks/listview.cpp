@@ -617,17 +617,8 @@ void ListView::clearSelection() {
    m_listView->clearSelection();
 }
 
-/* -------------------------------------- */
-
-class KeyPressEater : public QObject {
-public:
-   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
-protected:
-   bool eventFilter(QObject *, QEvent *);
-};
-
-static int myrenamecolumn = -1;
-static KEBListViewItem *myrenameitem = 0;
+static int s_myrenamecolumn = -1;
+static KEBListViewItem *s_myrenameitem = 0;
 
 void ListView::renameNextCell(bool fwd) {
    // this needs to take special care
@@ -639,35 +630,41 @@ void ListView::renameNextCell(bool fwd) {
    // handled almost completely differently...
    KEBListView *lv = m_listView;
    while (1) {
-      if (fwd && myrenamecolumn < KEBListView::CommentColumn) {
-         myrenamecolumn++;
-      } else if (!fwd && myrenamecolumn > KEBListView::NameColumn) {
-         myrenamecolumn--;
+      if (fwd && s_myrenamecolumn < KEBListView::CommentColumn) {
+         s_myrenamecolumn++;
+      } else if (!fwd && s_myrenamecolumn > KEBListView::NameColumn) {
+         s_myrenamecolumn--;
       } else {
-         myrenameitem    = 
+         s_myrenameitem    = 
             static_cast<KEBListViewItem *>(
-              fwd ? ( myrenameitem->itemBelow() 
-                    ? myrenameitem->itemBelow() : lv->firstChild() ) 
-                  : ( myrenameitem->itemAbove()
-                    ? myrenameitem->itemAbove() : lv->lastItem() ) );
-         myrenamecolumn  
+              fwd ? ( s_myrenameitem->itemBelow() 
+                    ? s_myrenameitem->itemBelow() : lv->firstChild() ) 
+                  : ( s_myrenameitem->itemAbove()
+                    ? s_myrenameitem->itemAbove() : lv->lastItem() ) );
+         s_myrenamecolumn  
             = fwd ? KEBListView::NameColumn 
                   : KEBListView::CommentColumn;
       }
-      if (!myrenameitem 
-        || myrenameitem == m_listView->rootItem()
-        || myrenameitem->isEmptyFolderPadder()
-        || myrenameitem->bookmark().isSeparator()
-        || (myrenamecolumn == KEBListView::UrlColumn 
-         && myrenameitem->bookmark().isGroup())
+      if (s_myrenameitem 
+       && s_myrenameitem != m_listView->rootItem()
+       && !s_myrenameitem->isEmptyFolderPadder()
+       && !s_myrenameitem->bookmark().isSeparator()
+       && !(s_myrenamecolumn == KEBListView::UrlColumn && s_myrenameitem->bookmark().isGroup())
       ) {
-         ;
-      } else {
          break;
       }
    }
-   lv->rename(myrenameitem, myrenamecolumn);
+   lv->rename(s_myrenameitem, s_myrenamecolumn);
 }
+
+/* -------------------------------------- */
+
+class KeyPressEater : public QObject {
+public:
+   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
+protected:
+   bool eventFilter(QObject *, QEvent *);
+};
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
@@ -681,8 +678,8 @@ void KEBListView::rename(QListViewItem *qitem, int column) {
    ) {
       return;
    }
-   myrenamecolumn = column;
-   myrenameitem = item;
+   s_myrenamecolumn = column;
+   s_myrenameitem = item;
    KeyPressEater *keyPressEater = new KeyPressEater(this);
    renameLineEdit()->installEventFilter(keyPressEater);
    KListView::rename(item, column);
