@@ -12,7 +12,7 @@ libkcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version
 libkcm_konq_la_LIBADD = -lkdeui  
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(kcmkonq_SOURCES) && mv messages.po ../../po/kcmkonq.pot
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(libkcm_konq_la_SOURCES) && mv messages.po ../../po/kcmkonq.pot
 
 
 check_PROGRAMS = test
