@@ -276,7 +276,7 @@ void KonqMainView::initConfig()
 
 void KonqMainView::initGui()
 {
-  openURL( m_sInitialURL, (CORBA::Boolean)true );
+  openURL( m_sInitialURL );
 
   if ( s_lstAnimatedLogo->count() == 0 )
   {
@@ -639,7 +639,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
 
 bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
-  openURL( eventURL.url, eventURL.reload );
+  openURL( eventURL );
   return true;
 }
 
@@ -789,13 +789,13 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
     m_currentId = newId;
 }
 
-void KonqMainView::openURL( const Konqueror::URLRequest &url )
+void KonqMainView::openURL( const Konqueror::URLRequest &_urlreq )
 {
-  CORBA::String_var u = url.url;
-  openURL( u.in(), url.reload );
+  openURL( _urlreq.url.in(), (bool)_urlreq.reload, (int)_urlreq.xOffset,
+          (int)_urlreq.yOffset );
 }
 
-void KonqMainView::openURL( const char * _url, CORBA::Boolean, KonqChildView *_view )
+void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOffset, KonqChildView *_view )
 {
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
   QString url = _url;
@@ -836,18 +836,24 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean, KonqChildView *_v
     return;
   }
 
-  //FIXME... this is far for being complete (Simon)
-  //(for example: obey the reload flag...)
-  
-  slotStop(); //hm....
-  
   KonqChildView *view = _view;
   if ( !view )
     view = m_currentView;
+
+  if ( view )
+  {
+    view->stop();
+    if ( view->kfmRun() )
+      delete view->kfmRun();
+  }
     
   KfmRun *run = new KfmRun( this, view, url, 0, false, false );
+  
   if ( view )
+  {
     view->setKfmRun( run );
+    view->setMiscURLData( reload, xOffset, yOffset );
+  }
 }
 
 void KonqMainView::setStatusBarText( const CORBA::WChar *_text )
@@ -948,7 +954,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
     else
     {
       childView->makeHistory( false );
-      childView->openURL( url );
+      childView->openURL( url, true );
     }
       
     childView->setKfmRun( 0L );
@@ -1103,7 +1109,7 @@ void KonqMainView::slotOpenLocation()
     // Exit if the user did not enter an URL
     if ( u.isEmpty() )
       return;
-    openURL( u.ascii(), (CORBA::Boolean)false );
+    openURL( u.ascii() );
   }
 }
 
@@ -1204,13 +1210,13 @@ void KonqMainView::slotShowHTML()
   if ( b && m_currentView->supportsServiceType( "inode/directory" ) )
   {
     m_currentView->lockHistory();
-    openURL( m_currentView->url(), (CORBA::Boolean)false );
+    openURL( m_currentView->url() );
   }
   else if ( !b && m_currentView->supportsServiceType( "text/html" ) )
   {
     KURL u( m_currentView->url() );
     m_currentView->lockHistory();
-    openURL( u.directory(), (CORBA::Boolean)false );
+    openURL( u.directory() );
   }
 }
 
@@ -1287,7 +1293,7 @@ void KonqMainView::slotUp()
   KURL u( url );
   u.cd(".."); // KURL does it for us
   
-  openURL( u.url(), false ); // not m_currentView->openURL since the view mode might be different
+  openURL( u.url() ); // not m_currentView->openURL since the view mode might be different
 }
 
 void KonqMainView::slotBack()
@@ -1307,9 +1313,7 @@ void KonqMainView::slotForward()
 
 void KonqMainView::slotHome()
 {
-  QString tmp( QDir::homeDirPath() );
-  tmp.prepend( "file:" );
-  openURL(tmp,(CORBA::Boolean)false); // might need a view-mode change...
+  openURL("~"); // might need a view-mode change...
 }
 
 void KonqMainView::slotShowCache()
@@ -1323,7 +1327,7 @@ void KonqMainView::slotShowCache()
 
   QString f = file;
   KURL::encode( f );
-  openURL( f, (CORBA::Boolean)false );
+  openURL( f );
 }
 
 void KonqMainView::slotShowHistory()
@@ -1333,12 +1337,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( kapp->kde_mimedir(), (CORBA::Boolean)false );
+    openURL( kapp->kde_mimedir() );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( kapp->kde_appsdir(), (CORBA::Boolean)false );
+    openURL( kapp->kde_appsdir() );
 }
 
 void KonqMainView::slotShowMenubar()
@@ -1466,49 +1470,7 @@ void KonqMainView::slotURLEntered()
   if ( url.isEmpty() )
     return;
 
-  // Root directory?
-  if ( url[0] == '/' )
-  {
-    KURL::encode( url );
-  }
-  // Home directory?
-  else if ( url[0] == '~' )
-  {
-    QString tmp( QDir::homeDirPath() );
-    tmp += C2Q( _url.in() ).remove( 0, 1 );
-    KURL u( tmp );
-    url = u.url();
-  }
-  else if ( strncmp( url, "www.", 4 ) == 0 )
-  {
-    QString tmp = "http://";
-    KURL::encode( url );
-    tmp += url;
-    url = tmp;
-  }
-  else if ( strncmp( url, "ftp.", 4 ) == 0 )
-  {
-    QString tmp = "ftp://";
-    KURL::encode( url );
-    tmp += url;
-    url = tmp;
-  }
-
-  KURL u( url );
-  if ( u.isMalformed() )
-  {
-    QString tmp = i18n("Malformed URL\n%1").arg(C2Q(_url.in()));
-    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp, i18n( "OK" ) );
-    return;
-  }
-	
-  /*
-    m_currentView->m_bBack = false;
-    m_currentView->m_bForward = false;
-    Why this ? Seems not necessary ... (David)
-  */ 
-
-  openURL( url, (CORBA::Boolean)false );
+  openURL( url.ascii() );
 }
 
 void KonqMainView::slotBookmarkSelected( CORBA::Long id )
@@ -1647,7 +1609,7 @@ void KonqMainView::resizeEvent( QResizeEvent * )
 void KonqMainView::openBookmarkURL( const char *url )
 {
   kdebug(0,1202,"KonqMainView::openBookmarkURL(%s)",url);
-  openURL( url, false );
+  openURL( url );
 }
  
 QString KonqMainView::currentTitle()

@@ -78,6 +78,9 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
   m_lstBack.setAutoDelete( true );
   m_lstForward.setAutoDelete( true );
+  m_bReloadURL = false;
+  m_iXOffset = 0;
+  m_iYOffset = 0;
 }
 
 KonqChildView::~KonqChildView()
@@ -129,13 +132,22 @@ void KonqChildView::show()
     m_pKonqFrame->show();
 }
 
-void KonqChildView::openURL( QString url, int xOffset, int yOffset )
+void KonqChildView::openURL( QString url, bool useMiscURLData  )
 {
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.data() );
-  eventURL.reload = (CORBA::Boolean)false;
-  eventURL.xOffset = (CORBA::Long)xOffset;
-  eventURL.yOffset = (CORBA::Long)yOffset;
+  if ( useMiscURLData )
+  {
+    eventURL.reload = (CORBA::Boolean)m_bReloadURL;
+    eventURL.xOffset = m_iXOffset;
+    eventURL.yOffset = m_iYOffset;
+  }
+  else
+  {
+    eventURL.reload = (CORBA::Boolean)false;
+    eventURL.xOffset = 0;
+    eventURL.yOffset = 0;
+  }    
   EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
@@ -165,8 +177,7 @@ void KonqChildView::switchView( Konqueror::View_ptr _vView, const QStringList &s
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType, 
-                                    const QString &_url, 
-				    int xOffset, int yOffset )
+                                    const QString &_url, bool useMiscURLData )
 {
   QString url = _url;
   if ( url.isEmpty() )
@@ -176,7 +187,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() )
   {
     makeHistory( false );
-    openURL( url, xOffset, yOffset );
+    openURL( url, useMiscURLData );
     return true;
   }
 
@@ -191,7 +202,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   
   emit sigIdChanged( this, oldId, vView->id() );
   
-  openURL( url, xOffset, yOffset );
+  openURL( url, useMiscURLData );
   
   m_vMainWindow->setActivePart( vView->id() ); 
   return true;
@@ -199,8 +210,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
 void KonqChildView::changeView( Konqueror::View_ptr _vView, 
                                 const QStringList &serviceTypes, 
-				const QString &_url,
-				int xOffset, int yOffset )
+				const QString &_url )
 {
   QString url = _url;
   if ( url.isEmpty() )
@@ -211,7 +221,7 @@ void KonqChildView::changeView( Konqueror::View_ptr _vView,
   
   emit sigIdChanged( this, oldId, _vView->id() );
   
-  openURL( url, xOffset, yOffset );
+  openURL( url );
   
   m_vMainWindow->setActivePart( _vView->id() );
 }
@@ -324,7 +334,10 @@ void KonqChildView::goBack()
   HistoryEntry *h = m_lstBack.take( m_lstBack.count()-1 );
   m_bBack = true;
 
-  changeViewMode( h->strServiceType, h->strURL, h->xOffset, h->yOffset );
+  m_bReloadURL = false;
+  m_iXOffset = h->xOffset;
+  m_iYOffset = h->yOffset;
+  changeViewMode( h->strServiceType, h->strURL );
   delete h;
 }
 
@@ -335,7 +348,10 @@ void KonqChildView::goForward()
   HistoryEntry *h = m_lstForward.take( 0 );
   m_bForward = true;
 
-  changeViewMode( h->strServiceType, h->strURL, h->xOffset, h->yOffset );
+  m_bReloadURL = false;
+  m_iXOffset = h->xOffset;
+  m_iYOffset = h->yOffset;
+  changeViewMode( h->strServiceType, h->strURL );
   delete h;
 }
 

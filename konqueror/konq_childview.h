@@ -82,7 +82,7 @@ public:
    * Displays another URL, but without changing the view mode (caller has to 
    * ensure that the call makes sense)
    */
-  void openURL( QString url, int xOffset = 0, int yOffset = 0 );
+  void openURL( QString url, bool useMiscURLData = false );
   /**
    * Builds or destroys view-specific part of the menus.
    */
@@ -93,8 +93,10 @@ public:
    */
   void switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes );
 
-  bool changeViewMode( const QString &serviceType, const QString &url = QString::null, int xOffset = 0, int yOffset = 0 );  
-  void changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &url = QString::null, int xOffset = 0, int yOffset = 0 );
+  bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
+                       bool useMiscURLData = true );
+  void changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, 
+                   const QString &url = QString::null );
   
   /**
    * Create a view
@@ -182,6 +184,16 @@ public:
   void setKfmRun( KfmRun *run ) { m_pRun = run; }
   KfmRun *kfmRun() const { return m_pRun; }
 
+  void setMiscURLData( bool reload, int xOffset, int yOffset )
+  {
+    m_bReloadURL = reload;
+    m_iXOffset = xOffset;
+    m_iYOffset = yOffset;
+  }
+  bool reloadURL() const { return m_bReloadURL; }
+  int xOffset() const { return m_iXOffset; }
+  int yOffset() const { return m_iYOffset; }
+
   static bool createView( const QString &serviceType, 
                           Konqueror::View_var &view, 
 			  QStringList &serviceTypes, 
@@ -231,6 +243,9 @@ protected:
   QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
   KfmRun *m_pRun;
+  bool m_bReloadURL;
+  int m_iXOffset;
+  int m_iYOffset;
   KonqFrame* m_pKonqFrame;
 };
 
