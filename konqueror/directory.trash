@@ -1,6 +1,6 @@
 [Desktop Entry]
-Icon=kfm_fulltrash.xpm
-EmptyIcon=kfm_trash.xpm
+Icon=kfm_fulltrash.png
+EmptyIcon=kfm_trash.png
 Name=Trash
 Name[cs]=Ko¹
 Name[da]=Skraldespand
