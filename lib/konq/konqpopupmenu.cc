@@ -174,23 +174,22 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   {
     if ( S_ISDIR( mode ) ) // all URLs are directories
     {
-      // Add the "new" menu
-      if ( m_pMenuNew )
+      if ( sWriting  && m_pMenuNew ) // Add the "new" menu
       {
         // As requested by KNewMenu :
         m_pMenuNew->slotCheckUpToDate();
         m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
-	addAction( m_pMenuNew );
-      }
+        addAction( m_pMenuNew );
 
-      addSeparator();
+        addSeparator();
+      }
 
       if ( currentDir ) {
         addAction( "up" );
-	addAction( "back" );
-	addAction( "forward" );
-	addSeparator();
+        addAction( "back" );
+        addAction( "forward" );
+        addSeparator();
       }
 
       addAction( m_paNewView );
@@ -198,9 +197,9 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
     }
     else // not all URLs are dirs
     {
+      // HACK - should be also possible for anything we can embed
       if ( m_sViewURL.protocol() == "http" )
       {
-        /* Should be for http URLs (HTML pages) only ... */
         addAction( m_paNewView );
       }
 
@@ -209,9 +208,10 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
       addSeparator();
     }
 
-    if ( sReading )
-    {
-      addAction( "cut" );
+    if ( sReading ) {
+      if ( sDeleting ) {
+        addAction( "cut" );
+      }
       addAction( "copy" );
     }
 
