@@ -40,6 +40,9 @@ AC_ARG_WITH(motif-libraries,
 [  --with-motif-libraries=DIR   Motif libraries are in DIR],
 motif_libraries="$withval")
 
+dnl Check for this first, sometimes required to link lesstif programs
+AC_CHECK_LIB(Xp, XpStartPage, [MOTIF_LIBS="-lXp"], [], [$all_libraries -lXext -lX11 $LIBSOCKET])
+
 AC_MSG_CHECKING(for Motif)
 
 #
@@ -54,7 +57,7 @@ ac_motif_save_INCLUDES="$INCLUDES"
 ac_motif_save_CPPFLAGS="$CPPFLAGS"
 ac_motif_save_LDFLAGS="$LDFLAGS"
 #
-LIBS="$X_PRE_LIBS -lXm -lXt -lX11 $X_EXTRA_LIBS $LIBS"
+LIBS="$MOTIF_LIBS $X_PRE_LIBS -lXm -lXt -lX11 $X_EXTRA_LIBS $LIBS"
 INCLUDES="$X_CFLAGS $INCLUDES"
 CPPFLAGS="$X_CFLAGS $CPPFLAGS"
 LDFLAGS="$X_LIBS $LDFLAGS"
@@ -111,7 +114,7 @@ ac_motif_save_INCLUDES="$INCLUDES"
 ac_motif_save_CPPFLAGS="$CPPFLAGS"
 ac_motif_save_LDFLAGS="$LDFLAGS"
 #
-LIBS="$X_PRE_LIBS -lXm -lXt -lX11 $X_EXTRA_LIBS $LIBS"
+LIBS="$MOTIF_LIBS $X_PRE_LIBS -lXm -lXext -lXt -lX11 $X_EXTRA_LIBS $LIBS"
 INCLUDES="$X_CFLAGS $INCLUDES"
 if test "$motif_includes" != "" -a "$motif_includes" != "/usr/include"; then
    CPPFLAGS="$X_CFLAGS $CPPFLAGS -I$motif_includes"
@@ -178,14 +181,14 @@ fi
 
 if test "$with_motif" != "no"; then
         if test "$motif_libraries" = "" -o "$motif_libraries" = "/usr/lib"; then
-                link_motif="-lXm"
-                MOTIF_LIBS="-lXm"
+                dnl link_motif="-lXm"
+                MOTIF_LIBS="$MOTIF_LIBS -lXm"
         else
-                link_motif="-L$motif_libraries -lXm"
-                MOTIF_LIBS="-L$motif_libraries -lXm"
+                dnl link_motif="-L$motif_libraries -lXm"
+                MOTIF_LIBS="$MOTIF_LIBS -L$motif_libraries -lXm"
         fi
         if test "$motif_includes" != "" -a "$motif_includes" != "/usr/include"; then
-                include_motif="-I$motif_includes"
+                dnl include_motif="-I$motif_includes"
                 MOTIF_CFLAGS="-I$motif_includes"
         fi
 	AC_DEFINE(HAVE_MOTIF,1,[Define if you have Motif installed])
@@ -193,8 +196,8 @@ else
         with_motif="no"
 fi
 #
-AC_SUBST(link_motif)
-AC_SUBST(include_motif)
+dnl AC_SUBST(link_motif)
+dnl AC_SUBST(include_motif)
 AC_SUBST(MOTIF_CFLAGS)
 AC_SUBST(MOTIF_LIBS)
 #
@@ -219,6 +222,3 @@ else
   DO_NOT_COMPILE="$DO_NOT_COMPILE nsplugins"
 fi
 
-AC_CHECK_LIB(Xp, XpStartPage, [MOTIF_LIBS="$MOTIF_LIBS -lXp"
-AC_SUBST(MOTIF_LIBS)
-], [], [$all_libraries -lXext -lX11 $LIBSOCKET])
