@@ -868,7 +868,7 @@ void KonqMainWindow::slotDuplicateWindow()
 
 void KonqMainWindow::slotSendURL()
 {
-  kapp->invokeMailer("mailto:?body=" + m_currentView->url().url());
+  kapp->invokeMailer("mailto:?body=" + KURL::encode_string(m_currentView->url().url()));
 }
  
 void KonqMainWindow::slotSendFile()
