@@ -178,10 +178,11 @@ QString GaleonImportCommand::requestFilename() const {
             i18n("*.xbel|Galeon bookmark files (*.xbel)"));
 }
 
+#include "kstandarddirs.h"
+
 QString KDE2ImportCommand::requestFilename() const {
-    // locateLocal on the bookmarks file and get dir?
     return KFileDialog::getOpenFileName(
-            QDir::homeDirPath() + "/.kde/share/apps/konqueror",
+            locateLocal("data", "konqueror"),
             i18n("*.xml|KDE bookmark files (*.xml)"));
 }
 
