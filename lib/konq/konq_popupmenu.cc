@@ -677,12 +677,21 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     // Second block, builtin + user
     if ( !user.isEmpty() || !userSubmenus.empty() || !builtin.isEmpty() )
     {
-        QDomElement actionMenu = m_doc.createElement( "menu" );
-        actionMenu.setAttribute( "name", "actions submenu" );
-        m_menuElement.appendChild( actionMenu );
-        QDomElement text = m_doc.createElement( "text" );
-        actionMenu.appendChild( text );
-        text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
+        QDomElement actionMenu;
+
+        if (user.count() + userSubmenus.count() + builtin.count() > 1)
+        {
+            actionMenu = m_doc.createElement( "menu" );
+            actionMenu.setAttribute( "name", "actions submenu" );
+            m_menuElement.appendChild( actionMenu );
+            QDomElement text = m_doc.createElement( "text" );
+            actionMenu.appendChild( text );
+            text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
+        }
+        else
+        {
+            actionMenu = m_menuElement;
+        }
 
         QMap<QString, ServiceList>::Iterator it;
         for (it = userSubmenus.begin(); it != userSubmenus.end(); ++it)
