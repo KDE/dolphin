@@ -36,6 +36,7 @@
 #include <kseparator.h>
 #include <kstandarddirs.h>
 #include <kurlrequester.h>
+#include <kmimetype.h>
 
 #include <dcopclient.h>
 #include <kio/job.h>
@@ -79,6 +80,27 @@ private:
     QString m_pluginName;
 };
 
+
+class KRootOptDevicesItem : public QCheckListItem
+{
+public:
+    KRootOptDevicesItem(KRootOptions *rootOpts, QListView *parent,
+                const QString name, const QString mimetype, bool on)
+        : QCheckListItem(parent, name, CheckBox),
+          m_rootOpts(rootOpts),m_mimeType(mimetype){setOn(on);}
+
+    const QString &mimeType() const { return m_mimeType; }
+
+protected:
+    virtual void stateChange( bool ) { m_rootOpts->changed(); }
+
+private:
+    KRootOptions *m_rootOpts;
+    QString m_mimeType;
+};
+
+
+
 static const char * s_choices[6] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "CustomMenu1", "CustomMenu2" };
 
 KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
@@ -86,7 +108,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 {
   QLabel * tmpLabel;
 
-#define RO_LASTROW 2   // 2 GroupBoxes + last row = 3 rows. But it starts at 0 ;)
+#define RO_LASTROW 3   // 2 GroupBoxes + last row = 3 rows. But it starts at 0 ;)
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, KDialog::spacingHint());
@@ -249,11 +271,61 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( rightComboBox, wtstr );
 
+  
+  //BEGIN devices configuration
+  row++;
+  groupBox = new QVGroupBox( i18n("Display Devices"), this );
+  lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
+  
+  enableDevicesBox = new QCheckBox(i18n("Enable"), groupBox);
+  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(changed()));
+  
+  devicesListView = new KListView( groupBox );
+  devicesListView->setFullWidth(true);
+  devicesListView->addColumn( i18n("Types to Display") );
+  QWhatsThis::add(devicesListView, i18n("Deselect those device types, you don't want to see on the desktop"));
+  //END devices configuration
+  
   // -- Bottom --
   Q_ASSERT( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
-
+  
   load();
 }
+
+
+void KRootOptions::fillDevicesListView()
+{
+
+    devicesListView->clear();
+    devicesListView->setRootIsDecorated(true);
+    KMimeType::List mimetypes = KMimeType::allMimeTypes();
+    QValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
+    g_pConfig->setGroup( "Devices" );
+    enableDevicesBox->setChecked(g_pConfig->readBoolEntry("enabled",true));
+    QString excludedDevices=g_pConfig->readEntry("exclude","kdedevice/hdd_mounted;kdedevice/hdd_unmounted;kdedevice/floppy_unmounted;kdedevice/cdrom_unmounted;kdedevice/floppy5_unmounted");
+    for (; it2 != mimetypes.end(); ++it2) {
+	if ((*it2)->name().startsWith("kdedevice/"))
+	{
+    	    bool ok=excludedDevices.contains((*it2)->name())==0;
+		new KRootOptDevicesItem (this, devicesListView, (*it2)->comment(), (*it2)->name(),ok);
+		
+        }
+    }
+}
+
+void KRootOptions::saveDevicesListView()
+{
+    g_pConfig->setGroup( "Devices" );
+    g_pConfig->writeEntry("enabled",enableDevicesBox->isChecked());
+    QStringList exclude;
+    for (KRootOptDevicesItem *it=static_cast<KRootOptDevicesItem *>(devicesListView->firstChild());
+     	it; it=static_cast<KRootOptDevicesItem *>(it->nextSibling()))
+    	{
+		if (!it->isOn()) exclude << it->mimeType();
+	    }
+     g_pConfig->writeEntry("exclude",exclude);   
+}
+
 
 void KRootOptions::fillMenuCombo( QComboBox * combo )
 {
@@ -302,6 +374,7 @@ void KRootOptions::load()
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; }
 
+    fillDevicesListView();
     enableChanged();
 }
 
@@ -343,7 +416,7 @@ void KRootOptions::save()
     g_pConfig->setGroup( "General" );
     g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
     g_pConfig->writeEntry( "Enabled", iconsEnabledBox->isChecked() );
-
+    saveDevicesListView();
     g_pConfig->sync();
 }
 

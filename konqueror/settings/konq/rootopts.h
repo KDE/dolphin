@@ -39,6 +39,7 @@ public:
         virtual void defaults();
         virtual QString quickHelp() const;
         friend class KRootOptPreviewItem;
+	friend class KRootOptDevicesItem;
 
 private slots:
 
@@ -55,8 +56,13 @@ private:
         QCheckBox *vertAlignBox;
         QCheckBox *menuBarBox;
 	QCheckBox *vrootBox;
+	
+	QCheckBox *enableDevicesBox;
+	KListView *devicesListView;
+	void fillDevicesListView();
+	void saveDevicesListView();
+		
         KListView *previewListView;
-
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
         QComboBox *leftComboBox;
