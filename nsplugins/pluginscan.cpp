@@ -222,7 +222,7 @@ int tryCheck(int write_fd, const QString &absFile)
     
     // unload plugin lib
     kdDebug(1433) << " - unloading plugin" << endl;
-    KLibLoader::self()->unloadLibrary( QFile::encode(absFile) );
+    KLibLoader::self()->unloadLibrary( QFile::encodeName(absFile) );
 
     // create a QDataStream for our IPC pipe (to send plugin info back to the parent)
     FILE *write_pipe = fdopen(write_fd, "w");
