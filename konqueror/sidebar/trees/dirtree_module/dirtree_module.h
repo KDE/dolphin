@@ -51,7 +51,7 @@ private slots:
     void slotRefreshItems( const KFileItemList & );
     void slotDeleteItem( KFileItem *item );
     void slotRedirection( const KURL & oldUrl, const KURL & newUrl );
-    void slotListingStopped();
+    void slotListingStopped( const KURL & url );
 
 private:
     //KonqSidebarTreeItem * findDir( const KURL &_url );

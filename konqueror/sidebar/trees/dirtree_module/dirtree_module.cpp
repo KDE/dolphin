@@ -151,10 +151,10 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
                  this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
         connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
                  this, SLOT( slotDeleteItem( KFileItem * ) ) );
-        connect( m_dirLister, SIGNAL( completed() ),
-                 this, SLOT( slotListingStopped() ) );
-        connect( m_dirLister, SIGNAL( canceled() ),
-                 this, SLOT( slotListingStopped() ) );
+        connect( m_dirLister, SIGNAL( completed( const KURL & ) ),
+                 this, SLOT( slotListingStopped( const KURL & ) ) );
+        connect( m_dirLister, SIGNAL( canceled( const KURL & ) ),
+                 this, SLOT( slotListingStopped( const KURL & ) ) );
         connect( m_dirLister, SIGNAL( redirection( const KURL &, const KURL & ) ),
                  this, SLOT( slotRedirection( const KURL &, const KURL & ) ) );
     }
@@ -312,10 +312,8 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
     }
 }
 
-void KonqSidebarDirTreeModule::slotListingStopped()
+void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
 {
-    const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
-    KURL url = lister->url();
     KonqSidebarTreeItem * item = m_dictSubDirs[ url.url(-1) ];
 
     Q_ASSERT(item);
