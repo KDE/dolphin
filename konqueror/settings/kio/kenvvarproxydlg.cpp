@@ -174,7 +174,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   
   vlay->addWidget( m_pbDetect );
   
-  m_pbShowValue = new QPushButton( i18n("Show &Values"), m_gbHostnames,
+  m_pbShowValue = new QPushButton( i18n("Show &values"), m_gbHostnames,
                                    "m_pbDetect" );
   m_pbShowValue->setToggleButton ( true );
   m_pbShowValue->setMinimumSize (m_pbShowValue->size ());
