@@ -19,7 +19,6 @@ Otherwise, relative links are broken if we abort loading early. (done, to be tes
 - (if local dir) : drop should copy to parent dir (for Antonio :)
 - meta-equiv redirections not supported #3051
 - many bugs in the buglist :(
-- implement search functionality in KonqHTMLView -> wait until khtml catched up :-)
 
 libkonq:
 ========
@@ -42,15 +41,9 @@ even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 konqueror framework:
 ====================
 
-- implement "cutting" icons using semi-transparent icon effect
-(or more generally "disabled" setting).
-
 - Action for enabling/disabling javascript, in Settings.
 
 - the 'shared lib' or interface problem for plugins.
-
-- Allow for profiles without URL - and have two "default" ones (i.e. provided),
-one for $HOME and one for web browsing.
 
 - What about a "clear" button at the right of the location bar, to clear the URL
 before pasting another one ?
