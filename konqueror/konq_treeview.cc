@@ -105,6 +105,8 @@ KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
   viewport()->setMouseTracking( true );
 
   m_dragOverItem = 0L;
+
+  setFrameStyle( QFrame::NoFrame | QFrame::Plain );
 }
 
 KonqKfmTreeView::~KonqKfmTreeView()
