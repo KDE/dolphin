@@ -60,9 +60,9 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
     QValueList<int> columns;
     columns.append(0);
     dlg->kListViewSearchLine->setSearchColumns(columns);
-    
+
     mainLayout->addWidget(dlg);
-    
+
     load();
 }
 
@@ -81,7 +81,7 @@ void KCookiesPolicies::cookiesEnabled( bool enable )
   dlg->bgDefault->setEnabled( enable );
   dlg->bgPreferences->setEnabled ( enable );
   dlg->gbDomainSpecific->setEnabled( enable );
-  
+
   if (enable)
   {
     ignoreCookieExpirationDate ( enable );
@@ -104,7 +104,7 @@ void KCookiesPolicies::autoAcceptSessionCookies ( bool enable )
   enable = (enable && isIgnoreExpirationChecked);
 
   dlg->bgDefault->setEnabled( !enable );
-  dlg->gbDomainSpecific->setEnabled( !enable );  
+  dlg->gbDomainSpecific->setEnabled( !enable );
 }
 
 void KCookiesPolicies::addNewPolicy(const QString& domain)
@@ -279,7 +279,7 @@ void KCookiesPolicies::load()
 {
   d_itemsSelected = 0;
   d_configChanged = false;
-  
+
   KConfig cfg ("kcookiejarrc", true);
   cfg.setGroup ("Cookie Policy");
 
@@ -321,9 +321,9 @@ void KCookiesPolicies::load()
 
   // Connect the main swicth :) Enable/disable cookie support
   connect( dlg->cbEnableCookies, SIGNAL( toggled(bool) ),
-           SLOT( cookiesEnabled(bool) ) );  
+           SLOT( cookiesEnabled(bool) ) );
   connect( dlg->cbEnableCookies, SIGNAL( toggled(bool) ),
-           SLOT( configChanged() ) );  
+           SLOT( configChanged() ) );
 
   // Connect the preference check boxes...
   connect ( dlg->cbRejectCrossDomainCookies, SIGNAL(clicked()),
@@ -332,7 +332,7 @@ void KCookiesPolicies::load()
             SLOT(configChanged()));
   connect ( dlg->cbIgnoreCookieExpirationDate, SIGNAL(toggled(bool)),
             SLOT(configChanged()));
-           
+
   connect ( dlg->cbAutoAcceptSessionCookies, SIGNAL(toggled(bool)),
             SLOT(autoAcceptSessionCookies(bool)));
   connect ( dlg->cbIgnoreCookieExpirationDate, SIGNAL(toggled(bool)),
@@ -348,12 +348,12 @@ void KCookiesPolicies::load()
            SLOT(changePressed() ) );
   connect( dlg->lvDomainPolicy, SIGNAL(returnPressed ( QListViewItem * )),
            SLOT(changePressed() ) );
-           
+
   // Connect the buttons...
   connect( dlg->pbNew, SIGNAL(clicked()), SLOT( addPressed() ) );
   connect( dlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
   connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
-  connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );           
+  connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
 }
 
 void KCookiesPolicies::save()
@@ -386,7 +386,7 @@ void KCookiesPolicies::save()
 
   QStringList domainConfig;
   QListViewItem *at = dlg->lvDomainPolicy->firstChild();
-  
+
   while( at )
   {
     domainConfig.append(QString::fromLatin1("%1:%2").arg(KIDNA::toAscii(at->text(0))).arg(m_pDomainPolicy[at]));
@@ -406,7 +406,7 @@ void KCookiesPolicies::save()
                                  "Any changes you made will not take effect until the service "
                                  "is restarted."));
   }
-  
+
   // Force running io-slave to reload configurations...
   KSaveIOConfig::updateRunningIOSlaves (this);
   emit changed( false );
@@ -431,20 +431,14 @@ void KCookiesPolicies::defaults()
 void KCookiesPolicies::splitDomainAdvice (const QString& cfg, QString &domain,
                                           KCookieAdvice::Value &advice)
 {
-  int pos;
+  int sepPos = cfg.findRev(':');
 
-  pos = cfg.find(':');
+  // Ignore any policy that does not contain a domain...
+  if ( sepPos <= 0 )
+    return;
 
-  if ( pos == -1)
-  {
-    domain = cfg;
-    advice = KCookieAdvice::Dunno;
-  }
-  else
-  {
-    domain = cfg.left(pos);
-    advice = KCookieAdvice::strToAdvice (cfg.mid (pos+1, cfg.length()));
-  }
+  domain = cfg.left(sepPos);
+  advice = KCookieAdvice::strToAdvice( cfg.mid( sepPos+1 ) );
 }
 
 QString KCookiesPolicies::quickHelp() const
