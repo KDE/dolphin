@@ -671,6 +671,10 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   if ( childView->changeViewMode( serviceType, url ) )
     return true;
 
+  childView->setLoading( false );
+  if ( childView == m_currentView )
+    stopAnimation();
+
   return false;
 }
 
