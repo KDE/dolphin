@@ -999,7 +999,8 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    if ( args.newTab() || config->readBoolEntry( "MMBOpensTab", false ) ) {
+    if ( args.newTab() || (config->readBoolEntry( "MMBOpensTab", false ) &&
+         const_cast<KParts::URLArgs*>(&args)->metaData()["forcenewwindow"]=="") ) {
       KonqOpenURLRequest req;
       req.newTab = true;
       req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
