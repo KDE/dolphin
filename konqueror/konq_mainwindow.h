@@ -83,6 +83,8 @@ class KonqMainWindow : public KParts::MainWindow,
 {
   Q_OBJECT
 public:
+  enum ComboAction { ComboClear, ComboAdd };
+  
   KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
   ~KonqMainWindow();
 
@@ -205,8 +207,10 @@ public:
   // for the view manager
   void currentProfileChanged();
 
-  // adds url to all combos of all mainwindows of this instance
-  static void addToCombos( const QString& url, const QCString& objId );
+  // operates on all combos of all mainwindows of this instance
+  // up to now adds an entry or clears all entries
+  static void comboAction( int action, const QString& url, 
+			   const QCString& objId );
 
 signals:
   void viewAdded( KonqView *view );
@@ -344,7 +348,7 @@ protected slots:
   void slotShowBookmarkBar();
 
   void slotOpenURL( const KURL& );
-    
+
   void slotActionStatusText( const QString &text );
   void slotClearStatusText();
 

@@ -2447,17 +2447,28 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 }
 
 // called via DCOP from KonquerorIface
-void KonqMainWindow::addToCombos( const QString& url, const QCString& objId )
+void KonqMainWindow::comboAction( int action, const QString& url, 
+				  const QCString& objId )
 {
     if (!s_lstViews) // this happens in "konqueror --silent"
         return;
-    kdDebug(1202) << "KonqMainWindow::addToCombos " << url << " " << objId << endl;
+
     KonqCombo *combo = 0L;
     KonqMainWindow *window = s_lstViews->first();
     while ( window ) {
 	if ( window->m_combo ) {
 	    combo = window->m_combo;
-	    combo->insertPermanent( url );
+
+	    switch ( action ) {
+	    case ComboAdd:
+		combo->insertPermanent( url );
+		break;
+	    case ComboClear:
+		combo->clearHistory();
+		break;
+	    default:
+		;
+	    }
 	}
 	window = s_lstViews->next();
     }
@@ -2644,7 +2655,7 @@ void KonqMainWindow::initActions()
            this, SLOT( slotClearStatusText() ) );
 
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
-  
+
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowExtraToolBar = new KToggleAction( i18n( "Show &Extra Toolbar" ), 0, this, SLOT( slotShowExtraToolBar() ), actionCollection(), "showextratoolbar" );

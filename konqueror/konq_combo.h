@@ -54,9 +54,10 @@ public:
 
 protected:
     virtual void keyPressEvent( QKeyEvent * );
-    
+
 private slots:
     void slotReturnPressed();
+    void slotCleared();
 
 private:
     void updateItem( const QPixmap& pix, const QString&, int index );

@@ -369,7 +369,7 @@ void KonqFrame::attachInternal()
    m_pPart->widget()->installEventFilter(this);
 }
 
-bool KonqFrame::eventFilter(QObject*obj,QEvent *ev)
+bool KonqFrame::eventFilter(QObject* /*obj*/, QEvent *ev)
 {
    if (ev->type()==QEvent::KeyPress)
    {

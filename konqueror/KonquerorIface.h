@@ -114,6 +114,11 @@ k_dcop:
    */
   ASYNC addToCombo( QString, QCString );
 
+  /**
+   * Called internally as a broadcast when the combobox was cleared.
+   */
+  ASYNC comboCleared( QCString );
+
 };
 
 #endif

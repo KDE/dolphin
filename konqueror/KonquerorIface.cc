@@ -142,5 +142,11 @@ QValueList<DCOPRef> KonquerorIface::getWindows()
 
 void KonquerorIface::addToCombo( QString url, QCString objId )
 {
-    KonqMainWindow::addToCombos( url, objId );
+    KonqMainWindow::comboAction( KonqMainWindow::ComboAdd, url, objId );
+}
+
+void KonquerorIface::comboCleared( QCString objId )
+{
+    KonqMainWindow::comboAction( KonqMainWindow::ComboClear,
+				 QString::null, objId );
 }

@@ -47,6 +47,7 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     loadItems();
 
     connect( this, SIGNAL( returnPressed()), SLOT( slotReturnPressed() ));
+    connect( this, SIGNAL( cleared() ), SLOT( slotCleared() ));
 
     if ( !kapp->dcopClient()->isAttached() )
 	kapp->dcopClient()->attach();
@@ -239,6 +240,15 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
     if ( KStdAccel::isEqual( e, KStdAccel::rotateUp() ) ||
 	 KStdAccel::isEqual( e, KStdAccel::rotateDown() ) )
 	setTemporary( currentText() );
+}
+
+void KonqCombo::slotCleared()
+{
+    QByteArray data;
+    QDataStream s( data, IO_WriteOnly );
+    s << kapp->dcopClient()->defaultObject();
+    kapp->dcopClient()->send( "konqueror*", "KonquerorIface",
+			      "comboCleared(QCString)", data);
 }
 
 void KonqCombo::setConfig( KConfig *kc )
