@@ -18,7 +18,6 @@
 //-----------------------------------------------------------------------------
 // The "Misc Options" Tab contains :
 
-// Allow per-url settings         (Sven)
 // Preferred terminal             (David)
 // ... there is room for others :))
 
@@ -45,7 +44,6 @@ private:
         KConfig *g_pConfig;
 	QString groupname;
 
-        QCheckBox *urlpropsbox;
         QLineEdit *leTerminal;
 };
 

@@ -27,6 +27,7 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
     QVBoxLayout *lay = new QVBoxLayout(this, KDialog::marginHint(),
 				       KDialog::spacingHint());
 
+/*
     urlpropsbox = new QCheckBox(i18n("&Allow per-URL settings"), this);
     lay->addWidget(urlpropsbox);
     connect(urlpropsbox, SIGNAL(clicked()), this, SLOT(changed()));
@@ -35,6 +36,7 @@ KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, cons
        " Konqueror settings separately for each URL. For example, you can configure"
        " different views for different directories. (Note that you need to have"
        " write access in those directories in order to save settings.)") );
+*/
 
     QGroupBox *gbox = new QGroupBox(i18n("Preferred Programs"), this);
     lay->addWidget(gbox);
@@ -69,26 +71,22 @@ void KMiscOptions::load()
 {
     // *** load ***
     g_pConfig->setGroup( groupname );
-    bool bUrlprops = g_pConfig->readBoolEntry( "EnablePerURLProps", false);
     QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
 
     // *** apply to GUI ***
 
-    urlpropsbox->setChecked(bUrlprops);
     leTerminal->setText(sTerminal);
 
 }
 
 void KMiscOptions::defaults()
 {
-    urlpropsbox->setChecked(false);
     leTerminal->setText(DEFAULT_TERMINAL);
 }
 
 void KMiscOptions::save()
 {
     g_pConfig->setGroup( groupname );
-    g_pConfig->writeEntry( "EnablePerURLProps", urlpropsbox->isChecked());
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
     g_pConfig->sync();
 }
