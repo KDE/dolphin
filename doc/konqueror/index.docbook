@@ -74,7 +74,7 @@ the app version. That is why we use an ItemizedList here. -->
 <chapter id="installation">
 <title>Installation</title>
 <para>
-<application>Konqueror</application> is part of the kdebase package which an 
+<application>Konqueror</application> is part of the kdebase package which is an 
 essential part of KDE.
 </para>
 <para>
@@ -826,17 +826,17 @@ Directory</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Windows</guimenu>
-<guimenuitem>Split Window Left/Right</guimenuitem>
+<guimenuitem>New View On Right </guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Split Window Left/Right</action></para></listitem>
+<listitem><para><action>New View On Right</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Windows</guimenu>
-<guimenuitem>Split Window Top/Bottom</guimenuitem>
+<guimenuitem>New View At Bottom</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Split Window Top/Bottom</action></para></listitem>
+<listitem><para><action>New View At Bottom</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
