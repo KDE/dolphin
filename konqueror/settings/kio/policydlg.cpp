@@ -56,7 +56,7 @@ public:
 };
 
 
-PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent, 
+PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
     const char *name)
     : KDialogBase(parent, name, true, caption, Ok|Cancel, Ok, true)
 {
@@ -81,7 +81,8 @@ PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
   m_dlgUI->cbPolicy->insertItem (i18n("Reject"));
   m_dlgUI->cbPolicy->insertItem (i18n("Ask"));
 
-  connect(m_dlgUI->leDomain, SIGNAL(textChanged(const QString&)), 
+  enableButtonOK( false );
+  connect(m_dlgUI->leDomain, SIGNAL(textChanged(const QString&)),
     SLOT(slotTextChanged(const QString&)));
 
   setFixedSize (sizeHint());
