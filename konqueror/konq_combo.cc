@@ -297,11 +297,13 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
         if ( type == QEvent::KeyPress ) {
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
 
-            if (e->key() == Key_Return || e->key() == Key_Enter) {
-                emit activated( currentText(), e->state() );
-            }
+//             if (e->key() == Key_Return || e->key() == Key_Enter) {
+//                 emit activated( currentText(), e->state() );
+//                 e->accept();
+//                 return true;
+//             }
 
-            else if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
+            if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
                  KStdAccel::isEqual( e, KStdAccel::deleteWordForward() ) ||
                  ((e->state() & ControlButton) &&
                    (e->key() == Key_Left || e->key() == Key_Right) ) ) {
