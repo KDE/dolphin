@@ -99,7 +99,7 @@ void KonqIconViewWidget::slotIconChanged( int group )
     for (it=firstItem(); it; it = it->nextItem())
     {
 	KFileIVI *ivi = static_cast<KFileIVI *>(it);
-	ivi->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
+	ivi->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
     }
 
     int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
@@ -167,7 +167,7 @@ void KonqIconViewWidget::setIcons( int size )
     m_size = size;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
-	ivi->setIcon( size, ivi->state(), m_bImagePreviewAllowed );
+	ivi->setIcon( size, ivi->state(), m_bImagePreviewAllowed, true, true );
     }
 }
 
@@ -192,7 +192,7 @@ void KonqIconViewWidget::setImagePreviewAllowed( bool b )
     m_bImagePreviewAllowed = b;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
 	(static_cast<KFileIVI *>( it ))->setIcon( m_size,
-		KIcon::DefaultState, m_bImagePreviewAllowed );
+		KIcon::DefaultState, m_bImagePreviewAllowed, true, true );
     }
 }
 
