@@ -64,7 +64,7 @@ PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
   setMainWidget(m_dlgUI);
 
   m_dlgUI->leDomain->setValidator(new DomainLineValidator(m_dlgUI->leDomain));
-  m_dlgUI->cbPolicy->setMinimumWidth( m_dlgUI->cbPolicy->fontMetrics().width('W') * 25 );
+  m_dlgUI->cbPolicy->setMinimumWidth( m_dlgUI->cbPolicy->fontMetrics().maxWidth() * 25 );
   
   enableButtonOK( false );
   connect(m_dlgUI->leDomain, SIGNAL(textChanged(const QString&)),

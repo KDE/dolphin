@@ -48,7 +48,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
 {
   dlg = new EnvVarProxyDlgUI( this );
   setMainWidget (dlg);
-  dlg->leHttp->setMinimumWidth( dlg->leHttp->fontMetrics().width('W') * 20 );
+  dlg->leHttp->setMinimumWidth( dlg->leHttp->fontMetrics().maxWidth() * 20 );
   init();
 }
 
