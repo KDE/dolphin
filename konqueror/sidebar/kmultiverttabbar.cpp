@@ -16,7 +16,35 @@ KMultiVertTabBarInternal::KMultiVertTabBarInternal(QWidget *parent):QScrollView(
 		addChild(box);
 		setFrameStyle(NoFrame);
 		viewport()->setBackgroundMode(Qt::PaletteBackground);
+
 	}
+
+void KMultiVertTabBarInternal::drawContents ( QPainter * paint, int clipx, int clipy, int clipw, int cliph )
+{
+	QScrollView::drawContents (paint , clipx, clipy, clipw, cliph );
+
+	if (position==KMultiVertTabBar::Right)
+	{
+
+                paint->setPen(colorGroup().shadow());
+                paint->drawLine(0,0,0,viewport()->height());
+                paint->setPen(colorGroup().background().dark(120));
+                paint->drawLine(1,0,1,viewport()->height());
+
+
+	}
+	else
+	{
+                paint->setPen(colorGroup().light());
+		paint->drawLine(23,0,23,viewport()->height());
+                paint->drawLine(22,0,22,viewport()->height());
+
+                paint->setPen(colorGroup().shadow());
+                paint->drawLine(0,0,0,viewport()->height());
+	}
+
+}
+
 
 
 KMultiVertTabBarTab* KMultiVertTabBarInternal::getTab(int id)
@@ -55,6 +83,7 @@ void KMultiVertTabBarInternal::setPosition(enum KMultiVertTabBar::KMultiVertTabB
 	position=pos;
 	for (uint i=0;i<tabs.count();i++)
 		tabs.at(i)->setPosition(position);
+	viewport()->repaint();
 }
 
 

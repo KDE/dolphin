@@ -82,6 +82,8 @@ private:
 	QVBox *box;
 	QPtrList<KMultiVertTabBarTab> tabs;
 	enum KMultiVertTabBar::KMultiVertTabBarPosition position;
+protected:
+	virtual void drawContents ( QPainter *, int, int, int, int);
 };
 
 #endif
