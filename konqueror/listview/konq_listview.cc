@@ -22,6 +22,7 @@
 #include "konq_listviewwidget.h"
 #include "konq_textviewwidget.h"
 #include "konq_treeviewwidget.h"
+#include <konq_undo.h>
 
 #include <kaction.h>
 #include <kcolordlg.h>
@@ -198,7 +199,12 @@ void ListViewBrowserExtension::paste()
 {
   QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
-  assert ( selection.count() == 1 );
+  assert ( selection.count() <= 1 );
+  KURL pasteURL;
+  if ( selection.count() == 1 )
+    pasteURL = selection.first()->item()->url();
+  else
+    pasteURL = m_listView->url();
 
   // move or not move ?
   bool move = false;
@@ -207,7 +213,10 @@ void ListViewBrowserExtension::paste()
     move = KonqDrag::decodeIsCutSelection( data );
     kdDebug() << "move (from clipboard data) = " << move << endl;
   }
-  KIO::pasteClipboard( selection.first()->item()->url(), move );
+  KIO::Job * undoJob = KIO::pasteClipboard( pasteURL, move );
+
+  if ( undoJob )
+    (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), pasteURL, undoJob );
 }
 
 void ListViewBrowserExtension::reparseConfiguration()

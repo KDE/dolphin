@@ -820,7 +820,7 @@ void KonqBaseListViewWidget::slotClear()
 
 void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << "\n" << endl;
+   kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
    QListIterator<KFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
       new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
