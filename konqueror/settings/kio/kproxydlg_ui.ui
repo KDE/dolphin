@@ -58,9 +58,6 @@ If you are uncertain whether or not you need to use a proxy server to connect to
                     <property name="text">
                         <string>Connect to the &amp;Internet directly</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+I</string>
-                    </property>
                     <property name="checked">
                         <bool>true</bool>
                     </property>
@@ -77,9 +74,6 @@ If you are uncertain whether or not you need to use a proxy server to connect to
                     </property>
                     <property name="text">
                         <string>A&amp;utomatically detect proxy configuration</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+U</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
@@ -98,9 +92,6 @@ Automatic detection is performed using the &lt;b&gt;Web Proxy Auto-Discovery Pro
                     </property>
                     <property name="text">
                         <string>U&amp;se the following proxy configuration URL</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+S</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Use the specified proxy script URL to configure the proxy settings.</string>
@@ -178,9 +169,6 @@ Automatic detection is performed using the &lt;b&gt;Web Proxy Auto-Discovery Pro
                             <property name="text">
                                 <string>Use preset proxy environment &amp;variables</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+V</string>
-                            </property>
                             <property name="whatsThis" stdset="0">
                                 <string>&lt;qt&gt;
 Use environment variables to configure the proxy settings.&lt;p&gt;
@@ -229,9 +217,6 @@ Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROX
                             </property>
                             <property name="text">
                                 <string>&amp;Manually specify the proxy settings</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+M</string>
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Manually enter proxy server configuration information.</string>

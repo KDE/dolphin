@@ -241,9 +241,6 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             <property name="text">
                                 <string>De&amp;lete</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+L</string>
-                            </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Remove the selected proxy exception address from the list.</string>
                             </property>
