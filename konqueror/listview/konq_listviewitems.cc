@@ -34,14 +34,14 @@
  **************************************************************/
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KFileItem* _fileitem )
    : KonqBaseListViewItem(_listViewWidget,_parent,_fileitem ),
-     m_pixmaps(listView()->columns(), 0)
+     m_pixmaps(listView()->columns())
 {
    updateContents();
 }
 
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem )
    : KonqBaseListViewItem(_listViewWidget,_fileitem),
-     m_pixmaps(listView()->columns(), 0)
+     m_pixmaps(listView()->columns())
    
 {
    updateContents();
@@ -169,8 +169,8 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
    int oldWidth = current ? current->width() : 0;
    int oldHeight = current ? current->height() : 0;
 
-   if ( m_pixmaps.size() < column )
-      m_pixmaps.resize( column, 0 );
+   if ( m_pixmaps.size() <= column )
+      m_pixmaps.resize( column+1 );
 
    delete current;
    m_pixmaps[column] = pm.isNull() ? 0 : new QPixmap( pm );
@@ -206,6 +206,9 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
 const QPixmap* KonqListViewItem::pixmap( int column ) const
 {
    bool ok;
+   if (m_pixmaps.count() <= column)
+      return 0;
+
    QPixmap *pm = m_pixmaps.at( column, &ok );
    if( !ok )
       return 0;

@@ -1184,7 +1184,7 @@ void KonqBaseListViewWidget::saveState( QDataStream & ds )
    QString str;
    if ( currentItem() )
       str = static_cast<KonqBaseListViewItem*>(currentItem())->item()->url().fileName(true);
-   ds << str;
+   ds << str << m_url;
 }
 
 void KonqBaseListViewWidget::restoreState( QDataStream & ds )
@@ -1192,9 +1192,20 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
    m_restored = true;
 
    QString str;
-   ds >> str;
+   KURL url;
+   ds >> str >> url;
    if ( !str.isEmpty() )
       m_itemToGoTo = str;
+
+   if ( columns() < 1 || url.protocol() != m_url.protocol() )
+   {
+      readProtocolConfig( url.protocol() );
+      createColumns();
+   }
+   m_url = url;
+
+   m_bTopLevelComplete = false;
+   m_itemFound = false;
 }
 
 void KonqBaseListViewWidget::slotUpdateBackground()
