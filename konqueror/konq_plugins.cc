@@ -212,6 +212,8 @@ void KonqPlugins::parseService( KService *service )
 
 void KonqPlugins::parseAllServices()
 {
+#warning "Disabled plugin parsing !!! FIXME ! (David)"
+  return;
   QListIterator<KService> it( KService::services() );
   for (; it.current(); ++it )
   {
