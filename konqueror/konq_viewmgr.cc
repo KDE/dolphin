@@ -1247,10 +1247,13 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     for ( QStringList::Iterator it = childList.begin(); it != childList.end(); ++it )
     {
         loadItem( cfg, newContainer, *it, defaultURL, openURL );
-        KonqView* activeChildView = dynamic_cast<KonqFrameBase*>(newContainer->currentPage())->activeChildView();
-        if (activeChildView != 0L) {
-          activeChildView->setCaption( activeChildView->caption() );
-          activeChildView->setTabIcon( activeChildView->url().url() );
+        QWidget* currentPage = newContainer->currentPage();
+        if (currentPage != 0L) {
+          KonqView* activeChildView = dynamic_cast<KonqFrameBase*>(currentPage)->activeChildView();
+          if (activeChildView != 0L) {
+            activeChildView->setCaption( activeChildView->caption() );
+            activeChildView->setTabIcon( activeChildView->url().url() );
+          }
         }
     }
 
