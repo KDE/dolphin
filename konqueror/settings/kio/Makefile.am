@@ -14,7 +14,7 @@ kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
       netpref.cpp cache.cpp ksaveioconfig.cpp socks.cpp socksbase.ui \
       kproxydlg_ui.ui kcookiesmanagementdlg_ui.ui kcookiespoliciesdlg_ui.ui \
       policydlg_ui.ui useragentdlg_ui.ui uagentproviderdlg_ui.ui \
-      manualproxy_ui.ui envvarproxy_ui.ui
+      manualproxy_ui.ui envvarproxy_ui.ui cache_ui.ui
 
 kcm_kio_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
 kcm_kio_la_LIBADD = $(LIB_KIO) $(LIB_KUTILS)
