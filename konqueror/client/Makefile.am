@@ -6,7 +6,7 @@ LDADD   = -lkparts $(LIB_KIO) -lkonq -lkded
 # this gives better compile-time warnings.
 AM_CXXFLAGS += -pedantic
 
-IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(srcdir)/.. -I$(idldir)
+IDL_FLAGS = --query-server-for-narrow --relative-paths --any --no-poa --no-boa -I$(srcdir)/.. -I$(idldir)
 
 DISTCLEANFILES = browser.cc browser.h konqueror.cc konqueror.h kdesktop.cc kdesktop.h
 
