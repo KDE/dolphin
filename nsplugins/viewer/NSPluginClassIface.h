@@ -48,7 +48,8 @@ class NSPluginClassIface : virtual public DCOPObject
 
 k_dcop:
 
-  virtual DCOPRef NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv) = 0;
+  virtual DCOPRef NewInstance(QString url, QString mimeType, int mode, 
+			      QStringList argn, QStringList argv) = 0;
   virtual QString GetMIMEDescription() = 0;
 
 };

@@ -85,30 +85,119 @@ void generateMimeType(QString mime, QString extensions, QString description)
     }
 }
 
+void scanDirectory( QString dir, QStringList &mimeInfoList, 
+		    QTextStream &cache )
+{
+   kdDebug() << "Scanning " << dir << endl; 
+   QRegExp version(";version=[^:]*:");
+
+   // iterate over all files 
+   QDir files( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files );
+   if ( !files.exists(dir) )
+      return;
+   
+   for (unsigned int i=0; i<files.count(); i++)
+   {      
+      QString absFile = files.absFilePath( files[i] );
+
+      kdDebug() << "  testing " << absFile << endl;
+
+      // open the library and ask for the mimetype
+      void *func_GetMIMEDescription = 0; 
+      KLibrary *_handle = KLibLoader::self()->library( absFile );
+
+      if (!_handle)
+      {
+	 kdDebug() << "skipping plugin " << files[i] << endl;
+	 continue;
+      }
+
+      func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
+	  
+      if (!func_GetMIMEDescription)
+      {
+	 kdDebug() << " not a plugin" << endl;
+	 KLibLoader::self()->unloadLibrary( absFile );
+	 continue;
+      }
+
+      char *(*fp)();
+      fp = (char *(*)()) func_GetMIMEDescription;	  
+      QString mimeInfo = fp();
+      mimeInfo = mimeInfo.lower(); // FIXME: is this correct? are MIME types case insensitive???? look also in html_objectimpl.cpp
+
+      // check the mimeInformation
+      if (!mimeInfo)
+      {
+	 kdDebug() << " not a plugin" << endl;
+	 KLibLoader::self()->unloadLibrary( absFile );
+	 continue;
+      }
+
+      // FIXME: Some plugins will not work, e.g. because they
+      // use JAVA. These should be filtered out here!
+
+      // remove version info, as it is not used at the moment
+      mimeInfo.replace(version, ":");
+
+      kdDebug() << "Mime info: " <<  mimeInfo << endl;
+
+      // note the plugin name
+      cache << "[" << absFile << "]" << endl;
+
+      // parse mime info string
+      QStringList entries = QStringList::split(';', mimeInfo);
+      QStringList::Iterator entry;
+      for (entry = entries.begin(); entry != entries.end(); ++entry)
+      {
+	 cache << *entry << endl;
+	 if (!mimeInfoList.contains(*entry))
+	    mimeInfoList.append(*entry);
+      }
+	  
+      kdDebug() << "  is a plugin" << endl;
+	  
+      KLibLoader::self()->unloadLibrary( absFile );	        
+   }
+
+   // iterate over all sub directories
+   QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
+   if ( !dirs.exists() )
+      return;
+
+   static int depth = 0; // avoid recursion because of symlink circles
+   depth++;
+   for (unsigned int i=0; i<dirs.count(); i++)
+   {        
+      if ( depth<8 && !dirs[i].contains(".") )
+      {	 
+	 kdDebug() << "-> Entering subdir " << dirs[i] << endl;	 
+	 scanDirectory( dirs.absFilePath(dirs[i]), mimeInfoList, cache );
+	 kdDebug() << "<- Leaving subdir " << dirs[i] << endl;
+      }
+   }
+   depth--;
+}
 
 int main(int argc, char *argv[])
 {
   KApplication app(argc, argv, "pluginscan");
 
-  QStringList _searchPaths, _mimeInfo;
-  QRegExp version(";version=[^:]*:");
-
+  QStringList searchPaths, mimeInfoList;
+  
   // set up the paths used to look for plugins -----------------------------
-
-  // FIXME: do this more intelligent!
-  _searchPaths.append("/usr/local/netscape/plugins");
-  _searchPaths.append("/opt/netscape/plugins");
-  _searchPaths.append("/opt/netscape/communicator/plugins");
-  _searchPaths.append("/usr/lib/netscape/plugins");
-  _searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
-  _searchPaths.append(QString("%1/plugins").arg(getenv("MOZILLA_HOME")));
+  searchPaths.append("/usr/local/netscape/plugins");
+  searchPaths.append("/opt/netscape/plugins");
+  searchPaths.append("/opt/netscape/communicator/plugins");
+  searchPaths.append("/usr/lib/netscape/plugins");
+  searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
+  searchPaths.append(QString("%1/plugins").arg(getenv("MOZILLA_HOME")));
 
   // append environment variable NPX_PLUGIN_PATH
   QStringList envs = QStringList::split(':', getenv("NPX_PLUGIN_PATH"));
   QStringList::Iterator it;
   for (it = envs.begin(); it != envs.end(); ++it)
-    _searchPaths.append(*it);
-
+    searchPaths.append(*it);
 
   // open the cache file for the mime information
   QString cacheName = KGlobal::dirs()->saveLocation("data", "nsplugins")+"/cache";
@@ -118,84 +207,13 @@ int main(int argc, char *argv[])
     return -1;
   QTextStream cache(&cachef);
 
-
   // read in the plugins mime information ----------------------------------
-  for (it = _searchPaths.begin(); it != _searchPaths.end(); ++it)
-    {
-      kdDebug() << "Scanning " << (*it) << endl;
-
-      // iterate over all files 
-      QDir files(*it, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files);
-      if (!files.exists(*it))
-	continue;
-
-      for (unsigned int i=0; i<files.count(); i++)
-	{
-	  kdDebug() << "  testing " << (*it) << "/" << files[i] << endl;
-
-	  // open the library and ask for the mimetype
-	  void *func_GetMIMEDescription = 0; 
-	  KLibrary *_handle = KLibLoader::self()->library(*it+"/"+files[i]);
-
-	  if (!_handle)
-	  {
-	    kdDebug() << "skipping plugin " << files[i] << endl;
-	    continue;
-	  }
-
-	  func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
-	  
-	  if (!func_GetMIMEDescription)
-	  {
-	    kdDebug() << " not a plugin" << endl;
-            KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
-	    continue;
-          }
-
-	  char *(*fp)();
-	  fp = (char *(*)()) func_GetMIMEDescription;
-	  
-	  QString mimeInfo = fp();
-
-	  // check the mimeInformation
-	  if (!mimeInfo)
-	  {
-            kdDebug() << "  not a plugin" << endl;
-	    KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
-	    continue;
-	  }
-
-	  // FIXME: Some plugins will not work, e.g. because they
-	  // use JAVA. These should be filtered out here!
-
-	  // remove version info, as it is not used at the moment
-	  mimeInfo.replace(version, ":");
-
-	  kdDebug() << "Mime info: " <<  mimeInfo << endl;
-
-	  // note the plugin name
-	  cache << "[" << *it + "/" + files[i] << "]" << endl;
-
-	  // parse mime info string
-	  QStringList entries = QStringList::split(';', mimeInfo);
-	  QStringList::Iterator entry;
-	  for (entry = entries.begin(); entry != entries.end(); ++entry)
-	    {
-	      cache << *entry << endl;
-	      if (!_mimeInfo.contains(*entry))
-		_mimeInfo.append(*entry);
-	    }
-	  
-	  kdDebug() << "  is a plugin" << endl;
-	  
-	  KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);	  
-	}
-    }
+  for (it = searchPaths.begin(); it != searchPaths.end(); ++it) 
+      scanDirectory( *it, mimeInfoList, cache );
   
-  QStringList mimeTypes;
-
   // write mimetype files
-  for (QStringList::Iterator it=_mimeInfo.begin(); it != _mimeInfo.end(); ++it)
+  QStringList mimeTypes;
+  for (QStringList::Iterator it=mimeInfoList.begin(); it!=mimeInfoList.end(); ++it)
     {
       kdDebug() << "MIME=" << *it << endl;
 

@@ -328,7 +328,7 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
    QString mime = mimeType;
    if (mime.isEmpty())
    {
-      mime = lookupMimeType(url);
+      mime = lookupMimeType( url );
       argn << "MIME";
       argv << mime;
    }
@@ -366,7 +366,7 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
    NSPluginClassIface_stub *cls = new NSPluginClassIface_stub( cls_ref.app(), cls_ref.object() );
 
    // get plugin instance
-   DCOPRef inst_ref = cls->NewInstance( mime, type, argn, argv );   
+   DCOPRef inst_ref = cls->NewInstance( url, mime, type, argn, argv );   
    if ( inst_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin instance" << endl;

@@ -528,14 +528,14 @@ void NSPluginClass::Shutdown()
 }
 
 
-DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv)
+DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, int mode, QStringList argn, QStringList argv)
 {
    kdDebug() << "-> NSPluginClass::NewInstance" << endl;
 
    // copy parameters over
    unsigned int argc = argn.count();
    char *_argn[argc], *_argv[argc];
-   QString src;
+   QString src = url;
    int width = 300;
    int height = 300;
 
@@ -548,8 +548,7 @@ DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn,
       _argv[i] = strdup(v);    	
 
       if (!strcasecmp(_argn[i], "WIDTH")) width = atoi(_argv[i]);
-      if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);
-      if (!stricmp(argn[i], "SRC")) src = argv[i];
+      if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);      
       kdDebug() << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
    }
 
