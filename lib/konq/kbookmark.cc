@@ -339,7 +339,8 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   m_file = _parent->file();
   m_file += '/';
   m_file += KIO::encodeFileName( _text );
-  // m_file += ".desktop"; // looks better to the user without extension
+  m_file += ".desktop"; // We need the extension, otherwise saving a URL will
+  // create a file named ".html", which will give us a wrong mimetype.
 
   FILE *f = fopen( m_file, "w" );
   if ( f == 0L )
@@ -349,8 +350,8 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   }
 
   fprintf( f, "[Desktop Entry]\n" );
-  fprintf( f, "URL=%s\n", m_url.ascii() );
-  fprintf( f, "Icon=%s\n", icon.ascii() );
+  fprintf( f, "URL=%s\n", m_url.utf8() );
+  fprintf( f, "Icon=%s\n", icon.latin1() );
   fprintf( f, "Type=Link\n" );
   fclose( f );
 
