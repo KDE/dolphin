@@ -82,7 +82,8 @@ void KonqRun::scanFile()
     if ( mime->name() != "application/octet-stream" || m_bIsLocalFile )
     {
       // Found something - can we trust it ? (see mimetypeFastMode)
-      if ( KProtocolManager::self().mimetypeFastMode( m_strURL.protocol(), mime->name() ) )
+      if ( KProtocolManager::self().mimetypeFastMode( m_strURL.protocol(), mime->name() ) &&
+           KProtocolManager::self().patternFastMode( m_strURL.protocol(), m_strURL.fileName() ) )
       {
         kdDebug(1202) << "Scanfile: MIME TYPE is " << mime->name() << endl;
         foundMimeType( mime->name() );
