@@ -562,7 +562,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   else // We know the child view
     {
       //childView->stop();
-      ok = childView->changeViewMode( serviceType, serviceName );
+      //childView->stop();
+       if (childView->serviceType()==serviceType)
+          ok=true;
+       else
+          ok = childView->changeViewMode( serviceType, serviceName );
     }
 
   if (ok)
@@ -1226,7 +1230,9 @@ void KonqMainWindow::slotReload()
   m_currentView->lockHistory();
   KonqOpenURLRequest req( m_currentView->typedURL() );
   req.args.reload = true;
-  openURL( m_currentView, m_currentView->url(), QString::null /* the servicetype may have changed */, req );
+  // Reuse current servicetype for local files, but not for remote files (it could have changed, e.g. over HTTP)
+  QString serviceType = m_currentView->url().isLocalFile() ? m_currentView->serviceType() : QString::null;
+  openURL( m_currentView, m_currentView->url(), serviceType, req );
 }
 
 void KonqMainWindow::slotHome()
