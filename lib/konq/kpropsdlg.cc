@@ -43,6 +43,7 @@
 #include <assert.h>
 
 #include <qfile.h>
+#include <qapplication.h>
 #include <qdir.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
