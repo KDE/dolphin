@@ -200,6 +200,7 @@ bool KFileTip::eventFilter( QObject *, QEvent *e )
             killTimers();
             setFilter( false );
             hide();
+        default: break;
     }
 
     return false;
