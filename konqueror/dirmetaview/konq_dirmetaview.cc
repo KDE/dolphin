@@ -22,6 +22,7 @@
 #include <kxmlgui.h>
 #include <konqfileitem.h>
 #include <kio/global.h>
+#include <kaction.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -142,6 +143,11 @@ void DetailWidget::mouseReleaseEvent( QMouseEvent *e )
   if ( !m_editRect.contains( e->pos() ) )
     return;
   
+  edit();
+}
+
+void DetailWidget::edit()
+{
   editDone();
   m_edit = new AnnotationEdit( this, "annotedit" );
   m_edit->setGeometry( m_editRect );
@@ -169,8 +175,8 @@ DirDetailView::DirDetailView( DirDetailViewFactory *factory, QWidget *parentWidg
   m_factory = factory;
 
   setInstance( KonqFactory::instance(), false );
-  //  setXMLFile( "konq_dirdetailview.rc" );
-
+  setXMLFile( "konq_dirmetaview.rc" );
+  
   m_widget = new DetailWidget( this, parentWidget, widgetName );
   setWidget( m_widget );
 
@@ -179,6 +185,8 @@ DirDetailView::DirDetailView( DirDetailViewFactory *factory, QWidget *parentWidg
   m_metaDataProvider = new KonqMetaDataProvider( KonqFactory::instance(), this, "metaprov" );
   
   forceUpdate = false;
+  
+  m_paEdit = new KAction( "Write annotation", 0, m_widget, SLOT( edit() ), actionCollection(), "annotate" );
 }
 
 DirDetailView::~DirDetailView()

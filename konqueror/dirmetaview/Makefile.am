@@ -6,8 +6,8 @@ lib_LTLIBRARIES = libkonqdirmetaview.la
 servicedir = $(kde_servicesdir)
 service_DATA = konq_dirmetaview.desktop
 
-#rcdir = $(kde_datadir)/konqueror
-#rc_DATA = konq_dirdetailview.rc
+rcdir = $(kde_datadir)/konqueror
+rc_DATA = konq_dirmetaview.rc
 
 METASOURCES = AUTO
 

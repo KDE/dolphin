@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="DirMetaView">
+<MenuBar>
+ <Menu name="edit">
+  <Action name="annotate" />
+ </Menu>
+</MenuBar>
+</kpartui>

@@ -15,6 +15,7 @@ class QLabel;
 class QHBoxLayout;
 class KSeparator;
 class KonqMetaDataProvider;
+class KAction;
 
 namespace Konqueror
 {
@@ -64,6 +65,10 @@ public:
   void setPixmap( const QPixmap &pix ) { m_pix = pix; }
   void setText( const QString &text ) { m_text = text; }
 
+public slots:
+  void edit();
+
+public:
   void editDone();
 protected:
   virtual void paintEvent( QPaintEvent * );
@@ -117,6 +122,8 @@ protected:
   KonqFileItemList m_currentFileItemSelection;
 
   bool forceUpdate;
+
+  KAction *m_paEdit;
 };
 
 };
