@@ -157,13 +157,9 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   {
     emit sigPartChanged( this, oldPart, m_pPart );
     delete oldPart;
-    //    closeMetaView(); I think this is not needed (Simon)
   }
 
   connectPart();
-
-  // uncomment if you want to use metaviews (Simon)
-  // initMetaView();
 
   // Honour "non-removeable passive mode" (like the dirtree)
   QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
@@ -520,8 +516,6 @@ void KonqView::reload()
   }
 
   m_pPart->openURL( m_pPart->url() );
-
-  // update metaview? (Simon)
 }
 
 void KonqView::setPassiveMode( bool mode )
@@ -556,75 +550,6 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
 
   // We also do here what we want to do after opening an URL, whether a new one
   // or one from the history (common stuff).
-
-  //update metaviews!
-  if ( m_metaView )
-    m_metaView->openURL( url );
-}
-
-void KonqView::initMetaView()
-{
-  kdDebug(1202) << "initMetaView" << endl;
-
-  static QString constr = QString::fromLatin1( "'Konqueror/MetaView' in ServiceTypes" );
-
-  KTrader::OfferList metaViewOffers = KTrader::self()->query( m_serviceType, constr );
-
-  if ( metaViewOffers.count() == 0 )
-    return;
-
-  kdDebug(1202) << "got offers!" << endl;
-
-  KService::Ptr service = *metaViewOffers.begin();
-
-  KLibFactory *libFactory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
-
-  if ( !libFactory )
-    return;
-
-  assert( libFactory->inherits( "KParts::Factory" ) ); //requirement! (Simon)
-
-  QMap<QString,QVariant> framePropMap;
-
-  bool embedInFrame = false;
-  QVariant embedInFrameProp = service->property( "EmbedInFrame" );
-  if ( embedInFrameProp.isValid() )
-    embedInFrame = embedInFrameProp.toBool();
-
-  if ( embedInFrame && m_pPart->widget()->inherits( "QFrame" ) )
-  {
-    QFrame *frame = static_cast<QFrame *>( m_pPart->widget() );
-    framePropMap.insert( "frameShape", frame->property( "frameShape" ) );
-    framePropMap.insert( "frameShadow", frame->property( "frameShadow" ) );
-    framePropMap.insert( "lineWidth", frame->property( "lineWidth" ) );
-    framePropMap.insert( "margin", frame->property( "margin" ) );
-    framePropMap.insert( "midLineWidth", frame->property( "midLineWidth" ) );
-    framePropMap.insert( "frameRect", frame->property( "frameRect" ) );
-    frame->setFrameStyle( QFrame::NoFrame );
-  }
-
-  KParts::Factory *factory = static_cast<KParts::Factory *>( libFactory );
-
-  KParts::Part *part = factory->createPart( m_pKonqFrame->metaViewFrame(), "metaviewwidget", m_pPart, "metaviewpart", "KParts::ReadOnlyPart" );
-
-  if ( !part )
-   return;
-
-  m_metaView = static_cast<KParts::ReadOnlyPart *>( part );
-
-  m_pKonqFrame->attachMetaView( m_metaView, embedInFrame, framePropMap );
-
-  m_metaView->widget()->show();
-
-  m_pPart->insertChildClient( m_metaView );
-}
-
-void KonqView::closeMetaView()
-{
-  if ( m_metaView )
-    delete static_cast<KParts::ReadOnlyPart *>( m_metaView );
-
-  m_pKonqFrame->detachMetaView();
 }
 
 void KonqView::setServiceTypeInExtension()

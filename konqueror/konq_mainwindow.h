@@ -103,8 +103,6 @@ public:
 
   virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, int &id );
 
-  void attachToolbars( KonqFrame *frame );
-
   virtual void saveProperties( KConfig *config );
   virtual void readProperties( KConfig *config );
 
@@ -175,8 +173,6 @@ signals:
 
 public slots:
   void slotToggleFullScreen( bool );
-  void slotFullScreenStart();
-  void slotFullScreenStop();
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
@@ -301,7 +297,6 @@ protected slots:
   void slotClearStatusText();
 
 protected:
-
   QString detectNameFilter( QString & url );
 
   void toggleBar( const char *name, const char *className );
@@ -406,10 +401,6 @@ private:
   KToggleAction *m_paShowBookmarkBar;
 
   KToggleAction *m_ptaFullScreen;
-
-  QValueList<int> m_tempContainerSizes;
-  KonqFrameContainer *m_tempContainer;
-  QWidget::FocusPolicy m_tempFocusPolicy; // ### do we need this? (Simon)
 
   uint m_bCutWasEnabled:1;
   uint m_bCopyWasEnabled:1;

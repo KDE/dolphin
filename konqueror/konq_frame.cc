@@ -272,12 +272,6 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
    m_separator = 0;
-
-#ifdef METAVIEWS
-   m_metaViewLayout = 0;
-   m_metaViewFrame = new QFrame( this, "metaviewframe" );
-   m_metaViewFrame->show();
-#endif
 }
 
 KonqFrame::~KonqFrame()
@@ -316,11 +310,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    // We don't want that deleting the widget deletes the part automatically
    // because we already have that taken care of in KParts...
 
-#ifdef METAVIEWS
-   m_pPart = factory.create( m_metaViewFrame, "view widget", 0, "child view" );
-#else
    m_pPart = factory.create( this, "view widget", 0, "child view" );
-#endif
 
    assert( m_pPart->widget() );
 
@@ -337,28 +327,11 @@ void KonqFrame::attachInternal()
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
-#ifdef METAVIEWS
-   if ( m_metaViewLayout ) delete m_metaViewLayout;
-   m_metaViewFrame->setFrameStyle( QFrame::NoFrame );
-   m_metaViewFrame->setLineWidth( 0 );
-   //   m_metaViewFrame->setFrameStyle( QFrame::Panel | QFrame::Raised );
-   //      m_metaViewFrame->setLineWidth( 50 );
-
-   m_metaViewLayout = new QVBoxLayout( m_metaViewFrame );
-   m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
-   m_metaViewLayout->addWidget( m_pPart->widget() );
-
-   m_pLayout->addWidget( m_metaViewFrame );
-#else
    m_pLayout->addWidget( m_pPart->widget() );
-#endif
 
    m_pLayout->addWidget( m_pStatusBar );
    m_pPart->widget()->show();
-   if ( m_pView->mainWindow()->fullScreenMode() )
-     m_pView->mainWindow()->attachToolbars( this );
-   else
-     m_pStatusBar->show();
+   m_pStatusBar->show();
    m_pLayout->activate();
 }
 
@@ -413,37 +386,6 @@ KonqFrame::paintEvent( QPaintEvent* )
 {
    m_pStatusBar->repaint();
 }
-
-void KonqFrame::detachMetaView()
-{
-  if ( m_separator )
-    delete m_separator;
-  m_separator = 0;
-}
-
-#ifdef METAVIEWS
-void KonqFrame::attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewFrame, const QMap<QString,QVariant> &framePropertyMap )
-{
-//  m_separator = new KSeparator( this );
-//  m_pLayout->insertWidget( 0, m_separator );
-//  m_pLayout->insertWidget( 0, view->widget() );
-  m_metaViewLayout->insertWidget( 0, view->widget() );
-  if ( enableMetaViewFrame )
-  {
-    QMapConstIterator<QString,QVariant> it = framePropertyMap.begin();
-    QMapConstIterator<QString,QVariant> end = framePropertyMap.end();
-    for (; it != end; ++it )
-      m_metaViewFrame->setProperty( it.key(), it.data() );
-
-    m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
-  }
-}
-#else
-void KonqFrame::attachMetaView( KParts::ReadOnlyPart *, bool, const QMap<QString,QVariant> & )
-{
-  kdError(1202) << "Meta views not supported" << endl;
-}
-#endif
 
 //###################################################################
 

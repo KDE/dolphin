@@ -238,9 +238,6 @@ public:
 
   KonqMainWindow *mainWindow() const { return m_pMainWindow; }
 
-  void initMetaView();
-  void closeMetaView();
-
   void callExtensionMethod( const char *methodName );
   void callExtensionBoolMethod( const char *methodName, bool value );
   void callExtensionStringMethod( const char *methodName, QString value );
@@ -348,7 +345,6 @@ protected:
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
-  QGuardedPtr<KParts::ReadOnlyPart> m_metaView;
   QString m_name;
   KonqViewIface * m_dcopObject;
 };

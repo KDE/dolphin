@@ -1895,97 +1895,37 @@ void KonqMainWindow::slotToggleFullScreen( bool toggle )
 {
   if ( toggle )
   {
-    slotFullScreenStart();
+    // Create toolbar button for exiting from full-screen mode
+    QList<KAction> lst;
+    lst.append( m_ptaFullScreen );
+    plugActionList( "fullscreen", lst );
+
+    QListIterator<KToolBar> barIt = toolBarIterator();
+    for (; barIt.current(); ++barIt )
+        barIt.current()->setEnableContextMenu( false );
+
+    menuBar()->hide();
+
+    showFullScreen();
+
     m_ptaFullScreen->setText( i18n( "Stop Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_nofullscreen" );
   }
   else
   {
-    slotFullScreenStop();
+    unplugActionList( "fullscreen" );
+
+    QListIterator<KToolBar> barIt = toolBarIterator();
+    for (; barIt.current(); ++barIt )
+        barIt.current()->setEnableContextMenu( true );
+
+    menuBar()->show();
+
+    showNormal();
+
     m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
   }
-}
-
-void KonqMainWindow::slotFullScreenStart()
-{
-  // Create toolbar button for exiting from full-screen mode
-  QList<KAction> lst;
-  lst.append( m_ptaFullScreen );
-  plugActionList( "fullscreen", lst );
-
-  KonqFrame *widget = m_currentView->frame();
-  m_tempContainer = widget->parentContainer();
-  m_tempFocusPolicy = widget->focusPolicy();
-  m_tempContainerSizes = m_tempContainer->sizes();
-
-  widget->statusbar()->hide();
-
-  // see QWidget::showFullScreen()
-  widget->reparent( 0L, WStyle_Customize | WStyle_NoBorderEx | WStyle_StaysOnTop, QPoint( 0, 0 ) );
-  widget->resize( QApplication::desktop()->size() );
-
-  m_tempContainer->removeChildFrame( widget );
-
-  attachToolbars( widget );
-
-  widget->setFocusPolicy( QWidget::StrongFocus );
-  widget->setFocus();
-
-  widget->show();
-
-  /* Doesn't work
-  widget->setMouseTracking( TRUE ); // for autoselect stuff
-  QWidget * viewWidget = widget->part()->widget();
-  viewWidget->setMouseTracking( TRUE ); // for autoselect stuff
-  if ( viewWidget->inherits("QScrollView") )
-    ((QScrollView *) viewWidget)->viewport()->setMouseTracking( TRUE );
-  */
-}
-
-void KonqMainWindow::attachToolbars( KonqFrame *frame )
-{
-  KToolBar *toolbar = static_cast<KToolBar *>( guiFactory()->container( "locationToolBar", this ) );
-  toolbar->setEnableContextMenu(false);
-  if ( toolbar->parentWidget() != frame )
-  {
-    toolbar->reparent( frame, 0, QPoint( 0,0 ) );
-    toolbar->show();
-  }
-  frame->layout()->insertWidget( 0, toolbar );
-
-  toolbar = static_cast<KToolBar *>( guiFactory()->container( "mainToolBar", this ) );
-  toolbar->setEnableContextMenu(false);
-  if ( toolbar->parentWidget() != frame )
-  {
-    toolbar->reparent( frame, 0, QPoint( 0, 0 ) );
-    toolbar->show();
-  }
-  frame->layout()->insertWidget( 0, toolbar );
-}
-
-void KonqMainWindow::slotFullScreenStop()
-{
-  unplugActionList( "fullscreen" );
-  KToolBar *toolbar1 = static_cast<KToolBar *>( guiFactory()->container( "mainToolBar", this ) );
-  KToolBar *toolbar2 = static_cast<KToolBar *>( guiFactory()->container( "locationToolBar", this ) );
-
-  toolbar1->setEnableContextMenu(true);
-  toolbar2->setEnableContextMenu(true);
-
-  KonqFrame *widget = m_currentView->frame();
-  widget->close( false );
-  widget->reparent( m_tempContainer, 0, QPoint( 0, 0 ) );
-  widget->statusbar()->show();
-  widget->show();
-  widget->setFocusPolicy( m_tempFocusPolicy );
-
-  widget->attachInternal();
-
-  toolbar1->reparent( this, 0, QPoint( 0, 0 ), true );
-  toolbar2->reparent( this, 0, QPoint( 0, 0 ), true );
-
-  m_tempContainer->setSizes( m_tempContainerSizes );
 }
 
 void KonqMainWindow::setLocationBarURL( const QString &url )
