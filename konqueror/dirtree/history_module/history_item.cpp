@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
+   Copyright (C) 2000,2001 Carsten Pfeiffer <pfeiffer@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -41,7 +41,6 @@ KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
 {
     setExpandable( false );
     update( entry );
-    MYGROUP->itemUpdated( this );
 }
 
 KonqHistoryItem::~KonqHistoryItem()
@@ -51,6 +50,7 @@ KonqHistoryItem::~KonqHistoryItem()
 void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 {
     m_entry = entry;
+    
     QString title( entry->title );
     if ( !title.stripWhiteSpace().isEmpty() &&
 	 title != entry->url.url() )

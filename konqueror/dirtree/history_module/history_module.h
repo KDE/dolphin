@@ -60,10 +60,11 @@ private slots:
     void slotEntryAdded( const KonqHistoryEntry * );
     void slotEntryRemoved( const KonqHistoryEntry * );
 
+    void slotNewWindow();
     void slotRemoveEntry();
     void slotPreferences();
     void slotDialogFinished();
-    void slotSettingsChanged();
+    void slotSettingsChanged( const KonqHistorySettings *old );
 
     void slotItemExpanded( QListViewItem * );
 

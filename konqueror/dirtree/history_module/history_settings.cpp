@@ -17,7 +17,7 @@ KonqHistorySettings::KonqHistorySettings( QObject *parent, const char *name )
 }
 
 KonqHistorySettings::KonqHistorySettings() :
-    QObject(), 
+    QObject(),
     m_activeDialog( 0L )
 {
 }
@@ -32,9 +32,6 @@ KonqHistorySettings::KonqHistorySettings( const KonqHistorySettings& s )
     m_metricOlderThan = s.m_metricOlderThan;
 
     m_detailedTips = s.m_detailedTips;
-    m_columnTimesVisited = s.m_columnTimesVisited;
-    m_columnFirstVisited = s.m_columnFirstVisited;
-    m_columnLastVisited = s.m_columnLastVisited;
 
     m_fontYoungerThan = s.m_fontYoungerThan;
     m_fontOlderThan = s.m_fontOlderThan;
@@ -56,10 +53,6 @@ void KonqHistorySettings::readSettings()
     m_metricOlderThan = (metric == days) ? DAYS : MINUTES;
 
     m_detailedTips = config->readBoolEntry("Detailed Tooltips", false);
-    m_columnTimesVisited = config->readBoolEntry("Column TimesVisited", false);
-    m_columnFirstVisited = config->readBoolEntry("Column FirstTimeVisited",
-						 false );
-    m_columnLastVisited = config->readBoolEntry("Column LastVisited", false);
 
     m_fontYoungerThan = config->readFontEntry( "Font youngerThan",
 					       &m_fontYoungerThan );
@@ -81,6 +74,8 @@ void KonqHistorySettings::applySettings()
 void KonqHistorySettings::notifySettingsChanged( KonqHistorySettings s,
 						 QCString id )
 {
+    KonqHistorySettings oldSettings( s );
+    
     m_valueYoungerThan = s.m_valueYoungerThan;
     m_valueOlderThan   = s.m_valueOlderThan;
 
@@ -88,9 +83,6 @@ void KonqHistorySettings::notifySettingsChanged( KonqHistorySettings s,
     m_metricOlderThan   = s.m_metricOlderThan;
 
     m_detailedTips       = s.m_detailedTips;
-    m_columnTimesVisited = s.m_columnTimesVisited;
-    m_columnFirstVisited = s.m_columnFirstVisited;
-    m_columnLastVisited  = s.m_columnLastVisited;
 
     m_fontYoungerThan = s.m_fontYoungerThan;
     m_fontOlderThan   = s.m_fontOlderThan;
@@ -109,9 +101,6 @@ void KonqHistorySettings::notifySettingsChanged( KonqHistorySettings s,
 		       days : minutes );
 
     config->writeEntry("Detailed Tooltips", m_detailedTips);
-    config->writeEntry("Column TimesVisited", m_columnTimesVisited);
-    config->writeEntry("Column FirstTimeVisited", m_columnFirstVisited );
-    config->writeEntry("Column LastVisited", m_columnLastVisited );
 
     config->writeEntry("Font youngerThan", m_fontYoungerThan );
     config->writeEntry("Font olderThan", m_fontOlderThan );
@@ -119,7 +108,7 @@ void KonqHistorySettings::notifySettingsChanged( KonqHistorySettings s,
     if ( id == objId() )
 	config->sync();
 
-    emit settingsChanged();
+    emit settingsChanged( &oldSettings );
 }
 
 
@@ -137,9 +126,6 @@ QDataStream& operator<< (QDataStream& s, const KonqHistorySettings& e)
     s << (int) e.m_metricOlderThan;
 
     s << (int) e.m_detailedTips;
-    s << (int) e.m_columnTimesVisited;
-    s << (int) e.m_columnFirstVisited;
-    s << (int) e.m_columnLastVisited;
 
     s << e.m_fontYoungerThan;
     s << e.m_fontOlderThan;
@@ -156,9 +142,6 @@ QDataStream& operator>> (QDataStream& s, KonqHistorySettings& e)
     s >> i; e.m_metricOlderThan = (bool) i;
 
     s >> i; e.m_detailedTips = (bool) i;
-    s >> i; e.m_columnTimesVisited = (bool) i;
-    s >> i; e.m_columnFirstVisited = (bool) i;
-    s >> i; e.m_columnLastVisited = (bool) i;
 
     s >> e.m_fontYoungerThan;
     s >> e.m_fontOlderThan;

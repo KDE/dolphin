@@ -11,19 +11,13 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>440</width>
-            <height>408</height>
+            <width>484</width>
+            <height>319</height>
         </rect>
     </property>
     <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
-    </property>
-    <property>
-        <name>layoutMargin</name>
-    </property>
-    <property>
-        <name>layoutSpacing</name>
     </property>
     <vbox>
         <property stdset="1">
@@ -60,16 +54,16 @@
                         <cstring>gbLimits</cstring>
                     </property>
                     <property stdset="1">
+                        <name>title</name>
+                        <string>Limits</string>
+                    </property>
+                    <property stdset="1">
                         <name>frameShadow</name>
                         <enum>Sunken</enum>
                     </property>
                     <property stdset="1">
                         <name>frameShape</name>
                         <enum>Box</enum>
-                    </property>
-                    <property stdset="1">
-                        <name>title</name>
-                        <string>Limits</string>
                     </property>
                     <hbox>
                         <property stdset="1">
@@ -284,7 +278,7 @@
                         <name>title</name>
                         <string>Details</string>
                     </property>
-                    <hbox>
+                    <vbox>
                         <property stdset="1">
                             <name>margin</name>
                             <number>11</number>
@@ -294,12 +288,27 @@
                             <number>6</number>
                         </property>
                         <widget>
+                            <class>QCheckBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>cbDetailedTips</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Detailed Tooltips</string>
+                            </property>
+                            <property>
+                                <name>toolTip</name>
+                                <string>Shows the number of times visited and the dates of first and last visit additionally to the URL</string>
+                            </property>
+                        </widget>
+                        <widget>
                             <class>QLayoutWidget</class>
                             <property stdset="1">
                                 <name>name</name>
-                                <cstring>Layout10</cstring>
+                                <cstring>Layout9</cstring>
                             </property>
-                            <vbox>
+                            <hbox>
                                 <property stdset="1">
                                     <name>margin</name>
                                     <number>0</number>
@@ -308,144 +317,9 @@
                                     <name>spacing</name>
                                     <number>6</number>
                                 </property>
-                                <widget>
-                                    <class>QCheckBox</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>cbDetailedTips</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Detailed Tooltips</string>
-                                    </property>
-                                    <property>
-                                        <name>toolTip</name>
-                                        <string>Shows the number of times visited and the dates of first and last visit additionally to the URL</string>
-                                    </property>
-                                </widget>
-                                <widget>
-                                    <class>QLabel</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>lbColumns</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Additional columns:</string>
-                                    </property>
-                                </widget>
-                                <widget>
-                                    <class>QLayoutWidget</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>Layout9</cstring>
-                                    </property>
-                                    <hbox>
-                                        <property stdset="1">
-                                            <name>margin</name>
-                                            <number>0</number>
-                                        </property>
-                                        <property stdset="1">
-                                            <name>spacing</name>
-                                            <number>6</number>
-                                        </property>
-                                        <widget>
-                                            <class>QLayoutWidget</class>
-                                            <property stdset="1">
-                                                <name>name</name>
-                                                <cstring>Layout8</cstring>
-                                            </property>
-                                            <grid>
-                                                <property stdset="1">
-                                                    <name>margin</name>
-                                                    <number>0</number>
-                                                </property>
-                                                <property stdset="1">
-                                                    <name>spacing</name>
-                                                    <number>6</number>
-                                                </property>
-                                                <widget row="0"  column="1" >
-                                                    <class>QCheckBox</class>
-                                                    <property stdset="1">
-                                                        <name>name</name>
-                                                        <cstring>cbTimesVisited</cstring>
-                                                    </property>
-                                                    <property stdset="1">
-                                                        <name>text</name>
-                                                        <string>Number of times visited</string>
-                                                    </property>
-                                                </widget>
-                                                <widget row="2"  column="1" >
-                                                    <class>QCheckBox</class>
-                                                    <property stdset="1">
-                                                        <name>name</name>
-                                                        <cstring>cbLastVisited</cstring>
-                                                    </property>
-                                                    <property stdset="1">
-                                                        <name>text</name>
-                                                        <string>Last visited date</string>
-                                                    </property>
-                                                </widget>
-                                                <spacer row="1"  column="0" >
-                                                    <property>
-                                                        <name>name</name>
-                                                        <cstring>Spacer2</cstring>
-                                                    </property>
-                                                    <property stdset="1">
-                                                        <name>orientation</name>
-                                                        <enum>Horizontal</enum>
-                                                    </property>
-                                                    <property stdset="1">
-                                                        <name>sizeType</name>
-                                                        <enum>Expanding</enum>
-                                                    </property>
-                                                    <property>
-                                                        <name>sizeHint</name>
-                                                        <size>
-                                                            <width>20</width>
-                                                            <height>20</height>
-                                                        </size>
-                                                    </property>
-                                                </spacer>
-                                                <widget row="1"  column="1" >
-                                                    <class>QCheckBox</class>
-                                                    <property stdset="1">
-                                                        <name>name</name>
-                                                        <cstring>cbFirstVisited</cstring>
-                                                    </property>
-                                                    <property stdset="1">
-                                                        <name>text</name>
-                                                        <string>First visited date</string>
-                                                    </property>
-                                                </widget>
-                                            </grid>
-                                        </widget>
-                                        <spacer>
-                                            <property>
-                                                <name>name</name>
-                                                <cstring>Spacer3</cstring>
-                                            </property>
-                                            <property stdset="1">
-                                                <name>orientation</name>
-                                                <enum>Horizontal</enum>
-                                            </property>
-                                            <property stdset="1">
-                                                <name>sizeType</name>
-                                                <enum>Expanding</enum>
-                                            </property>
-                                            <property>
-                                                <name>sizeHint</name>
-                                                <size>
-                                                    <width>20</width>
-                                                    <height>20</height>
-                                                </size>
-                                            </property>
-                                        </spacer>
-                                    </hbox>
-                                </widget>
-                            </vbox>
+                            </hbox>
                         </widget>
-                    </hbox>
+                    </vbox>
                 </widget>
             </vbox>
         </widget>

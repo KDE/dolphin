@@ -46,9 +46,6 @@ public:
     int m_metricOlderThan;
 
     bool m_detailedTips;
-    bool m_columnTimesVisited;
-    bool m_columnFirstVisited;
-    bool m_columnLastVisited;
 
     QFont m_fontYoungerThan;
     QFont m_fontOlderThan;
@@ -56,7 +53,7 @@ public:
     QWidget *m_activeDialog;
 
 signals:
-    void settingsChanged();
+    void settingsChanged( const KonqHistorySettings *oldSettings );
 
 protected:
     KonqHistorySettings();

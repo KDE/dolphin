@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
+   Copyright (C) 2000,2001 Carsten Pfeiffer <pfeiffer@kde.org>
                  2000 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@
 #include <kaction.h>
 #include <kapp.h>
 #include <kconfig.h>
+#include <kcursor.h>
 #include <kdialogbase.h>
 #include <kfontdialog.h>
 #include <klocale.h>
@@ -40,6 +41,7 @@
 #include <konq_faviconmgr.h>
 #include <konq_historymgr.h>
 #include <konq_tree.h>
+#include <konq_treepart.h>
 
 #include "history_dlg.h"
 #include "history_module.h"
@@ -61,8 +63,8 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 	s_settings->readSettings();
     }
 
-    connect( s_settings, SIGNAL( settingsChanged() ),
-	     SLOT( slotSettingsChanged() ));
+    connect( s_settings, SIGNAL( settingsChanged(const KonqHistorySettings *)),
+	     SLOT( slotSettingsChanged( const KonqHistorySettings *) ));
 
     m_dict.setAutoDelete( true );
     m_currentTime = QDateTime::currentDateTime();
@@ -86,6 +88,8 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 	     SLOT( slotItemExpanded( QListViewItem * )));
 
     m_collection = new KActionCollection( this, "history actions" );
+//     (void) new KAction( i18n("Open in new &window"), 0, this,
+// 			SLOT( slotNewWindow() ), m_collection, "open_new");
     (void) new KAction( i18n("&Remove entry"), 0, this,
 			SLOT( slotRemoveEntry() ), m_collection, "remove");
     (void) new KAction( i18n("C&lear History"), 0, manager,
@@ -107,7 +111,7 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     m_folderClosed = SmallIcon( "folder" );
     m_folderOpen = SmallIcon( "folder_open" );
 
-    slotSettingsChanged(); // read the settings
+    slotSettingsChanged( 0L ); // read the settings
 }
 
 KonqHistoryModule::~KonqHistoryModule()
@@ -126,7 +130,8 @@ KonqHistoryModule::~KonqHistoryModule()
     kc->sync();
 }
 
-void KonqHistoryModule::slotSettingsChanged()
+// old may be 0L!
+void KonqHistoryModule::slotSettingsChanged(const KonqHistorySettings */*old*/)
 {
     KonqHistoryItem::setSettings( s_settings );
     tree()->triggerUpdate();
@@ -134,6 +139,7 @@ void KonqHistoryModule::slotSettingsChanged()
 
 void KonqHistoryModule::slotCreateItems()
 {
+    QApplication::setOverrideCursor( KCursor::waitCursor() );
     clear();
 
     KonqHistoryItem *item;
@@ -167,7 +173,7 @@ void KonqHistoryModule::slotCreateItems()
 	++it2;
     }
 
-    // m_topLevelItem->sort(); // don't think this is necessary
+    QApplication::restoreOverrideCursor();
     m_initialized = true;
 }
 
@@ -231,6 +237,8 @@ void KonqHistoryModule::showPopupMenu()
     m_collection->action("byDate")->plug( sortMenu );
 
     QPopupMenu *menu = new QPopupMenu;
+//     m_collection->action("open_new")->plug( menu );
+//     menu->insertSeparator();
     m_collection->action("remove")->plug( menu );
     m_collection->action("clear")->plug( menu );
     menu->insertSeparator();
@@ -241,6 +249,14 @@ void KonqHistoryModule::showPopupMenu()
     menu->exec( QCursor::pos() );
     delete menu;
     delete sortMenu;
+}
+
+void KonqHistoryModule::slotNewWindow()
+{
+    QListViewItem *item = tree()->selectedItem();
+    KonqHistoryItem *hi = dynamic_cast<KonqHistoryItem*>( item );
+    if ( hi )
+	emit tree()->part()->extension()->createNewWindow( hi->url() );
 }
 
 void KonqHistoryModule::slotRemoveEntry()
@@ -277,8 +293,8 @@ void KonqHistoryModule::slotPreferences()
     QWidget *page = m_dlg->plainPage();
     QVBoxLayout *layout = new QVBoxLayout( page );
     layout->setAutoAdd( true );
-    layout->setSpacing( KDialog::spacingHint() );
-    layout->setMargin( KDialog::marginHint() );
+    layout->setSpacing( 0 );
+    layout->setMargin( 0 );
     m_settingsDlg = new KonqHistoryDialog( s_settings, page );
     connect( m_dlg, SIGNAL( finished() ), SLOT( slotDialogFinished() ));
     connect( m_dlg, SIGNAL( okClicked() ),
@@ -375,6 +391,8 @@ KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
     comboOlder->insertItem( i18n("minutes"), KonqHistorySettings::MINUTES );
     comboOlder->insertItem( i18n("days"), KonqHistorySettings::DAYS );
 
+    initFromSettings();
+
     connect( cbExpire, SIGNAL( toggled( bool )),
 	     spinExpire, SLOT( setEnabled( bool )));
 
@@ -385,8 +403,6 @@ KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
 
     connect( btnFontNewer, SIGNAL( clicked() ), SLOT( slotGetFontNewer() ));
     connect( btnFontOlder, SIGNAL( clicked() ), SLOT( slotGetFontOlder() ));
-
-    initFromSettings();
 }
 
 KonqHistoryDialog::~KonqHistoryDialog()
@@ -410,9 +426,6 @@ void KonqHistoryDialog::initFromSettings()
     comboOlder->setCurrentItem( m_settings->m_metricOlderThan );
 
     cbDetailedTips->setChecked( m_settings->m_detailedTips );
-    cbTimesVisited->setChecked( m_settings->m_columnTimesVisited );
-    cbFirstVisited->setChecked( m_settings->m_columnFirstVisited );
-    cbLastVisited->setChecked( m_settings->m_columnLastVisited );
 
     m_fontNewer = m_settings->m_fontYoungerThan;
     m_fontOlder = m_settings->m_fontOlderThan;
@@ -422,8 +435,6 @@ void KonqHistoryDialog::initFromSettings()
 
     slotNewerChanged( spinNewer->value() );
     slotOlderChanged( spinOlder->value() );
-
-    // ### TODO:synchronization of "newer than XXX" and "older than XXX"
 }
 
 void KonqHistoryDialog::applySettings()
@@ -439,9 +450,6 @@ void KonqHistoryDialog::applySettings()
     m_settings->m_metricOlderThan   = comboOlder->currentItem();
 
     m_settings->m_detailedTips = cbDetailedTips->isChecked();
-    m_settings->m_columnTimesVisited = cbTimesVisited->isChecked();
-    m_settings->m_columnFirstVisited = cbFirstVisited->isChecked();
-    m_settings->m_columnLastVisited  = cbLastVisited->isChecked();
 
     m_settings->m_fontYoungerThan = m_fontNewer;
     m_settings->m_fontOlderThan   = m_fontOlder;
@@ -450,7 +458,8 @@ void KonqHistoryDialog::applySettings()
 }
 
 // change hour to days, minute to minutes and the other way round,
-// depending on the value of the spinbox
+// depending on the value of the spinbox, and synchronize the two spinBoxes
+// to enfore newer <= older.
 void KonqHistoryDialog::slotNewerChanged( int value )
 {
     const QString& days = i18n("days");
@@ -464,6 +473,9 @@ void KonqHistoryDialog::slotNewerChanged( int value )
 	comboNewer->changeItem( days, KonqHistorySettings::DAYS );
 	comboNewer->changeItem( minutes, KonqHistorySettings::MINUTES);
     }
+
+    if ( spinNewer->value() > spinOlder->value() )
+	spinOlder->setValue( spinNewer->value() );
 }
 
 void KonqHistoryDialog::slotOlderChanged( int value )
@@ -479,6 +491,9 @@ void KonqHistoryDialog::slotOlderChanged( int value )
 	comboOlder->changeItem( days, KonqHistorySettings::DAYS );
 	comboOlder->changeItem( minutes, KonqHistorySettings::MINUTES);
     }
+
+    if ( spinNewer->value() > spinOlder->value() )
+	spinNewer->setValue( spinOlder->value() );
 }
 
 void KonqHistoryDialog::slotGetFontNewer()
