@@ -67,7 +67,14 @@ void KonqSidebarDirTreeItem::init()
             if ( ::stat( path.data(), &buff ) != -1 )
             {
                 //kdDebug() << "KonqSidebarDirTreeItem::init " << path << " : " << buff.st_nlink << endl;
-                if ( buff.st_nlink <= 2 )
+                // The link count for a directory is generally subdir_count + 2.
+                // One exception is if there are hard links to the directory, in this case
+                // the link count can be > 2 even if no subdirs exist.
+                // The other exception are smb (and maybe netware) mounted directories
+                // of which the link count is always 1. Therefore, we only set the item
+                // as non-expandable if it's exactly 2 (one link from the parent dir,
+                // plus one from the '.' entry).
+                if ( buff.st_nlink == 2 )
                     setExpandable( false );
             }
         }
