@@ -56,7 +56,6 @@
 #include <kaccel.h>
 #include <kapp.h>
 #include <kbookmark.h>
-#include <kclipboard.h>
 #include <kconfig.h>
 #include <kio_cache.h>
 #include <kio_paste.h>
