@@ -600,10 +600,10 @@ void KonqOperations::doFileCopy()
         // Nor control nor shift are pressed => show popup menu
 
         QPopupMenu popup;
-        if ( sReading && !linkOnly)
-            popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
         if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
             popup.insertItem( i18n( "&Move Here" ), 2 );
+        if ( sReading && !linkOnly)
+            popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
         if (bSetWallpaper)
             popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper" ), 4 );
