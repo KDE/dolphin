@@ -23,12 +23,6 @@
             <property name="name">
                 <cstring>gbLimits</cstring>
             </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
             <property name="title">
                 <string>Limits</string>
             </property>
