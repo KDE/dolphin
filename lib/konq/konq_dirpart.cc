@@ -191,7 +191,11 @@ void KonqDirPart::emitTotalCount()
 
 void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
 {
-    if ( !lst.isEmpty() )
+    if ( lst.count()==1)
+    {
+       emit setStatusBarText( ((KFileItemList)lst).first()->getStatusBarInfo() );
+    }
+    else if ( lst.count()>1)
     {
         unsigned long fileSizeSum = 0;
         uint fileCount = 0;
