@@ -184,8 +184,8 @@ void KFileTip::reposition()
     if (!m_ivi) return;
 
     QRect rect = m_ivi->rect();
-    QPoint off = m_view->mapToGlobal( m_view->contentsToViewport( QPoint( 0, 0 ) ) );
-    rect.moveBy( off.x(), off.y() );
+    QPoint off = m_view->viewport()->mapToGlobal( m_view->contentsToViewport( rect.topRight() ) );
+    rect.moveTopRight( off );
 
     QPoint pos = rect.center();
     // m_corner:
@@ -215,7 +215,7 @@ void KFileTip::reposition()
         pos.setY( rect.top() - height() );
         m_corner += 2;
     }
-    else pos.setY( rect.bottom() );
+    else pos.setY( rect.bottom() + 1 );
 
     move( pos );
     update();
