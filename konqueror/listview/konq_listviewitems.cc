@@ -66,6 +66,8 @@ void KonqListViewItem::init()
       ColumnInfo *tmpColumn=m_pListViewWidget->columnConfigInfo()->at(i);
       if (tmpColumn->displayThisOne)
       {
+         // Why did you remove the switch ? It's easier to read
+         // and more efficient... (David)
          if (tmpColumn->udsId==KIO::UDS_USER)
             setText(tmpColumn->displayInColumn,m_fileitem->user());
          else if (tmpColumn->udsId==KIO::UDS_GROUP)
@@ -162,7 +164,7 @@ QString KonqListViewItem::key( int _column, bool asc) const
                return tmp;
             }
             else break;
-               
+
          };
       };
    };
