@@ -59,7 +59,7 @@ KParts::Part *DirDetailViewFactory::createPart( QWidget *parentWidget, const cha
 AnnotationEdit::AnnotationEdit( DetailWidget *parent, const char *name )
 : QMultiLineEdit( parent, name )
 {
-  m_parent = parent; 
+  m_parent = parent;
 }
 
 AnnotationEdit::~AnnotationEdit()
@@ -68,9 +68,9 @@ AnnotationEdit::~AnnotationEdit()
 
 void AnnotationEdit::focusOutEvent( QFocusEvent *e )
 {
-  QMultiLineEdit::focusOutEvent( e ); 
+  QMultiLineEdit::focusOutEvent( e );
   m_parent->editDone();
-} 
+}
 
 void AnnotationEdit::keyPressEvent( QKeyEvent *e )
 {
@@ -80,15 +80,15 @@ void AnnotationEdit::keyPressEvent( QKeyEvent *e )
     return;
   }
 
-  QMultiLineEdit::keyPressEvent( e ); 
-} 
+  QMultiLineEdit::keyPressEvent( e );
+}
 
 DetailWidget::DetailWidget( DirDetailView *parent, QWidget *parentWidget, const char *name )
 : QWidget( parentWidget, name )
 {
 //  m_bg = KonqFactory::instance()->iconLoader()->loadIcon( "/home/simon/tt2.png" );
-// m_bg = KonqFactory::instance()->iconLoader()->loadIcon( "/home/simon/tron_seamless.png" ); 
-  m_parent = parent; 
+// m_bg = KonqFactory::instance()->iconLoader()->loadIcon( "/home/simon/tron_seamless.png" );
+  m_parent = parent;
 }
 
 DetailWidget::~DetailWidget()
@@ -134,7 +134,7 @@ void DetailWidget::paintEvent( QPaintEvent * )
 
   painter.end();
   bitBlt( this, 0, 0, &buffer );
-  
+
   m_editRect = r;
 }
 
@@ -142,7 +142,7 @@ void DetailWidget::mouseReleaseEvent( QMouseEvent *e )
 {
   if ( !m_editRect.contains( e->pos() ) )
     return;
-  
+
   edit();
 }
 
@@ -176,22 +176,22 @@ DirDetailView::DirDetailView( DirDetailViewFactory *factory, QWidget *parentWidg
 
   setInstance( KonqFactory::instance(), false );
   setXMLFile( "konq_dirmetaview.rc" );
-  
+
   m_widget = new DetailWidget( this, parentWidget, widgetName );
   setWidget( m_widget );
 
   m_widget->setFixedHeight( 67 ); // ### hack
-  
+
   m_metaDataProvider = new KonqMetaDataProvider( KonqFactory::instance(), this, "metaprov" );
-  
+
   forceUpdate = false;
-  
+
   m_paEdit = new KAction( "Write annotation", 0, m_widget, SLOT( edit() ), actionCollection(), "annotate" );
 }
 
 DirDetailView::~DirDetailView()
 {
-  m_widget->editDone(); 
+//  m_widget->editDone(); BAD IDEA (launching a singleshot timer -> calls slot of dead object ;-)
 }
 
 bool DirDetailView::openURL( const KURL &url )
@@ -199,7 +199,7 @@ bool DirDetailView::openURL( const KURL &url )
   m_metaDataProvider->openDir( url );
   m_currentFileItemSelection.clear();
   m_currentSelection.clear();
- 
+
   bool res = openURL( url, KonqFileItemList() );
   m_url = url;
   return res;
@@ -209,8 +209,8 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
 {
 //  kdDebug() <<  "DirDetailView::openURL( " << url.url() << " ) " << endl;
 
-  m_widget->editDone(); 
- 
+  m_widget->editDone();
+
   bool update = false;
 
   if ( ( selection.count() == 0 && ( m_currentSelection.count() != 0 || m_url != url || forceUpdate ) ) ||
@@ -219,9 +219,9 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
     QPixmap pix = m_factory->dirMimeType()->pixmap( url, KIconLoader::Large );
 
     m_widget->setPixmap( pix );
-    
+
     QString annotation;
-    
+
     if ( m_metaDataProvider->metaData( url, "inode/directory", "annotation", annotation ) && !annotation.isEmpty() )
       m_widget->setText( annotation );
     else
@@ -237,9 +237,9 @@ bool DirDetailView::openURL( const KURL &url, KonqFileItemList selection )
     KonqFileItem *item = selection.first();
 
     m_widget->setPixmap( item->pixmap( KIconLoader::Large, true ) );
-    
+
     QString annotation;
-    
+
     if ( m_metaDataProvider->metaData( item->url(), item->mimetype(), "annotation", annotation ) && !annotation.isEmpty() )
       m_widget->setText( annotation );
     else
@@ -280,12 +280,12 @@ void DirDetailView::saveAnnotation( const QString &text )
 {
   m_metaDataProvider->saveMetaData( m_currentURL, m_currentServiceType, "annotation", text );
   QTimer::singleShot( 0, this, SLOT( slotUpdate() ) );
-} 
+}
 
 void DirDetailView::slotUpdate()
 {
-  forceUpdate = true; 
-  openURL( m_url, m_currentFileItemSelection ); 
-} 
+  forceUpdate = true;
+  openURL( m_url, m_currentFileItemSelection );
+}
 
 #include "konq_dirmetaview.moc"
