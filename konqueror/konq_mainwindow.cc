@@ -1872,8 +1872,8 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    layout->addWidget(label);
    label=new QLabel(i18n("to"),dlg);
    layout->addWidget(label);
-   QString url = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
-   KURLRequester *urlReq=new KURLRequester(url, dlg);
+   QString initialUrl = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
+   KURLRequester *urlReq=new KURLRequester(initialUrl, dlg);
    // Hmm, this creates the filedialog, hidden, which fires up a KIO job to list the dir, etc. :(
    urlReq->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
 
