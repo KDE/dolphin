@@ -719,6 +719,21 @@ void KonqViewManager::showTab( KonqView *view )
   emitActivePartChanged();
 }
 
+void KonqViewManager::updatePixmaps()
+{
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+  
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+
+  QPtrList<KonqView> viewList;
+  QPtrListIterator<KonqView> it( viewList );
+
+  tabContainer->listViews( &viewList );
+  for ( it.toFirst(); it != 0L; ++it )
+    it.current()->setTabIcon( it.current()->locationBarURL() );
+}
+
 void KonqViewManager::removeView( KonqView *view )
 {
 #ifdef DEBUG_VIEWMGR

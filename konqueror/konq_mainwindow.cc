@@ -1395,6 +1395,7 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 void KonqMainWindow::slotIconsChanged()
 {
     m_combo->updatePixmaps();
+    m_pViewManager->updatePixmaps();
     setIcon( KonqPixmapProvider::self()->pixmapFor( m_combo->currentText() ));
 }
 

@@ -157,6 +157,12 @@ public:
   void showTab( KonqView *view );
 
   /**
+   * Updates favicon pixmaps used in tabs
+   *
+   */
+  void updatePixmaps();
+  
+  /**
    * Saves the current view layout to a config file.
    * Remove config file before saving, especially if saveURLs is false.
    * @param cfg the config file
