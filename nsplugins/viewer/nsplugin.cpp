@@ -70,7 +70,7 @@ void *g_NPN_MemAlloc(uint32 size)
 void g_NPN_MemFree(void *ptr)
 {
    kdDebug(1431) << "g_NPN_MemFree() at " << ptr << endl;
-   if (ptr) 
+   if (ptr)
      ::free(ptr);
 }
 
@@ -375,7 +375,7 @@ void NSPluginInstance::destroy()
         if (saved && saved->len && saved->buf)
           g_NPN_MemFree(saved->buf);
         if (saved)
-          g_NPN_MemFree(saved);          
+          g_NPN_MemFree(saved);
 
         XtDestroyWidget(_area);
         XtDestroyWidget(_form);
@@ -562,83 +562,138 @@ void NSPluginInstance::resizePlugin(int w, int h)
 
 NPError NSPluginInstance::NPGetValue(NPPVariable variable, void *value)
 {
-   if (!_pluginFuncs.getvalue)
-      return NPERR_GENERIC_ERROR;
+    if( value==0 ) {
+        kdDebug() << "FIXME: value==0 in NSPluginInstance::NPGetValue" << endl;
+        return NPERR_GENERIC_ERROR;
+    }
 
-   NPError error = _pluginFuncs.getvalue(_npp, variable, value);
+    if (!_pluginFuncs.getvalue)
+        return NPERR_GENERIC_ERROR;
 
-   CHECK(GetValue,error);
+    NPError error = _pluginFuncs.getvalue(_npp, variable, value);
+
+    CHECK(GetValue,error);
 }
 
 
 NPError NSPluginInstance::NPSetValue(NPNVariable variable, void *value)
 {
-   if (!_pluginFuncs.setvalue)
-      return NPERR_GENERIC_ERROR;
+    if( value==0 ) {
+        kdDebug() << "FIXME: value==0 in NSPluginInstance::NPSetValue" << endl;
+        return NPERR_GENERIC_ERROR;
+    }
 
-   NPError error = _pluginFuncs.setvalue(_npp, variable, value);
+    if (!_pluginFuncs.setvalue)
+        return NPERR_GENERIC_ERROR;
 
-   CHECK(SetValue,error);
+    NPError error = _pluginFuncs.setvalue(_npp, variable, value);
+
+    CHECK(SetValue,error);
 }
 
 
 NPError NSPluginInstance::NPSetWindow(NPWindow *window)
 {
-   if (!_pluginFuncs.setwindow)
-      return NPERR_GENERIC_ERROR;
+    if( window==0 ) {
+        kdDebug() << "FIXME: window==0 in NSPluginInstance::NPSetWindow" << endl;
+        return NPERR_GENERIC_ERROR;
+    }
 
-   NPError error = _pluginFuncs.setwindow(_npp, window);
+    if (!_pluginFuncs.setwindow)
+        return NPERR_GENERIC_ERROR;
 
-   CHECK(SetWindow,error);
+    NPError error = _pluginFuncs.setwindow(_npp, window);
+
+    CHECK(SetWindow,error);
 }
 
 
 NPError NSPluginInstance::NPDestroyStream(NPStream *stream, NPReason reason)
 {
-   if (!_pluginFuncs.destroystream)
-      return NPERR_GENERIC_ERROR;
+    if( stream==0 ) {
+        kdDebug() << "FIXME: stream==0 in NSPluginInstance::NPDestroyStream" << endl;
+        return NPERR_GENERIC_ERROR;
+    }
 
-   NPError error = _pluginFuncs.destroystream(_npp, stream, reason);
+    if (!_pluginFuncs.destroystream)
+        return NPERR_GENERIC_ERROR;
 
-   CHECK(DestroyStream,error);
+    NPError error = _pluginFuncs.destroystream(_npp, stream, reason);
+
+    CHECK(DestroyStream,error);
 }
 
 
 NPError NSPluginInstance::NPNewStream(NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype)
 {
-   if (!_pluginFuncs.newstream)
-      return NPERR_GENERIC_ERROR;
+    if( stream==0 ) {
+        kdDebug() << "FIXME: stream==0 in NSPluginInstance::NPNewStream" << endl;
+        return NPERR_GENERIC_ERROR;
+    }
 
-   NPError error = _pluginFuncs.newstream(_npp, type, stream, seekable, stype);
+    if( stype==0 ) {
+        kdDebug() << "FIXME: stype==0 in NSPluginInstance::NPNewStream" << endl;
+        return NPERR_GENERIC_ERROR;
+    }
 
-   CHECK(NewStream,error);
+    if (!_pluginFuncs.newstream)
+        return NPERR_GENERIC_ERROR;
+
+    NPError error = _pluginFuncs.newstream(_npp, type, stream, seekable, stype);
+
+    CHECK(NewStream,error);
 }
 
 
 void NSPluginInstance::NPStreamAsFile(NPStream *stream, const char *fname)
 {
-   if (!_pluginFuncs.asfile)
-      return;
+    if( stream==0 ) {
+        kdDebug() << "FIXME: stream==0 in NSPluginInstance::NPStreamAsFile" << endl;
+        return;
+    }
 
-   _pluginFuncs.asfile(_npp, stream, fname);
+    if( fname==0 ) {
+        kdDebug() << "FIXME: fname==0 in NSPluginInstance::NPStreamAsFile" << endl;
+        return;
+    }
+
+    if (!_pluginFuncs.asfile)
+        return;
+
+    _pluginFuncs.asfile(_npp, stream, fname);
 }
 
 
 int32 NSPluginInstance::NPWrite(NPStream *stream, int32 offset, int32 len, void *buf)
 {
-   if (!_pluginFuncs.write)
-      return 0;
+    if( stream==0 ) {
+        kdDebug() << "FIXME: stream==0 in NSPluginInstance::NPWrite" << endl;
+        return 0;
+    }
 
-   return _pluginFuncs.write(_npp, stream, offset, len, buf);
+    if( buf==0 ) {
+        kdDebug() << "FIXME: buf==0 in NSPluginInstance::NPWrite" << endl;
+        return 0;
+    }
+
+    if (!_pluginFuncs.write)
+        return 0;
+
+    return _pluginFuncs.write(_npp, stream, offset, len, buf);
 }
 
 
 int32 NSPluginInstance::NPWriteReady(NPStream *stream)
 {
-   if (!_pluginFuncs.writeready)
-      return 0;
+    if( stream==0 ) {
+        kdDebug() << "FIXME: stream==0 in NSPluginInstance::NPWriteReady" << endl;
+        return 0;
+    }
 
-   return _pluginFuncs.writeready(_npp, stream);
+    if (!_pluginFuncs.writeready)
+        return 0;
+
+    return _pluginFuncs.writeready(_npp, stream);
 }
 
 
