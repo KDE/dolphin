@@ -1,15 +1,12 @@
-- Make wordwrap in iconview configurable and add a tooltip with the fullname when wordwrap off
+- When word wrap is false, Reggie suggested adding a tooltip with the fullname
 
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL.
 
 - Sorting by date, ...
 
-- A confirmation box before deleting would contain the list of files to be 
+- A nicer confirmation box before deleting would contain the list of files to be 
   deleted, if few of them otherwise the number (or simply "...")
-
-- drop events on an icon / URL should be handled in a central place.
-  + take code from kfm, for special cases (trash, ....)
 
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
@@ -18,20 +15,20 @@
 
 - Better handling of multiple selections (eg. try selecting
   several images then invoking kview - you get loads of kview 
-  processes rather than just one).
+  processes rather than just one).  => KRun
 
 - When you are adding to the selection (eg. by shift + LMB)
   then change the mouse cursor to indicate this. Several drawing programs do
   this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
+  [ I'm not sure this is necessary, and if yes it's a QIconView issue anyway - David ]
 
-- Thumbnails (using the xview code in kimgio ; making image size configurable)
-  Needs the port to QIconView first.
+- Image Preview : make size configurable for tackat :)
 
 - More key bindings. Lots of things are missing key bindings,
   Ctrl+A for select all for instance. => partially done.
   Needs disconnecting/reconnecting on view switching.
 
-- Configurable toplevel items in the treeview
+- Configurable toplevel items in the treeview (GUI for konq_dirtree)
 
 - see grep TODO *.cc *.h
 
