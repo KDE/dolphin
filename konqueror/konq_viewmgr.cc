@@ -340,7 +340,7 @@ void KonqViewManager::revertDocContainer()
   m_pDocContainer = otherFrame;
 }
 
-KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode, bool forceAutoEmbed)
+KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode)
 {
 #ifndef NDEBUG
   kdDebug(1202) << "------------- KonqViewManager::addTab starting -------------" << endl;
@@ -363,7 +363,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
   KService::Ptr service;
   KTrader::OfferList partServiceOffers, appServiceOffers;
 
-  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, forceAutoEmbed );
+  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true /*forceAutoEmbed*/ );
 
   if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view

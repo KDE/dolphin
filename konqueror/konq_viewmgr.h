@@ -100,7 +100,7 @@ public:
    */
   KonqView* addTab(const QString &serviceType = QString::null,
                    const QString &serviceName = QString::null,
-                   bool passiveMode = false, bool forceAutoEmbed = false);
+                   bool passiveMode = false);
 
   /**
    * Duplicates the specified tab, or else the current one if none is specified
