@@ -3,191 +3,616 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
- <kcfgfile name="konquerorrc" />
- <group name="FMSettings" >
-  <entry key="AlwaysNewWin" type="Bool" />
-  <entry key="AlwaysTabbedMode" type="Bool" />
-  <entry key="DisplayFileSizeInBytes" type="Bool" />
-  <entry key="HomeURL" type="Path" />
-  <entry key="MMBOpensTab" type="Bool" />
-  <entry key="NewTabsInFront" type="Bool" />
-  <entry key="NormalTextColor" type="Color" />
-  <entry key="OpenAfterCurrentPage" type="Bool" />
-  <entry key="RenameIconDirectly" type="Bool" />
-  <entry key="ShowFileTips" type="Bool" />
-  <entry key="ShowPreviewsInFileTips" type="Bool" />
-  <entry key="StandardFont" type="Font" />
-  <entry key="UnderlineLinks" type="Bool" />
-  <entry key="WordWrapText" type="Bool" />
-  <entry key="FileTipsItems" type="Int" />
- </group>
- <group name="HTML Settings" >
-  <entry key="AutomaticDetectionLanguage" type="String" />
-  <entry key="DefaultEncoding" type="String" />
-  <entry key="ShowAnimations" type="String" />
-  <entry key="AutoDelayedActions" type="Bool" />
-  <entry key="AutoLoadImages" type="Bool" />
-  <entry key="ChangeCursor" type="Bool" />
-  <entry key="EnforceDefaultCharset" type="Bool" />
-  <entry key="Fonts" type="StringList" />
-  <entry key="FormCompletion" type="Bool" />
-  <entry key="HoverLinks" type="Bool" />
-  <entry key="MaxFormCompletionItems" type="Int" />
-  <entry key="MediumFontSize" type="Int" />
-  <entry key="MinimumFontSize" type="Int" />
-  <entry key="UnderlineLinks" type="Bool" />
-  <entry key="UserStyleSheetEnabled" type="Bool" />
-  <entry key="iso8859-1" type="StringList" />
-  <entry key="iso8859-10" type="StringList" />
-  <entry key="iso8859-13" type="StringList" />
-  <entry key="iso8859-14" type="StringList" />
-  <entry key="iso8859-15" type="StringList" />
-  <entry key="iso8859-2" type="StringList" />
-  <entry key="iso8859-3" type="StringList" />
-  <entry key="iso8859-4" type="StringList" />
-  <entry key="iso8859-5" type="StringList" />
-  <entry key="iso8859-6" type="StringList" />
-  <entry key="iso8859-7" type="StringList" />
-  <entry key="iso8859-8" type="StringList" />
-  <entry key="iso8859-9" type="StringList" />
-  <entry key="koi8-r" type="StringList" />
-  <entry key="koi8-u" type="StringList" />
-  <entry key="microsoft-cp1251" type="StringList" />
-  <entry key="paratype-cp154" type="StringList" />
- </group>
- <group name="HistorySettings" >
-  <entry key="OpenGroups" type="String" />
- </group>
- <group name="Java/JavaScript Settings" >
-  <entry key="ECMADomains" type="String" />
-  <entry key="JavaArgs" type="String" />
-  <entry key="JavaDomains" type="String" />
-  <entry key="JavaPath" type="String" />
-  <entry key="PluginDomains" type="String" />
-  <entry key="AppletServerTimeout" type="Int" />
-  <entry key="EnableJava" type="Bool" />
-  <entry key="EnableJavaScript" type="Bool" />
-  <entry key="EnablePlugins" type="Bool" />
-  <entry key="ReportJavaScriptErrors" type="Bool" />
-  <entry key="ShowJavaConsole" type="Bool" />
-  <entry key="ShutdownAppletServer" type="Bool" />
-  <entry key="UseSecurityManager" type="Bool" />
-  <entry key="WindowFocusPolicy" type="Int" />
-  <entry key="WindowMovePolicy" type="Int" />
-  <entry key="WindowOpenPolicy" type="Int" />
-  <entry key="WindowResizePolicy" type="Int" />
-  <entry key="WindowStatusPolicy" type="Int" />
- </group>
- <group name="KFileDialog Settings" >
-  <entry key="Automatic Preview" type="String" />
-  <entry key="Autoplay sounds" type="String" />
-  <entry key="Preview Size" type="String" />
-  <entry key="Recent Files" type="String" />
-  <entry key="ShowPreviews" type="String" />
-  <entry key="ViewMode" type="String" />
- </group>
- <group name="KFileDialog Speedbar" >
-  <entry key="Number of Entries" type="String" />
-  <entry key="Speedbar IconSize" type="String" />
- </group>
- <group name="KFileIconView" >
-  <entry key="ViewMode" type="String" />
- </group>
- <group name="KMid" >
-  <entry key="ActiveCollection" type="String" />
- </group>
- <group name="KPrinter Settings" >
-  <entry key="ApplicationOptions" type="String" />
-  <entry key="DialogReduced" type="String" />
-  <entry key="DocDirectory" type="String" />
-  <entry key="PrintCommand" type="String" />
-  <entry key="Printer" type="String" />
- </group>
- <group name="KonqMainWindow" >
-  <entry key="StatusBar" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar bookmarkToolBar" >
-  <entry key="IconText" type="String" />
-  <entry key="Index" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar debugToolBar" >
-  <entry key="Index" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar edit_toolbar" >
-  <entry key="Index" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar extraToolBar" >
-  <entry key="IconText" type="String" />
-  <entry key="Index" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar formatToolBar" >
-  <entry key="Hidden" type="String" />
-  <entry key="IconSize" type="String" />
-  <entry key="IconText" type="String" />
-  <entry key="Index" type="String" />
-  <entry key="NewLine" type="String" />
-  <entry key="Offset" type="String" />
-  <entry key="Position" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar locationToolBar" >
-  <entry key="IconText" type="String" />
-  <entry key="Index" type="String" />
-  <entry key="Offset" type="String" />
- </group>
- <group name="KonqMainWindow Toolbar mainToolBar" >
-  <entry key="Hidden" type="String" />
-  <entry key="Index" type="String" />
-  <entry key="Offset" type="String" />
- </group>
- <group name="ListView_file" >
-  <entry key="SortBy" type="String" />
-  <entry key="SortOrder" type="String" />
- </group>
- <group name="ListView_ftp" >
-  <entry key="SortBy" type="String" />
-  <entry key="SortOrder" type="String" />
- </group>
- <group name="MainView Settings" >
-  <entry key="BackRightClick" type="String" />
-  <entry key="HTMLAllowed" type="String" />
-  <entry key="ToggableViewsShown" type="String" />
-  <entry key="ViewMode" type="String" />
- </group>
- <group name="ModeToolBarServices" >
-  <entry key="konq_iconview" type="String" />
-  <entry key="konq_listview" type="String" />
-  <entry key="libcervisia" type="String" />
-  <entry key="libkonqiconview" type="String" />
-  <entry key="libkonqlistview" type="String" />
- </group>
- <group name="NonPasswordCachingSites" >
-  <entry key="Sites" type="String" />
- </group>
- <group name="Notification Messages" >
-  <entry key="plugin-application/x-shockwave-flash" type="String" />
-  <entry key="plugin-image/svg+xml" type="String" />
- </group>
- <group name="Open-with settings" >
-  <entry key="CompletionMode" type="String" />
-  <entry key="History" type="String" />
- </group>
- <group name="Reusing" >
-  <entry key="SafeParts" type="String" />
-  <entry key="AlwaysHavePreloaded" type="Bool" />
-  <entry key="MaxPreloadCount" type="Int" />
-  <entry key="PreloadOnStartup" type="Bool" />
- </group>
- <group name="Settings" >
-  <entry key="BgImage" type="String" />
-  <entry key="SaveURLInProfile" type="Bool" />
-  <entry key="SaveWindowSizeInProfile" type="Bool" />
- </group>
- <group name="TipOfDay" >
-  <entry key="RunOnStart" type="Bool" />
- </group>
- <group name="Trash" >
-  <entry key="ConfirmDelete" type="Bool" />
-  <entry key="ConfirmShred" type="Bool" />
-  <entry key="ConfirmTrash" type="Bool" />
- </group>
+  <kcfgfile name="konquerorrc" />
+  <include>khtmldefaults.h</include> 
+  
+
+  <group name="FMSettings">
+<!-- behaviour.cpp -->  
+    <entry key="AlwaysNewWin" type="Bool"> <!--LIBKONQ-->
+      <default>false</default> 
+      <label>Open folders in separate windows</label>
+      <whatsthis>If this option is checked, Konqueror will open a new window when you open a folder, rather than showing that folders's contents in the current window.</whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="HomeURL" type="Path"> <!--LIBKONQ-->
+      <default>~</default> 
+      <label>Home Folder</label>
+      <whatsthis>This is the URL (e.g. a folder or a web page) where Konqueror will jump to when the \"Home\" button is pressed. This is usually your home folder, symbolized by a 'tilde' (~).</whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ShowFileTips" type="Bool"> <!--LIBKONQ-->
+      <default>true</default> 
+      <label>Show file tips</label>
+      <whatsthis>Here you can control if, when moving the mouse over a file, you want to see a small popup window with additional information about that file</whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="FileTipsItems" type="Int"> <!--LIBKONQ-->
+      <default>6</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ShowPreviewsInFileTips" type="Bool"> <!--LIBKONQ-->
+      <default>true</default> 
+      <label>Show previews in file tips</label>
+      <whatsthis>Here you can control if you want the popup window to contain a larger preview for the file, when moving the mouse over it</whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="RenameIconDirectly" type="Bool"> <!--LIBKONQ-->
+      <default>false</default> 
+      <label>Rename icons inline</label>
+      <whatsthis>Checking this option will allow files to be renamed by clicking directly on the icon name.</whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ShowDeleteCommand" type="Bool">
+      <default>true</default> 
+      <label>Show 'Delete' menu entries which bypass the trashcan</label>
+      <whatsthis>Uncheck this if you do not want 'Delete' menu commands to be displayed on the desktop and in the file manager's menus and context menus. You can still delete files when hidden by holding the Shift key while calling 'Move to Trash'.</whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- fontopts.cpp -->
+    <entry key="StandardFont" type="Font"> <!--LIBKONQ-->
+      <default code="true">KGlobalSettings::generalFont()</default> 
+      <label>Standard font</label>
+      <whatsthis>This is the font used to display text in Konqueror windows.</whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="NormalTextColor" type="Color"> <!--LIBKONQ-->
+      <default code="true"></default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ItemTextBackground" type="Color"> <!--LIBKONQ-->
+      <default></default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="TextHeight" type="Int"> <!--LIBKONQ-->
+      <default>2</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="TextWidth" type="Int"> <!--LIBKONQ-->
+      <default>70</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="DisplayFileSizeInBytes" type="Bool"> <!--LIBKONQ-->
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry name="TextPreviewIconOpacity" key="TextpreviewIconOpacity" type="Int" min="0" max="255"> <!--LIBKONQ-->
+      <default>70</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry name="FmUnderlineLinks" key="UnderlineLinks" type="Bool"> <!--LIBKONQ-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- htmlopts.cpp -->
+    <entry name="MmbOpensTab" key="MMBOpensTab" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="AlwaysTabbedMode" type="Bool">
+      <default>false</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- advancedTabDialog.cpp -->
+    <entry key="NewTabsInFront" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="OpenAfterCurrentPage" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="PermanentCloseButton" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="KonquerorTabforExternalURL" type="Bool">
+      <default>false</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="PopupsWithinTabs" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="TabCloseActivatePrevious" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- konq_settings.cc --> 
+    <entry key="WordWrapText" type="Bool"> <!--LIBKONQ-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- no writeEntry -->
+    </entry>
+<!-- konq_tabs.cc --> 
+    <entry key="MouseMiddleClickClosesTab" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- no writeEntry / hidden-->
+    </entry>
+    <entry key="HoverCloseButton" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- no writeEntry / hidden-->
+    </entry>
+    <entry key="AddTabButton" type="Bool">
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="CloseTabButton" type="Bool">
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="MaximumTabLength" type="Int">
+      <default>30</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="MinimumTabLength" type="Int">
+      <default>3</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="TabPosition" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+  </group>
+
+  <group name="HTML Settings" >
+<!-- appearance.cpp -->
+    <entry key="MediumFontSize" type="Int"> <!--KHTML-->
+      <default>12</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="MinimumFontSize" type="Int"> <!--KHTML-->
+      <default code="true">HTML_DEFAULT_MIN_FONT_SIZE</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="Fonts" type="StringList"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="DefaultEncoding" type="String"> <!--KHTML-->
+      <default code="true">QString::null</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- htmlopts.cpp -->
+    <entry key="ChangeCursor" type="Bool"> <!--KHTML-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry name="HtmlUnderlineLinks" key="UnderlineLinks" type="Bool"> <!--KHTML-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="HoverLinks" type="Bool"> <!--KHTML-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="AutoLoadImages" type="Bool"> <!--KHTML-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ShowAnimations" type="String"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="AutoDelayedActions" type="Bool">
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="FormCompletion" type="Bool"> <!--KHTML-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="MaxFormCompletionItems" type="Int"> <!--KHTML-->
+      <default>10</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- konq_view.cc -->
+    <entry key="EnableFavicon" type="Bool">
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- Can't find writeEntry -->
+    </entry>
+<!-- KDELIBS/khtml_part.cpp -->
+    <entry key="AutomaticDetectionLanguage" type="Int"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+<!-- KDELIBS/khtml_settings.cpp -->
+    <entry key="EnforceDefaultCharset" type="Bool"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- Can't find writeEntry -->
+    </entry>
+<!-- kcmcss.cpp   KDELIBS/khtml_settings.cpp -->
+    <entry key="UserStyleSheetEnabled" type="Bool"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    
+<!-- Are these entries? Can't find writeEntry(..)! They belong maybe to DefaultEncoding.
+
+    <entry name="iso8859_1" key="iso8859-1" type="StringList"> </entry>
+    <entry name="iso8859_10" key="iso8859-10" type="StringList"> </entry>
+    <entry name="iso8859_13" key="iso8859-13" type="StringList"> </entry>
+    <entry name="iso8859_14" key="iso8859-14" type="StringList"> </entry>
+    <entry name="iso8859_15" key="iso8859-15" type="StringList"> </entry>
+    <entry name="iso8859_2" key="iso8859-2" type="StringList"> </entry>
+    <entry name="iso8859_3" key="iso8859-3" type="StringList"> </entry>
+    <entry name="iso8859_4" key="iso8859-4" type="StringList">  </entry>
+    <entry name="iso8859_5" key="iso8859-5" type="StringList">  </entry>
+    <entry name="iso8859_6" key="iso8859-6" type="StringList"> </entry>
+    <entry name="iso8859_7" key="iso8859-7" type="StringList"> </entry>
+    <entry name="iso8859_8" key="iso8859-8" type="StringList"> </entry>
+    <entry name="iso8859_9" key="iso8859-9" type="StringList"> </entry>
+    <entry name="iso8859_r" key="koi8-r" type="StringList">  </entry>
+    <entry name="iso8859_u" key="koi8-u" type="StringList"> </entry>
+    <entry name="microsoft_cp1251" key="microsoft-cp1251" type="StringList"> </entry>
+    <entry name="paratype_cp154" key="paratype-cp154" type="StringList"> </entry>
+ --> 
+  </group>
+
+  <group name="MainView Settings" >
+<!-- htmlopts.cpp --> 
+    <entry key="OpenMiddleClick" type="Bool"> <!--KHTML-->
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="BackRightClick" type="Bool"> <!--KHTML-->
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- konq_mainwindow.cpp -->
+    <entry key="SaveViewPropertiesLocally" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry name="HtmlAllowed" key="HTMLAllowed" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry name="MainViewViewMode" key="ViewMode" type="String"> <!-- has dupes -->
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- konq_guiclients.cpp -->
+    <entry key="ToggableViewsShown" type="StringList">
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+  </group>
+
+  <group name="HistorySettings" >
+<!-- history_module.cpp -->
+    <entry key="OpenGroups" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+
+  <group name="Java/JavaScript Settings" >
+<!-- javaopts.cpp -->
+    <entry key="ShowJavaConsole" type="Bool">
+      <default>false</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="UseSecurityManager" type="Bool">
+      <default>true</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="UseKio" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ShutdownAppletServer" type="Bool">
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="AppletServerTimeout" type="Int">
+      <default>60</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="JavaPath" type="Path">
+      <default code="true">
+#if defined(PATH_JAVA)
+PATH_JAVA
+#else
+"java"
+#endif
+      </default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="JavaDomains" type="StringList"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="JavaDomainSettings" type="StringList">
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="JavaScriptDomainAdvice" type="StringList">
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="JavaArgs" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- jsopts.cpp -->
+    <entry key="ECMADomains" type="StringList"> <!--KHTML-->
+      <default>true</default>
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ECMADomainSettings" type="StringList"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ReportJavaScriptErrors" type="Bool"> <!--KHTML-->
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="EnableJavaScriptDebug" type="Bool"> <!--KHTML-->
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+<!-- jspolicies.cpp -->
+    <entry key="EnableJavaScript" type="Bool"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="WindowOpenPolicy" type="UInt"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="WindowResizePolicy" type="UInt"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="WindowMovePolicy" type="UInt"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="WindowFocusPolicy" type="UInt"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="WindowStatusPolicy" type="UInt"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+<!-- pluginopts.cpp -->    
+    <entry key="EnablePlugins" type="Bool"> <!--KHTML-->
+      <default>true</default>
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="PluginDomains" type="StringList"> <!--KHTML-->
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+   
+  <group name="ModeToolBarServices" >
+<!-- konq_mainwindow.cc -->
+    <entry key="konq_iconview" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="konq_listview" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="libcervisia" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="libkonqiconview" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="libkonqlistview" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+  
+  <group name="Notification Messages" >
+<!-- advancedTabDialog.cpp konq_mainwindow.cc -->
+    <entry key="MultipleTabConfirm" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    
+    <entry name="plugin_application_x_shockwave_flash" key="plugin-application/x-shockwave-flash" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry name="plugin_image_svg_xml" key="plugin-image/svg+xml" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+   
+  <group name="Reusing" >
+    <entry key="SafeParts" type="StringList">
+      <default>SAFE</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="AlwaysHavePreloaded" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="MaxPreloadCount" type="Int">
+      <default>1</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="PreloadOnStartup" type="Bool">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+  
+  <group name="Settings" >
+    <entry key="BgImage" type="String">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="SaveURLInProfile" type="Bool">
+      <default>true</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="SaveWindowSizeInProfile" type="Bool">
+      <default>false</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry name="SettingsCompletionMode" key="CompletionMode" type="Enum">
+      <default code="true">KGlobalSettings::completionMode()</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="Number of most visited URLs" type="Int">
+      <default>10</default> 
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+   
+  <group name="Trash" >
+<!-- behaviour.cpp -->  
+    <entry key="ConfirmDelete" type="Bool">
+      <default>true</default>
+      <label>Ask confirmation for deleting a file.</label>
+      <whatsthis></whatsthis>
+      <!-- checked -->
+    </entry>
+    <entry key="ConfirmTrash" type="Bool">
+      <default>true</default>
+      <label>Ask confirmation for move to trash</label>
+      <whatsthis>This option tells Konqueror whether to ask for a confirmation when you move the file to your trash folder, from where it can be recovered very easily.</whatsthis>
+      <!-- checked -->
+    </entry>
+  </group>
+ 
+  <group name="General" >
+<!-- konq_mainwindow.cpp -->  
+    <entry key="TerminalApplication" type="String">
+      <default>konsole</default>
+      <label></label>
+      <whatsthis>This option tells Konqueror whether to ask for a confirmation when you simply delete the file.</whatsthis>
+      <!-- checked -->
+    </entry>
+  </group>
+ 
 </kcfg>
