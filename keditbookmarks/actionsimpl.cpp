@@ -263,4 +263,5 @@ void ActionsImpl::slotChangeIcon() {
    top->addCommand(cmd);
 }
 
+#undef top
 #include "actionsimpl.moc"

@@ -82,4 +82,5 @@ void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, 
    }
 }
 
+#undef top
 #include "dcop.moc"
