@@ -107,6 +107,7 @@ private:
         QString text;
         QString filePath; // empty for SEPARATOR
         QString templatePath; // same as filePath for TEMPLATE
+        QString icon;
         int entryType;
     } Entry;
     // NOTE: only filePath is known before we call parseFiles

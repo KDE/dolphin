@@ -96,6 +96,7 @@ void KNewMenu::parseFiles()
                 KSimpleConfig config( filePath, true );
                 config.setDesktopGroup();
                 text = config.readEntry("Name");
+                (*templ).icon = config.readEntry("Icon");
                 QString type = config.readEntry( "Type" );
                 if ( type == "Link" )
                 {
@@ -108,7 +109,7 @@ void KNewMenu::parseFiles()
                         {
                             // A relative path, then (that's the default in the files we ship)
                             QString linkDir = filePath.left( filePath.findRev( '/' ) + 1 /*keep / */ );
-                            kdDebug(1203) << "linkDir=" << linkDir << endl;
+                            //kdDebug(1203) << "linkDir=" << linkDir << endl;
                             templatePath = linkDir + templatePath;
                         }
                     }
@@ -133,9 +134,9 @@ void KNewMenu::parseFiles()
                     text.truncate( text.length() - 7 );
             }
             (*templ).text = text;
-            kdDebug(1203) << "Updating entry with text=" << text
+            /*kdDebug(1203) << "Updating entry with text=" << text
                           << " entryType=" << (*templ).entryType
-                          << " templatePath=" << (*templ).templatePath << endl;
+                          << " templatePath=" << (*templ).templatePath << endl;*/
         }
         else {
             (*templ).entryType = SEPARATOR;
@@ -180,7 +181,7 @@ void KNewMenu::fillMenu()
 
             if ( !bSkip )
             {
-                KAction * act = new KAction( (*templ).text, 0, this, SLOT( slotNewFile() ),
+                KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
                                              m_actionCollection, QString("newmenu%1").arg( i ) );
                 act->setGroup( "KNewMenu" );
                 act->plug( popupMenu() );
@@ -254,9 +255,9 @@ void KNewMenu::slotNewFile()
           KURL::List::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
-              kdDebug(1203) << "first arg=" << entry.templatePath << endl;
-              kdDebug(1203) << "second arg=" << (*it).url() << endl;
-              kdDebug(1203) << "third arg=" << defaultName << endl;
+              //kdDebug(1203) << "first arg=" << entry.templatePath << endl;
+              //kdDebug(1203) << "second arg=" << (*it).url() << endl;
+              //kdDebug(1203) << "third arg=" << defaultName << endl;
               (void) new KPropertiesDialog( entry.templatePath, *it, defaultName );
           }
           return; // done, exit.
