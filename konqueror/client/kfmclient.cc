@@ -43,6 +43,7 @@
 #include <kopenwith.h>
 #include <kdebug.h>
 #include <dcopclient.h>
+#include <kstartupinfo.h>
 
 #include "kfmclient.h"
 #include "KonquerorIface_stub.h"
@@ -193,12 +194,17 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
         {
             kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
             */
+            // pass kfmclient's startup id to konqueror using kshell
+            KStartupInfoId id; 
+            id.initId( kapp->startupId());
+            id.setupStartupEnv();
             KProcess proc;
             if ( mimetype.isEmpty() )
-                proc << QString::fromLatin1("kdeinit_wrapper") << QString::fromLatin1("konqueror") << url.url();
+                proc << QString::fromLatin1("kshell") << QString::fromLatin1("konqueror") << url.url();
             else
-                proc << QString::fromLatin1("kdeinit_wrapper") << QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
+                proc << QString::fromLatin1("kshell") << QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
             proc.start( KProcess::DontCare );
+            KStartupInfo::resetStartupEnv();
             kdDebug() << "clientApp::createNewWindow KProcess started" << endl;
         //}
     }
@@ -224,7 +230,8 @@ bool clientApp::openProfile( const QString & filename, const QString & url, cons
     QObject::connect( dcopClient(), SIGNAL( applicationRegistered( const QCString& ) ),
                     this, SLOT( slotAppRegistered( const QCString & ) ) );
     QString error;
-    if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"), QString::fromLatin1("--silent"), &error ) > 0 )
+    if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
+        QString::fromLatin1("--silent"), &error, NULL, NULL, kapp->startupId()) > 0 )
     {
       kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
       return false;
