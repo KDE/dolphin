@@ -54,7 +54,7 @@ int KonqComboAction::plug( QWidget *w, int index )
   KComboBox *comboBox = toolBar->getCombo( id );
   KCompletion *compObj = comboBox->completionObject();
   compObj->setOrder( KCompletion::Weighted );
-  // Update the KCompletion object as well... 
+  // Update the KCompletion object as well...
   // no, this is done in slotViewCompleted() (pfeiffer)
   // connect( comboBox, SIGNAL( returnPressed( const QString& ) ), compObj, SLOT( addItem( const QString& ) ) );
 
@@ -65,21 +65,8 @@ int KonqComboAction::plug( QWidget *w, int index )
   toolBar->setItemAutoSized( id, true );
   comboBox->setMaxCount( 10 );
 
-  // No need to do this anymore as the user can now
-  // change the completion mode to whatever they like
-  // on the fly from the popup menu. ( RMB->Completion )
-  // Hmmm... we have to save this config later...(DA)
-  // comboBox->setAutocompletion( true );
-
-  // Why?? After current will arbitrarily add the item after the
-  // currently selected item. This means that if I select something for
-  // the listbox the next URL I enter will be added after it.  This is
-  // a very messed up way to keep a history list.  Specially since multiple
-  // enteries are allowed by default!!  Besides the nice *nix like shell
-  // completion in KcomboBox will not work in konqy under this mode. Switching
-  // to QComboBox::AtTop for now.  Ask me if this is not clear.(DA)
-  // comboBox->setInsertionPolicy( QComboBox::AfterCurrent );
-  comboBox->setInsertionPolicy( QComboBox::AtTop );
+  // Insertion is done manually now
+  comboBox->setInsertionPolicy( QComboBox::NoInsertion );
 
   m_combo = comboBox;
 

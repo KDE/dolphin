@@ -20,8 +20,9 @@
 #ifndef __kfm_run_h__
 #define __kfm_run_h__
 
-#include "krun.h"
+#include <krun.h>
 #include <sys/types.h>
+#include <konq_openurlrequest.h>
 
 class KonqMainWindow;
 class KonqView;
@@ -35,8 +36,7 @@ public:
    * optionnal child view.
    */
   KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
-           const KURL &url, mode_t _mode = 0,
-           bool _is_local_file = false, bool _auto_delete = true );
+           const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest() );
 
   virtual ~KonqRun();
 
@@ -54,7 +54,7 @@ protected:
    * finish the job.
    */
   virtual void foundMimeType( const QString & _type );
-  
+
   virtual void scanFile();
 
 protected slots:
@@ -65,6 +65,7 @@ protected:
   KonqMainWindow* m_pMainWindow;
   KonqView* m_pView;
   bool m_bFoundMimeType;
+  KonqOpenURLRequest m_req;
 };
 
 #endif

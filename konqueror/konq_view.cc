@@ -185,9 +185,10 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
 }
 
 bool KonqView::changeViewMode( const QString &serviceType,
-                                    const QString &serviceName,
-                                    const KURL &url,
-                                    const QString &locationBarURL)
+                               const QString &serviceName,
+                               const KURL &url,
+                               const QString &locationBarURL,
+                               const QString &typedURL)
 {
   if ( m_bLoading )
   {
@@ -233,6 +234,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     m_partServiceOffers = partServiceOffers;
     m_appServiceOffers = appServiceOffers;
     m_serviceType = serviceType;
+    m_sTypedURL = typedURL;
 
     switchView( viewFactory );
 
@@ -269,7 +271,7 @@ void KonqView::connectPart(  )
     return;
 
   connect( ext, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &) ),
-           m_pMainWindow, SLOT( openURL( const KURL &, const KParts::URLArgs & ) ) );
+           m_pMainWindow, SLOT( slotOpenURL( const KURL &, const KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );

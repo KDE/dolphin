@@ -105,11 +105,13 @@ public:
    * @param url the URL to open in the view. If not set, no URL is opened.
    * @param locationBarURL the url we want to display in the location bar
    *    May be different from @p url e.g. if using "allowHTML".
+   * @param typedURL the url that was typed, if any.
    */
   bool changeViewMode( const QString &serviceType,
                        const QString &serviceName = QString::null,
                        const KURL &url = KURL(),
-                       const QString &locationBarURL = QString::null );
+                       const QString & locationBarURL = QString::null,
+                       const QString & typedURL = QString::null);
 
   /**
    * Call this to prevent next openURL() call from changing history lists
@@ -158,6 +160,15 @@ public:
    * It can be different from url(), for instance if we display a index.html
    */
   const QString locationBarURL() { return m_sLocationBarURL; }
+
+  /**
+   * Get the URL that was typed to get the current URL.
+   */
+  const QString typedURL() { return m_sTypedURL; }
+  /**
+   * Set the URL that was typed to get the current URL.
+   */
+  void setTypedURL( const QString & u ) { m_sTypedURL = u; }
 
   /**
    * @return the part embedded into this view
@@ -299,6 +310,7 @@ protected:
   KParts::ReadOnlyPart *m_pPart;
 
   QString m_sLocationBarURL;
+  QString m_sTypedURL;
 
   /**
    * The full history (back + current + forward)

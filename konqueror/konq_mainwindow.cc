@@ -176,7 +176,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     }
     else
     */
-    openURL( 0L, KURL( QDir::homeDirPath().prepend( "file:" ) ) );
+    KURL homeURL;
+    homeURL.setPath( QDir::homeDirPath() );
+    openURL( 0L, homeURL );
   }
   else
       // silent
@@ -255,15 +257,11 @@ QWidget *KonqMainWindow::createContainer( QWidget *parent, int index, const QDom
 
 void KonqMainWindow::openFilteredURL( const QString & _url )
 {
-    KURL filteredURL ( konqFilteredURL( this, _url ) );
+    KURL filteredURL( konqFilteredURL( this, _url ) );
 
-    // TODO : remember that url was typed in manually.
-    // Solution : a structure KonqOpenURLRequest with
-    //   KURL url (to open)
-    //   QString urlTyped = _url
-    //   bool follow-mode [true if follow - avoids loops]
+    KonqOpenURLRequest req( _url );
 
-    openURL( 0L, filteredURL );
+    openURL( 0L, filteredURL, QString::null, req );
 
     // #4070: Give focus to view after URL was entered manually
     // Note: we do it here if the view mode (i.e. part) wasn't changed
@@ -273,7 +271,8 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 
 }
 
-void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &serviceType )
+void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
+                              const QString &serviceType, const KonqOpenURLRequest & req )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
                 << "serviceType='" << serviceType << "'\n";
@@ -320,7 +319,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
   if ( !serviceType.isEmpty() && serviceType != "application/octet-stream" )
   {
     // Built-in view ?
-    if ( !openView( serviceType, url, view /* can be 0L */) )
+    if ( !openView( serviceType, url, view /* can be 0L */, req ) )
     {
         // We know the servicetype, let's try its preferred service
         KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, true);
@@ -336,7 +335,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
   else // no known serviceType, use KonqRun
   {
       kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
-      KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
+      KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req );
       if ( view )
       {
         view->setRun( run );
@@ -350,7 +349,96 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
   }
 }
 
-void KonqMainWindow::openURL( const KURL &url, const KParts::URLArgs &args )
+bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, const KonqOpenURLRequest & req )
+{
+  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  QString indexFile;
+
+  KURL url( _url );
+
+  // In case we open an index.html, we want the location bar
+  // to still display the original URL (so that 'up' uses that URL,
+  // and since that's what the user entered).
+  // changeViewMode will take care of setting and storing that url.
+  QString originalURL = url.prettyURL();
+
+  QString serviceName; // default: none provided
+
+  // Look for which view mode to use, if a directory - not if view locked to
+  // its current mode or passive.
+  if ( ( !childView ||
+         (!childView->lockedViewMode() && !childView->passiveMode())
+       )
+     && serviceType == "inode/directory" )
+  { // Phew !
+
+    // Set view mode if necessary (current view doesn't support directories)
+    if ( !childView || !childView->supportsServiceType( serviceType ) )
+      serviceName = m_sViewModeForDirectory;
+
+    if ( url.isLocalFile() ) // local, we can do better (.directory)
+    {
+      // Read it in the .directory file, default to m_bHTMLAllowed
+      KURL urlDotDir( url );
+      urlDotDir.addPath(".directory");
+      bool HTMLAllowed = m_bHTMLAllowed;
+      QFile f( urlDotDir.path() );
+      if ( f.open(IO_ReadOnly) )
+      {
+          f.close();
+          KSimpleConfig config( urlDotDir.path(), true );
+          config.setGroup( "URL properties" );
+          HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
+          serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
+      }
+      if ( HTMLAllowed &&
+           ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
+      {
+          serviceType = "text/html";
+          url = KURL();
+          url.setPath( indexFile );
+          serviceName = QString::null; // cancel what we just set, this is not a dir finally
+      }
+
+      // Reflect this setting in the menu
+      m_ptaUseHTML->setChecked( HTMLAllowed );
+    }
+  }
+
+  if ( !childView )
+    {
+      // Create a new view
+      KonqView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
+
+      if ( !newView )
+      {
+        KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
+        return true; // fake everything was ok, we don't want to propagate the error
+      }
+
+      enableAllActions( true );
+
+      newView->setTypedURL( req.typedURL );
+      newView->setLocationBarURL( originalURL );
+
+      newView->part()->widget()->setFocus();
+
+      newView->setViewName( m_initialFrameName );
+      m_initialFrameName = QString::null;
+
+      return true;
+    }
+  else // We know the child view
+  {
+    // We used the 'locking' for keeping the servicename empty,
+    // Now we can reset it.
+    if ( childView->lockedViewMode() )
+        childView->setLockedViewMode( false );
+    return childView->changeViewMode( serviceType, serviceName, url, originalURL, req.typedURL );
+  }
+}
+
+void KonqMainWindow::slotOpenURL( const KURL &url, const KParts::URLArgs &args )
 {
   QString frameName = args.frameName;
 
@@ -404,6 +492,7 @@ void KonqMainWindow::openURL( const KURL &url, const KParts::URLArgs &args )
   openURL( view, url, args );
 }
 
+//Callled by slotOpenURL
 void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
@@ -855,94 +944,6 @@ void KonqMainWindow::slotSetStatusBarText( const QString & )
    // Does nothing here, see konq_frame.cc
 }
 
-bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView )
-{
-  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
-  QString indexFile;
-
-  KURL url( _url );
-
-  // In case we open an index.html, we want the location bar
-  // to still display the original URL (so that 'up' uses that URL,
-  // and since that's what the user entered).
-  // changeViewMode will take care of setting and storing that url.
-  QString originalURL = url.prettyURL();
-
-  QString serviceName; // default: none provided
-
-  // Look for which view mode to use, if a directory - not if view locked to
-  // its current mode or passive.
-  if ( ( !childView ||
-         (!childView->lockedViewMode() && !childView->passiveMode())
-       )
-     && serviceType == "inode/directory" )
-  { // Phew !
-
-    // Set view mode if necessary (current view doesn't support directories)
-    if ( !childView || !childView->supportsServiceType( serviceType ) )
-      serviceName = m_sViewModeForDirectory;
-
-    if ( url.isLocalFile() ) // local, we can do better (.directory)
-    {
-      // Read it in the .directory file, default to m_bHTMLAllowed
-      KURL urlDotDir( url );
-      urlDotDir.addPath(".directory");
-      bool HTMLAllowed = m_bHTMLAllowed;
-      QFile f( urlDotDir.path() );
-      if ( f.open(IO_ReadOnly) )
-      {
-          f.close();
-          KSimpleConfig config( urlDotDir.path(), true );
-          config.setGroup( "URL properties" );
-          HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
-          serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
-      }
-      if ( HTMLAllowed &&
-           ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
-      {
-          serviceType = "text/html";
-          url = KURL();
-          url.setPath( indexFile );
-          serviceName = QString::null; // cancel what we just set, this is not a dir finally
-      }
-
-      // Reflect this setting in the menu
-      m_ptaUseHTML->setChecked( HTMLAllowed );
-    }
-  }
-
-  if ( !childView )
-    {
-      // Create a new view
-      KonqView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
-
-      if ( !newView )
-      {
-        KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
-        return true; // fake everything was ok, we don't want to propagate the error
-      }
-
-      enableAllActions( true );
-
-      newView->setLocationBarURL( originalURL );
-
-      newView->part()->widget()->setFocus();
-
-      newView->setViewName( m_initialFrameName );
-      m_initialFrameName = QString::null;
-
-      return true;
-    }
-  else // We know the child view
-  {
-    // We used the 'locking' for keeping the servicename empty,
-    // Now we can reset it.
-    if ( childView->lockedViewMode() )
-        childView->setLockedViewMode( false );
-    return childView->changeViewMode( serviceType, serviceName, url, originalURL );
-  }
-}
-
 void KonqMainWindow::slotViewCompleted( KonqView * view )
 {
   assert( view );
@@ -953,8 +954,16 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
     updateToolBarActions();
   }
 
-  // Register this URL as a working one, in the completion object
+  // Register this URL as a working one, in the completion object and the combo.
+
+  m_combo->insertItem( view->locationBarURL() );
+
+  QString u = view->typedURL();
+  if ( !u.isEmpty() && u != view->locationBarURL() )
+    m_combo->completionObject()->addItem( u ); // short version
+
   m_combo->completionObject()->addItem( view->locationBarURL() );
+
 }
 
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
@@ -1690,7 +1699,7 @@ void KonqMainWindow::initActions()
   m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
-  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", 0 /*conflict with New Window! KStdAccel::key(KStdAccel::New)*/, 
+  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", 0 /*conflict with New Window! KStdAccel::key(KStdAccel::New)*/,
 		      this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
 
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );

@@ -26,6 +26,7 @@
 #include <qguardedptr.h>
 
 #include <konqfileitem.h>
+#include <konq_openurlrequest.h>
 
 #include <kparts/mainwindow.h>
 #include <kbookmark.h>
@@ -73,9 +74,25 @@ public:
   KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
   ~KonqMainWindow();
 
+  /**
+   * Filters the URL and calls the main openURL method.
+   */
   void openFilteredURL( const QString &_url );
 
-  void openURL( KonqView *_view, const KURL &_url, const QString &serviceType = QString::null );
+  /**
+   * The main openURL method.
+   */
+  void openURL( KonqView * view, const KURL & url,
+                const QString &serviceType = QString::null,
+                const KonqOpenURLRequest & req = KonqOpenURLRequest() );
+
+  /**
+   * Called by openURL when it knows the service type (either directly,
+   * or using KonqRun)
+   */
+  bool openView( QString serviceType, const KURL &_url, KonqView *childView,
+                 const KonqOpenURLRequest & req = KonqOpenURLRequest() );
+
 
   void abortLoading();
 
@@ -90,75 +107,9 @@ public:
 
   void setInitialFrameName( const QString &name );
 
-public slots:
-
-  void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
-  void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
-  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
-  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
-
-  /**
-   * __NEEEEVER__ call this method directly. It relies on sender()
-   */
-  void openURL( const KURL &url, const KParts::URLArgs &args );
-
-  void openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args );
-
-  void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
-
-  void slotNewWindow();
-  void slotDuplicateWindow();
-  void slotRun();
-  void slotOpenTerminal();
-  void slotOpenLocation();
-  void slotToolFind();
-
-  // View menu
-  void slotViewModeToggle( bool toggle );
-  void slotShowHTML();
-  void slotLockView();
-  void slotUnlockViews();
-  void slotReload();
-  void slotStop();
-
-  // Go menu
-  void slotUp();
-  void slotBack();
-  void slotForward();
-  void slotHome();
-  void slotGoApplications();
-  void slotGoDirTree();
-  void slotGoTrash();
-  void slotGoTemplates();
-  void slotGoAutostart();
-
-  void slotConfigureFileManager();
-  void slotConfigureFileTypes();
-  void slotConfigureBrowser();
-  void slotConfigureEBrowsing();
-  void slotConfigureCookies();
-  void slotConfigureProxies();
-  void slotConfigureKeys();
-  void slotConfigureToolbars();
-
-  void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
-
-  void slotRunFinished();
-
-  // reimplement from KParts::MainWindow
-  virtual void slotSetStatusBarText( const QString &text );
-
-signals:
-  void viewAdded( KonqView *view );
-  void viewRemoved( KonqView *view );
-
-public:
-
   KonqMainWindowIface * dcopObject();
 
   void reparseConfiguration();
-
-  bool openView( QString serviceType, const KURL &_url, KonqView *childView );
 
   void insertChildView( KonqView *childView );
   void removeChildView( KonqView *childView );
@@ -208,10 +159,70 @@ public:
 
   static QList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
 
+signals:
+  void viewAdded( KonqView *view );
+  void viewRemoved( KonqView *view );
+
 public slots:
   void slotToggleFullScreen( bool );
   void slotFullScreenStart();
   void slotFullScreenStop();
+
+  void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
+  void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
+
+  /**
+   * __NEEEEVER__ call this method directly. It relies on sender() (the part)
+   */
+  void slotOpenURL( const KURL &url, const KParts::URLArgs &args );
+
+  void openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args );
+
+  void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
+
+  void slotNewWindow();
+  void slotDuplicateWindow();
+  void slotRun();
+  void slotOpenTerminal();
+  void slotOpenLocation();
+  void slotToolFind();
+
+  // View menu
+  void slotViewModeToggle( bool toggle );
+  void slotShowHTML();
+  void slotLockView();
+  void slotUnlockViews();
+  void slotReload();
+  void slotStop();
+
+  // Go menu
+  void slotUp();
+  void slotBack();
+  void slotForward();
+  void slotHome();
+  void slotGoApplications();
+  void slotGoDirTree();
+  void slotGoTrash();
+  void slotGoTemplates();
+  void slotGoAutostart();
+
+  void slotConfigureFileManager();
+  void slotConfigureFileTypes();
+  void slotConfigureBrowser();
+  void slotConfigureEBrowsing();
+  void slotConfigureCookies();
+  void slotConfigureProxies();
+  void slotConfigureKeys();
+  void slotConfigureToolbars();
+
+  void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
+
+  void slotRunFinished();
+
+  // reimplement from KParts::MainWindow
+  virtual void slotSetStatusBarText( const QString &text );
 
 protected slots:
   void slotPartActivated( KParts::Part *part );
