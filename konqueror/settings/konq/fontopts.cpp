@@ -362,7 +362,7 @@ void KonqFontOptions::slotTextBackgroundColorChanged( const QColor &col )
 
 QString KonqFontOptions::quickHelp() const
 {
-    return i18n("<h1>Konqueror Appearance</h1> You can configure how Konqueror looks as a file manager here.");
+    return i18n("<h1>Appearance</h1> You can configure how Konqueror looks as a file manager here.");
 };
 
 #include "fontopts.moc"

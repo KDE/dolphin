@@ -206,7 +206,7 @@ void LanBrowser::save()
 
 QString LanBrowser::quickHelp() const
 {
-   return i18n("<h1>LAN Browsing</h1>Here you setup your "
+   return i18n("<h1>Local Network Browsing</h1>Here you setup your "
 		"<b>\"Network Neighborhood\"</b>. You "
 		"can use either the LISa daemon and the lan:/ ioslave, or the "
 		"ResLISa daemon and the rlan:/ ioslave.<br><br>"

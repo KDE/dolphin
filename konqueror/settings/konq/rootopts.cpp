@@ -527,7 +527,7 @@ void KRootOptions::editButtonPressed()
 
 QString KRootOptions::quickHelp() const
 {
-  return i18n("<h1>Desktop</h1>\n"
+  return i18n("<h1>Behavior</h1>\n"
     "This module allows you to choose various options\n"
     "for your desktop, including the way in which icons are arranged and\n"
     "the pop-up menus associated with clicks of the middle and right mouse\n"
