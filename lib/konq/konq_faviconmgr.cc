@@ -123,13 +123,14 @@ void KonqFavIconMgr::slotResult(KIO::Job *job)
 {
     DownloadInfo info = m_downloads[job];
     m_downloads.remove(job);
+    KIO::FileCopyJob *j = static_cast<KIO::FileCopyJob *>(job);
     if (job->error())
     {
         m_failedIcons.append(info.iconURL);
+        QFile::remove(j->destURL().path());
         return;
     }
 
-    KIO::FileCopyJob *j = static_cast<KIO::FileCopyJob *>(job);
     QImageIO io;
     io.setFileName(j->destURL().path());
     io.setParameters("16");
@@ -138,8 +139,10 @@ void KonqFavIconMgr::slotResult(KIO::Job *job)
         // Here too, the job might have had no error, but the downloaded
         // file contains just a 404 message... (malte)
         m_failedIcons.append(info.iconURL);
+        QFile::remove(j->destURL().path());
         return;
     }
+    QFile::remove(j->destURL().path());
     // Some sites have nasty 32x32 icons, according to the MS docs
     // IE ignores them, well, we scale them, otherwise the location
     // combo / menu will look quite ugly
