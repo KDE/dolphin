@@ -86,7 +86,6 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   
   attach( view );
 
-  m_sLastServiceType = serviceTypes.first();
   m_lstServiceTypes = serviceTypes;
 }
 
@@ -330,16 +329,19 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
       if ( m_bBack )
       {
         m_bBack = false;
+        kdebug(0,1202,"pushing into forward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
         m_lstForward.push_front( m_tmpInternalHistoryEntry );
       }
       else if ( m_bForward )
       {
         m_bForward = false;
+        kdebug(0,1202,"pushing into backward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
         m_lstBack.push_back( m_tmpInternalHistoryEntry );
       }
       else
       {
         m_lstForward.clear();
+        kdebug(0,1202,"pushing into backward history : %s", m_tmpInternalHistoryEntry.strURL.ascii() );
         m_lstBack.push_back( m_tmpInternalHistoryEntry );
       }	
     }
@@ -347,22 +349,22 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
       m_bHistoryLock = false;
   
     h.bHasHistoryEntry = false;
-    h.strURL = m_sLastURL; // use url from last call
-    h.strServiceType = m_sLastServiceType;
+    h.strURL = url;
+    h.strServiceType = m_lstServiceTypes.first();
     
     m_tmpInternalHistoryEntry = h;
-    m_sLastURL = url; // remember for next call
-    m_sLastServiceType = m_lstServiceTypes.first();
   }
   else
   {
-    h = m_tmpInternalHistoryEntry;
-      
-    h.bHasHistoryEntry = true;
-    Konqueror::View::HistoryEntry_var state = m_vView->saveState();
-    h.entry = state;
-
-    m_tmpInternalHistoryEntry = h;
+// DISABLED because it's broken in KHTML (Simon)
+// let's try again later ;-)
+//    h = m_tmpInternalHistoryEntry;
+//      
+//    h.bHasHistoryEntry = true;
+//    Konqueror::View::HistoryEntry_var state = m_vView->saveState();
+//    h.entry = state;
+//
+//    m_tmpInternalHistoryEntry = h;
   }
 }
 

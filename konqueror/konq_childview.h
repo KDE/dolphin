@@ -120,7 +120,7 @@ public:
   /**
    * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
    * @param bCompleted true if view has finished loading - hum.
-   * @param url the current url. Will be used on NEXT call to makeHistory. @see m_strLastURL
+   * @param url the current url.
    */
   void makeHistory( bool bCompleted, QString url );
     
@@ -219,11 +219,6 @@ protected:
     QString strServiceType;
   };
 
-  /** Used by makeHistory, to store the URL and ServiceType 
-   * _previously_ opened in this view */
-  QString m_sLastURL;
-  QString m_sLastServiceType;
-    
   Konqueror::View_var m_vView;
     
   QString m_sLocationBarURL;
