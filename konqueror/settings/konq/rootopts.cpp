@@ -138,6 +138,10 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                     " menu setting that applies to KDE applications.") );
 
 #ifdef HAVE_MNTENT_H
+
+#undef RO_LASTROW
+#define RO_LASTROW 16
+
   row++;
   dynamicDevicesBox = new QCheckBox(i18n("Enable Dynamic Desktop Devices"), 
 				    this);
