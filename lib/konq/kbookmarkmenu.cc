@@ -229,7 +229,7 @@ void KBookmarkMenu::fillBookmarkMenu()
   {
     QString text = bm.text();
     text.replace( QRegExp( "&" ), "&&" );
-    if ( !separatorInserted ) { // inserted before the first konq bookmark, to avoid the separator if no konq bookmark
+    if ( !separatorInserted && m_bIsRoot) { // inserted before the first konq bookmark, to avoid the separator if no konq bookmark
       m_parentMenu->insertSeparator();
       separatorInserted = true;
     }
