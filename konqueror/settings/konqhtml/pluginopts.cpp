@@ -284,12 +284,16 @@ void KPluginOptions::slotShowDomainDlg() {
 
 void KPluginOptions::scan()
 {
+    m_widget->scanButton->setEnabled(false);
     if ( m_changed ) {
         int ret = KMessageBox::warningYesNoCancel( this,
                                                     i18n("Do you want to apply your changes "
                                                          "before the scan? Otherwise the "
                                                          "changes will be lost.") );
-        if ( ret==KMessageBox::Cancel ) return;
+        if ( ret==KMessageBox::Cancel ) {
+            m_widget->scanButton->setEnabled(true);
+            return;
+        }
         if ( ret==KMessageBox::Yes )
              save();
     }
@@ -303,6 +307,7 @@ void KPluginOptions::scan()
         KMessageBox::sorry ( this,
                              i18n("The nspluginscan executable cannot be found. "
                                   "Netscape plugins will not be scanned.") );
+        m_widget->scanButton->setEnabled(true);
         return;
     }
 
@@ -325,10 +330,13 @@ void KPluginOptions::scan()
     delete nspluginscan;
 
     // update dialog
-    m_progress->setProgress(100);
-    load();
-    delete m_progress;
-    m_progress = 0;
+    if (m_progress) {
+        m_progress->setProgress(100);
+        load();
+        delete m_progress;
+        m_progress = 0;
+    }
+    m_widget->scanButton->setEnabled(true);
 }
 
 void KPluginOptions::progress(KProcIO *proc)
