@@ -128,6 +128,7 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
     locationBarCombo << QString();
 
   m_paURLCombo->setItems( locationBarCombo );
+  m_paURLCombo->QSelectAction::changeItem( 0, QString::null );
 }
 
 KonqMainView::~KonqMainView()
