@@ -72,7 +72,6 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
-  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
 
   // Default background color is the one from the settings, i.e. configured in kcmkonq
   // TODO: remove it from there ?
@@ -128,7 +127,6 @@ void KonqPropsView::enterDir( const KURL & dir )
     m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     m_bImagePreview = m_defaultProps->isShowingImagePreview();
-    m_bHTMLAllowed = m_defaultProps->isHTMLAllowed();
     m_bgColor = m_defaultProps->bgColor();
     m_bgPixmap = m_defaultProps->bgPixmap();
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
@@ -144,7 +142,6 @@ void KonqPropsView::enterDir( const KURL & dir )
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     m_bImagePreview = config->readBoolEntry( "ImagePreview", m_bImagePreview );
-    m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
 
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", "" );
@@ -226,19 +223,6 @@ void KonqPropsView::setShowingImagePreview( bool show )
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "ImagePreview", m_bImagePreview );
-        currentConfig()->sync();
-    }
-}
-
-void KonqPropsView::setHTMLAllowed( bool allowed )
-{
-    m_bHTMLAllowed = allowed;
-    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
-        m_defaultProps->setHTMLAllowed( allowed );
-    else if (currentConfig())
-    {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
         currentConfig()->sync();
     }
 }

@@ -89,9 +89,6 @@ public:
   void setShowingImagePreview( bool show );
   bool isShowingImagePreview() const { return m_bImagePreview; }
 
-  void setHTMLAllowed( bool allowed );
-  bool isHTMLAllowed() const { return m_bHTMLAllowed; }
-
   const QColor& bgColor() const { return m_bgColor; }
   const QPixmap& bgPixmap() const { return m_bgPixmap; }
   const QString& bgPixmapFile() const { return m_bgPixmapFile; }
@@ -110,7 +107,6 @@ protected:
   int m_iItemTextPos;
   bool m_bShowDot;
   bool m_bImagePreview;
-  bool m_bHTMLAllowed;
   QString m_bgPixmapFile;
 
   // Path to .directory file, whether it exists or not
