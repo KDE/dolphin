@@ -1,7 +1,7 @@
 
 INCLUDES = -I$(srcdir)/../libkonq $(all_includes)
 
-SUBDIRS = plugins
+SUBDIRS = plugins client
 
 lib_LTLIBRARIES = libkonqueror.la
 
@@ -13,6 +13,10 @@ kdelnk_DATA = konqueror.desktop
 
 servicetypedir = $(kde_servicetypesdir)
 servicetype_DATA = konq_plugin.desktop
+
+KonquerorIface.kidl: KonquerorIface.h
+	( kidl KonquerorIface.h > KonquerorIface.kidl; kidl2cpp --no-stub KonquerorIface.kidl )
+KonquerorIface_skel.cpp: KonquerorIface.kidl
 
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
@@ -34,7 +38,7 @@ browser.moc.cc: $(kde_includes)/browser.h
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = konq_main.cc
+konqueror_SOURCES = konq_main.cc KonquerorIface_skel.cpp
 
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 

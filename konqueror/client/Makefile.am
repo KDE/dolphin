@@ -1,20 +1,18 @@
 
-INCLUDES= -I.. -I$(top_srcdir)/libkonq $(all_includes) $(MICO_INCLUDES) 
+INCLUDES= -I.. -I$(top_srcdir)/libkonq $(all_includes)
 LDFLAGS = $(KDE_RPATH) -L$(top_builddir)/libkonq $(all_libraries)
-LDADD   = -lkparts $(LIB_KIO) -lkonq -lkded
+LDADD   = $(LIB_KIO) -lkonq
 
 # this gives better compile-time warnings.
 AM_CXXFLAGS += -pedantic
 
-IDL_FLAGS = --relative-paths --any --no-poa --no-boa -I$(srcdir)/.. -I$(idldir)
-
-DISTCLEANFILES = browser.cc browser.h kdesktop.cc kdesktop.h
-
 bin_PROGRAMS = kfmclient
 
-kfmclient_SOURCES = kdesktop.idl kfmclient.cc
+kfmclient_SOURCES = kfmclient.cc KonquerorIface_stub.cpp
 noinst_HEADERS = kfmclient.h
 
-browser_IDLDIR = $(idldir)
-kdesktop_IDLDIR = $(top_srcdir)/kdesktop
+KonquerorIface.kidl: $(top_srcdir)/konqueror/KonquerorIface.h
+	( kidl $(top_srcdir)/konqueror/KonquerorIface.h > KonquerorIface.kidl ; kidl2cpp --no-skel KonquerorIface.kidl )
+KonquerorIface_stub.cpp: KonquerorIface.kidl
 
+kfmclient.cc: KonquerorIface_stub.cpp

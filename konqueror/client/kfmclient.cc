@@ -33,18 +33,13 @@
 
 #include <kpropsdlg.h>
 #include <krun.h>
-#include <kregistry.h>
-#include <kregfactories.h>
 #include <kservice.h>
-#include <kded_instance.h>
-#include <knaming.h>
-#include <kactivator.h>
 #include <ktrader.h>
-#include <openparts.h>
-
-#include <cutesti.h>
+#include <kprocess.h>
+#include <dcopclient.h>
 
 #include "kfmclient.h"
+#include "KonquerorIface_stub.h"
 
 int main( int argc, char **argv )
 {
@@ -111,43 +106,27 @@ int main( int argc, char **argv )
     
   clientApp a( argc, argv, "kfmclient" );
 
-  KTraderServiceProvider sp;
+  a.dcopClient()->attach();
 
   return a.doIt( argc, argv );
 }
 
 bool clientApp::openFileManagerWindow(const char* _url)
 {
-  bool ok = getKonqy();
-
-  if (ok)
+  
+  if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
   {
-    CORBA::Request_var req = m_vKonqy->_request( "createBrowserWindow" );
-    
-    req->add_in_arg( "url" ) <<= _url;
-    
-    req->result()->value()->type( OpenParts::_tc_MainWindow );
-    
-    req->invoke();
-    
-//    OpenParts::MainWindow_var m_vMainWindow = m_vKonqy->createBrowserWindow( _url );
+    KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
+    konqy.openBrowserWindow( QString( _url ) );
+  }
+  else
+  {
+    KProcess proc;
+    proc << "konqueror" << QString( _url );
+    proc.start( KProcess::DontCare );
   }
   
-  return ok;
-}
-
-void clientApp::initRegistry()
-{
-  // Register mimetypes and services, for kpropsdlg and krun
-  // no need to load the registry if we're running a local kded, since it already
-  // loaded it.
-  if ( !kded->isLocalKded() )
-  {
-    KRegistry * registry = new KRegistry;
-    registry->addFactory( new KServiceTypeFactory );
-    //registry->addFactory( new KServiceFactory ); we don't need that one do we ? (David)
-    registry->load( );
-  }    
+  return true;
 }
 
 int clientApp::doIt( int argc, char **argv )
@@ -175,10 +154,12 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
+/*    
     bool ok = getKDesky();
     if (ok) 
-      m_vKDesky->rearrangeIcons( (CORBA::Boolean) false /* don't ask */ );
+      m_vKDesky->rearrangeIcons( (CORBA::Boolean) false /* don't ask */ /* );
     return ok;
+*/    
   }
   else if ( strcmp( argv[1], "configure" ) == 0 )
   {
@@ -187,13 +168,14 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
+/*    
     bool ok = getKonqy();
     if (ok)
     {
       CORBA::Request_var req = m_vKonqy->_request( "configure" );
       //req->result()->value()->type( OpenParts::_tc_MainWindow );
       req->invoke();
-    }
+    }*/
   }
   else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
   {
@@ -202,12 +184,13 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, "Syntax Error: Too many arguments\n" );
       return 1;
     }
+/*    
     bool ok = getKDesky();
     if (ok)
     {
       CORBA::Request_var req = m_vKDesky->_request( "configure" );
       req->invoke();
-    }
+    }*/
   }
   else if ( strcmp( argv[1], "openURL" ) == 0 )
   {
@@ -246,7 +229,6 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 3 )
     {
-      initRegistry();
       PropertiesDialog * p = new PropertiesDialog( argv[2] );
       QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
       exec();
@@ -259,7 +241,6 @@ int clientApp::doIt( int argc, char **argv )
   }
   else if ( strcmp( argv[1], "exec" ) == 0 )
   {
-    initRegistry(); // needed by KRun
     if ( argc == 3 )
     {
       KRun * run = new KRun( argv[2] );
@@ -271,7 +252,8 @@ int clientApp::doIt( int argc, char **argv )
     {
       QStringList urls;
       urls.append( argv[2] );
-      KService::Ptr serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
+//      KService::Ptr serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
+      KService::Ptr serv = (*KTrader::self()->query( argv[ 3 ] ).begin());
       if (!serv) return 1;
       bool ret = KRun::run( *serv, urls );
       if (!ret) return 1;
@@ -355,10 +337,12 @@ int clientApp::doIt( int argc, char **argv )
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
       // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */
+/*      
       bool ok = getKDesky();
       if (ok)
-        m_vKDesky->selectIconsInRect( x, y, w, h /* , bAdd TODO */ );
+        m_vKDesky->selectIconsInRect( x, y, w, h /* , bAdd TODO */  /*);
       return ok;
+      */
     }
     else
     {
@@ -374,48 +358,3 @@ int clientApp::doIt( int argc, char **argv )
   return 0;
 }
 
-bool clientApp::getKonqy()
-{
-  KTrader::OfferList offers = trader->query( "Browser", "Name == 'Konqueror'" );
-
-  if ( offers.count() != 1 )
-  {
-    printf("Found %i offers\n", offers.count());
-    fprintf( stderr, "Error: Can't find Konqueror service\n" );
-    return false;
-  }
-
-  m_vKonqy = activator->activateService( "Konqueror", "IDL:Browser/BrowserFactory:1.0", "Konqueror" );
-
-  if ( CORBA::is_nil( m_vKonqy ) )
-  {
-      fprintf( stderr, "Error: Can't connect to Konqueror\n" );
-      return false;
-  }
-
-  return true;
-}
-
-bool clientApp::getKDesky()
-{
-  // Get naming service
-  KNaming *naming = kded->knaming();
-
-  // Lookup KDesktopIf object
-  CORBA::Object_var obj = naming->resolve( "IDL:KDesktopIf:1.0" );
-  if ( CORBA::is_nil( obj ) )
-  {
-    fprintf( stderr, "Error: Can't connect to KDesktop\n" );
-    return false;
-  }
-
-  // Try to cast the object
-  m_vKDesky = KDesktopIf::_narrow( obj );
-
-  if ( CORBA::is_nil( m_vKDesky ) )
-  {
-    fprintf( stderr, "Error: Can't connect to KDesktop\n" );
-    return false;
-  }
-  return true;
-}

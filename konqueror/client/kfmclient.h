@@ -20,45 +20,25 @@
 #ifndef __kfmclient_h
 #define __kfmclient_h
 
-#include <komApplication.h>
-#include <kded_instance.h>
+#include <kapp.h>
 #include <krun.h>
-#include "kdesktop.h"
 
-class clientApp : public KOMApplication,
+class clientApp : public KApplication,
                   public KFileManager
 {
 public:
 
   clientApp( int &argc, char **argv, const QCString& rAppName )
-    : KOMApplication ( argc, argv, rAppName )
-    {
-      kded = new KdedInstance( argc, argv, komapp_orb );
-      trader = kded->ktrader();
-      activator = kded->kactivator();
-    };
+    : KApplication ( argc, argv, rAppName )
+    { };
 
-  ~clientApp() { /* delete kded */ } ;
+  ~clientApp() {} ;
 
   /** Parse command-line arguments and "do it" */
   int doIt( int argc, char **argv );
 
   /** Implements KFileManager interface */
   virtual bool openFileManagerWindow(const char* _url);
-
-protected:
-
-  void initRegistry();
-
-  bool getKonqy();
-  bool getKDesky();
-
-  KdedInstance *kded;
-  KTrader *trader;
-  KActivator *activator;
-
-  CORBA::Object_var m_vKonqy;
-  KDesktopIf_ptr m_vKDesky;
 };
 
 #endif

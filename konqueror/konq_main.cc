@@ -24,21 +24,46 @@
 #include "konq_misc.h"
 #include "konq_shell.h"
 #include "konq_mainview.h"
+#include "KonquerorIface.h"
 
 #include <ktrader.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>
-
-
 #include <kapp.h>
+#include <dcopclient.h>
 
+class KonquerorIFaceImpl : virtual public KonquerorIface
+{
+public:
+  KonquerorIFaceImpl();
+  virtual ~KonquerorIFaceImpl();
+  
+  virtual void openBrowserWindow( const QString &url );
+};
+
+KonquerorIFaceImpl::KonquerorIFaceImpl()
+ : DCOPObject( "KonquerorIface" )
+{
+}
+
+KonquerorIFaceImpl::~KonquerorIFaceImpl()
+{
+}
+
+void KonquerorIFaceImpl::openBrowserWindow( const QString &url )
+{
+  KFileManager::getFileManager()->openFileManagerWindow( url.ascii() );
+}
 
 int main( int argc, char **argv )
 {
   KApplication app( argc, argv, "konqueror" );
 
+  app.dcopClient()->attach();
+  app.dcopClient()->registerAs( "konqueror" );
 
+  (void)new KonquerorIFaceImpl();
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 
