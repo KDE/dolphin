@@ -476,7 +476,7 @@ public:
    */
   BindingPropsPage( PropertiesDialog *_props );
 
-  virtual QString tabName() const { return i18n("&Binding"); }
+  virtual QString tabName() const { return i18n("A&ssociation"); }
   virtual void applyChanges();
 
   static bool supports( KFileItemList _items );
