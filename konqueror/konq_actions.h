@@ -24,7 +24,7 @@
 #include <konq_historymgr.h>
 
 #include <kaction.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 class KBookmarkOwner;
 class KonqCombo;
