@@ -77,7 +77,7 @@ public:
    * @param root true for the toplevel menu
    * @param add true to show the "Add Bookmark" and "New Folder" entries
    * @param parentBookmark the address of the group containing the items
-   * that we want to show. 
+   * that we want to show.
    * @see KBookmark::address.
    * Be careful :
    * A _null_ parentAddress denotes a NS-bookmark menu.
@@ -95,6 +95,11 @@ public:
    * This is public for KBookmarkBar.
    */
   void fillBookmarkMenu();
+
+  /**
+   * Call ensureUpToDate() if you need KBookmarkMenu to adjust to its final size before it is executed.
+   **/
+  void ensureUpToDate();
 
 public slots: // public for bookmark bar
   void slotBookmarksChanged(const QString &);

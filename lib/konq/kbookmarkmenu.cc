@@ -100,6 +100,12 @@ KBookmarkMenu::~KBookmarkMenu()
   m_actions.clear();
 }
 
+void KBookmarkMenu::ensureUpToDate()
+{
+  slotAboutToShow();
+}
+
+
 void KBookmarkMenu::slotAboutToShow()
 {
   // Did the bookmarks change since the last time we showed them ?
@@ -144,6 +150,7 @@ void KBookmarkMenu::refill()
   m_actions.clear();
 
   fillBookmarkMenu();
+  m_parentMenu->adjustSize();
 }
 
 void KBookmarkMenu::fillBookmarkMenu()
