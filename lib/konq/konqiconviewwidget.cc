@@ -825,6 +825,7 @@ void KonqIconViewWidget::lineupIcons()
 	}
     }
 
+    updateContents();
     delete[] bins;
     kdDebug(1203) << n << " icons successfully moved.\n";
     return;
