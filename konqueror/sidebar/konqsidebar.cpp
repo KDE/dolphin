@@ -30,6 +30,7 @@ bool KPartAppPart::openFile()
 	return true;
 }
 
+bool KPartAppPart::openURL(const KURL &url){if (m_widget) m_widget->openURL(url); return true;} 
 
 // It's usually safe to leave the factory code alone.. with the
 // notable exception of the KAboutData data

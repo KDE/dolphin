@@ -17,7 +17,7 @@ class SidebarTest : public KonqSidebarPlugin
                 virtual QWidget *getWidget(){return widget;}   
 		protected:
 			QLabel *widget;
-			virtual void handleURL(KURL &url)
+			virtual void handleURL(const KURL &url)
 				{
 					widget->setText(url.url());
 				}

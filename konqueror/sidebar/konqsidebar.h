@@ -31,6 +31,7 @@ public:
      */
     virtual ~KPartAppPart();
 
+    virtual bool openURL(const KURL &url);
 
 protected:
     /**

@@ -1,4 +1,5 @@
 #include "sidebar_widget.h"
+#include "sidebar_widget.moc"
 #include <kdockwidget.h>
 #include <qwidget.h>
 #include <qpushbutton.h>
@@ -15,6 +16,7 @@
 
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, const char *name):QHBox(parent,name)
 {
+	stored_url=false;
 	latestViewed=-1;
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
 	Area=new KDockArea(this);
@@ -25,7 +27,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, const char *name):QHBox(parent,n
 	Area->setMinimumWidth(0);
 	mainW->setDockSite(KDockWidget::DockTop);
 	mainW->setEnableDocking(KDockWidget::DockNone);
-   	ButtonBar=new KToolBar(this,"hallo",true);
+   	ButtonBar=new Sidebar_ButtonBar(this);
 	ButtonBar->setIconText(KToolBar::IconOnly);
     	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
@@ -51,7 +53,19 @@ void Sidebar_Widget::createButtons()
 	    	
 }
 
-
+void Sidebar_Widget::openURL(const class KURL &url)
+{
+	storedUrl=url;
+	stored_url=true;
+	ButtonInfo *info;
+	for (unsigned int i=0;i<Buttons.count();i++)
+		{
+			if ((info=Buttons.at(i))->dock!=0)
+				{
+					if ((info->dock->isVisible()) && (info->module)) info->module->openURL(url);
+				}
+		}
+}
 
 bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 {
@@ -106,25 +120,35 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
 			        }		    
 			    	else
 		      			kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
-				kdWarning()<<loader->lastErrorMessage();
 			return 0;
 	}
 
 bool Sidebar_Widget::createView( ButtonInfo *data)
 	{
+			bool ret=true;
   	  	        KSimpleConfig *confFile;
 			confFile=new KSimpleConfig(data->file,true);
 			confFile->setGroup("Desktop Entry");
 
 			data->dock=Area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
 			data->module=loadModule(data->dock,data->file,confFile->readEntry("X-KDE-KonqSidebarModule",""));
-			data->dock->setWidget(data->module->getWidget());
-			data->dock->setEnableDocking(KDockWidget::DockTop|
-			KDockWidget::DockBottom|KDockWidget::DockDesktop);
-			data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);	
+			if (data->module==0)
+			{
+				delete data->dock;
+				data->dock=0;
+				ret=false;
+				
+			}
+			else
+			{
+				data->dock->setWidget(data->module->getWidget());
+				data->dock->setEnableDocking(KDockWidget::DockTop|
+				KDockWidget::DockBottom|KDockWidget::DockDesktop);
+				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);	
+			}
 
 			delete confFile;
-			return true;
+			return ret;
 
 	}
 
@@ -138,11 +162,13 @@ void Sidebar_Widget::showHidePage(int page)
 			if (latestViewed!=-1) showHidePage(latestViewed);
 			if (!createView(info))
 				{
+					ButtonBar->setButton(page,false);
 					return;
 				}
 			
 			info->dock->manualDock(mainW,KDockWidget::DockTop,100);
 			info->dock->show();
+			if (stored_url) info->module->openURL(storedUrl);
 			latestViewed=page;
 		}
 	else
@@ -154,6 +180,7 @@ void Sidebar_Widget::showHidePage(int page)
 					info->dock->manualDock(mainW,KDockWidget::DockTop,100);
 					info->dock->show();
 					latestViewed=page;
+					if (stored_url) info->module->openURL(storedUrl);
 				} else {ButtonBar->setButton(page,false); info->dock->undock(); latestViewed=-1;};
 
 		}
