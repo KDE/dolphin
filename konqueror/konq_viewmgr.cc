@@ -107,6 +107,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
     viewFrame->reparent( m_pMainView, 0, pos );
     
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
+    newContainer->setOpaqueResize( true );
     if( moveNewContainer )
       parentContainer->moveToFirst( newContainer );
 
