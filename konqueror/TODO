@@ -2,6 +2,7 @@ kio:
 ====
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL. (i.e. autodetect when passwd needed)
+- Implement KIO::link as a job
 
 kio_http:
 =========

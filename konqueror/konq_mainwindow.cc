@@ -359,11 +359,9 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
       kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req );
       if ( view )
-      {
         view->setRun( run );
-        if ( view == m_currentView )
-          startAnimation();
-      }
+      if ( view == m_currentView )
+        startAnimation();
       connect( run, SIGNAL( finished() ),
                this, SLOT( slotRunFinished() ) );
       connect( run, SIGNAL( error() ),
