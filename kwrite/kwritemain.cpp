@@ -62,7 +62,7 @@ TopLevel::TopLevel (Kate::Document *doc)
   if (!initialGeometrySet())
      resize(640,400); 
 
-  factory = KLibLoader::self()->factory( "libkatepart" );
+  factory = KLibLoader::self()->factory( "katepart" );
 
   if (!doc) {
     KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
