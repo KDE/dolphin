@@ -42,6 +42,7 @@
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <qtabbar.h>
+#include <qwhatsthis.h>
 #include <qstyle.h>
 
 #define BREAKOFF_ID 5
@@ -55,6 +56,12 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                              KonqViewManager* viewManager, const char * name)
   : KTabWidget(parent, name), m_rightWidget(0), m_leftWidget(0), m_alwaysTabBar(false)
 {
+  QWhatsThis::add( this, i18n( "This bar contains list of currently open tabs. Click on a tab to make it "
+			  "active. The option to show a close button instead of website icon in the left "
+			  "corner of the tab is configurable. You can also use keyboard shortcuts to "
+			  "navigate through tabs. The text on the tab is the title of the website "
+			  "currently open in it, put your mouse over the tab too see the full title in "
+			  "case it was truncated to fit the tab size." ) );
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
   m_pParentContainer = parentContainer;
