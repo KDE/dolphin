@@ -104,9 +104,6 @@ protected slots:
     void slotResult( KIO::Job * job );
 
 protected:
-    /** Common to slotDrop and slotDropItem */
-    virtual void dropStuff( KFileIVI *item, QDropEvent *ev );
-
     virtual void drawBackground( QPainter *p, const QRect &r );
 
     void initDragEnter( QDropEvent *e );
