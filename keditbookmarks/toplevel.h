@@ -98,7 +98,7 @@ public slots:
 
 protected slots:
     void slotItemRenamed(QListViewItem *, const QString &, int);
-    void slotMoved(QListViewItem *, QListViewItem *, QListViewItem *);
+    void slotDropped(QDropEvent* , QListViewItem* , QListViewItem* );
     void slotSelectionChanged();
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
     void slotBookmarksChanged();
@@ -108,6 +108,8 @@ protected:
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
     virtual bool queryClose();
     void fillListView();
+    void pasteData( const QString & cmdName, QMimeSource * data, const QString & insertionAddress );
+    void itemMoved(QListViewItem * item, const QString & newAddress);
 
     bool m_bModified;
     KToggleAction * m_taShowNS;

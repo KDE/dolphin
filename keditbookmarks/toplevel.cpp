@@ -90,44 +90,18 @@ public:
     KEBListView( QWidget * parent ) : KListView( parent ) {}
     virtual ~KEBListView() {}
 
-protected:
-    // KListView is no good for undoable operations. It moves stuff before telling us.
-    // Hmm, it turns out there is an alternative : disabling "items movable", asking
-    // for a drop visualizer, and reacting to the dropped() signal...
-    virtual void contentsDropEvent(QDropEvent* e)
+    virtual bool acceptDrag(QDropEvent * e) const
     {
-        cleanDropVisualizer();
+        return e->source() == viewport() || KEBDrag::canDecode( e );
+    }
 
-        if (acceptDrag (e))
-        {
-            e->accept();
-            QListViewItem *afterme;
-            QListViewItem *parent;
-            findDrop(e->pos(), parent, afterme);
+    virtual QDragObject *dragObject() const
+    {
+        if (!currentItem())
+            return 0;
 
-            // Now a simplified version of movableDropEvent
-            //movableDropEvent (parent, afterme);
-            QListViewItem * i = selectedItem();
-            ASSERT(i);
-            if (i != afterme)
-            {
-
-                // sanity check - don't move a item into it's own child structure
-                QListViewItem *chk = parent;
-                while(chk)
-                {
-                    if(chk == i)
-                        return;
-                    chk = chk->parent();
-                }
-
-
-                // Note the abuse of the 2nd argument ! Instead of "old after",
-                // I'm using it for passing the "new parent". Well, KListView
-                // should really pass both (KDE 3.0).
-                emit moved(i, parent, afterme);
-            }
-        }
+        KBookmark bk = KEBTopLevel::self()->selectedBookmark();
+        return KEBDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
     }
 };
 
@@ -153,8 +127,10 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
     m_pListView->setItemsRenameable( true );
-    m_pListView->setItemsMovable( true );
+    m_pListView->setItemsMovable( false ); // We move items ourselves (for undo)
     m_pListView->setAcceptDrops( true );
+    m_pListView->setDropVisualizer( true );
+    m_pListView->setDragEnabled( true );
     m_pListView->setAllColumnsShowFocus( true );
     m_pListView->setSorting(-1, false);
     setCentralWidget( m_pListView );
@@ -162,12 +138,14 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
              SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
-    connect( m_pListView, SIGNAL(moved (QListViewItem *, QListViewItem *, QListViewItem *)),
-             SLOT(slotMoved(QListViewItem *, QListViewItem *, QListViewItem *)) );
-    connect( m_pListView, SIGNAL(selectionChanged() ),
-             SLOT(slotSelectionChanged() ) );
+    connect( m_pListView, SIGNAL(dropped (QDropEvent* , QListViewItem* , QListViewItem* )),
+             SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
     connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
              SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
+    connect( m_pListView, SIGNAL(selectionChanged() ),
+             SLOT(slotSelectionChanged() ) );
+    connect( kapp->clipboard(), SIGNAL(dataChanged()),
+             SLOT(slotSelectionChanged() ) );
     // If someone plays with konq's bookmarks while we're open, update.
     connect( KBookmarkManager::self(), SIGNAL(changed(const QString &) ),
              SLOT( slotBookmarksChanged() ) );
@@ -410,12 +388,16 @@ void KEBTopLevel::slotCopy()
 
 void KEBTopLevel::slotPaste()
 {
-    QMimeSource *data = QApplication::clipboard()->data();
+    pasteData( i18n("Paste"), QApplication::clipboard()->data(), insertionAddress() );
+}
+
+void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const QString & insertionAddress )
+{
     if ( KEBDrag::canDecode( data ) )
     {
         KBookmark bk = KEBDrag::decode( data );
         kdDebug() << "KEBTopLevel::slotPaste url=" << bk.url() << endl;
-        CreateCommand * cmd = new CreateCommand( i18n("Paste"), insertionAddress(), bk );
+        CreateCommand * cmd = new CreateCommand( cmdName, insertionAddress, bk );
         m_commandHistory.addCommand( cmd );
     }
 }
@@ -532,23 +514,52 @@ void KEBTopLevel::slotChangeIcon()
     m_commandHistory.addCommand( cmd );
 }
 
-void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * _newParent, QListViewItem *_afterNow)
+void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListViewItem * _afterNow)
 {
-    kdDebug() << "KEBTopLevel::slotMoved _item=" << _item << " _afterNow=" << _afterNow << endl;
-    KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
+    // Calculate the address given by parent+afterme
     KEBListViewItem * newParent = static_cast<KEBListViewItem *>(_newParent);
     KEBListViewItem * afterNow = static_cast<KEBListViewItem *>(_afterNow);
     if (!_newParent) // Not allowed to drop something before the root item !
         return;
-
-    QString newAddress;
-
-    if ( afterNow )
+    QString newAddress =
+        afterNow ?
         // We move as the next child of afterNow
-        newAddress = KBookmark::nextAddress( afterNow->bookmark().address() );
-    else
+        KBookmark::nextAddress( afterNow->bookmark().address() )
+        :
         // We move as first child of newParent
-        newAddress = newParent->bookmark().address() + "/0";
+        newParent->bookmark().address() + "/0";
+
+    if (e->source() == m_pListView->viewport())
+    {
+        // Now a simplified version of movableDropEvent
+        //movableDropEvent (parent, afterme);
+        QListViewItem * i = m_pListView->selectedItem();
+        ASSERT(i);
+        if (i && i != _afterNow)
+        {
+            // sanity check - don't move a item into it's own child structure
+            QListViewItem *chk = _newParent;
+            while(chk)
+            {
+                if(chk == i)
+                    return;
+                chk = chk->parent();
+            }
+
+            //TODO if (e->action() == Copy)
+
+            itemMoved(i, newAddress);
+        }
+    } else
+    {
+        // Drop from the outside
+        pasteData( i18n("Drop items"), e, newAddress );
+    }
+}
+
+void KEBTopLevel::itemMoved(QListViewItem *_item, const QString & newAddress)
+{
+    KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
 
     QString oldAddress = item->bookmark().address();
     if ( oldAddress != newAddress )

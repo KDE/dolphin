@@ -1,8 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
 
-#include "drag.h"
-
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
    License version 2 as published by the Free Software Foundation.
@@ -89,17 +87,21 @@ KBookmark KEBDrag::decode( const QMimeSource * e )
         QDomElement elem = doc.documentElement();
         QDomNodeList children = elem.childNodes();
         ASSERT(children.count()==1);
-        return KBookmark( children.item(0)/*.cloneNode( true )*/.toElement() );
+        return KBookmark( children.item(0).toElement() );
     }
     if ( e->provides("text/uri-list") )
     {
         KURL::List m_lstDragURLs;
         if ( KURLDrag::decode( e, m_lstDragURLs ) )
         {
-            KBookmarkGroup grp;
+            QDomDocument doc("xbel");
+            QDomElement elem = doc.createElement("xbel");
+            doc.appendChild( elem );
             if ( m_lstDragURLs.count() > 1 )
                 kdWarning() << "Only first URL inserted, known limitation" << endl;
-            grp.addBookmark( m_lstDragURLs.first().prettyURL(), m_lstDragURLs.first().url() );
+            //kdDebug() << "KEBDrag::decode url=" << m_lstDragURLs.first().url() << endl;
+            KBookmarkGroup grp( elem );
+            grp.addBookmark( m_lstDragURLs.first().fileName(), m_lstDragURLs.first().url() );
             return grp.first();
         }
     }
