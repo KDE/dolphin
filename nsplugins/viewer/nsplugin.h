@@ -91,7 +91,7 @@ private:
 };
 
 
-class NSPluginInstance : QObject
+class NSPluginInstance : public QObject, public virtual NSPluginInstanceIface
 {
   Q_OBJECT
 
@@ -129,7 +129,7 @@ public:
   // window id
   int winId() { return XtWindow(_toplevel); };
 
-  NPError setWindow(bool remove=false);
+  int setWindow(int remove=0);
 
 
 signals:

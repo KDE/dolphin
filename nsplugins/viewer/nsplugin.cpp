@@ -105,7 +105,7 @@ NSPluginInstance::~NSPluginInstance()
 }
 
 
-NPError NSPluginInstance::setWindow(bool remove)
+int NSPluginInstance::setWindow(int remove)
 {
   if (remove)
     {

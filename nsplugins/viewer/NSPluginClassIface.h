@@ -38,6 +38,20 @@ k_dcop:
   virtual void DestroyInstance(int winid) = 0;
 
   virtual QString GetMIMEDescription() = 0;
+
+};
+
+
+class NSPluginInstanceIface : virtual public DCOPObject
+{
+  K_DCOP
+
+k_dcop:
+
+  virtual int winId() = 0;
+  
+  virtual int setWindow(int remove=0) = 0;
+
 };
 
 

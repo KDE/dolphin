@@ -115,8 +115,8 @@ bool PluginPart::openURL(const KURL &url)
   kDebugInfo("PluginPart::openURL");
 
   QStringList _argn, _argv;
-  _argn << "SRC";
-  _argv << url.url();
+  _argn << "SRC" << "TYPE";
+  _argv << url.url() << m_extension->urlArgs().serviceType;
   widget =  PluginFactory::loader()->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
   
   if (widget)
