@@ -73,7 +73,7 @@ private:
   QString m_groupname;
   JSPolicies js_global_policies;
   QCheckBox *enableJavaScriptGloballyCB;
-  QCheckBox *enableJavaScriptDebugCB;
+  QCheckBox *reportErrorsCB;
   JSPoliciesFrame *js_policies_frame;
   bool _removeECMADomainSettings;
 

@@ -13,7 +13,7 @@
 
 #include <qlayout.h>
 #include <qwhatsthis.h>
-#include <qvgroupbox.h>
+#include <qhgroupbox.h>
 #include <kconfig.h>
 #include <klistview.h>
 #include <kdebug.h>
@@ -42,7 +42,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
   // the global checkbox
-  QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
+  QHGroupBox* globalGB = new QHGroupBox( i18n( "Global Settings" ), this );
   toplevel->addWidget( globalGB );
 
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
@@ -52,11 +52,10 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChangeJSEnabled() ) );
 
-//  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable debu&gging" ), globalGB );
-//  QWhatsThis::add( enableJavaScriptDebugCB, i18n("Enables the reporting of errors that occur when JavaScript "
-//        "code is executed, and allows the use of the JavaScript debugger to trace through code execution. "
-//        "Note that this has a small performance impact and is mainly only useful for developers.") );
-//  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+  reportErrorsCB = new QCheckBox( i18n( "Report errors" ), globalGB );
+  QWhatsThis::add( reportErrorsCB, i18n("Enables the reporting of errors that occur when JavaScript "
+	"code is executed.") );
+  connect( reportErrorsCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
   // the domain-specific listview
   domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this);
@@ -93,17 +92,6 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   toplevel->addWidget(js_policies_frame);
   connect(js_policies_frame, SIGNAL(changed()), SLOT(slotChanged()));
 
-/*
-  kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
-  enableDebugOutputCB = new QCheckBox( i18n( "&Show debugger window" ), miscSettingsGB);
-  enableDebugOutputCB->hide();
-
-  QWhatsThis::add( enableDebugOutputCB, i18n("Show a window with informations and warnings issued by the JavaScript interpreter. "
-                                             "This is extremely useful for both debugging your own html pages and tracing down "
-                                             "problems with Konquerors JavaScript support.") );
-  connect( enableDebugOutputCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
-*/
-
   // Finally do the loading
   load();
 }
@@ -128,10 +116,8 @@ void KJavaScriptOptions::load()
     js_policies_frame->load();
     enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
-//    enableJavaScriptDebugCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScriptDebug",false));
+    reportErrorsCB->setChecked( m_pConfig->readBoolEntry("ReportJavaScriptErrors",true));
 //    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
-
-  // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
 }
 
 void KJavaScriptOptions::defaults()
@@ -139,16 +125,13 @@ void KJavaScriptOptions::defaults()
   js_policies_frame->defaults();
   enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
-//  enableJavaScriptDebugCB->setChecked( false );
- // enableDebugOutputCB->setChecked( false );
+  reportErrorsCB->setChecked( true );
 }
 
 void KJavaScriptOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
-//    m_pConfig->writeEntry( "EnableJavaScriptDebug", enableJavaScriptDebugCB->isChecked() );
-
-//    m_pConfig->writeEntry( "EnableJSDebugOutput", enableDebugOutputCB->isChecked() );
+    m_pConfig->writeEntry( "ReportJavaScriptErrors", reportErrorsCB->isChecked() );
 
     domainSpecific->save(m_groupname,"ECMADomains");
     js_policies_frame->save();
