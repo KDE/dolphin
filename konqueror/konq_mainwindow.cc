@@ -599,6 +599,10 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
 
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
+
+      // Never start in external browser
+      run->setEnableExternalBrowser(false);
+
       if ( view )
         view->setRun( run );
       else if ( !req.newTab )
