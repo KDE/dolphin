@@ -1,14 +1,14 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="KonqIconView">
 <MenuBar>
- <Menu name="edit_menu">
+ <Menu name="edit">
   <Action name="select"/>
   <Action name="unselect"/>
   <Action name="selectall"/>
   <Action name="unselectall"/>
   <Action name="invertselection"/>
  </Menu>
- <Menu name="view_menu">
+ <Menu name="view">
   <Action name="image_preview"/>
   <Action name="show_dot"/>
   <Menu name="iconview_sort"><text>Sort...</text>

@@ -806,9 +806,9 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       }
 
       enableAllActions( true ); // can't we rely on setActiveView to do the right thing ? (David)
-      
+
       m_pViewManager->setActivePart( view );
-      
+
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
@@ -1511,13 +1511,13 @@ void KonqMainView::initActions()
   m_paPrint = KStdAction::print( 0L, 0, actionCollection(), "print" );
 
   // Edit menu
-  m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit_menu" );
+  m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit" );
 
   //  connect( m_pamEdit->popupMenu(), SIGNAL( aboutToShow() ),
   //           this, SLOT( slotMenuEditAboutToShow() ) );
 
   // View menu
-  m_pamView = new KActionMenu( i18n( "&View" ), actionCollection(), "view_menu" );
+  m_pamView = new KActionMenu( i18n( "&View" ), actionCollection(), "view" );
 
   QPopupMenu *popup = m_pamView->popupMenu();
 
@@ -1616,7 +1616,7 @@ void KonqMainView::initActions()
   m_paStop->plug( popup );
 
   // Bookmarks menu
-  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks_menu" );
+  m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
 
   //TODO: merge with the above stuff

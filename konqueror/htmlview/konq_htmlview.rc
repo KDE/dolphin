@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="KonqHTMLView">
 <MenuBar>
- <Menu name="view_menu">
+ <Menu name="view">
   <Action name="viewDocumentSource"/>
   <Action name="viewFrameSource"/>
   <Action name="saveBackground"/>

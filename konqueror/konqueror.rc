@@ -1,6 +1,6 @@
 <!DOCTYPE QConfig ><QConfig name="Konqueror">
 <MenuBar>
- <Menu name="File"><text>&amp;File</text>
+ <Menu name="file"><text>&amp;File</text>
   <Action name="new_menu"/>
   <Action name="new_window"/>
   <Separator/>
@@ -13,7 +13,7 @@
   <Separator/>
   <Action name="konqueror_shell_close"/>
  </Menu>
- <Menu name="edit_menu"><text>&amp;Edit</text>
+ <Menu name="edit"><text>&amp;Edit</text>
   <Action name="cut"/>
   <Action name="copy"/>
   <Action name="paste"/>
@@ -22,7 +22,7 @@
   <Separator/>
   <Merge/>
  </Menu>
- <Menu name="view_menu"><text>&amp;View</text>
+ <Menu name="view"><text>&amp;View</text>
   <Merge name="viewmode"/>
   <Separator/>
   <Action name="usehtml"/>
@@ -32,7 +32,7 @@
   <Separator/>
   <Merge/>
  </Menu>
- <Menu name="Go"><text>&amp;Go</text>
+ <Menu name="go"><text>&amp;Go</text>
   <Action name="up"/>
   <Action name="back"/>
   <Action name="forward"/>
@@ -44,8 +44,8 @@
   <Action name="applications"/>
   <Action name="dirtree"/>
  </Menu>
- <Action name="bookmarks_menu"/>
- <Menu name="Options"><text>&amp;Options</text>
+ <Action name="bookmarks"/>
+ <Menu name="options"><text>&amp;Options</text>
   <Action name="showmenubar"/>
   <Action name="showstatusbar"/>
   <Action name="showtoolbar"/>
@@ -59,7 +59,7 @@
   <Action name="configurefiletypes"/>
   <Action name="configurenetwork"/>
  </Menu>
- <Menu name="Window"><text>&amp;Window</text>
+ <Menu name="window"><text>&amp;Window</text>
   <Action name="splitviewh"/>
   <Action name="splitviewv"/>
   <Action name="splitwindowh"/>
@@ -73,7 +73,7 @@
  </Menu>
  <Merge/>
  <Separator/>
- <Menu name="Help"><text>&amp;Help</text>
+ <Menu name="help"><text>&amp;Help</text>
   <Action name="about"/>
   <Action name="reportbug"/>
   <Separator/>
