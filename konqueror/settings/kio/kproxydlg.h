@@ -10,12 +10,11 @@
 #ifndef __KPROXYDLG_H
 #define __KPROXYDLG_H "$Id"
 
-#include <qdialog.h>
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QCheckBox;
+class QSpinBox;
 
 #include <kcmodule.h>
 
@@ -41,13 +40,13 @@ Q_OBJECT
     QLabel *lb_ftp_url;		// label ftp url
     QLineEdit *le_ftp_url;	// lineedit ftp url
     QLabel *lb_ftp_port;	// and so on :)
-    QLineEdit *le_ftp_port;
+    QSpinBox *sb_ftp_port;
 
     // http proxy fields
     QLabel *lb_http_url;
     QLineEdit *le_http_url;
     QLabel *lb_http_port;
-    QLineEdit *le_http_port;  
+    QSpinBox *sb_http_port;  
 
     // "no proxy for" fields
     QLabel *lb_no_prx;
@@ -55,11 +54,11 @@ Q_OBJECT
 
     // Maximum Cache Size
     QLabel *lb_max_cache_size;
-    QLineEdit *le_max_cache_size;
+    QSpinBox *sb_max_cache_size;
 
     // Maximum Cache Age
     QLabel *lb_max_cache_age;
-    QLineEdit *le_max_cache_age;
+    QSpinBox *sb_max_cache_age;
 
     // copy down butto
     QPushButton *cp_down;
