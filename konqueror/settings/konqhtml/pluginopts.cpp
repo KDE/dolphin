@@ -74,7 +74,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     /**************************************************************************
      ********************* Domain-specific Settings ***************************
      *************************************************************************/
-    QPushButton *domainSpecPB = new QPushButton(i18n("Domain-Specific Settin&gs..."),
+    QPushButton *domainSpecPB = new QPushButton(i18n("Domain-Specific Settin&gs"),
     						globalGB);
     domainSpecPB->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     connect(domainSpecPB,SIGNAL(clicked()),SLOT(slotShowDomainDlg()));
