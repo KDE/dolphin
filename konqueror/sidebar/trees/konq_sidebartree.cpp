@@ -612,6 +612,7 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     // Here's where we need to create the right module...
     // ### TODO: make this KTrader/KLibrary based.
     QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
+    if (moduleName.isEmpty()) moduleName="Directory";
     kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
 
     getModule func;
