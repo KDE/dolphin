@@ -134,7 +134,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 #endif
 
   pb_down = new QPushButton( this );
-  pb_down->setPixmap( BarIcon("down") );
+  pb_down->setPixmap( BarIcon("down", KIcon::SizeSmall) );
   pb_down->setFixedSize(20,20);
   QWhatsThis::add( pb_down, i18n("Click this button to copy the values for the HTTP proxy"
     " server to the fields for the FTP proxy server, if you have one proxy for both protocols.") );
