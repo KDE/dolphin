@@ -552,6 +552,14 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest req )
 {
+  // TODO: Replace KURL() with referring URL
+  if ( !kapp->authorizeURLAction("open", KURL(), _url) )
+  {
+     QString msg = KIO::buildErrorString(KIO::ERR_ACCESS_DENIED, _url.prettyURL());
+     KMessageBox::queuedMessageBox( this, KMessageBox::Error, msg );
+     return true; // Nothing else to do.
+  }
+
   if ( KonqRun::isExecutable( serviceType ) )
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
