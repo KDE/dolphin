@@ -18,7 +18,6 @@
 #include <qpushbutton.h>
 #include <qcolor.h>
 #include <stdio.h>
-#include <qevent.h>
 #include <qstring.h>
 #include <qdir.h>
 #include <qkeycode.h>

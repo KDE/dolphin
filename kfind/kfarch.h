@@ -7,6 +7,9 @@
 #include <qstring.h>
 #include <qstrlist.h>
 
+#ifndef _KFARCH_H_
+#define _KFARCH_H_
+
 class KfArchiver
 {
 public:
@@ -95,3 +98,6 @@ protected:
   QString arOnUpdate;
   QStrList arPattern;  
 };
+
+#endif
+

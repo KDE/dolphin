@@ -4,8 +4,8 @@
  *
  **********************************************************************/
 
-#ifndef KFWITGETS_H
-#define KFWIDGETS_H
+#ifndef _KFOPTIONS_H_
+#define _KFOPTIONS_H_
 
 #include <klocale.h>
 

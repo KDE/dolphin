@@ -4,6 +4,9 @@
  *
  **********************************************************************/
 
+#ifndef _KFSAVE_H_
+#define _KFSAVE_H_
+
 class KfSaveOptions
 {
 public:
@@ -41,3 +44,5 @@ private:
   // If TRUE the results will be saved to file ~/.kfind-results.html
   bool saveStandard;
 };
+
+#endif

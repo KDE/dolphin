@@ -32,6 +32,7 @@
 #include <qmessagebox.h>
 #include <qdir.h>
 #include <qclipboard.h>
+#include <qevent.h>
 #include <kfiledialog.h>
 
 #include <kdebug.h>

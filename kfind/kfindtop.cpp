@@ -20,7 +20,6 @@
 #include <qkeycode.h>
 #include <qaccel.h>
 
-#include <kwm.h>
 #include "kfoptions.h"
 #include "kftabdlg.h"
 #include "kfind.h"
