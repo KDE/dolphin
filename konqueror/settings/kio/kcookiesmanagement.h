@@ -73,7 +73,7 @@ public:
     virtual QString quickHelp() const;
 
 private slots:
-    void slotChanged();
+    void configChanged();
     void deleteCookie();
     void deleteAllCookies();
     void getDomains();

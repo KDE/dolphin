@@ -35,8 +35,7 @@
 #include <klistview.h>
 #include <klocale.h>
 #include <kconfig.h>
-#include <kdebug.h>
-#include <dcopclient.h>
+#include <dcopref.h>
 
 #include "ksaveioconfig.h"
 
@@ -50,87 +49,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
 
     dlg = new KCookiesPolicyDlgUI (this);
     mainLayout->addWidget(dlg);
-
-    QWhatsThis::add( dlg->cbEnableCookies, i18n("Enable cookie support. Normally "
-                                            "you will want to have cookie support "
-                                            "enabled and customize it to suit your "
-                                            "privacy needs.<p>Please note that "
-                                            "disabling cookie support might make "
-                                            "many web sites unbrowsable.") );
-
-    QWhatsThis::add( dlg->cbRejectCrossDomainCookies,
-                     i18n("Reject the so called third-party cookies. These "
-                          "are cookies that originate from a site other than "
-                          "the one you are currently browsing. For example, if "
-                          "you visit www.foobar.com while this option is on, "
-                          "only cookies that originate from www.foobar.com "
-                          "will be processed per your settings. Cookies from "
-                          "any other site will be rejected. This reduces the "
-                          "chances of site operators compiling a profile about "
-                          "your daily browsing habits.") );
-
-    QWhatsThis::add( dlg->cbAutoAcceptSessionCookies,
-                     i18n("Automatically accept temporary cookies meant to "
-                          "expire at the end of the current session. Such "
-                          "cookies will not be stored in your computer's "
-                          "hard drive or storage device. Instead, they are "
-                          "deleted when you close all applications (e.g. "
-                          "your browser) that use them."
-                          "<p><u>NOTE:</u> Checking this option along with the next "
-                          "one will override your default as well as site "
-                          "specific cookie policies. However, doing so also "
-                          "increases your privacy since all cookies will be "
-                          "removed when the current session ends.") );
-
-    QWhatsThis::add( dlg->cbIgnoreCookieExpirationDate,
-                     i18n("Treat all cookies as session cookies. Session "
-                          "cookies are small pieces of data that are temporarily "
-                          "stored in your computer's memory until you quit or "
-                          "close all applications (e.g. your browser) that "
-                          "use them. Unlike regular cookies, session "
-                          "cookies are never stored on your hard drive or "
-                          "other storage medium."
-                          "<p><u>NOTE:</u> Checking this option along with the "
-                          "previous one will override your default as well "
-                          "as site specific cookie policies. However, doing "
-                          "so also increases your privacy since all cookies "
-                          "will be removed when the current session ends.") );
-
-    QWhatsThis::add( dlg->bgDefault,
-                     i18n("Determines how cookies received from a remote "
-                          "machine will be handled: "
-                          "<ul><li><b>Ask</b> will cause KDE to ask for your "
-                          "confirmation whenever a server wants to set a cookie."
-                          "</li><li><b>Accept</b> will cause cookies to be "
-                          "accepted without prompting you.</li><li><b>Reject</b> "
-                          "will cause the cookiejar to refuse all cookies it "
-                          "receives.</li></ul>"
-                          "<p><u>NOTE:</u> Domain specific policies, which can be set "
-                          "below, always take precedence over the default policy.") );
-
-
-    dlg->lvDomainPolicy->addColumn(i18n("Domain"));
-    dlg->lvDomainPolicy->addColumn(i18n("Policy"), 100);
-
-    QString wtstr = i18n("Domains for which you have set a specific cookie "
-                         "policy. These specific policies override the default "
-                         "policy setting for the given site(s).");
-
-    QWhatsThis::add( dlg->lvDomainPolicy, wtstr );
-    QWhatsThis::add( dlg->gbDomainSpecific, wtstr );
-
-    connect( dlg->pbNew, SIGNAL(clicked()), SLOT( addPressed() ) );
-    connect( dlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
-    connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
-    connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
-
-    QWhatsThis::add( dlg->gbDomainSpecific, i18n("To add a new policy, simply click on the <i>Add...</i> "
-                                             "button and supply the necessary information. To change an "
-                                             "existing policy, click on the <i>Change...</i> button and "
-                                             "choose the new policy from the policy dialog box. Clicking "
-                                             "on the <i>Delete</i> button will remove the selected policy "
-                                             "causing the default policy setting to be used for that "
-                                             "domain.") );
+    
     load();
 }
 
@@ -138,22 +57,23 @@ KCookiesPolicies::~KCookiesPolicies()
 {
 }
 
-void KCookiesPolicies::emitChanged ()
+void KCookiesPolicies::configChanged ()
 {
-    setChanged ( true );
+  //kdDebug() << "KCookiesPolicies::configChanged..." << endl;
+  setChanged((d_configChanged=true));
 }
 
 void KCookiesPolicies::cookiesEnabled( bool enable )
 {
-    dlg->bgDefault->setEnabled( enable );
-    dlg->bgPreferences->setEnabled ( enable );
-    dlg->gbDomainSpecific->setEnabled( enable );
-
-    if (enable)
-    {
-      ignoreCookieExpirationDate ( enable );
-      autoAcceptSessionCookies ( enable );
-    }
+  dlg->bgDefault->setEnabled( enable );
+  dlg->bgPreferences->setEnabled ( enable );
+  dlg->gbDomainSpecific->setEnabled( enable );
+  
+  if (enable)
+  {
+    ignoreCookieExpirationDate ( enable );
+    autoAcceptSessionCookies ( enable );
+  }
 }
 
 void KCookiesPolicies::ignoreCookieExpirationDate ( bool enable )
@@ -171,7 +91,7 @@ void KCookiesPolicies::autoAcceptSessionCookies ( bool enable )
   enable = (enable && isIgnoreExpirationChecked);
 
   dlg->bgDefault->setEnabled( !enable );
-  dlg->gbDomainSpecific->setEnabled( !enable );
+  dlg->gbDomainSpecific->setEnabled( !enable );  
 }
 
 void KCookiesPolicies::addNewPolicy(const QString& domain)
@@ -191,11 +111,11 @@ void KCookiesPolicies::addNewPolicy(const QString& domain)
 
     if ( !handleDuplicate(domain, advice) )
     {
-        const char* strAdvice = KCookieAdvice::adviceToStr(advice);
-        QListViewItem* index = new QListViewItem (dlg->lvDomainPolicy,
-                                                  domain, i18n(strAdvice));
-        m_pDomainPolicy.insert (index, strAdvice);
-        changed( true );
+      const char* strAdvice = KCookieAdvice::adviceToStr(advice);
+      QListViewItem* index = new QListViewItem (dlg->lvDomainPolicy,
+                                                domain, i18n(strAdvice));
+      m_pDomainPolicy.insert (index, strAdvice);
+      configChanged();
     }
   }
 }
@@ -228,7 +148,7 @@ void KCookiesPolicies::changePressed()
       m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
       index->setText(0, newDomain);
       index->setText(1, i18n(m_pDomainPolicy[index]) );
-      changed( true );
+      configChanged();
     }
   }
 }
@@ -251,7 +171,7 @@ bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
         m_pDomainPolicy[item]= KCookieAdvice::adviceToStr(advice);
         item->setText(0, domain);
         item->setText(1, i18n(m_pDomainPolicy[item]));
-        changed( true );
+        configChanged();
         return true;
       }
       else
@@ -288,7 +208,7 @@ void KCookiesPolicies::deletePressed()
     dlg->lvDomainPolicy->setSelected (nextItem, true);
 
   updateButtons();
-  changed( true );
+  configChanged();
 }
 
 void KCookiesPolicies::deleteAllPressed()
@@ -296,7 +216,7 @@ void KCookiesPolicies::deleteAllPressed()
   m_pDomainPolicy.clear();
   dlg->lvDomainPolicy->clear();
   updateButtons();
-  changed( true );
+  configChanged();
 }
 
 void KCookiesPolicies::updateButtons()
@@ -345,8 +265,9 @@ void KCookiesPolicies::selectionChanged ()
 void KCookiesPolicies::load()
 {
   d_itemsSelected = 0;
-
-  KConfig cfg ("kcookiejarrc");
+  d_configChanged = false;
+  
+  KConfig cfg ("kcookiejarrc", true);
   cfg.setGroup ("Cookie Policy");
 
   bool enableCookies = cfg.readBoolEntry("Cookies", true);
@@ -387,23 +308,25 @@ void KCookiesPolicies::load()
 
   // Connect the main swicth :) Enable/disable cookie support
   connect( dlg->cbEnableCookies, SIGNAL( toggled(bool) ),
-           SLOT( cookiesEnabled(bool) ) );
-  connect( dlg->cbEnableCookies, SIGNAL( clicked() ), SLOT( emitChanged() ) );
+           SLOT( cookiesEnabled(bool) ) );  
+  connect( dlg->cbEnableCookies, SIGNAL( toggled(bool) ),
+           SLOT( configChanged() ) );  
 
   // Connect the preference check boxes...
-  connect( dlg->cbRejectCrossDomainCookies, SIGNAL( clicked() ),
-           SLOT( emitChanged() ) );
-  connect( dlg->cbAutoAcceptSessionCookies, SIGNAL( clicked() ),
-           SLOT( emitChanged() ) );
-  connect( dlg->cbIgnoreCookieExpirationDate, SIGNAL( clicked() ),
-           SLOT( emitChanged() ) );
+  connect ( dlg->cbRejectCrossDomainCookies, SIGNAL(clicked()),
+            SLOT(configChanged()));
+  connect ( dlg->cbAutoAcceptSessionCookies, SIGNAL(toggled(bool)),
+            SLOT(configChanged()));
+  connect ( dlg->cbIgnoreCookieExpirationDate, SIGNAL(toggled(bool)),
+            SLOT(configChanged()));
+           
   connect ( dlg->cbAutoAcceptSessionCookies, SIGNAL(toggled(bool)),
             SLOT(autoAcceptSessionCookies(bool)));
   connect ( dlg->cbIgnoreCookieExpirationDate, SIGNAL(toggled(bool)),
             SLOT(ignoreCookieExpirationDate(bool)));
 
   // Connect the default cookie policy radio buttons...
-  connect(dlg->bgDefault, SIGNAL(clicked(int)), SLOT(emitChanged()));
+  connect(dlg->bgDefault, SIGNAL(clicked(int)), SLOT(configChanged()));
 
   // Connect signals from the domain specific policy listview.
   connect( dlg->lvDomainPolicy, SIGNAL(selectionChanged()),
@@ -412,12 +335,19 @@ void KCookiesPolicies::load()
            SLOT(changePressed() ) );
   connect( dlg->lvDomainPolicy, SIGNAL(returnPressed ( QListViewItem * )),
            SLOT(changePressed() ) );
+           
+  // Connect the buttons...
+  connect( dlg->pbNew, SIGNAL(clicked()), SLOT( addPressed() ) );
+  connect( dlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
+  connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
+  connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );           
 }
 
 void KCookiesPolicies::save()
 {
-  QString advice;
-  QStringList domainConfig;
+  // If nothing changed, ignore the save request.
+  if (!d_configChanged)
+    return;
 
   KConfig cfg ( "kcookiejarrc" );
   cfg.setGroup( "Cookie Policy" );
@@ -431,7 +361,7 @@ void KCookiesPolicies::save()
   state = dlg->cbIgnoreCookieExpirationDate->isChecked();
   cfg.writeEntry( "IgnoreExpirationDate", state );
 
-
+  QString advice;
   if (dlg->rbPolicyAccept->isChecked())
       advice = KCookieAdvice::adviceToStr(KCookieAdvice::Accept);
   else if (dlg->rbPolicyReject->isChecked())
@@ -441,8 +371,9 @@ void KCookiesPolicies::save()
 
   cfg.writeEntry("CookieGlobalAdvice", advice);
 
-
+  QStringList domainConfig;
   QListViewItem *at = dlg->lvDomainPolicy->firstChild();
+  
   while( at )
   {
     domainConfig.append(QString::fromLatin1("%1:%2").arg(KIDNA::toAscii(at->text(0))).arg(m_pDomainPolicy[at]));
@@ -453,28 +384,18 @@ void KCookiesPolicies::save()
   cfg.sync();
 
   // Update the cookiejar...
-  DCOPClient *m_dcopClient = new DCOPClient();
-  if( !m_dcopClient->attach() )
-    kdDebug(7104) << "Can't connect with the DCOP server." << endl;
+  if (!dlg->cbEnableCookies->isChecked())
+    (void)DCOPRef("kded", "kcookiejar").send("shutdown");
   else
   {
-    if( dlg->cbEnableCookies->isChecked() )
-     {
-        if ( !m_dcopClient->send ("kded", "kcookiejar", "reloadPolicy()",
-                                  QString::null) )
-           kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
-     }
-     else
-     {
-        if ( !m_dcopClient->send ("kded", "kcookiejar", "shutdown()",
-                                  QString::null) )
-           kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
-     }
+    if (!DCOPRef("kded", "kcookiejar").send("reloadPolicy"))
+      KMessageBox::sorry(0, i18n("Unable to communicate with the cookie handler service.\n"
+                                 "Any changes you made will not take effect until the service "
+                                 "is restarted."));
   }
-  delete m_dcopClient;
-
+  
+  // Force running io-slave to reload configurations...
   KSaveIOConfig::updateRunningIOSlaves (this);
-
   setChanged( false );
 }
 

@@ -55,7 +55,7 @@ protected slots:
     void autoAcceptSessionCookies ( bool );
     void ignoreCookieExpirationDate ( bool );
     void cookiesEnabled( bool );
-    void emitChanged();
+    void configChanged();
 
     void selectionChanged();
     void updateButtons();
@@ -73,6 +73,7 @@ private:
 
 private:
     int d_itemsSelected;
+    bool d_configChanged;
     KCookiesPolicyDlgUI* dlg;
     QMap<QListViewItem*, const char*> m_pDomainPolicy;
 };

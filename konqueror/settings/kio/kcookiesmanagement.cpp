@@ -2,8 +2,6 @@
  * kcookiesmanagement.cpp - Cookies manager
  *
  * Copyright 2000-2001 Marco Pinelli <pinmc@orion.it>
- *
- * Contributors:
  * Copyright (c) 2000-2001 Dawit Alemayehu <adawit@kde.org>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -105,9 +103,6 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
 
   dlg = new KCookiesManagementDlgUI (this);
   mainLayout->addWidget(dlg);
-
-  dlg->lvCookies->addColumn(i18n("Domain [Group]"));
-  dlg->lvCookies->addColumn(i18n("Host [Set By]"));
   dlg->lvCookies->setSorting(0);
 
   connect(dlg->lvCookies, SIGNAL(expanded(QListViewItem*)), SLOT(getCookies(QListViewItem*)) );
@@ -234,14 +229,15 @@ QString KCookiesManagement::quickHelp() const
   return i18n("<h1>Cookies Management Quick Help</h1>" );
 }
 
-void KCookiesManagement::slotChanged()
+void KCookiesManagement::configChanged()
 {
+  kdDebug() << "Config changed..." << endl;
   setChanged(true);
 }
 
 void KCookiesManagement::getDomains()
 {
-  DCOPReply reply = DCOPRef("kded", "kcookiejar").call("findDomains()");
+  DCOPReply reply = DCOPRef("kded", "kcookiejar").call("findDomains");
 
   if(reply.isValid())
   {
@@ -443,7 +439,7 @@ void KCookiesManagement::deleteCookie()
   dlg->pbDeleteAll->setEnabled(dlg->lvCookies->childCount());
   dlg->pbPolicy->setEnabled(dlg->lvCookies->selectedItem());
 
-  slotChanged();
+  configChanged();
 }
 
 void KCookiesManagement::deleteAllCookies()
@@ -453,7 +449,7 @@ void KCookiesManagement::deleteAllCookies()
   dlg->pbDelete->setEnabled(false);
   dlg->pbDeleteAll->setEnabled(false);
   dlg->pbPolicy->setEnabled(false);
-  slotChanged();
+  configChanged();
 }
 
 #include "kcookiesmanagement.moc"
