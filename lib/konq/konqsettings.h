@@ -85,8 +85,8 @@ public:
   bool underlineLink() { return m_underlineLink; }
 
   // Font settings
-  const char* stdFontName() { return m_strStdFontName; }
-  const char* fixedFontName() { return m_strFixedFontName; }
+  const QString& stdFontName() { return m_strStdFontName; }
+  const QString& fixedFontName() { return m_strFixedFontName; }
   int fontSize() { return m_iFontSize; }
 
   // Color settings
