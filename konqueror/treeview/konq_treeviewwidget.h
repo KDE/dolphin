@@ -156,6 +156,8 @@ protected:
    * and all files found will be created under this directory item.
    */
   KonqTreeViewDir* m_pWorkingDir;
+  // Cache, for findDir
+  KonqTreeViewDir* m_lasttvd;
 
   bool m_bTopLevelComplete;
   bool m_bSubFolderComplete;

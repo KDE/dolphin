@@ -63,6 +63,7 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWid
   m_stdCursor          = KCursor().arrowCursor();
   m_overItem           = 0L;
   m_dirLister          = 0L;
+  m_lasttvd            = 0L;
 
   // Create a properties instance for this view
   // (copying the default values)
@@ -232,6 +233,7 @@ void KonqTreeViewWidget::addSubDir( const KURL & _url, KonqTreeViewDir* _dir )
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
+  m_lasttvd = 0L; // drop cache, to avoid segfaults
   m_mapSubDirs.remove( _url.url() );
 
   if ( _url.isLocalFile() )
@@ -806,12 +808,10 @@ void KonqTreeViewWidget::focusInEvent( QFocusEvent* _event )
   QListView::focusInEvent( _event );
 }
 
-static KonqTreeViewDir * lasttvd = 0L;
-
 KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
 {
-  if ( lasttvd && urlcmp( lasttvd->url(0), _url, true, true ) )
-    return lasttvd;
+  if ( m_lasttvd && urlcmp( m_lasttvd->url(0), _url, true, true ) )
+    return m_lasttvd;
 
   QDictIterator<KonqTreeViewDir> it( m_mapSubDirs );
   for( ; it.current(); ++it )
@@ -819,7 +819,7 @@ KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
     debug( it.current()->url(0) );
     if ( urlcmp( it.current()->url(0), _url, true, true ) )
       {
-        lasttvd = it.current();
+        m_lasttvd = it.current();
         return it.current();
       }
   }
