@@ -7,13 +7,13 @@
 
 
 #include "kcookiesmain.h"
-//#include "ksmboptdlg.h"
+#include "netpref.h"
 #include "smbrodlg.h"
 #include "useragentdlg.h"
 #include "kproxydlg.h"
 
 
-extern "C" 
+extern "C"
 {
 
   KCModule *create_cookie(QWidget *parent, const char *name)
@@ -41,4 +41,9 @@ extern "C"
     return new KProxyOptions(parent, name);
   };
 
+  KCModule *create_netpref(QWidget *parent, const char *name)
+  {
+    KGlobal::locale()->insertCatalogue("kcmkio");
+    return new KIOPreferences(parent, name);
+  };
 }

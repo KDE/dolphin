@@ -1,0 +1,12 @@
+[Desktop Entry]
+Comment=Configure generic network preferences such timeout values
+Exec=kcmshell netpref
+Icon=socket
+Keywords=timeout, iopref, netpref, network preferences
+Name=Preferences
+Type=Application
+X-KDE-FactoryName=netpref
+X-KDE-Library=kio
+X-KDE-ModuleType=Library
+X-KDE-SubstituteUID=false
+
