@@ -20,9 +20,6 @@ int main( int argc, char ** argv )
 
     KApplication app( argc, argv, "kfind" );
 
-    // insert application toolbar dir in resource "toolbar" (Michael)
-    KGlobal::dirs()->addResourceType( "toolbar", KStandardDirs::kde_default("data") + "kfind/toolbar/");
-  
     //Scan for saving options in kfind resource file
     saving = new KfSaveOptions();
 
