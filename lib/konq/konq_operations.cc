@@ -581,7 +581,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
     {
         KURL::List lst;
         lst.append(oldurl);
-        KIO::Job * job = KIO::moveAs( oldurl, newurl );
+        KIO::Job * job = KIO::moveAs( oldurl, newurl, !oldurl.isLocalFile() );
         KonqOperations * op = new KonqOperations( parent );
         op->setOperation( job, MOVE, lst, newurl );
         (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
