@@ -398,7 +398,7 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 {
   setTabColor( newPage, KGlobalSettings::textColor() );
-  KonqFrameBase* currentFrame = dynamic_cast<KonqFrameBase*>(newPage);
+  KonqFrameBase* currentFrame = static_cast<KonqFrame*>(newPage);
 
   if (!m_pViewManager->isLoadingProfile()) {
     m_pActiveChild = currentFrame;
@@ -434,7 +434,7 @@ void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
   m_pPopupMenu->setItemEnabled( CLOSETAB_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( CLOSE_OTHER_ID, m_pChildFrameList->count()>1 );
-  m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+  m_pViewManager->mainWindow()->setWorkingTab( static_cast<KonqFrame*>(w) );
   refreshSubPopupMenuTab();
   m_pPopupMenu->exec( p );
 }
@@ -461,7 +461,7 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
   if ( m_pChildFrameList->count()>1 ) {
-    m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+    m_pViewManager->mainWindow()->setWorkingTab( static_cast<KonqFrame*>(w) );
     emit ( removeTabPopup() );
   }
 }
@@ -489,7 +489,7 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
   QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
   KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
   if ( !filteredURL.isEmpty() ) {
-    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
+    KonqFrameBase* frame = static_cast<KonqFrame*>(w);
     m_pViewManager->mainWindow()->openURL( frame->activeChildView(), filteredURL );
   }
 }
@@ -532,7 +532,7 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
   KURL::List lstDragURLs;
   bool ok = KURLDrag::decode( e, lstDragURLs );
   if ( ok && lstDragURLs.first().isValid() ) {
-    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
+    KonqFrameBase* frame = static_cast<KonqFrame*>(w);
     KURL lstDragURL = lstDragURLs.first();
     if ( lstDragURL != frame->activeChildView()->url() )
       m_pViewManager->mainWindow()->openURL( frame->activeChildView(), lstDragURL );
@@ -541,7 +541,7 @@ void KonqFrameTabs::slotReceivedDropEvent( QWidget *w, QDropEvent *e )
 
 void KonqFrameTabs::slotInitiateDrag( QWidget *w )
 {
-   KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>( w );
+   KonqFrameBase* frame = static_cast<KonqFrame*>( w );
    KURL::List lst;
    lst.append( frame->activeChildView()->url() );
    KURLDrag *d = new KURLDrag( lst, this );
