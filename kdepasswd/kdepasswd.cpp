@@ -7,15 +7,14 @@
  */
 
 #include <config.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
 
-#include <kapplication.h>
+#include <kuniqueapplication.h>
 #include <klocale.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <kmessagebox.h>
+#include <kuser.h>
+#include <kdebug.h>
 
 #include "passwd.h"
 #include "passwddlg.h"
@@ -37,16 +36,26 @@ int main(int argc, char **argv)
  
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
+    KUniqueApplication::addCmdLineOptions();
+
+
+    if (!KUniqueApplication::start()) {
+	kdDebug() << "kdepasswd is already running" << endl;
+	return 0;
+    }
+
+    KUniqueApplication app;
+
+    KUser ku;
+    QCString user;
+    bool bRoot = ku.isSuperUser();
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    KApplication app;
-    bool bRoot = (getuid() == 0);
-
-    QCString user;
     if (args->count())
 	user = args->arg(0);
 
-    if (!user.isEmpty() && !bRoot)
+    /* You must be able to run "kdepasswd loginName" */
+    if ( !user.isEmpty() && user!=KUser().loginName().utf8() && !bRoot)
     {
         KMessageBox::sorry(0, i18n("You need to be root to change the password of other users."));
         return 0;
@@ -57,10 +66,12 @@ int main(int argc, char **argv)
     {
         int result = KDEpasswd1Dialog::getPassword(oldpass);
         if (result != KDEpasswd1Dialog::Accepted)
-	    exit(0);
+	    return 0;
     }
 
     KDEpasswd2Dialog *dlg = new KDEpasswd2Dialog(oldpass, user);
+
+
     dlg->exec();
 
     return 0;
