@@ -3,7 +3,6 @@
 #define __KonquerorIface_h__
 
 #include <dcopobject.h>
-#include <dcopref.h>
 
 class KonquerorIface : virtual public DCOPObject
 {
