@@ -137,7 +137,7 @@ public slots:
   void slotConfigureKeys();
   void slotConfigureToolbars();
 
-  void slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
+  void slotViewChanged( KonqChildView *childView, KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
   void slotRunFinished();
 
@@ -166,10 +166,6 @@ public:
 
   int viewCount() const { return m_mapViews.count(); }
   int activeViewsCount() const;
-
-  // It is recommended to use @ref viewMap instead
-  // (the list has to be built from the map...)
-  //QValueList<KParts::ReadOnlyPart *> viewList() const;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 

@@ -188,7 +188,7 @@ void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
   slotDisplayStatusText( sizeStr ); // let's share the same label...
 }
 
-void KonqFrameStatusBar::slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
+void KonqFrameStatusBar::slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
 {
    if (newOne!=0)
       connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
@@ -305,7 +305,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 
    attachInternal();
 
-   m_pStatusBar->slotConnectToNewView(0,m_pView);
+   m_pStatusBar->slotConnectToNewView(0, 0,m_pView);
    return m_pView;
 }
 
@@ -346,8 +346,8 @@ void KonqFrame::setChildView( KonqChildView* child )
    m_pChildView = child;
    if (m_pChildView)
    {
-     connect(m_pChildView,SIGNAL(sigViewChanged(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
-             m_pStatusBar,SLOT(slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
+     connect(m_pChildView,SIGNAL(sigViewChanged(KonqChildView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
+             m_pStatusBar,SLOT(slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
      //connect(m_pChildView->view(),SIGNAL(setStatusBarText(const QString &)),
      //m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
    }

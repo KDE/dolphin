@@ -134,7 +134,7 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
 
   if ( oldView )
   {
-    emit sigViewChanged( oldView, m_pView );
+    emit sigViewChanged( this, oldView, m_pView );
 
     delete oldView;
     //    closeMetaView(); I think this is not needed (Simon)

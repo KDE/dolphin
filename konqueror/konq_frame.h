@@ -87,7 +87,7 @@ class KonqFrameStatusBar : public QWidget
       void hideStuff();
 
    public slots:
-      void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
+      void slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
 

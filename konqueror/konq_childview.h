@@ -223,7 +223,7 @@ signals:
   /**
    * Signal the main view that our id changed (e.g. because of changeViewMode)
    */
-  void sigViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
+  void sigViewChanged( KonqChildView *childView, KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
 public slots:
   /**

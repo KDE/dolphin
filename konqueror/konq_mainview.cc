@@ -666,18 +666,14 @@ void KonqMainView::slotConfigureToolbars()
   edit.exec();
 }
 
-void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
+void KonqMainView::slotViewChanged( KonqChildView *childView, KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
 {
   m_mapViews.remove( oldView );
-  m_mapViews.insert( newView, (KonqChildView *)sender() );
+  m_mapViews.insert( newView, childView );
 
-  if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
-  {
-    // Call the partmanager implementation (the one that only removes the part
-    // from its internal list. We don't want to destroy the child view
-    m_pViewManager->KParts::PartManager::removePart( oldView ); // XXX why only if current view ??? (David)
-    updateStatusBar();
-  }
+  // Call the partmanager implementation (the one that only removes the part
+  // from its internal list. We don't want to destroy the child view
+  m_pViewManager->KParts::PartManager::removePart( oldView );
 
   // Add the new part to the manager
   m_pViewManager->addPart( newView, true );
@@ -1443,9 +1439,7 @@ void KonqMainView::initActions()
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   (void) new KAction( i18n( "&Find file..." ), "find", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
-  // Can't use KStdAction - no slot to connect to here.
-  m_paPrint = new KAction( i18n("&Print..."), "fileprint",
-                       KStdAccel::key(KStdAccel::Print), actionCollection(), "print" );
+  m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
@@ -1871,7 +1865,7 @@ void KonqMainView::reparseConfiguration()
   kdDebug(1202) << "KonqMainView::reparseConfiguration() !" << endl;
   kapp->config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
-  //KonqHTMLSettings::reparseConfiguration();
+
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )

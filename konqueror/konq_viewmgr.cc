@@ -550,8 +550,8 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 					m_pMainView, service, partServiceOffers, appServiceOffers, sType );
   kdDebug(1202) << "KonqChildView created" << endl;
 
-  QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
-                    m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
+  QObject::connect( v, SIGNAL( sigViewChanged( KonqChildView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
+                    m_pMainView, SLOT( slotViewChanged( KonqChildView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
 
   m_pMainView->insertChildView( v );
 
