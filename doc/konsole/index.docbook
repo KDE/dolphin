@@ -13,6 +13,8 @@
 <title>The &konsole; Handbook</title>
 <authorgroup>
 <author>&Jonathan.Singer; &Jonathan.Singer.mail;</author>
+<author><personname><firstname>Kurt</firstname><surname>Hindenburg</surname></personname><email>kurt.hindenburg@kdemail.net</email>
+</author>
 
 <othercredit role="developer">
 &Waldo.Bastian; &Waldo.Bastian.mail;
@@ -32,11 +34,15 @@
 <year>2000</year><year>2001</year><year>2002</year>
 <holder>&Jonathan.Singer;</holder>
 </copyright>
+<copyright>
+<year>2005</year>
+<holder>Kurt Hindenburg</holder>
+</copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>2002-10-05</date>
-<releaseinfo>1.20.00</releaseinfo>
+<releaseinfo>1.5</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole;
  application.</para>
@@ -374,6 +380,9 @@ menu items. The <keycombo action="simul">&Ctrl;
 <title>Menu Bar</title>
 
 <para>The menubar is at the top of the &konsole; window.
+The menubar can be activated and deactivated by the 
+<keycombo>&Alt;</keycombo> key.</para>
+<para>
 <guimenu>Settings</guimenu>-><guimenuitem>Hide
 Menubar</guimenuitem> allows the menubar to be hidden. When
 the menubar is hidden, <guimenuitem>Show Menubar</guimenuitem> can be
@@ -382,6 +391,7 @@ window or by <keycombo action="simul">&Alt;&Ctrl;<keycap>M</keycap>
 </keycombo>, which is the default shortcut for activating the menubar.
 The menubar can also be toggled by assigning it a shortcut.
 </para>
+
 
 <sect2 id="session-menu">
 <title><guimenu>Session</guimenu> Menu</title>
@@ -521,20 +531,10 @@ is used. You can also define your own key shortcuts through the
 <menuchoice><guimenu>Settings</guimenu>
 <guimenuitem>Configure Shortcuts...</guimenuitem></menuchoice> menu command.</para>
 
-<para>
-The files with a <literal role="extension">*.keytab</literal>
-extension in <filename
-class="directory">$<envar>KDEDIR</envar>/share/apps/konsole</filename> also define
-keyboard shortcuts. Use the
-<menuchoice><guimenu>Settings</guimenu>
-<guimenuitem>Keyboard</guimenuitem></menuchoice> menu command to choose
-a keytab file. The file <filename>README.KeyTab</filename> contains more
-information on defining shortcuts.
+<para>The list of available sessions will reflect what programs are
+installed along with any user defined sessions.  
+The session list will be alphabetized for quick viewing.
 </para>
-
-<para>The list of available sessions may differ from those listed here. &konsole;
-detects your installed programs and customizes the list to reflect the
-available options.</para>
 
 <para>Finally, note that the session types can be modified, and new
 types created, by using the configuration dialog, reached from the
@@ -614,7 +614,7 @@ signal</option></userinput>.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>ZModem Upload...</guimenuitem></menuchoice></term>
-<listitem><para><action>Send a file via zmodem</action>.</para></listitem>
+<listitem><para><action>Send a file via ZModem</action>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -807,7 +807,7 @@ like ssh://user@host or telnet://host to open remote connections.</para></note>
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Hide
 Menubar</guimenuitem></menuchoice></term>
-<listitem><para><action>Hides the menubar.</action></para></listitem>
+<listitem><para><action>Hide the menubar.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -840,24 +840,33 @@ size.</action></para></listitem>
 <guimenuitem>System Bell</guimenuitem>, 
 <guimenuitem>System Notification</guimenuitem>, 
 <guimenuitem>Visible Bell</guimenuitem>, or
-<guimenuitem>None</guimenuitem>
+<guimenuitem>None</guimenuitem>.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guisubmenu>Font</guisubmenu></menuchoice></term>
-<listitem><para><action>Set font and font size</action></para>
+<listitem><para><action>Set font size</action>:
+<guimenuitem>Normal</guimenuitem>, 
+<guimenuitem>Tiny</guimenuitem>, 
+<guimenuitem>Small</guimenuitem>, 
+<guimenuitem>Medium</guimenuitem>, 
+<guimenuitem>Large</guimenuitem>, 
+<guimenuitem>Huge</guimenuitem>.</para>
+<para>Select the <guimenuitem>Linux</guimenuitem> option to use
+a console font.</para>
+<para>Select the <guimenuitem>Unicode</guimenuitem> option to use
+a fixed font.</para>
 <para>Select the <guimenuitem>Custom</guimenuitem> option to use any
-combination of font, size and style. The
-<filename>README.fonts</filename> file in the &konsole; source package
-gives tips on which fonts will work well.</para></listitem>
+combination of font, size and style.</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>
 Encoding</guimenuitem></menuchoice></term>
-<listitem><para><action>Select encoding.</action></para></listitem>
+<listitem><para><action>Select character encoding.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -868,14 +877,17 @@ Encoding</guimenuitem></menuchoice></term>
 <filename>$KDEDIR/share/apps/konsole/*.keytab</filename>. The file
 <filename>$KDEDIR/share/apps/konsole/README.KeyTab</filename>
 describes the keytab format in more detail. Add to or modify these
-files to match your needs.</para></listitem>
+files to match your needs.
+The default keytab is taken from 
+<filename>$KDEDIR/share/apps/konsole/README.default.Keytab</filename>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
 <guimenuitem>Schema</guimenuitem></menuchoice></term>
 <listitem><para><action>Set colors of text and background.</action></para>
-<para>The list of these schemata is taken from
+<para>The list is taken from
 <filename>$KDEDIR/share/apps/konsole/*.schema</filename>. The file
 <filename>$KDEDIR/share/apps/konsole/README.Schema</filename>
 describes the schema format in more detail. Add to or modify these
@@ -903,11 +915,10 @@ scrolled off the top of the window.  You can enter the <guilabel>Number
 of lines</guilabel> to remember in the text field, or use the spinner
 buttons to increase or decrease the number in steps of 100 lines.  The
 <guibutton>Defaults</guibutton> button will reset the history to 1000
-lines. Setting this value to 0 will cause all history to be saved.
+lines. Selecting <guilabel>Set Unlimited</guilabel> will cause all history to be saved.
 Press <guibutton>OK</guibutton> to save your changes, or
 <guibutton>Cancel</guibutton> to close the dialog without saving your
-settings.  The <guibutton>Help</guibutton> button will open this manual,
-and display the text you're reading right now.</para></listitem>
+settings.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1048,7 +1059,8 @@ Right-Click on the button (or any empty space on the tabbar) will popup up a men
    </itemizedlist>
    <itemizedlist>
    <listitem><para>
-Dynamic Hide
+<guimenuitem>Dynamic Hide</guimenuitem> will hide the tabbar when there is 
+only one session opened.
    </para></listitem>
    </itemizedlist>
 </para></listitem>
@@ -1096,16 +1108,27 @@ Right-clicking on any tab will popup another menu:
 can be specified to modify its behavior.</para>
 
 <variablelist>
-
 <varlistentry>
 <term><option>--help</option></term>
-<listitem><para><action>List the various options</action></para></listitem>
+<listitem><para><action>List the various options</action>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>--name</option> <parameter>name</parameter></term>
-<listitem><para><action>Set the name that appears in the
-titlebar</action></para></listitem>
+<term><option>-e</option> <parameter>command</parameter></term>
+<listitem><para><action>Execute</action>
+<parameter>command</parameter> instead of the normal shell.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--keytab</option> <parameter>file</parameter></term>
+<listitem><para><action>Start &konsole; using a specified .keytab
+file</action> to customize key bindings.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--keytabs</option></term>
+<listitem><para><action>List all of the available keytabs</action>.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1119,20 +1142,9 @@ for when you realize you need it.)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>-T</option> <parameter>title</parameter></term>
-<listitem><para><action>Set the window title</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--tn</option> <parameter>terminal</parameter></term>
-<listitem><para><action>Sets the environment variable TERM to the specified
-value.</action> Read <userinput><command>man</command> <option>xterm</option>
-</userinput> for more information on TERM.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--xwin</option></term>
-<listitem><para><action>Ignored</action></para></listitem>
+<term><option>--name</option> <parameter>name</parameter></term>
+<listitem><para><action>Set the name that appears in the
+titlebar</action>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1143,75 +1155,45 @@ command is issued in the only session window.</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><option>--noframe</option></term>
+<listitem><para><action>Start &konsole; without a
+ frame</action>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><option>--nohist</option></term>
-<listitem><para><action>Disable the saving of lines that scroll off the top of
-the window</action></para></listitem>
+<listitem><para><action>Disable the saving of lines</action>
+ that scroll off the top of the window.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--nomenubar</option></term>
-<listitem><para><action>Start &konsole; without a
- menubar</action></para></listitem>
+<listitem><para><action>Start &konsole; with the menubar hidden
+</action>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>--notoolbar</option></term>
-<listitem><para><action>Start &konsole; without a
- toolbar</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--noframe</option></term>
-<listitem><para><action>Start &konsole; without a
- frame</action></para></listitem>
+<term><option>--noresize</option></term>
+<listitem><para><action>Disable the resizing</action>
+ of the terminal window.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--noscrollbar</option></term>
-<listitem><para><action>Start &konsole; without a
- scrollbar</action></para></listitem>
+<listitem><para><action>Start &konsole; with the scrollbar hidden
+</action>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--notabbar</option></term>
+<listitem><para><action>Start &konsole; with the tabbar hidden
+</action>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--noxft</option></term>
 <listitem><para><action>Start &konsole; without Xft antialiasing.</action>
 Antialiasing of a small font may be difficult to read.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--vt_sz</option> <parameter>CCxLL</parameter></term>
-<listitem><para><action>Start a terminal window of CC Columns and LL
-lines</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--noresize</option></term>
-<listitem><para><action>Disable the resizing of the terminal window.
-</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--type</option> <parameter>type</parameter></term>
-<listitem><para><action>Start a session of the given type rather than the
-default.</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--types</option></term>
-<listitem><para><action>List all of the available session types.
-</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--keytab</option> <parameter>file</parameter></term>
-<listitem><para><action>Start &konsole; using a specified .keytab
-file</action> to customize key bindings.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--keytabs</option></term>
-<listitem><para><action>List all of the available keytabs.
-</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1231,8 +1213,8 @@ file</action> to customize key bindings.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>--schemas</option></term>
-<listitem><para><action>List all of the available schemas.
+<term><option>--schemata</option></term>
+<listitem><para><action>List all of the available schemata.
 </action></para></listitem>
 </varlistentry>
 
@@ -1242,16 +1224,41 @@ file</action> to customize key bindings.</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><option>-T</option> <parameter>title</parameter></term>
+<listitem><para><action>Set the window title</action>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--tn</option> <parameter>terminal</parameter></term>
+<listitem><para><action>Sets the environment variable TERM to the specified
+value.</action> Read <userinput><command>man</command> <option>xterm</option>
+</userinput> for more information on TERM.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--type</option> <parameter>type</parameter></term>
+<listitem><para><action>Start a session of the given type</action>
+ rather than the default.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--types</option></term>
+<listitem><para><action>List all of the available session types.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--vt_sz</option> <parameter>CCxLL</parameter></term>
+<listitem><para><action>Start a terminal window of CC Columns and LL
+lines</action>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><option>--workdir</option> <parameter>dir</parameter></term>
 <listitem><para><action>Open with</action>
 <parameter>dir</parameter> as the working folder.</para></listitem>
 </varlistentry>
 
-<varlistentry>
-<term><option>-e</option> <parameter>command</parameter></term>
-<listitem><para><action>Execute</action>
-<parameter>command</parameter> instead of shell.</para></listitem>
-</varlistentry>
 </variablelist>
 
 <para>For instance:</para>
