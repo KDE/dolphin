@@ -108,13 +108,6 @@ KPluginFactory::~KPluginFactory()
 { delete s_instance; }
 
 
-extern "C"
-{
-  void* init_libkhtmlkttsdplugin()
-  {
-    return new KPluginFactory;
-  }
-
-}
+K_EXPORT_COMPONENT_FACTORY( libkhtmlkttsdplugin, KPluginFactory )
 
 KInstance* KPluginFactory::s_instance = 0L;
