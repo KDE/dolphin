@@ -268,7 +268,7 @@ void KWrite::slotOpen()
   {
 	KEncodingFileDialog::Result r=KEncodingFileDialog::getOpenURLsAndEncoding(
 		KTextEditor::encodingInterface(m_kateView->document())->encoding(),
-	QString::null,QString::null,this,i18n("Open File"));
+	m_kateView->document()->url().url(),QString::null,this,i18n("Open File"));
 
     for (KURL::List::Iterator i=r.URLs.begin(); i != r.URLs.end(); ++i)
     {
@@ -278,7 +278,7 @@ void KWrite::slotOpen()
   }
   else
   {
-    KURL::List l=KFileDialog::getOpenURLs(QString::null,QString::null,this,QString::null);
+    KURL::List l=KFileDialog::getOpenURLs(m_kateView->document()->url().url(),QString::null,this,QString::null);
     for (KURL::List::Iterator i=l.begin(); i != l.end(); ++i)
     {
       slotOpen ( *i );
