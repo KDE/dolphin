@@ -804,7 +804,10 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
 
   if ( childView == m_currentView )
+  {
     m_currentView = 0L;
+    m_pViewManager->setActivePart( 0L );
+  }
 
   bool haveTree = false;
   MapViews::ConstIterator cIt = m_mapViews.begin();
@@ -1616,7 +1619,7 @@ void ViewModeGUIServant::update( const KTrader::OfferList &services )
 
   if ( services.count() <= 1 )
     return;
-  
+
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
