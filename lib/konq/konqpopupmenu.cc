@@ -24,9 +24,9 @@
 
 #include <kbookmark.h>
 #include <kdebug.h>
-#include <kio_job.h>
-#include <kio_openwith.h>
-#include <kio_paste.h>
+#include <kio/job.h>
+#include <kio/openwith.h>
+#include <kio/paste.h>
 #include <kmessagebox.h>
 #include <kprotocolmanager.h>
 #include <krun.h>
@@ -45,7 +45,7 @@
 #include "konqpopupmenu.h"
 
 KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
-                              QString viewURL,
+                              KURL viewURL,
                               QActionCollection & actions,
                               KNewMenu * newMenu )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions), m_pMenuNew( newMenu ),
@@ -77,7 +77,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     url = (*it)->url();
 
     // Build the list of URLs
-    m_lstPopupURLs.append( url.url() );
+    m_lstPopupURLs.append( url );
 
     QString protocol = url.protocol();
     if ( protocol != "http" ) bHttp = false; // not HTTP
@@ -116,7 +116,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   }
 
   //check if current url is trash
-  url = KURL( m_sViewURL );
+  url = m_sViewURL;
   url.cleanPath();
 
   if ( url.protocol() == "file" &&
@@ -381,7 +381,7 @@ KonqPopupMenu::~KonqPopupMenu()
 
 void KonqPopupMenu::slotPopupNewView()
 {
-  QStringList::ConstIterator it = m_lstPopupURLs.begin();
+  KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
     (void) new KRun(*it);
 }
@@ -399,8 +399,15 @@ void KonqPopupMenu::slotPopupEmptyTrashBin()
     (*it).prepend( KUserPaths::trashPath() );
   }
 
-  KIOJob *job = new KIOJob;
-  job->del( files );
+  KIO::Job *job = KIO::del( files );
+  connect( job, SIGNAL( result( KIO::Job * ) ),
+           SLOT( slotResult( KIO::Job * ) ) );
+}
+
+void KonqPopupMenu::slotResult( KIO::Job * job )
+{
+  if (job->error())
+    job->showErrorDialog();
 }
 
 void KonqPopupMenu::slotPopupOpenWith()
@@ -426,9 +433,9 @@ void KonqPopupMenu::slotPopupOpenWith()
 void KonqPopupMenu::slotPopupAddToBookmark()
 {
   KBookmark *root = KBookmarkManager::self()->root();
-  QStringList::ConstIterator it = m_lstPopupURLs.begin();
+  KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
-    (void)new KBookmark( KBookmarkManager::self(), root, *it, *it );
+    (void)new KBookmark( KBookmarkManager::self(), root, (*it).decodedURL(), *it );
 }
 
 void KonqPopupMenu::slotPopup( int id )
@@ -446,9 +453,9 @@ void KonqPopupMenu::slotPopup( int id )
   if ( it2 == m_mapPopup2.end() )
     return;
 
-  QStringList::Iterator it3 = m_lstPopupURLs.begin();
+  KURL::List::Iterator it3 = m_lstPopupURLs.begin();
   for( ; it3 != m_lstPopupURLs.end(); ++it3 )
-    KDEDesktopMimeType::executeService( *it3, it2.data() );
+    KDEDesktopMimeType::executeService( (*it3).path(), it2.data() );
 
   return;
 }

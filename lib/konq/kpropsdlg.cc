@@ -63,7 +63,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <kfiledialog.h>
 #include <kmimetype.h>
 #include <kmessagebox.h>
@@ -94,7 +94,7 @@ PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
   init();
 }
 
-PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
+PropertiesDialog::PropertiesDialog( const KURL& _url, mode_t _mode ) :
   m_singleUrl( _url ), m_bMustDestroyItems( true )
 {
   // Create a KFileItem from the information we have
@@ -102,13 +102,11 @@ PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
   init();
 }
 
-PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString&
-                                    _currentDir, const QString& _defaultName )
+PropertiesDialog::PropertiesDialog( const KURL& _tempUrl, const KURL& _currentDir,
+                                    const QString& _defaultName )
   : m_singleUrl( _tempUrl ), m_bMustDestroyItems( true ),
     m_defaultName( _defaultName ), m_currentDir( _currentDir )
 {
-  if ( m_currentDir.right(1) != "/" )
-    m_currentDir.append( "/" );
   // Create the KFileItem for the _template_ file, in order to read from it.
   m_items.append( new KFileItem( -1, m_singleUrl ) );
   init();
@@ -243,7 +241,9 @@ void PropertiesDialog::rename( const QString& _name )
   KURL newUrl;
   // if we're creating from a template : use currentdir
   if ( !m_currentDir.isEmpty() )
-    newUrl = m_currentDir + _name;
+  {
+    newUrl = m_currentDir;
+    newUrl.addPath( _name );
   else
   {
     QString tmpurl = m_singleUrl.url();
@@ -300,7 +300,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   filename = KFileItem::decodeFileName( filename );
 
   bool isTrash = false;
-  QString path, directory;
+  QString path;
 
   if ( !m_bFromTemplate ) {
     QString tmp = properties->kurl().path( 1 );
@@ -313,10 +313,8 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
       path = properties->kurl().path();
     else
       path = properties->kurl().url();
-    directory = properties->kurl().directory();
   } else {
-    path = properties->currentDir() + properties->defaultName();
-    directory = properties->currentDir();
+    path = properties->currentDir().path(1) + properties->defaultName();
   }
 
   if (ExecPropsPage::supports(properties->items()) ||
@@ -488,7 +486,7 @@ void FilePropsPage::applyChanges()
   else
     n = KFileItem::encodeFileName(((QLineEdit *) nameArea)->text());
 
-  KIOJob * job = 0L;
+  KIO::Job * job = 0L;
   // Do we need to rename the file ?
   if ( oldName != n || m_bFromTemplate ) { // true for any from-template file
     QString oldpath = properties->kurl().url(); // path(-1);
@@ -497,16 +495,11 @@ void FilePropsPage::applyChanges()
 
     // Don't remove the template !!
     if ( !m_bFromTemplate ) {
-      job = new KIOJob;
-      connect( job, SIGNAL( sigFinished( int ) ),
-               SLOT( slotRenameFinished() ) );
-      connect( job, SIGNAL( sigCanceled( int ) ),
-               SLOT( slotRenameFinished() ) );
-      connect( job, SIGNAL( sigError( int, int, const char* ) ),
-               SLOT( slotRenameError( int, int, const char* ) ) );
-      kDebugInfo(1202,"oldpath = %s",oldpath.ascii());
-      kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
-      job->move( oldpath.ascii(), properties->kurl().url().ascii() );
+        job = KIO::move( oldpath, properties->kurl() );
+        connect( job, SIGNAL( sigFinished( KIO::Job * ) ),
+                 SLOT( slotRenameFinished() ) );
+        kDebugInfo(1202,"oldpath = %s",oldpath.ascii());
+        kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
     }
   }
 

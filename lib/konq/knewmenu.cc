@@ -30,8 +30,8 @@
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
 
-#include <kio_interface.h>
-#include <kio_job.h>
+#include <kio/global.h>
+#include <kio/job.h>
 #include <kuserpaths.h>
 
 #include "kpropsdlg.h"
@@ -181,7 +181,7 @@ void KNewMenu::slotNewFile()
       }
       if ( KDesktopFile::isDesktopFile( x ) )
       {
-          QStringList::Iterator it = popupFiles.begin();
+          KURL::List::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
               (void) new PropertiesDialog( x, *it, sFile );
@@ -204,16 +204,15 @@ void KNewMenu::slotNewFile()
 	if ( name.length() == 0 )
 	    return;
 
-        QStringList::Iterator it = popupFiles.begin();
+        KURL::List::Iterator it = popupFiles.begin();
 	if ( sFile =="Folder" )
 	{
             for ( ; it != popupFiles.end(); ++it )
 	    {
-     	      KIOJob * job = new KIOJob;
-	      //KURL url( *it );
-              QString url = KURL(*it).path(1) + KFileItem::encodeFileName(name);
-              kDebugString( url );
-	      job->mkdir( url, -1 );
+              QString url = (*it).path(1) + KFileItem::encodeFileName(name);
+     	      KIO::Job * job = KIO::mkdir( url );
+              connect( job, SIGNAL( result( KIO::Job * ) ),
+                       SLOT( slotResult( KIO::Job * ) ) );
             }
 	}
 	else
@@ -221,14 +220,21 @@ void KNewMenu::slotNewFile()
 	    QString src = KUserPaths::templatesPath() + sFile;
             for ( ; it != popupFiles.end(); ++it )
             {
-                KIOJob * job = new KIOJob( );
 		KURL dest( *it );
 		dest.addPath( name );
 
-                job->copy( src, dest.url() );
+                KIO::Job * job = KIO::copy( src, dest );
+                connect( job, SIGNAL( result( KIO::Job * ) ),
+                         SLOT( slotResult( KIO::Job * ) ) );
             }
 	}
     }
+}
+
+void KNewMenu::slotResult( KIO::Job * job )
+{
+    if (job->error())
+        job->showErrorDialog();
 }
 
 #include "knewmenu.moc"

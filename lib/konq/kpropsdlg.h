@@ -86,7 +86,7 @@ public:
    *
    * @param _url the URL whose properties should be displayed
    * @param _mode the mode, as returned by stat(). Don't set if unknown.  */
-  PropertiesDialog( const QString& _url, mode_t _mode = (mode_t) -1 );
+  PropertiesDialog( const KURL& _url, mode_t _mode = (mode_t) -1 );
 
   /**
    * Create a properties dialog for a new .desktop file (whose name
@@ -96,7 +96,7 @@ public:
    * @param _templUrl template used for reading only
    * @param _currentDir directory where the file will be written to
    * @param _defaultName something to put in the name field, like mimetype.desktop */
-  PropertiesDialog( const QString& _tempUrl, const QString& _currentDir,
+  PropertiesDialog( const KURL& _tempUrl, const KURL& _currentDir,
                     const QString& _defaultName );
 
   /**
@@ -143,7 +143,7 @@ public:
    * @return the current directory
    * QString::null means no template used
    */
-  const QString& currentDir() const { return m_currentDir; }
+  const KURL& currentDir() const { return m_currentDir; }
 
   /**
    * If we are building this dialog from a template,
@@ -204,7 +204,7 @@ protected:
 
   /** For templates */
   QString m_defaultName;
-  QString m_currentDir;
+  KURL m_currentDir;
 
   /**
    * List of all pages inserted ( first one first )

@@ -27,7 +27,9 @@
 #include <qlist.h>
 
 #include <kurl.h>
-#include <kio_interface.h>
+#include <kio/global.h>
+
+namespace KIO { class Job; }
 
 /** The dir lister deals with the kiojob used to list and update a directory,
  * handles the timer, and has signals for the user of this class (e.g. konqueror
@@ -72,7 +74,7 @@ public:
   /**
    * Stop listing the current directory
    */
-  virtual void stop() { slotCloseURL( 0 ); }
+  virtual void stop() { slotResult( 0 ); }
 
   /**
    * @return the url used by this instance to list the files
@@ -149,12 +151,10 @@ signals:
 
 protected slots:
   // internal slots used by the directory lister (connected to the job)
-  virtual void slotCloseURL( int _id );
-  virtual void slotListEntry( int _id, const KUDSEntry& _entry );
-  virtual void slotError( int _id, int _errid, const char *_errortext );
-  virtual void slotUpdateError( int _id, int _errid, const char *_errortext );
-  virtual void slotUpdateFinished( int _id );
-  virtual void slotUpdateListEntry( int _id, const KUDSEntry& _entry );
+  virtual void slotResult( KIO::Job * );
+  virtual void slotEntries( KIO::Job*, const KIO::UDSEntryList& );
+  virtual void slotUpdateResult( KIO::Job * );
+  virtual void slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList& );
 
   // internal slots connected to KDirWatch
   virtual void slotDirectoryDirty( const QString& _dir );
@@ -168,7 +168,7 @@ protected:
   KURL m_url;
   QString m_sURL;
 
-  int m_jobId;
+  KIO::Job * m_job;
 
   /** The internal storage of file items */
   QList<KFileItem> m_lstFileItems;
@@ -188,7 +188,7 @@ protected:
   QString m_sWorkingURL;
 
   /** Keep entries found - used by slotUpdate* */
-  QValueList<KUDSEntry> m_buffer;
+  QValueList<KIO::UDSEntry> m_buffer;
 
   QStringList m_lstPendingUpdates;
 

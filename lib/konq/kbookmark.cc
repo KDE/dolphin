@@ -212,7 +212,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   closedir( dp );
 }
 
-void KBookmarkManager::editBookmarks( const char *_url )
+void KBookmarkManager::editBookmarks( const QString & _url )
 {
   KFileManager::getFileManager()->openFileManagerWindow( _url );
 }
@@ -311,22 +311,20 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
     m_pManager->emitChanged();
 }
 
-KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, QString _url )
+KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, const KURL & url )
 {
   assert( _bm != 0L );
   assert( _parent != 0L );
-  assert( !_text.isEmpty() && !_url.isEmpty() );
-
-  KURL u( _url );
+  assert( !_text.isEmpty() && !url.isEmpty() );
 
   QString icon;
-  if ( u.isLocalFile() )
+  if ( url.isLocalFile() )
   {
     struct stat buff;
-    stat( u.path(), &buff );
-    icon = KMimeType::findByURL( u, buff.st_mode, true )->icon( u.path(), true );
+    stat( url.path(), &buff );
+    icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url.path(), true );
   }
-  else if ( strcmp( u.protocol(), "ftp" ) == 0 )
+  else if ( strcmp( url.protocol(), "ftp" ) == 0 )
     icon = "ftp";
   else
     icon = "www";
@@ -335,7 +333,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   m_pManager = _bm;
   m_lstChildren.setAutoDelete( true );
   m_text = _text;
-  m_url = _url;
+  m_url = url.url();
   m_type = URL;
 
   m_file = _parent->file();

@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #ifndef __kbookmark_h__
 #define __kbookmark_h__
@@ -25,6 +25,7 @@
 #include <qpixmap.h>
 
 #include <ksimpleconfig.h>
+#include <kurl.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 
@@ -46,7 +47,7 @@ class KBookmark;
 class KBookmark
 {
   friend KBookmarkManager;
-  
+
 public:
   enum { URL, Folder };
 
@@ -55,8 +56,8 @@ public:
    * will further save this to disk!
    */
   KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text,
-             QString _url );
-  
+             const KURL & _url );
+
   /**
    * Text shown for the bookmark
    */
@@ -67,22 +68,22 @@ public:
   QString file() { return m_file; }
   QString pixmapFile();
   QPixmap pixmap();
-  
+
   /**
    * Append a new bookmark to the list.
    */
-  void append( const QString& _name, KBookmark *_bm ); 
-  
+  void append( const QString& _name, KBookmark *_bm );
+
   /**
    * Don't iterate on this anymore.  Use @ref first and @ref next
    * instead
    */
   QList<KBookmark> *children() { return &m_lstChildren; }
-  
+
   KBookmark* findBookmark( int _id );
 
   static QString stringSqueeze( const QString & str, unsigned int maxlen = 30 );
- 
+
   // NOTE: these should probably be const.. but that caused problems
   // with the ConstInterator.  Dunno why
 
@@ -110,16 +111,16 @@ protected:
              KSimpleConfig& _cfg, const char * _group );
 
   void clear();
-  
+
   QString m_text;
   QString m_url;
   QString m_file;
-  
+
   QString m_sPixmap;
-  
+
   int m_type;
   int m_id;
-  
+
   QList<KBookmark> m_lstChildren;
 
   KBookmarkManager *m_pManager;
@@ -149,7 +150,7 @@ protected:
 class KBookmarkManager : public QObject
 {
   friend KBookmark;
-  
+
   Q_OBJECT
 public:
   /**
@@ -183,7 +184,7 @@ public:
    * Called if the user wants to edit the bookmarks.  It will use the
    * default bookmarks editor unless you overload it.
    */
-  virtual void editBookmarks( const char *_url );
+  virtual void editBookmarks( const QString & _url );
 
   /**
    * This will return the path that this manager is using to search
@@ -224,8 +225,8 @@ public:
    */
   void emitChanged();
 
-  
-  
+
+
 signals:
   /**
    * For internal use only
@@ -243,14 +244,14 @@ public slots:
    * Connect this slot directly to the menu item "edit bookmarks"
    */
   void slotEditBookmarks();
-  
+
 protected:
   void scan( const char *filename );
   void scanIntern( KBookmark*, const char *filename );
 
   void disableNotify() { m_bNotify = false; }
   void enableNotify() { m_bNotify = true; }
-    
+
   bool m_bAllowSignalChanged;
   bool m_bNotify;
   QString m_sPath;
@@ -295,7 +296,7 @@ public:
    * open up the bookmark in a default fashion unless you override it.
    */
   virtual void openBookmarkURL(const QString& _url);
-  
+
   /**
    * This function is called whenever the user wants to add the
    * current page to the bookmarks list.  The title will become the

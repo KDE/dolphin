@@ -35,7 +35,7 @@
 #include <kmimetype.h>
 #include <krun.h>
 
-KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand ) :
+KFileItem::KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand ) :
   m_entry( _entry ),
   m_url( _url ),
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -46,7 +46,7 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url, bool _determineMimeTy
   m_bMarked( false )
 {
   // extract the mode and the filename from the KIO::UDS Entry
-  KUDSEntry::ConstIterator it = m_entry.begin();
+  KIO::UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
   switch ((*it).m_uds) {
 
@@ -313,7 +313,7 @@ QString KFileItem::getStatusBarInfo()
 QString KFileItem::linkDest() const
 {
   // Extract it from the KIO::UDSEntry
-  KUDSEntry::ConstIterator it = m_entry.begin();
+  KIO::UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == KIO::UDS_LINK_DEST )
       return (*it).m_str;
@@ -334,7 +334,7 @@ QString KFileItem::linkDest() const
 long KFileItem::size() const
 {
   // Extract it from the KIO::UDSEntry
-  KUDSEntry::ConstIterator it = m_entry.begin();
+  KIO::UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == KIO::UDS_SIZE )
       return (*it).m_long;
@@ -351,7 +351,7 @@ long KFileItem::size() const
 QString KFileItem::time( unsigned int which ) const
 {
   // Extract it from the KIO::UDSEntry
-  KUDSEntry::ConstIterator it = m_entry.begin();
+  KIO::UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == which )
       return makeTimeString( (time_t)((*it).m_long) );

@@ -26,8 +26,8 @@
 
 #include <kcursor.h>
 #include <kdebug.h>
-#include <kio_job.h>
-#include <kio_paste.h>
+#include <kio/job.h>
+#include <kio/paste.h>
 #include <klocale.h>
 #include <kfileivi.h>
 #include <kfileitem.h>
@@ -291,7 +291,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    kDebugWarning(1202,"Oooops, no data ....");
 	    return;
 	}
-	KIOJob* job = new KIOJob;
+	KIO::Job* job = new KIO::Job;
 
 	// Use either the root url or the item url
 	KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
@@ -463,14 +463,14 @@ void KonqIconViewWidget::deleteSelection()
         return;
     }
 
-    KIOJob *job = new KIOJob;
+    KIO::Job *job = new KIO::Job;
     job->del( urls );
 }
 
 void KonqIconViewWidget::trashSelection()
 {
     QStringList urls = selectedUrls();
-    KIOJob *job = new KIOJob;
+    KIO::Job *job = new KIO::Job;
     job->move( urls, KUserPaths::trashPath() );
 }
 

@@ -27,8 +27,7 @@
 #include <kdebug.h>
 #include <kdirwatch.h>
 #include <klocale.h>
-#include <kio_error.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kuserpaths.h>
@@ -36,7 +35,7 @@
 KDirLister::KDirLister( bool _delayedMimeTypes )
 {
   m_bComplete = true;
-  m_jobId = 0;
+  m_job = 0L;
   m_lstFileItems.setAutoDelete( true );
   m_rootFileItem = 0L;
   m_bDirOnlyMode = false;
@@ -46,12 +45,10 @@ KDirLister::KDirLister( bool _delayedMimeTypes )
 KDirLister::~KDirLister()
 {
   // Stop running jobs
-  if ( m_jobId )
+  if ( m_job )
   {
-    KIOJob* job = KIOJob::find( m_jobId );
-    if ( job )
-      job->kill();
-    m_jobId = 0;
+    m_job->kill();
+    m_job = 0;
   }
   delete m_rootFileItem; // no problem if 0L says the master
   forgetDirs();
@@ -96,12 +93,10 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   // TODO: Check whether the URL is really a directory
 
   // Stop running jobs
-  if ( m_jobId )
+  if ( m_job )
   {
-    KIOJob* job = KIOJob::find( m_jobId );
-    if ( job )
-      job->kill();
-    m_jobId = 0;
+    m_job->kill();
+    m_job = 0;
   }
 
   // Complete switch, don't keep previous URLs
@@ -125,17 +120,14 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
 
   m_bComplete = false;
 
-  KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, const KUDSEntry& ) ), this, SLOT( slotListEntry( int, const KUDSEntry& ) ) );
-  connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
-  connect( job, SIGNAL( sigError( int, int, const char* ) ),
-	   this, SLOT( slotError( int, int, const char* ) ) );
+  m_job = KIO::listDir( m_sURL );
+  connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
+           SLOT( slotEntries( KIO::Job*, const KIO::UDSEntryList&)));
+  connect( m_job, SIGNAL( result( KIO::Job * ) ),
+	   SLOT( slotResult( KIO::Job * ) ) );
 
   m_url = _url; // keep a copy
   m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
-
-  m_jobId = job->id();
-  job->listDir( m_sURL );
 
   emit started( m_sURL );
   if ( !_keep )
@@ -148,70 +140,68 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   }
 }
 
-void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
+void KDirLister::slotResult( KIO::Job * job )
 {
-  kioErrorDialog( _errid, _errortext );
+  m_job = 0;
   m_bComplete = true;
-
-  emit canceled();
+  if (job && job->error())
+  {
+    job->showErrorDialog();
+    emit canceled();
+  } else
+    emit completed();
 }
 
-void KDirLister::slotCloseURL( int /*_id*/ )
+void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
 {
-  if ( m_bComplete )
-    return;
+  QList<KFileItem> lstNewItems;
+  UDSEntryListIterator it(list);
+  for (; it.current(); ++it) {
+    QString name;
 
-  m_jobId = 0;
-  m_bComplete = true;
+    // Find out about the name
+    KIO::UDSEntry::ConstIterator entit = it.current()->begin();
+    for( ; entit != _entry.end(); entit++ )
+      if ( (*entit).m_uds == KIO::UDS_NAME )
+        name = (*entit).m_str;
 
-  emit completed();
-}
+    assert( !name.isEmpty() );
 
-void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
-{
-  QString name;
-
-  // Find out about the name
-  KUDSEntry::ConstIterator it = _entry.begin();
-  for( ; it != _entry.end(); it++ )
-    if ( (*it).m_uds == KIO::UDS_NAME )
-      name = (*it).m_str;
-
-  assert( !name.isEmpty() );
-
-  if ( name == ".." )
-    return;
-  else if ( name == "." )
-  {
-    KURL u( m_url );
-    m_rootFileItem = new KFileItem( _entry, u, m_bDelayedMimeTypes );
-  }
-  else if ( m_isShowingDotFiles || name[0] != '.' )
-  {
-    KURL u( m_url );
-    u.addPath( name );
-    //kDebugInfo(1203,"Adding %s", u.url().ascii());
-    KFileItem* item = new KFileItem( _entry, u, m_bDelayedMimeTypes );
-
-    if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
+    if ( name == ".." )
+      continue;
+    else if ( name == "." )
     {
-      delete item;
-      return;
+      KURL u( m_url );
+      m_rootFileItem = new KFileItem( *it, u, m_bDelayedMimeTypes );
     }
-
-    m_lstFileItems.append( item );
-    emit newItem( item );
-    /*
-    // Detect koffice files
-    QString mimeType = item->mimetype();
-    if ( mimeType.left(15) == "application/x-k" )
+    else if ( m_isShowingDotFiles || name[0] != '.' )
     {
-      // Currently this matches all koffice mimetypes
-      // To be changed later on if anybody else uses a x-k* mimetype
-      m_bKofficeDocs = true;
+      KURL u( m_url );
+      u.addPath( name );
+      //kDebugInfo(1203,"Adding %s", u.url().ascii());
+      KFileItem* item = new KFileItem( *it, u, m_bDelayedMimeTypes );
+
+      if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
+      {
+        delete item;
+        continue;
+      }
+
+      m_lstFileItems.append( item );
+      lstNewItems.append( item );
+      /*
+        // Detect koffice files
+        QString mimeType = item->mimetype();
+        if ( mimeType.left(15) == "application/x-k" )
+        {
+        // Currently this matches all koffice mimetypes
+        // To be changed later on if anybody else uses a x-k* mimetype
+        m_bKofficeDocs = true;
+        }
+      */
     }
-    */
   }
+  emit newItems( lstNewItems );
 }
 
 void KDirLister::updateDirectory( const QString& _dir )
@@ -224,44 +214,40 @@ void KDirLister::updateDirectory( const QString& _dir )
   }
 
   // Stop running jobs
-  if ( m_jobId )
+  if ( m_job )
   {
-    KIOJob* job = KIOJob::find( m_jobId );
-    if ( job )
-      job->kill();
-    m_jobId = 0;
+    m_job->kill();
+    m_job = 0;
   }
 
   m_bComplete = false;
   m_buffer.clear();
 
-  KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, const KUDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, const KUDSEntry& ) ) );
-  connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
-  connect( job, SIGNAL( sigError( int, int, const char* ) ),
-	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
+  m_job = KIO::listDir( m_sURL );
+  connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
+           SLOT( slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList&)));
+  connect( m_job, SIGNAL( result( KIO::Job * ) ),
+	   SLOT( slotUpdateResult( KIO::Job * ) ) );
 
   m_url = KURL( _dir );
   m_sURL = m_url.url();
 
-  m_jobId = job->id();
-  job->listDir( m_sURL );
   kDebugInfo( 1203, "update started in %s", debugString(m_sURL));
 
   emit started( m_sURL );
 }
 
-void KDirLister::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
+void KDirLister::slotUpdateResult( KIO::Job * job )
 {
-  kioErrorDialog( _errid, _errortext );
+  m_job = 0;
   m_bComplete = true;
-  emit canceled();
-}
-
-void KDirLister::slotUpdateFinished( int /*_id*/ )
-{
-  m_jobId = 0;
-  m_bComplete = true;
+  if (job->error())
+  {
+    //don't bother the user
+    //job->showErrorDialog();
+    //emit canceled();
+    return;
+  }
 
   QStringList::Iterator pendingIt = m_lstPendingUpdates.find( m_url.path( 0 ) );
   if ( pendingIt != m_lstPendingUpdates.end() )
@@ -280,16 +266,16 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       (*kit)->mark(); // keep the other items
   }
 
-  QValueListIterator<KUDSEntry> it = m_buffer.begin();
+  QValueListIterator<KIO::UDSEntry> it = m_buffer.begin();
   for( ; it != m_buffer.end(); ++it )
   {
     QString name;
 
     // Find out about the name
-    KUDSEntry::Iterator it2 = (*it).begin();
+    KIO::UDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
       if ( (*it2).m_uds == KIO::UDS_NAME )
-	name = (*it2).m_str;
+        name = (*it2).m_str;
 
     assert( !name.isEmpty() );
 
@@ -365,9 +351,9 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     updateDirectory( *pendingIt );
 }
 
-void KDirLister::slotUpdateListEntry( int /*_id*/, const KUDSEntry& _entry )
+void KDirLister::slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList& list )
 {
-  m_buffer.append( _entry ); // Keep a copy of _entry
+  m_buffer.append( list );
 }
 
 void KDirLister::setShowingDotFiles( bool _showDotFiles )

@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 
 #include <qlist.h>
-#include <kio_interface.h>
+#include <kio/global.h>
 #include <kurl.h>
 #include <kmimetype.h>
 
@@ -46,7 +46,7 @@ public:
    * @param _determineMimeTypeOnDemand specify if the mimetype of the given URL should be
    *        determined immediately or on demand
    */
-  KFileItem( const KUDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand = false );
+  KFileItem( const KIO::UDSEntry& _entry, KURL& _url, bool _determineMimeTypeOnDemand = false );
   /**
    * Create an item representing a file, from all the necessary info for it
    * @param _mode the file mode (according to stat())
@@ -159,7 +159,7 @@ public:
    * @return the UDS entry. Used by the tree view to access all details
    * by position.
    */
-  const KUDSEntry & entry() const { return m_entry; }
+  const KIO::UDSEntry & entry() const { return m_entry; }
 
   // Used when updating a directory - marked == seen when refreshing
   bool isMarked() const { return m_bMarked; }
@@ -215,7 +215,7 @@ protected:
   /**
    * We keep a copy of the UDSEntry since we need it for @ref #getStatusBarInfo
    */
-  KUDSEntry m_entry;
+  KIO::UDSEntry m_entry;
   /**
    * The url of the file
    */
