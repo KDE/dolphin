@@ -291,7 +291,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   groupBox = new QVGroupBox( i18n("Devices"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
   
-
   enableDevicesBox = new QCheckBox(i18n("Displa&y devices on desktop"), groupBox);
   connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));  
 
@@ -468,9 +467,9 @@ void KRootOptions::enableChanged()
     showHiddenBox->setEnabled(enabled);
     previewListView->setEnabled(enabled);
     vrootBox->setEnabled(enabled);
-    enableDevicesBox->setEnabled(enabled);
 
 #ifdef Q_OS_LINUX
+    enableDevicesBox->setEnabled(enabled);
     devicesListView->setEnabled(enableDevicesBox->isChecked() && iconsEnabledBox->isChecked());
 #endif
 
