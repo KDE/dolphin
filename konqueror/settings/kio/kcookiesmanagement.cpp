@@ -323,6 +323,8 @@ void KCookiesManagement::defaults()
   lv_cookies->clear();
   deletedDomains.clear();
   deletedCookies.clear();
+  btn_delete->setEnabled(false);
+  btn_deleteAll->setEnabled(false);
 }
 
 void KCookiesManagement::clearCookieDetails()

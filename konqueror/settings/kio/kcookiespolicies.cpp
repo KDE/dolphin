@@ -499,6 +499,7 @@ void KCookiesPolicies::defaults()
   rb_gbPolicyReject->setChecked( false );
   lv_domainPolicy->clear();
   changeCookiesEnabled();
+  updateButtons();
 }
 
 void KCookiesPolicies::splitDomainAdvice (const QString& cfg, QString &domain,
