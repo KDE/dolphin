@@ -116,8 +116,12 @@ public:
     static QPtrList<QListViewItem> * selectedItems();
     QPtrList<KBookmark>* selectedBookmarks() const;
 
+    KBookmark rootBookmark() const;
+
     QListViewItem* selectedItem();
     KBookmark selectedBookmark() const;
+
+    void testBookmarks(QPtrList<KBookmark>* bks);
 
     // @return where to insert a new item - depending on the selected item
     QString insertionAddress() const;

@@ -469,6 +469,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     actionCollection()->action("insertseparator")->setEnabled(false);
     actionCollection()->action("newbookmark")    ->setEnabled(false);
     actionCollection()->action("sort")           ->setEnabled(false);
+    actionCollection()->action("expandall")      ->setEnabled(false);
+    actionCollection()->action("collapseall")    ->setEnabled(false);
     actionCollection()->action("setastoolbar")   ->setEnabled(false);
     actionCollection()->action("openlink")       ->setEnabled(false);
     actionCollection()->action("testlink")       ->setEnabled(false);
@@ -541,6 +543,11 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
       }
    }
    return bookmarks;
+}
+
+KBookmark KEBTopLevel::rootBookmark() const
+{
+   return ITEM_TO_BK(m_pListView->firstChild());
 }
 
 QValueList<KBookmark> KEBTopLevel::getBookmarkSelection() 
@@ -627,18 +634,20 @@ void KEBTopLevel::slotSelectionChanged()
     if (!m_bReadOnly) {
         // AK - not sure if the ones that say !multiSelect that don't care should really have it...
         coll->action("edit_cut")       ->setEnabled(itemSelected && !root);
-        coll->action("edit_paste")     ->setEnabled(!multiSelect && itemSelected && !root && m_bCanPaste);
+        coll->action("edit_paste")     ->setEnabled(itemSelected && !root && m_bCanPaste);
         coll->action("rename")         ->setEnabled(!multiSelect && itemSelected && !separator && !root);
         coll->action("changeurl")      ->setEnabled(!multiSelect && itemSelected && !group && !separator && !root);
         coll->action("delete")         ->setEnabled(itemSelected && !root); // AK
-        coll->action("newfolder")      ->setEnabled(!multiSelect && itemSelected);
+        coll->action("newfolder")      ->setEnabled(!multiSelect);
         coll->action("changeicon")     ->setEnabled(!multiSelect && itemSelected && !root && !separator);
         coll->action("insertseparator")->setEnabled(!multiSelect && itemSelected);
-        coll->action("newbookmark")    ->setEnabled(!multiSelect && itemSelected);
+        coll->action("newbookmark")    ->setEnabled(!multiSelect);
         coll->action("sort")           ->setEnabled(!multiSelect && group);
         coll->action("setastoolbar")   ->setEnabled(!multiSelect && group);
+        coll->action("expandall")      ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
+        coll->action("collapseall")    ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
         coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator); // AK
-        coll->action("testall")        ->setEnabled(itemSelected && !(root && m_pListView->childCount()==1));
+        coll->action("testall")        ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
     }
 }
 
@@ -680,6 +689,9 @@ bool KEBTopLevel::save()
 
 QString KEBTopLevel::insertionAddress() const
 {
+    if( numSelected() == 0 )
+        return "/0";
+
     KBookmark current = *(selectedBookmarks()->first());
     if (current.isGroup())
         // In a group, we insert as first child
@@ -756,11 +768,6 @@ void KEBTopLevel::slotDelete()
 
 void KEBTopLevel::slotNewFolder()
 {
-    if( numSelected() == 0 )
-    {
-        kdWarning() << "KEBTopLevel::slotNewFolder no selected item !" << endl;
-        return;
-    }
     // AK - fix this
     // EVIL HACK
     // We need to ask for the folder name before creating the command, in case of "Cancel".
@@ -803,11 +810,6 @@ void KEBTopLevel::slotAddedBookmark(QString url, QString text, QString address, 
 
 void KEBTopLevel::slotNewBookmark()
 {
-    if( numSelected() == 0 )
-    {
-        kdWarning() << "KEBTopLevel::slotNewBookmark no selected item !" << endl;
-        return;
-    }
     CreateCommand * cmd = new CreateCommand( i18n("Create bookmark" ), insertionAddress(), QString::null, QString::null, KURL() );
     m_commandHistory.addCommand( cmd );
 }
@@ -952,18 +954,26 @@ void KEBTopLevel::slotOpenLink()
     }
 }
 
-
 void KEBTopLevel::slotTestAllLinks()
 {
+    QPtrList<KBookmark> bookmarks;
+    bookmarks.append(&rootBookmark());
+    testBookmarks(&bookmarks);
+    /*
     KEBListViewItem *p = findByAddress("/0");
     KBookmark bk = p->bookmark();
     tests.insert(0, new TestLink(bk));
     actionCollection()->action("canceltests")->setEnabled( true );
+    */
 }
 
 void KEBTopLevel::slotTestLink()
 {
-    QPtrList<KBookmark>* bks = selectedBookmarks();
+    testBookmarks(selectedBookmarks());
+}
+
+void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks) 
+{
     QPtrListIterator<KBookmark> it(*bks);
     for ( ; it.current() != 0; ++it ) {
        KBookmark *bk = it.current();
@@ -992,7 +1002,7 @@ void KEBTopLevel::slotCancelTest(TestLink *t)
 }
 
 void KEBTopLevel::setAllOpen(bool open) {
-   for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
+   for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
       if (it.current()->parent() )
          it.current()->setOpen( open );
    }
