@@ -37,21 +37,22 @@ class KAboutData;
 class KonqViewFactory
 {
 public:
-  KonqViewFactory() : m_factory( 0L ) {}
+  KonqViewFactory() : m_factory( 0L ), m_createBrowser( false ) {}
 
   KonqViewFactory( KLibFactory *factory, const QStringList &args,
                    bool createBrowser )
       : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser ) {}
 
   KonqViewFactory( const KonqViewFactory &factory )
-      : m_factory( factory.m_factory ), m_args( factory.m_args ) ,
-        m_createBrowser( factory.m_createBrowser )
-        {}
+  { (*this) = factory; }
 
-  KonqViewFactory( KonqViewFactory &factory )
-      : m_factory( factory.m_factory ), m_args( factory.m_args ),
-        m_createBrowser( factory.m_createBrowser )
-        {}
+  KonqViewFactory &operator=( const KonqViewFactory &other )
+  {
+    m_factory = other.m_factory;
+    m_args = other.m_args;
+    m_createBrowser = other.m_createBrowser;
+    return *this;
+  }
 
   KParts::ReadOnlyPart *create( QWidget *parentWidget, const char *widgetName,
                                 QObject *parent, const char *name );
