@@ -197,9 +197,10 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
         oldError = true;
     }
 
-    // get new mod date if there is one
+    // get new mod time if there is one
     newModStr = self()->getMod(url);
 
+    // if no new mod time use previous one
     if (newModStr.isNull()) {
         newModStr = Modify;
         initial = true;
@@ -242,24 +243,26 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
 
     if (!newModStr.isNull() && !newModValid) { 
-        // error in current check
+        // Current check has error
         statusStr = newModStr;
-//	kdDebug() << "=======================Bold=" << visit << "\n";
-        style = (!oldError) 
-            ? KEBListViewItem::DefaultStyle : KEBListViewItem::BoldStyle;
-
-    } else if (initial && !newModStr.isNull() && (newMod == 0)) { 
-        // initial display and no modify time recorded
-        statusStr = QString::null;
+        if (oldError) {
+            style = KEBListViewItem::BoldStyle;
+        } else {
+            style =  KEBListViewItem::DefaultStyle;
+        }
 
     } else if (initial && oldError) { 
-        // error in previous check
+        // Previous check has error
         style = KEBListViewItem::GreyStyle;
-        statusStr = i18n("Error");
+        statusStr = i18n("Error ");
 
-    } else if (!newModStr.isNull() && (newMod == 0)) { 
-        // no modify time returned
+    } else if (!initial && !newModStr.isNull() && (newMod == 0)) { 
+        // Current check has no modify time
         statusStr = i18n("Ok");
+
+    } else if (initial && !newModStr.isNull() && (newMod == 0)) { 
+        // previous check has no modify time recorded
+        statusStr = QString::null;
 
     } else if (!newModStr.isNull() && (newMod > visit)) { 
         // if modify time greater than last visit, show bold modify time
@@ -311,6 +314,7 @@ static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAcces
     }
 }
 
+// Still use nsinfo for storing old modify time
 static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
     QString nCreate, nAccess, nModify;
     parseNsInfo(_nsinfo, nCreate, nAccess, nModify);
