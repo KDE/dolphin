@@ -205,6 +205,8 @@ public:
 
   void setShowHTML( bool b );
 
+    void showHTML( KonqView * view, bool b, bool _activateView );
+
   bool fullScreenMode() const { return m_bFullScreen; }
 
   /**
@@ -555,7 +557,7 @@ private:
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
-  
+
   void updateFullScreen();
 
   KNewMenu * m_pMenuNew;

@@ -266,6 +266,7 @@ public:
 #endif
 
   void setLoading( KonqView *view, bool loading );
+    void showHTML(bool b);
 
 protected slots:
   void emitActivePartChanged();

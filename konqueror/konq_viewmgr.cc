@@ -1638,6 +1638,32 @@ void KonqViewManager::setLoading( KonqView *view, bool loading )
   }
 }
 
+void KonqViewManager::showHTML(bool b)
+{
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+
+  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  QPtrListIterator<KonqFrameBase> it( frameList );
+
+  for ( it.toFirst(); it != 0L; ++it )
+  {
+      if ( it.current()->activeChildView() && it.current()->activeChildView() !=m_pMainWindow->currentView())
+      {
+        it.current()->activeChildView()->setAllowHTML( b );
+          if( !it.current()->activeChildView()->locationBarURL().isEmpty())
+          {
+
+            m_pMainWindow->showHTML( it.current()->activeChildView(), b, false );
+          }
+      }
+  }
+}
+
+
+
 ///////////////// Debug stuff ////////////////
 
 #ifndef NDEBUG

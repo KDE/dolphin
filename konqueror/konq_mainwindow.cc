@@ -1486,18 +1486,13 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   }
 }
 
-void KonqMainWindow::slotShowHTML()
+void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
 {
-  bool b = !m_currentView->allowHTML();
-
-  m_currentView->stop();
-  m_currentView->setAllowHTML( b );
-
   // Save this setting, either locally or globally
   // This has to be done before calling openView since it relies on it
   if ( m_bSaveViewPropertiesLocally )
   {
-      KURL u ( b ? m_currentView->url() : KURL( m_currentView->url().directory() ) );
+      KURL u ( b ? _view->url() : KURL( _view->url().directory() ) );
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
@@ -1512,24 +1507,35 @@ void KonqMainWindow::slotShowHTML()
       KConfigGroupSaver cgs( config, "MainView Settings" );
       config->writeEntry( "HTMLAllowed", b );
       config->sync();
-      m_bHTMLAllowed = b;
+      if ( _activateView )
+          m_bHTMLAllowed = b;
   }
 
-  if ( b && m_currentView->supportsServiceType( "inode/directory" ) )
+  if ( b && _view->supportsServiceType( "inode/directory" ) )
   {
-    m_currentView->lockHistory();
-    openView( "inode/directory", m_currentView->url(), m_currentView );
+    _view->lockHistory();
+    openView( "inode/directory", _view->url(), _view );
   }
-  else if ( !b && m_currentView->supportsServiceType( "text/html" ) )
+  else if ( !b && _view->supportsServiceType( "text/html" ) )
   {
-    KURL u( m_currentView->url() );
+    KURL u( _view->url() );
     QString fileName = u.fileName().lower();
     if ( KProtocolInfo::supportsListing( u ) && fileName.startsWith("index.htm") ) {
-        m_currentView->lockHistory();
+        _view->lockHistory();
         u.setPath( u.directory() );
-        openView( "inode/directory", u, m_currentView );
+        openView( "inode/directory", u, _view );
     }
   }
+}
+
+void KonqMainWindow::slotShowHTML()
+{
+  bool b = !m_currentView->allowHTML();
+
+  m_currentView->stop();
+  m_currentView->setAllowHTML( b );
+  showHTML( m_currentView, b, true ); //current view
+  m_pViewManager->showHTML(b );
 
 }
 
@@ -3246,7 +3252,7 @@ void KonqMainWindow::initActions()
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
-           
+
   KAction *addBookmark = actionCollection()->action("add_bookmark");
   if (addBookmark)
      addBookmark->setText(i18n("Bookmark This Location"));
