@@ -55,7 +55,7 @@
 ListView* ListView::s_self = 0;
 
 ListView::ListView() {
-   m_splitView = true;
+   m_splitView = false;
 }
 
 void ListView::createListViews(QSplitter *splitter) {
@@ -436,7 +436,7 @@ void ListView::fillWithGroup() {
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
    if (!parentItem) {
       lv->clear();
-      if (m_splitView && lv->isFolderList()) {
+      if (!m_splitView || !lv->isFolderList()) {
          KEBListViewItem *tree = new KEBListViewItem(lv, group);
          fillWithGroup(lv, group, tree);
          tree->QListViewItem::setOpen(true);
