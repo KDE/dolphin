@@ -34,6 +34,7 @@
 #include <konq_operations.h>
 #include <konqbookmarkmanager.h>
 #include <kinputdialog.h>
+#include <kshortcut.h>
 #include <kzip.h>
 #include <config.h>
 #include <pwd.h>
@@ -3246,7 +3247,9 @@ void KonqMainWindow::initActions()
   m_ptaFullScreen = KStdAction::fullScreen( 0, 0, actionCollection(), this );
   connect( m_ptaFullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 
-  m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::shortcut(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
+  KShortcut reloadShortcut = KStdAccel::shortcut(KStdAccel::Reload);
+  reloadShortcut.append(KKey(CTRL + Key_R));
+  m_paReload = new KAction( i18n( "&Reload" ), "reload", reloadShortcut, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
   //m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
