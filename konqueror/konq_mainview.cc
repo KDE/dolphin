@@ -463,7 +463,7 @@ void KonqMainView::slotOpenLocation()
 
   url = KURLRequesterDlg::getURL( u, this, i18n("Open Location") );
   if (!url.isEmpty())
-     openFilteredURL( 0L, url.url() );
+     openFilteredURL( 0L, url.url().stripWhiteSpace() );
 }
 
 void KonqMainView::slotToolFind()
