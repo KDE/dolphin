@@ -55,7 +55,7 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
 
   cfg.writeEntry( "NumberOfRows", m_lstRows.count() );
  
-  QListIterator<RowInfo> rowIt( m_lstRows );
+  QListIterator<Konqueror::RowInfo> rowIt( m_lstRows );
   
   for ( int i = 0; rowIt.current(); ++rowIt, ++i )
   {
@@ -114,7 +114,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
        QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QVariant::IntList ) )
       .intListValue();
 
-    RowInfo *rowInfo = new RowInfo;
+    Konqueror::RowInfo *rowInfo = new Konqueror::RowInfo;
     
     QSplitter *rowSplitter = new QSplitter( Qt::Horizontal, m_pMainSplitter );
     rowSplitter->setOpaqueResize();
@@ -194,7 +194,7 @@ void KonqViewManager::insertView ( Qt::Orientation orientation,
  */
 
   QSplitter *parentSplitter;
-  RowInfo *rowInfo;
+  Konqueror::RowInfo *rowInfo;
 
   if ( orientation == Qt::Horizontal )
     rowInfo = m_pMainView->currentChildView()->rowInfo();
@@ -204,7 +204,7 @@ void KonqViewManager::insertView ( Qt::Orientation orientation,
     parentSplitter->setOpaqueResize();
     parentSplitter->show();
     
-    rowInfo = new RowInfo;
+    rowInfo = new Konqueror::RowInfo;
     rowInfo->splitter = parentSplitter;
     m_lstRows.append( rowInfo );
   }
@@ -227,7 +227,7 @@ void KonqViewManager::removeView( KonqChildView *view )
   bool deleteParentSplitter = false;
   QSplitter *parentSplitter = view->frame()->parentSplitter();
 
-  RowInfo *row = view->rowInfo();
+  Konqueror::RowInfo *row = view->rowInfo();
   row->children.removeRef( view );
 
   if ( row->children.count() == 0 )
@@ -246,7 +246,7 @@ void KonqViewManager::removeView( KonqChildView *view )
 
 void KonqViewManager::clear()
 {
-  QListIterator<RowInfo> it( m_lstRows );
+  QListIterator<Konqueror::RowInfo> it( m_lstRows );
   
   while ( it.current() )
     clearRow( it.current() );
@@ -259,7 +259,7 @@ void KonqViewManager::doGeometry( int width, int height )
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
-  RowInfo *row = view->rowInfo();
+  Konqueror::RowInfo *row = view->rowInfo();
   KonqChildView *next = 0L;
   
   if ( !view )
@@ -285,11 +285,11 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
   }
   else
   {
-    RowInfo *savedCurrentRow = m_lstRows.current();
+    Konqueror::RowInfo *savedCurrentRow = m_lstRows.current();
   
     m_lstRows.findRef( row );
     
-    RowInfo *nextRow = m_lstRows.next();
+    Konqueror::RowInfo *nextRow = m_lstRows.next();
     if ( !nextRow )
     {
       m_lstRows.findRef( row );
@@ -305,7 +305,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
   return next;
 }
 
-void KonqViewManager::clearRow( RowInfo *row )
+void KonqViewManager::clearRow( Konqueror::RowInfo *row )
 {
   QListIterator<KonqChildView> it( row->children );
   
@@ -313,7 +313,7 @@ void KonqViewManager::clearRow( RowInfo *row )
     removeView( it.current() );
 }
 
-void KonqViewManager::setupView( RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes )
+void KonqViewManager::setupView( Konqueror::RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes )
 {
   KonqFrame* newViewFrame = new KonqFrame( row->splitter );
 

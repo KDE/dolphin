@@ -22,7 +22,6 @@
 #include "kfmrun.h"
 #include "knewmenu.h"
 #include "konq_mainview.h"
-#include "kbookmarkmenu.h"
 #include "konq_defaults.h"
 #include "konq_childview.h"
 #include "konq_mainwindow.h"
@@ -31,39 +30,29 @@
 #include "konq_plugins.h"
 #include "konq_propsmainview.h"
 #include "konq_propsview.h"
-#include "knewmenu.h"
 #include "kpopupmenu.h"
-#include "konq_frame.h"
+#include "konq_viewmgr.h"
+
+#include <kbookmarkmenu.h>
+#include <kpropsdlg.h>
 
 #include <opUIUtils.h>
-#include <opMenu.h>
-#include <opMenuIf.h>
-#include <opToolBar.h>
-#include <opStatusBar.h>
 
 #include <qkeycode.h>
-#include <qlayout.h>
-#include <qlist.h>
 #include <qmsgbox.h>
 #include <qpixmap.h>
-#include <qpopmenu.h>
-#include <qstring.h>
-#include <qtimer.h>
 #include <qpoint.h>
 #include <qregexp.h>
-#include <qsplitter.h>
 
 #include <kaccel.h>
 #include <kapp.h>
 #include <kbookmark.h>
 #include <kconfig.h>
 #include <kio_cache.h>
-#include <kio_paste.h>
 #include <kkeydialog.h>
 #include <klineeditdlg.h>
 #include <kpixmapcache.h>
 #include <kprocess.h>
-#include <kpropsdlg.h>
 #include <kstdaccel.h>
 #include <kstddirs.h>
 #include <kwm.h>
@@ -163,7 +152,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   s_lstWindows->append( this );
 
   m_pViewManager = 0L;
-  
+
   initConfig();
 }
 
@@ -206,6 +195,11 @@ void KonqMainView::cleanUp()
     return;
 
   kdebug(0,1202,"void KonqMainView::cleanUp()");
+
+  KConfig *config = kapp->getConfig();
+  config->setGroup( "Settings" );
+  config->writeEntry( "ToolBarCombo", locationBarCombo() );
+  config->sync();
 
   if ( m_mapViews.contains( m_vMainWindow->activePartId() ) )
     m_vMainWindow->setActivePart( id() );
@@ -448,6 +442,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
        m_vHistoryBackPopupMenu = 0L;
        m_vHistoryForwardPopupMenu = 0L;
      
+       m_lstLocationBarCombo = locationBarCombo();
+     
        m_vToolBar = 0L;
        m_vLocationBar = 0L;
        
@@ -574,6 +570,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vLocationBar->setComboAutoCompletion( TOOLBAR_URL_ID, true );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
+
+  setLocationBarCombo( m_lstLocationBarCombo );
 
   checkPrintingExtension();
 
@@ -943,6 +941,8 @@ QString KonqMainView::currentURL()
 void KonqMainView::saveProperties( KConfig *config )
 {
   m_pViewManager->saveViewProfile( *config );
+  
+  config->writeEntry( "ToolBarCombo", locationBarCombo() );
 }
 
 void KonqMainView::readProperties( KConfig *config )
@@ -952,6 +952,8 @@ void KonqMainView::readProperties( KConfig *config )
     m_vMainWindow->setActivePart( id() );
 
   m_pViewManager->loadViewProfile( *config );
+
+  setLocationBarCombo( config->readListEntry( "ToolBarCombo" ) );
 }
 
 void KonqMainView::slotNewWindow()
@@ -1596,6 +1598,10 @@ void KonqMainView::initConfig()
   }
   else
     this->resize(m_Props->m_width,m_Props->m_height);
+    
+  KConfig *config = kapp->getConfig();
+  config->setGroup( "Settings" );
+  m_lstLocationBarCombo = config->readListEntry( "ToolBarCombo" );
 }
 
 void KonqMainView::initGui()
@@ -1802,6 +1808,31 @@ void KonqMainView::fillProfileMenu()
       m_vMenuOptionsProfiles->insertItem7( ( text = Q2C( *eIt ) ), -1, -1 );
     
   }
+}
+
+QStringList KonqMainView::locationBarCombo()
+{
+  QStringList entryList;
+  
+  CORBA::WString_var item;
+  CORBA::Long count = m_vLocationBar->comboItemCount( TOOLBAR_URL_ID );
+  for ( CORBA::ULong i = 1; i < count; i++ )
+    entryList.append( C2Q( item = m_vLocationBar->comboItem( TOOLBAR_URL_ID, i ) ) );
+
+  return entryList;
+}
+
+void KonqMainView::setLocationBarCombo( const QStringList &entryList )
+{
+  m_vToolBar->clearCombo( TOOLBAR_URL_ID );
+
+  CORBA::WString_var item;
+  QStringList::ConstIterator it = entryList.begin();
+  QStringList::ConstIterator end = entryList.end();
+  CORBA::ULong i = 0;
+  for (; it != end; ++it )
+    m_vLocationBar->insertComboItem( TOOLBAR_URL_ID, ( item = Q2C( *it ) ), -1 );
+    
 }
 
 #include "konq_mainview.moc"

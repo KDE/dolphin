@@ -143,9 +143,9 @@ KfmViewSettings::KfmViewSettings( KConfig * config )
 
   QString entry = config->readEntry( "MouseMode" , "SingleClick");
   if ( entry == "SingleClick" )
-    m_mouseMode = SingleClick;
+    m_mouseMode = Konqueror::SingleClick;
   else
-    m_mouseMode = DoubleClick;
+    m_mouseMode = Konqueror::DoubleClick;
 
   m_bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
   m_textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );

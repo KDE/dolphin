@@ -35,7 +35,7 @@ noinst_HEADERS = browser.h kfmrun.h \
         konq_main.h konq_mainview.h konq_mainwindow.h \
         konq_plugins.h konq_propsmainview.h konq_propsview.h \
         konq_searchdia.h konq_treeview.h konq_txtview.h konqueror.h \
-	konq_viewmgr.h mousemode.h konq_defaults.h
+	konq_viewmgr.h konq_defs.h konq_defaults.h
 
 METASOURCES = kfmrun.moc \
 	konq_childview.moc konq_frame.moc \

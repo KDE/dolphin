@@ -22,7 +22,6 @@
 #include "konqueror.h"
 
 #include <opPart.h>
-#include <openparts_ui.h>
 
 #include <qmap.h>
 #include <qstring.h>
@@ -39,7 +38,6 @@ class KURLCompletion;
 class KonqPropsMainView;
 class KfmRun;
 class KonqChildView;
-class KonqFrame;
 class QSplitter;
 class KonqViewManager;
 
@@ -259,7 +257,10 @@ private:
   QString findIndexFile( const QString &directory );
 
   void fillProfileMenu();
-
+  
+  QStringList locationBarCombo();
+  void setLocationBarCombo( const QStringList &lst );
+  
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
   OpenPartsUI::Menu_var m_vMenuEdit;
@@ -322,6 +323,8 @@ private:
   bool m_bViewMenuDirty;
 
   KonqViewManager *m_pViewManager;
+
+  QStringList m_lstLocationBarCombo;
 
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;

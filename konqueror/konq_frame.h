@@ -24,9 +24,8 @@
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
-#include "openparts.h"
 
-#include "konqueror.h"
+#include <browser.h>
 
 class QPixmap;
 class QVBoxLayout;

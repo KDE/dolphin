@@ -30,7 +30,6 @@
 #include <kmimetypes.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
-#include <krun.h>
 
 #include <assert.h>
 #include <string.h>
@@ -41,11 +40,12 @@
 #include <kapp.h>
 #include <kglobal.h>
 
+#include <qheader.h>
+#include <qpixmap.h>
 #include <qmsgbox.h>
 #include <qkeycode.h>
 #include <qlist.h>
 #include <qdragobject.h>
-#include <qheader.h>
 #include <klocale.h>
 
 #include <opUIUtils.h>
@@ -455,7 +455,7 @@ void KonqKfmTreeView::mousePressEvent( QMouseEvent *_ev )
 
   if ( m_pressedItem )
   {
-    if ( m_mouseMode == SingleClick )
+    if ( m_mouseMode == Konqueror::SingleClick )
     {
       if ( _ev->button() == LeftButton && !( _ev->state() & ControlButton ) )
       {
@@ -477,7 +477,7 @@ void KonqKfmTreeView::mousePressEvent( QMouseEvent *_ev )
 	return;
       }
     }
-    else if ( m_mouseMode == DoubleClick )
+    else if ( m_mouseMode == Konqueror::DoubleClick )
     {
       if ( !m_pressedItem->isSelected() && _ev->button() == LeftButton && !( _ev->state() & ControlButton ) )
       {
@@ -517,7 +517,7 @@ void KonqKfmTreeView::mouseReleaseEvent( QMouseEvent *_mouse )
   if ( !m_pressed )
     return;
 
-  if ( m_mouseMode == SingleClick &&
+  if ( m_mouseMode == Konqueror::SingleClick &&
        _mouse->button() == LeftButton &&
        !( _mouse->state() & ControlButton ) &&
        isSingleClickArea( _mouse->pos() ) )
@@ -545,7 +545,7 @@ void KonqKfmTreeView::mouseMoveEvent( QMouseEvent *_mouse )
 	slotOnItem( item );
 	m_overItem = item;
 
-	if ( m_mouseMode == SingleClick && m_changeCursor )
+	if ( m_mouseMode == Konqueror::SingleClick && m_changeCursor )
 	  setCursor( m_handCursor );
       }
     }
@@ -1244,7 +1244,7 @@ const char* KfmTreeViewItem::makeAccessString( const UDSAtom &_atom ) const
 
 void KfmTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & cg, int column, int width, int alignment )
 {
-  if ( m_pTreeView->m_mouseMode == SingleClick &&
+  if ( m_pTreeView->m_mouseMode == Konqueror::SingleClick &&
        m_pTreeView->m_underlineLink && column == 0)
   {
     QFont f = _painter->font();

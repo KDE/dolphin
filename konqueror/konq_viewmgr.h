@@ -21,13 +21,12 @@
 #define __konq_viewmgr_h__ $Id$
 
 #include <qnamespace.h>
-#include <qlist.h>
 
-class QSplitter;
+#include "konq_defs.h"
+
 class QStringList;
 class KConfig;
 class KonqMainView;
-class KonqChildView;
 
 namespace Browser
 {
@@ -41,13 +40,6 @@ public:
   KonqViewManager( KonqMainView *mainView );
   ~KonqViewManager();
   
-  struct RowInfo
-  {
-    QList<KonqChildView> children;
-    QSplitter *splitter;
-  };
-
-
   void saveViewProfile( KConfig &cfg );
   void loadViewProfile( KConfig &cfg );
 
@@ -65,15 +57,15 @@ public:
   
 private:
 
-  void clearRow( RowInfo *row );
+  void clearRow( Konqueror::RowInfo *row );
 
-  void setupView( RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes );
+  void setupView( Konqueror::RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes );
   
   KonqMainView *m_pMainView;
   
   QSplitter *m_pMainSplitter;
 
-  QList<RowInfo> m_lstRows;
+  QList<Konqueror::RowInfo> m_lstRows;
 };
 
 #endif

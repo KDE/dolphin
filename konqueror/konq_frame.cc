@@ -154,10 +154,10 @@ void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
   bool hasFocus = m_pParentKonqFrame->view()->hasFocus();
-  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
+//  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
   {
-    kdebug(0, 1202, "paintEvent aborted : not visible !");
+//    kdebug(0, 1202, "paintEvent aborted : not visible !");
     return;
   }
 
@@ -354,7 +354,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     delete buffer;
   }*/ 
   p.end();
-  kdebug(0, 1202, "paintEvent done !");
+//  kdebug(0, 1202, "paintEvent done !");
 
 }
 

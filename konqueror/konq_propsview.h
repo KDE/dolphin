@@ -20,7 +20,7 @@
 #ifndef __kfm_viewprops_h__
 #define __kfm_viewprops_h__
 
-#include "mousemode.h"
+#include "konq_defs.h"
 
 #include <qcolor.h>
 #include <qpixmap.h>
@@ -138,7 +138,7 @@ public:
   int fontSize() { return m_iFontSize; }
 
   bool changeCursor() { return m_bChangeCursor; }
-  MouseMode mouseMode() { return m_mouseMode; }
+  Konqueror::MouseMode mouseMode() { return m_mouseMode; }
 
   const QColor& bgColor() { return m_bgColor; }
   const QColor& textColor() { return m_textColor; }
@@ -158,7 +158,7 @@ protected:
   int m_iFontSize;  
   
   bool m_bChangeCursor;
-  MouseMode m_mouseMode;
+  Konqueror::MouseMode m_mouseMode;
   QColor m_bgColor;
   QColor m_textColor;
   QColor m_linkColor;

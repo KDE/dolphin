@@ -22,18 +22,18 @@
 
 #include <qvaluelist.h>
 #include <qlistview.h>
-#include <qtimer.h>
 #include <qdict.h>
 #include <qstringlist.h>
 #include <qcursor.h>
 #include <qpixmap.h>
-#include <kio_interface.h>
-#include <kurl.h>
 
 #include "konq_baseview.h"
 
-#include "mousemode.h"
+#include "konq_defs.h"
 
+struct UDSAtom;
+class QCursor;
+class KURL;
 class KonqMainView;
 class KfmTreeViewDir;
 class KfmTreeViewItem;
@@ -203,8 +203,8 @@ public:
   virtual void setBgPixmap( const QPixmap& _pixmap );
   virtual const QPixmap& bgPixmap() { return m_bgPixmap; }
 
-  virtual void setMouseMode( MouseMode _mode ) { m_mouseMode = _mode; }
-  virtual MouseMode mouseMode() { return m_mouseMode; }
+  virtual void setMouseMode( Konqueror::MouseMode _mode ) { m_mouseMode = _mode; }
+  virtual Konqueror::MouseMode mouseMode() { return m_mouseMode; }
 
   virtual void setUnderlineLink( bool _underlineLink );
   virtual bool underlineLink() { return m_underlineLink; }
@@ -316,7 +316,7 @@ protected:
 
   QPixmap m_bgPixmap;
 
-  MouseMode m_mouseMode;
+  Konqueror::MouseMode m_mouseMode;
 
   bool m_underlineLink;
   bool m_changeCursor;

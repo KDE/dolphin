@@ -111,10 +111,10 @@ void KonqChildView::detach()
 
 void KonqChildView::repaint()
 {
-  kdebug(0,1202,"KonqChildView::repaint()");
+//  kdebug(0,1202,"KonqChildView::repaint()");
   if (m_pKonqFrame != 0L) 
     m_pKonqFrame->repaint();
-  kdebug(0,1202,"KonqChildView::repaint() : done");
+//  kdebug(0,1202,"KonqChildView::repaint() : done");
 }
 
 void KonqChildView::show()
@@ -160,12 +160,13 @@ void KonqChildView::switchView( Browser::View_ptr _vView, const QStringList &ser
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType, 
-                                    const QString &_url, bool useMiscURLData )
+                                    const QString &_url, bool useMiscURLData,
+				    bool forceTreeView )
 {
   QString url = _url;
   if ( url.isEmpty() )
     url = KonqChildView::url();
-    
+
   //no need to change anything if we are able to display this servicetype
   if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() )
   {
@@ -176,7 +177,13 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
   Browser::View_var vView;
   QStringList serviceTypes;
-  if ( !createView( serviceType, vView, serviceTypes, m_pMainView ) )
+  if ( forceTreeView )
+  {
+    serviceTypes.clear();
+    serviceTypes.append( serviceType );
+    vView = Browser::View::_duplicate( new KonqKfmTreeView( m_pMainView ) );
+  }
+  else if ( !createView( serviceType, vView, serviceTypes, m_pMainView ) )
    return false;
   
   makeHistory( false );
@@ -198,6 +205,8 @@ void KonqChildView::changeView( Browser::View_ptr _vView,
   QString url = _url;
   if ( url.isEmpty() )
     url = KonqChildView::url();
+    
+  m_vMainWindow->setActivePart( m_pMainView->id() );
     
   OpenParts::Id oldId = m_vView->id();
   switchView( _vView, serviceTypes );
@@ -308,6 +317,7 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
+  m_pCurrentHistoryEntry->bIsTreeView = ( viewName() == "KonqKfmTreeView" );
 }
 
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
@@ -324,7 +334,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   m_bReloadURL = false;
   m_iXOffset = h->xOffset;
   m_iYOffset = h->yOffset;
-  changeViewMode( h->strServiceType, h->strURL );
+  changeViewMode( h->strServiceType, h->strURL, true, h->bIsTreeView );
   
   stack.removeFirst();
 }

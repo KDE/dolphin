@@ -22,8 +22,8 @@
 #ifndef __konq_childview_h__
 #define __konq_childview_h__ "$Id$"
 
+#include "konq_defs.h"
 #include "konq_mainview.h"
-#include "konq_viewmgr.h"
 
 #include <qlist.h>
 #include <qstring.h>
@@ -84,7 +84,7 @@ public:
   void switchView( Browser::View_ptr _vView, const QStringList &serviceTypes );
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
-                       bool useMiscURLData = true );
+                       bool useMiscURLData = true, bool forceTreeView = false );
   void changeView( Browser::View_ptr _vView, const QStringList &serviceTypes, 
                    const QString &url = QString::null );
   
@@ -194,8 +194,8 @@ public:
   int xOffset() const { return m_iXOffset; }
   int yOffset() const { return m_iYOffset; }
 
-  void setRowInfo( KonqViewManager::RowInfo *rowInfo ) { m_pRow = rowInfo; }
-  KonqViewManager::RowInfo *rowInfo() const { return m_pRow; }
+  void setRowInfo( Konqueror::RowInfo *rowInfo ) { m_pRow = rowInfo; }
+  Konqueror::RowInfo *rowInfo() const { return m_pRow; }
 
   static bool createView( const QString &serviceType, 
                           Browser::View_var &view, 
@@ -223,6 +223,7 @@ protected:
     int xOffset;
     int yOffset;
     QString strServiceType;
+    bool bIsTreeView;
   };
 
   void go( QList<HistoryEntry> &stack, int steps );
@@ -251,7 +252,7 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
   KonqFrame* m_pKonqFrame;
-  KonqViewManager::RowInfo *m_pRow;
+  Konqueror::RowInfo *m_pRow;
 };
 
 #endif
