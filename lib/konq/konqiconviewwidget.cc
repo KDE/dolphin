@@ -258,14 +258,14 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
     const QPixmap *pm  = backgroundPixmap();
     bool hasPixmap = pm && !pm->isNull();
     if (!hasPixmap && backgroundMode() != NoBackground) {
-        p->fillRect(r, backgroundColor());
-        return;
+	p->fillRect(r, backgroundColor());
+	return;
     }
 
     if (hasPixmap) {
-        int ax = (r.x() + contentsX()) % pm->width();
-        int ay = (r.y() + contentsY()) % pm->height();
-        p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+	int ax = (r.x() + contentsX() + leftMargin()) % pm->width();
+	int ay = (r.y() + contentsY() + topMargin()) % pm->height();
+	p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
     }
 }
 
