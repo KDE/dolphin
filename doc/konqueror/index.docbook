@@ -2503,8 +2503,10 @@ author</emphasis></para></listitem>
 (HTML rendering engine)</emphasis></para></listitem>
 <listitem><para>Antti Koivisto <email>koivisto@kde.org</email>
 <emphasis>developer (HTML rendering engine)</emphasis></para></listitem>
-<listitem><para>Waldo Bastian <email>bastian@kde.org</email> <emphasis>developer
-(HTML rendering engine, I/O lib)</emphasis></para></listitem>
+<listitem><para>Dirk Mueller <email>mueller@kde.org</email>
+<emphasis>developer (HTML rendering engine)</emphasis></para></listitem>
+<listitem><para>Waldo Bastian <email>bastian@kde.org</email>
+<emphasis>developer (HTML rendering engine, I/O lib)</emphasis></para></listitem>
 <listitem><para>Matt Koss <email>koss@napri.sk</email> <emphasis>developer (I/O
 lib)</emphasis></para></listitem>
 <listitem><para>Alex Zepeda <email>jazepeda@pacbell.net</email>
@@ -2517,6 +2519,8 @@ lib)</emphasis></para></listitem>
 <emphasis>developer (Java applet support)</emphasis></para></listitem>
 <listitem><para>Harri Porten <email>porten@kde.org</email>
 <emphasis>developer (JavaScript)</emphasis></para></listitem>
+<listitem><para>Peter Kelly <email>pmk@post.com</email>
+<emphasis>developer (HTML rendering engine, JavaScript)</emphasis></para></listitem>
 </itemizedlist>
 
 <para>Documentation copyright 2000 </para>
