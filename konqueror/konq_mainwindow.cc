@@ -366,8 +366,8 @@ void KonqMainWindow::initBookmarkBar()
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
 
   if (!bar) return;
-  if (m_paBookmarkBar) return;
 
+  delete m_paBookmarkBar;
   m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), m_pBookmarksOwner, bar, m_bookmarkBarActionCollection, this );
   connect( m_paBookmarkBar,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
@@ -376,7 +376,6 @@ void KonqMainWindow::initBookmarkBar()
   // hide if empty
   if (bar->count() == 0 )
      bar->hide();
-
 }
 
 void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id )
@@ -1700,8 +1699,11 @@ void KonqMainWindow::slotConfigureToolbars()
     saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
   KEditToolbar dlg(factory());
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
-  if ( dlg.exec() )
+  connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(initBookmarkBar()));
+  if ( dlg.exec() ) {
     createGUI( m_pViewManager->activePart() );
+    initBookmarkBar();
+  }
 }
 
 void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply is clicked
