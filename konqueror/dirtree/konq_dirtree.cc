@@ -24,7 +24,6 @@
 #include <kdebug.h>
 #include <konqoperations.h>
 #include <kio/paste.h>
-#include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kdesktopfile.h>
 #include <konqsettings.h>

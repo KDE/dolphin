@@ -229,7 +229,7 @@ void KonqListViewWidget::initConfig()
 
   m_bSingleClick       = KGlobalSettings::singleClick();
   m_bUnderlineLink     = m_pSettings->underlineLink();
-  m_bChangeCursor      = KonqHTMLSettings::defaultHTMLSettings()->changeCursor();
+  m_bChangeCursor      = KGlobalSettings::changeCursorOverIcon();
 }
 
 void KonqListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )

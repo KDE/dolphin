@@ -309,7 +309,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     actions()->append( BrowserView::ViewAction( m_paInvertSelection, BrowserView::MenuEdit ) );
     */
 
-    QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
+    QObject::connect( m_pIconView, SIGNAL( executed( QIconViewItem * ) ),
 		      this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
     QObject::connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
 		      this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
@@ -549,7 +549,7 @@ void KonqKfmIconView::slotViewLarge( bool b )
     }
 }
 
-void KonqKfmIconView::slotViewNormal( bool b )
+void KonqKfmIconView::slotViewMedium( bool b )
 {
     if ( b )
     {

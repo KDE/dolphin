@@ -76,7 +76,7 @@ public slots:
 
   void slotKofficeMode( bool b );
   void slotViewLarge( bool b );
-  void slotViewNormal( bool b );
+  void slotViewMedium( bool b );
   void slotViewSmall( bool b );
   void slotViewNone( bool b );
 
