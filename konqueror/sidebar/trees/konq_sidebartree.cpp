@@ -871,15 +871,13 @@ void KonqSidebarTree::slotItemRenamed(QListViewItem* item, const QString &name, 
 
 
 void KonqSidebarTree::enableActions( bool copy, bool cut, bool paste,
-                        bool trash, bool del, bool shred,
-                        bool rename)
+                        bool trash, bool del, bool rename)
 {
     enableAction( "copy", copy );
     enableAction( "cut", cut );
     enableAction( "paste", paste );
     enableAction( "trash", trash );
     enableAction( "del", del );
-    enableAction( "shred", shred );
     enableAction( "rename", rename );
 }
 

@@ -102,8 +102,7 @@ public:
     bool isOpeningFirstChild() const { return m_bOpeningFirstChild; }
  
     void enableActions( bool copy, bool cut, bool paste,
-                        bool trash, bool del, bool shred,
-                        bool rename = false );
+                        bool trash, bool del, bool rename = false );
 
     void itemDestructed( KonqSidebarTreeItem *item );
 
