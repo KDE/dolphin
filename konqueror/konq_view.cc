@@ -254,7 +254,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
                 << " serviceName is " << serviceName
                 << " current service name is " << m_service->desktopEntryName() << endl;
 
-  if ( !m_service->serviceTypes().contains( serviceType ) ||
+  if ( m_serviceType != serviceType ||
        ( !serviceName.isEmpty() && serviceName != m_service->desktopEntryName() ) )
   {
 
@@ -276,13 +276,24 @@ bool KonqView::changeViewMode( const QString &serviceType,
         setLocationBarURL( history().current()->locationBarURL );
       return false;
     }
-
-    m_service = service;
+    m_serviceType = serviceType;
     m_partServiceOffers = partServiceOffers;
     m_appServiceOffers = appServiceOffers;
-    m_serviceType = serviceType;
 
-    switchView( viewFactory );
+    // Check if that's already the kind of part we have -> no need to recreate it
+    // Note: we should have an operator= for KService...
+    if ( m_service && m_service->desktopEntryPath() == service->desktopEntryPath() )
+    {
+      kdDebug( 1202 ) << "KonqView::changeViewMode. Reusing service. Service type set to " << m_serviceType << endl;
+      if (  m_pMainWindow->currentView() == this )
+          m_pMainWindow->updateViewModeActions();
+    }
+    else
+    {
+      m_service = service;
+
+      switchView( viewFactory );
+    }
 
     // Make the new part active. Note that we don't do it each time we
     // open a URL (becomes awful in view-follows-view mode), but we do
@@ -291,15 +302,6 @@ bool KonqView::changeViewMode( const QString &serviceType,
     // where the location bar url isn't set yet.
     kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
     m_pMainWindow->viewManager()->setActivePart( m_pPart );
-  }
-  else if ( m_serviceType != serviceType )
-  {
-      m_serviceType = serviceType;
-      kdDebug(1202) << "KonqView::changeViewMode service type set to " << m_serviceType << endl;
-      // Re-query the trader
-      KonqFactory::getOffers( m_serviceType, &m_partServiceOffers, &m_appServiceOffers );
-      if ( m_pMainWindow->currentView() == this )
-          m_pMainWindow->updateViewModeActions();
   }
   return true;
 }
