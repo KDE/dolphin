@@ -494,8 +494,8 @@ KMacroCommand* CmdGen::deleteItems(const QString &commandName,
 
 
 KMacroCommand* CmdGen::insertMimeSource(
-        const QString &cmdName, QMimeSource *_data, const QString &addr
-        ) {
+    const QString &cmdName, QMimeSource *_data, const QString &addr
+) {
     QMimeSource *data = _data;
     bool modified = false;
     const char *format = 0;

@@ -326,7 +326,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
     KActionCollection * coll = actionCollection();
 
     QStringList toEnable;
-
+    
     if (sa.itemSelected) {
         toEnable << "edit_copy";
         if (!sa.urlIsEmpty && !sa.group && !sa.separator)

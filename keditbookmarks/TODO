@@ -30,3 +30,26 @@ basic gui:
    split view stuff - including filtered views
    need to get keyboard shortcut changes working somehow (wheels)
    have to get dynamic filtering (e.g sorting, pruning),
+
+CHECKS
+------
+
+valgrind report:
+
+on startup:
+   ==20375== Conditional jump or move depends on uninitialised value(s)
+   ==20375==    at 0x40270754: KEBApp::setActionsEnabled(SelcAbilities) (actionsimpl.cpp:343)
+   ==20375==    by 0x4026CD4B: KEBApp::updateActions() (listview.h:166)
+   ==20375==    by 0x40265577: ListView::handleSelectionChanged(KEBListView*) (toplevel.h:106)
+   ==20375==    by 0x402666C9: KEBListView::slotSelectionChanged() (listview.h:166)
+   ==20375==
+
+lots of crap when using file->open
+
+with memcheck
+   ==20415== 420 bytes in 14 blocks are definitely lost in loss record 107 of 146
+   ==20415==    at 0x40029B01: __builtin_new (in /usr/lib/valgrind/vgskin_memcheck.so)
+   ==20415==    by 0x40029B6C: operator new(unsigned) (in /usr/lib/valgrind/vgskin_memcheck.so)
+   ==20415==    by 0x402669AA: KEBListView::itemList() (listview.cpp:682)
+   ==20415==    by 0x402634EA: ListView::selectedItems() const (qptrlist.h:157)
+
