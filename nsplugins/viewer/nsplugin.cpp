@@ -361,12 +361,12 @@ int32 NSPluginInstance::NPWriteReady(NPStream *stream)
 }
 
 
-void NSPluginInstance::NPURLNotify(const char *url, NPReason reason, void *notifyData)
+void NSPluginInstance::NPURLNotify(QString url, NPReason reason, void *notifyData)
 {
    if (!_pluginFuncs.urlnotify)
       return;
 
-   _pluginFuncs.urlnotify(_npp, url, reason, notifyData);
+   _pluginFuncs.urlnotify(_npp, url.ascii(), reason, notifyData);
 }
 
 
@@ -902,7 +902,7 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
       {
 	 _instance->NPStreamAsFile( _stream, tmpFile.ascii() );
 	 _instance->NPDestroyStream( _stream, NPRES_DONE );
-	 if ( _notifyData ) _instance->NPURLNotify( url.ascii() /* ### FIXME!! */, NPRES_NETWORK_ERR, _notifyData );
+	 if ( _notifyData ) _instance->NPURLNotify( url.ascii(), NPRES_NETWORK_ERR, _notifyData );
 	 delete _stream;
 	 _stream = 0;
 
@@ -1025,7 +1025,7 @@ void NSPluginStream::result(KIO::Job *job)
       }
       
       _instance->NPDestroyStream( _stream, NPRES_DONE );
-      if ( _notifyData ) _instance->NPURLNotify( _url.ascii() /* ### FIXME!!! */, NPRES_DONE, _notifyData );
+      if ( _notifyData ) _instance->NPURLNotify( _url, NPRES_DONE, _notifyData );
    } else
    {
       // close temp file
@@ -1034,7 +1034,7 @@ void NSPluginStream::result(KIO::Job *job)
 
       // destroy stream
       _instance->NPDestroyStream(_stream, NPRES_NETWORK_ERR);
-      if ( _notifyData ) _instance->NPURLNotify( _url.ascii() /* ### FIXME!!! */, NPRES_NETWORK_ERR, _notifyData );
+      if ( _notifyData ) _instance->NPURLNotify( _url, NPRES_NETWORK_ERR, _notifyData );
       delete _stream;
       _stream = 0;
 

@@ -123,7 +123,7 @@ public:
   int32 NPWriteReady(NPStream *stream);  
   
   // URL functions
-  void NPURLNotify(const char *url, NPReason reason, void *notifyData);
+  void NPURLNotify(QString url, NPReason reason, void *notifyData);
 
   // Event handling
   uint16 HandleEvent(void *event);
