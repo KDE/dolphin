@@ -93,7 +93,7 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent )
 
   setFrameStyle( QFrame::NoFrame | QFrame::Plain );
 
-  connect( &m_timer, SIGNAL( timeout() ), this, SLOT( slotTimeout() ) );
+//    connect( &m_timer, SIGNAL( timeout() ), this, SLOT( slotUpdate() ) );
   m_lstNewItems.setAutoDelete( false );
 }
 
@@ -225,18 +225,18 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *_ev  )
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
   m_dragOverItem = 0L;
-  
+
   KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( _ev->pos() );
-  
+
   QStringList lst;
 
   QString dest = ( item ) ? item->item()->url().url() : m_dirLister->url();
-  
+
   if ( QUrlDrag::decodeToUnicodeUris( _ev, lst ) )
   {
     if ( lst.count() == 0 )
       return;
-    
+
     KIOJob *job = new KIOJob;
     job->copy( lst, dest );
   }
@@ -291,7 +291,7 @@ void KonqTreeViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
 
   QPoint globalPos = mapToGlobal( _ev->pos() );
   m_pressed = false;
-  
+
   if ( m_bSingleClick )
   {
     KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( _ev->pos() );
@@ -303,13 +303,13 @@ void KonqTreeViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
         setCursor( m_stdCursor );
 	m_overItem = 0;
       }
-      
+
       if ( ( _ev->state() & ControlButton ) && _ev->button() == LeftButton )
       {
         setSelected( item, !item->isSelected() );
 	return;
       }
-      
+
       if ( _ev->button() == RightButton && !item->isSelected() )
       {
         clearSelection();
@@ -337,7 +337,7 @@ void KonqTreeViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
       return;
     }
     else clearSelection();
-  }    
+  }
 }
 
 void KonqTreeViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
@@ -513,7 +513,7 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
   {
     mode_t mode = S_IFDIR;
     KURL url( m_dirLister->url() );
-    
+
     KFileItem item( "foobarbazzboom", mode, url );
     lstItems.append( &item );
   }
@@ -582,14 +582,14 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
     // Create the directory lister
     m_dirLister = new KDirLister();
 
-    QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ), 
+    QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
                       this, SLOT( slotStarted( const QString & ) ) );
     QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
     QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
     QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-    QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ), 
+    QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ),
                       this, SLOT( slotNewItem( KFileItem * ) ) );
-    QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ), 
+    QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
                       this, SLOT( slotDeleteItem( KFileItem * ) ) );
   }
 
@@ -600,7 +600,7 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
   m_strURL = url.url();
-  
+
 //  setCaptionFromURL( m_strURL );
 }
 
@@ -623,7 +623,7 @@ void KonqTreeViewWidget::slotStarted( const QString & /*url*/ )
 {
   if ( !m_bTopLevelComplete )
     emit m_pBrowserView->started();
-  m_timer.start( 500 );
+  m_timer.start( 500, true );
 }
 
 void KonqTreeViewWidget::slotCompleted()
@@ -649,25 +649,34 @@ void KonqTreeViewWidget::slotClear()
   if ( !m_pWorkingDir )
     clear();
 }
-  
+
 void KonqTreeViewWidget::slotNewItem( KFileItem * _fileitem )
 {
   m_lstNewItems.append( _fileitem );
+  if ( !m_timer.isActive() )
+    {
+      m_timer.start( 500, true );
+      slotUpdate();
+    }
 }
 
 void KonqTreeViewWidget::slotUpdate()
 {
+  kdebug( KDEBUG_INFO, 1202, "KonqTreeViewWidget::slotUpdate(...)");
   QListIterator<KFileItem> kit ( m_lstNewItems );
   for( ; kit.current(); ++kit )
   {
-    kdebug( KDEBUG_INFO, 1202, "KonqTreeViewWidget::slotNewItem(...)");
     bool isdir = S_ISDIR( (*kit)->mode() );
 
     KURL dir ( (*kit)->url() );
     dir.setFileName( "" );
     kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
-    KonqTreeViewDir * parentDir = findDir ( dir.url( 0 ) );
-    kdebug( KDEBUG_INFO, 1202, "findDir returned %p", parentDir );
+    KonqTreeViewDir * parentDir = 0L;
+    if( !urlcmp( dir.url(0), m_strURL, true, true ) ) 
+      {
+        parentDir = findDir ( dir.url( 0 ) );
+        kdebug( KDEBUG_INFO, 1202, "findDir returned %p", parentDir );
+      }
 
     if ( parentDir ) { // adding under a directory item
       if ( isdir )
@@ -682,7 +691,6 @@ void KonqTreeViewWidget::slotUpdate()
     }
   }
   m_lstNewItems.clear();
-  update(); // FIXME
 }
 
 
@@ -804,14 +812,22 @@ void KonqTreeViewWidget::focusInEvent( QFocusEvent* _event )
   QListView::focusInEvent( _event );
 }
 
+static KonqTreeViewDir * lasttvd = 0L;
+
 KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
 {
+  if ( lasttvd && urlcmp( lasttvd->url(0), _url, true, true ) )
+    return lasttvd;
+
   QDictIterator<KonqTreeViewDir> it( m_mapSubDirs );
   for( ; it.current(); ++it )
   {
     debug( it.current()->url(0) );
-    if ( urlcmp( it.current()->url(0), _url, true, true ) )
-      return it.current();
+    if ( urlcmp( it.current()->url(0), _url, true, true ) ) 
+      {
+        lasttvd = it.current();
+        return it.current();
+      }           
   }
   return 0L;
 }
