@@ -229,6 +229,7 @@ void clientApp::slotAppRegistered( const QCString &appId )
             konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url );
         else
             konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url, m_mimetype );
+        sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
         ::exit( 0 );
     }
 }
