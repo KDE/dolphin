@@ -152,7 +152,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                           "saved to a location of your choice." ) );
 #endif
     QWhatsThis::add( domainSpecific, i18n("Here you can set specific Java policies for any particular "
-                                            "host or domain. To add a new policy, simply click the <i>Add...</i> "
+                                            "host or domain. To add a new policy, simply click the <i>New...</i> "
                                             "button and supply the necessary information requested by the "
                                             "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                             "button and choose the new policy from the policy dialog box. Clicking "
@@ -279,8 +279,9 @@ void KJavaOptions::slotChanged()
 
 void KJavaOptions::toggleJavaControls()
 {
-    bool isEnabled = java_global_policies.isFeatureEnabled();
+    bool isEnabled = enableJavaGloballyCB->isChecked();
 
+    java_global_policies.setFeatureEnabled(isEnabled);
     javaConsoleCB->setEnabled( isEnabled );
     javaSecurityManagerCB->setEnabled( isEnabled );
     addArgED->setEnabled( isEnabled );

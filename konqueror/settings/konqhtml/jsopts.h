@@ -65,9 +65,9 @@ public:
 
 private slots:
   void slotChanged();
+  void slotChangeJSEnabled();
 
 private:
-  void changeJavaScriptEnabled();
 
   KConfig *m_pConfig;
   QString m_groupname;

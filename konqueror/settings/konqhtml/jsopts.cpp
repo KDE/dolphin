@@ -71,6 +71,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
         "(also known as JavaScript) that can be contained in HTML pages. "
         "Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+  connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChangeJSEnabled() ) );
 
 //  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable debu&gging" ), globalGB );
 //  QWhatsThis::add( enableJavaScriptDebugCB, i18n("Enables the reporting of errors that occur when JavaScript "
@@ -84,7 +85,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   toplevel->addWidget( domainSpecific, 2 );
 
   QWhatsThis::add( domainSpecific, i18n("Here you can set specific JavaScript policies for any particular "
-                                          "host or domain. To add a new policy, simply click the <i>Add...</i> "
+                                          "host or domain. To add a new policy, simply click the <i>New...</i> "
                                           "button and supply the necessary information requested by the "
                                           "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                           "button and choose the new policy from the policy dialog box. Clicking "
@@ -187,11 +188,8 @@ void KJavaScriptOptions::slotChanged()
   emit changed(true);
 }
 
-void KJavaScriptOptions::changeJavaScriptEnabled()
-{
-  bool enabled = enableJavaScriptGloballyCB->isChecked();
-  js_global_policies.setFeatureEnabled(enabled);
-  enableJavaScriptGloballyCB->setChecked( enabled );
+void KJavaScriptOptions::slotChangeJSEnabled() {
+  js_global_policies.setFeatureEnabled(enableJavaScriptGloballyCB->isChecked());
 }
 
 // == class JSDomainListView =====
