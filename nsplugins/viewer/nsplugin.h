@@ -69,6 +69,9 @@ public:
 
   void get(QString url, QString mimeType, void *notifyData);
 
+signals:
+  void finished( NSPluginStream *strm );
+
 private slots:
 
   void data(KIO::Job *job, const QByteArray &data);
@@ -139,16 +142,18 @@ public:
   void setCallback( QCString app, QCString obj );
   void requestURL( QCString url, QCString target, void *notify );
 
-  void destroyStream( NSPluginStream *strm );
-
   void destroyPlugin();
 
 signals:
 
   void status(const char *message);
 
+public slots:
+  void streamFinished( NSPluginStream *strm );
+
 private slots:
   void shutdown();
+  
 
 private:
   void destroy();

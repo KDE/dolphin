@@ -109,12 +109,12 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    {
       kdDebug() << "Starting src stream" << endl;
       NSPluginStream *s = new NSPluginStream( this );
+      connect( s, SIGNAL(finished(NSPluginStream*)), SLOT(streamFinished(NSPluginStream*)) );
       _streams.append( s );
       s->get( src, mime, 0 );
    } else
       kdDebug() << "No src stream" << endl;
 }
-
 
 NSPluginInstance::~NSPluginInstance()
 {
@@ -140,14 +140,12 @@ void NSPluginInstance::destroy()
    {
       _destroyed = true;
 
-      kdDebug() << "delete streams" << endl;
-      _streams.clear();
-
       kdDebug() << "delete callbacks" << endl;
       delete _callback;
       _callback = 0;
 
-      setWindow(true);
+      kdDebug() << "delete streams" << endl;
+      _streams.clear();
 
       kdDebug() << "destroy plugin" << endl;
       if ( _pluginFuncs.destroy )
@@ -165,7 +163,8 @@ void NSPluginInstance::destroyPlugin()
 {
    kdDebug() << "-> NSPluginInstance::destroyPlugin" << endl;
    destroy();
-   _shutdownTimer->start( 0, TRUE );
+   //_shutdownTimer->start( 0, TRUE );
+   delete this;
    kdDebug() << "<- NSPluginInstance::destroyPlugin" << endl;
 }
 
@@ -186,6 +185,7 @@ void NSPluginInstance::requestURL( QCString url, QCString target, void *notify )
          kdDebug() << "Starting new stream" << endl;
 
          NSPluginStream *s = new NSPluginStream( this );
+         connect( s, SIGNAL(finished(NSPluginStream*)), SLOT(streamFinished(NSPluginStream*)) );
          _streams.append( s );
 
          // make absolute url
@@ -204,12 +204,11 @@ void NSPluginInstance::requestURL( QCString url, QCString target, void *notify )
 }
 
 
-void NSPluginInstance::destroyStream( NSPluginStream *strm )
+void NSPluginInstance::streamFinished( NSPluginStream *strm )
 {
-   kdDebug() << "-> NSPluginInstance::destroyStream" << endl;
+   kdDebug() << "-> NSPluginInstance::streamFinished" << endl;
    _streams.remove( strm );
-   delete strm;
-   kdDebug() << "<- NSPluginInstance::destroyStream" << endl;
+   kdDebug() << "<- NSPluginInstance::streamFinished" << endl;
 }
 
 
@@ -568,7 +567,7 @@ DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, bool embed,
    npp->ndata = NULL;
    NPError error = _pluginFuncs.newp(mime, npp, embed ? NP_EMBED : NP_FULL,
                                      argc, _argn, _argv, 0);
-   kdDebug() << "Result of NPP_New = " << (int)error << endl;
+   kdDebug() << "NPP_New = " << (int)error << endl;
 
    if (error != NPERR_NO_ERROR)
    {
@@ -676,7 +675,7 @@ NPError NPN_DestroyStream(NPP instance, NPStream* stream,
    kdDebug() << "NPN_DestroyStream()" << endl;
 
    NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
-   inst->destroyStream( (NSPluginStream *)stream->ndata );
+   inst->streamFinished( (NSPluginStream *)stream->ndata );
 
    return NPERR_GENERIC_ERROR;
 }
@@ -838,11 +837,9 @@ NSPluginStream::~NSPluginStream()
 {
    kdDebug() << "-> ~NSPluginStream" << endl;
 
-   //delete _job;
-
    if (_stream)
    {
-      _instance->NPDestroyStream(_stream, NPRES_USER_BREAK);
+      _instance->NPDestroyStream( _stream, NPRES_USER_BREAK );
       delete _stream;
    }
 
@@ -911,6 +908,7 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
 
          KIO::NetAccess::removeTempFile( tmpFile );
       }
+
       return;
    } else if ( _streamType == NP_ASFILE )
    {
@@ -1042,6 +1040,6 @@ void NSPluginStream::result(KIO::Job *job)
       _stream = 0;
 
       // destroy NSPluginStream object
-      _instance->destroyStream( this );
+      emit finished( this );
    }
 }
