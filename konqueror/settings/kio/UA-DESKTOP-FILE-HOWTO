@@ -3,12 +3,12 @@ Mini HOWTO: Creating a "User-Agent" description file for KDE
 
 This HOWTO describes the procedures for creating a user-agent description
 file to extend the ones that come pre-packaged with KDE.  The user-agent
-description desktop files are used to create list of adresses for sites
+description desktop files are used to create list of addresses for sites
 which unfortunately require "faked" identities in order to be displayed
 properly.
 
 Inorder to create new user-agent description files, simply follow the normal
-the specification set by the "DESKTOP ENTRY STANDARD" agumented with the
+the specification set by the "DESKTOP ENTRY STANDARD" augmented with the
 following entries and requirements:
 
 REQUIREMENTS:
@@ -24,7 +24,7 @@ Though the (XXXX) value show above can be any text, it is a good idea to make
 it a short identification of the browser you're trying to describe.  However,
 there is NO requirement on what the text should be.  It can even be left out
 if you want to.  It is only meant to give people a quick idea which browser
-is being described by yuor desktop file.
+is being described by your desktop file.
 
 NEW PROPERTIES:
 ===============
@@ -35,7 +35,7 @@ TRANSLATE:    NO
 DESCRIPTION:
 An abbreviation of the actual browser-brand and is used
 to group the entries whenever necessary.  Currently there are 5
-approxmations: IE, NN, MOZ, OP, MISC. These represent Internet
+approximations: IE, NN, MOZ, OP, MISC. These represent Internet
 Explorer, Netscape Navigator, Mozilla, Opera and Miscellaneous
 respectively.  NOTE: you can enter any value here as it is just
 a place holder that would be automatically replaced with the
@@ -126,9 +126,9 @@ X-KDE-UA-VERSION=4.76
 X-KDE-UA-DYNAMIC-ENTRY=1
 
 The first entry is a description for internet explorer running on
-Windows 95 while the second entry is an example of "keyword" usage
-to describe fields that should be replpaced dynamically based on the
-current system settings.
+a Windows 98 machine while the second entry is an example of "keyword"
+usage to describe fields that should be replaced dynamically based on
+the current system settings.
 
 Enjoy,
 Dawit A.
