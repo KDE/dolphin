@@ -262,7 +262,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
              result = KMessageBox::warningContinueCancel( 0,
              	i18n( "Do you really want to move <b>%1</b> to the trash?" ).arg( filename ),
 		i18n( "Move to Trash" ),
-		i18n( "Trash" ),
+		i18n( "Verb", "Trash" ),
 		keyName, false);
 	     break;
         }
@@ -295,7 +295,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
                 i18n( "Do you really want to move these %1 items to the trashcan?" ).arg(prettyList.count()),
                 prettyList,
 		i18n( "Move to Trash" ),
-		i18n( "Trash" ),
+		i18n( "Verb", "Trash" ),
 		keyName);
 	     break;
         }
