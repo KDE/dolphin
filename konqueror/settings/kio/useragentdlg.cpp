@@ -88,7 +88,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   bg_grid->addColSpacing(0, 3*KDialog::spacingHint() );
   wtstr = i18n("Check any one of the following boxes to modify the level of "
                "information that should be included in the default browser "
-               "identification shown above in <b>bold<b>.");
+               "identification shown above in <b>bold</b>.");
   QWhatsThis::add( bg_default, wtstr );
   connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changeDefaultUAModifiers(int)));
   lb_default = new QLabel( bg_default );
