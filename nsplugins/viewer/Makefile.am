@@ -5,9 +5,8 @@ bin_PROGRAMS = nspluginviewer
 
 nspluginviewer_SOURCES = NSPluginCallbackIface.stub NSPluginClassIface.skel \
 	nsplugin.cpp viewer.cpp kxt.cpp	
-nspluginviewer_LDFLAGS = $(all_libraries)
+nspluginviewer_LDFLAGS = $(all_libraries) $(KDE_RPATH) -export-dynamic
 nspluginviewer_LDADD = $(MOTIF_LIBS) $(LIB_KIO) -lXt
-nspluginviewer_LDFLAGS = $(KDE_RPATH) -export-dynamic
 
 NSPluginCallbackIface.h:
 	-rm -f ./NSPluginCallbackIface.h
