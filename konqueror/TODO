@@ -18,3 +18,4 @@ templates, just like New/Folder, since the file would be not used at all.
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
 
+- use a toolbar combo in the location bar instead of a linedit
