@@ -124,6 +124,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       mainWindow = KonqMainWindow::preloadedWindow();
       KStartupInfo::setWindowStartupId( mainWindow->winId(), kapp->startupId());
       KonqMainWindow::setPreloadedWindow( NULL );
+      KonqMainWindow::setPreloadedFlag( false );
       mainWindow->resetWindow();
       mainWindow->setShowHTML( !forbidUseHTML );
       //FIXME: obey args (like passing post-data (to KRun), etc.)
