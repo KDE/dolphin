@@ -54,7 +54,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     QObject::connect(
       horizontalScrollBar(),  SIGNAL(valueChanged(int)),
       this,                   SLOT(slotViewportScrolled(int)));
-      
+
     QObject::connect(
       verticalScrollBar(),  SIGNAL(valueChanged(int)),
       this,                 SLOT(slotViewportScrolled(int)));
@@ -286,7 +286,7 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
 void KonqIconViewWidget::slotResult( KIO::Job * job )
 {
   if (job->error())
-    job->showErrorDialog();
+    job->showErrorDialog(this);
 }
 
 void KonqIconViewWidget::slotViewportScrolled(int)

@@ -22,6 +22,9 @@
 #include "mousedefaults.h"
 #include <kconfig.h>
 #include <kglobal.h>
+#include <kservicetype.h>
+#include <kdesktopfile.h>
+#include <kdebug.h>
 #include <assert.h>
 
 // We have to handle three instances of this class in the code
@@ -103,20 +106,39 @@ void KonqFMSettings::init( KConfig * config )
   m_homeURL = config->readEntry("HomeURL", "~");
 
   m_bTreeFollow = config->readBoolEntry( "TreeFollowsNavigation", DEFAULT_TREEFOLLOW );
-  
+
   m_embedText = config->readBoolEntry( "EmbedText", true );
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
   m_embedOther = config->readBoolEntry( "EmbedOther", true );
 
 }
 
-bool KonqFMSettings::shouldEmbed( const QString & mimetypeGroup )
+bool KonqFMSettings::shouldEmbed( const QString & serviceType )
 {
-  if ( mimetypeGroup == "inode" || mimetypeGroup == "Browser")
-    return true; //always embed mimetype inode/* and Browser/*
-  if ( mimetypeGroup == "text" )
-    return m_embedText;
-  if ( mimetypeGroup == "image" )
-    return m_embedImage;
-  return m_embedOther;
+    // First check in user's settings whether to embed or not
+    // 1 - in the mimetype file itself
+    KServiceType::Ptr serviceTypePtr = KServiceType::serviceType( serviceType );
+
+    if ( serviceTypePtr )
+    {
+        kdDebug(1202) << serviceTypePtr->desktopEntryPath() << endl;
+        KDesktopFile deFile( serviceTypePtr->desktopEntryPath(),
+                             true /*readonly*/, "mime");
+        if ( deFile.hasKey( "X-KDE-AutoEmbed" ) )
+        {
+            bool autoEmbed = deFile.readBoolEntry( "X-KDE-AutoEmbed" );
+            kdDebug(1202) << "X-KDE-AutoEmbed set to " << (autoEmbed ? "true" : "false") << endl;
+            return autoEmbed;
+        } else
+            kdDebug(1202) << "No X-KDE-AutoEmbed, looking for group" << endl;
+    }
+    // 2 - in the configuration for the group if nothing was found in the mimetype
+    QString serviceTypeGroup = serviceType.left(serviceType.find("/"));
+    if ( serviceTypeGroup == "inode" || serviceTypeGroup == "Browser")
+        return true; //always embed mimetype inode/* and Browser/*
+    if ( serviceTypeGroup == "text" )
+        return m_embedText;
+    if ( serviceTypeGroup == "image" )
+        return m_embedImage;
+    return m_embedOther;
 }

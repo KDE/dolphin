@@ -355,7 +355,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     if ( m_sRelativePath.isEmpty() )
     {
       if (BindingPropsPage::supports(properties->items()))
-        kDebugWarning(1202,"Warning : editing a mimetype file out of the mimetype dirs!");
+        kdWarning(1202) << "Warning : editing a mimetype file out of the mimetype dirs!" << endl;
       // for Application desktop files, no problem : we can editing a .desktop file anywhere...
     } else
       while ( m_sRelativePath.left( 1 ).at(0) == '/' ) m_sRelativePath.remove( 0, 1 );
@@ -519,8 +519,8 @@ void FilePropsPage::applyChanges()
         job = KIO::move( oldurl, properties->kurl() );
         connect( job, SIGNAL( result( KIO::Job * ) ),
                  SLOT( slotRenameFinished( KIO::Job * ) ) );
-        kDebugInfo(1202,"oldpath = %s",oldurl.url().ascii());
-        kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
+        kdDebug(1202) << "oldpath = " << oldurl.url() << endl;
+        kdDebug(1202) << "newpath = " << properties->kurl().url() << endl;
     } else // (writing stuff from a template)
     {
         bool bOk;
@@ -582,7 +582,7 @@ void FilePropsPage::slotRenameFinished( KIO::Job * job )
       /*KMessageBox::sorry(this,
         i18n("Could not rename file or directory to\n%1\n")
         .arg(properties->kurl().url()));*/
-      job->showErrorDialog();
+      job->showErrorDialog(this);
       return;
     }
   }
@@ -617,7 +617,7 @@ void FilePropsPage::slotRenameFinished( KIO::Job * job )
     else
       path = properties->kurl().path();
 
-    kDebugInfo(1202,"**%s**",path.ascii());
+    kdDebug(1202) << "**" << path << "**" << endl;
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) ) {
       KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to %1.").arg(path));
@@ -925,11 +925,11 @@ void FilePermissionsPropsPage::applyChanges()
     struct passwd* pw = getpwnam(owner.latin1());
     struct group* g = getgrnam(group.latin1());
     if ( pw == 0L ) {
-      kDebugError(1202," ERROR: No user %s", owner.latin1());
+      kdError(1202) << " ERROR: No user " << owner << endl;
       return;
     }
     if ( g == 0L ) {
-      kDebugError(1202," ERROR: No group %s", group.latin1());
+      kdError(1202) << " ERROR: No group " << group << endl;
       return;
     }
     QString path = properties->kurl().path();
@@ -954,7 +954,7 @@ void FilePermissionsPropsPage::slotChmodResult( KIO::Job * job )
 {
   kdDebug(1203) << "FilePermissionsPropsPage::slotChmodResult" << endl;
   if (job->error())
-    job->showErrorDialog();
+    job->showErrorDialog(this);
   else
   {
     // Force refreshing information about that file if displayed.

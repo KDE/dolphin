@@ -71,7 +71,7 @@ public:
 
   // Behaviour settings
   bool underlineLink() { return m_underlineLink; }
-  bool shouldEmbed( const QString & mimetypeGroup );
+  bool shouldEmbed( const QString & serviceType );
   bool alwaysNewWin() { return m_alwaysNewWin; }
   QString homeURL() { return m_homeURL; }
   bool treeFollow() { return m_bTreeFollow; }

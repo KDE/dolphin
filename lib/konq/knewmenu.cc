@@ -165,7 +165,7 @@ void KNewMenu::slotNewFile()
     if (id == 0) return;
 
     QString sFile = *(templatesList->at( id - 1 ));
-    //kDebugInfo( 1203, QString("sFile = %1").arg(sFile));
+    //kdDebug(1203) << QString("sFile = %1").arg(sFile) << endl;
 
     QString sName ( sFile );
     QString text, value;
@@ -173,7 +173,7 @@ void KNewMenu::slotNewFile()
     if ( sName != "Folder" ) {
       QString x = KGlobalSettings::templatesPath() + sFile;
       if (!QFile::exists(x)) {
-          kDebugWarning( 1203, "%s doesn't exist", x.ascii());
+          kdWarning(1203) << x << " doesn't exist" << endl;
           KMessageBox::sorry( 0L, i18n("Source file doesn't exist anymore !"));
           return;
       }

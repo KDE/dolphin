@@ -35,9 +35,9 @@
 #include <kglobalsettings.h>
 #include <X11/Xlib.h>
 
-void KonqOperations::del( int method, const KURL::List & selectedURLs )
+void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )
 {
-  KonqOperations * op = new KonqOperations;
+  KonqOperations * op = new KonqOperations( parent );
   op->_del( method, selectedURLs );
 }
 
@@ -101,7 +101,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
     {
 	if( lst.count() == 0 )
 	{
-	    kDebugWarning(1202,"Oooops, no data ....");
+	    kdWarning(1202) << "Oooops, no data ...." << endl;
 	    return;
 	}
         // Check if we dropped something on itself
@@ -145,10 +145,11 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 case QDropEvent::Move : job = KIO::move( lst, dest ); break;
                 case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
                 case QDropEvent::Link : KIO::link( lst, dest ); break;
-                default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
+                default : kdError(1202) << "Unknown action " << ev->action() << endl; return;
             }
-            connect( job, SIGNAL( result( KIO::Job * ) ),
-                     receiver, SLOT( slotResult( KIO::Job * ) ) );
+            if ( job )
+                connect( job, SIGNAL( result( KIO::Job * ) ),
+                         receiver, SLOT( slotResult( KIO::Job * ) ) );
         } else
         {
             // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
@@ -196,7 +197,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 formats.append( ev->format( i ) );
         if ( formats.count() >= 1 )
         {
-            kDebugInfo(1202,"Pasting to %s", dest.url().ascii());
+            kdDebug(1202) << "Pasting to " << dest.url() << endl;
             KIO::pasteData( dest, ev->data( formats.first() ) );
         }
     }
@@ -205,7 +206,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
 void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job->error())
-        job->showErrorDialog();
+        job->showErrorDialog( (QWidget*)parent() );
     delete this;
 }
 

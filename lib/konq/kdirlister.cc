@@ -56,7 +56,7 @@ KDirLister::~KDirLister()
 
 void KDirLister::slotFileDirty( const QString& _file )
 {
-  kDebugInfo( 1203, "KDirLister::slotFileDirty( %s )", _file.ascii() );
+  kdDebug(1203) << "KDirLister::slotFileDirty( " << _file << " )" << endl;
   KonqFileItem * item = find( _file );
   if ( item ) {
     emit deleteItem( item );
@@ -71,7 +71,7 @@ void KDirLister::slotFileDirty( const QString& _file )
 void KDirLister::slotDirectoryDirty( const QString& _dir )
 {
   // _dir does not contain a trailing slash
-  kDebugInfo( 1203, "KDirLister::slotDirectoryDirty( %s )", _dir.ascii() );
+  kdDebug(1203) << "KDirLister::slotDirectoryDirty( " << _dir << " )" << endl;
   // Check for _dir in m_lstDirs (which contains decoded paths)
   for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
     if ( _dir == (*it) )
@@ -108,7 +108,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   // Automatic updating of directories ?
   if ( _url.isLocalFile() )
   {
-    //kDebugInfo( 1203, "adding %s", _url.path().ascii() );
+    //kdDebug(1203) << "adding " << _url.path() << endl;
     kdirwatch->addDir( _url.path() );
     if ( !_keep ) // already done if keep == true
     {
@@ -209,7 +209,7 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
 
 void KDirLister::updateDirectory( const QString& _dir )
 {
-  kDebugInfo( 1203, "KDirLister::updateDirectory( %s )", _dir.ascii() );
+  kdDebug(1203) << "KDirLister::updateDirectory( " << _dir << " )" << endl;
   if ( !m_bComplete )
   {
     m_lstPendingUpdates.append( _dir );
@@ -235,7 +235,7 @@ void KDirLister::updateDirectory( const QString& _dir )
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
 	   SLOT( slotUpdateResult( KIO::Job * ) ) );
 
-  kDebugInfo( 1203, "update started in %s", debugString(m_url.url()));
+  kdDebug(1203) << "update started in " << debugString(m_url.url()) << endl;
 
   emit started( m_url.url() );
 }
@@ -264,7 +264,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
   {
     if ( (*kit)->url().directory( false /* keep trailing slash */, false ) == sPath )
     {
-      //kDebugInfo( 1203, "slotUpdateFinished : unmarking %s", (*kit)->url().url().ascii() );
+      //kdDebug(1203) << "slotUpdateFinished : unmarking " << (*kit)->url().url() << endl;
       (*kit)->unmark();
     } else
       (*kit)->mark(); // keep the other items
@@ -291,7 +291,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
       // Form the complete url
       KURL u( m_url );
       u.addPath( name );
-      //kDebugInfo( 1203, "slotUpdateFinished : found %s",name.ascii() );
+      //kdDebug(1203) << "slotUpdateFinished : found " << name << endl;
 
       // Find this icon
       bool done = false;
@@ -300,7 +300,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
       {
         if ( u == (*kit)->url() )
         {
-          //kDebugInfo( 1203, "slotUpdateFinished : keeping %s",name.ascii() );
+          //kdDebug(1203) << "slotUpdateFinished : keeping " << name << endl;
           (*kit)->mark();
           done = true;
         }
@@ -308,7 +308,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
 
       if ( !done )
       {
-        //kDebugInfo( 1203,"slotUpdateFinished : inserting %s", name.ascii());
+        //kdDebug(1203) << "slotUpdateFinished : inserting " << name << endl;
         KonqFileItem* item = new KonqFileItem( *it, u, m_bDelayedMimeTypes );
 	
 	if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
@@ -331,7 +331,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
   {
     if ( !(*kit)->isMarked() )
     {
-      //kDebugInfo(1203,"Removing %s", (*kit)->text().ascii());
+      //kdDebug(1203) << "Removing " << (*kit)->text() << endl;
       lst.append( *kit );
     }
   }
@@ -393,7 +393,7 @@ void KDirLister::forgetDirs()
   for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it ) {
     if ( KURL( *it ).isLocalFile() )
     {
-      kDebugInfo( 1203, "forgetting about %s", (*it).ascii() );
+      kdDebug(1203) << "forgetting about " << (*it) << endl;
       kdirwatch->removeDir( *it );
     }
   }

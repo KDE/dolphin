@@ -21,6 +21,7 @@
 
 #include <kurl.h>
 #include <qobject.h>
+#include <qwidget.h>
 
 namespace KIO { class Job; }
 class KonqFileItem;
@@ -33,12 +34,12 @@ class KonqOperations : public QObject
 {
     Q_OBJECT
 protected:
-    KonqOperations() {}
+    KonqOperations( QWidget * parent ) : QObject(parent,"KonqOperations") {}
     virtual ~KonqOperations() {}
 
 public:
     enum { TRASH, DEL, SHRED };
-    static void del( int method, const KURL::List & selectedURLs );
+    static void del( QWidget * parent, int method, const KURL::List & selectedURLs );
     /**
      * Drop
      * @param destItem destination KonqFileItem for the drop (background or item)
