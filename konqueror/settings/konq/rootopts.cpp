@@ -316,7 +316,10 @@ void KRootOptions::defaults()
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
+    iconsEnabledBox->setChecked(true);
+    enableChanged();
 }
+
 
 void KRootOptions::save()
 {
