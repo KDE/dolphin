@@ -76,16 +76,16 @@ void KEBApp::createActions() {
 
    ActionsImpl *actn = ActionsImpl::self();
 
+   // save and quit should probably not be in the toplevel???
+   (void) KStdAction::quit(this, SLOT( close() ), actionCollection());
+   (void) KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings() ), actionCollection());
+   (void) KStdAction::configureToolbars(this, SLOT( slotConfigureToolbars() ), actionCollection());
+
+   (void) KStdAction::save(actn, SLOT( slotSave() ), actionCollection());
    if (m_browser) {
       (void) KStdAction::open(actn, SLOT( slotLoad() ), actionCollection());
       (void) KStdAction::saveAs(actn, SLOT( slotSaveAs() ), actionCollection());
    }
-
-   // save and quit should probably not be in the toplevel???
-   (void) KStdAction::save(actn, SLOT( slotSave() ), actionCollection());
-   (void) KStdAction::quit(actn, SLOT( close() ), actionCollection());
-   (void) KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings() ), actionCollection());
-   (void) KStdAction::configureToolbars(this, SLOT( slotConfigureToolbars() ), actionCollection());
 
    (void) KStdAction::cut(actn, SLOT( slotCut() ), actionCollection());
    (void) KStdAction::copy(actn, SLOT( slotCopy() ), actionCollection());
