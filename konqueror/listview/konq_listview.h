@@ -68,9 +68,6 @@ public:
   KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqListView();
 
-  virtual bool openURL( const KURL &url );
-  virtual bool closeURL();
-  virtual bool openFile() { return true; }
   virtual const KFileItem * currentItem();
   virtual KFileItemList selectedFileItems() {return m_pListView->selectedFileItems();};
 
@@ -95,6 +92,10 @@ public:
   virtual void newIconSize( int );
 
 protected:
+  virtual bool doOpenURL( const KURL &url );
+  virtual bool doCloseURL();
+  virtual bool openFile() { return true; }
+
   void setupActions();
   void guiActivateEvent( KParts::GUIActivateEvent *event );
 

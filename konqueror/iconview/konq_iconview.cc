@@ -516,9 +516,11 @@ void KonqKfmIconView::newIconSize( int size )
         m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
 }
 
-bool KonqKfmIconView::closeURL()
+bool KonqKfmIconView::doCloseURL()
 {
-    if ( m_dirLister ) m_dirLister->stop();
+    if ( m_dirLister )
+      m_dirLister->stop();
+    
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_pIconView->stopImagePreview();
     return true;
@@ -795,16 +797,8 @@ void KonqKfmIconView::slotRenderingFinished()
     }
 }
 
-bool KonqKfmIconView::openURL( const KURL & url )
+bool KonqKfmIconView::doOpenURL( const KURL & url )
 {
-    // Store url in the icon view
-    m_pIconView->setURL( url );
-
-    // And in the part :-)
-    m_url = url;
-
-    beforeOpenURL(); // see KonqDirPart
-
     if ( !m_dirLister )
     {
         // Create the directory lister
@@ -836,6 +830,9 @@ bool KonqKfmIconView::openURL( const KURL & url )
                  extension(), SIGNAL( speedProgress( int ) ) );
 
     }
+
+    // Store url in the icon view
+    m_pIconView->setURL( url );
 
     m_bLoading = true;
 

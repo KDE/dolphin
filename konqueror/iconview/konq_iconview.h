@@ -53,11 +53,6 @@ public:
   KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqKfmIconView();
 
-  virtual bool openURL( const KURL &_url );
-  virtual bool closeURL();
-
-  virtual bool openFile() { return true; }
-
   virtual void restoreState( QDataStream &stream );
 
   virtual const KFileItem * currentItem();
@@ -126,6 +121,9 @@ protected slots:
   void slotKFindClosed();
 
 protected:
+  virtual bool openFile() { return true; }
+  virtual bool doOpenURL( const KURL& );
+  virtual bool doCloseURL();
 
   virtual void newIconSize( int size );
 

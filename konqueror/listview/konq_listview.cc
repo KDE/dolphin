@@ -293,18 +293,14 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
    ((ListViewBrowserExtension*)m_extension)->updateActions();
 };
 
-bool KonqListView::openURL( const KURL &url )
+bool KonqListView::doOpenURL( const KURL &url )
 {
-  m_url = url;
-
   KURL u( url );
-
   emit setWindowCaption( u.prettyURL() );
-
   return m_pListView->openURL( url );
 }
 
-bool KonqListView::closeURL()
+bool KonqListView::doCloseURL()
 {
   m_pListView->stop();
   m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
