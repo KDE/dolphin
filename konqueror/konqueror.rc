@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="24">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="25">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -13,6 +13,7 @@
   <Action name="cut"/>
   <Action name="copy"/>
   <Action name="paste"/>
+  <Action name="rename"/>
   <Action name="trash"/>
   <Action name="del"/>
   <Action name="shred"/>

@@ -672,6 +672,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
 
 void KonqMainWindow::abortLoading()
 {
+  kdDebug(1202) << "KonqMainWindow::abortLoading()" << endl;
   if ( m_currentView )
   {
     m_currentView->stop(); // will take care of the statusbar
@@ -2472,6 +2473,7 @@ void KonqMainWindow::initActions()
   m_paPaste = KStdAction::paste( 0, 0, actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
+  m_paRename = new KAction( i18n( "&Rename" ), /*"editrename",*/ Key_F2, actionCollection(), "rename" );
   m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Key_Delete, actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
   m_paShred = new KAction( i18n( "&Shred" ), "editshred", CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
@@ -2844,6 +2846,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paCopy );
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
+  popupMenuCollection.insert( m_paRename );
   popupMenuCollection.insert( m_paDelete );
   popupMenuCollection.insert( m_paShred );
 

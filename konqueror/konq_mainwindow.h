@@ -414,6 +414,7 @@ private:
   KAction *m_paCopy;
   KAction *m_paPaste;
   KAction *m_paStop;
+  KAction *m_paRename;
 
   KAction *m_paTrash;
   KAction *m_paDelete;

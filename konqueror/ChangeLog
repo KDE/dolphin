@@ -1,3 +1,7 @@
+2000-11-19  David Faure  <faure@kde.org>
+
+	* Implemented in-place renaming of items ("Rename" in menus, F2)
+
 2000-11-17  David Faure  <faure@kde.org>
 
 	* konq_profiledlg.cc: Made checkbox states persistent (saved to config)
