@@ -25,7 +25,7 @@ libkonq_la_LIBADD = $(LIB_KFILE)
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
 	kpropsdlg.cc \
 	kdirlister.cc kfileitem.cc kfileivi.cc \
-	konqsettings.cc konqdrag.cc konqiconviewwidget.cc
+	konqsettings.cc konqdrag.cc konqiconviewwidget.cc kbrowser.moc.cc
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc konqpopupmenu.moc \
 	kpropsdlg.moc \
@@ -35,6 +35,9 @@ include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	kpropsdlg.h \
 	kdirlister.h kfileitem.h kfileivi.h \
 	konqdefaults.h konqsettings.h konqdrag.h konqiconviewwidget.h
+
+kbrowser.moc.cc: $(kde_includes)/kbrowser.h
+	$(MOC) $(kde_includes)/kbrowser.h -o $(top_builddir)/libkonq/kbrowser.moc.cc
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/libkonq.pot

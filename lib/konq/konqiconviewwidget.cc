@@ -18,6 +18,8 @@
 */
 #include "konqiconviewwidget.h"
 
+#include <qapplication.h>
+#include <qclipboard.h>
 #include <qfile.h>
 #include <qpopupmenu.h>
 
@@ -340,6 +342,69 @@ void KonqIconViewWidget::initDragEnter( QDropEvent *e )
     } else {
 	QIconView::initDragEnter( e );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+IconEditExtension::IconEditExtension( KonqIconViewWidget *iconView )
+ : EditExtension( iconView, "IconEditExtension" )
+{
+  m_iconView = iconView;
+  connect( m_iconView, SIGNAL( selectionChanged() ),
+           this, SIGNAL( selectionChanged() ) );
+}
+
+void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
+{
+  bool bItemSelected = false;
+
+  for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
+    if ( it->isSelected() )
+    {
+      bItemSelected = true;
+      break;
+    }
+
+  cut = move = copy = bItemSelected;
+
+  bool bKIOClipboard = !isClipboardEmpty();
+
+  QMimeSource *data = QApplication::clipboard()->data();
+
+  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
+}
+
+void IconEditExtension::cutSelection()
+{
+  //TODO: grey out items
+  copySelection();
+}
+
+void IconEditExtension::copySelection()
+{
+  QDragObject * obj = m_iconView->dragObject();
+  QApplication::clipboard()->setData( obj );
+}
+
+void IconEditExtension::pasteSelection( bool move )
+{
+  pasteClipboard( m_iconView->url(), move );
+}
+
+void IconEditExtension::moveSelection( const QString &destinationURL )
+{
+  QStringList lstURLs;
+
+  for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
+    if ( it->isSelected() )
+      lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
+
+  KIOJob *job = new KIOJob;
+
+  if ( !destinationURL.isEmpty() )
+    job->move( lstURLs, destinationURL );
+  else
+    job->del( lstURLs );
 }
 
 #include "konqiconviewwidget.moc"

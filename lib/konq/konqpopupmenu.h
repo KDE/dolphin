@@ -54,9 +54,9 @@ public:
    * @param actions list of actions the caller wants to see in the menu
    * @param newMenu "New" menu, shared with the File menu, in konqueror
    *
-   * Those include :
-   * Show menubar, Back, Forward, Up, Copy, Paste, Move
-   * The others are automatically inserted.
+   * The actions to pass in include :
+   * Show menubar, Back, Forward, Up, Cut, Copy, Paste, MoveToTrash, Delete
+   * The others items are automatically inserted.
    *
    */
   KonqPopupMenu( const KFileItemList &items,

@@ -19,6 +19,7 @@
 #ifndef __konq_iconviewwidget_h__
 #define __konq_iconviewwidget_h__
 
+#include <kbrowser.h>
 #include <kiconloader.h>
 #include <qiconview.h>
 #include <kurl.h>
@@ -45,6 +46,7 @@ public:
   KIconLoader::Size size() { return m_size; }
 
   void setURL ( const QString & kurl ) { m_url = kurl; }
+  const QString & url() { return m_url; }
 
   /** Made public for konq_iconview (copy) */
   virtual QDragObject *dragObject();
@@ -74,6 +76,27 @@ protected:
 
   /** Konqueror settings */
   KonqSettings * m_pSettings;
+};
+
+/**
+ * Implementation of the EditExtension interface
+ * that handles icons
+ */
+class IconEditExtension : public EditExtension
+{
+  Q_OBJECT
+public:
+  IconEditExtension( KonqIconViewWidget *iconView );
+
+  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
+
+  virtual void cutSelection();
+  virtual void copySelection();
+  virtual void pasteSelection( bool move = false );
+  virtual void moveSelection( const QString &destinationURL = QString::null );
+
+private:
+  KonqIconViewWidget *m_iconView;
 };
 
 #endif
