@@ -3194,7 +3194,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   if (kapp->authorize("shell_access"))
   {
-     (void) new KAction( i18n( "Open &Terminal" ), "openterm", Key_F10, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
+     (void) new KAction( i18n( "Open &Terminal" ), "openterm", Key_F4, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   }
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::shortcut(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
 
