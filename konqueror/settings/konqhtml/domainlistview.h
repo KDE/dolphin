@@ -25,7 +25,7 @@
 #include <qgroupbox.h>
 #include <qmap.h>
 //#include <qstring.h>
-                  
+
 class QListViewItem;
 class QPushButton;
 class QStringList;
@@ -132,6 +132,7 @@ public:
    */
   void save(const QString &group, const QString &domainListKey);
 
+
 signals:
   /**
    * indicates that a configuration has been changed within this list view.
@@ -187,9 +188,11 @@ private slots:
   void deletePressed();
   void importPressed();
   void exportPressed();
+    void updateButton();
 
 protected:
-  KConfig *config;
+
+    KConfig *config;
 
   KListView *domainSpecificLV;
 

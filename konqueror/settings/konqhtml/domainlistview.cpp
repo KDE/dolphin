@@ -48,7 +48,7 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   domainSpecificLV->addColumn(i18n("Policy"), 100);
   connect(domainSpecificLV,SIGNAL(doubleClicked(QListViewItem *)), SLOT(changePressed()));
   connect(domainSpecificLV,SIGNAL(returnPressed(QListViewItem *)), SLOT(changePressed()));
-
+  connect(domainSpecificLV, SIGNAL( executed( QListViewItem *)), SLOT( updateButton()));
   thisLayout->addMultiCellWidget(domainSpecificLV, 0, 5, 0, 0);
 
   addDomainPB = new QPushButton(i18n("&New..."), this);
@@ -84,6 +84,7 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
                                           "host or domain selected in the list box.") );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to delete the policy for the "
                                           "host or domain selected in the list box.") );
+  updateButton();
 }
 
 DomainListView::~DomainListView() {
@@ -92,6 +93,15 @@ DomainListView::~DomainListView() {
   for (; it != domainPolicies.end(); ++it) {
     delete it.data();
   }/*next it*/
+}
+
+void DomainListView::updateButton()
+{
+    QListViewItem *index = domainSpecificLV->currentItem();
+    bool enable = ( index != 0 );
+    changeDomainPB->setEnabled( enable );
+    deleteDomainPB->setEnabled( enable );
+
 }
 
 void DomainListView::addPressed()
@@ -111,6 +121,7 @@ void DomainListView::addPressed()
     } else {
         delete pol;
     }
+    updateButton();
 }
 
 void DomainListView::changePressed()
@@ -158,6 +169,7 @@ void DomainListView::deletePressed()
       delete index;
       emit changed(true);
     }
+    updateButton();
 }
 
 void DomainListView::importPressed()
