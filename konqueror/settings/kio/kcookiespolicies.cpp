@@ -314,7 +314,8 @@ void KCookiesPolicies::save()
 
   cfg->setGroup( "Cookie Policy" );
 
-  cfg->writeEntry( "Cookies", cb_enableCookies->isChecked() );
+  bool b_useCookies = cb_enableCookies->isChecked();
+  cfg->writeEntry( "Cookies", b_useCookies );
 
   QString advice;
   if (rb_gbPolicyAccept->isChecked())
@@ -341,8 +342,16 @@ void KCookiesPolicies::save()
   DCOPClient *m_dcopClient = new DCOPClient();
   if( m_dcopClient->attach() )
   {
-     if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy()", QString::null ) )
-        kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
+     if (b_useCookies)
+     {
+        if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy()", QString::null ) )
+           kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
+     }
+     else
+     {
+        if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "shutdown()", QString::null ) )
+           kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
+     }
 
      // Inform http and https slaves about change in cookie policy.
      {
