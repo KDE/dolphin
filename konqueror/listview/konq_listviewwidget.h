@@ -23,6 +23,7 @@
 #include <qpixmap.h>
 #include <qintdict.h>
 #include <qtimer.h>
+#include <qevent.h>
 
 #include <kurl.h>
 #include <konq_fileitem.h>
@@ -160,6 +161,9 @@ class KonqBaseListViewWidget : public KListView
       void slotPopupMenu(KListView* , QListViewItem* );
 
    protected:
+      //calls KListView::focusInEvent(), otherrwise this is never called,
+      //I have no idea why, AleXXX
+      virtual void focusInEvent( QFocusEvent *fe );
       //creates the listview columns according to confColumns
       virtual void createColumns();
       //reads the configuration for the columns of the current

@@ -149,6 +149,12 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
   if ( m_dirLister ) delete m_dirLister;
 }
 
+//otherwise it doesn't work, I don't knwo why, AleXXX
+void KonqBaseListViewWidget::focusInEvent( QFocusEvent *fe )
+{
+   KListView::focusInEvent(fe);
+};
+
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
    kdDebug(1202)<<"readProtocolConfig: -"<<protocol<<"-"<<endl;
