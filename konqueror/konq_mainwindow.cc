@@ -800,14 +800,20 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
           // If the protocol doesn't support writing (e.g. HTTP) then we don't want the FM settings.
           // So we ask the user, instead, except in some very well-known cases.
           if ( !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) && url.protocol() != "about" ) {
+              QString suggestedFilename;
+              
+              KonqRun* run = childView->run();
+              if (run)
+                  suggestedFilename = run->suggestedFilename();
+                  
               KParts::BrowserRun::AskSaveResult res = KParts::BrowserRun::askEmbedOrSave(
-                  url, serviceType/*, suggestedFilename TODO - get from KonqRun! */ );
+                  url, serviceType, suggestedFilename );
               if ( res == KParts::BrowserRun::Open )
                   forceAutoEmbed = true;
               else if ( res == KParts::BrowserRun::Cancel )
                   return true; // handled, don't do anything else
               else { // Save
-                  KParts::BrowserRun::simpleSave( url, QString::null /* suggestedFilename TODO */, this );
+                  KParts::BrowserRun::simpleSave( url, suggestedFilename, this );
                   return true; // handled
               }
           }
@@ -2218,7 +2224,7 @@ void KonqMainWindow::updateLocalPropsActions()
     m_paRemoveLocalProperties->setEnabled( canWrite );
 }
 
-void KonqMainWindow::slotURLEntered( const QString &text, ButtonState state )
+void KonqMainWindow::slotURLEntered( const QString &text, int state )
 {
   if ( m_bURLEnterLock || text.isEmpty() )
     return;
@@ -2675,8 +2681,8 @@ void KonqMainWindow::initCombo()
 
   m_combo->init( s_pCompletion );
 
-  connect( m_combo, SIGNAL(activated(const QString&,ButtonState)),
-           this, SLOT(slotURLEntered(const QString&,ButtonState)) );
+  connect( m_combo, SIGNAL(activated(const QString&,int)),
+           this, SLOT(slotURLEntered(const QString&,int)) );
 
   m_pURLCompletion = new KURLCompletion();
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
