@@ -59,6 +59,11 @@
 QPtrList<KTextEditor::Document> KWrite::docList;
 
 KWrite::KWrite (KTextEditor::Document *doc)
+    : kateView(0),
+      m_recentFiles(0),
+      m_paShowPath(0),
+      m_paShowToolBar(0),
+      m_paShowStatusBar(0)
 {
   setMinimumSize(200,200);
   
@@ -131,6 +136,13 @@ bool KWrite::queryExit()
 
 void KWrite::setupEditWidget(KTextEditor::Document *doc)
 {
+  if (!doc)
+  {
+    KMessageBox::error(this, i18n("A KDE text editor component could not be found!\n"
+                                  "Please check your KDE installation."));
+    exit(1);
+  }
+  
   kateView = doc->createView (this, 0L);
 
   connect(kateView,SIGNAL(newStatus()),this,SLOT(newCaption()));
@@ -390,8 +402,11 @@ void KWrite::readConfig(KConfig *config)
 
 void KWrite::writeConfig(KConfig *config)
 {
-  config->writeEntry("ShowPath",m_paShowPath->isChecked());
-  m_recentFiles->saveEntries(config, "Recent Files");
+  if (m_paShowPath)
+    config->writeEntry("ShowPath",m_paShowPath->isChecked());
+
+  if (m_recentFiles)
+    m_recentFiles->saveEntries(config, "Recent Files");
 }
 
 
@@ -418,7 +433,8 @@ void KWrite::writeConfig()
   config->setGroup("General Options");
   writeConfig(config);
 
-  if (KTextEditor::configInterface(kateView->document())) KTextEditor::configInterface(kateView->document())->writeConfig();
+  if (kateView && KTextEditor::configInterface(kateView->document())) 
+    KTextEditor::configInterface(kateView->document())->writeConfig();
 }
 
 // session management
