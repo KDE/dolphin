@@ -90,14 +90,13 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
     }
 
     // read/write fields
-
-    m_title_le->setReadOnly(false);
+    m_title_le->setReadOnly( (bk.isSeparator()|| !bk.hasParent() )? true : false);
     m_title_le->setText(bk.fullText());
 
-    m_url_le->setReadOnly(bk.isGroup());
+    m_url_le->setReadOnly(bk.isGroup() || bk.isSeparator());
     m_url_le->setText(bk.isGroup() ? QString::null : bk.url().url());
 
-    m_comment_le->setReadOnly(false);
+    m_comment_le->setReadOnly((bk.isSeparator()|| !bk.hasParent()) ? true : false );
     m_comment_le->setText(
             NodeEditCommand::getNodeText(bk, QStringList() << "desc"));
 
