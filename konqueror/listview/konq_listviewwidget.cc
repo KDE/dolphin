@@ -878,16 +878,21 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_dirLister->setNameFilter( m_pBrowserView->nameFilter() );
    m_dirLister->setMimeFilter( m_pBrowserView->mimeFilter() );
-   // Start the directory lister !
-   m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
-      m_itemFound = true;
-      m_goToFirstItem = false;
+      if (currentItem()!=0)
+      {
+         m_itemToGoTo=currentItem()->text(0);
+         m_goToFirstItem = false;
+      }
+      else
+         m_goToFirstItem = true;
       m_xOffset = contentsX();
       m_yOffset = contentsY();
    }
+   // Start the directory lister !
+   m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 
    m_bUpdateContentsPosAfterListing = true;
 
