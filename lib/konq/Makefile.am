@@ -44,7 +44,7 @@ METASOURCES = AUTO
 
 include_HEADERS = konq_popupmenu.h knewmenu.h \
     kbookmark.h kbookmarkmenu.h kbookmarkbar.h kbookmarkimporter.h \
-    kbookmarkexporter.h kbookmarkmanager.h \
+    kbookmarkexporter.h kbookmarkmanager.h kbookmarkdrag.h \
     konq_dirlister.h konq_fileitem.h konq_mimetyperesolver.h \
     kfileivi.h konq_drag.h konq_iconviewwidget.h konq_imagepreviewjob.h \
     konq_defaults.h konq_settings.h \
