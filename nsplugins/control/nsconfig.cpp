@@ -161,7 +161,7 @@ void NSPluginConfig::scan()
     // start nspluginscan
     *nspluginscan << scanExe;
     kdDebug() << "Running nspluginscan" << endl;
-    connect(nspluginscan, SIGNAL(readReady(KProcIO*)), 
+    connect(nspluginscan, SIGNAL(readReady(KProcIO*)),
             this, SLOT(progress(KProcIO*)));
     connect(nspluginscan, SIGNAL(processExited(KProcess *)),
             this, SLOT(scanDone()));
@@ -346,6 +346,7 @@ void NSPluginConfig::dirUp()
 
         m_widget->dirUp->setEnabled( cur-1>0 );
         m_widget->dirDown->setEnabled( true );
+        change();
     }
 }
 
@@ -360,6 +361,7 @@ void NSPluginConfig::dirDown()
 
         m_widget->dirUp->setEnabled( true );
         m_widget->dirDown->setEnabled( cur+1<m_widget->dirList->count()-1 );
+        change();
     }
 }
 
