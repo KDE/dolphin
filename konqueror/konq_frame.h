@@ -425,7 +425,7 @@ class KonqTabBar : public QTabBar
     KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name = 0);
 
   protected:
-    void mouseReleaseEvent(QMouseEvent *e);
+    void mousePressEvent(QMouseEvent *e);
 
   private:
     KonqFrameTabs* m_pTabWidget;

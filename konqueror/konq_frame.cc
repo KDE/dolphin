@@ -768,9 +768,9 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
   m_pPopupMenu->insertItem( "&Detach Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
 }
 
-void KonqTabBar::mouseReleaseEvent(QMouseEvent *e)
+void KonqTabBar::mousePressEvent(QMouseEvent *e)
 {
-  kdDebug(1202) << "KonqTabBar::mouseReleaseEvent begin" << endl;
+  kdDebug(1202) << "KonqTabBar::mousePressEvent begin" << endl;
 
   if (e->button() == RightButton)
   {
@@ -782,7 +782,9 @@ void KonqTabBar::mouseReleaseEvent(QMouseEvent *e)
     m_pPopupMenu->exec( mapToGlobal( e->pos() ) );
   }
 
-  kdDebug(1202) << "KonqTabBar::mouseReleaseEvent end" << endl;
+  QTabBar::mousePressEvent( e );
+  
+  kdDebug(1202) << "KonqTabBar::mousePressEvent end" << endl; 
 }
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
