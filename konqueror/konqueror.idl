@@ -148,6 +148,7 @@ module Konqueror
     slot void slotConfigureBrowser();
     slot void slotConfigureKeys();
     slot void slotReloadPlugins();
+    slot void slotSaveViewConfiguration();
 
     // Help menu
     slot void slotHelpContents();

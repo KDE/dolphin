@@ -34,7 +34,6 @@
 #include "knewmenu.h"
 #include "kpopupmenu.h"
 #include "konq_frame.h"
-#include "ksplitter.h"
 
 #include <opUIUtils.h>
 #include <opMenu.h>
@@ -52,6 +51,7 @@
 #include <qtimer.h>
 #include <qpoint.h>
 #include <qregexp.h>
+#include <qsplitter.h>
 
 #include <kaccel.h>
 #include <kapp.h>
@@ -102,6 +102,7 @@ enum _ids {
     MOPTIONS_CONFIGUREBROWSER_ID,
     MOPTIONS_CONFIGUREKEYS_ID,
     MOPTIONS_RELOADPLUGINS_ID,
+    MOPTIONS_SAVEVIEWCONFIGURATION_ID,
     
     MHELP_CONTENTS_ID,
     MHELP_ABOUT_ID
@@ -161,6 +162,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   s_lstWindows->append( this );
 
   m_pMainSplitter = 0L;
+  m_lstRows.setAutoDelete( true );
 
   initConfig();
 }
@@ -221,16 +223,7 @@ void KonqMainView::cleanUp()
 
   delete m_pAccel;
 
-//  if ( m_vMainWindow->activePartId() == m_currentId )
-//    m_vMainWindow->setActivePart( 0 );
-    
-  MapViews::Iterator it = m_mapViews.begin();
-  for (; it != m_mapViews.end(); it++ )
-      {
-	delete it.data();
-      }	
-
-  m_mapViews.clear();
+  clearMainView();
 
   if ( m_pMenuNew )
     delete m_pMenuNew;
@@ -444,6 +437,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
   text = Q2C( i18n("Reload Plugins") );
   m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
+  text = Q2C( i18n("Save Current View Configuration" ) );
+  m_vMenuOptions->insertItem4( text, this, "slotSaveViewConfiguration", 0, MOPTIONS_SAVEVIEWCONFIGURATION_ID, -1 );
 
   text = Q2C( i18n( "&Help" ) );
   CORBA::Long helpId = m_vMenuBar->insertMenu( text, m_vMenuHelp, -1, -1 );
@@ -700,31 +695,6 @@ Browser::ViewList *KonqMainView::viewList()
   return seq;
 }
 
-void KonqMainView::removeView( OpenParts::Id id )
-{
-  if ( m_mapViews.count() == 1 ) //do _NOT_ remove the last view!
-    return;
-
-  MapViews::Iterator it = m_mapViews.find( id );
-  if ( it != m_mapViews.end() )
-  {
-    if ( id == m_currentId )
-    {
-      // give focus to mainwindow. Shouldn't we pick up another view
-      // instead ? 
-      m_vMainWindow->setActivePart( this->id() );
-      m_currentView = 0L;
-    }
-    delete it.data();
-    m_mapViews.remove( it );
-    //TODO: Removal of splitters. Michael
-
-  }
-
-  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
-	(m_mapViews.count() > 1) );
-}
-
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
 {
   m_mapViews.remove( oldId );
@@ -949,7 +919,138 @@ KonqChildView *KonqMainView::childView( OpenParts::Id id )
     return 0L;
 }
 
-// protected
+void KonqMainView::removeChildView( OpenParts::Id id )
+{
+  MapViews::ConstIterator it = m_mapViews.find( id );
+  
+  removeChildView( it.data()->rowInfo(), it.data() );
+}
+
+void KonqMainView::removeChildView( RowInfo *row, KonqChildView *view )
+{
+  if ( view == m_currentView )
+  {
+    // give focus to mainwindow. Shouldn't we pick up another view
+    // instead ? 
+    m_vMainWindow->setActivePart( this->id() );
+    m_currentView = 0L;
+    m_currentId = 0;
+  }
+
+  bool deleteParentSplitter = false;
+  QSplitter *parentSplitter = view->frame()->parentSplitter();
+
+  row->children.removeRef( view );
+
+  if ( row->children.count() == 0 )
+  {  
+    m_lstRows.removeRef( row );
+    deleteParentSplitter = true;
+  }	  
+
+  m_mapViews.remove( view->id() );
+
+  delete view;
+  
+  if ( deleteParentSplitter )
+    delete parentSplitter;
+}
+
+void KonqMainView::clearRow( RowInfo *row )
+{
+  QListIterator<KonqChildView> it( row->children );
+  
+  for (; it.current(); ++it )
+    removeChildView( row, it.current() );
+}
+
+void KonqMainView::clearMainView()
+{
+  QListIterator<RowInfo> it( m_lstRows );
+  
+  for (; it.current(); ++it )
+    clearRow( it.current() );
+}
+
+void KonqMainView::saveViewProfile( const QString &fileName )
+{
+  KSimpleConfig cfg( fileName );
+
+  QList<KonqChildView> viewList;
+  
+  QListIterator<RowInfo> rowIt( m_lstRows );
+  for ( int i = 0; rowIt.current(); ++rowIt, ++i )
+  {
+    cfg.setGroup( QString::fromLatin1( "Row %1" ).arg( i ) );
+    
+    QValueList<int> sizes = rowIt.current()->splitter->sizes();
+    QStringList strlst;
+    QValueList<int>::ConstIterator intIt = sizes.begin();
+    QValueList<int>::ConstIterator intEnd = sizes.end();
+    for (; intIt != intEnd; ++intIt )
+    {
+      QString s;
+      s.setNum( *intIt );
+      strlst.append( s );
+    }
+
+    cfg.writeEntry( "SplitterSizes", strlst );
+
+    strlst.clear();
+    QListIterator<KonqChildView> viewIt( rowIt.current()->children );
+    for (; viewIt.current(); ++viewIt )
+    {
+      QString s;
+      s.setNum( viewList.count() );
+      strlst.append( s );
+      viewList.append( viewIt.current() );
+    }
+    
+    cfg.writeEntry( "ChildViews", strlst );
+  }
+  
+  QListIterator<KonqChildView> viewIt( viewList );
+  for (int i = 0; viewIt.current(); ++viewIt, ++i )
+  {
+    cfg.setGroup( QString::fromLatin1( "View %1" ).arg( i ) );
+    
+    cfg.writeEntry( "URL", viewIt.current()->url() );
+    cfg.writeEntry( "ServiceType", viewIt.current()->serviceTypes().first() );
+  }
+  
+  cfg.sync();
+}
+
+void KonqMainView::loadViewProfile( const QString &fileName )
+{
+  clearMainView();
+  
+  KSimpleConfig cfg( fileName, true );
+  
+  QStringList groupList = cfg.groupList();
+  
+  QStringList::ConstIterator gIt = groupList.begin();
+  QStringList::ConstIterator gEnd = groupList.end();
+  
+  QValueList<int> rowList;
+  QValueList<int> viewList;
+  
+  for (; gIt != gEnd; ++gIt )
+   if ( strcmp( (*gIt).left( 4 ).latin1(), "Row " ) == 0 )
+   {
+     QString rowNr = *gIt;
+     rowNr.remove( 0, 4 );
+     rowList.append( rowNr.toInt() );
+   }
+   else if ( strcmp( (*gIt).left( 5 ).latin1(), "View " ) == 0 )
+   {
+     QString viewNr = *gIt;
+     viewNr.remove( 0, 5 );
+     viewList.append( viewNr.toInt() );
+   }
+  
+}
+
 void KonqMainView::splitView ( Orientation orientation ) 
 {
   kdebug(0, 1202, "KonqMainView::splitview default" );
@@ -973,76 +1074,74 @@ void KonqMainView::splitView ( Orientation orientation,
 			       Browser::View_ptr newView,
 			       const QStringList &newViewServiceTypes )
 {
-  kdebug(0, 1202, "KonqMainView::splitview" );
+/*
+  The splitter layout looks like this:
   
-  if( m_pMainSplitter )
+  the mainsplitter is a vertical splitter, holding only horizontal splitters
+  
+  the horizontal splitters, childs of the mainsplitter, actually hold the
+  views (viewframes) as children
+ */
+ 
+  if ( !m_pMainSplitter )
   {
-    KonqFrame* viewFrame = m_currentView->frame();
-    KSplitter* parentSplitter = viewFrame->parentSplitter();
-    bool moveNewSplitter = (parentSplitter->idAfter( viewFrame ) != 0);
-
-    if( moveNewSplitter )       
-      kdebug(0, 1202, "Move new splitter: Yes %d",parentSplitter->idAfter( viewFrame ) );
-    else
-      kdebug(0, 1202, "Move new splitter: No %d",parentSplitter->idAfter( viewFrame ) );
-    
-    QValueList<int> sizes;
-    sizes = parentSplitter->sizes();
-
-    QPoint pos = viewFrame->pos();
-
-    viewFrame->hide();
-    viewFrame->reparent(this, 0, pos);
-    
-    KSplitter *newSplitter = new KSplitter( orientation, parentSplitter );
-    if( moveNewSplitter )
-      parentSplitter->moveToFirst( newSplitter );
-
-    viewFrame->reparent(newSplitter, 0, pos, true);
-    viewFrame->setParentSplitter( newSplitter );
-
-    setupView( newSplitter, newView, newViewServiceTypes );
-
-    //have to to something about the flickering. Actually these 
-    //adjustments shouldn't be neccessary. I'm not sure wether this is a 
-    //QSplitter problem or not. Michael.
-    QValueList<int> sizesNew;
-    sizesNew.append(100);
-    sizesNew.append(100);
-    newSplitter->setSizes( sizesNew );
-
-    parentSplitter->setSizes( sizes );
-
-    newSplitter->show();
-
-  }
-  else {
-    m_pMainSplitter = new KSplitter( orientation, this );
-
-    setupView( m_pMainSplitter, newView, newViewServiceTypes );
-
+    m_pMainSplitter = new QSplitter( Qt::Vertical, this );
+    m_pMainSplitter->setOpaqueResize();
     m_pMainSplitter->show();
+      
+    orientation = Qt::Vertical; //force this
   }
+
+  QSplitter *parentSplitter;
+  RowInfo *rowInfo;
+
+  if ( orientation == Qt::Horizontal )
+    rowInfo = m_currentView->rowInfo();
+  else
+  {
+    parentSplitter = new QSplitter( Qt::Horizontal, m_pMainSplitter );
+    parentSplitter->setOpaqueResize();
+    parentSplitter->show();
+    
+    rowInfo = new RowInfo;
+    rowInfo->splitter = parentSplitter;
+    m_lstRows.append( rowInfo );
+  }
+
+  setupView( rowInfo, newView, newViewServiceTypes );
+
+  if ( orientation == Qt::Vertical )
+  {
+    QValueList<int> sizes = m_pMainSplitter->sizes();
+    QValueList<int>::Iterator it = sizes.fromLast();
+    sizes.remove( it );
+    sizes.append( 100 );
+    
+    m_pMainSplitter->setSizes( sizes );
+  }
+  
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
+	(m_mapViews.count() > 1) );
 }
 
-void KonqMainView::setupView( KSplitter *parentSplitter, Browser::View_ptr view, const QStringList &serviceTypes  )
+void KonqMainView::setupView( RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes )
 {
-  KonqFrame* newViewFrame = new KonqFrame( parentSplitter );
+  KonqFrame* newViewFrame = new KonqFrame( row->splitter );
 
   KonqChildView *v = new KonqChildView( view, newViewFrame, 
 					this, serviceTypes );
+
+  v->setRowInfo( row );
+  row->children.append( v );
+
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
-  //QObject::connect( v, SIGNAL(sigSetUpEnabled( QString, OpenParts::Id )),
-  //                  this, SLOT(slotSetUpEnabled( QString, OpenParts::Id )) );
 
   m_mapViews.insert( view->id(), v );
 
   v->lockHistory();
 
   if (isVisible()) v->show();
-  
-  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, (m_mapViews.count() > 1) );
 }
 
 void KonqMainView::createViewMenu()
@@ -1233,7 +1332,13 @@ void KonqMainView::slotSplitViewVertical()
 
 void KonqMainView::slotRemoveView()
 {
-  removeView( m_currentId );
+  if ( m_mapViews.count() == 1 )
+    return;
+
+  removeChildView( m_currentId );
+
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
+	(m_mapViews.count() > 1) );
 }
 
 void KonqMainView::slotShowHTML()
@@ -1477,6 +1582,16 @@ void KonqMainView::slotReloadPlugins()
       
     KonqPlugins::installKOMPlugins( vView );
   }
+}
+
+void KonqMainView::slotSaveViewConfiguration()
+{
+  //TODO: dialog for profile name
+  QString name = "konqueror/profiles/fooprofile.desktop";
+
+  QString fileName = locateLocal( "data", name );
+  
+  saveViewProfile( fileName );
 }
 
 void KonqMainView::slotHelpContents()

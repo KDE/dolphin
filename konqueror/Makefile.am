@@ -27,7 +27,7 @@ konqueror_SOURCES =  browser.idl konq_mainwindow.cc kfmrun.cc \
 	konq_main.cc konq_mainview.cc \
 	konq_plugins.cc konq_propsmainview.cc konq_propsview.cc \
 	konq_searchdia.cc konq_topwidget.cc konq_treeview.cc konq_txtview.cc \
-	ksplitter.cc konqueror.idl
+	konqueror.idl
 
 noinst_HEADERS = browser.h kfmrun.h \
 	konq_baseview.h konq_childview.h konq_frame.h \
@@ -35,15 +35,14 @@ noinst_HEADERS = browser.h kfmrun.h \
         konq_main.h konq_mainview.h konq_mainwindow.h \
         konq_plugins.h konq_propsmainview.h konq_propsview.h \
         konq_searchdia.h konq_topwidget.h konq_treeview.h konq_txtview.h \
-        konqueror.h \
-	ksplitter.h mousemode.h konq_defaults.h
+        konqueror.h mousemode.h konq_defaults.h
 
 METASOURCES = kfmrun.moc \
 	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
 	konq_searchdia.moc konq_topwidget.moc konq_treeview.moc \
-	ksplitter.moc konq_txtview.moc
+	konq_txtview.moc
 
 DISTCLEANFILES = $(METASOURCES) browser.cc browser.h konqueror.cc konqueror.h
 

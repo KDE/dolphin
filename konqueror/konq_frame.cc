@@ -19,6 +19,7 @@
 #include <qpainter.h>
 #include <qimage.h>
 #include <qlayout.h>
+#include <qsplitter.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -27,7 +28,6 @@
 #include <kpixmap.h>
 #include <opFrame.h>
 
-#include "ksplitter.h"
 #include "konq_frame.h"
 
 #define DEFAULT_HEADER_HEIGHT 11
@@ -351,7 +351,7 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
   update();
 }
 
- KonqFrame::KonqFrame( KSplitter *_parentSplitter, const char *_name )
+ KonqFrame::KonqFrame( QSplitter *_parentSplitter, const char *_name )
                     : QWidget( _parentSplitter, _name),
 		      m_pParentSplitter( _parentSplitter )
 {

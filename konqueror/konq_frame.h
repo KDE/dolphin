@@ -30,7 +30,7 @@
 class QPixmap;
 class QVBoxLayout;
 class OPFrame;
-class KSplitter;
+class QSplitter;
 class KonqFrame;
 
 enum KonqFrameHeaderLook{ Plain, HShaded, VShaded, DShaded, XPixmap };
@@ -90,7 +90,7 @@ class KonqFrame : public QWidget
   Q_OBJECT
 
 public:
-  KonqFrame( KSplitter *_parentSplitter = 0L, const char *_name = 0L );
+  KonqFrame( QSplitter *_parentSplitter = 0L, const char *_name = 0L );
   ~KonqFrame() {}
  
   /**
@@ -109,8 +109,8 @@ public:
    */
   Browser::View_ptr view( void );
 
-  KSplitter* parentSplitter() { return m_pParentSplitter; }
-  void setParentSplitter( KSplitter* newParent ) { m_pParentSplitter = newParent; }
+  QSplitter* parentSplitter() { return m_pParentSplitter; }
+  void setParentSplitter( QSplitter* newParent ) { m_pParentSplitter = newParent; }
 
   
 public slots:  
@@ -127,7 +127,7 @@ protected:
   QVBoxLayout *m_pLayout;
   KonqFrameHeader* m_pHeader;
   Browser::View_ptr m_pView;
-  KSplitter *m_pParentSplitter;
+  QSplitter *m_pParentSplitter;
 };
 
 #endif

@@ -26,7 +26,6 @@
 #include "konq_plugins.h"
 #include "konq_propsview.h"
 #include "kfmrun.h"
-#include "ksplitter.h"
 
 #include <kded_instance.h>
 #include <ktrader.h>
@@ -64,6 +63,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_pMainView = mainView;
   m_vMainWindow = mainView->mainWindow();
   m_pRun = 0L;
+  m_pRow = 0L;
 
   attach( view );
 

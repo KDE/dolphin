@@ -32,7 +32,7 @@
 class KonqBaseView;
 class KfmRun;
 class KonqFrame;
-class KSplitter;
+class QSplitter;
 
 /* This class represents a child of the main view. The main view maintains
  * the list of children. A KonqChildView contains a Browser::View and
@@ -192,6 +192,9 @@ public:
   int xOffset() const { return m_iXOffset; }
   int yOffset() const { return m_iYOffset; }
 
+  void setRowInfo( KonqMainView::RowInfo *rowInfo ) { m_pRow = rowInfo; }
+  KonqMainView::RowInfo *rowInfo() const { return m_pRow; }
+
   static bool createView( const QString &serviceType, 
                           Browser::View_var &view, 
 			  QStringList &serviceTypes, 
@@ -244,6 +247,7 @@ protected:
   int m_iXOffset;
   int m_iYOffset;
   KonqFrame* m_pKonqFrame;
+  KonqMainView::RowInfo *m_pRow;
 };
 
 #endif

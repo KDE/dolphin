@@ -40,7 +40,7 @@ class KonqPropsMainView;
 class KfmRun;
 class KonqChildView;
 class KonqFrame;
-class KSplitter;
+class QSplitter;
 
 class KonqMainView : public QWidget,
                      virtual public OPPartIf,
@@ -154,6 +154,7 @@ public slots:  // IDL
   virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
   virtual void slotReloadPlugins();
+  virtual void slotSaveViewConfiguration();
 
   // Help menu
   virtual void slotHelpContents();    
@@ -181,12 +182,13 @@ public slots:  // IDL
   void slotAnimatedLogoTimeout();
   void slotStartAnimation();
   void slotStopAnimation();
-  
+
+  //
+  // internal ;-)
+  //  
   void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
   
 protected:
-
-  ///////////// protected methods ///////////
 
   virtual void resizeEvent( QResizeEvent *e );
 
@@ -194,7 +196,25 @@ private:
 
   void initConfig();
   void initGui();
-  void initPanner();
+
+  struct RowInfo
+  {
+    QList<KonqChildView> children;
+    QSplitter *splitter;
+  };
+
+  QList<RowInfo> m_lstRows;
+
+  void removeChildView( OpenParts::Id id );
+
+  void removeChildView( RowInfo *row, KonqChildView *view );
+
+  void clearRow( RowInfo *row );
+
+  void clearMainView();
+
+  void saveViewProfile( const QString &fileName );
+  void loadViewProfile( const QString &fileName );
 
   /**
    * Splits the view, depending on orientation, either horizontally or 
@@ -215,10 +235,8 @@ private:
    * Mainly creates the the backend structure(KonqChildView) for a view and
    * connects it
    */
-  void setupView( KSplitter *parentSplitter, Browser::View_ptr view, const QStringList &serviceTypes );
+  void setupView( RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes );
  
-  void removeView( OpenParts::Id id );
-
   /**
    * Enable menu item and related toolbar button if present
    * This will allow configurable toolbar buttons later
@@ -235,11 +253,17 @@ private:
    */
   void setUpEnabled( QString _url, OpenParts::Id _id );
 
+  /**
+   * Fills the view menu with the entries of the mainview, merged with the
+   * ones of the current view.
+   */
   void createViewMenu();
 
+  /**
+   * Tries to find a index.html (.kde.html) file in the specified directory
+   */
   QString findIndexFile( const QString &directory );
-  
-  ///////// protected members //////////////
+
 
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
@@ -259,8 +283,8 @@ private:
 
   //////// View storage //////////////
 
-  /* The main KSplitter, which initially holds the main icon view */
-  KSplitter* m_pMainSplitter;
+  /* The main QSplitter, which initially holds the main icon view */
+  QSplitter* m_pMainSplitter;
 
   /* Storage of View * instances : mapped by Id */
   typedef QMap<OpenParts::Id,KonqChildView *> MapViews;
