@@ -32,6 +32,7 @@
   <Action name="reload"/>
   <Action name="stop" />
   <Action name="print"/>
+  <DefineGroup name="print" />
   <WeakSeparator/>
   <Merge/>
  </Menu>
