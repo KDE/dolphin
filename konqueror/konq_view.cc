@@ -135,7 +135,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
         part_url = "";
 
      QString url_url = url.url();
-     if (url_url.isNull()) 
+     if (url_url.isNull())
         url_url = QString("");
 
      QCString line;
@@ -659,12 +659,13 @@ void KonqView::go( int steps )
 {
   if ( !steps ) // [WildFox] i bet there are sites on the net with stupid devs who do that :)
   {
+#ifdef DEBUG_HISTORY
+      kdDebug(1202) << "KonqView::go(0)" << endl;
+#endif
       // [David] and you're right. And they expect that it reloads, apparently.
       m_pMainWindow->slotReload();
       return;
   }
-
-  stop();
 
   int newPos = m_lstHistory.at() + steps;
 #ifdef DEBUG_HISTORY
@@ -675,6 +676,8 @@ void KonqView::go( int steps )
 #endif
   if( newPos < 0 || (uint)newPos >= m_lstHistory.count() )
     return;
+
+  stop();
 
   // Yay, we can move there without a loop !
   HistoryEntry *currentHistoryEntry = m_lstHistory.at( newPos ); // sets current item
