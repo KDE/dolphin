@@ -23,8 +23,9 @@
 #include <konqsettings.h>
 
 #include <kdebug.h>
+#include <kstddirs.h>
 #include <qpixmap.h>
-#include <kpixmapcache.h>
+#include <qpixmapcache.h>
 #include <qfile.h>
 #include <iostream>
 
