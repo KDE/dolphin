@@ -2849,10 +2849,16 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paShred );
 
   if ( _items.count() == 1 )
+      /*
     // Can't use X-KDE-BrowserView-HideFromMenus directly in the query because '-' is a substraction !!!
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
                                                   "('Browser/View' in ServiceTypes) or "
                                                   "('KParts/ReadOnlyPart' in ServiceTypes)" );
+                                                  */
+    m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
+                                                       "KParts/ReadOnlyPart",
+                                                       QString::null,
+                                                       QString::null );
 
   if ( _items.count() > 0 )
   {

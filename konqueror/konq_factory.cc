@@ -176,18 +176,14 @@ void KonqFactory::getOffers( const QString & serviceType,
                              KTrader::OfferList *partServiceOffers,
                              KTrader::OfferList *appServiceOffers )
 {
-    KTrader::OfferList offers = KTrader::self()->query( serviceType );
-
     if ( appServiceOffers )
     {
-        *appServiceOffers = offers;
+        *appServiceOffers = KTrader::self()->query( serviceType, "Application", "DesktopEntryName != kfmclient", QString::null );
+        /*
         KTrader::OfferList::Iterator it = appServiceOffers->begin();
         while ( it != appServiceOffers->end() )
         {
-            //kdDebug(1202) << (*it)->desktopEntryName() << endl;
-            // Remove pure services (no app), and also remove ourselves... :-}
-            if ( (*it)->type() != "Application"
-                 || (*it)->desktopEntryName() == "kfmclient" )
+            if ( (*it)->desktopEntryName() == "kfmclient" )
             {
                 it = appServiceOffers->remove( it );
                 // it points to the next one now
@@ -195,25 +191,13 @@ void KonqFactory::getOffers( const QString & serviceType,
             else
                 ++it;
         }
-    }
-
-    KTrader::OfferList::Iterator it = offers.begin();
-    // Remove irrelevant entries (non parts)
-    while ( it != offers.end() )
-    {
-        QStringList serviceTypes = (*it)->serviceTypes();
-        if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
-        {
-            //kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
-            it = offers.remove( it );
-            // it points to the next one now
-            continue;
-        }
-        ++it;
+        */
     }
 
     if ( partServiceOffers )
-        (*partServiceOffers) = offers;
+    {
+        *partServiceOffers = KTrader::self()->query( serviceType, "KParts/ReadOnlyPart", QString::null, QString::null );
+    }
 }
 
 
