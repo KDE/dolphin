@@ -21,6 +21,7 @@
 #include <kmessagebox.h>
 #include <konq_dirpart.h>
 #include <kprocess.h>
+#include <kapplication.h>
 #include "kshellcmddialog.h"
 #include <kgenericfactory.h>
 
@@ -28,6 +29,9 @@ KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name,
 	                          const QStringList & )
     : KParts::Plugin( parent, name )
 {
+    if (!kapp->authorize("shell access"))
+       return;
+
     new KAction( i18n( "&Execute Shell Command" ), CTRL+Key_E, this,
                  SLOT( slotExecuteShellCommand() ), actionCollection(), "executeshellcommand" );
 }
