@@ -264,6 +264,8 @@ void KonqDirPart::restoreState( QDataStream &stream )
 
 void KonqDirPart::slotClipboardDataChanged()
 {
+    // This is very related to KDIconView::slotClipboardDataChanged
+
     KURL::List lst;
     QMimeSource *data = QApplication::clipboard()->data();
     if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
