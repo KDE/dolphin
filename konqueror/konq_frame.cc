@@ -532,17 +532,19 @@ void KonqFrameContainer::childEvent( QChildEvent * ce )
     else if( ce->child()->isA("KonqFrameContainer") )
       castChild = static_cast< KonqFrameContainer* >(ce->child());
 
-    kdDebug(1202) << "KonqFrameContainer " << this << ": child " << castChild << " inserted" << endl;
-    if( !m_pFirstChild )
-      m_pFirstChild = castChild;
+    if (castChild)
+    {
+        kdDebug(1202) << "KonqFrameContainer " << this << ": child " << castChild << " inserted" << endl;
+        if( !m_pFirstChild )
+            m_pFirstChild = castChild;
 
-    else if( !m_pSecondChild )
-      m_pSecondChild = castChild;
+        else if( !m_pSecondChild )
+            m_pSecondChild = castChild;
 
-    else
-      kdWarning(1202) << this << " already has two children..."
-                      << m_pFirstChild << " and " << m_pSecondChild << endl;
-
+        else
+            kdWarning(1202) << this << " already has two children..."
+                            << m_pFirstChild << " and " << m_pSecondChild << endl;
+    }
   }
   QSplitter::childEvent( ce );
 }
