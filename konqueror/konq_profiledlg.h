@@ -35,7 +35,7 @@ class KonqProfileDlg : public KDialog
 {
   Q_OBJECT
 public:
-  KonqProfileDlg( KonqViewManager *manager, QWidget *parent = 0L );
+  KonqProfileDlg( KonqViewManager *manager, const QString &preselectProfile, QWidget *parent = 0L );
   ~KonqProfileDlg();
 
   /**

@@ -64,7 +64,7 @@ QMap<QString,QString> KonqProfileDlg::readAllProfiles()
   return mapProfiles;
 }
 
-KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
+KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & preselectProfile, QWidget *parent )
 : KDialog( parent, 0L, true )
 {
   m_pViewManager = manager;
@@ -93,7 +93,13 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
   QMap<QString,QString>::ConstIterator eIt = m_mapEntries.begin();
   QMap<QString,QString>::ConstIterator eEnd = m_mapEntries.end();
   for (; eIt != eEnd; ++eIt )
+  {
     new QListViewItem( m_pListView, eIt.key() );
+    QString filename = eIt.data().mid( eIt.data().findRev( '/' ) + 1 );
+    kdDebug() << filename << endl;
+    if ( filename == preselectProfile )
+      m_pProfileNameLineEdit->setText( eIt.key() );
+  }
 
   m_pListView->setMinimumSize( m_pListView->sizeHint() );
 

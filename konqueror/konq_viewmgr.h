@@ -190,6 +190,9 @@ public:
 
   void setActivePart( KParts::Part *part, bool immediate );
 
+
+  void showProfileDlg( const QString & preselectProfile );
+
   static QSize readConfigSize( KConfig &cfg );
 
 protected slots:

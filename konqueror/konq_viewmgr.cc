@@ -843,11 +843,16 @@ void KonqViewManager::setProfiles( KActionMenu *profiles )
   //profileListDirty();
 }
 
-void KonqViewManager::slotProfileDlg()
+void KonqViewManager::showProfileDlg( const QString & preselectProfile )
 {
-  KonqProfileDlg dlg( this, m_pMainWindow );
+  KonqProfileDlg dlg( this, preselectProfile, m_pMainWindow );
   dlg.exec();
   profileListDirty();
+}
+
+void KonqViewManager::slotProfileDlg()
+{
+  showProfileDlg( QString::null );
 }
 
 void KonqViewManager::profileListDirty( bool broadcast )

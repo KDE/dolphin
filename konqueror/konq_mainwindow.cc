@@ -1508,7 +1508,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paCopyFiles->setEnabled( false );
     if ( m_paMoveFiles )
       m_paMoveFiles->setEnabled( false );
-
     createGUI( 0L );
   }
 
@@ -1933,6 +1932,7 @@ KonqView * KonqMainWindow::otherView( KonqView * view ) const
 
 void KonqMainWindow::slotSaveViewProfile()
 {
+#if 0
     if ( m_pViewManager->currentProfile().isEmpty() )
     {
         // The action should be disabled...........
@@ -1944,6 +1944,8 @@ void KonqMainWindow::slotSaveViewProfile()
                                          false /* URLs */, true /* size */ );
 
     }
+#endif
+    m_pViewManager->showProfileDlg( m_pViewManager->currentProfile() );
 }
 
 void KonqMainWindow::slotUpAboutToShow()
