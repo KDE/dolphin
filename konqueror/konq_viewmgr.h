@@ -134,6 +134,10 @@ protected slots:
 
   void slotProfileListAboutToShow();
 
+protected:
+
+  // Disabled - we do it ourselves
+  virtual void setActiveInstance( KInstance * ) {}
 
 private:
 

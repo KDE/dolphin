@@ -52,6 +52,7 @@
 #include <qlayout.h>
 
 #include <dcopclient.h>
+#include <kaboutdata.h>
 #include <kaction.h>
 #include <kapp.h>
 #include <kbookmarkbar.h>
@@ -878,7 +879,9 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 
 void KonqMainView::slotPartActivated( KParts::Part *part )
 {
-  kdDebug(1202) << "slotPartActivated " << part << endl;
+  kdDebug(1202) << "slotPartActivated " << part << " "
+                <<  ( part && part->instance() && part->instance()->aboutData() ? part->instance()->aboutData()->appName() : "" ) << endl;
+
   if ( !part )
   {
     createGUI( 0L );
@@ -963,6 +966,15 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   updateStatusBar();
   updateToolBarActions();
+
+  // Set active instance - but take care of builtin views
+  // TODO: a real mechanism for detecting builtin views (X-KDE-BrowserView-Builtin back ?)
+  if ( part->instance() && part->instance()->aboutData() &&
+       ( !strcmp( part->instance()->aboutData()->appName(), "konqiconview") ||
+         !strcmp( part->instance()->aboutData()->appName(), "konqlistview") ) )
+      KGlobal::_activeInstance = KGlobal::instance();
+  else
+      KGlobal::_activeInstance = part->instance();
 }
 
 void KonqMainView::insertChildView( KonqChildView *childView )
