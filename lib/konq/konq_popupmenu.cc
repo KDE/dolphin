@@ -378,6 +378,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       if ( offers.count() > 1 ) // submenu 'open with'
       {
         menu = m_doc.createElement( "menu" );
+	menu.setAttribute( "name", "openwith submenu" );
         m_menuElement.appendChild( menu );
         QDomElement text = m_doc.createElement( "text" );
         menu.appendChild( text );
