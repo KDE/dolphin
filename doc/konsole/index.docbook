@@ -418,7 +418,7 @@ types created, by using the &kcontrolcenter; module
 <variablelist>
 
 <varlistentry>
-<term><menuchoice><guimenu>Edit</guimenu><guimenuitem><accel>P</accel>aste
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste
 </guimenuitem></menuchoice></term>
 <listitem><para><action>Pastes text from the clipboard at the cursor
 location.</action></para></listitem>
@@ -740,7 +740,7 @@ author</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Help</guimenu><guimenuitem>About
-<accel>K</accel>DE...</guimenuitem></menuchoice></term>
+KDE...</guimenuitem></menuchoice></term>
 <listitem><para><action>Information about the KDE
 project</action></para></listitem>
 </varlistentry>
