@@ -16,7 +16,7 @@ kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
       policydlg_ui.ui useragentdlg_ui.ui uagentproviderdlg_ui.ui \
       manualproxy_ui.ui envvarproxy_ui.ui cache_ui.ui
 
-kcm_kio_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
+kcm_kio_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
 kcm_kio_la_LIBADD = $(LIB_KIO) $(LIB_KUTILS)
 
 messages: rc.cpp
