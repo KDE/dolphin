@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Exec=kfmclient openURL %u inode/directory
+Exec=kfmclient openURL %u text/html
 Icon=konqueror
 Terminal=0
-MimeType=inode/directory
+MimeType=text/html
 InitialPreference=9
 NoDisplay=true
 Name=Konqueror

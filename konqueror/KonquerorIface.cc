@@ -48,6 +48,13 @@ void KonquerorIface::createNewWindow( const QString &url )
   KonqMisc::createNewWindow( KURL(url) );
 }
 
+void KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
+{
+  KParts::URLArgs args;
+  args.serviceType = mimetype;
+  KonqMisc::createNewWindow( KURL(url), args );
+}
+
 void KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
   kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
@@ -65,6 +72,13 @@ void KonquerorIface::createBrowserWindowFromProfile( const QString & path, const
 void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
   KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
+}
+
+void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
+{
+  KParts::URLArgs args;
+  args.serviceType = mimetype;
+  KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
 }
 
 void KonquerorIface::reparseConfiguration()

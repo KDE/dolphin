@@ -63,6 +63,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString 
 
 KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
+  kdDebug() << "KonqMisc::createNewWindow url=" << url.url() << endl;
   abortFullScreenMode();
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile

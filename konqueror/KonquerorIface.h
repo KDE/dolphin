@@ -48,6 +48,12 @@ k_dcop:
   void createNewWindow( const QString &url );
 
   /**
+   * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
+   * @param mimetype to speed it up.
+   */
+  void createNewWindow( const QString &url, const QString & mimetype );
+
+  /**
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
@@ -70,6 +76,16 @@ k_dcop:
    * @param url the URL to open
    */
   ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
+
+  /**
+   * Creates a window the fastest way : the caller has to provide
+   * profile, URL, and mimetype.
+   * @param path full path to the profile file
+   * @param filename name of the profile file, if under the profiles dir
+   * @param url the URL to open
+   * @param mimetype the mimetype that the URL we want to open has
+   */
+  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
 
   /**
    * Called by kcontrol when the global configuration changes

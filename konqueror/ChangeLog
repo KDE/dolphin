@@ -1,3 +1,9 @@
+2000-11-26  David Faure  <faure@kde.org>
+
+	* konq_misc.cc, kfmclient.cc, KonquerorIface.cc: Speed up for URLs opened
+	from another process using KRun (e.g. kdesktop's Minicli), by passing the
+	mimetype through to konqueror.
+
 2000-11-25  David Faure  <faure@kde.org>
 
 	* konq_misc.cc: Fixed location bar not showing the URL asap.

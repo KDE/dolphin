@@ -40,6 +40,7 @@ static KCmdLineOptions options[] =
 {
   { "silent", I18N_NOOP("Start without a default window."), 0 },
   { "profile <profile>",   I18N_NOOP("Profile to open."), 0 },
+  { "mimetype <mimetype>",   I18N_NOOP("Mimetype to use for this URL, (e.g. text/html or inode/directory)."), 0 },
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
   { 0, 0, 0}
 };
@@ -83,7 +84,11 @@ int main( int argc, char **argv )
        QString url;
        if (args->count() == 1)
            url = QString::fromLocal8Bit(args->arg(0));
-       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, url );
+       KParts::URLArgs urlargs;
+       if (args->isSet("mimetype"))
+           urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
+       kdDebug() << "main() -> createBrowserWindowFromProfile servicetype=" << urlargs.serviceType << endl;
+       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, url, urlargs );
      }
      else
      {
@@ -94,6 +99,7 @@ int main( int argc, char **argv )
                  KonqMainWindow *mainWindow = new KonqMainWindow;
                  mainWindow->show();
              }
+             kdDebug() << "main() -> no args" << endl;
          }
          else
          {
@@ -106,8 +112,14 @@ int main( int argc, char **argv )
                      urlToOpen = url;
                  else
                      urlToOpen = KURL( KonqMisc::konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
-                 //KonqMisc::createSimpleWindow( urlToOpen );
-                 KonqMisc::createNewWindow( urlToOpen );
+
+                 KParts::URLArgs urlargs;
+                 if (args->isSet("mimetype"))
+                 {
+                     urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
+                     kdDebug() << "main() : setting serviceType to " << urlargs.serviceType << endl;
+                 }
+                 KonqMisc::createNewWindow( urlToOpen, urlargs );
              }
          }
      }

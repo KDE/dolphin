@@ -73,11 +73,14 @@ int main( int argc, char **argv )
   if ( args->isSet("commands") )
   {
     printf(i18n("\nSyntax:\n").local8Bit());
-    printf(i18n("  kfmclient openURL 'url'\n"
+    printf(i18n("  kfmclient openURL 'url' ['mimetype']\n"
                 "            # Opens a window showing 'url'.\n"
                 "            #  'url' may be a relative path\n"
                 "            #   or file name, such as . or subdir/\n"
                 "            #   If 'url' is omitted, $HOME is used instead.\n\n").local8Bit());
+    printf(i18n("            # If 'mimetype' is specified, it will be used to determine the\n"
+                "            #   component that konqueror should use. For instance, set it to\n"
+                "            #   text/html for a web page, to make it appear faster\n\n").local8Bit());
 
     printf(i18n("  kfmclient openProfile 'profile' ['url']\n"
                 "            # Opens a window using the given profile.\n"
@@ -138,66 +141,64 @@ int main( int argc, char **argv )
 }
 
 /** Whether to start a new konqueror or reuse an existing process */
-static bool startNewKonqueror()
+static bool startNewKonqueror( const KURL & url )
 {
     KConfig config( QString::fromLatin1("kfmclientrc") );
     config.setGroup( QString::fromLatin1("Settings") );
-    return config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true );
+    // Current default: reuse an existing process for local urls, create a new one for remote ones
+    return config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), !url.isLocalFile() );
 }
 
-bool clientApp::createNewWindow(const KURL & url)
+bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 {
+    kdDebug() << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
     QByteArray data;
     QCString appId, appObj;
-    if ( !startNewKonqueror() &&
+    if ( !startNewKonqueror(url) &&
          dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                    appId, appObj ) )
     {
         KonquerorIface_stub konqy( appId, appObj );
-        konqy.createNewWindow( url.url() );
+        konqy.createNewWindow( url.url(), mimetype );
     }
     else
     {
         QString error;
+        /* Well, we can't pass a mimetype through startServiceByDesktopPath !
         if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
                                                       url.url(), &error ) > 0 )
         {
             kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
+            */
             KProcess proc;
-            proc << QString::fromLatin1("konqueror") << url.url();
+            if ( mimetype.isEmpty() )
+                proc << QString::fromLatin1("kdeinit_wrapper") << QString::fromLatin1("konqueror") << url.url();
+            else
+                proc << QString::fromLatin1("kdeinit_wrapper") << QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
             proc.start( KProcess::DontCare );
-        }
+        //}
     }
     return true;
 }
 
-bool clientApp::openProfile( const QString & filename, const QString & url )
+bool clientApp::openProfile( const QString & filename, const QString & url, const QString & mimetype )
 {
-  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + filename );
-  if ( profile.isEmpty() )
-  {
-    fprintf( stderr, i18n("Profile %1 not found\n").arg(filename).local8Bit() );
-    return false;
-  }
+  m_profileName = filename;
+  m_url = url;
+  m_mimetype = mimetype;
   QByteArray data;
   QCString appId, appObj;
-  if ( !startNewKonqueror() &&
+  if ( !startNewKonqueror(KURL(url)) &&
        dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                  appId, appObj ) )
   {
-    KonquerorIface_stub konqy( appId, appObj );
-    if ( url.isEmpty() )
-      konqy.createBrowserWindowFromProfile( profile, filename );
-    else
-      konqy.createBrowserWindowFromProfileAndURL( profile, filename, url );
+      slotAppRegistered( "konqueror" );
   }
   else
   {
     dcopClient()->setNotifications( true );
     QObject::connect( dcopClient(), SIGNAL( applicationRegistered( const QCString& ) ),
                     this, SLOT( slotAppRegistered( const QCString & ) ) );
-    m_profileName = filename;
-    m_url = url;
     QString error;
     if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"), QString::fromLatin1("--silent"), &error ) > 0 )
     {
@@ -224,8 +225,10 @@ void clientApp::slotAppRegistered( const QCString &appId )
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
         if ( m_url.isEmpty() )
             konqy.createBrowserWindowFromProfile( profile, m_profileName );
-        else
+        else if ( m_mimetype.isEmpty() )
             konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url );
+        else
+            konqy.createBrowserWindowFromProfileAndURL( profile, m_profileName, m_url, m_mimetype );
         ::exit( 0 );
     }
 }
@@ -267,7 +270,7 @@ bool clientApp::doIt()
 
   if ( command == "openURL" )
   {
-    checkArgumentCount(argc, 1, 2);
+    checkArgumentCount(argc, 1, 3);
     if ( argc == 1 )
     {
       KURL url;
@@ -277,6 +280,10 @@ bool clientApp::doIt()
     if ( argc == 2 )
     {
       return createNewWindow( args->url(1) );
+    }
+    if ( argc == 3 )
+    {
+      return createNewWindow( args->url(1), QString::fromLatin1(args->arg(2)) );
     }
   }
   else if ( command == "openProfile" )
