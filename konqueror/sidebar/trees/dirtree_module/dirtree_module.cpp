@@ -235,7 +235,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
 
         KonqSidebarDirTreeItem *dirTreeItem = new KonqSidebarDirTreeItem( parentItem, m_topLevelItem, fileItem );
         dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
-        dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
+        dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
     }
 }
 
