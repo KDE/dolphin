@@ -292,7 +292,7 @@ void KAppearanceOptions::slotCharset( const QString &n )
 void KAppearanceOptions::load()
 {
     m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "MediumFontSize", 12 );
+    fSize = m_pConfig->readNumEntry( "MediumFontSize", 10 );
     fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
 
     defaultFonts = QStringList();
@@ -323,7 +323,7 @@ void KAppearanceOptions::load()
 
 void KAppearanceOptions::defaults()
 {
-  fSize = 12;
+  fSize = 10;
   fMinSize = HTML_DEFAULT_MIN_FONT_SIZE;
   encodingName = "";
   enforceCharset = true;
