@@ -896,10 +896,9 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 
 void KonqKfmIconView::slotProcessMimeIcons()
 {
-    //kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() " <<
-    //    m_lstPendingMimeIconItems.count() << endl;
+    // kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() "
+    //             << m_lstPendingMimeIconItems.count() << endl;
     if ( m_lstPendingMimeIconItems.count() == 0 ) {
-
         if ( m_bLoading )
         {
             kdDebug() << "KonqKfmIconView completed()" << endl;
@@ -914,7 +913,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
 	return;
     }
     else
-        m_bLoading = true;
+      m_bLoading = true; // (David) Hmm, why is this necessary ?
 
     // Find an icon that's visible.
     //
@@ -942,7 +941,15 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     // No more visible items.
     if (0 == item)
+    {
+      if ( m_bLoading )
+      {
+        kdDebug() << "KonqKfmIconView completed()" << endl;
+        emit completed();
+        m_bLoading = false;
+      }
       return;
+    }
 
     QPixmap *currentIcon = item->pixmap();
 
