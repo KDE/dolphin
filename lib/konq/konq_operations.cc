@@ -47,6 +47,7 @@
 #include <konq_drag.h>
 #include <konq_fileitem.h>
 #include <konq_iconviewwidget.h>
+#include <kprotocolinfo.h>
 #include <kprocess.h>
 #include <kstringhandler.h>
 #include <kstddirs.h>
@@ -323,10 +324,24 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 bSetWallpaper = true;
             }
 
+            // Check what the source can do
+            QString protocol = lst.first().protocol(); // we'll assume it's the same for all URLs (hack)
+            bool sReading = KProtocolInfo::supportsReading( protocol );
+            bool sDeleting = KProtocolInfo::supportsDeleting( protocol );
+            bool sMoving = KProtocolInfo::supportsMoving( protocol );  
+            // Check what the destination can do
+            protocol = dest.protocol();
+            bool dReading = KProtocolInfo::supportsReading( protocol );
+            bool dWriting = KProtocolInfo::supportsWriting( protocol );
+            if ( !dWriting )
+                return;
+
             // Nor control nor shift are pressed => show popup menu
             QPopupMenu popup;
-            popup.insertItem( i18n( "&Copy Here" ), 1 );
-            popup.insertItem( i18n( "&Move Here" ), 2 );
+            if ( sReading )
+              popup.insertItem( i18n( "&Copy Here" ), 1 );
+            if ( (sMoving || (sReading && sDeleting)) )
+              popup.insertItem( i18n( "&Move Here" ), 2 );
             popup.insertItem( i18n( "&Link Here" ), 3 );
             if (bSetWallpaper)
                 popup.insertItem( i18n( "Set as &Wallpaper"), 4 );
