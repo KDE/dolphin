@@ -49,11 +49,11 @@ struct HistoryEntry
 };
 
 /* This class represents a child of the main view. The main view maintains
- * the list of children. A KonqChildView contains a Browser::View and
+ * the list of children. A KonqView contains a Browser::View and
  * handles it. It's more or less the backend structure for the views.
  * The widget handling stuff is done by the KonqFrame.
  */
-class KonqChildView : public QObject
+class KonqView : public QObject
 {
   Q_OBJECT
 public:
@@ -63,18 +63,18 @@ public:
    * @param view the IDL View to be added in the child view
    * @param viewFrame the frame where to create the view - becomes owned by the view,
    * which will delete it when destroyed.
-   * @param mainView is the mainview :-)
+   * @param mainWindow is the mainview :-)
    * @param serviceTypes is the list of supported servicetypes
    */
-  KonqChildView( KonqViewFactory &viewFactory,
+  KonqView( KonqViewFactory &viewFactory,
 		 KonqFrame* viewFrame,
-		 KonqMainView * mainView,
+		 KonqMainWindow * mainWindow,
 		 const KService::Ptr &service,
 		 const KTrader::OfferList &partServiceOffers,
 		 const KTrader::OfferList &appServiceOffers,
 		 const QString &serviceType );
 
-  ~KonqChildView();
+  ~KonqView();
 
   /** Force a repaint of the frame */
   void repaint();
@@ -211,7 +211,7 @@ public:
   KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }
   KTrader::OfferList appServiceOffers() { return m_appServiceOffers; }
 
-  KonqMainView *mainView() const { return m_pMainView; }
+  KonqMainWindow *mainWindow() const { return m_pMainWindow; }
 
   void initMetaView();
   void closeMetaView();
@@ -231,9 +231,9 @@ public:
 signals:
 
   /**
-   * Signal the main view that our id changed (e.g. because of changeViewMode)
+   * Signal the main window that the embedded part changed (e.g. because of changeViewMode)
    */
-  void sigViewChanged( KonqChildView *childView, KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
+  void sigPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
 public slots:
   /**
@@ -261,7 +261,7 @@ protected:
    * Connects the internal View to the mainview.
    * Do this after creating it and before inserting it.
    */
-  void connectView();
+  void connectPart();
 
   /**
    * Creates a new entry in the history.
@@ -289,7 +289,7 @@ protected:
    */
   QList<HistoryEntry> m_lstHistory;
 
-  KonqMainView *m_pMainView;
+  KonqMainWindow *m_pMainWindow;
   bool m_bAllowHTML;
   QGuardedPtr<KonqRun> m_pRun;
   KonqFrame *m_pKonqFrame;

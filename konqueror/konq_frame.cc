@@ -121,7 +121,7 @@ void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
 
 void KonqFrameStatusBar::splitFrameMenu()
 {
-   KActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection();
+   KActionCollection *actionColl = m_pParentKonqFrame->childView()->mainWindow()->actionCollection();
 
    QPopupMenu menu;
 
@@ -211,7 +211,7 @@ void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
   slotDisplayStatusText( sizeStr ); // let's share the same label...
 }
 
-void KonqFrameStatusBar::slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
+void KonqFrameStatusBar::slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
 {
    if (newOne!=0)
       connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
@@ -263,7 +263,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 :QWidget(_parentContainer,_name)
 {
    m_pLayout = 0L;
-   m_pChildView = 0L;
+   m_pView = 0L;
 
    // add the frame statusbar to the layout
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
@@ -291,8 +291,8 @@ KParts::ReadOnlyPart * KonqFrame::part()
 
 bool KonqFrame::isActivePart()
 {
-  return ( m_pChildView &&
-           static_cast<KonqChildView*>(m_pChildView) == m_pChildView->mainView()->currentChildView() );
+  return ( m_pView &&
+           static_cast<KonqView*>(m_pView) == m_pView->mainWindow()->currentView() );
 }
 
 void KonqFrame::listViews( ChildViewList *viewList )
@@ -356,21 +356,21 @@ void KonqFrame::attachInternal()
 
    m_pLayout->addWidget( m_pStatusBar );
    m_pPart->widget()->show();
-   if ( m_pChildView->mainView()->fullScreenMode() )
-     m_pChildView->mainView()->attachToolbars( this );
+   if ( m_pView->mainWindow()->fullScreenMode() )
+     m_pView->mainWindow()->attachToolbars( this );
    else
      m_pStatusBar->show();
    m_pLayout->activate();
 }
 
-void KonqFrame::setChildView( KonqChildView* child )
+void KonqFrame::setView( KonqView* child )
 {
-   m_pChildView = child;
-   if (m_pChildView)
+   m_pView = child;
+   if (m_pView)
    {
-     connect(m_pChildView,SIGNAL(sigViewChanged(KonqChildView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
-             m_pStatusBar,SLOT(slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
-     //connect(m_pChildView->view(),SIGNAL(setStatusBarText(const QString &)),
+     connect(m_pView,SIGNAL(sigViewChanged(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
+             m_pStatusBar,SLOT(slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
+     //connect(m_pView->view(),SIGNAL(setStatusBarText(const QString &)),
      //m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
    }
 };
@@ -391,22 +391,22 @@ void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 void KonqFrame::slotStatusBarClicked()
 {
   if ( !isActivePart() )
-     m_pChildView->mainView()->viewManager()->setActivePart( m_pPart );
+     m_pView->mainWindow()->viewManager()->setActivePart( m_pPart );
 }
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
 {
-  if (m_pChildView->mainView()->viewCount() == 2)
+  if (m_pView->mainWindow()->viewCount() == 2)
   {
     // Two views : link both
-    KonqMainView::MapViews mapViews = m_pChildView->mainView()->viewMap();
-    KonqMainView::MapViews::Iterator it = mapViews.begin();
+    KonqMainWindow::MapViews mapViews = m_pView->mainWindow()->viewMap();
+    KonqMainWindow::MapViews::Iterator it = mapViews.begin();
     (*it)->setLinkedView( mode );
     ++it;
     (*it)->setLinkedView( mode );
   }
   else // Normal case : just this view
-    m_pChildView->setLinkedView( mode );
+    m_pView->setLinkedView( mode );
 }
 
 void

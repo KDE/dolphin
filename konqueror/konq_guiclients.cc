@@ -29,9 +29,9 @@
 #include <konq_mainview.h>
 #include <konq_viewmgr.h>
 
-PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices )
+PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices )
 {
-  m_mainView = mainView;
+  m_mainWindow = mainWindow;
 
   m_doc = QDomDocument( "kpartgui" );
   QDomElement root = m_doc.createElement( "kpartgui" );
@@ -42,7 +42,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
   root.appendChild( menu );
   menu.setAttribute( "name", "popupmenu" );
 
-  if ( !mainView->menuBar()->isVisible() )
+  if ( !mainWindow->menuBar()->isVisible() )
   {
     QDomElement showMenuBarElement = m_doc.createElement( "action" );
     showMenuBarElement.setAttribute( "name", "showmenubar" );
@@ -51,7 +51,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
     menu.appendChild( m_doc.createElement( "separator" ) );
   }
 
-  if ( mainView->fullScreenMode() )
+  if ( mainWindow->fullScreenMode() )
   {
     QDomElement stopFullScreenElement = m_doc.createElement( "action" );
     stopFullScreenElement.setAttribute( "name", "fullscreen" );
@@ -60,7 +60,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
     menu.appendChild( m_doc.createElement( "separator" ) );
   }
 
-  QString currentServiceName = mainView->currentChildView()->service()->name();
+  QString currentServiceName = mainWindow->currentView()->service()->name();
 
   KTrader::OfferList::ConstIterator it = embeddingServices.begin();
   KTrader::OfferList::ConstIterator end = embeddingServices.end();
@@ -113,7 +113,7 @@ KAction *PopupMenuGUIClient::action( const QDomElement &element ) const
   KAction *res = KXMLGUIClient::action( element );
 
   if ( !res )
-    res = m_mainView->action( element );
+    res = m_mainWindow->action( element );
 
   return res;
 }
@@ -131,13 +131,13 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
   action.setAttribute( "group", "preview" );
 
   (void)new KAction( name, service->pixmap( KIcon::Small ), 0,
-		     m_mainView, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
+		     m_mainWindow, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
 
-ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
-: QObject( mainView )
+ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
+: QObject( mainWindow )
 {
-  m_mainView = mainView;
+  m_mainWindow = mainWindow;
   m_actions.setAutoDelete( true );
 
   KTrader::OfferList offers = KTrader::self()->query( "Browser/View" );
@@ -185,10 +185,10 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
     m_mapOrientation.insert( name, horizontal );
   }
 
-  connect( m_mainView, SIGNAL( viewAdded( KonqChildView * ) ),
-	   this, SLOT( slotViewAdded( KonqChildView * ) ) );
-  connect( m_mainView, SIGNAL( viewRemoved( KonqChildView * ) ),
-	   this, SLOT( slotViewRemoved( KonqChildView * ) ) );
+  connect( m_mainWindow, SIGNAL( viewAdded( KonqView * ) ),
+	   this, SLOT( slotViewAdded( KonqView * ) ) );
+  connect( m_mainWindow, SIGNAL( viewRemoved( KonqView * ) ),
+	   this, SLOT( slotViewRemoved( KonqView * ) ) );
 }
 
 ToggleViewGUIClient::~ToggleViewGUIClient()
@@ -212,7 +212,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
   bool horizontal = m_mapOrientation[ serviceName ];
 
-  KonqViewManager *viewManager = m_mainView->viewManager();
+  KonqViewManager *viewManager = m_mainWindow->viewManager();
 
   KonqFrameContainer *mainContainer = viewManager->mainContainer();
 
@@ -224,7 +224,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     KonqFrameContainer *newContainer;
 
-    KonqChildView *childView = viewManager->split( splitFrame, horizontal ? Qt::Vertical : Qt::Horizontal,
+    KonqView *childView = viewManager->split( splitFrame, horizontal ? Qt::Vertical : Qt::Horizontal,
                                                    QString::fromLatin1( "Browser/View" ), serviceName, &newContainer );
 
     if ( !horizontal )
@@ -248,10 +248,10 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     newContainer->setSizes( newSplitterSizes );
 
-    if ( m_mainView->currentChildView() )
+    if ( m_mainWindow->currentView() )
     {
-        childView->setLocationBarURL( m_mainView->currentChildView()->url().prettyURL() ); // default one in case it doesn't set it
-        childView->openURL( m_mainView->currentChildView()->url() );
+        childView->setLocationBarURL( m_mainWindow->currentView()->url().prettyURL() ); // default one in case it doesn't set it
+        childView->openURL( m_mainWindow->currentView()->url() );
     }
 
     // If not passive, set as active :)
@@ -262,11 +262,11 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   }
   else
   {
-    QList<KonqChildView> viewList;
+    QList<KonqView> viewList;
 
     mainContainer->listViews( &viewList );
 
-    QListIterator<KonqChildView> it( viewList );
+    QListIterator<KonqView> it( viewList );
     for (; it.current(); ++it )
       if ( it.current()->service()->name() == serviceName )
         // takes care of choosing the new active view
@@ -293,7 +293,7 @@ void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
   config->writeEntry( "ToggableViewsShown", toggableViewsShown );
 }
 
-void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
+void ToggleViewGUIClient::slotViewAdded( KonqView *view )
 {
   QString name = view->service()->name();
 
@@ -305,7 +305,7 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
   saveConfig( true, name );
 }
 
-void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
+void ToggleViewGUIClient::slotViewRemoved( KonqView *view )
 {
   QString name = view->service()->name();
 

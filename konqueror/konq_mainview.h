@@ -43,7 +43,7 @@ class KSelectAction;
 class KToggleAction;
 class KonqBidiHistoryAction;
 class KonqBookmarkBar;
-class KonqChildView;
+class KonqView;
 class KonqComboAction;
 class KonqFrame;
 class KonqFrameBase;
@@ -64,17 +64,17 @@ namespace KParts {
  struct URLArgs;
 };
 
-class KonqMainView : public KParts::MainWindow,
+class KonqMainWindow : public KParts::MainWindow,
                      virtual public KBookmarkOwner
 {
   Q_OBJECT
 public:
-  KonqMainView( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
-  ~KonqMainView();
+  KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
+  ~KonqMainWindow();
 
-  void openFilteredURL( KonqChildView *_view, const QString &_url );
+  void openFilteredURL( KonqView *_view, const QString &_url );
 
-  void openURL( KonqChildView *_view, const KURL &_url, const QString &serviceType = QString::null );
+  void openURL( KonqView *_view, const KURL &_url, const QString &serviceType = QString::null );
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
@@ -99,7 +99,7 @@ public slots:
    */
   void openURL( const KURL &url, const KParts::URLArgs &args );
 
-  void openURL( KonqChildView *childView, const KURL &url, const KParts::URLArgs &args );
+  void openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args );
 
   void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
 
@@ -137,7 +137,7 @@ public slots:
   void slotConfigureKeys();
   void slotConfigureToolbars();
 
-  void slotViewChanged( KonqChildView *childView, KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
+  void slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart );
 
   void slotRunFinished();
 
@@ -145,8 +145,8 @@ public slots:
   virtual void slotSetStatusBarText( const QString &text );
 
 signals:
-  void viewAdded( KonqChildView *view );
-  void viewRemoved( KonqChildView *view );
+  void viewAdded( KonqView *view );
+  void viewRemoved( KonqView *view );
 
 public:
 
@@ -154,24 +154,24 @@ public:
 
   void reparseConfiguration();
 
-  bool openView( QString serviceType, const KURL &_url, KonqChildView *childView );
+  bool openView( QString serviceType, const KURL &_url, KonqView *childView );
 
-  void insertChildView( KonqChildView *childView );
-  void removeChildView( KonqChildView *childView );
-  KonqChildView *childView( KParts::ReadOnlyPart *view );
-  KonqChildView *childView( const QString &name, KParts::BrowserHostExtension **hostExtension );
+  void insertChildView( KonqView *childView );
+  void removeChildView( KonqView *childView );
+  KonqView *childView( KParts::ReadOnlyPart *view );
+  KonqView *childView( const QString &name, KParts::BrowserHostExtension **hostExtension );
 
-  // dcop idl bug! it can't handle KonqMainView *&mainView
-  static KonqChildView *findChildView( const QString &name, KonqMainView **mainView, KParts::BrowserHostExtension **hostExtension );
+  // dcop idl bug! it can't handle KonqMainWindow *&mainWindow
+  static KonqView *findChildView( const QString &name, KonqMainWindow **mainWindow, KParts::BrowserHostExtension **hostExtension );
 
   int viewCount() const { return m_mapViews.count(); }
   int activeViewsCount() const;
 
-  typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
+  typedef QMap<KParts::ReadOnlyPart *, KonqView *> MapViews;
 
   const MapViews & viewMap() const { return m_mapViews; }
 
-  KonqChildView *currentChildView() const { return m_currentView; }
+  KonqView *currentView() const { return m_currentView; }
   KParts::ReadOnlyPart *currentPart();
 
   virtual void customEvent( QCustomEvent *event );
@@ -204,7 +204,7 @@ public:
    */
   bool isHTMLAllowed() const { return m_bHTMLAllowed; }
 
-  static QList<KonqMainView> *mainViewList() { return s_lstViews; }
+  static QList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
 
 public slots:
   void slotToggleFullScreen( bool );
@@ -357,7 +357,7 @@ private:
 
   MapViews m_mapViews;
 
-  KonqChildView *m_currentView;
+  KonqView *m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
 
@@ -383,7 +383,7 @@ private:
   QString m_initialFrameName;
 
   // Set in constructor, used in slotRunFinished
-  bool m_bNeedApplyMainViewSettings;
+  bool m_bNeedApplyMainWindowSettings;
   // Global settings
   bool m_bSaveViewPropertiesLocally;
   bool m_bHTMLAllowed;
@@ -399,7 +399,7 @@ private:
 
   static bool s_bMoveSelection;
 
-  static QList<KonqMainView> *s_lstViews;
+  static QList<KonqMainWindow> *s_lstViews;
 
   typedef QMap<QCString,QCString> ActionSlotMap;
   static ActionSlotMap *s_actionSlotMap;

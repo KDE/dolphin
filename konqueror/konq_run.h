@@ -23,8 +23,8 @@
 #include "krun.h"
 #include <sys/types.h>
 
-class KonqMainView;
-class KonqChildView;
+class KonqMainWindow;
+class KonqView;
 
 class KonqRun : public KRun
 {
@@ -34,7 +34,7 @@ public:
    * Create a KonqRun instance, associated to the main view and an
    * optionnal child view.
    */
-  KonqRun( KonqMainView* mainView, KonqChildView *childView,
+  KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
            const KURL &url, mode_t _mode = 0,
            bool _is_local_file = false, bool _auto_delete = true );
 
@@ -45,7 +45,7 @@ public:
    */
   bool foundMimeType() const { return m_bFoundMimeType; }
 
-  KonqChildView *childView() const { return m_pChildView; }
+  KonqView *childView() const { return m_pView; }
 
 protected:
   /**
@@ -55,8 +55,8 @@ protected:
    */
   virtual void foundMimeType( const QString & _type );
 
-  KonqMainView* m_pMainView;
-  KonqChildView* m_pChildView;
+  KonqMainWindow* m_pMainWindow;
+  KonqView* m_pView;
   bool m_bFoundMimeType;
 };
 

@@ -34,10 +34,10 @@
 class QString;
 class QStringList;
 class KConfig;
-class KonqMainView;
+class KonqMainWindow;
 class KonqFrameBase;
 class KonqFrameContainer;
-class KonqChildView;
+class KonqView;
 class BrowserView;
 class KActionMenu;
 
@@ -50,7 +50,7 @@ class KonqViewManager : public KParts::PartManager
 {
   Q_OBJECT
 public:
-  KonqViewManager( KonqMainView *mainView );
+  KonqViewManager( KonqMainWindow *mainWindow );
   ~KonqViewManager();
 
   /**
@@ -61,7 +61,7 @@ public:
    * If no Service Type was provided it takes the one from the current view.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  KonqChildView* splitView( Qt::Orientation orientation,
+  KonqView* splitView( Qt::Orientation orientation,
                             const KURL &url,
                             QString serviceType = QString::null,
                             const QString & serviceName = QString::null );
@@ -71,13 +71,13 @@ public:
    * of the view tree.
    * Returns the newly created view or 0L if the view couldn't be created.
    */
-  KonqChildView* splitWindow( Qt::Orientation orientation );
+  KonqView* splitWindow( Qt::Orientation orientation );
 
   /**
    * Do the actual splitting. The new View will be created from serviceType.
    * Returns the newly created view or 0L if the new view couldn't be created.
    */
-  KonqChildView* split (KonqFrameBase* splitFrame,
+  KonqView* split (KonqFrameBase* splitFrame,
                         Qt::Orientation orientation,
                         const QString &serviceType = QString::null,
                         const QString &serviceName = QString::null,
@@ -87,7 +87,7 @@ public:
    * Guess!:-)
    * Also takes care of setting another view as active if @p view was the active view
    */
-  void removeView( KonqChildView *view );
+  void removeView( KonqView *view );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
@@ -106,7 +106,7 @@ public:
 
   void clear();
 
-  KonqChildView *chooseNextView( KonqChildView *view );
+  KonqView *chooseNextView( KonqView *view );
 
   /**
    * Called whenever
@@ -153,10 +153,10 @@ private:
 			      KTrader::OfferList &appServiceOffers );
 
   /**
-   * Mainly creates the backend structure(KonqChildView) for a view and
+   * Mainly creates the backend structure(KonqView) for a view and
    * connects it
    */
-  KonqChildView *setupView( KonqFrameContainer *parentContainer,
+  KonqView *setupView( KonqFrameContainer *parentContainer,
                             KonqViewFactory &viewFactory,
 		            const KService::Ptr &service,
 		            const KTrader::OfferList &partServiceOffers,
@@ -169,7 +169,7 @@ private:
 		      const char* msg );
   void printFullHierarchy( KonqFrameContainer * container, int ident = 0 );
 
-  KonqMainView *m_pMainView;
+  KonqMainWindow *m_pMainWindow;
 
   KonqFrameContainer *m_pMainContainer;
 

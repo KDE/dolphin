@@ -47,20 +47,20 @@ void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )
   kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &filename ) " << endl;
   kdDebug(1202) << filename << endl;
 
-  KonqMainView *mainView = new KonqMainView( QString::null, false );
+  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
 
   KSimpleConfig cfg( filename, true );
   cfg.setGroup( "Profile" );
-  mainView->viewManager()->loadViewProfile( cfg );
-  mainView->enableAllActions( true );
+  mainWindow->viewManager()->loadViewProfile( cfg );
+  mainWindow->enableAllActions( true );
 
-  mainView->show();
+  mainWindow->show();
 }
 
 void KonquerorIface::setMoveSelection( int move )
 {
   kdDebug(1202) << "setMoveSelection: " << move << endl;
-  KonqMainView::setMoveSelection( (bool)move );
+  KonqMainWindow::setMoveSelection( (bool)move );
 }
 
 void KonquerorIface::reparseConfiguration()
@@ -68,10 +68,10 @@ void KonquerorIface::reparseConfiguration()
   KGlobal::config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
 
-  QList<KonqMainView> *mainViews = KonqMainView::mainViewList();
-  if ( mainViews )
+  QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  if ( mainWindows )
   {
-    QListIterator<KonqMainView> it( *mainViews );
+    QListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
         it.current()->reparseConfiguration();
   }
@@ -80,10 +80,10 @@ void KonquerorIface::reparseConfiguration()
 QValueList<DCOPRef> KonquerorIface::getWindows()
 {
     QValueList<DCOPRef> lst;
-    QList<KonqMainView> *mainViews = KonqMainView::mainViewList();
-    if ( mainViews )
+    QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+    if ( mainWindows )
     {
-      QListIterator<KonqMainView> it( *mainViews );
+      QListIterator<KonqMainWindow> it( *mainWindows );
       for (; it.current(); ++it )
         lst.append( DCOPRef( kapp->dcopClient()->appId(), it.current()->dcopObject()->objId() ) );
     }

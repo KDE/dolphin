@@ -26,13 +26,13 @@
 
 class KAction;
 class KActionCollection;
-class KonqMainView;
-class KonqChildView;
+class KonqMainWindow;
+class KonqView;
 
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:
-  PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices );
+  PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices );
   virtual ~PopupMenuGUIClient();
 
   virtual KAction *action( const QDomElement &element ) const;
@@ -40,7 +40,7 @@ public:
 private:
   void addEmbeddingService( QDomElement &menu, int idx, const QString &name, const KService::Ptr &service );
 
-  KonqMainView *m_mainView;
+  KonqMainWindow *m_mainWindow;
 
   QDomDocument m_doc;
 };
@@ -49,7 +49,7 @@ class ToggleViewGUIClient : public QObject
 {
   Q_OBJECT
 public:
-  ToggleViewGUIClient( KonqMainView *mainView );
+  ToggleViewGUIClient( KonqMainWindow *mainWindow );
   virtual ~ToggleViewGUIClient();
 
   bool empty() const { return m_empty; }
@@ -61,10 +61,10 @@ public:
 
 private slots:
   void slotToggleView( bool toggle );
-  void slotViewAdded( KonqChildView *view );
-  void slotViewRemoved( KonqChildView *view );
+  void slotViewAdded( KonqView *view );
+  void slotViewRemoved( KonqView *view );
 private:
-  KonqMainView *m_mainView;
+  KonqMainWindow *m_mainWindow;
   QDict<KAction> m_actions;
   bool m_empty;
   QMap<QString,bool> m_mapOrientation;

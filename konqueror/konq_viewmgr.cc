@@ -39,12 +39,12 @@
 
 #include <assert.h>
 
-template class QList<KonqChildView>;
+template class QList<KonqView>;
 
-KonqViewManager::KonqViewManager( KonqMainView *mainView )
- : KParts::PartManager( mainView )
+KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
+ : KParts::PartManager( mainWindow )
 {
-  m_pMainView = mainView;
+  m_pMainWindow = mainWindow;
 
   m_pMainContainer = 0L;
 
@@ -57,7 +57,7 @@ KonqViewManager::~KonqViewManager()
   clear();
 }
 
-KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
+KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
                                             const KURL &url,
                                             QString serviceType,
                                             const QString &serviceName )
@@ -68,11 +68,11 @@ KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
   KonqFrame* viewFrame = 0L;
   if( m_pMainContainer )
   {
-    viewFrame = m_pMainView->currentChildView()->frame();
-    locationBarURL = m_pMainView->currentChildView()->locationBarURL();
+    viewFrame = m_pMainWindow->currentView()->frame();
+    locationBarURL = m_pMainWindow->currentView()->locationBarURL();
   }
 
-  KonqChildView* childView = split( viewFrame, orientation, serviceType, serviceName );
+  KonqView* childView = split( viewFrame, orientation, serviceType, serviceName );
 
   if( childView )
   {
@@ -84,21 +84,21 @@ KonqChildView* KonqViewManager::splitView ( Qt::Orientation orientation,
   return childView;
 }
 
-KonqChildView* KonqViewManager::splitWindow( Qt::Orientation orientation )
+KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation )
 {
   kdDebug(1202) << "KonqViewManager::splitWindow(default)" << endl;
 
-  KURL url = m_pMainView->currentChildView()->url();
+  KURL url = m_pMainWindow->currentView()->url();
 
   QString locationBarURL;
   KonqFrameBase* splitFrame = 0L;
   if( m_pMainContainer )
   {
     splitFrame = m_pMainContainer->firstChild();
-    locationBarURL = m_pMainView->currentChildView()->locationBarURL();
+    locationBarURL = m_pMainWindow->currentView()->locationBarURL();
   }
 
-  KonqChildView* childView = split( splitFrame, orientation );
+  KonqView* childView = split( splitFrame, orientation );
 
   if( childView )
   {
@@ -110,7 +110,7 @@ KonqChildView* KonqViewManager::splitWindow( Qt::Orientation orientation )
   return childView;
 }
 
-KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
+KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
                                        Qt::Orientation orientation,
                                        const QString &serviceType, const QString &serviceName,
                                        KonqFrameContainer **newFrameContainer )
@@ -125,7 +125,7 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
   if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view
 
-  KonqChildView *childView;
+  KonqView *childView;
   if( m_pMainContainer )
   {
     assert( splitFrame );
@@ -146,7 +146,7 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     //kdDebug(1202) << "Move out child" << endl;
     parentContainer->removeChildFrame( splitFrame );
-    splitFrame->widget()->reparent( m_pMainView, pos );
+    splitFrame->widget()->reparent( m_pMainWindow, pos );
     splitFrame->widget()->hide(); // Can't hide before, but after is better than nothing
     splitFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize, so that both container childs are equally size after split
 
@@ -179,10 +179,10 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
   }
   else // We had no main container, create one
   {
-    m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
-    m_pMainView->setView( m_pMainContainer );
+    m_pMainContainer = new KonqFrameContainer( orientation, m_pMainWindow );
+    m_pMainWindow->setView( m_pMainContainer );
     m_pMainContainer->setOpaqueResize();
-    m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
+    m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
 
     childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
@@ -199,12 +199,12 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
   return childView;
 }
 
-void KonqViewManager::removeView( KonqChildView *view )
+void KonqViewManager::removeView( KonqView *view )
 {
   //kdDebug(1202) << "---------------- removeView" << view << endl;
   if ( activePart() == view->part() )
   {
-    KonqChildView *nextView = chooseNextView( view );
+    KonqView *nextView = chooseNextView( view );
     // Don't remove the last view
     if ( nextView == 0L )
       return;
@@ -229,11 +229,11 @@ void KonqViewManager::removeView( KonqChildView *view )
 
   QPoint pos = otherFrame->widget()->pos();
 
-  otherFrame->reparentFrame( m_pMainView, pos );
+  otherFrame->reparentFrame( m_pMainWindow, pos );
   otherFrame->widget()->hide(); // Can't hide before, but after is better than nothing
   otherFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize
 
-  m_pMainView->removeChildView( view );
+  m_pMainWindow->removeChildView( view );
 
   parentContainer->removeChildFrame( view->frame() );
   //kdDebug(1202) << "Deleting view frame" << view->frame() << endl;
@@ -266,7 +266,7 @@ void KonqViewManager::removePart( KParts::Part * part )
   // If we were called by PartManager::slotObjectDestroyed, then the inheritance has
   // been deleted already... Can't use inherits().
 
-  KonqChildView * cv = m_pMainView->childView( static_cast<KParts::ReadOnlyPart *>(part) );
+  KonqView * cv = m_pMainWindow->childView( static_cast<KParts::ReadOnlyPart *>(part) );
   if ( cv ) // the child view still exists, so we are in case 1
   {
       //kdDebug(1202) << "Found a child view" << endl;
@@ -282,12 +282,12 @@ void KonqViewManager::removePart( KParts::Part * part )
 
 void KonqViewManager::viewCountChanged()
 {
-  bool bShowActiveViewIndicator = ( m_pMainView->activeViewsCount() > 1 );
-  bool bShowLinkedViewIndicator = ( m_pMainView->viewCount() > 1 );
+  bool bShowActiveViewIndicator = ( m_pMainWindow->activeViewsCount() > 1 );
+  bool bShowLinkedViewIndicator = ( m_pMainWindow->viewCount() > 1 );
 
-  KonqMainView::MapViews mapViews = m_pMainView->viewMap();
-  KonqMainView::MapViews::Iterator it = mapViews.begin();
-  KonqMainView::MapViews::Iterator end = mapViews.end();
+  KonqMainWindow::MapViews mapViews = m_pMainWindow->viewMap();
+  KonqMainWindow::MapViews::Iterator it = mapViews.begin();
+  KonqMainWindow::MapViews::Iterator end = mapViews.end();
   for (  ; it != end ; ++it )
   {
       it.data()->frame()->statusbar()->showActiveViewIndicator(
@@ -325,15 +325,15 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   kdDebug(1202) << "Load RootItem " << debugString(rootItem) << endl;
 
-  m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
-  m_pMainView->setView( m_pMainContainer );
+  m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
+  m_pMainWindow->setView( m_pMainContainer );
   m_pMainContainer->setOpaqueResize();
-  m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
+  m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
   m_pMainContainer->show();
 
   loadItem( cfg, m_pMainContainer, rootItem );
 
-  KonqChildView *nextChildView = chooseNextView( 0L );
+  KonqView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L );
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
@@ -377,7 +377,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     }
 
     kdDebug(1202) << "Creating View Stuff" << endl;
-    KonqChildView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
+    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     childView->setPassiveMode( passiveMode );
     childView->setLinkedView( linkedView );
@@ -435,14 +435,14 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 void KonqViewManager::clear()
 {
   kdDebug(1202) << "KonqViewManager::clear: " << endl;
-  QList<KonqChildView> viewList;
-  QListIterator<KonqChildView> it( viewList );
+  QList<KonqView> viewList;
+  QListIterator<KonqView> it( viewList );
 
   if (m_pMainContainer) {
     m_pMainContainer->listViews( &viewList );
 
     for ( it.toFirst(); it.current(); ++it ) {
-      m_pMainView->removeChildView( it.current() );
+      m_pMainWindow->removeChildView( it.current() );
       delete it.current();
     }
 
@@ -452,18 +452,18 @@ void KonqViewManager::clear()
   }
 }
 
-KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
+KonqView *KonqViewManager::chooseNextView( KonqView *view )
 {
   kdDebug(1202) << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
-  KonqMainView::MapViews mapViews = m_pMainView->viewMap();
+  KonqMainWindow::MapViews mapViews = m_pMainWindow->viewMap();
 
-  KonqMainView::MapViews::Iterator it = mapViews.begin();
-  KonqMainView::MapViews::Iterator end = mapViews.end();
+  KonqMainWindow::MapViews::Iterator it = mapViews.begin();
+  KonqMainWindow::MapViews::Iterator end = mapViews.end();
   if ( view ) // find it in the map - can't use the key since view->part() might be 0L
       while ( it != end && it.data() != view )
           ++it;
 
-  KonqMainView::MapViews::Iterator startIt = it;
+  KonqMainWindow::MapViews::Iterator startIt = it;
 
   // the view should always be in the list, shouldn't it?
   // maybe use assert( it != end )?
@@ -483,7 +483,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
     if ( it == startIt )
       break; // no next view found
 
-    KonqChildView *nextView = it.data();
+    KonqView *nextView = it.data();
     if ( nextView && !nextView->passiveMode() )
       return nextView;
   }
@@ -502,13 +502,13 @@ void KonqViewManager::setProfiles( KActionMenu *profiles )
     connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
              this, SLOT( slotProfileListAboutToShow() ) );
   }	
-  //KonqMainView::enableAllActions will call it anyway
+  //KonqMainWindow::enableAllActions will call it anyway
   //profileListDirty();
 }
 
 void KonqViewManager::slotProfileDlg()
 {
-  KonqProfileDlg dlg( this, m_pMainView );
+  KonqProfileDlg dlg( this, m_pMainWindow );
   dlg.exec();
   profileListDirty();
 }
@@ -531,9 +531,9 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
   kdDebug(1202) << "KonqViewManager::createView" << endl;
   KonqViewFactory viewFactory;
 
-  if( serviceType.isEmpty() && m_pMainView->currentChildView() ) {
+  if( serviceType.isEmpty() && m_pMainWindow->currentView() ) {
     //clone current view
-    KonqChildView *cv = m_pMainView->currentChildView();
+    KonqView *cv = m_pMainWindow->currentView();
 
     viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->name(),
 				           &service, &partServiceOffers, &appServiceOffers );
@@ -547,7 +547,7 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
   return viewFactory;
 }
 
-KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
+KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
                                            KonqViewFactory &viewFactory,
 				           const KService::Ptr &service,
 				           const KTrader::OfferList &partServiceOffers,
@@ -559,19 +559,19 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   QString sType = serviceType;
 
   if ( sType.isEmpty() )
-    sType = m_pMainView->currentChildView()->serviceType();
+    sType = m_pMainWindow->currentView()->serviceType();
 
   KonqFrame* newViewFrame = new KonqFrame( parentContainer, "KonqFrame" );
 
-  kdDebug(1202) << "Creating KonqChildView" << endl;
-  KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
-					m_pMainView, service, partServiceOffers, appServiceOffers, sType );
-  kdDebug(1202) << "KonqChildView created" << endl;
+  kdDebug(1202) << "Creating KonqView" << endl;
+  KonqView *v = new KonqView( viewFactory, newViewFrame,
+                              m_pMainWindow, service, partServiceOffers, appServiceOffers, sType );
+  kdDebug(1202) << "KonqView created" << endl;
 
-  QObject::connect( v, SIGNAL( sigViewChanged( KonqChildView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
-                    m_pMainView, SLOT( slotViewChanged( KonqChildView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
+  QObject::connect( v, SIGNAL( sigPartChanged( KonqView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
+                    m_pMainWindow, SLOT( slotPartChanged( KonqView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
 
-  m_pMainView->insertChildView( v );
+  m_pMainWindow->insertChildView( v );
 
   newViewFrame->show();
 

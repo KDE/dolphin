@@ -34,7 +34,7 @@
 class QPixmap;
 class QVBoxLayout;
 class QTimer;
-class KonqChildView;
+class KonqView;
 class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainer;
@@ -89,7 +89,7 @@ class KonqFrameStatusBar : public QWidget
       void message( const QString &msg );
 
    public slots:
-      void slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
+      void slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
       void slotDisplayStatusText(const QString& text);
@@ -126,7 +126,7 @@ class KonqFrameStatusBar : public QWidget
       QString m_savedMessage;
 };
 
-typedef QList<KonqChildView> ChildViewList;
+typedef QList<KonqView> ChildViewList;
 
 class KonqFrameBase
 {
@@ -183,8 +183,8 @@ public:
 
   bool isActivePart();
 
-  KonqChildView* childView() { return m_pChildView; }
-  void setChildView( KonqChildView* child );
+  KonqView* childView() { return m_pView; }
+  void setView( KonqView* child );
   void listViews( ChildViewList *viewList );
 
   void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
@@ -221,7 +221,7 @@ protected:
   QVBoxLayout *m_metaViewLayout;
   QFrame *m_metaViewFrame;
   QVBoxLayout *m_pLayout;
-  QGuardedPtr<KonqChildView> m_pChildView;
+  QGuardedPtr<KonqView> m_pView;
 
   QGuardedPtr<KParts::ReadOnlyPart> m_pPart;
 

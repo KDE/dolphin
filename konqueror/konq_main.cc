@@ -69,7 +69,7 @@ int main( int argc, char **argv )
     int n = 1;
     while ( KTMainWindow::canBeRestored( n ) )
     {
-      (new KonqMainView( KURL(), false ) )->restore( n );
+      (new KonqMainWindow( KURL(), false ) )->restore( n );
       n++;
     }
   }
@@ -78,8 +78,8 @@ int main( int argc, char **argv )
      if (!args->isSet("silent"))
      {
      //        fm.openFileManagerWindow( KURL() );
-       KonqMainView *mainView = new KonqMainView;
-       mainView->show();
+       KonqMainWindow *mainWindow = new KonqMainWindow;
+       mainWindow->show();
      }
   }
   else
