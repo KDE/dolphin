@@ -170,7 +170,7 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
             KMessageBox::error( widget(), i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(url.prettyURL()) );
             return;
         }
-        KMessageBox::error( widget(), i18n("<p><b>%1</b> doesn't seem to exist anymore</p>").arg(url.prettyURL()) );
+        KMessageBox::error( widget(), i18n("<p><b>%1</b> does not seem to exist anymore</p>").arg(url.prettyURL()) );
         return;
     }
 

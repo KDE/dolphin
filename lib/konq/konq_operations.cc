@@ -96,7 +96,7 @@ void KonqOperations::del( QWidget * parent, int method, const KURL::List & selec
   {
       switch ( method ) {
           case TRASH:
-              KMessageBox::sorry(0, i18n("You can't trash the trash bin."));
+              KMessageBox::sorry(0, i18n("You cannot trash the trash bin."));
               return;
           case DEL:
           case SHRED:
