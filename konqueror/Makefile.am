@@ -67,7 +67,7 @@ konq_mainwindow.h: konqueror.h
 
 # Because konqueror.cc is duplicated in client/, the TAGS file is invalid
 # Solution : remove inclusion of client/TAGS
-etags: tags
+etags: 
 	mv TAGS TAGS_tmp && \
 	  head -$$[`wc -l <TAGS_tmp`-2] TAGS_tmp > TAGS && \
 	    rm -f TAGS_tmp

@@ -27,6 +27,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <kaccel.h>
 #include <kapp.h>
 #include <kdirlister.h>
 #include <kfileici.h>
@@ -48,6 +49,7 @@
 #include <qclipboard.h>
 #include <qregexp.h>
 
+#include <opQCProxy.h>
 #include <opUIUtils.h>
 
 KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
@@ -61,6 +63,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   m_pMainView = mainView;
   m_vViewMenu = 0L;
   m_vSortMenu = 0L;
+  m_proxySelectAll = 0L;
 
   // Create a properties instance for this view
   // (copying the default values)
@@ -155,14 +158,25 @@ bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr edit
   if ( !CORBA::is_nil( editMenu ) )
   {
     CORBA::WString_var text;
-    text = Q2C( i18n("Select") );
+    text = Q2C( i18n("&Select") );
     editMenu->insertItem4( text, this, "slotSelect" , 0, -1, -1 );
-    text = Q2C( i18n("Unselect") );
+    text = Q2C( i18n("&Unselect") );
     editMenu->insertItem4( text, this, "slotUnselect" , 0, -1, -1 );
     text = Q2C( i18n("Select &All") );
     editMenu->insertItem4( text, this, "slotSelectAll" , 0, -1, -1 );
-    text = Q2C( i18n("Unselect &All") );
+    text = Q2C( i18n("U&nselect All") );
     editMenu->insertItem4( text, this, "slotUnselectAll" , 0, -1, -1 );
+    
+    m_proxySelectAll = new Qt2CORBAProxy( this, "slotSelectAll" );
+    m_pMainView->accel()->connectItem( "SelectAll", m_proxySelectAll, SLOT( callback() ) );
+  }
+  else // cleanup
+  {
+    if ( m_proxySelectAll ) {
+      m_pMainView->accel()->disconnectItem( "SelectAll", m_proxySelectAll, SLOT( callback() ) );
+      delete m_proxySelectAll;
+      m_proxySelectAll = 0L;
+    }
   }
   
   return true;

@@ -186,7 +186,7 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
   if ( viewToolBar.create )
   {
     CORBA::WString_var toolTip = Q2C( i18n( "Load Images" ) );
-    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "image.xpm" ) );
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "image.png" ) );
     viewToolBar.toolBar->insertButton2( pix, TOOLBAR_LOADIMAGES_ID, 
                                         SIGNAL(clicked()), this, "slotLoadImages", 
 					true, toolTip, viewToolBar.startIndex++ );

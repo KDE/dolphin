@@ -152,11 +152,11 @@ bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
   if ( toolBar.create )
   {
     CORBA::WString_var toolTip = Q2C( i18n( "Search" ) );
-    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "search.xpm" ) );
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "search.png" ) );
     toolBar.toolBar->insertButton2( pix, TOOLBAR_SEARCH_ID, SIGNAL(clicked()),
                                     this, "slotSearch", true, toolTip, toolBar.startIndex++ );
     toolTip = Q2C( i18n( "Launch Editor" ) );
-    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "pencil.xpm" ) );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "pencil.png" ) );
     toolBar.toolBar->insertButton2( pix, TOOLBAR_EDITOR_ID, SIGNAL(clicked()),
                                     this, "slotEdit", true, toolTip, toolBar.startIndex++ );
   }

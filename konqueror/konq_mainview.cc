@@ -146,6 +146,11 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pAccel->insertItem( i18n("History Forward"), "Forward", ALT+Key_Right );
   m_pAccel->insertItem( i18n("Stop Loading"), "Stop", Key_Escape );
   
+  m_pAccel->insertItem( i18n("Select"), "Select", 0 );
+  m_pAccel->insertItem( i18n("Select All"), "SelectAll", CTRL+Key_A );
+  m_pAccel->insertItem( i18n("Unselect"), "Unselect", 0 );
+  m_pAccel->insertItem( i18n("Unselect All"), "UnselectAll", 0);
+
   m_pAccel->insertItem( "Select View 1", CTRL+Key_1, false );
   m_pAccel->insertItem( "Select View 2", CTRL+Key_2, false );
   m_pAccel->insertItem( "Select View 3", CTRL+Key_3, false );
@@ -161,6 +166,11 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pAccel->connectItem( "Back", this, SLOT( slotBack() ) );
   m_pAccel->connectItem( "Forward", this, SLOT( slotForward() ) );
   m_pAccel->connectItem( "Stop", this, SLOT( slotStop2() ) );
+
+  m_pAccel->connectItem( "Select", this, SLOT( slotUp() ) );
+  m_pAccel->connectItem( "SelectAll", this, SLOT( slotUp() ) );
+  m_pAccel->connectItem( "Unselect", this, SLOT( slotUp() ) );
+  m_pAccel->connectItem( "UnselectAll", this, SLOT( slotUp() ) );
 
   m_pAccel->connectItem( "Select View 1", this, SLOT( slotSelectView1() ) );
   m_pAccel->connectItem( "Select View 2", this, SLOT( slotSelectView2() ) );
@@ -386,7 +396,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Find") );
   m_vMenuFile->insertItem4( text, this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.png" ) );
   text = Q2C( i18n("&Print...") );
   m_vMenuFile->insertItem6( pix, text, this, "slotPrint", stdAccel.print(), MFILE_PRINT_ID, -1 );
 
@@ -419,16 +429,16 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 
   m_vMenuGo->connect( "highlighted", this, "slotItemHighlighted" );
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.png" ) );
   text = Q2C( i18n("&Up") );
   m_vMenuGo->insertItem6( pix, text, this, "slotUp", 0, MGO_UP_ID, -1 );
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.png" ) );
   text = Q2C( i18n("&Back") );
   m_vMenuGo->insertItem6( pix, text, this, "slotBack", 0, MGO_BACK_ID, -1 );
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.png" ) );
   text = Q2C( i18n("&Forward") );
   m_vMenuGo->insertItem6( pix, text, this, "slotForward", 0, MGO_FORWARD_ID, -1 );
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.png" ) );
   text = Q2C( i18n("&Home") );
   m_vMenuGo->insertItem6( pix, text, this, "slotHome", 0, MGO_HOME_ID, -1 );
   m_vMenuGo->insertSeparator( -1 );
@@ -587,7 +597,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   CORBA::WString_var toolTip;
   
   toolTip = Q2C( i18n("Up") );
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.png" ) );
   m_vToolBar->insertButton2( pix, MGO_UP_ID, SIGNAL(clicked()),
                              this, "slotUp", false, toolTip, -1);
 
@@ -596,7 +606,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vUpPopupMenu->connect( "aboutToShow", this, "slotUpAboutToShow" );
   m_vUpPopupMenu->connect( "activated", this, "slotUpActivated" );
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.png" ) );
   toolTip = Q2C( i18n("Back") );
   m_vToolBar->insertButton2( pix, MGO_BACK_ID, SIGNAL(clicked()),
                              this, "slotBack", false, toolTip, -1);
@@ -607,7 +617,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vHistoryBackPopupMenu->connect( "aboutToShow", this, "slotHistoryBackwardAboutToShow" );
   m_vHistoryBackPopupMenu->connect( "activated", this, "slotHistoryBackwardActivated" );
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.png" ) );
   toolTip = Q2C( i18n("Forward") );
   m_vToolBar->insertButton2( pix, MGO_FORWARD_ID, SIGNAL(clicked()),
                              this, "slotForward", false, toolTip, -1);
@@ -617,50 +627,50 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vHistoryForwardPopupMenu->connect( "aboutToShow", this, "slotHistoryForwardAboutToShow" );
   m_vHistoryForwardPopupMenu->connect( "activated", this, "slotHistoryForwardActivated" );
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.png" ) );
   toolTip = Q2C( i18n("Home") );
   m_vToolBar->insertButton2( pix, MGO_HOME_ID, SIGNAL(clicked()),
                              this, "slotHome", true, toolTip, -1);
 
   m_vToolBar->insertSeparator( -1 );
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.png" ) );
   toolTip = Q2C( i18n("Reload") );
   m_vToolBar->insertButton2( pix, MVIEW_RELOAD_ID, SIGNAL(clicked()),
                              this, "slotReload", true, toolTip, -1);
 
   m_vToolBar->insertSeparator( -1 );
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.png" ) );
   toolTip = Q2C( i18n("Copy") );
   m_vToolBar->insertButton2( pix, MEDIT_COPY_ID, SIGNAL(clicked()),
                              this, "slotCopy", true, toolTip, -1);
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.png" ) );
   toolTip = Q2C( i18n("Paste") );
   m_vToolBar->insertButton2( pix, MEDIT_PASTE_ID, SIGNAL(clicked()),
                              this, "slotPaste", true, toolTip, -1);
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "fileprint.png" ) );
   toolTip = Q2C( i18n( "Print" ) );
   m_vToolBar->insertButton2( pix, MFILE_PRINT_ID, SIGNAL(clicked()),
                              this, "slotPrint", true, toolTip, -1 );
  				
   m_vToolBar->insertSeparator( -1 );				
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.png" ) );
   toolTip = Q2C( i18n("Help") );
   m_vToolBar->insertButton2( pix, MHELP_CONTENTS_ID, SIGNAL(clicked()),
                              this, "slotHelpContents", true, toolTip, -1);
 				
   m_vToolBar->insertSeparator( -1 );				
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "stop.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "stop.png" ) );
   toolTip = Q2C( i18n("Stop") );
   m_vToolBar->insertButton2( pix, MVIEW_STOP_ID, SIGNAL(clicked()),
                              this, "slotStop", false, toolTip, -1);
 
-  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.xpm" ) );
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.png" ) );
   CORBA::Long gearIndex = m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
                                                      this, "slotNewWindow", true, 0L, -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
@@ -2070,7 +2080,7 @@ void KonqMainView::initGui()
     for ( int i = 1; i < 9; i++ )
     {
       QString n;
-      n.sprintf( "kde%i.xpm", i );
+      n.sprintf( "kde%i.png", i );
       s_lstAnimatedLogo->append( OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( n ) ) );
     }
   }			
@@ -2187,7 +2197,7 @@ void KonqMainView::createViewMenu()
         m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
     }
 
-    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.xpm" ) );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.png" ) );
     text = Q2C( i18n("&Reload Document") );
     m_vMenuView->insertItem6( pix, text, this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
     text = Q2C( i18n("Sto&p loading") );
@@ -2218,15 +2228,15 @@ void KonqMainView::createEditMenu()
   {
     m_vMenuEdit->clear();
 
-    KStdAccel stdAccel; //?????????????????????
+    KStdAccel stdAccel; // Get standard accelarators (copy, paste, cut)
 
-    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ) );
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.png" ) );
     CORBA::WString_var text = Q2C( i18n("&Copy") );
     m_vMenuEdit->insertItem6( pix, text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
-    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ) );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.png" ) );
     text = Q2C( i18n("&Paste") );
     m_vMenuEdit->insertItem6( pix, text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
-    pix = OPUIUtils::convertPixmap( *KPixmapCache::pixmap( "kfm_trash.xpm", true ) );
+    pix = OPUIUtils::convertPixmap( *KPixmapCache::pixmap( "kfm_trash.png", true ) );
     text = Q2C( i18n("&Move to Trash") );
     m_vMenuEdit->insertItem6( pix, text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
     text = Q2C( i18n("&Delete") );

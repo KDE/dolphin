@@ -30,6 +30,7 @@ class KonqKfmIconView;
 class KonqPropsView;
 class KDirLister;
 class KFileItem;
+class Qt2CORBAProxy;
 
 /**
  * The Icon View for konqueror. Handles big icons (Horizontal mode) and
@@ -68,6 +69,7 @@ public:
   
   //virtual void updateDirectory();
 
+public slots:
   // IDL
   virtual void slotShowDot();
   virtual void slotSelect();
@@ -132,6 +134,9 @@ protected:
   
   int m_iXOffset;
   int m_iYOffset;
+  
+  /** Proxies for each CORBA slot that has to be invoked from a Qt signql */
+  Qt2CORBAProxy * m_proxySelectAll;
   
   CORBA::Long m_idShowDotFiles;
   CORBA::Long m_idSortByNameCaseSensitive;

@@ -112,6 +112,13 @@ public:
   void saveProperties( KConfig *config );
   void readProperties( KConfig *config );  
 
+  /**
+   * @return the KAccel instance, so that views (built-in ones) can connect their
+   * slots to it
+   */
+  KAccel * accel() { return m_pAccel; }
+
+public slots:  
   // File menu
   virtual void slotNewWindow();
   virtual void slotRun();
@@ -135,12 +142,10 @@ public:
   virtual void slotReload();
   virtual void slotStop();
 
-public slots:  
   // Go menu
   virtual void slotUp();
   virtual void slotBack();
   virtual void slotForward();
-public:
   
   virtual void slotHome();
   virtual void slotShowCache();
@@ -213,7 +218,7 @@ public:
   virtual void slotSelectionChanged();
   
   virtual void slotItemHighlighted( CORBA::Long id );
-  
+
 public slots:
   /////////////////////////
   // Animated Logo
