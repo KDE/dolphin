@@ -146,6 +146,7 @@ public slots:
 
 signals:
   void viewAdded( KonqChildView *view );
+  void viewRemoved( KonqChildView *view );
 
 public:
 k_dcop:
@@ -451,6 +452,7 @@ public:
 private slots:
   void slotToggleView( bool toggle );
   void slotViewAdded( KonqChildView *view );
+  void slotViewRemoved( KonqChildView *view );
 private:
   KonqMainView *m_mainView;
   QDomDocument m_doc;

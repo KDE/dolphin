@@ -243,6 +243,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 
 KonqFrame::~KonqFrame()
 {
+  kdDebug() << "KonqFrame::~KonqFrame() " << this << endl;
   //delete m_pLayout;
 }
 
@@ -274,8 +275,11 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
    KonqViewFactory factory( viewFactory );
 
-   //   m_pView = factory.create( this, "child view" );
-   m_pView = factory.create( m_metaViewFrame, "child view" );
+   //   m_pView = factory.create( this, m_pMainView, "child view" );
+   // Note that we set the parent to 0.
+   // We don't want that deleting the widget deletes the part automatically
+   // because we already have that taken care of in KParts...
+   m_pView = factory.create( m_metaViewFrame, "childview widget", 0, "child view" );
 
    assert( m_pView->widget() );
 
@@ -328,7 +332,7 @@ void KonqFrame::setChildView( KonqChildView* child )
 KonqFrameContainer* KonqFrame::parentContainer()
 {
    if( parentWidget()->isA("KonqFrameContainer") )
-      return (KonqFrameContainer*)parentWidget();
+      return static_cast<KonqFrameContainer*>(parentWidget());
    else
       return 0L;
 }
@@ -401,6 +405,11 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
   m_pSecondChild = 0L;
 }
 
+KonqFrameContainer::~KonqFrameContainer()
+{
+    kdDebug() << "KonqFrameContainer::~KonqFrameContainer()" << endl;
+}
+
 void KonqFrameContainer::listViews( ChildViewList *viewList )
 {
    if( firstChild() )
@@ -461,7 +470,7 @@ KonqFrameBase* KonqFrameContainer::otherChild( KonqFrameBase* child )
 KonqFrameContainer* KonqFrameContainer::parentContainer()
 {
   if( parentWidget()->isA("KonqFrameContainer") )
-    return (KonqFrameContainer*)parentWidget();
+    return static_cast<KonqFrameContainer*>(parentWidget());
   else
     return 0L;
 }
@@ -473,6 +482,7 @@ void KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, 
 
 void KonqFrameContainer::childEvent( QChildEvent * ce )
 {
+    kdDebug(1202) << "KonqFrameContainer::childEvent this" << this << endl;
    KonqFrameBase* castChild = 0L;
 
    if( ce->child()->isA("KonqFrame") )

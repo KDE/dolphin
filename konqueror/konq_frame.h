@@ -241,7 +241,7 @@ public:
   KonqFrameContainer( Orientation o,
 		      QWidget* parent,
 		      const char * name = 0);
-  ~KonqFrameContainer() {}
+  virtual ~KonqFrameContainer();
 
   void listViews( ChildViewList *viewList );
 

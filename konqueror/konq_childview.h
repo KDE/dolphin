@@ -161,7 +161,14 @@ public:
    */
   KParts::ReadOnlyPart *view() { return m_pView; }
 
-  KParts::BrowserExtension *browserExtension() { return (KParts::BrowserExtension *)m_pView->child( 0L, "KParts::BrowserExtension" ); }
+  /**
+   * see KonqViewManager::removePart
+   */
+  void partDeleted() { m_pView = 0L; }
+
+  KParts::BrowserExtension *browserExtension() {
+      return m_pView ? static_cast<KParts::BrowserExtension *>(m_pView->child( 0L, "KParts::BrowserExtension" )) : 0L ;
+  }
 
   /**
    * Returns a pointer to the KonqFrame which the view lives in

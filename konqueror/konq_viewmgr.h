@@ -108,12 +108,28 @@ public:
 
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
 
+  /**
+   * Do the actual splitting. The new View will be created from serviceType.
+   * Returns the newly created view or 0L if the new view couldn't be created.
+   */
+  KParts::ReadOnlyPart* split (KonqFrameBase* splitFrame,
+			       Qt::Orientation orientation,
+			       const QString &serviceType = QString::null,
+			       const QString &serviceName = QString::null,
+			       KonqFrameContainer **newFrameContainer = 0L );
+
+  /**
+   * Reimplemented from PartManager
+   */
+  void removePart( KParts::Part * part );
+
 protected slots:
   void slotProfileDlg();
 
   void slotProfileActivated( int id );
 
   void slotProfileListAboutToShow();
+
 
 private:
 
@@ -138,19 +154,6 @@ private:
 		            const KTrader::OfferList &partServiceOffers,
 			    const KTrader::OfferList &appServiceOffers,
 			    const QString &serviceType );
-
-public:
-  /**
-   * Do the actual splitting. The new View will be created from serviceType.
-   * Returns the newly created view or 0L if the new view couldn't be created.
-   */
-  KParts::ReadOnlyPart* split (KonqFrameBase* splitFrame,
-			       Qt::Orientation orientation,
-			       const QString &serviceType = QString::null,
-			       const QString &serviceName = QString::null,
-			       KonqFrameContainer **newFrameContainer = 0L );
-
-private:
 
   //just for debugging
   void printSizeInfo( KonqFrameBase* frame,

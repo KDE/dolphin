@@ -73,11 +73,12 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 
 KonqChildView::~KonqChildView()
 {
-  kdDebug(1202) << "KonqChildView::~KonqChildView" << endl;
+  kdDebug(1202) << "KonqChildView::~KonqChildView : part = " << m_pView << endl;
 
   // No! We don't take ownership! (David) delete m_pKonqFrame;
   delete m_pView;
   delete (KonqRun *)m_pRun;
+  kdDebug(1202) << "KonqChildView::~KonqChildView done" << endl;
 }
 
 void KonqChildView::repaint()
@@ -603,37 +604,37 @@ void KonqChildView::setServiceTypeInExtension()
 QStringList KonqChildView::frameNames() const
 {
   return childFrameNames( m_pView );
-} 
+}
 
 QStringList KonqChildView::childFrameNames( KParts::ReadOnlyPart *part )
 {
   QStringList res;
- 
+
   KParts::BrowserHostExtension *hostExtension = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
-  
+
   if ( !hostExtension )
     return res;
-  
+
   res += hostExtension->frameNames();
-  
+
   const QList<KParts::ReadOnlyPart> children = hostExtension->frames();
   QListIterator<KParts::ReadOnlyPart> it( children );
   for (; it.current(); ++it )
     res += childFrameNames( it.current() );
-  
+
   return res;
-} 
+}
 
 KParts::BrowserHostExtension *KonqChildView::hostExtension( KParts::ReadOnlyPart *part, const QString &name )
 {
   KParts::BrowserHostExtension *ext = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
-  
+
   if ( !ext )
     return 0;
-    
+
   if ( ext->frameNames().contains( name ) )
     return ext;
-  
+
   const QList<KParts::ReadOnlyPart> children = ext->frames();
   QListIterator<KParts::ReadOnlyPart> it( children );
   for (; it.current(); ++it )

@@ -224,10 +224,13 @@ void KonqViewManager::removeView( KonqChildView *view )
     if ( nextView == 0L )
       return;
     // Ensure this is not the active view anymore
+    //kdDebug(1202) << "Setting part " << nextView->view() << " as active" << endl;
+    nextView->view()->widget()->setFocus(); // hack ?
     setActivePart( nextView->view() );
   }
 
   KonqFrameContainer* parentContainer = view->frame()->parentContainer();
+  //kdDebug(1202) << "view=" << view << " parentContainer=" << parentContainer << endl;
   KonqFrameContainer* grandParentContainer = parentContainer->parentContainer();
   bool moveOtherChild = (grandParentContainer->idAfter( parentContainer ) != 0);
 
@@ -248,18 +251,43 @@ void KonqViewManager::removeView( KonqChildView *view )
 
   //triggering QObject::childEvent manually
   //  parentContainer->removeChild( view->frame() );
+  //kdDebug(1202) << "Deleting view " << view << endl;
   delete view;
 
   //triggering QObject::childEvent manually
-  grandParentContainer->removeChild( parentContainer );
+  grandParentContainer->removeChild( parentContainer ); // (crashes! David)
+  //kdDebug(1202) << "Deleting parentContainer " << parentContainer << endl;
   delete parentContainer;
 
   otherFrame->reparent( grandParentContainer, 0, pos, true );
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
-  if(m_pMainView->viewList().count() == 1)
-    m_pMainView->currentChildView()->frame()->statusbar()->hideStuff();
+  //kdDebug(1202) << "removeView done " << view << endl;
+}
+
+// reimplemented from PartManager
+void KonqViewManager::removePart( KParts::Part * part )
+{
+  kdDebug() << "KonqViewManager::removePart ( " << part << " )" << endl;
+  // This is called when a part auto-deletes itself (case 1), or when
+  // the "delete view" above deletes, in turn, the part (case 2)
+
+  // If we were called by PartManager::slotObjectDestroyed, then the inheritance has
+  // been deleted already... Can't use inherits().
+
+  KonqChildView * cv = m_pMainView->childView( static_cast<KParts::ReadOnlyPart *>(part) );
+  if ( cv ) // the child view still exists, so we are in case 1
+  {
+      //kdDebug(1202) << "Found a child view" << endl;
+      cv->partDeleted(); // tell the child view that the part auto-deletes itself
+      removeView( cv );
+      //kdDebug(1202) << "removeView returned" << endl;
+  }
+
+  //kdDebug(1202) << "Calling KParts::PartManager::removePart " << part << endl;
+  KParts::PartManager::removePart( part );
+  //kdDebug(1202) << "KonqViewManager::removePart ( " << part << " ) done" << endl;
 }
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
@@ -414,6 +442,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
 void KonqViewManager::clear()
 {
+  //kdDebug(1202) << "KonqViewManager::clear: " << endl;
   QList<KonqChildView> viewList;
   QListIterator<KonqChildView> it( viewList );
 
@@ -425,6 +454,7 @@ void KonqViewManager::clear()
       delete it.current();
     }
 
+    //kdDebug(1202) << "deleting m_pMainContainer " << endl;
     delete m_pMainContainer;
     m_pMainContainer = 0L;
   }

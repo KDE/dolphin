@@ -20,6 +20,7 @@
 */
 
 #include <kparts/browserextension.h>
+#include <kparts/factory.h>
 #include "konq_factory.h"
 #include "konq_misc.h"
 #include "konq_run.h"
@@ -41,19 +42,34 @@ KInstance *KonqFactory::s_instance = 0;
 KAboutData *KonqFactory::s_aboutData = 0;
 KonqPropsView *KonqFactory::s_defaultViewProps = 0;
 
-KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name )
+KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName, QObject * parent, const char *name )
 {
   if ( !m_factory )
     return 0L;
 
-  KParts::ReadOnlyPart *obj = 0L;
+  QObject *obj = 0L;
 
-  if ( m_createBrowser )
-    obj = (KParts::ReadOnlyPart *)m_factory->create( parent, name, "Browser/View", m_args );
+  if ( m_factory->inherits( "KParts::Factory" ) )
+  {
+    if ( m_createBrowser )
+      obj = static_cast<KParts::Factory *>(m_factory)->createPart( parentWidget, widgetName, parent, name, "Browser/View", m_args );
 
-  if ( !obj )
-    obj = (KParts::ReadOnlyPart *)m_factory->create( parent, name, "KParts::ReadOnlyPart", m_args );
-  return obj;
+    if ( !obj )
+      obj = static_cast<KParts::Factory *>(m_factory)->createPart( parentWidget, widgetName, parent, name, "KParts::ReadOnlyPart", m_args );
+  }
+  else
+  {
+    if ( m_createBrowser )
+      obj = m_factory->create( parent, name, "Browser/View", m_args );
+
+    if ( !obj )
+      obj = m_factory->create( parent, name, "KParts::ReadOnlyPart", m_args );
+  }
+
+  if ( !obj->inherits( "KParts::ReadOnlyPart" ) )
+      kdError(1202) << "Part " << obj << " (" << obj->className() << ") doesn't inherit KParts::ReadOnlyPart !" << endl;
+
+  return static_cast<KParts::ReadOnlyPart *>(obj);
 }
 
 KonqFactory::KonqFactory()
@@ -69,10 +85,10 @@ KonqFactory::~KonqFactory()
     delete s_instance;
 
   s_instance = 0L;
-  
+
   if ( s_defaultViewProps )
     delete s_defaultViewProps;
-  
+
   s_defaultViewProps = 0;
 }
 
@@ -240,6 +256,6 @@ KonqPropsView *KonqFactory::defaultViewProps()
 {
   if ( !s_defaultViewProps )
     s_defaultViewProps = KonqPropsView::defaultProps( instance() );
-  
+
   return s_defaultViewProps;
 }

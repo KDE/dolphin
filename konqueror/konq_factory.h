@@ -44,7 +44,7 @@ public:
   KonqViewFactory( const KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) , m_createBrowser( factory.m_createBrowser ) {}
   KonqViewFactory( KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ), m_createBrowser( factory.m_createBrowser ) {}
 
-  KParts::ReadOnlyPart *create( QWidget *parent, const char *name );
+  KParts::ReadOnlyPart *create( QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name );
 
   bool isNull() { return m_factory ? false : true; }
 

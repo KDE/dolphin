@@ -676,7 +676,9 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
 
   if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
   {
-    m_pViewManager->removePart( oldView );
+    // Call the partmanager implementation (the one that only removes the part
+    // from its internal list. We don't want to destroy the child view
+    m_pViewManager->KParts::PartManager::removePart( oldView ); // XXX why only if current view ??? (David)
     updateStatusBar();
   }
 
@@ -887,6 +889,10 @@ void KonqMainView::removeChildView( KonqChildView *childView )
     m_currentView = 0L;
     m_pViewManager->setActivePart( 0L );
   }
+  if ( viewCount() == 1 )
+    m_currentView->frame()->statusbar()->hideStuff();
+
+  emit viewRemoved( childView );
 }
 
 KonqChildView *KonqMainView::childView( KParts::ReadOnlyPart *view )
@@ -911,7 +917,7 @@ KonqChildView *KonqMainView::childView( const QString &name, KParts::BrowserHost
         *hostExtension = 0;
       return it.data();
     }
- 
+
     if ( it.data()->frameNames().contains( name ) )
     {
       if ( hostExtension )
@@ -1620,7 +1626,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
     if (actionName == "pastecut" || actionName == "pastecopy")
       actionName = "paste";
     KAction * act = actionCollection()->action( actionName );
-    kdDebug(1202) << actionName << endl;
+    //kdDebug(1202) << actionName << endl;
     assert(act);
     bool enable = false;
     // Does the extension have a slot with the name of this action ?
@@ -2158,6 +2164,8 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
 
   connect( m_mainView, SIGNAL( viewAdded( KonqChildView * ) ),
 	   this, SLOT( slotViewAdded( KonqChildView * ) ) );
+  connect( m_mainView, SIGNAL( viewRemoved( KonqChildView * ) ),
+	   this, SLOT( slotViewRemoved( KonqChildView * ) ) );
 }
 
 ToggleViewGUIClient::~ToggleViewGUIClient()
@@ -2203,7 +2211,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     newContainer->setSizes( newSplitterSizes );
 
     KonqChildView *cv = m_mainView->childView( view );
-    cv->setLocationBarURL(  m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
+    cv->setLocationBarURL( m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
     cv->openURL( m_mainView->currentChildView()->url() );
 
     // If not passive, set as active :)
@@ -2233,11 +2241,17 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
   KAction *action = actionCollection()->action( name );
 
   if ( action )
-  {
-    action->blockSignals( true );
     static_cast<KToggleAction *>( action )->setChecked( true );
-    action->blockSignals( false );
-  }
+}
+
+void ToggleViewGUIClient::slotViewRemoved( KonqChildView *view )
+{
+  QString name = view->service()->name();
+
+  KAction *action = actionCollection()->action( name );
+
+  if ( action )
+    static_cast<KToggleAction *>( action )->setChecked( false );
 }
 
 void KonqMainView::setInitialFrameName( const QString &name )
