@@ -81,7 +81,7 @@ private slots:
 
 private:
 
-  unsigned int process( const QByteArray &data, int start );
+  int process( const QByteArray &data, int start );
 
   class NSPluginInstance *_instance;
   KIO::TransferJob *_job;
@@ -143,7 +143,7 @@ public:
   void requestURL( QCString url, QCString target, void *notify );
 
   void destroyPlugin();
-
+ 
 signals:
 
   void status(const char *message);
@@ -152,21 +152,18 @@ public slots:
   void streamFinished( NSPluginStream *strm );
 
 private slots:
-  void shutdown();
+  void timer();
   
-
 private:
-  void destroy();
-
   friend class NSPluginStream;
 
   bool _destroyed;
   void addTempFile(KTempFile *tmpFile);
   QList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
-  QList<NSPluginStream> _streams;
+  QList<NSPluginStream> _streams;  
   KLibrary *_handle;
-  QTimer *_shutdownTimer;
+  QTimer *_timer;
 
   NPP      _npp;
   NPPluginFuncs _pluginFuncs;
@@ -174,6 +171,15 @@ private:
   Widget _area, _form, _toplevel;
   QString _src;
   int _width, _height;
+
+  struct Request
+  {
+      QCString url;
+      QCString target;
+      void *notify;
+  };
+
+  QList<Request> _waitingRequests;
 };
 
 
