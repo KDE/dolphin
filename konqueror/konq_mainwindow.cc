@@ -4975,7 +4975,11 @@ bool KonqMainWindow::stayPreloaded()
 // already reused too many times -> quit, just in case
 bool KonqMainWindow::checkPreloadResourceUsage()
 {
-    if( isatty( STDIN_FILENO ) || isatty( STDOUT_FILENO ) || isatty( STDERR_FILENO ))
+    if(
+#ifndef NDEBUG
+        isatty( STDIN_FILENO ) ||
+#endif
+        isatty( STDOUT_FILENO ) || isatty( STDERR_FILENO ))
     {
         kdDebug(1202) << "Running from tty, not keeping for preloading" << endl;
         return false;
