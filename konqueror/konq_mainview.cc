@@ -1309,7 +1309,7 @@ void KonqMainView::slotPaste()
 void KonqMainView::slotAbout()
 {
   KMessageBox::about( 0, i18n(
-"Konqueror Version " KONQUEROR_VERSION "\n"
+"Konqueror Version %1\n"
 "Author: Torben Weis <weis@kde.org>\n"
 "Current maintainer: David Faure <faure@kde.org>\n\n"
 "Current team:\n"
@@ -1327,7 +1327,7 @@ void KonqMainView::slotAbout()
 "Java applet support:\n"
 "  Richard Moore <rich@kde.org>\n"
 "  Dina Rogozin <dima@mercury.co.il>\n"
-  ));
+  ).arg(KONQUEROR_VERSION));
 }
 
 void KonqMainView::slotUpAboutToShow()
