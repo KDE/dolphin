@@ -1016,7 +1016,7 @@ KParts::URLArgs args;
 	args.setContentType("Content-Type: " + contentType);
 	args.postData = formData;
 	args.setDoPost(QCString(action).lower() == "post");
-	// FIXME: boundary?
+	// boundary?
 	emit getExtension()->openURLRequest(url, args);
 }
 

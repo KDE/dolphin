@@ -120,12 +120,20 @@ class KHTMLSideBar : public KHTMLPart
 				const QString& contentType,
 				const QString& boundary) {
 			QString t = target.lower();
-			QString u = completeURL(url).url();
+			QString u;
+
+			if (QCString(action).lower() != "post") {
+				// GET
+				KURL kurl = completeURL(url);
+				kurl.setQuery(formData.data());
+				u = kurl.url();
+			} else {
+				u = completeURL(url).url();
+			}
 
 			// Some sites seem to use empty targets to send to the
 			// main frame.
 			if (t.isEmpty() || t == "_content") {
-				kdDebug() << "submitting form to the main page" << endl;
 				emit submitFormRequest(action, u, formData,
 						target, contentType, boundary);
 			} else if (t == "_self") {
