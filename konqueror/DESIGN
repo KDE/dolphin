@@ -5,7 +5,7 @@ Authors:
   David Faure
   Simon Hausmann
 
-Last modified: 17 Feb 1999
+Last modified: 7 Mar 1999
 
 Intro
 =====
@@ -83,6 +83,8 @@ will be indeed the case should depend on programming considerations.
 What should not depend on programming considerations, is how it is
 presented to the user. 
 
+An Example
+==========
 Teodor Romeo Mihai wrote:
 > Well, I've been working for a few months now on a Outloook-clone for
 > KDE, handling mail/contacts/schedule/journal/notes/groups. It is a bit
@@ -122,4 +124,100 @@ Konqueror should do it better and the Unix way: Have speciliazed
 components which are very good in their task. Konqueror provides 
 the seemless integration of them and provides easy navigation 
 abilities.
+
+
+<tfischer> This means i can create an application (container) which host two parts, 
+which are both ACTIVE, that 
+  means i do not need to click the parts before they start repsonding.
+
+
+Konquerer Views
+===============
+When an embedded part gets the focus (e.g. when the users clicks on it)
+the mainwindow (shell) gets notified about this (the focus change).
+You can "manually" activate a part by calling a method in the mainwindow 
+interface. There can be only part that has the focus.
+If you click on a non-activated part the click action itself is not "eaten up"
+An activated part means the part has focus (keyboard, ...)
+When you have "plain" parts they usually "have" their own GUI which get's 
+"enabled" (created dynamically) when the part gets the focus
+Normally this would bring a big problem inside konqueror
+Because then we'd have lots of duplicated *bar creation code and 
+stuff like this. That is the reason why in konqueror functionality is
+implemented in openparts to have so called child parts.
+A child part does _not_ have it's own GUI (as a normal openpart has)
+instead the part part's gui is used.
+We still allow konqueror views to have their own view specific gui elements
+When a konqueror view (=part child) gets the focus the part parent 
+(the mainview) will receive an event (eventChildGotFocus)
+and this helps the mainview to send yet another event to the just 
+activated view (=part) , an konqueror specific event
+these events are described in konqueror.idl
+
+The result is:
+A konqueror view (that's important, the view must support this interface) 
+can now specify it's own, view specific, menu entries in the edit/view menu 
+plus it's own toolbar.
+
+This integration is in fact not sooo seamless because:
+whenever the use activates your khelpcenter part
+a complete GUI "switch" will take place, meaning all the *bars from 
+konqueror will be replaced by the *bars from the child view
+
+Therefor another approach is developed:
+The *bars of konqueror will contain entries for all child-views which are
+inside the main-view. 
+
+Care should be taken when multiple views want to add the same entries to
+one of the *bars. 
+
+In the case of a toolbar, only one entry could be added, the child-view which
+has supplied this entry will be made active when his entry is used and will
+get the event. If multiple child-views have provided this entry, the currently
+active child will get the event. 
+
+For the menubar, the entries will be presented grouped per child-view. The same
+entry could be listed twice in the same menu, but listed under two differents
+views.
+
+Transcript
+==========
+<tronical> we have a usual mainview (looks/behaves quite like a current kfm window on the screen)
+<tronical> now we have two views inside, on the left we've got an iconview
+<tronical> and on the right we've got an htmlview
+<tronical> now let's say the iconview wants to add a special entry in the common view menu
+<tronical> no, let's say three entries: mini-/medium-/large icons
+<tronical> and for the htmlview we've got (in the view menu as well):
+<tronical> whatevery...hm...*thinking*, perhaps charset-selection of stuff like this
+<tronical> now when the iconview is active the view menu will contain
+<tronical> all the usual konqueror (mainview) entries (what could this be for example?) plus the three iconview 
+  entries
+<tronical> and when the users activates the htmlview then view menu will silently change
+<Zogje> I think it makes sense to have both sets of entries in the view-menu at the sma time
+<tronical> ok, well, it's possible to do this
+* tfischer thinks zogje is right.
+<tronical> there's no change in the design necessary
+<Zogje> because the user just has a html-view and an inco-view on his screen, and has no idea which one is 
+  "active"
+<tronical> hm, you're right
+<tronical> ok, but I think we can easily solve this:
+<tronical> first we create the common konqueror menu entries
+<tronical> then insertSeparator( -1 );
+<Zogje> ack
+<tronical> and then the first views' entries
+<tronical> then another separator, ...and so on
+<Zogje> yes
+<Zogje> that seems quite good
+<tronical> we might do something like this:
+<tronical> common konqy entries
+<tronical> separator
+<tronical> dummy-not-doing-anything-entry named viewName()
+<tronical> separator
+<tronical> view entries
+<tronical> yet another separator
+<tronical> second view's name as dummy entries
+<tronical> and so on
+<Zogje> yes.. because if we have two html-views... you want to be able to select things for both independntly
+
+
 
