@@ -181,9 +181,6 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
 
 KonqMainView::~KonqMainView()
 {
-  guiFactory()->removeServant( m_viewModeGUIServant );
-  createGUI( 0L );
-
   if ( m_combo )
   {
 
