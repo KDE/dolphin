@@ -114,7 +114,10 @@ KonqIconViewWidget::~KonqIconViewWidget()
     stopImagePreview();
     KonqUndoManager::decRef();
     if (d->pSoundPlayer)
+    {
         delete d->pSoundPlayer;
+	d->pSoundPlayer = 0;
+    }
     delete d;
 }
 
