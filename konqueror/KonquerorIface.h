@@ -40,24 +40,24 @@ k_dcop:
   /**
    * Opens a new window for the given @p url (using createSimpleWindow, i.e. a single view)
    */
-  void openBrowserWindow( const QString &url );
+  DCOPRef openBrowserWindow( const QString &url );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    */
-  void createNewWindow( const QString &url );
+  DCOPRef createNewWindow( const QString &url );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    * @param mimetype to speed it up.
    */
-  void createNewWindow( const QString &url, const QString & mimetype );
+  DCOPRef createNewWindow( const QString &url, const QString & mimetype );
 
   /**
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
-  void createBrowserWindowFromProfile( const QString &path );
+  DCOPRef createBrowserWindowFromProfile( const QString &path );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -65,7 +65,7 @@ k_dcop:
    * @param path full path to the profile file
    * @param filename name of the profile file, if under the profiles dir
    */
-  void createBrowserWindowFromProfile( const QString &path, const QString &filename );
+  DCOPRef createBrowserWindowFromProfile( const QString &path, const QString &filename );
 
   /**
    * Creates a window from a profile and a URL.
@@ -75,7 +75,7 @@ k_dcop:
    * @param filename name of the profile file, if under the profiles dir
    * @param url the URL to open
    */
-  void createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
+  DCOPRef createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
 
   /**
    * Creates a window the fastest way : the caller has to provide
@@ -85,7 +85,7 @@ k_dcop:
    * @param url the URL to open
    * @param mimetype the mimetype that the URL we want to open has
    */
-  void createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
+  DCOPRef createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
 
   /**
    * Called by kcontrol when the global configuration changes

@@ -1,3 +1,14 @@
+2001-01-08  Simon Hausmann  <simon@kde.org>
+
+	* KonquerorIface.cc (openBrowserWindow),
+	(createNewWindow),
+	(createNewWindow), 
+	(createBrowserWindowFromProfile),
+	(createBrowserWindowFromProfile), 
+	(createBrowserWindowFromProfileAndURL),
+	(createBrowserWindowFromProfileAndURL): changed return type from void
+	to DCOPRef
+
 2000-12-28  Simon Hausmann  <simon@kde.org>
 
 	* konq_viewmgr.cc (loadViewProfile): When loading an empty profile
