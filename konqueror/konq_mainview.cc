@@ -271,7 +271,10 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
      setLocationBarURL( view, url );
      view->setMiscURLData( reload, xOffset, yOffset );
     if ( !serviceType.isEmpty() )
-      openView( serviceType, url, view );
+    {
+      if ( !openView( serviceType, url, view ) )
+        (void)new KRun( url );
+    }
     else
       view->run( url );
 
@@ -283,7 +286,10 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       m_combo->setEditText( url );
 
     if ( !serviceType.isEmpty() )
-      openView( serviceType, url, 0L );
+    {
+      if ( !openView( serviceType, url, 0L ) )
+        (void)new KRun( url );
+    }
     else
       (void) new KonqRun( this, 0L, url, 0, false, true );
   }
