@@ -79,7 +79,6 @@ public:
 
   virtual void saveDocument();
   virtual void saveFrame();
-  virtual void saveBackground();
 
   virtual void slotLoadImages();
 
@@ -104,6 +103,7 @@ protected slots:
   void slotSetTitle( QString title );
   void viewDocumentSource();
   void viewFrameSource();
+  void saveBackground();
 
   void slotDocumentRedirection( int, const char *url );
   void slotNewWindow( const QString &url );
@@ -125,8 +125,10 @@ protected:
     //						int _marginwidth, int _marginheight,
     //						int _frameborder, bool _noresize );
 
-private:
+private slots:
   void updateActions();
+
+private:
 
   bool m_bAutoLoadImages;
 
@@ -138,6 +140,7 @@ private:
 
   KAction *m_paViewDocument;
   KAction *m_paViewFrame;
+  KAction *m_paSaveBackground;
     //QAction *m_paSearch;
 
 };

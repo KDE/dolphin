@@ -36,6 +36,7 @@
 #include <qclipboard.h>
 
 #include <kcursor.h>
+#include <html_element.h>
 #include <khtml.h>
 #include <klocale.h>
 #include <kfiledialog.h>
@@ -91,6 +92,8 @@ KonqHTMLView::KonqHTMLView()
                     this, SIGNAL( completed() ) );
   QObject::connect( m_pBrowser, SIGNAL( started( const QString & ) ),
                     this, SIGNAL( started() ) );
+  QObject::connect( m_pBrowser, SIGNAL( completed() ),
+                    this, SLOT( updateActions() ) );
   QObject::connect( m_pBrowser, SIGNAL( canceled() ),
                     this, SIGNAL( canceled() ) );
 
@@ -98,9 +101,11 @@ KonqHTMLView::KonqHTMLView()
 
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
+  m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), this );
 
   actions()->append( BrowserView::ViewAction( m_paViewDocument, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paViewFrame, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paSaveBackground, BrowserView::MenuView ) );
 
   slotFrameInserted( m_pBrowser );
 }
@@ -570,34 +575,23 @@ void KonqHTMLView::saveFrame()
 
 void KonqHTMLView::saveBackground()
 {
-/*
-  QString bURL;
 
-  if ( isFrameSet() )
-    bURL = getSelectedView()->getKHTMLWidget()->getBackground();
-  else
-    bURL = getKHTMLWidget()->getBackground();
+  QString relURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string().ascii();
 
-  if ( bURL.isNull() || bURL.isEmpty() )
-    return;
-
-  KURL srcURL( bURL );
+  KURL backgroundURL( KURL( m_pBrowser->url() ), relURL );
 
   KFileDialog *dlg = new KFileDialog( QString::null, "*",
 				      this , "filedialog", true, false );
   dlg->setCaption(i18n("Save background image as"));
-  dlg->setSelection( dlg->dirPath() + srcURL.filename() );
+  dlg->setSelection( dlg->dirPath() + backgroundURL.filename() );
   if ( dlg->exec() )
     {
       KURL destURL( dlg->selectedFileURL() );
-      Browser::EventNewTransfer transfer;
-      transfer.source = srcURL.url();
-      transfer.destination = destURL.url();
-      EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
+      KIOJob *job = new KIOJob;
+      job->copy( backgroundURL.url(), destURL.url() );
     }
 
   delete dlg;
-*/
 }
 
 void KonqHTMLView::viewDocumentSource()
@@ -700,7 +694,18 @@ void KonqHTMLView::moveSelection( const QCString & )
 
 void KonqHTMLView::updateActions()
 {
+  qDebug( "void KonqHTMLView::updateActions()" );
+
   m_paViewFrame->setEnabled( m_pBrowser->isFrameSet() );
+
+  QString bgURL;
+
+  if ( m_pBrowser->isFrameSet() )
+    bgURL = m_pBrowser->getSelectedFrame()->htmlDocument().body().getAttribute( "background" ).string();
+  else
+    bgURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string();
+
+  m_paSaveBackground->setEnabled( !bgURL.isEmpty() );
 
 /*
   if ( !CORBA::is_nil( m_vViewMenu ) )
