@@ -78,8 +78,8 @@ ac_cv_motif_includes=
 # Other directories are just guesses.
 for dir in "$x_includes" "${prefix}/include" /usr/include /usr/local/include \
            /usr/include/Motif2.0 /usr/include/Motif1.2 /usr/include/Motif1.1 \
-	   /usr/X11R6/LessTif/Motif1.2/include \
 	   /usr/X11R6/LessTif/Motif2.0/include \
+	   /usr/X11R6/LessTif/Motif1.2/include \
            /usr/include/X11R6 /usr/include/X11R5 /usr/include/X11R4 \
            /usr/dt/include /usr/openwin/include \
            /usr/dt/*/include /opt/*/include /usr/include/Motif* \
@@ -113,7 +113,11 @@ ac_motif_save_LDFLAGS="$LDFLAGS"
 #
 LIBS="$X_PRE_LIBS -lXm -lXt -lX11 $X_EXTRA_LIBS $LIBS"
 INCLUDES="$X_CFLAGS $INCLUDES"
-CPPFLAGS="$X_CFLAGS $CPPFLAGS"
+if test "$motif_includes" != "" -a "$motif_includes" != "/usr/include"; then
+   CPPFLAGS="$X_CFLAGS $CPPFLAGS -I$motif_includes"
+else
+   CPPFLAGS="$X_CFLAGS $CPPFLAGS"
+fi
 LDFLAGS="$X_LIBS $LDFLAGS"
 #
 ac_cv_motif_libraries="none"
@@ -134,8 +138,8 @@ ac_cv_motif_libraries=
 # Other directories are just guesses.
 for dir in "$x_libraries" "${prefix}/lib" /usr/lib /usr/local/lib \
            /usr/lib/Motif2.0 /usr/lib/Motif1.2 /usr/lib/Motif1.1 \
-	   /usr/X11R6/LessTif/Motif1.2/lib \
 	   /usr/X11R6/LessTif/Motif2.0/lib \
+	   /usr/X11R6/LessTif/Motif1.2/lib \
            /usr/lib/X11R6 /usr/lib/X11R5 /usr/lib/X11R4 /usr/lib/X11 \
            /usr/dt/lib /usr/openwin/lib \
            /usr/dt/*/lib /opt/*/lib /usr/lib/Motif* \
@@ -143,8 +147,14 @@ for dir in "$x_libraries" "${prefix}/lib" /usr/lib /usr/local/lib \
            "${prefix}"/*/lib /usr/*/lib /usr/local/*/lib \
            "${prefix}"/lib/* /usr/lib/* /usr/local/lib/*; do
 if test -d "$dir" && test "`ls $dir/libXm.* 2> /dev/null`" != ""; then
-ac_cv_motif_libraries="$dir"
-break
+  LDFLAGS="$X_LIBS $LDFLAGS -L$dir"
+  AC_TRY_LINK([#include <Xm/Xm.h>],[XtToolkitInitialize();],
+  [
+    ac_cv_motif_libraries="$dir"
+  ])
+  if test "$ac_cv_motif_libraries" != "none"; then
+    break
+  fi
 fi
 done
 ])
