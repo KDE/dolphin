@@ -27,7 +27,7 @@ KFileICI::KFileICI( KIconContainer *_container, KFileItem* _fileitem )
   // Set the item text (the one displayed) from the text computed by KFileItem
   setText( m_fileitem->getText() );
   // Set the item name from the url hold by KFileItem
-  setName( m_fileitem->url() );
+  setName( m_fileitem->url().url() );
   // Determine the item pixmap from one determined by KFileItem
   QPixmap *p = m_fileitem->getPixmap( _container->displayMode() == KIconContainer::Vertical );
   if (p) setPixmap( *p );

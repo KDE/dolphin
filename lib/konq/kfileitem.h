@@ -57,7 +57,7 @@ public:
   /**
    * @return the url of the file
    */
-  QString url() const { return m_url.url(); }
+  const KURL & url() const { return m_url; }
   /**
    * @return the mode of the file, as returned by stat()
    */
@@ -77,7 +77,7 @@ public:
    *
    * The method is named getPixmap because it actually determines the pixmap
    * each time. For a KIconContainerItem derived class, use getPixmap
-   * then setPixmap to store the pixmap in the item, then pixmap() to get it later
+   * then setPixmap to store the pixmap in the item, then pixmap() to get it later.
    * getPixmap() should only be called it might have changed
    */
   QPixmap* getPixmap( bool _mini ) const;
@@ -87,6 +87,12 @@ public:
    * Named "getText" instead of "text" for the same reason as above.
    */
   QString getText() const { return m_strText; }
+
+  /**
+   * @return the UDS entry. Used by the tree view to access all details
+   * by position.
+   */
+  const UDSEntry & entry() const { return m_entry; }
 
   // Used when updating a directory - marked == seen when refreshing
   bool isMarked() const { return m_bMarked; }
