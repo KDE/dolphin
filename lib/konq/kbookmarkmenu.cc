@@ -345,7 +345,7 @@ void KBookmarkMenu::openNSBookmarks()
            name = name.left( name.length() - 4 );
         name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
 
-        KAction * action = new KAction( KStringHandler::csqueeze(QString(name)), 0, 0,
+        KAction * action = new KAction( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), 0, 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
                                         m_actionCollection, actionLink.data());
 	action->setStatusText( link );
@@ -357,7 +357,7 @@ void KBookmarkMenu::openNSBookmarks()
         name = name.left(name.findRev('<'));
         name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
 
-        KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString(name)), "folder",
+        KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), "folder",
                                                     m_actionCollection, 0L );
         actionMenu->plug( mstack.top()->m_parentMenu );
 	mstack.top()->m_actions.append( actionMenu );
