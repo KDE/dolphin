@@ -52,14 +52,10 @@ class KonqFrameBase;
 class KBookmarkMenu;
 class ViewModeGUIServant;
 
-//Simon: have to include .h here, because dcopidl doesn't support namespace :(
-#include <kbrowser.h>
-/*
 namespace KParts {
  class BrowserExtension;
  class ReadOnlyPart;
 };
-*/
 
 class KonqMainView : public KParts::MainWindow,
                      virtual public KBookmarkOwner,
