@@ -248,6 +248,8 @@ protected:
 
   void sendOpenURLEvent( const KURL &url );
 
+  void setServiceTypeInExtension();
+
 ////////////////// protected members ///////////////
 
   KParts::ReadOnlyPart *m_pView;

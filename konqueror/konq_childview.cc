@@ -96,6 +96,8 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const KURL &url )
 {
+  setServiceTypeInExtension(); 
+ 
   m_pView->openURL( url );
 
   // Shouldn't be necessary (David) setLocationBarURL( url.url() );
@@ -404,6 +406,8 @@ void KonqChildView::go( int steps )
     return /*false*/;
   }
 
+  setServiceTypeInExtension();
+  
   if ( browserExtension() )
   {
     QDataStream stream( h->buffer, IO_ReadOnly );
@@ -462,6 +466,7 @@ void KonqChildView::reload()
   if ( browserExtension() )
   {
     KParts::URLArgs args(true, browserExtension()->xOffset(), browserExtension()->yOffset());
+    args.serviceType = m_serviceType;
     browserExtension()->setURLArgs( args );
   }
 
@@ -565,12 +570,16 @@ void KonqChildView::closeMetaView()
 
   m_pKonqFrame->detachMetaView();
 }
-/*
-void KonqChildView::slotMetaData( const QDomDocument &data )
+
+void KonqChildView::setServiceTypeInExtension()
 {
-  QListIterator<Konqueror::MetaView> it( m_metaViews );
-  for (; it.current(); ++it )
-    it.current()->openMetaData( data );
-}
-*/
+  KParts::BrowserExtension *ext = browserExtension(); 
+  if ( !ext )
+    return;
+  
+  KParts::URLArgs args( ext->urlArgs() );
+  args.serviceType = m_serviceType;
+  ext->setURLArgs( args );
+} 
+
 #include "konq_childview.moc"
