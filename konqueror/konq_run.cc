@@ -84,6 +84,8 @@ void KonqRun::foundMimeType( const QString & _type )
   if ( !m_suggestedFilename.isEmpty() )
      tryEmbed = false;
 #endif
+  if ( KonqMainWindow::isMimeTypeAssociatedWithSelf( mimeType ) )
+      m_req.forceAutoEmbed = true;
 
   if ( tryEmbed )
       m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
@@ -111,8 +113,10 @@ void KonqRun::foundMimeType( const QString & _type )
   m_bFault = true;
 
   if ( !m_bFinished && // only if we're going to open
-       m_pMainWindow->isMimeTypeAssociatedWithSelf( mimeType ) )
+       KonqMainWindow::isMimeTypeAssociatedWithSelf( mimeType ) ) {
+    KMessageBox::error( m_pMainWindow, i18n( "There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type." ).arg( mimeType ) );
     m_bFinished = true;
+  }
 
   if ( m_bFinished ) {
     m_pMainWindow = 0L;

@@ -548,6 +548,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   kdDebug(1202) << "trying openView for " << url << " (serviceType " << serviceType << ")" << endl;
   if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.url() == "about:konqueror" || url.url() == "about:plugins")
   {
+    KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
+    // If the associated app is konqueror itself, then make sure we try to embed before bailing out.
+    if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
+      req.forceAutoEmbed = true;
+
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
     {
@@ -555,13 +560,14 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
         // Are we following another view ? Then forget about this URL. Otherwise fire app.
         if ( !req.followMode )
         {
-            if ( !url.isLocalFile() && KonqRun::isTextExecutable( serviceType ) )
-                serviceType = "text/plain"; // view, don't execute
             //kdDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
-            KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
-            if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
+            if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) ) {
+                KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.").arg(serviceType));
                 return;
+            }
+            if ( !url.isLocalFile() && KonqRun::isTextExecutable( serviceType ) )
+                serviceType = "text/plain"; // view, don't execute
             // Remote URL: save or open ?
             bool open = url.isLocalFile();
             if ( !open ) {
@@ -5008,14 +5014,11 @@ bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType )
 bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType, const KService::Ptr &offer )
 {
     // Prevention against user stupidity : if the associated app for this mimetype
-    // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
-    // is going to do before calling it.
-    if ( !offer || ( offer->desktopEntryName() != "konqueror" &&
-                     !offer->exec().stripWhiteSpace().startsWith("kfmclient") ) )
-        return false;
-
-    KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.").arg(mimeType));
-    return true;
+    // is konqueror/kfmclient, then we'll loop forever. So we have to 
+    // 1) force embedding first, if that works we're ok
+    // 2) check what KRun is going to do before calling it.
+    return ( offer && ( offer->desktopEntryName() == "konqueror" ||
+             offer->exec().stripWhiteSpace().startsWith( "kfmclient" ) ) );
 }
 
 // KonqFrameContainerBase implementation END
