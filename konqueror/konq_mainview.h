@@ -194,8 +194,6 @@ protected slots:
   void slotURLEntered( const QString &text );
 
   void slotFileNewAboutToShow();
-  void slotEditMimeType();
-  void slotProperties();
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
@@ -214,10 +212,6 @@ protected slots:
   void slotCut();
   void slotCopy();
   void slotPaste();
-  void slotTrash();
-  void slotDelete();
-  void slotShred();
-  void slotPrint();
 
   void slotOpenWith();
 
@@ -371,6 +365,9 @@ private:
   static bool s_bMoveSelection;
 
   static QList<KonqMainView> *s_lstViews;
+
+  typedef QMap<QCString,QCString> ActionSlotMap;
+  static ActionSlotMap *s_actionSlotMap;
 };
 
 class ViewModeGUIClient : public QObject, public KXMLGUIClient

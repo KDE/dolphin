@@ -98,7 +98,7 @@ template class QList<KToggleAction>;
 QStringList *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
 QList<KonqMainView> *KonqMainView::s_lstViews = 0;
-
+KonqMainView::ActionSlotMap *KonqMainView::s_actionSlotMap = 0;
 
 KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name ),  DCOPObject( "KonqMainViewIface" )
@@ -107,6 +107,9 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
     s_lstViews = new QList<KonqMainView>;
 
   s_lstViews->append( this );
+
+  if ( !s_actionSlotMap )
+      s_actionSlotMap = new ActionSlotMap( KParts::BrowserExtension::actionSlotMap() );
 
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
@@ -925,16 +928,6 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
     (obj->*(mdata->ptr))();
 }
 
-void KonqMainView::slotEditMimeType()
-{
-  callExtensionMethod( m_currentView, "editMimeType()" );
-}
-
-void KonqMainView::slotProperties()
-{
-  callExtensionMethod( m_currentView, "properties()" );
-}
-
 void KonqMainView::slotCut()
 {
   kdDebug(1202) << "slotCut - sending cut to konqueror* and kdesktop, with true" << endl;
@@ -970,27 +963,6 @@ void KonqMainView::slotPaste()
     callExtensionMethod( m_currentView, "pastecut()" );
   else
     callExtensionMethod( m_currentView, "pastecopy()" );
-}
-
-void KonqMainView::slotTrash()
-{
-  callExtensionMethod( m_currentView, "trash()" );
-}
-
-void KonqMainView::slotDelete()
-{
-  callExtensionMethod( m_currentView, "del()" );
-}
-
-void KonqMainView::slotShred()
-{
-  callExtensionMethod( m_currentView, "shred()" );
-}
-
-void KonqMainView::slotPrint()
-{
-  // Call print on the child object
-  callExtensionMethod( m_currentView, "print()" );
 }
 
 void KonqMainView::slotAbout()
@@ -1269,28 +1241,22 @@ void KonqMainView::setUpEnabled( const KURL &url )
 void KonqMainView::initActions()
 {
   // File menu
-  /*
-  KActionMenu * m_pamFile = (KActionMenu *)(actionCollection()->action("file_menu"));
-  QObject::connect( m_pamFile->popupMenu(), SIGNAL(aboutToShow()),
-                    this, SLOT(slotFileNewAboutToShow()) );
-                    */
-
   m_pMenuNew = new KNewMenu ( actionCollection(), "new_menu" );
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
-  m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotEditMimeType() ),
-                     actionCollection(), "editMimeType" );
-  m_paProperties = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotProperties() ),
-                     actionCollection(), "properties" );
+  m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
+  m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
   m_paNewWindow = new KAction( i18n( "New &Window" ), "filenew", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
-  (void) new KAction( i18n( "&Find file..." ), "findfile", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
+  (void) new KAction( i18n( "&Find file..." ), "find", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
-  m_paPrint = KStdAction::print( this, SLOT( slotPrint() ), actionCollection(), "print" );
+  // Can't use KStdAction - no slot to connect to here.
+  m_paPrint = new KAction( i18n("&Print..."), "fileprint",
+                       KStdAccel::key(KStdAccel::Print), actionCollection(), "print" );
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
@@ -1383,9 +1349,9 @@ void KonqMainView::initActions()
   int deleteAction = config->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
   const int deleteKey = CTRL+Key_Delete ; // Key_Delete conflict with the location bar
 
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", deleteAction==1 ? deleteKey : 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), deleteAction==2 ? deleteKey : 0, this, SLOT( slotDelete() ), actionCollection(), "del" );
-  m_paShred = new KAction( i18n( "&Shred" ), deleteAction==3 ? deleteKey : 0, this, SLOT( slotShred() ), actionCollection(), "shred" );
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", deleteAction==1 ? deleteKey : 0, actionCollection(), "trash" );
+  m_paDelete = new KAction( i18n( "&Delete" ), deleteAction==2 ? deleteKey : 0, actionCollection(), "del" );
+  m_paShred = new KAction( i18n( "&Shred" ), deleteAction==3 ? deleteKey : 0, actionCollection(), "shred" );
 
   m_paAnimatedLogo = new KonqLogoAction( *s_plstAnimatedLogo, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
@@ -1465,22 +1431,48 @@ QString KonqMainView::findIndexFile( const QString &dir )
 
 void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 {
-  //kdDebug(1202) << "connectExtension" << endl;
-  // "cut", "copy", "pastecut", "pastecopy", "del", "trash", "shred"
-  // "reparseConfiguration", "refreshMimeTypes"
-  // are not directly connected. The slots in this class are connected instead and
-  // call in turn the ones in the view...
+  typedef QValueList<QCString> QCStringList;
+  static QCStringList * s_dontConnect = 0L;
+  // The actions in s_dontConnect are not directly connected to the BrowserExtension.
+  // The slots in this class are connected
+  // instead and call in turn the ones in the view...
 
-  // The ones on the first line have an intermediate slot because we do some konqy stuff
-  // before calling the view
+  if ( !s_dontConnect )
+  {
+      s_dontConnect = new QCStringList;
+      // The ones below have an intermediate slot because we do
+      // some konqy stuff before calling the view
+      s_dontConnect->append( "cut" );
+      s_dontConnect->append( "copy" );
+      s_dontConnect->append( "pastecut" );
+      s_dontConnect->append( "pastecopy" );
+  }
 
-  // And the ones on the second line don't even have a corresponding action - it's just
-  // a method that the view can have or not have.
+  ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
+  ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
 
-  static const char * s_actionnames[] = {
-    "cut", "copy", "paste", "del", "trash", "shred",
-      "print", "saveLocalProperties", "savePropertiesAsDefault", "editMimeType", "properties" };
   QStrList slotNames =  ext->metaObject()->slotNames();
+
+  for ( ; it != itEnd ; ++it )
+  {
+    QCString actionName = it.key();
+    if (actionName == "pastecut" || actionName == "pastecopy")
+      actionName = "paste";
+    KAction * act = actionCollection()->action( actionName );
+    kdDebug(1202) << actionName << endl;
+    assert(act);
+    bool enable = false;
+    // Does the extension have a slot with the name of this action ?
+    if ( slotNames.contains( it.key()+"()" ) )
+    {
+      if ( ! s_dontConnect->contains( it.key() ) )
+        connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
+      enable = true;
+    }
+    act->setEnabled( enable );
+  }
+
+  /*
   // Loop over standard action names
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
   {
@@ -1505,6 +1497,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
     }
     act->setEnabled( enable );
   }
+  */
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
            this, SLOT( slotEnableAction( const char *, bool ) ) );
 }
