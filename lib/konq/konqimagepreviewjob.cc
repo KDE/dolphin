@@ -59,7 +59,10 @@ void KonqImagePreviewJob::startImagePreview()
     delete this;
   }
   else
+  {
+    m_bDirsCreated = false;
     determineNextIcon();
+  }
 }
 
 void KonqImagePreviewJob::determineNextIcon()
@@ -181,7 +184,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       // Well, comment this out if you prefer compatibility over quality.
       determineThumbnailURL();
 
-      if ( !m_bNoWrite )
+      if ( !m_bNoWrite && !m_bDirsCreated )
       {
         // m_thumbURL is /blah/.pics/med/file.png
         QString dir = m_thumbURL.directory();
@@ -197,7 +200,7 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
         kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir pngpicsURL=" << pngpicsURL.url() << endl;
         return;
       }
-      // Fall through if we can't create dirs here
+      // Fall through if we can't create dirs here or if dirs are already created
     case STATE_CREATEDIR1:
       if ( !m_bNoWrite )
       {
@@ -206,27 +209,32 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
 
         if (m_bCanSave)
         {
-          KURL thumbdirURL( m_thumbURL );
-          thumbdirURL.setPath( m_thumbURL.directory() ); // /blah/.pics/med
+            if ( !m_bDirsCreated )
+            {
+                KURL thumbdirURL( m_thumbURL );
+                thumbdirURL.setPath( m_thumbURL.directory() ); // /blah/.pics/med
 
-          // We don't check + create. We just create and ignore "already exists" errors.
-          // Way more efficient, on all protocols. (Yes you read that once already)
-          m_state = STATE_CREATEDIR2;
-          KIO::Job * job = KIO::mkdir( thumbdirURL );
-          addSubjob(job);
-          kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir thumbdirURL=" << thumbdirURL.url() << endl;
-          return;
+                // We don't check + create. We just create and ignore "already exists" errors.
+                // Way more efficient, on all protocols. (Yes you read that once already)
+                m_state = STATE_CREATEDIR2;
+                KIO::Job * job = KIO::mkdir( thumbdirURL );
+                addSubjob(job);
+                kdDebug(1203) << "KonqImagePreviewJob: KIO::mkdir thumbdirURL=" << thumbdirURL.url() << endl;
+                return;
+            }
         }
         else
           m_bNoWrite = true; // remember not to create dir next time
       }
-      // Fall through if we can't save
+      // Fall through if we can't save or if dirs are already created
     case STATE_CREATEDIR2:
       // We can save if the dir could be created or if it already exists
       m_bCanSave = ( !m_bNoWrite &&
                     (!job->error() || job->error() == KIO::ERR_DIR_ALREADY_EXIST) );
-      if (!m_bCanSave)
-        m_bNoWrite = true;
+      if (m_bCanSave)
+          m_bDirsCreated = true;
+      else
+          m_bNoWrite = true;
 
       // We still need to load the orig file ! (This is getting tedious) :)
       if ( m_currentURL.isLocalFile() )
