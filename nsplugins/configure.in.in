@@ -80,7 +80,7 @@ ac_cv_motif_includes=
 for dir in "$x_includes" "${prefix}/include" /usr/include /usr/local/include \
            /usr/include/Motif2.0 /usr/include/Motif1.2 /usr/include/Motif1.1 \
            /usr/include/X11R6 /usr/include/X11R5 /usr/include/X11R4 \
-           /usr/dt/include /usr/openwin/include \
+           /usr/dt/include /usr/openwin/include /usr/X11R6/include \
            /usr/dt/*/include /opt/*/include /usr/include/Motif* \
            "${prefix}"/*/include /usr/*/include /usr/local/*/include \
            "${prefix}"/include/* /usr/include/* /usr/local/include/*; do
@@ -95,7 +95,8 @@ LIBS="$ac_motif_save_LIBS"
 INCLUDES="$ac_motif_save_INCLUDES"
 CPPFLAGS="$ac_motif_save_CPPFLAGS"
 LDFLAGS="$ac_motif_save_LDFLAGS"
-test -z "$ac_cv_motif_includes" && ac_cv_motif_includes=none
+# ssch: WHY THIS? If Motif is found in standard path, it is set none here???? 
+#test -z "$ac_cv_motif_includes" && ac_cv_motif_includes=none
 ])
 motif_includes="$ac_cv_motif_includes"
 fi
@@ -136,8 +137,8 @@ for dir in "$x_libraries" "${prefix}/lib" /usr/lib /usr/local/lib \
            /usr/lib/Motif2.0 /usr/lib/Motif1.2 /usr/lib/Motif1.1 \
 	   /usr/X11R6/LessTif/Motif1.2/lib \
 	   /usr/X11R6/LessTif/Motif2.0/lib \
-           /usr/lib/X11R6 /usr/lib/X11R5 /usr/lib/X11R4 /usr/lib/X11 \
-           /usr/dt/lib /usr/openwin/lib \
+           /usr/lib/X11R6 /usr/X11R6/lib /usr/lib/X11R5 /usr/lib/X11R4 \
+	   /usr/lib/X11 /usr/dt/lib /usr/openwin/lib \
            /usr/dt/*/lib /opt/*/lib /usr/lib/Motif* \
            /usr/lesstif*/lib /usr/lib/Lesstif* \
            "${prefix}"/*/lib /usr/*/lib /usr/local/*/lib \
@@ -153,7 +154,8 @@ LIBS="$ac_motif_save_LIBS"
 INCLUDES="$ac_motif_save_INCLUDES"
 CPPFLAGS="$ac_motif_save_CPPFLAGS"
 LDFLAGS="$ac_motif_save_LDFLAGS"
-test -z "$ac_cv_motif_libraries" && ac_cv_motif_libraries=none 
+# ssch: WHY? same as for includes
+# test -z "$ac_cv_motif_libraries" && ac_cv_motif_libraries=none 
 ])
 #
 motif_libraries="$ac_cv_motif_libraries"
