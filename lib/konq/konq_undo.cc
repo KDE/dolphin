@@ -291,6 +291,11 @@ void KonqUndoManager::undo()
       ++it;
   }
 
+  /* this shouldn't be necessary at all:
+   * 1) the source list may contain files, we don't want to
+   *    create those as... directories
+   * 2) all directories that need creation should already be in the
+   *    directory stack
   if ( d->m_undoState == MAKINGDIRS )
   {
     KURL::List::ConstIterator it = d->m_current.m_src.begin();
@@ -299,6 +304,7 @@ void KonqUndoManager::undo()
       if ( !d->m_dirStack.contains( *it) )
         d->m_dirStack.push( *it );
   }
+  */
 
   if ( d->m_current.m_type != KonqCommand::MOVE )
     d->m_dirStack.clear();
