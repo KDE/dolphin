@@ -463,6 +463,8 @@ void KonqMainView::slotStarted()
 
   QString url = view->url();
 
+  qDebug( "void KonqMainView::slotStarted() %s", url.ascii() );
+
   MapViews::ConstIterator it = m_mapViews.find( view );
 
   assert( it != m_mapViews.end() );
@@ -948,12 +950,12 @@ void KonqMainView::slotUpAboutToShow()
 
 void KonqMainView::slotBackAboutToShow()
 {
-  fillHistoryPopup( m_paBack->popupMenu(), m_currentView->backHistoryURLs() );
+  fillHistoryPopup( m_paBack->popupMenu(), m_currentView->backHistory() );
 }
 
 void KonqMainView::slotForwardAboutToShow()
 {
-  fillHistoryPopup( m_paForward->popupMenu(), m_currentView->forwardHistoryURLs() );
+  fillHistoryPopup( m_paForward->popupMenu(), m_currentView->forwardHistory() );
 }
 
 void KonqMainView::slotUpActivated( int id )
@@ -971,18 +973,16 @@ void KonqMainView::slotForwardActivated( int id )
   m_currentView->goForward( m_paForward->popupMenu()->indexOf( id ) + 1 );
 }
 
-void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QStringList &urls )
+void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
   menu->clear();
 
-  QStringList::ConstIterator it = urls.begin();
-  QStringList::ConstIterator end = urls.end();
+  QListIterator<HistoryEntry> it( history );
   uint i = 0;
-  for (; it != end; ++it )
+  for (; it.current(); ++it )
   {
-    KURL u( *it );
-    menu->insertItem( *KPixmapCache::pixmapForURL( u, 0, u.isLocalFile(), true ),
-                      *it );
+    menu->insertItem( *KPixmapCache::pixmapForMimeType( it.current()->strServiceType, false ),
+                      it.current()->strURL );
     if ( ++i > 10 )
       break;
   }

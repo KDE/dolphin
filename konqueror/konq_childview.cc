@@ -306,8 +306,10 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   }       
 
   QDataStream stream( h->buffer, IO_ReadOnly );
-       
-  m_pMainView->setLocationBarURL( this, h->strURL );
+
+  QString url = h->strURL;
+  KURL::decode( url );
+  m_pMainView->setLocationBarURL( this, url );
   
   m_pView->restoreState( stream );
 
@@ -324,28 +326,6 @@ void KonqChildView::goForward( int steps )
 {
   m_bForward = true;
   go( m_lstForward, steps );
-}
-
-QStringList KonqChildView::backHistoryURLs()
-{
-  QStringList res;
-  
-  QListIterator<HistoryEntry> it( m_lstBack );
-  for (; it.current(); ++it )
-    res.append( it.current()->strURL );
-    
-  return res;
-}
-
-QStringList KonqChildView::forwardHistoryURLs()
-{
-  QStringList res;
-  
-  QListIterator<HistoryEntry> it( m_lstForward );
-  for (; it.current(); ++it )
-    res.append( it.current()->strURL );
-  
-  return res;
 }
 
 QString KonqChildView::url()

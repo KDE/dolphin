@@ -38,6 +38,14 @@ class KonqRun;
 class KonqFrame;
 class QSplitter;
 
+struct HistoryEntry
+{
+  QString strURL;
+  QByteArray buffer;
+  QString strServiceType;
+  QString strServiceName;
+};
+  
 /* This class represents a child of the main view. The main view maintains
  * the list of children. A KonqChildView contains a Browser::View and
  * handles it. It's more or less the backend structure for the views.
@@ -47,6 +55,7 @@ class KonqChildView : public QObject
 {
   Q_OBJECT
 public:
+
   /**
    * Create a child view
    * @param view the IDL View to be added in the child view
@@ -119,8 +128,8 @@ public:
    */
   void goForward( int steps = 1 );
 
-  QStringList backHistoryURLs();
-  QStringList forwardHistoryURLs();
+  const QList<HistoryEntry> backHistory() { return m_lstBack; }
+  const QList<HistoryEntry> forwardHistory() { return m_lstForward; }
 
   /**
    * Run the view (uses KonqRun)
@@ -215,14 +224,6 @@ protected:
   void connectView();
 
 ////////////////// protected members ///////////////
-
-  struct HistoryEntry
-  {
-    QString strURL;
-    QByteArray buffer;
-    QString strServiceType;
-    QString strServiceName;
-  };
 
   void go( QList<HistoryEntry> &stack, int steps );
   

@@ -395,7 +395,11 @@ void KonqTextView::slotFinished( int )
 void KonqTextView::slotRedirection( int, const char *url )
 {
 //  m_strURL = url;
-  emit setLocationBarURL( QString( url ) );
+  
+  QString decodedURL = url;
+  KURL::decode( decodedURL );
+  emit setLocationBarURL( decodedURL );
+  
 //  m_vMainWindow->setPartCaption( id(), QString(url) );  
 }
 

@@ -43,6 +43,7 @@ class KNewMenu;
 class KProgress;
 class KonqPart;
 class KonqComboAction;
+struct HistoryEntry;
 
 class KonqMainView : public View,
                      virtual public KBookmarkOwner
@@ -170,7 +171,7 @@ protected slots:
 
 protected:  
 
-  void fillHistoryPopup( QPopupMenu *menu, const QStringList &urls );
+  void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
   virtual void viewActivateEvent( ViewActivateEvent *e );
 
