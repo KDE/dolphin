@@ -260,7 +260,7 @@ void KWrite::slotOpen( const KURL& url )
   if (m_view->document()->isModified() || !m_view->document()->url().isEmpty())
   {
     KWrite *t = new KWrite();
-    if (KTextEditor::encodingInterface(m_view->document())) KTextEditor::encodingInterface(m_view->document())->setEncoding(encoding);
+    if (KTextEditor::encodingInterface(t->m_view->document())) KTextEditor::encodingInterface(t->m_view->document())->setEncoding(encoding);
     t->loadURL(url);
   }
   else
