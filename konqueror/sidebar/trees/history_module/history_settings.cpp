@@ -7,22 +7,22 @@
 #include "history_settings.h"
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings( QObject *parent, const char *name )
-    : QObject( parent, name ),
-      DCOPObject( "KonqSidebarHistorySettings" )
+    : DCOPObject( "KonqSidebarHistorySettings" ),
+      QObject( parent, name )
 {
     m_fontOlderThan.setItalic( true ); // default
 }
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings()
-    : QObject(),
-      DCOPObject( "KonqSidebarHistorySettings" )
+    : DCOPObject( "KonqSidebarHistorySettings" ),
+      QObject()
 {
     m_fontOlderThan.setItalic( true ); // default
 }
 
 KonqSidebarHistorySettings::KonqSidebarHistorySettings( const KonqSidebarHistorySettings& s )
-    : QObject(),
-      DCOPObject( "KonqSidebarHistorySettings" )
+    : DCOPObject( "KonqSidebarHistorySettings" ),
+      QObject()
 {
     m_valueYoungerThan = s.m_valueYoungerThan;
     m_valueOlderThan = s.m_valueOlderThan;
