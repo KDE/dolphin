@@ -29,7 +29,7 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc \
 	konq_settings.cc konq_drag.cc  \
 	konq_operations.cc kbookmarkbar.cc \
         konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
-        konq_undo.cc konq_undo.skel
+        konq_undo.cc konq_undo.skel kdirnotify.stub
 
 kdirnotify_DIR = $(kde_includes)
 
