@@ -397,7 +397,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
         if ( !toggle )
         {
             kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << name << endl;
-            if ( name == "sound/" )
+            if ( name == "audio/" )
                 m_pIconView->disableSoundPreviews();
             else
             {
