@@ -33,16 +33,16 @@
 #include <iostream.h>
 
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
-                  const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource)
-  : KRun( _url, 0 /*mode*/, false/*_is_local_file*/, false /* no GUI */ ),
-    m_req( req ), m_bTrustedSource( trustedSource )
+                  const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource )
+    : KParts::BrowserRun( _url, req.args, _childView ? _childView->part() : 0L, mainWindow,
+                          //remove referrer if request was typed in manually.
+                          // ### TODO: turn this off optionally.
+                          !req.typedURL.isEmpty(), trustedSource ),
+    m_pMainWindow( mainWindow ), m_pView( _childView ), m_bFoundMimeType( false ), m_req( req )
 {
-  m_pMainWindow = mainWindow;
   assert( !m_pMainWindow.isNull() );
-  m_pView = _childView;
   if (m_pView)
     m_pView->setLoading(true);
-  m_bFoundMimeType = false;
 }
 
 KonqRun::~KonqRun()
@@ -73,301 +73,62 @@ void KonqRun::foundMimeType( const QString & _type )
       return;
   }
 
+  // Grab the args back from BrowserRun
+  m_req.args = m_args;
+
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
-
-  // If we were following another view, let's just stop here,
-  // whether it worked or not.
-  if ( m_req.followMode )
-      m_bFinished = true;
-
-  // Note: all the code below is very related to KHTMLRun::foundMimeType
-  // It can't be moved to KRun though, since KRun doesn't know about the URLArgs,
-  // and should never ask "do you want to save" in other apps.
-  // Maybe we need a KBrowserRun in kparts...
-
-  // Support for saving remote files.
-  if ( !m_bFinished && // couldn't embed
-       mimeType != "inode/directory" && // dirs can't be saved
-       !m_strURL.isLocalFile() ) // ... and remote URL
-  {
-      if ( isTextExecutable(mimeType) )
-          mimeType = "text/plain"; // view, don't execute
-      kdDebug(1203) << "KonqRun: ask for saving" << endl;
-      KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, "Application");
-      if ( askSave( m_strURL, offer, mimeType, m_suggestedFilename ) ) // ... -> ask whether to save
-      { // true: saving done or canceled
-          m_bFinished = true;
-          m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
-      }
-      else // false: open app (done by KRun::foundMimeType at the end of this method)
-      {
-          // If we were in a POST, we can't just pass a URL to an external application.
-          // We must save the data to a tempfile first.
-          if ( m_req.args.doPost() )
-          {
-              kdDebug(1203) << "KonqRun: request comes from a POST, can't pass a URL to another app, need to save" << endl;
-              m_sMimeType = mimeType;
-              QString extension;
-              QString fileName = m_suggestedFilename.isEmpty() ? m_strURL.fileName() : m_suggestedFilename;
-              int extensionPos = fileName.findRev( '.' );
-              if ( extensionPos != -1 )
-                  extension = fileName.mid( extensionPos ); // keep the '.'
-              KTempFile tempFile( QString::null, extension );
-              KURL destURL;
-              destURL.setPath( tempFile.name() );
-              KIO::Job *job = KIO::file_copy( m_strURL, destURL, 0600, true /*overwrite*/, false /*no resume*/, true /*progress info*/ );
-              connect( job, SIGNAL( result( KIO::Job *)),
-                       this, SLOT( slotCopyToTempFileResult(KIO::Job *)) );
-              return; // We'll continue after the job has finished
-          }
-      }
-  }
-
-  // Check if running is allowed
-  if ( !m_bFinished &&  //     If not embedddable ...
-       !m_bTrustedSource && // ... and untrusted source...
-       !allowExecution( mimeType, m_strURL ) ) // ...and the user said no (for executables etc.)
-    {
-      m_bFinished = true;
-      m_bFault = true; // make Konqueror think there was an error (even if we really execute it) , in order to stop the spinning wheel
-    }
-
-  if ( m_bFinished )
-  {
+  if ( m_bFinished ) {
       m_pMainWindow = 0L;
       m_timer.start( 0, true );
       return;
   }
-  KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
-  kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
 
-  // make Konqueror believe that there was an error, in order to stop the spinning wheel...
-  // (we are starting another app, so the current view should stop loading).
-  m_bFault = true;
+  // If we were following another view, do nothing if opening didn't work.
+  if ( m_req.followMode )
+      m_bFinished = true;
 
-  // Prevention against user stupidity : if the associated app for this mimetype
-  // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
-  // is going to do before calling it.
-  KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, "Application" );
-  if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
-  {
-    KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
-    m_pMainWindow = 0L;
-    m_timer.start( 0, true );
-    return;
+  if ( !m_bFinished ) {
+      // If we couldn't embed the mimetype, call BrowserRun::handleNonEmbeddable()
+      KParts::BrowserRun::NonEmbeddableResult res = handleNonEmbeddable( mimeType );
+      if ( res == KParts::BrowserRun::Delayed )
+          return;
+      m_bFinished = ( res == KParts::BrowserRun::Handled );
   }
 
+  if ( !m_bFinished ) // only if we're going to open
+  {
+      // Prevention against user stupidity : if the associated app for this mimetype
+      // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
+      // is going to do before calling it.
+      KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, "Application" );
+      if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
+      {
+          KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
+          m_bFinished = true;
+      }
+  }
+
+  if ( m_bFinished ) {
+      // make Konqueror think there was an error, in order to stop the spinning wheel
+      // (we are starting another app, so the current view should stop loading).
+      m_bFault = true;
+
+      m_pMainWindow = 0L;
+      m_timer.start( 0, true );
+      return;
+  }
+
+  kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
   KRun::foundMimeType( mimeType );
 }
 
-void KonqRun::slotCopyToTempFileResult(KIO::Job *job)
+void KonqRun::handleError( KIO::Job *job )
 {
-    if ( job->error() ) {
-        job->showErrorDialog( m_pMainWindow );
-    } else {
-        // Same as KRun::foundMimeType but with a different URL
-        (void) (KRun::runURL( static_cast<KIO::FileCopyJob *>(job)->destURL(), m_sMimeType ));
-    }
-    m_bFault = true; // see above
-    m_bFinished = true;
-    m_timer.start( 0, true );
+    kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
+    // Override BrowserRun's default behaviour on error messages
+    // KHTMLPart will show an error message
+    m_job = 0;
+    foundMimeType( "text/html" );
 }
 
-void KonqRun::scanFile()
-{
-  kdDebug(1202) << "KonqRun::scanfile" << endl;
-  // WABA: We directly do a get for http.
-  // There is no compelling reason not to do use this with other protocols
-  // as well, but only http has been tested so far.
-  // David: added support for FTP and SMB... See kde-cvs for comments.
-  if ( (m_strURL.protocol().left(4) != "http" // http and https
-        && m_strURL.protocol() != "ftp"
-        && m_strURL.protocol() != "smb") )
-  {
-     KRun::scanFile();
-     return;
-  }
-
-  // Let's check for well-known extensions
-  // Not when there is a query in the URL, in any case.
-  if ( m_strURL.query().isEmpty() )
-  {
-    KMimeType::Ptr mime = KMimeType::findByURL( m_strURL );
-    assert( mime != 0L );
-    if ( mime->name() != "application/octet-stream" || m_bIsLocalFile )
-    {
-      kdDebug(1202) << "Scanfile: MIME TYPE is " << mime->name() << endl;
-      foundMimeType( mime->name() );
-      return;
-    }
-  }
-
-  if (m_pView )
-  {
-      QString proto = m_pView->url().protocol();
-      if (proto.find("https", 0, false) == 0) {
-          m_req.args.metaData().insert("main_frame_request", "TRUE" );
-          m_req.args.metaData().insert("ssl_was_in_use", "TRUE" );
-          m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
-      } else if (proto.find("http", 0, false) == 0) {
-          m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
-          m_req.args.metaData().insert("ssl_was_in_use", "FALSE" );
-      }
-  }
-
-  KIO::TransferJob *job;
-  if ( m_req.args.doPost() && m_strURL.protocol().startsWith("http"))
-  {
-      job = KIO::http_post( m_strURL, m_req.args.postData, false );
-      job->addMetaData("content-type", m_req.args.contentType() );
-  }
-  else
-      job = KIO::get(m_strURL, m_req.args.reload, false);
-
-  //set referrer if request not manual.
-  // ### TODO: turn this off optionally.
-  if (!m_req.typedURL.isEmpty())
-     m_req.args.metaData().remove("referrer");
-      // ###this does not work for some strange reason:
-      // job->addMetaData("Referer", m_req.args.metaData()["referrer"]);
-      // The reason is : it's referrer, not Referer ! (David)
-  job->addMetaData( m_req.args.metaData());
-  job->setWindow((KMainWindow *)m_pMainWindow);
-  connect( job, SIGNAL( result( KIO::Job *)),
-           this, SLOT( slotKonqScanFinished(KIO::Job *)));
-  connect( job, SIGNAL( mimetype( KIO::Job *, const QString &)),
-           this, SLOT( slotKonqMimetype(KIO::Job *, const QString &)));
-  m_job = job;
-}
-
-void KonqRun::slotKonqScanFinished(KIO::Job *job)
-{
-  kdDebug(1202) << "KonqRun::slotKonqScanFinished" << endl;
-  if ( job->error() == KIO::ERR_IS_DIRECTORY )
-  {
-      // It is in fact a directory. This happens when HTTP redirects to FTP.
-      // Due to the "protocol doesn't support listing" code in KonqRun, we
-      // assumed it was a file.
-      kdDebug(1202) << "It is in fact a directory!" << endl;
-      // Update our URL in case of a redirection
-      m_strURL = static_cast<KIO::TransferJob *>(job)->url();
-      m_job = 0;
-      foundMimeType( "inode/directory" );
-  }
-  else
-  {
-      if ( job->error() )
-      {
-          // Override KRun's default behaviour on error messages
-          // KHTMLPart will show an error message
-          m_job = 0;
-          foundMimeType( "text/html" );
-      }
-      else
-          KRun::slotScanFinished(job);
-  }
-}
-
-void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
-{
-  kdDebug(1202) << "slotKonqMimetype" << endl;
-
-  KIO::TransferJob *job = (KIO::TransferJob *) m_job;
-
-  // Update our URL in case of a redirection
-  //kdDebug() << "old URL=" << m_strURL.url() << endl;
-  //kdDebug() << "new URL=" << job->url().url() << endl;
-  m_strURL = job->url();
-
-  m_suggestedFilename = job->queryMetaData("content-disposition");
-  kdDebug(1202) << "m_suggestedFilename=" << m_suggestedFilename << endl;
-
-  // type is a reference on TranfserJob::m_mimetype. This
-  // reference is DEAD after the putOnHold() call (which kills
-  // the TransferJob) , therefore type points to already
-  // freed memory! So let's make a reference here, to make sure
-  // that in the TransferJob destructor only the QString object
-  // (without the shared QString data) is destructed, not the
-  // actual data plus reference counter!
-  // (in order to have a proper QString for the foundMimeType call
-  // below) . Purify rocks!
-  // (Simon)
-  QString _type = type;
-  job->putOnHold();
-  m_job = 0;
-
-  foundMimeType( _type );
-}
-
-bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
-{
-    if ( !isExecutable( serviceType ) )
-      return true;
-
-    if ( !url.isLocalFile() ) // Don't permit to execute remote files
-        return false;
-
-    return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
-}
-
-bool KonqRun::isTextExecutable( const QString &serviceType )
-{
-    return ( serviceType == "application/x-desktop" ||
-             serviceType == "application/x-shellscript" );
-}
-
-bool KonqRun::isExecutable( const QString &serviceType )
-{
-    return ( serviceType == "application/x-desktop" ||
-             serviceType == "application/x-executable" ||
-             serviceType == "application/x-shellscript" );
-}
-
-bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString& mimeType, const QString & suggestedFilename )
-{
-    QString surl = KStringHandler::csqueeze( url.prettyURL() );
-    QString question;
-    if ( suggestedFilename.isEmpty() )
-    {
-        // Inspired from kmail
-        question = offer ? i18n("Open '%1' using '%2'?").
-                   arg( surl ).arg(offer->name())
-                   : i18n("Open '%1' ?").arg( surl );
-    } else {
-        question = offer ? i18n("Open '%1' (%2) using '%3'?").
-                   arg( surl ).arg(suggestedFilename).arg(offer->name())
-                   : i18n("Open '%1' (%2) ?").arg( surl ).arg(suggestedFilename);
-    }
-    int choice = KMessageBox::questionYesNoCancel(
-        0L, question, QString::null,
-        i18n("Save to disk"), i18n("Open"),
-        QString::fromLatin1("askSave")+ mimeType ); // dontAskAgainName
-    if ( choice == KMessageBox::Yes ) // Save
-        save( url, suggestedFilename );
-
-    return choice != KMessageBox::No; // saved or canceled -> don't open
-}
-
-void KonqRun::save( const KURL & url, const QString & suggestedFilename )
-{
-    // Inspired from khtml_part :-)
-    KFileDialog *dlg = new KFileDialog( QString::null, QString::null /*all files*/,
-                                        0L , "filedialog", true );
-
-    dlg->setKeepLocation( true );
-
-    dlg->setCaption(i18n("Save as"));
-
-    dlg->setSelection( suggestedFilename.isEmpty() ? url.fileName() : suggestedFilename );
-    if ( dlg->exec() )
-    {
-        KURL destURL( dlg->selectedURL() );
-        if ( !destURL.isMalformed() )
-        {
-            KIO::Job *job = KIO::copy( url, destURL );
-	    job->setAutoErrorHandlingEnabled( true );
-        }
-    }
-    delete dlg;
-}
 #include "konq_run.moc"

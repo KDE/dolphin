@@ -20,16 +20,15 @@
 #ifndef __kfm_run_h__
 #define __kfm_run_h__
 
-#include <krun.h>
+#include <kparts/browserrun.h>
 #include <qguardedptr.h>
 #include <kservice.h>
-#include <sys/types.h>
 #include <konq_openurlrequest.h>
 
 class KonqMainWindow;
 class KonqView;
 
-class KonqRun : public KRun
+class KonqRun : public KParts::BrowserRun
 {
   Q_OBJECT
 public:
@@ -38,7 +37,7 @@ public:
    * optionnal child view.
    */
   KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
-                 const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),
+           const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),
            bool trustedSource = false );
 
   virtual ~KonqRun();
@@ -51,37 +50,16 @@ public:
   KonqView *childView() const { return m_pView; }
 
   const QString & typedURL() const { return m_req.typedURL; }
-  KURL url() const { return m_strURL; }
-
-  static bool allowExecution( const QString &serviceType, const KURL &url );
-  static bool isExecutable( const QString &serviceType );
-  static bool isTextExecutable( const QString &serviceType );
-  static bool askSave( const KURL & url, KService::Ptr offer, const QString& mimeType, const QString & suggestedFilename = QString::null );
-  static void save( const KURL & url, const QString & suggestedFilename );
 
 protected:
-  /**
-   * Called if the mimetype has been detected. The function checks wether the document
-   * and appends the gzip protocol to the URL. Otherwise @ref #runURL is called to
-   * finish the job.
-   */
   virtual void foundMimeType( const QString & _type );
-
-  virtual void scanFile();
-
-protected slots:
-  void slotKonqScanFinished(KIO::Job *job);
-  void slotKonqMimetype(KIO::Job *job, const QString &type);
-  void slotCopyToTempFileResult(KIO::Job *job);
+  virtual void handleError( KIO::Job * job );
 
 protected:
   QGuardedPtr<KonqMainWindow> m_pMainWindow;
   QGuardedPtr<KonqView> m_pView;
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
-  bool m_bTrustedSource;
-  QString m_suggestedFilename;
-  QString m_sMimeType;
 };
 
 #endif

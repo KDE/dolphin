@@ -405,7 +405,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
             // Remote URL: save or open ?
-            if ( url.isLocalFile() || !KonqRun::askSave( url, offer, serviceType ) )
+	    bool open = url.isLocalFile();
+	    if ( !open) {
+		KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
+		open = ( res == KParts::BrowserRun::Open );
+	    }
+            if ( open )
             {
                 KURL::List lst;
                 lst.append(url);
