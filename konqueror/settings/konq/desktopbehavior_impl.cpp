@@ -397,6 +397,7 @@ void DesktopBehavior::save()
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
     // for the standalone menubar setting
     kapp->dcopClient()->send( "menuapplet*", "menuapplet", "configure()", data );
+    kapp->dcopClient()->send( "kicker", "kicker", "configureMenubar()", data );
     kapp->dcopClient()->send( "kwin*", "", "reconfigure()", data );
 }
 
