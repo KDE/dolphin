@@ -258,23 +258,29 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
   return res;
 }
 
-void KonqMainWindow::openFilteredURL( const QString & _url )
+// Note: this removes the filter from the URL.
+QString KonqMainWindow::detectNameFilter( QString & url )
 {
-    QString url( _url );
-
     // Look for wildcard selection
     QString nameFilter;
-    int pos = _url.findRev( '/' );
+    int pos = url.findRev( '/' );
     if ( pos != -1 )
     {
-      QString lastbit = _url.mid( pos + 1 );
+      QString lastbit = url.mid( pos + 1 );
       if ( lastbit.find( '*' ) != -1 )
       {
         nameFilter = lastbit;
-        url = _url.left( pos + 1 );
+        url = url.left( pos + 1 );
         kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
       }
     }
+    return nameFilter;
+}
+
+void KonqMainWindow::openFilteredURL( const QString & _url )
+{
+    QString url( _url );
+    QString nameFilter = detectNameFilter( url );
 
     // Filter URL to build a correct one
     KURL filteredURL( konqFilteredURL( this, url ) );
@@ -702,7 +708,10 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   QString locationBarURL = m_currentView->locationBarURL();
 
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-  m_currentView->openURL( url, locationBarURL /*, nameFilter TODO */ );
+
+  QString locURL( locationBarURL );
+  QString nameFilter = detectNameFilter( locURL );
+  m_currentView->openURL( locURL, locationBarURL, nameFilter );
 
   // Now save this setting, either locally or globally
   if ( m_bSaveViewPropertiesLocally )

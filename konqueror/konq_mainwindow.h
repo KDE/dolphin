@@ -290,6 +290,8 @@ protected slots:
 
 protected:
 
+  QString detectNameFilter( QString & url );
+
   void toggleBar( const char *name, const char *className );
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
