@@ -124,6 +124,7 @@ private:
   int m_iIconSize;
   int m_iItemTextPos;
   bool m_bShowDot;
+  bool m_bShowFolderMimeTypes; // Feature to be implemented in 3.1
   QStringList m_preview;
   QColor m_textColor;
   QColor m_bgColor;
@@ -148,6 +149,14 @@ private:
   // then m_defaultProps points to the "default properties" instance
   // Otherwise it's 0L.
   KonqPropsView * m_defaultProps;
+
+  /**
+   * Private data for KonqPropsView
+   * Implementation in konq_propsview.cc
+   */
+  struct Private;
+
+  Private *d;
 
 private:
   KonqPropsView( const KonqPropsView & );

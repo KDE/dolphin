@@ -60,6 +60,11 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
     return QPixmap();
 }
 
+struct KonqPropsView::Private
+{
+    // Move along, nothing to see...
+};
+
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
     : m_bSaveViewPropertiesLocally( false ), // will be overriden by setSave... anyway
     // if this is the default properties instance, then keep config object for saving
