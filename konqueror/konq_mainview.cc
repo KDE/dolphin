@@ -646,13 +646,8 @@ void KonqMainView::slotStarted()
 
   if ( (KonqChildView *)m_currentView == *it )
   {
-    startAnimation();
-    setUpEnabled( url );
-    m_paBack->setEnabled( m_currentView->canGoBack() );
-    m_paForward->setEnabled( m_currentView->canGoForward() );
-
     updateStatusBar();
-    checkEditExtension();
+    updateToolBarActions();
   }
 
 }
@@ -669,9 +664,7 @@ void KonqMainView::slotCompleted()
 
   if ( (KonqChildView *)m_currentView == *it )
   {
-    stopAnimation();
-    m_paBack->setEnabled( m_currentView->canGoBack() );
-    m_paForward->setEnabled( m_currentView->canGoForward() );
+    updateToolBarActions();
 
     if ( m_progressBar )
     {
@@ -681,8 +674,6 @@ void KonqMainView::slotCompleted()
 
     if ( m_statusBar )
       m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-
-    checkEditExtension();
   }
 
 }
@@ -738,7 +729,7 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
 
       setActiveView( view );
 
-      enableAllActions( true );
+      enableAllActions( true ); // can't we rely on setActiveView to do the right thing ? (David)
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
@@ -808,17 +799,7 @@ void KonqMainView::setActiveView( BrowserView *view )
     m_combo->setEditText( m_currentView->locationBarURL() );
 
   updateStatusBar();
-
-  m_paStop->setEnabled( m_currentView->isLoading() );
-  m_paBack->setEnabled( m_currentView->canGoBack() );
-  m_paForward->setEnabled( m_currentView->canGoForward() );
-
-  checkEditExtension();
-
-  if ( m_currentView->isLoading() )
-    startAnimation();
-  else
-    stopAnimation();
+  updateToolBarActions();
 
   m_bMenuViewDirty = true;
 }
@@ -1600,6 +1581,22 @@ void KonqMainView::updateStatusBar()
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
 
   m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
+}
+
+void KonqMainView::updateToolBarActions()
+{
+  // Enables/disables actions that depend on the current view (mostly toolbar)
+  // Up, back, forward, the edit extension, stop button, wheel
+  setUpEnabled( m_currentView->url() );
+  m_paBack->setEnabled( m_currentView->canGoBack() );
+  m_paForward->setEnabled( m_currentView->canGoForward() );
+
+  checkEditExtension();
+
+  if ( m_currentView->isLoading() )
+    startAnimation(); // takes care of m_paStop
+  else
+    stopAnimation(); // takes care of m_paStop
 }
 
 void KonqMainView::updateExtensionDependendActions( BrowserView *view )
