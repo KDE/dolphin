@@ -60,8 +60,15 @@ public:
     virtual bool acceptDrop( const QMimeSource *mime ) const;
 
     /** */
-    virtual void setIcon( int size, int state=KIcon::DefaultState,
+    virtual void setIcon( int size,
+                          int state=KIcon::DefaultState,
                           bool bImagePreviewAllowed=false );
+
+    /**
+     * Return the current state of the icon
+     * (KIcon::DefaultState, KIcon::ActiveState etc.)
+     */
+    int state() { return m_state; }
 
     /** */
     virtual void refreshIcon( bool redraw );
