@@ -148,6 +148,14 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   }
 
   connectView();
+
+  // Honour "non-removeable passive mode" (like the dirtree)
+  QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
+  if ( prop.isValid() && prop.toBool() )
+  {
+    setPassiveMode( true ); // set as passive
+    frame()->statusbar()->hideStuff(); // prevent user from removing passive mode
+  }
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType,

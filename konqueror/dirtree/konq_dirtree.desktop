@@ -2,13 +2,25 @@
 Type=Service
 Exec=blahfoo
 Comment=Directory Tree
+Comment[ca]=Arbre de directoris
 Comment[cs]=Adresářový strom
 Comment[de]=Verzeichnisbaum
 Comment[eo]=Dosierujo-arbo
 Comment[fi]=Hakemistopuu
 Comment[hu]=Könyvtárfa
+Comment[it]=Albero delle directory
+Comment[ja]=ディレクトリツリー
 Comment[no]=Katalogtre
+Comment[no_NY]=Katalogtre
+Comment[pt]=Árvore de Directorios
+Comment[ro]=Arbore de directoare
 Comment[sl]=Drevo imenikov
+Comment[sv]=Katalogträd
+Comment[ta]=«¨¼× ÁÃõ
 Name=KonqDirTree
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=libkonqdirtree
+X-KDE-BrowserView-AllowAsDefault=false
+X-KDE-BrowserView-Builtin=true
+X-KDE-BrowserView-PassiveMode=true
+

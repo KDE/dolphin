@@ -547,7 +547,7 @@ void KonqMainView::slotToggleDirTree( bool toggle )
 
     KonqFrameContainer *newContainer;
 
-    KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
+    /*KParts::ReadOnlyPart *view =*/ m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
 
     newContainer->moveToLast( splitFrame->widget() );
 
@@ -561,11 +561,11 @@ void KonqMainView::slotToggleDirTree( bool toggle )
 
     newContainer->setSizes( newSplitterSizes );
 
-    KonqChildView *cv = childView( view );
-
-    cv->setPassiveMode( true );
+    // Now done with X-KDE-BrowserView-PassiveMode
+    //KonqChildView *cv = childView( view );
     //    cv->frame()->statusbar()->passiveModeCheckBox()->setChecked( true );
-    cv->frame()->statusbar()->hideStuff();
+    //  cv->setPassiveMode( true );
+    //  cv->frame()->statusbar()->hideStuff();
   }
   else
   {
