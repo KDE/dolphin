@@ -28,6 +28,9 @@
 #include <qlayout.h>
 #include "kmultiverttabbar.h"
 
+
+class KDockWidget;
+
 class ButtonInfo: public QObject
 {
 	Q_OBJECT
@@ -88,7 +91,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
         QPtrVector<ButtonInfo> Buttons;
 	bool addButton(const QString &desktoppath,int pos=-1);
 	bool createView(ButtonInfo *data);
-	class KDockWidget *mainW;
+	//class KDockWidget *mainW;
 	int latestViewed;
 	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo *bi);
 	KURL storedUrl;
@@ -109,6 +112,8 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	int savedWidth;
 	bool somethingVisible;
 	void collapseExpandSidebar();
+	KDockWidget *dummyMainW;
+	bool doEnableActions();
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	friend class ButtonInfo;

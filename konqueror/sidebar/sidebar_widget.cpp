@@ -166,13 +166,16 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
 	Area=new KDockArea(this);
 	Area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
-	mainW=Area->createDockWidget("free",0);
-	mainW->setWidget(new QWidget(mainW));
-	Area->setMainDockWidget(mainW);
+	dummyMainW=Area->createDockWidget("free",0);
+	dummyMainW->setWidget(new QWidget(dummyMainW));
+	Area->setMainDockWidget(dummyMainW);
 	Area->setMinimumWidth(0);
-	mainW->setDockSite(KDockWidget::DockTop);
-	mainW->setEnableDocking(KDockWidget::DockNone);
-//	mainW->hide();
+	dummyMainW->setDockSite(KDockWidget::DockTop);
+	dummyMainW->setEnableDocking(KDockWidget::DockNone);
+/*                                mainW->setEnableDocking(KDockWidget::DockTop|
+                                KDockWidget::DockBottom|KDockWidget::DockDesktop);*/
+
+
 	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
    	ButtonBar=new KMultiVertTabBar(this);
 
@@ -335,8 +338,42 @@ void Sidebar_Widget::activatedMenu(int id)
 			if ((singleWidgetMode) && (visibleViews.count()>1))
 				for (int i=0; i<Buttons.count(); i++)
 					if (i!=latestViewed)
+					{
 						if (Buttons.at(i)->dock!=0)
 							if (Buttons.at(i)->dock->isVisible()) showHidePage(i);
+					}
+					else
+					{
+						if (Buttons.at(i)->dock!=0)
+						{
+							Area->setMainDockWidget(Buttons.at(i)->dock);
+							dummyMainW->undock();
+						}
+					}
+			else
+				if (!singleWidgetMode)
+				{
+					int tmpLatestViewed=latestViewed;					
+					Area->setMainDockWidget(dummyMainW);
+	        			dummyMainW->setDockSite(KDockWidget::DockTop);
+				        dummyMainW->setEnableDocking(KDockWidget::DockNone);
+					dummyMainW->show();
+					if ((tmpLatestViewed>=0) && (tmpLatestViewed<Buttons.count()))
+					if (Buttons.at(tmpLatestViewed))
+					{
+						if (Buttons.at(tmpLatestViewed)->dock)
+						{
+							Buttons.at(tmpLatestViewed)->dock->undock();
+			                                Buttons.at(tmpLatestViewed)->dock->setEnableDocking(KDockWidget::DockTop|
+                                				KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
+							kdDebug()<<"Reconfiguring multi view mode"<<endl;
+                                			Buttons.at(tmpLatestViewed)->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
+							Buttons.at(tmpLatestViewed)->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
+							Buttons.at(tmpLatestViewed)->dock->show();
+						}
+
+					}
+				}
 			break;
 		}
 		case 2:
@@ -571,7 +608,7 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 			{
 				data->dock->setWidget(data->module->getWidget());
 				data->dock->setEnableDocking(KDockWidget::DockTop|
-				KDockWidget::DockBottom|KDockWidget::DockDesktop);
+				KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
 				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
 				connectModule(data->module);
 
@@ -599,8 +636,17 @@ void Sidebar_Widget::showHidePage(int page)
 							return;
 						}
 						ButtonBar->setTab(page,true);
-						info->dock->manualDock(mainW,KDockWidget::DockTop,100);
+						if (singleWidgetMode)
+						{
+							Area->setMainDockWidget(info->dock);
+							dummyMainW->undock();
+						}
+						else
+						{
+							info->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
+						}
 						info->dock->show();
+
 						if (stored_url) info->module->openURL(storedUrl);
 						visibleViews<<info->file;
 						latestViewed=page;
@@ -612,7 +658,15 @@ void Sidebar_Widget::showHidePage(int page)
 				{
 					//SingleWidgetMode
 					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);
-					info->dock->manualDock(mainW,KDockWidget::DockTop,100);
+					if (singleWidgetMode)
+					{
+						Area->setMainDockWidget(info->dock);
+						dummyMainW->undock();
+					}
+					else
+					{
+						info->dock->manualDock(dummyMainW,KDockWidget::DockTop,100);
+					}
 					info->dock->show();
 					latestViewed=page;
 					if (stored_url) info->module->openURL(storedUrl);
@@ -622,6 +676,11 @@ void Sidebar_Widget::showHidePage(int page)
 				{
 //					if (ButtonBar->
 					ButtonBar->setTab(page,false);
+					if (singleWidgetMode)
+					{
+						Area->setMainDockWidget(dummyMainW);
+						dummyMainW->show();
+					}
 					info->dock->undock();
 					latestViewed=-1;
 					visibleViews.remove(info->file);
@@ -703,12 +762,14 @@ void Sidebar_Widget::enableAction( const char * name, bool enabled )
 	}
 }
 
-void Sidebar_Widget::popupMenu( const QPoint &global, const KFileItemList &items )
+
+bool  Sidebar_Widget::doEnableActions()
 {
 	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
 	if (activeModule==0)
 	{
 		kdDebug()<<"Couldn't set active module, aborting"<<endl;
+		return false;
 	}
 	else
 	{
@@ -719,72 +780,34 @@ void Sidebar_Widget::popupMenu( const QPoint &global, const KFileItemList &items
 		getExtension()->enableAction( "del", activeModule->del );
 		getExtension()->enableAction( "shred", activeModule->shred );
 		getExtension()->enableAction( "rename", activeModule->rename );
-		getExtension()->popupMenu(global,items);
+		return true;
 	}
+
+}
+
+void Sidebar_Widget::popupMenu( const QPoint &global, const KFileItemList &items )
+{
+	if (doEnableActions()) getExtension()->popupMenu(global,items);
+
 }
 
 
 void Sidebar_Widget::popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items )
 {
-	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
-	if (activeModule==0)
-	{
-		kdDebug()<<"Couldn't set active module, aborting"<<endl;
-	}
-	else
-	{
-		getExtension()->enableAction( "copy", activeModule->copy );
-		getExtension()->enableAction( "cut", activeModule->cut );
-		getExtension()->enableAction( "paste", activeModule->paste );
-		getExtension()->enableAction( "trash", activeModule->trash );
-		getExtension()->enableAction( "del", activeModule->del );
-		getExtension()->enableAction( "shred", activeModule->shred );
-		getExtension()->enableAction( "rename", activeModule->rename );
-		getExtension()->popupMenu(client,global,items);
-	}
+	if (doEnableActions()) getExtension()->popupMenu(client,global,items);
 }
 
 void Sidebar_Widget::popupMenu( const QPoint &global, const KURL &url,
 	const QString &mimeType, mode_t mode)
 {
-	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
-	if (activeModule==0)
-	{
-		kdDebug()<<"Couldn't set active module, aborting"<<endl;
-	}
-	else
-	{
-		getExtension()->enableAction( "copy", activeModule->copy );
-		getExtension()->enableAction( "cut", activeModule->cut );
-		getExtension()->enableAction( "paste", activeModule->paste );
-		getExtension()->enableAction( "trash", activeModule->trash );
-		getExtension()->enableAction( "del", activeModule->del );
-		getExtension()->enableAction( "shred", activeModule->shred );
-		getExtension()->enableAction( "rename", activeModule->rename );
-		getExtension()->popupMenu(global,url,mimeType,mode);
-	}
+	if (doEnableActions()) getExtension()->popupMenu(global,url,mimeType,mode);
 }
 
 void Sidebar_Widget::popupMenu( KXMLGUIClient *client,
 	const QPoint &global, const KURL &url,
 	const QString &mimeType, mode_t mode )
 {
-	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
-	if (activeModule==0)
-	{
-		kdDebug()<<"Couldn't set active module, aborting"<<endl;
-	}
-	else
-	{
-		getExtension()->enableAction( "copy", activeModule->copy );
-		getExtension()->enableAction( "cut", activeModule->cut );
-		getExtension()->enableAction( "paste", activeModule->paste );
-		getExtension()->enableAction( "trash", activeModule->trash );
-		getExtension()->enableAction( "del", activeModule->del );
-		getExtension()->enableAction( "shred", activeModule->shred );
-		getExtension()->enableAction( "rename", activeModule->rename );
-		getExtension()->popupMenu(client,global,url,mimeType,mode);
-	}
+	if (doEnableActions()) getExtension()->popupMenu(client,global,url,mimeType,mode);
 }
 
 void Sidebar_Widget::connectModule(QObject *mod)
