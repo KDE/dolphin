@@ -73,6 +73,8 @@ private slots:
   void slotRightButtonPressed( QListViewItem *item );
   void slotClicked( QListViewItem *item );
 
+  void slotListingStopped();
+
 private:
   void init();
   void scanDir( QListViewItem *parent, const QString &path );
@@ -93,13 +95,14 @@ private:
 
   struct TopLevelItem
   {
-    TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QDict<KonqDirTreeItem> *subDirMap ) 
-    { m_item = item; m_dirLister = lister; m_mapSubDirs = subDirMap; }
+    TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QDict<KonqDirTreeItem> *subDirMap, QStringList *pendingURLList )
+    { m_item = item; m_dirLister = lister; m_mapSubDirs = subDirMap; m_lstPendingURLs = pendingURLList; }
     TopLevelItem() { m_item = 0; m_dirLister = 0; m_mapSubDirs = 0; }
     
     KonqDirTreeItem *m_item;
     KDirLister *m_dirLister;
     QDict<KonqDirTreeItem> *m_mapSubDirs;
+    QStringList *m_lstPendingURLs;
   };
 
   TopLevelItem findTopLevelByItem( KonqDirTreeItem *item );

@@ -159,6 +159,7 @@ KonqDirTree::~KonqDirTree()
     delete (*it).m_item;
     delete (*it).m_dirLister;
     delete (*it).m_mapSubDirs;
+    delete (*it).m_lstPendingURLs;
   }
 
 }
@@ -170,7 +171,13 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   assert( topLevelItem.m_item );
 
-  topLevelItem.m_dirLister->openURL( item->fileItem()->url(), false, topLevel ? true : false );
+  KURL u = item->fileItem()->url();
+
+  if ( topLevelItem.m_dirLister->jobId() == 0 )
+    topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
+  else if ( !topLevelItem.m_lstPendingURLs->contains( u.url() ) )
+    topLevelItem.m_lstPendingURLs->append( u.url() );
+
 }
 
 void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url )
@@ -291,6 +298,23 @@ void KonqDirTree::slotClicked( QListViewItem *item )
     unselectAll();
 }
 
+void KonqDirTree::slotListingStopped()
+{
+  KDirLister *lister = (KDirLister *)sender();
+
+  TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
+
+  assert( topLevelItem.m_item );
+
+  QStringList::Iterator it = topLevelItem.m_lstPendingURLs->find( lister->url() );
+  if ( it != topLevelItem.m_lstPendingURLs->end() )
+    topLevelItem.m_lstPendingURLs->remove( it );
+
+  if ( topLevelItem.m_lstPendingURLs->count() > 0 )
+    topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
+
+}
+
 void KonqDirTree::init()
 {
 
@@ -390,8 +414,12 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 	   this, SLOT( slotNewItem( KFileItem * ) ) );
   connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 	   this, SLOT( slotDeleteItem( KFileItem * ) ) );
+  connect( dirLister, SIGNAL( completed() ),
+	   this, SLOT( slotListingStopped() ) );
+  connect( dirLister, SIGNAL( canceled() ),
+	   this, SLOT( slotListingStopped() ) );
 
-  m_topLevelItems.append( TopLevelItem( item, dirLister, new QDict<KonqDirTreeItem> ) );
+  m_topLevelItems.append( TopLevelItem( item, dirLister, new QDict<KonqDirTreeItem>, new QStringList ) );
   addSubDir( item, item, fileItem->url().url( 0 ) );
 
   if ( cfg.readBoolEntry( "Open", true ) )
