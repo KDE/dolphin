@@ -26,17 +26,10 @@
 #define _USERAGENTDLG_H "$Id$"
 
 #include <kcmodule.h>
-#include <kconfig.h>
 
-class QCheckBox;
-class QGroupBox;
-class QPushButton;
-class QStringList;
-class QButtonGroup;
-
-class KListView;
-class KLineEdit;
+class KConfig;
 class FakeUASProvider;
+class UserAgentDlgUI;
 
 class UserAgentDlg : public KCModule
 {
@@ -75,28 +68,6 @@ private:
     SHOW_LANGUAGE
   };
 
-  //Send User-agent String
-  QCheckBox*      cb_sendUAString;
-
-  // Default User-agent settings
-  KLineEdit*       lb_default;
-  QButtonGroup*   bg_default;
-  QCheckBox*      cb_showPlatform;
-  QCheckBox*      cb_showLanguage;
-  QCheckBox*      cb_showMachine;
-  QCheckBox*      cb_showOSV;
-  QCheckBox*      cb_showOS;
-
-  // Site specific settings
-  KListView*      lv_siteUABindings;
-  QGroupBox*      gb_siteSpecific;
-  QPushButton*    pb_deleteAll;
-  QPushButton*    pb_delete;
-  QPushButton*    pb_change;
-  QPushButton*    pb_import;
-  QPushButton*    pb_export;
-  QPushButton*    pb_add;
-
   // Useragent modifiers...
   QString m_ua_keys;
 
@@ -107,6 +78,8 @@ private:
   int d_itemsSelected;
 
   KConfig *m_config;
+
+  UserAgentDlgUI* dlg;
 };
 
 #endif

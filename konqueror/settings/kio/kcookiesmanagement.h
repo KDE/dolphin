@@ -30,10 +30,10 @@
 
 #include <kcmodule.h>
 
-class QPushButton;
-class KLineEdit;
-class KListView;
+
 class DCOPClient;
+class KCookiesManagementDlgUI;
+
 struct CookieProp;
 
 class CookieListViewItem : public QListViewItem
@@ -86,26 +86,10 @@ private:
     bool cookieDetails(CookieProp *cookie);
     void clearCookieDetails();
     bool policyenabled();
-
-    KLineEdit* le_name;
-    KLineEdit* le_value;
-    KLineEdit* le_domain;
-    KLineEdit* le_path;
-    KLineEdit* le_expires;
-    KLineEdit* le_isSecure;
-
-    KListView* lv_cookies;
-    QGroupBox* grp_details;
-    QPushButton* btn_delete;
-    QPushButton* btn_reload;
-    QPushButton* btn_deleteAll;
-
-    QPushButton* btn_policy;
+    bool m_bDeleteAll;
 
     QWidget* mainWidget;
-
-    DCOPClient* dcop;
-    bool m_bDeleteAll;
+    KCookiesManagementDlgUI* dlg;
 
     QStringList deletedDomains;
     typedef QPtrList<CookieProp> CookiePropList;

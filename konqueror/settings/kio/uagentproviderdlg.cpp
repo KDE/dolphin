@@ -16,17 +16,21 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <qlabel.h>
+#include <qlayout.h>
+#include <qlistbox.h>
 #include <qwhatsthis.h>
-#include <qvbox.h>
+#include <qpushbutton.h>
 
 #include <kdebug.h>
 #include <klocale.h>
 #include <kcombobox.h>
+#include <klineedit.h>
 #include <kurllabel.h>
-#include <kiconloader.h>
 
 #include "fakeuaprovider.h"
 #include "uagentproviderdlg.h"
+#include "uagentproviderdlg_ui.h"
 
 UALineEdit::UALineEdit( QWidget *parent, const char *name )
            :KLineEdit( parent, name )
@@ -53,101 +57,93 @@ void UALineEdit::keyPressEvent( QKeyEvent* e )
 
 UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
                               const char *name, FakeUASProvider* provider )
-              :KDialogBase(parent, name, true, caption, Ok|Cancel|User1,
-               Ok, true, KGuiItem( i18n( "&Update List" ), "reload" ) ), 
-               m_provider(provider)
+              :KDialog(parent, name, true), m_provider(provider)
 {
-  setIcon( SmallIcon("agent") );
+  setCaption ( caption );
 
-  QVBox *vbox = makeVBoxMainWidget();
+  QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
 
-  QLabel* label = new QLabel( i18n( "When connecting &to the following site:" ), vbox );
-  m_leSite = new UALineEdit( vbox );
-  label->setBuddy( m_leSite );
-  connect( m_leSite, SIGNAL( textChanged(const QString&)), SLOT(slotTextChanged(const QString&)) );
-  QString wtstr = i18n( "Enter the site or domain name where a fake identity should be used. "
-                        "<p><u>NOTE:</u> Wildcard syntax such as \"*,?\" is NOT allowed. Instead "
-                        "enter the top level address of a site to make generic matches for all "
-                        "locations found under it. For example, if you want all sites at "
-                        "<code>http://www.acme.com</code> to receive fake browser-identification, "
-                        "simply enter <code>acme.com</code> here.");
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_leSite, wtstr );
+  dlg = new UAProviderDlgUI (this);
+  mainLayout->addWidget(dlg);
 
-  label = new QLabel( i18n("Use the following &identity:"), vbox );
-  m_cbIdentity = new KComboBox( false, vbox );
-  m_cbIdentity->setInsertionPolicy( QComboBox::AtBottom );
-  m_cbIdentity->setFixedWidth( m_cbIdentity->fontMetrics().width('W') * 20 );
-  label->setBuddy( m_cbIdentity );
-  m_cbIdentity->setMinimumWidth( m_cbIdentity->fontMetrics().width('W') * 30 );
-  connect ( m_cbIdentity, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)) );
+  QString wtstr = i18n( "Enter the site or domain name where a fake browser "
+                        "identity string should be used. <p><u>NOTE:</u> "
+                        "Wildcard syntaxes such as \"*,?\" are NOT allowed. "
+                        "Instead enter the top level address of a site to "
+                        "make generic matches for all locations found under "
+                        "it. For example, if you want all sites at "
+                        "<code>http://www.acme.com</code> to receive a fake "
+                        "browser identification, you would type in <code>.acme.com</code>.");
+  QWhatsThis::add( dlg->lbSite, wtstr );
+  QWhatsThis::add( dlg->leSite, wtstr );
+
   wtstr = i18n( "<qt>Select the browser-identification to use whenever "
                 "contacting the site or domain given above."
                 "<P>Upon selection, a straight forward description, if "
                 "available, will be displayed in the box below." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_cbIdentity, wtstr );
+  QWhatsThis::add( dlg->lbIdentity, wtstr );
+  QWhatsThis::add( dlg->cbIdentity, wtstr );
 
-  label = new QLabel( i18n("Alias (description):"), vbox );
-  m_leAlias = new KLineEdit( vbox );
-  m_leAlias->setReadOnly( true );
-  label->setBuddy( m_leAlias );
-  wtstr = i18n( "A plain (friendlier) description of the above "
-                "browser-identification string." );
-  QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_leAlias, wtstr );
+  wtstr = i18n( "A non-technical (friendlier) description of the above "
+                "browser identification string." );
+  QWhatsThis::add( dlg->lbAlias, wtstr );
+  QWhatsThis::add( dlg->leAlias, wtstr );
 
   // Update button
-  wtstr = i18n( "Updates the browser identification list shown above."
+  wtstr = i18n( "Updates the browser identification list."
                 "<p>\n<u>NOTE:</u> There is no need to press this button "
-                "unless a new browser-identification description "
-                "file was added after this configuration box was already "
-                "displayed!" );
-  setButtonWhatsThis( User1, wtstr );
-  connect( this, SIGNAL(user1Clicked()), SLOT(updateInfo()) );
+                "unless a new description file was added while this "
+                "configuration box is displayed!" );
+  QWhatsThis::add( dlg->pbUpdateList, wtstr );
 
-  enableButtonOK( false );
+  connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
+  connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
+
+  connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
+           SLOT(slotTextChanged( const QString&)) );
+
+  connect( dlg->cbIdentity, SIGNAL(activated(const QString&)),
+           SLOT(slotActivated(const QString&)) );
+
+  connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
 
   init();
-  m_leSite->setFocus();
+  dlg->leSite->setFocus();
 }
 
 UAProviderDlg::~UAProviderDlg()
 {
 }
 
-void UAProviderDlg::slotActivated( const QString& text )
-{
-  if ( text.isEmpty() )
-  {
-    m_leAlias->setText( "" );
-    enableButtonOK( false );
-  }
-  else
-  {
-    m_leAlias->setText( m_provider->aliasFor(text) );
-    if ( !m_leSite->text().isEmpty() && !text.isEmpty()  )
-      enableButtonOK( true );
-  }
-}
-
-void UAProviderDlg::slotTextChanged( const QString& text )
-{
-  enableButtonOK( !(text.isEmpty() || m_cbIdentity->currentText().isEmpty()) );
-}
 
 void UAProviderDlg::init()
 {
   if ( !m_provider )
     m_provider = new FakeUASProvider();
-  m_cbIdentity->clear();
-  m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
-  m_cbIdentity->insertItem( "", 0 );
+
+  dlg->cbIdentity->clear();
+  dlg->cbIdentity->insertStringList( m_provider->userAgentStringList() );
+  dlg->cbIdentity->insertItem( "", 0 );
+}
+
+void UAProviderDlg::slotActivated( const QString& text )
+{
+  if ( text.isEmpty() )
+    dlg->leAlias->setText( "" );
+  else
+    dlg->leAlias->setText( m_provider->aliasFor(text) );
+
+  dlg->pbOk->setEnabled( (!dlg->leSite->text().isEmpty() && !text.isEmpty()) );
+}
+
+void UAProviderDlg::slotTextChanged( const QString& text )
+{
+  dlg->pbOk->setEnabled( (!text.isEmpty() && !dlg->cbIdentity->currentText().isEmpty()) );
 }
 
 void UAProviderDlg::updateInfo()
 {
-  QString citem = m_cbIdentity->currentText();
+  QString citem = dlg->cbIdentity->currentText();
   m_provider->setListDirty(true);
   init();
   setIdentity(citem);
@@ -155,31 +151,31 @@ void UAProviderDlg::updateInfo()
 
 void UAProviderDlg::setSiteName( const QString& text )
 {
-  m_leSite->setText( text );
+  dlg->leSite->setText( text );
 }
 
 void UAProviderDlg::setIdentity( const QString& text )
 {
-  int id = m_cbIdentity->listBox()->index( m_cbIdentity->listBox()->findItem(text) );
-  m_cbIdentity->setCurrentItem( id );
-  slotActivated( m_cbIdentity->currentText() );
-  if ( !m_leSite->isEnabled() )
-    m_cbIdentity->setFocus();
+  int id = dlg->cbIdentity->listBox()->index( dlg->cbIdentity->listBox()->findItem(text) );
+  dlg->cbIdentity->setCurrentItem( id );
+  slotActivated( dlg->cbIdentity->currentText() );
+  if ( !dlg->leSite->isEnabled() )
+    dlg->cbIdentity->setFocus();
 }
 
 QString UAProviderDlg::siteName()
 {
-  return m_leSite->text().lower();
+  return dlg->leSite->text().lower();
 }
 
 QString UAProviderDlg::identity()
 {
-  return m_cbIdentity->currentText();
+  return dlg->cbIdentity->currentText();
 }
 
 QString UAProviderDlg::alias()
 {
-  return m_leAlias->text();
+  return dlg->leAlias->text();
 }
 
 #include "uagentproviderdlg.moc"

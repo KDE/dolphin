@@ -19,13 +19,13 @@
 #ifndef __UAPROVIDERDLG_H___
 #define __UAPROVIDERDLG_H___
 
-#include <qgroupbox.h>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 
-class KComboBox;
+
 class FakeUASProvider;
+class UAProviderDlgUI;
 
 class UALineEdit : public KLineEdit
 {
@@ -38,7 +38,7 @@ protected:
   virtual void keyPressEvent( QKeyEvent * );
 };
 
-class UAProviderDlg : public KDialogBase
+class UAProviderDlg : public KDialog
 {
   Q_OBJECT
 
@@ -66,11 +66,6 @@ protected:
 
 private:
   FakeUASProvider* m_provider;
-
-  QGroupBox*     m_gbNewBox;
-  QPushButton*   m_btnOK;
-  UALineEdit*    m_leSite;
-  KComboBox*     m_cbIdentity;
-  KLineEdit*     m_leAlias;
+  UAProviderDlgUI* dlg;
 };
 #endif

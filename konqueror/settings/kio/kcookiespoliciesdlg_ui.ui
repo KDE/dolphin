@@ -1,0 +1,205 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>KCookiesPolicyDlgUI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KCookiesPolicyDlgUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>354</width>
+            <height>445</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>widget</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>cbEnableCookies</cstring>
+            </property>
+            <property name="text">
+                <string>Enable coo&amp;kies</string>
+            </property>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>bgPreferences</cstring>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cbRejectCrossDomainCookies</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Only acce&amp;pt cookies from originating server</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cbAutoAcceptSessionCookies</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Automaticall&amp;y accept session cookies</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cbIgnoreCookieExpirationDate</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Treat &amp;all cookies as session cookies</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>bgDefault</cstring>
+            </property>
+            <property name="title">
+                <string>Default Policy</string>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbPolicyAsk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>A&amp;sk for confirmation</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbPolicyAccept</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Accep&amp;t all cookies</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>rbPolicyReject</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Re&amp;ject all cookies</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>gbDomainSpecific</cstring>
+            </property>
+            <property name="title">
+                <string>Per-site policy</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget" row="0" column="1">
+                    <property name="name">
+                        <cstring>layout3</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbNew</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;New</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbChange</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Chan&amp;ge</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbDelete</cstring>
+                            </property>
+                            <property name="text">
+                                <string>D&amp;elete</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbDeleteAll</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Delete A&amp;ll</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="KListView" row="0" column="0" rowspan="2" colspan="1">
+                    <property name="name">
+                        <cstring>lvDomainPolicy</cstring>
+                    </property>
+                    <property name="focusPolicy">
+                        <enum>WheelFocus</enum>
+                    </property>
+                    <property name="selectionMode" stdset="0">
+                        <enum>Extended</enum>
+                    </property>
+                    <property name="showSortIndicator">
+                        <bool>true</bool>
+                    </property>
+                    <property name="rootIsDecorated">
+                        <bool>true</bool>
+                    </property>
+                    <property name="treeStepSize">
+                        <number>0</number>
+                    </property>
+                </widget>
+                <spacer row="1" column="1">
+                    <property name="name">
+                        <cstring>spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>MinimumExpanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                </spacer>
+            </grid>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistview.h</includehint>
+</includehints>
+</UI>

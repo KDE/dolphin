@@ -1,0 +1,250 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>KCookiesManagementDlgUI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KCookiesManagementDlgUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>382</width>
+            <height>471</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>widget</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout5</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KListView">
+                    <property name="name">
+                        <cstring>lvCookies</cstring>
+                    </property>
+                    <property name="selectionMode" stdset="0">
+                        <enum>Single</enum>
+                    </property>
+                    <property name="allColumnsShowFocus">
+                        <bool>true</bool>
+                    </property>
+                    <property name="showSortIndicator">
+                        <bool>true</bool>
+                    </property>
+                    <property name="rootIsDecorated">
+                        <bool>true</bool>
+                    </property>
+                    <property name="treeStepSize">
+                        <number>15</number>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout4</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbDelete</cstring>
+                            </property>
+                            <property name="text">
+                                <string>D&amp;elete</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbDeleteAll</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Delete A&amp;ll</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbPolicy</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Policy</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pbReload</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Reload List</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer3</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>MinimumExpanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>21</width>
+                                    <height>60</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>gbDetails</cstring>
+            </property>
+            <property name="title">
+                <string>Details</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>leValue</cstring>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>leDomain</cstring>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>lePath</cstring>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="4" column="1">
+                    <property name="name">
+                        <cstring>leExpires</cstring>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="5" column="1">
+                    <property name="name">
+                        <cstring>leSecure</cstring>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>lbName</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Name</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leName</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>lbValue</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Value</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leValue</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>lbDomain</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Domain</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leDomain</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>lbPath</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Path</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>lePath</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="0">
+                    <property name="name">
+                        <cstring>lbExpires</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Expires</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leExpires</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="5" column="0">
+                    <property name="name">
+                        <cstring>lbSecure</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Secure</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>leSecure</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>leName</cstring>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistview.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>

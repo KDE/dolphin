@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-2001 Dawit Alemayehu <adawit@kde.org>
+ * Copyright (c) 2000- Dawit Alemayehu <adawit@kde.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
 
 #include <qstring.h>
 
-#include <klineedit.h>
-#include <kcombobox.h>
 #include <kdialog.h>
 
+
 class QPushButton;
+class PolicyDlgUI;
 
 class KCookieAdvice
 {
@@ -63,17 +63,17 @@ public:
   }
 };
 
-class KCookiePolicyDlg : public KDialog
+class PolicyDlg : public KDialog
 {
   Q_OBJECT
 
 public:
-  KCookiePolicyDlg (const QString& caption, QWidget *parent = 0,
+  PolicyDlg (const QString& caption, QWidget *parent = 0,
                     const char *name = 0);
-  ~KCookiePolicyDlg (){};
+  ~PolicyDlg (){};
 
   int advice() const;
-  QString domain() const { return m_leDomain->text(); }
+  QString domain() const;
 
   void setEnableHostEdit( bool, const QString& host = QString::null );
   void setPolicy (int policy);
@@ -85,10 +85,6 @@ protected:
   virtual void keyPressEvent( QKeyEvent* );
 
 private:
-  KLineEdit* m_leDomain;
-  KComboBox* m_cbPolicy;
-
-  QPushButton* m_btnOK;
-  QPushButton* m_btnCancel;
+  PolicyDlgUI* dlg;
 };
 #endif

@@ -39,8 +39,9 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     if (!managerOK)
     {
        kdDebug(7103) << "kcm_kio: KDED could not load KCookiejar!" << endl;
-       KMessageBox::sorry(0, i18n("This control module could not start the cookie server process.\n"
-                             "It will not be possible to manage received cookies"));
+       KMessageBox::sorry(0, i18n("Unable to start the cookie handler service.\n"
+                             "You will not be able to manage the cookies that "
+                             "are stored on your computer."));
     }
     QVBoxLayout *layout = new QVBoxLayout(this);
     tab = new QTabWidget(this);
