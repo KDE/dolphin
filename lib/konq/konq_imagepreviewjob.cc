@@ -41,6 +41,10 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool fo
       if ( force || !ivi->isThumbnail() )
         m_items.append( ivi );
   }
+  // Read configuration value for the maximum allowed size
+  KConfig * config = KGlobal::config();
+  KConfigGroupSaver cgs( config, "FMSettings" );
+  m_maximumSize = config->readNumEntry( "MaximumImageSize", 1024*1024 /* 1MB */ );
 }
 
 KonqImagePreviewJob::~KonqImagePreviewJob()
@@ -119,10 +123,19 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       KIO::UDSEntry entry = ((KIO::StatJob*)job)->statResult();
       KIO::UDSEntry::ConstIterator it = entry.begin();
       m_tOrig = 0;
+      unsigned long size = 0;
       for( ; it != entry.end(); it++ ) {
-        if ( (*it).m_uds == KIO::UDS_MODIFICATION_TIME ) {
+        if ( (*it).m_uds == KIO::UDS_MODIFICATION_TIME )
           m_tOrig = (time_t)((*it).m_long);
-        }
+        else if ( (*it).m_uds == KIO::UDS_SIZE )
+          size = (*it).m_long;
+      }
+
+      if ( size > m_maximumSize )
+      {
+          kdWarning(1203) << "Image preview: image " << m_currentURL.prettyURL() << " too big, skipping. " << endl;
+          determineNextIcon();
+          return;
       }
 
       determineThumbnailURL();

@@ -82,6 +82,9 @@ private:
 
     // Dad :)
     KonqIconViewWidget * m_iconView;
+
+    // Over that, it's too much
+    unsigned long m_maximumSize;
 };
 
 #endif
