@@ -108,7 +108,7 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
     KToolBar *bar = (KToolBar *)widget;
 
     int id_ = KAction::getToolButtonID();
-    bar->insertButton( iconName(), id_, SIGNAL( clicked() ), this,
+    bar->insertButton( icon(), id_, SIGNAL( clicked() ), this,
                        SLOT( slotActivated() ), isEnabled(), plainText(),
                        index );
 
