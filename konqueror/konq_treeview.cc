@@ -1294,7 +1294,7 @@ QString KfmTreeViewItem::key( int _column, bool ) const
   unsigned long uds = m_entry[ _column ].m_uds;
 
   if ( uds & UDS_STRING )
-    return m_entry[ _column ].m_str.c_str();
+    return m_entry[ _column ].m_str;
   else if ( uds & UDS_LONG )
   {
     sprintf( buffer, "%08d", (int)m_entry[ _column ].m_long );
@@ -1320,7 +1320,7 @@ QString KfmTreeViewItem::text( int _column ) const
   else if ( ( uds & UDS_TIME ) == UDS_TIME )
     return makeTimeString( m_entry[ _column ] );
   else if ( uds & UDS_STRING )
-    return m_entry[ _column ].m_str.c_str();
+    return m_entry[ _column ].m_str;
   else if ( uds & UDS_LONG )
     return makeNumericString( m_entry[ _column ] );
   else

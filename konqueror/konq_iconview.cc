@@ -575,7 +575,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
     UDSEntry::iterator it2 = it->begin();
     for( ; it2 != it->end(); it2++ )
       if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str.c_str();
+	name = it2->m_str;
 
     assert( !name.isEmpty() );
 
