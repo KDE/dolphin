@@ -158,7 +158,7 @@ void IconViewBrowserExtension::setNameFilter( const QString &nameFilter )
 }
 
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
-    : KonqDirPart( parent, name ), m_itemDict( 43 )
+    : KonqDirPart( parent, name ), m_paOutstandingOverlaysTimer( 0 ), m_itemDict( 43 )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
@@ -807,8 +807,11 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
         m_pIconView->takeItem( ivi );
         m_mimeTypeResolver->m_lstPendingMimeIconItems.remove( ivi );
         m_itemDict.remove( _fileitem );
-        // This doesn't delete the item, but we don't really care.
-        // slotClear() will do it anyway - and it seems this avoids crashes
+        if (m_paOutstandingOverlays.first() == ivi) // Being processed?
+           m_paOutstandingOverlaysTimer->start(20, true); // Restart processing...
+
+        m_paOutstandingOverlays.remove(ivi);
+        delete ivi;
     }
 }
 
@@ -818,25 +821,46 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
 
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     if ( group.readBoolEntry( fileItem->url().protocol(), true /*default*/ ) ) {
-        if ( KIVDirectoryOverlay* overlay = item->setShowDirectoryOverlay( true ) )
-		{
-            m_paOutstandingOverlays.append(overlay);
-            connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
-
-            if (m_paOutstandingOverlays.count() == 1) {
-                m_paOutstandingOverlays.first() -> start();
-            }
+        m_paOutstandingOverlays.append(item);
+        if (m_paOutstandingOverlays.count() == 1)
+        {
+           if (!m_paOutstandingOverlaysTimer)
+           {
+              m_paOutstandingOverlaysTimer = new QTimer(this);
+              connect(m_paOutstandingOverlaysTimer, SIGNAL(timeout()),
+                      SLOT(slotDirectoryOverlayStart()));
+           }
+           m_paOutstandingOverlaysTimer->start(20, true);
         }
     }
+}
+
+void KonqKfmIconView::slotDirectoryOverlayStart()
+{
+    do 
+    {
+       KFileIVI* item = m_paOutstandingOverlays.first();
+       if (!item)
+          return; // Nothing to do
+       
+       KIVDirectoryOverlay* overlay = item->setShowDirectoryOverlay( true );
+    
+       if (overlay)
+       {
+          connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
+          overlay->start(); // Watch out, may emit finished() immediately!!
+          return; // Let it run....
+       }
+       m_paOutstandingOverlays.removeFirst();
+    } while (true);
 }
 
 void KonqKfmIconView::slotDirectoryOverlayFinished()
 {
     m_paOutstandingOverlays.removeFirst();
 
-    if (m_paOutstandingOverlays.count() > 0) {
-        m_paOutstandingOverlays.first() -> start();
-    }
+    if (m_paOutstandingOverlays.count() > 0)
+        m_paOutstandingOverlaysTimer->start(0, true); // Don't call directly to prevent deep recursion.
 }
 
 // see also KDesktop::slotRefreshItems
@@ -979,7 +1003,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     m_bNeedAlign = false;
     m_bUpdateContentsPosAfterListing = true;
 
-    m_paOutstandingOverlays = QPtrList<KIVDirectoryOverlay>();
+    m_paOutstandingOverlays.clear();
 
     // Start the directory lister !
     m_dirLister->openURL( url, false, m_extension->urlArgs().reload );

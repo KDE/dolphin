@@ -110,6 +110,7 @@ protected slots:
   virtual void slotRefreshItems( const KFileItemList& );
   virtual void slotClear();
   virtual void slotRedirection( const KURL & );
+  virtual void slotDirectoryOverlayStart();
   virtual void slotDirectoryOverlayFinished();
 
   /**
@@ -170,7 +171,8 @@ protected:
   KToggleAction *m_paDotFiles;
   KToggleAction *m_paDirectoryOverlays;
   KToggleAction *m_paEnablePreviews;
-  QPtrList<KIVDirectoryOverlay> m_paOutstandingOverlays;
+  QPtrList<KFileIVI> m_paOutstandingOverlays;
+  QTimer *m_paOutstandingOverlaysTimer;
 /*  KToggleAction *m_paImagePreview;
   KToggleAction *m_paTextPreview;
   KToggleAction *m_paHTMLPreview;*/
