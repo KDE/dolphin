@@ -226,7 +226,7 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDragItem> & )
 {
     // Drop on background
-    KonqFileItem * item = m_rootItem;
+    const KonqFileItem * item = m_rootItem;
     if ( !m_rootItem ) // No root item. E.g. over FTP.
     {
       // Maybe we want to do a stat to get full info about the root item
@@ -766,11 +766,12 @@ void KonqIconViewWidget::lineupIcons()
 
     // Create a grid of (ny x nx) bins.
     typedef QIVItemBin *QIVItemPtr;
-    QIVItemPtr (*bins)[nx] = new QIVItemPtr[ny][nx];
+    QIVItemPtr **bins = new QIVItemPtr*[ny];
 
     int i, j;
     for (j=0; j<ny; j++)
     {
+        bins[j] = new QIVItemPtr[nx];
 	for (i=0; i<nx; i++)
 	    bins[j][i] = 0L;
     }
@@ -911,6 +912,8 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     updateContents();
+    for (int j=0; j<ny; j++)
+        delete [] bins[j];
     delete[] bins;
     kdDebug(1203) << n << " icons successfully moved.\n";
     return;
